@@ -19,7 +19,7 @@
     "id": "mycenacean_hymns",
     "type": "BOOK",
     "name": { "str": "Mycenacean Hymns", "str_pl": "copies of Mycenacean Hymns" },
-    "description": "A vellum book containing the hymns central to Marloss faith.  As the verses lead to each other, the text sings of unity and promised paradise.",
+    "description": "A vellum book containing the hymns central to the Marloss faith.  As the verses lead into each other, the text sings of unity and promised paradise.",
     "weight": "368 g",
     "volume": "1 L",
     "copy-from": "holybook_abstract"
@@ -37,7 +37,7 @@
     "id": "holybook_bible2",
     "type": "BOOK",
     "name": { "str": "Eastern Orthodox Bible", "str_pl": "copies of Eastern Orthodox Bible" },
-    "description": "An English copy of the Eastern Orthodox translation of The Holy Bible.",
+    "description": "An English copy of the Eastern Orthodox translation of the Christian Bible.",
     "weight": "428 g",
     "volume": "1250 ml",
     "copy-from": "holybook_abstract"

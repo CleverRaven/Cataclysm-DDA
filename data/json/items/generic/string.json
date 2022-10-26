@@ -169,6 +169,7 @@
     "symbol": "=",
     "material": [ "dry_plant" ],
     "description": "A rather green stick.  Very fibrous.",
+    "comestible_type": "INVALID",
     "fun": -100,
     "healthy": -20,
     "volume": "1 L",

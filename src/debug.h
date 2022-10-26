@@ -263,6 +263,7 @@ enum debug_filter : int {
     DF_MONSTER, // monster generic
     DF_NPC, // npc generic
     DF_OVERMAP, // overmap generic
+    DF_RADIO, // radio stuff
     DF_RANGED, // ranged generic
     DF_REQUIREMENTS_MAP, // activity_item_handler requirements_map()
     DF_SOUND, // sound generic

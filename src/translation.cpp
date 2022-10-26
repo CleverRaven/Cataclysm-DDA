@@ -120,13 +120,12 @@ static std::pair<bool, std::string> possible_plural_of( const std::string &raw )
 #endif
 }
 
-void translation::deserialize( JsonIn &jsin )
+void translation::deserialize( const JsonValue &jsin )
 {
     // reset the cache
     cached_language_version = INVALID_LANGUAGE_VERSION;
     cached_num = 0;
     cached_translation = nullptr;
-    int end_offset = jsin.tell();
 
     if( jsin.test_string() ) {
         ctxt = nullptr;
@@ -139,14 +138,10 @@ void translation::deserialize( JsonIn &jsin )
             // strings with plural forms are currently only simple names, and
             // need no text style check.
             raw = jsin.get_string();
-            end_offset = jsin.tell();
         } else {
             // We know it's a string, we need to save the offset after the string.
-            JsonValue jv = jsin.get_value();
-            jv.get_string();
-            end_offset = jsin.tell();
             raw = text_style_check_reader( text_style_check_reader::allow_object::no )
-                  .get_next( jv );
+                  .get_next( jsin );
         }
         // if plural form is enabled
         if( raw_pl ) {
@@ -155,10 +150,10 @@ void translation::deserialize( JsonIn &jsin )
 #ifndef CATA_IN_TOOL
             if( !suggested_pl.first && check_style ) {
                 try {
-                    jsin.error( "Cannot autogenerate plural form.  "
-                                "Please specify the plural form explicitly using "
-                                "'str' and 'str_pl', or 'str_sp' if the singular "
-                                "and plural forms are the same." );
+                    jsin.throw_error_after( "Cannot autogenerate plural form.  "
+                                            "Please specify the plural form explicitly using "
+                                            "'str' and 'str_pl', or 'str_sp' if the singular "
+                                            "and plural forms are the same." );
                 } catch( const JsonError &e ) {
                     debugmsg( "(json-error)\n%s", e.what() );
                 }
@@ -168,7 +163,6 @@ void translation::deserialize( JsonIn &jsin )
         needs_translation = true;
     } else {
         JsonObject jsobj = jsin.get_object();
-        end_offset = jsin.tell();
         if( jsobj.has_member( "ctxt" ) ) {
             ctxt = cata::make_value<std::string>( jsobj.get_string( "ctxt" ) );
         } else {
@@ -192,9 +186,10 @@ void translation::deserialize( JsonIn &jsin )
                     try {
                         const std::pair<bool, std::string> suggested_pl = possible_plural_of( raw );
                         if( suggested_pl.first && *raw_pl == suggested_pl.second ) {
-                            jsobj.throw_error( "\"str_sp\" is not necessary here since the "
-                                               "plural form can be automatically generated.",
-                                               "str_sp" );
+                            jsobj.throw_error_at(
+                                "str_sp",
+                                "\"str_sp\" is not necessary here since the plural form can be "
+                                "automatically generated." );
                         }
                     } catch( const JsonError &e ) {
                         debugmsg( "(json-error)\n%s", e.what() );
@@ -203,7 +198,7 @@ void translation::deserialize( JsonIn &jsin )
 #endif
             } else {
                 try {
-                    jsobj.throw_error( "str_sp not supported here", "str_sp" );
+                    jsobj.throw_error_at( "str_sp", "str_sp not supported here" );
                 } catch( const JsonError &e ) {
                     debugmsg( "(json-error)\n%s", e.what() );
                 }
@@ -226,13 +221,15 @@ void translation::deserialize( JsonIn &jsin )
                         try {
                             const std::pair<bool, std::string> suggested_pl = possible_plural_of( raw );
                             if( suggested_pl.first && *raw_pl == suggested_pl.second ) {
-                                jsobj.throw_error( "\"str_pl\" is not necessary here since the "
-                                                   "plural form can be automatically generated.",
-                                                   "str_pl" );
+                                jsobj.throw_error_at(
+                                    "str_pl",
+                                    "\"str_pl\" is not necessary here since the plural form can "
+                                    "be automatically generated." );
                             } else if( *raw_pl == raw ) {
-                                jsobj.throw_error( "Please use \"str_sp\" instead of \"str\" and \"str_pl\" "
-                                                   "for text with identical singular and plural forms",
-                                                   "str_pl" );
+                                jsobj.throw_error_at(
+                                    "str_pl",
+                                    "Please use \"str_sp\" instead of \"str\" and \"str_pl\" "
+                                    "for text with identical singular and plural forms" );
                             }
                         } catch( const JsonError &e ) {
                             debugmsg( "(json-error)\n%s", e.what() );
@@ -245,11 +242,11 @@ void translation::deserialize( JsonIn &jsin )
 #ifndef CATA_IN_TOOL
                     if( !suggested_pl.first && check_style ) {
                         try {
-                            jsobj.throw_error( "Cannot autogenerate plural form.  "
-                                               "Please specify the plural form explicitly using "
-                                               "'str' and 'str_pl', or 'str_sp' if the singular "
-                                               "and plural forms are the same.",
-                                               "str" );
+                            jsobj.throw_error_at(
+                                "str",
+                                "Cannot autogenerate plural form.  Please specify the plural "
+                                "form explicitly using 'str' and 'str_pl', or 'str_sp' if the "
+                                "singular and plural forms are the same." );
                         } catch( const JsonError &e ) {
                             debugmsg( "(json-error)\n%s", e.what() );
                         }
@@ -258,7 +255,7 @@ void translation::deserialize( JsonIn &jsin )
                 }
             } else if( jsobj.has_member( "str_pl" ) ) {
                 try {
-                    jsobj.throw_error( "str_pl not supported here", "str_pl" );
+                    jsobj.throw_error_at( "str_pl", "str_pl not supported here" );
                 } catch( const JsonError &e ) {
                     debugmsg( "(json-error)\n%s", e.what() );
                 }
@@ -266,7 +263,15 @@ void translation::deserialize( JsonIn &jsin )
         }
         needs_translation = true;
     }
-    jsin.seek( end_offset );
+
+    // Reset the underlying jsonin stream because errors leave it in an undefined state.
+    // This will be removed once everything is migrated off JsonIn.
+    if( jsin.test_string() ) {
+        jsin.get_string();
+
+    } else if( jsin.test_object() ) {
+        jsin.get_object().allow_omitted_members();
+    }
 }
 
 std::string translation::translated( const int num ) const

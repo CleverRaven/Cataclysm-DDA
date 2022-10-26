@@ -1,6 +1,8 @@
 #pragma once
 #ifndef CATA_SRC_GLOBAL_VARS_H
 #define CATA_SRC_GLOBAL_VARS_H
+#include <utility>
+
 #include "json.h"
 
 enum class var_type : int {
@@ -38,7 +40,7 @@ class global_variables
         }
 
         void set_global_values( std::unordered_map<std::string, std::string> input ) {
-            global_values = input;
+            global_values = std::move( input );
         }
         void unserialize( JsonObject &jo );
         void serialize( JsonOut &jsout ) const;

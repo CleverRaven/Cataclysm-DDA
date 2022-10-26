@@ -37,6 +37,9 @@ using flag_reader = string_id_reader<::json_flag>;
 static TraitSet trait_blacklist;
 static TraitGroupMap trait_groups;
 
+static std::map<trait_id, trait_replacement> trait_migrations;
+static trait_replacement trait_migration_remove{ cata::nullopt, cata::nullopt, true };
+
 namespace
 {
 generic_factory<mutation_branch> trait_factory( "trait" );
@@ -101,11 +104,12 @@ void mutation_category_trait::load( const JsonObject &jsobj )
 
     jsobj.get_member( "mutagen_message" ).read( new_category.raw_mutagen_message );
     new_category.wip = jsobj.get_bool( "wip", false );
+    new_category.skip_test = jsobj.get_bool( "skip_test", false );
     static_cast<void>( translate_marker_context( "memorial_male", "Crossed a threshold" ) );
     static_cast<void>( translate_marker_context( "memorial_female", "Crossed a threshold" ) );
     optional( jsobj, false, "memorial_message", new_category.raw_memorial_message,
               text_style_check_reader(), "Crossed a threshold" );
-    new_category.vitamin = vitamin_id( jsobj.get_string( "vitamin", "" ) );
+    new_category.vitamin = vitamin_id( jsobj.get_string( "vitamin", "null" ) );
 
     mutation_category_traits[new_category.id] = new_category;
 }
@@ -255,9 +259,54 @@ void reflex_activation_data::deserialize( const JsonObject &jo )
     load( jo );
 }
 
+void trait_and_var::deserialize( const JsonValue &jv )
+{
+    if( jv.test_string() ) {
+        jv.read( trait );
+    } else {
+        JsonObject jo = jv.get_object();
+        jo.read( "trait", trait );
+        jo.read( "variant", variant );
+    }
+}
+
+void trait_and_var::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "trait", trait );
+    jsout.member( "variant", variant );
+
+    jsout.end_object();
+}
+
+std::string trait_and_var::name() const
+{
+    return trait->name( variant );
+}
+
+std::string trait_and_var::desc() const
+{
+    return trait->desc( variant );
+}
+
+void mutation_variant::load( const JsonObject &jo )
+{
+    mandatory( jo, false, "id", id );
+    mandatory( jo, false, "name", alt_name );
+    mandatory( jo, false, "description", alt_description );
+
+    optional( jo, false, "append_desc", append_desc );
+    optional( jo, false, "weight", weight );
+}
+
+void mutation_variant::deserialize( const JsonObject &jo )
+{
+    load( jo );
+}
+
 void mutation_branch::load( const JsonObject &jo, const std::string & )
 {
-    mandatory( jo, was_loaded, "id", id );
     mandatory( jo, was_loaded, "name", raw_name );
     mandatory( jo, was_loaded, "description", raw_desc );
     mandatory( jo, was_loaded, "points", points );
@@ -272,12 +321,19 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "destroys_gear", destroys_gear, false );
     optional( jo, was_loaded, "allow_soft_gear", allow_soft_gear, false );
     optional( jo, was_loaded, "cost", cost, 0 );
-    optional( jo, was_loaded, "time", cooldown, 0 );
+    optional( jo, was_loaded, "time", cooldown, 0_turns );
     optional( jo, was_loaded, "kcal", hunger, false );
     optional( jo, was_loaded, "thirst", thirst, false );
     optional( jo, was_loaded, "fatigue", fatigue, false );
     optional( jo, was_loaded, "valid", valid, true );
     optional( jo, was_loaded, "purifiable", purifiable, true );
+
+    std::vector<mutation_variant> _variants;
+    optional( jo, was_loaded, "variants", _variants );
+    for( mutation_variant &var : _variants ) {
+        var.parent = id;
+        variants.emplace( var.id, var );
+    }
 
     if( jo.has_object( "spawn_item" ) ) {
         JsonObject si = jo.get_object( "spawn_item" );
@@ -306,11 +362,11 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
 
     optional( jo, was_loaded, "bodytemp_sleep", bodytemp_sleep, 0 );
     optional( jo, was_loaded, "threshold", threshold, false );
-    optional( jo, was_loaded, "terminus", terminus, false );
     optional( jo, was_loaded, "profession", profession, false );
     optional( jo, was_loaded, "debug", debug, false );
     optional( jo, was_loaded, "player_display", player_display, true );
     optional( jo, was_loaded, "vanity", vanity, false );
+    optional( jo, was_loaded, "dummy", dummy, false );
 
     for( JsonArray pair : jo.get_array( "vitamin_rates" ) ) {
         vitamin_rates.emplace( vitamin_id( pair.get_string( 0 ) ),
@@ -494,7 +550,12 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     }
 
     for( const std::string line : jo.get_array( "restricts_gear" ) ) {
-        restricts_gear.insert( bodypart_str_id( line ) );
+        bodypart_str_id bp( line );
+        if( bp.is_valid() ) {
+            restricts_gear.insert( bp );
+        } else {
+            restricts_gear_subparts.insert( sub_bodypart_str_id( line ) );
+        }
     }
 
     for( const std::string line : jo.get_array( "allowed_items" ) ) {
@@ -557,14 +618,61 @@ std::string mutation_branch::ranged_mutation_message() const
     return raw_ranged_mutation_message.translated();
 }
 
-std::string mutation_branch::name() const
+std::string mutation_branch::name( const std::string &variant ) const
 {
-    return raw_name.translated();
+    auto variter = variants.find( variant );
+    if( variant.empty() || variter == variants.end() ) {
+        return raw_name.translated();
+    }
+
+    return variter->second.alt_name.translated();
 }
 
-std::string mutation_branch::desc() const
+std::string mutation_branch::desc( const std::string &variant ) const
 {
-    return raw_desc.translated();
+    auto variter = variants.find( variant );
+    if( variant.empty() || variter == variants.end() ) {
+        return raw_desc.translated();
+    }
+
+    if( variter->second.append_desc ) {
+        return string_format( "%s  %s", raw_desc.translated(),
+                              variter->second.alt_description.translated() );
+    }
+    return variter->second.alt_description.translated();
+}
+
+static bool has_cyclic_dependency( const trait_id &mid, std::vector<trait_id> already_visited )
+{
+    if( contains_trait( already_visited, mid ) ) {
+        return true; // Circular dependency was found.
+    }
+
+    already_visited.push_back( mid );
+
+    // Perform Depth-first search
+    for( const trait_id &current_mutation : mid->prereqs ) {
+        if( has_cyclic_dependency( current_mutation->id, already_visited ) ) {
+            return true;
+        }
+    }
+
+    for( const trait_id &current_mutation : mid->prereqs2 ) {
+        if( has_cyclic_dependency( current_mutation->id, already_visited ) ) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+static void check_has_cyclic_dependency( const trait_id &mid )
+{
+    std::vector<trait_id> already_visited;
+    if( has_cyclic_dependency( mid, already_visited ) ) {
+        debugmsg( "mutation %s references itself in either of its prerequsition branches.  The program will crash if the player gains this mutation.",
+                  mid.c_str() );
+    }
 }
 
 static void check_consistency( const std::vector<trait_id> &mvec, const trait_id &mid,
@@ -574,13 +682,18 @@ static void check_consistency( const std::vector<trait_id> &mvec, const trait_id
         if( !m.is_valid() ) {
             debugmsg( "mutation %s refers to undefined %s %s", mid.c_str(), what.c_str(), m.c_str() );
         }
+
+        if( m == mid ) {
+            debugmsg( "mutation %s refers to itself in %s context.  The program will crash if the player gains this mutation.",
+                      mid.c_str(), what.c_str() );
+        }
     }
 }
 
 void mutation_branch::check_consistency()
 {
-    for( const auto &mdata : get_all() ) {
-        const auto &mid = mdata.id;
+    for( const mutation_branch &mdata : get_all() ) {
+        const trait_id &mid = mdata.id;
         const cata::optional<scenttype_id> &s_id = mdata.scent_typeid;
         const std::map<species_id, int> &an_id = mdata.anger_relations;
         for( const auto &style : mdata.initial_ma_styles ) {
@@ -617,12 +730,18 @@ void mutation_branch::check_consistency()
             }
         }
         for( const trait_id &addition : mdata.additions ) {
+            if( mdata.category.empty() ) {
+                break;
+            }
             const mutation_branch &adata = addition.obj();
+            bool found = false;
             for( const mutation_category_id &cat : adata.category ) {
-                if( std::find( mdata.category.begin(), mdata.category.end(), cat ) == mdata.category.end() ) {
-                    debugmsg( "mutation %s lacks category %s present in additive mutation %s", mid.c_str(), cat.c_str(),
-                              addition.c_str() );
-                }
+                found = found ||
+                        std::find( mdata.category.begin(), mdata.category.end(), cat ) != mdata.category.end();
+            }
+            if( !found ) {
+                debugmsg( "categories in mutation %s don't match any category present in additive mutation %s",
+                          mid.c_str(), addition.c_str() );
             }
         }
 
@@ -654,7 +773,14 @@ void mutation_branch::check_consistency()
             }
         }
 
-        ::check_consistency( mdata.prereqs, mid, "prereq" );
+        // We need to display active mutations in the UI.
+        if( mdata.activated && !mdata.player_display ) {
+            debugmsg( "mutation %s is not displayed but set as active" );
+        }
+
+        check_has_cyclic_dependency( mid );
+
+        ::check_consistency( mdata.prereqs, mid, "prereqs" );
         ::check_consistency( mdata.prereqs2, mid, "prereqs2" );
         ::check_consistency( mdata.threshreq, mid, "threshreq" );
         ::check_consistency( mdata.cancels, mid, "cancels" );
@@ -669,8 +795,6 @@ nc_color mutation_branch::get_display_color() const
         return c_green;
     } else if( threshold || profession ) {
         return c_white;
-    } else if( terminus ) {
-        return c_red;
     } else if( debug ) {
         return c_light_cyan;
     } else if( mixed_effect ) {
@@ -684,9 +808,50 @@ nc_color mutation_branch::get_display_color() const
     }
 }
 
-std::string mutation_branch::get_name( const trait_id &mutation_id )
+const mutation_variant *mutation_branch::pick_variant() const
 {
-    return mutation_id->name();
+    weighted_int_list<const mutation_variant *> options;
+    for( const std::pair<const std::string, mutation_variant> &cur : variants ) {
+        options.add( &cur.second, cur.second.weight );
+    }
+
+    const mutation_variant **picked = options.pick();
+
+    if( picked == nullptr ) {
+        return nullptr;
+    }
+    return *picked;
+}
+
+const mutation_variant *mutation_branch::variant( const std::string &id ) const
+{
+    auto iter = variants.find( id );
+    if( id.empty() || iter == variants.end() ) {
+        return nullptr;
+    }
+
+    return &iter->second;
+}
+
+const mutation_variant *mutation_branch::pick_variant_menu() const
+{
+    if( variants.empty() ) {
+        return nullptr;
+    }
+    uilist menu;
+    menu.allow_cancel = false;
+    menu.desc_enabled = true;
+    menu.text = string_format( _( "Pick variant for: %s" ), name() );
+    std::vector<const mutation_variant *> options;
+    for( const std::pair<const std::string, mutation_variant> &var : variants ) {
+        options.emplace_back( &var.second );
+    }
+    for( size_t i = 0; i < options.size(); ++i ) {
+        menu.addentry_desc( i, true, MENU_AUTOASSIGN, name( options[i]->id ), desc( options[i]->id ) );
+    }
+    menu.query();
+
+    return options[menu.ret];
 }
 
 const std::vector<mutation_branch> &mutation_branch::get_all()
@@ -707,7 +872,7 @@ void mutation_branch::reset_all()
 std::vector<std::string> dream::messages() const
 {
     std::vector<std::string> ret;
-    for( const auto &msg : raw_messages ) {
+    for( const translation &msg : raw_messages ) {
         ret.push_back( msg.translated() );
     }
     return ret;
@@ -724,18 +889,18 @@ void dream::load( const JsonObject &jsobj )
     dreams.push_back( newdream );
 }
 
-bool trait_display_sort( const trait_id &a, const trait_id &b ) noexcept
+bool trait_display_sort( const trait_and_var &a, const trait_and_var &b ) noexcept
 {
-    auto trait_sort_key = []( const trait_id & t ) {
-        return std::make_pair( -t->get_display_color().to_int(), t->name() );
+    auto trait_sort_key = []( const trait_and_var & t ) {
+        return std::make_pair( -t.trait->get_display_color().to_int(), t.name() );
     };
 
     return localized_compare( trait_sort_key( a ), trait_sort_key( b ) );
 }
 
-bool trait_display_nocolor_sort( const trait_id &a, const trait_id &b ) noexcept
+bool trait_display_nocolor_sort( const trait_and_var &a, const trait_and_var &b ) noexcept
 {
-    return localized_compare( a->name(), b->name() );
+    return localized_compare( a.name(), b.name() );
 }
 
 void mutation_branch::load_trait_blacklist( const JsonObject &jsobj )
@@ -750,13 +915,51 @@ bool mutation_branch::trait_is_blacklisted( const trait_id &tid )
     return trait_blacklist.count( tid );
 }
 
+void mutation_branch::load_trait_migration( const JsonObject &jo )
+{
+    // First, load the target
+    trait_id target;
+    jo.read( "id", target );
+
+    // Then, populate the replacement
+    trait_replacement replacement;
+
+    if( jo.has_string( "proficiency" ) ) {
+        jo.read( "proficiency", replacement.prof );
+    } else if( jo.has_string( "trait" ) ) {
+        trait_and_var dat;
+        jo.read( "trait", dat.trait );
+        jo.read( "variant", dat.variant, "" );
+        replacement.trait = dat;
+    } else if( !jo.has_bool( "remove" ) || !jo.get_bool( "remove" ) ) {
+        jo.throw_error( "Specified migration for trait " + target.str() +
+                        ", but did not specify how to migrate!" );
+    }
+
+    trait_migrations.emplace( target, replacement );
+}
+
+const trait_replacement &mutation_branch::trait_migration( const trait_id &tid )
+{
+    auto it = trait_migrations.find( tid );
+    if( it != trait_migrations.end() ) {
+        return it->second;
+    }
+
+    return trait_migration_remove;
+}
+
 void mutation_branch::finalize()
 {
     for( const mutation_branch &branch : get_all() ) {
         for( const mutation_category_id &cat : branch.category ) {
             mutations_category[cat].push_back( trait_id( branch.id ) );
         }
-        mutations_category[mutation_category_ANY].push_back( trait_id( branch.id ) );
+        // Don't include dummy mutations for the ANY category, since they have a very specific use case
+        // Otherwise, the system will prioritize them
+        if( !branch.dummy ) {
+            mutations_category[mutation_category_ANY].push_back( trait_id( branch.id ) );
+        }
     }
     finalize_trait_blacklist();
 }
@@ -810,7 +1013,7 @@ void mutation_branch::load_trait_group( const JsonArray &entries,
             JsonArray subarr = entry.get_array();
 
             trait_id id( subarr.get_string( 0 ) );
-            tg.add_entry( std::make_unique<Single_trait_creator>( id, subarr.get_int( 1 ) ) );
+            tg.add_entry( std::make_unique<Single_trait_creator>( id, "", subarr.get_int( 1 ) ) );
             // Otherwise load new format {"trait": ... } or {"group": ...}
         } else {
             JsonObject subobj = entry.get_object();
@@ -824,7 +1027,7 @@ void mutation_branch::load_trait_group( const JsonObject &jsobj,
                                         const std::string &subtype )
 {
     if( subtype != "distribution" && subtype != "collection" && subtype != "old" ) {
-        jsobj.throw_error( "unknown trait group type", "subtype" );
+        jsobj.throw_error_at( "subtype", "unknown trait group type" );
     }
 
     Trait_group &tg = make_group_or_throw( gid, subtype == "collection" || subtype == "old" );
@@ -832,7 +1035,7 @@ void mutation_branch::load_trait_group( const JsonObject &jsobj,
     // TODO: (sm) Looks like this makes the new code backwards-compatible with the old format. Great if so!
     if( subtype == "old" ) {
         for( JsonArray pair : jsobj.get_array( "traits" ) ) {
-            tg.add_trait_entry( trait_id( pair.get_string( 0 ) ), pair.get_int( 1 ) );
+            tg.add_trait_entry( trait_id( pair.get_string( 0 ) ), "", pair.get_int( 1 ) );
         }
         return;
     }
@@ -846,10 +1049,10 @@ void mutation_branch::load_trait_group( const JsonObject &jsobj,
     if( jsobj.has_member( "traits" ) ) {
         for( const JsonValue entry : jsobj.get_array( "traits" ) ) {
             if( entry.test_string() ) {
-                tg.add_trait_entry( trait_id( entry.get_string() ), 100 );
+                tg.add_trait_entry( trait_id( entry.get_string() ), "", 100 );
             } else if( entry.test_array() ) {
                 JsonArray subtrait = entry.get_array();
-                tg.add_trait_entry( trait_id( subtrait.get_string( 0 ) ), subtrait.get_int( 1 ) );
+                tg.add_trait_entry( trait_id( subtrait.get_string( 0 ) ), "", subtrait.get_int( 1 ) );
             } else {
                 JsonObject subobj = entry.get_object();
                 add_entry( tg, subobj );
@@ -897,7 +1100,11 @@ void mutation_branch::add_entry( Trait_group &tg, const JsonObject &obj )
 
     if( obj.has_member( "trait" ) ) {
         trait_id id( obj.get_string( "trait" ) );
-        ptr = std::make_unique<Single_trait_creator>( id, probability );
+        std::string var;
+        if( obj.has_member( "variant" ) ) {
+            var = obj.get_string( "variant" );
+        }
+        ptr = std::make_unique<Single_trait_creator>( id, var, probability );
     } else if( obj.has_member( "group" ) ) {
         ptr = std::make_unique<Trait_group_creator>( trait_group::Trait_group_tag(
                     obj.get_string( "group" ) ),
@@ -936,4 +1143,10 @@ template<>
 bool string_id<mutation_category_trait>::is_valid() const
 {
     return mutation_category_traits.count( *this );
+}
+
+bool mutation_is_in_category( const trait_id &mut, const mutation_category_id &cat )
+{
+    return std::find( mutations_category[cat].begin(), mutations_category[cat].end(),
+                      mut ) != mutations_category[cat].end();
 }

@@ -7,6 +7,17 @@ namespace tidy
 namespace cata
 {
 
+bool isPointMethod( const FunctionDecl *d )
+{
+    if( const CXXMethodDecl *Method = dyn_cast_or_null<CXXMethodDecl>( d ) ) {
+        const CXXRecordDecl *Record = Method->getParent();
+        if( isPointType( Record ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 NameConvention::NameConvention( StringRef xName )
 {
     if( xName.endswith( "x" ) ) {

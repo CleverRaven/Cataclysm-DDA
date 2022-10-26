@@ -126,6 +126,17 @@ Alternately, if present, it can be an object as described below.
 ### start / end / fail effects
 If any of these optional fields are present they can be objects with the following fields contained:
 
+### origin
+This determines how the player can be given this mission. There are a number of different options for this as follows.
+
+| string ID             | Usage
+| ---                   | ---
+| `ORIGIN_GAME_START`   | Given when the game starts
+| `ORIGIN_OPENER_NPC`   | NPC comes up to you when the game starts
+| `ORIGIN_ANY_NPC`      | Any NPC
+| `ORIGIN_SECONDARY`    | Given at the end of another mission
+| `ORIGIN_COMPUTER`     | Taken after reading investigation provoking entries in computer terminal
+
 #### effect
 This is an effects array, exactly as defined in [NPCs.md](./NPCs.md), and can use any of the values from
 effects.  In all cases, the NPC involved is the quest giver.
@@ -157,6 +168,7 @@ are applied afterwards. The `om_terrain` is the only required field.
 `min_distance`         | Range in overmap terrain coordinates.  Instances of `om_terrain` in this range will be ignored.
 `origin_npc`           | Start the search at the NPC's, rather than the player's, current position.
 `z`                    | If specified, will be used rather than the player or NPC's z when searching.
+`var`                  | A variable_object ( see `variable_object` in [doc](NPC.md) ), if set this variable's value will be used.
 `offset_x`,<br\>`offset_y`,<br\>`offset_z` | After finding or creating `om_terrain`, offset the mission target terrain by the offsets in overmap terrain coordinates.
 
 **example**

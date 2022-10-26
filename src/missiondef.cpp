@@ -307,7 +307,7 @@ void assign_function( const JsonObject &jo, const std::string &id, Fun &target,
         if( iter != cont.end() ) {
             target = iter->second;
         } else {
-            jo.throw_error( "Invalid mission function", id );
+            jo.throw_error_at( id, "Invalid mission function" );
         }
     }
 }
@@ -367,7 +367,7 @@ void mission_type::load( const JsonObject &jo, const std::string &src )
         } else if( jo.has_member( phase ) ) {
             JsonObject j_start = jo.get_object( phase );
             if( !parse_funcs( j_start, phase_func ) ) {
-                deferred.emplace_back( jo.get_source_location(), src );
+                deferred.emplace_back( jo, src );
                 jo.allow_omitted_members();
                 j_start.allow_omitted_members();
                 return false;
@@ -425,7 +425,7 @@ void mission_type::finalize()
 
 void mission_type::check_consistency()
 {
-    for( const auto &m : get_all() ) {
+    for( const mission_type &m : get_all() ) {
         if( !m.item_id.is_empty() && !item::type_is_defined( m.item_id ) ) {
             debugmsg( "Mission %s has undefined item id %s", m.id.c_str(), m.item_id.c_str() );
         }

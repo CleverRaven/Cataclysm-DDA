@@ -189,7 +189,7 @@
   {
     "type": "GENERIC",
     "id": "dishwasher",
-    "name": { "str": "dishwasher" },
+    "name": { "str": "portable dishwasher" },
     "description": "A very small dishwasher designed for use in vehicles.",
     "looks_like": "washing_machine",
     "copy-from": "washing_machine"

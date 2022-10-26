@@ -11,7 +11,8 @@
 #include "assign.h"
 #include "cached_options.h"
 #include "catacharset.h"
-#include "cata_void.h"
+#include "cata_scope_helpers.h"
+#include "cata_type_traits.h"
 #include "debug.h"
 #include "enum_bitset.h"
 #include "init.h"
@@ -226,7 +227,7 @@ class generic_factory
                         def = ab->second;
                     } else {
                         def.was_loaded = false;
-                        deferred.emplace_back( jo.get_source_location(), src );
+                        deferred.emplace_back( jo, src );
                         jo.allow_omitted_members();
                         return false;
                     }
@@ -401,6 +402,7 @@ class generic_factory
          * Postcondition: `size() == 0`
          */
         void reset() {
+            deferred.clear();
             list.clear();
             map.clear();
             inc_version();
@@ -736,7 +738,7 @@ inline bool handle_proportional( const JsonObject &jo, const std::string &name, 
             member *= scalar;
             return true;
         } else {
-            jo.throw_error( "Invalid scalar for %s", name );
+            jo.throw_error_at( name, "Invalid scalar for " + name );
         }
     }
     return false;
@@ -781,7 +783,7 @@ inline bool handle_relative( const JsonObject &jo, const std::string &name, Memb
             member += adder;
             return true;
         } else {
-            jo.throw_error( "Invalid adder for %s", name );
+            jo.throw_error_at( name, "Invalid adder for " + name );
         }
     }
     return false;
@@ -849,44 +851,15 @@ inline void optional( const JsonObject &jo, const bool was_loaded, const std::st
  * Reads a string and stores the first byte of it in `sym`. Throws if the input contains more
  * or less than one byte.
  */
-inline bool one_char_symbol_reader( const JsonObject &jo, const std::string &member_name, int &sym,
-                                    bool )
-{
-    std::string sym_as_string;
-    if( !jo.read( member_name, sym_as_string ) ) {
-        return false;
-    }
-    if( sym_as_string.size() != 1 ) {
-        jo.throw_error( member_name + " must be exactly one ASCII character", member_name );
-    }
-    sym = sym_as_string.front();
-    return true;
-}
+bool one_char_symbol_reader( const JsonObject &jo, const std::string &member_name, int &sym,
+                             bool );
 
 /**
  * Reads a UTF-8 string (or int as legacy fallback) and stores Unicode codepoint of it in `symbol`.
  * Throws if the inputs width is more than one console cell wide.
  */
-inline bool unicode_codepoint_from_symbol_reader( const JsonObject &jo,
-        const std::string &member_name, uint32_t &member, bool )
-{
-    int sym_as_int;
-    std::string sym_as_string;
-    if( !jo.read( member_name, sym_as_string, false ) ) {
-        // Legacy fallback to integer `sym`.
-        if( !jo.read( member_name, sym_as_int ) ) {
-            return false;
-        } else {
-            sym_as_string = string_from_int( sym_as_int );
-        }
-    }
-    uint32_t sym_as_codepoint = UTF8_getch( sym_as_string );
-    if( mk_wcwidth( sym_as_codepoint ) != 1 ) {
-        jo.throw_error( member_name + " must be exactly one console cell wide", member_name );
-    }
-    member = sym_as_codepoint;
-    return true;
-}
+bool unicode_codepoint_from_symbol_reader(
+    const JsonObject &jo, const std::string &member_name, uint32_t &member, bool );
 
 namespace reader_detail
 {
@@ -1243,7 +1216,6 @@ class typed_flag_reader : public generic_typed_reader<typed_flag_reader<T>>
     private:
         using map_t = std::unordered_map<std::string, T>;
 
-    private:
         const map_t &flag_map;
         const std::string flag_type;
 
@@ -1258,7 +1230,7 @@ class typed_flag_reader : public generic_typed_reader<typed_flag_reader<T>>
             , flag_type( flag_type ) {
         }
 
-        T get_next( JsonValue jv ) const {
+        T get_next( const JsonValue &jv ) const {
             const std::string flag = jv;
             const auto iter = flag_map.find( flag );
 
@@ -1290,7 +1262,7 @@ class enum_flags_reader : public generic_typed_reader<enum_flags_reader<E>>
         explicit enum_flags_reader( const std::string &flag_type ) : flag_type( flag_type ) {
         }
 
-        E get_next( JsonValue jv ) const {
+        E get_next( const JsonValue &jv ) const {
             const std::string flag = jv.get_string();
             try {
                 return io::string_to_enum<E>( flag );
@@ -1342,7 +1314,7 @@ class text_style_check_reader : public generic_typed_reader<text_style_check_rea
 
         explicit text_style_check_reader( allow_object object_allowed = allow_object::yes );
 
-        std::string get_next( JsonValue jv ) const;
+        std::string get_next( const JsonValue &jv ) const;
 
     private:
         allow_object object_allowed;

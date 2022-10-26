@@ -94,7 +94,8 @@
         ]
       },
       "place_graffiti": [ { "text": "Warning!  Automatic security measures engaged due to the lockdown order!", "x": 17, "y": 20 } ],
-      "monster": { ",": { "monster": "mon_turret_rifle" } }
+      "monster": { ",": { "monster": "mon_turret_rifle" } },
+      "liquids": { "W": { "liquid": "water_clean", "amount": [ 0, 80 ] } }
     }
   }
 ]

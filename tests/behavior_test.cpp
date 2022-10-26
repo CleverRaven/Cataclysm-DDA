@@ -35,9 +35,9 @@ namespace behavior
 {
 class oracle_t;
 
-extern sequential_t default_sequential;
-extern fallback_t default_fallback;
-extern sequential_until_done_t default_until_done;
+static sequential_t default_sequential;
+static fallback_t default_fallback;
+static sequential_until_done_t default_until_done;
 } // namespace behavior
 
 static behavior::node_t make_test_node( const std::string &goal, const behavior::status_t *status )
@@ -155,6 +155,7 @@ TEST_CASE( "behavior_tree", "[behavior]" )
 TEST_CASE( "check_npc_behavior_tree", "[npc][behavior]" )
 {
     clear_map();
+    calendar::turn = calendar::start_of_cataclysm;
     behavior::tree npc_needs;
     npc_needs.add( &behavior_node_t_npc_needs.obj() );
     npc &test_npc = spawn_npc( { 50, 50 }, "test_talker" );
@@ -163,18 +164,19 @@ TEST_CASE( "check_npc_behavior_tree", "[npc][behavior]" )
     CHECK( npc_needs.tick( &oracle ) == "idle" );
     SECTION( "Freezing" ) {
         weather_manager &weather = get_weather();
-        weather.temperature = 0;
+        weather.temperature = units::from_fahrenheit( 0 );
         weather.clear_temp_cache();
-        REQUIRE( weather.get_temperature( test_npc.pos() ) == 0 );
+        REQUIRE( units::to_fahrenheit( weather.get_temperature( test_npc.pos() ) ) == Approx( 0 ) );
         test_npc.update_bodytemp();
         REQUIRE( oracle.needs_warmth_badly( "" ) == behavior::status_t::running );
         CHECK( npc_needs.tick( &oracle ) == "idle" );
         test_npc.worn.wear_item( test_npc, item( "backpack" ), false, false );
-        item &sweater = test_npc.i_add( item( itype_sweater ) );
+        item_location sweater = test_npc.i_add( item( itype_sweater ) );
         CHECK( oracle.can_wear_warmer_clothes( "" ) == behavior::status_t::running );
         CHECK( npc_needs.tick( &oracle ) == "wear_warmer_clothes" );
-        item sweater_copy = test_npc.i_rem( &sweater );
+        item sweater_copy = *sweater;
         test_npc.wear_item( sweater_copy );
+        sweater.remove_item();
         CHECK( npc_needs.tick( &oracle ) == "idle" );
         test_npc.i_add( item( itype_lighter ) );
         test_npc.i_add( item( itype_2x4 ) );
@@ -186,22 +188,20 @@ TEST_CASE( "check_npc_behavior_tree", "[npc][behavior]" )
         test_npc.set_stored_kcal( 1000 );
         REQUIRE( oracle.needs_food_badly( "" ) == behavior::status_t::running );
         CHECK( npc_needs.tick( &oracle ) == "idle" );
-        item &food = test_npc.i_add( item( itype_sandwich_cheese_grilled ) );
-        item_location loc = item_location( test_npc, &food );
+        item_location food = test_npc.i_add( item( itype_sandwich_cheese_grilled ) );
         REQUIRE( oracle.has_food( "" ) == behavior::status_t::running );
         CHECK( npc_needs.tick( &oracle ) == "eat_food" );
-        loc.remove_item();
+        food.remove_item();
         CHECK( npc_needs.tick( &oracle ) == "idle" );
     }
     SECTION( "Thirsty" ) {
         test_npc.set_thirst( 700 );
         REQUIRE( oracle.needs_water_badly( "" ) == behavior::status_t::running );
         CHECK( npc_needs.tick( &oracle ) == "idle" );
-        item &water = test_npc.i_add( item( itype_water ) );
-        item_location loc = item_location( test_npc, &water );
+        item_location water = test_npc.i_add( item( itype_water ) );
         REQUIRE( oracle.has_water( "" ) == behavior::status_t::running );
         CHECK( npc_needs.tick( &oracle ) == "drink_water" );
-        loc.remove_item();
+        water.remove_item();
         CHECK( npc_needs.tick( &oracle ) == "idle" );
     }
 }
@@ -314,7 +314,7 @@ TEST_CASE( "check_monster_behavior_tree_theoretical_corpse_eater", "[monster][be
         CHECK( monster_goals.tick( &oracle ) == "idle" );
 
         item corpse = item( "corpse" );
-        corpse.force_insert_item( item( "pencil" ), item_pocket::pocket_type::CORPSE );
+        corpse.force_insert_item( item( "pencil" ), item_pocket::pocket_type::CONTAINER );
 
         here.add_item( test_monster.pos(), corpse );
         CHECK( monster_goals.tick( &oracle ) == "ABSORB_ITEMS" );
@@ -372,7 +372,7 @@ TEST_CASE( "check_monster_behavior_tree_theoretical_absorb", "[monster][behavior
         CHECK( monster_goals.tick( &oracle ) == "idle" );
 
         item corpse = item( "corpse" );
-        corpse.force_insert_item( item( "pencil" ), item_pocket::pocket_type::CORPSE );
+        corpse.force_insert_item( item( "pencil" ), item_pocket::pocket_type::CONTAINER );
 
         here.add_item( test_monster.pos(), corpse );
         CHECK( monster_goals.tick( &oracle ) == "ABSORB_ITEMS" );

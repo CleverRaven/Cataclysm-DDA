@@ -1,7 +1,7 @@
 [
   {
     "type": "mod_tileset",
-    "compatibility": [ "retrodays", "neodays" ],
+    "compatibility": [ "retrodays" ],
     "tiles-new": [
       {
         "file": "sees_player_retro.png",

@@ -1,0 +1,16 @@
+[
+  {
+    "id": "crossbows",
+    "type": "requirement",
+    "//": "Any crossbow for use in practice.",
+    "tools": [
+      [
+        [ "bullet_crossbow", -1 ],
+        [ "crossbow", -1 ],
+        [ "compositecrossbow", -1 ],
+        [ "compcrossbow", -1 ],
+        [ "huge_crossbow", -1 ]
+      ]
+    ]
+  }
+]

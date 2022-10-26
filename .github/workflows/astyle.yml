@@ -38,8 +38,16 @@ jobs:
     - name: astyle check
       run: make astyle-check
 
+    - name: Format
+      if: failure()
+      run: make astyle-fast
+
     - name: Display Corrections
       if: failure()
-      run: |
-        make astyle-fast
-        git diff
+      run: git diff --color
+
+    - name: 'suggester / astyle'
+      uses: reviewdog/action-suggester@v1
+      if: failure()
+      with:
+        tool_name: 'astyle formatter'

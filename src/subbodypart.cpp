@@ -81,6 +81,8 @@ void sub_body_part_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "side", part_side );
     optional( jo, was_loaded, "name_multiple", name_multiple );
     optional( jo, was_loaded, "opposite", opposite );
+    // defaults to self
+    optional( jo, was_loaded, "locations_under", locations_under, { id } );
 }
 
 void sub_body_part_type::reset()

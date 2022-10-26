@@ -336,7 +336,7 @@
   {
     "id": "MISSION_BEGGAR_2_PLASTIC_SHEET",
     "type": "mission_definition",
-    "name": { "str": "Bring 10 plastic sheets" },
+    "name": { "str": "Bring 10 large plastic sheets" },
     "difficulty": 1,
     "value": 0,
     "goal": "MGOAL_FIND_ITEM",

@@ -253,7 +253,7 @@ void field_type::load( const JsonObject &jo, const std::string & )
         intensity_levels.emplace_back( intensity_level );
     }
     if( intensity_levels.empty() ) {
-        jo.throw_error( "No intensity levels defined for field type", "id" );
+        jo.throw_error_at( "id", "No intensity levels defined for field type" );
     }
 
     if( jo.has_object( "npc_complain" ) ) {
@@ -270,12 +270,21 @@ void field_type::load( const JsonObject &jo, const std::string & )
     }
 
     JsonObject jid = jo.get_object( "immunity_data" );
-    for( const std::string id : jid.get_array( "traits" ) ) {
-        immunity_data_traits.emplace_back( id );
+    for( const std::string id : jid.get_array( "flags" ) ) {
+        immunity_data_flags.emplace_back( id );
     }
     for( JsonArray jao : jid.get_array( "body_part_env_resistance" ) ) {
-        immunity_data_body_part_env_resistance.emplace_back( std::make_pair( bodypart_str_id(
-                    jao.get_string( 0 ) ), jao.get_int( 1 ) ) );
+        immunity_data_body_part_env_resistance.emplace_back( std::make_pair(
+                    io::string_to_enum<body_part_type::type>( jao.get_string( 0 ) ), jao.get_int( 1 ) ) );
+    }
+    for( JsonArray jao : jid.get_array( "immunity_flags_worn" ) ) {
+        immunity_data_part_item_flags.emplace_back( std::make_pair(
+                    io::string_to_enum<body_part_type::type>( jao.get_string( 0 ) ), jao.get_string( 1 ) ) );
+    }
+
+    for( JsonArray jao : jid.get_array( "immunity_flags_worn_any" ) ) {
+        immunity_data_part_item_flags_any.emplace_back( std::make_pair(
+                    io::string_to_enum<body_part_type::type>( jao.get_string( 0 ) ), jao.get_string( 1 ) ) );
     }
 
     optional( jo, was_loaded, "immune_mtypes", immune_mtypes );
@@ -388,7 +397,7 @@ const std::vector<field_type> &field_types::get_all()
 
 field_type field_types::get_field_type_by_legacy_enum( int legacy_enum_id )
 {
-    for( const auto &ft : get_all_field_types().get_all() ) {
+    for( const field_type &ft : get_all_field_types().get_all() ) {
         if( legacy_enum_id == ft.legacy_enum_id ) {
             return ft;
         }

@@ -38,6 +38,7 @@
   {
     "id": "fae_meat",
     "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
     "name": { "str": "chunk of fae meat", "str_pl": "chunks of fae meat" },
     "description": "Freshly butchered meat from a fae beast.  You could eat it raw, but cooking it is better.",
     "weight": "296 g",
@@ -66,22 +67,23 @@
     "vitamins": [ [ "calcium", 0 ], [ "iron", 1 ], [ "underhill_essence", 2 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "AMMO",
     "id": "fae_blood",
-    "name": { "str_sp": "blood" },
-    "copy-from": "human_flesh",
-    "weight": "262 g",
-    "color": "red",
-    "container": "bag_iv",
-    "comestible_type": "DRINK",
+    "name": { "str_sp": "fae blood" },
+    "weight": "2 g",
+    "color": "cyan",
+    "container": "flask_glass",
     "symbol": "~",
-    "price_postapoc": 10,
     "description": "Blood, from a specific part of the Nether.  Disgusting!",
-    "price": 0,
+    "price": 75,
     "material": [ "fae_blood" ],
-    "volume": "250 ml",
+    "volume": "1 ml",
     "phase": "liquid",
-    "delete": { "flags": [ "SMOKABLE" ] }
+    "category": "fuel",
+    "ammo_type": "fae_blood",
+    "damage": { "damage_type": "stab", "amount": 0, "armor_penetration": 0 },
+    "range": 4,
+    "effects": [ "NEVER_MISFIRES" ]
   },
   {
     "id": "fae_meat_cooked",
@@ -108,5 +110,25 @@
     "healthy": 0,
     "flags": [ "NUTRIENT_OVERRIDE" ],
     "calories": 51
+  },
+  {
+    "id": "meat_smoked",
+    "copy-from": "meat_cooked",
+    "type": "COMESTIBLE",
+    "name": { "str": "smoked meat" },
+    "conditional_names": [
+      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "smoked sucker" } },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "smoked Narnian" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "%s, mutant" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "fae", "name": { "str_sp": "smoked fae" } }
+    ],
+    "description": "Tasty meat that has been heavily smoked for preservation.  It could be further smoked to dehydrate it completely.",
+    "color": "brown",
+    "spoils_in": "24 days",
+    "price_postapoc": 200,
+    "quench": -1,
+    "fun": 5,
+    "flags": [ "EATEN_HOT", "SMOKED", "SMOKABLE" ],
+    "smoking_result": "dry_meat"
   }
 ]

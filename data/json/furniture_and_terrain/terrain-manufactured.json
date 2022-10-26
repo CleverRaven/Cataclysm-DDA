@@ -752,7 +752,7 @@
     "color": "light_blue",
     "move_cost": 0,
     "coverage": 40,
-    "flags": [ "TRANSPARENT" ],
+    "flags": [ "TRANSPARENT", "LIQUIDCONT" ],
     "bash": {
       "str_min": 15,
       "str_max": 80,
@@ -766,7 +766,7 @@
         { "item": "pipe", "count": [ 0, 2 ] }
       ]
     },
-    "examine_action": "clean_water_source"
+    "examine_action": "finite_water_source"
   },
   {
     "type": "terrain",

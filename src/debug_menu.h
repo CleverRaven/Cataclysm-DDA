@@ -37,6 +37,7 @@ enum class debug_menu_index : int {
     CHANGE_THEORY,
     LEARN_MA,
     UNLOCK_RECIPES,
+    UNLOCK_ALL,
     EDIT_PLAYER,
     CONTROL_NPC,
     SPAWN_ARTIFACT,
@@ -55,6 +56,7 @@ enum class debug_menu_index : int {
     DISPLAY_WEATHER,
     DISPLAY_SCENTS,
     CHANGE_TIME,
+    FORCE_TEMP,
     SET_AUTOMOVE,
     SHOW_MUT_CAT,
     OM_EDITOR,
@@ -95,6 +97,8 @@ enum class debug_menu_index : int {
     WRITE_GLOBAL_VARS,
     EDIT_GLOBAL_VARS,
     ACTIVATE_EOC,
+    WRITE_TIMED_EVENTS,
+    QUICKLOAD,
     last
 };
 

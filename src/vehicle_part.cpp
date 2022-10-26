@@ -159,6 +159,20 @@ int vehicle_part::damage_floor( bool allow_negative ) const
     return base.damage_floor( allow_negative );
 }
 
+int vehicle_part::repairable_levels() const
+{
+    int levels = damage_level() - damage_level( damage_floor( false ) );
+
+    return levels > 0
+           ? levels                            // full integer levels of damage
+           : damage() > damage_floor( false ); // partial level of damage can still be repaired
+}
+
+bool vehicle_part::is_repairable() const
+{
+    return !is_broken() && repairable_levels() > 0 && info().is_repairable();
+}
+
 int vehicle_part::damage_level( int dmg ) const
 {
     return base.damage_level( dmg );
@@ -337,39 +351,37 @@ int vehicle_part::ammo_consume( int qty, const tripoint &pos )
     return base.ammo_consume( qty, pos, nullptr );
 }
 
-double vehicle_part::consume_energy( const itype_id &ftype, double energy_j )
+units::energy vehicle_part::consume_energy( const itype_id &ftype, units::energy wanted_energy )
 {
-    if( base.empty() || !is_fuel_store() ) {
-        return 0.0f;
+    if( !is_fuel_store() ) {
+        return 0_J;
     }
 
-    item &fuel = base.legacy_front();
-    if( fuel.typeId() == ftype ) {
-        cata_assert( fuel.is_fuel() );
-        // convert energy density in MJ/L to J/ml
-        const double energy_p_mL = fuel.fuel_energy() * 1000;
-        const int ml_to_use = static_cast<int>( std::floor( energy_j / energy_p_mL ) );
-        int charges_to_use = fuel.charges_per_volume( ml_to_use * 1_ml );
+    for( item *const fuel : base.all_items_top() ) {
+        if( fuel->typeId() != ftype || !fuel->is_fuel() ) {
+            continue;
+        }
+        const units::energy energy_per_charge = fuel->fuel_energy();
+        const int charges_wanted = static_cast<int>( wanted_energy / energy_per_charge );
+        const int charges_to_use = std::min( charges_wanted, fuel->charges );
+        fuel->charges -= charges_to_use;
+        if( fuel->charges == 0 ) {
+            base.remove_item( *fuel );
+        }
 
-        if( !charges_to_use ) {
-            return 0.0;
-        }
-        if( charges_to_use >= fuel.charges ) {
-            charges_to_use = fuel.charges;
-            base.clear_items();
-        } else {
-            fuel.charges -= charges_to_use;
-        }
-        item fuel_consumed( ftype, calendar::turn, charges_to_use );
-        return energy_p_mL * units::to_milliliter<int>( fuel_consumed.volume( true ) );
+        return charges_to_use * energy_per_charge;
     }
-    return 0.0;
+    return 0_J;
 }
 
 bool vehicle_part::can_reload( const item &obj ) const
 {
     // first check part is not destroyed and can contain ammo
     if( !is_fuel_store() ) {
+        return false;
+    }
+
+    if( is_battery() ) {
         return false;
     }
 
@@ -551,7 +563,7 @@ bool vehicle_part::is_engine() const
 
 bool vehicle_part::is_light() const
 {
-    const auto &vp = info();
+    const vpart_info &vp = info();
     return vp.has_flag( VPFLAG_CONE_LIGHT ) ||
            vp.has_flag( VPFLAG_WIDE_CONE_LIGHT ) ||
            vp.has_flag( VPFLAG_HALF_CIRCLE_LIGHT ) ||
@@ -607,6 +619,7 @@ bool vehicle_part::is_seat() const
 
 const vpart_info &vehicle_part::info() const
 {
+    static const vpart_info info_none = vpart_info();
     if( !info_cache ) {
         // segmentation fault occurs here during severe vehicle crash
         // probably this part is removed/destroyed?
@@ -614,6 +627,7 @@ const vpart_info &vehicle_part::info() const
             info_cache = &id.obj();
         } else {
             info_cache = nullptr;
+            return info_none;
         }
     }
     return *info_cache;
@@ -621,14 +635,15 @@ const vpart_info &vehicle_part::info() const
 
 void vehicle::set_hp( vehicle_part &pt, int qty, bool keep_degradation, int new_degradation )
 {
-    if( qty == pt.info().durability || pt.info().durability <= 0 ) {
+    int dur = pt.info().durability;
+    if( qty == dur || dur <= 0 ) {
         pt.base.set_damage( keep_degradation ? pt.base.damage_floor( false ) : 0 );
 
     } else if( qty == 0 ) {
         pt.base.set_damage( pt.base.max_damage() );
 
     } else {
-        int amt = pt.base.max_damage() - pt.base.max_damage() * qty / pt.info().durability;
+        int amt = pt.base.max_damage() - pt.base.max_damage() * qty / dur;
         amt = std::max( amt, pt.base.damage_floor( false ) );
         pt.base.set_damage( amt );
     }
@@ -645,8 +660,9 @@ void vehicle::set_hp( vehicle_part &pt, int qty, bool keep_degradation, int new_
 
 bool vehicle::mod_hp( vehicle_part &pt, int qty, damage_type dt )
 {
-    if( pt.info().durability > 0 ) {
-        return pt.base.mod_damage( -( pt.base.max_damage() * qty / pt.info().durability ), dt );
+    int dur = pt.info().durability;
+    if( dur > 0 ) {
+        return pt.base.mod_damage( -( pt.base.max_damage() * qty / dur ), dt );
     } else {
         return false;
     }
@@ -690,7 +706,7 @@ bool vehicle::assign_seat( vehicle_part &pt, const npc &who )
     }
 
     // NPC's can only be assigned to one seat in the vehicle
-    for( auto &e : parts ) {
+    for( vehicle_part &e : parts ) {
         if( &e == &pt ) {
             // skip this part
             continue;
@@ -709,8 +725,7 @@ bool vehicle::assign_seat( vehicle_part &pt, const npc &who )
 
 std::string vehicle_part::carried_name() const
 {
-    if( carry_names.empty() ) {
-        return std::string();
-    }
-    return carry_names.top().substr( name_offset );
+    return carried_stack.empty()
+           ? std::string()
+           : carried_stack.top().veh_name;
 }

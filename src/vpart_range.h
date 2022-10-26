@@ -86,6 +86,8 @@ template<class T> struct iterator_traits<vehicle_part_iterator<T>> {
     using value_type = vpart_reference;
     // TODO: maybe change into random access iterator? This requires adding
     // more operators to the iterator, which may not be efficient.
+    using reference = const vpart_reference &;
+    using pointer = const vpart_reference *;
     using iterator_category = std::forward_iterator_tag;
 };
 } // namespace std

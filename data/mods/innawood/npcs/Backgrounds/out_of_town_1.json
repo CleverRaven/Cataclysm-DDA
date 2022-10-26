@@ -1,0 +1,33 @@
+[
+  {
+    "id": "BGSS_OUT_OF_TOWN_1_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "I didn't even know about <the_cataclysm> right away.  I was way out, away from the worst of it.  I was on a long trip and got stuck out in the wilderness.  I finally wound up camping in the bushes; good thing, too, because some kind of giant horrible slimy insect passed close by and ate all my gear while I was hidden",
+    "responses": [
+      { "text": "How did you survive outside?", "topic": "BGSS_OUT_OF_TOWN_1_STORY2" },
+      { "text": "What did you see in those first few days?", "topic": "BGSS_OUT_OF_TOWN_1_STORY3" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_OUT_OF_TOWN_1_STORY2",
+    "type": "talk_topic",
+    "dynamic_line": "Ha, I don't fully understand it myself.  Those first few days were a tough time to be outside, that's for sure.  I got caught in one of those hellish rainstorms, it started to burn my skin right off and wrecked my tent.  I managed to take shelter under a tree, lying on top of my tent.  Wrecked the damn thing, but better it than me.  From what I hear, though, I got lucky.  That was pretty much the worst I saw.  I didn't run into any of those really big demon-monsters that I hear attacked, so I guess I got off lucky.",
+    "responses": [
+      { "text": "What did you see in those first few days?", "topic": "BGSS_OUT_OF_TOWN_1_STORY3" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_OUT_OF_TOWN_1_STORY3",
+    "type": "talk_topic",
+    "dynamic_line": "Besides the acid rain, I mostly saw people fleeing for safety.  I didn't want to get lost in the woods, so I stuck to the deep margins where I could keep an eye out without getting involved.  I saw tons of evacuees.  Plenty went right on, but a lot got hurt and had to stop.  Stopping was a death sentence, because these giant ants were coming along behind picking off the survivors.",
+    "responses": [
+      { "text": "How did you survive outside?", "topic": "BGSS_OUT_OF_TOWN_1_STORY2" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  }
+]

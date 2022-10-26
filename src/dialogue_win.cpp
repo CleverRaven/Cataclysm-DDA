@@ -166,7 +166,7 @@ void dialogue_window::rebuild_folded_history()
     }
 }
 
-nc_color dialogue_window::default_color()
+nc_color dialogue_window::default_color() const
 {
     return is_computer ? c_green : c_white;
 }
@@ -176,7 +176,7 @@ void dialogue_window::print_header( const std::string &name )
     draw_border( d_win );
     if( is_computer ) {
         mvwprintz( d_win, point( 2, 1 ), default_color(), _( "Interaction: %s" ), name );
-    } else {
+    } else if( !is_not_conversation ) {
         mvwprintz( d_win, point( 2, 1 ), default_color(), _( "Dialogue: %s" ), name );
     }
     const int xmax = getmaxx( d_win );
@@ -189,12 +189,13 @@ void dialogue_window::print_header( const std::string &name )
     if( is_computer ) {
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         mvwprintz( d_win, point( 2, ybar + 1 ), default_color(), _( "Your input:" ) );
+    } else if( is_not_conversation ) {
+        mvwprintz( d_win, point( 2, ybar + 1 ), default_color(), _( "What do you do?" ) );
     } else {
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         mvwprintz( d_win, point( 2, ybar + 1 ), default_color(), _( "Your response:" ) );
     }
 }
-
 
 void dialogue_window::print_history()
 {
@@ -226,13 +227,13 @@ bool dialogue_window::print_responses( const std::vector<talk_data> &responses )
     // amount is based on the number of lines *after* folding.
     folded_txt.clear();
     folded_heights.clear();
-    for( size_t i = 0; i < responses.size(); i++ ) {
+    for( const talk_data &response : responses ) {
         //~ %s: hotkey description
         const std::string hotkey_text = string_format( pgettext( "talk option", "%s: " ),
-                                        responses[i].hotkey_desc );
+                                        response.hotkey_desc );
         const int hotkey_width = utf8_width( hotkey_text );
         const int fold_width = xmid - responses_xoffset - hotkey_width - 1;
-        const std::vector<std::string> folded = foldstring( responses[i].text, fold_width );
+        const std::vector<std::string> folded = foldstring( response.text, fold_width );
         folded_heights.emplace_back( static_cast<int>( folded.size() ) );
         folded_txt.emplace_back( std::make_tuple( hotkey_text, folded ) );
         total_length += static_cast<int>( folded.size() );
@@ -268,7 +269,7 @@ bool dialogue_window::print_responses( const std::vector<talk_data> &responses )
     // Actions go on the right column; they're unaffected by scrolling.
     input_context ctxt( "DIALOGUE_CHOOSE_RESPONSE" );
     ycurrent = yoffset;
-    if( !is_computer ) {
+    if( !is_computer && !is_not_conversation ) {
         const int actions_xoffset = xmid + 2;
         mvwprintz( d_win, point( actions_xoffset, ycurrent ), c_magenta, _( "%s: Look at" ),
                    ctxt.get_desc( "LOOK_AT", 1 ) );

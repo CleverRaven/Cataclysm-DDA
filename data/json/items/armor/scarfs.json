@@ -37,7 +37,7 @@
     "warmth": 5,
     "material_thickness": 0.1,
     "environmental_protection": 1,
-    "flags": [ "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ],
+    "flags": [ "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "SKINTIGHT" ],
     "armor": [ { "encumbrance": 4, "coverage": 70, "covers": [ "head" ] } ]
   },
   {
@@ -45,8 +45,8 @@
     "type": "ARMOR",
     "name": { "str": "keffiyeh" },
     "description": "A type of headdress traditionally used in the Middle East.  It can be used in different ways to protect the head and mouth from the elements.",
-    "weight": "152 g",
-    "volume": "1250 ml",
+    "weight": "425 g",
+    "volume": "564 ml",
     "price": 250,
     "price_postapoc": 50,
     "to_hit": -1,
@@ -423,14 +423,14 @@
     "copy-from": "keffiyeh",
     "looks_like": "scarf",
     "name": { "str": "cyan scarf" },
-    "description": "A simple cloth scarf worn by Marloss Voices.  Wherever the Voices go, long sought peace soon follows, for better or for worse.",
+    "description": "A simple cloth scarf worn by Marloss Voices.  Wherever the Voices go, long-sought peace soon follows, for better or for worse.",
     "color": "cyan"
   },
   {
     "id": "grass_keffiyeh",
     "type": "ARMOR",
     "name": { "str": "grass keffiyeh" },
-    "description": "A grass sheet with cords to wear like a Middle-Eastern headdress.  It's a bit itchy, but can keep your head and mouth a bit warmer if there's nothing in the way.",
+    "description": "A grass sheet with cords to wear it like a Middle Eastern headdress.  It's a bit itchy, but can keep your head and mouth a bit warmer if there's nothing in the way.",
     "weight": "152 g",
     "volume": "1250 ml",
     "price": 10,

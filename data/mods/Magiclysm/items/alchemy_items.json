@@ -13,7 +13,7 @@
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "HAMMER", 2 ] ],
-    "use_action": [ "HAMMER" ],
+    "use_action": [ "CROWBAR" ],
     "//": "In terms of alchemy the gastrolith could serve to combie different effects, such as safely mixing together potions, or it could be used as an element of change, such as for shapechanging potions."
   },
   {
@@ -78,6 +78,7 @@
     "id": "potion_starter_superior",
     "copy-from": "chem_ethanol",
     "type": "COMESTIBLE",
+    "comestible_type": "DRINK",
     "name": "superior potion starter",
     "description": "Pure ethanol saturated with magical energy.  The sheer power concentrated within causes the surface of the potion to ripple continuously."
   },
@@ -168,6 +169,7 @@
     "color": "light_red",
     "name": "dragon essence",
     "description": "This is the magical essence from a dragon, distilled into a concentrated form.",
+    "comestible_type": "DRINK",
     "volume": "250 ml",
     "weight": "300 g",
     "flags": [ "TRADER_AVOID", "INEDIBLE" ],
@@ -189,6 +191,7 @@
     "to_hit": -1,
     "material": [ "flesh" ],
     "cutting": 7,
+    "weapon_category": [ "SHIVS" ],
     "flags": [ "SPEAR", "SHEATH_KNIFE" ]
   },
   {
@@ -243,6 +246,7 @@
     "material": [ "flesh" ],
     "volume": "250 ml",
     "cutting": 8,
+    "weapon_category": [ "SHIVS" ],
     "flags": [ "SPEAR", "SHEATH_KNIFE" ],
     "price": 1500
   },
@@ -372,54 +376,24 @@
     "color": "dark_gray",
     "use_action": {
       "type": "place_trap",
-      "bury_question": "Bury the alchemic mine?",
-      "bury": { "trap": "tr_alchemist_mine_buried", "moves": 275, "practice": 7, "done_message": "You bury the alchemic mine." },
       "trap": "tr_alchemist_mine",
-      "moves": 200,
-      "practice": 4,
+      "moves": 120,
+      "practice": 3,
       "done_message": "You set the alchemic mine."
     }
   },
   {
     "type": "trap",
-    "id": "tr_alchemist_mine_buried",
-    "trigger_weight": "200 g",
-    "name": "buried alchemical mine",
-    "color": "red",
-    "symbol": "_",
-    "visibility": 10,
-    "avoidance": 14,
-    "difficulty": 10,
-    "action": "landmine",
-    "drops": [ "alchemist_mine" ],
-    "vehicle_data": {
-      "do_explosion": true,
-      "damage": 1000,
-      "sound_volume": 10,
-      "sound": "Boom!",
-      "sound_type": "explosion",
-      "sound_variant": "default"
-    }
-  },
-  {
-    "type": "trap",
     "id": "tr_alchemist_mine",
-    "trigger_weight": "200 g",
+    "trigger_weight": "1 g",
     "name": "alchemical mine",
-    "color": "red",
+    "color": "yellow",
     "symbol": "^",
     "visibility": 1,
-    "avoidance": 14,
-    "difficulty": 10,
-    "action": "landmine",
-    "drops": [ "alchemist_mine" ],
-    "vehicle_data": {
-      "do_explosion": true,
-      "damage": 1000,
-      "sound_volume": 10,
-      "sound": "Boom!",
-      "sound_type": "explosion",
-      "sound_variant": "default"
-    }
+    "avoidance": 99,
+    "difficulty": 0,
+    "action": "spell",
+    "spell_data": { "id": "alchemist_mine_pull" },
+    "drops": [ "alchemist_mine" ]
   }
 ]

@@ -107,6 +107,52 @@ struct reflex_activation_data {
     void deserialize( const JsonObject &jo );
 };
 
+struct trait_and_var {
+    trait_id trait;
+    std::string variant;
+
+    trait_and_var() = default;
+    trait_and_var( const trait_id &t, const std::string &v ) : trait( t ), variant( v ) {}
+
+
+    void deserialize( const JsonValue &jv );
+    void serialize( JsonOut &jsout ) const;
+
+    std::string name() const;
+    std::string desc() const;
+
+    bool operator==( const trait_and_var &other ) const {
+        return trait == other.trait && variant == other.variant;
+    }
+};
+
+struct trait_replacement {
+    cata::optional<proficiency_id> prof;
+    cata::optional<trait_and_var> trait;
+    bool error = false;
+};
+
+struct mutation_variant {
+    std::string id;
+
+    translation alt_name;
+    translation alt_description;
+
+    // If the description should be appended to the non-variant description
+    bool append_desc = false;
+
+    // Used for automatic selection of variant when mutation is assigned
+    // With 0 weight, the variant will never be automatically assigned
+    int weight = 0;
+
+    // !!THIS MUST BE SET AFTER LOADING!!
+    // This is the trait that the variant corresponds to, so we can save/load correctly
+    trait_id parent;
+
+    void deserialize( const JsonObject &jo );
+    void load( const JsonObject &jo );
+};
+
 struct mutation_branch {
         trait_id id;
         std::vector<std::pair<trait_id, mod_id>> src;
@@ -117,8 +163,6 @@ struct mutation_branch {
         bool purifiable = false;
         // True if it's a threshold itself, and shouldn't be obtained *easily* (False by default).
         bool threshold = false;
-        // True if it can only be obtained after reaching the Terminus, (False by default, prevents purification).
-        bool terminus = false;
         // True if this is a trait associated with professional training/experience, so profession/quest ONLY.
         bool profession = false;
         // True if the mutation is obtained through the debug menu
@@ -127,6 +171,8 @@ struct mutation_branch {
         bool player_display = true;
         // True if mutation is purely comestic and can be changed anytime without any effect
         bool vanity = false;
+        // Dummy mutations are special; they're not gained through normal mutating, and will instead be targeted for the purposes of removing conflicting mutations
+        bool dummy = false;
         // Whether it has positive as well as negative effects.
         bool mixed_effect  = false;
         bool startingtrait = false;
@@ -149,7 +195,7 @@ struct mutation_branch {
         int ugliness   = 0;
         int cost       = 0;
         // costs are consumed every cooldown turns,
-        int cooldown   = 0;
+        time_duration cooldown   = 0_turns;
         // bodytemp elements:
         int bodytemp_min = 0;
         int bodytemp_max = 0;
@@ -193,6 +239,9 @@ struct mutation_branch {
 
         cata::value_ptr<mut_transform> transform;
 
+        // Cosmetic variants of this mutation
+        std::map<std::string, mutation_variant> variants;
+
         std::vector<std::vector<reflex_activation_data>> trigger_list;
 
         /**Map of crafting skills modifiers, can be negative*/
@@ -206,7 +255,7 @@ struct mutation_branch {
 
         /**Rate at which bmi above character_weight_category::normal increases the character max_hp*/
         float fat_to_max_hp = 0.0f;
-        /**How fast does healthy tends toward healthy_mod*/
+        /**How fast does lifetsyle tends toward daily_health*/
         float healthy_rate = 1.0f;
 
         /**maximum damage dealt by water every minute when wet. Can be negative and regen hit points.*/
@@ -339,6 +388,7 @@ struct mutation_branch {
         std::map<bodypart_str_id, float> encumbrance_multiplier_always;
         // Body parts that now need OVERSIZE gear
         std::set<bodypart_str_id> restricts_gear;
+        std::set<sub_bodypart_str_id> restricts_gear_subparts;
         // item flags that allow wearing gear even if its body part is restricted
         std::set<flag_id> allowed_items;
         // Mutation stat mods
@@ -353,13 +403,28 @@ struct mutation_branch {
         translation raw_name;
         translation raw_desc;
     public:
-        std::string name() const;
-        std::string desc() const;
+        std::string name( const std::string &variant = "" ) const;
+        std::string desc( const std::string &variant = "" ) const;
 
         /**
          * Returns the color to display the mutation name with.
          */
         nc_color get_display_color() const;
+        /**
+         * Picks a variant out of the possibilities based on their wieghts.
+         * If all have zero weights, returns nullptr
+         */
+        const mutation_variant *pick_variant() const;
+        /**
+         * Returns a pointer to the mutation variant with corresponding id, or nullptr if none exists
+         */
+        const mutation_variant *variant( const std::string &id ) const;
+        /**
+         * Have the player pick a variant out of the options available.
+         * Return a pointer to the variant
+         * Returns nullptr and does not open a menu if there are no variants.
+         */
+        const mutation_variant *pick_variant_menu() const;
         /**
          * Returns true if a character with this mutation shouldn't be able to wear given item.
          */
@@ -372,11 +437,6 @@ struct mutation_branch {
          * Returns bionic slot bonus on a given body part granted by this mutation
          */
         int bionic_slot_bonus( const bodypart_str_id &part ) const;
-        /**
-         * Shortcut for getting the name of a (translated) mutation, same as
-         * @code get( mutation_id ).name @endcode
-         */
-        static std::string get_name( const trait_id &mutation_id );
         /**
          * All known mutations. Key is the mutation id, value is the mutation_branch that you would
          * also get by calling @ref get.
@@ -399,6 +459,16 @@ struct mutation_branch {
          * Check if the trait with the given ID is blacklisted.
          */
         static bool trait_is_blacklisted( const trait_id &tid );
+
+        /**
+         * Load a trait migration given by JSON object.
+         */
+        static void load_trait_migration( const JsonObject &jo );
+
+        /**
+         * Give the appropriate replacement migrated trait
+         */
+        static const trait_replacement &trait_migration( const trait_id &tid );
 
         /** called after all JSON has been read and performs any necessary cleanup tasks */
         static void finalize();
@@ -492,6 +562,8 @@ struct mutation_category_trait {
 
         // Meta-label indicating that the category isn't finished yet.
         bool wip = false;
+        // Skip consistency tests for this category. This should only really be used on categories that only contain dummy mutations.
+        bool skip_test = false;
         // Mutation category i.e "BIRD", "CHIMERA"
         mutation_category_id id;
         // The trait that you gain when you break the threshold for this category
@@ -513,8 +585,10 @@ bool mutation_category_is_valid( const mutation_category_id &cat );
 bool mutation_type_exists( const std::string &id );
 std::vector<trait_id> get_mutations_in_types( const std::set<std::string> &ids );
 std::vector<trait_id> get_mutations_in_type( const std::string &id );
-bool trait_display_sort( const trait_id &a, const trait_id &b ) noexcept;
-bool trait_display_nocolor_sort( const trait_id &a, const trait_id &b ) noexcept;
+bool mutation_is_in_category( const trait_id &mut, const mutation_category_id &cat );
+std::vector<trait_and_var> mutations_var_in_type( const std::string &id );
+bool trait_display_sort( const trait_and_var &a, const trait_and_var &b ) noexcept;
+bool trait_display_nocolor_sort( const trait_and_var &a, const trait_and_var &b ) noexcept;
 
 bool are_conflicting_traits( const trait_id &trait_a, const trait_id &trait_b );
 bool b_is_lower_trait_of_a( const trait_id &trait_a, const trait_id &trait_b );

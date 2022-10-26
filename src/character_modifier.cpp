@@ -144,7 +144,7 @@ void character_modifier::load( const JsonObject &jo, const std::string & )
 // Scores
 
 // the total of the manipulator score in the best limb group
-static float manipulator_score( const std::map<bodypart_str_id, bodypart> body,
+static float manipulator_score( const std::map<bodypart_str_id, bodypart> &body,
                                 body_part_type::type type, int override_encumb, int override_wounds )
 {
     std::map<body_part_type::type, std::vector<std::pair<bodypart, float>>> bodypart_groups;
@@ -312,6 +312,20 @@ float character_modifier::modifier( const Character &c, const skill_id &skill ) 
         score = std::max( min_val, score );
     }
     return score;
+}
+
+std::string character_modifier::mod_type_str() const
+{
+    switch( modtype ) {
+        case ADD:
+            return "+";
+        case MULT:
+            return "x";
+        case NONE:
+        default:
+            break;
+    }
+    return std::string();
 }
 
 float Character::get_modifier( const character_modifier_id &mod, const skill_id &skill ) const

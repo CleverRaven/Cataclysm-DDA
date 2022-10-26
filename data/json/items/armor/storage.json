@@ -21,7 +21,7 @@
         "moves": 300
       },
       {
-        "//": "waterbottle pocket",
+        "//": "water bottle pocket",
         "pocket_type": "CONTAINER",
         "holster": true,
         "max_contains_volume": "510 ml",
@@ -69,7 +69,7 @@
     "id": "backpack_hiking",
     "type": "ARMOR",
     "name": { "str": "hiking backpack" },
-    "description": "A large sized hiking backpack with plenty of storage space.",
+    "description": "A large hiking backpack with plenty of storage space.",
     "weight": "2291 g",
     "volume": "14700 ml",
     "price": 10000,
@@ -667,7 +667,7 @@
         "ripoff": 3
       },
       {
-        "//": "waterbottle pocket",
+        "//": "water bottle pocket",
         "pocket_type": "CONTAINER",
         "holster": true,
         "max_contains_volume": "510 ml",
@@ -675,7 +675,7 @@
         "max_item_length": "12 cm",
         "min_item_length": "7 cm",
         "moves": 80,
-        "description": "Small pocket for a waterbottle",
+        "description": "Small pocket for a water bottle",
         "ripoff": 2
       },
       {
@@ -705,7 +705,7 @@
     "type": "ARMOR",
     "//": "based on the condor deployment bag and it's derivatives, holds 6.4L and has dimensions 6in H x 5.5in D x 12in W, max item lengths determined by approximating a little less based on dimensions",
     "name": { "str": "deployment bag" },
-    "description": "A durable nylon bag marketed towards military personnel.  Has clips on the top and back making it easy to attach a strap and wear comfortably as a fanny pack.  MOLLE webbing on the back lets you affix it to body armor or a backpack.",
+    "description": "A durable nylon bag marketed towards military personnel.  It has clips on the top and back, making it easy to attach a strap and wear it comfortably as a fanny pack.  MOLLE webbing on the back lets you affix it to body armor or a backpack.",
     "weight": "480 g",
     "volume": "300 ml",
     "price": 3500,
@@ -804,7 +804,7 @@
     "volume": "6 L",
     "price": 12000,
     "price_postapoc": 500,
-    "material": [ "cotton" ],
+    "material": [ "canvas" ],
     "symbol": "[",
     "looks_like": "rucksack",
     "color": "green",
@@ -812,7 +812,7 @@
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "35 L",
-        "max_contains_weight": "50 kg",
+        "max_contains_weight": "60 kg",
         "max_item_length": "55 cm",
         "magazine_well": "5 L",
         "moves": 300
@@ -832,7 +832,7 @@
       }
     ],
     "warmth": 10,
-    "material_thickness": 2,
+    "material_thickness": 1,
     "flags": [ "BELTED", "WATER_FRIENDLY" ],
     "armor": [
       {
@@ -880,7 +880,7 @@
     "repairs_like": "backpack",
     "type": "ARMOR",
     "name": { "str": "fanny pack" },
-    "description": "Provides a bit of extra storage, with minimal encumbrance.",
+    "description": "A small fabric bag worn on the waist, with the pouch in front for easy access.  Once used as a visual shorthand for unstylish geeks and silly tourists, it was making a decent comeback before the apocalypse.",
     "weight": "272 g",
     "volume": "1050 ml",
     "price": 3500,
@@ -1156,12 +1156,12 @@
     "repairs_like": "legrig",
     "name": { "str": "drop leg bag" },
     "//": "Based around https://www.amazon.com/HCoolfly-Waterproof-Motorcycle-Multi-Function-Fishing/dp/B07TVNBPZK/.",
-    "description": "A bag that can be worn on the thighs and hips using well adjusted buckled straps.  Provides some extra storage for outdoor activities.",
+    "description": "A bag that can be worn on the thighs and hips using adjustable buckled straps.  Provides some extra storage for outdoor activities.",
     "weight": "258 g",
     "volume": "1550 ml",
     "price": 3000,
     "price_postapoc": 250,
-    "material": [ "cotton" ],
+    "material": [ "canvas" ],
     "symbol": "[",
     "looks_like": "legrig",
     "color": "dark_gray",
@@ -1199,40 +1199,40 @@
       {
         "id": "black_leg_bag",
         "name": { "str": "drop leg bag" },
-        "description": "A black bag that can be worn on the thighs and hips using well adjusted buckled straps.  Commonly used by motorcycle riders.",
+        "description": "A black bag that can be worn on the thighs and hips using adjustable buckled straps.  Commonly used by motorcycle riders.",
         "weight": 50
       },
       {
         "id": "brown_leg_bag",
         "name": { "str": "drop leg bag" },
-        "description": "A khaki bag that can be worn on the thighs and hips using well adjusted buckled straps.  Combines nicely with a pair of khaki pants.",
+        "description": "A khaki bag that can be worn on the thighs and hips using adjustable buckled straps.  Works nicely with a pair of khaki pants.",
         "color": "brown",
         "weight": 30
       },
       {
         "id": "purple_leg_bag",
         "name": { "str": "drop leg bag" },
-        "description": "A purple bag that can be worn on the thighs and hips using well adjusted buckled straps.  Perfect for the ladies that want a cooler way of carrying their personal items.",
+        "description": "A purple bag that can be worn on the thighs and hips using adjustable buckled straps.  Perfect for the ladies that want a cooler way of carrying their personal items.",
         "color": "magenta",
         "weight": 10
       },
       {
         "id": "camo_leg_bag",
         "name": { "str": "camo drop leg bag" },
-        "description": "A green bag with camouflage dye that can be worn on the thighs and hips using well adjusted buckled straps.  For those that have a military heart.",
+        "description": "A green bag with camouflage print that can be worn on the thighs and hips using adjustable buckled straps.  For those that have a military heart.",
         "color": "green",
         "weight": 5
       },
       {
         "id": "steampunk_leg_bag",
         "name": { "str": "steampunk drop leg bag" },
-        "description": "A black and dark gold bag that can be worn on the thighs and hips using well adjusted buckled straps, with a steampunk design and chains all around it.  Perfect for a wide variety of costumes.",
+        "description": "A black and dark gold bag that can be worn on the thighs and hips using adjustable buckled straps, with a steampunk design and chains all over it.  Perfect for a wide variety of costumes.",
         "weight": 3
       },
       {
         "id": "skull_leg_bag",
         "name": { "str": "skull drop leg bag" },
-        "description": "A jet black bag that can be worn on the thighs and hips using well adjusted buckled straps, with skulls and spikes all around it.  Perfect for those riders of the apocalypse.",
+        "description": "A jet-black bag that can be worn on the thighs and hips using adjustable buckled straps, with skulls and spikes all over it.  Perfect for a rider of the apocalypse.",
         "symbol": "S",
         "weight": 2
       }
@@ -1244,7 +1244,7 @@
     "copy-from": "armrig",
     "repairs_like": "armrig",
     "name": { "str": "small leg purse" },
-    "description": "A small purse that can be worn on the upper leg using buckled straps, easier to use than on the arm.  For those who want to wear a dress without pockets while carrying their phones and money.  Use it to adjust it on your arm.",
+    "description": "A small purse that can be worn on the upper leg using buckled straps, easier to use than on the arm.  For those who want to wear a dress without pockets while carrying their phone and money.  Use it to adjust it to fit your arm.",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1255,6 +1255,7 @@
         "//": "Less moves as the arm version since grabing things wrapped around your legs is easier."
       }
     ],
+    "extend": { "flags": [ "OVERSIZE" ] },
     "armor": [
       {
         "encumbrance": 1,
@@ -1275,12 +1276,12 @@
     "id": "armrig",
     "type": "ARMOR",
     "name": { "str": "armband pouch", "str_pl": "armband pouches" },
-    "description": "A small pouch that can be worn on the upper arm using buckled straps.  This is a favoured item among sports & camping enthusiasts.  Use it to adjust it on your leg.",
+    "description": "A small pouch that can be worn on the upper arm using buckled straps.  This is a favoured item among sports & camping enthusiasts.  Use it to adjust it to fit your leg.",
     "weight": "205 g",
     "volume": "550 ml",
     "price": 3000,
     "price_postapoc": 250,
-    "material": [ "nylon", "plastic" ],
+    "material": [ "canvas", "plastic" ],
     "symbol": "[",
     "looks_like": "armguard_soft",
     "color": "dark_gray",
@@ -1317,7 +1318,7 @@
     "type": "ARMOR",
     "repairs_like": "armrig",
     "name": { "str": "ankle wallet pouch", "str_pl": "ankle wallet pouches" },
-    "description": "A small concealed wallet pouch worn on the ankle.  If you strap it under your clothes it can help you to keep your wallet hidden and safe.",
+    "description": "A small concealed wallet pouch worn on the ankle.  If you strap it under your clothes, it can help you keep your wallet hidden and safe.",
     "weight": "60 g",
     "volume": "150 ml",
     "price": 10,
@@ -1820,7 +1821,7 @@
     "repairs_like": "backpack",
     "type": "ARMOR",
     "name": { "str": "purse" },
-    "description": "A bit cumbersome to wear, but provides some storage.",
+    "description": "A fancy leather purse from a well-known designer.  A bit cumbersome to wear, but provides some storage.",
     "weight": "297 g",
     "volume": "1 L",
     "price": 7500,
@@ -1857,7 +1858,7 @@
     "type": "ARMOR",
     "name": { "str": "pouch", "str_pl": "pouches" },
     "description": "A makeshift bag, cobbled together from rags.  Really gets in the way, but provides a decent amount of storage.",
-    "weight": "560 g",
+    "weight": "35 g",
     "volume": "500 ml",
     "price": 1000,
     "price_postapoc": 100,
@@ -2012,13 +2013,13 @@
     "type": "ARMOR",
     "name": { "str": "runner pack" },
     "description": "The obvious choice for outdoor athletes, this ergonomic backpack is light and easy to wear, ensuring comfort when carrying heavy and bulky items.",
-    "weight": "300 g",
+    "weight": "360 g",
     "volume": "1500 ml",
     "price": 24000,
     "price_postapoc": 500,
     "to_hit": 1,
     "bashing": 1,
-    "material": [ "cotton", "plastic" ],
+    "material": [ "canvas", "plastic" ],
     "symbol": "[",
     "looks_like": "backpack",
     "color": "green",
@@ -2033,7 +2034,7 @@
       }
     ],
     "warmth": 2,
-    "material_thickness": 0.1,
+    "material_thickness": 0.2,
     "flags": [ "BELTED", "WATER_FRIENDLY" ],
     "armor": [
       {
@@ -2088,7 +2089,7 @@
     "id": "straw_basket",
     "type": "ARMOR",
     "name": { "str": "straw basket" },
-    "description": "Hand made straw basket.  Carry it with you for extra storage.",
+    "description": "A handmade straw basket.  Carry it with you for extra storage.",
     "weight": "100 g",
     "volume": "10500 ml",
     "price": 200,
@@ -2182,7 +2183,7 @@
     "price": 0,
     "price_postapoc": 50,
     "to_hit": -5,
-    "material": [ "cotton" ],
+    "material": [ "canvas" ],
     "symbol": "[",
     "looks_like": "duffelbag",
     "color": "brown",
@@ -2250,7 +2251,7 @@
         "moves": 120
       },
       {
-        "//": "waterbottle pocket",
+        "//": "water bottle pocket",
         "pocket_type": "CONTAINER",
         "holster": true,
         "max_contains_volume": "510 ml",
@@ -2258,7 +2259,7 @@
         "max_item_length": "12 cm",
         "min_item_length": "7 cm",
         "moves": 80,
-        "description": "Small pocket for a waterbottle",
+        "description": "Small pocket for a water bottle",
         "ripoff": 2
       },
       {
@@ -2299,11 +2300,11 @@
     "type": "ARMOR",
     "name": { "str": "utility vest" },
     "description": "A light vest covered in pockets and straps for storage.",
-    "weight": "516 g",
+    "weight": "536 g",
     "volume": "1 L",
     "price": 3900,
     "price_postapoc": 500,
-    "material": [ "cotton" ],
+    "material": [ "canvas" ],
     "symbol": "[",
     "looks_like": "tank_top",
     "color": "light_gray",
@@ -2339,7 +2340,7 @@
     ],
     "warmth": 5,
     "material_thickness": 0.4,
-    "flags": [ "VARSIZE", "BELTED" ],
+    "flags": [ "VARSIZE", "BELTED", "WATER_FRIENDLY" ],
     "armor": [
       {
         "encumbrance": 2,
@@ -2396,7 +2397,9 @@
         "max_contains_volume": "100000 L",
         "max_contains_weight": "100000 kg",
         "moves": 1,
-        "max_item_length": "1 km"
+        "max_item_length": "1 km",
+        "weight_multiplier": 0.01,
+        "volume_multiplier": 0.01
       }
     ],
     "warmth": 0,
@@ -2409,11 +2412,11 @@
     "type": "ARMOR",
     "name": { "str": "longarm bag" },
     "description": "A long duffel bag.  Provides storage for long arms and rifles.  Quite cumbersome.",
-    "weight": "1133 g",
+    "weight": "1203 g",
     "volume": "12 L",
     "price": 18000,
     "price_postapoc": 800,
-    "material": [ "cotton" ],
+    "material": [ "canvas" ],
     "symbol": "[",
     "looks_like": "rucksack",
     "color": "green",
@@ -2428,7 +2431,7 @@
       }
     ],
     "warmth": 8,
-    "material_thickness": 2,
+    "material_thickness": 1,
     "flags": [ "BELTED", "WATER_FRIENDLY" ],
     "armor": [
       { "encumbrance": [ 8, 42 ], "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] }
@@ -2439,11 +2442,11 @@
     "type": "ARMOR",
     "name": { "str": "rifle case" },
     "description": "A long soft rifle case.  Provides storage for long arms and rifles.  Includes a small pocket, strap and handle.",
-    "weight": "454 g",
+    "weight": "708 g",
     "volume": "2 L",
     "price": 18000,
     "price_postapoc": 800,
-    "material": [ "cotton" ],
+    "material": [ "canvas" ],
     "symbol": "[",
     "looks_like": "slingpack",
     "color": "green",
@@ -2465,8 +2468,8 @@
       }
     ],
     "warmth": 1,
-    "material_thickness": 2,
-    "flags": [ "BELTED", "OVERSIZE" ],
+    "material_thickness": 1,
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
     "armor": [ { "encumbrance": [ 2, 6 ], "coverage": 20, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   },
   {
@@ -2474,7 +2477,7 @@
     "type": "ARMOR",
     "name": { "str": "leather rifle case" },
     "description": "A long soft leather rifle case.  Provides storage for long arms and rifles.  Includes a small pocket, strap and handle.",
-    "weight": "454 g",
+    "weight": "1104 g",
     "volume": "2 L",
     "price": 18000,
     "price_postapoc": 800,
@@ -2509,11 +2512,11 @@
     "type": "ARMOR",
     "name": { "str": "double rifle case" },
     "description": "A long soft rifle case.  Provides storage for 2 long arms and rifles.  Includes 3 accessory pockets and a strap.",
-    "weight": "454 g",
-    "volume": "2 L",
+    "weight": "1042 g",
+    "volume": "3 L",
     "price": 18000,
     "price_postapoc": 800,
-    "material": [ "cotton" ],
+    "material": [ "canvas" ],
     "symbol": "[",
     "looks_like": "slingpack",
     "color": "green",
@@ -2551,8 +2554,8 @@
       }
     ],
     "warmth": 1,
-    "material_thickness": 2,
-    "flags": [ "BELTED", "OVERSIZE" ],
+    "material_thickness": 1,
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
     "armor": [ { "encumbrance": [ 2, 14 ], "coverage": 30, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   },
   {
@@ -2560,7 +2563,7 @@
     "type": "ARMOR",
     "name": { "str": "leather double rifle case" },
     "description": "A long soft leather rifle case.  Provides storage for 2 long arms and rifles.  Includes 3 accessory pockets and a strap.",
-    "weight": "600 g",
+    "weight": "1104 g",
     "volume": "2 L",
     "price": 18000,
     "price_postapoc": 800,
@@ -2611,7 +2614,7 @@
     "type": "ARMOR",
     "name": { "str": "long leather rifle case" },
     "description": "An extra long soft leather rifle case.  Provides storage for long arms and rifles.  Includes a small pocket, strap and handle.",
-    "weight": "600 g",
+    "weight": "1104 g",
     "volume": "2 L",
     "price": 18000,
     "price_postapoc": 800,
@@ -2640,16 +2643,6 @@
     "material_thickness": 2,
     "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED", "OVERSIZE" ],
     "armor": [ { "encumbrance": [ 2, 6 ], "coverage": 30, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
-  },
-  {
-    "id": "rifle_case_xs_soft_leather",
-    "type": "ARMOR",
-    "copy-from": "rifle_case_soft_leather",
-    "looks_like": "rifle_case_soft_leather",
-    "name": { "str": "XS leather rifle case" },
-    "description": "A long soft leather rifle case.  Provides storage for long arms and rifles.  Includes a small pocket, strap and handle.  The strap on this one has been shortened to fit someone of small stature.",
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED", "OVERSIZE", "UNDERSIZE" ]
   },
   {
     "id": "camera_bag",
@@ -2763,7 +2756,7 @@
     "volume": "45 L",
     "price": 800,
     "price_postapoc": 750,
-    "material": [ "wood", "cotton" ],
+    "material": [ "wood", "canvas" ],
     "symbol": "[",
     "looks_like": "golf_bag",
     "color": "green",
@@ -2788,12 +2781,12 @@
     "id": "trapper_pack",
     "type": "ARMOR",
     "name": { "str": "trapper pack" },
-    "description": "A L-shaped wooden frame with a waterproofed cloth sack attached to it.  There's a drawstring to hold things in and straps to carry it on your back.",
+    "description": "An L-shaped wooden frame with a waterproofed cloth sack attached to it.  There's a drawstring to hold things in and straps to carry it on your back.",
     "weight": "5 kg",
     "volume": "10 L",
     "price": 800,
     "price_postapoc": 750,
-    "material": [ "wood", "cotton" ],
+    "material": [ "wood", "canvas" ],
     "symbol": "[",
     "looks_like": "backpack",
     "color": "green",

@@ -87,6 +87,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "armor_bash": 2,
     "harvest": "mutant_meatslug",
+    "dissect": "dissect_troglobite_sample_single",
     "upgrades": { "age_grow": 10, "into": "mon_worm" },
     "flags": [ "DIGS", "HEARS", "GOODHEARING", "ATTACK_LOWER" ]
   },
@@ -113,13 +114,13 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
     "armor_bash": 2,
     "harvest": "mutant_meatslug",
-    "dissect": "dissect_troglobite_sample_single",
+    "dissect": "dissect_troglobite_sample_small",
     "death_function": {
       "message": "The %s splits in two!",
       "effect": { "id": "death_halfworm", "hit_self": true },
       "corpse_type": "NO_CORPSE"
     },
-    "upgrades": { "half_life": 20, "into": "mon_graboid" },
+    "upgrades": { "half_life": 60, "into": "mon_graboid" },
     "flags": [ "DIGS", "HEARS", "GOODHEARING", "ATTACK_LOWER" ]
   },
   {
@@ -129,7 +130,8 @@
     "description": "A disturbingly large mutated subterranean creature similar to a nightcrawler.  It possesses a fanged mouth and a long slender body that comes up to your knees, with even more surely hiding underground.",
     "copy-from": "mon_halfworm",
     "looks_like": "mon_worm",
-    "upgrades": { "half_life": 14, "into": "mon_worm" }
+    "dissect": "dissect_troglobite_sample_single",
+    "upgrades": { "half_life": 42, "into": "mon_worm" }
   },
   {
     "id": "mon_large_cockroach",
@@ -140,7 +142,7 @@
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
     "volume": "15 L",
     "weight": "20 kg",
-    "upgrades": { "half_life": 14, "into": "mon_giant_cockroach" }
+    "upgrades": { "half_life": 42, "into": "mon_giant_cockroach" }
   },
   {
     "id": "mon_skittering_plague",
@@ -168,13 +170,15 @@
     "armor_bash": 5,
     "armor_cut": 7,
     "armor_bullet": 6,
+    "weakpoint_sets": [ "wps_arthropod" ],
+    "families": [ "prof_wp_basic_bug" ],
     "vision_day": 5,
     "vision_night": 5,
     "harvest": "arachnid_tainted",
     "reproduction": { "baby_egg": "egg_roach_plague", "baby_count": 1, "baby_timer": 7 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "biosignature": { "biosig_item": "feces_roach", "biosig_timer": 3 },
-    "upgrades": { "age_grow": 7, "into": "mon_plague_vector" },
+    "upgrades": { "half_life": 42, "into": "mon_plague_vector" },
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_WEAK" ],
     "special_attacks": [ [ "EAT_FOOD", 60 ] ],
     "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "POISON", "STUMBLES", "PATH_AVOID_FIRE" ]
@@ -202,10 +206,12 @@
     "melee_dice_sides": 3,
     "dodge": 3,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
+    "weakpoint_sets": [ "wps_arthropod" ],
+    "families": [ "prof_wp_basic_bug" ],
     "vision_day": 10,
     "vision_night": 3,
     "harvest": "arachnid_tainted",
-    "upgrades": { "age_grow": 7, "into": "mon_skittering_plague" },
+    "upgrades": { "age_grow": 144, "into": "mon_skittering_plague" },
     "special_attacks": [ [ "EAT_FOOD", 120 ] ],
     "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "POISON", "LARVA", "STUMBLES", "FILTHY", "PATH_AVOID_FIRE" ]
   },
@@ -235,6 +241,8 @@
     "armor_bash": 5,
     "armor_cut": 10,
     "armor_bullet": 8,
+    "weakpoint_sets": [ "wps_arthropod" ],
+    "families": [ "prof_wp_basic_bug" ],
     "vision_day": 5,
     "vision_night": 5,
     "harvest": "arachnid_tainted",
@@ -270,6 +278,8 @@
     "armor_bash": 5,
     "armor_cut": 10,
     "armor_bullet": 8,
+    "weakpoint_sets": [ "wps_arthropod" ],
+    "families": [ "prof_wp_basic_bug" ],
     "vision_day": 5,
     "vision_night": 5,
     "harvest": "arachnid",
@@ -277,7 +287,7 @@
     "reproduction": { "baby_egg": "egg_roach", "baby_count": 1, "baby_timer": 7 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "biosignature": { "biosig_item": "feces_roach", "biosig_timer": 3 },
-    "upgrades": { "age_grow": 7, "into": "mon_pregnant_giant_cockroach" },
+    "upgrades": { "age_grow": 35, "into": "mon_pregnant_giant_cockroach" },
     "special_attacks": [ [ "EAT_FOOD", 60 ] ],
     "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "PATH_AVOID_FIRE" ]
   },
@@ -303,10 +313,12 @@
     "melee_dice": 2,
     "melee_dice_sides": 3,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
+    "weakpoint_sets": [ "wps_arthropod" ],
+    "families": [ "prof_wp_basic_bug" ],
     "vision_day": 10,
     "vision_night": 3,
     "harvest": "arachnid",
-    "upgrades": { "age_grow": 7, "into": "mon_giant_cockroach" },
+    "upgrades": { "age_grow": 144, "into": "mon_giant_cockroach" },
     "special_attacks": [ [ "EAT_FOOD", 120 ] ],
     "flags": [ "SEES", "HEARS", "SMELLS", "LARVA", "CLIMBS", "PATH_AVOID_FIRE" ]
   },
@@ -315,109 +327,11 @@
     "type": "MONSTER",
     "name": { "str": "pregnant giant cockroach", "str_pl": "pregnant giant cockroaches" },
     "description": "A mutant cockroach the size of a small dog.  Its abdomen is heavily swollen with eggs.",
-    "default_faction": "roach",
-    "bodytype": "insect",
-    "species": [ "INSECT" ],
+    "copy-from": "mon_giant_cockroach",
     "diff": 2,
-    "volume": "30 L",
-    "weight": "40750 g",
-    "hp": 40,
-    "speed": 100,
-    "material": [ "iflesh" ],
-    "symbol": "a",
-    "color": "brown",
-    "aggression": 30,
-    "morale": 60,
-    "melee_skill": 5,
-    "melee_dice": 1,
-    "melee_dice_sides": 6,
-    "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
-    "dodge": 1,
-    "armor_bash": 5,
-    "armor_cut": 10,
-    "armor_bullet": 8,
-    "vision_day": 5,
-    "vision_night": 5,
-    "harvest": "arachnid",
-    "dissect": "dissect_insect_sample_single",
     "reproduction": { "baby_egg": "egg_roach", "baby_count": 3, "baby_timer": 7 },
-    "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
-    "biosignature": { "biosig_item": "feces_roach", "biosig_timer": 3 },
     "death_function": { "effect": { "id": "death_preg_roach", "hit_self": true } },
-    "special_attacks": [ [ "EAT_FOOD", 40 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "PATH_AVOID_FIRE" ]
-  },
-  {
-    "abstract": "base_bee",
-    "type": "MONSTER",
-    "name": { "str": "bee" },
-    "default_faction": "bee",
-    "species": [ "INSECT_FLYING" ],
-    "volume": "750 ml",
-    "weight": "1 kg",
-    "hp": 10,
-    "material": [ "iflesh" ],
-    "symbol": "e",
-    "aggression": 100,
-    "morale": 100,
-    "families": [ "prof_intro_biology", "prof_wp_basic_bug", "prof_wp_flying" ],
-    "weakpoints": [
-      {
-        "name": "the head",
-        "coverage": 5,
-        "crit_mult": { "all": 1.1 },
-        "difficulty": { "melee": 1, "ranged": 3 },
-        "effects": [
-          {
-            "effect": "stunned",
-            "duration": [ 1, 2 ],
-            "chance": 5,
-            "message": "The %s is stunned!",
-            "damage_required": [ 1, 10 ]
-          },
-          {
-            "effect": "stunned",
-            "duration": [ 1, 2 ],
-            "chance": 25,
-            "message": "The %s is stunned!",
-            "damage_required": [ 11, 100 ]
-          }
-        ]
-      },
-      {
-        "name": "the eye",
-        "armor_mult": { "physical": 0.25 },
-        "coverage": 1,
-        "crit_mult": { "all": 1.25 },
-        "difficulty": { "ranged": 6, "melee": 4 },
-        "coverage_mult": { "broad": 0.5 },
-        "effects": [
-          {
-            "effect": "blind",
-            "permanent": true,
-            "chance": 30,
-            "message": "The %s's eyes are obliterated!",
-            "damage_required": [ 26, 100 ]
-          }
-        ]
-      },
-      {
-        "name": "the wings",
-        "damage_mult": { "all": 0.25 },
-        "crit_mult": { "all": 0.75 },
-        "difficulty": { "ranged": 2, "melee": 1 },
-        "coverage_mult": { "point": 0.75 },
-        "effects": [ { "effect": "downed", "chance": 25, "message": "The %s is knocked down!", "damage_required": [ 10, 100 ] } ],
-        "coverage": 15
-      },
-      {
-        "name": "the waist",
-        "crit_mult": { "all": 1.75 },
-        "difficulty": { "ranged": 4, "melee": 2 },
-        "coverage_mult": { "point": 0.75 },
-        "coverage": 15
-      }
-    ]
+    "special_attacks": [ [ "EAT_FOOD", 40 ] ]
   },
   {
     "id": "mon_bee_small",
@@ -429,7 +343,7 @@
     "attack_effs": [ { "id": "venom_weaken", "duration": 75 } ],
     "volume": "15 L",
     "weight": "20 kg",
-    "upgrades": { "half_life": 14, "into": "mon_bee" }
+    "upgrades": { "half_life": 30, "into": "mon_bee" }
   },
   {
     "id": "mon_bee",
@@ -437,7 +351,6 @@
     "name": { "str": "giant bee" },
     "description": "With a stinger the size of a kitchen knife, this dog-sized insect's black and yellow markings warn you to leave it undisturbed.",
     "default_faction": "bee",
-    "copy-from": "base_bee",
     "bodytype": "flying insect",
     "species": [ "INSECT_FLYING" ],
     "diff": 2,
@@ -450,6 +363,7 @@
     "color": "yellow",
     "aggression": -10,
     "morale": 20,
+    "aggro_character": false,
     "melee_skill": 4,
     "melee_dice": 2,
     "melee_dice_sides": 6,
@@ -460,13 +374,15 @@
     "armor_bash": 4,
     "armor_cut": 6,
     "armor_bullet": 5,
+    "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_flying", "wps_arthropod_hymenoptera" ],
+    "families": [ "prof_wp_basic_bug", "prof_wp_hymenoptera" ],
     "vision_day": 10,
     "vision_night": 5,
     "harvest": "arachnid_bee",
     "dissect": "dissect_insect_sample_single",
     "anger_triggers": [ "HURT", "FRIEND_DIED", "PLAYER_CLOSE" ],
     "fear_triggers": [ "FIRE" ],
-    "upgrades": { "half_life": 21, "into": "mon_bee_mega" },
+    "upgrades": { "half_life": 42, "into": "mon_bee_mega" },
     "flags": [ "SEES", "SMELLS", "FLIES", "STUMBLES", "SWARMS", "GROUP_MORALE", "CANPLAY", "PATH_AVOID_FIRE" ]
   },
   {
@@ -486,72 +402,6 @@
     "extend": { "flags": [ "DESTROYS", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
-    "abstract": "base_centipede",
-    "type": "MONSTER",
-    "name": { "str": "centipede" },
-    "default_faction": "centipede",
-    "species": [ "CENTIPEDE" ],
-    "volume": "750 ml",
-    "weight": "1 kg",
-    "hp": 10,
-    "material": [ "iflesh" ],
-    "symbol": "e",
-    "aggression": 100,
-    "morale": 100,
-    "families": [ "prof_intro_biology", "prof_wp_basic_bug" ],
-    "weakpoints": [
-      {
-        "name": "the head",
-        "coverage": 5,
-        "crit_mult": { "all": 1.1 },
-        "armor_mult": { "physical": 0.75 },
-        "difficulty": { "melee": 1, "ranged": 3 },
-        "effects": [
-          {
-            "effect": "stunned",
-            "duration": [ 1, 2 ],
-            "chance": 5,
-            "message": "The %s is stunned!",
-            "damage_required": [ 1, 10 ]
-          },
-          {
-            "effect": "stunned",
-            "duration": [ 1, 2 ],
-            "chance": 25,
-            "message": "The %s is stunned!",
-            "damage_required": [ 11, 100 ]
-          }
-        ]
-      },
-      {
-        "name": "the eye",
-        "armor_mult": { "physical": 0 },
-        "coverage": 1,
-        "crit_mult": { "all": 1.25 },
-        "difficulty": { "ranged": 6, "melee": 4 },
-        "coverage_mult": { "broad": 0.5 },
-        "effects": [
-          { "effect": "blind", "duration": [ 1, 2 ], "chance": 40, "message": "The %s is blinded!", "damage_required": [ 1, 25 ] },
-          {
-            "effect": "blind",
-            "permanent": true,
-            "chance": 30,
-            "message": "The %s's eyes are obliterated!",
-            "damage_required": [ 26, 100 ]
-          }
-        ]
-      },
-      {
-        "name": "the underbelly",
-        "crit_mult": { "all": 1.5 },
-        "difficulty": { "ranged": 7, "melee": 2 },
-        "armor_mult": { "physical": 0.35 },
-        "coverage_mult": { "point": 0.45 },
-        "coverage": 15
-      }
-    ]
-  },
-  {
     "id": "mon_centipede_small",
     "type": "MONSTER",
     "name": { "str": "centipede" },
@@ -566,6 +416,7 @@
     "attack_cost": 115,
     "aggression": 0,
     "morale": 0,
+    "aggro_character": false,
     "melee_skill": 5,
     "melee_dice_sides": 3,
     "special_attacks": [
@@ -578,7 +429,8 @@
         "min_mul": 3,
         "max_mul": 5.4,
         "//": "Bite does 6-10 dmg, armor penetration 5, 8 hits to max venom intensity",
-        "effects": [ { "id": "venom_dmg", "duration": 250, "affect_hit_bp": true } ]
+        "effects": [ { "id": "venom_dmg", "duration": 250, "affect_hit_bp": true } ],
+        "forbidden_effects_any": [ "maimed_mandible" ]
       }
     ],
     "dodge": 4,
@@ -598,7 +450,6 @@
     "description": "A two-meter-long centipede with a menacing set of venom-dripping mandibles and a worrying number of grabbing appendages, moving swiftly on dozens of spindly legs.  It has a pair of small compound eyes, but seems to mostly orient itself with its antennae.",
     "symbol": "a",
     "color": "light_green",
-    "copy-from": "base_centipede",
     "default_faction": "centipede",
     "bodytype": "insect",
     "material": [ "iflesh" ],
@@ -610,6 +461,7 @@
     "attack_cost": 110,
     "aggression": 9,
     "morale": 20,
+    "aggro_character": false,
     "melee_skill": 6,
     "melee_dice": 2,
     "melee_dice_sides": 6,
@@ -624,7 +476,8 @@
         "min_mul": 1,
         "max_mul": 2.1,
         "infection_chance": 4,
-        "effects": [ { "id": "venom_dmg", "duration": 500, "affect_hit_bp": true } ]
+        "effects": [ { "id": "venom_dmg", "duration": 500, "affect_hit_bp": true } ],
+        "forbidden_effects_any": [ "maimed_mandible" ]
       }
     ],
     "//": "10-20 dmg, 4 hits to max intensity, 5 hits to max duration",
@@ -633,13 +486,15 @@
     "armor_cut": 25,
     "armor_bullet": 12,
     "armor_stab": 14,
+    "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_centipede" ],
+    "families": [ "prof_wp_basic_bug", "prof_wp_centipede" ],
     "bleed_rate": 80,
     "vision_day": 9,
     "vision_night": 6,
     "anger_triggers": [ "STALK", "PLAYER_CLOSE" ],
     "harvest": "arachnid_centipede",
     "dissect": "dissect_insect_sample_small",
-    "upgrades": { "age_grow": 15, "into_group": "GROUP_CENTIPEDE_GIANT" },
+    "upgrades": { "age_grow": 45, "into_group": "GROUP_CENTIPEDE_GIANT" },
     "flags": [ "CLIMBS", "SEES", "SMELLS", "KEENNOSE", "HEARS", "GOODHEARING", "PATH_AVOID_FIRE" ]
   },
   {
@@ -656,6 +511,7 @@
     "speed": 60,
     "aggression": 0,
     "morale": 10,
+    "aggro_character": false,
     "melee_skill": 3,
     "melee_dice_sides": 5,
     "special_attacks": [
@@ -668,7 +524,8 @@
         "min_mul": 1,
         "max_mul": 2.1,
         "infection_chance": 4,
-        "effects": [ { "id": "venom_dmg", "duration": 500, "affect_hit_bp": true } ]
+        "effects": [ { "id": "venom_dmg", "duration": 500, "affect_hit_bp": true } ],
+        "forbidden_effects_any": [ "maimed_mandible" ]
       },
       {
         "type": "spell",
@@ -685,7 +542,7 @@
     "dissect": "dissect_insect_sample_large",
     "reproduction": { "baby_monster": "mon_centipede_small", "baby_count": 2, "baby_timer": 10 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
-    "upgrades": { "age_grow": 15, "into_group": "GROUP_CENTIPEDE_MOM" },
+    "upgrades": { "age_grow": 45, "into_group": "GROUP_CENTIPEDE_MOM" },
     "delete": { "flags": [ "KEENNOSE", "GOODHEARING" ] }
   },
   {
@@ -695,7 +552,6 @@
     "description": "A huge mutated centipede covered in interlocking chitinous plates of metallic gray, reminding you more of a runaway train car than any living animal.  Its mandibles end in jagged points, seemingly specialised to hunt prey at least as well-armored as itself.  You really don't want to try if you'd fare better.",
     "symbol": "A",
     "color": "dark_gray",
-    "copy-from": "base_centipede",
     "default_faction": "centipede",
     "bodytype": "insect",
     "material": [ "iflesh" ],
@@ -705,6 +561,9 @@
     "hp": 850,
     "speed": 110,
     "attack_cost": 110,
+    "aggression": 5,
+    "morale": 30,
+    "aggro_character": false,
     "regen_morale": true,
     "melee_skill": 6,
     "melee_dice": 3,
@@ -720,7 +579,8 @@
         "min_mul": 0.8,
         "max_mul": 1.1,
         "infection_chance": 3,
-        "effects": [ { "id": "venom_dmg", "duration": 750, "affect_hit_bp": true } ]
+        "effects": [ { "id": "venom_dmg", "duration": 750, "affect_hit_bp": true } ],
+        "forbidden_effects_any": [ "maimed_mandible" ]
       }
     ],
     "//": "3 hits to max intensity, 4 to max duration",
@@ -729,78 +589,15 @@
     "armor_cut": 35,
     "armor_stab": 15,
     "armor_elec": 3,
+    "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_centipede" ],
+    "families": [ "prof_wp_basic_bug", "prof_wp_centipede" ],
     "bleed_rate": 60,
     "vision_day": 12,
     "vision_night": 7,
-    "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT" ],
+    "anger_triggers": [ "HOSTILE_SEEN", "PLAYER_WEAK", "HURT" ],
     "harvest": "arachnid_centipede_mega",
     "dissect": "dissect_insect_sample_large",
-    "flags": [ "SEES", "SMELLS", "KEENNOSE", "HEARS", "GOODHEARING", "PATH_AVOID_FIRE", "DESTROYS", "PUSH_MON", "PUSH_VEH" ]
-  },
-  {
-    "abstract": "base_dragonfly",
-    "type": "MONSTER",
-    "name": { "str": "dragonfly", "str_pl": "dragonflies" },
-    "default_faction": "aquatic_predator",
-    "species": [ "INSECT" ],
-    "volume": "750 ml",
-    "weight": "1 kg",
-    "hp": 10,
-    "material": [ "iflesh" ],
-    "symbol": "e",
-    "aggression": 100,
-    "morale": 100,
-    "families": [ "prof_intro_biology", "prof_wp_basic_bug", "prof_wp_flying" ],
-    "weakpoints": [
-      {
-        "name": "the head",
-        "coverage": 5,
-        "crit_mult": { "all": 1.1 },
-        "armor_mult": { "physical": 0.75 },
-        "difficulty": { "melee": 1, "ranged": 4 },
-        "effects": [
-          {
-            "effect": "stunned",
-            "duration": [ 1, 2 ],
-            "chance": 5,
-            "message": "The %s is stunned!",
-            "damage_required": [ 1, 10 ]
-          },
-          {
-            "effect": "stunned",
-            "duration": [ 1, 2 ],
-            "chance": 25,
-            "message": "The %s is stunned!",
-            "damage_required": [ 11, 100 ]
-          }
-        ]
-      },
-      {
-        "name": "the eye",
-        "armor_mult": { "physical": 0 },
-        "coverage": 8,
-        "crit_mult": { "all": 1.25 },
-        "difficulty": { "ranged": 4, "melee": 1 },
-        "effects": [
-          { "effect": "blind", "duration": [ 1, 2 ], "chance": 40, "message": "The %s is blinded!", "damage_required": [ 1, 25 ] },
-          {
-            "effect": "blind",
-            "permanent": true,
-            "chance": 30,
-            "message": "The %s's eyes are obliterated!",
-            "damage_required": [ 26, 100 ]
-          }
-        ]
-      },
-      {
-        "name": "the wings",
-        "crit_mult": { "all": 0.75 },
-        "difficulty": { "ranged": 6, "melee": 3 },
-        "coverage_mult": { "point": 0.75 },
-        "effects": [ { "effect": "downed", "chance": 25, "message": "The %s is knocked down!", "damage_required": [ 10, 100 ] } ],
-        "coverage": 15
-      }
-    ]
+    "flags": [ "SEES", "SMELLS", "KEENNOSE", "HEARS", "GOODHEARING", "PATH_AVOID_DANGER_1", "DESTROYS", "PUSH_MON", "PUSH_VEH" ]
   },
   {
     "id": "mon_dragonfly_naiad",
@@ -827,22 +624,25 @@
         "id": "stretch_attack",
         "range": 2,
         "attack_upper": false,
-        "hit_dmg_u": "The %1$s's mouthpart shoots out at you, and it pierces your %2$s!",
-        "hit_dmg_npc": "The %1$s's mouthpart shoots out at <npcname>, and it pierces their %2$s!",
-        "no_dmg_msg_u": "The %1$s's mouthpart hits your %2$s, but it glances off your armor!",
-        "no_dmg_msg_npc": "The %1$s's mouthpart hits <npcname>'s %2$s, but it glances off their armor!",
-        "miss_msg_u": "The %s thrusts its mouthpart at you, but you dodge!",
-        "miss_msg_npc": "The %s's thrusts its mouthpart at <npcname>, but they dodge!"
+        "hit_dmg_u": "%1$s's mouthpart shoots out at you, and it pierces your %2$s!",
+        "hit_dmg_npc": "%1$s's mouthpart shoots out at <npcname>, and it pierces their %2$s!",
+        "no_dmg_msg_u": "%1$s's mouthpart hits your %2$s, but it glances off your armor!",
+        "no_dmg_msg_npc": "%1$s's mouthpart hits <npcname>'s %2$s, but it glances off their armor!",
+        "miss_msg_u": "%s thrusts its mouthpart at you, but you dodge!",
+        "miss_msg_npc": "%s thrusts its mouthpart at <npcname>, but they dodge!",
+        "forbidden_effects_any": [ "maimed_mandible" ]
       }
     ],
     "dodge": 3,
+    "weakpoint_sets": [ "wps_arthropod" ],
+    "families": [ "prof_wp_basic_bug" ],
     "vision_day": 10,
     "vision_night": 5,
     "harvest": "arachnid",
     "anger_triggers": [ "PLAYER_CLOSE" ],
     "fear_triggers": [ "HURT" ],
     "flags": [ "AQUATIC", "SEES", "WATER_CAMOUFLAGE" ],
-    "upgrades": { "age_grow": 21, "into": "mon_dragonfly_giant" }
+    "upgrades": { "age_grow": 42, "into": "mon_dragonfly_giant" }
   },
   {
     "id": "mon_dragonfly_giant",
@@ -852,7 +652,6 @@
     "default_faction": "dragonfly",
     "bodytype": "flying insect",
     "species": [ "INSECT_FLYING" ],
-    "copy-from": "base_dragonfly",
     "volume": "40 L",
     "weight": "40750 g",
     "hp": 50,
@@ -880,13 +679,15 @@
       }
     ],
     "dodge": 2,
+    "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_flying" ],
+    "families": [ "prof_wp_basic_bug" ],
     "vision_day": 45,
     "vision_night": 5,
     "harvest": "arachnid_flying",
     "dissect": "dissect_insect_sample_single",
     "anger_triggers": [ "PLAYER_WEAK", "STALK" ],
     "fear_triggers": [ "HURT", "FIRE" ],
-    "upgrades": { "age_grow": 40, "into": "mon_dragonfly_mega" },
+    "upgrades": { "age_grow": 60, "into": "mon_dragonfly_mega" },
     "flags": [ "SWARMS", "HEARS", "SEES", "FLIES", "PATH_AVOID_FIRE" ]
   },
   {
@@ -899,7 +700,6 @@
     "default_faction": "dragonfly",
     "bodytype": "insect",
     "species": [ "INSECT" ],
-    "copy-from": "base_dragonfly",
     "hp": 1100,
     "speed": 100,
     "material": [ "iflesh" ],
@@ -919,6 +719,8 @@
       }
     ],
     "armor_elec": 2,
+    "weakpoint_sets": [ "wps_arthropod" ],
+    "families": [ "prof_wp_basic_bug" ],
     "vision_day": 30,
     "vision_night": 5,
     "harvest": "arachnid_dragonfly_mega",
@@ -944,6 +746,8 @@
     "weight": "6 kg",
     "hp": 25,
     "speed": 95,
+    "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_flying" ],
+    "families": [ "prof_wp_basic_bug" ],
     "vision_day": 15,
     "dodge": 2,
     "harvest": "arachnid_firefly",
@@ -962,7 +766,7 @@
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
     "volume": "15 L",
     "weight": "20 kg",
-    "upgrades": { "half_life": 14, "into": "mon_fly" }
+    "upgrades": { "half_life": 30, "into": "mon_fly" }
   },
   {
     "id": "mon_fly",
@@ -986,12 +790,14 @@
     "melee_dice_sides": 3,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 5,
+    "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_flying" ],
+    "families": [ "prof_wp_basic_bug" ],
     "vision_day": 5,
     "vision_night": 5,
     "harvest": "arachnid_flying",
     "dissect": "dissect_insect_sample_single",
     "fear_triggers": [ "PLAYER_CLOSE", "HURT", "FIRE" ],
-    "upgrades": { "half_life": 21, "into": "mon_fly_mega" },
+    "upgrades": { "half_life": 42, "into": "mon_fly_mega" },
     "//": "LOUDMOVES is now part of the species INSECT_FLYING",
     "flags": [ "SEES", "SMELLS", "FLIES", "STUMBLES", "HIT_AND_RUN", "CANPLAY", "PATH_AVOID_FIRE" ]
   },
@@ -1020,7 +826,7 @@
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
     "volume": "15 L",
     "weight": "20 kg",
-    "upgrades": { "half_life": 14, "into": "mon_mosquito_giant" }
+    "upgrades": { "half_life": 30, "into": "mon_mosquito_giant" }
   },
   {
     "id": "mon_mosquito_giant",
@@ -1045,12 +851,14 @@
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "dodge": 8,
+    "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_flying" ],
+    "families": [ "prof_wp_basic_bug" ],
     "vision_day": 12,
     "vision_night": 12,
     "harvest": "arachnid_flying",
     "dissect": "dissect_insect_sample_single",
     "fear_triggers": [ "HURT", "FIRE" ],
-    "upgrades": { "half_life": 21, "into": "mon_mosquito_mega" },
+    "upgrades": { "half_life": 42, "into": "mon_mosquito_mega" },
     "flags": [ "SEES", "SMELLS", "STUMBLES", "VENOM", "FLIES", "HIT_AND_RUN", "PATH_AVOID_FIRE" ]
   },
   {
@@ -1072,99 +880,205 @@
     "id": "mon_spider_cellar_small",
     "type": "MONSTER",
     "name": { "str": "cellar spider" },
-    "description": "A mutant brown spider the size of a small dog, with long thin legs, big eyes, and oversized fangs.",
+    "description": "A cellar spider - also known as \"daddy long-legs\" - grown to distressing size.  Its body is about the size of your head, with the long, spindly legs raising it up to your knee.  It tries getting away from you with an unnervingly fluid run.",
     "copy-from": "mon_spider_cellar_giant",
-    "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
-    "volume": "15 L",
-    "weight": "20 kg",
+    "proportional": { "hp": 0.5, "melee_dice_sides": 0.67 },
+    "aggression": -50,
+    "morale": 0,
+    "volume": "20 L",
+    "weight": "15 kg",
+    "delete": { "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK", "HOSTILE_SEEN" ], "special_attacks": [ "GRAB" ] },
+    "extend": { "fear_triggers": [ "PLAYER_CLOSE" ] },
+    "vision_day": 8,
+    "vision_night": 8,
     "dissect": "dissect_spider_sample_single",
-    "upgrades": { "half_life": 14, "into": "mon_spider_cellar_giant" }
+    "upgrades": { "age_grow": 14, "into_group": "GROUP_SPIDER_CELLAR" }
   },
   {
     "id": "mon_spider_cellar_giant",
     "type": "MONSTER",
     "name": { "str": "giant cellar spider" },
-    "description": "A twitchy mutant brown spider, with a relatively small body and long, spindly legs.  Its pre-Cataclysm brethren are known for being agile, and for preying upon other spiders.",
+    "description": "A huge brown spider in constant movement, with a small body the size of a child held up at chest level by a set of spindly legs that branch into three-pronged graspers at the end.  Unlike the smaller variant it obviously decided hunting you is worth a try, and follows you with mandibles chittering in anticipation.",
     "default_faction": "spider_cellar",
     "bodytype": "spider",
     "species": [ "SPIDER" ],
     "diff": 2,
-    "volume": "30 L",
+    "volume": "80 L",
     "weight": "40750 g",
-    "hp": 45,
-    "speed": 150,
+    "hp": 60,
+    "speed": 100,
     "material": [ "iflesh" ],
     "symbol": "s",
     "color": "brown",
-    "aggression": -10,
-    "morale": 100,
+    "aggression": -5,
+    "morale": 5,
+    "aggro_character": false,
     "melee_skill": 6,
     "melee_dice": 1,
-    "melee_dice_sides": 8,
+    "melee_dice_sides": 9,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
-    "dodge": 7,
+    "special_attacks": [
+      [ "GRAB", 10 ],
+      {
+        "type": "bite",
+        "damage_max_instance": [ { "damage_type": "cut", "amount": 10 }, { "damage_type": "stab", "amount": 6 } ],
+        "forbidden_effects_any": [ "maimed_mandible" ],
+        "cooldown": 5,
+        "effects": [ { "id": "venom_pain", "chance": 50, "duration": 350, "affect_hit_bp": true } ]
+      }
+    ],
+    "dodge": 8,
     "armor_bash": 1,
-    "armor_cut": 2,
+    "armor_cut": 5,
     "armor_bullet": 2,
     "armor_acid": 3,
-    "vision_day": 5,
-    "vision_night": 5,
-    "harvest": "arachnid",
+    "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_spider" ],
+    "families": [ "prof_wp_basic_bug", "prof_wp_spider" ],
+    "vision_day": 12,
+    "vision_night": 18,
+    "harvest": "arachnid_spider",
     "dissect": "dissect_spider_sample_single",
-    "anger_triggers": [ "STALK", "PLAYER_WEAK", "PLAYER_CLOSE" ],
+    "fear_triggers": [ "FIRE", "HURT" ],
+    "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK" ],
+    "path_settings": { "max_dist": 50, "avoid_sharp": true },
     "fungalize_into": "mon_spider_fungus",
-    "upgrades": { "half_life": 21, "into": "mon_spider_cellar_mega" },
-    "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CLIMBS", "HARDTOSHOOT", "PUSH_MON", "PATH_AVOID_FIRE" ],
-    "//": "No, they are not in fact the most venomous spider in the world."
+    "upgrades": { "age_grow": 14, "into_group": "GROUP_SPIDER_CELLAR_GIANT" },
+    "flags": [ "SEES", "SMELLS", "HEARS", "WEBWALK", "CLIMBS", "HARDTOSHOOT", "PATH_AVOID_DANGER_1" ]
+  },
+  {
+    "id": "mon_spider_cellar_mom",
+    "type": "MONSTER",
+    "name": { "str": "mommy long-legs", "str_pl": "mommy long legs" },
+    "description": "This surprisingly shy giant cellar spider holds a head-sized ball of crawling spiderlings of different ages in its mandibles, carefully balancing on her long legs not to drop the precious cargo.  She seems uninterested in you.",
+    "copy-from": "mon_spider_cellar_giant",
+    "speed": 85,
+    "aggression": -15,
+    "morale": 10,
+    "special_attacks": [ [ "GRAB", 25 ] ],
+    "death_function": { "message": "The spiderlings fall to the ground!", "effect": { "id": "death_spider_cellar_mom", "hit_self": true } },
+    "reproduction": { "baby_monster": "mon_spider_cellar_small", "baby_count": 1, "baby_timer": 7 },
+    "delete": { "flags": [ "HARDTOSHOOT" ], "anger_triggers": [ "PLAYER_WEAK" ] },
+    "extend": { "flags": [ "STUMBLES" ] }
   },
   {
     "id": "mon_spider_cellar_mega",
     "type": "MONSTER",
     "name": { "str": "warehouse spider" },
-    "description": "A mutated brown spider the size of a cow, somehow supporting itself despite its rather spindly long legs.  Looks like a classic house spider, but so much more.",
+    "description": "A tangle of branching chitinous legs operating seemingly independently, somehow still managing to carry a cow-sized central body.  A number of malformed, twitching legs hang from the cephalothorax, but the head -and especially the mandibles- still seem to be in working order.",
     "copy-from": "mon_spider_cellar_giant",
-    "proportional": { "hp": 20, "speed": 0.25, "vision_day": 2 },
-    "volume": "625 L",
-    "weight": "815 kg",
-    "melee_dice": 2,
-    "dodge": 2,
-    "dissect": "dissect_spider_sample_large",
-    "special_attacks": [ [ "GRAB", 5 ] ],
-    "extend": { "flags": [ "DESTROYS", "PUSH_MON", "PUSH_VEH" ] }
+    "proportional": { "hp": 7, "weight": 5, "volume": 5, "speed": 1.2, "attack_cost": 1.2 },
+    "morale": 50,
+    "grab_strength": 3,
+    "melee_dice": 3,
+    "melee_skill": 8,
+    "special_attacks": [
+      [ "GRAB", 5 ],
+      [ "GRAB_DRAG", 10 ],
+      {
+        "type": "bite",
+        "move_cost": 120,
+        "damage_max_instance": [ { "damage_type": "cut", "amount": 10 }, { "damage_type": "stab", "amount": 8 } ],
+        "forbidden_effects_any": [ "maimed_mandible" ],
+        "cooldown": 3,
+        "effects": [ { "id": "venom_pain", "chance": 50, "duration": 350, "affect_hit_bp": true } ]
+      },
+      {
+        "type": "spell",
+        "spell_data": { "id": "cellar_spider_leg_detach", "min_level": 1 },
+        "monster_message": "The maimed legs start twitching erratically!",
+        "cooldown": 15,
+        "required_effects_any": [ "maimed_leg" ]
+      }
+    ],
+    "dodge": 6,
+    "armor_acid": 5,
+    "armor_bash": 5,
+    "armor_cut": 7,
+    "armor_elec": 3,
+    "armor_stab": 7,
+    "weakpoints": [
+      {
+        "id": "leg",
+        "name": "a leg",
+        "damage_mult": { "all": 0.4 },
+        "crit_mult": { "all": 0.4 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [
+          { "effect": "staggered", "chance": 5, "message": "The %s is knocked off-balance!", "damage_required": [ 10, 30 ] },
+          {
+            "effect": "staggered",
+            "chance": 15,
+            "message": "The %s is knocked off-balance!",
+            "damage_required": [ 30, 100 ]
+          }
+        ],
+        "coverage": 25
+      },
+      {
+        "id": "leg_joint",
+        "name": "a joint",
+        "damage_mult": { "all": 0.4 },
+        "crit_mult": { "all": 0.4 },
+        "armor_mult": { "all": 0.5 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [
+          {
+            "effect": "maimed_leg",
+            "chance": 25,
+            "duration": [ 15, 50 ],
+            "message": "One of the %s's legs falls limp!",
+            "damage_required": [ 1, 10 ]
+          },
+          {
+            "effect": "maimed_leg",
+            "chance": 50,
+            "duration": [ 25, 100 ],
+            "message": "One of the %s's legs falls limp!",
+            "damage_required": [ 11, 24 ]
+          },
+          {
+            "effect": "maimed_leg",
+            "chance": 100,
+            "duration": 86400,
+            "message": "One of the %s's legs is disabled!",
+            "damage_required": [ 24, 100 ]
+          }
+        ],
+        "coverage": 5
+      }
+    ],
+    "bleed_rate": 60,
+    "upgrades": false,
+    "extend": { "anger_triggers": [ "HOSTILE_SEEN" ], "flags": [ "BASHES" ] },
+    "dissect": "dissect_spider_sample_large"
   },
   {
-    "id": "mon_spider_cellar_giant_s",
+    "id": "mon_spider_cellar_leg",
     "type": "MONSTER",
-    "name": { "str": "immature giant cellar spider" },
-    "description": "A newly-hatched mutant cellar spider, about the size of a beer bottle.  Too small to possess much venom, but still quick and agile like an adult.",
-    "default_faction": "spider_cellar",
-    "bodytype": "spider",
-    "species": [ "SPIDER" ],
-    "volume": "750 ml",
-    "weight": "1 kg",
-    "hp": 23,
-    "speed": 150,
-    "material": [ "iflesh" ],
-    "symbol": "c",
+    "name": { "str": "detached spider leg" },
+    "description": "The strangely branching leg of a mutated cellar spider that… fell?  crawled?  off of the main body when hurt.  It now flails about blindly, irregular clawed appendages grasping at anything that comes close.",
     "color": "brown",
-    "aggression": -10,
+    "symbol": "7",
+    "default_faction": "factionless",
+    "bodytype": "snake",
+    "species": [ "INSECT" ],
+    "material": [ "iflesh" ],
+    "volume": "10 L",
+    "weight": "10 kg",
+    "hp": 25,
+    "aggression": 100,
     "morale": 100,
-    "melee_skill": 5,
-    "melee_dice": 1,
+    "speed": 50,
+    "attack_cost": 25,
+    "melee_skill": 3,
+    "melee_dice": 2,
     "melee_dice_sides": 3,
-    "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
-    "dodge": 6,
-    "armor_bash": 1,
-    "armor_cut": 2,
-    "armor_bullet": 2,
-    "armor_acid": 3,
-    "armor_elec": 1,
-    "vision_day": 5,
-    "vision_night": 5,
-    "harvest": "arachnid",
-    "anger_triggers": [ "STALK", "PLAYER_WEAK", "PLAYER_CLOSE" ],
-    "upgrades": { "age_grow": 40, "into": "mon_spider_cellar_giant" },
-    "flags": [ "SEES", "SMELLS", "HEARS", "WEBWALK", "CLIMBS", "HARDTOSHOOT", "PATH_AVOID_FIRE" ]
+    "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
+    "special_attacks": [ [ "SUICIDE", 180 ], [ "GRAB", 5 ] ],
+    "dodge": 7,
+    "bleed_rate": 0,
+    "death_function": { "corpse_type": "NO_CORPSE" },
+    "flags": [ "HEARS", "GOODHEARING", "STUMBLES", "WEBWALK", "ATTACKMON", "HARDTOSHOOT", "STUN_IMMUNE", "NOHEAD" ]
   },
   {
     "id": "mon_spider_jumping_small",
@@ -1175,7 +1089,7 @@
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
     "volume": "15 L",
     "weight": "20 kg",
-    "upgrades": { "half_life": 14, "into": "mon_spider_jumping_giant" }
+    "upgrades": { "half_life": 30, "into": "mon_spider_jumping_giant" }
   },
   {
     "id": "mon_spider_jumping_giant",
@@ -1195,6 +1109,7 @@
     "color": "white",
     "aggression": -20,
     "morale": 80,
+    "aggro_character": false,
     "melee_skill": 5,
     "melee_dice": 1,
     "melee_dice_sides": 1,
@@ -1204,14 +1119,18 @@
     "dodge": 8,
     "armor_cut": 3,
     "armor_bullet": 2,
+    "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_spider" ],
+    "families": [ "prof_wp_basic_bug", "prof_wp_spider" ],
     "vision_day": 5,
     "vision_night": 5,
     "harvest": "arachnid",
     "dissect": "dissect_spider_sample_single",
-    "special_attacks": [ { "type": "leap", "cooldown": 2, "max_range": 5, "allow_no_target": true } ],
+    "special_attacks": [
+      { "type": "leap", "cooldown": 2, "max_range": 5, "allow_no_target": true, "forbidden_effects_any": [ "maimed_leg" ] }
+    ],
     "anger_triggers": [ "PLAYER_CLOSE" ],
     "fungalize_into": "mon_spider_fungus",
-    "upgrades": { "half_life": 21, "into": "mon_spider_jumping_mega" },
+    "upgrades": { "half_life": 42, "into": "mon_spider_jumping_mega" },
     "flags": [ "SEES", "SMELLS", "HEARS", "HIT_AND_RUN", "CLIMBS", "PATH_AVOID_DANGER_1" ]
   },
   {
@@ -1241,7 +1160,7 @@
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
     "volume": "30 L",
     "weight": "40 kg",
-    "upgrades": { "half_life": 14, "into": "mon_spider_trapdoor_giant" }
+    "upgrades": { "half_life": 30, "into": "mon_spider_trapdoor_giant" }
   },
   {
     "id": "mon_spider_trapdoor_giant",
@@ -1269,12 +1188,14 @@
     "armor_bash": 4,
     "armor_cut": 8,
     "armor_bullet": 6,
+    "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_spider" ],
+    "families": [ "prof_wp_basic_bug", "prof_wp_spider" ],
     "vision_day": 5,
     "vision_night": 5,
     "harvest": "arachnid",
     "dissect": "dissect_spider_sample_single",
     "fungalize_into": "mon_spider_fungus",
-    "upgrades": { "half_life": 21, "into": "mon_spider_trapdoor_mega" },
+    "upgrades": { "half_life": 42, "into": "mon_spider_trapdoor_mega" },
     "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "GRABS", "CAN_DIG", "WEBWALK", "CLIMBS", "PATH_AVOID_FIRE" ]
   },
   {
@@ -1300,7 +1221,7 @@
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
     "volume": "30 L",
     "weight": "40 kg",
-    "upgrades": { "half_life": 14, "into": "mon_spider_web" }
+    "upgrades": { "half_life": 30, "into": "mon_spider_web" }
   },
   {
     "id": "mon_spider_web",
@@ -1320,6 +1241,7 @@
     "color": "yellow",
     "aggression": 20,
     "morale": 100,
+    "aggro_character": false,
     "melee_skill": 4,
     "melee_dice": 1,
     "melee_dice_sides": 6,
@@ -1330,12 +1252,15 @@
     "armor_bash": 2,
     "armor_cut": 6,
     "armor_bullet": 5,
+    "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_spider" ],
+    "families": [ "prof_wp_basic_bug", "prof_wp_spider" ],
     "vision_day": 5,
     "vision_night": 5,
     "harvest": "arachnid",
     "dissect": "dissect_spider_sample_single",
     "fungalize_into": "mon_spider_fungus",
-    "upgrades": { "half_life": 21, "into": "mon_spider_web_mega" },
+    "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE" ],
+    "upgrades": { "half_life": 42, "into": "mon_spider_web_mega" },
     "flags": [ "SEES", "SMELLS", "HEARS", "WEBWALK", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
   },
   {
@@ -1370,6 +1295,7 @@
     "color": "yellow",
     "aggression": 20,
     "morale": 100,
+    "aggro_character": false,
     "melee_skill": 1,
     "melee_dice": 1,
     "melee_dice_sides": 3,
@@ -1378,10 +1304,13 @@
     "armor_bash": 2,
     "armor_cut": 6,
     "armor_bullet": 5,
+    "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_spider" ],
+    "families": [ "prof_wp_basic_bug", "prof_wp_spider" ],
     "vision_day": 5,
     "vision_night": 5,
     "harvest": "arachnid",
-    "upgrades": { "age_grow": 40, "into": "mon_spider_web" },
+    "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE" ],
+    "upgrades": { "age_grow": 80, "into": "mon_spider_web" },
     "flags": [ "SEES", "SMELLS", "HEARS", "WEBWALK", "STUMBLES", "CLIMBS", "PATH_AVOID_FIRE" ]
   },
   {
@@ -1393,7 +1322,7 @@
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
     "volume": "15 L",
     "weight": "20 kg",
-    "upgrades": { "half_life": 14, "into": "mon_spider_widow_giant" }
+    "upgrades": { "half_life": 30, "into": "mon_spider_widow_giant" }
   },
   {
     "id": "mon_spider_widow_giant",
@@ -1413,6 +1342,7 @@
     "color": "dark_gray",
     "aggression": -10,
     "morale": 100,
+    "aggro_character": false,
     "melee_skill": 6,
     "melee_dice": 1,
     "melee_dice_sides": 6,
@@ -1421,13 +1351,15 @@
     "armor_bash": 2,
     "armor_cut": 4,
     "armor_bullet": 3,
+    "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_spider" ],
+    "families": [ "prof_wp_basic_bug", "prof_wp_spider" ],
     "vision_day": 5,
     "vision_night": 5,
     "harvest": "arachnid",
     "dissect": "dissect_spider_sample_single",
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "fungalize_into": "mon_spider_fungus",
-    "upgrades": { "half_life": 21, "into": "mon_spider_widow_mega" },
+    "upgrades": { "half_life": 42, "into": "mon_spider_widow_mega" },
     "flags": [ "SEES", "SMELLS", "HEARS", "BADVENOM", "WEBWALK", "CLIMBS", "PATH_AVOID_FIRE" ]
   },
   {
@@ -1462,6 +1394,7 @@
     "color": "dark_gray",
     "aggression": -10,
     "morale": 100,
+    "aggro_character": false,
     "melee_skill": 4,
     "melee_dice": 1,
     "melee_dice_sides": 3,
@@ -1470,11 +1403,13 @@
     "armor_bash": 2,
     "armor_cut": 4,
     "armor_bullet": 3,
+    "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_spider" ],
+    "families": [ "prof_wp_basic_bug", "prof_wp_spider" ],
     "vision_day": 5,
     "vision_night": 5,
     "harvest": "arachnid",
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE" ],
-    "upgrades": { "age_grow": 40, "into": "mon_spider_widow_giant" },
+    "upgrades": { "age_grow": 80, "into": "mon_spider_widow_giant" },
     "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CLIMBS", "PATH_AVOID_FIRE" ]
   },
   {
@@ -1486,7 +1421,7 @@
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
     "volume": "30 L",
     "weight": "40 kg",
-    "upgrades": { "half_life": 14, "into": "mon_spider_wolf_giant" }
+    "upgrades": { "half_life": 30, "into": "mon_spider_wolf_giant" }
   },
   {
     "id": "mon_spider_wolf_giant",
@@ -1506,6 +1441,7 @@
     "color": "brown",
     "aggression": 20,
     "morale": 100,
+    "aggro_character": false,
     "melee_skill": 5,
     "melee_dice": 1,
     "melee_dice_sides": 8,
@@ -1516,13 +1452,15 @@
     "armor_bash": 4,
     "armor_cut": 8,
     "armor_bullet": 6,
+    "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_spider" ],
+    "families": [ "prof_wp_basic_bug", "prof_wp_spider" ],
     "vision_day": 5,
     "vision_night": 5,
     "harvest": "arachnid",
     "dissect": "dissect_spider_sample_single",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE" ],
     "fungalize_into": "mon_spider_fungus",
-    "upgrades": { "half_life": 21, "into": "mon_spider_wolf_mega" },
+    "upgrades": { "half_life": 42, "into": "mon_spider_wolf_mega" },
     "flags": [ "SEES", "SMELLS", "HEARS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
   },
   {
@@ -1540,78 +1478,6 @@
     "extend": { "flags": [ "DESTROYS", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
-    "abstract": "base_wasp",
-    "type": "MONSTER",
-    "name": { "str": "wasp" },
-    "default_faction": "wasp",
-    "species": [ "INSECT_FLYING" ],
-    "volume": "750 ml",
-    "weight": "1 kg",
-    "hp": 10,
-    "material": [ "iflesh" ],
-    "symbol": "e",
-    "aggression": 100,
-    "morale": 100,
-    "families": [ "prof_intro_biology", "prof_wp_basic_bug", "prof_wp_flying" ],
-    "weakpoints": [
-      {
-        "name": "the head",
-        "coverage": 5,
-        "crit_mult": { "all": 1.1 },
-        "difficulty": { "melee": 1, "ranged": 3 },
-        "effects": [
-          {
-            "effect": "stunned",
-            "duration": [ 1, 2 ],
-            "chance": 5,
-            "message": "The %s is stunned!",
-            "damage_required": [ 1, 10 ]
-          },
-          {
-            "effect": "stunned",
-            "duration": [ 1, 2 ],
-            "chance": 25,
-            "message": "The %s is stunned!",
-            "damage_required": [ 11, 100 ]
-          }
-        ]
-      },
-      {
-        "name": "the eye",
-        "armor_mult": { "physical": 0.25 },
-        "coverage": 1,
-        "crit_mult": { "all": 1.25 },
-        "difficulty": { "ranged": 6, "melee": 4 },
-        "coverage_mult": { "broad": 0.5 },
-        "effects": [
-          {
-            "effect": "blind",
-            "permanent": true,
-            "chance": 30,
-            "message": "The %s's eyes are obliterated!",
-            "damage_required": [ 26, 100 ]
-          }
-        ]
-      },
-      {
-        "name": "the wings",
-        "damage_mult": { "all": 0.25 },
-        "crit_mult": { "all": 0.75 },
-        "difficulty": { "ranged": 2, "melee": 1 },
-        "coverage_mult": { "point": 0.75 },
-        "effects": [ { "effect": "downed", "chance": 25, "message": "The %s is knocked down!", "damage_required": [ 10, 100 ] } ],
-        "coverage": 15
-      },
-      {
-        "name": "the waist",
-        "crit_mult": { "all": 1.75 },
-        "difficulty": { "ranged": 4, "melee": 2 },
-        "coverage_mult": { "point": 0.75 },
-        "coverage": 15
-      }
-    ]
-  },
-  {
     "id": "mon_wasp_larva",
     "type": "MONSTER",
     "name": { "str": "wasp larva", "str_pl": "wasp larvae" },
@@ -1627,7 +1493,7 @@
     "weight": "35 kg",
     "hp": 35,
     "harvest": "arachnid",
-    "upgrades": { "age_grow": 16, "into": "mon_wasp_pupa" },
+    "upgrades": { "age_grow": 26, "into": "mon_wasp_pupa" },
     "//": "30 days of development from egg to adult.",
     "flags": [ "IMMOBILE" ]
   },
@@ -1647,7 +1513,7 @@
     "hp": 100,
     "harvest": "arachnid_wasp",
     "dissect": "dissect_insect_sample_single",
-    "upgrades": { "age_grow": 10, "into_group": "GROUP_WASP_PUPA" },
+    "upgrades": { "age_grow": 50, "into_group": "GROUP_WASP_PUPA" },
     "flags": [ "IMMOBILE" ]
   },
   {
@@ -1656,7 +1522,6 @@
     "name": { "str": "wasp" },
     "description": "A huge wasp the size of a large cat with bright yellow markings on her jet-black carapace and a threatening stinger.  She flies around erratically, searching for smaller prey.",
     "default_faction": "wasp",
-    "copy-from": "base_wasp",
     "bodytype": "flying insect",
     "species": [ "INSECT_FLYING" ],
     "diff": 2,
@@ -1669,6 +1534,7 @@
     "color": "yellow",
     "aggression": -10,
     "melee_skill": 5,
+    "aggro_character": false,
     "melee_dice": 2,
     "melee_dice_sides": 3,
     "special_attacks": [
@@ -1677,7 +1543,8 @@
         "cooldown": 8,
         "min_mul": 0.3,
         "max_mul": 0.5,
-        "effects": [ { "id": "venom_weaken", "duration": 100, "chance": 50 } ]
+        "effects": [ { "id": "venom_weaken", "duration": 100, "chance": 50 } ],
+        "forbidden_effects_any": [ "maimed_stinger" ]
       },
       {
         "type": "bite",
@@ -1685,7 +1552,8 @@
         "move_cost": 130,
         "damage_max_instance": [ { "damage_type": "cut", "amount": 10 } ],
         "min_mul": 0.2,
-        "max_mul": 0.5
+        "max_mul": 0.5,
+        "forbidden_effects_any": [ "maimed_mandible" ]
       }
     ],
     "//": "sting 3-5 dmg, 40 hits to max intensity, 50 to max duration",
@@ -1693,6 +1561,8 @@
     "armor_bash": 1,
     "armor_cut": 6,
     "armor_stab": 4,
+    "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_flying", "wps_arthropod_hymenoptera" ],
+    "families": [ "prof_wp_basic_bug", "prof_wp_hymenoptera" ],
     "vision_day": 15,
     "vision_night": 5,
     "harvest": "arachnid_wasp",
@@ -1733,7 +1603,6 @@
     "description": "A gigantic wasp worker, scouring the landscape for an easy meal to feed the next generation.  Her abdomen glowers with ominous yellow stripes and ends in a half-hidden stinger the size of a kitchen knife.",
     "default_faction": "wasp",
     "bodytype": "flying insect",
-    "copy-from": "base_wasp",
     "species": [ "INSECT_FLYING" ],
     "volume": "62500 ml",
     "weight": "81500 g",
@@ -1745,6 +1614,7 @@
     "color": "yellow",
     "aggression": -5,
     "morale": 15,
+    "aggro_character": false,
     "melee_skill": 7,
     "melee_dice": 2,
     "melee_dice_sides": 7,
@@ -1755,7 +1625,8 @@
         "cooldown": 5,
         "damage_max_instance": [ { "damage_type": "stab", "amount": 10, "armor_penetration": 25 } ],
         "min_mul": 0.5,
-        "max_mul": 2
+        "max_mul": 2,
+        "forbidden_effects_any": [ "maimed_stinger" ]
       },
       {
         "type": "bite",
@@ -1764,7 +1635,8 @@
         "damage_max_instance": [ { "damage_type": "cut", "amount": 10, "armor_penetration": 20 } ],
         "body_parts": [ [ "leg_l", 2 ], [ "leg_r", 2 ], [ "head", 1 ], [ "arm_l", 2 ], [ "arm_r", 2 ], [ "torso", 4 ] ],
         "min_mul": 0.5,
-        "max_mul": 1.5
+        "max_mul": 1.5,
+        "forbidden_effects_any": [ "maimed_mandible" ]
       }
     ],
     "//": "sting 5-15 damage, 8 hits to max intensity, 9 to max duration",
@@ -1774,6 +1646,8 @@
     "armor_stab": 12,
     "armor_bullet": 12,
     "bleed_rate": 80,
+    "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_flying", "wps_arthropod_hymenoptera" ],
+    "families": [ "prof_wp_basic_bug", "prof_wp_hymenoptera" ],
     "vision_day": 17,
     "vision_night": 7,
     "harvest": "arachnid_wasp",
@@ -1817,7 +1691,8 @@
         "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_penetration": 60 } ],
         "min_mul": 1,
         "max_mul": 3,
-        "effects": [ { "id": "venom_weaken", "duration": 600 }, { "id": "downed", "duration": 1, "chance": 50 } ]
+        "effects": [ { "id": "venom_weaken", "duration": 600 }, { "id": "downed", "duration": 1, "chance": 50 } ],
+        "forbidden_effects_any": [ "maimed_stinger" ]
       },
       {
         "type": "bite",
@@ -1826,7 +1701,8 @@
         "damage_max_instance": [ { "damage_type": "cut", "amount": 10, "armor_penetration": 30 } ],
         "min_mul": 1,
         "max_mul": 3,
-        "body_parts": [ [ "leg_l", 2 ], [ "leg_r", 2 ], [ "head", 1 ], [ "arm_l", 2 ], [ "arm_r", 2 ], [ "torso", 4 ] ]
+        "body_parts": [ [ "leg_l", 2 ], [ "leg_r", 2 ], [ "head", 1 ], [ "arm_l", 2 ], [ "arm_r", 2 ], [ "torso", 4 ] ],
+        "forbidden_effects_any": [ "maimed_mandible" ]
       }
     ],
     "//": "sting 15-45 damage, 6 hits to max intensity, 8 to max duration; bite 10-30",
@@ -1868,7 +1744,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "dodge": 1,
     "harvest": "arachnid",
-    "upgrades": { "age_grow": 21, "into": "mon_dermatik" },
+    "upgrades": { "age_grow": 61, "into": "mon_dermatik" },
     "flags": [ "HEARS", "SMELLS", "POISON", "CAN_DIG", "LARVA" ]
   },
   {
@@ -1896,6 +1772,10 @@
     "dodge": 8,
     "armor_bash": 2,
     "armor_cut": 5,
+    "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_flying", "wps_arthropod_hymenoptera" ],
+    "families": [ "prof_wp_basic_bug", "prof_wp_hymenoptera" ],
+    "weakpoints": [ { "id": "abdomen", "name": "the abdomen", "coverage": 30 } ],
+    "delete": { "weakpoints": [ { "id": "stinger" } ] },
     "harvest": "arachnid_flying",
     "dissect": "dissect_insect_sample_single",
     "special_attacks": [ [ "DERMATIK", 25 ] ],
@@ -1916,8 +1796,10 @@
     "morale": 60,
     "speed": 100,
     "melee_damage": [ { "damage_type": "cut", "amount": 10 } ],
+    "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_hymenoptera" ],
+    "weakpoints": [ { "id": "abdomen", "name": "the abdomen", "coverage": 30 } ],
     "vision_night": 8,
-    "delete": { "flags": [ "FLIES" ], "special_attacks": [ "DERMATIK" ] }
+    "delete": { "weakpoints": [ { "id": "stinger" } ], "flags": [ "FLIES" ], "special_attacks": [ "DERMATIK" ] }
   },
   {
     "id": "mon_dermatik_incubator_deer",
@@ -1973,78 +1855,6 @@
     "harvest": "arachnid"
   },
   {
-    "abstract": "base_ant",
-    "type": "MONSTER",
-    "name": { "str": "ant" },
-    "default_faction": "ant",
-    "species": [ "INSECT" ],
-    "volume": "750 ml",
-    "weight": "1 kg",
-    "hp": 10,
-    "material": [ "iflesh" ],
-    "symbol": "e",
-    "aggression": 100,
-    "morale": 100,
-    "families": [ "prof_intro_biology", "prof_wp_basic_bug" ],
-    "weakpoints": [
-      {
-        "name": "the head",
-        "coverage": 5,
-        "crit_mult": { "all": 1.1 },
-        "difficulty": { "melee": 1, "ranged": 3 },
-        "effects": [
-          {
-            "effect": "stunned",
-            "duration": [ 1, 2 ],
-            "chance": 5,
-            "message": "The %s is stunned!",
-            "damage_required": [ 1, 10 ]
-          },
-          {
-            "effect": "stunned",
-            "duration": [ 1, 2 ],
-            "chance": 25,
-            "message": "The %s is stunned!",
-            "damage_required": [ 11, 100 ]
-          }
-        ]
-      },
-      {
-        "name": "the eye",
-        "armor_mult": { "physical": 0.25 },
-        "coverage": 1,
-        "crit_mult": { "all": 1.25 },
-        "difficulty": { "ranged": 6, "melee": 4 },
-        "coverage_mult": { "broad": 0.5 },
-        "effects": [
-          {
-            "effect": "blind",
-            "permanent": true,
-            "chance": 30,
-            "message": "The %s's eyes are obliterated!",
-            "damage_required": [ 26, 100 ]
-          }
-        ]
-      },
-      {
-        "name": "the wings",
-        "damage_mult": { "all": 0.25 },
-        "crit_mult": { "all": 0.75 },
-        "difficulty": { "ranged": 2, "melee": 1 },
-        "coverage_mult": { "point": 0.75 },
-        "effects": [ { "effect": "downed", "chance": 25, "message": "The %s is knocked down!", "damage_required": [ 10, 100 ] } ],
-        "coverage": 15
-      },
-      {
-        "name": "the waist",
-        "crit_mult": { "all": 1.75 },
-        "difficulty": { "ranged": 4, "melee": 2 },
-        "coverage_mult": { "point": 0.75 },
-        "coverage": 15
-      }
-    ]
-  },
-  {
     "id": "mon_ant_small",
     "type": "MONSTER",
     "name": { "str": "ant" },
@@ -2053,7 +1863,7 @@
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
     "volume": "30 L",
     "weight": "40 kg",
-    "upgrades": { "half_life": 14, "into": "mon_ant" }
+    "upgrades": { "half_life": 30, "into": "mon_ant" }
   },
   {
     "id": "mon_ant",
@@ -2061,7 +1871,6 @@
     "name": { "str": "giant ant" },
     "description": "An enormous red ant covered in chitinous plates.  She possesses a pair of wriggling antennae and vicious-looking mandibles.",
     "default_faction": "ant",
-    "copy-from": "base_ant",
     "bodytype": "insect",
     "species": [ "INSECT" ],
     "volume": "62500 ml",
@@ -2072,6 +1881,7 @@
     "symbol": "a",
     "color": "brown",
     "morale": 60,
+    "aggro_character": false,
     "melee_skill": 5,
     "melee_dice": 1,
     "melee_dice_sides": 6,
@@ -2081,11 +1891,16 @@
     "armor_cut": 10,
     "armor_bullet": 8,
     "armor_elec": 1,
+    "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_hymenoptera" ],
+    "families": [ "prof_wp_basic_bug", "prof_wp_hymenoptera" ],
+    "//": "No stinging, for now",
+    "weakpoints": [ { "id": "abdomen", "name": "the abdomen", "coverage": 30 } ],
+    "delete": { "weakpoints": [ { "id": "stinger" } ] },
     "vision_day": 5,
     "vision_night": 5,
     "harvest": "arachnid",
     "dissect": "dissect_insect_sample_single",
-    "upgrades": { "age_grow": 14, "into": "mon_ant_soldier" },
+    "upgrades": { "half_life": 34, "into": "mon_ant_soldier" },
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_WEAK" ],
     "special_attacks": [ [ "EAT_FOOD", 30 ] ],
     "fungalize_into": "mon_ant_fungus",
@@ -2100,7 +1915,7 @@
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
     "volume": "30 L",
     "weight": "40 kg",
-    "upgrades": { "half_life": 14, "into": "mon_ant_acid" }
+    "upgrades": { "half_life": 30, "into": "mon_ant_acid" }
   },
   {
     "id": "mon_ant_acid",
@@ -2108,7 +1923,6 @@
     "name": { "str": "giant acidic ant" },
     "description": "A monstrous brown ant with a swollen abdomen that ends with a small orifice at the tip.  Glistening liquid seems to drip out periodically.",
     "default_faction": "acid_ant",
-    "copy-from": "base_ant",
     "bodytype": "insect",
     "species": [ "INSECT" ],
     "diff": 2,
@@ -2120,6 +1934,7 @@
     "symbol": "a",
     "color": "green",
     "morale": 60,
+    "aggro_character": false,
     "melee_skill": 5,
     "melee_dice": 1,
     "melee_dice_sides": 6,
@@ -2129,9 +1944,14 @@
     "armor_cut": 10,
     "armor_bullet": 8,
     "armor_elec": 2,
+    "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_hymenoptera" ],
+    "families": [ "prof_wp_basic_bug", "prof_wp_hymenoptera" ],
+    "//": "No stinging, for now",
+    "weakpoints": [ { "id": "abdomen", "name": "the abdomen", "coverage": 30 } ],
+    "delete": { "weakpoints": [ { "id": "stinger" } ] },
     "vision_day": 5,
     "vision_night": 5,
-    "upgrades": { "age_grow": 14, "into": "mon_ant_acid_soldier" },
+    "upgrades": { "half_life": 44, "into": "mon_ant_acid_soldier" },
     "special_attacks": [ [ "ACID", 23 ], [ "EAT_FOOD", 30 ] ],
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE" ],
     "death_function": { "message": "The %s's body leaks acid.", "effect": { "id": "death_acid", "hit_self": true } },
@@ -2160,7 +1980,7 @@
     "melee_dice": 1,
     "melee_dice_sides": 3,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "upgrades": { "age_grow": 3, "into": "mon_ant_acid" },
+    "upgrades": { "age_grow": 30, "into": "mon_ant_acid" },
     "death_function": { "message": "The %s's body leaks acid.", "effect": { "id": "death_acid", "hit_self": true } },
     "harvest": "arachnid_acid",
     "dissect": "dissect_insect_sample_single",
@@ -2173,7 +1993,6 @@
     "description": "An enormous brown ant with an elongated, pulsating abdomen.  Her orifice seems developed only for egg-laying rather than spraying acid like the rest of the colony, but she doesn't seem affected by the acrid liquid either.",
     "default_faction": "acid_ant",
     "bodytype": "insect",
-    "copy-from": "base_ant",
     "species": [ "INSECT" ],
     "diff": 2,
     "volume": "92500 ml",
@@ -2193,6 +2012,10 @@
     "armor_cut": 16,
     "armor_bullet": 13,
     "armor_elec": 4,
+    "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_hymenoptera" ],
+    "families": [ "prof_wp_basic_bug", "prof_wp_hymenoptera" ],
+    "weakpoints": [ { "id": "abdomen", "name": "the abdomen", "coverage": 50, "armor_mult": { "all": 0.25 } } ],
+    "delete": { "weakpoints": [ { "id": "stinger" } ] },
     "special_attacks": [ [ "ANTQUEEN", 1 ] ],
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE" ],
     "harvest": "arachnid_acid_queen",
@@ -2205,7 +2028,6 @@
     "name": { "str": "acidic soldier ant" },
     "description": "A massive woolly brown ant that towers over the worker ants with a giant head crest.  Along with her huge mandibles, a corrosive liquid seeps from the end of her bloated abdomen.",
     "default_faction": "acid_ant",
-    "copy-from": "base_ant",
     "bodytype": "insect",
     "species": [ "INSECT" ],
     "diff": 2,
@@ -2217,6 +2039,7 @@
     "symbol": "a",
     "color": "brown",
     "aggression": 40,
+    "aggro_character": false,
     "melee_skill": 7,
     "melee_dice": 1,
     "melee_dice_sides": 8,
@@ -2227,6 +2050,10 @@
     "armor_bullet": 11,
     "armor_elec": 1,
     "bleed_rate": 80,
+    "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_hymenoptera" ],
+    "families": [ "prof_wp_basic_bug", "prof_wp_hymenoptera" ],
+    "weakpoints": [ { "id": "abdomen", "name": "the abdomen", "coverage": 30 } ],
+    "delete": { "weakpoints": [ { "id": "stinger" } ] },
     "vision_day": 5,
     "vision_night": 5,
     "special_attacks": [ [ "ACID", 15 ] ],
@@ -2259,7 +2086,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "harvest": "arachnid",
     "dissect": "dissect_insect_sample_single",
-    "upgrades": { "age_grow": 3, "into": "mon_ant" },
+    "upgrades": { "age_grow": 30, "into": "mon_ant" },
     "flags": [ "SMELLS", "LARVA" ]
   },
   {
@@ -2268,7 +2095,6 @@
     "name": { "str": "queen ant" },
     "description": "A colossal red ant with a bulging, bloated thorax.  She moves slowly and deliberately, tending to nearby eggs and continually laying more.",
     "default_faction": "ant",
-    "copy-from": "base_ant",
     "bodytype": "insect",
     "species": [ "INSECT" ],
     "volume": "92500 ml",
@@ -2286,6 +2112,10 @@
     "armor_bash": 6,
     "armor_cut": 14,
     "armor_bullet": 11,
+    "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_hymenoptera" ],
+    "families": [ "prof_wp_basic_bug", "prof_wp_hymenoptera" ],
+    "weakpoints": [ { "id": "abdomen", "name": "the abdomen", "coverage": 50, "armor_mult": { "all": 0.25 } } ],
+    "delete": { "weakpoints": [ { "id": "stinger" } ] },
     "armor_elec": 3,
     "harvest": "arachnid",
     "dissect": "dissect_insect_sample_large",
@@ -2300,7 +2130,6 @@
     "name": { "str": "soldier ant" },
     "description": "A huge and hairy red ant almost twice the size of other giant ants.  Bulging pincers extend from her jaws.",
     "default_faction": "ant",
-    "copy-from": "base_ant",
     "bodytype": "insect",
     "species": [ "INSECT" ],
     "volume": "62500 ml",
@@ -2311,6 +2140,7 @@
     "symbol": "a",
     "color": "red",
     "aggression": 30,
+    "aggro_character": false,
     "melee_skill": 7,
     "melee_dice": 1,
     "melee_dice_sides": 8,
@@ -2321,13 +2151,17 @@
     "armor_bullet": 10,
     "armor_elec": 2,
     "bleed_rate": 80,
+    "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_hymenoptera" ],
+    "families": [ "prof_wp_basic_bug", "prof_wp_hymenoptera" ],
+    "weakpoints": [ { "id": "abdomen", "name": "the abdomen", "coverage": 30 } ],
+    "delete": { "weakpoints": [ { "id": "stinger" } ] },
     "vision_day": 5,
     "vision_night": 5,
     "harvest": "arachnid",
     "dissect": "dissect_insect_sample_single",
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE" ],
     "fungalize_into": "mon_ant_fungus",
-    "upgrades": { "half_life": 21, "into": "mon_ant_soldier_mega" },
+    "upgrades": { "half_life": 42, "into": "mon_ant_soldier_mega" },
     "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
   },
   {
@@ -2360,7 +2194,7 @@
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
     "volume": "15 L",
     "weight": "20 kg",
-    "upgrades": { "half_life": 14, "into": "mon_locust" }
+    "upgrades": { "half_life": 30, "into": "mon_locust" }
   },
   {
     "id": "mon_locust",
@@ -2374,7 +2208,7 @@
     "weight": "40750 g",
     "hp": 30,
     "speed": 90,
-    "material": [ "flesh" ],
+    "material": [ "iflesh" ],
     "symbol": "g",
     "color": "brown",
     "aggression": -5,
@@ -2388,6 +2222,8 @@
     "armor_cut": 4,
     "armor_bullet": 3,
     "armor_elec": 1,
+    "weakpoint_sets": [ "wps_arthropod" ],
+    "families": [ "prof_wp_basic_bug" ],
     "vision_day": 10,
     "harvest": "arachnid_flying",
     "dissect": "dissect_insect_sample_single",
@@ -2396,8 +2232,11 @@
     "biosignature": { "biosig_item": "feces_roach", "biosig_timer": 3 },
     "anger_triggers": [ "FRIEND_ATTACKED" ],
     "fear_triggers": [ "HURT", "FIRE" ],
-    "upgrades": { "half_life": 21, "into": "mon_locust_mega" },
-    "special_attacks": [ { "type": "leap", "cooldown": 2, "max_range": 8, "allow_no_target": true }, [ "EAT_CROP", 60 ] ],
+    "upgrades": { "half_life": 42, "into": "mon_locust_mega" },
+    "special_attacks": [
+      { "type": "leap", "cooldown": 2, "max_range": 8, "allow_no_target": true, "forbidden_effects_any": [ "maimed_leg" ] },
+      [ "EAT_CROP", 60 ]
+    ],
     "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "STUMBLES", "PATH_AVOID_FIRE" ]
   },
   {
@@ -2411,9 +2250,9 @@
     "weight": "815 kg",
     "melee_dice": 2,
     "armor_elec": 3,
-    "dissect": "dissect_insect_sample_small",
+    "dissect": "dissect_insect_sample_large",
     "special_attacks": [
-      { "type": "leap", "cooldown": 2, "max_range": 4, "allow_no_target": true },
+      { "type": "leap", "cooldown": 2, "max_range": 4, "allow_no_target": true, "forbidden_effects_any": [ "maimed_leg" ] },
       [ "EAT_CROP", 3 ],
       { "id": "smash", "throw_strength": 36, "cooldown": 30 }
     ],
@@ -2431,7 +2270,7 @@
     "weight": "1 kg",
     "hp": 5,
     "speed": 80,
-    "material": [ "flesh" ],
+    "material": [ "iflesh" ],
     "symbol": "g",
     "color": "brown",
     "aggression": -99,
@@ -2441,10 +2280,15 @@
     "melee_dice_sides": 3,
     "dodge": 3,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
+    "weakpoint_sets": [ "wps_arthropod" ],
+    "families": [ "prof_wp_basic_bug" ],
     "vision_day": 10,
     "harvest": "arachnid",
-    "upgrades": { "age_grow": 10, "into": "mon_locust" },
-    "special_attacks": [ { "type": "leap", "cooldown": 4, "max_range": 4, "allow_no_target": true }, [ "EAT_CROP", 120 ] ],
+    "upgrades": { "age_grow": 30, "into": "mon_locust" },
+    "special_attacks": [
+      { "type": "leap", "cooldown": 4, "max_range": 4, "allow_no_target": true, "forbidden_effects_any": [ "maimed_leg" ] },
+      [ "EAT_CROP", 120 ]
+    ],
     "fear_triggers": [ "HURT", "FIRE" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "LARVA", "STUMBLES", "PATH_AVOID_FIRE" ]
   },
@@ -2463,14 +2307,14 @@
       "baby_flags": [ "SPRING", "SUMMER" ]
     },
     "biosignature": { "biosig_item": "honeydew", "biosig_timer": 7000 },
-    "upgrades": { "age_grow": 8, "into": "mon_aphid" }
+    "upgrades": { "half_life": 30, "into": "mon_aphid" }
   },
   {
     "id": "mon_aphid",
     "type": "MONSTER",
     "name": { "str": "giant aphid" },
     "description": "A green aphid about the size of a rabbit.  It is constantly searching for plants to suck from.",
-    "default_faction": "ant",
+    "default_faction": "aphid",
     "bodytype": "insect",
     "species": [ "INSECT" ],
     "volume": "1600 ml",
@@ -2491,6 +2335,8 @@
     "armor_bash": 2,
     "armor_cut": 5,
     "armor_bullet": 3,
+    "weakpoint_sets": [ "wps_arthropod" ],
+    "families": [ "prof_wp_basic_bug" ],
     "vision_day": 10,
     "vision_night": 5,
     "harvest": "arachnid",
@@ -2509,7 +2355,7 @@
     "name": { "str": "praying mantis", "str_pl": "praying mantises" },
     "description": "A green mutant insect with sharp grappling spikes on its front legs.  It's a little smaller than an adult person.",
     "copy-from": "mon_mantis_giant",
-    "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
+    "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67, "melee_skill": 0.625 },
     "volume": "60 L",
     "weight": "80 kg",
     "melee_damage": [ { "damage_type": "cut", "amount": 8 } ],
@@ -2519,7 +2365,7 @@
       "reproduction": { "baby_egg": "egg_mantis", "baby_count": 1, "baby_timer": 30 },
       "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ]
     },
-    "upgrades": { "age_grow": 14, "into": "mon_mantis_giant" }
+    "upgrades": { "half_life": 42, "into": "mon_mantis_giant" }
   },
   {
     "id": "mon_mantis_giant",
@@ -2547,6 +2393,8 @@
     "armor_cut": 16,
     "armor_bullet": 13,
     "armor_elec": 2,
+    "weakpoint_sets": [ "wps_arthropod" ],
+    "families": [ "prof_wp_basic_bug" ],
     "vision_day": 8,
     "vision_night": 4,
     "harvest": "arachnid",
@@ -2558,10 +2406,55 @@
     "special_attacks": [
       [ "RANGED_PULL", 30 ],
       [ "GRAB_DRAG", 10 ],
-      { "type": "leap", "cooldown": 8, "max_range": 5, "allow_no_target": false }
+      {
+        "type": "leap",
+        "cooldown": 8,
+        "max_range": 5,
+        "allow_no_target": false,
+        "forbidden_effects_any": [ "maimed_leg" ]
+      }
     ],
-    "upgrades": { "age_grow": 21, "into": "mon_mantis_mega" },
+    "upgrades": { "half_life": 42, "into": "mon_mantis_mega" },
     "flags": [ "SEES", "HEARS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
+  },
+  {
+    "id": "mon_mantis_nymph",
+    "type": "MONSTER",
+    "name": { "str": "praying mantis nymph" },
+    "description": "A mantis nymph about the size of a dog.  Even though its far smaller than the adults, you have a feeling it wouldn't take kindly to you coming too close.",
+    "default_faction": "mantis",
+    "bodytype": "insect",
+    "species": [ "INSECT" ],
+    "volume": "20 L",
+    "weight": "10 kg",
+    "hp": 25,
+    "speed": 80,
+    "material": [ "iflesh" ],
+    "symbol": "M",
+    "color": "light_green",
+    "aggression": -10,
+    "morale": 30,
+    "melee_skill": 1,
+    "melee_dice": 1,
+    "melee_dice_sides": 6,
+    "dodge": 3,
+    "armor_bash": 1,
+    "armor_cut": 2,
+    "armor_bullet": 1,
+    "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
+    "weakpoint_sets": [ "wps_arthropod" ],
+    "families": [ "prof_wp_basic_bug" ],
+    "vision_day": 8,
+    "vision_night": 4,
+    "harvest": "arachnid",
+    "dissect": "dissect_insect_sample_single",
+    "upgrades": { "age_grow": 30, "into": "mon_mantis_giant" },
+    "special_attacks": [
+      { "type": "leap", "cooldown": 8, "max_range": 3, "allow_no_target": false, "forbidden_effects_any": [ "maimed_leg" ] }
+    ],
+    "anger_triggers": [ "PLAYER_CLOSE" ],
+    "fear_triggers": [ "HURT", "FIRE" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "LARVA", "STUMBLES", "PATH_AVOID_FIRE" ]
   },
   {
     "id": "mon_mantis_mega",
@@ -2569,7 +2462,7 @@
     "name": { "str": "great mantis", "str_pl": "great mantises" },
     "description": "This ferocious cow-sized mantis stalks the fields of New England.  It's probably capable of killing a moose with its powerful arms.",
     "copy-from": "mon_mantis_giant",
-    "proportional": { "hp": 20, "speed": 0.25, "vision_day": 2 },
+    "proportional": { "hp": 3, "speed": 0.25, "vision_day": 2 },
     "volume": "625 L",
     "symbol": "M",
     "color": "red_green",
@@ -2596,7 +2489,7 @@
       "cooldown": 8,
       "max_range": 5,
       "allow_no_target": false,
-      "upgrades": { "age_grow": 21, "into": "mon_mantis_mega" }
+      "upgrades": { "half_life": 42, "into": "mon_mantis_mega" }
     }
   },
   {
@@ -2616,6 +2509,7 @@
     "color": "brown",
     "aggression": -10,
     "morale": 60,
+    "aggro_character": false,
     "melee_skill": 6,
     "melee_dice": 4,
     "melee_dice_sides": 6,
@@ -2624,16 +2518,65 @@
     "armor_cut": 18,
     "armor_bullet": 20,
     "armor_elec": 2,
+    "weakpoint_sets": [ "wps_arthropod" ],
+    "families": [ "prof_wp_basic_bug" ],
     "vision_day": 10,
     "vision_night": 15,
     "harvest": "arachnid",
-    "dissect": "dissect_troglobite_sample_small",
+    "dissect": "dissect_subterranean_insect_large",
     "reproduction": { "baby_egg": "egg_mole_cricket", "baby_count": 1, "baby_timer": 20 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "special_attacks": [ [ "SHRIEK_ALERT", 10 ], [ "SHRIEK_STUN", 5 ], [ "impale", 15 ] ],
-    "anger_triggers": [ "HURT", "SOUND", "STALK" ],
+    "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
     "fear_triggers": [ "FIRE" ],
     "flags": [ "SEES", "BORES", "PUSH_VEH", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SMELLS" ]
+  },
+  {
+    "id": "mon_lady_bug",
+    "type": "MONSTER",
+    "name": { "str": "lady bug" },
+    "description": "This is a mutated lady bug the size of a big dog.  While not as dangerous as her giant sisters, she's still troublesome to deal with.",
+    "default_faction": "ladybug",
+    "bodytype": "insect",
+    "species": [ "INSECT" ],
+    "volume": "50 L",
+    "weight": "90750 g",
+    "hp": 120,
+    "speed": 105,
+    "material": [ "iflesh" ],
+    "symbol": "B",
+    "color": "light_red",
+    "morale": 60,
+    "aggression": -10,
+    "aggro_character": false,
+    "melee_skill": 6,
+    "melee_dice": 2,
+    "melee_dice_sides": 3,
+    "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
+    "dodge": 2,
+    "armor_bash": 3,
+    "armor_cut": 10,
+    "armor_bullet": 15,
+    "armor_elec": 3,
+    "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_beetle" ],
+    "families": [ "prof_wp_basic_bug", "prof_wp_beetle" ],
+    "vision_day": 20,
+    "vision_night": 5,
+    "harvest": "arachnid",
+    "dissect": "dissect_insect_sample_single",
+    "reproduction": { "baby_egg": "egg_lady_bug", "baby_count": 1, "baby_timer": 30 },
+    "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
+    "special_attacks": [
+      {
+        "type": "bite",
+        "cooldown": 4,
+        "accuracy": 4,
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 7, "armor_penetration": 4 } ],
+        "forbidden_effects_any": [ "maimed_mandible" ]
+      }
+    ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_FIRE" ],
+    "upgrades": { "age_grow": 42, "into": "mon_lady_bug_giant" }
   },
   {
     "id": "mon_lady_bug_giant",
@@ -2651,7 +2594,8 @@
     "symbol": "B",
     "color": "red",
     "morale": 40,
-    "aggression": 20,
+    "aggression": 5,
+    "aggro_character": false,
     "melee_skill": 6,
     "melee_dice": 2,
     "melee_dice_sides": 6,
@@ -2665,71 +2609,22 @@
     "vision_night": 5,
     "harvest": "arachnid",
     "dissect": "dissect_insect_sample_single",
-    "reproduction": { "baby_egg": "egg_lady_bug", "baby_count": 1, "baby_timer": 30 },
+    "reproduction": { "baby_egg": "egg_lady_bug_giant", "baby_count": 1, "baby_timer": 30 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
-    "anger_triggers": [ "PLAYER_CLOSE" ],
+    "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK" ],
     "fear_triggers": [ "HURT" ],
     "special_attacks": [
       {
         "type": "bite",
         "cooldown": 4,
         "accuracy": 6,
-        "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_penetration": 8 } ]
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_penetration": 8 } ],
+        "forbidden_effects_any": [ "maimed_mandible" ]
       }
     ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "FLIES", "PATH_AVOID_FIRE" ],
-    "families": [ "prof_intro_biology", "prof_wp_basic_bug", "prof_wp_flying" ],
-    "weakpoints": [
-      {
-        "name": "beneath the outer wings",
-        "coverage": 35,
-        "crit_mult": { "all": 1.1 },
-        "armor_mult": { "physical": 0.25 },
-        "difficulty": { "melee": 1, "ranged": 3 },
-        "effects": [
-          {
-            "effect": "stunned",
-            "duration": [ 1, 2 ],
-            "chance": 5,
-            "message": "The %s is stunned!",
-            "damage_required": [ 1, 10 ]
-          },
-          {
-            "effect": "stunned",
-            "duration": [ 1, 2 ],
-            "chance": 25,
-            "message": "The %s is stunned!",
-            "damage_required": [ 11, 100 ]
-          }
-        ]
-      },
-      {
-        "name": "the eye",
-        "armor_mult": { "physical": 0 },
-        "coverage": 1,
-        "crit_mult": { "all": 1.25 },
-        "difficulty": { "ranged": 6, "melee": 4 },
-        "coverage_mult": { "broad": 0.5 },
-        "effects": [
-          { "effect": "blind", "duration": [ 1, 2 ], "chance": 40, "message": "The %s is blinded!", "damage_required": [ 1, 25 ] },
-          {
-            "effect": "blind",
-            "permanent": true,
-            "chance": 30,
-            "message": "The %s's eyes are obliterated!",
-            "damage_required": [ 26, 100 ]
-          }
-        ]
-      },
-      {
-        "name": "the wings",
-        "crit_mult": { "all": 0.75 },
-        "difficulty": { "ranged": 2, "melee": 1 },
-        "coverage_mult": { "point": 0.75 },
-        "effects": [ { "effect": "downed", "chance": 25, "message": "The %s is knocked down!", "damage_required": [ 10, 100 ] } ],
-        "coverage": 15
-      }
-    ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "BASHES", "PATH_AVOID_FIRE" ],
+    "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_beetle" ],
+    "families": [ "prof_wp_basic_bug", "prof_wp_beetle" ]
   },
   {
     "id": "mon_grasshopper_small",
@@ -2744,7 +2639,7 @@
       "reproduction": { "baby_egg": "egg_grasshopper", "baby_count": 3, "baby_timer": 15 },
       "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ]
     },
-    "upgrades": { "age_grow": 8, "into": "mon_grasshopper_giant" }
+    "upgrades": { "half_life": 35, "into": "mon_grasshopper_giant" }
   },
   {
     "id": "mon_grasshopper_giant",
@@ -2771,6 +2666,8 @@
     "dodge": 4,
     "armor_bash": 5,
     "armor_cut": 10,
+    "weakpoint_sets": [ "wps_arthropod" ],
+    "families": [ "prof_wp_basic_bug" ],
     "vision_day": 20,
     "vision_night": 20,
     "harvest": "arachnid",
@@ -2778,8 +2675,54 @@
     "reproduction": { "baby_egg": "egg_grasshopper", "baby_count": 3, "baby_timer": 15 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "fear_triggers": [ "FIRE", "PLAYER_CLOSE" ],
-    "special_attacks": [ [ "EAT_FOOD", 60 ], [ "EAT_CROP", 80 ], { "type": "leap", "cooldown": 3, "max_range": 10, "allow_no_target": true } ],
+    "special_attacks": [
+      [ "EAT_FOOD", 60 ],
+      [ "EAT_CROP", 80 ],
+      {
+        "type": "leap",
+        "cooldown": 3,
+        "max_range": 10,
+        "allow_no_target": true,
+        "forbidden_effects_any": [ "maimed_leg" ]
+      }
+    ],
     "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "PATH_AVOID_FALL", "PATH_AVOID_FIRE" ]
+  },
+  {
+    "id": "mon_grasshopper_nymph",
+    "type": "MONSTER",
+    "name": { "str": "grasshopper nymph" },
+    "description": "A grasshopper nymph the size of a rabbit.",
+    "default_faction": "insect",
+    "bodytype": "insect",
+    "species": [ "INSECT" ],
+    "volume": "750 ml",
+    "weight": "1 kg",
+    "hp": 5,
+    "speed": 80,
+    "material": [ "iflesh" ],
+    "symbol": "g",
+    "color": "light_green",
+    "aggression": -99,
+    "morale": -8,
+    "melee_skill": 1,
+    "melee_dice": 1,
+    "melee_dice_sides": 3,
+    "dodge": 3,
+    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
+    "weakpoint_sets": [ "wps_arthropod" ],
+    "families": [ "prof_wp_basic_bug" ],
+    "vision_day": 10,
+    "harvest": "arachnid",
+    "dissect": "dissect_insect_sample_single",
+    "upgrades": { "age_grow": 30, "into": "mon_grasshopper_giant" },
+    "special_attacks": [
+      { "type": "leap", "cooldown": 3, "max_range": 4, "allow_no_target": true, "forbidden_effects_any": [ "maimed_leg" ] },
+      [ "EAT_FOOD", 100 ],
+      [ "EAT_CROP", 133 ]
+    ],
+    "fear_triggers": [ "HURT", "FIRE" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "LARVA", "STUMBLES", "PATH_AVOID_FIRE" ]
   },
   {
     "id": "mon_stag_beetle_larva",
@@ -2804,7 +2747,7 @@
     "armor_bullet": 3,
     "armor_acid": 6,
     "harvest": "arachnid",
-    "dissect": "dissect_troglobite_sample_small",
+    "dissect": "dissect_subterranean_insect_large",
     "//": "when taming becomes more involved, this should be slowly tameable with honeydew, allowing for a tamed stag beetle through almost a year of effort",
     "fear_triggers": [ "FIRE", "HURT" ],
     "upgrades": { "age_grow": 288, "into": "mon_stag_beetle_small" },
@@ -2834,7 +2777,7 @@
       }
     ],
     "dissect": "dissect_insect_sample_small",
-    "upgrades": { "age_grow": 60, "into": "mon_stag_beetle_giant" },
+    "upgrades": { "half_life": 60, "into": "mon_stag_beetle_giant" },
     "extend": { "flags": [ "NO_BREED" ] },
     "delete": { "flags": [ "DESTROYS", "PUSH_VEH" ] }
   },
@@ -2854,8 +2797,9 @@
     "material": [ "iflesh" ],
     "symbol": "S",
     "color": "brown",
-    "aggression": 40,
+    "aggression": 5,
     "morale": 30,
+    "aggro_character": false,
     "melee_skill": 5,
     "melee_dice": 6,
     "melee_dice_sides": 6,
@@ -2866,7 +2810,8 @@
     "armor_bullet": 50,
     "armor_acid": 18,
     "armor_fire": 8,
-    "families": [ "prof_intro_biology", "prof_wp_basic_bug" ],
+    "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_beetle" ],
+    "families": [ "prof_wp_basic_bug", "prof_wp_beetle" ],
     "weakpoints": [
       { "name": "a soft section of chitin", "armor_mult": { "physical": 0.33 }, "coverage": 20 },
       { "name": "a crack in the chitin", "armor_mult": { "physical": 0 }, "coverage": 5 }
@@ -2890,7 +2835,7 @@
         "miss_msg_npc": "The %s flicks its horns at <npcname>, but they dodge!"
       }
     ],
-    "upgrades": { "age_grow": 60, "into": "mon_stag_beetle_mega" },
+    "upgrades": { "half_life": 60, "into": "mon_stag_beetle_mega" },
     "reproduction": { "baby_egg": "egg_stag_beetle", "baby_count": 1, "baby_timer": 32 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN", "WINTER" ],
     "flags": [
@@ -2926,7 +2871,8 @@
         "damage_max_instance": [ { "damage_type": "bash", "amount": 45, "armor_multiplier": 0.5 } ]
       }
     ],
-    "families": [ "prof_intro_biology", "prof_wp_basic_bug" ],
+    "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_beetle" ],
+    "families": [ "prof_wp_basic_bug", "prof_wp_beetle" ],
     "weakpoints": [ { "name": "a foul scar in the chitin", "armor_mult": { "physical": 0.33 }, "coverage": 20 } ],
     "harvest": "arachnid_beetle_mega",
     "dissect": "dissect_insect_sample_huge",
@@ -2936,7 +2882,7 @@
   {
     "id": "mon_antlion_larva",
     "type": "MONSTER",
-    "name": { "str": "giant antlion larva" },
+    "name": { "str": "giant antlion larva", "str_pl": "giant antlion larvae" },
     "description": "This huge grub has powerful mandibles and a hungry look.  It hides in the dirt and awaits its prey.",
     "default_faction": "antlion_grub",
     "bodytype": "insect",
@@ -2957,11 +2903,44 @@
     "armor_bash": 4,
     "armor_cut": 10,
     "armor_bullet": 10,
+    "weakpoint_sets": [ "wps_arthropod" ],
+    "families": [ "prof_wp_basic_bug" ],
+    "weakpoints": [
+      {
+        "id": "mandible",
+        "name": "the mandibles",
+        "difficulty": { "ranged": 5, "melee": 3 },
+        "effects": [
+          {
+            "effect": "maimed_mandible",
+            "chance": 25,
+            "duration": [ 1, 10 ],
+            "message": "The %s's mandibles are maimed!",
+            "damage_required": [ 1, 20 ]
+          },
+          {
+            "effect": "maimed_mandible",
+            "chance": 50,
+            "duration": [ 5, 25 ],
+            "message": "The %s's mandibles are maimed!",
+            "damage_required": [ 21, 40 ]
+          },
+          {
+            "effect": "maimed_mandible",
+            "chance": 50,
+            "duration": 86400,
+            "message": "The %s's mandibles are destroyed!",
+            "damage_required": [ 41, 100 ]
+          }
+        ],
+        "coverage": 10
+      }
+    ],
     "vision_day": 8,
     "vision_night": 5,
     "harvest": "arachnid",
-    "dissect": "dissect_troglobite_sample_single",
-    "upgrades": { "age_grow": 12, "into": "mon_antlion_giant" },
+    "dissect": "dissect_subterranean_insect_small",
+    "upgrades": { "age_grow": 42, "into": "mon_antlion_giant" },
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "fear_triggers": [ "FIRE" ],
     "special_attacks": [
@@ -2974,7 +2953,8 @@
         "cooldown": 4,
         "accuracy": 8,
         "infection_chance": 75,
-        "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_penetration": 12 } ]
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_penetration": 12 } ],
+        "forbidden_effects_any": [ "maimed_mandible" ]
       }
     ],
     "flags": [ "SEES", "SMELLS", "IMMOBILE", "DIGS", "RANGED_ATTACKER", "ATTACK_LOWER" ]
@@ -3002,6 +2982,8 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "dodge": 8,
     "armor_cut": 4,
+    "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_flying" ],
+    "families": [ "prof_wp_basic_bug" ],
     "vision_day": 25,
     "vision_night": 5,
     "harvest": "arachnid_flying",
@@ -3026,7 +3008,7 @@
       "reproduction": { "baby_egg": "egg_strider", "baby_count": 3, "baby_timer": 10 },
       "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ]
     },
-    "upgrades": { "age_grow": 7, "into": "mon_strider_giant" }
+    "upgrades": { "half_life": 40, "into": "mon_strider_giant" }
   },
   {
     "id": "mon_strider_giant",
@@ -3044,8 +3026,9 @@
     "material": [ "iflesh" ],
     "symbol": "s",
     "color": "light_gray",
-    "aggression": 10,
+    "aggression": 3,
     "morale": 30,
+    "aggro_character": false,
     "melee_skill": 3,
     "melee_dice": 1,
     "melee_dice_sides": 2,
@@ -3054,6 +3037,8 @@
     "armor_bash": 1,
     "armor_cut": 3,
     "armor_bullet": 2,
+    "weakpoint_sets": [ "wps_arthropod" ],
+    "families": [ "prof_wp_basic_bug" ],
     "vision_day": 12,
     "vision_night": 5,
     "harvest": "arachnid",
@@ -3063,5 +3048,484 @@
     "anger_triggers": [ "PLAYER_WEAK" ],
     "fear_triggers": [ "FIRE", "PLAYER_CLOSE" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "SWIMS" ]
+  },
+  {
+    "id": "mon_strider_nymph",
+    "type": "MONSTER",
+    "name": { "str": "water strider nymph" },
+    "description": "A water strider nymph the size of a rabbit.",
+    "default_faction": "insect",
+    "bodytype": "insect",
+    "species": [ "INSECT" ],
+    "volume": "750 ml",
+    "weight": "1 kg",
+    "hp": 5,
+    "speed": 80,
+    "material": [ "iflesh" ],
+    "symbol": "s",
+    "color": "light_gray",
+    "aggression": -99,
+    "morale": -8,
+    "melee_skill": 1,
+    "melee_dice": 1,
+    "melee_dice_sides": 3,
+    "dodge": 3,
+    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
+    "weakpoint_sets": [ "wps_arthropod" ],
+    "families": [ "prof_wp_basic_bug" ],
+    "vision_day": 12,
+    "vision_night": 5,
+    "harvest": "arachnid",
+    "dissect": "dissect_insect_sample_single",
+    "upgrades": { "age_grow": 30, "into": "mon_strider_giant" },
+    "fear_triggers": [ "HURT", "FIRE" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "LARVA", "SWIMS" ]
+  },
+  {
+    "id": "mon_butterfly",
+    "type": "MONSTER",
+    "name": { "str": "mutated butterfly", "str_pl": "mutated butterflies" },
+    "description": "An oversized butterfly with vibrant colored markings.  Unlike the other big insects of the Cataclysm this is a very peaceful nectivore.",
+    "bodytype": "flying insect",
+    "species": [ "INSECT_FLYING" ],
+    "default_faction": "insect",
+    "material": [ "iflesh" ],
+    "symbol": "l",
+    "color": "white",
+    "volume": "15 L",
+    "weight": "20 kg",
+    "hp": 25,
+    "speed": 95,
+    "vision_day": 15,
+    "dodge": 2,
+    "harvest": "arachnid_flying",
+    "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_flying" ],
+    "families": [ "prof_wp_basic_bug" ],
+    "upgrades": { "age_grow": 30, "into": "mon_butterfly_giant" },
+    "fear_triggers": [ "HURT", "FIRE" ],
+    "flags": [ "SEES", "HEARS", "FLIES", "STUMBLES" ]
+  },
+  {
+    "id": "mon_butterfly_giant",
+    "type": "MONSTER",
+    "name": { "str": "giant butterfly", "str_pl": "giant butterflies" },
+    "description": "A mutated butterfly larger than a human.  Despite its size it is very lightweight and feeds mainly on the nectar produced by triffid flowers.",
+    "bodytype": "flying insect",
+    "species": [ "INSECT_FLYING" ],
+    "default_faction": "insect",
+    "material": [ "iflesh" ],
+    "symbol": "L",
+    "color": "white",
+    "volume": "75 L",
+    "weight": "40 kg",
+    "hp": 50,
+    "speed": 95,
+    "vision_day": 15,
+    "dodge": 2,
+    "harvest": "arachnid_flying",
+    "dissect": "dissect_insect_sample_single",
+    "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_flying" ],
+    "families": [ "prof_wp_basic_bug" ],
+    "biosignature": { "biosig_item": "insect_dust", "biosig_timer": 3 },
+    "reproduction": { "baby_egg": "egg_butterfly", "baby_count": 1, "baby_timer": 15 },
+    "baby_flags": [ "SPRING", "SUMMER" ],
+    "fear_triggers": [ "HURT", "FIRE" ],
+    "flags": [ "SEES", "HEARS", "FLIES", "STUMBLES" ]
+  },
+  {
+    "id": "mon_butterfly_titan",
+    "type": "MONSTER",
+    "name": { "str": "emperor butterfly", "str_pl": "emperor butterflies" },
+    "description": "An enormous butterfly with regal looking wings.  This giant of the sky flies cheerfully under the sun, leaving dust as it passes.",
+    "copy-from": "mon_butterfly_giant",
+    "dissect": "dissect_insect_sample_large",
+    "proportional": { "hp": 3, "speed": 1.1, "morale": 1.1, "melee_dice_sides": 1.1 },
+    "symbol": "L",
+    "color": "yellow",
+    "volume": "120 L",
+    "weight": "75 kg"
+  },
+  {
+    "id": "mon_moth",
+    "type": "MONSTER",
+    "name": { "str": "mutated moth" },
+    "description": "An oversized moth with its typical wood-like motifs.  It is as peaceful as the mutated butterflies found during the day.",
+    "bodytype": "flying insect",
+    "species": [ "INSECT_FLYING" ],
+    "default_faction": "insect",
+    "material": [ "iflesh" ],
+    "symbol": "l",
+    "color": "light_gray",
+    "volume": "15 L",
+    "weight": "20 kg",
+    "hp": 25,
+    "speed": 95,
+    "vision_night": 15,
+    "dodge": 2,
+    "harvest": "arachnid_flying",
+    "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_flying" ],
+    "families": [ "prof_wp_basic_bug" ],
+    "upgrades": { "age_grow": 30, "into": "mon_moth_giant" },
+    "fear_triggers": [ "HURT", "FIRE" ],
+    "flags": [ "SEES", "HEARS", "FLIES", "STUMBLES" ]
+  },
+  {
+    "id": "mon_moth_giant",
+    "type": "MONSTER",
+    "name": { "str": "giant moth" },
+    "description": "A mutated moth larger than a human.  It silently flies with its huge wings after dusk looking for nocturnal flowers to feed upon.",
+    "bodytype": "flying insect",
+    "species": [ "INSECT_FLYING" ],
+    "default_faction": "insect",
+    "material": [ "iflesh" ],
+    "symbol": "L",
+    "color": "light_gray",
+    "volume": "70 L",
+    "weight": "40 kg",
+    "hp": 50,
+    "speed": 95,
+    "vision_night": 15,
+    "dodge": 2,
+    "harvest": "arachnid_flying",
+    "dissect": "dissect_insect_sample_single",
+    "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_flying" ],
+    "families": [ "prof_wp_basic_bug" ],
+    "biosignature": { "biosig_item": "insect_dust", "biosig_timer": 3 },
+    "reproduction": { "baby_egg": "egg_moth", "baby_count": 1, "baby_timer": 15 },
+    "baby_flags": [ "SPRING", "SUMMER" ],
+    "fear_triggers": [ "HURT", "FIRE" ],
+    "flags": [ "SEES", "HEARS", "FLIES", "STUMBLES" ]
+  },
+  {
+    "id": "mon_moth_titan",
+    "type": "MONSTER",
+    "name": { "str": "lunar moth" },
+    "description": "A majestic moth painted in pale colors.  This giant of the night only comes out after the moon is out, leaving glittering dust.",
+    "copy-from": "mon_moth_giant",
+    "dissect": "dissect_insect_sample_large",
+    "proportional": { "hp": 3, "speed": 1.1, "morale": 1.1, "melee_dice_sides": 1.1 },
+    "symbol": "L",
+    "color": "cyan",
+    "volume": "120 L",
+    "weight": "75 kg"
+  },
+  {
+    "id": "mon_caterpillar_butterfly",
+    "type": "MONSTER",
+    "name": { "str": "giant caterpillar" },
+    "description": "The larval stage of a butterfly or a moth.  This one appears to be about your size so you can only imagine the size of the insect that it will grow into.",
+    "default_faction": "insect",
+    "bodytype": "snake",
+    "species": [ "INSECT" ],
+    "volume": "60 L",
+    "weight": "75 kg",
+    "hp": 30,
+    "material": [ "iflesh" ],
+    "symbol": "C",
+    "color": "green",
+    "speed": 30,
+    "vision_day": 15,
+    "dodge": 2,
+    "harvest": "arachnid",
+    "dissect": "dissect_insect_sample_large",
+    "upgrades": { "age_grow": 20, "into": "mon_butterfly_cocoon" },
+    "fear_triggers": [ "HURT", "FIRE" ],
+    "flags": [ "SEES", "SMELLS", "CLIMBS", "HEARS", "STUMBLES", "PATH_AVOID_FIRE" ]
+  },
+  {
+    "id": "mon_butterfly_cocoon",
+    "type": "MONSTER",
+    "name": { "str": "giant cocoon" },
+    "description": "A caterpillar undergoing a metamorphosis.  Considering the size of the cocoon you have a feeling the emerging adult will be massive as well.",
+    "symbol": "0",
+    "color": "light_gray",
+    "default_faction": "insect",
+    "bodytype": "blob",
+    "material": [ "iflesh" ],
+    "species": [ "INSECT" ],
+    "volume": "120 L",
+    "weight": "100 kg",
+    "hp": 100,
+    "harvest": "arachnid",
+    "dissect": "dissect_insect_sample_large",
+    "upgrades": { "age_grow": 50, "into": "mon_butterfly_giant" },
+    "flags": [ "IMMOBILE" ]
+  },
+  {
+    "id": "mon_caterpillar_moth",
+    "type": "MONSTER",
+    "name": { "str": "giant caterpillar" },
+    "description": "The larval stage of a butterfly or a moth.  This one appears to be about your size so you can only imagine the size of the insect that it will grow into.",
+    "default_faction": "insect",
+    "bodytype": "snake",
+    "species": [ "INSECT" ],
+    "volume": "60 L",
+    "weight": "75 kg",
+    "hp": 30,
+    "material": [ "iflesh" ],
+    "symbol": "C",
+    "color": "green",
+    "speed": 30,
+    "vision_day": 15,
+    "dodge": 2,
+    "harvest": "arachnid",
+    "dissect": "dissect_insect_sample_large",
+    "upgrades": { "age_grow": 30, "into": "mon_moth_cocoon" },
+    "fear_triggers": [ "HURT", "FIRE" ],
+    "flags": [ "SEES", "SMELLS", "CLIMBS", "HEARS", "STUMBLES", "PATH_AVOID_FIRE" ]
+  },
+  {
+    "id": "mon_moth_cocoon",
+    "type": "MONSTER",
+    "name": { "str": "giant cocoon" },
+    "description": "A caterpillar undergoing a metamorphosis.  Considering the size of the cocoon you have a feeling the emerging adult will be massive as well.",
+    "symbol": "0",
+    "color": "light_gray",
+    "default_faction": "insect",
+    "bodytype": "blob",
+    "material": [ "iflesh" ],
+    "species": [ "INSECT" ],
+    "volume": "120 L",
+    "weight": "100 kg",
+    "hp": 100,
+    "harvest": "arachnid",
+    "dissect": "dissect_insect_sample_large",
+    "upgrades": { "age_grow": 50, "into": "mon_moth_giant" },
+    "flags": [ "IMMOBILE" ]
+  },
+  {
+    "id": "mon_cicada_nymph",
+    "type": "MONSTER",
+    "name": { "str": "cicada nymph" },
+    "description": "The mutated larval form of a Cicada.  It doesn't produce noise like the adults but its digging claws seem suited for scratching.",
+    "default_faction": "insect",
+    "bodytype": "insect",
+    "species": [ "INSECT" ],
+    "volume": "40 L",
+    "weight": "40 kg",
+    "hp": 80,
+    "speed": 80,
+    "material": [ "iflesh" ],
+    "symbol": "c",
+    "color": "white",
+    "aggression": -5,
+    "morale": 60,
+    "melee_skill": 3,
+    "melee_dice": 1,
+    "melee_dice_sides": 2,
+    "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
+    "armor_bash": 1,
+    "armor_cut": 3,
+    "armor_bullet": 2,
+    "armor_elec": 2,
+    "vision_day": 10,
+    "vision_night": 15,
+    "harvest": "arachnid",
+    "dissect": "dissect_insect_sample_single",
+    "weakpoint_sets": [ "wps_arthropod" ],
+    "families": [ "prof_wp_basic_bug" ],
+    "upgrades": { "age_grow": 21, "into": "mon_cicada" },
+    "special_attacks": [ { "id": "scratch", "attack_upper": false, "cooldown": 15 } ],
+    "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
+    "fear_triggers": [ "FIRE" ],
+    "flags": [ "SEES", "BORES", "HEARS", "PATH_AVOID_DANGER_1" ]
+  },
+  {
+    "id": "mon_cicada",
+    "type": "MONSTER",
+    "name": { "str": "giant cicada" },
+    "description": "A huge Cicada the size of a person.  These insects are mostly harmless but may bite if attacked and produce a loud buzzing sound.",
+    "default_faction": "insect",
+    "bodytype": "insect",
+    "species": [ "INSECT" ],
+    "volume": "80 L",
+    "weight": "80 kg",
+    "hp": 100,
+    "speed": 80,
+    "material": [ "iflesh" ],
+    "symbol": "C",
+    "color": "light_gray",
+    "aggression": -5,
+    "morale": 60,
+    "melee_skill": 3,
+    "melee_dice": 1,
+    "melee_dice_sides": 2,
+    "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
+    "armor_bash": 1,
+    "armor_cut": 3,
+    "armor_bullet": 2,
+    "armor_elec": 2,
+    "vision_day": 10,
+    "vision_night": 15,
+    "harvest": "arachnid_flying",
+    "dissect": "dissect_insect_sample_large",
+    "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_flying" ],
+    "families": [ "prof_wp_basic_bug" ],
+    "reproduction": { "baby_egg": "egg_cicada", "baby_count": 3, "baby_timer": 20 },
+    "baby_flags": [ "SUMMER" ],
+    "special_attacks": [ [ "SHRIEK_STUN", 5 ] ],
+    "anger_triggers": [ "HURT" ],
+    "fear_triggers": [ "FIRE", "HURT" ],
+    "flags": [ "SEES", "FLIES", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SMELLS" ]
+  },
+  {
+    "id": "mon_woodlouse",
+    "type": "MONSTER",
+    "name": { "str": "giant woodlouse", "str_pl": "giant woodlice" },
+    "description": "A woodlouse grown to the size of a dog.  These humble crustaceans are harmless and enjoy damp places.",
+    "default_faction": "insect",
+    "bodytype": "insect",
+    "species": [ "INSECT" ],
+    "volume": "50 L",
+    "weight": "50 kg",
+    "hp": 90,
+    "speed": 80,
+    "material": [ "iflesh" ],
+    "symbol": "w",
+    "color": "brown",
+    "armor_bash": 15,
+    "armor_cut": 18,
+    "armor_bullet": 20,
+    "armor_elec": 2,
+    "vision_day": 10,
+    "vision_night": 15,
+    "harvest": "mutant_shellfish",
+    "dissect": "dissect_insect_sample_single",
+    "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_beetle" ],
+    "families": [ "prof_wp_basic_bug", "prof_wp_beetle" ],
+    "reproduction": { "baby_monster": "mon_woodlouse_manca", "baby_count": 5, "baby_timer": 210 },
+    "fear_triggers": [ "FIRE", "HURT" ],
+    "flags": [ "SEES", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SMELLS" ]
+  },
+  {
+    "id": "mon_woodlouse_manca",
+    "type": "MONSTER",
+    "name": { "str": "baby woodlouse", "str_pl": "baby woodlice" },
+    "description": "Woodlice reproduce by carrying their eggs in a pouch and releasing them as juveniles.  Their mancae look like small adults except for their pale color.",
+    "copy-from": "mon_woodlouse",
+    "proportional": { "hp": 0.25, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
+    "symbol": "w",
+    "color": "white",
+    "volume": "5 L",
+    "weight": "5 kg",
+    "upgrades": { "age_grow": 21, "into": "mon_woodlouse" },
+    "delete": { "dissect": "dissect_insect_sample_single" }
+  },
+  {
+    "id": "mon_diving_larva",
+    "type": "MONSTER",
+    "name": { "str": "giant water tiger" },
+    "description": "The predatory, aquatic larva of a diving beetle grown to large proportions.  It is quite slow but still a good ambusher.",
+    "species": [ "INSECT" ],
+    "bodytype": "insect",
+    "material": [ "iflesh" ],
+    "volume": "8 L",
+    "weight": "10 kg",
+    "hp": 35,
+    "speed": 50,
+    "symbol": "b",
+    "color": "light_gray",
+    "default_faction": "aquatic_predator",
+    "aggression": 8,
+    "melee_skill": 4,
+    "melee_dice": 1,
+    "melee_dice_sides": 6,
+    "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
+    "dodge": 2,
+    "vision_day": 10,
+    "vision_night": 5,
+    "harvest": "arachnid",
+    "weakpoint_sets": [ "wps_arthropod" ],
+    "families": [ "prof_wp_basic_bug" ],
+    "anger_triggers": [ "PLAYER_CLOSE" ],
+    "fear_triggers": [ "HURT" ],
+    "flags": [ "AQUATIC", "SEES", "WATER_CAMOUFLAGE" ],
+    "upgrades": { "age_grow": 21, "into": "mon_diving_beetle_small" }
+  },
+  {
+    "id": "mon_diving_beetle_small",
+    "type": "MONSTER",
+    "name": { "str": "giant diving beetle" },
+    "description": "Water beetles can be found in all freshwater environments, with diving beetles being their predatory variant.  These however seem to have grown far larger with the Cataclysm.",
+    "bodytype": "insect",
+    "species": [ "INSECT" ],
+    "default_faction": "beetle",
+    "volume": "62500 ml",
+    "weight": "81500 g",
+    "hp": 90,
+    "speed": 50,
+    "material": [ "iflesh" ],
+    "symbol": "B",
+    "color": "light_gray",
+    "aggression": 15,
+    "morale": 30,
+    "melee_skill": 5,
+    "melee_dice": 4,
+    "melee_dice_sides": 4,
+    "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
+    "dodge": 1,
+    "armor_bash": 7,
+    "armor_cut": 9,
+    "armor_bullet": 10,
+    "armor_elec": 2,
+    "vision_day": 14,
+    "vision_night": 12,
+    "harvest": "arachnid_beetle",
+    "dissect": "dissect_insect_sample_single",
+    "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_beetle" ],
+    "families": [ "prof_wp_basic_bug", "prof_wp_beetle" ],
+    "reproduction": { "baby_egg": "egg_water_beetle", "baby_count": 3, "baby_timer": 15 },
+    "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
+    "fear_triggers": [ "FIRE" ],
+    "flags": [ "SEES", "HEARS", "GOODHEARING", "SWIMS", "WATER_CAMOUFLAGE" ]
+  },
+  {
+    "id": "mon_water_scorpion",
+    "type": "MONSTER",
+    "name": { "str": "giant water scorpion" },
+    "description": "A slender relative of the water bug, grown close to human size.  It uses its long tail as a snorkel while ambushing prey.",
+    "default_faction": "strider",
+    "bodytype": "insect",
+    "species": [ "INSECT" ],
+    "volume": "40 L",
+    "weight": "50 kg",
+    "hp": 45,
+    "speed": 50,
+    "attack_cost": 50,
+    "material": [ "iflesh" ],
+    "symbol": "W",
+    "color": "light_gray",
+    "aggression": 10,
+    "morale": 30,
+    "melee_skill": 3,
+    "melee_dice": 1,
+    "melee_dice_sides": 5,
+    "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
+    "dodge": 3,
+    "armor_bash": 1,
+    "armor_cut": 3,
+    "armor_bullet": 2,
+    "vision_day": 12,
+    "vision_night": 5,
+    "harvest": "arachnid",
+    "dissect": "dissect_insect_sample_single",
+    "weakpoint_sets": [ "wps_arthropod" ],
+    "families": [ "prof_wp_basic_bug" ],
+    "reproduction": { "baby_egg": "egg_water_bug", "baby_count": 3, "baby_timer": 10 },
+    "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE" ],
+    "fear_triggers": [ "HURT" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "SWIMS", "AQUATIC" ]
+  },
+  {
+    "id": "mon_water_scorpion_larva",
+    "type": "MONSTER",
+    "name": { "str": "water scorpion nymph" },
+    "description": "The nymph of a water scorpion, looks like a smaller version of its parents.",
+    "copy-from": "mon_water_scorpion",
+    "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
+    "symbol": "w",
+    "volume": "10 L",
+    "weight": "15 kg",
+    "upgrades": { "half_life": 14, "into": "mon_water_scorpion" }
   }
 ]

@@ -93,7 +93,7 @@
     "volume": "2 L",
     "bashing": 5,
     "price": 90000,
-    "price_postapoc": 500,
+    "price_postapoc": 1500,
     "copy-from": "car_headlight"
   },
   {

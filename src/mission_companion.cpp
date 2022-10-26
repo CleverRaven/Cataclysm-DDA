@@ -134,153 +134,154 @@ struct miss_data {
     translation action;        // Optional extended UI description of task for return.
 };
 
-static const miss_data miss_info[Camp_Harvest + 1] = {
-    {
-        //  No_Mission
-        "",
-        no_translation( "" )
-    },
-    {
-        "Scavenging_Patrol_Job",
-        no_translation( "" )
-    },
-    {
-        "Scavenging_Raid_Job",
-        no_translation( "" )
-    },
-    {
-        "Hospital_Raid_Job",
-        no_translation( "" )
-    },
-    {
-        "Menial_Job",
-        no_translation( "" )
-    },
-    {
-        "Carpentry_Job",
-        no_translation( "" )
-    },
-    {
-        "Forage_Job",
-        no_translation( "" )
-    },
-    {
-        "Caravan_Commune_Center_Job",
-        no_translation( "" )
-    },
-    //  Faction camp missions
-    {
-        "Camp_Distribute_Food",
-        no_translation( "" )
-    },
-    {
-        "Hide_Mission",
-        no_translation( "" )
-    },
-    {
-        "Reveal_Mission",
-        no_translation( "" )
-    },
-    {
-        "Camp_Assign_Jobs",
-        no_translation( "" )
-    },
-    {
-        "Camp_Assign_Workers",
-        no_translation( "" )
-    },
-    {
-        "Camp_Abandon",
-        no_translation( "" )
-    },
-    {
-        "Camp_Upgrade ",  //  Want to add the blueprint after the space
-        to_translation( "Working to expand your camp!\n" )
-    },
-    {
-        "Camp_Emergency_Recall",
-        to_translation( "Lost in the ether!\n" )
-    },
-    {
-        "Camp_Crafting ",  //  Want to add the recipe after the space
-        to_translation( "Busy crafting!\n" )
-    },
-    {
-        "Camp_Gather_Materials",
-        to_translation( "Searching for materials to upgrade the camp.\n" )
-    },
-    {
-        "Camp_Collect_Firewood",
-        to_translation( "Searching for firewood.\n" )
-    },
-    {
-        "Camp_Menial",
-        to_translation( "Performing menial labor…\n" )
-    },
-    {
-        "Camp_Survey_Expansion",
-        to_translation( "Surveying for expansion…\n" )
-    },
-    {
-        "Camp_Cut_Logs",
-        to_translation( "Cutting logs in the woods…\n" )
-    },
-    {
-        "Camp_Clearcut",
-        to_translation( "Clearing a forest…\n" )
-    },
-    {
-        "Camp_Setup_Hide_Site",
-        to_translation( "Setting up a hide site…\n" )
-    },
-    {
-        "Camp_Relay_Hide_Site",
-        to_translation( "Transferring gear to a hide site…\n" )
-    },
-    {
-        "Camp Foraging",
-        to_translation( "Foraging for edible plants.\n" )
-    },
-    {
-        "Camp_Trapping",
-        to_translation( "Trapping Small Game.\n" )
-    },
-    {
-        "Camp_Hunting",
-        to_translation( "Hunting large animals.\n" )
-    },
-    {
-        "Camp_OM_Fortifications",
-        to_translation( "Constructing fortifications…\n" )
-    },
-    {
-        "Camp_Recruiting",
-        to_translation( "Searching for recruits.\n" )
-    },
-    {
-        "Camp_Scouting",
-        to_translation( "Scouting the region.\n" )
-    },
-    {
-        "Camp_Combat Patrol",
-        to_translation( "Patrolling the region.\n" )
-    },
-    {
-        //  Obsolete entry
-        "Camp_Chop_Shop",
-        to_translation( "Working at the chop shop…\n" )
-    },
-    {
-        "Camp_Plow",
-        to_translation( "Working to plow your fields!\n" )
-    },
-    {
-        "Camp_Plant",
-        to_translation( "Working to plant your fields!\n" )
-    },
-    {
-        "Camp_Harvest",
-        to_translation( "Working to harvest your fields!\n" )
+static const std::array < miss_data, Camp_Harvest + 1 > miss_info = { {
+        {
+            //  No_Mission
+            "",
+            no_translation( "" )
+        },
+        {
+            "Scavenging_Patrol_Job",
+            no_translation( "" )
+        },
+        {
+            "Scavenging_Raid_Job",
+            no_translation( "" )
+        },
+        {
+            "Hospital_Raid_Job",
+            no_translation( "" )
+        },
+        {
+            "Menial_Job",
+            no_translation( "" )
+        },
+        {
+            "Carpentry_Job",
+            no_translation( "" )
+        },
+        {
+            "Forage_Job",
+            no_translation( "" )
+        },
+        {
+            "Caravan_Commune_Center_Job",
+            no_translation( "" )
+        },
+        //  Faction camp missions
+        {
+            "Camp_Distribute_Food",
+            no_translation( "" )
+        },
+        {
+            "Hide_Mission",
+            no_translation( "" )
+        },
+        {
+            "Reveal_Mission",
+            no_translation( "" )
+        },
+        {
+            "Camp_Assign_Jobs",
+            no_translation( "" )
+        },
+        {
+            "Camp_Assign_Workers",
+            no_translation( "" )
+        },
+        {
+            "Camp_Abandon",
+            no_translation( "" )
+        },
+        {
+            "Camp_Upgrade ",  //  Want to add the blueprint after the space
+            to_translation( "Working to expand your camp!\n" )
+        },
+        {
+            "Camp_Emergency_Recall",
+            to_translation( "Lost in the ether!\n" )
+        },
+        {
+            "Camp_Crafting ",  //  Want to add the recipe after the space
+            to_translation( "Busy crafting!\n" )
+        },
+        {
+            "Camp_Gather_Materials",
+            to_translation( "Searching for materials to upgrade the camp.\n" )
+        },
+        {
+            "Camp_Collect_Firewood",
+            to_translation( "Searching for firewood.\n" )
+        },
+        {
+            "Camp_Menial",
+            to_translation( "Performing menial labor…\n" )
+        },
+        {
+            "Camp_Survey_Expansion",
+            to_translation( "Surveying for expansion…\n" )
+        },
+        {
+            "Camp_Cut_Logs",
+            to_translation( "Cutting logs in the woods…\n" )
+        },
+        {
+            "Camp_Clearcut",
+            to_translation( "Clearing a forest…\n" )
+        },
+        {
+            "Camp_Setup_Hide_Site",
+            to_translation( "Setting up a hide site…\n" )
+        },
+        {
+            "Camp_Relay_Hide_Site",
+            to_translation( "Transferring gear to a hide site…\n" )
+        },
+        {
+            "Camp Foraging",
+            to_translation( "Foraging for edible plants.\n" )
+        },
+        {
+            "Camp_Trapping",
+            to_translation( "Trapping Small Game.\n" )
+        },
+        {
+            "Camp_Hunting",
+            to_translation( "Hunting large animals.\n" )
+        },
+        {
+            "Camp_OM_Fortifications",
+            to_translation( "Constructing fortifications…\n" )
+        },
+        {
+            "Camp_Recruiting",
+            to_translation( "Searching for recruits.\n" )
+        },
+        {
+            "Camp_Scouting",
+            to_translation( "Scouting the region.\n" )
+        },
+        {
+            "Camp_Combat Patrol",
+            to_translation( "Patrolling the region.\n" )
+        },
+        {
+            //  Obsolete entry
+            "Camp_Chop_Shop",
+            to_translation( "Working at the chop shop…\n" )
+        },
+        {
+            "Camp_Plow",
+            to_translation( "Working to plow your fields!\n" )
+        },
+        {
+            "Camp_Plant",
+            to_translation( "Working to plant your fields!\n" )
+        },
+        {
+            "Camp_Harvest",
+            to_translation( "Working to harvest your fields!\n" )
+        }
     }
 };
 
@@ -289,7 +290,7 @@ std::string action_of( mission_kind kind )
     return miss_info[kind].action.translated();
 }
 
-bool is_equal( mission_id first, mission_id second )
+bool is_equal( const mission_id &first, const mission_id &second )
 {
     return first.id == second.id &&
            first.parameters == second.parameters &&
@@ -317,7 +318,7 @@ std::string string_of( mission_id miss_id )
     }
 }
 
-mission_id mission_id_of( std::string str )
+mission_id mission_id_of( const std::string &str )
 {
     mission_id result = { No_Mission, "", cata::nullopt };
     size_t id_size = str.length();
@@ -453,7 +454,7 @@ mission_id mission_id_of( std::string str )
     return result;
 }
 
-bool is_equal( ui_mission_id first, ui_mission_id second )
+bool is_equal( const ui_mission_id &first, const ui_mission_id &second )
 {
     return first.ret == second.ret &&
            is_equal( first.id, second.id );
@@ -475,14 +476,14 @@ mission_data::mission_data()
 
 namespace talk_function
 {
-void scavenger_patrol( mission_data &mission_key, npc &p );
-void scavenger_raid( mission_data &mission_key, npc &p );
-void hospital_raid( mission_data &mission_key, npc &p );
-void commune_menial( mission_data &mission_key, npc &p );
-void commune_carpentry( mission_data &mission_key, npc &p );
-void commune_forage( mission_data &mission_key, npc &p );
-void commune_refuge_caravan( mission_data &mission_key, npc &p );
-bool handle_outpost_mission( const mission_entry &cur_key, npc &p );
+static void scavenger_patrol( mission_data &mission_key, npc &p );
+static void scavenger_raid( mission_data &mission_key, npc &p );
+static void hospital_raid( mission_data &mission_key, npc &p );
+static void commune_menial( mission_data &mission_key, npc &p );
+static void commune_carpentry( mission_data &mission_key, npc &p );
+static void commune_forage( mission_data &mission_key, npc &p );
+static void commune_refuge_caravan( mission_data &mission_key, npc &p );
+static bool handle_outpost_mission( const mission_entry &cur_key, npc &p );
 } // namespace talk_function
 
 void talk_function::companion_mission( npc &p )
@@ -829,9 +830,9 @@ bool talk_function::display_and_choose_opts(
 
     auto reset_cur_key_list = [&]() {
         cur_key_list = mission_key.entries[0];
-        for( const auto &k : mission_key.entries[1] ) {
+        for( const mission_entry &k : mission_key.entries[1] ) {
             bool has = false;
-            for( const auto &keys : cur_key_list ) {
+            for( const mission_entry &keys : cur_key_list ) {
                 if( is_equal( k.id, keys.id ) ) {
                     has = true;
                     break;
@@ -893,7 +894,7 @@ bool talk_function::display_and_choose_opts(
 
         std::vector<std::vector<std::string>> folded_names;
         size_t folded_names_lines = 0;
-        for( const auto &cur_key_entry : cur_key_list ) {
+        for( const mission_entry &cur_key_entry : cur_key_list ) {
             std::vector<std::string> f_name = foldstring( cur_key_entry.name_display, MAX_FAC_NAME_SIZE - 5,
                                               ' ' );
             folded_names_lines += f_name.size();
@@ -934,14 +935,14 @@ bool talk_function::display_and_choose_opts(
              current < cur_key_list.size(); current++ ) {
             nc_color col = ( current == sel ? h_white : c_white );
             //highlight important missions
-            for( const auto &k : mission_key.entries[0] ) {
+            for( const mission_entry &k : mission_key.entries[0] ) {
                 if( is_equal( cur_key_list[current].id, k.id ) ) {
                     col = ( current == sel ? h_white : c_yellow );
                     break;
                 }
             }
             //dull uncraftable items
-            for( const auto &k : mission_key.entries[10] ) {
+            for( const mission_entry &k : mission_key.entries[10] ) {
                 if( is_equal( cur_key_list[current].id, k.id ) ) {
                     col = ( current == sel ? h_white : c_dark_gray );
                     break;
@@ -1037,7 +1038,7 @@ bool talk_function::display_and_choose_opts(
                     reset_cur_key_list();
                 } else {
                     tab_mode = static_cast<base_camps::tab_mode>( tab_mode + 1 );
-                    cur_key_list = mission_key.entries[size_t( tab_mode + 1 )];
+                    cur_key_list = mission_key.entries[tab_mode + 1];
                 }
             } while( cur_key_list.empty() );
         } else if( action == "PREV_TAB" && role_id == role_id_faction_camp ) {
@@ -1054,7 +1055,7 @@ bool talk_function::display_and_choose_opts(
                 if( tab_mode == base_camps::TAB_MAIN ) {
                     reset_cur_key_list();
                 } else {
-                    cur_key_list = mission_key.entries[size_t( tab_mode + 1 )];
+                    cur_key_list = mission_key.entries[size_t( tab_mode ) + 1];
                 }
             } while( cur_key_list.empty() );
         } else if( action == "QUIT" ) {
@@ -1299,9 +1300,9 @@ void talk_function::caravan_return( npc &p, const std::string &dest, const missi
     int time = 200 + distance * 100;
     int experience = rng( 10, time / 300 );
 
-    const int rand_bandit_size = rng( 1, 3 );
-    bandit_party.reserve( size_t( rand_bandit_size * 2 ) );
-    for( int i = 0; i < rand_bandit_size * 2; i++ ) {
+    const size_t rand_bandit_size = rng( 1, 3 );
+    bandit_party.reserve( rand_bandit_size * 2 );
+    for( size_t i = 0; i < rand_bandit_size * 2; i++ ) {
         bandit_party.push_back( temp_npc( npc_template_bandit ) );
         bandit_party.push_back( temp_npc( npc_template_thug ) );
     }
@@ -1382,7 +1383,7 @@ void talk_function::attack_random( const std::vector<npc_ptr> &attacker,
     }
     const auto att = random_entry( attacker );
     const auto def = random_entry( defender );
-    const skill_id best = att->best_skill();
+    const skill_id best = att->best_combat_skill( combat_skills::NO_GENERAL ).first;
     int best_score = 1;
     if( best ) {
         best_score = att->get_skill_level( best );
@@ -1403,7 +1404,7 @@ int talk_function::combat_score( const std::vector<npc_ptr> &group )
     int score = 0;
     for( const auto &elem : group ) {
         if( elem->get_part_hp_cur( bodypart_id( "torso" ) ) != 0 ) {
-            const skill_id best = elem->best_skill();
+            const skill_id best = elem->best_combat_skill( combat_skills::ALL ).first;
             if( best ) {
                 score += elem->get_skill_level( best );
             } else {
@@ -1417,7 +1418,7 @@ int talk_function::combat_score( const std::vector<npc_ptr> &group )
 int talk_function::combat_score( const std::vector< monster * > &group )
 {
     int score = 0;
-    for( const auto &elem : group ) {
+    for( monster * const &elem : group ) {
         if( elem->get_hp() > 0 ) {
             score += elem->type->difficulty;
         }
@@ -1454,7 +1455,7 @@ void talk_function::field_plant( npc &p, const std::string &place )
 
     std::vector<itype_id> seed_types;
     std::vector<std::string> seed_names;
-    for( auto &seed : seed_inv ) {
+    for( item *&seed : seed_inv ) {
         if( std::find( seed_types.begin(), seed_types.end(), seed->typeId() ) == seed_types.end() ) {
             seed_types.push_back( seed->typeId() );
             seed_names.push_back( seed->tname() );
@@ -2213,7 +2214,7 @@ bool talk_function::force_on_force( const std::vector<npc_ptr> &defender,
     int def_init = 0;
     while( true ) {
         std::vector< monster * > remaining_mon;
-        for( const auto &elem : monsters_fighting ) {
+        for( monster * const &elem : monsters_fighting ) {
             if( elem->get_hp() > 0 ) {
                 remaining_mon.push_back( elem );
             }
@@ -2333,7 +2334,7 @@ void talk_function::companion_skill_trainer( npc &comp, const std::string &skill
 
     weighted_int_list<skill_id> skill_practice;
     if( skill_tested == "combat" ) {
-        const skill_id best_skill = comp.best_skill();
+        const skill_id best_skill = comp.best_combat_skill( combat_skills::ALL ).first;
         if( best_skill ) {
             skill_practice.add( best_skill, 30 );
         }
@@ -2369,7 +2370,7 @@ void talk_function::companion_return( npc &comp )
     Character &player_character = get_player_character();
     map &here = get_map();
     for( size_t i = 0; i < comp.companion_mission_inv.size(); i++ ) {
-        for( const auto &it : comp.companion_mission_inv.const_stack( i ) ) {
+        for( const item &it : comp.companion_mission_inv.const_stack( i ) ) {
             if( !it.count_by_charges() || it.charges > 0 ) {
                 here.add_item_or_charges( player_character.pos(), it );
             }
@@ -2451,7 +2452,7 @@ comp_list talk_function::companion_sort( comp_list available,
             req_skill = skill_tested;
         }
 
-        bool operator()( const npc_ptr &first, const npc_ptr &second ) {
+        bool operator()( const npc_ptr &first, const npc_ptr &second ) const {
             return first->get_skill_level( req_skill ) > second->get_skill_level( req_skill );
         }
 
@@ -2491,7 +2492,7 @@ std::vector<comp_rank> talk_function::companion_rank( const std::vector<npc_ptr>
     }
 
     std::vector<comp_rank> adjusted;
-    for( const auto &entry : raw ) {
+    for( const comp_rank &entry : raw ) {
         comp_rank r;
         r.combat = max_combat ? 100 * entry.combat / max_combat : 0;
         r.survival = max_survival ? 100 * entry.survival / max_survival : 0;
@@ -2807,5 +2808,5 @@ void mission_data::add( const ui_mission_id &id, const std::string &name_display
     }
     const point direction = id.id.dir ? *id.id.dir : base_camps::base_dir;
     const int tab_order = base_camps::all_directions.at( direction ).tab_order;
-    entries[size_t( tab_order + 1 )].emplace_back( miss );
+    entries[tab_order + 1].emplace_back( miss );
 }

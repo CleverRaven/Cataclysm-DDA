@@ -19,6 +19,8 @@ static const trait_id trait_HUNGER3( "HUNGER3" );
 
 static const vitamin_id vitamin_calcium( "calcium" );
 static const vitamin_id vitamin_iron( "iron" );
+static const vitamin_id vitamin_test_vit_fast( "test_vit_fast" );
+static const vitamin_id vitamin_test_vit_slow( "test_vit_slow" );
 static const vitamin_id vitamin_vitC( "vitC" );
 
 static void reset_time()
@@ -49,6 +51,13 @@ static void set_all_vitamins( int target, Character &p )
     p.vitamin_set( vitamin_vitC, target );
     p.vitamin_set( vitamin_iron, target );
     p.vitamin_set( vitamin_calcium, target );
+}
+
+static void reset_daily_vitamins( Character &p )
+{
+    p.reset_daily_vitamin( vitamin_vitC );
+    p.reset_daily_vitamin( vitamin_iron );
+    p.reset_daily_vitamin( vitamin_calcium );
 }
 
 // time (in minutes) it takes for the player to feel hungry
@@ -132,6 +141,149 @@ TEST_CASE( "starve_test", "[starve][slow]" )
     CHECK( day == expected_day );
 }
 
+// do vitamins get processed correctly every day
+TEST_CASE( "vitamin_process", "[vitamins]" )
+{
+    Character &subject = get_avatar();
+    clear_avatar();
+    reset_time();
+    clear_stomach( subject );
+
+    set_all_vitamins( 0, subject );
+    REQUIRE( subject.vitamin_get( vitamin_iron ) == 0 );
+    REQUIRE( subject.vitamin_get( vitamin_calcium ) == 0 );
+    REQUIRE( subject.vitamin_get( vitamin_vitC ) == 0 );
+    REQUIRE( subject.vitamin_get( vitamin_test_vit_fast ) == 0 );
+    REQUIRE( subject.vitamin_get( vitamin_test_vit_slow ) == 0 );
+
+
+    pass_time( subject, 1_days );
+
+    // check
+    CHECK( subject.vitamin_get( vitamin_iron ) <= -95 );
+    CHECK( subject.vitamin_get( vitamin_calcium ) <= -95 );
+    CHECK( subject.vitamin_get( vitamin_vitC ) <= -95 );
+    CHECK( subject.vitamin_get( vitamin_iron ) >= -97 );
+    CHECK( subject.vitamin_get( vitamin_calcium ) >= -97 );
+    CHECK( subject.vitamin_get( vitamin_vitC ) >= -97 );
+
+    // slow vitamin drains every 90 minutes or 16 units in a day
+    CHECK( subject.vitamin_get( vitamin_test_vit_slow ) <= -15 );
+    CHECK( subject.vitamin_get( vitamin_test_vit_slow ) >= -17 );
+
+    // fast vitamin drains every 5 minutes or 288 units in a day
+    CHECK( subject.vitamin_get( vitamin_test_vit_fast ) <= -287 );
+    CHECK( subject.vitamin_get( vitamin_test_vit_fast ) >= -289 );
+
+
+
+}
+
+// do vitamins you eat get processed correctly
+TEST_CASE( "vitamin_equilibrium", "[vitamins]" )
+{
+    Character &subject = get_avatar();
+    clear_avatar();
+    reset_time();
+    clear_stomach( subject );
+
+    set_all_vitamins( -100, subject );
+    REQUIRE( subject.vitamin_get( vitamin_vitC ) == -100 );
+    REQUIRE( subject.vitamin_get( vitamin_calcium ) == -100 );
+    REQUIRE( subject.vitamin_get( vitamin_iron ) == -100 );
+    item f( "debug_orange" );
+
+    // check that 100% of daily vit C is by default 96 units
+    CHECK( subject.compute_effective_nutrients( f ).get_vitamin( vitamin_vitC ) == 96 );
+    subject.consume( f );
+
+
+    pass_time( subject, 1_days );
+
+    // check if something with 100% RDA will keep you at equilibrium
+    CHECK( subject.vitamin_get( vitamin_iron ) <= -99 );
+    CHECK( subject.vitamin_get( vitamin_calcium ) <= -99 );
+    CHECK( subject.vitamin_get( vitamin_vitC ) <= -99 );
+    CHECK( subject.vitamin_get( vitamin_iron ) >= -101 );
+    CHECK( subject.vitamin_get( vitamin_calcium ) >= -101 );
+    CHECK( subject.vitamin_get( vitamin_vitC ) >= -101 );
+
+}
+
+// do vitamins you eat get processed correctly
+TEST_CASE( "vitamin_multivitamin", "[vitamins]" )
+{
+    Character &subject = get_avatar();
+    clear_avatar();
+    reset_time();
+    clear_stomach( subject );
+
+    set_all_vitamins( -100, subject );
+    REQUIRE( subject.vitamin_get( vitamin_vitC ) == -100 );
+    REQUIRE( subject.vitamin_get( vitamin_calcium ) == -100 );
+    REQUIRE( subject.vitamin_get( vitamin_iron ) == -100 );
+    item f( "debug_vitamins" );
+
+    subject.consume( f );
+
+    pass_time( subject, 1_days );
+
+    // check if something with 100% RDA will keep you at equilibrium
+    CHECK( subject.vitamin_get( vitamin_iron ) <= -99 );
+    CHECK( subject.vitamin_get( vitamin_calcium ) <= -99 );
+    CHECK( subject.vitamin_get( vitamin_vitC ) <= -99 );
+    CHECK( subject.vitamin_get( vitamin_iron ) >= -101 );
+    CHECK( subject.vitamin_get( vitamin_calcium ) >= -101 );
+    CHECK( subject.vitamin_get( vitamin_vitC ) >= -101 );
+
+}
+
+// do vitamins you eat get processed correctly
+TEST_CASE( "vitamin_daily", "[vitamins]" )
+{
+    Character &subject = get_avatar();
+    clear_avatar();
+    reset_time();
+    clear_stomach( subject );
+    subject.set_daily_health( 0 );
+
+    set_all_vitamins( -100, subject );
+    reset_daily_vitamins( subject );
+    REQUIRE( subject.vitamin_get( vitamin_vitC ) == -100 );
+    REQUIRE( subject.vitamin_get( vitamin_calcium ) == -100 );
+    REQUIRE( subject.vitamin_get( vitamin_iron ) == -100 );
+    REQUIRE( subject.get_daily_vitamin( vitamin_vitC ) == 0 );
+    REQUIRE( subject.get_daily_vitamin( vitamin_calcium ) == 0 );
+    REQUIRE( subject.get_daily_vitamin( vitamin_iron ) == 0 );
+    REQUIRE( subject.get_daily_health() == 0 );
+    item f( "debug_vitamins" );
+
+    subject.consume( f );
+
+    int hours = 0;
+    while( hours < 72 ) {
+        pass_time( subject, 1_hours );
+        hours++;
+        // check vitamins to see if health has updated
+        if( subject.get_daily_vitamin( vitamin_vitC ) == 0 &&
+            subject.get_daily_vitamin( vitamin_calcium ) == 0 &&
+            subject.get_daily_vitamin( vitamin_iron ) == 0 ) {
+            break;
+        }
+        //otherwise clean up any other health changes that may have happened
+        subject.set_daily_health( 0 );
+
+    }
+
+    // check if after a day health is up and vitamins are reset
+    CHECK( subject.get_daily_vitamin( vitamin_vitC ) == 0 );
+    CHECK( subject.get_daily_vitamin( vitamin_calcium ) == 0 );
+    CHECK( subject.get_daily_vitamin( vitamin_iron ) == 0 );
+    // get that vitamin health bonus is up by 6 with maybe a recent reduction on the same timecheck
+    CHECK( subject.get_daily_health() >= 5 );
+
+}
+
 // how long does it take to starve to death with extreme metabolism
 // player does not thirst or tire or require vitamins
 TEST_CASE( "starve_test_hunger3", "[starve][slow]" )
@@ -204,6 +356,8 @@ TEST_CASE( "all_nutrition_starve_test", "[starve][slow]" )
     CHECK( dummy.get_stored_kcal() >= dummy.get_healthy_kcal() );
     // We need to account for a day's worth of error since we're passing a day at a time and we are
     // close to 0 which is the max value for some vitamins
+
+    // This test could be a lot better bounds are really wide on it
     CHECK( dummy.vitamin_get( vitamin_vitC ) >= -100 );
     CHECK( dummy.vitamin_get( vitamin_iron ) >= -100 );
     CHECK( dummy.vitamin_get( vitamin_calcium ) >= -100 );

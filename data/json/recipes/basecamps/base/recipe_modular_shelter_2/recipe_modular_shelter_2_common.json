@@ -151,7 +151,7 @@
   {
     "type": "recipe",
     "result": "faction_base_modular_shelter_2_beds_standard_W3",
-    "description": "Let's furnish the west bedroom with regular a bed.",
+    "description": "Let's furnish the west bedroom with a regular bed.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,

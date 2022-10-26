@@ -43,15 +43,35 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
+    "result": "folding_solar_panel_v2",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "2 h",
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "welding_standard", 4 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_welding_basic", "fail_multiplier": 1.5 },
+      { "proficiency": "prof_welding" }
+    ],
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "solar_panel_v2", 1 ] ], [ [ "scrap", 2 ] ], [ [ "wire", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "reinforced_solar_panel_v2",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "fabrication",
-    "difficulty": 10,
+    "difficulty": 2,
     "time": "2 h",
     "reversible": true,
-    "book_learn": [ [ "textbook_robots", 8 ] ],
-    "using": [ [ "welding_standard", 5 ] ],
+    "autolearn": true,
+    "using": [ [ "welding_standard", 4 ] ],
     "proficiencies": [
       { "proficiency": "prof_elec_soldering" },
       { "proficiency": "prof_metalworking" },
@@ -59,7 +79,7 @@
       { "proficiency": "prof_welding" }
     ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "solar_panel_v2", 1 ] ], [ [ "reinforced_glass_pane", 1 ] ], [ [ "scrap", 2 ] ], [ [ "wire", 2 ] ] ]
+    "components": [ [ [ "solar_panel_v2", 1 ] ], [ [ "reinforced_glass_pane", 1 ] ], [ [ "scrap", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -109,8 +129,8 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "UPS_off",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_COMPONENTS",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "electronics",
     "difficulty": 5,
     "time": "45 m",
@@ -125,7 +145,7 @@
       { "proficiency": "prof_elec_circuits" },
       { "proficiency": "prof_elec_semiconductors" }
     ],
-    "components": [ [ [ "power_supply", 4 ] ], [ [ "amplifier", 3 ] ], [ [ "scrap", 4 ] ], [ [ "cable", 10 ] ] ]
+    "components": [ [ [ "power_supply", 4 ] ], [ [ "amplifier", 3 ] ], [ [ "scrap_aluminum", 4 ] ], [ [ "cable", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -415,11 +435,11 @@
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
     "skill_used": "electronics",
-    "difficulty": 10,
+    "difficulty": 9,
     "time": "50 m",
     "reversible": true,
     "decomp_learn": 5,
-    "book_learn": [ [ "textbook_robots", 8 ] ],
+    "book_learn": [ [ "manual_electronics", 7 ], [ "textbook_electronics", 6 ], [ "advanced_electronics", 6 ] ],
     "using": [ [ "soldering_standard", 35 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "proficiencies": [
@@ -427,20 +447,14 @@
       { "proficiency": "prof_elec_circuits" },
       { "proficiency": "prof_elec_semiconductors" }
     ],
-    "components": [
-      [ [ "power_supply", 2 ] ],
-      [ [ "amplifier", 2 ] ],
-      [ [ "solar_cell", 8 ] ],
-      [ [ "cable", 10 ] ],
-      [ [ "solar_panel", 1 ] ]
-    ]
+    "components": [ [ [ "power_supply", 2 ] ], [ [ "amplifier", 2 ] ], [ [ "solar_cell_v2", 12 ] ], [ [ "cable", 20 ] ] ]
   },
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "large_storage_battery",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_PARTS",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "electronics",
     "skills_required": [ "fabrication", 4 ],
     "difficulty": 3,
@@ -461,8 +475,8 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "medium_storage_battery",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_PARTS",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "electronics",
     "skills_required": [ "fabrication", 2 ],
     "difficulty": 3,
@@ -482,8 +496,8 @@
     "activity_level": "LIGHT_EXERCISE",
     "result": "storage_battery",
     "id_suffix": "from_medium",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_PARTS",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "electronics",
     "skills_required": [ "fabrication", 3 ],
     "difficulty": 3,
@@ -502,8 +516,8 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "storage_battery",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_PARTS",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "electronics",
     "skills_required": [ "fabrication", 3 ],
     "difficulty": 3,
@@ -565,8 +579,10 @@
     "difficulty": 4,
     "book_learn": [ [ "textbook_mechanics", 5 ] ],
     "time": "1 h",
+    "reversible": true,
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 2 } ],
     "components": [
+      [ [ "compressor", 1 ] ],
       [ [ "cu_pipe", 3 ] ],
       [ [ "motor_tiny", 1 ] ],
       [ [ "sheet_metal_small", 5 ] ],
@@ -591,8 +607,8 @@
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "light_minus_disposable_cell",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "chemistry",
     "skills_required": [ "electronics", 5 ],
     "difficulty": 4,
@@ -603,7 +619,7 @@
     "components": [
       [ [ "chem_manganese_dioxide", 29 ] ],
       [ [ "zinc_metal", 2 ] ],
-      [ [ "chem_potassium_hydroxide", 7 ] ],
+      [ [ "chem_potassium_hydroxide", 7 ], [ "lye_powder", 2 ] ],
       [ [ "duct_tape", 1 ] ],
       [ [ "water_clean", 1 ] ],
       [ [ "steel_chunk", 1 ], [ "scrap", 2 ] ]
@@ -613,8 +629,8 @@
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "light_disposable_cell",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "chemistry",
     "skills_required": [ "electronics", 5 ],
     "difficulty": 4,
@@ -625,7 +641,7 @@
     "components": [
       [ [ "chem_manganese_dioxide", 87 ] ],
       [ [ "zinc_metal", 6 ] ],
-      [ [ "chem_potassium_hydroxide", 20 ] ],
+      [ [ "chem_potassium_hydroxide", 20 ], [ "lye_powder", 4 ] ],
       [ [ "duct_tape", 5 ] ],
       [ [ "water_clean", 3 ] ],
       [ [ "steel_chunk", 3 ], [ "scrap", 6 ] ]
@@ -635,8 +651,8 @@
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "light_dry_cell",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "chemistry",
     "skills_required": [ "electronics", 2 ],
     "difficulty": 3,
@@ -656,8 +672,8 @@
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "medium_disposable_cell",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "chemistry",
     "skills_required": [ "electronics", 5 ],
     "difficulty": 4,
@@ -668,7 +684,7 @@
     "components": [
       [ [ "chem_manganese_dioxide", 348 ] ],
       [ [ "zinc_metal", 24 ] ],
-      [ [ "chem_potassium_hydroxide", 82 ] ],
+      [ [ "chem_potassium_hydroxide", 82 ], [ "lye_powder", 22 ] ],
       [ [ "duct_tape", 20 ] ],
       [ [ "water_clean", 12 ] ],
       [ [ "steel_chunk", 12 ], [ "scrap", 24 ] ]
@@ -678,8 +694,8 @@
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "medium_dry_cell",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "chemistry",
     "skills_required": [ "electronics", 2 ],
     "difficulty": 3,
@@ -699,8 +715,8 @@
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "heavy_disposable_cell",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "chemistry",
     "skills_required": [ "electronics", 5 ],
     "difficulty": 4,
@@ -711,7 +727,7 @@
     "components": [
       [ [ "chem_manganese_dioxide", 725 ] ],
       [ [ "zinc_metal", 50 ] ],
-      [ [ "chem_potassium_hydroxide", 170 ] ],
+      [ [ "chem_potassium_hydroxide", 170 ], [ "lye_powder", 34 ] ],
       [ [ "duct_tape", 40 ] ],
       [ [ "water_clean", 25 ] ],
       [ [ "steel_chunk", 25 ], [ "scrap", 50 ] ]
@@ -721,8 +737,8 @@
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "heavy_dry_cell",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "chemistry",
     "skills_required": [ "electronics", 2 ],
     "difficulty": 3,
@@ -737,6 +753,54 @@
       [ [ "duct_tape", 40 ] ],
       [ [ "steel_chunk", 25 ], [ "scrap", 50 ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "5l_methanol_tank",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "skill_used": "mechanics",
+    "time": "2 h 40 m",
+    "autolearn": true,
+    "tools": [ [ [ "syringe", -1 ] ] ],
+    "components": [ [ [ "5l_methanol_tank", 1 ] ], [ [ "chem_methanol", 5000 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "10l_methanol_tank",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "skill_used": "mechanics",
+    "time": "5 h 20 m",
+    "autolearn": true,
+    "tools": [ [ [ "syringe", -1 ] ] ],
+    "components": [ [ [ "10l_methanol_tank", 1 ] ], [ [ "chem_methanol", 10000 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "28l_methanol_tank",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "skill_used": "mechanics",
+    "time": "14 h 56 m",
+    "autolearn": true,
+    "tools": [ [ [ "syringe", -1 ] ] ],
+    "components": [ [ [ "28l_methanol_tank", 1 ] ], [ [ "chem_methanol", 28000 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "60l_methanol_tank",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "skill_used": "mechanics",
+    "time": "32 h",
+    "autolearn": true,
+    "tools": [ [ [ "syringe", -1 ] ] ],
+    "components": [ [ [ "60l_methanol_tank", 1 ] ], [ [ "chem_methanol", 60000 ] ] ]
   },
   {
     "result": "carbon_electrode",

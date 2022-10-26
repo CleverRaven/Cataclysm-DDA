@@ -31,7 +31,7 @@
     "death_drops": "default_zombie_death_drops",
     "death_function": { "message": "The %s's body leaks acid.", "effect": { "id": "death_acid", "hit_self": true } },
     "burn_into": "mon_zombie_scorched",
-    "upgrades": { "half_life": 10, "into": "mon_zombie_spitter" },
+    "upgrades": { "half_life": 30, "into": "mon_zombie_spitter" },
     "flags": [
       "SEES",
       "HEARS",
@@ -151,7 +151,7 @@
     "death_drops": "default_zombie_death_drops",
     "death_function": { "message": "The %s's body leaks acid.", "effect": { "id": "death_acid", "hit_self": true } },
     "burn_into": "mon_zombie_scorched",
-    "upgrades": { "half_life": 28, "into": "mon_zombie_corrosive" },
+    "upgrades": { "half_life": 42, "into": "mon_zombie_corrosive" },
     "flags": [
       "SEES",
       "HEARS",
@@ -203,7 +203,7 @@
     "death_drops": "default_zombie_death_drops",
     "death_function": { "message": "The %s's body leaks acid.", "effect": { "id": "death_acid", "hit_self": true } },
     "burn_into": "mon_zombie_scorched",
-    "upgrades": { "half_life": 8, "into": "mon_zombie_acidic" },
+    "upgrades": { "half_life": 30, "into": "mon_zombie_acidic" },
     "flags": [
       "SEES",
       "HEARS",
@@ -245,11 +245,13 @@
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 }, { "damage_type": "acid", "amount": 4 } ],
     "armor_elec": 1,
+    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_biochemistry" ],
     "dodge": 1,
     "harvest": "zombie",
     "special_attacks": [ { "type": "bite", "attack_upper": false, "cooldown": 5 }, [ "ACID_BARF", 10 ] ],
+    "death_drops": "mon_dog_death_drops",
     "death_function": { "message": "The %s's body leaks acid.", "effect": { "id": "death_acid", "hit_self": true } },
-    "upgrades": { "half_life": 12, "into": "mon_zombie_dog_brute_acidic" },
+    "upgrades": { "half_life": 30, "into": "mon_zombie_dog_brute_acidic" },
     "flags": [
       "SEES",
       "HEARS",

@@ -100,7 +100,7 @@
       { "id": "SAW_M", "level": 1 }
     ],
     "components": [
-      [ [ "reinforced_glass_sheet", 1 ] ],
+      [ [ "reinforced_glass_pane", 1 ] ],
       [ [ "sheet_metal_small", 2 ] ],
       [ [ "rock_wool_bat", 1 ] ],
       [ [ "element", 2 ] ],

@@ -346,14 +346,14 @@
     "time": "8 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "rag", 1 ] ], [ [ "2x4", 1 ], [ "stick", 1 ], [ "broom", 1 ], [ "mop", 1 ] ] ]
+    "components": [ [ [ "cotton_patchwork", 1 ] ], [ [ "2x4", 1 ], [ "stick", 1 ], [ "broom", 1 ], [ "mop", 1 ] ] ]
   },
   {
     "type": "recipe",
     "activity_level": "ACTIVE_EXERCISE",
     "result": "needle_curved",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_TOOLS",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 6,
     "time": "2 h",
@@ -615,6 +615,30 @@
     "components": [ [ [ "2x4", 2 ], [ "stick", 4 ] ] ]
   },
   {
+    "result": "bronze_hoe",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 h",
+    "autolearn": true,
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_redsmithing" },
+      { "proficiency": "prof_toolsmithing" }
+    ],
+    "using": [ [ "forging_standard", 2 ], [ "bronzesmithing_tools", 1 ] ],
+    "qualities": [ { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "casting_mold", -1 ] ] ],
+    "components": [
+      [ [ "leather", 2 ], [ "fur", 2 ], [ "cordage_short", 4, "LIST" ] ],
+      [ [ "scrap_bronze", 12 ] ],
+      [ [ "stick", 4 ], [ "2x4", 2 ] ]
+    ]
+  },
+  {
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
     "result": "ax",
@@ -801,7 +825,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "components": [ [ [ "filament", 100, "LIST" ] ], [ [ "rag", 2 ], [ "felt_patch", 2 ], [ "leather", 2 ], [ "fur", 2 ] ] ]
+    "components": [ [ [ "filament", 100, "LIST" ] ], [ [ "cotton_patchwork", 2 ], [ "felt_patch", 2 ], [ "leather", 2 ], [ "fur", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -1001,6 +1025,78 @@
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ] ]
   },
   {
+    "result": "bronze_sickle",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "5 h",
+    "autolearn": true,
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_redsmithing" },
+      { "proficiency": "prof_toolsmithing" }
+    ],
+    "using": [ [ "forging_standard", 2 ], [ "bronzesmithing_tools", 1 ] ],
+    "qualities": [ { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "casting_mold", -1 ] ] ],
+    "components": [
+      [ [ "leather", 1 ], [ "fur", 1 ], [ "cordage_short", 2, "LIST" ] ],
+      [ [ "scrap_bronze", 6 ] ],
+      [ [ "stick", 1 ], [ "2x4", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "result": "brush_axe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": "7 h 40 m",
+    "autolearn": true,
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_bladesmith" },
+      { "proficiency": "prof_carving", "time_multiplier": 1.5, "fail_multiplier": 1 }
+    ],
+    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_standard", 2 ] ],
+    "qualities": [ { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "hotcut", -1 ] ] ],
+    "components": [ [ [ "stick_long", 1 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
+  },
+  {
+    "result": "bronze_brush_axe",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "time": "4 h",
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_redsmithing" } ],
+    "using": [ [ "forging_standard", 2 ], [ "bronzesmithing_tools", 1 ] ],
+    "tools": [ [ [ "casting_mold", -1 ] ] ],
+    "qualities": [ { "id": "GRIND", "level": 2 } ],
+    "components": [
+      [
+        [ "cotton_patchwork", 1 ],
+        [ "felt_patch", 1 ],
+        [ "leather", 1 ],
+        [ "fur", 1 ],
+        [ "duct_tape", 50 ],
+        [ "cordage_short", 2, "LIST" ]
+      ],
+      [ [ "scrap_bronze", 10 ] ],
+      [ [ "stick_long", 1 ] ]
+    ]
+  },
+  {
     "type": "recipe",
     "result": "knife_chef",
     "activity_level": "BRISK_EXERCISE",
@@ -1151,6 +1247,30 @@
     "components": [ [ [ "2x4", 2 ], [ "stick", 4 ] ] ]
   },
   {
+    "result": "bronze_pickaxe",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "4 h",
+    "autolearn": true,
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_redsmithing" },
+      { "proficiency": "prof_toolsmithing" }
+    ],
+    "using": [ [ "forging_standard", 2 ], [ "bronzesmithing_tools", 1 ] ],
+    "qualities": [ { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "casting_mold", -1 ] ], [ [ "metalworking_tongs", -1 ] ] ],
+    "components": [
+      [ [ "leather", 2 ], [ "fur", 2 ], [ "cordage_short", 4, "LIST" ] ],
+      [ [ "scrap_bronze", 20 ] ],
+      [ [ "stick", 4 ], [ "2x4", 2 ] ]
+    ]
+  },
+  {
     "result": "crowbar",
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
@@ -1252,7 +1372,7 @@
     "components": [
       [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ],
       [ [ "filament", 100, "LIST" ] ],
-      [ [ "rag", 2 ], [ "felt_patch", 2 ], [ "leather", 2 ], [ "fur", 2 ] ]
+      [ [ "cotton_patchwork", 2 ], [ "felt_patch", 2 ], [ "leather", 2 ], [ "fur", 2 ] ]
     ]
   },
   {
@@ -1432,7 +1552,7 @@
     "components": [
       [ [ "stick", 6 ], [ "2x4", 6 ], [ "xlframe", 1 ], [ "frame_wood", 1 ] ],
       [ [ "rock_large", 4 ] ],
-      [ [ "foot_crank", 1 ] ],
+      [ [ "simple_crank", 1 ], [ "foot_crank", 1 ] ],
       [ [ "rope_6", 2 ], [ "rope_30", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ], [ "water_sewage", 1 ], [ "salt_water", 1 ], [ "saline", 5 ] ],
       [ [ "material_sand", 2 ], [ "material_gravel", 2 ] ]
@@ -1462,5 +1582,24 @@
       { "proficiency": "prof_toolsmithing" }
     ],
     "components": [ [ [ "2x4", 2 ], [ "stick", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "result": "simple_crank",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "3 h",
+    "autolearn": true,
+    "using": [ [ "forging_standard", 12 ], [ "steel_standard", 2 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_toolsmithing" }
+    ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 2 } ],
+    "tools": [ [ [ "tongs", -1 ] ] ]
   }
 ]

@@ -1,0 +1,51 @@
+# Les lignes de plus de 78 caractères seront automatiquement repliées
+# La ligne qui suit sert de référence
+##############################################################################
+<color_white>Rendez-nous visite:</color>
+
+<color_light_gray>*Accueil:</color>    <color_cyan>https://cataclysmdda.org</color>
+<color_light_gray>* Wiki:</color>        <color_cyan>https://cddawiki.chezzo.com/cdda_wiki</color>
+
+<color_white> Signalez des bugs, faites des suggestions et suivez le développement du jeu sur : </color>
+
+<color_light_gray>* Github: </color><color_light_cyan>https://github.com/CleverRaven/Cataclysm-DDA/issues</color>
+<color_light_gray>* e-mail: </color><color_light_cyan>kevin.granade@gmail.com</color>
+
+<color_white>Rejoignez la discussion sur les forums et chats:</color>
+
+<color_light_gray>* Discourse:                 </color><color_cyan>https://discourse.cataclysmdda.org/</color>
+<color_light_gray>* Discord:                   </color><color_cyan>https://discord.gg/jFEc7Yp</color>
+<color_light_gray>* IRC:                       </color><color_cyan>#CataclysmDDA sur libera.chat</color>
+<color_light_gray>* Reddit (non officiel):       </color><color_cyan>https://www.reddit.com/r/cataclysmdda/</color>
+
+<color_light_gray>D'autres liens utiles se trouvent sur notre page d'accueil.</color>
+
+<color_light_gray>En jeu vous pouvez accéder aux options via le menu principal (<color_yellow>Echap</color>).</color>
+
+<color_light_red>******************************************************************************</color>
+<color_light_red>    Avertissement pour versions expérimentales:</color>
+<color_light_red>******************************************************************************</color>
+
+<color_white>Q: </color><color_yellow>Qu'est ce qu'une version expérimentale?</color>
+
+<color_white>R: </color><color_light_gray>Le but des versions expérimentales est de servir de second contrôle qualité. C'est le bac à sable où le nouveau contenu est testé et son impact sur l'équilibre du jeu et l'experience du joueur est jugé après le contrôle qualité initial. Il est important que vous compreniez qu'en choisissant de jouer aux versions expérimentales les plus récentes vous participez au processus de développement en testant ces nouvelles additions au jeu, et que ceci probablement veut dire que cela vous exposera a du contenu incomplet, et aussi quelques bugs. </color>
+
+<color_white>Q: </color><color_yellow>Pourquoi les versions expérimentales existent-elles?</color>
+
+<color_white>R: </color><color_light_gray>Vous pouvez considérer les versions expérimentales comme si elles étaient une version alpha/béta de CDDA - les bugs et le contenu inachevé en sont une partie intégrale.  Dû au fait que le jeu et en développement continu, les versions expérimentales sont en constant renouvellement et ce renouvellement peut souvent casser une partie du jeu, ceci étant probablement réparé très vite. Les versions expérimentales sont un bac à sable où les développeurs du jeu effectuent une grande partie de leur travail de détection de bugs et d'améliorer les ébauches de leurs additions au projet. Ces additions peuvent être petites ou gigantesques, et les versions expérimentales servent à tester si elles fonctionnent comme prévu, ne compromettent pas le stabilité du jeu, et si elles ne détruisent pas l'expérience, l'ambiance ou l'équilibre du jeu. De ce fait, la stabilité du jeu, l'expérience, l'ambiance ou l'équilibre du jeu ne peuvent pas être garanties sur les versions expérimentales, et vous pouvez même assumer que la plupart de ce qui est présent dans une version expérimentale est susceptible de changer d'ici la prochaine.</color>
+
+<color_white>Q: </color><color_yellow>Les versions expérimentales sont-elles assez stables pour jouer au jeu dessus?</color>
+
+<color_white>R: </color><color_light_gray>Oui.  Les versions expérimentales sont normalement assez stable pour garder le jeu jouable, mais beaucoup d'aspects du jeu en cours de développement pourraient être décevantes dû au fait qu'ils sont toujours en cours d'implémentation et donc probablement inachevés, ceci pourrait causer des bugs mineurs et en cas exceptionel, des bugs assez graves pour faire crasher le jeu ou même corrompre des sauvegardes.  Ceci est bien sûr extremement rare, mais CDDA est un jeu très complexe et open source, donc il est possible de temps à autre qu'une addition au jeu mal codée glisse a travers notre contrôle qualité et que le défaut ne soit détecté, et débugé, qu'après qu'il ait été incorporé à une nouvelle version expérimentale. Ces erreurs sont la raison pour laquelle nous avons une version stable et des versions expérimentales.</color>
+
+<color_white>Q: </color><color_yellow>Devrais-je utiliser les versions expérimentales, ou rester sur la version stable?</color>
+
+<color_white>R: </color><color_light_gray>Votre récompense en échange du risque de corruption de sauvegarde ou d'experience ruinée par un aspect du jeu mal implémentée des versions expérimentales et l’accès qu'elles vous offrent au tout nouveau contenu tout juste sorti de développement. Le choix entre stable et expérimentale est entièrement le votre. Mais tout problème que vous pouvez avoir avec le jeu et votre responsabilité. Veuillez sauvegarder régulièrement et faire attention à ce que vous faites dans le jeu. De temps en temps il peut être judicieux d'attendre quelque jours entre vos mises à jour expérimentales, just au cas où un bug majeur c'est manifesté avant d'être rapidement neutralisé.</color>
+
+<color_white>Q: </color><color_yellow>Devrais-je être au courant d'autre chose?</color>
+
+<color_white>R: </color><color_light_gray>Veuillez vous rappeler que tout ce que vous voyez dans une version expérimentale est susceptible de changer d'ici la prochaine.  Touts les aspects du jeu, peu importe leur ordre de séniorité, sont considérés susceptibles d'être améliorés, supprimés, changés ou remplacés au cours du processus de développement. Comme précédemment dit, nous ne pouvons pas garantir que ceci n'aurais pas d'effet sur votre expérience de jeu et sur sa stabilité.</color>
+
+<color_white>Q: </color><color_yellow>Et si je trouve le risque de jouer aux builds expérimentaux bien trop grand?</color>
+
+<color_white>R: </color><color_light_gray>Si vous ne voulez rien risquer, il serait judicieux pour vous de jouer sur la version stable. Si vous êtes disposé(e) à prendre plus de risques, les nouvelles additions au jeu des versions expérimentales sont disponibles pour vous, et vous aiderez aussi le processus de développement, ou vous pourrez aider en signalant des bugs, en faisant des suggestions, ou même, si vous vous sentez aptes, contribuer au jeu vous même. Bonne chance.</color>

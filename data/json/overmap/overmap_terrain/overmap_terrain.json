@@ -9,6 +9,14 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "unexplored",
+    "name": "Unexplored",
+    "sym": "#",
+    "color": "dark_gray",
+    "flags": [ "NO_ROTATE", "SHOULD_NOT_SPAWN" ]
+  },
+  {
+    "type": "overmap_terrain",
     "abstract": "generic_city_building_no_sidewalk",
     "name": "city building",
     "sym": "^",
@@ -41,31 +49,6 @@
     "color": "dark_gray",
     "see_cost": 5,
     "flags": [ "NO_ROTATE" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [
-      "park",
-      "park_2",
-      "park_3",
-      "park_4",
-      "park_5",
-      "park_6",
-      "park_7",
-      "playground",
-      "playground_1",
-      "dog_park",
-      "volleyball_court",
-      "tennis_court",
-      "baskeball_court"
-    ],
-    "name": "park",
-    "sym": "O",
-    "color": "green",
-    "see_cost": 2,
-    "extras": "build",
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -169,21 +152,42 @@
     "name": "field",
     "sym": ".",
     "color": "brown",
+    "looks_like": "field",
     "see_cost": 1,
     "flags": [ "NO_ROTATE" ]
   },
   {
     "type": "overmap_terrain",
-    "id": [ "special_forest", "special_forest_thick" ],
+    "id": "special_forest",
     "name": "forest",
     "sym": "F",
     "color": "green",
+    "looks_like": "forest",
     "see_cost": 1,
     "flags": [ "NO_ROTATE" ]
   },
   {
     "type": "overmap_terrain",
-    "id": "riverside_dwelling",
+    "id": "special_forest_thick",
+    "name": "forest",
+    "sym": "F",
+    "color": "green",
+    "looks_like": "forest_thick",
+    "see_cost": 1,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "riverside_dwelling",
+      "riverside_dwelling1",
+      "riverside_dwelling2",
+      "riverside_dwelling3",
+      "riverside_dwelling_roof",
+      "riverside_dwelling1_roof",
+      "riverside_dwelling2_roof",
+      "riverside_dwelling3_roof"
+    ],
     "name": "riverside dwelling",
     "sym": "+",
     "color": "i_yellow",
@@ -268,13 +272,33 @@
       "cabin_roof_5",
       "cabin_roof_6",
       "cabin_roof_7",
-      "cabin_roof_lapin"
+      "cabin_roof_lapin",
+      "bandit_cabin_roof"
     ],
     "name": "cabin roof",
     "sym": "C",
     "color": "i_green",
     "see_cost": 5,
     "extras": "build"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "cabin_lakeside", "cabin_lakeside1", "cabin_lakeside2", "cabin_lakeside3", "cabin_lakeside4", "cabin_lakeside5" ],
+    "name": "lakeside cabin",
+    "copy-from": "cabin"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "cabin_lakeside_roof",
+      "cabin_lakeside1_roof",
+      "cabin_lakeside2_roof",
+      "cabin_lakeside3_roof",
+      "cabin_lakeside4_roof",
+      "cabin_lakeside5_roof"
+    ],
+    "name": "lakeside cabin roof",
+    "copy-from": "cabin_roof"
   },
   {
     "type": "overmap_terrain",
@@ -444,7 +468,16 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "bandit_camp_1", "bandit_camp_2", "bandit_camp_3", "bandit_camp_4" ],
+    "id": [
+      "bandit_camp_1",
+      "bandit_camp_2",
+      "bandit_camp_3",
+      "bandit_camp_4",
+      "bandit_camp_1_roof",
+      "bandit_camp_2_roof",
+      "bandit_camp_3_roof",
+      "bandit_camp_4_roof"
+    ],
     "name": "wooden fort",
     "sym": "+",
     "color": "brown",
@@ -609,7 +642,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "bandit_garage_1", "bandit_garage_2" ],
+    "id": [ "bandit_garage_1", "bandit_garage_2", "bandit_garage_1_roof", "bandit_garage_2_roof" ],
     "name": "garage",
     "sym": "O",
     "color": "white",
@@ -750,7 +783,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "airliner_2b", "airliner_2b_1", "airliner_2b_-1" ],
+    "id": [ "airliner_2b", "airliner_2b_1", "airliner_2b_-1", "airliner_2c_-1" ],
     "name": "crashed airliner",
     "sym": "A",
     "color": "red",
@@ -762,15 +795,6 @@
     "name": "open air",
     "sym": ".",
     "color": "blue",
-    "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "airliner_2c_-1",
-    "name": "solid rock",
-    "looks_like": "empty_rock",
-    "sym": "%",
-    "color": "dark_gray",
     "see_cost": 5
   },
   {
@@ -897,6 +921,61 @@
     "looks_like": "cave_underground",
     "sym": "0",
     "color": "light_gray",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "chemical_lab_ocu", "chemical_lab_roof_ocu" ],
+    "name": "small cabin",
+    "sym": "C",
+    "color": "i_green",
+    "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "smallscrapyard_ocu" ],
+    "name": "scrap yard",
+    "sym": "s",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "lumbermill_0_0_ocu", "lumbermill_0_1_ocu", "lumbermill_1_0_ocu", "lumbermill_1_1_ocu" ],
+    "name": "lumbermill",
+    "sym": "L",
+    "color": "i_green",
+    "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "pagan_cult_enter",
+      "pagan_cult_right_corner",
+      "pagan_cult_right_corner_up",
+      "pagan_cult_left_corner",
+      "pagan_cult_left_corner_up",
+      "pagan_cult_long_wall"
+    ],
+    "name": "wall",
+    "sym": "W",
+    "color": "brown",
+    "see_cost": 5,
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "pagan_cult_longhouse",
+    "name": "longhouse",
+    "sym": "O",
+    "color": "brown",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "pagan_cult_henge",
+    "name": "henge",
+    "sym": "^",
+    "color": "brown",
     "see_cost": 5
   }
 ]

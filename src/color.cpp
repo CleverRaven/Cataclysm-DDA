@@ -7,6 +7,9 @@
 #include <utility>
 #include <vector>
 
+#include <ghc/fs_std_fwd.hpp>
+
+#include "cata_path.h"
 #include "cata_utility.h"
 #include "cursesdef.h"
 #include "debug.h"
@@ -52,7 +55,7 @@ void color_manager::finalize()
         }
     };
 
-    for( auto &entry : color_array ) {
+    for( color_manager::color_struct &entry : color_array ) {
         entry.invert = get( entry.invert_id );
 
         if( !entry.name_custom.empty() ) {
@@ -73,7 +76,7 @@ void color_manager::finalize()
     }
 
     // Highlights in a next run, to make sure custom colors are set
-    for( auto &entry : color_array ) {
+    for( color_manager::color_struct &entry : color_array ) {
         const std::string my_name = get_name( entry.color );
         const std::string root = my_name.substr( 2, my_name.length() - 2 );
         const size_t underscore_num = std::count( root.begin(), root.end(), '_' ) -
@@ -124,7 +127,7 @@ color_id color_manager::color_to_id( const nc_color &color ) const
     }
 
     // Optimally this shouldn't happen, but allow for now
-    for( const auto &entry : color_array ) {
+    for( const color_manager::color_struct &entry : color_array ) {
         if( entry.color == color ) {
             debugmsg( "Couldn't find color %d", color.operator int() );
             return entry.col_id;
@@ -475,7 +478,7 @@ void init_colors()
     init_pair( 71, cyan,       cyan );
 
     all_colors.load_default();
-    all_colors.load_custom();
+    all_colors.load_custom( {} );
 
     // The short color codes (e.g. "br") are intentionally untranslatable.
     color_by_string_map = {
@@ -559,7 +562,10 @@ nc_color color_from_string( const std::string &color,
         new_color = "c_" + new_color;
     }
 
-    const std::pair<std::string, std::string> pSearch[2] = { { "light_", "lt" }, { "dark_", "dk" } };
+    const std::array<std::pair<std::string, std::string>, 2> pSearch = { {
+            { "light_", "lt" }, { "dark_", "dk" }
+        }
+    };
     for( const auto &i : pSearch ) {
         size_t pos = 0;
         while( ( pos = new_color.find( i.second, pos ) ) != std::string::npos ) {
@@ -606,7 +612,10 @@ nc_color bgcolor_from_string( const std::string &color )
 
     std::string new_color = "i_" + color;
 
-    const std::pair<std::string, std::string> pSearch[2] = { { "light_", "lt" }, { "dark_", "dk" } };
+    const std::array<std::pair<std::string, std::string>, 2> pSearch = { {
+            { "light_", "lt" }, { "dark_", "dk" }
+        }
+    };
     for( const auto &i : pSearch ) {
         size_t pos = 0;
         while( ( pos = new_color.find( i.second, pos ) ) != std::string::npos ) {
@@ -657,7 +666,20 @@ std::string get_tag_from_color( const nc_color &color )
 
 std::string colorize( const std::string &text, const nc_color &color )
 {
-    return get_tag_from_color( color ) + text + "</color>";
+    const std::string tag = get_tag_from_color( color );
+    size_t strpos = text.find( '\n' );
+    if( strpos == std::string::npos ) {
+        return tag + text + "</color>";
+    }
+
+    size_t prevpos = 0;
+    std::string ret;
+    while( ( strpos = text.find( '\n', prevpos ) ) != std::string::npos ) {
+        ret += tag + text.substr( prevpos, strpos - prevpos ) + "</color>\n";
+        prevpos = strpos + 1;
+    }
+    ret += tag + text.substr( prevpos, text.size() - prevpos ) + "</color>";
+    return ret;
 }
 
 std::string colorize( const translation &text, const nc_color &color )
@@ -695,7 +717,7 @@ void color_manager::clear()
 {
     name_map.clear();
     inverted_map.clear();
-    for( auto &entry : color_array ) {
+    for( color_manager::color_struct &entry : color_array ) {
         entry.name.clear();
         entry.name_custom.clear();
         entry.name_invert_custom.clear();
@@ -709,18 +731,21 @@ static void draw_header( const catacurses::window &w )
                             _( "<R>emove custom color" ) ) + 2;
     tmpx += shortcut_print( w, point( tmpx, 0 ), c_white, c_light_green,
                             _( "<Arrow Keys> To navigate" ) ) + 2;
-    tmpx += shortcut_print( w, point( tmpx, 0 ), c_white, c_light_green, _( "<Enter>-Edit" ) ) + 2;
-    shortcut_print( w, point( tmpx, 0 ), c_white, c_light_green, _( "Load <T>emplate" ) );
+    shortcut_print( w, point( tmpx, 0 ), c_white, c_light_green, _( "<Enter>-Edit" ) );
+    tmpx = 0;
+    tmpx += shortcut_print( w, point( tmpx, 1 ), c_white, c_light_green,
+                            _( "Load a <C>olor theme" ) ) + 2;
+    shortcut_print( w, point( tmpx, 1 ), c_white, c_light_green, _( "Load <T>emplate" ) );
 
     // NOLINTNEXTLINE(cata-use-named-point-constants)
-    mvwprintz( w, point( 0, 1 ), c_white, _( "Some color changes may require a restart." ) );
+    mvwprintz( w, point( 0, 2 ), c_white, _( "Some color changes may require a restart." ) );
 
-    mvwhline( w, point( 0, 2 ), LINE_OXOX, getmaxx( w ) ); // Draw line under header
-    mvwputch( w, point( 48, 2 ), BORDER_COLOR, LINE_OXXX ); //^|^
+    mvwhline( w, point( 0, 3 ), LINE_OXOX, getmaxx( w ) ); // Draw line under header
+    mvwputch( w, point( 48, 3 ), BORDER_COLOR, LINE_OXXX ); //^|^
 
-    mvwprintz( w, point( 3, 3 ), c_white, _( "Colorname" ) );
-    mvwprintz( w, point( 21, 3 ), c_white, _( "Normal" ) );
-    mvwprintz( w, point( 52, 3 ), c_white, _( "Invert" ) );
+    mvwprintz( w, point( 3, 4 ), c_white, _( "Colorname" ) );
+    mvwprintz( w, point( 21, 4 ), c_white, _( "Normal" ) );
+    mvwprintz( w, point( 52, 4 ), c_white, _( "Invert" ) );
 
     wnoutrefresh( w );
 }
@@ -778,6 +803,7 @@ void color_manager::show_gui()
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "REMOVE_CUSTOM" );
     ctxt.register_action( "LOAD_TEMPLATE" );
+    ctxt.register_action( "LOAD_BASE_COLORS" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
     std::map<std::string, color_struct> name_color_map;
@@ -792,7 +818,7 @@ void color_manager::show_gui()
         mvwputch( w_colors_border, point( getmaxx( w_colors_border ) - 1, 3 ), BORDER_COLOR,
                   LINE_XOXX ); // -|
 
-        for( auto &iCol : vLines ) {
+        for( int &iCol : vLines ) {
             if( iCol > -1 ) {
                 mvwputch( w_colors_border, point( iCol + 1, FULL_SCREEN_HEIGHT - 1 ), BORDER_COLOR,
                           LINE_XXOX ); // _|_
@@ -808,7 +834,7 @@ void color_manager::show_gui()
             for( int j = 0; j < 79; j++ ) {
                 mvwputch( w_colors, point( j, i ), c_black, ' ' );
 
-                for( auto &iCol : vLines ) {
+                for( int &iCol : vLines ) {
                     if( iCol == j ) {
                         mvwputch( w_colors, point( j, i ), BORDER_COLOR, LINE_XOXO );
                     }
@@ -828,7 +854,7 @@ void color_manager::show_gui()
         for( int i = iStartPos; iter != name_color_map.end(); ++iter, ++i ) {
             if( i >= iStartPos &&
                 i < iStartPos + ( iContentHeight > iMaxColors ? iMaxColors : iContentHeight ) ) {
-                auto &entry = iter->second;
+                color_manager::color_struct &entry = iter->second;
 
                 if( iCurrentLine == i ) {
                     mvwprintz( w_colors, point( vLines[iCurrentCol - 1] + 2, i - iStartPos ), c_yellow, ">" );
@@ -900,7 +926,7 @@ void color_manager::show_gui()
                 iCurrentCol = 1;
             }
         } else if( action == "REMOVE_CUSTOM" ) {
-            auto &entry = std::next( name_color_map.begin(), iCurrentLine )->second;
+            color_manager::color_struct &entry = std::next( name_color_map.begin(), iCurrentLine )->second;
 
             if( iCurrentCol == 1 && !entry.name_custom.empty() ) {
                 bStuffChanged = true;
@@ -926,8 +952,8 @@ void color_manager::show_gui()
 
                 ui_templates.text = _( "Color templates:" );
 
-                for( const auto &filename : vFiles ) {
-                    ui_templates.addentry( filename.substr( filename.find_last_of( '/' ) + 1 ) );
+                for( const cata_path &file : vFiles ) {
+                    ui_templates.addentry( file.get_relative_path().filename().generic_u8string() );
                 }
 
                 ui_templates.query();
@@ -949,6 +975,28 @@ void color_manager::show_gui()
 
             finalize(); // Need to recalculate caches
 
+        } else if( action == "LOAD_BASE_COLORS" ) {
+            auto vFiles = get_files_from_path( ".json", PATH_INFO::color_themes(), false, true );
+
+            if( !vFiles.empty() ) {
+                uilist ui_templates;
+                ui_templates.w_y_setup = [&]( int ) -> int {
+                    return iHeaderHeight + 1 + calc_offset_y();
+                };
+                ui_templates.w_height_setup = 18;
+
+                ui_templates.text = _( "Color themes:" );
+
+                for( const cata_path &filename : vFiles ) {
+                    ui_templates.addentry( filename.get_relative_path().filename().generic_u8string() );
+                }
+
+                ui_templates.query();
+
+                if( ui_templates.ret >= 0 && static_cast<size_t>( ui_templates.ret ) < vFiles.size() ) {
+                    copy_file( vFiles[ui_templates.ret], PATH_INFO::base_colors() );
+                }
+            }
         } else if( action == "CONFIRM" ) {
             uilist ui_colors;
             ui_colors.w_y_setup = [&]( int ) -> int {
@@ -956,7 +1004,8 @@ void color_manager::show_gui()
             };
             ui_colors.w_height_setup = 18;
 
-            const auto &entry = std::next( name_color_map.begin(), iCurrentLine )->second;
+            const color_manager::color_struct &entry = std::next( name_color_map.begin(),
+                    iCurrentLine )->second;
 
             std::string sColorType = _( "Normal" );
             std::string sSelected = entry.name_custom;
@@ -998,7 +1047,7 @@ void color_manager::show_gui()
                 auto iter = name_color_map.begin();
                 std::advance( iter, ui_colors.ret );
 
-                auto &entry = std::next( name_color_map.begin(), iCurrentLine )->second;
+                color_manager::color_struct &entry = std::next( name_color_map.begin(), iCurrentLine )->second;
 
                 if( iCurrentCol == 1 ) {
                     entry.name_custom = iter->first;
@@ -1025,25 +1074,26 @@ void color_manager::show_gui()
 
         clear();
         load_default();
-        load_custom();
+        load_custom( {} );
     }
 }
 
-bool color_manager::save_custom()
+bool color_manager::save_custom() const
 {
-    const auto savefile = PATH_INFO::custom_colors();
+    const cata_path savefile = PATH_INFO::custom_colors();
 
-    return write_to_file( savefile, [&]( std::ostream & fout ) {
+    return write_to_file( savefile.generic_u8string(), [&](
+    std::ostream & fout ) {
         JsonOut jsout( fout );
         serialize( jsout );
     }, _( "custom colors" ) );
 }
 
-void color_manager::load_custom( const std::string &sPath )
+void color_manager::load_custom( const cata_path &sPath )
 {
-    const auto file = sPath.empty() ? PATH_INFO::custom_colors() : sPath;
+    const cata_path file = sPath.empty() ? PATH_INFO::custom_colors() : sPath;
 
-    read_from_file_optional_json( file, [this]( JsonIn & jsonin ) {
+    read_from_file_optional_json( file, [this]( const JsonArray & jsonin ) {
         deserialize( jsonin );
     } );
     finalize(); // Need to finalize regardless of success
@@ -1067,12 +1117,9 @@ void color_manager::serialize( JsonOut &json ) const
     json.end_array();
 }
 
-void color_manager::deserialize( JsonIn &jsin )
+void color_manager::deserialize( const JsonArray &ja )
 {
-    jsin.start_array();
-    while( !jsin.end_array() ) {
-        JsonObject joColors = jsin.get_object();
-
+    for( JsonObject joColors : ja ) {
         const std::string name = joColors.get_string( "name" );
         const std::string name_custom = joColors.get_string( "custom" );
         const std::string name_invert_custom = joColors.get_string( "invertcustom" );

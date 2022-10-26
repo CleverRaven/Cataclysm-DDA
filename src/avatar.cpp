@@ -54,6 +54,7 @@
 #include "morale.h"
 #include "morale_types.h"
 #include "move_mode.h"
+#include "mutation.h"
 #include "npc.h"
 #include "optional.h"
 #include "options.h"
@@ -73,6 +74,7 @@
 #include "talker.h"
 #include "talker_avatar.h"
 #include "translations.h"
+#include "timed_event.h"
 #include "trap.h"
 #include "type_id.h"
 #include "ui.h"
@@ -106,6 +108,7 @@ static const itype_id itype_guidebook( "guidebook" );
 static const itype_id itype_mut_longpull( "mut_longpull" );
 
 static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
+static const json_character_flag json_flag_WEBBED_HANDS( "WEBBED_HANDS" );
 
 static const move_mode_id move_mode_crouch( "crouch" );
 static const move_mode_id move_mode_prone( "prone" );
@@ -129,11 +132,11 @@ static const trait_id trait_M_SKIN3( "M_SKIN3" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
 static const trait_id trait_SHELL2( "SHELL2" );
+static const trait_id trait_SHELL3( "SHELL3" );
 static const trait_id trait_STIMBOOST( "STIMBOOST" );
 static const trait_id trait_THICK_SCALES( "THICK_SCALES" );
 static const trait_id trait_THRESH_SPIDER( "THRESH_SPIDER" );
 static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
-static const trait_id trait_WEBBED( "WEBBED" );
 static const trait_id trait_WEB_SPINNER( "WEB_SPINNER" );
 static const trait_id trait_WEB_WALKER( "WEB_WALKER" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
@@ -200,7 +203,7 @@ void avatar::control_npc_menu()
     std::vector<shared_ptr_fast<npc>> followers;
     uilist charmenu;
     int charnum = 0;
-    for( const auto &elem : g->get_follower_list() ) {
+    for( const character_id &elem : g->get_follower_list() ) {
         shared_ptr_fast<npc> follower = overmap_buffer.find_npc( elem );
         if( follower ) {
             followers.emplace_back( follower );
@@ -218,7 +221,7 @@ void avatar::control_npc_menu()
     get_avatar().control_npc( *followers.at( charmenu.ret ) );
 }
 
-void avatar::longpull( const std::string name )
+void avatar::longpull( const std::string &name )
 {
     item wtmp( itype_mut_longpull );
     g->temp_exit_fullscreen();
@@ -236,8 +239,11 @@ void avatar::toggle_map_memory()
     show_map_memory = !show_map_memory;
 }
 
-bool avatar::should_show_map_memory()
+bool avatar::should_show_map_memory() const
 {
+    if( get_timed_events().get( timed_event_type::OVERRIDE_PLACE ) ) {
+        return false;
+    }
     return show_map_memory;
 }
 
@@ -359,6 +365,23 @@ void avatar::on_mission_finished( mission &cur_mission )
     }
 }
 
+void avatar::remove_active_mission( mission &cur_mission )
+{
+    const auto iter = std::find( active_missions.begin(), active_missions.end(), &cur_mission );
+    if( iter == active_missions.end() ) {
+        debugmsg( "removed mission %d was not in the active_missions list", cur_mission.get_id() );
+    } else {
+        active_missions.erase( iter );
+    }
+    if( &cur_mission == active_mission ) {
+        if( active_missions.empty() ) {
+            active_mission = nullptr;
+        } else {
+            active_mission = active_missions.front();
+        }
+    }
+}
+
 diary *avatar::get_avatar_diary()
 {
     if( a_diary == nullptr ) {
@@ -392,9 +415,9 @@ bool avatar::read( item_location &book, item_location ereader )
     }
 
     bool continuous = false;
-    const int time_taken = time_to_read( *book, *reader );
+    const time_duration time_taken = time_to_read( *book, *reader );
     add_msg_debug( debugmode::DF_ACT_READ, "avatar::read time_taken = %s",
-                   to_string_writable( time_duration::from_moves( time_taken ) ) );
+                   to_string_writable( time_taken ) );
 
     // If the player hasn't read this book before, skim it to get an idea of what's in it.
     if( !has_identified( book->typeId() ) ) {
@@ -406,7 +429,7 @@ bool avatar::read( item_location &book, item_location ereader )
         assign_activity(
             player_activity(
                 read_activity_actor(
-                    time_taken,
+                    to_moves<int>( time_taken ),
                     book,
                     ereader,
                     false
@@ -640,7 +663,7 @@ bool avatar::read( item_location &book, item_location ereader )
     assign_activity(
         player_activity(
             read_activity_actor(
-                time_taken,
+                to_moves<int>( time_taken ),
                 book,
                 ereader,
                 continuous,
@@ -707,7 +730,7 @@ void avatar::identify( const item &item )
         return;
     }
 
-    const auto &book = item; // alias
+    const ::item &book = item; // alias
     cata_assert( !has_identified( item.typeId() ) );
     items_identified.insert( item.typeId() );
     cata_assert( has_identified( item.typeId() ) );
@@ -741,16 +764,15 @@ void avatar::identify( const item &item )
         add_msg( m_info, _( "It would be easier to master if you'd have skill expertise in %s." ),
                  style_to_learn->primary_skill->name() );
         add_msg( m_info, _( "A training session with this book takes %s." ),
-                 to_string( time_duration::from_minutes( reading->time ) ) );
+                 to_string_clipped( reading->time ) );
     } else {
-        add_msg( m_info, n_gettext( "A chapter of this book takes %d minute to read.",
-                                    "A chapter of this book takes %d minutes to read.", reading->time ),
-                 reading->time );
+        add_msg( m_info, _( "A chapter of this book takes %s to read." ),
+                 to_string_clipped( reading->time ) );
     }
 
     std::vector<std::string> crafting_recipes;
     std::vector<std::string> practice_recipes;
-    for( const auto &elem : reading->recipes ) {
+    for( const islot_book::recipe_with_description_t &elem : reading->recipes ) {
         // If the player knows it, they recognize it even if it's not clearly stated.
         if( elem.is_hidden() && !knows_recipe( elem.recipe ) ) {
             continue;
@@ -840,6 +862,8 @@ void avatar::vomit()
 
 nc_color avatar::basic_symbol_color() const
 {
+    bool in_shell = has_active_mutation( trait_SHELL2 ) ||
+                    has_active_mutation( trait_SHELL3 );
     if( has_effect( effect_onfire ) ) {
         return c_red;
     }
@@ -849,7 +873,7 @@ nc_color avatar::basic_symbol_color() const
     if( has_effect( effect_boomered ) ) {
         return c_pink;
     }
-    if( has_active_mutation( trait_SHELL2 ) ) {
+    if( in_shell ) {
         return c_magenta;
     }
     if( underwater ) {
@@ -944,7 +968,7 @@ void avatar::reset_stats()
             add_miss_reason( _( "Your clothing restricts your insect arms." ), 1 );
         }
     }
-    if( has_trait( trait_WEBBED ) ) {
+    if( has_flag( json_flag_WEBBED_HANDS ) ) {
         add_miss_reason( _( "Your webbed hands get in the way." ), 1 );
     }
     if( has_trait( trait_ARACHNID_ARMS ) ) {
@@ -1046,7 +1070,7 @@ void avatar::reset_stats()
     }
     // Spider hair is basically a full-body set of whiskers, once you get the brain for it
     if( has_trait( trait_CHITIN_FUR3 ) ) {
-        static const bodypart_str_id parts[] {
+        static const std::array<bodypart_str_id, 5> parts {
             body_part_head, body_part_arm_r, body_part_arm_l,
             body_part_leg_r, body_part_leg_l
         };
@@ -1067,7 +1091,7 @@ void avatar::reset_stats()
     // Effects
     for( const auto &maps : *effects ) {
         for( const auto &i : maps.second ) {
-            const auto &it = i.second;
+            const effect &it = i.second;
             bool reduced = resists_effect( it );
             mod_str_bonus( it.get_mod( "STR", reduced ) );
             mod_dex_bonus( it.get_mod( "DEX", reduced ) );
@@ -1202,9 +1226,10 @@ void avatar::rebuild_aim_cache()
         base_angle = base_angle + 2 * pi;
     }
 
+    // todo: this is not the correct weapon when aiming with fake items
+    item *weapon = get_wielded_item() ? &*get_wielded_item() : &null_item_reference();
     // calc steadiness with player recoil (like they are taking a regular shot not careful etc.
-    float range = 3.0f - 2.8f * calc_steadiness( *this, &get_wielded_item(),
-                  last_target_pos.value(), recoil );
+    float range = 3.0f - 2.8f * calc_steadiness( *this, *weapon, last_target_pos.value(), recoil );
 
     // pin between pi and negative pi
     float upper_bound = base_angle + range;
@@ -1314,6 +1339,16 @@ void avatar::cycle_move_mode()
     }
 }
 
+void avatar::cycle_move_mode_reverse()
+{
+    const move_mode_id prev = current_movement_mode()->cycle_reverse();
+    set_movement_mode( prev );
+    // if a movemode is disabled then just cycle to the previous one
+    if( !movement_mode_is( prev ) ) {
+        set_movement_mode( prev->cycle_reverse() );
+    }
+}
+
 bool avatar::wield( item_location target )
 {
     return wield( *target, target.obtain_cost( *this ) );
@@ -1334,8 +1369,8 @@ bool avatar::wield( item &target, const int obtain_cost )
         return true;
     }
 
-    item &weapon = get_wielded_item();
-    if( weapon.has_item( target ) ) {
+    item_location weapon = get_wielded_item();
+    if( weapon && weapon->has_item( target ) ) {
         add_msg( m_info, _( "You need to put the bag away before trying to wield something from it." ) );
         return false;
     }
@@ -1344,7 +1379,7 @@ bool avatar::wield( item &target, const int obtain_cost )
         return false;
     }
 
-    bool combine_stacks = target.can_combine( weapon );
+    bool combine_stacks = weapon && target.can_combine( *weapon );
     if( !combine_stacks && !unwield() ) {
         return false;
     }
@@ -1371,28 +1406,30 @@ bool avatar::wield( item &target, const int obtain_cost )
     if( has_item( target ) ) {
         item removed = i_rem( &target );
         if( combine_stacks ) {
-            weapon.combine( removed );
+            weapon->combine( removed );
         } else {
             set_wielded_item( removed );
 
         }
     } else {
         if( combine_stacks ) {
-            weapon.combine( target );
+            weapon->combine( target );
         } else {
             set_wielded_item( target );
         }
     }
 
-    last_item = weapon.typeId();
+    // set_wielded_item invalidates the weapon item_location, so get it again
+    weapon = get_wielded_item();
+    last_item = weapon->typeId();
     recoil = MAX_RECOIL;
 
-    weapon.on_wield( *this );
+    weapon->on_wield( *this );
 
     get_event_bus().send<event_type::character_wields_item>( getID(), last_item );
 
-    inv->update_invlet( weapon );
-    inv->update_cache_with_item( weapon );
+    inv->update_invlet( *weapon );
+    inv->update_cache_with_item( *weapon );
 
     return true;
 }
@@ -1471,20 +1508,28 @@ void avatar::update_cardio_acc()
     // This function should be called once every 24 hours,
     // before the front of the calorie diary is reset for the next day.
 
-    // Daily gain or loss is the square root of the difference between
-    // current cardio fitness and the kcals spent in the previous 24 hours.
-    const int cardio_fit = get_cardiofit();
+    // Cardio goal is 1000 times the ratio of kcals spent versus bmr,
+    // giving a default of 1000 for no extra activity.
+    const int bmr = get_bmr();
     const int last_24h_kcal = calorie_diary.front().spent;
 
-    // If we burned kcals beyond our current fitness level, gain some cardio.
-    // Or, if we burned fewer kcals than current fitness, lose some cardio.
+    const int cardio_goal = ( last_24h_kcal * get_cardio_acc_base() ) / bmr;
+
+    // If cardio accumulator is below cardio goal, gain some cardio.
+    // Or, if cardio accumulator is above cardio goal, lose some cardio.
+    const int cardio_accum = get_cardio_acc();
     int adjustment = 0;
-    if( cardio_fit > last_24h_kcal ) {
-        adjustment = -std::sqrt( cardio_fit - last_24h_kcal );
-    } else if( last_24h_kcal > cardio_fit ) {
-        adjustment = std::sqrt( last_24h_kcal - cardio_fit );
+    if( cardio_accum > cardio_goal ) {
+        adjustment = -std::sqrt( cardio_accum - cardio_goal );
+    } else if( cardio_goal > cardio_accum ) {
+        adjustment = std::sqrt( cardio_goal - cardio_accum );
     }
-    set_cardio_acc( get_cardio_acc() + adjustment );
+
+    // Set a large sane upper limit to cardio fitness. This could be done
+    // asymptotically instead of as a sharp cutoff, but the gradual growth
+    // rate of cardio_acc should accomplish that naturally.
+    set_cardio_acc( clamp( cardio_accum + adjustment, get_cardio_acc_base(),
+                           get_cardio_acc_base() * 3 ) );
 }
 
 void avatar::advance_daily_calories()
@@ -1570,7 +1615,9 @@ void avatar::daily_calories::read_activity( const JsonObject &data )
     JsonObject jo = data.get_object( "activity" );
     for( const std::pair<const std::string, float> &member : activity_levels_map ) {
         int times;
-        jo.read( member.first, times );
+        if( !jo.read( member.first, times ) ) {
+            continue;
+        }
         activity_levels.at( member.second ) = times;
     }
 }
@@ -1697,8 +1744,8 @@ void avatar::add_random_hobby( std::vector<profession_id> &choices )
     hobbies.insert( &*hobby );
 
     // Add or remove traits from hobby
-    for( const trait_id &trait : hobby->get_locked_traits() ) {
-        toggle_trait( trait );
+    for( const trait_and_var &cur : hobby->get_locked_traits() ) {
+        toggle_trait( cur.trait );
     }
 }
 
@@ -1811,8 +1858,14 @@ bool character_martial_arts::pick_style( const avatar &you ) // Style selection 
 
     kmenu.selected = STYLE_OFFSET;
 
+    // +1 to keep "No Style" at top
+    std::sort( selectable_styles.begin() + 1, selectable_styles.end(),
+    []( const matype_id & a, const matype_id & b ) {
+        return localized_compare( a->name.translated(), b->name.translated() );
+    } );
+
     for( size_t i = 0; i < selectable_styles.size(); i++ ) {
-        const auto &style = selectable_styles[i].obj();
+        const martialart &style = selectable_styles[i].obj();
         //Check if this style is currently selected
         const bool selected = selectable_styles[i] == style_selected;
         std::string entry_text = style.name.translated();
@@ -1936,7 +1989,7 @@ void avatar::try_to_sleep( const time_duration &dur )
             }
         }
     }
-    if( has_active_mutation( trait_SHELL2 ) ) {
+    if( has_active_mutation( trait_SHELL2 ) || has_active_mutation( trait_SHELL3 ) ) {
         // Your shell's interior is a comfortable place to sleep.
         in_shell = true;
     }

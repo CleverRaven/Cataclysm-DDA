@@ -12,6 +12,7 @@
     "autolearn": true,
     "batch_time_factors": [ 80, 5 ],
     "flags": [ "BLIND_HARD" ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" } ],
     "qualities": [ { "id": "OVEN", "level": 1 } ],
     "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ] ], [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [ [ [ "wheat", 2 ], [ "buckwheat", 2 ], [ "barley", 2 ] ] ]
@@ -30,6 +31,7 @@
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
     "flags": [ "BLIND_HARD" ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" } ],
     "qualities": [ { "id": "OVEN", "level": 1 } ],
     "tools": [ [ [ "food_processor", 20 ] ], [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [ [ [ "wheat", 2 ], [ "buckwheat", 2 ], [ "barley", 2 ] ] ]
@@ -46,6 +48,7 @@
     "time": "30 m",
     "batch_time_factors": [ 50, 4 ],
     "book_learn": [ [ "family_cookbook", 3 ], [ "baking_book", 2 ], [ "cookbook", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_baking" }, { "proficiency": "prof_baking_desserts_1" } ],
     "qualities": [ { "id": "OVEN", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [

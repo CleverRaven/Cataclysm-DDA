@@ -16,6 +16,7 @@
 #include "filesystem.h"
 #include "input.h"
 #include "json.h"
+#include "json_loader.h"
 #include "monstergenerator.h"
 #include "mtype.h"
 #include "options.h"
@@ -413,7 +414,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
                     current_tab[line].category = Categories::HOSTILE_SPOTTED;
                 }
             } else if( column == COLUMN_ATTITUDE ) {
-                auto &attitude = current_tab[line].attitude;
+                Creature::Attitude &attitude = current_tab[line].attitude;
                 switch( attitude ) {
                     case Creature::Attitude::HOSTILE:
                         attitude = Creature::Attitude::NEUTRAL;
@@ -447,7 +448,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
                     current_tab[line].proximity = temp_option.value_as<int>();
                 }
             } else if( column == COLUMN_MOVEMENT_MODE ) {
-                auto &mode = current_tab[line].movement_mode;
+                safemode::MovementModes &mode = current_tab[line].movement_mode;
                 switch( mode ) {
                     case MovementModes::WALKING:
                         mode = MovementModes::DRIVING;
@@ -535,7 +536,7 @@ void safemode::test_pattern( const int tab_in, const int row_in )
     }
 
     //Loop through all monster mtypes
-    for( const auto &mtype : MonsterGenerator::generator().get_all_mtypes() ) {
+    for( const mtype &mtype : MonsterGenerator::generator().get_all_mtypes() ) {
         std::string creature_name = mtype.nname();
         if( wildcard_match( creature_name, temp_rules[row_in].rule ) ) {
             creature_list.push_back( creature_name );
@@ -672,7 +673,7 @@ void safemode::add_rule( const std::string &rule_in, const Creature::Attitude at
 
 bool safemode::has_rule( const std::string &rule_in, const Creature::Attitude attitude_in )
 {
-    for( auto &elem : character_rules ) {
+    for( safemode::rules_class &elem : character_rules ) {
         if( rule_in.length() == elem.rule.length()
             && ci_find_substr( rule_in, elem.rule ) != -1
             && elem.attitude == attitude_in ) {
@@ -721,7 +722,7 @@ void safemode::add_rules( const std::vector<rules_class> &rules_in )
             case Categories::HOSTILE_SPOTTED:
                 if( !rule.whitelist ) {
                     //Check include patterns against all monster mtypes
-                    for( const auto &mtype : MonsterGenerator::generator().get_all_mtypes() ) {
+                    for( const mtype &mtype : MonsterGenerator::generator().get_all_mtypes() ) {
                         set_rule( rule, mtype.nname(), rule_state::BLACKLISTED );
                     }
                 } else {
@@ -754,7 +755,7 @@ void safemode::set_rule( const rules_class &rule_in, const std::string &name_in,
             if( !rule_in.rule.empty() && rule_in.active && wildcard_match( name_in, rule_in.rule ) ) {
                 for( MovementModes mode : movement_modes ) {
                     if( rule_in.attitude == Creature::Attitude::ANY ) {
-                        for( auto &att : attitude_any ) {
+                        for( Creature::Attitude &att : attitude_any ) {
                             safemode_rules_hostile[name_in][static_cast<int>( mode )][static_cast<int>
                                     ( att )] = rule_state_class( rs_in,
                                                                  rule_in.proximity, Categories::HOSTILE_SPOTTED );
@@ -838,11 +839,11 @@ bool safemode::save_global()
 bool safemode::save( const bool is_character_in )
 {
     is_character = is_character_in;
-    auto file = PATH_INFO::safemode();
+    cata_path file = PATH_INFO::safemode();
 
     if( is_character ) {
-        file = PATH_INFO::player_base_save_path() + ".sfm.json";
-        if( !file_exist( PATH_INFO::player_base_save_path() + ".sav" ) ) {
+        file = PATH_INFO::player_base_save_path_path() + ".sfm.json";
+        if( !file_exist( PATH_INFO::player_base_save_path_path() + ".sav" ) ) {
             return true; //Character not saved yet.
         }
     }
@@ -872,17 +873,18 @@ void safemode::load( const bool is_character_in )
     is_character = is_character_in;
 
     cata::ifstream fin;
-    std::string file = PATH_INFO::safemode();
+    cata_path file = PATH_INFO::safemode();
     if( is_character ) {
-        file = PATH_INFO::player_base_save_path() + ".sfm.json";
+        file = PATH_INFO::player_base_save_path_path() + ".sfm.json";
     }
 
-    fin.open( fs::u8path( file ), std::ifstream::in | std::ifstream::binary );
+    fs::path file_path = file.get_unrelative_path();
+    fin.open( file_path, std::ifstream::in | std::ifstream::binary );
 
     if( fin.good() ) {
         try {
-            JsonIn jsin( fin );
-            deserialize( jsin );
+            JsonValue jsin = json_loader::from_path( file );
+            deserialize( jsin.get_array() );
         } catch( const JsonError &e ) {
             debugmsg( "Error while loading safemode settings: %s", e.what() );
         }
@@ -914,15 +916,12 @@ void safemode::serialize( JsonOut &json ) const
     json.end_array();
 }
 
-void safemode::deserialize( JsonIn &jsin )
+void safemode::deserialize( const JsonArray &ja )
 {
     auto &temp_rules = ( is_character ) ? character_rules : global_rules;
     temp_rules.clear();
 
-    jsin.start_array();
-    while( !jsin.end_array() ) {
-        JsonObject jo = jsin.get_object();
-
+    for( JsonObject jo : ja ) {
         const std::string rule = jo.get_string( "rule" );
         const bool active = jo.get_bool( "active" );
         const bool whitelist = jo.get_bool( "whitelist" );

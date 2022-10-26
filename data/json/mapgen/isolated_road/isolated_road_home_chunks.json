@@ -94,10 +94,10 @@
       "fill_ter": "t_floor",
       "rows": [
         "G%%%%%%%%%%%%%%%%%%%%%..",
-        "G%..............b....%..",
+        "G%.....q........b....%..",
         "G%...................H..",
         "G%...||||||vv|| |####|..",
-        "G%...|rrr|fouu|   q  #..",
+        "G%...|rrr|fouu|      #..",
         "G%...vr  + Q S|      #..",
         "G%...|rrr|cc u|+|||  #..",
         "G%._________    1n|7 #..",
@@ -137,7 +137,7 @@
     "method": "json",
     "om_terrain": [ "isolated_road_field_0" ],
     "object": {
-      "fill_ter": "t_grass",
+      "fill_ter": "t_region_groundcover",
       "rows": [
         "GGGGGGGGGjjjjjjjGGGGGGGG",
         "G........ddddddd........",
@@ -164,7 +164,7 @@
         "G.......................",
         "G......................."
       ],
-      "terrain": { "G": "t_pit_spiked", "j": "t_pit_covered", "d": "t_dirt" },
+      "terrain": { "G": "t_pit_spiked", "j": "t_pit_covered", "d": "t_region_soil" },
       "place_vehicles": [ { "vehicle": "pickup", "chance": 100, "fuel": 50, "rotation": 180, "status": 0, "x": 4, "y": 10 } ],
       "place_monster": [
         { "monster": "mon_turret_artisans", "x": 8, "y": 1, "chance": 100 },
@@ -181,7 +181,7 @@
     "method": "json",
     "om_terrain": [ "isolated_road_field_1" ],
     "object": {
-      "fill_ter": "t_dirt",
+      "fill_ter": "t_region_soil",
       "rows": [
         "______________________%G",
         "______________________%G",
@@ -214,7 +214,7 @@
         "%": "t_splitrail_fence",
         "-": "t_wall_wood",
         "D": "t_dirtmound",
-        ".": [ "t_grass", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt" ],
+        ".": [ "t_region_groundcover", "t_region_soil", "t_region_soil" ],
         "P": "t_fence",
         "_": "t_region_groundcover_urban",
         "d": "t_dirtfloor",

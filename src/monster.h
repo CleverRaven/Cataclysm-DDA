@@ -171,7 +171,7 @@ class monster : public Creature
         bool swims() const;
         // Returns false if the monster is stunned, has 0 moves or otherwise wouldn't act this turn
         bool can_act() const;
-        int sight_range( int light_level ) const override;
+        int sight_range( float light_level ) const override;
         bool made_of( const material_id &m ) const override; // Returns true if it's made of m
         bool made_of_any( const std::set<material_id> &ms ) const override;
         bool made_of( phase_id p ) const; // Returns true if its phase is p
@@ -238,7 +238,7 @@ class monster : public Creature
                             const tripoint &nearby_destination ); // shove vehicles out of the way
 
         // check if the given square could drown a drownable monster
-        bool is_aquatic_danger( const tripoint &at_pos );
+        bool is_aquatic_danger( const tripoint &at_pos ) const;
 
         // check if a monster at a position will drown and kill it if necessary
         // returns true if the monster dies
@@ -301,8 +301,8 @@ class monster : public Creature
         bool push_to( const tripoint &p, int boost, size_t depth );
 
         /** Returns innate monster bash skill, without calculating additional from helpers */
-        int bash_skill();
-        int bash_estimate();
+        int bash_skill() const;
+        int bash_estimate() const;
         /** Returns ability of monster and any cooperative helpers to
          * bash the designated target.  **/
         int group_bash_skill( const tripoint &target );
@@ -434,6 +434,7 @@ class monster : public Creature
 
         void die( Creature *killer ) override; //this is the die from Creature, it calls kill_mo
         void drop_items_on_death( item *corpse );
+        void spawn_dissectables_on_death( item *corpse ); //spawn dissectable CBMs into CORPSE pocket
         //spawn monster's inventory without killing it
         void generate_inventory( bool disableDrops = true );
 
@@ -449,8 +450,13 @@ class monster : public Creature
         void make_ally( const monster &z );
         // Add an item to inventory
         void add_item( const item &it );
-        // check mech power levels and modify it.
-        bool use_mech_power( int amt );
+
+        /**
+        * Consume UPS from mech battery.
+        * @param amt amount of energy to consume. Is rounded down to kJ precision. Do not use negative values.
+        * @return Actual amount of energy consumed
+        */
+        units::energy use_mech_power( units::energy amt );
         bool check_mech_powered() const;
         int mech_str_addition() const;
 
@@ -488,6 +494,7 @@ class monster : public Creature
         bool provocative_sound = false; // Are we wandering toward something we think is alive?
         int wandf = 0;       // Urge to is_wandering - Increased by sound, decrements each move
         std::vector<item> inv; // Inventory
+        std::vector<item> dissectable_inv; // spawned at death, tracked for respawn/dissection
         Character *mounted_player = nullptr; // player that is mounting this creature
         character_id mounted_player_id; // id of player that is mounting this creature ( for save/load )
         character_id dragged_foe_id; // id of character being dragged by the monster
@@ -575,7 +582,6 @@ class monster : public Creature
         void process_trigger( mon_trigger trig, int amount );
         void process_trigger( mon_trigger trig, const std::function<int()> &amount_func );
 
-    private:
         int hp = 0;
         std::map<std::string, mon_special_attack> special_attacks;
         cata::optional<tripoint_abs_ms> goal;
@@ -597,8 +603,10 @@ class monster : public Creature
         int next_patrol_point = -1;
 
         std::bitset<NUM_MEFF> effect_cache;
-        cata::optional<time_duration> summon_time_limit = cata::nullopt;
+        cata::optional<time_point> lifespan_end = cata::nullopt;
         int turns_since_target = 0;
+
+        bool aggro_character = true;
 
         Character *find_dragged_foe();
         void nursebot_operate( Character *dragged_foe );

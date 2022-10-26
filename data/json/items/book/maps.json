@@ -172,5 +172,34 @@
       "terrain": [ "hiway", "road", "bridge", "field", "swamp", "forest", "lake", "river" ],
       "message": "You add terrain and roads to your map."
     }
+  },
+  {
+    "id": "urbexmap",
+    "copy-from": "abstractmap",
+    "type": "GENERIC",
+    "name": { "str": "urban explorer's map" },
+    "description": "This is a printout of a local road map, with several buildings circled in red.  Using it will add roads and abandoned buildings to your map.",
+    "color": "white",
+    "use_action": {
+      "type": "reveal_map",
+      "radius": 90,
+      "terrain": [
+        "hiway",
+        "road",
+        "bridge",
+        "desolatebarn",
+        "shoppingplaza",
+        { "om_terrain": "abandonedwarehouse", "om_terrain_match_type": "TYPE" },
+        { "om_terrain": "abstorefront", "om_terrain_match_type": "TYPE" },
+        { "om_terrain": "derelict_property", "om_terrain_match_type": "TYPE" },
+        { "om_terrain": "abandoned_textile_mill_0_1", "om_terrain_match_type": "TYPE" },
+        { "om_terrain": "abandoned_textile_mill_0_2", "om_terrain_match_type": "TYPE" },
+        { "om_terrain": "abandoned_textile_mill_0_3", "om_terrain_match_type": "TYPE" },
+        { "om_terrain": "abandoned_textile_mill_b_0_1", "om_terrain_match_type": "TYPE" },
+        { "om_terrain": "abandoned_textile_mill_b_0_2", "om_terrain_match_type": "TYPE" },
+        { "om_terrain": "homelesscamp", "om_terrain_match_type": "TYPE" }
+      ],
+      "message": "You add roads and abandoned buildings to your map."
+    }
   }
 ]

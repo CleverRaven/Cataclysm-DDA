@@ -176,6 +176,13 @@ void player_add_headlamp()
     you.worn.wear_item( you, headlamp, false, true );
 }
 
+void player_wear_blindfold()
+{
+    item blindfold( "blindfold" );
+    Character &you = get_player_character();
+    you.worn.wear_item( you, blindfold, false, true );
+}
+
 void set_time_to_day()
 {
     time_point noon = calendar::turn - time_past_midnight( calendar::turn ) + 12_hours;

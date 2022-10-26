@@ -1642,14 +1642,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "bunker_basement",
-    "copy-from": "bunker_basement",
-    "name": "military bunker",
-    "sym": "b",
-    "color": "red"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "outpost",
     "copy-from": "outpost",
     "name": "military outpost",

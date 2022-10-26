@@ -206,7 +206,7 @@
       [ "log", 100 ],
       [ "stick", 300 ],
       [ "nail", 10 ],
-      [ "rag", 100 ],
+      [ "cotton_patchwork", 100 ],
       [ "sheet_metal", 20 ],
       [ "scrap", 30 ],
       [ "withered", 50 ],
