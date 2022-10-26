@@ -46,7 +46,8 @@
       "//": "Milspec, clearly designed with little concern for collateral damage. What did you expect of a robo-tank?",
       "difficulty": 10,
       "moves": 500,
-      "skills": [ "electronics", "computer" ]
+      "skills": [ "electronics", "computer" ],
+      "is_pet": true
     },
     "flags": [ "SINGLE_USE" ]
   },
@@ -73,8 +74,10 @@
       "//": "Milspec, clearly designed with little concern for collateral damage.  What did you expect of a chicken walker?",
       "difficulty": 10,
       "moves": 500,
-      "skills": [ "electronics", "computer" ]
-    }
+      "skills": [ "electronics", "computer" ],
+      "is_pet": true
+    },
+    "flags": [ "SINGLE_USE" ]
   },
   {
     "id": "bot_tripod",
@@ -98,7 +101,8 @@
       "//": "No observed open deployment, likely a prototype or secret project",
       "difficulty": 15,
       "moves": 500,
-      "skills": [ "electronics", "computer" ]
+      "skills": [ "electronics", "computer" ],
+      "is_pet": true
     },
     "flags": [ "SINGLE_USE" ]
   },
@@ -171,7 +175,8 @@
       "monster_id": "afs_mon_sentinel_lx",
       "difficulty": 4,
       "moves": 100,
-      "skills": [ "computer" ]
+      "skills": [ "computer" ],
+      "is_pet": true
     },
     "flags": [ "SINGLE_USE" ]
   },
@@ -221,7 +226,8 @@
       "difficulty": 4,
       "moves": 60,
       "place_randomly": true,
-      "skills": [ "electronics", "computer" ]
+      "skills": [ "electronics", "computer" ],
+      "is_pet": true
     },
     "flags": [ "SINGLE_USE" ]
   },
@@ -260,8 +266,10 @@
       "monster_id": "mon_utilibot_beehive",
       "difficulty": 1,
       "moves": 100,
-      "skills": [ "electronics", "computer" ]
-    }
+      "skills": [ "electronics", "computer" ],
+      "is_pet": true
+    },
+    "flags": [ "SINGLE_USE" ]
   },
   {
     "abstract": "bot_medibot_base",
@@ -282,14 +290,15 @@
       "monster_id": "mon_medibot",
       "difficulty": 1,
       "moves": 100,
-      "skills": [ "electronics", "computer" ]
+      "skills": [ "electronics", "computer" ],
+      "is_pet": true
     },
     "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID", "SINGLE_USE" ]
   },
   {
     "abstract": "bot_utilibot_base",
     "type": "TOOL",
-    "name": "inactive utilibot",
+    "name": { "str": "inactive utilibot" },
     "looks_like": "mon_cleanerbot",
     "price": 10000,
     "price_postapoc": 10000,
@@ -305,8 +314,8 @@
   {
     "id": "bot_utilibot",
     "type": "TOOL",
-    "name": "inactive ENIAC Seneschal ",
-    "description": "An inactive Seneschal.",
+    "name": { "str": "inactive ENIAC Seneschal" },
+    "description": "A inactive Seneschal.",
     "looks_like": "mon_utilibot",
     "price": 10000,
     "price_postapoc": 10000,
@@ -317,13 +326,13 @@
     "material": [ "steel", "aluminum" ],
     "symbol": ";",
     "color": "green",
-    "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID" ]
+    "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID", "SINGLE_USE" ]
   },
   {
     "id": "bot_utilibot_butler",
     "type": "TOOL",
-    "name": "inactive ENIAC Famulus ",
-    "description": "An inactive Famulus.",
+    "name": { "str": "inactive ENIAC Famulus" },
+    "description": "A inactive Famulus.",
     "looks_like": "mon_utilibot_butler",
     "price": 10000,
     "price_postapoc": 10000,
@@ -334,13 +343,13 @@
     "material": [ "steel", "aluminum" ],
     "symbol": ";",
     "color": "dark_gray",
-    "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID" ]
+    "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID", "SINGLE_USE" ]
   },
   {
     "id": "bot_utilibot_const",
     "type": "TOOL",
-    "name": "inactive TsKBEM Udarnik ",
-    "description": "An inactive TsKBEM Udarnik.",
+    "name": { "str": "inactive TsKBEM Udarnik" },
+    "description": "A inactive TsKBEM Udarnik.",
     "looks_like": "mon_utilibot_const",
     "price": 10000,
     "price_postapoc": 10000,
@@ -351,13 +360,13 @@
     "material": [ "steel", "aluminum" ],
     "symbol": ";",
     "color": "yellow",
-    "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID" ]
+    "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID", "SINGLE_USE" ]
   },
   {
     "id": "bot_utilibot_fire",
     "type": "TOOL",
-    "name": "inactive TsKBEM Brandspojt ",
-    "description": "An inactive TsKBEM Brandspojt.",
+    "name": { "str": "inactive TsKBEM Brandspojt" },
+    "description": "A inactive TsKBEM Brandspojt.",
     "looks_like": "mon_utilibot_fire",
     "price": 10000,
     "price_postapoc": 10000,
@@ -368,7 +377,7 @@
     "material": [ "steel", "aluminum" ],
     "symbol": ";",
     "color": "red",
-    "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID" ]
+    "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID", "SINGLE_USE" ]
   },
   {
     "abstract": "bot_hack_base",
@@ -403,8 +412,10 @@
       "difficulty": 1,
       "moves": 60,
       "place_randomly": true,
-      "skills": [ "electronics", "computer" ]
-    }
+      "skills": [ "electronics", "computer" ],
+      "is_pet": true
+    },
+    "flags": [ "SINGLE_USE" ]
   },
   {
     "abstract": "bot_milbot_base",
@@ -434,8 +445,10 @@
       "monster_id": "mon_milbot_308",
       "difficulty": 0,
       "moves": 100,
-      "skills": [ "electronics", "computer" ]
-    }
+      "skills": [ "electronics", "computer" ],
+      "is_pet": true
+    },
+    "flags": [ "SINGLE_USE" ]
   },
   {
     "abstract": "bot_defbot_base",
@@ -451,7 +464,7 @@
     "bashing": 8,
     "symbol": ";",
     "color": "light_gray",
-    "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID" ]
+    "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID", "SINGLE_USE" ]
   },
   {
     "abstract": "bot_skitterbot_base",
@@ -486,8 +499,10 @@
       "monster_id": "mon_skitterbot_rat",
       "difficulty": 1,
       "moves": 100,
-      "skills": [ "electronics", "computer" ]
-    }
+      "skills": [ "electronics", "computer" ],
+      "is_pet": true
+    },
+    "flags": [ "SINGLE_USE" ]
   },
   {
     "id": "bot_skitterbot_grab",
@@ -501,8 +516,10 @@
       "monster_id": "mon_skitterbot_grab",
       "difficulty": 1,
       "moves": 100,
-      "skills": [ "electronics", "computer" ]
-    }
+      "skills": [ "electronics", "computer" ],
+      "is_pet": true
+    },
+    "flags": [ "SINGLE_USE" ]
   },
   {
     "id": "bot_skitterbot_hunter",
@@ -516,8 +533,10 @@
       "monster_id": "mon_skitterbot_hunter",
       "difficulty": 1,
       "moves": 100,
-      "skills": [ "electronics", "computer" ]
-    }
+      "skills": [ "electronics", "computer" ],
+      "is_pet": true
+    },
+    "flags": [ "SINGLE_USE" ]
   },
   {
     "abstract": "bot_eyebot_base",
@@ -534,7 +553,7 @@
     "to_hit": -3,
     "symbol": ";",
     "color": "light_green",
-    "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID" ]
+    "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID", "SINGLE_USE" ]
   },
   {
     "id": "bot_eyebot_heater",
@@ -548,7 +567,8 @@
       "monster_id": "mon_eyebot_heater",
       "difficulty": 1,
       "moves": 100,
-      "skills": [ "electronics", "computer" ]
+      "skills": [ "electronics", "computer" ],
+      "is_pet": true
     },
     "flags": [ "SINGLE_USE" ]
   },
