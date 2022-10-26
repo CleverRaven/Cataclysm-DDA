@@ -119,7 +119,7 @@
     "copy-from": "pistol_base",
     "type": "GUN",
     "name": { "str": ".22 deringer pistol" },
-    "description": "Featuring a handsome set of wooden furnishings, a classic design, and a no nonsense .270 caliber chambering, this is a powerful hunting rifle.  With a tried and proven pedigree dating back over 60 years, millions of such rugged arms have been made, exported, and used throughout the United States and the world at large.  Where hunting is concerned, this is a highly capable and well proven weapon in all respects.  Fortunate, given that your prey in these dark days may turn out to be a little bit more feisty than typical White-Tailed deer, moose, and black bears.",
+    "description": "A four barrelled, adorably tiny pocket pistol, firing the equally miniscule .22 LR cartridge. Produced in the early 20th century for trappers, its combat effectiveness is questionable to say the least.",
     "variant_type": "gun",
     "variants": [
       {
@@ -205,8 +205,8 @@
     "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str": ".22 pistol calibre carbine" },
-    "description": "Featuring a handsome set of wooden furnishings, a classic design, and a no nonsense .270 caliber chambering, this is a powerful hunting rifle.  With a tried and proven pedigree dating back over 60 years, millions of such rugged arms have been made, exported, and used throughout the United States and the world at large.  Where hunting is concerned, this is a highly capable and well proven weapon in all respects.  Fortunate, given that your prey in these dark days may turn out to be a little bit more feisty than typical White-Tailed deer, moose, and black bears.",
+    "name": { "str": "Ruger varmint rifle" },
+    "description": "a lightweight and modular pistol calibre hunting carbine produced by the Ruger gun company, firing the low power .22 LR cartridge.  Before the Cataclysm, a mix of high customizability, cheep ammunition, and low recoil made this a very popular varmint rifle amongst civilian shooters.",
     "variant_type": "gun",
     "variants": [
       {
@@ -260,7 +260,7 @@
     "copy-from": "ruger_lcr_38",
     "type": "GUN",
     "name": { "str": ".22 caliber revolver" },
-    "description": "Featuring a handsome set of wooden furnishings, a classic design, and a no nonsense .270 caliber chambering, this is a powerful hunting rifle.  With a tried and proven pedigree dating back over 60 years, millions of such rugged arms have been made, exported, and used throughout the United States and the world at large.  Where hunting is concerned, this is a highly capable and well proven weapon in all respects.  Fortunate, given that your prey in these dark days may turn out to be a little bit more feisty than typical White-Tailed deer, moose, and black bears.",
+    "description": "A comparatively dainty revolver, chambered for 8 tiny rounds of .22 LR.",
     "variant_type": "gun",
     "variants": [ { "id": "ruger_lcr_22", "name": { "str_sp": "Ruger LCR .22" }, "weight": 1 } ],
     "weight": "422 g",
@@ -282,7 +282,7 @@
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": { "str": "Mosquito pistol" },
-    "description": "Featuring a handsome set of wooden furnishings, a classic design, and a no nonsense .270 caliber chambering, this is a powerful hunting rifle.  With a tried and proven pedigree dating back over 60 years, millions of such rugged arms have been made, exported, and used throughout the United States and the world at large.  Where hunting is concerned, this is a highly capable and well proven weapon in all respects.  Fortunate, given that your prey in these dark days may turn out to be a little bit more feisty than typical White-Tailed deer, moose, and black bears.",
+    "description": "a compact, .22 calibre semi-automatic pistol.  Built from aluminum and polymer componence, the weapon is light weight and concealable.  Unfortunately, much like its namesake, this pistol mostly poses a mild annoyance to most hostiles that the Cataclysm is liable to direct into your path.",
     "variant_type": "gun",
     "variants": [
       {
