@@ -148,7 +148,7 @@
             "effect": "maimed_mandible",
             "chance": 50,
             "duration": 86400,
-            "message": "The %s's proboscis is maimed!",
+            "message": "The %s's proboscis is destroyed!",
             "damage_required": [ 31, 100 ]
           }
         ],

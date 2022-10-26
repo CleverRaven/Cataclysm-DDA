@@ -287,7 +287,7 @@
     "id": "mon_amalgamation_soldier",
     "copy-from": "mon_amalgamation_abstract_med",
     "name": { "str": "brutish amalgamation" },
-    "description": "A large, thickly armored creature built not unlike a bear, if a bear had a long, clubbed tail and two short limbs ending in black talons framing a vertical mouth on an otherwise smooth, featureless head.  On second though, not that much like a bear at all.",
+    "description": "A large, thickly armored creature built not unlike a bear, if a bear had a long, clubbed tail and two short limbs ending in black talons framing a vertical mouth on an otherwise smooth, featureless head.  On second thought, not that much like a bear at all.",
     "color": "dark_gray",
     "bodytype": "dog",
     "volume": "200 L",
