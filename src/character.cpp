@@ -5365,7 +5365,6 @@ bool Character::is_elec_immune() const
 
 bool Character::is_immune_effect( const efftype_id &eff ) const
 {
-    bool ret = false;
     if( eff == effect_downed ) {
         return is_throw_immune() || ( has_trait( trait_LEG_TENT_BRACE ) && footwear_factor() == 0 );
     } else if( eff == effect_onfire ) {
@@ -5383,10 +5382,10 @@ bool Character::is_immune_effect( const efftype_id &eff ) const
     }
     for( const json_character_flag &flag : eff->immune_flags ) {
         if( has_flag( flag ) ) {
-            ret = true;
+            return true;
         }
     }
-    return ret;
+    return false;
 }
 
 bool Character::is_immune_damage( const damage_type dt ) const
