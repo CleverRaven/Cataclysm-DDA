@@ -1021,7 +1021,7 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 13 } } ]
   },
   {
-    "id": "p320mag_10rd",
+    "id": "p320mag_10rd_9x19mm",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": { "str": "service handgun 10-round magazine" },
