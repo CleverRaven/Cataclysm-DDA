@@ -25,6 +25,9 @@ from pathlib import Path
 from typing import Any, Optional, Tuple, Union
 
 try:
+    vips_path = os.getenv("LIBVIPS_PATH")
+    if vips_path is not None and vips_path != "":
+        os.environ["PATH"] += ";" + os.path.join(vips_path, "bin")
     import pyvips
     Vips = pyvips
 except ImportError:
@@ -38,6 +41,9 @@ run_silent = True
 
 # variable for progress bar support (tqdm module dependency)
 no_tqdm = False
+
+# File name to ignore containing directory
+ignore_file = ".scratch"
 
 
 # progress bar setup
@@ -255,6 +261,8 @@ class Tileset:
         self.sprite_height = 16
         self.pixelscale = 1
         self.iso = False
+        self.retract_dist_min = -1.0
+        self.retract_dist_max = 1.0
         self.info = [{}]
 
         if not os.access(info_path, os.R_OK):
@@ -265,6 +273,10 @@ class Tileset:
             self.sprite_width = self.info[0].get('width', self.sprite_width)
             self.sprite_height = self.info[0].get('height', self.sprite_height)
             self.pixelscale = self.info[0].get('pixelscale', self.pixelscale)
+            self.retract_dist_min = self.info[0].get('retract_dist_min',
+                                                     self.retract_dist_min)
+            self.retract_dist_max = self.info[0].get('retract_dist_max',
+                                                     self.retract_dist_max)
             self.iso = self.info[0].get('iso', self.iso)
 
     def determine_conffile(self) -> str:
@@ -398,6 +410,8 @@ class Tileset:
                             sheet.offset_x_retracted
                         FALLBACK['sprite_offset_y_retracted'] = \
                             sheet.offset_y_retracted
+                    if sheet.pixelscale != 1.0:
+                        FALLBACK['pixelscale'] = sheet.pixelscale
                 continue
             if sheet.is_filler and not main_finished:
                 create_tile_entries_for_unused(
@@ -429,6 +443,8 @@ class Tileset:
                         sheet.offset_x_retracted
                     sheet_conf['sprite_offset_y_retracted'] = \
                         sheet.offset_y_retracted
+                if sheet.pixelscale != 1.0:
+                    sheet_conf['pixelscale'] = sheet.pixelscale
 
             sheet_conf['tiles'] = sheet_entries
 
@@ -456,6 +472,8 @@ class Tileset:
                 'width': self.sprite_width,
                 'height': self.sprite_height,
                 'iso': self.iso,
+                'retract_dist_min': self.retract_dist_min,
+                'retract_dist_max': self.retract_dist_max
             }],
             'tiles-new': tiles_new
         }
@@ -514,6 +532,8 @@ class Tilesheet:
         self.offset_y_retracted = \
             specs.get('sprite_offset_y_retracted', self.offset_y)
 
+        self.pixelscale = specs.get('pixelscale', 1.0)
+
         self.sprites_across = specs.get('sprites_across', 16)
         self.exclude = specs.get('exclude', tuple())
 
@@ -549,6 +569,8 @@ class Tilesheet:
             return False
         if self.sprite_height != self.tileset.sprite_height:
             return False
+        if self.pixelscale != 1.0:
+            return False
         return True
 
     def walk_dirs(self) -> None:
@@ -560,8 +582,12 @@ class Tilesheet:
             for root, dirs, filenames in \
                     os.walk(self.subdir_path, followlinks=True):
                 # replace dirs in-place to prevent walking down excluded paths
-                dirs[:] = [d for d in dirs
-                           if Path(root).joinpath(d) not in excluded]
+                dirs[:] = [
+                    d
+                    for d in dirs
+                    if Path(root).joinpath(d) not in excluded and
+                    not Path(root).joinpath(d, ignore_file).is_file()
+                ]
                 yield [root, dirs, filenames]
 
         sorted_files = sorted(

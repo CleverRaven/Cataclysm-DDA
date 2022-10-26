@@ -1,6 +1,11 @@
 [
   {
     "type": "vehicle_part_migration",
+    "from": "lit_aisle",
+    "to": "aisle"
+  },
+  {
+    "type": "vehicle_part_migration",
     "from": "laser_gun",
     "to": "laser_rifle"
   },
@@ -213,5 +218,140 @@
     "type": "vehicle_part_migration",
     "from": "wheel_wide_or_steerable",
     "to": "wheel_wide_or"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_chemical_thrower",
+    "to": "turret_chemical_thrower"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_emp_gun",
+    "to": "turret_emp_gun"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_hk_g80",
+    "to": "turret_hk_g80"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "flamethrower",
+    "to": "turret_flamethrower"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_plasma_gun",
+    "to": "turret_plasma_gun"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "laser_rifle",
+    "to": "turret_laser_rifle"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_cmes_gun",
+    "to": "turret_gatling_mech_laser_single"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_rmes_gun",
+    "to": "turret_recon_mech_laser_single"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "m249",
+    "to": "turret_m249"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "m249_semi",
+    "to": "turret_m249_semi"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_bigun",
+    "to": "turret_bigun"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_browning",
+    "to": "turret_m2browning"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_m134",
+    "to": "turret_m134"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_m1918",
+    "to": "turret_m1918"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_m231",
+    "to": "turret_m231pfw"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_m240",
+    "to": "turret_m240"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_m60",
+    "to": "turret_m60"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_m60_semi",
+    "to": "turret_m60_semi"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_mk19",
+    "to": "turret_mark19"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "tow_launcher",
+    "to": "turret_atgm_launcher"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_rm298",
+    "to": "turret_rm298"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_rm614",
+    "to": "turret_rm614_lmg"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "plasma_gun",
+    "to": "turret_plasma_rifle"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "watercannon",
+    "to": "turret_watercannon"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_coilgun",
+    "to": "turret_coilgun"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_3in_ordnance_rifle",
+    "to": "turret_cannon_3in_ordnance"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_pamd68",
+    "to": "turret_pamd68mountable"
   }
 ]

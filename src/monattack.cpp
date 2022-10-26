@@ -136,6 +136,8 @@ static const efftype_id effect_targeted( "targeted" );
 static const efftype_id effect_tindrift( "tindrift" );
 static const efftype_id effect_under_operation( "under_operation" );
 
+static const furn_str_id furn_f_compact_ASRG_containment( "f_compact_ASRG_containment" );
+
 static const gun_mode_id gun_mode_AUTO( "AUTO" );
 
 static const itype_id itype_120mm_HEAT( "120mm_HEAT" );
@@ -224,8 +226,6 @@ static const skill_id skill_unarmed( "unarmed" );
 static const species_id species_LEECH_PLANT( "LEECH_PLANT" );
 static const species_id species_SLIME( "SLIME" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
-
-static const ter_str_id ter_t_plut_generator( "t_plut_generator" );
 
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_MARLOSS( "MARLOSS" );
@@ -3825,7 +3825,7 @@ bool mattack::searchlight( monster *z )
         for( int x = zpos.x - 24; x < zpos.x + 24; x++ ) {
             for( int y = zpos.y - 24; y < zpos.y + 24; y++ ) {
                 tripoint dest( x, y, z->posz() );
-                if( here.ter( dest ) == ter_t_plut_generator ) {
+                if( here.furn( dest ) == furn_f_compact_ASRG_containment ) {
                     generator_ok = true;
                 }
             }
@@ -3868,6 +3868,7 @@ bool mattack::searchlight( monster *z )
         }
 
         point p( zpos + point( settings.get_var( "SL_SPOT_X", 0 ), settings.get_var( "SL_SPOT_Y", 0 ) ) );
+        point preshift_p = p;
         int shift = 0;
 
         for( int i = 0; i < rng( 1, 2 ); i++ ) {
@@ -3940,10 +3941,24 @@ bool mattack::searchlight( monster *z )
             }
         }
 
-        settings.set_var( "SL_SPOT_X", p.x - zpos.x );
-        settings.set_var( "SL_SPOT_Y", p.y - zpos.y );
+        tripoint t = tripoint( p, z->posz() );
+        if( z->sees( t, false, 0 ) ) {
+            settings.set_var( "SL_SPOT_X", p.x - zpos.x );
+            settings.set_var( "SL_SPOT_Y", p.y - zpos.y );
+        } else {
+            // If the searchlight cannot see the location it was going to look at check if
+            // the searchlight can see the current location (a door could have closed or
+            // a window covered). If the searchlight cannot see the current location then
+            // reset the searchlight to search from itself
+            t = tripoint( preshift_p, z->posz() );
+            if( !z->sees( t, false, 0 ) ) {
+                settings.set_var( "SL_SPOT_X", 0 );
+                settings.set_var( "SL_SPOT_Y", 0 );
+                t = z->pos();
+            }
+        }
 
-        here.add_field( tripoint( p, z->posz() ), field_type_id( "fd_spotlight" ), 1 );
+        here.add_field( t, field_type_id( "fd_spotlight" ), 1 );
     }
 
     return true;

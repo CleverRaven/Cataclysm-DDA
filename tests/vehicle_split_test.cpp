@@ -14,7 +14,7 @@ static const vproto_id vehicle_prototype_car( "car" );
 static const vproto_id vehicle_prototype_circle_split_test( "circle_split_test" );
 static const vproto_id vehicle_prototype_cross_split_test( "cross_split_test" );
 
-TEST_CASE( "vehicle_split_section" )
+TEST_CASE( "vehicle_split_section", "[vehicle]" )
 {
     map &here = get_map();
     Character &player_character = get_player_character();
@@ -105,7 +105,7 @@ TEST_CASE( "crater_crash", "[vehicle]" )
     }
 }
 
-TEST_CASE( "split_vehicle_during_mapgen" )
+TEST_CASE( "split_vehicle_during_mapgen", "[vehicle]" )
 {
     clear_map();
     map &here = get_map();

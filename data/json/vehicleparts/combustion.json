@@ -83,6 +83,32 @@
     "damage_reduction": { "all": 100 }
   },
   {
+    "id": "diesel_engine_inline4",
+    "copy-from": "diesel_engine",
+    "type": "vehicle_part",
+    "item": "i4_diesel",
+    "description": "A four-cylinder diesel engine, commonly found in small passenger cars and light trucks.",
+    "durability": 300,
+    "epower": -200,
+    "power": 93250,
+    "energy_consumption": "266000 J",
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 20, 30 ] },
+      { "item": "steel_chunk", "count": [ 20, 30 ] },
+      { "item": "scrap", "count": [ 20, 30 ] }
+    ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": {
+        "skills": [ [ "mechanics", 4 ] ],
+        "time": "60 m",
+        "using": [ [ "repair_welding_standard", 3 ], [ "repair_welding_alloys", 1 ], [ "vehicle_wrench_2", 1 ], [ "vehicle_screw", 1 ] ]
+      }
+    },
+    "damage_reduction": { "all": 50 }
+  },
+  {
     "id": "diesel_engine_v6",
     "copy-from": "diesel_engine",
     "type": "vehicle_part",
@@ -160,7 +186,6 @@
         "using": [ [ "repair_welding_standard", 1 ], [ "repair_welding_alloys", 1 ], [ "vehicle_wrench_2", 1 ], [ "vehicle_screw", 1 ] ]
       }
     },
-    "extend": { "flags": [ "FOLDABLE" ] },
     "damage_reduction": { "all": 40 }
   },
   {
@@ -189,7 +214,6 @@
         "using": [ [ "repair_welding_standard", 2 ], [ "repair_welding_alloys", 1 ], [ "vehicle_wrench_2", 1 ], [ "vehicle_screw", 1 ] ]
       }
     },
-    "extend": { "flags": [ "FOLDABLE" ] },
     "damage_reduction": { "all": 40 }
   },
   {
@@ -219,7 +243,6 @@
         "using": [ [ "repair_welding_standard", 1 ], [ "vehicle_wrench_2", 1 ], [ "vehicle_screw", 1 ] ]
       }
     },
-    "extend": { "flags": [ "FOLDABLE" ] },
     "damage_reduction": { "all": 40 }
   },
   {
@@ -402,7 +425,6 @@
         "using": [ [ "repair_welding_standard", 1 ], [ "repair_welding_alloys", 1 ], [ "vehicle_wrench_2", 1 ], [ "vehicle_screw", 1 ] ]
       }
     },
-    "extend": { "flags": [ "FOLDABLE" ] },
     "damage_reduction": { "all": 60 }
   },
   {

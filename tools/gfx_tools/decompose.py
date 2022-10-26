@@ -16,6 +16,9 @@ import subprocess
 import sys
 
 try:
+    vips_path = os.getenv("LIBVIPS_PATH")
+    if vips_path is not None and vips_path != "":
+        os.environ["PATH"] += ";" + os.path.join(vips_path, "bin")
     import pyvips
     Vips = pyvips
 except ImportError:
@@ -60,6 +63,8 @@ class TileSheetData(object):
             "sprite_offset_y_retracted",
             self.sprite_offset_y
         )
+        self.pixelscale = tilesheet_data.get("pixelscale", 1.0)
+
         self.write_dim = self.sprite_width != refs.default_width
         self.write_dim |= self.sprite_height != refs.default_height
         self.write_dim |= self.sprite_offset_x or self.sprite_offset_y
@@ -239,6 +244,8 @@ class TileSheetData(object):
                         self.sprite_offset_x_retracted
                     ts_tile_info["sprite_offset_y_retracted"] = \
                         self.sprite_offset_y_retracted
+            if self.pixelscale != 1.0:
+                ts_tile_info["pixelscale"] = self.pixelscale
             #print("{}: {}".format(
             #    self.ts_filename, json.dumps(ts_tile_info, indent=2)))
             tile_info.append({self.ts_filename: ts_tile_info})

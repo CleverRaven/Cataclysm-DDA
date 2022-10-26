@@ -117,6 +117,37 @@
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
+    "id": "cloth_arms_padded",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pair of cloth-padded sleeves", "str_pl": "pairs of cloth-padded sleeves" },
+    "description": "The sleeves of a thick cotton shirt, with a bunch of cloth sewn in to act as extra padding.  They're quite lonely, no longer being attached to each other by the rest of the shirt.",
+    "weight": "400 g",
+    "volume": "1500 ml",
+    "price_postapoc": 100,
+    "to_hit": -2,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "arm_warmers",
+    "color": "light_gray",
+    "armor": [
+      {
+        "material": [
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "cotton", "covered_by_mat": 90, "thickness": 1.0 },
+          { "type": "cotton", "covered_by_mat": 90, "thickness": 1.0 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 8
+      }
+    ],
+    "warmth": 35,
+    "material_thickness": 3,
+    "environmental_protection": 2,
+    "flags": [ "VARSIZE" ]
+  },
+  {
     "id": "armguard_hard",
     "type": "ARMOR",
     "category": "armor",
@@ -1561,5 +1592,51 @@
     "copy-from": "armor_qt_heavyarmguard",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "survivor_adhoc_leather_sleeves",
+    "repairs_like": "longshirt",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "leather-padded sleeves" },
+    "description": "Armor made of combined pre-Cataclysm clothing.  Sections from leather clothing are tightened and affixed to the sleeves of a thick cotton shirt, excluding the joints.",
+    "weight": "500 g",
+    "volume": "500 ml",
+    "price_postapoc": 1000,
+    "to_hit": -2,
+    "material": [ "cotton", "leather" ],
+    "symbol": "[",
+    "looks_like": "armguard_soft",
+    "color": "light_red",
+    "armor": [
+      {
+        "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 } ],
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ],
+        "coverage": 50,
+        "encumbrance": 0
+      },
+      {
+        "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 } ],
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_elbow_l", "arm_elbow_r" ],
+        "coverage": 100,
+        "encumbrance": 0
+      },
+      {
+        "material": [
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "leather", "covered_by_mat": 95, "thickness": 1.5 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_upper_l", "arm_lower_l", "arm_upper_r", "arm_lower_r" ],
+        "coverage": 100,
+        "encumbrance": 8
+      }
+    ],
+    "warmth": 35,
+    "material_thickness": 2.5,
+    "environmental_protection": 1,
+    "flags": [ "VARSIZE", "WATER_FRIENDLY" ]
   }
 ]

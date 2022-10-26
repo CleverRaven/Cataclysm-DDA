@@ -352,25 +352,6 @@
     "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
   },
   {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "sheet_metal_lit",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_LIGHTING",
-    "skill_used": "electronics",
-    "difficulty": 1,
-    "time": "30 m",
-    "book_learn": [ [ "manual_electronics", 1 ], [ "mag_electronics", 1 ] ],
-    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 1.25 } ],
-    "using": [ [ "soldering_standard", 5 ] ],
-    "components": [
-      [ [ "sheet_metal", 1 ] ],
-      [ [ "lightstrip_inactive", 1 ], [ "flashlight", 1 ] ],
-      [ [ "cable", 10 ] ],
-      [ [ "plastic_chunk", 2 ] ]
-    ]
-  },
-  {
     "result": "xlframe",
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
@@ -908,5 +889,18 @@
     "autolearn": true,
     "components": [ [ [ "cotton_patchwork", 1 ] ] ],
     "//": "This is intended to be an interim measure until all recipes can be moved away from using or creating rags.  Once we're sure rags are gone, this can be obsolete."
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "sharp_rock",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "survival",
+    "time": "2 m",
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_knapping", "time_multiplier": 1.25, "fail_multiplier": 1.1 } ],
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "rock_flaking", 1 ] ] ]
   }
 ]

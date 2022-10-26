@@ -11,7 +11,7 @@
     "material": [ "glass" ],
     "volume": "3 L",
     "bashing": 1,
-    "flags": [ "NO_REPAIR" ],
+    "flags": [ "NO_REPAIR", "WATER_BREAK" ],
     "category": "veh_parts",
     "price": 90000,
     "price_postapoc": 1000

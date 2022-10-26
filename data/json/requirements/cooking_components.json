@@ -18,7 +18,8 @@
         [ "cornbread", 1 ],
         [ "biscuit", 1 ],
         [ "hardtack", 1 ],
-        [ "crackers", 1 ]
+        [ "crackers", 1 ],
+        [ "hallula", 1 ]
       ]
     ]
   },
@@ -35,7 +36,8 @@
         [ "biscuit", 1 ],
         [ "brioche", 1 ],
         [ "crackers", 1 ],
-        [ "brown_bread", 1 ]
+        [ "brown_bread", 1 ],
+        [ "hallula", 1 ]
       ]
     ]
   },
@@ -43,7 +45,7 @@
     "id": "bread_sandwich_wheat_free",
     "type": "requirement",
     "//": "Wheat free bread appropriate for sandwiches.",
-    "components": [ [ [ "cornbread", 1 ], [ "bread_wheat_free", 1 ], [ "flatbread_wheat_free", 1 ] ] ]
+    "components": [ [ [ "cornbread", 1 ], [ "bread_wheat_free", 1 ], [ "flatbread_wheat_free", 1 ], [ "brown_bread_wheat_free", 1 ] ] ]
   },
   {
     "id": "any_bread",
@@ -77,7 +79,15 @@
         [ "egg_goose_canadian", 1 ],
         [ "egg_turkey", 1 ],
         [ "egg_pheasant", 1 ],
-        [ "egg_cockatrice", 1 ]
+        [ "egg_cockatrice", 1 ],
+        [ "egg_goose", 1 ],
+        [ "egg_goose_golden", 1 ],
+        [ "egg_hummingbird", 5 ],
+        [ "egg_woodpecker", 5 ],
+        [ "egg_coot", 1 ],
+        [ "egg_cormorant", 1 ],
+        [ "egg_moorhen", 1 ],
+        [ "egg_grebe", 1 ]
       ]
     ]
   },
@@ -102,7 +112,12 @@
         [ "egg_lady_bug", 4 ],
         [ "egg_mole_cricket", 4 ],
         [ "egg_mantis", 4 ],
-        [ "egg_stag_beetle", 1 ]
+        [ "egg_stag_beetle", 1 ],
+        [ "egg_water_beetle", 4 ],
+        [ "egg_water_bug", 4 ],
+        [ "egg_butterfly", 1 ],
+        [ "egg_moth", 1 ],
+        [ "egg_cicada", 1 ]
       ]
     ]
   },
@@ -584,6 +599,8 @@
         [ "hardtack", 1 ],
         [ "wastebread", 1 ],
         [ "sourdough_bread", 1 ],
+        [ "hallula", 1 ],
+        [ "brioche", 1 ],
         [ "flour", 2 ],
         [ "cornmeal", 2 ],
         [ "milk_powder", 1 ],
@@ -642,6 +659,8 @@
         [ "hardtack", 1 ],
         [ "wastebread", 1 ],
         [ "sourdough_bread", 1 ],
+        [ "brioche", 1 ],
+        [ "hallula", 1 ],
         [ "flour", 2 ],
         [ "cornmeal", 2 ],
         [ "milk_powder", 1 ],

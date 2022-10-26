@@ -346,6 +346,7 @@
     "weight": "1220 g",
     "volume": "3 L",
     "price": 50000,
+    "price_postapoc": 7000,
     "warmth": 10,
     "material": [ "steel", "nomex" ],
     "repairs_like": "boots_survivor",
@@ -750,7 +751,17 @@
     "name": { "str": "pair of case hardened sheet metal sabatons", "str_pl": "pairs of case hardened sheet metal sabatons" },
     "description": "Sabatons made of sheet metal, case hardened to protect your feet if you drop something heavy on them.  No relation to the band, aside from being very metal.",
     "material": [ "ch_steel" ],
-    "extend": { "flags": [ "STURDY" ] }
+    "extend": { "flags": [ "STURDY" ] },
+    "armor": [
+      {
+        "material": [ { "type": "ch_steel", "covered_by_mat": 100, "thickness": 1.5 } ],
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_toes_r", "foot_toes_l", "foot_heel_r", "foot_heel_l", "foot_arch_r", "foot_arch_l" ],
+        "coverage": 95,
+        "encumbrance": 15,
+        "layers": [ "OUTER" ]
+      }
+    ]
   },
   {
     "id": "boots_steel",
@@ -1450,8 +1461,12 @@
       {
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
-        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 } ],
-        "coverage": 90
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 4.0 },
+          { "type": "rubber", "covered_by_mat": 5, "thickness": 80.0 }
+        ],
+        "coverage": 100
       }
     ]
   },
@@ -1687,6 +1702,7 @@
     "id": "motorbike_boots",
     "repairs_like": "boots_survivor",
     "type": "ARMOR",
+    "category": "armor",
     "name": { "str": "pair of motorcycle boots", "str_pl": "pairs of motorcycle boots" },
     "description": "A pair of durable boots used by dirt bikers and motorcyclists.",
     "weight": "2125 g",
@@ -2270,7 +2286,7 @@
     "category": "armor",
     "name": { "str": "pair of chainmail chausses", "str_pl": "pairs of chainmail chausses" },
     "description": "Customized chainmail chausses that cover the feet, like booties made of chainmail.  The metal shows signs of rust and corrosion.",
-    "weight": "2006 g",
+    "weight": "1801 g",
     "volume": "500 ml",
     "price": 5012,
     "price_postapoc": 2000,
@@ -2312,7 +2328,7 @@
     "category": "armor",
     "name": { "str": "pair of mild steel chainmail chausses", "str_pl": "pairs of mild steel chainmail chausses" },
     "description": "Customized chainmail chausses that cover the feet, like booties made of chainmail.",
-    "weight": "2006 g",
+    "weight": "1801 g",
     "volume": "500 ml",
     "price": 5012,
     "price_postapoc": 2000,

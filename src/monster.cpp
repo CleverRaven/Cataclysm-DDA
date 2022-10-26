@@ -412,7 +412,17 @@ void monster::try_upgrade( bool pin_time )
                 new_type = MonsterGroupManager::GetRandomMonsterFromGroup( type->upgrade_group );
             }
             if( !new_type.is_empty() ) {
-                poly( new_type );
+                if( new_type ) {
+                    poly( new_type );
+                } else {
+                    // "upgrading" to mon_null
+                    if( type->upgrade_null_despawn ) {
+                        g->remove_zombie( *this );
+                    } else {
+                        die( nullptr );
+                    }
+                    return;
+                }
             }
         }
 
@@ -524,6 +534,10 @@ void monster::refill_udders()
 
 void monster::try_biosignature()
 {
+    if( is_hallucination() ) {
+        return;
+    }
+
     if( !biosignatures ) {
         return;
     }
@@ -2452,7 +2466,7 @@ void monster::process_turn()
         }
     }
     // We update electrical fields here since they act every turn.
-    if( has_flag( MF_ELECTRIC_FIELD ) ) {
+    if( has_flag( MF_ELECTRIC_FIELD ) && !is_hallucination() ) {
         if( has_effect( effect_emp ) ) {
             if( calendar::once_every( 10_turns ) ) {
                 sounds::sound( pos(), 5, sounds::sound_t::combat, _( "hummmmm." ), false, "humming", "electric" );
@@ -2474,7 +2488,7 @@ void monster::process_turn()
                 const auto t = here.ter( zap );
                 if( t == ter_t_gas_pump || t == ter_t_gas_pump_a ) {
                     if( one_in( 4 ) ) {
-                        explosion_handler::explosion( pos(), 40, 0.8, true );
+                        explosion_handler::explosion( this, pos(), 40, 0.8, true );
                         add_msg_if_player_sees( zap, m_warning, _( "The %s explodes in a fiery inferno!" ),
                                                 here.tername( zap ) );
                     } else {

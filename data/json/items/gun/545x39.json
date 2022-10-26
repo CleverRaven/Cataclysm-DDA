@@ -47,7 +47,7 @@
     "type": "GUN",
     "name": { "str": "Kord 6P67" },
     "//": "An exceptionally new AK style gun found illicitly as part of a quest.",
-    "description": "Special forces Russian rifle chambered in 5.45.  This version uses standard Picatinny rails, has modern lightweight furniture and a unique complex recoil balance system for high fire rate with minimal recoil.  It combines the reliability of the AK series with the high-velocity, lightweight 5.45x39mm cartridge and accepts standard AK-74M magazines.",
+    "description": "A special forces Russian rifle chambered in 5.45.  This version uses standard Picatinny rails, has modern lightweight furniture and a unique complex recoil balance system for high fire rate with minimal recoil.  It combines the reliability of the AK series with the high-velocity, lightweight 5.45x39mm cartridge and accepts standard AK-74M magazines.",
     "weight": "3250 g",
     "volume": "2418 ml",
     "longest_side": "96 cm",

@@ -1199,7 +1199,8 @@ void vehicle::handle_trap( const tripoint &p, int part )
                            veh_data.sound_type, veh_data.sound_variant );
         }
         if( veh_data.do_explosion ) {
-            explosion_handler::explosion( p, veh_data.damage, 0.5f, false, veh_data.shrapnel );
+            const Creature *source = player_in_control( player_character ) ? &player_character : nullptr;
+            explosion_handler::explosion( source, p, veh_data.damage, 0.5f, false, veh_data.shrapnel );
         } else {
             // Hit the wheel directly since it ran right over the trap.
             damage_direct( here, pwh, veh_data.damage );

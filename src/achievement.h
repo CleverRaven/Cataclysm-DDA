@@ -17,7 +17,6 @@
 #include "translations.h"
 #include "type_id.h"
 
-class JsonIn;
 class JsonObject;
 class JsonOut;
 class achievements_tracker;

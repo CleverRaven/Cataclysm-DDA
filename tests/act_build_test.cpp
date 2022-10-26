@@ -102,6 +102,7 @@ void run_test_case( Character &u )
     scoped_weather_override weather_clear( WEATHER_CLEAR );
     clear_avatar();
     map &here = get_map();
+    g->reset_light_level();
 
     u.wear_item( item( "test_backpack" ), false, false );
     u.wear_item( item( "wearable_atomic_light" ), false, true );

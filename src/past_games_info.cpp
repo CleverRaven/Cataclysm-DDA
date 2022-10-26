@@ -14,6 +14,7 @@
 #include "event.h"
 #include "filesystem.h"
 #include "json.h"
+#include "json_loader.h"
 #include "memorial_logger.h"
 #include "output.h"
 #include "path_info.h"
@@ -91,15 +92,16 @@ void past_games_info::ensure_loaded()
     ui_manager::redraw();
     refresh_display();
 
-    const std::string &memorial_dir = PATH_INFO::memorialdir();
-    std::vector<std::string> filenames = get_files_from_path( ".json", memorial_dir, true, true );
+    const cata_path &memorial_dir = PATH_INFO::memorialdir_path();
+    std::vector<cata_path> filenames = get_files_from_path( ".json", memorial_dir, true, true );
 
     // Sort the files by the date & time encoded in the filename
-    std::vector<std::pair<std::string, std::string>> sortable_filenames;
-    for( const std::string &filename : filenames ) {
-        std::vector<std::string> components = string_split( filename, '-' );
+    std::vector<std::pair<std::string, cata_path>> sortable_filenames;
+    for( const cata_path &filename : filenames ) {
+        std::vector<std::string> components = string_split(
+                filename.get_unrelative_path().generic_u8string(), '-' );
         if( components.size() < 7 ) {
-            debugmsg( "Unexpected memorial filename %s", filename );
+            debugmsg( "Unexpected memorial filename %s", filename.generic_u8string() );
             continue;
         }
 
@@ -107,17 +109,29 @@ void past_games_info::ensure_loaded()
         sortable_filenames.emplace_back( join( components, "-" ), filename );
     }
 
-    // NOLINTNEXTLINE(cata-use-localized-sorting)
-    std::sort( sortable_filenames.begin(), sortable_filenames.end() );
+    std::sort( sortable_filenames.begin(),
+               sortable_filenames.end(), []( const std::pair<std::string, cata_path> &l,
+    const std::pair<std::string, cata_path> &r ) {
+        // Manually replicating std::pair<T,U>::operator < to avoid implementing operator< on cata_path.
+        // NOLINTNEXTLINE(cata-use-localized-sorting)
+        if( l.first < r.first ) {
+            return true;
+        }
+        // NOLINTNEXTLINE(cata-use-localized-sorting)
+        if( l.first > r.first ) {
+            return false;
 
-    for( const std::pair<std::string, std::string> &filename_pair : sortable_filenames ) {
-        const std::string &filename = filename_pair.second;
-        std::istringstream iss( read_entire_file( filename ) );
+        }
+        return l.second.get_unrelative_path() < r.second.get_unrelative_path();
+    } );
+
+    for( const std::pair<std::string, cata_path> &filename_pair : sortable_filenames ) {
+        const cata_path &filename = filename_pair.second;
         try {
-            JsonIn jsin( iss );
+            JsonValue jsin = json_loader::from_path( filename );
             info_.emplace_back( jsin.get_object() );
         } catch( const JsonError &err ) {
-            debugmsg( "Error reading memorial file %s: %s", filename, err.what() );
+            debugmsg( "Error reading memorial file %s: %s", filename.generic_u8string(), err.what() );
         } catch( const too_old_memorial_file_error & ) {
             // do nothing
         }

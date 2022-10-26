@@ -318,5 +318,83 @@
     "volume": "1 L",
     "bashing": 5,
     "to_hit": -1
+  },
+  {
+    "type": "GENERIC",
+    "id": "yrax_electronics",
+    "name": { "str_sp": "woven metallics" },
+    "description": "Thin metallic strips with an ochre sheen, interlaid together into a flexible mesh.  You cant tell whether its a circuit, a heat dissipation component, or a mechanical actuator.",
+    "symbol": "i",
+    "color": "yellow",
+    "weight": "300 g",
+    "volume": "1 L",
+    "price": 1000,
+    "material": [ "copper", "steel" ],
+    "category": "spare_parts"
+  },
+  {
+    "type": "GENERIC",
+    "id": "yrax_metal",
+    "name": { "str_sp": "alien metal plating" },
+    "description": "A slightly curved plate of white metal.  It readily collects low amounts of static charge.",
+    "symbol": ")",
+    "color": "white",
+    "weight": "1 kg",
+    "volume": "1 L",
+    "price": 1000,
+    "material": [ "silver", "steel" ],
+    "category": "spare_parts"
+  },
+  {
+    "type": "GENERIC",
+    "id": "yrax_scrap",
+    "name": { "str_sp": "alien metal scrap" },
+    "description": "Tiny metal strips, spheres and other geometric primitives taken from a disassembled alien machine.",
+    "symbol": ",",
+    "color": "yellow",
+    "weight": "150g",
+    "volume": "100 ml",
+    "price": 1000,
+    "material": [ "silver", "gold" ],
+    "category": "spare_parts"
+  },
+  {
+    "type": "GENERIC",
+    "id": "yrax_computer",
+    "name": { "str_sp": "monolithic machine" },
+    "description": "A very heavy sphere, presumably made almost entirely of gold.  A complexly etched surface implies it might serve some exotic function.",
+    "symbol": "o",
+    "color": "yellow",
+    "weight": "14 kg",
+    "volume": "1 L",
+    "price": 1000,
+    "material": [ "copper", "gold" ],
+    "category": "spare_parts"
+  },
+  {
+    "type": "GENERIC",
+    "id": "yrax_robotics",
+    "name": { "str_sp": "robotic innards" },
+    "description": "A robotic assembly of unknown function.  Entirely made from tight fitting metal plates, it somewhat resembles the interior of a mechanical clock.",
+    "symbol": "o",
+    "color": "white",
+    "weight": "3 kg",
+    "volume": "2 L",
+    "price": 1000,
+    "material": [ "steel", "gold" ],
+    "category": "spare_parts"
+  },
+  {
+    "type": "GENERIC",
+    "id": "yrax_sensor",
+    "name": { "str_sp": "sensor assembly" },
+    "description": "Small black glass screens embed on an carved sphere.  It's probably a sensor of some kind.",
+    "symbol": "o",
+    "color": "white",
+    "weight": "1 kg",
+    "volume": "2 L",
+    "price": 1000,
+    "material": [ "steel", "glass" ],
+    "category": "spare_parts"
   }
 ]
