@@ -96,5 +96,22 @@
     "bashing": 30,
     "to_hit": -5,
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_eshaper_golem",
+    "symbol": "x",
+    "color": "light_gray",
+    "name": "broken stone golem",
+    "category": "other",
+    "description": "A broken earthshaper's golem, almost same as his natural stone counterpart.  Could be smashed for stone.",
+    "price": 10000,
+    "material": [ "stone" ],
+    "weight": "112 kg",
+    "volume": "80 L",
+    "bashing": 4,
+    "cutting": 4,
+    "to_hit": -3,
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   }
 ]

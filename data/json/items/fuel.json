@@ -261,6 +261,7 @@
     "count": 250,
     "stack_size": 200,
     "category": "chems",
+    "flags": [ "NO_DROP" ],
     "phase": "gas",
     "container": "small_propane_tank",
     "material": [ "propane" ],
