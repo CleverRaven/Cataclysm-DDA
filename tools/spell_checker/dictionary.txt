@@ -543,6 +543,7 @@ dysmorphia
 dysrhythmia
 earthbag
 earthbags
+earthshaper
 ebon
 ebook
 eboshi
