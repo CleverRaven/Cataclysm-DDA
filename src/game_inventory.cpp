@@ -481,6 +481,9 @@ class pickup_inventory_preset : public inventory_selector_preset
 
         std::string get_denial( const item_location &loc ) const override {
             if( !you.has_item( *loc ) ) {
+                if( loc->made_of_from_type( phase_id::GAS ) ) {
+                    return _( "Can't pick up gasses." );
+                }
                 if( loc->made_of_from_type( phase_id::LIQUID ) && !loc->is_frozen_liquid() ) {
                     if( loc.has_parent() ) {
                         return _( "Can't pick up liquids." );
@@ -725,6 +728,11 @@ class comestible_inventory_preset : public inventory_selector_preset
                   loc.where() != item_location::type::container ) &&
                 !get_map().has_flag_furn( ter_furn_flag::TFLAG_LIQUIDCONT, loc.position() ) ) {
                 return _( "Can't drink spilt liquids." );
+            }
+            if(
+                loc->made_of_from_type( phase_id::GAS ) &&
+                loc.where() != item_location::type::container ) {
+                return _( "Can't consume spilt gasses." );
             }
 
             if( med.is_medication() && !you.can_use_heal_item( med ) && !med.is_craft() ) {

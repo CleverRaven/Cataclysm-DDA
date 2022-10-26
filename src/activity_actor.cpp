@@ -1858,7 +1858,7 @@ void move_items_activity_actor::do_turn( player_activity &act, Character &who )
         }
 
         // Check that we can pick it up.
-        if( !target->made_of_from_type( phase_id::LIQUID ) ) {
+        if( target->made_of_from_type( phase_id::SOLID ) ) {
             item &leftovers = *target;
             // Make a copy to be put in the destination location
             item newit = leftovers;
@@ -6177,7 +6177,7 @@ static void move_item( Character &you, item &it, const int quantity, const tripo
 
     map &here = get_map();
     // Check that we can pick it up.
-    if( !it.made_of_from_type( phase_id::LIQUID ) ) {
+    if( it.made_of_from_type( phase_id::SOLID ) ) {
         you.mod_moves( -activity_handlers::move_cost( it, src, dest ) );
 
         put_into_vehicle_or_drop( you, item_drop_reason::deliberate, { it }, dest );
