@@ -3373,7 +3373,13 @@ void overmap::generate( const overmap *north, const overmap *east,
     const std::string overmap_pregenerated_path =
         get_option<std::string>( "OVERMAP_PREGENERATED_PATH" );
     if( !overmap_pregenerated_path.empty() ) {
-        const cata_path fpath = PATH_INFO::moddir() / string_format( "%s/overmap_%d_%d.omap.gz",
+        // HACK: For some reason gz files are automatically unpacked and renamed during Android build process
+#if defined(__ANDROID__)
+        static const std::string fname = "%s/overmap_%d_%d.omap";
+#else
+        static const std::string fname = "%s/overmap_%d_%d.omap.gz";
+#endif
+        const cata_path fpath = PATH_INFO::moddir() / string_format( fname,
                                 overmap_pregenerated_path, pos().x(), pos().y() );
         dbg( D_INFO ) << "trying" << fpath;
         if( !read_from_file_optional_json( fpath, [this, &fpath]( const JsonValue & jv ) {
