@@ -923,7 +923,9 @@ bool advanced_inventory::move_all_items()
     }
 
     if( spane.items.empty() || liquid_items == spane.items.size() ) {
-        popup( _( "No eligible items found to be moved." ) );
+        if( !is_processing() ) {
+            popup( _( "No eligible items found to be moved." ) );
+        }
         return false;
     }
     std::unique_ptr<on_out_of_scope> restore_area;

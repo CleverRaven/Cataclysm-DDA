@@ -193,6 +193,10 @@
       "npcs": { "!": { "class": "pagan_cult_shopkeep" }, "2": { "class": "pagan_cult_member" } },
       "terrain": { " ": "t_region_groundcover", ".": "t_rock_floor", "]": "t_bars" },
       "furniture": { "1": "f_firefly_terrarium", "3": "f_rack_wood", "L": "f_rack_wood", "r": "f_rack_wood" },
+      "place_zones": [
+        { "type": "LOOT_UNSORTED", "faction": "valhallists", "x": [ 18, 18 ], "y": [ 13, 13 ] },
+        { "type": "LOOT_CURRENCY", "faction": "valhallists", "x": [ 20, 20 ], "y": [ 13, 13 ] }
+      ],
       "items": {
         "L": [
           { "item": "condiments", "chance": 80, "repeat": [ 2, 4 ] },

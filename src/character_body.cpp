@@ -272,7 +272,7 @@ void Character::update_body( const time_point &from, const time_point &to )
                 mod_daily_health( -1, -200 );
             }
         }
-        if( cardio_accumultor >= get_bmr() / 2 ) {
+        if( cardio_accumultor >= get_cardio_acc_base() ) {
             mod_daily_health( 2, 200 );
         }
     }
