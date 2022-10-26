@@ -1037,7 +1037,7 @@ The `type` field values affect NPC behavior. NPCs will:
 - Not move to the see the source of unseen sounds coming from `NPC_NO_INVESTIGATE` zones.
 - Not move to the see the source of unseen sounds coming from outside `NPC_INVESTIGATE_ONLY` zones.
 
-### Specify a player spawning location using "zones
+### Specify a player spawning location using "zones"
 
 When designing a scenario map piece pieces that can be selected as a starting location, you can directly specify where in the map the player will be placed by using a `ZONE_START_POINT` zone. A `ZONE_START_POINT` zone will only be considered valid if it belongs to the `your_followers` faction.
 
