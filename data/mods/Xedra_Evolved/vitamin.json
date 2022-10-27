@@ -29,7 +29,9 @@
     "vit_type": "counter",
     "name": { "str": "Creative Spark" },
     "min": 0,
-    "max": 5,
-    "rate": "0 m"
+    "max": 6,
+    "rate": "0 m",
+    "excess": "creativity",
+    "disease_excess": [ [ 1, 2 ], [ 3, 4 ], [ 5, 6 ] ]
   }
 ]

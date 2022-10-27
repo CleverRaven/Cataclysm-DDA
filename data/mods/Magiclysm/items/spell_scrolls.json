@@ -400,6 +400,114 @@
   {
     "type": "BOOK",
     "copy-from": "spell_scroll",
+    "id": "spell_scroll_clairvoyance",
+    "//": "Earthshaper spell",
+    "name": { "str": "Scroll of Clairvoyance", "str_pl": "Scrolls of Clairvoyance" },
+    "description": "You close your eyes and the earth surrenders its secrets to you.",
+    "use_action": { "type": "learn_spell", "spells": [ "clairvoyance" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_earthshaper_stoneskin",
+    "//": "Earthshaper spell",
+    "name": { "str": "Scroll of Stoneskin", "str_pl": "Scrolls of Stoneskin" },
+    "description": "Envelops your entire body in armor formed from living rock, encumbering yet protective.",
+    "use_action": { "type": "learn_spell", "spells": [ "earthshaper_stoneskin" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_earthshaper_pillar",
+    "//": "Earthshaper spell",
+    "name": { "str": "Scroll of Pillar of Stone", "str_pl": "Scrolls of Pillar of Stone" },
+    "description": "Drawing upon the surrounding earth, you form a pillar of solid rock.  Experience will make the task easier, and less disruptive to the surrounding area.",
+    "use_action": { "type": "learn_spell", "spells": [ "earthshaper_pillar" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_pertifying_touch",
+    "//": "Earthshaper spell",
+    "name": { "str": "Scroll of Petrifying Touch", "str_pl": "Scrolls of Petrifying Touch" },
+    "description": "Your hands tries to transform the body of your enemy into a pure stone.  The effect is temporary, but it can deal significant damage.",
+    "use_action": { "type": "learn_spell", "spells": [ "pertifying_touch" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_reactive_armor",
+    "//": "Earthshaper spell",
+    "name": { "str": "Scroll of Reactive Armour", "str_pl": "Scrolls of Reactive Armour" },
+    "description": "Explode your stone skin, to deal massive damage to all enemies around.",
+    "use_action": { "type": "learn_spell", "spells": [ "reactive_armor" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_eshaper_impalement",
+    "//": "Earthshaper spell",
+    "name": { "str": "Scroll of Impalement", "str_pl": "Scrolls of Impalement" },
+    "description": "Summon a stone spikes underground, that penetrate your enemies, and nail them for a while.",
+    "use_action": { "type": "learn_spell", "spells": [ "eshaper_impalement" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_eshaper_spawn_tools",
+    "//": "Earthshaper spell",
+    "name": { "str": "Scroll of Utility Molding", "str_pl": "Scrolls of Utility Molding" },
+    "description": "Shape the basic working tools, using your own magic abilities and earth nearby.  Activate to change the shape of a tool.",
+    "use_action": { "type": "learn_spell", "spells": [ "eshaper_spawn_tools" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_eshaper_melee_damage",
+    "//": "Earthshaper spell",
+    "name": { "str": "Scroll of Weighting", "str_pl": "Scrolls of Weighting" },
+    "description": "Fill yourself with power of Earth, and make each your attack as devastating as quake.",
+    "use_action": { "type": "learn_spell", "spells": [ "eshaper_melee_damage" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_eshaper_crystal_wrap",
+    "//": "Earthshaper spell",
+    "name": { "str": "Scroll of Crystal Wrapping", "str_pl": "Scrolls of Crystal Wrapping" },
+    "description": "Your cover your body with small layer of razor sharp crystals.  It makes monster's, that attack you, take some damage in return, and gives you some additional cut damage in melee.",
+    "use_action": { "type": "learn_spell", "spells": [ "eshaper_crystal_wrap" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_shape_of_dust",
+    "//": "Earthshaper spell",
+    "name": { "str": "Scroll of Shape of Dust", "str_pl": "Scrolls of Shape of Dust" },
+    "description": "Hide yourself between the sand gust.  It's harder to hit you, and monster's can't spot you.",
+    "use_action": { "type": "learn_spell", "spells": [ "shape_of_dust" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_summon_eshaper_golem",
+    "//": "Earthshaper spell",
+    "name": { "str": "Scroll of Earthshaper's Golem", "str_pl": "Scrolls of Earthshaper's Golem" },
+    "description": "Shape a strong golem out of the stone.  It may help for a lot, but you have not enough energy to support it forever.",
+    "use_action": { "type": "learn_spell", "spells": [ "summon_eshaper_golem" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_earthshaper_boulder",
+    "//": "Earthshaper spell",
+    "name": { "str": "Scroll of Summon Boulder", "str_pl": "Scrolls of Summon Boulder" },
+    "description": "Pull the smooth rock underground, using your forces of earth shaping.  You can use it as a table, or as a primitive anvil.",
+    "use_action": { "type": "learn_spell", "spells": [ "earthshaper_boulder" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
     "id": "spell_scroll_point_flare",
     "//": "Kelvinist spell",
     "name": { "str": "Scroll of Point Flare", "str_pl": "Scrolls of Point Flare" },
@@ -832,15 +940,6 @@
   {
     "type": "BOOK",
     "copy-from": "spell_scroll",
-    "id": "spell_scroll_clairvoyance",
-    "//": "Earthshaper spell",
-    "name": { "str": "Scroll of Clairvoyance", "str_pl": "Scrolls of Clairvoyance" },
-    "description": "You close your eyes and the earth surrenders its secrets to you.",
-    "use_action": { "type": "learn_spell", "spells": [ "clairvoyance" ] }
-  },
-  {
-    "type": "BOOK",
-    "copy-from": "spell_scroll",
     "id": "spell_scroll_bleed",
     "//": "Animist spell",
     "name": { "str": "Scroll of Bleed", "str_pl": "Scrolls of Bleed" },
@@ -895,24 +994,6 @@
     "name": { "str": "Scroll of Sacrificial Healing", "str_pl": "Scrolls of Sacrificial Healing" },
     "description": "Channels some of the user's own life force into healing energy, for the sake of ones allies.",
     "use_action": { "type": "learn_spell", "spells": [ "druidic_healing" ] }
-  },
-  {
-    "type": "BOOK",
-    "copy-from": "spell_scroll",
-    "id": "spell_scroll_earthshaper_stoneskin",
-    "//": "Earthshaper spell",
-    "name": { "str": "Scroll of Stoneskin", "str_pl": "Scrolls of Stoneskin" },
-    "description": "Envelops your entire body in armor formed from living rock, encumbering yet protective.",
-    "use_action": { "type": "learn_spell", "spells": [ "earthshaper_stoneskin" ] }
-  },
-  {
-    "type": "BOOK",
-    "copy-from": "spell_scroll",
-    "id": "spell_scroll_earthshaper_pillar",
-    "//": "Earthshaper spell",
-    "name": { "str": "Scroll of Pillar of Stone", "str_pl": "Scrolls of Pillar of Stone" },
-    "description": "Drawing upon the surrounding earth, you form a pillar of solid rock.  Experience will make the task easier, and less disruptive to the surrounding area.",
-    "use_action": { "type": "learn_spell", "spells": [ "earthshaper_pillar" ] }
   },
   {
     "type": "BOOK",

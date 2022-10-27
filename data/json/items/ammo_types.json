@@ -565,12 +565,6 @@
   },
   {
     "type": "ammunition_type",
-    "id": "gasfilter_l",
-    "name": "hazmat mask cartridge",
-    "default": "gasfilter_l"
-  },
-  {
-    "type": "ammunition_type",
     "id": "300",
     "name": ".300",
     "default": "300_winmag"
