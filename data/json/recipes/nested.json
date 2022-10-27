@@ -1585,6 +1585,7 @@
       "lc_chainmail_suit_xs",
       "xl_lc_chainmail_suit",
       "lc_chainmail_suit_hauberk",
+      "lc_chainmail_suit_xs_hauberk",
       "xl_lc_chainmail_suit_hauberk"
     ],
     "difficulty": 1
@@ -1603,6 +1604,7 @@
       "mc_chainmail_suit_xs",
       "xl_mc_chainmail_suit",
       "mc_chainmail_suit_hauberk",
+      "mc_chainmail_suit_xs_hauberk",
       "xl_mc_chainmail_suit_hauberk"
     ],
     "difficulty": 2
@@ -1621,6 +1623,7 @@
       "hc_chainmail_suit_xs",
       "xl_hc_chainmail_suit",
       "hc_chainmail_suit_hauberk",
+      "hc_chainmail_suit_xs_hauberk",
       "xl_hc_chainmail_suit_hauberk"
     ],
     "difficulty": 3
@@ -1639,6 +1642,7 @@
       "ch_chainmail_suit_xs",
       "xl_ch_chainmail_suit",
       "ch_chainmail_suit_hauberk",
+      "ch_chainmail_suit_xs_hauberk",
       "xl_ch_chainmail_suit_hauberk"
     ],
     "difficulty": 4
@@ -1657,6 +1661,7 @@
       "qt_chainmail_suit_xs",
       "xl_qt_chainmail_suit",
       "qt_chainmail_suit_hauberk",
+      "qt_chainmail_suit_xs_hauberk",
       "xl_qt_chainmail_suit_hauberk"
     ],
     "difficulty": 5

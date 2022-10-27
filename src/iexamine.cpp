@@ -1238,10 +1238,16 @@ void iexamine::elevator( Character &you, const tripoint &examp )
     tripoint const sm_orig = here.getlocal( project_to<coords::ms>( this_omt ) );
     std::vector<tripoint> this_elevator;
 
-    for( tripoint const &pos : closest_points_first( you.pos(), SEEX - 1 ) ) {
+    for( tripoint const &pos : closest_points_first( examp, SEEX - 1 ) ) {
         if( here.has_flag( ter_furn_flag::TFLAG_ELEVATOR, pos ) ) {
             this_elevator.emplace_back( pos );
         }
+    }
+
+    auto const uit = std::find( this_elevator.cbegin(), this_elevator.cend(), you.pos() );
+    if( uit == this_elevator.cend() ) {
+        popup( _( "You must stand inside the elevator to use it." ) );
+        return;
     }
 
     elevator_vehicles const vehs = _get_vehicles_on_elevator( this_elevator );
@@ -1329,7 +1335,7 @@ void iexamine::controls_gate( Character &you, const tripoint &examp )
     g->open_gate( examp );
 }
 
-bool iexamine::try_start_hacking( Character &you, const tripoint &examp )
+bool iexamine::can_hack( Character &you )
 {
     if( you.has_trait( trait_ILLITERATE ) ) {
         add_msg( _( "You cannot read!" ) );
@@ -1340,10 +1346,19 @@ bool iexamine::try_start_hacking( Character &you, const tripoint &examp )
         add_msg( _( "You don't have a hacking tool with enough charges!" ) );
         return false;
     }
-    you.use_charges( itype_electrohack, 25 );
-    you.assign_activity( player_activity( hacking_activity_actor() ) );
-    you.activity.placement = get_map().getglobal( examp );
     return true;
+}
+
+bool iexamine::try_start_hacking( Character &you, const tripoint &examp )
+{
+    if( !can_hack( you ) ) {
+        return false;
+    } else {
+        you.use_charges( itype_electrohack, 25 );
+        you.assign_activity( player_activity( hacking_activity_actor() ) );
+        you.activity.placement = get_map().getglobal( examp );
+        return true;
+    }
 }
 
 void iexamine::cardreader_robofac( Character &you, const tripoint &examp )
@@ -1402,7 +1417,7 @@ void iexamine::cardreader_foodplace( Character &you, const tripoint &examp )
         sounds::sound( examp, 6, sounds::sound_t::electronic_speech,
                        _( "\"Your face is inadequate.  Please go away.\"" ), true,
                        "speech", "welcome" );
-        if( query_yn( _( "Attempt to hack this card-reader?" ) ) ) {
+        if( can_hack( you ) && query_yn( _( "Attempt to hack this card-reader?" ) ) ) {
             try_start_hacking( you, examp );
         }
     }

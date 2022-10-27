@@ -970,7 +970,7 @@ bool Character::roll_bad_mutation() const
     }
 }
 
-void Character::mutate( const int &true_random_chance, const bool use_vitamins )
+void Character::mutate( const int &true_random_chance, bool use_vitamins )
 {
     // Determine the highest mutation category
     mutation_category_id cat;
@@ -1064,7 +1064,7 @@ void Character::mutate( const int &true_random_chance, const bool use_vitamins )
                 size_t roll = rng( 0, upgrades.size() + 4 );
                 if( roll < upgrades.size() ) {
                     // We got a valid upgrade index, so use it and return.
-                    mutate_towards( upgrades[roll], cat );
+                    mutate_towards( upgrades[roll], cat, nullptr, use_vitamins );
                     return;
                 }
             }
@@ -1086,7 +1086,7 @@ void Character::mutate( const int &true_random_chance, const bool use_vitamins )
         if( !dummies.empty() ) {
             std::shuffle( dummies.begin(), dummies.end(), rng_get_engine() );
             for( trait_id &tid : dummies ) {
-                if( has_conflicting_trait( tid ) && mutate_towards( tid, cat ) ) {
+                if( has_conflicting_trait( tid ) && mutate_towards( tid, cat, nullptr, use_vitamins ) ) {
                     add_msg_if_player( m_mixed, mutation_category_trait::get_category( cat ).mutagen_message() );
                     return;
                 }
@@ -1107,7 +1107,7 @@ void Character::mutate( const int &true_random_chance, const bool use_vitamins )
             if( mut_vit != vitamin_id::NULL_ID() && vitamin_get( mut_vit ) >= 2200 ) {
                 test_crossing_threshold( cat );
             }
-            if( mutate_towards( valid, cat, 2 ) ) {
+            if( mutate_towards( valid, cat, 2, use_vitamins ) ) {
                 add_msg_if_player( m_mixed, mutation_category_trait::get_category( cat ).mutagen_message() );
             }
             return;
@@ -1120,7 +1120,8 @@ void Character::mutate( )
     mutate( 1, false );
 }
 
-void Character::mutate_category( const mutation_category_id &cat, const bool use_vitamins )
+void Character::mutate_category( const mutation_category_id &cat, const bool use_vitamins,
+                                 const bool true_random )
 {
     // Hacky ID comparison is better than separate hardcoded branch used before
     // TODO: Turn it into the null id
@@ -1131,8 +1132,8 @@ void Character::mutate_category( const mutation_category_id &cat, const bool use
 
     bool picked_bad = roll_bad_mutation();
 
-    bool allow_good = !picked_bad;
-    bool allow_bad = picked_bad;
+    bool allow_good = true_random || !picked_bad;
+    bool allow_bad = true_random || picked_bad;
     bool allow_neutral = true;
 
     // Pull the category's list for valid mutations
@@ -1150,12 +1151,12 @@ void Character::mutate_category( const mutation_category_id &cat, const bool use
         }
     }
 
-    mutate_towards( valid, cat, 2 );
+    mutate_towards( valid, cat, 2, use_vitamins );
 }
 
 void Character::mutate_category( const mutation_category_id &cat )
 {
-    mutate_category( cat, false );
+    mutate_category( cat, !mutation_category_trait::get_category( cat ).vitamin.is_null() );
 }
 
 static std::vector<trait_id> get_all_mutation_prereqs( const trait_id &id )
@@ -1175,12 +1176,12 @@ static std::vector<trait_id> get_all_mutation_prereqs( const trait_id &id )
 }
 
 bool Character::mutate_towards( std::vector<trait_id> muts, const mutation_category_id &mut_cat,
-                                int num_tries )
+                                int num_tries, bool use_vitamins )
 {
     while( !muts.empty() && num_tries > 0 ) {
         int i = rng( 0, muts.size() - 1 );
 
-        if( mutate_towards( muts[i], mut_cat ) ) {
+        if( mutate_towards( muts[i], mut_cat, nullptr, use_vitamins ) ) {
             return true;
         }
 
@@ -1192,7 +1193,7 @@ bool Character::mutate_towards( std::vector<trait_id> muts, const mutation_categ
 }
 
 bool Character::mutate_towards( const trait_id &mut, const mutation_category_id &mut_cat,
-                                const mutation_variant *chosen_var )
+                                const mutation_variant *chosen_var, const bool use_vitamins )
 {
     if( has_child_flag( mut ) ) {
         remove_child_flag( mut );
@@ -1297,9 +1298,9 @@ bool Character::mutate_towards( const trait_id &mut, const mutation_category_id 
 
     if( !c_has_both_prereqs && ( !prereqs1.empty() || !prereqs2.empty() ) ) {
         if( !c_has_prereq1 && !prereqs1.empty() ) {
-            return mutate_towards( prereqs1, mut_cat );
+            return mutate_towards( prereqs1, mut_cat, 2, use_vitamins );
         } else if( !c_has_prereq2 && !prereqs2.empty() ) {
-            return mutate_towards( prereqs2, mut_cat );
+            return mutate_towards( prereqs2, mut_cat, 2, use_vitamins );
         }
     }
 
@@ -1340,7 +1341,8 @@ bool Character::mutate_towards( const trait_id &mut, const mutation_category_id 
         return false;
     }
 
-    const vitamin_id mut_vit = mut_cat == mutation_category_ANY ? vitamin_id::NULL_ID() :
+    const vitamin_id mut_vit = mut_cat == mutation_category_ANY ||
+                               !use_vitamins ? vitamin_id::NULL_ID() :
                                mutation_category_trait::get_category( mut_cat ).vitamin;
 
     if( mut_vit != vitamin_id::NULL_ID() ) {
