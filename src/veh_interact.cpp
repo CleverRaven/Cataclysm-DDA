@@ -974,16 +974,16 @@ void veh_interact::do_install()
     avatar &player_character = get_avatar();
 
     std::vector<const vpart_info *> &tab_vparts = install_info->tab_vparts;
-    auto refresh_parts_list = [&]( std::vector<const vpart_info *> parts ) {
-        std::copy_if( parts.begin(), parts.end(), std::back_inserter( tab_vparts ), tab_filters[tab] );
-    };
-    refresh_parts_list( can_mount );
 
     while( true ) {
+        tab = ( tab + tab_list.size() ) % tab_list.size(); // handle tabs rolling under/over
+        tab_vparts.clear();
+        std::copy_if( can_mount.begin(), can_mount.end(), std::back_inserter( tab_vparts ),
+                      tab_filters[tab] );
         // filtered list can be empty
         sel_vpart_info = tab_vparts.empty() ? nullptr : tab_vparts[pos];
 
-        bool can_install = update_part_requirements();
+        const bool can_install = update_part_requirements();
         ui_manager::redraw();
 
         const std::string action = main_context.handle_input();
@@ -996,12 +996,10 @@ void veh_interact::do_install()
             .max_length( 100 )
             .edit( filter );
             tab = tab_filters.size() - 1; // Move to the user filter tab.
-        }
-        if( action == "REPAIR" ) {
+        } else if( action == "REPAIR" ) {
             filter.clear();
             tab = 0;
-        }
-        if( action == "INSTALL" || action == "CONFIRM" ) {
+        } else if( action == "INSTALL" || action == "CONFIRM" ) {
             if( can_install ) {
                 switch( reason ) {
                     case task_reason::LOW_MORALE:
@@ -1146,18 +1144,12 @@ void veh_interact::do_install()
             sel_vpart_info = nullptr;
             sel_vpart_variant.clear();
             break;
-        } else if( action == "PREV_TAB" || action == "NEXT_TAB" || action == "FILTER" ||
-                   action == "REPAIR" ) {
-            tab_vparts.clear();
+        } else if( action == "PREV_TAB" ) {
             pos = 0;
-
-            if( action == "PREV_TAB" ) {
-                tab = ( tab < 1 ) ? tab_list.size() - 1 : tab - 1;
-            } else if( action == "NEXT_TAB" ) {
-                tab = ( tab < tab_list.size() - 1 ) ? tab + 1 : 0;
-            }
-
-            refresh_parts_list( can_mount );
+            tab--;
+        } else if( action == "NEXT_TAB" ) {
+            pos = 0;
+            tab++;
         } else if( action == "DESC_LIST_DOWN" ) {
             w_msg_scroll_offset++;
         } else if( action == "DESC_LIST_UP" ) {
