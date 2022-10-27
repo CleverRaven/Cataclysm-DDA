@@ -1,0 +1,40 @@
+[
+  {
+    "id": "MISSION_FORGE_DIVINER_ANTS",
+    "type": "mission_definition",
+    "name": { "str": "Visit the anthill" },
+    "goal": "MGOAL_GO_TO_TYPE",
+    "difficulty": 0,
+    "value": 0,
+    "description": "The diviner told you there would be giant ants here.",
+    "start":  {
+      "assign_mission_target": {
+        "om_terrain": "anthill",
+        "reveal_radius": 3,
+        "cant_see": true,
+        "random": true,
+        "search_range": 180,
+        "z": -2
+      }
+    }
+  },
+  {
+    "id": "MISSION_FORGE_DIVINER_ACID_ANTS",
+    "type": "mission_definition",
+    "name": { "str": "Visit the acid anthill" },
+    "goal": "MGOAL_GO_TO_TYPE",
+    "difficulty": 0,
+    "value": 0,
+    "description": "The diviner told you there would be giant acid ants here.",
+    "start":  {
+      "assign_mission_target": {
+        "om_terrain": "acid_anthill",
+        "reveal_radius": 3,
+        "cant_see": true,
+        "random": true,
+        "search_range": 180,
+        "z": -2
+      }
+    }
+  }
+]

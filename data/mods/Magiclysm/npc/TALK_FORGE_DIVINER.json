@@ -65,6 +65,7 @@
       { "text": "A geological formation.", "topic": "TALK_FORGE_LORD_DIVINER_GEOLOGY" },
       { "text": "A plant.", "topic": "TALK_FORGE_LORD_DIVINER_PLANT" },
       { "text": "An animal.", "topic": "TALK_FORGE_LORD_DIVINER_ANIMAL" },
+      { "text": "About something else…", "topic": "TALK_NONE" },
       { "text": "Nevermind.", "topic": "TALK_DONE" }
     ]
   },
@@ -87,6 +88,7 @@
       { "text": "A swamp dragon cave!", "topic": "TALK_FORGE_LORD_DIVINER_SWAMP_DRAGON" },
       { "text": "Demon spiders", "topic": "TALK_FORGE_LORD_DIVINER_SWAMP_DEMON_SPIDERS" },
       { "text": "A balrog mine", "topic": "TALK_FORGE_LORD_DIVINER_SWAMP_DEMON_BALROG" },
+      { "text": "About something else…", "topic": "TALK_NONE" },
       { "text": "Nevermind.", "topic": "TALK_DONE" }
     ]
   },
@@ -103,6 +105,7 @@
       { "text": "A wizard tower.", "topic": "TALK_FORGE_LORD_DIVINER_TOWER" },
       { "text": "A goblin encampment.", "topic": "TALK_FORGE_LORD_DIVINER_GOBLIN" },
       { "text": "An orc village.", "topic": "TALK_FORGE_LORD_DIVINER_ORC" },
+      { "text": "About something else…", "topic": "TALK_NONE" },
       { "text": "Nevermind.", "topic": "TALK_DONE" }
     ]
   },
@@ -115,6 +118,7 @@
       { "text": "A clay deposit.", "topic": "TALK_FORGE_LORD_DIVINER_CLAY" },
       { "text": "A hot spring.", "topic": "TALK_FORGE_LORD_DIVINER_SPRING" },
       { "text": "A cave.", "topic": "TALK_FORGE_LORD_DIVINER_CAVE" },
+      { "text": "About something else…", "topic": "TALK_NONE" },
       { "text": "Nevermind.", "topic": "TALK_DONE" }
     ]
   },
@@ -124,6 +128,7 @@
     "dynamic_line": "A plant you say?  Which one?",
     "responses": [
       { "text": "A magical plant.", "topic": "TALK_FORGE_LORD_DIVINER_MAGIC_PLANT" },
+      { "text": "About something else…", "topic": "TALK_NONE" },
       { "text": "Nevermind.", "topic": "TALK_DONE" }
     ]
   },
@@ -136,7 +141,52 @@
       { "text": "A horse.", "topic": "TALK_FORGE_LORD_DIVINER_HORSE" },
       { "text": "A sheep.", "topic": "TALK_FORGE_LORD_DIVINER_SHEEP" },
       { "text": "A cow.", "topic": "TALK_FORGE_LORD_DIVINER_COW" },
+      { "text": "A dog.", "topic": "TALK_FORGE_LORD_DIVINER_DOG" },
+      { "text": "A cat.", "topic": "TALK_FORGE_LORD_DIVINER_CAT" },
       { "text": "A hunllef ram.", "topic": "TALK_FORGE_LORD_DIVINER_HULLEF" },
+      { "text": "About something else…", "topic": "TALK_NONE" },
+      { "text": "Nevermind.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_FORGE_LORD_DIVINER_ANT",
+    "type": "talk_topic",
+    "dynamic_line": "I see a giant ant cutting down a tree with her mandables.  Did you know that worker ants are all female?  I see her friends around her.  I'll mark the location on your map for one denarius.",
+    "responses": [
+      { 
+        "text": "It's a deal'.", "topic": "TALK_DONE",
+        "condition": { "u_has_item": "denarius" },
+        "effect": [
+          { "assign_mission": "MISSION_FORGE_DIVINER_ANTS" },
+          { "u_consume_item": "denarius" }
+        ]
+      },
+      { 
+        "text": "I can't afford that right now.", "topic": "TALK_FORGE_LORD_DIVINER_GET_MONEY",
+        "condition": { "not": { "u_has_item": "denarius" } }
+      },
+      { "text": "About something else…", "topic": "TALK_NONE" },
+      { "text": "Nevermind.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_FORGE_LORD_DIVINER_ACID_ANT",
+    "type": "talk_topic",
+    "dynamic_line": "I see a giant ant lobbing globs of acids at a group of unfortunate dogs.  It seems to be quite effective.  I'll mark the location on your map for one denarius.",
+    "responses": [
+      { 
+        "text": "It's a deal'.", "topic": "TALK_DONE",
+        "condition": { "u_has_item": "denarius" },
+        "effect": [
+          { "assign_mission": "MISSION_FORGE_DIVINER_ACID_ANTS" },
+          { "u_consume_item": "denarius" }
+        ]
+      },
+      { 
+        "text": "I can't afford that right now.", "topic": "TALK_FORGE_LORD_DIVINER_GET_MONEY",
+        "condition": { "not": { "u_has_item": "denarius" } }
+      },
+      { "text": "About something else…", "topic": "TALK_NONE" },
       { "text": "Nevermind.", "topic": "TALK_DONE" }
     ]
   }
