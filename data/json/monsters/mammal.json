@@ -394,6 +394,14 @@
     ]
   },
   {
+    "id": "mon_cat_isherwood",
+    "type": "MONSTER",
+    "copy-from": "mon_cat",
+    "description": "A small domesticated predator gone feral in the absence of human stewardship.  Located near the old Isherwood cabin.",
+    "morale": 50,
+    "fear_triggers": [ "SOUND", "FRIEND_ATTACKED" ]
+  },
+  {
     "id": "mon_cat_longhair",
     "type": "MONSTER",
     "copy-from": "mon_cat",
