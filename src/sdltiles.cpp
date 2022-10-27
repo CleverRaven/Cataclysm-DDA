@@ -3117,10 +3117,6 @@ static void CheckMessages()
                 window_focus = false;
                 break;
             case SDL_APP_DIDENTERFOREGROUND:
-                /*if( !SDL_IsTextInputActive() ) {
-                    StopTextInput();
-                    StartTextInput();
-                } */
                 window_focus = true;
                 // Restore text input status
                 if( text_input_active_when_regaining_focus ) {
