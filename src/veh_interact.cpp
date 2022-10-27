@@ -1000,65 +1000,116 @@ void veh_interact::do_install()
             filter.clear();
             tab = 0;
         } else if( action == "INSTALL" || action == "CONFIRM" ) {
-            if( can_install ) {
-                switch( reason ) {
-                    case task_reason::LOW_MORALE:
-                        msg = _( "Your morale is too low to construct…" );
-                        return;
-                    case task_reason::LOW_LIGHT:
-                        msg = _( "It's too dark to see what you are doing…" );
-                        return;
-                    case task_reason::MOVING_VEHICLE:
-                        msg = _( "You can't install parts while driving." );
-                        return;
-                    default:
-                        break;
-                }
-                // Modifying a vehicle with rotors will make in not flightworthy
-                // (until we've got a better model)
-                // It can only be the player doing this - an npc won't work well with query_yn
-                if( veh->would_install_prevent_flyable( *sel_vpart_info, player_character ) ) {
-                    if( query_yn(
-                            _( "Installing this part will mean that this vehicle is no longer "
-                               "flightworthy.  Continue?" ) ) ) {
-                        veh->set_flyable( false );
-                    } else {
-                        return;
-                    }
-                }
-                if( veh->is_foldable() && !sel_vpart_info->folded_volume &&
-                    !query_yn( _( "Installing this part will make the vehicle unfoldable. "
-                                  " Continue?" ) ) ) {
+            if( !can_install ) {
+                continue;
+            }
+            switch( reason ) {
+                case task_reason::LOW_MORALE:
+                    msg = _( "Your morale is too low to construct…" );
+                    return;
+                case task_reason::LOW_LIGHT:
+                    msg = _( "It's too dark to see what you are doing…" );
+                    return;
+                case task_reason::MOVING_VEHICLE:
+                    msg = _( "You can't install parts while driving." );
+                    return;
+                default:
+                    break;
+            }
+            // Modifying a vehicle with rotors will make in not flightworthy
+            // (until we've got a better model)
+            // It can only be the player doing this - an npc won't work well with query_yn
+            if( veh->would_install_prevent_flyable( *sel_vpart_info, player_character ) ) {
+                if( query_yn(
+                        _( "Installing this part will mean that this vehicle is no longer "
+                           "flightworthy.  Continue?" ) ) ) {
+                    veh->set_flyable( false );
+                } else {
                     return;
                 }
-                auto &shapes = vpart_shapes[ sel_vpart_info->name() + sel_vpart_info->base_item.str() ];
-                // Don't include appliances in variant list
-                for( auto iter = shapes.begin(); iter != shapes.end(); ) {
-                    if( ( *iter )->has_flag( VPFLAG_APPLIANCE ) ) {
-                        shapes.erase( iter );
-                    } else {
-                        iter++;
-                    }
+            }
+            if( veh->is_foldable() && !sel_vpart_info->folded_volume &&
+                !query_yn( _( "Installing this part will make the vehicle unfoldable. "
+                              " Continue?" ) ) ) {
+                return;
+            }
+            auto &shapes = vpart_shapes[ sel_vpart_info->name() + sel_vpart_info->base_item.str() ];
+            // Don't include appliances in variant list
+            for( auto iter = shapes.begin(); iter != shapes.end(); ) {
+                if( ( *iter )->has_flag( VPFLAG_APPLIANCE ) ) {
+                    shapes.erase( iter );
+                } else {
+                    iter++;
                 }
-                int selected_shape = -1;
-                // more than one base variant available with the same name
-                size_t num_vpart_shapes = shapes.size();
-                if( num_vpart_shapes > 1 ) {
+            }
+            int selected_shape = -1;
+            // more than one base variant available with the same name
+            size_t num_vpart_shapes = shapes.size();
+            if( num_vpart_shapes > 1 ) {
+                std::vector<uilist_entry> shape_ui_entries;
+                for( size_t i = 0; i < shapes.size(); i++ ) {
+                    // use the id to distinguish between them
+                    std::string vpname =
+                        string_format( "%s (%s)", shapes[i]->name(), shapes[i]->get_id().str() );
+                    uilist_entry entry( i, true, 0, vpname );
+                    entry.extratxt.left = 1;
+                    entry.extratxt.sym = special_symbol( shapes[i]->sym );
+                    entry.extratxt.color = shapes[i]->color;
+                    shape_ui_entries.push_back( entry );
+                }
+                sort_uilist_entries_by_line_drawing( shape_ui_entries );
+                uilist smenu;
+                //~ Choose a base variant for a vehicle part
+                smenu.settext( _( "Choose base:" ) );
+                smenu.entries = shape_ui_entries;
+                smenu.w_width_setup = [this]() {
+                    return getmaxx( w_list );
+                };
+                smenu.w_x_setup = [this]( const int ) {
+                    return getbegx( w_list );
+                };
+                smenu.w_y_setup = [this]( const int ) {
+                    return getbegy( w_list );
+                };
+                smenu.query();
+                selected_shape = smenu.ret;
+            } else { // only one shape available, default to first one
+                selected_shape = 0;
+            }
+            if( selected_shape >= 0 && static_cast<size_t>( selected_shape ) < num_vpart_shapes ) {
+                sel_vpart_info = shapes[selected_shape];
+                sel_vpart_variant.clear();
+                selected_shape = 0;
+                // more than one shape available, display selection
+                size_t num_shapes_total = sel_vpart_info->symbols.size();
+                if( num_shapes_total > 0 ) {
                     std::vector<uilist_entry> shape_ui_entries;
-                    for( size_t i = 0; i < shapes.size(); i++ ) {
-                        // use the id to distinguish between them
-                        std::string vpname =
-                            string_format( "%s (%s)", shapes[i]->name(), shapes[i]->get_id().str() );
-                        uilist_entry entry( i, true, 0, vpname );
+                    size_t j = 1;
+                    for( const auto &vp_variant : sel_vpart_info->symbols ) {
+                        std::string disp_name = sel_vpart_info->name();
+                        for( const auto &vp_variant_pair : vpart_variants ) {
+                            if( vp_variant_pair.first == vp_variant.first ) {
+                                disp_name += " " + vp_variant_pair.second;
+                                break;
+                            }
+                        }
+                        uilist_entry entry( j, true, 0, disp_name );
                         entry.extratxt.left = 1;
-                        entry.extratxt.sym = special_symbol( shapes[i]->sym );
-                        entry.extratxt.color = shapes[i]->color;
+                        entry.extratxt.sym = special_symbol( vp_variant.second );
+                        entry.extratxt.color = sel_vpart_info->color;
                         shape_ui_entries.push_back( entry );
+                        j += 1;
                     }
                     sort_uilist_entries_by_line_drawing( shape_ui_entries );
+                    //~ Option to select the default vehicle part, no variant
+                    uilist_entry def_entry( 0, true, 0, _( "No variant (use default)" ) );
+                    def_entry.extratxt.left = 1;
+                    def_entry.extratxt.sym = ' ';
+                    def_entry.extratxt.color = c_white;
+                    shape_ui_entries.push_back( def_entry );
                     uilist smenu;
-                    //~ Choose a base variant for a vehicle part
-                    smenu.settext( _( "Choose base:" ) );
+                    //~ Choose a variant shape for a vehicle part
+                    smenu.settext( _( "Choose shape:" ) );
                     smenu.entries = shape_ui_entries;
                     smenu.w_width_setup = [this]() {
                         return getmaxx( w_list );
@@ -1071,73 +1122,23 @@ void veh_interact::do_install()
                     };
                     smenu.query();
                     selected_shape = smenu.ret;
-                } else { // only one shape available, default to first one
-                    selected_shape = 0;
                 }
-                if( selected_shape >= 0 && static_cast<size_t>( selected_shape ) < num_vpart_shapes ) {
-                    sel_vpart_info = shapes[selected_shape];
-                    sel_vpart_variant.clear();
-                    selected_shape = 0;
-                    // more than one shape available, display selection
-                    size_t num_shapes_total = sel_vpart_info->symbols.size();
-                    if( num_shapes_total > 0 ) {
-                        std::vector<uilist_entry> shape_ui_entries;
-                        size_t j = 1;
+                if( selected_shape >= 0 && ( num_shapes_total == 0 ||
+                                             static_cast<size_t>( selected_shape ) <= num_shapes_total ) ) {
+                    int offset = selected_shape - 1;
+                    if( offset >= 0 ) {
+                        int j = 0;
                         for( const auto &vp_variant : sel_vpart_info->symbols ) {
-                            std::string disp_name = sel_vpart_info->name();
-                            for( const auto &vp_variant_pair : vpart_variants ) {
-                                if( vp_variant_pair.first == vp_variant.first ) {
-                                    disp_name += " " + vp_variant_pair.second;
-                                    break;
-                                }
-                            }
-                            uilist_entry entry( j, true, 0, disp_name );
-                            entry.extratxt.left = 1;
-                            entry.extratxt.sym = special_symbol( vp_variant.second );
-                            entry.extratxt.color = sel_vpart_info->color;
-                            shape_ui_entries.push_back( entry );
-                            j += 1;
-                        }
-                        sort_uilist_entries_by_line_drawing( shape_ui_entries );
-                        //~ Option to select the default vehicle part, no variant
-                        uilist_entry def_entry( 0, true, 0, _( "No variant (use default)" ) );
-                        def_entry.extratxt.left = 1;
-                        def_entry.extratxt.sym = ' ';
-                        def_entry.extratxt.color = c_white;
-                        shape_ui_entries.push_back( def_entry );
-                        uilist smenu;
-                        //~ Choose a variant shape for a vehicle part
-                        smenu.settext( _( "Choose shape:" ) );
-                        smenu.entries = shape_ui_entries;
-                        smenu.w_width_setup = [this]() {
-                            return getmaxx( w_list );
-                        };
-                        smenu.w_x_setup = [this]( const int ) {
-                            return getbegx( w_list );
-                        };
-                        smenu.w_y_setup = [this]( const int ) {
-                            return getbegy( w_list );
-                        };
-                        smenu.query();
-                        selected_shape = smenu.ret;
-                    }
-                    if( selected_shape >= 0 && ( num_shapes_total == 0 ||
-                                                 static_cast<size_t>( selected_shape ) <= num_shapes_total ) ) {
-                        int offset = selected_shape - 1;
-                        if( offset >= 0 ) {
-                            int j = 0;
-                            for( const auto &vp_variant : sel_vpart_info->symbols ) {
-                                if( j == offset ) {
-                                    sel_vpart_variant = vp_variant.first;
-                                    break;
-                                } else {
-                                    j += 1;
-                                }
+                            if( j == offset ) {
+                                sel_vpart_variant = vp_variant.first;
+                                break;
+                            } else {
+                                j += 1;
                             }
                         }
-                        sel_cmd = 'i';
-                        return;
                     }
+                    sel_cmd = 'i';
+                    return;
                 }
             }
         } else if( action == "QUIT" ) {
