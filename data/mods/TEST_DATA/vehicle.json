@@ -362,7 +362,7 @@
     "durability": 100,
     "description": "A fridge.  When turned on, it will cool the food inside, extending the time until the food spoils.",
     "//": "Use average consumption, not the max on the appliance rating plate. 30W ~ 260kWh per annum",
-    "epower": -30,
+    "epower": "-30 J",
     "size": 2000,
     "item": "fridge_test",
     "requirements": {
