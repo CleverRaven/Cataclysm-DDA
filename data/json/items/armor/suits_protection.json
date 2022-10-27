@@ -884,7 +884,7 @@
   {
     "id": "xl_armor_mc_plate",
     "type": "ARMOR",
-    "name": { "str": "XL mild steel plate armor" },
+    "name": { "str": "XL medium steel plate armor" },
     "copy-from": "armor_mc_plate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -1543,7 +1543,7 @@
     "category": "armor",
     "name": { "str": "chainmail hauberk" },
     "description": "A fully customized chainmail outfit, leaving the head uncovered.  Combine with a gambeson or other padded layer for optimal protection.",
-    "weight": "14430 g",
+    "weight": "9012 g",
     "volume": "2750 ml",
     "price": 35988,
     "price_postapoc": 3000,
@@ -1557,7 +1557,7 @@
     "armor": [
       {
         "material": [ { "type": "budget_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "covers": [ "torso", "arm_l", "arm_r" ],
         "coverage": 97,
         "encumbrance": 20
       }
@@ -1567,9 +1567,10 @@
     "id": "lc_chainmail_hauberk",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "low steel chainmail hauberk" },
-    "description": "A fully customized low steel chainmail outfit, leaving the head uncovered.  Combine with a gambeson or other padded layer for optimal protection.",
-    "weight": "14430 g",
+    "name": { "str": "mild steel chainmail hauberk" },
+    "description": "A fully customized mild steel chainmail outfit, leaving the head uncovered.  Combine with a gambeson or other padded layer for optimal protection.",
+    "weight": "9012 g",
+    "//": "Should be lighter when irl hauberk as it does not cover legs",
     "volume": "2750 ml",
     "price": 35988,
     "price_postapoc": 3000,
@@ -1583,7 +1584,7 @@
     "armor": [
       {
         "material": [ { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "covers": [ "torso", "arm_l", "arm_r" ],
         "coverage": 100,
         "encumbrance": 20
       }
@@ -1615,7 +1616,7 @@
     "armor": [
       {
         "material": [ { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "covers": [ "torso", "arm_l", "arm_r" ],
         "coverage": 100,
         "encumbrance": 20
       }
@@ -1648,7 +1649,7 @@
     "armor": [
       {
         "material": [ { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "covers": [ "torso", "arm_l", "arm_r" ],
         "coverage": 100,
         "encumbrance": 20
       }
@@ -1680,7 +1681,7 @@
     "armor": [
       {
         "material": [ { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "covers": [ "torso", "arm_l", "arm_r" ],
         "coverage": 100,
         "encumbrance": 20
       }
@@ -1712,7 +1713,7 @@
     "armor": [
       {
         "material": [ { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "covers": [ "torso", "arm_l", "arm_r" ],
         "coverage": 100,
         "encumbrance": 20
       }
@@ -1740,7 +1741,7 @@
     "category": "armor",
     "name": { "str": "chainmail armor" },
     "description": "A fully customized chainmail suit.  The metal shows signs of rust and corrosion.  Combine with a gambeson or other padded layer for optimal protection.",
-    "weight": "16436 g",
+    "weight": "14539 g",
     "volume": "3250 ml",
     "price": 45000,
     "price_postapoc": 8000,
@@ -1764,9 +1765,9 @@
     "id": "lc_chainmail_suit",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "low steel chainmail armor" },
-    "description": "A fully customized low steel chainmail suit.  Combine with a gambeson or other padded layer for optimal protection.",
-    "weight": "16436 g",
+    "name": { "str": "mild steel chainmail armor" },
+    "description": "A fully customized mild steel chainmail suit.  Combine with a gambeson or other padded layer for optimal protection.",
+    "weight": "14539 g",
     "volume": "3250 ml",
     "price": 45000,
     "price_postapoc": 8000,

@@ -2987,7 +2987,7 @@ bool cata_tiles::draw_furniture( const tripoint &p, const lit_level ll, int &hei
             } else {
                 get_tile_values_with_ter( p, f.to_i(), neighborhood, subtile, rotation, rotate_group );
             }
-            get_tile_values_with_ter( p, f2.to_i(), neighborhood, subtile, rotation, TERCONN_NONE );
+            get_tile_values_with_ter( p, f2.to_i(), neighborhood, subtile, rotation, 0 );
             const std::string &fname = f2.id().str();
             // tile overrides are never memorized
             // tile overrides are always shown with full visibility

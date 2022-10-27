@@ -61,6 +61,12 @@
   },
   {
     "type": "SPECIES",
+    "id": "NETHER_EMANATION",
+    "description": "a reflection of another dimension",
+    "fear_triggers": [ "HURT" ]
+  },
+  {
+    "type": "SPECIES",
     "id": "MIGO",
     "description": "a creature from the mi-go homeworld",
     "fear_triggers": [ "HURT" ]

@@ -431,13 +431,6 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "egg_trout",
-    "name": { "str_sp": "roe" },
-    "copy-from": "egg_fish",
-    "rot_spawn": "GROUP_EGG_TROUT"
-  },
-  {
-    "type": "COMESTIBLE",
     "id": "egg_brown_trout",
     "name": { "str_sp": "roe" },
     "copy-from": "egg_fish",
@@ -466,13 +459,6 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "egg_steelhead_trout",
-    "name": { "str_sp": "roe" },
-    "copy-from": "egg_fish",
-    "rot_spawn": "GROUP_EGG_STEELHEAD_TROUT"
-  },
-  {
-    "type": "COMESTIBLE",
     "id": "egg_salmon",
     "name": { "str_sp": "roe" },
     "copy-from": "egg_fish",
@@ -484,20 +470,6 @@
     "name": { "str_sp": "roe" },
     "copy-from": "egg_fish",
     "rot_spawn": "GROUP_EGG_KOKANEE_SALMON"
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "egg_chinook_salmon",
-    "name": { "str_sp": "roe" },
-    "copy-from": "egg_fish",
-    "rot_spawn": "GROUP_EGG_CHINOOK_SALMON"
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "egg_coho_salmon",
-    "name": { "str_sp": "roe" },
-    "copy-from": "egg_fish",
-    "rot_spawn": "GROUP_EGG_COHO_SALMON"
   },
   {
     "type": "COMESTIBLE",
@@ -526,13 +498,6 @@
     "name": { "str_sp": "roe" },
     "copy-from": "egg_fish",
     "rot_spawn": "GROUP_EGG_PBASS"
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "egg_white_bass",
-    "name": { "str_sp": "roe" },
-    "copy-from": "egg_fish",
-    "rot_spawn": "GROUP_EGG_WHITE_BASS"
   },
   {
     "type": "COMESTIBLE",
@@ -582,20 +547,6 @@
     "name": { "str_sp": "roe" },
     "copy-from": "egg_fish",
     "rot_spawn": "GROUP_EGG_GREEN_SUNFISH"
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "egg_longear_sunfish",
-    "name": { "str_sp": "roe" },
-    "copy-from": "egg_fish",
-    "rot_spawn": "GROUP_EGG_LONGEAR_SUNFISH"
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "egg_redear_sunfish",
-    "name": { "str_sp": "roe" },
-    "copy-from": "egg_fish",
-    "rot_spawn": "GROUP_EGG_REDEAR_SUNFISH"
   },
   {
     "type": "COMESTIBLE",
@@ -883,6 +834,23 @@
     "material": [ "egg", "veggy" ],
     "fun": 12,
     "flags": [ "EATEN_HOT", "FREEZERBURN" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "caviar_egg_sandwich",
+    "name": { "str_sp": "caviar and egg sandwich" },
+    "weight": "165 g",
+    "color": "brown",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "calories": 252,
+    "description": "A simple sandwich with sliced, hard boiled eggs and mayo to balance out the saltiness of the caviar.  Scandinavian breakfast staple.",
+    "price": 500,
+    "price_postapoc": 300,
+    "material": [ "bread", "egg" ],
+    "primary_material": "bread",
+    "volume": "649 ml",
+    "fun": 10
   },
   {
     "type": "COMESTIBLE",
