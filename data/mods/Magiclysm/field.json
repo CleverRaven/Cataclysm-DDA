@@ -87,6 +87,22 @@
     "looks_like": "fd_sludge"
   },
   {
+    "id": "fd_eshaper_dust",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "dust", "sym": "~", "dangerous": false, "transparent": false, "translucency": 14 } ],
+    "decay_amount_factor": 15,
+    "gas_absorption_factor": 5,
+    "percent_spread": 30,
+    "dirty_transparency_cache": true,
+    "has_fume": true,
+    "priority": 8,
+    "half_life": "20 seconds",
+    "phase": "gas",
+    "display_items": false,
+    "display_field": true,
+    "looks_like": "fd_tear_gas"
+  },
+  {
     "id": "fd_cold_energy",
     "type": "field_type",
     "display_field": true,

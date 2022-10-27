@@ -858,6 +858,11 @@
     "obsolete": true
   },
   {
+    "result": "gasfilter_l",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
     "type": "recipe",
     "result": "box_medium",
     "obsolete": true

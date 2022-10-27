@@ -543,6 +543,7 @@ dysmorphia
 dysrhythmia
 earthbag
 earthbags
+earthshaper
 ebon
 ebook
 eboshi
@@ -1572,6 +1573,7 @@ remodulator
 rended
 renderer
 renfaires
+renfield
 rennet
 replow
 reprime
@@ -1795,6 +1797,8 @@ sssssh
 ssssssss
 starer
 starrin
+staunchable
+staunching
 std
 steeltoed
 steerable

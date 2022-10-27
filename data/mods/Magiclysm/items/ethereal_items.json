@@ -29,6 +29,29 @@
     "techniques": [ "WBLOCK_3" ]
   },
   {
+    "id": "shape_of_dust",
+    "type": "ARMOR",
+    "name": "dust cloak",
+    "description": "You are unseen in between of the sand that cover you.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "symbol": "o",
+    "color": "brown",
+    "material": [ "magical_material" ],
+    "flags": [ "AURA", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE", "OVERSIZE" ],
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ALWAYS",
+          "ench_effects": [ { "effect": "invisibility", "intensity": 1 } ],
+          "emitter": "emit_eshaper_dust",
+          "values": [ { "value": "BONUS_DODGE", "add": 2 } ]
+        }
+      ]
+    }
+  },
+  {
     "id": "finger_firelighter",
     "type": "TOOL",
     "name": "finger firelighter",
@@ -502,7 +525,7 @@
     "category": "armor",
     "name": { "str_sp": "stoneskin coating" },
     "description": "A thin layer of shifting, almost fluid living rock, covering the entire body.",
-    "weight": "10200 g",
+    "weight": "100 g",
     "volume": "25 L",
     "material": [ "stone" ],
     "symbol": "[",
@@ -1018,6 +1041,104 @@
     "name": { "str": "magical throwing knife", "str_pl": "magical throwing knives" },
     "description": "A transparent blade seems to radiate intent to be thrown.  Its ineffective cutting edge and odd shape makes it unsuitable for use as a tool.",
     "thrown_damage": [ { "damage_type": "pure", "amount": 40 } ]
+  },
+  {
+    "id": "eshaper_hammer",
+    "copy-from": "hammer",
+    "looks_like": "hammer",
+    "type": "TOOL",
+    "name": { "str": "earthshaper's hammer" },
+    "description": "Shaped with your own magic, this tool has the same abilities as the common hammer.",
+    "material": [ "stone" ],
+    "symbol": ";",
+    "color": "dark_gray",
+    "use_action": {
+      "type": "transform",
+      "need_wielding": true,
+      "target": "eshaper_pickaxe",
+      "menu_text": "Transform",
+      "msg": "Your hammer transforms into a pickaxe!"
+    },
+    "extend": { "flags": [ "TRADER_AVOID", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS" ] }
+  },
+  {
+    "id": "eshaper_pickaxe",
+    "copy-from": "pickaxe",
+    "looks_like": "pickaxe",
+    "type": "TOOL",
+    "name": { "str": "earthshaper's pickaxe" },
+    "description": "Shaped with your own magic, this tool has the same abilities as the common pickaxe.",
+    "material": [ "stone" ],
+    "symbol": "/",
+    "color": "dark_gray",
+    "use_action": {
+      "type": "transform",
+      "need_wielding": true,
+      "target": "eshaper_ax",
+      "menu_text": "Transform",
+      "msg": "Your pickaxe transforms into an ax!"
+    },
+    "extend": { "flags": [ "TRADER_AVOID", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS" ] }
+  },
+  {
+    "id": "eshaper_ax",
+    "copy-from": "ax",
+    "looks_like": "ax",
+    "type": "TOOL",
+    "name": { "str": "earthshaper's axe" },
+    "description": "Shaped with your own magic, this tool has the same abilities as the common axe.",
+    "material": [ "stone" ],
+    "symbol": "/",
+    "cutting": 7,
+    "color": "dark_gray",
+    "use_action": {
+      "type": "transform",
+      "need_wielding": true,
+      "target": "eshaper_knife",
+      "menu_text": "Transform",
+      "msg": "Your ax transforms into a knife!"
+    },
+    "extend": { "flags": [ "TRADER_AVOID", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS" ] }
+  },
+  {
+    "id": "eshaper_knife",
+    "copy-from": "knife_hunting",
+    "looks_like": "knife_hunting",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": { "str": "earthshaper's knife", "str_pl": "earthshaper's knives" },
+    "description": "Shaped with your own magic, this tool has the same abilities as the common knife.",
+    "material": [ "stone" ],
+    "repairs_with": [  ],
+    "symbol": "/",
+    "color": "dark_gray",
+    "use_action": {
+      "type": "transform",
+      "need_wielding": true,
+      "target": "eshaper_shovel",
+      "menu_text": "Transform",
+      "msg": "Your knife transforms into a shovel!"
+    },
+    "extend": { "flags": [ "TRADER_AVOID", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS" ] }
+  },
+  {
+    "id": "eshaper_shovel",
+    "copy-from": "shovel",
+    "looks_like": "shovel",
+    "type": "TOOL",
+    "name": { "str": "earthshaper's shovel" },
+    "description": "Shaped with your own magic, this tool has the same abilities as the common shovel.",
+    "material": [ "stone" ],
+    "symbol": "/",
+    "color": "dark_gray",
+    "use_action": {
+      "type": "transform",
+      "need_wielding": true,
+      "target": "eshaper_hammer",
+      "menu_text": "Transform",
+      "msg": "Your shovel transforms into a hammer!"
+    },
+    "extend": { "flags": [ "TRADER_AVOID", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS" ] }
   },
   {
     "id": "flask_ethereal_rebreather",
