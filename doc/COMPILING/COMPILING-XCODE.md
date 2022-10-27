@@ -1,6 +1,6 @@
 # Disclaimer
 
-**WARNING**: Xcode build is **NOT** official and should be used for *iOS builds only*. This can only be done on OS X.
+**WARNING**: Xcode build should be used for *iOS builds only*. This can only be done on OS X.
 
 For the official way to build CataclysmDDA, see:
   * [COMPILING.md](COMPILING.md)
