@@ -42,12 +42,12 @@ Product->Archive will build a release version.
 
 ### Play!
 
-Configuration and save files are accessible in your documents folder via the Files app. This should allow you to import and export data from other place. For now there is no auto-synchronization with any cloud based data services.
+Configuration and save files are accessible in your documents folder via the Files app. This should allow you to import and export data from other places. For now there is no auto-synchronization with any cloud based data services.
 
 ### Notes
 
-I appreciate the many folks in the community who have contributed to making such a wonderful game, and my intent was to make sure that everyone had access to an ipad version that was freely available and built to integrate with the existing codebase.
+I appreciate the many folks in the community who have contributed to making such a wonderful game, and my intent was to make sure that everyone had access to an iPad version that was freely available and built to integrate with the existing codebase, making it inclusive of experimental builds.
 
-There are likely other first time developer setup related steps that may need to be captured here, please update accordingly or find me on Discord with questions or issues (smileynet#7052) understanding that my support of this build is at-will and may be intermittent.
+There are likely other first time developer setup related steps that may need to be captured here, please update accordingly or find me on Discord with questions or issues (smileynet on both Official and Community servers) understanding that my support of this build is at-will and may be intermittent. (Written on 10/26/2022, if you are unable to @ me on either server, I have likely wandered on down the road or been ill prepared for an encounter with a Kevlar Hulk o.O)
 
 My use case for this build is playing on an iPad with an attached magic keyboard, so while I've tested the soft keyboard's basic functionality, at this point I have not done any of the UI enhancements found in the other ports found on the AppStore (or the Android build, but I'm looking at adapting that since it is likely to be easier to implement).
