@@ -543,6 +543,35 @@
     "flags": [ "SEES", "WARM", "BASHES", "DESTROYS", "NO_BREATHE", "PUSH_MON", "PUSH_VEH", "FIREY", "PATH_AVOID_DANGER_1" ]
   },
   {
+    "id": "mon_teravolt",
+    "type": "MONSTER",
+    "name": "teravolt",
+    "description": "Small energy sphere, that slowly float into the target.",
+    "default_faction": "player",
+    "species": [ "UNKNOWN" ],
+    "volume": "750 ml",
+    "weight": "1 g",
+    "hp": 1,
+    "material": [ "concentrated_mana" ],
+    "symbol": "o",
+    "aggression": 100,
+    "morale": 100,
+    "luminance": 6,
+    "emit_fields": [ { "emit_id": "emit_spark", "delay": "1 s" } ],
+    "flags": [ "SEES", "FLIES", "NOHEAD", "NO_BREATHE", "STUN_IMMUNE", "ELECTRIC", "HARDTOSHOOT", "PRIORITIZE_TARGETS" ],
+    "speed": 40,
+    "color": "light_green",
+    "melee_skill": 0,
+    "melee_dice": 1,
+    "melee_dice_sides": 1,
+    "armor_elec": 50,
+    "death_function": {
+      "effect": { "id": "teravolt_explosion", "hit_self": true },
+      "message": "The %s explode, creating a giant cloud of sparks.",
+      "corpse_type": "NO_CORPSE"
+    }
+  },
+  {
     "id": "mon_razor_butterflies",
     "type": "MONSTER",
     "name": { "str": "razor butterfly", "str_pl": "razor butterflies" },
