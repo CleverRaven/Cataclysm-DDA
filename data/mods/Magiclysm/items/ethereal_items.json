@@ -69,7 +69,7 @@
     "id": "electric_lighter",
     "type": "TOOL",
     "name": "stable spark",
-    "description": "Small electric spark, that do not dissapear under your force.  With a thought, you can cause it to light something on fire, or you can throw it, to ignite something flammable.",
+    "description": "Small electric spark, that do not disappear under your force.  With a thought, you can cause it to light something on fire, or you can throw it, to ignite something flammable.",
     "weight": "1 g",
     "volume": "1 ml",
     "price": 0,

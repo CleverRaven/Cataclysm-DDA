@@ -799,7 +799,7 @@
     "id": "spell_scroll_storm_shipwrecker",
     "//": "Stormshaper spell",
     "name": { "str": "Scroll of Shipwrecker", "str_pl": "Scrolls of Shipwrecker" },
-    "description": "The spell moves out of your mouth, creating a giant shockvawe, and shuttering everything on his path.",
+    "description": "The spell moves out of your mouth, creating a giant shockwave, and shuttering everything on his path.",
     "use_action": { "type": "learn_spell", "spells": [ "storm_shipwrecker" ] }
   },
   {

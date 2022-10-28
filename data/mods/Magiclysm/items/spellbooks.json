@@ -200,7 +200,7 @@
     "category": "manuals",
     "//": "6 Stormshaper spells",
     "name": { "str": "Bioelectricity, An Arcane Approach", "str_pl": "copies of Bioelectricity, An Arcane Approach" },
-    "description": "Small, but thick book, that covers most recent developement in the field, including real examples.",
+    "description": "Small, but thick book, that covers most recent development in the field, including real examples.",
     "weight": "537 g",
     "volume": "930 ml",
     "price": 9000,

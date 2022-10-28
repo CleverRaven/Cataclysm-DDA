@@ -560,6 +560,7 @@ electrochemistry
 electrohack
 electrolaser
 electrolasers
+electromancy
 electroreceptors
 elete
 elopements
@@ -1894,6 +1895,7 @@ temaki
 tems
 tenontosaurus
 tenuously
+teravolt
 terpenes
 terranean
 testbed

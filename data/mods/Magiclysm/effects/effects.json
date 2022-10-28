@@ -519,7 +519,7 @@
     "id": "electric_arts",
     "type": "effect_type",
     "name": [ "Electric Arts" ],
-    "desc": [ "Make you less vurneralbe to electric damage." ],
+    "desc": [ "Make you less vulnerable to electric damage." ],
     "apply_message": "You feel a small sparks under your skin.  They do not harm you.",
     "remove_message": "Sparks under your skin vanishes.",
     "rating": "good",
