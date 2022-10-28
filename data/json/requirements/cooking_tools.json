@@ -159,5 +159,23 @@
     ],
     "tools": [ [ [ "can_sealer", -1 ] ], [ [ "tongs", -1 ] ] ],
     "components": [ [ [ "scrap", 1 ] ] ]
+  },
+  {
+    "id": "tincan_small",
+    "type": "requirement",
+    "//": "Materials for a small (0.25L) tin can.",
+    "components": [ [ [ "scrap", 1 ] ], [ [ "canister_empty", 1 ], [ "can_food", 1 ] ] ]
+  },
+  {
+    "id": "tincan_medium",
+    "type": "requirement",
+    "//": "Materials for a medium (0.5L) tin can.",
+    "components": [ [ [ "scrap", 2 ] ], [ [ "can_medium", 1 ] ] ]
+  },
+  {
+    "id": "tincan_large",
+    "type": "requirement",
+    "//": "Materials for a large (3L) tin can.",
+    "components": [ [ [ "scrap", 5 ], [ "sheet_metal_small", 1 ] ], [ [ "can_food_big", 1 ] ] ]
   }
 ]
