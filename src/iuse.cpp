@@ -3816,31 +3816,31 @@ cata::optional<int> iuse::grenade_inc_act( Character *p, item *it, bool t, const
 
 cata::optional<int> iuse::molotov_lit( Character *p, item *it, bool t, const tripoint &pos )
 {
-    if( pos.x == -999 || pos.y == -999 ) {
-        return cata::nullopt;
-    } else if( !t ) {
-        map &here = get_map();
-        for( const tripoint &pt : here.points_in_radius( pos, 1, 0 ) ) {
-            const int intensity = 1 + one_in( 3 ) + one_in( 5 );
-            here.add_field( pt, fd_fire, intensity );
+    if( !t ) { // The Molotov is no longer active
+        if( it->charges > 0 ) { // Because the player tried to light it again
+            p->add_msg_if_player( m_info, _( "You've already lit the %s, try throwing it instead." ),
+                                  it->tname() );
+            return cata::nullopt;
+        } else { // It ran out of charges because it was thrown or dropped, so burst into flames
+            map &here = get_map();
+            for( const tripoint &pt : here.points_in_radius( pos, 1, 0 ) ) {
+                const int intensity = 1 + one_in( 3 ) + one_in( 5 );
+                here.add_field( pt, fd_fire, intensity );
+            }
+            if( p->has_trait( trait_PYROMANIA ) ) {
+                p->add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
+                p->rem_morale( MORALE_PYROMANIA_NOFIRE );
+                p->add_msg_if_player( m_good, _( "Fire…  Good…" ) );
+            }
+            return 1;
         }
-        if( p->has_trait( trait_PYROMANIA ) ) {
-            p->add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
-            p->rem_morale( MORALE_PYROMANIA_NOFIRE );
-            p->add_msg_if_player( m_good, _( "Fire…  Good…" ) );
-        }
-        return 1;
-    } else if( it->charges > 0 ) {
-        p->add_msg_if_player( m_info, _( "You've already lit the %s, try throwing it instead." ),
-                              it->tname() );
-        return cata::nullopt;
     } else if( p->has_item( *it ) && it->charges == 0 ) {
+        // Add a charge to stay lit, but has a 20% chance of going out harmlessly.
         it->charges += 1;
         if( one_in( 5 ) ) {
             p->add_msg_if_player( _( "Your lit Molotov goes out." ) );
             it->convert( itype_molotov ).active = false;
         }
-        return 0;
     }
     return 0;
 }

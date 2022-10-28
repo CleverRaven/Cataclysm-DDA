@@ -447,6 +447,35 @@
     "max_intensity": 3
   },
   {
+    "id": "eshaper_melee_damage",
+    "type": "effect_type",
+    "name": [ "Heft" ],
+    "desc": [
+      "Your body is heavy as the heaviest rocks.  Your attack speed is slowed down, but your melee damage increased drastically."
+    ],
+    "apply_message": "You feel your body compress and harden.",
+    "remove_message": "You no longer feel encumbered.",
+    "rating": "good",
+    "show_intensity": false,
+    "enchantments": [ { "values": [ { "value": "ATTACK_SPEED", "multiply": -0.25 }, { "value": "MELEE_DAMAGE", "multiply": 1.2 } ] } ]
+  },
+  {
+    "id": "eshaper_crystal_wrap",
+    "type": "effect_type",
+    "name": [ "Crystal Wrapping" ],
+    "desc": [ "Thin layer of almost living crystals, that rapidly grows and moves on the body." ],
+    "apply_message": "You feel a light, purple material cover your body and clothes.",
+    "remove_message": "The crystals crumble.",
+    "rating": "good",
+    "show_intensity": false,
+    "enchantments": [
+      {
+        "hit_me_effect": [ { "id": "eshaper_crystal_wrap_damage" } ],
+        "values": [ { "value": "ITEM_DAMAGE_CUT", "add": 17 }, { "value": "ITEM_DAMAGE_AP", "add": 6 } ]
+      }
+    ]
+  },
+  {
     "type": "effect_type",
     "id": "flower_fern_eff",
     "name": [ "Positivity" ],
@@ -569,7 +598,6 @@
     "show_intensity": false,
     "enchantments": [
       {
-        "condition": { "not": "ALWAYS" },
         "intermittent_activation": { "effects": [ { "frequency": "30 seconds", "spell_effects": [ { "id": "flask_regeneration_effect" } ] } ] }
       }
     ]

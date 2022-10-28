@@ -2668,6 +2668,7 @@ class Character : public Creature, public visitable
         int get_cardio_acc() const;
         void set_cardio_acc( int ncardio_acc );
         void reset_cardio_acc();
+        int get_cardio_acc_base() const;
         virtual void update_cardio_acc() = 0;
 
         /** Returns true if a gun misfires, jams, or has other problems, else returns false */
@@ -3532,6 +3533,7 @@ class Character : public Creature, public visitable
         int stamina;
 
         int cardio_acc;
+        int base_cardio_acc;
 
         // All indices represent the percentage compared to normal.
         // i.e. a value of 1.1 means 110% of normal.
