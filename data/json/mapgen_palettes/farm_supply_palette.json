@@ -116,6 +116,15 @@
     ]
   },
   {
+    "id": "farm_supply_wire",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      { "item": "wire", "prob": 80, "count": [ 5, 10 ] },
+      { "item": "wire_barbed", "prob": 20, "count": [ 5, 10 ] }
+    ]
+  },
+  {
     "id": "farm_supply_quicklime_and_saltpetre",
     "type": "item_group",
     "items": [ [ "material_quicklime", 85 ], { "item": "chem_saltpetre", "prob": 15, "charges-min": 10, "charges-max": 50 } ]
