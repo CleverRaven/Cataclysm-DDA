@@ -888,7 +888,7 @@
     "copy-from": "spell_scroll",
     "id": "spell_scroll_summon_teravolt",
     "//": "Stormshaper spell",
-    "name": { "str": "Scroll of Terravolt", "str_pl": "Scrolls of Terravolt" },
+    "name": { "str": "Scroll of Teravolt", "str_pl": "Scrolls of Teravolt" },
     "description": "Summon a Teravolt, a small, semi-intelligent spirit, that homes onto hostile creatures and explodes into a huge spark cloud.",
     "use_action": { "type": "learn_spell", "spells": [ "summon_teravolt" ] }
   },

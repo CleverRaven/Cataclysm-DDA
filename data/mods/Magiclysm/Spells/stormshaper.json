@@ -863,7 +863,7 @@
   {
     "id": "summon_teravolt",
     "type": "SPELL",
-    "name": "Summon Terravolt",
+    "name": "Summon Teravolt",
     "description": "Summon a Teravolt, a small, semi-intelligent spirit, that homes onto hostile creatures before exploding into a huge spark cloud.",
     "valid_targets": [ "ground" ],
     "min_damage": 1,
