@@ -1715,8 +1715,8 @@ class jmapgen_field : public jmapgen_piece
             , intensity( jsi.get_int_array( "intensity" ) )
             , age( time_duration::from_turns( jsi.get_int( "age", 0 ) ) )
             , remove( jsi.get_bool( "remove", false ) ) {
-              for( JsonValue jv : jsi.get_array( "intensity" ) ) {
-                  intensities.push_back( jv.get_int() );
+            for( JsonValue jv : jsi.get_array( "intensity" ) ) {
+                intensities.push_back( jv.get_int() );
             }
             if( intensity.empty() ) {
                 intensity.push_back( jsi.get_int( "intensity", 1 ) );
