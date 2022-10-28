@@ -492,10 +492,7 @@ void monmove()
     for( npc &guy : g->all_npcs() ) {
         int turns = 0;
         int real_count = 0;
-        int count_limit = std::max( 0, guy.moves ) >> 6; // divide by 64
-        if( count_limit < 10 ) {
-            count_limit = 10;
-        }
+        const int count_limit = std::max( 10, guy.moves / 64 );
         if( guy.is_mounted() ) {
             guy.check_mount_is_spooked();
         }
