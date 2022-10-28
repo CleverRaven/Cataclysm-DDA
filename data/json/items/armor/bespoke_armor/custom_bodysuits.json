@@ -470,7 +470,7 @@
     ],
     "warmth": 41,
     "environmental_protection": 8,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "SKINTIGHT" ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "SKINTIGHT", "NORMAL" ]
   },
   {
     "id": "xs_h20survivor_jumpsuit",
