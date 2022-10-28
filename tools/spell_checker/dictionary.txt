@@ -1896,6 +1896,7 @@ tems
 tenontosaurus
 tenuously
 teravolt
+teravolts
 terpenes
 terranean
 testbed
