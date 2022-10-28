@@ -1600,7 +1600,7 @@
     "container": "can_medium",
     "result_mult": 2,
     "batch_time_factors": [ 83, 5 ],
-    "tools": [ [ [ "surface_heat", 10, "LIST" ] ]],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
       [ [ "can_medium", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
