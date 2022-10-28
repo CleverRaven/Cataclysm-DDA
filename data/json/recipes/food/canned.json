@@ -1546,7 +1546,11 @@
     "result_mult": 12,
     "batch_time_factors": [ 83, 5 ],
     "tools": [ [ [ "surface_heat", 60, "LIST" ] ] ],
-    "components": [ [ [ "water_clean", 1 ] ], [ [ "meat_red_raw", 6, "LIST" ], [ "fish", 6 ], [ "lobster", 6 ] ], [ [ "veggy_green", 6, "LIST" ] ] ],
+    "components": [
+      [ [ "water_clean", 1 ] ],
+      [ [ "meat_red_raw", 6, "LIST" ], [ "fish", 6 ], [ "lobster", 6 ] ],
+      [ [ "veggy_green", 6, "LIST" ] ]
+    ],
     "using": [ [ "canning_metal", 3, "LIST" ], [ "tincan_large", 1 ] ]
   },
   {
