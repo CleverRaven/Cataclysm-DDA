@@ -25,7 +25,7 @@
     "price": 500000,
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You drink the mana mutagen.",
+      "activation_message": "You drink the tyrant mutagen.",
       "vitamins": [ [ "mutagen_tyrant", 175 ], [ "mutagen", 125 ] ]
     }
   },
@@ -55,7 +55,7 @@
     "price": 500000,
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You drink the mana mutagen.",
+      "activation_message": "You drink the stego mutagen.",
       "vitamins": [ [ "mutagen_stego", 175 ], [ "mutagen", 125 ] ]
     }
   },
@@ -85,7 +85,7 @@
     "price": 500000,
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You drink the mana mutagen.",
+      "activation_message": "You drink the horns mutagen.",
       "vitamins": [ [ "mutagen_horns", 175 ], [ "mutagen", 125 ] ]
     }
   }

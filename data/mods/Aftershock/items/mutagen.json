@@ -24,7 +24,7 @@
     "price": 500000,
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You drink the mana mutagen.",
+      "activation_message": "You drink the mi-go mutagen.",
       "vitamins": [ [ "mutagen_migo", 175 ], [ "mutagen", 125 ] ]
     }
   },
@@ -53,7 +53,7 @@
     "price": 500000,
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You drink the mana mutagen.",
+      "activation_message": "You drink the mastodon mutagen.",
       "vitamins": [ [ "mutagen_mastodon", 175 ], [ "mutagen", 125 ] ]
     }
   }
