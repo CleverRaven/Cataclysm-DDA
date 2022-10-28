@@ -235,7 +235,7 @@ void game_menus::inv::common( item_location &loc, avatar &you )
     // Return to inventory menu on those inputs
     static const std::set<int> loop_options = { { '\0', '=', 'f' } };
 
-    inventory_pick_selector inv_s( you );
+    container_inventory_selector inv_s( you, loc );
 
     inv_s.set_title( string_format( _( "Inventory of %s" ), loc->tname() ) );
     inv_s.set_hint( string_format(
