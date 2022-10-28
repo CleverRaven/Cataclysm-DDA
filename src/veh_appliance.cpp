@@ -60,6 +60,8 @@ void place_appliance( const tripoint &p, const vpart_id &vpart, const cata::opti
         return;
     }
 
+    veh->add_tag( flag_APPLIANCE );
+
     if( base ) {
         item copied = *base;
         veh->install_part( point_zero, vpart, std::move( copied ) );
@@ -67,8 +69,6 @@ void place_appliance( const tripoint &p, const vpart_id &vpart, const cata::opti
         veh->install_part( point_zero, vpart );
     }
     veh->name = vpart->name();
-
-    veh->add_tag( flag_APPLIANCE );
 
     // Update the vehicle cache immediately,
     // or the appliance will be invisible for the first couple of turns.
