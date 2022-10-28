@@ -91,7 +91,7 @@
   {
     "type": "palette",
     "id": "farm_supply_looted_palette",
-    "nested": { "|": { "chunks": [ [ "shelter_graffiti", 1 ], [ "general_graffiti", 6 ], [ "null", 93 ] ] } }
+    "nested": { "|": { "chunks": [ [ "shelter_graffiti", 1 ], [ "general_graffiti", 5 ], [ "null", 94 ] ] } }
   },
   {
     "id": "farm_supply_soil_and_sand",
@@ -119,14 +119,34 @@
     "id": "farm_supply_wire",
     "type": "item_group",
     "subtype": "collection",
-    "items": [
-      { "item": "wire", "prob": 80, "count": [ 5, 10 ] },
-      { "item": "wire_barbed", "prob": 20, "count": [ 5, 10 ] }
-    ]
+    "items": [ { "item": "wire", "prob": 80, "count": [ 20, 50 ] }, { "item": "wire_barbed", "prob": 20, "count": [ 20, 50 ] } ]
   },
   {
     "id": "farm_supply_quicklime_and_saltpetre",
     "type": "item_group",
     "items": [ [ "material_quicklime", 85 ], { "item": "chem_saltpetre", "prob": 15, "charges-min": 10, "charges-max": 50 } ]
+  },
+  {
+    "id": "farm_supply_floor_surprises",
+    "type": "item_group",
+    "items": [
+      { "group": "camping", "prob": 50 },
+      { "group": "ammo_rifle_common_loose", "prob": 2 },
+      { "group": "ammo_pistol_common_loose", "prob": 2 },
+      { "group": "tools_survival", "prob": 5 },
+      { "group": "clothing_outdoor_shoes", "prob": 5 },
+      { "group": "clothing_outdoor_torso", "prob": 5 },
+      { "group": "clothing_outdoor_pants", "prob": 5 },
+      { "group": "farming_tools", "prob": 20 },
+      { "group": "farming_seeds", "prob": 20 },
+      { "item": "rock", "prob": 5 },
+      { "group": "wallets", "prob": 2 },
+      { "group": "banknotes", "prob": 4 },
+      { "group": "coins", "prob": 4 },
+      { "group": "discount_cards", "prob": 1 },
+      { "item": "spray_can", "prob": 10, "charges": [ 0, 10 ] },
+      { "item": "survnote", "prob": 1 },
+      { "item": "touristmap", "prob": 1 }
+    ]
   }
 ]
