@@ -351,7 +351,7 @@
     "activity_level": "NO_EXERCISE",
     "result": "broth_bone",
     "id_suffix": "jarred",
-    "byproducts": [ [ "water_clean", 2 ], [ "gelatin_fresh", 1 ] ],
+    "byproducts": [ [ "water_clean", 2 ], [ "gelatin_fresh", 2 ] ],
     "container": "jar_glass_sealed",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -367,7 +367,7 @@
     "components": [
       [ [ "jar_glass_sealed", 1 ] ],
       [ [ "water_clean", 2 ] ],
-      [ [ "bone_edible", 1, "LIST" ] ],
+      [ [ "bone_edible", 2, "LIST" ] ],
       [ [ "canning_acid_small", 1, "LIST" ] ]
     ]
   },
@@ -639,7 +639,7 @@
     "activity_level": "NO_EXERCISE",
     "result": "broth_bone",
     "id_suffix": "jarred_3l",
-    "byproducts": [ [ "water_clean", 12 ], [ "gelatin_fresh", 6 ] ],
+    "byproducts": [ [ "water_clean", 12 ], [ "gelatin_fresh", 12 ] ],
     "container": "jar_3l_glass_sealed",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -655,7 +655,7 @@
     "components": [
       [ [ "jar_3l_glass_sealed", 1 ] ],
       [ [ "water_clean", 12 ] ],
-      [ [ "bone_edible", 6, "LIST" ] ],
+      [ [ "bone_edible", 12, "LIST" ] ],
       [ [ "canning_acid_large", 1, "LIST" ] ]
     ]
   },
@@ -2499,7 +2499,7 @@
     "charges": 12,
     "batch_time_factors": [ 83, 5 ],
     "tools": [ [ [ "surface_heat", 60, "LIST" ] ] ],
-    "components": [ [ [ "bone_edible", 6, "LIST" ] ], [ [ "water_clean", 16 ] ] ],
+    "components": [ [ [ "bone_edible", 12, "LIST" ] ], [ [ "water_clean", 16 ] ] ],
     "using": [ [ "canning_metal", 3, "LIST" ], [ "tincan_large", 1 ] ]
   },
   {
@@ -2742,10 +2742,7 @@
     "container": "can_food_big",
     "contained": true,
     "tools": [ [ [ "surface_heat", 60, "LIST" ] ] ],
-    "components": [
-      [ [ "water_clean", 6 ] ],
-      [ [ "liver", 48 ], [ "human_liver", 48 ], [ "demihuman_liver", 48 ] ]
-    ],
+    "components": [ [ [ "water_clean", 6 ] ], [ [ "liver", 48 ], [ "human_liver", 48 ], [ "demihuman_liver", 48 ] ] ],
     "book_learn": [ [ "cookbook", 6 ], [ "manual_canning", 4 ] ],
     "charges": 48,
     "using": [ [ "canning_metal", 3, "LIST" ], [ "tincan_large", 1 ] ]
