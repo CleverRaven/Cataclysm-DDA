@@ -1926,7 +1926,7 @@
     "batch_time_factors": [ 83, 5 ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [ [ [ "water_clean", 1 ] ], [ [ "mushroom", 4 ], [ "veggy_any_uncooked", 2, "LIST" ] ] ],
-    "using": [ [ "canning_metal", 1, "LIST" ], [ "tincan_medium", 1 ]  ]
+    "using": [ [ "canning_metal", 1, "LIST" ], [ "tincan_medium", 1 ] ]
   },
   {
     "type": "recipe",
