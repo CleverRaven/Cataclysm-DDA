@@ -334,8 +334,8 @@
     "copy-from": "pistol_base",
     "looks_like": "glock_17",
     "type": "GUN",
-    "name": { "str": "S&W .22 pocket pistol" },
-    "description": "Featuring a handsome set of wooden furnishings, a classic design, and a no nonsense .270 caliber chambering, this is a powerful hunting rifle.  With a tried and proven pedigree dating back over 60 years, millions of such rugged arms have been made, exported, and used throughout the United States and the world at large.  Where hunting is concerned, this is a highly capable and well proven weapon in all respects.  Fortunate, given that your prey in these dark days may turn out to be a little bit more feisty than typical White-Tailed deer, moose, and black bears.",
+    "name": { "str": "S&W pocket pistol" },
+    "description": "A modest offering from the Smith and Wesson (S&W) gun company, this is a compact pistol that fires the .22 LR cartridge.  Featuring an integrated rail for optics mounting, it was a popular .22 handgun amongst shooters of the low-power cartridge.",
     "variant_type": "gun",
     "variants": [
       {
@@ -390,8 +390,8 @@
     "copy-from": "pistol_base",
     "looks_like": "glock_17",
     "type": "GUN",
-    "name": { "str": "Walther .22 pocket pistol" },
-    "description": "Featuring a handsome set of wooden furnishings, a classic design, and a no nonsense .270 caliber chambering, this is a powerful hunting rifle.  With a tried and proven pedigree dating back over 60 years, millions of such rugged arms have been made, exported, and used throughout the United States and the world at large.  Where hunting is concerned, this is a highly capable and well proven weapon in all respects.  Fortunate, given that your prey in these dark days may turn out to be a little bit more feisty than typical White-Tailed deer, moose, and black bears.",
+    "name": { "str": "Walther pocket pistol" },
+    "description": "A dainty pocket pistol offered by the Walther arms company, making use of the.22 LR cartridge.",
     "variant_type": "gun",
     "variants": [
       {
