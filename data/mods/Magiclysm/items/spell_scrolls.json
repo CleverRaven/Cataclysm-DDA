@@ -134,7 +134,7 @@
     "id": "spell_scroll_devour",
     "//": "Animist spell",
     "name": { "str": "Scroll of Devour", "str_pl": "Scrolls of Devour" },
-    "description": "Kill a summoned creature, consuming it life energy and regain some health.  Each level increase the amount of restored HP.",
+    "description": "Kill a summoned creature, consuming its life energy to regain some health.",
     "use_action": { "type": "learn_spell", "spells": [ "rupture" ] }
   },
   {
@@ -799,7 +799,7 @@
     "id": "spell_scroll_storm_shipwrecker",
     "//": "Stormshaper spell",
     "name": { "str": "Scroll of Shipwrecker", "str_pl": "Scrolls of Shipwrecker" },
-    "description": "The spell moves out of your mouth, creating a giant shockwave, and shuttering everything on his path.",
+    "description": "The spell moves out of your mouth, creating a giant shockwave, and shuttering everything in its path.",
     "use_action": { "type": "learn_spell", "spells": [ "storm_shipwrecker" ] }
   },
   {
@@ -826,7 +826,7 @@
     "id": "spell_scroll_air_bubble",
     "//": "Stormshaper spell",
     "name": { "str": "Scroll of Air Bubble", "str_pl": "Scrolls of Air Bubble" },
-    "description": "Cover your head with air bubble, that allow you to breath under water or prevent breathing of toxic gases.",
+    "description": "Cover your head with an air bubble, allowing you to breathe underwater or prevent breathing of toxic gases.",
     "use_action": { "type": "learn_spell", "spells": [ "air_bubble" ] }
   },
   {
@@ -862,7 +862,7 @@
     "id": "spell_scroll_electric_eye",
     "//": "Stormshaper spell",
     "name": { "str": "Scroll of Electric Eye", "str_pl": "Scrolls of Electric Eye" },
-    "description": "Enhance your sight with your powers.  It allows you to see creatures of the same energy around you, and some minor bonuses.",
+    "description": "Enhance your sight with your powers.  It allows you to see creatures of the same energy around you, and block or dodge an additional attack your enhanced perception speed could anticipate.",
     "use_action": { "type": "learn_spell", "spells": [ "electric_eye" ] }
   },
   {
@@ -871,7 +871,7 @@
     "id": "spell_scroll_electric_waves",
     "//": "Stormshaper spell",
     "name": { "str": "Scroll of Electric Waves", "str_pl": "Scrolls of Electric Waves" },
-    "description": "Your hands start to emit a huge amount of energy, that you release with each your attack.  The damage is increases the more you master the spell.",
+    "description": "Your hands start to emit a huge amount of energy, that you release with each attack.",
     "use_action": { "type": "learn_spell", "spells": [ "electric_waves" ] }
   },
   {
@@ -880,7 +880,7 @@
     "id": "spell_scroll_electric_arts",
     "//": "Stormshaper spell",
     "name": { "str": "Scroll of Electric Arts", "str_pl": "Scrolls of Electric Arts" },
-    "description": "This spell were designed for scholars, that just started to learn stormshaping.  It allows them to use their abilities, when their magic control is weak, and they can injure themselves with electricity. The effect grows with each level.",
+    "description": "This spell were designed for scholars, that just started to learn stormshaping.  It allows them to use their abilities, when their magic control is weak, and they can injure themselves with electricity.",
     "use_action": { "type": "learn_spell", "spells": [ "electric_arts" ] }
   },
   {
@@ -889,7 +889,7 @@
     "id": "spell_scroll_summon_teravolt",
     "//": "Stormshaper spell",
     "name": { "str": "Scroll of Terravolt", "str_pl": "Scrolls of Terravolt" },
-    "description": "Summon a Teravolt, a small, semi-intelligent spirit, that home hostile creatures, and explode with huge spark cloud.",
+    "description": "Summon a Teravolt, a small, semi-intelligent spirit, that homes onto hostile creatures and explodes into a huge spark cloud.",
     "use_action": { "type": "learn_spell", "spells": [ "summon_teravolt" ] }
   },
   {

@@ -507,7 +507,7 @@
     "remove_message": "Energy streams calm down.",
     "rating": "good",
     "show_intensity": false,
-    "//": "When #61693 will be resolved (or, in other words, the spell will start to throw electric waves, as it says), the ITEM_DAMAGE_ELEC must be removed, and the spell description must be edited.  Artenatively, the effect may be moved into electric gloves, instead of their flat bonus.",
+    "//": "When #61693 will be resolved (or, in other words, the spell will start to throw electric waves, as it says), the ITEM_DAMAGE_ELEC must be removed, and the spell description must be edited.  Alternatively, the effect may be moved into electric gloves, instead of their flat bonus.",
     "enchantments": [
       {
         "hit_me_effect": [ { "id": "electric_waves_damage", "once_in": 3 } ],
@@ -521,7 +521,7 @@
     "name": [ "Electric Arts" ],
     "desc": [ "Make you less vulnerable to electric damage." ],
     "apply_message": "You feel a small sparks under your skin.  They do not harm you.",
-    "remove_message": "Sparks under your skin vanishes.",
+    "remove_message": "Sparks under your skin vanish.",
     "rating": "good",
     "show_intensity": false,
     "enchantments": [ { "values": [ { "value": "ARMOR_ELEC", "add": -35 } ] } ]
