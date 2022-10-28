@@ -523,7 +523,7 @@
     "id": "devour",
     "type": "SPELL",
     "name": "Devour",
-    "description": "Kill a summoned creature, consuming it life energy and regain some health.  Each level increase the amount of restored HP",
+    "description": "Kill a summoned creature, consuming its life energy to regain some health.",
     "valid_targets": [ "ally" ],
     "flags": [ "CONCENTRATE", "SOMATIC" ],
     "//": "added this min/max damage for player, so it will be visible how much hp would be healed.  ",
