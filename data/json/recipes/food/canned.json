@@ -1527,7 +1527,11 @@
     "batch_time_factors": [ 83, 5 ],
     "//": "300g of flesh * double heat = 80u + 1u for the can",
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "water_clean", 1 ] ], [ [ "meat_red_raw", 1, "LIST" ], [ "fish", 1 ], [ "lobster", 1 ] ], [ [ "veggy_green", 1, "LIST" ] ] ],
+    "components": [
+      [ [ "water_clean", 1 ] ],
+      [ [ "meat_red_raw", 1, "LIST" ], [ "fish", 1 ], [ "lobster", 1 ] ],
+      [ [ "veggy_green", 1, "LIST" ] ]
+    ],
     "using": [ [ "canning_metal", 1, "LIST" ], [ "tincan_medium", 1 ] ]
   },
   {
