@@ -72,7 +72,7 @@
     "valid_targets": [ "hostile" ],
     "effect": "attack",
     "shape": "blast",
-    "flags": [ "VERBAL", "SOMATIC", "NO_LEGS", "NO_PROJECTILE" ],
+    "flags": [ "VERBAL", "SOMATIC", "NO_LEGS", "NO_PROJECTILE", "NO_HANDS" ],
     "energy_source": "MANA",
     "spell_class": "EATER",
     "skill": "deduction",
