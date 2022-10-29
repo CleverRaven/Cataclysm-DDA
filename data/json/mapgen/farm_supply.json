@@ -572,7 +572,7 @@
               { "group": "book_survival", "prob": 5 }
             ]
           },
-          "chance": 40,
+          "chance": 20,
           "repeat": [ 0, 2 ]
         },
         "4": { "item": "sports", "chance": 50, "repeat": [ 0, 4 ] },
@@ -581,7 +581,7 @@
           "chance": 70,
           "repeat": [ 0, 3 ]
         },
-        "6": { "item": "clothing_outdoor_shoes", "chance": 50, "repeat": [ 0, 2 ] },
+        "6": { "item": "clothing_outdoor_shoes", "chance": 40, "repeat": [ 0, 2 ] },
         "7": { "item": "clothing_watch", "chance": 60, "repeat": [ 0, 2 ] },
         "8": { "item": "clothing_glasses", "chance": 60, "repeat": [ 0, 2 ] },
         "9": {
@@ -619,7 +619,7 @@
               { "group": "tools_lighting", "prob": 5 }
             ]
           },
-          "chance": 60,
+          "chance": 50,
           "repeat": [ 0, 3 ]
         },
         "é": {
@@ -650,7 +650,7 @@
             "subtype": "collection",
             "entries": [ { "group": "tools_carpentry", "prob": 70 }, { "group": "supplies_woodcrafts", "prob": 30 } ]
           },
-          "chance": 80,
+          "chance": 60,
           "repeat": [ 0, 5 ]
         },
         "È": {
@@ -674,7 +674,7 @@
             "subtype": "collection",
             "entries": [ { "group": "farming_tools", "prob": 50 }, { "group": "farm_supply_wire", "prob": 50 } ]
           },
-          "chance": 100,
+          "chance": 90,
           "repeat": [ 0, 7 ]
         },
         "÷": { "item": "farming_seeds", "chance": 100, "repeat": [ 3, 12 ] },
