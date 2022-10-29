@@ -2223,7 +2223,7 @@ bool mattack::impale( monster *z )
                                        _( "The %s lunges at <npcname>, but they dodge!" ),
                                        z->name() );
 
-        target->on_dodge( z, z->type->melee_skill * 2);
+        target->on_dodge( z, z->type->melee_skill * 2 );
         return true;
     }
 
@@ -6138,12 +6138,12 @@ bool mattack::dodge_check( monster *z, Creature *target )
     }
 
     const float dodge_ability = target->get_dodge();
-    if( dodge_ability > 0.0 ) {
+    if( dodge_ability > 0.8f ) {
         target->on_try_dodge();
     }
-    ///\EFFECT_DODGE increases chance of dodging, vs their melee skill
-    float dodge = std::max( dodge_ability - rng( 0, z->get_hit() ), 0.0f );
-    return dodge > 0.0 && rng( 0, 10000 ) < 10000 / ( 1 + 99 * std::exp( -.6 * dodge ) );
+
+    float attack_roll = z->get_hit() + rng_normal( 0, 5 );
+    return dodge_ability > attack_roll;
 }
 
 bool mattack::speaker( monster *z )
