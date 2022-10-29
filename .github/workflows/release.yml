@@ -238,7 +238,7 @@ jobs:
       - name: Install dependencies (windows msvc) (3/3)
         if: runner.os == 'Windows'
         run: |
-          vcpkg integrate install
+          vcpkg integrate install --vcpkg-root '${{ runner.workspace }}\b\vcpkg'
       - name: Install dependencies (windows mxe)
         if: matrix.mxe != 'none'
         run: |

@@ -149,7 +149,7 @@
     "valid_targets": [ "hostile", "ally" ],
     "effect": "attack",
     "shape": "blast",
-    "targeted_monster_ids": [ "mon_flaming_eye", "mon_flying_polyp", "mon_unseen_hunter", "mon_hunting_horror", "mon_giant_appendage" ],
+    "targeted_monster_species": [ "NETHER" ],
     "damage_type": "pure",
     "skill": "deduction",
     "difficulty": 8,
