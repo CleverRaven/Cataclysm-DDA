@@ -880,7 +880,7 @@
     "id": "spell_scroll_electric_arts",
     "//": "Stormshaper spell",
     "name": { "str": "Scroll of Electric Arts", "str_pl": "Scrolls of Electric Arts" },
-    "description": "This spell were designed for scholars, that just started to learn stormshaping.  It allows them to use their abilities, when their magic control is weak, and they can injure themselves with electricity.",
+    "description": "Insulate the skin against electrical damage. Particularly useful for the apprentice Stormshaper, whose  magical control is weak and whose efforts could easily end in self-electrocution.",
     "use_action": { "type": "learn_spell", "spells": [ "electric_arts" ] }
   },
   {
