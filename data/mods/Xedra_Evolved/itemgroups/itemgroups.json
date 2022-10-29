@@ -45,6 +45,7 @@
       { "group": "toy_robot_kit", "prob": 1 },
       { "group": "toy_engine_kit", "prob": 1 },
       { "item": "instant_coffee", "prob": 15 },
+      { "item": "strange_coffee", "prob": 5 },
       { "item": "usb_drive", "prob": 5 },
       { "item": "coat_rain", "prob": 50 },
       { "item": "hood_rain", "prob": 10 },
@@ -110,6 +111,7 @@
       { "item": "radio", "prob": 20, "charges": [ 0, 100 ] },
       [ "bubblewrap", 50 ],
       [ "instant_coffee", 15 ],
+      [ "strange_coffee", 5 ],
       [ "usb_drive", 5 ],
       [ "software_useless", 10 ],
       [ "software_electronics_reference", 2 ],
@@ -266,40 +268,14 @@
     "type": "item_group",
     "copy-from": "SUS_junk_drawer_messy",
     "subtype": "collection",
-    "extend": {
-      "items": [
-        [ "fire_ball", 1 ],
-        [ "glass_dagger_paperweight", 1 ],
-        [ "deck_of_tarot_cards", 1 ],
-        [ "polaroid_of_missing_person", 1 ],
-        [ "brass_cylinders", 5 ],
-        [ "glass_berries", 5 ],
-        [ "occult_seal", 5 ],
-        [ "hurricane_lamp_thorns", 1 ],
-        [ "caravaggio_self_portrait", 1 ],
-        [ "magick_8_ball", 1 ]
-      ]
-    }
+    "extend": { "entries": [ { "group": "xe_all_spells_low", "prob": 1 } ] }
   },
   {
     "id": "SUS_office_filing_cabinet",
     "type": "item_group",
     "copy-from": "SUS_office_filing_cabinet",
     "subtype": "collection",
-    "extend": {
-      "items": [
-        [ "hurricane_lamp_thorns", 5 ],
-        [ "caravaggio_self_portrait", 5 ],
-        [ "magick_8_ball", 5 ],
-        [ "fire_ball", 1 ],
-        [ "glass_dagger_paperweight", 1 ],
-        [ "deck_of_tarot_cards", 1 ],
-        [ "polaroid_of_missing_person", 1 ],
-        [ "brass_cylinders", 1 ],
-        [ "glass_berries", 1 ],
-        [ "occult_seal", 1 ]
-      ]
-    }
+    "extend": { "entries": [ { "group": "xe_all_spells_low", "prob": 1 } ] }
   },
   {
     "id": "costume_misc_items",
@@ -318,7 +294,8 @@
         { "item": "book_inventor", "prob": 1 },
         { "item": "money_strap_magic", "prob": 1 },
         { "item": "firmament_driver_book", "prob": 1 },
-        { "item": "ray_diagrams", "prob": 1 }
+        { "item": "ray_diagrams", "prob": 1 },
+        { "item": "eater_book_artifact", "prob": 1 }
       ]
     }
   },
