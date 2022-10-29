@@ -65,6 +65,7 @@
       "æ": "f_warehouse_shelf",
       "Ë": "f_warehouse_shelf",
       "Ï": "f_warehouse_shelf",
+      "Í": "f_warehouse_shelf",
       "I": "f_filing_cabinet",
       "s": "f_sink",
       "D": "f_dumpster",
@@ -125,6 +126,23 @@
     "id": "farm_supply_quicklime_and_saltpetre",
     "type": "item_group",
     "items": [ [ "material_quicklime", 85 ], { "item": "chem_saltpetre", "prob": 15, "charges-min": 10, "charges-max": 50 } ]
+  },
+  {
+    "id": "farm_supply_animal_feed",
+    "type": "item_group",
+    "items": [ 
+      { "item": "cattlefodder", "prob": 50, "charges": 60, "container-item": "bag_canvas" },
+      { "item": "birdfood", "prob": 50, "charges": 60, "container-item": "bag_canvas" }
+     ]
+  },
+  {
+    "id": "farm_supply_riding_gear",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [ 
+      { "item": "horse_tack" },
+      { "item": "saddlebag" }
+     ]
   },
   {
     "id": "farm_supply_floor_surprises",
