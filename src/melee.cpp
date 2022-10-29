@@ -2168,7 +2168,7 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
     // Melee skill and reaction score governs if you can react in time
     // Skill of 5 without relevant encumbrance guarantees a block attempt
     int melee_skill = has_active_bionic( bio_cqb ) ? 5 : get_skill_level( skill_melee );
-    if( !x_in_y( melee_skill * 20 * get_limb_score( limb_score_reaction ), 100 ) ) {
+    if( !x_in_y( melee_skill * 20.0 * get_limb_score( limb_score_reaction ), 100 ) ) {
         add_msg_debug( debugmode::DF_MELEE, "Block roll failed" );
         return false;
     }
