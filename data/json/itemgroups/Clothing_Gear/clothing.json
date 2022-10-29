@@ -2080,7 +2080,7 @@
       { "item": "glasses_monocle", "prob": 2 },
       { "item": "pants_leather", "prob": 60 },
       { "item": "pants_cargo", "prob": 70 },
-      {"item": "pants_hiking", "prob":5},
+      { "item": "pants_hiking", "prob": 5 },
       { "item": "shorts_cargo", "prob": 50 },
       { "item": "skirt", "prob": 75 },
       { "item": "skirt_leather", "prob": 5 },
