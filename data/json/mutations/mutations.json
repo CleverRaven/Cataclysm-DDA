@@ -1811,6 +1811,15 @@
   },
   {
     "type": "mutation",
+    "id": "VEGAN",
+    "name": { "str": "Vegan" },
+    "points": -1,
+    "description": "You're very strictly vegan, eating animal products is out of the question, even if it means death. Wearing animal products is also impossible.",
+    "starting_trait": true,
+    "valid": true
+  },
+  {
+    "type": "mutation",
     "id": "TRUTHTELLER",
     "name": { "str": "Truth Teller" },
     "points": -1,
