@@ -2,7 +2,7 @@
   {
     "type": "item_group",
     "id": "xe_inventor_spells_low",
-    "//": "Overall group for inventor spells, if you don't need a precise tier items. Groups are used in mapgen",
+    "//": "Overall group for inventor spells, if you don't need a precise tier of items. Groups are used in mapgen",
     "subtype": "distribution",
     "entries": [
       { "group": "xe_inventor_spell_group0", "prob": 100 },

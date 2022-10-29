@@ -2,7 +2,7 @@
   {
     "type": "item_group",
     "id": "xe_dreamsmith_spells_low",
-    "//": "Overall group for dreamsmith spells, if you don't need a precise tier items. Groups are used in mapgen",
+    "//": "Overall group for dreamsmith spells, if you don't need a precise tier of items. Groups are used in mapgen",
     "subtype": "distribution",
     "entries": [
       { "group": "xe_dreamsmith_spell_group0", "prob": 100 },

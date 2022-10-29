@@ -2,7 +2,7 @@
   {
     "type": "item_group",
     "id": "xe_all_spells_low",
-    "//": "Overall group for all spells, if you don't need a precise tier items. Groups are used in mapgen",
+    "//": "Overall group for all spells, if you don't need a precise tier of items. Groups are used in mapgen",
     "subtype": "distribution",
     "entries": [
       { "group": "xe_classless_spells_low", "prob": 100 },
