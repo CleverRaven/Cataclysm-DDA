@@ -1245,7 +1245,7 @@ bool mattack::smash( monster *z )
         target->add_msg_player_or_npc( _( "The %s takes a powerful swing at you, but you dodge it!" ),
                                        _( "The %s takes a powerful swing at <npcname>, who dodges it!" ),
                                        z->name() );
-        target->on_dodge( z, z->type->melee_skill * 2 );
+        target->on_dodge( z, z->type->melee_skill );
         return true;
     }
 
