@@ -271,7 +271,7 @@
     "material": [ "paper" ],
     "flags": [ "TRADER_AVOID" ],
     "weight": "1 g",
-    "volume": "1 ml"
+    "volume": "2 ml"
   },
   {
     "type": "GENERIC",
@@ -300,7 +300,7 @@
     "price_postapoc": 0,
     "material": [ "paper" ],
     "weight": "3 g",
-    "volume": "1 ml"
+    "volume": "5 ml"
   },
   {
     "type": "GENERIC",
@@ -315,7 +315,7 @@
     "price_postapoc": 0,
     "material": [ "paper" ],
     "weight": "3 g",
-    "volume": "1 ml"
+    "volume": "5 ml"
   },
   {
     "type": "GENERIC",
@@ -330,7 +330,7 @@
     "price_postapoc": 0,
     "material": [ "paper" ],
     "weight": "3 g",
-    "volume": "1 ml"
+    "volume": "5 ml"
   },
   {
     "type": "GENERIC",
@@ -345,7 +345,7 @@
     "price_postapoc": 0,
     "material": [ "paper" ],
     "weight": "3 g",
-    "volume": "1 ml"
+    "volume": "5 ml"
   },
   {
     "type": "GENERIC",
@@ -360,7 +360,7 @@
     "price_postapoc": 0,
     "material": [ "paper" ],
     "weight": "3 g",
-    "volume": "1 ml"
+    "volume": "5 ml"
   },
   {
     "type": "GENERIC",
@@ -375,7 +375,7 @@
     "price_postapoc": 0,
     "material": [ "paper" ],
     "weight": "3 g",
-    "volume": "1 ml"
+    "volume": "5 ml"
   },
   {
     "type": "GENERIC",
