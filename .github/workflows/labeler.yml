@@ -5,6 +5,8 @@ on: [pull_request]
 jobs:
   triage:
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read|write
     steps:
       - uses: actions/checkout@v3
       - uses: docker://decathlon/pull-request-labeler-action:2.0.0
