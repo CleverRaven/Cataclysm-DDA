@@ -1225,7 +1225,7 @@
     "flags": [ "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
     "weapon_category": [ "QUARTERSTAVES" ],
     "weight": "1500 g",
-    "volume": "1500 ml",
+    "volume": "3 L",
     "longest_side": "180 cm",
     "bashing": 18,
     "category": "weapons",
