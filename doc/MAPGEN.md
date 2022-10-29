@@ -1027,15 +1027,21 @@ NPCs in the faction will use the zone to influence the AI.
 
 | Field   | Description
 | ---     | ---
-| type    | (required, string) Values: `"NPC_RETREAT"`, `"NPC_NO_INVESTIGATE"`, or `"NPC_INVESTIGATE_ONLY"`.
+| type    | (required, string) Values: `"NPC_RETREAT"`, `"NPC_NO_INVESTIGATE"`, or `"NPC_INVESTIGATE_ONLY"`, or `LOOT_xxx`
 | faction | (required, string) the faction id of the NPC faction that will use the zone.
 | name    | (optional, string) the name of the zone.
+| filter  | (optional, string) used as filter for `LOOT_CUSTOM`, or as group id for `LOOT_ITEM_GROUP`
 
 The `type` field values affect NPC behavior. NPCs will:
 
 - Prefer to retreat towards `NPC_RETREAT` zones.
 - Not move to see the source of unseen sounds coming from `NPC_NO_INVESTIGATE` zones.
 - Not move to see the source of unseen sounds coming from outside of `NPC_INVESTIGATE_ONLY` zones.
+- Use `LOOT_xxx` zones for their shop (see [NPCs.md#Shop_restocking](NPCs.md#Shop-restocking))
+
+Single-point loot zones that overlap cargo vehicle parts will be placed as vehicle zones.
+
+Zone placements can be debugged in game by turning on debug mode and changing `F`action in the Zones Manager.
 
 ### Specify a player spawning location using "zones"
 

@@ -2101,7 +2101,7 @@ int npc::max_willing_to_owe() const
 
 void npc::shop_restock()
 {
-    // NPCs refresh every week, since the last time you checked in
+    // Shops restock once every restock_interval
     time_duration const elapsed =
         restock != calendar::turn_zero ? calendar::turn - restock : 0_days;
     if( ( restock != calendar::turn_zero ) && ( elapsed < 0_days ) ) {
