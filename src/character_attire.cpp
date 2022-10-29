@@ -26,6 +26,7 @@ static const flag_id json_flag_ONE_PER_LAYER( "ONE_PER_LAYER" );
 static const itype_id itype_shoulder_strap( "shoulder_strap" );
 
 static const material_id material_wool( "wool" );
+static const material_id material_leather( "leather" );
 
 static const trait_id trait_ANTENNAE( "ANTENNAE" );
 static const trait_id trait_ANTLERS( "ANTLERS" );
