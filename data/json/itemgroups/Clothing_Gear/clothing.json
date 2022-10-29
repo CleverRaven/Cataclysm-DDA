@@ -110,7 +110,7 @@
       { "item": "leg_small_bag", "prob": 10 },
       { "item": "armrig", "prob": 10 },
       { "item": "ankle_wallet_pouch", "prob": 5 },
-      { "item": "pants_hiking", "prob":10 }
+      { "item": "pants_hiking", "prob": 10 }
     ]
   },
   {
