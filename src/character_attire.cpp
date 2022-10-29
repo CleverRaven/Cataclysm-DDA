@@ -31,6 +31,7 @@ static const trait_id trait_ANTENNAE( "ANTENNAE" );
 static const trait_id trait_ANTLERS( "ANTLERS" );
 static const trait_id trait_HORNS_POINTED( "HORNS_POINTED" );
 static const trait_id trait_SQUEAMISH( "SQUEAMISH" );
+static const trait_id trait_VEGAN( "VEGAN" );
 static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
 
 nc_color item_penalties::color_for_stacking_badness() const
@@ -79,6 +80,11 @@ ret_val<void> Character::can_wear( const item &it, bool with_equip_change ) cons
     if( has_trait( trait_WOOLALLERGY ) && ( it.made_of( material_wool ) ||
                                             it.has_own_flag( flag_wooled ) ) ) {
         return ret_val<void>::make_failure( _( "Can't wear that, it's made of wool!" ) );
+    }
+    
+        if( has_trait( trait_VEGAN ) && ( it.made_of( material_leather ) ||
+                                            it.has_own_flag( flag_wooled ) ) ) {
+        return ret_val<void>::make_failure( _( "Can't wear that, it's made of animal!" ) );
     }
 
     if( it.is_filthy() && has_trait( trait_SQUEAMISH ) ) {
