@@ -269,7 +269,7 @@
     "base_energy_cost": 1300,
     "max_level": 30,
     "energy_source": "MANA",
-    "extra_effects": [ { "id": "spell_speed" } ]
+    "extra_effects": [ { "id": "spell_stamina" } ]
   },
   {
     "id": "spell_stamina",
@@ -494,5 +494,33 @@
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
     "min_duration": 12000,
     "max_duration": 12000
+  },
+  {
+    "id": "spell_weak",
+    "type": "SPELL",
+    "name": "Weakening",
+    "description": "Make enemies around you more vulnerable.",
+    "valid_targets": [ "hostile" ],
+    "effect": "attack",
+    "effect_str": "effect_weakening",
+    "shape": "blast",
+    "flags": [ "NO_LEGS", "SILENT", "NO_EXPLOSION_SFX" ],
+    "skill": "deduction",
+    "spell_class": "EATER",
+    "energy_source": "MANA",
+    "difficulty": 5,
+    "min_aoe": 3,
+    "max_aoe": 15,
+    "aoe_increment": 0.5,
+    "base_casting_time": 250,
+    "final_casting_time": 50,
+    "casting_time_increment": -8,
+    "base_energy_cost": 600,
+    "final_energy_cost": 250,
+    "energy_increment": -14,
+    "max_level": 25,
+    "min_duration": 500,
+    "max_duration": 30000,
+    "duration_increment": 1180
   }
 ]
