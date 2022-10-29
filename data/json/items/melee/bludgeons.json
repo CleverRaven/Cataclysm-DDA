@@ -107,7 +107,7 @@
     "material": [ "aluminum" ],
     "flags": [ "DURABLE_MELEE", "BELT_CLIP" ],
     "use_action": { "menu_text": "Expand", "type": "transform", "target": "baton-extended", "msg": "You snap open your baton." },
-    "volume": "250 ml",
+    "volume": "285 ml",
     "bashing": 4,
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "any", "balance": "neutral" },
     "price": 17500
@@ -119,7 +119,7 @@
     "name": { "str": "expandable baton (extended)", "str_pl": "expandable batons (extended)" },
     "description": "A telescoping baton that collapses for easy storage.  Makes a good melee weapon.  Activate to collapse.",
     "weight": "725 g",
-    "longest_side": "60 cm",
+    "longest_side": "59 cm",
     "to_hit": { "grip": "weapon", "length": "short", "surface": "any", "balance": "good" },
     "price_postapoc": 750,
     "color": "dark_gray",
@@ -129,7 +129,7 @@
     "flags": [ "DURABLE_MELEE", "BELT_CLIP" ],
     "weapon_category": [ "BATONS", "FENCING_WEAPONRY" ],
     "use_action": { "menu_text": "Collapse", "type": "transform", "target": "baton", "msg": "You collapse your baton." },
-    "volume": "750 ml",
+    "volume": "850 ml",
     "bashing": 12,
     "price": 17500
   },
