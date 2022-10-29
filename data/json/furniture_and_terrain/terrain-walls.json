@@ -25,7 +25,17 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "flags": [
+      "FLAMMABLE",
+      "NOITEM",
+      "SUPPORTS_ROOF",
+      "WALL",
+      "NO_SCENT",
+      "AUTO_WALL_SYMBOL",
+      "MINEABLE",
+      "BLOCK_WIND",
+      "WIRED_WALL"
+    ],
     "bash": {
       "str_min": 30,
       "str_max": 210,
@@ -46,6 +56,7 @@
     "move_cost": 4,
     "coverage": 60,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "NOITEM", "REDUCE_SCENT", "MOUNTABLE" ],
+    "connect_groups": "WALL",
     "connects_to": "WALL",
     "bash": {
       "str_min": 10,
@@ -72,19 +83,10 @@
     "color": "light_gray",
     "move_cost": 0,
     "coverage": 60,
+    "connect_groups": "WALL",
     "connects_to": "WALL",
     "roof": "t_flat_roof",
-    "flags": [
-      "TRANSPARENT",
-      "FLAMMABLE",
-      "PLACE_ITEM",
-      "INDOORS",
-      "AUTO_WALL_SYMBOL",
-      "BASHABLE",
-      "THIN_OBSTACLE",
-      "MOUNTABLE",
-      "SHORT"
-    ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "PLACE_ITEM", "INDOORS", "AUTO_WALL_SYMBOL", "THIN_OBSTACLE", "MOUNTABLE", "SHORT" ],
     "deconstruct": { "ter_set": "t_floor", "items": [ { "item": "2x4", "count": 10 }, { "item": "nail", "charges": 20 } ] },
     "bash": {
       "str_min": 8,
@@ -107,7 +109,18 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "CHIP", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "flags": [
+      "FLAMMABLE",
+      "NOITEM",
+      "SUPPORTS_ROOF",
+      "WALL",
+      "NO_SCENT",
+      "CHIP",
+      "AUTO_WALL_SYMBOL",
+      "MINEABLE",
+      "BLOCK_WIND",
+      "WIRED_WALL"
+    ],
     "bash": {
       "str_min": 30,
       "str_max": 210,
@@ -129,7 +142,18 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "CHIP", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "flags": [
+      "FLAMMABLE",
+      "NOITEM",
+      "SUPPORTS_ROOF",
+      "WALL",
+      "NO_SCENT",
+      "CHIP",
+      "AUTO_WALL_SYMBOL",
+      "MINEABLE",
+      "BLOCK_WIND",
+      "WIRED_WALL"
+    ],
     "bash": {
       "str_min": 30,
       "str_max": 210,
@@ -151,7 +175,18 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "CHIP", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "flags": [
+      "FLAMMABLE",
+      "NOITEM",
+      "SUPPORTS_ROOF",
+      "WALL",
+      "NO_SCENT",
+      "CHIP",
+      "AUTO_WALL_SYMBOL",
+      "MINEABLE",
+      "BLOCK_WIND",
+      "WIRED_WALL"
+    ],
     "bash": {
       "str_min": 30,
       "str_max": 210,
@@ -173,7 +208,18 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "CHIP", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "flags": [
+      "FLAMMABLE",
+      "NOITEM",
+      "SUPPORTS_ROOF",
+      "WALL",
+      "NO_SCENT",
+      "CHIP",
+      "AUTO_WALL_SYMBOL",
+      "MINEABLE",
+      "BLOCK_WIND",
+      "WIRED_WALL"
+    ],
     "bash": {
       "str_min": 30,
       "str_max": 210,
@@ -195,7 +241,18 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "CHIP", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "flags": [
+      "FLAMMABLE",
+      "NOITEM",
+      "SUPPORTS_ROOF",
+      "WALL",
+      "NO_SCENT",
+      "CHIP",
+      "AUTO_WALL_SYMBOL",
+      "MINEABLE",
+      "BLOCK_WIND",
+      "WIRED_WALL"
+    ],
     "bash": {
       "str_min": 30,
       "str_max": 210,
@@ -217,7 +274,18 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "CHIP", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "flags": [
+      "FLAMMABLE",
+      "NOITEM",
+      "SUPPORTS_ROOF",
+      "WALL",
+      "NO_SCENT",
+      "CHIP",
+      "AUTO_WALL_SYMBOL",
+      "MINEABLE",
+      "BLOCK_WIND",
+      "WIRED_WALL"
+    ],
     "bash": {
       "str_min": 30,
       "str_max": 210,
@@ -239,7 +307,18 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "CHIP", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "flags": [
+      "FLAMMABLE",
+      "NOITEM",
+      "SUPPORTS_ROOF",
+      "WALL",
+      "NO_SCENT",
+      "CHIP",
+      "AUTO_WALL_SYMBOL",
+      "MINEABLE",
+      "BLOCK_WIND",
+      "WIRED_WALL"
+    ],
     "bash": {
       "str_min": 30,
       "str_max": 210,
@@ -247,6 +326,664 @@
       "sound_fail": "whump!",
       "ter_set": "t_null",
       "items": "wall_bash_results"
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_wood_wall_b",
+    "alias": [ "t_wood_h_b", "t_wood_v_b" ],
+    "name": "blue wood wall",
+    "looks_like": "t_wall_b",
+    "description": "Wood wall painted blue.",
+    "symbol": "LINE_OXOX",
+    "color": "blue",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_wood_roof",
+    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
+    "connects_to": "WALL",
+    "bash": {
+      "str_min": 12,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "whump!",
+      "ter_set": "t_wall_wood_chipped",
+      "items": [
+        { "item": "2x4", "count": [ 0, 3 ] },
+        { "item": "wood_panel", "count": [ 0, 2 ] },
+        { "item": "nail", "charges": [ 1, 5 ] },
+        { "item": "splinter", "count": [ 1, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_wood_wall_g",
+    "alias": [ "t_wood_h_g", "t_wood_v_g" ],
+    "name": "green wood wall",
+    "looks_like": "t_wall_g",
+    "description": "Wood wall painted green.",
+    "symbol": "LINE_OXOX",
+    "color": "green",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_wood_roof",
+    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
+    "connects_to": "WALL",
+    "bash": {
+      "str_min": 12,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "whump!",
+      "ter_set": "t_wall_wood_chipped",
+      "items": [
+        { "item": "2x4", "count": [ 0, 3 ] },
+        { "item": "wood_panel", "count": [ 0, 2 ] },
+        { "item": "nail", "charges": [ 1, 5 ] },
+        { "item": "splinter", "count": [ 1, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_wood_wall_r",
+    "alias": [ "t_wood_h_r", "t_wood_v_r" ],
+    "name": "red wood wall",
+    "looks_like": "t_wall_r",
+    "description": "Wood wall painted red.",
+    "symbol": "LINE_OXOX",
+    "color": "red",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_wood_roof",
+    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
+    "connects_to": "WALL",
+    "bash": {
+      "str_min": 12,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "whump!",
+      "ter_set": "t_wall_wood_chipped",
+      "items": [
+        { "item": "2x4", "count": [ 0, 3 ] },
+        { "item": "wood_panel", "count": [ 0, 2 ] },
+        { "item": "nail", "charges": [ 1, 5 ] },
+        { "item": "splinter", "count": [ 1, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_wood_wall_w",
+    "alias": [ "t_wood_h_w", "t_wood_v_w" ],
+    "name": "white wood wall",
+    "looks_like": "t_wall_w",
+    "description": "Wood wall painted white.",
+    "symbol": "LINE_OXOX",
+    "color": "white",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_wood_roof",
+    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
+    "connects_to": "WALL",
+    "bash": {
+      "str_min": 12,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "whump!",
+      "ter_set": "t_wall_wood_chipped",
+      "items": [
+        { "item": "2x4", "count": [ 0, 3 ] },
+        { "item": "wood_panel", "count": [ 0, 2 ] },
+        { "item": "nail", "charges": [ 1, 5 ] },
+        { "item": "splinter", "count": [ 1, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_wood_wall_p",
+    "alias": [ "t_wood_h_p", "t_wood_v_p" ],
+    "name": "purple wood wall",
+    "looks_like": "t_wall_p",
+    "description": "Wood wall painted purple.",
+    "symbol": "LINE_OXOX",
+    "color": "magenta",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_wood_roof",
+    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
+    "connects_to": "WALL",
+    "bash": {
+      "str_min": 12,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "whump!",
+      "ter_set": "t_wall_wood_chipped",
+      "items": [
+        { "item": "2x4", "count": [ 0, 3 ] },
+        { "item": "wood_panel", "count": [ 0, 2 ] },
+        { "item": "nail", "charges": [ 1, 5 ] },
+        { "item": "splinter", "count": [ 1, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_wood_wall_P",
+    "alias": [ "t_wood_h_P", "t_wood_v_P" ],
+    "name": "pink wood wall",
+    "looks_like": "t_wall_P",
+    "description": "Wood wall painted pink.",
+    "symbol": "LINE_OXOX",
+    "color": "pink",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_wood_roof",
+    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
+    "connects_to": "WALL",
+    "bash": {
+      "str_min": 12,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "whump!",
+      "ter_set": "t_wall_wood_chipped",
+      "items": [
+        { "item": "2x4", "count": [ 0, 3 ] },
+        { "item": "wood_panel", "count": [ 0, 2 ] },
+        { "item": "nail", "charges": [ 1, 5 ] },
+        { "item": "splinter", "count": [ 1, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_wood_wall_y",
+    "alias": [ "t_wood_h_y", "t_wood_v_y" ],
+    "name": "yellow wood wall",
+    "looks_like": "t_wall_y",
+    "description": "Wood wall painted yellow.",
+    "symbol": "LINE_OXOX",
+    "color": "yellow",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_wood_roof",
+    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
+    "connects_to": "WALL",
+    "bash": {
+      "str_min": 12,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "whump!",
+      "ter_set": "t_wall_wood_chipped",
+      "items": [
+        { "item": "2x4", "count": [ 0, 3 ] },
+        { "item": "wood_panel", "count": [ 0, 2 ] },
+        { "item": "nail", "charges": [ 1, 5 ] },
+        { "item": "splinter", "count": [ 1, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_concrete_wall_b",
+    "alias": [ "t_concrete_h_b", "t_concrete_v_b" ],
+    "name": "blue concrete wall",
+    "looks_like": "t_wall_b",
+    "description": "Concrete wall painted blue.",
+    "symbol": "LINE_OXOX",
+    "color": "blue",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_concrete_roof",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "bash": {
+      "str_min": 70,
+      "str_max": 300,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_reb_cage",
+      "items": [ { "item": "rock", "count": [ 10, 22 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_concrete_wall_g",
+    "alias": [ "t_concrete_h_g", "t_concrete_v_g" ],
+    "name": "green concrete wall",
+    "looks_like": "t_wall_g",
+    "description": "Concrete wall painted green.",
+    "symbol": "LINE_OXOX",
+    "color": "green",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_concrete_roof",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "bash": {
+      "str_min": 70,
+      "str_max": 300,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_reb_cage",
+      "items": [ { "item": "rock", "count": [ 10, 22 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_concrete_wall_r",
+    "alias": [ "t_concrete_h_r", "t_concrete_v_r" ],
+    "name": "red concrete wall",
+    "looks_like": "t_wall_r",
+    "description": "Concrete wall painted red.",
+    "symbol": "LINE_OXOX",
+    "color": "red",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_concrete_roof",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "bash": {
+      "str_min": 70,
+      "str_max": 300,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_reb_cage",
+      "items": [ { "item": "rock", "count": [ 10, 22 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_concrete_wall_w",
+    "alias": [ "t_concrete_h_w", "t_concrete_v_w" ],
+    "name": "white concrete wall",
+    "looks_like": "t_wall_w",
+    "description": "Concrete wall painted white.",
+    "symbol": "LINE_OXOX",
+    "color": "white",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_concrete_roof",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "bash": {
+      "str_min": 70,
+      "str_max": 300,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_reb_cage",
+      "items": [ { "item": "rock", "count": [ 10, 22 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_concrete_wall_p",
+    "alias": [ "t_concrete_h_p", "t_concrete_v_p" ],
+    "name": "purple concrete wall",
+    "looks_like": "t_wall_p",
+    "description": "Concrete wall painted purple.",
+    "symbol": "LINE_OXOX",
+    "color": "magenta",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_concrete_roof",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "bash": {
+      "str_min": 70,
+      "str_max": 300,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_reb_cage",
+      "items": [ { "item": "rock", "count": [ 10, 22 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_concrete_wall_P",
+    "alias": [ "t_concrete_h_P", "t_concrete_v_P" ],
+    "name": "pink concrete wall",
+    "looks_like": "t_wall_P",
+    "description": "Concrete wall painted pink.",
+    "symbol": "LINE_OXOX",
+    "color": "pink",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_concrete_roof",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "bash": {
+      "str_min": 70,
+      "str_max": 300,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_reb_cage",
+      "items": [ { "item": "rock", "count": [ 10, 22 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_concrete_wall_y",
+    "alias": [ "t_concrete_h_y", "t_concrete_v_y" ],
+    "name": "yellow concrete wall",
+    "looks_like": "t_wall_y",
+    "description": "Concrete wall painted yellow.",
+    "symbol": "LINE_OXOX",
+    "color": "yellow",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_concrete_roof",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "bash": {
+      "str_min": 70,
+      "str_max": 300,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_reb_cage",
+      "items": [ { "item": "rock", "count": [ 10, 22 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_strconc_wall_b",
+    "alias": [ "t_strconc_h_b", "t_strconc_v_b" ],
+    "name": "reinforced blue concrete wall",
+    "looks_like": "t_wall_b",
+    "description": "Reinforced concrete wall painted blue.",
+    "symbol": "LINE_OXOX",
+    "color": "blue",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_concrete_roof",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "bash": {
+      "str_min": 120,
+      "str_max": 460,
+      "sound": "scrrrash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_reb_cage",
+      "items": [ { "item": "rock", "count": [ 10, 22 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_strconc_wall_g",
+    "alias": [ "t_strconc_h_g", "t_strconc_v_g" ],
+    "name": "reinforced green concrete wall",
+    "looks_like": "t_wall_g",
+    "description": "Reinforced concrete wall painted green.",
+    "symbol": "LINE_OXOX",
+    "color": "green",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_concrete_roof",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "bash": {
+      "str_min": 120,
+      "str_max": 460,
+      "sound": "scrrrash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_reb_cage",
+      "items": [ { "item": "rock", "count": [ 10, 22 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_strconc_wall_r",
+    "alias": [ "t_strconcr_h_r", "t_strconc_v_r" ],
+    "name": "reinforced red concrete wall",
+    "looks_like": "t_wall_r",
+    "description": "Reinfoced concrete wall painted red.",
+    "symbol": "LINE_OXOX",
+    "color": "red",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_concrete_roof",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "bash": {
+      "str_min": 120,
+      "str_max": 460,
+      "sound": "scrrrash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_reb_cage",
+      "items": [ { "item": "rock", "count": [ 10, 22 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_strconc_wall_w",
+    "alias": [ "t_strconc_h_w", "t_strconc_v_w" ],
+    "name": "reinforced white concrete wall",
+    "looks_like": "t_wall_w",
+    "description": "Reinforced concrete wall painted white.",
+    "symbol": "LINE_OXOX",
+    "color": "white",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_concrete_roof",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "bash": {
+      "str_min": 120,
+      "str_max": 460,
+      "sound": "scrrrash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_reb_cage",
+      "items": [ { "item": "rock", "count": [ 10, 22 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_strconc_wall_p",
+    "alias": [ "t_strconc_h_p", "t_strconc_v_p" ],
+    "name": "reinforced purple concrete wall",
+    "looks_like": "t_wall_p",
+    "description": "Reinforced concrete wall painted purple.",
+    "symbol": "LINE_OXOX",
+    "color": "magenta",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_concrete_roof",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "bash": {
+      "str_min": 120,
+      "str_max": 460,
+      "sound": "scrrrash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_reb_cage",
+      "items": [ { "item": "rock", "count": [ 10, 22 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_strconc_wall_P",
+    "alias": [ "t_strconc_h_P", "t_strconc_v_P" ],
+    "name": "reinforced pink concrete wall",
+    "looks_like": "t_wall_P",
+    "description": "reinforced concrete wall painted pink.",
+    "symbol": "LINE_OXOX",
+    "color": "pink",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_concrete_roof",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "bash": {
+      "str_min": 120,
+      "str_max": 460,
+      "sound": "scrrrash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_reb_cage",
+      "items": [ { "item": "rock", "count": [ 10, 22 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_strconc_wall_y",
+    "alias": [ "t_strconc_h_y", "t_strconc_v_y" ],
+    "name": "reinforced yellow concrete wall",
+    "looks_like": "t_wall_y",
+    "description": "Reinforced concrete wall painted yellow.",
+    "symbol": "LINE_OXOX",
+    "color": "yellow",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_concrete_roof",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "bash": {
+      "str_min": 120,
+      "str_max": 460,
+      "sound": "scrrrash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_reb_cage",
+      "items": [ { "item": "rock", "count": [ 10, 22 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_sconc_wall_b",
+    "alias": [ "t_strconc_h_b", "t_strconc_v_b" ],
+    "name": "simple blue concrete wall",
+    "looks_like": "t_wall_b",
+    "description": "Simple concrete wall painted blue.",
+    "symbol": "LINE_OXOX",
+    "color": "blue",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_concrete_roof",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "bash": {
+      "str_min": 90,
+      "str_max": 350,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_pit_shallow",
+      "items": [ { "item": "rock", "count": [ 10, 22 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_sconc_wall_g",
+    "alias": [ "t_sconc_h_g", "t_sconc_v_g" ],
+    "name": "simple green concrete wall",
+    "looks_like": "t_wall_g",
+    "description": "Simple concrete wall painted green.",
+    "symbol": "LINE_OXOX",
+    "color": "green",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_concrete_roof",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "bash": {
+      "str_min": 90,
+      "str_max": 350,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_pit_shallow",
+      "items": [ { "item": "rock", "count": [ 10, 22 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_sconc_wall_r",
+    "alias": [ "t_strconcr_h_r", "t_strconc_v_r" ],
+    "name": "simple red concrete wall",
+    "looks_like": "t_wall_r",
+    "description": "Simple concrete wall painted red.",
+    "symbol": "LINE_OXOX",
+    "color": "red",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_concrete_roof",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "bash": {
+      "str_min": 90,
+      "str_max": 350,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_pit_shallow",
+      "items": [ { "item": "rock", "count": [ 10, 22 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_sconc_wall_w",
+    "alias": [ "t_sconc_h_w", "t_sconc_v_w" ],
+    "name": "simple white concrete wall",
+    "looks_like": "t_wall_w",
+    "description": "Simple concrete wall painted white.",
+    "symbol": "LINE_OXOX",
+    "color": "white",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_concrete_roof",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "bash": {
+      "str_min": 90,
+      "str_max": 350,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_pit_shallow",
+      "items": [ { "item": "rock", "count": [ 10, 22 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_sconc_wall_p",
+    "alias": [ "t_sconc_h_p", "t_sconc_v_p" ],
+    "name": "simple purple concrete wall",
+    "looks_like": "t_wall_p",
+    "description": "Simple concrete wall painted purple.",
+    "symbol": "LINE_OXOX",
+    "color": "magenta",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_concrete_roof",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "bash": {
+      "str_min": 90,
+      "str_max": 350,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_pit_shallow",
+      "items": [ { "item": "rock", "count": [ 10, 22 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_sconc_wall_P",
+    "alias": [ "t_sconc_h_P", "t_sconc_v_P" ],
+    "name": "simple pink concrete wall",
+    "looks_like": "t_wall_P",
+    "description": "Simple concrete wall painted pink.",
+    "symbol": "LINE_OXOX",
+    "color": "pink",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_concrete_roof",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "bash": {
+      "str_min": 90,
+      "str_max": 350,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_pit_shallow",
+      "items": [ { "item": "rock", "count": [ 10, 22 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_sconc_wall_y",
+    "alias": [ "t_sconc_h_y", "t_sconc_v_y" ],
+    "name": "simple yellow concrete wall",
+    "looks_like": "t_wall_y",
+    "description": "Simple concrete wall painted yellow.",
+    "symbol": "LINE_OXOX",
+    "color": "yellow",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_concrete_roof",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "bash": {
+      "str_min": 90,
+      "str_max": 350,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_pit_shallow",
+      "items": [ { "item": "rock", "count": [ 10, 22 ] } ]
     }
   },
   {
@@ -278,9 +1015,8 @@
     "color": "brown",
     "move_cost": 0,
     "coverage": 100,
-    "roof": "t_flat_roof",
+    "roof": "t_brick_roof",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
-    "connects_to": "WALL",
     "bash": {
       "str_min": 60,
       "str_max": 160,
@@ -300,9 +1036,8 @@
     "color": "light_gray",
     "move_cost": 0,
     "coverage": 100,
-    "roof": "t_flat_roof",
+    "roof": "t_rock_roof",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
-    "connects_to": "WALL",
     "bash": {
       "str_min": 80,
       "str_max": 300,
@@ -323,6 +1058,7 @@
     "move_cost": 4,
     "coverage": 60,
     "flags": [ "TRANSPARENT", "NOITEM", "REDUCE_SCENT", "MOUNTABLE", "MINEABLE" ],
+    "connect_groups": "WALL",
     "connects_to": "WALL",
     "bash": {
       "str_min": 40,
@@ -344,9 +1080,8 @@
     "color": "white",
     "move_cost": 0,
     "coverage": 100,
-    "roof": "t_flat_roof",
-    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "CONNECT_TO_WALL", "MINEABLE", "BLOCK_WIND" ],
-    "connects_to": "WALL",
+    "roof": "t_rock_roof",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "CONNECT_WITH_WALL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 120,
       "str_max": 400,
@@ -386,9 +1121,8 @@
     "looks_like": "t_brick_wall",
     "move_cost": 0,
     "coverage": 100,
-    "roof": "t_flat_roof",
+    "roof": "t_brick_roof",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
-    "connects_to": "WALL",
     "bash": {
       "str_min": 40,
       "str_max": 120,
@@ -409,7 +1143,7 @@
     "color": "dark_gray",
     "move_cost": 0,
     "coverage": 100,
-    "roof": "t_flat_roof",
+    "roof": "t_concrete_roof",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 70,
@@ -418,6 +1152,27 @@
       "sound_fail": "whump!",
       "ter_set": "t_reb_cage",
       "items": [ { "item": "rock", "count": [ 10, 22 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_concrete_wall_rope",
+    "name": "concrete wall with ropes",
+    "looks_like": "t_rock",
+    "description": "A boxlike wall of concrete with ropes attached to the exterior edges.  Used to train parkour.",
+    "symbol": "LINE_OXOX",
+    "color": "dark_gray",
+    "move_cost": 10,
+    "coverage": 100,
+    "roof": "t_concrete_roof",
+    "flags": [ "NOITEM", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND", "MOUNTABLE" ],
+    "bash": {
+      "str_min": 70,
+      "str_max": 300,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_reb_cage",
+      "items": [ { "item": "rock", "count": [ 10, 22 ] }, { "item": "rope_6", "count": [ 2, 4 ] } ]
     }
   },
   {
@@ -432,6 +1187,11 @@
     "coverage": 100,
     "roof": "t_metal_flat_roof",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "oxytorch": {
+      "result": "t_scrap_wall_halfway",
+      "duration": "14 seconds",
+      "byproducts": [ { "item": "steel_plate", "count": [ 2, 3 ] }, { "item": "steel_chunk", "count": [ 12, 20 ] } ]
+    },
     "bash": {
       "str_min": 200,
       "str_max": 600,
@@ -443,6 +1203,28 @@
         { "item": "steel_chunk", "count": [ 3, 12 ] },
         { "item": "scrap", "count": [ 9, 36 ] }
       ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_wall_metal_corrugated",
+    "alias": [ "t_wall_metal_corrugated_h", "t_wall_metal_corrugated_v" ],
+    "name": "corrugated metal wall",
+    "description": "A wall made from a thin sheet of corrugated steel held in a frame, weather and wind proof but not very insulating or durable.",
+    "looks_like": "t_wall_metal",
+    "symbol": "LINE_OXOX",
+    "color": "cyan",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_metal_flat_roof",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "bash": {
+      "str_min": 30,
+      "str_max": 210,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_null",
+      "items": [ { "item": "steel_chunk", "count": [ 1, 4 ] }, { "item": "scrap", "count": [ 3, 12 ] } ]
     }
   },
   {
@@ -480,9 +1262,8 @@
     "color": "light_gray",
     "move_cost": 0,
     "coverage": 100,
-    "roof": "t_flat_roof",
+    "roof": "t_concrete_roof",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
-    "connects_to": "WALL",
     "bash": {
       "str_min": 90,
       "str_max": 350,
@@ -503,6 +1284,7 @@
     "move_cost": 4,
     "coverage": 60,
     "flags": [ "NOITEM", "TRANSPARENT", "MOUNTABLE", "REDUCE_SCENT", "MINEABLE" ],
+    "connect_groups": "WALL",
     "connects_to": "WALL",
     "bash": {
       "str_min": 40,
@@ -523,9 +1305,8 @@
     "color": "light_gray",
     "move_cost": 0,
     "coverage": 100,
-    "roof": "t_flat_roof",
+    "roof": "t_concrete_roof",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
-    "connects_to": "WALL",
     "bash": {
       "str_min": 120,
       "str_max": 460,
@@ -546,6 +1327,7 @@
     "move_cost": 5,
     "coverage": 60,
     "flags": [ "TRANSPARENT", "NOITEM", "MOUNTABLE", "REDUCE_SCENT", "MINEABLE" ],
+    "connect_groups": "WALL",
     "connects_to": "WALL",
     "bash": {
       "str_min": 60,
@@ -564,14 +1346,26 @@
     "symbol": "#",
     "color": "dark_gray",
     "move_cost": 0,
+    "hacksaw": {
+      "result": "t_pit",
+      "duration": "10 minutes",
+      "message": "You finish cutting the metal.",
+      "byproducts": [ { "item": "spike", "count": 19 }, { "item": "scrap", "count": 8 } ]
+    },
     "flags": [ "TRANSPARENT", "NOITEM", "PERMEABLE", "THIN_OBSTACLE" ],
+    "connect_groups": "WALL",
     "connects_to": "WALL",
+    "oxytorch": {
+      "result": "t_pit",
+      "duration": "9 seconds",
+      "byproducts": [ { "item": "spike", "count": [ 1, 19 ] }, { "item": "scrap", "count": [ 1, 8 ] } ]
+    },
     "bash": {
       "str_min": 20,
       "str_max": 100,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "ter_set": "t_pit",
+      "ter_set": "t_thconc_floor",
       "items": [ { "item": "scrap", "count": [ 4, 12 ] }, { "item": "rebar", "count": [ 0, 4 ] } ]
     }
   },
@@ -579,7 +1373,7 @@
     "type": "terrain",
     "id": "t_scrap_wall",
     "name": "simple metal wall",
-    "looks_like": "t_metal_wall",
+    "looks_like": "t_wall_metal",
     "description": "A relatively simple wall made of scraped together metal.  It's still capable of blocking intruders and supporting a roof with adjacent walls.",
     "symbol": "LINE_OXOX",
     "color": "dark_gray",
@@ -587,7 +1381,6 @@
     "coverage": 100,
     "roof": "t_metal_flat_roof",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "REDUCE_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
-    "connects_to": "WALL",
     "bash": {
       "str_min": 80,
       "str_max": 200,
@@ -627,9 +1420,8 @@
     "color": "light_red",
     "move_cost": 0,
     "coverage": 100,
-    "roof": "t_flat_roof",
+    "roof": "t_wood_roof",
     "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
-    "connects_to": "WALL",
     "bash": {
       "str_min": 12,
       "str_max": 150,
@@ -654,9 +1446,8 @@
     "color": "light_red",
     "move_cost": 0,
     "coverage": 100,
-    "roof": "t_flat_roof",
+    "roof": "t_wood_roof",
     "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "REDUCE_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
-    "connects_to": "WALL",
     "bash": {
       "str_min": 8,
       "str_max": 150,
@@ -681,7 +1472,7 @@
     "color": "light_red",
     "move_cost": 0,
     "coverage": 35,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT", "PERMEABLE", "CONNECT_TO_WALL" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT", "PERMEABLE", "CONNECT_WITH_WALL" ],
     "bash": {
       "str_min": 4,
       "str_max": 110,
@@ -708,6 +1499,7 @@
     "move_cost": 4,
     "coverage": 60,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "NOITEM", "REDUCE_SCENT", "MOUNTABLE", "MINEABLE" ],
+    "connect_groups": "WALL",
     "connects_to": "WALL",
     "bash": {
       "str_min": 40,
@@ -728,9 +1520,18 @@
     "color": "brown",
     "move_cost": 0,
     "coverage": 100,
-    "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
-    "connects_to": "WALL",
+    "roof": "t_wood_roof",
+    "flags": [
+      "FLAMMABLE",
+      "NOITEM",
+      "SUPPORTS_ROOF",
+      "WALL",
+      "NO_SCENT",
+      "AUTO_WALL_SYMBOL",
+      "MINEABLE",
+      "BLOCK_WIND",
+      "WIRED_WALL"
+    ],
     "bash": {
       "str_min": 60,
       "str_max": 180,
@@ -750,9 +1551,8 @@
     "color": "brown",
     "move_cost": 0,
     "coverage": 100,
-    "roof": "t_flat_roof",
+    "roof": "t_wood_roof",
     "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "REDUCE_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
-    "connects_to": "WALL",
     "bash": {
       "str_min": 40,
       "str_max": 160,
@@ -771,7 +1571,7 @@
     "symbol": "&",
     "color": "brown",
     "move_cost": 0,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT", "PERMEABLE", "CONNECT_TO_WALL" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT", "PERMEABLE", "CONNECT_WITH_WALL" ],
     "bash": {
       "str_min": 8,
       "str_max": 150,
@@ -792,7 +1592,7 @@
     "color": "brown",
     "move_cost": 0,
     "coverage": 100,
-    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT", "CONNECT_TO_WALL", "WALL", "BLOCK_WIND" ],
+    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT", "CONNECT_WITH_WALL", "WALL", "BLOCK_WIND" ],
     "bash": {
       "str_min": 35,
       "str_max": 150,
@@ -841,7 +1641,7 @@
       "items": [ { "item": "2x4", "count": [ 0, 3 ] }, { "item": "splinter", "count": [ 3, 6 ] } ]
     },
     "shoot": { "chance_to_hit": 25, "reduce_damage": [ 20, 40 ], "reduce_damage_laser": [ 20, 50 ], "destroy_damage": [ 30, 100 ] },
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT", "PERMEABLE", "CONNECT_TO_WALL" ]
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT", "PERMEABLE", "CONNECT_WITH_WALL" ]
   },
   {
     "id": "t_wall_wattle_half",
@@ -874,7 +1674,6 @@
     "move_cost": 0,
     "coverage": 100,
     "flags": [ "NOITEM", "WALL", "PERMEABLE", "SUPPORTS_ROOF", "AUTO_WALL_SYMBOL", "MINEABLE" ],
-    "connects_to": "WALL",
     "bash": {
       "str_min": 60,
       "str_max": 200,
@@ -901,7 +1700,6 @@
     "coverage": 100,
     "roof": "t_dirt",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
-    "connects_to": "WALL",
     "bash": {
       "str_min": 60,
       "str_max": 200,
@@ -923,7 +1721,6 @@
     "coverage": 100,
     "roof": "t_dirt",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
-    "connects_to": "WALL",
     "bash": {
       "str_min": 30,
       "str_max": 200,
@@ -932,6 +1729,17 @@
       "ter_set": "t_mud_underground",
       "items": [ { "item": "material_soil", "count": [ 50, 100 ] } ]
     }
+  },
+  {
+    "type": "terrain",
+    "id": "t_wall_warped",
+    "name": "warped wall",
+    "description": "Almost a simple stone wall.  But the angles don't add up, the shadows are wrong, whatever this is, it doesn't belong here.",
+    "symbol": "LINE_OXOX",
+    "color": "magenta",
+    "move_cost": 0,
+    "coverage": 100,
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ]
   },
   {
     "type": "terrain",
@@ -944,7 +1752,6 @@
     "move_cost": 0,
     "coverage": 60,
     "flags": [ "NOITEM", "WALL", "PERMEABLE", "AUTO_WALL_SYMBOL", "MINEABLE" ],
-    "connects_to": "WALL",
     "bash": {
       "str_min": 30,
       "str_max": 200,
@@ -964,9 +1771,10 @@
     "symbol": "LINE_OXOX",
     "color": "light_cyan",
     "move_cost": 0,
-    "coverage": 90,
+    "coverage": 30,
     "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "NOITEM", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
+    "rotates_to": "INDOORFLOOR",
     "bash": {
       "str_min": 4,
       "str_max": 12,
@@ -989,8 +1797,10 @@
     "symbol": "LINE_OXOX",
     "color": "light_cyan",
     "move_cost": 0,
+    "coverage": 30,
     "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "ALARMED", "NOITEM", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
+    "rotates_to": "INDOORFLOOR",
     "bash": {
       "str_min": 4,
       "str_max": 12,
@@ -1159,7 +1969,14 @@
     "symbol": "\"",
     "color": "light_gray",
     "move_cost": 0,
-    "flags": [ "TRANSPARENT", "NOITEM", "PERMEABLE", "CONNECT_TO_WALL", "THIN_OBSTACLE" ],
+    "hacksaw": {
+      "result": "t_floor",
+      "duration": "15 minutes",
+      "message": "You finish cutting the metal.",
+      "byproducts": [ { "item": "pipe", "count": 3 } ]
+    },
+    "flags": [ "TRANSPARENT", "NOITEM", "PERMEABLE", "CONNECT_WITH_WALL", "THIN_OBSTACLE" ],
+    "oxytorch": { "result": "t_floor", "duration": "9 seconds", "byproducts": [ { "item": "pipe", "count": [ 1, 2 ] } ] },
     "bash": {
       "str_min": 60,
       "str_max": 250,
@@ -1313,14 +2130,7 @@
       "sound_fail": "whump!",
       "ter_set": "t_rock_floor",
       "ter_set_bashed_from_above": "t_rock_floor_no_roof",
-      "items": [
-        { "item": "rock", "count": [ 3, 7 ] },
-        { "item": "coal_lump", "charges": [ 250, 500 ], "prob": 10 },
-        { "item": "material_limestone", "charges": [ 10, 25 ], "prob": 80 },
-        { "item": "material_rocksalt", "count": [ 0, 1 ], "prob": 20 },
-        { "item": "material_rhodonite", "count": [ 0, 1 ], "prob": 3 },
-        { "item": "material_zincite", "count": [ 0, 5 ], "prob": 5 }
-      ]
+      "items": [ { "group": "mining_rock", "count": 1 } ]
     }
   },
   {
@@ -1340,7 +2150,7 @@
       "sound": "crash!",
       "sound_fail": "whump!",
       "ter_set": "t_rock_floor",
-      "items": [ { "item": "rock", "count": [ 3, 7 ] } ]
+      "items": [ { "item": "rock", "count": [ 17, 37 ] }, { "item": "rock_large", "count": [ 1, 3 ] } ]
     }
   },
   {
@@ -1360,7 +2170,7 @@
       "sound": "crash!",
       "sound_fail": "whump!",
       "ter_set": "t_rock_floor",
-      "items": [ { "item": "rock", "count": [ 3, 7 ] } ]
+      "items": [ { "item": "rock", "count": [ 17, 37 ] }, { "item": "rock_large", "count": [ 1, 3 ] } ]
     }
   },
   {
@@ -1380,7 +2190,7 @@
       "sound": "crash!",
       "sound_fail": "whump!",
       "ter_set": "t_rock_floor",
-      "items": [ { "item": "rock", "count": [ 3, 7 ] } ]
+      "items": [ { "item": "rock", "count": [ 17, 37 ] }, { "item": "rock_large", "count": [ 1, 3 ] } ]
     }
   },
   {
@@ -1413,6 +2223,7 @@
     "color": "light_gray",
     "move_cost": 5,
     "flags": [ "TRANSPARENT", "NOITEM", "MOUNTABLE", "PERMEABLE", "MINEABLE" ],
+    "connect_groups": "WALL",
     "connects_to": "WALL",
     "bash": {
       "str_min": 60,
@@ -1541,9 +2352,8 @@
     "color": "light_gray",
     "move_cost": 0,
     "coverage": 100,
-    "roof": "t_flat_roof",
+    "roof": "t_rock_roof",
     "flags": [ "NOITEM", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
-    "connects_to": "WALL",
     "bash": {
       "str_min": 50,
       "str_max": 200,
@@ -1564,6 +2374,7 @@
     "move_cost": 4,
     "coverage": 60,
     "flags": [ "TRANSPARENT", "NOITEM", "REDUCE_SCENT", "MOUNTABLE", "MINEABLE" ],
+    "connect_groups": "WALL",
     "connects_to": "WALL",
     "bash": {
       "str_min": 30,

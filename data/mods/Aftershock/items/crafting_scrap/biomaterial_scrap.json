@@ -28,7 +28,7 @@
     "id": "afs_biomaterial_4",
     "copy-from": "afs_scrap_4",
     "name": { "str_sp": "self healing polymers" },
-    "description": "Materials capable of taking environmental chemicals and utilizing them for self-repair; be careful you don't make grey goo.",
+    "description": "Materials capable of taking environmental chemicals and utilizing them for self-repair; be careful you don't make gray goo.",
     "looks_like": "scrap"
   },
   {

@@ -55,18 +55,18 @@
 #define STRING(x) STRING2(x)
 
 #if defined(__GNUC__)
-#define __FUNCTION_NAME__ __PRETTY_FUNCTION__
+#define CATA_FUNCTION_NAME __PRETTY_FUNCTION__
 #else
-#define __FUNCTION_NAME__ __func__
+#define CATA_FUNCTION_NAME __func__
 #endif
 
 /**
  * Debug message of level D_ERROR and class D_MAIN, also includes the source
- * file name and line, uses varg style arguments, teh first argument must be
+ * file name and line, uses varg style arguments, the first argument must be
  * a printf style format string.
  */
 
-#define debugmsg(...) realDebugmsg(__FILE__, STRING(__LINE__), __FUNCTION_NAME__, __VA_ARGS__)
+#define debugmsg(...) realDebugmsg(__FILE__, STRING(__LINE__), CATA_FUNCTION_NAME, __VA_ARGS__)
 
 // Don't use this, use debugmsg instead.
 void realDebugmsg( const char *filename, const char *line, const char *funcname,
@@ -79,14 +79,21 @@ inline void realDebugmsg( const char *const filename, const char *const line,
                          std::forward<Args>( args )... ) );
 }
 
+// Fatal error with a message
+#define cata_fatal(...) \
+    do { \
+        debugmsg(__VA_ARGS__); \
+        std::abort(); \
+    } while( false )
+
 // A fatal error for use in constexpr functions
-// This exists for compatibility reasons.  On gcc 5.3 we need a
+// This exists for compatibility reasons.  On gcc before 9 we need a
 // different implementation that is messier.
 // https://gcc.gnu.org/bugzilla/show_bug.cgi?id=67371
-// Pass a placeholder return value to be used on gcc 5.3 (it won't
+// Pass a placeholder return value to be used on old gcc (it won't
 // actually be returned, it's just needed for the type), and then
 // args as if to debugmsg for the remaining args.
-#if defined(__GNUC__) && __GNUC__ < 6
+#if defined(__GNUC__) && __GNUC__ < 9
 #define constexpr_fatal(ret, ...) \
     do { return false ? ( ret ) : ( abort(), ( ret ) ); } while(false)
 #else
@@ -229,9 +236,14 @@ namespace debugmode
 // Please try to keep this alphabetically sorted
 enum debug_filter : int {
     DF_ACT_BUTCHER = 0, // butcher activity handler
+    DF_ACT_EBOOK, // ebook activity actor
+    DF_ACT_HARVEST, // harvest activity actor
     DF_ACT_LOCKPICK, // lockpicking activity actor
+    DF_ACT_READ, // reading activity actor
+    DF_ACT_SAFECRACKING, // safecracking activity actor
     DF_ACT_SHEARING, // shearing activity actor
     DF_ACT_WORKOUT, // workout activity actor
+    DF_ACTIVITY, // activity actor generic
     DF_ANATOMY_BP, // anatomy::select_body_part()
     DF_AVATAR, // avatar generic
     DF_BALLISTIC, // ballistic generic
@@ -251,6 +263,7 @@ enum debug_filter : int {
     DF_MONSTER, // monster generic
     DF_NPC, // npc generic
     DF_OVERMAP, // overmap generic
+    DF_RADIO, // radio stuff
     DF_RANGED, // ranged generic
     DF_REQUIREMENTS_MAP, // activity_item_handler requirements_map()
     DF_SOUND, // sound generic

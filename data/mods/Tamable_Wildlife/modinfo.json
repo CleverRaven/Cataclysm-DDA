@@ -1,0 +1,12 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "Tamable_Wildlife",
+    "name": "Tamable Wildlife",
+    "authors": [ "Termineitor244" ],
+    "maintainers": [ "Termineitor244" ],
+    "description": "Makes a lot of docile, but generally untamable wildlife, tamable.",
+    "category": "rebalance",
+    "dependencies": [ "dda" ]
+  }
+]

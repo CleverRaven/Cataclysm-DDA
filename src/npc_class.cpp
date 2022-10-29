@@ -9,57 +9,60 @@
 #include <string>
 #include <utility>
 
+#include "avatar.h"
+#include "condition.h"
 #include "debug.h"
 #include "generic_factory.h"
 #include "item_group.h"
+#include "itype.h"
 #include "json.h"
 #include "mutation.h"
 #include "rng.h"
 #include "skill.h"
 #include "trait_group.h"
 
-static const std::array<npc_class_id, 19> legacy_ids = {{
-        npc_class_id( "NC_NONE" ),
-        npc_class_id( "NC_EVAC_SHOPKEEP" ),  // Found in the Evacuation Center, unique, has more goods than he should be able to carry
-        npc_class_id( "NC_SHOPKEEP" ),       // Found in towns.  Stays in his shop mostly.
-        npc_class_id( "NC_HACKER" ),         // Weak in combat but has hacking skills and equipment
-        npc_class_id( "NC_CYBORG" ),         // Broken Cyborg rescued from a lab
-        npc_class_id( "NC_DOCTOR" ),         // Found in towns, or roaming.  Stays in the clinic.
-        npc_class_id( "NC_TRADER" ),         // Roaming trader, journeying between towns.
-        npc_class_id( "NC_NINJA" ),          // Specializes in unarmed combat, carries few items
-        npc_class_id( "NC_COWBOY" ),         // Gunslinger and survivalist
-        npc_class_id( "NC_SCIENTIST" ),      // Uses intelligence-based skills and high-tech items
-        npc_class_id( "NC_BOUNTY_HUNTER" ),  // Resourceful and well-armored
-        npc_class_id( "NC_THUG" ),           // Moderate melee skills and poor equipment
-        npc_class_id( "NC_SCAVENGER" ),      // Good with pistols light weapons
-        npc_class_id( "NC_ARSONIST" ),       // Evacuation Center, restocks Molotovs and anarchist type stuff
-        npc_class_id( "NC_HUNTER" ),         // Survivor type good with bow or rifle
-        npc_class_id( "NC_SOLDIER" ),        // Well equipped and trained combatant, good with rifles and melee
-        npc_class_id( "NC_BARTENDER" ),      // Stocks alcohol
-        npc_class_id( "NC_JUNK_SHOPKEEP" ),   // Stocks wide range of items...
-        npc_class_id( "NC_HALLU" )           // Hallucinatory NPCs
-    }
-};
-
-const npc_class_id NC_NONE( "NC_NONE" );
-const npc_class_id NC_EVAC_SHOPKEEP( "NC_EVAC_SHOPKEEP" );
-const npc_class_id NC_SHOPKEEP( "NC_SHOPKEEP" );
-const npc_class_id NC_HACKER( "NC_HACKER" );
+const npc_class_id NC_ARSONIST( "NC_ARSONIST" );
+const npc_class_id NC_BARTENDER( "NC_BARTENDER" );
+const npc_class_id NC_BOUNTY_HUNTER( "NC_BOUNTY_HUNTER" );
+const npc_class_id NC_COWBOY( "NC_COWBOY" );
 const npc_class_id NC_CYBORG( "NC_CYBORG" );
 const npc_class_id NC_DOCTOR( "NC_DOCTOR" );
-const npc_class_id NC_TRADER( "NC_TRADER" );
-const npc_class_id NC_NINJA( "NC_NINJA" );
-const npc_class_id NC_COWBOY( "NC_COWBOY" );
-const npc_class_id NC_SCIENTIST( "NC_SCIENTIST" );
-const npc_class_id NC_BOUNTY_HUNTER( "NC_BOUNTY_HUNTER" );
-const npc_class_id NC_THUG( "NC_THUG" );
-const npc_class_id NC_SCAVENGER( "NC_SCAVENGER" );
-const npc_class_id NC_ARSONIST( "NC_ARSONIST" );
-const npc_class_id NC_HUNTER( "NC_HUNTER" );
-const npc_class_id NC_SOLDIER( "NC_SOLDIER" );
-const npc_class_id NC_BARTENDER( "NC_BARTENDER" );
-const npc_class_id NC_JUNK_SHOPKEEP( "NC_JUNK_SHOPKEEP" );
+const npc_class_id NC_EVAC_SHOPKEEP( "NC_EVAC_SHOPKEEP" );
+const npc_class_id NC_HACKER( "NC_HACKER" );
 const npc_class_id NC_HALLU( "NC_HALLU" );
+const npc_class_id NC_HUNTER( "NC_HUNTER" );
+const npc_class_id NC_JUNK_SHOPKEEP( "NC_JUNK_SHOPKEEP" );
+const npc_class_id NC_NINJA( "NC_NINJA" );
+const npc_class_id NC_NONE( "NC_NONE" );
+const npc_class_id NC_SCAVENGER( "NC_SCAVENGER" );
+const npc_class_id NC_SCIENTIST( "NC_SCIENTIST" );
+const npc_class_id NC_SHOPKEEP( "NC_SHOPKEEP" );
+const npc_class_id NC_SOLDIER( "NC_SOLDIER" );
+const npc_class_id NC_THUG( "NC_THUG" );
+const npc_class_id NC_TRADER( "NC_TRADER" );
+
+static const std::array<npc_class_id, 19> legacy_ids = {{
+        NC_NONE,
+        NC_EVAC_SHOPKEEP,  // Found in the Evacuation Center, unique, has more goods than he should be able to carry
+        NC_SHOPKEEP,       // Found in towns.  Stays in his shop mostly.
+        NC_HACKER,         // Weak in combat but has hacking skills and equipment
+        NC_CYBORG,         // Broken Cyborg rescued from a lab
+        NC_DOCTOR,         // Found in towns, or roaming.  Stays in the clinic.
+        NC_TRADER,         // Roaming trader, journeying between towns.
+        NC_NINJA,          // Specializes in unarmed combat, carries few items
+        NC_COWBOY,         // Gunslinger and survivalist
+        NC_SCIENTIST,      // Uses intelligence-based skills and high-tech items
+        NC_BOUNTY_HUNTER,  // Resourceful and well-armored
+        NC_THUG,           // Moderate melee skills and poor equipment
+        NC_SCAVENGER,      // Good with pistols light weapons
+        NC_ARSONIST,       // Evacuation Center, restocks Molotovs and anarchist type stuff
+        NC_HUNTER,         // Survivor type good with bow or rifle
+        NC_SOLDIER,        // Well equipped and trained combatant, good with rifles and melee
+        NC_BARTENDER,      // Stocks alcohol
+        NC_JUNK_SHOPKEEP,   // Stocks wide range of items...
+        NC_HALLU           // Hallucinatory NPCs
+    }
+};
 
 static generic_factory<npc_class> npc_class_factory( "npc_class" );
 
@@ -103,7 +106,7 @@ void apply_all_to_unassigned( T &skills )
     if( iter != skills.end() ) {
         distribution dis = iter->second;
         skills.erase( iter );
-        for( const auto &sk : Skill::skills ) {
+        for( const Skill &sk : Skill::skills ) {
             if( skills.count( sk.ident() ) == 0 ) {
                 skills[ sk.ident() ] = dis;
             }
@@ -114,7 +117,7 @@ void apply_all_to_unassigned( T &skills )
 void npc_class::finalize_all()
 {
     for( const npc_class &cl_const : npc_class_factory.get_all() ) {
-        auto &cl = const_cast<npc_class &>( cl_const );
+        npc_class &cl = const_cast<npc_class &>( cl_const );
         apply_all_to_unassigned( cl.skills );
         apply_all_to_unassigned( cl.bonus_skills );
 
@@ -130,15 +133,18 @@ void npc_class::finalize_all()
 
 void npc_class::check_consistency()
 {
-    for( const auto &legacy : legacy_ids ) {
+    for( const npc_class_id &legacy : legacy_ids ) {
         if( !npc_class_factory.is_valid( legacy ) ) {
-            debugmsg( "Missing legacy npc class %s", legacy.c_str() );
+            debugmsg( "Missing legacy npc class %s (at index %d)",
+                      legacy.c_str(), &legacy - legacy_ids.data() );
         }
     }
 
     for( const npc_class &cl : npc_class_factory.get_all() ) {
-        if( !item_group::group_is_defined( cl.shopkeeper_item_group ) ) {
-            debugmsg( "Missing shopkeeper item group %s", cl.shopkeeper_item_group.c_str() );
+        for( const shopkeeper_item_group &ig : cl.shop_item_groups ) {
+            if( !item_group::group_is_defined( ig.id ) ) {
+                debugmsg( "Missing shopkeeper item group %s", ig.id.c_str() );
+            }
         }
 
         if( !cl.worn_override.is_empty() && !item_group::group_is_defined( cl.worn_override ) ) {
@@ -187,11 +193,9 @@ static distribution load_distribution( const JsonObject &jo )
 
     if( jo.has_array( "sum" ) ) {
         JsonArray jarr = jo.get_array( "sum" );
-        JsonObject obj = jarr.next_object();
-        distribution ret = load_distribution( obj );
+        distribution ret = load_distribution( jarr.next_object() );
         while( jarr.has_more() ) {
-            obj = jarr.next_object();
-            ret = ret + load_distribution( obj );
+            ret = ret + load_distribution( jarr.next_object() );
         }
 
         return ret;
@@ -199,11 +203,9 @@ static distribution load_distribution( const JsonObject &jo )
 
     if( jo.has_array( "mul" ) ) {
         JsonArray jarr = jo.get_array( "mul" );
-        JsonObject obj = jarr.next_object();
-        distribution ret = load_distribution( obj );
+        distribution ret = load_distribution( jarr.next_object() );
         while( jarr.has_more() ) {
-            obj = jarr.next_object();
-            ret = ret * load_distribution( obj );
+            ret = ret * load_distribution( jarr.next_object() );
         }
 
         return ret;
@@ -227,7 +229,42 @@ static distribution load_distribution( const JsonObject &jo, const std::string &
         return load_distribution( obj );
     }
 
-    jo.throw_error( "Invalid distribution type", name );
+    jo.throw_error_at( name, "Invalid distribution type" );
+}
+
+bool shopkeeper_item_group::can_sell( npc const &guy ) const
+{
+    dialogue const temp( get_talker_for( get_avatar() ), get_talker_for( guy ) );
+    faction *const fac = guy.get_faction();
+
+    return ( fac == nullptr || trust <= guy.get_faction()->trusts_u ) &&
+           ( !condition || condition( temp ) );
+}
+
+bool shopkeeper_item_group::can_restock( npc const &guy ) const
+{
+    return !strict || can_sell( guy );
+}
+
+std::string shopkeeper_item_group::get_refusal() const
+{
+    if( refusal.empty() ) {
+        return _( "<npcname> does not trust you enough" );
+    }
+
+    return refusal;
+}
+
+void shopkeeper_item_group::deserialize( const JsonObject &jo )
+{
+    mandatory( jo, false, "group", id );
+    optional( jo, false, "trust", trust, 0 );
+    optional( jo, false, "strict", strict, false );
+    optional( jo, false, "rigid", rigid, false );
+    optional( jo, false, "refusal", refusal );
+    if( jo.has_member( "condition" ) ) {
+        read_condition<dialogue>( jo, "condition", condition, false );
+    }
 }
 
 void npc_class::load( const JsonObject &jo, const std::string & )
@@ -241,8 +278,23 @@ void npc_class::load( const JsonObject &jo, const std::string & )
     bonus_int = load_distribution( jo, "bonus_int" );
     bonus_per = load_distribution( jo, "bonus_per" );
 
-    optional( jo, was_loaded, "shopkeeper_item_group", shopkeeper_item_group,
-              item_group_id( "EMPTY_GROUP" ) );
+    if( jo.has_member( "shopkeeper_item_group" ) ) {
+        if( jo.has_array( "shopkeeper_item_group" ) &&
+            jo.get_array( "shopkeeper_item_group" ).test_object() ) {
+            mandatory( jo, was_loaded, "shopkeeper_item_group", shop_item_groups );
+        } else if( jo.has_string( "shopkeeper_item_group" ) ) {
+            const std::string &ig_str = jo.get_string( "shopkeeper_item_group" );
+            shop_item_groups.emplace_back( ig_str, 0, false );
+        } else {
+            jo.throw_error( string_format( "invalid format for shopkeeper_item_group in npc class %s", name ) );
+        }
+    }
+    optional( jo, was_loaded, "shopkeeper_price_rules", shop_price_rules, faction_price_rules_reader {} );
+    optional( jo, was_loaded, SHOPKEEPER_CONSUMPTION_RATES, shop_cons_rates_id,
+              shopkeeper_cons_rates_id::NULL_ID() );
+    optional( jo, was_loaded, SHOPKEEPER_BLACKLIST, shop_blacklist_id,
+              shopkeeper_blacklist_id::NULL_ID() );
+    optional( jo, was_loaded, "restock_interval", restock_interval, 6_days );
     optional( jo, was_loaded, "worn_override", worn_override );
     optional( jo, was_loaded, "carry_override", carry_override );
     optional( jo, was_loaded, "weapon_override", weapon_override );
@@ -260,6 +312,7 @@ void npc_class::load( const JsonObject &jo, const std::string & )
     }
 
     optional( jo, was_loaded, "proficiencies", _starting_proficiencies );
+    optional( jo, was_loaded, "sells_belongings", sells_belongings, true );
     /* Mutation rounds can be specified as follows:
      *   "mutation_rounds": {
      *     "ANY" : { "constant": 1 },
@@ -332,7 +385,7 @@ const std::vector<npc_class> &npc_class::get_all()
 const npc_class_id &npc_class::random_common()
 {
     std::list<const npc_class_id *> common_classes;
-    for( const auto &pr : npc_class_factory.get_all() ) {
+    for( const npc_class &pr : npc_class_factory.get_all() ) {
         if( pr.common ) {
             common_classes.push_back( &pr.id );
         }
@@ -355,9 +408,44 @@ std::string npc_class::get_job_description() const
     return job_description.translated();
 }
 
-const item_group_id &npc_class::get_shopkeeper_items() const
+const std::vector<shopkeeper_item_group> &npc_class::get_shopkeeper_items() const
 {
-    return shopkeeper_item_group;
+    return shop_item_groups;
+}
+
+const shopkeeper_cons_rates &npc_class::get_shopkeeper_cons_rates() const
+{
+    if( shop_cons_rates_id.is_null() ) {
+        shopkeeper_cons_rates static const null_rates;
+        return null_rates;
+    }
+    return shop_cons_rates_id.obj();
+}
+
+const shopkeeper_blacklist &npc_class::get_shopkeeper_blacklist() const
+{
+    if( shop_blacklist_id.is_null() ) {
+        shopkeeper_blacklist static const null_blacklist;
+        return null_blacklist;
+    }
+    return shop_blacklist_id.obj();
+}
+
+faction_price_rule const *npc_class::get_price_rules( item const &it, npc const &guy ) const
+{
+    auto const el = std::find_if(
+    shop_price_rules.crbegin(), shop_price_rules.crend(), [&it, &guy]( faction_price_rule const & fc ) {
+        return fc.matches( it, guy );
+    } );
+    if( el != shop_price_rules.crend() ) {
+        return &*el;
+    }
+    return nullptr;
+}
+
+const time_duration &npc_class::get_shop_restock_interval() const
+{
+    return restock_interval;
 }
 
 int npc_class::roll_strength() const

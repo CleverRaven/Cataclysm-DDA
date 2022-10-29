@@ -1,0 +1,165 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_backroom_wall",
+    "name": "faded wall",
+    "description": "A yellowed, numbingly monotonous wallpaper decorates these thin walls.  They smell of mildew and have a faintly damp feel.",
+    "symbol": "#",
+    "color": "yellow",
+    "looks_like": "t_wall_y",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_flat_roof",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "bash": {
+      "str_min": 15,
+      "str_max": 45,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "sound_vol": 8,
+      "sound_fail_vol": 4,
+      "ter_set": "t_carpet_backrooms"
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_backroom_wall_gray",
+    "name": "faded gray wall",
+    "description": "A drab gray drywall barrier with no finishing.  Feels almost damp to the touch and smells faintly of cleaner chemicals.",
+    "symbol": "#",
+    "color": "light_gray",
+    "looks_like": "t_concrete_wall",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_flat_roof",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "bash": {
+      "str_min": 15,
+      "str_max": 45,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "sound_vol": 8,
+      "sound_fail_vol": 4,
+      "ter_set": "t_carpet_backrooms"
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_carpet_backrooms_light",
+    "name": "faded carpet, overhead light",
+    "description": "A slightly moist carpet, stained yellow with age.  Overhead, a fluorescent light hums a little too loudly.",
+    "symbol": ".",
+    "color": "yellow",
+    "move_cost": 2,
+    "light_emitted": 120,
+    "looks_like": "t_carpet_backrooms",
+    "roof": "t_flat_roof",
+    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "INDOORS", "FLAT", "RUG" ],
+    "bash": {
+      "str_min": 4,
+      "str_max": 12,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "sound_vol": 16,
+      "sound_fail_vol": 10,
+      "ter_set": "t_carpet_backrooms",
+      "items": [ { "item": "glass_shard", "count": [ 2, 6 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_carpet_backrooms",
+    "name": "faded carpet",
+    "description": "A slightly moist carpet, stained yellow with age.",
+    "symbol": ".",
+    "looks_like": "t_carpet_yellow",
+    "color": "yellow",
+    "move_cost": 2,
+    "roof": "t_flat_roof",
+    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "INDOORS", "FLAT", "RUG" ],
+    "bash": {
+      "sound": "SMASH!",
+      "ter_set": "t_thconc_floor",
+      "str_min": 50,
+      "str_max": 400,
+      "str_min_supported": 100,
+      "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "nail", "charges": [ 6, 13 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_tile_backrooms_light",
+    "name": "faded tile, overhead light",
+    "description": "These cheap white tiles, which seem to be plastic rather than actual ceramic, are grayed with age and slightly warped at their corners.  Overhead, a fluorescent light hums a little too loudly.",
+    "symbol": ".",
+    "color": "yellow",
+    "move_cost": 2,
+    "light_emitted": 120,
+    "looks_like": "t_tile_backrooms",
+    "roof": "t_flat_roof",
+    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "INDOORS", "FLAT" ],
+    "bash": {
+      "str_min": 4,
+      "str_max": 12,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "sound_vol": 16,
+      "sound_fail_vol": 10,
+      "ter_set": "t_tile_backrooms",
+      "items": [ { "item": "glass_shard", "count": [ 2, 6 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_tile_backrooms",
+    "name": "faded tile",
+    "description": "These cheap white tiles, which seem to be plastic rather than actual ceramic, are grayed with age and slightly warped at their corners.",
+    "symbol": ".",
+    "looks_like": "t_linoleum_gray",
+    "color": "yellow",
+    "move_cost": 2,
+    "roof": "t_flat_roof",
+    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "INDOORS", "FLAT" ],
+    "bash": {
+      "sound": "SMASH!",
+      "ter_set": "t_thconc_floor",
+      "str_min": 50,
+      "str_max": 400,
+      "str_min_supported": 100,
+      "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "nail", "charges": [ 6, 13 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_watercooler",
+    "name": "water cooler",
+    "symbol": "&",
+    "color": "white",
+    "description": "A plastic jug of water mounted on a dispenser.  Normally dispenses hot water in addition to cold, but not with the power out.  You could probably salvage the unwieldy jug on top with little effort, but any water still in it would spill.",
+    "move_cost_mod": 2,
+    "looks_like": "f_water_heater",
+    "coverage": 30,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "MOUNTABLE", "CONTAINER", "PLACE_ITEM", "LIQUIDCONT", "NOITEM", "SEALED" ],
+    "examine_action": "keg",
+    "keg_capacity": 75,
+    "deconstruct": {
+      "items": [
+        { "item": "plastic_chunk", "count": [ 4, 10 ] },
+        { "item": "jug_cooler", "count": 1 },
+        { "item": "water_faucet", "count": 1 }
+      ]
+    },
+    "bash": {
+      "str_min": 8,
+      "str_max": 30,
+      "sound": "wobbling plastic!",
+      "sound_fail": "whunk!",
+      "items": [
+        { "item": "jug_cooler", "prob": 90 },
+        { "item": "plastic_chunk", "count": [ 2, 8 ] },
+        { "item": "water_faucet", "prob": 25 }
+      ]
+    }
+  }
+]

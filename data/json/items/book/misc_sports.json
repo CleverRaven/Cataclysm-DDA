@@ -146,7 +146,7 @@
     "id": "book_nonf_hard_sports_ergo",
     "type": "BOOK",
     "name": { "str": "Natare Ergo Sum", "str_pl": "copies of Natare Ergo Sum" },
-    "description": "The poorly translated title is supposed to be Latin for \"I Swim, Therefore I Am.\"  This short hardback presents \"A Philosophy of Swimming\" and then playfully attributes a variety of famous philosophical expressions into edorsements for the sport of swimming.  It's not a bad book, just a bit odd.",
+    "description": "The poorly translated title is supposed to be Latin for \"I Swim, Therefore I Am.\"  This short hardback presents \"A Philosophy of Swimming\" and then playfully attributes a variety of famous philosophical expressions into endorsements for the sport of swimming.  It's not a bad book, just a bit odd.",
     "//isbn13": 9781587313776,
     "//dual genre": "sports and phil",
     "weight": "167 g",

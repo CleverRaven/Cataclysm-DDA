@@ -53,7 +53,7 @@
         ":": "f_dresser",
         "@": "f_bed",
         "F": "f_fridge",
-        "G": "f_oven",
+        "G": [ "f_oven", "f_gas_oven_microwave_combo" ],
         "S": "f_sink",
         "^": "f_indoor_plant",
         "c": "f_chair",
@@ -128,7 +128,7 @@
             [ "roof_4x4_utility", 40 ]
           ],
           "x": [ 4, 18 ],
-          "y": [ 10, 17 ]
+          "y": [ 10, 13 ]
         }
       ]
     }

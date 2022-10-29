@@ -63,7 +63,7 @@ double rng_exponential( double min, double mean )
 
 bool one_in( int chance )
 {
-    return ( chance <= 1 || rng( 0, chance - 1 ) == 0 );
+    return chance <= 1 || rng( 0, chance - 1 ) == 0;
 }
 
 bool one_turn_in( const time_duration &duration )
@@ -113,6 +113,24 @@ int djb2_hash( const unsigned char *input )
     return hash;
 }
 
+std::vector<int> rng_sequence( size_t count, int lo, int hi, int seed )
+{
+    if( lo > hi ) {
+        std::swap( lo, hi );
+    }
+    std::vector<int> result;
+    result.reserve( count );
+
+    // NOLINTNEXTLINE(cata-determinism)
+    cata_default_random_engine eng( seed );
+    std::uniform_int_distribution<int> rng_int_dist;
+    const std::uniform_int_distribution<int>::param_type param( lo, hi );
+    for( size_t i = 0; i < count; i++ ) {
+        result.push_back( rng_int_dist( eng, param ) );
+    }
+    return result;
+}
+
 double rng_normal( double lo, double hi )
 {
     if( lo > hi ) {
@@ -140,4 +158,19 @@ void rng_set_engine_seed( unsigned int seed )
     if( seed != 0 ) {
         rng_get_engine().seed( seed );
     }
+}
+
+std::string random_string( size_t length )
+{
+    auto randchar = []() -> char {
+        // NOLINTNEXTLINE(modernize-avoid-c-arrays)
+        static constexpr char charset[] =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        "abcdefghijklmnopqrstuvwxyz";
+        static constexpr size_t num_chars = sizeof( charset ) - 1;
+        return charset[rng( 0, num_chars - 1 )];
+    };
+    std::string str( length, 0 );
+    std::generate_n( str.begin(), length, randchar );
+    return str;
 }

@@ -48,5 +48,25 @@
     "energy_source": "MANA",
     "damage_type": "cold",
     "max_level": 35
+  },
+  {
+    "id": "borealmage_auroral_guard",
+    "type": "SPELL",
+    "name": { "str": "Auroral Guard" },
+    "description": "Create a sturdy shell that wraps around your body, gaining a sturdy defense.",
+    "valid_targets": [ "self" ],
+    "effect": "spawn_item",
+    "effect_str": "aura_auroral_guard",
+    "shape": "blast",
+    "energy_source": "MANA",
+    "flags": [ "CONCENTRATE", "VERBAL", "NO_LEGS" ],
+    "difficulty": 9,
+    "max_level": 40,
+    "base_casting_time": 350,
+    "base_energy_cost": 750,
+    "min_duration": 100000,
+    "max_duration": 2000000,
+    "duration_increment": 47500,
+    "spell_class": "BOREAL_MAGE"
   }
 ]

@@ -1,6 +1,7 @@
 #ifndef CATA_SRC_COMPATIBILITY_H
 #define CATA_SRC_COMPATIBILITY_H
 
+#include <fstream>
 #include <list>
 #include <map>
 #include <set>
@@ -18,5 +19,13 @@ constexpr bool string_is_noexcept = std::is_nothrow_move_assignable<std::string>
 constexpr bool set_is_noexcept = std::is_nothrow_move_constructible<std::set<std::string>>::value;
 // as is std::map
 constexpr bool map_is_noexcept = std::is_nothrow_move_constructible<std::map<int, int>>::value;
+// std::basic_ifstream<char> and std::basic_ofstream<char> is not noexcept on clang-6
+constexpr bool basic_ifstream_is_noexcept =
+    std::is_nothrow_move_constructible<std::basic_ifstream<char>>::value;
+constexpr bool basic_ofstream_is_noexcept =
+    std::is_nothrow_move_constructible<std::basic_ofstream<char>>::value;
+
+// Due to a bug in MinGW we have to manually reset FPU or SSE floating point mode on Windows
+void reset_floating_point_mode();
 
 #endif // CATA_SRC_COMPATIBILITY_H

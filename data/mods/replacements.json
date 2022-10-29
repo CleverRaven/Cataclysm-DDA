@@ -35,9 +35,6 @@
     "survivorweaps"
   ],
   [
-    "more_buildings"
-  ],
-  [
     "oa_additional_buildings_mod"
   ],
   [
@@ -118,5 +115,17 @@
   ],
   [
     "sees_player_less_attitude"
+  ],
+  [
+    "fuji_mpp",
+    "military_professions"
+  ],
+  [
+    "FujiStruct",
+    "more_buildings"
+  ],
+  [
+    "Graphical_Overmap_Fujistruct",
+    "Graphical_Overmap_More_Buildings"
   ]
 ]

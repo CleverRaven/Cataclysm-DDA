@@ -230,7 +230,7 @@
   {
     "type": "mutation",
     "id": "BGSS_CYBERNINJA",
-    "name": { "str": "Whately Story" },
+    "name": { "str": "Cyberninja Story" },
     "points": 0,
     "description": "This NPC could tell you about how they survived the Cataclysm",
     "player_display": false,

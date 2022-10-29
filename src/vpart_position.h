@@ -14,7 +14,7 @@
 #include "type_id.h"
 
 class inventory;
-class player;
+class Character;
 class vehicle;
 class vpart_info;
 struct vehicle_part;
@@ -46,7 +46,6 @@ class vpart_position
 
     public:
         vpart_position( ::vehicle &v, const size_t part ) : vehicle_( v ), part_index_( part ) { }
-        vpart_position( const vpart_position & ) = default;
 
         ::vehicle &vehicle() const {
             return vehicle_.get();
@@ -90,7 +89,7 @@ class vpart_position
         // Returns a list of all tools provided by vehicle and their hotkey
         std::vector<std::pair<itype_id, int>> get_tools() const;
         // Forms inventory for inventory::form_from_map
-        void form_inventory( inventory &inv );
+        void form_inventory( inventory &inv ) const;
 
         /**
          * Returns the position of this part in the coordinates system that @ref game::m uses.
@@ -167,7 +166,7 @@ class vpart_reference : public vpart_position
         /**@}*/
 
         /// Returns the passenger in this part, or nullptr if no passenger.
-        player *get_passenger() const;
+        Character *get_passenger() const;
 };
 
 // For legacy code, phase out, don't use in new code.

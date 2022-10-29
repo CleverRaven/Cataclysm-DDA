@@ -48,8 +48,8 @@
         "~": "t_thconc_floor",
         "q": "t_thconc_floor",
         "$": "t_privacy_fence",
-        "?": "t_wall_metal",
-        ",": "t_door_metal_c",
+        "?": "t_wall_metal_corrugated",
+        ",": "t_door_metal_corrugated_c",
         ";": "t_privacy_fencegate_c"
       },
       "furniture": { "!": "f_region_flower" },

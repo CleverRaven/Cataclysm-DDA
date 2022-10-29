@@ -35,7 +35,6 @@ using Item_list = std::vector<item>;
 
 class Item_factory;
 class JsonArray;
-class JsonIn;
 class JsonObject;
 
 extern std::unique_ptr<Item_factory> item_controller;
@@ -45,9 +44,13 @@ class migration
     public:
         itype_id id;
         std::string variant;
+        cata::optional<std::string> from_variant;
         itype_id replace;
         std::set<std::string> flags;
         int charges = 0;
+
+        // if set to true then reset item_vars std::map to the value of itype's item_variables
+        bool reset_item_vars;
 
         class content
         {
@@ -56,7 +59,7 @@ class migration
                 int count = 0;
 
                 bool operator==( const content & ) const;
-                void deserialize( JsonIn &jsin );
+                void deserialize( const JsonObject &jsobj );
         };
         std::vector<content> contents;
         bool sealed = true;
@@ -123,6 +126,17 @@ class Item_factory
          */
         void load_item_group( const JsonObject &jsobj, const item_group_id &group_id,
                               const std::string &subtype, std::string context = {} );
+
+        /**
+        * Actually the load item group data into the group. Matches the above function, which merely
+        * organises which group to load into and the type.
+        * @param jsobj The json object to load from.
+        * @param group_id The ident of the item that is to be loaded.
+        * @param subtype The type of the item group, either "collection", "distribution" or "old"
+        * ("old" is a distribution, too).
+        */
+        void load_item_group_data( const JsonObject &jsobj, Item_group *ig,
+                                   const std::string &subtype );
         /**
          * Like above, but the above loads data from several members of the object, this function
          * assume the given array is the "entries" member of the item group.
@@ -205,6 +219,9 @@ class Item_factory
 
         /** Migrations transform items loaded from legacy saves */
         void load_migration( const JsonObject &jo );
+
+        // Add or overwrite a migration
+        void add_migration( const migration &m );
 
         /** Applies any migration of the item id */
         itype_id migrate_id( const itype_id &id );
@@ -320,7 +337,7 @@ class Item_factory
                             const std::string &iuse_id );
 
         void set_use_methods_from_json( const JsonObject &jo, const std::string &member,
-                                        std::map<std::string, use_function> &use_methods );
+                                        std::map<std::string, use_function> &use_methods, std::map<std::string, int> &ammo_scale );
 
         use_function usage_from_string( const std::string &type ) const;
 
@@ -366,6 +383,8 @@ class Item_factory
         /** Applies part of finalization that depends on other items. */
         void finalize_post( itype &obj );
 
+        void finalize_post_armor( itype &obj );
+
         //iuse stuff
         std::map<item_action_id, use_function> iuse_function_list;
 
@@ -374,7 +393,7 @@ class Item_factory
                        const translation &info );
         void add_actor( std::unique_ptr<iuse_actor> );
 
-        std::map<itype_id, migration> migrations;
+        std::map<itype_id, std::vector<migration>> migrations;
 
         /**
          * Contains the tool subtype mappings for crafting (i.e. mess kit is a hotplate etc.).

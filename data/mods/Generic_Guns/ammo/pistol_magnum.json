@@ -6,7 +6,7 @@
     "name": { "str_sp": "magnum ammo, ball" },
     "ammo_type": "ammo_pistol_magnum",
     "casing": "pistol_magnum_casing",
-    "description": "Magnum ammuniton, developed from early handgun hunting efforts and popularized by law enforcement usage.  It is more powerful than common pistol ammo.  'Ball' is an old term for full metal jacketed bullets which offer reduced fouling, better reliability, and slightly improved penetration compared to plain lead."
+    "description": "Magnum ammunition, developed from early handgun hunting efforts and popularized by law enforcement usage.  It is more powerful than common pistol ammo.  'Ball' is an old term for full metal jacketed bullets which offer reduced fouling, better reliability, and slightly improved penetration compared to plain lead."
   },
   {
     "id": "pistol_magnum_jhp",

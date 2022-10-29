@@ -26,13 +26,15 @@
 #include "units.h"
 
 class JsonObject;
-class player;
+class Character;
 class vehicle;
 
 // bitmask backing store of -certain- vpart_info.flags, ones that
 // won't be going away, are involved in core functionality, and are checked frequently
 enum vpart_bitflags : int {
     VPFLAG_ARMOR,
+    VPFLAG_APPLIANCE,
+    VPFLAG_ARCADE,
     VPFLAG_EVENTURN,
     VPFLAG_ODDTURN,
     VPFLAG_CONE_LIGHT,
@@ -48,6 +50,7 @@ enum vpart_bitflags : int {
     VPFLAG_SEATBELT,
     VPFLAG_SIMPLE_PART,
     VPFLAG_SPACE_HEATER,
+    VPFLAG_HEATED_TANK,
     VPFLAG_COOLER,
     VPFLAG_WHEEL,
     VPFLAG_ROTOR,
@@ -143,13 +146,18 @@ struct transform_terrain_data {
 };
 
 const std::vector<std::pair<std::string, translation>> vpart_variants = {
-    { "cover", to_translation( "vpart_variants", "Cover" ) },
+    { "cover_left", to_translation( "vpart_variants", "Cover Left" ) },
+    { "cover_right", to_translation( "vpart_variants", "Cover Right" ) },
+    { "hatch_wheel_left", to_translation( "vpart_variants", "Hatchback Wheel Left" ) },
+    { "hatch_wheel_right", to_translation( "vpart_variants", "Hatchback Wheel Right" ) },
+    { "wheel_left", to_translation( "vpart_variants", "Wheel Left" ) },
+    { "wheel_right", to_translation( "vpart_variants", "Wheel Right" ) },
     { "cross_unconnected", to_translation( "vpart_variants", "Unconnected Cross" ) },
     { "cross", to_translation( "vpart_variants", "Cross" ) },
-    { "horizontal_front", to_translation( "vpart_variants", "Front Horizontal" ) },
     { "horizontal_front_edge", to_translation( "vpart_variants", "Front Edge Horizontal" ) },
-    { "horizontal_rear", to_translation( "vpart_variants", "Rear Horizontal" ) },
+    { "horizontal_front", to_translation( "vpart_variants", "Front Horizontal" ) },
     { "horizontal_rear_edge", to_translation( "vpart_variants", "Rear Edge Horizontal" ) },
+    { "horizontal_rear", to_translation( "vpart_variants", "Rear Horizontal" ) },
     { "horizontal_2_front", to_translation( "vpart_variants", "Front Thick Horizontal" ) },
     { "horizontal_2_rear", to_translation( "vpart_variants", "Rear Thick Horizontal" ) },
     { "ne_edge", to_translation( "vpart_variants", "Front Right Corner" ) },
@@ -167,6 +175,7 @@ const std::vector<std::pair<std::string, translation>> vpart_variants = {
     { "rear_right", to_translation( "vpart_variants", "Rear Right" ) },
     { "rear_left", to_translation( "vpart_variants", "Rear Left" ) },
     // these have to be last to avoid false positives
+    { "cover", to_translation( "vpart_variants", "Cover" ) },
     { "vertical", to_translation( "vpart_variants", "Vertical" ) },
     { "horizontal", to_translation( "vpart_variants", "Horizontal" ) },
     { "vertical_2", to_translation( "vpart_variants", "Thick Vertical" ) },
@@ -275,22 +284,22 @@ class vpart_info
         requirement_data install_requirements() const;
 
         /** Installation time (in moves) for this component accounting for player skills */
-        int install_time( const player &p ) const;
+        int install_time( const Character &you ) const;
 
         /** Requirements for removal of this component */
         requirement_data removal_requirements() const;
 
         /** Removal time (in moves) for this component accounting for player skills */
-        int removal_time( const player &p ) const;
+        int removal_time( const Character &you ) const;
 
         /** Requirements for repair of this component (per level of damage) */
         requirement_data repair_requirements() const;
 
-        /** Returns whether or not the part is repairable  */
+        /** Returns whether or not the part type is repairable */
         bool is_repairable() const;
 
         /** Repair time (in moves) to fully repair this component, accounting for player skills */
-        int repair_time( const player &p ) const;
+        int repair_time( const Character &you ) const;
 
         /**
          * @name Engine specific functions
@@ -321,6 +330,15 @@ class vpart_info
         const cata::optional<vpslot_workbench> &get_workbench_info() const;
 
         std::set<std::pair<itype_id, int>> get_pseudo_tools() const;
+
+        // @returns tools required for folding this part
+        std::vector<itype_id> get_folding_tools() const;
+        // @returns tools required for unfolding this part
+        std::vector<itype_id> get_unfolding_tools() const;
+        // @returns time required for folding this part
+        time_duration get_folding_time() const;
+        // @returns time required for unfolding this part
+        time_duration get_unfolding_time() const;
     private:
         std::set<std::string> flags;
         // category list for installation ui breakdown
@@ -335,6 +353,14 @@ class vpart_info
 
         /** Pseudo tools this provides when installed, second is the hotkey */
         std::set<std::pair<itype_id, int>> pseudo_tools;
+        // tools required to fold this part
+        std::vector<itype_id> folding_tools;
+        // tools required to unfold this part
+        std::vector<itype_id> unfolding_tools;
+        // time required to fold this part
+        time_duration folding_time = time_duration::from_seconds( 10 );
+        // time required to unfold this part
+        time_duration unfolding_time = time_duration::from_seconds( 10 );
 
         cata::optional<vpslot_engine> engine_info;
         cata::optional<vpslot_wheel> wheel_info;
@@ -390,7 +416,7 @@ class vpart_info
         itype_id default_ammo = itype_id::NULL_ID();
 
         /** Volume of a foldable part when folded */
-        units::volume folded_volume = 0_ml;
+        cata::optional<units::volume> folded_volume = cata::nullopt;
 
         /** Cargo location volume */
         units::volume size = 0_ml;
@@ -428,10 +454,10 @@ class vpart_info
         int epower = 0;
 
         /**
-         * Energy consumed by engines and motors (watts) when delivering max @ref power
+         * Energy consumed per second by engines and motors when delivering max @ref power
          * Includes waste. Gets scaled based on powertrain demand.
          */
-        int energy_consumption = 0;
+        units::energy energy_consumption = 0_J;
 
         /**
          * For engines and motors this is maximum output (watts)
@@ -495,6 +521,13 @@ struct vehicle_prototype {
         itype_id fuel = itype_id::NULL_ID();
     };
 
+    struct zone_def {
+        zone_type_id zone_type;
+        std::string name;
+        std::string filter;
+        point pt;
+    };
+
     vehicle_prototype();
     vehicle_prototype( vehicle_prototype && ) noexcept;
     ~vehicle_prototype();
@@ -504,6 +537,7 @@ struct vehicle_prototype {
     translation name;
     std::vector<part_def> parts;
     std::vector<vehicle_item_spawn> item_spawns;
+    std::vector<zone_def> zone_defs;
 
     std::unique_ptr<vehicle> blueprint;
 
@@ -512,6 +546,29 @@ struct vehicle_prototype {
     static void finalize();
 
     static std::vector<vproto_id> get_all();
+};
+
+/**
+* Holder for all vpart migrations, when loading parts with vpart_id present
+* in the map keys they'll be replaced by vpart_id in the pair's value
+*/
+class vpart_migration
+{
+    public:
+        /** Handler for loading "vehicle_part_migration" type of json object */
+        static void load( const JsonObject &jo );
+
+        /** Clears migration list */
+        static void reset();
+
+        /** Finalizes migrations */
+        static void finalize();
+
+        /** Map of deprecated vpart_id to their replacement vpart_id */
+        static const std::map<vpart_id, vpart_id> &get_migrations();
+
+        /** Find vpart_id with all migrations applied. */
+        static vpart_id migrate( const vpart_id &original );
 };
 
 #endif // CATA_SRC_VEH_TYPE_H

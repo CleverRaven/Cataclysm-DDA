@@ -1,0 +1,276 @@
+[
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "suppressed_fn57",
+    "entries": [
+      { "item": "fn57mag", "ammo-item": "57mm_ss", "charges": 20 },
+      { "item": "fn57mag", "ammo-item": "57mm_ss", "charges": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "diazepam_scrip",
+    "entries": [ { "item": "diazepam", "charges": 20, "container-item": "bottle_plastic_pill_prescription" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "torso_grenade_bandolier_jotunn",
+    "entries": [ { "item": "torso_bandolier_grenade", "ammo-item": "40x46mm_m576", "charges": 3 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "xedra_mags_troll",
+    "entries": [
+      { "item": "5x50_50_mag", "ammo-item": "5x50dart", "charges": 50 },
+      { "item": "5x50_50_mag", "ammo-item": "5x50dart", "charges": 50 }
+    ]
+  },
+  {
+    "type": "profession",
+    "id": "fbi_investigator",
+    "name": "FBI Paranormal Investigator",
+    "description": "Before the Cataclysm, you used to work for the Paranormal Investigation Department of the FBI.  You got used to jokes at your expense, as well as being constantly underfunded and disregarded by your superiors.  You were returning from yet another case with nothing but a bag of suspicious candies to show, when all hell broke loose.  Oh well, at least now you can be certain that everyone still alive will believe you that the truth is out there.",
+    "points": 3,
+    "skills": [
+      { "level": 2, "name": "gun" },
+      { "level": 2, "name": "pistol" },
+      { "level": 1, "name": "speech" },
+      { "level": 1, "name": "deduction" }
+    ],
+    "proficiencies": [ "prof_spotting" ],
+    "items": {
+      "both": {
+        "items": [
+          "pants",
+          "dress_shirt",
+          "tie_skinny",
+          "blazer",
+          "trenchcoat",
+          "gloves_light",
+          "wristwatch",
+          "socks",
+          "dress_shoes",
+          "cig"
+        ],
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "group": "charged_two_way_radio" },
+          { "group": "charged_ref_lighter" },
+          { "group": "army_mags_usp9" },
+          { "item": "usp_9mm", "ammo-item": "9mm", "charges": 15, "container-item": "shoulder_holster" },
+          { "item": "wyld_candy", "charges": 10, "container-item": "wrapper_wyld" }
+        ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "zebra_investigator",
+    "name": "Xedra Response Team Member",
+    "description": "Before Xedra recruited you, you probably worked for the ATF or a PMC like Kroll.  It was your job to investigate any cross-pollination incidents where alternate physics regions crossed over the Nether and reached our world.  Part exterminator part investigator, you made sure that any new resources and contaminants were accounted for, including any intelligent life trying to sneak into our world.  Local law enforcement and civilians called you 'Zebras' since your identification and badges only had a barcode instead of any name/rank/number.  This job has shown you things you don't want to remember but luckily the Zebra docs seem to have an endless supply of pills.",
+    "points": 6,
+    "skills": [ { "level": 3, "name": "gun" }, { "level": 3, "name": "pistol" }, { "level": 1, "name": "speech" } ],
+    "addictions": [ { "intensity": 10, "type": "diazepam" } ],
+    "proficiencies": [ "prof_spotting" ],
+    "items": {
+      "both": {
+        "items": [
+          "pants",
+          "dress_shirt",
+          "tie_skinny",
+          "blazer",
+          "trenchcoat",
+          "badge_zebra",
+          "gloves_leather",
+          "wristwatch",
+          "socks",
+          "dress_shoes",
+          "cig"
+        ],
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "group": "charged_two_way_radio" },
+          { "group": "charged_ref_lighter" },
+          { "group": "suppressed_fn57" },
+          { "group": "diazepam_scrip" },
+          { "item": "fn57_sup", "ammo-item": "57mm_ss", "charges": 20, "container-item": "shoulder_holster" }
+        ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "spy",
+    "name": "Foreign Agent",
+    "description": "You came here from another country trying to gain access to secrets the United States had ripped from other worlds.  They probably had sent people to your homeland to do the same.  You were out performing recon when the Cataclysm struck and caught a ride with a stranger trying to find safety.  Sadly you lost your companion and vehicle, getting lost in the process and with now only a vague idea on how to get back to the safehouse, where you hope your hidden gear remains untouched.",
+    "points": 4,
+    "skills": [
+      { "level": 2, "name": "dodge" },
+      { "level": 2, "name": "gun" },
+      { "level": 1, "name": "pistol" },
+      { "level": 2, "name": "speech" },
+      { "level": 2, "name": "unarmed" }
+    ],
+    "items": {
+      "both": {
+        "items": [ "sneakers", "hoodie", "knit_scarf", "diving_watch", "backpack", "pants_cargo" ],
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "item": "tshirt", "variant": "generic_tshirt" },
+          { "item": "light_disposable_cell", "ammo-item": "battery", "charges": 300, "container-item": "camera_pro" }
+        ]
+      },
+      "male": [ "briefs", "socks" ],
+      "female": [ "bra", "panties" ]
+    },
+    "missions": [ "MISSION_SAFEHOUSE" ]
+  },
+  {
+    "type": "profession",
+    "id": "xe_jotunn_hunter",
+    "name": "Xedra Offworld Team: Jotunn Hunter",
+    "description": "Part of Xedra's Offworld Aquisitions group, you specialized in tracking, killing and retrieving useful components from the cyborg tribes that seem to exist on some of the worlds Xedra had access to.  Do you feel guilt about bringing back the cybernetic components that are now inside you or your teammates?  Or do you worry that now they might be on this world hunting you?  You've lost your sidearm and spent half of your heavy ordnance.  Worst of all, you're out of smokes.",
+    "traits": [ "XEDRA_CYBORG", "PROF_FED" ],
+    "CBMs": [ "bio_armor_torso", "bio_cable", "bio_str_enhancer", "bio_tattoo_led", "bio_power_storage" ],
+    "points": 7,
+    "addictions": [ { "intensity": 20, "type": "nicotine" } ],
+    "proficiencies": [ "prof_wp_cyborg" ],
+    "skills": [
+      { "level": 3, "name": "gun" },
+      { "level": 2, "name": "launcher" },
+      { "level": 3, "name": "bashing" },
+      { "level": 2, "name": "dodge" },
+      { "level": 2, "name": "melee" }
+    ],
+    "items": {
+      "both": {
+        "ammo": 100,
+        "items": [
+          "under_armor",
+          "under_armor_shorts",
+          "xedra_jumpsuit",
+          "tac_helmet",
+          "glasses_bal",
+          "gloves_tactical",
+          "boots_combat",
+          "holster",
+          "tacvest",
+          "socks",
+          "badge_zebra",
+          "molle_pack"
+        ],
+        "entries": [
+          { "group": "military_ballistic_vest_light" },
+          { "group": "torso_grenade_bandolier_jotunn" },
+          { "item": "mgl", "ammo-item": "40x46mm_m433", "charges": 3, "contents-item": "shoulder_strap" }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "sports_bra", "boxer_shorts" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "xe_troll_slayer",
+    "name": "Xedra Offworld Team: Troll Slayer",
+    "description": "Part of Xedra's Offworld Aquisitions team, you were sent to gather biological specimens, they often objected strenuously to being gathered.  You've got some CBMs in you but understand they probably came out of someone that might have friends.",
+    "traits": [ "XEDRA_CYBORG", "PROF_FED" ],
+    "CBMs": [ "bio_claws", "bio_ears", "bio_cable", "bio_tattoo_led", "bio_dex_enhancer", "bio_power_storage" ],
+    "points": 7,
+    "proficiencies": [ "prof_wp_skeleton" ],
+    "skills": [
+      { "level": 1, "name": "cutting" },
+      { "level": 2, "name": "dodge" },
+      { "level": 2, "name": "melee" },
+      { "level": 3, "name": "unarmed" },
+      { "level": 2, "name": "survival" }
+    ],
+    "items": {
+      "both": {
+        "ammo": 100,
+        "items": [
+          "under_armor",
+          "under_armor_shorts",
+          "xedra_jumpsuit",
+          "tac_helmet",
+          "glasses_bal",
+          "gloves_tactical",
+          "boots_combat",
+          "holster",
+          "legrig",
+          "tacvest",
+          "socks",
+          "badge_zebra"
+        ],
+        "entries": [
+          { "item": "water_clean", "ammo-item": "water_clean", "container-item": "canteen" },
+          { "item": "signal_flare", "ammo-item": "signal_flare", "count": 5 },
+          { "group": "military_ballistic_vest_light" },
+          {
+            "item": "needlegun",
+            "ammo-item": "5x50dart",
+            "charges": 35,
+            "contents-item": [ "shoulder_strap", "holo_sight" ]
+          },
+          { "item": "legpouch_large", "contents-group": "xedra_mags_troll" }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "sports_bra", "boxer_shorts" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "xe_specter",
+    "name": "Xedra Offworld Team: Specter",
+    "description": "Part of Xedra's Offworld Aquisitions team, you were trained to infiltrate any human compatible cultures that were discovered.  You never found any with technology worth stealing and you aren't sure what that says about humanity.",
+    "traits": [ "XEDRA_CYBORG" ],
+    "proficiencies": [ "prof_wp_syn_armored" ],
+    "points": 6,
+    "CBMs": [ "bio_tattoo_led", "bio_cable", "bio_face_mask", "bio_power_storage" ],
+    "skills": [
+      { "level": 2, "name": "gun" },
+      { "level": 2, "name": "stabbing" },
+      { "level": 1, "name": "traps" },
+      { "level": 1, "name": "dodge" },
+      { "level": 2, "name": "melee" },
+      { "level": 2, "name": "deduction" },
+      { "level": 2, "name": "survival" }
+    ],
+    "items": {
+      "both": {
+        "ammo": 100,
+        "items": [
+          "under_armor",
+          "under_armor_shorts",
+          "xedra_jumpsuit",
+          "tac_helmet",
+          "glasses_bal",
+          "gloves_tactical",
+          "boots_combat",
+          "holster",
+          "legrig",
+          "tacvest",
+          "socks",
+          "badge_zebra"
+        ],
+        "entries": [
+          { "item": "water_clean", "ammo-item": "water_clean", "container-item": "canteen" },
+          { "group": "military_ballistic_vest_light" },
+          { "item": "needlepistol", "ammo-item": "5x50dart", "charges": 35, "contents-item": [ "holo_sight" ] },
+          { "item": "legpouch_large", "contents-group": "xedra_mags_troll" }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "sports_bra", "boxer_shorts" ]
+    }
+  }
+]

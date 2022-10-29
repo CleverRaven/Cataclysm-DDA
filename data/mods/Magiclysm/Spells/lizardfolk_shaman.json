@@ -19,7 +19,7 @@
   {
     "type": "SPELL",
     "id": "spell_shaman_base",
-    "name": "an ancient reptilian spell",
+    "name": "An Ancient Reptilian Spell",
     "description": "Causes one of the shaman spells to be cast.",
     "valid_targets": [ "hostile", "ground" ],
     "effect": "none",

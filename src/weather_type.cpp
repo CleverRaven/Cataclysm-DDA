@@ -31,27 +31,7 @@ std::string enum_to_string<precip_class>( precip_class data )
         case precip_class::last:
             break;
     }
-    debugmsg( "Invalid precip_class" );
-    abort();
-}
-
-template<>
-std::string enum_to_string<sun_intensity_type>( sun_intensity_type data )
-{
-    switch( data ) {
-        case sun_intensity_type::none:
-            return "none";
-        case sun_intensity_type::light:
-            return "light";
-        case sun_intensity_type::normal:
-            return "normal";
-        case sun_intensity_type::high:
-            return "high";
-        case sun_intensity_type::last:
-            break;
-    }
-    debugmsg( "Invalid sun_intensity_type" );
-    abort();
+    cata_fatal( "Invalid precip_class" );
 }
 
 template<>
@@ -64,6 +44,8 @@ std::string enum_to_string<weather_sound_category>( weather_sound_category data 
             return "flurries";
         case weather_sound_category::rainy:
             return "rainy";
+        case weather_sound_category::rainstorm:
+            return "rainstorm";
         case weather_sound_category::snow:
             return "snow";
         case weather_sound_category::snowstorm:
@@ -72,11 +54,18 @@ std::string enum_to_string<weather_sound_category>( weather_sound_category data 
             return "thunder";
         case weather_sound_category::silent:
             return "silent";
+        case weather_sound_category::portal_storm:
+            return "portal_storm";
+        case weather_sound_category::clear:
+            return "clear";
+        case weather_sound_category::sunny:
+            return "sunny";
+        case weather_sound_category::cloudy:
+            return "cloudy";
         case weather_sound_category::last:
             break;
     }
-    debugmsg( "Invalid weather sound category." );
-    abort();
+    cata_fatal( "Invalid weather sound category." );
 }
 
 } // namespace io
@@ -104,7 +93,6 @@ void weather_type::check() const
     for( const auto &type : required_weathers ) {
         if( !type.is_valid() ) {
             debugmsg( "Weather type %s does not exist.", type.c_str() );
-            abort();
         }
     }
 }
@@ -122,6 +110,7 @@ void weather_type::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "ranged_penalty", ranged_penalty );
     mandatory( jo, was_loaded, "sight_penalty", sight_penalty );
     mandatory( jo, was_loaded, "light_modifier", light_modifier );
+    optional( jo, was_loaded, "sun_multiplier", sun_multiplier, 1.f );
 
     mandatory( jo, was_loaded, "sound_attn", sound_attn );
     mandatory( jo, was_loaded, "dangerous", dangerous );
@@ -130,12 +119,13 @@ void weather_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "acidic", acidic, false );
     optional( jo, was_loaded, "tiles_animation", tiles_animation, "" );
     optional( jo, was_loaded, "sound_category", sound_category, weather_sound_category::silent );
-    mandatory( jo, was_loaded, "sun_intensity", sun_intensity );
     optional( jo, was_loaded, "duration_min", duration_min, 5_minutes );
     optional( jo, was_loaded, "duration_max", duration_max, 5_minutes );
     if( duration_min > duration_max ) {
         jo.throw_error( "duration_min must be less than or equal to duration_max" );
     }
+    optional( jo, was_loaded, "debug_cause_eoc", debug_cause_eoc );
+    optional( jo, was_loaded, "debug_leave_eoc", debug_leave_eoc );
 
     if( jo.has_member( "weather_animation" ) ) {
         JsonObject weather_animation_jo = jo.get_object( "weather_animation" );
@@ -171,12 +161,10 @@ const std::vector<weather_type> &weather_types::get_all()
 void weather_types::check_consistency()
 {
     if( !WEATHER_CLEAR.is_valid() ) {
-        debugmsg( "Weather type clear is required." );
-        abort();
+        cata_fatal( "Weather type clear is required." );
     }
     if( !WEATHER_NULL.is_valid() ) {
-        debugmsg( "Weather type null is required." );
-        abort();
+        cata_fatal( "Weather type null is required." );
     }
     weather_type_factory.check();
 }

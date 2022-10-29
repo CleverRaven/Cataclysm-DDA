@@ -23,6 +23,7 @@
 #include "point.h"
 #include "string_formatter.h"
 
+class scrollbar;
 class translation;
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -124,6 +125,16 @@ struct uilist_entry {
     * @param key hotkey character that when pressed will return this entry return value
     * @param txt string that will be displayed on the entry first column
     * @param desc entry description if menu desc_enabled is true
+    * @see uilist::desc_enabled
+    */
+    uilist_entry( int retval, bool enabled, const cata::optional<input_event> &key,
+                  const std::string &txt, const std::string &desc );
+    /**
+    * @param retval return value of this option when selected during menu query
+    * @param enable is entry enabled. disabled entries will be grayed out and won't be selectable
+    * @param key hotkey character that when pressed will return this entry return value
+    * @param txt string that will be displayed on the entry first column
+    * @param desc entry description if menu desc_enabled is true
     * @param column string that will be displayed on the entry second column
     * @see uilist::desc_enabled
     */
@@ -157,7 +168,7 @@ struct uilist_entry {
         uilist_entry( static_cast<int>( e ), std::forward<Args>( args )... )
     {}
 
-    inclusive_rectangle<point> drawn_rect;
+    cata::optional<inclusive_rectangle<point>> drawn_rect;
 };
 
 /**
@@ -267,10 +278,15 @@ class uilist // NOLINT(cata-xy)
         void color_error( bool report );
 
         void init();
+
+        // Calculate sizes, populate arrays
+        void calc_data();
+
+        // Calls calc_data() and initialize the window
         void setup();
         // initialize the window or reposition it after screen size change.
         void reposition( ui_adaptor &ui );
-        void show();
+        void show( ui_adaptor &ui );
         bool scrollby( int scrollby );
         void query( bool loop = true, int timeout = -1 );
         void filterlist();
@@ -331,6 +347,17 @@ class uilist // NOLINT(cata-xy)
         * @param enable is entry enabled. disabled entries will be grayed out and won't be selectable
         * @param key hotkey character that when pressed will return this entry return value
         * @param txt string that will be displayed on the entry first column
+        * @param desc entry description if menu desc_enabled is true
+        * @see uilist::desc_enabled
+        */
+        void addentry_desc( int retval, bool enabled, const cata::optional<input_event> &key,
+                            const std::string &txt,
+                            const std::string &desc );
+        /**
+        * @param retval return value of this option when selected during menu query
+        * @param enable is entry enabled. disabled entries will be grayed out and won't be selectable
+        * @param key hotkey character that when pressed will return this entry return value
+        * @param txt string that will be displayed on the entry first column
         * @param column string that will be displayed on the entry second column
         * @param desc entry description if menu desc_enabled is true
         * @see uilist::desc_enabled
@@ -369,10 +396,17 @@ class uilist // NOLINT(cata-xy)
 
     private:
         int scroll_amount_from_action( const std::string &action );
+        std::unique_ptr<scrollbar> uilist_scrollbar;
         void apply_scrollbar();
         // This function assumes it's being called from `query` and should
         // not be made public.
         void inputfilter();
+        enum class handle_mouse_result_t {
+            unhandled, handled, confirmed
+        };
+        handle_mouse_result_t handle_mouse( const input_context &ctxt,
+                                            const std::string &ret_act,
+                                            bool loop );
 
     public:
         // Parameters
@@ -421,6 +455,8 @@ class uilist // NOLINT(cata-xy)
         bool allow_anykey = false;
         // return UILIST_CANCEL on "QUIT" action, default true
         bool allow_cancel = true;
+        // return retval on "CONFIRM" action, default true
+        bool allow_confirm = true;
         // return UILIST_ADDITIONAL if the input action is inside `additional_actions`
         // and unhandled by callback, default false.
         bool allow_additional = false;
@@ -428,6 +464,8 @@ class uilist // NOLINT(cata-xy)
 
     private:
         report_color_error _color_error = report_color_error::yes;
+        input_context create_main_input_context() const;
+        input_context create_filter_input_context() const;
 
     public:
         // Iternal states
@@ -466,7 +504,9 @@ class uilist // NOLINT(cata-xy)
 
         bool started = false;
 
-        uilist_entry *find_entry_by_coordinate( const point &p );
+        bool recalc_start = false;
+
+        int find_entry_by_coordinate( const point &p ) const;
 
     public:
         // Results

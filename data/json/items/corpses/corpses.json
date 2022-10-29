@@ -15,7 +15,19 @@
     "//": "most of the properties depend on the monster type and are created at runtime!",
     "price": 0,
     "volume": "0 ml",
-    "flags": [ "NO_UNLOAD", "TRADER_AVOID", "CORPSE" ]
+    "flags": [ "TRADER_AVOID", "CORPSE", "TARDIS" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "moves": 100,
+        "max_contains_volume": "1650 L",
+        "max_contains_weight": "2000 kg",
+        "max_item_volume": "150 L",
+        "max_item_length": "60 meter",
+        "rigid": false,
+        "transparent": true
+      }
+    ]
   },
   {
     "type": "GENERIC",
@@ -23,12 +35,12 @@
     "symbol": "%",
     "color": "white",
     "name": { "str": "desiccated corpse" },
-    "description": "A dead body, badly mangled and desiccated.  It seems whatever killed him did so with a gigantic claw.",
+    "description": "A badly mangled human body.  A giant puncture wound is visible on its upper chest, and something has drained most of the moisture from the carcass, leaving it desiccated and making it impossible to determine the body's age.",
     "category": "other",
     "material": [ "hflesh" ],
     "price": 0,
-    "volume": "7500 ml",
-    "weight": "81500 g",
+    "volume": "27 L",
+    "weight": "32 kg",
     "flags": [ "TRADER_AVOID" ]
   },
   {
@@ -101,14 +113,24 @@
     "looks_like": "corpse_generic_human",
     "volume": "30 L",
     "weight": "30 kg",
-    "material": [ "hflesh" ]
+    "material": [ "hflesh" ],
+    "snippet_category": [
+      {
+        "id": "child_gunned_01",
+        "text": "The dead body of a child, riddled by bullets to the extent that you can no longer tell their gender."
+      },
+      {
+        "id": "child_gunned_02",
+        "text": "The corpse of an infant.  A single small-caliber bullet has been put through its skull."
+      }
+    ]
   },
   {
     "type": "GENERIC",
     "id": "corpse_oldwoman_jewelry",
     "copy-from": "corpse",
     "name": { "str": "corpse" },
-    "description": "A dead body of an old woman.  Both of her earlobes are torn, several fingers on her hands have been chopped off, and several teeth have been knocked out.",
+    "description": "A dead body of an old woman.  Both of her earlobes are torn, several of her fingers have been chopped off, and several of her teeth have been knocked out.",
     "//": "Implied that someone hacked off her body parts for jewelry.",
     "looks_like": "corpse_generic_human",
     "volume": "40 L",
@@ -129,7 +151,7 @@
     "id": "corpse_painful",
     "copy-from": "corpse",
     "name": { "str": "corpse" },
-    "description": "A dead body with a frightful grimace.  He appears to have been horribly mangled prior to his death.",
+    "description": "A dead body with a frightful grimace on its face.  He appears to have been horribly mangled prior to his death.",
     "looks_like": "corpse_generic_human",
     "material": [ "hflesh" ]
   },
@@ -149,7 +171,26 @@
     "name": { "str": "corpse" },
     "description": "A dead body with a gaping stab wound in its back.",
     "looks_like": "corpse_generic_human",
-    "material": [ "hflesh" ]
+    "material": [ "hflesh" ],
+    "snippet_category": [
+      { "id": "generic_stabbed_01", "text": "A dead body with a gaping stab wound in its back." },
+      {
+        "id": "generic_stabbed_02",
+        "text": "The bloody corpse of a young man.  He has been stabbed repeatedly in the jugular and throat with a small blade."
+      },
+      {
+        "id": "generic_stabbed_03",
+        "text": "The dead body of a person.  They look to have been skewered with a large, sharp implement."
+      },
+      {
+        "id": "generic_stabbed_04",
+        "text": "The corpse of a tall middle-aged woman.  She appears to have many stab wounds up her legs and thighs."
+      },
+      {
+        "id": "generic_stabbed_05",
+        "text": "The corpse of a small old lady, her face caked in blood and missing an eye."
+      }
+    ]
   },
   {
     "type": "GENERIC",
@@ -167,7 +208,7 @@
     "id": "corpse_halved_upper",
     "copy-from": "corpse",
     "name": { "str": "corpse" },
-    "description": "The upper half of a dead body, as if torn apart with enormous force.  Some organs are hanging out.",
+    "description": "The upper half of a dead body, as if it was torn apart with enormous force.  Some organs are hanging out.",
     "looks_like": "corpse_generic_human",
     "volume": "30 L",
     "weight": "40 kg",
@@ -183,5 +224,47 @@
     "volume": "57 L",
     "weight": "78 kg",
     "material": [ "hflesh" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "corpse_generic_gunned",
+    "copy-from": "corpse",
+    "name": { "str": "corpse" },
+    "description": "The dead body of a person.  Their forehead bears a large bullet entrance wound.  An even larger exit wound is present on the back of their head.",
+    "looks_like": "corpse_generic_human",
+    "volume": "40 L",
+    "weight": "52 kg",
+    "material": [ "hflesh" ],
+    "snippet_category": [
+      {
+        "id": "generic_gunned_01",
+        "text": "The dead body of a person.  Their forehead bears a large bullet entrance wound.  An even larger exit wound is present on the back of their head."
+      },
+      {
+        "id": "generic_gunned_02",
+        "text": "The corpse of a young blonde woman shot several times in the back with a low-caliber weapon."
+      },
+      {
+        "id": "generic_gunned_03",
+        "text": "An androgynous-looking corpse gored by bullet wounds from chest to thighs, leaving the face eerily pristine."
+      },
+      {
+        "id": "generic_gunned_04",
+        "//": "canoeing",
+        "text": "The corpse of a seemingly older man.  He appears to have been shot in the forehead at very close range, leaving you a good view of his brain matter."
+      },
+      {
+        "id": "generic_gunned_05",
+        "text": "The corpse of a middle-aged woman, her legs and arms covered in blood.  She appears to have been shot in the thigh."
+      },
+      {
+        "id": "generic_gunned_06",
+        "text": "The corpse of a young man who appears to have been shot to death.  His right arm is only barely still attached to his shoulder."
+      },
+      {
+        "id": "generic_gunned_07",
+        "text": "The corpse of a tall woman unblemished but for the bloody hole atop her head, her thick black hair intermixed now with brain, viscera and shotgun pellets."
+      }
+    ]
   }
 ]

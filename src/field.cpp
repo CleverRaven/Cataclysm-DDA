@@ -29,6 +29,11 @@ bool field_entry::is_dangerous() const
     return get_intensity_level().dangerous;
 }
 
+bool field_entry::is_mopsafe() const
+{
+    return !get_intensity_level().dangerous || get_field_type()->mopsafe;
+}
+
 field_type_id field_entry::get_field_type() const
 {
     return type;
@@ -182,11 +187,9 @@ void field::remove_field( std::map<field_type_id, field_entry>::iterator const i
 {
     _field_type_list.erase( it );
     _displayed_field_type = fd_null;
-    if( !_field_type_list.empty() ) {
-        for( auto &fld : _field_type_list ) {
-            if( !_displayed_field_type || fld.first.obj().priority >= _displayed_field_type.obj().priority ) {
-                _displayed_field_type = fld.first;
-            }
+    for( auto &fld : _field_type_list ) {
+        if( !_displayed_field_type || fld.first.obj().priority >= _displayed_field_type.obj().priority ) {
+            _displayed_field_type = fld.first;
         }
     }
 }
@@ -238,6 +241,12 @@ field_type_id field::displayed_field_type() const
 description_affix field::displayed_description_affix() const
 {
     return _displayed_field_type.obj().desc_affix;
+}
+
+int field::displayed_intensity() const
+{
+    auto it = _field_type_list.find( _displayed_field_type );
+    return it->second.get_field_intensity();
 }
 
 int field::total_move_cost() const

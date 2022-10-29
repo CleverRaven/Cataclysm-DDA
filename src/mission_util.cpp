@@ -11,6 +11,7 @@
 #include "cata_assert.h"
 #include "character.h"
 #include "coordinates.h"
+#include "condition.h"
 #include "debug.h"
 #include "dialogue.h"
 #include "enum_conversions.h"
@@ -60,7 +61,7 @@ static void reveal_route( mission *miss, const tripoint_abs_omt &destination )
     const tripoint_abs_omt dest_road = overmap_buffer.find_closest( destination, "road", 3, false );
 
     if( overmap_buffer.reveal_route( source_road, dest_road ) ) {
-        add_msg( _( "%s also marks the road that leads to it…" ), p->name );
+        add_msg( _( "%s also marks the road that leads to it…" ), p->get_name() );
     }
 }
 
@@ -75,7 +76,7 @@ static void reveal_target( mission *miss, const std::string &omter_id )
     const tripoint_abs_omt destination = reveal_destination( omter_id );
     if( destination != overmap::invalid_tripoint ) {
         const oter_id oter = overmap_buffer.ter( destination );
-        add_msg( _( "%s has marked the only %s known to them on your map." ), p->name,
+        add_msg( _( "%s has marked the only %s known to them on your map." ), p->get_name(),
                  oter->get_name() );
         miss->set_target( destination );
         if( one_in( 3 ) ) {
@@ -134,8 +135,7 @@ static tripoint_abs_omt random_house_in_city( const city_reference &cref )
 tripoint_abs_omt mission_util::random_house_in_closest_city()
 {
     Character &player_character = get_player_character();
-    // TODO: fix point types
-    const tripoint_abs_sm center( player_character.global_sm_location() );
+    const tripoint_abs_sm center = player_character.global_sm_location();
     const city_reference cref = overmap_buffer.closest_city( center );
     if( !cref ) {
         debugmsg( "could not find closest city" );
@@ -177,6 +177,11 @@ static cata::optional<tripoint_abs_omt> find_or_create_om_terrain(
     const tripoint_abs_omt &origin_pos, const mission_target_params &params )
 {
     tripoint_abs_omt target_pos = overmap::invalid_tripoint;
+
+    if( params.target_var.has_value() ) {
+        dialogue d( get_talker_for( get_avatar() ), nullptr );
+        return project_to<coords::omt>( get_tripoint_from_var( params.target_var.value(), d ) );
+    }
 
     omt_find_params find_params;
     std::vector<std::pair<std::string, ot_match_type>> temp_types;
@@ -425,6 +430,9 @@ mission_target_params mission_util::parse_mission_om_target( const JsonObject &j
     if( jo.has_member( "z" ) ) {
         p.z = jo.get_int( "z" );
     }
+    if( jo.has_member( "var" ) ) {
+        p.target_var = read_var_info( jo.get_object( "var" ) );
+    }
     return p;
 }
 
@@ -528,18 +536,13 @@ bool mission_type::parse_funcs( const JsonObject &jo, std::function<void( missio
     /* this is a kind of gross hijack of the dialogue responses effect system, but I don't want to
      * write that code in two places so here it goes.
      */
-    talk_effect_t talk_effects;
+    talk_effect_t<::dialogue> talk_effects;
     talk_effects.load_effect( jo, "effect" );
     phase_func = [ funcs, talk_effects ]( mission * miss ) {
-        ::dialogue d;
-        npc *beta = g->find_npc( miss->get_npc_id() );
-        standard_npc default_npc( "Default" );
-        if( beta == nullptr ) {
-            beta = &default_npc;
-        }
-        d.alpha = get_talker_for( get_avatar() );
-        d.beta = get_talker_for( beta );
-        for( const talk_effect_fun_t &effect : talk_effects.effects ) {
+        npc *beta_npc = g->find_npc( miss->get_npc_id() );
+        ::dialogue d( get_talker_for( get_avatar() ),
+                      beta_npc == nullptr ? nullptr : get_talker_for( beta_npc ) );
+        for( const talk_effect_fun_t<::dialogue> &effect : talk_effects.effects ) {
             effect( d );
         }
         for( const auto &mission_function : funcs ) {
@@ -547,7 +550,7 @@ bool mission_type::parse_funcs( const JsonObject &jo, std::function<void( missio
         }
     };
 
-    for( talk_effect_fun_t &effect : talk_effects.effects ) {
+    for( talk_effect_fun_t<::dialogue> &effect : talk_effects.effects ) {
         auto rewards = effect.get_likely_rewards();
         if( !rewards.empty() ) {
             likely_rewards.insert( likely_rewards.end(), rewards.begin(), rewards.end() );

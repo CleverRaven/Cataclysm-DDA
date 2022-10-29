@@ -26,7 +26,20 @@
     "weight": "740 g",
     "volume": "5 L",
     "bashing": 14,
-    "armor_data": { "material_thickness": 1, "armor": [ { "encumbrance": 14, "coverage": 5, "covers": [ "torso" ] } ] },
+    "armor_data": {
+      "armor": [
+        {
+          "material": [
+            { "type": "orichalcum_metal", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "gold", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "wood", "covered_by_mat": 100, "thickness": 1.0 }
+          ],
+          "encumbrance": 14,
+          "coverage": 5,
+          "covers": [ "torso" ]
+        }
+      ]
+    },
     "reload_noise_volume": 2,
     "loudness": 5,
     "ranged_damage": { "damage_type": "stab", "amount": 15 },

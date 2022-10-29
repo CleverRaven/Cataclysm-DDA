@@ -1,0 +1,23 @@
+[
+  {
+    "type": "snippet",
+    "category": "DUST_STORM_NIGHT_MESSAGES_1",
+    "text": [
+      "A gust of wind hits you from above.",
+      "You notice small patches of dust blown away by the wind.",
+      "The stars are slowly being consumed by ominous-looking clouds.",
+      "The Sun is slowly being consumed by ominous-looking clouds.",
+      "You have a feeling you should take shelter immediately."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "DUST_STORM_DAY_MESSAGES_1",
+    "text": [
+      "A gust of wind hits you from above.",
+      "You notice small patches of dust blown away by the wind.",
+      "The Sun is slowly being consumed by ominous-looking clouds.",
+      "You have a feeling you should take shelter immediately."
+    ]
+  }
+]

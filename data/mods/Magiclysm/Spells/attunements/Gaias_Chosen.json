@@ -1,0 +1,23 @@
+[
+  {
+    "id": "gaiaschosen_samsara",
+    "type": "SPELL",
+    "spell_class": "GAIAS_CHOSEN",
+    "name": "Samsara",
+    "description": "You tie your ley lines to the world's, renewing your flesh as if reborn.",
+    "valid_targets": [ "self" ],
+    "effect": "attack",
+    "effect_str": "cureall",
+    "shape": "blast",
+    "base_casting_time": 60000,
+    "base_energy_cost": 800,
+    "energy_source": "MANA",
+    "components": "spell_components_samsara",
+    "difficulty": 8,
+    "min_damage": -20,
+    "max_damage": -200,
+    "damage_increment": -4.5,
+    "max_level": 40,
+    "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE", "LOUD" ]
+  }
+]

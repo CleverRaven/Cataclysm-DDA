@@ -260,46 +260,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "apartments_con_tower_NW",
-    "copy-from": "apartments_tower_any"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "apartments_con_tower_NE",
-    "copy-from": "apartments_tower_any"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "apartments_con_tower_SW",
-    "copy-from": "apartments_tower_any"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "apartments_con_tower_SE",
-    "copy-from": "apartments_tower_any"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "apartments_mod_tower_NW",
-    "copy-from": "apartments_tower_any"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "apartments_mod_tower_NE",
-    "copy-from": "apartments_tower_any"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "apartments_mod_tower_SW",
-    "copy-from": "apartments_tower_any"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "apartments_mod_tower_SE",
-    "copy-from": "apartments_tower_any"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "apartments_con_tower_110",
     "copy-from": "apartments_tower_any"
   },

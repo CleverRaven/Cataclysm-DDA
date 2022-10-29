@@ -4,13 +4,15 @@ GNU Unifont (data/font/unifont.ttf) is licensed under GNU General Public License
 
 Terminus Font (data/font/terminus.ttf) is licensed under the SIL Open Font License (see LICENSE-OFL-Terminus-Font.txt).
 
+Vecterminus Font (data/font/VecTerminus12Medium.otf) is licensed under the SIL Open Font License (see LICENSE-OFL-Terminus-Font.txt).
+
 CATCH unit-test framework (tests/catch/catch.hpp) is licensed under the Boost Software License. Visit https://github.com/philsquared/Catch/blob/master/LICENSE.txt to read the license.
 
 PLF List and PLF Colony (src/list.h, src/colony.h) are licensed under the zLib license (https://www.zlib.net/zlib_license.html).
 
 getpost (tools/json_tools/format/getpost.h) is licensed under the MIT license, see file for text of license.
 
-libintl-lite is licensed under Boost Software License 1.0. Visit https://www.boost.org/users/license.html to read the license.
+gulrak filesystem (src/third-party/ghc/*) is licensed under the MIT license, see file for text of license.
 
 libbacktrace is licensed under a BSD license (https://github.com/ianlancetaylor/libbacktrace/blob/master/LICENSE). The full license text is as follows:
 

@@ -6,16 +6,24 @@
     "categories": [ "hull" ],
     "standard_symbols": true,
     "symbols": {
+      "cover_left": "h",
+      "cover_right": "h",
       "horizontal_front": "h",
+      "hatch_wheel_left": "b",
+      "hatch_wheel_right": "n",
       "horizontal_rear": "h",
       "horizontal_2_front": "=",
       "horizontal_2_rear": "=",
+      "nw_edge": "j",
+      "ne_edge": "j",
       "vertical_left": "j",
       "vertical_right": "j",
       "vertical_T_left": "[",
       "vertical_T_right": "]",
       "vertical_2_left": "H",
-      "vertical_2_right": "H"
+      "vertical_2_right": "H",
+      "wheel_left": "j",
+      "wheel_right": "j"
     },
     "flags": [ "OBSTACLE", "NO_ROOF_NEEDED" ]
   },
@@ -29,7 +37,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 1 ] ] }
     },
     "damage_reduction": { "all": 7 }
   },
@@ -60,9 +68,9 @@
     "folded_volume": "3750 ml",
     "breaks_into": "ig_vp_cloth",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
+      "install": { "skills": [ [ "fabrication", 1 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
+      "removal": { "skills": [ [ "fabrication", 2 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
+      "repair": { "skills": [ [ "fabrication", 2 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
     },
     "damage_reduction": { "all": 0, "bash": 3 }
   },
@@ -98,7 +106,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 2 ] ] }
     },
     "extend": { "categories": [ "cargo" ], "flags": [ "OPAQUE", "CARGO", "COVERED", "FULL_BOARD", "LOCKABLE_CARGO" ] },
     "damage_reduction": { "all": 7 }
@@ -107,7 +115,7 @@
     "id": "hdstowboard",
     "copy-from": "stowboard",
     "type": "vehicle_part",
-    "name": { "str": "heavy duty stow board" },
+    "name": { "str": "heavy-duty stow board" },
     "item": "steel_plate",
     "color": "brown",
     "broken_color": "dark_gray",
@@ -126,7 +134,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 3 ] ] }
     },
     "damage_reduction": { "all": 20 }
   },
@@ -134,7 +142,7 @@
     "id": "hdboard",
     "type": "vehicle_part",
     "copy-from": "hdboard_abstract",
-    "name": { "str": "heavy duty board" },
+    "name": { "str": "heavy-duty board" },
     "description": "A strong metal wall.  Keeps zombies outside the vehicle and prevents people from seeing through it.",
     "extend": { "flags": [ "OPAQUE", "FULL_BOARD" ] }
   },
@@ -142,7 +150,7 @@
     "id": "hdhalfboard",
     "copy-from": "hdboard_abstract",
     "type": "vehicle_part",
-    "name": { "str": "heavy duty quarterpanel" },
+    "name": { "str": "heavy-duty quarterpanel" },
     "description": "A half-height strong metal wall.  Keeps zombies outside the vehicle but allows people to see over it.",
     "proportional": { "durability": 0.8 },
     "extend": { "flags": [ "HALF_BOARD" ] }
@@ -157,9 +165,9 @@
     "durability": 100,
     "breaks_into": "ig_vp_wood_plate",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
+      "install": { "skills": [ [ "fabrication", 1 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
+      "removal": { "skills": [ [ "fabrication", 2 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
+      "repair": { "skills": [ [ "fabrication", 2 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
     },
     "damage_reduction": { "all": 5 }
   },
@@ -193,9 +201,28 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 1 ] ] }
     },
     "extend": { "flags": [ "HALF_BOARD" ] },
     "damage_reduction": { "all": 5 }
+  },
+  {
+    "id": "counterweight",
+    "type": "vehicle_part",
+    "copy-from": "base_board_abstract",
+    "looks_like": "hdhalfboard",
+    "item": "counterweight",
+    "color": "dark_gray",
+    "durability": 600,
+    "name": { "str": "counterweight" },
+    "description": "A half-height heavy metal wall.  Commonly used in forklifts to balance them when lifting heavy things.",
+    "breaks_into": "ig_vp_hdframe",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 3 ] ] }
+    },
+    "damage_reduction": { "all": 20 },
+    "extend": { "flags": [ "HALF_BOARD" ] }
   }
 ]

@@ -126,16 +126,16 @@
         ]
       },
       "place_loot": [ { "group": "autodoc_installation_programs", "x": 1, "y": [ 34, 37 ], "chance": 75, "repeat": 4 } ],
-      "place_monsters": [
-        { "monster": "GROUP_HOSPITAL", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 0, 3 ], "density": 3 },
-        { "monster": "GROUP_HOSPITAL", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 0, 3 ], "density": 3 },
-        { "monster": "GROUP_HOSPITAL", "x": [ 49, 70 ], "y": [ 1, 22 ], "repeat": [ 0, 3 ], "density": 3 },
-        { "monster": "GROUP_HOSPITAL", "x": [ 1, 22 ], "y": [ 25, 46 ], "repeat": [ 0, 3 ], "density": 3 },
-        { "monster": "GROUP_HOSPITAL", "x": [ 25, 46 ], "y": [ 25, 46 ], "repeat": [ 0, 3 ], "density": 3 },
-        { "monster": "GROUP_HOSPITAL", "x": [ 49, 70 ], "y": [ 25, 46 ], "repeat": [ 0, 3 ], "density": 3 },
-        { "monster": "GROUP_HOSPITAL", "x": [ 1, 22 ], "y": [ 49, 70 ], "repeat": [ 0, 3 ], "density": 3 },
-        { "monster": "GROUP_HOSPITAL", "x": [ 25, 46 ], "y": [ 49, 70 ], "repeat": [ 0, 3 ], "density": 3 },
-        { "monster": "GROUP_HOSPITAL", "x": [ 49, 70 ], "y": [ 49, 70 ], "repeat": [ 0, 3 ], "density": 3 }
+      "place_monster": [
+        { "group": "GROUP_HOSPITAL", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 15, 20 ] },
+        { "group": "GROUP_HOSPITAL", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 15, 20 ] },
+        { "group": "GROUP_HOSPITAL", "x": [ 49, 70 ], "y": [ 1, 22 ], "repeat": [ 15, 20 ] },
+        { "group": "GROUP_HOSPITAL", "x": [ 1, 22 ], "y": [ 25, 46 ], "repeat": [ 15, 20 ] },
+        { "group": "GROUP_HOSPITAL", "x": [ 25, 46 ], "y": [ 25, 46 ], "repeat": [ 15, 20 ] },
+        { "group": "GROUP_HOSPITAL", "x": [ 49, 70 ], "y": [ 25, 46 ], "repeat": [ 15, 20 ] },
+        { "group": "GROUP_HOSPITAL", "x": [ 1, 22 ], "y": [ 49, 70 ], "repeat": [ 15, 20 ] },
+        { "group": "GROUP_HOSPITAL", "x": [ 25, 46 ], "y": [ 49, 70 ], "repeat": [ 15, 20 ] },
+        { "group": "GROUP_HOSPITAL", "x": [ 49, 70 ], "y": [ 49, 70 ], "repeat": [ 15, 20 ] }
       ]
     }
   },

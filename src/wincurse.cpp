@@ -1,6 +1,7 @@
 #if !defined(TILES) && defined(_WIN32)
 #define UNICODE 1
 #ifndef CMAKE
+#pragma GCC diagnostic ignored "-Wunused-macros"
 #define _UNICODE 1
 #endif
 #include "cursesport.h" // IWYU pragma: associated
@@ -14,12 +15,12 @@
 #include "output.h"
 #include "color.h"
 #include "catacharset.h"
-#include "get_version.h"
 #include "init.h"
 #include "input.h"
 #include "path_info.h"
 #include "filesystem.h"
 #include "debug.h"
+#include "cata_scope_helpers.h"
 #include "cata_utility.h"
 #include "string_formatter.h"
 #include "color_loader.h"
@@ -86,7 +87,6 @@ static bool WinCreate()
 {
     // Get current process handle
     WindowINST = GetModuleHandle( nullptr );
-    std::string title = string_format( "Cataclysm: Dark Days Ahead - %s", getVersionString() );
 
     // Register window class
     WNDCLASSEXW WindowClassType   = WNDCLASSEXW();
@@ -119,7 +119,7 @@ static bool WinCreate()
     int WindowY = WorkArea.bottom / 2 - ( WndRect.bottom - WndRect.top ) / 2;
 
     // Magic
-    WindowHandle = CreateWindowExW( 0, szWindowClass, widen( title ).c_str(), WndStyle,
+    WindowHandle = CreateWindowExW( 0, szWindowClass, L"", WndStyle,
                                     WindowX, WindowY,
                                     WndRect.right - WndRect.left,
                                     WndRect.bottom - WndRect.top,
@@ -664,6 +664,19 @@ static uint64_t GetPerfCount()
     return Count;
 }
 
+void input_manager::pump_events()
+{
+    if( test_mode ) {
+        return;
+    }
+
+    // Handle all events, but ignore any keypress
+    CheckMessages();
+
+    lastchar = ERR;
+    previously_pressed_key = 0;
+}
+
 // we can probably add support for keycode mode, but wincurse is deprecated
 // so we just ignore the mode argument.
 input_event input_manager::get_input_event( const keyboard_mode /*preferred_keyboard_mode*/ )
@@ -786,6 +799,13 @@ HWND getWindowHandle()
 void refresh_display()
 {
     RedrawWindow( WindowHandle, nullptr, nullptr, RDW_INVALIDATE | RDW_UPDATENOW );
+}
+
+void set_title( const std::string &title )
+{
+    if( WindowHandle != nullptr ) {
+        SetWindowTextW( WindowHandle, widen( title ).c_str() );
+    }
 }
 
 #endif

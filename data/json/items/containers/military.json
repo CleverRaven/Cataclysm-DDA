@@ -1,0 +1,241 @@
+[
+  {
+    "id": "ammunition_can_30",
+    "type": "GENERIC",
+    "category": "container",
+    "name": "M19A1 ammo can",
+    "looks_like": "box_small_metal",
+    "description": "A solid metal ammo box with a small handle on top and shabby yellow text printed on the side.",
+    "weight": "1680 g",
+    "volume": "5058 ml",
+    "longest_side": "299 mm",
+    "//": "<https://www.cleanammocans.com/new-m19a1-30-cal-ammo-can.html>, god, all of them has the different dimensions :pain:",
+    "//2": "External: 29.85 x 9.53 x 17.78 cm, Internal: 25.4 x 8.9 x 16.5 cm",
+    "flags": [ "COLLAPSE_CONTENTS" ],
+    "price": 1930,
+    "price_postapoc": 10,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "max_contains_volume": "3730 ml",
+        "max_contains_weight": "50 kg",
+        "max_item_length": "254 mm"
+      }
+    ],
+    "material": [ "steel", "aluminum" ],
+    "symbol": "□",
+    "color": "light_gray"
+  },
+  {
+    "id": "ammunition_can_50",
+    "type": "GENERIC",
+    "name": "M2A2 ammo can",
+    "copy-from": "ammunition_can_30",
+    "weight": "2360 g",
+    "volume": "8666 ml",
+    "longest_side": "299 mm",
+    "//": "<https://www.cleanammocans.com/new-50-cal-m2a1-usgi-ammo-can.html>",
+    "//2": "External: 29.85 x 15.24 x 19.05 cm, Internal: 27.94 x 13.97 x 17.78 cm ",
+    "flags": [ "COLLAPSE_CONTENTS" ],
+    "price": 1999,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "max_contains_volume": "6940 ml",
+        "max_contains_weight": "80 kg",
+        "max_item_length": "279 mm"
+      }
+    ]
+  },
+  {
+    "id": "ammunition_can_fat_50",
+    "type": "GENERIC",
+    "name": "PA108 SAW ammo can",
+    "copy-from": "ammunition_can_30",
+    "weight": "2990 g",
+    "volume": "12627 ml",
+    "longest_side": "318 mm",
+    "//": "<https://www.cleanammocans.com/2-pack-new-fat-50-pa108-saw-ammo-cans.html>",
+    "//2": "External: 31.75 x 18.42 x 21.59 cm, Internal: 29.85 x 17.15 x 20.96 cm ",
+    "flags": [ "COLLAPSE_CONTENTS" ],
+    "price": 1999,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "max_contains_volume": "10730 ml",
+        "max_contains_weight": "120 kg",
+        "max_item_length": "298 mm"
+      }
+    ]
+  },
+  {
+    "id": "ammunition_can_pa120",
+    "type": "GENERIC",
+    "name": "PA-120 ammo can",
+    "copy-from": "ammunition_can_30",
+    "description": "A huge metal box with handles on each end.  It is almost inconveniently big, but can hold a lot of heavy items inside.",
+    "flags": [ "COLLAPSE_CONTENTS" ],
+    "weight": "6350 g",
+    "volume": "18572 ml",
+    "longest_side": "470 mm",
+    "//": "<https://www.cleanammocans.com/2-pack-40mm-ammo-cans.html>",
+    "//2": "External: 46.99 x 15.56 x 25.40 cm, Internal: 43.82 x 13.97 x 24.13 cm",
+    "price": 2500,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "max_contains_volume": "14772 ml",
+        "max_contains_weight": "160 kg",
+        "max_item_length": "438 mm"
+      }
+    ]
+  },
+  {
+    "id": "ammunition_box_grenade",
+    "type": "GENERIC",
+    "category": "container",
+    "name": "M289 container",
+    "description": "A small, thick cylindrical container, designed to store one grenade.",
+    "flags": [ "COLLAPSE_CONTENTS" ],
+    "weight": "411 g",
+    "volume": "590 ml",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "max_contains_volume": "550 ml",
+        "max_contains_weight": "5000 g"
+      }
+    ],
+    "material": [ "steel" ],
+    "symbol": "0",
+    "color": "black"
+  },
+  {
+    "id": "ammunition_can_carlgustav",
+    "type": "GENERIC",
+    "category": "container",
+    "name": "double 84mm container",
+    "description": "A heavy and bulky container that can hold two 84mm rockets inside.",
+    "//": "84mm heat 551 container, 265x700x124mm",
+    "flags": [ "COLLAPSE_CONTENTS" ],
+    "weight": "1400 g",
+    "volume": "23000 ml",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "5000 g",
+        "max_item_length": "246mm"
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "5000 g",
+        "max_item_length": "246mm"
+      }
+    ],
+    "material": [ "steel" ],
+    "symbol": "8",
+    "color": "black"
+  },
+  {
+    "id": "ammunition_box_carlgustav",
+    "type": "GENERIC",
+    "category": "container",
+    "name": "huge 84mm crate",
+    "description": "A big crate designed to store explosive 84x246mm rockets.",
+    "//": "84mm heat551 transport box, 780X400X290mm",
+    "flags": [ "COLLAPSE_CONTENTS" ],
+    "weight": "1400 g",
+    "volume": "70000 ml",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "max_contains_volume": "69000 ml",
+        "max_contains_weight": "35000 g"
+      }
+    ],
+    "material": [ "steel" ],
+    "symbol": "□",
+    "color": "black"
+  },
+  {
+    "id": "ammunition_box_308",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "mini ammo box", "str_pl": "mini ammo boxes" },
+    "description": "A lightweight box, labelled with a big, shiny image of an ammunition cartridge.",
+    "flags": [ "COLLAPSE_CONTENTS" ],
+    "weight": "12 g",
+    "volume": "170 ml",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "160 ml",
+        "max_contains_weight": "800 g",
+        "max_item_length": "100 mm"
+      }
+    ],
+    "material": [ "paper" ],
+    "symbol": "□",
+    "color": "brown"
+  },
+  {
+    "id": "ammunition_box_9mm",
+    "type": "GENERIC",
+    "copy-from": "ammunition_box_308",
+    "name": { "str": "small ammo box", "str_pl": "small ammo boxes" },
+    "//": "100x9mm",
+    "flags": [ "COLLAPSE_CONTENTS" ],
+    "weight": "17 g",
+    "volume": "175 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "170 ml", "max_contains_weight": "450 g" } ]
+  },
+  {
+    "id": "ammunition_box_223",
+    "type": "GENERIC",
+    "copy-from": "ammunition_box_308",
+    "name": { "str": "mini ammo box", "str_pl": "mini ammo boxes" },
+    "//": "30x223 clips or 50x223 or 20x300",
+    "flags": [ "COLLAPSE_CONTENTS" ],
+    "weight": "14 g",
+    "volume": "235 ml",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "230 ml",
+        "max_contains_weight": "800 g",
+        "max_item_length": "100 mm"
+      }
+    ]
+  },
+  {
+    "id": "ammunition_box_50bmg",
+    "type": "GENERIC",
+    "copy-from": "ammunition_box_308",
+    "name": { "str": "small ammo box", "str_pl": "small ammo boxes" },
+    "//": "10x50bmg, 20x12 gauge",
+    "flags": [ "COLLAPSE_CONTENTS" ],
+    "weight": "22 g",
+    "volume": "480 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "470 ml", "max_contains_weight": "2000 g" } ]
+  }
+]

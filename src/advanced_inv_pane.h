@@ -44,16 +44,8 @@ class advanced_inventory_pane
         bool prev_viewing_cargo = false;
     public:
         // set the pane's area via its square, and whether it is viewing a vehicle's cargo
-        void set_area( const advanced_inv_area &square, bool in_vehicle_cargo = false ) {
-            prev_area = area;
-            prev_viewing_cargo = viewing_cargo;
-            area = square.id;
-            viewing_cargo = square.can_store_in_vehicle() && in_vehicle_cargo;
-        }
-        void restore_area() {
-            area = prev_area;
-            viewing_cargo = prev_viewing_cargo;
-        }
+        void set_area( const advanced_inv_area &square, bool in_vehicle_cargo = false );
+        void restore_area();
         aim_location get_area() const {
             return area;
         }
@@ -64,7 +56,7 @@ class advanced_inventory_pane
             return viewing_cargo;
         }
         advanced_inv_pane_save_state *save_state;
-        void save_settings();
+        void save_settings() const;
         void load_settings( int saved_area_idx,
                             const std::array<advanced_inv_area, NUM_AIM_LOCATIONS> &squares, bool is_re_enter );
         /**
@@ -113,6 +105,8 @@ class advanced_inventory_pane
          * @param offset Must be either +1 or -1
          */
         void scroll_category( int offset );
+        void scroll_to_start();
+        void scroll_to_end();
         /**
          * @return either null, if @ref index is invalid, or the selected
          * item in @ref items.

@@ -1,0 +1,61 @@
+[
+  {
+    "type": "npc",
+    "id": "free_merchants_merchant",
+    "name_unique": "Smokes",
+    "//": "Appears in the refugee center as shopkeeper with missions.  Faction critical.  Real name: Gavin Wheeler",
+    "gender": "male",
+    "name_suffix": "Merchant",
+    "class": "NC_FREE_MERCHANTS_MERCHANT",
+    "attitude": 0,
+    "mission": 3,
+    "chat": "TALK_FREE_MERCHANTS_MERCHANT",
+    "mission_offered": "MISSION_FREE_MERCHANTS_EVAC_1",
+    "faction": "free_merchants"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_FREE_MERCHANTS_MERCHANT",
+    "name": { "str": "Merchant" },
+    "job_description": "I'm a local shopkeeper.",
+    "common": false,
+    "sells_belongings": false,
+    "//": "Smokes is a firefighter that volunteered to take stock of what was available and keep inventory. He's gradually had more lumped onto him as the Free Merchants struggle to put themselves together, but he feels obligated to help, even though he doesn't really want to have all the responsibility he does.",
+    "//2": "He's also quite chatty and will gladly talk about the way things are these days. This is deliberate, since Free Merchants are very likely to be the first faction players encounter.",
+    "//3": "Most of his dialogue goes in 'free_merchant_shopkeep_dialogue.json'. Dialogue that just does worldbuilding goes into 'free_merchant_shopkeep_dialogue_fluff.json'.",
+    "bonus_str": 4,
+    "bonus_dex": 2,
+    "shopkeeper_item_group": [ { "group": "FREE_MERCHANTS_Shop", "rigid": true } ],
+    "shopkeeper_consumption_rates": "smokes_shop_rates",
+    "worn_override": "NC_FREE_MERCHANTS_MERCHANT_worn",
+    "weapon_override": "NC_FREE_MERCHANTS_MERCHANT_carried",
+    "traits": [
+      { "trait": "GOODCARDIO" },
+      { "trait": "FLEET" },
+      { "trait": "OPTIMISTIC" },
+      { "trait": "STRONGBACK" },
+      { "trait": "THIRST" },
+      { "trait": "SLEEPY" },
+      { "trait": "CLUMSY" },
+      { "group": "Appearance_Irish" }
+    ],
+    "skills": [
+      { "skill": "firstaid", "bonus": 3 },
+      { "skill": "mechanics", "bonus": 2 },
+      { "skill": "melee", "bonus": 2 },
+      { "skill": "speech", "bonus": 3 },
+      { "skill": "swimming", "bonus": 3 }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "u_Gavin_onetime_greeting",
+    "//": "12-hour period for the player to ask why his greeting was so blunt (basically 'before you ask, we're full')."
+  },
+  {
+    "id": "smokes_shop_rates",
+    "copy-from": "basic_shop_rates",
+    "type": "shopkeeper_consumption_rates",
+    "extend": { "rates": [ { "item": "FMCNote", "rate": -1 } ] }
+  }
+]

@@ -10,6 +10,7 @@
     "coverage": 80,
     "required_str": 9,
     "flags": [ "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "BLOCKSDOOR" ],
+    "rotates_to": "INDOORFLOOR",
     "deconstruct": {
       "items": [
         { "item": "2x4", "count": 12 },
@@ -39,6 +40,7 @@
     "coverage": 80,
     "required_str": 10,
     "flags": [ "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "BLOCKSDOOR" ],
+    "rotates_to": "INDOORFLOOR",
     "deconstruct": {
       "items": [ { "item": "2x4", "count": 14 }, { "item": "wood_panel", "count": 2 }, { "item": "nail", "charges": [ 12, 20 ] } ]
     },
@@ -84,10 +86,15 @@
         { "item": "2x4", "count": 12 },
         { "item": "nail", "charges": [ 12, 24 ] },
         { "item": "wood_panel", "count": [ 0, 1 ] },
-        { "item": "rag", "count": [ 15, 20 ] }
+        { "item": "cotton_patchwork", "count": [ 15, 20 ] }
       ]
     },
     "max_volume": "875 L",
+    "prying": {
+      "result": "f_coffin_o",
+      "message": "You wedge open the coffin.",
+      "prying_data": { "difficulty": 5, "prying_level": 2, "noisy": true, "failure": "You pry, but the coffin remains closed." }
+    },
     "bash": {
       "str_min": 12,
       "str_max": 40,
@@ -97,7 +104,7 @@
         { "item": "2x4", "count": [ 1, 5 ] },
         { "item": "splinter", "count": [ 2, 6 ] },
         { "item": "nail", "charges": [ 2, 10 ] },
-        { "item": "rag", "count": [ 8, 12 ] }
+        { "item": "cotton_patchwork", "count": [ 8, 12 ] }
       ]
     }
   },
@@ -117,7 +124,7 @@
         { "item": "2x4", "count": 12 },
         { "item": "nail", "charges": [ 12, 24 ] },
         { "item": "wood_panel", "count": [ 0, 1 ] },
-        { "item": "rag", "count": [ 15, 20 ] }
+        { "item": "cotton_patchwork", "count": [ 15, 20 ] }
       ]
     },
     "max_volume": "875 L",
@@ -130,7 +137,7 @@
         { "item": "2x4", "count": [ 1, 5 ] },
         { "item": "splinter", "count": [ 2, 6 ] },
         { "item": "nail", "charges": [ 2, 10 ] },
-        { "item": "rag", "count": [ 8, 12 ] }
+        { "item": "cotton_patchwork", "count": [ 8, 12 ] }
       ]
     }
   },
@@ -158,6 +165,11 @@
     "examine_action": "locked_object",
     "deconstruct": {
       "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": [ 1, 2 ] }, { "item": "nail", "charges": [ 6, 10 ] } ]
+    },
+    "prying": {
+      "result": "f_crate_o",
+      "message": "You pop open the crate.",
+      "prying_data": { "difficulty": 6, "prying_level": 1, "noisy": true, "failure": "You pry, but can't pop open the crate." }
     },
     "bash": {
       "str_min": 12,
@@ -205,23 +217,39 @@
     "max_volume": "324 L",
     "deployed_item": "box_large",
     "examine_action": "deployed_furniture",
-    "flags": [
-      "TRANSPARENT",
-      "FLAMMABLE_ASH",
-      "PLACE_ITEM",
-      "ORGANIC",
-      "EASY_DECONSTRUCT",
-      "BASHABLE",
-      "HIDE_PLACE",
-      "NO_SIGHT",
-      "CONTAINER"
-    ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "EASY_DECONSTRUCT", "HIDE_PLACE", "NO_SIGHT", "CONTAINER" ],
     "bash": {
       "str_min": 2,
       "str_max": 15,
       "sound": "crumple!",
       "sound_fail": "thud.",
-      "items": [ { "item": "paper", "charges": [ 50, 100 ] } ]
+      "items": [ { "item": "cardboard", "charges": [ 150, 180 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_cardboard_box_large_reinforced",
+    "name": "reinforced large cardboard box",
+    "symbol": "X",
+    "description": "A large box made of a brown paper-based material that was doubled up for extra strength.  Could contain a number of things, or even be hidden inside.  Considering it only has two small flaps for carrying, it's very hard to see out of, and won't do anything to protect you if you're found.",
+    "color": "brown",
+    "looks_like": "f_cardboard_box",
+    "move_cost_mod": 7,
+    "coverage": 90,
+    "comfort": 1,
+    "floor_bedding_warmth": 200,
+    "required_str": 3,
+    "deconstruct": { "items": [ { "item": "box_large_reinforced", "count": 1 } ] },
+    "max_volume": "324 L",
+    "deployed_item": "box_large_reinforced",
+    "examine_action": "deployed_furniture",
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "EASY_DECONSTRUCT", "HIDE_PLACE", "NO_SIGHT", "CONTAINER" ],
+    "bash": {
+      "str_min": 3,
+      "str_max": 16,
+      "sound": "crumple!",
+      "sound_fail": "thud.",
+      "items": [ { "item": "cardboard", "charges": [ 300, 360 ] } ]
     }
   },
   {
@@ -296,7 +324,7 @@
     "required_str": 14,
     "max_volume": "250 L",
     "close": "f_gunsafe_c",
-    "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "MOUNTABLE", "MINEABLE" ],
+    "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "MOUNTABLE" ],
     "bash": {
       "str_min": 40,
       "str_max": 200,
@@ -322,7 +350,7 @@
     "required_str": 14,
     "max_volume": "250 L",
     "open": "f_gunsafe_o",
-    "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE", "MINEABLE" ],
+    "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE" ],
     "bash": {
       "str_min": 40,
       "str_max": 200,
@@ -346,10 +374,11 @@
     "coverage": 30,
     "required_str": 14,
     "max_volume": "250 L",
-    "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE", "MINEABLE", "PICKABLE" ],
+    "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE", "PICKABLE" ],
     "lockpick_result": "f_gunsafe_o",
     "lockpick_message": "With a satisfying click, the lock on the gun safe door opens.",
     "examine_action": "locked_object_pickable",
+    "oxytorch": { "result": "f_safe_o", "duration": "14 seconds" },
     "bash": {
       "str_min": 40,
       "str_max": 200,
@@ -374,7 +403,8 @@
     "coverage": 30,
     "required_str": 14,
     "max_volume": "250 L",
-    "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE", "MINEABLE" ],
+    "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE" ],
+    "oxytorch": { "result": "f_safe_o", "duration": "14 seconds" },
     "bash": {
       "str_min": 40,
       "str_max": 200,
@@ -399,7 +429,8 @@
     "coverage": 30,
     "required_str": 14,
     "max_volume": "250 L",
-    "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE", "MINEABLE" ],
+    "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE" ],
+    "oxytorch": { "result": "f_safe_o", "duration": "14 seconds" },
     "examine_action": "gunsafe_el",
     "bash": {
       "str_min": 40,
@@ -424,6 +455,7 @@
     "coverage": 90,
     "required_str": 9,
     "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR" ],
+    "rotates_to": "INDOORFLOOR",
     "deconstruct": {
       "items": [
         { "item": "sheet_metal", "count": [ 1, 2 ] },
@@ -517,7 +549,14 @@
     "move_cost_mod": -1,
     "coverage": 70,
     "required_str": 8,
+    "hacksaw": {
+      "duration": "2 minutes",
+      "message": "You finish cutting the metal.",
+      "byproducts": [ { "item": "pipe", "count": [ 1, 3 ] }, { "item": "steel_chunk", "count": 1 } ]
+    },
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "PLACE_ITEM", "BLOCKSDOOR", "MOUNTABLE" ],
+    "rotates_to": "INDOORFLOOR",
+    "oxytorch": { "duration": "1 seconds", "byproducts": [ { "item": "steel_chunk", "count": [ 2, 6 ] } ] },
     "deconstruct": {
       "items": [
         { "item": "pipe", "count": [ 6, 12 ] },
@@ -527,7 +566,44 @@
     },
     "max_volume": "1750 L",
     "bash": {
-      "str_min": 6,
+      "str_min": 10,
+      "str_max": 30,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 8 ] },
+        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "sheet_metal_small", "count": [ 6, 10 ] },
+        { "item": "pipe", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_rack_l",
+    "looks_like": "f_rack",
+    "name": "locked display rack",
+    "description": "A sheet metal shelving unit, with the storage surfaces angled in such a way as to show off the items stored.  Metal fasteners with a lock hold the items securely to the rack.",
+    "symbol": "{",
+    "color": "light_gray",
+    "move_cost_mod": -1,
+    "coverage": 70,
+    "required_str": 8,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "PLACE_ITEM", "BLOCKSDOOR", "MOUNTABLE", "SEALED", "PICKABLE" ],
+    "rotates_to": "INDOORFLOOR",
+    "lockpick_result": "f_rack",
+    "lockpick_message": "With a satisfying click, the lock opens.",
+    "examine_action": "locked_object_pickable",
+    "deconstruct": {
+      "items": [
+        { "item": "pipe", "count": [ 6, 12 ] },
+        { "item": "sheet_metal", "count": [ 1, 2 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] }
+      ]
+    },
+    "max_volume": "1750 L",
+    "bash": {
+      "str_min": 10,
       "str_max": 30,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
@@ -551,6 +627,7 @@
     "required_str": 7,
     "looks_like": "f_bookcase",
     "flags": [ "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "BLOCKSDOOR", "TRANSPARENT" ],
+    "rotates_to": "INDOORFLOOR",
     "deconstruct": {
       "items": [
         { "item": "2x4", "count": 12 },
@@ -578,7 +655,9 @@
     "coverage": 30,
     "required_str": 4,
     "flags": [ "TRANSPARENT", "FLAMMABLE", "PLACE_ITEM", "BLOCKSDOOR", "MOUNTABLE" ],
-    "deconstruct": { "items": [ { "item": "nail", "charges": [ 2, 6 ] }, { "item": "2x4", "count": 2 } ] },
+    "deconstruct": {
+      "items": [ { "item": "nail", "charges": [ 2, 6 ] }, { "item": "2x4", "count": 1 }, { "item": "stick_long", "count": 1 } ]
+    },
     "max_volume": "30 L",
     "bash": {
       "str_min": 6,
@@ -620,7 +699,7 @@
     "coverage": 30,
     "required_str": 14,
     "max_volume": "250 L",
-    "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE", "MINEABLE" ],
+    "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE" ],
     "open": "f_safe_o",
     "examine_action": "open_safe",
     "bash": {
@@ -647,7 +726,8 @@
     "coverage": 30,
     "required_str": 14,
     "max_volume": "250 L",
-    "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE", "MINEABLE" ],
+    "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE" ],
+    "oxytorch": { "result": "f_safe_o", "duration": "14 seconds" },
     "examine_action": "safe",
     "bash": {
       "str_min": 40,
@@ -673,7 +753,7 @@
     "coverage": 30,
     "required_str": 14,
     "max_volume": "250 L",
-    "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "MOUNTABLE", "MINEABLE" ],
+    "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "MOUNTABLE" ],
     "close": "f_safe_c",
     "bash": {
       "str_min": 40,
@@ -704,6 +784,28 @@
       "sound": "smash!",
       "sound_fail": "whump.",
       "items": [ { "item": "plastic_chunk", "count": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_metal_trashcan",
+    "name": "metal trash can",
+    "symbol": "&",
+    "looks_like": "f_trashcan",
+    "description": "A crude metal bin typically used to dispose of waste.",
+    "//": "The constructed trash can variant, deliberately looks like the original. Does not spawn naturally, although feel free to add it to worldgen.",
+    "color": "light_cyan",
+    "move_cost_mod": 1,
+    "required_str": 5,
+    "max_volume": "20 L",
+    "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "MOUNTABLE", "SHORT" ],
+    "deconstruct": { "items": [ { "item": "sheet_metal", "count": 2 } ] },
+    "bash": {
+      "str_min": 9,
+      "str_max": 30,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [ { "item": "sheet_metal", "count": [ 1, 2 ] } ]
     }
   },
   {
@@ -747,7 +849,7 @@
     "move_cost_mod": 2,
     "coverage": 70,
     "required_str": 7,
-    "flags": [ "PLACE_ITEM", "TRANSPARENT", "CONTAINER", "BLOCKSDOOR", "MOUNTABLE" ],
+    "flags": [ "PLACE_ITEM", "TRANSPARENT", "CONTAINER", "BLOCKSDOOR", "MOUNTABLE", "NO_SELF_CONNECT" ],
     "deconstruct": {
       "items": [
         { "item": "sheet_metal", "count": [ 2, 6 ] },
@@ -879,7 +981,35 @@
     "move_cost_mod": 2,
     "coverage": 80,
     "required_str": 9,
-    "flags": [ "TRANSPARENT", "SEALED", "PLACE_ITEM" ],
+    "flags": [ "TRANSPARENT", "SEALED", "PLACE_ITEM", "PICKABLE" ],
+    "rotates_to": "INDOORFLOOR",
+    "lockpick_result": "f_displaycase_o",
+    "lockpick_message": "With a satisfying click, the lock and the display case opens",
+    "examine_action": "locked_object_pickable",
+    "bash": {
+      "str_min": 6,
+      "str_max": 20,
+      "sound": "glass breaking",
+      "sound_fail": "whack!",
+      "sound_vol": 16,
+      "sound_fail_vol": 12,
+      "furn_set": "f_displaycase_b",
+      "items": [ { "item": "glass_shard", "count": [ 25, 50 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_displaycase_o",
+    "name": "open display case",
+    "looks_like": "f_rack",
+    "description": "A secure wooden case at about waist-height, with glass panelling on the top.  Useful for storing valuable things while still showing them off.  Not actually as secure as it looks, as the display windows are easily broken.  This one has had its lock picked and is open.",
+    "symbol": "#",
+    "color": "light_cyan",
+    "move_cost_mod": 2,
+    "coverage": 80,
+    "required_str": 9,
+    "flags": [ "TRANSPARENT", "PLACE_ITEM" ],
+    "rotates_to": "INDOORFLOOR",
     "bash": {
       "str_min": 6,
       "str_max": 20,
@@ -903,12 +1033,86 @@
     "coverage": 80,
     "required_str": 9,
     "flags": [ "TRANSPARENT", "PLACE_ITEM" ],
+    "rotates_to": "INDOORFLOOR",
     "bash": {
       "str_min": 8,
       "str_max": 30,
       "sound": "crunch!",
       "sound_fail": "whump.",
       "items": [ { "item": "2x4", "count": [ 3, 6 ] }, { "item": "splinter", "count": [ 2, 4 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_fireman_cabinet",
+    "name": "fireman's cabinet",
+    "looks_like": "f_displaycase",
+    "description": "A metallic cabinet painted to stand out, visibly holding tools behind a thin panel of tempered glass.",
+    "symbol": "#",
+    "color": "light_red",
+    "move_cost_mod": -1,
+    "coverage": 80,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "SEALED", "PLACE_ITEM", "PICKABLE" ],
+    "lockpick_result": "f_fireman_cabinet_o",
+    "lockpick_message": "With a satisfying click, the lock on the cabinet opens.",
+    "examine_action": "locked_object_pickable",
+    "bash": {
+      "str_min": 6,
+      "str_max": 20,
+      "sound": "glass breaking",
+      "sound_fail": "whack!",
+      "sound_vol": 16,
+      "sound_fail_vol": 12,
+      "furn_set": "f_fireman_cabinet_b",
+      "items": [ { "item": "glass_shard", "count": [ 25, 50 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_fireman_cabinet_o",
+    "name": "unlocked fireman's cabinet",
+    "looks_like": "f_displaycase",
+    "description": "A metallic cabinet painted to stand out.  Its glass panel door was left unlocked and slightly ajar.",
+    "symbol": "#",
+    "color": "light_red",
+    "move_cost_mod": -1,
+    "coverage": 80,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "PLACE_ITEM" ],
+    "bash": {
+      "str_min": 6,
+      "str_max": 20,
+      "sound": "glass breaking",
+      "sound_fail": "whack!",
+      "sound_vol": 16,
+      "sound_fail_vol": 12,
+      "furn_set": "f_fireman_cabinet_b",
+      "items": [ { "item": "glass_shard", "count": [ 25, 50 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_fireman_cabinet_b",
+    "name": "open fireman's cabinet",
+    "looks_like": "f_displaycase_b",
+    "description": "A metallic cabinet painted to stand out.  Its protective glass panel lies broken from some past emergency or looting attempt.",
+    "symbol": "#",
+    "color": "light_red",
+    "move_cost_mod": -1,
+    "coverage": 80,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "PLACE_ITEM" ],
+    "bash": {
+      "str_min": 10,
+      "str_max": 20,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 8 ] },
+        { "item": "pipe", "count": [ 1, 3 ] },
+        { "item": "water_faucet", "prob": 50 }
+      ]
     }
   },
   {
@@ -921,7 +1125,7 @@
     "move_cost_mod": -1,
     "coverage": 90,
     "required_str": -1,
-    "flags": [ "BASHABLE", "CONTAINER", "DECONSTRUCT", "LIQUIDCONT", "NOITEM", "SEALED", "TRANSPARENT" ],
+    "flags": [ "CONTAINER", "LIQUIDCONT", "NOITEM", "SEALED", "TRANSPARENT" ],
     "deconstruct": { "items": [ { "item": "metal_tank", "count": 4 }, { "item": "water_faucet", "count": 1 } ] },
     "examine_action": "keg",
     "keg_capacity": 1200,
@@ -944,7 +1148,7 @@
     "move_cost_mod": -1,
     "coverage": 70,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "SEALED", "CONTAINER", "REDUCE_SCENT" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "SEALED", "CONTAINER", "LIQUIDCONT", "REDUCE_SCENT" ],
     "bash": {
       "str_min": 40,
       "str_max": 100,
@@ -991,7 +1195,7 @@
     "move_cost_mod": -1,
     "coverage": 70,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "SEALED", "CONTAINER", "REDUCE_SCENT" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "SEALED", "CONTAINER", "LIQUIDCONT", "REDUCE_SCENT" ],
     "bash": {
       "str_min": 40,
       "str_max": 100,
@@ -1086,7 +1290,7 @@
     "name": "riveted metal crate",
     "looks_like": "f_metal_crate_c",
     "description": "This huge box is made of a dull metal, riveted together.  There is no obvious opening mechanism, and the rivets don't match any of your tools.  The only way in would be to smash it.",
-    "//": "To-do: There should be an exodii riveting tool that can convert this to f_metal_crate_c",
+    "//": "To-do: There should be an Exodii riveting tool that can convert this to f_metal_crate_c",
     "symbol": "X",
     "color": "light_gray",
     "move_cost_mod": 5,
@@ -1119,6 +1323,12 @@
     "required_str": 12,
     "max_volume": "1000 L",
     "flags": [ "CONTAINER", "SEALED", "BLOCKSDOOR", "MOUNTABLE", "FLAT_SURF" ],
+    "prying": {
+      "result": "f_metal_crate_o",
+      "message": "You wrench open the metal crate.",
+      "byproducts": [ { "item": "sheet_metal", "count": 1 } ],
+      "prying_data": { "difficulty": 4, "prying_level": 1, "noisy": true, "failure": "The lid is sealed more tightly than you thought." }
+    },
     "bash": {
       "str_min": 30,
       "str_max": 150,

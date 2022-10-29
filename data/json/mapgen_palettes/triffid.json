@@ -3,7 +3,7 @@
     "type": "palette",
     "id": "triffid",
     "terrain": {
-      " ": "t_region_groundcover_urban",
+      " ": [ "t_region_groundcover_urban", "t_mega_fern" ],
       "#": "t_triffid_bark_wall",
       "C": "t_barkfloor",
       "~": "t_triffid_wood_wall",
@@ -11,7 +11,7 @@
       "P": "t_root_wall",
       ".": "t_root_floor",
       "D": [ "t_bramble_door_c", "t_bramble_door_o" ],
-      "*": "t_water_sh",
+      "*": "t_puddle",
       "[": "t_water_dp",
       "I": [
         "t_tree",
@@ -29,6 +29,7 @@
         "t_tree_willow",
         "t_tree_hickory",
         "t_tree_young",
+        "t_mega_fern",
         "t_underbrush",
         "t_shrub"
       ]

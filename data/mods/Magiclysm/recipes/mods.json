@@ -11,7 +11,7 @@
     "time": "2 m 36 s",
     "book_learn": [ [ "techno_basic", 4 ] ],
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 } ],
-    "tools": [ [ [ "rune_technomancer", -1 ], [ "rune_technomancer_weapon", -1 ] ] ],
+    "tools": [ [ [ "rune_technomancer", -1 ], [ "rune_technomancer_weapon", -1 ], [ "rune_technomancer_weapon_adept", -1 ] ] ],
     "components": [ [ [ "filter_liquid", 1 ], [ "muffler", 1 ] ], [ [ "pipe", 1 ] ], [ [ "scrap", 2 ] ], [ [ "glow_dust", 1 ] ] ]
   },
   {
@@ -27,7 +27,14 @@
     "book_learn": [ [ "techno_basic", 5 ] ],
     "using": [ [ "soldering_standard", 20 ], [ "surface_heat", 20 ], [ "plastic_molding", 2 ] ],
     "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "CHEM", "level": 2 }, { "id": "MANA_INFUSE", "level": 1 } ],
-    "tools": [ [ [ "rune_alchemist", -1 ], [ "rune_technomancer", -1 ], [ "rune_technomancer_weapon", -1 ] ] ],
+    "tools": [
+      [
+        [ "rune_alchemist", -1 ],
+        [ "rune_technomancer", -1 ],
+        [ "rune_technomancer_weapon", -1 ],
+        [ "rune_technomancer_weapon_adept", -1 ]
+      ]
+    ],
     "components": [
       [ [ "plastic_chunk", 2 ] ],
       [ [ "amplifier", 1 ] ],
@@ -54,7 +61,14 @@
     "book_learn": [ [ "techno_basic", 4 ] ],
     "using": [ [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "MANA_INFUSE", "level": 1 } ],
-    "tools": [ [ [ "rune_technomancer", -1 ], [ "rune_technomancer_weapon", -1 ], [ "rune_alchemist", -1 ] ] ],
+    "tools": [
+      [
+        [ "rune_technomancer", -1 ],
+        [ "rune_technomancer_weapon", -1 ],
+        [ "rune_technomancer_weapon_adept", -1 ],
+        [ "rune_alchemist", -1 ]
+      ]
+    ],
     "components": [
       [ [ "amplifier", 1 ] ],
       [ [ "power_supply", 1 ] ],

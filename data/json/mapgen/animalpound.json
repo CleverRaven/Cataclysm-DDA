@@ -2,29 +2,28 @@
   {
     "name": "GROUP_ANIMALPOUND_CATS",
     "type": "monstergroup",
-    "default": "mon_null",
     "monsters": [
-      { "monster": "mon_cat", "freq": 100, "cost_multiplier": 0 },
-      { "monster": "mon_cat_tabby", "freq": 100, "cost_multiplier": 0 },
-      { "monster": "mon_cat_longhair", "freq": 100, "cost_multiplier": 0 },
-      { "monster": "mon_cat_siamese", "freq": 50, "cost_multiplier": 0 },
-      { "monster": "mon_cat_persian", "freq": 50, "cost_multiplier": 0 },
-      { "monster": "mon_cat_chonker", "freq": 20, "cost_multiplier": 0 }
+      { "monster": "mon_null", "weight": 580 },
+      { "monster": "mon_cat", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_cat_tabby", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_cat_longhair", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_cat_siamese", "weight": 50, "cost_multiplier": 0 },
+      { "monster": "mon_cat_persian", "weight": 50, "cost_multiplier": 0 },
+      { "monster": "mon_cat_chonker", "weight": 20, "cost_multiplier": 0 }
     ]
   },
   {
     "name": "GROUP_ANIMALPOUND_DOGS",
     "type": "monstergroup",
-    "default": "mon_dog_zombie_rot",
     "monsters": [
-      { "monster": "mon_zombie_dog", "freq": 250, "cost_multiplier": 0 },
-      { "monster": "mon_dog_zombie_rot", "freq": 175, "cost_multiplier": 0 },
-      { "monster": "mon_dog", "freq": 75, "cost_multiplier": 0 },
-      { "monster": "mon_dog_bull", "freq": 75, "cost_multiplier": 0 },
-      { "monster": "mon_dog_pitbullmix", "freq": 100, "cost_multiplier": 0 },
-      { "monster": "mon_dog_chihuahua", "freq": 75, "cost_multiplier": 0 },
-      { "monster": "mon_dog_gshepherd", "freq": 35, "cost_multiplier": 0 },
-      { "monster": "mon_dog_samoyed", "freq": 15, "cost_multiplier": 0 }
+      { "monster": "mon_zombie_dog", "weight": 250, "cost_multiplier": 0 },
+      { "monster": "mon_dog_zombie_rot", "weight": 375, "cost_multiplier": 0 },
+      { "monster": "mon_dog", "weight": 75, "cost_multiplier": 0 },
+      { "monster": "mon_dog_bull", "weight": 75, "cost_multiplier": 0 },
+      { "monster": "mon_dog_pitbullmix", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_dog_chihuahua", "weight": 75, "cost_multiplier": 0 },
+      { "monster": "mon_dog_gshepherd", "weight": 35, "cost_multiplier": 0 },
+      { "monster": "mon_dog_samoyed", "weight": 15, "cost_multiplier": 0 }
     ]
   },
   {

@@ -27,6 +27,13 @@
   },
   {
     "type": "GENERIC",
+    "id": "foldxlframe",
+    "name": { "str": "foldable extra-light frame" },
+    "description": "A small foldable lightweight frame made from aluminum.",
+    "copy-from": "xlframe"
+  },
+  {
+    "type": "GENERIC",
     "id": "frame",
     "name": { "str": "steel frame" },
     "description": "A large frame made of steel.  Useful for crafting.",
@@ -42,12 +49,12 @@
   {
     "type": "GENERIC",
     "id": "hdframe",
-    "name": { "str": "heavy duty frame" },
+    "name": { "str": "heavy-duty frame" },
     "description": "A large, reinforced steel frame, used in military vehicle construction.",
     "weight": "100000 g",
     "to_hit": -6,
     "color": "green",
-    "material": [ "hardsteel", "steel" ],
+    "material": [ "qt_steel", "steel" ],
     "volume": "20 L",
     "bashing": 25,
     "price": 12000,

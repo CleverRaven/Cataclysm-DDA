@@ -14,7 +14,12 @@
     "type": "item_group",
     "id": "NC_BOUNTY_HUNTER_shoes",
     "subtype": "distribution",
-    "entries": [ { "item": "sneakers", "prob": 20 }, { "item": "boots", "prob": 20 }, { "item": "boots_steel", "prob": 40 } ]
+    "entries": [
+      { "item": "sneakers", "prob": 20 },
+      { "item": "boots", "prob": 20 },
+      { "item": "boots_steel", "prob": 40 },
+      { "item": "sneakers_steel", "prob": 28 }
+    ]
   },
   {
     "type": "item_group",

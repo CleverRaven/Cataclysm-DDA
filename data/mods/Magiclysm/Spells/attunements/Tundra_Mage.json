@@ -28,7 +28,7 @@
     "type": "SPELL",
     "id": "cold_snap_freeze",
     "name": "Cold Snap Freeze",
-    "description": "Freezes the target monster in place",
+    "description": "Freezes the target monster in place.",
     "effect": "mod_moves",
     "shape": "blast",
     "max_level": 35,

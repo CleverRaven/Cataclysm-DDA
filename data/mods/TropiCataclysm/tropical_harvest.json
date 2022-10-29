@@ -1,0 +1,105 @@
+[
+  {
+    "id": "null",
+    "type": "harvest",
+    "entries": [  ]
+  },
+  {
+    "id": "exempt",
+    "type": "harvest",
+    "entries": [  ]
+  },
+  {
+    "id": "mango_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "mango", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ]
+  },
+  {
+    "id": "papaya_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "papaya", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ]
+  },
+  {
+    "id": "pomegranate_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "pomegranate", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ]
+  },
+  {
+    "id": "melon_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "melon", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ]
+  },
+  {
+    "id": "kiwi_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "kiwi", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ]
+  },
+  {
+    "id": "coconut_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "coconut", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ]
+  },
+  {
+    "id": "pineapple_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "pineapple", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ]
+  },
+  {
+    "id": "banana_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "banana", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ]
+  },
+  {
+    "id": "orange_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "orange", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ]
+  },
+  {
+    "id": "lemon_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "lemon", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ]
+  },
+  {
+    "id": "grapefruit_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "grapefruit", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ]
+  },
+  {
+    "id": "watermelon_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "watermelon", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ]
+  },
+  {
+    "id": "cactus_harv",
+    "type": "harvest",
+    "entries": [
+      { "drop": "cholla_bud", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] },
+      { "drop": "cactus_pad", "base_num": [ 1, 2 ], "scale_num": [ 0, 0.5 ] }
+    ]
+  },
+  {
+    "id": "fungus_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "fungus_mutated", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ]
+  },
+  {
+    "id": "echinoderm",
+    "//": "no bones or organs, copied from meatslug",
+    "type": "harvest",
+    "entries": [
+      { "drop": "echinoderm", "type": "flesh", "mass_ratio": 0.4 },
+      { "drop": "fat", "type": "flesh", "mass_ratio": 0.1 },
+      { "drop": "fat", "type": "offal", "mass_ratio": 0.1 }
+    ]
+  },
+  {
+    "id": "cnidarian",
+    "//": "no bones or organs, copied from meatslug",
+    "type": "harvest",
+    "entries": [
+      { "drop": "cnidarian", "type": "flesh", "mass_ratio": 0.4 },
+      { "drop": "fat", "type": "flesh", "mass_ratio": 0.1 },
+      { "drop": "fat", "type": "offal", "mass_ratio": 0.1 }
+    ]
+  }
+]

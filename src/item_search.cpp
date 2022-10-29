@@ -5,7 +5,6 @@
 
 #include "avatar.h"
 #include "cata_utility.h"
-#include "game.h"
 #include "item.h"
 #include "item_category.h"
 #include "material.h"
@@ -34,8 +33,8 @@ std::function<bool( const item & )> basic_item_filter( std::string filter )
         case 'm':
             return [filter]( const item & i ) {
                 return std::any_of( i.made_of().begin(), i.made_of().end(),
-                [&filter]( const material_id & mat ) {
-                    return lcmatch( mat->name(), filter );
+                [&filter]( const std::pair<material_id, int> &mat ) {
+                    return lcmatch( mat.first->name(), filter );
                 } );
             };
         // qualities
@@ -81,7 +80,7 @@ std::function<bool( const item & )> basic_item_filter( std::string filter )
         // by name
         default:
             return [filter]( const item & a ) {
-                return lcmatch( a.tname(), filter );
+                return lcmatch( remove_color_tags( a.tname() ), filter );
             };
     }
 }
@@ -94,6 +93,6 @@ std::function<bool( const item & )> item_filter_from_string( const std::string &
 std::pair<std::string, std::string> get_both( const std::string &a )
 {
     size_t split_mark = a.find( ';' );
-    return std::make_pair( a.substr( 0, split_mark - 1 ),
+    return std::make_pair( a.substr( 0, split_mark ),
                            a.substr( split_mark + 1 ) );
 }

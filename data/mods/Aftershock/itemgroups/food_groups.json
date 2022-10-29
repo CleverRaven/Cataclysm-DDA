@@ -1,6 +1,18 @@
 [
   {
     "type": "item_group",
+    "id": "afs_cheap_food",
+    "items": [
+      [ "afs_h2o", 90 ],
+      [ "afs_food_cube", 50 ],
+      [ "afs_cee_wafers", 50 ],
+      [ "afs_beefsim", 50 ],
+      [ "afs_soup_27", 50 ],
+      [ "afs_caffex", 50 ]
+    ]
+  },
+  {
+    "type": "item_group",
     "subtype": "collection",
     "id": "afs_mealgrub_procesing",
     "entries": [

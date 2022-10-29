@@ -1,0 +1,132 @@
+[
+  {
+    "type": "weapon_category",
+    "id": "AUTOMATIC_RIFLES",
+    "name": "AUTOMATIC RIFLES"
+  },
+  {
+    "type": "weapon_category",
+    "id": "AUTOMATIC_PISTOLS",
+    "name": "AUTOMATIC PISTOLS"
+  },
+  {
+    "type": "weapon_category",
+    "id": "KNIVES",
+    "name": "KNIVES"
+  },
+  {
+    "type": "weapon_category",
+    "id": "BATONS",
+    "name": "BATONS"
+  },
+  {
+    "type": "weapon_category",
+    "id": "FLAILS",
+    "name": "FLAILS"
+  },
+  {
+    "type": "weapon_category",
+    "id": "MACES",
+    "name": "MACES"
+  },
+  {
+    "type": "weapon_category",
+    "id": "MEDIUM_SWORDS",
+    "name": "MEDIUM SWORDS"
+  },
+  {
+    "type": "weapon_category",
+    "id": "LONG_SWORDS",
+    "name": "LONG SWORDS"
+  },
+  {
+    "type": "weapon_category",
+    "id": "SHORT_SWORDS",
+    "name": "SHORT SWORDS"
+  },
+  {
+    "type": "weapon_category",
+    "id": "QUARTERSTAVES",
+    "name": "QUARTERSTAVES"
+  },
+  {
+    "type": "weapon_category",
+    "id": "BLADED_FARMING",
+    "name": "BLADED FARMING"
+  },
+  {
+    "type": "weapon_category",
+    "id": "CLAWS",
+    "name": "CLAWS"
+  },
+  {
+    "type": "weapon_category",
+    "id": "SHIVS",
+    "name": "SHIVS"
+  },
+  {
+    "type": "weapon_category",
+    "id": "HOOKING_WEAPONRY",
+    "name": "HOOKING WEAPONRY"
+  },
+  {
+    "type": "weapon_category",
+    "id": "SPEARS",
+    "name": "SPEARS"
+  },
+  {
+    "type": "weapon_category",
+    "id": "POLEARMS",
+    "name": "POLEARMS"
+  },
+  {
+    "type": "weapon_category",
+    "id": "FENCING_WEAPONRY",
+    "name": "FENCING WEAPONRY"
+  },
+  {
+    "type": "weapon_category",
+    "id": "BIONIC_WEAPONRY",
+    "name": "BIONIC WEAPONRY"
+  },
+  {
+    "type": "weapon_category",
+    "id": "BIONIC_SWORDS",
+    "name": "BIONIC SWORDS"
+  },
+  {
+    "type": "weapon_category",
+    "id": "MEDIEVAL_SWORDS",
+    "name": "MEDIEVAL SWORDS"
+  },
+  {
+    "type": "weapon_category",
+    "id": "CONSTRUCTED_SWORDS",
+    "name": "CONSTRUCTED SWORDS"
+  },
+  {
+    "type": "weapon_category",
+    "id": "JAPANESE_SWORDS",
+    "name": "JAPANESE SWORDS"
+  },
+  {
+    "type": "weapon_category",
+    "id": "GREAT_SWORDS",
+    "name": "GREAT SWORDS"
+  },
+  {
+    "type": "weapon_category",
+    "id": "GREAT_HAMMERS",
+    "name": "GREAT HAMMERS"
+  },
+  {
+    "type": "weapon_category",
+    "id": "GREAT_AXES",
+    "name": "GREAT AXES"
+  },
+  {
+    "type": "weapon_category",
+    "id": "HAND_AXES",
+    "name": "HAND AXES"
+  }
+]

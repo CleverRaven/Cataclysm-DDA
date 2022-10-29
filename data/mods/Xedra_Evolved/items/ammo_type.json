@@ -1,0 +1,26 @@
+[
+  {
+    "type": "ammunition_type",
+    "id": "aetheric_charge",
+    "name": "aetheric_charge",
+    "default": "aetheric_charge"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "fae_blood",
+    "name": "fae blood",
+    "default": "fae_blood"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "9x21mm",
+    "name": "9x21mm",
+    "default": "9x21mm"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "throwing_knives",
+    "name": "throwing knives",
+    "default": "throwing_knives"
+  }
+]

@@ -19,7 +19,7 @@
   {
     "type": "effect_type",
     "id": "npc_suspend",
-    "name": [ "npc_suspend" ],
+    "name": [ "Suspended NPC" ],
     "desc": [ "AI tag for when an NPC needs to be rebooted after an infinite loop." ]
   },
   {
@@ -67,7 +67,7 @@
   {
     "type": "effect_type",
     "id": "no_ammo",
-    "name": [ "No ammo" ],
+    "name": [ "No Ammo" ],
     "desc": [ "AI tag used to stop a monster reviving with ammo.  This is a bug if you have it." ]
   },
   {
@@ -85,19 +85,19 @@
   {
     "type": "effect_type",
     "id": "asked_to_train",
-    "name": [ "Asked to Train" ],
-    "desc": [ "AI tag for asking to NPCs to train you.  This is a bug if you have it." ]
+    "name": [ "Recently trained" ],
+    "desc": [ "You recently finished a training session and need a mental break before teaching again." ]
   },
   {
     "type": "effect_type",
     "id": "asked_to_socialize",
-    "name": [ "Asked to socialize" ],
+    "name": [ "Asked to Socialize" ],
     "desc": [ "AI tag: for having recently asked an NPC to socialize.  This is a bug if you have it." ]
   },
   {
     "type": "effect_type",
     "id": "asked_to_hint",
-    "name": [ "Asked to hint" ],
+    "name": [ "Asked to Hint" ],
     "desc": [ "AI tag: for having recently asked an NPC to give a hint.  This is a bug if you have it." ]
   },
   {
@@ -147,27 +147,27 @@
   {
     "type": "effect_type",
     "id": "npc_run_away",
-    "name": [ "Running away!" ],
+    "name": [ "Running Away" ],
     "desc": [ "AI tag to enable NPCs to flee.  This is a bug if you have it." ]
   },
   {
     "type": "effect_type",
     "id": "npc_flee_player",
-    "name": [ "Running away!" ],
+    "name": [ "Running Away" ],
     "desc": [ "AI tag to enable NPCs to flee the player.  This is a bug if you have it." ]
   },
   {
     "type": "effect_type",
     "id": "npc_fire_bad",
-    "name": [ "Avoiding a fire!" ],
+    "name": [ "Avoiding a Fire" ],
     "desc": [ "AI tag to enable NPCs to escape uncontrolled fires.  This is a bug if you have it." ]
   },
   {
     "type": "effect_type",
     "id": "npc_player_still_looking",
-    "name": [ "Waiting for you to find something" ],
+    "name": [ "Waiting till You Find Something" ],
     "desc": [
-      "AI tag to prevent NPCs from following the player while the player is finding an additonal copy of an item.  This is a bug if you have it."
+      "AI tag to prevent NPCs from following the player while the player is finding an additional copy of an item.  This is a bug if you have it."
     ]
   },
   {
@@ -215,6 +215,18 @@
   },
   {
     "type": "effect_type",
+    "id": "leashed",
+    "name": [ "Has Leash" ],
+    "desc": [ "AI tag used for critters wearing a leash.  This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "led_by_leash",
+    "name": [ "Being Led by Leash" ],
+    "desc": [ "AI tag used for critters forced to follow using a leash.  This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
     "id": "tied",
     "name": [ "Tied Up" ],
     "desc": [ "AI tag used for tied up critters.  This is a bug if you have it." ]
@@ -229,7 +241,7 @@
   {
     "type": "effect_type",
     "id": "targeted",
-    "name": [ "Turret is Targeted" ],
+    "name": [ "Turret Is Targeted" ],
     "desc": [ "AI tag used for turret targeting sounds.  This is a bug if you have it." ]
   },
   {
@@ -240,9 +252,26 @@
   },
   {
     "type": "effect_type",
+    "id": "frenzy",
+    "name": [ "Frenzied" ],
+    "desc": [ "Monster effect used to buff allies.  This is a bug if you have it." ],
+    "max_intensity": 5,
+    "int_add_val": 1,
+    "max_duration": "15 m",
+    "base_mods": { "speed_mod": [ 10 ], "hit_mod": [ 1 ], "dodge_mod": [ 1 ] },
+    "scaling_mods": { "speed_mod": [ 10 ], "hit_mod": [ 1 ], "dodge_mod": [ 0.5 ] }
+  },
+  {
+    "type": "effect_type",
     "id": "pushed",
     "name": [ "Pushed" ],
     "desc": [ "AI tag used for monsters pushing each other.  This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "worked_on",
+    "name": [ "Worked On" ],
+    "desc": [ "AI tag used for robots being disabled.  This is a bug if you have it." ]
   },
   {
     "type": "effect_type",
@@ -265,9 +294,57 @@
   {
     "type": "effect_type",
     "id": "dripping_mechanical_fluid",
-    "name": [ "Mechanical fluid dripping" ],
+    "name": [ "Mechanical Fluid Dripping" ],
     "desc": [ "AI tag used for robot monsters losing mechanical fluid.  This is a bug if you have it." ],
     "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "staggered",
+    "name": [ "Staggered" ],
+    "//": "Mainly for monsters",
+    "desc": [ "You've been knocked off-balance by an attack." ],
+    "apply_message": "You're staggered off-balance.",
+    "base_mods": { "speed_mod": [ -20 ] },
+    "removes_effects": [ "grabbing" ],
+    "rating": "bad",
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "maimed_armor",
+    "name": [ "Cracked Shell" ],
+    "//": "Exposes certain weakpoints",
+    "desc": [ "You feel exposed -and pretty buggy- without your shell." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "maimed_mandible",
+    "name": [ "Maimed Mandibles" ],
+    "//": "Given by weakpoints, used to disable bites if specified in the bite def",
+    "desc": [ "Your mandibles are unusable.  What, you don't have mandibles?  Then it must be a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "maimed_leg",
+    "name": [ "Maimed Legs" ],
+    "desc": [ "Your bugged legs are maimed beyond recognition.  How will you leap now?" ],
+    "base_mods": { "speed_mod": [ -20 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "maimed_stinger",
+    "name": [ "Maimed Stinger" ],
+    "//": "Same as maimed_mandible, no effect unless specified in the attack's definition",
+    "desc": [ "Your beautiful stinger is broken!  That must be a bug, right?" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "maimed_wings",
+    "name": [ "Maimed Wings" ],
+    "//": "Hardcoded effect handled by monster::flies via effect flag",
+    "desc": [ "Your wings are useless, robbing you of unlimited flight." ],
+    "flags": [ "DISABLE_FLIGHT" ]
   },
   {
     "//": "ACTUAL PLAYER EFFECTS START HERE",
@@ -277,7 +354,9 @@
     "desc": [ "You're knocked to the ground.  You have to get up before you can move." ],
     "apply_message": "You're knocked to the floor!",
     "rating": "bad",
-    "show_in_info": true
+    "resist_traits": [ "GASTROPOD_FOOT" ],
+    "show_in_info": true,
+    "flags": [ "DISABLE_FLIGHT" ]
   },
   {
     "type": "effect_type",
@@ -289,13 +368,13 @@
   {
     "type": "effect_type",
     "id": "masked_scent",
-    "name": [ "Masked scent" ],
+    "name": [ "Masked Scent" ],
     "desc": [ "Your scent is masked by another one." ]
   },
   {
     "type": "effect_type",
     "id": "got_checked",
-    "name": [ "Got a check-up" ],
+    "name": [ "Got a Check-up" ],
     "desc": [ "Your received a complete check-up and are now aware of the state of your health." ]
   },
   {
@@ -338,7 +417,8 @@
     "desc": [ "Your movement is randomized." ],
     "apply_message": "You're stunned!",
     "rating": "bad",
-    "show_in_info": true
+    "show_in_info": true,
+    "flags": [ "DISABLE_FLIGHT" ]
   },
   {
     "type": "effect_type",
@@ -388,9 +468,10 @@
   {
     "type": "effect_type",
     "id": "bouldering",
-    "name": [ "Unstable footing" ],
+    "name": [ "Unstable Footing" ],
     "desc": [ "Your footing is unstable.  It's more difficult to fight while standing here." ],
     "apply_message": "You try to keep your balance.",
+    "resist_traits": [ "GASTROPOD_BALANCE" ],
     "rating": "bad"
   },
   {
@@ -402,19 +483,20 @@
     "apply_message": "You're blinded!",
     "remove_message": "Your sight returns!",
     "rating": "bad",
-    "show_in_info": true
+    "show_in_info": true,
+    "flags": [ "BLIND" ]
   },
   {
     "type": "effect_type",
     "id": "earphones",
-    "name": [ "Wearing earphones" ],
+    "name": [ "Wearing Earphones" ],
     "desc": [ "You are wearing earphones and can't hear much from outside world." ],
     "rating": "bad"
   },
   {
     "type": "effect_type",
     "id": "deaf",
-    "name": [ "Impaired hearing", "Ringing ears", "Deaf" ],
+    "name": [ "Impaired Hearing", "Ringing Ears", "Deaf" ],
     "desc": [
       "Your hearing is impaired.",
       "You can barely hear anything and your ears hurt.",
@@ -497,7 +579,7 @@
   {
     "type": "effect_type",
     "id": "tpollen",
-    "name": [ "Hard of Breath" ],
+    "name": [ "Short of Breath" ],
     "desc": [ "The pollen makes it hard to breathe!" ],
     "miss_messages": [ [ "You cough out pollen.", 1 ] ],
     "rating": "bad",
@@ -603,9 +685,25 @@
     "int_add_val": 1,
     "int_decay_step": -1,
     "int_decay_tick": 90,
+    "int_decay_remove": true,
     "resist_traits": [ "ELFA_NV" ],
     "base_mods": { "per_mod": [ -3, 0 ] },
     "scaling_mods": { "per_mod": [ -2, -1 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "venom_pain",
+    "name": [ "Distracting Wound", "Painful Wound", "Searing Wound" ],
+    "desc": [ "The wound throbs with sharp pain." ],
+    "apply_message": "A dull pain starts spreading from the wound!",
+    "max_intensity": 6,
+    "int_add_val": 1,
+    "int_decay_step": -1,
+    "int_decay_tick": 100,
+    "int_decay_remove": true,
+    "resist_traits": [ "PAINRESIST" ],
+    "base_mods": { "pain_amount": [ 10, 2 ], "pain_min": [ 5, 1 ], "pain_chance": [ 10, 20 ], "pain_tick": [ 5 ] },
+    "scaling_mods": { "pain_min": [ 5, 1 ], "pain_chance": [ -1, 0 ] }
   },
   {
     "type": "effect_type",
@@ -615,7 +713,7 @@
     "//": "In formal usage, 'nauseous' technically means 'to cause nausea [in others],' not 'feeling sick.'",
     "miss_messages": [ [ "Your stomach bothers you.", 1 ] ],
     "rating": "bad",
-    "resist_traits": [ "POISRESIST" ],
+    "resist_traits": [ "POISRESIST", "VOMITSTOMACH" ],
     "base_mods": {
       "per_mod": [ -1 ],
       "dex_mod": [ -1 ],
@@ -667,14 +765,14 @@
   {
     "type": "effect_type",
     "id": "nausea",
-    "name": [ "Nausea" ],
-    "desc": [ "You feel nauseated.  Even a thought of food makes you feel sick." ],
-    "remove_message": "You no longer feel nauseated.",
+    "name": [ "Slightly Nauseous", "Mildly Nauseous", "Nauseous", "Very Nauseous", "Extremely Nauseous" ],
+    "desc": [ "You are nauseous and may lead to vomiting." ],
+    "remove_message": "You no longer feel nauseous.",
     "rating": "bad",
-    "int_dur_factor": "5 m",
-    "max_intensity": 3,
+    "int_dur_factor": "3 m",
+    "max_intensity": 5,
     "max_duration": "15 m",
-    "base_mods": { "vomit_chance": [ 60 ] }
+    "base_mods": { "vomit_chance": [ 500 ] }
   },
   {
     "type": "effect_type",
@@ -701,8 +799,759 @@
   },
   {
     "type": "effect_type",
+    "id": "mutagen",
+    "name": [ "Changing", "Warping", "Mutagen Overdose" ],
+    "desc": [
+      "You consumed mutagen.  It was probably a good idea.",
+      "You can feel your insides shifting.  It feels… nice.",
+      "Your innards churn in an unnatural fashion - if you survive this, you'll be a changed… something."
+    ],
+    "main_parts_only": true,
+    "max_intensity": 3,
+    "resist_traits": [ "MUT_JUNKIE" ],
+    "base_mods": { "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_chance": [ -22 ], "hurt_tick": [ 30 ] },
+    "scaling_mods": { "hurt_chance": [ 21, 0 ] },
+    "rating": "bad",
+    "remove_message": "Your body is starting to feel normal again.",
+    "blood_analysis_description": "Mutagen Contamination"
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagenic_slurry",
+    "name": [ "Mutagenic Slurry" ],
+    "desc": [ "Your stomach feels like it's burning.  Hopefully that was a good idea…" ],
+    "main_parts_only": true,
+    "resist_traits": [ "MUT_JUNKIE" ],
+    "base_mods": { "pain_min": [ 1 ], "pain_chance": [ 300, 900 ], "vomit_chance": [ 600, 1200 ] },
+    "rating": "bad",
+    "apply_message": "You feel awful!",
+    "remove_message": "You're feeling a little better now.",
+    "blood_analysis_description": "Mutagenic Toxins Contamination"
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_chelator",
+    "name": [ "Mutagen Chelator" ],
+    "desc": [ "You took a dose of chelator.  Any mutagenic drugs in your body are being purged." ],
+    "main_parts_only": true,
+    "blood_analysis_description": "Mutagen Chelator Contamination"
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_alpha",
+    "name": [ "Alpha Mutation", "Alpha Transformation", "Alpha Metamorphosis" ],
+    "desc": [
+      "You consumed alpha primer.",
+      "You feel better.  So much better.",
+      "The world needs you, surely this won't kill you.  It better not."
+    ],
+    "main_parts_only": true,
+    "max_intensity": 3,
+    "resist_traits": [ "THRESH_ALPHA" ],
+    "base_mods": {
+      "vomit_chance": [ 1150 ],
+      "vomit_tick": [ 120 ],
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_chance": [ 500 ],
+      "hurt_tick": [ 150 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 90 ],
+      "pain_tick": [ 50 ]
+    },
+    "scaling_mods": {
+      "vomit_chance": [ -450 ],
+      "str_mod": [ 1 ],
+      "per_mod": [ 1 ],
+      "dex_mod": [ 1 ],
+      "int_mod": [ 1 ],
+      "hurt_chance": [ -240, -50 ],
+      "hurt_tick": [ -25 ],
+      "pain_chance": [ -30 ]
+    },
+    "rating": "bad",
+    "blood_analysis_description": "Alpha Primer Contamination"
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_batrachian",
+    "name": [ "Frog Mutation", "Frog Transformation", "Frog Metamorphosis" ],
+    "desc": [
+      "You consumed frog primer.",
+      "Now, to find a quiet pond and settle for the wait…",
+      "You feel like you're about to croak… if you don't keel over first."
+    ],
+    "max_intensity": 3,
+    "resist_traits": [ "THRESH_BATRACHIAN" ],
+    "base_mods": {
+      "vomit_chance": [ 900 ],
+      "vomit_tick": [ 90 ],
+      "thirst_min": [ 1 ],
+      "thirst_max": [ 2 ],
+      "thirst_tick": [ 1000 ],
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 150 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 100 ],
+      "pain_tick": [ 75 ]
+    },
+    "scaling_mods": {
+      "vomit_chance": [ -425 ],
+      "thirst_tick": [ -400 ],
+      "speed_mod": [ 3 ],
+      "per_mod": [ 1.5 ],
+      "hurt_chance": [ 21, 0 ],
+      "pain_chance": [ -30 ]
+    },
+    "rating": "bad",
+    "blood_analysis_description": "Frog Primer Contamination"
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_beast",
+    "name": [ "Beast Mutation", "Beast Transformation", "Beast Metamorphosis" ],
+    "desc": [
+      "You consumed beast primer.",
+      "There must be prey around.  Stay alert.",
+      "Primal instincts overwhelm your mind, and your saliva has turned to froth."
+    ],
+    "max_intensity": 3,
+    "resist_traits": [ "THRESH_BEAST" ],
+    "base_mods": {
+      "hunger_min": [ 1 ],
+      "hunger_max": [ 2 ],
+      "hunger_tick": [ 500 ],
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 150 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 100 ],
+      "pain_tick": [ 75 ]
+    },
+    "scaling_mods": {
+      "hunger_tick": [ -200 ],
+      "str_mod": [ 1 ],
+      "per_mod": [ 1 ],
+      "dex_mod": [ 1 ],
+      "int_mod": [ -2.5 ],
+      "hurt_chance": [ 21, 0 ],
+      "pain_chance": [ -30 ]
+    },
+    "rating": "bad",
+    "blood_analysis_description": "Beast Primer Contamination"
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_bird",
+    "name": [ "Bird Mutation", "Bird Transformation", "Bird Metamorphosis" ],
+    "desc": [
+      "You consumed bird primer.",
+      "You feel the pull of the skies.",
+      "Goosebumps stand across your entire body.  You keep feeling that you're falling."
+    ],
+    "max_intensity": 3,
+    "resist_traits": [ "THRESH_BIRD" ],
+    "base_mods": {
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 150 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 100 ],
+      "pain_tick": [ 75 ]
+    },
+    "scaling_mods": { "str_mod": [ -2 ], "per_mod": [ 1.5 ], "speed_mod": [ 3.5 ], "hurt_chance": [ 21, 0 ], "pain_chance": [ -30 ] },
+    "rating": "bad",
+    "blood_analysis_description": "Bird Primer Contamination"
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_cattle",
+    "name": [ "Cattle Mutation", "Cattle Transformation", "Cattle Metamorphosis" ],
+    "desc": [
+      "You consumed cattle primer.",
+      "This pasture will grow barren soon.  Keep moving.",
+      "Dull fog clouds your mind, and you feel close to vomiting."
+    ],
+    "max_intensity": 3,
+    "resist_traits": [ "THRESH_CATTLE" ],
+    "base_mods": {
+      "vomit_chance": [ 1200 ],
+      "vomit_tick": [ 90 ],
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 150 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 150 ],
+      "pain_tick": [ 75 ]
+    },
+    "scaling_mods": {
+      "vomit_chance": [ -450 ],
+      "str_mod": [ 2.5 ],
+      "dex_mod": [ -1 ],
+      "int_mod": [ -1.5 ],
+      "hurt_chance": [ 21, 0 ],
+      "pain_chance": [ -5 ]
+    },
+    "rating": "bad",
+    "blood_analysis_description": "Cattle Primer Contamination"
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_cephalopod",
+    "name": [ "Cephalopod Mutation", "Cephalopod Transformation", "Cephalopod Metamorphosis" ],
+    "desc": [
+      "You consumed cephalopod primer.",
+      "Become one with your surroundings.",
+      "Your skin crawls and your extremities twitch and jerk."
+    ],
+    "max_intensity": 3,
+    "resist_traits": [ "THRESH_CEPHALOPOD" ],
+    "base_mods": {
+      "thirst_min": [ 1 ],
+      "thirst_max": [ 2 ],
+      "thirst_tick": [ 1000 ],
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 150 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 40 ],
+      "pain_tick": [ 75 ]
+    },
+    "scaling_mods": { "thirst_tick": [ -400 ], "int_mod": [ 2.5 ], "hurt_chance": [ 21, 0 ], "pain_chance": [ -30 ] },
+    "rating": "bad",
+    "blood_analysis_description": "Cephalopod Primer Contamination"
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_chimera",
+    "name": [ "Chimera Mutation", "Chimera Transformation", "Chimera Metamorphosis" ],
+    "desc": [
+      "You consumed chimera primer.  Why?",
+      "Your flesh is the clay of the new world.  You'll overcome all challenges.",
+      "Your body heaving and changing is a rough time, but what doesn't kill you makes you stronger."
+    ],
+    "max_intensity": 3,
+    "resist_traits": [ "THRESH_CHIMERA" ],
+    "base_mods": {
+      "hunger_min": [ 1 ],
+      "hunger_max": [ 3 ],
+      "hunger_tick": [ 300 ],
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 150 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 100 ],
+      "pain_tick": [ 75 ]
+    },
+    "scaling_mods": { "hunger_tick": [ -120 ], "str_mod": [ 2.5 ], "int_mod": [ -2 ], "hurt_chance": [ 21, 0 ], "pain_chance": [ -30 ] },
+    "rating": "bad",
+    "blood_analysis_description": "Chimera Primer Contamination"
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_elfa",
+    "name": [ "Elf-A Mutation", "Elf-A Transformation", "Elf-A Metamorphosis" ],
+    "desc": [
+      "You consumed Elf-A primer.",
+      "You must look after this world, if noone else will.",
+      "You see stars.  You see so many stars."
+    ],
+    "max_intensity": 3,
+    "resist_traits": [ "THRESH_ELFA" ],
+    "base_mods": {
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 20 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 50 ],
+      "pain_tick": [ 75 ]
+    },
+    "scaling_mods": { "per_mod": [ 2.5 ], "int_mod": [ 1 ], "hurt_chance": [ 21, 0 ], "pain_chance": [ -15 ] },
+    "rating": "bad",
+    "blood_analysis_description": "Elf-A Primer Contamination"
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_feline",
+    "name": [ "Feline Mutation", "Feline Transformation", "Feline Metamorphosis" ],
+    "desc": [
+      "You consumed feline primer.",
+      "Quiet steps and sharp claws.  They'll never see it coming.",
+      "If this overdose kills you, you've got a few more lives… right?"
+    ],
+    "max_intensity": 3,
+    "resist_traits": [ "THRESH_FELINE" ],
+    "base_mods": {
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 150 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 100 ],
+      "pain_tick": [ 75 ]
+    },
+    "scaling_mods": {
+      "str_mod": [ -0.5 ],
+      "per_mod": [ 1 ],
+      "dex_mod": [ 1 ],
+      "int_mod": [ -1.5 ],
+      "hurt_chance": [ 21, 0 ],
+      "pain_chance": [ -30 ]
+    },
+    "rating": "bad",
+    "blood_analysis_description": "Feline Primer Contamination"
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_fish",
+    "name": [ "Fish Mutation", "Fish Transformation", "Fish Metamorphosis" ],
+    "desc": [
+      "You consumed fish primer.",
+      "The waters call to you.  Leave this exposed wasteland.",
+      "You feel clammy yet dry, absolutely parched no matter how much you drink."
+    ],
+    "max_intensity": 3,
+    "resist_traits": [ "THRESH_FISH" ],
+    "base_mods": {
+      "thirst_min": [ 1 ],
+      "thirst_max": [ 2 ],
+      "thirst_tick": [ 900 ],
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 200 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 100 ],
+      "pain_tick": [ 75 ]
+    },
+    "scaling_mods": { "thirst_tick": [ -400 ], "per_mod": [ 1 ], "dex_mod": [ 1.5 ], "hurt_chance": [ 21, 0 ], "pain_chance": [ -30 ] },
+    "rating": "bad",
+    "blood_analysis_description": "Fish Primer Contamination"
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_gastropod",
+    "name": [ "Snail Mutation", "Snail Transformation", "Snail Metamorphosis" ],
+    "desc": [
+      "You consumed snail primer.",
+      "Slow and steady wins the race.",
+      "You itch terribly, and your mouth feels salty and dry."
+    ],
+    "max_intensity": 3,
+    "resist_traits": [ "THRESH_GASTROPOD" ],
+    "base_mods": { "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_chance": [ -22 ], "hurt_tick": [ 60 ] },
+    "scaling_mods": { "str_mod": [ 1.5 ], "speed_mod": [ -7.5 ], "hurt_chance": [ 21, 0 ] },
+    "rating": "bad",
+    "blood_analysis_description": "Snail Primer Contamination"
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_human",
+    "name": [ "Human Purification", "Human Reversion", "Human Regression" ],
+    "desc": [
+      "You consumed purifier.",
+      "You consumed a large amount of purifier.  Why does it feel so strange?",
+      "You consumed a huge amount of purifier, and you can tell that something isn't right."
+    ],
+    "max_intensity": 3,
+    "resist_traits": [  ],
+    "base_mods": { "str_mod": [ 0, -2 ], "per_mod": [ 0, -2 ], "dex_mod": [ 0, -2 ], "int_mod": [ 0, -2 ] },
+    "scaling_mods": { "str_mod": [ 0, -2.5 ], "per_mod": [ 0, -2.5 ], "dex_mod": [ 0, -2.5 ], "int_mod": [ 0, -2.5 ] },
+    "rating": "bad",
+    "blood_analysis_description": "Human Primer Contamination"
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_insect",
+    "name": [ "Insect Mutation", "Insect Transformation", "Insect Metamorphosis" ],
+    "desc": [
+      "You consumed insect primer.",
+      "You can't wait for your change.  It can't be long now.",
+      "You can't stop shivering and twitching.  Life is so short."
+    ],
+    "max_intensity": 3,
+    "resist_traits": [ "THRESH_INSECT" ],
+    "base_mods": {
+      "vomit_chance": [ 900 ],
+      "vomit_tick": [ 90 ],
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 150 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 100 ],
+      "pain_tick": [ 75 ]
+    },
+    "scaling_mods": {
+      "vomit_chance": [ -420 ],
+      "speed_mod": [ 1.5 ],
+      "per_mod": [ 0.5 ],
+      "dex_mod": [ 1.5 ],
+      "int_mod": [ -1.5 ],
+      "hurt_chance": [ 21, 0 ],
+      "pain_chance": [ -30 ]
+    },
+    "rating": "bad",
+    "blood_analysis_description": "Insect Primer Contamination"
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_lizard",
+    "name": [ "Lizard Mutation", "Lizard Transformation", "Lizard Metamorphosis" ],
+    "desc": [
+      "You consumed lizard primer.",
+      "Your skin feels dry and too small.  You'll have to molt soon.",
+      "Your limbs slump, almost ready to tear right out of their sockets."
+    ],
+    "max_intensity": 3,
+    "resist_traits": [ "THRESH_LIZARD" ],
+    "base_mods": {
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 50 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 100 ],
+      "pain_tick": [ 125 ]
+    },
+    "scaling_mods": { "dex_mod": [ 1 ], "int_mod": [ -1.5 ], "hurt_chance": [ 21, 0 ], "pain_chance": [ -30 ] },
+    "rating": "bad",
+    "blood_analysis_description": "Lizard Primer Contamination"
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_lupine",
+    "name": [ "Lupine Mutation", "Lupine Transformation", "Lupine Metamorphosis" ],
+    "desc": [
+      "You consumed lupine primer.",
+      "Where's your pack?  How will you survive without them?",
+      "You pant, unable to stop pacing and full of hunger."
+    ],
+    "max_intensity": 3,
+    "resist_traits": [ "THRESH_LUPINE" ],
+    "base_mods": {
+      "hunger_min": [ 10 ],
+      "hunger_max": [ 20 ],
+      "hunger_tick": [ 500 ],
+      "hunger_chance": [ 6 ],
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 150 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 100 ],
+      "pain_tick": [ 75 ]
+    },
+    "scaling_mods": {
+      "hunger_tick": [ -175 ],
+      "str_mod": [ 1.5 ],
+      "per_mod": [ 1.5 ],
+      "int_mod": [ -2 ],
+      "speed_mod": [ 2.5 ],
+      "hurt_chance": [ 21, 0 ],
+      "pain_chance": [ -30 ]
+    },
+    "rating": "bad",
+    "blood_analysis_description": "Lupine Primer Contamination"
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_medical",
+    "name": [ "Medical Mutation", "Medical Transformation", "Medical Metamorphosis" ],
+    "desc": [
+      "You consumed medical primer.",
+      "You consumed medical primer.  You should do that again.",
+      "You're tearing yourself apart.  Need to get fixed back up.  Should put some stitches in you."
+    ],
+    "max_intensity": 3,
+    "resist_traits": [ "THRESH_MEDICAL" ],
+    "base_mods": {
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 150 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 40 ],
+      "pain_tick": [ 75 ]
+    },
+    "scaling_mods": { "str_mod": [ 2 ], "dex_mod": [ 2 ], "int_mod": [ -2.5 ], "hurt_chance": [ 21, 0 ], "pain_chance": [ -16 ] },
+    "rating": "bad",
+    "blood_analysis_description": "Medical Primer Contamination"
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_mouse",
+    "name": [ "Mouse Mutation", "Mouse Transformation", "Mouse Metamorphosis" ],
+    "desc": [
+      "You consumed mouse primer.",
+      "Your heart pounds, knowing that predators could approach at any second!",
+      "Your heart hammers away with a rapid, irregular beat."
+    ],
+    "max_intensity": 3,
+    "resist_traits": [ "THRESH_MOUSE" ],
+    "base_mods": {
+      "speed_mod": [ 1 ],
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 150 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 100 ],
+      "pain_tick": [ 75 ]
+    },
+    "scaling_mods": { "str_mod": [ -1.5 ], "dex_mod": [ 1 ], "speed_mod": [ 6.5 ], "hurt_chance": [ 21, 0 ], "pain_chance": [ -30 ] },
+    "rating": "bad",
+    "blood_analysis_description": "Mouse Primer Contamination"
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_plant",
+    "name": [ "Plant Mutation", "Plant Transformation", "Plant Metamorphosis" ],
+    "desc": [
+      "You consumed plant primer.",
+      "All this running… why don't you just find a nice, fertile spot and bask in the sun?",
+      "Your processes are slowing.  You would make great fertilizer."
+    ],
+    "max_intensity": 3,
+    "resist_traits": [ "THRESH_PLANT" ],
+    "base_mods": { "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_chance": [ -22 ], "hurt_tick": [ 200 ] },
+    "scaling_mods": { "str_mod": [ 1.5 ], "dex_mod": [ 1.5 ], "int_mod": [ -1 ], "speed_mod": [ -7.5 ], "hurt_chance": [ 21, 0 ] },
+    "rating": "bad",
+    "blood_analysis_description": "Plant Primer Contamination"
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_raptor",
+    "name": [ "Raptor Mutation", "Raptor Transformation", "Raptor Metamorphosis" ],
+    "desc": [
+      "You consumed raptor primer.",
+      "Sharpen your talons and clean your feathers.  Your prey won't give itself easily.",
+      "Delusions fill your head… is it true?  Did you die long ago?"
+    ],
+    "max_intensity": 3,
+    "resist_traits": [ "THRESH_RAPTOR" ],
+    "base_mods": {
+      "hunger_min": [ 5 ],
+      "hunger_max": [ 15 ],
+      "hunger_tick": [ 500 ],
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 100 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 100 ],
+      "pain_tick": [ 75 ]
+    },
+    "scaling_mods": {
+      "hunger_tick": [ -200 ],
+      "per_mod": [ 1 ],
+      "dex_mod": [ 1.5 ],
+      "int_mod": [ -3 ],
+      "speed_mod": [ 7.5 ],
+      "hurt_chance": [ 21, 0 ],
+      "pain_chance": [ -30 ]
+    },
+    "rating": "bad",
+    "blood_analysis_description": "Raptor Primer Contamination"
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_rabbit",
+    "name": [ "Rabbit Mutation", "Rabbit Transformation", "Rabbit Metamorphosis" ],
+    "desc": [
+      "You consumed rabbit primer.",
+      "So much to do!  Better hop to it!",
+      "Will you have a future?  Will any new generations be born… your pounding head is full of worry."
+    ],
+    "max_intensity": 3,
+    "resist_traits": [ "THRESH_RABBIT" ],
+    "base_mods": {
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 150 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 60 ],
+      "pain_tick": [ 75 ]
+    },
+    "scaling_mods": {
+      "str_mod": [ -1.5 ],
+      "dex_mod": [ 2.5 ],
+      "int_mod": [ -1 ],
+      "speed_mod": [ 3.5 ],
+      "hurt_chance": [ 21, 0 ],
+      "pain_chance": [ -15 ]
+    },
+    "rating": "bad",
+    "blood_analysis_description": "Rabbit Primer Contamination"
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_rat",
+    "name": [ "Rat Mutation", "Rat Transformation", "Rat Metamorphosis" ],
+    "desc": [
+      "You consumed rat primer.",
+      "This place is too open.  Hide!",
+      "Dull aches fill your stomach, and every smell seems offensive."
+    ],
+    "max_intensity": 3,
+    "resist_traits": [ "THRESH_RAT" ],
+    "base_mods": {
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 150 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 100 ],
+      "pain_tick": [ 75 ]
+    },
+    "scaling_mods": { "dex_mod": [ 1 ], "int_mod": [ -2 ], "speed_mod": [ 3.5 ], "hurt_chance": [ 21, 0 ], "pain_chance": [ -30 ] },
+    "rating": "bad",
+    "blood_analysis_description": "Rat Primer Contamination"
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_slime",
+    "name": [ "Slime Mutation", "Slime Transformation", "Slime Metamorphosis" ],
+    "desc": [ "You consumed slime primer.", "Plop.", "Brain… melting…" ],
+    "max_intensity": 3,
+    "resist_traits": [ "THRESH_SLIME" ],
+    "base_mods": {
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 90 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 10 ],
+      "pain_tick": [ 75 ]
+    },
+    "scaling_mods": {
+      "str_mod": [ -1.5 ],
+      "dex_mod": [ 1.5 ],
+      "int_mod": [ 2.5 ],
+      "speed_mod": [ -3.5 ],
+      "hurt_chance": [ 21, 0 ],
+      "pain_chance": [ -30 ]
+    },
+    "rating": "bad",
+    "blood_analysis_description": "Slime Primer Contamination"
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_spider",
+    "name": [ "Spider Mutation", "Spider Transformation", "Spider Metamorphosis" ],
+    "desc": [
+      "You consumed spider primer.",
+      "An anchor line there and there, connect with capture threads…",
+      "Perhaps you should curl up, just curl up and give in."
+    ],
+    "max_intensity": 3,
+    "resist_traits": [ "THRESH_SPIDER" ],
+    "base_mods": {
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 150 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 1 ],
+      "pain_chance": [ 60 ],
+      "pain_tick": [ 100 ]
+    },
+    "scaling_mods": { "dex_mod": [ 1.5 ], "int_mod": [ -1 ], "speed_mod": [ 4 ], "hurt_chance": [ 21, 0 ], "pain_chance": [ -25 ] },
+    "rating": "bad",
+    "blood_analysis_description": "Spider Primer Contamination"
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_troglobite",
+    "name": [ "Troglobite Mutation", "Troglobite Transformation", "Troglobite Metamorphosis" ],
+    "desc": [
+      "You consumed troglobite primer.",
+      "Down in the dark corners of the new world.  That's where you belong.",
+      "Deep and dark, your bones ache and twist."
+    ],
+    "max_intensity": 3,
+    "resist_traits": [ "THRESH_TROGLOBITE" ],
+    "base_mods": {
+      "hurt_min": [ 2 ],
+      "hurt_max": [ 3 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 150 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 100 ],
+      "pain_tick": [ 75 ]
+    },
+    "scaling_mods": { "str_mod": [ 2 ], "per_mod": [ -2.5 ], "dex_mod": [ 1 ], "hurt_chance": [ 21, 0 ], "pain_chance": [ -30 ] },
+    "rating": "bad",
+    "blood_analysis_description": "Troglobite Primer Contamination"
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_ursine",
+    "name": [ "Ursine Mutation", "Ursine Transformation", "Ursine Metamorphosis" ],
+    "desc": [
+      "You consumed ursine primer.",
+      "Berries, brood, honey, or meat?  What will today bring?",
+      "Sleep sounds good.  Sleep forever, maybe."
+    ],
+    "max_intensity": 3,
+    "resist_traits": [ "THRESH_URSINE" ],
+    "base_mods": {
+      "str_mod": [ 1 ],
+      "fatigue_min": [ 1 ],
+      "fatigue_chance": [ 1100 ],
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 150 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 100 ],
+      "pain_tick": [ 75 ]
+    },
+    "scaling_mods": {
+      "str_mod": [ 2.5 ],
+      "per_mod": [ -1 ],
+      "dex_mod": [ -1 ],
+      "fatigue_chance": [ -500 ],
+      "hurt_chance": [ 21, 0 ],
+      "pain_chance": [ -30 ]
+    },
+    "rating": "bad",
+    "blood_analysis_description": "Ursine Primer Contamination"
+  },
+  {
+    "type": "effect_type",
     "id": "beartrap",
-    "name": [ "Stuck in beartrap" ],
+    "name": [ "Stuck in a Beartrap" ],
     "desc": [ "You can't move until you get free!" ],
     "apply_message": "You are caught!",
     "rating": "bad",
@@ -720,7 +1569,7 @@
   {
     "type": "effect_type",
     "id": "snow_glare",
-    "name": [ "Snow glare" ],
+    "name": [ "Snow Glare" ],
     "desc": [ "The sunlight is reflecting off the snow." ],
     "apply_message": "The sunlight reflecting off the snow makes it hard to see.",
     "rating": "bad",
@@ -758,7 +1607,7 @@
   {
     "type": "effect_type",
     "id": "teargas",
-    "name": [ "Tear gas" ],
+    "name": [ "Tear Gas" ],
     "desc": [ "You've been exposed to tear gas!" ],
     "apply_message": "You inhale a lungful of tear gas.",
     "rating": "bad",
@@ -813,7 +1662,7 @@
   {
     "type": "effect_type",
     "id": "took_xanax_visible",
-    "name": [ "Took fast-acting sedative" ],
+    "name": [ "Took Fast-acting Sedative" ],
     "desc": [ "You took a fast-acting sedative some time ago and you might still be under its influence." ],
     "max_duration": 18000,
     "dur_add_perc": 20
@@ -833,7 +1682,7 @@
   {
     "type": "effect_type",
     "id": "took_prozac_visible",
-    "name": [ "Took antidepressant" ],
+    "name": [ "Took Antidepressant" ],
     "desc": [ "You took an antidepressant some time ago and you might still be under its influence." ],
     "max_duration": 72000,
     "dur_add_perc": 35
@@ -841,7 +1690,7 @@
   {
     "type": "effect_type",
     "id": "in_pit",
-    "name": [ "Stuck in Pit" ],
+    "name": [ "Stuck in a Pit" ],
     "desc": [ "You're stuck in a pit.  Sight distance is limited and you have to climb out." ],
     "show_in_info": true
   },
@@ -860,7 +1709,7 @@
   {
     "type": "effect_type",
     "id": "took_thorazine_visible",
-    "name": [ "Took antipsychotic" ],
+    "name": [ "Took Antipsychotic" ],
     "desc": [ "You took an antipsychotic some time ago and you might still be under its influence." ],
     "max_duration": 72000,
     "dur_add_perc": 35
@@ -868,7 +1717,7 @@
   {
     "type": "effect_type",
     "id": "no_sight",
-    "name": [ "Poor sight" ],
+    "name": [ "Poor Sight" ],
     "desc": [ "You can't see very far from this spot." ],
     "apply_message": "Your sight distance is impaired.",
     "rating": "bad"
@@ -907,6 +1756,22 @@
   },
   {
     "type": "effect_type",
+    "id": "pkill_wintergreen",
+    "pkill_addict_reduces": true,
+    "base_mods": { "pkill_max_val": [ 15 ], "pkill_tick": [ 50 ], "pkill_min": [ 1 ], "pkill_chance": [ 45 ] },
+    "rating": "good",
+    "blood_analysis_description": "Ate wintergreen leaves"
+  },
+  {
+    "type": "effect_type",
+    "id": "pkill_wintergreen_oil",
+    "pkill_addict_reduces": true,
+    "base_mods": { "pkill_max_val": [ 30 ], "pkill_tick": [ 42 ], "pkill_min": [ 2 ] },
+    "rating": "good",
+    "blood_analysis_description": "Wintergreen Oil"
+  },
+  {
+    "type": "effect_type",
     "id": "webbed",
     "name": [ "Webbed" ],
     "desc": [ "You are covered in webs!" ],
@@ -914,14 +1779,16 @@
     "rating": "bad",
     "miss_messages": [ [ "The webs restrict your movement.", 4 ] ],
     "max_intensity": 3,
+    "int_add_val": 1,
     "base_mods": { "speed_mod": [ -20 ] },
     "scaling_mods": { "speed_mod": [ -5 ] },
-    "show_in_info": true
+    "show_in_info": true,
+    "show_intensity": false
   },
   {
     "type": "effect_type",
     "id": "sludged",
-    "name": [ "sludged" ],
+    "name": [ "Sludged" ],
     "desc": [ "You're standing in sludge!" ],
     "apply_message": "You've stepped into some sludge!",
     "rating": "bad",
@@ -957,7 +1824,7 @@
     "desc": [ "You have an infected wound." ],
     "apply_memorial_log": "Contracted an infection.",
     "remove_memorial_log": "Recovered from an infection… this time.",
-    "apply_message": "Your bite wound feels infected.",
+    "apply_message": "Your wound feels infected.",
     "resist_traits": [ "INFRESIST" ],
     "main_parts_only": true,
     "rating": "bad",
@@ -1000,7 +1867,7 @@
   {
     "type": "effect_type",
     "id": "recover",
-    "name": [ "Recovering From Infection" ],
+    "name": [ "Recovering from Infection" ],
     "desc": [ "You are recovering from an infection." ],
     "rating": "bad",
     "resist_traits": [ "INFRESIST" ],
@@ -1069,15 +1936,16 @@
   {
     "type": "effect_type",
     "id": "spores",
-    "name": [ "Spore dusted", "Spore covered", "Spore coated" ],
-    "speed_name": "Spore covered",
+    "name": [ "Spore Dusted", "Spore Covered", "Spore Coated" ],
+    "speed_name": "Spore Covered",
     "desc": [ "You can feel the tiny spores sinking directly into your flesh." ],
     "max_intensity": 3,
     "int_decay_tick": 720,
     "int_add_val": 1,
     "main_parts_only": true,
-    "base_mods": { "speed_mod": [ -7 ] },
-    "scaling_mods": { "speed_mod": [ -3 ] }
+    "resist_traits": [ "M_IMMUNE" ],
+    "base_mods": { "speed_mod": [ -7, 0 ] },
+    "scaling_mods": { "speed_mod": [ -3, 0 ] }
   },
   {
     "type": "effect_type",
@@ -1099,7 +1967,7 @@
   {
     "type": "effect_type",
     "id": "taint",
-    "name": [ "Touched mind", "Touched mind", "Tainted mind", "Badly tainted mind" ],
+    "name": [ "Touched Mind", "Touched Mind", "Tainted Mind", "Badly Tainted Mind" ],
     "miss_messages": [ [ "Your sense of reality warps!", 3 ] ],
     "speed_name": "Tainted",
     "desc": [
@@ -1159,7 +2027,9 @@
     "name": [ "Shakes" ],
     "desc": [ "Your hands just won't stop shaking." ],
     "miss_messages": [ [ "You tremble", 4 ] ],
-    "base_mods": { "str_mod": [ -1 ], "dex_mod": [ -4 ] }
+    "base_mods": { "str_mod": [ -1 ], "dex_mod": [ -4 ] },
+    "max_duration": 7200,
+    "dur_add_perc": 30
   },
   {
     "type": "effect_type",
@@ -1218,11 +2088,11 @@
       "Heavy Arterial Bleeding"
     ],
     "desc": [
-      "Tis but a scratch.",
-      "Tis but a scratch.",
-      "Tis but a scratch.",
-      "Tis but a scratch.",
-      "Tis but a scratch.",
+      "'Tis but a scratch.",
+      "'Tis but a scratch.",
+      "'Tis but a scratch.",
+      "'Tis but a scratch.",
+      "'Tis but a scratch.",
       "You are slowly losing blood.",
       "You are slowly losing blood.",
       "You are slowly losing blood.",
@@ -1248,19 +2118,20 @@
       "You are rapidly losing blood.",
       "You are rapidly losing blood.",
       "You are rapidly losing blood.",
-      "Blood is gushing from you like a fountain.",
-      "Blood is gushing from you like a fountain.",
-      "Blood is gushing from you like a fountain.",
-      "Blood is gushing from you like a fountain.",
-      "Blood is gushing from you like a fountain.",
-      "Blood is gushing from you like a fountain.",
-      "Blood is gushing from you like a fountain.",
-      "Blood is gushing from you like a fountain.",
-      "Blood is gushing from you like a fountain.",
-      "Blood is gushing from you like a fountain."
+      "Blood is gushing from you like a fountain!",
+      "Blood is gushing from you like a fountain!",
+      "Blood is gushing from you like a fountain!",
+      "Blood is gushing from you like a fountain!",
+      "Blood is gushing from you like a fountain!",
+      "Blood is gushing from you like a fountain!",
+      "Blood is gushing from you like a fountain!",
+      "Blood is gushing from you like a fountain!",
+      "Blood is gushing from you like a fountain!",
+      "Blood is gushing from you like a fountain!"
     ],
     "main_parts_only": true,
     "apply_message": "You're bleeding!",
+    "remove_message": "The bleeding stops!",
     "rating": "bad",
     "max_intensity": 40,
     "int_dur_factor": 60,
@@ -1282,7 +2153,7 @@
   {
     "type": "effect_type",
     "id": "hallu",
-    "max_duration": "30 m",
+    "max_duration": "6 h",
     "blood_analysis_description": "Hallucinations"
   },
   {
@@ -1309,14 +2180,36 @@
   },
   {
     "type": "effect_type",
+    "id": "wet",
+    "name": [ "Damp", "Wet", "Soaked" ],
+    "desc": [ "Your %s is covered in moisture.", "Your %s is wet.", "Your %s is soaked!" ],
+    "max_intensity": 3,
+    "part_descs": true
+  },
+  {
+    "type": "effect_type",
+    "id": "chafing",
+    "name": [ "Uncomfortable" ],
+    "desc": [ "Your %s is uncomfortable.  Wearing something soft under your hard armor would help." ],
+    "max_intensity": 1,
+    "part_descs": true,
+    "base_mods": { "speed_mod": [ -2 ], "pain_min": [ 1 ], "pain_chance": [ 2 ], "pain_max_val": [ -1 ] }
+  },
+  {
+    "type": "effect_type",
     "id": "hot",
     "name": [ "Warm", "Hot", "Scorching" ],
-    "desc": [ "Your %s feels warm.", "Your %s is sweating from the heat.", "Your %s is sweating profusely!" ],
+    "desc": [ "Your %s feels warm.", "Your %s is hot.", "Your %s is burning up!" ],
     "max_intensity": 3,
     "part_descs": true,
     "base_mods": {
-      "thirst_tick": [ 2400 ],
-      "thirst_chance": [ 2 ],
+      "//": "thirst is ml / 5 someone doing exercise in the sun burns between 500mL to 1000mL extra an hour as sweat so 1.5 thirst a minute split between 10 body parts",
+      "thirst_min": [ 1 ],
+      "thirst_tick": [ 60 ],
+      "thirst_chance": [ 6 ],
+      "perspiration_min": [ 2 ],
+      "perspiration_tick": [ 60 ],
+      "perspiration_chance": [ 1 ],
       "pain_min": [ 1 ],
       "pain_chance": [ 2 ],
       "pain_max_val": [ -1 ],
@@ -1324,7 +2217,14 @@
       "hurt_chance": [ -300 ],
       "stamina_chance": [ 2 ]
     },
-    "scaling_mods": { "thirst_min": [ 1 ], "thirst_tick": [ -600 ], "pain_max_val": [ 10 ], "hurt_chance": [ 200 ], "stamina_min": [ -1 ] }
+    "scaling_mods": {
+      "thirst_min": [ 1 ],
+      "perspiration_min": [ 5 ],
+      "perspiration_tick": [ -15 ],
+      "pain_max_val": [ 10 ],
+      "hurt_chance": [ 200 ],
+      "stamina_min": [ -1 ]
+    }
   },
   {
     "type": "effect_type",
@@ -1383,7 +2283,7 @@
   {
     "type": "effect_type",
     "id": "formication",
-    "name": [ "Itchy skin", "Writhing skin", "Bugs in skin" ],
+    "name": [ "Itchy Skin", "Writhing Skin", "Bugs in Skin" ],
     "desc": [ "You stop to scratch yourself frequently; high INT helps you resist the urge." ],
     "apply_message": "Your skin feels extremely itchy!",
     "rating": "bad",
@@ -1476,7 +2376,7 @@
   {
     "type": "effect_type",
     "id": "took_antiasthmatic",
-    "name": [ "Took antiasthmatic drugs" ],
+    "name": [ "Took Antiasthmatic Drugs" ],
     "desc": [ "You have taken an antiasthmatic drug recently." ],
     "rating": "good",
     "max_duration": 86400,
@@ -1501,6 +2401,7 @@
       "foodpoison",
       "paralyzepoison",
       "tetanus",
+      "rat_bite_fever",
       "infected",
       "asthma",
       "common_cold",
@@ -1765,7 +2666,7 @@
   {
     "type": "effect_type",
     "id": "took_anticonvulsant_visible",
-    "name": [ "Took anticonvulsant drugs" ],
+    "name": [ "Took Anticonvulsant Drugs" ],
     "desc": [
       "You took anticonvulsant drugs some time ago and you might still be under its influence.\nPrescription note says its effect duration may vary, so your estimate may be inaccurate."
     ],
@@ -1781,7 +2682,7 @@
   {
     "type": "effect_type",
     "id": "relax_gas",
-    "name": [ "Relaxation gas" ],
+    "name": [ "Relaxation Gas" ],
     "desc": [ "You are thoroughly relaxed and don't feel like moving.  Fighting?  Too much effort." ],
     "apply_message": "You inhale sweetish gas.",
     "remove_message": "The slackness leaves your muscles.",
@@ -1791,13 +2692,18 @@
   {
     "type": "effect_type",
     "id": "tapeworm",
+    "name": [ "Unidentified Illness" ],
+    "desc": [ "You aren't sure what's wrong with you but you don't feel well." ],
     "rating": "bad",
+    "resist_traits": [ "VOMITSTOMACH" ],
     "base_mods": { "hunger_chance": [ 50 ], "hunger_min": [ 1 ] },
     "blood_analysis_description": "Intestinal Parasite"
   },
   {
     "type": "effect_type",
     "id": "bloodworms",
+    "name": [ "Unidentified Illness" ],
+    "desc": [ "You aren't sure what's wrong with you but you don't feel well." ],
     "rating": "bad",
     "base_mods": {
       "thirst_tick": [ 600 ],
@@ -1811,6 +2717,8 @@
   {
     "type": "effect_type",
     "id": "brainworms",
+    "name": [ "Unidentified Illness" ],
+    "desc": [ "You aren't sure what's wrong with you but you don't feel well." ],
     "rating": "bad",
     "base_mods": { "pain_chance": [ 512 ], "pain_min": [ 2 ], "pain_max": [ 8 ], "h_mod_chance": [ 512 ], "h_mod_min": [ -10 ] },
     "blood_analysis_description": "Intracranial Parasites"
@@ -1818,6 +2726,8 @@
   {
     "type": "effect_type",
     "id": "paincysts",
+    "name": [ "Unidentified Illness" ],
+    "desc": [ "You aren't sure what's wrong with you but you don't feel well." ],
     "rating": "bad",
     "base_mods": { "pain_chance": [ 256 ], "pain_min": [ 1 ], "pain_max": [ 4 ], "fatigue_chance": [ 256 ], "fatigue_min": [ 1 ] },
     "blood_analysis_description": "Intramuscular Parasites"
@@ -1825,10 +2735,32 @@
   {
     "type": "effect_type",
     "id": "tetanus",
+    "name": [ "Muscle Cramps" ],
+    "apply_message": "Your muscles start convulsing!",
+    "desc": [ "Your muscles are binding up, you should probably find a sedative." ],
     "rating": "bad",
     "resist_effects": [ "valium" ],
     "base_mods": { "dex_mod": [ -4, 0 ] },
-    "blood_analysis_description": "Clostridium Tetani Infection"
+    "blood_analysis_description": "Clostridium tetani Infection"
+  },
+  {
+    "type": "effect_type",
+    "id": "rat_bite_fever",
+    "name": [ "Puckered Scratches" ],
+    "apply_message": "Your skin starts burning around some of your scratches.  Some aspirin might relieve the effects.",
+    "remove_message": "The fever breaks.",
+    "rating": "bad",
+    "resist_effects": [ "aspirin" ],
+    "base_mods": {
+      "stamina_min": [ -50 ],
+      "stamina_max": [ -100 ],
+      "stamina_chance": [ 300 ],
+      "int_mod": [ -1, 0 ],
+      "fatigue_min": [ 5 ],
+      "fatigue_max": [ 10 ],
+      "fatigue_chance": [ 500 ]
+    },
+    "blood_analysis_description": "Streptobacillus moniliformis Infection"
   },
   {
     "type": "effect_type",
@@ -1893,7 +2825,7 @@
   {
     "type": "effect_type",
     "id": "under_operation",
-    "name": [ "Under operation" ],
+    "name": [ "Under Operation" ],
     "desc": [ "You are being operated on.  Try to stay still." ]
   },
   {
@@ -1906,7 +2838,12 @@
   },
   {
     "type": "effect_type",
-    "name": [ "Playing an instrument" ],
+    "id": "robofac_surveillance",
+    "max_duration": "14 days"
+  },
+  {
+    "type": "effect_type",
+    "name": [ "Playing an Instrument" ],
     "desc": [ "You're playing an instrument.\nFocusing on playing music distracts you, slowing you down." ],
     "id": "playing_instrument",
     "rating": "neutral",
@@ -1948,23 +2885,8 @@
   },
   {
     "type": "effect_type",
-    "id": "hypocalcemia",
-    "name": [ "Hypocalcemia", "Weak bones", "Brittle bones" ],
-    "desc": [ "A lack of calcium in your diet will make your bones progressively weaker." ],
-    "apply_message": "Your bones are becoming more brittle.",
-    "remove_message": "Your bones regain their usual strength.",
-    "decay_messages": [
-      [ "Your calcium deficiency is nearly resolved.", "good" ],
-      [ "Your bones become stronger as your calcium deficiency improves.", "good" ]
-    ],
-    "max_intensity": 3,
-    "rating": "bad",
-    "blood_analysis_description": "Hypocalcemia"
-  },
-  {
-    "type": "effect_type",
     "id": "anemia",
-    "name": [ "Early iron deficiency", "Iron deficiency", "Acute iron deficiency" ],
+    "name": [ "Early Iron Deficiency", "Iron Deficiency", "Acute Iron Deficiency" ],
     "desc": [
       "A lack of iron in your diet has hampered the efficiency and regeneration of your red blood cells.",
       "Prolonged lack of iron in your diet has compromised the efficiency and regeneration of your red blood cells.",
@@ -2005,7 +2927,7 @@
   {
     "type": "effect_type",
     "id": "redcells_anemia",
-    "name": [ "Early anemia", "Anemia", "Acute anemia" ],
+    "name": [ "Early Anemia", "Anemia", "Acute Anemia" ],
     "desc": [ "Loss of red blood cells results in progressively worsening anemia." ],
     "apply_message": "You begin feeling increasingly tired and listless.",
     "remove_message": "You no longer feel anemic.",
@@ -2038,38 +2960,8 @@
   },
   {
     "type": "effect_type",
-    "id": "hypovitA",
-    "name": [ "VitA deficiency", "Poor vision", "Night blindness" ],
-    "desc": [ "A lack of vitamin A in your diet will progressively worsen your vision." ],
-    "apply_message": "You start struggling to make out the finer details.",
-    "remove_message": "Your normal visual acuity returns.",
-    "decay_messages": [
-      [ "Your vitamin A deficiency is nearly resolved.", "good" ],
-      [ "Your vision improves as your Vitamin A deficiency improves.", "good" ]
-    ],
-    "max_intensity": 3,
-    "rating": "bad",
-    "blood_analysis_description": "Vitamin A Deficiency"
-  },
-  {
-    "type": "effect_type",
-    "id": "hypovitB",
-    "name": [ "B12 deficiency", "Slow healing", "No healing" ],
-    "desc": [ "A lack of vitamin B12 in your diet will affect your ability to heal." ],
-    "apply_message": "Simple wounds are starting to concern you more than usual.",
-    "remove_message": "Your wounds now heal normally.",
-    "decay_messages": [
-      [ "Your vitamin B12 deficiency is starting to resolve.", "good" ],
-      [ "Your ability to heal returns as your Vitamin B12 deficiency improves.", "good" ]
-    ],
-    "max_intensity": 3,
-    "rating": "bad",
-    "blood_analysis_description": "Vitamin B Deficiency"
-  },
-  {
-    "type": "effect_type",
     "id": "scurvy",
-    "name": [ "Early scurvy", "Scurvy", "Bad Scurvy" ],
+    "name": [ "Early Scurvy", "Scurvy", "Bad Scurvy" ],
     "desc": [ "A lack of vitamin C in your diet will result in progressively worse symptoms of scurvy." ],
     "apply_message": "You start to develop symptoms of scurvy.",
     "remove_message": "Your scurvy has resolved.",
@@ -2078,6 +2970,27 @@
       [ "Your scurvy lessens as your Vitamin C deficiency improves.", "good" ]
     ],
     "max_intensity": 3,
+    "base_mods": {
+      "pain_max_val": [ 35 ],
+      "pain_chance": [ 900 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 5 ],
+      "fatigue_chance": [ 900 ],
+      "fatigue_max_val": [ 500, 200 ],
+      "fatigue_min": [ 10 ],
+      "h_mod_min": [ -1 ],
+      "h_mod_min_val": [ 0 ],
+      "h_mod_chance": [ 900 ]
+    },
+    "scaling_mods": {
+      "pain_chance": [ -150 ],
+      "fatigue_chance": [ -200 ],
+      "h_mod_min": [ -1 ],
+      "h_mod_min_val": [ -100 ],
+      "h_mod_chance": [ -300 ],
+      "str_mod": [ -0.5 ],
+      "speed_mod": [ -2 ]
+    },
     "rating": "bad",
     "blood_analysis_description": "Scurvy"
   },
@@ -2107,7 +3020,7 @@
   {
     "type": "effect_type",
     "id": "bad_food_ennui",
-    "name": [ "Gross food", "Demoralizing food", "Depressing food" ],
+    "name": [ "Gross Food", "Demoralizing Food", "Depressing Food" ],
     "desc": [
       "The food you eat is disgusting.",
       "Eating nothing but disgusting rations is starting to get you down.",
@@ -2119,8 +3032,20 @@
   },
   {
     "type": "effect_type",
+    "id": "genetics_damaged",
+    "name": [ "Spent Phenotype", "Depleted Phenotype", "Bankrupt Phenotype" ],
+    "desc": [
+      "Mutation has left you with a persistent mild discomfort.  It seems harmless for now, but you can't predict if it'll get worse.",
+      "There's an enervating sense of dysmorphia throughout your whole body.  It waxes and wanes, but never quite goes away.  Mutating this much can't be good for you…",
+      "You're haunted by phantom pains across your entire body now.  Everything aches from an exhaustion that never seems to fade.  Any further mutation right now is very unlikely to have a happy ending."
+    ],
+    "max_intensity": 3,
+    "rating": "bad"
+  },
+  {
+    "type": "effect_type",
     "id": "hypovolemia",
-    "name": [ "Mild hypovolemic shock", "Moderate hypovolemic shock", "Advanced hypovolemic shock", "Severe hypovolemic shock" ],
+    "name": [ "Mild Hypovolemic Shock", "Moderate Hypovolemic Shock", "Advanced Hypovolemic Shock", "Severe Hypovolemic Shock" ],
     "desc": [
       "You've lost some blood and look somewhat pale.",
       "You've lost a large amount of blood, and you're not feeling well.",
@@ -2145,7 +3070,7 @@
   {
     "type": "effect_type",
     "id": "haslight",
-    "name": [ "Lit up" ],
+    "name": [ "Lit Up" ],
     "desc": [ "You are carrying a light and can't hide well." ],
     "max_duration": "1 s",
     "rating": "bad"
@@ -2153,7 +3078,7 @@
   {
     "type": "effect_type",
     "id": "mending",
-    "name": [ "Started recovery", "Recovering", "Mostly recovered" ],
+    "name": [ "Started Recovery", "Recovering", "Mostly Recovered" ],
     "desc": [ "This damaged limb is slowly regaining its functions." ],
     "//": "Duration is 10 days, but the actual time taken is probabilistic.",
     "max_duration": "10 d",
@@ -2287,7 +3212,7 @@
   {
     "type": "effect_type",
     "id": "weak_antibiotic_visible",
-    "name": [ "Took weak antibiotic" ],
+    "name": [ "Took Weak Antibiotic" ],
     "desc": [
       "You consumed mild antibiotic some time ago to fight off infection.\nIf you don't recover you may want to take another dose, but beware overdosage."
     ],
@@ -2297,7 +3222,7 @@
   {
     "type": "effect_type",
     "id": "antibiotic_visible",
-    "name": [ "Took antibiotic" ],
+    "name": [ "Took Antibiotic" ],
     "desc": [
       "You consumed antibiotic some time ago to fight off infection.\nIf you don't recover you may want to take another dose, but beware overdosage."
     ],
@@ -2307,7 +3232,7 @@
   {
     "type": "effect_type",
     "id": "strong_antibiotic_visible",
-    "name": [ "Took strong antibiotic" ],
+    "name": [ "Took Strong Antibiotic" ],
     "desc": [
       "You consumed prescription-grade antibiotic some time ago to fight off infection.\nIf you don't recover you may want to take another dose, but beware overdosage."
     ],
@@ -2349,7 +3274,7 @@
   {
     "type": "effect_type",
     "id": "tummy_tablet",
-    "name": [ "Soothed stomach" ],
+    "name": [ "Soothed Stomach" ],
     "desc": [ "You are under the effects of a stomach soother." ],
     "int_add_val": 1,
     "max_intensity": 3,
@@ -2386,28 +3311,87 @@
   },
   {
     "type": "effect_type",
+    "id": "pd_str_bad",
+    "name": [ "Muscle Vanishment", "Muscle Disappearance" ],
+    "desc": [ "You feel as if your muscles are not quite there.", "You feel as if your muscles are not in your body." ],
+    "max_intensity": 2,
+    "rating": "bad",
+    "int_dur_factor": "50 m",
+    "base_mods": { "str_mod": [ -1 ] },
+    "scaling_mods": { "str_mod": [ -2 ] },
+    "miss_messages": [ [ "Your lack of strength stops you!", 1 ] ]
+  },
+  {
+    "type": "effect_type",
+    "id": "pd_dex_bad",
+    "name": [ "Weak Grasp", "Inexistent Grasp" ],
+    "desc": [ "You seem to have problems touching things.", "You feel as if your hands just pass through matter." ],
+    "max_intensity": 2,
+    "rating": "bad",
+    "int_dur_factor": "50 m",
+    "base_mods": { "dex_mod": [ -1 ] },
+    "scaling_mods": { "dex_mod": [ -2 ] },
+    "miss_messages": [ [ "Your attacks don't seem to touch your enemies!", 1 ] ]
+  },
+  {
+    "type": "effect_type",
+    "id": "pd_per_bad",
+    "name": [ "Distorted Vision", "Otherworldly Vision" ],
+    "desc": [
+      "You have problems distinguishing shapes and colors.",
+      "You seem to see slightly different realities every time you blink."
+    ],
+    "max_intensity": 2,
+    "rating": "bad",
+    "int_dur_factor": "50 m",
+    "base_mods": { "per_mod": [ -1 ] },
+    "scaling_mods": { "per_mod": [ -2 ] },
+    "miss_messages": [ [ "You can't distinguish up from down!", 1 ] ]
+  },
+  {
+    "type": "effect_type",
+    "id": "pd_int_bad",
+    "name": [ "Wandering Mind", "Foreign Mind" ],
+    "desc": [ "Your thoughts seem to wander around on their own.", "Foreign thoughts seem to invade your mind." ],
+    "max_intensity": 2,
+    "rating": "bad",
+    "int_dur_factor": "50 m",
+    "base_mods": { "int_mod": [ -1 ] },
+    "scaling_mods": { "int_mod": [ -2 ] },
+    "miss_messages": [ [ "You suddenly think you shouldn't do that!", 1 ] ]
+  },
+  {
+    "type": "effect_type",
+    "id": "pd_rejection",
+    "name": [ "World Rejection", "Dimensional Rejection" ],
+    "desc": [
+      "Faint sparks surround your every move, your body aches more with every passing second.",
+      "Sparks swarm around you, your body hurts and even the air seems to reject your existence."
+    ],
+    "max_intensity": 2,
+    "rating": "bad",
+    "int_dur_factor": "7 m",
+    "base_mods": { "pain_min": [ 1 ], "pain_chance": [ 20 ] },
+    "scaling_mods": { "hurt_min": [ 1 ], "hurt_chance": [ 25 ], "cough_chance": [ 30 ] }
+  },
+  {
+    "type": "effect_type",
     "id": "grown_of_fuse",
     "name": [ "Grown of Fusion" ],
     "desc": [ "AI effect to increase stats after fusing with another critter.  1 stack means one absorbed max_hp." ],
     "//": "stats modified by the zombie_fuse special attack.",
     "//1": "scaling:",
-    "//2": "/48 HP: +0,5 melee_skill, +0,5 dodge_skill (unexpected movement), +5 Speed (bigger steps&more to attack with), +4 bash",
-    "//3": "/160 HP: +1 size",
-    "max_intensity": 480,
-    "base_mods": { "hit_mod": [ 0.0104 ], "dodge_mod": [ 0.0104 ], "speed_mod": [ 0.1042 ], "bash_mod": [ 0.08333 ] },
-    "scaling_mods": {
-      "hit_mod": [ 0.0104 ],
-      "dodge_mod": [ 0.0104 ],
-      "speed_mod": [ 0.1042 ],
-      "bash_mod": [ 0.08333 ],
-      "size_mod": [ 0.00625 ]
-    },
+    "//2": "/50 HP: +0,5 melee_skill, +0,5 dodge_skill (unexpected movement), +5 Speed (bigger steps&more to attack with), +4 bash",
+    "//3": "/250 HP: +1 size",
+    "max_intensity": 500,
+    "base_mods": { "hit_mod": [ 0.01 ], "dodge_mod": [ 0.01 ], "speed_mod": [ 0.1 ], "bash_mod": [ 0.08 ] },
+    "scaling_mods": { "hit_mod": [ 0.01 ], "dodge_mod": [ 0.01 ], "speed_mod": [ 0.1 ], "bash_mod": [ 0.08 ], "size_mod": [ 0.004 ] },
     "int_decay_step": 0
   },
   {
     "type": "effect_type",
     "id": "migo_atmosphere",
-    "name": [ "Stinking air", "Disorienting air", "Disorienting air", "Smothering air", "Smothering air" ],
+    "name": [ "Stinking Air", "Disorienting Air", "Disorienting Air", "Smothering Air", "Smothering Air" ],
     "desc": [
       "The air in here smells like vinegar and mold.",
       "The air in here smells like vinegar and mold.  It makes you feel soft-headed and confused.",
@@ -2437,7 +3421,7 @@
   {
     "type": "effect_type",
     "id": "fetid_goop",
-    "name": [ "Covered in fetid goop" ],
+    "name": [ "Covered in Fetid Goop" ],
     "desc": [ "The feeling of the goop slowly sliding on your skin revulses you and the smell makes you gag." ],
     "apply_message": "You're disgusted by the goop.",
     "rating": "bad",
@@ -2465,13 +3449,15 @@
   },
   {
     "type": "effect_type",
-    "id": "nightmares"
+    "id": "nightmares",
+    "max_duration": "72 hours"
   },
   {
     "type": "effect_type",
     "id": "incorporeal",
     "name": [ "Incorporeal" ],
-    "desc": [ "You lack substance, as if composed of mist." ]
+    "desc": [ "You lack substance, as if you aren't quite fully here." ],
+    "removes_effects": [ "grabbed", "bleed" ]
   },
   {
     "type": "effect_type",
@@ -2592,5 +3578,110 @@
   {
     "type": "effect_type",
     "id": "hunger_blank"
+  },
+  {
+    "//": "Limits the number of police bots summoned to 3 every 6 hours",
+    "type": "effect_type",
+    "id": "eyebot_assisted",
+    "int_add_val": 1,
+    "max_intensity": 3,
+    "max_duration": "6 hours"
+  },
+  {
+    "//": "The eyebot can no longer summon police bots",
+    "type": "effect_type",
+    "id": "eyebot_depleted",
+    "int_add_val": 1,
+    "max_intensity": 10
+  },
+  {
+    "id": "weakened_inertia",
+    "type": "effect_type",
+    "name": [ "Weakened Inertia" ],
+    "desc": [ "Your body moves strangely easily, as if it weighted less." ],
+    "apply_message": "Your inertia itself is damaged, but the outcome seems suspiciously beneficial.",
+    "remove_message": "Reality reasserts itself and your inertia returns to normal.",
+    "rating": "good",
+    "show_intensity": false,
+    "base_mods": { "dex_mod": [ 6, 0 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "hallucination_attacks",
+    "rating": "bad",
+    "max_duration": "10 days",
+    "show_in_info": false
+  },
+  {
+    "id": "strengthened_inertia",
+    "type": "effect_type",
+    "name": [ "Weakened Inertia" ],
+    "desc": [ "Your body is strangely difficult to move, as if it weighted more." ],
+    "apply_message": "Your inertia itself is damaged, but hopefully it's not permanent yet.",
+    "remove_message": "Reality reasserts itself and your inertia returns to normal.",
+    "rating": "bad",
+    "show_intensity": false,
+    "base_mods": { "dex_mod": [ -6, 0 ] }
+  },
+  {
+    "id": "warped_viewpoint",
+    "type": "effect_type",
+    "name": [ "Warped Viewpoint" ],
+    "desc": [ "Space is warped around you such that you can see a wider arc and as if everything was closer." ],
+    "apply_message": "Space around you is damaged but in the process your can see more and more easily than before.",
+    "remove_message": "Reality reasserts itself and your perspective returns to normal.",
+    "rating": "good",
+    "show_intensity": false,
+    "base_mods": { "per_mod": [ 6, 0 ] }
+  },
+  {
+    "id": "narrow_viewpoint",
+    "type": "effect_type",
+    "name": [ "Narrowed Viewpoint" ],
+    "desc": [ "Space is warped around you such that you can see less and as if everything was farther away." ],
+    "apply_message": "Space around you is damaged narrowing your perspective.",
+    "remove_message": "Reality reasserts itself and your perspective returns to normal.",
+    "rating": "bad",
+    "show_intensity": false,
+    "base_mods": { "per_mod": [ 6, 0 ] }
+  },
+  {
+    "id": "weakened_gravity",
+    "type": "effect_type",
+    "name": [ "Weakened Gravity" ],
+    "desc": [ "Something is wrong with local spacetime and everything near you seems to weigh less." ],
+    "apply_message": "Space around you is damaged and everything near you seems to weigh less.",
+    "remove_message": "Reality reasserts itself and your gravity returns to normal.",
+    "rating": "good",
+    "show_intensity": false,
+    "enchantments": [ { "values": [ { "value": "CARRY_WEIGHT", "multiply": 1.25 } ] } ]
+  },
+  {
+    "id": "strengthened_gravity",
+    "type": "effect_type",
+    "name": [ "Strengthened Gravity" ],
+    "desc": [ "Something is wrong with local spacetime and everything near you seems to weigh more." ],
+    "apply_message": "Space around you is damaged and everything near you seems to weigh more.",
+    "remove_message": "Reality reasserts itself and your gravity returns to normal.",
+    "rating": "bad",
+    "show_intensity": false,
+    "enchantments": [
+      {
+        "values": [ { "value": "CARRY_WEIGHT", "multiply": { "global_val": "var", "var_name": "portal_dungeon_carry_strength" } } ]
+      }
+    ]
+  },
+  {
+    "id": "slowed_time",
+    "type": "effect_type",
+    "name": [ "Slowed Time" ],
+    "desc": [ "Something is wrong with local spacetime and everything around seems to move faster than you." ],
+    "apply_message": "Time around you is damaged and everything near you seems to move faster.",
+    "remove_message": "Reality reasserts itself and your time returns to normal.",
+    "rating": "bad",
+    "show_intensity": false,
+    "enchantments": [
+      { "values": [ { "value": "SPEED", "multiply": { "global_val": "var", "var_name": "portal_dungeon_slow_strength" } } ] }
+    ]
   }
 ]

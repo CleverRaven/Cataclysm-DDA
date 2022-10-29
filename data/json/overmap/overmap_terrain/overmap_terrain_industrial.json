@@ -21,7 +21,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "public_works_NE_roof", "public_works_NW_roof", "public_works_SW_roof", "public_works_SE_roof" ],
+    "id": [ "public_works_NE_roof", "public_works_NW_roof", "public_works_SE_roof" ],
     "name": "public works roof",
     "sym": "w",
     "color": "light_gray",
@@ -156,7 +156,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "construction_site",
+    "id": [ "construction_site", "house_vacant", "house_vacant1", "house_vacant2", "house_vacant3" ],
     "name": "construction site",
     "copy-from": "generic_city_building",
     "sym": "x",
@@ -269,7 +269,6 @@
       "steel_mill_4_2_3",
       "steel_mill_4_3",
       "steel_mill_4_3_2",
-      "steel_mill_4_3_3",
       "steel_mill_4_3_3"
     ],
     "copy-from": "generic_city_building_no_sidewalk",
@@ -289,7 +288,7 @@
     ],
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "steel mill depot",
-    "sym": "|",
+    "sym": "│",
     "color": "dark_gray"
   },
   {
@@ -379,7 +378,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "mine_shaft_middle",
+    "id": [ "mine_shaft_middle", "mine_shaft_middle_east" ],
     "name": "mine shaft",
     "sym": "O",
     "color": "dark_gray",
@@ -412,13 +411,43 @@
       "mine_spiral_finale_ne",
       "mine_spiral_finale_sw",
       "mine_spiral_finale_s",
-      "mine_spiral_finale_se"
+      "mine_spiral_finale_se",
+      "mine_amigara_west",
+      "mine_amigara_central",
+      "mine_amigara_east",
+      "mine_amigara_-1_west",
+      "mine_amigara_-1_central",
+      "mine_amigara_-1_east",
+      "mine_amigara_finale_west",
+      "mine_amigara_finale_central",
+      "mine_amigara_finale_east",
+      "mine_wyrms_west",
+      "mine_wyrms_central",
+      "mine_wyrms_east",
+      "mine_wyrms_finale"
     ],
     "name": "mine tunnels",
     "sym": "O",
     "color": "dark_gray",
     "see_cost": 5,
     "flags": [ "KNOWN_UP" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mine_tunnel",
+    "name": "mine tunnels",
+    "color": "dark_gray",
+    "see_cost": 5,
+    "spawns": { "group": "GROUP_MINERS", "population": [ 1, 2 ], "chance": 100 },
+    "flags": [ "LINEAR" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mine_finale",
+    "name": "mine",
+    "sym": "M",
+    "color": "brown",
+    "see_cost": 5
   },
   {
     "type": "overmap_terrain",

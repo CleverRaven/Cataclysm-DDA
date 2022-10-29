@@ -5,13 +5,14 @@
 #include <iosfwd>
 
 #include "game_constants.h"
+#include "mdarray.h"
 #include "memory_fast.h"
 #include "point.h" // IWYU pragma: keep
 
 class JsonOut;
-class JsonIn;
 class JsonObject;
 class JsonOut;
+class JsonValue;
 
 struct memorized_terrain_tile {
     std::string tile;
@@ -34,10 +35,16 @@ struct mm_submap {
         static const int default_symbol;
 
         mm_submap();
+        explicit mm_submap( bool make_valid );
 
         /** Whether this mm_submap is empty. Empty submaps are skipped during saving. */
         bool is_empty() const {
             return tiles.empty() && symbols.empty();
+        }
+
+        // Whether this mm_submap is invalid, i.e. returned from an uninitialized region.
+        bool is_valid() const {
+            return valid;
         }
 
         inline const memorized_terrain_tile &tile( const point &p ) const {
@@ -75,11 +82,14 @@ struct mm_submap {
         }
 
         void serialize( JsonOut &jsout ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonValue &ja );
 
     private:
+        // NOLINTNEXTLINE(cata-serialize)
         std::vector<memorized_terrain_tile> tiles; // holds either 0 or SEEX*SEEY elements
+        // NOLINTNEXTLINE(cata-serialize)
         std::vector<int> symbols; // holds either 0 or SEEX*SEEY elements
+        bool valid = true; // NOLINT(cata-serialize)
 };
 
 /**
@@ -88,14 +98,14 @@ struct mm_submap {
  * and each region is saved in its own file.
  */
 struct mm_region {
-    shared_ptr_fast<mm_submap> submaps[MM_REG_SIZE][MM_REG_SIZE];
+    cata::mdarray<shared_ptr_fast<mm_submap>, point, MM_REG_SIZE, MM_REG_SIZE> submaps;
 
     mm_region();
 
     bool is_empty() const;
 
     void serialize( JsonOut &jsout ) const;
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonValue &ja );
 };
 
 /**
@@ -126,7 +136,7 @@ class map_memory
         void load( const tripoint &pos );
 
         /** Load legacy memory file. TODO: remove after 0.F (or whatever BN will have instead). */
-        void load_legacy( JsonIn &jsin );
+        void load_legacy( const JsonValue &jv );
 
         /** Save memorized submaps to disk, drop ones far from given global map square pos. */
         bool save( const tripoint &pos );

@@ -9,52 +9,53 @@
 #include "json.h"
 
 const field_type_str_id fd_null = field_type_str_id::NULL_ID();
-const field_type_str_id fd_fire( "fd_fire" );
-const field_type_str_id fd_blood( "fd_blood" );
-const field_type_str_id fd_bile( "fd_bile" );
-const field_type_str_id fd_extinguisher( "fd_extinguisher" );
-const field_type_str_id fd_gibs_flesh( "fd_gibs_flesh" );
-const field_type_str_id fd_gibs_veggy( "fd_gibs_veggy" );
-const field_type_str_id fd_web( "fd_web" );
-const field_type_str_id fd_slime( "fd_slime" );
 const field_type_str_id fd_acid( "fd_acid" );
-const field_type_str_id fd_sap( "fd_sap" );
-const field_type_str_id fd_sludge( "fd_sludge" );
-const field_type_str_id fd_smoke( "fd_smoke" );
-const field_type_str_id fd_toxic_gas( "fd_toxic_gas" );
-const field_type_str_id fd_tear_gas( "fd_tear_gas" );
-const field_type_str_id fd_nuke_gas( "fd_nuke_gas" );
-const field_type_str_id fd_gas_vent( "fd_gas_vent" );
-const field_type_str_id fd_fire_vent( "fd_fire_vent" );
-const field_type_str_id fd_flame_burst( "fd_flame_burst" );
-const field_type_str_id fd_electricity( "fd_electricity" );
-const field_type_str_id fd_fatigue( "fd_fatigue" );
-const field_type_str_id fd_push_items( "fd_push_items" );
-const field_type_str_id fd_shock_vent( "fd_shock_vent" );
 const field_type_str_id fd_acid_vent( "fd_acid_vent" );
-const field_type_str_id fd_plasma( "fd_plasma" );
-const field_type_str_id fd_laser( "fd_laser" );
-const field_type_str_id fd_dazzling( "fd_dazzling" );
-const field_type_str_id fd_blood_veggy( "fd_blood_veggy" );
+const field_type_str_id fd_bees( "fd_bees" );
+const field_type_str_id fd_bile( "fd_bile" );
+const field_type_str_id fd_blood( "fd_blood" );
 const field_type_str_id fd_blood_insect( "fd_blood_insect" );
 const field_type_str_id fd_blood_invertebrate( "fd_blood_invertebrate" );
-const field_type_str_id fd_gibs_insect( "fd_gibs_insect" );
-const field_type_str_id fd_gibs_invertebrate( "fd_gibs_invertebrate" );
-const field_type_str_id fd_bees( "fd_bees" );
-const field_type_str_id fd_incendiary( "fd_incendiary" );
-const field_type_str_id fd_relax_gas( "fd_relax_gas" );
-const field_type_str_id fd_fungal_haze( "fd_fungal_haze" );
+const field_type_str_id fd_blood_veggy( "fd_blood_veggy" );
 const field_type_str_id fd_cold_air2( "fd_cold_air2" );
 const field_type_str_id fd_cold_air3( "fd_cold_air3" );
 const field_type_str_id fd_cold_air4( "fd_cold_air4" );
+const field_type_str_id fd_dazzling( "fd_dazzling" );
+const field_type_str_id fd_electricity( "fd_electricity" );
+const field_type_str_id fd_electricity_unlit( "fd_electricity_unlit" );
+const field_type_str_id fd_extinguisher( "fd_extinguisher" );
+const field_type_str_id fd_fatigue( "fd_fatigue" );
+const field_type_str_id fd_fire( "fd_fire" );
+const field_type_str_id fd_fire_vent( "fd_fire_vent" );
+const field_type_str_id fd_flame_burst( "fd_flame_burst" );
+const field_type_str_id fd_fungal_haze( "fd_fungal_haze" );
+const field_type_str_id fd_fungicidal_gas( "fd_fungicidal_gas" );
+const field_type_str_id fd_gas_vent( "fd_gas_vent" );
+const field_type_str_id fd_gibs_flesh( "fd_gibs_flesh" );
+const field_type_str_id fd_gibs_insect( "fd_gibs_insect" );
+const field_type_str_id fd_gibs_invertebrate( "fd_gibs_invertebrate" );
+const field_type_str_id fd_gibs_veggy( "fd_gibs_veggy" );
 const field_type_str_id fd_hot_air1( "fd_hot_air1" );
 const field_type_str_id fd_hot_air2( "fd_hot_air2" );
 const field_type_str_id fd_hot_air3( "fd_hot_air3" );
 const field_type_str_id fd_hot_air4( "fd_hot_air4" );
-const field_type_str_id fd_fungicidal_gas( "fd_fungicidal_gas" );
+const field_type_str_id fd_incendiary( "fd_incendiary" );
 const field_type_str_id fd_insecticidal_gas( "fd_insecticidal_gas" );
+const field_type_str_id fd_laser( "fd_laser" );
+const field_type_str_id fd_nuke_gas( "fd_nuke_gas" );
+const field_type_str_id fd_plasma( "fd_plasma" );
+const field_type_str_id fd_push_items( "fd_push_items" );
+const field_type_str_id fd_relax_gas( "fd_relax_gas" );
+const field_type_str_id fd_sap( "fd_sap" );
+const field_type_str_id fd_shock_vent( "fd_shock_vent" );
+const field_type_str_id fd_slime( "fd_slime" );
+const field_type_str_id fd_sludge( "fd_sludge" );
+const field_type_str_id fd_smoke( "fd_smoke" );
 const field_type_str_id fd_smoke_vent( "fd_smoke_vent" );
+const field_type_str_id fd_tear_gas( "fd_tear_gas" );
 const field_type_str_id fd_tindalos_rift( "fd_tindalos_rift" );
+const field_type_str_id fd_toxic_gas( "fd_toxic_gas" );
+const field_type_str_id fd_web( "fd_web" );
 
 namespace io
 {
@@ -78,8 +79,7 @@ std::string enum_to_string<game_message_type>( game_message_type data )
         case game_message_type::num_game_message_type:
             break;
     }
-    debugmsg( "Invalid game_message_type" );
-    abort();
+    cata_fatal( "Invalid game_message_type" );
 }
 
 template<>
@@ -102,53 +102,52 @@ std::string enum_to_string<description_affix>( description_affix data )
 
 } // namespace io
 
-namespace
+generic_factory<field_type> &get_all_field_types()
 {
-
-generic_factory<field_type> all_field_types( "field types" );
-
-} // namespace
+    static generic_factory<field_type> all_field_types( "field types" );
+    return all_field_types;
+}
 
 /** @relates int_id */
 template<>
 bool int_id<field_type>::is_valid() const
 {
-    return all_field_types.is_valid( *this );
+    return get_all_field_types().is_valid( *this );
 }
 
 /** @relates int_id */
 template<>
 const field_type &int_id<field_type>::obj() const
 {
-    return all_field_types.obj( *this );
+    return get_all_field_types().obj( *this );
 }
 
 /** @relates int_id */
 template<>
 const string_id<field_type> &int_id<field_type>::id() const
 {
-    return all_field_types.convert( *this );
+    return get_all_field_types().convert( *this );
 }
 
 /** @relates string_id */
 template<>
 bool string_id<field_type>::is_valid() const
 {
-    return all_field_types.is_valid( *this );
+    return get_all_field_types().is_valid( *this );
 }
 
 /** @relates string_id */
 template<>
 const field_type &string_id<field_type>::obj() const
 {
-    return all_field_types.obj( *this );
+    return get_all_field_types().obj( *this );
 }
 
 template<>
 int_id<field_type> string_id<field_type>::id_or( const int_id<field_type> &fallback ) const
 {
-    if( all_field_types.initialized ) {
-        return all_field_types.convert( *this, fallback, false );
+    if( get_all_field_types().initialized ) {
+        return get_all_field_types().convert( *this, fallback, false );
     }
     return fallback;
 }
@@ -157,7 +156,7 @@ int_id<field_type> string_id<field_type>::id_or( const int_id<field_type> &fallb
 template<>
 int_id<field_type> string_id<field_type>::id() const
 {
-    return all_field_types.convert( *this, fd_null.id_or( int_id<field_type>() ) );
+    return get_all_field_types().convert( *this, fd_null.id_or( int_id<field_type>() ) );
 }
 
 /** @relates int_id */
@@ -254,7 +253,7 @@ void field_type::load( const JsonObject &jo, const std::string & )
         intensity_levels.emplace_back( intensity_level );
     }
     if( intensity_levels.empty() ) {
-        jo.throw_error( "No intensity levels defined for field type", "id" );
+        jo.throw_error_at( "id", "No intensity levels defined for field type" );
     }
 
     if( jo.has_object( "npc_complain" ) ) {
@@ -271,12 +270,21 @@ void field_type::load( const JsonObject &jo, const std::string & )
     }
 
     JsonObject jid = jo.get_object( "immunity_data" );
-    for( const std::string id : jid.get_array( "traits" ) ) {
-        immunity_data_traits.emplace_back( id );
+    for( const std::string id : jid.get_array( "flags" ) ) {
+        immunity_data_flags.emplace_back( id );
     }
     for( JsonArray jao : jid.get_array( "body_part_env_resistance" ) ) {
-        immunity_data_body_part_env_resistance.emplace_back( std::make_pair( bodypart_str_id(
-                    jao.get_string( 0 ) ), jao.get_int( 1 ) ) );
+        immunity_data_body_part_env_resistance.emplace_back( std::make_pair(
+                    io::string_to_enum<body_part_type::type>( jao.get_string( 0 ) ), jao.get_int( 1 ) ) );
+    }
+    for( JsonArray jao : jid.get_array( "immunity_flags_worn" ) ) {
+        immunity_data_part_item_flags.emplace_back( std::make_pair(
+                    io::string_to_enum<body_part_type::type>( jao.get_string( 0 ) ), jao.get_string( 1 ) ) );
+    }
+
+    for( JsonArray jao : jid.get_array( "immunity_flags_worn_any" ) ) {
+        immunity_data_part_item_flags_any.emplace_back( std::make_pair(
+                    io::string_to_enum<body_part_type::type>( jao.get_string( 0 ) ), jao.get_string( 1 ) ) );
     }
 
     optional( jo, was_loaded, "immune_mtypes", immune_mtypes );
@@ -305,6 +313,8 @@ void field_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "display_field", display_field, false );
     optional( jo, was_loaded, "legacy_make_rubble", legacy_make_rubble, false );
     optional( jo, was_loaded, "wandering_field", wandering_field, field_type_str_id::NULL_ID() );
+
+    optional( jo, was_loaded, "mopsafe", mopsafe, false );
 
     optional( jo, was_loaded, "decrease_intensity_on_contact", decrease_intensity_on_contact, false );
 
@@ -354,40 +364,40 @@ void field_type::check() const
 
 size_t field_type::count()
 {
-    return all_field_types.size();
+    return get_all_field_types().size();
 }
 
 void field_types::load( const JsonObject &jo, const std::string &src )
 {
-    all_field_types.load( jo, src );
+    get_all_field_types().load( jo, src );
 }
 
 void field_types::finalize_all()
 {
-    all_field_types.finalize();
-    for( const field_type &fd : all_field_types.get_all() ) {
+    get_all_field_types().finalize();
+    for( const field_type &fd : get_all_field_types().get_all() ) {
         const_cast<field_type &>( fd ).finalize();
     }
 }
 
 void field_types::check_consistency()
 {
-    all_field_types.check();
+    get_all_field_types().check();
 }
 
 void field_types::reset()
 {
-    all_field_types.reset();
+    get_all_field_types().reset();
 }
 
 const std::vector<field_type> &field_types::get_all()
 {
-    return all_field_types.get_all();
+    return get_all_field_types().get_all();
 }
 
 field_type field_types::get_field_type_by_legacy_enum( int legacy_enum_id )
 {
-    for( const auto &ft : all_field_types.get_all() ) {
+    for( const field_type &ft : get_all_field_types().get_all() ) {
         if( legacy_enum_id == ft.legacy_enum_id ) {
             return ft;
         }

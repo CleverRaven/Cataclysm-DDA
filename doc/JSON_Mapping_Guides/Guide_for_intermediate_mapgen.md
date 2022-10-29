@@ -63,7 +63,7 @@ You’ll want to make some choices before adding nested maps.
 * If it is within a larger building, will you include doors/walls?
 * What size map do you need to make.
 
-A nested map gives you the ability to overwrite or fill in a portion of an existing mapgen.  The contents of the nested map entry can contain any entry within mapgen objects (excepting fill_ter).  This includes adding nested maps inside your nested map for extra variability.  
+A nested map gives you the ability to overwrite or fill in a portion of an existing mapgen.  The contents of the nested map entry can contain any entry within mapgen objects (excepting fill_ter).  This includes adding nested maps inside your nested map for extra variability.
 
 Example json entry for the nested map:
 
@@ -116,7 +116,7 @@ Note the ID is now `nested_mapgen_id` and the object uses a new entry `mapgensiz
 * `terrain` & `furniture`:   Without `fill_ter`, you need to define every floor terrain under furniture.  If you don't it will fall back to the main mapgen's `fill_ter`.  In the above example, there's a green carpet in 1/2 the map and the rest picks up the floor of the mapgen (indoor concrete).  If you need to overwrite existing furniture in the main mapgen you can use a combination of `t_null` and `f_null` to override preexisting mapgen.
 
 _Tips:_
-If you're doing interior spaces, pay attention to door placement and access pathways.  
+If you're doing interior spaces, pay attention to door placement and access pathways.
 
 * For walled nests, I generally keep the doors in the center of the walls.
 * For open floor plan nests, I try to preserve the corner spaces for doors in the regular mapgen (if I can design the mapgen with the nests).
@@ -159,7 +159,7 @@ by using room and a compass direction, it quickly identifies the nest as having 
 
 **Debug testing:**
 
-So many nests, so hard to find ones to use!  
+So many nests, so hard to find ones to use!
 
 We've recently gotten the ability to spawn nested maps via debug in game and this is a huge help for making sure nests fit, don't conflict with elements in the existing maps and are oriented well without adjusting spawn weights to force the nest to spawn naturally.
 
@@ -176,9 +176,9 @@ You'll quickly see why it's good to use a coherent name format.
 
 **Mini nests:**
 
-Nests can be as small as one tile which is very useful if you want special or rare spawns for items, monsters, vehicles, NPCs or other elements.  
+Nests can be as small as one tile which is very useful if you want special or rare spawns for items, monsters, vehicles, NPCs or other elements.
 
-An example of a spawn for a particular loot group:  
+An example of a spawn for a particular loot group:
 These nests were used in a larger nest of a basement study.  I didn't want the study to offer all the magiclysm class books at once.  I made nests for each spell class item_group:
 
 3 1x1 nested maps that only include loot placement.  They feed into a larger nest.
@@ -356,7 +356,7 @@ Currently, nested maps do not support z level linking, so any nested map you mak
 
 As the nested maps used in vanilla increase, modders can make use of these existing entries to incorporate their mod maps into existing buildings.  This should greatly expand the mod's ability to add its content into vanilla maps.  By using the same `nested mapgen id` and assigning a `weight` to both your new nest and existing nests (as needed).
 
-I recommend the modder take a look through existing maps and see if there is one that fits the same overall size, orientation, and spawning rarity that they would like their modded nest to have.  
+I recommend the modder take a look through existing maps and see if there is one that fits the same overall size, orientation, and spawning rarity that they would like their modded nest to have.
 You can search for the nested mapgen ids in the github to make sure its representation meets your needs.
 
 
@@ -460,7 +460,7 @@ The main mapgen and spawning your trap:
   }
   ```
 
-  I've placed the trap under a coat rack to dissuade casual triggering.  Note: when triggered, the trap will update the wall across the room with a beaded door entrance.  
+  I've placed the trap under a coat rack to dissuade casual triggering.  Note: when triggered, the trap will update the wall across the room with a beaded door entrance.
 
 
 **Merged maps**
@@ -482,7 +482,7 @@ om_terrain value:
     ]
 ```
 
-Each OMT's coordinates will continue the row and column numbers, they do not reset to 0,0 at each map boundary.  
+Each OMT's coordinates will continue the row and column numbers, they do not reset to 0,0 at each map boundary.
 
 For our farm the coordinates will be:
 * x sets:

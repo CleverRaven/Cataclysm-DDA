@@ -18,6 +18,7 @@
 #include "translations.h"
 
 enum action_id : int;
+class cata_path;
 class hotkey_queue;
 
 namespace cata
@@ -41,10 +42,10 @@ static constexpr int KEY_UP         = 0x103;    /* up arrow */
 static constexpr int KEY_LEFT       = 0x104;    /* left arrow */
 static constexpr int KEY_RIGHT      = 0x105;    /* right arrow*/
 static constexpr int KEY_HOME       =
-    0x106;    /* home key */                   //<---------not used
+    0x106;    /* home key */
 static constexpr int KEY_BACKSPACE  =
     0x107;    /* Backspace */                  //<---------not used
-static constexpr int KEY_DC         = 0x151;    /* Delete Character */
+static constexpr int KEY_DC         = 0x14A;    /* Delete Character */
 static constexpr int KEY_F0         = 0x108;
 inline constexpr int KEY_F( const int n )
 {
@@ -59,6 +60,17 @@ inline constexpr int F_KEY_NUM( const int key )
 inline constexpr bool IS_F_KEY( const int key )
 {
     return key >= KEY_F( F_KEY_NUM_BEG ) && key <= KEY_F( F_KEY_NUM_END );
+}
+/** @return true if the given character is in the range of basic ASCII control characters */
+inline constexpr bool IS_CTRL_CHAR( const int key )
+{
+    // https://en.wikipedia.org/wiki/C0_and_C1_control_codes#Basic_ASCII_control_codes
+    return key >= 0 && key < ' ';
+}
+/** @return true if the given character is an ASCII control char but should not be rendered with "CTRL+" */
+inline constexpr bool IS_NAMED_CTRL_CHAR( const int key )
+{
+    return key == '\t' || key == '\n' || key == KEY_ESCAPE || key == KEY_BACKSPACE;
 }
 inline constexpr int KEY_NUM( const int n )
 {
@@ -143,7 +155,21 @@ bool is_mouse_enabled();
 bool is_keycode_mode_supported();
 std::string get_input_string_from_file( const std::string &fname = "input.txt" );
 
-enum mouse_buttons { MOUSE_BUTTON_LEFT = 1, MOUSE_BUTTON_RIGHT, SCROLLWHEEL_UP, SCROLLWHEEL_DOWN, MOUSE_MOVE };
+// Mouse buttons and movement input
+enum class MouseInput : int {
+
+    LeftButtonPressed = 1,
+    LeftButtonReleased,
+
+    RightButtonPressed,
+    RightButtonReleased,
+
+    ScrollWheelUp,
+    ScrollWheelDown,
+
+    Move
+
+};
 
 enum class input_event_t : int  {
     error,
@@ -190,22 +216,37 @@ struct input_event {
 
 #if defined(__ANDROID__)
     // Used exclusively by the quick shortcuts to determine how stale a shortcut is
-    int shortcut_last_used_action_counter;
+    int shortcut_last_used_action_counter = 0;
 #endif
 
     input_event() : edit_refresh( false ) {
         type = input_event_t::error;
-#if defined(__ANDROID__)
-        shortcut_last_used_action_counter = 0;
-#endif
     }
     input_event( int s, input_event_t t )
         : type( t ), edit_refresh( false ) {
         sequence.push_back( s );
-#if defined(__ANDROID__)
-        shortcut_last_used_action_counter = 0;
-#endif
     }
+
+    // overloaded function for a mouse input
+    // made for a cleaner code, to get rid of static_cast's from scoped enum to int
+    //
+    // Instead of:
+    //
+    //    input_event( static_cast<int>( MouseInput::Move ), ... )
+    //    input_event( static_cast<int>( MouseInput::LeftButtonPressed ), ... )
+    //    input_event( static_cast<int>( MouseInput::RightButtonPressed ), ... )
+    //
+    // we now can just use
+    //
+    //    input_event( MouseInput::Move, ... )
+    //    input_event( MouseInput::LeftButtonPressed, ... )
+    //    input_event( MouseInput::RightButtonPressed, ... )
+    //
+    input_event( const MouseInput s, input_event_t t )
+        : type( t ), edit_refresh( false ) {
+        sequence.push_back( static_cast<int>( s ) );
+    }
+
     input_event( const std::set<keymod_t> &mod, int s, input_event_t t );
 
     int get_first_input() const;
@@ -214,17 +255,24 @@ struct input_event {
         sequence.push_back( input );
     }
 
-#if defined(__ANDROID__)
-    input_event &operator=( const input_event &other ) {
-        type = other.type;
-        modifiers = other.modifiers;
-        sequence = other.sequence;
-        mouse_pos = other.mouse_pos;
-        text = other.text;
-        shortcut_last_used_action_counter = other.shortcut_last_used_action_counter;
-        return *this;
+    // overloaded function for a mouse input
+    // made for a cleaner code, to get rid of static_cast's from scoped enum to int
+    //
+    // Instead of:
+    //
+    //    add_input( static_cast<int>( MouseInput::Move ) )
+    //    add_input( static_cast<int>( MouseInput::LeftButtonPressed ) )
+    //    add_input( static_cast<int>( MouseInput::RightButtonPressed ) )
+    //
+    // we now can just use
+    //
+    //    add_input( MouseInput::Move )
+    //    add_input( MouseInput::LeftButtonPressed )
+    //    add_input( MouseInput::RightButtonPressed )
+    //
+    void add_input( const MouseInput mouse_input ) {
+        sequence.push_back( static_cast<int>( mouse_input ) );
     }
-#endif
 
     bool operator==( const input_event &other ) const {
         return type == other.type && modifiers == other.modifiers && sequence == other.sequence;
@@ -257,14 +305,37 @@ struct action_attributes {
 // On the joystick there's a maximum of 256 key states.
 // So for joy axis events, we simply use a number larger
 // than that.
-constexpr int JOY_0 = 0;
-constexpr int JOY_1 = 1;
-constexpr int JOY_2 = 2;
-constexpr int JOY_3 = 3;
-constexpr int JOY_4 = 4;
-constexpr int JOY_5 = 5;
-constexpr int JOY_6 = 6;
-constexpr int JOY_7 = 7;
+constexpr int JOY_0  = 0;
+constexpr int JOY_1  = 1;
+constexpr int JOY_2  = 2;
+constexpr int JOY_3  = 3;
+constexpr int JOY_4  = 4;
+constexpr int JOY_5  = 5;
+constexpr int JOY_6  = 6;
+constexpr int JOY_7  = 7;
+constexpr int JOY_8  = 8;
+constexpr int JOY_9  = 9;
+constexpr int JOY_10 = 10;
+constexpr int JOY_11 = 11;
+constexpr int JOY_12 = 12;
+constexpr int JOY_13 = 13;
+constexpr int JOY_14 = 14;
+constexpr int JOY_15 = 15;
+constexpr int JOY_16 = 16;
+constexpr int JOY_17 = 17;
+constexpr int JOY_18 = 18;
+constexpr int JOY_19 = 19;
+constexpr int JOY_20 = 20;
+constexpr int JOY_21 = 21;
+constexpr int JOY_22 = 22;
+constexpr int JOY_23 = 23;
+constexpr int JOY_24 = 24;
+constexpr int JOY_25 = 25;
+constexpr int JOY_26 = 26;
+constexpr int JOY_27 = 27;
+constexpr int JOY_28 = 28;
+constexpr int JOY_29 = 29;
+constexpr int JOY_30 = 30;
 
 constexpr int JOY_LEFT      = 256 + 1;
 constexpr int JOY_RIGHT     = 256 + 2;
@@ -355,6 +426,10 @@ class input_manager
          * Defined in the respective platform wrapper, e.g. sdlcurse.cpp
          */
         input_event get_input_event( keyboard_mode preferred_keyboard_mode = keyboard_mode::keycode );
+        /**
+         * Resize & refresh if necessary, process all pending window events, and ignore keypresses
+         */
+        void pump_events();
 
         /**
          * Wait until the user presses a key. Mouse and similar input is ignored,
@@ -367,7 +442,7 @@ class input_manager
          * Use `input_context::(re)set_timeout()` when possible so timeout will be properly
          * reset when entering a new input context.
          */
-        void set_timeout( int t );
+        void set_timeout( int delay );
         void reset_timeout() {
             set_timeout( -1 );
         }
@@ -405,13 +480,12 @@ class input_manager
         void add_keyboard_char_keycode_pair( int ch, const std::string &name );
         void add_keyboard_code_keycode_pair( int ch, const std::string &name );
         void add_gamepad_keycode_pair( int ch, const std::string &name );
-        void add_mouse_keycode_pair( int ch, const std::string &name );
-
+        void add_mouse_keycode_pair( MouseInput mouse_input, const std::string &name );
         /**
          * Load keybindings from a json file, override existing bindings.
          * Throws std::string on errors
          */
-        void load( const std::string &file_name, bool is_user_preferences );
+        void load( const cata_path &file_name, bool is_user_preferences );
 
         int input_timeout;
 
@@ -709,12 +783,9 @@ class input_context
 
         /**
          * Get the coordinates associated with the last mouse click (if any).
-         *
-         * TODO: This right now is more or less specific to the map window,
-         *       and returns the absolute map coordinate.
-         *       Eventually this should be made more flexible.
          */
-        cata::optional<tripoint> get_coordinates( const catacurses::window &capture_win_ );
+        cata::optional<tripoint> get_coordinates( const catacurses::window &capture_win_,
+                const point &offset = point_zero, bool center_cursor = false ) const;
 
         // Below here are shortcuts for registering common key combinations.
         void register_directions();
@@ -765,15 +836,19 @@ class input_context
          * @param action_descriptor The action descriptor for which to get the bound keys.
          * @param maximum_modifier_count Maximum number of modifiers allowed for
          *        the returned action. <0 means any number is allowed.
-         * @param restrict_to_printable If `true` the function returns the bound
+         * @param restrict_to_printable If `true`, the function returns the bound
          *        keys only if they are printable (space counts as non-printable
          *        here). If `false`, all keys (whether they are printable or not)
          *        are returned.
+         * @param restrict_to_keyboard If `true`, the function returns the bound keys only
+         *        if they are keyboard inputs. If `false`, all inputs, such as mouse
+         *        inputs are included.
          * @returns All keys bound to the given action descriptor.
          */
         std::vector<input_event> keys_bound_to( const std::string &action_descriptor,
                                                 int maximum_modifier_count = -1,
-                                                bool restrict_to_printable = true ) const;
+                                                bool restrict_to_printable = true,
+                                                bool restrict_to_keyboard = true ) const;
 
         /**
         * Get/Set edittext to display IME unspecified string.
@@ -802,6 +877,7 @@ class input_context
     public:
         const std::string &input_to_action( const input_event &inp ) const;
         bool is_event_type_enabled( input_event_t type ) const;
+        bool is_registered_action( const std::string &action_name ) const;
     private:
         bool registered_any_input;
         std::string category; // The input category this context uses.
@@ -829,7 +905,7 @@ class input_context
          * Return a user presentable list of actions that conflict with the
          * proposed keybinding. Returns an empty string if nothing conflicts.
          */
-        std::string get_conflicts( const input_event &event ) const;
+        std::string get_conflicts( const input_event &event, const std::string &ignore_action ) const;
         /**
          * Clear an input_event from all conflicting keybindings that are
          * registered by this input_context.

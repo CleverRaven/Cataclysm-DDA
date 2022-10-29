@@ -55,7 +55,7 @@
         "-": "t_linoleum_white",
         "$": "t_chainfence",
         "~": "t_thconc_floor",
-        "_": "t_dirt",
+        "_": "t_region_soil",
         ";": "t_chainfence_posts"
       },
       "furniture": { "&": "f_wreckage", "=": "f_toilet", "{": "f_dumpster", "?": "f_beaded_door", "!": "f_region_flower" },
@@ -109,11 +109,17 @@
       "parameters": {
         "roof_type": {
           "type": "ter_str_id",
+          "scope": "omt",
           "default": { "distribution": [ [ "t_flat_roof", 2 ], [ "t_tar_flat_roof", 1 ], [ "t_shingle_flat_roof", 1 ] ] }
         }
       },
       "palettes": [ "roof_palette" ],
-      "terrain": { ".": { "param": "roof_type" } }
+      "terrain": {
+        ".": { "param": "roof_type" },
+        "&": { "param": "roof_type" },
+        "N": { "param": "roof_type" },
+        "=": { "param": "roof_type" }
+      }
     }
   },
   {
@@ -173,7 +179,7 @@
         "-": "t_linoleum_white",
         "$": "t_chainfence",
         "~": "t_thconc_floor",
-        "_": "t_dirt",
+        "_": "t_region_soil",
         ";": "t_chainfence_posts",
         "/": "t_window_boarded"
       },
@@ -256,7 +262,7 @@
         "~": "t_thconc_floor",
         "K": "t_thconc_floor",
         "G": "t_thconc_floor",
-        "_": "t_dirt",
+        "_": "t_region_soil",
         ";": "t_chainfence_posts",
         "/": "t_window_boarded_noglass",
         ",": "t_window_bars"

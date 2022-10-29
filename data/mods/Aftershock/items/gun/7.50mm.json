@@ -69,7 +69,7 @@
     "looks_like": "ar15",
     "type": "GUN",
     "name": { "str": "G&W SR-P9" },
-    "description": "An eminently sturdy and reliable bullpup rifle issued by UICA's military during early reclamation expeditions.  Although its been out of service for nearly two decades, many a private military and contractor has found a use for the SR-P9, and it remains common long past its initial introduction into service.",
+    "description": "An eminently sturdy and reliable bullpup rifle issued by UICA's military during early reclamation expeditions.  Although it's been out of service for nearly two decades, many a private military and contractor has found a use for the SR-P9, and it remains common long past its initial introduction into service.",
     "weight": "3170 g",
     "volume": "3100 ml",
     "longest_side": "630 mm",

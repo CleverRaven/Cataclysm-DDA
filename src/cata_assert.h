@@ -7,7 +7,20 @@
 
 // Might as well handle NDEBUG at the top level instead of just wrapping one variant.
 #ifdef NDEBUG
-#define cata_assert(expression) ((void)0)
+#ifdef __GNUC__
+#define cata_assert(expression) \
+    do { \
+        if( !( expression ) ) { \
+            __builtin_unreachable(); \
+        } \
+    } while(false)
+#else
+// Goes the convoluted way to avoid unused variable warnings. The inner declval
+// and decltype expressions are to workaround incorrect "left operand has no
+// effect" warning on some compilers.
+#define cata_assert(expression) \
+    ( static_cast<void>( decltype( std::declval<decltype( expression )>(), int() )() ) )
+#endif // __GNUC__
 #else
 #ifdef _WIN32
 #include <cstdlib>
@@ -19,7 +32,7 @@
         } \
         fprintf( stderr, "%s at %s:%d: Assertion `%s` failed.\n", __func__, __FILE__, __LINE__, #expression ); \
         std::abort(); \
-    } while( false );
+    } while( false )
 #else
 #include <cassert>
 #define cata_assert(expression) assert(expression)

@@ -14,6 +14,7 @@
 
 #include "character_id.h"
 #include "color.h"
+#include "shop_cons_rate.h"
 #include "translations.h"
 #include "type_id.h"
 
@@ -30,10 +31,14 @@ std::string fac_respect_text( int val );
 std::string fac_wealth_text( int val, int size );
 std::string fac_combat_ability_text( int val );
 
-class JsonIn;
+class item;
 class JsonObject;
 class JsonOut;
+class JsonValue;
 class faction;
+class npc;
+
+struct dialogue;
 
 using faction_id = string_id<faction>;
 
@@ -64,6 +69,26 @@ const std::unordered_map<std::string, relationship> relation_strs = { {
 };
 } // namespace npc_factions
 
+struct faction_price_rule: public icg_entry {
+    double markup = 1.0;
+    double premium = 1.0;
+    cata::optional<double> fixed_adj = cata::nullopt;
+    cata::optional<int> price = cata::nullopt;
+
+    faction_price_rule() = default;
+    faction_price_rule( itype_id const &id, double m, double f )
+        : icg_entry{ id, {}, {}, {}, {} }, markup( m ), fixed_adj( f ) {};
+    explicit faction_price_rule( icg_entry const &rhs ) : icg_entry( rhs ) {}
+
+    void deserialize( JsonObject const &jo );
+};
+
+class faction_price_rules_reader : public generic_typed_reader<faction_price_rules_reader>
+{
+    public:
+        static faction_price_rule get_next( JsonValue &jv );
+};
+
 class faction_template
 {
     protected:
@@ -74,7 +99,6 @@ class faction_template
         explicit faction_template( const JsonObject &jsobj );
 
     public:
-        faction_template( const faction_template & ) = default;
         static void load( const JsonObject &jsobj );
         static void check_consistency();
         static void reset();
@@ -82,6 +106,7 @@ class faction_template
         std::string name;
         int likes_u;
         int respects_u;
+        int trusts_u; // Determines which item groups are available for trading
         bool known_by_u;
         faction_id id;
         translation desc;
@@ -91,6 +116,7 @@ class faction_template
         int wealth;  //Total trade currency
         bool lone_wolf_faction; // is this a faction for just one person?
         itype_id currency; // id of the faction currency
+        std::vector<faction_price_rule> price_rules; // additional pricing rules
         std::map<std::string, std::bitset<npc_factions::rel_types>> relations;
         mfaction_str_id mon_faction; // mon_faction_id of the monster faction; defaults to human
         std::set<std::tuple<int, int, snippet_id>> epilogue_data;
@@ -102,7 +128,7 @@ class faction : public faction_template
         faction() = default;
         explicit faction( const faction_template &templ );
 
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &jo );
         void serialize( JsonOut &json ) const;
         void faction_display( const catacurses::window &fac_w, int width ) const;
 
@@ -112,12 +138,14 @@ class faction : public faction_template
         std::string food_supply_text();
         nc_color food_supply_color();
 
+        faction_price_rule const *get_price_rules( item const &it, npc const &guy ) const;
+
         bool has_relationship( const faction_id &guy_id, npc_factions::relationship flag ) const;
         void add_to_membership( const character_id &guy_id, const std::string &guy_name, bool known );
         void remove_member( const character_id &guy_id );
         std::vector<int> opinion_of;
-        bool validated = false;
-        std::map<character_id, std::pair<std::string, bool>> members;
+        bool validated = false; // NOLINT(cata-serialize)
+        std::map<character_id, std::pair<std::string, bool>> members; // NOLINT(cata-serialize)
 };
 
 class faction_manager
@@ -126,7 +154,7 @@ class faction_manager
         std::map<faction_id, faction> factions;
 
     public:
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonValue &jv );
         void serialize( JsonOut &jsout ) const;
 
         void clear();

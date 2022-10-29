@@ -7,7 +7,7 @@
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
     "time": "30 m",
-    "reversible": true,
+    "reversible": { "time": "1 s" },
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "steel_chunk", 1 ] ] ]
@@ -41,6 +41,22 @@
   {
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
+    "result": "clamp",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "1 h",
+    "autolearn": true,
+    "using": [ [ "blacksmithing_standard", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
+    "qualities": [ { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "swage", -1 ] ] ],
+    "components": [ [ [ "scrap", 4 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "spring",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -54,20 +70,22 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_toolsmithing" }
     ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
   },
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "antenna",
+    "//": "The components require far more copper wire than the materials equal out to, this is to indicate the trial and error process of finding the right frequency to make an antenna",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_COMPONENTS",
     "skill_used": "electronics",
-    "time": "3 m",
-    "book_learn": [ [ "radio_book", 1 ], [ "textbook_anarch", 1 ] ],
-    "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "steel_chunk", 1 ], [ "scrap", 3 ], [ "knife_butter", 2 ] ] ]
+    "difficulty": 2,
+    "time": "20 m",
+    "book_learn": [ [ "radio_book", 1 ], [ "textbook_anarch", 1 ], [ "mag_electronics", 1 ] ],
+    "qualities": [ { "id": "WRENCH", "level": 1 } ],
+    "components": [ [ [ "cable", 20 ] ] ],
+    "tools": [ [ [ "two_way_radio", 25 ], [ "radiocontrol", 25 ] ] ]
   },
   {
     "type": "recipe",
@@ -83,7 +101,7 @@
     "book_learn": [ [ "radio_book", 3 ], [ "textbook_anarch", 5 ] ],
     "proficiencies": [ { "proficiency": "prof_carpentry_basic" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "amplifier", 1 ] ], [ [ "wire", 6 ] ], [ [ "2x4", 2 ] ], [ [ "nail", 12 ] ] ]
+    "components": [ [ [ "amplifier", 1 ] ], [ [ "antenna", 1 ] ], [ [ "2x4", 2 ] ], [ [ "nail", 12 ] ] ]
   },
   {
     "type": "recipe",
@@ -100,6 +118,42 @@
     "using": [ [ "soldering_standard", 4 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "circuit", 1 ] ], [ [ "e_scrap", 3 ] ], [ [ "cable", 1 ] ] ]
+  },
+  {
+    "//": "TODO MAKE A RECIPE FOR THIS AND A BOOK",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "exodii_wire_kit",
+    "skill_used": "electronics",
+    "difficulty": 1,
+    "time": "4 m",
+    "using": [ [ "soldering_standard", 4 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "exodii_micro_computer", 1 ] ],
+      [ [ "exodii_micro_module", 1 ] ],
+      [ [ "e_scrap", 10 ] ],
+      [ [ "clockworks", 1 ] ],
+      [ [ "solder_wire", 2 ] ]
+    ]
+  },
+  {
+    "//": "TODO MAKE A RECIPE FOR THIS AND A BOOK",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "exodii_ac_kit",
+    "skill_used": "electronics",
+    "difficulty": 1,
+    "time": "4 m",
+    "using": [ [ "soldering_standard", 4 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "exodii_micro_module", 1 ] ],
+      [ [ "e_scrap", 10 ] ],
+      [ [ "clockworks", 2 ] ],
+      [ [ "solder_wire", 2 ] ],
+      [ [ "pipe", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -129,7 +183,6 @@
     "book_learn": [ [ "manual_electronics", 1 ], [ "textbook_electronics", 1 ], [ "advanced_electronics", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 1 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
   },
   {
@@ -181,7 +234,7 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_bladesmith" }
     ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "qualities": [ { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
   },
   {
@@ -196,7 +249,6 @@
     "autolearn": true,
     "using": [ [ "blacksmithing_standard", 32 ], [ "steel_standard", 8 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "hotcut", -1 ] ] ]
   },
   {
@@ -215,7 +267,7 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_toolsmithing" }
     ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "qualities": [ { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
   },
   {
@@ -234,7 +286,7 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_bladesmith" }
     ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "qualities": [ { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "hotcut", -1 ] ] ]
   },
   {
@@ -261,7 +313,7 @@
     "time": "300 m",
     "autolearn": true,
     "using": [ [ "forging_standard", 5 ], [ "steel_standard", 6 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
   },
@@ -295,39 +347,19 @@
     "time": "180 m",
     "autolearn": true,
     "using": [ [ "forging_standard", 1 ], [ "steel_tiny", 1 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "sheet_metal_lit",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_LIGHTING",
-    "skill_used": "electronics",
-    "difficulty": 1,
-    "time": "30 m",
-    "book_learn": [ [ "manual_electronics", 1 ], [ "mag_electronics", 1 ] ],
-    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 1.25 } ],
-    "using": [ [ "soldering_standard", 5 ] ],
-    "components": [
-      [ [ "sheet_metal", 1 ] ],
-      [ [ "lightstrip_inactive", 1 ], [ "flashlight", 1 ] ],
-      [ [ "cable", 10 ] ],
-      [ [ "plastic_chunk", 2 ] ]
-    ]
   },
   {
     "result": "xlframe",
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_PARTS",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "8 m",
-    "reversible": true,
     "autolearn": true,
     "using": [ [ "welding_standard", 6 ] ],
     "proficiencies": [
@@ -335,13 +367,14 @@
       { "proficiency": "prof_welding_basic", "fail_multiplier": 1.5 },
       { "proficiency": "prof_welding" }
     ],
-    "components": [ [ [ "material_aluminium_ingot", 8 ] ] ]
+    "components": [ [ [ "material_aluminium_ingot", 3 ], [ "scrap_aluminum", 34 ] ] ]
   },
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "ugl_buttstock",
     "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
     "skills_required": [ "launcher", 3 ],
     "difficulty": 3,
@@ -413,7 +446,7 @@
     "time": "10 m",
     "autolearn": true,
     "charges": 1,
-    "qualities": [ { "id": "ANVIL", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "CHISEL", "level": 3 } ],
+    "qualities": [ { "id": "ANVIL", "level": 1 }, { "id": "HAMMER", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_redsmithing" } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 10 ], [ "oxy_torch", 10 ] ] ],
     "components": [ [ [ "copper_scrap_equivalent", 2, "LIST" ] ] ]
@@ -471,7 +504,7 @@
     "time": "1 m",
     "autolearn": true,
     "charges": 6,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "copper_wire", 6 ] ], [ [ "duct_tape", 1 ] ] ]
   },
   {
@@ -532,7 +565,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "result": "electronics_controls",
     "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "subcategory": "CSC_ELECTRONIC_PARTS",
     "skill_used": "electronics",
     "skills_required": [ "mechanics", 1 ],
     "difficulty": 3,
@@ -610,7 +643,7 @@
     "book_learn": [ [ "mag_electronics", 2 ] ],
     "using": [ [ "soldering_standard", 6 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "amplifier", 1 ] ], [ [ "scrap", 2 ] ], [ [ "cable", 4 ] ] ]
+    "components": [ [ [ "amplifier", 1 ] ], [ [ "scrap_aluminum", 2 ] ], [ [ "cable", 4 ] ], [ [ "plastic_chunk", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -640,7 +673,7 @@
     "time": "10 m",
     "reversible": true,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "cable", 50 ], [ "jumper_cable", 1 ] ], [ [ "scrap", 2 ] ] ]
   },
   {
@@ -711,7 +744,7 @@
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "2 h",
-    "reversible": true,
+    "reversible": { "time": "20 m" },
     "autolearn": true,
     "using": [ [ "sewing_standard", 50 ], [ "welding_standard", 5 ] ],
     "proficiencies": [
@@ -719,7 +752,7 @@
       { "proficiency": "prof_welding_basic", "fail_multiplier": 1.5 },
       { "proficiency": "prof_welding" }
     ],
-    "components": [ [ [ "pipe", 4 ] ], [ [ "spring", 2 ] ], [ [ "rag", 20 ], [ "sheet", 1 ] ], [ [ "pipe_fittings", 4 ] ] ]
+    "components": [ [ [ "pipe", 4 ] ], [ [ "spring", 2 ] ], [ [ "cotton_patchwork", 20 ], [ "sheet", 1 ] ], [ [ "pipe_fittings", 4 ] ] ]
   },
   {
     "type": "recipe",
@@ -730,7 +763,7 @@
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "6 h",
-    "reversible": true,
+    "reversible": { "time": "20 m" },
     "autolearn": true,
     "using": [ [ "sewing_standard", 50 ], [ "welding_standard", 5 ] ],
     "proficiencies": [
@@ -745,7 +778,7 @@
       [ [ "spring", 2 ] ],
       [ [ "leather", 12 ], [ "fur", 12 ], [ "tanned_hide", 3 ], [ "tanned_pelt", 3 ] ],
       [ [ "pipe_fittings", 4 ] ],
-      [ [ "rag", 8 ] ]
+      [ [ "cotton_patchwork", 8 ] ]
     ]
   },
   {
@@ -818,7 +851,13 @@
     "components": [
       [ [ "antenna", 1 ] ],
       [ [ "pilot_light", 1 ] ],
-      [ [ "light_minus_battery_cell", 1 ] ],
+      [
+        [ "light_minus_battery_cell", 1 ],
+        [ "light_minus_disposable_cell", 1 ],
+        [ "light_battery_cell", 1 ],
+        [ "light_disposable_cell", 1 ],
+        [ "light_plus_battery_cell", 1 ]
+      ],
       [ [ "amplifier", 1 ] ],
       [ [ "cable", 2 ] ]
     ]
@@ -836,7 +875,32 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_plasticworking", "time_multiplier": 1.25, "fail_multiplier": 1.125 } ],
     "using": [ [ "surface_heat", 10 ] ],
-    "qualities": [ { "id": "FILE", "level": 1 }, { "id": "CUT", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "qualities": [ { "id": "FILE", "level": 1 }, { "id": "CUT", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "chunk_rubber", 8 ] ], [ [ "superglue", 4 ], [ "bone_glue", 4 ] ], [ [ "wheel_caster", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "rag",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "tailor",
+    "time": "1 s",
+    "autolearn": true,
+    "components": [ [ [ "cotton_patchwork", 1 ] ] ],
+    "//": "This is intended to be an interim measure until all recipes can be moved away from using or creating rags.  Once we're sure rags are gone, this can be obsolete."
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "sharp_rock",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "survival",
+    "time": "2 m",
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_knapping", "time_multiplier": 1.25, "fail_multiplier": 1.1 } ],
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "rock_flaking", 1 ] ] ]
   }
 ]

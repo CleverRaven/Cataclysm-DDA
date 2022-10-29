@@ -1,0 +1,31 @@
+[
+  {
+    "type": "item_group",
+    "id": "cave_minerals",
+    "subtype": "distribution",
+    "copy-from": "cave_minerals",
+    "extend": {
+      "entries": [
+        { "item": "coal_lump", "prob": 20, "count": [ 1, 10 ] },
+        { "item": "rock", "prob": 40, "count": [ 1, 10 ] },
+        { "item": "rock_large", "prob": 10, "count": [ 1, 10 ] },
+        { "item": "rock_flaking", "prob": 20, "count": [ 1, 10 ] },
+        { "item": "material_shrd_limestone", "prob": 40, "count": [ 1, 10 ] },
+        { "item": "material_limestone", "prob": 40, "count": [ 1, 10 ] },
+        { "item": "material_niter", "prob": 5, "count": [ 1, 10 ] },
+        { "item": "chunk_sulfur", "prob": 5, "count": [ 1, 10 ] },
+        { "item": "material_rocksalt", "prob": 5, "count": [ 1, 10 ] },
+        { "item": "material_rhodonite", "prob": 5, "count": [ 1, 10 ] },
+        { "item": "material_zincite", "prob": 5, "count": [ 1, 10 ] },
+        { "item": "iron_ore", "count": [ 0, 5 ], "prob": 5 },
+        { "item": "chunk_copper", "count": [ 0, 3 ], "prob": 15 },
+        { "item": "chunk_silver", "count": [ 0, 2 ], "prob": 5 },
+        { "item": "chunk_gold", "count": [ 0, 2 ], "prob": 3 },
+        { "item": "chunk_aluminum", "count": [ 0, 3 ], "prob": 3 },
+        { "item": "chunk_cassiterite", "count": [ 2, 4 ], "prob": 10 },
+        { "item": "chunk_galena", "count": [ 2, 4 ], "prob": 10 },
+        { "item": "chunk_hematite", "count": [ 2, 2 ], "prob": 10 }
+      ]
+    }
+  }
+]

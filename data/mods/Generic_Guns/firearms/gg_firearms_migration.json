@@ -71,7 +71,7 @@
     "replace": "pistol_magnum_pipe"
   },
   {
-    "id": [ "rm228", "sw_619", "ruger_redhawk", "sw629", "bfr", "sw_500", "raging_bull", "raging_judge" ],
+    "id": [ "rm228", "sw_619", "mr73", "ruger_redhawk", "sw629", "bfr", "sw_500", "raging_bull", "raging_judge" ],
     "type": "MIGRATION",
     "replace": "pistol_magnum_revolver"
   },
@@ -112,7 +112,9 @@
       "usp_45",
       "fn57",
       "glock_17",
+      "ruger_57",
       "kpf9",
+      "p50",
       "walther_ppq_9mm",
       "hptc9",
       "cz75",
@@ -171,6 +173,7 @@
       "TDI",
       "hk_ump45",
       "fn_p90",
+      "fn_ps90",
       "needlegun",
       "rm2000_smg",
       "sten",
@@ -188,7 +191,7 @@
     "replace": "pistol_tiny_rifle"
   },
   {
-    "id": [ "marlin_9a", "kp32", "ruger_lcr_22", "sig_mosquito", "sw_22", "walther_p22", "sig_p230", "walther_ppk" ],
+    "id": [ "marlin_9a", "kp32", "ruger_lcr_22", "sig_mosquito", "sw_22", "walther_p22", "sig_p230", "walther_ppk", "pressin" ],
     "type": "MIGRATION",
     "replace": "pistol_tiny_target"
   },
@@ -204,11 +207,16 @@
       "hk417_13",
       "m16a4",
       "nato_assault_rifle",
+      "m4_carbine",
+      "m27_assault_rifle",
+      "m16_auto_rifle",
       "m231pfw",
       "scar_h",
       "sig_mcx_rattler_sbr",
       "rm51_assault_rifle",
       "an94",
+      "vz58_p",
+      "vz58_v",
       "rm88_battle_rifle"
     ],
     "type": "MIGRATION",
@@ -265,6 +273,8 @@
       "ar10",
       "1895sbl",
       "ak74",
+      "vz58ts",
+      "kord",
       "ak47",
       "arx160",
       "l_bak_223",
@@ -276,7 +286,7 @@
       "ar_pistol",
       "rifle_223",
       "ruger_mini",
-      "sig552",
+      "sig_assault_rifle",
       "steyr_aug",
       "iwi_tavor_x95_300blk",
       "ar15_retool_300blk",
@@ -286,13 +296,25 @@
       "mosin44",
       "famas",
       "aksemi",
-      "fs2000"
+      "fs2000",
+      "robofac_gun",
+      "obrez",
+      "mk47",
+      "hk_usc45",
+      "m1carbine",
+      "m2carbine",
+      "ak556",
+      "minidraco556",
+      "ak308",
+      "zpapm90",
+      "zpap85",
+      "papm77"
     ],
     "type": "MIGRATION",
     "replace": "rifle_sporter"
   },
   {
-    "id": [ "pamd68", "pamd71z" ],
+    "id": [ "pamd68", "pamd71z", "pamd68rubik", "pamd68mountable" ],
     "type": "MIGRATION",
     "replace": "rifle_assault_foreign"
   },
@@ -327,7 +349,7 @@
     "replace": "shot_pipe_double"
   },
   {
-    "id": [ "saiga_410", "rm120c", "rm20", "bigun", "saiga_12", "tavor_12", "bigun", "USAS_12" ],
+    "id": [ "saiga_410", "rm120c", "rm20", "bigun", "saiga_12", "tavor_12", "aa_12", "bigun", "USAS_12" ],
     "type": "MIGRATION",
     "replace": "shot_tactical"
   },
@@ -340,7 +362,6 @@
       "mossberg_590",
       "mossberg_930",
       "remington_870",
-      "remington_870_breacher",
       "remington_870_express",
       "streetsweeper"
     ],
@@ -348,13 +369,13 @@
     "replace": "shot_pump"
   },
   {
-    "id": "slamfire_shotgun",
+    "id": [ "remington_870_breacher" ],
     "type": "MIGRATION",
-    "replace": "slamfire_shotgun"
+    "replace": "shot_short_pump"
   },
   {
-    "id": "slamfire_shotgun_d",
+    "id": [ "m26_mass_standalone" ],
     "type": "MIGRATION",
-    "replace": "slamfire_shotgun_d"
+    "replace": "small_shotgun"
   }
 ]

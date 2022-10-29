@@ -1,0 +1,198 @@
+[
+  {
+    "id": "TALK_FREE_MERCHANTS_MERCHANT_AboutGreeting",
+    "type": "talk_topic",
+    "dynamic_line": "A lot of the time, yes.  Our address is in the computers of most of the evac shelters around here, and people keep showing up that we have to turn away.  It gets easier when you have something you can read off a script.",
+    "responses": [
+      { "text": "I'm sorry.", "topic": "TALK_FREE_MERCHANTS_MERCHANT_AboutGreeting_End" },
+      { "text": "That sounds a little cruel.", "topic": "TALK_FREE_MERCHANTS_MERCHANT_AboutGreeting_Cruel" },
+      {
+        "text": "[Cannibal + Psychopath] Wait, I thought you were having food problems.",
+        "topic": "TALK_FREE_MERCHANTS_MERCHANT_AboutGreeting_Cannibal",
+        "condition": { "and": [ { "u_has_flag": "CANNIBAL" }, { "u_has_trait": "PSYCHOPATH" } ] }
+      }
+    ]
+  },
+  {
+    "id": "TALK_FREE_MERCHANTS_MERCHANT_AboutGreeting_End",
+    "type": "talk_topic",
+    "dynamic_line": "*shrugs.  \"Did you need something else?\""
+  },
+  {
+    "id": "TALK_FREE_MERCHANTS_MERCHANT_AboutGreeting_Cruel",
+    "type": "talk_topic",
+    "dynamic_line": "*bristles.  \"I know, alright?  I do.  I hate it too.  But we are packed to the gills right now, and the only way we're going to stay alive is if we keep our gates closed fast.  I don't know what made the scavengers out there so ruthless, but some of us have had to kill our own kids.  Please show some consideration.\"",
+    "responses": [
+      { "text": "I'm sorry.", "topic": "TALK_FREE_MERCHANTS_MERCHANT_AboutGreeting_End" },
+      { "text": "I should probably go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_FREE_MERCHANTS_MERCHANT_AboutGreeting_Cannibal",
+    "type": "talk_topic",
+    "dynamic_line": "We are.  That's why we're turning people away.",
+    "responses": [
+      {
+        "text": "I'm saying you're giving up a potential source of meat.",
+        "success": {
+          "opinion": { "trust": -5, "fear": -2, "value": -1, "anger": 1 },
+          "topic": "TALK_FREE_MERCHANTS_MERCHANT_AboutGreeting_Cannibal2"
+        }
+      },
+      {
+        "text": "Nevermind.  Don't know where I was going with that.",
+        "topic": "TALK_FREE_MERCHANTS_MERCHANT_AboutGreeting_End"
+      }
+    ]
+  },
+  {
+    "id": "TALK_FREE_MERCHANTS_MERCHANT_AboutGreeting_Cannibal2",
+    "type": "talk_topic",
+    "dynamic_line": "I can't tell if you're joking or not, but that is seriously fucked up, and I don't want to hear another word about it.  Okay?",
+    "responses": [
+      { "text": "Alright, alright, I'm sorry.  Bad joke.", "topic": "TALK_FREE_MERCHANTS_MERCHANT_AboutGreeting_End" },
+      { "text": "Your loss.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": [
+      "TALK_FREE_MERCHANTS_MERCHANT_AboutMe",
+      "TALK_FREE_MERCHANTS_MERCHANT_AboutMe_Basic",
+      "TALK_FREE_MERCHANTS_MERCHANT_AboutMe_Smokes2"
+    ],
+    "type": "talk_topic",
+    "dynamic_line": "Not much to say.  What did you want to hear?",
+    "responses": [
+      { "text": "How'd you end up here?", "topic": "TALK_FREE_MERCHANTS_MERCHANT_AboutMe_Basic" },
+      { "text": "Smokes?  That's quite a name.", "topic": "TALK_FREE_MERCHANTS_MERCHANT_AboutMe_Smokes" },
+      { "text": "That's fine for now.", "topic": "TALK_FREE_MERCHANTS_MERCHANT_Talk" }
+    ]
+  },
+  {
+    "id": "TALK_FREE_MERCHANTS_MERCHANT_AboutMe_Basic",
+    "type": "talk_topic",
+    "dynamic_line": "Well, I'm Gavin, like I said.  I was a fireman before <the_cataclysm>, and I was also on duty when everything fell apart.  I'd rather not go into detail, but other than that, I wasn't really much to write home about.  My family was Irish, I never married, and I liked woodworking.  I volunteered to take inventory of what the center had when I got off the bus, one thing leads to another, and now I'm here."
+  },
+  {
+    "id": "TALK_FREE_MERCHANTS_MERCHANT_AboutMe_Smokes",
+    "type": "talk_topic",
+    "dynamic_line": "*rolls his eyes.  \"Tell me about it.  My actual name is Gavin, which I think I told you.  I used to be a firefighter, and people started recognizing me because of the helmet.  Someone called me 'smokes' because of it, and it stuck.  I hate it.  I've never even touched a cigarette.\"",
+    "responses": [
+      {
+        "text": "[PER 8+] If you hate it, then why are you smiling?",
+        "topic": "TALK_FREE_MERCHANTS_MERCHANT_AboutMe_Smokes2",
+        "condition": { "u_has_perception": 8 }
+      },
+      { "text": "Can't say I blame you.", "topic": "TALK_FREE_MERCHANTS_MERCHANT_AboutMe" }
+    ]
+  },
+  {
+    "id": "TALK_FREE_MERCHANTS_MERCHANT_AboutMe_Smokes2",
+    "type": "talk_topic",
+    "dynamic_line": "*laughs.  \"Well, I think it's ridiculous, but I guess I don't mind it that much.  I figure it's all in good fun, and people could really use the laugh these days, y'know?  I'm sure they'd stop if I asked.  The helmet is like… a badge of office, at this point.  You can call me Smokes if you really want.\""
+  },
+  {
+    "id": "TALK_FREE_MERCHANTS_MERCHANT_AboutMerch",
+    "type": "talk_topic",
+    "dynamic_line": "Oh, merch.  They're just paper notes we've started using for local cash.  We started out paying each other with dollar bills, but there's so much paper money out there that it's just useless now.  For our internal use, we started certifying bills that represent food and labor in the center here.  We started trading them internally, and then they started circling around, and now other people have started adopting them, too."
+  },
+  {
+    "id": [
+      "TALK_FREE_MERCHANTS_MERCHANT_AskJoin",
+      "TALK_FREE_MERCHANTS_MERCHANT_AskJoin1",
+      "TALK_FREE_MERCHANTS_MERCHANT_AskJoin2"
+    ],
+    "type": "talk_topic",
+    "dynamic_line": "I'm sorry, but the last thing we need is another mouth to feed.  Most of us lack any real survival skills, so keeping our group small enough to survive on the food we trade for is the main thing keeping us alive.",
+    "responses": [
+      { "text": "Another time, then.", "topic": "TALK_FREE_MERCHANTS_MERCHANT_Talk" },
+      { "text": "I can pull my own weight!", "topic": "TALK_FREE_MERCHANTS_MERCHANT_AskJoin1" },
+      {
+        "text": "Maybe I could change your mind…?~",
+        "topic": "TALK_FREE_MERCHANTS_MERCHANT_AskJoin2",
+        "condition": { "u_has_item": "condom" }
+      }
+    ]
+  },
+  {
+    "id": "TALK_FREE_MERCHANTS_MERCHANT_AskJoin1",
+    "type": "talk_topic",
+    "dynamic_line": "Maybe out there alone, or with a small group, but enough to feed a few dozen other people that aren't helping you?  That just isn't a risk we're willing to take right now.  If you want to trade us supplies or donate something, you're more than welcome to, and it'd be a huge help, but right now, we're far past our comfort zone as it is."
+  },
+  {
+    "id": "TALK_FREE_MERCHANTS_MERCHANT_AskJoin2",
+    "type": "talk_topic",
+    "dynamic_line": "No way in hell.  I'm not going to risk the safety of dozens of people just for some ass.  If you're that desperate, go talk to Alonso."
+  },
+  {
+    "id": "TALK_FREE_MERCHANTS_MERCHANT_Basement",
+    "type": "talk_topic",
+    "dynamic_line": "The center has a pretty large lower floor, behind metal doors that were made to stand up to basically anything - bombs, radiation, you name it.  Place is basically a vault.  Most of our population is living in there; only people who we think are combat-capable stay up here.  Bear in mind, we started off with a few buses of office workers and soccer moms.  If worst comes to worst, they'll stand a chance if things go bad up here.",
+    "responses": [
+      { "text": "Good to know.", "topic": "TALK_FREE_MERCHANTS_MERCHANT_Talk" },
+      { "text": "How do I get down there?", "topic": "TALK_FREE_MERCHANTS_MERCHANT_Basement_NoAccess" }
+    ]
+  },
+  {
+    "id": [
+      "TALK_FREE_MERCHANTS_MERCHANT_Basement_NoAccess",
+      "TALK_FREE_MERCHANTS_MERCHANT_Basement_NoAccess2",
+      "TALK_FREE_MERCHANTS_MERCHANT_Basement_NoAccess3"
+    ],
+    "type": "talk_topic",
+    "dynamic_line": "I can't share that.  We're taking security extremely seriously right now.  The guards downstairs are well-armed, and they've got orders to immediately apprehend anyone they don't recognize.  We want to keep those people as safe we can until either we have more space up here or we've got some room inside the fence for them to live.",
+    "responses": [
+      { "text": "I suppose that makes sense.", "topic": "TALK_FREE_MERCHANTS_MERCHANT_Talk" },
+      {
+        "text": "Why spend so much effort keeping it locked down?  I thought you mentioned they weren't able to help.",
+        "topic": "TALK_FREE_MERCHANTS_MERCHANT_Basement_NoAccess2"
+      },
+      {
+        "text": "If I could go down there, I could help bring them supplies.  Food, medicine…",
+        "topic": "TALK_FREE_MERCHANTS_MERCHANT_Basement_NoAccess3"
+      }
+    ]
+  },
+  {
+    "id": "TALK_FREE_MERCHANTS_MERCHANT_Basement_NoAccess2",
+    "type": "talk_topic",
+    "dynamic_line": "Just because they're not boots on the ground doesn't mean they aren't helping.  In fact, I'd say that a lot of them are our most important people.  They keep the power running, for one thing.  And even if they weren't helping, look at it this way: all of us are scared, and almost all of us have lost someone from all this.  We aren't going to throw our own to the wolves."
+  },
+  {
+    "id": "TALK_FREE_MERCHANTS_MERCHANT_Basement_NoAccess3",
+    "type": "talk_topic",
+    "dynamic_line": "I appreciate the offer, I really do, but I'm sorry.  The basement is off-limits to outsiders, and we're not in the market for new recruits right now.  Maybe once we're in a better spot there might be some room to think about it, but right now I can't justify just giving you free reign down there."
+  },
+  {
+    "id": "TALK_FREE_MERCHANTS_MERCHANT_OutsideWorld1",
+    "type": "talk_topic",
+    "dynamic_line": "Yeah.  Someone came through this way a while back saying he had tried to drive into Syracuse after the outbreak.  Didn't even make it downtown before he ran into a wall of zombies that he said could stop a tank.  He hightailed it out, but he said there were several thousand at least.  I guess when you get a bunch of them together, they end up making enough noise to attract everyone in the neighborhood.  Thankfully, we haven't had a mob like that pass by here, because I'm not sure the fence would do much to keep them out."
+  },
+  {
+    "id": "TALK_FREE_MERCHANTS_MERCHANT_OutsideWorld2",
+    "type": "talk_topic",
+    "dynamic_line": "Other than those people with the hard drive, none that I know of.  Scavengers share some odd things, but we can't exactly go check for ourselves.  The teamster in the back bay might have some pointers, though, if you really want to know."
+  },
+  {
+    "id": [ "TALK_FREE_MERCHANTS_MERCHANT_Plans", "TALK_FREE_MERCHANTS_MERCHANT_Plans2" ],
+    "type": "talk_topic",
+    "dynamic_line": "Things were rough at first, and our policy of taking everyone we could caused a lot of strife later on.  Right now, we just want to get enough trade going keep ourselves afloat.  We might have to turn people away, but we've found that they're usually willing to trade with us, which is our only real source of food right now.  We're trying to turn that into a business model.  Doesn't matter who you are, we'll trade with you as long as you don't bring trouble.",
+    "responses": [
+      {
+        "text": "What about when the goods dry up?  Won't that happen eventually?",
+        "topic": "TALK_FREE_MERCHANTS_MERCHANT_Plans2"
+      },
+      { "text": "Here's hoping it works out.", "topic": "TALK_FREE_MERCHANTS_MERCHANT_Talk" }
+    ]
+  },
+  {
+    "id": "TALK_FREE_MERCHANTS_MERCHANT_Plans2",
+    "type": "talk_topic",
+    "dynamic_line": "Right now, it's the best way we have to make sure that everyone gets what they need.  Long-term viability of business models is what people in suits used to do back before all this, and we see where that got them.  Barter is the only thing keeping us from starving, so we're going to keep doing it as long as it works or until we can start producing our own food."
+  },
+  {
+    "id": "TALK_FREE_MERCHANTS_MERCHANT_WhosInCharge",
+    "type": "talk_topic",
+    "dynamic_line": "I don't think we have a figurehead right now, I think?  If we do, I don't know about it.  For the most part, we all have our own responsibilities and that works to keep us all fed as a group.  I'm the front man for outsiders, the broker keeps tabs on our food, so on and so forth.  We've had some town hall style talks in the cafeteria about setting up a democracy, but there's nothing solid on that right now."
+  }
+]

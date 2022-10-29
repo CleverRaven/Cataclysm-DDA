@@ -170,8 +170,8 @@
   {
     "type": "SPELL",
     "id": "health_recovery",
-    "name": "Health recovery",
-    "description": "minor health recovery spell associated with Dragon Boost.",
+    "name": "Health Recovery",
+    "description": "Minor health recovery spell associated with Dragon Boost.",
     "valid_targets": [ "self" ],
     "effect": "attack",
     "shape": "blast",
@@ -182,8 +182,8 @@
   {
     "type": "SPELL",
     "id": "stamina_recovery",
-    "name": "Stamina recovery",
-    "description": "minor stamina recovery spell associated with Dragon Boost.",
+    "name": "Stamina Recovery",
+    "description": "Minor stamina recovery spell associated with Dragon Boost.",
     "valid_targets": [ "self" ],
     "effect": "recover_energy",
     "effect_str": "STAMINA",

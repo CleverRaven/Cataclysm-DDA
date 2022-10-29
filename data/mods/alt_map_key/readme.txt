@@ -22,7 +22,7 @@ Brown = Farming, nature, outdoors. Gardening Store, cave, campsite, farm, orchar
 
 Red = Guns, military, emergency. Gun stores, police stations, bunkers, FEMA, LMOE, evac shelter. Checkpoints, mil outposts, minefields, army camps. Bandit places?
 
-Light Red = Medical, drugs, cyber. Hospitals, dr offices, pharmacies, vet. Methlab, pot farm, cyber boutique, optometrist, autodoc. 
+Light Red = Medical, drugs, cyber. Hospitals, dr offices, pharmacies, vet. Methlab, pot farm, cyber boutique, optometrist, Autodoc. 
 
 Pink = Science, toxins or radition, monsters, weirdness. Slime, fungus, labs, craters. Robot dispatch center, anomalous zones.
 

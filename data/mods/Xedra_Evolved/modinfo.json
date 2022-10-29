@@ -1,0 +1,12 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "xedra_evolved",
+    "name": "Xedra Evolved",
+    "authors": [ "Maleclypse" ],
+    "maintainers": [ "Maleclypse" ],
+    "description": "A content mod for Agent Mulder in the apocalypse.  Imagines what if Xedra had more time before the Cataclysm occurred.  Contains monsters of various types, new professions and locations, new uses for existing skills plus the new deduction skill, new magic systems, and content of every type that a multidimensional Cataclysm has to offer.",
+    "category": "content",
+    "dependencies": [ "dda" ]
+  }
+]

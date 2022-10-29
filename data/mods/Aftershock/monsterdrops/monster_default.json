@@ -175,7 +175,7 @@
       { "group": "ammo_pistol_common", "prob": 2 },
       { "group": "ammo_shotgun_common", "prob": 1 },
       { "group": "guns_pistol_common", "prob": 2 },
-      { "group": "guns_shotgun_common", "prob": 1, "contents-item": "shoulder_strap" },
+      { "group": "guns_shotgun_common_worn", "prob": 1, "contents-item": "shoulder_strap" },
       { "group": "postman_gear", "prob": 5 },
       { "group": "hardware_plumbing", "prob": 5 }
     ]

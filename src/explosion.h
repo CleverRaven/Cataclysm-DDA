@@ -6,10 +6,12 @@
 #include <utility>
 #include <vector>
 
+#include "coordinates.h"
 #include "optional.h"
 #include "point.h"
 #include "type_id.h"
 
+class Creature;
 class JsonObject;
 class nc_color;
 
@@ -57,7 +59,14 @@ struct explosion_data {
 // handles explosion related functions
 namespace explosion_handler
 {
-using queued_explosion = std::pair<tripoint, explosion_data>;
+struct queued_explosion {
+    const Creature *source;
+    const tripoint_abs_ms pos;
+    const explosion_data data;
+
+    queued_explosion( const Creature *source, const tripoint_abs_ms &pos, const explosion_data &data )
+        : source( source ), pos( pos ), data( data ) {}
+};
 static std::vector<queued_explosion> _explosions;
 
 /** Queue an explosion at p of intensity (power) with (shrapnel) chunks of shrapnel.
@@ -65,12 +74,12 @@ static std::vector<queued_explosion> _explosions;
     If factor <= 0, no blast is produced
     The explosion won't actually occur until process_explosions() */
 void explosion(
-    const tripoint &p, float power, float factor = 0.8f,
+    const Creature *source, const tripoint &p, float power, float factor = 0.8f,
     bool fire = false, int casing_mass = 0, float frag_mass = 0.05
 );
 
-void explosion( const tripoint &p, const explosion_data &ex );
-void _make_explosion( const tripoint &p, const explosion_data &ex );
+void explosion( const Creature *source, const tripoint &p, const explosion_data &ex );
+void _make_explosion( const Creature *source, const tripoint &p, const explosion_data &ex );
 
 /** Triggers a flashbang explosion at p. */
 void flashbang( const tripoint &p, bool player_immune = false );
@@ -80,6 +89,8 @@ void resonance_cascade( const tripoint &p );
 void scrambler_blast( const tripoint &p );
 /** Triggers an EMP blast at p. */
 void emp_blast( const tripoint &p );
+/** Nuke the area at p - global overmap terrain coordinates! */
+void nuke( const tripoint_abs_omt &p );
 // shockwave applies knockback to all targets within radius of p
 // parameters force, stun, and dam_mult are passed to knockback()
 // ignore_player determines if player is affected, useful for bionic, etc.

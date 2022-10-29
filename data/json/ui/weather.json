@@ -1,0 +1,15 @@
+[
+  {
+    "id": "weather_desc",
+    "type": "widget",
+    "label": "Weather",
+    "style": "text",
+    "var": "weather_text"
+  },
+  {
+    "id": "weather_desc_no_label",
+    "type": "widget",
+    "copy-from": "weather_desc",
+    "flags": [ "W_LABEL_NONE" ]
+  }
+]

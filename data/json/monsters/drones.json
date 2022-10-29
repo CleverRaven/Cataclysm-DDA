@@ -13,9 +13,8 @@
     "aggression": 100,
     "morale": 100,
     "luminance": 5,
-    "death_drops": { "subtype": "collection", "groups": [ [ "robots", 80 ] ], "//": "80% chance of an item from group robots" },
     "death_function": { "message": "The %s's interior compartment sizzles with destructive energy.", "corpse_type": "BROKEN" },
-    "flags": [ "SEES", "FLIES", "NOHEAD", "ELECTRONIC", "NO_BREATHE", "INTERIOR_AMMO" ]
+    "flags": [ "SEES", "FLIES", "NOHEAD", "ELECTRONIC", "NO_BREATHE", "INTERIOR_AMMO", "STUN_IMMUNE" ]
   },
   {
     "id": "mon_EMP_hack",
@@ -104,12 +103,11 @@
     "melee_skill": 5,
     "melee_dice": 2,
     "melee_dice_sides": 4,
-    "melee_cut": 12,
+    "melee_damage": [ { "damage_type": "cut", "amount": 12 } ],
     "armor_bash": 2,
     "armor_cut": 8,
     "armor_bullet": 6,
     "revert_to_itype": "bot_manhack",
-    "death_drops": { "groups": [ [ "robots", 4 ], [ "manhack", 1 ] ] },
     "death_function": { "corpse_type": "BROKEN" },
     "extend": { "flags": [ "HIT_AND_RUN" ] }
   },
@@ -118,7 +116,7 @@
     "copy-from": "base_drone",
     "type": "MONSTER",
     "name": { "str": "mininuke hack" },
-    "description": "Many times as large as a normal manhack, this flying quadcopter drone appears to have a mininuke inside.  If this is targeting you…  Run.",
+    "description": "Many times as large as a normal manhack, this flying quadcopter drone appears to have a mininuke inside.  If this is targeting you… run.",
     "diff": 40,
     "hp": 20,
     "speed": 150,
@@ -149,6 +147,7 @@
     "color": "light_green",
     "aggression": -20,
     "morale": 70,
+    "aggro_character": false,
     "vision_day": 50,
     "vision_night": 20,
     "starting_ammo": { "123ln": 10 },
@@ -173,6 +172,7 @@
     ],
     "death_drops": { "subtype": "collection", "groups": [ [ "robots", 80 ] ] },
     "death_function": { "corpse_type": "BROKEN" },
+    "path_settings": { "max_dist": 30, "avoid_traps": true, "avoid_sharp": true },
     "flags": [
       "SEES",
       "HEARS",
@@ -181,9 +181,10 @@
       "ELECTRONIC",
       "NO_BREATHE",
       "INTERIOR_AMMO",
-      "PATH_AVOID_DANGER_2",
+      "PATH_AVOID_DANGER_1",
       "PRIORITIZE_TARGETS",
-      "HIT_AND_RUN"
+      "HIT_AND_RUN",
+      "STUN_IMMUNE"
     ]
   },
   {

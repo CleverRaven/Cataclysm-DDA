@@ -3,11 +3,13 @@
 #include "cata_utility.h"
 #include "coordinate_conversions.h"
 #include "cuboid_rectangle.h"
+#include "debug.h"
 #include "filesystem.h"
-#include "game.h"
 #include "line.h"
 #include "map_memory.h"
 #include "path_info.h"
+#include "string_formatter.h"
+#include "translations.h"
 
 const memorized_terrain_tile mm_submap::default_tile{ "", 0, 0 };
 const int mm_submap::default_symbol = 0;
@@ -16,19 +18,19 @@ const int mm_submap::default_symbol = 0;
 
 #define dbg(x) DebugLog((x),D_MMAP) << __FILE__ << ":" << __LINE__ << ": "
 
-static std::string find_legacy_mm_file()
+static cata_path find_legacy_mm_file()
 {
-    return PATH_INFO::player_base_save_path() + SAVE_EXTENSION_MAP_MEMORY;
+    return PATH_INFO::player_base_save_path_path() + SAVE_EXTENSION_MAP_MEMORY;
 }
 
-static std::string find_mm_dir()
+static cata_path find_mm_dir()
 {
-    return string_format( "%s.mm1", PATH_INFO::player_base_save_path() );
+    return PATH_INFO::player_base_save_path_path() + ".mm1";
 }
 
-static std::string find_region_path( const std::string &dirname, const tripoint &p )
+static cata_path find_region_path( const cata_path &dirname, const tripoint &p )
 {
-    return string_format( "%s/%d.%d.%d.mmr", dirname, p.x, p.y, p.z );
+    return dirname / string_format( "%d.%d.%d.mmr", p.x, p.y, p.z );
 }
 
 /**
@@ -45,12 +47,14 @@ struct reg_coord_pair {
 };
 
 mm_submap::mm_submap() = default;
+mm_submap::mm_submap( bool make_valid ) : valid( make_valid ) {}
 
-mm_region::mm_region() : submaps {{ nullptr }} {}
+mm_region::mm_region() : submaps( nullptr ) {}
 
 bool mm_region::is_empty() const
 {
     for( size_t y = 0; y < MM_REG_SIZE; y++ ) {
+        // NOLINTNEXTLINE(modernize-loop-convert)
         for( size_t x  = 0; x < MM_REG_SIZE; x++ ) {
             if( !submaps[x][y]->is_empty() ) {
                 return false;
@@ -82,6 +86,9 @@ void map_memory::memorize_tile( const tripoint &pos, const std::string &ter,
 {
     coord_pair p( pos );
     mm_submap &sm = get_submap( p.sm );
+    if( !sm.is_valid() ) {
+        return;
+    }
     sm.set_tile( p.loc, memorized_terrain_tile{ ter, subtile, rotation } );
 }
 
@@ -96,6 +103,9 @@ void map_memory::memorize_symbol( const tripoint &pos, const int symbol )
 {
     coord_pair p( pos );
     mm_submap &sm = get_submap( p.sm );
+    if( !sm.is_valid() ) {
+        return;
+    }
     sm.set_symbol( p.loc, symbol );
 }
 
@@ -103,6 +113,9 @@ void map_memory::clear_memorized_tile( const tripoint &pos )
 {
     coord_pair p( pos );
     mm_submap &sm = get_submap( p.sm );
+    if( !sm.is_valid() ) {
+        return;
+    }
     sm.set_symbol( p.loc, mm_submap::default_symbol );
     sm.set_tile( p.loc, mm_submap::default_tile );
 }
@@ -191,17 +204,17 @@ shared_ptr_fast<mm_submap> map_memory::load_submap( const tripoint &sm_pos )
         return nullptr;
     }
 
-    const std::string dirname = find_mm_dir();
+    const cata_path dirname = find_mm_dir();
     reg_coord_pair p( sm_pos );
-    const std::string path = find_region_path( dirname, p.reg );
+    const cata_path path = find_region_path( dirname, p.reg );
 
-    if( !dir_exist( dirname ) ) {
+    if( !dir_exist( dirname.get_unrelative_path() ) ) {
         // Old saves don't have [plname].mm1 folder
         return nullptr;
     }
 
     mm_region mmr;
-    const auto loader = [&]( JsonIn & jsin ) {
+    const auto loader = [&]( const JsonValue & jsin ) {
         mmr.deserialize( jsin );
     };
 
@@ -235,10 +248,15 @@ shared_ptr_fast<mm_submap> map_memory::load_submap( const tripoint &sm_pos )
 }
 
 static mm_submap null_mz_submap;
+static mm_submap invalid_mz_submap{ false };
 
 const mm_submap &map_memory::get_submap( const tripoint &sm_pos ) const
 {
-    point idx = ( sm_pos - cache_pos ).xy();
+    if( cache_pos == tripoint_min ) {
+        debugmsg( "Called map_memory with an " );
+        return invalid_mz_submap;
+    }
+    const point idx = ( sm_pos - cache_pos ).xy();
     if( idx.x > 0 && idx.y > 0 && idx.x < cache_size.x && idx.y < cache_size.y ) {
         return *cached[idx.y * cache_size.x + idx.x];
     } else {
@@ -248,7 +266,10 @@ const mm_submap &map_memory::get_submap( const tripoint &sm_pos ) const
 
 mm_submap &map_memory::get_submap( const tripoint &sm_pos )
 {
-    point idx = ( sm_pos - cache_pos ).xy();
+    if( cache_pos == tripoint_min ) {
+        return invalid_mz_submap;
+    }
+    const point idx = ( sm_pos - cache_pos ).xy();
     if( idx.x > 0 && idx.y > 0 && idx.x < cache_size.x && idx.y < cache_size.y ) {
         return *cached[idx.y * cache_size.x + idx.x];
     } else {
@@ -258,16 +279,16 @@ mm_submap &map_memory::get_submap( const tripoint &sm_pos )
 
 void map_memory::load( const tripoint &pos )
 {
-    const std::string dirname = find_mm_dir();
+    const cata_path dirname = find_mm_dir();
 
     clear_cache();
 
-    if( !dir_exist( dirname ) ) {
+    if( !dir_exist( dirname.get_unrelative_path() ) ) {
         // Old saves have [plname].mm file and no [plname].mm1 folder
-        const std::string legacy_file = find_legacy_mm_file();
-        if( file_exist( legacy_file ) ) {
+        const cata_path legacy_file = find_legacy_mm_file();
+        if( file_exist( legacy_file.get_unrelative_path() ) ) {
             try {
-                read_from_file_optional_json( legacy_file, [&]( JsonIn & jsin ) {
+                read_from_file_optional_json( legacy_file, [&]( const JsonValue & jsin ) {
                     this->load_legacy( jsin );
                 } );
             } catch( const std::exception &err ) {
@@ -292,7 +313,7 @@ void map_memory::load( const tripoint &pos )
 bool map_memory::save( const tripoint &pos )
 {
     tripoint sm_center = coord_pair( pos ).sm;
-    const std::string dirname = find_mm_dir();
+    const cata_path dirname = find_mm_dir();
     assure_dir_exist( dirname );
 
     clear_cache();
@@ -320,7 +341,7 @@ bool map_memory::save( const tripoint &pos )
         const tripoint &regp = it.first;
         mm_region &reg = it.second;
         if( !reg.is_empty() ) {
-            const std::string path = find_region_path( dirname, regp );
+            const cata_path path = find_region_path( dirname, regp );
             const std::string descr = string_format(
                                           _( "memory map region for (%d,%d,%d)" ),
                                           regp.x, regp.y, regp.z

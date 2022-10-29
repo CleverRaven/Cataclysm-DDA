@@ -4,7 +4,7 @@
     "type": "TOOL",
     "name": { "str": "birchbark funnel" },
     "description": "This is a small birchbark funnel.  Place it above an outdoor container to collect rainwater.",
-    "weight": "3 g",
+    "weight": "30 g",
     "volume": "250ml",
     "price": 0,
     "price_postapoc": 10,
@@ -19,7 +19,8 @@
       "moves": 100,
       "practice": 0,
       "done_message": "You place the birchbark funnel, waiting to collect rain."
-    }
+    },
+    "flags": [ "SINGLE_USE" ]
   },
   {
     "id": "funnel",
@@ -42,14 +43,15 @@
       "moves": 100,
       "practice": 0,
       "done_message": "You place the funnel, waiting to collect rain."
-    }
+    },
+    "flags": [ "SINGLE_USE" ]
   },
   {
     "id": "leather_funnel",
     "type": "TOOL",
     "name": { "str": "leather funnel" },
     "description": "This is a small, leather funnel used to collect rainwater.  Use it outside and place a container beneath it to collect water when it rains.",
-    "weight": "4 g",
+    "weight": "40 g",
     "volume": "250 ml",
     "price": 0,
     "price_postapoc": 100,
@@ -64,14 +66,15 @@
       "moves": 100,
       "practice": 0,
       "done_message": "You place the leather funnel, waiting to collect rain."
-    }
+    },
+    "flags": [ "SINGLE_USE" ]
   },
   {
     "id": "makeshift_funnel",
     "type": "TOOL",
     "name": { "str": "makeshift funnel" },
     "description": "This is a small, makeshift funnel used to collect rainwater.  Use it outside and place a container beneath it to collect water when it rains.",
-    "weight": "4 g",
+    "weight": "40 g",
     "volume": "250 ml",
     "price": 0,
     "price_postapoc": 10,
@@ -86,7 +89,8 @@
       "moves": 100,
       "practice": 0,
       "done_message": "You place the makeshift funnel, waiting to collect rain."
-    }
+    },
+    "flags": [ "SINGLE_USE" ]
   },
   {
     "id": "metal_funnel",
@@ -109,7 +113,8 @@
       "moves": 100,
       "practice": 0,
       "done_message": "You place the metal funnel, waiting to collect rain."
-    }
+    },
+    "flags": [ "SINGLE_USE" ]
   },
   {
     "id": "tarp_raincatcher",
@@ -130,6 +135,7 @@
       "moves": 100,
       "practice": 0,
       "done_message": "You set up the raincatcher, waiting to collect water."
-    }
+    },
+    "flags": [ "SINGLE_USE" ]
   }
 ]

@@ -1,0 +1,72 @@
+{
+  "version": 3,
+  "configurePresets": [
+    {
+      "name": "base",
+      "description": "Base Build Configuration",
+      "binaryDir": "${sourceDir}/out/build/${presetName}",
+      "installDir": "${sourceDir}/out/install/${presetName}",
+      "hidden": true
+    },
+    {
+      "name": "windows",
+      "description": "Windows Build Configuration",
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Windows"
+      },
+      "hidden": true
+    },
+    {
+      "name": "visual-c++",
+      "inherits": [ "windows" ],
+      "description": "Visual C++ Configuration",
+      "toolchainFile": "${sourceDir}/build-scripts/MSVC.cmake",
+      "generator": "Ninja",
+      "hidden": true
+    },
+    {
+      "name": "x64-windows-static",
+      "inherits": [ "base", "visual-c++" ],
+      "description": "Link Statically",
+      "cacheVariables": {
+        "VCPKG_TARGET_TRIPLET": "x64-windows-static",
+        "DYNAMIC_LINKING": "False"
+      },
+      "hidden": true
+    },
+    {
+      "name": "x64-release",
+      "inherits": [ "x64-windows-static" ],
+      "displayName": "x64 Release",
+      "description": "Target Windows (64-bit) with the Visual Studio development environment. (RelWithDebInfo)",
+      "cacheVariables": {
+        "CMAKE_PROJECT_INCLUDE_BEFORE": "${sourceDir}/build-scripts/x64-release.cmake",
+        "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+        "CURSES": "False",
+        "LOCALIZE": "True",
+        "TILES": "True"
+      }
+    },
+    {
+      "name": "x64-debug",
+      "inherits": [ "x64-windows-static" ],
+      "displayName": "x64 Debug",
+      "description": "Target Windows (64-bit) with the Visual Studio development environment. (Debug)",
+      "cacheVariables": {
+        "CMAKE_PROJECT_INCLUDE_BEFORE": "${sourceDir}/build-scripts/FindVCPKG.cmake",
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CURSES": "False",
+        "LOCALIZE": "False",
+        "TILES": "True"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "x64-debug",
+      "configurePreset": "x64-debug"
+    }
+  ]
+}

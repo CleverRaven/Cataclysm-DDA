@@ -1,0 +1,72 @@
+[
+  {
+    "type": "talk_topic",
+    "id": "TALK_NPC_LUMBERMILL_LOGGER",
+    "dynamic_line": {
+      "npc_has_var": "talked_to_logger",
+      "type": "dialogue",
+      "context": "first_meeting",
+      "value": "yes",
+      "yes": "Hello there.  Nice to see you, <name_g>.",
+      "no": "A stranger out here?  Who are you?"
+    },
+    "speaker_effect": { "effect": { "npc_add_var": "talked_to_logger", "type": "dialogue", "context": "first_meeting", "value": "yes" } },
+    "responses": [
+      {
+        "text": "Nice to meet you.",
+        "topic": "TALK_NPC_LUMBERMILL_LOGGER_INTRO",
+        "condition": { "not": { "npc_has_var": "talked_to_logger", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
+      },
+      {
+        "text": "Hands up, <name_b>!",
+        "trial": { "type": "INTIMIDATE", "difficulty": 30 },
+        "success": { "topic": "TALK_WEAPON_DROPPED", "effect": "drop_weapon", "opinion": { "trust": -4, "fear": 3 } },
+        "failure": { "topic": "TALK_DONE", "effect": "hostile" },
+        "condition": { "not": { "npc_has_var": "talked_to_logger", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
+      },
+      {
+        "text": "Pleasure to see you again.",
+        "topic": "TALK_NPC_LUMBERMILL_LOGGER_INTRO",
+        "condition": { "npc_has_var": "talked_to_logger", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+      },
+      { "text": "See ya.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_NPC_LUMBERMILL_LOGGER_INTRO",
+    "dynamic_line": "Do you need something?",
+    "responses": [
+      { "text": "What's your story?", "topic": "TALK_NPC_LUMBERMILL_LOGGER_STORY" },
+      { "text": "How do things work around here now?", "topic": "TALK_NPC_LUMBERMILL_LOGGER_TALK_TO_MANAGER" },
+      {
+        "text": "Any jobs you need done?",
+        "condition": { "and": [ { "not": "has_assigned_mission" }, { "not": "has_many_assigned_missions" } ] },
+        "topic": "TALK_MISSION_LIST"
+      },
+      { "text": "Nah, see ya.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_NPC_LUMBERMILL_LOGGER_TALK_TO_MANAGER",
+    "dynamic_line": [
+      "You mean you're still looking for wood?  Crazy… but we had a suspicion folks might show up in an emergency.  Talk to the manager if you want to make an order.",
+      "Well, the machinery works just fine.  We were always self-sufficient and <the_cataclysm> only really made that more apparent.  So if you want to place an order and help keep the operation running, talk to the manager.  We'll trade you for our wood."
+    ],
+    "responses": [ { "text": "Sounds good, thanks.", "topic": "TALK_NONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_NPC_LUMBERMILL_LOGGER_STORY",
+    "dynamic_line": [
+      "Not much to it.  I worked here as a logger before <the_cataclysm> began.  When all went to hell, I was on the job and had to hole up here with my coworkers.  Good news is we all came out fine, and the boss decided to keep the mill running.  I don't know how much longer we can last, though; not unless we make some contact with other people.  Customers, I guess you might call 'em.",
+      "Well, I'm a logger here.  Seasonal work but good pay… or it was, at least.  Before that first <zombie> showed up and made it clear how bad things were really getting.",
+      "I'm a lumberjack out here.  Things were quiet for a long time.  We're pretty far out in the woods so it was kind of a shock to find out just how bad it'd gotten in civilization.  We had a couple close run-ins ourselves.  My friend over there almost got eaten!  But we still have resources that I'm sure people can use.",
+      "My comrades and I were lucky to be in the right place at the right time, I suppose.  We keep really busy out here, so we didn't expect <the_cataclysm> to land right in our lap like that.  Luckily these axes can chop more than wood.  They'll take a good chunk out of anything nasty that threatens our mill.",
+      "Well, I work here.  Welcome to the mill.  Used to be trucks in and out of here all the time but you're the first face we've seen in a while.",
+      "New to the job… or, well, whatever's happening now.  I still cut trees and run logs through the saw from time to time, so I guess you'd call me a logger.  Things have only gotten weirder after those fucking <zombies> nearly killed us.  I'm not sure how much longer we'll last…"
+    ],
+    "responses": [ { "text": "Hope it goes well.", "topic": "TALK_NONE" } ]
+  }
+]

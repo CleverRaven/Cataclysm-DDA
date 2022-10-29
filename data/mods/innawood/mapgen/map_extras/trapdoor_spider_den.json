@@ -1,0 +1,39 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_Trapdoor_spider_den",
+    "object": {
+      "rows": [
+        "  t  s   t tt  t   s    ",
+        "  t  t     t  t   t     ",
+        "    t   t    d  d     s ",
+        "t  td  t t   t t  t   t ",
+        "  st   t  t     t     t ",
+        "t tt  t t  d   t  t  tt ",
+        "   t t     tt           ",
+        " t  d   t    t tst  d tt",
+        "    t       t      t    ",
+        "   t    s    d t tt  s  ",
+        "    t         tt   t    ",
+        "  t d  tt     s   t     ",
+        "   t   t t  t t  t dt   ",
+        " t  t t tt d t tt  tt  t",
+        "  t  tts t   t t  t tt t",
+        "  tt t  tt tt  tt t  t  ",
+        "    d t t  tt t tt td   ",
+        "  t tt    tt t  t t  t  ",
+        "   t  t d   t  t    s   ",
+        "t s  t     t    tt d t  ",
+        "  t   t   s      t      ",
+        "   t  t       t   s   t ",
+        "t         d    t        ",
+        "    s t         s       "
+      ],
+      "terrain": { "t": [ "t_region_tree", "t_dirt" ], "s": [ "t_dirt" ] },
+      "traps": { "s": { "trap": "tr_spider" } },
+      "item": { "d": { "item": "bone" } },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  }
+]

@@ -37,6 +37,7 @@
     "fire_resist": 2,
     "elec_resist": 2,
     "chip_resist": 7,
+    "breathability": "SECOND_SKIN",
     "repaired_with": "dks_weave_scrap",
     "salvaged_into": "dks_weave_scrap",
     "dmg_adj": [ "ripped", "torn", "shredded", "tattered" ],

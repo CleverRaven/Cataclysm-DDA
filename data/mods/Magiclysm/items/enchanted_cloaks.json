@@ -4,7 +4,7 @@
     "type": "enchantment",
     "has": "WORN",
     "condition": "ALWAYS",
-    "mutations": [ "GILLS", "MEMBRANE", "AMPHIBIAN", "WILDSHAPE:FISH" ]
+    "mutations": [ "GILLS", "MEMBRANE", "AMPHIBIAN", "WAYFARER", "WILDSHAPE:FISH" ]
   },
   {
     "id": "wildshape_cloak_fish",
@@ -17,6 +17,7 @@
     "price": 100000,
     "symbol": "w",
     "color": "blue",
+    "material": [ "magical_material" ],
     "flags": [ "OUTER", "OVERSIZE", "NONCONDUCTIVE", "WATER_FRIENDLY", "RAINPROOF" ],
     "relic_data": { "passive_effects": [ { "id": "ench_fishform" } ] },
     "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
@@ -26,7 +27,7 @@
     "type": "enchantment",
     "has": "WORN",
     "condition": "ALWAYS",
-    "values": [ { "value": "STRENGTH", "add": 4 }, { "value": "INTELLIGENCE", "add": -6 } ],
+    "values": [ { "value": "STRENGTH", "add": 4 }, { "value": "INTELLIGENCE", "add": -6 }, { "value": "PERCEPTION", "add": -6 } ],
     "mutations": [
       "ILLITERATE",
       "WAYFARER",
@@ -38,7 +39,7 @@
       "CLAWS",
       "SHOUT3",
       "FUR",
-      "PARKOUR",
+      "DEFT",
       "WILDSHAPE:BEAR"
     ]
   },
@@ -53,6 +54,7 @@
     "price": 200000,
     "symbol": "w",
     "color": "brown",
+    "material": [ "magical_material" ],
     "flags": [ "OUTER", "OVERSIZE", "NONCONDUCTIVE", "WATER_FRIENDLY", "RAINPROOF" ],
     "relic_data": { "passive_effects": [ { "id": "ench_bearform" } ] },
     "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
@@ -66,13 +68,13 @@
       "FUR",
       "WILDSHAPE:DEER",
       "FLEET2",
-      "PARKOUR",
       "GOODCARDIO2",
       "QUICK",
       "LIGHTSTEP",
       "WEAKSCENT",
       "DISORGANIZED",
       "PACIFIST",
+      "WAYFARER",
       "HUNGER2"
     ]
   },
@@ -80,13 +82,14 @@
     "id": "wildshape_cloak_deer",
     "type": "ARMOR",
     "name": "Wildshape Cloak: Deer",
-    "description": "A magical cloak that feels soft to the touch.  It can be worn to morph your body to a form well-suited to escaping difficult situations.  However, it places a great strain on your body.",
+    "description": "A magical cloak that feels soft to the touch.  It can be worn to morph your body to a form well-suited to escaping difficult situations.  However, it is not suited for combat.",
     "looks_like": "cloak_leather",
     "weight": "2060 g",
     "volume": "3050 ml",
     "price": 150000,
     "symbol": "w",
     "color": "green",
+    "material": [ "magical_material" ],
     "flags": [ "OUTER", "OVERSIZE", "NONCONDUCTIVE", "WATER_FRIENDLY", "RAINPROOF" ],
     "relic_data": { "passive_effects": [ { "id": "ench_deerform" } ] },
     "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]

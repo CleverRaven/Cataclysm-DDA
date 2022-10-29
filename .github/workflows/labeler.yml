@@ -1,0 +1,13 @@
+name: Pull Request Labeler
+
+on: [pull_request]
+
+jobs:
+  triage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: docker://decathlon/pull-request-labeler-action:2.0.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CONFIG_PATH: ${{ secrets.GITHUB_WORKSPACE }}/.github/labeler.yml

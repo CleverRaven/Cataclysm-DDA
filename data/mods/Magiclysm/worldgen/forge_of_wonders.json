@@ -62,18 +62,25 @@
         "         #...............4...........33333333tWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWwwwwwwww         ",
         "         #.......................!..hll333333tWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWwwww           ",
         "         #.......................!..hll333333tWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWwwwwwww        ",
-        "         #...........................33333333twwwwwwwwwwwwwwwwwwWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWwwwww      ",
-        "         #...................................#                 wWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWwwwwwww        ",
-        "         #.....4..................4..........#                 wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww        ",
-        "         #...................................#                  wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww       ",
+        "         #............XXX............33333333twwwwwwwwwwwwwwwwwwWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWwwwww      ",
+        "         #...........XX6XX...................#                 wWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWwwwwwww        ",
+        "         #.....4.....X777X........4..........#                 wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww        ",
+        "         #...........XXXXX...................#                  wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww       ",
         "         #...................................#                        wwww         w  ww               ww      w        ",
         "         ############||||||||||###############                                                                          ",
         "                                                                                                                        "
       ],
       "palettes": [ "wonder_forge_palette" ],
-      "place_npcs": [ { "class": "forge_lord_merchant", "x": 75, "y": 11 } ],
+      "place_npcs": [
+        { "class": "forge_lord_merchant", "x": 75, "y": 11 },
+        { "class": "forge_lord_reagents", "x": 14, "y": 9 },
+        { "class": "forge_lord_pirate", "x": 16, "y": 9 },
+        { "class": "forge_lord_pirate", "x": 16, "y": 6 },
+        { "class": "forge_lord_pirate", "x": 14, "y": 6 },
+        { "class": "forge_lord_librarian", "x": 23, "y": 43 }
+      ],
       "place_monsters": [
-        { "monster": "GROUP_FISH", "x": [ 77, 82 ], "y": [ 32, 42 ], "density": 0.3, "repeat": [ 1, 3 ] },
+        { "monster": "GROUP_STOCKED_POND", "x": [ 77, 82 ], "y": [ 32, 42 ], "density": 0.3, "repeat": [ 1, 3 ] },
         { "monster": "GROUP_FORGE_STANDARD", "x": [ 24, 47 ], "y": [ 8, 23 ], "density": 0.8, "repeat": [ 5, 8 ] },
         { "monster": "GROUP_FORGE_STANDARD", "x": [ 48, 71 ], "y": [ 8, 23 ], "density": 0.8, "repeat": [ 5, 8 ] },
         { "monster": "GROUP_FORGE_STANDARD", "x": [ 24, 47 ], "y": [ 24, 46 ], "density": 0.8, "repeat": [ 5, 8 ] },
@@ -81,6 +88,28 @@
         { "monster": "GROUP_FORGE_DWARVES", "x": [ 77, 82 ], "y": [ 24, 30 ], "density": 0.1, "repeat": [ 3, 6 ] },
         { "monster": "GROUP_FORGE_DWARVES", "x": [ 24, 47 ], "y": [ 40, 45 ], "density": 0.1, "repeat": [ 3, 6 ] },
         { "monster": "GROUP_FORGEDEMONS", "x": [ 80, 90 ], "y": [ 8, 14 ], "density": 0.1, "repeat": [ 3, 6 ] }
+      ],
+      "place_zones": [
+        {
+          "type": "LOOT_ITEM_GROUP",
+          "filter": "NC_FORGE_LORD_STORE_LIBRARY_SHOP",
+          "faction": "forge_lords",
+          "x": [ 22, 23 ],
+          "y": 43
+        },
+        {
+          "type": "LOOT_ITEM_GROUP",
+          "filter": "NC_FORGE_LORD_STORE_REAGENT_SHOP",
+          "faction": "forge_lords",
+          "x": [ 13, 17 ],
+          "y": [ 7, 8 ]
+        },
+        { "type": "LOOT_ITEM_GROUP", "filter": "NC_FORGE_LORD_SHOP", "faction": "forge_lords", "x": 75, "y": 10 },
+        { "type": "LOOT_ITEM_GROUP", "filter": "NC_FORGE_LORD_SHOP", "faction": "forge_lords", "x": 76, "y": 11 },
+        { "type": "LOOT_ITEM_GROUP", "filter": "NC_FORGE_LORD_SHOP", "faction": "forge_lords", "x": 75, "y": 12 },
+        { "type": "LOOT_UNSORTED", "faction": "forge_lords", "x": [ 22, 23 ], "y": 43 },
+        { "type": "LOOT_UNSORTED", "faction": "forge_lords", "x": [ 13, 17 ], "y": [ 7, 8 ] },
+        { "type": "LOOT_UNSORTED", "faction": "forge_lords", "x": [ 75, 76 ], "y": [ 10, 12 ] }
       ]
     }
   },
@@ -99,22 +128,24 @@
       "&": "t_ballistic_door_glass_c",
       "|": "t_window_stained_green",
       "X": "t_wall_glassteel_alarm",
-      ".": "t_magiconc_floor",
-      "h": "t_magiconc_floor",
-      "!": "t_magiconc_floor",
-      "~": "t_magiconc_floor",
-      "1": "t_magiconc_floor",
-      "z": "t_magiconc_floor",
-      "Z": "t_magiconc_floor",
+      ".": [ "t_magiconc_floor", "t_safe_shopper" ],
+      "h": [ "t_magiconc_floor", "t_safe_shopper" ],
+      "!": [ "t_magiconc_floor", "t_safe_shopper" ],
+      "~": [ "t_magiconc_floor", "t_safe_shopper" ],
+      "1": [ "t_magiconc_floor", "t_safe_shopper" ],
+      "z": [ "t_magiconc_floor", "t_safe_shopper" ],
+      "Z": [ "t_magiconc_floor", "t_safe_shopper" ],
       "$": [ "t_magiconc_floor", "t_vault_vent" ],
-      "f": "t_magiconc_floor",
-      "F": "t_magiconc_floor",
-      "8": "t_magiconc_floor",
+      "f": [ "t_magiconc_floor", "t_safe_shopper" ],
+      "F": [ "t_magiconc_floor", "t_safe_shopper" ],
+      "8": [ "t_magiconc_floor", "t_safe_shopper" ],
       "9": "t_vault_vent",
-      "2": "t_magiconc_floor",
+      "2": [ "t_magiconc_floor", "t_safe_shopper" ],
       "4": "t_thconc_floor_echandelier",
       "+": "t_railroad_rubble",
-      "5": "t_bollard"
+      "5": "t_bollard",
+      "6": "t_vault_vent",
+      "7": "t_vault_vent"
     },
     "furniture": {
       "h": "f_demon_forge",
@@ -126,12 +157,11 @@
       "Z": "f_magic_bench",
       "!": "f_anvil",
       "f": "f_table",
-      "2": "f_everburning_candelabra"
+      "2": "f_everburning_candelabra",
+      "7": "f_bookcase"
     },
     "items": {
       "!": { "item": "magic_smith", "chance": 40, "repeat": [ 1, 2 ] },
-      "8": { "item": "NC_FORGE_LORD_STORE", "chance": 100, "repeat": [ 5, 8 ] },
-      "9": { "item": "NC_FORGE_LORD_STORE", "chance": 100, "repeat": [ 5, 8 ] },
       "$": [
         { "item": "forge_vault_items", "chance": 10, "repeat": [ 1, 2 ] },
         { "item": "forge_vault_money", "chance": 95, "repeat": [ 1, 3 ] }

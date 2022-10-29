@@ -95,6 +95,7 @@ Each entry can have more values (shown above as `...`).  They allow further prop
 "sealed": <boolean>
 "variant": <string>
 "artifact": <object>
+"event": <string>
 ```
 
 `contents` is added as contents of the created item.  It is not checked if they can be put into the item.  This allows water, that contains a book, that contains a steel frame, that contains a corpse.
@@ -105,7 +106,18 @@ Each entry can have more values (shown above as `...`).  They allow further prop
 
 `sealed`: If true, a container will be sealed when the item spawns.  Default is `true`.
 
-`variant`: A valid gun variant id for this item.
+`variant`: A valid itype variant id for this item.
+
+`event`: A reference to a holiday in the `holiday` enum. If specified, the entry only spawns during the specified real holiday. This works the same way as the seasonal title screens, where the holiday is checked against the current system's time. If the holiday matches, the item's spawn probability is taken from the `prob` field. Otherwise, the spawn probability becomes 0.
+
+Current possible values are:
+- "none" (Not event-based. Same as omitting the "event" field.)
+- "new_year"
+- "easter"
+- "independence_day"
+- "halloween"
+- "thanksgiving"
+- "christmas"
 
 `artifact`: This object determines that the item or group that is spawned by this entry will become an artifact. Here is an example:
 ```json
@@ -197,7 +209,33 @@ Another example: The group "milk" spawns a container (taken from milk_containers
 
 ## Adding to item groups
 
-Mods can add entries to item groups simply by specifying an item group with the same id; any entries will be added to the item group.
+Mods can add entries to item groups by specifying a group with the same id that copies-from the previous group (`"copy-from": group_id`), and encompassing the added items within an `extend` block, like so:
+
+```json
+{
+    "type" : "item_group",
+    "id": "milk_containers",
+    "copy-from": "milk_containers",
+    "subtype": "distribution",
+    "extend": {
+      "items": [
+        "bottle_plastic", "bottle_glass", "flask_glass",
+        "jar_glass", "jar_3l_glass", "flask_hip", "55gal_drum"
+      ]
+    }
+},
+{
+    "type" : "item_group",
+    "id": "milk",
+    "copy-from": "milk",
+    "subtype": "distribution",
+    "extend": {
+      "entries": [
+          { "item": "milk", "container-group": "milk_containers" }
+      ]
+    }
+},
+```
 
 ## Inlined item groups
 

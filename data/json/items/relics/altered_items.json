@@ -1,6 +1,20 @@
 [
   {
     "type": "GENERIC",
+    "id": "altered_exposed_wiring_prototype",
+    "symbol": ",",
+    "color": "light_gray",
+    "looks_like": "scrap",
+    "name": { "str": "exposed-wiring prototype" },
+    "description": "Some kind of prototypical electronic device with exposed wiring.  Some of the wires have bare ends that could be connected together.",
+    "price": 1000,
+    "price_postapoc": 100,
+    "material": [ "plastic", "copper" ],
+    "weight": "32 g",
+    "volume": "26 ml"
+  },
+  {
+    "type": "GENERIC",
     "id": "altered_phone",
     "symbol": ",",
     "color": "light_red",

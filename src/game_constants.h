@@ -4,8 +4,11 @@
 
 #include <map>
 #include <string>
+#include "units.h"
 
 // Fixed window sizes.
+static constexpr int EVEN_MINIMUM_TERM_WIDTH = 80;
+static constexpr int EVEN_MINIMUM_TERM_HEIGHT = 24;
 static constexpr int HP_HEIGHT = 14;
 static constexpr int HP_WIDTH = 7;
 static constexpr int MINIMAP_HEIGHT = 7;
@@ -87,22 +90,25 @@ static constexpr int PLUTONIUM_CHARGES = 500;
 namespace temperatures
 {
 // temperature at which something starts is considered HOT.
-constexpr int hot = 100; // ~ 38 Celsius
+constexpr units::temperature hot = units::from_fahrenheit( 100 ); // ~ 38 Celsius
 
 // the "normal" temperature midpoint between cold and hot.
-constexpr int normal = 70; // ~ 21 Celsius
+constexpr units::temperature normal = units::from_fahrenheit( 70 ); // ~ 21 Celsius
 
 // Temperature inside an active fridge in Fahrenheit.
-constexpr int fridge = 37; // ~ 2.7 Celsius
+constexpr units::temperature fridge = units::from_fahrenheit( 37 ); // ~ 2.7 Celsius
 
 // Temperature at which things are considered "cold".
-constexpr int cold = 40; // ~4.4 C
+constexpr units::temperature cold = units::from_fahrenheit( 40 ); // ~4.4 C
 
 // Temperature inside an active freezer in Fahrenheit.
-constexpr int freezer = 23; // -5 Celsius
+constexpr units::temperature freezer = units::from_celsius( -5 ); // -5 Celsius
 
-// Temperature in which water freezes in Fahrenheit.
-constexpr int freezing = 32; // 0 Celsius
+// Temperature in which water freezes.
+constexpr units::temperature freezing = units::from_celsius( 0 ); // 0 Celsius
+
+// Temperature in which water boils.
+constexpr units::temperature boiling = units::from_celsius( 100 ); // 100 Celsius
 } // namespace temperatures
 
 // Slowest speed at which a gun can be aimed.
@@ -141,19 +147,23 @@ static constexpr int HORDE_VISIBILITY_SIZE = 3;
  * Average annual temperature in F used for climate, weather and temperature calculation.
  * Average New England temperature = 43F/6C rounded to int.
 */
-static constexpr int AVERAGE_ANNUAL_TEMPERATURE = 43;
+static constexpr units::temperature AVERAGE_ANNUAL_TEMPERATURE = units::from_fahrenheit( 43 );
 
 /**
  * Base starting spring temperature in F used for climate, weather and temperature calculation.
  * New England base spring temperature = 65F/18C rounded to int.
 */
-static constexpr int SPRING_TEMPERATURE = 65;
+static constexpr units::temperature SPRING_TEMPERATURE = units::from_fahrenheit( 65 );
 
 /**
  * Used to limit the random seed during noise calculation. A large value flattens the noise generator to zero.
  * Windows has a rand limit of 32768, other operating systems can have higher limits.
 */
 constexpr int SIMPLEX_NOISE_RANDOM_SEED_LIMIT = 32768;
+
+constexpr float MIN_MANIPULATOR_SCORE = 0.1f;
+// the maximum penalty to movecost from a limb value
+constexpr float MAX_MOVECOST_MODIFIER = 100.0f;
 
 /**
  * activity levels, used for BMR.
@@ -165,6 +175,7 @@ constexpr int SIMPLEX_NOISE_RANDOM_SEED_LIMIT = 32768;
  * in the json, think about what it would be if you
  * did this activity for a longer period of time.
 */
+constexpr float SLEEP_EXERCISE = 0.85f;
 constexpr float NO_EXERCISE = 1.0f;
 constexpr float LIGHT_EXERCISE = 2.0f;
 constexpr float MODERATE_EXERCISE = 4.0f;
@@ -173,6 +184,7 @@ constexpr float ACTIVE_EXERCISE = 8.0f;
 constexpr float EXTRA_EXERCISE = 10.0f;
 
 const std::map<std::string, float> activity_levels_map = {
+    { "SLEEP_EXERCISE", SLEEP_EXERCISE },
     { "NO_EXERCISE", NO_EXERCISE },
     { "LIGHT_EXERCISE", LIGHT_EXERCISE },
     { "MODERATE_EXERCISE", MODERATE_EXERCISE },
@@ -182,6 +194,7 @@ const std::map<std::string, float> activity_levels_map = {
 };
 
 const std::map<float, std::string> activity_levels_str_map = {
+    { SLEEP_EXERCISE, "SLEEP_EXERCISE" },
     { NO_EXERCISE, "NO_EXERCISE" },
     { LIGHT_EXERCISE, "LIGHT_EXERCISE" },
     { MODERATE_EXERCISE, "MODERATE_EXERCISE" },
@@ -201,5 +214,17 @@ constexpr float obese = 30.0f;
 constexpr float very_obese = 35.0f;
 constexpr float morbidly_obese = 40.0f;
 } // namespace character_weight_category
+
+// these are the lower bounds of each of the health classes.
+namespace character_health_category
+{
+//horrible
+constexpr int very_bad = -100;
+constexpr int bad = -50;
+constexpr int fine = -10;
+constexpr int good = 10;
+constexpr int very_good = 50;
+constexpr int great = 100;
+} // namespace character_health_category
 
 #endif // CATA_SRC_GAME_CONSTANTS_H

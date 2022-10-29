@@ -17,9 +17,14 @@
     "tiles_animation": "weather_snowflake",
     "weather_animation": { "factor": 0.01, "color": "white", "sym": "." },
     "sound_category": "flurries",
-    "sun_intensity": "light",
+    "sun_multiplier": 0.3,
     "required_weathers": [ "cloudy" ],
-    "condition": { "or": [ { "is_humidity": 97 }, { "not": { "is_pressure": 1000 } } ] }
+    "condition": {
+      "or": [
+        { "compare_int": [ { "weather": "humidity" }, ">=", { "const": 97 } ] },
+        { "compare_int": [ { "weather": "pressure" }, "<", { "const": 1000 } ] }
+      ]
+    }
   },
   {
     "id": "afs_whiteout",
@@ -39,9 +44,9 @@
     "tiles_animation": "weather_snowflake",
     "weather_animation": { "factor": 0.01, "color": "white", "sym": "*" },
     "sound_category": "snowstorm",
-    "sun_intensity": "light",
+    "sun_multiplier": 0.15,
     "required_weathers": [ "cloudy", "afs_flurries" ],
-    "condition": { "and": [ "is_day", { "is_windpower": 20 } ] }
+    "condition": { "and": [ "is_day", { "compare_int": [ { "weather": "windpower" }, ">=", { "const": 20 } ] } ] }
   },
   {
     "id": "afs_snowing",
@@ -61,9 +66,14 @@
     "tiles_animation": "weather_snowflake",
     "weather_animation": { "factor": 0.02, "color": "white", "sym": "*" },
     "sound_category": "snow",
-    "sun_intensity": "light",
+    "sun_multiplier": 0.2,
     "required_weathers": [ "afs_flurries", "afs_whiteout" ],
-    "condition": { "or": [ { "is_humidity": 98 }, { "not": { "is_pressure": 993 } } ] }
+    "condition": {
+      "or": [
+        { "compare_int": [ { "weather": "humidity" }, ">=", { "const": 98 } ] },
+        { "compare_int": [ { "weather": "pressure" }, "<", { "const": 993 } ] }
+      ]
+    }
   },
   {
     "id": "afs_thunder",
@@ -83,9 +93,9 @@
     "tiles_animation": "weather_snowflake",
     "weather_animation": { "factor": 0.02, "color": "white", "sym": "*" },
     "sound_category": "snowstorm",
-    "sun_intensity": "none",
+    "sun_multiplier": 0.01,
     "required_weathers": [ "afs_snowing" ],
-    "condition": { "not": { "is_pressure": 990 } }
+    "condition": { "compare_int": [ { "weather": "pressure" }, "<", { "const": 990 } ] }
   },
   {
     "id": "afs_lightning",
@@ -105,8 +115,8 @@
     "tiles_animation": "weather_snowflake",
     "weather_animation": { "factor": 0.04, "color": "white", "sym": "*" },
     "sound_category": "snowstorm",
-    "sun_intensity": "none",
+    "sun_multiplier": 0.01,
     "required_weathers": [ "afs_thunder" ],
-    "condition": { "not": { "is_pressure": 980 } }
+    "condition": { "compare_int": [ { "weather": "pressure" }, "<", { "const": 980 } ] }
   }
 ]

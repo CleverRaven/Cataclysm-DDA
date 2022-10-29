@@ -5,7 +5,7 @@
     "name": "Soul Pressure",
     "description": "This is a spell that represents the Soulfire putting a burning pressure on nearby opponents.  If you are seeing this spell, you have debugged it in.",
     "valid_targets": [ "hostile" ],
-    "flags": [ "SILENT", "NO_PROJECTILE" ],
+    "flags": [ "SILENT", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
     "effect": "attack",
     "effect_str": "blind",
     "shape": "blast",
@@ -21,7 +21,17 @@
     "type": "enchantment",
     "id": "SUN_MAGE",
     "condition": "ALWAYS",
-    "values": [ { "value": "PERCEPTION", "add": 5 } ],
-    "hit_me_effect": [ { "id": "solar_blinding" } ]
+    "values": [
+      { "value": "PERCEPTION", "add": 5 },
+      { "value": "CLIMATE_CONTROL_HEAT", "add": 30 },
+      { "value": "CLIMATE_CONTROL_CHILL", "add": 10 }
+    ],
+    "hit_me_effect": [
+      {
+        "id": "solar_blinding",
+        "message": "A brilliant light radiates from where you've been hit.",
+        "npc_message": "%1$s's body is enveloped in a bright glare."
+      }
+    ]
   }
 ]

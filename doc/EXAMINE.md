@@ -7,7 +7,7 @@ The examine actors are specified as JSON objects with a `type` corresponding to 
 ## Hardcoded Examine Actions
 
 - ```aggie_plant``` Harvest plants.
-- ```autodoc``` Brings the autodoc consoles menu. Needs the ```AUTODOC``` flag to function properly and an adjacent furniture with the ```AUTODOC_COUCH``` flag.
+- ```autodoc``` Brings the Autodoc consoles menu. Needs the ```AUTODOC``` flag to function properly and an adjacent furniture with the ```AUTODOC_COUCH``` flag.
 - ```autoclave_empty``` Start the autoclave cycle if it contains filthy CBM, and the player has enough water.
 - ```autoclave_full``` Check on the progress of the cycle, and collect sterile CBM once cycle is completed.
 - ```bars``` Take advantage of AMORPHOUS and slip through the bars.
@@ -16,11 +16,12 @@ The examine actors are specified as JSON objects with a `type` corresponding to 
 - ```controls_gate``` Controls the attached gate.
 - ```dirtmound``` Plant seeds and plants.
 - ```elevator``` Use the elevator to change floors.
-- ```fault``` Displays descriptive message, but otherwise unused.
+- ```finite_water_source``` Drink or get water from a water source. Unlike ordinary `water_source`, terrain with this examine action will get liquid from a finite source (liquid is placed on that tile as an item during the mapgen) and will stop functioning if said liquid if exhausted on that tile.
 - ```flower_poppy``` Pick the mutated poppy.
 - ```fswitch``` Flip the switch and the rocks will shift.
 - ```fungus``` Release spores as the terrain crumbles away.
 - ```gaspump``` Use the gas-pump.
+- ```harvest_plant_ex``` Harvest a harvestable plant. Works on field crops and planters. (corn, wheat, etc.)
 - ```locked_object``` Locked, but can be pried open. Adding 'PICKABLE' flag allows opening with a lockpick as well. Prying/lockpicking results are hardcoded.
 - ```locked_object_pickable``` Locked, but can be opened with a lockpick. Requires 'PICKABLE' flag, lockpicking results are hardcoded.
 - ```none``` None
@@ -33,13 +34,40 @@ The examine actors are specified as JSON objects with a `type` corresponding to 
 - ```rubble``` Clear up the rubble if you have a shovel.
 - ```safe``` Attempt to crack the safe.
 - ```shelter``` Take down the shelter.
-- ```shrub_marloss``` Pick a marloss bush.
+- ```shrub_marloss``` Pick a Marloss bush.
 - ```shrub_wildveggies``` Pick a wild veggies shrub.
 - ```slot_machine``` Gamble.
 - ```toilet``` Either drink or get water out of the toilet.
 - ```water_source``` Drink or get water from a water source.
 
 ## Examine Actors
+
+### `appliance_convert`
+
+#### `furn_set`
+Optional, defaults to no change.
+String.
+Furniture id that this tile will be set to after placing the appliance.
+
+#### `ter_set`
+Optional, defaults to no change.
+String.
+Terrain id that this tile will be set to after placing the appliance.
+
+#### `item`
+Mandatory.
+String.
+Item id of the base item of this appliance.
+
+#### Example
+```json
+{
+  "type": "appliance_convert",
+  "furn_set": "f_null",
+  "ter_set": "t_floor",
+  "item": "fridge"
+}
+```
 
 ### `cardreader`
 
@@ -51,7 +79,7 @@ List of item flags that, when on an item, mean that the item can be used as card
 #### `consume_card`
 Optional, defaults to true.
 Boolean (true/false).
-Whether or not to consume the item used to activite this cardreader.
+Whether or not to consume the item used to activate this cardreader.
 
 #### `allow_hacking`
 Optional, defaults to true.
@@ -63,6 +91,12 @@ If this allows hacking, it will ignore the data specified here, and transform al
 Optional, defaults to true.
 Boolean (true/false).
 Whether or not to remove hostile monsters with the `ID_CARD_DESPAWN` flag.
+
+#### `omt_allowed_radius`
+Optional, defaults to infinity.
+Integer (0 or greater).
+For cards with the `PRESERVE_SPAWN_OMT` flag, how many overmap tiles away a card can spawn and be accepted for this cardreader.
+For cards without the flag, this field is ignored.
 
 ### `mapgen_id`
 Optional.
@@ -101,7 +135,7 @@ What message to display when querying the player on whether or not to activate t
 #### `success_msg`
 Mandatory.
 String.
-What message to print to the log when this is sucessfully activated.
+What message to print to the log when this is successfully activated.
 
 #### `redundant_msg`
 Mandatory.
@@ -109,13 +143,14 @@ String.
 What message to print when attempting to activate the cardreader after it has already been activated.
 
 #### Example
-```
+```json
 {
   "type": "cardreader",
   "flags": [ "SCIENCE_CARD" ],
   "consume_card": true,
   "allow_hacking": true,
   "despawn_monsters": true,
+  "omt_allowed_radius": 3,
   "radius": 3,
   "terrain_changes": { "t_door_metal_locked": "t_door_metal_c" },
   "furn_changes": { "f_crate_c": "f_crate_o" },
@@ -125,3 +160,9 @@ What message to print when attempting to activate the cardreader after it has al
   "redundant_msg": "The door is already open."
 }
 ```
+### `effect_on_condition`
+
+#### `effect_on_conditions`
+Mandatory.
+Array of strings and or effect_on_condition objects.
+Run all of the eocs upon being examined with u as the examiner and npc as null. See [EFFECT_ON_CONDITION.md](EFFECT_ON_CONDITION.md)

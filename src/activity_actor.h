@@ -8,11 +8,13 @@
 
 #include "activity_type.h"
 #include "clone_ptr.h"
+#include "point.h"
 #include "type_id.h"
 
 class Character;
-class JsonIn;
 class JsonOut;
+class JsonValue;
+class monster;
 class player_activity;
 
 class activity_actor
@@ -94,6 +96,16 @@ class activity_actor
         }
 
         /**
+         * Override to false in actors that are slow because they frequently
+         * invalidate the inventory and trigger excessive
+         * drop_invalid_inventory() calls, and can guarantee that it is called
+         * appropriately themselves.
+         */
+        virtual bool do_drop_invalid_inventory() const {
+            return true;
+        }
+
+        /**
          * Returns a deep copy of this object. Example implementation:
          * \code
          * class my_activity_actor {
@@ -115,13 +127,13 @@ class activity_actor
 };
 
 void serialize( const cata::clone_ptr<activity_actor> &actor, JsonOut &jsout );
-void deserialize( cata::clone_ptr<activity_actor> &actor, JsonIn &jsin );
+void deserialize( cata::clone_ptr<activity_actor> &actor, const JsonValue &jsin );
 
 namespace activity_actors
 {
 
 // defined in activity_actor.cpp
-extern const std::unordered_map<activity_id, std::unique_ptr<activity_actor>( * )( JsonIn & )>
+extern const std::unordered_map<activity_id, std::unique_ptr<activity_actor>( * )( JsonValue & )>
 deserialize_functions;
 
 } // namespace activity_actors

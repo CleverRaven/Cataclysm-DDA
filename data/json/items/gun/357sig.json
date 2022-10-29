@@ -20,16 +20,8 @@
     "dispersion": 480,
     "durability": 7,
     "min_cycle_recoil": 540,
-    "pocket_data": [
-      {
-        "magazine_well": "250 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "p226mag_12rd_357sig" ]
-      }
-    ]
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
+    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "p226mag_12rd_357sig" ] } ]
   },
   {
     "id": "glock_31",
@@ -44,16 +36,7 @@
     "price_postapoc": 2250,
     "min_cycle_recoil": 450,
     "ammo": [ "357sig" ],
-    "pocket_data": [
-      {
-        "magazine_well": "250 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "glock40mag", "glock40bigmag" ]
-      }
-    ]
+    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "glock40mag", "glock40bigmag" ] } ]
   },
   {
     "id": "p320_357sig",
@@ -76,15 +59,7 @@
     "dispersion": 480,
     "durability": 6,
     "min_cycle_recoil": 540,
-    "pocket_data": [
-      {
-        "magazine_well": "250 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "p320mag_13rd_357sig" ]
-      }
-    ]
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
+    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "p320mag_13rd_357sig" ] } ]
   }
 ]

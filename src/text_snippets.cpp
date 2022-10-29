@@ -59,13 +59,19 @@ void snippet_library::add_snippet_from_json( const std::string &category, const 
         snippet_id id;
         jo.read( "id", id );
         if( id.is_null() ) {
-            jo.throw_error( "Null snippet id specified", "id" );
+            jo.throw_error_at( "id", "Null snippet id specified" );
         }
         if( snippets_by_id.find( id ) != snippets_by_id.end() ) {
-            jo.throw_error( "Duplicate snippet id", "id" );
+            jo.throw_error_at( "id", "Duplicate snippet id" );
         }
         snippets_by_category[category].ids.emplace_back( id );
         snippets_by_id[id] = text;
+        if( jo.has_member( "effect_on_examine" ) ) {
+            EOC_by_id[id] = talk_effect_t<dialogue>( jo, "effect_on_examine" );
+        }
+        translation name;
+        optional( jo, false, "name", name );
+        name_by_id[id] = name;
     } else {
         snippets_by_category[category].no_id.emplace_back( text );
     }
@@ -87,6 +93,24 @@ cata::optional<translation> snippet_library::get_snippet_by_id( const snippet_id
 {
     const auto it = snippets_by_id.find( id );
     if( it == snippets_by_id.end() ) {
+        return cata::nullopt;
+    }
+    return it->second;
+}
+
+cata::optional<talk_effect_t<dialogue>> snippet_library::get_EOC_by_id( const snippet_id &id ) const
+{
+    const auto it = EOC_by_id.find( id );
+    if( it == EOC_by_id.end() ) {
+        return cata::nullopt;
+    }
+    return it->second;
+}
+
+cata::optional<translation> snippet_library::get_name_by_id( const snippet_id &id ) const
+{
+    const auto it = name_by_id.find( id );
+    if( it == name_by_id.end() ) {
         return cata::nullopt;
     }
     return it->second;
@@ -191,6 +215,28 @@ snippet_id snippet_library::migrate_hash_to_id( const int old_hash )
         return snippet_id::NULL_ID();
     }
     return it->second;
+}
+
+std::vector<std::pair<snippet_id, std::string>> snippet_library::get_snippets_by_category(
+            const std::string &cat, bool add_null_id )
+{
+    std::vector<std::pair<snippet_id, std::string>> ret;
+    if( !has_category( cat ) ) {
+        return ret;
+    }
+    std::unordered_map<std::string, category_snippets>::iterator snipp_cat = snippets_by_category.find(
+                cat );
+    if( snipp_cat != snippets_by_category.end() ) {
+        category_snippets snipps = snipp_cat->second;
+        if( add_null_id && !snipps.ids.empty() ) {
+            ret.emplace_back( snippet_id::NULL_ID(), "" );
+        }
+        for( snippet_id id : snipps.ids ) {
+            std::string desc = get_snippet_ref_by_id( id ).translated();
+            ret.emplace_back( id, desc );
+        }
+    }
+    return ret;
 }
 
 template<> const translation &snippet_id::obj() const

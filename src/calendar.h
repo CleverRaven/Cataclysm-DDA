@@ -3,14 +3,26 @@
 #define CATA_SRC_CALENDAR_H
 
 #include <iosfwd>
+#include <string>
 #include <utility>
 #include <vector>
 
-class JsonIn;
+#include "units_fwd.h"
+
 class JsonOut;
+class JsonValue;
+struct lat_long;
+struct rl_vec2d;
 class time_duration;
 class time_point;
 template<typename T> struct enum_traits;
+
+namespace cata
+{
+template<typename T>
+class optional;
+} // namespace cata
+
 
 /** Real world seasons */
 enum season_type {
@@ -46,6 +58,22 @@ enum moon_phase {
     MOON_WANING_CRESCENT,
     /** Not a valid moon phase, but can be used for iterating through enum */
     MOON_PHASE_MAX
+};
+
+enum class time_accuracy {
+    /** No accuracy, no idea what time it is **/
+    NONE = 0,
+    /** Estimated time, can see the sky **/
+    PARTIAL = 1,
+    /** Full accuracy, using a timekeeping device **/
+    FULL = 2,
+    /** Unused, only for string conversions **/
+    NUM_TIME_ACCURACY
+};
+
+template<>
+struct enum_traits<time_accuracy> {
+    static constexpr time_accuracy last = time_accuracy::NUM_TIME_ACCURACY;
 };
 
 /**
@@ -84,6 +112,14 @@ extern const time_duration INDEFINITELY_LONG_DURATION;
 bool eternal_season();
 void set_eternal_season( bool is_eternal_season );
 
+/// @returns Whether the eternal night is enabled.
+bool eternal_night();
+void set_eternal_night( bool is_eternal_night );
+
+/// @returns Whether the eternal day is enabled.
+bool eternal_day();
+void set_eternal_day( bool is_eternal_day );
+
 /** @returns Time in a year, (configured in current world settings) */
 time_duration year_length();
 
@@ -109,18 +145,6 @@ extern time_point start_of_game;
 extern time_point turn;
 extern season_type initial_season;
 
-/**
- * A time point that is always before the current turn, even when the game has
- * just started. This implies `before_time_starts < calendar::turn` is always
- * true. It can be used to initialize `time_point` values that denote that last
- * time a cache was update.
- */
-extern const time_point before_time_starts;
-/**
- * Represents time point 0.
- * TODO: flesh out the documentation
- */
-extern const time_point turn_zero;
 } // namespace calendar
 
 template<typename T>
@@ -186,7 +210,7 @@ class time_duration
         time_duration() : turns_( 0 ) {}
 
         void serialize( JsonOut &jsout ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonValue &jsin );
 
         /**
          * Named constructors to get a duration representing a multiple of the named time
@@ -416,7 +440,8 @@ std::pair<int, clipped_unit> clipped_time( const time_duration &d );
  * 59 minutes will return "59 minutes".
  * @param align none, right, or compact.
  */
-std::string to_string_clipped( const time_duration &d, clipped_align align = clipped_align::none );
+std::string to_string_clipped( const time_duration &d,
+                               clipped_align align = clipped_align::none );
 /**
  * Returns approximate duration.
  * @param verbose If true, 'less than' and 'more than' will be printed instead of '<' and '>' respectively.
@@ -447,7 +472,6 @@ class time_point
         // TODO: make private
         explicit constexpr time_point( const int t ) : turn_( t ) { }
 
-    public:
         // TODO: remove this, nobody should need it, one should use a constant `time_point`
         // (representing turn 0) and a `time_duration` instead.
         static constexpr time_point from_turn( const int t ) {
@@ -455,7 +479,7 @@ class time_point
         }
 
         void serialize( JsonOut &jsout ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( int );
 
         // TODO: try to get rid of this
         template<typename T>
@@ -504,6 +528,25 @@ class time_point
         // TODO: implement minutes_of_hour and so on and use it.
 };
 
+namespace calendar
+{
+
+/**
+ * A time point that is always before the current turn, even when the game has
+ * just started. This implies `before_time_starts < calendar::turn` is always
+ * true. It can be used to initialize `time_point` values that denote the last
+ * time a cache was update.
+ */
+constexpr time_point before_time_starts = time_point::from_turn( -1 );
+/**
+ * Represents time point 0.
+ * TODO: flesh out the documentation
+ */
+
+constexpr time_point turn_zero = time_point::from_turn( 0 );
+
+} // namespace calendar
+
 inline time_duration time_past_midnight( const time_point &p )
 {
     return ( p - calendar::turn_zero ) % 1_days;
@@ -540,6 +583,10 @@ season_type season_of_year( const time_point &p );
 std::string to_string( const time_point &p );
 /// @returns The time point formatted to be shown to the player. Contains only the time of day, not the year, day or season.
 std::string to_string_time_of_day( const time_point &p );
+/** Time approximation based on the player's timekeeping capability, formatted for diary pages **/
+std::string get_diary_time_str( const time_point &turn, time_accuracy acc );
+/** Time approximation based on the player's timekeeping capability, formatted for diary pages **/
+std::string get_diary_time_since_str( const time_duration &turn_diff, time_accuracy acc );
 /** Returns the default duration of a lunar month (duration between syzygies) */
 time_duration lunar_month();
 /** Returns the current phase of the moon. */
@@ -560,15 +607,33 @@ bool is_day( const time_point &p );
 bool is_dusk( const time_point &p );
 /** Returns true if it's currently dawn - between sunrise and twilight_duration after sunrise. */
 bool is_dawn( const time_point &p );
-/** Returns the current seasonally-adjusted maximum daylight level */
-double current_daylight_level( const time_point &p );
 /** How much light is provided in full daylight */
-double default_daylight_level();
-/** Returns the current sunlight or moonlight level through the preceding functions.
- *  By default, returns sunlight level for vision, with moonlight providing a measurable amount
- *  of light.  with vision == false, returns sunlight for solar panel purposes, and moonlight
- *  provides 0 light */
-float sunlight( const time_point &p, bool vision = true );
+float default_daylight_level();
+/* Irradiance (W/m2) on clear day when sun is at 90 degrees */
+float max_sun_irradiance();
+/** Returns the current sunlight.
+ *  Based entirely on astronomical circumstances; does not account for e.g.
+ *  weather.
+ *  For most situations you actually want to call the below function which also
+ *  includes moonlight. */
+float sun_light_at( const time_point &p );
+
+/* Returns sun irradiance (W/m2) on a flat surface*/
+float sun_irradiance( const time_point &p );
+
+/** Returns the current sunlight plus moonlight level.
+ *  Based entirely on astronomical circumstances; does not account for e.g.
+ *  weather. */
+float sun_moon_light_at( const time_point &p );
+/** How much light is provided at the solar noon nearest to given time */
+float sun_moon_light_at_noon_near( const time_point &p );
+
+std::pair<units::angle, units::angle> sun_azimuth_altitude( time_point );
+
+/** Returns the offset by which a ray of sunlight would move when shifting down
+ * one z-level, or nullopt if the sun is below the horizon.
+ */
+cata::optional<rl_vec2d> sunlight_angle( const time_point & );
 
 enum class weekdays : int {
     SUNDAY = 0,
@@ -581,5 +646,17 @@ enum class weekdays : int {
 };
 
 weekdays day_of_week( const time_point &p );
+
+// To support the eternal season option we create a strong typedef of timepoint
+// which is a season_effective_time.  This converts a regular time to a time
+// which would be relevant for sun position and weather calculations.  Normally
+// the two times are the same, but when eternal seasons are used the effective
+// time is always set to the same day, so that the sun position and weather
+// doesn't change from day to day.
+struct season_effective_time {
+    season_effective_time() = default;
+    explicit season_effective_time( const time_point & );
+    time_point t;
+};
 
 #endif // CATA_SRC_CALENDAR_H

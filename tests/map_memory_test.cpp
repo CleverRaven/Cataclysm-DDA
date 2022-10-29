@@ -66,6 +66,13 @@ TEST_CASE( "map_memory_overwrites", "[map_memory]" )
     CHECK( memory.get_symbol( p2 ) == 3 );
 }
 
+TEST_CASE( "map_memory_forgets", "[map_memory]" )
+{
+    map_memory memory;
+    memory.memorize_symbol( tripoint_zero, 1 );
+    memory.memorize_symbol( p3, 1 );
+}
+
 // TODO: map memory save / load
 
 #include <chrono>

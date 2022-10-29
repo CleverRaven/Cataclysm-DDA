@@ -8,6 +8,7 @@
 #include <vector>
 
 #include "calendar.h"
+#include "effect_on_condition.h"
 #include "translations.h"
 #include "type_id.h"
 
@@ -21,7 +22,9 @@ class scenario
     private:
         friend class string_id<scenario>;
         friend class generic_factory<scenario>;
+        friend struct mod_tracker;
         string_id<scenario> id;
+        std::vector<std::pair<string_id<scenario>, mod_id>> src;
         bool was_loaded = false;
         translation _name_male;
         translation _name_female;
@@ -45,14 +48,22 @@ class scenario
         std::vector<start_location_id> _allowed_locs;
         int _point_cost = 0;
         std::set<std::string> flags; // flags for some special properties of the scenario
-        std::string _map_extra;
+        map_extra_id _map_extra;
         std::vector<mission_type_id> _missions;
+        std::vector<effect_on_condition_id> _eoc;
 
-        bool _custom_initial_date = false;
-        int _initial_hour = 8;
-        int _initial_day = 0;
-        season_type _initial_season = SPRING;
-        int _initial_year = 1;
+        // does this scenario require a specific achiement to unlock
+        cata::optional<achievement_id> _requirement;
+
+        bool _custom_start_date = false;
+        bool _is_random_hour = false;
+        int _start_hour = 8;
+        bool _is_random_day = false;
+        int _start_day = 0;
+        season_type _start_season = SPRING;
+        bool _is_random_year = false;
+        int _start_year = 1;
+        time_point _start_of_cataclysm;
 
         vproto_id _starting_vehicle = vproto_id::NULL_ID();
 
@@ -88,14 +99,21 @@ class scenario
         int start_location_count() const;
         int start_location_targets_count() const;
 
-        bool custom_initial_date() const;
+        cata::optional<achievement_id> get_requirement() const;
+
+        bool custom_start_date() const;
+        void rerandomize() const;
         bool is_random_hour() const;
         bool is_random_day() const;
         bool is_random_year() const;
-        int initial_hour() const;
-        int initial_day() const;
-        season_type initial_season() const;
-        int initial_year() const;
+        int start_hour() const;
+        // Returns day of the season this scenario starts on
+        int start_day() const;
+        season_type start_season() const;
+        int start_year() const;
+
+        time_point start_of_cataclysm() const;
+        time_point start_of_game() const;
 
         vproto_id vehicle() const;
 
@@ -110,7 +128,7 @@ class scenario
         bool allowed_start( const start_location_id &loc ) const;
         signed int point_cost() const;
         bool has_map_extra() const;
-        const std::string &get_map_extra() const;
+        const map_extra_id &get_map_extra() const;
 
         /**
          * Returns "All", "Limited", or "Almost all" (translated)
@@ -125,11 +143,17 @@ class scenario
         bool has_flag( const std::string &flag ) const;
 
         /**
-         *
+         * Do you have the necessary achievement state
          */
-        bool can_pick( const scenario &current_scenario, int points ) const;
+        ret_val<void> can_pick() const;
+
+        /**
+         * Do you have the points to afford swapping to this scenario
+         */
+        ret_val<void> can_afford( const scenario &current_scenario, int points ) const;
 
         const std::vector<mission_type_id> &missions() const;
+        const std::vector<effect_on_condition_id> &eoc() const;
         const std::vector<std::pair<mongroup_id, float>> &surround_groups() const;
 
 };

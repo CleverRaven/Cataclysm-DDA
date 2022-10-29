@@ -68,7 +68,6 @@
     "color": "light_green",
     "skill": "mechanics",
     "required_level": 1,
-    "max_level": 1,
     "intelligence": 8,
     "time": "45 m",
     "fun": -2
@@ -245,7 +244,7 @@
     "type": "BOOK",
     "name": { "str": "crime novel" },
     "copy-from": "novel_crime",
-    "description": "A story about three people in the fictional city of Los Santos, a gangster, an upper-class man, and a psychopath, eventually banding together to pull-off the biggest heist in the city's history",
+    "description": "A story about three people in the fictional city of Los Santos: a gangster, an upper-class man, and a psychopath.  They eventually band together to pull off the biggest heist in the city's history",
     "time": "18 m",
     "relative": { "chapters": -3 }
   },
@@ -345,6 +344,17 @@
     "weight": "244 g",
     "volume": "500 ml",
     "time": "20 m",
+    "fun": 3
+  },
+  {
+    "id": "book_fict_soft_west_gore",
+    "type": "BOOK",
+    "name": { "str": "Gore Longtitude", "str_pl": "copies of Gore Longitude" },
+    "description": "Award-winning author Cornac McCaffordy weaves a chilling tale of horror and strife, following the compellingly lucrative, seductively dangerous bounty hunting and scalping trade across the western frontier.",
+    "copy-from": "book_fict_soft_tpl",
+    "intelligence": 6,
+    "time": "25 m",
+    "chapters": 24,
     "fun": 3
   },
   {
@@ -675,7 +685,7 @@
     "id": "phonebook",
     "type": "BOOK",
     "name": { "str": "phone book" },
-    "description": "This hefty volume contains the telephone numbers of individuals, businesses, and utilities in the nearby area, pretty useless during the apocalypse and all.",
+    "description": "This hefty volume contains the telephone numbers of individuals, businesses, and utilities.  Pretty useless during the apocalypse and all.",
     "weight": "854 g",
     "volume": "2500 ml",
     "price": 800,
@@ -767,7 +777,7 @@
     "id": "record_accounting",
     "type": "BOOK",
     "name": { "str": "corporate accounting ledger" },
-    "description": "If you knew what to look for something might stand out…",
+    "description": "If you knew what to look for, something might stand out…",
     "weight": "566 g",
     "volume": "1250 ml",
     "price": 2000,
@@ -1109,5 +1119,20 @@
     "description": "This paperback is titled \"Glimpses of Solomon in Yellow; The Initiation Rites of the Starry Wisdom Covenant, by Dr. Enoch Craven.\"  It describes not just the investiture of new adherents, but the history and beliefs of the Church of Starry Wisdom.  Someone has defaced the sparse citations section by scrawling \"PUPPETS OF ROME!\" over its few pages.  The book does not provide any biography for Dr. Craven, let alone academic credentials.",
     "copy-from": "paperback_occult",
     "relative": { "weight": "186 g", "price": 250, "chapters": 10 }
+  },
+  {
+    "id": "necronomicon",
+    "type": "BOOK",
+    "name": { "str": "grimoire" },
+    "description": "A hefty book with a thick leather cover and metal clasps.  Both covers are completely empty, though on the first page there is an author's name written in English: \"Abdul Alhazred\"; below it the book title is written in Arabian: \"العزيف\", and below it in Greek: \"Νεκρονομικόν\".  The book looks very old and sinister.",
+    "material": [ "paper", "leather" ],
+    "weight": "1887 g",
+    "volume": "1250 ml",
+    "time": "10 m",
+    "chapters": 24,
+    "price": 4550,
+    "price_postapoc": 50,
+    "symbol": "?",
+    "color": "light_gray"
   }
 ]

@@ -34,7 +34,7 @@
       ],
       "palettes": [ "standard_domestic_palette" ],
       "terrain": {
-        "%": "t_rock",
+        "%": "t_soil",
         "~": "t_dirtfloor",
         "$": "t_sai_box",
         "t": "t_linoleum_gray",

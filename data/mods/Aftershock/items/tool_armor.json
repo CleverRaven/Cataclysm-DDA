@@ -15,14 +15,21 @@
     "volume": "4500 ml",
     "charges_per_use": 5,
     "ammo": "battery",
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ACTIVE",
+          "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 50 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 50 } ]
+        }
+      ]
+    },
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
         "rigid": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
       }
     ],
     "use_action": {
@@ -53,9 +60,9 @@
     "name": { "str": "cryopod bodyglove (on)", "str_pl": "cryopod bodygloves (on)" },
     "looks_like": "afs_cryopod_bodyglove",
     "description": "The temperature control units of this high-tech garment are currently active, and continuously draining battery power.  Use it to turn them off.",
-    "power_draw": 90000,
+    "power_draw": "90 J",
     "revert_to": "afs_cryopod_bodyglove",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "afs_cryopod_bodyglove" },
-    "flags": [ "STURDY", "WATERPROOF", "THERMOMETER", "RAINPROOF", "CLIMATE_CONTROL" ]
+    "flags": [ "STURDY", "WATERPROOF", "THERMOMETER", "RAINPROOF" ]
   }
 ]

@@ -32,7 +32,6 @@
     "color": "black_green",
     "warmth": 7,
     "material_thickness": 1,
-    "flags": [ "OVERSIZE" ],
-    "armor": [ { "encumbrance": 0, "coverage": 0 } ]
+    "flags": [ "OVERSIZE" ]
   }
 ]

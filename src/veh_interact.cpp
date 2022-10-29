@@ -22,12 +22,15 @@
 #include "activity_type.h"
 #include "avatar.h"
 #include "calendar.h"
+#include "cata_scope_helpers.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
 #include "character_id.h"
 #include "clzones.h"
 #include "colony.h"
+#include "contents_change_handler.h"
+#include "creature_tracker.h"
 #include "debug.h"
 #include "enums.h"
 #include "faction.h"
@@ -37,10 +40,10 @@
 #include "game_constants.h"
 #include "handle_liquid.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_group.h"
 #include "itype.h"
 #include "line.h"
+#include "localized_comparator.h"
 #include "map.h"
 #include "map_selector.h"
 #include "memory_fast.h"
@@ -51,7 +54,6 @@
 #include "output.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
-#include "player.h"
 #include "point.h"
 #include "requirements.h"
 #include "skill.h"
@@ -71,29 +73,37 @@
 #include "vpart_position.h"
 #include "vpart_range.h"
 
-static const itype_id fuel_type_battery( "battery" );
+static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
 
+static const ammotype ammo_battery( "battery" );
+
+static const faction_id faction_no_faction( "no_faction" );
+
+
+static const itype_id fuel_type_battery( "battery" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_plut_cell( "plut_cell" );
 
-static const skill_id skill_mechanics( "mechanics" );
-
 static const proficiency_id proficiency_prof_aircraft_mechanic( "prof_aircraft_mechanic" );
 
+static const quality_id qual_HOSE( "HOSE" );
 static const quality_id qual_JACK( "JACK" );
 static const quality_id qual_LIFT( "LIFT" );
-static const quality_id qual_HOSE( "HOSE" );
 static const quality_id qual_SELF_JACK( "SELF_JACK" );
 
+static const skill_id skill_mechanics( "mechanics" );
+
+static const trait_id trait_BADBACK( "BADBACK" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
+static const trait_id trait_STRONGBACK( "STRONGBACK" );
 
-static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
+static const vpart_id vpart_ap_wall_wiring( "ap_wall_wiring" );
 
-static inline std::string status_color( bool status )
+static std::string status_color( bool status )
 {
     return status ? "<color_green>" : "<color_red>";
 }
-static inline std::string health_color( bool status )
+static std::string health_color( bool status )
 {
     return status ? "<color_light_green>" : "<color_light_red>";
 }
@@ -136,9 +146,8 @@ player_activity veh_interact::serialize_activity()
             if( pt != nullptr ) {
                 if( pt->is_broken() ) {
                     time = vp->install_time( player_character );
-                } else if( pt->base.max_damage() > 0 ) {
-                    time = vp->repair_time( player_character ) * pt->base.damage() /
-                           pt->base.max_damage();
+                } else if( pt->is_repairable() ) {
+                    time = vp->repair_time( player_character ) * pt->repairable_levels();
                 }
             }
             break;
@@ -319,7 +328,7 @@ bool veh_interact::format_reqs( std::string &msg, const requirement_data &reqs,
 
     msg += _( "<color_white>Skills required:</color>\n" );
     for( const auto &e : skills ) {
-        bool hasSkill = player_character.get_skill_level( e.first ) >= e.second;
+        bool hasSkill = player_character.get_knowledge_level( e.first ) >= e.second;
         if( !hasSkill ) {
             ok = false;
         }
@@ -363,11 +372,18 @@ shared_ptr_fast<ui_adaptor> veh_interact::create_or_get_ui_adaptor()
     if( !current_ui ) {
         ui = current_ui = make_shared_fast<ui_adaptor>();
         current_ui->on_screen_resize( [this]( ui_adaptor & current_ui ) {
+            if( ui_hidden ) {
+                current_ui.position( point_zero, point_zero );
+                return;
+            }
             allocate_windows();
             current_ui.position_from_window( catacurses::stdscr );
         } );
         current_ui->mark_resize();
         current_ui->on_redraw( [this]( const ui_adaptor & ) {
+            if( ui_hidden ) {
+                return;
+            }
             display_grid();
             display_name();
             display_stats();
@@ -375,7 +391,7 @@ shared_ptr_fast<ui_adaptor> veh_interact::create_or_get_ui_adaptor()
 
             werase( w_parts );
             veh->print_part_list( w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, highlight_part,
-                                  true );
+                                  true, false );
             wnoutrefresh( w_parts );
 
             werase( w_msg );
@@ -428,17 +444,25 @@ shared_ptr_fast<ui_adaptor> veh_interact::create_or_get_ui_adaptor()
     return current_ui;
 }
 
+void veh_interact::hide_ui( const bool hide )
+{
+    if( hide != ui_hidden ) {
+        ui_hidden = hide;
+        create_or_get_ui_adaptor()->mark_resize();
+    }
+}
+
 void veh_interact::do_main_loop()
 {
     bool finish = false;
     Character &player_character = get_player_character();
-    const bool owned_by_player = veh->handle_potential_theft( dynamic_cast<player &>
+    const bool owned_by_player = veh->handle_potential_theft( dynamic_cast<Character &>
                                  ( player_character ), true );
     faction *owner_fac;
     if( veh->has_owner() ) {
         owner_fac = g->faction_manager_ptr->get( veh->get_owner() );
     } else {
-        owner_fac = g->faction_manager_ptr->get( faction_id( "no_faction" ) );
+        owner_fac = g->faction_manager_ptr->get( faction_no_faction );
     }
 
     shared_ptr_fast<ui_adaptor> current_ui = create_or_get_ui_adaptor();
@@ -454,23 +478,23 @@ void veh_interact::do_main_loop()
         } else if( action == "QUIT" ) {
             finish = true;
         } else if( action == "INSTALL" ) {
-            if( veh->handle_potential_theft( dynamic_cast<player &>( player_character ) ) ) {
+            if( veh->handle_potential_theft( dynamic_cast<Character &>( player_character ) ) ) {
                 do_install();
             }
         } else if( action == "REPAIR" ) {
-            if( veh->handle_potential_theft( dynamic_cast<player &>( player_character ) ) ) {
+            if( veh->handle_potential_theft( dynamic_cast<Character &>( player_character ) ) ) {
                 do_repair();
             }
         } else if( action == "MEND" ) {
-            if( veh->handle_potential_theft( dynamic_cast<player &>( player_character ) ) ) {
+            if( veh->handle_potential_theft( dynamic_cast<Character &>( player_character ) ) ) {
                 do_mend();
             }
         } else if( action == "REFILL" ) {
-            if( veh->handle_potential_theft( dynamic_cast<player &>( player_character ) ) ) {
+            if( veh->handle_potential_theft( dynamic_cast<Character &>( player_character ) ) ) {
                 do_refill();
             }
         } else if( action == "REMOVE" ) {
-            if( veh->handle_potential_theft( dynamic_cast<player &>( player_character ) ) ) {
+            if( veh->handle_potential_theft( dynamic_cast<Character &>( player_character ) ) ) {
                 do_remove();
             }
         } else if( action == "RENAME" ) {
@@ -482,7 +506,7 @@ void veh_interact::do_main_loop()
                 }
             }
         } else if( action == "SIPHON" ) {
-            if( veh->handle_potential_theft( dynamic_cast<player &>( player_character ) ) ) {
+            if( veh->handle_potential_theft( dynamic_cast<Character &>( player_character ) ) ) {
                 do_siphon();
                 // Siphoning may have started a player activity. If so, we should close the
                 // vehicle dialog and continue with the activity.
@@ -493,7 +517,7 @@ void veh_interact::do_main_loop()
                 }
             }
         } else if( action == "UNLOAD" ) {
-            if( veh->handle_potential_theft( dynamic_cast<player &>( player_character ) ) ) {
+            if( veh->handle_potential_theft( dynamic_cast<Character &>( player_character ) ) ) {
                 finish = do_unload();
             }
         } else if( action == "CHANGE_SHAPE" ) {
@@ -589,7 +613,7 @@ task_reason veh_interact::cant_do( char mode )
         case 'i':
             // install mode
             enough_morale = player_character.has_morale_to_craft();
-            valid_target = !can_mount.empty() && 0 == veh->tags.count( "convertible" );
+            valid_target = !can_mount.empty();
             //tool checks processed later
             enough_light = player_character.fine_detail_vision_mod() <= 4;
             has_tools = true;
@@ -631,7 +655,7 @@ task_reason veh_interact::cant_do( char mode )
         case 'o':
             // remove mode
             enough_morale = player_character.has_morale_to_craft();
-            valid_target = cpart >= 0 && 0 == veh->tags.count( "convertible" );
+            valid_target = cpart >= 0;
             part_free = parts_here.size() > 1 || ( cpart >= 0 && veh->can_unmount( cpart ) );
             //tool and skill checks processed later
             has_tools = true;
@@ -742,6 +766,13 @@ bool veh_interact::update_part_requirements()
         return false;
     }
 
+    if( std::any_of( parts_here.begin(), parts_here.end(), [&]( const int e ) {
+    return veh->part( e ).has_flag( vehicle_part::carried_flag );
+    } ) ) {
+        msg = _( "Unracking is required before installing any parts here." );
+        return false;
+    }
+
     if( is_drive_conflict() ) {
         return false;
     }
@@ -787,7 +818,7 @@ bool veh_interact::update_part_requirements()
     int dif_steering = 0;
     if( sel_vpart_info->has_flag( "STEERABLE" ) ) {
         std::set<int> axles;
-        for( auto &p : veh->steering ) {
+        for( int &p : veh->steering ) {
             if( !veh->part_flag( p, "TRACKED" ) ) {
                 // tracked parts don't contribute to axle complexity
                 axles.insert( veh->part( p ).mount.x );
@@ -813,13 +844,13 @@ bool veh_interact::update_part_requirements()
     bool allow_more_eng = engines < 2 || player_character.has_trait( trait_DEBUG_HS );
 
     if( dif_eng > 0 ) {
-        if( !allow_more_eng || player_character.get_skill_level( skill_mechanics ) < dif_eng ) {
+        if( !allow_more_eng || player_character.get_knowledge_level( skill_mechanics ) < dif_eng ) {
             ok = false;
         }
         if( allow_more_eng ) {
             //~ %1$s represents the internal color name which shouldn't be translated, %2$s is skill name, and %3$i is skill level
             nmsg += string_format( _( "> %1$s%2$s %3$i</color> for extra engines." ),
-                                   status_color( player_character.get_skill_level( skill_mechanics ) >= dif_eng ),
+                                   status_color( player_character.get_knowledge_level( skill_mechanics ) >= dif_eng ),
                                    skill_mechanics.obj().name(), dif_eng ) + "\n";
         } else {
             nmsg += _( "> <color_red>You cannot install any more engines on this vehicle.</color>" ) +
@@ -828,12 +859,12 @@ bool veh_interact::update_part_requirements()
     }
 
     if( dif_steering > 0 ) {
-        if( player_character.get_skill_level( skill_mechanics ) < dif_steering ) {
+        if( player_character.get_knowledge_level( skill_mechanics ) < dif_steering ) {
             ok = false;
         }
         //~ %1$s represents the internal color name which shouldn't be translated, %2$s is skill name, and %3$i is skill level
         nmsg += string_format( _( "> %1$s%2$s %3$i</color> for extra steering axles." ),
-                               status_color( player_character.get_skill_level( skill_mechanics ) >= dif_steering ),
+                               status_color( player_character.get_knowledge_level( skill_mechanics ) >= dif_steering ),
                                skill_mechanics.obj().name(), dif_steering ) + "\n";
     }
 
@@ -915,20 +946,23 @@ void veh_interact::do_install()
     std::string filter; // The user specified filter
     std::vector<vpart_category> &tab_list = install_info->tab_list = {};
     std::vector <std::function<bool( const vpart_info * )>> tab_filters;
+    const static auto obsolete_filter = []( const vpart_info * vpi ) {
+        return !vpi->has_flag( "OBSOLETE" );
+    };
 
     for( const vpart_category &cat : vpart_category::all() ) {
         tab_list.push_back( cat );
         if( cat.get_id() == "_all" ) {
-            tab_filters.emplace_back( []( const vpart_info * ) {
-                return true;
+            tab_filters.emplace_back( []( const vpart_info * p ) {
+                return obsolete_filter( p );
             } );
         } else if( cat.get_id() == "_filter" ) {
             tab_filters.emplace_back( [&filter]( const vpart_info * p ) {
-                return lcmatch( p->name(), filter );
+                return lcmatch( p->name(), filter ) && obsolete_filter( p );
             } );
         } else {
-            tab_filters.emplace_back( [ &, cat = cat.get_id()]( const vpart_info * p ) {
-                return p->has_category( cat );
+            tab_filters.emplace_back( [ cat = cat.get_id()]( const vpart_info * p ) {
+                return p->has_category( cat ) && obsolete_filter( p );
             } );
         }
     }
@@ -994,45 +1028,39 @@ void veh_interact::do_install()
                         return;
                     }
                 }
-                if( veh->is_foldable() && !sel_vpart_info->has_flag( "FOLDABLE" ) &&
+                if( veh->is_foldable() && !sel_vpart_info->folded_volume &&
                     !query_yn( _( "Installing this part will make the vehicle unfoldable. "
                                   " Continue?" ) ) ) {
                     return;
                 }
-                const auto &shapes =
-                    vpart_shapes[ sel_vpart_info->name() + sel_vpart_info->base_item.str() ];
+                auto &shapes = vpart_shapes[ sel_vpart_info->name() + sel_vpart_info->base_item.str() ];
+                // Don't include appliances in variant list
+                for( auto iter = shapes.begin(); iter != shapes.end(); ) {
+                    if( ( *iter )->has_flag( VPFLAG_APPLIANCE ) ) {
+                        shapes.erase( iter );
+                    } else {
+                        iter++;
+                    }
+                }
                 int selected_shape = -1;
-                // more than one shape available, display selection
+                // more than one base variant available with the same name
                 size_t num_vpart_shapes = shapes.size();
-                size_t num_shapes_total = num_vpart_shapes + sel_vpart_info->symbols.size();
-                if( num_shapes_total > 1 ) {
+                if( num_vpart_shapes > 1 ) {
                     std::vector<uilist_entry> shape_ui_entries;
                     for( size_t i = 0; i < shapes.size(); i++ ) {
-                        uilist_entry entry( i, true, 0, shapes[i]->name() );
+                        // use the id to distinguish between them
+                        std::string vpname =
+                            string_format( "%s (%s)", shapes[i]->name(), shapes[i]->get_id().str() );
+                        uilist_entry entry( i, true, 0, vpname );
                         entry.extratxt.left = 1;
                         entry.extratxt.sym = special_symbol( shapes[i]->sym );
                         entry.extratxt.color = shapes[i]->color;
                         shape_ui_entries.push_back( entry );
                     }
-                    size_t j = num_vpart_shapes;
-                    for( const auto &vp_variant : sel_vpart_info->symbols ) {
-                        std::string disp_name = sel_vpart_info->name();
-                        for( const auto &vp_variant_pair : vpart_variants ) {
-                            if( vp_variant_pair.first == vp_variant.first ) {
-                                disp_name += " " + vp_variant_pair.second;
-                                break;
-                            }
-                        }
-                        uilist_entry entry( j, true, 0, disp_name );
-                        entry.extratxt.left = 1;
-                        entry.extratxt.sym = special_symbol( vp_variant.second );
-                        entry.extratxt.color = sel_vpart_info->color;
-                        shape_ui_entries.push_back( entry );
-                        j += 1;
-                    }
                     sort_uilist_entries_by_line_drawing( shape_ui_entries );
                     uilist smenu;
-                    smenu.settext( _( "Choose shape:" ) );
+                    //~ Choose a base variant for a vehicle part
+                    smenu.settext( _( "Choose base:" ) );
                     smenu.entries = shape_ui_entries;
                     smenu.w_width_setup = [this]() {
                         return getmaxx( w_list );
@@ -1048,25 +1076,70 @@ void veh_interact::do_install()
                 } else { // only one shape available, default to first one
                     selected_shape = 0;
                 }
-                if( selected_shape >= 0 &&
-                    static_cast<size_t>( selected_shape ) < num_shapes_total ) {
-                    if( static_cast<size_t>( selected_shape ) < num_vpart_shapes ) {
-                        sel_vpart_info = shapes[selected_shape];
-                        sel_vpart_variant.clear();
-                    } else {
-                        size_t offset = static_cast<size_t>( selected_shape ) - num_vpart_shapes;
-                        size_t j = 0;
+                if( selected_shape >= 0 && static_cast<size_t>( selected_shape ) < num_vpart_shapes ) {
+                    sel_vpart_info = shapes[selected_shape];
+                    sel_vpart_variant.clear();
+                    selected_shape = 0;
+                    // more than one shape available, display selection
+                    size_t num_shapes_total = sel_vpart_info->symbols.size();
+                    if( num_shapes_total > 0 ) {
+                        std::vector<uilist_entry> shape_ui_entries;
+                        size_t j = 1;
                         for( const auto &vp_variant : sel_vpart_info->symbols ) {
-                            if( j == offset ) {
-                                sel_vpart_variant = vp_variant.first;
-                                break;
-                            } else {
-                                j += 1;
+                            std::string disp_name = sel_vpart_info->name();
+                            for( const auto &vp_variant_pair : vpart_variants ) {
+                                if( vp_variant_pair.first == vp_variant.first ) {
+                                    disp_name += " " + vp_variant_pair.second;
+                                    break;
+                                }
+                            }
+                            uilist_entry entry( j, true, 0, disp_name );
+                            entry.extratxt.left = 1;
+                            entry.extratxt.sym = special_symbol( vp_variant.second );
+                            entry.extratxt.color = sel_vpart_info->color;
+                            shape_ui_entries.push_back( entry );
+                            j += 1;
+                        }
+                        sort_uilist_entries_by_line_drawing( shape_ui_entries );
+                        //~ Option to select the default vehicle part, no variant
+                        uilist_entry def_entry( 0, true, 0, _( "No variant (use default)" ) );
+                        def_entry.extratxt.left = 1;
+                        def_entry.extratxt.sym = ' ';
+                        def_entry.extratxt.color = c_white;
+                        shape_ui_entries.push_back( def_entry );
+                        uilist smenu;
+                        //~ Choose a variant shape for a vehicle part
+                        smenu.settext( _( "Choose shape:" ) );
+                        smenu.entries = shape_ui_entries;
+                        smenu.w_width_setup = [this]() {
+                            return getmaxx( w_list );
+                        };
+                        smenu.w_x_setup = [this]( const int ) {
+                            return getbegx( w_list );
+                        };
+                        smenu.w_y_setup = [this]( const int ) {
+                            return getbegy( w_list );
+                        };
+                        smenu.query();
+                        selected_shape = smenu.ret;
+                    }
+                    if( selected_shape >= 0 && ( num_shapes_total == 0 ||
+                                                 static_cast<size_t>( selected_shape ) <= num_shapes_total ) ) {
+                        int offset = selected_shape - 1;
+                        if( offset >= 0 ) {
+                            int j = 0;
+                            for( const auto &vp_variant : sel_vpart_info->symbols ) {
+                                if( j == offset ) {
+                                    sel_vpart_variant = vp_variant.first;
+                                    break;
+                                } else {
+                                    j += 1;
+                                }
                             }
                         }
+                        sel_cmd = 'i';
+                        return;
                     }
-                    sel_cmd = 'i';
-                    return;
                 }
             }
         } else if( action == "QUIT" ) {
@@ -1125,7 +1198,7 @@ void veh_interact::do_repair()
 
     if( reason == task_reason::INVALID_TARGET ) {
         vehicle_part *most_repairable = get_most_repairable_part();
-        if( most_repairable && most_repairable->damage_percent() ) {
+        if( most_repairable && most_repairable->is_repairable() ) {
             move_cursor( ( most_repairable->mount + dd ).rotate( 3 ) );
             return;
         }
@@ -1189,23 +1262,24 @@ void veh_interact::do_repair()
 
 
         } else {
-            if( vp.has_flag( "NO_REPAIR" ) || vp.repair_requirements().is_empty() ||
-                pt.base.max_damage() <= 0 ) {
+            if( !pt.is_repairable() ) {
                 nmsg += colorize( _( "This part cannot be repaired.\n" ), c_light_red );
                 ok = false;
             } else if( veh->has_part( "NO_MODIFY_VEHICLE" ) && !vp.has_flag( "SIMPLE_PART" ) ) {
                 nmsg += colorize( _( "This vehicle cannot be repaired.\n" ), c_light_red );
                 ok = false;
             } else {
-                ok = format_reqs( nmsg, vp.repair_requirements() * pt.base.damage_level(), vp.repair_skills,
-                                  vp.repair_time( player_character ) * pt.base.damage() / pt.base.max_damage() );
+                ok = format_reqs( nmsg, vp.repair_requirements() * pt.repairable_levels(), vp.repair_skills,
+                                  vp.repair_time( player_character ) * pt.repairable_levels() );
             }
         }
 
         bool would_prevent_flying = veh->would_repair_prevent_flyable( pt, player_character );
         if( would_prevent_flying &&
             !player_character.has_proficiency( proficiency_prof_aircraft_mechanic ) ) {
-            nmsg += _( "\n<color_yellow>You require the Airframe and Powerplant Mechanics proficiency to repair this part safely!</color>\n\n" );
+            nmsg += string_format(
+                        _( "\n<color_yellow>You require the \"%s\" proficiency to repair this part safely!</color>\n\n" ),
+                        proficiency_prof_aircraft_mechanic->name() );
         }
 
         const nc_color desc_color = pt.is_broken() ? c_dark_gray : c_light_gray;
@@ -1242,7 +1316,7 @@ void veh_interact::do_repair()
                 sel_vpart_variant = pt.variant;
                 const std::vector<npc *> helpers = player_character.get_crafting_helpers();
                 for( const npc *np : helpers ) {
-                    add_msg( m_info, _( "%s helps with this task…" ), np->name );
+                    add_msg( m_info, _( "%s helps with this task…" ), np->get_name() );
                 }
                 sel_cmd = 'r';
                 break;
@@ -1318,16 +1392,12 @@ void veh_interact::do_refill()
             if( pt.is_tank() ) {
                 if( obj.is_watertight_container() && obj.num_item_stacks() == 1 ) {
                     // we are assuming only one pocket here, and it's a liquid so only one item
-                    return pt.can_reload( obj.contents.only_item() );
+                    return pt.can_reload( obj.only_item() );
                 }
             } else if( pt.is_fuel_store() ) {
                 bool can_reload = pt.can_reload( obj );
-                if( obj.typeId() == fuel_type_battery && can_reload ) {
-                    msg = _( "You cannot recharge a vehicle battery with handheld batteries" );
-                    return false;
-                }
                 //check base item for fuel_stores that can take multiple types of ammunition (like the fuel_bunker)
-                if( pt.get_base().is_reloadable_with( obj.typeId() ) ) {
+                if( pt.get_base().can_reload_with( obj, true ) ) {
                     return true;
                 }
                 return can_reload;
@@ -1350,14 +1420,13 @@ void veh_interact::calc_overview()
 {
     const hotkey_queue &hotkeys = hotkey_queue::alphabets();
 
-    const auto next_hotkey = [&]( const vehicle_part & pt, input_event & evt ) {
-        if( overview_action && overview_enable && overview_enable( pt ) ) {
-            const input_event prev = evt;
-            evt = main_context.next_unassigned_hotkey( hotkeys, evt );
-            return prev;
-        } else {
-            return input_event();
-        }
+    const auto next_hotkey = [&]( input_event & evt ) {
+        input_event prev = evt;
+        evt = main_context.next_unassigned_hotkey( hotkeys, evt );
+        return prev;
+    };
+    auto is_selectable = [&]( const vehicle_part & pt ) {
+        return overview_action && overview_enable && overview_enable( pt );
     };
 
     overview_opts.clear();
@@ -1387,11 +1456,8 @@ void veh_interact::calc_overview()
         trim_and_print( w, point( 1, y ), getmaxx( w ) - 2, c_light_gray, batt );
         right_print( w, y, 1, c_light_gray, _( "Capacity  Status" ) );
     };
-    overview_headers["4_REACTOR"] = [this, epower_w]( const catacurses::window & w, int y ) {
+    overview_headers["4_REACTOR"] = [this]( const catacurses::window & w, int y ) {
         int reactor_epower_w = veh->max_reactor_epower_w();
-        if( reactor_epower_w > 0 && epower_w < 0 ) {
-            reactor_epower_w += epower_w;
-        }
         std::string reactor;
         if( reactor_epower_w == 0 ) {
             reactor = _( "Reactors" );
@@ -1415,6 +1481,7 @@ void veh_interact::calc_overview()
     };
 
     input_event hotkey = main_context.first_unassigned_hotkey( hotkeys );
+    bool selectable;
 
     for( const vpart_reference &vpr : veh->get_all_parts() ) {
         if( !vpr.part().is_available() ) {
@@ -1441,7 +1508,10 @@ void veh_interact::calc_overview()
                                                        colorize( e->description(), c_light_gray ) );
                 }
             };
-            overview_opts.emplace_back( "1_ENGINE", &vpr.part(), next_hotkey( vpr.part(), hotkey ), details,
+            selectable = is_selectable( vpr.part() );
+            overview_opts.emplace_back( "1_ENGINE", &vpr.part(), selectable,
+                                        selectable ? next_hotkey( hotkey ) : input_event(),
+                                        details,
                                         msg_cb );
         }
 
@@ -1496,12 +1566,15 @@ void veh_interact::calc_overview()
                 }
             };
 
+            selectable = is_selectable( vpr.part() );
             if( vpr.part().is_tank() ) {
-                overview_opts.emplace_back( "2_TANK", &vpr.part(), next_hotkey( vpr.part(), hotkey ),
+                overview_opts.emplace_back( "2_TANK", &vpr.part(), selectable, selectable ? next_hotkey(
+                                                hotkey ) : input_event(),
                                             tank_details );
             } else if( vpr.part().is_fuel_store() && !( vpr.part().is_turret() ||
                        vpr.part().is_battery() || vpr.part().is_reactor() ) ) {
-                overview_opts.emplace_back( "2_TANK", &vpr.part(), next_hotkey( vpr.part(), hotkey ),
+                overview_opts.emplace_back( "2_TANK", &vpr.part(), selectable, selectable ? next_hotkey(
+                                                hotkey ) : input_event(),
                                             no_tank_details );
             }
         }
@@ -1510,7 +1583,7 @@ void veh_interact::calc_overview()
             // always display total battery capacity and percentage charge
             auto details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
                 int pct = ( static_cast<double>( pt.ammo_remaining() ) / pt.ammo_capacity(
-                                ammotype( "battery" ) ) ) * 100;
+                                ammo_battery ) ) * 100;
                 int offset = 1;
                 std::string fmtstring = "%i    %3i%%";
                 if( pt.is_leaking() ) {
@@ -1518,9 +1591,11 @@ void veh_interact::calc_overview()
                     offset = 0;
                 }
                 right_print( w, y, offset, item::find_type( pt.ammo_current() )->color,
-                             string_format( fmtstring, pt.ammo_capacity( ammotype( "battery" ) ), pct ) );
+                             string_format( fmtstring, pt.ammo_capacity( ammo_battery ), pct ) );
             };
-            overview_opts.emplace_back( "3_BATTERY", &vpr.part(), next_hotkey( vpr.part(), hotkey ), details );
+            selectable = is_selectable( vpr.part() );
+            overview_opts.emplace_back( "3_BATTERY", &vpr.part(), selectable,
+                                        selectable ? next_hotkey( hotkey ) : input_event(), details );
         }
 
         if( vpr.part().is_reactor() || vpr.part().is_turret() ) {
@@ -1536,12 +1611,15 @@ void veh_interact::calc_overview()
                                  string_format( fmtstring, item::nname( pt.ammo_current() ), pt.ammo_remaining() ) );
                 }
             };
+            selectable = is_selectable( vpr.part() );
             if( vpr.part().is_reactor() ) {
-                overview_opts.emplace_back( "4_REACTOR", &vpr.part(), next_hotkey( vpr.part(), hotkey ),
+                overview_opts.emplace_back( "4_REACTOR", &vpr.part(), selectable,
+                                            selectable ? next_hotkey( hotkey ) : input_event(),
                                             details_ammo );
             }
             if( vpr.part().is_turret() ) {
-                overview_opts.emplace_back( "5_TURRET", &vpr.part(), next_hotkey( vpr.part(), hotkey ),
+                overview_opts.emplace_back( "5_TURRET", &vpr.part(), selectable,
+                                            selectable ? next_hotkey( hotkey ) : input_event(),
                                             details_ammo );
             }
         }
@@ -1550,10 +1628,12 @@ void veh_interact::calc_overview()
             auto details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
                 const npc *who = pt.crew();
                 if( who ) {
-                    right_print( w, y, 1, pt.passenger_id == who->getID() ? c_green : c_light_gray, who->name );
+                    right_print( w, y, 1, pt.passenger_id == who->getID() ? c_green : c_light_gray, who->get_name() );
                 }
             };
-            overview_opts.emplace_back( "6_SEAT", &vpr.part(), next_hotkey( vpr.part(), hotkey ), details );
+            selectable = is_selectable( vpr.part() );
+            overview_opts.emplace_back( "6_SEAT", &vpr.part(), selectable, selectable ? next_hotkey(
+                                            hotkey ) : input_event(), details );
         }
     }
 
@@ -1577,7 +1657,7 @@ void veh_interact::display_overview()
         y++;
     }
     for( int idx = overview_offset; idx != static_cast<int>( overview_opts.size() ); ++idx ) {
-        const auto &pt = *overview_opts[idx].part;
+        const vehicle_part &pt = *overview_opts[idx].part;
 
         // if this is a new section print a header row
         if( last != overview_opts[idx].key ) {
@@ -1596,12 +1676,11 @@ void veh_interact::display_overview()
         }
 
         // print part name
-        const input_event &hotkey = overview_opts[idx].hotkey;
-        nc_color col = hotkey != input_event() ? c_white : c_dark_gray;
+        nc_color col = overview_opts[idx].selectable ? c_white : c_dark_gray;
         trim_and_print( w_list, point( 1, y ), getmaxx( w_list ) - 1,
                         highlighted ? hilite( col ) : col,
                         "<color_dark_gray>%s </color>%s",
-                        right_justify( hotkey.short_description(), 2 ), pt.name() );
+                        right_justify( overview_opts[idx].hotkey.short_description(), 2 ), pt.name() );
 
         // print extra columns (if any)
         overview_opts[idx].details( pt, w_list, y );
@@ -1641,14 +1720,14 @@ void veh_interact::overview( const overview_enable_t &enable,
                     overview_pos = -1;
                     break; // nothing could be selected
                 }
-            } while( overview_opts[overview_pos].hotkey == input_event() );
+            } while( !overview_opts[overview_pos].selectable );
         }
 
-        const bool has_any_hotkey = std::any_of( overview_opts.begin(), overview_opts.end(),
+        const bool has_any_selectable_part = std::any_of( overview_opts.begin(), overview_opts.end(),
         []( const part_option & e ) {
-            return e.hotkey != input_event();
+            return e.selectable;
         } );
-        if( !has_any_hotkey ) {
+        if( !has_any_selectable_part ) {
             return; // nothing is selectable
         }
 
@@ -1667,7 +1746,7 @@ void veh_interact::overview( const overview_enable_t &enable,
 
         const std::string input = main_context.handle_input();
         msg.reset();
-        if( input == "CONFIRM" && overview_opts[overview_pos].hotkey != input_event() && overview_action ) {
+        if( input == "CONFIRM" && overview_opts[overview_pos].selectable && overview_action ) {
             overview_action( *overview_opts[overview_pos].part );
             break;
 
@@ -1680,14 +1759,14 @@ void veh_interact::overview( const overview_enable_t &enable,
                 if( --overview_pos < 0 ) {
                     overview_pos = overview_opts.size() - 1;
                 }
-            } while( overview_opts[overview_pos].hotkey == input_event() );
+            } while( !overview_opts[overview_pos].selectable );
         } else if( input == "DOWN" ) {
             do {
                 move_overview_line( 1 );
                 if( ++overview_pos >= static_cast<int>( overview_opts.size() ) ) {
                     overview_pos = 0;
                 }
-            } while( overview_opts[overview_pos].hotkey == input_event() );
+            } while( !overview_opts[overview_pos].selectable );
         } else if( input == "ANY_INPUT" ) {
             // did we try and activate a hotkey option?
             const input_event hotkey = main_context.get_raw_input();
@@ -1731,11 +1810,11 @@ vehicle_part *veh_interact::get_most_damaged_part() const
 
 vehicle_part *veh_interact::get_most_repairable_part() const
 {
-    auto &part = veh_utils::most_repairable_part( *veh, get_player_character() );
+    vehicle_part &part = veh_utils::most_repairable_part( *veh, get_player_character() );
     return part ? &part : nullptr;
 }
 
-bool veh_interact::can_remove_part( int idx, const player &p )
+bool veh_interact::can_remove_part( int idx, const Character &you )
 {
     sel_vehicle_part = &veh->part( idx );
     sel_vpart_info = &sel_vehicle_part->info();
@@ -1771,7 +1850,7 @@ bool veh_interact::can_remove_part( int idx, const player &p )
 
     const requirement_data reqs = sel_vpart_info->removal_requirements();
     bool ok = format_reqs( nmsg, reqs, sel_vpart_info->removal_skills,
-                           sel_vpart_info->removal_time( p ) );
+                           sel_vpart_info->removal_time( you ) );
 
     nmsg += _( "<color_white>Additional requirements:</color>\n" );
 
@@ -1873,7 +1952,7 @@ void veh_interact::do_remove()
             }
             const std::vector<npc *> helpers = player_character.get_crafting_helpers();
             for( const npc *np : helpers ) {
-                add_msg( m_info, _( "%s helps with this task…" ), np->name );
+                add_msg( m_info, _( "%s helps with this task…" ), np->get_name() );
             }
             sel_cmd = 'o';
             break;
@@ -1908,11 +1987,15 @@ void veh_interact::do_siphon()
     title = _( "Select part to siphon:" );
 
     auto sel = [&]( const vehicle_part & pt ) {
-        return( pt.is_tank() && !pt.base.empty() &&
-                pt.base.contents.only_item().made_of( phase_id::LIQUID ) );
+        return pt.is_tank() && !pt.base.empty() &&
+               pt.base.only_item().made_of( phase_id::LIQUID );
     };
 
     auto act = [&]( const vehicle_part & pt ) {
+        on_out_of_scope restore_ui( [&]() {
+            hide_ui( false );
+        } );
+        hide_ui( true );
         const item &base = pt.get_base();
         const int idx = veh->find_part( base );
         item liquid( base.legacy_front() );
@@ -1975,7 +2058,15 @@ void veh_interact::do_change_shape()
             break;
         } else if( action == "CONFIRM" || action == "CHANGE_SHAPE" ) {
             using v_shapes = std::vector<const vpart_info *, std::allocator<const vpart_info *>>;
-            const v_shapes &shapes = vpart_shapes[ sel_vpart_info->name() + sel_vpart_info->base_item.str() ];
+            v_shapes &shapes = vpart_shapes[ sel_vpart_info->name() + sel_vpart_info->base_item.str() ];
+            // Don't include appliances in variant list
+            for( auto iter = shapes.begin(); iter != shapes.end(); ) {
+                if( ( *iter )->has_flag( VPFLAG_APPLIANCE ) ) {
+                    shapes.erase( iter );
+                } else {
+                    iter++;
+                }
+            }
             if( shapes.empty() ) {
                 break;
             }
@@ -1996,7 +2087,9 @@ void veh_interact::do_change_shape()
             int default_selection = 0;
             std::vector<std::string> variants;
             for( const vpart_info *const shape : shapes ) {
-                uilist_entry entry( shape->name() );
+                // more than one base variant available with the same name, use id to distinguish between them
+                std::string vpname = string_format( "%s (%s)", shape->name(), shape->get_id().str() );
+                uilist_entry entry( vpname );
                 entry.retval = ret_code++;
                 entry.extratxt.left = 1;
                 entry.extratxt.sym = special_symbol( shape->sym );
@@ -2008,7 +2101,6 @@ void veh_interact::do_change_shape()
             for( const std::pair<const std::string, int> &vp_variant : sel_vpart_info->symbols ) {
                 std::string disp_name = sel_vpart_info->name();
                 // getting all the available shape variants from vpart_variants
-                std::size_t variants_offset = 0;
                 for( const std::pair<std::string, translation> &vp_variant_pair : vpart_variants ) {
                     if( vp_variant_pair.first == vp_variant.first ) {
                         disp_name += " " + vp_variant_pair.second;
@@ -2018,7 +2110,6 @@ void veh_interact::do_change_shape()
                         }
                         break;
                     }
-                    variants_offset += 1;
                 }
                 uilist_entry entry( disp_name );
                 entry.retval = ret_code++;
@@ -2071,14 +2162,14 @@ void veh_interact::do_assign_crew()
         }
 
         for( const npc *e : g->allies() ) {
-            menu.addentry( e->getID().get_value(), true, -1, e->name );
+            menu.addentry( e->getID().get_value(), true, -1, e->get_name() );
         }
 
         menu.query();
         if( menu.ret == 0 ) {
             pt.unset_crew();
         } else if( menu.ret > 0 ) {
-            const auto &who = *g->critter_by_id<npc>( character_id( menu.ret ) );
+            const npc &who = *g->critter_by_id<npc>( character_id( menu.ret ) );
             veh->assign_seat( pt, who );
         }
     };
@@ -2110,13 +2201,15 @@ void veh_interact::do_relabel()
     }
 
     const vpart_position vp( *veh, cpart );
-    std::string text = string_input_popup()
+    string_input_popup pop;
+    std::string text = pop
                        .title( _( "New label:" ) )
                        .width( 20 )
                        .text( vp.get_label().value_or( "" ) )
                        .query_string();
-    // empty input removes the label
-    vp.set_label( text );
+    if( pop.confirmed() ) {
+        vp.set_label( text );
+    }
 }
 
 
@@ -2155,13 +2248,13 @@ std::pair<bool, std::string> veh_interact::calc_lift_requirements( const vpart_i
     std::string str_suffix;
     int lift_strength = player_character.get_lift_str();
     int total_lift_strength = lift_strength + player_character.get_lift_assist();
-    int total_base_strength = player_character.get_str() + player_character.get_lift_assist();
+    int total_base_strength = player_character.get_arm_str() + player_character.get_lift_assist();
 
-    if( player_character.has_trait( trait_id( "STRONGBACK" ) ) && total_lift_strength >= str &&
+    if( player_character.has_trait( trait_STRONGBACK ) && total_lift_strength >= str &&
         total_base_strength < str ) {
         str_suffix = string_format( _( "(Strong Back helped, giving +%d strength)" ),
                                     lift_strength - player_character.get_str() );
-    } else if( player_character.has_trait( trait_id( "BADBACK" ) ) && total_base_strength >= str &&
+    } else if( player_character.has_trait( trait_BADBACK ) && total_base_strength >= str &&
                total_lift_strength < str ) {
         str_suffix = string_format( _( "(Bad Back reduced usable strength by %d)" ),
                                     lift_strength - player_character.get_str() );
@@ -2222,7 +2315,7 @@ bool veh_interact::can_potentially_install( const vpart_info &vpart )
         engine_reqs_met = engines < 2;
     }
 
-    return hammerspace || ( can_make && engine_reqs_met );
+    return hammerspace || ( can_make && engine_reqs_met && !vpart.has_flag( VPFLAG_APPLIANCE ) );
 }
 
 /**
@@ -2244,7 +2337,7 @@ void veh_interact::move_cursor( const point &d, int dstart_at )
     const point vd = -dd;
     const point q = veh->coord_translate( vd );
     const tripoint vehp = veh->global_pos3() + q;
-    const bool has_critter = g->critter_at( vehp );
+    const bool has_critter = get_creature_tracker().creature_at( vehp );
     map &here = get_map();
     bool obstruct = here.impassable_ter_furn( vehp );
     const optional_vpart_position ovp = here.veh_at( vehp );
@@ -2261,6 +2354,10 @@ void veh_interact::move_cursor( const point &d, int dstart_at )
                 continue;
             }
             if( veh->can_mount( vd, vp.get_id() ) ) {
+                if( vp.has_flag( VPFLAG_APPLIANCE ) ) {
+                    // exclude "appliances" from vehicle part list
+                    continue;
+                }
                 if( vp.get_id() != vpart_shapes[ vp.name() + vp.base_item.str() ][ 0 ]->get_id() ) {
                     // only add first shape to install list
                     continue;
@@ -2282,17 +2379,13 @@ void veh_interact::move_cursor( const point &d, int dstart_at )
 
     need_repair.clear();
     parts_here.clear();
-    wheel = nullptr;
     if( cpart >= 0 ) {
         parts_here = veh->parts_at_relative( veh->part( cpart ).mount, true );
         for( size_t i = 0; i < parts_here.size(); i++ ) {
-            auto &pt = veh->part( parts_here[i] );
+            vehicle_part &pt = veh->part( parts_here[i] );
 
-            if( pt.base.damage() > 0 && pt.info().is_repairable() ) {
+            if( pt.is_repairable() || pt.is_broken() ) {
                 need_repair.push_back( i );
-            }
-            if( pt.info().has_flag( "WHEEL" ) ) {
-                wheel = &pt;
             }
         }
     }
@@ -2404,10 +2497,10 @@ void veh_interact::display_veh()
 
     //Iterate over structural parts so we only hit each square once
     std::vector<int> structural_parts = veh->all_parts_at_location( "structure" );
-    for( auto &structural_part : structural_parts ) {
+    for( int &structural_part : structural_parts ) {
         const int p = structural_part;
-        int sym = veh->part_sym( p );
-        nc_color col = veh->part_color( p );
+        char sym = veh->part_sym( p, false, false );
+        nc_color col = veh->part_color( p, false, false );
 
         const point q = ( veh->part( p ).mount + dd ).rotate( 3 );
 
@@ -2429,8 +2522,8 @@ void veh_interact::display_veh()
     if( ovp && &ovp->vehicle() != veh ) {
         obstruct = true;
     }
-    nc_color col = cpart >= 0 ? veh->part_color( cpart ) : c_black;
-    int sym = cpart >= 0 ? veh->part_sym( cpart ) : ' ';
+    nc_color col = cpart >= 0 ? veh->part_color( cpart, false, false ) : c_black;
+    char sym = cpart >= 0 ? veh->part_sym( cpart, false, false ) : ' ';
     mvwputch( w_disp, point( hw, hh ), obstruct ? red_background( col ) : hilite( col ),
               special_symbol( sym ) );
     wnoutrefresh( w_disp );
@@ -2494,9 +2587,9 @@ void veh_interact::display_stats() const
     const int extraw = ( ( TERMX - FULL_SCREEN_WIDTH ) / 4 ) * 2;
     // 3 * stats_h
     const int slots = 24;
-    int x[slots];
-    int y[slots];
-    int w[slots];
+    std::array<int, slots> x;
+    std::array<int, slots> y;
+    std::array<int, slots> w;
 
     units::volume total_cargo = 0_ml;
     units::volume free_cargo = 0_ml;
@@ -2538,20 +2631,20 @@ void veh_interact::display_stats() const
     int i = 0;
     if( is_aircraft ) {
         fold_and_print( w_stats, point( x[i], y[i] ), w[i], c_light_gray,
-                        _( "Air Safe/Top Speed: <color_light_green>%3d</color>/<color_light_red>%3d</color> %s" ),
+                        _( "Air Safe/Top speed: <color_light_green>%3d</color>/<color_light_red>%3d</color> %s" ),
                         vel_to_int( veh->safe_rotor_velocity( false ) ),
                         vel_to_int( veh->max_rotor_velocity( false ) ),
                         velocity_units( VU_VEHICLE ) );
         i += 1;
         fold_and_print( w_stats, point( x[i], y[i] ), w[i], c_light_gray,
-                        _( "Air Acceleration: <color_light_blue>%3d</color> %s/s" ),
+                        _( "Air acceleration: <color_light_blue>%3d</color> %s/s" ),
                         vel_to_int( veh->rotor_acceleration( false ) ),
                         velocity_units( VU_VEHICLE ) );
         i += 1;
     } else {
         if( is_ground ) {
             fold_and_print( w_stats, point( x[i], y[i] ), w[i], c_light_gray,
-                            _( "Safe/Top Speed: <color_light_green>%3d</color>/<color_light_red>%3d</color> %s" ),
+                            _( "Safe/Top speed: <color_light_green>%3d</color>/<color_light_red>%3d</color> %s" ),
                             vel_to_int( veh->safe_ground_velocity( false ) ),
                             vel_to_int( veh->max_ground_velocity( false ) ),
                             velocity_units( VU_VEHICLE ) );
@@ -2568,7 +2661,7 @@ void veh_interact::display_stats() const
         }
         if( is_boat ) {
             fold_and_print( w_stats, point( x[i], y[i] ), w[i], c_light_gray,
-                            _( "Water Safe/Top Speed: <color_light_green>%3d</color>/<color_light_red>%3d</color> %s" ),
+                            _( "Water Safe/Top speed: <color_light_green>%3d</color>/<color_light_red>%3d</color> %s" ),
                             vel_to_int( veh->safe_water_velocity( false ) ),
                             vel_to_int( veh->max_water_velocity( false ) ),
                             velocity_units( VU_VEHICLE ) );
@@ -2576,7 +2669,7 @@ void veh_interact::display_stats() const
             // TODO: extract accelerations units to its own function
             fold_and_print( w_stats, point( x[i], y[i] ), w[i], c_light_gray,
                             //~ /t means per turn
-                            _( "Water Acceleration: <color_light_blue>%3d</color> %s/s" ),
+                            _( "Water acceleration: <color_light_blue>%3d</color> %s/s" ),
                             vel_to_int( veh->water_acceleration( false ) ),
                             velocity_units( VU_VEHICLE ) );
             i += 1;
@@ -2589,7 +2682,7 @@ void veh_interact::display_stats() const
                     convert_weight( veh->total_mass() ), weight_units() );
     i += 1;
     fold_and_print( w_stats, point( x[i], y[i] ), w[i], c_light_gray,
-                    _( "Cargo Volume: <color_light_blue>%s</color> / <color_light_blue>%s</color> %s" ),
+                    _( "Cargo volume: <color_light_blue>%s</color> / <color_light_blue>%s</color> %s" ),
                     format_volume( total_cargo - free_cargo ),
                     format_volume( total_cargo ), volume_units_abbr() );
     i += 1;
@@ -2820,7 +2913,7 @@ void veh_interact::display_list( size_t pos, const std::vector<const vpart_info 
 
     if( install_info ) {
         auto &tab_list = install_info->tab_list;
-        auto &tab = install_info->tab;
+        size_t &tab = install_info->tab;
         // draw tab menu
         int tab_x = 0;
         for( size_t i = 0; i < tab_list.size(); i++ ) {
@@ -2878,11 +2971,11 @@ void veh_interact::display_details( const vpart_info *part )
                     small_mode ? _( "Wgt" ) : _( "Weight" ),
                     convert_weight( item::find_type( part->base_item )->weight ),
                     weight_units() );
-    if( part->folded_volume != 0_ml ) {
+    if( part->folded_volume ) {
         fold_and_print( w_details, point( col_2, line + 2 ), column_width, c_white,
                         "%s: <color_light_gray>%s %s</color>",
                         small_mode ? _( "FoldVol" ) : _( "Folded Volume" ),
-                        format_volume( part->folded_volume ),
+                        format_volume( part->folded_volume.value() ),
                         volume_units_abbr() );
     }
 
@@ -2947,7 +3040,7 @@ void veh_interact::display_details( const vpart_info *part )
                         c_white, _( "Charge: <color_light_gray>%s</color>" ),
                         item::nname( part->fuel_type ) );
     }
-    int part_consumption = part->energy_consumption;
+    int part_consumption = units::to_joule( part->energy_consumption );
     if( part_consumption != 0 ) {
         fold_and_print( w_details, point( col_2, line + 4 ), column_width, c_white,
                         _( "Drain: <color_light_gray>%+8d</color>" ), -part_consumption );
@@ -2991,7 +3084,7 @@ void veh_interact::count_durability()
     const vehicle_part_range vpr = veh->get_all_parts();
     int qty = std::accumulate( vpr.begin(), vpr.end(), 0,
     []( int lhs, const vpart_reference & rhs ) {
-        return lhs + std::max( rhs.part().base.damage(), 0 );
+        return lhs + std::max( rhs.part().base.damage(), rhs.part().base.damage_floor( false ) );
     } );
 
     int total = std::accumulate( vpr.begin(), vpr.end(), 0,
@@ -3114,25 +3207,23 @@ void act_vehicle_unload_fuel( vehicle *veh )
  * Called when the activity timer for installing parts, repairing, etc times
  * out and the action is complete.
  */
-void veh_interact::complete_vehicle( player &p )
+void veh_interact::complete_vehicle( Character &you )
 {
-    if( p.activity.values.size() < 7 ) {
-        debugmsg( "Invalid activity ACT_VEHICLE values:%d", p.activity.values.size() );
+    if( you.activity.values.size() < 7 ) {
+        debugmsg( "Invalid activity ACT_VEHICLE values:%d", you.activity.values.size() );
         return;
     }
     map &here = get_map();
-    optional_vpart_position vp = here.veh_at( here.getlocal( tripoint( p.activity.values[0],
-                                 p.activity.values[1], p.posz() ) ) );
+    optional_vpart_position vp = here.veh_at( here.getlocal( tripoint( you.activity.values[0],
+                                 you.activity.values[1], you.posz() ) ) );
     if( !vp ) {
         // so the vehicle could have lost some of its parts from other NPCS works
         // during this player/NPCs activity.
         // check the vehicle points that were stored at beginning of activity.
-        if( !p.activity.coord_set.empty() ) {
-            for( const tripoint &pt : p.activity.coord_set ) {
-                vp = here.veh_at( here.getlocal( pt ) );
-                if( vp ) {
-                    break;
-                }
+        for( const tripoint &pt : you.activity.coord_set ) {
+            vp = here.veh_at( here.getlocal( pt ) );
+            if( vp ) {
+                break;
             }
         }
         // check again, to see if it really is a case of vehicle gone missing.
@@ -3143,17 +3234,17 @@ void veh_interact::complete_vehicle( player &p )
     }
     vehicle *const veh = &vp->vehicle();
 
-    point d( p.activity.values[4], p.activity.values[5] );
-    int vehicle_part = p.activity.values[6];
-    const vpart_id part_id( p.activity.str_values[0] );
-    const std::string &variant_id =  p.activity.str_values[1];
+    point d( you.activity.values[4], you.activity.values[5] );
+    int vehicle_part = you.activity.values[6];
+    cata_assert( !you.activity.str_values.empty() );
+    const vpart_id part_id( you.activity.str_values[0] );
 
     const vpart_info &vpinfo = part_id.obj();
 
     // cmd = Install Repair reFill remOve Siphon Unload reName relAbel
-    switch( static_cast<char>( p.activity.index ) ) {
+    switch( static_cast<char>( you.activity.index ) ) {
         case 'i': {
-            const inventory &inv = p.crafting_inventory();
+            const inventory &inv = you.crafting_inventory();
 
             const requirement_data reqs = vpinfo.install_requirements();
             if( !reqs.can_make_with_inventory( inv, is_crafting_component ) ) {
@@ -3165,14 +3256,16 @@ void veh_interact::complete_vehicle( player &p )
             // consume items extracting a match for the parts base item
             item base;
             for( const auto &e : reqs.get_components() ) {
-                for( auto &obj : p.consume_items( e, 1, is_crafting_component ) ) {
+                for( item &obj : you.consume_items( e, 1, is_crafting_component, [&vpinfo]( const itype_id & itm ) {
+                return itm == vpinfo.base_item;
+            } ) ) {
                     if( obj.typeId() == vpinfo.base_item ) {
                         base = obj;
                     }
                 }
             }
             if( base.is_null() ) {
-                if( !p.has_trait( trait_DEBUG_HS ) ) {
+                if( !you.has_trait( trait_DEBUG_HS ) ) {
                     add_msg( m_info, _( "Could not find base part in requirements for %s." ),
                              vpinfo.name() );
                     break;
@@ -3182,11 +3275,12 @@ void veh_interact::complete_vehicle( player &p )
             }
 
             for( const auto &e : reqs.get_tools() ) {
-                p.consume_tools( e );
+                you.consume_tools( e );
             }
 
-            p.invalidate_crafting_inventory();
-
+            you.invalidate_crafting_inventory();
+            cata_assert( you.activity.str_values.size() >= 2 );
+            const std::string &variant_id = you.activity.str_values[1];
             int partnum = !base.is_null() ? veh->install_part( d, part_id,
                           std::move( base ), variant_id ) : -1;
             if( partnum < 0 ) {
@@ -3204,9 +3298,9 @@ void veh_interact::complete_vehicle( player &p )
                 vpinfo.has_flag( VPFLAG_HALF_CIRCLE_LIGHT ) ) {
                 // Stash offset and set it to the location of the part so look_around will
                 // start there.
-                const tripoint old_view_offset = p.view_offset;
+                const tripoint old_view_offset = you.view_offset;
                 const tripoint offset = veh->global_pos3() + q;
-                p.view_offset = offset - p.pos();
+                you.view_offset = offset - you.pos();
 
                 point delta;
                 do {
@@ -3222,7 +3316,7 @@ void veh_interact::complete_vehicle( player &p )
                 } while( delta == point_zero );
 
                 // Restore previous view offsets.
-                p.view_offset = old_view_offset;
+                you.view_offset = old_view_offset;
 
                 units::angle dir = normalize( atan2( delta ) - veh->face.dir() );
 
@@ -3231,36 +3325,38 @@ void veh_interact::complete_vehicle( player &p )
 
             const tripoint vehp = veh->global_pos3() + tripoint( q, 0 );
             // TODO: allow boarding for non-players as well.
-            player *const pl = g->critter_at<player>( vehp );
+            Character *const pl = get_creature_tracker().creature_at<Character>( vehp );
             if( vpinfo.has_flag( VPFLAG_BOARDABLE ) && pl ) {
                 here.board_vehicle( vehp, pl );
             }
 
-            p.add_msg_if_player( m_good, _( "You install a %1$s into the %2$s." ),
-                                 veh->part( partnum ).name(), veh->name );
+            you.add_msg_if_player( m_good, _( "You install a %1$s into the %2$s." ),
+                                   veh->part( partnum ).name(), veh->name );
 
             for( const auto &sk : vpinfo.install_skills ) {
-                p.practice( sk.first, veh_utils::calc_xp_gain( vpinfo, sk.first, p ) );
+                you.practice( sk.first, veh_utils::calc_xp_gain( vpinfo, sk.first, you ) );
             }
             here.add_vehicle_to_cache( veh );
             break;
         }
 
         case 'r': {
-            veh_utils::repair_part( *veh, veh->part( vehicle_part ), p, variant_id );
+            cata_assert( you.activity.str_values.size() >= 2 );
+            const std::string &variant_id = you.activity.str_values[1];
+            veh_utils::repair_part( *veh, veh->part( vehicle_part ), you, variant_id );
             break;
         }
 
         case 'f': {
-            if( p.activity.targets.empty() || !p.activity.targets.front() ) {
+            if( you.activity.targets.empty() || !you.activity.targets.front() ) {
                 debugmsg( "Activity ACT_VEHICLE: missing refill source" );
                 break;
             }
 
-            item_location &src = p.activity.targets.front();
+            item_location &src = you.activity.targets.front();
             struct vehicle_part &pt = veh->part( vehicle_part );
             if( pt.is_tank() && src->is_container() && !src->empty() ) {
-                item_location contained( src, &src->contents.only_item() );
+                item_location contained( src, &src->only_item() );
                 contained->charges -= pt.base.fill_with( *contained, contained->charges );
 
                 contents_change_handler handler;
@@ -3271,33 +3367,33 @@ void veh_interact::complete_vehicle( player &p )
 
                 if( remaining_ammo_capacity ) {
                     //~ 1$s vehicle name, 2$s tank name
-                    p.add_msg_if_player( m_good, _( "You refill the %1$s's %2$s." ),
-                                         veh->name, pt.name() );
+                    you.add_msg_if_player( m_good, _( "You refill the %1$s's %2$s." ),
+                                           veh->name, pt.name() );
                 } else {
                     //~ 1$s vehicle name, 2$s tank name
-                    p.add_msg_if_player( m_good, _( "You completely refill the %1$s's %2$s." ),
-                                         veh->name, pt.name() );
+                    you.add_msg_if_player( m_good, _( "You completely refill the %1$s's %2$s." ),
+                                           veh->name, pt.name() );
                 }
 
                 if( contained->charges == 0 ) {
                     contained.remove_item();
                 } else {
-                    p.add_msg_if_player( m_good, _( "There's some left over!" ) );
+                    you.add_msg_if_player( m_good, _( "There's some left over!" ) );
                 }
 
-                handler.handle_by( p );
+                handler.handle_by( you );
             } else if( pt.is_fuel_store() ) {
                 contents_change_handler handler;
                 handler.unseal_pocket_containing( src );
 
                 int qty = src->charges;
-                pt.base.reload( p, std::move( src ), qty );
+                pt.base.reload( you, std::move( src ), qty );
 
                 //~ 1$s vehicle name, 2$s reactor name
-                p.add_msg_if_player( m_good, _( "You refuel the %1$s's %2$s." ),
-                                     veh->name, pt.name() );
+                you.add_msg_if_player( m_good, _( "You refuel the %1$s's %2$s." ),
+                                       veh->name, pt.name() );
 
-                handler.handle_by( p );
+                handler.handle_by( you );
             } else {
                 debugmsg( "vehicle part is not reloadable" );
                 break;
@@ -3307,15 +3403,19 @@ void veh_interact::complete_vehicle( player &p )
             break;
         }
 
+        case 'O': // 'O' = remove appliance
         case 'o': {
-            const inventory &inv = p.crafting_inventory();
+            const bool appliance_removal = static_cast<char>( you.activity.index ) == 'O';
+            const bool wall_wire_removal = appliance_removal &&
+                                           veh->part( vehicle_part ).id == vpart_ap_wall_wiring;
+            const inventory &inv = you.crafting_inventory();
             if( vehicle_part >= veh->part_count() ) {
-                vehicle_part = veh->get_next_shifted_index( vehicle_part, p );
+                vehicle_part = veh->get_next_shifted_index( vehicle_part, you );
                 if( vehicle_part == -1 ) {
-                    p.add_msg_if_player( m_info,
-                                         //~ 1$s is the vehicle part name
-                                         _( "The %1$s has already been removed by someone else." ),
-                                         vpinfo.name() );
+                    you.add_msg_if_player( m_info,
+                                           //~ 1$s is the vehicle part name
+                                           _( "The %1$s has already been removed by someone else." ),
+                                           vpinfo.name() );
                     return;
                 }
             }
@@ -3327,13 +3427,13 @@ void veh_interact::complete_vehicle( player &p )
                 break;
             }
             for( const auto &e : reqs.get_components() ) {
-                p.consume_items( e, 1, is_crafting_component );
+                you.consume_items( e, 1, is_crafting_component );
             }
             for( const auto &e : reqs.get_tools() ) {
-                p.consume_tools( e );
+                you.consume_tools( e );
             }
 
-            p.invalidate_crafting_inventory();
+            you.invalidate_crafting_inventory();
 
             // This will be a list of all the items which arise from this removal.
             std::list<item> resulting_items;
@@ -3348,11 +3448,11 @@ void veh_interact::complete_vehicle( player &p )
                 veh->remove_remote_part( vehicle_part );
             }
             if( veh->is_towing() || veh->is_towed() ) {
-                std::cout << "vehicle is towing/towed" << std::endl;
+                add_msg_debug( debugmode::DF_VEHICLE, "vehicle is towing/towed" );
                 vehicle *other_veh = veh->is_towing() ? veh->tow_data.get_towed() :
                                      veh->tow_data.get_towed_by();
                 if( other_veh ) {
-                    std::cout << "other veh exists" << std::endl;
+                    add_msg_debug( debugmode::DF_VEHICLE, "Other vehicle exists.  Removing tow cable" );
                     other_veh->remove_part( other_veh->part_with_feature( other_veh->get_tow_part(),
                                             "TOW_CABLE", true ) );
                     other_veh->tow_data.clear_towing();
@@ -3363,17 +3463,19 @@ void veh_interact::complete_vehicle( player &p )
             bool smash_remove = veh->part( vehicle_part ).info().has_flag( "SMASH_REMOVE" );
 
             if( broken ) {
-                p.add_msg_if_player( _( "You remove the broken %1$s from the %2$s." ),
-                                     veh->part( vehicle_part ).name(), veh->name );
+                you.add_msg_if_player( _( "You remove the broken %1$s from the %2$s." ),
+                                       veh->part( vehicle_part ).name(), veh->name );
             } else if( smash_remove ) {
-                p.add_msg_if_player( _( "You smash the %1$s to bits, removing it from the %2$s." ),
-                                     veh->part( vehicle_part ).name(), veh->name );
+                you.add_msg_if_player( _( "You smash the %1$s to bits, removing it from the %2$s." ),
+                                       veh->part( vehicle_part ).name(), veh->name );
             } else {
-                p.add_msg_if_player( _( "You remove the %1$s from the %2$s." ),
-                                     veh->part( vehicle_part ).name(), veh->name );
+                you.add_msg_if_player( _( "You remove the %1$s from the %2$s." ),
+                                       veh->part( vehicle_part ).name(), veh->name );
             }
 
-            if( broken ) {
+            if( wall_wire_removal ) {
+                veh->part( vehicle_part ).properties_to_item();
+            } else if( broken ) {
                 item_group::ItemList pieces = veh->part( vehicle_part ).pieces_for_broken_part();
                 resulting_items.insert( resulting_items.end(), pieces.begin(), pieces.end() );
             } else {
@@ -3385,18 +3487,26 @@ void veh_interact::complete_vehicle( player &p )
                 }
                 for( const std::pair<const skill_id, int> &sk : vpinfo.install_skills ) {
                     // removal is half as educational as installation
-                    p.practice( sk.first, veh_utils::calc_xp_gain( vpinfo, sk.first, p ) / 2 );
+                    you.practice( sk.first, veh_utils::calc_xp_gain( vpinfo, sk.first, you ) / 2 );
                 }
             }
 
-            if( veh->part_count() < 2 ) {
-                p.add_msg_if_player( _( "You completely dismantle the %s." ), veh->name );
-                p.activity.set_to_null();
+            // Remove any leftover power cords from the appliance
+            if( appliance_removal && veh->part_count() >= 2 ) {
+                veh->shed_loose_parts();
+                veh->part_removal_cleanup();
+                //always stop after removing an appliance
+                you.activity.set_to_null();
+            }
+
+            if( veh->part_count( true ) < 2 ) {
+                you.add_msg_if_player( _( "You completely dismantle the %s." ), veh->name );
+                you.activity.set_to_null();
                 // destroy vehicle clears the cache
                 here.destroy_vehicle( veh );
             } else {
                 point mount = veh->part( vehicle_part ).mount;
-                const tripoint &part_pos = veh->global_part_pos3( vehicle_part );
+                const tripoint part_pos = veh->global_part_pos3( vehicle_part );
                 veh->remove_part( vehicle_part );
                 // part_removal_cleanup calls refresh, so parts_at_relative is valid
                 veh->part_removal_cleanup();
@@ -3406,18 +3516,25 @@ void veh_interact::complete_vehicle( player &p )
             }
             // This will be part of an NPC "job" where they need to clean up the activity
             // items afterwards
-            if( p.is_npc() ) {
+            if( you.is_npc() ) {
                 for( item &it : resulting_items ) {
-                    it.set_var( "activity_var", p.name );
+                    it.set_var( "activity_var", you.name );
                 }
             }
             // Finally, put all the results somewhere (we wanted to wait until this
             // point because we don't want to put them back into the vehicle part
             // that just got removed).
-            put_into_vehicle_or_drop( p, item_drop_reason::deliberate, resulting_items );
+            put_into_vehicle_or_drop( you, item_drop_reason::deliberate, resulting_items );
+            break;
+        }
+        case 'u': {
+            // Unplug action just sheds loose connections,
+            // assuming vehicle::shed_loose_parts was already called so that
+            // the removed parts have had time to be processed
+            you.add_msg_if_player( _( "You disconnect the %s's power connection." ), veh->name );
             break;
         }
     }
-    p.invalidate_crafting_inventory();
-    p.invalidate_weight_carried_cache();
+    you.invalidate_crafting_inventory();
+    you.invalidate_weight_carried_cache();
 }

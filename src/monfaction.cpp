@@ -139,7 +139,7 @@ void monfaction::inherit_parent_attitude_rec(
 void monfaction::populate_attitude_vec() const
 {
     attitude_vec.clear();
-    for( const auto &f : faction_factory.get_all() ) {
+    for( const monfaction &f : faction_factory.get_all() ) {
         const cata::optional<mf_attitude> &attitude = attitude_rec( f.id );
         if( !attitude ) {
             debugmsg( "Invalid faction relations (no relation found): %s -> %s",
@@ -160,7 +160,7 @@ void monfactions::finalize()
         debugmsg( "MONSTER_FACTION \"sentinel\" (entry with empty name) is not found in json." );
     }
 
-    for( const auto &f : faction_factory.get_all() ) {
+    for( const monfaction &f : faction_factory.get_all() ) {
         // `detect_base_faction_cycle` detects a cycle that is formed by valid `base_faction` relations.
         // it will produce a warning if cycle is detected
         if( f.detect_base_faction_cycle() ) {
@@ -171,13 +171,13 @@ void monfactions::finalize()
 
     // adds attitudes_map collected from all `base_faction`
     std::set<mfaction_str_id> processed;
-    for( const auto &f : faction_factory.get_all() ) {
+    for( const monfaction &f : faction_factory.get_all() ) {
         std::map<mfaction_str_id, mf_attitude> accum;
         f.inherit_parent_attitude_rec( processed, accum );
     }
 
     // at this point all factions are loaded, populate the final attitude cache
-    for( const auto &f : faction_factory.get_all() ) {
+    for( const monfaction &f : faction_factory.get_all() ) {
         f.populate_attitude_vec();
     }
 }
@@ -185,23 +185,23 @@ void monfactions::finalize()
 void monfaction::load( const JsonObject &jo, const std::string & )
 {
     optional( jo, was_loaded, "base_faction", base_faction, mfaction_str_id() );
+    optional( jo, was_loaded, "by_mood", _att_by_mood, string_id_reader<monfaction>() );
+    optional( jo, was_loaded, "neutral", _att_neutral, string_id_reader<monfaction>() );
+    optional( jo, was_loaded, "friendly", _att_friendly, string_id_reader<monfaction>() );
+    optional( jo, was_loaded, "hate", _att_hate, string_id_reader<monfaction>() );
 
-    static const std::array<std::pair<std::string, mf_attitude>, 4> fields_by_attitude {
-        {
-            {"by_mood", MFA_BY_MOOD},
-            {"neutral", MFA_NEUTRAL},
-            {"friendly", MFA_FRIENDLY},
-            {"hate", MFA_HATE}
-        }
-    };
-
-    for( const auto &field_att_pair : fields_by_attitude ) {
-        const std::string &json_field_name = field_att_pair.first;
-        const mf_attitude attitude = field_att_pair.second;
-
-        for( const auto &f : jo.get_tags<mfaction_str_id>( json_field_name ) ) {
-            attitude_map[f] = attitude;
-        }
+    attitude_map.clear();
+    for( const mfaction_str_id &mfac : _att_by_mood ) {
+        attitude_map[mfac] = MFA_BY_MOOD;
+    }
+    for( const mfaction_str_id &mfac : _att_neutral ) {
+        attitude_map[mfac] = MFA_NEUTRAL;
+    }
+    for( const mfaction_str_id &mfac : _att_friendly ) {
+        attitude_map[mfac] = MFA_FRIENDLY;
+    }
+    for( const mfaction_str_id &mfac : _att_hate ) {
+        attitude_map[mfac] = MFA_HATE;
     }
 
     // by default faction is friendly to itself (don't overwrite if explicitly specified)

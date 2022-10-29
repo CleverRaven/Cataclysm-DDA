@@ -4,8 +4,8 @@
 
 #include <memory>
 
-class JsonIn;
 class JsonOut;
+class JsonValue;
 
 namespace cata
 {
@@ -38,8 +38,8 @@ class value_ptr : public std::unique_ptr<T>
                 jsout.write_null();
             }
         }
-        template<typename Stream = JsonIn>
-        void deserialize( Stream &jsin ) {
+        template<typename Value = JsonValue, std::enable_if_t<std::is_same<std::decay_t<Value>, JsonValue>::value>* = nullptr>
+        void deserialize( const Value &jsin ) {
             if( jsin.test_null() ) {
                 this->reset();
             } else {

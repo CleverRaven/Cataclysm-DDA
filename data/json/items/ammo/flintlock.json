@@ -15,11 +15,11 @@
     "stack_size": 10,
     "ammo_type": "flintlock",
     "range": 6,
-    "damage": { "damage_type": "bullet", "amount": 50 },
+    "damage": { "damage_type": "bullet", "amount": 30 },
     "dispersion": 90,
     "recoil": 1500,
     "loudness": 70,
-    "effects": [ "COOKOFF", "MUZZLE_SMOKE", "BLACKPOWDER" ]
+    "effects": [ "COOKOFF", "MUZZLE_SMOKE", "BLACKPOWDER", "RECYCLED" ]
   },
   {
     "id": "flintlock_shot",
@@ -37,10 +37,13 @@
     "stack_size": 10,
     "ammo_type": "flintlock",
     "range": 4,
-    "damage": { "damage_type": "bullet", "amount": 45 },
+    "damage": { "damage_type": "bullet", "amount": 25 },
+    "shot_damage": { "damage_type": "bullet", "amount": 8 },
+    "projectile_count": 9,
+    "shot_spread": 20,
     "dispersion": 20,
     "recoil": 1500,
     "loudness": 90,
-    "effects": [ "COOKOFF", "MUZZLE_SMOKE", "SHOT", "BLACKPOWDER" ]
+    "effects": [ "COOKOFF", "MUZZLE_SMOKE", "SHOT", "BLACKPOWDER", "RECYCLED" ]
   }
 ]

@@ -34,7 +34,7 @@
       ],
       "palettes": [ "standard_domestic_palette" ],
       "terrain": {
-        "%": "t_rock",
+        "%": "t_soil",
         "=": "t_carpet_concrete_yellow",
         "I": "t_carpet_concrete_yellow",
         "h": "t_carpet_concrete_yellow",

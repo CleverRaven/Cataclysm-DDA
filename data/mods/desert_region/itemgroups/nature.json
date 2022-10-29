@@ -1,0 +1,15 @@
+[
+  {
+    "type": "item_group",
+    "id": "desertpavement",
+    "subtype": "distribution",
+    "items": [
+      [ "rock", 10 ],
+      [ "rock_large", 1 ],
+      [ "rock_flaking", 8 ],
+      [ "sharp_rock", 8 ],
+      { "item": "pebble", "prob": 33, "charges": 1 },
+      { "item": "pebble", "prob": 33, "charges-max": 10 }
+    ]
+  }
+]

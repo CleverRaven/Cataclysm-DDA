@@ -16,9 +16,9 @@
     "color": "light_gray",
     "material_thickness": 1,
     "environmental_protection": 1,
-    "qualities": [ [ "GLARE", 3 ] ],
+    "qualities": [ [ "GLARE", 1 ] ],
     "flags": [ "SUN_GLASSES" ],
-    "armor": [ { "encumbrance": 10, "coverage": 80, "covers": [ "eyes" ] } ]
+    "armor": [ { "encumbrance": 10, "coverage": 80, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
     "id": "eyepatch_leather",
@@ -36,7 +36,7 @@
     "color": "light_gray",
     "material_thickness": 1,
     "flags": [ "WATER_FRIENDLY", "SKINTIGHT" ],
-    "armor": [ { "encumbrance": 30, "coverage": 50, "covers": [ "eyes" ] } ]
+    "armor": [ { "encumbrance": 30, "coverage": 50, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
     "id": "fancy_sunglasses",
@@ -55,9 +55,8 @@
     "color": "dark_gray",
     "material_thickness": 1,
     "environmental_protection": 1,
-    "qualities": [ [ "GLARE", 1 ] ],
-    "flags": [ "FANCY", "WATER_FRIENDLY", "SUN_GLASSES", "FRAGILE" ],
-    "armor": [ { "encumbrance": 1, "coverage": 95, "covers": [ "eyes" ] } ]
+    "flags": [ "FANCY", "WATER_FRIENDLY", "SUN_GLASSES", "FRAGILE", "SKINTIGHT" ],
+    "armor": [ { "encumbrance": 1, "coverage": 95, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
     "id": "fitover_sunglasses",
@@ -76,9 +75,8 @@
     "color": "dark_gray",
     "material_thickness": 1,
     "environmental_protection": 1,
-    "qualities": [ [ "GLARE", 1 ] ],
-    "flags": [ "WATER_FRIENDLY", "SUN_GLASSES", "VARSIZE", "OUTER", "FRAGILE" ],
-    "armor": [ { "encumbrance": 1, "coverage": 90, "covers": [ "eyes" ] } ]
+    "flags": [ "WATER_FRIENDLY", "SUN_GLASSES", "VARSIZE", "FRAGILE" ],
+    "armor": [ { "encumbrance": 1, "coverage": 90, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
     "id": "glasses_bal",
@@ -99,9 +97,8 @@
     "warmth": 5,
     "material_thickness": 3,
     "environmental_protection": 4,
-    "qualities": [ [ "GLARE", 1 ] ],
-    "flags": [ "WATER_FRIENDLY", "SUN_GLASSES" ],
-    "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "eyes" ] } ]
+    "flags": [ "WATER_FRIENDLY", "SUN_GLASSES", "SKINTIGHT" ],
+    "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
     "id": "glasses_bifocal",
@@ -121,8 +118,8 @@
     "material_thickness": 1,
     "environmental_protection": 1,
     "use_action": { "type": "firestarter", "moves": 1000, "moves_slow": 25000, "need_sunlight": true },
-    "flags": [ "WATER_FRIENDLY", "FIRESTARTER", "FIX_NEARSIGHT", "FIX_FARSIGHT", "FRAGILE" ],
-    "armor": [ { "coverage": 75, "covers": [ "eyes" ] } ]
+    "flags": [ "WATER_FRIENDLY", "FIRESTARTER", "FIX_NEARSIGHT", "FIX_FARSIGHT", "FRAGILE", "SKINTIGHT" ],
+    "armor": [ { "coverage": 75, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
     "id": "glasses_eye",
@@ -141,8 +138,8 @@
     "color": "cyan",
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "WATER_FRIENDLY", "FIX_NEARSIGHT", "FRAGILE" ],
-    "armor": [ { "coverage": 75, "covers": [ "eyes" ] } ]
+    "flags": [ "WATER_FRIENDLY", "FIX_NEARSIGHT", "FRAGILE", "SKINTIGHT" ],
+    "armor": [ { "coverage": 75, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
     "id": "glasses_monocle",
@@ -150,7 +147,7 @@
     "type": "ARMOR",
     "name": { "str": "monocle" },
     "//": "DDA monocle is optical-grade.  Costume ones go for about $10.",
-    "description": "An essential article of the gentleman's apparel.  Also corrects near-sightedness.  The concave lenses diffuse the sunlight, rendering them useless for starting fires.",
+    "description": "An essential article of the gentleman's apparel.  Also corrects near-sightedness.  The concave lens diffuses the sunlight, rendering it useless for starting fires.",
     "weight": "16 g",
     "volume": "5 ml",
     "price": 4000,
@@ -162,8 +159,8 @@
     "color": "cyan",
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "FANCY", "FIX_NEARSIGHT", "FRAGILE" ],
-    "armor": [ { "coverage": 20, "covers": [ "eyes" ] } ]
+    "flags": [ "FANCY", "FIX_NEARSIGHT", "FRAGILE", "SKINTIGHT" ],
+    "armor": [ { "coverage": 20, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
     "id": "glasses_reading",
@@ -184,8 +181,8 @@
     "material_thickness": 1,
     "environmental_protection": 1,
     "use_action": { "type": "firestarter", "moves": 1000, "moves_slow": 25000, "need_sunlight": true },
-    "flags": [ "WATER_FRIENDLY", "FIRESTARTER", "FIX_FARSIGHT", "FRAGILE" ],
-    "armor": [ { "coverage": 75, "covers": [ "eyes" ] } ]
+    "flags": [ "WATER_FRIENDLY", "FIRESTARTER", "FIX_FARSIGHT", "FRAGILE", "SKINTIGHT" ],
+    "armor": [ { "coverage": 75, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
     "id": "glasses_safety",
@@ -205,8 +202,26 @@
     "warmth": 5,
     "material_thickness": 2,
     "environmental_protection": 1,
-    "flags": [ "WATER_FRIENDLY", "OUTER" ],
-    "armor": [ { "encumbrance": 5, "coverage": 95, "covers": [ "eyes" ] } ]
+    "flags": [ "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 5, "coverage": 95, "covers": [ "eyes" ], "rigid_layer_only": true } ]
+  },
+  {
+    "id": "glass_goggles",
+    "type": "ARMOR",
+    "name": { "str": "pair of glass goggles", "str_pl": "pairs of glass goggles" },
+    "description": "A pair of old-fashioned goggles with thick glass lenses, somewhat similar to those worn by the pilots of open-cockpit aircraft, but more crude looking.  Won't protect your eyes from physical harm, but can keep hazardous chemicals out.",
+    "weight": "90 g",
+    "volume": "250 ml",
+    "price": 1000,
+    "price_postapoc": 200,
+    "material": [ "glass" ],
+    "symbol": "[",
+    "looks_like": "glasses_safety",
+    "color": "light_cyan",
+    "material_thickness": 1,
+    "environmental_protection": 1,
+    "flags": [ "WATER_FRIENDLY", "FRAGILE" ],
+    "armor": [ { "encumbrance": 5, "coverage": 95, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
     "id": "goggles_ski",
@@ -226,9 +241,8 @@
     "warmth": 50,
     "material_thickness": 2,
     "environmental_protection": 6,
-    "qualities": [ [ "GLARE", 1 ] ],
     "flags": [ "SUN_GLASSES" ],
-    "armor": [ { "encumbrance": 15, "coverage": 100, "covers": [ "eyes" ] } ]
+    "armor": [ { "encumbrance": 15, "coverage": 100, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
     "id": "goggles_welding",
@@ -248,9 +262,9 @@
     "warmth": 10,
     "material_thickness": 4,
     "environmental_protection": 6,
-    "qualities": [ [ "GLARE", 2 ] ],
+    "qualities": [ [ "GLARE", 1 ] ],
     "flags": [ "SUN_GLASSES", "FLASH_PROTECTION" ],
-    "armor": [ { "encumbrance": 60, "coverage": 100, "covers": [ "eyes" ] } ]
+    "armor": [ { "encumbrance": 40, "coverage": 100, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
     "id": "iggaak",
@@ -269,9 +283,8 @@
     "color": "light_gray",
     "warmth": 5,
     "material_thickness": 1,
-    "qualities": [ [ "GLARE", 1 ] ],
-    "flags": [ "WATER_FRIENDLY", "SUN_GLASSES" ],
-    "armor": [ { "encumbrance": 9, "coverage": 90, "covers": [ "eyes" ] } ]
+    "flags": [ "WATER_FRIENDLY", "SUN_GLASSES", "SKINTIGHT" ],
+    "armor": [ { "encumbrance": 9, "coverage": 90, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
     "id": "sunglasses",
@@ -290,30 +303,8 @@
     "color": "dark_gray",
     "material_thickness": 1,
     "environmental_protection": 1,
-    "qualities": [ [ "GLARE", 1 ] ],
-    "flags": [ "WATER_FRIENDLY", "SUN_GLASSES", "FRAGILE" ],
-    "armor": [ { "encumbrance": 1, "coverage": 85, "covers": [ "eyes" ] } ]
-  },
-  {
-    "id": "survivor_goggles",
-    "type": "ARMOR",
-    "name": { "str": "survivor goggles", "str_pl": "pairs of survivor goggles" },
-    "description": "A custom-built pair of armored goggles with tinted lenses.  Comfortable and built to last, they provide excellent protection from environmental dangers.",
-    "weight": "212 g",
-    "volume": "250 ml",
-    "price": 7500,
-    "price_postapoc": 3000,
-    "to_hit": -2,
-    "material": [ "kevlar_layered", "leather" ],
-    "symbol": "[",
-    "looks_like": "glasses_bal",
-    "color": "dark_gray",
-    "warmth": 5,
-    "material_thickness": 4,
-    "environmental_protection": 15,
-    "qualities": [ [ "GLARE", 1 ] ],
-    "flags": [ "WATER_FRIENDLY", "SUN_GLASSES", "OVERSIZE", "VARSIZE", "STURDY" ],
-    "armor": [ { "encumbrance": 20, "coverage": 100, "covers": [ "eyes" ] } ]
+    "flags": [ "WATER_FRIENDLY", "SUN_GLASSES", "FRAGILE", "SKINTIGHT" ],
+    "armor": [ { "encumbrance": 1, "coverage": 85, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
     "id": "sunglasses_bifocal",
@@ -332,9 +323,8 @@
     "color": "dark_gray",
     "material_thickness": 1,
     "environmental_protection": 1,
-    "qualities": [ [ "GLARE", 1 ] ],
-    "flags": [ "WATER_FRIENDLY", "SUN_GLASSES", "FIX_NEARSIGHT", "FIX_FARSIGHT", "FRAGILE" ],
-    "armor": [ { "coverage": 75, "covers": [ "eyes" ] } ]
+    "flags": [ "WATER_FRIENDLY", "SUN_GLASSES", "FIX_NEARSIGHT", "FIX_FARSIGHT", "FRAGILE", "SKINTIGHT" ],
+    "armor": [ { "coverage": 75, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
     "id": "sunglasses_eye",
@@ -353,9 +343,8 @@
     "color": "dark_gray",
     "material_thickness": 1,
     "environmental_protection": 1,
-    "qualities": [ [ "GLARE", 1 ] ],
-    "flags": [ "WATER_FRIENDLY", "SUN_GLASSES", "FIX_NEARSIGHT", "FRAGILE" ],
-    "armor": [ { "coverage": 75, "covers": [ "eyes" ] } ]
+    "flags": [ "WATER_FRIENDLY", "SUN_GLASSES", "FIX_NEARSIGHT", "FRAGILE", "SKINTIGHT" ],
+    "armor": [ { "coverage": 75, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
     "id": "sunglasses_reading",
@@ -375,9 +364,8 @@
     "color": "dark_gray",
     "material_thickness": 1,
     "environmental_protection": 1,
-    "qualities": [ [ "GLARE", 1 ] ],
-    "flags": [ "WATER_FRIENDLY", "SUN_GLASSES", "FIX_FARSIGHT", "FRAGILE" ],
-    "armor": [ { "coverage": 75, "covers": [ "eyes" ] } ]
+    "flags": [ "WATER_FRIENDLY", "SUN_GLASSES", "FIX_FARSIGHT", "FRAGILE", "SKINTIGHT" ],
+    "armor": [ { "coverage": 75, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
     "id": "fancy_glasses_bifocal",
@@ -397,8 +385,8 @@
     "material_thickness": 1,
     "environmental_protection": 1,
     "use_action": { "type": "firestarter", "moves": 1000, "moves_slow": 25000, "need_sunlight": true },
-    "flags": [ "FANCY", "WATER_FRIENDLY", "FIRESTARTER", "FIX_NEARSIGHT", "FIX_FARSIGHT", "FRAGILE" ],
-    "armor": [ { "coverage": 75, "covers": [ "eyes" ] } ]
+    "flags": [ "FANCY", "WATER_FRIENDLY", "FIRESTARTER", "FIX_NEARSIGHT", "FIX_FARSIGHT", "FRAGILE", "SKINTIGHT" ],
+    "armor": [ { "coverage": 75, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
     "id": "fancy_glasses_eye",
@@ -417,8 +405,8 @@
     "color": "yellow",
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "FANCY", "WATER_FRIENDLY", "FIX_NEARSIGHT", "FRAGILE" ],
-    "armor": [ { "coverage": 75, "covers": [ "eyes" ] } ]
+    "flags": [ "FANCY", "WATER_FRIENDLY", "FIX_NEARSIGHT", "FRAGILE", "SKINTIGHT" ],
+    "armor": [ { "coverage": 75, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
     "id": "fancy_glasses_reading",
@@ -439,8 +427,8 @@
     "material_thickness": 1,
     "environmental_protection": 1,
     "use_action": { "type": "firestarter", "moves": 1000, "moves_slow": 25000, "need_sunlight": true },
-    "flags": [ "FANCY", "WATER_FRIENDLY", "FIRESTARTER", "FIX_FARSIGHT", "FRAGILE" ],
-    "armor": [ { "coverage": 75, "covers": [ "eyes" ] } ]
+    "flags": [ "FANCY", "WATER_FRIENDLY", "FIRESTARTER", "FIX_FARSIGHT", "FRAGILE", "SKINTIGHT" ],
+    "armor": [ { "coverage": 75, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
     "id": "fancy_sunglasses_bifocal",
@@ -459,9 +447,8 @@
     "color": "dark_gray",
     "material_thickness": 1,
     "environmental_protection": 1,
-    "qualities": [ [ "GLARE", 1 ] ],
-    "flags": [ "FANCY", "WATER_FRIENDLY", "SUN_GLASSES", "FIX_NEARSIGHT", "FIX_FARSIGHT", "FRAGILE" ],
-    "armor": [ { "coverage": 75, "covers": [ "eyes" ] } ]
+    "flags": [ "FANCY", "WATER_FRIENDLY", "SUN_GLASSES", "FIX_NEARSIGHT", "FIX_FARSIGHT", "FRAGILE", "SKINTIGHT" ],
+    "armor": [ { "coverage": 75, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
     "id": "fancy_sunglasses_eye",
@@ -480,9 +467,8 @@
     "color": "dark_gray",
     "material_thickness": 1,
     "environmental_protection": 1,
-    "qualities": [ [ "GLARE", 1 ] ],
-    "flags": [ "FANCY", "WATER_FRIENDLY", "SUN_GLASSES", "FIX_NEARSIGHT", "FRAGILE" ],
-    "armor": [ { "coverage": 75, "covers": [ "eyes" ] } ]
+    "flags": [ "FANCY", "WATER_FRIENDLY", "SUN_GLASSES", "FIX_NEARSIGHT", "FRAGILE", "SKINTIGHT" ],
+    "armor": [ { "coverage": 75, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
     "id": "fancy_sunglasses_reading",
@@ -502,16 +488,15 @@
     "color": "dark_gray",
     "material_thickness": 1,
     "environmental_protection": 1,
-    "qualities": [ [ "GLARE", 1 ] ],
-    "flags": [ "FANCY", "WATER_FRIENDLY", "SUN_GLASSES", "FIX_FARSIGHT", "FRAGILE" ],
-    "armor": [ { "coverage": 75, "covers": [ "eyes" ] } ]
+    "flags": [ "FANCY", "WATER_FRIENDLY", "SUN_GLASSES", "FIX_FARSIGHT", "FRAGILE", "SKINTIGHT" ],
+    "armor": [ { "coverage": 75, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
     "id": "transition_glasses_bifocal",
     "repairs_like": "survivor_goggles",
     "type": "ARMOR",
     "name": { "str": "pair of transition bifocal glasses", "str_pl": "pairs of transition bifocal glasses" },
-    "description": "A pair of transition bifocal glasses for those who are both near-sighted and far-sighted.  Contains photochromic dyes causing the lens to activate, or darken, when exposed to ultraviolet rays from sunlight.  When the UV light diminishes, the lenses fade back.",
+    "description": "A pair of transition bifocal glasses for those who are both near-sighted and far-sighted.  Contains photochromic dyes that cause the lenses to darken when exposed to ultraviolet rays from sunlight.  When the UV light diminishes, the lenses fade back.",
     "weight": "30 g",
     "volume": "250 ml",
     "price": 27500,
@@ -523,16 +508,15 @@
     "color": "light_gray",
     "material_thickness": 1,
     "environmental_protection": 1,
-    "qualities": [ [ "GLARE", 1 ] ],
-    "flags": [ "FANCY", "WATER_FRIENDLY", "SUN_GLASSES", "FIX_NEARSIGHT", "FIX_FARSIGHT", "FRAGILE" ],
-    "armor": [ { "coverage": 75, "covers": [ "eyes" ] } ]
+    "flags": [ "FANCY", "WATER_FRIENDLY", "SUN_GLASSES", "FIX_NEARSIGHT", "FIX_FARSIGHT", "FRAGILE", "SKINTIGHT" ],
+    "armor": [ { "coverage": 75, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
     "id": "transition_glasses_eye",
     "repairs_like": "survivor_goggles",
     "type": "ARMOR",
     "name": { "str": "pair of transition corrective glasses", "str_pl": "pairs of transition corrective glasses" },
-    "description": "A pair of transition glasses for the near-sighted.  Contains photochromic dyes causing the lens to activate, or darken, when exposed to ultraviolet rays from sunlight.  When the UV light diminishes, the lenses fade back.",
+    "description": "A pair of transition glasses for the near-sighted.  Contains photochromic dyes that cause the lenses to darken when exposed to ultraviolet rays from sunlight.  When the UV light diminishes, the lenses fade back.",
     "weight": "30 g",
     "volume": "250 ml",
     "price": 27500,
@@ -544,16 +528,15 @@
     "color": "light_gray",
     "material_thickness": 1,
     "environmental_protection": 1,
-    "qualities": [ [ "GLARE", 1 ] ],
-    "flags": [ "FANCY", "WATER_FRIENDLY", "SUN_GLASSES", "FIX_NEARSIGHT", "FRAGILE" ],
-    "armor": [ { "coverage": 75, "covers": [ "eyes" ] } ]
+    "flags": [ "FANCY", "WATER_FRIENDLY", "SUN_GLASSES", "FIX_NEARSIGHT", "FRAGILE", "SKINTIGHT" ],
+    "armor": [ { "coverage": 75, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
     "id": "transition_glasses_reading",
     "repairs_like": "survivor_goggles",
     "type": "ARMOR",
     "name": { "str": "pair of transition reading glasses", "str_pl": "pairs of transition reading glasses" },
-    "description": "A pair of glasses for the far-sighted.  Useless for anyone else.  Contains photochromic dyes causing the lens to activate, or darken, when exposed to ultraviolet rays from sunlight.  When the UV light diminishes, the lenses fade back.",
+    "description": "A pair of glasses for the far-sighted.  Useless for anyone else.  Contains photochromic dyes that cause the lenses to darken when exposed to ultraviolet rays from sunlight.  When the UV light diminishes, the lenses fade back.",
     "ascii_picture": "glasses_reading",
     "weight": "30 g",
     "volume": "250 ml",
@@ -566,16 +549,15 @@
     "color": "light_gray",
     "material_thickness": 1,
     "environmental_protection": 1,
-    "qualities": [ [ "GLARE", 1 ] ],
-    "flags": [ "FANCY", "WATER_FRIENDLY", "SUN_GLASSES", "FIX_FARSIGHT", "FRAGILE" ],
-    "armor": [ { "coverage": 75, "covers": [ "eyes" ] } ]
+    "flags": [ "FANCY", "WATER_FRIENDLY", "SUN_GLASSES", "FIX_FARSIGHT", "FRAGILE", "SKINTIGHT" ],
+    "armor": [ { "coverage": 75, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
     "id": "fancy_transition_glasses_bifocal",
     "repairs_like": "survivor_goggles",
     "type": "ARMOR",
     "name": { "str": "pair of stylish transition bifocal glasses", "str_pl": "pairs of stylish transition bifocal glasses" },
-    "description": "A pair of stylish bifocal glasses for those who are both near-sighted and far-sighted.  Contains photochromic dyes causing the lens to activate, or darken, when exposed to ultraviolet rays from sunlight.  When the UV light diminishes, the lenses fade back.",
+    "description": "A pair of stylish bifocal glasses for those who are both near-sighted and far-sighted.  Contains photochromic dyes that cause the lenses to darken when exposed to ultraviolet rays from sunlight.  When the UV light diminishes, the lenses fade back.",
     "weight": "30 g",
     "volume": "250 ml",
     "price": 27500,
@@ -587,16 +569,15 @@
     "color": "white",
     "material_thickness": 1,
     "environmental_protection": 1,
-    "qualities": [ [ "GLARE", 1 ] ],
-    "flags": [ "SUPER_FANCY", "WATER_FRIENDLY", "SUN_GLASSES", "FIX_NEARSIGHT", "FIX_FARSIGHT", "FRAGILE" ],
-    "armor": [ { "coverage": 75, "covers": [ "eyes" ] } ]
+    "flags": [ "SUPER_FANCY", "WATER_FRIENDLY", "SUN_GLASSES", "FIX_NEARSIGHT", "FIX_FARSIGHT", "FRAGILE", "SKINTIGHT" ],
+    "armor": [ { "coverage": 75, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
     "id": "fancy_transition_glasses_eye",
     "repairs_like": "survivor_goggles",
     "type": "ARMOR",
     "name": { "str": "pair of stylish transition corrective glasses", "str_pl": "pairs of stylish transition corrective glasses" },
-    "description": "A stylish pair of glasses for the near-sighted.  Contains photochromic dyes causing the lens to activate, or darken, when exposed to ultraviolet rays from sunlight.  When the UV light diminishes, the lenses fade back.",
+    "description": "A stylish pair of glasses for the near-sighted.  Contains photochromic dyes that cause the lenses to darken when exposed to ultraviolet rays from sunlight.  When the UV light diminishes, the lenses fade back.",
     "weight": "30 g",
     "volume": "250 ml",
     "price": 27500,
@@ -608,16 +589,15 @@
     "color": "white",
     "material_thickness": 1,
     "environmental_protection": 1,
-    "qualities": [ [ "GLARE", 1 ] ],
-    "flags": [ "SUPER_FANCY", "WATER_FRIENDLY", "SUN_GLASSES", "FIX_NEARSIGHT", "FRAGILE" ],
-    "armor": [ { "coverage": 75, "covers": [ "eyes" ] } ]
+    "flags": [ "SUPER_FANCY", "WATER_FRIENDLY", "SUN_GLASSES", "FIX_NEARSIGHT", "FRAGILE", "SKINTIGHT" ],
+    "armor": [ { "coverage": 75, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
     "id": "fancy_transition_glasses_reading",
     "repairs_like": "survivor_goggles",
     "type": "ARMOR",
     "name": { "str": "pair of stylish transition reading glasses", "str_pl": "pairs of stylish transition reading glasses" },
-    "description": "A stylish pair of glasses for the far-sighted.  Useless for anyone else.  Contains photochromic dyes causing the lens to activate, or darken, when exposed to ultraviolet rays from sunlight.  When the UV light diminishes, the lenses fade back.",
+    "description": "A stylish pair of glasses for the far-sighted.  Useless for anyone else.  Contains photochromic dyes that cause the lenses to darken when exposed to ultraviolet rays from sunlight.  When the UV light diminishes, the lenses fade back.",
     "ascii_picture": "glasses_reading",
     "weight": "30 g",
     "volume": "250 ml",
@@ -630,8 +610,7 @@
     "color": "white",
     "material_thickness": 1,
     "environmental_protection": 1,
-    "qualities": [ [ "GLARE", 1 ] ],
-    "flags": [ "SUPER_FANCY", "WATER_FRIENDLY", "SUN_GLASSES", "FIX_FARSIGHT", "FRAGILE" ],
-    "armor": [ { "coverage": 75, "covers": [ "eyes" ] } ]
+    "flags": [ "SUPER_FANCY", "WATER_FRIENDLY", "SUN_GLASSES", "FIX_FARSIGHT", "FRAGILE", "SKINTIGHT" ],
+    "armor": [ { "coverage": 75, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   }
 ]

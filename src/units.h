@@ -135,7 +135,7 @@ class quantity
         }
 
         void serialize( JsonOut &jsout ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonValue &jv );
 
     private:
         value_type value_;
@@ -368,6 +368,84 @@ inline constexpr double to_kilogram( const mass &v )
 {
     return v.value() / 1000000.0;
 }
+
+
+// Specific energy
+const specific_energy specific_energy_min = units::specific_energy(
+            std::numeric_limits<units::specific_energy::value_type>::min(), units::specific_energy::unit_type{} );
+
+const specific_energy specific_energy_max = units::specific_energy(
+            std::numeric_limits<units::specific_energy::value_type>::max(), units::specific_energy::unit_type{} );
+
+template<typename value_type>
+inline constexpr quantity<value_type, specific_energy_in_joule_per_gram_tag>
+from_joule_per_gram( const value_type v )
+{
+    return quantity<value_type, specific_energy_in_joule_per_gram_tag>( v,
+            specific_energy_in_joule_per_gram_tag{} );
+}
+
+template<typename value_type>
+inline constexpr value_type to_joule_per_gram( const
+        quantity<value_type, specific_energy_in_joule_per_gram_tag> &v )
+{
+    return v.value();
+}
+
+// Temperature
+// Absolute zero - possibly should just be INT_MIN
+const temperature temperature_min = units::temperature( 0, units::temperature::unit_type{} );
+
+const temperature temperature_max = units::temperature(
+                                        std::numeric_limits<units::temperature::value_type>::max(), units::temperature::unit_type{} );
+
+template<typename value_type>
+inline constexpr quantity<units::temperature::value_type, temperature_in_kelvin_tag> from_kelvin(
+    const value_type v )
+{
+    return quantity<value_type, temperature_in_kelvin_tag>( v, temperature_in_kelvin_tag{} );
+}
+
+template<typename value_type>
+inline constexpr value_type to_kelvin( const
+                                       quantity<value_type, temperature_in_kelvin_tag> &v )
+{
+    return v.value();
+}
+
+constexpr temperature freezing_point = from_kelvin( 273.150f );
+
+template<typename value_type>
+inline constexpr quantity<units::temperature::value_type, temperature_in_kelvin_tag> from_celsius(
+    const value_type v )
+{
+    return from_kelvin( v ) + freezing_point;
+}
+
+template<typename value_type>
+inline constexpr quantity<units::temperature::value_type, temperature_in_kelvin_tag>
+from_fahrenheit(
+    const value_type v )
+{
+    return from_kelvin( ( v + 459.67f ) / 1.8f );
+}
+
+template<typename value_type>
+inline constexpr value_type to_celsius( const
+                                        quantity<value_type, temperature_in_kelvin_tag> &v )
+{
+    return ( v - freezing_point ).value();
+}
+
+template<typename value_type>
+inline constexpr value_type to_fahrenheit( const
+        quantity<value_type, temperature_in_kelvin_tag> &v )
+{
+    return ( v * 1.8f - from_kelvin( 459.67f ) ).value();
+}
+
+
+// Energy
 
 const energy energy_min = units::energy( std::numeric_limits<units::energy::value_type>::min(),
                           units::energy::unit_type{} );
@@ -612,21 +690,7 @@ inline std::string quantity_to_string( const quantity<value_type, tag_type> &v )
     return os.str();
 }
 
-inline std::string display( const units::energy v )
-{
-    const int kj = units::to_kilojoule( v );
-    const int j = units::to_joule( v );
-    // at least 1 kJ and there is no fraction
-    if( kj >= 1 && static_cast<float>( j ) / kj == 1000 ) {
-        return std::to_string( kj ) + ' ' + pgettext( "energy unit: kilojoule", "kJ" );
-    }
-    const int mj = units::to_millijoule( v );
-    // at least 1 J and there is no fraction
-    if( j >= 1 && static_cast<float>( mj ) / j  == 1000 ) {
-        return std::to_string( j ) + ' ' + pgettext( "energy unit: joule", "J" );
-    }
-    return std::to_string( mj ) + ' ' + pgettext( "energy unit: millijoule", "mJ" );
-}
+std::string display( units::energy v );
 
 } // namespace units
 
@@ -685,6 +749,18 @@ inline constexpr units::quantity<double, units::mass_in_milligram_tag> operator"
     const long double v )
 {
     return units::from_kilogram( v );
+}
+
+
+inline constexpr units::temperature operator"" _K( const unsigned long long v )
+{
+    return units::from_kelvin( v );
+}
+
+inline constexpr units::quantity<double, units::temperature_in_kelvin_tag> operator"" _K(
+    const long double v )
+{
+    return units::from_kelvin( v );
 }
 
 inline constexpr units::energy operator"" _mJ( const unsigned long long v )
@@ -855,9 +931,24 @@ inline double tan( angle a )
     return std::tan( to_radians( a ) );
 }
 
+inline double cot( angle a )
+{
+    return std::tan( M_PI_2 - to_radians( a ) );
+}
+
 inline units::angle atan2( double y, double x )
 {
     return from_radians( std::atan2( y, x ) );
+}
+
+inline units::angle asin( double x )
+{
+    return from_radians( std::asin( x ) );
+}
+
+inline units::angle acos( double x )
+{
+    return from_radians( std::acos( x ) );
 }
 
 static const std::vector<std::pair<std::string, energy>> energy_units = { {
@@ -896,64 +987,83 @@ static const std::vector<std::pair<std::string, angle>> angle_units = { {
         { "rad", 1_radians },
     }
 };
+static const std::vector<std::pair<std::string, temperature>> temperature_units = { {
+        { "K", 1_K }
+    }
+};
 } // namespace units
 
-template<typename T>
-T read_from_json_string( JsonIn &jsin, const std::vector<std::pair<std::string, T>> &units )
+namespace detail
 {
-    const size_t pos = jsin.tell();
-    size_t i = 0;
-    const auto error = [&]( const char *const msg ) {
-        jsin.seek( pos + i );
-        jsin.error( msg );
-    };
 
-    const std::string s = jsin.get_string();
+template<typename T, typename Error>
+T read_from_json_string_common( const std::string &s,
+                                const std::vector<std::pair<std::string, T>> &units, Error &&error )
+{
+    size_t i = 0;
     // returns whether we are at the end of the string
     const auto skip_spaces = [&]() {
-        while( i < s.size() && s[i] == ' ' ) {
+        while( i < s.size() && s[ i ] == ' ' ) {
             ++i;
         }
         return i >= s.size();
     };
     const auto get_unit = [&]() {
         if( skip_spaces() ) {
-            error( "invalid quantity string: missing unit" );
+            error( "invalid quantity string: missing unit", i );
         }
-        for( const auto &pair : units ) {
+        for( const std::pair<std::string, T> &pair : units ) {
             const std::string &unit = pair.first;
             if( s.size() >= unit.size() + i && s.compare( i, unit.size(), unit ) == 0 ) {
                 i += unit.size();
                 return pair.second;
             }
         }
-        error( "invalid quantity string: unknown unit" );
+        error( "invalid quantity string: unknown unit", i );
         // above always throws but lambdas cannot be marked [[noreturn]]
         throw std::string( "Exceptionally impossible" );
     };
 
     if( skip_spaces() ) {
-        error( "invalid quantity string: empty string" );
+        error( "invalid quantity string: empty string", i );
+        // above always throws but lambdas cannot be marked [[noreturn]]
+        throw std::string( "Exceptionally impossible" );
     }
     T result{};
     do {
         int sign_value = +1;
-        if( s[i] == '-' ) {
+        if( s[ i ] == '-' ) {
             sign_value = -1;
             ++i;
-        } else if( s[i] == '+' ) {
+        } else if( s[ i ] == '+' ) {
             ++i;
         }
-        if( i >= s.size() || !isdigit( s[i] ) ) {
-            error( "invalid quantity string: number expected" );
+        if( i >= s.size() || !isdigit( s[ i ] ) ) {
+            error( "invalid quantity string: number expected", i );
+            // above always throws but lambdas cannot be marked [[noreturn]]
+            throw std::string( "Exceptionally impossible" );
         }
         int value = 0;
-        for( ; i < s.size() && isdigit( s[i] ); ++i ) {
-            value = value * 10 + ( s[i] - '0' );
+        for( ; i < s.size() && isdigit( s[ i ] ); ++i ) {
+            value = value * 10 + ( s[ i ] - '0' );
         }
         result += sign_value * value * get_unit();
     } while( !skip_spaces() );
     return result;
+}
+
+} // namespace detail
+
+template<typename T>
+T read_from_json_string( const JsonValue &jv, const std::vector<std::pair<std::string, T>> &units )
+{
+    const auto error = [&]( const char *const msg, size_t offset ) {
+        jv.throw_error( offset, msg );
+    };
+
+    const std::string s = jv;
+
+    return detail::read_from_json_string_common<T>( s, units, error );
 }
 
 template<typename T>
@@ -962,7 +1072,7 @@ void dump_to_json_string( T t, JsonOut &jsout,
 {
     // deduplicate unit strings and choose the shortest representations
     std::map<T, std::string> sorted_units;
-    for( const auto &p : units ) {
+    for( const std::pair<std::string, T> &p : units ) {
         const auto it = sorted_units.find( p.second );
         if( it != sorted_units.end() ) {
             if( p.first.length() < it->second.length() ) {

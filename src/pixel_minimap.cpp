@@ -13,6 +13,7 @@
 #include <utility>
 #include <vector>
 
+#include "cached_options.h"
 #include "cata_assert.h"
 #include "cata_utility.h"
 #include "cata_tiles.h"
@@ -20,8 +21,8 @@
 #include "color.h"
 #include "coordinate_conversions.h"
 #include "creature.h"
+#include "creature_tracker.h"
 #include "debug.h"
-#include "game.h"
 #include "game_constants.h"
 #include "int_id.h"
 #include "lightmap.h"
@@ -35,10 +36,14 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 
+class game;
+// NOLINTNEXTLINE(cata-static-declarations)
+extern std::unique_ptr<game> g;
+
 namespace
 {
 
-const point total_tiles_count = { ( MAPSIZE - 2 ) *SEEX, ( MAPSIZE - 2 ) *SEEY };
+const point total_tiles_count = { MAX_VIEW_DISTANCE * 2 + 1, MAX_VIEW_DISTANCE * 2 + 1 };
 
 point get_pixel_size( const point &tile_size, pixel_minimap_mode mode )
 {
@@ -209,8 +214,10 @@ pixel_minimap::~pixel_minimap() = default;
 
 void pixel_minimap::set_type( pixel_minimap_type type )
 {
-    this->type = type;
-    reset();
+    if( this->type != type ) {
+        this->type = type;
+        reset();
+    }
 }
 
 void pixel_minimap::set_settings( const pixel_minimap_settings &settings )
@@ -221,7 +228,8 @@ void pixel_minimap::set_settings( const pixel_minimap_settings &settings )
 
 void pixel_minimap::prepare_cache_for_updates( const tripoint &center )
 {
-    const tripoint new_center_sm = get_map().get_abs_sub() + ms_to_sm_copy( center );
+    // TODO: fix point types
+    const tripoint new_center_sm = get_map().get_abs_sub().raw() + ms_to_sm_copy( center );
     const tripoint center_sm_diff = cached_center_sm - new_center_sm;
 
     //invalidate the cache if the game shifted more than one submap in the last update, or if z-level changed.
@@ -298,7 +306,8 @@ void pixel_minimap::update_cache_at( const tripoint &sm_pos )
     const level_cache &access_cache = here.access_cache( sm_pos.z );
     const bool nv_goggle = get_player_character().get_vision_modes()[NV_GOGGLES];
 
-    submap_cache &cache_item = get_cache_at( here.get_abs_sub() + sm_pos );
+    // TODO: fix point types
+    submap_cache &cache_item = get_cache_at( here.get_abs_sub().raw() + sm_pos );
     const tripoint ms_pos = sm_to_ms_copy( sm_pos );
 
     cache_item.touched = true;
@@ -312,7 +321,7 @@ void pixel_minimap::update_cache_at( const tripoint &sm_pos )
 
             if( lighting == lit_level::BLANK || lighting == lit_level::DARK ) {
                 // TODO: Map memory?
-                color = { 0x00, 0x00, 0x00, 0xFF };
+                color = { Uint8( pixel_minimap_r ), Uint8( pixel_minimap_g ), Uint8( pixel_minimap_b ), Uint8( pixel_minimap_a ) };
             } else {
                 color = get_map_color_at( p );
 
@@ -430,8 +439,7 @@ void pixel_minimap::reset()
 void pixel_minimap::render( const tripoint &center )
 {
     SetRenderTarget( renderer, main_tex );
-
-    SetRenderDrawColor( renderer, 0x00, 0x00, 0x00, 0x00 );
+    SetRenderDrawColor( renderer, pixel_minimap_r, pixel_minimap_g, pixel_minimap_b, pixel_minimap_a );
     RenderClear( renderer );
 
     render_cache( center );
@@ -445,7 +453,8 @@ void pixel_minimap::render( const tripoint &center )
 
 void pixel_minimap::render_cache( const tripoint &center )
 {
-    const tripoint sm_center = get_map().get_abs_sub() + ms_to_sm_copy( center );
+    // TODO: fix point types
+    const tripoint sm_center = get_map().get_abs_sub().raw() + ms_to_sm_copy( center );
     const tripoint sm_offset = tripoint{
         total_tiles_count.x / SEEX / 2,
         total_tiles_count.y / SEEY / 2, 0
@@ -453,7 +462,9 @@ void pixel_minimap::render_cache( const tripoint &center )
 
     point ms_offset = center.xy();
     ms_to_sm_remain( ms_offset );
-    ms_offset = point{ SEEX / 2, SEEY / 2 } - ms_offset;
+    point ms_base_offset = point( ( total_tiles_count.x / 2 ) % SEEX,
+                                  ( total_tiles_count.y / 2 ) % SEEY );
+    ms_offset = ms_base_offset - ms_offset;
 
     for( const auto &elem : cache ) {
         if( !elem.second.touched ) {
@@ -502,6 +513,7 @@ void pixel_minimap::render_critters( const tripoint &center )
         std::max<int>( projector->get_tile_size().y *settings.beacon_size / 2, 2 )
     };
 
+    creature_tracker &creatures = get_creature_tracker();
     for( int y = 0; y < total_tiles_count.y; y++ ) {
         for( int x = 0; x < total_tiles_count.x; x++ ) {
             const tripoint p = start + tripoint( x, y, center.z );
@@ -511,7 +523,7 @@ void pixel_minimap::render_critters( const tripoint &center )
                 continue;
             }
 
-            Creature *critter = g->critter_at( p, true );
+            Creature *critter = creatures.creature_at( p, true );
 
             if( critter == nullptr || !get_player_view().sees( *critter ) ) {
                 continue;

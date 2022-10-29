@@ -1,0 +1,41 @@
+{
+  "overlay_ordering": [
+    { "id": "THRESH_MARLOSS", "order": 400 },
+    { "id": [ "bio_armor_legs", "bio_armor_torso", "bio_armor_arms" ], "order": 500 },
+    { "id": "bio_armor_head", "order": 505 },
+    { "id": "bio_blaster", "order": 510 },
+    { "id": "bio_deformity", "order": 515 },
+    { "id": [ "active_bio_blindfold", "active_bio_scent_vision" ], "order": 520 },
+    { "id": "active_bio_night_vision", "order": 521 },
+    { "id": "active_bio_infrared", "order": 522 },
+    {
+      "id": [
+        "THRESH_ALPHA",
+        "THRESH_CHIMERA",
+        "THRESH_BEAST",
+        "THRESH_URSINE",
+        "THRESH_FELINE",
+        "THRESH_LUPINE",
+        "THRESH_CATTLE",
+        "THRESH_RAT",
+        "THRESH_MOUSE",
+        "THRESH_TROGLOBITE",
+        "THRESH_BIRD",
+        "THRESH_RAPTOR",
+        "THRESH_LIZARD",
+        "THRESH_FISH",
+        "THRESH_CEPHALOPOD",
+        "THRESH_SPIDER",
+        "THRESH_INSECT",
+        "THRESH_PLANT",
+        "THRESH_MYCUS",
+        "THRESH_SLIME"
+      ],
+      "order": 5000
+    },
+    { "id": [ "BENDY1", "BENDY2", "BENDY3" ], "order": 5100 },
+    { "id": [ "AMORPHOUS", "INT_UP_4", "FLOWERS", "ROSEBUDS" ], "order": 5200 },
+    { "id": [ "PER_SLIME", "THRESH_ELFA" ], "order": 5300 },
+    { "id": "PER_SLIME_OK", "order": 5400 }
+  ]
+}

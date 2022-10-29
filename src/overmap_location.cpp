@@ -66,6 +66,8 @@ void overmap_location::check() const
 
 void overmap_location::finalize()
 {
+    const std::unordered_map<std::string, oter_flags> &oter_flags_map =
+        io::get_enum_lookup_map<oter_flags>();
     for( const std::string &elem : flags ) {
         auto it = oter_flags_map.find( elem );
         if( it == oter_flags_map.end() ) {

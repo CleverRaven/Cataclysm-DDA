@@ -2,6 +2,7 @@
   {
     "id": "mag_shotgun",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "Trap and Field", "str_pl": "issues of Trap and Field" },
     "description": "An in-depth magazine all about shotguns and shooting.  There is an informative article about proper shooting stance in the back pages.",
     "weight": "90 g",
@@ -10,6 +11,7 @@
     "price_postapoc": 750,
     "material": [ "paper" ],
     "symbol": "?",
+    "looks_like": "mag_guns",
     "color": "pink",
     "skill": "shotgun",
     "max_level": 1,
@@ -20,6 +22,7 @@
   {
     "id": "manual_shotgun",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "Shotguns: The Art and Science", "str_pl": "copies of Shotguns: The Art and Science" },
     "description": "This book claims to address every problem the shotgunner is likely to face, and offers solutions to ensure that shooters can make every shot count.",
     "weight": "400 g",
@@ -28,6 +31,7 @@
     "price_postapoc": 1250,
     "material": [ "paper" ],
     "symbol": "?",
+    "looks_like": "manual_gun",
     "color": "green",
     "skill": "shotgun",
     "max_level": 3,

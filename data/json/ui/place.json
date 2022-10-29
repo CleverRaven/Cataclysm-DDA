@@ -1,0 +1,15 @@
+[
+  {
+    "id": "place_desc",
+    "type": "widget",
+    "label": { "str": "Place", "ctxt": "UI sidebar" },
+    "style": "text",
+    "var": "place_text"
+  },
+  {
+    "id": "place_desc_no_label",
+    "type": "widget",
+    "copy-from": "place_desc",
+    "flags": [ "W_LABEL_NONE" ]
+  }
+]

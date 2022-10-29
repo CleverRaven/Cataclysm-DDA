@@ -5,7 +5,6 @@
 #include "cata_catch.h"
 #include "character.h"
 #include "options.h"
-#include "player.h"
 #include "type_id.h"
 
 // Tests for Character healing, including:
@@ -17,7 +16,7 @@
 //
 // - rest quality (awake or sleeping)
 // - traits like "Imperceptive Healer" and "Rapid Metabolism"
-// - healthy value (hidden health stat)
+// - lifestyle value (hidden health stat)
 // - effects ot being bandaged and/or disinfected
 
 // Character::healing_rate floating-point `at_rest_quality` for awake/asleep states
@@ -36,7 +35,7 @@ static const efftype_id effect_bandaged( "bandaged" );
 static const efftype_id effect_disinfected( "disinfected" );
 
 // Empty `dummy` of all traits, and give them a single trait with name `trait_name`
-static void give_one_trait( player &dummy, const std::string &trait_name )
+static void give_one_trait( Character &dummy, const std::string &trait_name )
 {
     const trait_id trait( trait_name );
     dummy.clear_mutations();
@@ -44,11 +43,11 @@ static void give_one_trait( player &dummy, const std::string &trait_name )
     REQUIRE( dummy.has_trait( trait ) );
 }
 
-// Return the Character's `healing_rate` at the given healthy value and rest quality.
+// Return the Character's `healing_rate` at the given lifestyle value and rest quality.
 static float healing_rate_at_health( Character &dummy, const int healthy_value,
                                      const float rest_quality )
 {
-    dummy.set_healthy( healthy_value );
+    dummy.set_lifestyle( healthy_value );
     return dummy.healing_rate( rest_quality );
 }
 
@@ -63,7 +62,7 @@ TEST_CASE( "baseline healing rate with no healing traits", "[heal][baseline]" )
     REQUIRE( normal > 1.0f * hp_per_day );
 
     // Ensure baseline hidden health stat
-    REQUIRE( dummy.get_healthy() == 0 );
+    REQUIRE( dummy.get_lifestyle() == 0 );
 
     GIVEN( "character with no healing traits" ) {
         dummy.clear_mutations();
@@ -96,7 +95,7 @@ TEST_CASE( "traits and mutations affecting healing rate", "[heal][trait][mutatio
     REQUIRE( normal > 1.0f * hp_per_day );
 
     // Ensure baseline hidden health stat
-    REQUIRE( dummy.get_healthy() == 0 );
+    REQUIRE( dummy.get_lifestyle() == 0 );
 
     // "Your flesh regenerates from wounds incredibly quickly."
     SECTION( "Regeneration" ) {
@@ -210,7 +209,7 @@ TEST_CASE( "traits and mutations affecting healing rate", "[heal][trait][mutatio
     }
 }
 
-// The "hidden health" stat returned by Character::get_healthy ranges from [-200, 200] and
+// The "hidden health" stat returned by Character::get_lifestyle ranges from [-200, 200] and
 // influences healing rate significantly.
 TEST_CASE( "health effects on healing rate", "[heal][health]" )
 {

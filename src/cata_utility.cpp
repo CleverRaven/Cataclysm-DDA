@@ -2,25 +2,31 @@
 
 #include <cctype>
 #include <clocale>
+#include <cwctype>
 #include <algorithm>
 #include <cmath>
 #include <cstdio>
 #include <exception>
-#include <fstream>
 #include <iterator>
 #include <sstream>
 #include <stdexcept>
 #include <string>
 
 #include "catacharset.h"
+#include "cata_utility.h"
 #include "debug.h"
+#include "enum_conversions.h"
 #include "filesystem.h"
 #include "json.h"
+#include "json_loader.h"
 #include "ofstream_wrapper.h"
 #include "options.h"
 #include "output.h"
+#include "path_info.h"
 #include "rng.h"
 #include "translations.h"
+#include "unicode.h"
+#include "zlib.h"
 
 static double pow10( unsigned int n )
 {
@@ -73,25 +79,17 @@ bool isBetween( int test, int down, int up )
 
 bool lcmatch( const std::string &str, const std::string &qry )
 {
-    if( std::locale().name() != "en_US.UTF-8" && std::locale().name() != "C" ) {
-        const auto &f = std::use_facet<std::ctype<wchar_t>>( std::locale() );
-        std::wstring wneedle = utf8_to_wstr( qry );
-        std::wstring whaystack = utf8_to_wstr( str );
-
-        f.tolower( &whaystack[0], &whaystack[0] + whaystack.size() );
-        f.tolower( &wneedle[0], &wneedle[0] + wneedle.size() );
-
-        return whaystack.find( wneedle ) != std::wstring::npos;
+    std::u32string u32_str = utf8_to_utf32( str );
+    std::u32string u32_qry = utf8_to_utf32( qry );
+    std::for_each( u32_str.begin(), u32_str.end(), u32_to_lowercase );
+    std::for_each( u32_qry.begin(), u32_qry.end(), u32_to_lowercase );
+    // First try match their lowercase forms
+    if( u32_str.find( u32_qry ) != std::u32string::npos ) {
+        return true;
     }
-    std::string needle;
-    needle.reserve( qry.size() );
-    std::transform( qry.begin(), qry.end(), std::back_inserter( needle ), tolower );
-
-    std::string haystack;
-    haystack.reserve( str.size() );
-    std::transform( str.begin(), str.end(), std::back_inserter( haystack ), tolower );
-
-    return haystack.find( needle ) != std::string::npos;
+    // Then try removing accents from str ONLY
+    std::for_each( u32_str.begin(), u32_str.end(), remove_accent );
+    return u32_str.find( u32_qry ) != std::u32string::npos;
 }
 
 bool lcmatch( const translation &str, const std::string &qry )
@@ -204,21 +202,6 @@ const char *velocity_units( const units_type vel_units )
     return "error: unknown units!";
 }
 
-double temp_to_celsius( double fahrenheit )
-{
-    return ( ( fahrenheit - 32.0 ) * 5.0 / 9.0 );
-}
-
-double temp_to_kelvin( double fahrenheit )
-{
-    return temp_to_celsius( fahrenheit ) + 273.15;
-}
-
-double celsius_to_kelvin( double celsius )
-{
-    return celsius + 273.15;
-}
-
 double kelvin_to_fahrenheit( double kelvin )
 {
     return 1.8 * ( kelvin - 273.15 ) + 32;
@@ -282,7 +265,7 @@ float multi_lerp( const std::vector<std::pair<float, float>> &points, float x )
 void write_to_file( const std::string &path, const std::function<void( std::ostream & )> &writer )
 {
     // Any of the below may throw. ofstream_wrapper will clean up the temporary path on its own.
-    ofstream_wrapper fout( path, std::ios::binary );
+    ofstream_wrapper fout( fs::u8path( path ), std::ios::binary );
     writer( fout.stream() );
     fout.close();
 }
@@ -302,7 +285,32 @@ bool write_to_file( const std::string &path, const std::function<void( std::ostr
     }
 }
 
-ofstream_wrapper::ofstream_wrapper( const std::string &path, const std::ios::openmode mode )
+void write_to_file( const cata_path &path, const std::function<void( std::ostream & )> &writer )
+{
+    // Any of the below may throw. ofstream_wrapper will clean up the temporary path on its own.
+    ofstream_wrapper fout( path.get_unrelative_path(), std::ios::binary );
+    writer( fout.stream() );
+    fout.close();
+}
+
+bool write_to_file( const cata_path &path, const std::function<void( std::ostream & )> &writer,
+                    const char *const fail_message )
+{
+    try {
+        write_to_file( path, writer );
+        return true;
+
+    } catch( const std::exception &err ) {
+        if( fail_message ) {
+            popup( _( "Failed to write %1$s to \"%2$s\": %3$s" ), fail_message,
+                   path.generic_u8string().c_str(), err.what() );
+        }
+        return false;
+    }
+}
+
+
+ofstream_wrapper::ofstream_wrapper( const fs::path &path, const std::ios::openmode mode )
     : path( path )
 
 {
@@ -345,38 +353,188 @@ std::istream &safe_getline( std::istream &ins, std::string &str )
     }
 }
 
+namespace
+{
+
+std::string read_compressed_file_to_string( std::istream &fin )
+{
+    std::string outstring;
+
+    std::ostringstream deflated_contents_stream;
+    std::string str;
+
+    deflated_contents_stream << fin.rdbuf();
+    str = deflated_contents_stream.str();
+
+    z_stream zs;
+    memset( &zs, 0, sizeof( zs ) );
+
+    if( inflateInit2( &zs, MAX_WBITS | 16 ) != Z_OK ) {
+        throw std::runtime_error( "inflateInit failed while decompressing." );
+    }
+
+    zs.next_in = reinterpret_cast<unsigned char *>( const_cast<char *>( str.data() ) );
+    zs.avail_in = str.size();
+
+    int ret;
+    std::array<char, 32768> outbuffer;
+
+    // get the decompressed bytes blockwise using repeated calls to inflate
+    do {
+        zs.next_out = reinterpret_cast<Bytef *>( outbuffer.data() );
+        zs.avail_out = sizeof( outbuffer );
+
+        ret = inflate( &zs, 0 );
+
+        if( outstring.size() < static_cast<size_t>( zs.total_out ) ) {
+            outstring.append( outbuffer.data(),
+                              zs.total_out - outstring.size() );
+        }
+
+    } while( ret == Z_OK );
+
+    inflateEnd( &zs );
+
+    if( ret != Z_STREAM_END ) { // an error occurred that was not EOF
+        std::ostringstream oss;
+        oss << "Exception during zlib decompression: (" << ret << ") "
+            << zs.msg;
+        throw std::runtime_error( oss.str() );
+    }
+    return outstring;
+}
+
+} // namespace
+
+bool read_from_file( const cata_path &path, const std::function<void( std::istream & )> &reader )
+{
+    return read_from_file( path.get_unrelative_path(), reader );
+}
+
+bool read_from_file( const fs::path &path, const std::function<void( std::istream & )> &reader )
+{
+    std::unique_ptr<std::istream> finp = read_maybe_compressed_file( path );
+    if( !finp ) {
+        return false;
+    }
+    try {
+        reader( *finp );
+    } catch( const std::exception &err ) {
+        debugmsg( _( "Failed to read from \"%1$s\": %2$s" ), path.generic_u8string().c_str(), err.what() );
+        return false;
+    }
+    return true;
+}
+
 bool read_from_file( const std::string &path, const std::function<void( std::istream & )> &reader )
 {
+    return read_from_file( fs::u8path( path ), reader );
+}
+
+std::unique_ptr<std::istream> read_maybe_compressed_file( const std::string &path )
+{
+    return read_maybe_compressed_file( fs::u8path( path ) );
+}
+
+std::unique_ptr<std::istream> read_maybe_compressed_file( const fs::path &path )
+{
     try {
-        std::ifstream fin( path, std::ios::binary );
+        cata::ifstream fin( path, std::ios::binary );
         if( !fin ) {
             throw std::runtime_error( "opening file failed" );
         }
-        reader( fin );
+
+        // check if file is gzipped
+        // (byte1 == 0x1f) && (byte2 == 0x8b)
+        std::array<char, 2> header;
+        fin.read( header.data(), 2 );
+        fin.clear();
+        fin.seekg( 0, std::ios::beg ); // reset read position
+
+        if( ( header[0] == '\x1f' ) && ( header[1] == '\x8b' ) ) {
+            std::string outstring = read_compressed_file_to_string( fin );
+            std::stringstream inflated_contents_stream;
+            inflated_contents_stream.write( outstring.data(), outstring.size() );
+            return std::make_unique<std::stringstream>( std::move( inflated_contents_stream ) );
+        } else {
+            return std::make_unique<cata::ifstream>( std::move( fin ) );
+        }
         if( fin.bad() ) {
             throw std::runtime_error( "reading file failed" );
         }
-        return true;
 
     } catch( const std::exception &err ) {
-        debugmsg( _( "Failed to read from \"%1$s\": %2$s" ), path.c_str(), err.what() );
+        debugmsg( _( "Failed to read from \"%1$s\": %2$s" ), path.generic_u8string().c_str(), err.what() );
+    }
+    return nullptr;
+}
+
+std::unique_ptr<std::istream> read_maybe_compressed_file( const cata_path &path )
+{
+    return read_maybe_compressed_file( path.get_unrelative_path() );
+}
+
+
+cata::optional<std::string> read_whole_file( const std::string &path )
+{
+    return read_whole_file( fs::u8path( path ) );
+}
+
+cata::optional<std::string> read_whole_file( const fs::path &path )
+{
+    std::string outstring;
+    try {
+        cata::ifstream fin( path, std::ios::binary );
+        if( !fin ) {
+            throw std::runtime_error( "opening file failed" );
+        }
+
+        // check if file is gzipped
+        // (byte1 == 0x1f) && (byte2 == 0x8b)
+        std::array<char, 2> header;
+        fin.read( header.data(), 2 );
+        fin.clear();
+        fin.seekg( 0, std::ios::beg ); // reset read position
+
+        if( ( header[0] == '\x1f' ) && ( header[1] == '\x8b' ) ) {
+            outstring = read_compressed_file_to_string( fin );
+        } else {
+            fin.seekg( 0, std::ios_base::end );
+            std::streamoff size = fin.tellg();
+            fin.seekg( 0 );
+
+            outstring.resize( size );
+            fin.read( &outstring[0], size );
+        }
+        if( fin.bad() ) {
+            throw std::runtime_error( "reading file failed" );
+        }
+
+        return cata::optional<std::string>( std::move( outstring ) );
+    } catch( const std::exception &err ) {
+        debugmsg( _( "Failed to read from \"%1$s\": %2$s" ), path.generic_u8string().c_str(), err.what() );
+    }
+    return cata::nullopt;
+}
+
+cata::optional<std::string> read_whole_file( const cata_path &path )
+{
+    return read_whole_file( path.get_unrelative_path() );
+}
+
+
+bool read_from_file_json( const cata_path &path,
+                          const std::function<void( const JsonValue & )> &reader )
+{
+    try {
+        JsonValue jo = json_loader::from_path( path );
+        reader( jo );
+        return true;
+    } catch( const std::exception &err ) {
+        debugmsg( _( "Failed to read from \"%1$s\": %2$s" ), path.generic_u8string().c_str(),
+                  err.what() );
         return false;
     }
-}
-
-bool read_from_file_json( const std::string &path, const std::function<void( JsonIn & )> &reader )
-{
-    return read_from_file( path, [&]( std::istream & fin ) {
-        JsonIn jsin( fin, path );
-        reader( jsin );
-    } );
-}
-
-bool read_from_file( const std::string &path, JsonDeserializer &reader )
-{
-    return read_from_file_json( path, [&reader]( JsonIn & jsin ) {
-        reader.deserialize( jsin );
-    } );
 }
 
 bool read_from_file_optional( const std::string &path,
@@ -388,20 +546,25 @@ bool read_from_file_optional( const std::string &path,
     return file_exist( path ) && read_from_file( path, reader );
 }
 
-bool read_from_file_optional_json( const std::string &path,
-                                   const std::function<void( JsonIn & )> &reader )
+bool read_from_file_optional( const fs::path &path,
+                              const std::function<void( std::istream & )> &reader )
 {
-    return read_from_file_optional( path, [&]( std::istream & fin ) {
-        JsonIn jsin( fin, path );
-        reader( jsin );
-    } );
+    // Note: slight race condition here, but we'll ignore it. Worst case: the file
+    // exists and got removed before reading it -> reading fails with a message
+    // Or file does not exists, than everything works fine because it's optional anyway.
+    return file_exist( path ) && read_from_file( path, reader );
 }
 
-bool read_from_file_optional( const std::string &path, JsonDeserializer &reader )
+bool read_from_file_optional( const cata_path &path,
+                              const std::function<void( std::istream & )> &reader )
 {
-    return read_from_file_optional_json( path, [&reader]( JsonIn & jsin ) {
-        reader.deserialize( jsin );
-    } );
+    return read_from_file_optional( path.get_unrelative_path(), reader );
+}
+
+bool read_from_file_optional_json( const cata_path &path,
+                                   const std::function<void( const JsonValue & )> &reader )
+{
+    return file_exist( path.get_unrelative_path() ) && read_from_file_json( path, reader );
 }
 
 std::string obscure_message( const std::string &str, const std::function<char()> &f )
@@ -415,6 +578,7 @@ std::string obscure_message( const std::string &str, const std::function<char()>
     std::wstring w_gibberish_wide = utf8_to_wstr( gibberish_wide );
     std::wstring w_str = utf8_to_wstr( str );
     // a trailing NULL terminator is necessary for utf8_width function
+    // NOLINTNEXTLINE(modernize-avoid-c-arrays)
     char transformation[2] = { 0 };
     for( size_t i = 0; i < w_str.size(); ++i ) {
         transformation[0] = f();
@@ -451,10 +615,10 @@ std::string serialize_wrapper( const std::function<void( JsonOut & )> &callback 
     return buffer.str();
 }
 
-void deserialize_wrapper( const std::function<void( JsonIn & )> &callback, const std::string &data )
+void deserialize_wrapper( const std::function<void( const JsonValue & )> &callback,
+                          const std::string &data )
 {
-    std::istringstream buffer( data );
-    JsonIn jsin( buffer );
+    JsonValue jsin = json_loader::from_string( data );
     callback( jsin );
 }
 
@@ -469,6 +633,18 @@ bool string_ends_with( const std::string &s1, const std::string &s2 )
            s1.compare( s1.size() - s2.size(), s2.size(), s2 ) == 0;
 }
 
+bool string_empty_or_whitespace( const std::string &s )
+{
+    if( s.empty() ) {
+        return true;
+    }
+
+    std::wstring ws = utf8_to_wstr( s );
+    return std::all_of( ws.begin(), ws.end(), []( const wchar_t &c ) {
+        return std::iswspace( c );
+    } );
+}
+
 std::string join( const std::vector<std::string> &strings, const std::string &joiner )
 {
     std::ostringstream buffer;
@@ -480,4 +656,143 @@ std::string join( const std::vector<std::string> &strings, const std::string &jo
         buffer << *a;
     }
     return buffer.str();
+}
+
+template<>
+std::string io::enum_to_string<holiday>( holiday data )
+{
+    switch( data ) {
+        // *INDENT-OFF*
+        case holiday::none:             return "none";
+        case holiday::new_year:         return "new_year";
+        case holiday::easter:           return "easter";
+        case holiday::independence_day: return "independence_day";
+        case holiday::halloween:        return "halloween";
+        case holiday::thanksgiving:     return "thanksgiving";
+        case holiday::christmas:        return "christmas";
+            // *INDENT-ON*
+        case holiday::num_holiday:
+            break;
+    }
+    cata_fatal( "Invalid holiday." );
+}
+
+/* compare against table of easter dates */
+static bool is_easter( int day, int month, int year )
+{
+    if( month == 3 ) {
+        switch( year ) {
+            // *INDENT-OFF*
+            case 2024: return day == 31;
+            case 2027: return day == 28;
+            default: break;
+            // *INDENT-ON*
+        }
+    } else if( month == 4 ) {
+        switch( year ) {
+            // *INDENT-OFF*
+            case 2021: return day == 4;
+            case 2022: return day == 17;
+            case 2023: return day == 9;
+            case 2025: return day == 20;
+            case 2026: return day == 5;
+            case 2028: return day == 16;
+            case 2029: return day == 1;
+            case 2030: return day == 21;
+            default: break;
+            // *INDENT-ON*
+        }
+    }
+    return false;
+}
+
+holiday get_holiday_from_time( std::time_t time, bool force_refresh )
+{
+    static holiday cached_holiday = holiday::none;
+    static bool is_cached = false;
+
+    if( force_refresh ) {
+        is_cached = false;
+    }
+    if( is_cached ) {
+        return cached_holiday;
+    }
+
+    is_cached = true;
+
+    bool success = false;
+
+    std::tm local_time;
+    std::time_t current_time = time == 0 ? std::time( nullptr ) : time;
+
+    /* necessary to pass LGTM, as threadsafe version of localtime differs by platform */
+#if defined(_WIN32)
+
+    errno_t err = localtime_s( &local_time, &current_time );
+    if( err == 0 ) {
+        success = true;
+    }
+
+#else
+
+    success = !!localtime_r( &current_time, &local_time );
+
+#endif
+
+    if( success ) {
+
+        const int month = local_time.tm_mon + 1;
+        const int day = local_time.tm_mday;
+        const int wday = local_time.tm_wday;
+        const int year = local_time.tm_year + 1900;
+
+        /* check date against holidays */
+        if( month == 1 && day == 1 ) {
+            cached_holiday = holiday::new_year;
+            return cached_holiday;
+        }
+        // only run easter date calculation if currently March or April
+        else if( ( month == 3 || month == 4 ) && is_easter( day, month, year ) ) {
+            cached_holiday = holiday::easter;
+            return cached_holiday;
+        } else if( month == 7 && day == 4 ) {
+            cached_holiday = holiday::independence_day;
+            return cached_holiday;
+        }
+        // 13 days seems appropriate for Halloween
+        else if( month == 10 && day >= 19 ) {
+            cached_holiday = holiday::halloween;
+            return cached_holiday;
+        } else if( month == 11 && ( day >= 22 && day <= 28 ) && wday == 4 ) {
+            cached_holiday = holiday::thanksgiving;
+            return cached_holiday;
+        }
+        // For the 12 days of Christmas, my true love gave to me...
+        else if( month == 12 && ( day >= 14 && day <= 25 ) ) {
+            cached_holiday = holiday::christmas;
+            return cached_holiday;
+        }
+    }
+    // fall through to here if localtime fails, or none of the day tests hit
+    cached_holiday = holiday::none;
+    return cached_holiday;
+}
+
+int bucket_index_from_weight_list( const std::vector<int> &weights )
+{
+    int total_weight = std::accumulate( weights.begin(), weights.end(), int( 0 ) );
+    if( total_weight < 1 ) {
+        return 0;
+    }
+    const int roll = rng( 0, total_weight - 1 );
+    int index = 0;
+    int accum = 0;
+    for( int w : weights ) {
+        accum += w;
+        if( accum > roll ) {
+            break;
+        }
+        index++;
+    }
+    return index;
 }

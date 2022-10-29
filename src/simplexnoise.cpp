@@ -271,13 +271,13 @@ float raw_noise_3d( const float x, const float y, const float z )
     float n3;
 
     // Skew the input space to determine which simplex cell we're in
-    float F3 = 1.0f / 3.0f;
+    static constexpr float F3 = 1.0f / 3.0f;
     float s = ( x + y + z ) * F3; // Very nice and simple skew factor for 3D
     int i = fastfloor( x + s );
     int j = fastfloor( y + s );
     int k = fastfloor( z + s );
 
-    float G3 = 1.0f / 6.0f; // Very nice and simple unskew factor, too
+    static constexpr float G3 = 1.0f / 6.0f; // Very nice and simple unskew factor, too
     float t = ( i + j + k ) * G3;
     float X0 = i - t; // Unskew the cell origin back to (x,y,z) space
     float Y0 = j - t;
@@ -565,15 +565,15 @@ int fastfloor( const float x )
     return x > 0 ? static_cast<int>( x ) : static_cast<int>( x ) - 1;
 }
 
-float dot( const int *g, const float x, const float y )
+float dot( const std::array<int, 3> &g, const float x, const float y )
 {
     return g[0] * x + g[1] * y;
 }
-float dot( const int *g, const float x, const float y, const float z )
+float dot( const std::array<int, 3> &g, const float x, const float y, const float z )
 {
     return g[0] * x + g[1] * y + g[2] * z;
 }
-float dot( const int *g, const float x, const float y, const float z, const float w )
+float dot( const std::array<int, 4> &g, const float x, const float y, const float z, const float w )
 {
     return g[0] * x + g[1] * y + g[2] * z + g[3] * w;
 }

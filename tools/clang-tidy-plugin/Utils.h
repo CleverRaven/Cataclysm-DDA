@@ -27,11 +27,15 @@ namespace cata
 {
 
 inline StringRef getText(
+    const ast_matchers::MatchFinder::MatchResult &Result, CharSourceRange Range )
+{
+    return Lexer::getSourceText( Range, *Result.SourceManager, Result.Context->getLangOpts() );
+}
+
+inline StringRef getText(
     const ast_matchers::MatchFinder::MatchResult &Result, SourceRange Range )
 {
-    return Lexer::getSourceText( CharSourceRange::getTokenRange( Range ),
-                                 *Result.SourceManager,
-                                 Result.Context->getLangOpts() );
+    return getText( Result, CharSourceRange::getTokenRange( Range ) );
 }
 
 template <typename T>
@@ -165,16 +169,7 @@ inline auto isYParam()
     return matchesName( "[yY]" );
 }
 
-inline bool isPointMethod( const FunctionDecl *d )
-{
-    if( const CXXMethodDecl *Method = dyn_cast_or_null<CXXMethodDecl>( d ) ) {
-        const CXXRecordDecl *Record = Method->getParent();
-        if( isPointType( Record ) ) {
-            return true;
-        }
-    }
-    return false;
-}
+bool isPointMethod( const FunctionDecl *d );
 
 // Struct to help identify and construct names of associated points and
 // coordinates

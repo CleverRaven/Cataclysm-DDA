@@ -45,6 +45,7 @@ struct clothing_mod {
     bool has_mod_type( const clothing_mod_type &type ) const;
 
     clothing_mod_id id;
+    std::vector<std::pair<clothing_mod_id, mod_id>> src;
     bool was_loaded = false;
 
     flag_id flag;

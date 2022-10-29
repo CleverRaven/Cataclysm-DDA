@@ -24,7 +24,7 @@
     "type": "GUN",
     "name": { "str": "magnum levergun" },
     "ammo": [ "ammo_pistol_magnum", "ammo_pistol" ],
-    "description": "A modern re-imagining of the classic western lever-action, this larger rifle accepts powerful magnum pistol ammunition as well as weaker pistol ammo.  Carrying this along side a magnum pistol would allow one to reduce the number of calibers carried, and allow you to squeeze more power from ammuntion.",
+    "description": "A modern re-imagining of the classic western lever-action, this larger rifle accepts powerful magnum pistol ammunition as well as weaker pistol ammo.  Carrying this along side a magnum pistol would allow one to reduce the number of calibers carried, and allow you to squeeze more power from ammunition.",
     "clip_size": 10,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_pistol_magnum": 10, "ammo_pistol": 10 }, "rigid": true } ]
   },
@@ -34,7 +34,7 @@
     "type": "GUN",
     "name": { "str": "handmade magnum carbine" },
     "ammo": [ "ammo_pistol_magnum", "ammo_pistol" ],
-    "description": "A crudely constructed carbine, chambered for magnum pistol ammo and standard pistol ammo.  It feeds from commercial magnum pistol magazines, and locks with a rudimentary lever action system.  Its powerful cartridge and relative precision should serve well against zombies and medium game.",
+    "description": "A crudely constructed carbine, chambered for magnum pistol ammo and standard pistol ammo.  It feeds from commercial magnum pistol magazines, and locks with a rudimentary lever-action system.  Its powerful cartridge and relative precision should serve well against zombies and medium game.",
     "weight": "2114 g",
     "volume": "2 L",
     "price": 10000,

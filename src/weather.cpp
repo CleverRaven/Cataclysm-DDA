@@ -19,11 +19,11 @@
 #include "coordinates.h"
 #include "creature.h"
 #include "debug.h"
+#include "effect_on_condition.h"
 #include "enums.h"
 #include "game.h"
 #include "game_constants.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_pocket.h"
 #include "line.h"
 #include "map.h"
@@ -51,16 +51,19 @@ static const efftype_id effect_glare( "glare" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_snow_glare( "snow_glare" );
 
-static const itype_id itype_water( "water" );
+static const flag_id json_flag_RAINPROOF( "RAINPROOF" );
+static const flag_id json_flag_RAIN_PROTECT( "RAIN_PROTECT" );
+static const flag_id json_flag_SUN_GLASSES( "SUN_GLASSES" );
 
-static const trait_id trait_CEPH_VISION( "CEPH_VISION" );
-static const trait_id trait_FEATHERS( "FEATHERS" );
+static const itype_id itype_water( "water" );
 
 static const json_character_flag json_flag_GLARE_RESIST( "GLARE_RESIST" );
 
-static const flag_id json_flag_RAIN_PROTECT( "RAIN_PROTECT" );
-static const flag_id json_flag_RAINPROOF( "RAINPROOF" );
-static const flag_id json_flag_SUN_GLASSES( "SUN_GLASSES" );
+static const oter_type_str_id oter_type_forest( "forest" );
+static const oter_type_str_id oter_type_forest_water( "forest_water" );
+
+static const trait_id trait_CEPH_VISION( "CEPH_VISION" );
+static const trait_id trait_FEATHERS( "FEATHERS" );
 
 /**
  * \defgroup Weather "Weather and its implications."
@@ -70,7 +73,7 @@ static const flag_id json_flag_SUN_GLASSES( "SUN_GLASSES" );
 bool is_creature_outside( const Creature &target )
 {
     map &here = get_map();
-    return here.is_outside( point( target.posx(), target.posy() ) ) && here.get_abs_sub().z >= 0;
+    return here.is_outside( point( target.posx(), target.posy() ) ) && here.get_abs_sub().z() >= 0;
 }
 
 weather_type_id get_bad_weather()
@@ -95,8 +98,7 @@ void glare( const weather_type_id &w )
 {
     Character &player_character = get_player_character();//todo npcs, also
     //General prerequisites for glare
-    if( !is_creature_outside( player_character ) ||
-        !g->is_in_sunlight( player_character.pos() ) ||
+    if( g->is_sheltered( player_character.pos() ) ||
         player_character.in_sleep_state() ||
         player_character.worn_with_flag( json_flag_SUN_GLASSES ) ||
         player_character.has_flag( json_flag_GLARE_RESIST ) ||
@@ -107,15 +109,16 @@ void glare( const weather_type_id &w )
     time_duration dur = 0_turns;
     const efftype_id *effect = nullptr;
     season_type season = season_of_year( calendar::turn );
-    if( season == WINTER ) {
-        //Winter snow glare: for both clear & sunny weather
+    if( season == WINTER &&
+        incident_sun_irradiance( w, calendar::turn ) > irradiance::moderate ) {
+        // Winter snow glare happens at lower irradiance
         effect = &effect_snow_glare;
         dur = player_character.has_effect( *effect ) ? 1_turns : 2_turns;
-    } else if( w->sun_intensity == sun_intensity_type::high ) {
-        //Sun glare: only for bright sunny weather
+    } else if( incident_sun_irradiance( w, calendar::turn ) > irradiance::high ) {
         effect = &effect_glare;
         dur = player_character.has_effect( *effect ) ? 1_turns : 2_turns;
     }
+
     //apply final glare effect
     if( dur > 0_turns && effect != nullptr ) {
         //enhance/reduce by some traits
@@ -128,13 +131,18 @@ void glare( const weather_type_id &w )
 
 ////// food vs weather
 
-int incident_sunlight( const weather_type_id &wtype, const time_point &t )
+float incident_sunlight( const weather_type_id &wtype, const time_point &t )
 {
-    return std::max<float>( 0.0f, sunlight( t, false ) + wtype->light_modifier );
+    return std::max<float>( 0.0f, sun_light_at( t ) + wtype->light_modifier );
 }
 
-static inline void proc_weather_sum( const weather_type_id &wtype, weather_sum &data,
-                                     const time_point &t, const time_duration &tick_size )
+float incident_sun_irradiance( const weather_type_id &wtype, const time_point &t )
+{
+    return std::max<float>( 0.0f, sun_irradiance( t ) * wtype->sun_multiplier );
+}
+
+static void proc_weather_sum( const weather_type_id &wtype, weather_sum &data,
+                              const time_point &t, const time_duration &tick_size )
 {
     int amount = 0;
     if( wtype->rains ) {
@@ -161,13 +169,16 @@ static inline void proc_weather_sum( const weather_type_id &wtype, weather_sum &
     // TODO: Change this sunlight "sampling" here into a proper interpolation
     const float tick_sunlight = incident_sunlight( wtype, t );
     data.sunlight += tick_sunlight * to_turns<int>( tick_size );
+    const float tick_irradiance = incident_sun_irradiance( wtype, t );
+    data.radiant_exposure += tick_irradiance * to_seconds<int>( tick_size );
 }
 
 weather_type_id current_weather( const tripoint &location, const time_point &t )
 {
-    const weather_generator wgen = g->weather.get_cur_weather_gen();
-    if( g->weather.weather_override != WEATHER_NULL ) {
-        return g->weather.weather_override;
+    weather_manager &weather = get_weather();
+    const weather_generator wgen = weather.get_cur_weather_gen();
+    if( weather.weather_override != WEATHER_NULL ) {
+        return weather.weather_override;
     }
     return wgen.get_weather_conditions( location, t, g->get_seed() );
 }
@@ -179,6 +190,7 @@ weather_sum sum_conditions( const time_point &start, const time_point &end,
     time_duration tick_size = 0_turns;
     weather_sum data;
 
+    weather_manager &weather = get_weather();
     for( time_point t = start; t < end; t += tick_size ) {
         const time_duration diff = end - t;
         if( diff < 10_turns ) {
@@ -191,11 +203,11 @@ weather_sum sum_conditions( const time_point &start, const time_point &end,
 
         weather_type_id wtype = current_weather( location, t );
         proc_weather_sum( wtype, data, t, tick_size );
-        data.wind_amount += get_local_windpower( g->weather.windspeed,
+        data.wind_amount += get_local_windpower( weather.windspeed,
                             // TODO: fix point types
                             overmap_buffer.ter( tripoint_abs_omt( ms_to_omt_copy( location ) ) ),
                             location,
-                            g->weather.winddirection, false ) * to_turns<int>( tick_size );
+                            weather.winddirection, false ) * to_turns<int>( tick_size );
     }
     return data;
 }
@@ -384,7 +396,7 @@ static void fill_funnels( int rain_depth_mm_per_hour, bool acid, const trap &tr 
  */
 static void fill_water_collectors( int mmPerHour, bool acid )
 {
-    for( const auto &e : trap::get_funnels() ) {
+    for( const trap * const &e : trap::get_funnels() ) {
         fill_funnels( mmPerHour, acid, *e );
     }
 }
@@ -403,9 +415,9 @@ static void fill_water_collectors( int mmPerHour, bool acid )
  */
 void wet_character( Character &target, int amount )
 {
-    if( amount <= 0 ||
-        target.has_trait( trait_FEATHERS ) ||
-        target.weapon.has_flag( json_flag_RAIN_PROTECT ) ||
+    item_location weapon = target.get_wielded_item();
+    if( amount <= 0 || target.has_trait( trait_FEATHERS ) ||
+        ( weapon && weapon->has_flag( json_flag_RAIN_PROTECT ) ) ||
         ( !one_in( 50 ) && target.worn_with_flag( json_flag_RAINPROOF ) ) ) {
         return;
     }
@@ -413,18 +425,23 @@ void wet_character( Character &target, int amount )
     if( !calendar::once_every( 6_seconds ) ) {
         return;
     }
-    const int warmth_delay = target.warmth( body_part_torso ) * 4 / 5 + target.warmth(
-                                 body_part_head ) / 5;
+    std::map<bodypart_id, std::vector<const item *>> clothing_map;
+    for( const bodypart_id &bp : target.get_all_body_parts() ) {
+        clothing_map.emplace( bp, std::vector<const item *>() );
+    }
+    std::map<bodypart_id, int> warmth_bp = target.worn.warmth( target );
+    const int warmth_delay = warmth_bp[body_part_torso] * 0.8 +
+                             warmth_bp[body_part_head] * 0.2;
     if( rng( 0, 100 - amount + warmth_delay ) > 10 ) {
         // Thick clothing slows down (but doesn't cap) soaking
         return;
     }
 
-    body_part_set drenched_parts{ { body_part_torso, body_part_arm_l, body_part_arm_r, body_part_head } };
-    if( get_player_character().get_part_wetness( body_part_torso ) * 100 >=
-        get_player_character().get_part_drench_capacity( body_part_torso ) * 50 ) {
-        // Once upper body is 50%+ drenched, start soaking the legs too
-        drenched_parts.unify_set( { { body_part_leg_l, body_part_leg_r } } );
+    // Start drenching the upper half of the body
+    body_part_set drenched_parts = target.get_drenching_body_parts( true, true, false );
+    // When the head is 50% saturated begin drenching the legs as well
+    if( target.get_part_wetness_percentage( target.get_root_body_part() ) >= 0.5f ) {
+        drenched_parts = target.get_drenching_body_parts();
     }
 
     target.drench( amount, drenched_parts, false );
@@ -435,12 +452,12 @@ void weather_sound( const translation &sound_message, const std::string &sound_e
     Character &player_character = get_player_character();
     map &here = get_map();
     if( !player_character.has_effect( effect_sleep ) && !player_character.is_deaf() ) {
-        if( here.get_abs_sub().z >= 0 ) {
+        if( here.get_abs_sub().z() >= 0 ) {
             add_msg( sound_message );
             if( !sound_effect.empty() ) {
                 sfx::play_variant_sound( "environment", sound_effect, 80, random_direction() );
             }
-        } else if( one_in( std::max( roll_remainder( 2.0f * here.get_abs_sub().z /
+        } else if( one_in( std::max( roll_remainder( 2.0f * here.get_abs_sub().z() /
                                      player_character.mutation_value( "hearing_modifier" ) ), 1 ) ) ) {
             add_msg( sound_message );
             if( !sound_effect.empty() ) {
@@ -491,7 +508,7 @@ void handle_weather_effects( const weather_type_id &w )
         }
     }
     glare( w );
-    g->weather.lightning_active = false;
+    get_weather().lightning_active = false;
 }
 
 static std::string to_string( const weekdays &d )
@@ -551,13 +568,14 @@ std::string weather_forecast( const point_abs_sm &abs_sm_pos )
     // Local conditions
     const city_reference cref = overmap_buffer.closest_city( tripoint_abs_sm( abs_sm_pos, 0 ) );
     const std::string city_name = cref ? cref.city->name : std::string( _( "middle of nowhere" ) );
+    weather_manager &weather = get_weather();
     // Current time
     weather_report += string_format(
                           //~ %1$s: time of day, %2$s: hour of day, %3$s: city name, %4$s: weather name, %5$s: temperature value
                           _( "The current time is %1$s Eastern Standard Time.  At %2$s in %3$s, it was %4$s.  The temperature was %5$s. " ),
                           to_string_time_of_day( calendar::turn ), print_time_just_hour( calendar::turn ),
                           city_name,
-                          get_weather().weather_id->name, print_temperature( get_weather().temperature )
+                          weather.weather_id->name, print_temperature( get_weather().temperature )
                       );
 
     //weather_report += ", the dewpoint ???, and the relative humidity ???.  ";
@@ -574,12 +592,12 @@ std::string weather_forecast( const point_abs_sm &abs_sm_pos )
     // Accumulate percentages for each period of various weather statistics, and report that
     // (with fuzz) as the weather chances.
     // int weather_proportions[NUM_WEATHER_TYPES] = {0};
-    double high = -100.0;
-    double low = 100.0;
+    units::temperature high = 0_K;
+    units::temperature low = 1000_K;
     // TODO: fix point types
     const tripoint abs_ms_pos =
         tripoint( project_to<coords::ms>( abs_sm_pos ).raw(), 0 );
-    w_point weatherPoint = *g->weather.weather_precise;
+    w_point weatherPoint = *weather.weather_precise;
     // TODO: wind direction and speed
     const time_point last_hour = calendar::turn - ( calendar::turn - calendar::turn_zero ) %
                                  1_hours;
@@ -588,7 +606,7 @@ std::string weather_forecast( const point_abs_sm &abs_sm_pos )
         const weather_generator wgen = get_weather().get_cur_weather_gen();
         for( time_point i = last_hour + d * 12_hours; i < last_hour + ( d + 1 ) * 12_hours; i += 1_hours ) {
             w_point w = wgen.get_weather( abs_ms_pos, i, g->get_seed() );
-            *g->weather.weather_precise = w;
+            *weather.weather_precise = w;
             forecast = std::max( forecast, wgen.get_weather_conditions( w ) );
             high = std::max( high, w.temperature );
             low = std::min( low, w.temperature );
@@ -611,17 +629,18 @@ std::string weather_forecast( const point_abs_sm &abs_sm_pos )
         weather_report += string_format(
                               _( "%s… %s. Highs of %s. Lows of %s. " ),
                               day, forecast->name,
-                              print_temperature( high ), print_temperature( low )
+                              print_temperature( high ),
+                              print_temperature( low )
                           );
     }
-    *g->weather.weather_precise = weatherPoint;
+    *weather.weather_precise = weatherPoint;
     return weather_report;
 }
 
 /**
  * Print temperature (and convert to Celsius if Celsius display is enabled.)
  */
-std::string print_temperature( double fahrenheit, int decimals )
+std::string print_temperature( units::temperature temperature, int decimals )
 {
     const auto text = [&]( const double value ) {
         return string_format( "%.*f", decimals, value );
@@ -629,12 +648,13 @@ std::string print_temperature( double fahrenheit, int decimals )
 
     if( get_option<std::string>( "USE_CELSIUS" ) == "celsius" ) {
         return string_format( pgettext( "temperature in Celsius", "%sC" ),
-                              text( temp_to_celsius( fahrenheit ) ) );
+                              text( units::to_celsius( temperature ) ) );
     } else if( get_option<std::string>( "USE_CELSIUS" ) == "kelvin" ) {
         return string_format( pgettext( "temperature in Kelvin", "%sK" ),
-                              text( temp_to_kelvin( fahrenheit ) ) );
+                              text( units::to_kelvin( temperature ) ) );
     } else {
-        return string_format( pgettext( "temperature in Fahrenheit", "%sF" ), text( fahrenheit ) );
+        return string_format( pgettext( "temperature in Fahrenheit", "%sF" ),
+                              text( units::to_fahrenheit( temperature ) ) );
     }
 }
 
@@ -656,73 +676,63 @@ std::string print_pressure( double pressure, int decimals )
     return string_format( pgettext( "air pressure in kPa", "%s kPa" ), ret );
 }
 
-int get_local_windchill( double temperature_f, double humidity, double wind_mph )
+units::temperature get_local_windchill( units::temperature temperature, double humidity,
+                                        double wind_mph )
 {
-    double windchill_f = 0;
+    double windchill_k = 0;
 
-    if( temperature_f < 50 ) {
-        /// Model 1, cold wind chill (only valid for temps below 50F)
+    const double temperature_c = units::to_celsius( temperature );
+
+    if( temperature_c < 10 ) {
+        /// Model 1, cold wind chill (only valid for temps below 50F/10C)
         /// Is also used as a standard in North America.
+
+        if( wind_mph < 3 ) {
+            // This model fails when wind is less than 3 mph
+            return units::from_kelvin( 0 );
+        }
 
         // Temperature is removed at the end, because get_local_windchill is meant to calculate the difference.
         // Source : http://en.wikipedia.org/wiki/Wind_chill#North_American_and_United_Kingdom_wind_chill_index
-        windchill_f = 35.74 + 0.6215 * temperature_f - 35.75 * std::pow( wind_mph,
-                      0.16 ) + 0.4275 * temperature_f * std::pow( wind_mph, 0.16 ) - temperature_f;
-        if( wind_mph < 3 ) {
-            // This model fails when wind is less than 3 mph
-            windchill_f = 0;
-        }
+        double wind_km_per_h = wind_mph * 0.44704 * 3.6;
+        windchill_k = 13.12 + 0.6215 * temperature_c - 11.37 * std::pow( wind_km_per_h,
+                      0.16 ) + 0.3965 * temperature_c * std::pow( wind_km_per_h, 0.16 ) - temperature_c;
     } else {
         /// Model 2, warm wind chill
 
         // Source : http://en.wikipedia.org/wiki/Wind_chill#Australian_Apparent_Temperature
         // Convert to meters per second.
-        double wind_meters_per_sec = wind_mph * 0.44704;
-        double temperature_c = temp_to_celsius( temperature_f );
 
         // Cap the vapor pressure term to 50C of extra heat, as this term
         // otherwise grows logistically to an asymptotic value of about 2e7
         // for large values of temperature. This is presumably due to the
         // model being designed for reasonable ambient temperature values,
         // rather than extremely high ones.
-        double windchill_c = 0.33 * std::min<float>( 150.00, humidity / 100.00 * 6.105 *
-                             std::exp( 17.27 * temperature_c / ( 237.70 + temperature_c ) ) ) - 0.70 *
-                             wind_meters_per_sec - 4.00;
-        // Convert to Fahrenheit, but omit the '+ 32' because we are only dealing with a piece of the felt air temperature equation.
-        windchill_f = windchill_c * 9 / 5;
+        double wind_meters_per_sec = wind_mph * 0.44704;
+        windchill_k = 0.33 * std::min<float>( 150.00, humidity / 100.00 * 6.105 *
+                                              std::exp( 17.27 * temperature_c / ( 237.70 + temperature_c ) ) ) - 0.70 *
+                      wind_meters_per_sec - 4.00;
     }
 
-    return std::ceil( windchill_f );
+    return units::from_kelvin( windchill_k );
 }
 
 nc_color get_wind_color( double windpower )
 {
     nc_color windcolor;
-    if( windpower < 1 ) {
+    if( windpower < 3 ) {
         windcolor = c_dark_gray;
-    } else if( windpower < 3 ) {
-        windcolor = c_dark_gray;
-    } else if( windpower < 7 ) {
-        windcolor = c_light_gray;
     } else if( windpower < 12 ) {
         windcolor = c_light_gray;
-    } else if( windpower < 18 ) {
-        windcolor = c_blue;
     } else if( windpower < 24 ) {
         windcolor = c_blue;
-    } else if( windpower < 31 ) {
-        windcolor = c_light_blue;
     } else if( windpower < 38 ) {
         windcolor = c_light_blue;
-    } else if( windpower < 46 ) {
-        windcolor = c_cyan;
     } else if( windpower < 54 ) {
         windcolor = c_cyan;
-    } else if( windpower < 63 ) {
-        windcolor = c_light_cyan;
     } else if( windpower < 72 ) {
         windcolor = c_light_cyan;
-    } else if( windpower > 72 ) {
+    } else {
         windcolor = c_white;
     }
     return windcolor;
@@ -816,8 +826,8 @@ int get_local_humidity( double humidity, const weather_type_id &weather, bool sh
     return tmphumidity;
 }
 
-double get_local_windpower( double windpower, const oter_id &omter, const tripoint &location,
-                            const int &winddirection, bool sheltered )
+int get_local_windpower( int windpower, const oter_id &omter, const tripoint &location,
+                         const int &winddirection, bool sheltered )
 {
     /**
     *  A player is sheltered if he is underground, in a car, or indoors.
@@ -826,26 +836,25 @@ double get_local_windpower( double windpower, const oter_id &omter, const tripoi
         return 0;
     }
     rl_vec2d windvec = convert_wind_to_coord( winddirection );
-    int tmpwind = static_cast<int>( windpower );
     tripoint triblocker( location + point( windvec.x, windvec.y ) );
     // Over map terrain may modify the effect of wind.
-    if( is_ot_match( "forest", omter, ot_match_type::type ) ||
-        is_ot_match( "forest_water", omter, ot_match_type::type ) ) {
-        tmpwind = tmpwind / 2;
+    if( ( omter->get_type_id() == oter_type_forest ) ||
+        ( omter->get_type_id() == oter_type_forest_water ) ) {
+        windpower = windpower / 2;
     }
     if( location.z > 0 ) {
-        tmpwind = tmpwind + ( location.z * std::min( 5, tmpwind ) );
+        windpower = windpower + ( location.z * std::min( 5, windpower ) );
     }
     // An adjacent wall will block wind
     if( is_wind_blocker( triblocker ) ) {
-        tmpwind = tmpwind / 10;
+        windpower = windpower / 10;
     }
-    return static_cast<double>( tmpwind );
+    return windpower;
 }
 
 bool is_wind_blocker( const tripoint &location )
 {
-    return get_map().has_flag( "BLOCK_WIND", location );
+    return get_map().has_flag( ter_furn_flag::TFLAG_BLOCK_WIND, location );
 }
 
 // Description of Wind Speed - https://en.wikipedia.org/wiki/Beaufort_scale
@@ -908,12 +917,12 @@ rl_vec2d convert_wind_to_coord( const int angle )
 bool warm_enough_to_plant( const tripoint &pos )
 {
     // semi-appropriate temperature for most plants
-    return get_weather().get_temperature( pos ) >= 50;
+    return get_weather().get_temperature( pos ) >= units::from_fahrenheit( 50 );
 }
 
 bool warm_enough_to_plant( const tripoint_abs_omt &pos )
 {
-    return g->weather.get_temperature( pos ) >= 50;
+    return get_weather().get_temperature( pos ) >= units::from_fahrenheit( 50 );
 }
 
 weather_manager::weather_manager()
@@ -921,7 +930,7 @@ weather_manager::weather_manager()
     lightning_active = false;
     weather_override = WEATHER_NULL;
     nextweather = calendar::before_time_starts;
-    temperature = 0;
+    temperature = 0_K;
     weather_id = WEATHER_CLEAR;
 }
 
@@ -934,13 +943,11 @@ const weather_generator &weather_manager::get_cur_weather_gen() const
 
 void weather_manager::update_weather()
 {
-    winddirection = wind_direction_override ? *wind_direction_override : winddirection;
-    windspeed = windspeed_override ? *windspeed_override : windspeed;
     Character &player_character = get_player_character();
     if( weather_id == WEATHER_NULL || calendar::turn >= nextweather ) {
         w_point &w = *weather_precise;
         const weather_generator &weather_gen = get_cur_weather_gen();
-        w = weather_gen.get_weather( player_character.global_square_location(), calendar::turn,
+        w = weather_gen.get_weather( player_character.get_location().raw(), calendar::turn,
                                      g->get_seed() );
         weather_type_id old_weather = weather_id;
         weather_id = weather_override == WEATHER_NULL ?
@@ -948,11 +955,14 @@ void weather_manager::update_weather()
                      : weather_override;
         sfx::do_ambient();
         temperature = w.temperature;
+        winddirection = wind_direction_override ? *wind_direction_override : w.winddirection;
+        windspeed = windspeed_override ? *windspeed_override : w.windpower;
         lightning_active = false;
         nextweather = calendar::turn + rng( weather_id->duration_min, weather_id->duration_max );
         map &here = get_map();
-        if( weather_id != old_weather && weather_id->dangerous &&
-            here.get_abs_sub().z >= 0 && here.is_outside( player_character.pos() )
+        if( uistate.distraction_weather_change &&
+            weather_id != old_weather && weather_id->dangerous &&
+            here.get_abs_sub().z() >= 0 && here.is_outside( player_character.pos() )
             && !player_character.has_activity( ACT_WAIT_WEATHER ) ) {
             g->cancel_activity_or_ignore_query( distraction_type::weather_change,
                                                 string_format( _( "The weather changed to %s!" ), weather_id->name ) );
@@ -980,29 +990,35 @@ void weather_manager::set_nextweather( time_point t )
     update_weather();
 }
 
-int weather_manager::get_temperature( const tripoint &location )
+units::temperature weather_manager::get_temperature( const tripoint &location )
 {
+    if( forced_temperature ) {
+        return *forced_temperature;
+    }
+
     const auto &cached = temperature_cache.find( location );
     if( cached != temperature_cache.end() ) {
         return cached->second;
     }
 
-    // local modifier
-    int temp_mod = 0;
+
+    //underground temperature = average New England temperature = 43F/6C
+    units::temperature temp = ( location.z < 0 ? AVERAGE_ANNUAL_TEMPERATURE : temperature ) +
+                              ( g->new_game ? 0_K : get_map().get_temperature_mod( location ) );
 
     if( !g->new_game ) {
-        temp_mod += get_heat_radiation( location, false );
+        units::temperature temp_mod = 0_K;
+        temp_mod += get_heat_radiation( location );
         temp_mod += get_convection_temperature( location );
+
+        temp += temp_mod;
     }
-    //underground temperature = average New England temperature = 43F/6C rounded to int
-    const int temp = ( location.z < 0 ? AVERAGE_ANNUAL_TEMPERATURE : temperature ) +
-                     ( g->new_game ? 0 : get_map().get_temperature( location ) + temp_mod );
 
     temperature_cache.emplace( std::make_pair( location, temp ) );
     return temp;
 }
 
-int weather_manager::get_temperature( const tripoint_abs_omt &location )
+units::temperature weather_manager::get_temperature( const tripoint_abs_omt &location ) const
 {
     return location.z() < 0 ? AVERAGE_ANNUAL_TEMPERATURE : temperature;
 }
@@ -1010,6 +1026,11 @@ int weather_manager::get_temperature( const tripoint_abs_omt &location )
 void weather_manager::clear_temp_cache()
 {
     temperature_cache.clear();
+}
+
+const weather_manager &get_weather_const()
+{
+    return const_cast<const weather_manager &>( get_weather() );
 }
 
 ///@}

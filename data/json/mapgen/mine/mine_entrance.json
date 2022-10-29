@@ -52,7 +52,7 @@
         "`": "t_thconc_floor",
         "®": "t_thconc_floor",
         "=": "t_conveyor",
-        "0": "t_metal_grate_window_with_curtain",
+        "0": "t_window_bars_curtains",
         "4": "t_thconc_floor",
         "8": "t_thconc_floor",
         "9": "t_thconc_floor",
@@ -157,7 +157,8 @@
       },
       "gaspumps": { "@": { "fuel": "gasoline", "amount": [ 10000, 50000 ] }, "$": { "fuel": "diesel", "amount": [ 10000, 50000 ] } },
       "vehicles": { "Ø": { "vehicle": "tatra_truck", "chance": 50, "fuel": 40 } },
-      "nested": { "`": { "chunks": [ [ "mechanical_fluid", 10 ], [ "gasoline_diesel_motor_oil", 80 ], [ "null", 80 ] ] } }
+      "nested": { "`": { "chunks": [ [ "mechanical_fluid", 10 ], [ "gasoline_diesel_motor_oil", 80 ], [ "null", 80 ] ] } },
+      "liquids": { "W": { "liquid": "water_clean", "amount": [ 0, 80 ] } }
     }
   },
   {

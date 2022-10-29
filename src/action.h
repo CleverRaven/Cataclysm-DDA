@@ -6,6 +6,7 @@
 #include <iosfwd>
 #include <map>
 #include <set>
+#include <string>
 #include <vector>
 
 namespace cata
@@ -30,6 +31,8 @@ enum action_id : int {
     ACTION_SELECT,
     /** Click on a point with secondary mouse button (usually right button) */
     ACTION_SEC_SELECT,
+    /** action on left mouse button-down, for clicking and dragging */
+    ACTION_CLICK_AND_DRAG,
     /**@}*/
 
     // Character movement actions
@@ -60,12 +63,16 @@ enum action_id : int {
     ACTION_MOVE_UP,
     /** Cycle run/walk/crouch mode */
     ACTION_CYCLE_MOVE,
+    /** Cycle run/walk/crouch mode in opposite direction */
+    ACTION_CYCLE_MOVE_REVERSE,
     /** Reset movement mode to walk  */
     ACTION_RESET_MOVE,
     /** Toggle run on/off */
     ACTION_TOGGLE_RUN,
     /** Toggle crouch on/off */
     ACTION_TOGGLE_CROUCH,
+    /** Toggle lying down on/off */
+    ACTION_TOGGLE_PRONE,
     /** Open movement mode menu */
     ACTION_OPEN_MOVEMENT,
     /**@}*/
@@ -102,12 +109,15 @@ enum action_id : int {
     ACTION_CLOSE,
     /** Smash something */
     ACTION_SMASH,
-    /** Examine or pick up items from adjacent square */
+    /** Examine adjacent terrain or furniture */
     ACTION_EXAMINE,
-    /** Pick up items from current/adjacent squares */
+    /** Examine adjacent terrain or furniture, or pick up items.
+     *  Deprecated UX flow but still supported (for now). */
+    ACTION_EXAMINE_AND_PICKUP,
+    /** Pick up items from one current/adjacent square */
     ACTION_PICKUP,
-    /** Pick up items from current square. Auto pickup if only one item */
-    ACTION_PICKUP_FEET,
+    /** Pick up items from all current/adjacent squares */
+    ACTION_PICKUP_ALL,
     /** Grab or let go of an object */
     ACTION_GRAB,
     /** Haul pile of items, or let go of them */
@@ -176,6 +186,8 @@ enum action_id : int {
     ACTION_SELECT_FIRE_MODE,
     /** Cast a spell (only if any spells are known) */
     ACTION_CAST_SPELL,
+    /** Unload container in a given direction */
+    ACTION_UNLOAD_CONTAINER,
     /** Open the drop-item menu */
     ACTION_DROP,
     /** Drop items in a given direction */
@@ -248,10 +260,16 @@ enum action_id : int {
     ACTION_FACTIONS,
     /** Display morale effects screen */
     ACTION_MORALE,
+    /** Displays medical menu */
+    ACTION_MEDICAL,
     /** Display messages screen */
     ACTION_MESSAGES,
     /** Display help screen */
     ACTION_HELP,
+    /** Display Diary window*/
+    ACTION_DIARY,
+    /** Open body status menu **/
+    ACTION_BODYSTATUS,
     /** Display main menu */
     ACTION_MAIN_MENU,
     /** Display keybindings list */
@@ -268,6 +286,8 @@ enum action_id : int {
     ACTION_COLOR,
     /** Open active world mods */
     ACTION_WORLD_MODS,
+    /** Open distraction manager */
+    ACTION_DISTRACTION_MANAGER,
     /**@}*/
 
     // Debug Functions
@@ -320,6 +340,8 @@ enum action_id : int {
     ACTION_DISPLAY_RADIATION,
     /** Toggle transparency map */
     ACTION_DISPLAY_TRANSPARENCY,
+    /** Toggle retracted ISO walls */
+    ACTION_DISPLAY_ISO_WALLS,
     /** Toggle reachability zones map */
     ACTION_DISPLAY_REACHABILITY_ZONES,
     ACTION_DISPLAY_NPC_ATTACK_POTENTIAL,
@@ -612,8 +634,9 @@ bool can_move_vertical_at( const tripoint &p, int movez );
  * @ref can_interact_at()
  *
  * @param p Point to perform the test at
+ * @param with_pickup True if the presence of items to pick up is sufficient eligibility
  * @returns true if the examine action is possible at this point, otherwise false
  */
-bool can_examine_at( const tripoint &p );
+bool can_examine_at( const tripoint &p, bool with_pickup = false );
 
 #endif // CATA_SRC_ACTION_H

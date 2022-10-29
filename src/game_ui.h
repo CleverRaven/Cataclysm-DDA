@@ -13,6 +13,6 @@ void to_map_font_dim_height( int &h );
 void to_map_font_dimension( int &w, int &h );
 void from_map_font_dimension( int &w, int &h );
 void to_overmap_font_dimension( int &w, int &h );
-void reinitialize_framebuffer();
+void reinitialize_framebuffer( bool force_invalidate = false );
 
 #endif // CATA_SRC_GAME_UI_H

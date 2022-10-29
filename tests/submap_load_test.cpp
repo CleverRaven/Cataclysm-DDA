@@ -11,10 +11,10 @@
 #include "colony.h"
 #include "construction.h"
 #include "field.h"
-#include "game.h"
 #include "game_constants.h"
 #include "item.h"
 #include "json.h"
+#include "json_loader.h"
 #include "make_static.h"
 #include "mapdata.h"
 #include "point.h"
@@ -24,13 +24,19 @@
 #include "type_id.h"
 #include "vehicle.h"
 
+static const construction_str_id construction_constr_ground_cable( "constr_ground_cable" );
+static const construction_str_id construction_constr_rack_coat( "constr_rack_coat" );
+
+// NOLINTNEXTLINE(cata-static-declarations)
+extern const int savegame_version;
+
 static const point &corner_ne = point_zero;
 static const point corner_nw( SEEX - 1, 0 );
 static const point corner_se( 0, SEEY - 1 );
 static const point corner_sw( SEEX - 1, SEEY - 1 );
 static const point random_pt( 4, 7 );
 
-static std::istringstream submap_empty_ss(
+static std::string submap_empty_ss(
     "{\n"
     "  \"version\": 32,\n"
     "  \"coordinates\": [ 0, 0, 0 ],\n"
@@ -49,7 +55,7 @@ static std::istringstream submap_empty_ss(
     "  \"computers\": [ ]\n"
     "}\n"
 );
-static std::istringstream submap_terrain_rle_ss(
+static std::string submap_terrain_rle_ss(
     "{\n"
     "  \"version\": 32,\n"
     "  \"coordinates\": [ 0, 0, 0 ],\n"
@@ -77,7 +83,7 @@ static std::istringstream submap_terrain_rle_ss(
     "  \"computers\": [ ]\n"
     "}\n"
 );
-static std::istringstream submap_furniture_ss(
+static std::string submap_furniture_ss(
     "{\n"
     "  \"version\": 32,\n"
     "  \"coordinates\": [ 0, 0, 0 ],\n"
@@ -102,7 +108,7 @@ static std::istringstream submap_furniture_ss(
     "  \"computers\": [ ]\n"
     "}\n"
 );
-static std::istringstream submap_trap_ss(
+static std::string submap_trap_ss(
     "{\n"
     "  \"version\": 32,\n"
     "  \"coordinates\": [ 0, 0, 0 ],\n"
@@ -127,7 +133,7 @@ static std::istringstream submap_trap_ss(
     "  \"computers\": [ ]\n"
     "}\n"
 );
-static std::istringstream submap_rad_ss(
+static std::string submap_rad_ss(
     "{\n"
     "  \"version\": 32,\n"
     "  \"coordinates\": [ 0, 0, 0 ],\n"
@@ -156,7 +162,7 @@ static std::istringstream submap_rad_ss(
     "  \"computers\": [ ]\n"
     "}\n"
 );
-static std::istringstream submap_item_ss(
+static std::string submap_item_ss(
     "{\n"
     "  \"version\": 32,\n"
     "  \"coordinates\": [ 0, 0, 0 ],\n"
@@ -288,7 +294,7 @@ static std::istringstream submap_item_ss(
     "  \"computers\": [ ]\n"
     "}\n"
 );
-static std::istringstream submap_field_ss(
+static std::string submap_field_ss(
     "{\n"
     "  \"version\": 32,\n"
     "  \"coordinates\": [ 0, 0, 0 ],\n"
@@ -314,7 +320,7 @@ static std::istringstream submap_field_ss(
     "  \"computers\": [ ]\n"
     "}\n"
 );
-static std::istringstream submap_graffiti_ss(
+static std::string submap_graffiti_ss(
     "{\n"
     "  \"version\": 32,\n"
     "  \"coordinates\": [ 0, 0, 0 ],\n"
@@ -340,7 +346,7 @@ static std::istringstream submap_graffiti_ss(
     "  \"computers\": [ ]\n"
     "}\n"
 );
-static std::istringstream submap_spawns_ss(
+static std::string submap_spawns_ss(
     "{\n"
     "  \"version\": 32,\n"
     "  \"coordinates\": [ 0, 0, 0 ],\n"
@@ -365,7 +371,7 @@ static std::istringstream submap_spawns_ss(
     "  \"computers\": [ ]\n"
     "}\n"
 );
-static std::istringstream submap_vehicle_ss(
+static std::string submap_vehicle_ss(
     "{\n"
     "  \"version\": 32,\n"
     "  \"coordinates\": [ 0, 0, 0 ],\n"
@@ -568,7 +574,7 @@ static std::istringstream submap_vehicle_ss(
     "  \"computers\": [ ]\n"
     "}\n"
 );
-static std::istringstream submap_construction_ss(
+static std::string submap_construction_ss(
     "{\n"
     "  \"version\": 32,\n"
     "  \"coordinates\": [ 0, 0, 0 ],\n"
@@ -664,7 +670,7 @@ static std::istringstream submap_construction_ss(
     "  \"computers\": [ ]\n"
     "}\n"
 );
-static std::istringstream submap_computer_ss(
+static std::string submap_computer_ss(
     "{\n"
     "  \"version\": 32,\n"
     "  \"coordinates\": [ 0, 0, 0 ],\n"
@@ -712,7 +718,7 @@ static std::istringstream submap_computer_ss(
     "  ]\n"
     "}\n"
 );
-static std::istringstream submap_cosmetic_ss(
+static std::string submap_cosmetic_ss(
     "{\n"
     "  \"version\": 32,\n"
     "  \"coordinates\": [ 0, 0, 0 ],\n"
@@ -744,32 +750,33 @@ static std::istringstream submap_cosmetic_ss(
 static_assert( SEEX == 12, "Reminder to update submap tests when SEEX changes." );
 static_assert( SEEY == 12, "Reminder to update submap tests when SEEY changes." );
 
-static JsonIn submap_empty( submap_empty_ss );
-static JsonIn submap_terrain_rle( submap_terrain_rle_ss );
-static JsonIn submap_furniture( submap_furniture_ss );
-static JsonIn submap_trap( submap_trap_ss );
-static JsonIn submap_rad( submap_rad_ss );
-static JsonIn submap_item( submap_item_ss );
-static JsonIn submap_field( submap_field_ss );
-static JsonIn submap_graffiti( submap_graffiti_ss );
-static JsonIn submap_spawns( submap_spawns_ss );
-static JsonIn submap_vehicle( submap_vehicle_ss );
-static JsonIn submap_construction( submap_construction_ss );
-static JsonIn submap_computer( submap_computer_ss );
-static JsonIn submap_cosmetic( submap_cosmetic_ss );
+static JsonValue submap_empty = json_loader::from_string( submap_empty_ss );
+static JsonValue submap_terrain_rle = json_loader::from_string( submap_terrain_rle_ss );
+static JsonValue submap_furniture = json_loader::from_string( submap_furniture_ss );
+static JsonValue submap_trap = json_loader::from_string( submap_trap_ss );
+static JsonValue submap_rad = json_loader::from_string( submap_rad_ss );
+static JsonValue submap_item = json_loader::from_string( submap_item_ss );
+static JsonValue submap_field = json_loader::from_string( submap_field_ss );
+static JsonValue submap_graffiti = json_loader::from_string( submap_graffiti_ss );
+static JsonValue submap_spawns = json_loader::from_string( submap_spawns_ss );
+static JsonValue submap_vehicle = json_loader::from_string( submap_vehicle_ss );
+static JsonValue submap_construction = json_loader::from_string( submap_construction_ss );
+static JsonValue submap_computer = json_loader::from_string( submap_computer_ss );
+static JsonValue submap_cosmetic = json_loader::from_string( submap_cosmetic_ss );
 
-static void load_from_jsin( submap &sm, JsonIn &jsin )
+static void load_from_jsin( submap &sm, const JsonValue &jsin )
 {
     // Ensure that the JSON is up to date for our savegame version
     REQUIRE( savegame_version == 33 );
-    jsin.start_object();
     int version = 0;
-    while( !jsin.end_object() ) {
-        std::string name = jsin.get_member_name();
-        if( name == "version" ) {
-            version = jsin.get_int();
-        } else {
-            sm.load( jsin, name, version );
+    JsonObject sm_json = jsin.get_object();
+    if( sm_json.has_member( "version" ) ) {
+        version = sm_json.get_int( "version" );
+    }
+    for( JsonMember member : jsin.get_object() ) {
+        std::string name = member.name();
+        if( name != "version" ) {
+            sm.load( member, name, version );
         }
     }
 }
@@ -1010,7 +1017,7 @@ TEST_CASE( "submap_rad_load", "[submap][load]" )
     REQUIRE( rad_se == 3 );
     REQUIRE( rad_ra == 5 );
 
-    int rads[SEEX];
+    std::array<int, SEEX> rads;
     // Also, check we have no other radiation
     INFO( "Below is the radiation on the row above and the current row.  Unknown values are -1" );
     for( int y = 0; y < SEEY; ++y ) {
@@ -1333,12 +1340,12 @@ TEST_CASE( "submap_construction_load", "[submap][load]" )
     const partial_con &con1 = sm.partial_constructions[ {3, 2, 0}];
     CHECK( con1.counter == 123334 );
     CHECK( con1.components.size() == 1 );
-    CHECK( con1.id.id() == construction_str_id( "constr_ground_cable" ) );
+    CHECK( con1.id.id() == construction_constr_ground_cable );
     REQUIRE( sm.partial_constructions.find( { 3, 3, 0 } ) != sm.partial_constructions.end() );
     const partial_con &con2 = sm.partial_constructions[ {3, 3, 0}];
     CHECK( con2.counter == 4934 );
     CHECK( con2.components.size() == 4 );
-    CHECK( con2.id.id() == construction_str_id( "constr_rack_coat" ) );
+    CHECK( con2.id.id() == construction_constr_rack_coat );
 }
 
 TEST_CASE( "submap_computer_load", "[submap][load]" )

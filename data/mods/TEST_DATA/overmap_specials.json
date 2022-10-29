@@ -1,0 +1,307 @@
+[
+  {
+    "type": "overmap_special",
+    "id": "test_anthill",
+    "subtype": "mutable",
+    "locations": [ "subterranean_empty" ],
+    "city_distance": [ 10, -1 ],
+    "occurrences": [ 80, 100 ],
+    "flags": [ "ANT", "UNIQUE", "CLASSIC", "WILDERNESS" ],
+    "check_for_locations": [
+      [ [ 0, 0, 0 ], [ "land" ] ],
+      [ [ 0, 0, -1 ], [ "subterranean_empty" ] ],
+      [ [ 1, 0, -1 ], [ "subterranean_empty" ] ],
+      [ [ 0, 1, -1 ], [ "subterranean_empty" ] ],
+      [ [ -1, 0, -1 ], [ "subterranean_empty" ] ],
+      [ [ 0, -1, -1 ], [ "subterranean_empty" ] ]
+    ],
+    "joins": [
+      { "id": "surface_to_tunnel", "opposite": "tunnel_to_surface" },
+      { "id": "tunnel_to_surface", "opposite": "surface_to_tunnel", "into_locations": [ "land" ] },
+      "tunnel_to_tunnel"
+    ],
+    "overmaps": {
+      "surface": { "overmap": "anthill_north", "below": "surface_to_tunnel", "locations": [ "land" ] },
+      "below_entrance": {
+        "overmap": "ants_nesw",
+        "above": "tunnel_to_surface",
+        "north": "tunnel_to_tunnel",
+        "east": "tunnel_to_tunnel",
+        "south": "tunnel_to_tunnel",
+        "west": "tunnel_to_tunnel"
+      },
+      "crossroads": {
+        "overmap": "ants_nesw",
+        "north": "tunnel_to_tunnel",
+        "east": "tunnel_to_tunnel",
+        "south": "tunnel_to_tunnel",
+        "west": "tunnel_to_tunnel"
+      },
+      "tee": { "overmap": "ants_nes", "north": "tunnel_to_tunnel", "east": "tunnel_to_tunnel", "south": "tunnel_to_tunnel" },
+      "straight_tunnel": { "overmap": "ants_ns", "north": "tunnel_to_tunnel", "south": "tunnel_to_tunnel" },
+      "corner": { "overmap": "ants_ne", "north": "tunnel_to_tunnel", "east": "tunnel_to_tunnel" },
+      "dead_end": { "overmap": "ants_end_south", "north": "tunnel_to_tunnel" }
+    },
+    "root": "surface",
+    "phases": [
+      [ { "overmap": "below_entrance", "max": 1 } ],
+      [
+        { "overmap": "straight_tunnel", "max": 20 },
+        { "overmap": "corner", "max": 5 },
+        { "overmap": "tee", "max": 10 },
+        { "overmap": "below_entrance", "max": { "poisson": 0.7 } }
+      ],
+      [
+        { "overmap": "dead_end", "weight": 2000 },
+        { "overmap": "straight_tunnel", "weight": 100 },
+        { "overmap": "corner", "weight": 100 },
+        { "overmap": "tee", "weight": 10 },
+        { "overmap": "crossroads", "weight": 1 },
+        { "overmap": "surface", "weight": 1 }
+      ]
+    ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "test_crater",
+    "subtype": "mutable",
+    "locations": [ "land" ],
+    "city_distance": [ 0, -1 ],
+    "occurrences": [ 0, 2 ],
+    "flags": [ "CLASSIC", "WILDERNESS" ],
+    "check_for_locations": [
+      [ [ 0, 0, 0 ], [ "land" ] ],
+      [ [ 1, 0, 0 ], [ "land" ] ],
+      [ [ 0, 1, 0 ], [ "land" ] ],
+      [ [ -1, 0, 0 ], [ "land" ] ],
+      [ [ 0, -1, 0 ], [ "land" ] ]
+    ],
+    "joins": [ "crater_to_crater" ],
+    "overmaps": {
+      "crater_all": {
+        "overmap": "crater",
+        "north": "crater_to_crater",
+        "east": "crater_to_crater",
+        "south": "crater_to_crater",
+        "west": "crater_to_crater"
+      },
+      "crater_edge": {
+        "overmap": "crater",
+        "north": "crater_to_crater",
+        "east": { "id": "crater_to_crater", "type": "available" },
+        "south": { "id": "crater_to_crater", "type": "available" },
+        "west": { "id": "crater_to_crater", "type": "available" }
+      }
+    },
+    "root": "crater_all",
+    "phases": [ [ { "overmap": "crater_all", "max": { "poisson": 5 } } ], [ { "overmap": "crater_edge", "weight": 1 } ] ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "test_microlab",
+    "subtype": "mutable",
+    "locations": [ "subterranean_empty" ],
+    "city_distance": [ 25, -1 ],
+    "city_sizes": [ 0, 20 ],
+    "occurrences": [ 0, 1 ],
+    "flags": [ "CLASSIC", "WILDERNESS" ],
+    "check_for_locations": [
+      [ [ 0, 0, 0 ], [ "land" ] ],
+      [ [ 0, 0, -1 ], [ "subterranean_empty" ] ],
+      [ [ 0, 0, -2 ], [ "subterranean_empty" ] ],
+      [ [ 1, 0, -2 ], [ "subterranean_empty" ] ],
+      [ [ 0, 1, -2 ], [ "subterranean_empty" ] ],
+      [ [ -1, 0, -2 ], [ "subterranean_empty" ] ],
+      [ [ 0, -1, -2 ], [ "subterranean_empty" ] ]
+    ],
+    "joins": [
+      "hallway_to_hallway",
+      "duct_to_surface",
+      "duct_to_entrance",
+      "microlab_to_microlab",
+      { "id": "hallway_to_microlab", "opposite": "microlab_to_hallway" },
+      { "id": "microlab_to_hallway", "opposite": "hallway_to_microlab" },
+      "microlab_entry_to_station",
+      "microlab_station_to_subway",
+      "stairs_down_to_middle",
+      "stairs_up_to_middle"
+    ],
+    "overmaps": {
+      "surface": { "overmap": "lab_subway_vent_shaft_surface", "below": "duct_to_surface", "locations": [ "land" ] },
+      "below_entrance": { "overmap": "lab_subway_vent_shaft-1", "above": "duct_to_surface", "below": "duct_to_entrance" },
+      "surface_access": {
+        "overmap": "microlab_generic_vent_shaft_connector",
+        "above": "duct_to_entrance",
+        "north": "microlab_to_microlab",
+        "east": "microlab_to_microlab",
+        "south": "microlab_to_microlab",
+        "west": "microlab_to_microlab"
+      },
+      "stairs_down": { "overmap": "microlab_generic_stairs_down_north", "below": "stairs_down_to_middle", "north": "hallway_to_hallway" },
+      "stairs_middle": {
+        "overmap": "microlab_generic_isolated_stairs_odd_north",
+        "above": "stairs_down_to_middle",
+        "below": "stairs_up_to_middle"
+      },
+      "stairs_up": {
+        "overmap": "microlab_generic_isolated_stairs_up_north",
+        "above": "stairs_up_to_middle",
+        "north": "hallway_to_hallway"
+      },
+      "microlab": {
+        "overmap": "microlab_generic",
+        "north": { "id": "microlab_to_microlab", "alternatives": [ "microlab_to_hallway" ] },
+        "east": { "id": "microlab_to_microlab", "alternatives": [ "microlab_to_hallway" ] },
+        "south": { "id": "microlab_to_microlab", "alternatives": [ "microlab_to_hallway" ] },
+        "west": { "id": "microlab_to_microlab", "alternatives": [ "microlab_to_hallway" ] }
+      },
+      "microlab_edge": {
+        "overmap": "microlab_generic_edge",
+        "north": { "id": "microlab_to_microlab", "type": "available", "alternatives": [ "microlab_to_hallway" ] },
+        "east": { "id": "microlab_to_microlab", "type": "available", "alternatives": [ "microlab_to_hallway" ] },
+        "south": { "id": "microlab_to_microlab", "type": "available", "alternatives": [ "microlab_to_hallway" ] },
+        "west": { "id": "microlab_to_microlab", "type": "available", "alternatives": [ "microlab_to_hallway" ] }
+      },
+      "microlab_sub_entry": {
+        "overmap": "microlab_generic_sub_entry_north",
+        "north": "microlab_entry_to_station",
+        "east": "microlab_to_microlab",
+        "south": "microlab_to_hallway",
+        "west": "microlab_to_microlab"
+      },
+      "microlab_sub_station": { "overmap": "microlab_sub_station_north", "north": "microlab_station_to_subway", "south": "microlab_entry_to_station" },
+      "microlab_subway": { "overmap": "microlab_sub_connector_south", "south": "microlab_station_to_subway" },
+      "firebreak": { "overmap": "microlab_generic_firebreak_north", "north": "hallway_to_hallway", "south": "hallway_to_hallway" },
+      "hallway_cross": {
+        "overmap": "microlab_generic_hallway_nesw",
+        "north": "hallway_to_hallway",
+        "east": "hallway_to_hallway",
+        "south": "hallway_to_hallway",
+        "west": "hallway_to_hallway"
+      },
+      "hallway_straight": {
+        "overmap": "microlab_generic_hallway_ns",
+        "north": "hallway_to_hallway",
+        "east": "hallway_to_microlab",
+        "south": "hallway_to_hallway",
+        "west": "hallway_to_microlab"
+      },
+      "hallway_blind_straight": {
+        "overmap": "microlab_generic_hallway_ns",
+        "north": "hallway_to_hallway",
+        "east": { "id": "hallway_to_microlab", "type": "available", "alternatives": [ "microlab_to_microlab", "microlab_to_hallway" ] },
+        "south": "hallway_to_hallway",
+        "west": { "id": "hallway_to_microlab", "type": "available", "alternatives": [ "microlab_to_microlab", "microlab_to_hallway" ] }
+      },
+      "hallway_tee": {
+        "overmap": "microlab_generic_hallway_nes",
+        "north": "hallway_to_hallway",
+        "east": "hallway_to_hallway",
+        "south": "hallway_to_hallway",
+        "west": "hallway_to_microlab"
+      },
+      "hallway_blind_tee": {
+        "overmap": "microlab_generic_hallway_nes",
+        "north": "hallway_to_hallway",
+        "east": "hallway_to_hallway",
+        "south": "hallway_to_hallway",
+        "west": { "id": "hallway_to_microlab", "type": "available", "alternatives": [ "microlab_to_microlab", "microlab_to_hallway" ] }
+      },
+      "hallway_corner": {
+        "overmap": "microlab_generic_hallway_ne",
+        "north": "hallway_to_hallway",
+        "east": "hallway_to_hallway",
+        "south": "hallway_to_microlab",
+        "west": "hallway_to_microlab"
+      },
+      "hallway_blind_corner": {
+        "overmap": "microlab_generic_hallway_ne",
+        "north": "hallway_to_hallway",
+        "east": "hallway_to_hallway",
+        "south": { "id": "hallway_to_microlab", "type": "available", "alternatives": [ "microlab_to_microlab", "microlab_to_hallway" ] },
+        "west": { "id": "hallway_to_microlab", "type": "available", "alternatives": [ "microlab_to_microlab", "microlab_to_hallway" ] }
+      },
+      "hallway_end": {
+        "overmap": "microlab_generic_hallway_end_south",
+        "north": "hallway_to_hallway",
+        "east": "hallway_to_microlab",
+        "south": "hallway_to_microlab",
+        "west": "hallway_to_microlab"
+      },
+      "hallway_blind_end": {
+        "overmap": "microlab_generic_hallway_blind_end_south",
+        "north": { "id": "hallway_to_hallway" },
+        "east": { "id": "hallway_to_microlab", "type": "available", "alternatives": [ "microlab_to_microlab", "microlab_to_hallway" ] },
+        "south": { "id": "hallway_to_microlab", "type": "available", "alternatives": [ "microlab_to_microlab", "microlab_to_hallway" ] },
+        "west": { "id": "hallway_to_microlab", "type": "available", "alternatives": [ "microlab_to_microlab", "microlab_to_hallway" ] }
+      }
+    },
+    "root": "surface",
+    "phases": [
+      [ { "overmap": "below_entrance", "max": 1 } ],
+      [ { "overmap": "surface_access", "max": 1 } ],
+      [
+        {
+          "name": "subway_chunk_at_-2",
+          "chunk": [
+            { "overmap": "hallway_end", "pos": [ 0, 1, 0 ], "rot": "east" },
+            { "overmap": "microlab_sub_entry", "pos": [ 0, 0, 0 ] },
+            { "overmap": "microlab_sub_station", "pos": [ 0, -1, 0 ] },
+            { "overmap": "microlab_subway", "pos": [ 0, -2, 0 ] }
+          ],
+          "max": 1
+        }
+      ],
+      [ { "overmap": "hallway_straight", "max": 3 } ],
+      [ { "overmap": "hallway_cross", "max": 1 } ],
+      [
+        { "overmap": "hallway_corner", "max": 1 },
+        { "overmap": "hallway_straight", "max": 10 },
+        { "overmap": "firebreak", "max": 1 }
+      ],
+      [
+        { "overmap": "hallway_end", "max": 2 },
+        {
+          "name": "stairs_to_-4",
+          "chunk": [
+            { "overmap": "stairs_down", "pos": [ 0, 0, 0 ] },
+            { "overmap": "stairs_middle", "pos": [ 0, 0, -1 ] },
+            { "overmap": "stairs_up", "pos": [ 0, 0, -2 ] }
+          ],
+          "max": 1
+        }
+      ],
+      [ { "overmap": "microlab", "max": 20 } ],
+      [
+        { "overmap": "microlab_edge", "weight": 1000 },
+        { "overmap": "hallway_blind_end", "weight": 10 },
+        { "overmap": "hallway_blind_corner", "weight": 1 },
+        { "overmap": "hallway_blind_straight", "weight": 1 },
+        { "overmap": "hallway_blind_tee", "weight": 1 },
+        { "overmap": "hallway_cross", "weight": 1 }
+      ],
+      [ { "overmap": "hallway_straight", "max": 3 } ],
+      [ { "overmap": "hallway_end", "max": 1 } ],
+      [
+        {
+          "name": "subway_chunk_at_-4",
+          "chunk": [
+            { "overmap": "microlab_sub_entry", "pos": [ 0, 0, 0 ] },
+            { "overmap": "microlab_sub_station", "pos": [ 0, -1, 0 ] },
+            { "overmap": "microlab_subway", "pos": [ 0, -2, 0 ] }
+          ],
+          "max": 1
+        }
+      ],
+      [ { "overmap": "microlab", "max": 10 } ],
+      [
+        { "overmap": "microlab_edge", "weight": 1000 },
+        { "overmap": "hallway_blind_end", "weight": 10 },
+        { "overmap": "hallway_corner", "weight": 1 },
+        { "overmap": "hallway_straight", "weight": 1 },
+        { "overmap": "hallway_tee", "weight": 1 },
+        { "overmap": "hallway_cross", "weight": 1 }
+      ]
+    ]
+  }
+]

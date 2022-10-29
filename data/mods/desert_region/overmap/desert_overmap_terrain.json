@@ -1,0 +1,99 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": "desert",
+    "copy-from": "generic_open_land",
+    "name": "desert",
+    "sym": ".",
+    "color": "yellow",
+    "see_cost": 2,
+    "extras": "field",
+    "spawns": { "group": "GROUP_DESERT", "population": [ 0, 1 ], "chance": 13 },
+    "mapgen": [ { "method": "builtin", "name": "field" } ],
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "sandstone",
+    "name": "sandstone",
+    "sym": "%",
+    "color": "brown",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mesa",
+    "name": "mesa",
+    "sym": "%",
+    "color": "i_brown",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mesa_air",
+    "name": "mesa",
+    "sym": "%",
+    "color": "brown",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "mesa_2way", "mesa_3way", "mesa_edge", "mesa_corner" ],
+    "name": "mesa",
+    "sym": "%",
+    "color": "brown",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "field", "canyon" ],
+    "copy-from": "generic_open_land",
+    "name": "drylands",
+    "sym": ".",
+    "color": "yellow",
+    "see_cost": 2,
+    "extras": "field",
+    "mapgen": [ { "method": "builtin", "name": "field" } ],
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mesa_air_1",
+    "name": "drylands",
+    "sym": ".",
+    "color": "yellow",
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "canyon_air", "canyon_air_surface" ],
+    "name": "canyon",
+    "sym": "/",
+    "color": "light_gray",
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "canyon_edge", "canyon_corner", "canyon_2way", "canyon_3way" ],
+    "name": "canyon",
+    "sym": "/",
+    "color": "light_gray",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "forest_water",
+    "copy-from": "generic_wetland_forest",
+    "name": "desert pavement",
+    "sym": ",",
+    "color": "dark_gray",
+    "see_cost": 2,
+    "extras": "forest_water",
+    "spawns": { "group": "GROUP_SWAMP", "population": [ 1, 4 ], "chance": 16 },
+    "mapgen": [ { "method": "builtin", "name": "forest" } ],
+    "flags": [ "NO_ROTATE" ]
+  }
+]

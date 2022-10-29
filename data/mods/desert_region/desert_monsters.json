@@ -19,7 +19,7 @@
     "melee_skill": 6,
     "melee_dice": 3,
     "melee_dice_sides": 6,
-    "melee_cut": 3,
+    "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
     "dodge": 2,
     "armor_bash": 3,
     "armor_cut": 1,
@@ -55,9 +55,7 @@
     "death_function": { "effect": { "id": "death_fungus", "hit_self": true } },
     "special_attacks": [ [ "FUNGUS", 200 ], [ "SMASH", 15 ], [ "FUNGUS_BRISTLE", 20 ], [ "FUNGUS_BIG_BLOSSOM", 30 ] ],
     "extend": { "flags": [ "POISON", "NO_BREATHE" ] },
-    "delete": {
-      "flags": [ "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CATTLEFODDER", "GROUP_MORALE", "GOODHEARING", "SWARMS" ]
-    }
+    "delete": { "flags": [ "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "GROUP_MORALE", "GOODHEARING", "SWARMS" ] }
   },
   {
     "id": "mon_zandcrawler",

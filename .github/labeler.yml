@@ -1,0 +1,170 @@
+- regExp: ".*\\.(cpp|h)+$"
+  labels: ["[C++]"]
+
+- regExp: ".*\\.json+$"
+  labels: ["[JSON]"]
+
+- regExp: ".*\\.md+$"
+  labels: ["[Markdown]"]
+
+- regExp: ".*(scores|statistics|achievements|conducts).*"
+  labels: ["Game: Achievements / Conducts / Scores"]
+
+- regExp: ".*\\.py+$"
+  labels: ["[Python]"]
+
+- regExp: ".*(\\.md|doc/|doxygen_doc/).*"
+  labels: ["<Documentation>"]
+
+- regExp: ".*(\\.github/|utilities/|tools/).*"
+  labels: ["Code: Tooling"]
+
+- regExp: ".*(tests/|data/mods/TEST_DATA/).*"
+  labels: ["Code: Tests"]
+
+- regExp: ".*(newcharacter|worldfactory).*"
+  labels: ["Character / World Generation"]
+
+- regExp: ".*(build-data/|build-scripts/|Makefile|CMakeLists.txt|\\.cmake).*"
+  labels: ["Code: Build"]
+
+- regExp: ".*(\\.astylerc|\\.clang-tidy|\\.editorconfig|\\.lgtm.yml).*"
+  labels: ["Code: Infrastructure / Style / Static Analysis"]
+
+- regExp: ".*(recipes|construction).*"
+  labels: ["Crafting / Construction / Recipes"]
+
+- regExp: ".*(effect_on_condition|eocs).*"
+  labels: ["EOC: Effects On Condition"]
+
+- regExp: ".*(fields|furniture|terrain|traps).*"
+  labels: ["Fields / Furniture / Terrain / Traps"]
+
+- regExp: ".*(food|comestibles).*"
+  labels: ["Items: Food / Vitamins"]
+
+- regExp: ".*npc.*"
+  labels: ["NPC / Factions"]
+
+- regExp: ".*(melee|tecniques).*"
+  labels: ["Melee"]
+
+- regExp: ".*mission.*"
+  labels: ["Missions"]
+
+- regExp: ".*(ui|widget|list_view|surroundings_menu).*"
+  labels: ["Info / User Interface"]
+
+- regExp: ".*(archery|crossbows).*"
+  labels: ["Items: Archery"]
+
+- regExp: ".*armor.*"
+  labels: ["Items: Armor / Clothing"]
+
+- regExp: ".*battery.*"
+  labels: ["Items: Battery / UPS"]
+
+- regExp: ".*(container|storege|sheath|holster|ammo_pouch|bandolier|pockets|contents).*"
+  labels: ["Items: Containers"]
+
+- regExp: ".*magazine.*"
+  labels: ["Items: Magazines"]
+
+- regExp: ".*appliance.*"
+  labels: ["Appliance/Power Grid"]
+
+- regExp: ".*monster.*"
+  labels: ["Monsters"]
+
+- regExp: ".*(profession|mutation|hobbies).*"
+  labels: ["Mutations / Traits / Professions/ Hobbies"]
+
+- regExp: ".*(bodypart|limb).*"
+  labels: ["Limbs"]
+
+- regExp: ".*(itemgroups|monstergroups).*"
+  labels: ["Spawn"]
+
+- regExp: ".*bionics.*"
+  labels: ["Bionics"]
+
+- regExp: ".*(mapgen|overmap).*"
+  labels: ["Map / Mapgen"]
+
+- regExp: ".*martialarts.*"
+  labels: ["Martial Arts"]
+
+- regExp: ".*(basecamp|faction_camp).*"
+  labels: ["Player Faction Base / Camp"]
+
+- regExp: ".*(gun|ammo).*"
+  labels: ["Items: Ammo / Guns"]
+
+- regExp: ".*(gunmod|toolmod).*"
+  labels: ["Items: Gunmod / Toolmod"]
+
+- regExp: ".*(gfx/|sound/).*"
+  labels: ["SDL: Tiles / Sound"]
+
+- regExp: ".*(scenario|start_location).*"
+  labels: ["Scenarios"]
+
+- regExp: ".*(lang/|translation).*"
+  labels: ["Translation"]
+
+- regExp: ".*(lang/|translation).*"
+  labels: ["Translation"]
+
+- regExp: ".*(data/mods/Aftershock/|data/mods/aftershock_exoplanet/).*"
+  labels: ["Mods: Aftershock"]
+
+- regExp: ".*data/mods/classic_zombies/.*"
+  labels: ["Mods: Dark Days of the Dead"]
+
+- regExp: ".*data/mods/Dark-Skies-Above/.*"
+  labels: ["Mods: Dark Skies"]
+
+- regExp: ".*data/mods/desert_region/.*"
+  labels: ["Mods: Desert Region"]
+
+- regExp: ".*data/mods/Dinomod/.*"
+  labels: ["Mods: Dinomod"]
+
+- regExp: ".*data/mods/Generic_Guns/.*"
+  labels: ["Mods: Generic Guns"]
+
+- regExp: ".*data/mods/MA/.*"
+  labels: ["Mods: MA"]
+
+- regExp: ".*data/mods/MMA/.*"
+  labels: ["Mods: MMA"]
+
+- regExp: ".*data/mods/Magiclysm/.*"
+  labels: ["Mods: Magiclysm"]
+
+- regExp: ".*data/mods/innawood/.*"
+  labels: ["Mods: Innawood 🌲"]
+
+- regExp: ".*data/mods/No_Hope/.*"
+  labels: ["Mods: No Hope"]
+
+- regExp: ".*data/mods/TropiCataclysm/.*"
+  labels: ["Mods: Tropi Cataclysm 🌴"]
+
+- regExp: ".*data/mods/Tamable_Wildlife/.*"
+  labels: ["Mods: Tamable Wildlife"]
+
+- regExp: ".*data/mods/Xedra_Evolved/.*"
+  labels: ["Mods: Xedra Evolved"]
+
+- regExp: ".*data/mods/.*"
+  labels: ["Mods"]
+
+- regExp: ".*spells.*"
+  labels: ["Mechanics: Enchantments / Spells"]
+
+- regExp: ".*weather.*"
+  labels: ["Mechanics: Weather"]
+
+- regExp: ".*vehicle.*"
+  labels: ["Vehicles"]

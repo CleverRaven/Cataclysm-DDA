@@ -10,7 +10,7 @@
 #include "optional.h"
 
 class Character;
-class JsonIn;
+class JsonObject;
 class JsonOut;
 struct tripoint;
 
@@ -36,7 +36,7 @@ class teleporter_list
         void translocate( const std::set<tripoint> &targets );
 
         void serialize( JsonOut &json ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &data );
 };
 
 #endif // CATA_SRC_MAGIC_TELEPORTER_LIST_H

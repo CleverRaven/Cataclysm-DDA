@@ -1,0 +1,203 @@
+[
+  {
+    "result": "helmet_nomad",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "difficulty": 5,
+    "time": "2 h",
+    "book_learn": [ [ "bp_nomad_cowl", 4 ] ],
+    "using": [ [ "sewing_standard", 65 ] ],
+    "components": [
+      [ [ "hat_ball", 1 ], [ "hat_boonie", 1 ] ],
+      [ [ "glasses_safety", 1 ], [ "glasses_bal", 1 ] ],
+      [ [ "leather", 8 ], [ "tanned_hide", 2 ] ]
+    ],
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_leatherworking" },
+      { "proficiency": "prof_closures_waterproofing" }
+    ]
+  },
+  {
+    "result": "xs_helmet_nomad",
+    "type": "recipe",
+    "copy-from": "helmet_nomad",
+    "time": "2 h",
+    "using": [ [ "sewing_standard", 48 ] ],
+    "components": [
+      [ [ "hat_ball", 1 ], [ "hat_boonie", 1 ] ],
+      [ [ "glasses_safety", 1 ], [ "glasses_bal", 1 ] ],
+      [ [ "leather", 4 ], [ "tanned_hide", 1 ] ]
+    ]
+  },
+  {
+    "result": "xl_helmet_nomad",
+    "type": "recipe",
+    "copy-from": "helmet_nomad",
+    "time": "2 h 15 m",
+    "book_learn": [ [ "bp_nomad_cowl", 7 ] ],
+    "using": [ [ "sewing_standard", 85 ] ],
+    "components": [
+      [ [ "hat_ball", 1 ], [ "hat_boonie", 1 ] ],
+      [ [ "glasses_safety", 1 ], [ "glasses_bal", 1 ] ],
+      [ [ "leather", 12 ], [ "tanned_hide", 3 ] ]
+    ]
+  },
+  {
+    "result": "armor_nomad",
+    "//": "nomad jumpsuit",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "tailor",
+    "difficulty": 5,
+    "time": "4 h 20 m",
+    "book_learn": [ [ "bp_nomad_jumpsuit", 4 ] ],
+    "using": [ [ "sewing_standard", 90 ], [ "tailoring_lycra_patchwork", 24 ], [ "tailoring_leather_patchwork", 4 ] ],
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
+    "proficiencies": [
+      { "proficiency": "prof_elastics" },
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_closures_waterproofing" },
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_leatherworking" }
+    ],
+    "components": [
+      [ [ "leather_belt", 2 ], [ "webbing_belt", 2 ] ],
+      [ [ "leather_belt", 2 ], [ "webbing_belt", 2 ] ],
+      [ [ "jumpsuit", 1 ], [ "combat_shirt", 1 ], [ "longshirt", 1 ], [ "sweatshirt", 1 ] ],
+      [ [ "pants_cargo", 1 ], [ "pants_army", 1 ] ]
+    ]
+  },
+  {
+    "result": "armor_nomad",
+    "//": "nomad jumpsuit",
+    "id_suffix": "upgrade light jumpsuit",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "tailor",
+    "difficulty": 5,
+    "time": "2 h 20 m",
+    "book_learn": [ [ "bp_nomad_jumpsuit", 4 ] ],
+    "using": [ [ "tailoring_leather_patchwork", 4 ] ],
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ],
+    "components": [ [ [ "armor_nomad_light", 1 ] ] ]
+  },
+  {
+    "result": "armor_nomad_light",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "time": "2 h 20 m",
+    "book_learn": [ [ "bp_nomad_jumpsuit", 3 ] ],
+    "using": [ [ "tailoring_lycra_patchwork", 24 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_closures_waterproofing" },
+      { "proficiency": "prof_elastics" }
+    ],
+    "components": [
+      [ [ "shorts_cargo", 1 ], [ "pants_cargo", 1 ] ],
+      [ [ "leather_belt", 2 ], [ "webbing_belt", 2 ] ],
+      [ [ "leather_belt", 2 ], [ "webbing_belt", 2 ] ],
+      [ [ "jumpsuit", 1 ], [ "combat_shirt", 1 ], [ "longshirt", 1 ], [ "sweatshirt", 1 ] ]
+    ]
+  },
+  {
+    "result": "armor_nomad_advanced",
+    "//": "advanced nomad jumpsuit",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "tailor",
+    "difficulty": 5,
+    "time": "3 h 30 m",
+    "book_learn": [ [ "bp_nomad_jumpsuit", 4 ] ],
+    "using": [ [ "sewing_standard", 90 ], [ "soldering_standard", 10 ] ],
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
+    "components": [ [ [ "armor_nomad", 1 ] ], [ [ "exodii_wire_kit", 1 ] ], [ [ "exodii_ac_kit", 1 ] ] ]
+  },
+  {
+    "result": "nomad_rig",
+    "//": "nomad harness",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "tailor",
+    "difficulty": 5,
+    "time": "5 h 30 m",
+    "book_learn": [ [ "bp_nomad_jumpsuit", 4 ] ],
+    "using": [
+      [ "sewing_standard", 90 ],
+      [ "soldering_standard", 10 ],
+      [ "tailoring_leather_small", 4 ],
+      [ "tailoring_nylon_patchwork", 4 ]
+    ],
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_leatherworking" },
+      { "proficiency": "prof_closures_waterproofing" }
+    ],
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
+    "components": [
+      [ [ "exodii_wire_kit", 1 ] ],
+      [ [ "flashlight", 1 ], [ "heavy_flashlight", 1 ] ],
+      [ [ "plastic_sheet", 2 ] ],
+      [ [ "vest", 1 ], [ "tacvest", 1 ], [ "light_load_bearing_vest", 1 ], [ "load_bearing_vest", 1 ] ],
+      [ [ "ragpouch", 2 ], [ "leather_pouch", 2 ], [ "dump_pouch", 2 ], [ "fanny", 2 ] ],
+      [ [ "tool_belt", 1 ], [ "legrig", 1 ] ]
+    ]
+  },
+  {
+    "result": "nomad_bodyglove_1",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "time": "3 h 40 m",
+    "book_learn": [ [ "bp_nomad_bodyglove", 3 ] ],
+    "using": [
+      [ "sewing_standard", 90 ],
+      [ "fastener_large", 2 ],
+      [ "tailoring_lycra_patchwork", 1 ],
+      [ "tailoring_cotton_patchwork", 1 ]
+    ],
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_closures" } ],
+    "components": [ [ [ "chunk_rubber", 2 ] ], [ [ "rubber_cement", 2 ] ] ]
+  },
+  {
+    "result": "nomad_bodyglove_2",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "tailor",
+    "difficulty": 5,
+    "time": "5 h",
+    "book_learn": [ [ "bp_nomad_bodyglove", 4 ] ],
+    "using": [
+      [ "sewing_standard", 90 ],
+      [ "fastener_large", 2 ],
+      [ "tailoring_lycra_patchwork", 1 ],
+      [ "tailoring_cotton_patchwork", 1 ]
+    ],
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_polymerworking" } ],
+    "components": [ [ [ "chunk_rubber", 2 ] ], [ [ "thread_kevlar", 20 ] ], [ [ "rubber_cement", 2 ] ] ]
+  }
+]

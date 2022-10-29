@@ -3,7 +3,7 @@
     "id": "anesthetic_kit",
     "type": "TOOL",
     "name": { "str": "anesthesia kit" },
-    "description": "A kit for inducing anesthesia for surgery, containing specialized canisters with a variety of powerful hypnotic, analgetic, and stimulative drugs.  It's intended for use in specialized medical equipment, and can't be administered manually.",
+    "description": "A kit for inducing anesthesia for surgery, containing specialized canisters with a variety of powerful hypnotic, analgesic, and stimulative drugs.  It's intended for use in specialized medical equipment, and can't be administered manually.",
     "weight": "100 g",
     "volume": "3250 ml",
     "price": 1000,
@@ -17,55 +17,18 @@
     "pocket_data": [ { "watertight": true, "rigid": true, "pocket_type": "MAGAZINE", "ammo_restriction": { "anesthetic": 6000 } } ]
   },
   {
-    "id": "autoclave",
-    "type": "TOOL",
-    "name": { "str": "autoclave" },
-    "description": "This is an autoclave.  It's useful for sterilizing things like CBMs.  It requires a massive amount of power, so standard batteries will not power it sufficiently.",
-    "weight": "34500 g",
-    "volume": "76 L",
-    "price": 162654,
-    "price_postapoc": 2000,
-    "to_hit": -6,
-    "bashing": 10,
-    "material": [ "steel" ],
-    "symbol": "A",
-    "color": "yellow",
-    "use_action": [ "AUTOCLAVE" ],
-    "flags": [ "ALLOWS_REMOTE_USE" ],
-    "power_draw": 1500000,
-    "looks_like": "microwave",
-    "ammo": [ "battery" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "heavy_plus_battery_cell", "heavy_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ]
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "flag_restriction": [ "CBM" ]
-      }
-    ]
-  },
-  {
     "id": "inhaler",
     "type": "TOOL",
     "category": "drugs",
     "name": { "str": "inhaler" },
     "description": "Albuterol inhaler.  Used in the treatment of bronchospasm, it is a lifeline for people with asthma.  A mild stimulant, it may cause nervousness or tremors.",
     "weight": "85 g",
-    "volume": "250 ml",
+    "volume": "100 ml",
     "price": 5000,
     "price_postapoc": 750,
     "material": [ "plastic" ],
     "symbol": "!",
     "color": "light_blue",
-    "initial_charges": 100,
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE",
@@ -75,7 +38,6 @@
         "ammo_restriction": { "albuterol": 100 }
       }
     ],
-    "max_charges": 100,
     "charges_per_use": 1,
     "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
     "use_action": [ "INHALER" ]
@@ -93,9 +55,7 @@
     "symbol": ",",
     "color": "light_gray",
     "ammo": [ "ampoule" ],
-    "initial_charges": 2,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ampoule": 2 } } ],
-    "max_charges": 2,
     "charges_per_use": 1,
     "use_action": [ "JET_INJECTOR" ]
   },
@@ -115,7 +75,7 @@
     "material": [ "steel" ],
     "symbol": ",",
     "color": "light_gray",
-    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 3 ], [ "BUTCHER", 8 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 3 ], [ "BUTCHER", 8 ], [ "FABRIC_CUT", 1 ] ],
     "flags": [ "FRAGILE_MELEE" ]
   },
   {
@@ -130,14 +90,12 @@
     "price_postapoc": 250,
     "to_hit": -3,
     "bashing": 6,
-    "material": [ "aluminum", "plastic" ],
+    "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "initial_charges": 12,
     "pocket_data": [
       { "pocket_type": "MAGAZINE", "airtight": true, "watertight": true, "rigid": true, "ammo_restriction": { "oxygen": 12 } }
     ],
-    "max_charges": 12,
     "charges_per_use": 1,
     "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
     "use_action": [ "OXYGEN_BOTTLE" ]
@@ -150,11 +108,14 @@
     "weight": "4240 mg",
     "volume": "10ml",
     "longest_side": "10 cm",
+    "cutting": 1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "point", "balance": "neutral" },
     "price": 2500,
     "price_postapoc": 10,
     "material": [ "plastic" ],
     "symbol": ",",
-    "color": "white"
+    "color": "white",
+    "flags": [ "FRAGILE_MELEE", "STAB" ]
   },
   {
     "id": "thermometer",
@@ -162,8 +123,8 @@
     "category": "tools",
     "name": { "str": "thermometer" },
     "description": "A plastic thermometer that can read the air temperature.",
-    "weight": "1 g",
-    "volume": "250 ml",
+    "weight": "10 g",
+    "volume": "25 ml",
     "price": 100,
     "price_postapoc": 10,
     "to_hit": -3,
@@ -189,11 +150,9 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "initial_charges": 24,
     "pocket_data": [
       { "pocket_type": "MAGAZINE", "airtight": true, "watertight": true, "rigid": true, "ammo_restriction": { "oxygen": 24 } }
     ],
-    "max_charges": 24,
     "charges_per_use": 1,
     "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
     "use_action": [ "OXYGEN_BOTTLE" ]
@@ -230,10 +189,10 @@
     "type": "TOOL",
     "name": { "str": "wrapped radiation badge" },
     "description": "This is a badge that detects radiation dosage sealed in a radiation-blocking bag.  Use it to remove it from the bag.",
-    "weight": "20 g",
-    "volume": "15 ml",
-    "price": 1000,
-    "price_postapoc": 100,
+    "weight": "25 g",
+    "volume": "25 ml",
+    "price": 8000,
+    "price_postapoc": 500,
     "material": [ "plastic" ],
     "symbol": ",",
     "color": "light_blue",

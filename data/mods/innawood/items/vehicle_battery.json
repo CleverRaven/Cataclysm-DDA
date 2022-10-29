@@ -1,0 +1,42 @@
+[
+  {
+    "id": "battery_car_clay",
+    "type": "MAGAZINE",
+    "category": "veh_parts",
+    "name": { "str": "clay car battery", "str_pl": "clay car batteries" },
+    "description": "A 12V lead-acid battery used to power car electrical systems, contained in a clay shell.",
+    "looks_like": "clay_hydria",
+    "weight": "18000 g",
+    "volume": "6250 ml",
+    "price": 4000,
+    "price_postapoc": 500,
+    "material": [ "clay" ],
+    "symbol": ":",
+    "color": "light_cyan",
+    "ammo_type": [ "battery" ],
+    "capacity": 2500,
+    "//": "58Ah @ 12VDC. Could supply ~700 watts for an hour",
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "RECHARGE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 2500 } } ]
+  },
+  {
+    "id": "battery_clay_array",
+    "type": "MAGAZINE",
+    "category": "veh_parts",
+    "name": { "str": "clay battery array" },
+    "description": "A set of 4 clay car batteries wired together in series in a simple wooden frame.",
+    "looks_like": "clay_hydria",
+    "weight": "82400 g",
+    "volume": "26 L",
+    "price": 4000,
+    "price_postapoc": 500,
+    "material": [ "clay", "wood" ],
+    "symbol": ":",
+    "color": "light_cyan",
+    "ammo_type": [ "battery" ],
+    "capacity": 10000,
+    "//": "4 batteries in a box",
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "RECHARGE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 10000 } } ]
+  }
+]

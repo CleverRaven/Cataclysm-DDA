@@ -15,6 +15,7 @@
 #include "character.h"
 #include "color.h"
 #include "creature.h"
+#include "creature_tracker.h"
 #include "cursesdef.h"
 #include "damage.h"
 #include "debug.h"
@@ -24,7 +25,6 @@
 #include "event_bus.h"
 #include "field.h"
 #include "flat_set.h"
-#include "game.h"
 #include "generic_factory.h"
 #include "input.h"
 #include "inventory.h"
@@ -38,6 +38,7 @@
 #include "messages.h"
 #include "mongroup.h"
 #include "monster.h"
+#include "monstergenerator.h"
 #include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
@@ -52,6 +53,12 @@
 #include "translations.h"
 #include "ui.h"
 #include "units.h"
+
+static const json_character_flag json_flag_NO_SPELLCASTING( "NO_SPELLCASTING" );
+static const json_character_flag json_flag_SILENT_SPELL( "SILENT_SPELL" );
+static const json_character_flag json_flag_SUBTLE_SPELL( "SUBTLE_SPELL" );
+
+static const skill_id skill_spellcraft( "spellcraft" );
 
 static const trait_id trait_NONE( "NONE" );
 
@@ -95,8 +102,7 @@ std::string enum_to_string<spell_target>( spell_target data )
         case spell_target::field: return "field";
         case spell_target::num_spell_targets: break;
     }
-    debugmsg( "Invalid valid_target" );
-    abort();
+    cata_fatal( "Invalid valid_target" );
 }
 template<>
 std::string enum_to_string<spell_shape>( spell_shape data )
@@ -107,14 +113,15 @@ std::string enum_to_string<spell_shape>( spell_shape data )
         case spell_shape::line: return "line";
         case spell_shape::num_shapes: break;
     }
-    debugmsg( "Invalid spell_shape" );
-    abort();
+    cata_fatal( "Invalid spell_shape" );
 }
 template<>
 std::string enum_to_string<spell_flag>( spell_flag data )
 {
     switch( data ) {
         case spell_flag::PERMANENT: return "PERMANENT";
+        case spell_flag::PERMANENT_ALL_LEVELS: return "PERMANENT_ALL_LEVELS";
+        case spell_flag::PERCENTAGE_DAMAGE: return "PERCENTAGE_DAMAGE";
         case spell_flag::IGNORE_WALLS: return "IGNORE_WALLS";
         case spell_flag::NO_PROJECTILE: return "NO_PROJECTILE";
         case spell_flag::HOSTILE_SUMMON: return "HOSTILE_SUMMON";
@@ -122,12 +129,14 @@ std::string enum_to_string<spell_flag>( spell_flag data )
         case spell_flag::FRIENDLY_POLY: return "FRIENDLY_POLY";
         case spell_flag::POLYMORPH_GROUP: return "POLYMORPH_GROUP";
         case spell_flag::SILENT: return "SILENT";
+        case spell_flag::NO_EXPLOSION_SFX: return "NO_EXPLOSION_SFX";
         case spell_flag::LOUD: return "LOUD";
         case spell_flag::VERBAL: return "VERBAL";
         case spell_flag::SOMATIC: return "SOMATIC";
         case spell_flag::NO_HANDS: return "NO_HANDS";
         case spell_flag::NO_LEGS: return "NO_LEGS";
         case spell_flag::UNSAFE_TELEPORT: return "UNSAFE_TELEPORT";
+        case spell_flag::TARGET_TELEPORT: return "TARGET_TELEPORT";
         case spell_flag::SWAP_POS: return "SWAP_POS";
         case spell_flag::CONCENTRATE: return "CONCENTRATE";
         case spell_flag::RANDOM_AOE: return "RANDOM_AOE";
@@ -142,11 +151,13 @@ std::string enum_to_string<spell_flag>( spell_flag data )
         case spell_flag::IGNITE_FLAMMABLE: return "IGNITE_FLAMMABLE";
         case spell_flag::NO_FAIL: return "NO_FAIL";
         case spell_flag::WONDER: return "WONDER";
+        case spell_flag::EXTRA_EFFECTS_FIRST: return "EXTRA_EFFECTS_FIRST";
         case spell_flag::MUST_HAVE_CLASS_TO_LEARN: return "MUST_HAVE_CLASS_TO_LEARN";
+        case spell_flag::SPAWN_WITH_DEATH_DROPS: return "SPAWN_WITH_DEATH_DROPS";
+        case spell_flag::NON_MAGICAL: return "NON_MAGICAL";
         case spell_flag::LAST: break;
     }
-    debugmsg( "Invalid spell_flag" );
-    abort();
+    cata_fatal( "Invalid spell_flag" );
 }
 template<>
 std::string enum_to_string<magic_energy_type>( magic_energy_type data )
@@ -159,8 +170,7 @@ std::string enum_to_string<magic_energy_type>( magic_energy_type data )
     case magic_energy_type::stamina: return "STAMINA";
     case magic_energy_type::last: break;
     }
-    debugmsg( "Invalid magic_energy_type" );
-    abort();
+    cata_fatal( "Invalid magic_energy_type" );
 }
 // *INDENT-ON*
 
@@ -171,11 +181,11 @@ const int fake_spell::level_default = 0;
 const bool fake_spell::self_default = false;
 const int fake_spell::trigger_once_in_default = 1;
 
-const skill_id spell_type::skill_default = skill_id( "spellcraft" );
+const skill_id spell_type::skill_default = skill_spellcraft;
 // empty string
 const requirement_id spell_type::spell_components_default;
 const translation spell_type::message_default = to_translation( "You cast %s!" );
-const translation spell_type::sound_description_default = to_translation( "an explosion" );
+const translation spell_type::sound_description_default = to_translation( "an explosion." );
 const sounds::sound_t spell_type::sound_type_default = sounds::sound_t::combat;
 const bool spell_type::sound_ambient_default = false;
 // empty string
@@ -189,6 +199,9 @@ const int spell_type::min_field_intensity_default = 0;
 const int spell_type::max_field_intensity_default = 0;
 const float spell_type::field_intensity_increment_default = 0.0f;
 const float spell_type::field_intensity_variance_default = 0.0f;
+const int spell_type::min_accuracy_default = 20;
+const float spell_type::accuracy_increment_default = 0.0f;
+const int spell_type::max_accuracy_default = 20;
 const int spell_type::min_damage_default = 0;
 const float spell_type::damage_increment_default = 0.0f;
 const int spell_type::max_damage_default = 0;
@@ -209,7 +222,7 @@ const float spell_type::pierce_increment_default = 0.0f;
 const int spell_type::max_pierce_default = 0;
 const int spell_type::base_energy_cost_default = 0;
 const float spell_type::energy_increment_default = 0.0f;
-const trait_id spell_type::spell_class_default = trait_id( "NONE" );
+const trait_id spell_type::spell_class_default = trait_NONE;
 const magic_energy_type spell_type::energy_source_default = magic_energy_type::none;
 const damage_type spell_type::dmg_type_default = damage_type::NONE;
 const int spell_type::difficulty_default = 0;
@@ -245,7 +258,7 @@ void spell_type::load_spell( const JsonObject &jo, const std::string &src )
 static std::string moves_to_string( const int moves )
 {
     if( moves < to_moves<int>( 2_seconds ) ) {
-        return string_format( _( "%d moves" ), moves );
+        return string_format( n_gettext( "%d move", "%d moves", moves ), moves );
     } else {
         return to_string( time_duration::from_moves( moves ) );
     }
@@ -253,7 +266,6 @@ static std::string moves_to_string( const int moves )
 
 void spell_type::load( const JsonObject &jo, const std::string & )
 {
-    mandatory( jo, was_loaded, "id", id );
     mandatory( jo, was_loaded, "name", name );
     mandatory( jo, was_loaded, "description", description );
     optional( jo, was_loaded, "skill", skill, skill_default );
@@ -275,9 +287,13 @@ void spell_type::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "shape", spell_area );
     spell_area_function = spell_effect::shape_map.at( spell_area );
 
-    const auto targeted_monster_ids_reader = auto_flags_reader<mtype_id> {};
+    const auto targeted_monster_ids_reader = string_id_reader<::mtype> {};
     optional( jo, was_loaded, "targeted_monster_ids", targeted_monster_ids,
               targeted_monster_ids_reader );
+
+    const auto targeted_monster_species_reader = string_id_reader<::species_type> {};
+    optional( jo, was_loaded, "targeted_monster_species", targeted_species_ids,
+              targeted_monster_species_reader );
 
     const auto trigger_reader = enum_flags_reader<spell_target> { "valid_targets" };
     mandatory( jo, was_loaded, "valid_targets", valid_targets, trigger_reader );
@@ -291,7 +307,10 @@ void spell_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "effect_str", effect_str, effect_str_default );
 
     std::string field_input;
-    optional( jo, was_loaded, "field_id", field_input, "none" );
+    // Because the field this is loading into is not part of this type,
+    // the default value will not be supplied when using copy-from if we pass was_loaded
+    // So just pass false instead
+    optional( jo, false, "field_id", field_input, "none" );
     if( field_input != "none" ) {
         field = field_type_id( field_input );
     }
@@ -302,6 +321,10 @@ void spell_type::load( const JsonObject &jo, const std::string & )
               field_intensity_increment_default );
     optional( jo, was_loaded, "field_intensity_variance", field_intensity_variance,
               field_intensity_variance_default );
+
+    optional( jo, was_loaded, "min_accuracy", min_accuracy, min_accuracy_default );
+    optional( jo, was_loaded, "accuracy_increment", accuracy_increment, accuracy_increment_default );
+    optional( jo, was_loaded, "max_accuracy", max_accuracy, max_accuracy_default );
 
     optional( jo, was_loaded, "min_damage", min_damage, min_damage_default );
     optional( jo, was_loaded, "damage_increment", damage_increment, damage_increment_default );
@@ -370,6 +393,7 @@ void spell_type::serialize( JsonOut &json ) const
     json.member( "sound_id", sound_id, sound_id_default );
     json.member( "sound_variant", sound_variant, sound_variant_default );
     json.member( "targeted_monster_ids", targeted_monster_ids, std::set<mtype_id> {} );
+    json.member( "targeted_monster_species", targeted_species_ids, std::set<species_id> {} );
     json.member( "extra_effects", additional_spells, std::vector<fake_spell> {} );
     if( !affected_bps.none() ) {
         json.member( "affected_body_parts", affected_bps );
@@ -388,6 +412,9 @@ void spell_type::serialize( JsonOut &json ) const
     json.member( "min_damage", min_damage, min_damage_default );
     json.member( "max_damage", max_damage, max_damage_default );
     json.member( "damage_increment", damage_increment, damage_increment_default );
+    json.member( "min_accuracy", min_accuracy, min_accuracy_default );
+    json.member( "accuracy_increment", accuracy_increment, accuracy_increment_default );
+    json.member( "max_accuracy", max_accuracy, max_accuracy_default );
     json.member( "min_range", min_range, min_range_default );
     json.member( "max_range", max_range, min_range_default );
     json.member( "range_increment", range_increment, range_increment_default );
@@ -416,6 +443,7 @@ void spell_type::serialize( JsonOut &json ) const
     json.member( "base_casting_time", base_casting_time, base_casting_time_default );
     json.member( "final_casting_time", final_casting_time, base_casting_time );
     json.member( "casting_time_increment", casting_time_increment, casting_time_increment_default );
+
     if( !learn_spells.empty() ) {
         json.member( "learn_spells" );
         json.start_object();
@@ -596,6 +624,21 @@ int spell::damage() const
     }
 }
 
+int spell::min_leveled_accuracy() const
+{
+    return type->min_accuracy + std::round( get_level() * type->accuracy_increment );
+}
+
+int spell::accuracy() const
+{
+    const int leveled_accuracy = min_leveled_accuracy();
+    if( type->min_accuracy >= 0 || type->max_accuracy >= type->min_accuracy ) {
+        return std::min( leveled_accuracy, type->max_accuracy );
+    } else { // if it's negative, min and max work differently
+        return std::max( leveled_accuracy, type->max_accuracy );
+    }
+}
+
 int spell::min_leveled_dot() const
 {
     return type->min_dot + std::round( get_level() * type->dot_increment );
@@ -623,16 +666,74 @@ damage_over_time_data spell::damage_over_time( const std::vector<bodypart_str_id
 
 std::string spell::damage_string() const
 {
+    std::string damage_string;
     if( has_flag( spell_flag::RANDOM_DAMAGE ) ) {
-        return string_format( "%d-%d", min_leveled_damage(), type->max_damage );
+        damage_string = string_format( "%d-%d", min_leveled_damage(), type->max_damage );
     } else {
         const int dmg = damage();
         if( dmg >= 0 ) {
-            return string_format( "%d", dmg );
+            damage_string = string_format( "%d", dmg );
         } else {
-            return string_format( "+%d", std::abs( dmg ) );
+            damage_string = string_format( "+%d", std::abs( dmg ) );
         }
     }
+    if( has_flag( spell_flag::PERCENTAGE_DAMAGE ) ) {
+        damage_string = string_format( "%s%% %s", damage_string, _( "of current HP" ) );
+    }
+    return damage_string;
+}
+
+cata::optional<tripoint> spell::select_target( Creature *source )
+{
+    tripoint target = source->pos();
+    bool target_is_valid = false;
+    if( range() > 0 && !is_valid_target( spell_target::none ) &&
+        !has_flag( spell_flag::RANDOM_TARGET ) ) {
+        if( source->is_avatar() ) {
+            do {
+                avatar &source_avatar = *source->as_avatar();
+                std::vector<tripoint> trajectory = target_handler::mode_spell( source_avatar, *this,
+                                                   true,
+                                                   true );
+                if( !trajectory.empty() ) {
+                    target = trajectory.back();
+                    target_is_valid = is_valid_target( source_avatar, target );
+                    if( !( is_valid_target( spell_target::ground ) || source_avatar.sees( target ) ) ) {
+                        target_is_valid = false;
+                    }
+                } else {
+                    target_is_valid = false;
+                }
+                if( !target_is_valid ) {
+                    if( query_yn( _( "Stop targeting?  Time spent will be lost." ) ) ) {
+                        return cata::nullopt;
+                    }
+                }
+            } while( !target_is_valid );
+        } else if( source->is_npc() ) {
+            npc &source_npc = *source->as_npc();
+            npc_attack_spell npc_spell( id() );
+            // recalculate effectiveness because it's been a few turns since the npc started casting.
+            const npc_attack_rating effectiveness = npc_spell.evaluate( source_npc,
+                                                    source_npc.last_target.lock().get() );
+            if( effectiveness < 0 ) {
+                add_msg_debug( debugmode::debug_filter::DF_NPC, "%s cancels casting %s, target lost",
+                               source_npc.disp_name(), name() );
+                return cata::nullopt;
+            } else {
+                target = effectiveness.target();
+            }
+        } // TODO: move monster spell attack targeting here
+    } else if( has_flag( spell_flag::RANDOM_TARGET ) ) {
+        const cata::optional<tripoint> target_ = random_valid_target( *source, source->pos() );
+        if( !target_ ) {
+            source->add_msg_if_player( game_message_params{ m_bad, gmf_bypass_cooldown },
+                                       _( "You can't find a suitable target." ) );
+            return cata::nullopt;
+        }
+        target = *target_;
+    }
+    return target;
 }
 
 int spell::min_leveled_aoe() const
@@ -759,7 +860,8 @@ std::string spell::duration_string() const
     if( has_flag( spell_flag::RANDOM_DURATION ) ) {
         return string_format( "%s - %s", moves_to_string( min_leveled_duration() ),
                               moves_to_string( type->max_duration ) );
-    } else if( has_flag( spell_flag::PERMANENT ) && ( is_max_level() || effect() == "summon" ) ) {
+    } else if( ( has_flag( spell_flag::PERMANENT ) && ( is_max_level() || effect() == "summon" ) ) ||
+               has_flag( spell_flag::PERMANENT_ALL_LEVELS ) ) {
         return _( "Permanent" );
     } else {
         return moves_to_string( duration() );
@@ -820,7 +922,7 @@ int spell::energy_cost( const Character &guy ) const
     if( !has_flag( spell_flag::NO_HANDS ) ) {
         // the first 10 points of combined encumbrance is ignored, but quickly adds up
         const int hands_encumb = std::max( 0,
-                                           guy.encumb( bodypart_id( "hand_l" ) ) + guy.encumb( bodypart_id( "hand_r" ) ) - 10 );
+                                           guy.avg_encumb_of_limb_type( body_part_type::type::hand ) - 5 );
         switch( type->energy_source ) {
             default:
                 cost += 10 * hands_encumb;
@@ -848,7 +950,7 @@ bool spell::is_spell_class( const trait_id &mid ) const
 
 bool spell::can_cast( const Character &guy ) const
 {
-    if( guy.has_trait_flag( STATIC( json_character_flag( "NO_SPELLCASTING" ) ) ) ) {
+    if( guy.has_flag( json_flag_NO_SPELLCASTING ) ) {
         return false;
     }
 
@@ -889,7 +991,7 @@ bool spell::check_if_component_in_hand( Character &guy ) const
     const requirement_data &spell_components = type->spell_components.obj();
 
     if( guy.has_weapon() ) {
-        if( spell_components.can_make_with_inventory( guy.weapon, return_true<item> ) ) {
+        if( spell_components.can_make_with_inventory( *guy.get_wielded_item(), return_true<item> ) ) {
             return true;
         }
     }
@@ -925,13 +1027,13 @@ int spell::casting_time( const Character &guy, bool ignore_encumb ) const
         if( !has_flag( spell_flag::NO_LEGS ) ) {
             // the first 20 points of encumbrance combined is ignored
             const int legs_encumb = std::max( 0,
-                                              guy.encumb( bodypart_id( "leg_l" ) ) + guy.encumb( bodypart_id( "leg_r" ) ) - 20 );
+                                              guy.avg_encumb_of_limb_type( body_part_type::type::leg ) - 10 );
             casting_time += legs_encumb * 3;
         }
         if( has_flag( spell_flag::SOMATIC ) ) {
             // the first 20 points of encumbrance combined is ignored
             const int arms_encumb = std::max( 0,
-                                              guy.encumb( bodypart_id( "arm_l" ) ) + guy.encumb( bodypart_id( "arm_r" ) ) - 20 );
+                                              guy.avg_encumb_of_limb_type( body_part_type::type::arm ) - 10 );
             casting_time += arms_encumb * 2;
         }
     }
@@ -981,17 +1083,18 @@ float spell::spell_fail( const Character &guy ) const
     }
     float fail_chance = std::pow( ( effective_skill - 30.0f ) / 30.0f, 2 );
     if( has_flag( spell_flag::SOMATIC ) &&
-        !guy.has_trait_flag( STATIC( json_character_flag( "SUBTLE_SPELL" ) ) ) ) {
+        !guy.has_flag( json_flag_SUBTLE_SPELL ) ) {
         // the first 20 points of encumbrance combined is ignored
         const int arms_encumb = std::max( 0,
-                                          guy.encumb( bodypart_id( "arm_l" ) ) + guy.encumb( bodypart_id( "arm_r" ) ) - 20 );
+                                          guy.avg_encumb_of_limb_type( body_part_type::type::arm ) - 10 );
         // each encumbrance point beyond the "gray" color counts as half an additional fail %
         fail_chance += arms_encumb / 200.0f;
     }
     if( has_flag( spell_flag::VERBAL ) &&
-        !guy.has_trait_flag( STATIC( json_character_flag( "SILENT_SPELL" ) ) ) ) {
+        !guy.has_flag( json_flag_SILENT_SPELL ) ) {
         // a little bit of mouth encumbrance is allowed, but not much
-        const int mouth_encumb = std::max( 0, guy.encumb( bodypart_id( "mouth" ) ) - 5 );
+        const int mouth_encumb = std::max( 0,
+                                           guy.avg_encumb_of_limb_type( body_part_type::type::mouth ) - 5 );
         fail_chance += mouth_encumb / 100.0f;
     }
     // concentration spells work better than you'd expect with a higher focus pool
@@ -1191,7 +1294,7 @@ bool spell::is_valid_target( spell_target t ) const
 bool spell::is_valid_target( const Creature &caster, const tripoint &p ) const
 {
     bool valid = false;
-    if( Creature *const cr = g->critter_at<Creature>( p ) ) {
+    if( Creature *const cr = get_creature_tracker().creature_at<Creature>( p ) ) {
         Creature::Attitude cr_att = cr->attitude_to( caster );
         valid = valid || ( cr_att != Creature::Attitude::FRIENDLY &&
                            is_valid_target( spell_target::hostile ) );
@@ -1200,6 +1303,7 @@ bool spell::is_valid_target( const Creature &caster, const tripoint &p ) const
                            p != caster.pos() );
         valid = valid || ( is_valid_target( spell_target::self ) && p == caster.pos() );
         valid = valid && target_by_monster_id( p );
+        valid = valid && target_by_species_id( p );
     } else {
         valid = is_valid_target( spell_target::ground );
     }
@@ -1212,9 +1316,25 @@ bool spell::target_by_monster_id( const tripoint &p ) const
         return true;
     }
     bool valid = false;
-    if( monster *const target = g->critter_at<monster>( p ) ) {
+    if( monster *const target = get_creature_tracker().creature_at<monster>( p ) ) {
         if( type->targeted_monster_ids.find( target->type->id ) != type->targeted_monster_ids.end() ) {
             valid = true;
+        }
+    }
+    return valid;
+}
+
+bool spell::target_by_species_id( const tripoint &p ) const
+{
+    if( type->targeted_species_ids.empty() ) {
+        return true;
+    }
+    bool valid = false;
+    if( monster *const target = get_creature_tracker().creature_at<monster>( p ) ) {
+        for( const species_id &spid : type->targeted_species_ids ) {
+            if( target->type->in_species( spid ) ) {
+                valid = true;
+            }
         }
     }
     return valid;
@@ -1317,7 +1437,7 @@ int spell::casting_exp( const Character &guy ) const
     // the amount of xp you would get with no modifiers
     const int base_casting_xp = 75;
 
-    return std::round( guy.adjust_for_focus( base_casting_xp * exp_modifier( guy ) ) / 100.0 );
+    return std::round( guy.adjust_for_focus( base_casting_xp * exp_modifier( guy ) ) );
 }
 
 std::string spell::enumerate_targets() const
@@ -1360,6 +1480,22 @@ std::string spell::list_targeted_monster_names() const
     all_valid_monster_names.erase( std::unique( all_valid_monster_names.begin(),
                                    all_valid_monster_names.end() ), all_valid_monster_names.end() );
     std::string ret = enumerate_as_string( all_valid_monster_names );
+    return ret;
+}
+
+std::string spell::list_targeted_species_names() const
+{
+    if( type->targeted_species_ids.empty() ) {
+        return "";
+    }
+    std::vector<std::string> all_valid_species_names;
+    for( const species_id &specie_id : type->targeted_species_ids ) {
+        all_valid_species_names.emplace_back( specie_id.str() );
+    }
+    //remove repeat names
+    all_valid_species_names.erase( std::unique( all_valid_species_names.begin(),
+                                   all_valid_species_names.end() ), all_valid_species_names.end() );
+    std::string ret = enumerate_as_string( all_valid_species_names );
     return ret;
 }
 
@@ -1411,11 +1547,12 @@ vproto_id spell::summon_vehicle_id() const
 
 int spell::heal( const tripoint &target ) const
 {
-    monster *const mon = g->critter_at<monster>( target );
+    creature_tracker &creatures = get_creature_tracker();
+    monster *const mon = creatures.creature_at<monster>( target );
     if( mon ) {
         return mon->heal( -damage() );
     }
-    Character *const p = g->critter_at<Character>( target );
+    Character *const p = creatures.creature_at<Character>( target );
     if( p ) {
         p->healall( -damage() );
         return -damage();
@@ -1459,21 +1596,30 @@ void spell::cast_all_effects( Creature &source, const tripoint &target ) const
             }
         }
     } else {
-        // first call the effect of the main spell
-        cast_spell_effect( source, target );
-        for( const fake_spell &extra_spell : type->additional_spells ) {
-            spell sp = extra_spell.get_spell( get_level() );
-            if( sp.has_flag( spell_flag::RANDOM_TARGET ) ) {
-                if( const cata::optional<tripoint> new_target = sp.random_valid_target( source,
-                        extra_spell.self ? source.pos() : target ) ) {
-                    sp.cast_all_effects( source, *new_target );
-                }
+        if( has_flag( spell_flag::EXTRA_EFFECTS_FIRST ) ) {
+            cast_extra_spell_effects( source, target );
+            cast_spell_effect( source, target );
+        } else {
+            cast_spell_effect( source, target );
+            cast_extra_spell_effects( source, target );
+        }
+    }
+}
+
+void spell::cast_extra_spell_effects( Creature &source, const tripoint &target ) const
+{
+    for( const fake_spell &extra_spell : type->additional_spells ) {
+        spell sp = extra_spell.get_spell( get_level() );
+        if( sp.has_flag( spell_flag::RANDOM_TARGET ) ) {
+            if( const cata::optional<tripoint> new_target = sp.random_valid_target( source,
+                    extra_spell.self ? source.pos() : target ) ) {
+                sp.cast_all_effects( source, *new_target );
+            }
+        } else {
+            if( extra_spell.self ) {
+                sp.cast_all_effects( source, source.pos() );
             } else {
-                if( extra_spell.self ) {
-                    sp.cast_all_effects( source, source.pos() );
-                } else {
-                    sp.cast_all_effects( source, target );
-                }
+                sp.cast_all_effects( source, target );
             }
         }
     }
@@ -1487,10 +1633,11 @@ cata::optional<tripoint> spell::random_valid_target( const Creature &caster,
     spell_effect::override_parameters blast_params( *this );
     // we want to pick a random target within range, not aoe
     blast_params.aoe_radius = range();
+    creature_tracker &creatures = get_creature_tracker();
     for( const tripoint &target : spell_effect::spell_effect_blast(
              blast_params, caster_pos, caster_pos ) ) {
         if( target != caster_pos && is_valid_target( caster, target ) &&
-            ( !ignore_ground || g->critter_at<Creature>( target ) ) ) {
+            ( !ignore_ground || creatures.creature_at<Creature>( target ) ) ) {
             valid_area.emplace( target );
         }
     }
@@ -1528,9 +1675,8 @@ void known_magic::serialize( JsonOut &json ) const
     json.end_object();
 }
 
-void known_magic::deserialize( JsonIn &jsin )
+void known_magic::deserialize( const JsonObject &data )
 {
-    JsonObject data = jsin.get_object();
     data.read( "mana", mana );
 
     for( JsonObject jo : data.get_array( "spellbook" ) ) {
@@ -1640,6 +1786,46 @@ void known_magic::forget_spell( const spell_id &sp )
     // TODO: add parameter for owner of known_magic for this function
     get_event_bus().send<event_type::character_forgets_spell>( get_player_character().getID(), sp->id );
     spellbook.erase( sp );
+}
+
+void known_magic::set_spell_level( const spell_id &sp, int new_level, const Character *guy )
+{
+    spell temp_spell( sp->id );
+    if( !knows_spell( sp ) ) {
+        if( new_level >= 0 ) {
+            temp_spell.set_level( new_level );
+            spellbook.emplace( sp->id, spell( temp_spell ) );
+            get_event_bus().send<event_type::character_learns_spell>( guy->getID(), sp->id );
+        }
+    } else {
+        if( new_level >= 0 ) {
+            spell &temp_sp = get_spell( sp );
+            temp_sp.set_level( new_level );
+        } else {
+            get_event_bus().send<event_type::character_forgets_spell>( guy->getID(), sp->id );
+            spellbook.erase( sp );
+        }
+    }
+}
+
+void known_magic::set_spell_exp( const spell_id &sp, int new_exp, const Character *guy )
+{
+    spell temp_spell( sp->id );
+    if( !knows_spell( sp ) ) {
+        if( new_exp >= 0 ) {
+            temp_spell.set_exp( new_exp );
+            spellbook.emplace( sp->id, spell( temp_spell ) );
+            get_event_bus().send<event_type::character_learns_spell>( guy->getID(), sp->id );
+        }
+    } else {
+        if( new_exp >= 0 ) {
+            spell &temp_sp = get_spell( sp );
+            temp_sp.set_exp( new_exp );
+        } else {
+            get_event_bus().send<event_type::character_forgets_spell>( guy->getID(), sp->id );
+            spellbook.erase( sp );
+        }
+    }
 }
 
 bool known_magic::can_learn_spell( const Character &guy, const spell_id &sp ) const
@@ -1848,13 +2034,11 @@ bool spell_desc::casting_time_encumbered( const spell &sp, const Character &guy 
     int encumb = 0;
     if( !sp.has_flag( spell_flag::NO_LEGS ) ) {
         // the first 20 points of encumbrance combined is ignored
-        encumb += std::max( 0, guy.encumb( bodypart_id( "leg_l" ) ) + guy.encumb(
-                                bodypart_id( "leg_r" ) ) - 20 );
+        encumb += std::max( 0, guy.avg_encumb_of_limb_type( body_part_type::type::leg ) - 10 );
     }
     if( sp.has_flag( spell_flag::SOMATIC ) ) {
         // the first 20 points of encumbrance combined is ignored
-        encumb += std::max( 0, guy.encumb( bodypart_id( "arm_l" ) ) + guy.encumb(
-                                bodypart_id( "arm_r" ) ) - 20 );
+        encumb += std::max( 0, guy.avg_encumb_of_limb_type( body_part_type::type::arm ) - 10 );
     }
     return encumb > 0;
 }
@@ -1862,8 +2046,7 @@ bool spell_desc::casting_time_encumbered( const spell &sp, const Character &guy 
 bool spell_desc::energy_cost_encumbered( const spell &sp, const Character &guy )
 {
     if( !sp.has_flag( spell_flag::NO_HANDS ) ) {
-        return std::max( 0, guy.encumb( bodypart_id( "hand_l" ) ) + guy.encumb(
-                             bodypart_id( "hand_r" ) ) - 10 ) >
+        return std::max( 0, guy.avg_encumb_of_limb_type( body_part_type::type:: hand ) - 5 ) >
                0;
     }
     return false;
@@ -2019,7 +2202,7 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
             }
             aoe_string = string_format( "%s: %d %s", aoe_string_temp, sp.aoe(), degree_string );
         }
-    } else if( fx == "teleport_random" ) {
+    } else if( fx == "short_range_teleport" ) {
         if( sp.aoe() > 0 ) {
             aoe_string = string_format( "%s: %d", _( "Variance" ), sp.aoe() );
         }
@@ -2079,7 +2262,8 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
     // todo: damage over time here, when it gets implemented
 
     // Show duration for spells that endure
-    if( sp.duration() > 0 || sp.has_flag( spell_flag::PERMANENT ) ) {
+    if( sp.duration() > 0 || sp.has_flag( spell_flag::PERMANENT ) ||
+        sp.has_flag( spell_flag::PERMANENT_ALL_LEVELS ) ) {
         print_colored_text( w_menu, point( h_col1, line++ ), gray, gray,
                             string_format( "%s: %s", _( "Duration" ), sp.duration_string() ) );
     }
@@ -2278,7 +2462,7 @@ static void draw_spellbook_info( const spell_type &sp, uilist *menu )
         damage_string = _( "Threshold" );
     } else if( fx == "recover_energy" ) {
         damage_string = _( "Recover" );
-    } else if( fx == "teleport_random" ) {
+    } else if( fx == "short_range_teleport" ) {
         aoe_string = _( "Variance" );
     } else if( fx == "area_pull" || fx == "area_push" ||  fx == "ter_transform" ) {
         aoe_string = _( "AoE" );
@@ -2387,9 +2571,8 @@ void fake_spell::serialize( JsonOut &json ) const
     json.end_object();
 }
 
-void fake_spell::deserialize( JsonIn &jsin )
+void fake_spell::deserialize( const JsonObject &data )
 {
-    JsonObject data = jsin.get_object();
     load( data );
 }
 
@@ -2397,16 +2580,22 @@ spell fake_spell::get_spell( int min_level_override ) const
 {
     spell sp( id );
     // the max level this spell will be. can be optionally limited
-    int spell_limiter = max_level ? std::min( *max_level, sp.get_max_level() ) : sp.get_max_level();
+    int spell_max_level = sp.get_max_level();
+    int spell_limiter = max_level ? *max_level : spell_max_level;
     // level is the minimum level the fake_spell will output
     min_level_override = std::max( min_level_override, level );
     if( min_level_override > spell_limiter ) {
         // this override is for min level, and does not override max level
-        min_level_override = spell_limiter;
+        if( spell_limiter <= 0 ) {
+            spell_limiter = min_level_override;
+        } else {
+            min_level_override = spell_limiter;
+        }
     }
+    // make sure max level is not lower then min level
+    spell_limiter = std::max( min_level_override, spell_limiter );
     // the "level" of the fake spell is the goal, but needs to be clamped to min and max
-    int level_of_spell = clamp( level, min_level_override,  std::min( sp.get_max_level(),
-                                spell_limiter ) );
+    int level_of_spell = clamp( level, min_level_override, spell_limiter );
     if( level > spell_limiter ) {
         debugmsg( "ERROR: fake spell %s has higher min_level than max_level", id.c_str() );
         return sp;

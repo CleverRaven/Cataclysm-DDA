@@ -66,9 +66,8 @@
  * and @ref JsonSerializer, which would grant them functions to serialize/deserialize. The Json
  * classes will automatically use those if available, but they prefer the `io` function.
  *
- * Classes that only use the (templated) `io` function (and which do not inherit from
- * JsonDeserializer and JsonSerializer), must announce that. This allows the Archive classes to
- * avoid calling Json functions, which would not work.
+ * Classes that only use the (templated) `io` function must announce that.
+ * This allows the Archive classes to avoid calling Json functions, which would not work.
  *
  * If a class only uses the `io` function defined like this:
  *
@@ -127,12 +126,21 @@ struct enable_if_type {
 
 /**
  * Implementation for classes that don't have an archive_type_tag defined. They use the
- * normal JsonSerializer / JsonDeserializer interface, which is handled directly by the Json
+ * normal json read/write interface, which is handled directly by the Json
  * classes. Therefore the functions here simply forward to those.
  */
 template<class T, class E = void>
 struct has_archive_tag : std::false_type {
-    static void write( JsonOut &stream, const T &value ) {
+    template < typename S,
+               std::enable_if_t < std::is_enum<T>::value &&std::is_same<S, T>::value > * = nullptr >
+    static void write( JsonOut &stream, const S &value ) {
+        // TODO: When writing strings as enums is the default, this overload of
+        // write can be removed
+        stream.write_as_string( value );
+    }
+    template < typename S,
+               std::enable_if_t < !std::is_enum<T>::value &&std::is_same<S, T>::value > * = nullptr >
+    static void write( JsonOut &stream, const S &value ) {
         stream.write( value );
     }
     static bool read( const JsonObject &obj, const std::string &key, T &value ) {

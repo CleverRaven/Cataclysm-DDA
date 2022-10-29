@@ -1,0 +1,27 @@
+[
+  {
+    "type": "recipe_group",
+    "id": "fbmc_shelter_1_recipes_1",
+    "building_type": "BASE",
+    "recipes": [
+      { "id": "tinder", "description": " Craft: Tinder" },
+      { "id": "pointy_stick", "description": " Craft: Pointy Sticks" }
+    ]
+  },
+  {
+    "type": "recipe_group",
+    "id": "fbmc_shelter_1_cooking_recipes_1",
+    "building_type": "COOK",
+    "recipes": [
+      { "id": "tinder", "description": " Craft: Tinder" },
+      { "id": "meat_cooked", "description": " Cook: Meat, Cooked" },
+      { "id": "fish_cooked", "description": " Cook: Fish, Cooked" },
+      { "id": "veggy_cooked", "description": " Cook: Veggy, Cooked" },
+      { "id": "boiled_egg", "description": " Cook: Egg, Boiled" },
+      { "id": "starch", "description": " Cook: Starch" },
+      { "id": "starch_from_fibrous_stuff", "description": " Cook: Cattail Starch" },
+      { "id": "flatbread", "description": " Cook: Flatbread" },
+      { "id": "veggy_wild_cooked", "description": " Cook: Veggy, Cooked Wild" }
+    ]
+  }
+]

@@ -43,12 +43,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "temple",
-    "copy-from": "temple",
-    "sym": "\u00FE"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "standing_stones",
     "copy-from": "standing_stones",
     "sym": "\u00E8"
@@ -91,30 +85,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "mine_shaft_middle",
-    "copy-from": "mine_shaft_middle",
-    "sym": "\u00D3"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "mine_shaft_lower",
-    "copy-from": "mine_shaft_lower",
-    "sym": "\u00D3"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "mine",
-    "copy-from": "mine",
-    "sym": "\u00D3"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "mine_down",
-    "copy-from": "mine_down",
-    "sym": "\u00D3"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "mine_finale",
     "copy-from": "mine_finale",
     "sym": "\u00D3"
@@ -153,18 +123,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "anthill",
-    "copy-from": "anthill",
-    "sym": "\u00F3"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "acid_anthill",
-    "copy-from": "acid_anthill",
-    "sym": "\u00F3"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "slimepit",
     "copy-from": "slimepit",
     "sym": "\u00DC"
@@ -195,12 +153,6 @@
     "copy-from": "triffid_finale",
     "sym": "\u00F5",
     "color": "red"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "cavern",
-    "copy-from": "cavern",
-    "sym": "\u00EA"
   },
   {
     "type": "overmap_terrain",

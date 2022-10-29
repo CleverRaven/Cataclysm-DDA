@@ -30,7 +30,6 @@
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
-#include "pldata.h"
 #include "point.h"
 #include "popup.h"
 #include "ret_val.h"
@@ -40,7 +39,15 @@
 #include "ui_manager.h"
 #include "weather.h"
 
-static const skill_id skill_speech( "speech" );
+static const item_group_id
+Item_spawn_data_defense_caravan_ammunition( "defense_caravan_ammunition" );
+static const item_group_id Item_spawn_data_defense_caravan_clothes( "defense_caravan_clothes" );
+static const item_group_id
+Item_spawn_data_defense_caravan_components( "defense_caravan_components" );
+static const item_group_id Item_spawn_data_defense_caravan_food( "defense_caravan_food" );
+static const item_group_id Item_spawn_data_defense_caravan_melee( "defense_caravan_melee" );
+static const item_group_id Item_spawn_data_defense_caravan_ranged( "defense_caravan_ranged" );
+static const item_group_id Item_spawn_data_defense_caravan_tools( "defense_caravan_tools" );
 
 static const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
 static const mongroup_id GROUP_ROBOT( "GROUP_ROBOT" );
@@ -48,6 +55,18 @@ static const mongroup_id GROUP_SPIDER( "GROUP_SPIDER" );
 static const mongroup_id GROUP_TRIFFID( "GROUP_TRIFFID" );
 static const mongroup_id GROUP_VANILLA( "GROUP_VANILLA" );
 static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
+
+static const mtype_id mon_generator( "mon_generator" );
+
+static const overmap_special_id overmap_special_Mansion_Wild( "Mansion_Wild" );
+static const overmap_special_id overmap_special_bar( "bar" );
+static const overmap_special_id overmap_special_hospital( "hospital" );
+static const overmap_special_id
+overmap_special_house_two_story_basement( "house_two_story_basement" );
+static const overmap_special_id overmap_special_megastore( "megastore" );
+static const overmap_special_id overmap_special_public_works( "public_works" );
+
+static const skill_id skill_speech( "speech" );
 
 // One in X chance of single-flavor wave
 static constexpr int SPECIAL_WAVE_CHANCE = 5;
@@ -96,7 +115,7 @@ defense_game::defense_game()
 bool defense_game::init()
 {
     calendar::turn = calendar::turn_zero + 12_hours; // Start at noon
-    get_weather().temperature = 65;
+    get_weather().temperature = units::from_fahrenheit( 65 );
     avatar &player_character = get_avatar();
     if( !player_character.create( character_type::CUSTOM ) ) {
         return false;
@@ -175,12 +194,12 @@ void defense_game::pre_action( action_id &act )
         case ACTION_MOVE_LEFT:
         case ACTION_MOVE_FORTH_LEFT: {
             Character &player_character = get_player_character();
-            const tripoint abs_sub = get_map().get_abs_sub();
+            const tripoint_abs_sm abs_sub = get_map().get_abs_sub();
             const point delta = get_delta_from_movement_action( act, iso_rotate::yes );
-            if( ( delta.y < 0 && player_character.posy() == HALF_MAPSIZE_Y && abs_sub.y <= 93 ) ||
-                ( delta.y > 0 && player_character.posy() == HALF_MAPSIZE_Y + SEEY - 1 && abs_sub.y >= 98 ) ||
-                ( delta.x < 0 && player_character.posx() == HALF_MAPSIZE_X && abs_sub.x <= 93 ) ||
-                ( delta.x > 0 && player_character.posx() == HALF_MAPSIZE_X + SEEX - 1 && abs_sub.x >= 98 ) ) {
+            if( ( delta.y < 0 && player_character.posy() == HALF_MAPSIZE_Y && abs_sub.y() <= 93 ) ||
+                ( delta.y > 0 && player_character.posy() == HALF_MAPSIZE_Y + SEEY - 1 && abs_sub.y() >= 98 ) ||
+                ( delta.x < 0 && player_character.posx() == HALF_MAPSIZE_X && abs_sub.x() <= 93 ) ||
+                ( delta.x > 0 && player_character.posx() == HALF_MAPSIZE_X + SEEX - 1 && abs_sub.x() >= 98 ) ) {
                 action_error_message = string_format( _( "You cannot leave the %s behind!" ),
                                                       defense_location_name( location ) );
             }
@@ -230,40 +249,40 @@ void defense_game::init_map()
     ui_manager::redraw();
     refresh_display();
 
-    auto &starting_om = overmap_buffer.get( point_abs_om() );
+    overmap &starting_om = overmap_buffer.get( point_abs_om() );
     for( int x = 0; x < OMAPX; x++ ) {
         for( int y = 0; y < OMAPY; y++ ) {
             tripoint_om_omt p( x, y, 0 );
             starting_om.ter_set( p, oter_id( "field" ) );
-            starting_om.seen( p ) = true;
+            starting_om.set_seen( p, true );
         }
     }
 
     switch( location ) {
         case DEFLOC_NULL:
         case NUM_DEFENSE_LOCATIONS:
-            defloc_special = overmap_special_id( "house_two_story_basement" );
+            defloc_special = overmap_special_house_two_story_basement;
             DebugLog( D_ERROR, D_GAME ) << "defense location is invalid: " << location;
             break;
 
         case DEFLOC_HOSPITAL:
-            defloc_special = overmap_special_id( "hospital" );
+            defloc_special = overmap_special_hospital;
             break;
 
         case DEFLOC_WORKS:
-            defloc_special = overmap_special_id( "public_works" );
+            defloc_special = overmap_special_public_works;
             break;
 
         case DEFLOC_MALL:
-            defloc_special = overmap_special_id( "megastore" );
+            defloc_special = overmap_special_megastore;
             break;
 
         case DEFLOC_BAR:
-            defloc_special = overmap_special_id( "bar" );
+            defloc_special = overmap_special_bar;
             break;
 
         case DEFLOC_MANSION:
-            defloc_special = overmap_special_id( "Mansion_Wild" );
+            defloc_special = overmap_special_Mansion_Wild;
             break;
     }
     starting_om.place_special_forced( defloc_special, defloc_pos, om_direction::type::north );
@@ -275,12 +294,13 @@ void defense_game::init_map()
     for( int i = 0; i <= MAPSIZE * 2; i += 2 ) {
         for( int j = 0; j <= MAPSIZE * 2; j += 2 ) {
             point m( 100 - MAPSIZE + i, 100 - MAPSIZE + j );
-            int percent = 100 * ( ( j / 2 + MAPSIZE * ( i / 2 ) ) ) /
-                          ( ( MAPSIZE ) * ( MAPSIZE + 1 ) );
+            int percent = 100 * ( j / 2 + MAPSIZE * ( i / 2 ) ) /
+                          ( MAPSIZE * ( MAPSIZE + 1 ) );
             if( percent >= old_percent + 1 ) {
                 popup.message( _( "Please wait as the map generates [%2d%%]" ), percent );
                 ui_manager::redraw();
                 refresh_display();
+                inp_mngr.pump_events();
                 old_percent = percent;
             }
             // Round down to the nearest even number
@@ -298,11 +318,10 @@ void defense_game::init_map()
     tripoint_abs_omt abs_defloc_pos = project_combine( point_abs_om(), defloc_pos );
     g->load_map( project_to<coords::sm>( abs_defloc_pos ) );
     Character &player_character = get_player_character();
-    player_character.setx( SEEX );
-    player_character.sety( SEEY );
+    player_character.move_to( midpoint( project_bounds<coords::ms>( abs_defloc_pos ) ) );
 
     g->update_map( player_character );
-    monster *const generator = g->place_critter_around( mtype_id( "mon_generator" ),
+    monster *const generator = g->place_critter_around( mon_generator,
                                player_character.pos(), 2 );
     cata_assert( generator );
     generator->friendly = -1;
@@ -857,10 +876,10 @@ std::string defense_location_description( defense_location location )
     return "Unknown data bug.  (defense.cpp:defense_location_description)";
 }
 
-void defense_game::caravan()
+void defense_game::caravan() const
 {
-    std::vector<itype_id> items[NUM_CARAVAN_CATEGORIES];
-    std::vector<int> item_count[NUM_CARAVAN_CATEGORIES];
+    std::array<std::vector<itype_id>, NUM_CARAVAN_CATEGORIES> items;
+    std::array<std::vector<int>, NUM_CARAVAN_CATEGORIES> item_count;
 
     // Init the items for each category
     for( int i = 0; i < NUM_CARAVAN_CATEGORIES; i++ ) {
@@ -1043,9 +1062,9 @@ void defense_game::caravan()
                 popup( _( "You can't afford those items!" ) );
             } else if( ( items[0].empty() && query_yn( _( "Really buy nothing?" ) ) ) ||
                        ( !items[0].empty() &&
-                         query_yn( ngettext( "Buy %d item, leaving you with %s?",
-                                             "Buy %d items, leaving you with %s?",
-                                             items[0].size() ),
+                         query_yn( n_gettext( "Buy %d item, leaving you with %s?",
+                                              "Buy %d items, leaving you with %s?",
+                                              items[0].size() ),
                                    items[0].size(),
                                    format_money( static_cast<int>( player_character.cash ) - static_cast<int>( total_price ) ) ) ) ) {
                 done = true;
@@ -1092,7 +1111,7 @@ std::string caravan_category_name( caravan_category cat )
         case CARAVAN_RANGED:
             return _( "Ranged Weapons" );
         case CARAVAN_AMMUNITION:
-            return _( "Ammuniton" );
+            return _( "Ammunition" );
         case CARAVAN_COMPONENTS:
             return _( "Crafting & Construction Components" );
         case CARAVAN_FOOD:
@@ -1116,31 +1135,31 @@ std::vector<itype_id> caravan_items( caravan_category cat )
             return ret;
 
         case CARAVAN_MELEE:
-            item_list = item_group::items_from( item_group_id( "defense_caravan_melee" ) );
+            item_list = item_group::items_from( Item_spawn_data_defense_caravan_melee );
             break;
 
         case CARAVAN_RANGED:
-            item_list = item_group::items_from( item_group_id( "defense_caravan_ranged" ) );
+            item_list = item_group::items_from( Item_spawn_data_defense_caravan_ranged );
             break;
 
         case CARAVAN_AMMUNITION:
-            item_list = item_group::items_from( item_group_id( "defense_caravan_ammunition" ) );
+            item_list = item_group::items_from( Item_spawn_data_defense_caravan_ammunition );
             break;
 
         case CARAVAN_COMPONENTS:
-            item_list = item_group::items_from( item_group_id( "defense_caravan_components" ) );
+            item_list = item_group::items_from( Item_spawn_data_defense_caravan_components );
             break;
 
         case CARAVAN_FOOD:
-            item_list = item_group::items_from( item_group_id( "defense_caravan_food" ) );
+            item_list = item_group::items_from( Item_spawn_data_defense_caravan_food );
             break;
 
         case CARAVAN_CLOTHES:
-            item_list = item_group::items_from( item_group_id( "defense_caravan_clothes" ) );
+            item_list = item_group::items_from( Item_spawn_data_defense_caravan_clothes );
             break;
 
         case CARAVAN_TOOLS:
-            item_list = item_group::items_from( item_group_id( "defense_caravan_tools" ) );
+            item_list = item_group::items_from( Item_spawn_data_defense_caravan_tools );
             break;
 
         case NUM_CARAVAN_CATEGORIES:
@@ -1148,7 +1167,7 @@ std::vector<itype_id> caravan_items( caravan_category cat )
             break;
     }
 
-    for( auto &it : item_list ) {
+    for( item &it : item_list ) {
         itype_id item_type = it.typeId();
         ret.emplace_back( item_type );
         // Add the default magazine types for each gun.
@@ -1325,7 +1344,7 @@ void defense_game::spawn_wave()
     add_msg( m_info, "********" );
 }
 
-std::vector<mtype_id> defense_game::pick_monster_wave()
+std::vector<mtype_id> defense_game::pick_monster_wave() const
 {
     std::vector<mongroup_id> valid;
     std::vector<mtype_id> ret;
@@ -1353,7 +1372,7 @@ std::vector<mtype_id> defense_game::pick_monster_wave()
     if( valid.empty() ) {
         debugmsg( "Couldn't find a valid monster group for defense!" );
     } else {
-        ret = MonsterGroupManager::GetMonstersFromGroup( random_entry( valid ) );
+        ret = MonsterGroupManager::GetMonstersFromGroup( random_entry( valid ), true );
     }
 
     return ret;
@@ -1361,7 +1380,7 @@ std::vector<mtype_id> defense_game::pick_monster_wave()
 
 void defense_game::spawn_wave_monster( const mtype_id &type )
 {
-    tripoint player_pos = get_player_character().pos();
+    const tripoint_abs_ms player_pos = get_player_character().get_location();
     map &here = get_map();
     for( int tries = 0; tries < 1000; tries++ ) {
         point pnt;
@@ -1379,7 +1398,7 @@ void defense_game::spawn_wave_monster( const mtype_id &type )
                 pnt = point( -pnt.x, pnt.y ) + point( MAPSIZE_X - 1, 0 );
             }
         }
-        monster *const mon = g->place_critter_at( type, tripoint( pnt, here.get_abs_sub().z ) );
+        monster *const mon = g->place_critter_at( type, tripoint( pnt, here.get_abs_sub().z() ) );
         if( !mon ) {
             continue;
         }
@@ -1398,12 +1417,14 @@ std::string defense_game::special_wave_message( std::string name )
     std::string ret;
     ret += string_format( _( "Wave %d: " ), current_wave );
 
-    // Capitalize
-    capitalize_letter( name );
-    for( size_t i = 2; i < name.size(); i++ ) {
-        if( name[i - 1] == ' ' ) {
-            capitalize_letter( name, i );
+    std::vector<std::string> words = string_split( name, ' ' );
+    std::transform( words.begin(), words.end(), words.begin(), uppercase_first_letter );
+    name = "";
+    if( !words.empty() ) {
+        for( std::string &word : words ) {
+            str_append( name, word, " " );
         }
+        name.pop_back();
     }
 
     switch( rng( 1, 8 ) ) {

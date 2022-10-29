@@ -12,6 +12,7 @@
 
 #include "bodypart.h"
 #include "cached_options.h"
+#include "cata_scope_helpers.h"
 #include "cata_utility.h"
 #include "cata_catch.h"
 #include "colony.h"
@@ -20,6 +21,7 @@
 #include "enum_bitset.h"
 #include "item.h"
 #include "json.h"
+#include "json_loader.h"
 #include "magic.h"
 #include "mutation.h"
 #include "optional.h"
@@ -27,6 +29,24 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "type_id.h"
+
+static const field_type_str_id field_test_field( "test_field" );
+
+static const flag_id json_flag_DIRTY( "DIRTY" );
+
+static const itype_id itype_test_rag( "test_rag" );
+
+static const mtype_id foo( "foo" );
+static const mtype_id mon_test( "mon_test" );
+
+static const requirement_id requirement_data_test_components( "test_components" );
+
+static const skill_id skill_not_spellcraft( "not_spellcraft" );
+
+static const spell_id spell_test_fake_spell( "test_fake_spell" );
+static const spell_id spell_test_spell_json( "test_spell_json" );
+
+static const trait_id trait_test_trait( "test_trait" );
 
 template<typename T>
 void test_serialization( const T &val, const std::string &s )
@@ -41,8 +61,7 @@ void test_serialization( const T &val, const std::string &s )
     }
     {
         INFO( "test_deserialization" );
-        std::istringstream is( s );
-        JsonIn jsin( is );
+        JsonValue jsin = json_loader::from_string( s );
         T read_val;
         CHECK( jsin.read( read_val ) );
         CHECK( val == read_val );
@@ -62,16 +81,16 @@ TEST_CASE( "avoid_serializing_default_values", "[json]" )
 
 TEST_CASE( "spell_type handles all members", "[json]" )
 {
-    const spell_type &test_spell = spell_id( "test_spell_json" ).obj();
+    const spell_type &test_spell = spell_test_spell_json.obj();
 
     SECTION( "spell_type loads proper values" ) {
         fake_spell fake_additional_effect;
-        fake_additional_effect.id = spell_id( "test_fake_spell" );
+        fake_additional_effect.id = spell_test_fake_spell;
         const std::vector<fake_spell> test_fake_spell_vec{ fake_additional_effect };
         const std::map<std::string, int> test_learn_spell{ { fake_additional_effect.id.c_str(), 1 } };
-        const std::set<mtype_id> test_fake_mon{ mtype_id( "mon_test" ) };
+        const std::set<mtype_id> test_fake_mon{ mon_test };
 
-        CHECK( test_spell.id == spell_id( "test_spell_json" ) );
+        CHECK( test_spell.id == spell_test_spell_json );
         CHECK( test_spell.name == to_translation( "test spell" ) );
         CHECK( test_spell.description ==
                to_translation( "a spell to make sure the json deserialization and serialization is working properly" ) );
@@ -79,8 +98,8 @@ TEST_CASE( "spell_type handles all members", "[json]" )
         CHECK( test_spell.spell_area == spell_shape::blast );
         CHECK( test_spell.valid_targets.test( spell_target::none ) );
         CHECK( test_spell.effect_str == "string" );
-        CHECK( test_spell.skill == skill_id( "not_spellcraft" ) );
-        CHECK( test_spell.spell_components == requirement_id( "test_components" ) );
+        CHECK( test_spell.skill == skill_not_spellcraft );
+        CHECK( test_spell.spell_components == requirement_data_test_components );
         CHECK( test_spell.message == to_translation( "test message" ) );
         CHECK( test_spell.sound_description == to_translation( "test_description" ) );
         CHECK( test_spell.sound_type == sounds::sound_t::weather );
@@ -89,10 +108,10 @@ TEST_CASE( "spell_type handles all members", "[json]" )
         CHECK( test_spell.sound_variant == "not_default" );
         CHECK( test_spell.targeted_monster_ids == test_fake_mon );
         CHECK( test_spell.additional_spells == test_fake_spell_vec );
-        CHECK( test_spell.affected_bps.test( bodypart_str_id( "head" ) ) );
+        CHECK( test_spell.affected_bps.test( body_part_head ) );
         CHECK( test_spell.spell_tags.test( spell_flag::CONCENTRATE ) );
         CHECK( test_spell.field );
-        CHECK( test_spell.field->id() == field_type_str_id( "test_field" ) );
+        CHECK( test_spell.field->id() == field_test_field );
         CHECK( test_spell.field_chance == 2 );
         CHECK( test_spell.max_field_intensity == 2 );
         CHECK( test_spell.min_field_intensity == 2 );
@@ -119,7 +138,7 @@ TEST_CASE( "spell_type handles all members", "[json]" )
         CHECK( test_spell.base_energy_cost == 1 );
         CHECK( test_spell.final_energy_cost == 2 );
         CHECK( test_spell.energy_increment == 1.0f );
-        CHECK( test_spell.spell_class == trait_id( "test_trait" ) );
+        CHECK( test_spell.spell_class == trait_test_trait );
         CHECK( test_spell.energy_source == magic_energy_type::mana );
         CHECK( test_spell.dmg_type == damage_type::PURE );
         CHECK( test_spell.difficulty == 1 );
@@ -208,10 +227,8 @@ TEST_CASE( "serialize_map", "[json]" )
 {
     std::map<std::string, std::string> s_map = { { "foo", "foo_val" }, { "bar", "bar_val" } };
     test_serialization( s_map, R"({"bar":"bar_val","foo":"foo_val"})" );
-    std::map<mtype_id, std::string> string_id_map = { { mtype_id( "foo" ), "foo_val" } };
+    std::map<mtype_id, std::string> string_id_map = { { foo, "foo_val" } };
     test_serialization( string_id_map, R"({"foo":"foo_val"})" );
-    std::map<trigger_type, std::string> enum_map = { { HUNGER, "foo_val" } };
-    test_serialization( enum_map, R"({"HUNGER":"foo_val"})" );
 }
 
 TEST_CASE( "serialize_pair", "[json]" )
@@ -234,17 +251,14 @@ TEST_CASE( "serialize_set", "[json]" )
 {
     std::set<std::string> s_set = { "foo", "bar" };
     test_serialization( s_set, R"(["bar","foo"])" );
-    std::set<mtype_id> string_id_set = { mtype_id( "foo" ) };
+    std::set<mtype_id> string_id_set = { foo };
     test_serialization( string_id_set, R"(["foo"])" );
-    std::set<trigger_type> enum_set = { HUNGER };
-    test_serialization( enum_set, string_format( R"([%d])", static_cast<int>( HUNGER ) ) );
 }
 
 template<typename Matcher>
 static void test_translation_text_style_check( Matcher &&matcher, const std::string &json )
 {
-    std::istringstream iss( json );
-    JsonIn jsin( iss );
+    JsonValue jsin = json_loader::from_string( json );
     translation trans;
     const std::string dmsg = capture_debugmsg_during( [&]() {
         jsin.read( trans );
@@ -255,8 +269,7 @@ static void test_translation_text_style_check( Matcher &&matcher, const std::str
 template<typename Matcher>
 static void test_pl_translation_text_style_check( Matcher &&matcher, const std::string &json )
 {
-    std::istringstream iss( json );
-    JsonIn jsin( iss );
+    JsonValue jsin = json_loader::from_string( json );
     translation trans( translation::plural_tag {} );
     const std::string dmsg = capture_debugmsg_during( [&]() {
         jsin.read( trans );
@@ -269,7 +282,9 @@ TEST_CASE( "translation_text_style_check", "[json][translation]" )
     // this test case is mainly for checking the format of debug messages.
     // the text style check itself is tested in the lit test of clang-tidy.
     restore_on_out_of_scope<error_log_format_t> restore_error_log_format( error_log_format );
+    restore_on_out_of_scope<check_plural_t> restore_check_plural( check_plural );
     error_log_format = error_log_format_t::human_readable;
+    check_plural = check_plural_t::certain;
 
     // string, ascii
     test_translation_text_style_check(
@@ -371,32 +386,148 @@ TEST_CASE( "translation_text_style_check", "[json][translation]" )
         R"({"str": "foo", "str_pl": "foo"})" );
 
     // test plural forms
+    test_translation_text_style_check(
+        Catch::Equals( "" ),
+        R"("box")" );
+    test_translation_text_style_check(
+        Catch::Equals( "" ),
+        R"({"str": "box"})" );
+
+    test_pl_translation_text_style_check(
+        Catch::Equals( "" ),
+        R"("bar")" );
+    test_pl_translation_text_style_check(
+        Catch::Equals(
+            R"((json-error))" "\n"
+            R"(Json error: <unknown source file>:EOF: Cannot autogenerate plural )"
+            R"(form.  Please specify the plural form explicitly using 'str' and )"
+            R"('str_pl', or 'str_sp' if the singular and plural forms are the same.)" ),
+        R"("box")" );
+
+    test_pl_translation_text_style_check(
+        Catch::Equals( "" ),
+        R"({"str": "bar"})" );
+    test_pl_translation_text_style_check(
+        Catch::Equals(
+            R"((json-error))" "\n"
+            R"(Json error: <unknown source file>:1:8: Cannot autogenerate plural )"
+            R"(form.  Please specify the plural form explicitly using 'str' and )"
+            R"('str_pl', or 'str_sp' if the singular and plural forms are the same.)"
+            "\n"
+            R"()" "\n"
+            R"({"str":)" "\n"
+            R"(       ^)" "\n"
+            R"(        "box"})" "\n" ),
+        R"({"str": "box"})" );
+    test_pl_translation_text_style_check(
+        Catch::Equals( "" ),
+        R"({"str_sp": "bar"})" );
+    test_pl_translation_text_style_check(
+        Catch::Equals( "" ),
+        R"({"str_sp": "box"})" );
+
     test_pl_translation_text_style_check(
         Catch::Equals(
             R"((json-error))" "\n"
             R"(Json error: <unknown source file>:1:25: "str_pl" is not necessary here since the plural form can be automatically generated.)"
             "\n"
             R"()" "\n"
-            R"({"str": "foo", "str_pl":)" "\n"
+            R"({"str": "bar", "str_pl":)" "\n"
             R"(                        ^)" "\n"
-            R"(                         "foos"})" "\n" ),
-        R"({"str": "foo", "str_pl": "foos"})" );
+            R"(                         "bars"})" "\n" ),
+        R"({"str": "bar", "str_pl": "bars"})" );
     test_pl_translation_text_style_check(
         Catch::Equals(
             R"((json-error))" "\n"
             R"(Json error: <unknown source file>:1:25: Please use "str_sp" instead of "str" and "str_pl" for text with identical singular and plural forms)"
             "\n"
             R"()" "\n"
-            R"({"str": "foo", "str_pl":)" "\n"
+            R"({"str": "bar", "str_pl":)" "\n"
             R"(                        ^)" "\n"
-            R"(                         "foo"})" "\n" ),
-        R"({"str": "foo", "str_pl": "foo"})" );
+            R"(                         "bar"})" "\n" ),
+        R"({"str": "bar", "str_pl": "bar"})" );
+    test_pl_translation_text_style_check(
+        Catch::Equals( "" ),
+        R"({"str": "box", "str_pl": "boxs"})" );
+    test_pl_translation_text_style_check(
+        Catch::Equals( "" ),
+        R"({"str": "box", "str_pl": "boxes"})" );
 
     // ensure nolint member suppresses text style check
     test_translation_text_style_check(
         Catch::Equals( "" ),
         // NOLINTNEXTLINE(cata-text-style)
         R"~({"str": "foo. bar", "//NOLINT(cata-text-style)": "blah"})~" );
+    test_pl_translation_text_style_check(
+        Catch::Equals( "" ),
+        R"~({"str": "box", "//NOLINT(cata-text-style)": "blah"})~" );
+    test_pl_translation_text_style_check(
+        Catch::Equals( "" ),
+        R"~({"str": "bar", "str_pl": "bars", "//NOLINT(cata-text-style)": "blah"})~" );
+    test_pl_translation_text_style_check(
+        Catch::Equals( "" ),
+        R"~({"str": "bar", "str_pl": "bar", "//NOLINT(cata-text-style)": "blah"})~" );
+
+    {
+        restore_on_out_of_scope<check_plural_t> restore_check_plural_2( check_plural );
+        check_plural = check_plural_t::none;
+        test_pl_translation_text_style_check(
+            Catch::Equals( "" ),
+            R"("box")" );
+        test_pl_translation_text_style_check(
+            Catch::Equals( "" ),
+            R"({"str": "box"})" );
+        test_pl_translation_text_style_check(
+            Catch::Equals(
+                R"((json-error))" "\n"
+                R"(Json error: <unknown source file>:1:25: "str_pl" is not necessary here )"
+                R"(since the plural form can be automatically generated.)" "\n"
+                R"()" "\n"
+                R"({"str": "bar", "str_pl":)" "\n"
+                R"(                        ^)" "\n"
+                R"(                         "bars"})" "\n" ),
+            R"({"str": "bar", "str_pl": "bars"})" );
+        test_pl_translation_text_style_check(
+            Catch::Equals(
+                R"((json-error))" "\n"
+                R"(Json error: <unknown source file>:1:25: Please use "str_sp" instead of "str" )"
+                R"(and "str_pl" for text with identical singular and plural forms)" "\n"
+                R"()" "\n"
+                R"({"str": "bar", "str_pl":)" "\n"
+                R"(                        ^)" "\n"
+                R"(                         "bar"})" "\n" ),
+            R"({"str": "bar", "str_pl": "bar"})" );
+        test_translation_text_style_check(
+            Catch::Equals(
+                R"((json-error))" "\n"
+                R"(Json error: <unknown source file>:1:11: str_sp not supported here)" "\n"
+                R"()" "\n"
+                R"({"str_sp":)" "\n"
+                R"(          ^)" "\n"
+                R"(           "foo"})" "\n" ),
+            R"({"str_sp": "foo"})" );
+        test_translation_text_style_check(
+            Catch::Equals(
+                R"((json-error))" "\n"
+                R"(Json error: <unknown source file>:1:25: str_pl not supported here)" "\n"
+                R"()" "\n"
+                R"({"str": "foo", "str_pl":)" "\n"
+                R"(                        ^)" "\n"
+                R"(                         "foo"})" "\n" ),
+            R"({"str": "foo", "str_pl": "foo"})" );
+        test_translation_text_style_check(
+            Catch::Equals(
+                R"((json-error))" "\n"
+                R"(Json error: <unknown source file>:1:5: insufficient spaces at this location.  2 required, but only 1 found.)"
+                "\n"
+                R"(    Suggested fix: insert " ")" "\n"
+                R"(    At the following position (marked with caret))" "\n"
+                R"()" "\n"
+                R"("foo.)" "\n"
+                R"(    ^)" "\n"
+                R"(      bar.")" "\n" ),
+            R"("foo. bar.")" ); // NOLINT(cata-text-style)
+    }
 
     // ensure sentence text style check is disabled when plural form is enabled
     test_pl_translation_text_style_check(
@@ -424,12 +555,10 @@ TEST_CASE( "translation_text_style_check_error_recovery", "[json][translation]" 
             R"(  "foo. bar.",)" "\n" // NOLINT(cata-text-style)
             R"(  "foobar")" "\n"
             R"(])" "\n";
-        std::istringstream iss( json );
-        JsonIn jsin( iss );
-        jsin.start_array();
+        JsonArray ja = json_loader::from_string( json );
         translation trans;
         const std::string dmsg = capture_debugmsg_during( [&]() {
-            jsin.read( trans );
+            ja.read_next( trans );
         } );
         // check that the correct debug message is shown
         CHECK_THAT(
@@ -447,9 +576,6 @@ TEST_CASE( "translation_text_style_check_error_recovery", "[json][translation]" 
                 R"(        bar.",)" "\n"
                 R"(  "foobar")" "\n"
                 R"(])" "\n" ) );
-        // check that the stream is correctly restored to after the first string
-        CHECK( jsin.get_string() == "foobar" );
-        CHECK( jsin.end_array() );
     }
 
     SECTION( "object" ) {
@@ -458,12 +584,11 @@ TEST_CASE( "translation_text_style_check_error_recovery", "[json][translation]" 
             R"(  { "str": "foo. bar." },)" "\n" // NOLINT(cata-text-style)
             R"(  "foobar")" "\n"
             R"(])" "\n";
-        std::istringstream iss( json );
-        JsonIn jsin( iss );
-        jsin.start_array();
+        JsonArray ja = json_loader::from_string( json );
+        JsonValue jv = ja.next_value();
         translation trans;
         const std::string dmsg = capture_debugmsg_during( [&]() {
-            jsin.read( trans );
+            jv.read( trans );
         } );
         // check that the correct debug message is shown
         CHECK_THAT(
@@ -481,17 +606,13 @@ TEST_CASE( "translation_text_style_check_error_recovery", "[json][translation]" 
                 R"(                 bar." },)" "\n"
                 R"(  "foobar")" "\n"
                 R"(])" "\n" ) );
-        // check that the stream is correctly restored to after the first string
-        CHECK( jsin.get_string() == "foobar" );
-        CHECK( jsin.end_array() );
     }
 }
 
 static void test_get_string( const std::string &str, const std::string &json )
 {
     CAPTURE( json );
-    std::istringstream iss( json );
-    JsonIn jsin( iss );
+    JsonValue jsin = json_loader::from_string( json );
     CHECK( jsin.get_string() == str );
 }
 
@@ -499,9 +620,10 @@ template<typename Matcher>
 static void test_get_string_throws_matches( Matcher &&matcher, const std::string &json )
 {
     CAPTURE( json );
-    std::istringstream iss( json );
-    JsonIn jsin( iss );
-    CHECK_THROWS_MATCHES( jsin.get_string(), JsonError, matcher );
+    CHECK_THROWS_MATCHES( ( [&] {
+        JsonValue jsin = json_loader::from_string( json );
+        jsin.get_string();
+    } )(), JsonError, matcher );
 }
 
 template<typename Matcher>
@@ -510,9 +632,8 @@ static void test_string_error_throws_matches( Matcher &&matcher, const std::stri
 {
     CAPTURE( json );
     CAPTURE( offset );
-    std::istringstream iss( json );
-    JsonIn jsin( iss );
-    CHECK_THROWS_MATCHES( jsin.string_error( "<message>", offset ), JsonError, matcher );
+    JsonValue jsin = json_loader::from_string( json );
+    CHECK_THROWS_MATCHES( jsin.string_error( offset, "<message>" ), JsonError, matcher );
 }
 
 TEST_CASE( "jsonin_get_string", "[json]" )
@@ -545,99 +666,86 @@ TEST_CASE( "jsonin_get_string", "[json]" )
     // empty json
     test_get_string_throws_matches(
         Catch::Message(
-            "Json error: <unknown source file>:EOF: couldn't find end of string, reached EOF." ),
+            "Json error: <unknown source file>:EOF: error: input file is empty" ),
         std::string() );
     // no starting quote
     test_get_string_throws_matches(
         Catch::Message(
-            R"(Json error: <unknown source file>:1:1: expected string but got 'a')" "\n"
-            R"()" "\n"
-            R"(a)" "\n"
-            R"(^)" "\n"
-            R"( bc)" "\n" ),
+            "Json error: <unknown source file>:EOF: error: cannot parse value starting with: abc" ),
         R"(abc)" );
     // no ending quote
     test_get_string_throws_matches(
         Catch::Message(
-            "Json error: <unknown source file>:EOF: couldn't find end of string, reached EOF." ),
+            "Json error: <unknown source file>:EOF: error: illegal character in string constant" ),
         R"(")" );
     test_get_string_throws_matches(
         Catch::Message(
-            "Json error: <unknown source file>:EOF: couldn't find end of string, reached EOF." ),
+            "Json error: <unknown source file>:EOF: error: illegal character in string constant" ),
         R"("foo)" );
     // incomplete escape sequence and no ending quote
     test_get_string_throws_matches(
         Catch::Message(
-            "Json error: <unknown source file>:EOF: couldn't find end of string, reached EOF." ),
+            "Json error: <unknown source file>:EOF: error: unknown escape code in string constant" ),
         R"("\)" );
     test_get_string_throws_matches(
         Catch::Message(
-            "Json error: <unknown source file>:EOF: couldn't find end of string, reached EOF." ),
+            R"(Json error: <unknown source file>:1:3: error: escape code must be followed by 4 hex digits)" "\n"
+            R"()" "\n"
+            R"("\u)" "\n"
+            R"(  ^)" "\n"
+            R"(   12)" "\n" ),
         R"("\u12)" );
     // incorrect escape sequence
     test_get_string_throws_matches(
         Catch::Message(
-            R"(Json error: <unknown source file>:1:3: invalid escape sequence)" "\n"
+            R"(Json error: <unknown source file>:1:2: error: unknown escape code in string constant)" "\n"
             R"()" "\n"
-            R"("\.)" "\n"
-            R"(  ^)" "\n"
-            R"(   ")" "\n" ),
+            R"("\)" "\n"
+            R"( ^)" "\n"
+            R"(  .")" "\n" ),
         R"("\.")" );
     test_get_string_throws_matches(
         Catch::Message(
-            R"(Json error: <unknown source file>:1:7: expected hex digit)" "\n"
+            R"(Json error: <unknown source file>:1:3: error: escape code must be followed by 4 hex digits)" "\n"
             R"()" "\n"
-            R"("\uDEFG)" "\n"
-            R"(      ^)" "\n"
-            R"(       ")" "\n" ),
+            R"("\u)" "\n"
+            R"(  ^)" "\n"
+            R"(   DEFG")" "\n" ),
         R"("\uDEFG")" );
     // not a valid utf8 sequence
     test_get_string_throws_matches(
         Catch::Message(
-            R"(Json error: <unknown source file>:1:2: invalid utf8 sequence)" "\n"
-            R"()" "\n"
-            "\"\x80\n"
-            R"( ^)" "\n"
-            R"(  ")" "\n" ),
+            "Json error: <unknown source file>:EOF: error: illegal UTF-8 sequence" ),
         "\"\x80\"" );
     test_get_string_throws_matches(
         Catch::Message(
-            R"(Json error: <unknown source file>:1:4: invalid utf8 sequence)" "\n"
-            R"()" "\n"
-            "\"\xFC\x80\"\n"
-            R"(   ^)" "\n" ),
+            "Json error: <unknown source file>:EOF: error: illegal UTF-8 sequence" ),
         "\"\xFC\x80\"" );
     test_get_string_throws_matches(
         Catch::Message(
-            R"(Json error: <unknown source file>:1:7: invalid unicode codepoint)" "\n"
-            R"()" "\n"
-            "\"\xFD\x80\x80\x80\x80\x80\n"
-            R"(      ^)" "\n"
-            R"(       ")" "\n" ),
+            R"(Json error: <unknown source file>:EOF: error: illegal UTF-8 sequence)" ),
         "\"\xFD\x80\x80\x80\x80\x80\"" );
     test_get_string_throws_matches(
         Catch::Message(
-            R"(Json error: <unknown source file>:1:7: invalid utf8 sequence)" "\n"
-            R"()" "\n"
-            "\"\xFC\x80\x80\x80\x80\xC0\n"
-            R"(      ^)" "\n"
-            R"(       ")" "\n" ),
+            R"(Json error: <unknown source file>:EOF: error: illegal UTF-8 sequence)" ),
         "\"\xFC\x80\x80\x80\x80\xC0\"" );
     // end of line
     test_get_string_throws_matches(
         Catch::Message(
-            R"(Json error: <unknown source file>:1:3: reached end of line without closing string)" "\n"
+            R"(Json error: <unknown source file>:1:2: error: illegal character in string constant)" "\n"
             R"()" "\n"
             R"("a)" "\n"
-            R"(  ^)" "\n"
+            R"( ^)" "\n"
+            "\n" // Embedded newline inside string
             R"(")" "\n" ),
         "\"a\n\"" );
     test_get_string_throws_matches(
         Catch::Message(
-            R"(Json error: <unknown source file>:1:3: reached end of line without closing string)" "\n"
+            R"(Json error: <unknown source file>:1:2: error: illegal character in string constant)" "\n"
             R"()" "\n"
             R"("b)" "\n"
-            R"(  ^)" "\n"
+            R"( ^)" "\n"
+            "\n" // \r gets translated to \n?
             R"(")" "\n" ),
         "\"b\r\"" ); // NOLINT(cata-text-style)
 
@@ -729,7 +837,7 @@ TEST_CASE( "item_colony_ser_deser", "[json][item]" )
         cata::colony<item> col;
         for( int i = 0; i < 10; ++i ) {
             // currently tools cannot be stackable
-            col.insert( item( itype_id( "test_rag" ) ) );
+            col.insert( item( itype_test_rag ) );
         }
         REQUIRE( col.size() == 10 );
         REQUIRE( col.begin()->same_for_rle( *std::next( col.begin() ) ) );
@@ -748,8 +856,7 @@ TEST_CASE( "item_colony_ser_deser", "[json][item]" )
             INFO( "should contain the number of items" );
             CHECK( json.find( "10" ) != std::string::npos );
         }
-        std::istringstream is( json );
-        JsonIn jsin( is );
+        JsonValue jsin = json_loader::from_string( json );
         cata::colony<item> read_val;
         {
             INFO( "should be read successfully" );
@@ -763,9 +870,9 @@ TEST_CASE( "item_colony_ser_deser", "[json][item]" )
 
     SECTION( "different items are saved individually" ) {
         cata::colony<item> col;
-        col.insert( item( itype_id( "test_rag" ) ) );
-        col.insert( item( itype_id( "test_rag" ) ) );
-        ( *col.rbegin() ).set_flag( flag_id( "DIRTY" ) );
+        col.insert( item( itype_test_rag ) );
+        col.insert( item( itype_test_rag ) );
+        ( *col.rbegin() ).set_flag( json_flag_DIRTY );
 
         REQUIRE( col.size() == 2 );
         REQUIRE( !col.begin()->same_for_rle( *col.rbegin() ) );
@@ -781,8 +888,7 @@ TEST_CASE( "item_colony_ser_deser", "[json][item]" )
             INFO( "should not be compressed" );
             CHECK( count_occurences( json, "\"typeid\":\"test_rag" ) == 2 );
         }
-        std::istringstream is( json );
-        JsonIn jsin( is );
+        JsonValue jsin = json_loader::from_string( json );
         cata::colony<item> read_val;
         {
             INFO( "should be read successfully" );
@@ -796,10 +902,10 @@ TEST_CASE( "item_colony_ser_deser", "[json][item]" )
 
     SECTION( "incorrect items in json are skipped" ) {
         // first item is an array without the run length defined (illegal)
-        std::istringstream is(
+        const char *json =
             R"([[{"typeid":"test_rag","item_vars":{"magazine_converted":"1"}}],)" "\n"
-            R"(    {"typeid":"test_rag","item_vars":{"magazine_converted":"1"}}])" );
-        JsonIn jsin( is );
+            R"(    {"typeid":"test_rag","item_vars":{"magazine_converted":"1"}}])";
+        JsonValue jsin = json_loader::from_string( json );
         cata::colony<item> read_val;
         {
             INFO( "should be read successfully" );
@@ -811,7 +917,27 @@ TEST_CASE( "item_colony_ser_deser", "[json][item]" )
         }
         {
             INFO( "item type was read correctly" );
-            CHECK( read_val.begin()->typeId() == itype_id( "test_rag" ) );
+            CHECK( read_val.begin()->typeId() == itype_test_rag );
         }
+    }
+}
+
+TEST_CASE( "serialize_optional", "[json]" )
+{
+    SECTION( "simple_empty_optional" ) {
+        cata::optional<int> o;
+        test_serialization( o, "null" );
+    }
+    SECTION( "optional_of_int" ) {
+        cata::optional<int> o( 7 );
+        test_serialization( o, "7" );
+    }
+    SECTION( "vector_of_empty_optional" ) {
+        std::vector<cata::optional<int>> v( 3 );
+        test_serialization( v, "[null,null,null]" );
+    }
+    SECTION( "vector_of_optional_of_int" ) {
+        std::vector<cata::optional<int>> v{ { 1 }, { 2 }, { 3 } };
+        test_serialization( v, "[1,2,3]" );
     }
 }

@@ -20,7 +20,6 @@
 
 class Character;
 class JsonArray;
-class JsonIn;
 class JsonObject;
 class JsonOut;
 class JsonValue;
@@ -44,6 +43,7 @@ enum class component_type : int {
 struct quality {
     bool was_loaded = false;
     quality_id id;
+    std::vector<std::pair<quality_id, mod_id>> src;
     translation name;
 
     std::vector<std::pair<int, std::string>> usages;
@@ -278,7 +278,8 @@ struct requirement_data {
          * @param id provide (or override) unique id for this instance
          */
         static void load_requirement( const JsonObject &jsobj,
-                                      const requirement_id &id = requirement_id::NULL_ID() );
+                                      const requirement_id &id = requirement_id::NULL_ID(),
+                                      bool check_extend = false );
 
         /**
          * Store requirement data for future lookup
@@ -286,13 +287,14 @@ struct requirement_data {
          * @param id provide (or override) unique id for this instance
          */
         static void save_requirement( const requirement_data &req,
-                                      const requirement_id &id = requirement_id::NULL_ID() );
+                                      const requirement_id &id = requirement_id::NULL_ID(),
+                                      const requirement_data *extend = nullptr );
         static std::vector<requirement_data> get_all();
         /**
          * Serialize custom created requirement objects for fetch activities
          */
         void serialize( JsonOut &json ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &data );
         /** Get all currently loaded requirements */
         static const std::map<requirement_id, requirement_data> &all();
 
@@ -335,7 +337,7 @@ struct requirement_data {
         alter_item_comp_vector &get_components();
 
         /**
-         * Returns true if the requirements are fufilled by the filtered inventory
+         * Returns true if the requirements are fulfilled by the filtered inventory
          * @param filter should be recipe::get_component_filter() if used with a recipe
          * or is_crafting_component otherwise.
          */
@@ -383,7 +385,7 @@ struct requirement_data {
         void dump( JsonOut &jsout ) const;
 
     private:
-        requirement_id id_ = requirement_id::NULL_ID();
+        requirement_id id_ = requirement_id::NULL_ID(); // NOLINT(cata-serialize)
 
         bool blacklisted = false;
 

@@ -1,39 +1,26 @@
 [
   {
     "type": "vehicle_part",
-    "id": "solar_panel_v3",
-    "categories": [ "energy" ],
-    "copy-from": "solar_panel",
-    "name": { "str": "quantum solar panel" },
-    "looks_like": "solar_panel_v2",
-    "proportional": { "epower": 6.0 },
-    "item": "solar_panel_v3",
-    "durability": 40,
-    "description": "An extremely high performance solar panel.  Will recharge the vehicle's electrical power when exposed to the sun.  Clouds will slow the recharge speed.  Extremely fragile and cannot be armored.",
+    "id": "tracker",
+    "name": { "str": "tracking device" },
+    "symbol": "*",
+    "categories": [ "other" ],
+    "color": "red",
+    "broken_symbol": "#",
+    "broken_color": "light_gray",
+    "damage_modifier": 10,
+    "durability": 20,
+    "description": "A small transmitter that lets you locate the vehicle on the map.",
+    "item": "veh_tracker",
+    "//": "10W GPS transponder like an XPC-TR",
+    "epower": -10,
+    "folded_volume": "500 ml",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 8 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 6 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] }
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "200 s", "using": [ [ "vehicle_screw", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "200 s", "using": [ [ "vehicle_screw", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ] ] }
     },
-    "extend": { "flags": [ "NO_REPAIR" ] },
-    "breaks_into": [
-      { "item": "steel_lump", "count": [ 4, 4 ] },
-      { "item": "steel_chunk", "count": [ 4, 4 ] },
-      { "item": "scrap", "count": [ 4, 4 ] },
-      { "item": "solar_cell", "count": [ 2, 8 ] }
-    ]
-  },
-  {
-    "id": "laser_cannon",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": { "str": "mounted Cerberus laser cannon" },
-    "item": "laser_cannon",
-    "color": "magenta",
-    "broken_color": "magenta",
-    "breaks_into": [ { "item": "scrap", "count": 14 }, { "item": "steel_chunk", "count": 6 }, { "item": "steel_lump", "count": 2 } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ] }
-    }
+    "flags": [ "TRACK", "UNMOUNT_ON_DAMAGE", "ENABLED_DRAINS_EPOWER" ],
+    "breaks_into": "ig_vp_device"
   }
 ]

@@ -63,7 +63,7 @@
       {
         "id": "mend_fault_engine_pump_diesel_replace",
         "name": "Replace faulty diesel pump",
-        "success_msg": "You replace the faulty diesel pump of the %s",
+        "success_msg": "You replace the faulty diesel pump of the %s.",
         "time": "40 m",
         "skills": [ { "id": "mechanics", "level": 4 } ],
         "requirements": { "qualities": [ { "id": "WRENCH_FINE", "level": 1 } ], "components": [ [ [ "pump_complex", 1 ] ] ] }

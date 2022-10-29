@@ -28,7 +28,7 @@
     "id": "afs_material_4",
     "copy-from": "afs_scrap_4",
     "name": { "str": "crystal forged neutrite" },
-    "description": "Great forges within the Earth's core wrought hydrogen into flaming metal and poured it within lattices of super conductive lanthanum.  Locked in magnetic equilibrium, it was left to cool into a dark unbreakable metal",
+    "description": "Great forges within the Earth's core wrought hydrogen into flaming metal and poured it within lattices of super conductive lanthanum.  Locked in magnetic equilibrium, it was left to cool into a dark unbreakable metal.",
     "looks_like": "scrap"
   },
   {

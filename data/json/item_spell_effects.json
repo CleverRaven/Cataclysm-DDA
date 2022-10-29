@@ -2,10 +2,10 @@
   {
     "id": "dragon_inflatable",
     "type": "SPELL",
-    "name": { "str": "inflatable dragon" },
+    "name": { "str": "Inflatable Dragon" },
     "description": "Creates a short-lived inflatable.",
     "valid_targets": [ "ground" ],
-    "flags": [ "SILENT" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
     "effect": "summon",
     "effect_str": "mon_halloween_dragon",
     "shape": "blast",
@@ -22,10 +22,10 @@
   {
     "id": "ghost_inflatable",
     "type": "SPELL",
-    "name": { "str": "inflatable ghost" },
+    "name": { "str": "Inflatable Ghost" },
     "description": "Creates a short-lived inflatable.",
     "valid_targets": [ "ground" ],
-    "flags": [ "SILENT" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
     "effect": "summon",
     "effect_str": "mon_halloween_ghost",
     "shape": "blast",
@@ -42,12 +42,12 @@
   {
     "id": "fog_machine",
     "type": "SPELL",
-    "name": { "str": "fog ex machina" },
+    "name": { "str": "Fog Ex Machina" },
     "description": "You see fog bubbling out of the device.",
     "effect": "attack",
     "shape": "cone",
     "valid_targets": [ "ally", "hostile", "ground" ],
-    "flags": [ "SILENT" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
     "max_level": 1,
     "min_damage": 1,
     "max_damage": 1,
@@ -63,22 +63,5 @@
     "min_duration": 18000,
     "max_duration": 18000,
     "damage_type": "cold"
-  },
-  {
-    "id": "spice_pain",
-    "type": "SPELL",
-    "name": { "str": "spice pain" },
-    "description": "Causes pain from eating spicy food.",
-    "valid_targets": [ "self" ],
-    "flags": [ "SILENT" ],
-    "min_damage": -2,
-    "max_damage": -200,
-    "damage_increment": -2.0,
-    "max_level": 100,
-    "//": "Spicier dishes might be added in the future so the spell is ready for them.",
-    "message": "Spicy!",
-    "shape": "blast",
-    "effect": "recover_energy",
-    "effect_str": "PAIN"
   }
 ]

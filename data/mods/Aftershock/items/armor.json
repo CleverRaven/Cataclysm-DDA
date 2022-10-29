@@ -40,8 +40,8 @@
     "id": "afs_holo_cloak_mk2",
     "type": "TOOL_ARMOR",
     "copy-from": "afs_sentinel_cloak",
-    "name": { "str": "hologram cloak mk.2" },
-    "description": "When activated, creates an holographic decoy of its wearer.  Powered by an experimental n-space energy generator, it slowly recharges itself for free, probably by syphoning excess energy from some unknown hyperdimensional space.",
+    "name": { "str": "hologram cloak Mk. II", "str_pl": "hologram cloaks Mk. II" },
+    "description": "When activated, creates a holographic decoy of its wearer.  Powered by an experimental n-space energy generator, it slowly recharges itself for free, probably by siphoning excess energy from some unknown hyperdimensional space.",
     "charges_per_use": 1,
     "//": "Change charges and charge_regen only",
     "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "1 h", "regenerate_ammo": true } },
@@ -54,7 +54,7 @@
     "type": "ARMOR",
     "copy-from": "jedi_cloak",
     "name": { "str": "sentinel-lx cloak" },
-    "description": "The vantablack cloak of sentinel-lx hangs around ones shoulders as a solid, unnatural shadow.  Made from woven graphene, its lightweight and resistant, but cannot be repaired",
+    "description": "The vantablack cloak of sentinel-lx hangs around ones shoulders as a solid, unnatural shadow.  Made from woven graphene, it's lightweight and resistant, but cannot be repaired.",
     "price": 1500000,
     "material": [ "graphene_weave" ],
     "symbol": "[",
@@ -64,6 +64,25 @@
     "flags": [ "OVERSIZE", "HOOD", "OUTER", "NO_REPAIR", "SUPER_FANCY", "STURDY" ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "BONUS_DODGE", "add": 1 } ] } ] },
     "armor": [ { "encumbrance": 4, "coverage": 85, "covers": [ "torso", "head", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
+  },
+  {
+    "id": "afs_wrist_computer",
+    "type": "TOOL_ARMOR",
+    "category": "armor",
+    "name": { "str": "IX-2110 computer" },
+    "description": "The original Imagos IX-2110, a general use wrist computer originally designed to support operations within hazardous environments.  Among the most successful pieces of technology ever created, millions of these were produced and sold to the explorers and colonists that first tamed the stars during the early Hyperspace Era.  By now more than 400 years old, making it boot successfully would be a small adventure all of its own.",
+    "weight": "315 g",
+    "volume": "1200 ml",
+    "price": "20 USD",
+    "to_hit": -1,
+    "material": [ "steel", "plastic" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "sided": true,
+    "armor": [ { "encumbrance": 10, "coverage": 45, "covers": [ "arm_l", "arm_r" ] } ],
+    "warmth": 10,
+    "material_thickness": 2,
+    "flags": [ "BELTED", "STURDY", "WATER_FRIENDLY" ]
   },
   {
     "id": "xl_jeans",
@@ -115,7 +134,7 @@
     "id": "q_solarpack",
     "type": "TOOL_ARMOR",
     "name": { "str": "quantum solar backpack (folded)", "str_pl": "quantum solar backpacks (folded)" },
-    "description": "Personal portable charging system consisting of an array of quantum solar panels neatly folded in a form of a large backpack.  It can be worn as one, and has an integrated cable to plug it into a cable charger system.  Cutting edge technology.",
+    "description": "Personal portable charging system consisting of an array of quantum solar panels neatly folded in the form of a large backpack.  It can be worn as one, and has an integrated cable to plug it into a cable charger system.  Cutting edge technology.",
     "weight": "7500 g",
     "volume": "5 L",
     "price": 1500000,
@@ -182,7 +201,7 @@
     "type": "ARMOR",
     "category": "armor",
     "//": "Based on US Army SPCS",
-    "name": { "str": "empty XL  ballistic vest" },
+    "name": { "str": "empty XL ballistic vest" },
     "description": "Oversized ballistic armor without any armor inserts.  The soft armor plate carrier is still protective but it won't stop high energy projectiles.",
     "weight": "4 kg",
     "volume": "7 L",
@@ -217,7 +236,7 @@
     "repairs_like": "boots_survivor",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str_sp": "pair of XL combat boots" },
+    "name": { "str": "pair of XL combat boots", "str_pl": "pairs of XL combat boots" },
     "description": "Modern oversized reinforced tactical combat boots.  Very durable.",
     "weight": "1460 g",
     "volume": "5 L",
@@ -240,7 +259,7 @@
     "repairs_like": "gloves_survivor",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str_sp": "pair of XL tactical gloves" },
+    "name": { "str": "pair of XL tactical gloves", "str_pl": "pairs of XL tactical gloves" },
     "description": "A pair of oversized reinforced Kevlar tactical gloves.  Commonly used by police and military units.",
     "weight": "1 kg",
     "volume": "750 ml",
@@ -260,7 +279,7 @@
     "repairs_like": "gloves_survivor",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str_sp": "pair of Killophant gloves" },
+    "name": { "str": "pair of Killophant gloves", "str_pl": "pairs of Killophant gloves" },
     "description": "A pair of reinforced Kevlar tactical gloves, specifically designed to accommodate three-fingered Killophants.  Thinner than regular oversized tactical gloves.",
     "weight": "320 g",
     "volume": "750 ml",
@@ -283,7 +302,7 @@
     "weight": "150 g",
     "volume": "350 ml",
     "copy-from": "leather_belt",
-    "flags": [ "WAIST", "WATER_FRIENDLY", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xlpolice_belt",
@@ -293,7 +312,7 @@
     "weight": "450 g",
     "volume": "2500 ml",
     "copy-from": "police_belt",
-    "flags": [ "WAIST", "WATER_FRIENDLY", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xltac_fullhelmet",
@@ -338,7 +357,7 @@
     "name": { "str": "communications cap" },
     "description": "A padded cotton cap built around an augmented reality headset.  During normal operation it would provide visual information about a ship subsystems and a communications link with the rest of the crew, but severed from a spaceship, only their hearing protection function retains any utility.",
     "armor": [
-      { "covers": [ "eyes" ], "coverage": 33, "encumbrance": 0 },
+      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 33, "encumbrance": 0 },
       { "covers": [ "head" ], "coverage": 100, "encumbrance": 2 }
     ],
     "color": "brown"
@@ -404,7 +423,7 @@
   {
     "id": "wetsuit_cecalia",
     "type": "ARMOR",
-    "name": { "str": "cecalia wetsuit" },
+    "name": { "str": "Cecalia wetsuit" },
     "description": "A wetsuit designed for the Octopus Uplifts known as Cecalia.  This is the explorer suit with no head or tentacle protection.",
     "weight": "1320 g",
     "volume": "4 L",
@@ -477,6 +496,113 @@
     "material_thickness": 2,
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ],
-    "armor": [ { "encumbrance": [ 2, 5 ], "coverage": 90, "covers": [ "torso", "arm_l", "arm_r" ] } ]
+    "armor": [
+      {
+        "material": [
+          { "type": "neoprene", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 0.3 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 5
+      },
+      {
+        "material": [
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 0.3 },
+          { "type": "neoprene", "covered_by_mat": 100, "thickness": 0.7 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 2
+      }
+    ]
+  },
+  {
+    "id": "nanomesh_vest",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "nanomesh vest" },
+    "description": "A lightweight nanomesh vest designed to face down many of the perils of space travel.  These vests are mass produced and often stacked in starship lockers..",
+    "weight": "6953 g",
+    "volume": "1 L",
+    "price": 10000,
+    "price_postapoc": 2000,
+    "to_hit": -1,
+    "material": [ "nanoprinted_alloy" ],
+    "symbol": "[",
+    "looks_like": "mt_chainmail_vest",
+    "repairs_like": "mt_chainmail_vest",
+    "color": "light_red",
+    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
+    "armor": [
+      {
+        "material": [ { "type": "nanoprinted_alloy", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 12
+      }
+    ]
+  },
+  {
+    "id": "xl_nanomesh_vest",
+    "type": "ARMOR",
+    "name": { "str": "XL nanomesh_vest" },
+    "copy-from": "nanomesh_vest",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "carbide_cuirass",
+    "type": "ARMOR",
+    "category": "armor",
+    "repairs_like": "cuirass_lightplate",
+    "looks_like": "cuirass_lightplate",
+    "name": { "str": "vacuum cast cuirass", "str_pl": "vacuum cast cuirasses" },
+    "description": "This piece of armor harkens back to renaissance designs.  It differs in that it is cast as a single piece in deep space installations where conditions can be controlled absolutely.",
+    "weight": "4200 g",
+    "volume": "6 L",
+    "price": 300000,
+    "price_postapoc": 300000,
+    "to_hit": -1,
+    "material": [ "vacuum_carbide" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "warmth": 20,
+    "longest_side": "60 cm",
+    "material_thickness": 4,
+    "flags": [ "VARSIZE", "OUTER", "STURDY" ],
+    "armor": [
+      { "encumbrance": 20, "coverage": 95, "covers": [ "torso" ] },
+      {
+        "encumbrance": 4,
+        "coverage": 95,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ]
+      },
+      {
+        "encumbrance": 4,
+        "coverage": 95,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
+      }
+    ]
+  },
+  {
+    "id": "xl_carbide_cuirass",
+    "type": "ARMOR",
+    "name": { "str": "XL vacuum cast cuirass", "str_pl": "XL vacuum cast cuirasses" },
+    "copy-from": "carbide_cuirass",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "OUTER" ]
+  },
+  {
+    "id": "xs_carbide_cuirass",
+    "type": "ARMOR",
+    "copy-from": "carbide_cuirass",
+    "looks_like": "carbide_cuirass",
+    "material_thickness": 3,
+    "name": { "str": "XS vacuum cast cuirass", "str_pl": "XS vacuum cast cuirasses" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
   }
 ]
