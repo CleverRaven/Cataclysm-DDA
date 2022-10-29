@@ -48,12 +48,12 @@
     "name": { "str": "rockwheel" },
     "color": "dark_gray",
     "description": "A large and heavy jagged metal disc to dig trenches.",
-    "weight": "62000 g",
+    "weight": "595 kg",
     "material": [ "steel" ],
     "category": "veh_parts",
     "price": 8500,
     "price_postapoc": 500,
-    "volume": "7250 ml"
+    "volume": "70 L"
   },
   {
     "type": "GENERIC",
