@@ -232,7 +232,10 @@
         "ú": { "item": "farm_supply_rocks", "chance": 100, "repeat": [ 1, 6 ] },
         "Ï": { "item": "farm_supply_quicklime_and_saltpetre", "chance": 40, "repeat": [ 1, 4 ] },
         "Í": {
-          "item": { "subtype": "collection", "entries": [ { "group": "farm_supply_animal_feed", "prob": 93 }, { "group": "farm_supply_riding_gear", "prob": 7 } ] },
+          "item": {
+            "subtype": "collection",
+            "entries": [ { "group": "farm_supply_animal_feed", "prob": 93 }, { "group": "farm_supply_riding_gear", "prob": 7 } ]
+          },
           "chance": 80,
           "repeat": [ 1, 4 ]
         },
@@ -291,13 +294,25 @@
           "chance": 100
         },
         "_": {
-          "item": { "subtype": "collection", "entries": [ { "item": "null", "prob": 300 }, { "group": "trash", "prob": 1 },
-          { "group": "farm_supply_floor_surprises", "prob": 1 } ] },
+          "item": {
+            "subtype": "collection",
+            "entries": [
+              { "item": "null", "prob": 300 },
+              { "group": "trash", "prob": 1 },
+              { "group": "farm_supply_floor_surprises", "prob": 1 }
+            ]
+          },
           "chance": 100
         },
         ",": {
-          "item": { "subtype": "collection", "entries": [ { "item": "null", "prob": 300 }, { "group": "trash", "prob": 1 },
-          { "group": "farm_supply_floor_surprises", "prob": 1 } ] },
+          "item": {
+            "subtype": "collection",
+            "entries": [
+              { "item": "null", "prob": 300 },
+              { "group": "trash", "prob": 1 },
+              { "group": "farm_supply_floor_surprises", "prob": 1 }
+            ]
+          },
           "chance": 100
         },
         "g": { "item": "trash", "chance": 70, "repeat": [ 0, 2 ] },
@@ -672,7 +687,10 @@
         "ú": { "item": "farm_supply_rocks", "chance": 100, "repeat": [ 1, 6 ] },
         "Ï": { "item": "farm_supply_quicklime_and_saltpetre", "chance": 35, "repeat": [ 1, 4 ] },
         "Í": {
-          "item": { "subtype": "collection", "entries": [ { "group": "farm_supply_animal_feed", "prob": 93 }, { "group": "farm_supply_riding_gear", "prob": 7 } ] },
+          "item": {
+            "subtype": "collection",
+            "entries": [ { "group": "farm_supply_animal_feed", "prob": 93 }, { "group": "farm_supply_riding_gear", "prob": 7 } ]
+          },
           "chance": 80,
           "repeat": [ 1, 4 ]
         },
@@ -733,13 +751,25 @@
           "chance": 100
         },
         "_": {
-          "item": { "subtype": "collection", "entries": [ { "item": "null", "prob": 200 }, { "group": "trash", "prob": 1 },
-          { "group": "farm_supply_floor_surprises", "prob": 1 } ] },
+          "item": {
+            "subtype": "collection",
+            "entries": [
+              { "item": "null", "prob": 200 },
+              { "group": "trash", "prob": 1 },
+              { "group": "farm_supply_floor_surprises", "prob": 1 }
+            ]
+          },
           "chance": 100
         },
         ",": {
-          "item": { "subtype": "collection", "entries": [ { "item": "null", "prob": 200 }, { "group": "trash", "prob": 1 },
-          { "group": "farm_supply_floor_surprises", "prob": 1 } ] },
+          "item": {
+            "subtype": "collection",
+            "entries": [
+              { "item": "null", "prob": 200 },
+              { "group": "trash", "prob": 1 },
+              { "group": "farm_supply_floor_surprises", "prob": 1 }
+            ]
+          },
           "chance": 100
         },
         "g": { "item": "trash", "chance": 70, "repeat": [ 0, 2 ] },
@@ -833,10 +863,7 @@
     "nested_mapgen_id": "farm_supply_fence_destruction",
     "object": {
       "mapgensize": [ 24, 24 ],
-      "set": [
-        { "point": "bash", "x": 22, "y": [ 0, 20 ] },
-        { "point": "bash", "x": 22, "y": [ 0, 20 ], "repeat": [ 0, 1 ] }
-      ]
+      "set": [ { "point": "bash", "x": 22, "y": [ 0, 20 ] }, { "point": "bash", "x": 22, "y": [ 0, 20 ], "repeat": [ 0, 1 ] } ]
     }
   }
 ]

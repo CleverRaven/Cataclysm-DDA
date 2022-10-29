@@ -2113,19 +2113,16 @@
   {
     "id": "farm_supply_animal_feed",
     "type": "item_group",
-    "items": [ 
+    "items": [
       { "item": "cattlefodder", "prob": 50, "charges": 60, "container-item": "bag_canvas" },
       { "item": "birdfood", "prob": 50, "charges": 60, "container-item": "bag_canvas" }
-     ]
+    ]
   },
   {
     "id": "farm_supply_riding_gear",
     "type": "item_group",
     "subtype": "collection",
-    "items": [ 
-      { "item": "horse_tack" },
-      { "item": "saddlebag" }
-     ]
+    "items": [ { "item": "horse_tack" }, { "item": "saddlebag" } ]
   },
   {
     "id": "farm_supply_floor_surprises",
