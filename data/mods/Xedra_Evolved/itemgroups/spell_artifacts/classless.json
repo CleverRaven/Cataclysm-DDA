@@ -58,7 +58,6 @@
   {
     "type": "item_group",
     "id": "xe_classless_spell_group2",
-    "//": "each group contain artifacts of his tier, plus spells of +1 and -1 tier with lower probability. group is used in mapgen",
     "subtype": "distribution",
     "entries": [
       { "group": "xe_classless_spell_tier1", "prob": 50 },
@@ -69,7 +68,6 @@
   {
     "type": "item_group",
     "id": "xe_classless_spell_group3",
-    "//": "each group contain artifacts of his tier, plus spells of +1 and -1 tier with lower probability. group is used in mapgen",
     "subtype": "distribution",
     "entries": [
       { "group": "xe_classless_spell_tier2", "prob": 50 },
@@ -80,7 +78,6 @@
   {
     "type": "item_group",
     "id": "xe_classless_spell_group4",
-    "//": "each group contain artifacts of his tier, plus spells of +1 and -1 tier with lower probability. group is used in mapgen",
     "subtype": "distribution",
     "entries": [ { "group": "xe_classless_spell_tier3", "prob": 50 }, { "group": "xe_classless_spell_tier4", "prob": 100 } ]
   },
