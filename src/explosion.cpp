@@ -72,7 +72,6 @@ static const flag_id json_flag_ACTIVATE_ON_PLACE( "ACTIVATE_ON_PLACE" );
 static const furn_str_id furn_f_machinery_electronic( "f_machinery_electronic" );
 
 static const itype_id fuel_type_none( "null" );
-static const itype_id itype_battery( "battery" );
 static const itype_id itype_e_handcuffs( "e_handcuffs" );
 static const itype_id itype_mininuke_act( "mininuke_act" );
 static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
@@ -759,12 +758,8 @@ void emp_blast( const tripoint &p )
         }
 
         for( item_location &it : player_character.all_items_loc() ) {
-            // Drain any batteries and battery-operated items in player's possession of their battery charge
-            if( ( it->is_tool() && it->ammo_current() == itype_battery ) || it->is_battery() ) {
-                it->ammo_unset();
-            }
             // Render any electronic stuff in player's possession non-functional
-            if( ( it->has_flag( flag_ELECTRONIC ) || it->is_battery() ) && !it->is_broken() &&
+            if( it->has_flag( flag_ELECTRONIC ) && !it->is_broken() &&
                 get_option<bool>( "EMP_DISABLE_ELECTRONICS" ) ) {
                 add_msg( m_bad, _( "The EMP blast fries your %s!" ), it->tname() );
                 it->deactivate();
@@ -774,10 +769,6 @@ void emp_blast( const tripoint &p )
     }
 
     for( item &it : here.i_at( p ) ) {
-        // Drain any batteries and battery-operated items on the ground of their battery charge
-        if( ( it.is_tool() && it.ammo_current() == itype_battery ) || it.is_battery() ) {
-            it.ammo_unset();
-        }
         // Render any electronic stuff on the ground non-functional
         if( it.has_flag( flag_ELECTRONIC ) && !it.is_broken() &&
             get_option<bool>( "EMP_DISABLE_ELECTRONICS" ) ) {

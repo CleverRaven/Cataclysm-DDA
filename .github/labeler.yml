@@ -24,9 +24,9 @@
   - doxygen_doc/**/*
 
 "Code: Tooling":
-  - tools/**/*
-  - .github/**/*
-  - utilities/**/*
+  - ".github/**"
+  - "utilities/**"
+  - any: ['tools/**', '!tools/spell_checker/dictionary.txt']
 
 "Code: Tests":
   - tests/**/*

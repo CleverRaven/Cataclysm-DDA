@@ -76,6 +76,20 @@ In general larger creatures should have higher HP as should more evolved blob cr
 Zombies are a bit faster than "shambling". Zombified versions of fast critters will remain fast, but in general the process slows the undead version. Further, under no circumstances should a zed be more than 50% faster than base character speed. Currently, this means "capped at 150".
 
 
+# Monster Difficulty scaling:
+Minimum: 0 (no danger; yellow chick, fly, goose)
+
+Average Day 1 Difficulty: 4 (average critter; most basic zeds, slimes, soldier ants)
+
+Average first evolution difficulty: ~20 (more dangerous; zombie brute, zombear, albino penguin, giant wasp, missile spider)
+
+Notable difficulty: ~50 (unusually dangerous; zombie master, mi-go, antlered hammer, M202A1 autonomous TALON UGV, mad militia, mi-go slaver, alpha bee)
+
+Very high difficulty: ~100 (supernaturally dangerous; zombie hulk, shoggoth, wraith, jabberwock, skeletal juggernaut, fused dragonflies, mi-go guard)
+
+Maximum danger: 300 (highest for balance purposes; triffid heart, melded task force)
+
+
 # Dodge System assumptions:
 Dodge chance is based on attacker's melee skill and target's dex stat and dodge skill.
 

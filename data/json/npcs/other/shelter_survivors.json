@@ -27,7 +27,7 @@
     "class": "NC_HOMELESS_BROKER",
     "name_suffix": "scavenger",
     "attitude": 0,
-    "mission": 7,
+    "mission": 3,
     "chat": "TALK_NPC_HOMELESS_BROKER",
     "faction": "wasteland_scavengers",
     "mission_offered": "MISSION_KILL_SLIMES"

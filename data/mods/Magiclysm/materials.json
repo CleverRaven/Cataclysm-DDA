@@ -281,7 +281,7 @@
     "type": "material",
     "id": "concentrated_mana",
     "name": "Concentrated Mana",
-    "density": 38,
+    "density": 2,
     "reinforces": false,
     "bash_resist": 8,
     "cut_resist": 13,
