@@ -203,8 +203,8 @@ class enchantment
         std::map<enchant_vals::mod, int_or_var<dialogue>> values_multiply; // NOLINT(cata-serialize)
 
         // the exact same as above, though specifically for skills
-        std::map<skill_id, int_or_var<dialogue>> skill_values_add;
-        std::map<skill_id, int_or_var<dialogue>> skill_values_multiply;
+        std::map<skill_id, int_or_var<dialogue>> skill_values_add; // NOLINT(cata-serialize)
+        std::map<skill_id, int_or_var<dialogue>> skill_values_multiply; // NOLINT(cata-serialize)
 
         std::vector<fake_spell> hit_me_effect;
         std::vector<fake_spell> hit_you_effect;
