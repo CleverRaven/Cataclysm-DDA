@@ -175,7 +175,7 @@
     "price": 1,
     "to_hit": -2,
     "bashing": 6,
-    "material": [ "steel" ],
+    "material": [ "concentrated_mana" ],
     "symbol": "[",
     "color": "brown",
     "warmth": 30,
