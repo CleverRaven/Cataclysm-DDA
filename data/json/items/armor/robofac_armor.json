@@ -58,7 +58,7 @@
         "ablative": true,
         "volume_encumber_modifier": 0,
         "max_contains_volume": "5000 ml",
-        "max_contains_weight": "5 kg",
+        "max_contains_weight": "11 kg",
         "moves": 200,
         "description": "Hooks for an armored mantle.",
         "flag_restriction": [ "ABLATIVE_MANTLE" ]
