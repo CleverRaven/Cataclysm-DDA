@@ -3031,7 +3031,7 @@ std::vector<std::pair<std::string, std::string>> Character::get_overlay_ids() co
     return rval;
 }
 
-const SkillLevelMap Character::get_all_skills() const
+SkillLevelMap Character::get_all_skills() const
 {
     SkillLevelMap skills = *_skills;
     for( std::pair<const skill_id, SkillLevel> &sk : skills ) {
