@@ -12,7 +12,8 @@
     "volume": "4 L",
     "category": "veh_parts",
     "price": 10000,
-    "price_postapoc": 1250
+    "price_postapoc": 1250,
+    "flags": [ "WATER_BREAK", "ELECTRONIC" ]
   },
   {
     "type": "GENERIC",
@@ -27,7 +28,8 @@
     "volume": "2 L",
     "category": "veh_parts",
     "price": 10000,
-    "price_postapoc": 750
+    "price_postapoc": 750,
+    "flags": [ "WATER_BREAK", "ELECTRONIC" ]
   },
   {
     "type": "GENERIC",
@@ -43,22 +45,8 @@
     "bashing": 2,
     "category": "veh_parts",
     "price": 40000,
-    "price_postapoc": 500
-  },
-  {
-    "type": "GENERIC",
-    "id": "veh_tracker",
-    "name": { "str": "vehicle tracking device" },
-    "description": "A vehicle tracking device.  When installed on a vehicle it allows you track the vehicle.",
-    "weight": "400 g",
-    "color": "red",
-    "symbol": ";",
-    "material": [ "plastic", "aluminum" ],
-    "volume": "500 ml",
-    "bashing": 1,
-    "category": "veh_parts",
-    "price": 80000,
-    "price_postapoc": 750
+    "price_postapoc": 500,
+    "flags": [ "WATER_BREAK", "ELECTRONIC" ]
   },
   {
     "id": "reins_tackle",
@@ -91,7 +79,8 @@
     "bashing": 1,
     "category": "veh_parts",
     "price": 8000,
-    "price_postapoc": 250
+    "price_postapoc": 250,
+    "flags": [ "WATER_BREAK", "ELECTRONIC" ]
   },
   {
     "type": "GENERIC",
@@ -104,7 +93,8 @@
     "material": [ "plastic" ],
     "volume": "1500 ml",
     "price": 4000,
-    "price_postapoc": 250
+    "price_postapoc": 250,
+    "flags": [ "WATER_BREAK", "ELECTRONIC" ]
   },
   {
     "type": "GENERIC",

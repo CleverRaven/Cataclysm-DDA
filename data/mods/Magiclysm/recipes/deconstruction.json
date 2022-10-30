@@ -40,6 +40,16 @@
     "components": [ [ [ "orichalcum_sliver", 80 ] ], [ [ "orichalcum_lump", 20 ] ] ]
   },
   {
+    "result": "broken_eshaper_golem",
+    "type": "uncraft",
+    "activity_level": "fake",
+    "skill_used": "spellcraft",
+    "difficulty": 4,
+    "time": "4 h",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "rock", 190 ] ], [ [ "sharp_rock", 27 ] ] ]
+  },
+  {
     "result": "bundle_black_scale",
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",

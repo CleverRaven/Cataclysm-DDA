@@ -27,13 +27,13 @@
     "type": "MONSTER_FACTION",
     "name": "chewgum",
     "neutral": [ "bot", "plant", "nether", "human", "crackers", "cookies" ],
-    "by_mood": [ "insect", "player", "animal", "gummy_bears", "marshmallow_boys", "caff_chewgum" ]
+    "by_mood": [ "insect", "player", "animal", "gummy_bears", "marshmallow_boys", "caff_chewgum", "licorice_snakes" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "caff_chewgum",
     "neutral": [ "bot", "plant", "nether", "human", "crackers", "cookies" ],
-    "by_mood": [ "insect", "player", "animal", "gummy_bears", "marshmallow_boys", "chewgum" ]
+    "by_mood": [ "insect", "player", "animal", "gummy_bears", "marshmallow_boys", "chewgum", "licorice_snakes" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -47,7 +47,9 @@
       "gummy_bears",
       "marshmallow_boys",
       "caff_chewgum",
-      "chewgum"
+      "chewgum",
+      "chocolate_cow",
+      "licorice_snakes"
     ],
     "neutral": [ "small_animal", "insect", "fish" ],
     "by_mood": [ "bee" ]
@@ -56,6 +58,13 @@
     "type": "MONSTER_FACTION",
     "name": "licorice_snakes",
     "neutral": [ "bot", "plant", "nether", "human", "crackers", "cookies" ],
-    "by_mood": [ "insect", "player", "animal", "gummy_bears", "chewgum" ]
+    "by_mood": [ "insect", "player", "animal", "gummy_bears", "chewgum", "chocolate_cow", "caff_chewgum" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "chocolate_cow",
+    "neutral": [ "bot", "plant", "nether", "human", "gummy_bears", "marshmallow_boys" ],
+    "by_mood": [ "insect", "player", "animal", "cookies", "licorice_snakes" ],
+    "base_faction": "herbivore"
   }
 ]

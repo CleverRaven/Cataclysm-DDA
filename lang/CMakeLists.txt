@@ -11,7 +11,7 @@ if (NOT GETTEXT_FOUND)
             msgfmt.exe
             HINTS
                   C:\\msys64\\usr\\bin
-                  C:\\Prorogram\ Files\\Git\\mingw64\\bin
+                  C:\\Program\ Files\\Git\\mingw64\\bin
         )
     endif(MSVC)
     if(NOT GETTEXT_MSGFMT_EXECUTABLE)
@@ -77,13 +77,16 @@ else ()
             DEPENDS translations_prepare)
 endif ()
 
+set(DIRS "${LANGUAGES}")
+list(TRANSFORM DIRS REPLACE "\(.+\)" lang/mo/\\1/LC_MESSAGES)
+add_custom_command(
+        TARGET translations_prepare
+        PRE_BUILD
+        COMMAND ${CMAKE_COMMAND} -E
+                make_directory ${DIRS}
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
+
 foreach (LANG ${LANGUAGES})
-    add_custom_command(
-            TARGET translations_prepare
-            PRE_BUILD
-            COMMAND ${CMAKE_COMMAND} -E
-                    make_directory ${CMAKE_SOURCE_DIR}/lang/mo/${LANG}/LC_MESSAGES
-            WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
     add_custom_command(
             TARGET translations_compile
             PRE_BUILD
@@ -92,7 +95,7 @@ foreach (LANG ${LANGUAGES})
             WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
     if (RELEASE)
         if ("${CMAKE_SYSTEM_NAME}" MATCHES "Windows")
-            #install(DIRECTORY ${CMAKE_SOURCE_DIR}/lang/mo/${LANG} DESTINATION ${DATA_PREFIX})
+            install(DIRECTORY ${CMAKE_SOURCE_DIR}/lang/mo/${LANG} DESTINATION ${LOCALE_DIR}/mo)
         else ()
             install(DIRECTORY ${CMAKE_SOURCE_DIR}/lang/mo/${LANG} DESTINATION ${LOCALE_DIR})
         endif ()

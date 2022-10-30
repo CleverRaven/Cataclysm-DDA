@@ -539,6 +539,22 @@
   },
   {
     "type": "profession",
+    "id": "video_blogger",
+    "name": "Video Blogger",
+    "description": "You're a video blogger, creating and commenting video content and then posting it on various platforms.  Now most of your fans are dead, alongside your equipment.  Maybe leading a fanbase, moderating myriads of comments and surviving shitstorms has taught you something valuable after all.",
+    "points": 2,
+    "skills": [ { "level": 3, "name": "speech" }, { "level": 2, "name": "computer" } ],
+    "items": {
+      "both": {
+        "items": [ "jeans", "longshirt", "socks", "sneakers", "backpack", "pockknife", "water_clean", "wearable_camera", "wristwatch" ],
+        "entries": [ { "group": "charged_smart_phone" }, { "group": "charged_laptop" }, { "group": "charged_matches" } ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
     "id": "sheltered_survivor",
     "name": "Sheltered Survivor",
     "description": "At the start of the Cataclysm, you hunkered down in a bomb shelter.  You've spent the past months eating canned food, reading books, and tinkering with stuff in the bunker.  Now it is winter - time to face the world above.",

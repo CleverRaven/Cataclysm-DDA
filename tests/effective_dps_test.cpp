@@ -386,7 +386,7 @@ static void check_axes( const std::function<Approx( const std::string & )> &calc
 {
     SECTION( "axes" ) { // expected value around 27 but no dedicated weapons
         CHECK( calc_expected_dps( "hatchet" ) == 18.0 );
-        CHECK( calc_expected_dps( "crash_axe" ) == 24.0 );
+        CHECK( calc_expected_dps( "crash_axe" ) == 18.0 );
         CHECK( calc_expected_dps( "iceaxe" ) == 19.0 );
         CHECK( calc_expected_dps( "throwing_axe" ) == 14.0 );
         CHECK( calc_expected_dps( "carver_on" ) == 22.5 );

@@ -424,5 +424,23 @@
     "ammo_type": [ "223" ],
     "flags": [ "MAG_BULKY" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 100 } } ]
+  },
+  {
+    "id": "robofac60_123ln",
+    "looks_like": "stanag30",
+    "type": "MAGAZINE",
+    "name": { "str": "HWP 60-round 12.3 magazine" },
+    "description": "A box magazine for use with the Hub 01 Hybrid Weaons Platform, developed for the 12.3 ln round.  Physically speaking, this looks like one of the box magazines that the Exodii use for their own guns, but with a more ergonomic design afforded by the Hub's use of modern materials.",
+    "weight": "600 g",
+    "volume": "1250 ml",
+    "longest_side": "255 mm",
+    "price": 10500,
+    "price_postapoc": 450,
+    "material": [ "plastic", "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "123ln" ],
+    "flags": [ "MAG_BULKY" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "123ln": 60 } } ]
   }
 ]

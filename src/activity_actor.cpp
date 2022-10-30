@@ -824,7 +824,10 @@ void hacking_activity_actor::finish( player_activity &act, Character &who )
     act.set_to_null();
 }
 
-void hacking_activity_actor::serialize( JsonOut & ) const {}
+void hacking_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.write_null();
+}
 
 std::unique_ptr<activity_actor> hacking_activity_actor::deserialize( JsonValue & )
 {
@@ -1855,7 +1858,7 @@ void move_items_activity_actor::do_turn( player_activity &act, Character &who )
         }
 
         // Check that we can pick it up.
-        if( !target->made_of_from_type( phase_id::LIQUID ) ) {
+        if( target->made_of_from_type( phase_id::SOLID ) ) {
             item &leftovers = *target;
             // Make a copy to be put in the destination location
             item newit = leftovers;
@@ -2222,7 +2225,7 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
 
     if( here.has_furn( target ) ) {
         if( furn_type->lockpick_result.is_null() ) {
-            debugmsg( "%s lockpick_result is null", furn_type.id().str() );
+            who.add_msg_if_player( m_bad, _( "You can't open this lock." ) );
             return;
         }
 
@@ -2232,7 +2235,7 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
         }
     } else {
         if( ter_type->lockpick_result.is_null() ) {
-            debugmsg( "%s lockpick_result is null", ter_type.id().str() );
+            who.add_msg_if_player( m_bad, _( "You can't open this lock." ) );
             return;
         }
 
@@ -6174,7 +6177,7 @@ static void move_item( Character &you, item &it, const int quantity, const tripo
 
     map &here = get_map();
     // Check that we can pick it up.
-    if( !it.made_of_from_type( phase_id::LIQUID ) ) {
+    if( it.made_of_from_type( phase_id::SOLID ) ) {
         you.mod_moves( -activity_handlers::move_cost( it, src, dest ) );
 
         put_into_vehicle_or_drop( you, item_drop_reason::deliberate, { it }, dest );
