@@ -1490,7 +1490,7 @@
     "type": "GENERIC",
     "id": "millwall_brick",
     "name": { "str": "millwall brick" },
-    "description": "An improvised club, made of a tightly rolled newspaper, folded with lengthwise and duct-taped. It packs a surprising punch for what is essentially paper.",
+    "description": "An improvised club, made of a tightly rolled newspaper, folded lengthwise and duct-taped. It packs a surprising punch for what is essentially paper.",
     "weight": "125 g",
     "price": 0,
     "price_postapoc": 0,
