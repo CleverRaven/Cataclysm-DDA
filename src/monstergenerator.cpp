@@ -135,7 +135,7 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_SLUDGETRAIL: return "SLUDGETRAIL";
         case MF_SMALLSLUDGETRAIL: return "SMALLSLUDGETRAIL";
         case MF_COLDPROOF: return "COLDPROOF";
-        case MF_COMBAT_MOUNT: return "COMBAT_MOUNT"
+        case MF_COMBAT_MOUNT: return "COMBAT_MOUNT";
         case MF_FIREY: return "FIREY";
         case MF_QUEEN: return "QUEEN";
         case MF_ELECTRONIC: return "ELECTRONIC";
