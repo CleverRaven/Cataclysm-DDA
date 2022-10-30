@@ -972,7 +972,7 @@
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "Pocket Sun" },
-    "description": "A small, capsule-shaped field containing a stable portal to the sun.",
+    "description": "A small, capsule-shaped field containing a stable portal to the sun.  You can feel a solar energy radiate from it, and it saturate your body.",
     "weight": "1 g",
     "volume": "1 ml",
     "material": [ "sunlight" ],
