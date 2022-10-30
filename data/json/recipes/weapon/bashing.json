@@ -859,5 +859,26 @@
     "copy-from": "knuckle_impact",
     "time": "4h",
     "using": [ [ "blacksmithing_standard", 5 ], [ "steel_standard", 1 ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "millwall_brick",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "time": "1 m",
+    "autolearn": true,
+    "components": [
+      [
+        [ "newspaper_memorial", 1 ],
+        [ "newest_newspaper", 1 ],
+        [ "many_years_old_newspaper", 1 ],
+        [ "years_old_newspaper", 1 ],
+        [ "months_old_newspaper", 1 ],
+        [ "weeks_old_newspaper", 1 ]
+      ],
+      [ [ "duct_tape", 10 ] ]
+    ]
   }
 ]

@@ -1485,5 +1485,24 @@
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "price": 16000,
     "qualities": [ [ "HAMMER", 1 ] ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "millwall_brick",
+    "name": { "str": "millwall brick" },
+    "description": "An improvised club, made of a tightly rolled newspaper, folded with lengthwise and duct-taped. It packs a surprising punch for what is essentially paper.",
+    "weight": "125 g",
+    "price": 0,
+    "price_postapoc": 0,
+    "color": "light_gray",
+    "symbol": "/",
+    "looks_like": "cudgel",
+    "material": [ "paper", "plastic" ],
+    "techniques": [ "RAPID" ],
+    "weapon_category": [ "MACES" ],
+    "volume": "200 ml",
+    "longest_side": "30 cm",
+    "bashing": 10,
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "neutral" }
   }
 ]
