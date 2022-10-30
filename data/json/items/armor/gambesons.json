@@ -1,6 +1,42 @@
 [
   {
-    "id": "aketon_vest_canvas_layered",
+    "id": "aketon_canvas_layered",
+    "//-1": "Going off the Rule of Nines for body proportions and assuming about 20 ft sq",
+    "//": "roughly 0.25mm per sheet of canvas making this a 14-layer jack, sheets are 1x2 feet. 49 sheets for the vest and 18 sheets for the arms (67 total).",
+    "//1": "human torso is about 7 sq. feet.  80g (canvas) x 14 (layers) x 3.5 (surface area) = 3920g",
+    "//2": "human arms is about 3 sq. feet.  80g (canvas) x 12 (layers) x 1.5 (surface area) = 1440g",
+    "//3": "5360g combined",
+    "type": "ARMOR",
+    "name": { "str": "canvas aketon" },
+    "description": "A thick cloth jack, intended to be worn below metal armor.  This one is made of over a dozen layers of tough canvas, and it provides fairly decent protection on its own.",
+    "weight": "5360 g",
+    "volume": "3750 ml",
+    "price_postapoc": 750,
+    "to_hit": -5,
+    "material": [ "canvas" ],
+    "symbol": "[",
+    "looks_like": "fencing_jacket",
+    "color": "light_gray",
+    "warmth": 30,
+    "material_thickness": 3.5,
+    "flags": [ "VARSIZE", "STURDY" ],
+    "armor": [
+      {
+        "material": [ { "type": "canvas", "covered_by_mat": 100, "thickness": 3.5 } ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 10
+      },
+      {
+        "material": [ { "type": "canvas", "covered_by_mat": 100, "thickness": 3.0 } ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 10
+      }
+    ]
+  },
+  {
+    "id": "aketon_canvas_layered_vest",
     "//": "roughly 0.25mm per sheet of canvas making this a 14-layer jack, sheets are 1x2 feet. 49 sheets total.",
     "//1": "human torso is about 7 sq. feet.  80g (canvas) x 14 (layers) x 3.5 (surface area) = 3920g",
     "type": "ARMOR",
@@ -14,7 +50,7 @@
     "symbol": "[",
     "looks_like": "vest",
     "color": "light_gray",
-    "warmth": 25,
+    "warmth": 30,
     "material_thickness": 3.5,
     "flags": [ "VARSIZE", "STURDY" ],
     "armor": [
@@ -27,53 +63,26 @@
     ]
   },
   {
-    "id": "aketon_sleeves_canvas_layered",
-    "//": "roughly 0.25mm per sheet of canvas making this 10 layers, intentionally thinner than the vest, sheets are 1x2 feet. 15 sheets total",
-    "//1": "human arms is about 3 sq. feet.  80g (canvas) x 10 (layers) x 1.5 (surface area) = 1200g",
-    "type": "ARMOR",
-    "name": { "str": "canvas aketon sleeves", "str_pl": "pairs of canvas aketon sleeves" },
-    "description": "The cloth sleeves found on a typical jack.  These are thinner and meant to be worn under metal armor.  Made of many layers of tough canvas, it offers decent protection on its own.",
-    "weight": "1200 g",
-    "volume": "750 ml",
-    "price_postapoc": 750,
-    "to_hit": -5,
-    "material": [ "canvas" ],
-    "symbol": "[",
-    "looks_like": "arm_warmers",
-    "color": "light_gray",
-    "warmth": 20,
-    "material_thickness": 2.5,
-    "flags": [ "VARSIZE", "STURDY" ],
-    "armor": [
-      {
-        "material": [ { "type": "canvas", "covered_by_mat": 100, "thickness": 2.5 } ],
-        "covers": [ "arm_l", "arm_r" ],
-        "coverage": 100,
-        "encumbrance": 10
-      }
-    ]
-  },
-  {
     "id": "aketon_pants_canvas_layered",
-    "//": "roughly 0.25mm per sheet of canvas making these 10 layer pants, sheets are 1x2 feet. 30 sheets total",
-    "//1": "human legs is about 6 sq. feet.  80g (canvas) x 10 (layers) x 3 (surface area) = 2400g",
+    "//": "roughly 0.25mm per sheet of canvas making these 12 layer pants, sheets are 1x2 feet. 36 sheets total",
+    "//1": "human legs is about 6 sq. feet.  80g (canvas) x 12 (layers) x 3 (surface area) = 2880g",
     "type": "ARMOR",
     "name": { "str": "canvas arming pants", "str_pl": "pairs of canvas arming pants" },
     "description": "Tough cloth pants worn alongside an aketon underneath metal armor.  These are made of many layers of canvas offering solid protection.",
-    "weight": "2400 g",
-    "volume": "1500 ml",
+    "weight": "2880 g",
+    "volume": "1750 ml",
     "price_postapoc": 750,
     "to_hit": -5,
     "material": [ "canvas" ],
     "symbol": "[",
-    "looks_like": "pants",
+    "looks_like": "fencing_pants",
     "color": "light_gray",
-    "warmth": 20,
-    "material_thickness": 2.5,
+    "warmth": 30,
+    "material_thickness": 3.0,
     "flags": [ "VARSIZE", "STURDY" ],
     "armor": [
       {
-        "material": [ { "type": "canvas", "covered_by_mat": 100, "thickness": 2.5 } ],
+        "material": [ { "type": "canvas", "covered_by_mat": 100, "thickness": 3.0 } ],
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 100,
         "encumbrance": 10
@@ -114,14 +123,14 @@
     "//1": "human head total is about 2.5 sq. feet.  80g (canvas) x 8 (layers) x 1.25 (surface area) = 800g",
     "type": "ARMOR",
     "name": { "str": "canvas coif" },
-    "description": "A cloth coif with neck protection.  Resting on your shoulders, it serves as padding for a helmet.  Though it's pretty warm, it is constructed of tough canvas and provides substantial protection even on its own.",
+    "description": "A cloth coif with neck and forehead protection.  Resting on your shoulders, it serves as padding for a helmet.  Though it's pretty warm, it is constructed of tough canvas and provides substantial protection even on its own.",
     "weight": "800 g",
     "volume": "500 ml",
     "price_postapoc": 750,
     "to_hit": -5,
     "material": [ "canvas" ],
     "symbol": "[",
-    "looks_like": "scarf_loose",
+    "looks_like": "cowl_wool",
     "color": "light_gray",
     "warmth": 30,
     "material_thickness": 2.0,
@@ -132,31 +141,35 @@
         "covers": [ "head" ],
         "specifically_covers": [ "head_throat", "head_ear_l", "head_ear_r", "head_forehead", "head_crown", "head_nape" ],
         "coverage": 100,
-        "encumbrance_modifiers": [ "WELL_SUPPORTED" ]
+        "encumbrance_modifiers": [ "WELL_SUPPORTED", "RESTRICTS_NECK" ]
       }
     ]
   },
   {
-    "id": "gambeson_vest_canvas_layered",
-    "//": "roughly 0.25mm per sheet of canvas making this a 30-layer jack, sheets are 1x2 feet. 105 sheets total.  10-layer thick skirt for roughly 40 more sheets (145)",
-    "//1": "human torso is about 7 sq. feet.  80g (canvas) x 30 (layers) x 3.5 (surface area) = 8400g + 40x80 = 11600g total",
+    "id": "gambeson_canvas_layered",
+    "//-1": "Going off the Rule of Nines for body proportions and assuming about 20 ft sq",
+    "//": "roughly 0.25mm per sheet of canvas making this a 14-layer jack, sheets are 1x2 feet. 105 sheets for the vest and 36 sheets for the arms (67 total).",
+    "//1": "human torso is about 7 sq. feet.  80g (canvas) x 30 (layers) x 3.5 (surface area) = 8400g",
+    "//2": "human arms is about 3 sq. feet.  80g (canvas) x 24 (layers) x 1.5 (surface area) = 2880g",
+    "//2": "8 layers thick waist. human waist is about 3ft circumference with the extra padding, and reaches to about below knees. doesn't usually cover the whole circumference so guessing about 1.5x2.5x8 total surface area divided by 1x2 ft for about 15-18 extra sheets, about 1200g if 15 sheets.",
+    "//3": "8400 + 2880 + 1200 = 12480g combined",
     "type": "ARMOR",
     "name": { "str": "canvas gambeson" },
-    "description": "A thick cloth tunic intended to be worn as standalone armor, as it's a little too thick to add chainmail or a cuirass on top.  Made of thirty layers of tough canvas, this will protect you from almost everything, but it's very heavy and warm.",
-    "weight": "11600 g",
-    "volume": "7500 ml",
+    "description": "A thick cloth greatcoat intended to be worn as standalone armor, as it's a little too thick to comfortably add chainmail or a cuirass on top.  Made of thirty layers of tough canvas, this will protect you from almost everything, but it's very heavy and warm.  The sleeves are a bit thinner for flexibility and it drapes below your legs, providing additional protection there.",
+    "weight": "12480 g",
+    "volume": "8250 ml",
     "price_postapoc": 750,
     "to_hit": -5,
     "material": [ "canvas" ],
     "symbol": "[",
-    "looks_like": "tunic",
+    "looks_like": "gambeson",
     "color": "light_gray",
-    "warmth": 50,
+    "warmth": 60,
     "material_thickness": 7.5,
-    "flags": [ "VARSIZE", "STURDY", "NORMAL", "OUTER" ],
+    "flags": [ "VARSIZE", "STURDY", "BLOCK_WHEN_WORN" ],
     "armor": [
       {
-        "material": [
+        "material": [ 
           { "type": "canvas", "covered_by_mat": 100, "thickness": 3.5 },
           { "type": "canvas", "covered_by_mat": 95, "thickness": 4.0 }
         ],
@@ -165,69 +178,143 @@
         "encumbrance": 20
       },
       {
-        "material": [ { "type": "canvas", "covered_by_mat": 100, "thickness": 2.5 } ],
+        "material": [
+          { "type": "canvas", "covered_by_mat": 100, "thickness": 3.0 },
+          { "type": "canvas", "covered_by_mat": 95, "thickness": 3.0 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 20,
+        "warmth": 50,
+      },
+      {
+        "material": [ { "type": "canvas", "covered_by_mat": 100, "thickness": 2.0 } ],
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
         "coverage": 72,
-        "encumbrance": 5,
+        "encumbrance": 7,
         "layers": [ "BELTED" ],
-        "warmth": 10
+        "warmth": 20
       }
     ]
   },
   {
-    "id": "gambeson_sleeves_canvas_layered",
-    "//": "roughly 0.25mm per sheet of canvas making this 20 layers, intentionally thinner than the vest, sheets are 1x2 feet. 30 sheets total",
-    "//1": "human arms is about 3 sq. feet.  80g (canvas) x 20 (layers) x 1.5 (surface area) = 2400g",
+    "id": "gambeson_canvas_layered_thinsleeved",
+    "//-1": "Going off the Rule of Nines for body proportions and assuming about 20 ft sq",
+    "//": "roughly 0.25mm per sheet of canvas making this a 14-layer jack, sheets are 1x2 feet. 105 sheets for the vest and 36 sheets for the arms (67 total).",
+    "//1": "human torso is about 7 sq. feet.  80g (canvas) x 30 (layers) x 3.5 (surface area) = 8400g",
+    "//2": "human arms is about 3 sq. feet.  80g (canvas) x 12 (layers) x 1.5 (surface area) = 1440g",
+    "//2": "8 layers thick waist. human waist is about 3ft circumference with the extra padding, and reaches to about below knees. doesn't usually cover the whole circumference so guessing about 1.5x2.5x8 total surface area divided by 1x2 ft for about 15-18 extra sheets, about 1200g if 15 sheets.",
+    "//3": "8400 + 1440 + 1200 = 11040g combined",
     "type": "ARMOR",
-    "name": { "str": "canvas gambeson sleeves", "str_pl": "pairs of canvas gambeson sleeves" },
-    "description": "The cloth sleeves found on a typical jack.  These are very thick, meant as standalone armor, and won't fit under metal armor comfortably.  Made of a huge number of canvas layers, they offer superb protection, but they're very heavy and warm.",
-    "weight": "2400 g",
-    "volume": "1500 ml",
+    "name": { "str": "canvas gambeson (thinner sleeves)" },
+    "description": "A thick cloth greatcoat intended to be worn as standalone armor, as it's a little too thick to comfortably add chainmail or a cuirass on top.  Made of thirty layers of tough canvas, this will protect you from almost everything, but it's very heavy and warm.  The sleeves are a significantly thinner for flexiblity and it drapes below your legs, providing additional protection there.",
+    "weight": "11040 g",
+    "volume": "7500 ml",
     "price_postapoc": 750,
     "to_hit": -5,
     "material": [ "canvas" ],
     "symbol": "[",
-    "looks_like": "arm_warmers",
+    "looks_like": "gambeson",
     "color": "light_gray",
-    "warmth": 45,
+    "warmth": 60,
     "material_thickness": 7.5,
-    "flags": [ "VARSIZE", "STURDY", "NORMAL", "OUTER" ],
+    "flags": [ "VARSIZE", "STURDY", "BLOCK_WHEN_WORN" ],
     "armor": [
       {
+        "material": [ 
+          { "type": "canvas", "covered_by_mat": 100, "thickness": 3.5 },
+          { "type": "canvas", "covered_by_mat": 95, "thickness": 4.0 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 20
+      },
+      {
         "material": [
-          { "type": "canvas", "covered_by_mat": 100, "thickness": 2.5 },
-          { "type": "canvas", "covered_by_mat": 95, "thickness": 2.5 }
+          { "type": "canvas", "covered_by_mat": 100, "thickness": 3.0 }
         ],
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
+        "encumbrance": 10,
+        "warmth": 30,
+      },
+      {
+        "material": [ { "type": "canvas", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
+        "coverage": 72,
+        "encumbrance": 7,
+        "layers": [ "BELTED" ],
+        "warmth": 20
+      }
+    ]
+  },
+  {
+    "id": "gambeson_canvas_layered_vest",
+    "//-1": "Going off the Rule of Nines for body proportions and assuming about 20 ft sq",
+    "//": "roughly 0.25mm per sheet of canvas making this a 14-layer jack, sheets are 1x2 feet. 105 sheets for the vest and 36 sheets for the arms (67 total).",
+    "//1": "human torso is about 7 sq. feet.  80g (canvas) x 30 (layers) x 3.5 (surface area) = 8400g",
+    "//2": "8 layers thick waist. human waist is about 3ft circumference with the extra padding, and reaches to about below knees. doesn't usually cover the whole circumference so guessing about 1.5x2.5x8 total surface area divided by 1x2 ft for about 15-18 extra sheets, about 1200g if 15 sheets.",
+    "//3": "8400 + 1200 = 9600g combined",
+    "type": "ARMOR",
+    "name": { "str": "canvas gambeson (sleeveless)" },
+    "description": "A thick cloth surcoat intended to be worn as standalone armor, as it's a little too thick to comfortably add chainmail or a cuirass on top.  Made of thirty layers of tough canvas, this will protect you from almost everything, but it's very heavy and warm.  It drapes below your legs, providing additional protection there, and it lacks sleeves entirely.",
+    "weight": "9600 g",
+    "volume": "6400 ml",
+    "price_postapoc": 750,
+    "to_hit": -5,
+    "material": [ "canvas" ],
+    "symbol": "[",
+    "looks_like": "gambeson",
+    "color": "light_gray",
+    "warmth": 60,
+    "material_thickness": 7.5,
+    "flags": [ "VARSIZE", "STURDY", "BLOCK_WHEN_WORN" ],
+    "armor": [
+      {
+        "material": [ 
+          { "type": "canvas", "covered_by_mat": 100, "thickness": 3.5 },
+          { "type": "canvas", "covered_by_mat": 95, "thickness": 4.0 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
         "encumbrance": 20
+      },
+      {
+        "material": [ { "type": "canvas", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
+        "coverage": 72,
+        "encumbrance": 7,
+        "layers": [ "BELTED" ],
+        "warmth": 20
       }
     ]
   },
   {
     "id": "gambeson_pants_canvas_layered",
-    "//": "roughly 0.25mm per sheet of canvas making these 20 layer pants, sheets are 1x2 feet. 40 sheets total",
-    "//1": "human legs is about 6 sq. feet.  80g (canvas) x 20 (layers) x 3 (surface area) = 4800g",
+    "//": "roughly 0.25mm per sheet of canvas making these 24 layer pants, sheets are 1x2 feet. 72 sheets total",
+    "//1": "human legs is about 6 sq. feet.  80g (canvas) x 24 (layers) x 3 (surface area) = 5760g",
     "type": "ARMOR",
     "name": { "str": "canvas heavy arming pants", "str_pl": "pairs of canvas heavy arming pants" },
-    "description": "Tough, thick cloth pants worn on their own alongside a gambeson.  These are made of a huge number of canvas layers offering very solid protection, though they're too thick to easily add metal armor on top and are both stuffy and restrictive.",
-    "weight": "4800 g",
-    "volume": "3000 ml",
+    "description": "Tough, extremely thick cloth pants worn on their own alongside a gambeson.  These are made of a huge number of canvas layers offering very solid protection, though they're too thick to easily add metal armor on top and are both stuffy and restrictive.",
+    "weight": "5760 g",
+    "volume": "4250 ml",
     "price_postapoc": 750,
     "to_hit": -5,
     "material": [ "canvas" ],
     "symbol": "[",
-    "looks_like": "pants",
+    "looks_like": "fencing_pants",
     "color": "light_gray",
-    "warmth": 45,
+    "warmth": 55,
     "material_thickness": 6.0,
     "flags": [ "VARSIZE", "STURDY", "NORMAL", "OUTER" ],
     "armor": [
       {
         "material": [
-          { "type": "canvas", "covered_by_mat": 100, "thickness": 2.5 },
-          { "type": "canvas", "covered_by_mat": 95, "thickness": 2.5 }
+          { "type": "canvas", "covered_by_mat": 100, "thickness": 3.0 },
+          { "type": "canvas", "covered_by_mat": 95, "thickness": 3.0 }
         ],
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 100,
