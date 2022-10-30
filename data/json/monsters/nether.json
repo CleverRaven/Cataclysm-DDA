@@ -1358,7 +1358,8 @@
       "STUN_IMMUNE",
       "WEBWALK",
       "ALL_SEEING",
-      "ALWAYS_VISIBLE"
+      "ALWAYS_VISIBLE",
+      "ALWAYS_SEES_YOU"
     ],
     "special_attacks": [
       {
