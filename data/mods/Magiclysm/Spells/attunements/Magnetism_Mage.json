@@ -289,7 +289,7 @@
     "id": "robot_disabler_explosion",
     "type": "SPELL",
     "name": "Surge",
-    "description": "Send a wave of high-frequency alternating pulse.  It can't hurt living creatures, but extremely good in destroying and stunning robots.  No, it's not EMP.",
+    "description": "Send a wave of high-frequency alternating pulse.  It can't hurt living creatures, but is extremely good destroying and stunning robots.  No, it's not EMP.",
     "flags": [ "NO_LEGS", "LOUD", "SOMATIC" ],
     "valid_targets": [ "hostile", "ground" ],
     "targeted_monster_species": [ "ROBOT", "CYBORG" ],
