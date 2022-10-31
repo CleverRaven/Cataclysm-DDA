@@ -8,12 +8,19 @@
     "volume": "250 ml",
     "price": 90000,
     "bashing": 5,
-    "material": [ "leather" ],
+    "material": [ "leather", "steel" ],
     "symbol": "[",
     "color": "brown",
     "material_thickness": 2,
     "pocket_data": [
-      { "max_contains_volume": "500 ml", "max_contains_weight": "400 g", "moves": 60, "flag_restriction": [ "BELT_CLIP" ] }
+      {
+        "holster": true,
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "750 g",
+        "max_item_length": "70 cm",
+        "moves": 60,
+        "flag_restriction": [ "BELT_CLIP" ]
+      }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stick what into your belt", "holster_msg": "You tuck your %s into your %s" },
     "flags": [ "BELTED", "WATER_FRIENDLY", "STURDY" ],
@@ -39,6 +46,7 @@
     "material_thickness": 10,
     "environmental_protection": 20,
     "weight_capacity_bonus": "50 kg",
+    "extend": { "flags": [ "PADDED" ] },
     "relic_data": {
       "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "STRENGTH", "multiply": 1.0 } ] } ]
     }

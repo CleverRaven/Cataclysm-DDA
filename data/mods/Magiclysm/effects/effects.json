@@ -444,6 +444,7 @@
     "desc": [ "Ice crystals erode your body from all directions." ],
     "base_mods": { "speed_mod": [ -10 ], "hurt_amount": [ 1 ] },
     "scaling_mods": { "speed_mod": [ -15 ], "hurt_amount": [ 4 ] },
+    "int_add_val": 1,
     "max_intensity": 3
   },
   {
@@ -474,6 +475,13 @@
         "values": [ { "value": "ITEM_DAMAGE_CUT", "add": 17 }, { "value": "ITEM_DAMAGE_AP", "add": 6 } ]
       }
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "ice_age_eff",
+    "name": [ "Glaciation" ],
+    "desc": [ "You are frozen, your bones are fragile; cracking in the cold, and your muscles are cut by razor sharp ice." ],
+    "base_mods": { "speed_mod": [ -75 ] }
   },
   {
     "type": "effect_type",

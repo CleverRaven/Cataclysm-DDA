@@ -123,6 +123,7 @@
       [ "spell_scroll_eagles_sight", 50 ],
       [ "spell_scroll_ogres_strength", 50 ],
       [ "spell_scroll_foxs_cunning", 50 ],
+      [ "spell_scroll_stormfist", 25 ],
       [ "spell_scroll_storm_hammer", 35 ],
       [ "spell_scroll_animated_blade", 35 ],
       [ "spell_scroll_mirror_image", 15 ],
