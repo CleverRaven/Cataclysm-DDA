@@ -1503,6 +1503,6 @@
     "volume": "200 ml",
     "longest_side": "30 cm",
     "bashing": 10,
-    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "neutral" }
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" }
   }
 ]
