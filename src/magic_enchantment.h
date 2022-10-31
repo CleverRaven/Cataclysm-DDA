@@ -269,8 +269,8 @@ class enchant_cache : public enchantment
         std::map<enchant_vals::mod, double> values_multiply; // NOLINT(cata-serialize)
 
         // the exact same as above, though specifically for skills
-        std::map<skill_id, int> skill_values_add;
-        std::map<skill_id, int> skill_values_multiply;
+        std::map<skill_id, int> skill_values_add; // NOLINT(cata-serialize)
+        std::map<skill_id, int> skill_values_multiply; // NOLINT(cata-serialize)
 };
 
 template <typename E> struct enum_traits;
