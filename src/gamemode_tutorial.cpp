@@ -200,7 +200,7 @@ void tutorial_game::per_turn()
         add_message( tut_lesson::LESSON_PAIN );
     }
 
-    if( player_character.get_stamina() <= 9000 ) {
+    if( player_character.get_stamina() <= 8000 ) {
         add_message( tut_lesson::LESSON_RESTORE_STAMINA );
     }
 
