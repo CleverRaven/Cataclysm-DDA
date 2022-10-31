@@ -1490,19 +1490,19 @@
     "type": "GENERIC",
     "id": "millwall_brick",
     "name": { "str": "Millwall brick" },
-    "description": "An improvised club, made of a tightly rolled newspaper, folded lengthwise and duct-taped.  It packs a surprising punch for what is essentially paper.",
-    "weight": "70 g",
+    "description": "An improvised club, made of newspaper tightly rolled around small rocks, folded lengthwise and duct-taped.",
+    "weight": "350 g",
     "price": 0,
     "price_postapoc": 0,
     "color": "light_gray",
     "symbol": "/",
     "looks_like": "cudgel",
-    "material": [ "paper", "plastic" ],
+    "material": [ "paper", "stone" ],
     "techniques": [ "RAPID" ],
-    "weapon_category": [ "MACES" ],
-    "volume": "200 ml",
+    "volume": "250 ml",
     "longest_side": "30 cm",
-    "bashing": 10,
-    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" }
+    "bashing": 7,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "neutral" },
+    "qualities": [ [ "HAMMER", 1 ] ]
   }
 ]

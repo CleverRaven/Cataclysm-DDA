@@ -878,7 +878,8 @@
         [ "months_old_newspaper", 1 ],
         [ "weeks_old_newspaper", 1 ]
       ],
-      [ [ "duct_tape", 10 ] ]
+      [ [ "duct_tape", 10 ] ],
+      [ ["pebble", 5] ]
     ]
   }
 ]
