@@ -4873,12 +4873,35 @@ int vehicle::total_water_wheel_epower_w() const
     return epower_w;
 }
 
-int vehicle::net_battery_charge_rate_w( bool include_reactors ) const
+int vehicle::net_battery_charge_rate_w( bool include_reactors, bool connected_vehicles ) const
 {
-    return total_engine_epower_w() + total_alternator_epower_w() + total_accessory_epower_w() +
-           total_solar_epower_w() + total_wind_epower_w() + total_water_wheel_epower_w() +
-           ( include_reactors ? active_reactor_epower_w( false ) : 0 );
+    if (connected_vehicles) {
+        int battery_w = net_battery_charge_rate_w(include_reactors, false);
+
+        int total_epower_capacity = 0;
+        int remaining_epower = 0;
+
+        std::tie(remaining_epower, total_epower_capacity) = battery_power_level();
+
+        auto net_battery_visitor = [&](vehicle const* veh, int amount, int) {
+
+            battery_w += veh->net_battery_charge_rate_w(include_reactors, false);
+            return 1;
+        };
+
+        traverse_vehicle_graph(this, 1, net_battery_visitor);
+
+        return battery_w;
+
+    }
+    else {
+        return total_engine_epower_w() + total_alternator_epower_w() + total_accessory_epower_w() +
+            total_solar_epower_w() + total_wind_epower_w() + total_water_wheel_epower_w() +
+            (include_reactors ? active_reactor_epower_w(false) : 0);
+    }
 }
+
+
 
 int vehicle::active_reactor_epower_w( bool connected_vehicles ) const
 {
