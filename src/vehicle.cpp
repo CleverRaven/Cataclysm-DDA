@@ -4878,11 +4878,6 @@ int vehicle::net_battery_charge_rate_w( bool include_reactors, bool connected_ve
     if (connected_vehicles) {
         int battery_w = net_battery_charge_rate_w(include_reactors, false);
 
-        int total_epower_capacity = 0;
-        int remaining_epower = 0;
-
-        std::tie(remaining_epower, total_epower_capacity) = battery_power_level();
-
         auto net_battery_visitor = [&](vehicle const* veh, int amount, int) {
 
             battery_w += veh->net_battery_charge_rate_w(include_reactors, false);
