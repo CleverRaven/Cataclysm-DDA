@@ -109,7 +109,8 @@
       { "item": "leg_bag", "prob": 15 },
       { "item": "leg_small_bag", "prob": 10 },
       { "item": "armrig", "prob": 10 },
-      { "item": "ankle_wallet_pouch", "prob": 5 }
+      { "item": "ankle_wallet_pouch", "prob": 5 },
+      { "item": "pants_hiking", "prob": 10 }
     ]
   },
   {
@@ -1406,6 +1407,7 @@
       [ "leather_belt", 30 ],
       [ "pants_leather", 60 ],
       [ "pants_cargo", 70 ],
+      [ "pants_hiking", 1 ],
       [ "shorts_cargo", 50 ],
       [ "motorbike_pants", 5 ],
       [ "breeches", 5 ],
@@ -1637,6 +1639,7 @@
       [ "pants_checkered", 5 ],
       [ "shorts", 70 ],
       [ "shorts_denim", 35 ],
+      [ "pants_hiking", 2 ],
       [ "pants", 75 ],
       [ "leather_belt", 30 ],
       [ "pants_leather", 60 ],
@@ -2077,6 +2080,7 @@
       { "item": "glasses_monocle", "prob": 2 },
       { "item": "pants_leather", "prob": 60 },
       { "item": "pants_cargo", "prob": 70 },
+      { "item": "pants_hiking", "prob": 2 },
       { "item": "shorts_cargo", "prob": 50 },
       { "item": "skirt", "prob": 75 },
       { "item": "skirt_leather", "prob": 5 },
@@ -2762,6 +2766,7 @@
       [ "gartersheath1", 1 ],
       [ "gartersheath2", 1 ],
       [ "pants_cargo", 70 ],
+      [ "pants_hiking", 15 ],
       [ "shorts_cargo", 50 ],
       [ "pants_army", 30 ],
       [ "jacket_army", 6 ],
@@ -3032,6 +3037,7 @@
     "id": "survivorzed_bottoms",
     "items": [
       [ "pants_survivor", 10 ],
+      [ "pants_hiking", 12 ],
       [ "pants_cargo", 40 ],
       [ "shorts_cargo", 22 ],
       [ "pants_army", 28 ],
