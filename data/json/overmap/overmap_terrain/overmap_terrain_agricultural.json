@@ -157,9 +157,9 @@
       "farm_isherwood_8",
       "farm_isherwood_9",
       "farm_lot_wire_straight_v",
+      "farm_lot_wire_straight_v_open",
       "farm_lot_wire_turn_h",
       "farm_lot_wire_turn_v",
-      "farm_lot_wire_turn_v_open",
       "farm_stills_1",
       "farm_stills_10",
       "farm_stills_2",
@@ -196,7 +196,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "farm_lot_M1", "farm_lot_wire_straight_h", "farm_lot_wire_straight_v_open" ],
+    "id": [ "farm_lot_M1", "farm_lot_wire_straight_h", "farm_lot_wire_turn_v_open" ],
     "copy-from": "generic_rural_building",
     "name": "farm field",
     "flags": [ "SHOULD_NOT_SPAWN" ]
