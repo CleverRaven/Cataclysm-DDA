@@ -1661,7 +1661,7 @@
     "container": "can_food_big",
     "charges": 12,
     "batch_time_factors": [ 83, 5 ],
-    "using": [ [ "mushroom_soup_ingredients", 12 ], [ "canning_metal", 12, "LIST" ], [ "tincan_large", 1 ]  ],
+    "using": [ [ "mushroom_soup_ingredients", 12 ], [ "canning_metal", 12, "LIST" ], [ "tincan_large", 1 ] ],
     "components": [ [ [ "water_clean", 6 ] ] ],
     "byproducts": [ [ "water_clean", 6 ] ]
   },
