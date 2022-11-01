@@ -138,7 +138,7 @@
             { "overmap": "farm_9", "pos": [ -1, 2, 0 ] },
             { "overmap": "air_building_n", "pos": [ -1, 0, 10 ] }
           ],
-          "weight": 3
+          "weight": 1
         },
         {
           "name": "farm_home_2",
@@ -166,7 +166,7 @@
             { "overmap": "dirt_road_ns", "pos": [ 0, 0, 0 ] },
             { "overmap": "air_building_s", "pos": [ 0, 0, 10 ] }
           ],
-          "weight": 5
+          "weight": 1
         }
       ],
       [
@@ -603,7 +603,7 @@
             { "overmap": "hayfield_s", "pos": [ -2, 3, 0 ] },
             { "overmap": "hayfield_L_nw", "pos": [ -1, 3, 0 ] }
           ],
-          "weight": 24
+          "weight": 16
         },
         {
           "name": "farmland_edge_large_2",
@@ -645,7 +645,7 @@
             { "overmap": "farmland_ew", "pos": [ -3, 3, 0 ] },
             { "overmap": "farmland_ne", "pos": [ -4, 3, 0 ] }
           ],
-          "weight": 24
+          "weight": 16
         },
         {
           "name": "farmland_edge_small_L",
@@ -727,7 +727,7 @@
             { "overmap": "farmland_ew", "pos": [ 3, 3, 0 ] },
             { "overmap": "farmland_nw", "pos": [ 4, 3, 0 ] }
           ],
-          "weight": 4
+          "weight": 3
         }
       ],
       [
