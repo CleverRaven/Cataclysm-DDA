@@ -1628,9 +1628,8 @@
     "contained": true,
     "batch_time_factors": [ 83, 5 ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "using": [ [ "mushroom_soup_ingredients", 2 ] ],
-    "components": [ [ [ "water_clean", 1 ] ] ],
-    "using": [ [ "canning_metal", 1, "LIST" ], [ "tincan_medium", 1 ] ]
+    "using": [ [ "mushroom_soup_ingredients", 2 ], [ "canning_metal", 1, "LIST" ], [ "tincan_medium", 1 ] ],
+    "components": [ [ [ "water_clean", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1648,9 +1647,8 @@
     "charges": 1,
     "batch_time_factors": [ 83, 5 ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
-    "using": [ [ "mushroom_soup_ingredients", 1 ] ],
-    "components": [ [ [ "water_clean", 1 ] ] ],
-    "using": [ [ "canning_metal", 1, "LIST" ], [ "tincan_small", 1 ] ]
+    "using": [ [ "mushroom_soup_ingredients", 1 ], [ "canning_metal", 1, "LIST" ], [ "tincan_small", 1 ] ],
+    "components": [ [ [ "water_clean", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1668,9 +1666,8 @@
     "charges": 12,
     "batch_time_factors": [ 83, 5 ],
     "tools": [ [ [ "surface_heat", 60, "LIST" ] ] ],
-    "using": [ [ "mushroom_soup_ingredients", 12 ] ],
-    "components": [ [ [ "water_clean", 6 ] ] ],
-    "using": [ [ "canning_metal", 3, "LIST" ], [ "tincan_large", 1 ] ]
+    "using": [ [ "mushroom_soup_ingredients", 12 ], [ "canning_metal", 3, "LIST" ], [ "tincan_large", 1 ]  ],
+    "components": [ [ [ "water_clean", 6 ] ] ]
   },
   {
     "type": "recipe",
@@ -2110,9 +2107,8 @@
     "contained": true,
     "batch_time_factors": [ 83, 5 ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "using": [ [ "woods_soup_ingredients", 1 ] ],
-    "components": [ [ [ "water_clean", 1 ] ] ],
-    "using": [ [ "canning_metal", 1, "LIST" ], [ "tincan_medium", 1 ] ]
+    "using": [ [ "woods_soup_ingredients", 1 ], [ "canning_metal", 1, "LIST" ], [ "tincan_medium", 1 ] ],
+    "components": [ [ [ "water_clean", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -2130,9 +2126,8 @@
     "result_mult": 6,
     "batch_time_factors": [ 83, 5 ],
     "tools": [ [ [ "surface_heat", 60, "LIST" ] ] ],
-    "using": [ [ "woods_soup_ingredients", 6 ] ],
-    "components": [ [ [ "water_clean", 6 ] ] ],
-    "using": [ [ "canning_metal", 3, "LIST" ], [ "tincan_large", 1 ] ]
+    "using": [ [ "woods_soup_ingredients", 6 ], [ "canning_metal", 3, "LIST" ], [ "tincan_large", 1 ] ],
+    "components": [ [ [ "water_clean", 6 ] ] ]
   },
   {
     "type": "recipe",
@@ -2149,9 +2144,8 @@
     "contained": true,
     "batch_time_factors": [ 83, 5 ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "using": [ [ "veggy_soup_ingredients", 2 ] ],
-    "components": [ [ [ "water_clean", 1 ] ] ],
-    "using": [ [ "canning_metal", 1, "LIST" ], [ "tincan_medium", 1 ] ]
+    "using": [ [ "veggy_soup_ingredients", 2 ], [ "canning_metal", 1, "LIST" ], [ "tincan_medium", 1 ] ],
+    "components": [ [ [ "water_clean", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -2169,9 +2163,8 @@
     "result_mult": 6,
     "batch_time_factors": [ 83, 5 ],
     "tools": [ [ [ "surface_heat", 60, "LIST" ] ] ],
-    "using": [ [ "veggy_soup_ingredients", 12 ] ],
-    "components": [ [ [ "water_clean", 6 ] ] ],
-    "using": [ [ "canning_metal", 3, "LIST" ], [ "tincan_large", 1 ] ]
+    "using": [ [ "veggy_soup_ingredients", 12 ], [ "canning_metal", 3, "LIST" ], [ "tincan_large", 1 ] ],
+    "components": [ [ [ "water_clean", 6 ] ] ]
   },
   {
     "type": "recipe",
@@ -2188,9 +2181,8 @@
     "contained": true,
     "batch_time_factors": [ 83, 5 ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "using": [ [ "meat_soup_ingredients", 1 ] ],
-    "components": [ [ [ "water_clean", 1 ] ] ],
-    "using": [ [ "canning_metal", 1, "LIST" ], [ "tincan_medium", 1 ] ]
+    "using": [ [ "meat_soup_ingredients", 1 ], [ "canning_metal", 1, "LIST" ], [ "tincan_medium", 1 ] ],
+    "components": [ [ [ "water_clean", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -2208,9 +2200,8 @@
     "result_mult": 6,
     "batch_time_factors": [ 83, 5 ],
     "tools": [ [ [ "surface_heat", 60, "LIST" ] ] ],
-    "using": [ [ "meat_soup_ingredients", 6 ] ],
-    "components": [ [ [ "water_clean", 6 ] ] ],
-    "using": [ [ "canning_metal", 3, "LIST" ], [ "tincan_large", 1 ] ]
+    "using": [ [ "meat_soup_ingredients", 6 ], [ "canning_metal", 3, "LIST" ], [ "tincan_large", 1 ] ],
+    "components": [ [ [ "water_clean", 6 ] ] ]
   },
   {
     "type": "recipe",
@@ -2227,9 +2218,8 @@
     "contained": true,
     "batch_time_factors": [ 83, 5 ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "using": [ [ "fish_soup_ingredients", 1 ] ],
-    "components": [ [ [ "water_clean", 1 ] ] ],
-    "using": [ [ "canning_metal", 1, "LIST" ], [ "tincan_medium", 1 ] ]
+    "using": [ [ "fish_soup_ingredients", 1 ], [ "canning_metal", 1, "LIST" ], [ "tincan_medium", 1 ] ],
+    "components": [ [ [ "water_clean", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -2247,9 +2237,8 @@
     "result_mult": 6,
     "batch_time_factors": [ 83, 5 ],
     "tools": [ [ [ "surface_heat", 60, "LIST" ] ] ],
-    "using": [ [ "fish_soup_ingredients", 6 ] ],
-    "components": [ [ [ "water_clean", 6 ] ] ],
-    "using": [ [ "canning_metal", 3, "LIST" ], [ "tincan_large", 1 ] ]
+    "using": [ [ "fish_soup_ingredients", 6 ], [ "canning_metal", 3, "LIST" ], [ "tincan_large", 1 ] ],
+    "components": [ [ [ "water_clean", 6 ] ] ]
   },
   {
     "type": "recipe",
@@ -2479,7 +2468,7 @@
     "charges": 1,
     "batch_time_factors": [ 83, 5 ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
-    "components": [ [ [ "bone_edible", 1, "LIST" ] ], [ [ "water_clean", 2 ] ] ],
+    "components": [ [ [ "bone_edible", 2, "LIST" ] ], [ [ "water_clean", 2 ] ] ],
     "using": [ [ "canning_metal", 1, "LIST" ], [ "tincan_small", 1 ] ]
   },
   {
