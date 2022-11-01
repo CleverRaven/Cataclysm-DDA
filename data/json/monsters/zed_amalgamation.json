@@ -252,7 +252,7 @@
     "id": "mon_amalgamation_zapper",
     "copy-from": "mon_amalgamation_abstract_med",
     "name": { "str": "charged amalgamation" },
-    "description": "A short, crablike creature waddling around on six multi-jointed legs, its body dominated by a large glowing organ bulging from between the white armor plates. A single raised appendage connects to the mass, its tip surrounded by brilliant white sparks.",
+    "description": "A short, crablike creature waddling around on six multi-jointed legs, its body dominated by a large glowing organ bulging from between the white armor plates.  A single raised appendage connects to the mass, its tip surrounded by brilliant white sparks.",
     "color": "blue",
     "speed": 95,
     "luminance": 8,
