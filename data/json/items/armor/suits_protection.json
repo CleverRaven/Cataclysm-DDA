@@ -1370,7 +1370,7 @@
   },
   {
     "id": "armor_riot",
-    "repairs_like": "survivor_suit",
+    "repairs_like": "armor_larmor",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "riot armor" },
