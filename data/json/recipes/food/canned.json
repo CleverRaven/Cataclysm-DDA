@@ -715,11 +715,7 @@
     "//": "1032g of milk is dehydrated halfway before canning giving 52u of dehydrating",
     "tools": [ [ [ "dehydrating_heat", 26, "LIST" ] ] ],
     "using": [ [ "canning_high_heat", 1, "LIST" ] ],
-    "components": [
-      [ [ "jar_glass_sealed", 1 ] ],
-      [ [ "milk_standard_raw_fresh", 4, "LIST" ] ],
-      [ [ "sugar_standard", 6, "LIST" ] ]
-    ]
+    "components": [ [ [ "jar_glass_sealed", 1 ] ], [ [ "milk_standard_raw_fresh", 4, "LIST" ] ], [ [ "sugar_standard", 6, "LIST" ] ] ]
   },
   {
     "type": "recipe",
