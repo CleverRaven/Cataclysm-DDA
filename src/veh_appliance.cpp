@@ -207,7 +207,7 @@ void veh_app_interact::draw_info()
     };
 
     // Battery power output
-    int charge_rate = veh->net_battery_charge_rate_w(true, true);
+    int charge_rate = veh->net_battery_charge_rate_w( true, true );
     print_charge( _( "Grid battery power flow: " ), charge_rate, row );
     row++;
 

@@ -4875,24 +4875,22 @@ int vehicle::total_water_wheel_epower_w() const
 
 int vehicle::net_battery_charge_rate_w( bool include_reactors, bool connected_vehicles ) const
 {
-    if (connected_vehicles) {
-        int battery_w = net_battery_charge_rate_w(include_reactors, false);
+    if( connected_vehicles ) {
+        int battery_w = net_battery_charge_rate_w( include_reactors, false );
 
-        auto net_battery_visitor = [&](vehicle const* veh, int amount, int) {
-
-            battery_w += veh->net_battery_charge_rate_w(include_reactors, false);
+        auto net_battery_visitor = [&]( vehicle const * veh, int, int ) {
+            battery_w += veh->net_battery_charge_rate_w( include_reactors, false );
             return 1;
         };
 
-        traverse_vehicle_graph(this, 1, net_battery_visitor);
+        traverse_vehicle_graph( this, 1, net_battery_visitor );
 
         return battery_w;
 
-    }
-    else {
+    } else {
         return total_engine_epower_w() + total_alternator_epower_w() + total_accessory_epower_w() +
-            total_solar_epower_w() + total_wind_epower_w() + total_water_wheel_epower_w() +
-            (include_reactors ? active_reactor_epower_w(false) : 0);
+               total_solar_epower_w() + total_wind_epower_w() + total_water_wheel_epower_w() +
+               ( include_reactors ? active_reactor_epower_w( false ) : 0 );
     }
 }
 
