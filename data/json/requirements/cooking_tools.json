@@ -48,6 +48,7 @@
     "//1": "Yes, they really are that cheap, vacuum sealers are trivial to operate.",
     "//2": "Vacuum sealed bags are an ideal environment for botulinum growth, and they cannot be heated to 125c due to bag meltage.",
     "//3": "Therefore, indefinite storage is impossible through this method, and as such vac bags are now only 50% instead of 0% spoilage.",
+    "//4": "It's likely doable to reseal an MRE bag using a sealer and the sterilize it and its contents with heat instead of radiation, though this is speculative.",
     "tools": [ [ [ "vac_sealer", 4 ], [ "makeshift_sealer", 8 ] ] ],
     "components": [ [ [ "plastic_bag", 1 ], [ "plastic_bag_vac", 1 ] ] ]
   },
@@ -83,7 +84,7 @@
         [ "acetylene_cooker", 8 ],
         [ "popcan_stove", 20 ],
         [ "fake_oven", 1000 ],
-        [ "atomic_coffeepot", 100 ],
+        [ "atomic_coffeepot", 115 ],
         [ "fire", -1 ]
       ]
     ]
@@ -127,7 +128,7 @@
     "//2": "Per its longest_side (13.2cm) a 0.5L jar is about 7cm wide.  Per its longest_side (29.8cm) a 3L jar is about 11cm wide.",
     "//3": "water needs to fill above the jar about 3-6cm.  I'm assuming half this for the radius.  Therefore 0.5L jar is immersed in an 10x18cm cylinder, and 3L jar is immersed in a 15x35cm cylinder.",
     "//4": "accounting for displacement that means about 2u water per 0.5L jar and 12u water per 3L jar.",
-    "//5": "50% more energy used compared to low_heat canning.",
+    "//5": "50% more energy used compared to low_heat canning. A 0.5L jar of meat would take about 1875kJ to can in ideal circumstances, compare to 1000kJ to cook normally or 4800kJ to dehydrate.",
     "tools": [
       [ [ "water_boiling_heat", 15, "LIST" ] ],
       [ [ "pressure_cooker", -1 ], [ "small_pressure_vessel", -1 ] ],
@@ -145,19 +146,22 @@
     "id": "canning_metal",
     "type": "requirement",
     "//": "Toolset required to seal a tin can.  Power costs of contents will need to reach 125c in order to kill botulinum, as usual.",
-    "//1": "The ingredients and the can are heated separately and then sealed while hot.",
-    "//2": "specific heat of steel is much lower than most food (420j vs 3-3.5kJ for meat) so surface_heat power cost of heating 1/8th or so",
-    "//3": "that puts cost at about 3 surface_heat for a large tin can (350g weight would be 24u if it was meat, so 24/8=3u), 1 each for small (40g) and medium (70g)",
-    "//4": "Double the surface_heat req for the food being cooked. using meat as a reference, temp is 25c->75c or so normally, but 25c->125c to kill botulinum",
-    "//5": "to reduce clutter, add 3u of surface_heat this + 2x the normal cooking cost for a large tin can, and 1u surface_heat + 2x cooking cost for small/medium",
-    "//6": "as an example, canning a large tin can of meat would be 12x20x2 = 480u surface_heat + 3u heat (12,075kJ if done by induction, compare this to 28,800kJ to dehydrate)",
+    "//1": "The ingredients are packed into the tin can with water to ensure no air is left, then sealed, then pressure cooked. The steam pressure helps prevent the lid from bursting off, which might happen if you heated the can over a stove.",
+    "//2": "similar to pressure canning, although this is measured in 0.25L rather than 0.5L, and uses a bit less power because metal cans are more compact, more thermally conductive, and are already sealed.",
+    "//3": "treating a small tin can (0.25L) of water heated inside the bare minimum amount of water to encapsulate it, heated to 33% above boiling, for roughly 12u boiling per half_liter, lower than glass jar pressure canning.",
     "qualities": [
       { "id": "SAW_M", "level": 1 },
       { "id": "HAMMER", "level": 2 },
       { "id": "CUT", "level": 2 },
       { "id": "COOK", "level": 3 }
     ],
-    "tools": [ [ [ "can_sealer", -1 ] ], [ [ "tongs", -1 ] ] ]
+    "tools": [
+      [ [ "water_boiling_heat", 6, "LIST" ] ],
+      [ [ "pressure_cooker", -1 ], [ "small_pressure_vessel", -1 ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "can_sealer", -1 ] ],
+      [ [ "tongs", -1 ] ]
+    ]
   },
   {
     "id": "tincan_small",
