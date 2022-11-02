@@ -26,7 +26,7 @@
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
         "flag_restriction": [ "BATTERY_MEDIUM" ],
-        "default_magazine": "medium_battery_cell"
+        "default_magazine": "medium_plus_battery_cell"
       }
     ]
   },
@@ -510,6 +510,7 @@
     "type": "TOOL",
     "name": { "str": "induction hotplate" },
     "description": "This is a high end hotplate that utilizes magnetic induction coils to heat ferrous cookware directly.  It is far more efficient than a standard hotplate.",
+    "//": "technically this should only work with iron/steel ferromagnetic cookware, as most copper/aluminum and ceramic stuff wouldn't work.  No way to do that easily though.",
     "weight": "862 g",
     "volume": "2 L",
     "longest_side": "35 cm",
@@ -870,8 +871,9 @@
     "category": "tools",
     "name": { "str": "pressure cooker" },
     "description": "Useful for boiling water when cooking spaghetti and more.  This sealed pot is designed to cook food at higher pressures and temperatures.  Can also be used for pressure sensitive chemical reactions.",
-    "weight": "2200 g",
-    "volume": "2500 ml",
+    "//": "roughy a 6-quart pot, these usually hold about 15-16 psi safely",
+    "weight": "6 kg",
+    "volume": "7500 ml",
     "price": 6500,
     "price_postapoc": 50,
     "to_hit": 1,
@@ -880,7 +882,7 @@
     "symbol": ")",
     "color": "light_gray",
     "looks_like": "pot_canning",
-    "pocket_data": [ { "max_contains_volume": "2 L", "max_contains_weight": "2 kg", "watertight": true, "rigid": true } ],
+    "pocket_data": [ { "max_contains_volume": "6 L", "max_contains_weight": "100 kg", "watertight": true, "rigid": true } ],
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
     "use_action": [ "HEAT_FOOD" ],
     "flags": [ "ALLOWS_REMOTE_USE" ]
@@ -1062,6 +1064,7 @@
     "type": "TOOL",
     "name": { "str": "water purifier" },
     "description": "This is a battery-powered device designed to purify drinking water.  Using this item on a container full of water will purify the contents.  It could be useful for water taken from uncertain sources like a river, as it may be non-potable.",
+    "//": "based off RO filter. https://www.netsolwater.com/how-much-energy-does-an-ro-system-use.php claims RO uses 0.03KW (2 liters of water/day) giving ~14kJ per 0.25L unit of water",
     "weight": "1360 g",
     "volume": "3 L",
     "price": 10000,
