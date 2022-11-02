@@ -71,7 +71,7 @@
     "id": "f_bat_roost",
     "name": "bat roost",
     "//": "Need to add uses for bat guano so this item makes sense.",
-    "description": "A series of raised horizontal slats right above eye level, covered in tiny claw marks.  Designed for bats to rest on.  Below a pull out drawer similar to a litter box but that collects guano so it can be easily washed out.",
+    "description": "A series of raised horizontal slats for bats to rest on right above eye level, covered in tiny claw marks.  Below, there is a pull-out drawer that collects guano so it can be easily washed out, similar to a litter box.",
     "symbol": "^",
     "color": "brown",
     "move_cost_mod": 1,
