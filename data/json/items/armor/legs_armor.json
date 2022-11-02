@@ -1590,7 +1590,7 @@
     "color": "dark_gray",
     "warmth": 20,
     "longest_side": "40 cm",
-    "flags": [ "STURDY", "OUTER", "WATER_FRIENDLY", "PADDED" ],
+    "flags": [ "STURDY", "OUTER", "WATER_FRIENDLY", "PADDED", "BLOCK_WHILE_WORN" ],
     "armor": [
       {
         "covers": [ "leg_l", "leg_r" ],
