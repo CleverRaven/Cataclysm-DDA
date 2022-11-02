@@ -1582,7 +1582,7 @@
     "weight": "500 g",
     "volume": "2500 ml",
     "price": 10000,
-    "price_postapoc": 500,
+    "price_postapoc": 750,
     "to_hit": -3,
     "material": [ "thermo_resin", "plastic_pad" ],
     "symbol": "[",
