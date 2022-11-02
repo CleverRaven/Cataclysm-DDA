@@ -2389,9 +2389,8 @@
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "contained": true,
     "batch_time_factors": [ 83, 5 ],
-    "using": [ [ "broth_ingredients", 2 ] ],
+    "using": [ [ "broth_ingredients", 2 ], [ "canning_metal", 2, "LIST" ], [ "tincan_medium", 1 ] ],
     "components": [ [ [ "water_clean", 3 ] ] ],
-    "using": [ [ "canning_metal", 2, "LIST" ], [ "tincan_medium", 1 ] ],
     "byproducts": [ [ "water_clean", 6 ] ]
   },
   {
@@ -2409,9 +2408,8 @@
     "container": "can_food",
     "charges": 1,
     "batch_time_factors": [ 83, 5 ],
-    "using": [ [ "broth_ingredients", 1 ] ],
+    "using": [ [ "broth_ingredients", 1 ], [ "canning_metal", 1, "LIST" ], [ "tincan_small", 1 ] ],
     "components": [ [ [ "water_clean", 2 ] ] ],
-    "using": [ [ "canning_metal", 1, "LIST" ], [ "tincan_small", 1 ] ],
     "byproducts": [ [ "water_clean", 1 ] ]
   },
   {
@@ -2429,9 +2427,8 @@
     "container": "can_food_big",
     "charges": 12,
     "batch_time_factors": [ 83, 5 ],
-    "using": [ [ "broth_ingredients", 12 ] ],
+    "using": [ [ "broth_ingredients", 12 ], [ "canning_metal", 12, "LIST" ], [ "tincan_large", 1 ] ],
     "components": [ [ [ "water_clean", 13 ] ] ],
-    "using": [ [ "canning_metal", 12, "LIST" ], [ "tincan_large", 1 ] ],
     "byproducts": [ [ "water_clean", 6 ] ]
   },
   {
