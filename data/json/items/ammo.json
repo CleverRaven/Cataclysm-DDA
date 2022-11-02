@@ -970,7 +970,7 @@
     "weight": "11 g",
     "ammo_type": "charcoal",
     "count": 50,
-    "stack_size": 10
+    "stack_size": 50
   },
   {
     "type": "AMMO",
@@ -1022,7 +1022,7 @@
     "//": "Density somewhere around 1.5 g/cm3 (solid anthracite)",
     "ammo_type": "charcoal",
     "count": 250,
-    "stack_size": 10
+    "stack_size": 250
   },
   {
     "type": "AMMO",
