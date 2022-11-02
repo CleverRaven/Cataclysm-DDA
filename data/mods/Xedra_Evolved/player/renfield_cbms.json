@@ -60,7 +60,7 @@
     "id": "xe_bio_xl_chiropteran_signal",
     "type": "bionic",
     "name": { "str": "Desmodontinae Gargantua Vocalizer" },
-    "description": "Your vocal cords have been reinforced and enlarged. You can make a strange noise with it, but you don't know what it's supposed to communicate.",
+    "description": "Your vocal cords have been reinforced and enlarged.  You can make a strange noise with it, but you don't know what it's supposed to communicate.",
     "occupied_bodyparts": [ [ "mouth", 2 ] ],
     "flags": [ "USES_BIONIC_POWER" ],
     "activated_eocs": [ "EOC_SUMMON_XL_BAT" ],
