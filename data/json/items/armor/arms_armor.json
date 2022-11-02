@@ -1643,7 +1643,10 @@
     "id": "armor_riot_arm",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "pair of riot arm guards" },
+    "name": {
+      "str": "pair of riot arm guards",
+      "str_pl": "pairs of riot arm guards"
+    },
     "description": "Hard arm guards used by riot police.",
     "weight": "500 g",
     "volume": "2500 ml",
