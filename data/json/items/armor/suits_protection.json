@@ -1370,7 +1370,6 @@
   },
   {
     "id": "armor_riot",
-    "repairs_like": "survivor_suit",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "riot armor suit" },
@@ -1383,7 +1382,7 @@
     "material": [ "thermo_resin", "plastic_pad" ],
     "symbol": "[",
     "looks_like": "kevlar",
-    "color": "light_gray",
+    "color": "dark_gray",
     "warmth": 20,
     "longest_side": "60 cm",
     "flags": [ "STURDY", "OUTER", "WATER_FRIENDLY", "PADDED" ],
@@ -1415,28 +1414,14 @@
           { "type": "plastic_pad", "covered_by_mat": 95, "thickness": 2 },
           { "type": "thermo_resin", "covered_by_mat": 75, "thickness": 1.5 }
         ],
-        "specifically_covers": [
-          "arm_shoulder_l",
-          "arm_shoulder_r",
-          "arm_upper_l",
-          "arm_upper_r",
-          "leg_upper_l",
-          "leg_upper_r"
-        ]
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r", "arm_upper_l", "arm_upper_r", "leg_upper_l", "leg_upper_r" ]
       },
       {
         "covers": [ "foot_l", "foot_r" ],
         "encumbrance": 2,
         "coverage": 95,
-        "material": [
-          { "type": "thermo_resin", "covered_by_mat": 75, "thickness": 1.5 }
-        ],
-        "specifically_covers": [
-            "foot_arch_l",
-            "foot_arch_r",
-            "foot_ankle_r",
-            "foot_ankle_l"
-        ]
+        "material": [ { "type": "thermo_resin", "covered_by_mat": 75, "thickness": 1.5 } ],
+        "specifically_covers": [ "foot_arch_l", "foot_arch_r", "foot_ankle_r", "foot_ankle_l" ]
       },
       {
         "covers": [ "leg_l", "leg_r" ],

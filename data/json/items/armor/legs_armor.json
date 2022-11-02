@@ -1577,10 +1577,7 @@
     "id": "armor_riot_leg",
     "type": "ARMOR",
     "category": "armor",
-    "name": {
-      "str": "pair of riot leg guards",
-      "str_pl": "pairs of riot leg guards"
-    },  
+    "name": { "str": "pair of riot leg guards", "str_pl": "pairs of riot leg guards" },
     "description": "Hard leg guards used by riot police.",
     "weight": "500 g",
     "volume": "2500 ml",
