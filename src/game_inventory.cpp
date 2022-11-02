@@ -272,11 +272,26 @@ item_location game_menus::inv::titled_filter_menu( const item_filter &filter, av
                          title, -1, none_message );
 }
 
+item_location game_menus::inv::titled_filter_menu( const item_filter &filter, avatar &you,
+    int radius, const std::string &title, const std::string &none_message )
+{
+    return inv_internal( you, inventory_filter_preset( convert_filter( filter ) ),
+                         title, radius, none_message );
+}
+
+
 item_location game_menus::inv::titled_filter_menu( const item_location_filter &filter, avatar &you,
         const std::string &title, const std::string &none_message )
 {
     return inv_internal( you, inventory_filter_preset( filter ),
                          title, -1, none_message );
+}
+
+item_location game_menus::inv::titled_filter_menu( const item_location_filter &filter, avatar &you,
+    int radius, const std::string &title, const std::string &none_message )
+{
+    return inv_internal( you, inventory_filter_preset( filter ),
+                         title, radius, none_message );
 }
 
 item_location game_menus::inv::titled_menu( avatar &you, const std::string &title,

@@ -9912,7 +9912,7 @@ cata::optional<int> iuse::ebooksave( Character *p, item *it, bool t, const tripo
     [&p, &ebooks]( const item & itm ) {
         return itm.is_book() && p->has_identified( itm.typeId() ) && !ebooks.count( itm.typeId() );
     },
-    *p->as_avatar(), _( "Scan which book?" ) );
+    *p->as_avatar(), 1, _( "Scan which book?" ) );
 
     if( !book ) {
         p->add_msg_if_player( m_info, _( "Nevermind." ) );
