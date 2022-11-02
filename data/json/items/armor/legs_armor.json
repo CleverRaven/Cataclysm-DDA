@@ -1605,7 +1605,7 @@
       {
         "covers": [ "foot_l", "foot_r" ],
         "encumbrance": 2,
-        "coverage": 95,
+        "coverage": 75,
         "material": [ { "type": "thermo_resin", "covered_by_mat": 75, "thickness": 1.5 } ],
         "specifically_covers": [ "foot_arch_l", "foot_arch_r", "foot_ankle_r", "foot_ankle_l" ]
       }
