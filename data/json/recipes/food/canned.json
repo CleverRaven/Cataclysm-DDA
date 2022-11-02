@@ -2435,7 +2435,7 @@
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "broth_bone",
-    "byproducts": [ [ "gelatin_fresh", 2 ] ],
+    "byproducts": [ [ "gelatin_fresh", 2 ], [ "water_clean", 1 ] ],
     "id_suffix": "canned",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -2448,13 +2448,13 @@
     "batch_time_factors": [ 83, 5 ],
     "components": [ [ [ "bone_edible", 2, "LIST" ] ], [ [ "water_clean", 3 ] ] ],
     "using": [ [ "canning_metal", 2, "LIST" ], [ "tincan_medium", 1 ] ],
-    "byproducts": [ [ "water_clean", 1 ] ]
+    "byproducts": [ ]
   },
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "broth_bone",
-    "byproducts": [ [ "gelatin_fresh" ] ],
+    "byproducts": [ [ "gelatin_fresh" ], [ "water_clean", 1 ] ],
     "id_suffix": "canned_small",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -2467,14 +2467,13 @@
     "charges": 1,
     "batch_time_factors": [ 83, 5 ],
     "components": [ [ [ "bone_edible", 2, "LIST" ] ], [ [ "water_clean", 2 ] ] ],
-    "using": [ [ "canning_metal", 1, "LIST" ], [ "tincan_small", 1 ] ],
-    "byproducts": [ [ "water_clean", 1 ] ]
+    "using": [ [ "canning_metal", 1, "LIST" ], [ "tincan_small", 1 ] ]
   },
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "broth_bone",
-    "byproducts": [ [ "gelatin_fresh", 12 ] ],
+    "byproducts": [ [ "gelatin_fresh", 12 ], [ "water_clean", 6 ] ],
     "id_suffix": "canned_big",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -2487,15 +2486,14 @@
     "charges": 12,
     "batch_time_factors": [ 83, 5 ],
     "components": [ [ [ "bone_edible", 12, "LIST" ] ], [ [ "water_clean", 16 ] ] ],
-    "using": [ [ "canning_metal", 12, "LIST" ], [ "tincan_large", 1 ] ],
-    "byproducts": [ [ "water_clean", 6 ] ]
+    "using": [ [ "canning_metal", 12, "LIST" ], [ "tincan_large", 1 ] ]
   },
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "apple_cider",
     "id_suffix": "canned",
-    "byproducts": [ [ "juice_pulp", 4 ] ],
+    "byproducts": [ [ "juice_pulp", 4 ], [ "water_clean", 1 ] ],
     "container": "can_medium",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -2509,15 +2507,14 @@
     "batch_time_factors": [ 83, 5 ],
     "tools": [ [ [ "cotton_patchwork", -1 ] ] ],
     "components": [ [ [ "water_clean", 1 ] ], [ [ "irradiated_apple", 4 ], [ "apple", 4 ] ] ],
-    "using": [ [ "canning_metal", 2, "LIST" ], [ "tincan_medium", 1 ] ],
-    "byproducts": [ [ "water_clean", 1 ] ]
+    "using": [ [ "canning_metal", 2, "LIST" ], [ "tincan_medium", 1 ] ]
   },
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "apple_cider",
     "id_suffix": "canned_small",
-    "byproducts": [ [ "juice_pulp", 2 ] ],
+    "byproducts": [ [ "juice_pulp", 2 ], [ "water_clean", 1 ] ],
     "container": "can_food",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -2531,15 +2528,14 @@
     "batch_time_factors": [ 83, 5 ],
     "tools": [ [ [ "cotton_patchwork", -1 ] ] ],
     "components": [ [ [ "water_clean", 1 ] ], [ [ "irradiated_apple", 2 ], [ "apple", 2 ] ] ],
-    "using": [ [ "canning_metal", 1, "LIST" ], [ "tincan_small", 1 ] ],
-    "byproducts": [ [ "water_clean", 1 ] ]
+    "using": [ [ "canning_metal", 1, "LIST" ], [ "tincan_small", 1 ] ]
   },
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "apple_cider",
     "id_suffix": "canned_big",
-    "byproducts": [ [ "juice_pulp", 24 ] ],
+    "byproducts": [ [ "juice_pulp", 24 ], [ "water_clean", 6 ] ],
     "container": "can_food_big",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -2553,15 +2549,14 @@
     "batch_time_factors": [ 83, 5 ],
     "tools": [ [ [ "cotton_patchwork", -1 ] ] ],
     "components": [ [ [ "water_clean", 6 ] ], [ [ "irradiated_apple", 24 ], [ "apple", 24 ] ] ],
-    "using": [ [ "canning_metal", 12, "LIST" ], [ "tincan_large", 1 ] ],
-    "byproducts": [ [ "water_clean", 6 ] ]
+    "using": [ [ "canning_metal", 12, "LIST" ], [ "tincan_large", 1 ] ]
   },
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "oj",
     "id_suffix": "canned",
-    "byproducts": [ [ "juice_pulp", 4 ] ],
+    "byproducts": [ [ "juice_pulp", 4 ], [ "water_clean", 1 ] ],
     "container": "can_medium",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -2575,15 +2570,14 @@
     "batch_time_factors": [ 83, 5 ],
     "tools": [ [ [ "cotton_patchwork", -1 ] ] ],
     "components": [ [ [ "water_clean", 1 ] ], [ [ "irradiated_orange", 4 ], [ "orange", 4 ] ] ],
-    "using": [ [ "canning_metal", 2, "LIST" ], [ "tincan_medium", 1 ] ],
-    "byproducts": [ [ "water_clean", 1 ] ]
+    "using": [ [ "canning_metal", 2, "LIST" ], [ "tincan_medium", 1 ] ]
   },
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "oj",
     "id_suffix": "canned_small",
-    "byproducts": [ [ "juice_pulp", 2 ] ],
+    "byproducts": [ [ "juice_pulp", 2 ], [ "water_clean", 1 ] ],
     "container": "can_food",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -2597,15 +2591,14 @@
     "batch_time_factors": [ 83, 5 ],
     "tools": [ [ [ "cotton_patchwork", -1 ] ] ],
     "components": [ [ [ "water_clean", 1 ] ], [ [ "irradiated_orange", 2 ], [ "orange", 2 ] ] ],
-    "using": [ [ "canning_metal", 1, "LIST" ], [ "tincan_small", 1 ] ],
-    "byproducts": [ [ "water_clean", 1 ] ]
+    "using": [ [ "canning_metal", 1, "LIST" ], [ "tincan_small", 1 ] ]
   },
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "oj",
     "id_suffix": "canned_big",
-    "byproducts": [ [ "juice_pulp", 24 ] ],
+    "byproducts": [ [ "juice_pulp", 24 ], [ "water_clean", 6 ] ],
     "container": "can_food_big",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -2619,15 +2612,14 @@
     "batch_time_factors": [ 83, 5 ],
     "tools": [ [ [ "cotton_patchwork", -1 ] ] ],
     "components": [ [ [ "water_clean", 6 ] ], [ [ "irradiated_orange", 24 ], [ "orange", 24 ] ] ],
-    "using": [ [ "canning_metal", 12, "LIST" ], [ "tincan_large", 1 ] ],
-    "byproducts": [ [ "water_clean", 6 ] ]
+    "using": [ [ "canning_metal", 12, "LIST" ], [ "tincan_large", 1 ] ]
   },
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "juice",
     "id_suffix": "canned",
-    "byproducts": [ [ "juice_pulp", 2 ] ],
+    "byproducts": [ [ "juice_pulp", 2 ], [ "water_clean", 1 ] ],
     "container": "can_medium",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -2641,15 +2633,14 @@
     "batch_time_factors": [ 83, 5 ],
     "tools": [ [ [ "cotton_patchwork", -1 ] ] ],
     "components": [ [ [ "sweet_fruit", 2, "LIST" ] ], [ [ "water_clean", 3 ] ] ],
-    "using": [ [ "canning_metal", 2, "LIST" ], [ "tincan_medium", 1 ] ],
-    "byproducts": [ [ "water_clean", 1 ] ]
+    "using": [ [ "canning_metal", 2, "LIST" ], [ "tincan_medium", 1 ] ]
   },
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "juice",
     "id_suffix": "canned_small",
-    "byproducts": [ [ "juice_pulp", 1 ] ],
+    "byproducts": [ [ "juice_pulp", 1 ], [ "water_clean", 1 ] ],
     "container": "can_food",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -2663,15 +2654,14 @@
     "batch_time_factors": [ 83, 5 ],
     "tools": [ [ [ "cotton_patchwork", -1 ] ] ],
     "components": [ [ [ "sweet_fruit", 1, "LIST" ] ], [ [ "water_clean", 2 ] ] ],
-    "using": [ [ "canning_metal", 1, "LIST" ], [ "tincan_small", 1 ] ],
-    "byproducts": [ [ "water_clean", 1 ] ]
+    "using": [ [ "canning_metal", 1, "LIST" ], [ "tincan_small", 1 ] ]
   },
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "juice",
     "id_suffix": "canned_big",
-    "byproducts": [ [ "juice_pulp", 12 ] ],
+    "byproducts": [ [ "juice_pulp", 12 ], [ "water_clean", 6 ] ],
     "container": "can_food_big",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -2685,8 +2675,7 @@
     "batch_time_factors": [ 83, 5 ],
     "tools": [ [ [ "cotton_patchwork", -1 ] ] ],
     "components": [ [ [ "sweet_fruit", 12, "LIST" ] ], [ [ "water_clean", 13 ] ] ],
-    "using": [ [ "canning_metal", 12, "LIST" ], [ "tincan_large", 1 ] ],
-    "byproducts": [ [ "water_clean", 6 ] ]
+    "using": [ [ "canning_metal", 12, "LIST" ], [ "tincan_large", 1 ] ]
   },
   {
     "type": "recipe",
@@ -2749,7 +2738,7 @@
     "activity_level": "NO_EXERCISE",
     "result": "cranberry_juice",
     "id_suffix": "canned",
-    "byproducts": [ [ "juice_pulp", 4 ] ],
+    "byproducts": [ [ "juice_pulp", 4 ], [ "water_clean", 1 ] ],
     "container": "can_medium",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -2763,15 +2752,14 @@
     "batch_time_factors": [ 83, 5 ],
     "tools": [ [ [ "cotton_patchwork", -1 ] ] ],
     "components": [ [ [ "water_clean", 1 ] ], [ [ "irradiated_cranberries", 6 ], [ "cranberries", 6 ] ] ],
-    "using": [ [ "canning_metal", 2, "LIST" ], [ "tincan_medium", 1 ] ],
-    "byproducts": [ [ "water_clean", 1 ] ]
+    "using": [ [ "canning_metal", 2, "LIST" ], [ "tincan_medium", 1 ] ]
   },
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "cranberry_juice",
     "id_suffix": "canned_small",
-    "byproducts": [ [ "juice_pulp", 2 ] ],
+    "byproducts": [ [ "juice_pulp", 2 ], [ "water_clean", 1 ] ],
     "container": "can_food",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -2785,15 +2773,14 @@
     "batch_time_factors": [ 83, 5 ],
     "tools": [ [ [ "cotton_patchwork", -1 ] ] ],
     "components": [ [ [ "water_clean", 1 ] ], [ [ "irradiated_cranberries", 3 ], [ "cranberries", 3 ] ] ],
-    "using": [ [ "canning_metal", 1, "LIST" ], [ "tincan_small", 1 ] ],
-    "byproducts": [ [ "water_clean", 1 ] ]
+    "using": [ [ "canning_metal", 1, "LIST" ], [ "tincan_small", 1 ] ]
   },
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "cranberry_juice",
     "id_suffix": "canned_big",
-    "byproducts": [ [ "juice_pulp", 24 ] ],
+    "byproducts": [ [ "juice_pulp", 24 ], [ "water_clean", 6 ] ],
     "container": "can_food_big",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -2807,7 +2794,6 @@
     "batch_time_factors": [ 83, 5 ],
     "tools": [ [ [ "cotton_patchwork", -1 ] ] ],
     "components": [ [ [ "water_clean", 6 ] ], [ [ "irradiated_cranberries", 36 ], [ "cranberries", 36 ] ] ],
-    "using": [ [ "canning_metal", 12, "LIST" ], [ "tincan_large", 1 ] ],
-    "byproducts": [ [ "water_clean", 6 ] ]
+    "using": [ [ "canning_metal", 12, "LIST" ], [ "tincan_large", 1 ] ]
   }
 ]
