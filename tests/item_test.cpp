@@ -27,7 +27,9 @@
 
 static const flag_id json_flag_COLD( "COLD" );
 static const flag_id json_flag_FILTHY( "FILTHY" );
+static const flag_id json_flag_FIX_NEARSIGHT( "FIX_NEARSIGHT" );
 static const flag_id json_flag_HOT( "HOT" );
+
 
 static const itype_id itype_test_backpack( "test_backpack" );
 static const itype_id itype_test_duffelbag( "test_duffelbag" );
@@ -700,36 +702,46 @@ TEST_CASE( "water affect items while swimming check", "[item][water][swimming]" 
     }
 }
 
+static float max_density_for_mats( const std::map<material_id, int> &mats, float total_size )
+{
+    REQUIRE( !mats.empty() );
+
+    float max_density = 0.f;
+
+    for( const auto &m : mats ) {
+        max_density += m.first->density() * ( m.second  / total_size );
+    }
+
+    return max_density;
+}
+
+static float item_density( const item &target )
+{
+    return static_cast<float>( to_gram( target.weight() ) ) / static_cast<float>( to_milliliter(
+                target.volume() ) );
+}
+
 static bool assert_maximum_density_for_material( const item &target )
 {
     if( to_milliliter( target.volume() ) == 0 ) {
         return false;
     }
-    const std::map<material_id, int> mats = target.made_of();
-    if( !mats.empty() ) {
+    const std::map<material_id, int> &mats = target.made_of();
+    if( !mats.empty() && known_bad_density::known_bad.count( target.typeId() ) == 0 ) {
+        const float max_density = max_density_for_mats( mats, target.type->mat_portion_total );
+        INFO( target.typeId() );
+        CHECK( item_density( target ) <= max_density );
 
-        double item_density = static_cast<double>( to_gram( target.weight() ) ) / static_cast<double>
-                              ( to_milliliter( target.volume() ) );
-        double max_density = 0;
-        for( const auto &m : mats ) {
-            // this test will NOT pass right now so for now check but allow failing
-            max_density += m.first.obj().density() * m.second / target.type->mat_portion_total;
-        }
-        INFO( target.type_name() );
-        CHECK( item_density <= max_density );
-
-        return item_density > max_density;
+        return item_density( target ) > max_density;
     }
 
     // fallback return
     return false;
 }
 
-TEST_CASE( "item_material_density_sanity_check", "[item][!mayfail]" )
+TEST_CASE( "item_material_density_sanity_check", "[item]" )
 {
-    // randomize items so you get varied failures when testing densities
     std::vector<const itype *> all_items = item_controller->all();
-    std::shuffle( std::begin( all_items ), std::end( all_items ), rng_get_engine() );
 
     // only allow so many failures before stopping
     int number_of_failures = 0;
@@ -745,6 +757,26 @@ TEST_CASE( "item_material_density_sanity_check", "[item][!mayfail]" )
     }
 }
 
+TEST_CASE( "item_material_density_blacklist_is_pruned", "[item]" )
+{
+    for( const itype_id &bad : known_bad_density::known_bad ) {
+        if( !bad.is_valid() ) {
+            continue;
+        }
+        const item target( bad, calendar::turn_zero, item::solitary_tag{} );
+        if( to_milliliter( target.volume() ) == 0 ) {
+            continue;
+        }
+        const std::map<material_id, int> &mats = target.made_of();
+        if( !mats.empty() ) {
+            INFO( string_format( "%s had its density fixed, remove it from the list in data/mods/TEST_DATA/known_bad_density.json",
+                                 bad.str() ) );
+            const float max_density = max_density_for_mats( mats, bad->mat_portion_total );
+            CHECK( item_density( target ) > max_density );
+        }
+    }
+}
+
 TEST_CASE( "armor_entry_consolidate_check", "[item][armor]" )
 {
     item test_consolidate( "test_consolidate" );
@@ -752,6 +784,24 @@ TEST_CASE( "armor_entry_consolidate_check", "[item][armor]" )
     //check this item has a single armor entry, not 3 like is written in the json explicitly
 
     CHECK( test_consolidate.find_armor_data()->sub_data.size() == 1 );
+}
+
+TEST_CASE( "module_inheritance", "[item][armor]" )
+{
+    avatar &guy = get_avatar();
+    clear_avatar();
+    guy.set_body();
+    guy.clear_mutations();
+    guy.worn.clear();
+
+    item test_exo( "test_modular_exosuit" );
+    item test_module( "test_exo_lense_module" );
+
+    test_exo.force_insert_item( test_module, item_pocket::pocket_type::CONTAINER );
+
+    guy.worn.wear_item( guy, test_exo, false, false, false );
+
+    CHECK( guy.worn.worn_with_flag( json_flag_FIX_NEARSIGHT ) );
 }
 
 TEST_CASE( "rigid_armor_compliance", "[item][armor]" )

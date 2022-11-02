@@ -102,13 +102,13 @@ constexpr units::temperature fridge = units::from_fahrenheit( 37 ); // ~ 2.7 Cel
 constexpr units::temperature cold = units::from_fahrenheit( 40 ); // ~4.4 C
 
 // Temperature inside an active freezer in Fahrenheit.
-constexpr units::temperature freezer = units::from_celcius( -5 ); // -5 Celsius
+constexpr units::temperature freezer = units::from_celsius( -5 ); // -5 Celsius
 
 // Temperature in which water freezes.
-constexpr units::temperature freezing = units::from_celcius( 0 ); // 0 Celsius
+constexpr units::temperature freezing = units::from_celsius( 0 ); // 0 Celsius
 
 // Temperature in which water boils.
-constexpr units::temperature boiling = units::from_celcius( 100 ); // 100 Celsius
+constexpr units::temperature boiling = units::from_celsius( 100 ); // 100 Celsius
 } // namespace temperatures
 
 // Slowest speed at which a gun can be aimed.
@@ -153,7 +153,7 @@ static constexpr units::temperature AVERAGE_ANNUAL_TEMPERATURE = units::from_fah
  * Base starting spring temperature in F used for climate, weather and temperature calculation.
  * New England base spring temperature = 65F/18C rounded to int.
 */
-static constexpr int SPRING_TEMPERATURE = 65;
+static constexpr units::temperature SPRING_TEMPERATURE = units::from_fahrenheit( 65 );
 
 /**
  * Used to limit the random seed during noise calculation. A large value flattens the noise generator to zero.
@@ -214,5 +214,17 @@ constexpr float obese = 30.0f;
 constexpr float very_obese = 35.0f;
 constexpr float morbidly_obese = 40.0f;
 } // namespace character_weight_category
+
+// these are the lower bounds of each of the health classes.
+namespace character_health_category
+{
+//horrible
+constexpr int very_bad = -100;
+constexpr int bad = -50;
+constexpr int fine = -10;
+constexpr int good = 10;
+constexpr int very_good = 50;
+constexpr int great = 100;
+} // namespace character_health_category
 
 #endif // CATA_SRC_GAME_CONSTANTS_H

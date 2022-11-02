@@ -110,6 +110,7 @@ enum class event_type : int {
     throws_up,
     triggers_alarm,
     uses_debug_menu,
+    u_var_changed,
     num_event_types // last
 };
 
@@ -170,7 +171,7 @@ struct event_spec_character_item {
     };
 };
 
-static_assert( static_cast<int>( event_type::num_event_types ) == 85,
+static_assert( static_cast<int>( event_type::num_event_types ) == 86,
                "This static_assert is to remind you to add a specialization for your new "
                "event_type below" );
 
@@ -725,6 +726,15 @@ template<>
 struct event_spec<event_type::uses_debug_menu> {
     static constexpr std::array<std::pair<const char *, cata_variant_type>, 1> fields = {{
             { "debug_menu_option", cata_variant_type::debug_menu_index },
+        }
+    };
+};
+
+template<>
+struct event_spec<event_type::u_var_changed> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = { {
+            { "var", cata_variant_type::string },
+            { "value", cata_variant_type::string },
         }
     };
 };

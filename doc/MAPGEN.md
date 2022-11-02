@@ -46,6 +46,7 @@
     * [Plant seeds in a planter with "sealed_item"](#plant-seeds-in-a-planter-with-sealed_item)
     * [Place messages with "graffiti"](#place-messages-with-graffiti)
     * [Place a zone for an NPC faction with "zones"](#place-a-zone-for-an-npc-faction-with-zones)
+    * [Specify a player spawning location using "zones"](#specify-a-player-spawning-location-using-zones)
     * [Translate terrain type with "translate_ter"](#translate-terrain-type-with-translate_ter)
     * [Apply mapgen transformation with "ter_furn_transforms"](#apply-mapgen-transformation-with-ter_furn_transforms)
   * [Mapgen values](#mapgen-values)
@@ -431,6 +432,7 @@ Currently the defined flags are as follows:
   either individually or together.  See the other entries below, such as
   `remove_all`.
   `NO_UNDERLYING_ROTATE` The map won't be rotated even if the underlying tile is.
+  `AVOID_CREATURES` If a creature is present terrain, furniture and traps won't be placed.
 
 ## Set terrain, furniture, or traps with a "set" array
 **optional** Specific commands to set terrain, furniture, traps, radiation, etc. Array is processed in order.
@@ -1025,16 +1027,25 @@ NPCs in the faction will use the zone to influence the AI.
 
 | Field   | Description
 | ---     | ---
-| type    | (required, string) Values: `"NPC_RETREAT"`, `"NPC_NO_INVESTIGATE"`, or `"NPC_INVESTIGATE_ONLY"`.
+| type    | (required, string) Values: `"NPC_RETREAT"`, `"NPC_NO_INVESTIGATE"`, or `"NPC_INVESTIGATE_ONLY"`, or `LOOT_xxx`
 | faction | (required, string) the faction id of the NPC faction that will use the zone.
 | name    | (optional, string) the name of the zone.
+| filter  | (optional, string) used as filter for `LOOT_CUSTOM`, or as group id for `LOOT_ITEM_GROUP`
 
 The `type` field values affect NPC behavior. NPCs will:
 
 - Prefer to retreat towards `NPC_RETREAT` zones.
-- Not move to the see the source of unseen sounds coming from `NPC_NO_INVESTIGATE` zones.
-- Not move to the see the source of unseen sounds coming from outside `NPC_INVESTIGATE_ONLY` zones.
+- Not move to see the source of unseen sounds coming from `NPC_NO_INVESTIGATE` zones.
+- Not move to see the source of unseen sounds coming from outside of `NPC_INVESTIGATE_ONLY` zones.
+- Use `LOOT_xxx` zones for their shop (see [NPCs.md#Shop_restocking](NPCs.md#Shop-restocking))
 
+Single-point loot zones that overlap cargo vehicle parts will be placed as vehicle zones.
+
+Zone placements can be debugged in game by turning on debug mode and changing `F`action in the Zones Manager.
+
+### Specify a player spawning location using "zones"
+
+When designing a scenario you can directly specify where in the map the player will be placed by using a `ZONE_START_POINT` zone. Player will be placed in the center of this zone. A `ZONE_START_POINT` zone will only be considered valid if it belongs to the `your_followers` faction. Keep in mind that no additional checks are conducted when assigning player spawning location using this method, and thus player can spawn in a wall, on open air, and other inappropriate tiles.
 
 ### Remove everything with "remove_all"
 
@@ -1099,17 +1110,18 @@ The code excerpt above will place chunks as follows:
 
 ### Place monster corpse from a monster group with "place_corpses"
 
-Creates a corpse of a random monster from a monster group.  Note that corpse's age is always `start_of_cataclysm`.
+Creates a corpse of a random monster from a monster group.
 
 | Field  | Description
 | ---    | ---
-| group | (required, string) a monster group id from which random monster will be selected
+| group  | (required, string) a monster group id from which random monster will be selected
+| age    | (optional, integer) age (in days) of monster's corpse. If not set, defaults to current turn.
 
 Example for placing a monster corpse (either by using a character in the rows array or explicit coordinates):
 
 ```json
 "corpses": {
-    "g": { "group": "GROUP_PETS" }
+    "g": { "group": "GROUP_PETS", "age": 3 }
 },
 "place_corpses": [
     { "group": "GROUP_PETS", "x": 3, "y": 5 }

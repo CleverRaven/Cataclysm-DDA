@@ -139,12 +139,12 @@ class profession
          *
          * @return true, if player can pick profession. Otherwise - false.
          */
-        ret_val<bool> can_afford( const Character &you, int points ) const;
+        ret_val<void> can_afford( const Character &you, int points ) const;
 
         /**
          * Do you have the necessary achievement state
          */
-        ret_val<bool> can_pick() const;
+        ret_val<void> can_pick() const;
         bool is_locked_trait( const trait_id &trait ) const;
         bool is_forbidden_trait( const trait_id &trait ) const;
         std::vector<trait_and_var> get_locked_traits() const;

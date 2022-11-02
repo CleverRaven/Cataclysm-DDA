@@ -1015,7 +1015,7 @@
         { "vehicle": "car", "x": 5, "y": 6, "chance": 35, "rotation": 0 },
         { "vehicle": "cube_van", "x": 4, "y": 14, "chance": 35, "rotation": 180 },
         { "vehicle": "motorcycle", "x": 5, "y": 20, "chance": 35, "rotation": 0 },
-        { "vehicle": "car", "x": 28, "y": 0, "chance": 35, "rotation": 0 },
+        { "vehicle": "car", "x": 28, "y": 1, "chance": 35, "rotation": 0 },
         { "vehicle": "electric_car", "x": 26, "y": 14, "chance": 35, "rotation": 180 },
         { "vehicle": "beetle", "x": 25, "y": 20, "chance": 35, "rotation": 0 },
         { "vehicle": "golf_cart", "x": 84, "y": 12, "chance": 34, "rotation": 0 }
@@ -1312,7 +1312,7 @@
         { "vehicle": "ambulance", "x": 15, "y": 4, "chance": 35, "rotation": 270 },
         { "vehicle": "car", "x": 4, "y": 3, "chance": 35, "rotation": 0 },
         { "vehicle": "pickup", "x": 5, "y": 19, "chance": 35, "rotation": 0 },
-        { "vehicle": "hippie_van", "x": 25, "y": 19, "chance": 35, "rotation": 0 },
+        { "vehicle": "hippie_van", "x": 21, "y": 19, "chance": 35, "rotation": 0 },
         { "vehicle": "tricycle", "x": 90, "y": 22, "chance": 100, "status": 0 }
       ]
     }
@@ -1603,8 +1603,8 @@
       "place_vehicles": [
         { "vehicle": "hippie_van", "x": 6, "y": 2, "chance": 35, "rotation": 0 },
         { "vehicle": "car", "x": 5, "y": 9, "chance": 35, "rotation": 0 },
-        { "vehicle": "car", "x": 5, "y": 17, "chance": 35, "rotation": 180 },
-        { "vehicle": "pickup", "x": 5, "y": 23, "chance": 35, "rotation": 0 },
+        { "vehicle": "car", "x": 5, "y": 16, "chance": 35, "rotation": 180 },
+        { "vehicle": "pickup", "x": 5, "y": 21, "chance": 35, "rotation": 0 },
         { "vehicle": "motorcycle", "x": 26, "y": 3, "chance": 35, "rotation": 180 },
         { "vehicle": "car", "x": 27, "y": 9, "chance": 35, "rotation": 0 },
         { "vehicle": "car_sports", "x": 26, "y": 16, "chance": 35, "rotation": 180 },
@@ -1927,9 +1927,9 @@
         { "vehicle": "car", "x": 5, "y": 6, "chance": 35, "rotation": 0 },
         { "vehicle": "humvee", "x": 5, "y": 13, "chance": 35, "rotation": 0 },
         { "vehicle": "car_mini", "x": 5, "y": 21, "chance": 35, "rotation": 180 },
-        { "vehicle": "car", "x": 24, "y": 13, "chance": 35, "rotation": 180 },
-        { "vehicle": "beetle", "x": 30, "y": 21, "chance": 35, "rotation": 90 },
-        { "vehicle": "motorcycle", "x": 35, "y": 21, "chance": 35, "rotation": 90 },
+        { "vehicle": "car", "x": 26, "y": 13, "chance": 35, "rotation": 180 },
+        { "vehicle": "beetle", "x": 31, "y": 21, "chance": 35, "rotation": 90 },
+        { "vehicle": "motorcycle", "x": 36, "y": 21, "chance": 35, "rotation": 90 },
         { "vehicle": "electric_car", "x": 43, "y": 21, "chance": 35, "rotation": 90 },
         { "vehicle": "car", "x": 50, "y": 21, "chance": 35, "rotation": 90 },
         { "vehicle": "pickup", "x": 57, "y": 21, "chance": 35, "rotation": 90 },
@@ -2047,7 +2047,6 @@
         { "vehicle": "hippie_van", "x": 28, "y": 20, "chance": 35, "rotation": 90 },
         { "vehicle": "beetle", "x": 39, "y": 21, "chance": 35, "rotation": 90 },
         { "vehicle": "beetle", "x": 45, "y": 21, "chance": 35, "rotation": 90 },
-        { "vehicle": "pickup", "x": 53, "y": 23, "chance": 35, "rotation": 90 },
         { "vehicle": "car", "x": 59, "y": 20, "chance": 35, "rotation": 270 },
         { "vehicle": "quad_bike", "x": 66, "y": 22, "chance": 35, "rotation": 90 },
         { "vehicle": "hippie_van", "x": 67, "y": 7, "chance": 35, "rotation": 180 },
@@ -2111,7 +2110,7 @@
         { "vehicle": "motorcycle", "x": 49, "y": 18, "chance": 35, "rotation": 270 },
         { "vehicle": "car_mini", "x": 56, "y": 18, "chance": 35, "rotation": 270 },
         { "vehicle": "car", "x": 67, "y": 17, "chance": 35, "rotation": 270 },
-        { "vehicle": "flatbed_truck", "x": 73, "y": 13, "chance": 35, "rotation": 90 },
+        { "vehicle": "flatbed_truck", "x": 75, "y": 13, "chance": 35, "rotation": 90 },
         { "vehicle": "scooter", "x": 81, "y": 17, "chance": 35, "rotation": 90 },
         { "vehicle": "car", "x": 88, "y": 17, "chance": 35, "rotation": 270 },
         { "vehicle": "cube_van", "x": 126, "y": 17, "chance": 35, "rotation": 270 },

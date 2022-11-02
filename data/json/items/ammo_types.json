@@ -325,6 +325,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "crude_lamp_oil",
+    "name": "crude lamp oil",
+    "default": "crude_lamp_oil"
+  },
+  {
+    "type": "ammunition_type",
     "id": "butane",
     "name": "butane",
     "default": "butane"
@@ -457,6 +463,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "methanol_fuelcell",
+    "name": "methanol",
+    "default": "chem_methanol_fuelcell"
+  },
+  {
+    "type": "ammunition_type",
     "id": "8x40mm",
     "name": "8x40mm caseless",
     "default": "8mm_caseless"
@@ -550,12 +562,6 @@
     "id": "gasfilter_m",
     "name": "gas mask cartridge",
     "default": "gasfilter_m"
-  },
-  {
-    "type": "ammunition_type",
-    "id": "gasfilter_l",
-    "name": "hazmat mask cartridge",
-    "default": "gasfilter_l"
   },
   {
     "type": "ammunition_type",

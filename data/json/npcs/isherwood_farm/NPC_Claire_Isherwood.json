@@ -286,7 +286,7 @@
       "opinion": { "trust": 1, "value": 1 },
       "effect": [
         { "u_spawn_item": "thyme_oil", "container": "jar_glass_sealed", "count": 2 },
-        { "u_spawn_item": "poppy_pain", "container": "jar_glass_sealed", "count": 200 }
+        { "u_spawn_item": "poppy_pain", "container": "jar_glass_sealed", "count": 20 }
       ]
     },
     "dialogue": {
@@ -352,7 +352,7 @@
         "search_range": 20,
         "min_distance": 8
       },
-      "update_mapgen": { "place_monster": [ { "monster": "mon_cat", "pack_size": [ 3, 6 ], "x": 20, "y": 22, "target": true } ] },
+      "update_mapgen": { "place_monster": [ { "monster": "mon_cat_isherwood", "pack_size": [ 3, 6 ], "x": 20, "y": 22, "target": true } ] },
       "effect": [ { "u_spawn_item": "chicken_cage", "count": 1 } ]
     },
     "end": {

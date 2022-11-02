@@ -141,7 +141,7 @@
     "using": [ [ "soldering_standard", 10 ] ],
     "proficiencies": [ { "proficiency": "prof_elec_soldering" }, { "proficiency": "prof_elec_semiconductors" } ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "amplifier", 2 ] ], [ [ "antenna", 1 ] ], [ [ "scrap", 5 ] ], [ [ "cable", 7 ] ] ]
+    "components": [ [ [ "amplifier", 2 ] ], [ [ "antenna", 1 ] ], [ [ "scrap_aluminum", 5 ] ], [ [ "cable", 7 ] ] ]
   },
   {
     "type": "recipe",
@@ -157,7 +157,7 @@
     "using": [ [ "soldering_standard", 10 ] ],
     "proficiencies": [ { "proficiency": "prof_elec_soldering" }, { "proficiency": "prof_elec_semiconductors" } ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "receiver", 1 ] ], [ [ "antenna", 1 ] ], [ [ "scrap", 5 ] ], [ [ "cable", 7 ] ] ]
+    "components": [ [ [ "receiver", 1 ] ], [ [ "antenna", 1 ] ], [ [ "scrap_aluminum", 5 ] ], [ [ "cable", 7 ] ] ]
   },
   {
     "type": "recipe",
@@ -204,7 +204,7 @@
       [ [ "transponder", 1 ] ],
       [ [ "receiver", 1 ] ],
       [ [ "antenna", 1 ] ],
-      [ [ "scrap", 5 ] ],
+      [ [ "scrap_aluminum", 5 ] ],
       [ [ "cable", 10 ] ]
     ]
   },
@@ -260,7 +260,7 @@
     ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "tools": [ [ [ "laptop", -1 ] ] ],
-    "components": [ [ [ "processor", 1 ] ], [ [ "RAM", 1 ] ], [ [ "scrap", 4 ] ], [ [ "cable", 10 ] ] ]
+    "components": [ [ [ "processor", 1 ] ], [ [ "RAM", 1 ] ], [ [ "scrap_aluminum", 4 ] ], [ [ "cable", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -281,7 +281,7 @@
       { "proficiency": "prof_elec_semiconductors" }
     ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "amplifier", 1 ] ], [ [ "power_supply", 1 ] ], [ [ "scrap", 2 ] ] ]
+    "components": [ [ [ "amplifier", 1 ] ], [ [ "power_supply", 1 ] ], [ [ "scrap_aluminum", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -440,7 +440,7 @@
       [ [ "element", 4 ], [ "crude_heating_element", 4 ] ],
       [ [ "amplifier", 1 ] ],
       [
-        [ "scrap", 2 ],
+        [ "scrap_aluminum", 2 ],
         [ "pan", 1 ],
         [ "pot", 1 ],
         [ "pot_copper", 1 ],
@@ -526,7 +526,7 @@
     "using": [ [ "soldering_standard", 14 ] ],
     "proficiencies": [ { "proficiency": "prof_elec_soldering" }, { "proficiency": "prof_elec_semiconductors" } ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "power_supply", 1 ] ], [ [ "amplifier", 2 ] ], [ [ "scrap", 6 ] ], [ [ "cable", 10 ] ] ]
+    "components": [ [ [ "power_supply", 1 ] ], [ [ "amplifier", 2 ] ], [ [ "scrap_aluminum", 6 ] ], [ [ "cable", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -569,7 +569,7 @@
       [ [ "wire_mesh", 1 ], [ "sieve_steel", 1 ], [ "colander_steel", 1 ], [ "splatter_guard", 1 ] ],
       [ [ "thermos", 2 ] ],
       [ [ "element", 1 ], [ "crude_heating_element", 1 ] ],
-      [ [ "scrap", 2 ] ],
+      [ [ "scrap_aluminum", 2 ] ],
       [ [ "betavoltaic", 2 ] ],
       [ [ "RTG_coffee", 1 ] ]
     ]
@@ -698,7 +698,7 @@
       { "proficiency": "prof_elec_circuits" }
     ],
     "components": [
-      [ [ "scrap", 4 ] ],
+      [ [ "scrap_aluminum", 4 ] ],
       [ [ "plastic_chunk", 2 ] ],
       [ [ "motor_micro", 1 ] ],
       [ [ "superglue", 2 ] ],
@@ -762,6 +762,29 @@
     "components": [ [ [ "razor_blade", 1 ] ], [ [ "motor_micro", 1 ] ], [ [ "power_supply", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
   },
   {
+    "result": "electric_spinwheel",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "skill_used": "electronics",
+    "difficulty": 3,
+    "time": "20 m",
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "soldering_standard", 20 ] ],
+    "proficiencies": [ { "proficiency": "prof_elec_soldering" }, { "proficiency": "prof_elec_circuits" } ],
+    "qualities": [ { "id": "SCREW", "level": 1, "amount": 1 }, { "id": "HAMMER", "level": 3, "amount": 1 } ],
+    "components": [
+      [ [ "plastic_chunk", 10 ] ],
+      [ [ "scrap", 1 ] ],
+      [ [ "superglue", 1 ], [ "duct_tape", 75 ] ],
+      [ [ "string_36", 4 ] ],
+      [ [ "motor_micro", 1 ] ],
+      [ [ "e_scrap", 1 ] ]
+    ]
+  },
+  {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "radiocontrol",
@@ -804,7 +827,7 @@
       [ [ "amplifier", 2 ] ],
       [ [ "receiver", 1 ] ],
       [ [ "plastic_chunk", 12 ] ],
-      [ [ "scrap", 4 ] ],
+      [ [ "scrap_aluminum", 4 ] ],
       [ [ "e_scrap", 2 ] ],
       [ [ "cable", 8 ] ],
       [ [ "spring", 2 ] ],

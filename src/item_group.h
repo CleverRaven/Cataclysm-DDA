@@ -279,7 +279,7 @@ class Item_modifier
         void modify( item &new_item, const std::string &context ) const;
         void check_consistency( const std::string &context ) const;
         bool remove_item( const itype_id &itemid );
-        void replace_items( const std::unordered_map<itype_id, itype_id> &replacements );
+        void replace_items( const std::unordered_map<itype_id, itype_id> &replacements ) const;
 
         // Currently these always have the same chance as the item group it's part of, but
         // theoretically it could be defined per-item / per-group.

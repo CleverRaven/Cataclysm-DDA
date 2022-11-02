@@ -48,7 +48,7 @@ struct fuel_explosion_data {
     bool fiery_explosion = false;
     float fuel_size_factor = 0.0f;
 
-    bool is_empty();
+    bool is_empty() const;
 
     bool was_loaded = false;
     void load( const JsonObject &jsobj );
@@ -57,8 +57,8 @@ struct fuel_explosion_data {
 
 struct fuel_data {
     public:
-        /** Energy of the fuel (kilojoules per charge) */
-        float energy = 0.0f;
+        /** Energy of the fuel per litre */
+        units::energy energy = 0_J;
         fuel_explosion_data explosion_data;
         std::string pump_terrain = "t_null";
         bool is_perpetual_fuel = false;
@@ -100,6 +100,7 @@ class material_type
         bool _edible = false;
         bool _rotting = false;
         bool _soft = false;
+        bool _uncomfortable = false;
         bool _reinforces = false;
         bool _conductive = false; // If this material conducts electricity
 
@@ -132,7 +133,7 @@ class material_type
          * salvaged into any items (e.g. for powder, liquids).
          * Or a valid id of the item type that this can be salvaged
          * into (e.g. clothes made of material leather can be salvaged
-         * into lather patches).
+         * into leather patches).
          */
         cata::optional<itype_id> salvaged_into() const;
         itype_id repaired_with() const;
@@ -166,6 +167,7 @@ class material_type
         bool edible() const;
         bool rotting() const;
         bool soft() const;
+        bool uncomfortable() const;
         bool reinforces() const;
 
         double vitamin( const vitamin_id &id ) const {

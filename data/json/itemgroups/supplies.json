@@ -12,6 +12,7 @@
       [ "light_detector", 5 ],
       [ "amplifier", 40 ],
       [ "antenna", 40 ],
+      [ "nuts_bolts", 15 ],
       { "group": "ammo_any_batteries_full", "prob": 100 },
       [ "cable", 60 ],
       [ "power_supply", 20 ],
@@ -89,6 +90,7 @@
       [ "fertilizer_commercial", 100 ],
       [ "material_quicklime", 70 ],
       [ "concrete", 70 ],
+      { "item": "nuts_bolts", "prob": 60, "charges": [ 15, 30 ], "container-item": "box_small" },
       { "item": "rope_6", "prob": 10 },
       { "item": "sheet_metal", "prob": 10 },
       { "item": "sheet_metal_small", "prob": 10 },
@@ -110,6 +112,7 @@
     "id": "hardware_trash",
     "type": "item_group",
     "items": [
+      { "item": "nuts_bolts", "prob": 20, "charges": [ 1, 3 ], "container-item": "box_small" },
       [ "wrapper", 50 ],
       [ "wrapper_foil", 5 ],
       [ "bottle_glass", 50 ],
@@ -237,7 +240,15 @@
     "//": "General purpose supplies for building / blue collar work.",
     "//2": "Stuff you might find in a jobsite, a hardware store, or a home workshop.",
     "items": [
+      { "item": "nuts_bolts", "prob": 80, "charges": [ 5, 10 ], "container-item": "box_small" },
       [ "concrete", 20 ],
+      {
+        "collection": [
+          { "distribution": [ { "item": "rope_30", "prob": 70 }, { "item": "chain", "prob": 30 } ], "prob": 75 },
+          { "item": "block_and_tackle", "prob": 100 }
+        ],
+        "prob": 15
+      },
       { "item": "rebar", "prob": 20, "count": [ 5, 10 ] },
       { "item": "brick", "prob": 20, "count": [ 5, 10 ] },
       [ "solder_wire", 20 ],
@@ -249,9 +260,10 @@
       [ "rope_30", 35 ],
       [ "circsaw_blade", 8 ],
       [ "glass_sheet", 5 ],
-      [ "box_small", 10 ],
-      [ "box_medium", 10 ],
-      [ "box_large", 10 ],
+      [ "box_small_folded", 10 ],
+      [ "box_medium_folded", 10 ],
+      [ "box_large_folded", 10 ],
+      [ "box_oversize_folded", 10 ],
       [ "plastic_sheet", 15 ],
       { "item": "plastic_sheet", "prob": 15, "charges": [ 5, 10 ], "container-item": "box_small" },
       { "item": "pipe", "prob": 20, "count": [ 5, 10 ] },
@@ -278,6 +290,7 @@
       [ "hd_pipe", 5 ],
       [ "hd_pipe_fittings", 5 ],
       [ "hd_valve", 5 ],
+      { "item": "gasket_plastic", "prob": 5, "count": [ 1, 3 ] },
       [ "pressure_gauge", 5 ],
       [ "pyrometer", 2 ],
       [ "hd_compressor", 1 ],
@@ -304,7 +317,9 @@
       [ "tempered_glass_sheet", 25 ],
       [ "rigid_plastic_sheet", 30 ],
       [ "gas_forge", 15 ],
-      { "item": "chem_turpentine", "prob": 20, "charges-min": 20 }
+      { "item": "chem_turpentine", "prob": 20, "charges-min": 20 },
+      { "item": "silicone", "prob": 15, "charges-min": 29, "container-item": "squeeze_tube", "sealed": true },
+      { "item": "silicone", "prob": 35, "charges-min": 8, "container-item": "squeeze_tube_small", "sealed": true }
     ]
   },
   {
@@ -316,7 +331,7 @@
       { "item": "salt_water", "prob": 20, "charges-min": 1 },
       { "item": "detergent", "prob": 10, "charges": [ 1, 20 ] },
       { "item": "bleach", "prob": 10, "charges-min": 10 },
-      { "item": "ammonia_liquid", "prob": 10, "charges-min": 10 },
+      { "item": "ammonia_liquid", "prob": 20, "charges-min": 10 },
       { "item": "ammonia_hydroxide", "prob": 10, "charges-min": 10 },
       { "item": "iodine", "prob": 10, "charges": [ 1, 10 ] },
       [ "oxy_powder", 10 ],
@@ -486,6 +501,14 @@
     "//": "General supplies to run a mechanics shop or do mechanical work",
     "items": [
       [ "v_airjack_item", 20 ],
+      {
+        "collection": [
+          { "distribution": [ { "item": "rope_30", "prob": 50 }, { "item": "chain", "prob": 50 } ], "prob": 85 },
+          { "item": "block_and_tackle", "prob": 100 }
+        ],
+        "prob": 35
+      },
+      { "item": "nuts_bolts", "prob": 80, "charges": [ 20, 40 ], "container-item": "box_small" },
       [ "jumper_cable", 15 ],
       [ "jumper_cable_heavy", 5 ],
       [ "stereo", 25 ],
@@ -529,6 +552,7 @@
       [ "v2_combustion", 10 ],
       [ "i4_combustion", 10 ],
       [ "v6_combustion", 10 ],
+      [ "i4_diesel", 10 ],
       [ "v6_diesel", 10 ],
       [ "steam_triple_small", 1 ],
       [ "steam_triple_medium", 1 ],
@@ -609,6 +633,11 @@
       [ "box_small", 3 ],
       [ "box_medium", 3 ],
       [ "box_large", 2 ],
+      [ "box_oversize", 2 ],
+      [ "box_small_folded", 3 ],
+      [ "box_medium_folded", 3 ],
+      [ "box_large_folded", 2 ],
+      [ "box_oversize_folded", 2 ],
       [ "plastic_sheet", 3 ],
       { "item": "glowstick", "prob": 10, "charges": 1400 },
       [ "radio", 2 ],

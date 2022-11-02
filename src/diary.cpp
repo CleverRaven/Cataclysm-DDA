@@ -1,10 +1,11 @@
 #include "diary.h"
 
-#include <string>
-#include <list>
-#include <iostream>
-#include <fstream>
 #include <algorithm>
+#include <fstream>
+#include <iostream>
+#include <list>
+#include <string>
+#include <utility>
 
 #include "avatar.h"
 #include "bionics.h"
@@ -48,7 +49,7 @@ int diary::set_opened_page( int pagenum )
     return opened_page;
 }
 
-int diary::get_opened_page_num()
+int diary::get_opened_page_num() const
 {
     return opened_page;
 }
@@ -63,7 +64,7 @@ diary_page *diary::get_page_ptr( int offset )
     return nullptr;
 }
 
-void diary::add_to_change_list( std::string entry, std::string desc )
+void diary::add_to_change_list( const std::string &entry, const std::string &desc )
 {
     if( !desc.empty() ) {
         desc_map[change_list.size()] = desc;
@@ -132,7 +133,7 @@ void diary::mission_changes()
         return;
     }
     if( prevpage == nullptr ) {
-        auto add_missions = [&]( const std::string name, const std::vector<int> *missions ) {
+        auto add_missions = [&]( const std::string & name, const std::vector<int> *missions ) {
             if( !missions->empty() ) {
                 bool flag = true;
 
@@ -156,7 +157,7 @@ void diary::mission_changes()
         add_missions( _( "Failed missions:" ), &currpage->mission_failed );
 
     } else {
-        auto add_missions = [&]( const std::string name, const std::vector<int> *missions,
+        auto add_missions = [&]( const std::string & name, const std::vector<int> *missions,
         const std::vector<int> *prevmissions ) {
             bool flag = true;
             for( const int uid : *missions ) {
@@ -614,7 +615,7 @@ diary::diary()
 }
 void diary::set_page_text( std::string text )
 {
-    get_page_ptr()->m_text = text;
+    get_page_ptr()->m_text = std::move( text );
 }
 
 void diary::new_page()
@@ -741,21 +742,15 @@ void diary::serialize( JsonOut &jsout )
 void diary::load()
 {
     std::string name = base64_encode( get_avatar().get_save_id() + "_diary" );
-    std::string path = PATH_INFO::world_base_save_path() + "/" + name + ".json";
+    cata_path path = PATH_INFO::world_base_save_path_path() / ( name + ".json" );
     if( file_exist( path ) ) {
-        read_from_file( path, [&]( std::istream & fin ) {
-            deserialize( fin );
+        read_from_file_json( path, [&]( const JsonValue & jv ) {
+            deserialize( jv );
         } );
     }
 }
 
-void diary::deserialize( std::istream &fin )
-{
-    JsonIn jsin( fin );
-    deserialize( jsin );
-}
-
-void diary::deserialize( JsonIn &jsin )
+void diary::deserialize( const JsonValue &jsin )
 {
     try {
         JsonObject data = jsin.get_object();

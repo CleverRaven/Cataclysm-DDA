@@ -158,6 +158,11 @@ tripoint Creature::pos() const
     return get_map().getlocal( location );
 }
 
+tripoint_bub_ms Creature::pos_bub() const
+{
+    return get_map().bub_from_abs( location );
+}
+
 void Creature::setpos( const tripoint &p )
 {
     const tripoint_abs_ms old_loc = get_location();
@@ -291,7 +296,7 @@ bool Creature::is_dangerous_fields( const field &fld ) const
 {
     // Else check each field to see if it's dangerous to us
     for( const auto &dfield : fld ) {
-        if( is_dangerous_field( dfield.second ) ) {
+        if( is_dangerous_field( dfield.second ) && !is_immune_field( dfield.first ) ) {
             return true;
         }
     }
@@ -320,10 +325,17 @@ bool Creature::sees( const Creature &critter ) const
 
     map &here = get_map();
 
-    if( critter.has_flag( MF_ALWAYS_VISIBLE ) ) {
-        // You always see this
+    if( critter.has_flag( MF_ALWAYS_VISIBLE ) || ( has_flag( MF_ALWAYS_SEES_YOU ) &&
+            critter.is_avatar() ) ) {
         return true;
     }
+
+    const int wanted_range = rl_dist( pos(), critter.pos() );
+    if( this->has_flag( MF_ALL_SEEING ) ) {
+        const monster *m = this->as_monster();
+        return wanted_range < std::max( m->type->vision_day, m->type->vision_night );
+    }
+
     // player can use mirrors, so `has_potential_los` cannot be used
     if( !is_avatar() && !here.has_potential_los( pos(), critter.pos() ) ) {
         return false;
@@ -344,7 +356,6 @@ bool Creature::sees( const Creature &critter ) const
     };
 
     const Character *ch = critter.as_character();
-    const int wanted_range = rl_dist( pos(), critter.pos() );
 
     // Can always see adjacent monsters on the same level.
     // We also bypass lighting for vertically adjacent monsters, but still check for floors.
@@ -453,6 +464,11 @@ bool Creature::sees( const tripoint &t, bool is_avatar, int range_mod ) const
     } else {
         return false;
     }
+}
+
+bool Creature::sees( const tripoint_bub_ms &t, bool is_avatar, int range_mod ) const
+{
+    return sees( t.raw(), is_avatar, range_mod );
 }
 
 // Helper function to check if potential area of effect of a weapon overlaps vehicle
@@ -1136,7 +1152,7 @@ dealt_damage_instance Creature::deal_damage( Creature *source, bodypart_id bp,
 
     dealt_damage_instance dealt_dams;
     const weakpoint *wp = absorb_hit( attack_copy, bp, d );
-    dealt_dams.wp_hit = wp == nullptr ? "" : wp->name;
+    dealt_dams.wp_hit = wp == nullptr ? "" : wp->get_name();
 
     // Add up all the damage units dealt
     for( const damage_unit &it : d.damage_units ) {
@@ -1211,6 +1227,15 @@ void Creature::deal_damage_handle_type( const effect_source &source, const damag
                 const int duration = std::max( adjusted_damage / 10.0 * multiplier, 2.0 );
                 add_effect( source, effect_zapped, 1_turns * duration );
             }
+
+            if( Character *ch = as_character() ) {
+                const double pain_mult = ch->calculate_by_enchantment( 1.0, enchant_vals::mod::EXTRA_ELEC_PAIN );
+                div /= pain_mult;
+                if( pain_mult > 1.0 ) {
+                    ch->add_msg_player_or_npc( m_bad, _( "You're painfully electrocuted!" ),
+                                               _( "<npcname> is shocked!" ) );
+                }
+            }
             break;
         }
 
@@ -1239,7 +1264,7 @@ void Creature::heal_bp( bodypart_id /* bp */, int /* dam */ )
 {
 }
 
-void Creature::longpull( const std::string name, const tripoint &p )
+void Creature::longpull( const std::string &name, const tripoint &p )
 {
     if( pos() == p ) {
         add_msg_if_player( _( "You try to pull yourself together." ) );
@@ -1725,6 +1750,11 @@ std::string Creature::get_value( const std::string &key ) const
 {
     auto it = values.find( key );
     return ( it == values.end() ) ? "" : it->second;
+}
+
+void Creature::clear_values()
+{
+    values.clear();
 }
 
 void Creature::mod_pain( int npain )
@@ -2434,6 +2464,23 @@ body_part_set Creature::get_drenching_body_parts( bool upper, bool mid, bool low
     }
     return ret;
 }
+
+int Creature::get_num_body_parts_of_type( body_part_type::type part_type ) const
+{
+    return static_cast<int>( get_all_body_parts_of_type( part_type ).size() );
+}
+
+int Creature::get_num_broken_body_parts_of_type( body_part_type::type part_type ) const
+{
+    int ret = 0;
+    for( const bodypart_id &bp : get_all_body_parts_of_type( part_type ) ) {
+        if( get_part_hp_cur( bp ) == 0 ) {
+            ret++;
+        }
+    }
+    return ret;
+}
+
 int Creature::get_hp( const bodypart_id &bp ) const
 {
     if( bp != bodypart_str_id::NULL_ID() ) {

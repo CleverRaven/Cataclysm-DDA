@@ -1,0 +1,40 @@
+[
+  {
+    "id": "dino_carrier",
+    "type": "TOOL",
+    "name": { "str": "large pet carrier" },
+    "description": "A sturdy reinforced plastic container meant to hold dinosaurs for transport.  Use it on a suitable animal to capture, use it on an empty tile to release.",
+    "weight": "10000 g",
+    "volume": "50 L",
+    "price": 2000,
+    "price_postapoc": 200,
+    "bashing": 1,
+    "cutting": 1,
+    "material": [ "steel", "plastic" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "properties": [ [ "creature_size_capacity", "HUGE" ] ],
+    "use_action": [ "CAPTURE_MONSTER_ACT" ],
+    "flags": [ "TRADER_AVOID" ],
+    "looks_like": "pet_carrier"
+  },
+  {
+    "id": "dino_carrier_wooden",
+    "type": "TOOL",
+    "name": { "str": "large wooden pet carrier" },
+    "description": "A sturdy reinforced wooden container meant to hold dinosaurs for transport.  Use it on a suitable animal to capture, use it on an empty tile to release.",
+    "weight": "15000 g",
+    "volume": "50 L",
+    "price": 1600,
+    "price_postapoc": 100,
+    "bashing": 1,
+    "cutting": 1,
+    "material": [ "wood" ],
+    "symbol": "#",
+    "color": "brown",
+    "properties": [ [ "creature_size_capacity", "HUGE" ] ],
+    "use_action": [ "CAPTURE_MONSTER_ACT" ],
+    "flags": [ "TRADER_AVOID" ],
+    "looks_like": "pet_carrier"
+  }
+]

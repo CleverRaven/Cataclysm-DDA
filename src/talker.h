@@ -118,6 +118,9 @@ class talker
         virtual int get_cur_hp( const bodypart_id & ) const {
             return 0;
         }
+        virtual int get_cur_part_temp( const bodypart_id & ) const {
+            return 0;
+        }
 
         // stats, skills, traits, bionics, and magic
         virtual int str_cur() const {
@@ -167,6 +170,20 @@ class talker
         virtual int get_skill_level( const skill_id & ) const {
             return 0;
         }
+        virtual int get_spell_level( const trait_id & ) const {
+            return 0;
+        }
+        virtual int get_spell_level( const spell_id & ) const {
+            return 0;
+        }
+        virtual int get_spell_exp( const spell_id & ) const {
+            return 0;
+        }
+        virtual int get_highest_spell_level() const {
+            return 0;
+        }
+        virtual void set_spell_level( const spell_id &, int ) {}
+        virtual void set_spell_exp( const spell_id &, int ) {}
         virtual void set_skill_level( const skill_id &, int ) {}
         virtual bool has_trait( const trait_id & ) const {
             return false;
@@ -197,6 +214,10 @@ class talker
         virtual bool knows_proficiency( const proficiency_id & ) const {
             return false;
         }
+        virtual time_duration proficiency_practiced_time( const proficiency_id & ) const {
+            return 0_seconds;
+        }
+        virtual void set_proficiency_practiced_time( const proficiency_id &, int ) {}
         virtual std::vector<skill_id> skills_offered_to( const talker & ) const {
             return {};
         }
@@ -247,7 +268,7 @@ class talker
         virtual bool is_mute() const {
             return false;
         }
-        virtual void add_effect( const efftype_id &, const time_duration &, std::string, bool, bool,
+        virtual void add_effect( const efftype_id &, const time_duration &, const std::string &, bool, bool,
                                  int ) {}
         virtual void remove_effect( const efftype_id & ) {}
         virtual void add_bionic( const bionic_id & ) {}
@@ -559,5 +580,12 @@ class talker
         virtual int get_body_temp_delta() const {
             return 0;
         }
+        virtual std::vector<bodypart_id> get_all_body_parts() const {
+            return std::vector<bodypart_id>();
+        }
+        virtual int get_part_hp_cur( const bodypart_id & ) const {
+            return 0;
+        }
+        virtual void set_part_hp_cur( const bodypart_id &, int ) const {}
 };
 #endif // CATA_SRC_TALKER_H

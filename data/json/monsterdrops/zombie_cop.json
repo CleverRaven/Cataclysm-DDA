@@ -147,7 +147,7 @@
   {
     "id": "cop_weapons",
     "type": "item_group",
-    "items": [ { "group": "longguns_cop", "prob": 10, "contents-item": "shoulder_strap" } ]
+    "items": [ { "group": "longguns_cop", "prob": 10 } ]
   },
   {
     "id": "cop_holster",
@@ -206,6 +206,7 @@
           { "item": "two_way_radio", "prob": 30 },
           { "item": "whistle", "prob": 5 },
           { "item": "flashbang", "prob": 10 },
+          { "item": "gasbomb", "prob": 10 },
           { "item": "sm_extinguisher", "prob": 5 },
           { "item": "rope_30", "prob": 10 }
         ],

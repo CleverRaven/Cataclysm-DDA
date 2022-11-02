@@ -30,7 +30,7 @@
     "symbol": "'",
     "color": "light_gray",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "ROAD" ],
+    "flags": [ "TRANSPARENT", "FLAT", "CONNECT_WITH_WALL", "ROAD" ],
     "close": "t_secretdoor_wall_c",
     "bash": {
       "str_min": 30,

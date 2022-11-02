@@ -491,6 +491,8 @@ void monmove()
     // Now, do active NPCs.
     for( npc &guy : g->all_npcs() ) {
         int turns = 0;
+        int real_count = 0;
+        const int count_limit = std::max( 10, guy.moves / 64 );
         if( guy.is_mounted() ) {
             guy.check_mount_is_spooked();
         }
@@ -500,13 +502,16 @@ void monmove()
         }
         while( !guy.is_dead() && ( !guy.in_sleep_state() || guy.activity.id() == ACT_OPERATION ) &&
                guy.moves > 0 && turns < 10 ) {
-            int moves = guy.moves;
+            const int moves = guy.moves;
+            const bool has_destination = guy.has_destination_activity();
             guy.move();
             if( moves == guy.moves ) {
                 // Count every time we exit npc::move() without spending any moves.
-                turns++;
+                real_count++;
+                if( has_destination == guy.has_destination_activity() || real_count > count_limit ) {
+                    turns++;
+                }
             }
-
             // Turn on debug mode when in infinite loop
             // It has to be done before the last turn, otherwise
             // there will be no meaningful debug output.
@@ -780,7 +785,6 @@ bool do_turn()
     // Apply sounds from previous turn to monster and NPC AI.
     sounds::process_sounds();
     const int levz = m.get_abs_sub().z();
-    u.process_turn();
     // Update vision caches for monsters. If this turns out to be expensive,
     // consider a stripped down cache just for monsters.
     m.build_map_cache( levz, true );
@@ -803,6 +807,7 @@ bool do_turn()
         }
     }
     g->mon_info_update();
+    u.process_turn();
     if( u.moves < 0 && get_option<bool>( "FORCE_REDRAW" ) ) {
         ui_manager::redraw();
         refresh_display();
@@ -877,6 +882,10 @@ bool do_turn()
 
     // reset player noise
     u.volume = 0;
+
+    // Calculate bionic power balance
+    u.power_balance = u.get_power_level() - u.power_prev_turn;
+    u.power_prev_turn = u.get_power_level();
 
     return false;
 }

@@ -65,7 +65,7 @@
         { "vehicle": "dealership", "x": [ 14, 14 ], "y": [ 3, 3 ], "chance": 20, "rotation": 270, "status": 1 },
         { "vehicle": "dealership", "x": [ 19, 19 ], "y": [ 3, 3 ], "chance": 20, "rotation": 270, "status": 1 },
         { "vehicle": "dealership", "x": [ 20, 20 ], "y": [ 15, 15 ], "chance": 20, "rotation": 0, "status": 1 },
-        { "vehicle": "dealership", "x": [ 20, 20 ], "y": [ 20, 20 ], "chance": 20, "rotation": 0, "status": 1 }
+        { "vehicle": "dealership", "x": [ 20, 20 ], "y": [ 19, 19 ], "chance": 20, "rotation": 0, "status": 1 }
       ]
     }
   }

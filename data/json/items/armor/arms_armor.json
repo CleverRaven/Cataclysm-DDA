@@ -117,6 +117,37 @@
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
+    "id": "cloth_arms_padded",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pair of cloth-padded sleeves", "str_pl": "pairs of cloth-padded sleeves" },
+    "description": "The sleeves of a thick cotton shirt, with a bunch of cloth sewn in to act as extra padding.  They're quite lonely, no longer being attached to each other by the rest of the shirt.",
+    "weight": "400 g",
+    "volume": "1500 ml",
+    "price_postapoc": 100,
+    "to_hit": -2,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "arm_warmers",
+    "color": "light_gray",
+    "armor": [
+      {
+        "material": [
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "cotton", "covered_by_mat": 90, "thickness": 1.0 },
+          { "type": "cotton", "covered_by_mat": 90, "thickness": 1.0 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 8
+      }
+    ],
+    "warmth": 35,
+    "material_thickness": 3,
+    "environmental_protection": 2,
+    "flags": [ "VARSIZE" ]
+  },
+  {
     "id": "armguard_hard",
     "type": "ARMOR",
     "category": "armor",
@@ -293,25 +324,27 @@
     "id": "armguard_metal",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "pair of metal arm guards", "str_pl": "pairs of metal arm guards" },
-    "description": "A pair of arm guards hammered out from metal.  Perfect for the Post-Apocalyptic Warrior look.",
-    "weight": "1080 g",
+    "name": { "str": "pair of sheet metal arm guards", "str_pl": "pairs of sheet metal arm guards" },
+    "description": "A pair of arm guards hammered out from metal, avoiding joints.  Perfect for the Post-Apocalyptic Warrior look.",
+    "weight": "2300 g",
+    "//": "The weight assumes four sheets of about 25cm x 20cm x 1.5mm.",
     "volume": "2750 ml",
     "price": 30000,
     "price_postapoc": 1000,
     "to_hit": 1,
-    "material": [ "iron" ],
+    "material": [ "lc_steel" ],
+    "repairs_with": [ "steel" ],
     "symbol": "[",
     "looks_like": "armguard_hard",
     "color": "light_gray",
-    "warmth": 20,
-    "material_thickness": 3,
+    "warmth": 10,
+    "material_thickness": 1.5,
     "environmental_protection": 1,
     "flags": [ "OUTER", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ],
     "armor": [
       {
         "covers": [ "arm_l", "arm_r" ],
-        "encumbrance": 13,
+        "encumbrance": 7,
         "coverage": 95,
         "cover_melee": 95,
         "cover_ranged": 90,
@@ -321,12 +354,99 @@
     ]
   },
   {
+    "id": "ch_armguard_metal",
+    "type": "ARMOR",
+    "copy-from": "armguard_metal",
+    "name": { "str": "pair of case hardened sheet metal arm guards", "str_pl": "pairs of case hardened sheet metal arm guards" },
+    "description": "A pair of arm guards hammered out from sheet metal, case hardened for extra protection.  Still manages that Post-Apocalyptic Warrior look.",
+    "material": [ "ch_steel" ],
+    "extend": { "flags": [ "STURDY" ] }
+  },
+  {
+    "id": "armguard_metal_sheets_shoulders",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pair of sheet metal pauldrons", "str_pl": "pairs of sheet metal pauldrons" },
+    "description": "Two half-cylinders of sheet metal jutting out over your shoulders and two more underneath.  They make it impossible to raise your arms fully, but they'll keep your arms attached to you.",
+    "weight": "1400 g",
+    "//": "The weight assumes four sheets of about 15cm x 15cm x 1.5mm.",
+    "volume": "2 L",
+    "price": 500,
+    "price_postapoc": 400,
+    "to_hit": 1,
+    "material": [ "lc_steel" ],
+    "repairs_with": [ "steel" ],
+    "symbol": "m",
+    "color": "light_gray",
+    "warmth": 5,
+    "longest_side": "50 cm",
+    "material_thickness": 1.5,
+    "environmental_protection": 1,
+    "flags": [ "OUTER", "WATER_FRIENDLY" ],
+    "armor": [
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "encumbrance": 10,
+        "coverage": 95,
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ]
+      }
+    ]
+  },
+  {
+    "id": "ch_armguard_metal_sheets_shoulders",
+    "type": "ARMOR",
+    "copy-from": "armguard_metal_sheets_shoulders",
+    "name": { "str": "pair of case hardened sheet metal pauldrons", "str_pl": "pairs of case hardened sheet metal pauldrons" },
+    "description": "A pair of crude pauldrons made out of sheet metal and case hardened for reinforcement.",
+    "material": [ "ch_steel" ],
+    "extend": { "flags": [ "STURDY" ] }
+  },
+  {
+    "id": "armguard_metal_sheets_elbows",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pair of sheet metal elbow guards", "str_pl": "pairs of sheet metal elbow guards" },
+    "description": "Two small half-cylinders of sheet metal cut down and hammered to fit over your elbows.  Very brutal, just needs spikes.",
+    "weight": "700 g",
+    "//": "The weight assumes two sheets of about 15cm x 15cm x 1.5mm.",
+    "volume": "1 L",
+    "price": 500,
+    "price_postapoc": 400,
+    "to_hit": 1,
+    "material": [ "lc_steel" ],
+    "repairs_with": [ "steel" ],
+    "symbol": "m",
+    "looks_like": "elbow_pads",
+    "color": "light_gray",
+    "warmth": 5,
+    "longest_side": "50 cm",
+    "material_thickness": 1.5,
+    "environmental_protection": 1,
+    "flags": [ "OUTER", "WATER_FRIENDLY" ],
+    "armor": [
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "encumbrance": 2,
+        "coverage": 95,
+        "specifically_covers": [ "arm_elbow_l", "arm_elbow_r" ]
+      }
+    ]
+  },
+  {
+    "id": "ch_armguard_metal_sheets_elbows",
+    "type": "ARMOR",
+    "copy-from": "armguard_metal_sheets_elbows",
+    "name": { "str": "pair of case hardened sheet metal elbow guards", "str_pl": "pairs of case hardened sheet metal elbow guards" },
+    "description": "Elbow guards of sheet metal, case hardened to make sure you never bang your funny bone on the table again.",
+    "material": [ "ch_steel" ],
+    "extend": { "flags": [ "STURDY" ] }
+  },
+  {
     "id": "xl_armguard_metal",
     "type": "ARMOR",
-    "name": { "str": "pair of XL metal arm guards", "str_pl": "pairs of XL metal arm guards" },
+    "name": { "str": "pair of XL sheet metal arm guards", "str_pl": "pairs of XL sheet metal arm guards" },
     "description": "A pair of arm guards hammered out from metal.  Perfect for the Post-Apocalyptic Warrior look.  Larger than average.",
-    "weight": "1380 g",
-    "volume": "3250 ml",
+    "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "copy-from": "armguard_metal",
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -335,7 +455,7 @@
     "type": "ARMOR",
     "copy-from": "armguard_metal",
     "looks_like": "armguard_metal",
-    "name": { "str": "pair of XS metal arm guards", "str_pl": "pairs of XS metal arm guards" },
+    "name": { "str": "pair of XS sheet metal arm guards", "str_pl": "pairs of XS sheet metal arm guards" },
     "description": "A pair of arm guards hammered out from metal.  Perfect for the Post-Apocalyptic Warrior look.  Smaller than average.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
@@ -703,15 +823,8 @@
       {
         "material": [ { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_shoulder_r", "arm_shoulder_l" ],
-        "coverage": 95,
+        "coverage": 100,
         "encumbrance": 20
-      },
-      {
-        "material": [ { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_elbow_l", "arm_elbow_r", "arm_upper_l", "arm_upper_r" ],
-        "coverage": 100
       }
     ]
   },
@@ -744,15 +857,8 @@
       {
         "material": [ { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_shoulder_r", "arm_shoulder_l" ],
-        "coverage": 95,
+        "coverage": 100,
         "encumbrance": 20
-      },
-      {
-        "material": [ { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_elbow_l", "arm_elbow_r", "arm_upper_l", "arm_upper_r" ],
-        "coverage": 100
       }
     ]
   },
@@ -785,15 +891,8 @@
       {
         "material": [ { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_shoulder_r", "arm_shoulder_l" ],
-        "coverage": 95,
+        "coverage": 100,
         "encumbrance": 20
-      },
-      {
-        "material": [ { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_elbow_l", "arm_elbow_r", "arm_upper_l", "arm_upper_r" ],
-        "coverage": 100
       }
     ]
   },
@@ -826,15 +925,8 @@
       {
         "material": [ { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_shoulder_r", "arm_shoulder_l" ],
-        "coverage": 95,
+        "coverage": 100,
         "encumbrance": 20
-      },
-      {
-        "material": [ { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_elbow_l", "arm_elbow_r", "arm_upper_l", "arm_upper_r" ],
-        "coverage": 100
       }
     ]
   },
@@ -867,15 +959,8 @@
       {
         "material": [ { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_shoulder_r", "arm_shoulder_l" ],
-        "coverage": 95,
+        "coverage": 100,
         "encumbrance": 20
-      },
-      {
-        "material": [ { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_elbow_l", "arm_elbow_r", "arm_upper_l", "arm_upper_r" ],
-        "coverage": 100
       }
     ]
   },
@@ -1507,5 +1592,51 @@
     "copy-from": "armor_qt_heavyarmguard",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "survivor_adhoc_leather_sleeves",
+    "repairs_like": "longshirt",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "leather-padded sleeves" },
+    "description": "Armor made of combined pre-Cataclysm clothing.  Sections from leather clothing are tightened and affixed to the sleeves of a thick cotton shirt, excluding the joints.",
+    "weight": "500 g",
+    "volume": "500 ml",
+    "price_postapoc": 1000,
+    "to_hit": -2,
+    "material": [ "cotton", "leather" ],
+    "symbol": "[",
+    "looks_like": "armguard_soft",
+    "color": "light_red",
+    "armor": [
+      {
+        "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 } ],
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ],
+        "coverage": 50,
+        "encumbrance": 0
+      },
+      {
+        "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 } ],
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_elbow_l", "arm_elbow_r" ],
+        "coverage": 100,
+        "encumbrance": 0
+      },
+      {
+        "material": [
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "leather", "covered_by_mat": 95, "thickness": 1.5 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_upper_l", "arm_lower_l", "arm_upper_r", "arm_lower_r" ],
+        "coverage": 100,
+        "encumbrance": 8
+      }
+    ],
+    "warmth": 35,
+    "material_thickness": 2.5,
+    "environmental_protection": 1,
+    "flags": [ "VARSIZE", "WATER_FRIENDLY" ]
   }
 ]

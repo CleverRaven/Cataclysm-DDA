@@ -123,7 +123,7 @@
         { "vehicle": "parkinglotbasic", "x": 4, "y": 9, "chance": 75, "rotation": 270, "status": -1 },
         { "vehicle": "flatbed_truck", "x": 11, "y": 4, "chance": 25, "rotation": 270, "status": -1 },
         { "vehicle": "Medevac1", "x": 9, "y": 38, "chance": 1, "rotation": 90, "status": -1 },
-        { "vehicle": "helicopter_apache_1a", "x": 24, "y": 33, "chance": 1, "rotation": 270, "status": 1 },
+        { "vehicle": "helicopter_apache_1a", "x": 29, "y": 33, "chance": 1, "rotation": 270, "status": 1 },
         { "vehicle": "SmallFlier2_Wreck", "x": 39, "y": 38, "chance": 50, "rotation": 90, "status": -1 }
       ]
     }

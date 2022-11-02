@@ -41,7 +41,7 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "light_red",
-    "use_action": { "type": "learn_spell", "spells": [ "magic_missile", "phase_door", "create_atomic_light" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "magic_missile", "phase_door", "create_atomic_light", "sound_bomb" ] }
   },
   {
     "id": "novice_stormshaper_book",
@@ -63,7 +63,7 @@
     "type": "BOOK",
     "category": "manuals",
     "name": { "str": "Wizarding Guide to Backpacking", "str_pl": "copies of Wizarding Guide to Backpacking" },
-    "//": "2 Magus, 1 Biomancer, 1, Kelvinist, 1 classless spell",
+    "//": "2 Magus, 1 Biomancer, 1 Kelvinist, 1 Druid, 1 classless spell",
     "description": "This appears to be the spell version of a guide for what things to take with you when backpacking.  It's a little bulky, but will certainly prove useful.",
     "weight": "1 kg",
     "volume": "1250 ml",
@@ -73,7 +73,16 @@
     "color": "red",
     "use_action": {
       "type": "learn_spell",
-      "spells": [ "phase_door", "create_lighter", "pain_split", "protection_aura", "magus_force_jar" ]
+      "spells": [
+        "phase_door",
+        "create_lighter",
+        "create_electric_lighter",
+        "pain_split",
+        "protection_aura",
+        "magus_force_jar",
+        "druid_healing_herb",
+        "air_bubble"
+      ]
     }
   },
   {
@@ -161,7 +170,7 @@
     "id": "tome_of_storms",
     "type": "BOOK",
     "category": "manuals",
-    "//": "6 Stormshaper spells",
+    "//": "7 Stormshaper spells",
     "name": { "str": "The Tome of The Oncoming Storm", "str_pl": "copies of The Tome of The Oncoming Storm" },
     "description": "A large book embossed with crossed lightning bolts and storm clouds, it tingles to the touch.",
     "weight": "430 g",
@@ -172,7 +181,81 @@
     "color": "light_gray",
     "use_action": {
       "type": "learn_spell",
-      "spells": [ "jolt", "windstrike", "windrun", "storm_hammer", "lightning_bolt", "lightning_blast" ]
+      "spells": [
+        "electric_arts",
+        "jolt",
+        "windstrike",
+        "windrun",
+        "storm_hammer",
+        "stormfist",
+        "lightning_bolt",
+        "lightning_blast",
+        "shocking_dash",
+        "toxtricity"
+      ]
+    }
+  },
+  {
+    "id": "bioelectricity",
+    "type": "BOOK",
+    "category": "manuals",
+    "//": "6 Stormshaper spells",
+    "name": { "str": "Bioelectricity, An Arcane Approach", "str_pl": "copies of Bioelectricity, An Arcane Approach" },
+    "description": "Small, but thick book, that covers the most recent developments in the field, including real examples.",
+    "weight": "537 g",
+    "volume": "930 ml",
+    "price": 9000,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "light_gray",
+    "use_action": {
+      "type": "learn_spell",
+      "spells": [ "electric_arts", "storm_superconductor", "shocking_dash", "toxtricity", "electric_eye", "electric_waves" ]
+    }
+  },
+  {
+    "id": "tome_of_wind",
+    "type": "BOOK",
+    "category": "manuals",
+    "//": "5 Stormshaper wind spells",
+    "name": { "str": "Blow You Away", "str_pl": "copies of Blow You Away" },
+    "description": "Big, illustrated book, that describe the unpopular side of stormshaping - the wind control.  Despite being less \"cool\", it has more control, and can be as devastating as lightning.",
+    "weight": "473 g",
+    "volume": "825 ml",
+    "price": 7000,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "light_gray",
+    "use_action": {
+      "type": "learn_spell",
+      "spells": [ "windstrike", "windrun", "stormshaper_wall_of_fog", "explosive_decompression", "air_bubble" ]
+    }
+  },
+  {
+    "id": "tome_electric",
+    "type": "BOOK",
+    "category": "manuals",
+    "//": "5 Stormshaper electric spells",
+    "name": { "str": "How Electromancy Changed the Vietnam War", "str_pl": "copies of How Electromancy Changed the Vietnam War" },
+    "description": "Deep work, that tells about the electromancy boom in the 60's, and how mass military draft of fresh, inexperienced scholars changed the war, with examples of using tactics and spells.  Summary says \"it changed nothing\".",
+    "weight": "378 g",
+    "volume": "660 ml",
+    "price": 11700,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "light_gray",
+    "use_action": {
+      "type": "learn_spell",
+      "spells": [
+        "storm_superconductor",
+        "summon_teravolt",
+        "storm_hammer",
+        "stormfist",
+        "electric_waves",
+        "electric_eye",
+        "toxtricity",
+        "shocking_dash"
+      ]
     }
   },
   {
@@ -249,7 +332,15 @@
     "color": "green",
     "use_action": {
       "type": "learn_spell",
-      "spells": [ "druid_woodshaft", "druid_veggrasp", "druid_rootstrike", "druid_naturebow1", "druid_natures_commune" ]
+      "spells": [
+        "druid_woodshaft",
+        "druid_veggrasp",
+        "druid_rootstrike",
+        "druid_naturebow1",
+        "druid_natures_commune",
+        "druid_healing_herb",
+        "druid_healing"
+      ]
     }
   },
   {
@@ -267,7 +358,7 @@
     "color": "light_blue",
     "use_action": {
       "type": "learn_spell",
-      "spells": [ "recover_mana", "recover_bionic_power", "recover_pain", "recover_fatigue", "recover_stamina" ]
+      "spells": [ "recover_mana", "recover_bionic_power", "recover_pain", "recover_fatigue", "recover_stamina", "druid_healing" ]
     }
   },
   {
@@ -293,7 +384,7 @@
     "type": "BOOK",
     "category": "manuals",
     "name": { "str": "The Tome of the Hollow Earth", "str_pl": "copies of The Tome of the Hollow Earth" },
-    "//": "4 earthshaper spells",
+    "//": "5 earthshaper spells",
     "description": "This large dusty spellbook seems perpetually, well, dusty.  It contains the power of the earth.",
     "weight": "483 g",
     "volume": "825 ml",
@@ -303,8 +394,41 @@
     "color": "brown",
     "use_action": {
       "type": "learn_spell",
-      "spells": [ "eshaper_rockbolt", "eshaper_shardspray", "eshaper_piercing_bolt", "eshaper_shardstorm" ]
+      "spells": [ "eshaper_rockbolt", "eshaper_shardspray", "eshaper_piercing_bolt", "eshaper_shardstorm", "eshaper_impalement" ]
     }
+  },
+  {
+    "id": "eshaper_spellbook_melee",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": { "str": "Memoirs of the Champion of an Earth", "str_pl": "copies of Memoirs of the Champion of an Earth" },
+    "//": "5 earthshaper spells",
+    "description": "Book, written by someone, who describe himself as \"Chosen of Gaia, the Only Champion of Terra\", about himself.  The author is pretty selfish, but his mastery in combining different earthshaper's abilities shows him as a great sorcerer of his element.",
+    "weight": "247 g",
+    "volume": "398 ml",
+    "price": 9000,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "brown",
+    "use_action": {
+      "type": "learn_spell",
+      "spells": [ "pertifying_touch", "earthshaper_stoneskin", "reactive_armor", "eshaper_melee_damage", "eshaper_crystal_wrap" ]
+    }
+  },
+  {
+    "id": "eshaper_spellbook_tool",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": { "str": "One Spell is All You Need!", "str_pl": "copies of One Spell is All You Need!" },
+    "//": "1 earthshaper spell. yes, the whole book is only for one, that's the idea",
+    "description": "This advertising booklet promotes one spell that allows you to create a different tool for different purposes.  Surprisingly, it works as the book says - you can change the shape of your tool, depending on your needs.",
+    "weight": "83 g",
+    "volume": "132 ml",
+    "price": 1000,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "brown",
+    "use_action": { "type": "learn_spell", "spells": [ "eshaper_spawn_tools" ] }
   },
   {
     "id": "magus_spellbook_move",
@@ -459,7 +583,7 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "brown",
-    "use_action": { "type": "learn_spell", "spells": [ "focused_bolt", "rupture", "disruption_bolt", "cause_rot" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "focused_bolt", "rupture", "disruption_bolt", "cause_rot", "devour" ] }
   },
   {
     "id": "stat_up_spellbook",

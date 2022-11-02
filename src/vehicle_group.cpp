@@ -72,6 +72,15 @@ bool string_id<VehiclePlacement>::is_valid() const
     return vplacements.count( *this ) > 0;
 }
 
+std::vector<vproto_id> VehicleGroup::all_possible_results() const
+{
+    std::vector<vproto_id> result;
+    for( const weighted_object<int, vproto_id> &wo : vehicles ) {
+        result.push_back( wo.obj );
+    }
+    return result;
+}
+
 void VehicleGroup::load( const JsonObject &jo )
 {
     VehicleGroup &group = vgroups[vgroup_id( jo.get_string( "id" ) )];

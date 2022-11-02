@@ -147,15 +147,24 @@ float Character::lighting_craft_speed_multiplier( const recipe &rec ) const
         // 100% speed in well lit area at skill+0
         // 25% speed in pitch black at skill+0
         // skill+2 removes speed penalty
-        return 1.0f - ( darkness / ( 7.0f / 0.75f ) ) * std::max( 0,
-                2 - exceeds_recipe_requirements( rec ) ) / 2.0f;
+        if( rec.skill_used ) {
+            return 1.0f - ( darkness / ( 7.0f / 0.75f ) ) * std::max( 0,
+                    2 - exceeds_recipe_requirements( rec ) ) / 2.0f;
+        } else { // If there's no skill involved there shouldn't be any speed reduction due to not having levels in a non existent skill.
+            return 1.0f;
+        }
     }
-    if( rec.has_flag( flag_BLIND_HARD ) && exceeds_recipe_requirements( rec ) >= 2 ) {
+    if( rec.has_flag( flag_BLIND_HARD ) && ( !rec.skill_used ||
+            exceeds_recipe_requirements( rec ) >= 2 ) ) {
         // 100% speed in well lit area at skill+2
         // 25% speed in pitch black at skill+2
         // skill+8 removes speed penalty
-        return 1.0f - ( darkness / ( 7.0f / 0.75f ) ) * std::max( 0,
-                8 - exceeds_recipe_requirements( rec ) ) / 6.0f;
+        if( rec.skill_used ) {
+            return 1.0f - ( darkness / ( 7.0f / 0.75f ) ) * std::max( 0,
+                    8 - exceeds_recipe_requirements( rec ) ) / 6.0f;
+        } else { // No skill involved, so apply arbitrary penalty.
+            return 0.5f;
+        }
     }
     return 0.0f; // it's dark and you could craft this if you had more skill
 }
@@ -199,7 +208,7 @@ static float lerped_multiplier( const T &value, const T &low, const T &high )
     return 1.0f + ( value - low ) * ( 0.25f - 1.0f ) / ( high - low );
 }
 
-static float workbench_crafting_speed_multiplier( const item &craft,
+static float workbench_crafting_speed_multiplier( const Character &you, const item &craft,
         const cata::optional<tripoint> &loc )
 {
     float multiplier;
@@ -243,6 +252,12 @@ static float workbench_crafting_speed_multiplier( const item &craft,
     const units::mass &craft_mass = craft.weight();
     const units::volume &craft_volume = craft.volume();
 
+    units::mass lifting_mass = you.best_nearby_lifting_assist();
+
+    if( lifting_mass > craft_mass ) {
+        return multiplier;
+    }
+
     multiplier *= lerped_multiplier( craft_mass, allowed_mass, 1000_kilogram );
     multiplier *= lerped_multiplier( craft_volume, allowed_volume, 1000_liter );
 
@@ -271,7 +286,7 @@ float Character::crafting_speed_multiplier( const item &craft,
     const recipe &rec = craft.get_making();
 
     const float light_multi = lighting_craft_speed_multiplier( rec );
-    const float bench_multi = workbench_crafting_speed_multiplier( craft, loc );
+    const float bench_multi = workbench_crafting_speed_multiplier( *this, craft, loc );
     const float morale_multi = morale_crafting_speed_multiplier( rec );
     const float mut_multi = mutation_value( "crafting_speed_multiplier" );
 
@@ -284,7 +299,7 @@ float Character::crafting_speed_multiplier( const item &craft,
     }
     if( bench_multi <= 0.1f || ( bench_multi <= 0.33f && total_multi <= 0.2f ) ) {
         add_msg_if_player( m_bad, _( "The %s is too large and/or heavy to work on.  You may want to"
-                                     " use a workbench or a smaller batch size" ), craft.tname() );
+                                     " use a workbench or a lifting tool" ), craft.tname() );
         return 0.0f;
     }
     if( morale_multi <= 0.2f || ( morale_multi <= 0.33f && total_multi <= 0.2f ) ) {
@@ -351,7 +366,7 @@ void Character::long_craft( const cata::optional<tripoint> &loc, const recipe_id
     }
 }
 
-bool Character::making_would_work( const recipe_id &id_to_make, int batch_size )
+bool Character::making_would_work( const recipe_id &id_to_make, int batch_size ) const
 {
     const recipe &making = *id_to_make;
     if( !( making && crafting_allowed( *this, making ) ) ) {
@@ -513,7 +528,7 @@ std::vector<const item *> Character::get_eligible_containers_for_crafting() cons
     return conts;
 }
 
-bool Character::can_make( const recipe *r, int batch_size )
+bool Character::can_make( const recipe *r, int batch_size ) const
 {
     const inventory &crafting_inv = crafting_inventory();
 
@@ -529,7 +544,8 @@ bool Character::can_make( const recipe *r, int batch_size )
                crafting_inv, r->get_component_filter(), batch_size );
 }
 
-bool Character::can_start_craft( const recipe *rec, recipe_filter_flags flags, int batch_size )
+bool Character::can_start_craft( const recipe *rec, recipe_filter_flags flags,
+                                 int batch_size ) const
 {
     if( !rec ) {
         return false;
@@ -1339,7 +1355,7 @@ void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc
                 // forget byproducts below either when you fix this.
                 //
                 // Temperature is not functional for non-foods
-                food_contained.set_item_temperature( units::from_celcius( 20 ) );
+                food_contained.set_item_temperature( units::from_celsius( 20 ) );
             }
         }
 
@@ -1375,7 +1391,7 @@ void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc
                 if( should_heat ) {
                     bp.heat_up();
                 } else {
-                    bp.set_item_temperature( units::from_celcius( 20 ) );
+                    bp.set_item_temperature( units::from_celsius( 20 ) );
                 }
             }
             bp.set_owner( get_faction()->id );
@@ -1907,7 +1923,6 @@ std::list<item> Character::consume_items( map &m, const comp_selection<item_comp
             }
         }
     }
-    lastconsumed = selected_comp.type;
     empty_buckets( *this );
     return ret;
 }
@@ -2211,10 +2226,10 @@ void Character::consume_tools( const std::vector<tool_comp> &tools, int batch )
     consume_tools( select_tool_component( tools, batch, map_inv ), batch );
 }
 
-ret_val<bool> Character::can_disassemble( const item &obj, const read_only_visitable &inv ) const
+ret_val<void> Character::can_disassemble( const item &obj, const read_only_visitable &inv ) const
 {
     if( !obj.is_disassemblable() ) {
-        return ret_val<bool>::make_failure( _( "You cannot disassemble this." ) );
+        return ret_val<void>::make_failure( _( "You cannot disassemble this." ) );
     }
 
     const recipe &r = recipe_dictionary::get_uncraft( ( obj.typeId() == itype_disassembly ) ?
@@ -2222,18 +2237,18 @@ ret_val<bool> Character::can_disassemble( const item &obj, const read_only_visit
 
     // check sufficient light
     if( lighting_craft_speed_multiplier( r ) == 0.0f ) {
-        return ret_val<bool>::make_failure( _( "You can't see to craft!" ) );
+        return ret_val<void>::make_failure( _( "You can't see to craft!" ) );
     }
 
     // refuse to disassemble rotten items
     if( obj.goes_bad() && obj.rotten() ) {
-        return ret_val<bool>::make_failure( _( "It's rotten, I'm not taking that apart." ) );
+        return ret_val<void>::make_failure( _( "It's rotten, I'm not taking that apart." ) );
     }
 
     // refuse to disassemble items containing monsters/pets
     std::string monster = obj.get_var( "contained_name" );
     if( !monster.empty() ) {
-        return ret_val<bool>::make_failure( _( "You must remove the %s before you can disassemble this." ),
+        return ret_val<void>::make_failure( _( "You must remove the %s before you can disassemble this." ),
                                             monster );
     }
 
@@ -2244,7 +2259,7 @@ ret_val<bool> Character::can_disassemble( const item &obj, const read_only_visit
             if( obj.charges < qty ) {
                 const char *msg = n_gettext( "You need at least %d charge of %s.",
                                              "You need at least %d charges of %s.", qty );
-                return ret_val<bool>::make_failure( msg, qty, obj.tname() );
+                return ret_val<void>::make_failure( msg, qty, obj.tname() );
             }
         }
     }
@@ -2254,7 +2269,7 @@ ret_val<bool> Character::can_disassemble( const item &obj, const read_only_visit
         for( const quality_requirement &qual : opts ) {
             if( !qual.has( inv, return_true<item> ) ) {
                 // Here should be no dot at the end of the string as 'to_string()' provides it.
-                return ret_val<bool>::make_failure( _( "You need %s" ), qual.to_string() );
+                return ret_val<void>::make_failure( _( "You need %s" ), qual.to_string() );
             }
         }
     }
@@ -2269,11 +2284,11 @@ ret_val<bool> Character::can_disassemble( const item &obj, const read_only_visit
         if( !found ) {
             const tool_comp &tool_required = opts.front();
             if( tool_required.count <= 0 ) {
-                return ret_val<bool>::make_failure( _( "You need %s." ),
+                return ret_val<void>::make_failure( _( "You need %s." ),
                                                     item::nname( tool_required.type ) );
             } else {
                 //~ %1$s: tool name, %2$d: needed charges
-                return ret_val<bool>::make_failure( n_gettext( "You need a %1$s with %2$d charge.",
+                return ret_val<void>::make_failure( n_gettext( "You need a %1$s with %2$d charge.",
                                                     "You need a %1$s with %2$d charges.", tool_required.count ),
                                                     item::nname( tool_required.type ),
                                                     tool_required.count );
@@ -2281,7 +2296,7 @@ ret_val<bool> Character::can_disassemble( const item &obj, const read_only_visit
         }
     }
 
-    return ret_val<bool>::make_success();
+    return ret_val<void>::make_success();
 }
 
 item_location Character::create_in_progress_disassembly( item_location target )
@@ -2540,7 +2555,7 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
 {
     // Get the proper recipe - the one for disassembly, not assembly
     const requirement_data dis_requirements = dis.disassembly_requirements();
-    const tripoint loc = target.position();
+    const tripoint_bub_ms loc = target.pos_bub();
 
     // Get the item to disassemble, and make a copy to keep its data (damage/components)
     // after the original has been removed.
@@ -2668,7 +2683,8 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
         item act_item = newit;
 
         if( act_item.has_temperature() ) {
-            act_item.set_item_temperature( units::from_fahrenheit( get_weather().get_temperature( loc ) ) );
+            // TODO: fix point types
+            act_item.set_item_temperature( get_weather().get_temperature( loc.raw() ) );
         }
 
         // Refitted clothing disassembles into refitted components (when applicable)

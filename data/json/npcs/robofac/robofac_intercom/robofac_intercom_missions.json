@@ -6,7 +6,8 @@
       "TALK_ROBOFAC_INTERCOM_CONTRACTS",
       "MISSION_ROBOFAC_INTERCOM_2_ACCEPTED",
       "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1_ACCEPTED",
-      "MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1_ACCEPTED"
+      "MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1_ACCEPTED",
+      "MISSION_ROBOFAC_INTERCOM_NRE_RECORDER_REPLACEMENT_Complete"
     ],
     "type": "talk_topic",
     "dynamic_line": "What would you like to discuss?",
@@ -61,7 +62,7 @@
         "topic": "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1_FAILED"
       },
       {
-        "text": "[Contract: Steal a dead man's last words]",
+        "text": "[Contract: Return to sender]",
         "condition": {
           "and": [
             { "not": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_2" } },
@@ -115,6 +116,26 @@
         "topic": "MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1_OFFER"
       },
       {
+        "text": "I need a new NRE recorder.",
+        "condition": {
+          "and": [
+            { "not": { "u_has_item": "nre_recorder" } },
+            {
+              "or": [
+                { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1" },
+                {
+                  "u_has_var": "completed_robofac_intercom_portal_sm_1",
+                  "type": "dialogue",
+                  "context": "intercom",
+                  "value": "yes"
+                }
+              ]
+            }
+          ]
+        },
+        "topic": "MISSION_ROBOFAC_INTERCOM_NRE_RECORDER_REPLACEMENT"
+      },
+      {
         "text": "Do you have any more work for me right now?",
         "condition": {
           "and": [
@@ -144,6 +165,34 @@
       },
       { "text": "Let's talk about something else.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }
     ]
+  },
+  {
+    "id": [ "MISSION_ROBOFAC_INTERCOM_NRE_RECORDER_REPLACEMENT", "MISSION_ROBOFAC_INTERCOM_NRE_RECORDER_REPLACEMENT_Microphone" ],
+    "type": "talk_topic",
+    "dynamic_line": "Unfortunate, but not unfixable.  As before, we are willing to provide a replacement in exchange for an NRE microphone.",
+    "responses": [
+      {
+        "text": "Hook me up.  [Hand over the NRE microphone.]",
+        "condition": { "u_has_item": "xedra_microphone" },
+        "effect": [ { "u_consume_item": "xedra_microphone", "popup": true }, { "u_spawn_item": "nre_recorder" } ],
+        "topic": "MISSION_ROBOFAC_INTERCOM_NRE_RECORDER_REPLACEMENT_Complete"
+      },
+      {
+        "text": "What is an NRE microphone, and where can I find it?",
+        "topic": "MISSION_ROBOFAC_INTERCOM_NRE_RECORDER_REPLACEMENT_Microphone"
+      },
+      { "text": "On second thought, I'll get back to you on that.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }
+    ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_NRE_RECORDER_REPLACEMENT_Microphone",
+    "type": "talk_topic",
+    "dynamic_line": "The microphone is a static version of the same device used in the recorder, mounted on a tripod.  The glass ampoule is larger, but should look roughly the same in design.  They may be somewhat scarce given the current state of the world, but I would advise you to look inside of research labs.  Subway lines may be a good place to start."
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_NRE_RECORDER_REPLACEMENT_Complete",
+    "type": "talk_topic",
+    "dynamic_line": "&You fold up the microphone's legs, stuff it awkwardly into the tray, and slide it shut.  A few moments later, it slides open again, revealing a replacement NRE recorder.\n\n\"Try not to lose this one.\""
   },
   {
     "id": "TALK_ROBOFAC_INTERCOM_CONTRACTS_NoneAvailable",
@@ -280,7 +329,7 @@
   {
     "id": "MISSION_ROBOFAC_INTERCOM_2",
     "type": "mission_definition",
-    "name": { "str": "Steal a dead man's last words" },
+    "name": { "str": "Return to sender" },
     "description": "Find the corpse of a Hub 01's AI researcher and retrieve the hard case they brought with them during the evacuation.",
     "goal": "MGOAL_NULL",
     "difficulty": 5,
@@ -776,7 +825,8 @@
       "MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1_OFFER",
       "MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1_OFFER_ADVICE_Recorder",
       "MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1_OFFER_ADVICE_Outside",
-      "MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1_OFFER_ADVICE_Hold"
+      "MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1_OFFER_ADVICE_Hold",
+      "MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1_OFFER_ADVICE_Replacement"
     ],
     "type": "talk_topic",
     "dynamic_line": "As we mentioned before, our research into the portal storm phenomena requires that we obtain additional data to verify our own local measurements.  Recording this data will require you to carry a scientific instrument called an NRE recorder on your person while outside in the storm for around six minutes.  The recording instrument will be provided at no cost if you choose to accept.\"\n\n\"We offer the standard hazard pay of 4 HGC for completion of this contract.",
@@ -799,6 +849,10 @@
         "text": "Do I need to physically hold the recorder in my hand?",
         "topic": "MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1_OFFER_ADVICE_Hold"
       },
+      {
+        "text": "If I lose the recorder or break it, what should I do?",
+        "topic": "MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1_OFFER_ADVICE_Replacement"
+      },
       { "text": "What else do you have available?", "topic": "TALK_ROBOFAC_INTERCOM_CONTRACTS" }
     ]
   },
@@ -816,6 +870,11 @@
     "id": "MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1_OFFER_ADVICE_Hold",
     "type": "talk_topic",
     "dynamic_line": "You do not.  All that is required is that you have it somewhere on your person; it will function equally well inside of a bag as it would in your own hands.  Your preferred method of carrying the instrument will be enough to collect data as long as it is directly carried on your person."
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1_OFFER_ADVICE_Replacement",
+    "type": "talk_topic",
+    "dynamic_line": "The recorder is not irreplaceable, but it is constructed using delicate components that are now in short supply.  In the event that the device is rendered nonfunctional, we are willing to provide a replacement at an equivalent cost.  Specifically, if you can locate an NRE microphone, which can be located in certain laboratories, then we are willing to provide a replacement recorder in exchange for it."
   },
   {
     "id": "MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1_ACCEPTED",

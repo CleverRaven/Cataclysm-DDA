@@ -283,9 +283,10 @@ struct auto_navigation_data {
 
     std::array<vehicle_profile, NUM_ORIENTATIONS> profiles;
     // known obstacles on the view map
-    bool is_obstacle[NAV_VIEW_SIZE_X][NAV_VIEW_SIZE_Y];
+    cata::mdarray<bool, point, NAV_VIEW_SIZE_X, NAV_VIEW_SIZE_Y> is_obstacle;
     // where on the nav map the vehicle pivot may be placed
-    bool valid_positions[NUM_ORIENTATIONS][NAV_MAP_SIZE_X][NAV_MAP_SIZE_Y];
+    std::array<cata::mdarray<bool, point, NAV_VIEW_SIZE_X, NAV_VIEW_SIZE_Y>, NUM_ORIENTATIONS>
+    valid_positions;
     // node addresses that are valid end positions
     std::unordered_set<node_address, node_address_hasher> goal_zone;
     // the middle of the goal zone, in nav map coords
@@ -858,7 +859,9 @@ scored_address vehicle::autodrive_controller::compute_node_score( const node_add
     if( node.is_goal ) {
         return ret;
     }
-    static const point neighbor_deltas[4] = { point_east, point_south, point_west, point_north };
+    static constexpr std::array<point, 4> neighbor_deltas = {
+        point_east, point_south, point_west, point_north
+    };
     for( const point &neighbor_delta : neighbor_deltas ) {
         const point p = addr.get_point() + neighbor_delta;
         if( !data.nav_bounds.contains( p ) || !data.valid_position( addr.facing_dir, p ) ) {
@@ -959,12 +962,10 @@ cata::optional<std::vector<navigation_step>> vehicle::autodrive_controller::comp
                                    veh_pos.raw().xy(), to_orientation( driven_veh.face.dir() ) );
     known_nodes.emplace( start, make_start_node( start, driven_veh ) );
     open_set.push( scored_address{ start, 0 } );
-    int search_count = 0;
     std::vector<std::pair<node_address, navigation_node>> next_nodes;
     while( !open_set.empty() ) {
         const node_address cur_addr = open_set.top().addr;
         open_set.pop();
-        search_count++;
         const navigation_node &cur_node = known_nodes[cur_addr];
         if( cur_node.is_goal ) {
             node_address addr = cur_addr;

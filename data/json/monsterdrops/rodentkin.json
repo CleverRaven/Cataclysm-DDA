@@ -44,6 +44,18 @@
   {
     "type": "item_group",
     "subtype": "distribution",
+    "//": "contains shiny drops from a pack rat's mouth",
+    "id": "ratkin_death_drops_pack_rat",
+    "entries": [
+      { "group": "coins", "damage": [ 0, 1 ], "prob": 25, "count": [ 1, 10 ] },
+      { "group": "silverware", "damage": [ 0, 2 ], "prob": 25, "count": [ 1, 3 ] },
+      { "group": "looted_store", "damage": [ 0, 2 ], "prob": 25, "count": [ 1, 2 ] },
+      { "group": "hardware_trash", "damage": [ 0, 3 ], "prob": 25, "count": [ 1, 2 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
     "//": "contains coats for mausketeers",
     "id": "mausketeer_coats",
     "entries": [

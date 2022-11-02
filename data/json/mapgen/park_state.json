@@ -63,7 +63,7 @@
         { "monster": "GROUP_PARK_ANIMAL", "x": [ 31, 43 ], "y": [ 30, 45 ], "repeat": 2 }
       ],
       "place_vehicles": [
-        { "vehicle": "parking_garage", "x": 44, "y": 11, "chance": 4, "rotation": 270 },
+        { "vehicle": "parking_garage", "x": 43, "y": 11, "chance": 4, "rotation": 270 },
         { "vehicle": "parking_garage", "x": 40, "y": 11, "chance": 4, "rotation": 270 },
         { "vehicle": "parking_garage", "x": 36, "y": 11, "chance": 4, "rotation": 270 },
         { "vehicle": "parking_garage", "x": 32, "y": 11, "chance": 4, "rotation": 270 }

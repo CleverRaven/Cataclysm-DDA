@@ -44,7 +44,7 @@ void advanced_inventory_pane::restore_area()
     viewing_cargo = prev_viewing_cargo;
 }
 
-void advanced_inventory_pane::save_settings()
+void advanced_inventory_pane::save_settings() const
 {
     save_state->in_vehicle = in_vehicle();
     save_state->area_idx = get_area();

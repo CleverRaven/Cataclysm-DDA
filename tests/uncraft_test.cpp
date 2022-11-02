@@ -143,28 +143,30 @@ TEST_CASE( "uncraft difficulty and character skill", "[uncraft][difficulty][skil
         CHECK( uncraft_yield( they, decon_it, part_it, 0, 4 ) == 1000 );
     }
 
+    constexpr int margin = 55;
+
     SECTION( "uncraft recipe with difficulty 1" ) {
-        CHECK( uncraft_yield( they, decon_it, part_it, 1, 0 ) == Approx( 830 ).margin( 50 ) );
-        CHECK( uncraft_yield( they, decon_it, part_it, 1, 1 ) == Approx( 1000 ).margin( 50 ) );
-        CHECK( uncraft_yield( they, decon_it, part_it, 1, 2 ) == Approx( 1000 ).margin( 50 ) );
-        CHECK( uncraft_yield( they, decon_it, part_it, 1, 3 ) == Approx( 1000 ).margin( 50 ) );
-        CHECK( uncraft_yield( they, decon_it, part_it, 1, 4 ) == Approx( 1000 ).margin( 50 ) );
+        CHECK( uncraft_yield( they, decon_it, part_it, 1, 0 ) == Approx( 830 ).margin( margin ) );
+        CHECK( uncraft_yield( they, decon_it, part_it, 1, 1 ) == Approx( 1000 ).margin( margin ) );
+        CHECK( uncraft_yield( they, decon_it, part_it, 1, 2 ) == Approx( 1000 ).margin( margin ) );
+        CHECK( uncraft_yield( they, decon_it, part_it, 1, 3 ) == Approx( 1000 ).margin( margin ) );
+        CHECK( uncraft_yield( they, decon_it, part_it, 1, 4 ) == Approx( 1000 ).margin( margin ) );
     }
 
     SECTION( "uncraft recipe with difficulty 5" ) {
-        CHECK( uncraft_yield( they, decon_it, part_it, 5, 0 ) == Approx( 20 ).margin( 50 ) );
-        CHECK( uncraft_yield( they, decon_it, part_it, 5, 1 ) == Approx( 700 ).margin( 50 ) );
-        CHECK( uncraft_yield( they, decon_it, part_it, 5, 2 ) == Approx( 990 ).margin( 50 ) );
-        CHECK( uncraft_yield( they, decon_it, part_it, 5, 3 ) == Approx( 1000 ).margin( 50 ) );
-        CHECK( uncraft_yield( they, decon_it, part_it, 5, 4 ) == Approx( 1000 ).margin( 50 ) );
+        CHECK( uncraft_yield( they, decon_it, part_it, 5, 0 ) == Approx( 20 ).margin( margin ) );
+        CHECK( uncraft_yield( they, decon_it, part_it, 5, 1 ) == Approx( 700 ).margin( margin ) );
+        CHECK( uncraft_yield( they, decon_it, part_it, 5, 2 ) == Approx( 990 ).margin( margin ) );
+        CHECK( uncraft_yield( they, decon_it, part_it, 5, 3 ) == Approx( 1000 ).margin( margin ) );
+        CHECK( uncraft_yield( they, decon_it, part_it, 5, 4 ) == Approx( 1000 ).margin( margin ) );
     }
 
     SECTION( "uncraft recipe with difficulty 10" ) {
-        CHECK( uncraft_yield( they, decon_it, part_it, 10, 0 ) == Approx( 0 ).margin( 50 ) );
-        CHECK( uncraft_yield( they, decon_it, part_it, 10, 1 ) == Approx( 30 ).margin( 50 ) );
-        CHECK( uncraft_yield( they, decon_it, part_it, 10, 2 ) == Approx( 500 ).margin( 50 ) );
-        CHECK( uncraft_yield( they, decon_it, part_it, 10, 3 ) == Approx( 930 ).margin( 50 ) );
-        CHECK( uncraft_yield( they, decon_it, part_it, 10, 4 ) == Approx( 1000 ).margin( 50 ) );
+        CHECK( uncraft_yield( they, decon_it, part_it, 10, 0 ) == Approx( 0 ).margin( margin ) );
+        CHECK( uncraft_yield( they, decon_it, part_it, 10, 1 ) == Approx( 30 ).margin( margin ) );
+        CHECK( uncraft_yield( they, decon_it, part_it, 10, 2 ) == Approx( 500 ).margin( margin ) );
+        CHECK( uncraft_yield( they, decon_it, part_it, 10, 3 ) == Approx( 930 ).margin( margin ) );
+        CHECK( uncraft_yield( they, decon_it, part_it, 10, 4 ) == Approx( 1000 ).margin( margin ) );
     }
 }
 

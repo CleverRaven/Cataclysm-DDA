@@ -35,7 +35,9 @@ namespace catacurses
 class window;
 } // namespace catacurses
 
-extern std::unique_ptr<cata_tiles> tilecontext;
+extern std::shared_ptr<cata_tiles> tilecontext;
+extern std::shared_ptr<cata_tiles> closetilecontext;
+extern std::shared_ptr<cata_tiles> fartilecontext;
 extern std::unique_ptr<cata_tiles> overmap_tilecontext;
 extern std::array<SDL_Color, color_loader<SDL_Color>::COLOR_NAMES_COUNT> windowsPalette;
 extern int fontheight;

@@ -109,7 +109,8 @@
       { "item": "leg_bag", "prob": 15 },
       { "item": "leg_small_bag", "prob": 10 },
       { "item": "armrig", "prob": 10 },
-      { "item": "ankle_wallet_pouch", "prob": 5 }
+      { "item": "ankle_wallet_pouch", "prob": 5 },
+      { "item": "pants_hiking", "prob": 10 }
     ]
   },
   {
@@ -1406,6 +1407,7 @@
       [ "leather_belt", 30 ],
       [ "pants_leather", 60 ],
       [ "pants_cargo", 70 ],
+      [ "pants_hiking", 1 ],
       [ "shorts_cargo", 50 ],
       [ "motorbike_pants", 5 ],
       [ "breeches", 5 ],
@@ -1481,6 +1483,7 @@
       [ "firecracker", 5 ],
       [ "wolfsuit", 3 ],
       [ "dinosuit", 2 ],
+      [ "sharksuit", 2 ],
       [ "felinesuit", 3 ],
       [ "dragonsuit", 2 ],
       [ "zentai", 5 ],
@@ -1636,6 +1639,7 @@
       [ "pants_checkered", 5 ],
       [ "shorts", 70 ],
       [ "shorts_denim", 35 ],
+      [ "pants_hiking", 2 ],
       [ "pants", 75 ],
       [ "leather_belt", 30 ],
       [ "pants_leather", 60 ],
@@ -2076,6 +2080,7 @@
       { "item": "glasses_monocle", "prob": 2 },
       { "item": "pants_leather", "prob": 60 },
       { "item": "pants_cargo", "prob": 70 },
+      { "item": "pants_hiking", "prob": 2 },
       { "item": "shorts_cargo", "prob": 50 },
       { "item": "skirt", "prob": 75 },
       { "item": "skirt_leather", "prob": 5 },
@@ -2465,7 +2470,7 @@
       [ "fish_sandwich", 2 ],
       [ "mango", 1 ],
       [ "hand_pump", 5 ],
-      [ "inflatable_boat", 1 ]
+      [ "folded_inflatable_boat", 1 ]
     ]
   },
   {
@@ -2761,6 +2766,7 @@
       [ "gartersheath1", 1 ],
       [ "gartersheath2", 1 ],
       [ "pants_cargo", 70 ],
+      [ "pants_hiking", 15 ],
       [ "shorts_cargo", 50 ],
       [ "pants_army", 30 ],
       [ "jacket_army", 6 ],
@@ -2962,12 +2968,12 @@
     "type": "item_group",
     "id": "survivorzed_suits",
     "items": [
-      [ "survivor_suit", 8 ],
-      [ "lsurvivor_suit", 10 ],
-      [ "hsurvivor_suit", 6 ],
-      [ "wsurvivor_suit", 6 ],
-      [ "fsurvivor_suit", 4 ],
-      [ "h20survivor_suit", 2 ],
+      [ "survivor_jumpsuit", 8 ],
+      [ "lsurvivor_jumpsuit", 10 ],
+      [ "hsurvivor_jumpsuit", 6 ],
+      [ "wsurvivor_jumpsuit", 6 ],
+      [ "wsurvivor_jumpsuit_nofur", 4 ],
+      [ "h20survivor_jumpsuit", 2 ],
       [ "touring_suit", 16 ],
       [ "armor_larmor", 28 ],
       [ "armor_blarmor", 14 ],
@@ -3031,6 +3037,7 @@
     "id": "survivorzed_bottoms",
     "items": [
       [ "pants_survivor", 10 ],
+      [ "pants_hiking", 12 ],
       [ "pants_cargo", 40 ],
       [ "shorts_cargo", 22 ],
       [ "pants_army", 28 ],
@@ -3921,6 +3928,7 @@
       { "item": "bondage_suit", "prob": 10 },
       { "item": "bodysuit_lycra", "prob": 10 },
       { "item": "dinosuit", "prob": 5 },
+      { "item": "sharksuit", "prob": 5 },
       { "item": "yukata", "prob": 20 },
       { "item": "leotard", "prob": 40 },
       { "item": "motorbike_armor", "prob": 15 },
@@ -4274,6 +4282,8 @@
       { "group": "accessory_sportsgear", "prob": 5 },
       { "item": "folding_poncho", "prob": 5 },
       { "item": "american_flag", "prob": 1 },
+      { "item": "pride_flag", "prob": 1 },
+      { "item": "state_flag", "prob": 1 },
       { "item": "tool_belt", "prob": 2 },
       { "item": "leather_belt", "prob": 30 },
       { "item": "wearable_light", "prob": 10, "charges": [ 0, 100 ] },

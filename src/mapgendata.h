@@ -76,7 +76,7 @@ class mapgendata
         std::vector<oter_id> predecessors_;
 
     public:
-        oter_id t_nesw[8];
+        std::array<oter_id, 8> t_nesw;
 
         int n_fac = 0;  // dir == 0
         int e_fac = 0;  // dir == 1

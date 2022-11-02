@@ -6,6 +6,7 @@
 #include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
+#include "clzones.h"
 #include "colony.h"
 #include "coordinates.h"
 #include "creature.h"
@@ -28,6 +29,8 @@
 #include "rng.h"
 
 class item;
+
+static const zone_type_id zone_type_ZONE_START_POINT( "ZONE_START_POINT" );
 
 namespace
 {
@@ -294,7 +297,7 @@ void start_location::prepare_map( const tripoint_abs_omt &omtstart ) const
  */
 static int rate_location( map &m, const tripoint &p, const bool must_be_inside,
                           const int bash_str, const int attempt,
-                          int ( &checked )[MAPSIZE_X][MAPSIZE_Y] )
+                          cata::mdarray<int, point_bub_ms> &checked )
 {
     if( ( must_be_inside && m.is_outside( p ) ) ||
         m.impassable( p ) ||
@@ -370,11 +373,24 @@ void start_location::place_player( avatar &you, const tripoint_abs_omt &omtstart
     tripoint best_spot = you.pos();
     // In which attempt did this area get checked?
     // We can overwrite earlier attempts, but not start in them
-    int checked[MAPSIZE_X][MAPSIZE_Y] = {};
+    cata::mdarray<int, point_bub_ms> checked = {};
 
     bool found_good_spot = false;
 
-    // Try some random points at start
+    //Check if a start_point zone exists first
+    const zone_manager &mgr = zone_manager::get_manager();
+    for( const auto &i : mgr.get_zones() ) {
+        const zone_data &zone = i.get();
+        if( zone.get_type() == zone_type_ZONE_START_POINT ) {
+            if( here.inbounds( zone.get_center_point() ) ) {
+                found_good_spot = true;
+                best_spot = here.getlocal( zone.get_center_point() );
+                break;
+            }
+        }
+    }
+
+    // Otherwise, find a random starting spot
 
     int tries = 0;
     const auto check_spot = [&]( const tripoint & pt ) {
@@ -384,16 +400,17 @@ void start_location::place_player( avatar &you, const tripoint_abs_omt &omtstart
             best_rate = rate;
             best_spot = pt;
             if( rate == INT_MAX ) {
-                found_good_spot = true;
+                return true;
             }
         }
+        return false;
     };
 
     while( !found_good_spot && tries < 100 ) {
         tripoint rand_point( HALF_MAPSIZE_X + rng( 0, SEEX * 2 - 1 ),
                              HALF_MAPSIZE_Y + rng( 0, SEEY * 2 - 1 ),
                              you.posz() );
-        check_spot( rand_point );
+        found_good_spot = check_spot( rand_point );
     }
     // If we haven't got a good location by now, screw it and brute force it
     // This only happens in exotic locations (deep of a science lab), but it does happen
@@ -403,7 +420,7 @@ void start_location::place_player( avatar &you, const tripoint_abs_omt &omtstart
         int &y = tmp.y;
         for( x = 0; x < MAPSIZE_X; x++ ) {
             for( y = 0; y < MAPSIZE_Y && !found_good_spot; y++ ) {
-                check_spot( tmp );
+                found_good_spot = check_spot( tmp );
             }
         }
     }

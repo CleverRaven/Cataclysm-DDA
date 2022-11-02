@@ -1,0 +1,61 @@
+[
+  {
+    "id": "clothing_biker",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "Protective clothing for motorbike riding.",
+    "items": [
+      { "item": "straw_hat" },
+      { "item": "leathersandals", "prob": 80 },
+      {
+        "distribution": [ { "collection": [ { "item": "grass_cloak" }, { "item": "skirt_leather", "prob": 80 } ], "prob": 40 } ],
+        "prob": 80
+      }
+    ]
+  },
+  {
+    "id": "clothing_glasses",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "null", "prob": 10 } ]
+  },
+  {
+    "id": "clothing_watch",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "null", "prob": 10 } ]
+  },
+  {
+    "id": "clothing_hunting",
+    "type": "item_group",
+    "//": "Clothes that hunters take on hunting trips.",
+    "subtype": "distribution",
+    "entries": [ { "item": "hat_fur", "prob": 50 }, { "item": "leathersandals", "prob": 75 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "female_underwear_top",
+    "items": [
+      [ "null", 50 ],
+      [ "bikini_top_leather", 7 ],
+      [ "bikini_top_fur", 5 ],
+      [ "chestwrap_fur", 20 ],
+      [ "chestwrap_leather", 20 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "female_underwear_bottom",
+    "items": [ [ "null", 40 ], [ "loincloth_leather", 30 ], [ "loincloth_fur", 30 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "male_underwear_top",
+    "items": [ [ "null", 80 ], [ "chestwrap_fur", 20 ], [ "chestwrap_leather", 20 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "male_underwear_bottom",
+    "items": [ [ "null", 40 ], [ "loincloth_leather", 30 ], [ "loincloth_fur", 30 ] ]
+  }
+]
