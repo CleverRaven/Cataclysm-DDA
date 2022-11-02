@@ -542,6 +542,7 @@
     "name": { "str_sp": "blanching acorns" },
     "copy-from": "acorns",
     "description": "A mix of water and hulled acorns, slowly leaching the tannins.  It'll take about a week before they're palatable.",
+    "comestible_type": "DRINK",
     "price_postapoc": 50,
     "delete": { "flags": [ "EDIBLE_FROZEN" ] },
     "weight": "512 g",
