@@ -960,7 +960,7 @@
         "time": "20 m",
         "using": [ [ "repair_welding_standard", 3 ], [ "soldering_standard", 5 ] ]
       },
-      "removal": { "time": "1 m" } 
+      "removal": { "time": "1 m" }
     },
     "pseudo_tools": [ { "id": "pseudo_microwave" } ],
     "size": 20,
