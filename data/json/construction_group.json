@@ -1181,6 +1181,11 @@
   },
   {
     "type": "construction_group",
+    "id": "place_microwave",
+    "name": "Place Microwave"
+  },
+  {
+    "type": "construction_group",
     "id": "place_chemlab",
     "name": "Place Onboard Chemistry Lab"
   },
