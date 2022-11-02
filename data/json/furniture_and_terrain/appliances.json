@@ -938,7 +938,7 @@
     "damage_reduction": { "all": 80 }
   },
   {
-    "id": "ap_microwave",
+    "id": "app_microwave",
     "type": "vehicle_part",
     "name": { "str": "grid microwave" },
     "looks_like": "microwave",
