@@ -33,4 +33,6 @@ configure_file(
 )
 
 # Ninja is provided by Microsoft but not in the Path
-set(CMAKE_MAKE_PROGRAM $ENV{DevEnvDir}\\CommonExtensions\\Microsoft\\CMake\\Ninja\\ninja.exe CACHE PATH "")
+if (CMAKE_GENERATOR MATCHES "^Ninja")
+    set(CMAKE_MAKE_PROGRAM $ENV{DevEnvDir}\\CommonExtensions\\Microsoft\\CMake\\Ninja\\ninja.exe CACHE PATH "")
+endif()

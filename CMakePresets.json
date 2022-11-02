@@ -6,7 +6,6 @@
       "description": "Base Build Configuration",
       "binaryDir": "${sourceDir}/out/build/${presetName}",
       "installDir": "${sourceDir}/out/install/${presetName}",
-      "generator": "Ninja",
       "cacheVariables": {
         "VCPKG_OVERLAY_TRIPLETS": "${sourceDir}/build-scripts"
       },
