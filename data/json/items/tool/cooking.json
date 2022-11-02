@@ -1141,6 +1141,7 @@
     "weight": "11339 g",
     "volume": "9 L",
     "use_action": [ "HOTPLATE", "HEAT_FOOD" ],
+    "qualities": [ [ "COOK", 1 ], [ "OVEN", 1 ] ],
     "flags": [ "WATER_BREAK" ],
     "charges_per_use": 25,
     "pocket_data": [
