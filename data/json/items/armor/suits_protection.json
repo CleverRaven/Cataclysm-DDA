@@ -1385,8 +1385,7 @@
     "color": "dark_gray",
     "warmth": 20,
     "longest_side": "60 cm",
-    "flags": [ "STURDY", "OUTER", "WATER_FRIENDLY", "PADDED",
-    "BLOCK_WHILE_WORN" ],
+    "flags": [ "STURDY", "OUTER", "WATER_FRIENDLY", "PADDED", "BLOCK_WHILE_WORN" ],
     "use_action": [ { "type": "attach_molle", "size": 6 }, { "type": "detach_molle" } ],
     "armor": [
       {
