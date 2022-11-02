@@ -49,8 +49,8 @@
   {
     "id": "xe_bio_chiropteran_signal",
     "type": "bionic",
-    "name": { "str": "Chiropteran Signal" },
-    "description": "Parts of your throat and mouth have been augmented to allow a one way communication with bats.  You're unaware of any use for it other than summoning friendly bats..",
+    "name": { "str": "Finger Lighter" },
+    "description": "The index finger of your left hand has a fire starter that can extend from the tip.",
     "occupied_bodyparts": [ [ "mouth", 1 ] ],
     "flags": [ "USES_BIONIC_POWER" ],
     "activated_eocs": [ "EOC_SUMMON_BAT_SWARM" ],
@@ -59,8 +59,8 @@
   {
     "id": "xe_bio_xl_chiropteran_signal",
     "type": "bionic",
-    "name": { "str": "Giant Chiropteran Signal" },
-    "description": "Parts of your throat and mouth have been augmented to allow a one way communication with giant bats.  This CBM creates a deep thrumming bass clicking probably comparable to normal bat communication in a similar fashion to Mongolian throat singing to normal speaking.  Regular bats ignore this particular summons.",
+    "name": { "str": "Fingerpick" },
+    "description": "One of your fingers has an electronic lockpick surgically embedded in it.  This automatic system will quickly unlock all but the most advanced key locks without any skill required on the part of the user.",
     "occupied_bodyparts": [ [ "mouth", 2 ] ],
     "flags": [ "USES_BIONIC_POWER" ],
     "activated_eocs": [ "EOC_SUMMON_XL_BAT" ],
