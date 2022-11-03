@@ -5706,7 +5706,8 @@ void game::examine( const tripoint &examp, bool with_pickup )
             sounds::process_sound_markers( &u );
             // Pick up items, if there are any, unless there is reason to not to
             if( with_pickup && m.has_items( examp ) && !u.is_mounted() &&
-                !m.has_flag( ter_furn_flag::TFLAG_NO_PICKUP_ON_EXAMINE, examp ) ) {
+                !m.has_flag( ter_furn_flag::TFLAG_NO_PICKUP_ON_EXAMINE, examp ) &&
+                !m.only_liquid_in_liquidcont( examp ) ) {
                 pickup( examp );
             }
         }

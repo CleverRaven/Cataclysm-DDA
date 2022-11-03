@@ -796,6 +796,15 @@
   {
     "type": "BOOK",
     "copy-from": "spell_scroll",
+    "id": "spell_scroll_stormfist",
+    "//": "Stormshaper spell",
+    "name": { "str": "Scroll of Stormfist", "str_pl": "Scrolls of Stormfist" },
+    "description": "Encases your arm and hand in a sheath of crackling magical lightning, you can punch and defend yourself with it in melee combat.",
+    "use_action": { "type": "learn_spell", "spells": [ "stormfist" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
     "id": "spell_scroll_bless",
     "//": "Technomancer spell",
     "name": { "str": "Scroll of Bless", "str_pl": "Scrolls of Bless" },

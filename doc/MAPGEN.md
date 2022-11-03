@@ -46,6 +46,7 @@
     * [Plant seeds in a planter with "sealed_item"](#plant-seeds-in-a-planter-with-sealed_item)
     * [Place messages with "graffiti"](#place-messages-with-graffiti)
     * [Place a zone for an NPC faction with "zones"](#place-a-zone-for-an-npc-faction-with-zones)
+    * [Specify a player spawning location using "zones"](#specify-a-player-spawning-location-using-zones)
     * [Translate terrain type with "translate_ter"](#translate-terrain-type-with-translate_ter)
     * [Apply mapgen transformation with "ter_furn_transforms"](#apply-mapgen-transformation-with-ter_furn_transforms)
   * [Mapgen values](#mapgen-values)
@@ -1033,9 +1034,12 @@ NPCs in the faction will use the zone to influence the AI.
 The `type` field values affect NPC behavior. NPCs will:
 
 - Prefer to retreat towards `NPC_RETREAT` zones.
-- Not move to the see the source of unseen sounds coming from `NPC_NO_INVESTIGATE` zones.
-- Not move to the see the source of unseen sounds coming from outside `NPC_INVESTIGATE_ONLY` zones.
+- Not move to see the source of unseen sounds coming from `NPC_NO_INVESTIGATE` zones.
+- Not move to see the source of unseen sounds coming from outside of `NPC_INVESTIGATE_ONLY` zones.
 
+### Specify a player spawning location using "zones"
+
+When designing a scenario you can directly specify where in the map the player will be placed by using a `ZONE_START_POINT` zone. Player will be placed in the center of this zone. A `ZONE_START_POINT` zone will only be considered valid if it belongs to the `your_followers` faction. Keep in mind that no additional checks are conducted when assigning player spawning location using this method, and thus player can spawn in a wall, on open air, and other inappropriate tiles.
 
 ### Remove everything with "remove_all"
 

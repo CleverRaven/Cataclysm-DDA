@@ -939,6 +939,7 @@
         "distribution": [
           { "item": "tome_of_storms", "prob": 5 },
           { "item": "spell_scroll_storm_hammer", "prob": 50 },
+          { "item": "spell_scroll_stormfist", "prob": 35 },
           { "item": "spell_scroll_stormshaper_ionization", "prob": 50 },
           { "item": "lightning_storm_scroll", "prob": 10 }
         ],
