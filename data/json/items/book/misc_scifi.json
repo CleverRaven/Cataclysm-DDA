@@ -268,16 +268,5 @@
     "chapters": 3,
     "fun": 8,
     "relative": { "intelligence": -2 }
-  },
-  {
-    "id": "book_fict_soft_docu_AWT",
-    "type": "BOOK",
-    "name": { "str": "All Things Weird", "str_pl": "copies of All Things Weird" },
-    "description": "This is a copy of Felicity Powell's All Things Weird.  It tells the story of a survivor following The Reckoning, interjected with comedy and dramatic twists.",
-    "copy-from": "book_fict_soft_scifi_tpl",
-    "time": "60 m",
-    "chapters": 34,
-    "fun": 10,
-    "relative": { "intelligence": 1 }
   }
 ]
