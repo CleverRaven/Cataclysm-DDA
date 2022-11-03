@@ -364,11 +364,20 @@
   },
   {
     "id": "j22",
-    "copy-from": "pistol_backup",
     "looks_like": "glock_17",
     "type": "GUN",
-    "name": { "str": "Jennings J-22" },
-    "description": "One of the quintessential 'Saturday night specials', the Jennings J-22 was very affordably priced with its injection-molded zinc slide and frame.  Intended to fill the void left after small pocket pistols were banned from import, these were more commonly used by criminals unfazed by their glaring safety issues.",
+    "name": { "str": "cheap .22 calibre pistol" },
+    "description": "Made from only the cheapest of budget metals, firing one of the weakest cartridges, and having a hearty laugh at the concept of user safety, this .22 calibre pocket pistol is of questionable utility at best.  Affordably priced before the Cataclysm, the pistol’s price point was arguably its only positive element, an element which pertains zero bearing on your current situation.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "j22",
+        "copy-from": "pistol_backup",
+        "name": { "str": "Jennings J-22" },
+        "description": "One of the quintessential 'Saturday night specials', the Jennings J-22 was very affordably priced with its injection-molded zinc slide and frame.  Intended to fill the void left after small pocket pistols were banned from import, these were more commonly used by criminals unfazed by their glaring safety issues.",
+        "weight": 1
+      }
+    ],
     "weight": "340 g",
     "volume": "80 ml",
     "longest_side": "141 mm",
@@ -382,6 +391,7 @@
     "dispersion": 600,
     "durability": 5,
     "min_cycle_recoil": 39,
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "pocket_data": [ { "magazine_well": "27 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "j22mag" ] } ]
   },
@@ -414,6 +424,7 @@
     "dispersion": 480,
     "durability": 7,
     "min_cycle_recoil": 39,
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "pocket_data": [ { "magazine_well": "126 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "wp22mag" ] } ]
   }
 ]
