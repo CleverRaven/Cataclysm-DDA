@@ -17,6 +17,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_reaver_bandits" },
     "sym": "b",
     "color": "pink",
+    "autonote": true
   },
   {
     "id": "mx_gunship",
