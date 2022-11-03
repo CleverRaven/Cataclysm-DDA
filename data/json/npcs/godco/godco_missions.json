@@ -673,7 +673,7 @@
       "describe": "Get some paper.",
       "offer": "Since <the_cataclysm> happened, I've had a suprising amount of free time.  I want to start writing, but there's very little paper around here.  For the time being, eight hundred sheets should do; I'll pay if you can get it for me.",
       "accepted": "Thanks, you'll be the first to see my writing.",
-      "rejected": "I can understand that.  The offer's avalible if you reconsider.",
+      "rejected": "I can understand that.  The offer's still available if you reconsider.",
       "advice": "A bookstore or office supply should have tons of it.",
       "inquire": "Have you found the paper?",
       "success": "I appreciate it.  I'll get to work on my manuscript.",
