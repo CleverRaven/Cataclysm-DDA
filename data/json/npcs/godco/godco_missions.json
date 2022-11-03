@@ -574,7 +574,7 @@
     "id": "MISSION_GODCO_GEMMA_SEEDS",
     "type": "mission_definition",
     "name": { "str": "Find cactus seeds" },
-    "description": "Find ten cactus seeds for <reward_count:icon> icons.",
+    "description": "Find ten cactus seeds for Gemma.",
     "goal": "MGOAL_FIND_ITEM",
     "item": "seed_cactus",
     "count": 10,
