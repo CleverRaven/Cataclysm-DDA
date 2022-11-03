@@ -115,7 +115,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Jeremiah_Parents",
-    "dynamic_line": "&Jeremiah leans his head towards your ear, speaking in a low whishper.  \"To be honest with you, I don't like my mom at all.  She's like a <swear> helicopter, always telling me what to do, where to go, who I can be with.  She never thinks of me as an individual, only some idea of who she thinks I am.  My dad's alright, he's the chef around here.\"",
+    "dynamic_line": "&Jeremiah leans his head towards your ear, speaking in a low whisper.  \"To be honest with you, I don't like my mom at all.  She's like a <swear> helicopter, always telling me what to do, where to go, who I can be with.  She never thinks of me as an individual, only some idea of who she thinks I am.  My dad's alright, he's the chef around here.\"",
     "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_GODCO_Jeremiah_2" },
       { "text": "I'll be on my way.", "topic": "TALK_DONE" }
@@ -184,7 +184,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Jeremiah_Work",
-    "dynamic_line": "Darryl should have something for you to do if you like gardening, Jane could use some medical supplies, too.  If you like to be bossed around, Helena pobably has a few things that need doing.  I'd just ask around, really.",
+    "dynamic_line": "Darryl should have something for you to do if you like gardening, Jane could use some medical supplies, too.  If you like to be bossed around, Helena probably has a few things that need doing.  I'd just ask around, really.",
     "responses": [
       { "text": "Is there anything you need?", "topic": "TALK_MISSION_LIST" },
       { "text": "Thanks for the info.", "topic": "TALK_DONE" }

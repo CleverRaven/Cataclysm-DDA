@@ -105,13 +105,13 @@
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Gemma_Decalouge",
-    "dynamic_line": "Its also called the Ten Commandments, if you've heard it by that.  A long time ago, Moses lead the Isrealites out of slavery in Egypt, towards the Promised Land.  They broke their Covenant with God, and were cursed to wander the desert for fourty years, as opposed to the ninteen days it would normally take.  On the way there, Moses went atop Mount Sinai to speak with God.  He saw a burning bush, and heard the voice of the Lord; who engraved the Decalouge on two tablets of stone.",
+    "dynamic_line": "Its also called the Ten Commandments, if you've heard it by that.  A long time ago, Moses lead the Isrealites out of slavery in Egypt, towards the Promised Land.  They broke their Covenant with God, and were cursed to wander the desert for fourty years, as opposed to the nineteen days it would normally take.  On the way there, Moses went atop Mount Sinai to speak with God.  He saw a burning bush, and heard the voice of the Lord; who engraved the Decalouge on two tablets of stone.",
     "responses": [ { "text": "…", "topic": "TALK_GODCO_Gemma_Decalouge2" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Gemma_Decalouge2",
-    "dynamic_line": "&Gemma is in deep, silent thought for a moment, before clearing her throat.  \"They read: 'I am the Lord your God, who brought you out of Egypt, out of the land of slavery.  You shall have no other gods before me.  You shall not make for yourself a carved image, or any likeness of anything that is in heaven above, or that is in the earth beneath, or that is in the water under the earth.  You shall not take the name of the Lord your God in vain.  Remember the Sabbath day, and keep it holy.  Honor your father and your mother.  You shall not murder.  You shall not commit adultrey.  You shall not steal.  You shall not bear false witness against your neighbor.  You shall not covet your neighbors house.\"  They're written in Exodus 20:1-17, for future reference.",
+    "dynamic_line": "&Gemma is in deep, silent thought for a moment, before clearing her throat.  \"They read: 'I am the Lord your God, who brought you out of Egypt, out of the land of slavery.  You shall have no other gods before me.  You shall not make for yourself a carved image, or any likeness of anything that is in heaven above, or that is in the earth beneath, or that is in the water under the earth.  You shall not take the name of the Lord your God in vain.  Remember the Sabbath day, and keep it holy.  Honor your father and your mother.  You shall not murder.  You shall not commit adultery.  You shall not steal.  You shall not bear false witness against your neighbor.  You shall not covet your neighbors house.\"  They're written in Exodus 20:1-17, for future reference.",
     "responses": [ { "text": "Got it.", "topic": "TALK_GODCO_Gemma_Joinee" } ]
   },
   {

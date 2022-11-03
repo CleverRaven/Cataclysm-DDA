@@ -168,7 +168,7 @@
         "topic": "TALK_GODCO_Maria_Tailor_Start"
       },
       {
-        "text": "I'll have a trenchcoat.",
+        "text": "I'll have a trench coat.",
         "condition": { "u_has_items": { "item": "icon", "count": 6 } },
         "effect": [
           { "npc_add_var": "u_want_trenchcoat", "type": "general", "context": "trade", "value": "yes" },
@@ -315,7 +315,7 @@
         "topic": "TALK_GODCO_Maria_Tailor_Done"
       },
       {
-        "text": "I ordered a trenchcoat.",
+        "text": "I ordered a trench coat.",
         "condition": {
           "and": [
             { "npc_has_var": "u_want_trenchcoat", "type": "general", "context": "trade", "value": "yes" },
@@ -384,7 +384,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Maria_Tailor_What",
-    "dynamic_line": "I sure can!  For now, I can make t-shirts, pants, dresses, dusters, trenchcoats, backpacks, jackets, and a gambeson; if that's your thing.",
+    "dynamic_line": "I sure can!  For now, I can make t-shirts, pants, dresses, dusters, trench coats, backpacks, jackets, and a gambeson; if that's your thing.",
     "responses": [
       { "text": "Let's get to it.", "topic": "TALK_GODCO_Maria_Tailor_Something" },
       { "text": "How long does it take you to make these?", "topic": "TALK_GODCO_Maria_Tailor_Time" },
@@ -396,7 +396,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Maria_Tailor_Price",
-    "dynamic_line": "T-shirts, pants, jackets, and dresses are four icons.  Dusters, trenchcoats, and backpacks are six icons.  A gambeson is fifteen.",
+    "dynamic_line": "T-shirts, pants, jackets, and dresses are four icons.  Dusters, trench coats, and backpacks are six icons.  A gambeson is fifteen.",
     "responses": [
       { "text": "Let's get to it.", "topic": "TALK_GODCO_Maria_Tailor_Something" },
       { "text": "How long does it take you to make these?", "topic": "TALK_GODCO_Maria_Tailor_Time" },
@@ -407,7 +407,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Maria_Tailor_Time",
-    "dynamic_line": "T-shirts, pants, jackets, and dresses take me two days.  Dusters, trenchcoats, and backpacks take four days, while a gambeson takes six days.",
+    "dynamic_line": "T-shirts, pants, jackets, and dresses take me two days.  Dusters, trench coats, and backpacks take four days, while a gambeson takes six days.",
     "responses": [
       { "text": "Let's get to it.", "topic": "TALK_GODCO_Maria_Tailor_Something" },
       { "text": "What's the price?", "topic": "TALK_GODCO_Maria_Tailor_Price" },

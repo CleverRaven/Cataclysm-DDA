@@ -115,7 +115,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Helena_Story",
-    "dynamic_line": "I am a prophet, like my uncle before me.  He saw <the_cataclysm>, the righteous judgement of God and set about preparing an ark to save us.  He passed before his visions could be fufilled, and now I carry his righteous banner.",
+    "dynamic_line": "I am a prophet, like my uncle before me.  He saw <the_cataclysm>, the righteous judgement of God and set about preparing an ark to save us.  He passed before his visions could be fulfilled, and now I carry his righteous banner.",
     "responses": [
       { "text": "Tell me about his visions.", "topic": "TALK_GODCO_Helena_Uncle" },
       { "text": "Let's talk about something else.", "topic": "TALK_GODCO_Helena_2" },
@@ -152,7 +152,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Helena_Join",
-    "dynamic_line": "We are all under God's protection here.  Our community, like all moral civilizations, has a set of rules.  Obey the Decalogue, have respect for your neighbors and we'll get along just fine.  Go see Gemma or Julian for a bed, if one's avalible.  We do have limited space on our Ark, though.",
+    "dynamic_line": "We are all under God's protection here.  Our community, like all moral civilizations, has a set of rules.  Obey the Decalogue, have respect for your neighbors and we'll get along just fine.  Go see Gemma or Julian for a bed, if one's available.  We do have limited space on our Ark, though.",
     "responses": [
       { "text": "Okay, I'll see about that later.", "topic": "TALK_GODCO_Helena_2" },
       { "text": "What is the Decalouge?", "topic": "TALK_GODCO_Helena_Decalouge" },
@@ -162,13 +162,13 @@
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Helena_Decalouge",
-    "dynamic_line": "Its also called the Ten Commandments, if you've heard it by that.  A long time ago, Moses lead the Isrealites out of slavery in Egypt, towards the Promised Land.  They broke their Covenant with God, and were cursed to wander the desert for fourty years, as opposed to the ninteen days it would normally take.  On the way there, Moses went atop Mount Sinai to speak with God.  He saw a burning bush, and heard the voice of the Lord; who engraved the Decalouge on two tablets of stone.",
+    "dynamic_line": "Its also called the Ten Commandments, if you've heard it by that.  A long time ago, Moses lead the Isrealites out of slavery in Egypt, towards the Promised Land.  They broke their Covenant with God, and were cursed to wander the desert for fourty years, as opposed to the nineteen days it would normally take.  On the way there, Moses went atop Mount Sinai to speak with God.  He saw a burning bush, and heard the voice of the Lord; who engraved the Decalouge on two tablets of stone.",
     "responses": [ { "text": "…", "topic": "TALK_GODCO_Helena_Decalouge2" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Helena_Decalouge2",
-    "dynamic_line": "&Helena flips through her Bible before stopping.  \"They read: 'I am the Lord your God, who brought you out of Egypt, out of the land of slavery.  You shall have no other gods before me.  You shall not make for yourself a carved image, or any likeness of anything that is in heaven above, or that is in the earth beneath, or that is in the water under the earth.  You shall not take the name of the Lord your God in vain.  Remember the Sabbath day, and keep it holy.  Honor your father and your mother.  You shall not murder.  You shall not commit adultrey.  You shall not steal.  You shall not bear false witness against your neighbor.  You shall not covet your neighbors house.\"  They're written in Exodus 20:1-17, for future reference.",
+    "dynamic_line": "&Helena flips through her Bible before stopping.  \"They read: 'I am the Lord your God, who brought you out of Egypt, out of the land of slavery.  You shall have no other gods before me.  You shall not make for yourself a carved image, or any likeness of anything that is in heaven above, or that is in the earth beneath, or that is in the water under the earth.  You shall not take the name of the Lord your God in vain.  Remember the Sabbath day, and keep it holy.  Honor your father and your mother.  You shall not murder.  You shall not commit adultery.  You shall not steal.  You shall not bear false witness against your neighbor.  You shall not covet your neighbors house.\"  They're written in Exodus 20:1-17, for future reference.",
     "responses": [ { "text": "Thanks.", "topic": "TALK_GODCO_Helena_2" } ]
   },
   {

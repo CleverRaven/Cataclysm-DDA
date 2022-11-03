@@ -104,7 +104,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Russell_Trophy",
-    "dynamic_line": "Well, let's just say I'm interested in rare game.  I've heard stories, rumors and some tall tales about otherwordly beings out there in the wasteland.  That's where you come in.  I want to see the evidence, something physical I can collect as a trophy collection.  You seem to have experience, I was hoping you could help me.",
+    "dynamic_line": "Well, let's just say I'm interested in rare game.  I've heard stories, rumors and some tall tales about otherworldly beings out there in the wasteland.  That's where you come in.  I want to see the evidence, something physical I can collect as a trophy collection.  You seem to have experience, I was hoping you could help me.",
     "responses": [
       { "text": "Let's talk about getting you those trophies.", "topic": "TALK_MISSION_LIST" },
       { "text": "Go and hunt them yourself.  You have a gun after all.", "topic": "TALK_GODCO_Russell_Trophy3" },
@@ -158,7 +158,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Russell_Betsey",
-    "dynamic_line": "&Russel's expression becomes somber, and he breifly stares at the wall.  \"She was my dog, had her for seventeen years.  We used to go duck-hunting, she'd swim out and get anything I shot.  She helped me track many a deer through the woods…   When <the_cataclysm> hit, she saved me from some <zombies> when we were skippin' town, but she died…  Then she came back, wasn't herself…  I had to put her down.\"",
+    "dynamic_line": "&Russel's expression becomes somber, and he briefly stares at the wall.  \"She was my dog, had her for seventeen years.  We used to go duck-hunting, she'd swim out and get anything I shot.  She helped me track many a deer through the woods…   When <the_cataclysm> hit, she saved me from some <zombies> when we were skippin' town, but she died…  Then she came back, wasn't herself…  I had to put her down.\"",
     "responses": [
       { "text": "I'm sorry for your loss.  Let's change the subject.", "topic": "TALK_GODCO_Russell_2" },
       { "text": "I'm sorry for your loss.  I'd better get going.", "topic": "TALK_DONE" }

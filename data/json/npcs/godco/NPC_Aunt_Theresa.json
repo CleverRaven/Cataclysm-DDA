@@ -139,7 +139,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Theresa_Community",
-    "dynamic_line": "That's right.  He wanted something to return for the guidance he received when he was at the lowest point of his life.  He created a charity group which, over the years, became what's now known as the New England Church Community.  He lead them for many decades, until his death a few years before his prophecy was fulfilled.  Now, his neice Helena leads the community.",
+    "dynamic_line": "That's right.  He wanted something to return for the guidance he received when he was at the lowest point of his life.  He created a charity group which, over the years, became what's now known as the New England Church Community.  He lead them for many decades, until his death a few years before his prophecy was fulfilled.  Now, his niece Helena leads the community.",
     "responses": [
       { "text": "Tell me about his visions.", "topic": "TALK_GODCO_Theresa_Vision" },
       { "text": "Well, it's been nice talking to you, but I need to head out.", "topic": "TALK_DONE" }

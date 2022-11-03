@@ -96,7 +96,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Julian_Join",
-    "dynamic_line": "Aight, here are the rules: don't commit sins, don't litter, and try not to die.  Have some mutual respect, capisce?",
+    "dynamic_line": "Aight, here are the rules: don't commit sins, don't litter, and try not to die.  Have some mutual respect, capice?",
     "responses": [
       { "text": "Got it.", "topic": "TALK_GODCO_Julian_Joinee" },
       { "text": "Actually, I had better go.", "topic": "TALK_DONE" }
@@ -133,7 +133,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Julian_Riots",
-    "dynamic_line": "Well, I might as well be honest with you.  I ran mostly, ran like the devil was chasin' me.  I was at one of the police stations in town, when we were called out to handle a violent mob on the loose.  When we got there, the people were crazy, smashing and killing everything in their way.  They had these bloodshot eyes and a weird goo in their mouths.  We pulled out all the stops to handle them.  When tear gas wouldn't work, the cheif told us to draw guns and kill them all.  We did…  There was so much blood…  That maneuver killed a lot of them, but not all.  One snuck up behind a lady who worked with us, tore a whole section of her spine out.  She never even had time to scream, just slumped over the cruiser door…  So I jumped post and ran, never looked back.  God, I can still hear the cries…",
+    "dynamic_line": "Well, I might as well be honest with you.  I ran mostly, ran like the devil was chasin' me.  I was at one of the police stations in town, when we were called out to handle a violent mob on the loose.  When we got there, the people were crazy, smashing and killing everything in their way.  They had these bloodshot eyes and a weird goo in their mouths.  We pulled out all the stops to handle them.  When tear gas wouldn't work, the chief told us to draw guns and kill them all.  We did…  There was so much blood…  That maneuver killed a lot of them, but not all.  One snuck up behind a lady who worked with us, tore a whole section of her spine out.  She never even had time to scream, just slumped over the cruiser door…  So I jumped post and ran, never looked back.  God, I can still hear the cries…",
     "responses": [
       {
         "text": "I'm sorry for your loss.  Mabey we should change the subject.",
