@@ -64,9 +64,12 @@
     "//": "more terrain TBD",
     "terrain": {
       "|": "t_afs_gun_ship_hull_wall",
+      "%": "t_afs_gun_ship_ruined_hull_wall",
       "/": "t_afs_gun_ship_locker_wall",
       "I": "t_afs_gun_ship_hull_hatch_c",
-      "O": "t_afs_gun_ship_hull_hatch_o"
+      "O": "t_afs_gun_ship_hull_hatch_o",
+      "Q": "t_afs_gun_ship_engine_console",
+      "V": "t_afs_gun_ship_engine"
     },
     "furniture": { "+": "t_afs_gun_ship_engine" }
   }

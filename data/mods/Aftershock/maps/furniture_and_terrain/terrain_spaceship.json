@@ -175,7 +175,7 @@
     "id": "t_afs_gun_ship_engine_console",
     "name": "Iblis Interplanetary Drive Console",
     "looks_like": "t_console",
-    "description": "The control panel for the engines and generators that power the drive.  It would likely render the ship permanently unfixable but it might do some damage to any robots near or in the ship.",
+    "description": "The control panel for the engines and generators that power the drive.  It would likely render the ship irrecoverable but it might do some damage to any robots near or in the ship.",
     "symbol": "0",
     "color": "green_red",
     "move_cost_mod": -1,
