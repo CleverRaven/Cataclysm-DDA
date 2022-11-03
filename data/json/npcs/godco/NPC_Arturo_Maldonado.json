@@ -61,7 +61,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Arturo_Story",
-    "dynamic_line": "I've had a bad run of things.  I grew up real poor, in a bad part of town, always got my nose where it shouldn't have been.  When I was about eighteen, I started doing coke heavily.  Every two days, I'd get spaced out on the stuff; started robbing gas stations and dumb <swear> things like that for a fix.  I went to jail, and I met the New England Church Community there.  I joined up to find penance for my sins.  Another thing, stay off of that <swear> stuff;  I messed up my brain real bad doin' that.",
+    "dynamic_line": "I've had a bad run of things.  I grew up real poor, in a bad part of town, always got my nose where it shouldn't have been.  When I was about eighteen, I started doing coke heavily.  Every two days, I'd get spaced out on the stuff; started robbing gas stations and dumb <swear> things like that for a fix.  I went to jail, and I met the New England Church Community there.  I joined up to find penance for my sins.  Another thing, stay off of that <swear> stuff; I messed up my brain real bad doin' that.",
     "responses": [
       { "text": "<done_conversation_section>", "topic": "TALK_GODCO_Arturo_2" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
