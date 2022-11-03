@@ -292,7 +292,7 @@ void spell_type::load( const JsonObject &jo, const std::string & )
               targeted_monster_ids_reader );
 
     const auto targeted_monster_species_reader = string_id_reader<::species_type> {};
-    optional( jo, was_loaded, "targeted_monster_species", targeted_monster_species,
+    optional( jo, was_loaded, "targeted_monster_species", targeted_species_ids,
               targeted_monster_species_reader );
 
     const auto trigger_reader = enum_flags_reader<spell_target> { "valid_targets" };
@@ -393,7 +393,7 @@ void spell_type::serialize( JsonOut &json ) const
     json.member( "sound_id", sound_id, sound_id_default );
     json.member( "sound_variant", sound_variant, sound_variant_default );
     json.member( "targeted_monster_ids", targeted_monster_ids, std::set<mtype_id> {} );
-    json.member( "targeted_monster_species", targeted_monster_species, std::set<species_id> {} );
+    json.member( "targeted_monster_species", targeted_species_ids, std::set<species_id> {} );
     json.member( "extra_effects", additional_spells, std::vector<fake_spell> {} );
     if( !affected_bps.none() ) {
         json.member( "affected_body_parts", affected_bps );
@@ -1302,7 +1302,8 @@ bool spell::is_valid_target( const Creature &caster, const tripoint &p ) const
                            is_valid_target( spell_target::ally ) &&
                            p != caster.pos() );
         valid = valid || ( is_valid_target( spell_target::self ) && p == caster.pos() );
-        valid = valid && ( target_by_monster_id( p ) || target_by_species_id( p ) );
+        valid = valid && target_by_monster_id( p );
+        valid = valid && target_by_species_id( p );
     } else {
         valid = is_valid_target( spell_target::ground );
     }
@@ -1325,15 +1326,14 @@ bool spell::target_by_monster_id( const tripoint &p ) const
 
 bool spell::target_by_species_id( const tripoint &p ) const
 {
-    if( type->targeted_monster_species.empty() ) {
+    if( type->targeted_species_ids.empty() ) {
         return true;
     }
     bool valid = false;
     if( monster *const target = get_creature_tracker().creature_at<monster>( p ) ) {
-        for( const species_id &spc : target->type->species ) {
-            if( type->targeted_monster_species.find( spc ) != type->targeted_monster_species.end() ) {
+        for( const species_id &spid : type->targeted_species_ids ) {
+            if( target->type->in_species( spid ) ) {
                 valid = true;
-                break;
             }
         }
     }
@@ -1469,26 +1469,34 @@ std::string spell::enumerate_targets() const
 
 std::string spell::list_targeted_monster_names() const
 {
+    if( type->targeted_monster_ids.empty() ) {
+        return "";
+    }
     std::vector<std::string> all_valid_monster_names;
     for( const mtype_id &mon_id : type->targeted_monster_ids ) {
         all_valid_monster_names.emplace_back( mon_id->nname() );
     }
-    if( !type->targeted_monster_species.empty() ) {
-        for( const mtype &mon : MonsterGenerator::generator().get_all_mtypes() ) {
-            for( const species_id &spc : mon.species ) {
-                if( type->targeted_monster_species.find( spc ) != type->targeted_monster_species.end() ) {
-                    all_valid_monster_names.emplace_back( mon.nname() );
-                }
-            }
-        }
-    }
-    if( all_valid_monster_names.empty() ) {
-        return "";
-    }
     //remove repeat names
     all_valid_monster_names.erase( std::unique( all_valid_monster_names.begin(),
                                    all_valid_monster_names.end() ), all_valid_monster_names.end() );
-    return enumerate_as_string( all_valid_monster_names );
+    std::string ret = enumerate_as_string( all_valid_monster_names );
+    return ret;
+}
+
+std::string spell::list_targeted_species_names() const
+{
+    if( type->targeted_species_ids.empty() ) {
+        return "";
+    }
+    std::vector<std::string> all_valid_species_names;
+    for( const species_id &specie_id : type->targeted_species_ids ) {
+        all_valid_species_names.emplace_back( specie_id.str() );
+    }
+    //remove repeat names
+    all_valid_species_names.erase( std::unique( all_valid_species_names.begin(),
+                                   all_valid_species_names.end() ), all_valid_species_names.end() );
+    std::string ret = enumerate_as_string( all_valid_species_names );
+    return ret;
 }
 
 damage_type spell::dmg_type() const
