@@ -1172,7 +1172,7 @@
     "has_generic_rewards": false,
     "dialogue": {
       "describe": "Get five canning pots.",
-      "offer": "While we are blessed with a bountiful stock, we need a way to preserve our newer food, mainly those potatoes Darryl's grrowing.  Fortunatley, he brought a book on canning things.  We need five canning pots to get the setup going in full fashion.",
+      "offer": "While we are blessed with a bountiful stock, we need a way to preserve our newer food, mainly those potatoes Darryl's growing.  Fortunately, he brought a book on canning things.  We need five canning pots to get the setup going in full fashion.",
       "accepted": "May the Lord bless you.",
       "rejected": "I'll find someone else, then.",
       "advice": "An old factory might have one, or a hobby shop.",
