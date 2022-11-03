@@ -1200,13 +1200,13 @@
     "has_generic_rewards": false,
     "dialogue": {
       "describe": "See who's over there.",
-      "offer": ".",
-      "accepted": ".",
-      "rejected": ".",
-      "advice": ".",
+      "offer": "If you see this, it's a bug.",
+      "accepted": "If you see this, it's a bug.",
+      "rejected": "If you see this, it's a bug.",
+      "advice": "If you see this, it's a bug.",
       "inquire": "What have you found out?",
       "success": "This should be very useful to us.  Now we can truly begin our march of righteousness.",
-      "success_lie": ".",
+      "success_lie": "If you see this, it's a bug.",
       "failure": "As expected for such a person…"
     }
   }
