@@ -360,7 +360,7 @@
     "id": "ppe_gloves",
     "type": "requirement",
     "//": "Disposable or reusable gloves.",
-    "tools": [ [ [ "gloves_medical", 1 ], [ "gloves_rubber", -1 ], [ "hazmat_suit", -1 ] ] ]
+    "tools": [ [ [ "gloves_medical", 1 ], [ "gloves_rubber", -1 ], [ "entry_suit", -1 ], [ "hazmat_suit", -1 ] ] ]
   },
   {
     "id": "ppe_eyes",
