@@ -868,7 +868,7 @@
       "offer": "I'm wanting to experiment with some of the more…  otherworldly fauna that have appeared recently.  I saw these pink berries inside a fungal infestation the other day before I burned it with a Molotov.  If you could get me one, I can pay you with a discount on my medicine.",
       "accepted": "Thanks, <name_g>.",
       "rejected": "I understand that it seems formidible, but there is a good deal of money for you.",
-      "advice": "I'd wear a hazmat suit while I'm in there.  Those spores are absolutley nasty for your health, if my observations of <zombies> nearby are any indication.",
+      "advice": "I'd wear a hazmat suit while I'm in there.  Those spores are absolutely nasty for your health, if my observations of <zombies> nearby are any indication.",
       "inquire": "Do you have the berry?",
       "success": "I'll have to be careful with this thing, thanks for getting it for me.  Let's see what this can do…",
       "success_lie": "Did you eat the thing?  Please tell me your joking.",
