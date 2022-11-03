@@ -867,6 +867,19 @@
     "auto_needs": true
   },
   {
+    "id": "ACT_EXPLAINING",
+    "//": "For characters giving out information",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "having a chat",
+    "based_on": "time",
+    "interruptable": false,
+    "suspendable": false,
+    "rooted": true,
+    "refuel_fires": true,
+    "auto_needs": true
+  },
+  {
     "id": "ACT_UNLOAD",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",

@@ -633,6 +633,35 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "godco_1", "godco_2", "godco_3", "godco_4", "godco_5", "godco_6", "godco_7", "godco_8", "godco_9" ],
+    "name": "church retreat",
+    "sym": "+",
+    "color": "i_green",
+    "see_cost": 5,
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "godco_1_1",
+      "godco_2_1",
+      "godco_3_1",
+      "godco_4_1",
+      "godco_5_1",
+      "godco_6_1",
+      "godco_7_1",
+      "godco_8_1",
+      "godco_9_1",
+      "godco_1_2",
+      "godco_2_2"
+    ],
+    "name": "church retreat roof",
+    "sym": "+",
+    "color": "i_green",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
     "id": "desolatebarn",
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "desolate barn",
