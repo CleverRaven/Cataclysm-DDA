@@ -145,7 +145,7 @@
     "dynamic_line": "It's finally finished!  Here, I want you to have a copy of it.  This is my first time writing like this professionally, I hope you enjoy it.",
     "responses": [
       {
-        "text": "Thank you, I'm sure it's lovley.",
+        "text": "Thank you, I'm sure it's lovely.",
         "effect": [
           { "npc_add_var": "gave_u_manuscript", "type": "general", "context": "trade", "value": "yes" },
           { "u_spawn_item": "book_fict_soft_docu_AWT" }

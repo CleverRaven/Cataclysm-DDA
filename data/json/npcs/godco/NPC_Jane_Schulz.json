@@ -126,7 +126,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Jane_Medicine",
-    "dynamic_line": "Thorazine would go us a long way, but Arturo's having trouble getting it.  They think he's the key and that my help would obstruct him.  Regardless, there's just so much anti-medical sentiment here that I've given up on prescibing anything.",
+    "dynamic_line": "Thorazine would go us a long way, but Arturo's having trouble getting it.  They think he's the key and that my help would obstruct him.  Regardless, there's just so much anti-medical sentiment here that I've given up on prescribing anything.",
     "responses": [
       { "text": "Would you like to buy any supplies?", "topic": "TALK_GODCO_Jane_Medical_Buy" },
       { "text": "What about Kostas?  The Church seems to trust him.", "topic": "TALK_GODCO_Jane_Kostas" }
