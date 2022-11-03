@@ -420,5 +420,23 @@
       ],
       [ [ "gasfilter_m", 1 ] ]
     ]
+  },
+  {
+    "id": "ppe_skin",
+    "type": "requirement",
+    "//": "Torso and arm protection, either chemical/flame resistant or easy to remove.",
+    "tools": [
+      [
+        [ "coat_lab", -1 ],
+        [ "hazmat_suit", -1 ],
+        [ "jacket_chef", -1 ],
+        [ "entry_suit", -1 ],
+        [ "folding_poncho", -1 ],
+        [ "coat_rain", -1 ],
+        [ "bunker_coat", -1 ],
+        [ "entry_suit_xs", -1 ],
+        [ "entry_suit_xl", -1 ]
+      ]
+    ]
   }
 ]
