@@ -2604,6 +2604,22 @@ std::vector<std::pair<itype_id, int>> optional_vpart_position::get_tools() const
     return has_value() ? value().get_tools() : std::vector<std::pair<itype_id, int>>();
 }
 
+std::string optional_vpart_position::extended_description() const
+{
+    if( !has_value() ) {
+        return std::string();
+    }
+
+    vehicle &v = value().vehicle();
+    std::string desc = v.name;
+
+    for( int idx : v.parts_at_relative( value().mount(), true ) ) {
+        desc += "\n" + v.part( idx ).name();
+    }
+
+    return desc;
+}
+
 int vehicle::part_with_feature( const point &pt, const std::string &flag, bool unbroken ) const
 {
     std::vector<int> parts_here = parts_at_relative( pt, false );
@@ -4864,12 +4880,28 @@ units::energy vehicle::total_water_wheel_epower() const
     return epower;
 }
 
-units::energy vehicle::net_battery_charge_rate( bool include_reactors ) const
+units::energy vehicle::net_battery_charge_rate( bool include_reactors, bool connected_vehicles ) const
 {
-    return total_engine_epower() + total_alternator_epower() + total_accessory_epower() +
-           total_solar_epower() + total_wind_epower() + total_water_wheel_epower() +
-           ( include_reactors ? active_reactor_epower( false ) : 0_J );
+    if( connected_vehicles ) {
+        units::energy battery_w = net_battery_charge_rate( include_reactors, false );
+
+        auto net_battery_visitor = [&]( vehicle const * veh, int, int ) {
+            battery_w += veh->net_battery_charge_rate( include_reactors, false );
+            return 1;
+        };
+
+        traverse_vehicle_graph( this, 1, net_battery_visitor );
+
+        return battery_w;
+
+    } else {
+        return total_engine_epower_w() + total_alternator_epower_w() + total_accessory_epower_w() +
+               total_solar_epower_w() + total_wind_epower_w() + total_water_wheel_epower_w() +
+               ( include_reactors ? active_reactor_epower_w( false ) : 0_J );
+    }
 }
+
+
 
 units::energy vehicle::active_reactor_epower( bool connected_vehicles ) const
 {

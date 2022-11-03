@@ -2495,7 +2495,41 @@ bool holster_actor::store( Character &you, item &holster, item &obj ) const
     return true;
 }
 
-cata::optional<int> holster_actor::use( Character &you, item &it, bool, const tripoint & ) const
+template<typename T>
+static item_location form_loc_recursive( T &loc, item &it )
+{
+    item *parent = loc.find_parent( it );
+    if( parent != nullptr ) {
+        return item_location( form_loc_recursive( loc, *parent ), &it );
+    }
+
+    return item_location( loc, &it );
+}
+
+static item_location form_loc( Character &you, const tripoint &p, item &it )
+{
+    if( you.has_item( it ) ) {
+        return form_loc_recursive( you, it );
+    }
+    map_cursor mc( p );
+    if( mc.has_item( it ) ) {
+        return form_loc_recursive( mc, it );
+    }
+    map &here = get_map();
+    const optional_vpart_position vp = here.veh_at( p );
+    if( vp ) {
+        vehicle_cursor vc( vp->vehicle(), vp->part_index() );
+        if( vc.has_item( it ) ) {
+            return form_loc_recursive( vc, it );
+        }
+    }
+
+    debugmsg( "Couldn't find item %s to form item_location, forming dummy location to ensure minimum functionality",
+              it.display_name() );
+    return item_location( you, &it );
+}
+
+cata::optional<int> holster_actor::use( Character &you, item &it, bool, const tripoint &p ) const
 {
     if( you.is_wielding( it ) ) {
         you.add_msg_if_player( _( "You need to unwield your %s before using it." ), it.tname() );
@@ -2555,8 +2589,9 @@ cata::optional<int> holster_actor::use( Character &you, item &it, bool, const tr
         if( you.as_avatar() == nullptr ) {
             return cata::nullopt;
         }
-        // may not strictly be the correct item_location, but plumbing item_location through all iuse_actor::use won't work
-        item_location item_loc( you, &it );
+
+        // iuse_actor really needs to work with item_location
+        item_location item_loc = form_loc( you, p, it );
         game_menus::inv::insert_items( *you.as_avatar(), item_loc );
     }
 
