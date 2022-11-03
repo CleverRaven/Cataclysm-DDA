@@ -1330,9 +1330,8 @@ class vehicle
         // Total power drain across all vehicle accessories.
         units::energy total_accessory_epower() const;
         // Net power draw or drain on batteries.
-        units::energy net_battery_charge_rate( bool include_reactors = true ) const;
         units::energy net_battery_charge_rate( bool include_reactors = true,
-                                       bool connected_vehicles = false ) const;
+                                               bool connected_vehicles = false ) const;
         // Maximum available power available from all reactors. Power from
         // reactors is only drawn when batteries are empty.
         units::energy max_reactor_epower() const;

@@ -4880,7 +4880,8 @@ units::energy vehicle::total_water_wheel_epower() const
     return epower;
 }
 
-units::energy vehicle::net_battery_charge_rate( bool include_reactors, bool connected_vehicles ) const
+units::energy vehicle::net_battery_charge_rate( bool include_reactors,
+        bool connected_vehicles ) const
 {
     if( connected_vehicles ) {
         units::energy battery_w = net_battery_charge_rate( include_reactors, false );
@@ -4895,9 +4896,9 @@ units::energy vehicle::net_battery_charge_rate( bool include_reactors, bool conn
         return battery_w;
 
     } else {
-        return total_engine_epower_w() + total_alternator_epower_w() + total_accessory_epower_w() +
-               total_solar_epower_w() + total_wind_epower_w() + total_water_wheel_epower_w() +
-               ( include_reactors ? active_reactor_epower_w( false ) : 0_J );
+        return total_engine_epower() + total_alternator_epower() + total_accessory_epower() +
+               total_solar_epower() + total_wind_epower() + total_water_wheel_epower() +
+               ( include_reactors ? active_reactor_epower( false ) : 0_J );
     }
 }
 

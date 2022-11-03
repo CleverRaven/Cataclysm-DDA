@@ -249,8 +249,6 @@ void veh_app_interact::draw_info()
     // Other power output
     if( !veh->accessories.empty() ) {
         units::energy rate = veh->total_accessory_epower();
-        print_charge( _( "Total power consumption: " ), rate, row );
-        units::energy rate = veh->total_accessory_epower();
         print_charge( _( "Appliance power consumption: " ), rate, row );
         row++;
     }
