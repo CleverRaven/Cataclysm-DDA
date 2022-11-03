@@ -118,7 +118,7 @@ item_location gun_to_modify( Character &you, const item &gunmod );
 /** Book reading menu. */
 item_location read( Character &you );
 /** eBook reading menu. */
-item_location ebookread( Character &you, item_location &ereader ); 
+item_location ebookread( Character &you, item_location &ereader );
 /** Menu for stealing stuff. */
 item_location steal( avatar &you, Character &victim );
 /** Item activation menu. */
