@@ -266,7 +266,7 @@
     "followup": "MISSION_GODCO_RUSSELL_TROPHY3",
     "dialogue": {
       "describe": "I need your help…",
-      "offer": "<the_cataclysm> didn't spare us humans.  Our former selves would look at us in disgust at the things we do for survival.  At least, that's what I was told.  I heard reports of arachnids deep in the woods.  I can't exactly pinpoint where their webs are, but I'm sure you'll figure it out once you're stuck in them. I'd like me a spider egg!",
+      "offer": "<the_cataclysm> didn't spare us humans.  Our former selves would look at us in disgust at the things we do for survival.  At least, that's what I was told.  I heard reports of arachnids deep in the woods.  I can't exactly pinpoint where their webs are, but I'm sure you'll figure it out once you're stuck in them.  I'd like me a spider egg!",
       "accepted": "Thanks, make sure you're ready for whatever beast is waiting for you.",
       "rejected": "That's all right.  Not everyone is cut out for this.",
       "advice": "Don't worry <name_g>, I wouldn't send you on a suicide mission, would I?",

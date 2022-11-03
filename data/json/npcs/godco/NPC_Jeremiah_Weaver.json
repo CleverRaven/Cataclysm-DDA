@@ -29,7 +29,7 @@
     },
     "responses": [
       {
-        "text": "I'm just a traveler, kid. I won't be staying here for long.",
+        "text": "I'm just a traveler, kid.  I won't be staying here for long.",
         "effect": { "u_add_var": "u_met_godco_jeremiah", "type": "general", "context": "meeting", "value": "yes" },
         "condition": {
           "and": [

@@ -73,7 +73,7 @@
         "effect": { "npc_add_var": "u_met_godco_gemma", "type": "general", "context": "meeting", "value": "yes" }
       },
       {
-        "text": "Hi, Gemma.   How're you doing?",
+        "text": "Hi, Gemma.  How're you doing?",
         "topic": "TALK_GODCO_Gemma_Mood",
         "condition": { "npc_has_var": "u_met_godco_gemma", "type": "general", "context": "meeting", "value": "yes" }
       },

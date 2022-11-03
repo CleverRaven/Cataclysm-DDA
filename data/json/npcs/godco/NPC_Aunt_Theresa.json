@@ -211,7 +211,7 @@
         "topic": "TALK_DONE"
       },
       { "text": "How long does it take you to make these?", "topic": "TALK_GODCO_Theresa_Knit_Time" },
-      { "text": "I've changed my mind. How're you feeling?", "topic": "TALK_GODCO_Theresa_2" },
+      { "text": "I've changed my mind.  How're you feeling?", "topic": "TALK_GODCO_Theresa_2" },
       { "text": "I've changed my mind, I have to leave.", "topic": "TALK_DONE" }
     ]
   },

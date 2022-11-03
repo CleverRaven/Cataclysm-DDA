@@ -8,7 +8,7 @@
       "context": "meeting",
       "value": "yes",
       "yes": [ "Hey there.", "You're back.", "So…?" ],
-      "no": "Hello. What brings you around here?"
+      "no": "Hello.  What brings you around here?"
     },
     "responses": [
       {

@@ -25,7 +25,7 @@
       "context": "meeting",
       "value": "yes",
       "yes": "Hey <name_g>!  Nice to see you again!",
-      "no": "I don't think I've met you before, have I? I'm Maria Serrano, it's nice to see an new face."
+      "no": "I don't think I've met you before, have I?  I'm Maria Serrano, it's nice to see an new face."
     },
     "responses": [
       {

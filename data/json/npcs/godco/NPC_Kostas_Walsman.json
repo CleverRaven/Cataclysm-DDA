@@ -187,7 +187,7 @@
         "failure": { "topic": "TALK_GODCO_Kostas_Jeremiah_FailPersuade", "opinion": { "trust": 0, "fear": 0 } }
       },
       {
-        "text": "If you don't take him under your wings, I'll rip them off for you. Capiche?",
+        "text": "If you don't take him under your wings, I'll rip them off for you.  Capiche?",
         "trial": { "type": "INTIMIDATE", "difficulty": -5, "mod": [ [ "fear", 2 ], [ "trust", -2 ], [ "value", -2 ] ] },
         "success": { "topic": "TALK_GODCO_Kostas_Jeremiah_Persuade", "opinion": { "trust": -5, "value": -5 } },
         "failure": { "topic": "TALK_GODCO_Kostas_Jeremiah_FailPersuade", "opinion": { "trust": -10, "value": -10 } }

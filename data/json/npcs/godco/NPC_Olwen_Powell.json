@@ -22,7 +22,7 @@
     },
     "responses": [
       {
-        "text": "I'm just a traveler. I won't be staying here for long.",
+        "text": "I'm just a traveler.  I won't be staying here for long.",
         "effect": { "npc_add_var": "u_met_godco_olwen", "type": "general", "context": "meeting", "value": "yes" },
         "condition": { "not": { "npc_has_var": "u_met_godco_olwen", "type": "general", "context": "meeting", "value": "yes" } },
         "topic": "TALK_GODCO_Olwen_Firstmeet"
@@ -107,7 +107,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Olwen_Background",
-    "dynamic_line": "Why not? Oversharing is kind of my thing anyway.  Got any more interview questions?",
+    "dynamic_line": "Why not?  Oversharing is kind of my thing anyway.  Got any more interview questions?",
     "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_GODCO_Olwen_2" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }

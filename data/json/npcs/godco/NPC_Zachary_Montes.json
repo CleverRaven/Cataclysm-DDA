@@ -110,7 +110,7 @@
   {
     "id": "TALK_GODCO_Zachary_Nightmare",
     "type": "talk_topic",
-    "dynamic_line": "Ain't you heard it? It's been screeching out in the forest during the night for a while now, keeps me up sometimes.  I'm too scared to go out and see what that thing is.  If you'd kill it, I'd be in your debt forever.",
+    "dynamic_line": "Ain't you heard it?  It's been screeching out in the forest during the night for a while now, keeps me up sometimes.  I'm too scared to go out and see what that thing is.  If you'd kill it, I'd be in your debt forever.",
     "responses": [
       {
         "text": "I'll see what I can do.",
