@@ -413,7 +413,7 @@
     "followup": "MISSION_GODCO_GREENWOOD_2",
     "dialogue": {
       "describe": "We need help…",
-      "offer": "There's a weird fungus that started to inavde ever since <the_cataclysm>, and several individuals in strange robes are cultivating it.  I've seen what it can do, so I need you to execute them and destroy all traces of these strange mushrooms.",
+      "offer": "There's a weird fungus that started to invade ever since <the_cataclysm>, and several individuals in strange robes are cultivating it.  I've seen what it can do, so I need you to execute them and destroy all traces of these strange mushrooms.",
       "accepted": "God bless you!",
       "rejected": "That fungus is going to kill us all if it isn't stopped.",
       "advice": "Despite how fast it grows, it's highly vulnerable to fire.",
