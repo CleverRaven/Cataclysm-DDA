@@ -1,5 +1,5 @@
 [
-    {
+  {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "darryl_coop",

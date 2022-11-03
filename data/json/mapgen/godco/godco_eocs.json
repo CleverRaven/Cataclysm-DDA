@@ -1,5 +1,5 @@
 [
-    {
+  {
     "type": "effect_on_condition",
     "id": "godco_place_coop",
     "recurrence": 100,

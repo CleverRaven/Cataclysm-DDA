@@ -1,5 +1,5 @@
 [
-    {
+  {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "solar_farm_spawn",

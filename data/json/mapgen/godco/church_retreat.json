@@ -1,5 +1,5 @@
 [
-    {
+  {
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "godco_3", "godco_2", "godco_1" ], [ "godco_6", "godco_5", "godco_4" ], [ "godco_9", "godco_8", "godco_7" ] ],
