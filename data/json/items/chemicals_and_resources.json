@@ -23,7 +23,7 @@
     "id": "fert_supplement",
     "name": { "str": "fertility supplement" },
     "//": "Right now, it's just used in a quest, and should not spawn naturally.",
-    "flags": [ "EDIBLE_FROZEN", "WATER_DISSOLVE" ],
+    "flags": [ "EDIBLE_FROZEN", "WATER_DISSOLVE", "NO_INGEST" ],
     "weight": "1 g",
     "color": "pink",
     "container": "bottle_plastic_pill_supplement",
