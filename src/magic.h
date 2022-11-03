@@ -337,6 +337,8 @@ class spell_type
 
         std::set<mtype_id> targeted_monster_ids;
 
+        std::set<species_id> targeted_species_ids;
+
         // list of bodyparts this spell applies its effect to
         body_part_set affected_bps;
 
@@ -552,6 +554,8 @@ class spell
         // returns the name string of all list of all targeted monster id
         //if targeted_monster_ids is empty, it returns an empty string
         std::string list_targeted_monster_names() const;
+        //if targeted_species_ids is empty, it returns an empty string
+        std::string list_targeted_species_names() const;
 
         std::string damage_string() const;
         std::string aoe_string() const;
