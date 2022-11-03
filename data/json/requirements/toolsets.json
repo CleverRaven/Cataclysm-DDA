@@ -435,7 +435,7 @@
         [ "coat_rain", -1 ],
         [ "bunker_coat", -1 ],
         [ "entry_suit_xs", -1 ],
-        [ "entry_suit_xl", -1 ]
+        [ "xl_entry_suit", -1 ]
       ]
     ]
   }
