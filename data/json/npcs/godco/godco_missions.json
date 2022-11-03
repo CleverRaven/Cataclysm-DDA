@@ -560,7 +560,7 @@
     "has_generic_rewards": false,
     "dialogue": {
       "describe": "Get some supplements.",
-      "offer": "To be honest, I'm not alrght.  Have you met Darryl?  He's my husband, and a go a baby recently.  The thing is, its not happening.  Now that we're in a safe spot, on our feet again, I want to try.  I'm trying to find some fertility supplements.  I ordered some before <the_cataclysm>, but I never got to pick them up.  If you'd go over and get them for me, I'd pay you.",
+      "offer": "To be honest, I'm not alright.  Have you met Darryl?  He's my husband, and we had a go at getting a baby recently.  The thing is, its not happening.  Now that we're in a safe spot, on our feet again, I want to try.  I'm trying to find some fertility supplements.  I ordered some before <the_cataclysm>, but I never got to pick them up.  If you'd go over and get them for me, I'd pay you.",
       "accepted": "Thank you.",
       "rejected": "This means so much to me.",
       "advice": "They should be near the counter, or on a shelf.",
