@@ -382,16 +382,13 @@
         [ "mask_hsurvivor", -1 ],
         [ "mask_survivorxl", -1 ],
         [ "mask_lsurvivorxl", -1 ],
-        [ "mask_hsurvivorxl", -1 ],
         [ "mask_survivorxs", -1 ],
-        [ "mask_lsurvivorxs", -1 ],
-        [ "mask_hsurvivorxs", -1 ],
         [ "mask_wsurvivor", -1 ],
         [ "mask_wsurvivorxl", -1 ],
         [ "mask_wsurvivorxs", -1 ],
         [ "mask_wsurvivor_nofur", -1 ],
-        [ "mask_wsurvivorx_nofurl", -1 ],
-        [ "mask_wsurvivorxs_nofur", -1 ],
+        [ "mask_wsurvivor_nofur_xs", -1 ],
+        [ "mask_wsurvivorxl_nofur", -1 ],
         [ "hazmat_suit", -1 ]
       ]
     ]
@@ -412,16 +409,13 @@
         [ "mask_hsurvivor", -1 ],
         [ "mask_survivorxl", -1 ],
         [ "mask_lsurvivorxl", -1 ],
-        [ "mask_hsurvivorxl", -1 ],
         [ "mask_survivorxs", -1 ],
-        [ "mask_lsurvivorxs", -1 ],
-        [ "mask_hsurvivorxs", -1 ],
         [ "mask_wsurvivor", -1 ],
         [ "mask_wsurvivorxl", -1 ],
         [ "mask_wsurvivorxs", -1 ],
         [ "mask_wsurvivor_nofur", -1 ],
-        [ "mask_wsurvivorx_nofurl", -1 ],
-        [ "mask_wsurvivorxs_nofur", -1 ],
+        [ "mask_wsurvivor_nofur_xs", -1 ],
+        [ "mask_wsurvivorxl_nofur", -1 ],
         [ "hazmat_suit", -1 ]
       ],
       [ [ "gasfilter_m", 1 ] ]
