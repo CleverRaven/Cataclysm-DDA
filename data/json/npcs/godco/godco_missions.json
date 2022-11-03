@@ -418,7 +418,7 @@
       "rejected": "That fungus is going to kill us all if it isn't stopped.",
       "advice": "Despite how fast it grows, it's highly vulnerable to fire.",
       "inquire": "Have you dealt with them?",
-      "success": "Thank you.  I don't like killing people, but this time we had too.  Here, take this; its some of our internal money that we've started using.  You know those religious pamplets shaped like bills people would leave?  These are some of those, couldn't stand 'em myself.",
+      "success": "Thank you.  I don't like killing people, but this time we had too.  Here, take this; its some of our internal money that we've started using.  You know those religious pamphlets shaped like bills people would leave?  These are some of those, couldn't stand 'em myself.",
       "success_lie": "What good does this do us?",
       "failure": "We'll have to try again, I suppose."
     }
@@ -867,7 +867,7 @@
       "describe": "Get a marloss berry.",
       "offer": "I'm wanting to experiment with some of the more…  otherworldly fauna that have appeared recently.  I saw these pink berries inside a fungal infestation the other day before I burned it with a Molotov.  If you could get me one, I can pay you with a discount on my medicine.",
       "accepted": "Thanks, <name_g>.",
-      "rejected": "I understand that it seems formidible, but there is a good deal of money for you.",
+      "rejected": "I understand that it seems formidable, but there is a good deal of money for you.",
       "advice": "I'd wear a hazmat suit while I'm in there.  Those spores are absolutely nasty for your health, if my observations of <zombies> nearby are any indication.",
       "inquire": "Do you have the berry?",
       "success": "I'll have to be careful with this thing, thanks for getting it for me.  Let's see what this can do…",
@@ -1046,8 +1046,8 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "dialogue": {
-      "describe": "Get an electric spinwheel.",
-      "offer": "I want to try making my own cloth, it's getting harder to find the quantities I need.  I'll buy an electric spinwheel if you can find one, it'd vastly expedite the process.",
+      "describe": "Get an electric spinning wheel.",
+      "offer": "I want to try making my own cloth, it's getting harder to find the quantities I need.  I'll buy an electric spinning wheel if you can find one, it'd vastly expedite the process.",
       "accepted": "Great stuff!",
       "rejected": "I'd really help me in getting your stuff to you faster.",
       "advice": "A textile museum should have one lying around.",
@@ -1145,7 +1145,7 @@
       "offer": "Blasphemy, heresy, the righteous judgement of God!  I have found the scum of Hell pillaging a church for valuables!  Even in <the_cataclysm>, I shall not stand for this.  I want you to go there and wipe those <swear> <name_b>s from the Earth.",
       "accepted": "Righteous judgement shall come!",
       "rejected": "Are you standing with them?",
-      "advice": "Attack at night to suprise them.  Barring that, go in full force, guns blazing.  I wouldn't try to call a horde in, I don't want to ruin such a holy place.",
+      "advice": "Attack at night to surprise them.  Barring that, go in full force, guns blazing.  I wouldn't try to call a horde in, I don't want to ruin such a holy place.",
       "inquire": "Are the heretics purged?",
       "success": "Thank you.",
       "success_lie": "Why have you failed us?!",

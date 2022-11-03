@@ -162,7 +162,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Helena_Decalouge",
-    "dynamic_line": "Its also called the Ten Commandments, if you've heard it by that.  A long time ago, Moses lead the Isrealites out of slavery in Egypt, towards the Promised Land.  They broke their Covenant with God, and were cursed to wander the desert for fourty years, as opposed to the nineteen days it would normally take.  On the way there, Moses went atop Mount Sinai to speak with God.  He saw a burning bush, and heard the voice of the Lord; who engraved the Decalouge on two tablets of stone.",
+    "dynamic_line": "Its also called the Ten Commandments, if you've heard it by that.  A long time ago, Moses lead the Isrealites out of slavery in Egypt, towards the Promised Land.  They broke their Covenant with God, and were cursed to wander the desert for forty years, as opposed to the nineteen days it would normally take.  On the way there, Moses went atop Mount Sinai to speak with God.  He saw a burning bush, and heard the voice of the Lord; who engraved the Decalouge on two tablets of stone.",
     "responses": [ { "text": "…", "topic": "TALK_GODCO_Helena_Decalouge2" } ]
   },
   {
