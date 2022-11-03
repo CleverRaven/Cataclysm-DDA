@@ -110,7 +110,7 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "I need a new guitar string.",
-      "offer": "One of my guitar strings busted from where I smacked a zombie.  If you could get me a  wire, I can rig it to work as a substitute.",
+      "offer": "One of my guitar strings busted from where I smacked a zombie.  If you could get me a wire, I can rig it to work as a substitute.",
       "accepted": "Thanks.  I'll give you a performance when you get back with it.",
       "rejected": "I guess I'll just skip that note.",
       "advice": "Any old wire should do.",
