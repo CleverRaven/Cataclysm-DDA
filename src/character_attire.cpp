@@ -2230,6 +2230,61 @@ void outfit::pickup_stash( const item &newit, int &remaining_charges, bool ignor
     }
 }
 
+std::vector<std::unique_ptr<pocket_with_parent_data>> get_child_pocket_with_parent(
+            const item_pocket *pocket, pocket_with_parent_data *parent );
+
+std::vector<std::unique_ptr<pocket_with_parent_data>> get_child_pocket_with_parent(
+            const item_pocket *pocket, pocket_with_parent_data *parent )
+{
+    std::vector<std::unique_ptr<pocket_with_parent_data>> ret;
+    if( pocket != nullptr ) {
+        std::unique_ptr<pocket_with_parent_data> pocket_data = std::make_unique<pocket_with_parent_data>();
+        pocket_data->pocket = const_cast<item_pocket *>( pocket );
+        if( parent != nullptr ) {
+            pocket_data->parent_data = parent;
+            pocket_data->nest_level = parent->nest_level + 1;
+        }
+        for( const item *contained : pocket->all_items_top() ) {
+            for( const item_pocket *pocket_nest : contained->get_all_contained_pockets() ) {
+                std::vector<std::unique_ptr<pocket_with_parent_data>> child = get_child_pocket_with_parent(
+                            pocket_nest, &*pocket_data );
+                for( std::unique_ptr<pocket_with_parent_data> &pock_d : child ) {
+                    ret.emplace_back( std::move( pock_d ) );
+                }
+            }
+        }
+        ret.emplace_back( std::move( pocket_data ) );
+    }
+    return ret;
+}
+
+std::vector<std::unique_ptr<pocket_with_parent_data>> outfit::get_all_pocket_with_parent(
+            Character &guy )
+{
+    std::vector<std::unique_ptr<pocket_with_parent_data>> ret;
+    std::vector<item_pocket *> pockets;
+
+    // Collect all pockets
+    std::list<item *> items;
+    item_location carried_item = guy.get_wielded_item();
+    if( carried_item != item_location::nowhere ) {
+        items.emplace_back( &*carried_item );
+    }
+    for( item &i : guy.worn.worn ) {
+        items.emplace_back( &i );
+    }
+    for( item *i : items ) {
+        for( const item_pocket *pocket : i->get_all_contained_pockets() ) {
+            std::vector<std::unique_ptr<pocket_with_parent_data>> child = get_child_pocket_with_parent( pocket,
+                    nullptr );
+            for( std::unique_ptr<pocket_with_parent_data> &pock_d : child ) {
+                ret.emplace_back( std::move( pock_d ) );
+            }
+        }
+    }
+    return ret;
+}
+
 void outfit::add_stash( Character &guy, const item &newit, int &remaining_charges,
                         bool ignore_pkt_settings )
 {
@@ -2245,52 +2300,73 @@ void outfit::add_stash( Character &guy, const item &newit, int &remaining_charge
         // Crawl Next : worn items
         pickup_stash( newit, remaining_charges, ignore_pkt_settings );
     } else {
-        item_pocket *found_pocket;
-        std::vector<item_pocket *> pockets;
+
+        //item copy for test can contain
         item temp_it = item( newit );
         temp_it.charges = 1;
 
         // Collect all pockets
-        std::list<item *> items;
-        item_location carried_item = guy.get_wielded_item();
-        if( carried_item != item_location::nowhere ) {
-            items.emplace_back( &*carried_item );
-        }
-        for( item &i : worn ) {
-            items.emplace_back( &i );
-        }
-        for( item *i : items ) {
-            for( const item_pocket *pocket : i->get_all_contained_pockets() ) {
-                if( pocket->can_contain( temp_it ).success() ) {
-                    // Top-level( wielded, worn ) pockets may be stored
-                    found_pocket = const_cast<item_pocket *>( pocket );
-                    pockets.emplace_back( found_pocket );
-                }
-                for( const item *contained : pocket->all_items_ptr( item_pocket::pocket_type::CONTAINER ) ) {
-                    for( const item_pocket *pocket_nest : contained->get_all_contained_pockets() ) {
-                        if( pocket_nest->can_contain( temp_it ).success() && pocket_nest->rigid() ) {
-                            // Nested pocket with rigid() can only be stored
-                            found_pocket = const_cast<item_pocket *>( pocket_nest );
-                            pockets.emplace_back( found_pocket );
-                        }
-                    }
-                }
+        std::vector<std::unique_ptr<pocket_with_parent_data>> pockets_with_parent;
+        std::vector<std::unique_ptr<pocket_with_parent_data>> pockets_with_parent_working;
+        pockets_with_parent_working = get_all_pocket_with_parent( guy );
+
+        for( std::unique_ptr<pocket_with_parent_data> &pocket_data_ptr : pockets_with_parent_working ) {
+            item_pocket *pocket = pocket_data_ptr->pocket;
+            if( pocket->can_contain( temp_it ).success() ) {
+                pockets_with_parent.emplace_back( std::move( pocket_data_ptr ) );
             }
         }
 
-        // Sort by item_pocket::better_pocket
-        std::sort( pockets.begin(), pockets.end(), [newit, temp_it]( item_pocket * lhs,
-        item_pocket * rhs ) {
-            return rhs->better_pocket( *lhs, newit, false );
+        std::sort( pockets_with_parent.begin(), pockets_with_parent.end(), [newit,
+                   temp_it]( std::unique_ptr<pocket_with_parent_data> &lhs,
+        std::unique_ptr<pocket_with_parent_data> &rhs ) {
+            item_pocket &lpp = *lhs->pocket;
+            item_pocket *lpd = lhs->pocket;
+            item_pocket *rpd = rhs->pocket;
+
+            if( lpd->settings.priority() != rpd->settings.priority() ) {
+                return lpd->settings.priority() > rpd->settings.priority();
+            }
+
+            if( lpd->rigid() != rpd->rigid() ) {
+                return rpd->rigid();
+            }
+
+            if( lhs->nest_level != rhs->nest_level ) {
+                return lhs->nest_level < rhs->nest_level;
+            }
+
+            return rpd->better_pocket( lpp, temp_it, false );
         } );
 
         int amount = remaining_charges;
         int num_contained = 0;
-        for( item_pocket *&pocket : pockets ) {
+        for( std::unique_ptr<pocket_with_parent_data> &pocket_data_ptr : pockets_with_parent ) {
             if( amount <= num_contained || remaining_charges <= 0 ) {
                 break;
             }
-            const int filled_count = pocket->fill_with( newit, guy, remaining_charges, false, false );
+            int filled_count = 0;
+            item_pocket *pocke = pocket_data_ptr->pocket;
+            if( pocke == nullptr ) {
+                continue;
+            }
+            if( pocke->rigid() ) {
+                //Rigid container allow loading under no conditions because do not depend on the capacity of the parent's pocket.
+                filled_count = pocke->fill_with( newit, guy, remaining_charges, false, false );
+            } else {
+                pocket_with_parent_data *parent_data = pocket_data_ptr->parent_data;
+                int remain_vol = std::min( pocke->charges_per_remaining_volume( temp_it ), 65535 );
+                int remain_weight = std::min( pocke->charges_per_remaining_weight( temp_it ), 65535 );
+                while( parent_data != nullptr ) {
+                    item_pocket *parent_pocke;
+                    parent_pocke = parent_data->pocket;
+                    remain_vol = std::min( parent_pocke->charges_per_remaining_volume( temp_it ), remain_vol );
+                    remain_weight = std::min( parent_pocke->charges_per_remaining_weight( temp_it ), remain_weight );
+                    parent_data = parent_data->parent_data;
+                }
+                int charges = std::min( { remain_vol, remain_weight, remaining_charges } ) ;
+                filled_count = pocke->fill_with( newit, guy, charges, false, false );
+            }
             num_contained += filled_count;
             remaining_charges -= filled_count;
         }

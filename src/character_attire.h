@@ -57,6 +57,12 @@ struct dispose_option {
     std::function<bool()> action;
 };
 
+struct pocket_with_parent_data {
+    item_pocket *pocket = nullptr;
+    pocket_with_parent_data *parent_data = nullptr;
+    int nest_level = 0;
+};
+
 class outfit
 {
     private:
@@ -207,6 +213,7 @@ class outfit
         // used for npc generation
         void set_fitted();
         std::vector<item> available_pockets() const;
+        std::vector<std::unique_ptr<pocket_with_parent_data>> get_all_pocket_with_parent( Character &guy );
         void write_text_memorial( std::ostream &file, const std::string &indent, const char *eol ) const;
         std::string get_armor_display( bodypart_id bp, unsigned int truncate = 0 ) const;
         void activate_combat_items( npc &guy );
