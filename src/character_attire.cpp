@@ -2335,15 +2335,12 @@ void outfit::add_stash( Character &guy, const item &newit, int &remaining_charge
             if( lpd->settings.priority() != rpd->settings.priority() ) {
                 return lpd->settings.priority() > rpd->settings.priority();
             }
-
-            if( lpd->rigid() != rpd->rigid() ) {
-                return rpd->rigid();
-            }
-
             if( lp_nlvl != rp_nlvl ) {
                 return lp_nlvl < rp_nlvl;
             }
-
+            if( lpd->rigid() != rpd->rigid() ) {
+                return lpd->rigid();
+            }
             return rpd->better_pocket( lpp, temp_it, false );
         } );
 
@@ -2365,8 +2362,12 @@ void outfit::add_stash( Character &guy, const item &newit, int &remaining_charge
             } else {
                 item_location parent_data = std::get<1>( pocket_data_ptr );
                 int max_contain_value = pocke->remaining_capacity_for_item( newit );
-                if( parent_data.has_parent() && parent_data.parents_can_contain_recursive( &temp_it ) ) {
-                    max_contain_value = parent_data.max_charges_by_parent_recursive( temp_it );
+                if( parent_data.has_parent() ) {
+                    if( parent_data.parents_can_contain_recursive( &temp_it ) ) {
+                        max_contain_value = parent_data.max_charges_by_parent_recursive( temp_it );
+                    } else {
+                        max_contain_value = 0;
+                    }
                 }
                 const int charges = std::min( max_contain_value, remaining_charges ) ;
                 filled_count = pocke->fill_with( newit, guy, charges, false, false );
