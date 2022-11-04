@@ -151,6 +151,7 @@
   {
     "id": "national_flag",
     "name": { "str": "national flag" },
+    "type": "ARMOR",
     "description": "A large flag, made to fly in even the worst conditions.",
     "copy-from": "american_flag",
     "symbol": "[",
