@@ -1300,7 +1300,7 @@
     "points": 1,
     "description": "Your knees are strong and capable of angles that you couldn't imagine previously.  Moving over rough terrain will slow you down less than normal.",
     "category": [ "BATRACHIAN" ],
-    "cancels": [ "BADKNEES","REALLYBADKNEES" ],
+    "cancels": [ "BADKNEES", "REALLYBADKNEES" ],
     "movecost_obstacle_modifier": 0.9
   },
   {
