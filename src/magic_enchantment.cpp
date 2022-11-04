@@ -398,7 +398,7 @@ void enchant_cache::load( const JsonObject &jo, const std::string &,
                 skill_values_add.emplace( value, add );
             }
             if( mult != 0.0 ) {
-                skill_values_multiply.emplace( value, mult );
+                skill_values_multiply.emplace( value, static_cast<int>( mult ) );
             }
         }
     }
