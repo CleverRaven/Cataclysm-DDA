@@ -7,6 +7,7 @@
     "weight": "1 g",
     "volume": "1 ml",
     "material": [ "paper" ],
+    "looks_like": "cookbook",
     "symbol": "?",
     "color": "magenta",
     "use_action": {
@@ -39,6 +40,7 @@
     "volume": "250 ml",
     "price": 5000,
     "material": [ "paper" ],
+    "looks_like": "cookbook",
     "symbol": "?",
     "color": "light_red",
     "use_action": { "type": "learn_spell", "spells": [ "magic_missile", "phase_door", "create_atomic_light", "sound_bomb" ] }
@@ -54,6 +56,7 @@
     "volume": "1200 ml",
     "price": 5000,
     "material": [ "paper" ],
+    "looks_like": "cookbook",
     "symbol": "?",
     "color": "light_gray",
     "use_action": { "type": "learn_spell", "spells": [ "shocking_lash", "windrun" ] }
@@ -69,6 +72,7 @@
     "volume": "1250 ml",
     "price": 35000,
     "material": [ "paper" ],
+    "looks_like": "cookbook",
     "symbol": "?",
     "color": "red",
     "use_action": {
@@ -96,6 +100,7 @@
     "volume": "1 L",
     "price": 1904,
     "material": [ "paper" ],
+    "looks_like": "cookbook",
     "symbol": "?",
     "color": "light_red",
     "use_action": {
@@ -114,6 +119,7 @@
     "volume": "750 ml",
     "price": 30000,
     "material": [ "paper" ],
+    "looks_like": "cookbook",
     "symbol": "?",
     "color": "light_red",
     "use_action": { "type": "learn_spell", "spells": [ "point_flare", "ice_spike", "gravity_well", "pain_split" ] }
@@ -129,6 +135,7 @@
     "volume": "500 ml",
     "price": 5000,
     "material": [ "paper" ],
+    "looks_like": "cookbook",
     "symbol": "?",
     "color": "light_green",
     "use_action": { "type": "learn_spell", "spells": [ "light_healing", "blinding_flash", "bless" ] }
@@ -147,6 +154,7 @@
     "volume": "750 ml",
     "price": 30000,
     "material": [ "paper" ],
+    "looks_like": "cookbook",
     "symbol": "?",
     "color": "green",
     "use_action": { "type": "learn_spell", "spells": [ "smite", "holy_blade", "spirit_armor" ] }
@@ -162,6 +170,7 @@
     "volume": "1 L",
     "price": 1904,
     "material": [ "paper" ],
+    "looks_like": "cookbook",
     "symbol": "?",
     "color": "light_blue",
     "use_action": { "type": "learn_spell", "spells": [ "cone_cold", "ice_spike", "hoary_blast", "chilling_touch", "frost_spray" ] }
@@ -177,6 +186,7 @@
     "volume": "750 ml",
     "price": 5000,
     "material": [ "paper" ],
+    "looks_like": "cookbook",
     "symbol": "?",
     "color": "light_gray",
     "use_action": {
@@ -206,6 +216,7 @@
     "volume": "930 ml",
     "price": 9000,
     "material": [ "paper" ],
+    "looks_like": "cookbook",
     "symbol": "?",
     "color": "light_gray",
     "use_action": {
@@ -224,6 +235,7 @@
     "volume": "825 ml",
     "price": 7000,
     "material": [ "paper" ],
+    "looks_like": "cookbook",
     "symbol": "?",
     "color": "light_gray",
     "use_action": {
@@ -242,6 +254,7 @@
     "volume": "660 ml",
     "price": 11700,
     "material": [ "paper" ],
+    "looks_like": "cookbook",
     "symbol": "?",
     "color": "light_gray",
     "use_action": {
@@ -268,6 +281,7 @@
     "weight": "355 g",
     "volume": "500 ml",
     "material": [ "paper" ],
+    "looks_like": "cookbook",
     "symbol": "?",
     "color": "magenta",
     "use_action": { "type": "learn_spell", "spells": [ "seismic_stomp", "create_atomic_lamp", "ethereal_grasp" ] }
@@ -283,6 +297,7 @@
     "volume": "750 ml",
     "price": 5000,
     "material": [ "paper" ],
+    "looks_like": "cookbook",
     "symbol": "?",
     "color": "light_gray",
     "use_action": {
@@ -310,6 +325,7 @@
     "volume": "500 ml",
     "price": 5000,
     "material": [ "paper" ],
+    "looks_like": "cookbook",
     "symbol": "?",
     "color": "red",
     "use_action": {
@@ -328,6 +344,7 @@
     "volume": "500 ml",
     "price": 5000,
     "material": [ "paper" ],
+    "looks_like": "cookbook",
     "symbol": "?",
     "color": "green",
     "use_action": {
@@ -354,6 +371,7 @@
     "volume": "3 L",
     "price": 5000,
     "material": [ "paper" ],
+    "looks_like": "cookbook",
     "symbol": "?",
     "color": "light_blue",
     "use_action": {
@@ -372,6 +390,7 @@
     "volume": "750 ml",
     "price": 5000,
     "material": [ "paper" ],
+    "looks_like": "cookbook",
     "symbol": "?",
     "color": "light_gray",
     "use_action": {
@@ -390,6 +409,7 @@
     "volume": "825 ml",
     "price": 5000,
     "material": [ "paper" ],
+    "looks_like": "cookbook",
     "symbol": "?",
     "color": "brown",
     "use_action": {
@@ -408,6 +428,7 @@
     "volume": "398 ml",
     "price": 9000,
     "material": [ "paper" ],
+    "looks_like": "cookbook",
     "symbol": "?",
     "color": "brown",
     "use_action": {
@@ -426,6 +447,7 @@
     "volume": "132 ml",
     "price": 1000,
     "material": [ "paper" ],
+    "looks_like": "cookbook",
     "symbol": "?",
     "color": "brown",
     "use_action": { "type": "learn_spell", "spells": [ "eshaper_spawn_tools" ] }
@@ -441,6 +463,7 @@
     "volume": "500 ml",
     "price": 5000,
     "material": [ "paper" ],
+    "looks_like": "cookbook",
     "symbol": "?",
     "color": "light_gray",
     "use_action": { "type": "learn_spell", "spells": [ "phase_door", "magus_escape", "magus_haste" ] }
@@ -456,6 +479,7 @@
     "volume": "100 ml",
     "price": 5000,
     "material": [ "paper" ],
+    "looks_like": "cookbook",
     "symbol": "?",
     "color": "light_gray",
     "use_action": { "type": "learn_spell", "spells": [ "summon_bear" ] }
@@ -471,6 +495,7 @@
     "volume": "2250 ml",
     "price": 5000,
     "material": [ "paper" ],
+    "looks_like": "cookbook",
     "symbol": "?",
     "color": "light_gray",
     "use_action": { "type": "learn_spell", "spells": [ "summon_zombie", "summon_skeleton", "summon_decayed_pouncer" ] }
@@ -486,6 +511,7 @@
     "volume": "750 ml",
     "price": 5000,
     "material": [ "paper" ],
+    "looks_like": "cookbook",
     "symbol": "?",
     "color": "light_gray",
     "use_action": {
@@ -504,6 +530,7 @@
     "volume": "500 ml",
     "price": 5000,
     "material": [ "paper" ],
+    "looks_like": "cookbook",
     "symbol": "?",
     "color": "light_gray",
     "use_action": { "type": "learn_spell", "spells": [ "taze", "quantum_tunnel_lesser" ] }
@@ -522,6 +549,7 @@
     "volume": "1 L",
     "price": 5000,
     "material": [ "paper" ],
+    "looks_like": "cookbook",
     "symbol": "?",
     "color": "light_gray",
     "use_action": { "type": "learn_spell", "spells": [ "taze", "laze", "technomancer_knifeshot" ] }
@@ -537,6 +565,7 @@
     "volume": "750 ml",
     "price": 30000,
     "material": [ "paper" ],
+    "looks_like": "cookbook",
     "symbol": "?",
     "color": "light_red",
     "use_action": { "type": "learn_spell", "spells": [ "wrathful_spirits", "spirit_walk", "ethereal_grasp" ] }
@@ -552,6 +581,7 @@
     "volume": "2500 ml",
     "price": 5000,
     "material": [ "stone" ],
+    "looks_like": "material_shrd_limestone",
     "symbol": "?",
     "color": "light_gray",
     "use_action": { "type": "learn_spell", "spells": [ "soulrend", "wrathful_spirits" ] }
@@ -567,6 +597,7 @@
     "volume": "2500 ml",
     "price": 5000,
     "material": [ "paper" ],
+    "looks_like": "cookbook",
     "symbol": "?",
     "color": "light_blue",
     "use_action": { "type": "learn_spell", "spells": [ "translocate_self" ] }
@@ -581,6 +612,7 @@
     "volume": "5000 ml",
     "price": 7500,
     "material": [ "paper" ],
+    "looks_like": "cookbook",
     "symbol": "?",
     "color": "brown",
     "use_action": { "type": "learn_spell", "spells": [ "focused_bolt", "rupture", "disruption_bolt", "cause_rot", "devour" ] }
@@ -596,6 +628,7 @@
     "volume": "2500 ml",
     "price": 5000,
     "material": [ "paper" ],
+    "looks_like": "cookbook",
     "symbol": "?",
     "color": "yellow",
     "use_action": { "type": "learn_spell", "spells": [ "cats_grace", "ogres_strength", "foxs_cunning", "eagles_sight" ] }
