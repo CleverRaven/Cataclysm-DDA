@@ -24,14 +24,14 @@
     "type": "GENERIC",
     "name": { "str": "steel sewing awl" },
     "description": "This is a steel awl with a wooden grip, usually used for leatherworking.  It can also serve as an improvised stabbing weapon, but will break quickly.",
-    "weight": "170 g",
-    "volume": "50 ml",
-    "price": 450,
+    "weight": "50 g",
+    "volume": "42 ml",
+    "longest_side": "13 cm",
+    "price": 800,
     "price_postapoc": 100,
     "cutting": 10,
     "material": [ "steel", "wood" ],
-    "delete": { "qualities": [ [ "LEATHER_AWL", 1 ] ] },
-    "extend": { "qualities": [ [ "LEATHER_AWL", 2 ] ] }
+    "qualities": [ [ "LEATHER_AWL", 2 ] ]
   },
   {
     "id": "knitting_needles",
