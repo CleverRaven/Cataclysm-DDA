@@ -1528,7 +1528,7 @@
     "time": "30 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "jug_plastic", 1 ] ], [ [ "cotton_patchwork", 4 ] ], [ [ "charcoal", 75 ] ] ],
+    "components": [ [ [ "jug_plastic", 1 ] ], [ [ "cotton_patchwork", 4 ] ], [ [ "charcoal", 90 ] ] ],
     "flags": [ "FULL_MAGAZINE" ]
   },
   {
@@ -1542,7 +1542,7 @@
     "time": "30 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "clay_hydria", 1 ] ], [ [ "cotton_patchwork", 4 ] ], [ [ "charcoal", 300 ] ] ],
+    "components": [ [ [ "clay_hydria", 1 ] ], [ [ "cotton_patchwork", 4 ] ], [ [ "charcoal", 360 ] ] ],
     "flags": [ "FULL_MAGAZINE" ]
   },
   {
