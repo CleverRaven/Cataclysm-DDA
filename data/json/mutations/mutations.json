@@ -1278,7 +1278,7 @@
     "points": -1,
     "description": "Whether due to injury or age, your knees aren't particularly strong or flexible.  Moving over rough terrain will slow you down more than normal.",
     "starting_trait": true,
-    "cancels": [ "STRONGKNEES","REALLYBADKNEES" ],
+    "cancels": [ "STRONGKNEES", "REALLYBADKNEES" ],
     "valid": false,
     "movecost_obstacle_modifier": 1.25
   },
