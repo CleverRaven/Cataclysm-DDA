@@ -2232,10 +2232,10 @@ void outfit::pickup_stash( const item &newit, int &remaining_charges, bool ignor
 
 static std::vector<std::tuple<const item_pocket *, item_location, int>>
         get_child_pocket_with_parent(
-            const item_pocket *pocket, item_location parent, item_location it, int nest_level );
+            const item_pocket *pocket, item_location &parent, item_location it, int nest_level );
 
 std::vector<std::tuple<const item_pocket *, item_location, int>> get_child_pocket_with_parent(
-            const item_pocket *pocket, item_location parent, item_location it, int nest_level )
+            const item_pocket *pocket, item_location &parent, item_location it, int nest_level )
 {
     std::vector<std::tuple<const item_pocket *, item_location, int>> ret;
     if( pocket != nullptr ) {
@@ -2279,9 +2279,10 @@ std::vector<std::tuple<const item_pocket *, item_location, int>> outfit::get_all
     }
     for( item *i : items ) {
         for( const item_pocket *pocket : i->get_all_contained_pockets() ) {
+            item_location loc = item_location();
             std::vector<std::tuple<const item_pocket *, item_location, int>> child =
                         get_child_pocket_with_parent( pocket,
-                                item_location::nowhere, item_location( guy, i ), 0 );
+                                loc, item_location( guy, i ), 0 );
             for( std::tuple<const item_pocket *, item_location, int> &pock_d : child ) {
                 ret.emplace_back( pock_d );
             }
