@@ -33,6 +33,7 @@
       { "text": "RE: Seriously!?", "topic": "COMP_RET_COMM_EMAILS_SERIOUSLY" },
       { "text": "RE: Noise complaint", "topic": "COMP_RET_COMM_EMAILS_NOISE" },
       { "text": "RE: Horrible smell", "topic": "COMP_RET_COMM_EMAILS_SMELL" },
+      { "text": "[!]RE: Important Status Update", "topic": "COMP_RET_COMM_EMAILS_STATUS" },
       { "text": "RETURN TO MAIN PAGE", "topic": "COMP_RET_COMM_OFFICE" }
     ]
   },
@@ -52,6 +53,12 @@
     "type": "talk_topic",
     "id": "COMP_RET_COMM_EMAILS_SMELL",
     "dynamic_line": "FROM: Sandra Shells, Unit B06\n  TO: Shady Hills Corporation, Service Portal\n  RE: Horrible smell\n\n  There's a bad smell coming from unit B07.  Please look into it.  Thanks.",
+    "responses": [ { "text": "RETURN TO MESSAGES", "topic": "COMP_RET_COMM_EMAILS" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_RET_COMM_EMAILS_STATUS",
+    "dynamic_line": "FROM: Kristi Gordee, SVP Operations\n  TO: [Branch Managers], [Community Managers]\n  RE: Important Status Update\n\n Everyone,\n You are to follow your appropriate lockdown protocols at your discretion.  With the recent events as they are, we must do our utmost to ensure that our goals remain priority.\n\n Branch Managers - your deliveries will have an altered schedule.  I will send a separate email with details.  Ensure the hidden safe rooms are properly secured.\n Community Managers - Lockdown the community appropriately.  Tell the residents that it is for their protection, but do not let them leave.  We need them for the Big Pappy project to be successful.  I am going to send you some contacts who can discreetly install a heavy security gate.\n\n You will continue to receive your bonus pay as agreed upon.  Do not lose sight of our important endgame.",
     "responses": [ { "text": "RETURN TO MESSAGES", "topic": "COMP_RET_COMM_EMAILS" } ]
   },
   {

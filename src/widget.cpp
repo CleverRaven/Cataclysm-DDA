@@ -901,6 +901,7 @@ static int custom_draw_func( const draw_args &args )
 
     werase( w );
     if( wgt->_style == "sidebar" ) {
+        // noop
     } else if( wgt->_style == "layout" ) {
         if( wgt->_arrange == "rows" ) {
             // Layout widgets in rows

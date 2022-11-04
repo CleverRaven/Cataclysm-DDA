@@ -241,6 +241,7 @@ static const flag_id json_flag_POWER_CORD( "POWER_CORD" );
 
 static const furn_str_id furn_f_aluminum_stepladder( "f_aluminum_stepladder" );
 static const furn_str_id furn_f_ladder( "f_ladder" );
+static const furn_str_id furn_f_translocator_buoy( "f_translocator_buoy" );
 
 static const itype_id itype_advanced_ecig( "advanced_ecig" );
 static const itype_id itype_afs_atomic_smartphone( "afs_atomic_smartphone" );
@@ -1526,7 +1527,7 @@ cata::optional<int> iuse::mycus( Character *p, item *, bool, const tripoint & )
     } else if( p->has_trait( trait_THRESH_MYCUS ) &&
                !p->has_trait( trait_M_DEPENDENT ) ) { // OK, now set the hook.
         if( !one_in( 3 ) ) {
-            p->mutate_category( mutation_category_MYCUS );
+            p->mutate_category( mutation_category_MYCUS, false, true );
             p->mod_stored_kcal( -87 );
             p->mod_thirst( 10 );
             p->mod_fatigue( 5 );
@@ -3815,31 +3816,31 @@ cata::optional<int> iuse::grenade_inc_act( Character *p, item *it, bool t, const
 
 cata::optional<int> iuse::molotov_lit( Character *p, item *it, bool t, const tripoint &pos )
 {
-    if( pos.x == -999 || pos.y == -999 ) {
-        return cata::nullopt;
-    } else if( !t ) {
-        map &here = get_map();
-        for( const tripoint &pt : here.points_in_radius( pos, 1, 0 ) ) {
-            const int intensity = 1 + one_in( 3 ) + one_in( 5 );
-            here.add_field( pt, fd_fire, intensity );
+    if( !t ) { // The Molotov is no longer active
+        if( it->charges > 0 ) { // Because the player tried to light it again
+            p->add_msg_if_player( m_info, _( "You've already lit the %s, try throwing it instead." ),
+                                  it->tname() );
+            return cata::nullopt;
+        } else { // It ran out of charges because it was thrown or dropped, so burst into flames
+            map &here = get_map();
+            for( const tripoint &pt : here.points_in_radius( pos, 1, 0 ) ) {
+                const int intensity = 1 + one_in( 3 ) + one_in( 5 );
+                here.add_field( pt, fd_fire, intensity );
+            }
+            if( p->has_trait( trait_PYROMANIA ) ) {
+                p->add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
+                p->rem_morale( MORALE_PYROMANIA_NOFIRE );
+                p->add_msg_if_player( m_good, _( "Fire…  Good…" ) );
+            }
+            return 1;
         }
-        if( p->has_trait( trait_PYROMANIA ) ) {
-            p->add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
-            p->rem_morale( MORALE_PYROMANIA_NOFIRE );
-            p->add_msg_if_player( m_good, _( "Fire…  Good…" ) );
-        }
-        return 1;
-    } else if( it->charges > 0 ) {
-        p->add_msg_if_player( m_info, _( "You've already lit the %s, try throwing it instead." ),
-                              it->tname() );
-        return cata::nullopt;
     } else if( p->has_item( *it ) && it->charges == 0 ) {
+        // Add a charge to stay lit, but has a 20% chance of going out harmlessly.
         it->charges += 1;
         if( one_in( 5 ) ) {
             p->add_msg_if_player( _( "Your lit Molotov goes out." ) );
             it->convert( itype_molotov ).active = false;
         }
-        return 0;
     }
     return 0;
 }
@@ -7618,6 +7619,34 @@ cata::optional<int> iuse::ehandcuffs( Character *p, item *it, bool t, const trip
     return 1;
 }
 
+cata::optional<int> iuse::afs_translocator( Character *p, item *it, bool, const tripoint & )
+{
+    if( !it->ammo_sufficient( p ) ) {
+        return cata::nullopt;
+    }
+
+    const cata::optional<tripoint> dest_ = choose_adjacent( _( "Create buoy where?" ) );
+    if( !dest_ ) {
+        return cata::nullopt;
+    }
+
+    tripoint dest = *dest_;
+
+    p->moves -= to_moves<int>( 2_seconds );
+
+    map &here = get_map();
+    if( here.impassable( dest ) || here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, dest ) ||
+        here.has_furn( dest ) ) {
+        add_msg( m_info, _( "The %s, emits a short angry beep." ), it->tname() );
+        return cata::nullopt;
+    } else {
+        here.furn_set( dest, furn_f_translocator_buoy );
+        add_msg( m_info, _( "Space warps momentarily as the %s is created." ),
+                 furn_f_translocator_buoy.obj().name() );
+        return  1;
+    }
+}
+
 cata::optional<int> iuse::foodperson( Character *p, item *it, bool t, const tripoint &pos )
 {
     // Prevent crash if battery was somehow removed.
@@ -7835,7 +7864,7 @@ cata::optional<int> iuse::radiocontrol( Character *p, item *it, bool t, const tr
                 it->active = true;
             }
         }
-    } else if( choice > 0 ) {
+    } else {
         const flag_id signal( "RADIOSIGNAL_" + std::to_string( choice ) );
 
         auto item_list = p->get_radio_items();
@@ -8631,7 +8660,7 @@ cata::optional<int> iuse::cable_attach( Character *p, item *it, bool, const trip
                     return itm.has_flag( flag_SOLARPACK_ON );
                 };
                 if( you != nullptr )                     {
-                    loc = game_menus::inv::titled_filter_menu( solar_filter, *you, choose_solar, dont_have_solar );
+                    loc = game_menus::inv::titled_filter_menu( solar_filter, *you, choose_solar, -1, dont_have_solar );
                 }
                 if( !loc ) {
                     add_msg( _( "Never mind" ) );
@@ -8644,7 +8673,7 @@ cata::optional<int> iuse::cable_attach( Character *p, item *it, bool, const trip
                 return 0;
             } else if( choice == 3 ) {
                 if( you != nullptr )                     {
-                    loc = game_menus::inv::titled_filter_menu( filter, *you, choose_ups, dont_have_ups );
+                    loc = game_menus::inv::titled_filter_menu( filter, *you, choose_ups, -1, dont_have_ups );
                 }
                 if( !loc ) {
                     add_msg( _( "Never mind" ) );
@@ -8752,7 +8781,7 @@ cata::optional<int> iuse::cable_attach( Character *p, item *it, bool, const trip
                 return itm.has_flag( flag_SOLARPACK_ON );
             };
             if( you != nullptr )                     {
-                loc = game_menus::inv::titled_filter_menu( solar_filter, *you, choose_solar, dont_have_solar );
+                loc = game_menus::inv::titled_filter_menu( solar_filter, *you, choose_solar, -1, dont_have_solar );
             }
             if( !loc ) {
                 add_msg( _( "Never mind" ) );
@@ -8764,7 +8793,7 @@ cata::optional<int> iuse::cable_attach( Character *p, item *it, bool, const trip
             p->add_msg_if_player( m_good, _( "You are now plugged to the solar backpack." ) );
             return 0;
         } else if( choice == 4 ) {
-            loc = game_menus::inv::titled_filter_menu( filter, *you, choose_ups, dont_have_ups );
+            loc = game_menus::inv::titled_filter_menu( filter, *you, choose_ups, -1, dont_have_ups );
             // connecting self to UPS
             if( !loc ) {
                 add_msg( _( "Never mind" ) );
@@ -9754,7 +9783,7 @@ cata::optional<int> iuse::electricstorage( Character *p, item *it, bool t, const
 
     item_location storage_card = game_menus::inv::titled_filter_menu(
                                      filter, *p->as_avatar(), _( "Use what storage device?" ),
-                                     _( "You don't have any empty book storage devices." ) );
+                                     -1, _( "You don't have any empty book storage devices." ) );
 
     if( !storage_card ) {
         return cata::nullopt;
@@ -9883,7 +9912,7 @@ cata::optional<int> iuse::ebooksave( Character *p, item *it, bool t, const tripo
     [&p, &ebooks]( const item & itm ) {
         return itm.is_book() && p->has_identified( itm.typeId() ) && !ebooks.count( itm.typeId() );
     },
-    *p->as_avatar(), _( "Scan which book?" ) );
+    *p->as_avatar(), _( "Scan which book?" ), PICKUP_RANGE );
 
     if( !book ) {
         p->add_msg_if_player( m_info, _( "Nevermind." ) );
