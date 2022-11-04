@@ -139,7 +139,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Theresa_Community",
-    "dynamic_line": "That's right.  He wanted something to return for the guidance he received when he was at the lowest point of his life.  He created a charity group which, over the years, became what's now known as the New England Church Community.  He lead them for many decades, until his death a few years before his prophecy was fulfilled.  Now, his niece Helena leads the community.",
+    "dynamic_line": "That's right.  He wanted something to return for the guidance he received when he was at the lowest point of his life.  He created a charity group which, over the years, became what's now known as the New England Church Community.  He lead them for many decades, until his death a few years before his prophecy was fulfilled.  Now, our niece Helena leads the community.",
     "responses": [
       { "text": "Tell me about his visions.", "topic": "TALK_GODCO_Theresa_Vision" },
       { "text": "Well, it's been nice talking to you, but I need to head out.", "topic": "TALK_DONE" }
@@ -230,7 +230,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Theresa_Cataclysm",
-    "dynamic_line": "I've grown tired, <granny_name_g>.  I haven't left here since we came, and things outside are getting worse each day.  All my old aches and pains have come back too; I can't see too good, and my muscles are always sore.  I don't like where my daughter is going either; she's ever more fanatical, and taking my dear husband's prophecy to the extreme.  I'm content with my life, though.  I've lived long and prospered by the grace of the Lord.",
+    "dynamic_line": "I've grown tired, <granny_name_g>.  I haven't left here since we came, and things outside are getting worse each day.  All my old aches and pains have come back too; I can't see too good, and my muscles are always sore.  I don't like where my niece is going either; she's ever more fanatical, and taking my dear husband's prophecy to the extreme.  I'm content with my life, though.  I've lived long and prospered by the grace of the Lord.",
     "responses": [
       { "text": "Is there anything I can do to help?", "topic": "TALK_MISSION_LIST" },
       { "text": "Well, it's been nice talking to you, but I need to head out.", "topic": "TALK_DONE" }
