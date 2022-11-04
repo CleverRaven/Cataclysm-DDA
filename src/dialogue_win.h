@@ -41,6 +41,7 @@ class dialogue_window
         /** Unhighlights all messages. */
         void clear_history_highlights();
         bool is_computer = false;
+        bool is_not_conversation = false;
         int sel_response = 0;
     private:
         catacurses::window d_win;

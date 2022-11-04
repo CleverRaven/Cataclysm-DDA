@@ -76,6 +76,7 @@
   <PropertyGroup Label="Configuration">
     <PreferredToolArchitecture>x64</PreferredToolArchitecture>
   </PropertyGroup>
+  <Import Project="Cataclysm.Cpp.props" />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings" />
   <ImportGroup Label="Shared" />
@@ -86,6 +87,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <LocalDebuggerWorkingDirectory>$(ProjectDir)..</LocalDebuggerWorkingDirectory>
+    <OutDir>$(ProjectDir)..\</OutDir>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)'=='Debug'">
@@ -139,6 +141,11 @@
     <Link>
       <SubSystem>Windows</SubSystem>
     </Link>
+    <CustomBuildStep Condition="'$(CDDA_POST_BUILD_JSON_LINT)' != ''">
+      <Command>C:\windows\system32\windowspowershell\v1.0\powershell.exe $(SolutionDir)\style-json.ps1 -FromMSBuild</Command>
+      <Message>Linting JSON</Message>
+      <Outputs>non-existent-file-to-always-trigger-custom-step.txt</Outputs>
+    </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug'">
     <ClCompile>

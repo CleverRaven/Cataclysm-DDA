@@ -550,7 +550,7 @@
     "type": "overmap_terrain",
     "id": [ "nursing_home_sh9", "nursing_home_sh10", "nursing_home_sh11" ],
     "name": "parking lot",
-    "sym": "0",
+    "sym": "O",
     "color": "dark_gray"
   },
   {
@@ -585,7 +585,7 @@
     "type": "overmap_terrain",
     "id": [ "nursing_home_9", "nursing_home_10", "nursing_home_11" ],
     "name": "parking lot",
-    "sym": "0",
+    "sym": "O",
     "color": "dark_gray"
   },
   {

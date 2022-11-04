@@ -127,6 +127,7 @@
       { "group": "nested_raging_bull", "prob": 10 },
       { "group": "nested_raging_judge", "prob": 10 },
       { "group": "nested_m714", "prob": 8 },
+      { "group": "nested_mr73", "prob": 5 },
       { "group": "nested_m1911-460", "prob": 5 },
       { "group": "nested_bfr", "prob": 10 },
       { "group": "nested_cop_38", "prob": 10 },
@@ -138,7 +139,8 @@
       { "group": "nested_ar_pistol", "prob": 25 },
       { "group": "nested_makarov", "prob": 15 },
       { "group": "nested_tokarev", "prob": 15 },
-      { "group": "nested_walther_ppk", "prob": 20 }
+      { "group": "nested_walther_ppk", "prob": 20 },
+      { "group": "nested_minidraco556", "prob": 20 }
     ]
   },
   {
@@ -166,6 +168,7 @@
       { "item": "raging_judge", "prob": 20, "charges-min": 0, "charges-max": 0 },
       { "item": "mauser_m714", "prob": 15, "charges-min": 0, "charges-max": 0 },
       { "item": "m1911-460", "prob": 10, "charges-min": 0, "charges-max": 0 },
+      { "item": "mr73", "prob": 5, "charges-min": 0, "charges-max": 0 },
       { "item": "bfr", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "cop_38", "prob": 45, "charges-min": 0, "charges-max": 0 },
       { "item": "colt_saa", "prob": 8, "charges-min": 0, "charges-max": 0 },
@@ -205,6 +208,7 @@
       { "group": "nested_makarov", "prob": 100 },
       { "group": "nested_mauser_c96", "prob": 39 },
       { "group": "nested_moss_brownie", "prob": 100 },
+      { "group": "nested_mr73", "prob": 5 },
       { "group": "nested_pistol_flintlock", "prob": 150 },
       { "group": "nested_raging_bull", "prob": 100 },
       { "group": "nested_raging_judge", "prob": 20 },
@@ -222,7 +226,8 @@
       { "item": "af2011a1_38super", "prob": 25 },
       { "item": "draco", "prob": 30, "charges-min": 0, "charges-max": 0 },
       { "item": "ar_pistol", "prob": 35, "charges-min": 0, "charges-max": 0 },
-      { "group": "guns_pistol_collectible", "prob": 1 }
+      { "group": "guns_pistol_collectible", "prob": 1 },
+      { "item": "minidraco556", "prob": 30, "charges-min": 0, "charges-max": 0 }
     ]
   },
   {
@@ -399,7 +404,9 @@
       { "group": "nested_vz58ts", "prob": 1 },
       { "group": "nested_fn_ps90", "prob": 1 },
       { "group": "nested_aksemi", "prob": 2 },
-      { "group": "nested_m1carbine", "prob": 1 }
+      { "group": "nested_m1carbine", "prob": 1 },
+      { "group": "nested_ak556", "prob": 2 },
+      { "group": "nested_zpapm90", "prob": 1 }
     ]
   },
   {
@@ -417,8 +424,8 @@
       { "item": "ksub2000", "prob": 1, "charges-min": 0, "charges-max": 15 },
       { "item": "m1a", "prob": 1, "charges-min": 0, "charges-max": 5 },
       { "item": "marlin_9a", "prob": 2, "charges-min": 0, "charges-max": 19 },
-      { "item": "mosin44", "prob": 1, "charges-min": 0, "charges-max": 5 },
-      { "item": "mosin91_30", "prob": 1, "charges-min": 0, "charges-max": 5 },
+      { "item": "mosin44", "variant": "mosin44", "prob": 1, "charges-min": 0, "charges-max": 5 },
+      { "item": "mosin91_30", "variant": "mosin91_30", "prob": 1, "charges-min": 0, "charges-max": 5 },
       { "item": "remington700_270", "prob": 1, "charges-min": 0, "charges-max": 4 },
       { "item": "remington_700", "prob": 4, "charges-min": 0, "charges-max": 4 },
       { "item": "ruger_1022", "prob": 7, "charges-min": 0, "charges-max": 10 },
@@ -430,7 +437,9 @@
       { "item": "1895sbl", "prob": 1, "charges-min": 0, "charges-max": 6 },
       { "item": "aksemi", "prob": 2, "charges-min": 0, "charges-max": 30 },
       { "item": "mk47", "prob": 1, "charges-min": 0, "charges-max": 30 },
-      { "item": "m1carbine", "prob": 1, "charges-min": 0, "charges-max": 15 }
+      { "item": "m1carbine", "prob": 1, "charges-min": 0, "charges-max": 15 },
+      { "item": "ak556", "prob": 2, "charges-min": 0, "charges-max": 30 },
+      { "item": "ak556", "variant": "zpapm90", "prob": 1, "charges-min": 0, "charges-max": 30 }
     ]
   },
   {
@@ -456,7 +465,9 @@
       { "item": "vz58ts", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "fn_ps90", "prob": 5, "charges-min": 0, "charges-max": 0 },
       { "item": "aksemi", "prob": 15, "charges-min": 0, "charges-max": 0 },
-      { "item": "mk47", "prob": 10, "charges-min": 0, "charges-max": 0 }
+      { "item": "mk47", "prob": 10, "charges-min": 0, "charges-max": 0 },
+      { "item": "ak556", "prob": 15, "charges-min": 0, "charges-max": 0 },
+      { "item": "ak556", "variant": "zpapm90", "prob": 10, "charges-min": 0, "charges-max": 0 }
     ]
   },
   {
@@ -500,14 +511,20 @@
       { "item": "henry_big_boy", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "bh_m89", "prob": 15 },
       { "item": "m1903", "prob": 15, "charges-min": 0, "charges-max": 0 },
-      { "item": "mosin44_ebr", "prob": 3, "charges-min": 0, "charges-max": 0 },
-      { "item": "mosin91_30_ebr", "prob": 3, "charges-min": 0, "charges-max": 0 },
+      { "item": "mosin44", "variant": "mosin44_ebr", "contents-group": "mosin_mods", "prob": 1, "charges": [ 0, 0 ] },
+      {
+        "item": "mosin91_30",
+        "variant": "mosin91_30_ebr",
+        "contents-group": "mosin_mods",
+        "prob": 1,
+        "charges": [ 0, 0 ]
+      },
       { "item": "iwi_tavor_x95_300blk", "prob": 15 },
       { "item": "ar15_retool_300blk", "prob": 15, "charges-min": 0, "charges-max": 0 },
       { "item": "1895sbl", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "marlin_9a", "prob": 10, "charges-min": 0, "charges-max": 0 },
-      { "item": "mosin44", "prob": 10, "charges-min": 0, "charges-max": 0 },
-      { "item": "mosin91_30", "prob": 10, "charges-min": 0, "charges-max": 0 },
+      { "item": "mosin44", "variant": "mosin44", "prob": 10, "charges-min": 0, "charges-max": 0 },
+      { "item": "mosin91_30", "variant": "mosin91_30", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "browning_blr", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "garand", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "carbine_flintlock", "prob": 1, "charges-min": 0, "charges-max": 0 },
@@ -579,7 +596,9 @@
       { "group": "nested_vz58p", "prob": 35 },
       { "group": "nested_vz58v", "prob": 25 },
       { "group": "nested_iwi_tavor_x95_300blk", "prob": 10 },
-      { "group": "nested_acr_300blk", "prob": 15 }
+      { "group": "nested_acr_300blk", "prob": 15 },
+      { "group": "nested_ak308", "prob": 25 },
+      { "group": "nested_papm77", "prob": 15 }
     ]
   },
   {
@@ -610,7 +629,9 @@
       { "item": "fs2000", "prob": 6, "charges-min": 0, "charges-max": 0 },
       { "item": "acr_300blk", "prob": 15, "charges-min": 0, "charges-max": 0 },
       { "item": "hk417_13", "prob": 40, "charges-min": 0, "charges-max": 0 },
-      { "item": "m2carbine", "prob": 5, "charges-min": 0, "charges-max": 0 }
+      { "item": "m2carbine", "prob": 5, "charges-min": 0, "charges-max": 0 },
+      { "item": "ak308", "prob": 10, "charges-min": 0, "charges-max": 0 },
+      { "item": "ak308", "variant": "papm77", "prob": 5, "charges-min": 0, "charges-max": 0 }
     ]
   },
   {
@@ -1106,11 +1127,13 @@
       { "item": "shotgun_d", "prob": 10, "charges-min": 0, "charges-max": 2 },
       { "item": "sks", "prob": 1, "charges-min": 0, "charges-max": 10 },
       { "item": "aksemi", "prob": 2, "charges-min": 0, "charges-max": 30 },
-      { "item": "mosin44", "prob": 2, "charges-min": 0, "charges-max": 5 },
+      { "item": "mosin44", "variant": "mosin44", "prob": 2, "charges-min": 0, "charges-max": 5 },
       { "item": "remington700_270", "prob": 1, "charges-min": 0, "charges-max": 4 },
       { "item": "remington_700", "prob": 4, "charges-min": 0, "charges-max": 4 },
       { "item": "garand", "prob": 1, "charges-min": 0, "charges-max": 8 },
-      { "item": "mk47", "prob": 1, "charges-min": 0, "charges-max": 30 }
+      { "item": "mk47", "prob": 1, "charges-min": 0, "charges-max": 30 },
+      { "item": "ak556", "prob": 2, "charges-min": 0, "charges-max": 30 },
+      { "item": "ak556", "variant": "zpapm90", "prob": 1, "charges-min": 0, "charges-max": 0 }
     ]
   }
 ]

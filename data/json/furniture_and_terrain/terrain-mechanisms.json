@@ -217,13 +217,45 @@
   },
   {
     "type": "terrain",
+    "id": "t_palisade_pulley_wood",
+    "looks_like": "t_palisade_pulley",
+    "name": "gate pulley",
+    "description": "A system of ropes and wooden pulleys that allows to pull up heavy doors or gates.",
+    "symbol": "|",
+    "color": "brown",
+    "move_cost": 0,
+    "flags": [ "TRANSPARENT", "NOITEM", "SHORT", "PERMEABLE", "EASY_DECONSTRUCT", "THIN_OBSTACLE" ],
+    "examine_action": "controls_gate",
+    "bash": {
+      "str_min": 8,
+      "str_max": 40,
+      "sound": "crunch!",
+      "sound_fail": "whump.",
+      "ter_set": "t_null",
+      "items": [
+        { "item": "rope_makeshift_6", "count": [ 3, 4 ] },
+        { "item": "2x4", "count": [ 1, 4 ] },
+        { "item": "splinter", "count": [ 2, 4 ] }
+      ]
+    },
+    "deconstruct": {
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "rope_makeshift_30", "count": 1 },
+        { "item": "2x4", "count": 8 },
+        { "item": "block_and_tackle_wood", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_intercom",
     "name": "intercom",
     "description": "An intercom panel.  For when you want to scare the crap out of someone, or just talk to them over the intercom system, if you're boring like that.",
     "symbol": "=",
     "color": "light_gray",
     "move_cost": 0,
-    "flags": [ "NOITEM", "CONNECT_TO_WALL" ],
+    "flags": [ "NOITEM", "CONNECT_WITH_WALL" ],
     "//": "For the player to chat with an NPC through the intercom, the npc must have 'name_unique': 'the_intercom' and must be within 10 tiles of the intercom.",
     "examine_action": "intercom",
     "bash": {
@@ -244,7 +276,8 @@
     "symbol": "6",
     "color": "pink",
     "move_cost": 0,
-    "flags": [ "NOITEM", "CONNECT_TO_WALL" ],
+    "roof": "t_metal_roof",
+    "flags": [ "NOITEM", "CONNECT_WITH_WALL" ],
     "examine_action": "cardreader_robofac",
     "bash": {
       "str_min": 18,
@@ -264,7 +297,8 @@
     "symbol": "6",
     "color": "pink",
     "move_cost": 0,
-    "flags": [ "NOITEM", "CONNECT_TO_WALL" ],
+    "roof": "t_metal_roof",
+    "flags": [ "NOITEM", "CONNECT_WITH_WALL" ],
     "examine_action": {
       "type": "cardreader",
       "flags": [ "SCIENCE_CARD" ],
@@ -291,7 +325,8 @@
     "symbol": "6",
     "color": "pink",
     "move_cost": 0,
-    "flags": [ "NOITEM", "CONNECT_TO_WALL" ],
+    "roof": "t_metal_roof",
+    "flags": [ "NOITEM", "CONNECT_WITH_WALL" ],
     "examine_action": {
       "type": "cardreader",
       "flags": [ "MILITARY_CARD" ],
@@ -314,12 +349,13 @@
     "id": "t_card_industrial",
     "looks_like": "t_card_science",
     "name": "card reader",
+    "roof": "t_metal_roof",
     "description": "This is a smartcard reader.  The symbol of a gear in front of a bulging bicep is emblazoned on the matte black surface with an illegible heavy industrial company title.  A red LED blinks on the card reader.  Perhaps an industrial ID card could still open it.",
     "//": "Industrial",
     "symbol": "6",
     "color": "pink",
     "move_cost": 0,
-    "flags": [ "NOITEM", "CONNECT_TO_WALL" ],
+    "flags": [ "NOITEM", "CONNECT_WITH_WALL" ],
     "examine_action": {
       "type": "cardreader",
       "flags": [ "INDUSTRIAL_CARD" ],
@@ -342,12 +378,13 @@
     "id": "t_card_fp",
     "looks_like": "t_card_science",
     "name": "card reader",
+    "roof": "t_metal_roof",
     "description": "This looks like the console controlling the security door, there's a pretty big reading surface on it.  You can see \"Fp\" soberly printed above the reader.  You have no idea what could open it.",
     "//": "Foodplace",
     "symbol": "6",
     "color": "pink",
     "move_cost": 0,
-    "flags": [ "NOITEM", "CONNECT_TO_WALL" ],
+    "flags": [ "NOITEM", "CONNECT_WITH_WALL" ],
     "examine_action": "cardreader_fp",
     "bash": {
       "str_min": 18,
@@ -391,7 +428,8 @@
     "symbol": "6",
     "color": "pink",
     "move_cost": 0,
-    "flags": [ "NOITEM", "CONNECT_TO_WALL" ],
+    "roof": "t_metal_roof",
+    "flags": [ "NOITEM", "CONNECT_WITH_WALL" ],
     "examine_action": {
       "type": "cardreader",
       "flags": [ "COOP_CARD" ],
@@ -681,7 +719,8 @@
     "symbol": "6",
     "color": "light_gray",
     "move_cost": 0,
-    "flags": [ "NOITEM", "CONNECT_TO_WALL", "MINEABLE" ],
+    "roof": "t_metal_roof",
+    "flags": [ "NOITEM", "CONNECT_WITH_WALL", "MINEABLE" ],
     "bash": {
       "str_min": 200,
       "str_max": 600,

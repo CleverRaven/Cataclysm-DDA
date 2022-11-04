@@ -1,0 +1,8 @@
+[
+  {
+    "id": "compute_standard",
+    "type": "requirement",
+    "//": "Standardized computer usage for recipes",
+    "tools": [ [ [ "laptop", 10 ] ], [ [ "software_math", -1 ] ], [ [ "software_electronics_reference", -1 ] ] ]
+  }
+]

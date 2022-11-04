@@ -632,6 +632,7 @@
       { "item": "gunpowder_large_rifle", "prob": 40 },
       { "item": "gunpowder_artillery", "prob": 5 },
       { "item": "incendiary", "prob": 20 },
+      { "item": "copper", "prob": 160 },
       { "item": "lead", "prob": 160 },
       { "item": "shotgun_primer", "prob": 80 },
       { "item": "smpistol_primer", "prob": 80 },

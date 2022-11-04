@@ -131,7 +131,7 @@
     "price": 0,
     "price_postapoc": 10,
     "to_hit": -5,
-    "material": [ "cotton" ],
+    "material": [ "canvas" ],
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "15 L", "max_contains_weight": "15 kg", "moves": 400 } ],
     "symbol": ")",
     "color": "brown"
@@ -148,7 +148,7 @@
     "price": 0,
     "price_postapoc": 10,
     "to_hit": -5,
-    "material": [ "cotton" ],
+    "material": [ "canvas" ],
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 400 } ],
     "symbol": ")",
     "color": "brown"
@@ -186,6 +186,16 @@
     "material": [ "plastic" ],
     "symbol": ")",
     "color": "black"
+  },
+  {
+    "id": "bag_garbage_reinforced",
+    "type": "GENERIC",
+    "name": { "str": "reinforced garbage bag" },
+    "copy-from": "bag_garbage",
+    "description": "Garbage bags layered within each other, made to carry a heavier load.",
+    "weight": "400 g",
+    "volume": "500 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "98 L", "max_contains_weight": "46 kg", "moves": 400 } ]
   },
   {
     "id": "bag_paper_powder",
@@ -242,7 +252,7 @@
     "copy-from": "bag_zipper",
     "type": "GENERIC",
     "name": { "str": "gallon-sized zipper bag" },
-    "description": "An inexpensive flexible rectangular storage bag, noticeably larger than it's more common counterpart.  Transparent and made of plastic, it can be sealed and opened by a slider which works in a similar way to a zip fastener.",
+    "description": "An inexpensive flexible rectangular storage bag, noticeably larger than its more common counterpart.  Transparent and made of plastic, it can be sealed and opened by a slider which works in a similar way to a zip fastener.",
     "weight": "20 g",
     "volume": "75 ml",
     "price_postapoc": 13,
@@ -279,6 +289,32 @@
         "max_contains_volume": "100 L",
         "max_contains_weight": "100 kg",
         "max_item_length": "200 cm",
+        "moves": 400
+      }
+    ],
+    "color": "dark_gray"
+  },
+  {
+    "id": "heavy_punching_bag_sack",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "heavy punching bag sack" },
+    "looks_like": "bag_canvas",
+    "description": "A nigh five foot long cylindrical leather sack, a foot in diameter, with attachment points at the top.  With some bags of sand, some chains and a bunch of blankets you could hang it from the ceiling as a heavy punching bag.",
+    "weight": "2400g",
+    "volume": "2260 ml",
+    "longest_side": "150 cm",
+    "price": 0,
+    "price_postapoc": 10,
+    "to_hit": -5,
+    "material": [ "leather" ],
+    "symbol": ")",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "110 L",
+        "max_contains_weight": "100 kg",
+        "max_item_length": "150 cm",
         "moves": 400
       }
     ],
@@ -605,7 +641,15 @@
     "material": [ "wood", "leather" ],
     "symbol": "u",
     "color": "brown",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "145 ml", "max_contains_weight": "1 kg" } ]
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "145 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "16 cm"
+      }
+    ]
   },
   {
     "id": "box_snack",
@@ -636,7 +680,7 @@
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "small cardboard box", "str_pl": "small cardboard boxes" },
-    "description": "A small cardboard box.  No bigger than a foot in dimension.",
+    "description": "A small cardboard box.  No bigger than a foot in dimension.  Can be folded.",
     "weight": "50 g",
     "volume": "2250 ml",
     "longest_side": "21 cm",
@@ -654,6 +698,30 @@
     "price_postapoc": 0,
     "material": [ "cardboard" ],
     "symbol": ")",
+    "color": "brown",
+    "use_action": {
+      "target": "box_small_folded",
+      "msg": "You fold the box.",
+      "menu_text": "Fold",
+      "type": "transform",
+      "moves": 500,
+      "need_empty": true
+    }
+  },
+  {
+    "id": "box_small_folded",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "small folded cardboard box", "str_pl": "small folded cardboard boxes" },
+    "description": "A small folded cardboard box.  No bigger than a foot in dimension.  Can be assembled.",
+    "weight": "50 g",
+    "volume": "900 ml",
+    "longest_side": "30 cm",
+    "//": "~1x27x30 or ~1x26x44",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "cardboard" ],
+    "symbol": ")",
     "color": "brown"
   },
   {
@@ -662,7 +730,7 @@
     "category": "container",
     "name": { "str": "cardboard box", "str_pl": "cardboard boxes" },
     "looks_like": "box_small",
-    "description": "A sturdy cardboard box, about the size of a banana box.  Great for packing.",
+    "description": "A sturdy cardboard box, about the size of a banana box.  Great for packing.  Can be folded.",
     "weight": "400 g",
     "volume": "51000 ml",
     "longest_side": "51 cm",
@@ -680,6 +748,30 @@
     ],
     "material": [ "cardboard" ],
     "symbol": ")",
+    "color": "brown",
+    "use_action": {
+      "target": "box_medium_folded",
+      "msg": "You fold the box.",
+      "menu_text": "Fold",
+      "type": "transform",
+      "moves": 1000,
+      "need_empty": true
+    }
+  },
+  {
+    "id": "box_medium_folded",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "folded cardboard box", "str_pl": "folded cardboard boxes" },
+    "description": "A sturdy folded cardboard box.  Great for packing.  Can be assembled.",
+    "weight": "400 g",
+    "volume": "6000 ml",
+    "longest_side": "80 cm",
+    "//": "(1x80x75)",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "cardboard" ],
+    "symbol": ")",
     "color": "brown"
   },
   {
@@ -688,7 +780,7 @@
     "category": "container",
     "name": { "str": "large cardboard box", "str_pl": "large cardboard boxes" },
     "looks_like": "box_medium",
-    "description": "A very large cardboard box, the sort children would have loved to hide in, when there were still children.",
+    "description": "A very large cardboard box, the sort children would have loved to hide in, when there were still children.  Can be folded.",
     "weight": "2 kg",
     "volume": "329000 ml",
     "longest_side": "91 cm",
@@ -707,7 +799,33 @@
         "max_item_length": "90 cm"
       }
     ],
-    "use_action": { "type": "deploy_furn", "furn_type": "f_cardboard_box" }
+    "use_action": [
+      { "type": "deploy_furn", "furn_type": "f_cardboard_box" },
+      {
+        "target": "box_large_folded",
+        "msg": "You fold the box.",
+        "menu_text": "Fold",
+        "type": "transform",
+        "moves": 1500,
+        "need_empty": true
+      }
+    ]
+  },
+  {
+    "id": "box_large_folded",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "large folded cardboard box", "str_pl": "large folded cardboard boxes" },
+    "description": "A very large folded cardboard box, the sort children would have loved to hide in, when there were still children.  Can be assembled.",
+    "weight": "2 kg",
+    "volume": "18000 ml",
+    "longest_side": "150 cm",
+    "//": "(1x150x120)",
+    "price": 0,
+    "price_postapoc": 10,
+    "material": [ "cardboard" ],
+    "symbol": ")",
+    "color": "brown"
   },
   {
     "id": "box_large_reinforced",
@@ -715,7 +833,7 @@
     "category": "container",
     "name": { "str": "reinforced large cardboard box", "str_pl": "reinforced large cardboard boxes" },
     "looks_like": "box_large",
-    "description": "A very large cardboard box, doubled up with a second layer of cardboard and lots of duct tape.",
+    "description": "A very large cardboard box, doubled up with a second layer of cardboard and lots of duct tape.  It can't be folded anymore.",
     "weight": "4 kg",
     "volume": "334000 ml",
     "longest_side": "91 cm",
@@ -742,7 +860,7 @@
     "category": "container",
     "name": { "str": "oversize cardboard box", "str_pl": "oversize cardboard boxes" },
     "looks_like": "box_small",
-    "description": "An oversize cardboard box, big enough to fit some longer items.  Great for storage.",
+    "description": "An oversize cardboard box, big enough to fit some longer items.  Great for storage.  Can be folded.",
     "weight": "2000 g",
     "volume": "205000 ml",
     "longest_side": "201 cm",
@@ -758,6 +876,30 @@
         "max_item_length": "200 cm"
       }
     ],
+    "material": [ "cardboard" ],
+    "symbol": ")",
+    "color": "brown",
+    "use_action": {
+      "target": "box_oversize_folded",
+      "msg": "You fold the box.",
+      "menu_text": "Fold",
+      "type": "transform",
+      "moves": 1500,
+      "need_empty": true
+    }
+  },
+  {
+    "id": "box_oversize_folded",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "oversize folded cardboard box", "str_pl": "oversize folded cardboard boxes" },
+    "description": "An oversize cardboard box, big enough to fit some longer items.  Great for storage.  Can be assembled.",
+    "weight": "2000 g",
+    "volume": "22000 ml",
+    "longest_side": "220 cm",
+    "//": "(220x100x1)",
+    "price": 0,
+    "price_postapoc": 10,
     "material": [ "cardboard" ],
     "symbol": ")",
     "color": "brown"
@@ -1447,7 +1589,7 @@
       }
     ],
     "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
-    "flags": [ "SOFT" ]
+    "flags": [ "SOFT", "NO_REPAIR" ]
   },
   {
     "id": "flask_glass",
@@ -1716,8 +1858,9 @@
     "name": { "str": "steel jerrycan" },
     "looks_like": "jerrycan",
     "description": "A steel jerrycan, meant to carry fuel, but can carry other liquids in a pinch.",
-    "weight": "4815 g",
-    "volume": "21000 ml",
+    "weight": "4300 g",
+    "volume": "26750 ml",
+    "longest_side": "47 cm",
     "price": 5000,
     "price_postapoc": 100,
     "to_hit": -3,
@@ -2229,7 +2372,7 @@
     "color": "light_gray",
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "2500 ml", "max_contains_weight": "6 kg" } ],
     "qualities": [ [ "COOK", 1 ] ],
-    "flags": [ "SOFT" ]
+    "flags": [ "SOFT", "NO_REPAIR" ]
   },
   {
     "id": "wrapper_pr",
@@ -2696,12 +2839,13 @@
     "id": "aquarium_medium",
     "type": "GENERIC",
     "category": "container",
-    "name": { "str": "glass aquarium" },
-    "description": "A 50 gallon glass aquarium, used for safely storing small animals for use as pets and food.",
-    "weight": "83 kg",
+    "name": { "str": "50 gallon aquarium" },
+    "description": "A 50 gallon glass aquarium, used for safely storing small animals for use as pets or food.",
+    "weight": "45 kg",
     "volume": "222 L",
     "longest_side": "91 cm",
-    "price": 0,
+    "price": 10000,
+    "price_postapoc": 1500,
     "bashing": 1,
     "material": [ "glass" ],
     "symbol": ")",
@@ -2717,6 +2861,172 @@
       }
     ],
     "qualities": [ [ "CONTAIN", 1 ] ]
+  },
+  {
+    "id": "aquarium_medium_drying",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "50 gallon aquarium (drying)", "str_pl": "50 gallon aquariums (drying)" },
+    "description": "A 50 gallon glass aquarium, used for safely storing small animals for use as pets or food.  This one has been freshly made and requires time for the silicone to dry.",
+    "weight": "45 kg",
+    "volume": "222 L",
+    "longest_side": "91 cm",
+    "price": 5000,
+    "price_postapoc": 750,
+    "bashing": 1,
+    "material": [ "glass" ],
+    "symbol": ")",
+    "color": "light_cyan",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": false,
+        "open_container": true,
+        "max_contains_volume": "189 L",
+        "max_contains_weight": "300 kg"
+      }
+    ],
+    "qualities": [ [ "CONTAIN", 1 ] ],
+    "use_action": {
+      "target": "aquarium_medium",
+      "msg": "You check that the aquarium does indeed hold water, it is ready.",
+      "moves": 100,
+      "type": "delayed_transform",
+      "transform_age": 604800,
+      "not_ready_msg": "The silicone hasn't dried quite yet.",
+      "//": "The time it takes is a week and this appears to be the minimum time the internet says it takes."
+    }
+  },
+  {
+    "id": "aquarium_small",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "30 gallon aquarium" },
+    "description": "A 30 gallon glass aquarium, used for safely storing small animals for use as pets or food.",
+    "weight": "22 kg",
+    "volume": "133 L",
+    "longest_side": "91 cm",
+    "price": 5000,
+    "price_postapoc": 1000,
+    "bashing": 1,
+    "material": [ "glass" ],
+    "symbol": ")",
+    "color": "light_cyan",
+    "looks_like": "aquarium_medium",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "open_container": true,
+        "max_contains_volume": "113 L",
+        "max_contains_weight": "180 kg"
+      }
+    ],
+    "qualities": [ [ "CONTAIN", 1 ] ]
+  },
+  {
+    "id": "aquarium_small_drying",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "30 gallon aquarium (drying)", "str_pl": "30 gallon aquariums (drying)" },
+    "description": "A 30 gallon glass aquarium, used for safely storing small animals for use as pets or food.  This one has been freshly made and requires time for the silicone to dry.",
+    "weight": "22 kg",
+    "volume": "133 L",
+    "longest_side": "91 cm",
+    "price": 1500,
+    "price_postapoc": 350,
+    "bashing": 1,
+    "material": [ "glass" ],
+    "symbol": ")",
+    "color": "light_cyan",
+    "looks_like": "aquarium_medium",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": false,
+        "open_container": true,
+        "max_contains_volume": "113 L",
+        "max_contains_weight": "180 kg"
+      }
+    ],
+    "qualities": [ [ "CONTAIN", 1 ] ],
+    "use_action": {
+      "target": "aquarium_small",
+      "msg": "You check that the aquarium does indeed hold water, it is ready.",
+      "moves": 100,
+      "type": "delayed_transform",
+      "transform_age": 604800,
+      "not_ready_msg": "The silicone hasn't dried quite yet.",
+      "//": "The time it takes is a week and this appears to be the minimum time the internet says it takes."
+    }
+  },
+  {
+    "id": "aquarium_large",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "100 gallon aquarium" },
+    "description": "A 100 gallon glass aquarium, used for safely storing small animals for use as pets or food.",
+    "weight": "80 kg",
+    "volume": "400 L",
+    "longest_side": "183 cm",
+    "price": 50000,
+    "price_postapoc": 2500,
+    "bashing": 1,
+    "material": [ "glass" ],
+    "symbol": ")",
+    "color": "light_cyan",
+    "looks_like": "aquarium_medium",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "open_container": true,
+        "max_contains_volume": "378 L",
+        "max_contains_weight": "500 kg"
+      }
+    ],
+    "qualities": [ [ "CONTAIN", 1 ] ]
+  },
+  {
+    "id": "aquarium_large_drying",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "100 gallon aquarium (drying)", "str_pl": "100 gallon aquariums (drying)" },
+    "description": "A 100 gallon glass aquarium, used for safely storing small animals for use as pets or food.  This one has been freshly made and requires time for the silicone to dry.",
+    "weight": "80 kg",
+    "volume": "400 L",
+    "longest_side": "183 cm",
+    "price": 20000,
+    "price_postapoc": 1000,
+    "bashing": 1,
+    "material": [ "glass" ],
+    "symbol": ")",
+    "color": "light_cyan",
+    "looks_like": "aquarium_medium",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": false,
+        "open_container": true,
+        "max_contains_volume": "378 L",
+        "max_contains_weight": "500 kg"
+      }
+    ],
+    "qualities": [ [ "CONTAIN", 1 ] ],
+    "use_action": {
+      "target": "aquarium_large",
+      "msg": "You check that the aquarium does indeed hold water, it is ready.",
+      "moves": 100,
+      "type": "delayed_transform",
+      "transform_age": 604800,
+      "not_ready_msg": "The silicone hasn't dried quite yet.",
+      "//": "The time it takes is a week and this appears to be the minimum time the internet says it takes."
+    }
   },
   {
     "id": "small_propane_tank",
@@ -2909,5 +3219,60 @@
       }
     ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+  },
+  {
+    "id": "squeeze_tube",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "10.1 ounce squeeze tube" },
+    "description": "A 10.1 ounce squeeze tube, used for storing the likes of silicone caulk, paint or food dressing.",
+    "weight": "8150 mg",
+    "volume": "221 ml",
+    "price": 100,
+    "price_postapoc": 10,
+    "to_hit": -2,
+    "bashing": 1,
+    "material": [ "plastic" ],
+    "symbol": "t",
+    "color": "light_cyan",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": false,
+        "watertight": true,
+        "open_container": false,
+        "max_contains_volume": "299 ml",
+        "max_contains_weight": "2500 g"
+      }
+    ],
+    "qualities": [ [ "CONTAIN", 1 ] ]
+  },
+  {
+    "id": "squeeze_tube_small",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "2.8 ounce squeeze tube" },
+    "description": "A 2.8 ounce squeeze tube, used for storing the likes of silicone caulk, paint or food dressing.",
+    "weight": "3500 mg",
+    "volume": "95 ml",
+    "price": 50,
+    "price_postapoc": 5,
+    "to_hit": -2,
+    "bashing": 1,
+    "material": [ "plastic" ],
+    "symbol": "t",
+    "color": "light_cyan",
+    "looks_like": "squeeze_tube",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": false,
+        "watertight": true,
+        "open_container": false,
+        "max_contains_volume": "82 ml",
+        "max_contains_weight": "500 g"
+      }
+    ],
+    "qualities": [ [ "CONTAIN", 1 ] ]
   }
 ]

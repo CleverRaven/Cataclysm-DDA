@@ -225,7 +225,7 @@
       { "item": "bandolier_wrist", "prob": 100 },
       { "item": "fitness_band", "prob": 10 },
       { "item": "hand_pump", "prob": 10 },
-      { "item": "inflatable_boat", "prob": 4 }
+      { "item": "folded_inflatable_boat", "prob": 4 }
     ]
   },
   {
@@ -241,7 +241,7 @@
       { "item": "misc_repairkit", "prob": 5, "charges-min": 0 },
       { "item": "mess_kit", "prob": 10, "charges": [ 0, 500 ] },
       [ "pot", 20 ],
-      [ "inflatable_boat", 25 ],
+      [ "folded_inflatable_boat", 25 ],
       [ "hand_pump", 5 ],
       [ "pot_copper", 5 ],
       [ "teapot", 5 ],
@@ -305,6 +305,7 @@
       { "group": "butane_lighter_and_fuel", "prob": 10 },
       { "item": "sewing_kit", "prob": 47, "charges-min": 0 },
       { "item": "tailors_kit", "prob": 3, "charges-min": 0 },
+      { "item": "electric_spinwheel", "prob": 3, "charges-min": 0 },
       [ "thread", 40 ],
       [ "hammer", 35 ],
       { "item": "flashlight", "prob": 40, "charges": [ 0, 300 ] },
@@ -384,7 +385,7 @@
       { "item": "electric_lantern", "prob": 8, "charges": [ 0, 100 ] },
       { "item": "oil_lamp", "prob": 5, "charges-min": 0 },
       { "item": "lamp_oil", "prob": 5, "charges-min": 0 },
-      [ "folding_bicycle", 1 ],
+      [ "folded_bicycle", 1 ],
       [ "coat_rain", 10 ],
       [ "hood_rain", 5 ],
       [ "rubber_harness_dog", 3 ],
@@ -448,7 +449,7 @@
       { "item": "misc_repairkit", "prob": 5, "charges-min": 0 },
       { "item": "mess_kit", "prob": 10, "charges": [ 0, 500 ] },
       [ "pot", 20 ],
-      [ "inflatable_boat", 25 ],
+      [ "folded_inflatable_boat", 25 ],
       [ "hand_pump", 5 ],
       [ "pot_copper", 5 ],
       [ "teapot", 5 ],
@@ -493,6 +494,7 @@
       { "item": "matches", "prob": 60, "charges": [ 1, 20 ] },
       { "item": "sewing_kit", "prob": 47, "charges-min": 0 },
       { "item": "tailors_kit", "prob": 3, "charges-min": 0 },
+      { "item": "electric_spinwheel", "prob": 3, "charges-min": 0 },
       [ "thread", 40 ],
       [ "hammer", 35 ],
       { "item": "flashlight", "prob": 40, "charges": [ 0, 300 ] },
@@ -572,9 +574,26 @@
       [ "metal_RPG_die", 30 ],
       [ "RPG_die", 40 ],
       [ "character_sheet", 20 ],
+      [ "mahjong", 20 ],
+      [ "go", 15 ],
+      [ "shogi", 15 ],
+      [ "snakesnladders", 15 ],
+      [ "ludo", 15 ],
+      [ "jackstraws", 12 ],
+      [ "domino", 10 ],
       [ "scorecard", 10 ],
+      [ "poppirate", 9 ],
       [ "dnd_handbook", 5 ],
-      { "item": "portable_game", "prob": 5, "charges": [ 0, 100 ] }
+      [ "senet", 5 ],
+      [ "ambush", 5 ],
+      [ "ranger", 5 ],
+      [ "openfire", 5 ],
+      { "item": "portable_game", "prob": 5, "charges": [ 0, 100 ] },
+      [ "hnefatafl", 3 ],
+      [ "alquerque", 3 ],
+      [ "chaturanga", 3 ],
+      [ "backgammon", 3 ],
+      [ "latrunculi", 2 ]
     ]
   },
   {
@@ -587,7 +606,19 @@
       [ "checkers", 50 ],
       [ "battleship", 30 ],
       [ "monopoly", 10 ],
-      [ "clue", 10 ]
+      [ "clue", 10 ],
+      [ "snakesnladders", 10 ],
+      [ "domino", 7 ],
+      [ "jackstraws", 5 ],
+      [ "poppirate", 3 ],
+      [ "go", 1 ],
+      [ "shogi", 1 ]
     ]
+  },
+  {
+    "type": "item_group",
+    "//": "oriental games, for dojo location.",
+    "id": "games_dojo",
+    "items": [ [ "go", 50 ], [ "shogi", 50 ], [ "mahjong", 50 ], [ "chaturanga", 25 ] ]
   }
 ]

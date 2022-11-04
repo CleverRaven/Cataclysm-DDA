@@ -50,6 +50,8 @@ mtype::mtype()
     phase = phase_id::SOLID;
     def_chance = 0;
     upgrades = false;
+    upgrade_multi_range = cata::optional<int>();
+    upgrade_null_despawn = false;
     half_life = -1;
     age_grow = -1;
     upgrade_into = mtype_id::NULL_ID();
@@ -69,6 +71,8 @@ mtype::mtype()
     harvest = harvest_list_human;
     luminance = 0;
     bash_skill = 0;
+
+    aggro_character = true;
 
     flags
     .set( MF_HUMAN );

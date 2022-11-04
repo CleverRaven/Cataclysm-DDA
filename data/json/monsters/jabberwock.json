@@ -96,6 +96,6 @@
     "special_attacks": [ [ "FLESH_GOLEM", 5 ] ],
     "harvest": "jabberwock",
     "dissect": "dissect_beast_sample_large",
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "DESTROYS", "ATTACKMON", "POISON" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "DESTROYS", "ATTACKMON", "POISON", "NEVER_WANDER" ]
   }
 ]

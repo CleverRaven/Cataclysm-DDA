@@ -475,7 +475,9 @@ class map
         void clear_traps();
 
         const_maptile maptile_at( const tripoint &p ) const;
+        const_maptile maptile_at( const tripoint_bub_ms &p ) const;
         maptile maptile_at( const tripoint &p );
+        maptile maptile_at( const tripoint_bub_ms &p );
     private:
         // Versions of the above that don't do bounds checks
         const_maptile maptile_at_internal( const tripoint &p ) const;
@@ -803,11 +805,26 @@ class map
         // terrain. Additional overrides can be passed in to override terrain
         // at specific positions. This is used to display terrain overview in
         // the map editor.
-        uint8_t get_known_connections( const tripoint &p, int connect_group,
+        uint8_t get_known_connections( const tripoint &p, const std::bitset<NUM_TERCONN> &connect_group,
                                        const std::map<tripoint, ter_id> &override = {} ) const;
         // as above, but for furniture
-        uint8_t get_known_connections_f( const tripoint &p, int connect_group,
+        uint8_t get_known_connections_f( const tripoint &p, const std::bitset<NUM_TERCONN> &connect_group,
                                          const std::map<tripoint, furn_id> &override = {} ) const;
+
+        // Return a bitfield of the adjacent tiles which rotate towards the given
+        // connect_group.  From least-significant bit the order is south, east,
+        // west, north (because that's what cata_tiles expects).
+        // Returns CHAR_MAX if rotate_to_group is 0 (i.e. does not rotate).
+        // Based on the true terrain.
+        // Additional overrides can be passed in to override terrain
+        // at specific positions.
+        uint8_t get_known_rotates_to( const tripoint &p, const std::bitset<NUM_TERCONN> &rotate_to_group,
+                                      const std::map<tripoint, ter_id> &override = {} ) const;
+        // as above, but for furniture (considers neighbouring terrain and furniture)
+        uint8_t get_known_rotates_to_f( const tripoint &p, const std::bitset<NUM_TERCONN> &rotate_to_group,
+                                        const std::map<tripoint, ter_id> &override = {},
+                                        const std::map<tripoint, furn_id> &override_f = {} ) const;
+
         /**
          * Returns the full harvest list, for spawning.
          */
@@ -874,6 +891,9 @@ class map
         // TODO: fix point types (remove the first overload)
         bool has_items( const tripoint &p ) const;
         bool has_items( const tripoint_bub_ms &p ) const;
+
+        // Check if a tile with LIQUIDCONT flag only contains liquids
+        bool only_liquid_in_liquidcont( const tripoint &p );
 
         /**
          * Calls the examine function of furniture or terrain at given tile, for given character.
@@ -1090,7 +1110,7 @@ class map
         // Optionally toggles instances $from->$to & $to->$from
         void translate_radius( const ter_id &from, const ter_id &to, float radi, const tripoint &p,
                                bool same_submap = false, bool toggle_between = false );
-        void transform_radius( ter_furn_transform_id transform, float radi,
+        void transform_radius( ter_furn_transform_id transform, int radi,
                                const tripoint_abs_ms &p );
         void transform_line( ter_furn_transform_id transform, const tripoint_abs_ms &first,
                              const tripoint_abs_ms &second );
@@ -1182,13 +1202,12 @@ class map
             adjust_radiation( tripoint( p, abs_sub.z() ), delta );
         }
 
-        // Temperature
-        // Temperature for submap
-        int get_temperature( const tripoint &p ) const;
-        // Set temperature for all four submap quadrants
-        void set_temperature( const tripoint &p, int temperature );
-        void set_temperature( const point &p, int new_temperature ) {
-            set_temperature( tripoint( p, abs_sub.z() ), new_temperature );
+        // Temperature modifier for submap
+        units::temperature get_temperature_mod( const tripoint &p ) const;
+        // Set temperature modifier for all four submap quadrants
+        void set_temperature_mod( const tripoint &p, units::temperature temperature_mod );
+        void set_temperature_mod( const point &p, units::temperature new_temperature_mod ) {
+            set_temperature_mod( tripoint( p, abs_sub.z() ), new_temperature_mod );
         }
 
         // Returns points for all submaps with inconsistent state relative to
@@ -1219,7 +1238,7 @@ class map
             i_rem( tripoint( p, abs_sub.z() ), it );
         }
         void spawn_artifact( const tripoint &p, const relic_procgen_id &id, int max_attributes = 5,
-                             int power_level = 1000, int max_negative_power = -2000 );
+                             int power_level = 1000, int max_negative_power = -2000, bool is_resonant = false );
         void spawn_item( const tripoint &p, const itype_id &type_id,
                          unsigned quantity = 1, int charges = 0,
                          const time_point &birthday = calendar::start_of_cataclysm, int damlevel = 0,
@@ -1866,8 +1885,6 @@ class map
         void draw_map( mapgendata &dat );
 
         void draw_lab( mapgendata &dat );
-        void draw_temple( const mapgendata &dat );
-        void draw_anthill( const mapgendata &dat );
         void draw_slimepit( const mapgendata &dat );
         void draw_connections( const mapgendata &dat );
 
@@ -1890,7 +1907,8 @@ class map
 
     protected:
         void generate_lightmap( int zlev );
-        void build_seen_cache( const tripoint &origin, int target_z, bool cumulative = false,
+        void build_seen_cache( const tripoint &origin, int target_z, int extension_range = 60,
+                               bool cumulative = false,
                                bool camera = false, int penalty = 0 );
         void apply_character_light( Character &p );
 
@@ -2060,7 +2078,7 @@ class map
         void apply_directional_light( const tripoint &p, int direction, float luminance );
         void apply_light_arc( const tripoint &p, const units::angle &angle, float luminance,
                               const units::angle &wideangle = 30_degrees );
-        void apply_light_ray( bool lit[MAPSIZE_X][MAPSIZE_Y],
+        void apply_light_ray( cata::mdarray<bool, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &lit,
                               const tripoint &s, const tripoint &e, float luminance );
         void add_light_from_items( const tripoint &p, const item_stack::iterator &begin,
                                    const item_stack::iterator &end );

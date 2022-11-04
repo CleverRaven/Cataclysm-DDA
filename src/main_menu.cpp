@@ -14,6 +14,7 @@
 
 #include "auto_pickup.h"
 #include "avatar.h"
+#include "cata_scope_helpers.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character_id.h"
@@ -59,7 +60,11 @@ enum class main_menu_opts : int {
     CREDITS = 7,
     QUIT = 8
 };
+
 static constexpr int max_menu_opts = 8;
+
+std::string main_menu::queued_world_to_load;
+std::string main_menu::queued_save_id_to_load;
 
 static int getopt( main_menu_opts o )
 {
@@ -231,18 +236,38 @@ void main_menu::display_sub_menu( int sel, const point &bottom_left, int sel_lin
         return;
     }
 
-    const point top_left( bottom_left + point( 0, -( sub_opts.size() + 1 ) ) );
-    catacurses::window w_sub = catacurses::newwin( sub_opts.size() + 2, xlen + 4, top_left );
+    point top_left( bottom_left + point( 0, -( sub_opts.size() + 1 ) ) );
+    int height = sub_opts.size();
+    if( top_left.y < 0 ) {
+        height += top_left.y;
+        top_left.y = 0;
+    } else {
+        sub_opt_off = 0;
+    }
+
+    if( sel2 - 1 < sub_opt_off ) {
+        sub_opt_off = sel2;
+    } else if( sel2 + 1 > sub_opt_off + height ) {
+        sub_opt_off = sel2 - height + 1;
+    }
+
+    catacurses::window w_sub = catacurses::newwin( height + 2, xlen + 4, top_left );
     werase( w_sub );
     draw_border( w_sub, c_white );
-    for( int y = 0; static_cast<size_t>( y ) < sub_opts.size(); y++ ) {
-        std::string opt = ( sel2 == y ? "» " : "  " ) + sub_opts[y];
+
+    for( int y = 0; y < height; y++ ) {
+        std::string opt = ( sel2 == y + sub_opt_off ? "» " : "  " ) + sub_opts[y + sub_opt_off];
         int padding = ( xlen + 2 ) - utf8_width( opt, true );
         opt.append( padding, ' ' );
-        nc_color clr = sel2 == y ? hilite( c_white ) : c_white;
+        nc_color clr = sel2 == y + sub_opt_off ? hilite( c_white ) : c_white;
         trim_and_print( w_sub, point( 1, y + 1 ), xlen + 2, clr, opt );
-        inclusive_rectangle<point> rec( top_left + point( 1, y + 1 ), top_left + point( xlen + 2, y + 1 ) );
+        inclusive_rectangle<point> rec( top_left + point( 1, y  + 1 ),
+                                        top_left + point( xlen + 2, y + 1 ) );
         main_menu_sub_button_map.emplace_back( rec, std::pair<int, int> { sel, y } );
+    }
+    if( static_cast<size_t>( height ) != sub_opts.size() ) {
+        draw_scrollbar( w_sub, sel2, height, sub_opts.size(), point_south, c_white,
+                        false );
     }
     wnoutrefresh( w_sub );
 }
@@ -598,6 +623,17 @@ bool main_menu::opening_screen()
         ui.position_from_window( w_open );
     } );
     ui.mark_resize();
+
+    if( !queued_world_to_load.empty() ) {
+        save_t const &save_to_load = queued_save_id_to_load.empty() ? world_generator->get_world(
+                                         queued_world_to_load )->world_saves.front() : save_t::from_save_id( queued_save_id_to_load );
+        start = main_menu::load_game( queued_world_to_load, save_to_load );
+        queued_world_to_load.clear();
+        queued_save_id_to_load.clear();
+        if( start ) {
+            load_game = true;
+        }
+    }
 
     while( !start ) {
         ui_manager::redraw();
@@ -962,6 +998,36 @@ bool main_menu::new_character_tab()
     return false;
 }
 
+bool main_menu::load_game( std::string const &worldname, save_t const &savegame )
+{
+    avatar &pc = get_avatar();
+    on_out_of_scope cleanup( [&pc]() {
+        pc = avatar();
+        world_generator->set_active_world( nullptr );
+    } );
+
+    g->gamemode = nullptr;
+    WORLD *world = world_generator->get_world( worldname );
+    world_generator->last_world_name = world->world_name;
+    world_generator->last_character_name = savegame.decoded_name();
+    world_generator->save_last_world_info();
+    world_generator->set_active_world( world );
+
+    try {
+        g->setup();
+    } catch( const std::exception &err ) {
+        debugmsg( "Error: %s", err.what() );
+        return false;
+    }
+
+    if( g->load( savegame ) ) {
+        cleanup.cancel();
+        return true;
+    }
+
+    return false;
+}
+
 bool main_menu::load_character_tab( const std::string &worldname )
 {
     savegames = world_generator->get_world( worldname )->world_saves;
@@ -992,32 +1058,7 @@ bool main_menu::load_character_tab( const std::string &worldname )
         return false;
     }
 
-    avatar &pc = get_avatar();
-    on_out_of_scope cleanup( [&pc]() {
-        pc = avatar();
-        world_generator->set_active_world( nullptr );
-    } );
-
-    g->gamemode = nullptr;
-    WORLD *world = world_generator->get_world( worldname );
-    world_generator->last_world_name = world->world_name;
-    world_generator->last_character_name = savegames[opt_val].decoded_name();
-    world_generator->save_last_world_info();
-    world_generator->set_active_world( world );
-
-    try {
-        g->setup();
-    } catch( const std::exception &err ) {
-        debugmsg( "Error: %s", err.what() );
-        return false;
-    }
-
-    if( g->load( savegames[opt_val] ) ) {
-        cleanup.cancel();
-        return true;
-    }
-
-    return false;
+    return main_menu::load_game( worldname, savegames[opt_val] );
 }
 
 void main_menu::world_tab( const std::string &worldname )

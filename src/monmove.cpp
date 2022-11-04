@@ -219,10 +219,11 @@ bool monster::will_move_to( const tripoint &p ) const
         }
 
         // Without avoid_complex, only fire and electricity are checked for field avoidance.
-        if( avoid_fire && target_field.find_field( fd_fire ) ) {
+        if( avoid_fire && target_field.find_field( fd_fire ) && !is_immune_field( fd_fire ) ) {
             return false;
         }
-        if( avoid_simple && target_field.find_field( fd_electricity ) ) {
+        if( avoid_simple && target_field.find_field( fd_electricity ) &&
+            !is_immune_field( fd_electricity ) ) {
             return false;
         }
     }
@@ -333,10 +334,19 @@ void monster::plan()
         }
         if( !fleeing ) {
             morale -= fears_hostile_seen;
+            // Decide that the player is too annoying, less likely than the other triggers
+            if( angers_hostile_seen && x_in_y( anger, 200 ) ) {
+                add_msg_debug( debugmode::DF_MONSTER, "%s's character aggro triggered by seeing you", name() );
+                aggro_character = true;
+            }
         }
         if( dist <= 5 ) {
             if( anger <= 30 ) {
                 anger += angers_hostile_near;
+            }
+            if( angers_hostile_near && x_in_y( anger, 100 ) ) {
+                add_msg_debug( debugmode::DF_MONSTER, "%s's character aggro triggered by proximity", name() );
+                aggro_character = true;
             }
             morale -= fears_hostile_near;
             if( angers_mating_season > 0  && anger <= 30 ) {
@@ -353,6 +363,10 @@ void monster::plan()
                 }
                 if( mating_angry ) {
                     anger += angers_mating_season;
+                    if( x_in_y( anger, 100 ) ) {
+                        add_msg_debug( debugmode::DF_MONSTER, "%s's character aggro triggered by season", name() );
+                        aggro_character = true;
+                    }
                 }
             }
         }
@@ -365,6 +379,9 @@ void monster::plan()
                         //proximity to baby; monster gets furious and less likely to flee
                         anger += angers_cub_threatened;
                         morale += angers_cub_threatened / 2;
+                        add_msg_debug( debugmode::DF_MONSTER, "%s's character aggro triggered by threatening %s", name(),
+                                       tmp.name() );
+                        aggro_character = true;
                     }
                 }
             }
@@ -423,6 +440,11 @@ void monster::plan()
             if( anger <= 30 ) {
                 anger += angers_hostile_near;
             }
+            if( angers_hostile_near && x_in_y( anger, 100 ) ) {
+                add_msg_debug( debugmode::DF_MONSTER, "%s's character aggro triggered by proximity to %s", name(),
+                               who.name );
+                aggro_character = true;
+            }
             morale -= fears_hostile_near;
             if( angers_mating_season > 0 && anger <= 30 ) {
                 bool mating_angry = false;
@@ -438,6 +460,10 @@ void monster::plan()
                 }
                 if( mating_angry ) {
                     anger += angers_mating_season;
+                    if( x_in_y( anger, 100 ) ) {
+                        add_msg_debug( debugmode::DF_MONSTER, "%s's character aggro triggered by season", name() );
+                        aggro_character = true;
+                    }
                 }
             }
         }
@@ -446,6 +472,12 @@ void monster::plan()
         }
         if( !fleeing && valid_targets != 0 ) {
             morale -= fears_hostile_seen;
+            // Decide that characters are too annoying
+            if( angers_hostile_seen && x_in_y( anger, 200 ) ) {
+                add_msg_debug( debugmode::DF_MONSTER, "%s's character aggro triggered by seeing %s", name(),
+                               who.name );
+                aggro_character = true;
+            }
         }
     }
 
@@ -607,8 +639,13 @@ void monster::plan()
             att_to_target != Attitude::FRIENDLY ) {
             int hp_per = target->hp_percentage();
             if( hp_per <= 70 ) {
-                if( angers_hostile_weak ) {
+                if( angers_hostile_weak && anger <= 40 ) {
                     anger += 10 - static_cast<int>( hp_per / 10 );
+                    if( x_in_y( anger, 100 ) ) {
+                        add_msg_debug( debugmode::DF_MONSTER, "%s's character aggro triggered by %s's weakness", name(),
+                                       target->disp_name() );
+                        aggro_character = true;
+                    }
                 } else if( fears_hostile_weak ) {
                     morale -= 10 - static_cast<int>( hp_per / 10 );
                 } else if( placate_hostile_weak ) {
@@ -914,7 +951,7 @@ void monster::move()
     point new_d( destination.xy() - pos().xy() );
 
     // toggle facing direction for sdl flip
-    if( !tile_iso ) {
+    if( !g->is_tileset_isometric() ) {
         if( new_d.x < 0 ) {
             facing = FacingDirection::LEFT;
         } else if( new_d.x > 0 ) {
@@ -1189,6 +1226,10 @@ void monster::nursebot_operate( Character *dragged_foe )
 // and create a sound in the monsters location when they move
 void monster::footsteps( const tripoint &p )
 {
+    if( is_hallucination() ) {
+        return;
+    }
+
     if( made_footstep ) {
         return;
     }
@@ -1745,6 +1786,9 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
             here.ter_set( pos(), t_dirtmound );
         }
     }
+
+
+
     // Acid trail monsters leave... a trail of acid
     if( has_flag( MF_ACIDTRAIL ) ) {
         here.add_field( pos(), fd_acid, 3 );
@@ -1772,22 +1816,25 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
         }
     }
 
-    if( has_flag( MF_DRIPS_NAPALM ) ) {
-        if( one_in( 10 ) ) {
-            // if it has more napalm, drop some and reduce ammo in tank
-            if( ammo[itype_pressurized_tank] > 0 ) {
-                here.add_item_or_charges( pos(), item( "napalm", calendar::turn, 50 ) );
-                ammo[itype_pressurized_tank] -= 50;
-            } else {
-                // TODO: remove MF_DRIPS_NAPALM flag since no more napalm in tank
-                // Not possible for now since flag check is done on type, not individual monster
+    // Don't leave any kind of liquids on water tiles
+    if( !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, destination ) ) {
+        if( has_flag( MF_DRIPS_NAPALM ) ) {
+            if( one_in( 10 ) ) {
+                // if it has more napalm, drop some and reduce ammo in tank
+                if( ammo[itype_pressurized_tank] > 0 ) {
+                    here.add_item_or_charges( pos(), item( "napalm", calendar::turn, 50 ) );
+                    ammo[itype_pressurized_tank] -= 50;
+                } else {
+                    // TODO: remove MF_DRIPS_NAPALM flag since no more napalm in tank
+                    // Not possible for now since flag check is done on type, not individual monster
+                }
             }
         }
-    }
-    if( has_flag( MF_DRIPS_GASOLINE ) ) {
-        if( one_in( 5 ) ) {
-            // TODO: use same idea that limits napalm dripping
-            here.add_item_or_charges( pos(), item( "gasoline" ) );
+        if( has_flag( MF_DRIPS_GASOLINE ) ) {
+            if( one_in( 5 ) ) {
+                // TODO: use same idea that limits napalm dripping
+                here.add_item_or_charges( pos(), item( "gasoline" ) );
+            }
         }
     }
     return true;

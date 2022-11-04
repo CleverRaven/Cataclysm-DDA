@@ -7,7 +7,6 @@
 
 #include "type_id.h"
 
-class JsonIn;
 class JsonObject;
 class JsonOut;
 template<typename T>
@@ -47,7 +46,7 @@ class speed_description_value
 
         bool was_loaded = false;
         void load( const JsonObject &jo );
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &data );
 
         double value() const {
             return value_;

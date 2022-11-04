@@ -18,12 +18,12 @@
       "install": {
         "skills": [ [ "mechanics", 1 ] ],
         "time": "10 m",
-        "qualities": [ { "id": "WRENCH", "level": 1 }, { "id": "DRILL", "level": 2 } ]
+        "using": [ [ "vehicle_wrench_1", 1 ], [ "drilling_standard", 10 ] ]
       },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "using": [ [ "repair_welding_standard", 1 ] ] }
     },
-    "flags": [ "FLUIDTANK", "FOLDABLE" ],
+    "flags": [ "FLUIDTANK" ],
     "damage_reduction": { "all": 26, "stab": 8 }
   },
   {
@@ -44,7 +44,7 @@
       "install": {
         "skills": [ [ "mechanics", 1 ] ],
         "time": "20 m",
-        "qualities": [ { "id": "WRENCH", "level": 1 }, { "id": "DRILL", "level": 2 } ]
+        "using": [ [ "vehicle_wrench_1", 1 ], [ "drilling_standard", 20 ] ]
       },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "using": [ [ "soldering_standard", 5 ] ] }
@@ -74,7 +74,7 @@
       "install": {
         "skills": [ [ "mechanics", 1 ] ],
         "time": "45 m",
-        "qualities": [ { "id": "WRENCH", "level": 2 }, { "id": "DRILL", "level": 2 } ]
+        "using": [ [ "vehicle_wrench_2", 1 ], [ "drilling_standard", 40 ] ]
       },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "22 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "22 m", "using": [ [ "repair_welding_standard", 1 ] ] }
@@ -104,7 +104,7 @@
       "install": {
         "skills": [ [ "mechanics", 1 ] ],
         "time": "90 m",
-        "qualities": [ { "id": "WRENCH", "level": 2 }, { "id": "DRILL", "level": 2 } ]
+        "using": [ [ "vehicle_wrench_2", 1 ], [ "drilling_standard", 50 ] ]
       },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "45 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "45 m", "using": [ [ "repair_welding_standard", 2 ] ] }
@@ -135,7 +135,7 @@
       "install": {
         "skills": [ [ "mechanics", 1 ] ],
         "time": "90 m",
-        "qualities": [ { "id": "WRENCH", "level": 2 }, { "id": "DRILL", "level": 2 } ]
+        "using": [ [ "vehicle_wrench_2", 1 ], [ "drilling_standard", 50 ] ]
       },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "45 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "45 m", "using": [ [ "repair_welding_standard", 2 ] ] }
@@ -324,7 +324,7 @@
       "install": {
         "skills": [ [ "mechanics", 1 ] ],
         "time": "90 m",
-        "qualities": [ { "id": "WRENCH", "level": 2 }, { "id": "DRILL", "level": 2 } ]
+        "using": [ [ "vehicle_wrench_2", 1 ], [ "drilling_standard", 50 ] ]
       },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "45 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "45 m", "using": [ [ "repair_welding_standard", 2 ] ] }
@@ -355,7 +355,7 @@
       "install": {
         "skills": [ [ "mechanics", 1 ] ],
         "time": "90 m",
-        "qualities": [ { "id": "WRENCH", "level": 2 }, { "id": "DRILL", "level": 2 } ]
+        "using": [ [ "vehicle_wrench_2", 1 ], [ "drilling_standard", 50 ] ]
       },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "45 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "45 m", "using": [ [ "repair_welding_standard", 2 ] ] }
@@ -386,7 +386,7 @@
       "install": {
         "skills": [ [ "mechanics", 1 ] ],
         "time": "90 m",
-        "qualities": [ { "id": "WRENCH", "level": 2 }, { "id": "DRILL", "level": 2 } ]
+        "using": [ [ "vehicle_wrench_2", 1 ], [ "drilling_standard", 50 ] ]
       },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "45 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "45 m", "using": [ [ "repair_welding_standard", 2 ] ] }

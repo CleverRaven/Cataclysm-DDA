@@ -255,6 +255,7 @@
       "farm_stills_3",
       "farm_stills_3_2nd",
       "farm_stills_3_roof",
+      "farm_dairy_twd_3",
       "farm_dairy_twd_4",
       "2farm_roof_11"
     ],
@@ -562,10 +563,8 @@
     "id": [
       "farm_dairy_twd_1",
       "farm_dairy_twd_2",
-      "farm_dairy_twd_3",
       "farm_dairy_twd_3_roof",
       "farm_dairy_twd_4_roof",
-      "farm_dairy_twd_5",
       "farm_dairy_twd_9",
       "farm_dairy_twd_10"
     ],
@@ -574,7 +573,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "farm_dairy_twd_6",
+    "id": [ "farm_dairy_twd_5", "farm_dairy_twd_6" ],
     "copy-from": "generic_rural_building",
     "name": "barn",
     "sym": "^"
@@ -625,5 +624,30 @@
     "copy-from": "generic_rural_building",
     "name": "barn roof",
     "sym": "^"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "farm_supply_1",
+      "farm_supply_2",
+      "farm_supply_3",
+      "farm_supply_4",
+      "farm_supply_looted_1",
+      "farm_supply_looted_2",
+      "farm_supply_looted_3",
+      "farm_supply_looted_4"
+    ],
+    "copy-from": "generic_rural_building",
+    "name": "farm supply store",
+    "sym": "s",
+    "color": "yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "farm_supply_roof_1", "farm_supply_roof_2", "farm_supply_roof_3", "farm_supply_roof_4" ],
+    "copy-from": "generic_rural_building",
+    "name": "farm supply store roof",
+    "sym": "s",
+    "color": "yellow"
   }
 ]

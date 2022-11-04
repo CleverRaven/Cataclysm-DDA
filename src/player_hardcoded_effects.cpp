@@ -80,6 +80,7 @@ static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_paincysts( "paincysts" );
 static const efftype_id effect_panacea( "panacea" );
+static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_rat( "rat" );
 static const efftype_id effect_recover( "recover" );
 static const efftype_id effect_redcells_anemia( "redcells_anemia" );
@@ -252,10 +253,10 @@ static void eff_fun_rat( Character &u, effect &it )
     it.set_intensity( dur / 10 );
     if( rng( 0, 100 ) < dur / 10 ) {
         if( !one_in( 5 ) ) {
-            u.mutate_category( mutation_category_RAT );
+            u.mutate_category( mutation_category_RAT, false, true );
             it.mult_duration( .2 );
         } else {
-            u.mutate_category( mutation_category_TROGLOBITE );
+            u.mutate_category( mutation_category_TROGLOBITE, false, true );
             it.mult_duration( .33 );
         }
     } else if( rng( 0, 100 ) < dur / 8 ) {
@@ -280,7 +281,8 @@ static void eff_fun_bleed( Character &u, effect &it )
     int prof_bonus = 3;
     prof_bonus = u.has_proficiency( proficiency_prof_wound_care ) ? prof_bonus + 1 : prof_bonus;
     prof_bonus = u.has_proficiency( proficiency_prof_wound_care_expert ) ? prof_bonus + 1 : prof_bonus;
-    if( !( tourniquet && one_in( prof_bonus ) ) && u.activity.id() != ACT_FIRSTAID ) {
+
+    if( ( !tourniquet || one_in( prof_bonus ) ) && u.activity.id() != ACT_FIRSTAID ) {
         // Prolonged hemorrhage is a significant risk for developing anemia
         u.vitamin_mod( vitamin_redcells, -intense );
         u.vitamin_mod( vitamin_blood, -intense );
@@ -999,8 +1001,7 @@ static void eff_fun_sleep( Character &u, effect &it )
         here.is_outside( u.pos() ) ) {
         if( u.has_trait( trait_CHLOROMORPH ) ) {
             // Hunger and thirst fall before your Chloromorphic physiology!
-            if( g->natural_light_level( u.posz() ) >= 12 &&
-                get_weather().weather_id->sun_intensity >= sun_intensity_type::light ) {
+            if( incident_sun_irradiance( get_weather().weather_id, calendar::turn ) > irradiance::low ) {
                 if( u.has_active_mutation( trait_CHLOROMORPH ) && ( u.get_fatigue() <= 25 ) ) {
                     u.set_fatigue( 25 );
                 }
@@ -1034,9 +1035,11 @@ static void eff_fun_sleep( Character &u, effect &it )
     }
 
     // Check mutation category strengths to see if we're mutated enough to get a dream
-    mutation_category_id cat;
+    // If we've crossed a threshold, always show dreams for that category
+    // Otherwise, check for the category that we have the most vitamins in our blood for
+    mutation_category_id cat = u.get_threshold_category();
     weighted_int_list<mutation_category_id> cat_list = u.get_vitamin_weighted_categories();
-    if( cat_list.get_weight() > 0 ) {
+    if( cat.is_null() && cat_list.get_weight() > 0 ) {
         cat = *cat_list.pick();
     }
     int cat_strength = u.mutation_category_level[cat];
@@ -1065,7 +1068,7 @@ static void eff_fun_sleep( Character &u, effect &it )
             // Mycus folks upgrade in their sleep.
             if( u.has_trait( trait_THRESH_MYCUS ) ) {
                 if( one_in( 8 ) ) {
-                    u.mutate_category( mutation_category_MYCUS );
+                    u.mutate_category( mutation_category_MYCUS, false, true );
                     u.mod_stored_kcal( -87 );
                     u.mod_thirst( 10 );
                     u.mod_fatigue( 5 );
@@ -1249,6 +1252,7 @@ void Character::hardcoded_effects( effect &it )
                 if( monster *const grub = g->place_critter_around( mon_dermatik_larva, pos(), 1 ) ) {
                     if( one_in( 3 ) ) {
                         grub->friendly = -1;
+                        grub->add_effect( effect_pet, 1_turns, true );
                     }
                 }
             }

@@ -319,8 +319,8 @@ void game::item_action_menu( item_location loc )
                 ss += string_format( "(%d kJ)", elem.second->ammo_required() );
             } else {
                 auto iter = elem.second->type->ammo_scale.find( elem.first );
-                ss += string_format( "(-%d)", int( elem.second->ammo_required() * ( iter ==
-                                                   elem.second->type->ammo_scale.end() ? 1 : double( iter->second ) ) ) );
+                ss += string_format( "(-%d)", elem.second->ammo_required() * ( iter ==
+                                     elem.second->type->ammo_scale.end() ? 1 : iter->second ) );
             }
 
         }

@@ -45,6 +45,7 @@ template <typename E> struct enum_traits;
 
 enum class spell_flag : int {
     PERMANENT, // items or creatures spawned with this spell do not disappear and die as normal
+    PERMANENT_ALL_LEVELS, // items spawned with this spell do not disappear even if the spell is not max level
     PERCENTAGE_DAMAGE, //the spell deals damage based on the targets current hp.
     IGNORE_WALLS, // spell's aoe goes through walls
     NO_PROJECTILE, // spell's original targeting area can be targeted through walls
@@ -336,6 +337,8 @@ class spell_type
 
         std::set<mtype_id> targeted_monster_ids;
 
+        std::set<species_id> targeted_species_ids;
+
         // list of bodyparts this spell applies its effect to
         body_part_set affected_bps;
 
@@ -551,6 +554,8 @@ class spell
         // returns the name string of all list of all targeted monster id
         //if targeted_monster_ids is empty, it returns an empty string
         std::string list_targeted_monster_names() const;
+        //if targeted_species_ids is empty, it returns an empty string
+        std::string list_targeted_species_names() const;
 
         std::string damage_string() const;
         std::string aoe_string() const;
@@ -593,6 +598,7 @@ class spell
         bool is_valid_target( const Creature &caster, const tripoint &p ) const;
         bool is_valid_target( spell_target t ) const;
         bool target_by_monster_id( const tripoint &p ) const;
+        bool target_by_species_id( const tripoint &p ) const;
 
         // picks a random valid tripoint from @area
         cata::optional<tripoint> random_valid_target( const Creature &caster,
@@ -621,6 +627,8 @@ class known_magic
         void learn_spell( const spell_type *sp, Character &guy, bool force = false );
         void forget_spell( const std::string &sp );
         void forget_spell( const spell_id &sp );
+        void set_spell_level( const spell_id &, int, const Character * );
+        void set_spell_exp( const spell_id &, int, const Character * );
         // time in moves for the Character to memorize the spell
         int time_to_learn_spell( const Character &guy, const spell_id &sp ) const;
         int time_to_learn_spell( const Character &guy, const std::string &str ) const;
@@ -716,7 +724,7 @@ void noise( const spell &sp, Creature &, const tripoint &target );
 void vomit( const spell &sp, Creature &caster, const tripoint &target );
 // intended to be a spell version of Character::longpull
 void pull_to_caster( const spell &sp, Creature &caster, const tripoint &target );
-void explosion( const spell &sp, Creature &, const tripoint &target );
+void explosion( const spell &sp, Creature &caster, const tripoint &target );
 void flashbang( const spell &sp, Creature &caster, const tripoint &target );
 void mod_moves( const spell &sp, Creature &caster, const tripoint &target );
 void map( const spell &sp, Creature &caster, const tripoint & );

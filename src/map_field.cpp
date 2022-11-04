@@ -87,7 +87,6 @@ static const material_id material_veggy( "veggy" );
 static const species_id species_FUNGUS( "FUNGUS" );
 
 static const trait_id trait_ACIDPROOF( "ACIDPROOF" );
-static const trait_id trait_ELECTRORECEPTORS( "ELECTRORECEPTORS" );
 static const trait_id trait_GASTROPOD_FOOT( "GASTROPOD_FOOT" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
 static const trait_id trait_M_SKIN2( "M_SKIN2" );
@@ -1688,14 +1687,6 @@ void map::player_in_field( Character &you )
                         }
 
                         you.apply_damage( nullptr, bp, dmg, true );
-                    }
-
-                    if( you.has_trait( trait_ELECTRORECEPTORS ) ) {
-                        you.add_msg_player_or_npc( m_bad, _( "You're painfully electrocuted!" ),
-                                                   _( "<npcname> is shocked!" ) );
-                        you.mod_pain( main_part_damage / 2 );
-                    } else {
-                        you.add_msg_player_or_npc( m_bad, _( "You're shocked!" ), _( "<npcname> is shocked!" ) );
                     }
                 } else {
                     you.add_msg_player_or_npc( _( "The electric cloud doesn't affect you." ),

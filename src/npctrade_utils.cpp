@@ -80,13 +80,37 @@ void add_fallback_zone( npc &guy )
     zone_manager &zmgr = zone_manager::get_manager();
     tripoint_abs_ms const loc = guy.get_location();
     faction_id const &fac_id = guy.get_fac_id();
+    map &here = get_map();
 
-    if( !zmgr.has_near( zone_type_LOOT_UNSORTED, loc, PICKUP_RANGE, fac_id ) ) {
-        zmgr.add( fallback_name, zone_type_LOOT_UNSORTED, fac_id, false,
-                  true, loc.raw() + tripoint_north_west, loc.raw() + tripoint_south_east );
-        DebugLog( DebugLevel::D_WARNING, DebugClass::D_GAME )
-                << "Added a fallack loot zone for NPC trader " << guy.name;
+    if( zmgr.has_near( zone_type_LOOT_UNSORTED, loc, PICKUP_RANGE, fac_id ) ) {
+        return;
     }
+
+    std::vector<tripoint_abs_ms> points;
+    for( tripoint_abs_ms const &t : closest_points_first( loc, PICKUP_RANGE ) ) {
+        tripoint_bub_ms const t_here = here.bub_from_abs( t );
+        if( here.has_furn( t_here ) &&
+            ( here.furn( t_here )->max_volume > t_floor->max_volume ||
+              here.furn( t_here )->has_flag( ter_furn_flag::TFLAG_CONTAINER ) ) &&
+            here.can_put_items_ter_furn( t_here ) &&
+            !here.route( guy.pos_bub(), t_here, guy.get_pathfinding_settings(),
+                         guy.get_path_avoid() )
+            .empty() ) {
+            points.emplace_back( t );
+        }
+    }
+
+    if( points.empty() ) {
+        zmgr.add( fallback_name, zone_type_LOOT_UNSORTED, fac_id, false, true,
+                  loc.raw() + tripoint_north_west, loc.raw() + tripoint_south_east );
+    } else {
+        for( tripoint_abs_ms const &t : points ) {
+            zmgr.add( fallback_name, zone_type_LOOT_UNSORTED, fac_id, false, true, t.raw(),
+                      t.raw() );
+        }
+    }
+    DebugLog( DebugLevel::D_WARNING, DebugClass::D_GAME )
+            << "Added fallack loot zones for NPC trader " << guy.name;
 }
 
 std::list<item> distribute_items_to_npc_zones( std::list<item> &items, npc &guy )

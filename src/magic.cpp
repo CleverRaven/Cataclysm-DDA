@@ -38,6 +38,7 @@
 #include "messages.h"
 #include "mongroup.h"
 #include "monster.h"
+#include "monstergenerator.h"
 #include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
@@ -119,6 +120,7 @@ std::string enum_to_string<spell_flag>( spell_flag data )
 {
     switch( data ) {
         case spell_flag::PERMANENT: return "PERMANENT";
+        case spell_flag::PERMANENT_ALL_LEVELS: return "PERMANENT_ALL_LEVELS";
         case spell_flag::PERCENTAGE_DAMAGE: return "PERCENTAGE_DAMAGE";
         case spell_flag::IGNORE_WALLS: return "IGNORE_WALLS";
         case spell_flag::NO_PROJECTILE: return "NO_PROJECTILE";
@@ -289,6 +291,10 @@ void spell_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "targeted_monster_ids", targeted_monster_ids,
               targeted_monster_ids_reader );
 
+    const auto targeted_monster_species_reader = string_id_reader<::species_type> {};
+    optional( jo, was_loaded, "targeted_monster_species", targeted_species_ids,
+              targeted_monster_species_reader );
+
     const auto trigger_reader = enum_flags_reader<spell_target> { "valid_targets" };
     mandatory( jo, was_loaded, "valid_targets", valid_targets, trigger_reader );
 
@@ -387,6 +393,7 @@ void spell_type::serialize( JsonOut &json ) const
     json.member( "sound_id", sound_id, sound_id_default );
     json.member( "sound_variant", sound_variant, sound_variant_default );
     json.member( "targeted_monster_ids", targeted_monster_ids, std::set<mtype_id> {} );
+    json.member( "targeted_monster_species", targeted_species_ids, std::set<species_id> {} );
     json.member( "extra_effects", additional_spells, std::vector<fake_spell> {} );
     if( !affected_bps.none() ) {
         json.member( "affected_body_parts", affected_bps );
@@ -853,7 +860,8 @@ std::string spell::duration_string() const
     if( has_flag( spell_flag::RANDOM_DURATION ) ) {
         return string_format( "%s - %s", moves_to_string( min_leveled_duration() ),
                               moves_to_string( type->max_duration ) );
-    } else if( has_flag( spell_flag::PERMANENT ) && ( is_max_level() || effect() == "summon" ) ) {
+    } else if( ( has_flag( spell_flag::PERMANENT ) && ( is_max_level() || effect() == "summon" ) ) ||
+               has_flag( spell_flag::PERMANENT_ALL_LEVELS ) ) {
         return _( "Permanent" );
     } else {
         return moves_to_string( duration() );
@@ -1295,6 +1303,7 @@ bool spell::is_valid_target( const Creature &caster, const tripoint &p ) const
                            p != caster.pos() );
         valid = valid || ( is_valid_target( spell_target::self ) && p == caster.pos() );
         valid = valid && target_by_monster_id( p );
+        valid = valid && target_by_species_id( p );
     } else {
         valid = is_valid_target( spell_target::ground );
     }
@@ -1310,6 +1319,22 @@ bool spell::target_by_monster_id( const tripoint &p ) const
     if( monster *const target = get_creature_tracker().creature_at<monster>( p ) ) {
         if( type->targeted_monster_ids.find( target->type->id ) != type->targeted_monster_ids.end() ) {
             valid = true;
+        }
+    }
+    return valid;
+}
+
+bool spell::target_by_species_id( const tripoint &p ) const
+{
+    if( type->targeted_species_ids.empty() ) {
+        return true;
+    }
+    bool valid = false;
+    if( monster *const target = get_creature_tracker().creature_at<monster>( p ) ) {
+        for( const species_id &spid : type->targeted_species_ids ) {
+            if( target->type->in_species( spid ) ) {
+                valid = true;
+            }
         }
     }
     return valid;
@@ -1412,7 +1437,7 @@ int spell::casting_exp( const Character &guy ) const
     // the amount of xp you would get with no modifiers
     const int base_casting_xp = 75;
 
-    return std::round( guy.adjust_for_focus( base_casting_xp * exp_modifier( guy ) ) / 100.0 );
+    return std::round( guy.adjust_for_focus( base_casting_xp * exp_modifier( guy ) ) );
 }
 
 std::string spell::enumerate_targets() const
@@ -1455,6 +1480,22 @@ std::string spell::list_targeted_monster_names() const
     all_valid_monster_names.erase( std::unique( all_valid_monster_names.begin(),
                                    all_valid_monster_names.end() ), all_valid_monster_names.end() );
     std::string ret = enumerate_as_string( all_valid_monster_names );
+    return ret;
+}
+
+std::string spell::list_targeted_species_names() const
+{
+    if( type->targeted_species_ids.empty() ) {
+        return "";
+    }
+    std::vector<std::string> all_valid_species_names;
+    for( const species_id &specie_id : type->targeted_species_ids ) {
+        all_valid_species_names.emplace_back( specie_id.str() );
+    }
+    //remove repeat names
+    all_valid_species_names.erase( std::unique( all_valid_species_names.begin(),
+                                   all_valid_species_names.end() ), all_valid_species_names.end() );
+    std::string ret = enumerate_as_string( all_valid_species_names );
     return ret;
 }
 
@@ -1745,6 +1786,46 @@ void known_magic::forget_spell( const spell_id &sp )
     // TODO: add parameter for owner of known_magic for this function
     get_event_bus().send<event_type::character_forgets_spell>( get_player_character().getID(), sp->id );
     spellbook.erase( sp );
+}
+
+void known_magic::set_spell_level( const spell_id &sp, int new_level, const Character *guy )
+{
+    spell temp_spell( sp->id );
+    if( !knows_spell( sp ) ) {
+        if( new_level >= 0 ) {
+            temp_spell.set_level( new_level );
+            spellbook.emplace( sp->id, spell( temp_spell ) );
+            get_event_bus().send<event_type::character_learns_spell>( guy->getID(), sp->id );
+        }
+    } else {
+        if( new_level >= 0 ) {
+            spell &temp_sp = get_spell( sp );
+            temp_sp.set_level( new_level );
+        } else {
+            get_event_bus().send<event_type::character_forgets_spell>( guy->getID(), sp->id );
+            spellbook.erase( sp );
+        }
+    }
+}
+
+void known_magic::set_spell_exp( const spell_id &sp, int new_exp, const Character *guy )
+{
+    spell temp_spell( sp->id );
+    if( !knows_spell( sp ) ) {
+        if( new_exp >= 0 ) {
+            temp_spell.set_exp( new_exp );
+            spellbook.emplace( sp->id, spell( temp_spell ) );
+            get_event_bus().send<event_type::character_learns_spell>( guy->getID(), sp->id );
+        }
+    } else {
+        if( new_exp >= 0 ) {
+            spell &temp_sp = get_spell( sp );
+            temp_sp.set_exp( new_exp );
+        } else {
+            get_event_bus().send<event_type::character_forgets_spell>( guy->getID(), sp->id );
+            spellbook.erase( sp );
+        }
+    }
 }
 
 bool known_magic::can_learn_spell( const Character &guy, const spell_id &sp ) const
@@ -2181,7 +2262,8 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
     // todo: damage over time here, when it gets implemented
 
     // Show duration for spells that endure
-    if( sp.duration() > 0 || sp.has_flag( spell_flag::PERMANENT ) ) {
+    if( sp.duration() > 0 || sp.has_flag( spell_flag::PERMANENT ) ||
+        sp.has_flag( spell_flag::PERMANENT_ALL_LEVELS ) ) {
         print_colored_text( w_menu, point( h_col1, line++ ), gray, gray,
                             string_format( "%s: %s", _( "Duration" ), sp.duration_string() ) );
     }

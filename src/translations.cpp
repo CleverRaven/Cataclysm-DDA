@@ -52,13 +52,15 @@ void select_language()
 }
 #endif // LOCALIZE
 
-#if (defined(__DragonFly__) || defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__)) && !defined(BSD)
-#define BSD
-#endif
 std::string locale_dir()
 {
     std::string loc_dir = PATH_INFO::langdir();
 #if defined(LOCALIZE)
+
+#if (defined(__DragonFly__) || defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__)) && !defined(BSD)
+#define BSD
+#endif
+
 #if !defined(__ANDROID__) && ((defined(__linux__) || defined(BSD) || (defined(MACOSX) && !defined(TILES))))
     if( !PATH_INFO::base_path().empty() ) {
         loc_dir = PATH_INFO::base_path() + "share/locale";

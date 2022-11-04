@@ -261,6 +261,19 @@
     "entries": [ { "item": "model_10_revolver", "charges-min": 0, "charges-max": 6 }, { "group": "on_hand_38" } ]
   },
   {
+    "id": "nested_mr73",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "mr73", "charges-min": 0, "charges-max": 6 },
+      { "group": "on_hand_357_38mixed" },
+      { "item": "38_speedloader6" },
+      { "item": "38_speedloader6", "prob": 50 }
+    ]
+  },
+  {
     "id": "nested_taurus_spectrum",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
@@ -1358,7 +1371,7 @@
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
     "ammo": 100,
-    "entries": [ { "item": "mosin44", "charges-min": 0, "charges-max": 5 }, { "group": "on_hand_762R" } ]
+    "entries": [ { "item": "mosin44", "variant": "mosin44", "charges-min": 0, "charges-max": 5 }, { "group": "on_hand_762R" } ]
   },
   {
     "id": "nested_mosin91_30",
@@ -1366,7 +1379,7 @@
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
     "ammo": 100,
-    "entries": [ { "item": "mosin91_30", "charges-min": 0, "charges-max": 5 }, { "group": "on_hand_762R" } ]
+    "entries": [ { "item": "mosin91_30", "variant": "mosin91_30", "charges-min": 0, "charges-max": 5 }, { "group": "on_hand_762R" } ]
   },
   {
     "id": "nested_remington700_270",
@@ -1597,7 +1610,17 @@
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
     "ammo": 100,
-    "entries": [ { "item": "mosin44_ebr", "charges-min": 0, "charges-max": 5 }, { "group": "on_hand_762R" } ]
+    "entries": [
+      {
+        "item": "mosin44",
+        "variant": "mosin44_ebr",
+        "contents-group": "mosin_mods",
+        "prob": 1,
+        "charges-min": 0,
+        "charges-max": 5
+      },
+      { "group": "on_hand_762R" }
+    ]
   },
   {
     "id": "nested_mosin91_30_ebr",
@@ -1605,7 +1628,17 @@
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
     "ammo": 100,
-    "entries": [ { "item": "mosin91_30_ebr", "charges-min": 0, "charges-max": 5 }, { "group": "on_hand_762R" } ]
+    "entries": [
+      {
+        "item": "mosin91_30",
+        "variant": "mosin91_30_ebr",
+        "contents-group": "mosin_mods",
+        "prob": 1,
+        "charges-min": 0,
+        "charges-max": 5
+      },
+      { "group": "on_hand_762R" }
+    ]
   },
   {
     "id": "nested_savage_111f",
@@ -2329,6 +2362,84 @@
       { "item": "m1carbinemag" },
       { "item": "m1carbinemag", "prob": 50 },
       { "group": "on_hand_30carbine" }
+    ]
+  },
+  {
+    "id": "nested_ak556",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "ak556", "charges-min": 0, "charges-max": 30 },
+      { "item": "zpap85mag" },
+      { "item": "zpap85mag", "prob": 50 },
+      { "group": "on_hand_223" }
+    ]
+  },
+  {
+    "id": "nested_minidraco556",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "minidraco556", "charges-min": 0, "charges-max": 30 },
+      { "item": "zpap85mag" },
+      { "item": "zpap85mag", "prob": 50 },
+      { "group": "on_hand_223" }
+    ]
+  },
+  {
+    "id": "nested_ak308",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "ak308", "charges-min": 0, "charges-max": 20 },
+      { "item": "papm77mag_10rd" },
+      { "item": "papm77mag_10rd", "prob": 50 },
+      { "group": "on_hand_308" }
+    ]
+  },
+  {
+    "id": "nested_zpapm90",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "ak556", "variant": "zpapm90", "charges-min": 0, "charges-max": 30 },
+      { "item": "zpap85mag" },
+      { "item": "zpap85mag", "prob": 50 },
+      { "group": "on_hand_223" }
+    ]
+  },
+  {
+    "id": "nested_zpap85",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "minidraco556", "variant": "zpap85", "charges-min": 0, "charges-max": 30 },
+      { "item": "zpap85mag" },
+      { "item": "zpap85mag", "prob": 50 },
+      { "group": "on_hand_223" }
+    ]
+  },
+  {
+    "id": "nested_papm77",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "ak308", "variant": "papm77", "charges-min": 0, "charges-max": 20 },
+      { "item": "papm77mag_10rd" },
+      { "item": "papm77mag_10rd", "prob": 50 },
+      { "group": "on_hand_308" }
     ]
   }
 ]

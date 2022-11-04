@@ -75,7 +75,6 @@ class outfit
                                    const body_part_set &worn_item_body_parts ) const;
         // will someone get shocked by zapback
         bool hands_conductive() const;
-        bool in_climate_control() const;
         bool can_pickVolume( const item &it, bool ignore_pkt_settings = true ) const;
         side is_wearing_shoes( const bodypart_id &bp ) const;
         bool is_wearing_helmet() const;
@@ -167,7 +166,7 @@ class outfit
         cata::optional<std::list<item>::iterator> wear_item( Character &guy, const item &to_wear,
                 bool interactive, bool do_calc_encumbrance, bool do_sort_items = true, bool quiet = false );
         /** Calculate and return any bodyparts that are currently uncomfortable. */
-        std::unordered_set<bodypart_id> where_discomfort() const;
+        std::unordered_set<bodypart_id> where_discomfort( const Character &guy ) const;
         // used in game::wield
         void insert_item_at_index( const item &clothing, int index );
         void append_radio_items( std::list<item *> &rc_items );
@@ -203,6 +202,8 @@ class outfit
         void on_item_wear( Character &guy );
         // used in the pickup code in the STASH section
         void pickup_stash( const item &newit, int &remaining_charges, bool ignore_pkt_settings = false );
+        void add_stash( Character &guy, const item &newit, int &remaining_charges,
+                        bool ignore_pkt_settings = false );
         // used for npc generation
         void set_fitted();
         std::vector<item> available_pockets() const;

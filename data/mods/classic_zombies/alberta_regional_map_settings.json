@@ -28,10 +28,10 @@
     "default_groundcover": [ [ "t_region_groundcover", 1 ] ],
     "region_terrain_and_furniture": {
       "terrain": {
-        "t_region_groundcover": { "t_grass": 12, "t_grass_dead": 2, "t_dirt": 1 },
+        "t_region_groundcover": { "t_grass": 12000, "t_grass_dead": 2000, "t_dirt": 1000 },
         "t_region_groundcover_urban": { "t_grass": 20, "t_grass_dead": 3 },
         "t_region_groundcover_forest": { "t_grass_long": 5, "t_grass_tall": 1, "t_moss": 1, "t_grass_dead": 3 },
-        "t_region_groundcover_swamp": { "t_grass_long": 3, "t_grass_tall": 1, "t_moss": 2, "t_dirt": 2 },
+        "t_region_groundcover_swamp": { "t_grass_long": 300, "t_grass_tall": 100, "t_moss": 200, "t_dirt": 200 },
         "t_region_groundcover_barren": { "t_dirt": 30, "t_grass_dead": 2, "t_railroad_rubble": 1 },
         "t_region_grass": { "t_grass": 1 },
         "t_region_soil": { "t_dirt": 1 },
@@ -94,13 +94,13 @@
       },
       "furniture": {
         "f_region_flower": {
-          "f_lily": 1,
-          "f_flower_tulip": 1,
-          "f_flower_spurge": 1,
-          "f_burdock": 1,
-          "f_chamomile": 1,
-          "f_dandelion": 5,
-          "f_chicory": 1
+          "f_lily": 100,
+          "f_flower_tulip": 100,
+          "f_flower_spurge": 100,
+          "f_burdock": 100,
+          "f_chamomile": 100,
+          "f_dandelion": 500,
+          "f_chicory": 100
         },
         "f_region_flower_decorative": {
           "f_lily": 4,
@@ -111,7 +111,7 @@
           "f_chicory": 1,
           "f_sunflower": 1
         },
-        "f_region_weed": { "f_dandelion": 6, "f_chamomile": 4, "f_burdock": 1, "f_lily": 1, "f_flower_tulip": 1, "f_mustard": 1 },
+        "f_region_weed": { "f_dandelion": 600, "f_chamomile": 400, "f_burdock": 100, "f_lily": 100, "f_flower_tulip": 100, "f_mustard": 100 },
         "f_region_water_plant": { "f_cattails": 15, "f_lilypad": 1, "f_lotus": 5 }
       }
     },

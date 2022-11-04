@@ -26,10 +26,12 @@
     "armor_bullet": 2,
     "vision_day": 5,
     "vision_night": 5,
+    "families": [ "prof_intro_biology", "prof_wp_basic_bird" ],
+    "weakpoint_sets": [ "wps_bird_body" ],
     "path_settings": { "max_dist": 5 },
     "special_attacks": [ { "type": "bite", "cooldown": 15 }, [ "impale", 20 ] ],
     "anger_triggers": [ "HURT", "FRIEND_DIED", "FRIEND_ATTACKED" ],
-    "harvest": "bird_large",
+    "harvest": "mutant_bird_flightless",
     "dissect": "dissect_bird_sample_large",
     "flags": [ "HEARS", "KEENNOSE", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "SWIMS", "SUNDEATH" ]
   },
@@ -59,6 +61,8 @@
     "armor_elec": 1,
     "bleed_rate": 50,
     "harvest": "demihuman",
+    "families": [ "prof_wp_demihuman" ],
+    "weakpoint_sets": [ "wps_humanoid_body" ],
     "special_attacks": [ [ "FEAR_PARALYZE", 0 ] ],
     "death_function": { "effect": { "id": "death_amigara" } },
     "dissect": "dissect_human_sample_single",
@@ -87,6 +91,8 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 1,
     "harvest": "demihuman",
+    "families": [ "prof_wp_demihuman" ],
+    "weakpoint_sets": [ "wps_humanoid_body" ],
     "special_attacks": [ [ "SHRIEK", 10 ] ],
     "flags": [ "SMELLS", "HEARS", "WARM", "ANIMAL", "PATH_AVOID_DANGER_1", "SUNDEATH", "NO_BREATHE", "HUMAN" ]
   },
@@ -470,6 +476,8 @@
     "bleed_rate": 60,
     "vision_day": 30,
     "harvest": "gozu",
+    "families": [ "prof_wp_demihuman" ],
+    "weakpoint_sets": [ "wps_humanoid_body" ],
     "special_attacks": [ [ "FEAR_PARALYZE", 20 ] ],
     "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "BASHES", "GROUP_BASH", "ANIMAL", "NO_BREATHE", "PATH_AVOID_DANGER_1" ]
   },
@@ -499,6 +507,8 @@
     "bleed_rate": 60,
     "path_settings": { "avoid_traps": true, "avoid_sharp": true },
     "harvest": "demihuman",
+    "families": [ "prof_wp_demihuman" ],
+    "weakpoint_sets": [ "wps_humanoid_body" ],
     "flags": [ "SMELLS", "HEARS", "WARM", "NO_BREATHE", "GRABS", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_1" ]
   },
   {
@@ -646,6 +656,7 @@
     "armor_cut": 12,
     "armor_bullet": 10,
     "harvest": "demihuman_snail",
+    "families": [ "prof_wp_demihuman" ],
     "dissect": "dissect_gastropod_sample_large",
     "special_attacks": [ [ "ACID", 15 ] ],
     "anger_triggers": [ "PLAYER_WEAK", "FRIEND_DIED" ],
@@ -916,6 +927,8 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 6,
     "harvest": "demihuman",
+    "families": [ "prof_wp_demihuman" ],
+    "weakpoint_sets": [ "wps_humanoid_body" ],
     "flags": [ "SEES", "HEARS", "GOODHEARING", "POISON", "HUMAN", "CLIMBS" ]
   },
   {
@@ -975,8 +988,8 @@
     "type": "MONSTER",
     "name": { "str": "shifting mass", "str_pl": "shifting masses" },
     "description": "An animate blotch of conflicting symmetries, erratically hovering through the air.  It's not even real enough to hold a stable shape, and its entire form is constantly in flux.  You can see through it - not as if it were transparent, but as if it isn't quite fully here.",
-    "default_faction": "nether",
-    "species": [ "NETHER" ],
+    "default_faction": "nether_player_hate",
+    "species": [ "NETHER_EMANATION" ],
     "volume": "1000 ml",
     "weight": "0 g",
     "hp": 10,
@@ -989,7 +1002,7 @@
     "special_attacks": [
       {
         "type": "spell",
-        "spell_data": { "id": "shifting_mass", "min_level": 1 },
+        "spell_data": { "id": "shifting_mass_attack", "min_level": 1 },
         "cooldown": 1,
         "monster_message": "The shifting mass passes through you as if you were an illusion, and a slight wave of fatigue washes over you."
       }
@@ -1002,8 +1015,8 @@
     "type": "MONSTER",
     "name": { "str": "impossible shape" },
     "description": "A twisted shape floating in midair; its angles don't seem to quite add up - it hurts to look at.  Is it inanimate?  Alive?  Something else?  You can't make heads or tails of it at all, but you can see through it - not as if it were transparent, but as if it isn't quite fully here.",
-    "default_faction": "nether",
-    "species": [ "NETHER" ],
+    "default_faction": "nether_player_hate",
+    "species": [ "NETHER_EMANATION" ],
     "volume": "62500 ml",
     "weight": "0 g",
     "hp": 30,
@@ -1029,8 +1042,8 @@
     "type": "MONSTER",
     "name": { "str": "absence" },
     "description": "Every sense you have claims this space to be empty, but your mind is not fooled.  There is an emptiness here that is far from natural or safe.",
-    "default_faction": "nether",
-    "species": [ "NETHER" ],
+    "default_faction": "nether_player_hate",
+    "species": [ "NETHER_EMANATION" ],
     "volume": "62500 ml",
     "weight": "0 g",
     "hp": 150,
@@ -1056,8 +1069,8 @@
     "type": "MONSTER",
     "name": { "str": "giant appendage" },
     "description": "A gigantic, probing appendage blindly feeling the area around it.  All of your senses scream at you that it's the size of a truck, and yet it only takes up about as much space in the world as you do.  It seems to be jutting through a portal, suggesting that it's merely a smaller extension of something much larger.",
-    "default_faction": "nether",
-    "species": [ "NETHER" ],
+    "default_faction": "nether_player_hate",
+    "species": [ "NETHER_EMANATION" ],
     "volume": "62500 ml",
     "weight": "0 g",
     "hp": 1000000000,
@@ -1079,8 +1092,8 @@
     "type": "MONSTER",
     "name": { "str": "memory", "str_pl": "memories" },
     "description": "The silhouette of a human body, reaching towards you like it needs help.  It has no eyes, but you can still feel it staring through you.",
-    "default_faction": "nether",
-    "species": [ "NETHER" ],
+    "default_faction": "nether_player_hate",
+    "species": [ "NETHER_EMANATION" ],
     "volume": "62500 ml",
     "weight": "0 g",
     "hp": 25,
@@ -1102,8 +1115,8 @@
     "type": "MONSTER",
     "name": { "str": "swarm structure" },
     "description": "Your mind can't decide if this is a vast structure, or an endless swarm of tiny flying sharp things.  The only thing you know for sure is that it is far too large to fit in the space it occupies.",
-    "default_faction": "nether",
-    "species": [ "NETHER" ],
+    "default_faction": "nether_player_hate",
+    "species": [ "NETHER_EMANATION" ],
     "volume": "62500 ml",
     "weight": "0 g",
     "hp": 80,
@@ -1131,8 +1144,8 @@
     "type": "MONSTER",
     "name": { "str": "twisting blade" },
     "description": "You are uncertain whether this dwarfs you or you dwarf it.  Its exact shape and number of dimensions is constantly changing, but it is always sharp enough to cut a moment in half.",
-    "default_faction": "nether",
-    "species": [ "NETHER" ],
+    "default_faction": "nether_player_hate",
+    "species": [ "NETHER_EMANATION" ],
     "volume": "62500 ml",
     "weight": "0 g",
     "hp": 30,
@@ -1158,7 +1171,7 @@
     "type": "MONSTER",
     "name": { "str": "chunk of unknown material", "str_pl": "chunks of unknown material" },
     "description": "This formless, pitch-black mass wriggles on the ground as it reshapes itself before your eyes.  It slowly drags itself towards you with many tendrils of varied sizes.  As it gets closer to you, its wriggling intensifies as if it reacted to you.",
-    "default_faction": "nether",
+    "default_faction": "nether_player_hate",
     "species": [ "HORROR" ],
     "//": "No NETHER or it will run away at low HP",
     "volume": "62500 ml",
@@ -1229,12 +1242,12 @@
     "death_drops": "ps_artifact_strong"
   },
   {
-    "id": "mon_endless_hunger",
+    "id": "mon_pale_reflection",
     "type": "MONSTER",
-    "name": { "str": "endless hunger" },
-    "description": "Your mind fills in large shifting images of predators to save you from its actual appearance.  You can feel it despite the distance as if it were connected to you.",
-    "default_faction": "nether",
-    "species": [ "NETHER" ],
+    "name": { "str": "pale reflection" },
+    "description": "This looks nothing like you.  It's barely real.  So why does your mind keep mistaking it for you?",
+    "default_faction": "nether_player_hate",
+    "species": [ "NETHER_EMANATION" ],
     "volume": "62500 ml",
     "weight": "0 g",
     "hp": 35,
@@ -1248,27 +1261,51 @@
     "melee_dice_sides": 2,
     "melee_damage": [ { "damage_type": "cut", "amount": 10 } ],
     "death_function": {
-      "effect": { "id": "mon_endless_hunger_revive", "hit_self": true },
+      "effect": { "id": "mon_reflection_revive", "hit_self": true },
       "corpse_type": "NO_CORPSE",
-      "message": "The %s vanishes but you can still feel it through your connection."
+      "message": "The %s vanishes but you can still feel it."
     },
     "special_attacks": [
       {
         "type": "spell",
-        "monster_message": "You can feel the endless hunger.",
-        "spell_data": { "id": "mon_endless_hunger_attack", "min_level": 1, "hit_self": false },
+        "monster_message": "You can feel the %s.",
+        "spell_data": { "id": "mon_reflection_attack", "min_level": 1, "hit_self": false },
         "cooldown": 5
       }
     ],
     "flags": [ "SEES", "HEARS", "NO_BREATHE", "PUSH_MON", "ALWAYS_VISIBLE", "ALWAYS_SEES_YOU" ]
   },
   {
+    "id": "mon_twisted_reflection",
+    "type": "MONSTER",
+    "name": { "str": "twisted reflection" },
+    "speed": 90,
+    "description": "This looks almost nothing like you.  It's form isn't even stable.  So why does your mind keep mistaking it for you?",
+    "copy-from": "mon_pale_reflection"
+  },
+  {
+    "id": "mon_dark_reflection",
+    "type": "MONSTER",
+    "name": { "str": "dark reflection" },
+    "speed": 100,
+    "description": "This only looks a little like you.  It's obviously not you.  So why does your mind keep mistaking it for you?",
+    "copy-from": "mon_pale_reflection"
+  },
+  {
+    "id": "mon_better_half",
+    "type": "MONSTER",
+    "name": { "str": "better half", "str_pl": "better halves" },
+    "speed": 110,
+    "description": "This doesn't look like you.  It looks like what you've dreamed you could be.  Why does your mind keep mistaking you for a bad copy of it?",
+    "copy-from": "mon_pale_reflection"
+  },
+  {
     "id": "mon_tainted_shadow",
     "type": "MONSTER",
     "name": { "str": "tainted shadow" },
     "description": "Your shadow is host to something alien.",
-    "default_faction": "nether",
-    "species": [ "NETHER" ],
+    "default_faction": "nether_player_hate",
+    "species": [ "NETHER_EMANATION" ],
     "volume": "62500 ml",
     "weight": "0 g",
     "hp": 35,
@@ -1287,5 +1324,83 @@
       "message": "Your shadow seemingly becomes normal again."
     },
     "flags": [ "SEES", "HEARS", "NO_BREATHE" ]
+  },
+  {
+    "id": "mon_hallucinator",
+    "type": "MONSTER",
+    "name": { "str": "person" },
+    "description": "A common human, that looks exactly like human do.  You can see it.  It can see you.  You know it knows you can see it.  It knows you know you can see him.  It moves towards you.",
+    "//": "it must be spooky, but god im bad in this stuff",
+    "default_faction": "nether_player_hate",
+    "species": [ "NETHER_EMANATION" ],
+    "volume": "62500 ml",
+    "weight": "0 g",
+    "hp": 100000000,
+    "speed": 25,
+    "symbol": "@",
+    "color": "white",
+    "aggression": 100,
+    "morale": 100,
+    "vision_day": 60,
+    "vision_night": 60,
+    "path_settings": { "max_dist": 60, "allow_open_doors": true },
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "it just dissapeared." },
+    "flags": [
+      "NO_BREATHE",
+      "SEES",
+      "HEARS",
+      "ACIDPROOF",
+      "CAN_OPEN_DOORS",
+      "FIREPROOF",
+      "LOUDMOVES",
+      "SLUDGEPROOF",
+      "SMELLS",
+      "STUN_IMMUNE",
+      "WEBWALK",
+      "ALL_SEEING",
+      "ALWAYS_VISIBLE"
+    ],
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "hallucinator_touch" },
+        "monster_message": "You feel something was destroyed inside you."
+      }
+    ],
+    "emit_fields": [ { "emit_id": "emit_clairvoyant", "delay": "1 s" } ]
+  },
+  {
+    "id": "mon_guilt",
+    "type": "MONSTER",
+    "name": { "str": "guilt" },
+    "description": "An animate blotch of conflicting shapes, when you look at or think of this, memories of your wrongdoings rise to the surface.",
+    "copy-from": "mon_shifting_mass",
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "guilt_attack", "min_level": 1 },
+        "cooldown": 1,
+        "monster_message": "The guilt makes no physical movement and yet you feel the force of its assault.  Everything feels heavier."
+      }
+    ],
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s fades away." },
+    "flags": [ "SEES", "HEARS", "NO_BREATHE", "PUSH_MON", "ALWAYS_VISIBLE", "ALWAYS_SEES_YOU" ]
+  },
+  {
+    "id": "mon_sloth",
+    "type": "MONSTER",
+    "name": { "str": "sloth" },
+    "description": "An animate blotch of conflicting shapes, when you look at or think of this, a desire to stop moving rises.",
+    "copy-from": "mon_shifting_mass",
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "sloth_attack", "min_level": 1 },
+        "cooldown": 1,
+        "monster_message": "The sloth does nothing, and you feel time itself aiding your desire to do nothing."
+      }
+    ],
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s fades away." },
+    "flags": [ "SEES", "HEARS", "NO_BREATHE", "PUSH_MON", "ALWAYS_VISIBLE", "ALWAYS_SEES_YOU" ]
   }
 ]

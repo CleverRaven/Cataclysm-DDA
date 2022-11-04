@@ -290,7 +290,10 @@
       "usc15mag",
       "usc20mag",
       "m1carbinemag",
-      "m1carbinebigmag"
+      "m1carbinebigmag",
+      "zpap85mag",
+      "papm77mag",
+      "papm77mag_10rd"
     ],
     "type": "MIGRATION",
     "replace": "rifle_mag"
@@ -325,7 +328,7 @@
     "replace": "rifle_sniper_mag"
   },
   {
-    "id": [ "exodiiBRmag" ],
+    "id": [ "exodiiBRmag", "robofac60_123ln" ],
     "type": "MIGRATION",
     "replace": "rifle_mag_foreign"
   },

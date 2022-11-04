@@ -17,6 +17,7 @@
 #include "avatar.h"
 #include "cached_options.h" // IWYU pragma: keep
 #include "calendar.h"
+#include "cata_scope_helpers.h"
 #include "cata_utility.h"
 #include "character.h"
 #include "colony.h"
@@ -531,7 +532,7 @@ void editmap::draw_main_ui_overlay()
 #ifdef TILES
     // give some visual indication of different cursor moving modes
     if( use_tiles && altblink ) {
-        point p[2] = { origin.xy(), target.xy() };
+        std::array<point, 2> p = { origin.xy(), target.xy() };
         if( editshape == editmap_rect || editshape == editmap_rect_filled || p[0] == p[1] ) {
             if( p[0] == p[1] ) {
                 // ensure more than one cursor is drawn to differ from resizing mode
@@ -653,7 +654,7 @@ void editmap::draw_main_ui_overlay()
                         const int veh_part = vp->part_index();
                         char part_mod = 0;
                         const vpart_id &vp_id = vpart_id( veh.part_id_string( veh_part,
-                                                          part_mod ) );
+                                                          part_mod, true, true ) );
                         const cata::optional<vpart_reference> cargopart = vp.part_with_feature( "CARGO", true );
                         bool draw_highlight = cargopart && !veh.get_items( cargopart->part_index() ).empty();
                         units::angle veh_dir = veh.face.dir();

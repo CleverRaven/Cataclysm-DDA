@@ -109,6 +109,18 @@
     "displacement": 160
   },
   {
+    "id": "i4_diesel",
+    "copy-from": "engine_diesel",
+    "type": "ENGINE",
+    "name": { "str": "I4 diesel engine" },
+    "description": "A small, yet powerful 4-cylinder diesel engine, commonly called straight-4.",
+    "weight": "120 kg",
+    "volume": "166 L",
+    "price": 16000,
+    "price_postapoc": 1250,
+    "displacement": 160
+  },
+  {
     "id": "i6_diesel",
     "copy-from": "engine_diesel",
     "type": "ENGINE",

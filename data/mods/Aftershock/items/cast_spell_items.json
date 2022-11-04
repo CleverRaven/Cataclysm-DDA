@@ -81,9 +81,17 @@
     "price": "100 kUSD",
     "charges_per_use": 1000,
     "material": [ "diamond" ],
+    "ammo": [ "battery" ],
     "use_action": [
-      { "type": "cast_spell", "spell_id": "afs_translocation", "no_fail": true, "level": 1, "need_worn": true },
-      { "type": "deploy_furn", "furn_type": "f_translocator_buoy" }
+      {
+        "type": "cast_spell",
+        "spell_id": "afs_translocation",
+        "no_fail": true,
+        "level": 1,
+        "need_worn": true,
+        "mundane": true
+      },
+      [ "AFS_TRANSLOCATOR" ]
     ],
     "pocket_data": [
       {

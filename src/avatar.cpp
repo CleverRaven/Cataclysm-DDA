@@ -1070,7 +1070,7 @@ void avatar::reset_stats()
     }
     // Spider hair is basically a full-body set of whiskers, once you get the brain for it
     if( has_trait( trait_CHITIN_FUR3 ) ) {
-        static const bodypart_str_id parts[] {
+        static const std::array<bodypart_str_id, 5> parts {
             body_part_head, body_part_arm_r, body_part_arm_l,
             body_part_leg_r, body_part_leg_l
         };
@@ -1508,20 +1508,28 @@ void avatar::update_cardio_acc()
     // This function should be called once every 24 hours,
     // before the front of the calorie diary is reset for the next day.
 
-    // Daily gain or loss is the square root of the difference between
-    // current cardio fitness and the kcals spent in the previous 24 hours.
-    const int cardio_fit = get_cardiofit();
+    // Cardio goal is 1000 times the ratio of kcals spent versus bmr,
+    // giving a default of 1000 for no extra activity.
+    const int bmr = get_bmr();
     const int last_24h_kcal = calorie_diary.front().spent;
 
-    // If we burned kcals beyond our current fitness level, gain some cardio.
-    // Or, if we burned fewer kcals than current fitness, lose some cardio.
+    const int cardio_goal = ( last_24h_kcal * get_cardio_acc_base() ) / bmr;
+
+    // If cardio accumulator is below cardio goal, gain some cardio.
+    // Or, if cardio accumulator is above cardio goal, lose some cardio.
+    const int cardio_accum = get_cardio_acc();
     int adjustment = 0;
-    if( cardio_fit > last_24h_kcal ) {
-        adjustment = -std::sqrt( cardio_fit - last_24h_kcal );
-    } else if( last_24h_kcal > cardio_fit ) {
-        adjustment = std::sqrt( last_24h_kcal - cardio_fit );
+    if( cardio_accum > cardio_goal ) {
+        adjustment = -std::sqrt( cardio_accum - cardio_goal );
+    } else if( cardio_goal > cardio_accum ) {
+        adjustment = std::sqrt( cardio_goal - cardio_accum );
     }
-    set_cardio_acc( get_cardio_acc() + adjustment );
+
+    // Set a large sane upper limit to cardio fitness. This could be done
+    // asymptotically instead of as a sharp cutoff, but the gradual growth
+    // rate of cardio_acc should accomplish that naturally.
+    set_cardio_acc( clamp( cardio_accum + adjustment, get_cardio_acc_base(),
+                           get_cardio_acc_base() * 3 ) );
 }
 
 void avatar::advance_daily_calories()
@@ -1607,7 +1615,9 @@ void avatar::daily_calories::read_activity( const JsonObject &data )
     JsonObject jo = data.get_object( "activity" );
     for( const std::pair<const std::string, float> &member : activity_levels_map ) {
         int times;
-        jo.read( member.first, times );
+        if( !jo.read( member.first, times ) ) {
+            continue;
+        }
         activity_levels.at( member.second ) = times;
     }
 }
@@ -1847,6 +1857,12 @@ bool character_martial_arts::pick_style( const avatar &you ) // Style selection 
                          _( "When this is enabled, player won't wield things unless explicitly told to." ) );
 
     kmenu.selected = STYLE_OFFSET;
+
+    // +1 to keep "No Style" at top
+    std::sort( selectable_styles.begin() + 1, selectable_styles.end(),
+    []( const matype_id & a, const matype_id & b ) {
+        return localized_compare( a->name.translated(), b->name.translated() );
+    } );
 
     for( size_t i = 0; i < selectable_styles.size(); i++ ) {
         const martialart &style = selectable_styles[i].obj();

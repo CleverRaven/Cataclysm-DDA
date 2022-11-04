@@ -101,7 +101,7 @@
     "qualities": [ [ "HAMMER", 1 ], [ "DIG", 3 ] ],
     "extend": { "flags": [ "POWERED", "EXO_LARGE_GADGET" ] },
     "to_hit": { "grip": "weapon", "length": "long", "surface": "every", "balance": "clumsy" },
-    "power_draw": 1500,
+    "power_draw": "1500 mJ",
     "revert_to": "heavy_drill",
     "use_action": { "ammo_scale": 0, "target": "heavy_drill", "msg": "You deactivate the drill.", "type": "transform" }
   },
