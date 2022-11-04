@@ -2094,7 +2094,7 @@
       [ "ACID", 20 ]
     ],
     "dissect": "dissect_insect_sample_large",
-    "extend": { "flags": [ "DESTROYS", "PUSH_MON", "PUSH_VEH" ] }
+    "extend": { "flags": [ "DESTROYS", "PUSH_MON", "PUSH_VEH", "RANGED_ATTACKER" ] }
   },
   {
     "id": "mon_ant_larva",
