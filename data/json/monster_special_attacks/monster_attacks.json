@@ -327,7 +327,7 @@
     "required_effects_any": [ "grabbing" ],
     "forbidden_effects_any": [ "maimed_mandible" ],
     "damage_max_instance": [ { "damage_type": "bash", "amount": 10 } ],
-    "effects_require_dmg": false
+    "effects_require_dmg": false,
     "hit_dmg_u": "%1$s hits your legs, causing you to get knocked on your back!",
     "hit_dmg_npc": "%1$s knocks <npcname> prone!",
     "no_dmg_msg_u": "%1$s tries to knock you down, but your armor protects you!",
