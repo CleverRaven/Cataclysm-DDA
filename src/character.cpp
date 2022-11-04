@@ -3035,9 +3035,13 @@ std::vector<std::pair<std::string, std::string>> Character::get_overlay_ids() co
     return rval;
 }
 
-const SkillLevelMap &Character::get_all_skills() const
+SkillLevelMap Character::get_all_skills() const
 {
-    return *_skills;
+    SkillLevelMap skills = *_skills;
+    for( std::pair<const skill_id, SkillLevel> &sk : skills ) {
+        sk.second.level( std::round( enchantment_cache->modify_value( sk.first, sk.second.level() ) ) );
+    }
+    return skills;
 }
 
 const SkillLevel &Character::get_skill_level_object( const skill_id &ident ) const
@@ -3052,12 +3056,13 @@ SkillLevel &Character::get_skill_level_object( const skill_id &ident )
 
 int Character::get_skill_level( const skill_id &ident ) const
 {
-    return _skills->get_skill_level( ident );
+    return std::round( enchantment_cache->modify_value( ident, _skills->get_skill_level( ident ) ) );
 }
 
 int Character::get_skill_level( const skill_id &ident, const item &context ) const
 {
-    return _skills->get_skill_level( ident, context );
+    return std::round( enchantment_cache->modify_value( ident, _skills->get_skill_level( ident,
+                       context ) ) );
 }
 
 int Character::get_knowledge_level( const skill_id &ident ) const

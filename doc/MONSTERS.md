@@ -679,8 +679,6 @@ This monster can attempt a grab every ten turns, a leap with a maximum range of 
 
 # Monster special attack types
 The listed attack types can be as monster special attacks (see [MONSTER_SPECIAL_ATTACKS.md](MONSTER_SPECIAL_ATTACKS.md)).
-<<<<<<< HEAD
-=======
 
 # Testing Monsters
 
@@ -690,4 +688,3 @@ Important test tips:
  - A spawned and saved monster will **not** change for any reason, even if you change the underlying monster definition.  Always use freshly spawned monsters!
  - Evolution, growth, and reproduction happen on monster load, so the sequence of testing is Spawn monster -> Teleport away to unload it -> Teleport back to load it and start the timers -> Teleport away -> Set time forward via the debug menu -> Teleport back 
  - Activating Debug Mode's monster filter allows you to examine monsters using x->e and get additional information
->>>>>>> e8438b12ce (Update MONSTERS.md)

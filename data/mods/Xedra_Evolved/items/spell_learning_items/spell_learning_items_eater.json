@@ -75,6 +75,21 @@
     "use_action": { "type": "learn_spell", "spells": [ "self_healing" ] }
   },
   {
+    "id": "strange_coffee",
+    "type": "GENERIC",
+    "category": "artifacts",
+    "name": { "str": "strange cup of coffee", "str_pl": "strange cups of coffee" },
+    "description": "A small jar with coffee, moving in weird patterns with no apparent cause.  After watching the swirls for some time, you are sure that it loops back on its movements, like some sort of message.",
+    "weight": "90 g",
+    "volume": "100 ml",
+    "price": 2000,
+    "price_postapoc": 10,
+    "material": [ "forged_dreamstuff" ],
+    "symbol": "C",
+    "color": "white_magenta",
+    "use_action": { "type": "learn_spell", "spells": [ "supercoffee" ] }
+  },
+  {
     "id": "blindfold_artifact",
     "type": "ARMOR",
     "copy-from": "blindfold",
