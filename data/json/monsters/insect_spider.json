@@ -2086,9 +2086,10 @@
       {
         "type": "bite",
         "cooldown": 5,
+        "forbidden_effects_any": [ "maimed_mandible" ],
         "damage_max_instance": [ { "damage_type": "cut", "amount": 12, "armor_penetration": 14 } ]
       },
-      [ "GRAB_DRAG", 10 ],
+      [ "GRAB", 10 ],
       [ "ACID", 10 ]
     ],
     "dissect": "dissect_insect_sample_large",
@@ -2217,6 +2218,7 @@
       {
         "type": "bite",
         "cooldown": 5,
+        "forbidden_effects_any": [ "maimed_mandible" ],
         "damage_max_instance": [ { "damage_type": "cut", "amount": 12, "armor_penetration": 14 } ]
       },
       [ "GRAB_DRAG", 10 ]
