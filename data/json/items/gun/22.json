@@ -205,8 +205,8 @@
     "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str": "Ruger varmint rifle" },
-    "description": "a lightweight and modular pistol calibre hunting carbine produced by the Ruger gun company, firing the low power .22 LR cartridge.  Before the Cataclysm, a mix of high customizability, cheep ammunition, and low recoil made this a very popular varmint rifle amongst civilian shooters.",
+    "name": { "str": "varmint rifle" },
+    "description": "a lightweight and modular pistol calibre hunting carbine, firing the low power .22 LR cartridge.  Before the Cataclysm, a mix of high customizability, cheep ammunition, and low recoil made this a very popular varmint rifle amongst civilian shooters.",
     "variant_type": "gun",
     "variants": [
       {
