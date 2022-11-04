@@ -168,28 +168,28 @@
       {
         "id": "albanian_flag",
         "name": { "str": "Albanian flag" },
-        "description": "It's a solid red, overlain with the crest of Albania.",
+        "description": "It's a solid red, overlaid with the crest of Albania.",
         "weight": 10,
         "append": true
       },
       {
         "id": "algerian_flag",
         "name": { "str": "Algerian flag" },
-        "description": "It's divided by green and white havles, overlain with a crescent moon and a star in red.",
+        "description": "It's divided by green and white halves, overlaid with a crescent moon and a star in red.",
         "weight": 10,
         "append": true
       },
       {
         "id": "andorran_flag",
         "name": { "str": "Andorran flag" },
-        "description": "It has three vertical lines navy blue, yellow, and red, overlain with the crest of Andorra.",
+        "description": "It has three vertical lines navy blue, yellow, and red, overlaid with the crest of Andorra.",
         "weight": 3,
         "append": true
       },
       {
         "id": "angolan_flag",
         "name": { "str": "Angolan flag" },
-        "description": "It's divided by red and black rectangles, overlain by a gold machete, star, and half of a gear.",
+        "description": "It's divided by red and black rectangles, overlaid by a gold machete, star, and half of a gear.",
         "weight": 10,
         "append": true
       },
@@ -280,7 +280,7 @@
       {
         "id": "belizean_flag",
         "name": { "str": "Belizean flag" },
-        "description": "It has two small stripes of red, seperated by a square of blue, with the emblem of Belize in the center.",
+        "description": "It has two small stripes of red, separated by a square of blue, with the emblem of Belize in the center.",
         "weight": 10,
         "append": true
       },
@@ -357,7 +357,7 @@
       {
         "id": "ivory_coast_flag",
         "name": { "str": "Ivory Coast flag" },
-        "description": "It has three vertical baige, white, and green stripes.",
+        "description": "It has three vertical beige, white, and green stripes.",
         "weight": 10,
         "append": true
       },
