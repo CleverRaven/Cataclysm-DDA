@@ -1287,7 +1287,7 @@
     "id": "REALLYBADKNEES",
     "name": { "str": "Stiff Knees" },
     "points": -3,
-    "description": "Your knees never bend. Period. Stiff as a metal pole. Pray that your journey doesnt involve stairs or slightly uneven terrain.",
+    "description": "Your knees never bend.  Period.  Stiff as a metal pole.  Pray that your journey doesn't involve stairs or slightly uneven terrain.",
     "starting_trait": true,
     "cancels": [ "STRONGKNEES","BADKNEES" ],
     "valid": false,
