@@ -1064,7 +1064,7 @@
     "type": "TOOL",
     "name": { "str": "water purifier" },
     "description": "This is a battery-powered device designed to purify drinking water.  Using this item on a container full of water will purify the contents.  It could be useful for water taken from uncertain sources like a river, as it may be non-potable.",
-    "//": "based off RO filter. https://www.netsolwater.com/how-much-energy-does-an-ro-system-use.php claims RO uses 0.03KW (2 liters of water/day) giving ~14kJ per 0.25L unit of water",
+    "//": "based off RO filter. https://www.netsolwater.com/how-much-energy-does-an-ro-system-use.php claims RO uses 0.03KWH for 2 liters of water/day giving ~14kJ per 0.25L unit of water",
     "weight": "1360 g",
     "volume": "3 L",
     "price": 10000,
