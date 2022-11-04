@@ -18,7 +18,7 @@ if (NOT $ENV{VCPKG_INSTALLATION_ROOT} STREQUAL "")
 endif()
 # Ref https://vcpkg.io/en/docs/users/config-environment.html#vcpkg_root
 if ("$ENV{VCPKG_ROOT}" STREQUAL "" AND WIN32)
-    set(ENV{VCPKG_ROOT} C:/vcpkg)
+    set(ENV{VCPKG_ROOT} $CACHE{VCPKG_ROOT})
 endif()
 
 include(${CMAKE_SOURCE_DIR}/build-scripts/VsDevCmd.cmake)
