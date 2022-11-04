@@ -53,5 +53,29 @@
     "harvest": "exempt",
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
     "flags": [ "SEES", "HEARS", "NOHEAD", "HARDTOSHOOT", "FLIES", "PRIORITIZE_TARGETS", "NO_BREATHE", "NOGIB" ]
+  },
+  {
+    "id": "mon_battle_hologram",
+    "type": "MONSTER",
+    "name": "hologram",
+    "description": "Hologram copy of you.",
+    "looks_like": "player",
+    "default_faction": "player",
+    "species": [ "UNKNOWN" ],
+    "volume": "62500 ml",
+    "weight": "1 g",
+    "hp": 1,
+    "speed": 100,
+    "symbol": "@",
+    "color": "cyan",
+    "aggression": 100,
+    "morale": 100,
+    "luminance": 300,
+    "dodge": 99,
+    "harvest": "exempt",
+    "fear_triggers": [ "PLAYER_CLOSE" ],
+    "special_attacks": [ [ "DISAPPEAR", 2000 ] ],
+    "death_function": { "message": "", "corpse_type": "NO_CORPSE" },
+    "flags": [ "FLIES", "SEES", "NO_BREATHE", "NOT_HALLUCINATION", "HARDTOSHOOT" ]
   }
 ]

@@ -894,6 +894,11 @@
   },
   {
     "type": "recipe",
+    "result": "jerrycan_big",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "2x4_from wooden beams",
     "obsolete": true
   },

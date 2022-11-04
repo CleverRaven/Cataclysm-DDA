@@ -877,6 +877,20 @@ class inventory_pick_selector : public inventory_selector
         item_location execute();
 };
 
+class container_inventory_selector : public inventory_pick_selector
+{
+    public:
+        explicit container_inventory_selector( Character &p, item_location &loc,
+                                               const inventory_selector_preset &preset = default_preset ) :
+            inventory_pick_selector( p, preset ), loc( loc ) {}
+
+    protected:
+        stats get_raw_stats() const override;
+
+    private:
+        item_location loc;
+};
+
 class inventory_multiselector : public inventory_selector
 {
     public:
