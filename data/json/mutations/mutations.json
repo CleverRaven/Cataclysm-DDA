@@ -1289,7 +1289,7 @@
     "points": -3,
     "description": "Your knees never bend.  Period.  Stiff as a metal pole.  Pray that your journey doesn't involve stairs or slightly uneven terrain.",
     "starting_trait": true,
-    "cancels": [ "STRONGKNEES","BADKNEES" ],
+    "cancels": [ "STRONGKNEES", "BADKNEES" ],
     "valid": false,
     "movecost_obstacle_modifier": 3.5
   },
