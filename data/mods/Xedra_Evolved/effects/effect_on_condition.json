@@ -2,6 +2,7 @@
   {
     "type": "effect_on_condition",
     "id": "blood_spiders_itch",
+    "//": "Blood spiders effect should bother the player unless they are under the influence of stim_overdose, in which case the blood spiders are quieted.",
     "recurrence": [ "25 minutes", "1 hours 15 minutes" ],
     "condition": { "and": [ { "u_has_effect": "blood_spiders" }, { "not": { "u_has_effect": "formication" } } ] },
     "deactivate_condition": { "not": { "or": [ { "u_has_effect": "blood_spiders" }, { "u_has_effect": "stim_overdose" } ] } },

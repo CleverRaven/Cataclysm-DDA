@@ -891,5 +891,10 @@
     "type": "recipe",
     "result": "scrap_aluminum",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "jerrycan_big",
+    "obsolete": true
   }
 ]
