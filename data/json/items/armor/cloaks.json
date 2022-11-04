@@ -210,7 +210,7 @@
       {
         "id": "australian_flag",
         "name": { "str": "Australian flag" },
-        "description": "It's solid navy blue, with various white stars. In the top left corner is a miniature Union Jack.",
+        "description": "It's solid navy blue, with various white stars.  In the top left corner is a miniature Union Jack.",
         "weight": 10,
         "append": true
       },
@@ -224,14 +224,14 @@
       {
         "id": "azerbaijanian_flag",
         "name": { "str": "Azerbaijanian flag" },
-        "description": "It has three stripes of light blue, red, and green. In the middle is a white crescent moon and star.",
+        "description": "It has three stripes of light blue, red, and green.  In the middle is a white crescent moon and star.",
         "weight": 10,
         "append": true
       },
       {
         "id": "antiguan_flag",
         "name": { "str": "Antiguan flag" },
-        "description": "It has a black V-shape surrounded by red. The bottom of the V is blue, with a rising sun immediately above.",
+        "description": "It has a black V-shape surrounded by red.  The bottom of the V is blue, with a rising sun immediately above.",
         "weight": 10,
         "append": true
       },
@@ -315,7 +315,7 @@
       {
         "id": "brazilian_flag",
         "name": { "str": "Brazilian flag" },
-        "description": "It has a yellow diamond on a light green base. In the center of the diamond sits a blue orb with a curved, white line.",
+        "description": "It has a yellow diamond on a light green base.  In the center of the diamond sits a blue orb with a curved, white line.",
         "weight": 10,
         "append": true
       },
@@ -364,7 +364,7 @@
       {
         "id": "cabo_verde_flag",
         "name": { "str": "Cabo Verde flag" },
-        "description": "It has a thin red line in the center, surrounded by white and blue. To the left lies an oval of gold stars.",
+        "description": "It has a thin red line in the center, surrounded by white and blue.  To the left lies an oval of gold stars.",
         "weight": 10,
         "append": true
       },
