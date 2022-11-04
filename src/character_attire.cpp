@@ -2320,9 +2320,9 @@ void outfit::add_stash( Character &guy, const item &newit, int &remaining_charge
         std::sort( pockets_with_parent.begin(), pockets_with_parent.end(), [newit,
                    temp_it]( std::unique_ptr<pocket_with_parent_data> &lhs,
         std::unique_ptr<pocket_with_parent_data> &rhs ) {
-            item_pocket &lpp = *lhs->pocket;
-            item_pocket *lpd = lhs->pocket;
-            item_pocket *rpd = rhs->pocket;
+            const item_pocket &lpp = *lhs->pocket;
+            const item_pocket *lpd = lhs->pocket;
+            const item_pocket *rpd = rhs->pocket;
 
             if( lpd->settings.priority() != rpd->settings.priority() ) {
                 return lpd->settings.priority() > rpd->settings.priority();
@@ -2339,7 +2339,7 @@ void outfit::add_stash( Character &guy, const item &newit, int &remaining_charge
             return rpd->better_pocket( lpp, temp_it, false );
         } );
 
-        int amount = remaining_charges;
+        const int amount = remaining_charges;
         int num_contained = 0;
         for( std::unique_ptr<pocket_with_parent_data> &pocket_data_ptr : pockets_with_parent ) {
             if( amount <= num_contained || remaining_charges <= 0 ) {
