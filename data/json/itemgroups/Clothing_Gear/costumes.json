@@ -93,6 +93,7 @@
       { "item": "cloak_leather", "prob": 20 },
       { "item": "cloak_wool", "prob": 10 },
       { "item": "pride_flag", "prob": 2 },
+      { "item": "national_flag", "prob": 1 },
       { "item": "state_flag", "prob": 1 }
     ]
   },
