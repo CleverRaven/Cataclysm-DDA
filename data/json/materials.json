@@ -2563,8 +2563,9 @@
     "id": "charcoal",
     "name": "Charcoal",
     "copy-from": "wood",
-    "fuel_data": { "energy": "6000 kJ" },
-    "//": "physical density for porous charcoal sits at about 0.208 kg/liter, while energy density per kg is slightly lower than anthracite coal at 29-30 mJ/kg. multiply that by .208 to get roughly given energy value",
+    "fuel_data": { "energy": "6240 kJ" },
+    "//": "physical density for porous charcoal sits at about 0.208 kg/liter, while energy density per kg is slightly lower than pure anthracite coal at 30 mJ/kg.",
+    "//1": "208g of charcoal (1 liter) yields 6240 kJ (30mJ x .208), and a single chunk (8mL/1.5g) is worth 50kJ",
     "density": 0.208
   },
   {
@@ -2572,8 +2573,9 @@
     "id": "coal",
     "name": "Coal",
     "copy-from": "wood",
-    "//": "mostly pure anthracite coal, 100% purity anthracite has 33mJ/liter, making this a little lower than that so that 1u of coal (1ml, 1.5g) easily equals 1u of charcoal (5ml, 1040g)",
-    "fuel_data": { "energy": "30000 kJ" },
+    "//": "mostly pure anthracite coal, 100% purity anthracite has 33.5mJ/liter.",
+    "//1": "33.5mJx1.5 gives energy per liter, or 50kJ in a single 1ml/1.5g unit of coal.",
+    "fuel_data": { "energy": "50000 kJ" },
     "density": 1.5
   },
   {
