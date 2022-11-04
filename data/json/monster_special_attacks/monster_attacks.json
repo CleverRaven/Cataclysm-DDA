@@ -325,6 +325,7 @@
     "hitsize_min": 4,
     "attack_upper": false,
     "required_effects_any": [ "grabbing" ],
+    "forbidden_effects_any": [ "maimed_mandible" ],
     "damage_max_instance": [ { "damage_type": "bash", "amount": 10 } ],
     "hit_dmg_u": "%1$s hits your legs, causing you to get knocked on your back!",
     "hit_dmg_npc": "%1$s knocks <npcname> prone!",
