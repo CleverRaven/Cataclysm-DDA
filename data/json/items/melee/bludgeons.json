@@ -1227,7 +1227,7 @@
     "weight": "610 g",
     "volume": "1260 ml",
     "longest_side": "183 cm",
-    "bashing": 18,
+    "bashing": 15,
     "category": "weapons",
     "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "good" },
     "price_postapoc": 1000
