@@ -137,7 +137,7 @@
     "id": "TALK_GODCO_chloe_parents_where",
     "type": "talk_topic",
     "dynamic_line": [
-      "I don't know.  They were going to contract deal before the riots broke out, at one of military bases I think.  I don't know what happened to them from there."
+      "I don't know.  They were going to a contract deal before the riots broke out, at one of military bases I think.  I don't know what happened to them from there."
     ],
     "responses": [
       { "text": "I'll let you know if anything turns up.", "topic": "TALK_GODCO_chloe_idle_chat" },
