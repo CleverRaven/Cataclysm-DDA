@@ -969,7 +969,7 @@
       {
         "id": "glock_18c",
         "name": { "str": "Glock 18C" },
-        "description": "A selective fire variation on the Glock 17, originally designed for Austria's EKO Cobra unit.  It has compensator cuts along its barrel to make recoil more manageable.",
+        "description": "A selective-fire variation on the Glock 17, originally designed for Austria's EKO Cobra unit.  It has compensator cuts along its barrel to make recoil more manageable.",
         "weight": 1
       }
     ],
