@@ -1078,10 +1078,12 @@ cata::optional<int> deploy_furn_actor::use( Character &p, item &it, bool,
         p.add_msg_if_player( m_info, _( "There is already furniture at that location." ) );
         return cata::nullopt;
     }
-    if( here.has_items( pnt ) ) {
-        p.add_msg_if_player( m_info, _( "Before deploying furniture, you need to clear the tile." ) );
-        return cata::nullopt;
+    
+    if( here.mop_spills( tripoint_bub_ms( pnt ) ) ) {
+        p.add_msg_if_player( m_info, _( "You moped up the spill when deploying furniture." ) );
+        p.moves -= 35;
     }
+    
     here.furn_set( pnt, furn_type );
     it.spill_contents( pnt );
     p.mod_moves( -to_moves<int>( 2_seconds ) );
