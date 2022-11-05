@@ -272,7 +272,7 @@
     "responses": [
       {
         "text": "Well, they're…",
-        "effect": [ { "u_spawn_item": "icon", "count": 5 }, { "u_assign_activity": "ACT_EXPLAINING", "duration": "30 minutes" } ],
+        "effect": [ { "u_spawn_item": "icon", "count": 5 }, { "u_assign_activity": "ACT_WAIT_NPC", "duration": "30 minutes" } ],
         "topic": "TALK_DONE"
       }
     ]

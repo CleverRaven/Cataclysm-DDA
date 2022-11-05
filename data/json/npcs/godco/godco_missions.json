@@ -1193,7 +1193,7 @@
     "value": 0,
     "start": "reveal_refugee_center",
     "end": {
-      "effect": [ { "u_spawn_item": "icon", "count": 5 }, { "u_assign_activity": "ACT_EXPLAINING", "duration": "30 minutes" } ]
+      "effect": [ { "u_spawn_item": "icon", "count": 5 }, { "u_assign_activity": "ACT_WAIT_NPC", "duration": "30 minutes" } ]
     },
     "followup": "MISSION_GODCO_HELENA_2",
     "origins": [ "ORIGIN_SECONDARY" ],
