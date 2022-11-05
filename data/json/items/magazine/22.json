@@ -199,7 +199,7 @@
     "looks_like": "stanag30",
     "type": "MAGAZINE",
     "name": { "str": "25-round varmint magazine" },
-    "description": "An extended capacity 25-round magazine, for use with .22 calibre varmint rifles.",
+    "description": "An extended capacity 25-round magazine, for use with .22 caliber varmint rifles.",
     "variant_type": "gun",
     "variants": [
       {
