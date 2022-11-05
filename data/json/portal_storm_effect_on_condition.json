@@ -1342,7 +1342,7 @@
         "fail_message": "Something is very wrong!",
         "force": true
       },
-      { "run_eocs": "EOC_PORTAL_DUNGEON_REWARD" },
+      { "run_eocs": [ "EOC_PORTAL_DUNGEON_REWARD", "EOC_PREVENT_FATIGUE_DEATH" ] },
       { "arithmetic": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, "=", { "const": 0 } ] },
       { "alter_timed_events": "portal_dungeon" }
     ]
@@ -1367,6 +1367,13 @@
         "spawn_message": "Your shadow is no longer attached to you."
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PREVENT_FATIGUE_DEATH",
+    "condition": { "compare_int": [ { "u_val": "fatigue" }, ">", { "const": 1200 } ] },
+    "deactivate_condition": { "compare_int": [ { "u_val": "fatigue" }, "<=", { "const": 1200 } ] },
+    "effect": [ { "arithmetic": [ { "u_val": "fatigue" }, "=", { "const": 1200 } ] } ]
   },
   {
     "type": "effect_on_condition",
