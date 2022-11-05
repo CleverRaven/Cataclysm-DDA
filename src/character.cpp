@@ -4217,7 +4217,7 @@ bool Character::is_mute() const
                    is_wearing( itype_foodperson_mask_on ) ) ) ||
            has_trait( trait_MUTE );
 }
-void Character::on_damage_of_type( effect_source &source, int adjusted_damage, damage_type type,
+void Character::on_damage_of_type( const effect_source &source, int adjusted_damage, damage_type type,
                                    const bodypart_id &bp )
 {
     // Handle bp onhit effects

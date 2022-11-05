@@ -3,6 +3,7 @@
 #define CATA_SRC_BODYPART_H
 
 #include <array>
+#include <climits>
 #include <cstddef>
 #include <initializer_list>
 #include <iosfwd>

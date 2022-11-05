@@ -425,7 +425,7 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
         for( const JsonObject effect_jo : jo.get_array( "effects_on_hit" ) ) {
             bp_onhit_effect eff;
             eff.load( effect_jo );
-            effects_on_hit.push_back( std::move( eff ) );
+            effects_on_hit.push_back( eff );
         }
     }
 

@@ -2718,7 +2718,7 @@ class Character : public Creature, public visitable
                                             const cata::optional<tripoint> &blind_throw_from_pos = cata::nullopt );
 
     protected:
-        void on_damage_of_type( effect_source &source, int adjusted_damage, damage_type type,
+        void on_damage_of_type( const effect_source &source, int adjusted_damage, damage_type type,
                                 const bodypart_id &bp ) override;
     public:
         /** Called when an item is worn */
