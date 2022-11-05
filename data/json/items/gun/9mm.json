@@ -1023,7 +1023,7 @@
     "looks_like": "glock_17",
     "type": "GUN",
     "name": { "str": "service handgun" },
-    "description": "The general issue military handgun of the United States army before the Cataclysm, this is a sizable pistol that fires 9x19mm cartridges.  Based off successful civilian designs and capable of taking magazines of various round capacities, the gun features a plastic polymer frame which helps to reduce overall weight.",
+    "description": "The general-issue military handgun of the United States army before the Cataclysm, this is a sizable pistol that fires 9x19mm cartridges.  Based off successful civilian designs and capable of taking magazines of various round capacities, the gun features a plastic polymer frame which helps to reduce overall weight.",
     "variant_type": "gun",
     "variants": [
       {
