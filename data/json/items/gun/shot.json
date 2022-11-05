@@ -232,7 +232,7 @@
     "copy-from": "mossberg_500",
     "type": "GUN",
     "name": { "str": "9-round combat shotgun" },
-    "description": "A military oriented spin on the classic pump-action shotgun recipe, this firearm features an extended magazine tube capable of fielding 9 rounds of 12 gauge shotshells.  Sporting a heavier barrel and a bayonet lug, it makes for a highly intimidating weapon, as well as a satisfying answer to most of the nasties you're liable to find in the post-apocalypse.",
+    "description": "A military oriented spin on the classic pump-action shotgun recipe, this firearm features an extended magazine tube capable of fielding nine rounds of 12 gauge shotshells.  Sporting a heavier barrel and a bayonet lug, it makes for a highly intimidating weapon, as well as a satisfying answer to most of the nasties you're liable to find in the post-apocalypse.",
     "variant_type": "gun",
     "variants": [
       {
