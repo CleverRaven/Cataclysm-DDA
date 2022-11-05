@@ -21,7 +21,7 @@
     "sub": "char_smoker",
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "ammo": [ "charcoal" ],
-    "//": "holds 400 liters of charcoal. a full smoking rack cycle of 20L of stuff would consume 10,000 charcoal (80 liters, 15kg of charcoal)",
+    "//1": "holds 400 liters of charcoal. a full smoking rack cycle of 20L of stuff would consume 10,000 charcoal (80 liters, 15kg of charcoal)",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "charcoal": 50000 } } ]
   },
   {
