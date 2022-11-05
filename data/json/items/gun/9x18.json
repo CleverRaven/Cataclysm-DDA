@@ -51,7 +51,7 @@
     "looks_like": "hk_mp5",
     "type": "GUN",
     "name": { "str": "vz. 82 submachine gun" },
-    "description": "A compact submachine gun hailing from Czechoslovakia during the Cold War, featuring a suppressively high rate of automatic fire and shooting the soviet 9x18mm round.",
+    "description": "A compact submachine gun hailing from Czechoslovakia during the Cold War, featuring a suppressively high rate of automatic fire and shooting the Soviet 9x18mm round.",
     "variant_type": "gun",
     "variants": [
       {
