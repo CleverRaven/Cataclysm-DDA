@@ -304,7 +304,7 @@
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": { "str": ".22 10-round Walther magazine" },
-    "description": "A 10-round handgun magazine for use with Walther's .22 calibre pocket pistol.",
+    "description": "A 10-round handgun magazine for use with Walther's .22 caliber pocket pistol.",
     "variant_type": "gun",
     "variants": [
       {
