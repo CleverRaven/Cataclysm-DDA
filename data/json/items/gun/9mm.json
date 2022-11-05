@@ -963,7 +963,7 @@
     "copy-from": "glock_17",
     "type": "GUN",
     "name": { "str": "Glock machine pistol" },
-    "description": "A military, fully automatic capable version of the popular 9x19mm handguns produced by the Glock arms company, this machine pistol makes use of Glock magazines.  The weapon has had its barrel modified to lesson recoil, a useful feature considering its high rate of fire and lack of a default buttstock.",
+    "description": "A military, fully automatic capable version of the popular 9x19mm handguns produced by the Glock arms company, this machine pistol makes use of Glock magazines.  The weapon has had its barrel modified to lessen recoil, a useful feature considering its high rate of fire and lack of a default buttstock.",
     "variant_type": "gun",
     "variants": [
       {
