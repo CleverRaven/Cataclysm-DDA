@@ -129,7 +129,7 @@
     "looks_like": "mp5mag",
     "type": "MAGAZINE",
     "name": { "str": ".22 275-round polymer magazine" },
-    "description": "an unusually shaped polymer constructed pan magazine for use with .22 calibre submachine guns.",
+    "description": "An unusually-shaped polymer pan magazine for use with .22 caliber submachine guns.",
     "variant_type": "gun",
     "variants": [
       {
