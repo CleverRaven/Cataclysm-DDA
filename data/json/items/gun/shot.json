@@ -678,7 +678,7 @@
     "copy-from": "shotgun_base",
     "type": "GUN",
     "name": { "str": "auto-loading bullpup shotgun" },
-    "description": "Looking more like some form of sci-fi prop gun than an actual firearm, this weapon uses a system of triple magazines to field 15 12-gauge shotgun shells within a comparatively compact design.  Each tube has to be loaded separately, but this offers the option of loading different ammunition for different situations.  As the weapon’s trigger assembly is situated forwards of the chamber and magazines in what is termed as a 'bullpup' design, the firearm’s notably more compact than its peers despite having a higher capacity when compared against more classically designed shotguns.",
+    "description": "Looking more like some form of sci-fi prop gun than an actual firearm, this weapon uses a system of three different magazines to field 15 12-gauge shotgun shells within a comparatively compact design.  Each tube has to be loaded separately, but this offers the option of loading different ammunition for different situations.  As the weapon’s trigger assembly is situated forwards of the chamber and magazines in what is termed as a 'bullpup' design, the firearm’s notably more compact than its peers despite having a higher capacity when compared against more classically designed shotguns.",
     "variant_type": "gun",
     "variants": [
       {

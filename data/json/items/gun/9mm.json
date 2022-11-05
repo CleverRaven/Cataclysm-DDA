@@ -5,14 +5,14 @@
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": { "str": "Calico automatic carbine" },
-    "description": "A compact submachine gun designed evidently under the 'spray and pray' mentality, this Calico automatic carbine is not notably powerful, or dependable, or even particularly accurate to shoot.  Intended for military and law enforcement use, it never saw any noteworthy service due to its poor reliability and overall performance, and would be an unremarkable weapon in all respects, save for its enormous magazine capacity.  Making use of uniquely designed 50 or 100 round circular magazines, the Calico might not be a particularly good gun, but will throw an overwhelming amount of led down range for a long time providing that it doesn’t choke, jam, and die.",
+    "description": "The Calico automatic carbine is a submachine gun with a unique circular magazine that allows for high capacities and reduced recoil.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "calico",
         "name": { "str_sp": "Calico M960" },
         "//": "Automatic variant.  Cyclic fire rate: 750 rpm",
-        "description": "The Calico M960 is an automatic carbine with a unique circular magazine that allows for high capacities and reduced recoil.",
+        "description": "A compact submachine gun designed evidently under the 'spray and pray' mentality, this Calico M960 automatic carbine is not notably powerful, or dependable, or even particularly accurate to shoot.  Intended for military and law enforcement use, it never saw any noteworthy service due to its poor reliability and overall performance, and would be an unremarkable weapon in all respects, save for its enormous magazine capacity.  Making use of uniquely designed 50 or 100 round circular magazines, the Calico might not be a particularly good gun, but will throw an overwhelming amount of led down range for a long time providing that it doesn’t choke, jam, and die.",
         "weight": 1
       }
     ],
@@ -922,13 +922,13 @@
     "//": "Tilelist whitelist for pistols.",
     "type": "GUN",
     "name": { "str": "Glock duty pistol" },
-    "description": "Commonly seen tucked away in the holsters of police officers, certain military professionals, and civilian shooters, this is a larger, older, service-oriented version of Glock’s popular 9x19mm carry pistol.  Similarly firing the 9x19mm cartridge and using identical magazines, it performs largely the same.",
+    "description": "Designed for all shooters, this offering from the Glock gun company is a full-sized 9x19mm pistol marketed towards law-enforcement and military users.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "glock_17",
         "name": { "str": "Glock 17" },
-        "description": "Designed for all shooters, the Glock 17 is a full-sized handgun marketed towards law-enforcement and military users.",
+        "description": "Commonly seen tucked away in the holsters of police officers, certain military professionals, and civilian shooters, this is a larger, older, service-oriented version of the popular Glock 19.  Similarly firing the 9x19mm cartridge and using higher capacity magazines, it performs largely the same.",
         "weight": 1
       }
     ],
@@ -1029,7 +1029,7 @@
       {
         "id": "m17",
         "name": { "str": "M17" },
-        "description": "The M17 is a semi-automatic, short recoil operated pistol derived from the SIG Sauer P320.",
+        "description": "The M17 is an army issued semi-automatic, short recoil operated pistol derived from the SIG Sauer P320.",
         "weight": 1
       }
     ],
