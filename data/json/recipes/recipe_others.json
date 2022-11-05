@@ -2798,7 +2798,7 @@
     "skill_used": "fabrication",
     "time": "2 m",
     "autolearn": true,
-    "qualities": [ { "id": "DIG", "level": 3 } ],
+    "qualities": [ { "id": "DIG", "level": 2 } ],
     "components": [ [ [ "bag_canvas", 1 ] ], [ [ "material_sand", 3000 ] ] ]
   },
   {
@@ -2810,7 +2810,7 @@
     "skill_used": "fabrication",
     "time": "2 m",
     "autolearn": true,
-    "qualities": [ { "id": "DIG", "level": 3 } ],
+    "qualities": [ { "id": "DIG", "level": 2 } ],
     "components": [ [ [ "bag_canvas", 1 ] ], [ [ "material_soil", 3 ] ] ]
   },
   {
@@ -2822,7 +2822,7 @@
     "skill_used": "fabrication",
     "time": "2 m",
     "autolearn": true,
-    "qualities": [ { "id": "DIG", "level": 3 } ],
+    "qualities": [ { "id": "DIG", "level": 2 } ],
     "components": [ [ [ "bag_canvas", 1 ] ], [ [ "material_gravel", 2700 ] ] ]
   },
   {
