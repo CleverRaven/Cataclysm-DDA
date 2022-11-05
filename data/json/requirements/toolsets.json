@@ -357,56 +357,85 @@
     ]
   },
   {
-    "id": "cover_hands",
+    "id": "ppe_gloves",
     "type": "requirement",
-    "//": "Tools for protection hands for handling toxic substances, plastic and waterproof",
-    "tools": [ [ [ "gloves_bag", -1 ], [ "gloves_medical", -1 ], [ "gloves_rubber", -1 ], [ "gloves_claws", -1 ] ] ]
+    "//": "Disposable or reusable gloves.",
+    "tools": [ [ [ "gloves_medical", 1 ], [ "gloves_rubber", -1 ], [ "entry_suit", -1 ], [ "hazmat_suit", -1 ] ] ]
   },
   {
-    "id": "cover_mouth",
+    "id": "ppe_eyes",
     "type": "requirement",
-    "//": "Tools for protection the mouth for handling toxic substances, just covers mouth and nose",
+    "//": "Full eye protection, thick or shatterproof. Also includes some masks with appropriate coverage.",
     "tools": [
       [
-        [ "mask_dust", -1 ],
-        [ "bandana", -1 ],
-        [ "mask_rioter", -1 ],
-        [ "patchwork_scarf", -1 ],
-        [ "long_patchwork_scarf", -1 ],
-        [ "knit_scarf", -1 ],
-        [ "long_knit_scarf", -1 ],
-        [ "scarf", -1 ],
-        [ "scarf_long", -1 ],
-        [ "scarf_fur", -1 ],
-        [ "scarf_fur_long", -1 ],
-        [ "marloss_scarf", -1 ]
+        [ "glass_goggles", -1 ],
+        [ "survivor_goggles", -1 ],
+        [ "goggles_ski", -1 ],
+        [ "glasses_safety", -1 ],
+        [ "glasses_bal", -1 ],
+        [ "mask_gas", -1 ],
+        [ "mask_gas_xs", -1 ],
+        [ "mask_gas_xl", -1 ],
+        [ "mask_bunker", -1 ],
+        [ "mask_survivor", -1 ],
+        [ "mask_lsurvivor", -1 ],
+        [ "mask_hsurvivor", -1 ],
+        [ "mask_survivorxl", -1 ],
+        [ "mask_lsurvivorxl", -1 ],
+        [ "mask_survivorxs", -1 ],
+        [ "mask_wsurvivor", -1 ],
+        [ "mask_wsurvivorxl", -1 ],
+        [ "mask_wsurvivorxs", -1 ],
+        [ "mask_wsurvivor_nofur", -1 ],
+        [ "mask_wsurvivor_nofur_xs", -1 ],
+        [ "mask_wsurvivorxl_nofur", -1 ],
+        [ "hazmat_suit", -1 ]
       ]
     ]
   },
   {
-    "id": "gas_mask",
+    "id": "ppe_gas",
     "type": "requirement",
-    "//": "Tools for breathing protection for handling very toxic substances",
+    "//": "Gas protection.",
     "tools": [
       [
-        [ "mask_filter", 2 ],
-        [ "mask_gas", 1 ],
-        [ "mask_gas_xl", 1 ],
-        [ "mask_gas_xs", 1 ],
-        [ "mask_fsurvivor", 1 ],
-        [ "mask_fsurvivorxl", 1 ],
-        [ "mask_fsurvivorxs", 1 ],
-        [ "mask_bunker", 1 ],
-        [ "mask_hsurvivor", 1 ],
-        [ "mask_lsurvivor", 1 ],
-        [ "mask_lsurvivorxl", 1 ],
-        [ "mask_survivor", 1 ],
-        [ "mask_survivorxl", 1 ],
-        [ "mask_survivorxs", 1 ],
-        [ "mask_wsurvivor_nofur", 1 ],
-        [ "mask_wsurvivorxl_nofur", 1 ],
-        [ "mask_wsurvivor_nofur_xs", 1 ],
-        [ "mask_wsurvivor", 1 ]
+        [ "mask_gas", -1 ],
+        [ "mask_gas_xs", -1 ],
+        [ "mask_gas_xl", -1 ],
+        [ "mask_gas_half", -1 ],
+        [ "mask_bunker", -1 ],
+        [ "mask_survivor", -1 ],
+        [ "mask_lsurvivor", -1 ],
+        [ "mask_hsurvivor", -1 ],
+        [ "mask_survivorxl", -1 ],
+        [ "mask_lsurvivorxl", -1 ],
+        [ "mask_survivorxs", -1 ],
+        [ "mask_wsurvivor", -1 ],
+        [ "mask_wsurvivorxl", -1 ],
+        [ "mask_wsurvivorxs", -1 ],
+        [ "mask_wsurvivor_nofur", -1 ],
+        [ "mask_wsurvivor_nofur_xs", -1 ],
+        [ "mask_wsurvivorxl_nofur", -1 ],
+        [ "hazmat_suit", -1 ]
+      ],
+      [ [ "gasfilter_m", 1 ] ]
+    ]
+  },
+  {
+    "id": "ppe_skin",
+    "type": "requirement",
+    "//": "Torso and arm protection, either chemical/flame resistant or easy to remove.",
+    "tools": [
+      [
+        [ "coat_lab", -1 ],
+        [ "hazmat_suit", -1 ],
+        [ "jacket_chef", -1 ],
+        [ "entry_suit", -1 ],
+        [ "folding_poncho", -1 ],
+        [ "coat_rain", -1 ],
+        [ "bunker_coat", -1 ],
+        [ "entry_suit_xs", -1 ],
+        [ "xl_entry_suit", -1 ]
       ]
     ]
   }
