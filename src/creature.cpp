@@ -849,9 +849,11 @@ void projectile::apply_effects_damage( Creature &target, Creature *source,
         }
     }
 
-    if( dealt_dam.bp_hit->has_type(body_part_type::type::head) && proj_effects.count( "BLINDS_EYES" ) ) {
+    if( dealt_dam.bp_hit->has_type( body_part_type::type::head ) &&
+        proj_effects.count( "BLINDS_EYES" ) ) {
         // TODO: Change this to require bp_eyes
-        target.add_env_effect( effect_blind, target.get_random_body_part_of_type( body_part_type::type::sensor), 5, rng( 3_turns, 10_turns ) );
+        target.add_env_effect( effect_blind,
+                               target.get_random_body_part_of_type( body_part_type::type::sensor ), 5, rng( 3_turns, 10_turns ) );
     }
 
     if( proj_effects.count( "APPLY_SAP" ) ) {
@@ -2420,7 +2422,7 @@ std::vector<bodypart_id> Creature::get_all_body_parts_of_type(
 
 bodypart_id Creature::get_random_body_part_of_type( body_part_type::type part_type ) const
 {
-    return random_entry( get_all_body_parts_of_type(part_type) );
+    return random_entry( get_all_body_parts_of_type( part_type ) );
 }
 
 std::vector<bodypart_id> Creature::get_all_body_parts_with_flag( const json_character_flag &flag )

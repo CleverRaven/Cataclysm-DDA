@@ -4217,7 +4217,8 @@ bool Character::is_mute() const
                    is_wearing( itype_foodperson_mask_on ) ) ) ||
            has_trait( trait_MUTE );
 }
-void Character::on_damage_of_type( effect_source source, int adjusted_damage, damage_type type, const bodypart_id &bp )
+void Character::on_damage_of_type( effect_source &source, int adjusted_damage, damage_type type,
+                                   const bodypart_id &bp )
 {
     // Handle bp onhit effects
     bodypart *body_part = get_part( bp );
@@ -7622,7 +7623,7 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
     int recoil_mul = 100;
 
     if( bp == body_part_hand_l || bp == body_part_arm_l ||
-               bp == body_part_hand_r || bp == body_part_arm_r ) {
+        bp == body_part_hand_r || bp == body_part_arm_r ) {
         recoil_mul = 200;
     } else if( bp == bodypart_str_id::NULL_ID() ) {
         debugmsg( "Wacky body part hit!" );
