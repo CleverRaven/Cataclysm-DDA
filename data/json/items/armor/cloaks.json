@@ -386,7 +386,7 @@
         "id": "canadian_flag",
         "name": { "str": "Canadian flag" },
         "description": "It has three red and white stripes, with the iconic maple leaf in red.",
-        "weight": 10,
+        "weight": 50,
         "append": true
       },
       {
