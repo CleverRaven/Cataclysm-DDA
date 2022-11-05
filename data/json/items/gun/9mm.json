@@ -113,7 +113,7 @@
     "looks_like": "glock_17",
     "type": "GUN",
     "name": { "str": "Glock carry pistol" },
-    "description": "A common 9x19mm pistol of modest proportions, produced by the popular Glock gun company and mainly built from plastic polymers.  Making use of aptly named Glock magazines and being a decades long popular concealed carry option for civilians due to its small size, it is a tried, tested, and reliable design.",
+    "description": "A common 9x19mm pistol of modest proportions, produced by the popular Glock gun company and mainly built from plastic polymers.  Making use of aptly-named Glock magazines and being a decades-long popular concealed carry option for civilians due to its small size, it is a tried, tested, and reliable design.",
     "variant_type": "gun",
     "variants": [
       {
