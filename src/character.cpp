@@ -4223,11 +4223,11 @@ void Character::on_damage_of_type( const effect_source &source, int adjusted_dam
 {
     // Handle bp onhit effects
     bodypart *body_part = get_part( bp );
-    bool is_minor = bp->main_part != bp->id;
+    const bool is_minor = bp->main_part != bp->id;
     add_msg_debug( debugmode::DF_CHARACTER, "Targeting limb %s with %d %s type damage", bp->name,
                    adjusted_damage, name_by_dt( type ) );
     // Damage as a percent of the limb's max hp or raw dmg for minor parts
-    float dmg_ratio = is_minor ? adjusted_damage : ( 100 * adjusted_damage ) / body_part->get_hp_max();
+    float dmg_ratio = is_minor ? adjusted_damage : 100 * adjusted_damage / body_part->get_hp_max();
     add_msg_debug( debugmode::DF_CHARACTER, "Main BP max hp %d, damage ratio %.1f",
                    body_part->get_hp_max(), dmg_ratio );
     for( const bp_onhit_effect &eff : body_part->get_onhit_effects( type ) ) {

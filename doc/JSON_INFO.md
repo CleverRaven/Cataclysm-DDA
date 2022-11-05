@@ -869,7 +869,7 @@ An array of effects to add whenever the limb in question takes damage. Variables
 | `Identifier`           | Description
 |---                     |---
 | `id`                   | (_mandatory_) ID of the effect to apply.
-| `dmg_type`             | (_optional_) String id of the damage type eligable to apply the effect. Defaults to all damage.
+| `dmg_type`             | (_optional_) String id of the damage type eligible to apply the effect. Defaults to all damage.
 | `dmg_threshold`        | (_optional_) Integer, amount of damage to trigger the effect. For main parts used as percent of limb max health, for minor parts as absolute damage amount. Default 1.
 | `dmg_scale_increment`  | (_optional_) Float, steps of scaling based on damage above `damage_threshold`. Default 1.
 | `chance`               | (_optional_) Integer, percent chance to trigger the effect. Default 100.
