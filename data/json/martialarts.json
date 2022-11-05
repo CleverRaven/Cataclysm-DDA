@@ -1263,7 +1263,7 @@
     "id": "style_taekwondo",
     "name": { "str": "Taekwondo" },
     "description": "Taekwondo is the national sport of Korea, and was used by the South Korean army in the 20th century.  Focused on kicks and so it does not benefit from wielded weapons.  It also includes strength training; your blocks absorb extra damage and your attacks do more damage if you are not holding anything.",
-    "initiate": [ "You adopt a sideways fighting stance.", "%s adopts a sideways fighting stance." ],
+    "initiate": [ "You jump into a narrow side facing fighting stance.", "%s jumps into a narrow side facing fighting stance." ],
     "learn_difficulty": 5,
     "arm_block": 1,
     "force_unarmed": true,
@@ -1273,7 +1273,7 @@
       {
         "id": "buff_taekwondo_static",
         "name": "Taekwondo Stance",
-        "description": "Using a mobile sideways stance makes it easier avoid attacks, while having both hands free allows for better blocks. \n\n+1.0 Dodging skill, blocked damage reduced by 50% of Strength.",
+        "description": "Using a stance that presents less of a target makes it easier avoid attacks, while having both hands free allows for better blocks. \n\n+1.0 Dodging skill, blocked damage reduced by 50% of Strength.",
         "unarmed_allowed": true,
         "flat_bonuses": [ { "stat": "block", "scaling-stat": "str", "scale": 0.5 }, { "stat": "dodge", "scale": 1 } ]
       },
