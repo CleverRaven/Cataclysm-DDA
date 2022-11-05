@@ -1823,7 +1823,12 @@
     "autolearn": true,
     "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "CHEM", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" } ],
-    "tools": [ [ [ "surface_heat", 20, "LIST" ] ], [ [ "ppe_gas", 10, "LIST" ] ], [ [ "ppe_gloves", 1, "LIST" ] ], [ [ "ppe_skin", 1, "LIST" ] ] ],
+    "tools": [
+      [ [ "surface_heat", 20, "LIST" ] ],
+      [ [ "ppe_gas", 10, "LIST" ] ],
+      [ [ "ppe_gloves", 1, "LIST" ] ],
+      [ [ "ppe_skin", 1, "LIST" ] ]
+    ],
     "components": [
       [ [ "chem_ethanol", 250 ], [ "denat_alcohol", 250 ], [ "mixed_alcohol_strong", 14 ] ],
       [ [ "blood_acid_zombie", 3 ] ]
@@ -1844,7 +1849,12 @@
     "autolearn": true,
     "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "CHEM", "level": 2 }, { "id": "DISTILL", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" } ],
-    "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "ppe_gas", 10, "LIST" ] ], [ [ "ppe_gloves", 1, "LIST" ] ], [ [ "ppe_skin", 1, "LIST" ] ] ],
+    "tools": [
+      [ [ "surface_heat", 10, "LIST" ] ],
+      [ [ "ppe_gas", 10, "LIST" ] ],
+      [ [ "ppe_gloves", 1, "LIST" ] ],
+      [ [ "ppe_skin", 1, "LIST" ] ]
+    ],
     "components": [
       [ [ "chem_ethanol", 250 ], [ "denat_alcohol", 250 ], [ "mixed_alcohol_strong", 14 ] ],
       [ [ "blood_acid_zombie", 3 ] ]
@@ -1942,7 +1952,12 @@
     "autolearn": true,
     "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "CHEM", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_inorganic_chemistry" } ],
-    "tools": [ [ [ "surface_heat", 20, "LIST" ] ], [ [ "ppe_gas", 10, "LIST" ] ], [ [ "ppe_gloves", 1, "LIST" ] ], [ [ "ppe_skin", 1, "LIST" ] ] ],
+    "tools": [
+      [ [ "surface_heat", 20, "LIST" ] ],
+      [ [ "ppe_gas", 10, "LIST" ] ],
+      [ [ "ppe_gloves", 1, "LIST" ] ],
+      [ [ "ppe_skin", 1, "LIST" ] ]
+    ],
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "blood_acid_ground", 3 ] ] ]
   }
 ]
