@@ -278,7 +278,7 @@
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": { "str": "cheap 6-round magazine" },
-    "description": "A cheaply built, low quality 6-round magazine, for use in only the most ineffectual of .22 calibre pocket pistols.",
+    "description": "A cheaply built, low quality 6-round magazine, for use in only the most ineffectual of .22 caliber pocket pistols.",
     "variant_type": "gun",
     "variants": [
       {
