@@ -1060,7 +1060,7 @@
     "copy-from": "m17",
     "type": "GUN",
     "name": { "str": "compact service handgun" },
-    "description": "A more petite version of the United States army’s general issue sidearm, this is a modestly sized pistol firing 9x19mm rounds.  Making use of the same magazines as its larger brother, the weapon features a shorter barrel and frame which helps to reduce its overall profile and make it more concealable as a result.",
+    "description": "A more petite version of the United States army’s general issue sidearm, this is a modestly-sized pistol firing 9x19mm rounds.  Making use of the same magazines as its larger brother, the weapon features a shorter barrel and frame which helps to reduce its overall profile and make it more concealable as a result.",
     "variant_type": "gun",
     "variants": [
       {
