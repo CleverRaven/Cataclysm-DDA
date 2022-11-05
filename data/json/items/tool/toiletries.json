@@ -105,6 +105,7 @@
     "techniques": [ "WBLOCK_1" ],
     "weapon_category": [ "QUARTERSTAVES" ],
     "use_action": [ "MOP" ],
+    "qualities": [ [ "MOP", 1 ] ],
     "flags": [ "MOP" ]
   },
   {
@@ -125,6 +126,7 @@
     "looks_like": "mop",
     "weapon_category": [ "QUARTERSTAVES" ],
     "flags": [ "FRAGILE_MELEE", "MOP" ],
+    "qualities": [ [ "MOP", 1 ] ],
     "use_action": [ "MOP" ]
   },
   {
