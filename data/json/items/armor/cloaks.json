@@ -238,7 +238,7 @@
       {
         "id": "bahamanian_flag",
         "name": { "str": "Bahamanain flag" },
-        "description": "It has three stripes of light blue and yellow, with a black triangle on the far left side.",
+        "description": "It has three stripes of light blue and yellow, with a black triangle on the far-left side.",
         "weight": 10,
         "append": true
       },
