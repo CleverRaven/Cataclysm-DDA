@@ -1599,7 +1599,7 @@
     "type": "technique",
     "id": "tec_silat_legsweep",
     "name": "Leg Sweep",
-    "messages": [ "You ground %s with a leg sweep", "<npcname> grounds %s with a legsweep" ],
+    "messages": [ "You ground %s with a leg sweep", "<npcname> grounds %s with a leg sweep" ],
     "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
     "melee_allowed": true,
 	"unarmed_allowed": true,
