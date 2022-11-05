@@ -147,7 +147,7 @@
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": { "str": "Ruger-57 handgun" },
-    "description": "Produced by the Ruger gun company, this full-sized pistol makes use of the 5.7x28mm cartridge.  one of the first pistols to both make use of the unusual round and achieve market success within the civilian world, it opened the door for accessible 5.7mm shooting due to its low price and reliable design.",
+    "description": "Produced by the Ruger gun company, this full-sized pistol makes use of the 5.7x28mm cartridge.  One of the first pistols to both make use of the unusual round and achieve market success within the civilian world, it opened the door for accessible 5.7mm shooting due to its low price and reliable design.",
     "variant_type": "gun",
     "variants": [
       {
