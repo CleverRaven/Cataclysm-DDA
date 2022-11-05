@@ -289,7 +289,7 @@
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": { "str": "Mosquito pistol" },
-    "description": "a compact, .22 calibre semi-automatic pistol.  Built from aluminum and polymer componence, the weapon is light weight and concealable.  Unfortunately, much like its namesake, this pistol mostly poses a mild annoyance to most hostiles that the Cataclysm is liable to direct into your path.",
+    "description": "a compact, .22 caliber semi-automatic pistol.  Built from aluminum and polymer componence, the weapon is lightweight and concealable.  Unfortunately, much like its namesake, this pistol mostly poses a mild annoyance to most hostiles that the Cataclysm is liable to direct into your path.",
     "variant_type": "gun",
     "variants": [
       {
