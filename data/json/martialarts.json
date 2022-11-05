@@ -1273,7 +1273,7 @@
       {
         "id": "buff_taekwondo_static",
         "name": "Taekwondo Stance",
-        "description": "Using a stance that presents less of a target makes it easier avoid attacks, while having both hands free allows for better blocks. \n\n+1.0 Dodging skill, blocked damage reduced by 50% of Strength.",
+        "description": "Using a stance that presents less of a target makes it easier avoid attacks, while having both hands free allows for better blocks.\n\n+1.0 Dodging skill, blocked damage reduced by 50% of Strength.",
         "unarmed_allowed": true,
         "flat_bonuses": [ { "stat": "block", "scaling-stat": "str", "scale": 0.5 }, { "stat": "dodge", "scale": 1 } ]
       },
