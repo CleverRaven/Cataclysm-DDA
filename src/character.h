@@ -2211,9 +2211,6 @@ class Character : public Creature, public visitable
         std::vector<spell> spells_known_of_class( const trait_id &spell_class ) const;
         bool cast_spell( spell &sp, bool fake_spell, const cata::optional<tripoint> &target );
 
-        void make_bleed( const effect_source &source, const bodypart_id &bp, time_duration duration,
-                         int intensity = 1, bool permanent = false, bool force = false, bool defferred = false ) override;
-
         /** Called when a player triggers a trap, returns true if they don't set it off */
         bool avoid_trap( const tripoint &pos, const trap &tr ) const override;
 
@@ -2721,7 +2718,7 @@ class Character : public Creature, public visitable
                                             const cata::optional<tripoint> &blind_throw_from_pos = cata::nullopt );
 
     protected:
-        void on_damage_of_type( int adjusted_damage, damage_type type, const bodypart_id &bp ) override;
+        void on_damage_of_type( effect_source source, int adjusted_damage, damage_type type, const bodypart_id &bp ) override;
     public:
         /** Called when an item is worn */
         void on_item_wear( const item &it );
