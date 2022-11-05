@@ -216,8 +216,8 @@
     },
     "end": {
       "effect": [
-        { "u_add_var": "darryl_building_coop", "type": "general", "context": "trade", "value": "yes" },
-        { "u_add_var": "coop_in_progress", "type": "timer", "context": "trade", "time": true },
+        { "arithmetic": [ { "global_val": "var", "var_name": "darryl_building_coop" }, "=", { "const": 1 } ] },
+        { "npc_add_var": "coop_in_progress", "type": "timer", "context": "trade", "time": true },
         { "u_spawn_item": "icon", "count": 6 }
       ]
     }
@@ -833,8 +833,8 @@
     "end": {
       "effect": [
         { "u_spawn_item": "icon", "count": 90 },
-        { "u_add_var": "kostas_building_garden", "type": "general", "context": "trade", "value": "yes" },
-        { "u_add_var": "herb_garden_in_progress", "type": "timer", "context": "trade", "time": true }
+        { "arithmetic": [ { "global_val": "var", "var_name": "kostas_building_garden" }, "=", { "const": 1 } ] },
+        { "npc_add_var": "herb_garden_in_progress", "type": "timer", "context": "trade", "time": true }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -1096,8 +1096,8 @@
     "end": {
       "effect": [
         { "mapgen_update": "helena_planer", "om_terrain": "godco_8" },
-        { "u_add_var": "wall_in_progress", "type": "general", "context": "trade", "value": "yes" },
-        { "u_add_var": "wall_started_building", "type": "timer", "context": "trade", "time": true },
+        { "arithmetic": [ { "global_val": "var", "var_name": "wall_in_progress" }, "=", { "const": 1 } ] },
+        { "npc_add_var": "wall_started_building", "type": "timer", "context": "trade", "time": true },
         { "u_spawn_item": "icon", "count": 40 }
       ]
     },
