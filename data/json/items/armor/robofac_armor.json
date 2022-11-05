@@ -68,7 +68,7 @@
         "ablative": true,
         "volume_encumber_modifier": 0,
         "max_contains_volume": "4000 ml",
-        "max_contains_weight": "5 kg",
+        "max_contains_weight": "4 kg",
         "moves": 200,
         "description": "Hooks for an armored skirt.",
         "flag_restriction": [ "ABLATIVE_SKIRT" ]
@@ -146,12 +146,12 @@
         "max_item_length": "270 mm",
         "moves": 80
       },
-      {
+     {
         "pocket_type": "CONTAINER",
         "ablative": true,
         "volume_encumber_modifier": 0,
-        "max_contains_volume": "5000 ml",
-        "max_contains_weight": "5 kg",
+        "max_contains_volume": "7000 ml",
+        "max_contains_weight": "11 kg",
         "moves": 200,
         "description": "Hooks for an armored mantle.",
         "flag_restriction": [ "ABLATIVE_MANTLE" ]
@@ -161,7 +161,7 @@
         "ablative": true,
         "volume_encumber_modifier": 0,
         "max_contains_volume": "4000 ml",
-        "max_contains_weight": "5 kg",
+        "max_contains_weight": "4 kg",
         "moves": 200,
         "description": "Hooks for an armored skirt.",
         "flag_restriction": [ "ABLATIVE_SKIRT" ]
