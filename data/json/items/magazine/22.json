@@ -252,7 +252,7 @@
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": { "str": ".22 10-round S&W magazine" },
-    "description": "A 10-round handgun magazine for use with Smith and Wesson’s .22 calibre pocket pistol.",
+    "description": "A 10-round handgun magazine for use with Smith and Wesson’s .22 caliber pocket pistol.",
     "variant_type": "gun",
     "variants": [
       {
