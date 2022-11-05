@@ -1105,17 +1105,20 @@
     "type": "martial_art",
     "id": "style_silat",
     "name": { "str": "Silat" },
-    "description": "Pencak Silat, of Indonesian origin, is a fighting style that covers the use of short blades and bludgeons.  Fighters stay low and mobile to avoid attacks, then unleash deadly critical hits.",
+    "description": "Pencak Silat is a style that covers a wide variety of weapons and unarmed fighting techniques.  Fighters stay low and mobile to avoid attacks, then unleash deadly critical hits.",
     "initiate": [ "You give a salute of respect as you prepare to combat.", "%s gives a combat salute." ],
     "learn_difficulty": 7,
     "primary_skill": "cutting",
-    "strictly_melee": true,
+    "arm_block": 3,
+    "leg_block": 5,
+    "strictly_melee": false,
     "static_buffs": [
       {
         "id": "buff_silat_static",
         "name": "Silat Stance",
         "description": "You try to stay loose as possible when fighting to have more chances to dodge.\n\n+1 dodge attempt.",
         "melee_allowed": true,
+        "unarmed_allowed": true,
         "bonus_dodges": 1
       }
     ],
@@ -1126,6 +1129,7 @@
         "description": "Each time you dodge an attack, you learn a bit more about your opponents' fighting style.  This allows you to make more precise attacks against them.\n\nAccuracy increased by 15% of Dexterity.\nLasts 2 turns.  Stacks 3 times.",
         "skill_requirements": [ { "name": "melee", "level": 1 } ],
         "melee_allowed": true,
+        "unarmed_allowed": true,
         "buff_duration": 2,
         "max_stacks": 3,
         "flat_bonuses": [ { "stat": "hit", "scaling-stat": "dex", "scale": 0.15 } ]
@@ -1138,12 +1142,13 @@
         "description": "You stay low as you move, making it harder for enemies to defend against you.\n\n+5% critical hit chance.\nLasts 1 turn.",
         "skill_requirements": [ { "name": "melee", "level": 1 } ],
         "melee_allowed": true,
+        "unarmed_allowed": true,
         "buff_duration": 1,
         "flat_bonuses": [ { "stat": "crit_chance", "scale": 5.0 } ]
       }
     ],
-    "techniques": [ "tec_silat_hamstring", "tec_silat_precise", "tec_silat_brutal", "tec_silat_dirty" ],
-    "weapon_category": [ "KNIVES", "BATONS", "QUARTERSTAVES", "BLADED_FARMING", "POLEARMS" ]
+    "techniques": [ "tec_silat_hamstring", "tec_silat_legsweep", "tec_silat_precise", "tec_silat_brutal", "tec_silat_dirty" ],
+    "weapon_category": [ "KNIVES", "BATONS", "SHORT SWORDS", "MEDIUM SWORDS", "QUARTERSTAVES", "BLADED_FARMING", "POLEARMS" ]
   },
   {
     "type": "martial_art",
@@ -1258,10 +1263,9 @@
     "id": "style_taekwondo",
     "name": { "str": "Taekwondo" },
     "description": "Taekwondo is the national sport of Korea, and was used by the South Korean army in the 20th century.  Focused on kicks and so it does not benefit from wielded weapons.  It also includes strength training; your blocks absorb extra damage and your attacks do more damage if you are not holding anything.",
-    "initiate": [ "You adopt a narrow fighting stance.", "%s adopts a narrow fighting stance." ],
+    "initiate": [ "You adopt a sideways fighting stance.", "%s adopts a sideways fighting stance." ],
     "learn_difficulty": 5,
     "arm_block": 1,
-    "leg_block": 3,
     "force_unarmed": true,
     "prevent_weapon_blocking": true,
     "allow_all_weapons": true,
@@ -1269,9 +1273,9 @@
       {
         "id": "buff_taekwondo_static",
         "name": "Taekwondo Stance",
-        "description": "Using your legs to attack allows your hands to be free for better defense.\n\nBlocked damage reduced by 50% of Strength.",
+        "description": "Using a mobile sideways stance makes it easier avoid attacks, while having both hands free allows for better blocks. \n\n+1.0 Dodging skill, blocked damage reduced by 50% of Strength.",
         "unarmed_allowed": true,
-        "flat_bonuses": [ { "stat": "block", "scaling-stat": "str", "scale": 0.5 } ]
+        "flat_bonuses": [ { "stat": "block", "scaling-stat": "str", "scale": 0.5 }, { "stat": "dodge", "scale": 1 } ]
       },
       {
         "id": "buff_taekwondo_static2",
@@ -1286,7 +1290,6 @@
       }
     ],
     "techniques": [
-      "tec_taekwondo_disarm",
       "tec_taekwondo_strong",
       "tec_taekwondo_roundhouse",
       "tec_taekwondo_feint",
