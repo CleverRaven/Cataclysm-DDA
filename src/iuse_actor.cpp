@@ -1081,7 +1081,7 @@ cata::optional<int> deploy_furn_actor::use( Character &p, item &it, bool,
     }
     
     if( here.terrain_moppable( tripoint_bub_ms( pnt ) ) ) {
-        if( get_avatar().crafting_inventory().has_quality( qual_MOP ) ){
+        if( get_avatar().crafting_inventory().has_quality( qual_MOP ) ) {
             here.mop_spills( tripoint_bub_ms( pnt ) );
             p.add_msg_if_player( m_info, _( "You moped up the spill when deploying furniture." ) );
             p.moves -= 15;
