@@ -225,7 +225,7 @@
     "looks_like": "stanag30",
     "type": "MAGAZINE",
     "name": { "str": "10-round varmint magazine" },
-    "description": "A flush fitting 10-round rotary magazine, for use with .22 calibre varmint rifles.",
+    "description": "A flush fitting 10-round rotary magazine, for use with .22 caliber varmint rifles.",
     "variant_type": "gun",
     "variants": [
       {
