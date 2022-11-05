@@ -4,18 +4,24 @@
     "id": "godco_place_coop",
     "recurrence": 100,
     "global": false,
-    "condition": { 
+    "condition": {
       "and": [
         { "compare_int": [ { "global_val": "var", "var_name": "darryl_building_coop" }, "==", { "const": 1 } ] },
-        { "npc_compare_time_since_var": "coop_in_progress", "type": "timer", "context": "trade", "op": ">=", "time": "7 d" },
+        {
+          "npc_compare_time_since_var": "coop_in_progress",
+          "type": "timer",
+          "context": "trade",
+          "op": ">=",
+          "time": "7 d"
+        },
         { "npc_near_om_location": "godco_7", "range": 12 }
-    ]
-  },
+      ]
+    },
     "deactivate_condition": { "compare_int": [ { "global_val": "var", "var_name": "darryl_building_coop" }, "==", { "const": 2 } ] },
     "effect": [
       { "mapgen_update": "darryl_place_coop", "om_terrain": "godco_7" },
       { "arithmetic": [ { "global_val": "var", "var_name": "darryl_building_coop" }, "=", { "const": 2 } ] },
-      { "npc_lose_var": "coop_in_progress", "type": "timer", "context": "trade" } 
+      { "npc_lose_var": "coop_in_progress", "type": "timer", "context": "trade" }
     ]
   },
   {
@@ -23,18 +29,24 @@
     "id": "godco_place_herb_garden",
     "recurrence": 100,
     "global": false,
-    "condition": { 
+    "condition": {
       "and": [
         { "compare_int": [ { "global_val": "var", "var_name": "kostas_building_garden" }, "==", { "const": 1 } ] },
-        { "npc_compare_time_since_var": "herb_garden_in_progress", "type": "timer", "context": "trade", "op": ">=", "time": "3 d" },
+        {
+          "npc_compare_time_since_var": "herb_garden_in_progress",
+          "type": "timer",
+          "context": "trade",
+          "op": ">=",
+          "time": "3 d"
+        },
         { "npc_near_om_location": "godco_1_2", "range": 12 }
-    ]
-  },
+      ]
+    },
     "deactivate_condition": { "compare_int": [ { "global_val": "var", "var_name": "kostas_building_garden" }, "==", { "const": 2 } ] },
     "effect": [
       { "mapgen_update": "place_herb_garden", "om_terrain": "godco_1_2" },
       { "arithmetic": [ { "global_val": "var", "var_name": "kostas_building_garden" }, "=", { "const": 2 } ] },
-      { "npc_lose_var": "herb_garden_in_progress", "type": "timer", "context": "trade" }  
+      { "npc_lose_var": "herb_garden_in_progress", "type": "timer", "context": "trade" }
     ]
   },
   {
@@ -43,13 +55,19 @@
     "recurrence": 100,
     "global": false,
     "//": "4 hours 20 minutes per wall (from regular ground to full palisade) * 373 walls = ~1,567 hours.  Divided into 8-hour work shifts, thats ~196 days, or six and a half months for one person.  Presuming we have ~11 people working in a single shift, each building 1 wall, that should be ~18 days to build.  Please correct me if I messed up the math.",
-    "condition": { 
+    "condition": {
       "and": [
         { "compare_int": [ { "global_val": "var", "var_name": "wall_in_progress" }, "==", { "const": 1 } ] },
-        { "npc_compare_time_since_var": "wall_started_building", "type": "timer", "context": "trade", "op": ">=", "time": "18 d" },
+        {
+          "npc_compare_time_since_var": "wall_started_building",
+          "type": "timer",
+          "context": "trade",
+          "op": ">=",
+          "time": "18 d"
+        },
         { "npc_near_om_location": "godco_5", "range": 12 }
-    ]
-  },
+      ]
+    },
     "deactivate_condition": { "compare_int": [ { "global_val": "var", "var_name": "wall_in_progress" }, "==", { "const": 2 } ] },
     "effect": [
       { "mapgen_update": "place_right_corner_wall", "om_terrain": "godco_1" },
