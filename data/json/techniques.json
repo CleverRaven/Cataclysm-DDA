@@ -1602,7 +1602,7 @@
     "messages": [ "You ground %s with a leg sweep", "<npcname> grounds %s with a leg sweep" ],
     "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
     "melee_allowed": true,
-	"unarmed_allowed": true,
+    "unarmed_allowed": true,
     "crit_tec": true,
     "down_dur": 2,
     "attack_vectors": [ "FOOT", "LOWER_LEG", "THROW" ]
@@ -1623,7 +1623,7 @@
       { "stat": "damage", "type": "stab", "scale": 1.33 }
     ],
     "attack_vectors": [ "WEAPON" ],
-	"attack_vectors_random": [ "HAND", "FOOT", "ELBOW", "KNEE", "LOWER_LEG", "HEAD" ]
+    "attack_vectors_random": [ "HAND", "FOOT", "ELBOW", "KNEE", "LOWER_LEG", "HEAD" ]
   },
   {
     "type": "technique",
@@ -1635,7 +1635,7 @@
     "crit_tec": true,
     "stun_dur": 2,
     "attack_vectors": [ "WEAPON" ],
-	"attack_vectors_random": [ "HAND", "FOOT", "ELBOW", "KNEE", "LOWER_LEG", "HEAD" ]
+    "attack_vectors_random": [ "HAND", "FOOT", "ELBOW", "KNEE", "LOWER_LEG", "HEAD" ]
   },
   {
     "type": "technique",
@@ -1653,7 +1653,7 @@
       { "stat": "damage", "type": "stab", "scale": 1.33 }
     ],
     "attack_vectors": [ "WEAPON" ],
-	"attack_vectors_random": [ "HAND", "FOOT", "ELBOW", "KNEE", "LOWER_LEG", "HEAD" ]
+    "attack_vectors_random": [ "HAND", "FOOT", "ELBOW", "KNEE", "LOWER_LEG", "HEAD" ]
   },
   {
     "type": "technique",
