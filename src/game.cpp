@@ -4809,8 +4809,18 @@ bool game::spawn_hallucination( const tripoint &p )
         }
     }
 
-    return spawn_hallucination( p, MonsterGenerator::generator().get_valid_hallucination(),
-                                cata::nullopt );
+    mtype_id hallu = MonsterGenerator::generator().get_valid_hallucination();
+
+    // If there's 'spawns' exist for player's current location, then
+    // spawn random hallucination monster from 'spawns'-dependent monster group
+    // instead of a completely random hallucination monster
+    const oter_id &terrain_type = overmap_buffer.ter( get_player_character().global_omt_location() );
+    const overmap_static_spawns &spawns = terrain_type->get_static_spawns();
+    if( !spawns.group.is_null() ) {
+        hallu = MonsterGroupManager::GetRandomMonsterFromGroup( spawns.group );
+    }
+
+    return spawn_hallucination( p, hallu, cata::nullopt );
 }
 /**
  * Attempts to spawn a hallucination at given location.
