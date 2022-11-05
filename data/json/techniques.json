@@ -1597,6 +1597,18 @@
   },
   {
     "type": "technique",
+    "id": "tec_silat_legsweep",
+    "name": "Leg Sweep",
+    "messages": [ "You ground %s with a leg sweep", "<npcname> grounds %s with a legsweep" ],
+    "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
+    "melee_allowed": true,
+	"unarmed_allowed": true,
+    "crit_tec": true,
+    "down_dur": 2,
+    "attack_vectors": [ "FOOT", "LOWER_LEG", "THROW" ]
+  },
+  {
+    "type": "technique",
     "id": "tec_silat_precise",
     "name": "Vicious Precision",
     "messages": [ "You viciously wound %s", "<npcname> viciously wounds %s" ],
@@ -1610,7 +1622,8 @@
       { "stat": "damage", "type": "cut", "scale": 1.33 },
       { "stat": "damage", "type": "stab", "scale": 1.33 }
     ],
-    "attack_vectors": [ "WEAPON" ]
+    "attack_vectors": [ "WEAPON" ],
+	"attack_vectors_random": [ "HAND", "FOOT", "ELBOW", "KNEE", "LOWER_LEG", "HEAD" ]
   },
   {
     "type": "technique",
@@ -1621,7 +1634,8 @@
     "melee_allowed": true,
     "crit_tec": true,
     "stun_dur": 2,
-    "attack_vectors": [ "WEAPON" ]
+    "attack_vectors": [ "WEAPON" ],
+	"attack_vectors_random": [ "HAND", "FOOT", "ELBOW", "KNEE", "LOWER_LEG", "HEAD" ]
   },
   {
     "type": "technique",
@@ -1638,7 +1652,8 @@
       { "stat": "damage", "type": "cut", "scale": 1.33 },
       { "stat": "damage", "type": "stab", "scale": 1.33 }
     ],
-    "attack_vectors": [ "WEAPON" ]
+    "attack_vectors": [ "WEAPON" ],
+	"attack_vectors_random": [ "HAND", "FOOT", "ELBOW", "KNEE", "LOWER_LEG", "HEAD" ]
   },
   {
     "type": "technique",
@@ -1735,18 +1750,6 @@
   },
   {
     "type": "technique",
-    "id": "tec_taekwondo_disarm",
-    "name": "Snatch Weapon",
-    "messages": [ "You snatch %s's weapon", "<npcname> snatches %s's weapon" ],
-    "skill_requirements": [ { "name": "unarmed", "level": 4 } ],
-    "unarmed_allowed": true,
-    "weighting": 2,
-    "take_weapon": true,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 0.5 } ],
-    "attack_vectors": [ "HAND" ]
-  },
-  {
-    "type": "technique",
     "id": "tec_taekwondo_strong",
     "name": "Spinning Back Kick",
     "messages": [
@@ -1771,7 +1774,7 @@
     "type": "technique",
     "id": "tec_taekwondo_push",
     "name": "Side Kick",
-    "messages": [ "You turn slightly and side-kick %s", "<npcname> turns slightly and side-kicks %s" ],
+    "messages": [ "You side-kick %s", "<npcname> side-kicks %s" ],
     "melee_allowed": true,
     "unarmed_allowed": true,
     "knockback_dist": 1,
