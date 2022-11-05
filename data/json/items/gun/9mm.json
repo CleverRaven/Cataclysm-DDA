@@ -55,8 +55,8 @@
     "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str": "9x19mm pistol-calibre carbine" },
-    "description": "Designed to be a companion rifle with provided M9 handguns, this compact and light weight pistol-calibre carbine makes use of the same 9x19mm magazines.  Originally intended for use by law enforcement units, this style of small calibre, semi-automatic carbine failed to achieve the same level of popularity as regular and more potent rifles.  However, despite being inadequate for their original purpose, before the Cataclysm these modestly sized weapons still found a home in sport shooting and self-defence civilian roles.",
+    "name": { "str": "9x19mm pistol-caliber carbine" },
+    "description": "Designed to be a companion rifle with provided M9 handguns, this compact and light weight pistol-caliber carbine makes use of the same 9x19mm magazines.  Originally intended for use by law enforcement units, this style of small caliber, semi-automatic carbine failed to achieve the same level of popularity as regular and more potent rifles.  However, despite being inadequate for their original purpose, before the Cataclysm these modestly sized weapons still found a home in sport shooting and self-defense civilian roles.",
     "variant_type": "gun",
     "variants": [
       {
