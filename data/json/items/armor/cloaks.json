@@ -406,7 +406,7 @@
       {
         "id": "chinese_flag",
         "name": { "str": "Chinese flag" },
-        "description": "It has a solid red back, with a four yellow stars in the top left.",
+        "description": "It has a solid red back, with five yellow stars in the top left.",
         "weight": 10,
         "append": true
       },
