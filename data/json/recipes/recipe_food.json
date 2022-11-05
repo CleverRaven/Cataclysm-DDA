@@ -79,15 +79,15 @@
     "//": "https://www.netsolwater.com/how-much-energy-does-an-ro-system-use.php?blog=484",
     "//1": "Unclear if this is a RO filter but basing it off that.  0.03 KwH per 2 liters in a RO filter = 14kJ for 1u of water",
     "//2": "https://blackblum.com/pages/charcoal-water-filter",
-    "//3": "50g of charcoal for 1 liter of water = 12.5g of charcoal.  1u charcoal weighs 1040mg, so making it 1:1",
+    "//3": "50g of charcoal for 1 liter of water = 12.5g of charcoal per u of water.  1u charcoal weighs 1.5g, so making it 9:1",
     "autolearn": true,
     "tools": [
       [
         [ "water_purifier", 14 ],
         [ "water_purifier_tool", 14 ],
         [ "pur_tablets", 1 ],
-        [ "char_purifier", 1 ],
-        [ "char_purifier_clay", 1 ]
+        [ "char_purifier", 9 ],
+        [ "char_purifier_clay", 9 ]
       ]
     ],
     "components": [ [ [ "water", 1 ] ] ]
@@ -264,8 +264,8 @@
     "autolearn": true,
     "batch_time_factors": [ 83, 5 ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
-    "tools": [ [ [ "char_smoker", 75 ] ], [ [ "surface_heat", 6, "LIST" ] ] ],
-    "//": "250g of raw cured meat, which is 16-17u surface_heat by weight + it is smoked, so treat it as half the smoke needed to dehydrate - 25 dehydrating_heats is 150u charcoal so half is 75",
+    "tools": [ [ [ "smoking_heat", 25, "LIST" ] ] ],
+    "//": "250g of raw cured meat, so 25u of smoking_heat to smoke it.",
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_curing" } ],
     "components": [ [ [ "raw_cured_fatty_meat", 1 ] ] ]
   },
@@ -859,8 +859,8 @@
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
-    "tools": [ [ [ "char_smoker", 90 ] ] ],
-    "//": "300g of meat would be 30 dehydrating_heats, half that since it isn't fully dehydrated, 15x6 = 90 charcoals",
+    "tools": [ [ [ "smoking_heat", 30, "LIST" ] ] ],
+    "//": "300g of meat for 30 smoking_heats",
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_curing" } ],
     "components": [ [ [ "meat_red_raw", 1, "LIST" ] ] ]
   },
@@ -877,8 +877,8 @@
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
-    "tools": [ [ [ "char_smoker", 45 ] ] ],
-    "//": "150g of meat would be 15 dehydrating_heats, half that since it isn't fully dehydrated, 7.5x6 = 45 charcoals",
+    "tools": [ [ [ "smoking_heat", 15, "LIST" ] ] ],
+    "//": "150g of meat would be 15 smoking_heats",
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_curing" } ],
     "components": [ [ [ "fish", 1 ] ] ]
   },
@@ -895,8 +895,8 @@
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
-    "tools": [ [ [ "char_smoker", 45 ] ] ],
-    "//": "150g of meat would be 15 dehydrating_heats, half that since it isn't fully dehydrated, 7.5x6 = 45 charcoals",
+    "tools": [ [ [ "smoking_heat", 15, "LIST" ] ] ],
+    "//": "150g of meat would be 15 smoking_heats",
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_curing" } ],
     "components": [ [ [ "lobster", 1 ] ] ]
   },
@@ -913,8 +913,8 @@
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
-    "tools": [ [ [ "char_smoker", 45 ] ] ],
-    "//": "150g of meat would be 15 dehydrating_heats, half that since it isn't fully dehydrated, 7.5x6 = 45 charcoals",
+    "tools": [ [ [ "smoking_heat", 15, "LIST" ] ] ],
+    "//": "150g of meat would be 15 smoking_heats",
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_curing" } ],
     "components": [ [ [ "mollusk", 1 ] ] ]
   },
@@ -1322,9 +1322,9 @@
     "book_learn": [ [ "family_cookbook", 2 ], [ "scots_cookbook", 2 ] ],
     "batch_time_factors": [ 83, 3 ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 1 } ],
-    "//": "820g of flesh would be 82 surface heats, since this is just smoking count it as half (41x6) = 246 or so charcoal",
+    "//": "820g of flesh would be 82 smoking_heats",
     "tools": [
-      [ [ "char_smoker", 245 ] ],
+      [ [ "smoking_heat", 82, "LIST" ] ],
       [
         [ "funnel", -1 ],
         [ "makeshift_funnel", -1 ],
@@ -1536,9 +1536,9 @@
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 1 } ],
-    "//": "600g meat being smoked, cut in half for 30u dehydration = 180u charcoal",
+    "//": "600g meat being smoked = 60 smoking_heats",
     "tools": [
-      [ [ "char_smoker", 180 ] ],
+      [ [ "smoking_heat", 60, "LIST" ] ],
       [
         [ "funnel", -1 ],
         [ "makeshift_funnel", -1 ],
@@ -3789,9 +3789,9 @@
     "book_learn": [ [ "family_cookbook", 4 ] ],
     "batch_time_factors": [ 83, 3 ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 1 } ],
-    "//": "900g meat = 60u, fat = 15u, syrup = 1u, 76x4 = 304u charcoal",
+    "//": "900g meat = 90u, fat = 22u, syrup = 2u, 114 smoking_heats total",
     "tools": [
-      [ [ "char_smoker", 304 ] ],
+      [ [ "smoking_heat", 114, "LIST" ] ],
       [
         [ "funnel", -1 ],
         [ "makeshift_funnel", -1 ],
@@ -8694,9 +8694,9 @@
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 1 } ],
-    "//": "You are smoking roughly 600g of meat, so that would be 40u of surface_heat equaling 160u of charcoal.",
+    "//": "You are smoking roughly 600g of meat, so roughly 60u of smoking_heat.",
     "tools": [
-      [ [ "char_smoker", 160 ] ],
+      [ [ "smoking_heat", 160, "LIST" ] ],
       [
         [ "funnel", -1 ],
         [ "makeshift_funnel", -1 ],
@@ -8750,8 +8750,8 @@
     "autolearn": true,
     "batch_time_factors": [ 83, 6 ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 1 } ],
-    "tools": [ [ [ "char_smoker", 160 ] ] ],
-    "//": "You are smoking roughly 600g of meat, so that would be 40u of surface_heat equaling 160u of charcoal.",
+    "tools": [ [ [ "smoking_heat", 60, "LIST" ] ] ],
+    "//": "You are smoking roughly 600g of meat, so roughly 60u of smoking_heat.",
     "components": [ [ [ "sausage_wasteland_raw", 1 ] ] ]
   },
   {
