@@ -2248,7 +2248,7 @@ static std::vector<pocket_data_with_parent> get_child_pocket_with_parent(
                 std::vector<pocket_data_with_parent> child =
                     get_child_pocket_with_parent( pocket_nest, new_parent,
                                                   poc_loc, nested_level + 1 );
-                for( pocket_data_with_parent &pock_d : child ) {
+                for( const pocket_data_with_parent &pock_d : child ) {
                     ret.emplace_back( pock_d );
                 }
             }
@@ -2277,7 +2277,7 @@ std::vector<pocket_data_with_parent> outfit::get_all_pocket_with_parent(
             item_location loc = item_location::nowhere;
             std::vector<pocket_data_with_parent> child =
                 get_child_pocket_with_parent( pocket, loc, item_location( guy, i ), 0 );
-            for( pocket_data_with_parent &pock_d : child ) {
+            for( const pocket_data_with_parent &pock_d : child ) {
                 ret.emplace_back( pock_d );
             }
         }
@@ -2309,7 +2309,7 @@ void outfit::add_stash( Character &guy, const item &newit, int &remaining_charge
         std::vector<pocket_data_with_parent> pockets_with_parent_working;
         pockets_with_parent_working = get_all_pocket_with_parent( guy );
 
-        for( pocket_data_with_parent &pocket_data : pockets_with_parent_working ) {
+        for( const pocket_data_with_parent &pocket_data : pockets_with_parent_working ) {
             const item_pocket *pocket = pocket_data.pocket_ptr;
             if( pocket->can_contain( temp_it ).success() ) {
                 pockets_with_parent.emplace_back( pocket_data );
@@ -2317,7 +2317,7 @@ void outfit::add_stash( Character &guy, const item &newit, int &remaining_charge
         }
 
         std::sort( pockets_with_parent.begin(), pockets_with_parent.end(), [newit, temp_it]
-        ( pocket_data_with_parent & lhs, pocket_data_with_parent & rhs ) {
+        ( const pocket_data_with_parent & lhs, const pocket_data_with_parent & rhs ) {
             const item_pocket *lpd = lhs.pocket_ptr;
             const item_pocket *rpd = rhs.pocket_ptr;
             const item_pocket &lpp = *lpd;
@@ -2338,7 +2338,7 @@ void outfit::add_stash( Character &guy, const item &newit, int &remaining_charge
 
         const int amount = remaining_charges;
         int num_contained = 0;
-        for( pocket_data_with_parent pocket_data_ptr : pockets_with_parent ) {
+        for( const pocket_data_with_parent &pocket_data_ptr : pockets_with_parent ) {
             if( amount <= num_contained || remaining_charges <= 0 ) {
                 break;
             }
@@ -2353,7 +2353,7 @@ void outfit::add_stash( Character &guy, const item &newit, int &remaining_charge
                 filled_count = pocke->fill_with( newit, guy, remaining_charges, false, false );
             } else {
                 int max_contain_value = pocke->remaining_capacity_for_item( newit );
-                item_location parent_data = pocket_data_ptr.parent;
+                const item_location parent_data = pocket_data_ptr.parent;
 
                 if( parent_data.has_parent() ) {
                     if( parent_data.parents_can_contain_recursive( &temp_it ) ) {
