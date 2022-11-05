@@ -21,7 +21,7 @@
     "looks_like": "mp5mag",
     "type": "MAGAZINE",
     "name": { "str": ".22 165-round magazine" },
-    "description": "an unusually shaped pan magazine for use with .22 calibre submachine guns.",
+    "description": "An unusually-shaped pan magazine for use with .22 caliber submachine guns.",
     "variant_type": "gun",
     "variants": [
       {
