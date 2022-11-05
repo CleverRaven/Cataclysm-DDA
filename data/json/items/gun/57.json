@@ -54,7 +54,7 @@
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": { "str": "5.7mm automatic PDW" },
-    "description": "A late 90s manufactured personal defence weapon (PDW), this automatic firearm fires the high-velocity and proprietary 5.7x28mm cartridge.  Making use of top-mounted 50-round custom magazines which lock into the receiver of the weapon behind the grip, this little submachine gun packs quite the nasty payload.  Its small, high-speed calibre makes it excellent at both defeating armoured opponents and firing short bursts manageably.",
+    "description": "A late 90s manufactured personal defense weapon (PDW), this automatic firearm fires the high-velocity, proprietary 5.7x28mm cartridge.  Making use of top-mounted 50-round custom magazines which lock into the receiver of the weapon behind the grip, this little submachine gun packs quite the nasty payload.  Its small, high-speed caliber makes it excellent at both defeating armored opponents and firing short bursts manageably.",
     "variant_type": "gun",
     "variants": [
       {
