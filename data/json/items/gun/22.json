@@ -59,7 +59,7 @@
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": { "str": "small game rifle" },
-    "description": "A venerable .22 calibre lever-action rifle, with a 19-round tube magazine and a classic design that dates back over a century.  Generally used for the hunting of small game like rabbits, the strict taxonomic classification of zombies as 'small game' is debatable, but this decades old weapon can still be counted upon to help manage the undead population.",
+    "description": "A venerable .22 caliber lever-action rifle, with a 19-round tube magazine and a classic design that dates back over a century.  Generally used for the hunting of small game like rabbits, the strict taxonomic classification of zombies as 'small game' is debatable, but this decades-old weapon can still be counted upon to help manage the undead population.",
     "variant_type": "gun",
     "variants": [
       {
