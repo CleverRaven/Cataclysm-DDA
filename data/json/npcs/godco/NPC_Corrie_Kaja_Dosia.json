@@ -95,7 +95,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Corrie_Story",
-    "dynamic_line": "&Corrie blankly stares at the wall for a moment.  \"Me and my friends were in the cities when it hit, I was the only one to make it out.  Some gigantic horror… devoured… everything in its way.  There was a memorial service and all, organized by the church-goers.  By far the nicest thing they've done to me.\"",
+    "dynamic_line": "&Corrie blankly stares at the wall for a moment.  \"Me and my friends were in the cities when it hit, I was the only one to make it out.  Some gigantic horror… devoured… everything in its way.  There was a memorial service and all, organized by the church-goers.  By far the nicest thing they've done for me.\"",
     "responses": [
       { "text": "Sorry for bringing it up.  What were you saying before?", "topic": "TALK_NONE" },
       { "text": "Sorry for bringing it up.  Well, bye.", "topic": "TALK_DONE" }
