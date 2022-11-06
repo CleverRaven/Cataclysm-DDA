@@ -1538,5 +1538,61 @@
     "material_thickness": 0.5,
     "flags": [ "VARSIZE", "STURDY" ],
     "armor": [ { "coverage": 80, "covers": [ "leg_l", "leg_r" ] } ]
+  },
+  {
+    "id": "pants_hiking",
+    "repairs_like": "pants",
+    "type": "ARMOR",
+    "name": { "str": "hiking pants", "str_pl": "pairs of hiking pants" },
+    "description": "A water-resistant pair of lightweight, flexible hiking pants with a good number of pockets.",
+    "weight": "250 g",
+    "volume": "1750 ml",
+    "price": 5000,
+    "price_postapoc": 300,
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "looks_like": "pants",
+    "color": "light_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      }
+    ],
+    "warmth": 5,
+    "material_thickness": 0.25,
+    "flags": [ "VARSIZE", "POCKETS", "WATERPROOF" ],
+    "armor": [ { "encumbrance": 1, "coverage": 100, "covers": [ "leg_l", "leg_r" ], "volume_encumber_modifier": 0.6 } ]
   }
 ]

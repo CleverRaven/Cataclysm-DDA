@@ -56,8 +56,7 @@
   {
     "type": "SPECIES",
     "id": "NETHER",
-    "description": "a nether creature",
-    "fear_triggers": [ "HURT" ]
+    "description": "a nether creature"
   },
   {
     "type": "SPECIES",

@@ -153,6 +153,7 @@ barebones
 barghest
 barkin
 barosaurus
+barotrarumatic
 basecamp
 basecamps
 baselard
@@ -543,6 +544,7 @@ dysmorphia
 dysrhythmia
 earthbag
 earthbags
+earthshaper
 ebon
 ebook
 eboshi
@@ -559,6 +561,7 @@ electrochemistry
 electrohack
 electrolaser
 electrolasers
+electromancy
 electroreceptors
 elete
 elopements
@@ -1294,6 +1297,7 @@ nodachi
 nodosaurus
 noisiness
 nomex
+nonfunctional
 nonpareils
 nonrevealing
 nonsedated
@@ -1571,6 +1575,7 @@ remodulator
 rended
 renderer
 renfaires
+renfield
 rennet
 replow
 reprime
@@ -1794,6 +1799,8 @@ sssssh
 ssssssss
 starer
 starrin
+staunchable
+staunching
 std
 steeltoed
 steerable
@@ -1803,6 +1810,7 @@ stegosaurus
 stegosaurusfindsrobot
 stenonychosaurus
 stimulative
+stimulators
 stimulatory
 stipe
 stirfry
@@ -1889,6 +1897,8 @@ temaki
 tems
 tenontosaurus
 tenuously
+teravolt
+teravolts
 terpenes
 terranean
 testbed
@@ -1996,6 +2006,7 @@ undulates
 uneasing
 unfavorite
 unfermented
+unfixable
 unflavored
 unfoldable
 ungraspable

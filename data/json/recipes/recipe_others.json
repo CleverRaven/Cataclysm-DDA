@@ -1769,10 +1769,11 @@
     "skills_required": [ "tailor", 3 ],
     "difficulty": 4,
     "time": "7 h",
+    "reversible": true,
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_basketweaving" } ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "plant_cordage", 20, "LIST" ] ], [ [ "cordage", 2, "LIST" ] ] ]
+    "components": [ [ [ "plant_cordage", 20, "LIST" ] ] ]
   },
   {
     "type": "recipe",
