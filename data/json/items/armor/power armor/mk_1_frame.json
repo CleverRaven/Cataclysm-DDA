@@ -1,0 +1,225 @@
+[
+  {
+    "id": "exoskeleton_mk_1",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "Mark 1 Combat Exoskeleton" },
+    "description": "The first production exoskeleton designed for combat, designed to provide the pilot with protection from small arms fire combined with the ability to independently carry and fire antitank weapons. A steel frame extends over a kevlar and nylon bodyglove, studded with microcontrollers and motors to move the frame in sync with the pilot's motions.  Heavy mounting points allow armor plates to be attached and removed quickly as needed.  This model suffers from poor energy efficency and awkward hand controls.",
+    "weight": "90 kg",
+    "volume": "25 L",
+    "price": 70000,
+    "price_postapoc": 15000,
+    "to_hit": 1,
+    "bashing": 1,
+    "material": [ "tempered steel" ],
+    "symbol": "[",
+    "looks_like": "power_armor_basic",
+    "color": "light_gray",
+    "pocket_data": [
+	
+      {
+        "pocket_type": "CONTAINER",
+        "name": "Helmet compartment (Plate)",
+        "description": "This is a mounting point for helmet plating.",
+        "ablative": true,
+        "rigid": true,
+        "holster": true,
+        "max_contains_volume": "2 L",
+        "max_contains_weight": "5 kg",
+        "flag_restriction": [ "EXO_HELMET_PLATE" ],
+        "moves": 120
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "name": "Arm compartment (Plate)",
+        "description": "This is a mounting point for the left arm armor.",
+        "ablative": true,
+        "rigid": true,
+        "holster": true,
+        "max_contains_volume": "12 L",
+        "max_contains_weight": "80 kg",
+        "flag_restriction": [ "EXO_ARM_PLATE" ],
+        "moves": 120
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "name": "Arm compartment (Plate)",
+        "description": "This is a mounting point for the right arm armor.",
+        "ablative": true,
+        "rigid": true,
+        "holster": true,
+        "max_contains_volume": "12 L",
+        "max_contains_weight": "80 kg",
+        "flag_restriction": [ "EXO_ARM_PLATE" ],
+        "moves": 120
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "name": "Leg compartment (Plate)",
+        "description": "This is a mounting point for the left leg armor.",
+        "ablative": true,
+        "rigid": true,
+        "holster": true,
+        "max_contains_volume": "12 L",
+        "max_contains_weight": "80 kg",
+        "flag_restriction": [ "EXO_LEG_PLATE" ],
+        "moves": 120
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "name": "Leg compartment (Plate)",
+        "description": "This is a mounting point for the right leg armor.",
+        "ablative": true,
+        "rigid": true,
+        "holster": true,
+        "max_contains_volume": "12 L",
+        "max_contains_weight": "80 kg",
+        "flag_restriction": [ "EXO_LEG_PLATE" ],
+        "moves": 120
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "name": "PSU compartment",
+        "description": "This is a mounting point for power supply units and large modules.",
+        "rigid": true,
+        "holster": true,
+        "inherits_flags": true,
+        "max_contains_volume": "25 L",
+        "max_contains_weight": "140 kg",
+        "flag_restriction": [ "EXO_PSU" ],
+        "moves": 500
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "name": "Torso compartment (Plate)",
+        "description": "This is a mounting point for torso armor.",
+        "ablative": true,
+        "rigid": true,
+        "holster": true,
+        "max_contains_volume": "15 L",
+        "max_contains_weight": "37500 g",
+        "flag_restriction": [ "EXO_TORSO_PLATE" ],
+        "moves": 120
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "4 L",
+        "max_contains_weight": "30 kg",
+        "description": "Compartment for an UPS.",
+        "moves": 200
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "200 mm",
+        "holster": true,
+        "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
+        "description": "Spring-loaded clamp.",
+        "moves": 60
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "200 mm",
+        "holster": true,
+        "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
+        "description": "Spring-loaded clamp.",
+        "moves": 60
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "200 mm",
+        "holster": true,
+        "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
+        "description": "Spring-loaded clamp.",
+        "moves": 60
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "200 mm",
+        "holster": true,
+        "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
+        "description": "Spring-loaded clamp.",
+        "moves": 60
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "1100 ml",
+        "max_contains_weight": "2 kg",
+        "description": "Compartment for grenades.",
+        "moves": 30,
+        "flag_restriction": [ "GRENADE" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "12 L",
+        "max_contains_weight": "16500 g",
+        "max_item_length": "154 cm",
+        "description": "Integrated rifle case.",
+        "moves": 100
+      }
+    ],
+    "warmth": 50,
+    "material_thickness": 8,
+    "environmental_protection": 6,
+    "flags": [ "USE_UPS", "STURDY", "WATERPROOF", "ELECTRIC_IMMUNE", "COMBAT_TOGGLEABLE", "OUTER", "MUNDANE", "DEAF" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "plastic", "covered_by_mat": 80, "thickness": 2 },
+          { "type": "rubber", "covered_by_mat": 20, "thickness": 2 },
+          { "type": "lvl4ballisticglass", "covered_by_mat": 100, "thickness": 2 }
+        ],
+        "covers": [ "eyes" ],
+        "coverage": 100,
+        "layers": [ "OUTER" ]
+      },
+      {
+        "material": [ { "type": "qt_steel", "covered_by_mat": 30, "thickness": 4 } ],
+        "covers": [ "head", "mouth", "torso", "arm_l", "arm_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
+        "coverage": 40,
+        "encumbrance": 80,
+        "layers": [ "OUTER" ]
+      },
+      {
+        "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 2 } ],
+        "covers": [ "hand_l", "hand_r" ],
+        "coverage": 40,
+        "encumbrance": 80,
+        "layers": [ "OUTER" ]
+      },
+      {
+        "material": [
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 2 },
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 2 }
+        ]
+      }
+    ],
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ACTIVE",
+          "values": [
+            { "value": "STRENGTH", "add": 5 },
+            { "value": "CLIMATE_CONTROL_HEAT", "add": 50 },
+            { "value": "CLIMATE_CONTROL_CHILL", "add": 50 }
+          ]
+        }
+      ]
+    }
+  }
+]
