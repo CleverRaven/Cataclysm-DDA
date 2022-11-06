@@ -126,7 +126,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Darryl_Trade",
-    "dynamic_line": "Huh, never have thought you were interested in the fine art of farming.  Sure, I've got seeds I can say goodbye to… if you have the appropriate money of course.",
+    "dynamic_line": "Huh, never would have thought you were interested in the fine art of farming.  Sure, I've got seeds I can say goodbye to… if you have the appropriate money of course.",
     "responses": [
       { "text": "Let's trade, then.", "topic": "TALK_GODCO_Darryl_Trade2" },
       { "text": "You know what?  Nevermind.  What were you saying before?", "topic": "TALK_NONE" },
