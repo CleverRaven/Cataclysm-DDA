@@ -146,7 +146,7 @@
         "max_item_length": "270 mm",
         "moves": 80
       },
-     {
+      {
         "pocket_type": "CONTAINER",
         "ablative": true,
         "volume_encumber_modifier": 0,
