@@ -1087,7 +1087,7 @@ cata::optional<int> deploy_furn_actor::use( Character &p, item &it, bool,
             p.moves -= 15;
         } else {
             p.add_msg_if_player( m_info,
-                                _( "You need a mop to clean up liquids before deploying furniture." ) );
+                                 _( "You need a mop to clean up liquids before deploying furniture." ) );
             return cata::nullopt;
         }
     }
