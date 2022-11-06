@@ -500,6 +500,10 @@ ifeq ($(NATIVE), linux64)
     CXXFLAGS += -fuse-ld=gold
     LDFLAGS += -fuse-ld=gold -Wl,--detect-odr-violations
   endif
+  ifeq ($(MOLD), 1)
+    CXXFLAGS += -fuse-ld=mold
+    LDFLAGS += -fuse-ld=mold
+  endif
 else
   # Linux 32-bit
   ifeq ($(NATIVE), linux32)
@@ -509,6 +513,10 @@ else
     ifeq ($(GOLD), 1)
       CXXFLAGS += -fuse-ld=gold
       LDFLAGS += -fuse-ld=gold -Wl,--detect-odr-violations
+    endif
+    ifeq ($(MOLD), 1)
+      CXXFLAGS += -fuse-ld=mold
+      LDFLAGS += -fuse-ld=mold
     endif
   endif
 endif
