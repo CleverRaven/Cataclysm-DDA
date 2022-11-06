@@ -1079,18 +1079,19 @@ cata::optional<int> deploy_furn_actor::use( Character &p, item &it, bool,
         p.add_msg_if_player( m_info, _( "There is already furniture at that location." ) );
         return cata::nullopt;
     }
-    
+
     if( here.terrain_moppable( tripoint_bub_ms( pnt ) ) ) {
         if( get_avatar().crafting_inventory().has_quality( qual_MOP ) ) {
             here.mop_spills( tripoint_bub_ms( pnt ) );
             p.add_msg_if_player( m_info, _( "You moped up the spill when deploying furniture." ) );
             p.moves -= 15;
         } else {
-            p.add_msg_if_player( m_info, _( "You need a mop to clean up liquids before deploying furniture." ) );
+            p.add_msg_if_player( m_info,
+                                _( "You need a mop to clean up liquids before deploying furniture." ) );
             return cata::nullopt;
         }
     }
-    
+
     here.furn_set( pnt, furn_type );
     it.spill_contents( pnt );
     p.mod_moves( -to_moves<int>( 2_seconds ) );
