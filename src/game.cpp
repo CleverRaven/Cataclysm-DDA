@@ -4812,11 +4812,11 @@ bool game::spawn_hallucination( const tripoint &p )
     mtype_id hallu = MonsterGenerator::generator().get_valid_hallucination();
 
     // If there's 'spawns' exist for player's current location, then
-    // spawn random hallucination monster from 'spawns'-dependent monster group
-    // instead of a completely random hallucination monster
+    // spawn random hallucination monster from 'spawns'-dependent monster group (90% chance)
+    // or a completely random hallucination monster (10% chance)
     const oter_id &terrain_type = overmap_buffer.ter( get_player_character().global_omt_location() );
     const overmap_static_spawns &spawns = terrain_type->get_static_spawns();
-    if( !spawns.group.is_null() ) {
+    if( !spawns.group.is_null() && !one_in( 9 ) ) {
         hallu = MonsterGroupManager::GetRandomMonsterFromGroup( spawns.group );
     }
 
