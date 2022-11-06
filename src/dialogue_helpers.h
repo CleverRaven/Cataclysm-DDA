@@ -64,22 +64,22 @@ struct talk_effect_fun_t {
                                const std::string &container_name );
         void set_u_buy_item( const itype_id &item_name, int cost, int count,
                              const std::string &container_name, const JsonObject &jo );
-        void set_u_spend_cash( int amount, const JsonObject &jo );
+        void set_u_spend_cash( const JsonObject &jo, const std::string &member );
         void set_u_sell_item( const itype_id &item_name, int cost, int count, const JsonObject &jo );
         void set_consume_item( const JsonObject &jo, const std::string &member, int count, int charges,
                                bool is_npc = false );
         void set_remove_item_with( const JsonObject &jo, const std::string &member, bool is_npc = false );
-        void set_npc_change_faction( const std::string &faction_name );
-        void set_npc_change_class( const std::string &class_name );
-        void set_change_faction_rep( int rep_change );
+        void set_npc_change_faction( const JsonObject &jo, const std::string &member );
+        void set_npc_change_class( const JsonObject &jo, const std::string &member );
+        void set_change_faction_rep( const JsonObject &jo, const std::string &member );
         void set_add_debt( const std::vector<trial_mod> &debt_modifiers );
-        void set_toggle_npc_rule( const std::string &rule );
-        void set_set_npc_rule( const std::string &rule );
-        void set_clear_npc_rule( const std::string &rule );
-        void set_npc_engagement_rule( const std::string &setting );
-        void set_npc_aim_rule( const std::string &setting );
-        void set_npc_cbm_reserve_rule( const std::string &setting );
-        void set_npc_cbm_recharge_rule( const std::string &setting );
+        void set_toggle_npc_rule( const JsonObject &jo, const std::string &member );
+        void set_set_npc_rule( const JsonObject &jo, const std::string &member );
+        void set_clear_npc_rule( const JsonObject &jo, const std::string &member );
+        void set_npc_engagement_rule( const JsonObject &jo, const std::string &member );
+        void set_npc_aim_rule( const JsonObject &jo, const std::string &member );
+        void set_npc_cbm_reserve_rule( const JsonObject &jo, const std::string &member );
+        void set_npc_cbm_recharge_rule( const JsonObject &jo, const std::string &member );
         void set_location_variable( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_transform_radius( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_transform_line( const JsonObject &jo, const std::string &member );
@@ -91,12 +91,11 @@ struct talk_effect_fun_t {
         void set_npc_goal( const JsonObject &jo, const std::string &member );
         void set_bulk_trade_accept( bool is_trade, int quantity, bool is_npc = false );
         void set_npc_gets_item( bool to_use );
-        void set_add_mission( const std::string &mission_id );
+        void set_add_mission( const JsonObject &jo, const std::string &member );
         const std::vector<std::pair<int, itype_id>> &get_likely_rewards() const;
-        void set_u_buy_monster( const std::string &monster_type_id, int cost, int count, bool pacified,
-                                const translation &name, const JsonObject &jo );
-        void set_u_learn_recipe( const std::string &learned_recipe_id );
-        void set_npc_first_topic( const std::string &chat_topic );
+        void set_u_buy_monster( const JsonObject &jo, const std::string &member );
+        void set_u_learn_recipe( const JsonObject &jo, const std::string &member );
+        void set_npc_first_topic( const JsonObject &jo, const std::string &member );
         void set_add_morale( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_lose_morale( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_add_faction_trust( const JsonObject &jo, const std::string &member );
