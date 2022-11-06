@@ -1108,7 +1108,6 @@
     "description": "Pencak Silat is a style that covers a wide variety of weapons and unarmed fighting techniques.  Fighters stay low and mobile to avoid attacks, then unleash deadly critical hits.",
     "initiate": [ "You give a salute of respect as you prepare to combat.", "%s gives a combat salute." ],
     "learn_difficulty": 7,
-    "primary_skill": "cutting",
     "arm_block": 3,
     "leg_block": 5,
     "strictly_melee": false,
