@@ -4,7 +4,7 @@
     "looks_like": "hk_mp5",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str": ".22 calibre submachine gun" },
+    "name": { "str": ".22 caliber submachine gun" },
     "description": "A dramatically uncommon automatic weapon, making use of high-capacity pan magazines and firing the low power .22 calibre cartridge: an unusual ammunition choice for a submachine gun.  With negligible recoil on account of its modest cartridge and a suppressively high rate of fire, a burst of .22 LR rounds from this little machine gun can be best likened with a swarm of hornets… an incredibly angry swarm of hornets.",
     "variant_type": "gun",
     "variants": [
