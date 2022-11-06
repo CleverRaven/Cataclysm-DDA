@@ -528,7 +528,7 @@ static void check_knives( const std::function<Approx( const std::string & )> &ca
         CHECK( calc_expected_dps( "kris" ) == 14.08 );
         CHECK( calc_expected_dps( "knife_rambo" ) == 14.36 );
         CHECK( calc_expected_dps( "knife_rm42" ) ==
-               40.51 ); //DPS is unusually high but this is a bigger, slower combat knife with 30% more cut damage.
+               31.85 ); //Extremely high DPS comes from being pre-CVDed, would be slightly worse than combat knife without that.
         CHECK( calc_expected_dps( "tanto_inferior" ) == 14.14 );
         CHECK( calc_expected_dps( "bone_knife" ) == 7.9 );
         CHECK( calc_expected_dps( "knife_hunting" ) == 11.0 );
