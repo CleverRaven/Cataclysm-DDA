@@ -1664,10 +1664,10 @@
     "looks_like": "tac_helmet",
     "color": "dark_gray",
     "warmth": 15,
-    "material_thickness": 4,
+    "material_thickness": 6,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "WATERPROOF", "STURDY", "PADDED" ],
-    "armor": [ { "encumbrance": 6, "coverage": 95, "covers": [ "head" ] } ],
+    "armor": [ { "encumbrance": 8, "coverage": 95, "covers": [ "head" ] } ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
