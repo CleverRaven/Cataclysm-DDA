@@ -96,6 +96,19 @@
     "flags": [ "SILENT" ]
   },
   {
+    "id": "prison_cell_open",
+    "type": "SPELL",
+    "name": { "str": "Open prison gratings" },
+    "description": "Open prison gratings",
+    "valid_targets": [ "ground" ],
+    "effect": "ter_transform",
+    "shape": "blast",
+    "effect_str": "transform_gratings",
+    "min_aoe": 4,
+    "max_aoe": 4,
+    "flags": [ "SILENT" ]
+  },
+  {
     "id": "afs_generic_free_turn",
     "type": "SPELL",
     "name": "Aftershock Extra Turn",

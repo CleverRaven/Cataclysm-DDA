@@ -215,6 +215,48 @@
     }
   },
   {
+    "type": "furniture",
+    "id": "t_cell_entrance_console",
+    "name": "Prisoner Cell Console",
+    "looks_like": "t_console",
+    "description": "The control panel for the prisoner cell.  Might be able to open and close cell grating.",
+    "symbol": "0",
+    "color": "green_red",
+    "move_cost_mod": -1,
+    "coverage": 80,
+    "required_str": -1,
+    "examine_action": {
+      "type": "effect_on_condition",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_AFS_PRISON_CONSOLE_OPEN",
+          "condition": { "u_query": "Do you want to open the cell?", "default": true },
+          "effect": [
+            { "u_message": "The cell grates retract into the floor and ceiling.", "popup": true },
+            { "u_cast_spell": { "id": "prison_cell_open" } }
+          ]
+        }
+      ]
+    },
+    "flags": [ "NOITEM", "SEALED", "REDUCE_SCENT", "PERMEABLE" ],
+    "bash": {
+      "str_min": 70,
+      "str_max": 400,
+      "explosive": 100,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "furn_set": "f_reactor_meltdown",
+      "items": [
+        { "item": "afs_circuitry_1", "count": [ 4, 16 ] },
+        { "item": "afs_circuitry_2", "count": [ 1, 6 ] },
+        { "item": "afs_circuitry_3", "charges": [ 0, 1 ] },
+        { "item": "afs_heat_1", "charges": [ 0, 1 ] },
+        { "item": "afs_energy_storage_1", "charges": [ 1, 6 ] },
+        { "item": "afs_material_1", "charges": [ 12, 18 ] }
+      ]
+    }
+  },
+  {
     "type": "terrain",
     "id": "t_afs_escapepod_g",
     "name": "escape pod guidance system",
