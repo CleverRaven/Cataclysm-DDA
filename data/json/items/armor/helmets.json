@@ -1648,7 +1648,6 @@
   },
   {
     "id": "airsoft_helmet",
-    "repairs_like": "xlkevlar",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "airsoft helmet" },
@@ -1661,13 +1660,13 @@
     "bashing": 10,
     "material": [ "plastic" ],
     "symbol": "[",
-    "looks_like": "tac_helmet",
+    "looks_like": "helmet_army",
     "color": "dark_gray",
     "warmth": 15,
     "material_thickness": 6,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "WATERPROOF", "STURDY", "PADDED" ],
-    "armor": [ { "encumbrance": 8, "coverage": 95, "covers": [ "head" ] } ],
+    "armor": [ { "encumbrance": 7, "coverage": 90, "covers": [ "head" ] } ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
