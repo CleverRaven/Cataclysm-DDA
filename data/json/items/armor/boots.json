@@ -451,6 +451,73 @@
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
+    {
+    "id": "boots_faux_fur",
+    "type": "ARMOR",
+    "name": { "str": "pair of faux fur boots", "str_pl": "pairs of faux fur boots" },
+    "description": "Boots lined with fur for warmth.",
+    "weight": "1890 g",
+    "volume": "4500 ml",
+    "price": 14000,
+    "price_postapoc": 750,
+    "to_hit": -1,
+    "bashing": 1,
+    "material": [ "cotton", "faux_fur" ],
+    "symbol": "[",
+    "looks_like": "boots",
+    "color": "brown",
+    "warmth": 40,
+    "material_thickness": 3,
+    "environmental_protection": 2,
+    "flags": [ "VARSIZE", "WATERPROOF" ],
+    "armor": [
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [
+          "foot_toes_r",
+          "foot_toes_l",
+          "foot_ankle_r",
+          "foot_ankle_l",
+          "foot_heel_r",
+          "foot_heel_l",
+          "foot_arch_r",
+          "foot_arch_l"
+        ],
+        "material": [
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "faux_fur", "covered_by_mat": 100, "thickness": 1.5 }
+        ],
+        "encumbrance": 20,
+        "coverage": 100
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 0.1 },
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 4.0 }
+        ],
+        "coverage": 100
+      }
+    ]
+  },
+  {
+    "id": "xl_boots_faux_fur",
+    "type": "ARMOR",
+    "name": { "str": "pair of XL faux fur boots", "str_pl": "pairs of XL faux fur boots" },
+    "copy-from": "boots_fur",
+    "proportional": { "weight": 1.15, "volume": 1.15 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_boots_faux_fur",
+    "type": "ARMOR",
+    "copy-from": "boots__faux_fur",
+    "looks_like": "boots_fur",
+    "name": { "str": "pair of XS faux fur boots", "str_pl": "pairs of XS faux fur boots" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
   {
     "id": "boots_hiking",
     "repairs_like": "boots_larmor",
@@ -1356,6 +1423,24 @@
     "looks_like": "socks_wool",
     "color": "brown",
     "warmth": 20,
+    "material_thickness": 1.5,
+    "flags": [ "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ],
+    "armor": [ { "encumbrance": 5, "coverage": 65, "covers": [ "foot_l", "foot_r" ] } ]
+  },
+  {
+    "id": "footrags_faux_fur",
+    "type": "ARMOR",
+    "name": { "str": "pair of faux fur foot wraps", "str_pl": "pairs of faux fur foot wraps" },
+    "description": "Faux fur patches tied around your feet.  Not much of an improvement over being barefoot, but still better than nothing.",
+    "weight": "135 g",
+    "volume": "500 ml",
+    "price": 700,
+    "price_postapoc": 50,
+    "material": [ "faux_fur" ],
+    "symbol": "[",
+    "looks_like": "socks_wool",
+    "color": "brown",
+    "warmth": 18,
     "material_thickness": 1.5,
     "flags": [ "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ],
     "armor": [ { "encumbrance": 5, "coverage": 65, "covers": [ "foot_l", "foot_r" ] } ]
