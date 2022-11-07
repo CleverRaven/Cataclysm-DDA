@@ -899,7 +899,7 @@
         "distribution": [
           { "item": "paintball", "prob": 125 },
           { "item": "paintballgun", "prob": 100, "charges": [ 0, 50 ] },
-          { "group": "paintball_cloths", "prob": 30 }
+          { "group": "paintball_clothes", "prob": 30 }
         ]
       }
     ]
