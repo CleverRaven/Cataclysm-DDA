@@ -906,7 +906,7 @@
   },
   {
     "type": "item_group",
-    "id": "paintball_cloths",
+    "id": "paintball_clothes",
     "//": "For paintball_field.json",
     "items": [
       {
