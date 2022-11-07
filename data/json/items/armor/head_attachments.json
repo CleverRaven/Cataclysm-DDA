@@ -63,7 +63,7 @@
     "color": "dark_gray",
     "material_thickness": 1,
     "flags": [ "HELMET_MANDIBLE_GUARD", "CANT_WEAR" ],
-    "armor": [ { "encumbrance": 12, "coverage": 100, "covers": [ "mouth" ] } ]
+    "armor": [ { "encumbrance": 10, "coverage": 100, "covers": [ "mouth" ] } ]
   },
   {
     "id": "plastic_mandible_guard",
@@ -81,7 +81,7 @@
     "color": "light_blue",
     "material_thickness": 1,
     "flags": [ "HELMET_MANDIBLE_GUARD_STRAPPED", "CANT_WEAR" ],
-    "armor": [ { "encumbrance": 10, "coverage": 95, "covers": [ "mouth" ] } ]
+    "armor": [ { "encumbrance": 8, "coverage": 95, "covers": [ "mouth" ] } ]
   },
   {
     "id": "plastic_chin_guard",
