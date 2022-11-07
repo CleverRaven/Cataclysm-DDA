@@ -1578,20 +1578,19 @@
     "flags": [ "VARSIZE", "STURDY" ],
     "armor": [
       {
-        "encumbrance": 6,
+        "encumbrance": 12,
         "coverage": 100,
         "covers": [ "hand_l", "hand_r" ],
         "specifically_covers": [ "hand_wrist_l", "hand_wrist_r", "hand_palm_l", "hand_palm_r" ],
-        "material": [ { "type": "nylon", "covered_by_mat": 100, "thickness": 0.5 } ]
+        "material": [ { "type": "nylon", "covered_by_mat": 100, "thickness": 0.6 } ]
       },
       {
-        "encumbrance": 6,
         "coverage": 100,
         "covers": [ "hand_l", "hand_r" ],
         "specifically_covers": [ "hand_back_l", "hand_back_r" ],
         "material": [
-          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.5 },
-          { "type": "thermo_resin", "covered_by_mat": 90, "thickness": 1 }
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.6 },
+          { "type": "thermo_resin", "covered_by_mat": 95, "thickness": 1 }
         ]
       },
       {
@@ -1600,7 +1599,7 @@
         "covers": [ "hand_l", "hand_r" ],
         "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
         "material": [
-          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.5 },
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.6 },
           { "type": "thermo_resin", "covered_by_mat": 50, "thickness": 0.5 }
         ]
       }
