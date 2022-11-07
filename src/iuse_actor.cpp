@@ -1080,15 +1080,30 @@ cata::optional<int> deploy_furn_actor::use( Character &p, item &it, bool,
         return cata::nullopt;
     }
 
-    if( here.terrain_moppable( tripoint_bub_ms( pnt ) ) ) {
-        if( get_avatar().crafting_inventory().has_quality( qual_MOP ) ) {
-            here.mop_spills( tripoint_bub_ms( pnt ) );
-            p.add_msg_if_player( m_info, _( "You mopped up the spill when deploying furniture." ) );
-            p.moves -= 15;
-        } else {
-            p.add_msg_if_player( m_info,
-                                 _( "You need a mop to clean up liquids before deploying furniture." ) );
-            return cata::nullopt;
+    if( here.has_items( pnt ) ) {
+        // Check that there are no other people's belongings in the place where the furniture is placed.
+        // Avoid easy theft of NPC items (e.g. carton theft).
+        map &temp = get_map();
+        for( item &i : temp.i_at( pnt ) ) {
+            if( !i.is_owned_by( p, true ) ) {
+                p.add_msg_if_player( m_info, _( "You can't deploy furniture on other people's belongings!" ) );
+                return cata::nullopt;
+            }
+        }
+
+        // Check that there is no liquid on the floor.
+        // If there is, it needs to be mopped dry with a mop.
+        if( here.terrain_moppable( tripoint_bub_ms( pnt ) ) ) {
+            if( get_avatar().crafting_inventory().has_quality( qual_MOP ) ) {
+                here.mop_spills( tripoint_bub_ms( pnt ) );
+                p.add_msg_if_player( m_info,
+                                     _( "You mopped up the spill with a nearby mop when deploying furniture." ) );
+                p.moves -= 15;
+            } else {
+                p.add_msg_if_player( m_info,
+                                     _( "You need a mop to clean up liquids before deploying furniture." ) );
+                return cata::nullopt;
+            }
         }
     }
 
