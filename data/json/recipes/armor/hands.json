@@ -234,7 +234,7 @@
     "skills_required": [ "survival", 1 ],
     "time": "9 h",
     "autolearn": true,
-    "book_learn": [ [ "manual_tailor", 1 ], [ "textbook_survival", 1 ], [ "pocket_survival", 1 ], [ "recipe_fauxfur", 1 ] ]
+    "book_learn": [ [ "manual_tailor", 1 ], [ "textbook_survival", 1 ], [ "pocket_survival", 1 ], [ "recipe_fauxfur", 1 ] ],
     "using": [ [ "tailoring_faux_fur_small", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_furriery" } ]
   },
