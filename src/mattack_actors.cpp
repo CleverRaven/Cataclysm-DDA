@@ -62,13 +62,25 @@ void leap_actor::load_internal( const JsonObject &obj, const std::string & )
     // Optional:
     min_range = obj.get_float( "min_range", 1.0f );
     allow_no_target = obj.get_bool( "allow_no_target", false );
+    optional( obj, was_loaded, "prefer_leap", prefer_leap, false );
+    optional( obj, was_loaded, "random_leap", random_leap, false );
     move_cost = obj.get_int( "move_cost", 150 );
     min_consider_range = obj.get_float( "min_consider_range", 0.0f );
     max_consider_range = obj.get_float( "max_consider_range", 200.0f );
+    optional( obj, was_loaded, "message", message,
+              to_translation( "The %s leaps!" ) );
     optional( obj, was_loaded, "forbidden_effects_any", forbidden_effects_any );
     optional( obj, was_loaded, "forbidden_effects_all", forbidden_effects_all );
     optional( obj, was_loaded, "required_effects_any", required_effects_any );
     optional( obj, was_loaded, "required_effects_all", required_effects_all );
+
+    if( obj.has_array( "self_effects" ) ) {
+        for( JsonObject eff : obj.get_array( "self_effects" ) ) {
+            mon_effect_data effect;
+            effect.load( eff );
+            self_effects.push_back( std::move( effect ) );
+        }
+    }
 }
 
 std::unique_ptr<mattack_actor> leap_actor::clone() const
@@ -79,6 +91,7 @@ std::unique_ptr<mattack_actor> leap_actor::clone() const
 bool leap_actor::call( monster &z ) const
 {
     if( !z.has_dest() || !z.can_act() || !z.move_effects( false ) ) {
+        add_msg_debug( debugmode::DF_MATTACK, "Monster has no destination or can't act" );
         return false;
     }
 
@@ -127,8 +140,11 @@ bool leap_actor::call( monster &z ) const
 
     std::vector<tripoint> options;
     const tripoint_abs_ms target_abs = z.get_dest();
+    // Calculate distance to target
     const float best_float = rl_dist( z.get_location(), target_abs );
+    add_msg_debug( debugmode::DF_MATTACK, "Target distance %.1f", best_float );
     if( best_float < min_consider_range || best_float > max_consider_range ) {
+        add_msg_debug( debugmode::DF_MATTACK, "Best float outside of considered range" );
         return false;
     }
 
@@ -136,22 +152,35 @@ bool leap_actor::call( monster &z ) const
     // int here will make the jumps more random
     int best = std::numeric_limits<int>::max();
     if( !allow_no_target && z.attack_target() == nullptr ) {
+        add_msg_debug( debugmode::DF_MATTACK, "Leaping without a target disabled" );
         return false;
     }
     map &here = get_map();
     const tripoint target = here.getlocal( target_abs );
+    add_msg_debug( debugmode::DF_MATTACK, "Target at coordinates %d,%d,%d",
+                   target.x, target.y, target.z );
+
     std::multimap<int, tripoint> candidates;
     for( const tripoint &candidate : here.points_in_radius( z.pos(), max_range ) ) {
         if( candidate == z.pos() ) {
+            add_msg_debug( debugmode::DF_MATTACK, "Monster at coordinates %d,%d,%d",
+                           candidate.x, candidate.y, candidate.z );
             continue;
         }
         float leap_dist = trigdist ? trig_dist( z.pos(), candidate ) :
                           square_dist( z.pos(), candidate );
+        add_msg_debug( debugmode::DF_MATTACK,
+                       "Candidate coordinates %d,%d,%d, distance %.1f, min range %.1f, max range %.1f",
+                       candidate.x, candidate.y, candidate.z, leap_dist, min_range, max_range );
         if( leap_dist > max_range || leap_dist < min_range ) {
+            add_msg_debug( debugmode::DF_MATTACK,
+                           "Candidate outside of allowed range, discarded" );
             continue;
         }
         int candidate_dist = rl_dist( candidate, target );
-        if( candidate_dist >= best_float ) {
+        if( candidate_dist >= best_float && !( prefer_leap || random_leap ) ) {
+            add_msg_debug( debugmode::DF_MATTACK,
+                           "Candidate farther from target than optimal path, discarded" );
             continue;
         }
         candidates.emplace( candidate_dist, candidate );
@@ -159,10 +188,13 @@ bool leap_actor::call( monster &z ) const
     for( const auto &candidate : candidates ) {
         const int &cur_dist = candidate.first;
         const tripoint &dest = candidate.second;
-        if( cur_dist > best ) {
+        if( cur_dist > best && !random_leap ) {
+            add_msg_debug( debugmode::DF_MATTACK,
+                           "Distance %d larger than previous best %d, candidate discarded", cur_dist, best );
             break;
         }
         if( !z.sees( dest ) ) {
+            add_msg_debug( debugmode::DF_MATTACK, "Can't see destination, candidate discarded" );
             continue;
         }
         if( !g->is_empty( dest ) ) {
@@ -173,12 +205,14 @@ bool leap_actor::call( monster &z ) const
         std::vector<tripoint> line = here.find_clear_path( z.pos(), dest );
         for( tripoint &i : line ) {
             if( here.impassable( i ) ) {
+                add_msg_debug( debugmode::DF_MATTACK, "Path blocked, candidate discarded" );
                 blocked_path = true;
                 break;
             }
         }
         // don't leap into water if you could drown (#38038)
         if( z.is_aquatic_danger( dest ) ) {
+            add_msg_debug( debugmode::DF_MATTACK, "Can't leap into water, candidate discarded" );
             blocked_path = true;
         }
         if( blocked_path ) {
@@ -190,6 +224,7 @@ bool leap_actor::call( monster &z ) const
     }
 
     if( options.empty() ) {
+        add_msg_debug( debugmode::DF_MATTACK, "No acceptable leap candidates" );
         return false;    // Nowhere to leap!
     }
 
@@ -200,7 +235,15 @@ bool leap_actor::call( monster &z ) const
     z.setpos( chosen );
     seen |= player_view.sees( z ); // ... or we can see them land
     if( seen ) {
-        add_msg( _( "The %s leaps!" ), z.name() );
+        add_msg( message, z.name() );
+    }
+
+    for( const mon_effect_data &eff : self_effects ) {
+        if( x_in_y( eff.chance, 100 ) ) {
+            z.add_effect( eff.id, time_duration::from_turns( rng( eff.duration.first, eff.duration.second ) ),
+                          eff.permanent,
+                          rng( eff.intensity.first, eff.intensity.second ) );
+        }
     }
 
     return true;

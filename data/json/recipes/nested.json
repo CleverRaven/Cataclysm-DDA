@@ -3908,6 +3908,7 @@
     "skill_used": "fabrication",
     "nested_category_data": [
       "needle_bone",
+      "needle_steel",
       "needle_wood",
       "needle_curved",
       "tailors_kit",
