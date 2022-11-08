@@ -998,6 +998,7 @@ kg
 khopesh
 khru
 kickboard
+kickin
 killbasa
 kilroy
 kinbot
@@ -1470,6 +1471,7 @@ premeasured
 preminiscent
 premix
 preoptic
+prepper
 presaging
 prescriptures
 prev
@@ -2161,9 +2163,9 @@ yateveo
 ybindings
 yipe
 ynn
-yo-yo
 yoroi
 yowl
+yo-yo
 yugg
 yulecat
 z
