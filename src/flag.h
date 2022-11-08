@@ -343,6 +343,7 @@ extern const flag_id flag_USE_EAT_VERB;
 extern const flag_id flag_USE_PLAYER_ENERGY;
 extern const flag_id flag_USE_UPS;
 extern const flag_id flag_VARSIZE;
+extern const flag_id flag_VEGAN_BAD;
 extern const flag_id flag_VEHICLE;
 extern const flag_id flag_WAIST;
 extern const flag_id flag_WATCH;
