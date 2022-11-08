@@ -339,7 +339,7 @@ const flag_id flag_USE_EAT_VERB( "USE_EAT_VERB" );
 const flag_id flag_USE_PLAYER_ENERGY( "USE_PLAYER_ENERGY" );
 const flag_id flag_USE_UPS( "USE_UPS" );
 const flag_id flag_VARSIZE( "VARSIZE" );
-const flag_id flag_VEHICLE( "VEGAN_BAD" );
+const flag_id flag_VEGAN_BAD( "VEGAN_BAD" );
 const flag_id flag_VEHICLE( "VEHICLE" );
 const flag_id flag_WAIST( "WAIST" );
 const flag_id flag_WATCH( "WATCH" );
