@@ -9,6 +9,7 @@
     "valid": false,
     "purifiable": false,
     "player_display": true,
+    "vanity": true,
     "variants": [
       {
         "id": "blue",
@@ -77,6 +78,7 @@
     "valid": false,
     "purifiable": false,
     "player_display": true,
+    "vanity": true,
     "variants": [
       {
         "id": "blue",
@@ -145,6 +147,7 @@
     "valid": false,
     "purifiable": false,
     "player_display": true,
+    "vanity": true,
     "variants": [
       {
         "id": "blue",
@@ -213,6 +216,7 @@
     "valid": false,
     "purifiable": false,
     "player_display": true,
+    "vanity": true,
     "variants": [
       {
         "id": "blue",
@@ -281,6 +285,7 @@
     "valid": false,
     "purifiable": false,
     "player_display": true,
+    "vanity": true,
     "variants": [
       {
         "id": "blue",
@@ -349,6 +354,7 @@
     "valid": false,
     "purifiable": false,
     "player_display": true,
+    "vanity": true,
     "variants": [
       {
         "id": "blue",
