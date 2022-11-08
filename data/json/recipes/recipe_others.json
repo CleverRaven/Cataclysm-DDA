@@ -1664,10 +1664,10 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "survival",
-    "time": "1 m",
+    "time": "5 m",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "cordage", 6 ] ],
+    "using": [ [ "cordage_fishing", 1 ] ],
     "tools": [  ],
     "components": [ [ [ "stick", 1 ] ], [ [ "fishing_hook_bone", 1 ], [ "fishing_hook_basic", 1 ] ] ]
   },
