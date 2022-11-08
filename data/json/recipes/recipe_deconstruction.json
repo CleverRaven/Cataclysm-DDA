@@ -7170,7 +7170,8 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "1 m",
     "components": [ [ [ "armor_riot_leg", 1 ] ], [ [ "armor_riot_arm", 1 ] ], [ [ "armor_riot_torso", 1 ] ] ]
-   },
+  },
+  {
     "result": "matches",
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",
