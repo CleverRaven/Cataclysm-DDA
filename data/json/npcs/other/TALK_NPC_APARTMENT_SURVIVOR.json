@@ -13,7 +13,7 @@
     "speaker_effect": { "effect": { "npc_add_var": "knows_u", "type": "dialogue", "context": "first_meeting", "value": "yes" } },
     "responses": [
       {
-        "text": "&Hold up your hands. \"Don't worry, I'm not going to hurt you\"",
+        "text": "&Hold up your hands.  \"Don't worry, I'm not going to hurt you\"",
         "topic": "TALK_NPC_APARTMENT_SURVIVOR_CALM",
         "condition": { "not": { "npc_has_var": "knows_u", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
       },
