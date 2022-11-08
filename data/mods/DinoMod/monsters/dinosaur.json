@@ -273,7 +273,7 @@
     "reproduction": { "baby_egg": "egg_dryptosaurus", "baby_count": 3, "baby_timer": 24 },
     "special_attacks": [
       { "type": "teeth_grab", "cooldown": 15 },
-      { "type": "teeth_rip", "cooldown": 15 },
+      { "type": "teeth_pull", "cooldown": 15 },
       { "type": "leap", "cooldown": 20, "max_range": 5, "allow_no_target": true }
     ]
   },
@@ -291,7 +291,7 @@
     "zombify_into": "mon_zappalachiosaurus",
     "description": "Enormous teeth, fierce eyes, and a powerful frame to drive it forward, with two small arms and a feathered mullet and tail.  The snout is long with six ridges.",
     "reproduction": { "baby_egg": "egg_appalachiosaurus", "baby_count": 3, "baby_timer": 24 },
-    "special_attacks": [ { "type": "teeth_grab", "cooldown": 15 }, { "type": "teeth_rip", "cooldown": 15 }, [ "LUNGE", 20 ] ]
+    "special_attacks": [ { "type": "teeth_grab", "cooldown": 15 }, { "type": "teeth_pull", "cooldown": 15 }, [ "LUNGE", 20 ] ]
   },
   {
     "type": "MONSTER",
@@ -346,12 +346,7 @@
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 1 },
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "DESTROYS", "WARM", "PUSH_MON" ],
-    "special_attacks": [
-      { "type": "teeth_grab", "cooldown": 7 },
-      { "type": "teeth_rip", "cooldown": 5 },
-      [ "LUNGE", 10 ],
-      [ "LONGSWIPE", 25 ]
-    ],
+    "special_attacks": [ { "type": "teeth_puncture", "cooldown": 7 }, { "type": "teeth_pull", "cooldown": 5 }, [ "LUNGE", 10 ] ],
     "harvest": "dino_large_feather_pred",
     "dissect": "dissect_tyrant_sample_large",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE", "SOUND" ],
@@ -392,8 +387,8 @@
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 2 },
     "special_attacks": [
-      { "type": "teeth_grab", "cooldown": 7 },
-      { "type": "teeth_rip", "cooldown": 5 },
+      { "type": "teeth_puncture", "cooldown": 7 },
+      { "type": "teeth_pull", "cooldown": 5 },
       [ "LUNGE", 10 ],
       [ "BIO_OP_TAKEDOWN", 30 ]
     ],
@@ -418,8 +413,8 @@
     "description": "Bipedal dinosaur with long sharp teeth in a massive jaw, fierce eyes, and a powerful frame to drive it forward, short arms, with a feathered white mullet and tail.",
     "reproduction": { "baby_egg": "egg_nanuqsaurus", "baby_count": 3, "baby_timer": 24 },
     "special_attacks": [
-      { "type": "teeth_grab", "cooldown": 20 },
-      { "type": "teeth_rip", "cooldown": 10 },
+      { "type": "teeth_puncture", "cooldown": 20 },
+      { "type": "teeth_pull", "cooldown": 10 },
       [ "LUNGE", 10 ],
       [ "BIO_OP_TAKEDOWN", 20 ]
     ]
@@ -439,8 +434,8 @@
     "description": "Bipedal dinosaur with long sharp teeth in a massive jaw, fierce eyes, and a powerful frame to drive it forward, short arms, with a feathered mullet and tail.",
     "reproduction": { "baby_egg": "egg_daspletosaurus", "baby_count": 3, "baby_timer": 24 },
     "special_attacks": [
-      { "type": "teeth_grab", "cooldown": 10 },
-      { "type": "teeth_rip", "cooldown": 10 },
+      { "type": "teeth_puncture", "cooldown": 10 },
+      { "type": "teeth_pull", "cooldown": 10 },
       [ "LUNGE", 10 ],
       [ "BIO_OP_TAKEDOWN", 15 ]
     ],
@@ -480,8 +475,8 @@
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 1 },
     "special_attacks": [
-      { "type": "teeth_grab", "cooldown": 7 },
-      { "type": "teeth_rip", "cooldown": 5 },
+      { "type": "teeth_puncture", "cooldown": 7 },
+      { "type": "teeth_pull", "cooldown": 5 },
       [ "LUNGE", 10 ],
       [ "BIO_OP_TAKEDOWN", 15 ]
     ],
