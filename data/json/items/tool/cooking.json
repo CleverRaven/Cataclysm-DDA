@@ -153,9 +153,9 @@
     "symbol": ";",
     "color": "light_gray",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 96 } } ],
-    "//": "each charcoal is 8mL so it is 768mL total of charcoal (157g charcoal, enough to purify 3 liters)",
+    "//": "each charcoal is 8mL so it is 768mL total of charcoal (160g charcoal, enough to purify 3 liters)",
     "//1": "https://blackblum.com/pages/charcoal-water-filter",
-    "//2": "50g of charcoal for 1 liter of water = 12.5g of charcoal per u of water.  1u charcoal weighs 1.64g, so making it 8:1",
+    "//2": "50g of charcoal for 1 liter of water = 12.5g of charcoal per u of water.  1u charcoal weighs 1.66g, so making it 8:1",
     "charges_per_use": 8,
     "use_action": [ "WATER_PURIFIER" ],
     "flags": [ "ALLOWS_REMOTE_USE", "NO_UNLOAD", "NO_RELOAD" ]
@@ -179,7 +179,7 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 384 } } ],
     "//": "each charcoal is 8mL so it is 3072mL total of charcoal (630g charcoal, enough to purify 12 liters)",
     "//1": "https://blackblum.com/pages/charcoal-water-filter",
-    "//2": "50g of charcoal for 1 liter of water = 12.5g of charcoal per u of water.  1u charcoal weighs 1.64g, so making it 8:1",
+    "//2": "50g of charcoal for 1 liter of water = 12.5g of charcoal per u of water.  1u charcoal weighs 1.66g, so making it 8:1",
     "charges_per_use": 8,
     "use_action": [ "WATER_PURIFIER" ],
     "flags": [ "ALLOWS_REMOTE_USE", "NO_UNLOAD", "NO_RELOAD" ]
