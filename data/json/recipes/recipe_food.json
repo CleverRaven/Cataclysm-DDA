@@ -79,7 +79,7 @@
     "//": "https://www.netsolwater.com/how-much-energy-does-an-ro-system-use.php?blog=484",
     "//1": "Unclear if this is a RO filter but basing it off that.  0.03 KwH per 2 liters in a RO filter = 14kJ for 1u of water",
     "//2": "https://blackblum.com/pages/charcoal-water-filter",
-    "//3": "50g of charcoal for 1 liter of water = 12.5g of charcoal per u of water.  1u charcoal weighs 1.64g, so making it 8:1",
+    "//3": "50g of charcoal for 1 liter of water = 12.5g of charcoal per u of water.  1u charcoal weighs 1.66g, so making it 8:1",
     "autolearn": true,
     "tools": [
       [
