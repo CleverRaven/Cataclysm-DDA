@@ -1278,9 +1278,20 @@
     "points": -1,
     "description": "Whether due to injury or age, your knees aren't particularly strong or flexible.  Moving over rough terrain will slow you down more than normal.",
     "starting_trait": true,
-    "cancels": [ "STRONGKNEES" ],
+    "cancels": [ "STRONGKNEES", "REALLYBADKNEES" ],
     "valid": false,
     "movecost_obstacle_modifier": 1.25
+  },
+  {
+    "type": "mutation",
+    "id": "REALLYBADKNEES",
+    "name": { "str": "Stiff Knees" },
+    "points": -3,
+    "description": "Your knees never bend.  Period.  Stiff as a metal pole.  Pray that your journey doesn't involve stairs or slightly uneven terrain.",
+    "starting_trait": true,
+    "cancels": [ "STRONGKNEES", "BADKNEES" ],
+    "valid": false,
+    "movecost_obstacle_modifier": 3.5
   },
   {
     "type": "mutation",
@@ -1289,7 +1300,7 @@
     "points": 1,
     "description": "Your knees are strong and capable of angles that you couldn't imagine previously.  Moving over rough terrain will slow you down less than normal.",
     "category": [ "BATRACHIAN" ],
-    "cancels": [ "BADKNEES" ],
+    "cancels": [ "BADKNEES", "REALLYBADKNEES" ],
     "movecost_obstacle_modifier": 0.9
   },
   {
