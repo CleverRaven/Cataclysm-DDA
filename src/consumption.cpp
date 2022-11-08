@@ -819,7 +819,7 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
         return ret_val<edible_rating>::make_failure( INEDIBLE_MUTATION,
                 _( "The thought of eating that makes you feel sick." ) );
     }
-        if( ( has_trait( trait_VEGAN ) ) ) &&
+        if( ( has_trait( trait_VEGAN ) ) &&
         food.has_any_flag( vegan_blacklist ) ) {
         return ret_val<edible_rating>::make_failure( INEDIBLE_MUTATION,
                 _( "You're still not going to eat animal products." ) );
