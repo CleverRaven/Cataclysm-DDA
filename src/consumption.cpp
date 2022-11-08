@@ -144,6 +144,7 @@ static const trait_id trait_THRESH_FELINE( "THRESH_FELINE" );
 static const trait_id trait_THRESH_LUPINE( "THRESH_LUPINE" );
 static const trait_id trait_THRESH_PLANT( "THRESH_PLANT" );
 static const trait_id trait_THRESH_URSINE( "THRESH_URSINE" );
+static const trait_id trait_VEGETARIAN( "VEGAN" );
 static const trait_id trait_VEGETARIAN( "VEGETARIAN" );
 static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
 
@@ -156,6 +157,11 @@ static const std::array<flag_id, 4> carnivore_blacklist {{
 
 static const std::array<flag_id, 2> herbivore_blacklist {{
         json_flag_ALLERGEN_MEAT, json_flag_ALLERGEN_EGG
+    }};
+
+static const std::array<flag_id, 4> vegan_blacklist {{
+        json_flag_ALLERGEN_MEAT, json_flag_ALLERGEN_EGG, 
+        json_flag_ALLERGEN_MILK, json_flag_VEGAN_BAD
     }};
 
 // TODO: Move pizza scraping here.
