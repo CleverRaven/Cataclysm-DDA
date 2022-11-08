@@ -63,33 +63,5 @@
     "bashing": 2,
     "to_hit": -3,
     "use_action": { "type": "learn_spell", "spells": [ "spell_speed_wonder" ] }
-  },
-  {
-    "id": "spell_weak",
-    "type": "SPELL",
-    "name": "Weakening",
-    "description": "Make enemies around you more vulnerable.",
-    "valid_targets": [ "hostile" ],
-    "effect": "attack",
-    "effect_str": "effect_weakening",
-    "shape": "blast",
-    "flags": [ "NO_LEGS", "SILENT", "NO_EXPLOSION_SFX" ],
-    "skill": "deduction",
-    "spell_class": "EATER",
-    "energy_source": "MANA",
-    "difficulty": 5,
-    "min_aoe": 3,
-    "max_aoe": 15,
-    "aoe_increment": 0.5,
-    "base_casting_time": 250,
-    "final_casting_time": 50,
-    "casting_time_increment": -8,
-    "base_energy_cost": 600,
-    "final_energy_cost": 250,
-    "energy_increment": -14,
-    "max_level": 25,
-    "min_duration": 500,
-    "max_duration": 30000,
-    "duration_increment": 1180
   }
 ]
