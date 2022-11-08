@@ -1030,7 +1030,7 @@ void place_construction( const construction_group_str_id &group )
     partial_con *pre_c = here.partial_con_at( pnt );
     if( pre_c ) {
         add_msg( m_info,
-                 _( "There is already an unfinished construction there, examine it to continue working on it" ) );
+                 _( "There is already an unfinished construction there, examine it to continue working on it." ) );
         return;
     }
     std::list<item> used;
