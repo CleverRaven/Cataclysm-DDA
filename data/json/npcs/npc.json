@@ -213,15 +213,5 @@
     "mission_offered": "MISSION_JOIN_TRACKER",
     "chat": "TALK_STRANGER_FRIENDLY",
     "faction": "no_faction"
-  },
-  {
-    "type": "npc",
-    "id": "average_civilian_nwh",
-    "//": "Scenario specific, should not spawn outside of the No Way Home EOC.",
-    "class": "NC_CIVILIAN",
-    "attitude": 3,
-    "mission": 0,
-    "chat": "TALK_FRIEND",
-    "faction": "your_followers"
   }
 ]

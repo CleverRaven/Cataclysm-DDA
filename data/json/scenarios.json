@@ -21,17 +21,6 @@
   },
   {
     "type": "scenario",
-    "id": "group_survivor",
-    "name": "No Way Home",
-    "points": 5,
-    "description": "In the initial chaos, you selflessly rallied a group of civilians together and lead them out of town, and have achieved (relative) safety in one of the many government evac shelters.  Now, with no contact to the outside world and emergency broadcasts shutting off, who will save you?",
-    "allowed_locs": [ "sloc_shelter_a", "sloc_shelter_b", "sloc_shelter_c" ],
-    "start_name": "Evac Shelter",
-    "eoc": [ "scenario_no_way_home" ],
-    "flags": [ "CITY_START", "LONE_START" ]
-  },
-  {
-    "type": "scenario",
     "id": "missed",
     "name": "Missed",
     "points": 0,
