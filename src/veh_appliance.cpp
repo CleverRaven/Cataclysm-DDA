@@ -207,8 +207,8 @@ void veh_app_interact::draw_info()
     };
 
     // Battery power output
-    int charge_rate = veh->net_battery_charge_rate_w();
-    print_charge( _( "Battery power output: " ), charge_rate, row );
+    int charge_rate = veh->net_battery_charge_rate_w( true, true );
+    print_charge( _( "Grid battery power flow: " ), charge_rate, row );
     row++;
 
     // Reactor power output
@@ -249,7 +249,7 @@ void veh_app_interact::draw_info()
     // Other power output
     if( !veh->accessories.empty() ) {
         int rate = veh->total_accessory_epower_w();
-        print_charge( _( "Total power consumption: " ), rate, row );
+        print_charge( _( "Appliance power consumption: " ), rate, row );
         row++;
     }
 
