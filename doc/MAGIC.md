@@ -596,28 +596,7 @@ Explanation: Here we have one main spell with two subspells: one on the caster a
 
 ### Monster spells
 
-`MONSTER`s can also cast spells.  To do this, you need to declare the spells in `special_attacks`.  Spells with `target_self: true` will only target the casting monster, and will be casted only if the monster has a hostile target.
-
-```json 
-  { 
-    "type": "spell", 
-    "spell_data": { "id": "cone_cold", "min_level": 4 }, 
-    "monster_message": "%1$s casts %2$s at %3$s!", 
-    "cooldown": 25 
-  }
-```
-
-| Identifier              | Description
-|---                      |---
-| `spell_data`            | List of spell properties for the attack.
-| `min_level`             | The level at which the spell is cast.  Spells cast by monsters do not gain levels like player spells.
-| `cooldown `             | How often the monster can cast this spell
-| `monster_message`       | Message to print when the spell is cast, replacing the `message` in the spell definition.  Dynamic fields correspond to `<Monster Display Name> / <Spell Name> / <Target name>`.
-| `forbidden_effects_any` | Array of effect IDs, if the monster has any one the attack can't trigger.
-| `forbidden_effects_all` | Array of effect IDs, if the monster has every effect the attack can't trigger.
-| `required_effects_any`  | Array of effect IDs, the monster needs any one for the attack to trigger.
-| `required_effects_all`  | Array of effect IDs, the monster needs every effect for the attack to trigger.
-| `allow_no_target`       | Bool, default `false`.  If `true` the monster will cast it even without a hostile target.
+See [Monster special attacks - Spells](MONSTER_SPECIAL_ATTACKS.md#spell-monster-spells).
 
 
 ## Enchantments

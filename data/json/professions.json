@@ -1769,7 +1769,7 @@
           { "group": "charged_cell_phone" },
           { "group": "charged_flashlight" },
           { "item": "lighter", "charges": 100 },
-          { "item": "knife_rambo", "container-item": "scabbard" },
+          { "group": "knife_rambo_full", "container-item": "scabbard" },
           { "item": "tshirt", "variant": "generic_tshirt" }
         ]
       },
