@@ -1,10 +1,11 @@
 #include "diary.h"
 
-#include <string>
-#include <list>
-#include <iostream>
-#include <fstream>
 #include <algorithm>
+#include <fstream>
+#include <iostream>
+#include <list>
+#include <string>
+#include <utility>
 
 #include "avatar.h"
 #include "bionics.h"
@@ -48,7 +49,7 @@ int diary::set_opened_page( int pagenum )
     return opened_page;
 }
 
-int diary::get_opened_page_num()
+int diary::get_opened_page_num() const
 {
     return opened_page;
 }
@@ -63,7 +64,7 @@ diary_page *diary::get_page_ptr( int offset )
     return nullptr;
 }
 
-void diary::add_to_change_list( std::string entry, std::string desc )
+void diary::add_to_change_list( const std::string &entry, const std::string &desc )
 {
     if( !desc.empty() ) {
         desc_map[change_list.size()] = desc;
@@ -132,7 +133,7 @@ void diary::mission_changes()
         return;
     }
     if( prevpage == nullptr ) {
-        auto add_missions = [&]( const std::string name, const std::vector<int> *missions ) {
+        auto add_missions = [&]( const std::string & name, const std::vector<int> *missions ) {
             if( !missions->empty() ) {
                 bool flag = true;
 
@@ -156,7 +157,7 @@ void diary::mission_changes()
         add_missions( _( "Failed missions:" ), &currpage->mission_failed );
 
     } else {
-        auto add_missions = [&]( const std::string name, const std::vector<int> *missions,
+        auto add_missions = [&]( const std::string & name, const std::vector<int> *missions,
         const std::vector<int> *prevmissions ) {
             bool flag = true;
             for( const int uid : *missions ) {
@@ -390,25 +391,23 @@ void diary::trait_changes()
     if( prevpage == nullptr ) {
         if( !currpage->traits.empty() ) {
             add_to_change_list( _( "Mutations:" ) );
-            for( const trait_id &elem : currpage->traits ) {
-                const mutation_branch &trait = elem.obj();
-                add_to_change_list( colorize( trait.name(), trait.get_display_color() ), trait.desc() );
+            for( const trait_and_var &elem : currpage->traits ) {
+                add_to_change_list( colorize( elem.name(), elem.trait->get_display_color() ), elem.desc() );
             }
             add_to_change_list( "" );
         }
     } else {
         if( prevpage->traits.empty() && !currpage->traits.empty() ) {
             add_to_change_list( _( "Mutations:" ) );
-            for( const trait_id &elem : currpage->traits ) {
-                const mutation_branch &trait = elem.obj();
-                add_to_change_list( colorize( trait.name(), trait.get_display_color() ), trait.desc() );
+            for( const trait_and_var &elem : currpage->traits ) {
+                add_to_change_list( colorize( elem.name(), elem.trait->get_display_color() ), elem.desc() );
 
             }
             add_to_change_list( "" );
         } else {
 
             bool flag = true;
-            for( const trait_id &elem : currpage->traits ) {
+            for( const trait_and_var &elem : currpage->traits ) {
 
                 if( std::find( prevpage->traits.begin(), prevpage->traits.end(),
                                elem ) == prevpage->traits.end() ) {
@@ -416,8 +415,7 @@ void diary::trait_changes()
                         add_to_change_list( _( "Gained Mutation: " ) );
                         flag = false;
                     }
-                    const mutation_branch &trait = elem.obj();
-                    add_to_change_list( colorize( trait.name(), trait.get_display_color() ), trait.desc() );
+                    add_to_change_list( colorize( elem.name(), elem.trait->get_display_color() ), elem.desc() );
                 }
 
             }
@@ -426,16 +424,15 @@ void diary::trait_changes()
             }
 
             flag = true;
-            for( const trait_id &elem : prevpage->traits ) {
+            for( const trait_and_var &elem : prevpage->traits ) {
 
                 if( std::find( currpage->traits.begin(), currpage->traits.end(),
                                elem ) == currpage->traits.end() ) {
                     if( flag ) {
-                        add_to_change_list( _( "Lost Mutation " ) );
+                        add_to_change_list( _( "Lost Mutation: " ) );
                         flag = false;
                     }
-                    const mutation_branch &trait = elem.obj();
-                    add_to_change_list( colorize( trait.name(), trait.get_display_color() ), trait.desc() );
+                    add_to_change_list( colorize( elem.name(), elem.trait->get_display_color() ), elem.desc() );
                 }
             }
             if( !flag ) {
@@ -618,7 +615,7 @@ diary::diary()
 }
 void diary::set_page_text( std::string text )
 {
-    get_page_ptr()->m_text = text;
+    get_page_ptr()->m_text = std::move( text );
 }
 
 void diary::new_page()
@@ -639,7 +636,7 @@ void diary::new_page()
     page->dexterity = u->get_dex_base();
     page->intelligence = u->get_int_base();
     page->perception = u->get_per_base();
-    page->traits = u->get_mutations( false );
+    page->traits = u->get_mutations_variants( false );
     const auto spells = u->magic->get_spells();
     for( const spell *spell : spells ) {
         const spell_id &id = spell->id();
@@ -681,8 +678,8 @@ void diary::export_to_txt( bool lastexport )
             myfile << remove_color_tags( str ) + "\n";
         }
         std::vector<std::string> folded_text = foldstring( page.m_text, 50 );
-        for( int i = 0; i < static_cast<int>( folded_text.size() ); i++ ) {
-            myfile << folded_text[i] + "\n";
+        for( const std::string &line : folded_text ) {
+            myfile << line + "\n";
         }
         myfile <<  "\n\n\n";
     }
@@ -745,21 +742,15 @@ void diary::serialize( JsonOut &jsout )
 void diary::load()
 {
     std::string name = base64_encode( get_avatar().get_save_id() + "_diary" );
-    std::string path = PATH_INFO::world_base_save_path() + "/" + name + ".json";
+    cata_path path = PATH_INFO::world_base_save_path_path() / ( name + ".json" );
     if( file_exist( path ) ) {
-        read_from_file( path, [&]( std::istream & fin ) {
-            deserialize( fin );
+        read_from_file_json( path, [&]( const JsonValue & jv ) {
+            deserialize( jv );
         } );
     }
 }
 
-void diary::deserialize( std::istream &fin )
-{
-    JsonIn jsin( fin );
-    deserialize( jsin );
-}
-
-void diary::deserialize( JsonIn &jsin )
+void diary::deserialize( const JsonValue &jsin )
 {
     try {
         JsonObject data = jsin.get_object();

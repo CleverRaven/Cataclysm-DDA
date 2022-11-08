@@ -50,7 +50,7 @@
         "X": "f_sofa",
         "t": "f_table",
         "s": "f_sink",
-        "o": "f_oven",
+        "o": [ "f_oven", "f_gas_oven_microwave_combo" ],
         "f": "f_fridge",
         "n": "f_counter",
         "m": "f_cupboard",
@@ -277,8 +277,8 @@
       ],
       "place_vehicles": [
         { "vehicle": "lake", "x": 17, "y": 5, "rotation": 180, "chance": 20, "status": 3 },
-        { "vehicle": "lake", "x": 2, "y": 21, "rotation": 270, "chance": 20, "status": 3 },
-        { "vehicle": "lake", "x": 18, "y": 21, "rotation": 270, "chance": 20, "status": 3 }
+        { "vehicle": "lake", "x": 2, "y": 18, "rotation": 270, "chance": 20, "status": 3 },
+        { "vehicle": "lake", "x": 18, "y": 18, "rotation": 270, "chance": 20, "status": 3 }
       ],
       "terrain": { "~": "t_water_dp" }
     }

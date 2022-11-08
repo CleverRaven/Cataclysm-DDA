@@ -377,7 +377,7 @@
     "method": "json",
     "om_terrain": [ "pawn_pf_under" ],
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_thconc_floor",
       "rows": [
         "........................",
         "........................",

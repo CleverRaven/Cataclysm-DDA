@@ -11,6 +11,7 @@
       { "item": "smart_phone", "prob": 204, "charges-min": 0 },
       { "item": "cig", "prob": 250, "charges-min": 1, "charges-max": 20 },
       { "item": "lighter", "prob": 50, "charges-min": 0 },
+      { "item": "small_lighter", "prob": 25, "charges-min": 0 },
       [ "joint", 10 ],
       { "item": "ref_lighter", "prob": 50, "charges-min": 0 },
       { "item": "matches", "prob": 50, "charges": [ 0, 20 ] },
@@ -138,6 +139,7 @@
       { "group": "toy_makerspace_kit", "prob": 1 },
       { "group": "toy_robot_kit", "prob": 1 },
       { "group": "toy_engine_kit", "prob": 1 },
+      { "item": "air_launcher", "prob": 1 },
       [ "breadboard", 30 ],
       { "item": "voltmeter", "prob": 20, "charges": [ 0, 100 ] },
       { "item": "multimeter", "prob": 20, "charges": [ 0, 100 ] },
@@ -169,7 +171,8 @@
       { "item": "helmet_ball", "prob": 30 },
       { "item": "hat_ball", "prob": 10 },
       { "item": "hat_golf", "prob": 5 },
-      { "item": "helmet_bike", "prob": 80 }
+      { "item": "helmet_bike", "prob": 70 },
+      { "group": "helmet_bike_modified", "prob": 10 }
     ]
   },
   {

@@ -222,6 +222,7 @@ TEST_CASE( "Crawl score effects on movement cost", "[move_cost]" )
     GIVEN( "Character is uninjured and unencumbered" ) {
         avatar &u = get_avatar();
         clear_avatar();
+        clear_map();
         u.wear_item( item( "sneakers" ) );
         u.moves = 0;
 

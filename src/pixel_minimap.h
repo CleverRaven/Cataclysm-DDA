@@ -65,7 +65,6 @@ class pixel_minimap
 
         std::unique_ptr<pixel_minimap_projector> create_projector( const SDL_Rect &max_screen_rect ) const;
 
-    private:
         const SDL_Renderer_Ptr &renderer;
         const GeometryRenderer_Ptr &geometry;
 

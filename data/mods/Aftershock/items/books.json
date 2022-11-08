@@ -13,7 +13,7 @@
     "symbol": "?",
     "color": "light_blue",
     "intelligence": 8,
-    "time": 20,
+    "time": "20 m",
     "chapters": 30,
     "fun": 6
   },
@@ -31,7 +31,7 @@
     "symbol": "?",
     "color": "light_blue",
     "intelligence": 4,
-    "time": 20,
+    "time": "20 m",
     "chapters": 3,
     "fun": 2
   },

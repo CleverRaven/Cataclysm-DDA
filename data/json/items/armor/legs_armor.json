@@ -17,7 +17,7 @@
     "color": "brown",
     "warmth": 5,
     "material_thickness": 3,
-    "flags": [ "OUTER", "WATER_FRIENDLY", "ALLOWS_TAIL" ],
+    "flags": [ "OUTER", "WATER_FRIENDLY" ],
     "armor": [
       {
         "covers": [ "leg_l", "leg_r" ],
@@ -48,7 +48,7 @@
     "warmth": 10,
     "material_thickness": 4,
     "environmental_protection": 2,
-    "flags": [ "STURDY", "OUTER", "BLOCK_WHILE_WORN", "WATER_FRIENDLY", "ALLOWS_TAIL" ],
+    "flags": [ "STURDY", "OUTER", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ],
     "armor": [
       {
         "covers": [ "leg_l", "leg_r" ],
@@ -133,7 +133,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "chainmail leggings", "str_pl": "pairs of chainmail leggings" },
-    "description": "Customized chainmail legs.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.  The metal shows signs of rust and corrosion.",
+    "description": "Customized chainmail leggings.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.  The metal shows signs of rust and corrosion.",
     "weight": "4212 g",
     "volume": "1500 ml",
     "price": 7500,
@@ -158,7 +158,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "mild steel chainmail leggings", "str_pl": "pairs of mild steel chainmail leggings" },
-    "description": "Customized mild steel chainmail legs.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
+    "description": "Customized mild steel chainmail leggings.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
     "weight": "4212 g",
     "volume": "1500 ml",
     "price": 7500,
@@ -173,7 +173,7 @@
       {
         "material": [ { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "leg_l", "leg_r" ],
-        "coverage": 95,
+        "coverage": 100,
         "encumbrance": 20
       }
     ]
@@ -183,7 +183,7 @@
     "type": "ARMOR",
     "copy-from": "lc_chainmail_legs",
     "name": { "str": "XL mild steel chainmail leggings", "str_pl": "pairs of XL mild steel chainmail leggings" },
-    "description": "Customized mild steel chainmail legs for the largest of transhumans.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
+    "description": "Customized mild steel chainmail leggings for the largest of transhumans.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -192,7 +192,7 @@
     "type": "ARMOR",
     "copy-from": "lc_chainmail_legs",
     "name": { "str": "XS mild steel chainmail leggings", "str_pl": "pairs of XS mild steel chainmail leggings" },
-    "description": "Customized mild steel chainmail legs for the smallest of transhumans.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
+    "description": "Customized mild steel chainmail leggings for the smallest of transhumans.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -202,12 +202,12 @@
     "copy-from": "lc_chainmail_legs",
     "material": [ "mc_steel_chain" ],
     "name": { "str": "medium steel chainmail leggings", "str_pl": "pairs of medium steel chainmail leggings" },
-    "description": "Customized medium steel chainmail legs.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
+    "description": "Customized medium steel chainmail leggings.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
     "armor": [
       {
         "material": [ { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "leg_l", "leg_r" ],
-        "coverage": 95,
+        "coverage": 100,
         "encumbrance": 20
       }
     ]
@@ -217,7 +217,7 @@
     "type": "ARMOR",
     "copy-from": "mc_chainmail_legs",
     "name": { "str": "XL medium steel chainmail leggings", "str_pl": "pairs of XL medium steel chainmail leggings" },
-    "description": "Customized medium steel chainmail legs for the largest of transhumans.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
+    "description": "Customized medium steel chainmail leggings for the largest of transhumans.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -226,7 +226,7 @@
     "type": "ARMOR",
     "copy-from": "mc_chainmail_legs",
     "name": { "str": "XS medium steel chainmail leggings", "str_pl": "pairs of XS medium steel chainmail leggings" },
-    "description": "Customized medium steel chainmail legs for the smallest of transhumans.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
+    "description": "Customized medium steel chainmail leggings for the smallest of transhumans.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -236,12 +236,12 @@
     "copy-from": "lc_chainmail_legs",
     "material": [ "hc_steel_chain" ],
     "name": { "str": "high steel chainmail leggings", "str_pl": "pairs of high steel chainmail leggings" },
-    "description": "Customized high steel chainmail legs.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
+    "description": "Customized high steel chainmail leggings.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
     "armor": [
       {
         "material": [ { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "leg_l", "leg_r" ],
-        "coverage": 95,
+        "coverage": 100,
         "encumbrance": 20
       }
     ]
@@ -251,7 +251,7 @@
     "type": "ARMOR",
     "copy-from": "hc_chainmail_legs",
     "name": { "str": "XL high steel chainmail leggings", "str_pl": "pairs of XL high steel chainmail leggings" },
-    "description": "Customized high steel chainmail legs for the largest of transhumans.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
+    "description": "Customized high steel chainmail leggings for the largest of transhumans.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -260,7 +260,7 @@
     "type": "ARMOR",
     "copy-from": "hc_chainmail_legs",
     "name": { "str": "XS high steel chainmail leggings", "str_pl": "pairs of XS high steel chainmail leggings" },
-    "description": "Customized high steel chainmail legs for the smallest of transhumans.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
+    "description": "Customized high steel chainmail leggings for the smallest of transhumans.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -270,12 +270,12 @@
     "copy-from": "lc_chainmail_legs",
     "material": [ "ch_steel_chain" ],
     "name": { "str": "hardened steel chainmail leggings", "str_pl": "pairs of hardened steel chainmail leggings" },
-    "description": "Customized hardened steel chainmail legs.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
+    "description": "Customized hardened steel chainmail leggings.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
     "armor": [
       {
         "material": [ { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "leg_l", "leg_r" ],
-        "coverage": 95,
+        "coverage": 100,
         "encumbrance": 20
       }
     ]
@@ -285,7 +285,7 @@
     "type": "ARMOR",
     "copy-from": "ch_chainmail_legs",
     "name": { "str": "XL hardened steel chainmail leggings", "str_pl": "pairs of XL hardened steel chainmail leggings" },
-    "description": "Customized hardened steel chainmail legs for the largest of transhumans.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
+    "description": "Customized hardened steel chainmail leggings for the largest of transhumans.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -294,7 +294,7 @@
     "type": "ARMOR",
     "copy-from": "ch_chainmail_legs",
     "name": { "str": "XS hardened steel chainmail leggings", "str_pl": "pairs of XS hardened steel chainmail leggings" },
-    "description": "Customized hardened steel chainmail legs for the smallest of transhumans.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
+    "description": "Customized hardened steel chainmail leggings for the smallest of transhumans.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -304,12 +304,12 @@
     "copy-from": "lc_chainmail_legs",
     "material": [ "qt_steel_chain" ],
     "name": { "str": "tempered steel chainmail leggings", "str_pl": "pairs of tempered steel chainmail leggings" },
-    "description": "Customized tempered steel chainmail legs.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
+    "description": "Customized tempered steel chainmail leggings.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
     "armor": [
       {
         "material": [ { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "leg_l", "leg_r" ],
-        "coverage": 95,
+        "coverage": 100,
         "encumbrance": 20
       }
     ]
@@ -319,7 +319,7 @@
     "type": "ARMOR",
     "copy-from": "qt_chainmail_legs",
     "name": { "str": "XL tempered steel chainmail leggings", "str_pl": "pairs of XL tempered steel chainmail leggings" },
-    "description": "Customized tempered steel chainmail legs for the largest of transhumans.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
+    "description": "Customized tempered steel chainmail leggings for the largest of transhumans.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -328,7 +328,7 @@
     "type": "ARMOR",
     "copy-from": "qt_chainmail_legs",
     "name": { "str": "XS tempered steel chainmail leggings", "str_pl": "pairs of XS tempered steel chainmail leggings" },
-    "description": "Customized tempered steel chainmail legs for the smallest of transhumans.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
+    "description": "Customized tempered steel chainmail leggings for the smallest of transhumans.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -337,7 +337,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "cataphract leggings", "str_pl": "pairs of cataphract leggings" },
-    "description": "This armor, made of interlocking plates of burnished bronze, appears to be either a high-quality recreation or a genuine artifact.  Despite having an ancient design, it is in mint condition aside from some battle damage.  It covers from waist to toe and is of extremely high quality.",
+    "description": "This leg armor, made of interlocking plates of burnished bronze, appears to be either a high-quality recreation or a genuine artifact.  Despite having an ancient design, it is in mint condition aside from some battle damage.  It covers from the upper thigh to the lower shin, and is of extremely high quality.",
     "weight": "5212 g",
     "volume": "1500 ml",
     "price": 7500,
@@ -379,7 +379,7 @@
     "color": "dark_gray",
     "warmth": 10,
     "material_thickness": 3,
-    "flags": [ "OUTER", "ALLOWS_TAIL" ],
+    "flags": [ "OUTER" ],
     "armor": [ { "encumbrance": 3, "coverage": 65, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
@@ -444,7 +444,7 @@
     "looks_like": "legguard_hard",
     "color": "dark_gray",
     "material_thickness": 5,
-    "flags": [ "WATER_FRIENDLY", "OUTER", "ALLOWS_TAIL" ],
+    "flags": [ "WATER_FRIENDLY", "OUTER" ],
     "armor": [
       {
         "covers": [ "leg_l", "leg_r" ],
@@ -474,7 +474,7 @@
     "color": "yellow",
     "warmth": 15,
     "material_thickness": 4,
-    "flags": [ "OUTER", "STURDY", "ALLOWS_TAIL" ],
+    "flags": [ "OUTER", "STURDY" ],
     "armor": [
       {
         "covers": [ "leg_l", "leg_r" ],
@@ -523,7 +523,7 @@
     "warmth": 20,
     "material_thickness": 4,
     "environmental_protection": 1,
-    "flags": [ "OUTER", "WATER_FRIENDLY", "ALLOWS_TAIL" ],
+    "flags": [ "OUTER", "WATER_FRIENDLY" ],
     "armor": [
       {
         "covers": [ "leg_l", "leg_r" ],
@@ -553,7 +553,7 @@
     "color": "light_gray",
     "warmth": 20,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "OUTER", "STURDY", "ALLOWS_TAIL" ],
+    "flags": [ "VARSIZE", "OUTER", "STURDY" ],
     "armor": [
       {
         "covers": [ "leg_l", "leg_r" ],
@@ -602,7 +602,7 @@
     "color": "light_gray",
     "warmth": 10,
     "material_thickness": 4,
-    "flags": [ "OUTER", "WATER_FRIENDLY", "ALLOWS_TAIL" ],
+    "flags": [ "OUTER", "WATER_FRIENDLY" ],
     "armor": [
       {
         "covers": [ "leg_l", "leg_r" ],
@@ -638,38 +638,128 @@
     "id": "legguard_metal_sheets",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "pair of metal leg guards", "str_pl": "pairs of metal leg guards" },
-    "description": "A pair of leg guards hammered out of metal shaped to strap on to the upper and lower leg avoiding joints.  Perfect for the Post-Apocalyptic Warrior look.",
-    "weight": "2260 g",
-    "volume": "5500 ml",
+    "name": { "str": "pair of sheet metal leg guards", "str_pl": "pairs of sheet metal leg guards" },
+    "description": "A pair of leg guards hammered out of metal and shaped to tie on to the upper and lower leg, avoiding joints.  Perfect for the Post-Apocalyptic Warrior look.",
+    "weight": "3500 g",
+    "//": "The weight assumes four sheets of about 25cm x 30cm x 1.5mm.",
+    "volume": "2500 ml",
     "price": 40000,
     "price_postapoc": 1000,
     "to_hit": 1,
-    "material": [ "iron", "leather" ],
+    "material": [ "lc_steel" ],
+    "repairs_with": [ "steel" ],
     "symbol": "[",
     "looks_like": "legguard_lightplate",
     "color": "light_gray",
     "warmth": 10,
-    "material_thickness": 3,
+    "material_thickness": 1.5,
     "environmental_protection": 1,
-    "flags": [ "OUTER", "WATER_FRIENDLY", "ALLOWS_TAIL" ],
+    "flags": [ "OUTER", "WATER_FRIENDLY" ],
     "armor": [
       {
         "covers": [ "leg_l", "leg_r" ],
-        "encumbrance": 13,
+        "encumbrance": 7,
         "coverage": 95,
         "cover_melee": 95,
-        "cover_ranged": 90,
+        "cover_ranged": 95,
         "cover_vitals": 70,
         "specifically_covers": [ "leg_lower_r", "leg_lower_l", "leg_upper_r", "leg_upper_l" ]
       }
     ]
   },
   {
+    "id": "ch_legguard_metal_sheets",
+    "type": "ARMOR",
+    "copy-from": "legguard_metal_sheets",
+    "name": { "str": "pair of case hardened sheet metal leg guards", "str_pl": "pairs of case hardened sheet metal leg guards" },
+    "description": "These crude leg guards have been case hardened to further protect your legs from the mighty coffee table, destroyer of shins.",
+    "material": [ "ch_steel" ],
+    "extend": { "flags": [ "STURDY" ] }
+  },
+  {
+    "id": "legguard_metal_sheets_hip",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "sheet metal skirt" },
+    "description": "Four cut-down sheets of metal hanging off your waist to keep your hip and groin safe.  They're held in place rather loosely, but still get in the way a lot when running.",
+    "weight": "4900 g",
+    "//": "The weight assumes 2 sheets of about 30cm x 50cm x 1.5mm and 2 sheets of about 30cm x 25cm x 1.5mm",
+    "volume": "2 L",
+    "price": 500,
+    "price_postapoc": 400,
+    "to_hit": 1,
+    "material": [ "lc_steel" ],
+    "repairs_with": [ "steel" ],
+    "symbol": "m",
+    "color": "light_gray",
+    "warmth": 5,
+    "longest_side": "50 cm",
+    "material_thickness": 1.5,
+    "environmental_protection": 1,
+    "flags": [ "OUTER", "WATER_FRIENDLY", "ALLOWS_TAIL" ],
+    "armor": [
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "encumbrance": 12,
+        "coverage": 95,
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
+      }
+    ]
+  },
+  {
+    "id": "ch_legguard_metal_sheets_hip",
+    "type": "ARMOR",
+    "copy-from": "legguard_metal_sheets_hip",
+    "name": { "str": "case hardened sheet metal skirt" },
+    "description": "This loose skirt made from several cut-down sheets of metal has been case hardened to provide maximum protection for your most vulnerable area.",
+    "material": [ "ch_steel" ],
+    "extend": { "flags": [ "STURDY" ] }
+  },
+  {
+    "id": "legguard_metal_sheets_knees",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pair of sheet metal knee guards", "str_pl": "pairs of sheet metal knee guards" },
+    "description": "Two small half-cylinders of sheet metal cut down and hammered to fit over the front of your knees.  They make kneeling painful, but don't impede running much.",
+    "weight": "700 g",
+    "//": "The weight assumes 3 sheets of about 15cm x 15cm x 1.5mm.",
+    "volume": "1 L",
+    "price": 500,
+    "price_postapoc": 400,
+    "to_hit": 1,
+    "material": [ "lc_steel" ],
+    "repairs_with": [ "steel" ],
+    "symbol": "m",
+    "looks_like": "knee_pads",
+    "color": "light_gray",
+    "warmth": 5,
+    "longest_side": "50 cm",
+    "material_thickness": 1.5,
+    "environmental_protection": 1,
+    "flags": [ "OUTER", "WATER_FRIENDLY", "ALLOWS_TAIL" ],
+    "armor": [
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "encumbrance": 2,
+        "coverage": 95,
+        "specifically_covers": [ "leg_knee_l", "leg_knee_r" ]
+      }
+    ]
+  },
+  {
+    "id": "ch_legguard_metal_sheets_knees",
+    "type": "ARMOR",
+    "copy-from": "legguard_metal_sheets_knees",
+    "name": { "str": "pair of case hardened sheet metal knee guards", "str_pl": "pairs of case hardened sheet metal knee guards" },
+    "description": "Knee guards of sheet metal, case hardened to protect your kneecaps from any feral with a bat.",
+    "material": [ "ch_steel" ],
+    "extend": { "flags": [ "STURDY" ] }
+  },
+  {
     "id": "xl_legguard_metal_sheets",
     "type": "ARMOR",
     "copy-from": "legguard_metal_sheets",
-    "name": { "str": "pair of XL metal leg guards", "str_pl": "pairs of XL metal leg guards" },
+    "name": { "str": "pair of XL sheet metal leg guards", "str_pl": "pairs of XL sheet metal leg guards" },
     "description": "A pair of extra large hammered metal plates tied to your legs.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -679,8 +769,8 @@
     "type": "ARMOR",
     "copy-from": "legguard_metal_sheets",
     "looks_like": "legguard_metal_sheets",
-    "name": { "str": "pair of XS metal leg guards", "str_pl": "pairs of XS metal leg guards" },
-    "description": "A pair of extra small leg guards hammered out of metal shaped to strap on to the upper and lower leg avoiding joints.  Perfect for the Post-Apocalyptic Warrior look.",
+    "name": { "str": "pair of XS sheet metal leg guards", "str_pl": "pairs of XS sheet metal leg guards" },
+    "description": "A pair of extra small leg guards hammered out of metal and shaped to strap on to the upper and lower leg, avoiding joints.  Perfect for the Post-Apocalyptic Warrior look.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -701,7 +791,7 @@
     "color": "blue",
     "warmth": 5,
     "material_thickness": 3,
-    "flags": [ "OUTER", "ALLOWS_TAIL" ],
+    "flags": [ "OUTER" ],
     "armor": [
       {
         "covers": [ "leg_l", "leg_r" ],
@@ -731,7 +821,7 @@
     "color": "dark_gray",
     "warmth": 5,
     "material_thickness": 4,
-    "flags": [ "OUTER", "ALLOWS_TAIL", "NONCONDUCTIVE" ],
+    "flags": [ "OUTER", "NONCONDUCTIVE" ],
     "armor": [
       {
         "covers": [ "leg_l", "leg_r" ],
@@ -799,7 +889,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of tire leg guards", "str_pl": "pairs of tire leg guards" },
-    "description": "A pair of leg guards made from thick chunks of tire secured by simple strings; the loose collection of plates provides decent but not the most convenient protection.",
+    "description": "A pair of leg guards made from thick chunks of tire secured by simple strings; the loose collection of rubber plates provides decent but not the most convenient protection.",
     "weight": "4800 g",
     "volume": "5 L",
     "price": 20000,
@@ -811,7 +901,7 @@
     "color": "light_gray",
     "warmth": 10,
     "material_thickness": 4,
-    "flags": [ "OUTER", "ALLOWS_TAIL", "NONCONDUCTIVE" ],
+    "flags": [ "OUTER", "NONCONDUCTIVE" ],
     "armor": [
       {
         "covers": [ "leg_l", "leg_r" ],
@@ -829,7 +919,7 @@
     "type": "ARMOR",
     "copy-from": "legguard_tire",
     "name": { "str": "pair of XL tire leg guards", "str_pl": "pairs of XL tire leg guards" },
-    "description": "A pair of leg guards made from thick chunks of tire secured by simple strings; the loose collection of plates provides decent but not the most convenient protection.  You look like a trash giant.",
+    "description": "A pair of leg guards made from thick chunks of tire secured by simple strings; the loose collection of rubber plates provides decent but not the most convenient protection.  You look like a trash giant.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -839,7 +929,7 @@
     "copy-from": "legguard_tire",
     "looks_like": "legguard_tire",
     "name": { "str": "pair of XS tire leg guards", "str_pl": "pairs of XS tire leg guards" },
-    "description": "A pair of leg guards made from thick chunks of tire secured by simple strings; the loose collection of plates provides decent but not the most convenient protection.",
+    "description": "A pair of leg guards made from thick chunks of tire secured by simple strings; the loose collection of rubber plates provides decent but not the most convenient protection.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -920,10 +1010,11 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str_sp": "EOD trousers" },
-    "description": "Thick armored trousers constructed from Kevlar and Nomex for use by explosive ordnance disposal technicians.",
+    "description": "Thick armored trousers constructed from Kevlar and Nomex, for use by explosive ordnance disposal technicians.",
     "weight": "6400 g",
     "volume": "12 L",
     "price": 200000,
+    "price_postapoc": 12000,
     "warmth": 65,
     "material": [ "kevlar_layered", "nomex" ],
     "symbol": "[",
@@ -938,10 +1029,11 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str_sp": "light EOD trousers" },
-    "description": "Armored trousers constructed from Kevlar and Nomex for use by explosive ordnance disposal technicians.  They are lighter than normal EOD armor to provide more maneuverability.",
+    "description": "Armored trousers constructed from Kevlar and Nomex, for use by explosive ordnance disposal technicians.  They are lighter than normal EOD armor to provide more maneuverability.",
     "weight": "3000 g",
     "volume": "12 L",
     "price": 200000,
+    "price_postapoc": 12000,
     "warmth": 40,
     "material": [ "kevlar_layered", "nomex" ],
     "symbol": "[",
@@ -1426,5 +1518,59 @@
     "copy-from": "armor_qt_heavy_leg_guard",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "survivor_adhoc_leather_pants",
+    "repairs_like": "jeans",
+    "type": "ARMOR",
+    "name": { "str": "leather-padded pants", "str_pl": "pairs of leather-padded pants" },
+    "description": "A pair of tough canvas pants with sections from leather pants affixed, excluding the joints.  Offers mild protection without compromising mobility too much, but a lot of the pockets have been removed to make room for the leather.",
+    "weight": "1970 g",
+    "volume": "2500 ml",
+    "price_postapoc": 1200,
+    "looks_like": "technician_pants_gray",
+    "to_hit": 1,
+    "material": [ "canvas", "leather" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      }
+    ],
+    "armor": [
+      {
+        "material": [
+          { "type": "canvas", "covered_by_mat": 100, "thickness": 0.5 },
+          { "type": "leather", "covered_by_mat": 95, "thickness": 0.75 },
+          { "type": "leather", "covered_by_mat": 90, "thickness": 0.75 }
+        ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r", "leg_lower_l", "leg_lower_r" ],
+        "coverage": 100,
+        "encumbrance": [ 8, 10 ]
+      },
+      {
+        "material": [ { "type": "canvas", "covered_by_mat": 100, "thickness": 0.5 } ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r", "leg_knee_l", "leg_knee_r" ],
+        "coverage": 100,
+        "encumbrance": [ 0, 0 ]
+      }
+    ],
+    "warmth": 25,
+    "material_thickness": 2.0,
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
   }
 ]

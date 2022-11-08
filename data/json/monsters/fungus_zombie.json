@@ -48,7 +48,7 @@
     "speed": 50,
     "material": [ "flesh" ],
     "symbol": "Z",
-    "color": "magenta_yellow",
+    "color": "black_yellow",
     "aggression": 100,
     "morale": 100,
     "melee_skill": 3,

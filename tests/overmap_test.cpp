@@ -10,6 +10,7 @@
 #include "game_constants.h"
 #include "global_vars.h"
 #include "map.h"
+#include "mapbuffer.h"
 #include "omdata.h"
 #include "overmap.h"
 #include "overmap_types.h"
@@ -97,7 +98,7 @@ TEST_CASE( "default_overmap_generation_always_succeeds", "[overmap][slow]" )
         }
         overmap_special_batch test_specials = overmap_specials::get_default_batch( candidate_addr );
         overmap_buffer.create_custom_overmap( candidate_addr, test_specials );
-        for( const auto &special_placement : test_specials ) {
+        for( const overmap_special_placement &special_placement : test_specials ) {
             const overmap_special *special = special_placement.special_details;
             INFO( "In attempt #" << overmaps_to_construct
                   << " failed to place " << special->id.str() );
@@ -121,7 +122,7 @@ TEST_CASE( "default_overmap_generation_has_non_mandatory_specials_at_origin", "[
     // Get some specific overmap specials so we can assert their presence later.
     // This should probably be replaced with some custom specials created in
     // memory rather than tying this test to these, but it works for now...
-    for( const auto &elem : overmap_specials::get_all() ) {
+    for( const overmap_special &elem : overmap_specials::get_all() ) {
         if( elem.id == overmap_special_Cabin ) {
             optional = elem;
         } else if( elem.id == overmap_special_Lab ) {
@@ -416,9 +417,16 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
     // The second phase of this test is to perform the tile-level mapgen once
     // for each oter_type, in hopes of triggering any errors that might arise
     // with that.
+    int num_generated_since_last_clear = 0;
     for( const std::pair<const oter_type_id, omt_stats> &p : stats ) {
         const tripoint_abs_omt pos = p.second.first_observed;
         tinymap tm;
         tm.load( project_to<coords::sm>( pos ), false );
+
+        // Periodically clear the generated maps to save memory
+        if( ++num_generated_since_last_clear >= 64 ) {
+            MAPBUFFER.clear_outside_reality_bubble();
+            num_generated_since_last_clear = 0;
+        }
     }
 }

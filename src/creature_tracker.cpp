@@ -300,6 +300,12 @@ T *creature_tracker::creature_at( const tripoint &p, bool allow_hallucination )
 }
 
 template<typename T>
+T *creature_tracker::creature_at( const tripoint_bub_ms &p, bool allow_hallucination )
+{
+    return creature_at<T>( get_map().getglobal( p ), allow_hallucination );
+}
+
+template<typename T>
 T *creature_tracker::creature_at( const tripoint_abs_ms &p, bool allow_hallucination )
 {
     if( const shared_ptr_fast<monster> mon_ptr = find( p ) ) {
@@ -340,15 +346,24 @@ const T *creature_tracker::creature_at( const tripoint &p, bool allow_hallucinat
 }
 
 template<typename T>
+const T *creature_tracker::creature_at( const tripoint_bub_ms &p, bool allow_hallucination ) const
+{
+    return creature_at<T>( get_map().getglobal( p ), allow_hallucination );
+}
+
+template<typename T>
 const T *creature_tracker::creature_at( const tripoint_abs_ms &p, bool allow_hallucination ) const
 {
     return const_cast<creature_tracker *>( this )->creature_at<T>( p, allow_hallucination );
 }
 
 template const monster *creature_tracker::creature_at<monster>( const tripoint &, bool ) const;
+template const monster *creature_tracker::creature_at<monster>( const tripoint_bub_ms &,
+        bool ) const;
 template const monster *creature_tracker::creature_at<monster>( const tripoint_abs_ms &,
         bool ) const;
 template monster *creature_tracker::creature_at<monster>( const tripoint &, bool );
+template monster *creature_tracker::creature_at<monster>( const tripoint_bub_ms &, bool );
 template monster *creature_tracker::creature_at<monster>( const tripoint_abs_ms &, bool );
 template const npc *creature_tracker::creature_at<npc>( const tripoint &, bool ) const;
 template const npc *creature_tracker::creature_at<npc>( const tripoint_abs_ms &, bool ) const;
@@ -367,4 +382,5 @@ template const Creature *creature_tracker::creature_at<Creature>( const tripoint
 template const Creature *creature_tracker::creature_at<Creature>( const tripoint_abs_ms &,
         bool ) const;
 template Creature *creature_tracker::creature_at<Creature>( const tripoint &, bool );
+template Creature *creature_tracker::creature_at<Creature>( const tripoint_bub_ms &, bool );
 template Creature *creature_tracker::creature_at<Creature>( const tripoint_abs_ms &, bool );

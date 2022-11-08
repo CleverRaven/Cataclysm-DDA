@@ -25,7 +25,7 @@
     "name": { "str": "disc" },
     "symbol": "o",
     "color": "red",
-    "description": "A plastic disc made for playing disc golf, it is smaller and denser then a normal frisbee.",
+    "description": "A plastic disc made for playing disc golf.  It is smaller and denser than a normal frisbee.",
     "material": [ "plastic" ],
     "volume": "250 ml",
     "weight": "170 g",

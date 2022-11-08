@@ -27,7 +27,7 @@
     "copy-from": "357mag_fmj",
     "type": "AMMO",
     "name": { "str_sp": ".357 Magnum JHP" },
-    "description": "Jacketed hollow point .357 magnum ammunition.  The .357 Magnum round is derived from the earlier .38 Special, with a marginally longer case and generating greater pressure.",
+    "description": "Jacketed hollow point .357 Magnum ammunition.  The .357 Magnum round is derived from the earlier .38 Special, with a marginally longer case and generating greater pressure.",
     "relative": { "damage": { "damage_type": "bullet", "amount": 4, "armor_penetration": -2 } }
   },
   {
@@ -50,7 +50,7 @@
     "copy-from": "357mag_jhp",
     "type": "AMMO",
     "name": { "str_sp": ".357 Magnum JHP, black powder" },
-    "description": "Jacketed hollow point .357 magnum ammunition.  Someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
+    "description": "Jacketed hollow point .357 Magnum ammunition.  Someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
     "proportional": {
       "price": 0.3,
       "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
@@ -65,7 +65,7 @@
     "copy-from": "357mag_fmj",
     "type": "AMMO",
     "name": { "str_sp": ".357 Magnum FMJ, reloaded" },
-    "description": "Jacketed .357 magnum ammunition.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
+    "description": "Jacketed .357 Magnum ammunition.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1, "recoil": 0.9 }
   },
   {
@@ -73,7 +73,7 @@
     "copy-from": "357mag_jhp",
     "type": "AMMO",
     "name": { "str_sp": ".357 Magnum JHP, reloaded" },
-    "description": "Jacketed hollow point .357 magnum ammunition.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
+    "description": "Jacketed hollow point .357 Magnum ammunition.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1, "recoil": 0.9 }
   }
 ]

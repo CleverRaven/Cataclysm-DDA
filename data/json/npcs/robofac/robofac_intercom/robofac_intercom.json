@@ -38,7 +38,7 @@
             { "compare_int": [ { "u_val": "var", "var_name": "hub01_completed_missions" }, ">=", { "const": 2 } ] }
           ]
         },
-        "refusal": "you're not yet qualified to buy this"
+        "refusal": "You're not yet qualified to buy this"
       },
       {
         "group": "NC_ROBOFAC_INTERCOM_trade_military",
@@ -55,7 +55,7 @@
         "group": "robofac_gun_mags",
         "rigid": true,
         "condition": { "u_has_var": "u_has_researched_gun", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
-        "refusal": "you need to earn a HWP first"
+        "refusal": "You need to earn an HWP first"
       },
       {
         "group": "robofac_gun_kit",
@@ -85,7 +85,7 @@
             { "u_has_var": "completed_robofac_intercom_3", "type": "dialogue", "context": "intercom", "value": "yes" }
           ]
         },
-        "refusal": "you're not yet qualified to buy this"
+        "refusal": "You're not yet qualified to buy this"
       }
     ],
     "shopkeeper_blacklist": "robofac_blacklist"
@@ -219,7 +219,11 @@
       "TALK_ROBOFAC_INTERCOM_SERVICES_FIRST",
       "TALK_ROBOFAC_INTERCOM_PORTAL_STORMS_END",
       "TALK_ROBOFAC_INTERCOM_FREE_MERCHANT_DELIVERY_MERCENARY_END",
-      "TALK_ROBOFAC_INTERCOM_ARMOR_BREAKTHROUGH_END"
+      "TALK_ROBOFAC_INTERCOM_ARMOR_BREAKTHROUGH_END",
+      "TALK_ROBOFAC_INTERCOM_RIFLE_STARTED",
+      "TALK_ROBOFAC_INTERCOM_REPAIR_STARTED",
+      "TALK_ROBOFAC_INTERCOM_ANCHOR_PT_1_STARTED",
+      "TALK_ROBOFAC_INTERCOM_ANCHOR_PT_2_STARTED"
     ],
     "type": "talk_topic",
     "dynamic_line": {
@@ -261,6 +265,11 @@
     "responses": [
       { "text": "Let's discuss contracts.", "topic": "TALK_ROBOFAC_INTERCOM_CONTRACTS" },
       { "text": "Let's trade.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES", "effect": "start_trade" },
+      {
+        "text": "Let's discuss prototypes.",
+        "condition": { "u_has_var": "u_hub_prototypes", "type": "dialogue", "context": "intercom", "value": "yes" },
+        "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_MENU"
+      },
       {
         "text": "The traders at the refugee center asked me to deliver this drive of FEMA data…",
         "condition": {
@@ -344,11 +353,6 @@
           ]
         },
         "topic": "TALK_ROBOFAC_INTERCOM_ARMOR_NANO_ASK"
-      },
-      {
-        "text": "I'm here to check on a prototype.",
-        "condition": { "u_has_var": "u_hub_prototypes", "type": "dialogue", "context": "intercom", "value": "yes" },
-        "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_MENU"
       },
       {
         "text": "I saw that your mercs have specialty rifles.  Would I be able to get one of those?",
@@ -667,11 +671,12 @@
       "TALK_ROBOFAC_INTERCOM_PORTAL_STORMS_2",
       "TALK_ROBOFAC_INTERCOM_PORTAL_STORMS_3",
       "TALK_ROBOFAC_INTERCOM_PORTAL_STORMS_4",
-      "TALK_ROBOFAC_INTERCOM_PORTAL_STORMS_5"
+      "TALK_ROBOFAC_INTERCOM_PORTAL_STORMS_5",
+      "TALK_ROBOFAC_INTERCOM_PORTAL_STORMS_6"
     ],
     "//": "These lines are being paraphrased mostly from written information, so repeating things or using distinct phrasing is fine",
     "type": "talk_topic",
-    "dynamic_line": "Understand that I'm not an expert about this.\"  The voice sighs.  You hear the person on the other side typing on a keyboard for several seconds.  \"I will explain it as best I can, but again, I'm not a professional.  Whatever caused the apocalypse, it… broke something about the way our world works.  I'm sure you've noticed that 'normal' physics don't always apply anymore.  We are, as of right now, uncertain if our models were wrong, or if this is something fundamentally different to our reality.\"\n\n\"From what we've observed, these events are what happen at the peak of a cyclical effect.  This is gross oversimplification, and I don't know the science behind it, but… I guess the simplest way to think of it is that 'our' reality is moving closer and further from this other place, or model, or so on.  Like a yo-yo.  When these two things are closest together, we get portal storms.  Otherwise, things are… I wouldn't say normal, not anymore, but they are as close to normal as we get now.\"\n\n\"It also looks like research needs an external agent to take a few portal storm measurements.  I'll add that one to the list of available contracts, in case you are interested.",
+    "dynamic_line": "Understand that I'm not an expert about this.\"  The voice sighs.  You hear the person on the other side typing on a keyboard for several seconds.  \"I will explain it as best I can, but again, I'm not a professional.  Whatever caused the apocalypse, it… broke something about the way our world works.  I'm sure you've noticed that 'normal' physics don't always apply anymore.  We are, as of right now, uncertain if our models were wrong, or if this is something fundamentally different to our reality.\"\n\n\"From what we've observed, these events are what happen at the peak of a cyclical effect.  This is gross oversimplification, and I don't know the science behind it, but… I guess the simplest way to think of it is that 'our' reality is moving closer and further from this other place, or model, or so on.  Like a yo-yo.  When these two things are closest together, we get portal storms.  Otherwise, things are… I wouldn't say normal, not anymore, but they are as close to normal as we get now.\"\n\n\"Reading a footnote here… we're looking to gather data about these storms using a device developed specifically for the purpose.  I'll add that to your contracts list, if you want to know more about it.",
     "speaker_effect": {
       "effect": [ { "npc_add_var": "told_about_portal_storms", "type": "dialogue", "context": "intercom", "value": "yes" } ],
       "sentinel": "told_about_portal_storms"
@@ -684,6 +689,10 @@
         "topic": "TALK_ROBOFAC_INTERCOM_PORTAL_STORMS_4"
       },
       { "text": "How can you know all this?", "topic": "TALK_ROBOFAC_INTERCOM_PORTAL_STORMS_5" },
+      {
+        "text": "Is there anything useful I could find in one of these storms?",
+        "topic": "TALK_ROBOFAC_INTERCOM_PORTAL_STORMS_6"
+      },
       { "text": "Thank you for the information.", "topic": "TALK_ROBOFAC_INTERCOM_PORTAL_STORMS_END" }
     ]
   },
@@ -707,6 +716,12 @@
     "type": "talk_topic",
     "//": "this is lie of omission. Hub 01 is explicitly aware of XEDRA and the work they were doing, and the staff likely had an indication just before the Cataclysm hit that things were about to get really bad, leading them to back up a vast amount of online information before the internet was completely knocked out.",
     "dynamic_line": "We have a vested interest in determining how these events will influence the future of the planet - as should you.  Most of the equipment inside of this facility has remained in working order, and although the Internet no longer exists in a functional way, we still have a plethora of information that was stored locally prior to <the_cataclysm>.  We are monitoring and documenting these portal storms, and we will continue to do so for the foreseeable future."
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_PORTAL_STORMS_6",
+    "type": "talk_topic",
+    "//": "A recording to give proof without requiring those who know the most about portal storms to risk their agents.",
+    "dynamic_line": "Potentially.  We recently came into possession of a video taken during the first days of <the_cataclysm> using a home camcorder.  We have ruled out possible tampering, and conclude that the recording is legitimate.  It depicts an entity that appeared to rapidly change shape, but responded especially strongly to human presence.  Eventually, the entity reshaped itself into a small object, which the author of the recording claimed had anomalous properties.\"\n\n\"Subsequent entities of this type have failed to manifest during remote observation of the phenomenon.  We hypothesize that, if they do exist at all, they may only appear in response to human presence.  While we consider the hypothesis too dangerous and too uncertain to test using our own resources, we would be eager to hear the results if you attempted to do so yourself."
   },
   {
     "id": "TALK_ROBOFAC_INTERCOM_ARMOR_ASK",

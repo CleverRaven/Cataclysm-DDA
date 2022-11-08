@@ -241,6 +241,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "30carbine",
+    "name": ".30 Carbine",
+    "default": "30carbine"
+  },
+  {
+    "type": "ammunition_type",
     "id": "270win",
     "name": ".270 Winchester",
     "default": "270win_jsp"
@@ -322,6 +328,12 @@
     "id": "lamp_oil",
     "name": "kerosene",
     "default": "lamp_oil"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "crude_lamp_oil",
+    "name": "crude lamp oil",
+    "default": "crude_lamp_oil"
   },
   {
     "type": "ammunition_type",
@@ -457,6 +469,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "methanol_fuelcell",
+    "name": "methanol",
+    "default": "chem_methanol_fuelcell"
+  },
+  {
+    "type": "ammunition_type",
     "id": "8x40mm",
     "name": "8x40mm caseless",
     "default": "8mm_caseless"
@@ -550,12 +568,6 @@
     "id": "gasfilter_m",
     "name": "gas mask cartridge",
     "default": "gasfilter_m"
-  },
-  {
-    "type": "ammunition_type",
-    "id": "gasfilter_l",
-    "name": "hazmat mask cartridge",
-    "default": "gasfilter_l"
   },
   {
     "type": "ammunition_type",
@@ -760,5 +772,11 @@
     "id": "ammonia_liquid",
     "name": "ammonia",
     "default": "ammonia_liquid"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "turpentine",
+    "name": "turpentine",
+    "default": "chem_turpentine"
   }
 ]

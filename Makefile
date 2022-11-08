@@ -40,7 +40,7 @@
 #  make LOCALIZE=0
 # Disable backtrace support, not available on all platforms
 #  make BACKTRACE=0
-# Use libbacktrace. Only has effect if BACKTRACE=1. (currently only for MinGW builds)
+# Use libbacktrace. Only has effect if BACKTRACE=1. (currently only for MinGW and Linux builds)
 #  make LIBBACKTRACE=1
 # Compile localization files for specified languages
 #  make localization LANGUAGES="<lang_id_1>[ lang_id_2][ ...]"
@@ -49,8 +49,6 @@
 #  (for every .po file in lang/po)
 # Enable sanitizer (address, undefined, etc.)
 #  make SANITIZE=address
-# Change mapsize (reality bubble size)
-#  make MAPSIZE=<size>
 # Enable the string id debugging helper
 #  make STRING_ID_DEBUG=1
 # Adjust names of build artifacts (for example to allow easily toggling between build types).
@@ -263,7 +261,7 @@ W32ODIR = $(BUILD_PREFIX)objwin
 W32ODIRTILES = $(W32ODIR)/tiles
 
 ifdef AUTO_BUILD_PREFIX
-  BUILD_PREFIX = $(if $(RELEASE),release-)$(if $(DEBUG_SYMBOLS),symbol-)$(if $(TILES),tiles-)$(if $(SOUND),sound-)$(if $(LOCALIZE),local-)$(if $(BACKTRACE),back-$(if $(LIBBACKTRACE),libbacktrace-))$(if $(SANITIZE),sanitize-)$(if $(MAPSIZE),map-$(MAPSIZE)-)$(if $(USE_XDG_DIR),xdg-)$(if $(USE_HOME_DIR),home-)$(if $(DYNAMIC_LINKING),dynamic-)$(if $(MSYS2),msys2-)
+  BUILD_PREFIX = $(if $(RELEASE),release-)$(if $(DEBUG_SYMBOLS),symbol-)$(if $(TILES),tiles-)$(if $(SOUND),sound-)$(if $(LOCALIZE),local-)$(if $(BACKTRACE),back-$(if $(LIBBACKTRACE),libbacktrace-))$(if $(SANITIZE),sanitize-)$(if $(USE_XDG_DIR),xdg-)$(if $(USE_HOME_DIR),home-)$(if $(DYNAMIC_LINKING),dynamic-)$(if $(MSYS2),msys2-)
   export BUILD_PREFIX
 endif
 
@@ -400,7 +398,11 @@ ifeq ($(RELEASE), 1)
   OTHERS += $(RELEASE_FLAGS)
   DEBUG =
   ifndef DEBUG_SYMBOLS
-    DEBUGSYMS =
+    ifeq ($(LIBBACKTRACE), 1)
+      DEBUGSYMS = -g1
+    else
+      DEBUGSYMS =
+    endif
   endif
   DEFINES += -DRELEASE
   # Check for astyle or JSON regressions on release builds.
@@ -466,7 +468,7 @@ ifeq ($(PCH), 1)
   endif
 endif
 
-CPPFLAGS += -isystem ${SRC_DIR}/third-party
+CPPFLAGS += -Isrc -isystem ${SRC_DIR}/third-party
 CXXFLAGS += $(WARNINGS) $(DEBUG) $(DEBUGSYMS) $(PROFILE) $(OTHERS)
 TOOL_CXXFLAGS = -DCATA_IN_TOOL
 
@@ -613,10 +615,6 @@ ifeq ($(TARGETSYSTEM),WINDOWS)
   ifeq ($(NATIVE), win64)
     RFLAGS += -F pe-x86-64
   endif
-endif
-
-ifdef MAPSIZE
-    CXXFLAGS += -DMAPSIZE=$(MAPSIZE)
 endif
 
 ifeq ($(shell git rev-parse --is-inside-work-tree),true)
@@ -786,9 +784,6 @@ ifeq ($(TARGETSYSTEM),WINDOWS)
   LDFLAGS += -lgdi32 -lwinmm -limm32 -lole32 -loleaut32 -lversion
   ifeq ($(BACKTRACE),1)
     LDFLAGS += -ldbghelp
-    ifeq ($(LIBBACKTRACE),1)
-      LDFLAGS += -lbacktrace
-    endif
   endif
 endif
 
@@ -796,6 +791,7 @@ ifeq ($(BACKTRACE),1)
   DEFINES += -DBACKTRACE
   ifeq ($(LIBBACKTRACE),1)
       DEFINES += -DLIBBACKTRACE
+      LDFLAGS += -lbacktrace
   endif
 endif
 
@@ -824,6 +820,7 @@ endif
 
 # Enumerations of all the source files and headers.
 SOURCES := $(wildcard $(SRC_DIR)/*.cpp)
+THIRD_PARTY_SOURCES := $(wildcard $(SRC_DIR)/third-party/flatbuffers/*.cpp)
 HEADERS := $(wildcard $(SRC_DIR)/*.h)
 TESTSRC := $(wildcard tests/*.cpp)
 TESTHDR := $(wildcard tests/*.h)
@@ -846,6 +843,9 @@ ASTYLE_SOURCES := $(sort \
   $(CLANG_TIDY_PLUGIN_SOURCES) \
   $(CLANG_TIDY_PLUGIN_HEADERS))
 
+# Third party sources should not be astyle'd
+SOURCES += $(THIRD_PARTY_SOURCES)
+
 _OBJS = $(SOURCES:$(SRC_DIR)/%.cpp=%.o)
 ifeq ($(TARGETSYSTEM),WINDOWS)
   RSRC = $(wildcard $(SRC_DIR)/*.rc)
@@ -854,6 +854,7 @@ endif
 OBJS = $(sort $(patsubst %,$(ODIR)/%,$(_OBJS)))
 
 ifdef LANGUAGES
+  export LOCALE_DIR
   L10N = localization
 endif
 
@@ -942,8 +943,9 @@ prefix:
             if [ "x$$PREFIX_STRING" != "x$$OLDPREFIX" ]; then printf '// NOLINT(cata-header-guard)\n#define PREFIX "%s"\n' "$$PREFIX_STRING" | tee $(SRC_DIR)/prefix.h ; fi \
          )
 
-# Unconditionally create the object dir on every invocation.
-$(shell mkdir -p $(ODIR))
+# Unconditionally create the object dirs on every invocation.
+DIRS = $(sort $(dir $(OBJS)))
+$(shell mkdir -p $(DIRS))
 
 $(ODIR)/%.inc: $(SRC_DIR)/%.cpp
 	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -H -E $< -o /dev/null 2> $@
@@ -981,7 +983,7 @@ lang/mo_built.stamp: $(MO_DEPS)
 localization: lang/mo_built.stamp
 
 $(CHKJSON_BIN): $(CHKJSON_SOURCES)
-	$(CXX) $(CXXFLAGS) $(TOOL_CXXFLAGS) -Isrc/chkjson -Isrc $(CHKJSON_SOURCES) -o $(CHKJSON_BIN)
+	$(CXX) $(CXXFLAGS) $(TOOL_CXXFLAGS) -Isrc/chkjson -Isrc -isystem src/third-party $(CHKJSON_SOURCES) -o $(CHKJSON_BIN)
 
 json-check: $(CHKJSON_BIN)
 	./$(CHKJSON_BIN)
@@ -1036,9 +1038,8 @@ ifeq ($(SOUND), 1)
 endif
 	install --mode=644 data/changelog.txt data/cataicon.ico data/fontdata.json \
                    LICENSE.txt LICENSE-OFL-Terminus-Font.txt -t $(DATA_PREFIX)
-	mkdir -p $(LOCALE_DIR)
 ifdef LANGUAGES
-	$(MAKE) -C lang
+	$(MAKE) -C lang install
 endif
 endif
 
@@ -1072,9 +1073,8 @@ ifeq ($(SOUND), 1)
 endif
 	install --mode=644 data/changelog.txt data/cataicon.ico data/fontdata.json \
                    LICENSE.txt LICENSE-OFL-Terminus-Font.txt -t $(DATA_PREFIX)
-	mkdir -p $(LOCALE_DIR)
 ifdef LANGUAGES
-	$(MAKE) -C lang
+	$(MAKE) -C lang install
 endif
 endif
 
@@ -1215,7 +1215,7 @@ astyle-all: $(ASTYLE_SOURCES)
 	mkdir -p $(ODIR) && touch $(ODIR)/.astyle-check-stamp
 
 # Test whether the system has a version of astyle that supports --dry-run
-ifeq ($(shell if $(ASTYLE_BINARY) -Q -X --dry-run src/game.h > /dev/null; then echo foo; fi),foo)
+ifeq ($(shell $(ASTYLE_BINARY) -Q -X --dry-run src/game.h >/dev/null 2>/dev/null && echo foo),foo)
   ASTYLE_CHECK=$(shell $(ASTYLE_BINARY) --options=.astylerc --dry-run -X -Q --ascii $(ASTYLE_SOURCES) | sed -E "s/Formatted[[:space:]]+(.*)/Needs formatting: \1\\\n/" | tr -d '\n')
 endif
 
@@ -1245,7 +1245,7 @@ style-all-json-parallel: $(JSON_FORMATTER_BIN)
 	find data -name "*.json" -print0 | xargs -0 -L 1 -P $$(nproc) $(JSON_FORMATTER_BIN)
 
 $(JSON_FORMATTER_BIN): $(JSON_FORMATTER_SOURCES)
-	$(CXX) $(CXXFLAGS) -MMD -MP $(TOOL_CXXFLAGS) -Itools/format -Isrc \
+	$(CXX) $(CXXFLAGS) -MMD -MP $(TOOL_CXXFLAGS) -Itools/format -Isrc -isystem src/third-party \
 	  $(JSON_FORMATTER_SOURCES) -o $(JSON_FORMATTER_BIN)
 
 python-check:

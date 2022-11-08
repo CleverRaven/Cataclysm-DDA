@@ -1,0 +1,51 @@
+# Baris lebih dari 78 karakter akan dipotong otomatis
+# Dibawah adalah baris untuk referensi
+##############################################################################
+<color_white>Kunjungi kami:</color>
+
+<color_light_gray>* Halaman depan:</color>    <color_cyan>https://cataclysmdda.org</color>
+<color_light_gray>* Wiki:</color>        <color_cyan>https://cddawiki.chezzo.com/cdda_wiki</color>
+
+<color_white>Laporkan celah, saran dan ikuti pengembangannya di:</color>
+
+<color_light_gray>* Github: </color><color_light_cyan>https://github.com/CleverRaven/Cataclysm-DDA/issues</color>
+<color_light_gray>* e-mail: </color><color_light_cyan>kevin.granade@gmail.com</color>
+
+<color_white>Ikuti diskusi di forum dan chat:</color>
+
+<color_light_gray>* Discourse:                 </color><color_cyan>https://discourse.cataclysmdda.org/</color>
+<color_light_gray>* Discord:                   </color><color_cyan>https://discord.gg/jFEc7Yp</color>
+<color_light_gray>* IRC:                       </color><color_cyan>#CataclysmDDA at libera.chat</color>
+<color_light_gray>* Reddit (unofficial):       </color><color_cyan>https://www.reddit.com/r/cataclysmdda/</color>
+
+<color_light_gray>link berguna lainnya juga tersedia di Halaman Depan kami.</color>
+
+<color_light_gray>Di game kamu bisa mengakses pilihan/pengaturan lewat menu utama (<color_yellow>Esc</color>).</color>
+
+<color_light_red>******************************************************************************</color>
+<color_light_red>    Catatan untuk experimental build:</color>
+<color_light_red>******************************************************************************</color>
+
+<color_white>Q/T: </color><color_yellow>apa itu experimental build?</color>
+
+<color_white>A/J: </color><color_light_gray>Tujuan dari experimental build adalah sebagai kendali kualitas(QC/quality control) tingkat dua. Experimental build berfungsi sebagai versi dimana konten terbaru dirilis untuk diuji dan diseimbangkan setelah kendali kualitas awal. Harap dipahami bahwa dengan memilih bermain dengan experimental build kau berpartisipasi dalam proses pengembangan dengan uji bermain konten baru, yang mana rentan terhadap bug dan fitur yang kurang berkembang.</color>
+
+<color_white>Q/T: </color><color_yellow>Kenapa experimental builds ada?</color>
+
+<color_white>A/J: </color><color_light_gray>Anggap seperti bermain dengan versi alpha/beta - bug dan fitur yang belum berkembang termasuk didalamnya. Karena bersifat Integrasi berkelanjutan (CI), experimental build akan selalu berstatus dalam pengembangan. Experimental seperti sandbox dimana pendeteksian bug dan pembenahan fitur terjadi. Fitur besar dan kecil selalu dirilis untk diperiksa kestabilan dan keseimbangan secara keseluruhan. Oleh karenanya, experimental tidak memberikan jaminan kestabilan dan keseimbangan dalam permainan. Sejururnya, tidak ada yang dijamin di experimental buid.</color>
+
+<color_white>Q/T: </color><color_yellow>Apakah experimental builds bisa dimainkan?</color>
+
+<color_white>A/J: </color><color_light_gray>Ya. Namun walaupun experimental build secara keseluruhan stabil, juga tidak dijamin karena fitur mungkin dikenalkan dengan status belum dikembangkan; dan bisa juga menghasilkan bug, termasuk paling parah yang dapat menyebabkan crash atau savegame korup. Hal tersebut jarang tetapi karena rumitnya game, kendali awal kualitas sebelum digabungkan ke experimental build mungkin belum cukup, dan selalu ada celah untuk kesalahan manusia. Itulah mengapa experimental build ada.</color>
+
+<color_white>Q/J: </color><color_yellow>Haruskah aku bermain di experimental builds atau di stable build?</color>
+
+<color_white>A/J: </color><color_light_gray>Hadiahnya adalah akses langsung ke konten terbaru, resiko kehilangan perkembangan savegame jika terjadi bug parah terjadi. Hal ini selalu menjadi pilihanmu untuk bermain di experimental build, dengan stable build yang tersedia, jadi bermain dengan tanggung jawab diri sendiri. Kamu mengambil semua beban jika terjadi sesuatu yang salah, jadi sudah diperingatkan. Ambil tindakan pencegahan, buat cadangan savegame. Kadang lebih baik untuk menunda update beberapa hari hingga fitur besar sudah cukup stabil atau bug yang signifikan sudah hilang.</color>
+
+<color_white>Q/T: </color><color_yellow>Haruskah aku mengetahui hal lainnya?</color>
+
+<color_white>A/J: </color><color_light_gray>Ya.  Ingat bahwa semua yang kamu lihat dan akan dilihat berpotensi berubah. Seluruh fitur, termasuk yang baru di implementasi sedang dikerjakan dan mungkin berubah sepanjang pengembangan game. Dan, seperti dikatakan sebelumnya, tidak ada yang dijamin, termasuk keseimbangan dan kestabilan.</color>
+
+<color_white>Q/T: </color><color_yellow>Apa yang terjadi kalau aku menganggap bermain di experimental build tidak bisa diterima?</color>
+
+<color_white>A/J: </color><color_light_gray>Jika resikonya tidak dapat diterima - main di versi stable. Jika kau mau mengambil resiko - menikmati konten baru dari experimental build dan ikut berperan di pengembangan - melaporkan bug, memberikan saran, atau bahkan berkontribusi konten milikmu ke game. Semoga beruntung.</color>

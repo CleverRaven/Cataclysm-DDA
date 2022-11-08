@@ -6,6 +6,7 @@
 #include <memory>
 #include <string>
 
+#include "coordinates.h"
 #include "units_fwd.h"
 
 class Character;
@@ -66,7 +67,9 @@ class item_location
         type where_recursive() const;
 
         /** Returns the position where the item is found */
+        // TODO: fix point types (remove position in favour of pos_bub)
         tripoint position() const;
+        tripoint_bub_ms pos_bub() const;
 
         /** Describes the item location
          *  @param ch if set description is relative to character location */
@@ -103,7 +106,7 @@ class item_location
         item_location parent_item() const;
 
         /** returns true if the item is in the inventory of the given character **/
-        bool held_by( Character &who ) const;
+        bool held_by( Character const &who ) const;
 
         /**
          * true if this item location can and does have a parent
@@ -121,6 +124,11 @@ class item_location
         * Returns available weight capacity where this item is located.
         */
         units::mass weight_capacity() const;
+
+        /**
+        * Returns true if volume and weight capacity of all parent pockets >= 0
+        */
+        bool check_parent_capacity_recursive() const;
 
         /**
         * true if the item is inside a not open watertight container

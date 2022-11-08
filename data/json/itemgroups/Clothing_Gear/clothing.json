@@ -109,7 +109,8 @@
       { "item": "leg_bag", "prob": 15 },
       { "item": "leg_small_bag", "prob": 10 },
       { "item": "armrig", "prob": 10 },
-      { "item": "ankle_wallet_pouch", "prob": 5 }
+      { "item": "ankle_wallet_pouch", "prob": 5 },
+      { "item": "pants_hiking", "prob": 10 }
     ]
   },
   {
@@ -602,13 +603,48 @@
     "//": "Protective helmets or headlamps often worn by technicians and tradesmen.",
     "subtype": "distribution",
     "entries": [
-      { "item": "hat_hard", "prob": 60 },
-      { "item": "hat_hard_hooded", "prob": 15 },
+      { "item": "hat_hard", "prob": 30 },
+      { "group": "hat_hard_modified", "prob": 30 },
+      { "item": "hat_hard_hooded", "prob": 10 },
+      { "group": "hat_hard_hooded_modified", "prob": 5 },
       { "item": "miner_hat", "prob": 10, "charges": [ 0, 100 ] },
       { "item": "wearable_light", "prob": 15, "charges": [ 0, 100 ] },
       { "item": "hat_hard", "variant": "flag_hat_hard", "prob": 70, "event": "independence_day" },
       { "item": "hat_hard_hooded", "variant": "flag_hat_hard", "prob": 20, "event": "independence_day" }
     ]
+  },
+  {
+    "id": "hat_hard_modified",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "hat_hard",
+    "items": [
+      { "group": "common_nape_protectors", "prob": 50 },
+      { "group": "common_face_shields", "prob": 15 },
+      { "item": "plastic_chin_guard", "prob": 10 },
+      { "item": "attachable_ear_muffs", "prob": 5 }
+    ]
+  },
+  {
+    "id": "hat_hard_hooded_modified",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "hat_hard_hooded",
+    "items": [ { "group": "common_nape_protectors", "prob": 50 }, { "item": "plastic_chin_guard", "prob": 10 } ]
+  },
+  {
+    "id": "common_nape_protectors",
+    "type": "item_group",
+    "//": "Common nape protectors for a hard hat or helmet.",
+    "subtype": "distribution",
+    "entries": [ { "item": "nape_protector", "prob": 6 }, { "item": "mesh_nape_protector", "prob": 4 } ]
+  },
+  {
+    "id": "common_face_shields",
+    "type": "item_group",
+    "//": "Common face shields for a hard hat.",
+    "subtype": "distribution",
+    "entries": [ { "item": "face_shield_plastic", "prob": 75 }, { "item": "face_shield", "prob": 25 } ]
   },
   {
     "id": "clothing_work_mask",
@@ -671,6 +707,11 @@
       [ "boots_steel", 40 ],
       [ "sneakers_steel", 28 ],
       [ "hat_hard", 40 ],
+      [ "mesh_nape_protector", 10 ],
+      [ "nape_protector", 10 ],
+      [ "face_shield_plastic", 10 ],
+      [ "sun_shield", 15 ],
+      [ "attachable_ear_muffs", 5 ],
       [ "mask_dust", 30 ],
       { "item": "mask_filter", "prob": 30, "charges": [ 0, 100 ] },
       [ "glasses_safety", 30 ],
@@ -1366,6 +1407,7 @@
       [ "leather_belt", 30 ],
       [ "pants_leather", 60 ],
       [ "pants_cargo", 70 ],
+      [ "pants_hiking", 1 ],
       [ "shorts_cargo", 50 ],
       [ "motorbike_pants", 5 ],
       [ "breeches", 5 ],
@@ -1441,6 +1483,7 @@
       [ "firecracker", 5 ],
       [ "wolfsuit", 3 ],
       [ "dinosuit", 2 ],
+      [ "sharksuit", 2 ],
       [ "felinesuit", 3 ],
       [ "dragonsuit", 2 ],
       [ "zentai", 5 ],
@@ -1596,6 +1639,7 @@
       [ "pants_checkered", 5 ],
       [ "shorts", 70 ],
       [ "shorts_denim", 35 ],
+      [ "pants_hiking", 2 ],
       [ "pants", 75 ],
       [ "leather_belt", 30 ],
       [ "pants_leather", 60 ],
@@ -1909,6 +1953,35 @@
   },
   {
     "type": "item_group",
+    "id": "large_bags",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "backpack", "prob": 38 },
+      { "item": "backpack_hiking", "prob": 3 },
+      { "item": "daypack", "prob": 3 },
+      { "item": "backpack_tactical_large", "prob": 1 },
+      { "group": "molle_backpacks_and_accessories", "prob": 1 },
+      { "item": "duffelbag", "prob": 5 },
+      { "item": "bigback", "prob": 1 },
+      { "item": "travelpack", "prob": 5 },
+      { "item": "rucksack", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "small_bags",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "petpack", "prob": 3 },
+      { "item": "purse", "prob": 40 },
+      { "item": "mbag", "prob": 20 },
+      { "item": "slingpack", "prob": 8 },
+      { "item": "backpack_leather", "prob": 8 },
+      { "item": "briefcase", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "gun_cases",
     "subtype": "distribution",
     "entries": [
@@ -2007,6 +2080,7 @@
       { "item": "glasses_monocle", "prob": 2 },
       { "item": "pants_leather", "prob": 60 },
       { "item": "pants_cargo", "prob": 70 },
+      { "item": "pants_hiking", "prob": 2 },
       { "item": "shorts_cargo", "prob": 50 },
       { "item": "skirt", "prob": 75 },
       { "item": "skirt_leather", "prob": 5 },
@@ -2396,7 +2470,7 @@
       [ "fish_sandwich", 2 ],
       [ "mango", 1 ],
       [ "hand_pump", 5 ],
-      [ "inflatable_boat", 1 ]
+      [ "folded_inflatable_boat", 1 ]
     ]
   },
   {
@@ -2692,6 +2766,7 @@
       [ "gartersheath1", 1 ],
       [ "gartersheath2", 1 ],
       [ "pants_cargo", 70 ],
+      [ "pants_hiking", 15 ],
       [ "shorts_cargo", 50 ],
       [ "pants_army", 30 ],
       [ "jacket_army", 6 ],
@@ -2778,8 +2853,10 @@
       { "item": "gloves_work", "prob": 45 },
       { "item": "mask_filter", "prob": 30, "charges-min": 0 },
       { "item": "glasses_safety", "prob": 40 },
-      { "item": "hat_hard", "prob": 50 },
-      { "item": "hat_hard_hooded", "prob": 25 },
+      { "item": "hat_hard", "prob": 25 },
+      { "group": "hat_hard_modified", "prob": 25 },
+      { "item": "hat_hard_hooded", "prob": 15 },
+      { "group": "hat_hard_hooded_modified", "prob": 10 },
       { "item": "wearable_light", "prob": 5, "charges": [ 0, 100 ] },
       { "item": "ear_plugs", "prob": 50 },
       { "group": "ammo_any_batteries_full", "prob": 50 },
@@ -2891,12 +2968,12 @@
     "type": "item_group",
     "id": "survivorzed_suits",
     "items": [
-      [ "survivor_suit", 8 ],
-      [ "lsurvivor_suit", 10 ],
-      [ "hsurvivor_suit", 6 ],
-      [ "wsurvivor_suit", 6 ],
-      [ "fsurvivor_suit", 4 ],
-      [ "h20survivor_suit", 2 ],
+      [ "survivor_jumpsuit", 8 ],
+      [ "lsurvivor_jumpsuit", 10 ],
+      [ "hsurvivor_jumpsuit", 6 ],
+      [ "wsurvivor_jumpsuit", 6 ],
+      [ "wsurvivor_jumpsuit_nofur", 4 ],
+      [ "h20survivor_jumpsuit", 2 ],
       [ "touring_suit", 16 ],
       [ "armor_larmor", 28 ],
       [ "armor_blarmor", 14 ],
@@ -2960,6 +3037,7 @@
     "id": "survivorzed_bottoms",
     "items": [
       [ "pants_survivor", 10 ],
+      [ "pants_hiking", 12 ],
       [ "pants_cargo", 40 ],
       [ "shorts_cargo", 22 ],
       [ "pants_army", 28 ],
@@ -3463,7 +3541,8 @@
       {
         "distribution": [
           { "item": "helmet_motor", "prob": 20 },
-          { "item": "helmet_bike", "prob": 50 },
+          { "item": "helmet_bike", "prob": 40 },
+          { "group": "helmet_bike_modified", "prob": 10 },
           { "item": "headgear", "prob": 10 },
           { "item": "helmet_ball", "prob": 15 },
           { "item": "swim_cap", "prob": 10 },
@@ -3849,6 +3928,7 @@
       { "item": "bondage_suit", "prob": 10 },
       { "item": "bodysuit_lycra", "prob": 10 },
       { "item": "dinosuit", "prob": 5 },
+      { "item": "sharksuit", "prob": 5 },
       { "item": "yukata", "prob": 20 },
       { "item": "leotard", "prob": 40 },
       { "item": "motorbike_armor", "prob": 15 },
@@ -4202,6 +4282,8 @@
       { "group": "accessory_sportsgear", "prob": 5 },
       { "item": "folding_poncho", "prob": 5 },
       { "item": "american_flag", "prob": 1 },
+      { "item": "pride_flag", "prob": 1 },
+      { "item": "state_flag", "prob": 1 },
       { "item": "tool_belt", "prob": 2 },
       { "item": "leather_belt", "prob": 30 },
       { "item": "wearable_light", "prob": 10, "charges": [ 0, 100 ] },

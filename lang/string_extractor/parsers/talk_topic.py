@@ -26,7 +26,7 @@ dynamic_line_string_keys = [
     "npc_has_weapon", "u_driving", "npc_driving",
     "has_pickup_list", "is_by_radio", "has_reason",
     # yes/no strings for complex conditions, 'and' list
-    "yes", "no", "and"
+    "yes", "no", "concatenate"
 ]
 
 

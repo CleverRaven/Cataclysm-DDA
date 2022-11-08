@@ -588,6 +588,7 @@
       { "item": "shot_suppressor", "prob": 1 },
       { "item": "brass_catcher", "prob": 15 },
       { "item": "lighter", "prob": 60, "charges": [ 0, 100 ] },
+      { "item": "small_lighter", "prob": 5, "charges": [ 0, 50 ] },
       { "item": "ref_lighter", "prob": 5, "charges": [ 0, 50 ] },
       { "item": "flashlight", "prob": 40, "charges": [ 0, 300 ] },
       { "item": "heavy_flashlight", "prob": 40, "charges": [ 0, 300 ] },
@@ -685,7 +686,9 @@
       { "item": "effective_emitter", "prob": 1 },
       { "item": "high_density_capacitor", "prob": 1 },
       { "item": "emp_gun", "prob": 1 },
-      { "item": "bt_apc9k", "prob": 1 }
+      { "item": "bt_apc9k", "prob": 1 },
+      { "item": "kevlar_nape_protector", "prob": 5 },
+      { "item": "counterweight_pouch", "prob": 5 }
     ]
   },
   {
@@ -738,7 +741,9 @@
       { "item": "mag_fieldrepair", "prob": 20 },
       { "item": "mag_comic", "prob": 20 },
       { "group": "book_gunmags", "prob": 20 },
-      { "item": "thermos", "prob": 15 }
+      { "item": "thermos", "prob": 15 },
+      { "item": "kevlar_nape_protector", "prob": 5 },
+      { "item": "counterweight_pouch", "prob": 5 }
     ]
   },
   {
@@ -852,7 +857,7 @@
       { "item": "antibiotics", "prob": 25, "charges": [ 1, 15 ] },
       { "item": "purifier", "prob": 12 },
       { "item": "heatpack", "prob": 60 },
-      { "item": "pur_tablets", "prob": 20, "charges": [ 1, 15 ] },
+      { "item": "pur_tablets", "container-item": "bottle_plastic_small", "prob": 20, "charges": [ 1, 15 ] },
       { "item": "fungicide", "prob": 5 },
       { "item": "insecticide", "prob": 5 },
       { "item": "rx12_injector", "prob": 8, "charges": [ 0, 2 ] },

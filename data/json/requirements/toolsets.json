@@ -24,6 +24,59 @@
     ]
   },
   {
+    "id": "gun_cleaning",
+    "type": "requirement",
+    "//": "Gun cleaning",
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "tools": [ [ [ "pipe_cleaner", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ] ],
+    "components": [
+      [
+        [ "gasoline", 125 ],
+        [ "diesel", 125 ],
+        [ "chem_ethanol", 125 ],
+        [ "chem_methanol", 125 ],
+        [ "methed_alcohol", 125 ],
+        [ "denat_alcohol", 125 ],
+        [ "chem_acetone", 1 ],
+        [ "chem_chloroform", 125 ],
+        [ "ether", 125 ],
+        [ "chem_DMSO", 125 ],
+        [ "vinegar", 8 ],
+        [ "ammonia_hydroxide", 1 ],
+        [ "bleach", 1 ],
+        [ "soapy_water", 1 ]
+      ],
+      [ [ "cotton_patchwork", 1 ], [ "fur", 1 ], [ "faux_fur", 1 ], [ "felt_patch", 1 ], [ "cotton_ball", 2 ] ]
+    ]
+  },
+  {
+    "id": "gun_lubrication",
+    "type": "requirement",
+    "//": "Gun Lubrication",
+    "qualities": [  ],
+    "tools": [ [ [ "pipe_cleaner", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ] ],
+    "components": [
+      [ [ "cotton_patchwork", 1 ], [ "fur", 1 ], [ "faux_fur", 1 ], [ "felt_patch", 1 ], [ "cotton_ball", 2 ] ],
+      [ [ "lamp_oil", 5 ], [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ], [ "motor_oil", 5 ] ]
+    ]
+  },
+  {
+    "id": "gun_repair",
+    "type": "requirement",
+    "//": "Gun repair",
+    "tools": [ [ [ "soldering_iron", 25 ], [ "toolset", 25 ] ] ],
+    "components": [ [ [ "solder_wire", 25 ] ], [ [ "scrap", 1 ] ] ],
+    "qualities": [
+      { "id": "HAMMER_FINE", "level": 1 },
+      { "id": "SAW_M_FINE", "level": 1 },
+      { "id": "WRENCH_FINE", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "SCREW", "level": 1 },
+      { "id": "CHISEL", "level": 3 },
+      { "id": "CHISEL_WOOD", "level": 3 }
+    ]
+  },
+  {
     "id": "earthenware_firing",
     "type": "requirement",
     "//": "Firing various clay shapes to make earthenware",
@@ -82,6 +135,13 @@
     "components": [ [ [ "filament_durable", 1, "LIST" ] ] ]
   },
   {
+    "id": "sewing_simple",
+    "type": "requirement",
+    "//": "Crafting or repair of fabric simple items where exact shape is not important, such as cloaks and blankets, includes roughly 10 inches of thread.",
+    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "filament", 1, "LIST" ] ] ]
+  },
+  {
     "id": "welding_standard",
     "type": "requirement",
     "//": "Crafting of steel/iron items or installation of vehicle parts",
@@ -137,7 +197,7 @@
     "id": "drilling_standard",
     "type": "requirement",
     "//": "Drilling holes in various materials, including metal",
-    "tools": [ [ [ "cordless_drill", 2 ], [ "drill_press_tool", 1 ] ] ]
+    "tools": [ [ [ "cordless_drill", 2 ], [ "drill_press_tool", 1 ], [ "hand_drill", -1 ] ] ]
   },
   {
     "id": "anesthetic",
@@ -157,7 +217,7 @@
     "id": "mining_standard",
     "type": "requirement",
     "//": "mining",
-    "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 300 ], [ "elec_jackhammer", 3500 ] ] ]
+    "tools": [ [ [ "pickaxe", -1 ], [ "bronze_pickaxe", -1 ], [ "jackhammer", 300 ], [ "elec_jackhammer", 3500 ] ] ]
   },
   {
     "id": "bronzesmithing_tools",
@@ -201,7 +261,13 @@
       { "id": "DIG", "level": 3 }
     ],
     "tools": [
-      [ [ "pickaxe", -1 ], [ "jackhammer", 140 ], [ "elec_jackhammer", 7000 ], [ "hammer_sledge", -1 ] ],
+      [
+        [ "pickaxe", -1 ],
+        [ "bronze_pickaxe", -1 ],
+        [ "jackhammer", 140 ],
+        [ "elec_jackhammer", 7000 ],
+        [ "hammer_sledge", -1 ]
+      ],
       [ [ "masonrysaw_off", 100 ] ],
       [ [ "cordless_drill", 200 ] ],
       [ [ "angle_grinder", 200 ] ]
@@ -230,7 +296,10 @@
     "type": "requirement",
     "//": "Tools for removing road / sidewalk",
     "qualities": [ { "id": "PRY", "level": 3 } ],
-    "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 140 ], [ "elec_jackhammer", 7000 ] ], [ [ "masonrysaw_off", 100 ] ] ]
+    "tools": [
+      [ [ "pickaxe", -1 ], [ "bronze_pickaxe", -1 ], [ "jackhammer", 140 ], [ "elec_jackhammer", 7000 ] ],
+      [ [ "masonrysaw_off", 100 ] ]
+    ]
   },
   {
     "id": "metal_removal_standard",
@@ -284,6 +353,89 @@
         [ "g_paint", 1 ],
         [ "p_paint", 1 ],
         [ "y_paint", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "ppe_gloves",
+    "type": "requirement",
+    "//": "Disposable or reusable gloves.",
+    "tools": [ [ [ "gloves_medical", 1 ], [ "gloves_rubber", -1 ], [ "entry_suit", -1 ], [ "hazmat_suit", -1 ] ] ]
+  },
+  {
+    "id": "ppe_eyes",
+    "type": "requirement",
+    "//": "Full eye protection, thick or shatterproof. Also includes some masks with appropriate coverage.",
+    "tools": [
+      [
+        [ "glass_goggles", -1 ],
+        [ "survivor_goggles", -1 ],
+        [ "goggles_ski", -1 ],
+        [ "glasses_safety", -1 ],
+        [ "glasses_bal", -1 ],
+        [ "mask_gas", -1 ],
+        [ "mask_gas_xs", -1 ],
+        [ "mask_gas_xl", -1 ],
+        [ "mask_bunker", -1 ],
+        [ "mask_survivor", -1 ],
+        [ "mask_lsurvivor", -1 ],
+        [ "mask_hsurvivor", -1 ],
+        [ "mask_survivorxl", -1 ],
+        [ "mask_lsurvivorxl", -1 ],
+        [ "mask_survivorxs", -1 ],
+        [ "mask_wsurvivor", -1 ],
+        [ "mask_wsurvivorxl", -1 ],
+        [ "mask_wsurvivorxs", -1 ],
+        [ "mask_wsurvivor_nofur", -1 ],
+        [ "mask_wsurvivor_nofur_xs", -1 ],
+        [ "mask_wsurvivorxl_nofur", -1 ],
+        [ "hazmat_suit", -1 ]
+      ]
+    ]
+  },
+  {
+    "id": "ppe_gas",
+    "type": "requirement",
+    "//": "Gas protection.",
+    "tools": [
+      [
+        [ "mask_gas", -1 ],
+        [ "mask_gas_xs", -1 ],
+        [ "mask_gas_xl", -1 ],
+        [ "mask_gas_half", -1 ],
+        [ "mask_bunker", -1 ],
+        [ "mask_survivor", -1 ],
+        [ "mask_lsurvivor", -1 ],
+        [ "mask_hsurvivor", -1 ],
+        [ "mask_survivorxl", -1 ],
+        [ "mask_lsurvivorxl", -1 ],
+        [ "mask_survivorxs", -1 ],
+        [ "mask_wsurvivor", -1 ],
+        [ "mask_wsurvivorxl", -1 ],
+        [ "mask_wsurvivorxs", -1 ],
+        [ "mask_wsurvivor_nofur", -1 ],
+        [ "mask_wsurvivor_nofur_xs", -1 ],
+        [ "mask_wsurvivorxl_nofur", -1 ],
+        [ "hazmat_suit", -1 ]
+      ],
+      [ [ "gasfilter_m", 1 ] ]
+    ]
+  },
+  {
+    "id": "ppe_skin",
+    "type": "requirement",
+    "//": "Torso and arm protection, either chemical/flame resistant or easy to remove.",
+    "tools": [
+      [
+        [ "coat_lab", -1 ],
+        [ "hazmat_suit", -1 ],
+        [ "jacket_chef", -1 ],
+        [ "entry_suit", -1 ],
+        [ "folding_poncho", -1 ],
+        [ "coat_rain", -1 ],
+        [ "bunker_coat", -1 ],
+        [ "entry_suit_xs", -1 ],
+        [ "xl_entry_suit", -1 ]
       ]
     ]
   }

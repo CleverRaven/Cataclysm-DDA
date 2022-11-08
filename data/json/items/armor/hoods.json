@@ -28,7 +28,7 @@
     "category": "armor",
     "name": { "str": "chainmail coif" },
     "description": "A customized chainmail hood.  Can be worn comfortably under helmets.",
-    "weight": "2006 g",
+    "weight": "1315 g",
     "volume": "500 ml",
     "price": 5012,
     "price_postapoc": 2500,
@@ -40,12 +40,12 @@
     "material_thickness": 4,
     "warmth": 5,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "OUTER" ],
+    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
     "armor": [
       {
         "material": [ { "type": "budget_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "head" ],
-        "coverage": 95,
+        "coverage": 100,
         "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
       }
     ]
@@ -56,7 +56,7 @@
     "category": "armor",
     "name": { "str": "mild steel chainmail coif" },
     "description": "A customized mild steel chainmail hood.  Can be worn comfortably under helmets.",
-    "weight": "2006 g",
+    "weight": "1315 g",
     "volume": "500 ml",
     "price": 5012,
     "price_postapoc": 2500,
@@ -67,12 +67,12 @@
     "color": "light_red",
     "warmth": 5,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "OUTER" ],
+    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
     "armor": [
       {
         "material": [ { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "head" ],
-        "coverage": 95,
+        "coverage": 100,
         "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
       }
     ]
@@ -107,7 +107,7 @@
       {
         "material": [ { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "head" ],
-        "coverage": 95,
+        "coverage": 100,
         "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
       }
     ]
@@ -142,7 +142,7 @@
       {
         "material": [ { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "head" ],
-        "coverage": 95,
+        "coverage": 100,
         "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
       }
     ]
@@ -177,7 +177,7 @@
       {
         "material": [ { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "head" ],
-        "coverage": 95,
+        "coverage": 100,
         "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
       }
     ]
@@ -212,7 +212,7 @@
       {
         "material": [ { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "head" ],
-        "coverage": 95,
+        "coverage": 100,
         "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
       }
     ]
@@ -253,7 +253,7 @@
     "color": "light_red",
     "warmth": 25,
     "material_thickness": 5,
-    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT" ],
+    "flags": [ "VARSIZE", "STURDY" ],
     "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 90, "covers": [ "head" ] } ]
   },
   {
@@ -291,7 +291,7 @@
     "color": "light_red",
     "warmth": 25,
     "material_thickness": 3.2,
-    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT" ],
+    "flags": [ "VARSIZE", "STURDY" ],
     "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 90, "covers": [ "head" ] } ]
   },
   {
@@ -355,7 +355,7 @@
     "id": "hood_gut",
     "type": "ARMOR",
     "name": { "str": "gutskin hood" },
-    "description": "A hood sewn of treated and split intestines, perfect companion for a gutskin parka.",
+    "description": "A hood sewn from treated and split intestines, the perfect companion for a gutskin parka.",
     "weight": "40 g",
     "volume": "250 ml",
     "price": 2600,
@@ -367,7 +367,7 @@
     "warmth": 10,
     "material_thickness": 0.1,
     "environmental_protection": 1,
-    "flags": [ "WATERPROOF", "RAINPROOF", "OUTER", "HELMET_COMPAT" ],
+    "flags": [ "WATERPROOF", "RAINPROOF", "OUTER" ],
     "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 95, "covers": [ "head" ] } ]
   },
   {
@@ -375,7 +375,7 @@
     "repairs_like": "balclava",
     "type": "ARMOR",
     "name": { "str": "ninja hood" },
-    "description": "A black hood commonly used by ninjas.",
+    "description": "A black hood commonly used by ninja.",
     "weight": "80 g",
     "volume": "1000 ml",
     "price": 3500,

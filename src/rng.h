@@ -55,6 +55,15 @@ inline int roll_remainder( float value )
 
 int djb2_hash( const unsigned char *input );
 
+// Generates a deterministic sequence of uniform ints.
+// Note that this doesn't use or modify the global rng state but uses the seed given as parameter.
+// @param count length of sequence to generate
+// @param lo minimum value in sequence
+// @param hi maximum value in sequence
+// @param seed seed to use
+// @returns deterministic vector of uniform ints
+std::vector<int> rng_sequence( size_t count, int lo, int hi, int seed = 42 );
+
 double rng_normal( double lo, double hi );
 
 inline double rng_normal( double hi )
@@ -124,7 +133,7 @@ inline V random_entry( const C &container )
     if( container.empty() ) {
         return V();
     }
-    auto iter = container.begin();
+    typename C::const_iterator iter = container.begin();
     std::advance( iter, rng( 0, container.size() - 1 ) );
     return *iter;
 }
@@ -174,7 +183,7 @@ inline V random_entry_removed( C &container )
 {
     auto iter = container.begin();
     std::advance( iter, rng( 0, container.size() - 1 ) );
-    const V result = std::move( *iter ); // Copy because the original is removed and thereby destroyed
+    V result = std::move( *iter ); // Copy because the original is removed and thereby destroyed
     container.erase( iter );
     return result;
 }

@@ -116,7 +116,7 @@
     "volume": "1250 ml",
     "price": 20000,
     "price_postapoc": 4000,
-    "material": [ "leather", "cotton" ],
+    "material": [ "leather", "canvas" ],
     "symbol": "[",
     "looks_like": "tacvest",
     "color": "green",

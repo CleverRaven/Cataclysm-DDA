@@ -52,7 +52,7 @@
     "type": "item_group",
     "id": "mags_military",
     "//": "_DEPRECATED_ Older military magazines still in service.",
-    "items": [ [ "m1911mag", 5 ], [ "m9mag", 15 ], [ "stanag30", 20 ], [ "stanag50", 5 ], [ "usp9mag", 15 ], [ "usp45mag", 5 ] ]
+    "items": [ [ "m1911mag", 5 ], [ "m9mag", 15 ], [ "stanag30", 20 ], [ "stanag50", 5 ], [ "usp45mag", 5 ] ]
   },
   {
     "type": "item_group",
@@ -68,7 +68,9 @@
       [ "m1918mag", 5 ],
       [ "m9mag", 25 ],
       [ "stenmag", 40 ],
-      [ "thompson_mag", 5 ]
+      [ "thompson_mag", 5 ],
+      [ "m1carbinemag", 10 ],
+      [ "m1carbinebigmag", 5 ]
     ]
   },
   {
@@ -162,7 +164,6 @@
       [ "p320mag_14rd_357sig", 10 ],
       [ "bhp9mag_13rd", 2 ],
       [ "bhp9mag_15rd", 1 ],
-      [ "p38mag", 1 ],
       [ "ppq9mag_10rd", 4 ],
       [ "ppq9mag_15rd", 2 ],
       [ "ppq9mag_17rd", 1 ],
@@ -227,6 +228,7 @@
       [ "kp32mag", 5 ],
       [ "fn1910mag", 2 ],
       { "item": "fnp90mag", "prob": 2, "charges": [ 0, 50 ] },
+      [ "p38mag", 1 ],
       [ "ppkmag", 15 ],
       [ "usp9mag_10rd", 5 ],
       [ "usp9mag_18rd", 5 ],
@@ -239,7 +241,6 @@
     "id": "mags_smg_common",
     "//": "Factory specification SMG magazines commonly owned by citizens.",
     "items": [
-      [ "a180mag", 10 ],
       [ "mac10mag", 10 ],
       [ "mac11mag", 5 ],
       [ "mp5mag", 10 ],
@@ -277,6 +278,7 @@
     "id": "mags_smg_rare",
     "//": "Aftermarket or otherwise uncommon SMG magazines excluding milspec.",
     "items": [
+      [ "a180mag", 1 ],
       [ "a180mag1", 1 ],
       [ "a180mag2", 1 ],
       [ "a180mag3", 1 ],
@@ -326,7 +328,9 @@
       { "item": "stanag30", "prob": 10, "charges": [ 0, 30 ] },
       { "item": "stanag40", "prob": 3, "charges": [ 0, 40 ] },
       { "item": "ar10mag_20rd", "prob": 30, "charges": [ 0, 20 ] },
-      { "item": "akmag30", "prob": 25, "charges": [ 0, 30 ] }
+      { "item": "akmag30", "prob": 25, "charges": [ 0, 30 ] },
+      { "item": "zpap85mag", "prob": 25, "charges": [ 0, 30 ] },
+      { "item": "papm77mag_10rd", "prob": 25, "charges": [ 0, 10 ] }
     ]
   },
   {
@@ -356,7 +360,11 @@
       { "item": "stanag30ranger", "prob": 3 },
       { "item": "stanag40", "prob": 3 },
       { "item": "ar10mag_20rd", "prob": 30 },
-      { "item": "akmag30", "prob": 5 }
+      { "item": "akmag30", "prob": 5 },
+      { "item": "m1carbinemag", "prob": 15 },
+      { "item": "zpap85mag", "prob": 5 },
+      { "item": "papm77mag_10rd", "prob": 5 },
+      { "item": "papm77mag", "prob": 5 }
     ]
   },
   {
@@ -374,6 +382,8 @@
       [ "akmag20", 40 ],
       [ "akmag40", 40 ],
       [ "akdrum75", 30 ],
+      [ "vz58mag30", 30 ],
+      [ "vz58mag10", 30 ],
       [ "fnp90mag", 15 ],
       [ "falmag", 100 ],
       [ "falbigmag", 50 ],
@@ -390,7 +400,11 @@
       [ "augmag_42rd", 5 ],
       [ "augmag_100rd", 2 ],
       [ "g36mag_30rd", 15 ],
-      [ "g36mag_100rd", 3 ]
+      [ "g36mag_100rd", 3 ],
+      [ "usc10mag", 5 ],
+      [ "usc15mag", 7 ],
+      [ "usc20mag", 20 ],
+      [ "m1carbinebigmag", 30 ]
     ]
   },
   {
@@ -483,6 +497,8 @@
       [ "762R_clip", 10 ],
       [ "clip9mm_10rd", 5 ],
       [ "af2011a1mag", 1 ],
+      [ "vz58mag30", 8 ],
+      [ "vz58mag10", 8 ],
       [ "ak74mag", 10 ],
       [ "makarovmag", 10 ],
       [ "mausermag_10rd", 3 ],
@@ -506,6 +522,8 @@
       [ "762x39_clip", 10 ],
       [ "762R_clip", 10 ],
       [ "clip9mm_10rd", 5 ],
+      [ "vz58mag30", 8 ],
+      [ "vz58mag10", 8 ],
       [ "makarovmag", 10 ],
       [ "mausermag_10rd", 3 ],
       [ "mausermag_20rd", 2 ],

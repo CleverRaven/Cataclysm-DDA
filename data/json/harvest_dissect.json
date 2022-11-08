@@ -600,6 +600,63 @@
     "entries": [ { "drop": "ursine_sample_huge", "type": "mutagen_group" } ]
   },
   {
+    "id": "dissect_subterranean_rodent_large",
+    "type": "harvest",
+    "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
+    "entries": [
+      { "drop": "rat_sample_large", "type": "mutagen_group" },
+      { "drop": "troglobite_sample_large", "type": "mutagen_group" }
+    ]
+  },
+  {
+    "id": "dissect_subterranean_insect_large",
+    "type": "harvest",
+    "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
+    "entries": [
+      { "drop": "insect_sample_large", "type": "mutagen_group" },
+      { "drop": "troglobite_sample_large", "type": "mutagen_group" }
+    ]
+  },
+  {
+    "id": "dissect_subterranean_insect_small",
+    "type": "harvest",
+    "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
+    "entries": [
+      { "drop": "insect_sample_small", "type": "mutagen_group" },
+      { "drop": "troglobite_sample_small", "type": "mutagen_group" }
+    ]
+  },
+  {
+    "id": "dissect_slimy_fish_single",
+    "type": "harvest",
+    "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
+    "entries": [
+      { "drop": "fish_sample_single", "type": "mutagen_group" },
+      { "drop": "slime_sample_single", "type": "mutagen_group" }
+    ]
+  },
+  {
+    "id": "dissect_crustacean_single",
+    "type": "harvest",
+    "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
+    "entries": [
+      { "drop": "fish_sample_single", "type": "mutagen_group" },
+      { "drop": "insect_sample_single", "type": "mutagen_group" }
+    ]
+  },
+  {
+    "id": "dissect_crustacean_small",
+    "type": "harvest",
+    "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
+    "entries": [ { "drop": "fish_sample_small", "type": "mutagen_group" }, { "drop": "insect_sample_small", "type": "mutagen_group" } ]
+  },
+  {
+    "id": "dissect_crustacean_large",
+    "type": "harvest",
+    "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
+    "entries": [ { "drop": "fish_sample_large", "type": "mutagen_group" }, { "drop": "insect_sample_large", "type": "mutagen_group" } ]
+  },
+  {
     "id": "dissect_mon_broken_cyborg",
     "type": "harvest",
     "message": "You search for any salvageable hardware in what's left of this failed experiment.",

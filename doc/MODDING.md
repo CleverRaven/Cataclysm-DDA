@@ -315,3 +315,4 @@ Many editors have features that let you track `{ [` and `] }` to see if they're 
 Almost everything in this game can be modded. Almost. This section is intended to chart those areas not supported for modding to save time and headaches.
 
 The Names folder and contents (EN etcetera) confirmed 5/23/20
+Construction recipes. Can be worked around by adding requirements and modding those, confirmed 7/4/22

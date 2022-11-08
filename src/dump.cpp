@@ -204,7 +204,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
                 } );
             }
         }
-        for( const auto &e : locations ) {
+        for( const gunmod_location &e : locations ) {
             header.push_back( e.name() );
         }
 
@@ -226,7 +226,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
 
             r.push_back( std::to_string( who.gun_engagement_moves( obj ) ) );
 
-            for( const auto &e : locations ) {
+            for( const gunmod_location &e : locations ) {
                 const auto &vml = obj.type->gun->valid_mod_locations;
                 const auto iter = vml.find( e );
                 r.push_back( std::to_string( iter != vml.end() ? iter->second : 0 ) );
@@ -278,14 +278,14 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
 
         header = { "Result" };
 
-        for( const auto &e : sk ) {
+        for( const Skill &e : sk ) {
             header.push_back( e.ident().str() );
         }
 
         for( const recipe *e : dict ) {
             std::vector<std::string> r;
             r.push_back( e->result_name( /*decorated=*/true ) );
-            for( const auto &s : sk ) {
+            for( const Skill &s : sk ) {
                 if( e->skill_used == s.ident() ) {
                     r.push_back( std::to_string( e->difficulty ) );
                 } else {

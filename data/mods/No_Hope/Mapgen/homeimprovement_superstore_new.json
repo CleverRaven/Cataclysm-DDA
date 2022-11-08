@@ -47,8 +47,8 @@
         " fŐŐ ÉÉ ÁÁ AA aa |'''''''''CC?....''L'q...iiii||",
         " f               |Y'Y'Y''C'TT?....''''q...ioie| ",
         " |||||||||||||||||'''''''T'TT?....u'T'q...ioie| ",
-        " |<.........DDDD.|pppyyy'C'CC?....'UUUq...ioie| ",
-        " |.XX.XX.XX.DDDD.|11111?22222?....''''q...iwiR| ",
+        " |<.........DDDD.|pppyyy'C'CC?....'UUUq...ioié| ",
+        " |.XX.XX.XX.DDDD.|11111?22222?....''''q...iwié| ",
         " W.XX.XX.XX......|1...1?2...2?............iwiR| ",
         " |...............|1...1?2...2?............iwiR| ",
         " |.XX.XX.XX......|1...1?2...2?............iiii| ",
@@ -170,7 +170,7 @@
         "d": { "item": "office", "chance": 45, "repeat": [ 1, 2 ] },
         "D": { "item": "hardware_trash", "chance": 40, "repeat": [ 1, 3 ] },
         "Q": { "item": "bed", "chance": 65, "repeat": [ 1, 2 ] },
-        "V": { "item": "vending_drink_home_impr", "chance": 85, "repeat": [ 5, 12 ] },
+        "V": { "item": "vending_drink_home_impr", "chance": 5, "repeat": [ 5, 12 ] },
         "1": { "item": "paint", "chance": 80, "repeat": [ 1, 8 ] },
         "2": { "item": "rug", "chance": 80, "repeat": [ 1, 8 ] },
         "3": [
@@ -206,13 +206,12 @@
       "place_vehicles": [
         { "vehicle": "warehouse_vehicles", "x": [ 5, 12 ], "y": [ 42, 45 ], "chance": 50 },
         { "vehicle": "shopping_cart", "x": [ 37, 46 ], "y": [ 56, 57 ], "chance": 35, "repeat": 8 },
-        { "vehicle": "parking_garage", "x": 42, "y": [ 62, 65 ], "chance": 15, "rotation": 270 },
-        { "vehicle": "parking_garage", "x": 37, "y": [ 62, 65 ], "chance": 15, "rotation": 270 },
-        { "vehicle": "parking_garage", "x": 32, "y": [ 62, 65 ], "chance": 15, "rotation": 270 },
-        { "vehicle": "parking_garage", "x": 27, "y": [ 62, 65 ], "chance": 15, "rotation": 270 },
-        { "vehicle": "parking_garage", "x": 22, "y": [ 62, 65 ], "chance": 15, "rotation": 270 },
-        { "vehicle": "parking_garage", "x": 17, "y": [ 62, 65 ], "chance": 15, "rotation": 270 },
-        { "vehicle": "parking_garage", "x": 12, "y": [ 62, 65 ], "chance": 15, "rotation": 270 }
+        { "vehicle": "parking_garage", "x": 42, "y": [ 62, 65 ], "chance": 17, "rotation": 270 },
+        { "vehicle": "parking_garage", "x": 37, "y": [ 62, 65 ], "chance": 17, "rotation": 270 },
+        { "vehicle": "parking_garage", "x": 32, "y": [ 62, 65 ], "chance": 17, "rotation": 270 },
+        { "vehicle": "parking_garage", "x": 27, "y": [ 62, 65 ], "chance": 17, "rotation": 270 },
+        { "vehicle": "parking_garage", "x": 17, "y": [ 62, 65 ], "chance": 17, "rotation": 270 },
+        { "vehicle": "parking_garage", "x": 12, "y": [ 62, 65 ], "chance": 17, "rotation": 270 }
       ]
     }
   },
@@ -271,6 +270,7 @@
       "b": "t_linoleum_white",
       "(": "t_linoleum_white",
       "e": "t_linoleum_white",
+      "é": "t_linoleum_white",
       "o": "t_linoleum_white",
       "R": "t_linoleum_white",
       "w": "t_linoleum_white",
@@ -315,6 +315,7 @@
       "s": "f_sink",
       "b": "f_bathtub",
       "(": "f_shower",
+      "é": "f_freezer",
       "e": "f_fridge",
       "o": "f_oven",
       "w": [ "f_washer", "f_dryer" ],

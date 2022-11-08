@@ -38,6 +38,8 @@ std::string enum_to_string<condition_type>( condition_type data )
             return "FLAG";
         case condition_type::COMPONENT_ID:
             return "COMPONENT_ID";
+        case condition_type::COMPONENT_ID_SUBSTRING:
+            return "COMPONENT_ID_SUBSTRING";
         case condition_type::VAR:
             return "VAR";
         case condition_type::SNIPPET_ID:
@@ -64,6 +66,26 @@ std::string enum_to_string<itype_variant_kind>( itype_variant_kind data )
 }
 } // namespace io
 
+std::string itype::get_item_type_string() const
+{
+    if( tool ) {
+        return "TOOL";
+    } else if( comestible ) {
+        return "FOOD";
+    } else if( armor ) {
+        return "ARMOR";
+    } else if( book ) {
+        return "BOOK";
+    } else if( gun ) {
+        return "GUN";
+    } else if( bionic ) {
+        return "BIONIC";
+    } else if( ammo ) {
+        return "AMMO";
+    }
+    return "misc";
+}
+
 std::string itype::nname( unsigned int quantity ) const
 {
     // Always use singular form for liquids.
@@ -72,6 +94,28 @@ std::string itype::nname( unsigned int quantity ) const
         quantity = 1;
     }
     return name.translated( quantity );
+}
+
+int itype::charges_default() const
+{
+    if( tool ) {
+        return tool->def_charges;
+    } else if( comestible ) {
+        return comestible->def_charges;
+    } else if( ammo ) {
+        return ammo->def_charges;
+    }
+    return count_by_charges() ? 1 : 0;
+}
+
+int itype::charges_to_use() const
+{
+    if( tool ) {
+        return tool->charges_per_use;
+    } else if( comestible ) {
+        return 1;
+    }
+    return 0;
 }
 
 int itype::charges_per_volume( const units::volume &vol ) const
@@ -162,7 +206,10 @@ cata::optional<int> itype::invoke( Character &p, item &it, const tripoint &pos,
 
 std::string gun_type_type::name() const
 {
-    return pgettext( "gun_type_type", name_.c_str() );
+    const itype_id gun_type_as_id( name_ );
+    return gun_type_as_id.is_valid()
+           ? gun_type_as_id->nname( 1 )
+           : pgettext( "gun_type_type", name_.c_str() );
 }
 
 bool itype::can_have_charges() const
@@ -341,4 +388,15 @@ std::tuple<encumbrance_modifier_type, int> armor_portion_data::convert_descripto
             break;
     }
     return { encumbrance_modifier_type::FLAT, 0 };
+}
+
+std::map<itype_id, std::set<itype_id>> islot_magazine::compatible_guns;
+
+std::set<itype_id> known_bad_density::known_bad;
+
+void known_bad_density::load( const JsonObject &jo )
+{
+    std::set<itype_id> new_known_bad;
+    jo.read( "list", new_known_bad );
+    known_bad.insert( new_known_bad.begin(), new_known_bad.end() );
 }

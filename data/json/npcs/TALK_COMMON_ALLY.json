@@ -643,7 +643,7 @@
         "text": "Come on, we're friends.",
         "trial": { "type": "PERSUADE", "difficulty": 0, "mod": [ [ "TRUST", 6 ], [ "VALUE", 2 ], [ "ANGER", -6 ] ] },
         "success": { "topic": "TALK_TRAIN" },
-        "failure": { "topic": "TALK_DENY_PERSONAL", "effect": { "npc_add_effect": "asked_to_train", "duration": 3600 } }
+        "failure": { "topic": "TALK_DENY_PERSONAL", "effect": { "npc_add_effect": "asked_to_train", "duration": 21600 } }
       },
       { "text": "Never mind then.", "topic": "TALK_NONE" },
       { "text": "Forget it, let's get going.", "topic": "TALK_DONE" }
@@ -658,7 +658,7 @@
         "text": "Come on, we're friends.",
         "trial": { "type": "PERSUADE", "difficulty": 0, "mod": [ [ "TRUST", 6 ], [ "VALUE", 2 ], [ "ANGER", -6 ] ] },
         "success": { "topic": "TALK_TRAIN_SEMINAR" },
-        "failure": { "topic": "TALK_DENY_PERSONAL", "effect": { "npc_add_effect": "asked_to_train", "duration": 3600 } }
+        "failure": { "topic": "TALK_DENY_PERSONAL", "effect": { "npc_add_effect": "asked_to_train", "duration": 21600 } }
       },
       { "text": "Never mind then.", "topic": "TALK_NONE" },
       { "text": "Forget it, let's get going.", "topic": "TALK_DONE" }

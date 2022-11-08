@@ -161,6 +161,9 @@ using npc_template_id = string_id<npc_template>;
 class faction;
 using faction_id = string_id<faction>;
 
+struct option_slider;
+using option_slider_id = string_id<option_slider>;
+
 struct oter_t;
 using oter_id = int_id<oter_t>;
 using oter_str_id = string_id<oter_t>;
@@ -294,5 +297,8 @@ using widget_id = string_id<widget>;
 
 struct weakpoints;
 using weakpoints_id = string_id<weakpoints>;
+
+struct connect_group;
+using connect_group_id = string_id<connect_group>;
 
 #endif // CATA_SRC_TYPE_ID_H

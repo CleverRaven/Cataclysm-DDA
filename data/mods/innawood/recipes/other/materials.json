@@ -139,7 +139,7 @@
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "tailor",
     "batch_time_factors": [ 70, 1 ],
-    "time": "30 s",
+    "time": "5 m",
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_weaving" } ],
     "tools": [ [ [ "spinwheelitem", -1 ] ] ],
@@ -162,6 +162,6 @@
     "result_mult": 15,
     "qualities": [ { "id": "CHEM", "level": 2 }, { "id": "CONTAIN", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 30, "LIST" ] ] ],
-    "components": [ [ [ "meal_chitin_piece", 30 ] ], [ [ "lye", 4 ] ], [ [ "any_strong_acid", 1, "LIST" ] ] ]
+    "components": [ [ [ "meal_chitin_piece", 30 ] ], [ [ "lye", 4 ], [ "lye_potassium", 6 ] ], [ [ "any_strong_acid", 1, "LIST" ] ] ]
   }
 ]

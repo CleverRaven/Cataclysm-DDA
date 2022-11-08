@@ -8,7 +8,7 @@
     "color": "brown",
     "move_cost": 0,
     "coverage": 90,
-    "roof": "t_flat_roof",
+    "roof": "t_brick_roof",
     "flags": [
       "NOITEM",
       "SUPPORTS_ROOF",
@@ -20,7 +20,6 @@
       "TRANSPARENT",
       "THIN_OBSTACLE"
     ],
-    "connects_to": "WALL",
     "bash": {
       "str_min": 48,
       "str_max": 80,
@@ -40,7 +39,7 @@
     "looks_like": "t_embrasure_brick",
     "move_cost": 0,
     "coverage": 90,
-    "roof": "t_flat_roof",
+    "roof": "t_brick_roof",
     "flags": [
       "NOITEM",
       "SUPPORTS_ROOF",
@@ -52,7 +51,6 @@
       "TRANSPARENT",
       "THIN_OBSTACLE"
     ],
-    "connects_to": "WALL",
     "bash": {
       "str_min": 32,
       "str_max": 60,
@@ -71,7 +69,7 @@
     "color": "light_gray",
     "move_cost": 0,
     "coverage": 90,
-    "roof": "t_flat_roof",
+    "roof": "t_rock_roof",
     "flags": [
       "NOITEM",
       "SUPPORTS_ROOF",
@@ -83,7 +81,6 @@
       "TRANSPARENT",
       "THIN_OBSTACLE"
     ],
-    "connects_to": "WALL",
     "bash": {
       "str_min": 64,
       "str_max": 150,
@@ -102,7 +99,7 @@
     "color": "light_red",
     "move_cost": 0,
     "coverage": 90,
-    "roof": "t_flat_roof",
+    "roof": "t_wood_roof",
     "flags": [
       "FLAMMABLE",
       "NOITEM",
@@ -114,7 +111,6 @@
       "TRANSPARENT",
       "THIN_OBSTACLE"
     ],
-    "connects_to": "WALL",
     "bash": {
       "str_min": 10,
       "str_max": 75,
@@ -139,7 +135,7 @@
     "color": "light_red",
     "move_cost": 4,
     "coverage": 60,
-    "roof": "t_flat_roof",
+    "roof": "t_wood_roof",
     "flags": [
       "FLAMMABLE",
       "NOITEM",
@@ -151,7 +147,6 @@
       "TRANSPARENT",
       "THIN_OBSTACLE"
     ],
-    "connects_to": "WALL",
     "bash": {
       "str_min": 12,
       "str_max": 90,
@@ -175,7 +170,7 @@
     "color": "brown",
     "move_cost": 0,
     "coverage": 90,
-    "roof": "t_flat_roof",
+    "roof": "t_wood_roof",
     "flags": [
       "FLAMMABLE",
       "NOITEM",
@@ -187,7 +182,6 @@
       "TRANSPARENT",
       "THIN_OBSTACLE"
     ],
-    "connects_to": "WALL",
     "bash": {
       "str_min": 48,
       "str_max": 90,
@@ -207,7 +201,7 @@
     "color": "brown",
     "move_cost": 4,
     "coverage": 60,
-    "roof": "t_flat_roof",
+    "roof": "t_wood_roof",
     "flags": [
       "FLAMMABLE",
       "NOITEM",
@@ -219,7 +213,6 @@
       "TRANSPARENT",
       "THIN_OBSTACLE"
     ],
-    "connects_to": "WALL",
     "bash": {
       "str_min": 52,
       "str_max": 120,
@@ -243,7 +236,7 @@
       "FLAMMABLE",
       "NOITEM",
       "SUPPORTS_ROOF",
-      "CONNECT_TO_WALL",
+      "CONNECT_WITH_WALL",
       "WALL",
       "MOUNTABLE",
       "PERMEABLE",
@@ -268,7 +261,7 @@
     "color": "light_gray",
     "move_cost": 0,
     "coverage": 90,
-    "roof": "t_flat_roof",
+    "roof": "t_concrete_roof",
     "flags": [
       "NOITEM",
       "SUPPORTS_ROOF",
@@ -280,7 +273,6 @@
       "TRANSPARENT",
       "THIN_OBSTACLE"
     ],
-    "connects_to": "WALL",
     "bash": {
       "str_min": 72,
       "str_max": 175,
@@ -299,7 +291,7 @@
     "color": "light_gray",
     "move_cost": 0,
     "coverage": 90,
-    "roof": "t_flat_roof",
+    "roof": "t_concrete_roof",
     "flags": [
       "NOITEM",
       "SUPPORTS_ROOF",

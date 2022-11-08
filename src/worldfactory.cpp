@@ -21,6 +21,7 @@
 #include "filesystem.h"
 #include "input.h"
 #include "json.h"
+#include "json_loader.h"
 #include "mod_manager.h"
 #include "name.h"
 #include "output.h"
@@ -31,8 +32,6 @@
 #include "string_input_popup.h"
 #include "translations.h"
 #include "ui_manager.h"
-
-using namespace std::placeholders;
 
 // single instance of world generator
 std::unique_ptr<worldfactory> world_generator;
@@ -102,6 +101,11 @@ std::string WORLD::folder_path() const
     return PATH_INFO::savedir() + world_name;
 }
 
+cata_path WORLD::folder_path_path() const
+{
+    return PATH_INFO::savedir_path() / world_name;
+}
+
 bool WORLD::save_exists( const save_t &name ) const
 {
     return std::find( world_saves.begin(), world_saves.end(), name ) != world_saves.end();
@@ -119,14 +123,19 @@ worldfactory::worldfactory()
     , mman_ui( *mman )
 {
     // prepare tab display order
-    tabs.emplace_back( std::bind( &worldfactory::show_worldgen_tab_modselection, this, _1, _2, _3 ) );
-    tabs.emplace_back( std::bind( &worldfactory::show_worldgen_tab_options, this, _1, _2, _3 ) );
-    tabs.emplace_back( std::bind( &worldfactory::show_worldgen_tab_confirm, this, _1, _2, _3 ) );
+    tabs.emplace_back(
+    [this]( const catacurses::window & win, WORLD * w, bool b ) {
+        return show_worldgen_tab_modselection( win, w, b );
+    } );
+    tabs.emplace_back(
+    [this]( const catacurses::window & win, WORLD * w, bool b ) {
+        return show_worldgen_tab_options( win, w, b );
+    } );
 }
 
 worldfactory::~worldfactory() = default;
 
-WORLDPTR worldfactory::add_world( std::unique_ptr<WORLD> retworld )
+WORLD *worldfactory::add_world( std::unique_ptr<WORLD> retworld )
 {
     if( !retworld->save() ) {
         return nullptr;
@@ -134,21 +143,21 @@ WORLDPTR worldfactory::add_world( std::unique_ptr<WORLD> retworld )
     return ( all_worlds[ retworld->world_name ] = std::move( retworld ) ).get();
 }
 
-WORLDPTR worldfactory::make_new_world( const std::vector<mod_id> &mods )
+WORLD *worldfactory::make_new_world( const std::vector<mod_id> &mods )
 {
     std::unique_ptr<WORLD> retworld = std::make_unique<WORLD>();
     retworld->active_mod_order = mods;
     return add_world( std::move( retworld ) );
 }
 
-WORLDPTR worldfactory::make_new_world( const std::string &name, const std::vector<mod_id> &mods )
+WORLD *worldfactory::make_new_world( const std::string &name, const std::vector<mod_id> &mods )
 {
     std::unique_ptr<WORLD> retworld = std::make_unique<WORLD>( name );
     retworld->active_mod_order = mods;
     return add_world( std::move( retworld ) );
 }
 
-WORLDPTR worldfactory::make_new_world( bool show_prompt, const std::string &world_to_copy )
+WORLD *worldfactory::make_new_world( bool show_prompt, const std::string &world_to_copy )
 {
     // World to return after generating
     std::unique_ptr<WORLD> retworld = std::make_unique<WORLD>();
@@ -158,34 +167,11 @@ WORLDPTR worldfactory::make_new_world( bool show_prompt, const std::string &worl
     }
 
     if( show_prompt ) {
-        // set up window
-        catacurses::window wf_win;
-        ui_adaptor ui;
-
-        const auto init_windows = [&]( ui_adaptor & ui ) {
-            const int iMinScreenWidth = std::max( FULL_SCREEN_WIDTH, TERMX / 2 );
-            const int iOffsetX = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - iMinScreenWidth ) / 2 : 0;
-            wf_win = catacurses::newwin( TERMY, iMinScreenWidth, point( iOffsetX, 0 ) );
-            ui.position_from_window( wf_win );
-        };
-        init_windows( ui );
-        ui.on_screen_resize( init_windows );
-
-        int curtab = 0;
-
-        ui.on_redraw( [&]( const ui_adaptor & ) {
-            draw_worldgen_tabs( wf_win, static_cast<size_t>( curtab ) );
-            wnoutrefresh( wf_win );
-        } );
-
-        const size_t numtabs = tabs.size();
-        while( static_cast<size_t>( curtab ) < numtabs ) {
-            ui_manager::redraw();
-            curtab += tabs[curtab]( wf_win, retworld.get(), []() -> bool {
-                return query_yn( _( "Do you want to abort World Generation?" ) );
-            } );
-        }
-        if( curtab < 0 ) {
+        if( world_to_copy.empty() ) {
+            if( show_worldgen_basic( retworld.get() ) < 0 ) {
+                return nullptr;
+            }
+        } else if( show_worldgen_advanced( retworld.get() ) < 0 ) {
             return nullptr;
         }
     }
@@ -193,7 +179,79 @@ WORLDPTR worldfactory::make_new_world( bool show_prompt, const std::string &worl
     return add_world( std::move( retworld ) );
 }
 
-WORLDPTR worldfactory::make_new_world( special_game_type special_type )
+static cata::optional<std::string> prompt_world_name( const std::string &title,
+        const std::string &cur_worldname )
+{
+    string_input_popup popup;
+    popup.max_length( max_worldname_len ).title( title ).text( cur_worldname );
+
+    input_context ctxt( "STRING_INPUT" );
+    popup.description( string_format(
+                           _( "Press [<color_c_yellow>%s</color>] to randomize the world name." ),
+                           ctxt.get_desc( "PICK_RANDOM_WORLDNAME", 1U ) ) );
+
+    popup.custom_actions.emplace_back( "PICK_RANDOM_WORLDNAME", translation() );
+    popup.add_callback( "PICK_RANDOM_WORLDNAME", [&popup]() {
+        popup.text( get_next_valid_worldname() );
+        return true;
+    } );
+    std::string message = popup.query_string();
+    return !popup.canceled() ? cata::optional<std::string>( message ) : cata::optional<std::string>();
+}
+
+int worldfactory::show_worldgen_advanced( WORLD *world )
+{
+    // set up window
+    catacurses::window wf_win;
+    ui_adaptor ui;
+
+    const auto init_windows = [&]( ui_adaptor & ui ) {
+        const int iMinScreenWidth = std::max( FULL_SCREEN_WIDTH, TERMX / 2 );
+        const int iOffsetX = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - iMinScreenWidth ) / 2 : 0;
+        wf_win = catacurses::newwin( TERMY, iMinScreenWidth, point( iOffsetX, 0 ) );
+        ui.position_from_window( wf_win );
+    };
+    init_windows( ui );
+    ui.on_screen_resize( init_windows );
+
+    int curtab = 0;
+
+    ui.on_redraw( [&]( const ui_adaptor & ) {
+        draw_worldgen_tabs( wf_win, static_cast<size_t>( curtab ) );
+        wnoutrefresh( wf_win );
+    } );
+
+    const size_t numtabs = tabs.size();
+    bool done = false;
+    while( !done ) {
+        while( static_cast<size_t>( curtab ) < numtabs ) {
+            ui_manager::redraw();
+            curtab += tabs[curtab]( wf_win, world, true );
+        }
+        if( curtab >= 0 ) {
+            cata::optional<std::string> ret = prompt_world_name( _( "Choose a new name for this world." ),
+                                              world->world_name );
+            if( !ret.has_value() ) {
+                // return to settings tab
+                curtab = 1;
+            } else if( ret.value().empty() ) {
+                // no name entered
+                if( query_yn( _( "World name is empty.  Randomize the name?" ) ) ) {
+                    world->world_name = pick_random_name();
+                }
+            } else {
+                // done, generate world
+                world->world_name = ret.value();
+                done = true;
+            }
+        } else if( curtab < 0 ) {
+            break;
+        }
+    }
+    return curtab;
+}
+
+WORLD *worldfactory::make_new_world( special_game_type special_type )
 {
     std::string worldname;
     switch( special_type ) {
@@ -225,7 +283,7 @@ WORLDPTR worldfactory::make_new_world( special_game_type special_type )
     return ( all_worlds[worldname] = std::move( special_world ) ).get();
 }
 
-void worldfactory::set_active_world( WORLDPTR world )
+void worldfactory::set_active_world( WORLD *world )
 {
     world_generator->active_world = world;
     if( world ) {
@@ -271,7 +329,7 @@ bool WORLD::save( const bool is_conversion ) const
         }
     }
 
-    world_generator->get_mod_manager().save_mods_list( const_cast<WORLDPTR>( this ) );
+    world_generator->get_mod_manager().save_mods_list( this );
     return true;
 }
 
@@ -377,7 +435,7 @@ std::vector<std::string> worldfactory::all_worldnames() const
     return result;
 }
 
-WORLDPTR worldfactory::pick_world( bool show_prompt, bool empty_only )
+WORLD *worldfactory::pick_world( bool show_prompt, bool empty_only )
 {
     std::vector<std::string> world_names = all_worldnames();
 
@@ -511,7 +569,7 @@ WORLDPTR worldfactory::pick_world( bool show_prompt, bool empty_only )
             const bool sel_this = static_cast<int>( i ) == sel;
             inclusive_rectangle<point> btn( world_list_top_left + point( 4, i ),
                                             world_list_top_left + point( world_list_width - 1, i ) );
-            button_map.emplace( i, btn );
+            button_map.emplace( static_cast<int>( i ), btn );
 
             mvwprintz( w_worlds, point( 0, static_cast<int>( i ) ), c_white, "%d", i + 1 );
             wmove( w_worlds, point( 4, static_cast<int>( i ) ) );
@@ -662,7 +720,7 @@ void worldfactory::remove_world( const std::string &worldname )
 {
     auto it = all_worlds.find( worldname );
     if( it != all_worlds.end() ) {
-        WORLDPTR wptr = it->second.get();
+        WORLD *wptr = it->second.get();
         if( active_world == wptr ) {
             get_options().set_world_options( nullptr );
             active_world = nullptr;
@@ -673,19 +731,18 @@ void worldfactory::remove_world( const std::string &worldname )
 
 void worldfactory::load_last_world_info()
 {
-    cata::ifstream file( fs::u8path( PATH_INFO::lastworld() ),
-                         std::ifstream::in | std::ifstream::binary );
-    if( !file.good() ) {
+    cata_path lastworld_path = PATH_INFO::lastworld();
+    if( !file_exist( lastworld_path ) ) {
         return;
     }
 
-    JsonIn jsin( file );
+    JsonValue jsin = json_loader::from_path( lastworld_path );
     JsonObject data = jsin.get_object();
     last_world_name = data.get_string( "world_name" );
     last_character_name = data.get_string( "character_name" );
 }
 
-void worldfactory::save_last_world_info()
+void worldfactory::save_last_world_info() const
 {
     write_to_file( PATH_INFO::lastworld(), [&]( std::ostream & file ) {
         JsonOut jsout( file, true );
@@ -702,11 +759,11 @@ std::string worldfactory::pick_random_name()
     return get_next_valid_worldname();
 }
 
-int worldfactory::show_worldgen_tab_options( const catacurses::window &, WORLDPTR world,
-        const std::function<bool()> &on_quit )
+int worldfactory::show_worldgen_tab_options( const catacurses::window &, WORLD *world,
+        bool with_tabs )
 {
     get_options().set_world_options( &world->WORLD_OPTIONS );
-    const std::string action = get_options().show( false, true, on_quit );
+    const std::string action = get_options().show( false, true, with_tabs );
     get_options().set_world_options( nullptr );
     if( action == "PREV_TAB" ) {
         return -1;
@@ -762,14 +819,11 @@ std::map<int, inclusive_rectangle<point>> worldfactory::draw_mod_list( const cat
         const int wwidth = getmaxx( w ) - 1 - 3; // border (1) + ">> " (3)
 
         unsigned int iNum = 0;
-        int index = 0;
         bool bKeepIter = false;
-        int iCatBeforeCursor = 0;
 
         for( size_t i = 0; i <= iActive; i++ ) {
             if( !mSortCategory[i].empty() ) {
                 iActive++;
-                iCatBeforeCursor++;
             }
         }
 
@@ -784,8 +838,8 @@ std::map<int, inclusive_rectangle<point>> worldfactory::draw_mod_list( const cat
         }
 
         int larger = ( iMaxRows > static_cast<int>( iModNum ) ) ? static_cast<int>( iModNum ) : iMaxRows;
-        for( auto iter = mods.begin(); iter != mods.end(); ++index ) {
-            if( iNum >= static_cast<size_t>( start ) && iNum < static_cast<size_t>( start + larger ) ) {
+        for( auto iter = mods.begin(); iter != mods.end(); ) {
+            if( iNum >= static_cast<size_t>( start ) && iNum < static_cast<size_t>( start ) + larger ) {
                 if( !mSortCategory[iNum].empty() ) {
                     bKeepIter = true;
                     trim_and_print( w, point( 1, iNum - start ), wwidth, c_magenta, mSortCategory[iNum] );
@@ -816,7 +870,7 @@ std::map<int, inclusive_rectangle<point>> worldfactory::draw_mod_list( const cat
                     }
                     mod_entry_name += string_format( _( " [%s]" ), mod_entry_id.str() );
                     trim_and_print( w, point( 4, iNum - start ), wwidth, mod_entry_color, mod_entry_name );
-                    ent_map.emplace( std::distance( mods.begin(), iter ),
+                    ent_map.emplace( static_cast<int>( std::distance( mods.begin(), iter ) ),
                                      inclusive_rectangle<point>( point( 1, iNum - start ), point( 3 + wwidth, iNum - start ) ) );
 
                     if( w_shift ) {
@@ -877,10 +931,8 @@ void worldfactory::show_active_world_mods( const std::vector<mod_id> &world_mods
         const int iMinScreenWidth = std::max( FULL_SCREEN_WIDTH, TERMX / 2 );
         const int iOffsetX = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - iMinScreenWidth ) / 2 : 0;
 
-        w_border = catacurses::newwin( TERMY - 11, iMinScreenWidth / 2 - 3,
-                                       point( iOffsetX, 4 ) );
-        w_mods   = catacurses::newwin( TERMY - 13, iMinScreenWidth / 2 - 4,
-                                       point( iOffsetX, 5 ) );
+        w_border = catacurses::newwin( TERMY - 11, iMinScreenWidth, point( iOffsetX, 4 ) );
+        w_mods   = catacurses::newwin( TERMY - 13, iMinScreenWidth - 1, point( iOffsetX, 5 ) );
 
         ui.position_from_window( w_border );
     };
@@ -971,8 +1023,8 @@ void worldfactory::show_active_world_mods( const std::vector<mod_id> &world_mods
     }
 }
 
-int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win, WORLDPTR world,
-        const std::function<bool()> &on_quit )
+int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win, WORLD *world,
+        bool with_tabs )
 {
     // Use active_mod_order of the world,
     // saves us from writing 'world->active_mod_order' all the time.
@@ -997,8 +1049,10 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "NEXT_CATEGORY_TAB" );
     ctxt.register_action( "PREV_CATEGORY_TAB" );
-    ctxt.register_action( "NEXT_TAB" );
-    ctxt.register_action( "PREV_TAB" );
+    if( with_tabs ) {
+        ctxt.register_action( "NEXT_TAB" );
+        ctxt.register_action( "PREV_TAB" );
+    }
     ctxt.register_action( "CONFIRM", to_translation( "Activate / deactivate mod" ) );
     ctxt.register_action( "ADD_MOD" );
     ctxt.register_action( "REMOVE_MOD" );
@@ -1067,8 +1121,8 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
     headers.emplace_back( _( "Mod Load Order" ) );
 
     size_t active_header = 0;
-    int startsel[2] = {0, 0};
-    size_t cursel[2] = {0, 0};
+    std::array<int, 2> startsel = {0, 0};
+    std::array<size_t, 2> cursel = {0, 0};
     size_t iCurrentTab = 0;
     size_t sel_top_tab = 0;
     std::vector<mod_id> current_tab_mods;
@@ -1165,7 +1219,22 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         mod_tab_map.clear();
-        top_tab_map = draw_worldgen_tabs( win, sel_top_tab );
+        if( with_tabs ) {
+            top_tab_map = draw_worldgen_tabs( win, sel_top_tab );
+        } else {
+            werase( win );
+            draw_border_below_tabs( win );
+            wmove( win, point( 0, 2 ) );
+            for( int i = 0; i < getmaxx( win ); i++ ) {
+                if( i == 0 ) {
+                    wputch( win, c_light_gray, LINE_OXXO );
+                } else if( i == getmaxx( win ) - 1 ) {
+                    wputch( win, c_light_gray, LINE_OOXX );
+                } else {
+                    wputch( win, c_light_gray, LINE_OXOX );
+                }
+            }
+        }
         draw_modselection_borders( win, ctxt );
 
         // Redraw headers
@@ -1214,7 +1283,8 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
             wputch( win, BORDER_COLOR, LINE_OXOX );
             point tabpos( point( 2 + ++xpos, 4 ) );
             int tabwidth = utf8_width( get_mod_list_tabs()[i].second.translated(), true );
-            mod_tab_map.emplace( i, inclusive_rectangle<point>( tabpos, tabpos + point( tabwidth, 0 ) ) );
+            mod_tab_map.emplace( static_cast<int>( i ),
+                                 inclusive_rectangle<point>( tabpos, tabpos + point( tabwidth, 0 ) ) );
             xpos += tabwidth + 2;
         }
 
@@ -1324,7 +1394,7 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
                     recalc_start = true;
                 }
             }
-            if( !found_opt && !!coord ) {
+            if( !found_opt && !!coord && with_tabs ) {
                 // Top tabs
                 found_opt = run_for_point_in<size_t, point>( top_tab_map, *coord,
                 [&sel_top_tab]( const std::pair<size_t, inclusive_rectangle<point>> &p ) {
@@ -1458,7 +1528,7 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
             if( const MOD_INFORMATION *selmod = get_selected_mod() ) {
                 popup( "%s", mman_ui->get_information( selmod ) );
             }
-        } else if( action == "QUIT" && ( !on_quit || on_quit() ) ) {
+        } else if( action == "QUIT" ) {
             tab_output = -999;
         } else if( action == "FILTER" ) {
             set_filter();
@@ -1495,136 +1565,390 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
     return tab_output;
 }
 
-int worldfactory::show_worldgen_tab_confirm( const catacurses::window &win, WORLDPTR world,
-        const std::function<bool()> &on_quit )
+static std::string get_opt_slider( int width, int current, int max, bool no_color,
+                                   bool no_selector = false )
+{
+    int new_cur = clamp<int>( std::round( ( width * current ) / static_cast<float>( max ) ),
+                              0, width - 1 );
+    if( no_selector ) {
+        new_cur = -2;
+    }
+
+    std::string ret;
+    for( int i = 0; i < width; i++ ) {
+        char ch = '-';
+        if( i == new_cur - 1 ) {
+            ch = '<';
+        } else if( i == new_cur + 1 ) {
+            ch = '>';
+        } else if( i == new_cur ) {
+            ch = '|';
+        }
+        if( !no_color && ch != '-' ) {
+            ret.append( colorize( std::string( 1, ch ), c_yellow ) );
+        } else {
+            ret.append( 1, ch );
+        }
+    }
+
+    return ret;
+}
+
+int worldfactory::show_worldgen_basic( WORLD *world )
 {
     catacurses::window w_confirmation;
 
     ui_adaptor ui;
 
-    string_input_popup spopup;
-    spopup.max_length( max_worldname_len );
+    const point namebar_pos( 3 + utf8_width( _( "World name:" ) ), 1 );
 
-    const point namebar_pos( 3 + utf8_width( _( "World Name:" ) ), 1 );
-
-    input_context ctxt( "WORLDGEN_CONFIRM_DIALOG", keyboard_mode::keychar );
+    input_context ctxt( "WORLDGEN_CONFIRM_DIALOG" );
     // dialog actions
     ctxt.register_action( "WORLDGEN_CONFIRM.QUIT" );
-    ctxt.register_action( "NEXT_TAB" );
-    ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "PICK_RANDOM_WORLDNAME" );
+    ctxt.register_action( "CONFIRM" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
+    ctxt.register_action( "PICK_MODS" );
+    ctxt.register_action( "ADVANCED_SETTINGS" );
+    ctxt.register_action( "FINALIZE" );
+    ctxt.register_action( "RANDOMIZE" );
+    ctxt.register_action( "RESET" );
+    ctxt.register_action( "SCROLL_UP" );
+    ctxt.register_action( "SCROLL_DOWN" );
+    ctxt.register_cardinal();
     // mouse selection
     ctxt.register_action( "SELECT" );
     ctxt.register_action( "MOUSE_MOVE" );
-    // string input popup actions
-    ctxt.register_action( "TEXT.LEFT" );
-    ctxt.register_action( "TEXT.RIGHT" );
-    ctxt.register_action( "TEXT.CLEAR" );
-    ctxt.register_action( "TEXT.BACKSPACE" );
-    ctxt.register_action( "TEXT.HOME" );
-    ctxt.register_action( "TEXT.END" );
-    ctxt.register_action( "TEXT.DELETE" );
-#if defined( TILES )
-    ctxt.register_action( "TEXT.PASTE" );
-#endif
-    ctxt.register_action( "TEXT.INPUT_FROM_FILE" );
-    ctxt.register_action( "HELP_KEYBINDINGS" );
-    ctxt.register_action( "ANY_INPUT" );
 
+    int win_height = 0;
+    int content_height = 0; // buttons & sliders
+    bool recalc_startpos = false;
     const auto init_windows = [&]( ui_adaptor & ui ) {
-        const int iTooltipHeight = 1;
-        const int iContentHeight = TERMY - 3 - iTooltipHeight;
+        recalc_startpos = true;
         const int iMinScreenWidth = std::max( FULL_SCREEN_WIDTH, TERMX / 2 );
         const int iOffsetX = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - iMinScreenWidth ) / 2 : 0;
 
-        w_confirmation = catacurses::newwin( iContentHeight, iMinScreenWidth - 2,
-                                             point( 1 + iOffsetX, iTooltipHeight + 2 ) );
+        w_confirmation = catacurses::newwin( TERMY, iMinScreenWidth, point( iOffsetX, 0 ) );
 
-        // +1 for end-of-text cursor
-        spopup.window( w_confirmation, namebar_pos, namebar_pos.x + max_worldname_len + 1 )
-        .context( ctxt );
+        win_height = getmaxy( w_confirmation );
+        content_height = win_height - namebar_pos.y - 10;
 
-        ui.position_from_window( win );
+        ui.position_from_window( w_confirmation );
     };
     init_windows( ui );
     ui.on_screen_resize( init_windows );
 
     bool noname = false;
+    bool custom_opts = false;
 
+    std::map<int, inclusive_rectangle<point>> btn_map;
+    std::map<int, inclusive_rectangle<point>> slider_inc_map;
+    std::vector<option_slider_id> wg_sliders; // option sliders
+    std::vector<int> wg_slevels; // current slider levels
     std::string worldname = world->world_name;
-    std::map<size_t, inclusive_rectangle<point>> tab_map;
-    size_t sel_top_tab = 2;
+    int sel_opt = 0;
+    int top_opt = 0;
+
+    for( const option_slider &osl : option_slider::get_all() ) {
+        if( osl.context() == "WORLDGEN" ) {
+            wg_sliders.emplace_back( osl.id );
+            wg_slevels.emplace_back( osl.default_level() );
+        }
+    }
+    const std::vector<int> wg_slvl_default = wg_slevels; // save default slider levels
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
-        tab_map = draw_worldgen_tabs( win, sel_top_tab );
-        wnoutrefresh( win );
+        slider_inc_map.clear();
+        btn_map.clear();
+        const int win_width = getmaxx( w_confirmation ) - 2;
+
+        int start = top_opt == 0 ? 0 : ( 2 + ( top_opt - 1 ) * 3 );
+        int sel_y = sel_opt == 0 ? 0 :
+                    ( sel_opt <= static_cast<int>( wg_sliders.size() ) ?
+                      ( 2 + ( sel_opt - 1 ) * 3 ) : ( 2 + wg_sliders.size() * 3 ) );
+        if( recalc_startpos ) {
+            calcStartPos( start, sel_y, content_height, wg_sliders.size() * 3 + 4 );
+        }
+        top_opt = start < 2 ? 0 : start / 3 + 1;
 
         werase( w_confirmation );
-        mvwprintz( w_confirmation, point( 2, namebar_pos.y ), c_white, _( "World Name:" ) );
-        fold_and_print( w_confirmation, point( 2, 3 ), getmaxx( w_confirmation ) - 2, c_light_gray,
-                        _( "Press [<color_yellow>%s</color>] to pick a random name for your world." ),
-                        ctxt.get_desc( "PICK_RANDOM_WORLDNAME" ) );
-        fold_and_print( w_confirmation, point( 2, TERMY / 2 - 2 ), getmaxx( w_confirmation ) - 2,
-                        c_light_gray,
-                        _( "Press [<color_yellow>%s</color>] when you are satisfied with the world as it is and are ready "
-                           "to continue, or [<color_yellow>%s</color>] to go back and review your world." ),
-                        ctxt.get_desc( "NEXT_TAB" ), ctxt.get_desc( "PREV_TAB" ) );
-        if( noname ) {
-            mvwprintz( w_confirmation, namebar_pos, h_light_gray,
-                       _( "________NO NAME ENTERED!________" ) );
-            wnoutrefresh( w_confirmation );
-        } else {
-            // spopup.query_string() will call wnoutrefresh( w_confirmation ), and should
-            // be called last to position the cursor at the correct place in the curses build.
-            spopup.text( worldname );
-            spopup.query_string( false, true );
+        //~ Title text for the world creation menu.  The < and > characters decorate the border.
+        draw_border( w_confirmation, BORDER_COLOR, _( "< Create World >" ), c_white );
+
+        if( top_opt == 0 ) {
+            // World name
+            mvwprintz( w_confirmation, point( 2, namebar_pos.y ), c_white, _( "World name:" ) );
+            size_t name_txt_width = 0;
+            if( noname ) {
+                const std::string name_txt = _( "________NO NAME ENTERED!________" );
+                name_txt_width = utf8_width( name_txt );
+                mvwprintz( w_confirmation, namebar_pos,
+                           sel_opt == 0 ? hilite( c_light_gray ) : c_light_gray, name_txt );
+                wnoutrefresh( w_confirmation );
+            } else {
+                mvwprintz( w_confirmation, namebar_pos, sel_opt == 0 ? hilite( c_pink ) : c_pink, worldname );
+                name_txt_width = utf8_width( worldname );
+            }
+            btn_map.emplace( 0, inclusive_rectangle<point>( namebar_pos,
+                             namebar_pos + point( name_txt_width, 0 ) ) );
         }
+
+        // Slider options
+        int y = namebar_pos.y + ( top_opt == 0 ? 2 : 0 );
+        bool all_sliders_drawn = false;
+        for( int i = top_opt == 0 ? 0 : top_opt - 1;
+             i < static_cast<int>( wg_sliders.size() ) && y < content_height - 2; i++, y++ ) {
+            std::string sl_txt = get_opt_slider( win_width / 2 - 2, wg_slevels[i],
+                                                 wg_sliders[i]->count() - 1,
+                                                 i == sel_opt - 1, custom_opts );
+            trim_and_print( w_confirmation, point( 3, y++ ), win_width,
+                            c_white, wg_sliders[i]->name().translated() );
+            trim_and_print( w_confirmation, point( 3, y ), win_width,
+                            i == sel_opt - 1 ? hilite( c_white ) : c_white, sl_txt );
+            if( i == sel_opt - 1 ) {
+                mvwputch( w_confirmation, point( 1, y ), hilite( c_yellow ), '<' );
+                mvwputch( w_confirmation, point( 2 + win_width / 2, y ), hilite( c_yellow ), '>' );
+            }
+            slider_inc_map.emplace( i * 2, inclusive_rectangle<point>( point( 1, y ), point( 1, y ) ) );
+            slider_inc_map.emplace( i * 2 + 1, inclusive_rectangle<point>( point( 2 + win_width / 2, y ),
+                                    point( 2 + win_width / 2, y ) ) );
+            mvwprintz( w_confirmation, point( 5 + win_width / 2, y++ ), c_white,
+                       custom_opts ? _( "Custom" ) : wg_sliders[i]->level_name( wg_slevels[i] ).translated() );
+            btn_map.emplace( 1 + i,
+                             inclusive_rectangle<point>( point( 1, y - 1 ), point( 2 + win_width / 2, y - 1 ) ) );
+            if( i == static_cast<int>( wg_sliders.size() ) - 1 ) {
+                all_sliders_drawn = true;
+            }
+        }
+
+        auto get_clr = []( const nc_color & base, bool hi ) {
+            return hi ? hilite( base ) : base;
+        };
+
+        if( all_sliders_drawn && y <= content_height ) {
+            // Finish button
+            nc_color acc_clr = get_clr( c_yellow, sel_opt == static_cast<int>( wg_sliders.size() + 1 ) );
+            nc_color acc_clr2 = get_clr( c_light_green, sel_opt == static_cast<int>( wg_sliders.size() + 1 ) );
+            nc_color base_clr = get_clr( c_white, sel_opt == static_cast<int>( wg_sliders.size() + 1 ) );
+            std::string btn_txt = string_format( "%s%s%s %s %s", colorize( "[", acc_clr ),
+                                                 colorize( ctxt.get_desc( "FINALIZE", 1U ), acc_clr2 ),
+                                                 colorize( "][", acc_clr ), _( "Finish" ), colorize( "]", acc_clr ) );
+            const point finish_pos( win_width / 4 - utf8_width( btn_txt, true ) / 2, y );
+            print_colored_text( w_confirmation, finish_pos, base_clr, base_clr, btn_txt );
+            btn_map.emplace( static_cast<int>( wg_sliders.size() + 1 ),
+                             inclusive_rectangle<point>( finish_pos, finish_pos + point( utf8_width( btn_txt, true ), 0 ) ) );
+            // Reset button
+            acc_clr = get_clr( c_yellow, sel_opt == static_cast<int>( wg_sliders.size() + 2 ) );
+            acc_clr2 = get_clr( c_light_green, sel_opt == static_cast<int>( wg_sliders.size() + 2 ) );
+            base_clr = get_clr( c_white, sel_opt == static_cast<int>( wg_sliders.size() + 2 ) );
+            btn_txt = string_format( "%s%s%s %s %s", colorize( "[", acc_clr ),
+                                     colorize( ctxt.get_desc( "RESET", 1U ), acc_clr2 ),
+                                     colorize( "][", acc_clr ), _( "Reset" ), colorize( "]", acc_clr ) );
+            const point reset_pos( win_width / 2 - utf8_width( btn_txt, true ) / 2, y );
+            print_colored_text( w_confirmation, reset_pos, base_clr, base_clr, btn_txt );
+            btn_map.emplace( static_cast<int>( wg_sliders.size() + 2 ),
+                             inclusive_rectangle<point>( reset_pos, reset_pos + point( utf8_width( btn_txt, true ), 0 ) ) );
+            // Randomize button
+            acc_clr = get_clr( c_yellow, sel_opt == static_cast<int>( wg_sliders.size() + 3 ) );
+            acc_clr2 = get_clr( c_light_green, sel_opt == static_cast<int>( wg_sliders.size() + 3 ) );
+            base_clr = get_clr( c_white, sel_opt == static_cast<int>( wg_sliders.size() + 3 ) );
+            btn_txt = string_format( "%s%s%s %s %s", colorize( "[", acc_clr ),
+                                     colorize( ctxt.get_desc( "RANDOMIZE", 1U ), acc_clr2 ),
+                                     colorize( "][", acc_clr ), _( "Randomize" ), colorize( "]", acc_clr ) );
+            const point rand_pos( ( win_width * 3 ) / 4 - utf8_width( btn_txt, true ) / 2, y++ );
+            print_colored_text( w_confirmation, rand_pos, base_clr, base_clr, btn_txt );
+            btn_map.emplace( static_cast<int>( wg_sliders.size() + 3 ),
+                             inclusive_rectangle<point>( rand_pos, rand_pos + point( utf8_width( btn_txt, true ), 0 ) ) );
+        }
+
+        // Content scrollbar
+        scrollbar()
+        .border_color( BORDER_COLOR )
+        .offset_x( 0 )
+        .offset_y( 1 )
+        .content_size( wg_sliders.size() * 3 + 3 )
+        .viewport_pos( top_opt * 3 )
+        .viewport_size( content_height )
+        .apply( w_confirmation );
+
+        // Bottom box
+        mvwputch( w_confirmation, point( 0, win_height - 10 ), BORDER_COLOR, LINE_XXXO );
+        for( int i = 0; i < win_width; i++ ) {
+            wputch( w_confirmation, BORDER_COLOR, LINE_OXOX );
+        }
+        wputch( w_confirmation, BORDER_COLOR, LINE_XOXX );
+
+        // Hint text
+        std::string hint_txt =
+            string_format( _( "Press [<color_yellow>%s</color>] to pick a random name for your world.\n"
+                              "Navigate options with [<color_yellow>directional keys</color>] "
+                              "and confirm with [<color_yellow>%s</color>].\n"
+                              "Press [<color_yellow>%s</color>] to see additional control information." ),
+                           ctxt.get_desc( "PICK_RANDOM_WORLDNAME", 1U ), ctxt.get_desc( "CONFIRM", 1U ),
+                           ctxt.get_desc( "HELP_KEYBINDINGS", 1U ) );
+        if( !custom_opts && sel_opt > 0 && sel_opt <= static_cast<int>( wg_sliders.size() ) ) {
+            hint_txt = wg_sliders[sel_opt - 1]->level_desc( wg_slevels[sel_opt - 1] ).translated();
+        }
+        y += fold_and_print( w_confirmation, point( 2, win_height - 9 ),
+                             win_width - 1, c_light_gray, hint_txt ) + 1;
+
+        // Advanced settings legend
+        nc_color dummy = c_light_gray;
+        std::string sctxt = string_format( _( "[<color_yellow>%s</color>] - Advanced options" ),
+                                           ctxt.get_desc( "ADVANCED_SETTINGS", 1U ) );
+        mvwprintz( w_confirmation, point( 2, win_height - 4 ), c_light_gray, _( "Advanced settings:" ) );
+        print_colored_text( w_confirmation, point( 2, win_height - 3 ), dummy, c_light_gray, sctxt );
+        btn_map.emplace( static_cast<int>( wg_sliders.size() + 4 ),
+                         inclusive_rectangle<point>(
+                             point( 2, win_height - 3 ),
+                             point( 2 + utf8_width( sctxt, true ), win_height - 3 ) ) );
+        sctxt = string_format( _( "[<color_yellow>%s</color>] - Open mod manager" ),
+                               ctxt.get_desc( "PICK_MODS", 1U ) );
+        print_colored_text( w_confirmation, point( 2, win_height - 2 ), dummy, c_light_gray, sctxt );
+        btn_map.emplace( static_cast<int>( wg_sliders.size() + 5 ),
+                         inclusive_rectangle<point>(
+                             point( 2, win_height - 2 ),
+                             point( 2 + utf8_width( sctxt, true ), win_height - 2 ) ) );
+        wnoutrefresh( w_confirmation );
     } );
 
     do {
         ui_manager::redraw();
 
-        worldname = spopup.query_string( false );
-        const std::string action = ctxt.input_to_action( ctxt.get_raw_input() );
+        recalc_startpos = false;
+        std::string action = ctxt.handle_input();
+        // Handle mouse input
         if( action == "MOUSE_MOVE" || action == "SELECT" ) {
-            sel_top_tab = 2;
-            cata::optional<point> coord = ctxt.get_coordinates_text( win );
+            cata::optional<point> coord = ctxt.get_coordinates_text( w_confirmation );
             if( !!coord ) {
-                int cnt = run_for_point_in<size_t, point>( tab_map, *coord,
-                [&sel_top_tab]( const std::pair<size_t, inclusive_rectangle<point>> &p ) {
-                    sel_top_tab = p.first;
-                } );
-                if( cnt > 0 && action == "SELECT" && sel_top_tab != 2 ) {
-                    return sel_top_tab - 2;
+                int orig_opt = sel_opt;
+                bool found = run_for_point_in<int, point>( btn_map, *coord,
+                [&sel_opt]( const std::pair<int, inclusive_rectangle<point>> &p ) {
+                    sel_opt = p.first;
+                } ) > 0;
+                if( found && action == "SELECT" ) {
+                    if( sel_opt == static_cast<int>( wg_sliders.size() + 4 ) ) {
+                        action = "ADVANCED_SETTINGS";
+                    } else if( sel_opt == static_cast<int>( wg_sliders.size() + 5 ) ) {
+                        action = "PICK_MODS";
+                    } else {
+                        action = "CONFIRM";
+                        run_for_point_in<int, point>( slider_inc_map, *coord,
+                        [&action]( const std::pair<int, inclusive_rectangle<point>> &p ) {
+                            action = p.first % 2 == 0 ? "LEFT" : "RIGHT";
+                        } );
+                    }
+                }
+                if( sel_opt > static_cast<int>( wg_sliders.size() + 3 ) ) {
+                    sel_opt = orig_opt;
                 }
             }
-        } else if( action == "NEXT_TAB" ) {
-            if( worldname.empty() ) {
-                noname = true;
-                ui_manager::redraw();
-                if( !query_yn( _( "Are you SURE you're finished?  World name will be randomly generated." ) ) ) {
-                    noname = false;
-                    continue;
-                } else {
-                    noname = false;
-                    world->world_name = pick_random_name();
-                    if( !valid_worldname( world->world_name ) ) {
+        }
+
+        // Button shortcuts
+        if( action == "FINALIZE" ) {
+            action = "CONFIRM";
+            sel_opt = wg_sliders.size() + 1;
+        } else if( action == "RESET" ) {
+            action = "CONFIRM";
+            sel_opt = wg_sliders.size() + 2;
+        } else if( action == "RANDOMIZE" ) {
+            action = "CONFIRM";
+            sel_opt = wg_sliders.size() + 3;
+        }
+
+        // Handle other inputs
+        if( action == "CONFIRM" ) {
+            if( sel_opt == 0 ) {
+                // rename
+                cata::optional<std::string> ret = prompt_world_name( _( "World name:" ), worldname );
+                if( !ret.value_or( "" ).empty() ) {
+                    world->world_name = worldname = ret.value();
+                }
+            } else if( sel_opt == static_cast<int>( wg_sliders.size() + 1 ) ) {
+                // finish
+                if( worldname.empty() ) {
+                    noname = true;
+                    ui.invalidate_ui();
+                    if( !query_yn( _( "Are you SURE you're finished?  World name will be randomly generated." ) ) ) {
+                        noname = false;
                         continue;
+                    } else {
+                        noname = false;
+                        world->world_name = pick_random_name();
+                        if( !valid_worldname( world->world_name ) ) {
+                            continue;
+                        }
+                        return 1;
                     }
+                } else if( valid_worldname( worldname ) && query_yn( _( "Are you SURE you're finished?" ) ) ) {
+                    world->world_name = worldname;
                     return 1;
                 }
-            } else if( valid_worldname( worldname ) && query_yn( _( "Are you SURE you're finished?" ) ) ) {
-                world->world_name = worldname;
-                return 1;
-            } else {
-                continue;
+            } else if( sel_opt == static_cast<int>( wg_sliders.size() + 2 ) &&
+                       query_yn( _( "Are you sure you want to reset this world?" ) ) ) {
+                // reset
+                world->WORLD_OPTIONS = get_options().get_world_defaults();
+                world->world_saves.clear();
+                world->active_mod_order = world_generator->get_mod_manager().get_default_mods();
+                wg_slevels = wg_slvl_default;
+                custom_opts = false;
+            } else if( sel_opt == static_cast<int>( wg_sliders.size() + 3 ) ) {
+                // randomize
+                for( int i = 0; i < static_cast<int>( wg_sliders.size() ); i++ ) {
+                    wg_slevels[i] = wg_sliders[i]->random_level();
+                }
             }
-        } else if( action == "PREV_TAB" ) {
-            world->world_name = worldname;
-            return -1;
+        } else if( action == "UP" || action == "SCROLL_UP" ) {
+            sel_opt--;
+            if( sel_opt < 0 ) {
+                sel_opt = wg_sliders.size() + 1;
+            } else if( sel_opt > static_cast<int>( wg_sliders.size() ) ) {
+                sel_opt = wg_sliders.size();
+            }
+            recalc_startpos = true;
+        } else if( action == "DOWN" || action == "SCROLL_DOWN" ) {
+            sel_opt++;
+            if( sel_opt > static_cast<int>( wg_sliders.size() + 1 ) ) {
+                sel_opt = 0;
+            }
+            recalc_startpos = true;
+        } else if( action == "LEFT" || action == "RIGHT" ) {
+            if( sel_opt > 0 && sel_opt <= static_cast<int>( wg_sliders.size() ) ) {
+                if( custom_opts && query_yn( _( "Currently using customized advanced options.  "
+                                                "Reset world options to defaults?" ) ) ) {
+                    world->WORLD_OPTIONS = get_options().get_world_defaults();
+                    wg_slevels = wg_slvl_default;
+                    custom_opts = false;
+                    continue;
+                } else if( custom_opts ) {
+                    continue;
+                }
+                int lvl = wg_slevels[sel_opt - 1] + ( action == "LEFT" ? -1 : 1 );
+                wg_slevels[sel_opt - 1] = clamp<int>( lvl, 0, wg_sliders[sel_opt - 1]->count() - 1 );
+                wg_sliders[sel_opt - 1]->apply_opts( wg_slevels[sel_opt - 1], world->WORLD_OPTIONS );
+            } else if( sel_opt > static_cast<int>( wg_sliders.size() ) ) {
+                if( action == "LEFT" && sel_opt > static_cast<int>( wg_sliders.size() + 1 ) ) {
+                    sel_opt--;
+                } else if( action == "RIGHT" && sel_opt < static_cast<int>( wg_sliders.size() + 3 ) ) {
+                    sel_opt++;
+                }
+            }
+        } else if( action == "PICK_MODS" ) {
+            show_worldgen_tab_modselection( w_confirmation, world, false );
+        } else if( action == "ADVANCED_SETTINGS" ) {
+            auto WOPTIONS_OLD = world->WORLD_OPTIONS;
+            show_worldgen_tab_options( w_confirmation, world, false );
+            for( auto &iter : WOPTIONS_OLD ) {
+                if( iter.second != world->WORLD_OPTIONS[iter.first] ) {
+                    custom_opts = true;
+                    break;
+                }
+            }
         } else if( action == "PICK_RANDOM_WORLDNAME" ) {
             world->world_name = worldname = pick_random_name();
-        } else if( action == "WORLDGEN_CONFIRM.QUIT" && ( !on_quit || on_quit() ) ) {
+        } else if( action == "WORLDGEN_CONFIRM.QUIT" &&
+                   query_yn( _( "Do you want to abort World Generation?" ) ) ) {
             world->world_name = worldname;
             return -999;
         }
@@ -1701,11 +2025,9 @@ std::map<size_t, inclusive_rectangle<point>> worldfactory::draw_worldgen_tabs(
 {
     werase( w );
 
-    static const std::vector<std::string> tab_strings = { {
-            translate_marker( "World Mods" ),
-            translate_marker( "World Options" ),
-            translate_marker( "Finalize World" )
-        }
+    static const std::vector<std::string> tab_strings {
+        translate_marker( "World Mods" ),
+        translate_marker( "World Options" )
     };
 
     std::vector<std::string> tab_strings_translated( tab_strings );
@@ -1718,7 +2040,7 @@ std::map<size_t, inclusive_rectangle<point>> worldfactory::draw_worldgen_tabs(
     return tab_map;
 }
 
-bool worldfactory::valid_worldname( const std::string &name, bool automated )
+bool worldfactory::valid_worldname( const std::string &name, bool automated ) const
 {
     std::string msg;
 
@@ -1755,13 +2077,11 @@ bool worldfactory::valid_worldname( const std::string &name, bool automated )
     return false;
 }
 
-void WORLD::load_options( JsonIn &jsin )
+void WORLD::load_options( const JsonArray &options_json )
 {
-    auto &opts = get_options();
+    options_manager &opts = get_options();
 
-    jsin.start_array();
-    while( !jsin.end_array() ) {
-        JsonObject jo = jsin.get_object();
+    for( JsonObject jo : options_json ) {
         jo.allow_omitted_members();
         const std::string name = opts.migrateOptionName( jo.get_string( "name" ) );
         const std::string value = opts.migrateOptionValue( jo.get_string( "name" ),
@@ -1781,9 +2101,8 @@ bool WORLD::load_options()
 {
     WORLD_OPTIONS = get_options().get_world_defaults();
 
-    using namespace std::placeholders;
-    const std::string path = folder_path() + "/" + PATH_INFO::worldoptions();
-    return read_from_file_optional_json( path, [this]( JsonIn & jsin ) {
+    const cata_path path = folder_path_path() / PATH_INFO::worldoptions();
+    return read_from_file_optional_json( path, [this]( const JsonValue & jsin ) {
         this->load_options( jsin );
     } );
 }
@@ -1792,7 +2111,7 @@ void load_world_option( const JsonObject &jo )
 {
     JsonArray arr = jo.get_array( "options" );
     if( arr.empty() ) {
-        jo.throw_error( "no options specified", "options" );
+        jo.throw_error_at( "options", "no options specified" );
     }
     for( const std::string line : arr ) {
         get_options().get_option( line ).setValue( "true" );
@@ -1824,7 +2143,7 @@ void load_external_option( const JsonObject &jo )
     } else if( stype == "string" || stype == "string_input" ) {
         opt.setValue( jo.get_string( "value" ) );
     } else {
-        jo.throw_error( "Unknown or unsupported stype for external option", "stype" );
+        jo.throw_error_at( "stype", "Unknown or unsupported stype for external option" );
     }
     // Just visit this member if it exists
     if( jo.has_member( "info" ) ) {
@@ -1837,7 +2156,7 @@ mod_manager &worldfactory::get_mod_manager()
     return *mman;
 }
 
-WORLDPTR worldfactory::get_world( const std::string &name )
+WORLD *worldfactory::get_world( const std::string &name )
 {
     const auto iter = all_worlds.find( name );
     if( iter == all_worlds.end() ) {

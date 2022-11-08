@@ -332,9 +332,9 @@
       ],
       "place_vehicles": [
         { "vehicle": "warehouse_vehicles", "chance": 50, "fuel": -1, "rotation": 0, "status": -1, "x": 8, "y": 48 },
-        { "vehicle": "warehouse_vehicles", "chance": 50, "fuel": -1, "rotation": 180, "status": 0, "x": 23, "y": 48 },
-        { "vehicle": "warehouse_vehicles", "chance": 50, "fuel": -1, "rotation": 0, "status": 1, "x": 47, "y": 48 },
-        { "vehicle": "warehouse_vehicles", "chance": 50, "fuel": -1, "rotation": 180, "status": -1, "x": 60, "y": 48 },
+        { "vehicle": "warehouse_vehicles", "chance": 50, "fuel": -1, "rotation": 180, "status": 0, "x": 22, "y": 49 },
+        { "vehicle": "warehouse_vehicles", "chance": 50, "fuel": -1, "rotation": 0, "status": 1, "x": 45, "y": 48 },
+        { "vehicle": "warehouse_vehicles", "chance": 50, "fuel": -1, "rotation": 180, "status": -1, "x": 60, "y": 49 },
         {
           "vehicle": "industrial_transport",
           "chance": 25,
