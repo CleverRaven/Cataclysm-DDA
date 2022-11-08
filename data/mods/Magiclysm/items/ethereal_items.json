@@ -994,6 +994,7 @@
     "symbol": "*",
     "color": "yellow",
     "qualities": [ [ "BOIL", 2 ], [ "COOK", 3 ] ],
+    "sub": "fire",
     "use_action": [
       {
         "target": "pocket_sun_cover",
@@ -1003,7 +1004,7 @@
       },
       { "type": "firestarter", "moves": 10, "moves_slow": 100 }
     ],
-    "flags": [ "LIGHT_700", "TRADER_AVOID" ]
+    "flags": [ "FIRE", "LIGHT_700", "TRADER_AVOID" ]
   },
   {
     "id": "pocket_sun_cover",
