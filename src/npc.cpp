@@ -2129,7 +2129,7 @@ void npc::shop_restock()
     int shop_value = 75000;
     if( my_fac ) {
         shop_value = my_fac->wealth * 0.0075;
-        if( is_shopkeeper() && !my_fac->currency.is_empty() ) {
+        if( !my_fac->currency.is_empty() ) {
             item my_currency( my_fac->currency );
             if( !my_currency.is_null() ) {
                 my_currency.set_owner( *this );
@@ -2180,22 +2180,14 @@ void npc::shop_restock()
         }
     }
 
-    if( is_shopkeeper() ) {
-        add_fallback_zone( *this );
-        consume_items_in_zones( *this, elapsed );
-        distribute_items_to_npc_zones( ret, *this );
-    } else {
-        for( const item &i : ret ) {
-            i_add( i, true, nullptr, nullptr, true, false );
-        }
-        DebugLog( DebugLevel::D_WARNING, DebugClass::D_GAME )
-                << "shop_restock() called on NPC who is not a shopkeeper " << name;
-    }
+    add_fallback_zone( *this );
+    consume_items_in_zones( *this, elapsed );
+    distribute_items_to_npc_zones( ret, *this );
 }
 
 bool npc::is_shopkeeper() const
 {
-    return mission == NPC_MISSION_SHOPKEEP || !myclass->get_shopkeeper_items().empty();
+    return !myclass->get_shopkeeper_items().empty();
 }
 
 int npc::minimum_item_value() const
