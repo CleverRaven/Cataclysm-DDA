@@ -5507,6 +5507,19 @@ bool map::has_items( const tripoint_bub_ms &p ) const
     return has_items( p.raw() );
 }
 
+bool map::only_liquid_in_liquidcont( const tripoint &p )
+{
+    if( has_flag( ter_furn_flag::TFLAG_LIQUIDCONT, p ) ) {
+        for( const item &it : i_at( p ) ) {
+            if( it.made_of( phase_id::SOLID ) ) {
+                return false;
+            }
+        }
+        return true;
+    }
+    return false;
+}
+
 template <typename Stack>
 std::list<item> use_amount_stack( Stack stack, const itype_id &type, int &quantity,
                                   const std::function<bool( const item & )> &filter )

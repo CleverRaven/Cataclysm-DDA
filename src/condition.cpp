@@ -1981,7 +1981,8 @@ static int handle_min_max( const T &d, int input, cata::optional<int_or_var_part
 
 template<class T>
 static std::function<void( const T &, int )> get_set_int( const JsonObject &jo,
-        cata::optional<int_or_var_part<T>> min, cata::optional<int_or_var_part<T>> max, bool temp_var )
+        const cata::optional<int_or_var_part<T>> &min, const cata::optional<int_or_var_part<T>> &max,
+        bool temp_var )
 {
     if( temp_var ) {
         jo.allow_omitted_members();

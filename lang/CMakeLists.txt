@@ -11,7 +11,7 @@ if (NOT GETTEXT_FOUND)
             msgfmt.exe
             HINTS
                   C:\\msys64\\usr\\bin
-                  C:\\Prorogram\ Files\\Git\\mingw64\\bin
+                  C:\\Program\ Files\\Git\\mingw64\\bin
         )
     endif(MSVC)
     if(NOT GETTEXT_MSGFMT_EXECUTABLE)

@@ -188,8 +188,8 @@
     "subtype": "distribution",
     "items": [
       [ "bio_flashbang", 50 ],
+      [ "bio_pitch_perfect", 10 ],
       [ "bio_laser", 20 ],
-      [ "bio_railgun", 10 ],
       [ "bio_shotgun", 50 ],
       [ "bio_shockwave", 1 ],
       [ "bio_emp", 3 ]

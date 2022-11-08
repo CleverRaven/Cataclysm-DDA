@@ -33,6 +33,9 @@ Vehicle prototypes do not currently accept copy-from
     { "x": 0, "y": 1, "items": [ "matchbook", "2x4" ] }, // all items in the list spawn
     { "x": 0, "y": 0, "item_groups": [ "army_uniform", "rare_guns" ] } all item_groups are processed
 ]
+"zones": [
+    { "x": -3, "y": 0, "type": "LOOT_AMMO" }
+]
 ```
 
 .* Important! *. Vehicle parts must be defined in the same order you would install them in the game (ie, frames and mount points first).  You also cannot break the normal rules of installation (you can't stack non-stackable part flags).
@@ -73,3 +76,9 @@ the optional keyword "chance" provides an X in 100 chance that a particular item
 If a single item is specified through `"items"`, an itype variant for it can be specified through `"variant"`.
 
 Multiple lines of items may share the same X and Y values.
+
+### Zones list
+The zones list contains an arbitrary number of lines. Each line is of the form:
+    { "x": X, "y": Y, "type": ZONE_ID }
+where ZONE_ID is any valid zone id such as `LOOT_UNSORTED`.
+These zones are only placed if the vehicle has a faction owner.

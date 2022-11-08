@@ -85,7 +85,7 @@ jobs:
 
     - name: Integrate vcpkg
       run: |
-        vcpkg integrate install
+        vcpkg integrate install --vcpkg-root '${{ runner.workspace }}\b\vcpkg'
 
     - name: Download ccache
       uses: robinraju/release-downloader@v1.4
