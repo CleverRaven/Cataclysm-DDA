@@ -61,7 +61,7 @@
     "material": [ "thermo_resin" ],
     "symbol": "[",
     "color": "dark_gray",
-    "material_thickness": 1,
+    "material_thickness": 1.5,
     "flags": [ "HELMET_MANDIBLE_GUARD", "CANT_WEAR" ],
     "armor": [ { "encumbrance": 10, "coverage": 100, "covers": [ "mouth" ] } ]
   },
@@ -79,7 +79,7 @@
     "material": [ "plastic" ],
     "symbol": "[",
     "color": "light_blue",
-    "material_thickness": 1,
+    "material_thickness": 1.5,
     "flags": [ "HELMET_MANDIBLE_GUARD_STRAPPED", "CANT_WEAR" ],
     "armor": [ { "encumbrance": 8, "coverage": 95, "covers": [ "mouth" ] } ]
   },
@@ -194,7 +194,7 @@
     "material": [ "plastic" ],
     "symbol": "[",
     "color": "light_blue",
-    "material_thickness": 1,
+    "material_thickness": 1.25,
     "flags": [ "HELMET_FACE_SHIELD", "CANT_WEAR", "OUTER" ],
     "armor": [ { "encumbrance": 4, "coverage": 100, "covers": [ "eyes", "mouth" ] } ]
   },
