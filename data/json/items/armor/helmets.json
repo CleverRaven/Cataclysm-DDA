@@ -266,7 +266,7 @@
     "flags": [ "PADDED" ],
     "armor": [
       {
-        "encumbrance": 8,
+        "encumbrance_modifiers": [ "NONE" ],
         "coverage": 95,
         "covers": [ "head" ],
         "material": [
@@ -340,7 +340,7 @@
     "flags": [ "PADDED" ],
     "armor": [
       {
-        "encumbrance": 6,
+        "encumbrance_modifiers": [ "NONE" ],
         "coverage": 80,
         "covers": [ "head" ],
         "material": [
