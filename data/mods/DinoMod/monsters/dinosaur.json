@@ -274,7 +274,7 @@
     "special_attacks": [
       { "id": "teeth_grab", "cooldown": 15 },
       { "id": "teeth_pull", "cooldown": 15 },
-      { "id": "leap", "cooldown": 20, "max_range": 5, "allow_no_target": true }
+      { "type": "leap", "cooldown": 20, "max_range": 5, "allow_no_target": true }
     ]
   },
   {
@@ -754,7 +754,7 @@
       { "id": "teeth_grab", "cooldown": 30 },
       { "id": "teeth_rip", "cooldown": 20 },
       [ "EAT_FOOD", 20 ],
-      { "id": "leap", "cooldown": 15, "max_range": 5, "allow_no_target": true }
+      { "type": "leap", "cooldown": 15, "max_range": 5, "allow_no_target": true }
     ],
     "reproduction": { "baby_egg": "egg_saurornitholestes", "baby_count": 3, "baby_timer": 18 }
   },
@@ -786,7 +786,7 @@
     "special_attacks": [
       { "id": "teeth_grab", "cooldown": 20 },
       { "id": "teeth_rip", "cooldown": 10 },
-      { "id": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true }
+      { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true }
     ],
     "description": "A small bipedal dinosaur covered with feathers.  Small, hooked claws emerge from its feet and hands.",
     "reproduction": { "baby_egg": "egg_velociraptor", "baby_count": 3, "baby_timer": 18 },
@@ -829,7 +829,7 @@
     "special_attacks": [
       { "id": "teeth_grab", "cooldown": 20 },
       { "id": "teeth_rip", "cooldown": 5 },
-      { "id": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true }
+      { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true }
     ],
     "description": "A medium-sized bipedal dinosaur covered with feathers.  At the end of each foot is a large sickle-like claw.",
     "reproduction": { "baby_egg": "egg_deinonychus", "baby_count": 3, "baby_timer": 18 },
@@ -883,7 +883,7 @@
     "special_attacks": [
       { "id": "teeth_grab", "cooldown": 20 },
       { "id": "teeth_rip", "cooldown": 5 },
-      { "id": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true }
+      { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true }
     ],
     "description": "A large bipedal dinosaur with feathered arms, a long tail, and scythe-like claws.",
     "reproduction": { "baby_egg": "egg_utahraptor", "baby_count": 3, "baby_timer": 18 },
@@ -940,7 +940,7 @@
     "special_attacks": [
       { "id": "teeth_grab", "cooldown": 20 },
       { "id": "teeth_rip", "cooldown": 10 },
-      { "id": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true }
+      { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true }
     ],
     "description": "A small bipedal dinosaur covered with feathers.  At the end of each foot is a large sickle-like claw.  Its eyes suggest intelligence.",
     "reproduction": { "baby_egg": "egg_stenonychosaurus", "baby_count": 3, "baby_timer": 18 },
