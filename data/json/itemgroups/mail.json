@@ -16,7 +16,7 @@
       { "item": "historybrochure", "prob": 3 },
       { "item": "mallbrochure", "prob": 6 },
       { "item": "furniturebrochure", "prob": 3 },
-      { "item": "hardwarebrochure", "prob": 3 }
+      { "item": "technologybrochure", "prob": 3 }
     ]
   },
   {
