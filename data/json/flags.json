@@ -1119,6 +1119,7 @@
   {
     "id": "VEGAN_BAD",
     "type": "json_flag"
+  },
   {
     "id": "ALLERGEN_EGG",
     "type": "json_flag"
