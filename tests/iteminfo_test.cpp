@@ -1648,17 +1648,17 @@ TEST_CASE( "gun or other ranged weapon attributes", "[iteminfo][weapon][gun]" )
     SECTION( "weapon mods" ) {
         CHECK( item_info_str( compbow, { iteminfo_parts::DESCRIPTION_GUN_MODS } ) ==
                "--\n"
-               "<color_c_white>Mods</color>: "
-               "<color_cyan># </color>accessories:"
-               "    <color_dark_gray>[- empty -]</color> <color_dark_gray>[- empty -]</color> "
-               "<color_cyan># </color>dampening:"
-               "    <color_dark_gray>[- empty -]</color> "
-               "<color_cyan># </color>sights:"
-               "    <color_dark_gray>[- empty -]</color> "
-               "<color_cyan># </color>stabilizer:"
-               "    <color_dark_gray>[- empty -]</color> "
-               "<color_cyan># </color>underbarrel:"
-               "    <color_dark_gray>[- empty -]</color> " );
+               "<color_c_white>Mods</color>: \n"
+               "<color_cyan># </color>accessories:\n"
+               "    <color_dark_gray>[- </color><color_dark_gray>empty</color><color_dark_gray> -]</color> <color_dark_gray>[- </color><color_dark_gray>empty</color><color_dark_gray> -]</color> \n"
+               "<color_cyan># </color>dampening:\n"
+               "    <color_dark_gray>[- </color><color_dark_gray>empty</color><color_dark_gray> -]</color> \n"
+               "<color_cyan># </color>sights:\n"
+               "    <color_dark_gray>[- </color><color_dark_gray>empty</color><color_dark_gray> -]</color> \n"
+               "<color_cyan># </color>stabilizer:\n"
+               "    <color_dark_gray>[- </color><color_dark_gray>empty</color><color_dark_gray> -]</color> \n"
+               "<color_cyan># </color>underbarrel:\n"
+               "    <color_dark_gray>[- </color><color_dark_gray>empty</color><color_dark_gray> -]</color> \n" );
     }
 
     SECTION( "weapon dispersion" ) {
