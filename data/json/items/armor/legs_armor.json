@@ -398,7 +398,7 @@
     "repairs_like": "survivor_suit",
     "type": "ARMOR",
     "name": { "str_sp": "fencing pants" },
-    "description": "A pair of reinforced pants used by fencers to prevent injuries.",
+    "description": "A pair of reinforced pants used by fencers to prevent injuries.  They don't cover the lower leg.",
     "weight": "450 g",
     "volume": "2 L",
     "price": 2500,
@@ -414,19 +414,19 @@
         "max_contains_weight": "1 kg",
         "max_item_length": "13 cm",
         "moves": 100
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "800 ml",
-        "max_contains_weight": "1 kg",
-        "max_item_length": "13 cm",
-        "moves": 100
       }
     ],
-    "warmth": 20,
-    "material_thickness": 2,
+    "warmth": 25,
+    "material_thickness": 2.5,
     "flags": [ "VARSIZE" ],
-    "armor": [ { "encumbrance": [ 13, 15 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [
+      {
+        "encumbrance": [ 7, 9 ],
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r", "leg_knee_l", "leg_knee_r", "leg_upper_r", "leg_upper_l" ]
+      }
+    ]
   },
   {
     "id": "knee_pads",
