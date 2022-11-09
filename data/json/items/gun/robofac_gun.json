@@ -284,7 +284,7 @@
     "name": { "str_sp": "HWP caseless configuration" },
     "mode_modifier": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "burst", 3 ] ],
     "install_time": "1 m",
-	"flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
+	  "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
     "ammo_modifier": [ "8x40mm" ],
     "min_skills": [ [ "weapon", 1 ] ],
     "dispersion_modifier": 15,
