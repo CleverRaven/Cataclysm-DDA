@@ -946,7 +946,7 @@
     "flags": [ "OUTER" ],
     "armor": [
       {
-        "encumbrance": 6,
+        "encumbrance": 5,
         "coverage": 90,
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_upper" ],
