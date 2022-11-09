@@ -393,7 +393,6 @@ static std::vector<std::string> recipe_info(
             const itype *t = item::find_type( bp.first );
             int amount = bp.second * batch_size;
             if( t->count_by_charges() ) {
-                amount *= t->count_by_charges();
                 oss << string_format( "> %s (%d)\n", t->nname( 1 ), amount );
             } else {
                 oss << string_format( "> %d %s\n", amount,
