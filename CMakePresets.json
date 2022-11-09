@@ -49,6 +49,7 @@
       "cacheVariables": {
         "CMAKE_PROJECT_INCLUDE_BEFORE": "${sourceDir}/build-scripts/windows-tiles-sounds-x64-msvc.cmake",
         "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+        "RELEASE": "True",
         "CURSES": "False",
         "LOCALIZE": "True",
         "TILES": "True"
