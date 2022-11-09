@@ -20,7 +20,7 @@
     "color": "light_green",
     "use_action": [ "HOTPLATE_ATOMIC" ],
     "//": "This now uses energy to heat food, the RTG is just a minor cost-saving element.  However in a pinch you could use just the RTG to unfreeze water",
-    "flags": [ "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE", "WATER_BREAK", "ELECTRONIC" ],
+    "flags": [ "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE", "WATER_BREAK" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -529,7 +529,7 @@
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "green",
-    "flags": [ "WATER_BREAK" ],
+    "flags": [ "WATER_BREAK", "ELECTRONIC" ],
     "ammo": [ "battery" ],
     "charges_per_use": 25,
     "use_action": [ "HOTPLATE" ],
@@ -538,7 +538,7 @@
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
         "flag_restriction": [ "BATTERY_MEDIUM" ],
-        "default_magazine": "medium_battery_cell"
+        "default_magazine": "medium_plus_battery_cell"
       }
     ]
   },
