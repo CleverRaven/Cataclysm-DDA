@@ -2187,7 +2187,7 @@ void npc::shop_restock()
 
 bool npc::is_shopkeeper() const
 {
-    return !myclass->get_shopkeeper_items().empty();
+    return !is_player_ally() && !myclass->get_shopkeeper_items().empty();
 }
 
 int npc::minimum_item_value() const
