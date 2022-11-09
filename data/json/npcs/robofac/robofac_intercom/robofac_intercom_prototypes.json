@@ -253,6 +253,37 @@
         },
         "topic": "TALK_ROBOFAC_INTERCOM_HWP_EXODII_COMPLETE"
       },
+	  {
+		"text": "I've seen caseless guns before Cataclysm, why you don't use them?",
+		"condition": {
+		  "and": [
+			{ "not": { "u_has_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "yes" } },
+			{ "u_has_var": "u_has_researched_gun", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
+			{ "compare_int": [ { "global_val": "var", "var_name": "hub01_hwp_rivtech_researched" }, "!=", { "const": 1 } ] }
+			]
+		},
+		"topic": "TALK_ROBOFAC_INTERCOM_HWP_RIVTECH"
+	  },
+	  {
+		"text": "Any progress on the Rivtech barrel?",
+		"condition": {
+			"and": [
+				{ "u_compare_time_since_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "op": "<", "time": "3 d" },
+				{ "u_has_var": "u_current_project", "type": "dialogue", "context": "hub_rnd", "value": "hwp_rivtech" }
+			]
+		},
+		"topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_ONGOING"
+	  },
+	  {
+		"text": "The Rivtech barrel should be finished now, right?",
+		"condition": {
+			"and": [
+				{ "u_compare_time_since_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "op": ">", "time": "3 d" },
+				{ "u_has_var": "u_current_project", "type": "dialogue", "context": "hub_rnd", "value": "hwp_rivtech" }
+			]
+		},
+		"topic": "TALK_ROBOFAC_INTERCOM_HWP_RIVTECH_COMPLETE"
+	  },
       { "text": "Let's talk about something else.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }
     ]
   },
@@ -723,6 +754,55 @@
           { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "no" },
           { "u_spawn_item": "robofac_gun_exodii" },
           { "u_spawn_item": "robofac60_123ln", "count": 2 }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
+      }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_HWP_RIVTECH",
+    "//": "creating Rivtech barrel",
+    "type": "talk_topic",
+    "dynamic_line": "We don't have all specifications for such ammo. Bring us documentation about it and 40 rounds and we will make a HWP adapter for caseless ammo. It would take 3 days",
+    "responses": [
+      {
+        "text": "[8x40 caseless, Rivtech design binder] Here is all you asked",
+        "condition": {
+		  "and": [
+			{ "u_has_items": { "item": "recipe_caseless", "count": 1 } },
+			{ "u_has_items": { "item": "8mm_caseless", "count": 40 } }
+		  ]
+		},
+        "effect": [
+          { "u_consume_item": "recipe_caseless", "count": 1 },
+		  { "u_consume_item": "8mm_caseless", "count": 40 },
+          { "u_add_faction_trust": 1 },
+          { "u_add_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "time": true },
+          { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
+          { "u_add_var": "u_current_project", "type": "dialogue", "context": "hub_rnd", "value": "hwp_rivtech" }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
+      },
+      { "text": "What about another project?", "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_MENU" },
+      { "text": "I want to talk about something else.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" },
+      { "text": "I'll check in later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_HWP_RIVTECH_COMPLETE",
+    "//": "creating Rivtech barrel",
+    "type": "talk_topic",
+    "dynamic_line": "The barrel is finished.",
+	"speaker_effect": {
+      "effect": [ { "arithmetic": [ { "global_val": "var", "var_name": "hub01_hwp_rivtech_researched" }, "=", { "const": 1 } ] } ]
+    },
+    "responses": [
+      {
+        "text": "Thanks.",
+        "effect": [
+          { "u_add_var": "u_current_project", "type": "dialogue", "context": "hub_rnd", "value": "none" },
+          { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "no" },
+          { "u_spawn_item": "robofac_gun_caseless" }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
       }
