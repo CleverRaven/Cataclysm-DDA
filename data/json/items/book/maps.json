@@ -303,7 +303,7 @@
         "hdwr_large_1_2_0", "hdwr_large_0_2_0", "hdwr_large_1_1_0", "hdwr_large_0_1_0", "hdwr_large_1_0_0", "hdwr_large_0_0_0",
         { "om_terrain": "s_gardening", "om_terrain_match_type": "TYPE" }
       ],
-      "message": "You add roads and local furniture, home improvement and gardenings stores to your map."
+      "message": "You add roads and local furniture, home improvement and gardening stores to your map."
     }
   },
   {
