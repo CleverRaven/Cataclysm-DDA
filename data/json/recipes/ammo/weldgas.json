@@ -17,7 +17,7 @@
   },
   {
     "result": "acetylene",
-    "byproducts": [ { "item": "chem_slaked_lime", "charges": 50 } ],
+    "byproduct_group": [ { "item": "chem_slaked_lime", "charges": 50 } ],
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_OTHER",
