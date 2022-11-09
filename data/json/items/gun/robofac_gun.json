@@ -48,7 +48,10 @@
           "robofac60",
           "exodiiBRmag",
           "robofacmultimag",
-          "robofac30"
+          "robofac30",
+		      "8x40_50_mag",
+		      "8x40_100_mag",
+		      "8x40_250_mag"
         ]
       }
     ]
@@ -259,6 +262,36 @@
     "min_skills": [ [ "weapon", 1 ] ],
     "overwrite_min_cycle_recoil": 3500,
     "description": "A Hub 01 Hybrid Weapons Platform quick swap conversion kit.  This version has a long barrel with \"EXODIC\" stamped into the metal.  The typo appears to be intentional."
+  },
+  {
+    "id": "robofac_gun_caseless",
+    "looks_like": "retool_ar15_300blk",
+    "//": "based off attributes of an m4 with integrated muzzle break, waterproof because all caseless guns are waterproof",
+    "weight": "750 g",
+    "volume": "500 ml",
+    "integral_volume": "250 ml",
+    "integral_weight": "750 g",
+    "integral_longest_side": "20 cm",
+    "longest_side": "45 cm",
+    "price": 50000,
+    "price_postapoc": 3000,
+    "type": "GUNMOD",
+    "material": [ "steel" ],
+    "symbol": ":",
+    "color": "green",
+    "location": "bore",
+    "mod_targets": [ "robofac_gun" ],
+    "name": { "str_sp": "HWP caseless configuration" },
+    "mode_modifier": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "burst", 3 ] ],
+    "install_time": "1 m",
+	"flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
+    "ammo_modifier": [ "8x40mm" ],
+    "min_skills": [ [ "weapon", 1 ] ],
+    "dispersion_modifier": 15,
+    "handling_modifier": 4,
+    "loudness_modifier": 14,
+    "overwrite_min_cycle_recoil": 1350,
+    "description": "A Hub 01 Hybrid Weapons Platform quick swap conversion kit.  This version has a long barrel with \"8x40mm CASELESS\" stamped into the metal and an integrated muzzle brake. Makes HWP waterproof"
   },
   {
     "id": "robofac_laser_sight",
