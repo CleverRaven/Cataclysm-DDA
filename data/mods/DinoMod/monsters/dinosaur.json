@@ -27,7 +27,7 @@
     "hp": 20,
     "description": "Small, thin predatory bipedal dinosaur with a long head and sharp teeth and long grasping claws.",
     "reproduction": { "baby_egg": "egg_coelophysis", "baby_count": 3, "baby_timer": 24 },
-    "special_attacks": [ { "type": "teeth_grab", "cooldown": 10 }, { "type": "teeth_rip", "cooldown": 10 } ],
+    "special_attacks": [ { "id": "teeth_grab", "cooldown": 10 }, { "id": "teeth_rip", "cooldown": 10 } ],
     "extend": { "flags": [ "SWARMS", "GROUP_MORALE" ] },
     "death_drops": {  },
     "harvest": "dino_pred_feather_leather",
