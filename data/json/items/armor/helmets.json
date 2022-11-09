@@ -717,7 +717,7 @@
         "material": [
           { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 },
           { "type": "epoxy", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 14 }
+          { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 16 }
         ],
         "covers": [ "head" ],
         "coverage": 100,
@@ -775,7 +775,7 @@
         "material": [
           { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 },
           { "type": "epoxy", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 14 }
+          { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 16 }
         ],
         "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ],
         "coverage": 100,
