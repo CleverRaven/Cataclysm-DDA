@@ -344,7 +344,7 @@
         "coverage": 80,
         "covers": [ "head" ],
         "material": [
-          { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 12 },
+          { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 14 },
           { "type": "plastic", "covered_by_mat": 100, "thickness": 1.5 }
         ]
       }
