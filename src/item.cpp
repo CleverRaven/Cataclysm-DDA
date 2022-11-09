@@ -3070,20 +3070,20 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
                 mod_str += "\n";
             }
             const int free_slots = elem.second - get_free_mod_locations( elem.first );
-            mod_str += string_format( "<color_light_cyan>⋄ </color>%s:", elem.first.name() );
+            mod_str += string_format( "<color_cyan># </color>%s:", elem.first.name() );
 
             for( const item *gmod : gunmods() ) {
                 if( gmod->type->gunmod->location == elem.first ) { // if mod for this location
                     mod_str +=
-                        string_format( "\n      <stat>[</stat><color_light_green>◉ </color><stat>%s]</stat>",
+                        string_format( "\n    <stat>[</stat><color_light_green>● </color><stat>%s]</stat>",
                                        gmod->tname( 1, false ) );
                 }
             }
             for( int i = free_slots + 1 ; i <= elem.second ; i++ ) {
                 if( i == free_slots + 1 && i <= elem.second ) {
-                    mod_str += string_format( "\n      " );
+                    mod_str += string_format( "\n    " );
                 }
-                mod_str += string_format( "<color_dark_gray>[-empty-]</color> " );
+                mod_str += string_format( "<color_dark_gray>[- empty -]</color> " );
             }
             iternum++;
         }
