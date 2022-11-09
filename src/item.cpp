@@ -3083,7 +3083,8 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
                 if( i == free_slots + 1 && i <= elem.second ) {
                     mod_str += string_format( "\n    " );
                 }
-                mod_str += string_format( "<color_dark_gray>[- empty -]</color> " );
+                mod_str +=
+                    string_format( "<color_dark_gray>[- </color><color_dark_gray>empty</color><color_dark_gray> -]</color> " );
             }
             iternum++;
         }
