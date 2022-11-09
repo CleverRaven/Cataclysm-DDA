@@ -101,7 +101,7 @@
     "id": "TALK_GODCO_Katherine_Mood",
     "dynamic_line": "Our prayers were heard.  We knew the day was coming, so we prepared.  Our community stockpiled months worth of canned goods, enough until the chaos ends.  With the food we have left, we could live peacefully, but we foolishly didn't take extra people into consideration.  With so much at risk, I don't think we can afford more people.  Though I'm not the one who makes the decisions here, and it's probably for the better.",
     "responses": [
-      { "text": "Can you can take in joinees once there's vacancy?", "topic": "TALK_GODCO_Katherine_Joinees" },
+      { "text": "Can you can take in joinees once there's a vacancy?", "topic": "TALK_GODCO_Katherine_Joinees" },
       { "text": "What was it you said earlier?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
