@@ -307,17 +307,17 @@
     }
   },
   {
-    "id": "hardwarebrochure",
+    "id": "technologybrochure",
     "copy-from": "abstractmap",
     "type": "GENERIC",
-    "name": { "str": "hardware advertising brochure" },
-    "description": "This is a small brochure advertising for local electronic and hardware stores and with an address below each entry.  Using it will add roads an local electronic and hardware stores to your map.",
+    "name": { "str": "technology advertising brochure" },
+    "description": "This is a small brochure advertising for local electronic and hardware stores as well as arcades and internet cafes with an address below each entry.  Using it will add roads and local electronic and hardware stores as well as arcades and internet cafes to your map.",
     "color": "light_blue",
     "use_action": {
       "type": "reveal_map",
       "radius": 90,
-      "terrain": [ "bridge", "road", "s_electronicstore", "s_electronics", "s_hardware" ],
-      "message": "You add roads and local electronic and hardware stores to your map."
+      "terrain": [ "bridge", "road", "s_electronicstore", "s_electronics", "s_hardware", "s_arcade", "cs_internet_cafe" ],
+      "message": "You add roads and local electronic and hardware stores as well as arcades and internet cafes to your map."
     }
   }
 ]
