@@ -354,5 +354,23 @@
     "miss_msg_u": "%s tries to kick your %2$s but you dodge!",
     "miss_msg_npc": "%s tries to kick and knock down <npcname>, but they dodge!",
     "effects": [ { "id": "downed", "duration": 3 }, { "id": "stunned", "duration": 100 } ]
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "bio_op_impale",
+    "cooldown": 25,
+    "move_cost": 150,
+    "damage_max_instance": [ { "damage_type": "stab", "amount": 36, "armor_penetration": 8, "armor_multiplier": 0.5 } ],
+    "hitsize_min": 4,
+    "effects": [ { "id": "bleed", "duration": 100, "affect_hit_bp": true } ],
+    "hit_dmg_u": "%1$s lunges and impales your %2$s and deals %d damage!",
+    "hit_dmg_npc": "%1$s lunges and impales <npcname> and deals %d damage!",
+    "miss_msg_u": "%1$s lunges and tries to impale your %2$s, but you dodge!",
+    "miss_msg_npc": "%1$s lunges and tries to impale <npcname>, but they dodge!",
+    "no_dmg_msg_u": "%1$s lunges and tries to impale your %2$s, but fails to penetrate your armor!",
+    "no_dmg_msg_npc": "%1$s tries to impale <npcname>, but fails to penetrate their armor!",
+    "dodgeable": true,
+    "blockable": true
   }
 ]
