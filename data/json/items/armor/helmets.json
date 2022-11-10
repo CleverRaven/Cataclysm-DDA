@@ -1648,6 +1648,7 @@
   },
   {
     "id": "airsoft_helmet",
+    "repairs_like": "xlkevlar",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "airsoft helmet" },
@@ -1664,7 +1665,7 @@
     "color": "dark_gray",
     "warmth": 15,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "WATERPROOF", "STURDY", "PADDED" ],
+    "flags": [ "WATERPROOF", "PADDED" ],
     "armor": [
       {
         "encumbrance_modifiers": [ "NONE" ],
