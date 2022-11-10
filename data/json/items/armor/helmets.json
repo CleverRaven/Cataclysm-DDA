@@ -1663,10 +1663,19 @@
     "looks_like": "helmet_army",
     "color": "dark_gray",
     "warmth": 15,
-    "material_thickness": 8,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "WATERPROOF", "STURDY", "PADDED" ],
-    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 90, "covers": [ "head" ] } ],
+    "armor": [
+      {
+        "encumbrance_modifiers": [ "NONE" ],
+        "coverage": 90,
+        "covers": [ "head" ],
+        "material": [
+          { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 6 },
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 3 }
+        ]
+      }
+    ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
