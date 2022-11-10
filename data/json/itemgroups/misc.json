@@ -116,7 +116,7 @@
           { "item": "filter_paper_qualitative", "charges-min": 30 },
           { "item": "filter_paper_quantitative", "charges-min": 30 },
           { "item": "gasket_plastic_set", "count": [ 1, 3 ] },
-          { "item": "textbook_extraction", "prob": 30 }
+          { "item": "textbook_extraction", "prob": 75 }
         ]
       }
     ]
