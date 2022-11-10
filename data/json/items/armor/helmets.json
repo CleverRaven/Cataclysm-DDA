@@ -625,7 +625,7 @@
     "name": { "str": "wolf skull helmet" },
     "description": "The top part of a large wolf skull, equipped with leather straps to secure it on your head.  Every inch of the skull has been carved with a maze of fine, intertwined symbols that make your eyes water.",
     "weight": "1 kg",
-    "volume": "3 L",
+    "volume": "4 L",
     "price": 1400,
     "price_postapoc": 200,
     "material": [ "leather", "bone" ],
