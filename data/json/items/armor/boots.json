@@ -505,14 +505,14 @@
     "id": "xl_boots_faux_fur",
     "type": "ARMOR",
     "name": { "str": "pair of XL faux fur boots", "str_pl": "pairs of XL faux fur boots" },
-    "copy-from": "boots_fur",
+    "copy-from": "boots_faux_fur",
     "proportional": { "weight": 1.15, "volume": 1.15 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_boots_faux_fur",
     "type": "ARMOR",
-    "copy-from": "boots__faux_fur",
+    "copy-from": "boots_faux_fur",
     "looks_like": "boots_fur",
     "name": { "str": "pair of XS faux fur boots", "str_pl": "pairs of XS faux fur boots" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
