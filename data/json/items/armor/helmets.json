@@ -1653,7 +1653,7 @@
     "category": "armor",
     "name": { "str": "airsoft helmet" },
     "description": "A lightweight helmet that is fashioned to look like a real military helmet, but is made of plastic and only protects against BB's and other light threats.  It has a military rail system for attachments.",
-    "weight": "475 g",
+    "weight": "455 g",
     "volume": "1850 ml",
     "price": 6000,
     "price_postapoc": 1000,
@@ -1669,11 +1669,11 @@
     "armor": [
       {
         "encumbrance_modifiers": [ "NONE" ],
-        "coverage": 90,
+        "coverage": 85,
         "covers": [ "head" ],
         "material": [
           { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 6 },
-          { "type": "plastic", "covered_by_mat": 100, "thickness": 3 }
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 2.5 }
         ]
       }
     ],
