@@ -1038,16 +1038,16 @@
         ],
         "covers": [ "torso" ],
         "coverage": 100,
-        "encumbrance": 8
+        "encumbrance": 10
       },
       {
         "material": [
           { "type": "lycra", "covered_by_mat": 100, "thickness": 0.25 },
-          { "type": "plastic_pad", "covered_by_mat": 90, "thickness": 12 }
+          { "type": "plastic_pad", "covered_by_mat": 85, "thickness": 10 }
         ],
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
-        "encumbrance": 8
+        "encumbrance": 10
       }
     ],
     "warmth": 15,
