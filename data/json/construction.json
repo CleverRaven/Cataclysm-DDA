@@ -2508,7 +2508,7 @@
     "pre_special": "check_empty",
     "post_terrain": "f_standing_tank"
   },
-  {  
+  {
     "type": "construction",
     "id": "constr_storage_tank",
     "group": "build_storage_tank",
