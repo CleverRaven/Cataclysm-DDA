@@ -57,7 +57,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Sonia_Instrument",
-    "dynamic_line": "You're <swear> right.  I like its scars, makes it look like it has a history, you know?  We've been through a lot.  Those pesky <zombies> forced me to harm on my sweet, sweet guitar, but I retaliated and bashed their head in!  I lost a part of me that day, but the guitar's alright.  Just a bit rusted from all that blood and gore, that's all.",
+    "dynamic_line": "You're <swear> right.  I like its scars, makes it look like it has a history, you know?  We've been through a lot.  Those pesky <zombies> forced me to harm my sweet, sweet guitar, but I retaliated and bashed their heads in!  I lost a part of me that day, but the guitar's alright.  Just a bit rusted from all that blood and gore, that's all.",
     "responses": [
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
