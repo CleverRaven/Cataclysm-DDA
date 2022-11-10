@@ -2288,7 +2288,7 @@
     "bashing": 4,
     "symbol": "[",
     "color": "light_red",
-    "flags": [ "VARSIZE", "STURDY", "OUTER", "DURABLE_MELEE" ],
+    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
     "armor": [
       {
         "covers": [ "foot_l", "foot_r" ],
