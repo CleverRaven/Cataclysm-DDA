@@ -252,5 +252,22 @@
     "method": "json",
     "update_mapgen_id": "amigara_death",
     "object": { "place_items": [ { "item": "amigara_drops", "x": 11, "y": 12, "chance": 100 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "cannabis_refining_equipment_nested_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rotation": [ 0, 3 ],
+      "place_items": [
+        {
+          "item": { "subtype": "distribution", "entries": [ { "group": "cannabis_refining_equipment", "prob": 100 } ] },
+          "x": 0,
+          "y": 0,
+          "chance": 10
+        }
+      ]
+    }
   }
 ]

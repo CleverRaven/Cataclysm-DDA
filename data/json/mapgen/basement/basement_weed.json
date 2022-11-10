@@ -93,6 +93,7 @@
           { "item": "chem_home", "chance": 50 }
         ]
       },
+      "place_nested": [ { "chunks": [ "cannabis_refining_equipment_nested_1x1" ], "x": 6, "y": 14 } ],
       "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 6, 23 ], "y": [ 6, 12 ] } ]
     }
   }

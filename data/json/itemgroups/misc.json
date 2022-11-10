@@ -50,6 +50,78 @@
     "entries": [ { "item": "butane_can", "count": [ 1, 2 ], "charges": 30 } ]
   },
   {
+    "id": "cannabis_refining_equipment",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "Full set of cannabis extraction equipment that might be found ready to use.",
+    "entries": [
+      {
+        "distribution": [
+          {
+            "//": "Crude extraction supplies.",
+            "collection": [
+              { "item": "oil_extractor_crude" },
+              { "item": "pipe" },
+              { "item": "funnel" },
+              { "item": "flask_glass" },
+              { "item": "cotton_patchwork", "count": [ 3, 10 ] },
+              {
+                "distribution": [
+                  { "item": "hotplate", "prob": 80, "charges": [ 0, 500 ] },
+                  { "item": "chemistry_set", "prob": 20, "charges": [ 0, 500 ] }
+                ]
+              },
+              { "item": "vac_pump" },
+              { "group": "butane_can_full", "count": [ 1, 3 ] }
+            ],
+            "prob": 50
+          },
+          {
+            "//": "Commercial butane extraction supplies.",
+            "collection": [
+              { "item": "closed_loop_extractor_small" },
+              {
+                "distribution": [
+                  { "item": "hotplate", "prob": 80, "charges": [ 0, 500 ] },
+                  { "item": "chemistry_set", "prob": 20, "charges": [ 0, 500 ] }
+                ]
+              },
+              { "item": "vac_oven_small" },
+              { "group": "butane_can_full", "count": [ 1, 3 ] }
+            ],
+            "prob": 25
+          },
+          {
+            "//": "Commercial ethanol extraction supplies.",
+            "collection": [
+              { "item": "closed_loop_extractor_small" },
+              { "item": "pipe" },
+              { "item": "flask_glass" },
+              { "item": "cotton_patchwork", "count": [ 3, 10 ] },
+              {
+                "distribution": [
+                  { "item": "hotplate", "prob": 80, "charges": [ 0, 500 ] },
+                  { "item": "chemistry_set", "prob": 20, "charges": [ 0, 500 ] }
+                ]
+              },
+              { "item": "vac_pump" },
+              { "item": "chem_ethanol", "charges-min": 150 }
+            ],
+            "prob": 25
+          }
+        ]
+      },
+      {
+        "collection": [
+          { "item": "filter_paper_qualitative", "charges-min": 30 },
+          { "item": "filter_paper_quantitative", "charges-min": 30 },
+          { "item": "gasket_plastic_set", "count": [ 1, 3 ] },
+          { "item": "textbook_extraction", "prob": 30 }
+        ]
+      }
+    ]
+  },
+  {
     "id": "silverware",
     "type": "item_group",
     "//": "Forks, spoons, knives, etc.",
