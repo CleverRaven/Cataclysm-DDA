@@ -114,7 +114,7 @@
     "volume": "1250 ml",
     "price": 3500,
     "price_postapoc": 300,
-    "material": [ "cotton", "mc_steel" ],
+    "material": [ "cotton", "steel" ],
     "symbol": "[",
     "looks_like": "balclava",
     "color": "dark_gray",
@@ -125,21 +125,21 @@
         "encumbrance": 12,
         "material": [
           { "type": "cotton", "covered_by_mat": 100, "thickness": 4 },
-          { "type": "mc_steel", "covered_by_mat": 90, "thickness": 1.5 }
+          { "type": "steel", "covered_by_mat": 90, "thickness": 1.5 }
         ]
       },
       {
         "covers": [ "eyes" ],
         "coverage": 100,
         "encumbrance": 10,
-        "material": [ { "type": "mc_steel", "covered_by_mat": 100, "thickness": 1.5 } ],
+        "material": [ { "type": "steel", "covered_by_mat": 100, "thickness": 1.5 } ],
         "breathability": "GOOD"
       },
       {
         "covers": [ "mouth" ],
         "coverage": 100,
         "encumbrance": 3,
-        "material": [ { "type": "mc_steel", "covered_by_mat": 100, "thickness": 1.5 } ],
+        "material": [ { "type": "steel", "covered_by_mat": 100, "thickness": 1.5 } ],
         "breathability": "GOOD"
       }
     ],
