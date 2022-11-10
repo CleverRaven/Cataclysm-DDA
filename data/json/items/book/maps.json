@@ -249,7 +249,7 @@
     "copy-from": "abstractmap",
     "type": "GENERIC",
     "name": { "str": "mall advertising brochure" },
-    "description": "This is a small brochure advertising for local malls with an address below each entry.  Using it will add roads an local malls, strip malls and megastores to your map.",
+    "description": "This is a small brochure advertising for local malls with an address below each entry.  Using it will add roads an local malls and strip malls to your map.",
     "color": "light_blue",
     "use_action": {
       "type": "reveal_map",
@@ -277,7 +277,7 @@
         "megastore_1_2_0",
         "megastore_2_2_0"
       ],
-      "message": "You add roads and local malls, strip malls and megastores to your map."
+      "message": "You add roads and local malls and strip malls to your map."
     }
   },
   {
