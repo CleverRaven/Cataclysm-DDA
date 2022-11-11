@@ -877,7 +877,7 @@
     "using": [ [ "canning_low_heat", 1, "LIST" ] ],
     "//": "https://www.clemson.edu/extension/food/canning/canning-tips/32acidifying-pressure-canned-tomatoes.html",
     "//1": "Tomatoes are borderline and should be pressure canned and acidified for maximum safety.",
-    "//1": "pressure canning is measured in 0.5 liter quantities, so 1u of canning_high_heat.",
+    "//2": "pressure canning is measured in 0.5 liter quantities, so 1u of canning_high_heat.",
     "components": [
       [ [ "water_clean", 1 ] ],
       [ [ "jar_glass_sealed", 1 ] ],
@@ -904,7 +904,7 @@
     "using": [ [ "canning_low_heat", 6, "LIST" ] ],
     "//": "https://www.clemson.edu/extension/food/canning/canning-tips/32acidifying-pressure-canned-tomatoes.html",
     "//1": "Tomatoes are borderline and should be pressure canned and acidified for maximum safety.",
-    "//1": "pressure canning is measured in 0.5 liter quantities, so 6u of canning_high_heat.",
+    "//2": "pressure canning is measured in 0.5 liter quantities, so 6u of canning_high_heat.",
     "components": [
       [ [ "water_clean", 6 ] ],
       [ [ "jar_3l_glass_sealed", 1 ] ],
