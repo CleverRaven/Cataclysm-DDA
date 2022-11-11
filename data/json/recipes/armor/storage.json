@@ -18,7 +18,7 @@
     ]
   },
   {
-    "result": "XL_cotton_holster",
+    "result": "XL_canvas_holster",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
@@ -28,7 +28,7 @@
     "skills_required": [ "gun", 1 ],
     "time": "6 h",
     "autolearn": true,
-    "using": [ [ "strap_small", 1 ], [ "tailoring_cotton_small", 15 ], [ "clasps", 1 ] ],
+    "using": [ [ "strap_small", 1 ], [ "tailoring_canvas_small", 15 ], [ "clasps", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" } ]
   },
   {
@@ -862,7 +862,7 @@
     "components": [ [ [ "strap_small", 1, "LIST" ] ], [ [ "clasps", 1, "LIST" ] ], [ [ "fastener_small", 1, "LIST" ] ] ]
   },
   {
-    "result": "cotton_holster",
+    "result": "canvas_holster",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
@@ -872,7 +872,7 @@
     "skills_required": [ "pistol", 1 ],
     "time": "8 h",
     "autolearn": true,
-    "using": [ [ "tailoring_cotton_small", 8 ] ],
+    "using": [ [ "tailoring_canvas_small", 8 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" } ],
     "components": [ [ [ "strap_small", 1, "LIST" ] ], [ [ "clasps", 1, "LIST" ] ], [ [ "fastener_small", 1, "LIST" ] ] ]
   },
@@ -904,11 +904,11 @@
     "components": [ [ [ "strap_small", 1, "LIST" ] ], [ [ "clasps", 1, "LIST" ] ], [ [ "fastener_small", 1, "LIST" ] ] ]
   },
   {
-    "result": "XS_cotton_holster",
+    "result": "XS_canvas_holster",
     "type": "recipe",
-    "copy-from": "cotton_holster",
+    "copy-from": "canvas_holster",
     "time": "3 h",
-    "using": [ [ "tailoring_cotton_small", 3 ] ],
+    "using": [ [ "tailoring_canvas_small", 3 ] ],
     "components": [ [ [ "strap_small", 1, "LIST" ] ], [ [ "clasps", 1, "LIST" ] ], [ [ "fastener_small", 1, "LIST" ] ] ]
   },
   {
