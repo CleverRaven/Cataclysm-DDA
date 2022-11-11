@@ -230,7 +230,7 @@
     "reversible": true,
     "using": [ [ "bullet_forming", 12 ], [ "ammo_bullet", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "300casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "chem_black_powder", 43 ] ], [ [ "copper", 2 ] ] ]
+    "components": [ [ [ "300_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "chem_black_powder", 43 ] ], [ [ "copper", 2 ] ] ]
   },
   {
     "result": "reloaded_3006",
