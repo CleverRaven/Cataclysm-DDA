@@ -130,7 +130,7 @@
     "flags": [ "DURABLE_MELEE", "BELT_CLIP" ],
     "weapon_category": [ "BATONS", "FENCING_WEAPONRY" ],
     "use_action": { "menu_text": "Collapse", "type": "transform", "target": "baton", "msg": "You collapse your baton." },
-    "bashing": 11,
+    "bashing": 10,
     "price": 22900
   },
   {
