@@ -1,7 +1,8 @@
 name: Summary Labeler
 
 on:
-  - pull_request_target
+  pull_request_target:
+    types: [opened, edited]
 
 jobs:
   uses:
