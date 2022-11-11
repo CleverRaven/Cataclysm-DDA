@@ -1190,9 +1190,9 @@
         "condition": { "compare_int": [ { "u_val": "mana" }, "=", { "const": 25 } ] }
       },
       {
-        "text": "Mana max is 1000.",
+        "text": "Mana max is 900.",
         "topic": "TALK_DONE",
-        "condition": { "compare_int": [ { "u_val": "mana_max" }, "=", { "const": 1000 } ] }
+        "condition": { "compare_int": [ { "u_val": "mana_max" }, "=", { "const": 900 } ] }
       },
       {
         "text": "Mana is at 2%.",
@@ -1228,6 +1228,71 @@
         "text": "Has more or equal to 35 experience.",
         "topic": "TALK_DONE",
         "condition": { "compare_int": [ { "u_val": "exp" }, ">=", { "const": 35 } ] }
+      },
+      {
+        "text": "Highest spell level in school test_trait is 1.",
+        "topic": "TALK_DONE",
+        "condition": { "compare_int": [ { "u_val": "spell_level", "school": "test_trait" }, "==", { "const": 1 } ] }
+      },
+      {
+        "text": "Spell level of Pew, Pew is 4.",
+        "topic": "TALK_DONE",
+        "condition": { "compare_int": [ { "u_val": "spell_level", "spell": "test_spell_pew" }, "==", { "const": 4 } ] }
+      },
+      {
+        "text": "Spell level of highest spell is 12.",
+        "topic": "TALK_DONE",
+        "condition": { "compare_int": [ { "u_val": "spell_level" }, "==", { "const": 12 } ] }
+      },
+      {
+        "text": "Exp of Pew, Pew is -1.",
+        "topic": "TALK_DONE",
+        "condition": { "compare_int": [ { "u_val": "spell_exp", "spell": "test_spell_pew" }, "==", { "const": -1 } ] }
+      },
+      {
+        "text": "Exp of Pew, Pew is 11006.",
+        "topic": "TALK_DONE",
+        "condition": { "compare_int": [ { "u_val": "spell_exp", "spell": "test_spell_pew" }, "==", { "const": 11006 } ] }
+      },
+      {
+        "text": "Test Proficiency learning is 5 out of 10.",
+        "topic": "TALK_DONE",
+        "condition": { "compare_int": [ { "u_val": "proficiency", "proficiency_id": "prof_test", "format": 10 }, "==", { "const": 5 } ] }
+      },
+      {
+        "text": "Test Proficiency learning done is 12 hours total.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "compare_int": [ { "u_val": "proficiency", "proficiency_id": "prof_test", "format": "time_spent" }, "==", { "time": "12h" } ]
+        }
+      },
+      {
+        "text": "Test Proficiency learning is 50% learnt.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "compare_int": [ { "u_val": "proficiency", "proficiency_id": "prof_test", "format": "percent" }, "==", { "const": 50 } ]
+        }
+      },
+      {
+        "text": "Test Proficiency learning is 500 permille learnt.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "compare_int": [ { "u_val": "proficiency", "proficiency_id": "prof_test", "format": "permille" }, "==", { "const": 500 } ]
+        }
+      },
+      {
+        "text": "Test Proficiency total learning time is 24 hours.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "compare_int": [ { "u_val": "proficiency", "proficiency_id": "prof_test", "format": "total_time_required" }, "==", { "time": "24h" } ]
+        }
+      },
+      {
+        "text": "Test Proficiency time lest to learn is 12h.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "compare_int": [ { "u_val": "proficiency", "proficiency_id": "prof_test", "format": "time_left" }, "==", { "time": "12h" } ]
+        }
       }
     ]
   },
@@ -1466,6 +1531,47 @@
         "text": "Sets stored_kcal_percentage to 50.",
         "topic": "TALK_DONE",
         "effect": { "arithmetic": [ { "u_val": "stored_kcal_percentage" }, "=", { "const": 50 } ] }
+      },
+      {
+        "text": "Sets pew pew's level to -1.",
+        "topic": "TALK_DONE",
+        "effect": { "arithmetic": [ { "u_val": "spell_level", "spell": "test_spell_pew" }, "=", { "const": -1 } ] }
+      },
+      {
+        "text": "Sets pew pew's level to 4.",
+        "topic": "TALK_DONE",
+        "effect": { "arithmetic": [ { "u_val": "spell_level", "spell": "test_spell_pew" }, "=", { "const": 4 } ] }
+      },
+      {
+        "text": "Sets pew pew's exp to -1.",
+        "topic": "TALK_DONE",
+        "effect": { "arithmetic": [ { "u_val": "spell_exp", "spell": "test_spell_pew" }, "=", { "const": -1 } ] }
+      },
+      {
+        "text": "Sets pew pew's exp to 11006.",
+        "topic": "TALK_DONE",
+        "effect": { "arithmetic": [ { "u_val": "spell_exp", "spell": "test_spell_pew" }, "=", { "const": 11006 } ] }
+      },
+      {
+        "text": "Sets Test Proficiency learning done to 12 hours total.",
+        "topic": "TALK_DONE",
+        "effect": {
+          "arithmetic": [ { "u_val": "proficiency", "proficiency_id": "prof_test", "format": "time_spent" }, "=", { "time": "12h" } ]
+        }
+      },
+      {
+        "text": "Sets Test Proficiency learning done to -1.",
+        "topic": "TALK_DONE",
+        "effect": {
+          "arithmetic": [ { "u_val": "proficiency", "proficiency_id": "prof_test", "format": "time_spent" }, "=", { "const": -1 } ]
+        }
+      },
+      {
+        "text": "Sets Test Proficiency learning done to 24h.",
+        "topic": "TALK_DONE",
+        "effect": {
+          "arithmetic": [ { "u_val": "proficiency", "proficiency_id": "prof_test", "format": "time_spent" }, "=", { "time": "24h" } ]
+        }
       }
     ]
   },
@@ -1516,6 +1622,16 @@
       { "text": "Faction trust is at least 20.", "topic": "TALK_DONE", "condition": { "u_has_faction_trust": 20 } },
       { "text": "Add 50 to faction trust.", "topic": "TALK_DONE", "effect": { "u_add_faction_trust": 50 } },
       { "text": "Start trade.", "topic": "TALK_DONE", "effect": "start_trade" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_TEST_META",
+    "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
+    "responses": [
+      { "text": "This is a basic test response.", "topic": "TALK_DONE" },
+      { "text": "Mod TESTING DATA is loaded.", "topic": "TALK_DONE", "condition": { "mod_is_loaded": "test_data" } },
+      { "text": "Mod Innawood is loaded.", "topic": "TALK_DONE", "condition": { "mod_is_loaded": "innawood" } }
     ]
   },
   {

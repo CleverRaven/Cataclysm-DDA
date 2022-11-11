@@ -51,6 +51,7 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "battery" ],
+    "flags": [ "WATER_BREAK" ],
     "sub": "hotplate",
     "charges_per_use": 1,
     "qualities": [ [ "DISTILL", 1 ], [ "CHEM", 3 ], [ "BOIL", 1 ] ],
@@ -94,6 +95,7 @@
     "material": [ "steel", "copper", "plastic" ],
     "symbol": ";",
     "ammo": [ "battery" ],
+    "flags": [ "WATER_BREAK" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -115,6 +117,7 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "battery" ],
+    "flags": [ "WATER_BREAK" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -139,6 +142,7 @@
     "symbol": "^",
     "color": "dark_gray",
     "ammo": [ "battery" ],
+    "flags": [ "WATER_BREAK", "ELECTRONIC" ],
     "charges_per_use": 1,
     "pocket_data": [
       {
@@ -176,6 +180,7 @@
     "symbol": ":",
     "color": "dark_gray",
     "ammo": [ "battery" ],
+    "flags": [ "WATER_BREAK", "ELECTRONIC" ],
     "charges_per_use": 1,
     "pocket_data": [
       {
@@ -243,7 +248,7 @@
     "bashing": 10,
     "material": [ "steel" ],
     "symbol": "E",
-    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
     "color": "dark_gray",
     "pocket_data": [
       {
@@ -268,7 +273,7 @@
     "to_hit": -10,
     "bashing": 40,
     "material": [ "steel" ],
-    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
     "ammo": [ "battery" ],
     "qualities": [ [ "EXTRACT", 2 ] ],
     "pocket_data": [
@@ -307,7 +312,7 @@
     "material": [ "steel" ],
     "symbol": "E",
     "color": "dark_gray",
-    "flags": [ "ALLOWS_REMOTE_USE", "TRADER_AVOID" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC" ],
     "ammo": [ "battery" ],
     "qualities": [ [ "EXTRACT", 1 ] ],
     "pocket_data": [
@@ -422,7 +427,7 @@
     "to_hit": -5,
     "bashing": 10,
     "material": [ "iron" ],
-    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
     "ammo": [ "battery" ],
     "pocket_data": [
       {
@@ -498,7 +503,7 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "battery" ],
-    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "large_storage_battery" ] } ]
   },
   {
@@ -518,7 +523,7 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "battery" ],
-    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "large_storage_battery" ] } ]
   },
   {
@@ -538,7 +543,7 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "battery" ],
-    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -773,7 +778,7 @@
     "ammo": [ "battery" ],
     "charges_per_use": 5,
     "use_action": [ "WEATHER_TOOL" ],
-    "flags": [ "THERMOMETER", "HYGROMETER", "BAROMETER" ],
+    "flags": [ "THERMOMETER", "HYGROMETER", "BAROMETER", "WATER_BREAK", "ELECTRONIC" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -794,6 +799,7 @@
     "price": 25000,
     "price_postapoc": 1000,
     "ammo": [ "battery" ],
+    "flags": [ "WATER_BREAK", "ELECTRONIC" ],
     "to_hit": -5,
     "bashing": 2,
     "material": [ "plastic", "steel" ],
@@ -836,6 +842,7 @@
     "price": 8000,
     "price_postapoc": 500,
     "ammo": [ "battery" ],
+    "flags": [ "WATER_BREAK", "ELECTRONIC" ],
     "to_hit": -5,
     "bashing": 2,
     "material": [ "plastic", "steel" ],
@@ -877,6 +884,7 @@
     "price": 6000,
     "price_postapoc": 250,
     "ammo": [ "battery" ],
+    "flags": [ "WATER_BREAK" ],
     "to_hit": -5,
     "bashing": 2,
     "material": [ "plastic", "glass" ],
@@ -907,6 +915,7 @@
     "bashing": 2,
     "material": [ "plastic" ],
     "use_action": [ "VOLTMETER" ],
+    "flags": [ "WATER_BREAK" ],
     "symbol": ";",
     "color": "light_gray",
     "pocket_data": [
@@ -935,6 +944,7 @@
     "bashing": 2,
     "material": [ "plastic" ],
     "use_action": [ "VOLTMETER" ],
+    "flags": [ "WATER_BREAK", "ELECTRONIC" ],
     "symbol": ";",
     "color": "light_gray",
     "pocket_data": [
@@ -1000,6 +1010,7 @@
     "to_hit": -5,
     "bashing": 2,
     "looks_like": "e_scrap",
+    "flags": [ "WATER_BREAK", "ELECTRONIC" ],
     "material": [ "plastic" ],
     "symbol": "#",
     "color": "light_gray"
@@ -1117,6 +1128,7 @@
     "to_hit": -5,
     "bashing": 8,
     "material": [ "steel", "glass" ],
+    "flags": [ "WATER_BREAK", "ELECTRONIC" ],
     "symbol": "R",
     "color": "white",
     "qualities": [ [ "CONCENTRATE", 1 ] ]
@@ -1173,6 +1185,7 @@
     "symbol": "n",
     "color": "white",
     "ammo": [ "battery" ],
+    "flags": [ "WATER_BREAK", "ELECTRONIC" ],
     "qualities": [ [ "CONCENTRATE", 1 ] ],
     "pocket_data": [
       {
@@ -1300,6 +1313,7 @@
     "color": "light_gray",
     "use_action": [ "LUX_METER" ],
     "ammo": [ "battery" ],
+    "flags": [ "WATER_BREAK", "ELECTRONIC" ],
     "charges_per_use": 10,
     "pocket_data": [
       {

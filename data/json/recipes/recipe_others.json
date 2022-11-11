@@ -82,6 +82,36 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
+    "result": "screw_press_tool",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "skills_required": [ "survival", 3 ],
+    "difficulty": 5,
+    "time": "8 h",
+    "reversible": true,
+    "decomp_learn": 2,
+    "autolearn": true,
+    "book_learn": [ [ "winemaking_beginner", 1 ], [ "distilling_cookbook", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_carpentry_basic" } ],
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SAW_W", "level": 2 },
+      { "id": "CHISEL_WOOD", "level": 1 },
+      { "id": "CUT", "level": 2 }
+    ],
+    "components": [
+      [ [ "wood_beam", 3 ] ],
+      [ [ "wood_panel", 1 ] ],
+      [ [ "2x4", 4 ] ],
+      [ [ "wood_panel", 1 ], [ "sheet_metal", 1 ] ],
+      [ [ "giant_wood_screw", 1 ] ],
+      [ [ "long_pole", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "wind_mill",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -1083,6 +1113,7 @@
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "20 m",
+    "reversible": true,
     "book_learn": [ [ "fun_survival", 1 ], [ "manual_fabrication", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "can_drink", 2 ] ], [ [ "bottle_plastic", 1 ], [ "bottle_bathroom", 1 ] ] ]
@@ -1633,10 +1664,10 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "survival",
-    "time": "1 m",
+    "time": "5 m",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "cordage", 6 ] ],
+    "using": [ [ "cordage_fishing", 1 ] ],
     "tools": [  ],
     "components": [ [ [ "stick", 1 ] ], [ [ "fishing_hook_bone", 1 ], [ "fishing_hook_basic", 1 ] ] ]
   },
@@ -1738,10 +1769,11 @@
     "skills_required": [ "tailor", 3 ],
     "difficulty": 4,
     "time": "7 h",
+    "reversible": true,
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_basketweaving" } ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "plant_cordage", 20, "LIST" ] ], [ [ "cordage", 2, "LIST" ] ] ]
+    "components": [ [ [ "plant_cordage", 20, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -2766,7 +2798,7 @@
     "skill_used": "fabrication",
     "time": "2 m",
     "autolearn": true,
-    "qualities": [ { "id": "DIG", "level": 3 } ],
+    "qualities": [ { "id": "DIG", "level": 2 } ],
     "components": [ [ [ "bag_canvas", 1 ] ], [ [ "material_sand", 3000 ] ] ]
   },
   {
@@ -2778,8 +2810,20 @@
     "skill_used": "fabrication",
     "time": "2 m",
     "autolearn": true,
-    "qualities": [ { "id": "DIG", "level": 3 } ],
+    "qualities": [ { "id": "DIG", "level": 2 } ],
     "components": [ [ [ "bag_canvas", 1 ] ], [ [ "material_soil", 3 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "fake",
+    "result": "gravelbag",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "time": "2 m",
+    "autolearn": true,
+    "qualities": [ { "id": "DIG", "level": 2 } ],
+    "components": [ [ [ "bag_canvas", 1 ] ], [ [ "material_gravel", 2700 ] ] ]
   },
   {
     "result": "anvil_bronze",

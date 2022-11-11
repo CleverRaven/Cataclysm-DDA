@@ -3220,11 +3220,11 @@ void item::gunmod_info( std::vector<iteminfo> &info, const iteminfo_query *parts
     insert_separation_line( info );
 
     if( parts->test( iteminfo_parts::GUNMOD_USEDON ) ) {
-        std::string used_on_str = _( "Used on: " ) +
-        enumerate_as_string( mod.usable.begin(), mod.usable.end(), []( const gun_type_type & used_on ) {
-            return string_format( "<info>%s</info>", used_on.name() );
-        } );
-        info.emplace_back( "GUNMOD", used_on_str );
+        std::set<std::string> used_on_translated; // uses set to prune duplicates
+        for( const gun_type_type &gtt : mod.usable ) {
+            used_on_translated.emplace( string_format( "<info>%s</info>", gtt.name() ) );
+        }
+        info.emplace_back( "GUNMOD", _( "Used on: " ) + enumerate_as_string( used_on_translated ) );
     }
 
     if( parts->test( iteminfo_parts::GUNMOD_LOCATION ) ) {
@@ -10081,6 +10081,10 @@ bool item::is_magazine_full() const
 
 bool item::can_unload_liquid() const
 {
+    if( has_flag( flag_NO_UNLOAD ) ) {
+        return false;
+    }
+
     return contents.can_unload_liquid();
 }
 
@@ -10318,7 +10322,7 @@ ret_val<void> item::can_contain( const item &it, const bool nested,
 
         // If the current pocket has restrictions or blacklists the item,
         // try the nested pocket regardless of whether it's soft or rigid.
-        const bool ignore_rigidity =
+        const bool ignore_nested_rigidity =
             !pkt->settings.accepts_item( it ) ||
             !pkt->get_pocket_data()->get_flag_restrictions().empty();
         for( const item *internal_it : pkt->all_items_top() ) {
@@ -10328,7 +10332,7 @@ ret_val<void> item::can_contain( const item &it, const bool nested,
             if( !internal_it->is_container() ) {
                 continue;
             }
-            if( internal_it->can_contain( it, true, ignore_rigidity, ignore_pkt_settings,
+            if( internal_it->can_contain( it, true, ignore_nested_rigidity, ignore_pkt_settings,
                                           parent_it, pkt->remaining_volume() ).success() ) {
                 return ret_val<void>::make_success();
             }
@@ -14142,7 +14146,8 @@ units::volume item::check_for_free_space() const
             volume += container->check_for_free_space();
 
             for( const item_pocket *pocket : containedPockets ) {
-                if( pocket->rigid() && ( pocket->empty() || pocket->contains_phase( phase_id::SOLID ) ) ) {
+                if( pocket->rigid() && ( pocket->empty() || pocket->contains_phase( phase_id::SOLID ) ) &&
+                    pocket->get_pocket_data()->ammo_restriction.empty() ) {
                     volume += pocket->remaining_volume();
                 }
             }

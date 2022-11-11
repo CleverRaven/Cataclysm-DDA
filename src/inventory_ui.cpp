@@ -330,6 +330,7 @@ void uistatedata::serialize( JsonOut &json ) const
     json.member( "distraction_hunger", distraction_hunger );
     json.member( "distraction_thirst", distraction_thirst );
     json.member( "distraction_temperature", distraction_temperature );
+    json.member( "distraction_mutation", distraction_mutation );
 
     json.member( "input_history" );
     json.start_object();
@@ -396,6 +397,7 @@ void uistatedata::deserialize( const JsonObject &jo )
     jo.read( "distraction_hunger", distraction_hunger );
     jo.read( "distraction_thirst", distraction_thirst );
     jo.read( "distraction_temperature", distraction_temperature );
+    jo.read( "distraction_mutation", distraction_mutation );
 
     if( !jo.read( "vmenu_show_items", vmenu_show_items ) ) {
         // This is an old save: 1 means view items, 2 means view monsters,
@@ -2794,6 +2796,16 @@ item_location inventory_pick_selector::execute()
             on_input( input );
         }
     }
+}
+
+inventory_selector::stats container_inventory_selector::get_raw_stats() const
+{
+    return get_weight_and_volume_stats( loc->get_total_contained_weight(),
+                                        loc->get_total_weight_capacity(),
+                                        loc->get_total_contained_volume(), loc->get_total_capacity(),
+                                        loc->max_containable_length(), loc->max_containable_volume(),
+                                        loc->get_total_holster_volume() - loc->get_used_holster_volume(),
+                                        loc->get_used_holsters(), loc->get_total_holsters() );
 }
 
 void inventory_selector::action_examine( const item_location &sitem )

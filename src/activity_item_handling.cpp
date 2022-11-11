@@ -2213,7 +2213,7 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
             item &thisitem = *it->first;
 
             // skip unpickable liquid
-            if( thisitem.made_of_from_type( phase_id::LIQUID ) ) {
+            if( !thisitem.made_of_from_type( phase_id::SOLID ) ) {
                 continue;
             }
 
