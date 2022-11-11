@@ -432,8 +432,22 @@ void overmap::convert_terrain(
                 ter_set( pos + point_west, oter_id( "triffid_rootsw_north" ) );
                 ter_set( pos + point_south_west, oter_id( "triffid_rootsnw_north" ) );
             }
+        } else if( old == "temple_stairs" ) {
+            {
+                ter_set( pos, oter_id( "temple_stairs_north" ) );
+            }
+        } else if( old == "temple_finale" ) {
+            {
+                ter_set( pos, oter_id( "temple_finale_north" ) );
+                ter_set( pos + tripoint_above, oter_id( "temple_underground_4_north" ) );
+                ter_set( pos + tripoint( 0, 0, 2 ), oter_id( "temple_underground_3_north" ) );
+                ter_set( pos + tripoint( 0, 0, 3 ), oter_id( "temple_underground_2_north" ) );
+                ter_set( pos + tripoint( 0, 0, 4 ), oter_id( "temple_underground_1_north" ) );
+            }
         } else if( old.compare( 0, 10, "mass_grave" ) == 0 ) {
             ter_set( pos, oter_id( "field" ) );
+        } else if( old.compare( 0, 15, "bunker_basement" ) == 0 ) {
+            ter_set( pos, oter_id( "bunker_basement_1" ) );
         } else if( old.compare( 0, 11, "pond_forest" ) == 0 ) {
             ter_set( pos, oter_id( "forest" ) );
         } else if( old.compare( 0, 10, "pond_swamp" ) == 0 ) {

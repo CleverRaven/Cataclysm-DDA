@@ -1330,7 +1330,8 @@ class vehicle
         // Total power drain across all vehicle accessories.
         int total_accessory_epower_w() const;
         // Net power draw or drain on batteries.
-        int net_battery_charge_rate_w( bool include_reactors = true ) const;
+        int net_battery_charge_rate_w( bool include_reactors = true,
+                                       bool connected_vehicles = false ) const;
         // Maximum available power available from all reactors. Power from
         // reactors is only drawn when batteries are empty.
         int max_reactor_epower_w() const;

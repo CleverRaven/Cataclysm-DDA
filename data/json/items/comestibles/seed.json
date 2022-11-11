@@ -116,7 +116,8 @@
     "type": "COMESTIBLE",
     "name": { "str_sp": "grape seeds" },
     "description": "Some grape seeds.",
-    "seed_data": { "plant_name": "grape", "fruit": "grapes", "byproducts": [ "grape_leaves", "withered" ], "grow": "91 days" }
+    "seed_data": { "plant_name": "grape", "fruit": "grapes", "byproducts": [ "grape_leaves", "withered" ], "grow": "91 days" },
+    "milling": { "into": "paste_seed", "conversion_rate": 0.02 }
   },
   {
     "id": "seed_rose",
@@ -196,7 +197,8 @@
     "weight": "5 g",
     "charges": 8,
     "stack_size": 40,
-    "seed_data": { "plant_name": "cotton", "fruit": "cotton_boll", "byproducts": [ "withered" ], "grow": "130 days" }
+    "seed_data": { "plant_name": "cotton", "fruit": "cotton_boll", "byproducts": [ "withered" ], "grow": "130 days" },
+    "milling": { "into": "paste_seed", "conversion_rate": 0.05 }
   },
   {
     "type": "COMESTIBLE",
@@ -381,7 +383,8 @@
     "weight": "2 g",
     "charges": 2,
     "flags": [ "RAW" ],
-    "seed_data": { "plant_name": "cannabis", "fruit": "cannabis", "grow": "91 days" }
+    "seed_data": { "plant_name": "cannabis", "fruit": "cannabis", "grow": "91 days" },
+    "milling": { "into": "paste_seed", "conversion_rate": 0.02 }
   },
   {
     "type": "AMMO",
@@ -475,7 +478,8 @@
     "color": "green",
     "description": "Some canola seeds.  You could press them into oil.",
     "charges": 2,
-    "seed_data": { "plant_name": "canola", "fruit": "seed_canola", "byproducts": [ "withered" ], "grow": "91 days" }
+    "seed_data": { "plant_name": "canola", "fruit": "seed_canola", "byproducts": [ "withered" ], "grow": "91 days" },
+    "milling": { "into": "paste_seed", "conversion_rate": 0.02 }
   },
   {
     "type": "COMESTIBLE",
@@ -497,7 +501,8 @@
     "description": "Some raw pumpkin seeds.  Could be fried and eaten.",
     "price": 100,
     "charges": 2,
-    "seed_data": { "plant_name": "pumpkin", "fruit": "pumpkin", "fruit_div": 3, "byproducts": [ "withered" ], "grow": "91 days" }
+    "seed_data": { "plant_name": "pumpkin", "fruit": "pumpkin", "fruit_div": 3, "byproducts": [ "withered" ], "grow": "91 days" },
+    "milling": { "into": "paste_seed", "conversion_rate": 0.02 }
   },
   {
     "type": "COMESTIBLE",
@@ -511,7 +516,8 @@
     "description": "Some raw sunflower seeds.  Could be pressed into oil.",
     "price": 100,
     "charges": 2,
-    "seed_data": { "plant_name": "sunflower", "fruit": "seed_sunflower", "byproducts": [ "withered" ], "grow": "91 days" }
+    "seed_data": { "plant_name": "sunflower", "fruit": "seed_sunflower", "byproducts": [ "withered" ], "grow": "91 days" },
+    "milling": { "into": "paste_seed", "conversion_rate": 0.02 }
   },
   {
     "type": "COMESTIBLE",

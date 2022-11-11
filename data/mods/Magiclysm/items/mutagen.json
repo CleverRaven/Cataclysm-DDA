@@ -35,7 +35,11 @@
     "color": "light_blue",
     "description": "A mana potion mixed with mutagen.  It might help you connect with magic.",
     "name": { "str": "mana mutagen" },
-    "vitamins": [ [ "mutagen_manatouched", 175 ], [ "mutagen", 125 ] ]
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You drink the mana mutagen.",
+      "vitamins": [ [ "mutagen_manatouched", 175 ], [ "mutagen", 125 ] ]
+    }
   },
   {
     "id": "mutagen_black_dragon",
@@ -44,7 +48,11 @@
     "color": "black",
     "description": "An alchemic concoction made from the remains of a slain black dragon and a bit of potion base.  Ancient and Academic texts talk of profound changes from consuming this.",
     "name": { "str": "black dragon mutagen" },
-    "vitamins": [ [ "mutagen_black_dragon", 175 ], [ "mutagen", 125 ] ]
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You drink the black dragon mutagen.",
+      "vitamins": [ [ "mutagen_black_dragon", 175 ], [ "mutagen", 125 ] ]
+    }
   },
   {
     "id": "iv_black_dragon",

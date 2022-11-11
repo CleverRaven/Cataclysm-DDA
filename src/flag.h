@@ -99,6 +99,7 @@ extern const flag_id flag_EATEN_HOT;
 extern const flag_id flag_EDIBLE_FROZEN;
 extern const flag_id flag_EFFECT_IMPEDING;
 extern const flag_id flag_ELECTRIC_IMMUNE;
+extern const flag_id flag_ELECTRONIC;
 extern const flag_id flag_ETHEREAL_ITEM;
 extern const flag_id flag_EXO_ARM_PLATE;
 extern const flag_id flag_EXO_BOOT_PLATE;

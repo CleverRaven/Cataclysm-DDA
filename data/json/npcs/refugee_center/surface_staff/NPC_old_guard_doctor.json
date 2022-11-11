@@ -7,7 +7,7 @@
     "class": "NC_DOCTOR",
     "attitude": 0,
     "//2": "Possibly should change to NPC_MISSION_SHOPKEEP and sell medical supplies.",
-    "mission": 7,
+    "mission": 3,
     "chat": "TALK_SCIENCE_REP",
     "faction": "old_guard",
     "mission_offered": "MISSION_SCIENCE_REP_1"

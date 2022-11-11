@@ -25,7 +25,7 @@
     "name": "PLAYER_CARDIOFIT_STAMINA_SCALING",
     "info": "Sets the effect of cardio on maximum stamina.",
     "stype": "int",
-    "value": 3
+    "value": 5
   },
   {
     "type": "EXTERNAL_OPTION",
@@ -327,6 +327,13 @@
     "info": "All vehicles spawn with this percentage of fuel.  0 is empty, 100 is fully loaded, -1 is random amount from 7% to 35% (default).  Values are read only if OVERRIDE_VEHICLE_INIT_STATE is set to true.",
     "stype": "int",
     "value": -1
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "EMP_DISABLE_ELECTRONICS",
+    "info": "Whether EMP effects will permanently disable items.",
+    "stype": "bool",
+    "value": true
   },
   {
     "type": "EXTERNAL_OPTION",

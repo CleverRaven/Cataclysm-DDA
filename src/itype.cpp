@@ -206,7 +206,10 @@ cata::optional<int> itype::invoke( Character &p, item &it, const tripoint &pos,
 
 std::string gun_type_type::name() const
 {
-    return pgettext( "gun_type_type", name_.c_str() );
+    const itype_id gun_type_as_id( name_ );
+    return gun_type_as_id.is_valid()
+           ? gun_type_as_id->nname( 1 )
+           : pgettext( "gun_type_type", name_.c_str() );
 }
 
 bool itype::can_have_charges() const

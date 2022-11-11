@@ -236,18 +236,38 @@ void main_menu::display_sub_menu( int sel, const point &bottom_left, int sel_lin
         return;
     }
 
-    const point top_left( bottom_left + point( 0, -( sub_opts.size() + 1 ) ) );
-    catacurses::window w_sub = catacurses::newwin( sub_opts.size() + 2, xlen + 4, top_left );
+    point top_left( bottom_left + point( 0, -( sub_opts.size() + 1 ) ) );
+    int height = sub_opts.size();
+    if( top_left.y < 0 ) {
+        height += top_left.y;
+        top_left.y = 0;
+    } else {
+        sub_opt_off = 0;
+    }
+
+    if( sel2 - 1 < sub_opt_off ) {
+        sub_opt_off = sel2;
+    } else if( sel2 + 1 > sub_opt_off + height ) {
+        sub_opt_off = sel2 - height + 1;
+    }
+
+    catacurses::window w_sub = catacurses::newwin( height + 2, xlen + 4, top_left );
     werase( w_sub );
     draw_border( w_sub, c_white );
-    for( int y = 0; static_cast<size_t>( y ) < sub_opts.size(); y++ ) {
-        std::string opt = ( sel2 == y ? "» " : "  " ) + sub_opts[y];
+
+    for( int y = 0; y < height; y++ ) {
+        std::string opt = ( sel2 == y + sub_opt_off ? "» " : "  " ) + sub_opts[y + sub_opt_off];
         int padding = ( xlen + 2 ) - utf8_width( opt, true );
         opt.append( padding, ' ' );
-        nc_color clr = sel2 == y ? hilite( c_white ) : c_white;
+        nc_color clr = sel2 == y + sub_opt_off ? hilite( c_white ) : c_white;
         trim_and_print( w_sub, point( 1, y + 1 ), xlen + 2, clr, opt );
-        inclusive_rectangle<point> rec( top_left + point( 1, y + 1 ), top_left + point( xlen + 2, y + 1 ) );
+        inclusive_rectangle<point> rec( top_left + point( 1, y  + 1 ),
+                                        top_left + point( xlen + 2, y + 1 ) );
         main_menu_sub_button_map.emplace_back( rec, std::pair<int, int> { sel, y } );
+    }
+    if( static_cast<size_t>( height ) != sub_opts.size() ) {
+        draw_scrollbar( w_sub, sel2, height, sub_opts.size(), point_south, c_white,
+                        false );
     }
     wnoutrefresh( w_sub );
 }
@@ -534,7 +554,6 @@ void main_menu::load_char_templates()
         templates.push_back( path );
     }
     std::sort( templates.begin(), templates.end(), localized_compare );
-    std::reverse( templates.begin(), templates.end() );
 }
 
 bool main_menu::opening_screen()
