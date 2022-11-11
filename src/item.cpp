@@ -3059,7 +3059,7 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
     if( !gun.valid_mod_locations.empty() && parts->test( iteminfo_parts::DESCRIPTION_GUN_MODS ) ) {
         insert_separation_line( info );
 
-        std::string mod_str = _( "<bold>Mods</bold>: " );
+        std::string mod_str = _( "<bold>Mods</bold>:" );
 
         std::map<gunmod_location, int> mod_locations = get_mod_locations();
 
@@ -3081,9 +3081,9 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
             }
             for( int i = free_slots + 1 ; i <= elem.second ; i++ ) {
                 if( i == free_slots + 1 && i <= elem.second ) {
-                    mod_str += string_format( "\n    " );
+                    mod_str += string_format( "\n   " );
                 }
-                mod_str += string_format( _( "<color_dark_gray>[-empty-]</color> " ) );
+                mod_str += string_format( " <color_dark_gray>[-%s-]</color>", _( "empty" ) );
             }
             iternum++;
         }
