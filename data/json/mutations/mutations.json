@@ -1814,7 +1814,7 @@
     "id": "VEGAN",
     "name": { "str": "Vegan" },
     "points": -4,
-    "description": "You're very strictly vegan, eating animal products is out of the question, even if it means death. Wearing animal products is also impossible.",
+    "description": "You're very strictly vegan, eating animal products is out of the question, even if it means death.  Wearing animal products is also impossible.",
     "starting_trait": true,
     "valid": true
   },
