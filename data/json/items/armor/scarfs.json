@@ -503,7 +503,7 @@
     "warmth": 25,
     "environmental_protection": 1,
     "material_thickness": 2,
-    "armor": [ { "encumbrance:10", "coverage": 45, "covers": [ "mouth" ] } ]
+    "armor": [ { "encumbrance": 10, "coverage": 45, "covers": [ "mouth" ] } ]
   },
   {
     "id": "marloss_scarf",
