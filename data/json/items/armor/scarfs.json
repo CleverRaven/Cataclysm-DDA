@@ -497,7 +497,12 @@
     "weight": "280 g",
     "volume": "2 L",
     "to_hit": -3,
-    "use_action": { "type": "transform", "msg": "You wrap your scarf tighter.", "target": "scarf_faux_fur_long", "menu_text": "Wrap tighter" },
+    "use_action": {
+      "type": "transform",
+      "msg": "You wrap your scarf tighter.",
+      "target": "scarf_faux_fur_long",
+      "menu_text": "Wrap tighter"
+    },
     "revert_to": "scarf_faux_fur_long",
     "flags": [ "OVERSIZE", "POCKETS", "OUTER", "ALLOWS_NATURAL_ATTACKS" ],
     "warmth": 25,

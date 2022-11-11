@@ -85,13 +85,13 @@ ret_val<void> Character::can_wear( const item &it, bool with_equip_change ) cons
                                             it.has_own_flag( flag_wooled ) ) ) {
         return ret_val<void>::make_failure( _( "Can't wear that, it's made of wool!" ) );
     }
-    
-        if( has_trait( trait_VEGAN ) && ( it.made_of( material_leather ) ||
-                                          it.has_own_flag( flag_ANIMAL_PRODUCT ) ||
-                                          it.made_of( material_fur ) ||
-                                          it.made_of( material_wool ) ||
-                                          it.made_of( material_chitin ) ||
-                                          it.made_of( material_acidchitin ) ) ) {
+
+    if( has_trait( trait_VEGAN ) && ( it.made_of( material_leather ) ||
+                                      it.has_own_flag( flag_ANIMAL_PRODUCT ) ||
+                                      it.made_of( material_fur ) ||
+                                      it.made_of( material_wool ) ||
+                                      it.made_of( material_chitin ) ||
+                                      it.made_of( material_acidchitin ) ) ) {
         return ret_val<void>::make_failure( _( "Can't wear that, it's made from an animal!" ) );
     }
 

@@ -162,7 +162,7 @@ static const std::array<flag_id, 2> herbivore_blacklist {{
     }};
 
 static const std::array<flag_id, 4> vegan_blacklist {{
-        json_flag_ALLERGEN_MEAT, json_flag_ALLERGEN_EGG, 
+        json_flag_ALLERGEN_MEAT, json_flag_ALLERGEN_EGG,
         json_flag_ALLERGEN_MILK, json_flag_ANIMAL_PRODUCT
     }};
 
@@ -819,7 +819,7 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
         return ret_val<edible_rating>::make_failure( INEDIBLE_MUTATION,
                 _( "The thought of eating that makes you feel sick." ) );
     }
-        if( ( has_trait( trait_VEGAN ) ) &&
+    if( ( has_trait( trait_VEGAN ) ) &&
         food.has_any_flag( vegan_blacklist ) ) {
         return ret_val<edible_rating>::make_failure( INEDIBLE_MUTATION,
                 _( "You're still not going to eat animal products." ) );

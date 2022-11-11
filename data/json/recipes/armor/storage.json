@@ -17,7 +17,7 @@
       { "proficiency": "prof_leatherworking" }
     ]
   },
-   {
+  {
     "result": "XL_cotton_holster",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -29,9 +29,7 @@
     "time": "6 h",
     "autolearn": true,
     "using": [ [ "strap_small", 1 ], [ "tailoring_cotton_small", 15 ], [ "clasps", 1 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_closures" }
-    ]
+    "proficiencies": [ { "proficiency": "prof_closures" } ]
   },
   {
     "result": "ammo_satchel",
@@ -863,7 +861,7 @@
     ],
     "components": [ [ [ "strap_small", 1, "LIST" ] ], [ [ "clasps", 1, "LIST" ] ], [ [ "fastener_small", 1, "LIST" ] ] ]
   },
-    {
+  {
     "result": "cotton_holster",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -875,9 +873,7 @@
     "time": "8 h",
     "autolearn": true,
     "using": [ [ "tailoring_cotton_small", 8 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_closures" }
-    ],
+    "proficiencies": [ { "proficiency": "prof_closures" } ],
     "components": [ [ [ "strap_small", 1, "LIST" ] ], [ [ "clasps", 1, "LIST" ] ], [ [ "fastener_small", 1, "LIST" ] ] ]
   },
   {
@@ -907,7 +903,7 @@
     "using": [ [ "tailoring_leather_small", 2 ] ],
     "components": [ [ [ "strap_small", 1, "LIST" ] ], [ [ "clasps", 1, "LIST" ] ], [ [ "fastener_small", 1, "LIST" ] ] ]
   },
-    {
+  {
     "result": "XS_cotton_holster",
     "type": "recipe",
     "copy-from": "cotton_holster",
