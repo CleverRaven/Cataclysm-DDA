@@ -87,9 +87,9 @@
       "XS_holster",
       "sholster",
       "suspenders_holster",
-      "cotton_holster",
-      "XL_cotton_holster",
-      "XS_cotton_holster"
+      "canvas_holster",
+      "XL_canvas_holster",
+      "XS_canvas_holster"
     ],
     "difficulty": 1
   },
