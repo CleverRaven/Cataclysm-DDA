@@ -21,7 +21,7 @@
           "item": { "subtype": "distribution", "entries": [ { "group": "cannabis_extraction_equipment", "prob": 100 } ] },
           "x": 0,
           "y": 0,
-          "chance": 10
+          "chance": 20
         }
       ]
     }
