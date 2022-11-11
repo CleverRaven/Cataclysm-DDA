@@ -24,7 +24,7 @@
   },
   {
     "id": "303_sp",
-    "copy-from": "303",
+    "copy-from": "303_bthp",
     "type": "AMMO",
     "name": { "str_sp": ".303 British SP" },
     "description": "Modern manufactured single-core soft-point .303 calibre cartridges, loaded with 180 GR exposed led bullets.  Starting life as a black powder cartridge in service with British Long Lee rifles in the early nineteenth century, the cartridge evolved into a centre-fired smokeless-powder design and became the standard rifle and machinegun cartridge of the British commonwealth.  The bullet features an open-tipped design manufactured from soft led, allowing the round to undergo greater expansion upon making contact with targets, leading to larger wound channels and greater overall terminal performance.",
@@ -32,7 +32,7 @@
   },
   {
     "id": "303_fmjbt",
-    "copy-from": "303",
+    "copy-from": "303_bthp",
     "type": "AMMO",
     "name": { "str_sp": ".303 British FMJBT" },
     "description": "Modern manufactured full metal jacketed .303 calibre cartridges, loaded with 174 GR single-core boat tailed bullets.  Starting life as a black powder cartridge in service with British Long Lee rifles in the early nineteenth century, the cartridge evolved into a centre-fired smokeless-powder design and became the standard rifle and machinegun cartridge of the British commonwealth.  Featuring a boat tailed design, which allows the round to retain greater terminal performance and stability over longer ranges, the bullet possesses a solid metal jacket that grants it the capability to punch through thicker material at the cost of virtually non-existent expansion.",
@@ -40,7 +40,7 @@
   },
   {
     "id": "bp_303",
-    "copy-from": "303",
+    "copy-from": "303_bthp",
     "type": "AMMO",
     "name": { "str_sp": ".303 British BTHP, black powder" },
     "proportional": {
@@ -54,7 +54,7 @@
   },
   {
     "id": "bp_303sp",
-    "copy-from": "303sp",
+    "copy-from": "303_sp",
     "type": "AMMO",
     "name": { "str_sp": ".303 British SP, black powder" },
     "proportional": {
@@ -68,7 +68,7 @@
   },
   {
     "id": "bp_303fmj",
-    "copy-from": "bp_3006",
+    "copy-from": "303_fmjbt",
     "type": "AMMO",
     "name": { "str_sp": ".303 British FMJBT, black powder" },
     "proportional": {
@@ -82,7 +82,7 @@
   },
   {
     "id": "reloaded_303",
-    "copy-from": "303",
+    "copy-from": "303_bthp",
     "type": "AMMO",
     "name": { "str_sp": ".303 British BTHP, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
@@ -91,7 +91,7 @@
   },
   {
     "id": "reloaded_303sp",
-    "copy-from": "303sp",
+    "copy-from": "303_sp",
     "type": "AMMO",
     "name": { "str_sp": ".303 British SP, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
@@ -100,7 +100,7 @@
   },
   {
     "id": "reloaded_303fmj",
-    "copy-from": "303fmj",
+    "copy-from": "303_fmjbt",
     "type": "AMMO",
     "name": { "str_sp": ".303 British FMJBT, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
