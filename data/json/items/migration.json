@@ -1154,6 +1154,12 @@
     "replace": "m27_assault_rifle"
   },
   {
+    "id": "number4_mki",
+    "type": "MIGRATION",
+    "replace": "smle_mk3",
+    "variant": "number4_mki"
+  },
+  {
     "id": "browning_a5",
     "type": "MIGRATION",
     "replace": "remington_870",

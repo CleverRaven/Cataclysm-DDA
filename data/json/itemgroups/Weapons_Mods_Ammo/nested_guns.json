@@ -2441,5 +2441,31 @@
       { "item": "papm77mag_10rd", "prob": 50 },
       { "group": "on_hand_308" }
     ]
+  },
+  {
+    "id": "nested_mk3",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "smle_mk3", "variant": "smle_mk3", "charges-min": 0, "charges-max": 10 },
+      { "item": "enfield_303mag" },
+      { "item": "enfield_303mag", "prob": 50 },
+      { "group": "on_hand_303" }
+    ]
+  },
+  {
+    "id": "nested_number4",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "smle_mk3", "variant": "number4_mki", "charges-min": 0, "charges-max": 10 },
+      { "item": "enfield_303mag" },
+      { "item": "enfield_303mag", "prob": 50 },
+      { "group": "on_hand_303" }
+    ]
   }
 ]
