@@ -470,6 +470,7 @@
     "color": "yellow",
     "description": "A candy bracelet made by stringing candies onto a thread.  In theory, you could both wear and eat the bracelet.",
     "copy-from": "candy4",
+    "material": [ "junk" ],
     "armor_data": { "covers": [ "HAND_EITHER" ] }
   },
   {
