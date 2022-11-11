@@ -58,11 +58,7 @@
         "distribution": [
           {
             "//": "Improvised butane extraction supplies for wax.",
-            "collection": [              
-              { "item": "pipe" },
-              { "item": "vac_oven_small" },
-              { "group": "butane_can_full", "count": [ 0, 3 ] }
-            ],
+            "collection": [ { "item": "pipe" }, { "item": "vac_oven_small" }, { "group": "butane_can_full", "count": [ 0, 3 ] } ],
             "prob": 70
           },
           {
