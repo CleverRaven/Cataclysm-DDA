@@ -31,7 +31,7 @@
     "price": 4000,
     "price_postapoc": 250,
     "to_hit": 1,
-    "material": [ "plastic", "leather" ],
+    "material": [ "plastic_pad", "leather" ],
     "symbol": "[",
     "looks_like": "balclava",
     "color": "red",
@@ -39,7 +39,17 @@
     "material_thickness": 3,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "OVERSIZE", "STURDY" ],
-    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 75, "covers": [ "head" ] } ]
+    "armor": [
+      {
+        "encumbrance_modifiers": [ "NONE" ],
+        "coverage": 75,
+        "covers": [ "head" ],
+        "material": [
+          { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 14 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1.5 }
+        ]
+      }
+    ]
   },
   {
     "id": "helmet_army",
@@ -341,7 +351,7 @@
     "armor": [
       {
         "encumbrance_modifiers": [ "NONE" ],
-        "coverage": 80,
+        "coverage": 75,
         "covers": [ "head" ],
         "material": [
           { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 14 },
