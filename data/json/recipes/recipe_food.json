@@ -9633,6 +9633,7 @@
     "skills_required": [ "survival", 0 ],
     "time": "10 s",
     "autolearn": true,
+    "charges": 1,
     "batch_time_factors": [ 20, 1 ],
     "tools": [ [ [ "bag_canvas", -1 ], [ "pillowcase", -1 ], [ "sheet", -1 ] ] ],
     "components": [ [ [ "acorns_blanching_done", 1 ] ] ]
