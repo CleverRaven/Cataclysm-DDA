@@ -236,7 +236,7 @@
     "type": "ARMOR",
     "name": { "str": "cotton holster" },
     "description": "An improvised holster made from reinforced cotton scraps. Not as strong as one made from leather, and not as fashionable either. Or tough. Activate to draw/holster a gun.",
-    "weight": "220 g",
+    "weight": "400 g",
     "volume": "500 ml",
     "price": 900,
     "price_postapoc": 250,
@@ -253,7 +253,7 @@
         "holster": true,
         "min_item_volume": "250 ml",
         "max_contains_volume": "1000 ml",
-        "max_contains_weight": "1750 g",
+        "max_contains_weight": "1500 g",
         "max_item_length": "30 cm",
         "moves": 50
       }
@@ -505,7 +505,7 @@
     "type": "ARMOR",
     "name": { "str": "large cotton holster" },
     "description": "A belt holster consisting of a loop and strap intended for use with larger firearms, but made with cotton instead of leather. Expect weaker performance. Activate to holster/draw a gun",
-    "weight": "320 g",
+    "weight": "400 g",
     "volume": "250 ml",
     "price": 900,
     "price_postapoc": 500,
@@ -521,7 +521,7 @@
         "holster": true,
         "min_item_volume": "500 ml",
         "max_contains_volume": "1500 ml",
-        "max_contains_weight": "4 kg",
+        "max_contains_weight": "3500 g",
         "max_item_length": "45 cm",
         "moves": 70
       }
