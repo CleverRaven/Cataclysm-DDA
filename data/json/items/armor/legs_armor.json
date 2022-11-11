@@ -1578,7 +1578,7 @@
     "repairs_like": "jeans",
     "type": "ARMOR",
     "name": { "str": "cloth-padded pants", "str_pl": "pairs of cloth-padded pants" },
-    "description": "A pair of tough canvas pants with sections of cotton sewn onto it, except for the joints to retain mobility. Some pockets have been sewn over to add more room for cotton patches.",
+    "description": "A pair of tough canvas pants with sections of cotton sewn onto it in a crossing pattern, clearly done by an amateur.",
     "weight": "1970 g",
     "volume": "2500 ml",
     "price_postapoc": 1200,
