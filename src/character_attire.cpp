@@ -28,6 +28,8 @@ static const itype_id itype_shoulder_strap( "shoulder_strap" );
 static const material_id material_wool( "wool" );
 static const material_id material_leather( "leather" );
 static const material_id material_fur( "fur" );
+static const material_id material_chitin( "chitin" );
+static const material_id material_acidchitin( "acidchitin" );
 
 static const trait_id trait_ANTENNAE( "ANTENNAE" );
 static const trait_id trait_ANTLERS( "ANTLERS" );
@@ -85,9 +87,11 @@ ret_val<void> Character::can_wear( const item &it, bool with_equip_change ) cons
     }
     
         if( has_trait( trait_VEGAN ) && ( it.made_of( material_leather ) ||
-                                          it.has_own_flag( flag_wooled ) ||
+                                          it.has_own_flag( flag_ANIMAL_PRODUCT ) ||
                                           it.made_of( material_fur ) ||
-                                          it.made_of( material_wool ) ) ) {
+                                          it.made_of( material_wool ) ||
+                                          it.made_of( material_chitin ) ||
+                                          it.made_of( material_acidchitin ) ) ) {
         return ret_val<void>::make_failure( _( "Can't wear that, it's made from an animal!" ) );
     }
 
