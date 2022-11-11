@@ -50,14 +50,14 @@
     "entries": [ { "item": "butane_can", "count": [ 1, 2 ], "charges": 30 } ]
   },
   {
-    "id": "cannabis_refining_equipment",
+    "id": "cannabis_extraction_equipment",
     "type": "item_group",
     "subtype": "collection",
     "entries": [
       {
         "distribution": [
           {
-            "//": "Improvised butane extraction supplies for wax.",
+            "//": "Improvised butane extraction supplies for shatter.",
             "collection": [ { "item": "pipe" }, { "item": "vac_oven_small" }, { "group": "butane_can_full", "count": [ 0, 3 ] } ],
             "prob": 70
           },

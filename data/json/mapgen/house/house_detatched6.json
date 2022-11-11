@@ -196,7 +196,7 @@
           ]
         }
       },      
-      "place_nested": [ { "chunks": [ "cannabis_refining_equipment_nested_1x1" ], "x": 21, "y": 7 } ]
+      "place_nested": [ { "chunks": [ "cannabis_extraction_equipment_nested_1x1" ], "x": 21, "y": 7 } ]
     }
   }
 ]
