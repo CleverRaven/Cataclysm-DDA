@@ -4,7 +4,7 @@
     "type": "AMMO",
     "name": { "str_sp": ".303 British BTHP" },
     "description": "Modern manufactured .303 caliber cartridges, loaded with 174gr boat-tailed hollow-point bullets.  Starting life as a black powder cartridge in service with British Long Lee rifles in the early nineteenth century, the cartridge evolved into a center-fired smokeless-powder design and became the standard rifle and machinegun cartridge of the British commonwealth.  The round’s boat tail design gives it greater stability with lese aerial drag over long ranges, making it favorable for competition shooting, whilst the bullet’s hollow-point construction leaves behind larger wound channels when used in an offensive role.",
-    "weight": "18 g",
+    "weight": "25 g",
     "volume": "285 ml",
     "price": 160,
     "price_postapoc": 800,
