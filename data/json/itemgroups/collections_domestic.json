@@ -216,7 +216,7 @@
       { "item": "apron_plastic", "prob": 15 },
       { "item": "apron_cotton", "prob": 3 },
       { "item": "apron_leather", "prob": 3 },
-      { "item": "pur_tablets", "prob": 15, "charges": [ 1, 15 ] },
+      { "item": "pur_tablets", "container-item": "bottle_plastic_small", "prob": 15, "charges": [ 1, 15 ] },
       { "item": "lye_powder", "prob": 20, "charges-min": 100 },
       { "item": "oxy_powder", "prob": 24, "charges-min": 100 },
       { "item": "chemistry_set", "prob": 10, "charges": [ 0, 500 ] },

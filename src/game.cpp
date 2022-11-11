@@ -5635,6 +5635,9 @@ void game::examine( const tripoint &examp, bool with_pickup )
         }
     }
 
+    // trap::iexamine will handle the invisible traps.
+    m.tr_at( examp ).examine( examp );
+
     if( m.has_flag( ter_furn_flag::TFLAG_CONSOLE, examp ) && !u.is_mounted() ) {
         use_computer( examp );
         return;
@@ -5670,9 +5673,6 @@ void game::examine( const tripoint &examp, bool with_pickup )
     if( xter_t.can_examine( examp ) || xfurn_t.can_examine( examp ) ) {
         none = false;
     }
-
-    // trap::iexamine will handle the invisible traps.
-    m.tr_at( examp ).examine( examp );
 
     // In case of teleport trap or somesuch
     if( player_pos != u.pos() ) {

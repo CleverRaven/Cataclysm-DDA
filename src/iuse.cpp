@@ -1558,8 +1558,9 @@ cata::optional<int> iuse::petfood( Character *p, item *it, bool, const tripoint 
         return cata::nullopt;
     }
 
-    const cata::optional<tripoint> pnt = choose_adjacent( string_format( _( "Put the %s where?" ),
-                                         it->tname() ) );
+    const cata::optional<tripoint> pnt = choose_adjacent( string_format(
+            _( "Tame which animal with %s?" ),
+            it->tname() ) );
     if( !pnt ) {
         return cata::nullopt;
     }
