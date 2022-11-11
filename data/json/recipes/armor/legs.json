@@ -251,7 +251,7 @@
     "time": "40 m",
     "autolearn": "true",
     "proficiencies": [ { "proficiency": "prof_closures" } ],
-    "using": [ [ "tailoring_cotton", 15 ], [ "sewing_standard", 90 ], [ "technician_pants_gray", 1 ] ],
+    "using": [ [ "technician_pants_gray", 1 ], [ "tailoring_cotton", 15 ], [ "sewing_standard", 90 ] ],
     "byproducts": [ [ "scrap_cotton", 5 ], [ "cotton_patchwork", 4 ] ]
   },
   {
