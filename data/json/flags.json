@@ -1117,10 +1117,6 @@
     "craft_inherit": true
   },
   {
-    "id": "VEGAN_BAD",
-    "type": "json_flag"
-  },
-  {
     "id": "ALLERGEN_EGG",
     "type": "json_flag"
   },
@@ -1154,6 +1150,10 @@
   },
   {
     "id": "ALLERGEN_WOOL",
+    "type": "json_flag"
+  },
+  {
+    "id": "ANIMAL_PRODUCT",
     "type": "json_flag"
   },
   {
