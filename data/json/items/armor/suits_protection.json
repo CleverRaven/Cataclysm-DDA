@@ -219,7 +219,7 @@
         "moves": 80
       }
     ],
-    "warmth": 60,
+    "warmth": 40,
     "material_thickness": 4,
     "valid_mods": [ "steel_padded" ],
     "flags": [ "VARSIZE", "POCKETS", "WATERPROOF", "STURDY", "OUTER" ]
