@@ -98,7 +98,7 @@
     "id": "baton",
     "category": "weapons",
     "name": { "str": "expandable baton" },
-    "description": "A telescoping baton that collapses for easy storage. Right now, it's collapsed.  Activate to expand.",
+    "description": "A telescoping baton that collapses for easy storage.  Right now, it's collapsed.  Activate to expand.",
     "weight": "606 g",
     "volume": "140 ml",
     "longest_side": "24 cm",
@@ -130,7 +130,7 @@
     "flags": [ "DURABLE_MELEE", "BELT_CLIP" ],
     "weapon_category": [ "BATONS", "FENCING_WEAPONRY" ],
     "use_action": { "menu_text": "Collapse", "type": "transform", "target": "baton", "msg": "You collapse your baton." },
-    "bashing": 12,
+    "bashing": 11,
     "price": 22900
   },
   {
