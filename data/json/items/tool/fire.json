@@ -172,6 +172,25 @@
     "flags": [ "FIRESTARTER", "NO_RELOAD", "WATER_BREAK" ]
   },
   {
+    "id": "survival_match",
+    "type": "TOOL",
+    "name": { "str": "survival match", "str_pl": "survival matches" },
+    "description": "A solid strike anywhere match.  One and done.",
+    "looks_like": "matches",
+    "weight": "2 g",
+    "volume": "1 ml",
+    "price": 0,
+    "price_postapoc": 10,
+    "material": [ "cardboard" ],
+    "symbol": "|",
+    "color": "red",
+    "initial_charges": 1,
+    "max_charges": 1,
+    "charges_per_use": 1,
+    "use_action": { "type": "firestarter", "moves": 50, "moves_slow": 1000 },
+    "flags": [ "FIRESTARTER", "BURNOUT" ]
+  },
+  {
     "id": "ref_matches",
     "type": "TOOL",
     "name": { "str": "matchbox", "str_pl": "matchboxes" },

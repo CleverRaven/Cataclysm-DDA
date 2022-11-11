@@ -59,6 +59,10 @@
       "terrain": { "-": "t_wall", ".": "t_floor" },
       "furniture": { "t": "f_table", "b": "f_brazier", "m": "f_makeshift_bed", "7": "f_safe_o", "L": "f_locker" },
       "place_npcs": [ { "class": "survivor_cop", "x": 5, "y": 8 } ],
+      "place_zones": [
+        { "type": "LOOT_UNSORTED", "faction": "no_faction", "x": [ 5, 5 ], "y": [ 9, 9 ] },
+        { "type": "LOOT_CURRENCY", "faction": "no_faction", "x": [ 5, 5 ], "y": [ 7, 7 ] }
+      ],
       "items": {
         "L": [ { "item": "cannedfood", "chance": 50, "repeat": [ 1, 2 ] }, { "item": "alcohol", "chance": 50, "repeat": [ 1, 2 ] } ],
         "7": [

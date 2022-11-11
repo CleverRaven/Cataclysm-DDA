@@ -156,7 +156,8 @@
     "type": "TOOL_ARMOR",
     "looks_like": "holster",
     "name": { "str": "Bag of Infinite Throwing Knives", "str_pl": "Bags of Infinite Throwing Knives" },
-    "description": "This bag conjures a magical throwing knife on activation.  Only refills when worn.",
+    "description": "This bag conjures a magical throwing knife on activation.  Only refills when worn.  It also boost your throwing abilities.",
+    "//": "the bag itself gives +3 to throwing instead of knifes because of stupid code oogie woogie, that make effects (and enchantments, it seems) being apply in the very first move after the giving. ie if you give +3 to throwing for a knife, spawn it, and then throw it, it wont be applied",
     "price": 800000,
     "price_postapoc": "1800 USD",
     "volume": "100 ml",
@@ -179,7 +180,10 @@
     "environmental_protection": 1,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "crystallized_mana": 8 } } ],
     "flags": [ "OVERSIZE", "NO_REPAIR", "STURDY", "BELTED", "NO_UNLOAD", "NO_RELOAD" ],
-    "relic_data": { "charge_info": { "recharge_condition": "worn", "recharge_type": "periodic", "time": "5 h", "regenerate_ammo": true } },
+    "relic_data": {
+      "charge_info": { "recharge_condition": "worn", "recharge_type": "periodic", "time": "5 h", "regenerate_ammo": true },
+      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "skills": [ { "value": "throw", "add": 3 } ] } ]
+    },
     "use_action": { "type": "cast_spell", "spell_id": "conj_mag_throw_blade_group", "no_fail": true, "level": 1, "need_worn": true }
   },
   {

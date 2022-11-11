@@ -296,7 +296,7 @@ bool npc_trading::trade( npc &np, int cost, const std::string &deal )
                                               true );
         npc_trading::transfer_items( trade_result.items_trader, np, player_character, from_map, false );
         // Now move items from escrow to the npc. Keep the weapon wielded.
-        if( np.mission == NPC_MISSION_SHOPKEEP ) {
+        if( np.is_shopkeeper() ) {
             distribute_items_to_npc_zones( escrow, np );
         } else {
             for( const item &i : escrow ) {

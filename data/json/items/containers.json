@@ -131,7 +131,7 @@
     "price": 0,
     "price_postapoc": 10,
     "to_hit": -5,
-    "material": [ "cotton" ],
+    "material": [ "canvas" ],
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "15 L", "max_contains_weight": "15 kg", "moves": 400 } ],
     "symbol": ")",
     "color": "brown"
@@ -148,7 +148,7 @@
     "price": 0,
     "price_postapoc": 10,
     "to_hit": -5,
-    "material": [ "cotton" ],
+    "material": [ "canvas" ],
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 400 } ],
     "symbol": ")",
     "color": "brown"
@@ -186,6 +186,16 @@
     "material": [ "plastic" ],
     "symbol": ")",
     "color": "black"
+  },
+  {
+    "id": "bag_garbage_reinforced",
+    "type": "GENERIC",
+    "name": { "str": "reinforced garbage bag" },
+    "copy-from": "bag_garbage",
+    "description": "Garbage bags layered within each other, made to carry a heavier load.",
+    "weight": "400 g",
+    "volume": "500 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "98 L", "max_contains_weight": "46 kg", "moves": 400 } ]
   },
   {
     "id": "bag_paper_powder",
@@ -631,7 +641,15 @@
     "material": [ "wood", "leather" ],
     "symbol": "u",
     "color": "brown",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "145 ml", "max_contains_weight": "1 kg" } ]
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "145 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "16 cm"
+      }
+    ]
   },
   {
     "id": "box_snack",
@@ -1571,7 +1589,7 @@
       }
     ],
     "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
-    "flags": [ "SOFT" ]
+    "flags": [ "SOFT", "NO_REPAIR" ]
   },
   {
     "id": "flask_glass",
@@ -1840,8 +1858,9 @@
     "name": { "str": "steel jerrycan" },
     "looks_like": "jerrycan",
     "description": "A steel jerrycan, meant to carry fuel, but can carry other liquids in a pinch.",
-    "weight": "4815 g",
-    "volume": "21000 ml",
+    "weight": "4300 g",
+    "volume": "26750 ml",
+    "longest_side": "47 cm",
     "price": 5000,
     "price_postapoc": 100,
     "to_hit": -3,
@@ -2029,8 +2048,9 @@
     "looks_like": "keg",
     "name": { "str": "metal tank (2L)", "str_pl": "metal tanks (2L)" },
     "description": "A small metal tank for gas or liquids.  Useful for crafting.",
-    "weight": "800 g",
-    "volume": "2010 ml",
+    "weight": "950 g",
+    "volume": "3500 ml",
+    "longest_side": "25 cm",
     "price": 1000,
     "price_postapoc": 50,
     "to_hit": -4,
@@ -2353,7 +2373,7 @@
     "color": "light_gray",
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "2500 ml", "max_contains_weight": "6 kg" } ],
     "qualities": [ [ "COOK", 1 ] ],
-    "flags": [ "SOFT" ]
+    "flags": [ "SOFT", "NO_REPAIR" ]
   },
   {
     "id": "wrapper_pr",

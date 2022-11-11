@@ -181,23 +181,22 @@ TEST_CASE( "Having all mutations give correct highest category", "[mutations][st
 }
 
 // If character has all the pre-threshold mutations for a category, they should have a chance of
-// breaching the threshold on mutation. The chance of breach is expected to be between 55% and 90%
+// breaching the threshold on mutation. The chance of breach is expected to be above 55%
 // given that the breach power is rolled out of 100.  In addition, a power below 30 is ignored.
 //
 // If a category breach power falls below 55, it suggests that category lacks enough pre-threshold mutations
 // to comfortably cross the Threshold
-// If a category breach power goes above 90, it suggests that category has too many pre-threshold mutations
-// which suggests that some should be moved to post-threshold
 //
-// When creating or editing a category, remember that 55 and 90 are limits, not suggestions
-// 65-75 is the suggested range
+// Alpha threshold is intentionally meant to be harder to breach, so the permitted range is 35-60
+//
+// When creating or editing a category, remember that 55 is a limit, not suggestion
+// 65+ is the suggested range
 //
 // This test verifies the breach-power expectation for all mutation categories.
 TEST_CASE( "Having all pre-threshold mutations gives a sensible threshold breach power",
            "[mutations][breach]" )
 {
     const int BREACH_POWER_MIN = 55;
-    const int BREACH_POWER_MAX = 90;
 
     for( const std::pair<mutation_category_id, mutation_category_trait> cat :
          mutation_category_trait::get_all() ) {
@@ -225,17 +224,15 @@ TEST_CASE( "Having all pre-threshold mutations gives a sensible threshold breach
                 }
                 continue;
             } else if( cat_id == mutation_category_CHIMERA ) {
-                THEN( "Chimera Threshold breach power is between 100 and 160" ) {
+                THEN( "Chimera Threshold breach power is 100+" ) {
                     INFO( "MUTATIONS: " << get_mutations_as_string( dummy ) );
                     CHECK( breach_chance >= 100 );
-                    CHECK( breach_chance <= 160 );
                 }
                 continue;
             }
-            THEN( "Threshold breach power is between 55 and 90" ) {
+            THEN( "Threshold breach power is 55+" ) {
                 INFO( "MUTATIONS: " << get_mutations_as_string( dummy ) );
                 CHECK( breach_chance >= BREACH_POWER_MIN );
-                CHECK( breach_chance <= BREACH_POWER_MAX );
             }
         }
     }

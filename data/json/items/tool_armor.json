@@ -1125,6 +1125,7 @@
     "weight": "5600 g",
     "volume": "4 L",
     "price": 150000,
+    "price_postapoc": 10000,
     "armor": [
       { "covers": [ "head" ], "coverage": 100, "encumbrance": 20 },
       { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 10 },
@@ -1710,6 +1711,7 @@
     "id": "mask_filter",
     "type": "TOOL_ARMOR",
     "name": { "str": "filter mask" },
+    "category": "clothing",
     "description": "A mask that straps over your mouth and nose and filters air.  Protects from smoke, dust, and other contaminants quite well.  It must be prepared before use.",
     "flags": [ "SLEEP_IGNORE" ],
     "weight": "260 g",
@@ -1728,7 +1730,7 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_s": 100 } } ],
     "ammo": "gasfilter_s",
     "use_action": [ "GASMASK" ],
-    "armor": [ { "encumbrance": 20, "coverage": 100, "covers": [ "mouth" ] } ]
+    "armor": [ { "encumbrance": 20, "rigid_layer_only": true, "coverage": 100, "covers": [ "mouth" ] } ]
   },
   {
     "id": "mask_gas",
@@ -1810,6 +1812,30 @@
     "ammo": "gasfilter_m",
     "use_action": [ "GASMASK" ],
     "flags": [ "UNDERSIZE", "SLEEP_IGNORE" ]
+  },
+  {
+    "id": "mask_gas_half",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "half-face gas mask" },
+    "category": "clothing",
+    "description": "A lightweight form-fitting mask that straps over your mouth and nose, providing full protection from the inhalation of smoke, teargas, and chemical contaminants - though safety goggles are advised!  It must be prepared before use.",
+    "flags": [ "SLEEP_IGNORE" ],
+    "weight": "400 g",
+    "volume": "500 ml",
+    "price": 5200,
+    "price_postapoc": 750,
+    "material": [ "plastic" ],
+    "symbol": "[",
+    "looks_like": "mask_dust",
+    "color": "light_gray",
+    "warmth": 12,
+    "material_thickness": 2,
+    "environmental_protection": 3,
+    "environmental_protection_with_filter": 16,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_m": 60 } } ],
+    "ammo": "gasfilter_m",
+    "use_action": [ "GASMASK" ],
+    "armor": [ { "encumbrance": 20, "rigid_layer_only": true, "coverage": 100, "covers": [ "mouth" ] } ]
   },
   {
     "id": "mask_fsurvivor",
