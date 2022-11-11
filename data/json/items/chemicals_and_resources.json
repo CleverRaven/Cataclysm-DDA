@@ -1979,5 +1979,21 @@
     "symbol": "s",
     "color": "light_gray",
     "flags": [ "UNRECOVERABLE" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "tannic_water",
+    "price": 0,
+    "price_postapoc": 0,
+    "name": { "str_sp": "tannic water" },
+    "symbol": "=",
+    "color": "brown",
+    "description": "tannic water pored off after blanching, can be used for tanning",
+    "comestible_type": "DRINK",
+    "volume": "250 ml",
+    "weight": "250 g",
+    "quench": 25,
+    "healthy": -1,
+    "phase": "liquid"
   }
 ]
