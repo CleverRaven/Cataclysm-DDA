@@ -232,15 +232,15 @@
     ]
   },
   {
-    "id": "cotton_holster",
+    "id": "canvas_holster",
     "type": "ARMOR",
-    "name": { "str": "cotton holster" },
-    "description": "An improvised holster made from reinforced cotton scraps.  Not as strong as one made from leather, and not as fashionable either.  Or tough.  Activate to draw/holster a gun.",
+    "name": { "str": "canvas holster" },
+    "description": "An improvised holster made from reinforced canvas.  Not as strong as one made from leather, and not as fashionable either.  Or tough.  Activate to draw/holster a gun.",
     "weight": "400 g",
     "volume": "500 ml",
     "price": 900,
     "price_postapoc": 250,
-    "material": [ "cotton" ],
+    "material": [ "canvas" ],
     "symbol": "[",
     "looks_like": "sheath",
     "color": "light_gray",
@@ -501,15 +501,15 @@
     ]
   },
   {
-    "id": "XL_cotton_holster",
+    "id": "XL_canvas_holster",
     "type": "ARMOR",
-    "name": { "str": "large cotton holster" },
-    "description": "A belt holster consisting of a loop and strap intended for use with larger firearms, but made with cotton instead of leather.  Expect weaker performance.  Activate to holster/draw a gun",
+    "name": { "str": "large canvas holster" },
+    "description": "A belt holster consisting of a loop and strap intended for use with larger firearms, but made with canvas instead of leather.  Expect weaker performance.  Activate to holster/draw a gun",
     "weight": "400 g",
     "volume": "250 ml",
     "price": 900,
     "price_postapoc": 500,
-    "material": [ "cotton" ],
+    "material": [ "canvas" ],
     "symbol": "[",
     "looks_like": "quiver_large",
     "color": "light_gray",
@@ -548,12 +548,12 @@
     "flags": [ "BELTED", "OVERSIZE", "UNDERSIZE", "PALS_MEDIUM" ]
   },
   {
-    "id": "XS_cotton_holster",
+    "id": "XS_canvas_holster",
     "type": "ARMOR",
-    "copy-from": "cotton_holster",
+    "copy-from": "canvas_holster",
     "looks_like": "holster",
-    "name": { "str": "XS cotton holster" },
-    "description": "A cotton strap holding a firearm close to hand.  The size of the strap has been adjusted to fit someone with much smaller legs.  Activate to holster/draw a gun.",
+    "name": { "str": "XS canvas holster" },
+    "description": "A canvas strap holding a firearm close to hand.  The size of the strap has been adjusted to fit someone with much smaller legs.  Activate to holster/draw a gun.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "BELTED", "OVERSIZE", "UNDERSIZE", "PALS_MEDIUM" ]
   }
