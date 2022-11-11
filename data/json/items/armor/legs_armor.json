@@ -1574,7 +1574,7 @@
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
   },
   {
-    "id": "survivor_adhoc_cotton_pants",
+    "id": "canvas_pants_padded",
     "repairs_like": "jeans",
     "type": "ARMOR",
     "name": { "str": "cloth-padded pants", "str_pl": "pairs of cloth-padded pants" },
