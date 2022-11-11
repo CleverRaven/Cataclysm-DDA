@@ -104,7 +104,7 @@
     "name": "Shardspray",
     "description": "This spell projects a wide spray of sharp metal shards, cutting into your foes and friends alike.",
     "valid_targets": [ "hostile", "ground", "ally" ],
-    "flags": [ "SOMATIC", "LOUD" ],
+    "flags": [ "SOMATIC", "LOUD", "NO_HANDS" ],
     "components": "spell_components_shardspray",
     "effect": "attack",
     "shape": "cone",

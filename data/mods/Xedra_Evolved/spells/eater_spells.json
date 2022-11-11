@@ -17,7 +17,7 @@
     "base_casting_time": 500,
     "base_energy_cost": 0,
     "components": "spell_components_dreamdross",
-    "flags": [ "SILENT", "NO_LEGS" ],
+    "flags": [ "SILENT", "NO_LEGS", "NO_HANDS" ],
     "learn_spells": { "eat_more_dreamdross": 20 },
     "difficulty": 0
   },
@@ -39,7 +39,7 @@
     "base_casting_time": 500,
     "base_energy_cost": 0,
     "components": "spell_components_dreamdross2",
-    "flags": [ "SILENT", "NO_LEGS" ],
+    "flags": [ "SILENT", "NO_LEGS", "NO_HANDS" ],
     "learn_spells": { "eat_dreamdross_ingot": 20 },
     "difficulty": 1
   },
@@ -61,7 +61,7 @@
     "base_casting_time": 500,
     "base_energy_cost": 0,
     "components": "spell_components_dreamdross3",
-    "flags": [ "SILENT", "NO_LEGS" ],
+    "flags": [ "SILENT", "NO_LEGS", "NO_HANDS" ],
     "difficulty": 1
   },
   {

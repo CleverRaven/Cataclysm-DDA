@@ -163,6 +163,47 @@
     "flags": [ "STAB", "ALLOWS_REMOTE_USE" ]
   },
   {
+    "id": "needle_steel",
+    "type": "TOOL",
+    "name": { "str": "needle" },
+    "description": "This is a stainless steel needle.  It would be useful for making clothing and items.",
+    "weight": "8 g",
+    "volume": "1 ml",
+    "price": 0,
+    "price_postapoc": 10,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "ammo": [ "thread" ],
+    "sub": "sewing_kit",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "thread": 200 } } ],
+    "charges_per_use": 1,
+    "qualities": [ [ "SEW", 3 ] ],
+    "use_action": {
+      "type": "repair_item",
+      "item_action_type": "repair_fabric",
+      "materials": [
+        "cotton",
+        "leather",
+        "lycra",
+        "nylon",
+        "wool",
+        "fur",
+        "faux_fur",
+        "nomex",
+        "kevlar",
+        "kevlar_layered",
+        "gutskin",
+        "canvas"
+      ],
+      "skill": "tailor",
+      "tool_quality": 0,
+      "cost_scaling": 0.1,
+      "move_cost": 1000
+    },
+    "flags": [ "STAB", "ALLOWS_REMOTE_USE" ]
+  },
+  {
     "id": "sewing_kit",
     "type": "TOOL",
     "name": { "str": "sewing kit" },
