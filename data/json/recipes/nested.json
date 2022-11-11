@@ -86,7 +86,10 @@
       "tactical_holster",
       "XS_holster",
       "sholster",
-      "suspenders_holster"
+      "suspenders_holster",
+      "cotton_holster",
+      "XL_cotton_holster",
+      "XS_cotton_holster"
     ],
     "difficulty": 1
   },

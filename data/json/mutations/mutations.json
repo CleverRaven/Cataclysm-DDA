@@ -1811,6 +1811,15 @@
   },
   {
     "type": "mutation",
+    "id": "VEGAN",
+    "name": { "str": "Vegan" },
+    "points": -4,
+    "description": "You're very strictly vegan, eating animal products is out of the question, even if it means death. Wearing animal products is also impossible.",
+    "starting_trait": true,
+    "valid": true
+  },
+  {
+    "type": "mutation",
     "id": "TRUTHTELLER",
     "name": { "str": "Truth Teller" },
     "points": -1,
@@ -6464,6 +6473,7 @@
     "points": -4,
     "description": "Your body's ability to digest fruits, vegetables, grains and nuts is severely hampered.  You cannot eat anything besides meat.",
     "types": [ "DIET" ],
+    "cancels": [ "VEGAN" ],
     "category": [ "LIZARD", "SPIDER", "CHIMERA", "RAPTOR", "FELINE", "BATRACHIAN", "BEAST", "LUPINE" ],
     "vitamin_rates": [ [ "vitC", -1200 ] ]
   },

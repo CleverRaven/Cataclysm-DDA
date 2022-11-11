@@ -35,6 +35,7 @@ extern const flag_id flag_ALLERGEN_WOOL;
 extern const flag_id flag_ALLOWS_NATURAL_ATTACKS;
 extern const flag_id flag_ALLOWS_REMOTE_USE;
 extern const flag_id flag_ALWAYS_TWOHAND;
+extern const flag_id flag_ANIMAL_PRODUCT;
 extern const flag_id flag_OLD_CURRENCY;
 extern const flag_id flag_AURA;
 extern const flag_id flag_BAROMETER;

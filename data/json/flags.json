@@ -1153,6 +1153,10 @@
     "type": "json_flag"
   },
   {
+    "id": "ANIMAL_PRODUCT",
+    "type": "json_flag"
+  },
+  {
     "id": "ALWAYS_TWOHAND",
     "type": "json_flag"
   },

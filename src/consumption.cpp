@@ -80,9 +80,11 @@ static const efftype_id effect_visuals( "visuals" );
 static const flag_id json_flag_ALLERGEN_EGG( "ALLERGEN_EGG" );
 static const flag_id json_flag_ALLERGEN_FRUIT( "ALLERGEN_FRUIT" );
 static const flag_id json_flag_ALLERGEN_MEAT( "ALLERGEN_MEAT" );
+static const flag_id json_flag_ALLERGEN_MILK( "ALLERGEN_MILK" );
 static const flag_id json_flag_ALLERGEN_NUT( "ALLERGEN_NUT" );
 static const flag_id json_flag_ALLERGEN_VEGGY( "ALLERGEN_VEGGY" );
 static const flag_id json_flag_ALLERGEN_WHEAT( "ALLERGEN_WHEAT" );
+static const flag_id json_flag_ANIMAL_PRODUCT( "ANIMAL_PRODUCT" );
 
 static const item_category_id item_category_chems( "chems" );
 
@@ -144,6 +146,7 @@ static const trait_id trait_THRESH_FELINE( "THRESH_FELINE" );
 static const trait_id trait_THRESH_LUPINE( "THRESH_LUPINE" );
 static const trait_id trait_THRESH_PLANT( "THRESH_PLANT" );
 static const trait_id trait_THRESH_URSINE( "THRESH_URSINE" );
+static const trait_id trait_VEGAN( "VEGAN" );
 static const trait_id trait_VEGETARIAN( "VEGETARIAN" );
 static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
 
@@ -156,6 +159,11 @@ static const std::array<flag_id, 4> carnivore_blacklist {{
 
 static const std::array<flag_id, 2> herbivore_blacklist {{
         json_flag_ALLERGEN_MEAT, json_flag_ALLERGEN_EGG
+    }};
+
+static const std::array<flag_id, 4> vegan_blacklist {{
+        json_flag_ALLERGEN_MEAT, json_flag_ALLERGEN_EGG, 
+        json_flag_ALLERGEN_MILK, json_flag_ANIMAL_PRODUCT
     }};
 
 // TODO: Move pizza scraping here.
@@ -810,6 +818,11 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
         // Like non-cannibal, but more strict!
         return ret_val<edible_rating>::make_failure( INEDIBLE_MUTATION,
                 _( "The thought of eating that makes you feel sick." ) );
+    }
+        if( ( has_trait( trait_VEGAN ) ) &&
+        food.has_any_flag( vegan_blacklist ) ) {
+        return ret_val<edible_rating>::make_failure( INEDIBLE_MUTATION,
+                _( "You're still not going to eat animal products." ) );
     }
 
     for( const trait_id &mut : get_mutations() ) {

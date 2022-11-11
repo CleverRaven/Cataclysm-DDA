@@ -161,7 +161,8 @@
     "price": 420,
     "price_postapoc": 50,
     "material": [ "oil" ],
-    "phase": "liquid"
+    "phase": "liquid",
+    "flags": "ANIMAL_PRODUCT"
   },
   {
     "type": "COMESTIBLE",
