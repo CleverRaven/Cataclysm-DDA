@@ -5,13 +5,13 @@
     "category": "armor",
     "name": { "str": "brigandine with mild steel plates" },
     "description": "",
-    "weight": "5675 g",
-    "volume": "2750 ml",
+    "weight": "6383 g",
+    "volume": "6137 ml",
     "price": 60000,
     "price_postapoc": 12000,
     "to_hit": -5,
-    "material": [ "lc_steel", "wool" ],
-    "bashing": 8,
+    "material": [ "lc_steel", "canvas" ],
+    "bashing": 6,
     "symbol": "[",
     "looks_like": "armor_larmor",
     "color": "light_gray",
@@ -22,7 +22,7 @@
       {
         "material": [
           { "type": "lc_steel", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "wool", "covered_by_mat": 100, "thickness": 2.0 }
+          { "type": "canvas", "covered_by_mat": 100, "thickness": 1.5 }
         ],
         "covers": [ "torso" ],
         "coverage": 95,
@@ -36,12 +36,12 @@
     "category": "armor",
     "name": { "str": "pair of mild splint arm guards", "str_pl": "pairs of mild splint arm guards" },
     "description": "",
-    "weight": "1772 g",
-    "volume": "2750 ml",
+    "weight": "1744 g",
+    "volume": "2138 ml",
     "price": 30000,
     "price_postapoc": 1000,
     "to_hit": 1,
-    "material": [ "lc_steel", "wool" ],
+    "material": [ "lc_steel", "canvas" ],
     "symbol": "[",
     "looks_like": "armguard_hard",
     "color": "light_gray",
@@ -51,41 +51,16 @@
     "armor": [
       {
         "material": [
-          { "type": "lc_steel", "covered_by_mat": 95, "thickness": 0.8 },
-          { "type": "wool", "covered_by_mat": 100, "thickness": 1.5 }
+          { "type": "lc_steel", "covered_by_mat": 90, "thickness": 0.8 },
+          { "type": "canvas", "covered_by_mat": 100, "thickness": 1.5 }
         ],
         "covers": [ "arm_l", "arm_r" ],
         "encumbrance": 4,
-        "coverage": 95,
-        "cover_melee": 95,
-        "cover_ranged": 90,
+        "coverage": 100,
+        "cover_melee": 100,
+        "cover_ranged": 95,
         "cover_vitals": 90,
         "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_upper_r", "arm_upper_l" ]
-  },
-  {
-    "id": "armguard_metal_sheets_shoulders",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "pair of mild brigandine pauldrons", "str_pl": "pairs of mild brigandine pauldrons" },
-    "weight": "362 g",
-    "volume": "400 ml",
-    "price": 500,
-    "price_postapoc": 400,
-    "to_hit": 1,
-    "symbol": "m",
-    "color": "light_gray",
-    "warmth": 5,
-    "longest_side": "20 cm",
-    "environmental_protection": 1,
-    "flags": [ "OUTER", "WATER_FRIENDLY", "STURDY" ],
-    "armor": [
-      {
-        "covers": [ "arm_l", "arm_r" ],
-        "encumbrance": 1,
-        "coverage": 80,
-        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ]
-      }
-    ]
   },
   {
     "id": "legguard_lc_brigandine",
@@ -93,12 +68,12 @@
     "category": "armor",
     "name": { "str": "pair of mild splint leg guards", "str_pl": "pairs of mild splint leg guards" },
     "description": "",
-    "weight": "2846 g",
-    "volume": "3000 ml",
+    "weight": "2674 g",
+    "volume": "3278 ml",
     "price": 40000,
     "price_postapoc": 1000,
     "to_hit": 1,
-    "material": [ "lc_steel", "wool" ],
+    "material": [ "lc_steel", "canvas" ],
     "symbol": "[",
     "looks_like": "legguard_lightplate",
     "color": "light_gray",
@@ -108,13 +83,13 @@
     "armor": [
       {
       "material": [
-          { "type": "lc_steel", "covered_by_mat": 95, "thickness": 0.8 },
-          { "type": "wool", "covered_by_mat": 100, "thickness": 1.5 }
+          { "type": "lc_steel", "covered_by_mat": 90, "thickness": 0.8 },
+          { "type": "canvas", "covered_by_mat": 100, "thickness": 1.5 }
         ],
         "covers": [ "leg_l", "leg_r" ],
         "encumbrance": 4,
-        "coverage": 95,
-        "cover_melee": 95,
+        "coverage": 100,
+        "cover_melee": 100,
         "cover_ranged": 95,
         "cover_vitals": 70,
         "specifically_covers": [ "leg_lower_r", "leg_lower_l", "leg_upper_r", "leg_upper_l" ]
@@ -127,13 +102,13 @@
     "category": "armor",
     "name": { "str": "pair of mild steel brigandine gloves", "str_pl": "pairs of mild steel brigandine gloves" },
     "description": "",
-    "weight": "646 g",
+    "weight": "684 g",
     "volume": "750 ml",
     "price": 5012,
     "price_postapoc": 2500,
     "to_hit": -1,
     "bashing": 6,
-    "material": [ "leather", "lc_steel" ],
+    "material": [ "canvas", "lc_steel" ],
     "symbol": "[",
     "color": "light_gray",
     "warmth": 15,
@@ -144,7 +119,7 @@
         "coverage": 100,
         "material": [
           { "type": "lc_steel", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 }
+          { "type": "canvas", "covered_by_mat": 100, "thickness": 1.5 }
         ],
         "covers": [ "hand_l", "hand_r" ],
         "specifically_covers": [ "hand_back_l", "hand_back_r", "hand_wrist_l", "hand_wrist_r" ]
@@ -153,7 +128,7 @@
         "encumbrance": 0,
         "coverage": 100,
         "material": [
-          { "type": "leather", "covered_by_mat": 100, "thickness": 1.5 }
+          { "type": "canvas", "covered_by_mat": 100, "thickness": 1.5 }
         ],
         "covers": [ "hand_l", "hand_r" ],
         "specifically_covers": [ "hand_fingers_l", "hand_fingers_r", "hand_palm_l", "hand_palm_r" ]
