@@ -78,7 +78,7 @@
           "failures": [ { "action": "shutdown" }, { "action": "alarm" } ]
         }
       },
-      "place_monster": [ { "monster": "mon_secubot", "x": [ 7, 18 ], "y": [ 7, 18 ], "chance": 30, "repeat": 4 } ]
+      "place_monster": [ { "monster": "mon_copbot", "x": [ 7, 18 ], "y": [ 7, 18 ], "chance": 30, "repeat": 4 } ]
     }
   },
   {
@@ -227,7 +227,7 @@
           "failures": [ { "action": "alarm" }, { "action": "damage" }, { "action": "secubots" } ]
         }
       },
-      "place_monster": [ { "monster": "mon_secubot", "x": [ 7, 18 ], "y": [ 7, 18 ], "chance": 30, "repeat": 4 } ]
+      "place_monster": [ { "monster": "mon_copbot", "x": [ 7, 18 ], "y": [ 7, 18 ], "chance": 30, "repeat": 4 } ]
     }
   },
   {

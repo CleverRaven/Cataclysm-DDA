@@ -17,7 +17,11 @@
     "type": "enchantment",
     "id": "FIRE_ELEMENTAL",
     "condition": "ALWAYS",
-    "values": [ { "value": "ARMOR_HEAT", "multiply": -0.4 } ],
+    "values": [
+      { "value": "ARMOR_HEAT", "multiply": -0.4 },
+      { "value": "CLIMATE_CONTROL_HEAT", "add": 30 },
+      { "value": "CLIMATE_CONTROL_CHILL", "add": 10 }
+    ],
     "hit_me_effect": [
       {
         "id": "FIRE_ELEMENTAL_BURNBACK",

@@ -496,7 +496,7 @@ bool Character::has_active_item( const itype_id &id ) const
 
 ret_val<void> Character::can_drop( const item &it ) const
 {
-    if( it.has_flag( flag_NO_UNWIELD ) ) {
+    if( it.has_flag( flag_NO_UNWIELD ) || it.has_flag( flag_INTEGRATED ) ) {
         return ret_val<void>::make_failure( _( "You cannot drop your %s." ), it.tname() );
     }
     return ret_val<void>::make_success();

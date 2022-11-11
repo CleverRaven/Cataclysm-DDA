@@ -197,7 +197,7 @@
     "id": "drilling_standard",
     "type": "requirement",
     "//": "Drilling holes in various materials, including metal",
-    "tools": [ [ [ "cordless_drill", 2 ], [ "drill_press_tool", 1 ] ] ]
+    "tools": [ [ [ "cordless_drill", 2 ], [ "drill_press_tool", 1 ], [ "hand_drill", -1 ] ] ]
   },
   {
     "id": "anesthetic",
@@ -353,6 +353,89 @@
         [ "g_paint", 1 ],
         [ "p_paint", 1 ],
         [ "y_paint", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "ppe_gloves",
+    "type": "requirement",
+    "//": "Disposable or reusable gloves.",
+    "tools": [ [ [ "gloves_medical", 1 ], [ "gloves_rubber", -1 ], [ "entry_suit", -1 ], [ "hazmat_suit", -1 ] ] ]
+  },
+  {
+    "id": "ppe_eyes",
+    "type": "requirement",
+    "//": "Full eye protection, thick or shatterproof. Also includes some masks with appropriate coverage.",
+    "tools": [
+      [
+        [ "glass_goggles", -1 ],
+        [ "survivor_goggles", -1 ],
+        [ "goggles_ski", -1 ],
+        [ "glasses_safety", -1 ],
+        [ "glasses_bal", -1 ],
+        [ "mask_gas", -1 ],
+        [ "mask_gas_xs", -1 ],
+        [ "mask_gas_xl", -1 ],
+        [ "mask_bunker", -1 ],
+        [ "mask_survivor", -1 ],
+        [ "mask_lsurvivor", -1 ],
+        [ "mask_hsurvivor", -1 ],
+        [ "mask_survivorxl", -1 ],
+        [ "mask_lsurvivorxl", -1 ],
+        [ "mask_survivorxs", -1 ],
+        [ "mask_wsurvivor", -1 ],
+        [ "mask_wsurvivorxl", -1 ],
+        [ "mask_wsurvivorxs", -1 ],
+        [ "mask_wsurvivor_nofur", -1 ],
+        [ "mask_wsurvivor_nofur_xs", -1 ],
+        [ "mask_wsurvivorxl_nofur", -1 ],
+        [ "hazmat_suit", -1 ]
+      ]
+    ]
+  },
+  {
+    "id": "ppe_gas",
+    "type": "requirement",
+    "//": "Gas protection.",
+    "tools": [
+      [
+        [ "mask_gas", -1 ],
+        [ "mask_gas_xs", -1 ],
+        [ "mask_gas_xl", -1 ],
+        [ "mask_gas_half", -1 ],
+        [ "mask_bunker", -1 ],
+        [ "mask_survivor", -1 ],
+        [ "mask_lsurvivor", -1 ],
+        [ "mask_hsurvivor", -1 ],
+        [ "mask_survivorxl", -1 ],
+        [ "mask_lsurvivorxl", -1 ],
+        [ "mask_survivorxs", -1 ],
+        [ "mask_wsurvivor", -1 ],
+        [ "mask_wsurvivorxl", -1 ],
+        [ "mask_wsurvivorxs", -1 ],
+        [ "mask_wsurvivor_nofur", -1 ],
+        [ "mask_wsurvivor_nofur_xs", -1 ],
+        [ "mask_wsurvivorxl_nofur", -1 ],
+        [ "hazmat_suit", -1 ]
+      ],
+      [ [ "gasfilter_m", 1 ] ]
+    ]
+  },
+  {
+    "id": "ppe_skin",
+    "type": "requirement",
+    "//": "Torso and arm protection, either chemical/flame resistant or easy to remove.",
+    "tools": [
+      [
+        [ "coat_lab", -1 ],
+        [ "hazmat_suit", -1 ],
+        [ "jacket_chef", -1 ],
+        [ "entry_suit", -1 ],
+        [ "folding_poncho", -1 ],
+        [ "coat_rain", -1 ],
+        [ "bunker_coat", -1 ],
+        [ "entry_suit_xs", -1 ],
+        [ "xl_entry_suit", -1 ]
       ]
     ]
   }

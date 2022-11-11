@@ -1,0 +1,29 @@
+[
+  {
+    "id": "armor_bio_flesh_roots",
+    "type": "ARMOR",
+    "category": "armor",
+    "weight": "500 g",
+    "volume": "1200 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "symbol": ",",
+    "color": "brown",
+    "warmth": 0,
+    "environmental_protection": 1,
+    "material_thickness": 1.25,
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "PADDED", "WATER_FRIENDLY", "SOFT", "NO_REPAIR", "ALLOWS_NATURAL_ATTACKS" ],
+    "material": [ "flesh_roots" ],
+    "name": { "str_sp": "flesh roots" },
+    "description": "A layer of bulging rootlike structures distending the upper layers of skin.  Helps protect your body from damage.",
+    "armor": [
+      {
+        "material": [ { "type": "flesh_roots", "covered_by_mat": 100, "thickness": 1 } ],
+        "covers": [ "torso", "head", "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "coverage": 80,
+        "encumbrance": 0,
+        "cover_vitals": 65
+      }
+    ]
+  }
+]

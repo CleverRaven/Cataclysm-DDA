@@ -225,7 +225,7 @@
     "required_skills": [ [ "survival", 1 ] ],
     "time": "60 m",
     "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
-    "components": [ [ [ "material_soil", 60 ], [ "material_sand", 600 ] ] ],
+    "components": [ [ [ "material_soil", 60 ] ] ],
     "pre_terrain": "t_water_sh",
     "post_terrain": "t_dirt"
   },
@@ -237,7 +237,7 @@
     "required_skills": [ [ "survival", 1 ] ],
     "time": "60 m",
     "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
-    "components": [ [ [ "material_soil", 50 ], [ "material_sand", 500 ] ] ],
+    "components": [ [ [ "material_soil", 60 ] ] ],
     "pre_terrain": "t_water_murky",
     "post_terrain": "t_dirt"
   },
@@ -263,6 +263,18 @@
     "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
     "components": [ [ [ "material_soil", 60 ] ] ],
     "pre_terrain": "t_swater_sh",
+    "post_terrain": "t_dirt"
+  },
+  {
+    "type": "construction",
+    "id": "constr_fill_sewage",
+    "group": "fill_shallow_water_with_dirt",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "survival", 1 ] ],
+    "time": "60 m",
+    "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
+    "components": [ [ [ "material_soil", 60 ] ] ],
+    "pre_terrain": "t_sewage",
     "post_terrain": "t_dirt"
   },
   {
@@ -4748,7 +4760,7 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "0 s",
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "tools": [ [ [ "pliers", -1 ], [ "multitool", -1 ] ] ],
+    "tools": [ [ [ "pliers", -1 ], [ "multitool", -1 ], [ "pliers_locking", -1 ], [ "toolset", -1 ] ] ],
     "pre_flags": "WIRED_WALL",
     "pre_special": "check_no_wiring",
     "post_special": "done_wiring",
@@ -4762,7 +4774,7 @@
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "20 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "tools": [ [ [ "pliers", -1 ], [ "multitool", -1 ] ] ],
+    "tools": [ [ [ "pliers", -1 ], [ "multitool", -1 ], [ "pliers_locking", -1 ], [ "toolset", -1 ] ] ],
     "components": [ [ [ "cable", 19 ] ], [ [ "duct_tape", 20 ] ] ],
     "pre_flags": "WALL",
     "pre_special": "check_no_wiring",
@@ -6214,6 +6226,31 @@
   },
   {
     "type": "construction",
+    "id": "constr_single_pane_glass_taped",
+    "group": "tape_up_window",
+    "//": "Need a recipe for each type of window tapable due to how code works",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "duct_tape", 50 ] ] ],
+    "pre_terrain": "t_single_pane_glass",
+    "post_terrain": "t_single_pane_glass_taped"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_single_pane_glass_taped",
+    "group": "remove_tape_from_window",
+    "//": "Need a recipe for each type of window tapable due to how code works",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "2 m",
+    "qualities": [ [ { "id": "CUT", "level": 1 } ] ],
+    "byproducts": [ { "item": "duct_tape", "charges": [ 15, 25 ] } ],
+    "pre_terrain": "t_single_pane_glass_taped",
+    "post_terrain": "t_single_pane_glass"
+  },
+  {
+    "type": "construction",
     "id": "constr_reinforced_single_pane_glass",
     "group": "build_reinforced_single_glazed_glass_window",
     "//": "Step 1: Build reinforced single glazed glass window",
@@ -6237,6 +6274,31 @@
     "components": [ [ [ "nail", 4 ] ], [ [ "sheet", 1 ] ], [ [ "stick", 1 ] ], [ [ "string_36", 1 ] ] ],
     "pre_terrain": "t_reinforced_single_pane_glass",
     "post_terrain": "t_reinforced_single_pane_glass_with_curtain"
+  },
+  {
+    "type": "construction",
+    "id": "constr_reinforced_single_pane_glass_taped",
+    "group": "tape_up_window",
+    "//": "Need a recipe for each type of window tapable due to how code works",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "duct_tape", 50 ] ] ],
+    "pre_terrain": "t_reinforced_single_pane_glass",
+    "post_terrain": "t_reinforced_single_pane_glass_taped"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_reinforced_single_pane_glass_taped",
+    "group": "remove_tape_from_window",
+    "//": "Need a recipe for each type of window tapable due to how code works",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "2 m",
+    "qualities": [ [ { "id": "CUT", "level": 1 } ] ],
+    "byproducts": [ { "item": "duct_tape", "charges": [ 15, 25 ] } ],
+    "pre_terrain": "t_reinforced_single_pane_glass_taped",
+    "post_terrain": "t_reinforced_single_pane_glass"
   },
   {
     "type": "construction",
@@ -6266,6 +6328,31 @@
   },
   {
     "type": "construction",
+    "id": "constr_double_pane_glass_taped",
+    "group": "tape_up_window",
+    "//": "Need a recipe for each type of window tapable due to how code works",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "duct_tape", 50 ] ] ],
+    "pre_terrain": "t_double_pane_glass",
+    "post_terrain": "t_double_pane_glass_taped"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_double_pane_glass_taped",
+    "group": "remove_tape_from_window",
+    "//": "Need a recipe for each type of window tapable due to how code works",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "2 m",
+    "qualities": [ [ { "id": "CUT", "level": 1 } ] ],
+    "byproducts": [ { "item": "duct_tape", "charges": [ 15, 25 ] } ],
+    "pre_terrain": "t_double_pane_glass_taped",
+    "post_terrain": "t_double_pane_glass"
+  },
+  {
+    "type": "construction",
     "id": "constr_reinforced_double_pane_glass",
     "group": "build_reinforced_double_glazed_glass_window",
     "//": "Step 1: Build reinforced double glazed glass window",
@@ -6289,6 +6376,31 @@
     "components": [ [ [ "nail", 4 ] ], [ [ "sheet", 1 ] ], [ [ "stick", 1 ] ], [ [ "string_36", 1 ] ] ],
     "pre_terrain": "t_reinforced_double_pane_glass",
     "post_terrain": "t_reinforced_double_pane_glass_with_curtain"
+  },
+  {
+    "type": "construction",
+    "id": "constr_reinforced_double_pane_glass_taped",
+    "group": "tape_up_window",
+    "//": "Need a recipe for each type of window tapable due to how code works",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "duct_tape", 50 ] ] ],
+    "pre_terrain": "t_reinforced_double_pane_glass",
+    "post_terrain": "t_reinforced_double_pane_glass_taped"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_reinforced_double_pane_glass_taped",
+    "group": "remove_tape_from_window",
+    "//": "Need a recipe for each type of window tapable due to how code works",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "2 m",
+    "qualities": [ [ { "id": "CUT", "level": 1 } ] ],
+    "byproducts": [ { "item": "duct_tape", "charges": [ 15, 25 ] } ],
+    "pre_terrain": "t_reinforced_double_pane_glass_taped",
+    "post_terrain": "t_reinforced_double_pane_glass"
   },
   {
     "type": "construction",
@@ -6318,6 +6430,31 @@
   },
   {
     "type": "construction",
+    "id": "constr_triple_pane_glass_taped",
+    "group": "tape_up_window",
+    "//": "Need a recipe for each type of window tapable due to how code works",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "duct_tape", 50 ] ] ],
+    "pre_terrain": "t_triple_pane_glass",
+    "post_terrain": "t_triple_pane_glass_taped"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_triple_pane_glass_taped",
+    "group": "remove_tape_from_window",
+    "//": "Need a recipe for each type of window tapable due to how code works",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "2 m",
+    "qualities": [ [ { "id": "CUT", "level": 1 } ] ],
+    "byproducts": [ { "item": "duct_tape", "charges": [ 15, 25 ] } ],
+    "pre_terrain": "t_triple_pane_glass_taped",
+    "post_terrain": "t_triple_pane_glass"
+  },
+  {
+    "type": "construction",
     "id": "constr_reinforced_triple_pane_glass",
     "group": "build_reinforced_triple_glazed_glass_window",
     "//": "Step 1: Build reinforced triple glazed glass window",
@@ -6341,6 +6478,31 @@
     "components": [ [ [ "nail", 4 ] ], [ [ "sheet", 1 ] ], [ [ "stick", 1 ] ], [ [ "string_36", 1 ] ] ],
     "pre_terrain": "t_reinforced_triple_pane_glass",
     "post_terrain": "t_reinforced_triple_pane_glass_with_curtain"
+  },
+  {
+    "type": "construction",
+    "id": "constr_reinforced_triple_pane_glass_taped",
+    "group": "tape_up_window",
+    "//": "Need a recipe for each type of window tapable due to how code works",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "duct_tape", 50 ] ] ],
+    "pre_terrain": "t_reinforced_triple_pane_glass",
+    "post_terrain": "t_reinforced_triple_pane_glass_taped"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_reinforced_triple_pane_glass_taped",
+    "group": "remove_tape_from_window",
+    "//": "Need a recipe for each type of window tapable due to how code works",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "2 m",
+    "qualities": [ [ { "id": "CUT", "level": 1 } ] ],
+    "byproducts": [ { "item": "duct_tape", "charges": [ 15, 25 ] } ],
+    "pre_terrain": "t_reinforced_triple_pane_glass_taped",
+    "post_terrain": "t_reinforced_triple_pane_glass"
   },
   {
     "type": "construction",
@@ -6370,6 +6532,31 @@
   },
   {
     "type": "construction",
+    "id": "constr_quadruple_pane_glass_taped",
+    "group": "tape_up_window",
+    "//": "Need a recipe for each type of window tapable due to how code works",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "duct_tape", 50 ] ] ],
+    "pre_terrain": "t_quadruple_pane_glass",
+    "post_terrain": "t_quadruple_pane_glass_taped"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_quadruple_pane_glass_taped",
+    "group": "remove_tape_from_window",
+    "//": "Need a recipe for each type of window tapable due to how code works",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "2 m",
+    "qualities": [ [ { "id": "CUT", "level": 1 } ] ],
+    "byproducts": [ { "item": "duct_tape", "charges": [ 15, 25 ] } ],
+    "pre_terrain": "t_quadruple_pane_glass_taped",
+    "post_terrain": "t_quadruple_pane_glass"
+  },
+  {
+    "type": "construction",
     "id": "constr_reinforced_quadruple_pane_glass",
     "group": "build_reinforced_quadruple_glazed_glass_window",
     "//": "Step 1: Build reinforced quadruple glazed glass window",
@@ -6393,6 +6580,31 @@
     "components": [ [ [ "nail", 4 ] ], [ [ "sheet", 1 ] ], [ [ "stick", 1 ] ], [ [ "string_36", 1 ] ] ],
     "pre_terrain": "t_reinforced_quadruple_pane_glass",
     "post_terrain": "t_reinforced_quadruple_pane_glass_with_curtain"
+  },
+  {
+    "type": "construction",
+    "id": "constr_reinforced_quadruple_pane_glass_taped",
+    "group": "tape_up_window",
+    "//": "Need a recipe for each type of window tapable due to how code works",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "duct_tape", 50 ] ] ],
+    "pre_terrain": "t_reinforced_quadruple_pane_glass",
+    "post_terrain": "t_reinforced_quadruple_pane_glass_taped"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_reinforced_quadruple_pane_glass_taped",
+    "group": "remove_tape_from_window",
+    "//": "Need a recipe for each type of window tapable due to how code works",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "2 m",
+    "qualities": [ [ { "id": "CUT", "level": 1 } ] ],
+    "byproducts": [ { "item": "duct_tape", "charges": [ 15, 25 ] } ],
+    "pre_terrain": "t_reinforced_quadruple_pane_glass_taped",
+    "post_terrain": "t_reinforced_quadruple_pane_glass"
   },
   {
     "type": "construction",
