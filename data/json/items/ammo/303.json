@@ -35,7 +35,7 @@
     "copy-from": "303_bthp",
     "type": "AMMO",
     "name": { "str_sp": ".303 British FMJBT" },
-    "description": "Modern manufactured full metal jacketed .303 calibre cartridges, loaded with 174 GR single-core boat tailed bullets.  Starting life as a black powder cartridge in service with British Long Lee rifles in the early nineteenth century, the cartridge evolved into a centre-fired smokeless-powder design and became the standard rifle and machinegun cartridge of the British commonwealth.  Featuring a boat tailed design, which allows the round to retain greater terminal performance and stability over longer ranges, the bullet possesses a solid metal jacket that grants it the capability to punch through thicker material at the cost of virtually non-existent expansion.",
+    "description": "Modern manufactured full metal jacketed .303 caliber cartridges, loaded with 174gr single-core boat-tailed bullets.  Starting life as a black powder cartridge in service with British Long Lee rifles in the early nineteenth century, the cartridge evolved into a center-fired smokeless-powder design and became the standard rifle and machinegun cartridge of the British commonwealth.  Featuring a boat tailed design, which allows the round to retain greater terminal performance and stability over longer ranges, the bullet possesses a solid metal jacket that grants it the capability to punch through thicker material at the cost of virtually non-existent expansion.",
     "relative": { "damage": { "damage_type": "bullet", "amount": -4, "armor_penetration": 8 } }
   },
   {
