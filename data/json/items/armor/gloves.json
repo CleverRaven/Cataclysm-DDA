@@ -605,7 +605,7 @@
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
-   {
+  {
     "id": "gloves_faux_fur",
     "type": "ARMOR",
     "name": { "str": "pair of faux fur gloves", "str_pl": "pairs of faux fur gloves" },
