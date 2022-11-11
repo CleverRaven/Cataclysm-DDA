@@ -415,7 +415,7 @@
     "warmth": 30,
     "environmental_protection": 1,
     "material_thickness": 2,
-    "armor": [ { "encumbrance:10", "coverage": 45, "covers": [ "mouth" ] } ]
+    "armor": [ { "encumbrance": 10, "coverage": 45, "covers": [ "mouth" ] } ]
   },
   {
     "id": "scarf_faux_fur",
