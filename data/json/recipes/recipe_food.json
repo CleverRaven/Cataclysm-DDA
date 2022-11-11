@@ -1904,6 +1904,7 @@
     "skills_required": [ "survival", 2 ],
     "time": "19 m",
     "autolearn": true,
+    "charges": 1,
     "batch_time_factors": [ 40, 1 ],
     "qualities": [
       { "id": "HAMMER", "level": 1 },
