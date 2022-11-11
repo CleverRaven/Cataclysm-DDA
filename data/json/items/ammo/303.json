@@ -27,7 +27,7 @@
     "copy-from": "303_bthp",
     "type": "AMMO",
     "name": { "str_sp": ".303 British SP" },
-    "description": "Modern manufactured single-core soft-point .303 calibre cartridges, loaded with 180 GR exposed led bullets.  Starting life as a black powder cartridge in service with British Long Lee rifles in the early nineteenth century, the cartridge evolved into a centre-fired smokeless-powder design and became the standard rifle and machinegun cartridge of the British commonwealth.  The bullet features an open-tipped design manufactured from soft led, allowing the round to undergo greater expansion upon making contact with targets, leading to larger wound channels and greater overall terminal performance.",
+    "description": "Modern manufactured single-core soft-point .303 caliber cartridges, loaded with 180gr exposed lead bullets.  Starting life as a black powder cartridge in service with British Long Lee rifles in the early nineteenth century, the cartridge evolved into a center-fired smokeless-powder design and became the standard rifle and machinegun cartridge of the British commonwealth.  The bullet features an open-tipped design manufactured from soft lead, allowing the round to undergo greater expansion upon making contact with targets, leading to larger wound channels and greater overall terminal performance.",
     "relative": { "damage": { "range": 3, "damage_type": "bullet", "amount": 4, "armor_penetration": -6 } }
   },
   {
