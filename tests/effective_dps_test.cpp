@@ -405,7 +405,7 @@ static void check_clubs( const std::function<Approx( const std::string & )> &cal
         CHECK( calc_expected_dps( "morningstar" ) == 26.12 );
         CHECK( calc_expected_dps( "shillelagh_weighted" ) == 24.17 );
         CHECK( calc_expected_dps( "bwirebat" ) == 22.0 );
-        CHECK( calc_expected_dps( "baton-extended" ) == 12.0 );
+        CHECK( calc_expected_dps( "baton-extended" ) == 11.35 );
         CHECK( calc_expected_dps( "bat_metal" ) == 21.0 );
         CHECK( calc_expected_dps( "nailbat" ) == 21.0 );
         CHECK( calc_expected_dps( "bat" ) == 20.0 );
