@@ -1815,7 +1815,7 @@
     "morale": 100,
     "vision_day": 6,
     "vision_night": 6,
-    "harvest": "incubator_mammal",
+    "harvest": "incubator_mammal_deer",
     "dissect": "dissect_medical_sample_single",
     "special_attacks": [
       [ "PARROT", 6 ],
@@ -1838,6 +1838,7 @@
     "color": "light_gray",
     "description": "A barely living dog, panting in a pool of slime and blood.  As you draw near it lets out a faint whimper, and you see the smallest hint of a twitch in its tail.",
     "looks_like": "mon_dog",
+    "harvest": "incubator_mammal_dog",
     "weight": "20 kg"
   },
   {
