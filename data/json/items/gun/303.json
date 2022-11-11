@@ -4,24 +4,40 @@
     "copy-from": "rifle_manual",
     "looks_like": "ar15",
     "type": "GUN",
-    "name": { "str": "Short Magazine Lee-Enfield Mk III*" },
-    "//": "Military doctrine stated that soldiers should fit in their 10-round magazine and then reload the rifle with individual 5-round charger clips, inserting the clips through the top of the action and pushing the rounds down into the magazine. As there really isn’t any provision for allowing the weapon to be reloaded by clips whilst it already has a magazine in it, I’m just going to leave it with detachable magazines.",
-    "description": "A venerable bolt-action battle rifle chambered for the .303 cartridge, the SMLE was the standard infantry rifle of the British commonwealth , living on in various forms and iterations even up to the early 1990s.  An icon of the First World War, it features a detachable 10-round box magazine and was renowned for its smooth and ergonomic action, both features allowing the user to put more rounds down range than other contemporary rifles of its time.  In its post-service life, the weapon garnered a well beloved status amongst civilian shooters and was relatively common all around the world, thanks to the high-volumes of rifles produced for both the First and Second World Wars.  The '*' designation in its name indicates a later production SMLE, simplified during the Great War to cut down on cost and machine time by removing the sights’ wind adjustment capabilities, doing away with the magazine cut-off, and deleting the long range sights.",
-    "weight": "3960 g",
-    "volume": "2840 ml",
+    "//": "Military doctrine stated that soldiers should fit in their 10-round magazine and reload the rifle with 5-round charger clips. As there really isn’t any provision for allowing the weapon to be reloaded by clips whilst it already has a magazine in it, I’m just going to leave it with detachable magazines.",
+    "name": { "str": "Enfield battle rifle" },
+    "description": "An iconic weapon of both the First and Second World Wars, this bolt-action rifle has seen deployment in the hands of Commonwealth troops across Europe and beyond.  Outfitted with a 17-inch bayonet, firing the .303 calibre cartridge, and making use of 10-round Enfield magazines, the firearm’s reputation precedes it.",
+    "//": "Total unloaded weight of an Mk III is 3.96 kg, and a No. 4 is 4.11 kg. total length of an Mk III is 1132mm, and a No. 4 is 1129mm. rounding to 4 kg of weight and 1130mm of length to meet in the middle.",
+    "weight": "4000 g",
+    "volume": "3000 ml",
     "longest_side": "1132 mm",
-    "price": 80000,
-    "price_postapoc": 3250,
+    "price": 57375,
+    "price_postapoc": 3000,
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "smle_mk3",
+        "name": { "str": "SMLE No. 1 Mk III" },
+        "description": "A venerable English darling and icon of the First World War, the Short Magazine Lee-Enfield Mk III was the standard issue battle rifle of the British commonwealth from 1907.  Chambered for .303 ammunition and assigned with a sword style bayonet, the rifle makes use of 10-round detachable magazines.  With its full length wooden handguard, brass buttplate, and smooth action, the Lee-Enfield cuts a recognisable profile in either the trenches of the Great War or the zombie strewn wastelands.",
+        "weight": 1
+      },
+      {
+        "id": "smle_number4",
+        "name": { "str": "Lee-Enfield No. 4 Mk I" },
+        "description": "A Second World War progression of the original Lee-Enfield battle rifle adopted by the British Commonwealth; the No. 4 began its decades-long service life in 1939.  Externally similar to its forefather, the rifle possesses a reinforced receiver, adjusted nose cap, and heavier barrel.  Still chambered for the same .303 calibre cartridge, the No. 4 represents one of the most populous firearm imports in Us history."
+      }
+    ],
     "to_hit": -1,
     "bashing": 12,
     "material": [ "steel", "wood" ],
     "color": "brown",
     "ammo": [ "303" ],
-    "dispersion": 120,
+    "ranged_damage": { "damage_type": "bullet", "amount": 9 },
+    "dispersion": 100,
     "durability": 8,
     "blackpowder_tolerance": 60,
-    "clip_size": 5,
     "barrel_volume": "250 ml",
+    "default_mods": [ "sword_bayonet" ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],
@@ -33,13 +49,10 @@
       [ "sling", 1 ],
       [ "grip mount", 1 ],
       [ "rail mount", 1 ],
-      [ "loading port", 1 ],
       [ "stock mount", 1 ],
-      [ "underbarrel mount", 1 ]
+      [ "stock accessory", 2 ],
+      [ "underbarrel", 1 ]
     ],
-    "flags": [ "RELOAD_ONE" ],
-    "pocket_data": [
-      { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "3006": 5 }, "allowed_speedloaders": [ "3006_clip" ] }
-    ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "enfield_303mag" ] } ]
   }
 ]
