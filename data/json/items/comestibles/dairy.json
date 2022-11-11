@@ -162,7 +162,7 @@
     "price_postapoc": 50,
     "material": [ "oil" ],
     "phase": "liquid",
-    "flags": "VEGAN_BAD"
+    "flags": "ANIMAL_PRODUCT"
   },
   {
     "type": "COMESTIBLE",
