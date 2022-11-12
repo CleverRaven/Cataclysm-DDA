@@ -8747,9 +8747,10 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
                         corpses[index]->has_flag( flag_FIELD_DRESS_FAILED ) ) ) {
                     has_organs = true;
                 }
-                if( entry.type == harvest_drop_blood && !( corpses[index]->has_flag( flag_QUARTERED ) ||
-                        corpses[index]->has_flag( flag_FIELD_DRESS ) ||
-                        corpses[index]->has_flag( flag_FIELD_DRESS_FAILED ) || corpses[index]->has_flag( flag_BLED ) ) ) {
+                if( entry.type == harvest_drop_blood && dead_mon->bleed_rate &&
+                    !( corpses[index]->has_flag( flag_QUARTERED ) ||
+                       corpses[index]->has_flag( flag_FIELD_DRESS ) ||
+                       corpses[index]->has_flag( flag_FIELD_DRESS_FAILED ) || corpses[index]->has_flag( flag_BLED ) ) ) {
                     has_blood = true;
                 }
             }
