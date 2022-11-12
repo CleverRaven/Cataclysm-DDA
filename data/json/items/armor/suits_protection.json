@@ -5,7 +5,7 @@
     "category": "armor",
     "name": { "str": "boiled leather armor" },
     "description": "Thick leather body armor that has been hardened via chemical treatment.  Light and strong.",
-    "weight": "2108 g",
+    "weight": "6600 g",
     "volume": "9500 ml",
     "price": 26000,
     "price_postapoc": 3000,
@@ -1300,7 +1300,7 @@
           { "type": "leather", "covered_by_mat": 100, "thickness": 4 },
           { "type": "budget_steel", "covered_by_mat": 75, "thickness": 1.25 }
         ],
-        "specifically_covers": ["arm_lower_l","arm_lower_r","arm_upper_r","arm_upper_l"]
+        "specifically_covers": [ "arm_lower_l", "arm_lower_r", "arm_upper_r", "arm_upper_l" ]
       },
       {
         "covers": [ "arm_l", "arm_r" ],
@@ -1310,7 +1310,7 @@
           { "type": "leather", "covered_by_mat": 100, "thickness": 4 },
           { "type": "budget_steel", "covered_by_mat": 45, "thickness": 1 }
         ],
-        "specifically_covers": ["arm_elbow_l","arm_elbow_r","arm_shoulder_l","arm_shoulder_r"]
+        "specifically_covers": [ "arm_elbow_l", "arm_elbow_r", "arm_shoulder_l", "arm_shoulder_r" ]
       },
       {
         "covers": [ "leg_l", "leg_r" ],
@@ -1320,7 +1320,7 @@
           { "type": "leather", "covered_by_mat": 100, "thickness": 4 },
           { "type": "budget_steel", "covered_by_mat": 70, "thickness": 1.25 }
         ],
-        "specifically_covers": ["leg_lower_l","leg_lower_r","leg_upper_l","leg_upper_r"]
+        "specifically_covers": [ "leg_lower_l", "leg_lower_r", "leg_upper_l", "leg_upper_r" ]
       },
       {
         "covers": [ "leg_l", "leg_r" ],
@@ -1330,7 +1330,7 @@
           { "type": "leather", "covered_by_mat": 100, "thickness": 4 },
           { "type": "budget_steel", "covered_by_mat": 45, "thickness": 1 }
         ],
-        "specifically_covers": ["leg_hip_l","leg_hip_r","leg_knee_l","leg_knee_r"]
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r", "leg_knee_l", "leg_knee_r" ]
       }
     ],
     "warmth": 25,
