@@ -314,5 +314,26 @@
     "miss_msg_npc": "%s tries to grab <npcname>, but they dodge!",
     "no_dmg_msg_u": "%s grasps at you with silk-covered legs, engulfing you in sticky webs!",
     "no_dmg_msg_npc": "%s grabs <npcname> and covers them in sticky webs!"
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "leg_sweep",
+    "cooldown": 10,
+    "move_cost": 100,
+    "attack_chance": 50,
+    "hitsize_min": 4,
+    "attack_upper": false,
+    "required_effects_any": [ "grabbing" ],
+    "forbidden_effects_any": [ "maimed_mandible" ],
+    "damage_max_instance": [ { "damage_type": "bash", "amount": 10 } ],
+    "effects_require_dmg": false,
+    "hit_dmg_u": "%1$s hits your legs, causing you to get knocked on your back!",
+    "hit_dmg_npc": "%1$s knocks <npcname> prone!",
+    "no_dmg_msg_u": "%1$s tries to knock you down, but your armor protects you!",
+    "no_dmg_msg_npc": "%1$s tries to knock <npcname> down, but their armor protects them!",
+    "miss_msg_u": "%s goes for your legs!  You duck!",
+    "miss_msg_npc": "%s goes <npcname>'s legs, but they duck!",
+    "effects": [ { "id": "downed", "duration": 3 } ]
   }
 ]

@@ -105,12 +105,12 @@
     "color": "dark_gray",
     "price_postapoc": 750,
     "symbol": "/",
-    "material": [ "aluminum" ],
+    "material": [ { "type": "steel", "portion": 7 }, { "type": "plastic", "portion": 3 } ],
     "flags": [ "DURABLE_MELEE", "BELT_CLIP" ],
     "use_action": { "menu_text": "Expand", "type": "transform", "target": "baton-extended", "msg": "You snap open your baton." },
     "bashing": 4,
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "any", "balance": "neutral" },
-    "price": 17500
+    "price": 22900
   },
   {
     "type": "GENERIC",
@@ -125,13 +125,13 @@
     "price_postapoc": 750,
     "color": "dark_gray",
     "symbol": "/",
-    "material": [ "aluminum" ],
+    "material": [ { "type": "steel", "portion": 7 }, { "type": "plastic", "portion": 3 } ],
     "techniques": [ "WBLOCK_1", "RAPID", "PRECISE" ],
     "flags": [ "DURABLE_MELEE", "BELT_CLIP" ],
     "weapon_category": [ "BATONS", "FENCING_WEAPONRY" ],
     "use_action": { "menu_text": "Collapse", "type": "transform", "target": "baton", "msg": "You collapse your baton." },
-    "bashing": 12,
-    "price": 17500
+    "bashing": 10,
+    "price": 22900
   },
   {
     "id": "battleaxe",

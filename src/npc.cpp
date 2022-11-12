@@ -2027,7 +2027,7 @@ ret_val<void> npc::wants_to_buy( const item &it, int at_price, int /*market_pric
         return ret_val<void>::make_failure( _( "<npcname> will never buy this" ) );
     }
 
-    if( mission != NPC_MISSION_SHOPKEEP && has_trait( trait_SQUEAMISH ) && it.is_filthy() ) {
+    if( !is_shopkeeper() && has_trait( trait_SQUEAMISH ) && it.is_filthy() ) {
         return ret_val<void>::make_failure( _( "<npcname> will not buy filthy items" ) );
     }
 
@@ -2101,17 +2101,17 @@ int npc::max_willing_to_owe() const
 
 void npc::shop_restock()
 {
-    // NPCs refresh every week, since the last time you checked in
+    // Shops restock once every restock_interval
     time_duration const elapsed =
         restock != calendar::turn_zero ? calendar::turn - restock : 0_days;
     if( ( restock != calendar::turn_zero ) && ( elapsed < 0_days ) ) {
         return;
     }
 
-    restock = calendar::turn + myclass->get_shop_restock_interval();
-    if( is_player_ally() ) {
+    if( is_player_ally() || !is_shopkeeper() ) {
         return;
     }
+    restock = calendar::turn + myclass->get_shop_restock_interval();
 
     std::vector<item_group_id> rigid_groups;
     std::vector<item_group_id> value_groups;
@@ -2129,7 +2129,7 @@ void npc::shop_restock()
     int shop_value = 75000;
     if( my_fac ) {
         shop_value = my_fac->wealth * 0.0075;
-        if( mission == NPC_MISSION_SHOPKEEP && !my_fac->currency.is_empty() ) {
+        if( !my_fac->currency.is_empty() ) {
             item my_currency( my_fac->currency );
             if( !my_currency.is_null() ) {
                 my_currency.set_owner( *this );
@@ -2180,17 +2180,14 @@ void npc::shop_restock()
         }
     }
 
-    if( mission == NPC_MISSION_SHOPKEEP ) {
-        add_fallback_zone( *this );
-        consume_items_in_zones( *this, elapsed );
-        distribute_items_to_npc_zones( ret, *this );
-    } else {
-        for( const item &i : ret ) {
-            i_add( i, true, nullptr, nullptr, true, false );
-        }
-        DebugLog( DebugLevel::D_WARNING, DebugClass::D_GAME )
-                << "shop_restock() called on NPC who is not a shopkeeper " << name;
-    }
+    add_fallback_zone( *this );
+    consume_items_in_zones( *this, elapsed );
+    distribute_items_to_npc_zones( ret, *this );
+}
+
+bool npc::is_shopkeeper() const
+{
+    return !is_player_ally() && !myclass->get_shopkeeper_items().empty();
 }
 
 int npc::minimum_item_value() const
@@ -2223,7 +2220,7 @@ double npc::value( const item &it, double market_price ) const
         // NPCs won't be interested in buying active explosives
         return -1000;
     }
-    if( mission == NPC_MISSION_SHOPKEEP ||
+    if( is_shopkeeper() ||
         // faction currency trades at market price
         ( my_fac != nullptr && my_fac->currency == it.typeId() ) ) {
         return market_price;
