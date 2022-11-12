@@ -2908,5 +2908,35 @@
     "reversible": true,
     "using": [ [ "tailoring_leather_patchwork", 2 ], [ "clasps", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking_basic" } ]
+  },
+  {
+    "result": "armor_larmor_chest",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "time": "12 h",
+    "autolearn": true,
+    "byproducts": [ [ "leather", 2 ], [ "scrap_leather", 5 ] ],
+    "using": [ [ "tailoring_leather_patchwork", 7 ] ],
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ]
+  },
+  {
+    "result": "armor_larmor_chest_xs",
+    "type": "recipe",
+    "copy-from": "armor_larmor_chest",
+    "time": "12 h",
+    "byproducts": [ [ "leather", 6 ], [ "scrap_leather", 1 ] ],
+    "using": [ [ "tailoring_leather_patchwork", 5 ] ]
+  },
+  {
+    "result": "xl_armor_larmor_chest",
+    "type": "recipe",
+    "copy-from": "armor_larmor_chest",
+    "time": "14 h",
+    "byproducts": [ [ "leather", 2 ], [ "scrap_leather", 1 ] ],
+    "using": [ [ "tailoring_leather_patchwork", 9 ] ]
   }
 ]
