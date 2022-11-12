@@ -2248,9 +2248,7 @@ static std::vector<pocket_data_with_parent> get_child_pocket_with_parent(
                 std::vector<pocket_data_with_parent> child =
                     get_child_pocket_with_parent( pocket_nest, new_parent,
                                                   poc_loc, nested_level + 1 );
-                for( const pocket_data_with_parent &pock_d : child ) {
-                    ret.emplace_back( pock_d );
-                }
+                ret.insert( ret.end(), child.begin(), child.end() );
             }
         }
         ret.emplace_back( pocket_data );
@@ -2277,9 +2275,7 @@ std::vector<pocket_data_with_parent> outfit::get_all_pocket_with_parent(
             item_location loc = item_location::nowhere;
             std::vector<pocket_data_with_parent> child =
                 get_child_pocket_with_parent( pocket, loc, item_location( guy, i ), 0 );
-            for( const pocket_data_with_parent &pock_d : child ) {
-                ret.emplace_back( pock_d );
-            }
+            ret.insert( ret.end(), child.begin(), child.end() );
         }
     }
     return ret;
