@@ -18,8 +18,7 @@
       [ "cheek_pad", 25 ],
       [ "rail_laser_sight", 40 ],
       [ "red_dot_sight", 70 ],
-      [ "choke", 50 ],
-	  [ "22_conversion_ar", 5 ] //put the mod here to avoid having them spawn in military locations
+      [ "choke", 50 ]
     ]
   },
   {
