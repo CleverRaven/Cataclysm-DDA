@@ -4766,10 +4766,6 @@ cata::optional<int> iuse::blood_draw( Character *p, item *it, bool, const tripoi
             drew_blood = true;
             blood_temp = map_it.temperature;
 
-            if( map_it.get_mtype()->in_species( species_ZOMBIE ) ) {
-                blood.convert( itype_blood_tainted );
-            }
-
             auto bloodtype( map_it.get_mtype()->bloodType() );
             if( bloodtype.obj().has_acid ) {
                 acid_blood = true;
