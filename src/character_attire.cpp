@@ -2241,6 +2241,7 @@ static std::vector<pocket_data_with_parent> get_child_pocket_with_parent(
         if( parent != item_location::nowhere ) {
             pocket_data.parent = item_location( parent, it.get_item() );
         }
+        ret.emplace_back( pocket_data );
 
         for( const item *contained : pocket->all_items_top() ) {
             const item_location poc_loc = item_location( it, const_cast<item *>( contained ) );
@@ -2251,32 +2252,46 @@ static std::vector<pocket_data_with_parent> get_child_pocket_with_parent(
                 ret.insert( ret.end(), child.begin(), child.end() );
             }
         }
-        ret.emplace_back( pocket_data );
     }
     return ret;
 }
 
-std::vector<pocket_data_with_parent> outfit::get_all_pocket_with_parent(
-    Character &guy )
+std::vector<pocket_data_with_parent> Character::get_all_pocket_with_parent(
+    const std::function<bool( const item_pocket * )> &filter,
+    const std::function<bool( const pocket_data_with_parent &a, const pocket_data_with_parent &b )>
+    *sort_func )
+
 {
     std::vector<pocket_data_with_parent> ret;
+    const auto sort_pockets_func = [ sort_func ]
+    ( const pocket_data_with_parent & l, const pocket_data_with_parent & r ) {
+        const auto sort_pockets = *sort_func;
+        return sort_pockets( l, r );
+    };
 
     // Collect all pockets
     std::list<item *> items;
-    item_location carried_item = guy.get_wielded_item();
+    item_location carried_item = get_wielded_item();
     if( carried_item != item_location::nowhere ) {
         items.emplace_back( &*carried_item );
     }
-    for( item &i : guy.worn.worn ) {
-        items.emplace_back( &i );
+    for( item_location &loc : worn.top_items_loc( *this ) ) {
+        items.emplace_back( loc.get_item() );
     }
     for( item *i : items ) {
         for( const item_pocket *pocket : i->get_all_contained_pockets() ) {
             item_location loc = item_location::nowhere;
             std::vector<pocket_data_with_parent> child =
-                get_child_pocket_with_parent( pocket, loc, item_location( guy, i ), 0 );
-            ret.insert( ret.end(), child.begin(), child.end() );
+                get_child_pocket_with_parent( pocket, loc, item_location( *this, i ), 0 );
+            for( const pocket_data_with_parent &pock_d : child ) {
+                if( filter( pock_d.pocket_ptr ) ) {
+                    ret.emplace_back( pock_d );
+                }
+            }
         }
+    }
+    if( sort_func ) {
+        std::sort( ret.begin(), ret.end(), sort_pockets_func );
     }
     return ret;
 }
@@ -2302,35 +2317,14 @@ void outfit::add_stash( Character &guy, const item &newit, int &remaining_charge
 
         // Collect all pockets
         std::vector<pocket_data_with_parent> pockets_with_parent;
-        std::vector<pocket_data_with_parent> pockets_with_parent_working;
-        pockets_with_parent_working = get_all_pocket_with_parent( guy );
-
-        for( const pocket_data_with_parent &pocket_data : pockets_with_parent_working ) {
-            const item_pocket *pocket = pocket_data.pocket_ptr;
-            if( pocket->can_contain( temp_it ).success() ) {
-                pockets_with_parent.emplace_back( pocket_data );
-            }
-        }
-
-        std::sort( pockets_with_parent.begin(), pockets_with_parent.end(), [newit, temp_it]
-        ( const pocket_data_with_parent & lhs, const pocket_data_with_parent & rhs ) {
-            const item_pocket *lpd = lhs.pocket_ptr;
-            const item_pocket *rpd = rhs.pocket_ptr;
-            const item_pocket &lpp = *lpd;
-            const int lp_nested_lvl = lhs.nested_level;
-            const int rp_nested_lvl = rhs.nested_level;
-
-            if( lpd->settings.priority() != rpd->settings.priority() ) {
-                return lpd->settings.priority() > rpd->settings.priority();
-            }
-            if( lp_nested_lvl != rp_nested_lvl ) {
-                return lp_nested_lvl < rp_nested_lvl;
-            }
-            if( lpd->rigid() != rpd->rigid() ) {
-                return lpd->rigid();
-            }
-            return rpd->better_pocket( lpp, temp_it, false );
-        } );
+        auto const pocket_filter = [&temp_it]( item_pocket const * pck ) {
+            return pck->can_contain( temp_it ).success();
+        };
+        const std::function<bool( const pocket_data_with_parent &a, const pocket_data_with_parent &b )>
+        &sort_f = [&temp_it]( const pocket_data_with_parent & a, const pocket_data_with_parent & b ) {
+            return b.pocket_ptr->better_pocket( *a.pocket_ptr, temp_it, false );
+        };
+        pockets_with_parent = guy.get_all_pocket_with_parent( pocket_filter, &sort_f );
 
         const int amount = remaining_charges;
         int num_contained = 0;
