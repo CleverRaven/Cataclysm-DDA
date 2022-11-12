@@ -2257,90 +2257,139 @@ static void receive_item( const itype_id &item_name, int count, const std::strin
 }
 
 template<class T>
-void talk_effect_fun_t<T>::set_u_spawn_item( const JsonObject &jo, const std::string &member,
-        int count,
-        const std::string &container_name )
+void talk_effect_fun_t<T>::set_u_spawn_item( const JsonObject &jo, const std::string &member )
 {
-    str_or_var<T> item_name = get_str_or_var<T>( jo.get_member( member ), member, false, "default" );
+    str_or_var<T> item_name = get_str_or_var<T>( jo.get_member( member ), member, true );
+    str_or_var<T> container_name;
+    if( jo.has_member( "container" ) ) {
+        container_name = get_str_or_var<T>( jo.get_member( "container" ), "container", true );
+    } else {
+        container_name.str_val = "";
+    }
+    int_or_var<T> cost = get_int_or_var<T>( jo, "cost", false, 0 );
+    int_or_var<T> count;
+    if( !jo.has_int( "charges" ) ) {
+        count = get_int_or_var<T>( jo, "count", false, 1 );
+    } else {
+        count = get_int_or_var<T>( jo, "count", false, 0 );
+    }
     function = [item_name, count, container_name]( const T & d ) {
-        receive_item( itype_id( item_name.evaluate( d ) ), count, container_name, d );
+        receive_item( itype_id( item_name.evaluate( d ) ), count.evaluate( d ),
+                      container_name.evaluate( d ), d );
     };
     dialogue d( get_talker_for( get_avatar() ), nullptr );
-    likely_rewards.emplace_back( count, itype_id( item_name.evaluate( d ) ) );
+    likely_rewards.emplace_back( count.evaluate( d ), itype_id( item_name.evaluate( d ) ) );
 }
 
 template<class T>
-void talk_effect_fun_t<T>::set_u_buy_item( const itype_id &item_name, int cost, int count,
-        const std::string &container_name, const JsonObject &jo )
+void talk_effect_fun_t<T>::set_u_buy_item( const JsonObject &jo, const std::string &member )
 {
     std::vector<effect_on_condition_id> true_eocs = load_eoc_vector( jo, "true_eocs" );
     std::vector<effect_on_condition_id> false_eocs = load_eoc_vector( jo, "false_eocs" );
+    int_or_var<T> cost = get_int_or_var<T>( jo, "cost", false, 0 );
+    int_or_var<T> count;
+    if( !jo.has_int( "charges" ) ) {
+        count = get_int_or_var<T>( jo, "count", false, 1 );
+    } else {
+        count = get_int_or_var<T>( jo, "count", false, 0 );
+    }
+    str_or_var<T> container_name;
+    if( jo.has_member( "container" ) ) {
+        container_name = get_str_or_var<T>( jo.get_member( "container" ), "container", true );
+    } else {
+        container_name.str_val = "";
+    }
+    str_or_var<T> item_name = get_str_or_var<T>( jo.get_member( member ), member, true );
     function = [item_name, cost, count, container_name, true_eocs, false_eocs]( const T & d ) {
-        if( !d.actor( true )->buy_from( cost ) ) {
+        if( !d.actor( true )->buy_from( cost.evaluate( d ) ) ) {
             popup( _( "You can't afford it!" ) );
             run_eoc_vector( false_eocs, d );
             return;
         }
-        receive_item( item_name, count, container_name, d );
+        receive_item( itype_id( item_name.evaluate( d ) ), count.evaluate( d ),
+                      container_name.evaluate( d ), d );
         run_eoc_vector( true_eocs, d );
     };
 }
 
 template<class T>
-void talk_effect_fun_t<T>::set_u_sell_item( const itype_id &item_name, int cost, int count,
-        const JsonObject &jo )
+void talk_effect_fun_t<T>::set_u_sell_item( const JsonObject &jo, const std::string &member )
 {
     std::vector<effect_on_condition_id> true_eocs = load_eoc_vector( jo, "true_eocs" );
     std::vector<effect_on_condition_id> false_eocs = load_eoc_vector( jo, "false_eocs" );
+    int_or_var<T> cost = get_int_or_var<T>( jo, "cost", false, 0 );
+    int_or_var<T> count;
+    if( !jo.has_int( "charges" ) ) {
+        count = get_int_or_var<T>( jo, "count", false, 1 );
+    } else {
+        count = get_int_or_var<T>( jo, "count", false, 0 );
+    }
+    str_or_var<T> item_name = get_str_or_var<T>( jo.get_member( member ), member, true );
     function = [item_name, cost, count, true_eocs, false_eocs]( const T & d ) {
-        if( item::count_by_charges( item_name ) && d.actor( false )->has_charges( item_name, count ) ) {
-            for( const item &it : d.actor( false )->use_charges( item_name, count ) ) {
+        int current_count = count.evaluate( d );
+        itype_id current_item_name = itype_id( item_name.evaluate( d ) );
+        if( item::count_by_charges( current_item_name ) &&
+            d.actor( false )->has_charges( current_item_name, current_count ) ) {
+            for( const item &it : d.actor( false )->use_charges( current_item_name, current_count ) ) {
                 d.actor( true )->i_add( it );
             }
-        } else if( d.actor( false )->has_amount( item_name, count ) ) {
-            for( const item &it : d.actor( false )->use_amount( item_name, count ) ) {
+        } else if( d.actor( false )->has_amount( current_item_name, current_count ) ) {
+            for( const item &it : d.actor( false )->use_amount( current_item_name, current_count ) ) {
                 d.actor( true )->i_add( it );
             }
         } else {
             //~ %1$s is a translated item name
-            popup( _( "You don't have a %1$s!" ), item::nname( item_name ) );
+            popup( _( "You don't have a %1$s!" ), item::nname( current_item_name ) );
             run_eoc_vector( false_eocs, d );
             return;
         }
-        if( count == 1 ) {
+        if( current_count == 1 ) {
             //~ %1%s is the NPC name, %2$s is an item
-            popup( _( "You give %1$s a %2$s." ), d.actor( true )->disp_name(), item::nname( item_name ) );
+            popup( _( "You give %1$s a %2$s." ), d.actor( true )->disp_name(),
+                   item::nname( current_item_name ) );
         } else {
             //~ %1%s is the NPC name, %2$d is a number of items, %3$s are items
-            popup( _( "You give %1$s %2$d %3$s." ), d.actor( true )->disp_name(), count,
-                   item::nname( item_name, count ) );
+            popup( _( "You give %1$s %2$d %3$s." ), d.actor( true )->disp_name(), current_count,
+                   item::nname( current_item_name, current_count ) );
         }
-        d.actor( true )->add_debt( cost );
+        d.actor( true )->add_debt( cost.evaluate( d ) );
         run_eoc_vector( true_eocs, d );
     };
 }
 
 template<class T>
 void talk_effect_fun_t<T>::set_consume_item( const JsonObject &jo, const std::string &member,
-        int count, int charges, bool is_npc )
+        bool is_npc )
 {
     str_or_var<T> item_name = get_str_or_var<T>( jo.get_member( member ), member, true );
+    int_or_var<T> charges = get_int_or_var<T>( jo, "charges", false, 0 );
+    int_or_var<T> count;
+    if( !jo.has_int( "charges" ) ) {
+        count = get_int_or_var<T>( jo, "count", false, 1 );
+    } else {
+        count = get_int_or_var<T>( jo, "count", false, 0 );
+    }
     const bool do_popup = jo.get_bool( "popup", false );
     function = [do_popup, is_npc, item_name, count, charges]( const T & d ) {
         // this is stupid, but I couldn't get the assignment to work
-        const auto consume_item = [&]( talker & p, const itype_id & item_name, int count, int charges ) {
-            if( charges == 0 && item::count_by_charges( item_name ) ) {
-                charges = count;
-                count = 0;
+        int current_count = count.evaluate( d );
+        int current_charges = charges.evaluate( d );
+        itype_id current_item_name = itype_id( item_name.evaluate( d ) );
+        const auto consume_item = [&]( talker & p, const itype_id & item_name, int current_count,
+        int current_charges ) {
+            if( current_charges == 0 && item::count_by_charges( item_name ) ) {
+                current_charges = current_count;
+                current_count = 0;
             }
 
-            if( count == 0 && charges > 0 && p.has_charges( item_name, charges, true ) ) {
-                p.use_charges( item_name, charges, true );
-            } else if( p.has_amount( item_name, count ) ) {
-                if( charges > 0 && p.has_charges( item_name, charges, true ) ) {
-                    p.use_charges( item_name, charges, true );
+            if( current_count == 0 && current_charges > 0 &&
+                p.has_charges( item_name, current_charges, true ) ) {
+                p.use_charges( item_name, current_charges, true );
+            } else if( p.has_amount( item_name, current_count ) ) {
+                if( current_charges > 0 && p.has_charges( item_name, current_charges, true ) ) {
+                    p.use_charges( item_name, current_charges, true );
                 }
-                p.use_amount( item_name, count );
+                p.use_amount( item_name, current_count );
             } else {
                 item old_item( item_name );
                 //~ %1%s is the "You" or the NPC name, %2$s are a translated item name
@@ -2348,18 +2397,18 @@ void talk_effect_fun_t<T>::set_consume_item( const JsonObject &jo, const std::st
             }
         };
         if( is_npc ) {
-            consume_item( *d.actor( true ), itype_id( item_name.evaluate( d ) ), count, charges );
+            consume_item( *d.actor( true ), current_item_name, current_count, current_charges );
         } else {
             if( do_popup ) {
-                if( count == 1 ) {
+                if( current_count == 1 ) {
                     popup( _( "You give %1$s a %2$s." ), d.actor( true )->disp_name(),
-                           item::nname( itype_id( item_name.evaluate( d ) ) ) );
+                           item::nname( current_item_name ) );
                 } else {
-                    popup( _( "You give %1$s %2$d %3$s." ), d.actor( true )->disp_name(), count,
-                           item::nname( itype_id( item_name.evaluate( d ) ), count ) );
+                    popup( _( "You give %1$s %2$d %3$s." ), d.actor( true )->disp_name(), current_count,
+                           item::nname( current_item_name ), current_count );
                 }
             }
-            consume_item( *d.actor( false ), itype_id( item_name.evaluate( d ) ), count, charges );
+            consume_item( *d.actor( false ), current_item_name, current_count, current_charges );
         }
     };
 }
@@ -4040,52 +4089,21 @@ void talk_effect_t<T>::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_change_faction_rep( jo, "u_faction_rep" );
     } else if( jo.has_string( "add_mission" ) ) {
         subeffect_fun.set_add_mission( jo, "add_mission" );
-    } else if( jo.has_string( "u_sell_item" ) || jo.has_string( "u_buy_item" ) ||
-               jo.has_member( "u_spawn_item" ) ||
-               jo.has_string( "u_consume_item" ) || jo.has_string( "npc_consume_item" ) ||
-               jo.has_string( "u_remove_item_with" ) || jo.has_string( "npc_remove_item_with" ) ) {
-        int cost = 0;
-        if( jo.has_int( "cost" ) ) {
-            cost = jo.get_int( "cost" );
-        }
-        int count = 0;
-        int charges = 0;
-        if( jo.has_int( "charges" ) ) {
-            charges = jo.get_int( "charges" );
-        } else {
-            count = 1;
-        }
+    } else if( jo.has_member( "u_sell_item" ) ) {
+        subeffect_fun.set_u_sell_item( jo, "u_sell_item" );
+    } else if( jo.has_member( "u_buy_item" ) ) {
+        subeffect_fun.set_u_buy_item( jo, "u_buy_item" );
+    } else if( jo.has_member( "u_spawn_item" ) ) {
+        subeffect_fun.set_u_spawn_item( jo, "u_spawn_item" );
+    } else if( jo.has_string( "u_consume_item" ) ) {
+        subeffect_fun.set_consume_item( jo, "u_consume_item" );
+    } else if( jo.has_string( "npc_consume_item" ) ) {
+        subeffect_fun.set_consume_item( jo, "npc_consume_item", is_npc );
+    } else if( jo.has_string( "u_remove_item_with" ) ) {
+        subeffect_fun.set_remove_item_with( jo, "u_remove_item_with" );
+    } else if( jo.has_string( "npc_remove_item_with" ) ) {
+        subeffect_fun.set_remove_item_with( jo, "npc_remove_item_with", is_npc );
 
-        if( jo.has_int( "count" ) ) {
-            count = jo.get_int( "count" );
-        }
-
-        std::string container_name;
-        if( jo.has_string( "container" ) ) {
-            container_name = jo.get_string( "container" );
-        }
-        if( jo.has_string( "u_sell_item" ) ) {
-            itype_id item_name;
-            jo.read( "u_sell_item", item_name, true );
-            subeffect_fun.set_u_sell_item( item_name, cost, count, jo );
-        } else if( jo.has_string( "u_buy_item" ) ) {
-            if( cost <= 0 ) {
-                jo.throw_error_at( "u_buy_item", "u_buy_item expecting a non-zero cost parameter" );
-            }
-            itype_id item_name;
-            jo.read( "u_buy_item", item_name, true );
-            subeffect_fun.set_u_buy_item( item_name, cost, count, container_name, jo );
-        } else if( jo.has_member( "u_spawn_item" ) ) {
-            subeffect_fun.set_u_spawn_item( jo, "u_spawn_item", count, container_name );
-        } else if( jo.has_string( "u_consume_item" ) ) {
-            subeffect_fun.set_consume_item( jo, "u_consume_item", count, charges );
-        } else if( jo.has_string( "npc_consume_item" ) ) {
-            subeffect_fun.set_consume_item( jo, "npc_consume_item", count, charges, is_npc );
-        } else if( jo.has_string( "u_remove_item_with" ) ) {
-            subeffect_fun.set_remove_item_with( jo, "u_remove_item_with" );
-        } else if( jo.has_string( "npc_remove_item_with" ) ) {
-            subeffect_fun.set_remove_item_with( jo, "npc_remove_item_with", is_npc );
-        }
     } else if( jo.has_int( "u_bulk_trade_accept" ) || jo.has_int( "npc_bulk_trade_accept" ) ||
                jo.has_int( "u_bulk_donate" ) || jo.has_int( "npc_bulk_donate" ) ) {
         talk_effect_fun_t<T> subeffect_fun;

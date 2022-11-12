@@ -60,14 +60,11 @@ struct talk_effect_fun_t {
         void set_add_var( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_remove_var( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_adjust_var( const JsonObject &jo, const std::string &member, bool is_npc = false );
-        void set_u_spawn_item( const JsonObject &jo, const std::string &member, int count,
-                               const std::string &container_name );
-        void set_u_buy_item( const itype_id &item_name, int cost, int count,
-                             const std::string &container_name, const JsonObject &jo );
+        void set_u_spawn_item( const JsonObject &jo, const std::string &member );
+        void set_u_buy_item( const JsonObject &jo, const std::string &member );
         void set_u_spend_cash( const JsonObject &jo, const std::string &member );
-        void set_u_sell_item( const itype_id &item_name, int cost, int count, const JsonObject &jo );
-        void set_consume_item( const JsonObject &jo, const std::string &member, int count, int charges,
-                               bool is_npc = false );
+        void set_u_sell_item( const JsonObject &jo, const std::string &member );
+        void set_consume_item( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_remove_item_with( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_npc_change_faction( const JsonObject &jo, const std::string &member );
         void set_npc_change_class( const JsonObject &jo, const std::string &member );
@@ -85,7 +82,6 @@ struct talk_effect_fun_t {
         void set_transform_line( const JsonObject &jo, const std::string &member );
         void set_place_override( const JsonObject &jo, const std::string &member );
         void set_mapgen_update( const JsonObject &jo, const std::string &member );
-        void set_remove_npc( const JsonObject &jo, const std::string &member );
         void set_alter_timed_events( const JsonObject &jo, const std::string &member );
         void set_revert_location( const JsonObject &jo, const std::string &member );
         void set_npc_goal( const JsonObject &jo, const std::string &member );
@@ -117,7 +113,6 @@ struct talk_effect_fun_t {
             return function( d );
         }
 };
-
 
 struct var_info {
     var_info( var_type in_type, std::string in_name ): type( in_type ),
@@ -159,7 +154,6 @@ static std::string read_var_value( const var_info &info, const T &d )
     }
     return ret_val;
 }
-
 
 template<class T>
 struct str_or_var {
