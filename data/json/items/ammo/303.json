@@ -3,7 +3,7 @@
     "id": "303_bthp",
     "type": "AMMO",
     "name": { "str_sp": ".303 British BTHP" },
-    "description": "Modern manufactured .303 caliber cartridges, loaded with 174gr boat-tailed hollow-point bullets.  Starting life as a black powder cartridge in service with British Long Lee rifles in the early nineteenth century, the cartridge evolved into a center-fired smokeless-powder design and became the standard rifle and machinegun cartridge of the British commonwealth.  The round’s boat tail design gives it greater stability with less aerial drag over long ranges, making it favorable for competition shooting, whilst the bullet’s hollow-point construction leaves behind larger wound channels when used in an offensive role.",
+    "description": "The standard combat cartridge of the British empire throughout the nineteenth and twentieth centuries, first as a bottlenecked black powder design before evolving into a spitzered, smokeless round, this is a modern produced .303 caliber cartridge.  Loaded with a 174gr boat-tailed hollo-point bullet, the projectile’s boat tail shaped design gives it greater stability with less aerial drag over long ranges, making it favorable for competition shooting.  Simultaneously, the bullet’s hollow-point construction leaves behind larger wound channels when used in an offensive role.",
     "weight": "25 g",
     "volume": "285 ml",
     "price": 160,
@@ -27,15 +27,15 @@
     "copy-from": "303_bthp",
     "type": "AMMO",
     "name": { "str_sp": ".303 British SP" },
-    "description": "Modern manufactured single-core soft-point .303 caliber cartridges, loaded with 180gr exposed lead bullets.  Starting life as a black powder cartridge in service with British Long Lee rifles in the early nineteenth century, the cartridge evolved into a center-fired smokeless-powder design and became the standard rifle and machinegun cartridge of the British commonwealth.  The bullet features an open-tipped design manufactured from soft lead, allowing the round to undergo greater expansion upon making contact with targets, leading to larger wound channels and greater overall terminal performance.",
+    "description": "The standard combat cartridge of the British empire throughout the nineteenth and twentieth centuries, first as a bottlenecked black powder design before evolving into a spitzered, smokeless round, this is a modern produced .303 caliber cartridge.  Loaded with a single core, 180gr soft-point bullet, the projectile features an open-tipped design manufactured from soft lead.  This loading allows the round to undergo greater expansion upon striking targets, leading to larger wound channels and greater overall terminal performance.",
     "relative": { "damage": { "range": 3, "damage_type": "bullet", "amount": 4, "armor_penetration": -6 } }
   },
   {
     "id": "303_fmjbt",
     "copy-from": "303_bthp",
     "type": "AMMO",
-    "name": { "str_sp": ".303 British FMJBT" },
-    "description": "Modern manufactured full metal jacketed .303 caliber cartridges, loaded with 174gr single-core boat-tailed bullets.  Starting life as a black powder cartridge in service with British Long Lee rifles in the early nineteenth century, the cartridge evolved into a center-fired smokeless-powder design and became the standard rifle and machinegun cartridge of the British commonwealth.  Featuring a boat tailed design, which allows the round to retain greater terminal performance and stability over longer ranges, the bullet possesses a solid metal jacket that grants it the capability to punch through thicker material at the cost of virtually non-existent expansion.",
+    "name": { "str_sp": ".303 British FMJ" },
+    "description": "The standard combat cartridge of the British empire throughout the nineteenth and twentieth centuries, first as a bottlenecked black powder design before evolving into a spitzered, smokeless round, this is a modern produced .303 caliber cartridge.  Loaded with a single core, 174gr full metal jacketed bullet, the projectile possesses a solid metal jacket that grants it the capability to punch through thicker material.  This unfortunately comes at the cost of virtually non-existent expansion, leading to less overall damage.",
     "relative": { "damage": { "damage_type": "bullet", "amount": -4, "armor_penetration": 8 } }
   },
   {
@@ -70,7 +70,7 @@
     "id": "bp_303fmj",
     "copy-from": "303_fmjbt",
     "type": "AMMO",
-    "name": { "str_sp": ".303 British FMJBT, black powder" },
+    "name": { "str_sp": ".303 British FMJ, black powder" },
     "proportional": {
       "price": 0.3,
       "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
@@ -102,7 +102,7 @@
     "id": "reloaded_303fmj",
     "copy-from": "303_fmjbt",
     "type": "AMMO",
-    "name": { "str_sp": ".303 British FMJBT, reloaded" },
+    "name": { "str_sp": ".303 British FMJ, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
