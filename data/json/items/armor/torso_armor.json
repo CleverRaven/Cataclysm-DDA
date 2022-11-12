@@ -1928,7 +1928,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "leather armor cuirass", "str_pl": "leather armor cuirasses" },
-    "description": "A leather chestplate with attached shoulder guards.",
+    "description": "A leather chest plate with attached shoulder guards.",
     "weight": "3250 g",
     "volume": "3500 ml",
     "price": 6000,
