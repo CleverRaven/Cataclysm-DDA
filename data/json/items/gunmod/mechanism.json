@@ -43,20 +43,6 @@
     "min_skills": [ [ "rifle", 2 ] ]
   },
   {
-    "id": "22_conversion_AR",
-    "type": "GUNMOD",             
-    "name": { "str": ".22 AR conversion kit",
-    "description": "A bolt from an AR-15 modified to shoot .22 ammo.  Makes a good training tool, or a weapon if you're desperate enough.",
-    "location": "mechanism",          
-    "mod_targets": [ "ar15", "ar_pistol" ],
-    "install_time": "30 s",        
-    "acceptable_ammo": [ "22" ], 
-    "magazine_adaptor": [ [ "22", [ "ar_22_10" ], [ "ar_22_25" ], [ "ar_22_50" ] ] ],
-    "dispersion_modifier": 100,     
-    "overwrite_min_cycle_recoil": 100,
-    "min_skills": [ [ "rifle", 1 ] ]
-  },
-  {
     "id": "llink",
     "type": "GUNMOD",
     "name": { "str": "lightning link" },
