@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
     <device id="ipad11_0rounded" orientation="landscape" layout="fullscreen" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -16,20 +16,17 @@
                         <rect key="frame" x="0.0" y="0.0" width="1194" height="834"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" image="LaunchScreen.png" translatesAutoresizingMaskIntoConstraints="NO" id="jgb-MO-6eD">
-                                <rect key="frame" x="0.0" y="-180" width="1194" height="1194"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="jgb-MO-6eD" secondAttribute="height" multiplier="1:1" id="0de-Cv-jhl"/>
-                                </constraints>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="LaunchScreen.png" translatesAutoresizingMaskIntoConstraints="NO" id="jgb-MO-6eD">
+                                <rect key="frame" x="0.0" y="0.0" width="1194" height="834"/>
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Bcu-3y-fUS"/>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="jgb-MO-6eD" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="6GK-I8-yjJ"/>
-                            <constraint firstItem="jgb-MO-6eD" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="rQ4-2j-WjC"/>
-                            <constraint firstItem="jgb-MO-6eD" firstAttribute="trailing" secondItem="Bcu-3y-fUS" secondAttribute="trailing" id="wJe-Wt-Rr8"/>
-                            <constraint firstItem="jgb-MO-6eD" firstAttribute="leading" secondItem="Bcu-3y-fUS" secondAttribute="leading" id="xIi-DH-i5X"/>
+                            <constraint firstItem="jgb-MO-6eD" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="FjW-en-yZJ"/>
+                            <constraint firstAttribute="bottom" secondItem="jgb-MO-6eD" secondAttribute="bottom" id="noI-PU-2X1"/>
+                            <constraint firstAttribute="trailing" secondItem="jgb-MO-6eD" secondAttribute="trailing" id="q5b-zf-rlf"/>
+                            <constraint firstItem="jgb-MO-6eD" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="qPb-Yb-9bz"/>
                         </constraints>
                     </view>
                 </viewController>

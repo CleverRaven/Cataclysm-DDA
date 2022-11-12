@@ -24,8 +24,9 @@ fi
 
 echo "Checking for libs folder ..."
 if [ ! -d "../build/libs" ]; then
-    echo "Extracting zipped dependencies to build folder ..."
-    unzip ../build-data/ios/libs.zip -d ../build/
+    echo "ERROR: Static SDL libraries not found at /build/libs ..."
+    echo "Reffer to /doc/COMPILING/COMPILING-XCODE.md for instructions on how to build the static libraries."
+    exit
 fi
 
 
