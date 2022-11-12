@@ -867,15 +867,14 @@
           { "type": "leather", "covered_by_mat": 100, "thickness": 1.5 },
           { "type": "budget_steel", "covered_by_mat": 65, "thickness": 1 }
         ],
-        "specifically_covers": ["arm_lower_l","arm_lower_r","arm_upper_r","arm_upper_l"]
-      },      {
+        "specifically_covers": [ "arm_lower_l", "arm_lower_r", "arm_upper_r", "arm_upper_l" ]
+      },
+      {
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
         "encumbrance": [ 0, 0 ],
-        "material": [
-          { "type": "leather", "covered_by_mat": 100, "thickness": 1.5 }
-        ],
-        "specifically_covers": ["arm_elbow_r", "arm_elbow_l","arm_shoulder_l","arm_shoulder_r"]
+        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 1.5 } ],
+        "specifically_covers": [ "arm_elbow_r", "arm_elbow_l", "arm_shoulder_l", "arm_shoulder_r" ]
       }
     ],
     "pocket_data": [
@@ -944,16 +943,14 @@
           { "type": "leather", "covered_by_mat": 100, "thickness": 1.5 },
           { "type": "rubber", "covered_by_mat": 60, "thickness": 1.5 }
         ],
-        "specifically_covers": ["arm_lower_l", "arm_lower_r", "arm_upper_l", "arm_upper_r"]
+        "specifically_covers": [ "arm_lower_l", "arm_lower_r", "arm_upper_l", "arm_upper_r" ]
       },
       {
         "covers": [ "arm_l", "arm_r" ],
         "encumbrance": [ 0, 0 ],
         "coverage": 100,
-        "material": [
-          { "type": "leather", "covered_by_mat": 100, "thickness": 1.5 }
-        ],
-        "specifically_covers": ["arm_elbow_r", "arm_elbow_l", "arm_shoulder_l", "arm_shoulder_r"]
+        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 1.5 } ],
+        "specifically_covers": [ "arm_elbow_r", "arm_elbow_l", "arm_shoulder_l", "arm_shoulder_r" ]
       }
     ],
     "pocket_data": [
@@ -1930,7 +1927,7 @@
     "id": "armor_larmor_chest",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "leather armor cuirass" },
+    "name": { "str": "leather armor cuirass", "str_pl": "leather armor cuirasses" },
     "description": "A leather chestplate with attached shoulder guards.",
     "weight": "3250 g",
     "volume": "3500 ml",
@@ -1965,7 +1962,7 @@
   {
     "id": "xl_armor_larmor_chest",
     "type": "ARMOR",
-    "name": { "str": "XL leather armor cuirass" },
+    "name": { "str": "XL leather armor cuirass", "str_pl": "XL leather armor cuirasses" },
     "copy-from": "armor_larmor_chest",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -1975,7 +1972,7 @@
     "type": "ARMOR",
     "copy-from": "armor_larmor_chest",
     "looks_like": "cuirass_bronze",
-    "name": { "str": "XS leather armor cuirass" },
+    "name": { "str": "XS leather armor cuirass", "str_pl": "XS leather armor cuirasses" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "VARSIZE", "STURDY", "OUTER", "UNDERSIZE" ]
   }
