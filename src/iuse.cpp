@@ -52,6 +52,7 @@
 #include "game_constants.h"
 #include "game_inventory.h"
 #include "handle_liquid.h"
+#include "harvest.h"
 #include "iexamine.h"
 #include "inventory.h"
 #include "inventory_ui.h"
@@ -242,6 +243,8 @@ static const flag_id json_flag_POWER_CORD( "POWER_CORD" );
 static const furn_str_id furn_f_aluminum_stepladder( "f_aluminum_stepladder" );
 static const furn_str_id furn_f_ladder( "f_ladder" );
 static const furn_str_id furn_f_translocator_buoy( "f_translocator_buoy" );
+
+static const harvest_drop_type_id harvest_drop_blood( "blood" );
 
 static const itype_id itype_advanced_ecig( "advanced_ecig" );
 static const itype_id itype_afs_atomic_smartphone( "afs_atomic_smartphone" );
@@ -4761,7 +4764,7 @@ cata::optional<int> iuse::blood_draw( Character *p, item *it, bool, const tripoi
                       colorize( map_it.tname(), map_it.color_in_inventory() ) ) ) {
             p->add_msg_if_player( m_info, _( "You drew blood from the %s…" ), map_it.tname() );
             drew_blood = true;
-            blood_temp = map_it.temperature ;
+            blood_temp = map_it.temperature;
 
             if( map_it.get_mtype()->in_species( species_ZOMBIE ) ) {
                 blood.convert( itype_blood_tainted );
@@ -4772,6 +4775,13 @@ cata::optional<int> iuse::blood_draw( Character *p, item *it, bool, const tripoi
                 acid_blood = true;
             } else {
                 blood.set_mtype( map_it.get_mtype() );
+
+                for( const harvest_entry &entry : map_it.get_mtype()->harvest.obj() ) {
+                    if( entry.type == harvest_drop_blood ) {
+                        blood.convert( itype_id( entry.drop ) );
+                        break;
+                    }
+                }
             }
         }
     }
