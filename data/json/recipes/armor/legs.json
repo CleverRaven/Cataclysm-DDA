@@ -1799,7 +1799,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_ARMS",
+    "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "tailor",
     "difficulty": 3,
     "time": "8 h",

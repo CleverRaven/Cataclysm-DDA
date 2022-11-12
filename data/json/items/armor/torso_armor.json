@@ -1930,7 +1930,7 @@
     "id": "armor_larmor_chest",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "leather cuirass" },
+    "name": { "str": "leather armor cuirass" },
     "description": "A leather chestplate with attached shoulder guards.",
     "weight": "3250 g",
     "volume": "3500 ml",
@@ -1965,7 +1965,7 @@
   {
     "id": "xl_armor_larmor_chest",
     "type": "ARMOR",
-    "name": { "str": "XL leather cuirass" },
+    "name": { "str": "XL leather armor cuirass" },
     "copy-from": "armor_larmor_chest",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -1975,7 +1975,7 @@
     "type": "ARMOR",
     "copy-from": "armor_larmor_chest",
     "looks_like": "cuirass_bronze",
-    "name": { "str": "XS leather cuirass" },
+    "name": { "str": "XS leather armor cuirass" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "VARSIZE", "STURDY", "OUTER", "UNDERSIZE" ]
   }
