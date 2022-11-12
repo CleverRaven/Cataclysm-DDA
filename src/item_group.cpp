@@ -415,9 +415,9 @@ void Item_modifier::modify( item &new_item, const std::string &context ) const
 
     // create container here from modifier or from default to get max charges later
     item cont;
-    if( container != nullptr && cont.is_null() ) {
+    if( container != nullptr ) {
         cont = container->create_single( new_item.birthday() );
-    } else if( cont.is_null() && new_item.type->default_container.has_value() ) {
+    } else if( new_item.type->default_container.has_value() ) {
         cont = item( *new_item.type->default_container, new_item.birthday() );
     }
 
