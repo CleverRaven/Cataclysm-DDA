@@ -405,7 +405,7 @@
       [ "usc15mag", 7 ],
       [ "usc20mag", 20 ],
       [ "m1carbinebigmag", 30 ]
-      ]
+     ]
   },
   {
     "type": "item_group",
