@@ -1579,7 +1579,7 @@
     "category": "armor",
     "name": { "str": "pair of leather leg guards", "str_pl": "pairs of leather leg guards" },
     "description": "A pair of tough leather leg guards.  Light and comfortable.",
-    "weight": "430 g",
+    "weight": "650 g",
     "volume": "2 L",
     "price": 4000,
     "price_postapoc": 1000,
