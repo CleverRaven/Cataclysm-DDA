@@ -158,27 +158,27 @@
     "subcategory": "CSC_ARMOR_ARMS",
     "skill_used": "tailor",
     "difficulty": 3,
-    "time": "120 m",
+    "time": "6 h",
     "autolearn": true,
     "byproducts": [ [ "leather", 2 ], [ "scrap_leather", 5 ] ],
-    "using": [ [ "tailoring_leather_patchwork", 2 ] ],
+    "using": [ [ "tailoring_leather_patchwork", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ]
   },
   {
     "result": "xs_armguard_larmor",
     "type": "recipe",
     "copy-from": "armguard_larmor",
-    "time": "120 m",
+    "time": "6 h",
     "byproducts": [ [ "leather", 6 ], [ "scrap_leather", 1 ] ],
-    "using": [ [ "tailoring_leather_patchwork", 2 ] ]
+    "using": [ [ "tailoring_leather_patchwork", 3 ] ]
   },
   {
     "result": "xl_armguard_larmor",
     "type": "recipe",
     "copy-from": "armguard_larmor",
-    "time": "180 m",
+    "time": "8 h",
     "byproducts": [ [ "leather", 2 ], [ "scrap_leather", 1 ] ],
-    "using": [ [ "tailoring_leather_patchwork", 3 ] ]
+    "using": [ [ "tailoring_leather_patchwork", 5 ] ]
   },
   {
     "result": "armguard_lightplate",
