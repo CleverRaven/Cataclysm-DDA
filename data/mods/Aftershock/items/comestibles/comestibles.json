@@ -70,7 +70,7 @@
     "quench": -1,
     "calories": 101,
     "container": "wrapper",
-    "description": "A yellow stick of milkfat and milk solids, made from cow's milk and the power of the atom.  All radiation levels are confirmed to be in line with background exposure and any cancers later in life have nothing to do with this butter or any products made with this butter.  By consuming this butter you indemnify and hold harmless the Rivtech Corporation, it's parent company and subsidiaries and any agents, directors or officers of the Rivtech Corporation from any losses or damages that may occur as a result of consuming this butter in any form or fashion.",
+    "description": "A yellow stick of milkfat and milk solids, made from cow's milk and the power of the atom.  All radiation levels are confirmed to be in line with background exposure and any cancers later in life have nothing to do with this butter or any products made with this butter.  By consuming this butter you indemnify and hold harmless the Rivtech Corporation, its parent company and subsidiaries and any agents, directors or officers of the Rivtech Corporation from any losses or damages that may occur as a result of consuming this butter in any form or fashion.",
     "price": 300,
     "price_postapoc": 750,
     "material": [ "milk" ],
