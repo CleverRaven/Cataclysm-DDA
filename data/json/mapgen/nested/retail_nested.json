@@ -1505,7 +1505,7 @@
         "E,A,,,,,,DFE|S|,|S",
         "|,,||+|||||||||,||",
         "k,O|7,JA,llmmY,,HH",
-        "k,O|7,?,,,,,,,,,ff",
+        "k,O|7,ƃ,,,,,,,,,ff",
         "2,K|J,JA,hh,hh,,HH",
         "3,K0J,JA,ff,ff,,,,",
         "1,K0J,JA,hh,hh,,HH",
@@ -1552,7 +1552,7 @@
         "6 W|EKKOKSK   JJJJ",
         "|||||||||||  |||||",
         "KKKKKKKK77Y,,JY,hh",
-        "K,,,,,,,,,,,,?,,ff",
+        "K,,,,,,,,,,,,ƃ,,ff",
         "K,,|JJJJJJJJJJ,,hh",
         "l,B|AA,AAA,AAA,,,,",
         "m,B|hh,hh,hh,,,hfh",
@@ -1650,13 +1650,13 @@
       "mapgensize": [ 4, 4 ],
       "rotation": [ 0, 3 ],
       "rows": [
-        "pppp",
+        "ππππ",
         "    ",
         "    ",
         "    "
       ],
-      "furniture": { "p": "f_displaycase" },
-      "items": { "p": { "item": "woodcrafts", "chance": 100, "repeat": [ 1, 3 ] } }
+      "furniture": { "π": "f_displaycase" },
+      "items": { "π": { "item": "woodcrafts", "chance": 100, "repeat": [ 1, 3 ] } }
     }
   },
   {
