@@ -153,6 +153,7 @@
       { "item": "boots", "damage": [ 0, 4 ] },
       { "item": "hat_navy", "damage": [ 0, 4 ] },
       { "item": "officer_uniform", "damage": [ 0, 4 ] },
+      { "item": "sam_belt", "damage": [ 0, 4 ] },
       { "distribution": [ { "item": "socks", "prob": 30 }, { "item": "nomex_socks", "prob": 70 } ] },
       {
         "distribution": [
@@ -172,6 +173,7 @@
       { "distribution": [ { "item": "jacket_army_modern", "prob": 50 }, { "item": "combat_shirt", "prob": 50 } ] },
       { "item": "pants_army" },
       { "item": "webbing_belt" },
+      { "distribution": [ { "item": "sam_belt", "prob": 35 }
       { "distribution": [ { "item": "socks", "prob": 95 }, { "item": "socks_wool", "prob": 5 } ] },
       { "item": "boots_combat" },
       {
