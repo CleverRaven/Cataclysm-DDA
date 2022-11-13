@@ -344,14 +344,14 @@ template<class T>
 void conditional_t<T>::set_has_any_trait( const JsonObject &jo, const std::string &member,
         bool is_npc )
 {
-    std::vector<trait_id> traits_to_check;
-    for( auto&& f : jo.get_string_array( member ) ) { // *NOPAD*
-        traits_to_check.emplace_back( f );
+    std::vector<str_or_var<T>> traits_to_check;
+    for( JsonValue jv : jo.get_array( member ) ) {
+        traits_to_check.emplace_back( get_str_or_var<T>( jv, member ) );
     }
     condition = [traits_to_check, is_npc]( const T & d ) {
         const talker *actor = d.actor( is_npc );
-        for( const auto &trait : traits_to_check ) {
-            if( actor->has_trait( trait ) ) {
+        for( const str_or_var<T> &trait : traits_to_check ) {
+            if( actor->has_trait( trait_id( trait.evaluate( d ) ) ) ) {
                 return true;
             }
         }
@@ -544,28 +544,23 @@ void conditional_t<T>::set_has_items( const JsonObject &jo, const std::string &m
             return false;
         };
     } else {
-        const itype_id item_id( has_items.get_string( "item" ) );
-        int count = 0;
-        if( has_items.has_int( "count" ) ) {
-            count = has_items.get_int( "count" );
-        }
-        int charges = 0;
-        if( has_items.has_int( "charges" ) ) {
-            charges = has_items.get_int( "charges" );
-        }
+        str_or_var<T> item_id = get_str_or_var<T>( has_items.get_member( "item" ), "item", true );
+        int_or_var<T> count = get_int_or_var<T>( has_items, "count", false );
+        int_or_var<T> charges = get_int_or_var<T>( has_items, "charges", false );
         condition = [item_id, count, charges, is_npc]( const T & d ) {
             const talker *actor = d.actor( is_npc );
-            if( charges == 0 && item::count_by_charges( item_id ) ) {
-                return actor->has_charges( item_id, count, true );
+            itype_id id = itype_id( item_id.evaluate( d ) );
+            if( charges.evaluate( d ) == 0 && item::count_by_charges( id ) ) {
+                return actor->has_charges( id, count.evaluate( d ), true );
             }
-            if( charges > 0 && count == 0 ) {
-                return actor->has_charges( item_id, charges, true );
+            if( charges.evaluate( d ) > 0 && count.evaluate( d ) == 0 ) {
+                return actor->has_charges( id, charges.evaluate( d ), true );
             }
             bool has_enough_charges = true;
-            if( charges > 0 ) {
-                has_enough_charges = actor->has_charges( item_id, charges, true );
+            if( charges.evaluate( d ) > 0 ) {
+                has_enough_charges = actor->has_charges( id, charges.evaluate( d ), true );
             }
-            return has_enough_charges && actor->has_amount( item_id, count );
+            return has_enough_charges && actor->has_amount( id, count.evaluate( d ) );
         };
     }
 }
@@ -622,14 +617,18 @@ void conditional_t<T>::set_has_effect( const JsonObject &jo, const std::string &
                                        bool is_npc )
 {
     str_or_var<T> effect_id = get_str_or_var<T>( jo.get_member( member ), member, true );
-    cata::optional<int> intensity;
-    cata::optional<bodypart_id> bp;
-    optional( jo, false, "intensity", intensity );
-    optional( jo, false, "bodypart", bp );
+    int_or_var<T> intensity = get_int_or_var<T>( jo, "intensity", false, -1 );
+    str_or_var<T> bp;
+    if( jo.has_member( "bodypart" ) ) {
+        bp = get_str_or_var<T>( jo.get_member( "target_part" ), "target_part", true );
+    } else {
+        bp.str_val = "";
+    }
     condition = [effect_id, intensity, bp, is_npc]( const T & d ) {
-        bodypart_id bid = bp.value_or( get_bp_from_str( d.reason ) );
+        bodypart_id bid = bp.evaluate( d ) == "" ? get_bp_from_str( d.reason ) : bodypart_id( bp.evaluate(
+                              d ) );
         effect target = d.actor( is_npc )->get_effect( efftype_id( effect_id.evaluate( d ) ), bid );
-        return !target.is_null() && intensity.value_or( -1 ) <= target.get_intensity();
+        return !target.is_null() && intensity.evaluate( d ) <= target.get_intensity();
     };
 }
 
