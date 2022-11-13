@@ -994,24 +994,24 @@ TEST_CASE( "crafting_skill_gain", "[skill],[crafting],[slow]" )
     }
     SECTION( "lvl 2 -> lvl 3" ) {
         GIVEN( "nominal morale" ) {
-            test_skill_progression( recipe_vambrace_larmor, 12131, 0, true );
+            test_skill_progression( recipe_vambrace_larmor, 6299, 0, true );
         }
         GIVEN( "high morale" ) {
-            test_skill_progression( recipe_vambrace_larmor, 9997, 50, true );
+            test_skill_progression( recipe_vambrace_larmor, 5237, 50, true );
         }
         GIVEN( "very high morale" ) {
-            test_skill_progression( recipe_vambrace_larmor, 9197, 100, true );
+            test_skill_progression( recipe_vambrace_larmor, 4841, 100, true );
         }
     }
     SECTION( "lvl 3 -> lvl 4" ) {
         GIVEN( "nominal morale" ) {
-            test_skill_progression( recipe_armguard_larmor, 6299, 0, true );
+            test_skill_progression( recipe_armguard_larmor, 12112, 0, true );
         }
         GIVEN( "high morale" ) {
-            test_skill_progression( recipe_armguard_larmor, 5237, 50, true );
+            test_skill_progression( recipe_armguard_larmor, 9982, 50, true );
         }
         GIVEN( "very high morale" ) {
-            test_skill_progression( recipe_armguard_larmor, 4841, 100, true );
+            test_skill_progression( recipe_armguard_larmor, 9184, 100, true );
         }
     }
     SECTION( "lvl 4 -> 5" ) {
