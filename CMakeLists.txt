@@ -7,7 +7,7 @@ list(APPEND CMAKE_MODULE_PATH
 if (NOT VCPKG_MANIFEST_MODE)
     list(APPEND CMAKE_MODULE_PATH
             ${CMAKE_SOURCE_DIR}/CMakeModules/Find)
-endif()
+endif ()
 
 set(CMAKE_TLS_VERIFY ON)
 
@@ -74,15 +74,15 @@ include(CheckCXXCompilerFlag)
 
 #FIXME: Add dest build choice: m32 for 32 bit or m64 for 64 bit version
 #add_definitions("-m32")
-#SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -m32")
-#SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -m32")
-#SET(CMAKE_SHARED_LIBRARY_C_FLAGS "${CMAKE_SHARED_LIBRARY_C_FLAGS} -m32")
-#SET(CMAKE_SHARED_LIBRARY_CXX_FLAGS "${CMAKE_SHARED_LIBRARY_CXX_FLAGS} -m32")
+#set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -m32")
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -m32")
+#set(CMAKE_SHARED_LIBRARY_C_FLAGS "${CMAKE_SHARED_LIBRARY_C_FLAGS} -m32")
+#set(CMAKE_SHARED_LIBRARY_CXX_FLAGS "${CMAKE_SHARED_LIBRARY_CXX_FLAGS} -m32")
 
 if (NOT DYNAMIC_LINKING)
-    if(NOT MSVC)
+    if (NOT MSVC)
         set(CMAKE_FIND_LIBRARY_SUFFIXES ".a;.dll.a")
-    endif()
+    endif ()
     set(BUILD_SHARED_LIBRARIES OFF)
     check_cxx_compiler_flag (-static HAVE_STATIC_FLAG)
     if (HAVE_STATIC_FLAG)
@@ -152,8 +152,8 @@ else ()
     find_package(Git)
     if (NOT GIT_FOUND)
         message(WARNING
-            "Git binary not found. Build version will be set to NULL. \
-             Install Git package or use -DGIT_BINARY to set path to git binary.")
+                "Git binary not found. Build version will be set to NULL. \
+                 Install Git package or use -DGIT_BINARY to set path to git binary.")
     endif ()
 endif ()
 
@@ -229,11 +229,11 @@ else ()
              -Wsuggest-override \
              -Wunused-macros \
              -Wzero-as-null-pointer-constant")
-    if("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
+    if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
         set(CATA_WARNINGS "${CATA_WARNINGS} -Wno-unknown-warning-option")
-    else()
+    else ()
         set(CATA_WARNINGS "${CATA_WARNINGS} -Wno-unknown-warning")
-    endif()
+    endif ()
     if (NOT "${CMAKE_SYSTEM_NAME}" MATCHES "Windows")
         set(CATA_WARNINGS "${CATA_WARNINGS} -Wredundant-decls")
     endif ()
@@ -297,11 +297,11 @@ if (TILES)
     endif ()
 
     message(STATUS "Searching for SDL2_image library --")
-    if(VCPKG_MANIFEST_MODE)
+    if (VCPKG_MANIFEST_MODE)
         find_package(sdl2-image)
-    else()
+    else ()
         find_package(SDL2_image)
-    endif()
+    endif ()
     if (NOT (SDL2_IMAGE_FOUND OR TARGET SDL2::SDL2_image))
         message(FATAL_ERROR
                 "This project requires SDL2_image to be installed to compile in graphical mode. \
@@ -342,21 +342,21 @@ if (SOUND)
     # Sound requires SDL_mixer library
     message(STATUS "Searching for SDL2_mixer library --")
     find_package(SDL2_mixer)
-    if(VCPKG_MANIFEST_MODE)
+    if (VCPKG_MANIFEST_MODE)
         if (NOT TARGET SDL2_mixer::SDL2_mixer-static) # TODO x64-mingw-static
             message(FATAL_ERROR
                     "You need the SDL2_mixer development library \
                      to be able to compile with sound enabled. \
                      See doc/COMPILING/COMPILING-CMAKE.md for details and more info.")
-        endif()
-    else()
+        endif ()
+    else ()
         if (NOT SDL2_MIXER_FOUND)
             message(FATAL_ERROR
                     "You need the SDL2_mixer development library \
                      to be able to compile with sound enabled. \
                      See doc/COMPILING/COMPILING-CMAKE.md for details and more info.")
         endif ()
-    endif()
+    endif ()
 endif ()
 
 if (BACKTRACE)
@@ -388,14 +388,14 @@ add_subdirectory(src)
 add_subdirectory(data)
 if (NOT MSVC)
     add_subdirectory(src/chkjson)
-endif()
+endif ()
 add_subdirectory(tests)
 if (JSON_FORMAT)
     add_subdirectory(tools/format)
-endif()
+endif ()
 if (CATA_CLANG_TIDY_PLUGIN OR CATA_CLANG_TIDY_EXECUTABLE)
     add_subdirectory(tools/clang-tidy-plugin)
-endif()
+endif ()
 
 configure_file(
         "${CMAKE_CURRENT_SOURCE_DIR}/cmake_uninstall.cmake.in"
