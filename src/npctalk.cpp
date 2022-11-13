@@ -2930,15 +2930,20 @@ void talk_effect_fun_t<T>::set_u_buy_monster( const JsonObject &jo, const std::s
     int_or_var<T> cost = get_int_or_var<T>( jo, "cost", false, 0 );
     int_or_var<T> count = get_int_or_var<T>( jo, "count", false, 1 );
     const bool pacified = jo.get_bool( "pacified", false );
-    translation name;
-    jo.read( "name", name );
+    str_or_var<T> name;
+    if( jo.has_member( "name" ) ) {
+        name = get_str_or_var<T>( jo.get_member( "name" ), "name", true );
+    } else {
+        name.str_val = "";
+    }
     std::vector<effect_on_condition_id> true_eocs = load_eoc_vector( jo, "true_eocs" );
     std::vector<effect_on_condition_id> false_eocs = load_eoc_vector( jo, "false_eocs" );
     function = [monster_type_id, cost, count, pacified, name, true_eocs,
                      false_eocs]( const T & d ) {
         const mtype_id mtype( monster_type_id.evaluate( d ) );
+        translation translated_name = to_translation( _( name.evaluate( d ) ) );
         if( d.actor( false )->buy_monster( *d.actor( true ), mtype, cost.evaluate( d ), count.evaluate( d ),
-                                           pacified, name ) ) {
+                                           pacified, translated_name ) ) {
             run_eoc_vector( true_eocs, d );
         } else {
             run_eoc_vector( false_eocs, d );
