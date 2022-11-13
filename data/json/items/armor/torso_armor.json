@@ -962,9 +962,9 @@
         "covers": [ "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ],
         "material": [
+          { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 8.0 },
           { "type": "thermo_resin", "covered_by_mat": 80, "thickness": 1.0 },
-          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.5 },
-          { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 8.0 }
+          { "type": "thermo_resin", "covered_by_mat": 80, "thickness": 1.0 }
         ]
       }
     ]
