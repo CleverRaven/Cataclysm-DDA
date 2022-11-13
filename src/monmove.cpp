@@ -84,7 +84,7 @@ bool monster::is_immune_field( const field_type_id &fid ) const
         return !made_of( material_iflesh ) || has_flag( MF_INSECTICIDEPROOF );
     }
     if( fid == fd_web ) {
-        return has_flag( MF_WEBWALK ) || flies();
+        return has_flag( MF_WEBWALK );
     }
     if( fid == fd_sludge || fid == fd_sap ) {
         return flies();
