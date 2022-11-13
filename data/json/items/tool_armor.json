@@ -1206,10 +1206,10 @@
           "has": "WORN",
           "condition": "ACTIVE",
           "values": [
-			      { "value": "CLIMATE_CONTROL_HEAT", "add": 50 },
-			      { "value": "CLIMATE_CONTROL_CHILL", "add": 50 },
+            { "value": "CLIMATE_CONTROL_HEAT", "add": 50 },
+            { "value": "CLIMATE_CONTROL_CHILL", "add": 50 },
             { "value": "FOOTSTEP_NOISE", "multiply": -0.67 }
-		      ]
+          ]
         }
       ]
     },
