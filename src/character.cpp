@@ -1500,10 +1500,12 @@ bool Character::check_mount_is_spooked()
     // -0.25% per point of dexterity (low -1%, average -2%, high -3%, extreme -3.5%)
     // -0.1% per point of strength ( low -0.4%, average -0.8%, high -1.2%, extreme -1.4% )
     // / 2 if horse has full tack and saddle.
+    // / 2 if mount has the monster flag COMBAT_MOUNT
     // Monster in spear reach monster and average stat (8) player on saddled horse, 14% -2% -0.8% / 2 = ~5%
     if( mounted_creature && mounted_creature->type->has_fear_trigger( mon_trigger::HOSTILE_CLOSE ) ) {
         const creature_size mount_size = mounted_creature->get_size();
         const bool saddled = mounted_creature->has_effect( effect_monster_saddled );
+        const bool combat_mount = mounted_creature->has_flag( MF_COMBAT_MOUNT );
         for( const monster &critter : g->all_monsters() ) {
             double chance = 1.0;
             Attitude att = critter.attitude_to( *this );
@@ -1517,6 +1519,9 @@ bool Character::check_mount_is_spooked()
                 chance -= 0.1 * get_str();
                 chance *= get_limb_score( limb_score_grip );
                 if( saddled ) {
+                    chance /= 2;
+                }
+                if( combat_mount ) {
                     chance /= 2;
                 }
                 chance = std::max( 1.0, chance );
