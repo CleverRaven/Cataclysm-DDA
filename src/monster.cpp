@@ -3372,7 +3372,7 @@ void monster::hear_sound( const tripoint &source, const int vol, const int dist,
         return;
     }
     // only trigger this if the monster is not friendly or the source isn't the player
-    if( friendly >= 0 || source != g->you.pos() ) {
+    if( friendly >= 0 || source != you.pos() ) {
         process_trigger( mon_trigger::SOUND, volume );
     }
     provocative_sound = tmp_provocative;
