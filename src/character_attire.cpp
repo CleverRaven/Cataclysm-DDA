@@ -2283,11 +2283,7 @@ std::vector<pocket_data_with_parent> Character::get_all_pocket_with_parent(
     }
 
     for( item_location &loc : locs ) {
-        item *i = loc.get_item();
-        if( !i ) {
-            continue;
-        }
-        for( const item_pocket *pocket : i->get_all_contained_pockets() ) {
+        for( const item_pocket *pocket : loc->get_all_contained_pockets() ) {
             std::vector<pocket_data_with_parent> child =
                 get_child_pocket_with_parent( pocket, item_location::nowhere, loc, 0, filter );
             ret.insert( ret.end(), child.begin(), child.end() );
