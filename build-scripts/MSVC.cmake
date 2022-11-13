@@ -1,19 +1,19 @@
 if (NOT "$ENV{DevEnvDir}")
     # Use Community Edition when not specified
     set(ENV{DevEnvDir} "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Common7\\IDE\\")
-endif()
-if(CMAKE_GENERATOR MATCHES ^Ninja)
+endif ()
+if (CMAKE_GENERATOR MATCHES ^Ninja)
     # Ninja is provided by Microsoft but not in the Path
     set(CMAKE_MAKE_PROGRAM $ENV{DevEnvDir}CommonExtensions\\Microsoft\\CMake\\Ninja\\ninja.exe CACHE PATH "")
-endif()
+endif ()
 
 # Path has changed, so this configure run will find cl.exe
 set(CMAKE_C_COMPILER   cl.exe)
 set(CMAKE_CXX_COMPILER ${CMAKE_C_COMPILER})
 set(CMAKE_CXX_FLAGS_INIT "\
-/MP /utf-8 /bigobj /permissive- /sdl- /FC /Gd /GS- /Gy /GF \
-/wd4068 /wd4146 /wd4819 /wd6237 /wd6319 /wd26444 /wd26451 /wd26495 /WX- /W1 \
-/TP /Zc:forScope /Zc:inline /Zc:wchar_t"
+        /MP /utf-8 /bigobj /permissive- /sdl- /FC /Gd /GS- /Gy /GF \
+        /wd4068 /wd4146 /wd4819 /wd6237 /wd6319 /wd26444 /wd26451 /wd26495 /WX- /W1 \
+        /TP /Zc:forScope /Zc:inline /Zc:wchar_t"
 )
 # /MP     # cl.exe build with multiple processes
 # /utf-8  # set source and execution character sets to UTF-8
@@ -39,26 +39,24 @@ set(CMAKE_CXX_FLAGS_INIT "\
 # /Zc:forScope  # Force Conformance in for Loop Scope
 # /Zc:inline    # Remove unreferenced COMDAT
 # /Zc:wchar_t   # wchar_t Is Native Type
-set(CMAKE_CXX_FLAGS_RELWITHDEBINFO_INIT
-"/Oi"
-)
+set(CMAKE_CXX_FLAGS_RELWITHDEBINFO_INIT "/Oi")
 # /Ob1 # Inline Function Expansion (1 = only when marked as such)
 # /Oi  # Generate Intrinsic Functions
 add_compile_definitions(
-    _SCL_SECURE_NO_WARNINGS
-    _CRT_SECURE_NO_WARNINGS
-    WIN32_LEAN_AND_MEAN
-    LOCALIZE
-    USE_VCPKG
+        _SCL_SECURE_NO_WARNINGS
+        _CRT_SECURE_NO_WARNINGS
+        WIN32_LEAN_AND_MEAN
+        LOCALIZE
+        USE_VCPKG
 )
 add_link_options(
-    /OPT:REF
-    /OPT:ICF
-    /LTCG:OFF
-    /MANIFEST:NO
-    /INCREMENTAL:NO
-    /DYNAMICBASE
-    /NXCOMPAT
+        /OPT:REF
+        /OPT:ICF
+        /LTCG:OFF
+        /MANIFEST:NO
+        /INCREMENTAL:NO
+        /DYNAMICBASE
+        /NXCOMPAT
 )
 # /OPT:REF  # remove unreferenced COMDATs
 # /OPT:ICF  # folds identical COMDATs
