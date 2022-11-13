@@ -131,6 +131,7 @@ class optional_vpart_position : public cata::optional<vpart_position>
         cata::optional<vpart_reference> part_displayed() const;
         cata::optional<vpart_reference> part_with_tool( const itype_id &tool_type ) const;
         std::vector<std::pair<itype_id, int>> get_tools() const;
+        std::string extended_description() const;
 };
 
 /**

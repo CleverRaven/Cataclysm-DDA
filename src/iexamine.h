@@ -45,6 +45,8 @@ enum fuel_station_fuel_type {
 namespace iexamine
 {
 
+bool can_hack( Character &you );
+
 bool try_start_hacking( Character &you, const tripoint &examp );
 
 void egg_sack_generic( Character &you, const tripoint &examp, const mtype_id &montype );

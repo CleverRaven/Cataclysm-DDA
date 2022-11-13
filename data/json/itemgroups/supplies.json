@@ -352,7 +352,7 @@
       { "item": "chem_antimony_trichloride", "prob": 2, "charges-min": 1 },
       { "item": "chem_ferric_chloride", "prob": 15, "charges-min": 1 },
       { "item": "chem_nickel_powder", "prob": 5, "charges-min": 1 },
-      { "item": "chem_slaked_lime", "prob": 5, "charges-min": 1 },
+      { "item": "chem_slaked_lime", "prob": 5, "charges-min": 1, "container-item": "bag_plastic", "sealed": false },
       { "item": "chem_baking_soda", "prob": 10, "charges-min": 1 },
       { "item": "chem_washing_soda", "prob": 10, "charges-min": 1 },
       { "item": "chem_calcium_chloride", "prob": 5 },

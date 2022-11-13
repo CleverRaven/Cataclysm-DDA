@@ -131,7 +131,7 @@ struct var_info {
 };
 
 template<class T>
-static std::string read_var_value( var_info info, const T &d )
+static std::string read_var_value( const var_info &info, const T &d )
 {
     std::string ret_val;
     global_variables &globvars = get_globals();

@@ -1860,7 +1860,7 @@ std::map<bodypart_id, int> outfit::warmth( const Character &guy ) const
     return total_warmth;
 }
 
-std::unordered_set<bodypart_id> outfit::where_discomfort() const
+std::unordered_set<bodypart_id> outfit::where_discomfort( const Character &guy ) const
 {
     // get all rigid body parts to begin with
     std::unordered_set<sub_bodypart_id> covered_sbps;
@@ -1876,8 +1876,17 @@ std::unordered_set<bodypart_id> outfit::where_discomfort() const
             // note anything selectively rigid reasonably can be assumed to support itself so we don't need to worry about this
             // items must also be somewhat heavy in order to cause discomfort
             if( !i.is_bp_rigid_selective( sbp ) && !i.is_bp_comfortable( sbp ) &&
-                covered_sbps.count( sbp ) != 1 && i.weight() > units::from_gram( 250 ) ) {
-                uncomfortable_bps.insert( sbp->parent );
+                i.weight() > units::from_gram( 250 ) ) {
+
+                // need to go through each locations under location to check if its covered, since secondary locations can cover multiple underlying locations
+                for( const sub_bodypart_str_id &under_sbp : sbp->locations_under ) {
+                    if( covered_sbps.count( under_sbp ) != 1 ) {
+                        guy.add_msg_if_player(
+                            string_format( _( "<color_c_red> the %s rubs uncomfortably against your unpadded %s </color>" ),
+                                           i.display_name(), under_sbp->name ) );
+                        uncomfortable_bps.insert( sbp->parent );
+                    }
+                }
             }
         }
     }

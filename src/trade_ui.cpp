@@ -109,7 +109,7 @@ trade_ui::trade_ui( party_t &you, npc &trader, currency_t cost, std::string titl
     _panes[_you]->add_character_items( you );
     _panes[_you]->add_nearby_items( 1 );
     _panes[_trader]->add_character_items( trader );
-    if( trader.mission == NPC_MISSION_SHOPKEEP ) {
+    if( trader.is_shopkeeper() ) {
         _panes[_trader]->categorize_map_items( true );
 
         add_fallback_zone( trader );
@@ -262,7 +262,7 @@ bool trade_ui::_confirm_trade() const
             popup( _( "Sorry, I'm only willing to extend you %s in credit." ),
                    format_money( np.max_credit_extended() ) );
         }
-    } else if( np.mission != NPC_MISSION_SHOPKEEP &&
+    } else if( !np.is_shopkeeper() &&
                !npc_trading::npc_can_fit_items( np, _panes[_you]->to_trade() ) ) {
         popup( _( "%s doesn't have the appropriate pockets to accept that." ), np.get_name() );
     } else if( npc_trading::calc_npc_owes_you( np, _balance ) < _balance ) {

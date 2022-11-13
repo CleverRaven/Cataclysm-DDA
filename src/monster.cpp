@@ -2466,7 +2466,7 @@ void monster::process_turn()
         }
     }
     // We update electrical fields here since they act every turn.
-    if( has_flag( MF_ELECTRIC_FIELD ) ) {
+    if( has_flag( MF_ELECTRIC_FIELD ) && !is_hallucination() ) {
         if( has_effect( effect_emp ) ) {
             if( calendar::once_every( 10_turns ) ) {
                 sounds::sound( pos(), 5, sounds::sound_t::combat, _( "hummmmm." ), false, "humming", "electric" );

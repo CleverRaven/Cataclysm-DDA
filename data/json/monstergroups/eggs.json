@@ -253,11 +253,6 @@
     "monsters": [ { "monster": "mon_caterpillar_moth" } ]
   },
   {
-    "name": "GROUP_EGG_TROUT",
-    "type": "monstergroup",
-    "monsters": [ { "monster": "mon_fry_trout" } ]
-  },
-  {
     "name": "GROUP_EGG_BROWN_TROUT",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_fry_brown_trout" } ]
@@ -278,11 +273,6 @@
     "monsters": [ { "monster": "mon_fry_rainbow_trout" } ]
   },
   {
-    "name": "GROUP_EGG_STEELHEAD_TROUT",
-    "type": "monstergroup",
-    "monsters": [ { "monster": "mon_fry_steelhead_trout" } ]
-  },
-  {
     "name": "GROUP_EGG_SALMON",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_fry_salmon" } ]
@@ -291,16 +281,6 @@
     "name": "GROUP_EGG_KOKANEE_SALMON",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_fry_kokanee_salmon" } ]
-  },
-  {
-    "name": "GROUP_EGG_CHINOOK_SALMON",
-    "type": "monstergroup",
-    "monsters": [ { "monster": "mon_fry_chinook_salmon" } ]
-  },
-  {
-    "name": "GROUP_EGG_COHO_SALMON",
-    "type": "monstergroup",
-    "monsters": [ { "monster": "mon_fry_coho_salmon" } ]
   },
   {
     "name": "GROUP_EGG_WHITEFISH",
@@ -321,11 +301,6 @@
     "name": "GROUP_EGG_PBASS",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_fry_pbass" } ]
-  },
-  {
-    "name": "GROUP_EGG_WHITE_BASS",
-    "type": "monstergroup",
-    "monsters": [ { "monster": "mon_fry_white_bass" } ]
   },
   {
     "name": "GROUP_EGG_PERCH",
@@ -361,16 +336,6 @@
     "name": "GROUP_EGG_GREEN_SUNFISH",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_fry_green_sunfish" } ]
-  },
-  {
-    "name": "GROUP_EGG_LONGEAR_SUNFISH",
-    "type": "monstergroup",
-    "monsters": [ { "monster": "mon_fry_longear_sunfish" } ]
-  },
-  {
-    "name": "GROUP_EGG_REDEAR_SUNFISH",
-    "type": "monstergroup",
-    "monsters": [ { "monster": "mon_fry_redear_sunfish" } ]
   },
   {
     "name": "GROUP_EGG_ROCK_BASS",
