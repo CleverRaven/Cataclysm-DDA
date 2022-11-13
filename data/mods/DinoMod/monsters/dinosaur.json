@@ -61,6 +61,7 @@
     "reproduction": { "baby_egg": "egg_dilophosaurus", "baby_count": 3, "baby_timer": 18 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 2 },
+    "grab_strength": 15,
     "special_attacks": [ { "id": "teeth_grab", "cooldown": 10 }, { "id": "teeth_rip", "cooldown": 10 } ],
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "KEENNOSE", "WARM", "SWIMS" ],
     "harvest": "dino_med_feather_pred",
@@ -99,6 +100,7 @@
     "reproduction": { "baby_egg": "egg_ceratosaurus", "baby_count": 3, "baby_timer": 24 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 2 },
+    "grab_strength": 15,
     "special_attacks": [ { "id": "teeth_grab", "cooldown": 10 }, { "id": "teeth_rip", "cooldown": 10 } ],
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "WARM", "SWIMS" ],
     "harvest": "dino_large_pred",
@@ -138,6 +140,7 @@
     "reproduction": { "baby_egg": "egg_spinosaurus", "baby_count": 3, "baby_timer": 24 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 1 },
+    "grab_strength": 15,
     "special_attacks": [ { "id": "teeth_grab", "cooldown": 10 }, { "id": "teeth_rip", "cooldown": 10 }, [ "LUNGE", 5 ] ],
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "DESTROYS", "WARM", "SWIMS", "PUSH_MON" ],
     "harvest": "dino_large_pred",
@@ -178,6 +181,7 @@
     "reproduction": { "baby_egg": "egg_torvosaurus", "baby_count": 3, "baby_timer": 24 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 1 },
+    "grab_strength": 15,
     "special_attacks": [ { "id": "teeth_grab", "cooldown": 10 }, { "id": "teeth_rip", "cooldown": 10 }, [ "LUNGE", 5 ] ],
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "DESTROYS", "WARM", "PUSH_MON" ],
     "harvest": "dino_large_pred",
@@ -215,6 +219,7 @@
     "reproduction": { "baby_egg": "egg_allosaurus", "baby_count": 3, "baby_timer": 24 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 1 },
+    "grab_strength": 15,
     "special_attacks": [ { "id": "teeth_grab", "cooldown": 10 }, { "id": "teeth_rip", "cooldown": 10 } ],
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "WARM" ],
     "harvest": "allosaurus",
@@ -270,6 +275,7 @@
     "zombify_into": "mon_zryptosaurus",
     "description": "Large sharp teeth and a lean frame, with long wicked claws and a feathered mullet and tail.",
     "reproduction": { "baby_egg": "egg_dryptosaurus", "baby_count": 3, "baby_timer": 24 },
+    "grab_strength": 15,
     "special_attacks": [
       { "id": "teeth_grab", "cooldown": 15 },
       { "id": "teeth_pull", "cooldown": 15 },
@@ -345,6 +351,7 @@
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 1 },
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "DESTROYS", "WARM", "PUSH_MON" ],
+    "grab_strength": 15,
     "special_attacks": [ { "id": "teeth_puncture", "cooldown": 7 }, { "id": "teeth_pull", "cooldown": 5 }, [ "LUNGE", 10 ] ],
     "harvest": "dino_large_feather_pred",
     "dissect": "dissect_tyrant_sample_large",
@@ -385,6 +392,7 @@
     "reproduction": { "baby_egg": "egg_qianzhousaurus", "baby_count": 5, "baby_timer": 23 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 2 },
+    "grab_strength": 15,
     "special_attacks": [
       { "id": "teeth_puncture", "cooldown": 7 },
       { "id": "teeth_pull", "cooldown": 5 },
@@ -473,6 +481,7 @@
     "reproduction": { "baby_egg": "egg_tyrannosaurus", "baby_count": 3, "baby_timer": 24 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 1 },
+    "grab_strength": 20,
     "special_attacks": [
       { "id": "teeth_puncture", "cooldown": 7 },
       { "id": "teeth_pull", "cooldown": 5 },
@@ -781,6 +790,7 @@
     "weakpoint_sets": [ "wps_dinosaur_body" ],
     "hp": 30,
     "vision_night": 5,
+    "grab_strength": 10,
     "special_attacks": [
       { "id": "teeth_grab", "cooldown": 20 },
       { "id": "teeth_rip", "cooldown": 10 },
@@ -824,6 +834,7 @@
     "zombify_into": "mon_zeinonychus",
     "vision_night": 5,
     "path_settings": { "max_dist": 10, "avoid_traps": true, "avoid_sharp": true },
+    "grab_strength": 15,
     "special_attacks": [
       { "id": "teeth_grab", "cooldown": 20 },
       { "id": "teeth_rip", "cooldown": 5 },
@@ -878,6 +889,7 @@
     "hp": 125,
     "zombify_into": "mon_zutahraptor",
     "vision_night": 5,
+    "grab_strength": 15,
     "special_attacks": [
       { "id": "teeth_grab", "cooldown": 20 },
       { "id": "teeth_rip", "cooldown": 5 },
@@ -935,6 +947,7 @@
     "weakpoint_sets": [ "wps_dinosaur_body" ],
     "hp": 35,
     "vision_night": 5,
+    "grab_strength": 10,
     "special_attacks": [
       { "id": "teeth_grab", "cooldown": 20 },
       { "id": "teeth_rip", "cooldown": 10 },
