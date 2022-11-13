@@ -2982,7 +2982,12 @@ void talk_effect_fun_t<T>::set_message( const JsonObject &jo, const std::string 
     const bool sound = jo.get_bool( "sound", false );
     const bool popup_msg = jo.get_bool( "popup", false );
     const bool popup_w_interrupt_query_msg = jo.get_bool( "popup_w_interrupt_query", false );
-    std::string interrupt_type = jo.get_string( "interrupt_type", "default" );
+    str_or_var<T> interrupt_type;
+    if( jo.has_member( "interrupt_type" ) ) {
+        interrupt_type = get_str_or_var<T>( jo.get_member( "interrupt_type" ), "interrupt_type", true );
+    } else {
+        interrupt_type.str_val = "default";
+    }
     str_or_var<T> type_string;
     if( jo.has_member( "type" ) ) {
         type_string = get_str_or_var<T>( jo.get_member( "type" ), "type", true );
@@ -3071,10 +3076,10 @@ void talk_effect_fun_t<T>::set_message( const JsonObject &jo, const std::string 
             g->cancel_activity_or_ignore_query( distraction_type::eoc, "" );
         }
         if( popup_w_interrupt_query_msg ) {
-            if( interrupt_type == "portal_storm_popup" ) {
+            if( interrupt_type.evaluate( d ) == "portal_storm_popup" ) {
                 g->portal_storm_query( distraction_type::portal_storm_popup,
                                        translated_message );
-            } else if( interrupt_type == "default" ) {
+            } else if( interrupt_type.evaluate( d ) == "default" ) {
                 debugmsg( "Interrupt query called in json without proper interrupt type." );
             }
             // Would probably need an else-if for every possible distraction type, like this:
@@ -3492,8 +3497,10 @@ void talk_effect_fun_t<T>::set_run_npc_eocs( const JsonObject &jo,
         const std::string &member, bool is_npc )
 {
     std::vector<effect_on_condition_id> eocs = load_eoc_vector( jo, member );
-
-    std::vector<std::string> unique_ids = jo.get_string_array( "unique_ids" );
+    std::vector<str_or_var<T>> unique_ids;
+    for( JsonValue jv : jo.get_array( "unique_ids" ) ) {
+        unique_ids.emplace_back( get_str_or_var<T>( jv, "unique_ids" ) );
+    }
 
     bool local = jo.get_bool( "local", false );
     cata::optional<int> npc_range;
@@ -3504,10 +3511,14 @@ void talk_effect_fun_t<T>::set_run_npc_eocs( const JsonObject &jo,
     if( local ) {
         function = [eocs, unique_ids, npc_must_see, npc_range, is_npc]( const T & d ) {
             tripoint actor_pos = d.actor( is_npc )->pos();
+            std::vector<std::string> ids;
+            for( const str_or_var<T> &id : unique_ids ) {
+                ids.push_back( id.evaluate( d ) );
+            }
             const std::vector<npc *> available = g->get_npcs_if( [npc_must_see, npc_range, actor_pos,
-                          unique_ids]( const npc & guy ) {
-                bool id_valid = unique_ids.empty();
-                for( const std::string &id : unique_ids ) {
+                          ids]( const npc & guy ) {
+                bool id_valid = ids.empty();
+                for( const std::string &id : ids ) {
                     if( id == guy.get_unique_id() ) {
                         id_valid = true;
                         break;
@@ -3525,16 +3536,16 @@ void talk_effect_fun_t<T>::set_run_npc_eocs( const JsonObject &jo,
             }
         };
     } else {
-        function = [eocs, unique_ids]( const T & ) {
-            for( const std::string &target : unique_ids ) {
-                if( g->unique_npc_exists( target ) ) {
+        function = [eocs, unique_ids]( const T & d ) {
+            for( const str_or_var<T> &target : unique_ids ) {
+                if( g->unique_npc_exists( target.evaluate( d ) ) ) {
                     for( const effect_on_condition_id &eoc : eocs ) {
-                        npc *npc = g->find_npc_by_unique_id( target );
+                        npc *npc = g->find_npc_by_unique_id( target.evaluate( d ) );
                         if( npc ) {
                             dialogue newDialog( get_talker_for( npc ), nullptr );
                             eoc->activate( newDialog );
                         } else {
-                            debugmsg( "Tried to use invalid npc: %s", target );
+                            debugmsg( "Tried to use invalid npc: %s", target.evaluate( d ) );
                         }
                     }
                 }
@@ -3625,22 +3636,24 @@ template<class T>
 void talk_effect_fun_t<T>::set_roll_remainder( const JsonObject &jo,
         const std::string &member, bool is_npc )
 {
-    std::vector<std::string> list = jo.get_string_array( member );
+    std::vector<str_or_var<T>> list;
+    for( JsonValue jv : jo.get_array( member ) ) {
+        list.emplace_back( get_str_or_var<T>( jv, member ) );
+    }
     str_or_var<T> type = get_str_or_var<T>( jo.get_member( "type" ), "type", true );
-
     std::vector<effect_on_condition_id> true_eocs = load_eoc_vector( jo, "true_eocs" );
     std::vector<effect_on_condition_id> false_eocs = load_eoc_vector( jo, "false_eocs" );
 
     function = [list, type, is_npc, true_eocs, false_eocs]( const T & d ) {
         std::vector<std::string> not_had;
-        for( const std::string &cur_string : list ) {
+        for( const str_or_var<T> &cur_string : list ) {
             if( type.evaluate( d ) == "bionic" ) {
-                if( !d.actor( is_npc )->has_bionic( bionic_id( cur_string ) ) ) {
-                    not_had.push_back( cur_string );
+                if( !d.actor( is_npc )->has_bionic( bionic_id( cur_string.evaluate( d ) ) ) ) {
+                    not_had.push_back( cur_string.evaluate( d ) );
                 }
             } else if( type.evaluate( d ) == "mutation" ) {
-                if( !d.actor( is_npc )->has_trait( trait_id( cur_string ) ) ) {
-                    not_had.push_back( cur_string );
+                if( !d.actor( is_npc )->has_trait( trait_id( cur_string.evaluate( d ) ) ) ) {
+                    not_had.push_back( cur_string.evaluate( d ) );
                 }
             } else {
                 debugmsg( "Invalid roll remainder type." );
