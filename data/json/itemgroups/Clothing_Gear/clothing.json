@@ -426,11 +426,6 @@
 			{
 				"item": "webbing_belt"
 			},
-			{
-				"distribution": [{
-						"item": "sam_belt",
-						"prob": 35
-					},
 					{
 						"distribution": [{
 							"item": "socks",
