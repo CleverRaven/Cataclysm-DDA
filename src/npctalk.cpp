@@ -2827,12 +2827,21 @@ void talk_effect_fun_t<T>::set_npc_goal( const JsonObject &jo, const std::string
 }
 
 template<class T>
-void talk_effect_fun_t<T>::set_bulk_trade_accept( bool is_trade, int quantity, bool is_npc )
+void talk_effect_fun_t<T>::set_bulk_trade_accept( const JsonObject &jo, const std::string &member,
+        bool is_npc )
 {
-    function = [is_trade, is_npc, quantity]( const T & d ) {
+    int_or_var<T> iov_quantity;
+    if( jo.has_member( member ) ) {
+        iov_quantity = get_int_or_var<T>( jo, member, false, -1 );
+    } else {
+        iov_quantity.min.int_val = -1;
+    }
+    bool is_trade = member == "u_bulk_trade_accept" || member == "npc_bulk_trade_accept";
+    function = [is_trade, is_npc, iov_quantity]( const T & d ) {
         talker *seller = d.actor( is_npc );
         talker *buyer = d.actor( !is_npc );
         item tmp( d.cur_item );
+        int quantity = iov_quantity.evaluate( d );
         int seller_has = 0;
         if( tmp.count_by_charges() ) {
             seller_has = seller->charges_of( d.cur_item );
@@ -2969,38 +2978,42 @@ void talk_effect_fun_t<T>::set_message( const JsonObject &jo, const std::string 
     const bool popup_msg = jo.get_bool( "popup", false );
     const bool popup_w_interrupt_query_msg = jo.get_bool( "popup_w_interrupt_query", false );
     std::string interrupt_type = jo.get_string( "interrupt_type", "default" );
-    game_message_type type = m_neutral;
-    std::string type_string = jo.get_string( "type", "neutral" );
-    if( type_string == "good" ) {
-        type = m_good;
-    } else if( type_string == "neutral" ) {
-        type = m_neutral;
-    } else if( type_string == "bad" ) {
-        type = m_bad;
-    } else if( type_string == "mixed" ) {
-        type = m_mixed;
-    } else if( type_string == "warning" ) {
-        type = m_warning;
-    } else if( type_string == "info" ) {
-        type = m_info;
-    } else if( type_string == "debug" ) {
-        type = m_debug;
-    } else if( type_string == "headshot" ) {
-        type = m_headshot;
-    } else if( type_string == "critical" ) {
-        type = m_critical;
-    } else if( type_string == "grazing" ) {
-        type = m_grazing;
+    str_or_var<T> type_string;
+    if( jo.has_member( "type" ) ) {
+        type_string = get_str_or_var<T>( jo.get_member( "type" ), "type", true );
     } else {
-        jo.throw_error( "Invalid message type." );
+        type_string.str_val = "neutral";
     }
-
-    function = [message, outdoor_only, sound, snippet, same_snippet, type, popup_msg,
+    function = [message, outdoor_only, sound, snippet, same_snippet, type_string, popup_msg,
                          popup_w_interrupt_query_msg, interrupt_type,
              is_npc]( const T & d ) {
         Character *target = d.actor( is_npc )->get_character();
         if( !target || target->is_npc() ) {
             return;
+        }
+        game_message_type type = m_neutral;
+        if( type_string.evaluate( d ) == "good" ) {
+            type = m_good;
+        } else if( type_string.evaluate( d ) == "neutral" ) {
+            type = m_neutral;
+        } else if( type_string.evaluate( d ) == "bad" ) {
+            type = m_bad;
+        } else if( type_string.evaluate( d ) == "mixed" ) {
+            type = m_mixed;
+        } else if( type_string.evaluate( d ) == "warning" ) {
+            type = m_warning;
+        } else if( type_string.evaluate( d ) == "info" ) {
+            type = m_info;
+        } else if( type_string.evaluate( d ) == "debug" ) {
+            type = m_debug;
+        } else if( type_string.evaluate( d ) == "headshot" ) {
+            type = m_headshot;
+        } else if( type_string.evaluate( d ) == "critical" ) {
+            type = m_critical;
+        } else if( type_string.evaluate( d ) == "grazing" ) {
+            type = m_grazing;
+        } else {
+            debugmsg( "Invalid message type." );
         }
         std::string translated_message;
         if( snippet ) {
@@ -4103,34 +4116,14 @@ void talk_effect_t<T>::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_remove_item_with( jo, "u_remove_item_with" );
     } else if( jo.has_string( "npc_remove_item_with" ) ) {
         subeffect_fun.set_remove_item_with( jo, "npc_remove_item_with", is_npc );
-
-    } else if( jo.has_int( "u_bulk_trade_accept" ) || jo.has_int( "npc_bulk_trade_accept" ) ||
-               jo.has_int( "u_bulk_donate" ) || jo.has_int( "npc_bulk_donate" ) ) {
-        talk_effect_fun_t<T> subeffect_fun;
-        int quantity = -1;
-        bool is_npc = false;
-        bool is_trade = false;
-        if( jo.has_int( "npc_bulk_trade_accept" ) ) {
-            is_npc = true;
-            is_trade = true;
-            quantity = jo.get_int( "npc_bulk_trade_accept" );
-        } else if( jo.has_int( "npc_bulk_donate" ) ) {
-            is_npc = true;
-            is_trade = false;
-            quantity = jo.get_int( "npc_bulk_donate" );
-        } else if( jo.has_int( "u_bulk_trade_accept" ) ) {
-            is_npc = false;
-            is_trade = true;
-            quantity = jo.get_int( "u_bulk_trade_accept" );
-        } else if( jo.has_int( "u_bulk_donate" ) ) {
-            is_npc = false;
-            is_trade = false;
-            quantity = jo.get_int( "u_bulk_donate" );
-        }
-        subeffect_fun.set_bulk_trade_accept( is_trade, quantity, is_npc );
-        set_effect( subeffect_fun );
-        return;
-
+    }  else if( jo.has_member( "u_bulk_trade_accept" ) ) {
+        subeffect_fun.set_bulk_trade_accept( jo, "u_bulk_trade_accept" );
+    }  else if( jo.has_member( "npc_bulk_trade_accept" ) ) {
+        subeffect_fun.set_bulk_trade_accept( jo, "npc_bulk_trade_accept", is_npc );
+    }  else if( jo.has_member( "u_bulk_donate" ) ) {
+        subeffect_fun.set_bulk_trade_accept( jo, "u_bulk_donate" );
+    }  else if( jo.has_member( "npc_bulk_donate" ) ) {
+        subeffect_fun.set_bulk_trade_accept( jo, "npc_bulk_donate", is_npc );
     } else if( jo.has_array( "add_debt" ) ) {
         std::vector<trial_mod> debt_modifiers;
         for( JsonArray jmod : jo.get_array( "add_debt" ) ) {
@@ -4393,7 +4386,7 @@ void talk_effect_t<T>::parse_string_effect( const std::string &effect_id, const 
         effect_id == "u_bulk_donate" || effect_id == "npc_bulk_donate" ) {
         bool is_npc = effect_id == "npc_bulk_trade_accept" || effect_id == "npc_bulk_donate";
         bool is_trade = effect_id == "u_bulk_trade_accept" || effect_id == "npc_bulk_trade_accept";
-        subeffect_fun.set_bulk_trade_accept( is_trade, -1, is_npc );
+        subeffect_fun.set_bulk_trade_accept( jo, effect_id, is_npc );
         set_effect( subeffect_fun );
         return;
     }
