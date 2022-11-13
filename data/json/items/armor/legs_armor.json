@@ -1599,9 +1599,8 @@
     "type": "ARMOR",
     "name": { "str": "pair of XL leather leg guards", "str_pl": "pairs of XL leather leg guards" },
     "description": "A pair of gigantic leather arm guards.  Heavy but comfortable.",
-    "weight": "730 g",
-    "volume": "3 L",
     "copy-from": "legguard_larmor",
+    "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {

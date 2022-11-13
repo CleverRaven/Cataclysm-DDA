@@ -255,8 +255,8 @@
     "type": "ARMOR",
     "name": { "str": "pair of XL leather arm guards", "str_pl": "pairs of XL leather arm guards" },
     "description": "A pair of gigantic leather arm guards.  Heavy but comfortable.",
-    "volume": "3 L",
     "copy-from": "armguard_larmor",
+    "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
