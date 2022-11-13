@@ -31,7 +31,7 @@ if ("$ENV{VSCMD_VER}" STREQUAL "")
         string(SUBSTRING "${_value}" 1 -1 _value) # Remove = at begin
         string(STRIP "${_value}" _value) # Remove \r
         # This list is essentially a revised result of :comm -1 -3 <(sort before.txt) <(sort after.txt) |egrep -o '^[^=]+='"
-        foreach(_replace 
+        foreach (_replace 
                 ExtensionSdkDir=
                 Framework40Version=
                 FrameworkDIR64=
