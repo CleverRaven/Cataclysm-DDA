@@ -1776,6 +1776,9 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
             case creature_size::num_sizes:
                 debugmsg( "ERROR: Invalid Creature size class." );
                 break;
+            default:
+                factor = 4;
+                break;
         }
         here.add_field( pos(), fd_churned_earth, 2 );
         for( const tripoint &dest : here.points_in_radius( pos(), 1, 0 ) ) {
