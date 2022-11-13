@@ -1307,8 +1307,7 @@
         "coverage": 90,
         "encumbrance": 0,
         "material": [
-          { "type": "leather", "covered_by_mat": 100, "thickness": 4 },
-          { "type": "budget_steel", "covered_by_mat": 45, "thickness": 1 }
+          { "type": "leather", "covered_by_mat": 100, "thickness": 4 }
         ],
         "specifically_covers": [ "arm_elbow_l", "arm_elbow_r", "arm_shoulder_l", "arm_shoulder_r" ]
       },
@@ -1327,8 +1326,7 @@
         "coverage": 85,
         "encumbrance": 0,
         "material": [
-          { "type": "leather", "covered_by_mat": 100, "thickness": 4 },
-          { "type": "budget_steel", "covered_by_mat": 45, "thickness": 1 }
+          { "type": "leather", "covered_by_mat": 100, "thickness": 4 }
         ],
         "specifically_covers": [ "leg_hip_l", "leg_hip_r", "leg_knee_l", "leg_knee_r" ]
       }
