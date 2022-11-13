@@ -1141,7 +1141,7 @@
     "type": "furniture",
     "id": "f_storage_tank",
     "name": "bulk storage tank",
-    "description": "A gigantic tank that can store all of the liquid. All of it.",
+    "description": "A gigantic tank that can store all of the liquid.  All of it.",
     "symbol": "O",
     "looks_like": "f_standing_tank",
     "color": "light_gray",
