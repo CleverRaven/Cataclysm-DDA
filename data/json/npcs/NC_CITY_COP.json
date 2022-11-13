@@ -137,7 +137,7 @@
       { "item": "knife_rm42", "prob": 2 },
       { "item": "kukri", "prob": 2 },
       { "item": "knife_hunting", "prob": 4 },
-      { "item": "knife_rambo", "prob": 20 },
+      { "group": "knife_rambo_cont", "prob": 20 },
       { "item": "tanto", "prob": 3 },
       { "item": "throwing_knife", "prob": 7 },
       { "item": "punch_dagger", "prob": 12 },

@@ -319,6 +319,7 @@ ceratopsian
 ceratosaurus
 cere
 cerium
+cervine
 cesti
 cestus
 chainmail
@@ -1982,6 +1983,7 @@ tumescences
 tundras
 tuno
 turreted
+tusked
 twere
 txt
 typologies
