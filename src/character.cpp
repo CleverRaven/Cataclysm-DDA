@@ -3168,15 +3168,6 @@ bool Character::meets_requirements( const item &it, const item &context ) const
 void Character::make_bleed( const effect_source &source, const bodypart_id &bp,
                             time_duration duration, int intensity, bool permanent, bool force, bool defferred )
 {
-    int b_resist = 0;
-    for( const trait_id &mut : get_mutations() ) {
-        b_resist += mut.obj().bleed_resist;
-    }
-
-    if( b_resist > intensity ) {
-        return;
-    }
-
     add_effect( source, effect_bleed, duration, bp, permanent, intensity, force, defferred );
 }
 
@@ -5398,7 +5389,11 @@ bool Character::is_immune_effect( const efftype_id &eff ) const
         return is_immune_damage( damage_type::ACID ) || has_trait( trait_SLIMY ) ||
                has_trait( trait_VISCOUS );
     }
-
+    for( const json_character_flag &flag : eff->immune_flags ) {
+        if( has_flag( flag ) ) {
+            return true;
+        }
+    }
     return false;
 }
 
