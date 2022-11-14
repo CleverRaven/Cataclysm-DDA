@@ -1,6 +1,7 @@
+#include "units.h"
+
 #include "json.h"
 #include "string_formatter.h"
-#include "units.h"
 
 namespace units
 {
@@ -85,6 +86,29 @@ void energy::deserialize( const JsonValue &jv )
 }
 
 template<>
+void power::serialize( JsonOut &jsout ) const
+{
+    if( value_ % 1000000 == 0 ) {
+        jsout.write( string_format( "%d kW", value_ / 1000000 ) ); //NOLINT
+    } else if( value_ % 1000 == 0 ) {
+        jsout.write( string_format( "%d W", value_ / 1000 ) ) ; //NOLINT
+    } else {
+        jsout.write( string_format( "%d mW", value_ ) ); //NOLINT
+    }
+}
+
+template<>
+void power::deserialize( const JsonValue &jv )
+{
+    if( jv.test_int() ) {
+        // Compatibility with old 0.F saves
+        *this = from_watt( jv.get_int() );
+        return;
+    }
+    *this = read_from_json_string( jv, units::power_units );
+}
+
+template<>
 void angle::serialize( JsonOut &jsout ) const
 {
     jsout.write( string_format( "%f rad", value_ ) );
@@ -110,6 +134,22 @@ std::string display( const units::energy v )
         return std::to_string( j ) + ' ' + pgettext( "energy unit: joule", "J" );
     }
     return std::to_string( mj ) + ' ' + pgettext( "energy unit: millijoule", "mJ" );
+}
+
+std::string display( const units::power v )
+{
+    const int kw = units::to_kilowatt( v );
+    const int w = units::to_watt( v );
+    // at least 1 kW and there is no fraction
+    if( kw >= 1 && static_cast<float>( w ) / kw == 1000 ) {
+        return std::to_string( kw ) + ' ' + pgettext( "energy unit: kilowatt", "kW" );
+    }
+    const int mw = units::to_milliwatt( v );
+    // at least 1 W and there is no fraction
+    if( w >= 1 && static_cast<float>( mw ) / w == 1000 ) {
+        return std::to_string( w ) + ' ' + pgettext( "energy unit: watt", "W" );
+    }
+    return std::to_string( mw ) + ' ' + pgettext( "energy unit: milliwatt", "mW" );
 }
 
 } // namespace units
