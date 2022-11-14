@@ -48,6 +48,16 @@ TEST_CASE( "units_have_correct_ratios", "[units]" )
     CHECK( 1_mW == units::from_milliwatt( 1 ) );
     CHECK( 1_W == units::from_watt( 1 ) );
     CHECK( 1_kW == units::from_kilowatt( 1 ) );
+
+    CHECK( 1_W * 1_seconds == 1_J );
+    CHECK( 1_seconds * 1_W == 1_J );
+    CHECK( 1_J / 1_seconds == 1_W );
+    CHECK( 1_J / 1_W == 1_seconds );
+    CHECK( 5_W * 5_minutes == 1.5_kJ );
+    CHECK( -5_W * 5_minutes == -1.5_kJ );
+    CHECK( ( 5_kJ / 5_W ) == ( 16_minutes + 40_seconds ) );
+    CHECK( ( -5_kJ / 5_W ) == -( 16_minutes + 40_seconds ) );
+    CHECK( ( 5_kJ / -5_W ) == -( 16_minutes + 40_seconds ) );
 }
 
 static units::energy parse_energy_quantity( const std::string &json )

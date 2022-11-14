@@ -19,6 +19,8 @@
 #include "translations.h"
 #include "units_fwd.h" // IWYU pragma: export
 
+class time_duration;
+
 namespace units
 {
 
@@ -1075,6 +1077,13 @@ static const std::vector<std::pair<std::string, temperature>> temperature_units 
         { "K", 1_K }
     }
 };
+
+units::energy operator*( const units::power &power, const time_duration &time );
+units::energy operator*( const time_duration &time, const units::power &power );
+
+units::power operator/( const units::energy &energy, const time_duration &time );
+time_duration operator/( const units::energy &energy, const units::power &power );
+
 } // namespace units
 
 namespace detail

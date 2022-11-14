@@ -1,5 +1,6 @@
 #include "units.h"
 
+#include "calendar.h"
 #include "json.h"
 #include "string_formatter.h"
 
@@ -150,6 +151,32 @@ std::string display( const units::power v )
         return std::to_string( w ) + ' ' + pgettext( "energy unit: watt", "W" );
     }
     return std::to_string( mw ) + ' ' + pgettext( "energy unit: milliwatt", "mW" );
+}
+
+units::energy operator*( const units::power &power, const time_duration &time )
+{
+    const int64_t mW = units::to_milliwatt<int64_t>( power );
+    const int64_t seconds = to_seconds<int64_t>( time );
+    return units::from_millijoule( mW * seconds );
+}
+
+units::energy operator*( const time_duration &time, const units::power &power )
+{
+    return power * time;
+}
+
+units::power operator/( const units::energy &energy, const time_duration &time )
+{
+    const int64_t mj = to_millijoule( energy );
+    const int64_t seconds = to_seconds<int64_t>( time );
+    return from_milliwatt( mj / seconds );
+}
+
+time_duration operator/( const units::energy &energy, const units::power &power )
+{
+    const int64_t mj = to_millijoule( energy );
+    const int64_t mw = to_milliwatt( power );
+    return time_duration::from_seconds( mj / mw );
 }
 
 } // namespace units
