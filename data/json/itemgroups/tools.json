@@ -834,7 +834,7 @@
     "type": "item_group",
     "items": [
       { "item": "chainsaw_off", "prob": 10, "charges": [ 0, 450 ] },
-	  { "item": "polesaw_off", "prob": 10, "charges": [ 0, 450 ] },
+      { "item": "polesaw_off", "prob": 10, "charges": [ 0, 450 ] },
       { "item": "elec_chainsaw_off", "prob": 10, "charges": [ 0, 500 ] },
       { "item": "trimmer_off", "prob": 40, "charges": [ 0, 600 ] },
       { "item": "jackhammer", "prob": 50, "charges": [ 0, 1200 ] },
