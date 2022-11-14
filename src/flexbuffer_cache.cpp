@@ -25,6 +25,21 @@
 namespace
 {
 
+void try_find_and_throw_json_error( TextJsonValue &jv )
+{
+    if( jv.test_object() ) {
+        TextJsonObject jo = jv.get_object();
+        for( TextJsonMember jm : jo ) {
+            try_find_and_throw_json_error( jm );
+        }
+    } else if( jv.test_array() ) {
+        TextJsonArray ja = jv.get_array();
+        for( TextJsonValue jav : ja ) {
+            try_find_and_throw_json_error( jav );
+        }
+    }
+}
+
 std::vector<uint8_t> parse_json_to_flexbuffer_(
     const char *buffer,
     const char *source_filename_opt ) noexcept( false )
@@ -37,25 +52,48 @@ std::vector<uint8_t> parse_json_to_flexbuffer_(
     flexbuffers::Builder fbb;
 
     if( !parser.ParseFlexBuffer( buffer, source_filename_opt, &fbb ) ) {
-        // If source_filename_opt is empty we should insert <unknown source file>
-        // If we pass <unknown source file> as the filename flexbuffers tries to
-        // absolutize it which fails miserably.
+        std::istringstream is{ buffer };
+        TextJsonIn jsin{ is, source_filename_opt ? source_filename_opt : "<unknown source file>" };
+
+        if( fbb.HasDuplicateKeys() ) {
+            // The error from the parser isn't very informative. TextJsonObject can detect the
+            // condition but we have to deep scan to find it.
+            TextJsonValue jv = jsin.get_value();
+            try_find_and_throw_json_error( jv );
+            // If we didn't find and throw it, reset the stream.
+            is.seekg( 0, std::ios_base::beg );
+        }
 
         size_t line = 0;
         size_t col = 0;
-        int error_offset = 5; // strlen("EOF: ");
-        if( strncmp( parser.error_.c_str(), "EOF", 3 ) != 0 ) {
+        size_t error_offset = 0;
+        if( ( error_offset = parser.error_.find( "EOF:" ) ) == std::string::npos ) {
             // Try to extract line and col to position TextJsonIn at an appropriate location.
             // %n modifier returns number of characters consumed by sscanf to skip the text
             // in the error that the flexbuffer parser returns, because TextJsonIn will add it.
+            // Format is "(filename:)?(EOF:|line:col:) message"
+            // But filename might be C:something
+            int scanned_chars = 0;
             // NOLINTNEXTLINE(cert-err34-c)
-            if( sscanf( parser.error_.c_str(), "%zu:%zu: %n", &line, &col, &error_offset ) != 2 ) {
+            if( sscanf( parser.error_.c_str(), "%*[^:]:%*[^:]:%zu:%zu: %n", &line, &col,
+                        &scanned_chars ) != 2 &&
+                // NOLINTNEXTLINE(cert-err34-c)
+                sscanf( parser.error_.c_str(), "%*[^:]:%zu:%zu: %n", &line, &col, &scanned_chars ) != 2 &&
+                // NOLINTNEXTLINE(cert-err34-c)
+                sscanf( parser.error_.c_str(), "%zu:%zu: %n", &line, &col, &scanned_chars ) != 2 ) {
                 line = 0;
                 col = 0;
             }
+            error_offset = scanned_chars;
+        } else {
+            error_offset += 5; // skip "EOF: " because find returns the offset of the start.
         }
 
-        std::istringstream is{ buffer };
+        constexpr const char *kErrorPrefix = "error: ";
+        if( strncmp( parser.error_.c_str() + error_offset, kErrorPrefix, strlen( kErrorPrefix ) ) == 0 ) {
+            error_offset += strlen( kErrorPrefix );
+        }
+
         if( line != 0 ) {
             // Lines are 1 indexed.
             while( line > 1 ) {
@@ -65,9 +103,10 @@ std::vector<uint8_t> parse_json_to_flexbuffer_(
         } else {
             // Seek to end.
             is.seekg( 0, std::ios_base::end );
+            // Force EOF state
+            is.peek();
         }
-        TextJsonIn jsin{is, source_filename_opt ? source_filename_opt : "<unknown source file>"};
-        jsin.error( col - 1, parser.error_.substr( error_offset ) );
+        jsin.error( col ? col - 1 : 0, parser.error_.substr( error_offset ) );
     }
 
     return std::move( fbb ).GetBuffer();
