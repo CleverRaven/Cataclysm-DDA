@@ -101,6 +101,21 @@ void remove_saddle_from( monster &z )
     z.tack_item.reset();
 }
 
+void bandage_animal( monster &z )
+{
+    if( z.has_effect( effect_bleed ) ) {
+        return;
+    }
+    item_location loc = bandage_loc();
+    if( !loc ) {
+        add_msg( _( "Never mind." ) );
+        return;
+    }
+    z.remove_effect( effect_bleed, 1_turns, true );
+    z.bandage = cata::make_value<item>( *loc.get_item() );
+    loc.remove_item();
+}
+
 void mount_pet( monster &z )
 {
     get_player_character().mount_creature( z );
