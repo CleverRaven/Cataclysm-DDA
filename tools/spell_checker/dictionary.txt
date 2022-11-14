@@ -53,6 +53,8 @@ alquerque
 altamente
 alternators
 alumentum
+amalgamation
+amalgamations
 amargasaurus
 ambusher
 amigara
@@ -188,6 +190,7 @@ bileworm
 bimetal
 bioblaster
 biocompatibility
+bioelectricity
 bioforms
 biographic
 biohacker
@@ -254,6 +257,8 @@ broadswords
 bronchodilator
 bronchospasm
 bubblicious
+bubo
+buboes
 buchner
 bucka
 bufo
@@ -314,6 +319,7 @@ ceratopsian
 ceratosaurus
 cere
 cerium
+cervine
 cesti
 cestus
 chainmail
@@ -403,6 +409,7 @@ coughupyourscough
 countermine
 couters
 coverplate
+crablike
 crackin
 cracklins
 craftable
@@ -1976,6 +1983,7 @@ tumescences
 tundras
 tuno
 turreted
+tusked
 twere
 txt
 typologies
@@ -2195,4 +2203,3 @@ zweitimbers
 zygomaticus
 zzz
 zzzzchzzzzchurzzzpileus
-cervine
