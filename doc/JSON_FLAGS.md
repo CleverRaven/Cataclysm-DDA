@@ -1571,6 +1571,7 @@ Gun fault flags:
 
 ## Character
 
+- ```BLEED_IMMUNE``` Immune to bleeding.
 - ```COLDBLOOD``` For heat dependent mutations.
 - ```COLDBLOOD2``` For very heat dependent mutations.
 - ```COLDBLOOD3``` For cold-blooded mutations.
