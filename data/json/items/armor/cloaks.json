@@ -292,8 +292,8 @@
         "append": true
       },
       {
-        "id": "bhutanian_flag",
-        "name": { "str": "Bhutanian flag" },
+        "id": "bhutanese_flag",
+        "name": { "str": "Bhutanese flag" },
         "description": "It is divided into triangles of red and dark yellow, with a dragon in the center.",
         "weight": 10,
         "append": true
@@ -306,8 +306,8 @@
         "append": true
       },
       {
-        "id": "boznian_flag",
-        "name": { "str": "Boznian flag" },
+        "id": "bosnian_flag",
+        "name": { "str": "Bosnian flag" },
         "description": "It has a yellow triangle over a navy blue background, with white stars running along one side.",
         "weight": 10,
         "append": true
