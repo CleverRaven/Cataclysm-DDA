@@ -1707,16 +1707,18 @@ class jmapgen_field : public jmapgen_piece
 {
     public:
         mapgen_value<field_type_id> ftype;
-        std::vector<int> intensity;
+        std::vector<int> intensities;
         time_duration age;
         bool remove;
         jmapgen_field( const JsonObject &jsi, const std::string &/*context*/ ) :
             ftype( jsi.get_member( "field" ) )
-            , intensity( jsi.get_int_array( "intensity" ) )
             , age( time_duration::from_turns( jsi.get_int( "age", 0 ) ) )
             , remove( jsi.get_bool( "remove", false ) ) {
-            if( intensity.empty() ) {
-                intensity.push_back( jsi.get_int( "intensity", 1 ) );
+            for( JsonValue jv : jsi.get_array( "intensity" ) ) {
+                intensities.push_back( jv.get_int() );
+            }
+            if( intensities.empty() ) {
+                intensities.push_back( jsi.get_int( "intensity", 1 ) );
             }
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
@@ -1729,7 +1731,7 @@ class jmapgen_field : public jmapgen_piece
                 dat.m.remove_field( tripoint( x.get(), y.get(), dat.m.get_abs_sub().z() ), chosen_id );
             } else {
                 dat.m.add_field( tripoint( x.get(), y.get(), dat.m.get_abs_sub().z() ), chosen_id,
-                                 random_entry( intensity ), age );
+                                 random_entry( intensities ), age );
             }
         }
 
