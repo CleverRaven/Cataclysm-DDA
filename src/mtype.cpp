@@ -153,7 +153,7 @@ std::vector<std::string> mtype::species_descriptions() const
 
 field_type_id mtype::get_bleed_type() const
 {
-    if( bleed_rate ) {
+    if( bleed_rate > 0 ) {
         for( const species_id &s : species ) {
             if( !s->bleeds.is_empty() ) {
                 return s->bleeds;
