@@ -533,6 +533,12 @@ The monster's reproduction cycle, if any. Supports:
 | `baby_count`   | (int) Number of new creatures or eggs to spawn on reproduction.
 | `baby_timer`   | (int) Number of days between reproduction events.
 
+## "zombify_into"
+(monster string id, optional)
+
+When defined the monster's unpulped corpse will rise, zombifying into the defined (different) monster. For mutated animals (including giant arthropods) the `mon_meat_cocoon` line of monsters should be defined, depending on the monster's weight: 
+No cocoon below 10 kg; 10 - 35 kg monsters zombify into the tiny cocoon; 36 - 100 kg monsters turn into the small cocoon; 101 - 300 kg monsters turn into the medium cocoon; 301+ kg monsters turn into a large cocoon.
+
 ## "baby_flags"
 (Array, optional)
 Designate seasons during which this monster is capable of reproduction. ie: `[ "SPRING", "SUMMER" ]`
