@@ -146,5 +146,63 @@
         "specifically_covers": [ "hand_fingers_l", "hand_fingers_r", "hand_palm_l", "hand_palm_r" ]
       }
     ]
+  },
+  {
+    "id": "lc_knee_pads",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pair of mild steel knee pads", "str_pl": "pairs of mild steel knee pads" },
+    "description": "",
+    "weight": "103 g",
+    "volume": "1200 ml",
+    "price": 2500,
+    "price_postapoc": 50,
+    "to_hit": 1,
+    "material": [ "lc_steel" ],
+    "symbol": "[",
+    "looks_like": "legguard_hard",
+    "color": "dark_gray",
+    "material_thickness": 1,
+    "flags": [ "STURDY", "OUTER" ],
+    "armor": [
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "encumbrance": 0,
+        "coverage": 90,
+        "cover_melee": 90,
+        "cover_ranged": 95,
+        "cover_vitals": 90,
+        "specifically_covers": [ "leg_knee_r", "leg_knee_l" ]
+      }
+    ]
+  },
+  {
+    "id": "elbow_pads",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pair of mild steel elbow pads", "str_pl": "pairs of mild steel elbow pads" },
+    "description": "",
+    "weight": "110 g",
+    "volume": "600 ml",
+    "price": 3500,
+    "price_postapoc": 250,
+    "to_hit": 1,
+    "material": [ "lc_steel" ],
+    "symbol": "[",
+    "looks_like": "armguard_hard",
+    "color": "dark_gray",
+    "material_thickness": 1,
+    "flags": [ "STURDY", "OUTER" ],
+    "armor": [
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "encumbrance": 0,
+        "coverage": 90,
+        "cover_melee": 90,
+        "cover_ranged": 95,
+        "cover_vitals": 90,
+        "specifically_covers": [ "arm_elbow_r", "arm_elbow_l" ]
+      }
+    ]
   }
 ]
