@@ -77,7 +77,7 @@
     "use_action": [ "CHAINSAW_ON" ],
     "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE", "POWERED", "FRAGILE_MELEE" ]
   },
- {
+  {
     "id": "polesaw_off",
     "type": "TOOL",
     "name": { "str": "polesaw (off)", "str_pl": "polesaws (off)" },
