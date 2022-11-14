@@ -5286,7 +5286,7 @@ void item::properties_info( std::vector<iteminfo> &info, const iteminfo_query *p
                 not_rigid = true;
             }
         }
-        if( !not_rigid && !all_pockets_rigid() ) {
+        if( !not_rigid && !all_pockets_rigid() && !is_corpse() ) {
             info.emplace_back( "BASE",
                                _( "* This items pockets are <info>not rigid</info>.  Its"
                                   " volume increases with contents." ) );
