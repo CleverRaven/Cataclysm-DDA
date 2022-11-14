@@ -2071,6 +2071,8 @@ bool vehicle::remove_carried_vehicle( const std::vector<int> &carried_parts,
 
     std::vector<point> new_mounts;
     new_vehicle->name = carried_pivot->veh_name;
+    new_vehicle->owner = owner;
+    new_vehicle->old_owner = old_owner;
     for( int carried_part : carried_parts ) {
         const vehicle_part &pt = parts[carried_part];
         tripoint mount;
@@ -2288,6 +2290,8 @@ bool vehicle::split_vehicles( map &here,
                 added_vehicles->emplace_back( new_vehicle );
             }
             new_vehicle->name = name;
+            new_vehicle->owner = owner;
+            new_vehicle->old_owner = old_owner;
             new_vehicle->move = move;
             new_vehicle->turn_dir = turn_dir;
             new_vehicle->velocity = velocity;
