@@ -1176,6 +1176,8 @@ tripoint _rotate_point_sm( tripoint const &p, int erot, tripoint const &orig )
     return tripoint{ rd + orig.xy() };
 }
 
+constexpr int uilist_positive = 10000; // workaround for uilist retval autoassign when retval == -1
+
 int _choose_elevator_destz( tripoint const &examp, tripoint_abs_omt const &this_omt,
                             tripoint const &sm_orig )
 {
@@ -1191,7 +1193,7 @@ int _choose_elevator_destz( tripoint const &examp, tripoint_abs_omt const &this_
             std::string const omt_name = overmap_buffer.ter_existing( that_omt )->get_name();
             std::string const name = string_format(
                                          "%i %s%s", z, omt_name, z == examp.z ? _( " (this floor)" ) : std::string() );
-            choice.addentry( z, z != examp.z, MENU_AUTOASSIGN, name );
+            choice.addentry( z + uilist_positive, z != examp.z, MENU_AUTOASSIGN, name );
         }
     }
     choice.query();
@@ -1256,7 +1258,7 @@ void iexamine::elevator( Character &you, const tripoint &examp )
         return;
     }
 
-    int const movez = _choose_elevator_destz( examp, this_omt, sm_orig );
+    int const movez = _choose_elevator_destz( examp, this_omt, sm_orig ) - uilist_positive;
     if( movez < -OVERMAP_DEPTH ) {
         return;
     }

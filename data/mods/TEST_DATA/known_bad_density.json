@@ -1,7 +1,7 @@
 [
   {
-    "type": "known_bad_density_list",
-    "list": [
+    "type": "test_data",
+    "known_bad": [
       "bread",
       "8mm_inc",
       "fire_drill",
@@ -33,7 +33,6 @@
       "coffee_raw_kentucky",
       "bandages_makeshift",
       "candy5",
-      "baton",
       "homeopathic_pills",
       "tool_belt",
       "marloss_berry",

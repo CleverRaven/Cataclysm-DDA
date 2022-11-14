@@ -2133,6 +2133,7 @@
     "apply_message": "You're bleeding!",
     "remove_message": "The bleeding stops!",
     "rating": "bad",
+    "immune_flags": [ "BLEED_IMMUNE" ],
     "max_intensity": 40,
     "int_dur_factor": 60,
     "max_duration": 2400,
