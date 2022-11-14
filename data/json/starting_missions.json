@@ -234,8 +234,8 @@
     "type": "mission_definition",
     "name": { "str": "Find a real katana" },
     "description": "The world has ended, but as an authentic samurai you lack a katana, you must find one, quickly.",
-    "goal": "MGOAL_FIND_ITEM",
-    "item": "katana",
+    "goal": "MGOAL_CONDITION",
+    "goal_condition": { "u_has_item": "katana" },
     "difficulty": 4,
     "value": 0,
     "end": {

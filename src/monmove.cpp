@@ -86,6 +86,9 @@ bool monster::is_immune_field( const field_type_id &fid ) const
     if( fid == fd_web ) {
         return has_flag( MF_WEBWALK );
     }
+    if( fid == fd_sludge || fid == fd_sap ) {
+        return flies();
+    }
     const field_type &ft = fid.obj();
     if( ft.has_fume ) {
         return has_flag( MF_NO_BREATHE );

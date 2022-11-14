@@ -162,7 +162,7 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "m9", "charges-min": 0, "charges-max": 15 },
+      { "item": "m9", "variant": "m9", "charges-min": 0, "charges-max": 15 },
       { "item": "m9mag" },
       { "item": "m9mag", "prob": 50 },
       { "group": "on_hand_9mm" }
@@ -579,7 +579,7 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "90two", "charges-min": 0, "charges-max": 15 },
+      { "item": "m9", "variant": "90two", "charges-min": 0, "charges-max": 15 },
       { "item": "m9mag_17rd" },
       { "item": "m9mag_17rd", "prob": 50 },
       { "group": "on_hand_9mm" }
