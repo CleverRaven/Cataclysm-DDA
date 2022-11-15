@@ -71,7 +71,7 @@
     "id": "recon_mech_laser",
     "//": "Presuming the beam had a diameter of 1/e2 mm coming from a 0.5 mm diameter hole, it would deliver 100% of 50 kJ.  For scale, the .50 BMG delivers <5 kJ to the target for 120 damage.",
     "//2": "The armor penetration is hight due to the amount of energy in such a small space.  Like industrial lasers, it should cut straight through non-reflective armor.",
-    "//3": "If my math is right based off the .50 BMG, 1 kJ = 24 numerical damage.  Massivley scaled down for balance reasons.",
+    "//3": "Based off the .50 BMG, 1 kJ = 24 numerical damage.  Scaled down for balance reasons.",
     "type": "GUN",
     "reload_noise_volume": 2,
     "name": { "str": "RMES marksman system" },
