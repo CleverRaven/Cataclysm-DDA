@@ -106,7 +106,7 @@
     "type": "TOOL",
     "name": { "str": "polesaw (on)", "str_pl": "polesaws (on)" },
     "description": "This polesaw is on and making a lot of noise.  Use it to turn it off.",
-    "to_hit": -5,
+    "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "clumsy" },
     "bashing": 4,
     "cutting": 60,
     "turns_per_charge": 4,
