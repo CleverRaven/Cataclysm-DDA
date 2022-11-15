@@ -169,7 +169,7 @@
     "flags": [ "VARSIZE", "STURDY", "BLOCK_WHEN_WORN" ],
     "armor": [
       {
-        "material": [ 
+        "material": [
           { "type": "canvas", "covered_by_mat": 100, "thickness": 3.5 },
           { "type": "canvas", "covered_by_mat": 95, "thickness": 4.0 }
         ],
@@ -222,7 +222,7 @@
     "flags": [ "VARSIZE", "STURDY", "BLOCK_WHEN_WORN" ],
     "armor": [
       {
-        "material": [ 
+        "material": [
           { "type": "canvas", "covered_by_mat": 100, "thickness": 3.5 },
           { "type": "canvas", "covered_by_mat": 95, "thickness": 4.0 }
         ],
@@ -231,9 +231,7 @@
         "encumbrance": 20
       },
       {
-        "material": [
-          { "type": "canvas", "covered_by_mat": 100, "thickness": 3.0 }
-        ],
+        "material": [ { "type": "canvas", "covered_by_mat": 100, "thickness": 3.0 } ],
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
         "encumbrance": 10,
@@ -273,7 +271,7 @@
     "flags": [ "VARSIZE", "STURDY", "BLOCK_WHEN_WORN" ],
     "armor": [
       {
-        "material": [ 
+        "material": [
           { "type": "canvas", "covered_by_mat": 100, "thickness": 3.5 },
           { "type": "canvas", "covered_by_mat": 95, "thickness": 4.0 }
         ],
