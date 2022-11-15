@@ -2801,12 +2801,11 @@
     "flags": [ "VISION", "CAMERA", "ENABLED_DRAINS_EPOWER" ],
     "breaks_into": [ { "item": "e_scrap", "count": [ 4, 16 ] }, { "item": "plastic_chunk", "count": [ 2, 8 ] } ]
   },
-  
   {
     "type": "vehicle_part",
     "id": "omnicamera_reinforced",
-       "copy-from": "omnicam",
-     "looks_like":"omnicam",
+    "copy-from": "omnicam",
+    "looks_like": "omnicam",
     "name": { "str": "reinforced security camera" },
     "symbol": "o",
     "categories": [ "operations" ],
@@ -2827,7 +2826,7 @@
       "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "adhesive", 1 ], [ "soldering_standard", 4 ] ] }
     },
     "flags": [ "VISION", "CAMERA", "ENABLED_DRAINS_EPOWER" ],
-    "breaks_into": [ { "item": "e_scrap", "count": [ 6, 20] }, { "item": "plastic_chunk", "count": [ 2, 8 ] } ]
+    "breaks_into": [ { "item": "e_scrap", "count": [ 6, 20 ] }, { "item": "plastic_chunk", "count": [ 2, 8 ] } ]
   },
   
   {

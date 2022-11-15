@@ -31,12 +31,11 @@
     "price_postapoc": 750,
     "flags": [ "WATER_BREAK", "ELECTRONIC" ]
   },
-  
-    {  
+  {
     "type": "GENERIC",
     "id": "omnicamera_reinforced",
-      "copy-from": "omnicamera",
-     "looks_like":"omnicamera",
+    "copy-from": "omnicamera",
+    "looks_like": "omnicamera",
     "name": { "str": "reinforced security camera" },
     "description": "A security camera with a cage built around it to protect it from damage without reducing its effectiveness.",
     "weight": "1400 g",
@@ -50,7 +49,6 @@
     "price_postapoc": 1500,
     "flags": [ "WATER_BREAK", "ELECTRONIC" ]
   },
-  
   {
     "type": "GENERIC",
     "id": "vehicle_controls",
