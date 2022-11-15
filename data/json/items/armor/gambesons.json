@@ -40,7 +40,7 @@
     "//": "roughly 0.25mm per sheet of canvas making this a 14-layer jack, sheets are 1x2 feet. 49 sheets total.",
     "//1": "human torso is about 7 sq. feet.  80g (canvas) x 14 (layers) x 3.5 (surface area) = 3920g",
     "type": "ARMOR",
-    "name": { "str": "canvas aketon" },
+    "name": { "str": "canvas aketon vest" },
     "description": "A thick cloth vest, intended to be worn below metal armor.  This one is made of over a dozen layers of tough canvas, and it provides fairly decent protection on its own.",
     "weight": "3920 g",
     "volume": "2500 ml",
@@ -185,7 +185,7 @@
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
         "encumbrance": 20,
-        "warmth": 50,
+        "warmth": 50
       },
       {
         "material": [ { "type": "canvas", "covered_by_mat": 100, "thickness": 2.0 } ],
@@ -208,7 +208,7 @@
     "//3": "8400 + 1440 + 1200 = 11040g combined",
     "type": "ARMOR",
     "name": { "str": "canvas gambeson (thinner sleeves)" },
-    "description": "A thick cloth greatcoat intended to be worn as standalone armor, as it's a little too thick to comfortably add chainmail or a cuirass on top.  Made of thirty layers of tough canvas, this will protect you from almost everything, but it's very heavy and warm.  The sleeves are a significantly thinner for flexiblity and it drapes below your legs, providing additional protection there.",
+    "description": "A thick cloth greatcoat intended to be worn as standalone armor, as it's a little too thick to comfortably add chainmail or a cuirass on top.  Made of thirty layers of tough canvas, this will protect you from almost everything, but it's very heavy and warm.  The sleeves are a lot thinner for flexiblity and it drapes below your legs, providing additional protection there.",
     "weight": "11040 g",
     "volume": "7500 ml",
     "price_postapoc": 750,
@@ -237,7 +237,7 @@
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
         "encumbrance": 10,
-        "warmth": 30,
+        "warmth": 30
       },
       {
         "material": [ { "type": "canvas", "covered_by_mat": 100, "thickness": 2.0 } ],
