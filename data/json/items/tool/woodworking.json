@@ -87,7 +87,7 @@
     "longest_side": "325 cm",
     "price": 9000,
     "price_postapoc": 450,
-    "to_hit": -4,
+    "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "clumsy" },
     "bashing": 6,
     "looks_like": "chainsaw_off",
     "material": [ "steel", "plastic" ],
