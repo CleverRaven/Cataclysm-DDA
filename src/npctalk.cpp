@@ -4403,7 +4403,6 @@ void talk_effect_t<T>::parse_string_effect( const std::string &effect_id, const 
     if( effect_id == "u_bulk_trade_accept" || effect_id == "npc_bulk_trade_accept" ||
         effect_id == "u_bulk_donate" || effect_id == "npc_bulk_donate" ) {
         bool is_npc = effect_id == "npc_bulk_trade_accept" || effect_id == "npc_bulk_donate";
-        bool is_trade = effect_id == "u_bulk_trade_accept" || effect_id == "npc_bulk_trade_accept";
         subeffect_fun.set_bulk_trade_accept( jo, effect_id, is_npc );
         set_effect( subeffect_fun );
         return;
