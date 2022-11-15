@@ -641,7 +641,7 @@
     "chip_resist": 8,
     "breathability": "POOR",
     "wind_resist": 85,
-    "repaired_with": "sheet_canvas",
+    "repaired_with": "canvas_patch",
     "salvaged_into": "canvas_patch",
     "dmg_adj": [ "ripped", "torn", "shredded", "tattered" ],
     "bash_dmg_verb": "ripped",
@@ -2578,6 +2578,17 @@
       { "fuel": 1, "smoke": 1, "burn": 5 }
     ],
     "burn_products": [ [ "corpse_ash", 0.035 ] ]
+  },
+  {
+    "type": "material",
+    "//": "similar to layered kevlar, wool sewn in a way to extend its protectiveness. stopgap material for gambesons until material protection is more thoroughly reworked.",
+    "id": "wool_quilted",
+    "name": "Quilted Wool",
+    "copy-from": "wool",
+    "bash_resist": 2,
+    "cut_resist": 2,
+    "bullet_resist": 1.5,
+    "wind_resist": 65
   },
   {
     "type": "material",
