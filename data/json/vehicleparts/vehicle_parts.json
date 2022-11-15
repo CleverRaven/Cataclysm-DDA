@@ -2828,7 +2828,6 @@
     "flags": [ "VISION", "CAMERA", "ENABLED_DRAINS_EPOWER" ],
     "breaks_into": [ { "item": "e_scrap", "count": [ 6, 20 ] }, { "item": "plastic_chunk", "count": [ 2, 8 ] } ]
   },
-  
   {
     "type": "vehicle_part",
     "id": "robot_controls",
