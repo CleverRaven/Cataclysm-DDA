@@ -1800,6 +1800,10 @@ void vehicle::merge_appliance_into_grid( vehicle &veh_target )
     if( &veh_target == this ) {
         return;
     }
+    //Reset both grid turn_dir to prevent rotation on merge
+    turn_dir = 0_degrees;
+    veh_target.turn_dir = 0_degrees;
+
     veh_target.shift_parts( get_map(), veh_target.pivot_displacement() );
 
     bounding_box vehicle_box = get_bounding_box( true, true );
