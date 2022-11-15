@@ -1011,12 +1011,18 @@ bool inventory_column::has_available_choices() const
 
 bool inventory_column::is_selected( const inventory_entry &entry ) const
 {
+    return ( entry.is_selectable() && entry == get_highlighted() ) || ( multiselect &&
+            is_selected_by_category( entry ) );
+}
+
+bool inventory_column::is_highlighted( const inventory_entry &entry ) const
+{
     return entry == get_highlighted() || ( multiselect && is_selected_by_category( entry ) );
 }
 
 bool inventory_column::is_selected_by_category( const inventory_entry &entry ) const
 {
-    return entry.is_item() && mode == navigation_mode::CATEGORY
+    return entry.is_selectable() && mode == navigation_mode::CATEGORY
            && entry.get_category_ptr() == get_highlighted().get_category_ptr()
            && page_of( entry ) == page_index();
 }
@@ -1427,7 +1433,7 @@ void inventory_column::draw( const catacurses::window &win, const point &p,
         int x2 = p.x + std::max( static_cast<int>( reserved_width - get_cells_width() ), 0 );
         int yy = p.y + line;
 
-        const bool selected = active && is_selected( entry );
+        const bool selected = active && is_highlighted( entry );
 
         const int hx_max = p.x + get_width();
         inclusive_rectangle<point> rect = inclusive_rectangle<point>( point( x1, yy ),
