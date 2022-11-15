@@ -44,18 +44,16 @@
     "skill_used": "tailor",
     "difficulty": 7,
     "skills_required": [ [ "fabrication", 3 ] ],
-    "time": "6 h 40 m",
+    "time": "12 h",
     "autolearn": true,
     "book_learn": [ [ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ], [ "textbook_arthropod", 6 ] ],
-    "using": [ [ "cordage", 2 ] ],
-    "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
     "proficiencies": [
       { "proficiency": "prof_articulation" },
       { "proficiency": "prof_chitinworking" },
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_leatherworking_basic" }
     ],
-    "components": [ [ [ "chitin_piece", 72 ] ] ]
+    "using": [ [ "armor_chitin", 72 ] ]
   },
   {
     "result": "armor_chitin_xs",
