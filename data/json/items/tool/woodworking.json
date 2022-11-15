@@ -84,7 +84,7 @@
     "description": "This is a lumbering tool intended for trimming hedges and tree branches.  If loaded with gas, using this item will cause it to turn on, making it into an unwieldy polearm.",
     "weight": "9525 g",
     "volume": "2500 ml",
-    "longest_side": "325 cm",
+    "longest_side": "275 cm",
     "price": 9000,
     "price_postapoc": 450,
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "clumsy" },
@@ -98,7 +98,7 @@
     "charges_per_use": 5,
     "techniques": [ "SWEEP" ],
     "use_action": [ "CHAINSAW_OFF" ],
-    "flags": [ "NONCONDUCTIVE", "FRAGILE_MELEE", "REACH_ATTACK", "REACH3" ]
+    "flags": [ "NONCONDUCTIVE", "FRAGILE_MELEE", "REACH_ATTACK" ]
   },
   {
     "id": "polesaw_on",
@@ -115,7 +115,7 @@
     "techniques": [ "SWEEP" ],
     "qualities": [ [ "AXE", 2 ], [ "BUTCHER", -100 ] ],
     "use_action": [ "CHAINSAW_ON" ],
-    "flags": [ "MESSY", "POLEARM", "TRADER_AVOID", "NONCONDUCTIVE", "POWERED", "FRAGILE_MELEE", "REACH_ATTACK", "REACH3" ]
+    "flags": [ "MESSY", "POLEARM", "TRADER_AVOID", "NONCONDUCTIVE", "POWERED", "FRAGILE_MELEE", "REACH_ATTACK" ]
   },
   {
     "id": "circsaw_off",
