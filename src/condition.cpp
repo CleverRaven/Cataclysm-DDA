@@ -879,9 +879,9 @@ template<class T>
 void conditional_t<T>::set_npc_aim_rule( const JsonObject &jo, const std::string &member,
         bool is_npc )
 {
-    const std::string &setting = jo.get_string( member );
+    str_or_var<T> setting = get_str_or_var<T>( jo.get_member( member ), member, true );
     condition = [setting, is_npc]( const T & d ) {
-        return d.actor( is_npc )->has_ai_rule( "aim_rule", setting );
+        return d.actor( is_npc )->has_ai_rule( "aim_rule", setting.evaluate( d ) );
     };
 }
 
@@ -889,9 +889,9 @@ template<class T>
 void conditional_t<T>::set_npc_engagement_rule( const JsonObject &jo, const std::string &member,
         bool is_npc )
 {
-    const std::string &setting = jo.get_string( member );
+    str_or_var<T> setting = get_str_or_var<T>( jo.get_member( member ), member, true );
     condition = [setting, is_npc]( const T & d ) {
-        return d.actor( is_npc )->has_ai_rule( "engagement_rule", setting );
+        return d.actor( is_npc )->has_ai_rule( "engagement_rule", setting.evaluate( d ) );
     };
 }
 
@@ -899,9 +899,9 @@ template<class T>
 void conditional_t<T>::set_npc_cbm_reserve_rule( const JsonObject &jo, const std::string &member,
         bool is_npc )
 {
-    const std::string &setting = jo.get_string( member );
+    str_or_var<T> setting = get_str_or_var<T>( jo.get_member( member ), member, true );
     condition = [setting, is_npc]( const T & d ) {
-        return d.actor( is_npc )->has_ai_rule( "cbm_reserve_rule", setting );
+        return d.actor( is_npc )->has_ai_rule( "cbm_reserve_rule", setting.evaluate( d ) );
     };
 }
 
@@ -909,18 +909,18 @@ template<class T>
 void conditional_t<T>::set_npc_cbm_recharge_rule( const JsonObject &jo, const std::string &member,
         bool is_npc )
 {
-    const std::string &setting = jo.get_string( member );
+    str_or_var<T> setting = get_str_or_var<T>( jo.get_member( member ), member, true );
     condition = [setting, is_npc]( const T & d ) {
-        return d.actor( is_npc )->has_ai_rule( "cbm_recharge_rule", setting );
+        return d.actor( is_npc )->has_ai_rule( "cbm_recharge_rule", setting.evaluate( d ) );
     };
 }
 
 template<class T>
 void conditional_t<T>::set_npc_rule( const JsonObject &jo, const std::string &member, bool is_npc )
 {
-    std::string rule = jo.get_string( member );
+    str_or_var<T> rule = get_str_or_var<T>( jo.get_member( member ), member, true );
     condition = [rule, is_npc]( const T & d ) {
-        return d.actor( is_npc )->has_ai_rule( "ally_rule", rule );
+        return d.actor( is_npc )->has_ai_rule( "ally_rule", rule.evaluate( d ) );
     };
 }
 
@@ -928,9 +928,9 @@ template<class T>
 void conditional_t<T>::set_npc_override( const JsonObject &jo, const std::string &member,
         bool is_npc )
 {
-    std::string rule = jo.get_string( member );
+    str_or_var<T> rule = get_str_or_var<T>( jo.get_member( member ), member, true );
     condition = [rule, is_npc]( const T & d ) {
-        return d.actor( is_npc )->has_ai_rule( "ally_override", rule );
+        return d.actor( is_npc )->has_ai_rule( "ally_override", rule.evaluate( d ) );
     };
 }
 
@@ -946,13 +946,13 @@ void conditional_t<T>::set_days_since( const JsonObject &jo, const std::string &
 template<class T>
 void conditional_t<T>::set_is_season( const JsonObject &jo, const std::string &member )
 {
-    std::string season_name = jo.get_string( member );
-    condition = [season_name]( const T & ) {
+    str_or_var<T> season_name = get_str_or_var<T>( jo.get_member( member ), member, true );
+    condition = [season_name]( const T & d ) {
         const season_type season = season_of_year( calendar::turn );
-        return ( season == SPRING && season_name == "spring" ) ||
-               ( season == SUMMER && season_name == "summer" ) ||
-               ( season == AUTUMN && season_name == "autumn" ) ||
-               ( season == WINTER && season_name == "winter" );
+        return ( season == SPRING && season_name.evaluate( d ) == "spring" ) ||
+               ( season == SUMMER && season_name.evaluate( d ) == "summer" ) ||
+               ( season == AUTUMN && season_name.evaluate( d ) == "autumn" ) ||
+               ( season == WINTER && season_name.evaluate( d ) == "winter" );
     };
 }
 
@@ -960,13 +960,13 @@ template<class T>
 void conditional_t<T>::set_mission_goal( const JsonObject &jo, const std::string &member,
         bool is_npc )
 {
-    std::string mission_goal_str = jo.get_string( member );
+    str_or_var<T> mission_goal_str = get_str_or_var<T>( jo.get_member( member ), member, true );
     condition = [mission_goal_str, is_npc]( const T & d ) {
         mission *miss = d.actor( is_npc )->selected_mission();
         if( !miss ) {
             return false;
         }
-        const mission_goal mgoal = io::string_to_enum<mission_goal>( mission_goal_str );
+        const mission_goal mgoal = io::string_to_enum<mission_goal>( mission_goal_str.evaluate( d ) );
         return miss->get_type().goal == mgoal;
     };
 }
@@ -1229,10 +1229,9 @@ void conditional_t<T>::set_x_in_y_chance( const JsonObject &jo, const std::strin
 template<class T>
 void conditional_t<T>::set_is_weather( const JsonObject &jo, const std::string &member )
 {
-    weather_type_id weather = weather_type_id( jo.get_string( "is_weather" ) );
-    str_or_var<T> item_name = get_str_or_var<T>( jo.get_member( member ), member, true );
-    condition = [weather]( const T & ) {
-        return get_weather().weather_id == weather;
+    str_or_var<T> weather = get_str_or_var<T>( jo.get_member( member ), member, true );
+    condition = [weather]( const T & d ) {
+        return get_weather().weather_id == weather_type_id( weather.evaluate( d ) );
     };
 }
 
@@ -2593,9 +2592,9 @@ void conditional_t<T>::set_has_skill( const JsonObject &jo, const std::string &m
         };
     } else {
         str_or_var<T> skill = get_str_or_var<T>( has_skill.get_member( "skill" ), "skill", true );
-        int level = has_skill.get_int( "level" );
+        int_or_var<T> level = get_int_or_var<T>( has_skill, "level", true );
         condition = [skill, level, is_npc]( const T & d ) {
-            return d.actor( is_npc )->get_skill_level( skill_id( skill.evaluate( d ) ) ) >= level;
+            return d.actor( is_npc )->get_skill_level( skill_id( skill.evaluate( d ) ) ) >= level.evaluate( d );
         };
     }
 }
