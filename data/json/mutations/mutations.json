@@ -8302,7 +8302,7 @@
     "name": { "str": "High Heat Tolerance" },
     "points": 3,
     "description": "You are now even less bothered by the heat and it is harder for you to overheat or even sweat. When you do though, it'll hit just as hard as it did before.",
-	"prereqs": [ "RESISTWARM" ],
+    "prereqs": [ "RESISTWARM" ],
     "category": [ "FISH", "CEPHALOPOD", "GASTROPOD", "LIZARD", "BATRACHIAN", "PLANT" ],
 	"threshreq": [ "THRESH_FISH", "THRESH_CEPHALOPOD", "THRESH_GASTROPOD", "THRESH_LIZARD", "THRESH_BATRACHIAN", "THRESH_PLANT" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 25 } ] } ]
