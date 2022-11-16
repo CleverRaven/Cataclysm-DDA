@@ -1817,7 +1817,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "proficiencies": [ { "proficiency": "prof_chitinworking"} ],
+    "proficiencies": [ { "proficiency": "prof_chitinworking" } ],
     "components": [
       [ [ "chitin_piece", 20 ] ],
       [ [ "rope_natural", 1, "LIST" ] ],
