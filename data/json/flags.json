@@ -202,7 +202,8 @@
   {
     "id": "CANT_WEAR",
     "type": "json_flag",
-    "info": "This armor can't be worn directly."
+    "info": "This armor can't be worn directly.",
+    "inherit": false
   },
   {
     "id": "DECAY_EXPOSED_ATMOSPHERE",
