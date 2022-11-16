@@ -167,7 +167,7 @@
         "covers": [ "head" ],
         "specifically_covers": [ "head_throat", "head_ear_l", "head_ear_r", "head_forehead", "head_crown", "head_nape" ],
         "coverage": 100,
-        "encumbrance_modifiers": [ "WELL_SUPPORTED", "RESTRICTS_NECK" ]
+        "encumbrance_modifiers": [ "WELL_SUPPORTED" ]
       }
     ]
   },
