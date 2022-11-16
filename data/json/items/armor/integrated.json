@@ -425,7 +425,7 @@
     "volume": "800 ml",
     "price": 0,
     "price_postapoc": 0,
-    "material": [ "leather", "alien_carapace", "bone", "fur", "kevlar", "acidchitin", "cured_meat", "wool" ],
+    "material": [ "leather_hardened", "alien_carapace", "bone", "fur", "kevlar", "acidchitin", "cured_meat", "wool" ],
     "symbol": "x",
     "color": "light_red",
     "warmth": 20,
@@ -434,7 +434,7 @@
     "armor": [
       {
         "material": [
-          { "type": "leather", "covered_by_mat": 33, "thickness": 3 },
+          { "type": "leather_hardened", "covered_by_mat": 33, "thickness": 3 },
           { "type": "alien_carapace", "covered_by_mat": 33, "thickness": 3 },
           { "type": "bone", "covered_by_mat": 33, "thickness": 3 },
           { "type": "fur", "covered_by_mat": 33, "thickness": 3 },

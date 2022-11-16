@@ -563,7 +563,8 @@
       [ "bronzesmithing_tools", 1 ],
       [ "strap_small", 4 ],
       [ "clasps", 4 ],
-      [ "steel_tiny", 12 ]
+      [ "steel_tiny", 12 ],
+      ["leather_hardened", 2]
     ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
@@ -576,7 +577,8 @@
     "type": "recipe",
     "copy-from": "legguard_metal",
     "time": "8 h",
-    "using": [ [ "forging_standard", 4 ], [ "bronzesmithing_tools", 1 ], [ "strap_small", 3 ], [ "clasps", 3 ], [ "steel_tiny", 9 ] ]
+    "using": [ [ "forging_standard", 4 ], [ "bronzesmithing_tools", 1 ], [ "strap_small", 3 ], [ "clasps", 3 ], [ "steel_tiny", 9 ],
+    ["leather_hardened", 2] ]
   },
   {
     "result": "xl_legguard_metal",
@@ -588,7 +590,8 @@
       [ "bronzesmithing_tools", 1 ],
       [ "strap_small", 4 ],
       [ "clasps", 4 ],
-      [ "steel_tiny", 16 ]
+      [ "steel_tiny", 16 ],
+      ["leather_hardened", 3]
     ]
   },
   {
@@ -1293,7 +1296,7 @@
     "autolearn": true,
     "reversible": true,
     "book_learn": [ [ "textbook_armwest", 4 ], [ "recipe_melee", 4 ] ],
-    "using": [ [ "forging_standard", 6 ], [ "bronzesmithing_tools", 1 ], [ "strap_small", 4 ], [ "clasps", 4 ] ],
+    "using": [ [ "forging_standard", 6 ], [ "bronzesmithing_tools", 1 ], [ "strap_small", 4 ], ["leather_hardened", 2], [ "clasps", 4 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_redsmithing" },
@@ -1306,7 +1309,7 @@
     "type": "recipe",
     "copy-from": "legguard_bronze",
     "time": "8 h",
-    "using": [ [ "forging_standard", 4 ], [ "bronzesmithing_tools", 1 ], [ "strap_small", 3 ], [ "clasps", 3 ] ],
+    "using": [ [ "forging_standard", 4 ], [ "bronzesmithing_tools", 1 ], [ "strap_small", 3 ], ["leather_hardened", 2], [ "clasps", 3 ] ],
     "components": [ [ [ "scrap_bronze", 9 ] ] ]
   },
   {
@@ -1314,7 +1317,7 @@
     "type": "recipe",
     "copy-from": "legguard_bronze",
     "time": "9 h",
-    "using": [ [ "forging_standard", 8 ], [ "bronzesmithing_tools", 1 ], [ "strap_small", 4 ], [ "clasps", 4 ] ],
+    "using": [ [ "forging_standard", 8 ], [ "bronzesmithing_tools", 1 ], [ "strap_small", 4 ], ["leather_hardened", 3], [ "clasps", 4 ] ],
     "components": [ [ [ "scrap_bronze", 16 ] ] ]
   },
   {
@@ -1804,8 +1807,8 @@
     "difficulty": 3,
     "time": "8 h",
     "autolearn": true,
-    "byproducts": [ [ "leather", 2 ], [ "scrap_leather", 5 ] ],
-    "using": [ [ "tailoring_leather_patchwork", 5 ] ],
+    "byproducts": [ [ "leather_hardened", 2 ], [ "scrap_leather_hardened", 5 ] ],
+    "using": [ [ "tailoring_leather_hardened_patchwork", 5 ] ],
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ]
   },
   {
@@ -1813,15 +1816,15 @@
     "type": "recipe",
     "copy-from": "legguard_larmor",
     "time": "8 h",
-    "byproducts": [ [ "leather", 6 ], [ "scrap_leather", 1 ] ],
-    "using": [ [ "tailoring_leather_patchwork", 4 ] ]
+    "byproducts": [ [ "leather_hardened", 6 ], [ "scrap_leather_hardened", 1 ] ],
+    "using": [ [ "tailoring_leather_hardened_patchwork", 4 ] ]
   },
   {
     "result": "xl_legguard_larmor",
     "type": "recipe",
     "copy-from": "legguard_larmor",
     "time": "10 h",
-    "byproducts": [ [ "leather", 2 ], [ "scrap_leather", 1 ] ],
-    "using": [ [ "tailoring_leather_patchwork", 6 ] ]
+    "byproducts": [ [ "leather_hardened", 2 ], [ "scrap_leather_hardened", 1 ] ],
+    "using": [ [ "tailoring_leather_hardened_patchwork", 6 ] ]
   }
 ]
