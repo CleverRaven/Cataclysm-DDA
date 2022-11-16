@@ -103,7 +103,7 @@ void remove_saddle_from( monster &z )
 
 void bandage_animal( monster &z )
 {
-    if( z.has_effect( effect_bleed ) ) {
+    if( !z.has_effect( effect_bleed ) ) {
         return;
     }
     item_location loc = bandage_loc();
