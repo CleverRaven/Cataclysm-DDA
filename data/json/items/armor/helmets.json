@@ -590,7 +590,7 @@
     "volume": "2 L",
     "price": 14000,
     "price_postapoc": 2000,
-    "material": [ "leather" ],
+    "material": [ "leather_hardened" ],
     "symbol": "[",
     "looks_like": "hat_hard",
     "color": "brown",

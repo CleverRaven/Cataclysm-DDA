@@ -78,7 +78,7 @@
     "description": "A full barding for cows consisting of boiled leather and cloth undercovering.  This caparison depicts a battle between a monstrous dragon and regal griffin.  You could put this on a friendly cow.",
     "price": 35000,
     "price_postapoc": 3500,
-    "material": [ "cotton", "leather" ],
+    "material": [ "cotton", "leather_hardened" ],
     "weight": "18 kg",
     "volume": "180 L",
     "material_thickness": 7

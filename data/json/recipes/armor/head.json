@@ -794,8 +794,8 @@
     "difficulty": 4,
     "time": "2 h",
     "autolearn": true,
-    "using": [ [ "tailoring_leather_patchwork", 2 ] ],
-    "byproducts": [ [ "leather", 3 ], [ "scrap_leather", 1 ] ],
+    "using": [ [ "tailoring_leather_hardened_patchwork", 2 ] ],
+    "byproducts": [ [ "leather_hardened", 3 ], [ "scrap_leather_hardened", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_leatherworking" },
