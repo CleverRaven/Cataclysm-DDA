@@ -192,7 +192,7 @@
   {
     "id": "gambeson_canvas_layered",
     "//-1": "Going off the Rule of Nines for body proportions and assuming about 20 ft sq",
-    "//": "roughly 0.25mm per sheet of canvas making this a 14-layer jack, sheets are 1x2 feet. 105 sheets for the vest and 36 sheets for the arms (67 total).",
+    "//": "roughly 0.25mm per sheet of canvas making this a 14-layer jack, sheets are 1x2 feet. 105 sheets for the vest and 36 sheets for the arms (141 total).",
     "//1": "human torso is about 7 sq. feet.  80g (canvas) x 30 (layers) x 3.5 (surface area) = 8400g",
     "//2": "human arms is about 3 sq. feet.  80g (canvas) x 24 (layers) x 1.5 (surface area) = 2880g",
     "//3": "8 layers thick waist. human waist is about 3ft circumference with the extra padding, and reaches to about below knees. doesn't usually cover the whole circumference so guessing about 1.5x2.5x8 total surface area divided by 1x2 ft for about 15-18 extra sheets, about 1200g if 15 sheets.",
@@ -263,7 +263,7 @@
   {
     "id": "gambeson_canvas_layered_thinsleeved",
     "//-1": "Going off the Rule of Nines for body proportions and assuming about 20 ft sq",
-    "//": "roughly 0.25mm per sheet of canvas making this a 14-layer jack, sheets are 1x2 feet. 105 sheets for the vest and 36 sheets for the arms (67 total).",
+    "//": "roughly 0.25mm per sheet of canvas making this a 14-layer jack, sheets are 1x2 feet. 105 sheets for the vest and 18 sheets for the arms (123 total).",
     "//1": "human torso is about 7 sq. feet.  80g (canvas) x 30 (layers) x 3.5 (surface area) = 8400g",
     "//2": "human arms is about 3 sq. feet.  80g (canvas) x 12 (layers) x 1.5 (surface area) = 1440g",
     "//3": "8 layers thick waist. human waist is about 3ft circumference with the extra padding, and reaches to about below knees. doesn't usually cover the whole circumference so guessing about 1.5x2.5x8 total surface area divided by 1x2 ft for about 15-18 extra sheets, about 1200g if 15 sheets.",
@@ -331,7 +331,7 @@
   {
     "id": "gambeson_canvas_layered_vest",
     "//-1": "Going off the Rule of Nines for body proportions and assuming about 20 ft sq",
-    "//": "roughly 0.25mm per sheet of canvas making this a 14-layer jack, sheets are 1x2 feet. 105 sheets for the vest and 36 sheets for the arms (67 total).",
+    "//": "roughly 0.25mm per sheet of canvas making this a 14-layer jack, sheets are 1x2 feet. 105 sheets for the vest.",
     "//1": "human torso is about 7 sq. feet.  80g (canvas) x 30 (layers) x 3.5 (surface area) = 8400g",
     "//2": "8 layers thick waist. human waist is about 3ft circumference with the extra padding, and reaches to about below knees. doesn't usually cover the whole circumference so guessing about 1.5x2.5x8 total surface area divided by 1x2 ft for about 15-18 extra sheets, about 1200g if 15 sheets.",
     "//3": "8400 + 1200 = 9600g combined",
