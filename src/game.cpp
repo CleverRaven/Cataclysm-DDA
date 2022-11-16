@@ -8044,8 +8044,17 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                        : ( rl_dist_exact( a.back().raw(), u.pos() ) < rl_dist_exact( b.back().raw(), u.pos() ) ? a : b );
             };
             route_t shortest_route;
+            std::set<tripoint> path_avoid = u.get_path_avoid();
+            for( const tripoint &p : points_in_radius( u.pos_bub().raw(), 60 ) ) {
+                if( is_dangerous_tile( p ) ) {
+                    path_avoid.insert( p );
+                }
+            }
             for( const tripoint_bub_ms &p : m.points_in_radius( u.pos_bub() + active_pos, 1, 0 ) ) {
-                const route_t route = m.route( u.pos_bub(), p, u.get_pathfinding_settings(), u.get_path_avoid() );
+                if( is_dangerous_tile( p.raw() ) ) {
+                    continue;
+                }
+                const route_t route = m.route( u.pos_bub(), p, u.get_pathfinding_settings(), path_avoid );
                 if( route.empty() ) {
                     continue;
                 }
@@ -8055,7 +8064,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                 u.set_destination( shortest_route );
                 break;
             } else {
-                popup( _( "You can't travel there." ) );
+                popup( _( "You can't travel there safely." ) );
             }
         }
         if( uistate.list_item_sort == 1 ) {
