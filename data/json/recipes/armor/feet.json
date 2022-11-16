@@ -349,7 +349,7 @@
     "difficulty": 2,
     "time": "12 h",
     "autolearn": true,
-    "using": [ [ "fastener_small", 2 ], [ "tailoring_leather_patchwork", 4 ] ],
+    "using": [ [ "fastener_small", 2 ], [ "tailoring_leather_hardened_patchwork", 4 ] ],
     "proficiencies": [
       { "proficiency": "prof_cobbling" },
       { "proficiency": "prof_leatherworking_basic" },
@@ -361,14 +361,14 @@
     "type": "recipe",
     "copy-from": "boots_larmor",
     "time": "12 h",
-    "using": [ [ "fastener_small", 1 ], [ "tailoring_leather_patchwork", 3 ] ]
+    "using": [ [ "fastener_small", 1 ], [ "tailoring_leather_hardened_patchwork", 3 ] ]
   },
   {
     "result": "xl_boots_larmor",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "copy-from": "boots_larmor",
-    "using": [ [ "fastener_small", 2 ], [ "tailoring_leather_patchwork", 5 ] ],
+    "using": [ [ "fastener_small", 2 ], [ "tailoring_leather_hardened_patchwork", 5 ] ],
     "time": "13 h 30 m"
   },
   {
