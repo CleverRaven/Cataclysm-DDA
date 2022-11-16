@@ -1,4 +1,36 @@
-[
+[ 
+  {
+  "id": "armor_blarmor",
+  "type": "ARMOR",
+  "category": "armor",
+  "name": { "str": "boiled leather armor" },
+  "description": "Thick leather body armor that has been hardened via chemical treatment.  Light and strong.",
+  "weight": "6600 g",
+  "volume": "9500 ml",
+  "price": 26000,
+  "price_postapoc": 3000,
+  "to_hit": -5,
+  "bashing": 2,
+  "material": [ "leather" ],
+  "symbol": "[",
+  "longest_side": "60 cm",
+  "looks_like": "armor_larmor",
+  "color": "brown",
+  "armor": [
+    {
+      "covers": [ "torso" ],
+      "coverage": 95,
+      "encumbrance": 22,
+      "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 6.5 } ]
+    },
+    { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": 18 },
+    { "covers": [ "leg_l", "leg_r" ], "coverage": 85, "encumbrance": 18 }
+  ],
+  "warmth": 20,
+  "material_thickness": 6,
+  "valid_mods": [ "steel_padded" ],
+  "flags": [ "VARSIZE", "STURDY", "OUTER" ]
+  },
   {
     "abstract": "mre_box",
     "type": "GENERIC",

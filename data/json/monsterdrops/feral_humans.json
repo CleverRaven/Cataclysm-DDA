@@ -433,7 +433,7 @@
       {
         "distribution": [
           { "item": "armor_plarmor", "prob": 25, "damage": [ 1, 4 ] },
-          { "item": "armor_blarmor", "prob": 25, "damage": [ 1, 4 ] },
+          { "item": "armor_larmor", "prob": 25, "damage": [ 1, 4 ] },
           {
             "distribution": [
               { "item": "chainmail_suit", "prob": 10, "damage": [ 1, 4 ] },

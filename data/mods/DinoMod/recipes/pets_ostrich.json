@@ -81,43 +81,8 @@
     "difficulty": 3,
     "time": "4 h 30 m",
     "byproducts": [ [ "leather", 21 ] ],
-    "using": [ [ "sewing_standard", 30 ], [ "clasps", 4 ] ],
-    "components": [ [ [ "armor_blarmor", 3 ] ], [ [ "cotton_patchwork", 18 ] ] ],
-    "proficiencies": [
-      { "proficiency": "prof_leatherworking_basic" },
-      { "proficiency": "prof_closures" },
-      { "proficiency": "prof_leatherworking" }
-    ]
-  },
-  {
-    "result": "leather_armor_ostrich",
-    "type": "recipe",
-    "copy-from": "armor_blarmor",
-    "id_suffix": "from_scratch",
-    "category": "CC_ANIMALS",
-    "subcategory": "CSC_ANIMALS_OSTRICH ARMOR",
-    "activity_level": "LIGHT_EXERCISE",
-    "skills_required": [ "tailor", 6 ],
-    "time": "10 h 30 m",
-    "autolearn": true,
-    "reversible": true,
-    "using": [ [ "sewing_standard", 190 ], [ "surface_heat", 60 ], [ "clasps", 4 ] ],
-    "components": [
-      [ [ "water", 30 ], [ "water_clean", 30 ] ],
-      [
-        [ "wax", 6 ],
-        [ "tallow", 24 ],
-        [ "mutant_tallow", 24 ],
-        [ "human_tallow", 24 ],
-        [ "demihuman_tallow", 24 ],
-        [ "tallow_tainted", 24 ],
-        [ "vinegar", 30 ],
-        [ "pine_bough", 60 ]
-      ],
-      [ [ "salt", 150 ] ],
-      [ [ "leather", 105 ], [ "tanned_hide", 17 ] ],
-      [ [ "cotton_patchwork", 18 ] ]
-    ],
+    "using": [ [ "sewing_standard", 30 ], [ "clasps", 4 ], ["tailoring_leather_hardened_patchwork", 48] ],
+    "components": [ [ [ "cotton_patchwork", 18 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_closures" },
@@ -131,8 +96,8 @@
     "activity_level": "LIGHT_EXERCISE",
     "difficulty": 4,
     "time": "6 h 30 m",
-    "using": [ [ "sewing_standard", 75 ], [ "clasps", 4 ] ],
-    "components": [ [ [ "bone", 39 ], [ "bone_human", 39 ], [ "bone_demihuman", 39 ] ], [ [ "armor_blarmor", 3 ] ] ],
+    "using": [ [ "sewing_standard", 75 ], [ "clasps", 4 ], ["tailoring_leather_hardened_patchwork", 48] ],
+    "components": [ [ [ "bone", 39 ], [ "bone_human", 39 ], [ "bone_demihuman", 39 ] ] ],
     "extend": { "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_carving" } ] }
   },
   {
