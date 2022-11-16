@@ -8292,7 +8292,7 @@
     "points": 1,
     "description": "You fare better than most in warmer climates and are less bothered by hotter temperatures.  Note that while you'll sweat a little less in close proximity to a fire as a result, burns will still hurt just as much.",
     "starting_trait": true,
-	"changes_to": [ "STRONGER_RESISTWARM" ],
+    "changes_to": [ "STRONGER_RESISTWARM" ],
     "category": [ "FISH", "CEPHALOPOD", "GASTROPOD", "LIZARD", "BATRACHIAN", "PLANT" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 10 } ] } ]
   },
