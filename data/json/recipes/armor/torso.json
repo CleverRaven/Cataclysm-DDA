@@ -2900,7 +2900,12 @@
     "difficulty": 7,
     "time": "1 d",
     "book_learn": [ [ "textbook_armwest", 7 ] ],
-    "using": [ [ "blacksmithing_standard", 16 ], [ "lc_steel_standard", 6 ], [ "tailoring_canvas_patchwork", 8 ], [ "fastener_large", 1 ] ],
+    "using": [
+      [ "blacksmithing_standard", 16 ],
+      [ "lc_steel_standard", 6 ],
+      [ "tailoring_canvas_patchwork", 8 ],
+      [ "fastener_large", 1 ]
+    ],
     "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ] ] ],
     "proficiencies": [
