@@ -111,7 +111,7 @@ void bandage_animal( monster &z )
         add_msg( _( "Never mind." ) );
         return;
     }
-    z.remove_effect( effect_bleed, 1_turns, true );
+    z.remove_effect( effect_bleed );
     z.bandage = cata::make_value<item>( *loc.get_item() );
     loc.remove_item();
 }
