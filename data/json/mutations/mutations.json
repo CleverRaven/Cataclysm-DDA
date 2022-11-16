@@ -8261,7 +8261,7 @@
     "points": 1,
     "description": "You fare better than most in colder climates and are less bothered by lower temperatures.  Note that while you are slightly less prone to developing frostbite as a result, you aren't any better at dealing with the symptoms.",
     "starting_trait": true,
-	"changes_to": [ "STRONGER_RESISTCHILL" ],
+    "changes_to": [ "STRONGER_RESISTCHILL" ],
     "category": [ "LUPINE", "URSINE", "CATTLE", "FELINE", "RABBIT", "MOUSE", "BEAST", "PLANT" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 10 } ] } ]
   },
