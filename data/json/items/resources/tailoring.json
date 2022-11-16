@@ -260,6 +260,22 @@
   },
   {
     "type": "GENERIC",
+    "id": "cured_hide_light",
+    "symbol": ",",
+    "color": "white",
+    "name": { "str": "cured hide" },
+    "description": "A rolled up animal hide which has been scraped of extraneous hair and flesh and treated to prevent decay.  It still requires tanning to become usable leather.",
+    "price": 200,
+    "price_postapoc": 150,
+    "material": [ "flesh" ],
+    "flags": [ "NO_SALVAGE" ],
+    "weight": "40 g",
+    "volume": "125 ml",
+    "category": "spare_parts",
+    "to_hit": -1
+  },
+  {
+    "type": "GENERIC",
     "id": "tanned_hide",
     "symbol": ",",
     "color": "brown",
@@ -355,6 +371,20 @@
     "price_postapoc": 500,
     "material": [ "fur" ],
     "weight": "372 g",
+    "volume": "465 ml",
+    "category": "spare_parts"
+  },
+  {
+    "type": "GENERIC",
+    "id": "tanned_pelt_light",
+    "symbol": ",",
+    "color": "brown",
+    "name": { "str": "tanned pelt" },
+    "description": "A folded sheet of fur made from carefully tanned animal hide, with the fur still intact.  Can be cut up or used as is.",
+    "price": 5000,
+    "price_postapoc": 500,
+    "material": [ "fur" ],
+    "weight": "335 g",
     "volume": "465 ml",
     "category": "spare_parts"
   },

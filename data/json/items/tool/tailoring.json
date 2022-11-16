@@ -284,6 +284,31 @@
     "flags": [ "NO_SALVAGE" ]
   },
   {
+    "id": "tanning_hide_light",
+    "type": "TOOL",
+    "category": "spare_parts",
+    "name": { "str": "tanning light leather hide" },
+    "description": "A treated animal hide which is undergoing the chemical processes required to become leather.  You will be able to activate it to unroll and make use of it when it is done.",
+    "weight": "600 g",
+    "volume": "1 L",
+    "price": 0,
+    "price_postapoc": 0,
+    "to_hit": -2,
+    "material": [ "flesh", "leather" ],
+    "symbol": ",",
+    "color": "brown",
+    "use_action": {
+      "target": "tanned_hide_light",
+      "msg": "You carefully unfold the tanning leather hide and shake it clean.",
+      "moves": 150,
+      "type": "delayed_transform",
+      "transform_age": 28800,
+      "not_ready_msg": "The tanning leather hide isn't done yet.",
+      "//": "2 days"
+    },
+    "flags": [ "NO_SALVAGE" ]
+  },
+  {
     "id": "tanning_pelt",
     "type": "TOOL",
     "category": "spare_parts",
