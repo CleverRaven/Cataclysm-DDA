@@ -699,7 +699,7 @@
     "price": 20000,
     "price_postapoc": 4000,
     "to_hit": -1,
-    "material": [ "steel" ],
+    "material": [ "steel", "leather" ],
     "symbol": "[",
     "looks_like": "chestguard_hard",
     "color": "light_gray",
@@ -711,30 +711,32 @@
       {
         "encumbrance": 20,
         "coverage": 95,
-        "covers": [ "torso" ],
-        "material": [
-          { "type": "steel", "covered_by_mat": 100, "thickness": 2.5 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1 }
+        "covers": [
+          "torso"
         ]
       },
       {
         "encumbrance": 4,
         "coverage": 95,
-        "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ],
-        "material": [
-          { "type": "steel", "covered_by_mat": 100, "thickness": 2.5 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1 }
+        "covers": [
+          "arm_l",
+          "arm_r"
+        ],
+        "specifically_covers": [
+          "arm_shoulder_l",
+          "arm_shoulder_r"
         ]
       },
       {
         "encumbrance": 4,
         "coverage": 95,
-        "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
-        "material": [
-          { "type": "steel", "covered_by_mat": 100, "thickness": 2.5 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1 }
+        "covers": [
+          "leg_l",
+          "leg_r"
+        ],
+        "specifically_covers": [
+          "leg_hip_l",
+          "leg_hip_r"
         ]
       }
     ]

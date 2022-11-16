@@ -160,8 +160,8 @@
     "difficulty": 3,
     "time": "6 h",
     "autolearn": true,
-    "byproducts": [ [ "leather", 2 ], [ "scrap_leather", 5 ] ],
-    "using": [ [ "tailoring_leather_patchwork", 4 ] ],
+    "byproducts": [ [ "leather_hardened", 2 ], [ "scrap_leather_hardened", 5 ] ],
+    "using": [ [ "tailoring_leather_hardened_patchwork", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ]
   },
   {
@@ -169,16 +169,16 @@
     "type": "recipe",
     "copy-from": "armguard_larmor",
     "time": "6 h",
-    "byproducts": [ [ "leather", 6 ], [ "scrap_leather", 1 ] ],
-    "using": [ [ "tailoring_leather_patchwork", 3 ] ]
+    "byproducts": [ [ "leather_hardened", 6 ], [ "scrap_leather_hardened", 1 ] ],
+    "using": [ [ "tailoring_leather_hardened_patchwork", 3 ] ]
   },
   {
     "result": "xl_armguard_larmor",
     "type": "recipe",
     "copy-from": "armguard_larmor",
     "time": "8 h",
-    "byproducts": [ [ "leather", 2 ], [ "scrap_leather", 1 ] ],
-    "using": [ [ "tailoring_leather_patchwork", 5 ] ]
+    "byproducts": [ [ "leather_hardened", 2 ], [ "scrap_leather_hardened", 1 ] ],
+    "using": [ [ "tailoring_leather_hardened_patchwork", 5 ] ]
   },
   {
     "result": "armguard_lightplate",

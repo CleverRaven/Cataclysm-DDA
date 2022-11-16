@@ -230,7 +230,7 @@
     "price": 4000,
     "price_postapoc": 1000,
     "to_hit": 1,
-    "material": [ "leather" ],
+    "material": [ "leather_hardened" ],
     "symbol": "[",
     "looks_like": "arm_warmers",
     "color": "brown",
