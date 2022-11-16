@@ -8271,7 +8271,7 @@
     "name": { "str": "High Cold Tolerance" },
     "points": 3,
     "description": "You are now even less bothered by the cold and it is harder for you to freeze or to even get chilly. When you do though, it'll hit just as hard as it did before.",
-	"prereqs": [ "RESISTCHILL" ],
+    "prereqs": [ "RESISTCHILL" ],
     "category": [ "LUPINE", "URSINE", "CATTLE", "FELINE", "RABBIT", "MOUSE", "BEAST", "PLANT" ],
 	"threshreq": [ "THRESH_LUPINE", "THRESH_URSINE", "THRESH_CATTLE", "THRESH_FELINE", "THRESH_RABBIT", "THRESH_MOUSE", "THRESH_BEAST", "THRESH_PLANT" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 25 } ] } ]
