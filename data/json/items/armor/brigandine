@@ -161,7 +161,7 @@
     "material": [ "lc_steel" ],
     "symbol": "[",
     "looks_like": "legguard_hard",
-    "color": "dark_gray",
+    "color": "light_gray",
     "material_thickness": 1,
     "flags": [ "STURDY", "OUTER" ],
     "armor": [
@@ -177,7 +177,7 @@
     ]
   },
   {
-    "id": "elbow_pads",
+    "id": "lc_elbow_pads",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of mild steel elbow pads", "str_pl": "pairs of mild steel elbow pads" },
@@ -190,7 +190,7 @@
     "material": [ "lc_steel" ],
     "symbol": "[",
     "looks_like": "armguard_hard",
-    "color": "dark_gray",
+    "color": "light_gray",
     "material_thickness": 1,
     "flags": [ "STURDY", "OUTER" ],
     "armor": [
