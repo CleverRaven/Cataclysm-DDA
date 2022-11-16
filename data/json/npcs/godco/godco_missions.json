@@ -3,12 +3,12 @@
     "id": "MISSION_GODCO_COOK_FOOD_1",
     "type": "mission_definition",
     "name": { "str": "Picky Meals" },
-    "description": "Find 100 salt.",
+    "description": "Find 20 pounds of salt.",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 1,
     "value": 0,
     "item": "salt",
-    "count": 100,
+    "count": 2000,
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_GODCO_COOK_FOOD_2",
     "dialogue": {
@@ -180,7 +180,7 @@
       "rejected": "Come back when you get a chance.  We need skilled survivors.",
       "advice": "Try disassembling another well.",
       "inquire": "Managed to find that pump?",
-      "success": "Much obliged, survivor.  Thanks to you, we no longer have to worry about the quality of our drinking water.  Here, take this as a token of our gratitude.",
+      "success": "Much obliged, survivor.  Thanks to you, we don't need to worry about where our water's gonna come from.  Here, take this as a token of our gratitude.",
       "success_lie": "What good does this do us?",
       "failure": "It was a lost cause anyways…"
     },
