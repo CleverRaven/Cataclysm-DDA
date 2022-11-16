@@ -619,15 +619,15 @@
     "result": "helmet_chitin_xs",
     "type": "recipe",
     "copy-from": "helmet_chitin",
-    "time": "3 h",
-    "components": [ [ [ "cordage_superior", 1, "LIST" ] ], [ [ "chitin_piece", 9 ] ] ]
+    "time": "1 h 30 m",
+    "components": [ [ "armor_chitin", 9 ] ] 
   },
   {
     "result": "xl_helmet_chitin",
     "type": "recipe",
     "copy-from": "helmet_chitin",
-    "time": "3 h 20 m",
-    "components": [ [ [ "cordage_superior", 2, "LIST" ] ], [ [ "chitin_piece", 17 ] ] ]
+    "time": "2 h 50 m",
+    "components": [ [ "armor_chitin", 17 ] ] 
   },
   {
     "result": "helmet_conical",

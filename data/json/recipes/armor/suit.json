@@ -59,18 +59,15 @@
     "result": "armor_chitin_xs",
     "type": "recipe",
     "copy-from": "armor_chitin",
-    "time": "6 h 40 m",
-    "using": [ [ "cordage", 1 ] ],
-    "components": [ [ [ "chitin_piece", 54 ] ] ]
+    "time": "9 h",
+    "using": [ [ [ "armor_chitin", 54 ] ] ]
   },
   {
     "result": "xl_armor_chitin",
     "type": "recipe",
     "copy-from": "armor_chitin",
-    "time": "7 h 30 m",
-    "using": [ [ "cordage", 3 ] ],
-    "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
-    "components": [ [ [ "chitin_piece", 96 ] ] ]
+    "time": "16 h",
+    "using": [ [ [ "armor_chitin", 96 ] ] ]
   },
   {
     "result": "armor_acidchitin",
