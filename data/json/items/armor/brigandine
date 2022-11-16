@@ -1,5 +1,5 @@
 [
- {
+  {
     "id": "armor_lc_brigandine",
     "type": "ARMOR",
     "category": "armor",
@@ -122,155 +122,116 @@
     "looks_like": "armguard_hard",
     "color": "light_gray",
     "warmth": 10,
+    "material_thickness": 2.3,
     "environmental_protection": 1,
     "flags": [ "OUTER", "BLOCK_WHILE_WORN", "STURDY" ],
     "armor": [
       {
         "material": [
-          { "type": "lc_steel", "covered_by_mat": 100, "thickness": 0.8 },
+          { "type": "canvas", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "lc_steel", "covered_by_mat": 90, "thickness": 0.8 }
         ],
         "covers": [ "arm_l", "arm_r" ],
         "encumbrance": 3,
-        "coverage": 85,
-        "cover_melee": 90,
-        "cover_ranged": 85,
+        "coverage": 100,
+        "cover_melee": 100,
+        "cover_ranged": 100,
         "cover_vitals": 90,
         "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_upper_r", "arm_upper_l" ]
-        },
-        {
-        "material": [
-          { "type": "canvas", "covered_by_mat": 100, "thickness": 1.5 }
-        ],
-        "covers": [ "arm_l", "arm_r" ],
-        "encumbrance": 0,
-        "coverage": 100,
-        "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_upper_r", "arm_upper_l" ]
-        }
-     ]
+      }
+    ]
   },
   {
     "id": "armguard_mc_brigandine",
-    "category": "armor",
+    "type": "ARMOR",
     "name": { "str": "pair of medium splint arm guards", "str_pl": "pairs of medium splint arm guards" },
-    "copy-from": "armor_lc_brigandine",
+    "copy-from": "armguard_lc_brigandine",
     "description": "",
     "material": [ "mc_steel", "canvas" ],
-     "armor": [
+    "armor": [
       {
         "material": [
-          { "type": "mc_steel", "covered_by_mat": 100, "thickness": 0.8 },
+          { "type": "canvas", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "mc_steel", "covered_by_mat": 90, "thickness": 0.8 }
         ],
         "covers": [ "arm_l", "arm_r" ],
         "encumbrance": 3,
-        "coverage": 85,
-        "cover_melee": 90,
-        "cover_ranged": 85,
+        "coverage": 100,
+        "cover_melee": 100,
+        "cover_ranged": 100,
         "cover_vitals": 90,
         "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_upper_r", "arm_upper_l" ]
-        },
-        {
-        "material": [
-          { "type": "canvas", "covered_by_mat": 100, "thickness": 1.5 }
-        ],
-        "covers": [ "arm_l", "arm_r" ],
-        "encumbrance": 0,
-        "coverage": 100,
-        "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_upper_r", "arm_upper_l" ]
-        }
-     ]
+      }
+    ]
   },
   {
     "id": "armguard_hc_brigandine",
-    "category": "armor",
+    "type": "ARMOR",
     "name": { "str": "pair of high splint arm guards", "str_pl": "pairs of high splint arm guards" },
-    "copy-from": "armor_lc_brigandine",
+    "copy-from": "armguard_lc_brigandine",
     "description": "",
     "material": [ "hc_steel", "canvas" ],
-     "armor": [
+    "armor": [
       {
         "material": [
-          { "type": "hc_steel", "covered_by_mat": 100, "thickness": 0.8 },
+          { "type": "canvas", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "hc_steel", "covered_by_mat": 90, "thickness": 0.8 }
         ],
         "covers": [ "arm_l", "arm_r" ],
         "encumbrance": 3,
-        "coverage": 85,
-        "cover_melee": 90,
-        "cover_ranged": 85,
+        "coverage": 100,
+        "cover_melee": 100,
+        "cover_ranged": 100,
         "cover_vitals": 90,
         "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_upper_r", "arm_upper_l" ]
-        },
-        {
-        "material": [
-          { "type": "canvas", "covered_by_mat": 100, "thickness": 1.5 }
-        ],
-        "covers": [ "arm_l", "arm_r" ],
-        "encumbrance": 0,
-        "coverage": 100,
-        "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_upper_r", "arm_upper_l" ]
-        }
-     ]
+      }
+    ]
   },
   {
     "id": "armguard_ch_brigandine",
-    "category": "armor",
+    "type": "ARMOR",
     "name": { "str": "pair of case hardened splint arm guards", "str_pl": "pairs of case hardened splint arm guards" },
-    "copy-from": "armor_lc_brigandine",
+    "copy-from": "armguard_lc_brigandine",
     "description": "",
     "material": [ "ch_steel", "canvas" ],
-     "armor": [
+    "armor": [
       {
         "material": [
-          { "type": "ch_steel", "covered_by_mat": 100, "thickness": 0.8 },
+          { "type": "canvas", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "ch_steel", "covered_by_mat": 90, "thickness": 0.8 }
         ],
         "covers": [ "arm_l", "arm_r" ],
         "encumbrance": 3,
-        "coverage": 85,
-        "cover_melee": 90,
-        "cover_ranged": 85,
+        "coverage": 100,
+        "cover_melee": 100,
+        "cover_ranged": 100,
         "cover_vitals": 90,
         "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_upper_r", "arm_upper_l" ]
-        },
-        {
-        "material": [
-          { "type": "canvas", "covered_by_mat": 100, "thickness": 1.5 }
-        ],
-        "covers": [ "arm_l", "arm_r" ],
-        "encumbrance": 0,
-        "coverage": 100,
-        "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_upper_r", "arm_upper_l" ]
-        }
-     ]
+      }
+    ]
   },
   {
     "id": "armguard_qt_brigandine",
-    "category": "armor",
+    "type": "ARMOR",
     "name": { "str": "pair of tempered splint arm guards", "str_pl": "pairs of tempered splint arm guards" },
-    "copy-from": "armor_lc_brigandine",
+    "copy-from": "armguard_lc_brigandine",
     "description": "",
     "material": [ "qt_steel", "canvas" ],
     "armor": [
       {
         "material": [
-          { "type": "qt_steel", "covered_by_mat": 100, "thickness": 0.8 },
+          { "type": "canvas", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "qt_steel", "covered_by_mat": 90, "thickness": 0.8 }
         ],
         "covers": [ "arm_l", "arm_r" ],
         "encumbrance": 3,
-        "coverage": 85,
-        "cover_melee": 90,
-        "cover_ranged": 85,
+        "coverage": 100,
+        "cover_melee": 100,
+        "cover_ranged": 100,
         "cover_vitals": 90,
         "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_upper_r", "arm_upper_l" ]
-        },
-        {
-        "material": [
-          { "type": "canvas", "covered_by_mat": 100, "thickness": 1.5 }
-        ],
-        "covers": [ "arm_l", "arm_r" ],
-        "encumbrance": 0,
-        "coverage": 100,
-        "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_upper_r", "arm_upper_l" ]
-        }
-     ]
+      }
+    ]
   },
   {
     "id": "legguard_lc_brigandine",
@@ -293,26 +254,18 @@
     "armor": [
       {
         "material": [
-          { "type": "lc_steel", "covered_by_mat": 100, "thickness": 0.8 },
+          { "type": "canvas", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "lc_steel", "covered_by_mat": 90, "thickness": 0.8 }
         ],
         "covers": [ "arm_l", "arm_r" ],
         "encumbrance": 3,
-        "coverage": 85,
-        "cover_melee": 90,
-        "cover_ranged": 85,
+        "coverage": 100,
+        "cover_melee": 100,
+        "cover_ranged": 100,
         "cover_vitals": 90,
         "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_upper_r", "arm_upper_l" ]
-        },
-        {
-        "material": [
-          { "type": "canvas", "covered_by_mat": 100, "thickness": 1.5 }
-        ],
-        "covers": [ "arm_l", "arm_r" ],
-        "encumbrance": 0,
-        "coverage": 100,
-        "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_upper_r", "arm_upper_l" ]
-        }
-     ]
+      }
+    ]
   },
   {
     "id": "lc_brigandine_hands",
@@ -345,9 +298,7 @@
       {
         "encumbrance": 0,
         "coverage": 100,
-        "material": [
-          { "type": "canvas", "covered_by_mat": 100, "thickness": 1.5 }
-        ],
+        "material": [ { "type": "canvas", "covered_by_mat": 100, "thickness": 1.5 } ],
         "covers": [ "hand_l", "hand_r" ],
         "specifically_covers": [ "hand_fingers_l", "hand_fingers_r", "hand_palm_l", "hand_palm_r" ]
       },
@@ -356,10 +307,8 @@
         "coverage": 50,
         "cover_melee": 95,
         "cover_ranged": 95,
-         "//": "only outer side if hand and fingers are covered by plates, but it should be very hard to hit unprotected part if you're holding something in your hands",
-        "material": [
-          { "type": "lc_steel", "covered_by_mat": 100, "thickness": 1.0 }
-        ],
+        "//": "only outer side if hand and fingers are covered by plates, but it should be very hard to hit unprotected part if you're holding something in your hands",
+        "material": [ { "type": "lc_steel", "covered_by_mat": 100, "thickness": 1.0 } ],
         "covers": [ "hand_l", "hand_r" ],
         "specifically_covers": [ "hand_fingers_l", "hand_fingers_r", "hand_palm_l", "hand_palm_r" ]
       }
