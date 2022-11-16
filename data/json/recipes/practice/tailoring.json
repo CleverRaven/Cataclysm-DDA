@@ -123,7 +123,7 @@
     "autolearn": [ [ "tailor", 3 ] ],
     "book_learn": [ [ "dieselpunk_tailor", 2 ], [ "manual_tailor", 2 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
-    "components": [ [ [ "leather", 6 ], [ "tanned_hide", 1 ] ] ],
+    "components": [ [ [ "leather", 6 ], [ "tanned_hide", 1 ], [ "sheet_leather_hardened_patchwork", 1 ] ] ],
     "using": [ [ "sewing_standard", 30 ] ]
   },
   {
