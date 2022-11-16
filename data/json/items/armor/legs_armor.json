@@ -1610,8 +1610,8 @@
         "specifically_covers": [ "foot_arch_l", "foot_arch_r", "foot_ankle_r", "foot_ankle_l" ]
       }
     ]
-   },
-   {
+  },
+  {
     "id": "legguard_larmor",
     "type": "ARMOR",
     "category": "armor",

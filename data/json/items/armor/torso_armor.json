@@ -1973,8 +1973,8 @@
         "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
       }
     ]
-   },
-   {
+  },
+  {
     "id": "armor_larmor_chest",
     "type": "ARMOR",
     "category": "armor",
