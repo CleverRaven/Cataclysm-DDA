@@ -81,16 +81,6 @@
     "material": [ "leather" ]
   },
   {
-    "id": "scrap_leather_light",
-    "copy-from": "scrap_cotton",
-    "type": "GENERIC",
-    "name": { "str_sp": "light leather scraps" },
-    "description": "Oddly-shaped smallish bits of light leather, waste material from tailoring projects.  Not useful for much and usually disposed of.",
-    "price": 0,
-    "volume": "6 ml",
-    "material": [ "leather_light" ]
-  },
-  {
     "id": "scrap_leather_heavy",
     "copy-from": "scrap_cotton",
     "type": "GENERIC",
@@ -184,21 +174,6 @@
   },
   {
     "type": "GENERIC",
-    "id": "leather_light",
-    "symbol": ",",
-    "color": "brown",
-    "name": { "str": "light leather patch", "str_pl": "light leather patches" },
-    "description": "A roughly 6 inch square patch of light leather, could be used to repair clothing and make smaller leather crafts.",
-    "price": 2000,
-    "price_postapoc": 20,
-    "material": [ "leather_light" ],
-    "flags": [ "NO_SALVAGE" ],
-    "weight": "23 g",
-    "volume": "23 ml",
-    "category": "spare_parts"
-  },
-  {
-    "type": "GENERIC",
     "id": "leather",
     "symbol": ",",
     "color": "brown",
@@ -260,22 +235,6 @@
   },
   {
     "type": "GENERIC",
-    "id": "cured_hide_light",
-    "symbol": ",",
-    "color": "white",
-    "name": { "str": "cured hide" },
-    "description": "A rolled up animal hide which has been scraped of extraneous hair and flesh and treated to prevent decay.  It still requires tanning to become usable leather.",
-    "price": 200,
-    "price_postapoc": 150,
-    "material": [ "flesh" ],
-    "flags": [ "NO_SALVAGE" ],
-    "weight": "40 g",
-    "volume": "125 ml",
-    "category": "spare_parts",
-    "to_hit": -1
-  },
-  {
-    "type": "GENERIC",
     "id": "tanned_hide",
     "symbol": ",",
     "color": "brown",
@@ -290,20 +249,6 @@
   },
   {
     "type": "GENERIC",
-    "id": "tanned_hide_light",
-    "symbol": ",",
-    "color": "brown",
-    "name": { "str": "tanned hide" },
-    "description": "A folded 12 inch by 24 inch sheet of light leather made from carefully tanned animal hide.  Can be cut up or used as is.",
-    "price": 5000,
-    "price_postapoc": 500,
-    "material": [ "leather_light" ],
-    "weight": "267 g",
-    "volume": "186 ml",
-    "category": "spare_parts"
-  },
-  {
-    "type": "GENERIC",
     "id": "sheet_leather_patchwork",
     "symbol": ",",
     "color": "brown",
@@ -313,20 +258,6 @@
     "price_postapoc": 250,
     "material": [ "leather" ],
     "weight": "296 g",
-    "volume": "186 ml",
-    "category": "spare_parts"
-  },
-  {
-    "type": "GENERIC",
-    "id": "sheet_leather_light_patchwork",
-    "symbol": ",",
-    "color": "brown",
-    "name": { "str": "patchwork light leather sheet" },
-    "description": "A folded 12 inch by 24 inch sheet of leather sewn together from various patches.  Can be cut up or used as is.",
-    "price": 2500,
-    "price_postapoc": 225,
-    "material": [ "leather_light" ],
-    "weight": "267 g",
     "volume": "186 ml",
     "category": "spare_parts"
   },
@@ -362,22 +293,6 @@
   },
   {
     "type": "GENERIC",
-    "id": "cured_pelt_light",
-    "symbol": ",",
-    "color": "brown",
-    "name": { "str": "cured pelt" },
-    "description": "A rolled up light animal hide which has been scraped of extraneous hair and flesh and treated to prevent decay.  It still requires tanning to become usable fur.",
-    "price": 200,
-    "price_postapoc": 150,
-    "material": [ "fur", "flesh" ],
-    "flags": [ "NO_SALVAGE" ],
-    "weight": "335 g",
-    "volume": "465 ml",
-    "category": "spare_parts",
-    "to_hit": -1
-  },
-  {
-    "type": "GENERIC",
     "id": "tanned_pelt",
     "symbol": ",",
     "color": "brown",
@@ -387,20 +302,6 @@
     "price_postapoc": 500,
     "material": [ "fur" ],
     "weight": "372 g",
-    "volume": "465 ml",
-    "category": "spare_parts"
-  },
-  {
-    "type": "GENERIC",
-    "id": "tanned_pelt_light",
-    "symbol": ",",
-    "color": "brown",
-    "name": { "str": "tanned pelt" },
-    "description": "A folded sheet of fur made from carefully tanned animal hide, with the fur still intact.  Can be cut up or used as is.",
-    "price": 5000,
-    "price_postapoc": 500,
-    "material": [ "fur" ],
-    "weight": "335 g",
     "volume": "465 ml",
     "category": "spare_parts"
   },

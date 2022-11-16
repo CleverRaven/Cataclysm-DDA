@@ -152,7 +152,7 @@
     "difficulty": 2,
     "time": "1 h",
     "autolearn": true,
-    "using": [ [ "tailoring_leather_light_patchwork", 1 ] ],
+    "using": [ [ "tailoring_leather_patchwork", 1 ] ],
     "book_learn": [ [ "mag_animecon", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" } ]
   },
