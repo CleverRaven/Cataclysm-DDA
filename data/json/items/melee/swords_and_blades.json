@@ -344,7 +344,7 @@
   },
   {
     "id": "knife_rambo",
-    "type": "TOOL",
+    "type": "GENERIC",
     "category": "weapons",
     "name": { "str": "survival knife", "str_pl": "survival knives" },
     "//": "This isn't really supposed to be a very good knife, or a very good saw.  It's more for looking scary.",
@@ -362,8 +362,19 @@
     "color": "dark_gray",
     "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "CUT", 2 ], [ "SAW_W", 1 ], [ "SAW_M", 1 ], [ "BUTCHER", 7 ] ],
-    "flags": [ "STAB", "SHEATH_SWORD" ],
-    "weapon_category": [ "KNIVES" ]
+    "flags": [ "STAB", "SHEATH_SWORD", "COLLAPSE_CONTENTS" ],
+    "weapon_category": [ "KNIVES" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "max_contains_volume": "50 ml",
+        "max_contains_weight": "100 g",
+        "moves": 300,
+        "description": "A hidden handle compartment.  Unscrew the compass to access ."
+      }
+    ]
   },
   {
     "id": "knife_rm42",

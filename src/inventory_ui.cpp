@@ -2798,6 +2798,16 @@ item_location inventory_pick_selector::execute()
     }
 }
 
+inventory_selector::stats container_inventory_selector::get_raw_stats() const
+{
+    return get_weight_and_volume_stats( loc->get_total_contained_weight(),
+                                        loc->get_total_weight_capacity(),
+                                        loc->get_total_contained_volume(), loc->get_total_capacity(),
+                                        loc->max_containable_length(), loc->max_containable_volume(),
+                                        loc->get_total_holster_volume() - loc->get_used_holster_volume(),
+                                        loc->get_used_holsters(), loc->get_total_holsters() );
+}
+
 void inventory_selector::action_examine( const item_location &sitem )
 {
     // Code below pulled from the action_examine function in advanced_inv.cpp

@@ -554,7 +554,6 @@ void main_menu::load_char_templates()
         templates.push_back( path );
     }
     std::sort( templates.begin(), templates.end(), localized_compare );
-    std::reverse( templates.begin(), templates.end() );
 }
 
 bool main_menu::opening_screen()

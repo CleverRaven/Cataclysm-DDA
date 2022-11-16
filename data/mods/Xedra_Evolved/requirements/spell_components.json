@@ -86,14 +86,14 @@
     "type": "requirement",
     "tools": [
       [
-        [ "pen", -5 ],
-        [ "black_pen", -5 ],
-        [ "blue_pen", -5 ],
-        [ "red_pen", -5 ],
-        [ "green_pen", -5 ],
-        [ "pencil", -5 ],
-        [ "permanent_marker", -5 ],
-        [ "survival_marker", -5 ]
+        [ "pen", 10 ],
+        [ "black_pen", 10 ],
+        [ "blue_pen", 10 ],
+        [ "red_pen", 10 ],
+        [ "green_pen", 10 ],
+        [ "pencil", 10 ],
+        [ "permanent_marker", 10 ],
+        [ "survival_marker", 10 ]
       ]
     ],
     "components": [
@@ -143,7 +143,8 @@
   {
     "id": "spell_components_forging_dreamdross",
     "type": "requirement",
-    "components": [ [ [ "dreamdross_lump", 2 ], [ "scrap_dreamdross", 4 ] ], [ [ "xe_oneiric_hammer", 1 ] ] ]
+    "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
+    "components": [ [ [ "dreamdross_lump", 10 ], [ "scrap_dreamdross", 100 ] ] ]
   },
   {
     "id": "spell_components_human_blood",
