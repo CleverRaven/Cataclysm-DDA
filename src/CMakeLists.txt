@@ -149,7 +149,7 @@ if (TILES)
     endif ()
 
     if (LIBBACKTRACE)
-        target_link_libraries(cataclysm-tiles-common backtrace)
+        target_link_libraries(cataclysm-tiles-common PUBLIC backtrace)
     endif ()
 
     if (RELEASE)
