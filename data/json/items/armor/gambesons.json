@@ -1,7 +1,7 @@
 [
   {
     "id": "aketon_canvas_layered",
-    "//-1": "Going off the Rule of Nines for body proportions and assuming about 20 ft sq",
+    "//-1": "Going off the Rule of Nines for body proportions and assuming about 20 ft sq for the whole surface area of the body",
     "//": "roughly 0.25mm per sheet of canvas making this a 14-layer jack, sheets are 1x2 feet. 49 sheets for the vest and 18 sheets for the arms (67 total).",
     "//1": "human torso is about 7 sq. feet.  80g (canvas) x 14 (layers) x 3.5 (surface area) = 3920g",
     "//2": "human arms is about 3 sq. feet.  80g (canvas) x 12 (layers) x 1.5 (surface area) = 1440g",
@@ -36,6 +36,24 @@
     ]
   },
   {
+    "id": "xl_aketon_canvas_layered",
+    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
+    "type": "ARMOR",
+    "name": { "str": "XL canvas aketon" },
+    "copy-from": "aketon_canvas_layered",
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_aketon_canvas_layered",
+    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
+    "type": "ARMOR",
+    "name": { "str": "XS canvas aketon" },
+    "copy-from": "aketon_canvas_layered",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
     "id": "aketon_canvas_layered_vest",
     "//": "roughly 0.25mm per sheet of canvas making this a 14-layer jack, sheets are 1x2 feet. 49 sheets total.",
     "//1": "human torso is about 7 sq. feet.  80g (canvas) x 14 (layers) x 3.5 (surface area) = 3920g",
@@ -61,6 +79,24 @@
         "encumbrance": 10
       }
     ]
+  },
+  {
+    "id": "xl_aketon_canvas_layered_vest",
+    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
+    "type": "ARMOR",
+    "name": { "str": "XL canvas aketon vest" },
+    "copy-from": "aketon_canvas_layered_vest",
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_aketon_canvas_layered_vest",
+    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
+    "type": "ARMOR",
+    "name": { "str": "XS canvas aketon vest" },
+    "copy-from": "aketon_canvas_layered_vest",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "aketon_pants_canvas_layered",
@@ -90,32 +126,22 @@
     ]
   },
   {
-    "id": "aketon_neck_canvas_layered",
-    "//": "roughly 0.25mm per sheet of canvas making this 8 layers, sheets are 1x2 feet. 3 sheets total",
-    "//1": "human neck is about 0.75 sq. feet.  80g (canvas) x 8 (layers) x 0.375 (surface area) = 240g",
+    "id": "xl_aketon_pants_canvas_layered",
+    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
     "type": "ARMOR",
-    "name": { "str": "canvas neck protector", "str_pl": "canvas aketon neck protectors" },
-    "description": "A cloth gorget made of many canvas layers.  A little warm but keeps your throat safe from danger, and it will fit under metal armor too.",
-    "weight": "240 g",
-    "volume": "150 ml",
-    "price_postapoc": 750,
-    "to_hit": -5,
-    "material": [ "canvas" ],
-    "symbol": "[",
-    "looks_like": "scarf_loose",
-    "color": "light_gray",
-    "warmth": 5,
-    "material_thickness": 2.0,
-    "flags": [ "VARSIZE", "STURDY", "SKINTIGHT" ],
-    "armor": [
-      {
-        "material": [ { "type": "canvas", "covered_by_mat": 100, "thickness": 2.0 } ],
-        "covers": [ "head" ],
-        "specifically_covers": [ "head_throat" ],
-        "coverage": 100,
-        "encumbrance_modifiers": [ "WELL_SUPPORTED" ]
-      }
-    ]
+    "name": { "str": "XL canvas arming pants", "str_pl": "pairs of XL canvas arming pants" },
+    "copy-from": "aketon_pants_canvas_layered",
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_aketon_pants_canvas_layered",
+    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
+    "type": "ARMOR",
+    "name": { "str": "XS canvas arming pants", "str_pl": "pairs of XS canvas arming pants" },
+    "copy-from": "aketon_pants_canvas_layered",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "aketon_hood_canvas_layered",
@@ -132,7 +158,7 @@
     "symbol": "[",
     "looks_like": "cowl_wool",
     "color": "light_gray",
-    "warmth": 30,
+    "warmth": 25,
     "material_thickness": 2.0,
     "flags": [ "VARSIZE", "STURDY", "SKINTIGHT" ],
     "armor": [
@@ -144,6 +170,24 @@
         "encumbrance_modifiers": [ "WELL_SUPPORTED", "RESTRICTS_NECK" ]
       }
     ]
+  },
+  {
+    "id": "xl_aketon_hood_canvas_layered",
+    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
+    "type": "ARMOR",
+    "name": { "str": "XL canvas coif" },
+    "copy-from": "aketon_hood_canvas_layered",
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_aketon_hood_canvas_layered",
+    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
+    "type": "ARMOR",
+    "name": { "str": "XS canvas coif" },
+    "copy-from": "aketon_hood_canvas_layered",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "gambeson_canvas_layered",
@@ -199,6 +243,24 @@
     ]
   },
   {
+    "id": "xl_gambeson_canvas_layered",
+    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
+    "type": "ARMOR",
+    "name": { "str": "XL canvas gambeson" },
+    "copy-from": "gambeson_canvas_layered",
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_gambeson_canvas_layered",
+    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
+    "type": "ARMOR",
+    "name": { "str": "XS canvas gambeson" },
+    "copy-from": "gambeson_canvas_layered",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
     "id": "gambeson_canvas_layered_thinsleeved",
     "//-1": "Going off the Rule of Nines for body proportions and assuming about 20 ft sq",
     "//": "roughly 0.25mm per sheet of canvas making this a 14-layer jack, sheets are 1x2 feet. 105 sheets for the vest and 36 sheets for the arms (67 total).",
@@ -249,6 +311,24 @@
     ]
   },
   {
+    "id": "xl_gambeson_canvas_layered_thinsleeved",
+    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
+    "type": "ARMOR",
+    "name": { "str": "XL canvas gambeson (thinner sleeves)" },
+    "copy-from": "gambeson_canvas_layered_thinsleeved",
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_gambeson_canvas_layered_thinsleeved",
+    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
+    "type": "ARMOR",
+    "name": { "str": "XS canvas gambeson (thinner sleeves)" },
+    "copy-from": "gambeson_canvas_layered_thinsleeved",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
     "id": "gambeson_canvas_layered_vest",
     "//-1": "Going off the Rule of Nines for body proportions and assuming about 20 ft sq",
     "//": "roughly 0.25mm per sheet of canvas making this a 14-layer jack, sheets are 1x2 feet. 105 sheets for the vest and 36 sheets for the arms (67 total).",
@@ -291,6 +371,24 @@
     ]
   },
   {
+    "id": "xl_gambeson_canvas_layered_vest",
+    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
+    "type": "ARMOR",
+    "name": { "str": "XL canvas gambeson (thinner sleeves)" },
+    "copy-from": "gambeson_canvas_layered_vest",
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_gambeson_canvas_layered_vest",
+    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
+    "type": "ARMOR",
+    "name": { "str": "XS canvas gambeson (thinner sleeves)" },
+    "copy-from": "gambeson_canvas_layered_vest",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
     "id": "gambeson_pants_canvas_layered",
     "//": "roughly 0.25mm per sheet of canvas making these 24 layer pants, sheets are 1x2 feet. 72 sheets total",
     "//1": "human legs is about 6 sq. feet.  80g (canvas) x 24 (layers) x 3 (surface area) = 5760g",
@@ -319,5 +417,23 @@
         "encumbrance": 20
       }
     ]
+  },
+  {
+    "id": "xl_gambeson_pants_canvas_layered",
+    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
+    "type": "ARMOR",
+    "name": { "str": "XL canvas heavy arming pants", "str_pl": "pairs of XL canvas heavy arming pants" },
+    "copy-from": "gambeson_pants_canvas_layered",
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_gambeson_pants_canvas_layered",
+    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
+    "type": "ARMOR",
+    "name": { "str": "XS canvas heavy arming pants", "str_pl": "pairs of XS canvas heavy arming pants" },
+    "copy-from": "gambeson_pants_canvas_layered",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
   }
 ]
