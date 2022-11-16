@@ -362,6 +362,22 @@
   },
   {
     "type": "GENERIC",
+    "id": "cured_pelt_light",
+    "symbol": ",",
+    "color": "brown",
+    "name": { "str": "cured pelt" },
+    "description": "A rolled up light animal hide which has been scraped of extraneous hair and flesh and treated to prevent decay.  It still requires tanning to become usable fur.",
+    "price": 200,
+    "price_postapoc": 150,
+    "material": [ "fur", "flesh" ],
+    "flags": [ "NO_SALVAGE" ],
+    "weight": "335 g",
+    "volume": "465 ml",
+    "category": "spare_parts",
+    "to_hit": -1
+  },
+  {
+    "type": "GENERIC",
     "id": "tanned_pelt",
     "symbol": ",",
     "color": "brown",

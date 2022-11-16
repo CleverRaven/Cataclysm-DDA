@@ -3608,7 +3608,9 @@
       "sheet_nomex_patchwork",
       "sheet_lycra_patchwork",
       "sheet_nylon_patchwork",
-      "sheet_canvas_patchwork"
+      "sheet_canvas_patchwork",
+      "sheet_leather_light_patchwork",
+      "sheet_leather_hardened_patchwork"
     ],
     "difficulty": 1
   },
