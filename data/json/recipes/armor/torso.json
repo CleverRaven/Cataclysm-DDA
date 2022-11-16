@@ -86,7 +86,7 @@
     "time": "12 h",
     "book_learn": [ [ "textbook_armschina", 2 ] ],
     "reversible": true,
-    "using": [ [ "tailoring_cotton_small", 4 ], [ "tailoring_leather_patchwork", 8 ] ],
+    "using": [ [ "tailoring_cotton_small", 4 ], [ "tailoring_leather_hardened_patchwork", 8 ] ],
     "components": [ [ [ "cordage_superior", 4, "LIST" ] ] ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic" },
@@ -99,7 +99,7 @@
     "type": "recipe",
     "copy-from": "armor_lamellar",
     "time": "12 h",
-    "using": [ [ "tailoring_cotton_small", 3 ], [ "tailoring_leather_patchwork", 6 ] ],
+    "using": [ [ "tailoring_cotton_small", 3 ], [ "tailoring_leather_hardened_patchwork", 6 ] ],
     "components": [ [ [ "cordage_superior", 3, "LIST" ] ] ]
   },
   {
@@ -107,7 +107,7 @@
     "type": "recipe",
     "copy-from": "armor_lamellar",
     "time": "13 h 30 m",
-    "using": [ [ "tailoring_cotton_small", 5 ], [ "tailoring_leather_patchwork", 9 ] ],
+    "using": [ [ "tailoring_cotton_small", 5 ], [ "tailoring_leather_hardened_patchwork", 9 ] ],
     "components": [ [ [ "cordage_superior", 6, "LIST" ] ] ]
   },
   {
@@ -152,7 +152,7 @@
     "difficulty": 2,
     "time": "1 h",
     "autolearn": true,
-    "using": [ [ "tailoring_leather_patchwork", 1 ] ],
+    "using": [ [ "tailoring_leather_light_patchwork", 1 ] ],
     "book_learn": [ [ "mag_animecon", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" } ]
   },
@@ -508,7 +508,7 @@
     "difficulty": 8,
     "time": "9 h",
     "book_learn": [ [ "textbook_armwest", 7 ] ],
-    "using": [ [ "tailoring_leather_patchwork", 1 ], [ "blacksmithing_standard", 32 ], [ "steel_standard", 8 ] ],
+    "using": [ [ "tailoring_leather_hardened_patchwork", 1 ], [ "blacksmithing_standard", 32 ], [ "steel_standard", 8 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
     "proficiencies": [
@@ -524,7 +524,7 @@
     "type": "recipe",
     "copy-from": "cuirass_lightplate",
     "time": "9 h",
-    "using": [ [ "tailoring_leather_patchwork", 1 ], [ "blacksmithing_standard", 24 ], [ "steel_standard", 6 ] ],
+    "using": [ [ "tailoring_leather_hardened_patchwork", 1 ], [ "blacksmithing_standard", 24 ], [ "steel_standard", 6 ] ],
     "tools": [ [ [ "swage", -1 ] ] ]
   },
   {
@@ -532,7 +532,7 @@
     "type": "recipe",
     "copy-from": "cuirass_lightplate",
     "time": "10 h 10 m",
-    "using": [ [ "tailoring_leather_small", 6 ], [ "blacksmithing_standard", 44 ], [ "steel_standard", 10 ] ],
+    "using": [ [ "tailoring_leather_hardened_patchwork", 6 ], [ "blacksmithing_standard", 44 ], [ "steel_standard", 10 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
   },
@@ -2900,8 +2900,8 @@
     "difficulty": 4,
     "time": "12 h",
     "autolearn": true,
-    "byproducts": [ [ "leather", 2 ], [ "scrap_leather", 5 ] ],
-    "using": [ [ "tailoring_leather_patchwork", 7 ] ],
+    "byproducts": [ [ "leather_hardened", 2 ], [ "scrap_leather_hardened", 5 ] ],
+    "using": [ [ "tailoring_leather_hardened_patchwork", 7 ] ],
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ]
   },
   {
@@ -2909,15 +2909,15 @@
     "type": "recipe",
     "copy-from": "armor_larmor_chest",
     "time": "12 h",
-    "byproducts": [ [ "leather", 6 ], [ "scrap_leather", 1 ] ],
-    "using": [ [ "tailoring_leather_patchwork", 5 ] ]
+    "byproducts": [ [ "leather_hardened", 6 ], [ "scrap_leather_hardened", 1 ] ],
+    "using": [ [ "tailoring_leather_hardened_patchwork", 5 ] ]
   },
   {
     "result": "xl_armor_larmor_chest",
     "type": "recipe",
     "copy-from": "armor_larmor_chest",
     "time": "14 h",
-    "byproducts": [ [ "leather", 2 ], [ "scrap_leather", 1 ] ],
-    "using": [ [ "tailoring_leather_patchwork", 9 ] ]
+    "byproducts": [ [ "leather_hardened", 2 ], [ "scrap_leather_hardened", 1 ] ],
+    "using": [ [ "tailoring_leather_hardened_patchwork", 9 ] ]
   }
 ]

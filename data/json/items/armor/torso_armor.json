@@ -85,7 +85,7 @@
     "volume": "9250 ml",
     "price": 26000,
     "price_postapoc": 2500,
-    "material": [ "leather" ],
+    "material": [ "leather_hardened" ],
     "symbol": "[",
     "looks_like": "vest_leather",
     "copy-from": "armor_chitin",
@@ -97,10 +97,10 @@
     "armor": [
       {
         "material": [
-          { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 },
-          { "//": "this simulates the overlapping plates", "type": "leather", "covered_by_mat": 40, "thickness": 2.0 }
+          { "type": "leather_hardened", "covered_by_mat": 100, "thickness": 2.0 },
+          { "//": "this simulates the overlapping plates", "type": "leather_hardened", "covered_by_mat": 40, "thickness": 2.0 }
         ],
-        "encumbrance": 8,
+        "encumbrance": 9,
         "coverage": 100,
         "cover_ranged": 95,
         "cover_vitals": 70,
@@ -108,8 +108,8 @@
       },
       {
         "material": [
-          { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 },
-          { "//": "this simulates the overlapping plates", "type": "leather", "covered_by_mat": 40, "thickness": 2.0 }
+          { "type": "leather_hardened", "covered_by_mat": 100, "thickness": 2.0 },
+          { "//": "this simulates the overlapping plates", "type": "leather_hardened", "covered_by_mat": 40, "thickness": 2.0 }
         ],
         "encumbrance": 4,
         "coverage": 90,
@@ -148,7 +148,7 @@
     "price_postapoc": 3500,
     "to_hit": -5,
     "bashing": 6,
-    "material": [ "iron", "leather" ],
+    "material": [ "iron", "leather_hardened" ],
     "symbol": "[",
     "longest_side": "60 cm",
     "looks_like": "armor_lamellar",
@@ -195,7 +195,7 @@
     "price_postapoc": 7000,
     "to_hit": -5,
     "bashing": 6,
-    "material": [ "fancy_bronze", "leather" ],
+    "material": [ "fancy_bronze", "leather_hardened" ],
     "symbol": "[",
     "longest_side": "60 cm",
     "looks_like": "armor_lorica",
@@ -675,7 +675,7 @@
     "price": 20000,
     "price_postapoc": 4000,
     "to_hit": -1,
-    "material": [ "steel", "leather" ],
+    "material": [ "steel", "leather_hardened" ],
     "symbol": "[",
     "looks_like": "chestguard_hard",
     "color": "light_gray",
@@ -1935,7 +1935,7 @@
     "price_postapoc": 1250,
     "to_hit": -5,
     "bashing": 2,
-    "material": [ "leather" ],
+    "material": [ "leather_hardened" ],
     "symbol": "[",
     "longest_side": "60 cm",
     "looks_like": "cuirass_bronze",
@@ -1945,7 +1945,7 @@
         "covers": [ "torso" ],
         "coverage": 95,
         "encumbrance": 17,
-        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 4.5 } ]
+        "material": [ { "type": "leather_hardened", "covered_by_mat": 100, "thickness": 4.5 } ]
       },
       {
         "covers": [ "arm_l", "arm_r" ],

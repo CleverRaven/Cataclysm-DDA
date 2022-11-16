@@ -1,37 +1,5 @@
 [
   {
-    "id": "armor_blarmor",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "boiled leather armor" },
-    "description": "Thick leather body armor that has been hardened via chemical treatment.  Light and strong.",
-    "weight": "6600 g",
-    "volume": "9500 ml",
-    "price": 26000,
-    "price_postapoc": 3000,
-    "to_hit": -5,
-    "bashing": 2,
-    "material": [ "leather" ],
-    "symbol": "[",
-    "longest_side": "60 cm",
-    "looks_like": "armor_larmor",
-    "color": "brown",
-    "armor": [
-      {
-        "covers": [ "torso" ],
-        "coverage": 95,
-        "encumbrance": 22,
-        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 6.5 } ]
-      },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": 18 },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 85, "encumbrance": 18 }
-    ],
-    "warmth": 20,
-    "material_thickness": 6,
-    "valid_mods": [ "steel_padded" ],
-    "flags": [ "VARSIZE", "STURDY", "OUTER" ]
-  },
-  {
     "id": "armor_chitin",
     "type": "ARMOR",
     "category": "armor",
@@ -182,7 +150,7 @@
     "price_postapoc": 2500,
     "to_hit": -5,
     "bashing": 2,
-    "material": [ "leather" ],
+    "material": [ "leather_hardened" ],
     "symbol": "[",
     "longest_side": "60 cm",
     "looks_like": "touring_suit",
@@ -191,11 +159,11 @@
       {
         "covers": [ "torso" ],
         "coverage": 95,
-        "encumbrance": 16,
-        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 4.5 } ]
+        "encumbrance": 18,
+        "material": [ { "type": "leather_hardened", "covered_by_mat": 100, "thickness": 4.5 } ]
       },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": 14 },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 85, "encumbrance": 14 }
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": 16 },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 85, "encumbrance": 16 }
     ],
     "warmth": 25,
     "material_thickness": 4,
@@ -1277,7 +1245,7 @@
     "price_postapoc": 3000,
     "to_hit": -5,
     "bashing": 2,
-    "material": [ "leather", "budget_steel" ],
+    "material": [ "leather_hardened", "budget_steel" ],
     "symbol": "[",
     "color": "brown",
     "longest_side": "60 cm",
@@ -1286,18 +1254,18 @@
       {
         "covers": [ "torso" ],
         "coverage": 95,
-        "encumbrance": 22,
+        "encumbrance": 24,
         "material": [
-          { "type": "leather", "covered_by_mat": 100, "thickness": 4.5 },
+          { "type": "leather_hardened", "covered_by_mat": 100, "thickness": 4.5 },
           { "type": "budget_steel", "covered_by_mat": 85, "thickness": 1.75 }
         ]
       },
       {
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 90,
-        "encumbrance": 22,
+        "encumbrance": 24,
         "material": [
-          { "type": "leather", "covered_by_mat": 100, "thickness": 4 },
+          { "type": "leather_hardened", "covered_by_mat": 100, "thickness": 4 },
           { "type": "budget_steel", "covered_by_mat": 75, "thickness": 1.25 }
         ],
         "specifically_covers": [ "arm_lower_l", "arm_lower_r", "arm_upper_r", "arm_upper_l" ]
@@ -1306,15 +1274,15 @@
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 90,
         "encumbrance": 0,
-        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 4 } ],
+        "material": [ { "type": "leather_hardened", "covered_by_mat": 100, "thickness": 4 } ],
         "specifically_covers": [ "arm_elbow_l", "arm_elbow_r", "arm_shoulder_l", "arm_shoulder_r" ]
       },
       {
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 85,
-        "encumbrance": 22,
+        "encumbrance": 24,
         "material": [
-          { "type": "leather", "covered_by_mat": 100, "thickness": 4 },
+          { "type": "leather_hardened", "covered_by_mat": 100, "thickness": 4 },
           { "type": "budget_steel", "covered_by_mat": 70, "thickness": 1.25 }
         ],
         "specifically_covers": [ "leg_lower_l", "leg_lower_r", "leg_upper_l", "leg_upper_r" ]
@@ -1323,7 +1291,7 @@
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 85,
         "encumbrance": 0,
-        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 4 } ],
+        "material": [ { "type": "leather_hardened", "covered_by_mat": 100, "thickness": 4 } ],
         "specifically_covers": [ "leg_hip_l", "leg_hip_r", "leg_knee_l", "leg_knee_r" ]
       }
     ],
@@ -1393,7 +1361,7 @@
     "price": 90000,
     "price_postapoc": 8000,
     "bashing": 8,
-    "material": [ "iron", "leather" ],
+    "material": [ "iron", "leather_hardened" ],
     "symbol": "[",
     "looks_like": "armor_lightplate",
     "color": "dark_gray",

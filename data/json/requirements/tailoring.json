@@ -431,6 +431,20 @@
     "components": [ [ [ "tanned_hide", 1 ], [ "sheet_leather_patchwork", 1 ] ], [ [ "filament", 7, "LIST" ] ] ]
   },
   {
+    "id": "tailoring_leather_light_patchwork",
+    "type": "requirement",
+    "//": "275g per unit. Crafting leather items, per 296 g of leather; 21 g + excessive weight of material is wasted, producing leather patches as byproducts.  Time needed is usually 60 minutes per unit if hand-stitching.",
+    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "FABRIC_CUT", "level": 1 }, { "id": "LEATHER_AWL", "level": 1 } ],
+    "components": [ [ [ "tanned_hide_light", 1 ], [ "sheet_leather_light_patchwork", 1 ] ], [ [ "filament", 7, "LIST" ] ] ]
+  },
+  {
+    "id": "tailoring_leather_hardened_patchwork",
+    "type": "requirement",
+    "//": "275g per unit. Crafting leather items, per 296 g of leather; 21 g + excessive weight of material is wasted, producing leather patches as byproducts.  Time needed is usually 60 minutes per unit if hand-stitching.",
+    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "FABRIC_CUT", "level": 1 }, { "id": "LEATHER_AWL", "level": 1 } ],
+    "components": [ [ [ "sheet_leather_hardened_patchwork", 1 ] ], [ [ "filament", 7, "LIST" ] ] ]
+  },
+  {
     "id": "tailoring_leather_patchwork_simple",
     "type": "requirement",
     "//": "275g per unit. Crafting leather items, per 296 g of leather; 21 g + excessive weight of material is wasted, producing leather patches as byproducts.  Time needed is usually 60 minutes per unit if hand-stitching.  Used for simpler items where precision cutting is less important.",

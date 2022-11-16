@@ -168,7 +168,7 @@
     "volume": "250 ml",
     "price": 3500,
     "price_postapoc": 50,
-    "material": [ "leather" ],
+    "material": [ "leather_light" ],
     "symbol": "[",
     "looks_like": "bikini_top",
     "color": "dark_gray",
