@@ -40,14 +40,9 @@
     "description": "A security camera with a cage built around it to protect it from damage without reducing its effectiveness.",
     "weight": "1400 g",
     "to_hit": -5,
-    "color": "light_blue",
-    "symbol": "+",
     "material": [ "steel", "plastic" ],
-    "volume": "2 L",
-    "category": "veh_parts",
     "price": 20000,
     "price_postapoc": 1500,
-    "flags": [ "WATER_BREAK", "ELECTRONIC" ]
   },
   {
     "type": "GENERIC",
