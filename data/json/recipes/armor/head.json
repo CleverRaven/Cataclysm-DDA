@@ -608,7 +608,7 @@
     "time": "2 h",
     "autolearn": true,
     "book_learn": [ [ "textbook_arthropod", 5 ] ],
-    "using": [ [ "armor_chitin", 12]],
+    "using": [ [ "armor_chitin", 12 ] ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_chitinworking" },
@@ -620,14 +620,14 @@
     "type": "recipe",
     "copy-from": "helmet_chitin",
     "time": "1 h 30 m",
-    "using": [ [ "armor_chitin", 9 ] ] 
+    "using": [ [ "armor_chitin", 9 ] ]
   },
   {
     "result": "xl_helmet_chitin",
     "type": "recipe",
     "copy-from": "helmet_chitin",
     "time": "2 h 50 m",
-    "using": [ [ "armor_chitin", 17 ] ] 
+    "using": [ [ "armor_chitin", 17 ] ]
   },
   {
     "result": "helmet_conical",
