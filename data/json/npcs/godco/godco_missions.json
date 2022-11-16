@@ -137,7 +137,7 @@
     "followup": "MISSION_GODCO_DARRYL_WELL2",
     "dialogue": {
       "describe": "I need eight pipes to start construction.",
-      "offer": "Now that's some enthusiasm, pal.  Ever since our water supply shut off, we've been using the nearby river for most of our water needs.  Who knows how many bloated corpses have decayed in that.  A want to construct a well, but I'm missing some building materials - eight pipes to be exact.",
+      "offer": "Now that's some enthusiasm, pal.  Ever since our water supply shut off, we've been using the nearby river for most of our water needs.  Who knows how many bloated corpses have decayed in that.  I want to construct a well, but I'm missing some building materials - eight pipes to be exact.",
       "accepted": "I wish you the best, pal.  I appreciate it.",
       "rejected": "Come back when you get a chance.",
       "advice": "Try disassembling some lockers.  Just don't destroy our furniture, we'll be needing it.",
