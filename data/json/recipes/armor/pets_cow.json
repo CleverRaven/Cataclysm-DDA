@@ -85,7 +85,7 @@
     "difficulty": 3,
     "time": "5 h 30 m",
     "byproducts": [ [ "leather", 25 ] ],
-    "using": [ [ "sewing_standard", 36 ], [ "clasps", 5 ], ["tailoring_leather_hardened_patchwork", 48] ],
+    "using": [ [ "sewing_standard", 36 ], [ "clasps", 5 ], [ "tailoring_leather_hardened_patchwork", 48 ] ],
     "components": [ [ [ "cotton_patchwork", 21 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic" },
@@ -100,7 +100,7 @@
     "copy-from": "leather_armor_cow",
     "difficulty": 4,
     "time": "7 h 45 m",
-    "using": [ [ "sewing_standard", 90 ], [ "clasps", 5 ], ["tailoring_leather_hardened_patchwork", 48] ],
+    "using": [ [ "sewing_standard", 90 ], [ "clasps", 5 ], [ "tailoring_leather_hardened_patchwork", 48 ] ],
     "components": [ [ [ "bone", 46 ], [ "bone_human", 46 ], [ "bone_demihuman", 46 ] ] ],
     "extend": { "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_carving" } ] }
   },

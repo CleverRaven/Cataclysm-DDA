@@ -555,23 +555,13 @@
     "flags": [ "VARSIZE", "OUTER", "STURDY" ],
     "armor": [
       {
-        "covers": [
-          "leg_l",
-          "leg_r"
-        ],
+        "covers": [ "leg_l", "leg_r" ],
         "encumbrance": 8,
         "coverage": 95,
         "cover_melee": 95,
         "cover_ranged": 95,
         "cover_vitals": 90,
-        "specifically_covers": [
-          "leg_lower_r",
-          "leg_lower_l",
-          "leg_knee_r",
-          "leg_knee_l",
-          "leg_upper_r",
-          "leg_upper_l"
-        ]
+        "specifically_covers": [ "leg_lower_r", "leg_lower_l", "leg_knee_r", "leg_knee_l", "leg_upper_r", "leg_upper_l" ]
       }
     ]
   },

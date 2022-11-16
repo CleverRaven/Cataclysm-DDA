@@ -81,7 +81,7 @@
     "difficulty": 3,
     "time": "4 h 30 m",
     "byproducts": [ [ "leather", 21 ] ],
-    "using": [ [ "sewing_standard", 30 ], [ "clasps", 4 ], ["tailoring_leather_hardened_patchwork", 48] ],
+    "using": [ [ "sewing_standard", 30 ], [ "clasps", 4 ], [ "tailoring_leather_hardened_patchwork", 48 ] ],
     "components": [ [ [ "cotton_patchwork", 18 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic" },
@@ -96,7 +96,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "difficulty": 4,
     "time": "6 h 30 m",
-    "using": [ [ "sewing_standard", 75 ], [ "clasps", 4 ], ["tailoring_leather_hardened_patchwork", 48] ],
+    "using": [ [ "sewing_standard", 75 ], [ "clasps", 4 ], [ "tailoring_leather_hardened_patchwork", 48 ] ],
     "components": [ [ [ "bone", 39 ], [ "bone_human", 39 ], [ "bone_demihuman", 39 ] ] ],
     "extend": { "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_carving" } ] }
   },

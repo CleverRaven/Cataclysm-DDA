@@ -94,10 +94,7 @@
     "subcategory": "CSC_CHEM_OTHER",
     "skill_used": "chemistry",
     "difficulty": 3,
-    "batch_time_factors": [
-      80,
-      1
-    ],
+    "batch_time_factors": [ 80, 1 ],
     "skills_required": [ "tailor", 1 ],
     "time": "20 m",
     "book_learn": [
@@ -119,7 +116,14 @@
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "components": [
       [ [ "water", 10 ], [ "water_clean", 10 ] ],
-      [ [ "wax", 2 ], [ "any_tallow", 8, "LIST" ], ["bone_glue", 1], [ "vinegar", 10 ], [ "pine_bough", 20 ], ["ammonia_hydroxide", 10] ]
+      [
+        [ "wax", 2 ],
+        [ "any_tallow", 8, "LIST" ],
+        [ "bone_glue", 1 ],
+        [ "vinegar", 10 ],
+        [ "pine_bough", 20 ],
+        [ "ammonia_hydroxide", 10 ]
+      ]
     ]
   },
   {
