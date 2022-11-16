@@ -330,6 +330,7 @@
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
+    "//": "Quest handled via external dialogue, player will never see this text.",
     "dialogue": {
       "describe": "Kill whatever's keeping Zachary up at night.",
       "offer": ".",
