@@ -205,6 +205,8 @@
       "POISONOUS",
       "POISONOUS2",
       "RADIOGENIC",
+      "RESISTCHILL",
+      "RESISTWARM",
       "ROBUST",
       "STOCKY_TROGLO",
       "STRONGBACK",
@@ -1278,9 +1280,20 @@
     "points": -1,
     "description": "Whether due to injury or age, your knees aren't particularly strong or flexible.  Moving over rough terrain will slow you down more than normal.",
     "starting_trait": true,
-    "cancels": [ "STRONGKNEES" ],
+    "cancels": [ "STRONGKNEES", "REALLYBADKNEES" ],
     "valid": false,
     "movecost_obstacle_modifier": 1.25
+  },
+  {
+    "type": "mutation",
+    "id": "REALLYBADKNEES",
+    "name": { "str": "Stiff Knees" },
+    "points": -3,
+    "description": "Your knees never bend.  Period.  Stiff as a metal pole.  Pray that your journey doesn't involve stairs or slightly uneven terrain.",
+    "starting_trait": true,
+    "cancels": [ "STRONGKNEES", "BADKNEES" ],
+    "valid": false,
+    "movecost_obstacle_modifier": 3.5
   },
   {
     "type": "mutation",
@@ -1289,7 +1302,7 @@
     "points": 1,
     "description": "Your knees are strong and capable of angles that you couldn't imagine previously.  Moving over rough terrain will slow you down less than normal.",
     "category": [ "BATRACHIAN" ],
-    "cancels": [ "BADKNEES" ],
+    "cancels": [ "BADKNEES", "REALLYBADKNEES" ],
     "movecost_obstacle_modifier": 0.9
   },
   {
@@ -8240,5 +8253,25 @@
     "points": 0,
     "valid": false,
     "purifiable": false
+  },
+  {
+    "type": "mutation",
+    "id": "RESISTCHILL",
+    "name": { "str": "Cold Tolerance" },
+    "points": 1,
+    "description": "You fare better than most in colder climates and are less bothered by lower temperatures.  Note that while you are slightly less prone to developing frostbite as a result, you aren't any better at dealing with the symptoms.",
+    "starting_trait": true,
+    "category": [ "LUPINE", "URSINE", "CATTLE", "FELINE", "RABBIT", "MOUSE", "BEAST", "PLANT" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 10 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "RESISTWARM",
+    "name": { "str": "Heat Tolerance" },
+    "points": 1,
+    "description": "You fare better than most in warmer climates and are less bothered by hotter temperatures.  Note that while you'll sweat a little less in close proximity to a fire as a result, burns will still hurt just as much.",
+    "starting_trait": true,
+    "category": [ "FISH", "CEPHALOPOD", "GASTROPOD", "LIZARD", "BATRACHIAN", "PLANT" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 10 } ] } ]
   }
 ]

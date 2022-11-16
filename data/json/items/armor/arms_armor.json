@@ -225,7 +225,7 @@
     "category": "armor",
     "name": { "str": "pair of leather arm guards", "str_pl": "pairs of leather arm guards" },
     "description": "A pair of tough leather arm guards.  Light and comfortable.",
-    "weight": "430 g",
+    "weight": "730 g",
     "volume": "2 L",
     "price": 4000,
     "price_postapoc": 1000,
@@ -241,12 +241,12 @@
     "armor": [
       {
         "covers": [ "arm_l", "arm_r" ],
-        "encumbrance": 4,
-        "coverage": 95,
+        "encumbrance": 5,
+        "coverage": 90,
         "cover_melee": 95,
         "cover_ranged": 95,
         "cover_vitals": 90,
-        "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_elbow_r", "arm_elbow_l" ]
+        "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_elbow_r", "arm_elbow_l", "arm_upper_l", "arm_upper_r" ]
       }
     ]
   },
@@ -255,9 +255,8 @@
     "type": "ARMOR",
     "name": { "str": "pair of XL leather arm guards", "str_pl": "pairs of XL leather arm guards" },
     "description": "A pair of gigantic leather arm guards.  Heavy but comfortable.",
-    "weight": "730 g",
-    "volume": "3 L",
     "copy-from": "armguard_larmor",
+    "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
