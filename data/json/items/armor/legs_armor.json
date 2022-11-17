@@ -350,7 +350,7 @@
     "color": "brown",
     "warmth": 18,
     "material_thickness": 5,
-    "flags": [ "VARSIZE", "OUTER", "STURDY" ],
+    "flags": [ "VARSIZE", "OUTER", "STURDY", "WATERPROOF" ],
     "armor": [
       {
         "covers": [ "leg_l", "leg_r" ],
