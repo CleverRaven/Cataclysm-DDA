@@ -597,7 +597,7 @@
     "warmth": 10,
     "material_thickness": 4.5,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY" ],
+    "flags": [ "VARSIZE", "STURDY", "WATERPROOF" ],
     "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 85, "covers": [ "head" ] } ]
   },
   {

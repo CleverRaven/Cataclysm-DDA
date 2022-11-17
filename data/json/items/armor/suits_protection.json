@@ -144,7 +144,7 @@
     "category": "armor",
     "name": { "str": "leather body armor" },
     "description": "A full suit of thick leather body armor.  Light and comfortable.",
-    "weight": "4400 g",
+    "weight": "4844 g",
     "volume": "7 L",
     "price": 12000,
     "price_postapoc": 2500,
@@ -168,7 +168,7 @@
     "warmth": 25,
     "material_thickness": 4,
     "valid_mods": [ "steel_padded" ],
-    "flags": [ "VARSIZE", "STURDY", "OUTER" ]
+    "flags": [ "VARSIZE", "STURDY", "OUTER", "WATERPROOF" ]
   },
   {
     "id": "xl_armor_larmor",

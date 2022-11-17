@@ -93,7 +93,7 @@
     "longest_side": "60 cm",
     "warmth": 20,
     "material_thickness": 3,
-    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
+    "flags": [ "VARSIZE", "STURDY", "OUTER", "WATERPROOF" ],
     "armor": [
       {
         "material": [
@@ -150,7 +150,9 @@
   {
     "id": "armor_lorica",
     "type": "ARMOR",
-    "name": { "str_sp": "lorica segmentata" },
+    "name": {
+      "str_sp": "lorica segmentata"
+    },
     "description": "An ancient Roman laminar armor, made of overlapping metal strips connected to internal leather straps.",
     "weight": "5286 g",
     "volume": "6 L",
@@ -158,35 +160,40 @@
     "price_postapoc": 3500,
     "to_hit": -5,
     "bashing": 6,
-    "material": [ "steel", "leather" ],
+    "material": [
+      "iron",
+      "leather"
+    ],
     "symbol": "[",
     "longest_side": "60 cm",
     "looks_like": "armor_lamellar",
     "color": "light_gray",
     "warmth": 15,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "OUTER", "STURDY" ],
+    "flags": [
+      "VARSIZE",
+      "OUTER",
+      "STURDY"
+    ],
     "armor": [
       {
         "encumbrance": 15,
         "coverage": 90,
-        "covers": [ "torso" ],
-        "material": [
-          { "type": "steel", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "steel", "covered_by_mat": 40, "thickness": 1.0 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        "covers": [
+          "torso"
         ]
       },
       {
         "encumbrance": 3,
         "coverage": 90,
-        "covers": [ "arm_l", "arm_r" ],
-        "material": [
-          { "type": "steel", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "steel", "covered_by_mat": 40, "thickness": 1.0 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        "covers": [
+          "arm_l",
+          "arm_r"
         ],
-        "specifically_covers": [ "arm_shoulder_r", "arm_shoulder_l" ]
+        "specifically_covers": [
+          "arm_shoulder_r",
+          "arm_shoulder_l"
+        ]
       }
     ]
   },
@@ -1953,7 +1960,7 @@
     "category": "armor",
     "name": { "str": "leather armor cuirass", "str_pl": "leather armor cuirasses" },
     "description": "A leather chest plate with attached shoulder guards.",
-    "weight": "3250 g",
+    "weight": "3570 g",
     "volume": "3500 ml",
     "price": 6000,
     "price_postapoc": 1250,

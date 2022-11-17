@@ -1590,7 +1590,7 @@
     "warmth": 25,
     "material_thickness": 4,
     "valid_mods": [ "steel_padded" ],
-    "flags": [ "STURDY", "OUTER", "WATER_FRIENDLY" ],
+    "flags": [ "STURDY", "OUTER", "WATERPROOF" ],
     "armor": [ { "covers": [ "leg_l", "leg_r" ], "encumbrance": 7, "coverage": 85 } ]
   },
   {
