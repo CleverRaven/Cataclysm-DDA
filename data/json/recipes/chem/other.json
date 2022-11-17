@@ -117,12 +117,11 @@
     "components": [
       [ [ "water", 10 ], [ "water_clean", 10 ] ],
       [
-        [ "wax", 2 ],
-        [ "any_tallow", 8, "LIST" ],
+        [ "wax", 1 ],
         [ "bone_glue", 1 ],
-        [ "vinegar", 10 ],
-        [ "pine_bough", 20 ],
-        [ "ammonia_hydroxide", 10 ]
+        [ "pine_bough", 1 ],
+        [ "vinegar", 2 ],
+        [ "ammonia_hydroxide", 2 ]
       ]
     ]
   },
