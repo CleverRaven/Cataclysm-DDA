@@ -247,7 +247,7 @@
     "type": "GENERIC",
     "id": "wood_block",
     "name": { "str": "small wood block" },
-    "description": "A small 2 by 2 by 5 inches block of wood, primarily used for carving out small wooden objects.",
+    "description": "A small 2x2x5 inches block of wood, primarily used for carving out small wooden objects.",
     "category": "spare_parts",
     "weight": "194 g",
     "color": "brown",
