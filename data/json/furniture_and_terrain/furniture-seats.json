@@ -331,7 +331,7 @@
     "id": "f_bench_park",
     "name": "park bench",
     "symbol": "#",
-    "description": "A wooden bench with a metal frame and a back support.  Still cold and uncomfortable to sleep on but seating on it is not terrible.",
+    "description": "A wooden bench with a metal frame and a back support.  Still cold and uncomfortable to sleep on but sitting on it is not terrible.",
     "//": "The numbers are adjusted in such a way that the park bench should appear on two tiles next to each other.",
     "color": "brown",
     "move_cost_mod": 1,
