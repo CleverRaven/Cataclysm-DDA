@@ -1572,5 +1572,45 @@
     "warmth": 25,
     "material_thickness": 2.0,
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
+  },
+  {
+    "id": "legguard_larmor",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pair of leather leg guards", "str_pl": "pairs of leather leg guards" },
+    "description": "A pair of tough leather leg guards.  Light and comfortable.",
+    "weight": "765 g",
+    "volume": "2 L",
+    "price": 4000,
+    "price_postapoc": 1000,
+    "to_hit": 1,
+    "material": [ "leather" ],
+    "symbol": "[",
+    "looks_like": "legguard_bronze",
+    "color": "brown",
+    "warmth": 25,
+    "material_thickness": 4,
+    "valid_mods": [ "steel_padded" ],
+    "flags": [ "STURDY", "OUTER", "WATER_FRIENDLY" ],
+    "armor": [ { "covers": [ "leg_l", "leg_r" ], "encumbrance": 7, "coverage": 85 } ]
+  },
+  {
+    "id": "xl_legguard_larmor",
+    "type": "ARMOR",
+    "name": { "str": "pair of XL leather leg guards", "str_pl": "pairs of XL leather leg guards" },
+    "description": "A pair of gigantic leather arm guards.  Heavy but comfortable.",
+    "copy-from": "legguard_larmor",
+    "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_legguard_larmor",
+    "type": "ARMOR",
+    "copy-from": "legguard_larmor",
+    "looks_like": "legguard_larmor",
+    "name": { "str": "pair of XS leather leg guards", "str_pl": "pairs of XS leather leg guards" },
+    "description": "A pair of tiny, tough leather arm guards.  Light and comfortable.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
   }
 ]
