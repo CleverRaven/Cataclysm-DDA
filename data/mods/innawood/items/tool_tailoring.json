@@ -37,7 +37,20 @@
     "use_action": {
       "type": "repair_item",
       "item_action_type": "repair_fabric",
-      "materials": [ "cotton", "leather", "lycra", "nylon", "wool", "fur", "faux_fur", "nomex", "kevlar", "kevlar_layered", "gutskin" ],
+      "materials": [
+        "cotton",
+        "leather",
+        "leather_hardened",
+        "lycra",
+        "nylon",
+        "wool",
+        "fur",
+        "faux_fur",
+        "nomex",
+        "kevlar",
+        "kevlar_layered",
+        "gutskin"
+      ],
       "skill": "tailor",
       "tool_quality": 0,
       "cost_scaling": 0.1,
@@ -70,6 +83,7 @@
         "materials": [
           "cotton",
           "leather",
+          "leather_hardened",
           "lycra",
           "nylon",
           "wool",
@@ -91,6 +105,7 @@
         "materials": [
           "cotton",
           "leather",
+          "leather_hardened",
           "lycra",
           "nylon",
           "wool",
