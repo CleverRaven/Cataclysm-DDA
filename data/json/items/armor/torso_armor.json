@@ -215,9 +215,9 @@
     "material_thickness": 5,
     "flags": [ "VARSIZE", "OUTER", "STURDY", "WATERPROOF" ],
     "armor": [
-      { "encumbrance": 17, "coverage": 93, "cover_melee": 95, "cover_ranged": 90, "cover_vitals": 100, "covers": [ "torso" ] },
+      { "encumbrance": 18, "coverage": 93, "cover_melee": 95, "cover_ranged": 90, "cover_vitals": 100, "covers": [ "torso" ] },
       {
-        "encumbrance": 17,
+        "encumbrance": 18,
         "coverage": 93,
         "cover_melee": 95,
         "cover_ranged": 90,
@@ -1954,7 +1954,7 @@
       {
         "covers": [ "torso" ],
         "coverage": 95,
-        "encumbrance": 17,
+        "encumbrance": 18,
         "material": [ { "type": "leather_hardened", "covered_by_mat": 100, "thickness": 4.5 } ]
       },
       {

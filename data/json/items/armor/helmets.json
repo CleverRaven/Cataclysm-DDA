@@ -586,7 +586,7 @@
     "category": "armor",
     "name": { "str": "leather armor helmet" },
     "description": "A thick leather helmet that provides excellent protection for the head.",
-    "weight": "658 g",
+    "weight": "723 g",
     "volume": "2 L",
     "price": 14000,
     "price_postapoc": 2000,

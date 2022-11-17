@@ -237,11 +237,11 @@
     "warmth": 25,
     "material_thickness": 4,
     "valid_mods": [ "steel_padded" ],
-    "flags": [ "STURDY", "OUTER", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ],
+    "flags": [ "STURDY", "OUTER", "BLOCK_WHILE_WORN", "WATER_FRIENDLY", "VARSIZE" ],
     "armor": [
       {
         "covers": [ "arm_l", "arm_r" ],
-        "encumbrance": 5,
+        "encumbrance": 12,
         "coverage": 90,
         "cover_melee": 95,
         "cover_ranged": 95,
