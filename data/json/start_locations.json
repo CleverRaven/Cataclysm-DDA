@@ -614,7 +614,7 @@
   {
     "type": "start_location",
     "id": "nuclear_plant",
-    "name": "Nuclear power plant",
+    "name": "Nuclear Power Plant",
     "terrain": [ "nuclear_plant_5_5_1", "nuclear_plant_10_5_1" ]
   }
 ]
