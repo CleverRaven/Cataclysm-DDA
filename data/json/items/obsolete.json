@@ -652,7 +652,7 @@
     "longest_side": "60 cm",
     "material_thickness": 4,
     "flags": [ "OUTER", "STURDY" ],
-    "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ]
+    "armor": [ { "encumbrance": 25, "coverage": 95, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ]
   },
   {
     "id": "xl_armor_lightplate",
