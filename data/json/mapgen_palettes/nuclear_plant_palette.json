@@ -20,6 +20,7 @@
       "r": [ [ "t_metal_flat_roof", 200 ], [ "t_metal_roof", 1 ] ],
       "_": "t_metal_floor",
       "*": "t_metal_floor",
+      "N": "t_metal_floor",
       "#": "t_grate",
       "a": [ [ "t_pavement", 900 ], [ "t_region_groundcover_barren", 1 ], [ "t_region_groundcover", 1 ] ],
       "A": "t_pavement_y",
@@ -38,7 +39,7 @@
       "n": [ [ "t_sai_box", 90 ], [ "t_sai_box_damaged", 10 ] ],
       "x": "t_rad_platform",
       "G": "t_generator_broken",
-      "y": "t_carpet_concrete_yellow",
+      "y": "t_carpet_strconcrete_yellow",
       "H": "t_railroad_track_small",
       "-": "t_railroad_track",
       "|": "t_railroad_tie",
@@ -191,10 +192,7 @@
         { "item": "metal_workshop", "chance": 15 }
       ]
     },
-    "fields": {
-      "*": { "field": "fd_nuke_gas", "intensity": 3, "age": 990 },
-      "N": { "field": "fd_nuke_gas", "intensity": 2, "age": 990 }
-    },
+    "fields": { "*": { "field": "fd_nuke_gas", "intensity": 3, "age": 990 } },
     "liquids": { "o": { "liquid": "water_clean", "amount": [ 0, 1000 ] }, "h": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
     "monster": {
       ".": { "group": "DUMP_ANIMALS", "chance": 1 },
