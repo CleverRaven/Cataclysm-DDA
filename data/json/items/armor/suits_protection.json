@@ -1297,7 +1297,7 @@
     ],
     "warmth": 25,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "STURDY", "OUTER", "WATER_PROOF", "BLOCK_WHILE_WORN" ]
+    "flags": [ "VARSIZE", "STURDY", "OUTER", "WATERPROOF", "BLOCK_WHILE_WORN" ]
   },
   {
     "id": "xl_armor_plarmor",
