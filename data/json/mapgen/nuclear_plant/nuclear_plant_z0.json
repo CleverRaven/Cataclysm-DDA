@@ -359,11 +359,12 @@
         { "vehicle": "welding_cart", "x": 100, "y": 163, "chance": 100, "rotation": 180 },
         { "vehicle": "welding_cart", "x": 282, "y": 163, "chance": 100, "rotation": 180 },
         { "vehicle": "welding_cart", "x": 169, "y": 136, "chance": 100, "rotation": 0 },
-        { "vehicle": "train_electrical_loco1300", "x": 159, "y": 34, "chance": 75, "status": 1, "rotation": 0 },
-        { "vehicle": "miniature_train_loco", "x": 215, "y": 97, "chance": 80, "rotation": 90 },
-        { "vehicle": "excavator", "x": 283, "y": 82, "chance": 100, "rotation": 180 },
-        { "vehicle": "semi_truck", "x": 280, "y": 108, "chance": 100, "rotation": 180, "status": 1 },
-        { "vehicle": "forklift", "x": 179, "y": 129, "chance": 100, "rotation": 0 }
+        { "vehicle": "train_electrical_loco1300", "x": 159, "y": 34, "chance": 90, "rotation": 0, "status": 1 },
+        { "vehicle": "excavator", "x": 283, "y": 82, "chance": 85, "rotation": 180 },
+        { "vehicle": "semi_truck", "x": 280, "y": 108, "chance": 85, "rotation": 180 },
+        { "vehicle": "forklift", "x": 179, "y": 129, "chance": 100, "rotation": 0, "status": 0 },
+        { "vehicle": "miniature_train_loco", "x": 215, "y": 102, "chance": 95, "rotation": 90, "status": 0 },
+        { "vehicle": "miniature_train_loco", "x": 64, "y": 123, "chance": 95, "rotation": 0, "status": 0 }
       ],
       "set": [ { "square": "radiation", "amount": [ 0, 10 ], "x": 0, "y": 0, "x2": 23, "y2": 23 } ]
     }
