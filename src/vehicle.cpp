@@ -109,6 +109,7 @@ static const itype_id fuel_type_plutonium_cell( "plut_cell" );
 static const itype_id fuel_type_wind( "wind" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_plut_cell( "plut_cell" );
+static const itype_id itype_wall_wiring("wall_wiring");
 static const itype_id itype_water( "water" );
 static const itype_id itype_water_clean( "water_clean" );
 static const itype_id itype_water_faucet( "water_faucet" );
@@ -2225,7 +2226,9 @@ bool vehicle::find_and_split_vehicles( map &here, std::set<int> exclude )
         std::vector<vehicle *> mark_wreckage { this };
         if( split_vehicles( here, all_vehicles, null_vehicles, null_mounts, &mark_wreckage ) ) {
             for( vehicle *veh : mark_wreckage ) {
-                veh->add_tag( "wreckage" ); // wreckages don't get fake parts added
+                if( !veh->has_tag( flag_APPLIANCE ) ) { // Appliances don't turn into wrecks when split
+                    veh->add_tag( "wreckage" ); // wreckages don't get fake parts added
+                }
             }
             shift_parts( here, point_zero ); // update the active cache
             return true;
@@ -2270,6 +2273,10 @@ bool vehicle::split_vehicles( map &here,
         tripoint new_v_pos3;
         point mnt_offset;
 
+        // if one part is an appliance it means we're dealing with a power grid
+        bool is_appliance = part_info( split_part0 ).has_flag( flag_APPLIANCE );
+        bool is_wiring = part_info( split_part0 ).base_item == itype_wall_wiring;
+
         decltype( labels ) new_labels;
         decltype( loot_zones ) new_zones;
         if( new_vehicle == nullptr ) {
@@ -2304,6 +2311,14 @@ bool vehicle::split_vehicles( map &here,
             new_vehicle->engine_on = engine_on;
             new_vehicle->tracking_on = tracking_on;
             new_vehicle->camera_on = camera_on;
+
+            // If we were splitting appliances the resulting vehicles are still appliances
+            if( is_appliance ) {
+                new_vehicle->add_tag( flag_APPLIANCE );
+            }
+            if( is_wiring ) {
+                new_vehicle->add_tag( flag_WIRING );
+            }
         }
 
         std::vector<Character *> passengers;
