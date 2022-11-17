@@ -186,6 +186,7 @@
         "cotton",
         "leather",
         "lycra",
+        "leather_hardened",
         "nylon",
         "wool",
         "fur",
@@ -225,6 +226,7 @@
       "materials": [
         "cotton",
         "leather",
+        "leather_hardened",
         "lycra",
         "nylon",
         "wool",
@@ -393,6 +395,7 @@
         "materials": [
           "cotton",
           "leather",
+          "leather_hardened",
           "lycra",
           "nylon",
           "wool",
