@@ -1,9 +1,12 @@
 name: Code Style Reviewer
 
-on: pull_request_target
+on:
+  pull_request_target:
+  pull_request:
 
 jobs:
   skip-duplicates:
+    if: ${{ github.event_name == 'pull_request_target' }}
     continue-on-error: true
     runs-on: ubuntu-latest
     # Map a step output to a job output
@@ -18,12 +21,14 @@ jobs:
 
   style-code:
     needs: skip-duplicates
-    if: ${{ needs.skip-duplicates.outputs.should_skip != 'true' }}
+    if: ${{ needs.skip-duplicates.outputs.should_skip != 'true' && github.event_name == 'pull_request_target' }}
 
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v3
+      with:
+        ref: '${{ github.event.pull_request.head.sha }}'
 
     - name: install dependencies
       run: sudo apt-get install astyle

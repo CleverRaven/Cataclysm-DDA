@@ -593,6 +593,9 @@ void map::vehmove()
     for( std::pair<vehicle *const, bool> &veh_pair : connected_vehicles ) {
         veh_pair.first->idle( veh_pair.second );
     }
+
+    // refresh vehicle zones for moved vehicles
+    zone_manager::get_manager().cache_vzones( this );
 }
 
 bool map::vehproceed( VehicleList &vehicle_list )
@@ -1456,9 +1459,7 @@ bool map::displace_vehicle( vehicle &veh, const tripoint &dp, const bool adjust_
         g->setremoteveh( &veh );
     }
 
-    //
-    //global positions of vehicle loot zones have changed.
-    veh.zones_dirty = true;
+    veh.zones_dirty = true; // invalidate zone positions
 
     for( int vsmz : smzs ) {
         on_vehicle_moved( dst.z() + vsmz );

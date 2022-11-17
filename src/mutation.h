@@ -233,7 +233,6 @@ struct mutation_branch {
         float scent_modifier = 1.0f;
         cata::optional<int> scent_intensity;
         cata::optional<int> scent_mask;
-        int bleed_resist = 0;
 
         int butchering_quality = 0;
 
