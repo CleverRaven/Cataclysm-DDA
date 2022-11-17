@@ -595,6 +595,6 @@
     "city_sizes": [ 5, 99 ],
     "//": "Inflated chance, effective rate ~25%",
     "occurrences": [ 900, 1000 ],
-    "flags": [ "CLASSIC", "MAN_MADE", "UNIQUE" ]
+    "flags": [ "CLASSIC", "MAN_MADE", "GLOBALLY_UNIQUE" ]
   }
 ]
