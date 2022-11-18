@@ -765,7 +765,15 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 - ```MAG_EJECT``` Magazine is ejected from the gun/tool when the last round is consumed.
 - ```SPEEDLOADER``` Acts like a magazine, except it transfers rounds to the target gun instead of being inserted into it.
 
+    
+## Mapgen
+    
+- ```ERASE_ALL_BEFORE_PLACING_TERRAIN``` Clear items, traps, or furniture before placing terrain tile. See also [`remove_all`](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/MAPGEN.md#remove-everything-with-remove_all). Mutually exclusive with `ALLOW_TERRAIN_UNDER_OTHER_DATA `.
+- ```ALLOW_TERRAIN_UNDER_OTHER_DATA``` Keep items, traps, or furniture before placing terrain tile. Mutually exclusive with `ERASE_ALL_BEFORE_PLACING_TERRAIN`.
+- ```NO_UNDERLYING_ROTATE``` The map won't be rotated even if the underlying tile is.
+- ```AVOID_CREATURES``` If a creature is present on terrain, furniture and traps won't be placed.
 
+    
 ## MAP SPECIALS
 
 - ```mx_bandits_block``` ...  Road block made by bandits from tree logs, caltrops, or nailboards.
