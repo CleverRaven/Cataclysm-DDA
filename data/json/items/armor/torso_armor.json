@@ -96,9 +96,7 @@
     "flags": [ "VARSIZE", "STURDY", "OUTER" ],
     "armor": [
       {
-        "material": [
-          { "type": "leather", "covered_by_mat": 100, "thickness": 4.0 }
-        ],
+        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 4.0 } ],
         "encumbrance": 8,
         "coverage": 100,
         "cover_ranged": 95,
@@ -106,9 +104,7 @@
         "covers": [ "torso" ]
       },
       {
-        "material": [
-          { "type": "leather", "covered_by_mat": 100, "thickness": 4.0 }
-        ],
+        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 4.0 } ],
         "encumbrance": 4,
         "coverage": 90,
         "cover_ranged": 95,
@@ -151,12 +147,10 @@
     "longest_side": "60 cm",
     "warmth": 20,
     "material_thickness": 3,
-    "flags": [ "VARSIZE", "OUTER" ],
+    "flags": [ "VARSIZE", "OUTER", "NO_REPAIR" ],
     "armor": [
       {
-        "material": [
-          { "type": "lc_steel", "covered_by_mat": 100, "thickness": 2.0 }
-        ],
+        "material": [ { "type": "lc_steel", "covered_by_mat": 100, "thickness": 2.0 } ],
         "encumbrance": 22,
         "coverage": 100,
         "cover_ranged": 95,
@@ -164,9 +158,7 @@
         "covers": [ "torso" ]
       },
       {
-        "material": [
-          { "type": "lc_steel", "covered_by_mat": 100, "thickness": 2.0 }
-        ],
+        "material": [ { "type": "lc_steel", "covered_by_mat": 100, "thickness": 2.0 } ],
         "encumbrance": 16,
         "coverage": 90,
         "cover_ranged": 95,
@@ -175,9 +167,7 @@
         "specifically_covers": [ "arm_upper_l", "arm_shoulder_l", "arm_upper_r", "arm_shoulder_r" ]
       },
       {
-        "material": [
-          { "type": "lc_steel", "covered_by_mat": 100, "thickness": 2.0 }
-        ],
+        "material": [ { "type": "lc_steel", "covered_by_mat": 100, "thickness": 2.0 } ],
         "encumbrance": 22,
         "coverage": 90,
         "cover_ranged": 95,
@@ -222,12 +212,10 @@
     "longest_side": "60 cm",
     "warmth": 20,
     "material_thickness": 3,
-    "flags": [ "VARSIZE", "OUTER" ],
+    "flags": [ "VARSIZE", "OUTER", "NO_REPAIR" ],
     "armor": [
       {
-        "material": [
-          { "type": "ch_steel", "covered_by_mat": 100, "thickness": 2.0 }
-        ],
+        "material": [ { "type": "ch_steel", "covered_by_mat": 100, "thickness": 2.0 } ],
         "encumbrance": 22,
         "coverage": 100,
         "cover_ranged": 95,
@@ -235,9 +223,7 @@
         "covers": [ "torso" ]
       },
       {
-        "material": [
-          { "type": "ch_steel", "covered_by_mat": 100, "thickness": 2.0 }
-        ],
+        "material": [ { "type": "ch_steel", "covered_by_mat": 100, "thickness": 2.0 } ],
         "encumbrance": 16,
         "coverage": 90,
         "cover_ranged": 95,
@@ -246,9 +232,7 @@
         "specifically_covers": [ "arm_upper_l", "arm_shoulder_l", "arm_upper_r", "arm_shoulder_r" ]
       },
       {
-        "material": [
-          { "type": "ch_steel", "covered_by_mat": 100, "thickness": 2.0 }
-        ],
+        "material": [ { "type": "ch_steel", "covered_by_mat": 100, "thickness": 2.0 } ],
         "encumbrance": 22,
         "coverage": 90,
         "cover_ranged": 95,
