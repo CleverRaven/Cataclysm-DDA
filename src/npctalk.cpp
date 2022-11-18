@@ -3511,7 +3511,7 @@ void talk_effect_fun_t<T>::set_run_npc_eocs( const JsonObject &jo,
     if( local ) {
         function = [eocs, unique_ids, npc_must_see, npc_range, is_npc]( const T & d ) {
             tripoint actor_pos = d.actor( is_npc )->pos();
-            std::vector<std::string> ids;
+            std::vector<std::string> ids( unique_ids.size() );
             for( const str_or_var<T> &id : unique_ids ) {
                 ids.emplace_back( id.evaluate( d ) );
             }
