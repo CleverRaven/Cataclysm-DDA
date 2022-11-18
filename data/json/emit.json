@@ -476,5 +476,13 @@
     "field": "fd_nm_monster_gas_2",
     "intensity": 3,
     "chance": 10
+  },
+  {
+    "id": "emit_blood_explosion",
+    "type": "emit",
+    "field": "fd_blood",
+    "intensity": 3,
+    "chance": 75,
+    "qty": 40
   }
 ]

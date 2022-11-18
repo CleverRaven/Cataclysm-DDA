@@ -689,14 +689,6 @@
     "effect_str": "mon_tapeworm_mega",
     "min_aoe": 1,
     "max_aoe": 1,
-    "extra_effects": [ { "id": "emit_blood_explosion", "hit_self": false, "max_level": 3 } ]
-  },
-  {
-    "id": "emit_blood_explosion",
-    "type": "emit",
-    "field": "fd_blood",
-    "intensity": 3,
-    "chance": 75,
-    "qty": 40
+    "extra_effects": [ { "id": "emit_blood_explosion", "hit_self": true } ]
   }
 ]
