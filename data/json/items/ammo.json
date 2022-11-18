@@ -1261,7 +1261,7 @@
     "name": { "str_sp": "hardened steel lamellae" },
     "description": "A pile of small steel rectangles with a pattern of holes drilled into it, then case hardened.  For use in creating or repairing hardened lamellar armor.",
     "//": "An individual lamella is roughly 3cm x 6cm x 1mm in size.",
-    "weight": "254 g",
+    "weight": "14 g",
     "volume": "100 ml",
     "price": 1000,
     "price_postapoc": 60,

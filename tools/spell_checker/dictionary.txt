@@ -1046,6 +1046,8 @@ labbit
 lactobacillus
 lajatang
 lambeosaurus
+lamella
+lamellae
 lamellar
 landshark
 langourous
