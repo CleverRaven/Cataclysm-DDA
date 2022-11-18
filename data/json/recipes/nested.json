@@ -4219,5 +4219,95 @@
     "description": "Recipes related to creating scrap aluminum.",
     "skill_used": "fabrication",
     "nested_category_data": [ "scrap_aluminum_melted_foil", "scrap_aluminum_assorted_scrap" ]
+  },
+  {
+    "id": "nested_aketon_canvas",
+    "type": "nested_category",
+    "activity_level": "light",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "name": "canvas aketons",
+    "description": "Recipes related to canvas cloth armor meant to be worn under other armor.",
+    "skill_used": "tailoring",
+    "nested_category_data": [
+      "aketon_canvas_layered",
+      "aketon_canvas_layered_vest",
+      "xl_aketon_canvas_layered",
+      "xs_aketon_canvas_layered",
+      "xl_aketon_canvas_layered_vest",
+      "xs_aketon_canvas_layered_vest"
+    ]
+  },
+  {
+    "id": "nested_gambeson_canvas",
+    "type": "nested_category",
+    "activity_level": "light",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "name": "canvas gambesons",
+    "description": "Recipes related to thicker canvas cloth armor meant to be worn standalone.",
+    "skill_used": "tailoring",
+    "nested_category_data": [
+      "gambeson_canvas_layered",
+      "gambeson_canvas_layered_thinsleeved",
+      "gambeson_canvas_layered_vest",
+      "xl_gambeson_canvas_layered",
+      "xs_gambeson_canvas_layered",
+      "xl_gambeson_canvas_layered_thinsleeved",
+      "xs_gambeson_canvas_layered_thinsleeved",
+      "xl_gambeson_canvas_layered_vest",
+      "xs_gambeson_canvas_layered_vest"
+    ]
+  },
+  {
+    "id": "nested_armingpants_canvas",
+    "type": "nested_category",
+    "activity_level": "light",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_LEGS",
+    "name": "canvas arming pants",
+    "description": "Recipes related to armored cloth pants made of canvas.",
+    "skill_used": "tailoring",
+    "nested_category_data": [
+      "aketon_pants_canvas_layered",
+      "gambeson_pants_canvas_layered",
+      "xl_aketon_pants_canvas_layered",
+      "xs_gambeson_pants_canvas_layered",
+      "xl_aketon_pants_canvas_layered",
+      "xs_gambeson_pants_canvas_layered"
+    ]
+  },
+  {
+    "id": "nested_arminggloves_canvas",
+    "type": "nested_category",
+    "activity_level": "light",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HANDS",
+    "name": "canvas arming gloves",
+    "description": "Recipes related to armored cloth gloves made of canvas.",
+    "skill_used": "tailoring",
+    "nested_category_data": [
+      "aketon_gloves_canvas_layered",
+      "gambeson_gloves_canvas_layered",
+      "xl_aketon_gloves_canvas_layered",
+      "xs_gambeson_gloves_canvas_layered",
+      "xl_aketon_gloves_canvas_layered",
+      "xs_gambeson_gloves_canvas_layered"
+    ]
+  },
+  {
+    "id": "nested_hoods_canvas",
+    "type": "nested_category",
+    "activity_level": "light",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "name": "canvas coifs",
+    "description": "Recipes related to armored cloth hoods made of canvas.",
+    "skill_used": "tailoring",
+    "nested_category_data": [
+      "aketon_hood_canvas_layered",
+      "xl_aketon_hood_canvas_layered",
+      "xl_aketon_hood_canvas_layered"
+    ]
   }
 ]
