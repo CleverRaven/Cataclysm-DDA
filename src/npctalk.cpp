@@ -3513,7 +3513,7 @@ void talk_effect_fun_t<T>::set_run_npc_eocs( const JsonObject &jo,
             tripoint actor_pos = d.actor( is_npc )->pos();
             std::vector<std::string> ids;
             for( const str_or_var<T> &id : unique_ids ) {
-                ids.push_back( id.evaluate( d ) );
+                ids.emplace_back( id.evaluate( d ) );
             }
             const std::vector<npc *> available = g->get_npcs_if( [npc_must_see, npc_range, actor_pos,
                           ids]( const npc & guy ) {
