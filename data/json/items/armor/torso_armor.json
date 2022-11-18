@@ -79,7 +79,7 @@
   {
     "id": "armor_lamellar",
     "type": "ARMOR",
-    "name": { "str": "lamellar cuirass", "str_pl": "lamellar cuirasses" },
+    "name": { "str": "leather lamellar cuirass", "str_pl": "leather lamellar cuirasses" },
     "description": "A cuirass made of multiple pieces of tough leather, laced together for durable yet flexible protection.",
     "weight": "2108 g",
     "volume": "9250 ml",
@@ -97,8 +97,7 @@
     "armor": [
       {
         "material": [
-          { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 },
-          { "//": "this simulates the overlapping plates", "type": "leather", "covered_by_mat": 40, "thickness": 2.0 }
+          { "type": "leather", "covered_by_mat": 100, "thickness": 4.0 }
         ],
         "encumbrance": 8,
         "coverage": 100,
@@ -108,8 +107,7 @@
       },
       {
         "material": [
-          { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 },
-          { "//": "this simulates the overlapping plates", "type": "leather", "covered_by_mat": 40, "thickness": 2.0 }
+          { "type": "leather", "covered_by_mat": 100, "thickness": 4.0 }
         ],
         "encumbrance": 4,
         "coverage": 90,
@@ -123,7 +121,7 @@
   {
     "id": "xl_armor_lamellar",
     "type": "ARMOR",
-    "name": { "str": "XL lamellar cuirass", "str_pl": "XL lamellar cuirasses" },
+    "name": { "str": "XL leather lamellar cuirass", "str_pl": "XL leather lamellar cuirasses" },
     "copy-from": "armor_lamellar",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -133,7 +131,149 @@
     "type": "ARMOR",
     "copy-from": "armor_lamellar",
     "looks_like": "armor_lamellar",
-    "name": { "str": "XS lamellar cuirass", "str_pl": "XS lamellar cuirasses" },
+    "name": { "str": "XS leather lamellar cuirass", "str_pl": "XS leather lamellar cuirasses" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "armor_lamellar_lc",
+    "type": "ARMOR",
+    "name": { "str": "low steel lamellar cuirass", "str_pl": "low steel lamellar cuirasses" },
+    "description": "A cuirass made of small strips of sheet metal laced together, something of an intermediary between chain mail and plate armor.  It's less Mad Max and more Garage Mongolian, but the classics are classic for a reason.",
+    "weight": "14000 g",
+    "volume": "9250 ml",
+    "price": 26000,
+    "price_postapoc": 2500,
+    "material": [ "lc_steel" ],
+    "symbol": "[",
+    "looks_like": "armor_lorica",
+    "color": "light_gray",
+    "longest_side": "60 cm",
+    "warmth": 20,
+    "material_thickness": 3,
+    "flags": [ "VARSIZE", "OUTER" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "lc_steel", "covered_by_mat": 100, "thickness": 2.0 }
+        ],
+        "encumbrance": 22,
+        "coverage": 100,
+        "cover_ranged": 95,
+        "cover_vitals": 70,
+        "covers": [ "torso" ]
+      },
+      {
+        "material": [
+          { "type": "lc_steel", "covered_by_mat": 100, "thickness": 2.0 }
+        ],
+        "encumbrance": 16,
+        "coverage": 90,
+        "cover_ranged": 95,
+        "cover_vitals": 70,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_upper_l", "arm_shoulder_l", "arm_upper_r", "arm_shoulder_r" ]
+      },
+      {
+        "material": [
+          { "type": "lc_steel", "covered_by_mat": 100, "thickness": 2.0 }
+        ],
+        "encumbrance": 22,
+        "coverage": 90,
+        "cover_ranged": 95,
+        "cover_vitals": 70,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_hip_l", "leg_upper_r", "leg_hip_r" ]
+      }
+    ]
+  },
+  {
+    "id": "xl_armor_lamellar_lc",
+    "type": "ARMOR",
+    "name": { "str": "XL low steel lamellar cuirass", "str_pl": "XL low steel lamellar cuirasses" },
+    "description": "A cuirass made of small strips of sheet metal laced together, something of an intermediary between chain mail and plate armor.  The perfect size for an orc or bipedal grizzly bear.",
+    "copy-from": "armor_lamellar_lc",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_armor_lamellar_lc",
+    "type": "ARMOR",
+    "copy-from": "armor_lamellar_lc",
+    "looks_like": "armor_lamellar_lc",
+    "name": { "str": "XS low steel lamellar cuirass", "str_pl": "XS low steel lamellar cuirasses" },
+    "description": "A cuirass made of small strips of sheet metal laced together, something of an intermediary between chain mail and plate armor.  Perfectly sized for a particularly angry rat-person, yes-yes.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "armor_lamellar_ch",
+    "type": "ARMOR",
+    "name": { "str": "hardened steel lamellar cuirass", "str_pl": "hardened steel lamellar cuirasses" },
+    "description": "A cuirass made of small strips of sheet metal laced together, something of an intermediary between chain mail and plate armor.  This one has been case hardened for extra protection.",
+    "weight": "14000 g",
+    "volume": "9250 ml",
+    "price": 26000,
+    "price_postapoc": 3500,
+    "material": [ "ch_steel" ],
+    "symbol": "[",
+    "looks_like": "armor_lamellar_lc",
+    "color": "light_gray",
+    "longest_side": "60 cm",
+    "warmth": 20,
+    "material_thickness": 3,
+    "flags": [ "VARSIZE", "OUTER" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "ch_steel", "covered_by_mat": 100, "thickness": 2.0 }
+        ],
+        "encumbrance": 22,
+        "coverage": 100,
+        "cover_ranged": 95,
+        "cover_vitals": 70,
+        "covers": [ "torso" ]
+      },
+      {
+        "material": [
+          { "type": "ch_steel", "covered_by_mat": 100, "thickness": 2.0 }
+        ],
+        "encumbrance": 16,
+        "coverage": 90,
+        "cover_ranged": 95,
+        "cover_vitals": 70,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_upper_l", "arm_shoulder_l", "arm_upper_r", "arm_shoulder_r" ]
+      },
+      {
+        "material": [
+          { "type": "ch_steel", "covered_by_mat": 100, "thickness": 2.0 }
+        ],
+        "encumbrance": 22,
+        "coverage": 90,
+        "cover_ranged": 95,
+        "cover_vitals": 70,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_hip_l", "leg_upper_r", "leg_hip_r" ]
+      }
+    ]
+  },
+  {
+    "id": "xl_armor_lamellar_ch",
+    "type": "ARMOR",
+    "name": { "str": "XL hardened steel lamellar cuirass", "str_pl": "XL hardened steel lamellar cuirasses" },
+    "description": "A hardened cuirass made of small strips of sheet metal laced together, something of an intermediary between chain mail and plate armor.  Built larger for a minotaur guarding their labyrinth.",
+    "copy-from": "armor_lamellar_ch",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_armor_lamellar_ch",
+    "type": "ARMOR",
+    "copy-from": "armor_lamellar_ch",
+    "looks_like": "armor_lamellar_ch",
+    "name": { "str": "XS hardened steel lamellar cuirass", "str_pl": "XS hardened steel lamellar cuirasses" },
+    "description": "A hardened cuirass made of small strips of sheet metal laced together, something of an intermediary between chain mail and plate armor.  Just the right size for a fantasy dwarf.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
