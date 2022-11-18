@@ -111,7 +111,7 @@
     "cutting": 35,
     "turns_per_charge": 4,
     "charges_per_use": 0,
-    "revert_to": "chainsaw_off",
+    "revert_to": "polesaw_off",
     "techniques": [ "SWEEP" ],
     "qualities": [ [ "AXE", 2 ], [ "BUTCHER", -100 ] ],
     "use_action": [ "CHAINSAW_ON" ],
