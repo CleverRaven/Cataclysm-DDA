@@ -7,11 +7,6 @@
     "name": { "str": "Enfield battle rifle" },
     "description": "An iconic weapon of both the First and Second World Wars, this bolt-action rifle has seen deployment in the hands of Commonwealth troops across Europe and beyond.  Outfitted with a 17-inch bayonet, firing the .303 calibre cartridge, and making use of 10-round Enfield magazines, the firearm’s reputation precedes it.",
     "//": "Total unloaded weight of an Mk III is 3.96 kg, and a No. 4 is 4.11 kg.  total length of an Mk III is 1132mm, and a No. 4 is 1129mm.  Rounding to 4 kg of weight and 1130mm of length to meet in the middle.",
-    "weight": "4000 g",
-    "volume": "3000 ml",
-    "longest_side": "1130 mm",
-    "price": 57375,
-    "price_postapoc": 3000,
     "variant_type": "gun",
     "variants": [
       {
@@ -19,13 +14,63 @@
         "name": { "str": "SMLE No. 1 Mk III" },
         "description": "A venerable English darling and icon of the First World War, the Short Magazine Lee-Enfield Mk III was the standard issue battle rifle of the British commonwealth from 1907.  Chambered for .303 ammunition and assigned with a sword-style bayonet, the rifle makes use of ten-round detachable magazines.  With its full length wooden handguard, brass buttplate, and smooth action, the Lee-Enfield cuts a recognizable profile in either the trenches of the Great War or the zombie-strewn wastelands.",
         "weight": 1
-      },
+      }
+    ],
+    "weight": "3960 g",
+    "volume": "3000 ml",
+    "longest_side": "1132 mm",
+    "price": 57375,
+    "price_postapoc": 3000,
+    "to_hit": -1,
+    "bashing": 12,
+    "material": [ "steel", "wood" ],
+    "color": "brown",
+    "ammo": [ "303" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": 9 },
+    "dispersion": 100,
+    "durability": 8,
+    "blackpowder_tolerance": 60,
+    "barrel_volume": "250 ml",
+    "default_mods": [ "sword_bayonet" ],
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "brass catcher", 1 ],
+      [ "mechanism", 4 ],
+      [ "muzzle", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "stock mount", 1 ],
+      [ "stock accessory", 2 ],
+      [ "underbarrel", 1 ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "enfield_303mag" ] } ]
+  },
+  {
+    "id": "number4_mki",
+    "copy-from": "rifle_manual",
+    "looks_like": "ar15",
+    "type": "GUN",
+    "name": { "str": "updated Enfield rifle" },
+    "description": "A later development of Britten’s First World War battle rifle; this bolt-action firearm uses the same .303 caliber cartridge as its forerunner.  Much beloved across the globe by collectors of historical arms, rifles like this served as England’s primary infantry rifle well into the fifties, with a specialised sniper variant remaining in service until the early nineties.",
+    "variant_type": "gun",
+    "variants": [
+      {  },
       {
         "id": "number4_mki",
         "name": { "str": "Lee-Enfield No. 4 Mk I" },
-        "description": "A Second World War progression of the original Lee-Enfield battle rifle adopted by the British Commonwealth; the No. 4 began its decades-long service life in 1939.  Externally similar to its forefather, the rifle possesses a reinforced receiver, adjusted nose cap, and heavier barrel.  Still chambered for the same .303 caliber cartridge, the No. 4 represents one of the most populous firearm imports in U.S. history."
+        "description": "A Second World War progression of the original Lee-Enfield battle rifle adopted by the British Commonwealth; the No. 4 began its decades-long service life in 1939.  Externally similar to its forefather, the rifle possesses a reinforced receiver, adjusted nose cap, and heavier barrel.  Still chambered for the same .303 caliber cartridge, the No. 4 represents one of the most populous firearm imports in U.S. history.",
+        "weight": 1
       }
     ],
+    "weight": "4110 g",
+    "volume": "3000 ml",
+    "longest_side": "1129 mm",
+    "price": 57375,
+    "price_postapoc": 3000,
     "to_hit": -1,
     "bashing": 12,
     "material": [ "steel", "wood" ],
