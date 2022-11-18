@@ -1331,7 +1331,7 @@
     "reinforces": true,
     "bash_resist": 1.5,
     "cut_resist": 2.5,
-    "bullet_resist": 2,
+    "bullet_resist": 1.5,
     "acid_resist": 4,
     "fire_resist": 2,
     "chip_resist": 10,
