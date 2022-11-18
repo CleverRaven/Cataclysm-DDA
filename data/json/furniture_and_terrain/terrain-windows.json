@@ -1287,7 +1287,7 @@
   {
     "type": "terrain",
     "id": "t_single_pane_glass",
-    "name": "single glazed glass window",
+    "name": "single glazed window",
     "description": "A single glazed window.  Consists of a giant sheet of glass inserted into a window frame.  It's currently closed.",
     "looks_like": "t_window_no_curtains",
     "symbol": "\"",
@@ -1327,7 +1327,7 @@
   {
     "type": "terrain",
     "id": "t_single_pane_glass_open",
-    "name": "open single glazed glass window",
+    "name": "open single glazed window",
     "description": "A single glazed window.  Consists of a giant sheet of glass inserted into a window frame.  It's open and can be crawled through.",
     "looks_like": "t_window_no_curtains_open",
     "symbol": "\"",
@@ -1369,7 +1369,7 @@
   {
     "type": "terrain",
     "id": "t_single_pane_glass_with_curtain",
-    "name": "single glazed glass window with a curtain",
+    "name": "single glazed window with closed curtains",
     "description": "A closed single glazed window with a fancy curtain on the inside that is closed to block visibility and shut out any light.",
     "looks_like": "t_curtains",
     "symbol": "|",
@@ -1414,7 +1414,7 @@
   {
     "type": "terrain",
     "id": "t_single_pane_glass_with_curtain_open_window_closed",
-    "name": "single glazed glass window with a curtain",
+    "name": "single glazed window with curtains",
     "description": "A closed single glazed window with a fancy curtain on the inside that can be drawn closed to block visibility and shut out any light.",
     "looks_like": "t_window_domestic",
     "symbol": "|",
@@ -1461,7 +1461,7 @@
   {
     "type": "terrain",
     "id": "t_single_pane_glass_with_curtain_open",
-    "name": "single glazed glass window with a curtain",
+    "name": "open single glazed window with curtains",
     "description": "A single glazed window with a fancy curtain on the inside that can be drawn closed to block visibility and shut out any light.  It's open and can be crawled through.",
     "looks_like": "t_window_open",
     "symbol": "|",
@@ -1510,7 +1510,7 @@
   {
     "type": "terrain",
     "id": "t_single_pane_glass_taped",
-    "name": "taped window",
+    "name": "taped single glazed window",
     "description": "A single glazed window.  Consists of a giant sheet of glass inserted into a window frame.  It's currently closed.  This one has been blocked out with duct tape.  You could remove the duct tape by cutting it off.",
     "looks_like": "t_window_no_curtains",
     "//": "Taped window without curtains",
@@ -1539,8 +1539,8 @@
   {
     "type": "terrain",
     "id": "t_reinforced_single_pane_glass",
-    "name": "reinforced single glazed glass window",
-    "description": "A reinforced single glazed window.  Consists of giant sheet of reinforced glass inserted into a window frame.  It's currently closed.",
+    "name": "reinforced single glazed window",
+    "description": "A reinforced single glazed window.  Consists of a giant sheet of reinforced glass inserted into a window frame.  It's currently closed.",
     "looks_like": "t_window_no_curtains",
     "symbol": "\"",
     "color": "light_cyan",
@@ -1580,7 +1580,7 @@
   {
     "type": "terrain",
     "id": "t_reinforced_single_pane_glass_open",
-    "name": "open reinforced single glazed glass window",
+    "name": "open reinforced single glazed window",
     "description": "A reinforced single glazed window.  Consists of a giant sheet of reinforced glass inserted into a window frame.  It's open and can be crawled through.",
     "looks_like": "t_window_no_curtains_open",
     "symbol": "\"",
@@ -1622,7 +1622,7 @@
   {
     "type": "terrain",
     "id": "t_reinforced_single_pane_glass_with_curtain",
-    "name": "reinforced single glazed glass window with a curtain",
+    "name": "reinforced single glazed window with closed curtains",
     "description": "A closed reinforced single glazed window with a fancy curtain on the inside that is drawn closed to block visibility and shut out any light.",
     "looks_like": "t_curtains",
     "symbol": "|",
@@ -1668,7 +1668,7 @@
   {
     "type": "terrain",
     "id": "t_reinforced_single_pane_glass_with_curtain_open_window_closed",
-    "name": "reinforced single glazed glass window with a curtain",
+    "name": "reinforced single glazed window with curtains",
     "description": "A closed reinforced window with a fancy curtain on the inside that can be drawn closed to block visibility and shut out any light.",
     "looks_like": "t_window_domestic",
     "symbol": "|",
@@ -1716,7 +1716,7 @@
   {
     "type": "terrain",
     "id": "t_reinforced_single_pane_glass_with_curtain_open",
-    "name": "reinforced single glazed glass window with a curtain",
+    "name": "open reinforced single glazed window with curtains",
     "description": "A reinforced window with a fancy curtain on the inside that can be drawn closed to block visibility and shut out any light.  It's open and can be crawled through.",
     "looks_like": "t_window_open",
     "symbol": "|",
@@ -1765,7 +1765,7 @@
   {
     "type": "terrain",
     "id": "t_reinforced_single_pane_glass_taped",
-    "name": "taped window",
+    "name": "taped reinforced single glazed window",
     "description": "A reinforced single glazed window.  Consists of giant sheet of reinforced glass inserted into a window frame.  It's currently closed.  This one has been blocked out with duct tape.  You could remove the duct tape by cutting it off.",
     "//": "Taped window without curtains",
     "looks_like": "t_window_no_curtains",
@@ -1794,7 +1794,7 @@
   {
     "type": "terrain",
     "id": "t_double_pane_glass",
-    "name": "double glazed glass window",
+    "name": "double glazed window",
     "description": "A double glazed window.  Consists of two giant sheets of glass inserted into a window frame.  It's currently closed.",
     "looks_like": "t_window_no_curtains",
     "symbol": "\"",
@@ -1842,7 +1842,7 @@
   {
     "type": "terrain",
     "id": "t_double_pane_glass_open",
-    "name": "open double glazed glass window",
+    "name": "open double glazed window",
     "description": "A double glazed window.  Consists of two giant sheets of glass inserted into a window frame.  It's open and can be crawled through.",
     "looks_like": "t_window_no_curtains_open",
     "symbol": "\"",
@@ -1891,7 +1891,7 @@
   {
     "type": "terrain",
     "id": "t_double_pane_glass_with_curtain",
-    "name": "double glazed glass window with a curtain",
+    "name": "double glazed window with closed curtains",
     "description": "A closed double glazed window with a fancy curtain on the inside that is closed to block visibility and shut out any light.",
     "looks_like": "t_curtains",
     "symbol": "|",
@@ -1939,7 +1939,7 @@
   {
     "type": "terrain",
     "id": "t_double_pane_glass_with_curtain_open_window_closed",
-    "name": "double glazed glass window with a curtain",
+    "name": "double glazed window with curtains",
     "description": "A closed double glazed window with a fancy curtain on the inside that can be drawn closed to block visibility and shut out any light.",
     "looks_like": "t_window_domestic",
     "symbol": "|",
@@ -1989,7 +1989,7 @@
   {
     "type": "terrain",
     "id": "t_double_pane_glass_with_curtain_open",
-    "name": "double glazed glass window with a curtain",
+    "name": "open double glazed window with curtains",
     "description": "A double glazed window with a fancy curtain on the inside that can be drawn closed to block visibility and shut out any light.  It's open and can be crawled through.",
     "looks_like": "t_window_open",
     "symbol": "|",
@@ -2040,7 +2040,7 @@
   {
     "type": "terrain",
     "id": "t_double_pane_glass_taped",
-    "name": "taped window",
+    "name": "taped double glazed window",
     "description": "A double glazed window.  Consists of two giant sheets of glass inserted into a window frame.  It's currently closed.  This one has been blocked out with duct tape.  You could remove the duct tape by cutting it off.",
     "looks_like": "t_window_no_curtains",
     "//": "Taped window without curtains",
@@ -2069,7 +2069,7 @@
   {
     "type": "terrain",
     "id": "t_reinforced_double_pane_glass",
-    "name": "reinforced double glazed glass window",
+    "name": "reinforced double glazed window",
     "description": "A closed reinforced double glazed window.  Consists of two giant sheets of glass inserted into a window frame.  For extra security, the outer layer is reinforced glass.",
     "looks_like": "t_window_no_curtains",
     "symbol": "\"",
@@ -2113,7 +2113,7 @@
   {
     "type": "terrain",
     "id": "t_reinforced_double_pane_glass_open",
-    "name": "open reinforced double glazed glass window",
+    "name": "open reinforced double glazed window",
     "description": "A reinforced double glazed window.  Consists of two giant sheets of glass inserted into a window frame.  For extra security, the outer layer is reinforced glass.  It's open and can be crawled through.",
     "looks_like": "t_window_no_curtains_open",
     "symbol": "\"",
@@ -2158,7 +2158,7 @@
   {
     "type": "terrain",
     "id": "t_reinforced_double_pane_glass_with_curtain",
-    "name": "reinforced double glazed glass window with a curtain",
+    "name": "reinforced double glazed window with closed curtains",
     "description": "A closed reinforced double glazed window with a fancy curtain on the inside that is closed to block visibility and shut out any light.",
     "looks_like": "t_curtains",
     "symbol": "|",
@@ -2205,7 +2205,7 @@
   {
     "type": "terrain",
     "id": "t_reinforced_double_pane_glass_with_curtain_open_window_closed",
-    "name": "reinforced double glazed glass window with a curtain",
+    "name": "reinforced double glazed window with curtains",
     "description": "A closed reinforced double glazed window with a fancy curtain on the inside that can be drawn closed to block visibility and shut out any light.",
     "looks_like": "t_window_domestic",
     "symbol": "|",
@@ -2256,7 +2256,7 @@
   {
     "type": "terrain",
     "id": "t_reinforced_double_pane_glass_with_curtain_open",
-    "name": "reinforced double glazed glass window with a curtain",
+    "name": "open reinforced double glazed window with curtains",
     "description": "A reinforced double glazed window with a fancy curtain on the inside that can be drawn closed to block visibility and shut out any light.  It's open and can be crawled through.",
     "looks_like": "t_window_open",
     "symbol": "|",
@@ -2306,7 +2306,7 @@
   {
     "type": "terrain",
     "id": "t_reinforced_double_pane_glass_taped",
-    "name": "taped window",
+    "name": "taped reinforced double glazed window",
     "description": "A reinforced double glazed window.  Consists of two giant sheets of reinforced glass inserted into a window frame.  It's currently closed.  This one has been blocked out with duct tape.  You could remove the duct tape by cutting it off.",
     "//": "Taped window without curtains",
     "looks_like": "t_window_no_curtains",
@@ -2335,7 +2335,7 @@
   {
     "type": "terrain",
     "id": "t_triple_pane_glass",
-    "name": "triple glazed glass window",
+    "name": "triple glazed window",
     "description": "A closed triple glazed window.  Consists of three giant sheets of glass inserted into a window frame.",
     "looks_like": "t_window_no_curtains",
     "symbol": "|",
@@ -2376,7 +2376,7 @@
   {
     "type": "terrain",
     "id": "t_triple_pane_glass_open",
-    "name": "triple glazed glass window",
+    "name": "open triple glazed window",
     "description": "A triple glazed window.  Consists of three giant sheets of glass inserted into a window frame.  It's open and can be crawled through.",
     "looks_like": "t_window_no_curtains_open",
     "symbol": "|",
@@ -2418,7 +2418,7 @@
   {
     "type": "terrain",
     "id": "t_triple_pane_glass_with_curtain",
-    "name": "triple glazed glass window with a curtain",
+    "name": "triple glazed window with closed curtains",
     "description": "A closed triple glazed window with a fancy curtain on the inside that is closed to block visibility and shut out any light.",
     "looks_like": "t_curtains",
     "symbol": "|",
@@ -2464,7 +2464,7 @@
   {
     "type": "terrain",
     "id": "t_triple_pane_glass_with_curtain_open_window_closed",
-    "name": "triple glazed glass window with a curtain",
+    "name": "triple glazed window with curtains",
     "description": "A closed triple glazed window with fancy curtains on the inside that can be drawn closed to block visibility and shut out any light.",
     "looks_like": "t_window_domestic",
     "symbol": "|",
@@ -2512,7 +2512,7 @@
   {
     "type": "terrain",
     "id": "t_triple_pane_glass_with_curtain_open",
-    "name": "triple glazed glass window with a curtain",
+    "name": "open triple glazed window with curtains",
     "description": "A triple glazed window with fancy curtains on the inside that can be drawn closed to block visibility and shut out any light.  It's open and can be crawled through.",
     "looks_like": "t_window_open",
     "symbol": "|",
@@ -2561,7 +2561,7 @@
   {
     "type": "terrain",
     "id": "t_triple_pane_glass_taped",
-    "name": "taped window",
+    "name": "taped triple glazed window",
     "description": "A triple glazed window.  Consists of three giant sheets of glass inserted into a window frame.  It's currently closed.  This one has been blocked out with duct tape.  You could remove the duct tape by cutting it off.",
     "looks_like": "t_window_no_curtains",
     "//": "Taped window without curtains",
@@ -2590,7 +2590,7 @@
   {
     "type": "terrain",
     "id": "t_reinforced_triple_pane_glass",
-    "name": "reinforced triple glazed glass window",
+    "name": "reinforced triple glazed window",
     "description": "A closed reinforced triple glazed window.  Consists of three giant glass sheets inserted into a window frame.  For extra security, the outer layer is reinforced glass.",
     "looks_like": "t_window_no_curtains",
     "symbol": "|",
@@ -2639,7 +2639,7 @@
   {
     "type": "terrain",
     "id": "t_reinforced_triple_pane_glass_open",
-    "name": "reinforced triple glazed glass window",
+    "name": "open reinforced triple glazed window",
     "description": "A reinforced triple glazed window.  Consists of three giant sheets of glass inserted inserted into a window frame.  For extra security, the outer layer is reinforced glass.  It's open and can be crawled through.",
     "looks_like": "t_window_no_curtains_open",
     "symbol": "|",
@@ -2689,7 +2689,7 @@
   {
     "type": "terrain",
     "id": "t_reinforced_triple_pane_glass_with_curtain",
-    "name": "reinforced triple glazed glass window with a curtain",
+    "name": "reinforced triple glazed window with closed curtains",
     "description": "A closed reinforced triple glazed window with a fancy curtain on the inside that is closed to block visibility and shut out any light.",
     "looks_like": "t_curtains",
     "symbol": "|",
@@ -2738,7 +2738,7 @@
   {
     "type": "terrain",
     "id": "t_reinforced_triple_pane_glass_with_curtain_open_window_closed",
-    "name": "reinforced triple glazed glass window with a curtain",
+    "name": "reinforced triple glazed window with curtains",
     "description": "A closed reinforced triple glazed window with a fancy curtain on the inside that can be drawn closed to block visibility and shut out any light.",
     "looks_like": "t_window_domestic",
     "symbol": "|",
@@ -2789,7 +2789,7 @@
   {
     "type": "terrain",
     "id": "t_reinforced_triple_pane_glass_with_curtain_open",
-    "name": "reinforced triple glazed glass window with a curtain",
+    "name": "open reinforced triple glazed window with curtains",
     "description": "A reinforced triple glazed window with a fancy curtain on the inside that can be drawn closed to block visibility and shut out any light.  It's open and can be crawled through.",
     "looks_like": "t_window_open",
     "symbol": "|",
@@ -2840,7 +2840,7 @@
   {
     "type": "terrain",
     "id": "t_reinforced_triple_pane_glass_taped",
-    "name": "taped window",
+    "name": "taped reinforced triple glazed window",
     "description": "A reinforced triple glazed window.  Consists of three giant sheets of reinforced glass inserted into a window frame.  It's currently closed.  This one has been blocked out with duct tape.  You could remove the duct tape by cutting it off.",
     "//": "Taped window without curtains",
     "looks_like": "t_window_no_curtains",
@@ -2869,7 +2869,7 @@
   {
     "type": "terrain",
     "id": "t_quadruple_pane_glass",
-    "name": "quadruple glazed glass window",
+    "name": "quadruple glazed window",
     "description": "A closed quadruple glazed window.  Consists of four giant sheets of glass inserted into a window frame.",
     "looks_like": "t_window_no_curtains",
     "symbol": "|",
@@ -2917,7 +2917,7 @@
   {
     "type": "terrain",
     "id": "t_quadruple_pane_glass_open",
-    "name": "quadruple glazed glass window",
+    "name": "open quadruple glass window",
     "description": "A quadruple glazed window.  Consists of four giant sheets of glass inserted into a window frame.  It's open and can be crawled through.",
     "looks_like": "t_window_no_curtains_open",
     "symbol": "|",
@@ -2966,7 +2966,7 @@
   {
     "type": "terrain",
     "id": "t_quadruple_pane_glass_with_curtain",
-    "name": "quadruple glazed glass window with a curtain",
+    "name": "quadruple glazed window with closed curtains",
     "description": "A closed quadruple glazed window with a fancy curtain on the inside that is closed to block visibility and shut out any light.",
     "looks_like": "t_curtains",
     "symbol": "|",
@@ -3064,7 +3064,7 @@
   {
     "type": "terrain",
     "id": "t_quadruple_pane_glass_with_curtain_open",
-    "name": "quadruple glazed glass window with a curtain",
+    "name": "open quadruple glazed window with curtains",
     "description": "A quadruple glazed window with fancy curtains on the inside that can be drawn closed to block visibility and shut out any light.  It's open and can be crawled through.",
     "looks_like": "t_window_open",
     "symbol": "|",
@@ -3115,7 +3115,7 @@
   {
     "type": "terrain",
     "id": "t_quadruple_pane_glass_taped",
-    "name": "taped window",
+    "name": "taped quadruple glazed window",
     "description": "A quadruple glazed window.  Consists of four giant sheets of glass inserted into a window frame.  It's currently closed.  This one has been blocked out with duct tape.  You could remove the duct tape by cutting it off.",
     "looks_like": "t_window_no_curtains",
     "//": "Taped window without curtains",
@@ -3144,7 +3144,7 @@
   {
     "type": "terrain",
     "id": "t_reinforced_quadruple_pane_glass",
-    "name": "reinforced quadruple glazed glass window",
+    "name": "reinforced quadruple glazed window",
     "description": "A closed quadruple glazed window.  Consists of Four giant sheets of glass inserted into a window frame.  For extra security, the outer layer is reinforced glass.",
     "looks_like": "t_window_no_curtains",
     "symbol": "|",
@@ -3193,7 +3193,7 @@
   {
     "type": "terrain",
     "id": "t_reinforced_quadruple_pane_glass_open",
-    "name": "reinforced quadruple glazed glass window",
+    "name": "open reinforced quadruple glazed window",
     "description": "A quadruple glazed window.  Consists of four giant sheets of glass inserted into a window frame.  For extra security, the outer layer is reinforced glass.  It's open and can be crawled through.",
     "looks_like": "t_window_no_curtains_open",
     "symbol": "|",
@@ -3243,7 +3243,7 @@
   {
     "type": "terrain",
     "id": "t_reinforced_quadruple_pane_glass_with_curtain",
-    "name": "reinforced quadruple glazed glass window with a curtain",
+    "name": "reinforced quadruple glazed window with closed curtains",
     "description": "A closed reinforced quadruple glazed window with a fancy curtain on the inside that is closed to block visibility and shut out any light.",
     "looks_like": "t_curtains",
     "symbol": "|",
@@ -3292,7 +3292,7 @@
   {
     "type": "terrain",
     "id": "t_reinforced_quadruple_double_pane_glass_with_curtain_open_window_closed",
-    "name": "reinforced quadruple glazed glass window with a curtain",
+    "name": "reinforced quadruple glazed window with curtains",
     "description": "A closed reinforced quadruple glazed window with a fancy curtain on the inside that can be drawn closed to block visibility and shut out any light.",
     "looks_like": "t_window_domestic",
     "symbol": "|",
@@ -3343,7 +3343,7 @@
   {
     "type": "terrain",
     "id": "t_reinforced_quadruple_pane_glass_with_curtain_open",
-    "name": "reinforced quadruple glazed glass window with a curtain",
+    "name": "open reinforced quadruple glazed glass window with curtains",
     "description": "A reinforced quadruple glazed window with a fancy curtain on the inside that can be drawn closed to block visibility and shut out any light.  It's open and can be crawled through.",
     "looks_like": "t_window_open",
     "symbol": "|",
@@ -3395,7 +3395,7 @@
   {
     "type": "terrain",
     "id": "t_reinforced_quadruple_pane_glass_taped",
-    "name": "taped window",
+    "name": "taped reinforced quadruple glazed window",
     "description": "A reinforced quadruple glazed window.  Consists of four giant sheets of reinforced glass inserted into a window frame.  It's currently closed.  This one has been blocked out with duct tape.  You could remove the duct tape by cutting it off.",
     "//": "Taped window without curtains",
     "looks_like": "t_window_no_curtains",
@@ -3467,7 +3467,7 @@
   {
     "type": "terrain",
     "id": "t_plastic_window_open",
-    "name": "plastic window",
+    "name": "open plastic window",
     "description": "A makeshift window comprising a sheet of translucent, rigid plastic secured in a wooden frame.  It'll do in a pinch.  It's open and can be crawled through.",
     "looks_like": "t_window_no_curtains_open",
     "symbol": "|",
@@ -3512,7 +3512,7 @@
   {
     "type": "terrain",
     "id": "t_plastic_window_with_curtain",
-    "name": "plastic window with a curtain",
+    "name": "plastic window with close.d curtains",
     "description": "A closed makeshift window with a closed curtain.  It's a sheet of translucent, rigid plastic secured in a wooden frame.  There's a sheet drawn across it to block the light.  It'll do in a pinch.",
     "looks_like": "t_curtains",
     "symbol": "|",
@@ -3559,7 +3559,7 @@
   {
     "type": "terrain",
     "id": "t_plastic_window_with_curtain_open_window_closed",
-    "name": "plastic window with a curtain",
+    "name": "plastic window with curtains",
     "description": "A closed makeshift window with an opened curtain.  It's a sheet of translucent, rigid plastic secured in a wooden frame, with a sheet strung about it to block the light as required.  It'll do in a pinch.",
     "looks_like": "t_window_domestic",
     "symbol": "|",
@@ -3608,8 +3608,8 @@
   {
     "type": "terrain",
     "id": "t_plastic_window_with_curtain_open",
-    "name": "plastic window with an open curtain",
-    "description": "A makeshift window an with an open curtain.  It's a sheet of translucent, rigid plastic secured in a wooden frame, with a sheet strung about it to block the light as required.  It'll do in a pinch.  It's open and can be crawled through.",
+    "name": "open plastic window with curtains",
+    "description": "A makeshift window with an open curtain.  It's a sheet of translucent, rigid plastic secured in a wooden frame, with a sheet strung about it to block the light as required.  It'll do in a pinch.  It's open and can be crawled through.",
     "looks_like": "t_window_open",
     "symbol": "|",
     "color": "light_blue",
@@ -3707,7 +3707,7 @@
   {
     "type": "terrain",
     "id": "t_reinforced_plastic_window_open",
-    "name": "reinforced plastic window",
+    "name": "open reinforced plastic window",
     "description": "A reinforced makeshift window comprising three sheets of translucent, rigid plastic secured in a wooden frame.  It'll do in a pinch.  It's open and can be crawled through.",
     "looks_like": "t_window_no_curtains_open",
     "symbol": "|",
@@ -3756,7 +3756,7 @@
   {
     "type": "terrain",
     "id": "t_reinforced_plastic_window_with_curtain",
-    "name": "reinforced plastic window with a curtain",
+    "name": "reinforced plastic window with closed curtains",
     "description": "A closed makeshift reinforced window with a closed curtain.  It's three sheets of translucent, rigid plastic secured in a wooden frame.  There's a sheet drawn across it to block the light.  It'll do in a pinch.",
     "looks_like": "t_curtains",
     "symbol": "|",
@@ -3808,7 +3808,7 @@
   {
     "type": "terrain",
     "id": "t_reinforced_plastic_window_with_curtain_open_window_closed",
-    "name": "reinforced plastic window with an open curtain",
+    "name": "reinforced plastic window with curtains",
     "description": "A closed makeshift reinforced window with an opened curtain.  It's three sheets of translucent, rigid plastic secured in a wooden frame, with sheets strung about it to block the light as required.  It'll do in a pinch.",
     "looks_like": "t_window_domestic",
     "symbol": "|",
@@ -3862,7 +3862,7 @@
   {
     "type": "terrain",
     "id": "t_reinforced_plastic_window_with_curtain_open",
-    "name": "reinforced plastic window with an open curtain",
+    "name": "open reinforced plastic window with curtains",
     "description": "A makeshift reinforced window with an opened curtain.  It's three sheets of translucent, rigid plastic secured in a wooden frame, with a sheet strung about it to block the light as required.  It'll do in a pinch.  It's open and can be crawled through.",
     "looks_like": "t_window_open",
     "symbol": "|",
@@ -4037,7 +4037,7 @@
   {
     "type": "terrain",
     "id": "t_tempered_glass_with_curtain",
-    "name": "tempered glass window with a curtain",
+    "name": "tempered glass window with closed curtains",
     "description": "A closed tempered window with a fancy curtain on the inside that is closed to block visibility and shut out any light.",
     "looks_like": "t_curtains",
     "symbol": "|",
@@ -4085,7 +4085,7 @@
   {
     "type": "terrain",
     "id": "t_tempered_glass_with_curtain_open_window_closed",
-    "name": "tempered glass window with a curtain",
+    "name": "tempered glass window with curtains",
     "description": "A closed tempered window with a fancy curtain on the inside that can be drawn closed to block visibility and shut out any light.",
     "looks_like": "t_window_domestic",
     "symbol": "|",
@@ -4135,7 +4135,7 @@
   {
     "type": "terrain",
     "id": "t_tempered_glass_with_curtain_open",
-    "name": "tempered glass window with a curtain",
+    "name": "open tempered glass window with curtains",
     "description": "A tempered window with a fancy curtain on the inside that can be drawn closed to block visibility and shut out any light.  It's open and can be crawled through.",
     "looks_like": "t_window_open",
     "symbol": "|",

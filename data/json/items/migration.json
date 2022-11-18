@@ -194,6 +194,11 @@
     "charges": 1930
   },
   {
+    "id": "gasfilter_l",
+    "type": "MIGRATION",
+    "replace": "gasfilter_m"
+  },
+  {
     "id": "jacqueshammer",
     "type": "MIGRATION",
     "replace": "jackhammer"
@@ -1153,6 +1158,12 @@
     "type": "MIGRATION",
     "replace": "remington_870",
     "variant": "browning_a5"
+  },
+  {
+    "id": "90two",
+    "type": "MIGRATION",
+    "replace": "m9",
+    "variant": "90two"
   },
   {
     "id": "remington_1100",

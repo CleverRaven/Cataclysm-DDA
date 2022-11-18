@@ -27,7 +27,7 @@
     "volume": "1 ml",
     "weight": "1 mg",
     "color": "white",
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [ "TRADER_AVOID", "NO_DROP" ],
     "phase": "liquid",
     "ammo_type": "butane"
   },
@@ -1053,7 +1053,7 @@
     "material": [ "plastic" ],
     "volume": "1 ml",
     "weight": "1 mg",
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [ "TRADER_AVOID", "NO_DROP" ],
     "phase": "gas",
     "ammo_type": "albuterol"
   },
@@ -1135,21 +1135,6 @@
     "volume": "250 ml",
     "weight": "2 g",
     "ammo_type": "gasfilter_m",
-    "count": 100
-  },
-  {
-    "type": "AMMO",
-    "id": "gasfilter_l",
-    "category": "spare_parts",
-    "price": 2500,
-    "price_postapoc": 1000,
-    "name": { "str": "chemical mask cartridge" },
-    "symbol": "=",
-    "color": "light_gray",
-    "description": "Heavy replacement filter cartridge for air filtration masks.",
-    "volume": "250 ml",
-    "weight": "3 g",
-    "ammo_type": "gasfilter_l",
     "count": 100
   },
   {
@@ -1344,6 +1329,7 @@
     "description": "Mixture of oxygen and nitrogen in proportions suitable for diving.",
     "volume": "250 ml",
     "weight": "1 g",
+    "flags": [ "TRADER_AVOID", "NO_DROP" ],
     "phase": "gas",
     "ammo_type": "nitrox"
   },

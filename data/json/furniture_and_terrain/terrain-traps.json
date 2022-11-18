@@ -8,7 +8,8 @@
     "color": "black",
     "move_cost": 2,
     "trap": "tr_ledge",
-    "flags": [ "TRANSPARENT", "NOITEM", "NO_FLOOR" ]
+    "flags": [ "TRANSPARENT", "NO_FLOOR" ],
+    "examine_action": "ledge"
   },
   {
     "type": "terrain",

@@ -2466,7 +2466,7 @@ void monster::process_turn()
         }
     }
     // We update electrical fields here since they act every turn.
-    if( has_flag( MF_ELECTRIC_FIELD ) ) {
+    if( has_flag( MF_ELECTRIC_FIELD ) && !is_hallucination() ) {
         if( has_effect( effect_emp ) ) {
             if( calendar::once_every( 10_turns ) ) {
                 sounds::sound( pos(), 5, sounds::sound_t::combat, _( "hummmmm." ), false, "humming", "electric" );
@@ -2635,7 +2635,7 @@ void monster::die( Creature *nkiller )
     if( death_drops && !is_hallucination() ) {
         for( const item &it : inv ) {
             if( corpse ) {
-                corpse->put_in( it, item_pocket::pocket_type::CONTAINER );
+                corpse->force_insert_item( it, item_pocket::pocket_type::CONTAINER );
             } else {
                 get_map().add_item_or_charges( pos(), it );
             }
@@ -2645,11 +2645,6 @@ void monster::die( Creature *nkiller )
                 corpse->put_in( it, item_pocket::pocket_type::CORPSE );
             } else {
                 get_map().add_item( pos(), it );
-            }
-        }
-        if( corpse ) {
-            for( item_pocket *pocket : corpse->get_all_contained_pockets() ) {
-                pocket->set_usability( false );
             }
         }
     }
@@ -2797,7 +2792,7 @@ void monster::drop_items_on_death( item *corpse )
 
         // add stuff that could be worn or strapped to the creature
         if( it.is_armor() ) {
-            corpse->put_in( it, item_pocket::pocket_type::CONTAINER );
+            corpse->force_insert_item( it, item_pocket::pocket_type::CONTAINER );
         }
     }
 
@@ -2820,7 +2815,7 @@ void monster::drop_items_on_death( item *corpse )
             if( current_best.second != nullptr ) {
                 current_best.second->insert_item( it );
             } else {
-                corpse->put_in( it, item_pocket::pocket_type::CONTAINER );
+                corpse->force_insert_item( it, item_pocket::pocket_type::CONTAINER );
             }
         }
     }

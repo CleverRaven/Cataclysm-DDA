@@ -898,9 +898,13 @@ bool zone_manager::custom_loot_has( const tripoint_abs_ms &where, const item *it
         bool has = false;
         if( ztype == zone_type_LOOT_CUSTOM ) {
             auto const z = item_filter_from_string( filter_string );
-            has = z( *check_it );
+            has = z( *check_it ) || ( check_it != it && z( *it ) );
         } else if( ztype == zone_type_LOOT_ITEM_GROUP ) {
-            has = item_group::group_contains_item( item_group_id( filter_string ), check_it->typeId() );
+            has = item_group::group_contains_item( item_group_id( filter_string ),
+                                                   check_it->typeId() ) ||
+                  ( check_it != it &&
+                    item_group::group_contains_item( item_group_id( filter_string ),
+                            it->typeId() ) );
         }
         if( has ) {
             return true;
@@ -1145,7 +1149,6 @@ void zone_manager::create_vehicle_loot_zone( vehicle &vehicle, const point &moun
     auto nz = vehicle.loot_zones.emplace( mount_point, new_zone );
     map &here = pmap == nullptr ? get_map() : *pmap;
     here.register_vehicle_zone( &vehicle, here.get_abs_sub().z() );
-    vehicle.zones_dirty = false;
     added_vzones.push_back( &nz->second );
     cache_vzones( pmap );
 }
@@ -1533,7 +1536,6 @@ void zone_manager::revert_vzones()
                     zone.get_start_point() ) ).part_with_feature( "CARGO", false ) ) {
             zone.set_is_vehicle( true );
             vp->vehicle().loot_zones.emplace( vp->mount(), zone );
-            vp->vehicle().zones_dirty = false;
             here.register_vehicle_zone( &vp->vehicle(), here.get_abs_sub().z() );
             cache_vzones();
         }
