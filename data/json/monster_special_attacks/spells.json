@@ -1060,5 +1060,16 @@
     "min_range": 10,
     "max_range": 10,
     "max_level": 20
+  },
+  {
+    "id": "death_blood",
+    "type": "SPELL",
+    "name": { "str": "Blood Explosion" },
+    "description": "Explode in a shower of gore.  Metal!",
+    "flags": [ "NO_EXPLOSION_SFX", "SILENT" ],
+    "valid_targets": [ "self" ],
+    "shape": "blast",
+    "effect": "emit",
+    "effect_str": "emit_blood_explosion",
   }
 ]

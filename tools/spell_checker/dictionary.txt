@@ -913,6 +913,7 @@ evacuee
 evangelized
 everburning
 everfrost
+evergrowing
 eviscerations
 exactingly
 exchangeable
@@ -1019,6 +1020,7 @@ flappin
 flaregun
 flarewhip
 flatjaw
+flatworm
 flavorings
 flays
 fle
@@ -1059,6 +1061,7 @@ foregrips
 foreleg
 forelegs
 forestalling
+forelimbs
 forestock
 forgemaster
 forgnottedn
@@ -1286,6 +1289,7 @@ hidder
 hideos
 hider
 hidous
+hindlimbs
 hippocastanum
 hissssssssss
 hitpoints

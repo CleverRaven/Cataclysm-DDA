@@ -689,6 +689,6 @@
     "effect_str": "mon_tapeworm_mega",
     "min_aoe": 1,
     "max_aoe": 1,
-    "extra_effects": [ { "id": "emit_blood_explosion", "hit_self": true } ]
+    "extra_effects": [ { "id": "death_blood", "hit_self": true } ]
   }
 ]
