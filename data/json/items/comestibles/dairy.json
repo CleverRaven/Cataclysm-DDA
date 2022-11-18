@@ -244,6 +244,22 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "cottage_cheese",
+    "name": { "str_sp": "cottage cheese" },
+    "copy-from": "cheese",
+    "weight": "34 g",
+    "spoils_in": "180 days",
+    "quench": 1,
+    "calories": 391,
+    "description": "Hard, dry cheese made to last, unlike modern processed cheese.  Will make you thirsty though.",
+    "price": 385,
+    "price_postapoc": 150,
+    "vitamins": [ [ "calcium", 32 ], [ "iron", 2 ] ],
+    "fun": 3,
+    "flags": [ "NUTRIENT_OVERRIDE" ]
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "cheese_powder",
     "name": { "str_sp": "powdered cheese" },
     "weight": "23 g",

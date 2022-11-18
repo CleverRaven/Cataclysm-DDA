@@ -75,6 +75,24 @@
   },
   {
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "cottage_cheese",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": "5 m",
+    "result_mult": 6,
+    "book_learn": [ [ "dairy_book", 1 ] ],
+    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "tools": [
+      [ [ "water_boiling_heat", 2, "LIST" ] ],
+      [ [ "colander_steel", -1 ], [ "sieve_steel", -1 ], [ "sieve_primitive", -1 ], [ "cotton_patchwork", -1 ] ]
+    ],
+    "components": [ [ [ "milk", 16 ], [ "milk_raw", 16 ] ], [ [ "vinegar", 1 ] ], [ [ "salt", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "ghee",
     "category": "CC_FOOD",
