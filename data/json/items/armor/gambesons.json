@@ -106,7 +106,7 @@
     "name": { "str": "canvas arming pants", "str_pl": "pairs of canvas arming pants" },
     "description": "Tough cloth pants worn alongside an aketon underneath metal armor.  These are made of many layers of canvas offering solid protection.",
     "weight": "2880 g",
-    "volume": "1750 ml",
+    "volume": "2000 ml",
     "price_postapoc": 750,
     "to_hit": -5,
     "material": [ "canvas" ],
