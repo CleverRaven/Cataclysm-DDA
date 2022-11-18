@@ -4304,10 +4304,6 @@
     "name": "canvas coifs",
     "description": "Recipes related to armored cloth hoods made of canvas.",
     "skill_used": "tailoring",
-    "nested_category_data": [
-      "aketon_hood_canvas_layered",
-      "xl_aketon_hood_canvas_layered",
-      "xl_aketon_hood_canvas_layered"
-    ]
+    "nested_category_data": [ "aketon_hood_canvas_layered", "xl_aketon_hood_canvas_layered", "xl_aketon_hood_canvas_layered" ]
   }
 ]
