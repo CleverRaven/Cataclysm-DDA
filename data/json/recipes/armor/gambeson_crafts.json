@@ -16,7 +16,22 @@
     "book_learn": [ [ "textbook_armwest", 3 ] ],
     "using": [ [ "filament_canvas", 100 ], [ "tailoring_canvas_patchwork", 67 ], [ "fastener_large", 2 ], [ "fastener_small", 10 ] ],
     "components": [ [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ] ]
-    
+  },
+  {
+    "result": "xl_aketon_canvas_layered",
+    "type": "recipe",
+    "copy-from": "aketon_canvas_layered",
+    "time": "57 h",
+    "using": [ [ "filament_canvas", 150 ], [ "tailoring_canvas_patchwork", 101 ], [ "fastener_large", 2 ], [ "fastener_small", 14 ] ],
+    "components": [ [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ] ]
+  },
+  {
+    "result": "xs_aketon_canvas_layered",
+    "type": "recipe",
+    "copy-from": "aketon_canvas_layered",
+    "time": "29 h",
+    "using": [ [ "filament_canvas", 75 ], [ "tailoring_canvas_patchwork", 50 ], [ "fastener_large", 2 ], [ "fastener_small", 8 ] ],
+    "components": [ [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ] ]
   },
   {
     "result": "aketon_canvas_layered_vest",
@@ -37,6 +52,22 @@
     "components": [ [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ] ]
   },
   {
+    "result": "xl_aketon_canvas_layered_vest",
+    "type": "recipe",
+    "copy-from": "aketon_canvas_layered_vest",
+    "time": "30 h",
+    "using": [ [ "filament_canvas", 105 ], [ "tailoring_canvas_patchwork", 75 ], [ "fastener_large", 2 ] ],
+    "components": [ [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ] ]
+  },
+  {
+    "result": "xs_aketon_canvas_layered_vest",
+    "type": "recipe",
+    "copy-from": "aketon_canvas_layered_vest",
+    "time": "15 h",
+    "using": [ [ "filament_canvas", 53 ], [ "tailoring_canvas_patchwork", 38 ], [ "fastener_large", 2 ] ],
+    "components": [ [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ] ]
+  },
+  {
     "result": "aketon_pants_canvas_layered",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -54,6 +85,22 @@
     "using": [ [ "filament_canvas", 40 ], [ "tailoring_canvas_patchwork", 36 ], [ "fastener_small", 5 ] ]
   },
   {
+    "result": "xl_aketon_pants_canvas_layered",
+    "type": "recipe",
+    "copy-from": "aketon_pants_canvas_layered",
+    "time": "36 h",
+    "using": [ [ "filament_canvas", 60 ], [ "tailoring_canvas_patchwork", 54 ], [ "fastener_small", 7 ] ],
+    "components": [ [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ] ]
+  },
+  {
+    "result": "xs_aketon_pants_canvas_layered",
+    "type": "recipe",
+    "copy-from": "aketon_pants_canvas_layered",
+    "time": "18 h",
+    "using": [ [ "filament_canvas", 30 ], [ "tailoring_canvas_patchwork", 27 ], [ "fastener_small", 5 ] ],
+    "components": [ [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ] ]
+  },
+  {
     "result": "aketon_hood_canvas_layered",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -63,10 +110,24 @@
     "skill_used": "tailor",
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_quilting" } ],
     "difficulty": 5,
-    "time": "4 h",
+    "time": "6 h",
     "autolearn": true,
     "book_learn": [ [ "textbook_armwest", 3 ] ],
     "using": [ [ "filament_canvas", 10 ], [ "tailoring_canvas_patchwork", 10 ], [ "fastener_small", 2 ] ]
+  },
+  {
+    "result": "xl_aketon_hood_canvas_layered",
+    "type": "recipe",
+    "copy-from": "aketon_hood_canvas_layered",
+    "time": "9 h",
+    "using": [ [ "filament_canvas", 15 ], [ "tailoring_canvas_patchwork", 15 ], [ "fastener_small", 4 ] ]
+  },
+  {
+    "result": "xs_aketon_hood_canvas_layered",
+    "type": "recipe",
+    "copy-from": "aketon_hood_canvas_layered",
+    "time": "5 h",
+    "using": [ [ "filament_canvas", 8 ], [ "tailoring_canvas_patchwork", 8 ], [ "fastener_small", 2 ] ]
   },
   {
     "result": "gambeson_canvas_layered",
@@ -85,7 +146,22 @@
     "book_learn": [ [ "textbook_armwest", 3 ] ],
     "using": [ [ "filament_canvas", 150 ], [ "tailoring_canvas_patchwork", 141 ], [ "fastener_large", 2 ], [ "fastener_small", 10 ] ],
     "components": [ [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ] ]
-    
+  },
+  {
+    "result": "xl_gambeson_canvas_layered",
+    "type": "recipe",
+    "copy-from": "gambeson_canvas_layered",
+    "time": "120 h",
+    "using": [ [ "filament_canvas", 225 ], [ "tailoring_canvas_patchwork", 211 ], [ "fastener_large", 2 ], [ "fastener_small", 14 ] ],
+    "components": [ [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ] ]
+  },
+  {
+    "result": "xs_gambeson_canvas_layered",
+    "type": "recipe",
+    "copy-from": "gambeson_canvas_layered",
+    "time": "60 h",
+    "using": [ [ "filament_canvas", 114 ], [ "tailoring_canvas_patchwork", 106 ], [ "fastener_large", 2 ], [ "fastener_small", 8 ] ],
+    "components": [ [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ] ]
   },
   {
     "result": "gambeson_canvas_layered_thinsleeved",
@@ -104,7 +180,22 @@
     "book_learn": [ [ "textbook_armwest", 3 ] ],
     "using": [ [ "filament_canvas", 140 ], [ "tailoring_canvas_patchwork", 123 ], [ "fastener_large", 2 ], [ "fastener_small", 10 ] ],
     "components": [ [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ] ]
-    
+  },
+  {
+    "result": "xl_gambeson_canvas_layered_thinsleeved",
+    "type": "recipe",
+    "copy-from": "gambeson_canvas_layered_thinsleeved",
+    "time": "105 h",
+    "using": [ [ "filament_canvas", 210 ], [ "tailoring_canvas_patchwork", 211 ], [ "fastener_large", 2 ], [ "fastener_small", 14 ] ],
+    "components": [ [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ] ]
+  },
+  {
+    "result": "xs_gambeson_canvas_layered_thinsleeved",
+    "type": "recipe",
+    "copy-from": "gambeson_canvas_layered_thinsleeved",
+    "time": "54 h",
+    "using": [ [ "filament_canvas", 105 ], [ "tailoring_canvas_patchwork", 106 ], [ "fastener_large", 2 ], [ "fastener_small", 8 ] ],
+    "components": [ [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ] ]
   },
   {
     "result": "gambeson_canvas_layered_vest",
@@ -125,6 +216,22 @@
     "components": [ [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ] ]
   },
   {
+    "result": "xl_gambeson_canvas_layered_vest",
+    "type": "recipe",
+    "copy-from": "gambeson_canvas_layered_vest",
+    "time": "63 h",
+    "using": [ [ "filament_canvas", 135 ], [ "tailoring_canvas_patchwork", 158 ], [ "fastener_large", 2 ] ],
+    "components": [ [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ] ]
+  },
+  {
+    "result": "xs_gambeson_canvas_layered_vest",
+    "type": "recipe",
+    "copy-from": "gambeson_canvas_layered_vest",
+    "time": "31 h",
+    "using": [ [ "filament_canvas", 74 ], [ "tailoring_canvas_patchwork", 77 ], [ "fastener_large", 2 ] ],
+    "components": [ [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ] ]
+  },
+  {
     "result": "gambeson_pants_canvas_layered",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -140,5 +247,19 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_armwest", 3 ] ],
     "using": [ [ "filament_canvas", 50 ], [ "tailoring_canvas_patchwork", 72 ], [ "fastener_small", 5 ] ]
+  },
+  {
+    "result": "xl_gambeson_pants_canvas_layered",
+    "type": "recipe",
+    "copy-from": "gambeson_pants_canvas_layered",
+    "time": "72 h",
+    "using": [ [ "filament_canvas", 75 ], [ "tailoring_canvas_patchwork", 54 ], [ "fastener_small", 7 ] ]
+  },
+  {
+    "result": "xs_gambeson_pants_canvas_layered",
+    "type": "recipe",
+    "copy-from": "gambeson_pants_canvas_layered",
+    "time": "36 h",
+    "using": [ [ "filament_canvas", 38 ], [ "tailoring_canvas_patchwork", 54 ], [ "fastener_small", 5 ] ]
   }
 ]
