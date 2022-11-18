@@ -579,5 +579,16 @@
     "no_dmg_msg_npc": "%1$s's tapeworm lunges at <npcname>, but fails to penetrate their armor!",
     "miss_msg_u": "%1$s's tapeworm lunges at you, but you dodge!",
     "miss_msg_npc": "%1$s's tapeworm lunges at <npcname>, but they dodge!"
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "tapeworm_pull_aim",
+    "cooldown": 25,
+    "move_cost": 250,
+    "damage_max_instance": [ { "damage_type": "stab", "amount": 0 } ],
+    "self_effects_always": [ { "id": "tapeworm_pull_aimed", "duration": 30 } ],
+    "dodgeable": false,
+    "blockable": false
   }
 ]

@@ -4191,5 +4191,11 @@
     "desc": [ "You are covered in glowing nether spores!" ],
     "apply_message": "The glowing spores settle on you!",
     "rating": "bad"
+  },
+  {
+    "type": "effect_type",
+    "id": "tapeworm_pull_aimed",
+    "name": [ "Aimed Tapeworm" ],
+    "desc": [ "The tapeworm has taken aim." ]
   }
 ]

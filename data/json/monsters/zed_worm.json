@@ -158,9 +158,10 @@
         "monster_message": "A tapeworm falls off the hive's body",
         "cooldown": 20
       },
-      { "type": "spell", "spell_data": { "id": "tapeworm_pull" } }
+      { "type": "spell", "spell_data": { "id": "tapeworm_pull" }, "required_effects_any": [ "tapeworm_pull_aimed" ] },
+      { "id": "tapeworm_pull_aim" }
     ],
-    "death_function": { "effect": { "id": "death_tapeworm", "hit_self": true } },
+    "death_function": { "effect": { "id": "death_tapeworm_mega", "hit_self": true } },
     "death_drops": "mon_zombie_hulk_death_drops",
     "burn_into": "mon_zombie_fiend",
     "fungalize_into": "mon_zombie_fungus",
