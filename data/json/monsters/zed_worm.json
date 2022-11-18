@@ -85,7 +85,11 @@
       [ "RANGED_PULL", 75 ],
       { "type": "bite", "cooldown": 5 },
       [ "scratch", 20 ],
-      { "id": "tapeworm", "damage_max_instance": [ { "damage_type": "stab", "amount": 14, "armor_penetration": 4 } ], "range": 7 }
+      {
+        "id": "tapeworm",
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 14, "armor_penetration": 4 } ],
+        "range": 7
+      }
     ],
     "death_function": { "effect": { "id": "death_tapeworm", "hit_self": true } },
     "death_drops": "mon_zombie_hulk_death_drops",
@@ -128,7 +132,7 @@
     "melee_dice": 4,
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-	"grab_strength": 3,
+    "grab_strength": 3,
     "dodge": 2,
     "armor_bash": 6,
     "armor_cut": 9,
@@ -143,17 +147,18 @@
     "special_attacks": [
       [ "RANGED_PULL", 75 ],
       { "type": "bite", "cooldown": 5 },
-      { "id": "tapeworm", "damage_max_instance": [ { "damage_type": "stab", "amount": 23, "armor_penetration": 7 } ], "range": 10 },
-	  {
+      {
+        "id": "tapeworm",
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 23, "armor_penetration": 7 } ],
+        "range": 10
+      },
+      {
         "type": "spell",
         "spell_data": { "id": "tapeworm_summon" },
         "monster_message": "A tapeworm falls off the hive's body",
         "cooldown": 20
       },
-	  {
-        "type": "spell",
-        "spell_data": { "id": "tapeworm_pull" }
-      }
+      { "type": "spell", "spell_data": { "id": "tapeworm_pull" } }
     ],
     "death_function": { "effect": { "id": "death_tapeworm", "hit_self": true } },
     "death_drops": "mon_zombie_hulk_death_drops",
@@ -201,7 +206,7 @@
     "harvest": "zombie_meatslug",
     "upgrades": { "half_life": 60, "into": "mon_tapeworm_mega" },
     "flags": [ "ATTACK_LOWER", "POISON", "NO_BREATHE" ],
-	"zombify_into": "mon_meat_cocoon_small"
+    "zombify_into": "mon_meat_cocoon_small"
   },
   {
     "id": "mon_tapeworm_mega",
@@ -229,9 +234,9 @@
     "armor_bullet": 2,
     "armor_elec": 2,
     "bleed_rate": 60,
-	"vision_day": 4,
+    "vision_day": 4,
     "harvest": "zombie_meatslug",
     "flags": [ "ATTACK_LOWER", "POISON", "NO_BREATHE", "BASHES", "DESTROYS" ],
-	"zombify_into": "mon_meat_cocoon_large"
+    "zombify_into": "mon_meat_cocoon_large"
   }
 ]
