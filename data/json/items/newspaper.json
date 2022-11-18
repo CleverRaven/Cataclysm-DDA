@@ -530,7 +530,10 @@
       {
         "id": "action",
         "name": { "str": "Last Stand 2: Still Standing movie poster" },
-        "description": "This a poster for the highly anticipated sequel \"Last Stand 2: Still Standing\".  Ashton Murphy reprises his role as Det. Harvey Baxter, a retired private eye who delivers pain to those who flee from justice.",
+        "description": {
+          "str": "This a poster for the highly anticipated sequel \"Last Stand 2: Still Standing\".  Ashton Murphy reprises his role as Det. Harvey Baxter, a retired private eye who delivers pain to those who flee from justice.",
+          "//NOLINT(cata-text-style)": "intentional format"
+        },
         "color": "yellow",
         "weight": 1
       },
