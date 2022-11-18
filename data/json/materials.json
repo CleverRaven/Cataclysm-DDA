@@ -1352,6 +1352,7 @@
   {
     "type": "material",
     "id": "leather_hardened",
+    "//": "leather that has been chemically and or thermally treated to increase its strength",
     "name": "Hardened Leather",
     "density": 1.2,
     "specific_heat_liquid": 1.5,

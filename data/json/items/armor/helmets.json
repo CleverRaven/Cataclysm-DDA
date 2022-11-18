@@ -1079,7 +1079,7 @@
     "to_hit": -3,
     "bashing": 2,
     "cutting": 4,
-    "material": [ "leather", "iron" ],
+    "material": [ "leather_hardened", "iron" ],
     "symbol": "[",
     "looks_like": "helmet_plate",
     "color": "dark_gray",
