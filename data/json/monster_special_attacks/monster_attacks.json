@@ -564,5 +564,20 @@
     "no_dmg_msg_npc": "%1$s tries to impale <npcname>, but fails to penetrate their armor!",
     "dodgeable": true,
     "blockable": true
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "tapeworm",
+    "cooldown": 5,
+    "move_cost": 100,
+    "range": 6,
+    "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_penetration": 3, "armor_multiplier": 0.5 } ],
+    "hit_dmg_u": "%1$s's tapeworm lunges at your %2$s!",
+    "hit_dmg_npc": "%1$s's tapeworm lunges at <npcname>!",
+    "no_dmg_msg_u": "%1$s's tapeworm lunges at you, but fails to penetrate your armor!",
+    "no_dmg_msg_npc": "%1$s's tapeworm lunges at <npcname>, but fails to penetrate their armor!",
+    "miss_msg_u": "%1$s's tapeworm lunges at you, but you dodge!",
+    "miss_msg_npc": "%1$s's tapeworm lunges at <npcname>, but they dodge!"
   }
 ]
