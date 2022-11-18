@@ -1360,7 +1360,7 @@
     "latent_heat": 273,
     "soft": true,
     "reinforces": true,
-    "bash_resist": 2,
+    "bash_resist": 2.5,
     "cut_resist": 3.5,
     "bullet_resist": 2,
     "acid_resist": 4.5,
