@@ -157,31 +157,26 @@
         "order": 1600
       },
       {
-        "type": "overlay_order",
-        "overlay_ordering": [
-          {
-            "id": [
-              "SPACEAGE_PINK",
-              "SPACEAGE_GREEN",
-              "PIGTAIL_BLONDE",
-              "PIGTAIL_BRUNETTE",
-              "PIGTAIL_BLACK",
-              "BUSHYTAIL_BRUNETTE",
-              "BUSHYTAIL_BOW_BRUNETTE",
-              "BUSHYTAIL_BLONDE",
-              "BUSHYTAIL_BLACK"
-            ],
-            "order": 1600
-          },
-          {
-            "id": [ "MASCARA_EYES", "RED_BLUSH_FACE", "BLUE_EYELINER", "GREEN_EYELINER", "RED_EYELINER", "DARK_CIRCLE_EYES" ],
-            "order": 1300
-          },
-          {
-            "id": [ "TATTOO_CROSS_CHEST", "TATTOO_RARM_WIRE", "TATTOO_LARM_BLACK", "TATTOO_WHOLEFACE1", "TATTOO_WHOLEFACE2" ],
-            "order": 1200
-          }
-        ]
+        "id": [
+          "SPACEAGE_PINK",
+          "SPACEAGE_GREEN",
+          "PIGTAIL_BLONDE",
+          "PIGTAIL_BRUNETTE",
+          "PIGTAIL_BLACK",
+          "BUSHYTAIL_BRUNETTE",
+          "BUSHYTAIL_BOW_BRUNETTE",
+          "BUSHYTAIL_BLONDE",
+          "BUSHYTAIL_BLACK"
+        ],
+        "order": 1600
+      },
+      {
+        "id": [ "MASCARA_EYES", "RED_BLUSH_FACE", "BLUE_EYELINER", "GREEN_EYELINER", "RED_EYELINER", "DARK_CIRCLE_EYES" ],
+        "order": 1300
+      },
+      {
+        "id": [ "TATTOO_CROSS_CHEST", "TATTOO_RARM_WIRE", "TATTOO_LARM_BLACK", "TATTOO_WHOLEFACE1", "TATTOO_WHOLEFACE2" ],
+        "order": 1200
       },
       { "id": [ "LEAVES" ], "order": 1900 },
       {
