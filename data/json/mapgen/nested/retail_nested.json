@@ -359,10 +359,10 @@
         "P.AAAAA.W",
         "P.GG.GG.W",
         "P.......W",
-        "P.GG.VV.W",
-        "V.......V",
+        "P.GG.VV..",
+        "V........",
         "MMMM?M   ",
-        "Y   A   Y"
+        "Y   S   Y"
       ],
       "terrain": {
         " ": "t_floor",
@@ -385,20 +385,20 @@
         "V": "f_bookcase",
         "W": "f_bookcase",
         "Y": "f_trashcan",
-        "A": "f_stool",
+        "S": "f_stool",
         "y": [ "f_indoor_plant", "f_indoor_plant_y" ]
       },
+      "place_item": [ { "item": "citrine", "x": 2, "y": [ 2, 3 ], "chance": 100, "repeat": [ 5, 15 ] } ],
       "items": {
         "?": [ { "item": "cash_register_random", "chance": 100 } ],
         "Y": [ { "item": "trash", "chance": 30, "repeat": [ 1, 2 ] } ],
-        "M": [ { "item": "office", "chance": 30, "repeat": [ 0, 1 ] } ],
-        "G": [ { "item": "gemstones", "chance": 30, "repeat": [ 1, 2 ] } ],
-        "A": [ { "item": "art", "chance": 30, "repeat": [ 0, 4 ] } ],
-        "P": [ { "item": "pottery", "chance": 30, "repeat": [ 0, 4 ] } ],
-        "O": [ { "item": "pottery", "chance": 30, "repeat": [ 0, 4 ] } ],
-        "W": [ { "item": "woodcrafts", "chance": 30, "repeat": [ 0, 4 ] } ],
-        "V": [ { "item": "beauty", "chance": 30, "repeat": [ 0, 4 ] } ],
-        "B": [ { "item": "beauty", "chance": 30, "repeat": [ 0, 4 ] } ]
+        "M": [ { "item": "office", "chance": 20, "repeat": [ 0, 1 ] } ],
+        "A": [ { "item": "gift_shop", "chance": 30, "repeat": [ 15, 30 ] } ],
+        "P": [ { "item": "gift_shop", "chance": 30, "repeat": [ 10, 20 ] } ],
+        "O": [ { "item": "gift_shop", "chance": 30, "repeat": [ 10, 20 ] } ],
+        "W": [ { "item": "gift_shop", "chance": 30, "repeat": [ 20, 50 ] } ],
+        "V": [ { "item": "gift_shop", "chance": 30, "repeat": [ 12, 20 ] } ],
+        "B": [ { "item": "gift_shop", "chance": 30, "repeat": [ 12, 20 ] } ]
       }
     }
   },
@@ -419,9 +419,7 @@
       "furniture": { "z": [ [ "f_cardboard_box", 5 ], "f_crate_c" ] },
       "items": {
         "z": [
-          { "item": "beauty", "chance": 30, "repeat": [ 0, 2 ] },
-          { "item": "woodcrafts", "chance": 30, "repeat": [ 0, 2 ] },
-          { "item": "art", "chance": 30, "repeat": [ 0, 2 ] }
+          { "item": "gift_shop", "chance": 30, "repeat": [ 0, 2 ] }
         ]
       }
     }
