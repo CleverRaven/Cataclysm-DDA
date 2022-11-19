@@ -271,7 +271,7 @@
   {
     "id": "bp_armor_valhalla_trophy",
     "type": "BOOK",
-    "name": { "str": "valhalla trophy armor plans" },
+    "name": { "str": "valhalla trophy armor plan" },
     "description": "These are a set of crudely illustrated plans to assemble a fearsome set of armor out of the bodies of ones slain foes.",
     "category": "manuals",
     "weight": "100 g",
