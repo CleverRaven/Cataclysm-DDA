@@ -246,5 +246,41 @@
   {
     "type": "mutation_type",
     "id": "facial_hair"
+  },
+  {
+    "type": "mutation_type",
+    "id": "makeup_eyes"
+  },
+  {
+    "type": "mutation_type",
+    "id": "makeup_face"
+  },
+  {
+    "type": "mutation_type",
+    "id": "tattoo_chest"
+  },
+  {
+    "type": "mutation_type",
+    "id": "tattoo_face"
+  },
+  {
+    "type": "mutation_type",
+    "id": "tattoo_leftarm"
+  },
+  {
+    "type": "mutation_type",
+    "id": "tattoo_rightarm"
+  },
+  {
+    "type": "mutation_type",
+    "id": "tattoo_leftleg"
+  },
+  {
+    "type": "mutation_type",
+    "id": "tattoo_rightleg"
+  },
+  {
+    "type": "mutation_type",
+    "id": "expression"
   }
 ]
