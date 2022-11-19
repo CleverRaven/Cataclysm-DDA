@@ -3225,7 +3225,7 @@
     "category": "armor",
     "name": { "str": "valhallist trophy armor" },
     "description": "A fearsome, if somewhat impractical suit of ornamental armor, crafted with an amalgamation of monster bits slain by the wearer. A thin layer of fur covers the gaps in the leather armor, and the whole armor is adorned with protective chitin plating and ornamental bones. A fur skirt is affixed to the hips. The upper has an integrated thick fur coat and hood. Use it to lower the hood.",
-    "weight": "8250 g",
+    "weight": "6750 g",
     "volume": "6500 ml",
     "price": 25000,
     "price_postapoc": 5000,
