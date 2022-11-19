@@ -1239,7 +1239,7 @@
     "category": "armor",
     "name": { "str": "plated leather armor" },
     "description": "Thick leather body armor that has been reinforced with strategically-placed metal plates.",
-    "weight": "6280 g",
+    "weight": "6288 g",
     "volume": "9 L",
     "price": 110000,
     "price_postapoc": 3000,
