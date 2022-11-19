@@ -138,7 +138,6 @@
     "armor_bullet": 5,
     "armor_elec": 4,
     "bleed_rate": 0,
-    "vision_day": 83,
     "vision_night": 5,
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_hulk" ],
