@@ -10,7 +10,7 @@
     "volume": "62500 ml",
     "weight": "81500 g",
     "hp": 95,
-    "speed": 80,
+    "speed": 65,
     "material": [ "flesh" ],
     "symbol": "Z",
     "color": "red",
@@ -23,7 +23,6 @@
     "dodge": 1,
     "armor_elec": 1,
     "bleed_rate": 50,
-    "vision_day": 30,
     "vision_night": 3,
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
@@ -62,7 +61,7 @@
     "volume": "62500 ml",
     "weight": "81500 g",
     "hp": 200,
-    "speed": 80,
+    "speed": 75,
     "material": [ "flesh" ],
     "symbol": "Z",
     "color": "red",
@@ -77,7 +76,7 @@
     "armor_cut": 3,
     "armor_elec": 1,
     "bleed_rate": 0,
-    "vision_night": 5,
+    "vision_night": 3,
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "harvest": "zombie",
@@ -88,7 +87,7 @@
       {
         "id": "tapeworm",
         "damage_max_instance": [ { "damage_type": "stab", "amount": 14, "armor_penetration": 4 } ],
-        "range": 7
+        "range": 6
       }
     ],
     "death_function": { "effect": { "id": "death_tapeworm", "hit_self": true } },
@@ -150,15 +149,22 @@
       {
         "id": "tapeworm",
         "damage_max_instance": [ { "damage_type": "stab", "amount": 23, "armor_penetration": 7 } ],
-        "range": 10
+        "range": 8
       },
       {
         "type": "spell",
-        "spell_data": { "id": "tapeworm_summon" },
-        "monster_message": "A tapeworm falls off the hive's body",
+        "id": "tapeworm_summon",
+        "spell_data": { "id": "tapeworm_summon", "min_level": 1 },
+        "monster_message": "A tapeworm falls off the hive's body.",
         "cooldown": 20
       },
-      { "type": "spell", "spell_data": { "id": "tapeworm_pull" }, "required_effects_any": [ "tapeworm_pull_aimed" ] },
+      {
+        "type": "spell",
+        "id": "tapeworm_pull",
+        "spell_data": { "id": "tapeworm_pull", "min_level": 1 },
+        "monster_message": "The giant tapeworm strikes you and pulls you to the hive!",
+        "required_effects_any": [ "tapeworm_pull_aimed" ]
+      },
       { "id": "tapeworm_pull_aim" }
     ],
     "death_function": { "effect": { "id": "death_tapeworm_mega", "hit_self": true } },

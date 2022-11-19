@@ -726,6 +726,7 @@ diffract
 diffracting
 diggable
 digitizes
+digitigrade
 dilophosaurus
 dimensionalism
 dimensionally
