@@ -190,7 +190,8 @@
       { "group": "manuals" },
       { "group": "textbooks" },
       { "group": "drugs_heal_simple" },
-      { "group": "drugs_emergency" }
+      { "group": "drugs_emergency" },
+      { "item": "bp_armor_valhalla_trophy"}
     ]
   }
 ]

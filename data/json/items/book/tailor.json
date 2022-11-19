@@ -267,5 +267,28 @@
       { "proficiency": "prof_closures_waterproofing", "fail_factor": 0.05 },
       { "proficiency": "prof_leatherworking", "fail_factor": 0.05 }
     ]
+  },
+  {
+    "id": "bp_armor_valhalla_trophy",
+    "type": "BOOK",
+    "name": { "str": "valhalla trophy armor plans" },
+    "description": "These are a set of crudely illustrated plans to assemble a fearsome set of armor out of the bodies of ones slain foes.",
+    "category": "manuals",
+    "weight": "100 g",
+    "volume": "200 ml",
+    "price": 6000,
+    "price_postapoc": 6000,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "looks_like": "paper",
+    "required_level": 6,
+    "intelligence": 7,
+    "time": "30 m",
+    "color": "brown",
+    "proficiencies": [
+      { "proficiency": "prof_furriery", "fail_factor": 0.05 },
+      { "proficiency": "prof_chitinworking", "fail_factor": 0.05 },
+      { "proficiency": "prof_leatherworking", "fail_factor": 0.05 }
+    ]
   }
 ]

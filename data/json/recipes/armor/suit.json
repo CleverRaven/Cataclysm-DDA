@@ -3372,5 +3372,46 @@
       [ [ "xl_armor_qt_heavyarmguard", 2 ] ],
       [ [ "xl_armor_qt_heavy_leg_guard", 2 ] ]
     ]
+  },
+  {
+    "result": "armor_valhalla_trophy",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "tailor",
+    "difficulty": 7,
+    "book_learn": [ [ "bp_armor_valhalla_trophy", 6 ] ],
+    "skills_required": [ [ "fabrication", 4 ], [ "survival", 1 ] ],
+    "time": "18 h",
+    "using": [ [ "tailoring_fur_patchwork", 12 ], [ "tailoring_leather_patchwork", 12 ], [ "cordage", 4 ] ],
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
+    "proficiencies": [
+      { "proficiency": "prof_articulation" },
+      { "proficiency": "prof_chitinworking" },
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_furriery" },
+      { "proficiency": "prof_leatherworking" },
+      { "proficiency": "prof_carving" }
+    ],
+    "components": [ [ [ "chitin_piece", 32 ] ], [ [ "bone_sturdy", 8, "LIST" ] ] ],
+    "byproducts": [ [ "fur", 2 ], [ "leather", 2 ] ]
+  },
+  {
+    "result": "xs_armor_valhalla_trophy",
+    "type": "recipe",
+    "copy-from": "armor_valhalla_trophy",
+    "time": "18 h",
+    "using": [ [ "tailoring_fur_patchwork", 9 ], [ "tailoring_leather_patchwork", 9 ], [ "cordage", 4 ] ],
+    "components": [ [ [ "chitin_piece", 22 ] ], [ [ "bone_sturdy", 6, "LIST" ] ] ]
+  },
+  {
+    "result": "xl_armor_valhalla_trophy",
+    "type": "recipe",
+    "copy-from": "armor_valhalla_trophy",
+    "time": "24 h",
+    "using": [ [ "tailoring_fur_patchwork", 15 ], [ "tailoring_leather_patchwork", 15 ], [ "cordage", 6 ] ],
+    "components": [ [ [ "chitin_piece", 42 ] ], [ [ "bone_sturdy", 10, "LIST" ] ] ]
   }
 ]

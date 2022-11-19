@@ -3217,5 +3217,240 @@
       "msg": "The %s pipes stop humming.",
       "target": "armor_nomad_heavyplate"
     }
+  },
+  {
+    "id": "armor_valhalla_trophy",
+    "type": "ARMOR",
+    "repairs_like": "armor_larmor",
+    "category": "armor",
+    "name": { "str": "valhallist trophy armor" },
+    "description": "A fearsome, if somewhat impractical suit of ornamental armor, crafted with an amalgamation of monster bits slain by the wearer. A thin layer of fur covers the gaps in the leather armor, and the whole armor is adorned with protective chitin plating and ornamental bones. A fur skirt is affixed to the hips. The upper has an integrated thick fur coat and hood. Use it to lower the hood.",
+    "weight": "8250 g",
+    "volume": "6500 ml",
+    "price": 25000,
+    "price_postapoc": 5000,
+    "to_hit": -5,
+    "bashing": 2,
+    "material": [ "leather", "fur", "bone", "chitin" ],
+    "symbol": "[",
+    "longest_side": "60 cm",
+    "looks_like": "armor_farmor",
+    "color": "brown",
+    "environmental_protection": 1,
+    "armor": [
+      {
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": [ 30, 32 ],
+        "material": [
+          { "type": "fur", "covered_by_mat": 100, "thickness": 0.75 },
+          { "type": "leather", "covered_by_mat": 90, "thickness": 3.5 },
+          { "type": "fur", "covered_by_mat": 75, "thickness": 2 },
+          { "type": "chitin", "covered_by_mat": 65, "thickness": 1.5 },
+          { "type": "bone", "covered_by_mat": 15, "thickness": 2 }
+        ],
+        "specifically_covers": [ "torso_upper" ]
+      },
+      {
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": [ 0, 0 ],
+        "material": [
+          { "type": "fur", "covered_by_mat": 100, "thickness": 0.75 },
+          { "type": "leather", "covered_by_mat": 90, "thickness": 3.5 },
+          { "type": "chitin", "covered_by_mat": 65, "thickness": 1.5 }
+        ],
+        "specifically_covers": [ "torso_lower" ]
+      },
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": [ 0, 0 ],
+        "material": [
+          { "type": "fur", "covered_by_mat": 100, "thickness": 0.75 },
+          { "type": "leather", "covered_by_mat": 85, "thickness": 3.5 },
+          { "type": "fur", "covered_by_mat": 75, "thickness": 2 }
+        ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ]
+      },
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": [ 20, 22 ],
+        "material": [
+          { "type": "fur", "covered_by_mat": 100, "thickness": 0.75 },
+          { "type": "leather", "covered_by_mat": 85, "thickness": 3.5 },
+          { "type": "chitin", "covered_by_mat": 65, "thickness": 1.5 },
+          { "type": "bone", "covered_by_mat": 15, "thickness": 2 }
+        ],
+        "specifically_covers": [ "arm_upper_r", "arm_upper_l" ]
+      },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 100,
+        "encumbrance": [ 10, 12 ],
+        "material": [
+          { "type": "fur", "covered_by_mat": 100, "thickness": 0.75 },
+          { "type": "leather", "covered_by_mat": 85, "thickness": 3.5 },
+          { "type": "fur", "covered_by_mat": 75, "thickness": 2 }
+        ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
+      },
+      {
+        "covers": [ "head" ],
+        "coverage": 100,
+        "encumbrance": [ 6, 6 ],
+        "material": [
+          { "type": "fur", "covered_by_mat": 100, "thickness": 2.75 },
+          { "type": "bone", "covered_by_mat": 15, "thickness": 2 }
+        ]
+      }
+    ],
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "2 kg", "moves": 100 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "2 kg", "moves": 100 }
+    ],
+    "use_action": {
+      "type": "transform",
+      "menu_text": "Wear casually",
+      "msg": "You pull the hood off your head",
+      "target": "armor_valhalla_trophy_casual"
+    },
+    "warmth": 55,
+    "flags": [ "VARSIZE", "STURDY", "OUTER", "POCKETS", "HOOD", "COLLAR" ]
+  },
+  {
+    "id": "xl_armor_valhalla_trophy",
+    "type": "ARMOR",
+    "name": { "str": "XL valhallist trophy armor" },
+    "copy-from": "armor_valhalla_trophy",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] },
+    "use_action": {
+      "type": "transform",
+      "menu_text": "Wear casually",
+      "msg": "You pull the hood off your head",
+      "target": "xl_armor_valhalla_trophy_casual"
+    }
+  },
+  {
+    "id": "xs_armor_valhalla_trophy",
+    "type": "ARMOR",
+    "copy-from": "armor_valhalla_trophy",
+    "looks_like": "cuirass_bronze",
+    "name": { "str": "XS valhallist trophy armor" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "STURDY", "OUTER", "UNDERSIZE" ],
+    "use_action": {
+      "type": "transform",
+      "menu_text": "Wear casually",
+      "msg": "You pull the hood off your head",
+      "target": "xs_armor_valhalla_trophy_casual"
+    }
+  },
+  {
+    "id": "armor_valhalla_trophy_casual",
+    "type": "ARMOR",
+    "name": { "str": "valhallist trophy armor (casual)", "str_pl": "valhallist trophy armors (casual)" },
+    "description": "A fearsome, if somewhat impractical suit of ornamental armor, crafted with an amalgamation of monster bits slain by the wearer. A thin layer of fur covers the gaps in the leather armor, and the whole armor is adorned with protective chitin plating and ornamental bones. A fur skirt is affixed to the hips. The upper has an integrated thick fur coat and hood. Use it to raise the hood.",
+    "copy-from": "armor_valhalla_trophy",
+    "armor": [
+      {
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": [ 33, 35 ],
+        "material": [
+          { "type": "fur", "covered_by_mat": 100, "thickness": 0.75 },
+          { "type": "leather", "covered_by_mat": 90, "thickness": 3.5 },
+          { "type": "fur", "covered_by_mat": 75, "thickness": 2 },
+          { "type": "chitin", "covered_by_mat": 65, "thickness": 1.5 },
+          { "type": "bone", "covered_by_mat": 15, "thickness": 2 },
+          { "type": "fur", "covered_by_mat": 5, "thickness": 2.75 }
+        ],
+        "specifically_covers": [ "torso_upper" ]
+      },
+      {
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": [ 0, 0 ],
+        "material": [
+          { "type": "fur", "covered_by_mat": 100, "thickness": 0.75 },
+          { "type": "leather", "covered_by_mat": 90, "thickness": 3.5 },
+          { "type": "chitin", "covered_by_mat": 65, "thickness": 1.5 }
+        ],
+        "specifically_covers": [ "torso_lower" ]
+      },
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": [ 0, 0 ],
+        "material": [
+          { "type": "fur", "covered_by_mat": 100, "thickness": 0.75 },
+          { "type": "leather", "covered_by_mat": 85, "thickness": 3.5 },
+          { "type": "fur", "covered_by_mat": 75, "thickness": 2 }
+        ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ]
+      },
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": [ 20, 22 ],
+        "material": [
+          { "type": "fur", "covered_by_mat": 100, "thickness": 0.75 },
+          { "type": "leather", "covered_by_mat": 85, "thickness": 3.5 },
+          { "type": "chitin", "covered_by_mat": 65, "thickness": 1.5 },
+          { "type": "bone", "covered_by_mat": 15, "thickness": 2 }
+        ],
+        "specifically_covers": [ "arm_upper_r", "arm_upper_l" ]
+      },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 100,
+        "encumbrance": [ 10, 12 ],
+        "material": [
+          { "type": "fur", "covered_by_mat": 100, "thickness": 0.75 },
+          { "type": "leather", "covered_by_mat": 85, "thickness": 3.5 },
+          { "type": "fur", "covered_by_mat": 75, "thickness": 2 }
+        ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
+      }
+    ],
+    "use_action": {
+      "type": "transform",
+      "menu_text": "Wear casually",
+      "msg": "You pull the hood off your head",
+      "target": "armor_valhalla_trophy"
+    }
+  },
+  {
+    "id": "xl_armor_valhalla_trophy_casual",
+    "type": "ARMOR",
+    "name": { "str": "XL valhallist trophy armor (casual)", "str_pl": "XL valhallist trophy armors (casual)" },
+    "copy-from": "armor_valhalla_trophy_casual",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] },
+    "use_action": {
+      "type": "transform",
+      "menu_text": "Wear casually",
+      "msg": "You pull the hood off your head",
+      "target": "xl_armor_valhalla_trophy"
+    }
+  },
+  {
+    "id": "xs_armor_valhalla_trophy_casual",
+    "type": "ARMOR",
+    "copy-from": "armor_valhalla_trophy_casual",
+    "looks_like": "cuirass_bronze",
+    "name": { "str": "XS valhallist trophy armor (casual)", "str_pl": "XS valhallist trophy armors (casual)" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "STURDY", "OUTER", "UNDERSIZE" ],
+    "use_action": {
+      "type": "transform",
+      "menu_text": "Wear casually",
+      "msg": "You pull the hood off your head",
+      "target": "xs_armor_valhalla_trophy"
+    }
   }
 ]
