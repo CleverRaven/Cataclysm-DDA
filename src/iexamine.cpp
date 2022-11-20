@@ -2897,9 +2897,9 @@ void iexamine::kiln_empty( Character &you, const tripoint &examp )
     int loss = 0;
     // if the current kiln is a metal one, use a more efficient conversion rate otherwise default to assuming it is a rock pit kiln
     if( cur_kiln_type == f_kiln_metal_empty ) {
-        int loss = 20 - 2 * skill;
+        loss = 20 - 2 * skill;
     } else {
-        int loss = 60 - 2 * skill;
+        loss = 60 - 2 * skill;
     }
 
     // Burn stuff that should get charred, leave out the rest
