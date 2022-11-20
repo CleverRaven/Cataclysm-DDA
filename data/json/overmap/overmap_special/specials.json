@@ -434,7 +434,7 @@
       { "point": [ 0, 0, 0 ], "overmap": "s_gas_rural_north" },
       { "point": [ 0, 0, 1 ], "overmap": "s_gas_rural_roof_north" }
     ],
-    "connections": [ { "point": [ 0, -1, 0 ], "connection": "local_road", "terrain": "road", "existing": true } ],
+    "connections": [ { "point": [ 0, -1, 0 ], "connection": "local_road", "terrain": "road", "existing": true, "from": [ 0, 0, 0 ] } ],
     "locations": [ "land" ],
     "city_distance": [ 20, -1 ],
     "occurrences": [ 0, 2 ],
@@ -484,7 +484,7 @@
     "type": "overmap_special",
     "id": "Gas Station",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "s_gas_north" } ],
-    "connections": [ { "point": [ 0, -1, 0 ], "connection": "local_road", "terrain": "road", "existing": true } ],
+    "connections": [ { "point": [ 0, -1, 0 ], "connection": "local_road", "terrain": "road", "existing": true, "from": [ 0, 0, 0 ] } ],
     "locations": [ "land" ],
     "city_distance": [ 5, -1 ],
     "occurrences": [ 0, 2 ],
