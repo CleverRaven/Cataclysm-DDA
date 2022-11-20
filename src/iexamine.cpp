@@ -2885,14 +2885,22 @@ void iexamine::kiln_empty( Character &you, const tripoint &examp )
         add_msg( _( "This kiln is empty.  Fill it with wood or bone and try again." ) );
         return;
     }
-    // charcoal has about 25% of the density of wood, and wood pyrolysis produces about 20-30% charcoal by weight.
-    // therefore assume 100% efficiency for fabrication 10 (1kg wood = 0.25kg firewood, 1:1 volume conversion
-    // and 80% efficiency for fabrication 0 (1kg wood = 0.2kg firewood, 5:4 volume conversion.
-    // this shouldn't really be that hard to screw up, so fabrication has a low overall effect on quantity
+    // https://energypedia.info/wiki/Charcoal_Production
+    // charcoal has about 25% of the density of wood, and wood pyrolysis produces about 10-15% charcoal by weight for a stone kiln.
+    // listed efficiency is for primitive or DIY production, industrial process in a metal kiln is more efficient at 20-25%
+    // 100% efficient conversion would be 1kg wood = 0.25kg firewood, 1:1 volume conversion
+    // fabrication should help here as kiln design and how you stack the wood matter to a degree, though the impact is low overall
+    // For a cruddy kiln (a pit with a rock chimney) assume 10-15% efficiency, depending on fabrication (40-60% wastage)
+    // For a well made kiln (industrial-style metal kiln) assume 20-25% efficiency, depending on fabrication (0-20% wastage)
     ///\EFFECT_FABRICATION decreases loss when firing a kiln
     const int skill = you.get_skill_level( skill_fabrication );
-    int loss = 20 - 2 *
-               skill; // We can afford to be inefficient - logs and skeletons are cheap, charcoal isn't
+    int loss = 0;
+    // if the current kiln is a metal one, use a more efficient conversion rate otherwise default to assuming it is a rock pit kiln
+    if( cur_kiln_type == f_kiln_metal_empty ) {
+        int loss = 20 - 2 * skill;
+    } else {
+        int loss = 60 - 2 * skill;
+    }
 
     // Burn stuff that should get charred, leave out the rest
     units::volume total_volume = 0_ml;
@@ -2948,7 +2956,6 @@ void iexamine::kiln_full( Character &, const tripoint &examp )
                   here.furn( examp ).id().c_str() );
         return;
     }
-
     map_stack items = here.i_at( examp );
     if( items.empty() ) {
         add_msg( _( "This kiln is empty…" ) );
@@ -2958,7 +2965,7 @@ void iexamine::kiln_full( Character &, const tripoint &examp )
     const itype *char_type = item::find_type( itype_charcoal );
     add_msg( _( "There's a charcoal kiln there." ) );
     const time_duration firing_time =
-        5_days; // 5 days in real life (used to be 6 hours for gameplay reasons)
+        24_hours; // internet guides claim about one day for a fairly large pot
     const time_duration time_left = firing_time - items.only_item().age();
     if( time_left > 0_turns ) {
         int hours = to_hours<int>( time_left );
