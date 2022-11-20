@@ -297,7 +297,28 @@
     "volume": "250 ml",
     "flags": [ "EATEN_COLD" ],
     "fun": 1,
-    "vitamins": [ [ "vitC", 36 ], [ "calcium", 14 ], [ "iron", 28 ] ]
+    "vitamins": [ [ "vitC", 36 ], [ "calcium", 34 ], [ "iron", 28 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "sandwich_veggy_cheese",
+    "name": { "str": "vegetable sandwich with cheese", "str_pl": "vegetable sandwiches with cheese" },
+    "weight": "189 g",
+    "color": "light_gray",
+    "spoils_in": "2 days",
+    "container": "wrapper",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "quench": 1,
+    "calories": 202,
+    "description": "Bread and vegetables, that's it.",
+    "price": 800,
+    "price_postapoc": 250,
+    "material": [ "veggy", "wheat" ],
+    "volume": "250 ml",
+    "flags": [ "EATEN_COLD" ],
+    "fun": 1,
+    "vitamins": [ [ "vitC", 36 ], [ "calcium", 34 ], [ "iron", 28 ] ]
   },
   {
     "type": "COMESTIBLE",
