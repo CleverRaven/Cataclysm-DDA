@@ -870,5 +870,395 @@
     "player_display": false,
     "vanity": true,
     "types": [ "facial_hair" ]
+  },
+  {
+    "id": "FUR_COLORATION_FELINE_CALICO",
+    "type": "mutation",
+    "name": { "str": "Fur coloration: calico" },
+    "description": "Your sleek fur is white on your belly and lower legs, with the rest of your body covered in large brown and black patches.",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "fur_coloration_feline" ]
+  },
+  {
+    "id": "FUR_COLORATION_FELINE_MALTESE",
+    "type": "mutation",
+    "name": { "str": "Fur coloration: maltese" },
+    "description": "Your sleek fur is gray with a slight blue tint.",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "fur_coloration_feline" ]
+  },
+  {
+    "id": "FUR_COLORATION_FELINE_TUXEDO",
+    "type": "mutation",
+    "name": { "str": "Fur coloration: tuxedo" },
+    "description": "Your sleek fur is black, except for white markings on your face, chest, belly, neck, hands, and feet.",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "fur_coloration_feline" ]
+  },
+  {
+    "id": "FUR_COLORATION_FELINE_COW",
+    "type": "mutation",
+    "name": { "str": "Fur coloration: cow" },
+    "description": "Though you are decidedly not a Bovine, your sleek fur is white with large black spots, much like that of a cow.",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "fur_coloration_feline" ]
+  },
+  {
+    "id": "FUR_COLORATION_FELINE_TORTOISESHELL",
+    "type": "mutation",
+    "name": { "str": "Fur coloration: tortoiseshell" },
+    "description": "Your sleek fur is a chaotic mix of dark, medium, and light brown patches.",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "fur_coloration_feline" ]
+  },
+  {
+    "id": "FUR_COLORATION_FELINE_BLACK",
+    "type": "mutation",
+    "name": { "str": "Fur coloration: black" },
+    "description": "Your sleek fur is pitch-black. Hopefully it means you will being bad luck to your foes.",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "fur_coloration_feline" ]
+  },
+  {
+    "id": "FUR_COLORATION_FELINE_WHITE",
+    "type": "mutation",
+    "name": { "str": "Fur coloration: white" },
+    "description": "Your sleek fur is as white as fresh snow.",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "fur_coloration_feline" ]
+  },
+  {
+    "id": "FUR_COLORATION_FELINE_TABBY",
+    "type": "mutation",
+    "name": { "str": "Fur coloration: tabby" },
+    "description": "Your sleek fur is medium brown with short dark stripes.",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "fur_coloration_feline" ]
+  },
+  {
+    "id": "FUR_COLORATION_FELINE_TIGER",
+    "type": "mutation",
+    "name": { "str": "Fur coloration: tiger" },
+    "description": "Your sleek fur is a striking orange with long black stripes.",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "fur_coloration_feline" ]
+  },
+  {
+    "id": "FUR_COLORATION_FELINE_COUGAR",
+    "type": "mutation",
+    "name": { "str": "Fur coloration: cougar" },
+    "description": "Your sleek fur is light brown, and even lighter on your belly, chest, and neck.",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "fur_coloration_feline" ]
+  },
+  {
+    "id": "FUR_COLORATION_FELINE_LEOPARD",
+    "type": "mutation",
+    "name": { "str": "Fur coloration: leopard" },
+    "description": "Your sleek fur is yellow with small black spots.",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "fur_coloration_feline" ]
+  },
+  {
+    "id": "FUR_COLORATION_FELINE_IRIDESCENT",
+    "type": "mutation",
+    "name": { "str": "Fur coloration: iridescent" },
+    "description": "Your sleek fur is mottled with random colors and seems to shift its hue constantly.",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "fur_coloration_feline" ]
+  },
+  {
+    "id": "FUR_COLORATION_LUPINE_WHITE",
+    "type": "mutation",
+    "name": { "str": "Fur coloration: white" },
+    "description": "Your lupine fur is off-white, like that of an arctic wolf.",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "fur_coloration_lupine" ]
+  },
+  {
+    "id": "FUR_COLORATION_LUPINE_GRAY",
+    "type": "mutation",
+    "name": { "str": "Fur coloration: gray" },
+    "description": "Your lupine fur is gray, like that of a North American wolf.",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "fur_coloration_lupine" ]
+  },
+  {
+    "id": "FUR_COLORATION_LUPINE_BROWNISH_GRAY",
+    "type": "mutation",
+    "name": { "str": "Fur coloration: brownish gray" },
+    "description": "Your lupine fur is brownish-gray with lighter brown markings on your limbs, like that of an Eurasian wolf.",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "fur_coloration_lupine" ]
+  },
+  {
+    "id": "FUR_COLORATION_LUPINE_BLACK",
+    "type": "mutation",
+    "name": { "str": "Fur coloration: black" },
+    "description": "Your lupine fur is pitch-black, like that of a rare black wolf.",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "fur_coloration_lupine" ]
+  },
+  {
+    "id": "FUR_COLORATION_GENERIC_BLACK",
+    "type": "mutation",
+    "name": { "str": "Fur coloration: black" },
+    "description": "Your fur is pitch-black.",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "fur_coloration_generic" ]
+  },
+  {
+    "id": "FUR_COLORATION_GENERIC_BROWN",
+    "type": "mutation",
+    "name": { "str": "Fur coloration: brown" },
+    "description": "Your fur is a deep brown color.",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "fur_coloration_generic" ]
+  },
+  {
+    "id": "FUR_COLORATION_GENERIC_COW",
+    "type": "mutation",
+    "name": { "str": "Fur coloration: cow" },
+    "description": "Your fur is white with large black patches, like that of a cow.  Moo.",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "fur_coloration_generic" ]
+  },
+  {
+    "id": "FUR_COLORATION_GENERIC_WHITE",
+    "type": "mutation",
+    "name": { "str": "Fur coloration: white" },
+    "description": "Your fur is a bright white color.",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "fur_coloration_generic" ]
+  },
+  {
+    "id": "SCALES_COLORATION_NORMAL_GREEN_DULL",
+    "type": "mutation",
+    "name": { "str": "Scale coloration: dull green" },
+    "description": "Your scales are a dull green color, like that of many lizards.",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "scale_coloration_normal" ]
+  },
+  {
+    "id": "SCALES_COLORATION_NORMAL_GREEN_BRIGHT",
+    "type": "mutation",
+    "name": { "str": "Scale coloration: bright green" },
+    "description": "Your scales are a bright green color, like that of some chameleons.  Pity that you can't make it change color at will.  Or can you...?",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "scale_coloration_normal" ]
+  },
+  {
+    "id": "SCALES_COLORATION_NORMAL_RED_DULL",
+    "type": "mutation",
+    "name": { "str": "Scale coloration: dull red" },
+    "description": "Your scales are a dull red color.  Perhaps you will blend in against a bloody background?",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "scale_coloration_normal" ]
+  },
+  {
+    "id": "SCALES_COLORATION_NORMAL_RED_BRIGHT",
+    "type": "mutation",
+    "name": { "str": "Scale coloration: bright red" },
+    "description": "Your scales are a bright red color.  Aggressive-looking!",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "scale_coloration_normal" ]
+  },
+  {
+    "id": "SCALES_COLORATION_NORMAL_BRONZE",
+    "type": "mutation",
+    "name": { "str": "Scale coloration: bronze" },
+    "description": "Your scales are a shiny bronze color.  Unfortunately, they aren't made of actual bronze.",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "scale_coloration_normal" ]
+  },
+  {
+    "id": "SCALES_COLORATION_NORMAL_GREEN_WHITE",
+    "type": "mutation",
+    "name": { "str": "Scale coloration: green and white" },
+    "description": "Your scales are a bright green color with white markings on your belly and neck, like that of some lizards.",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "scale_coloration_normal" ]
+  },
+  {
+    "id": "SCALES_COLORATION_NORMAL_GREEN_BLACK",
+    "type": "mutation",
+    "name": { "str": "Scale coloration: green and black" },
+    "description": "Your scales are a dull green color with black stripes, like that of some lizards.",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "scale_coloration_normal" ]
+  },
+  {
+    "id": "SCALES_COLORATION_NORMAL_BROWN_BLACK",
+    "type": "mutation",
+    "name": { "str": "Scale coloration: brown and black" },
+    "description": "Your scales are a dull brown color with black stripes, like that of some lizards.",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "scale_coloration_normal" ]
+  },
+  {
+    "id": "SCALES_COLORATION_SLEEK_BLUE",
+    "type": "mutation",
+    "name": { "str": "Scale coloration: blue" },
+    "description": "Your sleek scales are a medium blue color, like that of a shark.",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "scale_coloration_sleek" ]
+  },
+  {
+    "id": "SCALES_COLORATION_SLEEK_SILVER",
+    "type": "mutation",
+    "name": { "str": "Scale coloration: silver" },
+    "description": "Your sleek scales are a shiny silvery color, like that of a salmon.",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "scale_coloration_sleek" ]
+  },
+  {
+    "id": "SCALES_COLORATION_SLEEK_BROWN_SPOTS",
+    "type": "mutation",
+    "name": { "str": "Scale coloration: brown, dark spots" },
+    "description": "Your sleek scales are a light brown color with large dark brown spots, like that of a gar.",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "scale_coloration_sleek" ]
+  },
+  {
+    "id": "SCALES_COLORATION_SLEEK_OLIVE_GREEN_RED",
+    "type": "mutation",
+    "name": { "str": "Scale coloration: olive green and red" },
+    "description": "Your sleek scales are a shiny olive green color with small black spots and two large red bands on your sides, like that of a rainbow trout.",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "scale_coloration_sleek" ]
+  },
+  {
+    "id": "SCALES_COLORATION_ORANGE_WHITE",
+    "type": "mutation",
+    "name": { "str": "Scale coloration: orange and white" },
+    "description": "Your sleek scales are a bright orange color with large white patches, like that of a clownfish.",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "scale_coloration_sleek" ]
+  },
+  {
+    "id": "SCALES_COLORATION_ORANGE_GOLD",
+    "type": "mutation",
+    "name": { "str": "Scale coloration: orange-gold" },
+    "description": "Your sleek scales are a bright orange color with gold undertones, like that of a goldfish.",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "scale_coloration_sleek" ]
+  },
+  {
+    "id": "SCALES_COLORATION_SLEEK_OLIVE_GREEN_BLACK",
+    "type": "mutation",
+    "name": { "str": "Scale coloration: olive green and black" },
+    "description": "Your sleek scales are a dull olive green color with large black stripes, like that of a bass.",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "scale_coloration_sleek" ]
+  },
+  {
+    "id": "FEATHER_COLORATION_PIGEON",
+    "type": "mutation",
+    "name": { "str": "Feather coloration: pigeon" },
+    "description": "Your feathers are a light gray color, with dark stripes near the tips of your wings as well as an iridescent green-purple neck, like that of a pigeon.",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "scale_coloration_sleek" ]
+  },
+  {
+    "id": "FEATHER_COLORATION_BLACK",
+    "type": "mutation",
+    "name": { "str": "Feather coloration: black" },
+    "description": "Your feathers are pitch-black, like that of a crow or raven.",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "scale_coloration_sleek" ]
+  },
+  {
+    "id": "FEATHER_COLORATION_BALD_EAGLE",
+    "type": "mutation",
+    "name": { "str": "Feather coloration: bald eagle" },
+    "description": "Your feathers are dark brown except for your head and neck being wholly white, like that of a bald eagle.",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "scale_coloration_sleek" ]
+  },
+  {
+    "id": "FEATHER_COLORATION_WHITE",
+    "type": "mutation",
+    "name": { "str": "Feather coloration: white" },
+    "description": "Your feathers are bright white, like that of a dove.",
+    "points": 0,
+    "valid": false,
+    "vanity": true,
+    "types": [ "scale_coloration_sleek" ]
   }
 ]
