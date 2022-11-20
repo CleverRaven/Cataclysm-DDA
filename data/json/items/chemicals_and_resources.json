@@ -1976,5 +1976,18 @@
     "symbol": "s",
     "color": "light_gray",
     "flags": [ "UNRECOVERABLE" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "acid_blood",
+    "//": "depending on the lore as what acid these enemies use this could change, muriatic acid is stomach acid",
+    "copy-from": "chem_muriatic_acid",
+    "price": 0,
+    "price_postapoc": 0,
+    "name": { "str_sp": "acidic blood" },
+    "symbol": "~",
+    "color": "red",
+    "description": "Blood mixed with acidic compounds, extremely corrosive.",
+    "weight": "262 g"
   }
 ]
