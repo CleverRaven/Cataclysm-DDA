@@ -2885,10 +2885,13 @@ void iexamine::kiln_empty( Character &you, const tripoint &examp )
         add_msg( _( "This kiln is empty.  Fill it with wood or bone and try again." ) );
         return;
     }
-
+    // charcoal has about 25% of the density of wood, and wood pyrolysis produces about 20-30% charcoal by weight.
+    // therefore assume 100% efficiency for fabrication 10 (1kg wood = 0.25kg firewood, 1:1 volume conversion
+    // and 80% efficiency for fabrication 0 (1kg wood = 0.2kg firewood, 5:4 volume conversion.
+    // this shouldn't really be that hard to screw up, so fabrication has a low overall effect on quantity
     ///\EFFECT_FABRICATION decreases loss when firing a kiln
     const int skill = you.get_skill_level( skill_fabrication );
-    int loss = 60 - 2 *
+    int loss = 20 - 2 *
                skill; // We can afford to be inefficient - logs and skeletons are cheap, charcoal isn't
 
     // Burn stuff that should get charred, leave out the rest
@@ -2954,7 +2957,7 @@ void iexamine::kiln_full( Character &, const tripoint &examp )
     }
     const itype *char_type = item::find_type( itype_charcoal );
     add_msg( _( "There's a charcoal kiln there." ) );
-    const time_duration firing_time = 6_hours; // 5 days in real life
+    const time_duration firing_time = 5_days; // 5 days in real life (used to be 6 hours for gameplay reasons)
     const time_duration time_left = firing_time - items.only_item().age();
     if( time_left > 0_turns ) {
         int hours = to_hours<int>( time_left );
