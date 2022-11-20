@@ -731,6 +731,9 @@ int main( int argc, const char *argv[] )
             DebugLog( D_ERROR, DC_ALL ) << "Error while initializing the interface: " << err.what() << "\n";
             return 1;
         }
+    } else if( cli.check_mods ) {
+        get_options().init();
+        get_options().load();
     }
 
     set_language();
