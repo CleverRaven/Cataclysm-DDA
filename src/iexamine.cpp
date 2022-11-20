@@ -2957,7 +2957,8 @@ void iexamine::kiln_full( Character &, const tripoint &examp )
     }
     const itype *char_type = item::find_type( itype_charcoal );
     add_msg( _( "There's a charcoal kiln there." ) );
-    const time_duration firing_time = 5_days; // 5 days in real life (used to be 6 hours for gameplay reasons)
+    const time_duration firing_time =
+        5_days; // 5 days in real life (used to be 6 hours for gameplay reasons)
     const time_duration time_left = firing_time - items.only_item().age();
     if( time_left > 0_turns ) {
         int hours = to_hours<int>( time_left );
