@@ -85,6 +85,7 @@
     "result_mult": 6,
     "book_learn": [ [ "dairy_book", 1 ] ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_cheesemaking_1" }, { "proficiency": "prof_cheesemaking_2" } ],
     "tools": [
       [ [ "water_boiling_heat", 2, "LIST" ] ],
       [ [ "colander_steel", -1 ], [ "sieve_steel", -1 ], [ "sieve_primitive", -1 ], [ "cotton_patchwork", -1 ] ]
