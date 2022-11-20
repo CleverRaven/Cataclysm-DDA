@@ -251,6 +251,7 @@
     "spoils_in": "180 days",
     "quench": 1,
     "calories": 391,
+    "container": "plastic_bucket",
     "description": "Unaged curdled milk and whey, made by draining cheese rather than pressing like cheese curds.  The retained whey keeps the curds loose and soft, giving a somewhat soupy texture to this lower calorie variety of cheese.",
     "price": 385,
     "price_postapoc": 150,
