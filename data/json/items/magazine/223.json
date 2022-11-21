@@ -440,7 +440,7 @@
     "volume": "1 L",
     "longest_side": "350 mm",
     "price": 15000,
-	"price_postapoc": 1250,
+    "price_postapoc": 1250,
     "material": [ "aluminum" ],
     "symbol": "#",
     "color": "light_gray",
