@@ -23,6 +23,9 @@
 #else
 #include <csignal>
 #endif
+
+#include <flatbuffers/util.h>
+
 #include "cached_options.h"
 #include "cata_path.h"
 #include "color.h"
@@ -601,6 +604,7 @@ int main( int argc, const char *argv[] )
     ordered_static_globals();
     init_crash_handlers();
     reset_floating_point_mode();
+    flatbuffers::ClassicLocale::Get();
 
 #if defined(__ANDROID__)
     // Start the standard output logging redirector
