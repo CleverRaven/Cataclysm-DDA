@@ -288,7 +288,7 @@
     "volume": "390 ml",
     "longest_side": "236 mm",
     "price": 8500,
-	"price_postapoc": 360,
+    "price_postapoc": 360,
     "material": [ "plastic", "steel" ],
     "symbol": "#",
     "color": "light_gray",
