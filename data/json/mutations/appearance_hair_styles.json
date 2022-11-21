@@ -62,7 +62,7 @@
       {
         "id": "white",
         "name": { "str": "Hair: white, buzz cut" },
-        "description": "Your w hair has been shaved close to the head.",
+        "description": "Your white hair has been shaved close to the head.",
         "weight": 1
       }
     ],
