@@ -3395,9 +3395,12 @@ drop_locations pickup_selector::execute()
 
 bool pickup_selector::wield( int &count )
 {
-    std::vector<inventory_entry *> selected = get_active_column().get_all_selected();
+    inventory_entry &selected = get_active_column().get_highlighted();
+    if( !selected.is_item() ) {
+        return false;
+    }
 
-    item_location it = selected.front()->any_item();
+    item_location it = selected.any_item();
     if( count == 0 ) {
         count = INT_MAX;
     }
@@ -3417,9 +3420,12 @@ bool pickup_selector::wield( int &count )
 
 bool pickup_selector::wear()
 {
-    std::vector<inventory_entry *> selected = get_active_column().get_all_selected();
+    inventory_entry &selected = get_active_column().get_highlighted();
+    if( !selected.is_item() ) {
+        return false;
+    }
 
-    std::vector<item_location> items{ selected.front()->any_item() };
+    std::vector<item_location> items{ selected.any_item() };
     std::vector<int> quantities{ 0 };
 
     if( u.can_wear( *items.front() ).success() ) {
