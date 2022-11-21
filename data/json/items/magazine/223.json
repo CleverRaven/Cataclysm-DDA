@@ -558,7 +558,7 @@
     "weight": "190 g",
     "volume": "620 ml",
     "price": 8600,
-	"price_postapoc": 400,
+    "price_postapoc": 400,
     "material": [ "steel", "plastic" ],
     "symbol": "#",
     "color": "light_gray",
