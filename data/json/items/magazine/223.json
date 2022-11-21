@@ -465,7 +465,7 @@
     "volume": "1200 ml",
     "longest_side": "300 mm",
     "price": 14000,
-	"price_postapoc": 1000,
+    "price_postapoc": 1000,
     "material": [ "plastic", "steel" ],
     "symbol": "#",
     "color": "light_gray",
