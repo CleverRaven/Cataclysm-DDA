@@ -63,8 +63,8 @@
   {
     "id": "flamethrower_strap",
     "type": "GUNMOD",
-    "name": { "str": "flamethrower strap" },
-    "description": "Integrally attached backpack-like straps and rigging which allow you to wear a man portable flamethrower unit.",
+    "name": { "str": "flamethrower harness" },
+    "description": "An integral harness and associated rigging that allows you to wear a man portable flamethrower unit.",
     "weight": "100 g",
     "volume": "250 ml",
     "integral_volume": "5 ml",
