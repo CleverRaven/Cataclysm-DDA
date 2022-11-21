@@ -202,7 +202,8 @@
   {
     "id": "CANT_WEAR",
     "type": "json_flag",
-    "info": "This armor can't be worn directly."
+    "info": "This armor can't be worn directly.",
+    "inherit": false
   },
   {
     "id": "DECAY_EXPOSED_ATMOSPHERE",
@@ -1154,6 +1155,7 @@
   },
   {
     "id": "ALWAYS_TWOHAND",
+    "info": "<bad>You must</bad> have two free hands to wield this item.",
     "type": "json_flag"
   },
   {
@@ -1837,6 +1839,7 @@
   },
   {
     "id": "FIRE_TWOHAND",
+    "info": "<bad>You must</bad> have two free hands to fire this item.",
     "type": "json_flag"
   },
   {

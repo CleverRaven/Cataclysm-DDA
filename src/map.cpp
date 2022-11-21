@@ -582,15 +582,16 @@ void map::vehmove()
         }
     }
     dirty_vehicle_list.clear();
-    // The bool tracks whether the vehicles is on the map or not.
-    std::map<vehicle *, bool> connected_vehicles;
+    std::set<vehicle *> origins;
     for( int zlev = minz; zlev <= maxz; ++zlev ) {
-        level_cache *cache = get_cache_lazy( zlev );
+        const level_cache *cache = get_cache_lazy( zlev );
         if( cache ) {
-            vehicle::enumerate_vehicles( connected_vehicles, cache->vehicle_list );
+            for( vehicle *veh : cache->vehicle_list ) {
+                origins.emplace( veh );
+            }
         }
     }
-    for( std::pair<vehicle *const, bool> &veh_pair : connected_vehicles ) {
+    for( const std::pair<vehicle *const, bool> &veh_pair : vehicle::enumerate_vehicles( origins ) ) {
         veh_pair.first->idle( veh_pair.second );
     }
 
