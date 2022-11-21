@@ -202,7 +202,7 @@
     "volume": "230 ml",
     "longest_side": "129 mm",
     "price": 4000,
-	"price_postapoc": 170,
+    "price_postapoc": 170,
     "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
