@@ -166,7 +166,7 @@
     "volume": "130 ml",
     "longest_side": "76 mm",
     "price": 4000,
-	"price_postapoc": 50,
+    "price_postapoc": 50,
     "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
