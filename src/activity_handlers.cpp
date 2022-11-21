@@ -1054,6 +1054,8 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
             }
         }
     }
+
+    you.invalidate_crafting_inventory();
     return true;
 }
 

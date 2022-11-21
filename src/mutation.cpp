@@ -1529,7 +1529,7 @@ bool Character::mutate_towards( const trait_id &mut, const mutation_category_id 
     if( !mdata.dummy ) {
         set_mutation( mut, chosen_var );
     }
-    if( do_interrupt && uistate.distraction_mutation ) {
+    if( do_interrupt && uistate.distraction_mutation && is_avatar() ) {
         g->cancel_activity_or_ignore_query( distraction_type::mutation, _( "You mutate!" ) );
     }
 
@@ -1852,7 +1852,7 @@ void Character::remove_mutation( const trait_id &mut, bool silent )
                                    lost_name );
         }
     }
-    if( !silent && uistate.distraction_mutation ) {
+    if( !silent && uistate.distraction_mutation && is_avatar() ) {
         g->cancel_activity_or_ignore_query( distraction_type::mutation, _( "You mutate!" ) );
     }
 
