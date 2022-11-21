@@ -981,6 +981,14 @@ std::string monster::extended_description() const
                                  to_turn<int>( biosig_timer.value()  - current_time ),
                                  biosignatures ? "" : _( "<color_red>(no biosignature)</color>" ) ) + "\n";
         }
+
+        if( lifespan_end.has_value() ) {
+            ss += string_format( _( "Lifespan end time: %1$d (turns left %2$d)" ),
+                                 to_turn<int>( lifespan_end.value() ),
+                                 to_turn<int>( lifespan_end.value() - current_time ) );
+        } else {
+            ss += "Lifespan end time: n/a <color_yellow>(indefinite)</color>";
+        }
     }
 
     return replace_colors( ss );
