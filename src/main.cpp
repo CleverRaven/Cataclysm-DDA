@@ -123,6 +123,10 @@ int start_logger( const char *app_name )
 namespace
 {
 
+#if defined(_WIN32)
+// Used only if AttachConsole() works
+FILE *CONOUT;
+#endif
 void exit_handler( int s )
 {
     const int old_timeout = inp_mngr.get_timeout();
@@ -602,6 +606,19 @@ int main( int argc, const char *argv[] )
     init_crash_handlers();
     reset_floating_point_mode();
 
+#if defined(_WIN32) and defined(TILES)
+    const HANDLE std_output { GetStdHandle( STD_OUTPUT_HANDLE ) }, std_error { GetStdHandle( STD_ERROR_HANDLE ) };
+    if( std_output != INVALID_HANDLE_VALUE and std_error != INVALID_HANDLE_VALUE ) {
+        if( AttachConsole( ATTACH_PARENT_PROCESS ) ) {
+            if( std_output == nullptr ) {
+                freopen_s( &CONOUT, "CONOUT$", "w", stdout );
+            }
+            if( std_error == nullptr ) {
+                freopen_s( &CONOUT, "CONOUT$", "w", stderr );
+            }
+        }
+    }
+#endif
 #if defined(__ANDROID__)
     // Start the standard output logging redirector
     start_logger( "cdda" );

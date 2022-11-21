@@ -476,7 +476,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "football helmet" },
-    "description": "A heavy polycarbonate helmet normally worn by football players.",
+    "description": "A heavy polycarbonate helmet normally worn by football players.  It comes with a visor to protect the eyes.",
     "weight": "1360 g",
     "volume": "2250 ml",
     "price": 19800,
@@ -487,8 +487,8 @@
     "color": "yellow",
     "armor": [
       { "covers": [ "head" ], "coverage": 95, "encumbrance_modifiers": [ "NONE" ] },
-      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 75, "encumbrance": 5 },
-      { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 85, "encumbrance": 0 }
+      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 75, "encumbrance": 5, "breathability": "POOR" },
+      { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 85, "encumbrance": 0, "breathability": "GOOD" }
     ],
     "warmth": 10,
     "material_thickness": 4,
@@ -586,7 +586,7 @@
     "category": "armor",
     "name": { "str": "leather armor helmet" },
     "description": "A thick leather helmet that provides excellent protection for the head.",
-    "weight": "435 g",
+    "weight": "658 g",
     "volume": "2 L",
     "price": 14000,
     "price_postapoc": 2000,
@@ -595,7 +595,7 @@
     "looks_like": "hat_hard",
     "color": "brown",
     "warmth": 10,
-    "material_thickness": 3,
+    "material_thickness": 4.5,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY" ],
     "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 85, "covers": [ "head" ] } ]
@@ -625,7 +625,7 @@
     "name": { "str": "wolf skull helmet" },
     "description": "The top part of a large wolf skull, equipped with leather straps to secure it on your head.  Every inch of the skull has been carved with a maze of fine, intertwined symbols that make your eyes water.",
     "weight": "1 kg",
-    "volume": "3 L",
+    "volume": "4 L",
     "price": 1400,
     "price_postapoc": 200,
     "material": [ "leather", "bone" ],

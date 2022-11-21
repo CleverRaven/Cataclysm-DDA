@@ -519,6 +519,7 @@ The upgrades object may have the following members:
 | `age_grow`   | (int, optional) Number of days needed for monster to change into another monster. Does not scale with the evolution factor.
 | `multiple_spawns` | (bool, optional) If using `into_group`, the selected entry spawns a number of monsters based on the entry's `pack_size`.
 | `spawn_range` | (int, optional) Mandatory when `multiple_spawns` is true. Determines how far away from the original monster the upgraded monsters can spawn.
+| `despawn_when_null` | (bool, optional) For `into_group`, when `mon_null` is selected as the group entry upgrade, the monster will despawn leaving no trace when this is true. Otherwise the monster "dies" naturally. Defaults to false.
 
 ## "reproduction"
 (dictionary, optional)
@@ -531,6 +532,12 @@ The monster's reproduction cycle, if any. Supports:
 | `baby_egg`     | (string, optional) The id of the egg type to spawn for egg-laying monsters. You must declare either this or "baby_monster" for reproduction to work.
 | `baby_count`   | (int) Number of new creatures or eggs to spawn on reproduction.
 | `baby_timer`   | (int) Number of days between reproduction events.
+
+## "zombify_into"
+(monster string id, optional)
+
+When defined the monster's unpulped corpse will rise, zombifying into the defined (different) monster. For mutated animals (including giant arthropods) the `mon_meat_cocoon` line of monsters should be defined, depending on the monster's weight: 
+No cocoon below 10 kg; 10 - 35 kg monsters zombify into the tiny cocoon; 36 - 100 kg monsters turn into the small cocoon; 101 - 300 kg monsters turn into the medium cocoon; 301+ kg monsters turn into a large cocoon.
 
 ## "baby_flags"
 (Array, optional)
@@ -672,3 +679,12 @@ This monster can attempt a grab every ten turns, a leap with a maximum range of 
 
 # Monster special attack types
 The listed attack types can be as monster special attacks (see [MONSTER_SPECIAL_ATTACKS.md](MONSTER_SPECIAL_ATTACKS.md)).
+
+# Testing Monsters
+
+To help facilitate playtesting monsters use the loadouts from the Standard Combat Testing mod (included under Misc), and document your results in the PR's Testing section.
+
+Important test tips:
+ - A spawned and saved monster will **not** change for any reason, even if you change the underlying monster definition.  Always use freshly spawned monsters!
+ - Evolution, growth, and reproduction happen on monster load, so the sequence of testing is Spawn monster -> Teleport away to unload it -> Teleport back to load it and start the timers -> Teleport away -> Set time forward via the debug menu -> Teleport back 
+ - Activating Debug Mode's monster filter allows you to examine monsters using x->e and get additional information

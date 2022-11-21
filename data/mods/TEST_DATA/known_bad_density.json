@@ -1,7 +1,7 @@
 [
   {
-    "type": "known_bad_density_list",
-    "list": [
+    "type": "test_data",
+    "known_bad": [
       "bread",
       "8mm_inc",
       "fire_drill",
@@ -33,7 +33,6 @@
       "coffee_raw_kentucky",
       "bandages_makeshift",
       "candy5",
-      "baton",
       "homeopathic_pills",
       "tool_belt",
       "marloss_berry",
@@ -561,7 +560,6 @@
       "art_spiral",
       "conc_paralytic",
       "soft_adobe_brick",
-      "radio_car",
       "seed_sugar_beet",
       "manual_stabbing",
       "survival_marker",
@@ -665,7 +663,6 @@
       "reloaded_shot_00",
       "test_mp3",
       "FlatCoin",
-      "radio_car_on",
       "badge_doctor",
       "AID_bio_blood_filter",
       "button_wood",
@@ -783,7 +780,6 @@
       "solar_panel",
       "homemade_burrito",
       "bot_lab_security_drone_BM",
-      "dog_whistle",
       "AID_bio_armor_arms",
       "bot_manhack",
       "router_tool",
@@ -920,7 +916,6 @@
       "gatling_mech_laser",
       "protein_shake_fortified",
       "410shot_000",
-      "gasfilter_l",
       "bot_c4_hack",
       "art_snake",
       "chem_rocket_fuel",

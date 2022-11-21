@@ -70,7 +70,7 @@
       [ [ "leather_belt", 2 ], [ "webbing_belt", 2 ] ],
       [ [ "leather_belt", 2 ], [ "webbing_belt", 2 ] ],
       [ [ "jumpsuit", 1 ], [ "combat_shirt", 1 ], [ "longshirt", 1 ], [ "sweatshirt", 1 ] ],
-      [ [ "pants_cargo", 1 ], [ "pants_army", 1 ] ]
+      [ [ "pants_cargo", 1 ], [ "pants_army", 1 ], [ "pants_hiking", 1 ] ]
     ]
   },
   {
@@ -107,7 +107,7 @@
       { "proficiency": "prof_elastics" }
     ],
     "components": [
-      [ [ "shorts_cargo", 1 ], [ "pants_cargo", 1 ] ],
+      [ [ "shorts_cargo", 1 ], [ "pants_cargo", 1 ], [ "pants_hiking", 1 ] ],
       [ [ "leather_belt", 2 ], [ "webbing_belt", 2 ] ],
       [ [ "leather_belt", 2 ], [ "webbing_belt", 2 ] ],
       [ [ "jumpsuit", 1 ], [ "combat_shirt", 1 ], [ "longshirt", 1 ], [ "sweatshirt", 1 ] ]

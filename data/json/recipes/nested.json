@@ -311,7 +311,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "name": "cotton dusters",
+    "name": "canvas dusters",
     "description": "Recipes related to tailoring long coats from cotton, known as dusters.",
     "skill_used": "tailor",
     "nested_category_data": [ "duster", "xs_duster", "xl_duster", "sleeveless_duster", "sleeveless_duster_from_duster" ],
@@ -407,7 +407,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "name": "cotton trenchcoats",
+    "name": "canvas dusters",
     "description": "Recipes related to tailoring long coats from cotton, known as trenchcoats.",
     "skill_used": "tailor",
     "nested_category_data": [ "trenchcoat", "sleeveless_trenchcoat", "sleeveless_trenchcoat_from_trenchcoat" ],
@@ -1585,6 +1585,7 @@
       "lc_chainmail_suit_xs",
       "xl_lc_chainmail_suit",
       "lc_chainmail_suit_hauberk",
+      "lc_chainmail_suit_xs_hauberk",
       "xl_lc_chainmail_suit_hauberk"
     ],
     "difficulty": 1
@@ -1603,6 +1604,7 @@
       "mc_chainmail_suit_xs",
       "xl_mc_chainmail_suit",
       "mc_chainmail_suit_hauberk",
+      "mc_chainmail_suit_xs_hauberk",
       "xl_mc_chainmail_suit_hauberk"
     ],
     "difficulty": 2
@@ -1621,6 +1623,7 @@
       "hc_chainmail_suit_xs",
       "xl_hc_chainmail_suit",
       "hc_chainmail_suit_hauberk",
+      "hc_chainmail_suit_xs_hauberk",
       "xl_hc_chainmail_suit_hauberk"
     ],
     "difficulty": 3
@@ -1639,6 +1642,7 @@
       "ch_chainmail_suit_xs",
       "xl_ch_chainmail_suit",
       "ch_chainmail_suit_hauberk",
+      "ch_chainmail_suit_xs_hauberk",
       "xl_ch_chainmail_suit_hauberk"
     ],
     "difficulty": 4
@@ -1657,6 +1661,7 @@
       "qt_chainmail_suit_xs",
       "xl_qt_chainmail_suit",
       "qt_chainmail_suit_hauberk",
+      "qt_chainmail_suit_xs_hauberk",
       "xl_qt_chainmail_suit_hauberk"
     ],
     "difficulty": 5
@@ -3602,7 +3607,8 @@
       "sheet_neoprene_patchwork",
       "sheet_nomex_patchwork",
       "sheet_lycra_patchwork",
-      "sheet_nylon_patchwork"
+      "sheet_nylon_patchwork",
+      "sheet_canvas_patchwork"
     ],
     "difficulty": 1
   },
@@ -3902,6 +3908,7 @@
     "skill_used": "fabrication",
     "nested_category_data": [
       "needle_bone",
+      "needle_steel",
       "needle_wood",
       "needle_curved",
       "tailors_kit",
@@ -4201,5 +4208,16 @@
     "description": "Recipes for making zweihänders.",
     "skill_used": "fabrication",
     "nested_category_data": [ "lc_zweihander", "mc_zweihander", "hc_zweihander", "ch_zweihander", "qt_zweihander" ]
+  },
+  {
+    "id": "nested_aluminum_scrap",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "name": "scrap aluminum",
+    "description": "Recipes related to creating scrap aluminum.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "scrap_aluminum_melted_foil", "scrap_aluminum_assorted_scrap" ]
   }
 ]

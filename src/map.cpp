@@ -582,17 +582,21 @@ void map::vehmove()
         }
     }
     dirty_vehicle_list.clear();
-    // The bool tracks whether the vehicles is on the map or not.
-    std::map<vehicle *, bool> connected_vehicles;
+    std::set<vehicle *> origins;
     for( int zlev = minz; zlev <= maxz; ++zlev ) {
-        level_cache *cache = get_cache_lazy( zlev );
+        const level_cache *cache = get_cache_lazy( zlev );
         if( cache ) {
-            vehicle::enumerate_vehicles( connected_vehicles, cache->vehicle_list );
+            for( vehicle *veh : cache->vehicle_list ) {
+                origins.emplace( veh );
+            }
         }
     }
-    for( std::pair<vehicle *const, bool> &veh_pair : connected_vehicles ) {
+    for( const std::pair<vehicle *const, bool> &veh_pair : vehicle::enumerate_vehicles( origins ) ) {
         veh_pair.first->idle( veh_pair.second );
     }
+
+    // refresh vehicle zones for moved vehicles
+    zone_manager::get_manager().cache_vzones( this );
 }
 
 bool map::vehproceed( VehicleList &vehicle_list )
@@ -1456,9 +1460,7 @@ bool map::displace_vehicle( vehicle &veh, const tripoint &dp, const bool adjust_
         g->setremoteveh( &veh );
     }
 
-    //
-    //global positions of vehicle loot zones have changed.
-    veh.zones_dirty = true;
+    veh.zones_dirty = true; // invalidate zone positions
 
     for( int vsmz : smzs ) {
         on_vehicle_moved( dst.z() + vsmz );
@@ -5505,6 +5507,19 @@ bool map::has_items( const tripoint &p ) const
 bool map::has_items( const tripoint_bub_ms &p ) const
 {
     return has_items( p.raw() );
+}
+
+bool map::only_liquid_in_liquidcont( const tripoint &p )
+{
+    if( has_flag( ter_furn_flag::TFLAG_LIQUIDCONT, p ) ) {
+        for( const item &it : i_at( p ) ) {
+            if( it.made_of( phase_id::SOLID ) ) {
+                return false;
+            }
+        }
+        return true;
+    }
+    return false;
 }
 
 template <typename Stack>

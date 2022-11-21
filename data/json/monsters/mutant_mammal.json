@@ -41,6 +41,7 @@
     "fear_triggers": [ "SOUND" ],
     "harvest": "mutant_mammal_large_fur",
     "families": [ "prof_intro_biology" ],
+    "zombify_into": "mon_meat_cocoon_med",
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "BASHES", "PUSH_MON", "STUMBLES", "KEENNOSE" ]
   },
   {
@@ -72,6 +73,7 @@
     "families": [ "prof_intro_biology" ],
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "SOUND" ],
+    "zombify_into": "mon_meat_cocoon_small",
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "SWIMS", "WARM" ]
   },
   {
@@ -102,6 +104,7 @@
     "families": [ "prof_intro_biology" ],
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "SOUND" ],
+    "zombify_into": "mon_meat_cocoon_tiny",
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "SWIMS", "WARM" ]
   },
   {
@@ -214,6 +217,7 @@
     "path_settings": { "max_dist": 7 },
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_WEAK" ],
     "fear_triggers": [ "SOUND" ],
+    "zombify_into": "mon_meat_cocoon_tiny",
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "GROUP_MORALE" ]
   },
   {
@@ -247,6 +251,7 @@
     "fear_triggers": [ "SOUND" ],
     "harvest": "mutant_mammal_fur",
     "families": [ "prof_intro_biology" ],
+    "zombify_into": "mon_meat_cocoon_tiny",
     "flags": [
       "SEES",
       "HEARS",
@@ -301,6 +306,7 @@
       }
     ],
     "anger_triggers": [ "STALK", "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK", "PLAYER_CLOSE" ],
+    "zombify_into": "mon_meat_cocoon_large",
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE" ]
   },
   {
@@ -332,7 +338,7 @@
     "families": [ "prof_intro_biology" ],
     "path_settings": { "max_dist": 10 },
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "zombify_into": "mon_zeer",
+    "zombify_into": "mon_meat_cocoon_small",
     "reproduction": { "baby_monster": "mon_deer_mutant_spider_fawn", "baby_count": 1, "baby_timer": 330 },
     "//": " 201 days gestation period. The fawn will stay with its mother for approximately one year, suckling for three to four months.",
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 12 },
@@ -370,6 +376,7 @@
     "path_settings": { "max_dist": 10 },
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "upgrades": { "age_grow": 330, "into": "mon_deer_mutant_spider" },
+    "zombify_into": "mon_meat_cocoon_small",
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "STUMBLES" ]
   },
   {
@@ -412,6 +419,7 @@
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
       "pet": "The %s happily wags its tail while you pat their head."
     },
+    "zombify_into": "mon_meat_cocoon_tiny",
     "flags": [
       "ANIMAL",
       "DOGFOOD",
@@ -427,5 +435,195 @@
       "SWARMS",
       "WARM"
     ]
+  },
+  {
+    "id": "mon_dog_incorporeal",
+    "type": "MONSTER",
+    "name": { "str": "translucent dog" },
+    "description": "This dog doesn't cast a shadow, and if you squint hard enough you can see right through it.  Its condition doesn't appear to do any harm to it, though it seems to cause trouble when it tries to groom itself.",
+    "default_faction": "dog",
+    "bodytype": "dog",
+    "categories": [ "WILDLIFE" ],
+    "species": [ "MAMMAL" ],
+    "volume": "30000 ml",
+    "weight": "30 kg",
+    "harvest": "mutant_mammal_small_fur",
+    "families": [ "prof_intro_biology" ],
+    "hp": 30,
+    "speed": 150,
+    "material": [ "flesh" ],
+    "symbol": "d",
+    "color": "white",
+    "looks_like": "mon_dog",
+    "aggression": -15,
+    "morale": 15,
+    "aggro_character": false,
+    "melee_skill": 5,
+    "melee_dice": 2,
+    "melee_dice_sides": 3,
+    "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
+    "dodge": 3,
+    "vision_night": 4,
+    "path_settings": { "max_dist": 10 },
+    "reproduction": { "baby_monster": "mon_dog_incorporeal_pup", "baby_count": 4, "baby_timer": 270 },
+    "//": "1-4 puppies & 270 days per-litter for size small canines",
+    "baby_flags": [ "SPRING", "SUMMER", "AUTUMN", "WINTER" ],
+    "biosignature": { "biosig_item": "feces_dog", "biosig_timer": 6 },
+    "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "FRIEND_DIED" ],
+    "special_attacks": [ [ "EAT_FOOD", 100 ], [ "PARROT_AT_DANGER", 0 ] ],
+    "petfood": {
+      "food": [ "DOGFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "Your hand seems to pass through the %s at certain points, but it does not seem to mind."
+    },
+    "flags": [
+      "ANIMAL",
+      "DOGFOOD",
+      "CANPLAY",
+      "GROUP_MORALE",
+      "HEARS",
+      "PET_MOUNTABLE",
+      "HIT_AND_RUN",
+      "KEENNOSE",
+      "PATH_AVOID_DANGER_1",
+      "SEES",
+      "SMELLS",
+      "SWARMS",
+      "WARM"
+    ]
+  },
+  {
+    "id": "mon_dog_incorporeal_pup",
+    "type": "MONSTER",
+    "copy-from": "mon_dog_auscattle_pup",
+    "name": { "str": "translucent puppy", "str_pl": "translucent puppies" },
+    "description": "This little rascal doesn't cast a shadow, and is near seethrough in the right light.  Its condition doesn't appear to cause it any harm, but it does have a hard time chasing its own tail.",
+    "upgrades": { "age_grow": 42, "into": "mon_dog_incorporeal" }
+  },
+  {
+    "id": "mon_dog_telekenetic",
+    "type": "MONSTER",
+    "name": { "str": "triclopean dog" },
+    "description": "A rather average looking dog until you notice the third eye, right on its forehead, covered by a thick eyelid.  Whenever its open, small particles of dust from the ground rise and swirl around it.",
+    "default_faction": "dog",
+    "categories": [ "WILDLIFE" ],
+    "species": [ "MAMMAL" ],
+    "volume": "30000 ml",
+    "weight": "30 kg",
+    "harvest": "mutant_mammal_small_fur",
+    "families": [ "prof_intro_biology" ],
+    "hp": 30,
+    "speed": 150,
+    "material": [ "flesh" ],
+    "symbol": "d",
+    "color": "light_gray",
+    "looks_like": "mon_dog",
+    "aggression": -15,
+    "morale": 15,
+    "aggro_character": false,
+    "melee_skill": 6,
+    "melee_dice": 2,
+    "melee_dice_sides": 3,
+    "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
+    "dodge": 3,
+    "vision_night": 5,
+    "path_settings": { "max_dist": 10 },
+    "reproduction": { "baby_monster": "mon_dog_telekenetic_pup", "baby_count": 4, "baby_timer": 270 },
+    "//": "1-4 puppies & 270 days per-litter for size small canines",
+    "baby_flags": [ "SPRING", "SUMMER", "AUTUMN", "WINTER" ],
+    "biosignature": { "biosig_item": "feces_dog", "biosig_timer": 6 },
+    "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "FRIEND_DIED" ],
+    "special_attacks": [ [ "EAT_FOOD", 100 ], [ "PARROT_AT_DANGER", 0 ] ],
+    "petfood": {
+      "food": [ "DOGFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "You take care not to poke the %s in the eye as you stroke it, and some dust encircles your hand as you do."
+    },
+    "flags": [
+      "ANIMAL",
+      "DOGFOOD",
+      "CANPLAY",
+      "GROUP_MORALE",
+      "HEARS",
+      "PET_MOUNTABLE",
+      "HIT_AND_RUN",
+      "KEENNOSE",
+      "PATH_AVOID_DANGER_1",
+      "SEES",
+      "SMELLS",
+      "SWARMS",
+      "WARM"
+    ]
+  },
+  {
+    "id": "mon_dog_telekenetic_pup",
+    "type": "MONSTER",
+    "copy-from": "mon_dog_auscattle_pup",
+    "name": { "str": "triclopean puppy", "str_pl": "triclopean puppies" },
+    "description": "A rather cuddly looking pup despite the third eye on its forehead, which has yet to actually open.  Particles of dust from the floor occasionally shift towards it when its excited.",
+    "upgrades": { "age_grow": 42, "into": "mon_dog_telekenetic" }
+  },
+  {
+    "id": "mon_dog_antimemetic",
+    "type": "MONSTER",
+    "name": { "str": "unknowable dog" },
+    "description": "You are completely unable to recall anything about what this dog looks like.  You know it's a dog, you know it's there, you know you can see it, but any further information about it isn't retained in your mind.",
+    "default_faction": "dog",
+    "categories": [ "WILDLIFE" ],
+    "species": [ "MAMMAL" ],
+    "volume": "30000 ml",
+    "weight": "30 kg",
+    "harvest": "mutant_mammal_small_fur",
+    "families": [ "prof_intro_biology" ],
+    "hp": 30,
+    "speed": 150,
+    "material": [ "flesh" ],
+    "symbol": "d",
+    "color": "light_gray",
+    "looks_like": "mon_dog",
+    "aggression": -15,
+    "morale": 15,
+    "aggro_character": false,
+    "melee_skill": 6,
+    "melee_dice": 2,
+    "melee_dice_sides": 3,
+    "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
+    "dodge": 3,
+    "vision_night": 5,
+    "path_settings": { "max_dist": 10 },
+    "reproduction": { "baby_monster": "mon_dog_antimemetic_pup", "baby_count": 4, "baby_timer": 270 },
+    "//": "1-4 puppies & 270 days per-litter for size small canines",
+    "baby_flags": [ "SPRING", "SUMMER", "AUTUMN", "WINTER" ],
+    "biosignature": { "biosig_item": "feces_dog", "biosig_timer": 6 },
+    "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "FRIEND_DIED" ],
+    "special_attacks": [ [ "EAT_FOOD", 100 ], [ "PARROT_AT_DANGER", 0 ] ],
+    "petfood": {
+      "food": [ "DOGFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "You pet the %s, you think.  You don't remember what it felt like."
+    },
+    "flags": [
+      "ANIMAL",
+      "DOGFOOD",
+      "CANPLAY",
+      "GROUP_MORALE",
+      "HEARS",
+      "PET_MOUNTABLE",
+      "HIT_AND_RUN",
+      "KEENNOSE",
+      "PATH_AVOID_DANGER_1",
+      "SEES",
+      "SMELLS",
+      "SWARMS",
+      "WARM"
+    ]
+  },
+  {
+    "id": "mon_dog_antimemetic_pup",
+    "type": "MONSTER",
+    "copy-from": "mon_dog_auscattle_pup",
+    "name": { "str": "unknowable puppy", "str_pl": "unknowable puppies" },
+    "description": "Try as you might, your brain is unable to recall any details on what this puppy looks like.  All you can remember is that it is a puppy, that it exists, and that it is cute.",
+    "upgrades": { "age_grow": 42, "into": "mon_dog_antimemetic" }
   }
 ]

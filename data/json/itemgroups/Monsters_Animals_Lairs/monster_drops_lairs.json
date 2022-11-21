@@ -214,6 +214,13 @@
     "subtype": "distribution",
     "entries": [
       { "item": "skull_canis", "prob": 10 },
+      { "item": "skull_canis_medium", "prob": 15 },
+      { "item": "skull_feline_small", "prob": 15 },
+      { "item": "skull_rodent", "prob": 25 },
+      { "item": "skull_pig", "prob": 10 },
+      { "item": "skull_bovine", "prob": 5 },
+      { "item": "skull_cervine", "prob": 10 },
+      { "item": "skull_moose", "prob": 3 },
       { "item": "bone", "prob": 80 },
       { "item": "feather", "prob": 80 },
       { "item": "raw_leather", "prob": 30 },

@@ -64,53 +64,27 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "dirt_road",
+    "id": [ "dirt_road", "dirt_road_forest" ],
     "copy-from": "generic_dirt_road",
     "sym": "│"
   },
   {
     "type": "overmap_terrain",
-    "id": "dirt_road_3way",
+    "id": [ "dirt_road_3way", "dirt_road_3way_forest" ],
     "copy-from": "generic_dirt_road",
     "sym": "┬"
   },
   {
     "type": "overmap_terrain",
-    "id": "dirt_road_turn",
-    "copy-from": "generic_dirt_road",
-    "sym": "┐",
-    "flags": [ "SHOULD_NOT_SPAWN" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "dirt_road_turn1",
-    "copy-from": "generic_dirt_road",
-    "sym": "┌",
-    "flags": [ "SHOULD_NOT_SPAWN" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "dirt_road_forest",
-    "copy-from": "generic_dirt_road",
-    "sym": "│"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "dirt_road_turn_forest",
+    "id": [ "dirt_road_turn", "dirt_road_turn_forest" ],
     "copy-from": "generic_dirt_road",
     "sym": "┐"
   },
   {
     "type": "overmap_terrain",
-    "id": "dirt_road_turn1_forest",
+    "id": "dirt_road_4way",
     "copy-from": "generic_dirt_road",
-    "sym": "┌"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "dirt_road_3way_forest",
-    "copy-from": "generic_dirt_road",
-    "sym": "┬"
+    "sym": "┼"
   },
   {
     "type": "overmap_terrain",
@@ -182,13 +156,10 @@
       "farm_isherwood_7",
       "farm_isherwood_8",
       "farm_isherwood_9",
-      "farm_lot_M1",
-      "farm_lot_wire_straight_h",
       "farm_lot_wire_straight_v",
       "farm_lot_wire_straight_v_open",
       "farm_lot_wire_turn_h",
       "farm_lot_wire_turn_v",
-      "farm_lot_wire_turn_v_open",
       "farm_stills_1",
       "farm_stills_10",
       "farm_stills_2",
@@ -214,10 +185,28 @@
       "horse_farm_isherwood_3",
       "horse_farm_isherwood_5",
       "horse_farm_isherwood_6",
-      "horse_farm_isherwood_8"
+      "horse_farm_isherwood_8",
+      "farmland_straight",
+      "farmland_turn",
+      "farmland_turn_inside",
+      "farmland_U"
     ],
     "copy-from": "generic_rural_building",
     "name": "farm field"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "farm_lot_M1", "farm_lot_wire_straight_h", "farm_lot_wire_turn_v_open" ],
+    "copy-from": "generic_rural_building",
+    "name": "farm field",
+    "flags": [ "SHOULD_NOT_SPAWN" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "hayfield_straight", "hayfield_turnL", "hayfield_turnR", "hayfield_end" ],
+    "copy-from": "generic_rural_building",
+    "name": "hay field",
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
@@ -255,6 +244,7 @@
       "farm_stills_3",
       "farm_stills_3_2nd",
       "farm_stills_3_roof",
+      "farm_dairy_twd_3",
       "farm_dairy_twd_4",
       "2farm_roof_11"
     ],
@@ -562,10 +552,8 @@
     "id": [
       "farm_dairy_twd_1",
       "farm_dairy_twd_2",
-      "farm_dairy_twd_3",
       "farm_dairy_twd_3_roof",
       "farm_dairy_twd_4_roof",
-      "farm_dairy_twd_5",
       "farm_dairy_twd_9",
       "farm_dairy_twd_10"
     ],
@@ -574,7 +562,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "farm_dairy_twd_6",
+    "id": [ "farm_dairy_twd_5", "farm_dairy_twd_6" ],
     "copy-from": "generic_rural_building",
     "name": "barn",
     "sym": "^"

@@ -102,7 +102,7 @@
       [ "knife_rm42", 2 ],
       [ "kukri", 2 ],
       [ "knife_hunting", 4 ],
-      [ "knife_rambo", 20 ],
+      { "group": "knife_rambo_cont", "prob": 20 },
       [ "tanto", 3 ],
       [ "throwing_knife", 7 ],
       [ "punch_dagger", 12 ],

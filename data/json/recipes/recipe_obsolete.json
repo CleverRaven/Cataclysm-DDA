@@ -858,6 +858,11 @@
     "obsolete": true
   },
   {
+    "result": "gasfilter_l",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
     "type": "recipe",
     "result": "box_medium",
     "obsolete": true
@@ -880,6 +885,16 @@
   {
     "type": "recipe",
     "result": "xl_chainmail_suit_hauberk",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "scrap_aluminum",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "jerrycan_big",
     "obsolete": true
   }
 ]

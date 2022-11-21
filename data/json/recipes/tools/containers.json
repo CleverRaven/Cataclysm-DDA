@@ -109,26 +109,12 @@
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "jerrycan_big",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_CONTAINERS",
-    "skill_used": "fabrication",
-    "difficulty": 2,
-    "time": "30 m",
-    "autolearn": true,
-    "using": [ [ "cordage", 1 ] ],
-    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "metal_tank", 1 ] ], [ [ "scrap", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
-    "result": "jerrycan_big",
     "id_suffix": "welder",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
     "skill_used": "fabrication",
     "difficulty": 2,
-    "time": "20 m",
+    "time": "30 m",
     "autolearn": true,
     "using": [ [ "welding_standard", 5 ] ],
     "proficiencies": [
@@ -137,7 +123,7 @@
       { "proficiency": "prof_welding" }
     ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "components": [ [ [ "sheet_metal_small", 8 ], [ "scrap", 40 ] ] ]
+    "components": [ [ [ "sheet_metal", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -491,8 +477,8 @@
     "difficulty": 1,
     "time": "10 m",
     "autolearn": true,
-    "using": [ [ "filament", 50 ], [ "cordage_short", 1 ] ],
-    "components": [ [ [ "cotton_patchwork", 2 ] ] ]
+    "using": [ [ "tailoring_canvas_patchwork", 1 ], [ "cordage_short", 1 ] ],
+    "byproducts": [ [ "canvas_patch", 3 ], [ "scrap_canvas", 6 ] ]
   },
   {
     "type": "recipe",
@@ -501,11 +487,23 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
     "skill_used": "tailor",
-    "difficulty": 3,
+    "difficulty": 2,
     "time": "50 m",
     "autolearn": true,
-    "using": [ [ "filament", 300 ], [ "cordage", 1 ] ],
-    "components": [ [ [ "cotton_patchwork", 12 ] ] ]
+    "using": [ [ "tailoring_canvas_patchwork", 4 ], [ "cordage", 1 ] ],
+    "byproducts": [ [ "scrap_canvas", 8 ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "fake",
+    "result": "bag_garbage_reinforced",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_CONTAINERS",
+    "skill_used": "survival",
+    "time": "30 s",
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "bag_garbage", 10 ] ] ]
   },
   {
     "result": "storage_line",

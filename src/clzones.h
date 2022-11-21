@@ -360,7 +360,7 @@ class zone_data
         // returns true if type is changed
         bool set_type();
         void set_position( const std::pair<tripoint, tripoint> &position, bool manual = true,
-                           bool update_avatar = true );
+                           bool update_avatar = true, bool skip_cache_update = false );
         void set_enabled( bool enabled_arg );
         void set_temporary_disabled( bool enabled_arg );
         void set_is_vehicle( bool is_vehicle_arg );

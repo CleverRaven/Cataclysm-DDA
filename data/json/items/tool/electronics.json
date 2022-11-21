@@ -110,7 +110,7 @@
     "price": 800,
     "price_postapoc": 250,
     "to_hit": 1,
-    "material": [ "aluminum" ],
+    "material": [ "copper", "wood" ],
     "symbol": ",",
     "color": "light_gray",
     "use_action": [ "DIRECTIONAL_ANTENNA" ]
@@ -192,6 +192,7 @@
     "revert_to": "eink_tablet_pc",
     "use_action": [
       "EINKTABLETPC",
+      "ELECTRICSTORAGE",
       "EBOOKSAVE",
       "EBOOKREAD",
       {
@@ -283,7 +284,7 @@
     "symbol": ";",
     "color": "red",
     "ammo": [ "battery" ],
-    "flags": [ "WATER_BREAK", "ELECTRONIC" ],
+    "flags": [ "WATER_BREAK" ],
     "charges_per_use": 10,
     "use_action": {
       "type": "effect_on_conditions",
@@ -343,6 +344,8 @@
     "charges_per_use": 1,
     "use_action": [
       "EINKTABLETPC",
+      "EBOOKREAD",
+      "ELECTRICSTORAGE",
       "PORTABLE_GAME",
       {
         "target": "laptop_screen_lit",
@@ -361,6 +364,13 @@
         "rigid": true,
         "flag_restriction": [ "BATTERY_MEDIUM" ],
         "default_magazine": "medium_battery_cell"
+      },
+      {
+        "pocket_type": "EBOOK",
+        "rigid": true,
+        "max_contains_volume": "1 ml",
+        "max_contains_weight": "1 g",
+        "weight_multiplier": 0.0
       }
     ]
   },
@@ -373,6 +383,8 @@
     "revert_to": "laptop",
     "use_action": [
       "EINKTABLETPC",
+      "EBOOKREAD",
+      "ELECTRICSTORAGE",
       "PORTABLE_GAME",
       {
         "ammo_scale": 0,

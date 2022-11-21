@@ -410,6 +410,7 @@ struct mtype {
         mongroup_id upgrade_group;
         mtype_id burn_into;
         cata::optional<int> upgrade_multi_range;
+        bool upgrade_null_despawn;
 
         mtype_id zombify_into; // mtype_id this monster zombifies into
         mtype_id fungalize_into; // mtype_id this monster fungalize into

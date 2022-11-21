@@ -330,6 +330,7 @@ void uistatedata::serialize( JsonOut &json ) const
     json.member( "distraction_hunger", distraction_hunger );
     json.member( "distraction_thirst", distraction_thirst );
     json.member( "distraction_temperature", distraction_temperature );
+    json.member( "distraction_mutation", distraction_mutation );
 
     json.member( "input_history" );
     json.start_object();
@@ -396,6 +397,7 @@ void uistatedata::deserialize( const JsonObject &jo )
     jo.read( "distraction_hunger", distraction_hunger );
     jo.read( "distraction_thirst", distraction_thirst );
     jo.read( "distraction_temperature", distraction_temperature );
+    jo.read( "distraction_mutation", distraction_mutation );
 
     if( !jo.read( "vmenu_show_items", vmenu_show_items ) ) {
         // This is an old save: 1 means view items, 2 means view monsters,
@@ -1009,12 +1011,18 @@ bool inventory_column::has_available_choices() const
 
 bool inventory_column::is_selected( const inventory_entry &entry ) const
 {
+    return ( entry.is_selectable() && entry == get_highlighted() ) || ( multiselect &&
+            is_selected_by_category( entry ) );
+}
+
+bool inventory_column::is_highlighted( const inventory_entry &entry ) const
+{
     return entry == get_highlighted() || ( multiselect && is_selected_by_category( entry ) );
 }
 
 bool inventory_column::is_selected_by_category( const inventory_entry &entry ) const
 {
-    return entry.is_item() && mode == navigation_mode::CATEGORY
+    return entry.is_selectable() && mode == navigation_mode::CATEGORY
            && entry.get_category_ptr() == get_highlighted().get_category_ptr()
            && page_of( entry ) == page_index();
 }
@@ -1425,7 +1433,7 @@ void inventory_column::draw( const catacurses::window &win, const point &p,
         int x2 = p.x + std::max( static_cast<int>( reserved_width - get_cells_width() ), 0 );
         int yy = p.y + line;
 
-        const bool selected = active && is_selected( entry );
+        const bool selected = active && is_highlighted( entry );
 
         const int hx_max = p.x + get_width();
         inclusive_rectangle<point> rect = inclusive_rectangle<point>( point( x1, yy ),
@@ -2794,6 +2802,16 @@ item_location inventory_pick_selector::execute()
             on_input( input );
         }
     }
+}
+
+inventory_selector::stats container_inventory_selector::get_raw_stats() const
+{
+    return get_weight_and_volume_stats( loc->get_total_contained_weight(),
+                                        loc->get_total_weight_capacity(),
+                                        loc->get_total_contained_volume(), loc->get_total_capacity(),
+                                        loc->max_containable_length(), loc->max_containable_volume(),
+                                        loc->get_total_holster_volume() - loc->get_used_holster_volume(),
+                                        loc->get_used_holsters(), loc->get_total_holsters() );
 }
 
 void inventory_selector::action_examine( const item_location &sitem )
