@@ -311,7 +311,7 @@
     "symbol": "%",
     "quench": 1,
     "calories": 202,
-    "description": "Bread and vegetables, that's it.",
+    "description": "A vegetarian combination of cheese and vegetable on bread, simple yet satisfying.",
     "price": 800,
     "price_postapoc": 250,
     "material": [ "veggy", "wheat" ],
