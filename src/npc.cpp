@@ -883,7 +883,7 @@ void npc::randomize( const npc_class_id &type )
         }
     }
 
-    set_base_age( rng( 16, 55 ) );
+    set_base_age( rng( 18, 55 ) );
     randomize_height();
 
     // Add eocs
