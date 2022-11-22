@@ -124,9 +124,23 @@ veh_app_interact::veh_app_interact( vehicle &veh, const point &p )
     ctxt.register_action( "UNPLUG" );
 }
 
+// @returns true if a battery part exists on any vehicle connected to veh
+static bool has_battery_in_grid( vehicle *veh )
+{
+    const std::map<vehicle *, bool> veh_map = vehicle::enumerate_vehicles( { veh } );
+    return std::any_of( veh_map.begin(), veh_map.end(),
+    []( const std::pair<vehicle *, bool> &p ) {
+        return !p.first->batteries.empty();
+    } );
+}
+
 void veh_app_interact::init_ui_windows()
 {
     int height_info = veh->get_printable_fuel_types().size() + 2;
+
+    if( !has_battery_in_grid( veh ) ) {
+        height_info++;
+    }
     if( !veh->batteries.empty() ) {
         height_info++;
     }
@@ -206,9 +220,14 @@ void veh_app_interact::draw_info()
         wprintz( w_info, rcol, rstr );
     };
 
+    if( !has_battery_in_grid( veh ) ) {
+        mvwprintz( w_info, point( 0, row ), c_light_red, _( "Appliance has no connection to a battery." ) );
+        row++;
+    }
+
     // Battery power output
-    int charge_rate = veh->net_battery_charge_rate_w();
-    print_charge( _( "Battery power output: " ), charge_rate, row );
+    int charge_rate = veh->net_battery_charge_rate_w( true, true );
+    print_charge( _( "Grid battery power flow: " ), charge_rate, row );
     row++;
 
     // Reactor power output
@@ -249,7 +268,7 @@ void veh_app_interact::draw_info()
     // Other power output
     if( !veh->accessories.empty() ) {
         int rate = veh->total_accessory_epower_w();
-        print_charge( _( "Total power consumption: " ), rate, row );
+        print_charge( _( "Appliance power consumption: " ), rate, row );
         row++;
     }
 

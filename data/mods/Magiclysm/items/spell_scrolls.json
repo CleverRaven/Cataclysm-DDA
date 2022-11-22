@@ -32,6 +32,15 @@
   {
     "type": "BOOK",
     "copy-from": "spell_scroll",
+    "id": "spell_scroll_sound_bomb",
+    "//": "Classless spell",
+    "name": { "str": "Scroll of Sound Bomb", "str_pl": "Scrolls of Sound Bomb" },
+    "description": "Behind the cool name hides a common joke spell to spook your friends and restrain dogs.  It can be useful in some special cases.",
+    "use_action": { "type": "learn_spell", "spells": [ "sound_bomb" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
     "id": "spell_scroll_invisibility",
     "//": "Technomancer spell",
     "name": { "str": "Scroll of Invisibility", "str_pl": "Scrolls of Invisibility" },
@@ -117,6 +126,15 @@
     "//": "Animist spell",
     "name": { "str": "Scroll of Rupture", "str_pl": "Scrolls of Rupture" },
     "description": "You pour mana into an unwilling and unprepared vessel, causing cellular break-down, internal hemorrhaging, leylines to become muddled, and electronics to overcharge.  Immensely gruesome, crude, and was once illegal world-wide, not that it matters now.",
+    "use_action": { "type": "learn_spell", "spells": [ "rupture" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_devour",
+    "//": "Animist spell",
+    "name": { "str": "Scroll of Devour", "str_pl": "Scrolls of Devour" },
+    "description": "Kill a summoned creature, consuming its life energy to regain some health.",
     "use_action": { "type": "learn_spell", "spells": [ "rupture" ] }
   },
   {
@@ -778,6 +796,105 @@
   {
     "type": "BOOK",
     "copy-from": "spell_scroll",
+    "id": "spell_scroll_storm_shipwrecker",
+    "//": "Stormshaper spell",
+    "name": { "str": "Scroll of Shipwrecker", "str_pl": "Scrolls of Shipwrecker" },
+    "description": "The spell moves out of your mouth, creating a giant shockwave, and shuttering everything in its path.",
+    "use_action": { "type": "learn_spell", "spells": [ "storm_shipwrecker" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_explosive_decompression",
+    "//": "Stormshaper spell",
+    "name": { "str": "Scroll of Explosive Decompression", "str_pl": "Scrolls of Explosive Decompression" },
+    "description": "Create a high pressure zone originating from the selected point.  Shortly after, the massive pressure wave will crush everything inside, inflicting barotrarumatic injuries on everyone effected.",
+    "use_action": { "type": "learn_spell", "spells": [ "explosive_decompression" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_vacuum_decompression",
+    "//": "Stormshaper spell",
+    "name": { "str": "Scroll of Vacuum Decompression", "str_pl": "Scrolls of Vacuum Decompression" },
+    "description": "Create a high pressure zone originating from the selected point.  Shortly after, the massive pressure wave will crush everything inside, inflicting barotrarumatic injuries on everyone effected.  It will also try to pull unprepared creatures inside the zone before attack.",
+    "use_action": { "type": "learn_spell", "spells": [ "vacuum_decompression" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_air_bubble",
+    "//": "Stormshaper spell",
+    "name": { "str": "Scroll of Air Bubble", "str_pl": "Scrolls of Air Bubble" },
+    "description": "Cover your head with an air bubble, allowing you to breathe underwater or prevent breathing of toxic gases.",
+    "use_action": { "type": "learn_spell", "spells": [ "air_bubble" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_storm_superconductor",
+    "//": "Stormshaper spell",
+    "name": { "str": "Scroll of Superconductor", "str_pl": "Scrolls of Superconductor" },
+    "description": "Create a devastating electric charge on a small distance, roasting everything to their death.",
+    "use_action": { "type": "learn_spell", "spells": [ "storm_superconductor" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_shocking_dash",
+    "//": "Stormshaper spell",
+    "name": { "str": "Scroll of Shocking Dash", "str_pl": "Scrolls of Shocking Dash" },
+    "description": "Fill your legs with energy, and dash into picked place.",
+    "use_action": { "type": "learn_spell", "spells": [ "shocking_dash" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_toxtricity",
+    "//": "Stormshaper spell",
+    "name": { "str": "Scroll of Toxtricity", "str_pl": "Scrolls of Toxtricity" },
+    "description": "Inject an electric energy into the creatures, which makes them weak, and deal huge damage over time.",
+    "use_action": { "type": "learn_spell", "spells": [ "toxtricity" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_electric_eye",
+    "//": "Stormshaper spell",
+    "name": { "str": "Scroll of Electric Eye", "str_pl": "Scrolls of Electric Eye" },
+    "description": "Enhance your sight with your powers.  It allows you to see creatures of the same energy around you, and block or dodge an additional attack your enhanced perception speed could anticipate.",
+    "use_action": { "type": "learn_spell", "spells": [ "electric_eye" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_electric_waves",
+    "//": "Stormshaper spell",
+    "name": { "str": "Scroll of Electric Waves", "str_pl": "Scrolls of Electric Waves" },
+    "description": "Your hands start to emit a huge amount of energy, that you release with each attack.",
+    "use_action": { "type": "learn_spell", "spells": [ "electric_waves" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_electric_arts",
+    "//": "Stormshaper spell",
+    "name": { "str": "Scroll of Electric Arts", "str_pl": "Scrolls of Electric Arts" },
+    "description": "Insulate the skin against electrical damage.  Particularly useful for the apprentice Stormshaper, whose magical control is weak and whose efforts could easily end in self-electrocution.",
+    "use_action": { "type": "learn_spell", "spells": [ "electric_arts" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_summon_teravolt",
+    "//": "Stormshaper spell",
+    "name": { "str": "Scroll of Teravolt", "str_pl": "Scrolls of Teravolt" },
+    "description": "Summon a Teravolt, a small, semi-intelligent spirit, that homes onto hostile creatures and explodes into a huge spark cloud.",
+    "use_action": { "type": "learn_spell", "spells": [ "summon_teravolt" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
     "id": "spell_scroll_windrun",
     "//": "Stormshaper spell",
     "name": { "str": "Scroll of Windrunning", "str_pl": "Scrolls of Windrunning" },
@@ -1081,6 +1198,14 @@
     "name": { "str": "Scroll of Improved Knock", "str_pl": "Scrolls of Improved Knock" },
     "description": "You can channel magical energy to open any locked door from a short range away.",
     "use_action": { "type": "learn_spell", "spells": [ "improved_knock" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_create_electric_lighter",
+    "name": { "str": "Scroll of Fire Spark", "str_pl": "Scrolls of Fire Spark" },
+    "description": "Summons a small electric spark, that do not harm anything.  You can use it to ignite something flammable.",
+    "use_action": { "type": "learn_spell", "spells": [ "create_electric_lighter" ] }
   },
   {
     "type": "BOOK",

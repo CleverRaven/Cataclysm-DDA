@@ -25,6 +25,12 @@
   },
   {
     "type": "SPECIES",
+    "id": "GOBLIN_FORGE",
+    "description": "a short and entrepreneurial humanoid",
+    "anger_triggers": [ "HURT", "FRIEND_ATTACKED" ]
+  },
+  {
+    "type": "SPECIES",
     "id": "ORC",
     "description": "a stocky, green-skinned humanoid",
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_WEAK" ]

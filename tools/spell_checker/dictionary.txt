@@ -53,6 +53,8 @@ alquerque
 altamente
 alternators
 alumentum
+amalgamation
+amalgamations
 amargasaurus
 ambusher
 amigara
@@ -153,6 +155,7 @@ barebones
 barghest
 barkin
 barosaurus
+barotrarumatic
 basecamp
 basecamps
 baselard
@@ -187,6 +190,7 @@ bileworm
 bimetal
 bioblaster
 biocompatibility
+bioelectricity
 bioforms
 biographic
 biohacker
@@ -253,6 +257,8 @@ broadswords
 bronchodilator
 bronchospasm
 bubblicious
+bubo
+buboes
 buchner
 bucka
 bufo
@@ -313,6 +319,7 @@ ceratopsian
 ceratosaurus
 cere
 cerium
+cervine
 cesti
 cestus
 chainmail
@@ -402,6 +409,7 @@ coughupyourscough
 countermine
 couters
 coverplate
+crablike
 crackin
 cracklins
 craftable
@@ -560,6 +568,7 @@ electrochemistry
 electrohack
 electrolaser
 electrolasers
+electromancy
 electroreceptors
 elete
 elopements
@@ -1808,6 +1817,7 @@ stegosaurus
 stegosaurusfindsrobot
 stenonychosaurus
 stimulative
+stimulators
 stimulatory
 stipe
 stirfry
@@ -1894,6 +1904,8 @@ temaki
 tems
 tenontosaurus
 tenuously
+teravolt
+teravolts
 terpenes
 terranean
 testbed
@@ -1971,6 +1983,7 @@ tumescences
 tundras
 tuno
 turreted
+tusked
 twere
 txt
 typologies

@@ -390,6 +390,12 @@ struct needs_rates {
     float kcal = 0.0f;
 };
 
+struct pocket_data_with_parent {
+    const item_pocket *pocket_ptr;
+    item_location parent;
+    int nested_level;
+};
+
 class Character : public Creature, public visitable
 {
     public:
@@ -2038,6 +2044,18 @@ class Character : public Creature, public visitable
                 bool ignore_settings = false );
 
         /**
+         * Collect all pocket data (with parent and nest levels added) that the character has.
+         * @param filter only collect pockets that match the filter.
+         * @param sort_func customizable sorting function.
+         *
+         * @returns pocket_data_with_parent vector to return.
+         */
+        std::vector<pocket_data_with_parent> get_all_pocket_with_parent(
+            const std::function<bool( const item_pocket * )> &filter = return_true<const item_pocket *>,
+            const std::function<bool( const pocket_data_with_parent &a, const pocket_data_with_parent &b )>
+            *sort_func = nullptr );
+
+        /**
          * Checks if character stats and skills meet minimum requirements for the item.
          * Prints an appropriate message if requirements not met.
          * @param it Item we are checking
@@ -2128,7 +2146,7 @@ class Character : public Creature, public visitable
         int get_knowledge_level( const skill_id &ident ) const;
         int get_knowledge_level( const skill_id &ident, const item &context ) const;
 
-        const SkillLevelMap &get_all_skills() const;
+        SkillLevelMap get_all_skills() const;
         SkillLevel &get_skill_level_object( const skill_id &ident );
         const SkillLevel &get_skill_level_object( const skill_id &ident ) const;
 

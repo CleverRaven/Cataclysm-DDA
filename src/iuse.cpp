@@ -52,6 +52,7 @@
 #include "game_constants.h"
 #include "game_inventory.h"
 #include "handle_liquid.h"
+#include "harvest.h"
 #include "iexamine.h"
 #include "inventory.h"
 #include "inventory_ui.h"
@@ -243,6 +244,8 @@ static const furn_str_id furn_f_aluminum_stepladder( "f_aluminum_stepladder" );
 static const furn_str_id furn_f_ladder( "f_ladder" );
 static const furn_str_id furn_f_translocator_buoy( "f_translocator_buoy" );
 
+static const harvest_drop_type_id harvest_drop_blood( "blood" );
+
 static const itype_id itype_advanced_ecig( "advanced_ecig" );
 static const itype_id itype_afs_atomic_smartphone( "afs_atomic_smartphone" );
 static const itype_id itype_afs_atomic_smartphone_music( "afs_atomic_smartphone_music" );
@@ -254,7 +257,6 @@ static const itype_id itype_arcade_machine( "arcade_machine" );
 static const itype_id itype_atomic_coffeepot( "atomic_coffeepot" );
 static const itype_id itype_barometer( "barometer" );
 static const itype_id itype_battery( "battery" );
-static const itype_id itype_blood_tainted( "blood_tainted" );
 static const itype_id itype_c4armed( "c4armed" );
 static const itype_id itype_canister_empty( "canister_empty" );
 static const itype_id itype_chainsaw_off( "chainsaw_off" );
@@ -354,7 +356,6 @@ static const species_id species_FUNGUS( "FUNGUS" );
 static const species_id species_HALLUCINATION( "HALLUCINATION" );
 static const species_id species_INSECT( "INSECT" );
 static const species_id species_ROBOT( "ROBOT" );
-static const species_id species_ZOMBIE( "ZOMBIE" );
 
 static const ter_str_id ter_t_grave( "t_grave" );
 static const ter_str_id ter_t_grave_new( "t_grave_new" );
@@ -1558,8 +1559,9 @@ cata::optional<int> iuse::petfood( Character *p, item *it, bool, const tripoint 
         return cata::nullopt;
     }
 
-    const cata::optional<tripoint> pnt = choose_adjacent( string_format( _( "Put the %s where?" ),
-                                         it->tname() ) );
+    const cata::optional<tripoint> pnt = choose_adjacent( string_format(
+            _( "Tame which animal with %s?" ),
+            it->tname() ) );
     if( !pnt ) {
         return cata::nullopt;
     }
@@ -4760,17 +4762,20 @@ cata::optional<int> iuse::blood_draw( Character *p, item *it, bool, const tripoi
                       colorize( map_it.tname(), map_it.color_in_inventory() ) ) ) {
             p->add_msg_if_player( m_info, _( "You drew blood from the %s…" ), map_it.tname() );
             drew_blood = true;
-            blood_temp = map_it.temperature ;
-
-            if( map_it.get_mtype()->in_species( species_ZOMBIE ) ) {
-                blood.convert( itype_blood_tainted );
-            }
+            blood_temp = map_it.temperature;
 
             auto bloodtype( map_it.get_mtype()->bloodType() );
             if( bloodtype.obj().has_acid ) {
                 acid_blood = true;
             } else {
                 blood.set_mtype( map_it.get_mtype() );
+
+                for( const harvest_entry &entry : map_it.get_mtype()->harvest.obj() ) {
+                    if( entry.type == harvest_drop_blood ) {
+                        blood.convert( itype_id( entry.drop ) );
+                        break;
+                    }
+                }
             }
         }
     }
@@ -8660,7 +8665,7 @@ cata::optional<int> iuse::cable_attach( Character *p, item *it, bool, const trip
                     return itm.has_flag( flag_SOLARPACK_ON );
                 };
                 if( you != nullptr )                     {
-                    loc = game_menus::inv::titled_filter_menu( solar_filter, *you, choose_solar, dont_have_solar );
+                    loc = game_menus::inv::titled_filter_menu( solar_filter, *you, choose_solar, -1, dont_have_solar );
                 }
                 if( !loc ) {
                     add_msg( _( "Never mind" ) );
@@ -8673,7 +8678,7 @@ cata::optional<int> iuse::cable_attach( Character *p, item *it, bool, const trip
                 return 0;
             } else if( choice == 3 ) {
                 if( you != nullptr )                     {
-                    loc = game_menus::inv::titled_filter_menu( filter, *you, choose_ups, dont_have_ups );
+                    loc = game_menus::inv::titled_filter_menu( filter, *you, choose_ups, -1, dont_have_ups );
                 }
                 if( !loc ) {
                     add_msg( _( "Never mind" ) );
@@ -8781,7 +8786,7 @@ cata::optional<int> iuse::cable_attach( Character *p, item *it, bool, const trip
                 return itm.has_flag( flag_SOLARPACK_ON );
             };
             if( you != nullptr )                     {
-                loc = game_menus::inv::titled_filter_menu( solar_filter, *you, choose_solar, dont_have_solar );
+                loc = game_menus::inv::titled_filter_menu( solar_filter, *you, choose_solar, -1, dont_have_solar );
             }
             if( !loc ) {
                 add_msg( _( "Never mind" ) );
@@ -8793,7 +8798,7 @@ cata::optional<int> iuse::cable_attach( Character *p, item *it, bool, const trip
             p->add_msg_if_player( m_good, _( "You are now plugged to the solar backpack." ) );
             return 0;
         } else if( choice == 4 ) {
-            loc = game_menus::inv::titled_filter_menu( filter, *you, choose_ups, dont_have_ups );
+            loc = game_menus::inv::titled_filter_menu( filter, *you, choose_ups, -1, dont_have_ups );
             // connecting self to UPS
             if( !loc ) {
                 add_msg( _( "Never mind" ) );
@@ -9783,7 +9788,7 @@ cata::optional<int> iuse::electricstorage( Character *p, item *it, bool t, const
 
     item_location storage_card = game_menus::inv::titled_filter_menu(
                                      filter, *p->as_avatar(), _( "Use what storage device?" ),
-                                     _( "You don't have any empty book storage devices." ) );
+                                     -1, _( "You don't have any empty book storage devices." ) );
 
     if( !storage_card ) {
         return cata::nullopt;
@@ -9912,7 +9917,7 @@ cata::optional<int> iuse::ebooksave( Character *p, item *it, bool t, const tripo
     [&p, &ebooks]( const item & itm ) {
         return itm.is_book() && p->has_identified( itm.typeId() ) && !ebooks.count( itm.typeId() );
     },
-    *p->as_avatar(), _( "Scan which book?" ) );
+    *p->as_avatar(), _( "Scan which book?" ), PICKUP_RANGE );
 
     if( !book ) {
         p->add_msg_if_player( m_info, _( "Nevermind." ) );
