@@ -142,13 +142,16 @@ struct bp_limb_score {
 };
 
 struct bp_onhit_effect {
+    // ID of the effect to apply
+    efftype_id id;
+    // Apply the effect to the given bodypart, or to the whole character?
+    bool global = false;
     // Type of damage that causes the effect - NONE always applies
     damage_type dtype = damage_type::NONE;
     // Percent of the limb's max HP required for the effect to trigger (or absolute DMG for minor limbs)
     int dmg_threshold = 100;
     // Percent HP / absolute damage triggering a scale tick
     float scale_increment = 0.0f;
-    efftype_id id;
     // Percent chance (at damage threshold)
     int chance = 100;
     // Chance scaling for damage above the threshold

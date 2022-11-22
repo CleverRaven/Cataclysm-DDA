@@ -4270,7 +4270,9 @@ void Character::on_damage_of_type( const effect_source &source, int adjusted_dam
                                        "Limiting added duration to %d seconds", scaled_dur );
                     }
                 }
-                add_effect( source, eff.id, 1_turns * scaled_dur, bp, false, scaled_int );
+                // Add the effect globally if defined
+                add_effect( source, eff.id, 1_turns * scaled_dur, eff.global ? bodypart_str_id::NULL_ID() : bp,
+                            false, scaled_int );
             }
         }
     }

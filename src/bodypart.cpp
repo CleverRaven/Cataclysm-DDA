@@ -467,6 +467,7 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
 void bp_onhit_effect::load( const JsonObject &jo )
 {
     mandatory( jo, false, "id", id );
+    optional( jo, false, "global", global );
     optional( jo, false, "dmg_type", dtype, damage_type::NONE );
     optional( jo, false, "dmg_threshold", dmg_threshold, 1 );
     optional( jo, false, "dmg_scale_increment", scale_increment, 1.0f );
