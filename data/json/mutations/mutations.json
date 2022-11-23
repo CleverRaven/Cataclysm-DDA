@@ -7861,6 +7861,22 @@
   },
   {
     "type": "mutation",
+    "id": "DEBUG_MANA",
+    "//": "Moved to mainline so multiple mods have access to this debug trait.",
+    "name": { "str": "Debug Mana" },
+    "points": 99,
+    "valid": false,
+    "description": "To cast bug killing spells.",
+    "debug": true,
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [ { "value": "MAX_MANA", "add": 500000 }, { "value": "REGEN_MANA", "multiply": 1000 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "DEBUG_NOTEMP",
     "name": { "str": "Debug HVAC" },
     "points": 99,
@@ -8262,7 +8278,7 @@
     "description": "You fare better than most in colder climates and are less bothered by lower temperatures.  Note that while you are slightly less prone to developing frostbite as a result, you aren't any better at dealing with the symptoms.",
     "starting_trait": true,
     "category": [ "LUPINE", "URSINE", "CATTLE", "FELINE", "RABBIT", "MOUSE", "BEAST", "PLANT" ],
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 10 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 10 } ] } ]
   },
   {
     "type": "mutation",
@@ -8272,6 +8288,6 @@
     "description": "You fare better than most in warmer climates and are less bothered by hotter temperatures.  Note that while you'll sweat a little less in close proximity to a fire as a result, burns will still hurt just as much.",
     "starting_trait": true,
     "category": [ "FISH", "CEPHALOPOD", "GASTROPOD", "LIZARD", "BATRACHIAN", "PLANT" ],
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 10 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 10 } ] } ]
   }
 ]
