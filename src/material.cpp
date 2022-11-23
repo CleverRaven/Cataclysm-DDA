@@ -103,6 +103,7 @@ void material_type::load( const JsonObject &jsobj, const std::string & )
 
     optional( jsobj, was_loaded, "breathability", _breathability, breathability_rating::IMPERMEABLE );
 
+    assign( jsobj, "allergen_morale", _allergen_morale );
     assign( jsobj, "salvaged_into", _salvaged_into );
     optional( jsobj, was_loaded, "repaired_with", _repaired_with, itype_id::NULL_ID() );
     optional( jsobj, was_loaded, "edible", _edible, false );
@@ -178,6 +179,11 @@ cata::optional<itype_id> material_type::salvaged_into() const
 itype_id material_type::repaired_with() const
 {
     return _repaired_with;
+}
+
+morale_type material_type::allergen_morale() const
+{
+    return _allergen_morale;
 }
 
 float material_type::bash_resist() const

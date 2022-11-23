@@ -194,6 +194,7 @@ class enchantment
         std::vector<bodypart_changes> modified_bodyparts;
 
         std::set<trait_id> mutations;
+        std::set<material_id> allergies;
         cata::optional<emit_id> emitter;
         std::map<efftype_id, int> ench_effects;
         // values that add to the base value
@@ -235,6 +236,8 @@ class enchant_cache : public enchantment
         double get_value_multiply( enchant_vals::mod value ) const;
         int mult_bonus( enchant_vals::mod value_type, int base_value ) const;
 
+        bool is_allergic( const material_id &mat ) const;
+
         int get_skill_value_add( const skill_id &value ) const;
         double get_skill_value_multiply( const skill_id &value ) const;
         int skill_mult_bonus( const skill_id &value_type, int base_value ) const;
@@ -263,6 +266,7 @@ class enchant_cache : public enchantment
                    const cata::optional<std::string> &inline_id = cata::nullopt );
         bool operator==( const enchant_cache &rhs ) const;
     private:
+        std::set<material_id> allergies;
         std::map<enchant_vals::mod, int> values_add; // NOLINT(cata-serialize)
         // values that get multiplied to the base value
         // multipliers add to each other instead of multiply against themselves

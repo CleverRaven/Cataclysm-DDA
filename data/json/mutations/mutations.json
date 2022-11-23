@@ -1527,7 +1527,13 @@
     "types": [ "DIET" ],
     "cancels": [ "CANNIBAL", "STRICT_HUMANITARIAN" ],
     "changes_to": [ "HERBIVORE" ],
-    "category": [ "CATTLE", "RABBIT" ]
+    "category": [ "CATTLE", "RABBIT" ],
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "allergies": [ "animal", "muscle", "bone", "flesh", "gutskin", "hflesh", "iflesh", "blood", "cured_meat" ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -1547,7 +1553,13 @@
     "valid": false,
     "starting_trait": true,
     "vitamins_absorb_multi": [ [ "veggy", [ [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ] ] ],
-    "cancels": [ "HERBIVORE", "RUMINANT", "GRAZER" ]
+    "cancels": [ "HERBIVORE", "RUMINANT", "GRAZER" ],
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "allergies": [ "dry_plant", "veggy", "tomato", "bean", "garlic", "mushroom", "dried_vegetable" ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -1567,7 +1579,8 @@
     "valid": false,
     "starting_trait": true,
     "vitamins_absorb_multi": [ [ "fruit", [ [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ] ] ],
-    "cancels": [ "HERBIVORE", "RUMINANT", "GRAZER" ]
+    "cancels": [ "HERBIVORE", "RUMINANT", "GRAZER" ],
+    "enchantments": [ { "condition": "ALWAYS", "allergies": [ "fruit" ] } ]
   },
   {
     "type": "mutation",
@@ -1576,7 +1589,8 @@
     "points": -1,
     "description": "You, like 75 percent of the world, cannot tolerate milk or milk based products.  It's possible for you to eat them, but you will suffer morale penalties and obtain less nutrition from them.",
     "vitamins_absorb_multi": [ [ "milk", [ [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ] ] ],
-    "starting_trait": true
+    "starting_trait": true,
+    "enchantments": [ { "condition": "ALWAYS", "allergies": [ "cheese", "ice_cream", "milk" ] } ]
   },
   {
     "type": "mutation",
@@ -1587,7 +1601,8 @@
     "starting_trait": true,
     "cancels": [ "PROJUNK" ],
     "vitamins_absorb_multi": [ [ "junk", [ [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ] ] ],
-    "category": [ "RAPTOR", "ALPHA", "ELFA", "RABBIT", "GASTROPOD" ]
+    "category": [ "RAPTOR", "ALPHA", "ELFA", "RABBIT", "GASTROPOD" ],
+    "enchantments": [ { "condition": "ALWAYS", "allergies": [ "junk", "processed_food" ] } ]
   },
   {
     "type": "mutation",
@@ -1596,7 +1611,8 @@
     "points": -2,
     "description": "You have a rare allergy that prevents you from eating wheat.  It's possible for you to eat wheat-based products, but you will suffer morale penalties and obtain less nutrition from them.",
     "vitamins_absorb_multi": [ [ "wheat", [ [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ] ] ],
-    "starting_trait": true
+    "starting_trait": true,
+    "enchantments": [ { "condition": "ALWAYS", "allergies": [ "bread", "wheat" ] } ]
   },
   {
     "type": "mutation",

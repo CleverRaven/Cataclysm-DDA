@@ -679,21 +679,9 @@ float Character::metabolic_rate() const
 
 morale_type Character::allergy_type( const item &food ) const
 {
-    using allergy_tuple = std::tuple<trait_id, flag_id, morale_type>;
-    static const std::array<allergy_tuple, 8> allergy_tuples = {{
-            std::make_tuple( trait_VEGETARIAN, flag_ALLERGEN_MEAT, MORALE_ANTIMEAT ),
-            std::make_tuple( trait_MEATARIAN, flag_ALLERGEN_VEGGY, MORALE_ANTIVEGGY ),
-            std::make_tuple( trait_LACTOSE, flag_ALLERGEN_MILK, MORALE_LACTOSE ),
-            std::make_tuple( trait_ANTIFRUIT, flag_ALLERGEN_FRUIT, MORALE_ANTIFRUIT ),
-            std::make_tuple( trait_ANTIJUNK, flag_ALLERGEN_JUNK, MORALE_ANTIJUNK ),
-            std::make_tuple( trait_ANTIWHEAT, flag_ALLERGEN_WHEAT, MORALE_ANTIWHEAT )
-        }
-    };
-
-    for( const auto &tp : allergy_tuples ) {
-        if( has_trait( std::get<0>( tp ) ) &&
-            food.has_flag( std::get<1>( tp ) ) ) {
-            return std::get<2>( tp );
+    for( const material_type *mat : food.made_of_types() ) {
+        if( enchantment_cache->is_allergic( mat->id ) ) {
+            return mat->allergen_morale();
         }
     }
 

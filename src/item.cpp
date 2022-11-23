@@ -9450,8 +9450,16 @@ std::vector<const material_type *> item::made_of_types() const
             material_types_composed_of.push_back( &mat_id.first.obj() );
         }
     } else {
-        for( const auto &mat_id : type->materials ) {
-            material_types_composed_of.push_back( &mat_id.first.obj() );
+        if( components.empty() ) {
+            for( const std::pair<const material_id, int> &mat_id : type->materials ) {
+                material_types_composed_of.push_back( &mat_id.first.obj() );
+            }
+        } else {
+            for( const item &comp : components ) {
+                for( const material_type *mat : comp.made_of_types() ) {
+                    material_types_composed_of.push_back( mat );
+                }
+            }
         }
     }
     return material_types_composed_of;

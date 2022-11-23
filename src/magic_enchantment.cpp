@@ -325,6 +325,7 @@ void enchantment::load( const JsonObject &jo, const std::string &,
 
     optional( jo, was_loaded, "modified_bodyparts", modified_bodyparts );
     optional( jo, was_loaded, "mutations", mutations );
+    assign( jo, "allergies", allergies );
 
     if( !is_child && jo.has_array( "values" ) ) {
         for( const JsonObject value_obj : jo.get_array( "values" ) ) {
@@ -554,6 +555,10 @@ void enchant_cache::force_add( const enchant_cache &rhs )
         mutations.emplace( branch );
     }
 
+    for( const material_id &mat : rhs.allergies ) {
+        allergies.emplace( mat );
+    }
+
     for( const std::pair<const time_duration, std::vector<fake_spell>> &act_pair :
          rhs.intermittent_activation ) {
         for( const fake_spell &fake : act_pair.second ) {
@@ -603,6 +608,10 @@ void enchant_cache::force_add( const enchantment &rhs, const Character &guy )
 
     for( const trait_id &branch : rhs.mutations ) {
         mutations.emplace( branch );
+    }
+
+    for( const material_id &mat : rhs.allergies ) {
+        allergies.emplace( mat );
     }
 
     for( const std::pair<const time_duration, std::vector<fake_spell>> &act_pair :
@@ -656,6 +665,11 @@ double enchantment::get_value_multiply( const enchant_vals::mod value, const Cha
     }
     dialogue d( get_talker_for( guy ), nullptr );
     return found->second.evaluate( d ) * 0.01;
+}
+
+bool enchant_cache::is_allergic( const material_id &mat ) const
+{
+    return allergies.count( mat ) > 0;
 }
 
 int enchant_cache::get_value_add( const enchant_vals::mod value ) const
