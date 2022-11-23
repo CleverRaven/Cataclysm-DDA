@@ -7861,6 +7861,22 @@
   },
   {
     "type": "mutation",
+    "id": "DEBUG_MANA",
+    "//": "Moved to mainline so multiple mods have access to this debug trait.",
+    "name": { "str": "Debug Mana" },
+    "points": 99,
+    "valid": false,
+    "description": "To cast bug killing spells.",
+    "debug": true,
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [ { "value": "MAX_MANA", "add": 500000 }, { "value": "REGEN_MANA", "multiply": 1000 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "DEBUG_NOTEMP",
     "name": { "str": "Debug HVAC" },
     "points": 99,
