@@ -367,6 +367,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "incense",
+    "name": "incense",
+    "default": "incense"
+  },
+  {
+    "type": "ammunition_type",
     "id": "oxygen",
     "name": "oxygen",
     "default": "oxygen"

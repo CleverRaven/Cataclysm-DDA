@@ -2690,6 +2690,14 @@
   },
   {
     "type": "GENERIC",
+    "id": "malachite",
+    "copy-from": "garnet",
+    "color": "green",
+    "name": { "str": "malachite" },
+    "description": "A sparkling malachite."
+  },
+  {
+    "type": "GENERIC",
     "id": "pearl",
     "copy-from": "garnet",
     "color": "white",
