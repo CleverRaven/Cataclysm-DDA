@@ -539,7 +539,6 @@ class monster : public Creature
         int fish_population = 1;
 
         short ignoring = 0;
-        
         bool aggro_character = true;
 
         cata::optional<time_point> lastseen_turn;
