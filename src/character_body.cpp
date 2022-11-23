@@ -751,7 +751,7 @@ void Character::update_bodytemp()
         // AND you have frostbite, then that also prevents you from sleeping
         if( in_sleep_state() && !has_effect( effect_narcosis ) ) {
             if( bp == body_part_torso && temp_after <= BODYTEMP_COLD && calendar::once_every( 1_hours ) ) {
-                add_msg( m_warning, _( "You feel cold and shivers." ) );
+                add_msg( m_warning, _( "You feel cold and shiver." ) );
             }
             if( temp_after <= BODYTEMP_VERY_COLD &&
                 get_fatigue() <= fatigue_levels::DEAD_TIRED && !has_bionic( bio_sleep_shutdown ) ) {
