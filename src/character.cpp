@@ -1469,10 +1469,7 @@ void Character::mount_creature( monster &z )
 
 bool Character::check_mount_will_move( const tripoint &dest_loc )
 {
-    if( !is_mounted() ) {
-        return true;
-    }
-    if( mounted_creature && mounted_creature->has_flag( MF_COMBAT_MOUNT ) ) {
+    if( !is_mounted() || mounted_creature->has_flag( MF_COMBAT_MOUNT ) ) {
         return true;
     }
     if( mounted_creature && mounted_creature->type->has_fear_trigger( mon_trigger::HOSTILE_CLOSE ) ) {
