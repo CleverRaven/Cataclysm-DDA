@@ -824,7 +824,10 @@ void hacking_activity_actor::finish( player_activity &act, Character &who )
     act.set_to_null();
 }
 
-void hacking_activity_actor::serialize( JsonOut & ) const {}
+void hacking_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.write_null();
+}
 
 std::unique_ptr<activity_actor> hacking_activity_actor::deserialize( JsonValue & )
 {
@@ -911,7 +914,7 @@ void hotwire_car_activity_actor::start( player_activity &act, Character & )
     act.moves_left = moves_total;
 }
 
-void hotwire_car_activity_actor::do_turn( player_activity &act, Character & )
+void hotwire_car_activity_actor::do_turn( player_activity &act, Character &who )
 {
     map &here = get_map();
     if( calendar::once_every( 1_minutes ) ) {
@@ -919,6 +922,9 @@ void hotwire_car_activity_actor::do_turn( player_activity &act, Character & )
         if( lost ) {
             act.set_to_null();
             debugmsg( "Lost ACT_HOTWIRE_CAR target vehicle" );
+        }
+        if( calendar::once_every( 5_minutes ) ) {
+            who.practice( skill_mechanics, 1, 2, true );
         }
     }
 }
@@ -1852,7 +1858,7 @@ void move_items_activity_actor::do_turn( player_activity &act, Character &who )
         }
 
         // Check that we can pick it up.
-        if( !target->made_of_from_type( phase_id::LIQUID ) ) {
+        if( target->made_of_from_type( phase_id::SOLID ) ) {
             item &leftovers = *target;
             // Make a copy to be put in the destination location
             item newit = leftovers;
@@ -2219,7 +2225,7 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
 
     if( here.has_furn( target ) ) {
         if( furn_type->lockpick_result.is_null() ) {
-            debugmsg( "%s lockpick_result is null", furn_type.id().str() );
+            who.add_msg_if_player( m_bad, _( "You can't open this lock." ) );
             return;
         }
 
@@ -2229,7 +2235,7 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
         }
     } else {
         if( ter_type->lockpick_result.is_null() ) {
-            debugmsg( "%s lockpick_result is null", ter_type.id().str() );
+            who.add_msg_if_player( m_bad, _( "You can't open this lock." ) );
             return;
         }
 
@@ -5419,7 +5425,7 @@ void chop_logs_activity_actor::finish( player_activity &act, Character &who )
     int splint_quan;
     if( here.ter( pos ) == t_trunk ) {
         log_quan = rng( 2, 3 );
-        stick_quan = rng( 0, 1 );
+        stick_quan = rng( 0, 3 );
         splint_quan = 0;
     } else if( here.ter( pos ) == t_stump ) {
         log_quan = rng( 0, 2 );
@@ -6171,7 +6177,7 @@ static void move_item( Character &you, item &it, const int quantity, const tripo
 
     map &here = get_map();
     // Check that we can pick it up.
-    if( !it.made_of_from_type( phase_id::LIQUID ) ) {
+    if( it.made_of_from_type( phase_id::SOLID ) ) {
         you.mod_moves( -activity_handlers::move_cost( it, src, dest ) );
 
         put_into_vehicle_or_drop( you, item_drop_reason::deliberate, { it }, dest );
@@ -6547,7 +6553,7 @@ bool vehicle_folding_activity_actor::fold_vehicle( Character &p, bool check_only
 vehicle_folding_activity_actor::vehicle_folding_activity_actor( const vehicle &target )
 {
     folding_time = target.folding_time();
-    target_pos = target.pos_bub();
+    target_pos = target.bub_part_pos( 0 );
 }
 
 void vehicle_folding_activity_actor::start( player_activity &act, Character &p )
@@ -6622,7 +6628,7 @@ bool vehicle_unfolding_activity_actor::unfold_vehicle( Character &p, bool check_
         here.destroy_vehicle( veh );
         return false;
     }
-    const bool cant_float = size( veh->get_avail_parts( "FLOATS" ) ) <= 2;
+    const bool cant_float = !veh->can_float();
     const auto invalid_pos = [&here, &cant_float]( const tripoint & p ) {
         return ( cant_float && here.has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, p ) )
                || here.veh_at( p )

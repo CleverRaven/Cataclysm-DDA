@@ -949,6 +949,20 @@ inline std::vector<std::string> JsonObject::get_string_array( const std::string 
     }
     return ret;
 }
+inline std::vector<std::string> JsonObject::get_as_string_array( const std::string &name ) const
+{
+    std::vector<std::string> ret;
+    if( has_array( name ) ) {
+        JsonArray ja = get_array( name );
+        ret.reserve( ja.size() );
+        for( JsonValue jv : get_array( name ) ) {
+            ret.emplace_back( jv );
+        }
+    } else {
+        ret.emplace_back( get_string( name ) );
+    }
+    return ret;
+}
 
 inline bool JsonObject::has_member( const std::string &key ) const
 {

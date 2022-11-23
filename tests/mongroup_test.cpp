@@ -391,4 +391,23 @@ TEST_CASE( "mongroup_multi_spawn_restrictions", "[mongroup]" )
         CHECK( counts.count( mon_test_shearable ) > 0 );
         CHECK( counts.count( mon_test_zombie_cop ) > 0 );
     }
+
+    SECTION( "no valid spawns, with mon_null" ) {
+        std::map<mtype_id, int> counts;
+
+        test_multi_spawn( mon_test_CBM, 5, 4, 6, calendar::turn_zero + 1_days,
+        { mon_null, mon_test_CBM, mon_test_zombie_cop }, counts );
+
+        CHECK( counts.empty() );
+    }
+
+    SECTION( "1 valid spawn, with mon_null" ) {
+        std::map<mtype_id, int> counts;
+
+        test_multi_spawn( mon_test_CBM, 5, 4, 6, calendar::turn_zero + 4 * 3_days + 12_hours,
+        { mon_null, mon_test_CBM, mon_test_zombie_cop }, counts );
+
+        CHECK( counts.size() == 1 );
+        CHECK( counts.count( mon_test_zombie_cop ) > 0 );
+    }
 }

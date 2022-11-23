@@ -235,7 +235,7 @@ void game_menus::inv::common( item_location &loc, avatar &you )
     // Return to inventory menu on those inputs
     static const std::set<int> loop_options = { { '\0', '=', 'f' } };
 
-    inventory_pick_selector inv_s( you );
+    container_inventory_selector inv_s( you, loc );
 
     inv_s.set_title( string_format( _( "Inventory of %s" ), loc->tname() ) );
     inv_s.set_hint( string_format(
@@ -266,18 +266,19 @@ void game_menus::inv::common( item_location &loc, avatar &you )
 }
 
 item_location game_menus::inv::titled_filter_menu( const item_filter &filter, avatar &you,
-        const std::string &title, const std::string &none_message )
+        const std::string &title, int radius, const std::string &none_message )
 {
     return inv_internal( you, inventory_filter_preset( convert_filter( filter ) ),
-                         title, -1, none_message );
+                         title, radius, none_message );
 }
 
 item_location game_menus::inv::titled_filter_menu( const item_location_filter &filter, avatar &you,
-        const std::string &title, const std::string &none_message )
+        const std::string &title, int radius, const std::string &none_message )
 {
     return inv_internal( you, inventory_filter_preset( filter ),
-                         title, -1, none_message );
+                         title, radius, none_message );
 }
+
 
 item_location game_menus::inv::titled_menu( avatar &you, const std::string &title,
         const std::string &none_message )
@@ -474,13 +475,16 @@ class pickup_inventory_preset : public inventory_selector_preset
 {
     public:
         explicit pickup_inventory_preset( const Character &you,
-                                          bool skip_wield_check = false ) : you( you ),
-            skip_wield_check( skip_wield_check ) {
+                                          bool skip_wield_check = false, bool ignore_liquidcont = false ) : you( you ),
+            skip_wield_check( skip_wield_check ), ignore_liquidcont( ignore_liquidcont ) {
             _pk_type = item_pocket::pocket_type::LAST;
         }
 
         std::string get_denial( const item_location &loc ) const override {
             if( !you.has_item( *loc ) ) {
+                if( loc->made_of_from_type( phase_id::GAS ) ) {
+                    return _( "Can't pick up gasses." );
+                }
                 if( loc->made_of_from_type( phase_id::LIQUID ) && !loc->is_frozen_liquid() ) {
                     if( loc.has_parent() ) {
                         return _( "Can't pick up liquids." );
@@ -523,12 +527,20 @@ class pickup_inventory_preset : public inventory_selector_preset
         }
 
         bool is_shown( const item_location &loc ) const override {
+            if( ignore_liquidcont && loc.where() == item_location::type::map &&
+                !loc->made_of( phase_id::SOLID ) ) {
+                map &here = get_map();
+                if( here.has_flag( ter_furn_flag::TFLAG_LIQUIDCONT, loc.position() ) ) {
+                    return false;
+                }
+            }
             return !( loc.has_parent() && loc.parent_item()->is_ammo_belt() );
         }
 
     private:
         const Character &you;
         bool skip_wield_check;
+        bool ignore_liquidcont;
 };
 
 class disassemble_inventory_preset : public inventory_selector_preset
@@ -725,6 +737,11 @@ class comestible_inventory_preset : public inventory_selector_preset
                   loc.where() != item_location::type::container ) &&
                 !get_map().has_flag_furn( ter_furn_flag::TFLAG_LIQUIDCONT, loc.position() ) ) {
                 return _( "Can't drink spilt liquids." );
+            }
+            if(
+                loc->made_of_from_type( phase_id::GAS ) &&
+                loc.where() != item_location::type::container ) {
+                return _( "Can't consume spilt gasses." );
             }
 
             if( med.is_medication() && !you.can_use_heal_item( med ) && !med.is_craft() ) {
@@ -1747,8 +1764,65 @@ item_location game_menus::inv::salvage( Character &you, const salvage_actor *act
 class repair_inventory_preset: public inventory_selector_preset
 {
     public:
-        repair_inventory_preset( const repair_item_actor *actor, const item *main_tool ) :
+        repair_inventory_preset( const repair_item_actor *actor, const item *main_tool,
+                                 const Character &you ) :
             actor( actor ), main_tool( main_tool ) {
+
+            _indent_entries = false;
+
+            append_cell( [actor, &you]( const item_location & loc ) {
+                const int comp_needed = std::max<int>( 1,
+                                                       std::ceil( loc->base_volume() / 250_ml * actor->cost_scaling ) );
+                std::set<itype_id> valid_entries = actor->get_valid_repair_materials( *loc );
+                const inventory &crafting_inv = you.crafting_inventory();
+                std::function<bool( const item & )> filter;
+                if( loc->is_filthy() ) {
+                    filter = []( const item & component ) {
+                        return component.allow_crafting_component();
+                    };
+                } else {
+                    filter = is_crafting_component;
+                }
+                std::vector<std::string> material_list;
+                for( const auto &component_id : valid_entries ) {
+                    if( item::count_by_charges( component_id ) ) {
+                        if( crafting_inv.has_charges( component_id, 1 ) ) {
+                            const int num_comp = crafting_inv.charges_of( component_id );
+                            material_list.push_back( colorize( string_format( _( "%s (%d)" ), item::nname( component_id ),
+                                                               num_comp ), num_comp < comp_needed ? c_red : c_unset ) );
+                        }
+                    } else if( crafting_inv.has_amount( component_id, 1, false, filter ) ) {
+                        const int num_comp = crafting_inv.amount_of( component_id, false );
+                        material_list.push_back( colorize( string_format( _( "%s (%d)" ), item::nname( component_id ),
+                                                           num_comp ), num_comp < comp_needed ? c_red : c_unset ) );
+                    }
+                }
+                std::string ret = join( material_list, ", " );
+                if( ret.empty() ) {
+                    ret = _( "<color_red>NONE</color>" );
+                }
+                return ret;
+            },
+            _( "MATERIALS AVAILABLE" ) );
+
+            append_cell( [actor, &you]( const item_location & loc ) {
+                const int level = you.get_skill_level( actor->used_skill );
+                const repair_item_actor::repair_type action_type = actor->default_action( *loc, level );
+                const std::pair<float, float> chance = actor->repair_chance( you, *loc, action_type );
+                return colorize( string_format( "%0.1f%%", 100.0f * chance.first ),
+                                 chance.first == 0 ? c_yellow : ( chance.second == 0 ? c_light_green : c_unset ) );
+            },
+            _( "SUCCESS CHANCE" ) );
+
+            append_cell( [actor, &you]( const item_location & loc ) {
+                const int level = you.get_skill_level( actor->used_skill );
+                const repair_item_actor::repair_type action_type = actor->default_action( *loc, level );
+                const std::pair<float, float> chance = actor->repair_chance( you, *loc, action_type );
+                return colorize( string_format( "%0.1f%%", 100.0f * chance.second ),
+                                 chance.second > chance.first ? c_yellow : ( chance.second == 0 &&
+                                         chance.first > 0 ? c_light_green : c_unset ) );
+            },
+            _( "DAMAGE CHANCE" ) );
         }
 
         bool is_shown( const item_location &loc ) const override {
@@ -1761,13 +1835,24 @@ class repair_inventory_preset: public inventory_selector_preset
         const item *main_tool;
 };
 
+static std::string get_repair_hint( const Character &you, const repair_item_actor *actor,
+                                    const item *main_tool )
+{
+    auto hint = std::string();
+    hint.append( string_format( _( "Tool: <color_cyan>%s</color>" ), main_tool->display_name() ) );
+    hint.append( string_format( " | " ) );
+    hint.append( string_format( _( "Skill used: <color_cyan>%s (%d)</color>" ),
+                                actor->used_skill.obj().name(), you.get_skill_level( actor->used_skill ) ) );
+    return hint;
+}
+
 item_location game_menus::inv::repair( Character &you, const repair_item_actor *actor,
                                        const item *main_tool )
 {
-    return inv_internal( you, repair_inventory_preset( actor, main_tool ),
+    return inv_internal( you, repair_inventory_preset( actor, main_tool, you ),
                          _( "Repair what?" ), 1,
                          string_format( _( "You have no items that could be repaired with a %s." ),
-                                        main_tool->type_name( 1 ) ) );
+                                        main_tool->type_name( 1 ) ), get_repair_hint( you, actor, main_tool ) );
 }
 
 item_location game_menus::inv::saw_barrel( Character &you, item &tool )
@@ -1860,7 +1945,7 @@ drop_locations game_menus::inv::multidrop( avatar &you )
 drop_locations game_menus::inv::pickup( avatar &you,
                                         const cata::optional<tripoint> &target, const std::vector<drop_location> &selection )
 {
-    const pickup_inventory_preset preset( you, /*skip_wield_check=*/true );
+    const pickup_inventory_preset preset( you, /*skip_wield_check=*/true, /*ignore_liquidcont=*/true );
 
     pickup_selector pick_s( you, preset, _( "ITEMS TO PICK UP" ), target );
 

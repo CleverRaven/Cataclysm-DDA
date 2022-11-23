@@ -1333,6 +1333,16 @@ std::string trim_trailing_punctuations( const std::string &s )
     } );
 }
 
+std::string remove_punctuations( const std::string &s )
+{
+    std::string result;
+    std::remove_copy_if( s.begin(), s.end(), std::back_inserter( result ),
+    []( unsigned char ch ) {
+        return std::ispunct( ch ) && ch != '_';
+    } );
+    return result;
+}
+
 using char_t = std::string::value_type;
 std::string to_upper_case( const std::string &s )
 {

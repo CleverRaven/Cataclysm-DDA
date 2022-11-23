@@ -14,7 +14,8 @@ class cata_tiles_test_helper
 {
     public:
         static void get_connect_values( const tripoint &p, int &subtile, int &rotation,
-                                        int connect_group, int rotate_to_group ) {
+                                        const std::bitset<NUM_TERCONN> &connect_group,
+                                        const std::bitset<NUM_TERCONN> &rotate_to_group ) {
             cata_tiles::get_connect_values( p, subtile, rotation, connect_group, rotate_to_group, {} );
         }
 };
@@ -24,6 +25,10 @@ TEST_CASE( "walls should be unconnected without nearby walls", "[multitile][conn
     map &here = get_map();
     clear_map();
     clear_avatar();
+
+    std::bitset<NUM_TERCONN> none;
+    std::bitset<NUM_TERCONN> wall;
+    wall.set( get_connect_group( "WALL" ).index );
 
     tripoint pos = get_avatar().pos() + point_east + point_east;
 
@@ -38,8 +43,8 @@ TEST_CASE( "walls should be unconnected without nearby walls", "[multitile][conn
         REQUIRE( here.ter_set( pos + point_north, t_floor ) );
 
         THEN( "the wall should be unconnected" ) {
-            cata_tiles_test_helper::get_connect_values( pos, subtile, rotation, TERCONN_WALL,
-                    TERCONN_NONE );
+            cata_tiles_test_helper::get_connect_values( pos, subtile, rotation,
+                    wall, none );
             CHECK( subtile == unconnected );
             CHECK( rotation == 0 );
         }
@@ -50,6 +55,10 @@ TEST_CASE( "walls should connect to walls as end pieces", "[multitile][connects]
     map &here = get_map();
     clear_map();
     clear_avatar();
+
+    std::bitset<NUM_TERCONN> none;
+    std::bitset<NUM_TERCONN> wall;
+    wall.set( get_connect_group( "WALL" ).index );
 
     tripoint pos = get_avatar().pos() + point_east + point_east;
 
@@ -64,8 +73,8 @@ TEST_CASE( "walls should connect to walls as end pieces", "[multitile][connects]
         REQUIRE( here.ter_set( pos + point_west, t_floor ) );
 
         THEN( "the wall should be connected as end_piece N" ) {
-            cata_tiles_test_helper::get_connect_values( pos, subtile, rotation, TERCONN_WALL,
-                    TERCONN_NONE );
+            cata_tiles_test_helper::get_connect_values( pos, subtile, rotation,
+                    wall, none );
             CHECK( subtile == end_piece );
             CHECK( rotation == 0 );
         }
@@ -77,8 +86,8 @@ TEST_CASE( "walls should connect to walls as end pieces", "[multitile][connects]
         REQUIRE( here.ter_set( pos + point_west, t_floor ) );
 
         THEN( "the wall should be connected as end_piece W" ) {
-            cata_tiles_test_helper::get_connect_values( pos, subtile, rotation, TERCONN_WALL,
-                    TERCONN_NONE );
+            cata_tiles_test_helper::get_connect_values( pos, subtile, rotation,
+                    wall, none );
             CHECK( subtile == end_piece );
             CHECK( rotation == 1 );
         }
@@ -90,8 +99,8 @@ TEST_CASE( "walls should connect to walls as end pieces", "[multitile][connects]
         REQUIRE( here.ter_set( pos + point_west, t_floor ) );
 
         THEN( "the wall should be connected as end_piece S" ) {
-            cata_tiles_test_helper::get_connect_values( pos, subtile, rotation, TERCONN_WALL,
-                    TERCONN_NONE );
+            cata_tiles_test_helper::get_connect_values( pos, subtile, rotation,
+                    wall, none );
             CHECK( subtile == end_piece );
             CHECK( rotation == 2 );
         }
@@ -103,8 +112,8 @@ TEST_CASE( "walls should connect to walls as end pieces", "[multitile][connects]
         REQUIRE( here.ter_set( pos + point_west, t_wall ) );
 
         THEN( "the wall should be connected as end_piece E" ) {
-            cata_tiles_test_helper::get_connect_values( pos, subtile, rotation, TERCONN_WALL,
-                    TERCONN_NONE );
+            cata_tiles_test_helper::get_connect_values( pos, subtile, rotation,
+                    wall, none );
             CHECK( subtile == end_piece );
             CHECK( rotation == 3 );
         }
@@ -115,6 +124,10 @@ TEST_CASE( "walls should connect to walls as corners", "[multitile][connects]" )
     map &here = get_map();
     clear_map();
     clear_avatar();
+
+    std::bitset<NUM_TERCONN> none;
+    std::bitset<NUM_TERCONN> wall;
+    wall.set( get_connect_group( "WALL" ).index );
 
     tripoint pos = get_avatar().pos() + point_east + point_east;
 
@@ -129,8 +142,8 @@ TEST_CASE( "walls should connect to walls as corners", "[multitile][connects]" )
         REQUIRE( here.ter_set( pos + point_west, t_floor ) );
 
         THEN( "the wall should be connected as corner NW" ) {
-            cata_tiles_test_helper::get_connect_values( pos, subtile, rotation, TERCONN_WALL,
-                    TERCONN_NONE );
+            cata_tiles_test_helper::get_connect_values( pos, subtile, rotation,
+                    wall, none );
             CHECK( subtile == corner );
             CHECK( rotation == 0 );
         }
@@ -142,8 +155,8 @@ TEST_CASE( "walls should connect to walls as corners", "[multitile][connects]" )
         REQUIRE( here.ter_set( pos + point_west, t_floor ) );
 
         THEN( "the wall should be connected as corner SW" ) {
-            cata_tiles_test_helper::get_connect_values( pos, subtile, rotation, TERCONN_WALL,
-                    TERCONN_NONE );
+            cata_tiles_test_helper::get_connect_values( pos, subtile, rotation,
+                    wall, none );
             CHECK( subtile == corner );
             CHECK( rotation == 1 );
         }
@@ -155,8 +168,8 @@ TEST_CASE( "walls should connect to walls as corners", "[multitile][connects]" )
         REQUIRE( here.ter_set( pos + point_west, t_wall ) );
 
         THEN( "the wall should be connected as corner SE" ) {
-            cata_tiles_test_helper::get_connect_values( pos, subtile, rotation, TERCONN_WALL,
-                    TERCONN_NONE );
+            cata_tiles_test_helper::get_connect_values( pos, subtile, rotation,
+                    wall, none );
             CHECK( subtile == corner );
             CHECK( rotation == 2 );
         }
@@ -168,8 +181,8 @@ TEST_CASE( "walls should connect to walls as corners", "[multitile][connects]" )
         REQUIRE( here.ter_set( pos + point_west, t_wall ) );
 
         THEN( "the wall should be connected as corner NE" ) {
-            cata_tiles_test_helper::get_connect_values( pos, subtile, rotation, TERCONN_WALL,
-                    TERCONN_NONE );
+            cata_tiles_test_helper::get_connect_values( pos, subtile, rotation,
+                    wall, none );
             CHECK( subtile == corner );
             CHECK( rotation == 3 );
         }
@@ -180,6 +193,10 @@ TEST_CASE( "walls should connect to walls as edges", "[multitile][connects]" )
     map &here = get_map();
     clear_map();
     clear_avatar();
+
+    std::bitset<NUM_TERCONN> none;
+    std::bitset<NUM_TERCONN> wall;
+    wall.set( get_connect_group( "WALL" ).index );
 
     tripoint pos = get_avatar().pos() + point_east + point_east;
 
@@ -194,8 +211,8 @@ TEST_CASE( "walls should connect to walls as edges", "[multitile][connects]" )
         REQUIRE( here.ter_set( pos + point_west, t_floor ) );
 
         THEN( "the wall should be connected as edge NS" ) {
-            cata_tiles_test_helper::get_connect_values( pos, subtile, rotation, TERCONN_WALL,
-                    TERCONN_NONE );
+            cata_tiles_test_helper::get_connect_values( pos, subtile, rotation,
+                    wall, none );
             CHECK( subtile == edge );
             CHECK( rotation == 0 );
         }
@@ -207,8 +224,8 @@ TEST_CASE( "walls should connect to walls as edges", "[multitile][connects]" )
         REQUIRE( here.ter_set( pos + point_west, t_wall ) );
 
         THEN( "the wall should be connected as edge EW" ) {
-            cata_tiles_test_helper::get_connect_values( pos, subtile, rotation, TERCONN_WALL,
-                    TERCONN_NONE );
+            cata_tiles_test_helper::get_connect_values( pos, subtile, rotation,
+                    wall, none );
             CHECK( subtile == edge );
             CHECK( rotation == 1 );
         }
@@ -219,6 +236,10 @@ TEST_CASE( "walls should connect to walls as t-connections and fully", "[multiti
     map &here = get_map();
     clear_map();
     clear_avatar();
+
+    std::bitset<NUM_TERCONN> none;
+    std::bitset<NUM_TERCONN> wall;
+    wall.set( get_connect_group( "WALL" ).index );
 
     tripoint pos = get_avatar().pos() + point_east + point_east;
 
@@ -233,8 +254,8 @@ TEST_CASE( "walls should connect to walls as t-connections and fully", "[multiti
         REQUIRE( here.ter_set( pos + point_west, t_wall ) );
 
         THEN( "the wall should be connected as t-connection N" ) {
-            cata_tiles_test_helper::get_connect_values( pos, subtile, rotation, TERCONN_WALL,
-                    TERCONN_NONE );
+            cata_tiles_test_helper::get_connect_values( pos, subtile, rotation,
+                    wall, none );
             CHECK( subtile == t_connection );
             CHECK( rotation == 0 );
         }
@@ -246,8 +267,8 @@ TEST_CASE( "walls should connect to walls as t-connections and fully", "[multiti
         REQUIRE( here.ter_set( pos + point_west, t_floor ) );
 
         THEN( "the wall should be connected as t-connection W" ) {
-            cata_tiles_test_helper::get_connect_values( pos, subtile, rotation, TERCONN_WALL,
-                    TERCONN_NONE );
+            cata_tiles_test_helper::get_connect_values( pos, subtile, rotation,
+                    wall, none );
             CHECK( subtile == t_connection );
             CHECK( rotation == 1 );
         }
@@ -259,8 +280,8 @@ TEST_CASE( "walls should connect to walls as t-connections and fully", "[multiti
         REQUIRE( here.ter_set( pos + point_west, t_wall ) );
 
         THEN( "the wall should be connected as t-connection S" ) {
-            cata_tiles_test_helper::get_connect_values( pos, subtile, rotation, TERCONN_WALL,
-                    TERCONN_NONE );
+            cata_tiles_test_helper::get_connect_values( pos, subtile, rotation,
+                    wall, none );
             CHECK( subtile == t_connection );
             CHECK( rotation == 2 );
         }
@@ -272,8 +293,8 @@ TEST_CASE( "walls should connect to walls as t-connections and fully", "[multiti
         REQUIRE( here.ter_set( pos + point_west, t_wall ) );
 
         THEN( "the wall should be connected as t-connection E" ) {
-            cata_tiles_test_helper::get_connect_values( pos, subtile, rotation, TERCONN_WALL,
-                    TERCONN_NONE );
+            cata_tiles_test_helper::get_connect_values( pos, subtile, rotation,
+                    wall, none );
             CHECK( subtile == t_connection );
             CHECK( rotation == 3 );
         }
@@ -286,8 +307,8 @@ TEST_CASE( "walls should connect to walls as t-connections and fully", "[multiti
         REQUIRE( here.ter_set( pos + point_west, t_wall ) );
 
         THEN( "the wall should be connected as center" ) {
-            cata_tiles_test_helper::get_connect_values( pos, subtile, rotation, TERCONN_WALL,
-                    TERCONN_NONE );
+            cata_tiles_test_helper::get_connect_values( pos, subtile, rotation,
+                    wall, none );
             CHECK( subtile == center );
             CHECK( rotation == 0 );
         }
@@ -299,6 +320,11 @@ TEST_CASE( "windows should connect to walls and rotate to indoor floor", "[multi
     map &here = get_map();
     clear_map();
     clear_avatar();
+
+    std::bitset<NUM_TERCONN> floor;
+    floor.set( get_connect_group( "INDOORFLOOR" ).index );
+    std::bitset<NUM_TERCONN> wall;
+    wall.set( get_connect_group( "WALL" ).index );
 
     tripoint pos = get_avatar().pos() + point_east + point_east;
 
@@ -313,8 +339,8 @@ TEST_CASE( "windows should connect to walls and rotate to indoor floor", "[multi
         REQUIRE( here.ter_set( pos + point_north, t_wall ) );
 
         THEN( "the window should be connected as NS, with W positive" ) {
-            cata_tiles_test_helper::get_connect_values( pos, subtile, rotation, TERCONN_WALL,
-                    TERCONN_INDOORFLOOR );
+            cata_tiles_test_helper::get_connect_values( pos, subtile, rotation,
+                    wall, floor );
             CHECK( subtile == edge );
             CHECK( rotation == 0 );
         }
@@ -326,10 +352,10 @@ TEST_CASE( "windows should connect to walls and rotate to indoor floor", "[multi
         REQUIRE( here.ter_set( pos + point_north, t_floor ) );
 
         THEN( "the window should be connected EW, with N positive" ) {
-            cata_tiles_test_helper::get_connect_values( pos, subtile, rotation, TERCONN_WALL,
-                    TERCONN_INDOORFLOOR );
+            cata_tiles_test_helper::get_connect_values( pos, subtile, rotation,
+                    wall, floor );
             CHECK( subtile == edge );
-            CHECK( rotation == 1 );
+            CHECK( rotation == 3 );
         }
     }
     WHEN( "connecting neighbours north and south, and rotate to east" ) {
@@ -339,8 +365,8 @@ TEST_CASE( "windows should connect to walls and rotate to indoor floor", "[multi
         REQUIRE( here.ter_set( pos + point_north, t_wall ) );
 
         THEN( "the window should be connected as NS, with E positive" ) {
-            cata_tiles_test_helper::get_connect_values( pos, subtile, rotation, TERCONN_WALL,
-                    TERCONN_INDOORFLOOR );
+            cata_tiles_test_helper::get_connect_values( pos, subtile, rotation,
+                    wall, floor );
             CHECK( subtile == edge );
             CHECK( rotation == 2 );
         }
@@ -352,10 +378,10 @@ TEST_CASE( "windows should connect to walls and rotate to indoor floor", "[multi
         REQUIRE( here.ter_set( pos + point_north, t_pavement ) );
 
         THEN( "the window should be connected as EW, with S positive" ) {
-            cata_tiles_test_helper::get_connect_values( pos, subtile, rotation, TERCONN_WALL,
-                    TERCONN_INDOORFLOOR );
+            cata_tiles_test_helper::get_connect_values( pos, subtile, rotation,
+                    wall, floor );
             CHECK( subtile == edge );
-            CHECK( rotation == 3 );
+            CHECK( rotation == 1 );
         }
     }
 
@@ -366,8 +392,8 @@ TEST_CASE( "windows should connect to walls and rotate to indoor floor", "[multi
         REQUIRE( here.ter_set( pos + point_north, t_wall ) );
 
         THEN( "the window should be connected as NS, with E and W negative" ) {
-            cata_tiles_test_helper::get_connect_values( pos, subtile, rotation, TERCONN_WALL,
-                    TERCONN_INDOORFLOOR );
+            cata_tiles_test_helper::get_connect_values( pos, subtile, rotation,
+                    wall, floor );
             CHECK( subtile == edge );
             CHECK( rotation == 4 );
         }
@@ -379,10 +405,10 @@ TEST_CASE( "windows should connect to walls and rotate to indoor floor", "[multi
         REQUIRE( here.ter_set( pos + point_north, t_pavement ) );
 
         THEN( "the window should be connected as EW, with N and S negative" ) {
-            cata_tiles_test_helper::get_connect_values( pos, subtile, rotation, TERCONN_WALL,
-                    TERCONN_INDOORFLOOR );
+            cata_tiles_test_helper::get_connect_values( pos, subtile, rotation,
+                    wall, floor );
             CHECK( subtile == edge );
-            CHECK( rotation == 5 );
+            CHECK( rotation == 7 );
         }
     }
     WHEN( "connecting neighbours north and south, and nothing to rotate to" ) {
@@ -392,8 +418,8 @@ TEST_CASE( "windows should connect to walls and rotate to indoor floor", "[multi
         REQUIRE( here.ter_set( pos + point_north, t_wall ) );
 
         THEN( "the window should be connected as NS, with E and W negative" ) {
-            cata_tiles_test_helper::get_connect_values( pos, subtile, rotation, TERCONN_WALL,
-                    TERCONN_INDOORFLOOR );
+            cata_tiles_test_helper::get_connect_values( pos, subtile, rotation,
+                    wall, floor );
             CHECK( subtile == edge );
             CHECK( rotation == 6 );
         }
@@ -405,10 +431,10 @@ TEST_CASE( "windows should connect to walls and rotate to indoor floor", "[multi
         REQUIRE( here.ter_set( pos + point_north, t_floor ) );
 
         THEN( "the window should be connected as EW, with N and S positive" ) {
-            cata_tiles_test_helper::get_connect_values( pos, subtile, rotation, TERCONN_WALL,
-                    TERCONN_INDOORFLOOR );
+            cata_tiles_test_helper::get_connect_values( pos, subtile, rotation,
+                    wall, floor );
             CHECK( subtile == edge );
-            CHECK( rotation == 7 );
+            CHECK( rotation == 5 );
         }
     }
 }
@@ -418,6 +444,10 @@ TEST_CASE( "unconnected windows rotate to indoor floor", "[multitile][rotates]" 
     map &here = get_map();
     clear_map();
     clear_avatar();
+
+    std::bitset<NUM_TERCONN> none;
+    std::bitset<NUM_TERCONN> floor;
+    floor.set( get_connect_group( "INDOORFLOOR" ).index );
 
     tripoint pos = get_avatar().pos() + point_east + point_east;
 
@@ -432,10 +462,10 @@ TEST_CASE( "unconnected windows rotate to indoor floor", "[multitile][rotates]" 
         REQUIRE( here.ter_set( pos + point_north, t_pavement ) );
 
         THEN( "the window should be unconnected" ) {
-            cata_tiles_test_helper::get_connect_values( pos, subtile, rotation, TERCONN_NONE,
-                    TERCONN_INDOORFLOOR );
+            cata_tiles_test_helper::get_connect_values( pos, subtile, rotation,
+                    none, floor );
             CHECK( subtile == unconnected );
-            CHECK( rotation == 14 );
+            CHECK( rotation == 15 );
         }
     }
 
@@ -446,10 +476,10 @@ TEST_CASE( "unconnected windows rotate to indoor floor", "[multitile][rotates]" 
         REQUIRE( here.ter_set( pos + point_north, t_floor ) );
 
         THEN( "the window rotate to the north" ) {
-            cata_tiles_test_helper::get_connect_values( pos, subtile, rotation, TERCONN_NONE,
-                    TERCONN_INDOORFLOOR );
+            cata_tiles_test_helper::get_connect_values( pos, subtile, rotation,
+                    none, floor );
             CHECK( subtile == unconnected );
-            CHECK( rotation == 0 );
+            CHECK( rotation == 2 );
         }
     }
     WHEN( "indoor floor to the east" ) {
@@ -459,10 +489,10 @@ TEST_CASE( "unconnected windows rotate to indoor floor", "[multitile][rotates]" 
         REQUIRE( here.ter_set( pos + point_north, t_pavement ) );
 
         THEN( "the window rotate to the east" ) {
-            cata_tiles_test_helper::get_connect_values( pos, subtile, rotation, TERCONN_NONE,
-                    TERCONN_INDOORFLOOR );
+            cata_tiles_test_helper::get_connect_values( pos, subtile, rotation,
+                    none, floor );
             CHECK( subtile == unconnected );
-            CHECK( rotation == 1 );
+            CHECK( rotation == 3 );
         }
     }
     WHEN( "indoor floor to the south" ) {
@@ -472,10 +502,10 @@ TEST_CASE( "unconnected windows rotate to indoor floor", "[multitile][rotates]" 
         REQUIRE( here.ter_set( pos + point_north, t_pavement ) );
 
         THEN( "the window rotate to the south" ) {
-            cata_tiles_test_helper::get_connect_values( pos, subtile, rotation, TERCONN_NONE,
-                    TERCONN_INDOORFLOOR );
+            cata_tiles_test_helper::get_connect_values( pos, subtile, rotation,
+                    none, floor );
             CHECK( subtile == unconnected );
-            CHECK( rotation == 2 );
+            CHECK( rotation == 0 );
         }
     }
     WHEN( "indoor floor to the west" ) {
@@ -485,10 +515,10 @@ TEST_CASE( "unconnected windows rotate to indoor floor", "[multitile][rotates]" 
         REQUIRE( here.ter_set( pos + point_north, t_pavement ) );
 
         THEN( "the window rotate to the west" ) {
-            cata_tiles_test_helper::get_connect_values( pos, subtile, rotation, TERCONN_NONE,
-                    TERCONN_INDOORFLOOR );
+            cata_tiles_test_helper::get_connect_values( pos, subtile, rotation,
+                    none, floor );
             CHECK( subtile == unconnected );
-            CHECK( rotation == 3 );
+            CHECK( rotation == 1 );
         }
     }
 }

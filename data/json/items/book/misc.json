@@ -685,7 +685,7 @@
     "id": "phonebook",
     "type": "BOOK",
     "name": { "str": "phone book" },
-    "description": "This hefty volume contains the telephone numbers of individuals, businesses, and utilities in the nearby area, pretty useless during the apocalypse and all.",
+    "description": "This hefty volume contains the telephone numbers of individuals, businesses, and utilities.  Pretty useless during the apocalypse and all.",
     "weight": "854 g",
     "volume": "2500 ml",
     "price": 800,

@@ -2311,7 +2311,7 @@ void item::med_info( const item *med_item, std::vector<iteminfo> &info, const it
     }
 
     if( med_com->stim != 0 && parts->test( iteminfo_parts::MED_STIMULATION ) ) {
-        std::string name = string_format( "%s <stat>%s</stat>", _( "Stimulation:" ),
+        std::string name = string_format( "%s<stat>%s</stat>", _( "Stimulation: " ),
                                           med_com->stim > 0 ? _( "Upper" ) : _( "Downer" ) );
         info.emplace_back( "MED", name );
     }
@@ -3220,11 +3220,11 @@ void item::gunmod_info( std::vector<iteminfo> &info, const iteminfo_query *parts
     insert_separation_line( info );
 
     if( parts->test( iteminfo_parts::GUNMOD_USEDON ) ) {
-        std::string used_on_str = _( "Used on: " ) +
-        enumerate_as_string( mod.usable.begin(), mod.usable.end(), []( const gun_type_type & used_on ) {
-            return string_format( "<info>%s</info>", used_on.name() );
-        } );
-        info.emplace_back( "GUNMOD", used_on_str );
+        std::set<std::string> used_on_translated; // uses set to prune duplicates
+        for( const gun_type_type &gtt : mod.usable ) {
+            used_on_translated.emplace( string_format( "<info>%s</info>", gtt.name() ) );
+        }
+        info.emplace_back( "GUNMOD", _( "Used on: " ) + enumerate_as_string( used_on_translated ) );
     }
 
     if( parts->test( iteminfo_parts::GUNMOD_LOCATION ) ) {
@@ -4743,12 +4743,13 @@ void item::repair_info( std::vector<iteminfo> &info, const iteminfo_query *parts
             return nname( e );
         }, enumeration_conjunction::or_ ) ) );
 
-        std::string repairs_with = enumerate_as_string( type->repairs_with.begin(),
+        const std::string repairs_with = enumerate_as_string( type->repairs_with.begin(),
         type->repairs_with.end(), []( const material_id & e ) {
             return string_format( "<info>%s</info>", e->name() );
         } );
-
-        info.emplace_back( "DESCRIPTION", string_format( _( "<bold>With</bold> %s." ), repairs_with ) );
+        if( !repairs_with.empty() ) {
+            info.emplace_back( "DESCRIPTION", string_format( _( "<bold>With</bold> %s." ), repairs_with ) );
+        }
         if( reinforceable() ) {
             info.emplace_back( "DESCRIPTION", _( "* This item can be <good>reinforced</good>." ) );
         }
@@ -5074,7 +5075,7 @@ void item::melee_combat_info( std::vector<iteminfo> &info, const iteminfo_query 
 
         if( base_moves ) {
             info.emplace_back( "BASE", _( "Base moves per attack: " ), "",
-                               iteminfo::lower_is_better, attack_time() );
+                               iteminfo::lower_is_better, attack_time( player_character ) );
         }
 
         if( base_dps ) {
@@ -5285,7 +5286,7 @@ void item::properties_info( std::vector<iteminfo> &info, const iteminfo_query *p
                 not_rigid = true;
             }
         }
-        if( !not_rigid && !all_pockets_rigid() ) {
+        if( !not_rigid && !all_pockets_rigid() && !is_corpse() ) {
             info.emplace_back( "BASE",
                                _( "* This items pockets are <info>not rigid</info>.  Its"
                                   " volume increases with contents." ) );
@@ -6887,13 +6888,22 @@ units::mass item::weight( bool include_contents, bool integral ) const
         ret += links.weight();
     }
 
-    // reduce weight for sawn-off weapons capped to the apportioned weight of the barrel
+    // reduce weight for sawn-off barrel capped to the apportioned weight of the barrel
     if( gunmod_find( itype_barrel_small ) ) {
         const units::volume b = type->gun->barrel_volume;
         const units::mass max_barrel_weight = units::from_gram( to_milliliter( b ) );
         const units::mass barrel_weight = units::from_gram( b.value() * type->weight.value() /
                                           type->volume.value() );
         ret -= std::min( max_barrel_weight, barrel_weight );
+    }
+
+    // reduce weight for sawn-off stock
+    if( gunmod_find( itype_stock_none ) ) {
+        // Length taken from item::length(), height and width are "average" values
+        const float stock_dimensions = 0.26f * 0.11f * 0.04f; // length * height * width = 0.00114 m3.
+        // density of 'wood' material
+        const int density = 850;
+        ret -= units::from_kilogram( stock_dimensions * density );
     }
 
     return ret;
@@ -7123,10 +7133,10 @@ int item::lift_strength() const
     return std::max( mass / 10000, 1 );
 }
 
-int item::attack_time() const
+int item::attack_time( const Character &you ) const
 {
     int ret = 65 + ( volume() / 62.5_ml + weight() / 60_gram ) / count();
-    ret = calculate_by_enchantment_wield( ret, enchant_vals::mod::ITEM_ATTACK_SPEED,
+    ret = calculate_by_enchantment_wield( you, ret, enchant_vals::mod::ITEM_ATTACK_SPEED,
                                           true );
     return ret;
 }
@@ -10071,6 +10081,10 @@ bool item::is_magazine_full() const
 
 bool item::can_unload_liquid() const
 {
+    if( has_flag( flag_NO_UNLOAD ) ) {
+        return false;
+    }
+
     return contents.can_unload_liquid();
 }
 
@@ -10175,12 +10189,21 @@ bool item::has_relic_activation() const
     return is_relic() && relic_data->has_activation();
 }
 
-std::vector<enchant_cache> item::get_enchantments() const
+std::vector<enchant_cache> item::get_proc_enchantments() const
 {
     if( !is_relic() ) {
         return std::vector<enchant_cache> {};
     }
-    return relic_data->get_enchantments();
+    return relic_data->get_proc_enchantments();
+}
+
+std::vector<enchantment> item::get_defined_enchantments() const
+{
+    if( !is_relic() || !type->relic_data ) {
+        return std::vector<enchantment> {};
+    }
+
+    return type->relic_data->get_defined_enchantments();
 }
 
 double item::calculate_by_enchantment( const Character &owner, double modify,
@@ -10188,10 +10211,18 @@ double item::calculate_by_enchantment( const Character &owner, double modify,
 {
     double add_value = 0.0;
     double mult_value = 1.0;
-    for( const enchant_cache &ench : get_enchantments() ) {
+    for( const enchant_cache &ench : get_proc_enchantments() ) {
         if( ench.is_active( owner, *this ) ) {
             add_value += ench.get_value_add( value );
             mult_value += ench.get_value_multiply( value );
+        }
+    }
+    if( type->relic_data ) {
+        for( const enchantment &ench : type->relic_data->get_defined_enchantments() ) {
+            if( ench.is_active( owner, *this ) ) {
+                add_value += ench.get_value_add( value, owner );
+                mult_value += ench.get_value_multiply( value, owner );
+            }
         }
     }
     modify += add_value;
@@ -10202,16 +10233,24 @@ double item::calculate_by_enchantment( const Character &owner, double modify,
     return modify;
 }
 
-double item::calculate_by_enchantment_wield( double modify,
+double item::calculate_by_enchantment_wield( const Character &owner, double modify,
         enchant_vals::mod value,
         bool round_value ) const
 {
     double add_value = 0.0;
     double mult_value = 1.0;
-    for( const enchant_cache &ench : get_enchantments() ) {
+    for( const enchant_cache &ench : get_proc_enchantments() ) {
         if( ench.active_wield() ) {
             add_value += ench.get_value_add( value );
             mult_value += ench.get_value_multiply( value );
+        }
+    }
+    if( type->relic_data ) {
+        for( const enchantment &ench : type->relic_data->get_defined_enchantments() ) {
+            if( ench.active_wield() ) {
+                add_value += ench.get_value_add( value, owner );
+                mult_value += ench.get_value_multiply( value, owner );
+            }
         }
     }
     modify += add_value;
@@ -10252,9 +10291,14 @@ ret_val<void> item::is_compatible( const item &it ) const
     return contents.is_compatible( it );
 }
 
-ret_val<void> item::can_contain( const item &it, const bool nested,
-                                 const bool ignore_rigidity, const bool ignore_pkt_settings,
-                                 const item_location &parent_it, units::volume remaining_parent_volume ) const
+ret_val<void> item::can_contain_directly( const item &it ) const
+{
+    return can_contain( it, false, false, true, item_location(), 10000000_ml, false );
+}
+
+ret_val<void> item::can_contain( const item &it, const bool nested, const bool ignore_rigidity,
+                                 const bool ignore_pkt_settings, const item_location &parent_it,
+                                 units::volume remaining_parent_volume, const bool allow_nested ) const
 {
     if( this == &it || ( parent_it.where() != item_location::type::invalid &&
                          this == parent_it.get_item() ) ) {
@@ -10271,31 +10315,33 @@ ret_val<void> item::can_contain( const item &it, const bool nested,
         return ret_val<void>::make_failure();
     }
 
-    for( const item_pocket *pkt : contents.get_all_contained_pockets() ) {
-        if( pkt->empty() ) {
-            continue;
-        }
-
-        // early exit for max length no nested item is gonna fix this
-        if( pkt->max_containable_length() < it.length() ) {
-            continue;
-        }
-
-        // If the current pocket has restrictions or blacklists the item,
-        // try the nested pocket regardless of whether it's soft or rigid.
-        const bool ignore_rigidity =
-            !pkt->settings.accepts_item( it ) ||
-            !pkt->get_pocket_data()->get_flag_restrictions().empty();
-        for( const item *internal_it : pkt->all_items_top() ) {
-            if( parent_it.where() != item_location::type::invalid && internal_it == parent_it.get_item() ) {
+    if( allow_nested ) {
+        for( const item_pocket *pkt : contents.get_all_contained_pockets() ) {
+            if( pkt->empty() ) {
                 continue;
             }
-            if( !internal_it->is_container() ) {
+
+            // early exit for max length no nested item is gonna fix this
+            if( pkt->max_containable_length() < it.length() ) {
                 continue;
             }
-            if( internal_it->can_contain( it, true, ignore_rigidity, ignore_pkt_settings,
-                                          parent_it, pkt->remaining_volume() ).success() ) {
-                return ret_val<void>::make_success();
+
+            // If the current pocket has restrictions or blacklists the item,
+            // try the nested pocket regardless of whether it's soft or rigid.
+            const bool ignore_nested_rigidity =
+                !pkt->settings.accepts_item( it ) ||
+                !pkt->get_pocket_data()->get_flag_restrictions().empty();
+            for( const item *internal_it : pkt->all_items_top() ) {
+                if( parent_it.where() != item_location::type::invalid && internal_it == parent_it.get_item() ) {
+                    continue;
+                }
+                if( !internal_it->is_container() ) {
+                    continue;
+                }
+                if( internal_it->can_contain( it, true, ignore_nested_rigidity, ignore_pkt_settings,
+                                              parent_it, pkt->remaining_volume() ).success() ) {
+                    return ret_val<void>::make_success();
+                }
             }
         }
     }
@@ -12887,13 +12933,20 @@ std::vector<trait_id> item::mutations_from_wearing( const Character &guy, bool r
     }
     std::vector<trait_id> muts;
 
-    for( const enchant_cache &ench : relic_data->get_enchantments() ) {
+    for( const enchant_cache &ench : relic_data->get_proc_enchantments() ) {
         for( const trait_id &mut : ench.get_mutations() ) {
             // this may not be perfectly accurate due to conditions
             muts.push_back( mut );
         }
     }
-
+    if( type->relic_data ) {
+        for( const enchantment &ench : type->relic_data->get_defined_enchantments() ) {
+            for( const trait_id &mut : ench.get_mutations() ) {
+                // this may not be perfectly accurate due to conditions
+                muts.push_back( mut );
+            }
+        }
+    }
     for( const trait_id &char_mut : guy.get_mutations( true, removing ) ) {
         for( auto iter = muts.begin(); iter != muts.end(); ) {
             if( char_mut == *iter ) {
@@ -14100,7 +14153,8 @@ units::volume item::check_for_free_space() const
             volume += container->check_for_free_space();
 
             for( const item_pocket *pocket : containedPockets ) {
-                if( pocket->rigid() && ( pocket->empty() || pocket->contains_phase( phase_id::SOLID ) ) ) {
+                if( pocket->rigid() && ( pocket->empty() || pocket->contains_phase( phase_id::SOLID ) ) &&
+                    pocket->get_pocket_data()->ammo_restriction.empty() ) {
                     volume += pocket->remaining_volume();
                 }
             }

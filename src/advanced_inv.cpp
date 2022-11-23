@@ -915,12 +915,17 @@ bool advanced_inventory::move_all_items()
     size_t liquid_items = 0;
     for( const advanced_inv_listitem &elem : spane.items ) {
         for( const item_location &elemit : elem.items ) {
-            if( elemit->made_of_from_type( phase_id::LIQUID ) && !elemit->is_frozen_liquid() ) {
+            if( ( elemit->made_of_from_type( phase_id::LIQUID ) && !elemit->is_frozen_liquid() ) ||
+                elemit->made_of_from_type( phase_id::GAS ) ) {
                 liquid_items++;
             }
         }
     }
+
     if( spane.items.empty() || liquid_items == spane.items.size() ) {
+        if( !is_processing() ) {
+            popup( _( "No eligible items found to be moved." ) );
+        }
         return false;
     }
     std::unique_ptr<on_out_of_scope> restore_area;
@@ -1878,7 +1883,8 @@ bool advanced_inventory::move_content( item &src_container, item &dest_container
 
     std::string err;
     // TODO: Allow buckets here, but require them to be on the ground or wielded
-    const int amount = dest_container.get_remaining_capacity_for_liquid( src_contents, false, &err );
+    const int amount = std::min( src_contents.charges,
+                                 dest_container.get_remaining_capacity_for_liquid( src_contents, false, &err ) );
     if( !err.empty() ) {
         popup( err );
         return false;
@@ -1917,6 +1923,10 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
     // Includes moving from/to inventory and around on the map.
     if( it.made_of_from_type( phase_id::LIQUID ) && !it.is_frozen_liquid() ) {
         popup( _( "Spilt liquid cannot be picked back up.  Try mopping it instead." ) );
+        return false;
+    }
+    if( it.made_of_from_type( phase_id::GAS ) ) {
+        popup( _( "Spilt gasses cannot be picked up.  They will disappear over time." ) );
         return false;
     }
 

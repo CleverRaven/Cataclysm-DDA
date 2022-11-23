@@ -246,7 +246,6 @@ void item_pocket::serialize( JsonOut &json ) const
     json.member( "pocket_type", data->type );
     json.member( "contents", contents );
     json.member( "_sealed", _sealed );
-    json.member( "allowed", allowed );
     if( !this->settings.is_null() ) {
         json.member( "favorite_settings", this->settings );
     }
@@ -262,7 +261,6 @@ void item_pocket::deserialize( const JsonObject &data )
     _saved_type = static_cast<item_pocket::pocket_type>( saved_type_int );
     data.read( "_sealed", _sealed );
     _saved_sealed = _sealed;
-    data.read( "allowed", allowed );
     if( data.has_member( "favorite_settings" ) ) {
         data.read( "favorite_settings", this->settings );
     } else {
@@ -1122,6 +1120,7 @@ void Character::load( const JsonObject &data )
 
     item_location weapon = get_wielded_item();
     bool has_old_bionic_weapon = !is_using_bionic_weapon() && weapon &&
+                                 ( weapon->has_flag( flag_BIONIC_WEAPON ) || weapon->has_flag( flag_BIONIC_GUN ) ) &&
                                  weapon->has_flag( flag_NO_UNWIELD ) && !weapon->ethereal;
 
     const auto find_parent = [this]( bionic_id & bio_id ) {
@@ -1276,6 +1275,7 @@ void Character::load( const JsonObject &data )
         queued_effect_on_conditions.push( temp );
     }
     data.read( "inactive_eocs", inactive_effect_on_condition_vector );
+    update_enchantment_mutations();
 }
 
 /**
@@ -2672,7 +2672,7 @@ void monster::load( const JsonObject &data )
     data.read( "morale", morale );
     data.read( "hallucination", hallucination );
     data.read( "fish_population", fish_population );
-    data.read( "lifespan_end ", lifespan_end );
+    data.read( "lifespan_end", lifespan_end );
     //for older saves convert summon time limit to lifespan end
     cata::optional<time_duration> summon_time_limit;
     data.read( "summon_time_limit", summon_time_limit );
@@ -3133,7 +3133,7 @@ void item::deserialize( const JsonObject &data )
 
         contents.read_mods( read_contents );
         update_modified_pockets();
-        contents.combine( read_contents );
+        contents.combine( read_contents, false, true );
 
         if( data.has_object( "contents" ) ) {
             JsonObject tested = data.get_object( "contents" );

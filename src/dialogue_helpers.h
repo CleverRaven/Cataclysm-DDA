@@ -55,6 +55,7 @@ struct talk_effect_fun_t {
                              bool targeted = false );
         void set_lightning();
         void set_next_weather();
+        void set_hp( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_sound_effect( const JsonObject &jo, const std::string &member );
         void set_add_var( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_remove_var( const JsonObject &jo, const std::string &member, bool is_npc = false );
@@ -130,7 +131,7 @@ struct var_info {
 };
 
 template<class T>
-static std::string read_var_value( var_info info, const T &d )
+static std::string read_var_value( const var_info &info, const T &d )
 {
     std::string ret_val;
     global_variables &globvars = get_globals();

@@ -241,6 +241,9 @@
     "description": "A stainless-steel comb with spiral grooved teeth designed to remove pesky parasites from hair.  Even just thinking about it makes you itch.",
     "symbol": "c",
     "material": [ "steel" ],
+    "weight": "9 g",
+    "volume": "20 ml",
+    "longest_side": "10 cm",
     "copy-from": "base_toiletries"
   },
   {
