@@ -600,8 +600,11 @@ std::set<translation, localized_comparator> body_part_type::consolidate(
         // try to find all matching sublimbs from the parent
         bool found_all = true;
         for( const sub_bodypart_str_id &searching : sbp->parent->sub_parts ) {
-            found_all = std::find( covered.begin(), covered.end(), searching.id() ) != covered.end() &&
-                        found_all;
+            //skip secondary locations for this
+            if( !searching->secondary ) {
+                found_all = std::find( covered.begin(), covered.end(), searching.id() ) != covered.end() &&
+                            found_all;
+            }
         }
 
         // if found all consolidate all the limb bits together
@@ -610,8 +613,10 @@ std::set<translation, localized_comparator> body_part_type::consolidate(
             full_bps.emplace_back( sbp->parent );
             // set the initial to a skipped value
             for( const sub_bodypart_str_id &searching : sbp->parent->sub_parts ) {
-                auto sbp_it = std::find( covered.begin(), covered.end(), searching.id() );
-                *sbp_it = sub_body_part_sub_limb_debug;
+                if( !searching->secondary ) {
+                    auto sbp_it = std::find( covered.begin(), covered.end(), searching.id() );
+                    *sbp_it = sub_body_part_sub_limb_debug;
+                }
             }
         }
     }

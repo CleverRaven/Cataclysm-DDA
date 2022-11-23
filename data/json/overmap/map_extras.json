@@ -578,7 +578,8 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_toxic_waste" },
     "sym": "D",
     "color": "magenta",
-    "autonote": true
+    "autonote": true,
+    "flags": [ "MAN_MADE" ]
   },
   {
     "id": "mx_sewer_round",

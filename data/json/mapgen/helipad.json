@@ -119,7 +119,7 @@
       "place_monsters": [ { "monster": "GROUP_MIL_STRONG", "x": 36, "y": 15 }, { "monster": "GROUP_MIL_WEAK", "x": 24, "y": 30, "density": 2 } ],
       "monster": { "T": { "monster": "mon_turret_searchlight" } },
       "place_vehicles": [
-        { "vehicle": "forklift", "x": 29, "y": 6, "chance": 95, "rotation": 180, "status": 1 },
+        { "vehicle": "forklift_vehicles", "x": 29, "y": 6, "chance": 95, "rotation": 180, "status": 1 },
         { "vehicle": "parkinglotbasic", "x": 4, "y": 9, "chance": 75, "rotation": 270, "status": -1 },
         { "vehicle": "flatbed_truck", "x": 11, "y": 4, "chance": 25, "rotation": 270, "status": -1 },
         { "vehicle": "Medevac1", "x": 9, "y": 38, "chance": 1, "rotation": 90, "status": -1 },

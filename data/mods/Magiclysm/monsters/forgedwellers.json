@@ -39,12 +39,12 @@
     "id": "mon_forgemaster1",
     "type": "MONSTER",
     "copy-from": "mon_goblin_chieftain",
+    "species": [ "GOBLIN_FORGE" ],
     "name": { "str": "goblin forgemaster" },
     "default_faction": "wonder_forge",
     "aggression": 0,
     "aggro_character": false,
     "armor_fire": 40,
-    "anger_triggers": [ "FRIEND_ATTACKED", "HURT" ],
     "description": "A goblin like none you've ever seen before.  He directs workers and automatons with confidence and style.",
     "death_drops": { "subtype": "collection", "groups": [ [ "forge_life", 40 ], [ "bedroom", 1 ], [ "dresser", 5 ], [ "ammo", 18 ] ] }
   },

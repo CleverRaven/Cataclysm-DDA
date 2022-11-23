@@ -155,7 +155,7 @@
       {
         "x": -1,
         "y": 1,
-        "part": "mounted_mk19",
+        "part": "turret_mark19",
         "ammo": 60,
         "ammo_types": [ "40x53mm_m430a1" ],
         "ammo_qty": [ 1, 25 ]

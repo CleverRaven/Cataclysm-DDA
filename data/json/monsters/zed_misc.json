@@ -393,7 +393,7 @@
     "harvest": "zombie",
     "special_attacks": [
       { "id": "smash", "throw_strength": 72, "cooldown": 30 },
-      [ "BIO_OP_TAKEDOWN", 20 ],
+      { "id": "bio_op_takedown", "cooldown": 20 },
       [ "RANGED_PULL", 20 ],
       [ "GRAB_DRAG", 10 ]
     ],
@@ -1129,7 +1129,6 @@
     "death_drops": "default_zombie_death_drops",
     "regenerates": 12,
     "burn_into": "mon_zombie_scorched",
-    "upgrades": { "half_life": 28, "into_group": "GROUP_ZOMBIE_CRAWLER_UPGRADE" },
     "flags": [
       "SEES",
       "HEARS",
@@ -1651,7 +1650,7 @@
       { "name": "the face", "armor_mult": { "physical": 0 }, "coverage": 3 },
       { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
     ],
-    "families": [ "prof_intro_biology", "prof_wp_zombie" ],
+    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_electromagnetics" ],
     "vision_day": 15,
     "vision_night": 2,
     "harvest": "zombie",

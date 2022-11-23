@@ -111,6 +111,7 @@ static const diseasetype_id disease_bad_food( "bad_food" );
 
 static const efftype_id effect_boomered( "boomered" );
 static const efftype_id effect_crushed( "crushed" );
+static const efftype_id effect_pet( "pet" );
 
 static const field_type_str_id field_fd_clairvoyant( "fd_clairvoyant" );
 
@@ -581,17 +582,21 @@ void map::vehmove()
         }
     }
     dirty_vehicle_list.clear();
-    // The bool tracks whether the vehicles is on the map or not.
-    std::map<vehicle *, bool> connected_vehicles;
+    std::set<vehicle *> origins;
     for( int zlev = minz; zlev <= maxz; ++zlev ) {
-        level_cache *cache = get_cache_lazy( zlev );
+        const level_cache *cache = get_cache_lazy( zlev );
         if( cache ) {
-            vehicle::enumerate_vehicles( connected_vehicles, cache->vehicle_list );
+            for( vehicle *veh : cache->vehicle_list ) {
+                origins.emplace( veh );
+            }
         }
     }
-    for( std::pair<vehicle *const, bool> &veh_pair : connected_vehicles ) {
+    for( const std::pair<vehicle *const, bool> &veh_pair : vehicle::enumerate_vehicles( origins ) ) {
         veh_pair.first->idle( veh_pair.second );
     }
+
+    // refresh vehicle zones for moved vehicles
+    zone_manager::get_manager().cache_vzones( this );
 }
 
 bool map::vehproceed( VehicleList &vehicle_list )
@@ -1455,9 +1460,7 @@ bool map::displace_vehicle( vehicle &veh, const tripoint &dp, const bool adjust_
         g->setremoteveh( &veh );
     }
 
-    //
-    //global positions of vehicle loot zones have changed.
-    veh.zones_dirty = true;
+    veh.zones_dirty = true; // invalidate zone positions
 
     for( int vsmz : smzs ) {
         on_vehicle_moved( dst.z() + vsmz );
@@ -1762,9 +1765,14 @@ ter_id map::ter( const tripoint_bub_ms &p ) const
     return ter( p.raw() );
 }
 
-uint8_t map::get_known_connections( const tripoint &p, int connect_group,
+uint8_t map::get_known_connections( const tripoint &p,
+                                    const std::bitset<NUM_TERCONN> &connect_group,
                                     const std::map<tripoint, ter_id> &override ) const
 {
+    if( connect_group.none() ) {
+        return 0;
+    }
+
     const level_cache &ch = access_cache( p.z );
     uint8_t val = 0;
     std::function<bool( const tripoint & )> is_memorized;
@@ -1805,7 +1813,7 @@ uint8_t map::get_known_connections( const tripoint &p, int connect_group,
         if( may_connect ) {
             const ter_t &neighbour_terrain = neighbour_overridden ?
                                              neighbour_override->second.obj() : ter( neighbour ).obj();
-            if( neighbour_terrain.connects_to( connect_group ) ) {
+            if( neighbour_terrain.in_connect_groups( connect_group ) ) {
                 val += 1 << i;
             }
         }
@@ -1814,9 +1822,43 @@ uint8_t map::get_known_connections( const tripoint &p, int connect_group,
     return val;
 }
 
-uint8_t map::get_known_connections_f( const tripoint &p, int connect_group,
+uint8_t map::get_known_rotates_to( const tripoint &p,
+                                   const std::bitset<NUM_TERCONN> &rotate_to_group,
+                                   const std::map<tripoint, ter_id> &override ) const
+{
+    if( rotate_to_group.none() ) {
+        return CHAR_MAX;
+    }
+
+    uint8_t val = 0;
+
+    // populate connection information
+    for( int i = 0; i < 4; ++i ) {
+        tripoint neighbour = p + offsets[i];
+        if( !inbounds( neighbour ) ) {
+            continue;
+        }
+        const auto neighbour_override = override.find( neighbour );
+        const bool neighbour_overridden = neighbour_override != override.end();
+
+        const ter_t &neighbour_terrain = neighbour_overridden ?
+                                         neighbour_override->second.obj() : ter( neighbour ).obj();
+        if( neighbour_terrain.in_connect_groups( rotate_to_group ) ) {
+            val += 1 << i;
+        }
+    }
+
+    return val;
+}
+
+uint8_t map::get_known_connections_f( const tripoint &p,
+                                      const std::bitset<NUM_TERCONN> &connect_group,
                                       const std::map<tripoint, furn_id> &override ) const
 {
+    if( connect_group.none() ) {
+        return 0;
+    }
+
     const level_cache &ch = access_cache( p.z );
     uint8_t val = 0;
     std::function<bool( const tripoint & )> is_memorized;
@@ -1857,9 +1899,47 @@ uint8_t map::get_known_connections_f( const tripoint &p, int connect_group,
         if( may_connect ) {
             const furn_t &neighbour_furn = neighbour_overridden ?
                                            neighbour_override->second.obj() : furn( pt ).obj();
-            if( neighbour_furn.connects_to( connect_group ) ) {
+            if( neighbour_furn.in_connect_groups( connect_group ) ) {
                 val += 1 << i;
             }
+        }
+    }
+
+    return val;
+}
+
+uint8_t map::get_known_rotates_to_f( const tripoint &p,
+                                     const std::bitset<NUM_TERCONN> &rotate_to_group,
+                                     const std::map<tripoint, ter_id> &override,
+                                     const std::map<tripoint, furn_id> &override_f ) const
+{
+    if( rotate_to_group.none() ) {
+        return CHAR_MAX;
+    }
+
+    uint8_t val = 0;
+
+    // populate connection information
+    for( int i = 0; i < 4; ++i ) {
+        tripoint pt = p + offsets[i];
+        if( !inbounds( pt ) ) {
+            continue;
+        }
+        const auto neighbour_override = override.find( pt );
+        const bool neighbour_overridden = neighbour_override != override.end();
+
+        const auto neighbour_override_f = override_f.find( pt );
+        const bool neighbour_overridden_f = neighbour_override_f != override_f.end();
+
+        const ter_t &neighbour = neighbour_overridden ?
+                                 neighbour_override->second.obj() : ter( pt ).obj();
+
+        const furn_t &neighbour_f = neighbour_overridden_f ?
+                                    neighbour_override_f->second.obj() : furn( pt ).obj();
+
+        if( neighbour.in_connect_groups( rotate_to_group ) ||
+            neighbour_f.in_connect_groups( rotate_to_group ) ) {
+            val += 1 << i;
         }
     }
 
@@ -2392,7 +2472,7 @@ int map::climb_difficulty( const tripoint &p ) const
     }
 
     // TODO: Make this more sensible - check opposite sides, not just movement blocker count
-    return best_difficulty - blocks_movement;
+    return std::max( 0, best_difficulty - blocks_movement );
 }
 
 bool map::has_floor( const tripoint &p ) const
@@ -3422,8 +3502,8 @@ void map::collapse_at( const tripoint &p, const bool silent, const bool was_supp
                 // ensure that the layer below this one is not a wall, otherwise you have a ledge dropping onto
                 // a wall which doesn't make sense.
                 if( !has_flag( ter_furn_flag::TFLAG_WALL, t ) ) {
-                    ter_set( tz, t_open_air );
                     furn_set( tz, f_null );
+                    ter_set( tz, t_open_air );
                     Creature *critter = get_creature_tracker().creature_at( tz );
                     if( critter != nullptr ) {
                         creature_on_trap( *critter );
@@ -3869,7 +3949,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
     }
 
     if( bash->explosive > 0 ) {
-        explosion_handler::explosion( p, bash->explosive, 0.8, false );
+        explosion_handler::explosion( nullptr, p, bash->explosive, 0.8, false );
     }
 
     if( will_collapse && !has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, p ) ) {
@@ -4662,12 +4742,13 @@ std::vector<item *> map::spawn_items( const tripoint_bub_ms &p, const std::vecto
 
 void map::spawn_artifact( const tripoint &p, const relic_procgen_id &id,
                           const int max_attributes,
-                          const int power_level, const int max_negative_power )
+                          const int power_level, const int max_negative_power, const bool is_resonant )
 {
     relic_procgen_data::generation_rules rules;
     rules.max_attributes = max_attributes;
     rules.power_level = power_level;
     rules.max_negative_power = max_negative_power;
+    rules.resonant = is_resonant;
 
     add_item_or_charges( p, id->create_item( rules ) );
 }
@@ -5426,6 +5507,19 @@ bool map::has_items( const tripoint &p ) const
 bool map::has_items( const tripoint_bub_ms &p ) const
 {
     return has_items( p.raw() );
+}
+
+bool map::only_liquid_in_liquidcont( const tripoint &p )
+{
+    if( has_flag( ter_furn_flag::TFLAG_LIQUIDCONT, p ) ) {
+        for( const item &it : i_at( p ) ) {
+            if( it.made_of( phase_id::SOLID ) ) {
+                return false;
+            }
+        }
+        return true;
+    }
+    return false;
 }
 
 template <typename Stack>
@@ -7974,6 +8068,15 @@ void map::actualize( const tripoint &grid )
         return;
     }
 
+    for( const std::unique_ptr<vehicle> &veh : tmpsub->vehicles ) {
+        // spill out items too large, MIGRATION pockets etc from vehicle parts
+        for( const vpart_reference &vp : veh->get_all_parts() ) {
+            const item &base_const = vp.part().get_base();
+            const_cast<item &>( base_const ).overflow( vp.pos() );
+        }
+        veh->refresh();
+    }
+
     const time_duration time_since_last_actualize = calendar::turn - tmpsub->last_touched;
     const bool do_funnels = grid.z >= 0;
 
@@ -8260,6 +8363,7 @@ void map::spawn_monsters_submap( const tripoint &gp, bool ignore_sight )
             }
             if( i.friendly ) {
                 tmp.friendly = -1;
+                tmp.add_effect( effect_pet, 1_turns, true );
             }
             if( !i.data.ammo.empty() ) {
                 for( std::pair<itype_id, jmapgen_int> ap : i.data.ammo ) {
@@ -8478,7 +8582,7 @@ bool map::has_graffiti_at( const tripoint &p ) const
 
 int map::determine_wall_corner( const tripoint &p ) const
 {
-    int test_connect_group = ter( p ).obj().connect_group;
+    const std::bitset<NUM_TERCONN> &test_connect_group = ter( p ).obj().connect_to_groups;
     uint8_t connections = get_known_connections( p, test_connect_group );
     // The bits in connections are SEWN, whereas the characters in LINE_
     // constants are NESW, so we want values in 8 | 2 | 1 | 4 order.

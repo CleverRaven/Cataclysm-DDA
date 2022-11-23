@@ -20,16 +20,7 @@
       },
       "exterior_wall_type": {
         "type": "ter_str_id",
-        "default": {
-          "distribution": [
-            [ "t_brick_wall", 6 ],
-            [ "t_rock_wall", 3 ],
-            [ "t_wall_wood", 3 ],
-            [ "t_drystone_wall", 2 ],
-            [ "t_adobe_brick_wall", 4 ],
-            [ "t_concrete_wall", 4 ]
-          ]
-        }
+        "default": { "distribution": [ [ "t_brick_wall", 6 ], [ "t_rock_wall", 3 ], [ "t_wall_wood", 3 ], [ "t_concrete_wall", 4 ] ] }
       },
       "house_fence_type": {
         "type": "ter_str_id",
@@ -106,6 +97,7 @@
       "8": "f_counter",
       "9": "f_null",
       "@": "f_bed",
+      "¤": "f_table",
       "₸": "f_deckchair",
       "∞": "f_foot_locker",
       "≠": "f_chest",
@@ -245,6 +237,7 @@
       ],
       "9": { "item": "shower", "chance": 30, "repeat": [ 1, 2 ] },
       "@": { "item": "bed", "chance": 50 },
+      "¤": { "item": "nightstand", "chance": 30 },
       "Z": { "item": "laundry", "chance": 100 },
       "W": { "item": "laundry", "chance": 50 },
       "z": [

@@ -709,7 +709,7 @@ void computer_session::action_miss_launch()
     }
 
     //Only explode once. But make it large.
-    explosion_handler::explosion( nuke_location, 2000, 0.7, true );
+    explosion_handler::explosion( &get_player_character(), nuke_location, 2000, 0.7, true );
 
     //...ERASE MISSILE, OPEN SILO, DISABLE COMPUTER
     // For each level between here and the surface, remove the missile
@@ -1102,7 +1102,7 @@ void computer_session::action_srcf_seal()
     for( const tripoint &p : here.points_on_zlevel() ) {
         if( here.ter( p ) == t_elevator || here.ter( p ) == t_vat ) {
             here.make_rubble( p, f_rubble_rock, true );
-            explosion_handler::explosion( p, 40, 0.7, true );
+            explosion_handler::explosion( &get_player_character(), p, 40, 0.7, true );
         }
         if( here.ter( p ) == t_wall_glass ) {
             here.make_rubble( p, f_rubble_rock, true );
@@ -1112,7 +1112,7 @@ void computer_session::action_srcf_seal()
         }
         if( here.ter( p ) == t_sewage_pump ) {
             here.make_rubble( p, f_rubble_rock, true );
-            explosion_handler::explosion( p, 50, 0.7, true );
+            explosion_handler::explosion( &get_player_character(), p, 50, 0.7, true );
         }
     }
     comp.options.clear(); // Disable the terminal.
@@ -1210,7 +1210,7 @@ void computer_session::action_irradiator()
                     // critical failure - radiation spike sets off electronic detonators
                     if( it->typeId() == itype_mininuke || it->typeId() == itype_mininuke_act ||
                         it->typeId() == itype_c4 ) {
-                        explosion_handler::explosion( dest, 40 );
+                        explosion_handler::explosion( &get_player_character(), dest, 40 );
                         reset_terminal();
                         print_error( _( "WARNING [409]: Primary sensors offline!" ) );
                         print_error( _( "  >> Initialize secondary sensors: Geiger profiling…" ) );
@@ -1545,7 +1545,7 @@ void computer_session::failure_pump_explode()
     for( const tripoint &p : here.points_on_zlevel() ) {
         if( here.ter( p ) == t_sewage_pump ) {
             here.make_rubble( p );
-            explosion_handler::explosion( p, 10 );
+            explosion_handler::explosion( &get_player_character(), p, 10 );
         }
     }
 }
@@ -1586,10 +1586,10 @@ void computer_session::failure_amigara()
     get_timed_events().add( timed_event_type::AMIGARA, calendar::turn + 30_seconds );
     get_player_character().add_effect( effect_amigara, 2_minutes );
     map &here = get_map();
-    explosion_handler::explosion( tripoint( rng( 0, MAPSIZE_X ), rng( 0, MAPSIZE_Y ),
-                                            here.get_abs_sub().z() ), 10, 0.7, false, 10 );
-    explosion_handler::explosion( tripoint( rng( 0, MAPSIZE_X ), rng( 0, MAPSIZE_Y ),
-                                            here.get_abs_sub().z() ), 10, 0.7, false, 10 );
+    explosion_handler::explosion( &get_player_character(),
+                                  tripoint( rng( 0, MAPSIZE_X ), rng( 0, MAPSIZE_Y ), here.get_abs_sub().z() ), 10, 0.7, false, 10 );
+    explosion_handler::explosion( &get_player_character(),
+                                  tripoint( rng( 0, MAPSIZE_X ), rng( 0, MAPSIZE_Y ), here.get_abs_sub().z() ), 10, 0.7, false, 10 );
     comp.remove_option( COMPACT_AMIGARA_START );
 }
 

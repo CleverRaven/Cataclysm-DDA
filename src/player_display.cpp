@@ -844,6 +844,7 @@ static void draw_skills_tab( ui_adaptor &ui, const catacurses::window &w_skills,
                 exercise = 0;
                 locked = true;
             }
+            level_num = you.enchantment_cache->modify_value( aSkill->ident(), level_num );
             if( is_current_tab && i == line ) {
                 ui.set_cursor( w_skills, point( 1, y_pos ) );
                 if( locked ) {
@@ -1281,7 +1282,9 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
         ++info_line;
         ui_info.invalidate_ui();
     } else if( action == "MEDICAL_MENU" ) {
-        you.as_avatar()->disp_medical();
+        if( you.is_avatar() ) {
+            you.as_avatar()->disp_medical();
+        }
     }
     return done;
 }

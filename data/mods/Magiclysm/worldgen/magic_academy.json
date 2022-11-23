@@ -71,7 +71,10 @@
           { "item": "enchanted_worn_items", "chance": 10 },
           { "item": "enchanted_combat_items", "chance": 5 }
         ],
-        "R": [ { "item": "magic_shop_books", "chance": 40, "repeat": [ 0, 2 ] }, { "item": "spellbook_loot_2", "chance": 10 } ],
+        "R": [
+          { "item": "magic_shop_books", "chance": 40, "repeat": [ 1, 2 ] },
+          { "item": "spellbook_loot_2", "chance": 10, "repeat": [ 1, 2 ] }
+        ],
         "j": [
           { "item": "enchanted_small_items", "chance": 5, "repeat": [ 1, 2 ] },
           { "item": "enchanted_combat_items", "chance": 1 },

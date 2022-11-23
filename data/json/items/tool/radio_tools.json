@@ -7,7 +7,8 @@
     "symbol": "#",
     "color": "yellow",
     "ammo": [ "battery" ],
-    "flags": [ "WATER_BREAK" ],
+    "flags": [ "WATER_BREAK", "ELECTRONIC" ],
+    "material": [ "plastic" ],
     "charges_per_use": 1,
     "turns_per_charge": 5,
     "weight": "670 g",
@@ -31,13 +32,14 @@
     "description": "A remote-controlled car.  Fun for young and old alike.",
     "symbol": "#",
     "ammo": [ "battery" ],
+    "material": [ "aluminum", "plastic" ],
     "charges_per_use": 1,
     "weight": "2340 g",
     "volume": "1500 ml",
     "price": 24000,
     "price_postapoc": 250,
     "use_action": [ "RADIOCAR" ],
-    "flags": [ "RADIO_CONTAINER", "WATER_BREAK" ],
+    "flags": [ "RADIO_CONTAINER", "WATER_BREAK", "ELECTRONIC" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -63,14 +65,14 @@
     "turns_per_charge": 5,
     "revert_to": "radio_car",
     "use_action": [ "RADIOCARON" ],
-    "flags": [ "LIGHT_15", "RADIO_CONTAINER", "TRADER_AVOID", "RADIOCAR" ]
+    "flags": [ "LIGHT_15", "RADIO_CONTAINER", "TRADER_AVOID", "RADIOCAR", "WATER_BREAK", "ELECTRONIC" ]
   },
   {
     "id": "radio_mod",
     "type": "TOOL",
     "category": "spare_parts",
     "name": { "str": "radio activation mod" },
-    "description": "This small piece of electronics can be attached to certain items and activate them after receiving a radio signal.",
+    "description": "This small piece of electronics can be attached to certain items and activate them after receiving a radio signal from RC car controller.",
     "weight": "142 g",
     "volume": "250 ml",
     "price": 5000,
@@ -79,7 +81,8 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "dark_gray",
-    "use_action": [ "RADIO_MOD" ]
+    "use_action": [ "RADIO_MOD" ],
+    "flags": [ "SINGLE_USE", "WATER_BREAK", "ELECTRONIC" ]
   },
   {
     "id": "radio",
@@ -96,7 +99,7 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "battery" ],
-    "flags": [ "WATER_BREAK" ],
+    "flags": [ "WATER_BREAK", "ELECTRONIC" ],
     "charges_per_use": 1,
     "use_action": [ "RADIO_OFF" ],
     "pocket_data": [
@@ -117,7 +120,7 @@
     "power_draw": "500 mJ",
     "revert_to": "radio",
     "use_action": [ "RADIO_ON" ],
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC" ]
   },
   {
     "id": "two_way_radio",
@@ -134,7 +137,7 @@
     "color": "green",
     "ammo": [ "battery" ],
     "charges_per_use": 1,
-    "flags": [ "TWO_WAY_RADIO", "WATER_BREAK" ],
+    "flags": [ "TWO_WAY_RADIO", "WATER_BREAK", "ELECTRONIC" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -158,7 +161,7 @@
     "symbol": "#",
     "color": "yellow",
     "ammo": [ "battery" ],
-    "flags": [ "WATER_BREAK" ],
+    "flags": [ "WATER_BREAK", "ELECTRONIC" ],
     "charges_per_use": 1,
     "turns_per_charge": 10,
     "use_action": [ "REMOTEVEH" ],

@@ -286,5 +286,23 @@
       "sound_fail": "mana crackling!",
       "items": [ { "item": "mana_dust", "charges": [ 0, 4 ] } ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_boulder_earthshaper",
+    "copy-from": "f_boulder_medium",
+    "looks_like": "f_slab",
+    "name": "flat boulder",
+    "description": "Smooth, flat boulder.  You can use it both as a table and an anvil.  It respond to your force, and you can easily move it.",
+    "symbol": "0",
+    "color": "dark_gray",
+    "move_cost_mod": 6,
+    "coverage": 45,
+    "required_str": 0,
+    "crafting_pseudo_item": "boulder_anvil",
+    "examine_action": "workbench",
+    "flags": [ "TRANSPARENT", "MINEABLE", "FLAT_SURF", "MOUNTABLE", "PLACE_ITEM", "SHORT" ],
+    "workbench": { "multiplier": 1.1, "mass": 300000, "volume": "100L" },
+    "bash": { "str_min": 0, "str_max": 0, "sound": "The boulder recedes into the ground.", "sound_fail": "thump." }
   }
 ]

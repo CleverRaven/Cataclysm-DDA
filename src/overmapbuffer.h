@@ -145,8 +145,8 @@ class overmapbuffer
     public:
         overmapbuffer();
 
-        static std::string terrain_filename( const point_abs_om & );
-        static std::string player_filename( const point_abs_om & );
+        static cata_path terrain_filename( const point_abs_om & );
+        static cata_path player_filename( const point_abs_om & );
 
         /**
          * Uses overmap coordinates, that means x and y are directly
@@ -589,7 +589,7 @@ class overmapbuffer
         /**
          * Reads placed unique specials from JSON and overwrites the global value.
          */
-        void deserialize_placed_unique_specials( JsonIn &jsin );
+        void deserialize_placed_unique_specials( const JsonValue &jsin );
     private:
         /**
          * Go thorough the monster groups of the overmap and move out-of-bounds

@@ -1042,9 +1042,7 @@ bool oter_t::is_hardcoded() const
         "lab_stairs",
         "lab_finale",
         "slimepit",
-        "slimepit_down",
-        "temple_finale",
-        "temple_stairs"
+        "slimepit_down"
     };
 
     return hardcoded_mapgen.find( get_mapgen_id() ) != hardcoded_mapgen.end();
@@ -1131,10 +1129,8 @@ bool overmap_special_locations::can_be_placed_on( const oter_id &oter ) const
     return is_amongst_locations( oter, locations );
 }
 
-void overmap_special_locations::deserialize( JsonIn &jsin )
+void overmap_special_locations::deserialize( const JsonArray &ja )
 {
-    JsonArray ja = jsin.get_array();
-
     if( ja.size() != 2 ) {
         ja.throw_error( "expected array of size 2" );
     }
@@ -1143,9 +1139,8 @@ void overmap_special_locations::deserialize( JsonIn &jsin )
     ja.read( 1, locations, true );
 }
 
-void overmap_special_terrain::deserialize( JsonIn &jsin )
+void overmap_special_terrain::deserialize( const JsonObject &om )
 {
-    JsonObject om = jsin.get_object();
     om.read( "point", p );
     om.read( "overmap", terrain );
     om.read( "flags", flags );
@@ -1521,7 +1516,7 @@ struct mutable_overmap_join {
     unsigned priority; // NOLINT(cata-serialize)
     const mutable_overmap_join *opposite = nullptr; // NOLINT(cata-serialize)
 
-    void deserialize( JsonIn &jin ) {
+    void deserialize( const JsonValue &jin ) {
         if( jin.test_string() ) {
             id = jin.get_string();
         } else {
@@ -1588,7 +1583,7 @@ struct mutable_overmap_terrain_join {
         }
     }
 
-    void deserialize( JsonIn &jin ) {
+    void deserialize( const JsonValue &jin ) {
         if( jin.test_string() ) {
             jin.read( join_id, true );
         } else if( jin.test_object() ) {
@@ -1597,7 +1592,7 @@ struct mutable_overmap_terrain_join {
             jo.read( "type", type, true );
             jo.read( "alternatives", alternative_join_ids, true );
         } else {
-            jin.error( "Expected string or object" );
+            jin.throw_error( "Expected string or object" );
         }
     }
 };
@@ -1658,8 +1653,7 @@ struct mutable_overmap_terrain {
         }
     }
 
-    void deserialize( JsonIn &jin ) {
-        JsonObject jo = jin.get_object();
+    void deserialize( const JsonObject &jo ) {
         jo.read( "overmap", terrain, true );
         jo.read( "locations", locations );
         for( int i = 0; i != static_cast<int>( cube_direction::last ); ++i ) {
@@ -2364,7 +2358,7 @@ struct mutable_overmap_phase {
         return { realised_rules };
     }
 
-    void deserialize( JsonIn &jin ) {
+    void deserialize( const JsonValue &jin ) {
         jin.read( rules, true );
     }
 };
@@ -2401,9 +2395,8 @@ void pos_dir<Tripoint>::serialize( JsonOut &jsout ) const
 }
 
 template<typename Tripoint>
-void pos_dir<Tripoint>::deserialize( JsonIn &jsin )
+void pos_dir<Tripoint>::deserialize( const JsonArray &ja )
 {
-    JsonArray ja = jsin.get_array();
     if( ja.size() != 2 ) {
         ja.throw_error( "Expected array of size 2" );
     }
@@ -2606,9 +2599,9 @@ struct mutable_overmap_special_data : overmap_special_data {
             descriptions.push_back( std::move( satisfy_result.description ) );
             const mutable_overmap_placement_rule_remainder *rule = satisfy_result.rule;
             if( rule ) {
-                const tripoint_om_omt &origin = satisfy_result.origin;
+                const tripoint_om_omt &satisfy_origin = satisfy_result.origin;
                 om_direction::type rot = satisfy_result.dir;
-                for( const mutable_overmap_piece_candidate piece : rule->pieces( origin, rot ) ) {
+                for( const mutable_overmap_piece_candidate piece : rule->pieces( satisfy_origin, rot ) ) {
                     const mutable_overmap_terrain &ter = *piece.overmap;
                     add_ter( ter, piece.pos, piece.rot, satisfy_result.suppressed_joins );
                 }
@@ -3380,12 +3373,17 @@ void overmap::generate( const overmap *north, const overmap *east,
     const std::string overmap_pregenerated_path =
         get_option<std::string>( "OVERMAP_PREGENERATED_PATH" );
     if( !overmap_pregenerated_path.empty() ) {
-        const std::string fpath = string_format( "%s/%s/overmap_%d_%d.omap.gz",
-                                  PATH_INFO::moddir(),
-                                  overmap_pregenerated_path, pos().x(), pos().y() );
+        // HACK: For some reason gz files are automatically unpacked and renamed during Android build process
+#if defined(__ANDROID__)
+        static const std::string fname = "%s/overmap_%d_%d.omap";
+#else
+        static const std::string fname = "%s/overmap_%d_%d.omap.gz";
+#endif
+        const cata_path fpath = PATH_INFO::moddir() / string_format( fname,
+                                overmap_pregenerated_path, pos().x(), pos().y() );
         dbg( D_INFO ) << "trying" << fpath;
-        if( !read_from_file_optional( fpath, [this]( std::istream & is ) {
-        unserialize_omap( is );
+        if( !read_from_file_optional_json( fpath, [this, &fpath]( const JsonValue & jv ) {
+        unserialize_omap( jv, fpath );
         } ) ) {
             dbg( D_INFO ) << "failed" << fpath;
             int z = 0;
@@ -6478,14 +6476,14 @@ void overmap::place_radios()
 
 void overmap::open( overmap_special_batch &enabled_specials )
 {
-    const std::string terfilename = overmapbuffer::terrain_filename( loc );
+    const cata_path terfilename = overmapbuffer::terrain_filename( loc );
 
-    if( read_from_file_optional( terfilename, [this]( std::istream & is ) {
-    unserialize( is );
+    if( read_from_file_optional( terfilename, [this, &terfilename]( std::istream & is ) {
+    unserialize( terfilename, is );
     } ) ) {
-        const std::string plrfilename = overmapbuffer::player_filename( loc );
-        read_from_file_optional( plrfilename, [this]( std::istream & is ) {
-            unserialize_view( is );
+        const cata_path plrfilename = overmapbuffer::player_filename( loc );
+        read_from_file_optional( plrfilename, [this, &plrfilename]( std::istream & is ) {
+            unserialize_view( plrfilename, is );
         } );
     } else { // No map exists!  Prepare neighbors, and generate one.
         std::vector<const overmap *> pointers;

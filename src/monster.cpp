@@ -412,7 +412,17 @@ void monster::try_upgrade( bool pin_time )
                 new_type = MonsterGroupManager::GetRandomMonsterFromGroup( type->upgrade_group );
             }
             if( !new_type.is_empty() ) {
-                poly( new_type );
+                if( new_type ) {
+                    poly( new_type );
+                } else {
+                    // "upgrading" to mon_null
+                    if( type->upgrade_null_despawn ) {
+                        g->remove_zombie( *this );
+                    } else {
+                        die( nullptr );
+                    }
+                    return;
+                }
             }
         }
 
@@ -524,6 +534,10 @@ void monster::refill_udders()
 
 void monster::try_biosignature()
 {
+    if( is_hallucination() ) {
+        return;
+    }
+
     if( !biosignatures ) {
         return;
     }
@@ -966,6 +980,14 @@ std::string monster::extended_description() const
                                  to_turn<int>( biosig_timer.value() ),
                                  to_turn<int>( biosig_timer.value()  - current_time ),
                                  biosignatures ? "" : _( "<color_red>(no biosignature)</color>" ) ) + "\n";
+        }
+
+        if( lifespan_end.has_value() ) {
+            ss += string_format( _( "Lifespan end time: %1$d (turns left %2$d)" ),
+                                 to_turn<int>( lifespan_end.value() ),
+                                 to_turn<int>( lifespan_end.value() - current_time ) );
+        } else {
+            ss += "Lifespan end time: n/a <color_yellow>(indefinite)</color>";
         }
     }
 
@@ -2452,7 +2474,7 @@ void monster::process_turn()
         }
     }
     // We update electrical fields here since they act every turn.
-    if( has_flag( MF_ELECTRIC_FIELD ) ) {
+    if( has_flag( MF_ELECTRIC_FIELD ) && !is_hallucination() ) {
         if( has_effect( effect_emp ) ) {
             if( calendar::once_every( 10_turns ) ) {
                 sounds::sound( pos(), 5, sounds::sound_t::combat, _( "hummmmm." ), false, "humming", "electric" );
@@ -2474,7 +2496,7 @@ void monster::process_turn()
                 const auto t = here.ter( zap );
                 if( t == ter_t_gas_pump || t == ter_t_gas_pump_a ) {
                     if( one_in( 4 ) ) {
-                        explosion_handler::explosion( pos(), 40, 0.8, true );
+                        explosion_handler::explosion( this, pos(), 40, 0.8, true );
                         add_msg_if_player_sees( zap, m_warning, _( "The %s explodes in a fiery inferno!" ),
                                                 here.tername( zap ) );
                     } else {
@@ -2621,7 +2643,7 @@ void monster::die( Creature *nkiller )
     if( death_drops && !is_hallucination() ) {
         for( const item &it : inv ) {
             if( corpse ) {
-                corpse->put_in( it, item_pocket::pocket_type::CONTAINER );
+                corpse->force_insert_item( it, item_pocket::pocket_type::CONTAINER );
             } else {
                 get_map().add_item_or_charges( pos(), it );
             }
@@ -2631,11 +2653,6 @@ void monster::die( Creature *nkiller )
                 corpse->put_in( it, item_pocket::pocket_type::CORPSE );
             } else {
                 get_map().add_item( pos(), it );
-            }
-        }
-        if( corpse ) {
-            for( item_pocket *pocket : corpse->get_all_contained_pockets() ) {
-                pocket->set_usability( false );
             }
         }
     }
@@ -2783,7 +2800,7 @@ void monster::drop_items_on_death( item *corpse )
 
         // add stuff that could be worn or strapped to the creature
         if( it.is_armor() ) {
-            corpse->put_in( it, item_pocket::pocket_type::CONTAINER );
+            corpse->force_insert_item( it, item_pocket::pocket_type::CONTAINER );
         }
     }
 
@@ -2806,7 +2823,7 @@ void monster::drop_items_on_death( item *corpse )
             if( current_best.second != nullptr ) {
                 current_best.second->insert_item( it );
             } else {
-                corpse->put_in( it, item_pocket::pocket_type::CONTAINER );
+                corpse->force_insert_item( it, item_pocket::pocket_type::CONTAINER );
             }
         }
     }
