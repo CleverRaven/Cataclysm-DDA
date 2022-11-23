@@ -417,11 +417,7 @@
       ],
       "terrain": { "z": "t_floor" },
       "furniture": { "z": [ [ "f_cardboard_box", 5 ], "f_crate_c" ] },
-      "items": {
-        "z": [
-          { "item": "gift_shop", "chance": 30, "repeat": [ 0, 2 ] }
-        ]
-      }
+      "items": { "z": [ { "item": "gift_shop", "chance": 30, "repeat": [ 0, 2 ] } ] }
     }
   },
   {
