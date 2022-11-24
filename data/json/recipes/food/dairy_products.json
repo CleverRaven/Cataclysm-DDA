@@ -123,7 +123,7 @@
     "book_learn": [ [ "dairy_book", 1 ] ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "components": [
-      [ "cottage_cheese", 1 ],
+      [ [ "cottage_cheese", 1 ] ],
       [ [ "sweet_fruit", 1, "LIST" ] ],
       [ [ "onion", 1 ] ],
       [ [ "bell_pepper", 1 ], [ "tomato", 1 ], [ "cucumber", 1 ] ]
