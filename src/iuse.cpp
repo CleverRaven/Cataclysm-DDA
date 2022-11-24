@@ -2986,7 +2986,7 @@ cata::optional<int> iuse::fill_pit( Character *p, item */* it */, bool t, const 
  * index: The bonus, for calculating hunger and thirst penalties.
  */
 
-cata::optional<int> iuse::clear_rubble( Character *p, item */* it */, bool, const tripoint & )
+cata::optional<int> iuse::clear_rubble( Character *p, item */* it */, bool t, const tripoint & )
 {
     if( !p || t ) {
         return cata::nullopt;
