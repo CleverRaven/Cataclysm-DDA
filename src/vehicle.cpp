@@ -4595,7 +4595,7 @@ units::energy vehicle::engine_fuel_usage( int e ) const
     }
     const vpart_info &info = part_info( engines[ e ] );
 
-    units::energy usage = info.energy_consumption;
+    units::energy usage = info.energy_consumption * 1_seconds;
     if( parts[ engines[ e ] ].has_fault_flag( "DOUBLE_FUEL_CONSUMPTION" ) ) {
         usage *= 2;
     }
