@@ -358,7 +358,7 @@
     "name": { "str": "jumbled skin" },
     "description": "Skin like a spilled tub of paints, splattered in abstract shapes of scales, fur, and leather.",
     "weight": "1 kg",
-    "volume": "200 ml",
+    "volume": "1 L",
     "price": 0,
     "price_postapoc": 0,
     "material": [ "leather", "fur", "cured_meat", "wool" ],
