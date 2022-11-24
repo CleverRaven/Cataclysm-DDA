@@ -1079,7 +1079,7 @@
     "starting_trait": true,
     "cancels": [ "CHAOTIC_BAD" ],
     "category": [ "FISH", "SLIME", "ALPHA", "MEDICAL", "PLANT" ],
-    "vitamin_rates": [ [ "instability", 3600 ] ]
+    "vitamin_rates": [ [ "instability", 7200 ] ]
   },
   {
     "type": "mutation",
