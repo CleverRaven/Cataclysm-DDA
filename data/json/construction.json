@@ -7155,7 +7155,7 @@
     "id": "constr_clear_rubble",
     "group": "clear_rubble",
     "category": "OTHER",
-    "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
+    "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
     "required_skills": [ [ "survival", 0 ] ],
     "time": "1 m",
     "byproducts": [
@@ -7166,14 +7166,15 @@
       { "item": "material_gravel", "charges": [ 0, 4 ] }
     ],
     "pre_terrain": "f_rubble",
-    "post_terrain": "f_null"
+    "post_terrain": "f_null",
+    "activity_level": "EXTRA_EXERCISE"
   },
   {
     "type": "construction",
     "id": "constr_clear_rubble_rock",
     "group": "clear_rubble",
     "category": "OTHER",
-    "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
+    "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
     "required_skills": [ [ "survival", 0 ] ],
     "time": "1 m",
     "byproducts": [
@@ -7185,14 +7186,15 @@
     ],
     "pre_flags": "RUBBLE",
     "pre_terrain": "f_rubble_rock",
-    "post_terrain": "f_null"
+    "post_terrain": "f_null",
+    "activity_level": "EXTRA_EXERCISE"
   },
   {
     "type": "construction",
     "id": "constr_clear_rubble_landfill",
     "group": "clear_rubble",
     "category": "OTHER",
-    "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
+    "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
     "required_skills": [ [ "survival", 0 ] ],
     "time": "1 m",
     "byproducts": [
@@ -7204,14 +7206,15 @@
     ],
     "pre_flags": "RUBBLE",
     "pre_terrain": "f_rubble_landfill",
-    "post_terrain": "f_null"
+    "post_terrain": "f_null",
+    "activity_level": "EXTRA_EXERCISE"
   },
   {
     "type": "construction",
     "id": "constr_clear_rubble_wreckage",
     "group": "clear_rubble",
     "category": "OTHER",
-    "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
+    "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
     "required_skills": [ [ "survival", 0 ] ],
     "time": "1 m",
     "byproducts": [
@@ -7223,32 +7226,35 @@
     ],
     "pre_flags": "RUBBLE",
     "pre_terrain": "f_wreckage",
-    "post_terrain": "f_null"
+    "post_terrain": "f_null",
+    "activity_level": "EXTRA_EXERCISE"
   },
   {
     "type": "construction",
     "id": "constr_clear_rubble_woodchips",
     "group": "clear_rubble",
     "category": "OTHER",
-    "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
+    "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
     "required_skills": [ [ "survival", 0 ] ],
     "time": "1 m",
     "byproducts": [ { "item": "splinter", "count": [ 0, 3 ] } ],
     "pre_flags": "RUBBLE",
     "pre_terrain": "f_woodchips",
-    "post_terrain": "f_null"
+    "post_terrain": "f_null",
+    "activity_level": "EXTRA_EXERCISE"
   },
   {
     "type": "construction",
     "id": "constr_clear_rubble_ash",
     "group": "clear_rubble",
     "category": "OTHER",
-    "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
+    "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
     "required_skills": [ [ "survival", 0 ] ],
     "time": "1 m",
     "byproducts": [ { "item": "ash", "charges": [ 0, 50 ] } ],
     "pre_flags": "RUBBLE",
     "pre_terrain": "f_ash",
-    "post_terrain": "f_null"
+    "post_terrain": "f_null",
+    "activity_level": "EXTRA_EXERCISE"
   }
 ]

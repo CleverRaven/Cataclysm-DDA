@@ -143,6 +143,7 @@ static const ammotype ammo_battery( "battery" );
 static const bionic_id bio_shock( "bio_shock" );
 static const bionic_id bio_tools( "bio_tools" );
 
+static const construction_str_id construction_constr_clear_rubble( "constr_clear_rubble" );
 static const construction_str_id construction_constr_fill_pit( "constr_fill_pit" );
 static const construction_str_id construction_constr_pit( "constr_pit" );
 static const construction_str_id construction_constr_pit_shallow( "constr_pit_shallow" );
@@ -334,7 +335,6 @@ static const proficiency_id proficiency_prof_lockpicking( "prof_lockpicking" );
 static const proficiency_id proficiency_prof_lockpicking_expert( "prof_lockpicking_expert" );
 
 static const quality_id qual_AXE( "AXE" );
-static const quality_id qual_DIG( "DIG" );
 static const quality_id qual_GLARE( "GLARE" );
 static const quality_id qual_LOCKPICK( "LOCKPICK" );
 static const quality_id qual_PRY( "PRY" );
@@ -2987,37 +2987,23 @@ cata::optional<int> iuse::fill_pit( Character *p, item */* it */, bool t, const 
  * index: The bonus, for calculating hunger and thirst penalties.
  */
 
-cata::optional<int> iuse::clear_rubble( Character *p, item *it, bool, const tripoint & )
+cata::optional<int> iuse::clear_rubble( Character *p, item */* it */, bool t, const tripoint & )
 {
+    if( !p || t ) {
+        return cata::nullopt;
+    }
     if( p->is_mounted() ) {
         p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return cata::nullopt;
     }
-    const std::function<bool( const tripoint & )> f = []( const tripoint & pnt ) {
-        return get_map().has_flag( ter_furn_flag::TFLAG_RUBBLE, pnt );
-    };
 
-    const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
-            _( "Clear rubble where?" ), _( "There is no rubble to clear nearby." ), f, false );
-    if( !pnt_ ) {
-        return cata::nullopt;
-    }
-    const tripoint &pnt = *pnt_;
-    if( !f( pnt ) ) {
-        p->add_msg_if_player( m_bad, _( "There's no rubble to clear." ) );
-        return cata::nullopt;
-    }
+    std::vector<construction> const &cnstr = get_constructions();
+    auto const build = std::find_if( cnstr.begin(), cnstr.end(), []( const construction & it ) {
+        return it.str_id == construction_constr_clear_rubble;
+    } );
 
-    int bonus = std::max( it->get_quality( qual_DIG ) - 1, 1 );
-    const std::vector<npc *> helpers = p->get_crafting_helpers();
-    const std::size_t helpersize = p->get_num_crafting_helpers( 3 );
-    const int moves = to_moves<int>( 30_seconds ) * ( 1.0f - ( helpersize / 10.0f ) );
-    for( std::size_t i = 0; i < helpersize; i++ ) {
-        add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->get_name() );
-    }
-    p->assign_activity( player_activity( clear_rubble_activity_actor( moves / bonus ) ) );
-    p->activity.placement = get_map().getglobal( pnt );
-    return 1;
+    place_construction( build->group );
+    return 0;
 }
 
 cata::optional<int> iuse::siphon( Character *p, item *, bool, const tripoint & )
