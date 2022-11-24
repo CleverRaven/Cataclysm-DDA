@@ -936,14 +936,7 @@
     "time": "10 m",
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_basketweaving" } ],
-    "components": [ 
-      [ 
-        [ "tanbark", 1 ], 
-        [ "birchbark", 1 ],
-        [ "willowbark", 1 ],
-        [ "alder_bark", 1 ] 
-      ]
-    ]
+    "components": [ [ [ "tanbark", 1 ], [ "birchbark", 1 ], [ "willowbark", 1 ], [ "alder_bark", 1 ] ] ]
   },
   {
     "type": "recipe",
