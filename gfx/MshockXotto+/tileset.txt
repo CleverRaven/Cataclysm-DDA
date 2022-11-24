@@ -18,3 +18,5 @@ TILESET: tiles.png
 #Visit https://discord.gg/kAXNZuy to discuss and contribute to this community-driven tileset!
 #Development ongoing constantly!
 #Find source github at https://github.com/I-am-Erk/CDDA-Tilesets/tree/master/gfx/MShockXotto%2B
+
+# All sprites included in the dcss sheet come from Dungeon Crawl: Stone Soup and are under CC0 license. See https://github.com/crawl/tiles for more informations.

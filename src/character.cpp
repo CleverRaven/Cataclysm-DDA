@@ -3168,15 +3168,6 @@ bool Character::meets_requirements( const item &it, const item &context ) const
 void Character::make_bleed( const effect_source &source, const bodypart_id &bp,
                             time_duration duration, int intensity, bool permanent, bool force, bool defferred )
 {
-    int b_resist = 0;
-    for( const trait_id &mut : get_mutations() ) {
-        b_resist += mut.obj().bleed_resist;
-    }
-
-    if( b_resist > intensity ) {
-        return;
-    }
-
     add_effect( source, effect_bleed, duration, bp, permanent, intensity, force, defferred );
 }
 
@@ -5006,16 +4997,18 @@ void Character::get_sick()
     // Health is in the range [-200,200].
     // Diseases are half as common for every 50 health you gain.
     float health_factor = std::pow( 2.0f, get_lifestyle() / 50.0f );
+    float env_factor = 1.0f + std::pow( 0.3f, get_env_resist( body_part_mouth ) / 2 );
 
-    int disease_rarity = static_cast<int>( checks_per_year * health_factor / base_diseases_per_year );
+    int disease_rarity = static_cast<int>( checks_per_year * health_factor * env_factor /
+                                           base_diseases_per_year );
     add_msg_debug( debugmode::DF_CHAR_HEALTH, "disease_rarity = %d", disease_rarity );
     if( one_in( disease_rarity ) ) {
         if( one_in( 6 ) ) {
             // The flu typically lasts 3-10 days.
-            add_env_effect( effect_flu, body_part_mouth, 3, rng( 3_days, 10_days ) );
+            add_effect( effect_flu, rng( 3_days, 10_days ) );
         } else {
             // A cold typically lasts 1-14 days.
-            add_env_effect( effect_common_cold, body_part_mouth, 3, rng( 1_days, 14_days ) );
+            add_effect( effect_common_cold, rng( 1_days, 14_days ) );
         }
     }
 }
@@ -5398,7 +5391,11 @@ bool Character::is_immune_effect( const efftype_id &eff ) const
         return is_immune_damage( damage_type::ACID ) || has_trait( trait_SLIMY ) ||
                has_trait( trait_VISCOUS );
     }
-
+    for( const json_character_flag &flag : eff->immune_flags ) {
+        if( has_flag( flag ) ) {
+            return true;
+        }
+    }
     return false;
 }
 

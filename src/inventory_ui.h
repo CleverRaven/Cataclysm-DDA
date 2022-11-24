@@ -328,6 +328,7 @@ class inventory_column
 
         bool has_available_choices() const;
         bool is_selected( const inventory_entry &entry ) const;
+        bool is_highlighted( const inventory_entry &entry ) const;
 
         /**
          * Does this entry belong to the selected category?
