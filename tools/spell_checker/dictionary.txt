@@ -366,6 +366,7 @@ cleansuit
 clearcrete
 clickity
 climbable
+clisp
 clockspring
 cloutie
 clutchmates
