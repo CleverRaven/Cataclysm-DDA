@@ -21,6 +21,7 @@
 #include "cached_options.h"
 #include "calendar.h"
 #include "cata_assert.h"
+#include "cata_scope_helpers.h"
 #include "catacharset.h"
 #include "character.h"
 #include "colony.h"
@@ -218,7 +219,7 @@ bool advanced_inventory::get_square( const std::string &action, aim_location &re
 
 aim_location advanced_inventory::screen_relative_location( aim_location area )
 {
-    if( use_tiles && tile_iso ) {
+    if( g->is_tileset_isometric() ) {
         return squares[area].relative_location;
     } else {
         return area;
@@ -599,6 +600,7 @@ int advanced_inventory::print_header( advanced_inventory_pane &pane, aim_locatio
     int area = pane.get_area();
     int wwidth = getmaxx( window );
     int ofs = wwidth - 25 - 2 - 14;
+    int min_x = wwidth;
     for( int i = 0; i < NUM_AIM_LOCATIONS; ++i ) {
         int data_location = screen_relative_location( static_cast<aim_location>( i ) );
         const char *bracket = squares[data_location].can_store_in_vehicle() ? "<>" : "[]";
@@ -613,14 +615,15 @@ int advanced_inventory::print_header( advanced_inventory_pane &pane, aim_locatio
                      area == data_location || all_brackets ? c_light_gray : c_dark_gray;
             kcolor = area == data_location ? c_white : sel == data_location ? c_light_gray : c_dark_gray;
         }
-
         const std::string key = get_location_key( static_cast<aim_location>( i ) );
         const point p( squares[i].hscreen + point( ofs, 0 ) );
+        min_x = std::min( min_x, p.x );
         mvwprintz( window, p, bcolor, "%c", bracket[0] );
         wprintz( window, kcolor, "%s", in_vehicle && sel != AIM_DRAGGED ? "V" : key );
         wprintz( window, bcolor, "%c", bracket[1] );
     }
-    return squares[AIM_INVENTORY].hscreen.y + ofs;
+
+    return min_x;
 }
 
 void advanced_inventory::recalc_pane( side p )
@@ -731,8 +734,8 @@ void advanced_inventory::redraw_pane( side p )
     std::string desc = utf8_truncate( sq.desc[car], width );
     // starts at offset 2, plus space between the header and the text
     width -= 2 + 1;
-    mvwprintz( w, point( 2, 1 ), active ? c_green  : c_light_gray, name );
-    mvwprintz( w, point( 2, 2 ), active ? c_light_blue : c_dark_gray, desc );
+    trim_and_print( w, point( 2, 1 ), width, active ? c_green  : c_light_gray, name );
+    trim_and_print( w, point( 2, 2 ), width, active ? c_light_blue : c_dark_gray, desc );
     trim_and_print( w, point( 2, 3 ), width, active ? c_cyan : c_dark_gray, square.flags );
 
     if( active ) {
@@ -912,12 +915,17 @@ bool advanced_inventory::move_all_items()
     size_t liquid_items = 0;
     for( const advanced_inv_listitem &elem : spane.items ) {
         for( const item_location &elemit : elem.items ) {
-            if( elemit->made_of_from_type( phase_id::LIQUID ) && !elemit->is_frozen_liquid() ) {
+            if( ( elemit->made_of_from_type( phase_id::LIQUID ) && !elemit->is_frozen_liquid() ) ||
+                elemit->made_of_from_type( phase_id::GAS ) ) {
                 liquid_items++;
             }
         }
     }
+
     if( spane.items.empty() || liquid_items == spane.items.size() ) {
+        if( !is_processing() ) {
+            popup( _( "No eligible items found to be moved." ) );
+        }
         return false;
     }
     std::unique_ptr<on_out_of_scope> restore_area;
@@ -1875,7 +1883,8 @@ bool advanced_inventory::move_content( item &src_container, item &dest_container
 
     std::string err;
     // TODO: Allow buckets here, but require them to be on the ground or wielded
-    const int amount = dest_container.get_remaining_capacity_for_liquid( src_contents, false, &err );
+    const int amount = std::min( src_contents.charges,
+                                 dest_container.get_remaining_capacity_for_liquid( src_contents, false, &err ) );
     if( !err.empty() ) {
         popup( err );
         return false;
@@ -1914,6 +1923,10 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
     // Includes moving from/to inventory and around on the map.
     if( it.made_of_from_type( phase_id::LIQUID ) && !it.is_frozen_liquid() ) {
         popup( _( "Spilt liquid cannot be picked back up.  Try mopping it instead." ) );
+        return false;
+    }
+    if( it.made_of_from_type( phase_id::GAS ) ) {
+        popup( _( "Spilt gasses cannot be picked up.  They will disappear over time." ) );
         return false;
     }
 

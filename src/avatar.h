@@ -62,11 +62,11 @@ struct monster_visible_info {
     // 7 0 1    unique_types uses these indices;
     // 6 8 2    0-7 are provide by direction_from()
     // 5 4 3    8 is used for local monsters (for when we explain them below)
-    std::vector<npc *> unique_types[9];
-    std::vector<std::pair<const mtype *, int>> unique_mons[9];
+    std::array<std::vector<npc *>, 9> unique_types;
+    std::array<std::vector<std::pair<const mtype *, int>>, 9> unique_mons;
 
     // If the monster visible in this direction is dangerous
-    bool dangerous[8] = {};
+    std::array<bool, 8> dangerous = {};
 };
 
 class avatar : public Character
@@ -92,6 +92,7 @@ class avatar : public Character
         bool create( character_type type, const std::string &tempname = "" );
         void add_profession_items();
         void randomize( bool random_scenario, bool play_now = false );
+        void randomize_cosmetics();
         bool load_template( const std::string &template_name, pool_type & );
         void save_template( const std::string &name, pool_type );
         void character_to_template( const std::string &name );
@@ -368,7 +369,7 @@ class avatar : public Character
         // amount of turns since last check for pocket noise
         time_point last_pocket_noise = time_point( 0 );
 
-        vproto_id starting_vehicle;
+        vproto_id starting_vehicle = vproto_id::NULL_ID();
         std::vector<mtype_id> starting_pets;
         std::set<character_id> follower_ids;
 

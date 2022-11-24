@@ -86,6 +86,9 @@ bool monster::is_immune_field( const field_type_id &fid ) const
     if( fid == fd_web ) {
         return has_flag( MF_WEBWALK );
     }
+    if( fid == fd_sludge || fid == fd_sap ) {
+        return flies();
+    }
     const field_type &ft = fid.obj();
     if( ft.has_fume ) {
         return has_flag( MF_NO_BREATHE );
@@ -219,10 +222,11 @@ bool monster::will_move_to( const tripoint &p ) const
         }
 
         // Without avoid_complex, only fire and electricity are checked for field avoidance.
-        if( avoid_fire && target_field.find_field( fd_fire ) ) {
+        if( avoid_fire && target_field.find_field( fd_fire ) && !is_immune_field( fd_fire ) ) {
             return false;
         }
-        if( avoid_simple && target_field.find_field( fd_electricity ) ) {
+        if( avoid_simple && target_field.find_field( fd_electricity ) &&
+            !is_immune_field( fd_electricity ) ) {
             return false;
         }
     }
@@ -950,7 +954,7 @@ void monster::move()
     point new_d( destination.xy() - pos().xy() );
 
     // toggle facing direction for sdl flip
-    if( !tile_iso ) {
+    if( !g->is_tileset_isometric() ) {
         if( new_d.x < 0 ) {
             facing = FacingDirection::LEFT;
         } else if( new_d.x > 0 ) {
@@ -1757,34 +1761,38 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
     if( !will_be_water && ( digs() || can_dig() ) ) {
         underwater = here.has_flag( ter_furn_flag::TFLAG_DIGGABLE, pos() );
     }
-    // Diggers turn the dirt into dirtmound
+
+    // Digging creatures leave a trail of churned earth
+    // They always leave some on their tile, and larger creatures emit some around themselves as well
     if( digging() && here.has_flag( ter_furn_flag::TFLAG_DIGGABLE, pos() ) ) {
         int factor = 0;
         switch( type->size ) {
-            case creature_size::tiny:
-                factor = 100;
-                break;
-            case creature_size::small:
-                factor = 30;
-                break;
             case creature_size::medium:
-                factor = 6;
+                factor = 4;
                 break;
             case creature_size::large:
                 factor = 3;
                 break;
             case creature_size::huge:
-                factor = 1;
+                factor = 2;
                 break;
             case creature_size::num_sizes:
                 debugmsg( "ERROR: Invalid Creature size class." );
                 break;
+            default:
+                factor = 4;
+                break;
         }
-        // TODO: make this take terrain type into account so diggers traveling under sand will create mounds of sand etc.
-        if( one_in( factor ) ) {
-            here.ter_set( pos(), t_dirtmound );
+        here.add_field( pos(), fd_churned_earth, 2 );
+        for( const tripoint &dest : here.points_in_radius( pos(), 1, 0 ) ) {
+            if( here.has_flag( ter_furn_flag::TFLAG_DIGGABLE, dest ) && one_in( factor ) ) {
+                here.add_field( dest, fd_churned_earth, 2 );
+            }
         }
     }
+
+
+
     // Acid trail monsters leave... a trail of acid
     if( has_flag( MF_ACIDTRAIL ) ) {
         here.add_field( pos(), fd_acid, 3 );
@@ -1812,22 +1820,25 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
         }
     }
 
-    if( has_flag( MF_DRIPS_NAPALM ) ) {
-        if( one_in( 10 ) ) {
-            // if it has more napalm, drop some and reduce ammo in tank
-            if( ammo[itype_pressurized_tank] > 0 ) {
-                here.add_item_or_charges( pos(), item( "napalm", calendar::turn, 50 ) );
-                ammo[itype_pressurized_tank] -= 50;
-            } else {
-                // TODO: remove MF_DRIPS_NAPALM flag since no more napalm in tank
-                // Not possible for now since flag check is done on type, not individual monster
+    // Don't leave any kind of liquids on water tiles
+    if( !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, destination ) ) {
+        if( has_flag( MF_DRIPS_NAPALM ) ) {
+            if( one_in( 10 ) ) {
+                // if it has more napalm, drop some and reduce ammo in tank
+                if( ammo[itype_pressurized_tank] > 0 ) {
+                    here.add_item_or_charges( pos(), item( "napalm", calendar::turn, 50 ) );
+                    ammo[itype_pressurized_tank] -= 50;
+                } else {
+                    // TODO: remove MF_DRIPS_NAPALM flag since no more napalm in tank
+                    // Not possible for now since flag check is done on type, not individual monster
+                }
             }
         }
-    }
-    if( has_flag( MF_DRIPS_GASOLINE ) ) {
-        if( one_in( 5 ) ) {
-            // TODO: use same idea that limits napalm dripping
-            here.add_item_or_charges( pos(), item( "gasoline" ) );
+        if( has_flag( MF_DRIPS_GASOLINE ) ) {
+            if( one_in( 5 ) ) {
+                // TODO: use same idea that limits napalm dripping
+                here.add_item_or_charges( pos(), item( "gasoline" ) );
+            }
         }
     }
     return true;

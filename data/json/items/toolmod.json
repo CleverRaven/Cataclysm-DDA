@@ -21,6 +21,15 @@
     "flags": [ "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
+    "id": "battery_bionic",
+    "copy-from": "mod_battery",
+    "type": "TOOLMOD",
+    "category": "spare_parts",
+    "name": { "str": "bionic power conversion mod" },
+    "description": "This kit permanently replaces conventional battery connections with the circuitry and cable required to draw power from a Standard Neurobionics Interface (SNI).  Any device modified with this is powered by your own bionic power storage instead of conventional batteries.",
+    "flags": [ "USES_BIONIC_POWER", "NO_UNLOAD", "NO_RELOAD" ]
+  },
+  {
     "id": "magazine_battery_mod",
     "copy-from": "mod_battery",
     "type": "TOOLMOD",

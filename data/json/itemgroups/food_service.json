@@ -199,6 +199,19 @@
     ]
   },
   {
+    "type": "item_group",
+    "id": "still_alcohol",
+    "//": "Alcohol you'd find in at a still or moonshine camp",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "brandied_fruit", "prob": 75, "repeat": [ 3, 6 ] },
+      { "item": "moonshine", "prob": 86, "repeat": [ 3, 6 ] },
+      { "item": "beer", "prob": 80, "repeat": [ 3, 6 ] },
+      { "item": "fruit_wine", "prob": 40, "repeat": [ 3, 6 ] },
+      { "item": "brandy", "prob": 20, "repeat": [ 3, 6 ] }
+    ]
+  },
+  {
     "id": "bar_food",
     "type": "item_group",
     "subtype": "distribution",
@@ -1057,6 +1070,7 @@
       [ "seasoning_salt", 15 ],
       [ "seasoning_italian", 15 ],
       [ "garlic", 10 ],
+      [ "garlic_powder", 10 ],
       [ "thyme", 10 ],
       [ "can_chicken", 10 ],
       [ "ghee", 15 ],

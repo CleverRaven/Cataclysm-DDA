@@ -66,7 +66,7 @@ directed_path<point> greedy_path( const point &source, const point &dest, const 
     std::vector<bool> closed( map_size, false );
     std::vector<int> open( map_size, 0 );
     std::vector<short> dirs( map_size, 0 );
-    std::priority_queue<Node, std::vector<Node>> nodes[2];
+    std::array<std::priority_queue<Node, std::vector<Node>>, 2> nodes;
 
     int i = 0;
     nodes[i].push( first_node );
@@ -290,12 +290,10 @@ simple_path<tripoint_abs_omt> find_overmap_path( const tripoint_abs_omt &source,
     known_nodes.emplace( start, navigation_node{0, 0, -1, start_score.allow_z_change} );
     open_set.push( scored_address{ start, 0 } );
     const point_abs_omt source_point = source.xy();
-    int search_count = 0;
     constexpr int max_search_count = 100000;
     while( !open_set.empty() ) {
         const node_address cur_addr = open_set.top().addr;
         open_set.pop();
-        search_count++;
         const tripoint_abs_omt cur_point = cur_addr.to_tripoint( source );
         if( cur_point == dest ) {
             node_address addr = cur_addr;

@@ -84,7 +84,7 @@
     "looks_like": "ar15",
     "type": "GUN",
     "name": { "str": "SKS" },
-    "description": "Developed by the Soviets in 1945, this rifle was quickly replaced by the full-auto AK-47.  However, due to its superb accuracy, low recoil and deployable integrated bayonet, this gun maintains immense popularity.",
+    "description": "Developed by the Soviets in 1945, this rifle was quickly replaced by the full-auto AK-47.  However, due to its superb accuracy, low recoil, and deployable integrated bayonet, this gun maintains immense popularity.",
     "ascii_picture": "sks",
     "weight": "3850 g",
     "volume": "2838 ml",
@@ -243,7 +243,7 @@
     "looks_like": "ar15",
     "type": "GUN",
     "name": { "str": "vz. 58 combat rifle" },
-    "description": "A Cold War era Czechoslovakian assault rifle, likely constructed stateside from a pre-1986 imported parts kit or brought back from a third world war zone.  Externally similar to the AK family of rifles, this weapon nevertheless only shares the former’s 7.62x39mm chambering.  Featuring no interchangeable parts with its Russian doppelganger, this firearm makes use of a completely different internal operating system, is far more svelte than its other Warsaw Pact counterparts, and feeds from proprietary box magazines.",
+    "description": "A Cold War-era Czechoslovak assault rifle, likely constructed stateside from a pre-1986 imported parts kit or brought back from a third world war zone.  Externally similar to the AK family of rifles, this weapon nevertheless only shares the former’s 7.62x39mm chambering.  Featuring no interchangeable parts with its Russian doppelganger, this firearm makes use of a completely different internal operating system, is far more svelte than its other Warsaw Pact counterparts, and feeds from proprietary box magazines.",
     "weight": "2900 g",
     "volume": "2000 ml",
     "longest_side": "84 cm",
@@ -255,13 +255,13 @@
       {
         "id": "vz58_p",
         "name": { "str": "Samopal vz. 58 P" },
-        "description": "This lightweight and relatively svelte Cold War assault rifle was originally developed for use by the Czechoslovakian army, in place of the various licenced Kalashnikov rifles which were then prevalent around eastern Europe.  Baring more than a passing resemblance to the AK-47, this weapon nevertheless features a completely different array of internals and possesses no interchangeable parts with its Russian counterpart.  Making use of proprietary magazines and a 15.4 inch barrel, the vz. 58 was regarded by some to be the Kalashnikov’s lesser known superior.  Likely reconstructed from a pre-1986 imported parts kit, or brought back from a 3rd world war zone, this particular weapon features a removable wood impregnated plastic buttstock and a 'P' suffixed designation, which both mark it as an original infantry model.",
+        "description": "This lightweight and relatively svelte Cold War assault rifle was originally developed for use by the Czechoslovak army, in place of the various licensed Kalashnikov rifles which were then prevalent around eastern Europe.  Bearing more than a passing resemblance to the AK-47, this weapon nevertheless features a completely different array of internals and possesses no interchangeable parts with its Russian counterpart.  Making use of proprietary magazines and a 15.4 inch barrel, the vz. 58 was regarded by some to be the Kalashnikov’s lesser-known superior.  Likely reconstructed from a pre-1986 imported parts kit, or brought back from a third world war zone, this particular weapon features a removable wood impregnated plastic buttstock and a 'P' suffixed designation, which both mark it as an original infantry model.",
         "weight": 1
       },
       {
         "id": "vz58_v",
         "name": { "str": "Samopal VZ 58 V" },
-        "description": "This lightweight and relatively svelte cold war assault rifle was originally developed for use by the Czechoslovak army, in place of the various licenced Kalashnikov rifles which were then prevalent around eastern Europe.  Baring more than a passing resemblance to the AK-47, this weapon nevertheless features a completely different array of internals and possesses no  interchangeable parts with its Russian counterpart.  Making use of proprietary magazines and a 15.4 inch barrel, the VZ. 58 is regarded by some to be the Kalashnikov’s lesser known superior.  Likely reconstructed from a pre-1986 imported parts kit, or brought back from a 3rd world war zone, this particular weapon features a removable side-folding buttstock and a 'V' suffixed designation, which both mark it as an original airborne or crew issued model."
+        "description": "This lightweight and relatively svelte Cold War assault rifle was originally developed for use by the Czechoslovak army, in place of the various licensed Kalashnikov rifles which were then prevalent around eastern Europe.  Bearing more than a passing resemblance to the AK-47, this weapon nevertheless features a completely different array of internals and possesses no interchangeable parts with its Russian counterpart.  Making use of proprietary magazines and a 15.4 inch barrel, the vz. 58 was regarded by some to be the Kalashnikov’s lesser-known superior.  Likely reconstructed from a pre-1986 imported parts kit, or brought back from a third world war zone, this particular weapon features a removable side-folding buttstock and a 'V' suffixed designation, which both mark it as an original airborne or crew issued model."
       }
     ],
     "to_hit": -1,
@@ -296,13 +296,13 @@
     "looks_like": "ar15",
     "type": "GUN",
     "name": { "str": "vz. 58 tactical rifle" },
-    "description": "Inspired and built primarily  from older Czechoslovakian military combat rifles, this weapon bears an uncanny resemblance to the Kalashnikov despite sharing no components with it, including magazines.  Chambering the Soviet 7.62x39mm cartridge and featuring an American produced folding buttstock, receiver and barrel in order to have complied with US importation laws, the weapon is equipped with a side mounted rail assembly as well as a detachable muzzle brake.  Despite the firearm’s Cold War design being nearly 80 years old, this modern iteration makes for a relatively portable and serviceable cataclysmic problem solver.",
+    "description": "Inspired and built primarily from older Czechoslovak military combat rifles, this weapon bears an uncanny resemblance to the Kalashnikov despite sharing no components with it, including magazines.  Chambering the Soviet 7.62x39mm cartridge and featuring an American produced folding buttstock, receiver, and barrel in order to comply with US importation laws, the weapon is equipped with a side mounted rail assembly as well as a detachable muzzle brake.  Despite the firearm’s Cold War design being nearly 80 years old, this modern iteration makes for a relatively portable and serviceable cataclysmic problem solver.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "vz58ts",
         "name": { "str": "vz. 58 Tactical Sporter" },
-        "description": "A modern semi-automatic clone of the Czechoslovakian produced vz. 58 assault rifle, chambered in the Soviet 7.62x39mm cartridge.  Built off of surplus vz. 58 parts, the rifle makes use of additional American made components such as the receiver, barrel and buttstock to comply with US importation laws.  Featuring an extended 16 inch barrel, an M4 style stock adapter and tube, and an integrated side rail for optics mounting, this Cold War rifle makes for a relatively handy post-apocalyptic companion.",
+        "description": "A modern semi-automatic clone of the Czechoslovak-produced vz. 58 assault rifle, chambered in the Soviet 7.62x39mm cartridge.  Built off of surplus vz. 58 parts, the rifle makes use of additional American made components such as the receiver, barrel, and buttstock to comply with US importation laws.  Featuring an extended 16 inch barrel, an M4 style stock adapter and tube, and an integrated side rail for optics mounting, this Cold War rifle makes for a relatively handy post-apocalyptic companion.",
         "weight": 1
       }
     ],

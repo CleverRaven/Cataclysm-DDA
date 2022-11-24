@@ -385,9 +385,10 @@ void monster::try_upgrade( bool pin_time )
         } else {
             mtype_id new_type;
             if( type->upgrade_multi_range ) {
+                bool ret_default = false;
                 std::vector<MonsterGroupResult> res = MonsterGroupManager::GetResultFromGroup(
-                        type->upgrade_group );
-                if( !res.empty() ) {
+                        type->upgrade_group, nullptr, nullptr, false, &ret_default );
+                if( !res.empty() && !ret_default ) {
                     // Set the type to poly the current monster (preserves inventory)
                     new_type = res.front().name;
                     res.front().pack_size--;
@@ -407,12 +408,21 @@ void monster::try_upgrade( bool pin_time )
                         }
                     }
                 }
-            }
-            if( new_type ) {
+            } else {
                 new_type = MonsterGroupManager::GetRandomMonsterFromGroup( type->upgrade_group );
             }
-            if( new_type ) {
-                poly( new_type );
+            if( !new_type.is_empty() ) {
+                if( new_type ) {
+                    poly( new_type );
+                } else {
+                    // "upgrading" to mon_null
+                    if( type->upgrade_null_despawn ) {
+                        g->remove_zombie( *this );
+                    } else {
+                        die( nullptr );
+                    }
+                    return;
+                }
             }
         }
 
@@ -524,6 +534,10 @@ void monster::refill_udders()
 
 void monster::try_biosignature()
 {
+    if( is_hallucination() ) {
+        return;
+    }
+
     if( !biosignatures ) {
         return;
     }
@@ -967,6 +981,14 @@ std::string monster::extended_description() const
                                  to_turn<int>( biosig_timer.value()  - current_time ),
                                  biosignatures ? "" : _( "<color_red>(no biosignature)</color>" ) ) + "\n";
         }
+
+        if( lifespan_end.has_value() ) {
+            ss += string_format( _( "Lifespan end time: %1$d (turns left %2$d)" ),
+                                 to_turn<int>( lifespan_end.value() ),
+                                 to_turn<int>( lifespan_end.value() - current_time ) );
+        } else {
+            ss += "Lifespan end time: n/a <color_yellow>(indefinite)</color>";
+        }
     }
 
     return replace_colors( ss );
@@ -1378,7 +1400,7 @@ monster_attitude monster::attitude( const Character *u ) const
     }
 
     if( effective_anger <= 0 ) {
-        if( get_hp() != get_hp_max() ) {
+        if( get_hp() <= 0.6 * get_hp_max() ) {
             return MATT_FLEE;
         } else {
             return MATT_IGNORE;
@@ -2452,7 +2474,7 @@ void monster::process_turn()
         }
     }
     // We update electrical fields here since they act every turn.
-    if( has_flag( MF_ELECTRIC_FIELD ) ) {
+    if( has_flag( MF_ELECTRIC_FIELD ) && !is_hallucination() ) {
         if( has_effect( effect_emp ) ) {
             if( calendar::once_every( 10_turns ) ) {
                 sounds::sound( pos(), 5, sounds::sound_t::combat, _( "hummmmm." ), false, "humming", "electric" );
@@ -2474,7 +2496,7 @@ void monster::process_turn()
                 const auto t = here.ter( zap );
                 if( t == ter_t_gas_pump || t == ter_t_gas_pump_a ) {
                     if( one_in( 4 ) ) {
-                        explosion_handler::explosion( pos(), 40, 0.8, true );
+                        explosion_handler::explosion( this, pos(), 40, 0.8, true );
                         add_msg_if_player_sees( zap, m_warning, _( "The %s explodes in a fiery inferno!" ),
                                                 here.tername( zap ) );
                     } else {
@@ -2621,7 +2643,7 @@ void monster::die( Creature *nkiller )
     if( death_drops && !is_hallucination() ) {
         for( const item &it : inv ) {
             if( corpse ) {
-                corpse->put_in( it, item_pocket::pocket_type::CONTAINER );
+                corpse->force_insert_item( it, item_pocket::pocket_type::CONTAINER );
             } else {
                 get_map().add_item_or_charges( pos(), it );
             }
@@ -2631,11 +2653,6 @@ void monster::die( Creature *nkiller )
                 corpse->put_in( it, item_pocket::pocket_type::CORPSE );
             } else {
                 get_map().add_item( pos(), it );
-            }
-        }
-        if( corpse ) {
-            for( item_pocket *pocket : corpse->get_all_contained_pockets() ) {
-                pocket->set_usability( false );
             }
         }
     }
@@ -2783,7 +2800,7 @@ void monster::drop_items_on_death( item *corpse )
 
         // add stuff that could be worn or strapped to the creature
         if( it.is_armor() ) {
-            corpse->put_in( it, item_pocket::pocket_type::CONTAINER );
+            corpse->force_insert_item( it, item_pocket::pocket_type::CONTAINER );
         }
     }
 
@@ -2806,7 +2823,7 @@ void monster::drop_items_on_death( item *corpse )
             if( current_best.second != nullptr ) {
                 current_best.second->insert_item( it );
             } else {
-                corpse->put_in( it, item_pocket::pocket_type::CONTAINER );
+                corpse->force_insert_item( it, item_pocket::pocket_type::CONTAINER );
             }
         }
     }
@@ -3357,7 +3374,10 @@ void monster::hear_sound( const tripoint &source, const int vol, const int dist,
     if( wander_turns < wandf ) {
         return;
     }
-    process_trigger( mon_trigger::SOUND, volume );
+    // only trigger this if the monster is not friendly or the source isn't the player
+    if( friendly == 0 || source != get_player_character().pos() ) {
+        process_trigger( mon_trigger::SOUND, volume );
+    }
     provocative_sound = tmp_provocative;
     if( morale >= 0 && anger >= 10 ) {
         // TODO: Add a proper check for fleeing attitude
@@ -3390,8 +3410,8 @@ void monster::set_horde_attraction( monster_horde_attraction mha )
 bool monster::will_join_horde( int size )
 {
     const monster_horde_attraction mha = get_horde_attraction();
-    if( this->has_flag( MF_IMMOBILE ) ) {
-        return false; //immobile monsters should never join a horde.
+    if( this->has_flag( MF_IMMOBILE ) || this->has_flag( MF_NEVER_WANDER ) ) {
+        return false; //immobile monsters should never join a horde. Same with Never Wander monsters.
     }
     if( mha == MHA_NEVER ) {
         return false;

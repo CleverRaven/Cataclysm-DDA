@@ -302,7 +302,6 @@
       "ELFAEYES",
       "URSINE_EYE",
       "FANGS",
-      "GILLS",
       "SPINES",
       "PLANTSKIN",
       "NAILS",
@@ -448,7 +447,7 @@
     "start_name": "Hospital",
     "forced_traits": [ "FLIMSY2" ],
     "forbidden_traits": [ "TOUGH", "DISRESISTANT" ],
-    "professions": [ "unemployed", "patient" ],
+    "professions": [ "unemployed", "patient", "veteran" ],
     "flags": [ "CHALLENGE", "CITY_START", "LONE_START" ]
   },
   {
@@ -518,7 +517,6 @@
       "ELFAEYES",
       "URSINE_EYE",
       "FANGS",
-      "GILLS",
       "SPINES",
       "PLANTSKIN",
       "NAILS",
@@ -822,7 +820,18 @@
     "description": "After a life time of hard work, you managed to settle down in a posh retirement community.  Safe behind those walls, you would live a peaceful, privileged life, away from all the crazy lunatics outside.  Then, the crazies made it inside anyway, leaving you no choice but to deal with them personally.  Welcome to your golden years.",
     "allowed_locs": [ "sloc_retirement_community" ],
     "start_name": "Retirement Community",
-    "professions": [ "senior" ],
+    "professions": [ "senior", "old_vet" ],
     "flags": [ "CITY_START", "LONE_START" ]
+  },
+  {
+    "type": "scenario",
+    "id": "nuclear_plant_start",
+    "name": "Nuclear Power Plant",
+    "points": 1,
+    "description": "When the Cataclysm happened, you were working in a nuclear power plant.  Your power plant has been shut down.  And your colleagues have become zombies.  Looks like you're on your own…",
+    "start_name": "Nuclear Power Plant",
+    "allowed_locs": [ "nuclear_plant" ],
+    "professions": [ "electrician", "labtech", "medic" ],
+    "flags": [ "CHALLENGE", "LONE_START" ]
   }
 ]

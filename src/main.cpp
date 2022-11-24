@@ -23,7 +23,11 @@
 #else
 #include <csignal>
 #endif
+
+#include <flatbuffers/util.h>
+
 #include "cached_options.h"
+#include "cata_path.h"
 #include "color.h"
 #include "compatibility.h"
 #include "crash.h"
@@ -122,6 +126,10 @@ int start_logger( const char *app_name )
 namespace
 {
 
+#if defined(_WIN32)
+// Used only if AttachConsole() works
+FILE *CONOUT;
+#endif
 void exit_handler( int s )
 {
     const int old_timeout = inp_mngr.get_timeout();
@@ -566,7 +574,15 @@ cli_opts parse_commandline( int argc, const char **argv )
 bool assure_essential_dirs_exist()
 {
     using namespace PATH_INFO;
-    for( const std::string &path : std::vector<std::string> { { config_dir(), savedir(), templatedir(), user_font(), user_sound(), user_gfx() } } ) {
+    std::vector<std::string> essential_paths{
+        config_dir(),
+        savedir(),
+        templatedir(),
+        user_font(),
+        user_sound().get_unrelative_path().u8string(),
+        user_gfx().get_unrelative_path().u8string()
+    };
+    for( const std::string &path : essential_paths ) {
         if( !assure_dir_exist( path ) ) {
             popup( _( "Unable to make directory \"%s\".  Check permissions." ), path );
             return false;
@@ -592,7 +608,21 @@ int main( int argc, const char *argv[] )
     ordered_static_globals();
     init_crash_handlers();
     reset_floating_point_mode();
+    flatbuffers::ClassicLocale::Get();
 
+#if defined(_WIN32) and defined(TILES)
+    const HANDLE std_output { GetStdHandle( STD_OUTPUT_HANDLE ) }, std_error { GetStdHandle( STD_ERROR_HANDLE ) };
+    if( std_output != INVALID_HANDLE_VALUE and std_error != INVALID_HANDLE_VALUE ) {
+        if( AttachConsole( ATTACH_PARENT_PROCESS ) ) {
+            if( std_output == nullptr ) {
+                freopen_s( &CONOUT, "CONOUT$", "w", stdout );
+            }
+            if( std_error == nullptr ) {
+                freopen_s( &CONOUT, "CONOUT$", "w", stderr );
+            }
+        }
+    }
+#endif
 #if defined(__ANDROID__)
     // Start the standard output logging redirector
     start_logger( "cdda" );
@@ -705,6 +735,9 @@ int main( int argc, const char *argv[] )
             DebugLog( D_ERROR, DC_ALL ) << "Error while initializing the interface: " << err.what() << "\n";
             return 1;
         }
+    } else if( cli.check_mods ) {
+        get_options().init();
+        get_options().load();
     }
 
     set_language();
@@ -714,6 +747,7 @@ int main( int argc, const char *argv[] )
     game_ui::init_ui();
 
     g = std::make_unique<game>();
+
     // First load and initialize everything that does not
     // depend on the mods.
     try {
@@ -769,20 +803,14 @@ int main( int argc, const char *argv[] )
         return 0;
     }
 
+    main_menu::queued_world_to_load = std::move( cli.world );
+
     get_help().load();
 
     while( true ) {
-        if( !cli.world.empty() ) {
-            if( !g->load( cli.world ) ) {
-                break;
-            }
-            cli.world.clear(); // ensure quit returns to opening screen
-
-        } else {
-            main_menu menu;
-            if( !menu.opening_screen() ) {
-                break;
-            }
+        main_menu menu;
+        if( !menu.opening_screen() ) {
+            break;
         }
 
         shared_ptr_fast<ui_adaptor> ui = g->create_or_get_main_ui_adaptor();

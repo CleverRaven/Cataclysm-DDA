@@ -319,7 +319,7 @@
       [ "knife_rm42", 1 ],
       [ "kukri", 2 ],
       [ "knife_hunting", 8 ],
-      [ "knife_rambo", 16 ],
+      { "group": "knife_rambo_cont", "prob": 16 },
       [ "throwing_knife", 7 ],
       [ "throwing_axe", 4 ],
       [ "punch_dagger", 12 ],
@@ -539,25 +539,16 @@
       [ "morningstar", 1 ],
       [ "helmet_plate", 1 ],
       [ "huge_crossbow", 2 ],
-      [ "katana", 1 ],
       [ "bokken", 7 ],
-      [ "broadsword", 1 ],
       [ "broadsword_inferior", 20 ],
-      [ "zweihander", 1 ],
       [ "glaive", 1 ],
       [ "halberd", 1 ],
-      [ "cutlass", 1 ],
-      [ "scimitar", 1 ],
-      [ "rapier", 1 ],
-      [ "cavalry_sabre", 1 ],
-      [ "estoc", 1 ],
+      [ "rapier_fake", 1 ],
+      [ "cavalry_sabre_fake", 1 ],
       [ "estoc_inferior", 3 ],
-      [ "wakizashi", 1 ],
       [ "jian_inferior", 30 ],
       [ "scimitar_inferior", 25 ],
-      [ "longsword", 1 ],
       [ "longsword_inferior", 25 ],
-      [ "arming_sword", 1 ],
       [ "arming_sword_inferior", 25 ],
       [ "tanto", 1 ],
       [ "kris", 5 ],
@@ -578,6 +569,7 @@
       { "group": "toy_makerspace_kit", "prob": 1 },
       { "group": "toy_robot_kit", "prob": 1 },
       { "group": "toy_engine_kit", "prob": 1 },
+      { "item": "air_launcher", "prob": 1 },
       [ "radiocontrol", 3 ],
       [ "peephole", 1 ],
       [ "magnifying_glass", 2 ],
@@ -665,7 +657,7 @@
       [ "knife_rm42", 1 ],
       [ "kukri", 2 ],
       [ "knife_hunting", 4 ],
-      [ "knife_rambo", 20 ],
+      { "group": "knife_rambo_cont", "prob": 20 },
       [ "folded_inflatable_boat", 40 ],
       [ "hand_pump", 40 ],
       [ "throwing_knife", 14 ],
@@ -733,7 +725,7 @@
       [ "flyer", 10 ],
       [ "helmet_liner", 20 ],
       [ "jacket_army", 40 ],
-      [ "pur_tablets", 10 ],
+      { "item": "pur_tablets", "container-item": "bottle_plastic_small", "prob": 10, "charges": [ 1, 15 ] },
       [ "knife_trench", 14 ],
       [ "flaregun", 20 ],
       [ "signal_flare", 25 ],
@@ -853,6 +845,7 @@
       { "group": "softdrinks_canned", "prob": 244 },
       { "item": "bbgun", "prob": 30 },
       { "item": "bb", "prob": 30 },
+      { "item": "air_launcher", "prob": 5 },
       { "item": "portable_game", "prob": 60 },
       { "item": "game_watch", "prob": 15 },
       { "item": "deck_of_cards", "prob": 25 },
@@ -1290,10 +1283,16 @@
       { "item": "catfood_dry", "prob": 10, "charges": 24, "container-item": "bag_plastic" },
       { "item": "salt_water", "prob": 10, "container-item": "aquarium_medium" },
       { "item": "water_clean", "prob": 10, "container-item": "aquarium_medium" },
+      { "item": "salt_water", "prob": 10, "container-item": "aquarium_small" },
+      { "item": "water_clean", "prob": 10, "container-item": "aquarium_small" },
+      { "item": "salt_water", "prob": 3, "container-item": "aquarium_large" },
+      { "item": "water_clean", "prob": 3, "container-item": "aquarium_large" },
       [ "birdfood", 15 ],
       [ "can_tuna", 15 ],
       [ "can_chicken", 15 ],
       [ "aquarium_medium", 10 ],
+      [ "aquarium_small", 10 ],
+      [ "aquarium_large", 3 ],
       [ "petpack", 10 ],
       [ "kevlar_harness", 2 ],
       [ "leather_harness_dog", 8 ],
@@ -1890,7 +1889,6 @@
       { "item": "calcium_tablet", "prob": 15, "charges": [ 1, 20 ] },
       { "item": "nyquil", "prob": 5, "charges": [ 1, 5 ] },
       { "item": "disinfectant", "prob": 15, "charges": [ 1, 10 ] },
-      [ "vaccine_shot", 10 ],
       [ "protein_powder", 15 ],
       { "item": "smoxygen_tank", "prob": 20, "charges": [ 0, 12 ] },
       { "item": "elec_hairtrimmer", "prob": 15, "charges": [ 0, 50 ] },
@@ -1955,7 +1953,6 @@
       { "group": "full_1st_aid", "prob": 30 },
       [ "medical_tape", 35 ],
       [ "blood", 5 ],
-      [ "vaccine_shot", 15 ],
       { "item": "anesthetic_kit", "prob": 10, "charges-min": 0 }
     ]
   },
@@ -2047,6 +2044,7 @@
       { "item": "sewing_kit", "prob": 30, "charges-min": 0 },
       { "item": "shed_stick", "prob": 2 },
       { "item": "tailors_kit", "prob": 9, "charges-min": 0 },
+      { "item": "electric_spinwheel", "prob": 9, "charges-min": 0 },
       [ "knitting_needles", 15 ],
       [ "sheet_kevlar_layered", 10 ],
       [ "leather", 10 ],
@@ -2077,6 +2075,76 @@
       { "item": "powered_earmuffs", "prob": 50, "charges": [ 0, 50 ] },
       [ "ear_plugs", 80 ],
       { "item": "powered_earplugs", "prob": 50, "charges": [ 0, 75 ] }
+    ]
+  },
+  {
+    "id": "farm_supply_soil_and_sand",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      { "item": "material_sand", "prob": 50, "charges": 500, "container-item": "bag_canvas" },
+      { "item": "material_soil", "prob": 50, "charges": 500, "container-item": "bag_canvas" }
+    ]
+  },
+  {
+    "id": "farm_supply_rocks",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      { "item": "rock", "prob": 40, "count": [ 1, 10 ] },
+      { "item": "rock_large", "prob": 10, "count": [ 1, 10 ] },
+      { "item": "rock_flaking", "prob": 20, "count": [ 1, 10 ] },
+      { "item": "flint", "prob": 5, "count": [ 1, 10 ] },
+      { "item": "material_shrd_limestone", "prob": 40, "count": [ 1, 10 ] },
+      { "item": "material_limestone", "prob": 40, "count": [ 1, 10 ] }
+    ]
+  },
+  {
+    "id": "farm_supply_wire",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [ { "item": "wire", "prob": 80, "count": [ 20, 50 ] }, { "item": "wire_barbed", "prob": 20, "count": [ 20, 50 ] } ]
+  },
+  {
+    "id": "farm_supply_quicklime_and_saltpetre",
+    "type": "item_group",
+    "items": [ [ "material_quicklime", 85 ], { "item": "chem_saltpetre", "prob": 15, "charges-min": 10, "charges-max": 50 } ]
+  },
+  {
+    "id": "farm_supply_animal_feed",
+    "type": "item_group",
+    "items": [
+      { "item": "cattlefodder", "prob": 50, "charges": 60, "container-item": "bag_canvas" },
+      { "item": "birdfood", "prob": 50, "charges": 60, "container-item": "bag_canvas" }
+    ]
+  },
+  {
+    "id": "farm_supply_riding_gear",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [ { "item": "horse_tack" }, { "item": "saddlebag" } ]
+  },
+  {
+    "id": "farm_supply_floor_surprises",
+    "type": "item_group",
+    "items": [
+      { "group": "camping", "prob": 50 },
+      { "group": "ammo_rifle_common_loose", "prob": 2 },
+      { "group": "ammo_pistol_common_loose", "prob": 2 },
+      { "group": "tools_survival", "prob": 5 },
+      { "group": "clothing_outdoor_shoes", "prob": 7 },
+      { "group": "clothing_outdoor_torso", "prob": 7 },
+      { "group": "clothing_outdoor_pants", "prob": 7 },
+      { "group": "farming_tools", "prob": 5 },
+      { "group": "farming_seeds", "prob": 20 },
+      { "item": "rock", "prob": 5 },
+      { "group": "wallets", "prob": 2 },
+      { "group": "banknotes", "prob": 4 },
+      { "group": "coins", "prob": 4 },
+      { "group": "discount_cards", "prob": 1 },
+      { "item": "spray_can", "prob": 10, "charges": [ 0, 10 ] },
+      { "item": "survnote", "prob": 1 },
+      { "item": "touristmap", "prob": 1 }
     ]
   }
 ]

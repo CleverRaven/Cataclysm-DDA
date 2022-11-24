@@ -10,6 +10,7 @@
 
 #include "catacharset.h"
 #include "compatibility.h"
+#include "path_info.h"
 
 bool assure_dir_exist( const std::string &path );
 bool dir_exist( const std::string &path );
@@ -21,7 +22,26 @@ bool remove_directory( const std::string &path );
 // Rename a file, overriding the target!
 bool rename_file( const std::string &old_path, const std::string &new_path );
 
+std::string abs_path( const std::string &path );
+
 std::string read_entire_file( const std::string &path );
+
+// Overloads of the above that take fs::path directly.
+bool assure_dir_exist( const fs::path &path );
+bool assure_dir_exist( const cata_path &path );
+bool dir_exist( const fs::path &path );
+bool file_exist( const fs::path &path );
+bool file_exist( const cata_path &path );
+// Remove a file, does not remove folders,
+// returns true on success
+bool remove_file( const fs::path &path );
+bool remove_directory( const fs::path &path );
+// Rename a file, overriding the target!
+bool rename_file( const fs::path &old_path, const fs::path &new_path );
+
+fs::path abs_path( const fs::path &path );
+
+std::string read_entire_file( const fs::path &path );
 
 namespace cata_files
 {
@@ -44,6 +64,9 @@ const char *eol();
 std::vector<std::string> get_files_from_path( const std::string &pattern,
         const std::string &root_path = "", bool recursive_search = false,
         bool match_extension = false );
+std::vector<cata_path> get_files_from_path( const std::string &pattern,
+        const cata_path &root_path, bool recursive_search = false,
+        bool match_extension = false );
 
 //--------------------------------------------------------------------------------------------------
 /**
@@ -58,7 +81,14 @@ std::vector<std::string> get_directories_with( const std::vector<std::string> &p
 std::vector<std::string> get_directories_with( const std::string &pattern,
         const std::string &root_path = "", bool recursive_search = false );
 
+std::vector<cata_path> get_directories_with( const std::vector<std::string> &patterns,
+        const cata_path &root_path = {}, bool recursive_search = false );
+
+std::vector<cata_path> get_directories_with( const std::string &pattern,
+        const cata_path &root_path = {}, bool recursive_search = false );
+
 bool copy_file( const std::string &source_path, const std::string &dest_path );
+bool copy_file( const cata_path &source_path, const cata_path &dest_path );
 
 /**
  *  Replace invalid characters in a string with a default character; can be used to ensure that a file name is compliant with most file systems.
@@ -95,9 +125,13 @@ class basic_ifstream : public std::basic_ifstream<charT, traits>
         basic_ifstream( const basic_ifstream & ) = delete;
         const basic_ifstream &operator=( const basic_ifstream & ) = delete;
         // NOLINTNEXTLINE(performance-noexcept-move-constructor)
-        basic_ifstream( basic_ifstream && ) noexcept( basic_ifstream_is_noexcept ) = default;
+        basic_ifstream( basic_ifstream &&rhs ) noexcept( basic_ifstream_is_noexcept ) :
+            std::basic_ifstream<charT, traits>( std::move( rhs ) ) {};
         // NOLINTNEXTLINE(performance-noexcept-move-constructor)
-        basic_ifstream &operator=( basic_ifstream && ) noexcept( basic_ifstream_is_noexcept ) = default;
+        basic_ifstream &operator=( basic_ifstream &&rhs ) noexcept( basic_ifstream_is_noexcept ) {
+            std::basic_ifstream<charT, traits>::operator=( std::move( rhs ) );
+            return *this;
+        };
         ~basic_ifstream() override = default;
 };
 
@@ -115,9 +149,13 @@ class basic_ofstream : public std::basic_ofstream<charT, traits>
         basic_ofstream( const basic_ofstream & ) = delete;
         const basic_ofstream &operator=( const basic_ofstream & ) = delete;
         // NOLINTNEXTLINE(performance-noexcept-move-constructor)
-        basic_ofstream( basic_ofstream && ) noexcept( basic_ofstream_is_noexcept ) = default;
+        basic_ofstream( basic_ofstream &&rhs ) noexcept( basic_ofstream_is_noexcept ) :
+            std::basic_ofstream<charT, traits>( std::move( rhs ) ) {};
         // NOLINTNEXTLINE(performance-noexcept-move-constructor)
-        basic_ofstream &operator=( basic_ofstream && ) noexcept( basic_ofstream_is_noexcept ) = default;
+        basic_ofstream &operator=( basic_ofstream &&rhs ) noexcept( basic_ofstream_is_noexcept ) {
+            std::basic_ofstream<charT, traits>::operator=( std::move( rhs ) );
+            return *this;
+        };
         ~basic_ofstream() override = default;
 };
 

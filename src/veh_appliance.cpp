@@ -13,6 +13,7 @@
 #include "units.h"
 #include "veh_appliance.h"
 #include "veh_type.h"
+#include "veh_utils.h"
 #include "vehicle.h"
 #include "vpart_range.h"
 
@@ -59,6 +60,8 @@ void place_appliance( const tripoint &p, const vpart_id &vpart, const cata::opti
         return;
     }
 
+    veh->add_tag( flag_APPLIANCE );
+
     if( base ) {
         item copied = *base;
         veh->install_part( point_zero, vpart, std::move( copied ) );
@@ -66,8 +69,6 @@ void place_appliance( const tripoint &p, const vpart_id &vpart, const cata::opti
         veh->install_part( point_zero, vpart );
     }
     veh->name = vpart->name();
-
-    veh->add_tag( flag_APPLIANCE );
 
     // Update the vehicle cache immediately,
     // or the appliance will be invisible for the first couple of turns.
@@ -120,11 +121,26 @@ veh_app_interact::veh_app_interact( vehicle &veh, const point &p )
     ctxt.register_action( "SIPHON" );
     ctxt.register_action( "RENAME" );
     ctxt.register_action( "REMOVE" );
+    ctxt.register_action( "UNPLUG" );
+}
+
+// @returns true if a battery part exists on any vehicle connected to veh
+static bool has_battery_in_grid( vehicle *veh )
+{
+    const std::map<vehicle *, bool> veh_map = vehicle::enumerate_vehicles( { veh } );
+    return std::any_of( veh_map.begin(), veh_map.end(),
+    []( const std::pair<vehicle *, bool> &p ) {
+        return !p.first->batteries.empty();
+    } );
 }
 
 void veh_app_interact::init_ui_windows()
 {
     int height_info = veh->get_printable_fuel_types().size() + 2;
+
+    if( !has_battery_in_grid( veh ) ) {
+        height_info++;
+    }
     if( !veh->batteries.empty() ) {
         height_info++;
     }
@@ -204,9 +220,14 @@ void veh_app_interact::draw_info()
         wprintz( w_info, rcol, rstr );
     };
 
+    if( !has_battery_in_grid( veh ) ) {
+        mvwprintz( w_info, point( 0, row ), c_light_red, _( "Appliance has no connection to a battery." ) );
+        row++;
+    }
+
     // Battery power output
-    int charge_rate = veh->net_battery_charge_rate_w();
-    print_charge( _( "Battery power output: " ), charge_rate, row );
+    int charge_rate = veh->net_battery_charge_rate_w( true, true );
+    print_charge( _( "Grid battery power flow: " ), charge_rate, row );
     row++;
 
     // Reactor power output
@@ -247,7 +268,7 @@ void veh_app_interact::draw_info()
     // Other power output
     if( !veh->accessories.empty() ) {
         int rate = veh->total_accessory_epower_w();
-        print_charge( _( "Total power consumption: " ), rate, row );
+        print_charge( _( "Appliance power consumption: " ), rate, row );
         row++;
     }
 
@@ -274,6 +295,14 @@ bool veh_app_interact::can_siphon()
         }
     }
     return false;
+}
+
+bool veh_app_interact::can_unplug()
+{
+    vehicle_part_range vpr = veh->get_all_parts();
+    return std::any_of( vpr.begin(), vpr.end(), []( const vpart_reference & ref ) {
+        return ref.vehicle().part_flag( static_cast<int>( ref.part_index() ), "POWER_TRANSFER" );
+    } );
 }
 
 // Helper function for selecting a part in the parts list.
@@ -449,6 +478,34 @@ void veh_app_interact::remove()
     }
 }
 
+void veh_app_interact::plug()
+{
+    const int part = veh->part_at( a_point );
+    const tripoint pos = veh->global_part_pos3( part );
+    veh->plug_in( get_map().getabs( pos ) );
+}
+
+void veh_app_interact::unplug()
+{
+    veh->shed_loose_parts();
+    int const part = veh->part_at( a_point );
+    vehicle_part &vp = veh->part( part >= 0 ? part : 0 );
+    act = player_activity( ACT_VEHICLE, 1, static_cast<int>( 'u' ) );
+    act.str_values.push_back( vp.info().get_id().str() );
+    const point q = veh->coord_translate( vp.mount );
+    map &here = get_map();
+    for( const tripoint &p : veh->get_points( true ) ) {
+        act.coord_set.insert( here.getabs( p ) );
+    }
+    act.values.push_back( here.getabs( veh->global_pos3() ).x + q.x );
+    act.values.push_back( here.getabs( veh->global_pos3() ).y + q.y );
+    act.values.push_back( a_point.x );
+    act.values.push_back( a_point.y );
+    act.values.push_back( -a_point.x );
+    act.values.push_back( -a_point.y );
+    act.values.push_back( veh->index_of_part( &vp ) );
+}
+
 void veh_app_interact::populate_app_actions()
 {
     const std::string ctxt_letters = ctxt.get_available_single_char_hotkeys();
@@ -480,14 +537,29 @@ void veh_app_interact::populate_app_actions()
     } );
     imenu.addentry( -1, true, ctxt.keys_bound_to( "REMOVE" ).front(),
                     ctxt.get_action_name( "REMOVE" ) );
+    // Plug
+    app_actions.emplace_back( [this]() {
+        plug();
+    } );
+    imenu.addentry( -1, true, ctxt.keys_bound_to( "PLUG" ).front(),
+                    ctxt.get_action_name( "PLUG" ) );
+
+    // Unplug
+    app_actions.emplace_back( [this]() {
+        unplug();
+    } );
+    imenu.addentry( -1, can_unplug(), ctxt.keys_bound_to( "UNPLUG" ).front(),
+                    ctxt.get_action_name( "UNPLUG" ) );
 
     /*************** Get part-specific actions ***************/
-    std::vector<uilist_entry> tmp_opts;
-    std::vector<std::function<void()>> tmp_acts;
-    veh->set_electronics_menu_options( tmp_opts, tmp_acts );
-    for( size_t i = 0; i < tmp_opts.size() && i < ctxt_letters.size(); i++ ) {
-        imenu.addentry( -1, tmp_opts[i].enabled, ctxt_letters[i], tmp_opts[i].txt );
-        app_actions.emplace_back( tmp_acts[i] );
+    veh_menu menu( veh, "IF YOU SEE THIS IT IS A BUG" );
+    veh->build_interact_menu( menu, veh->mount_to_tripoint( a_point ), false );
+    const std::vector<veh_menu_item> items = menu.get_items();
+    for( size_t i = 0; i < items.size(); i++ ) {
+        const veh_menu_item &it = items[i];
+        const char hotkey = i < ctxt_letters.size() ? ctxt_letters[i] : 0;
+        imenu.addentry( -1, it._enabled, hotkey, it._text );
+        app_actions.emplace_back( it._on_submit );
     }
     imenu.setup();
 }
@@ -521,10 +593,15 @@ void veh_app_interact::app_loop()
             populate_app_actions();
             repop_actions = false;
         }
-        shared_ptr_fast<ui_adaptor> current_ui = create_or_get_ui_adaptor();
-        ui_manager::redraw();
-        shared_ptr_fast<ui_adaptor> input_ui = imenu.create_or_get_ui_adaptor();
-        imenu.query();
+
+        // scope this tighter so that this ui is hidden when app_actions[ret]() triggers
+        {
+            shared_ptr_fast<ui_adaptor> current_ui = create_or_get_ui_adaptor();
+            ui_manager::redraw();
+            shared_ptr_fast<ui_adaptor> input_ui = imenu.create_or_get_ui_adaptor();
+            imenu.query();
+        }
+
         int ret = imenu.ret;
         if( ret < 0 || static_cast<size_t>( ret ) >= imenu.entries.size() ) {
             done = true;

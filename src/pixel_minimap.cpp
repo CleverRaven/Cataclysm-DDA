@@ -214,8 +214,10 @@ pixel_minimap::~pixel_minimap() = default;
 
 void pixel_minimap::set_type( pixel_minimap_type type )
 {
-    this->type = type;
-    reset();
+    if( this->type != type ) {
+        this->type = type;
+        reset();
+    }
 }
 
 void pixel_minimap::set_settings( const pixel_minimap_settings &settings )
@@ -319,7 +321,7 @@ void pixel_minimap::update_cache_at( const tripoint &sm_pos )
 
             if( lighting == lit_level::BLANK || lighting == lit_level::DARK ) {
                 // TODO: Map memory?
-                color = { 0x00, 0x00, 0x00, 0xFF };
+                color = { Uint8( pixel_minimap_r ), Uint8( pixel_minimap_g ), Uint8( pixel_minimap_b ), Uint8( pixel_minimap_a ) };
             } else {
                 color = get_map_color_at( p );
 

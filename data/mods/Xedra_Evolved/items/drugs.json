@@ -67,5 +67,28 @@
     "container": "wrapper_wyld",
     "flags": [ "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "use_action": { "type": "consume_drug", "activation_message": "You take the %s.", "vitamins": [ [ "underhill_essence", 44, 122 ] ] }
+  },
+  {
+    "id": "blood_treatment",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str": "questionable blood treatment" },
+    "description": "This homemade blood treatment .",
+    "weight": "12 g",
+    "volume": "10ml",
+    "price": 5000,
+    "phase": "liquid",
+    "price_postapoc": 2000,
+    "material": [ "hflesh" ],
+    "charges": 4,
+    "stack_size": 4,
+    "symbol": "!",
+    "color": "magenta",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "You inject the %s in hopes of ending your thirst for blood.",
+      "effect_on_conditions": [ "EOC_CONSUMED_BLOOD_TREATMENT" ]
+    },
+    "flags": [ "NPC_SAFE", "TRADER_AVOID" ]
   }
 ]

@@ -185,7 +185,7 @@
     "relic_data": {
       "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "CARRY_WEIGHT", "add": 20000 } ] } ]
     },
-    "power_draw": 1000,
+    "power_draw": "1 J",
     "revert_to": "exo_carry",
     "use_action": {
       "ammo_scale": 0,
@@ -232,7 +232,7 @@
     "relic_data": {
       "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "CARRY_WEIGHT", "add": 10000 } ] } ]
     },
-    "power_draw": 500,
+    "power_draw": "500 mJ",
     "revert_to": "exo_small_carry",
     "use_action": {
       "ammo_scale": 0,
@@ -285,7 +285,7 @@
     "copy-from": "exo_flashlight",
     "type": "TOOL",
     "name": { "str": "mounted lamp (low)", "str_pl": "mounted lamps (low)" },
-    "power_draw": 1000,
+    "power_draw": "1 J",
     "revert_to": "exo_flashlight",
     "use_action": {
       "ammo_scale": 0,
@@ -301,7 +301,7 @@
     "copy-from": "exo_flashlight",
     "type": "TOOL",
     "name": { "str": "mounted lamp (high)", "str_pl": "mounted lamps (high)" },
-    "power_draw": 2000,
+    "power_draw": "2 J",
     "revert_to": "exo_flashlight",
     "use_action": {
       "ammo_scale": 0,
@@ -343,7 +343,7 @@
     "copy-from": "exo_recoil",
     "type": "TOOL",
     "name": { "str": "recoil mitigation system (on)", "str_pl": "recoil mitigation systems (on)" },
-    "power_draw": 2000,
+    "power_draw": "2 J",
     "revert_to": "exo_recoil",
     "use_action": {
       "ammo_scale": 0,
@@ -524,7 +524,7 @@
     "material": [ "vacuum_carbide", "qt_steel" ],
     "symbol": "(",
     "color": "light_gray",
-    "power_draw": 5000,
+    "power_draw": "5 J",
     "revert_to": "exo_forcefield",
     "flags": [ "CANT_WEAR", "ONLY_ONE", "EXO_MEDIUM_GADGET", "USE_UPS" ],
     "relic_data": {
@@ -560,7 +560,7 @@
     "material": [ "vacuum_carbide", "qt_steel" ],
     "symbol": "(",
     "color": "light_gray",
-    "power_draw": 5000,
+    "power_draw": "5 J",
     "revert_to": "exo_forcefield",
     "flags": [ "CANT_WEAR", "ONLY_ONE", "EXO_MEDIUM_GADGET", "USE_UPS" ],
     "relic_data": {
@@ -684,7 +684,7 @@
     "type": "TOOL",
     "copy-from": "exo_AR_module",
     "name": { "str": "exosuit AR research module (on)", "str_pl": "exosuit AR research modules (on)" },
-    "power_draw": 250,
+    "power_draw": "250 mJ",
     "revert_to": "exo_AR_module",
     "use_action": {
       "ammo_scale": 0,

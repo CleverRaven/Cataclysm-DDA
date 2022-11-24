@@ -14,8 +14,9 @@
     "symbol": "!",
     "color": "white",
     "ammo": [ "battery" ],
+    "flags": [ "WATER_BREAK", "ELECTRONIC" ],
     "charges_per_use": 1,
-    "power_draw": 7500,
+    "power_draw": "7500 mJ",
     "use_action": [ "ECIG" ],
     "pocket_data": [
       {

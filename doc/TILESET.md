@@ -1,5 +1,14 @@
 # TILESETS
 
+*Content*
+
+- [Terminology](#terminology)
+- [JSON Schema](#json-schema)
+- [`compose.py`](#composepy)
+- [pyvips](#pyvips)
+- [Including tilesets with the distribution](#including-tilesets-with-the-distribution)
+- [Legacy tilesets](#legacy-tilesets)
+
 ## Terminology
 
 ##### Tileset
@@ -41,7 +50,7 @@ Describes tilesheet directories for `compose.py`
 
 ## JSON Schema
 
-### tile entry
+### Tile entry
 ```C++
 {                                           // The simplest version
     "id": "mon_cat",                        // a game entity ID
@@ -114,6 +123,222 @@ You can add `"rotates": true` to allow sprites to be rotated by the game automat
 
 `"multitile": true` signifies that there is an `additional_tiles` object (redundant? [probably](https://github.com/CleverRaven/Cataclysm-DDA/issues/46253)) with one or more objects that define sprites for game entities associated with this tile, such as broken versions of an item, or wall connections.  Each object in the array has an `id` field, as above, and an `fg` field, which can be a single [root name](#root-name), an array of root names, or an array of objects as above. `"rotates": true` is implied with it and can be omitted.
 
+#### Connecting terrain and furniture - `connect_groups` and `connects_to`
+
+For terrain or furniture that is intended to auto-connect using multitiles, set the properties `connect_groups` and `connects_to` in the object definition (not in the tileset!) to an appropriate group:
+
+```json
+{
+    "type": "terrain",
+    "id": "t_brick_wall",
+    ...
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    ...
+}
+```
+
+For both properties, arrays of multiple groups are possible.
+
+`connect_groups` adds the type to one or more groups, while `connects_to` makes the type connect to the given group(s).
+
+Connections are only set up from types that have a `connects_to` group to types that have the same group in `connect_groups`.
+
+For details, see JSON_INFO.md, sections [`connect_groups`](./JSON_INFO.md#connect_groups) and [`connects_to`](./JSON_INFO.md#connects_to).
+
+Wall work out of the box without modifying terrain definitions, as the required group `WALL` is implied by the flags `WALL` and `CONNECT_WITH_WALL` for `connect_groups` as well as `connects_to` (i.e. symmetric relation).
+
+For available connect groups, see [JSON_INFO.md, section Connection groups](./JSON_INFO.md#connection-groups).
+
+For the full multitile, the 16 sprite variants of this template are required:
+
+<img width="264" src="./img/autotile_ortho_template.svg" />
+
+In JSON, the multitile would be defined like this:
+
+```json
+{
+    ...
+    "multitile": true,
+    "additional_tiles": [
+        {
+            "id": "center",
+            "fg": "t_wall_w_center"
+        },
+        {
+            "id": "corner",
+            "fg": [
+                "t_wall_w_corner_nw", "t_wall_w_corner_sw",
+                "t_wall_w_corner_se", "t_wall_w_corner_ne"
+            ]
+        },
+        {
+            "id": "t_connection",
+            "fg": [
+                "t_wall_w_t_connection_n", "t_wall_w_t_connection_w",
+                "t_wall_w_t_connection_s", "t_wall_w_t_connection_e"
+            ]
+        },
+        {
+            "id": "edge",
+            "fg": [ "t_wall_w_edge_ns", "t_wall_w_edge_ew" ]
+        },
+        {
+            "id": "end_piece",
+            "fg": [
+                "t_wall_w_end_piece_n", "t_wall_w_end_piece_w",
+                "t_wall_w_end_piece_s", "t_wall_w_end_piece_e"
+            ]
+        },
+        {
+            "id": "unconnected",
+            "fg": [
+                "t_wall_w_unconnected", "t_wall_w_unconnected"
+            ]
+        }
+    ]
+}
+```
+
+#### Auto-rotating terrain and furniture - `rotates_to`
+
+Terrain and furniture can auto-rotate depending on other surrounding terrain or furniture using `rotates_to`.
+For details, see JSON_INFO.md, sections [`connect_groups`](./JSON_INFO.md#connect_groups) and [`rotates_to`](./JSON_INFO.md#rotates_to).
+Usage examples for terrain are doors and windows that look differently, seen from inside and outside (e.g. curtain).
+An example for furniture are street lights that orient towards the pavement.
+
+The mechanism works like to `connects_to`, and can be combined with it.
+It also makes use of the same [Connection group](./JSON_INFO.md#connection-groups), given by property `connect_groups`.
+Currently, however, auto-rotation is implemented only for `edge` and `end_piece` tiles (doors, windows, furniture) and `unconnected` tiles (e.g. street lights).
+
+For the active/rotating type, `rotates_to` specifies a [Connection group](./JSON_INFO.md#connection-groups) the terrain should rotate towards (or rather, depend on).
+For the passive/target type, `connect_groups` is used to add it to a connection group.
+
+Terrain can only use terrain to rotate towards, while furniture can use both, terrain and furniture.
+
+Presumably, either `edge` and `end_piece`, or `unconnected` will be used for a certain type, but rarely both at the same time. Therefore we give an example for windows using `edge` and `end_piece`, and for street lights using `unconnected`.
+
+##### Windows and doors
+
+Windows and doors (and probably other types) can render differently, depending on where inside and outside is.
+These elements are normally only represented by `edge` in multitile terms. In case of a wall next to the window not being visible, it will be `end_piece`.
+For each of the two basic `edge` and `end_piece` directions (north-south, east-west), 2 or 4 sprite variants are required. Further, one `unconnected` variant is required as fallback.
+
+<img width="200" src="./img/autotile_edge_rotation.svg" />
+
+*(Green stands for `rotates_to` present, e.g. inside)*
+
+The full multitile would be defined like this:
+
+```json
+{
+  "id": [ "t_window", "t_window_domestic" ],
+  "fg": "w_undefined",
+  "multitile": true,
+  "additional_tiles": [
+    {
+      "id": "edge",
+      "fg": [
+        "w_NS_W", "w_EW_S",
+        "w_NS_E", "w_EW_N",
+        "w_NS_BOTH", "w_EW_BOTH",
+        "w_NS_NONE", "w_EW_NONE"
+      ]
+    },
+    {
+      "id": "end_piece",
+      "fg": [
+        "w_NS_W", "w_EW_S",
+        "w_NS_E", "w_EW_N",
+        "w_NS_BOTH", "w_EW_BOTH",
+        "w_NS_NONE", "w_EW_NONE"
+      ]
+    },
+    {
+      "id": "unconnected",
+      "fg": [
+        "w_undefined",
+        "w_undefined"
+      ]
+    }
+  ]
+}
+```
+
+> Note that the same sprites are used here for `edge` and `end_piece`.
+
+The order of sprites ensures that the multitile also works with only the first 4 instead of all 8 sprites. It also makes it compatible with tilesets that don't use the `rotates_to` feature.
+
+Doors and windows work out of the box without modifying terrain definitions, as the required group `INDOORFLOOR` is implied by the flags `WINDOW`, `DOOR` (active) and `INDOORS` (target/passive).
+
+##### Unconnected `rotates_to`
+
+For unconnected tiles, `rotates_to` requires either 4 or 16 sprites.
+To create these sprites, the normal multitile template can be used with `slice_multitile.py`.
+The generated JSON needs to be re-arranged like this (names as generated by the script):
+
+```json
+{
+  "id": "f_street_light",
+  "fg": "f_street_light_unconnected",
+  "multitile": true,
+  "additional_tiles": [
+    {
+      "id": "unconnected",
+      "fg": [
+        "f_street_light_end_piece_n",
+        "f_street_light_end_piece_e",
+        "f_street_light_end_piece_s",
+        "f_street_light_end_piece_w",
+        "f_street_light_corner_ne",
+        "f_street_light_corner_se",
+        "f_street_light_corner_sw",
+        "f_street_light_corner_nw",
+        "f_street_light_t_connection_n",
+        "f_street_light_t_connection_e",
+        "f_street_light_t_connection_s",
+        "f_street_light_t_connection_w",
+        "f_street_light_center",
+        "f_street_light_edge_ew",
+        "f_street_light_edge_ns",
+        "f_street_light_unconnected"
+      ]
+    }
+  ]
+}
+```
+
+A minimal version using only the 4 cardinal directions can be achieved with only 4 sprites:
+
+```json
+{
+  ...
+  "additional_tiles": [
+    {
+      "id": "unconnected",
+      "fg": [
+        "f_street_light_end_piece_n",
+        "f_street_light_end_piece_e",
+        "f_street_light_end_piece_s",
+        "f_street_light_end_piece_w"
+      ]
+    }
+  ]
+}
+```
+
+> Note: When drawing using the template, keep in mind that neighbours to rotate towards are where connections are.
+> The directions at the end of each generated file name are ***not*** the directions to rotate to!
+> Rather, they are the opposite.
+
+##### Full `rotates_to` template
+
+For terrain and furniture that connects as well as rotates, `slice_multitile.py` can be used on a 5x5 autotile template like this:
+
+<img width="352" src="./img/autotile_full_rotation.svg" />
+
+As for normal autotiles, the script also generates the requires JSON file. See there for the order of rotated elements.
+
 #### Multiple tile entries in the same file
 
 Each JSON file can have either a single object or an array of one or more objects:
@@ -125,13 +350,52 @@ Each JSON file can have either a single object or an array of one or more object
 ]
 ```
 
+#### Graffitis
+
+For graffitis, rotation can be used to distinguish between wall and floor drawings:
+
+```json
+{
+  "id": "graffiti",
+  "fg": [ "graffiti_wall", "graffiti_floor" ],
+}
+```
+
+Weighted variations are also possible, and can be combined with rotation:
+
+```json
+{
+  "id": "graffiti",
+  "fg": [ 
+    { "weight": 1, "sprite": [ "graffiti_01_wall", "graffiti_01_floor" ] },
+    { "weight": 1, "sprite": [ "graffiti_02_wall", "graffiti_02_floor" ] },
+  ],
+}
+```
+
+Variant selection is based on the graffiti's text, so the same text will always result in the same variant shown.
+
+##### Graffitis for specific texts
+
+It is possible to create graffitis for specifix texts.
+
+The game looks up graffiti sprites by the pattern `graffiti_THE_GRAFFITI_TEXT`. If no such sprite is found, `graffiti` is used.
+
+To create the sprite id, the graffiti's text is:
+* truncated to 32 characters
+* converted to capital letters
+* all punctuation is removed
+* spaces are replaced by underscores
+
+So, e.g. all these texts would result in lookup for `graffiti_NO_FUTURE`: "no future", "No Future!!!", "no_future".
+
 ### `tile_info.json`
 ```c++
 [
   {                         // default sprite size
     "width": 32,
     "height": 32,
-    "pixelscale": 1
+    "pixelscale": 1         //  Optional. Sets a multiplier for resizing a tileset. Defaults to 1.
   }, {
     "tiles.png": {}         // Each tilesheet directory must have a corresponding object
   }, {                      // with a single key, which will become the tilesheet output filename.
@@ -142,6 +406,7 @@ Each JSON file can have either a single object or an array of one or more object
       "sprite_height": 80,
       "sprite_offset_x": -16,
       "sprite_offset_y": -48,
+      "pixelscale": 2,      // Optional. Sets a multiplier for resizing tiles. Multiplied/on top of by tileset pixelscale. Defaults to 1.
       "sprites_across": 4   // Change the sheet width, default is 16. Reducing empty space in the end helps a bit with CDDA memory consumption
     }
   }, {
@@ -184,7 +449,9 @@ An optional file called layering.json can be provided. this file defines layerin
       {
         "item": "laptop",
         "sprite": [{"id": "desk_laptop", "weight": 1}],
-        "layer": 90
+        "layer": 90,
+        "offset_x": 16,
+        "offset_y": -48
       },
       {
         "item": "pen",
@@ -195,7 +462,9 @@ An optional file called layering.json can be provided. this file defines layerin
     "field_variants": [
       {
         "field": "fd_fire",
-        "sprite": [{"id": "desk_fd_fire", "weight": 1}]
+        "sprite": [{"id": "desk_fd_fire", "weight": 1}],
+        "offset_x": 16,
+        "offset_y": -48
       }
     ]
   }
@@ -217,6 +486,8 @@ This entry sets it so that the f_desk furniture if it contains either a pen or a
 
 `"sprite": [{"id": "desk_pen_1", "weight": 2}, {"id": "desk_pen_2", "weight": 2}]` an array of the possible sprites that can display. For items multiple sprites can be provided with specific weights and will be selected at random.
 
+`"offset_x": 16`, `"offset_y": -48` optional sprite offset.
+
 ##### Fields
 
 `"field_variants":` the definitions for what fields will have a variant sprite.
@@ -225,7 +496,7 @@ This entry sets it so that the f_desk furniture if it contains either a pen or a
 
 `"sprite": [{"id": "desk_fd_fire", "weight": 1}]` A field can have at most one sprite.
 
-
+`"offset_x": 16`, `"offset_y": -48` optional sprite offset.
 
 ## `compose.py`
 

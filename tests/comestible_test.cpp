@@ -33,7 +33,7 @@ static const itype_id itype_marloss_seed( "marloss_seed" );
 static const recipe_id recipe_veggy_wild_cooked( "veggy_wild_cooked" );
 
 static const vitamin_id vitamin_mutagen( "mutagen" );
-static const vitamin_id vitamin_mutagen_apha( "mutagen_apha" );
+static const vitamin_id vitamin_mutagen_alpha( "mutagen_alpha" );
 static const vitamin_id vitamin_mutagen_batrachian( "mutagen_batrachian" );
 static const vitamin_id vitamin_mutagen_beast( "mutagen_beast" );
 static const vitamin_id vitamin_mutagen_bird( "mutagen_bird" );
@@ -58,8 +58,9 @@ static const vitamin_id vitamin_mutagen_slime( "mutagen_slime" );
 static const vitamin_id vitamin_mutagen_spider( "mutagen_spider" );
 static const vitamin_id vitamin_mutagen_troglobite( "mutagen_troglobite" );
 static const vitamin_id vitamin_mutagen_ursine( "mutagen_ursine" );
+static const vitamin_id vitamin_mutagenic_slurry( "mutagenic_slurry" );
 
-static const std::vector<vitamin_id> mutagen_vit_list{ vitamin_mutagen, vitamin_mutagen_apha, vitamin_mutagen_batrachian, vitamin_mutagen_beast, vitamin_mutagen_bird, vitamin_mutagen_cattle, vitamin_mutagen_cephalopod, vitamin_mutagen_chimera, vitamin_mutagen_elfa, vitamin_mutagen_feline, vitamin_mutagen_fish, vitamin_mutagen_gastropod, vitamin_mutagen_human, vitamin_mutagen_insect, vitamin_mutagen_lizard, vitamin_mutagen_lupine, vitamin_mutagen_medical, vitamin_mutagen_mouse, vitamin_mutagen_plant, vitamin_mutagen_rabbit, vitamin_mutagen_raptor, vitamin_mutagen_rat, vitamin_mutagen_slime, vitamin_mutagen_spider, vitamin_mutagen_troglobite, vitamin_mutagen_ursine };
+static const std::vector<vitamin_id> mutagen_vit_list{ vitamin_mutagen, vitamin_mutagen_alpha, vitamin_mutagen_batrachian, vitamin_mutagen_beast, vitamin_mutagen_bird, vitamin_mutagen_cattle, vitamin_mutagen_cephalopod, vitamin_mutagen_chimera, vitamin_mutagen_elfa, vitamin_mutagen_feline, vitamin_mutagen_fish, vitamin_mutagen_gastropod, vitamin_mutagen_human, vitamin_mutagen_insect, vitamin_mutagen_lizard, vitamin_mutagen_lupine, vitamin_mutagen_medical, vitamin_mutagen_mouse, vitamin_mutagen_plant, vitamin_mutagen_rabbit, vitamin_mutagen_raptor, vitamin_mutagen_rat, vitamin_mutagen_slime, vitamin_mutagen_spider, vitamin_mutagen_troglobite, vitamin_mutagen_ursine, vitamin_mutagenic_slurry };
 
 static const std::vector<itype_id> marloss_food{ itype_marloss_berry, itype_marloss_gel, itype_marloss_seed };
 
@@ -315,7 +316,7 @@ TEST_CASE( "food satiety bar", "[character][food][satiety]" )
     // NOLINTNEXTLINE(cata-text-style): verbatim ellipses necessary for validation
     CHECK( satiety_bar( 1 ) == "<color_c_red>:</color>...." );
     // NOLINTNEXTLINE(cata-text-style): verbatim ellipses necessary for validation
-    CHECK( satiety_bar( 50 ) == "<color_c_red>\\</color>...." );
+    CHECK( satiety_bar( 50 ) == "<color_c_light_red>\\</color>...." );
     // NOLINTNEXTLINE(cata-text-style): verbatim ellipses necessary for validation
     CHECK( satiety_bar( 100 ) == "<color_c_light_red>|</color>...." );
     // NOLINTNEXTLINE(cata-text-style): verbatim ellipses necessary for validation
@@ -328,8 +329,8 @@ TEST_CASE( "food satiety bar", "[character][food][satiety]" )
     CHECK( satiety_bar( 700 ) == "<color_c_light_green>|||</color>.." );
     CHECK( satiety_bar( 800 ) == "<color_c_light_green>|||\\</color>." );
     CHECK( satiety_bar( 900 ) == "<color_c_light_green>|||\\</color>." );
-    CHECK( satiety_bar( 1000 ) == "<color_c_green>||||</color>." );
-    CHECK( satiety_bar( 1100 ) == "<color_c_green>||||</color>." );
+    CHECK( satiety_bar( 1000 ) == "<color_c_light_green>||||</color>." );
+    CHECK( satiety_bar( 1100 ) == "<color_c_light_green>||||</color>." );
     CHECK( satiety_bar( 1200 ) == "<color_c_green>||||</color>." );
     CHECK( satiety_bar( 1300 ) == "<color_c_green>||||\\</color>" );
     CHECK( satiety_bar( 1400 ) == "<color_c_green>||||\\</color>" );

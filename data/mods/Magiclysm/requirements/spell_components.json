@@ -50,6 +50,11 @@
     ]
   },
   {
+    "id": "spell_components_healing_herb",
+    "type": "requirement",
+    "components": [ [ [ "horn_moss_capsule", 1 ] ] ]
+  },
+  {
     "id": "spell_components_impactsling",
     "type": "requirement",
     "//": "Sling for the Impact Sling spell",
@@ -74,10 +79,9 @@
     "components": [ [ [ "coal_lump", 30 ], [ "lamp_oil", 5 ] ] ]
   },
   {
-    "id": "spell_components_freezing_touch",
+    "id": "spell_components_reactive_armor",
     "type": "requirement",
-    "//": "Empower your chilling touch spell with the power of ice cream!",
-    "components": [ [ [ "icecream_choc", 1 ], [ "icecream", 1 ], [ "icecream_fruit", 1 ], [ "icecream_candy", 1 ] ] ]
+    "components": [ [ [ "aura_stoneskin", 1 ] ] ]
   },
   {
     "id": "spell_components_potion_starter",
@@ -87,12 +91,12 @@
   {
     "id": "spell_components_manabomb",
     "type": "requirement",
-    "components": [ [ [ "potion_starter", 3 ] ], [ [ "rune_technomancer", 1 ] ] ]
+    "components": [ [ [ "potion_starter", 3 ] ] ]
   },
   {
     "id": "spell_components_manatrap",
     "type": "requirement",
-    "components": [ [ [ "potion_starter", 6 ], [ "alchemist_bomb", 2 ] ], [ [ "rune_technomancer", 2 ] ] ]
+    "components": [ [ [ "potion_starter", 6 ], [ "alchemist_bomb", 2 ] ] ]
   },
   {
     "id": "spell_components_samsara",

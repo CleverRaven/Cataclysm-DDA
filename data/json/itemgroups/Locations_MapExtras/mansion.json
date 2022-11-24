@@ -516,17 +516,7 @@
     "id": "soa_weapons_samurai",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [
-      { "group": "soa_fake_weapon_samurai", "prob": 3 },
-      { "group": "soa_poor_weapon_samurai", "prob": 3 },
-      { "group": "soa_real_weapon_samurai", "prob": 3 }
-    ]
-  },
-  {
-    "id": "broadsword+scabbard",
-    "type": "item_group",
-    "subtype": "collection",
-    "items": [ [ "broadsword", 100 ], [ "scabbard", 100 ] ]
+    "items": [ { "group": "soa_fake_weapon_samurai", "prob": 3 }, { "group": "soa_poor_weapon_samurai", "prob": 3 } ]
   },
   {
     "id": "broadsword_fake+scabbard",
@@ -539,12 +529,6 @@
     "type": "item_group",
     "subtype": "collection",
     "items": [ [ "broadsword_inferior", 100 ], [ "scabbard", 100 ] ]
-  },
-  {
-    "id": "samurai_sword_set",
-    "type": "item_group",
-    "subtype": "collection",
-    "items": [ [ "katana", 100 ], [ "wakizashi", 34 ], [ "tanto", 12 ] ]
   },
   {
     "id": "samurai_sword_set_fake",
@@ -588,7 +572,7 @@
     "subtype": "distribution",
     "items": [
       [ "pike", 50 ],
-      { "group": "broadsword+scabbard", "prob": 17 },
+      { "group": "broadsword_inferior+scabbard", "prob": 17 },
       [ "mace", 6 ],
       [ "morningstar", 5 ],
       [ "shillelagh", 5 ],
@@ -622,7 +606,7 @@
     "id": "soa_real_weapon_plate",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ [ "pike", 17 ], { "group": "broadsword+scabbard", "prob": 5 }, [ "mace", 50 ], [ "morningstar", 6 ] ]
+    "items": [ [ "pike", 17 ], { "group": "broadsword_inferior+scabbard", "prob": 5 }, [ "mace", 50 ], [ "morningstar", 6 ] ]
   },
   {
     "id": "soa_fake_weapon_mail",
@@ -650,7 +634,7 @@
     "id": "soa_real_weapon_mail",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ [ "pike", 50 ], { "group": "broadsword+scabbard", "prob": 5 }, [ "mace", 50 ], [ "battleaxe", 6 ] ]
+    "items": [ [ "pike", 50 ], { "group": "broadsword_inferior+scabbard", "prob": 5 }, [ "mace", 50 ], [ "battleaxe", 6 ] ]
   },
   {
     "id": "soa_fake_weapon_samurai",
@@ -675,12 +659,6 @@
     ]
   },
   {
-    "id": "soa_real_weapon_samurai",
-    "type": "item_group",
-    "subtype": "distribution",
-    "items": [ { "group": "samurai_sword_set", "prob": 7 }, [ "bokken", 6 ], [ "nodachi", 5 ], [ "naginata", 5 ] ]
-  },
-  {
     "id": "toy_box",
     "type": "item_group",
     "ammo": 75,
@@ -701,10 +679,12 @@
       [ "football", 20 ],
       [ "frisbee", 40 ],
       [ "disc_golf", 20 ],
+      [ "shark_plushie", 20 ],
       { "group": "toy_radio_car", "prob": 10 },
       { "group": "toy_makerspace_kit", "prob": 8 },
       { "group": "toy_robot_kit", "prob": 8 },
       { "group": "toy_engine_kit", "prob": 8 },
+      { "item": "air_launcher", "prob": 5 },
       [ "orangesoda", 30 ],
       [ "magic_8_ball", 10 ],
       [ "hairpin", 30 ],
@@ -746,6 +726,8 @@
       { "item": "blood", "prob": 10, "container-item": "jar_3l_glass_sealed", "sealed": false },
       [ "bone_human", 10 ],
       [ "bowl_skull", 5 ],
+      [ "skull_human", 20 ],
+      [ "skull_canis", 10 ],
       [ "bondage_mask", 10 ],
       [ "zentai", 5 ],
       [ "bondage_suit", 5 ],
@@ -1042,6 +1024,7 @@
       [ "can_drink", 30 ],
       [ "pride_flag", 5 ],
       [ "state_flag", 3 ],
+      [ "shark_plushie", 10 ],
       [ "bottle_plastic", 30 ],
       [ "leathersandals", 30 ],
       [ "leather_belt", 30 ],

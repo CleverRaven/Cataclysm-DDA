@@ -9,7 +9,7 @@
     "count": 6,
     "difficulty": 1,
     "value": 4000,
-    "origins": [ "ORIGIN_OPENER_NPC" ],
+    "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_HUNT_ANTS",
     "start": {
       "assign_mission_target": { "om_terrain": "field", "reveal_radius": 1, "random": true, "search_range": 15, "min_distance": 10 },
@@ -38,7 +38,7 @@
     "count": 10,
     "difficulty": 1,
     "value": 4000,
-    "origins": [ "ORIGIN_OPENER_NPC" ],
+    "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_BUILD_CAMP_1",
     "start": {
       "assign_mission_target": { "om_terrain": "field", "reveal_radius": 1, "random": true, "search_range": 15 },
@@ -68,7 +68,7 @@
     "count": 100,
     "difficulty": 1,
     "value": 10000,
-    "origins": [ "ORIGIN_OPENER_NPC" ],
+    "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_BUILD_CAMP_2",
     "end": {
       "update_mapgen": { "om_terrain": "homelesscamp_npc", "place_nested": [ { "chunks": [ "homeless_camp_refurb_1" ], "x": 0, "y": 0 } ] }
@@ -96,7 +96,7 @@
     "count": 150,
     "difficulty": 1,
     "value": 15000,
-    "origins": [ "ORIGIN_OPENER_NPC" ],
+    "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_BUILD_CAMP_3",
     "end": {
       "update_mapgen": { "om_terrain": "homelesscamp_npc", "place_nested": [ { "chunks": [ "homeless_camp_refurb_2" ], "x": 0, "y": 0 } ] }
@@ -131,7 +131,7 @@
     },
     "difficulty": 1,
     "value": 2500,
-    "origins": [ "ORIGIN_OPENER_NPC" ],
+    "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_BUILD_CAMP_4",
     "end": {
       "update_mapgen": { "om_terrain": "homelesscamp_npc", "place_nested": [ { "chunks": [ "homeless_camp_refurb_3" ], "x": 0, "y": 0 } ] }
@@ -159,7 +159,7 @@
     "goal_condition": { "or": [ { "u_has_item": "saw" }, { "u_has_item": "bow_saw" }, { "u_has_item": "misc_repairkit" } ] },
     "difficulty": 1,
     "value": 2500,
-    "origins": [ "ORIGIN_OPENER_NPC" ],
+    "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_BUILD_CAMP_5",
     "has_generic_rewards": true,
     "dialogue": {
@@ -184,7 +184,7 @@
     "count": 1,
     "difficulty": 1,
     "value": 2500,
-    "origins": [ "ORIGIN_OPENER_NPC" ],
+    "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_BUILD_CAMP_6",
     "end": {
       "update_mapgen": { "om_terrain": "homelesscamp", "place_nested": [ { "chunks": [ "homeless_camp_refurb_4" ], "x": 0, "y": 0 } ] }
@@ -213,7 +213,7 @@
     "count": 1,
     "difficulty": 1,
     "value": 5000,
-    "origins": [ "ORIGIN_OPENER_NPC" ],
+    "origins": [ "ORIGIN_SECONDARY" ],
     "end": {
       "update_mapgen": { "om_terrain": "homelesscamp_npc", "place_nested": [ { "chunks": [ "homeless_camp_refurb_5" ], "x": 0, "y": 0 } ] },
       "effect": [ { "npc_add_var": "smoked_meat_tradeable", "type": "dialogue", "context": "trade", "value": "yes" } ]

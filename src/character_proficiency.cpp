@@ -12,6 +12,20 @@ float Character::get_proficiency_practice( const proficiency_id &prof ) const
     return _proficiencies->pct_practiced( prof );
 }
 
+time_duration Character::get_proficiency_practiced_time( const proficiency_id &prof ) const
+{
+    return _proficiencies->pct_practiced_time( prof );
+}
+
+void Character::set_proficiency_practiced_time( const proficiency_id &prof, int turns )
+{
+    if( turns < 0 ) {
+        _proficiencies->remove( prof );
+        return;
+    }
+    _proficiencies->set_time_practiced( prof, time_duration::from_turns( turns ) );
+}
+
 bool Character::has_prof_prereqs( const proficiency_id &prof ) const
 {
     return _proficiencies->has_prereqs( prof );
@@ -46,7 +60,7 @@ bool Character::practice_proficiency( const proficiency_id &prof, const time_dur
     // Proficiencies can ignore focus using the `ignore_focus` JSON property
     const bool ignore_focus = prof->ignore_focus();
     const time_duration &focused_amount = ignore_focus ? amount : time_duration::from_seconds(
-            adjust_for_focus( to_seconds<int>( amount ) ) / 100 );
+            adjust_for_focus( to_seconds<float>( amount ) ) );
 
     const float pct_before = _proficiencies->pct_practiced( prof );
     const bool learned = _proficiencies->practice( prof, focused_amount, max );

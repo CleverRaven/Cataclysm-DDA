@@ -70,14 +70,14 @@ char vehicle::part_sym( const int p, const bool exact, const bool include_fake )
 // similar to part_sym(int p) but for use when drawing SDL tiles. Called only by cata_tiles
 // during draw_vpart vector returns at least 1 element, max of 2 elements. If 2 elements the
 // second denotes if it is open or damaged
-std::string vehicle::part_id_string( const int p, char &part_mod ) const
+std::string vehicle::part_id_string( const int p, char &part_mod, bool below_roof, bool roof ) const
 {
     part_mod = 0;
     if( p < 0 || p >= static_cast<int>( parts.size() ) || parts[p].removed ) {
         return "";
     }
 
-    int displayed_part = part_displayed_at( parts[p].mount, true );
+    int displayed_part = part_displayed_at( parts[p].mount, true, below_roof, roof );
     if( displayed_part < 0 || displayed_part >= static_cast<int>( parts.size() ) ||
         parts[ displayed_part ].removed ) {
         return "";
@@ -413,16 +413,16 @@ void vehicle::print_fuel_indicators( const catacurses::window &win, const point 
 void vehicle::print_fuel_indicator( const catacurses::window &win, const point &p,
                                     const itype_id &fuel_type, bool verbose, bool desc )
 {
-    std::map<itype_id, float> fuel_usages;
+    std::map<itype_id, units::energy> fuel_usages;
     print_fuel_indicator( win, p, fuel_type, fuel_usages, verbose, desc );
 }
 
 void vehicle::print_fuel_indicator( const catacurses::window &win, const point &p,
                                     const itype_id &fuel_type,
-                                    std::map<itype_id, float> fuel_usages,
+                                    std::map<itype_id, units::energy> fuel_usages,
                                     bool verbose, bool desc )
 {
-    const char fsyms[5] = { 'E', '\\', '|', '/', 'F' };
+    static constexpr std::array<char, 5> fsyms = { 'E', '\\', '|', '/', 'F' };
     nc_color col_indf1 = c_light_gray;
     int cap = fuel_capacity( fuel_type );
     int f_left = fuel_left( fuel_type );

@@ -1,0 +1,39 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_teleporter_node",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "         -     -        ",
+        "        ----D----       ",
+        "       --.......--      ",
+        "        -.......-       ",
+        "        D...X...D       ",
+        "        -...x...-       ",
+        "       --.......--      ",
+        "        ----D----       ",
+        "         -     -        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "D": [ "t_door_c" ], "-": [ "t_wall_r" ], ".": [ "t_carpet_red" ], "X": [ "t_carpet_red" ], "x": [ "t_carpet_red" ] },
+      "furniture": { "X": [ "f_waycircle" ], "D": [ "f_null" ], ".": [ "f_null" ], "x": [ "f_null" ] },
+      "items": { "x": { "item": "a_waystone", "chance": 100 } }
+    }
+  }
+]

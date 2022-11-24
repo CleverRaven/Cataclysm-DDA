@@ -442,10 +442,13 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
             // Critter can still dodge the projectile
             // In this case hit_critter won't be set
             if( attack.hit_critter != nullptr ) {
-                const size_t bt_len = blood_trail_len( attack.dealt_dam.total_damage() );
-                if( bt_len > 0 ) {
-                    const tripoint &dest = move_along_line( tp, trajectory, bt_len );
-                    here.add_splatter_trail( critter->bloodType(), tp, dest );
+                const field_type_id blood_type = critter->bloodType();
+                if( blood_type ) {
+                    const size_t bt_len = blood_trail_len( attack.dealt_dam.total_damage() );
+                    if( bt_len > 0 ) {
+                        const tripoint &dest = move_along_line( tp, trajectory, bt_len );
+                        here.add_splatter_trail( blood_type, tp, dest );
+                    }
                 }
                 sfx::do_projectile_hit( *attack.hit_critter );
                 has_momentum = false;
@@ -480,10 +483,10 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
 
     drop_or_embed_projectile( attack );
 
-    apply_ammo_effects( tp, proj.proj_effects );
+    apply_ammo_effects( null_source ? nullptr : origin, tp, proj.proj_effects );
     const explosion_data &expl = proj.get_custom_explosion();
     if( expl.power > 0.0f ) {
-        explosion_handler::explosion( tp, proj.get_custom_explosion() );
+        explosion_handler::explosion( null_source ? nullptr : origin, tp, proj.get_custom_explosion() );
     }
 
     // TODO: Move this outside now that we have hit point in return values?

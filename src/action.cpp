@@ -371,6 +371,8 @@ std::string action_ident( action_id act )
             return "toggle_auto_foraging";
         case ACTION_TOGGLE_AUTO_PICKUP:
             return "toggle_auto_pickup";
+        case ACTION_DISPLAY_ISO_WALLS:
+            return "toggle_iso_walls";
         case ACTION_ACTIONMENU:
             return "action_menu";
         case ACTION_ITEMACTION:
@@ -379,6 +381,8 @@ std::string action_ident( action_id act )
             return "SELECT";
         case ACTION_SEC_SELECT:
             return "SEC_SELECT";
+        case ACTION_CLICK_AND_DRAG:
+            return "CLICK_AND_DRAG";
         case ACTION_AUTOATTACK:
             return "autoattack";
         case ACTION_MAIN_MENU:
@@ -552,7 +556,7 @@ action_id get_movement_action_from_delta( const tripoint &d, const iso_rotate ro
         return ACTION_MOVE_UP;
     }
 
-    const bool iso_mode = rot == iso_rotate::yes && use_tiles && tile_iso;
+    const bool iso_mode = rot == iso_rotate::yes && g->is_tileset_isometric();
     if( d.xy() == point_north ) {
         return iso_mode ? ACTION_MOVE_FORTH_LEFT : ACTION_MOVE_FORTH;
     } else if( d.xy() == point_north_east ) {
@@ -574,7 +578,7 @@ action_id get_movement_action_from_delta( const tripoint &d, const iso_rotate ro
 
 point get_delta_from_movement_action( const action_id act, const iso_rotate rot )
 {
-    const bool iso_mode = rot == iso_rotate::yes && use_tiles && tile_iso;
+    const bool iso_mode = rot == iso_rotate::yes && g->is_tileset_isometric();
     switch( act ) {
         case ACTION_MOVE_FORTH:
             return iso_mode ? point_north_east : point_north;
@@ -694,7 +698,9 @@ static bool can_pickup_at( const tripoint &p )
         const int cargo_part = vp->vehicle().part_with_feature( vp->part_index(), "CARGO", false );
         veh_has_items = cargo_part >= 0 && !vp->vehicle().get_items( cargo_part ).empty();
     }
-    return ( !here.has_flag( ter_furn_flag::TFLAG_SEALED, p ) && here.has_items( p ) ) || veh_has_items;
+
+    return ( !here.has_flag( ter_furn_flag::TFLAG_SEALED, p ) && here.has_items( p ) &&
+             !here.only_liquid_in_liquidcont( p ) ) || veh_has_items;
 }
 
 bool can_interact_at( action_id action, const tripoint &p )
@@ -896,6 +902,7 @@ action_id handle_action_menu()
 #if defined(TILES)
             REGISTER_ACTION( ACTION_TOGGLE_PIXEL_MINIMAP );
             REGISTER_ACTION( ACTION_RELOAD_TILESET );
+            REGISTER_ACTION( ACTION_DISPLAY_ISO_WALLS );
 #endif // TILES
             REGISTER_ACTION( ACTION_TOGGLE_PANEL_ADM );
             REGISTER_ACTION( ACTION_DISPLAY_SCENT );

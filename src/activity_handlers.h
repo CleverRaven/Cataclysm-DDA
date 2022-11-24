@@ -161,7 +161,6 @@ void butcher_do_turn( player_activity *act, Character *you );
 void chop_trees_do_turn( player_activity *act, Character *you );
 void consume_drink_menu_do_turn( player_activity *act, Character *you );
 void consume_food_menu_do_turn( player_activity *act, Character *you );
-void consume_fuel_menu_do_turn( player_activity *act, Character *you );
 void consume_meds_menu_do_turn( player_activity *act, Character *you );
 void eat_menu_do_turn( player_activity *act, Character *you );
 void fertilize_plot_do_turn( player_activity *act, Character *you );

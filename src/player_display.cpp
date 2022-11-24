@@ -844,6 +844,7 @@ static void draw_skills_tab( ui_adaptor &ui, const catacurses::window &w_skills,
                 exercise = 0;
                 locked = true;
             }
+            level_num = you.enchantment_cache->modify_value( aSkill->ident(), level_num );
             if( is_current_tab && i == line ) {
                 ui.set_cursor( w_skills, point( 1, y_pos ) );
                 if( locked ) {
@@ -1281,7 +1282,9 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
         ++info_line;
         ui_info.invalidate_ui();
     } else if( action == "MEDICAL_MENU" ) {
-        you.as_avatar()->disp_medical();
+        if( you.is_avatar() ) {
+            you.as_avatar()->disp_medical();
+        }
     }
     return done;
 }
@@ -1373,21 +1376,28 @@ void Character::disp_info( bool customize_character )
         effect_name_and_text.emplace_back( starvation_name, starvation_text );
     }
 
-    if( has_trait( trait_TROGLO ) && g->is_in_sunlight( pos() ) &&
-        get_weather().weather_id->sun_intensity >= sun_intensity_type::high ) {
-        effect_name_and_text.emplace_back( _( "In Sunlight" ),
-                                           _( "The sunlight irritates you.\n"
-                                              "Strength - 1;    Dexterity - 1;    Intelligence - 1;    Perception - 1" )
-                                         );
-    } else if( has_trait( trait_TROGLO2 ) && g->is_in_sunlight( pos() ) ) {
-        effect_name_and_text.emplace_back( _( "In Sunlight" ),
-                                           _( "The sunlight irritates you badly.\n"
-                                              "Strength - 2;    Dexterity - 2;    Intelligence - 2;    Perception - 2" )
-                                         );
-    } else if( has_trait( trait_TROGLO3 ) && g->is_in_sunlight( pos() ) ) {
+    if( has_trait( trait_TROGLO3 ) && g->is_in_sunlight( pos() ) ) {
         effect_name_and_text.emplace_back( _( "In Sunlight" ),
                                            _( "The sunlight irritates you terribly.\n"
                                               "Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" )
+                                         );
+    } else  if( has_trait( trait_TROGLO2 ) && g->is_in_sunlight( pos() ) ) {
+        if( incident_sun_irradiance( get_weather().weather_id, calendar::turn ) > irradiance::moderate ) {
+            effect_name_and_text.emplace_back( _( "In Sunlight" ),
+                                               _( "The sunlight irritates you badly.\n"
+                                                  "Strength - 2;    Dexterity - 2;    Intelligence - 2;    Perception - 2" ) );
+        } else if( incident_sun_irradiance( get_weather().weather_id, calendar::turn ) > irradiance::low ) {
+            effect_name_and_text.emplace_back( _( "In Sunlight" ),
+                                               _( "The sunlight irritates you badly.\n"
+                                                  "Strength - 1;    Dexterity - 1;    Intelligence - 1;    Perception - 1" ) );
+        }
+
+
+    } else if( has_trait( trait_TROGLO ) && g->is_in_sunlight( pos() ) &&
+               incident_sun_irradiance( get_weather().weather_id, calendar::turn ) > irradiance::moderate ) {
+        effect_name_and_text.emplace_back( _( "In Sunlight" ),
+                                           _( "The sunlight irritates you.\n"
+                                              "Strength - 1;    Dexterity - 1;    Intelligence - 1;    Perception - 1" )
                                          );
     }
 
