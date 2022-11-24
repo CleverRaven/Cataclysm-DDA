@@ -173,6 +173,7 @@ void pocket_data::load( const JsonObject &jo )
     optional( jo, was_loaded, "open_container", open_container, false );
     optional( jo, was_loaded, "transparent", transparent, false );
     optional( jo, was_loaded, "rigid", rigid, false );
+    optional( jo, was_loaded, "forbidden", forbidden, false );
     optional( jo, was_loaded, "holster", holster );
     optional( jo, was_loaded, "ablative", ablative );
     optional( jo, was_loaded, "inherits_flags", inherits_flags );
@@ -1125,6 +1126,9 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
 void item_pocket::contents_info( std::vector<iteminfo> &info, int pocket_number,
                                  bool disp_pocket_number ) const
 {
+    if( is_forbidden() ) {
+        return;
+    }
     const std::string space = "  ";
 
     insert_separation_line( info );
@@ -1828,14 +1832,9 @@ bool item_pocket::is_standard_type() const
            data->type == pocket_type::MAGAZINE_WELL;
 }
 
-bool item_pocket::is_allowed() const
+bool item_pocket::is_forbidden() const
 {
-    return allowed;
-}
-
-void item_pocket::set_usability( bool show )
-{
-    allowed = show;
+    return data->forbidden;
 }
 
 bool item_pocket::airtight() const

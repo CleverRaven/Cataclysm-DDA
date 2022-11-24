@@ -398,7 +398,7 @@
     "repairs_like": "survivor_suit",
     "type": "ARMOR",
     "name": { "str_sp": "fencing pants" },
-    "description": "A pair of reinforced pants used by fencers to prevent injuries.",
+    "description": "A pair of reinforced pants used by fencers to prevent injuries.  They don't cover the lower leg.",
     "weight": "450 g",
     "volume": "2 L",
     "price": 2500,
@@ -414,19 +414,19 @@
         "max_contains_weight": "1 kg",
         "max_item_length": "13 cm",
         "moves": 100
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "800 ml",
-        "max_contains_weight": "1 kg",
-        "max_item_length": "13 cm",
-        "moves": 100
       }
     ],
-    "warmth": 20,
-    "material_thickness": 2,
+    "warmth": 25,
+    "material_thickness": 2.5,
     "flags": [ "VARSIZE" ],
-    "armor": [ { "encumbrance": [ 13, 15 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [
+      {
+        "encumbrance": [ 7, 9 ],
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r", "leg_knee_l", "leg_knee_r", "leg_upper_r", "leg_upper_l" ]
+      }
+    ]
   },
   {
     "id": "knee_pads",
@@ -943,7 +943,7 @@
     "volume": "2500 ml",
     "price": 10000,
     "price_postapoc": 750,
-    "material": [ "kevlar", "cotton", "plastic" ],
+    "material": [ "kevlar", "cotton", "plastic_pad" ],
     "symbol": "[",
     "looks_like": "jeans",
     "color": "dark_gray",
@@ -966,7 +966,7 @@
         "material": [
           { "type": "kevlar", "covered_by_mat": 100, "thickness": 0.25 },
           { "type": "cotton", "covered_by_mat": 100, "thickness": 0.5 },
-          { "type": "plastic", "covered_by_mat": 100, "thickness": 4 }
+          { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 12 }
         ],
         "encumbrance": [ 0, 0 ],
         "coverage": 100,
@@ -1572,5 +1572,45 @@
     "warmth": 25,
     "material_thickness": 2.0,
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
+  },
+  {
+    "id": "legguard_larmor",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pair of leather leg guards", "str_pl": "pairs of leather leg guards" },
+    "description": "A pair of tough leather leg guards.  Light and comfortable.",
+    "weight": "765 g",
+    "volume": "2 L",
+    "price": 4000,
+    "price_postapoc": 1000,
+    "to_hit": 1,
+    "material": [ "leather" ],
+    "symbol": "[",
+    "looks_like": "legguard_bronze",
+    "color": "brown",
+    "warmth": 25,
+    "material_thickness": 4,
+    "valid_mods": [ "steel_padded" ],
+    "flags": [ "STURDY", "OUTER", "WATER_FRIENDLY" ],
+    "armor": [ { "covers": [ "leg_l", "leg_r" ], "encumbrance": 7, "coverage": 85 } ]
+  },
+  {
+    "id": "xl_legguard_larmor",
+    "type": "ARMOR",
+    "name": { "str": "pair of XL leather leg guards", "str_pl": "pairs of XL leather leg guards" },
+    "description": "A pair of gigantic leather arm guards.  Heavy but comfortable.",
+    "copy-from": "legguard_larmor",
+    "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_legguard_larmor",
+    "type": "ARMOR",
+    "copy-from": "legguard_larmor",
+    "looks_like": "legguard_larmor",
+    "name": { "str": "pair of XS leather leg guards", "str_pl": "pairs of XS leather leg guards" },
+    "description": "A pair of tiny, tough leather arm guards.  Light and comfortable.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
   }
 ]

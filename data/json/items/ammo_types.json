@@ -421,6 +421,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "uranium",
+    "name": "uranium",
+    "default": "uran_cell"
+  },
+  {
+    "type": "ammunition_type",
     "id": "reactor_slurry",
     "name": "plutonium slurry",
     "default": "plut_slurry"

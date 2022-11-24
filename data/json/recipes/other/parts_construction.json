@@ -15,24 +15,23 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "result": "wood_beam",
     "id_suffix": "from logs",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
     "difficulty": 1,
-    "time": "1 h",
+    "time": "2 h",
     "autolearn": true,
     "byproducts": [ [ "splinter", 20 ] ],
     "qualities": [ { "id": "AXE", "level": 2 } ],
     "//": "Eventually, smoothing tools should also be required, or we should distinguish between rough-hewn and finished beams",
-    "components": [ [ [ "log", 6 ] ] ],
-    "//2": "This is a terrible stand-in for the fact that logs are only 10kg chunks and not big enough to hew into an 8' or longer wooden beam."
+    "components": [ [ [ "log", 2 ] ] ]
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "wood_beam",
     "id_suffix": "with_planer",
     "category": "CC_OTHER",
