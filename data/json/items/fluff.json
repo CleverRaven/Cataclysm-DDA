@@ -623,7 +623,7 @@
     "type": "AMMO",
     "ammo_type": "incense",
     "category": "other",
-    "name": { "str": "incense", "str_pl": "incense" },
+    "name": { "str_sp": "incense" },
     "description": "A small rod giving off a nice smell.",
     "weight": "2 g",
     "volume": "50 ml",
