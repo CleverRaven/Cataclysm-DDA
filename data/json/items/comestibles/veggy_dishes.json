@@ -1294,6 +1294,7 @@
     "copy-from": "jerusalem_artichoke_sauteed",
     "fun": 2,
     "description": "Still crunchy but much more palatable than raw, with a slight nutty taste.",
+    "extend": { "flags": [ "NUTRIENT_OVERRIDE" ] },
     "calories": 120
   },
   {
