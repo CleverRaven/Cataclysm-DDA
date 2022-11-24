@@ -1242,8 +1242,8 @@ ret_val<void> outfit::check_rigid_conflicts( const item &clothing, side s ) cons
                 continue;
             }
 
-            // skip rigid integrated armor such as protective bark
-            if( i.has_flag( flag_INTEGRATED ) ) {
+            // allow wearing splints on integrated armor such as protective bark
+            if( i.has_flag( flag_INTEGRATED ) && clothing.has_flag( flag_SPLINT ) ) {
                 continue;
             }
 
