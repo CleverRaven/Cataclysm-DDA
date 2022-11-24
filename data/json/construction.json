@@ -7217,6 +7217,7 @@
     "activity_level": "EXTRA_EXERCISE"
   },
   {
+    "type": "construction",
     "id": "constr_bench_wooden",
     "group": "build_bench_wooden",
     "category": "FURN",
