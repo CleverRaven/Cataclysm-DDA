@@ -1811,8 +1811,11 @@ npc_action npc::address_needs( float danger )
     // rng because NPCs are not meant to be hypervigilant hawks that notice everything
     // and swing into action with alarming alacrity.
     // no sometimes they are just looking the other way, sometimes they hestitate.
-    // ( also we can get huge performance boosts )
-    if( one_in( 3 ) ) {
+    // Eventually we could replace this with somewhat more robust calculations, like basing it 
+    // on perception and healthcare.
+    // Also, NPCs shouldn't consider giving you a bandage if there's still a battle ongoing.
+    // The specific danger level they tolerate could later be a behaviour variable.
+    if( one_in( 3 ) && ( danger <= NPC_DANGER_VERY_LOW ) ) {
         healing_options try_to_fix_me = patient_assessment( *this );
         if( try_to_fix_me.any_true() ) {
             if( !use_bionic_by_id( bio_nanobots ) ) {
