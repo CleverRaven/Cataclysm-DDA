@@ -1282,7 +1282,6 @@
     "price": 0,
     "healthy": 0,
     "calories": 150,
-    "charges": 2,
     "delete": { "flags": [ "RAW" ] },
     "extend": { "flags": [ "EATEN_HOT", "FREEZERBURN" ] },
     "fun": 3,
