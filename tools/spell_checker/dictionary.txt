@@ -2228,3 +2228,4 @@ zweitimbers
 zygomaticus
 zzz
 zzzzchzzzzchurzzzpileus
+foldable
