@@ -3325,7 +3325,6 @@
     "type": "TOOL_ARMOR",
     "name": { "str": "nomad chainmail (on)", "str_pl": "suits of nomad chainmail (on)" },
     "revert_to": "armor_nomad_chainmail",
-    "extend": { "flags": [ "CLIMATE_CONTROL" ] },
     "power_draw": "100 J",
     "use_action": {
       "ammo_scale": 0,
