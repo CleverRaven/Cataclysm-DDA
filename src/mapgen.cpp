@@ -7486,7 +7486,7 @@ bool update_mapgen_function_json::update_map( const tripoint_abs_omt &omt_pos, c
         // trigger main map cleanup
         p_update_tmap.reset();
         // trigger new traps, etc
-        g->place_player( get_avatar().pos() );
+        g->place_player( get_avatar().pos(), true );
     }
 
     return u;
