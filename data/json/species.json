@@ -161,12 +161,14 @@
   {
     "type": "SPECIES",
     "id": "HORROR",
-    "description": "a horror"
+    "description": "a horror",
+    "footsteps": "footsteps from your nightmares."
   },
   {
     "type": "SPECIES",
     "id": "ABERRATION",
-    "description": "an aberration"
+    "description": "an aberration",
+    "footsteps": "footsteps from your nightmares."
   },
   {
     "type": "SPECIES",
@@ -182,6 +184,7 @@
   {
     "type": "SPECIES",
     "id": "UNKNOWN",
-    "description": "a bug"
+    "description": "a bug",
+    "footsteps": "bugs"
   }
 ]
