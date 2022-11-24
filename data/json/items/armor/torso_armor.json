@@ -1007,22 +1007,22 @@
     "volume": "7 L",
     "price": 11000,
     "price_postapoc": 250,
-    "material": [ "thermo_resin", "cotton" ],
+    "material": [ "thermo_resin", "cotton", "plastic_pad" ],
     "symbol": "[",
     "looks_like": "chestguard_hard",
     "color": "light_gray",
     "warmth": 5,
-    "material_thickness": 6,
     "flags": [ "OUTER" ],
     "armor": [
       {
-        "encumbrance": 4,
+        "encumbrance": 5,
         "coverage": 90,
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_upper" ],
         "material": [
           { "type": "thermo_resin", "covered_by_mat": 90, "thickness": 1.0 },
-          { "type": "cotton", "covered_by_mat": 100, "thickness": 6.0 }
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.5 },
+          { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 8.0 }
         ]
       },
       {
@@ -1031,9 +1031,9 @@
         "covers": [ "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ],
         "material": [
+          { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 8.0 },
           { "type": "thermo_resin", "covered_by_mat": 80, "thickness": 1.0 },
-          { "type": "thermo_resin", "covered_by_mat": 80, "thickness": 1.0 },
-          { "type": "cotton", "covered_by_mat": 100, "thickness": 6.0 }
+          { "type": "thermo_resin", "covered_by_mat": 80, "thickness": 1.0 }
         ]
       }
     ]
@@ -1107,16 +1107,16 @@
         ],
         "covers": [ "torso" ],
         "coverage": 100,
-        "encumbrance": 8
+        "encumbrance": 10
       },
       {
         "material": [
           { "type": "lycra", "covered_by_mat": 100, "thickness": 0.25 },
-          { "type": "plastic_pad", "covered_by_mat": 90, "thickness": 12 }
+          { "type": "plastic_pad", "covered_by_mat": 85, "thickness": 12 }
         ],
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
-        "encumbrance": 8
+        "encumbrance": 10
       }
     ],
     "warmth": 15,
