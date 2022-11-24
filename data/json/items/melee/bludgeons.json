@@ -620,6 +620,7 @@
     "price": 13000,
     "price_postapoc": 50,
     "material": [ "aluminum" ],
+    "techniques": [ "WBLOCK_1" ],
     "weight": "300 g",
     "volume": "1 L",
     "longest_side": "110 cm",
