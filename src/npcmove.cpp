@@ -1811,7 +1811,7 @@ npc_action npc::address_needs( float danger )
     // rng because NPCs are not meant to be hypervigilant hawks that notice everything
     // and swing into action with alarming alacrity.
     // no sometimes they are just looking the other way, sometimes they hestitate.
-    // Eventually we could replace this with somewhat more robust calculations, like basing it 
+    // Eventually we could replace this with somewhat more robust calculations, like basing it
     // on perception and healthcare.
     // Also, NPCs shouldn't consider giving you a bandage if there's still a battle ongoing.
     // The specific danger level they tolerate could later be a behaviour variable.
