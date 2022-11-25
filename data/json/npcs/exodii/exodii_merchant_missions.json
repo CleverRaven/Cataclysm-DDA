@@ -192,7 +192,8 @@
   {
     "id": "TALK_EXODII_MERCHANT_mission_1_pay_nice",
     "type": "talk_topic",
-    "dynamic_line": "That's quite the spirit!  For an exchange, I'll give you some of these shiny tools, whatever you want.  How's that sound?",
+    "dynamic_line": "Ah, 'tis a fine spark.  F'r a switch an' clock, ol' Rubik can share y'like o' these bright and steelies roun' the shop, choice o' your finely.  What say?",
+    "//~": "That's quite the spirit!  For an exchange, I'll give you some of these shiny tools, whatever you want.  How's that sound?",
     "responses": [
       {
         "text": "I'll go check it out.  Thanks, Rubik.",
