@@ -5,7 +5,7 @@
     "category": "manuals",
     "name": { "str": "The Art of Glassblowing", "str_pl": "copies of The Art of Glassblowing" },
     "description": "A textbook that illustrates the science and technique of the ancient art of glassblowing.",
-    "weight": "1620 g",
+    "weight": "1500 g",
     "volume": "1250 ml",
     "price": 4500,
     "price_postapoc": 250,
@@ -30,7 +30,7 @@
       "str_pl": "copies of Plastics & Polymers: Projects for the Classroom"
     },
     "description": "A textbook that goes through types and material properties of various common plastics, and how to use them in several common projects.",
-    "weight": "1620 g",
+    "weight": "1500 g",
     "volume": "1250 ml",
     "price": 4500,
     "price_postapoc": 250,
@@ -55,7 +55,7 @@
       "str_pl": "copies of The Prop Builder's Molding and Casting Handbook"
     },
     "description": "The first book to contain, in one comprehensive volume, every molding and casting procedure of use to the theater props builder of any skill level.  The author demonstrates the techniques involved in over thirty materials from papier-mache to breakaway glass.",
-    "weight": "1620 g",
+    "weight": "1500 g",
     "volume": "1250 ml",
     "price": 4500,
     "price_postapoc": 250,

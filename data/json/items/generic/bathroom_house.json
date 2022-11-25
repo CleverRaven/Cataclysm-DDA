@@ -115,6 +115,9 @@
     "name": { "str": "comb" },
     "type": "GENERIC",
     "description": "A grooming tool with teeth for straightening your hair.",
+    "weight": "9 g",
+    "volume": "30 ml",
+    "longest_side": "18 cm",
     "symbol": "/",
     "copy-from": "base_toiletries",
     "snippet_category": [

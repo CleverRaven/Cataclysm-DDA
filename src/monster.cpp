@@ -1400,7 +1400,7 @@ monster_attitude monster::attitude( const Character *u ) const
     }
 
     if( effective_anger <= 0 ) {
-        if( get_hp() != get_hp_max() ) {
+        if( get_hp() <= 0.6 * get_hp_max() ) {
             return MATT_FLEE;
         } else {
             return MATT_IGNORE;
@@ -3374,7 +3374,10 @@ void monster::hear_sound( const tripoint &source, const int vol, const int dist,
     if( wander_turns < wandf ) {
         return;
     }
-    process_trigger( mon_trigger::SOUND, volume );
+    // only trigger this if the monster is not friendly or the source isn't the player
+    if( friendly == 0 || source != get_player_character().pos() ) {
+        process_trigger( mon_trigger::SOUND, volume );
+    }
     provocative_sound = tmp_provocative;
     if( morale >= 0 && anger >= 10 ) {
         // TODO: Add a proper check for fleeing attitude
