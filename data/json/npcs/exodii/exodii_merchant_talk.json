@@ -663,10 +663,7 @@
         },
         "topic": "TALK_EXODII_MERCHANT_mission_1_intro"
       },
-      {
-        "text": "I'm not interested in anything right now.  I'll see you around.",
-        "topic": "TALK_DONE"
-      }
+      { "text": "I'm not interested in anything right now.  I'll see you around.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -894,7 +891,6 @@
       { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
     ]
   },
-  
   {
     "id": "TALK_EXODII_MERCHANT_Scythean",
     "type": "talk_topic",

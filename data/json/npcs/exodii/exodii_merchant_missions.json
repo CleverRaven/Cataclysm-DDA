@@ -36,10 +36,11 @@
         "search_range": 240
       }
     },
-    "end": { "effect": [
-      { "u_add_var": "u_scouted_bunker", "type": "mission", "context": "completed", "value": "yes" },
-      { "arithmetic": [ { "global_val": "var", "var_name": "exodii_knows_hub01" }, "=", { "const": 1 } ] }  
-      ] 
+    "end": {
+      "effect": [
+        { "u_add_var": "u_scouted_bunker", "type": "mission", "context": "completed", "value": "yes" },
+        { "arithmetic": [ { "global_val": "var", "var_name": "exodii_knows_hub01" }, "=", { "const": 1 } ] }
+      ]
     },
     "difficulty": 2,
     "value": 0,
@@ -183,11 +184,7 @@
     "type": "talk_topic",
     "dynamic_line": "I didn't know you'd be such a hard bargain!  Tell ya what, when you come back, I'll let you in on some of these fancy knick-kacks.",
     "responses": [
-      {
-        "text": "I'll go check it out.",
-        "effect": { "assign_mission": "EXODII_MISSION_CONTACT_HUB" },
-        "topic": "TALK_DONE"
-      },
+      { "text": "I'll go check it out.", "effect": { "assign_mission": "EXODII_MISSION_CONTACT_HUB" }, "topic": "TALK_DONE" },
       { "text": "I'm gonna need to think on this one.  See you later, Rubik.", "topic": "TALK_DONE" }
     ]
   },
