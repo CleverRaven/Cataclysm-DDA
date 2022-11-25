@@ -182,7 +182,8 @@
   {
     "id": "TALK_EXODII_MERCHANT_mission_1_pay_skeptic",
     "type": "talk_topic",
-    "dynamic_line": "I didn't know you'd be such a hard bargain!  Tell ya what, when you come back, I'll let you in on some of these fancy knick-kacks.",
+    "dynamic_line": "Rightly a trig barter, an I'm ken.  By ol' Rubik's word, on your saintly march home, for you'll have the pick of the bright and steelies roun' ol' Rubik's shop, choice o' your own finely. What say?",
+    "//~": "I didn't know you'd be such a hard bargain!  Tell ya what, when you come back, I'll let you in on some of these fancy knick-kacks.",
     "responses": [
       { "text": "I'll go check it out.", "effect": { "assign_mission": "EXODII_MISSION_CONTACT_HUB" }, "topic": "TALK_DONE" },
       { "text": "I'm gonna need to think on this one.  See you later, Rubik.", "topic": "TALK_DONE" }
