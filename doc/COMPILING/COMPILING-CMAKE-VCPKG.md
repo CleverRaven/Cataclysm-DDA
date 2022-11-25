@@ -18,12 +18,18 @@ For the official way to build CataclysmDDA, see:
 `cmake` >= 3.20.0<br/>
 `vcpkg` from [vcpkg.io](https://vcpkg.io/en/getting-started.html)
 
-
 # 2 Configure
 
 ## Presets
 The file `CMakePresets.json` contains all the presets.<br/>
 They will all build the code into the directory `out/build/<preset>/`.
+
+## vcpkg
+
+If vcpkg is checked out in a location different from `C:\vcpkg`, eg. `C:\dev\vcpkg`, you must do one of the following:
+  * append `-DVCPKG_ROOT=C:\dev\vcpkg` (or whatever the path is) to any cmake configure commands
+  * set the environment variable `VCPKG_ROOT` to the path to the vcpkg checkout.
+  * edit the `VCPKG_ROOT` cache variable in `CMakePresets.json` to the appropriate path
 
 ## Visual Studio
 The Standard toolbar shows the presets in the _Configuration_ drop-down box.<br/>
@@ -37,12 +43,7 @@ The list changes based on the environment you are in.
 
 Run the command
  * `cmake --preset <preset>`
-
-If different from `C:\vcpkg` you can
-  * append `-DVCPKG_ROOT=your\path` to the above command
-  * set your path via `VCPKG_ROOT` environment variable
-  * edit `VCPKG_ROOT` cache variable in `CMakePresets.json`
-
+ 
 # 3 Build
 
 ## Visual Studio
@@ -62,7 +63,7 @@ From the main menu, select _Build -> Install CataclysmDDA_
 Run the command
  * `cmake --install out/build/<preset>/ --config RelWithDebInfo`
 
- # 5 Run
+# 5 Run
 
  ## Visual Studio
 From the Standard toolbar's _Select Startup Item..._ drop-down menu select `cataclysm-tiles.exe (Install)` <br/>
