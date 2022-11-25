@@ -102,8 +102,8 @@
     "type": "TOOL",
     "id": "mace_magic",
     "name": { "str": "wolf sledge" },
-    "description": "A long, solid, crafted steel haft, and a massive, comma-like head.  It feels really massive, but it is easy to wield.  You even can whisper ancient words to it while you throw it, and it will always return to your hands.",
-    "weight": "2950 g",
+    "description": "A long, solid, crafted steel haft, and a massive, comma-like head.  It feels really massive, but it is easy to wield, and each your level it deal more and more damage.  You even can whisper ancient words to it while you throw it, and it will always return to your hands.",
+    "weight": "2150 g",
     "volume": "1750 ml",
     "longest_side": "130 cm",
     "color": "dark_gray",
@@ -113,9 +113,17 @@
     "techniques": [ "WBLOCK_1", "SWEEP", "BRUTAL" ],
     "flags": [ "SHEATH_SPEAR", "DURABLE_MELEE", "ALWAYS_TWOHAND" ],
     "weapon_category": [ "GREAT_HAMMERS" ],
-    "bashing": 32,
+    "bashing": 27,
+    "relic_data": { "passive_effects": [ { "id": "WOLF_SLEDGE" } ] },
     "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "neutral" },
     "use_action": { "type": "cast_spell", "spell_id": "mace_pipe_magic_throw", "no_fail": true, "level": 0, "need_wielding": true }
+  },
+  {
+    "type": "enchantment",
+    "id": "WOLF_SLEDGE",
+    "has": "WIELD",
+    "condition": "ALWAYS",
+    "values": [ { "value": "ITEM_DAMAGE_BASH", "add": { "u_val": "var", "spell": "summon_mace_magic" } } ]
   },
   {
     "id": "bio_launcher",
