@@ -143,6 +143,9 @@ static const map_extra_id map_extra_mx_supplydrop( "mx_supplydrop" );
 
 static const mongroup_id GROUP_FISH( "GROUP_FISH" );
 static const mongroup_id GROUP_FUNGI_FUNGALOID( "GROUP_FUNGI_FUNGALOID" );
+static const mongroup_id GROUP_MIL_PILOT( "GROUP_MIL_PASSENGER" );
+static const mongroup_id GROUP_MIL_PILOT( "GROUP_MIL_PILOT" );
+static const mongroup_id GROUP_MIL_WEAK( "GROUP_MIL_WEAK" );
 static const mongroup_id GROUP_NETHER_PORTAL( "GROUP_NETHER_PORTAL" );
 static const mongroup_id GROUP_STRAY_DOGS( "GROUP_STRAY_DOGS" );
 static const mongroup_id GROUP_WASP_GUARD( "GROUP_WASP_GUARD" );
@@ -155,9 +158,6 @@ static const mtype_id mon_turret_riot( "mon_turret_riot" );
 static const mtype_id mon_turret_searchlight( "mon_turret_searchlight" );
 static const mtype_id mon_turret_speaker( "mon_turret_speaker" );
 static const mtype_id mon_wolf( "mon_wolf" );
-static const mtype_id mon_zombie_bio_op( "mon_zombie_bio_op" );
-static const mtype_id mon_zombie_military_pilot( "mon_zombie_military_pilot" );
-static const mtype_id mon_zombie_scientist( "mon_zombie_scientist" );
 static const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
 
 static const oter_type_str_id oter_type_bridge( "bridge" );
@@ -439,15 +439,9 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
                     const tripoint pos = vp.pos();
                     // Spawn pilots in seats with controls.CTRL_ELECTRONIC
                     if( controls_at( wreckage, pos ) ) {
-                        m.add_spawn( mon_zombie_military_pilot, 1, pos );
+                        m.place_spawns( GROUP_MIL_PILOT, 1, pos, pos, 1, true );
                     } else {
-                        if( one_in( 5 ) ) {
-                            m.add_spawn( mon_zombie_bio_op, 1, pos );
-                        } else if( one_in( 5 ) ) {
-                            m.add_spawn( mon_zombie_scientist, 1, pos );
-                        } else {
-                            m.add_spawn( mon_zombie_soldier, 1, pos );
-                        }
+                        m.place_spawns( GROUP_MIL_PASSENGER, 1, pos, pos, 1, true );
                     }
 
                     // Delete the items that would have spawned here from a "corpse"
@@ -467,11 +461,9 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
                     const tripoint pos = vp.pos();
                     // Spawn pilots in seats with controls.
                     if( controls_at( wreckage, pos ) ) {
-                        m.add_spawn( mon_zombie_military_pilot, 1, pos );
+                        m.place_spawns( GROUP_MIL_PILOT, 1, pos, pos, 1, true );
                     } else {
-                        if( !one_in( 3 ) ) {
-                            m.add_spawn( mon_zombie_soldier, 1, pos );
-                        }
+                        m.place_spawns( GROUP_MIL_WEAK, 2, pos, pos, 1, true );
                     }
 
                     // Delete the items that would have spawned here from a "corpse"
@@ -488,7 +480,7 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
                 // Just pilots
                 for( const vpart_reference &vp : wreckage->get_any_parts( VPFLAG_CONTROLS ) ) {
                     const tripoint pos = vp.pos();
-                    m.add_spawn( mon_zombie_military_pilot, 1, pos );
+                    m.place_spawns( GROUP_MIL_PILOT, 1, pos, pos, 1, true );
 
                     // Delete the items that would have spawned here from a "corpse"
                     for( int sp : wreckage->parts_at_relative( vp.mount(), true ) ) {
