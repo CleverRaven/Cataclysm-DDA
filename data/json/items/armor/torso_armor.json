@@ -152,7 +152,7 @@
       {
         "material": [ { "type": "lc_steel", "covered_by_mat": 100, "thickness": 2.0 } ],
         "encumbrance": 22,
-        "coverage": 100,
+        "coverage": 95,
         "cover_ranged": 95,
         "cover_vitals": 70,
         "covers": [ "torso" ]
@@ -217,7 +217,7 @@
       {
         "material": [ { "type": "ch_steel", "covered_by_mat": 100, "thickness": 2.0 } ],
         "encumbrance": 22,
-        "coverage": 100,
+        "coverage": 95,
         "cover_ranged": 95,
         "cover_vitals": 70,
         "covers": [ "torso" ]
