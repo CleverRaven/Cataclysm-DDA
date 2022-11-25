@@ -136,7 +136,7 @@
     "type": "GENERIC",
     "category": "artifacts",
     "name": { "str": "bubble" },
-    "description": "Small, transparent bubble.  It divide himself at two, then at four, at eightg, at sixteen, endlessly, before turning back to single bubble and repeating the process.",
+    "description": "Small, transparent bubble.  It divide himself at two, then at four, at eight, at sixteen, endlessly, before turning back to single bubble and repeating the process.",
     "weight": "1 g",
     "volume": "150 ml",
     "price": 2000,

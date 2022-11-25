@@ -546,6 +546,8 @@ dryosaurus
 dryptosaurus
 drywalled
 dunderfuck
+duplicator
+duplicators
 dyoplosaurus
 dysmorphia
 dysrhythmia
@@ -779,6 +781,7 @@ glasknife
 glassblowing
 glassteel
 glassworking
+glitched
 gliters
 gloppy
 glowstick
@@ -1339,6 +1342,8 @@ openable
 openair
 opengl
 openingly
+ophanim
+ophanims
 orichalcum
 ornithomimid
 ornithomimus
