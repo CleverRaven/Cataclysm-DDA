@@ -39,9 +39,7 @@
   {
     "name": "GROUP_MIL_PILOT",
     "type": "monstergroup",
-    "monsters": [
-      { "monster": "mon_zombie_military_pilot" }
-    ]
+    "monsters": [ { "monster": "mon_zombie_military_pilot" } ]
   },
   {
     "name": "GROUP_MIL_PASSENGER",
