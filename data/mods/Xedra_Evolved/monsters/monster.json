@@ -150,7 +150,7 @@
     "id": "mon_ophanim",
     "type": "MONSTER",
     "name": { "str": "ophanim" },
-    "description": "Their entire bodies \nincluding their backs, their hands and their wings \nwere completely full of eyes \nas were their four wheels.",
+    "description": "Their entire bodies\nincluding their backs, their hands and their wings\nwere completely full of eyes\nas were their four wheels.",
     "default_faction": "player",
     "bodytype": "blob",
     "species": [ "NETHER" ],
