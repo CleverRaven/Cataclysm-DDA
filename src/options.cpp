@@ -2201,7 +2201,7 @@ void options_manager::add_options_graphics()
         { "color_pixel_sepia_dark", to_translation( "Sepia Dark" ) },
         { "color_pixel_blue_dark", to_translation( "Blue Dark" ) },
         { "color_pixel_custom", to_translation( "Custom" ) },
-    }, "color_pixel_sepia_light", COPT_CURSES_HIDE
+    }, "color_pixel_blue_dark", COPT_CURSES_HIDE
        );
 
     add( "MEMORY_RGB_DARK_RED", "graphics", to_translation( "Custom dark color RGB overlay - RED" ),
