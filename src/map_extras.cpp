@@ -143,7 +143,7 @@ static const map_extra_id map_extra_mx_supplydrop( "mx_supplydrop" );
 
 static const mongroup_id GROUP_FISH( "GROUP_FISH" );
 static const mongroup_id GROUP_FUNGI_FUNGALOID( "GROUP_FUNGI_FUNGALOID" );
-static const mongroup_id GROUP_MIL_PILOT( "GROUP_MIL_PASSENGER" );
+static const mongroup_id GROUP_MIL_PASSENGER( "GROUP_MIL_PASSENGER" );
 static const mongroup_id GROUP_MIL_PILOT( "GROUP_MIL_PILOT" );
 static const mongroup_id GROUP_MIL_WEAK( "GROUP_MIL_WEAK" );
 static const mongroup_id GROUP_NETHER_PORTAL( "GROUP_NETHER_PORTAL" );
