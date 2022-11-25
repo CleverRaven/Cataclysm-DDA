@@ -130,7 +130,7 @@
     "id": "duplicate_shifter",
     "type": "SPELL",
     "name": "Summon Shifter (Monster Version)",
-    "description": "Summon a shifter.  Monster version, the creature exist 1-2 seconds.  Mostly decorative effect to show 'glitchness'.",
+    "description": "Summon a shifter.  Monster version, the creature exists for 1-2 seconds.  Mostly decorative effect to show 'glitchiness'.",
     "valid_targets": [ "ground" ],
     "min_damage": 1,
     "max_damage": 1,
