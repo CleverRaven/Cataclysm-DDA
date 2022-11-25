@@ -1739,11 +1739,35 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "name": "lamellar cuirasses",
-    "description": "Recipes related to constructing lamellar cuirasses in various shapes and sizes.",
+    "name": "leather lamellar cuirasses",
+    "description": "Recipes related to constructing leather lamellar cuirasses in various shapes and sizes.",
     "skill_used": "tailor",
     "nested_category_data": [ "armor_lamellar", "xs_armor_lamellar", "xl_armor_lamellar" ],
     "difficulty": 3
+  },
+  {
+    "id": "nested_armor_lamellar_steel",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "name": "steel lamellar cuirasses",
+    "description": "Recipes related to constructing steel lamellar cuirasses in various shapes and sizes.",
+    "skill_used": "tailor",
+    "nested_category_data": [ "armor_lamellar_lc", "armor_lamellar_ch", "xs_armor_lamellar_lc", "xs_armor_lamellar_ch", "xl_armor_lamellar_lc", "xl_armor_lamellar_ch" ],
+    "difficulty": 4
+  },
+  {
+    "id": "nested_armor_lamellar_steel_repair",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "name": "steel lamellar repair",
+    "description": "Recipes related to repairing steel lamellar armor in various shapes and sizes.",
+    "skill_used": "tailor",
+    "nested_category_data": [ "armor_lamellar_lc_repair", "armor_lamellar_ch_repair", "xs_armor_lamellar_lc_repair", "xs_armor_lamellar_ch_repair", "xl_armor_lamellar_lc_repair", "xl_armor_lamellar_ch_repair" ],
+    "difficulty": 4
   },
   {
     "id": "nested_armor_cuirass",
