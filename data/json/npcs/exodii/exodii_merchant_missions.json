@@ -99,7 +99,7 @@
       { "text": "Why can't one of you do this?", "topic": "TALK_EXODII_MERCHANT_mission_1_explain" },
       {
         "text": "Well, today's your lucky day, my metal friend.  I already know the place quite well.",
-        "condition": "already met hub",
+        "condition": { "u_has_var": "u_discovered_robofac_intercom", "type": "dialogue", "context": "intercom", "value": "yes" },
         "topic": "TALK_EXODII_MERCHANT_mission_1_met_hub"
       },
       {
