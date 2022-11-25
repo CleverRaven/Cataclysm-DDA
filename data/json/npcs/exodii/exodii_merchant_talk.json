@@ -648,7 +648,7 @@
   {
     "id": "TALK_EXODII_MERCHANT_Jobs",
     "type": "talk_topic",
-    "dynamic_line": "&Rubik pulls out a binder, and flips through the pages for a second.  \"Yeah, we're always in need of some help around here. Here's the list I've been keeping for stuff like this, what are you interested in?\"",
+    "dynamic_line": "&Rubik pulls out a binder, and flips through the pages for a second.  \"Yeah, we're always in need of some help around here.  Here's the list I've been keeping for stuff like this, what are you interested in?\"",
     "//~": " ",
     "responses": [
       {
