@@ -205,7 +205,8 @@
   {
     "id": "TALK_EXODII_MERCHANT_mission_1_complete",
     "type": "talk_topic",
-    "dynamic_line": "That's great!  What would you like as payment?",
+    "dynamic_line": "'Tis a fine an' dandy!  What can ol' Rubik stand ye for, then?",
+    "//~": "That's great!  What would you like as payment?",
     "responses": [
       {
         "text": "Let's see what you have in stock.",
