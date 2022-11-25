@@ -782,6 +782,7 @@ glassblowing
 glassteel
 glassworking
 glitched
+glitchness
 gliters
 gloppy
 glowstick
