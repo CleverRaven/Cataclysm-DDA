@@ -112,7 +112,7 @@ if (TILES)
         target_link_libraries(cataclysm-tiles-common PUBLIC SDL2::SDL2
             SDL2::SDL2main
             SDL2::SDL2_image
-            $<IF:$<TARGET_EXISTS:SDL2_ttf::SDL2_ttf>,SDL2_ttf::SDL2_ttf,SDL2_ttf::SDL2_ttf-static>)
+            SDL2::SDL2_ttf)
     endif()
     if (SOUND)
         if (VCPKG_MANIFEST_MODE)
