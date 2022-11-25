@@ -439,9 +439,9 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
                     const tripoint pos = vp.pos();
                     // Spawn pilots in seats with controls.CTRL_ELECTRONIC
                     if( controls_at( wreckage, pos ) ) {
-                        m.place_spawns( GROUP_MIL_PILOT, 1, pos, pos, 1, true );
+                        m.place_spawns( GROUP_MIL_PILOT, 1, pos.xy(), pos.xy(), 1, true );
                     } else {
-                        m.place_spawns( GROUP_MIL_PASSENGER, 1, pos, pos, 1, true );
+                        m.place_spawns( GROUP_MIL_PASSENGER, 1, pos.xy(), pos.xy(), 1, true );
                     }
 
                     // Delete the items that would have spawned here from a "corpse"
@@ -461,9 +461,9 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
                     const tripoint pos = vp.pos();
                     // Spawn pilots in seats with controls.
                     if( controls_at( wreckage, pos ) ) {
-                        m.place_spawns( GROUP_MIL_PILOT, 1, pos, pos, 1, true );
+                        m.place_spawns( GROUP_MIL_PILOT, 1, pos.xy(), pos.xy(), 1, true );
                     } else {
-                        m.place_spawns( GROUP_MIL_WEAK, 2, pos, pos, 1, true );
+                        m.place_spawns( GROUP_MIL_WEAK, 2, pos.xy(), pos.xy(), 1, true );
                     }
 
                     // Delete the items that would have spawned here from a "corpse"
@@ -480,7 +480,7 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
                 // Just pilots
                 for( const vpart_reference &vp : wreckage->get_any_parts( VPFLAG_CONTROLS ) ) {
                     const tripoint pos = vp.pos();
-                    m.place_spawns( GROUP_MIL_PILOT, 1, pos, pos, 1, true );
+                    m.place_spawns( GROUP_MIL_PILOT, 1, pos.xy(), pos.xy(), 1, true );
 
                     // Delete the items that would have spawned here from a "corpse"
                     for( int sp : wreckage->parts_at_relative( vp.mount(), true ) ) {
