@@ -123,6 +123,7 @@ ausgegangen
 autoclave
 autoclaving
 autodoc
+autodocs
 autodrive
 autoinjector
 autoloading
@@ -607,6 +608,7 @@ estocs
 ethereally
 euoplocephalus
 eusocial
+evaced
 evacs
 everburning
 everfrost
@@ -708,6 +710,7 @@ foodburger
 foodcart
 foodplace
 footgear
+forager
 foregrip
 foregrips
 foreleg
@@ -756,6 +759,7 @@ galea
 gallimimus
 gallore
 gambeson
+gardenin
 garghoul
 gargoyleosaurus
 garou
@@ -862,6 +866,8 @@ helpdesk
 hemolymph
 hemostatics
 heoretical
+herbalism
+herbology
 hesperosaurus
 hevel
 hexamine
@@ -1005,6 +1011,7 @@ kg
 khopesh
 khru
 kickboard
+kickin
 killbasa
 kilroy
 kinbot
@@ -1350,6 +1357,7 @@ otha
 otherland
 otherlander
 otherlands
+otherworldly
 otherworlds
 overbore
 overclocks
@@ -1359,6 +1367,7 @@ overlayed
 overmap
 overmaps
 overpenetration
+overrates
 overshoes
 overtop
 owlbear
@@ -1383,6 +1392,8 @@ parst
 parthenogenetic
 partyin
 pasteurize
+patchwork
+patchworks
 pathfinding
 pauldron
 pauldrons
@@ -1434,6 +1445,8 @@ pissbrain
 pixelates
 pixelation
 pizzaiolo
+planer
+planers
 planetside
 plantlike
 plastron
@@ -1477,6 +1490,7 @@ premeasured
 preminiscent
 premix
 preoptic
+prepper
 presaging
 prescriptures
 prev
@@ -1487,6 +1501,7 @@ procompsignathids
 proficiencies
 profusive
 promptus
+proofreader
 propyl
 prosaurolophus
 proten
@@ -1501,6 +1516,7 @@ psychrophile
 ptions
 pts
 pufts
+puker
 pukers
 pumpkinseed
 pumpkinseeds
@@ -1538,6 +1554,7 @@ railguns
 raincatcher
 rainsuit
 rale
+ramblin
 randomize
 rangehands
 raptorial
@@ -1591,6 +1608,7 @@ reptoid
 reptoids
 rerio
 rerolling
+resiliently
 resinosa
 resinous
 resmelt
@@ -1730,6 +1748,9 @@ sinensis
 sixgun
 skeletonized
 skeltal
+skillset
+skillsets
+skippin
 skirmisher
 skitterbot
 skittishly
@@ -1806,6 +1827,7 @@ sssssh
 ssssssss
 starer
 starrin
+startin
 staunchable
 staunching
 std
@@ -1925,6 +1947,7 @@ thumbholes
 thyreophoran
 tileset
 tillable
+timey
 tindalos
 tinning
 tiredly
@@ -1962,6 +1985,7 @@ transp
 transpositions
 travelpack
 traversal
+treatin
 treelines
 tribesperson
 tribot
@@ -2017,6 +2041,7 @@ unfermented
 unfixable
 unflavored
 unfoldable
+unfriendliness
 ungraspable
 unhardened
 unharvested
@@ -2169,9 +2194,9 @@ yateveo
 ybindings
 yipe
 ynn
-yo-yo
 yoroi
 yowl
+yo-yo
 yugg
 yulecat
 z
@@ -2203,3 +2228,4 @@ zweitimbers
 zygomaticus
 zzz
 zzzzchzzzzchurzzzpileus
+foldable

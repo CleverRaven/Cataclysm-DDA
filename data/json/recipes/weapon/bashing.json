@@ -827,7 +827,7 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_toolsmithing" }
     ],
-    "components": [ [ [ "q_staff", 1 ] ] ]
+    "components": [ [ [ "bo", 1 ] ] ]
   },
   {
     "result": "knuckle_impact",
