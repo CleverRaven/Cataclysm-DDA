@@ -755,6 +755,15 @@
   },
   {
     "type": "GENERIC",
+    "id": "chalice",
+    "symbol": "/",
+    "color": "yellow",
+    "copy-from": "candlestick",
+    "name": { "str": "chalice" },
+    "description": "A gold chalice."
+  },
+  {
+    "type": "GENERIC",
     "id": "blade",
     "symbol": "/",
     "color": "light_gray",
@@ -2678,6 +2687,14 @@
     "color": "green",
     "name": { "str": "alexandrite" },
     "description": "A sparkling alexandrite."
+  },
+  {
+    "type": "GENERIC",
+    "id": "malachite",
+    "copy-from": "garnet",
+    "color": "green",
+    "name": { "str": "malachite" },
+    "description": "A sparkling malachite."
   },
   {
     "type": "GENERIC",
