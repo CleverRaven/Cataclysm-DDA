@@ -1754,7 +1754,14 @@
     "name": "steel lamellar cuirasses",
     "description": "Recipes related to constructing steel lamellar cuirasses in various shapes and sizes.",
     "skill_used": "tailor",
-    "nested_category_data": [ "armor_lamellar_lc", "armor_lamellar_ch", "xs_armor_lamellar_lc", "xs_armor_lamellar_ch", "xl_armor_lamellar_lc", "xl_armor_lamellar_ch" ],
+    "nested_category_data": [
+      "armor_lamellar_lc",
+      "armor_lamellar_ch",
+      "xs_armor_lamellar_lc",
+      "xs_armor_lamellar_ch",
+      "xl_armor_lamellar_lc",
+      "xl_armor_lamellar_ch"
+    ],
     "difficulty": 4
   },
   {
@@ -1766,7 +1773,14 @@
     "name": "steel lamellar repair",
     "description": "Recipes related to repairing steel lamellar armor in various shapes and sizes.",
     "skill_used": "tailor",
-    "nested_category_data": [ "armor_lamellar_lc_repair", "armor_lamellar_ch_repair", "xs_armor_lamellar_lc_repair", "xs_armor_lamellar_ch_repair", "xl_armor_lamellar_lc_repair", "xl_armor_lamellar_ch_repair" ],
+    "nested_category_data": [
+      "armor_lamellar_lc_repair",
+      "armor_lamellar_ch_repair",
+      "xs_armor_lamellar_lc_repair",
+      "xs_armor_lamellar_ch_repair",
+      "xl_armor_lamellar_lc_repair",
+      "xl_armor_lamellar_ch_repair"
+    ],
     "difficulty": 4
   },
   {
