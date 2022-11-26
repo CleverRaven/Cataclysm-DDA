@@ -343,8 +343,8 @@ static bool mx_house_wasp( map &m, const tripoint &/*loc*/ )
         m.place_spawns( GROUP_WASP_GUARD, 1, pod, pod, 1, true );
     }
     m.place_spawns( GROUP_WASP_QUEEN, 1, point_zero, point( SEEX, SEEY ), 1, true );
-    m.place_spawns( GROUP_DERMATIK, 5, point( SEEX * 2 - 4, SEEY * 2 - 4 ), point( SEEX * 2 + 2,
-                    SEEY * 2 + 2 ), 0.1f );
+    m.place_spawns( GROUP_DERMATIK, 5, { SEEX * 2 - 1, SEEY * 2 - 1 }, { SEEX * 2 - 1, SEEY * 2 - 1 },
+                    0.1f );
 
     return true;
 }
