@@ -1413,7 +1413,6 @@
       },
       {
         "covers": [ "leg_l", "leg_r" ],
-        "encumbrance": 0,
         "coverage": 35,
         "material": [
           { "type": "thermo_resin", "covered_by_mat": 100, "thickness": 1.5 }
