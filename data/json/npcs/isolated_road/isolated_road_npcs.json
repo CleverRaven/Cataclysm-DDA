@@ -52,7 +52,7 @@
     "mission": 3,
     "chat": "TALK_GUNSMITH_SERVICES",
     "faction": "isolated_artisans",
-	"traits": [ { "trait": "NOMOVE" } ]
+    "traits": [ { "trait": "NOMOVE" } ]
   },
   {
     "type": "npc_class",
