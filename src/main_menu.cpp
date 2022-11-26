@@ -13,6 +13,8 @@
 #include <optional>
 #include <string>
 
+#include <emscripten.h>
+
 #include "auto_pickup.h"
 #include "avatar.h"
 #include "cata_scope_helpers.h"
@@ -452,7 +454,9 @@ void main_menu::init_strings()
     vMenuItems.emplace_back( pgettext( "Main Menu", "Se<t|T>tings" ) );
     vMenuItems.emplace_back( pgettext( "Main Menu", "H<e|E|?>lp" ) );
     vMenuItems.emplace_back( pgettext( "Main Menu", "<C|c>redits" ) );
+#if !defined(EMSCRIPTEN)
     vMenuItems.emplace_back( pgettext( "Main Menu", "<Q|q>uit" ) );
+#endif
 
     // new game menu items
     vNewGameSubItems.clear();
@@ -634,6 +638,8 @@ bool main_menu::opening_screen()
             load_game = true;
         }
     }
+
+    EM_ASM(window.dispatchEvent(new Event('menuready')););
 
     while( !start ) {
         ui_manager::redraw();

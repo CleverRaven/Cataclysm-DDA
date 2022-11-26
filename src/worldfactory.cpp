@@ -407,7 +407,7 @@ void worldfactory::init()
             for( auto &origin_file : get_files_from_path( ".", origin_path, false ) ) {
                 std::string filename = origin_file.substr( origin_file.find_last_of( "/\\" ) );
 
-                if( rename( origin_file.c_str(), ( newworld->folder_path() + filename ).c_str() ) ) {
+                if( rename_file( origin_file.c_str(), ( newworld->folder_path() + filename ).c_str() ) ) {
                     debugmsg( "Error while moving world files: %s.  World may have been corrupted",
                               strerror( errno ) );
                 }

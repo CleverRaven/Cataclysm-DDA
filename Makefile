@@ -22,6 +22,8 @@
 #   Run: make NATIVE=win32
 # OS X
 #   Run: make NATIVE=osx
+# Emscripten
+#   Run: make NATIVE=emscripten
 
 # Build types:
 # Debug (no optimizations)
@@ -113,7 +115,7 @@ WARNINGS = \
   -Wno-dangling-reference \
   -Wno-c++20-compat
 # Uncomment below to disable warnings
-#WARNINGS = -w
+WARNINGS = -w
 DEBUGSYMS = -g
 #PROFILE = -pg
 #OTHERS = -O3
@@ -389,6 +391,8 @@ ifeq ($(RELEASE), 1)
     else
       OPTLEVEL = -O3
     endif
+  else ifeq ($(NATIVE), emscripten)
+    OPTLEVEL = -Os
   else
     # MXE ICE Workaround
     # known bad on 4.9.3 and 4.9.4, if it gets fixed this could include a version test too
@@ -457,7 +461,9 @@ else
     # way to turn off optimization (make NOOPT=1) entirely.
     OPTLEVEL = -O0
   else
-    ifeq ($(shell $(CXX) -E -Og - < /dev/null > /dev/null 2>&1 && echo fog),fog)
+    ifeq ($(NATIVE),emscripten)
+      OPTLEVEL = -O3
+    else ifeq ($(shell $(CXX) -E -Og - < /dev/null > /dev/null 2>&1 && echo fog),fog)
       OPTLEVEL = -Og
     else
       OPTLEVEL = -O0
@@ -618,6 +624,40 @@ ifeq ($(NATIVE), cygwin)
   TARGETSYSTEM=CYGWIN
 endif
 
+# Cygwin
+ifeq ($(NATIVE), emscripten)
+  CXX=emcc
+  LD=emcc
+
+  # Flags that are common across compile and link phases.
+  EMCC_COMMON_FLAGS = -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -sASYNCIFY -sSDL2_IMAGE_FORMATS=['png']
+  
+  ifneq ($(RELEASE), 1)
+    EMCC_COMMON_FLAGS += -g
+  endif
+  
+  CXXFLAGS += $(EMCC_COMMON_FLAGS)
+  LDFLAGS += $(EMCC_COMMON_FLAGS)
+
+  LDFLAGS += --preload-file web_bundle@/
+  LDFLAGS += --bind -sALLOW_MEMORY_GROWTH -sEXPORTED_RUNTIME_METHODS=['FS','stackTrace','jsStackTrace']
+  LDFLAGS += -sASYNCIFY_STACK_SIZE=16384
+  LDFLAGS += -sENVIRONMENT=web
+  LDFLAGS += -lidbfs.js
+  LDFLAGS += --pre-js pre.js
+  LDFLAGS += -sWASM_BIGINT # Browser will require BigInt support.
+
+  ifeq ($(RELEASE), 1)
+    # Release-mode Linker flags.
+    LDFLAGS += -Os
+    LDFLAGS += -sLZ4
+  else
+    # Debug mode linker flags.
+    LDFLAGS += -O1 # Emscripten link time is slow, so use low optimization level.
+    LDFLAGS += -sFS_DEBUG
+  endif
+endif
+
 # MXE cross-compile to win32
 ifneq (,$(findstring mingw32,$(CROSS)))
   DEFINES += -DCROSS_LINUX
@@ -716,7 +756,7 @@ ifeq ($(TILES), 1)
         LDFLAGS += -lSDL2_mixer
       endif
     endif
-  else # not osx
+  else ifneq ($(NATIVE),emscripten)
     CXXFLAGS += $(shell $(PKG_CONFIG) --cflags sdl2 SDL2_image SDL2_ttf)
 
     ifeq ($(STATIC), 1)
@@ -965,6 +1005,9 @@ ifeq ($(RELEASE), 1)
     endif
   endif
 endif
+
+cataclysm-tiles.js: $(OBJS)
+	+$(LD) $(W32FLAGS) -o cataclysm-tiles.html $(OBJS) $(LDFLAGS)
 
 $(PCH_P): $(PCH_H)
 	-$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -MMD -MP -Wno-error -c $(PCH_H) -o $(PCH_P)

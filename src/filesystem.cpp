@@ -19,6 +19,8 @@
 #   include "platform_win.h"
 #endif
 
+#include <emscripten.h>
+
 bool assure_dir_exist( const std::string &path )
 {
     return assure_dir_exist( fs::u8path( path ) );
@@ -31,6 +33,7 @@ bool assure_dir_exist( const cata_path &path )
 
 bool assure_dir_exist( const fs::path &path )
 {
+    EM_ASM(window.idb_needs_sync = true;);
     std::error_code ec;
     bool exists{false};
     bool created{false};
@@ -101,6 +104,7 @@ bool remove_file( const std::string &path )
 
 bool remove_file( const fs::path &path )
 {
+    EM_ASM(window.idb_needs_sync = true;);
     std::error_code ec;
     return fs::remove( path, ec );
 }
@@ -112,6 +116,7 @@ bool rename_file( const std::string &old_path, const std::string &new_path )
 
 bool rename_file( const fs::path &old_path, const fs::path &new_path )
 {
+    EM_ASM(window.idb_needs_sync = true;);
     std::error_code ec;
     fs::rename( old_path, new_path, ec );
     return !ec;
@@ -135,6 +140,7 @@ bool remove_directory( const std::string &path )
 bool remove_directory( const fs::path &path )
 {
     std::error_code ec;
+    EM_ASM(window.idb_needs_sync = true;);
     return fs::remove( path, ec );
 }
 
