@@ -2156,9 +2156,9 @@
       [ [ "filament_durable", 20, "LIST" ] ],
       [ [ "leather", 2 ], [ "chunk_rubber", 1 ] ],
       [ [ "rubber_cement", 1 ], [ "superglue", 1 ] ]
-     ]
-    },
-    {
+    ]
+  },
+  {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "ax_sheets_bolted",
