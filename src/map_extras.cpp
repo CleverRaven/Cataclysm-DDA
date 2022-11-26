@@ -143,16 +143,17 @@ static const map_extra_id map_extra_mx_supplydrop( "mx_supplydrop" );
 
 static const mongroup_id GROUP_FISH( "GROUP_FISH" );
 static const mongroup_id GROUP_FUNGI_FUNGALOID( "GROUP_FUNGI_FUNGALOID" );
+static const mongroup_id GROUP_MIL_WEAK( "GROUP_MIL_WEAK" );
 static const mongroup_id GROUP_NETHER_PORTAL( "GROUP_NETHER_PORTAL" );
 static const mongroup_id GROUP_STRAY_DOGS( "GROUP_STRAY_DOGS" );
+static const mongroup_id GROUP_TURRET_RIOT( "GROUP_TURRET_RIOT" );
+static const mongroup_id GROUP_TURRET_SEARCHLIGHT( "GROUP_TURRET_SEARCHLIGHT" );
 static const mongroup_id GROUP_WASP_GUARD( "GROUP_WASP_GUARD" );
 static const mongroup_id GROUP_WASP_QUEEN( "GROUP_WASP_QUEEN" );
 
 static const mtype_id mon_dermatik( "mon_dermatik" );
 static const mtype_id mon_jabberwock( "mon_jabberwock" );
 static const mtype_id mon_shia( "mon_shia" );
-static const mtype_id mon_turret_riot( "mon_turret_riot" );
-static const mtype_id mon_turret_searchlight( "mon_turret_searchlight" );
 static const mtype_id mon_turret_speaker( "mon_turret_speaker" );
 static const mtype_id mon_wolf( "mon_wolf" );
 static const mtype_id mon_zombie_bio_op( "mon_zombie_bio_op" );
@@ -533,7 +534,7 @@ static bool mx_roadblock( map &m, const tripoint &abs_sub )
     const bool road_at_east = east->get_type_id() == oter_type_road;
 
     const auto spawn_turret = [&]( const point & p ) {
-        m.add_spawn( mon_turret_riot, 1, { p, abs_sub.z } );
+        m.place_spawns( GROUP_TURRET_RIOT, 1, p, p, 1, true );
     };
 
     if( one_in( 6 ) ) { //Military doesn't joke around with their barricades!
@@ -608,7 +609,7 @@ static bool mx_roadblock( map &m, const tripoint &abs_sub )
         }
 
         line_furn( &m, f_sandbag_half, point( 12, 7 ), point( 15, 7 ) );
-        m.add_spawn( mon_turret_searchlight, 1, { 13, 8, abs_sub.z } );
+        m.place_spawns( GROUP_TURRET_SEARCHLIGHT, 1, { 13, 8 }, { 13, 8 }, 1, true );
         m.furn_set( point( 14, 8 ), furn_f_compact_ASRG_containment );
         line_furn( &m, f_sandbag_half, point( 12, 9 ), point( 15, 9 ) );
 
@@ -617,7 +618,7 @@ static bool mx_roadblock( map &m, const tripoint &abs_sub )
             if( const auto p = random_point( m, [&m]( const tripoint & n ) {
             return m.passable( n );
             } ) ) {
-                m.add_spawn( mon_zombie_soldier, 1, *p );
+                m.place_spawns( GROUP_MIL_WEAK, 1, p->xy(), p->xy(), 0.1f );
                 // 10% chance of zombie carrying weapon so 90% chance of it being on the ground
                 if( !one_in( 10 ) ) {
                     item_group_id group;
@@ -645,29 +646,29 @@ static bool mx_roadblock( map &m, const tripoint &abs_sub )
         if( road_at_north ) {
             line_furn( &m, f_barricade_road, point( 4, 3 ), point( 10, 3 ) );
             line_furn( &m, f_barricade_road, point( 13, 3 ), point( 19, 3 ) );
-            m.add_spawn( mon_turret_riot, 1, { 12, 1, abs_sub.z } );
+            spawn_turret( { 12, 1 } );
         }
         if( road_at_east ) {
             line_furn( &m, f_barricade_road, point( SEEX * 2 - 3, 4 ), point( SEEX * 2 - 3, 10 ) );
             line_furn( &m, f_barricade_road, point( SEEX * 2 - 3, 13 ), point( SEEX * 2 - 3, 19 ) );
-            m.add_spawn( mon_turret_riot, 1, { SEEX * 2 - 1, 12, abs_sub.z } );
+            spawn_turret( { SEEX * 2 - 1, 12 } );
         }
         if( road_at_south ) {
             line_furn( &m, f_barricade_road, point( 4, SEEY * 2 - 3 ), point( 10, SEEY * 2 - 3 ) );
             line_furn( &m, f_barricade_road, point( 13, SEEY * 2 - 3 ), point( 19, SEEY * 2 - 3 ) );
-            m.add_spawn( mon_turret_riot, 1, { 12, SEEY * 2 - 1, abs_sub.z } );
+            spawn_turret( { 12, SEEY * 2 - 1 } );
         }
         if( road_at_west ) {
             line_furn( &m, f_barricade_road, point( 3, 4 ), point( 3, 10 ) );
             line_furn( &m, f_barricade_road, point( 3, 13 ), point( 3, 19 ) );
-            m.add_spawn( mon_turret_riot, 1, { 1, 12, abs_sub.z } );
+            spawn_turret( { 1, 12 } );
         }
 
         m.add_vehicle( vehicle_prototype_policecar, point( 8, 6 ), 20_degrees );
         m.add_vehicle( vehicle_prototype_policecar, point( 16, SEEY * 2 - 6 ), 145_degrees );
 
         line_furn( &m, f_sandbag_half, point( 6, 10 ), point( 9, 10 ) );
-        m.add_spawn( mon_turret_searchlight, 1, { 7, 11, abs_sub.z } );
+        m.place_spawns( GROUP_TURRET_SEARCHLIGHT, 1, { 7, 11 }, { 7, 11 }, 1, true );
         m.furn_set( point( 8, 11 ), furn_f_compact_ASRG_containment );
         line_furn( &m, f_sandbag_half, point( 6, 12 ), point( 9, 12 ) );
 
