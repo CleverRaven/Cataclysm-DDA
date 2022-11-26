@@ -3214,6 +3214,7 @@ class jmapgen_remove_npcs : public jmapgen_piece
                     }
                     if( get_map().inbounds( npc->get_location() ) ) {
                         g->remove_npc( npc->getID() );
+                        get_avatar().get_mon_visible().remove_npc( npc.get() );
                     }
                 }
             }
