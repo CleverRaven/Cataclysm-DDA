@@ -2074,7 +2074,7 @@
         "covers": [ "torso" ],
         "material": [
           { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 8 },
-          { "type": "thermo_resin", "covered_by_mat": 85, "thickness": 2.5 }
+          { "type": "thermo_resin", "covered_by_mat": 85, "thickness": 2 }
         ]
       },
       {
@@ -2089,10 +2089,10 @@
       },
       {
         "covers": [ "leg_l", "leg_r" ],
-        "coverage": 100,
+        "encumbrance": 0,
+        "coverage": 35,
         "material": [
-          { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 6 },
-          { "type": "thermo_resin", "covered_by_mat": 20, "thickness": 1.5 }
+          { "type": "thermo_resin", "covered_by_mat": 100, "thickness": 1.5 }
         ],
         "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
       }
