@@ -618,7 +618,7 @@ static bool mx_roadblock( map &m, const tripoint &abs_sub )
             if( const auto p = random_point( m, [&m]( const tripoint & n ) {
             return m.passable( n );
             } ) ) {
-                m.place_spawns( GROUP_MIL_WEAK, 1, p->xy(), p->xy(), 0.1f );
+                m.place_spawns( GROUP_MIL_WEAK, 1, p->xy(), p->xy(), 1, true );
                 // 10% chance of zombie carrying weapon so 90% chance of it being on the ground
                 if( !one_in( 10 ) ) {
                     item_group_id group;
