@@ -141,16 +141,16 @@ static const map_extra_id map_extra_mx_shia( "mx_shia" );
 static const map_extra_id map_extra_mx_shrubbery( "mx_shrubbery" );
 static const map_extra_id map_extra_mx_supplydrop( "mx_supplydrop" );
 
+static const mongroup_id GROUP_CANNIBAL( "GROUP_CANNIBAL" );
 static const mongroup_id GROUP_FISH( "GROUP_FISH" );
 static const mongroup_id GROUP_FUNGI_FUNGALOID( "GROUP_FUNGI_FUNGALOID" );
+static const mongroup_id GROUP_JABBERWOCK( "GROUP_JABBERWOCK" );
 static const mongroup_id GROUP_NETHER_PORTAL( "GROUP_NETHER_PORTAL" );
 static const mongroup_id GROUP_STRAY_DOGS( "GROUP_STRAY_DOGS" );
 static const mongroup_id GROUP_WASP_GUARD( "GROUP_WASP_GUARD" );
 static const mongroup_id GROUP_WASP_QUEEN( "GROUP_WASP_QUEEN" );
 
 static const mtype_id mon_dermatik( "mon_dermatik" );
-static const mtype_id mon_jabberwock( "mon_jabberwock" );
-static const mtype_id mon_shia( "mon_shia" );
 static const mtype_id mon_turret_riot( "mon_turret_riot" );
 static const mtype_id mon_turret_searchlight( "mon_turret_searchlight" );
 static const mtype_id mon_turret_speaker( "mon_turret_speaker" );
@@ -1520,21 +1520,21 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
     return true;
 }
 
-static bool mx_shia( map &m, const tripoint &loc )
+static bool mx_shia( map &m, const tripoint &/*loc*/ )
 {
     // A rare chance to spawn Shia. This was extracted from the hardcoded forest mapgen
     // and moved into a map extra, but it still has a one_in chance of spawning because
     // otherwise the extreme rarity of this event wildly skewed the values for all of the
     // other extras.
     if( one_in( 5000 ) ) {
-        m.add_spawn( mon_shia, 1, { SEEX, SEEY, loc.z } );
+        m.place_spawns( GROUP_CANNIBAL, 1, { 0, 0 }, { SEEX * 2, SEEY * 2 }, 1, true );
         return true;
     }
 
     return false;
 }
 
-static bool mx_jabberwock( map &m, const tripoint &loc )
+static bool mx_jabberwock( map &m, const tripoint &/*loc*/ )
 {
     // A rare chance to spawn a jabberwock. This was extracted from the hardcoded forest mapgen
     // and moved into a map extra. It still has a one_in chance of spawning because otherwise
@@ -1542,7 +1542,7 @@ static bool mx_jabberwock( map &m, const tripoint &loc )
     // into the monster group, but again the hardcoded rarity it had in the forest mapgen was
     // not easily replicated there.
     if( one_in( 50 ) ) {
-        m.add_spawn( mon_jabberwock, 1, { SEEX, SEEY, loc.z } );
+        m.place_spawns( GROUP_JABBERWOCK, 1, { 0, 0 }, { SEEX * 2, SEEY * 2 }, 1, true );
         return true;
     }
 
