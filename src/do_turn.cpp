@@ -491,6 +491,8 @@ void monmove()
     // Now, do active NPCs.
     for( npc &guy : g->all_npcs() ) {
         int turns = 0;
+        int real_count = 0;
+        const int count_limit = std::max( 10, guy.moves / 64 );
         if( guy.is_mounted() ) {
             guy.check_mount_is_spooked();
         }
@@ -500,13 +502,16 @@ void monmove()
         }
         while( !guy.is_dead() && ( !guy.in_sleep_state() || guy.activity.id() == ACT_OPERATION ) &&
                guy.moves > 0 && turns < 10 ) {
-            int moves = guy.moves;
+            const int moves = guy.moves;
+            const bool has_destination = guy.has_destination_activity();
             guy.move();
             if( moves == guy.moves ) {
                 // Count every time we exit npc::move() without spending any moves.
-                turns++;
+                real_count++;
+                if( has_destination == guy.has_destination_activity() || real_count > count_limit ) {
+                    turns++;
+                }
             }
-
             // Turn on debug mode when in infinite loop
             // It has to be done before the last turn, otherwise
             // there will be no meaningful debug output.
@@ -594,7 +599,7 @@ bool do_turn()
         return turn_handler::cleanup_at_end();
     }
     // Actual stuff
-    if( g-> new_game ) {
+    if( g->new_game ) {
         g->new_game = false;
     } else {
         g->gamemode->per_turn();
@@ -604,6 +609,15 @@ bool do_turn()
     play_music( music::get_music_id_string() );
 
     weather_manager &weather = get_weather();
+    if( get_option<std::string>( "ETERNAL_WEATHER" ) != "normal" ) {
+        weather.weather_override = static_cast<weather_type_id>
+                                   ( get_option<std::string>( "ETERNAL_WEATHER" ) );
+        weather.set_nextweather( calendar::turn );
+    } else {
+        weather.weather_override = WEATHER_NULL;
+        weather.set_nextweather( calendar::turn );
+    }
+
     // starting a new turn, clear out temperature cache
     weather.temperature_cache.clear();
 
@@ -804,6 +818,7 @@ bool do_turn()
     g->mon_info_update();
     u.process_turn();
     if( u.moves < 0 && get_option<bool>( "FORCE_REDRAW" ) ) {
+        g->mon_info_update();
         ui_manager::redraw();
         refresh_display();
     }

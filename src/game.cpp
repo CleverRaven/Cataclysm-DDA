@@ -2546,8 +2546,14 @@ bool game::try_get_left_click_action( action_id &act, const tripoint_bub_ms &mou
     }
 
     if( new_destination ) {
-        destination_preview = m.route( u.pos_bub(), mouse_target, u.get_pathfinding_settings(),
-                                       u.get_path_avoid() );
+        const cata::optional<std::vector<tripoint_bub_ms>> try_route =
+        safe_route_to( u, mouse_target, 0, []( const std::string & msg ) {
+            add_msg( msg );
+        } );
+        if( try_route.has_value() ) {
+            destination_preview = *try_route;
+            return true;
+        }
         return false;
     }
 
@@ -5635,6 +5641,9 @@ void game::examine( const tripoint &examp, bool with_pickup )
         }
     }
 
+    // trap::iexamine will handle the invisible traps.
+    m.tr_at( examp ).examine( examp );
+
     if( m.has_flag( ter_furn_flag::TFLAG_CONSOLE, examp ) && !u.is_mounted() ) {
         use_computer( examp );
         return;
@@ -5671,9 +5680,6 @@ void game::examine( const tripoint &examp, bool with_pickup )
         none = false;
     }
 
-    // trap::iexamine will handle the invisible traps.
-    m.tr_at( examp ).examine( examp );
-
     // In case of teleport trap or somesuch
     if( player_pos != u.pos() ) {
         return;
@@ -5706,7 +5712,8 @@ void game::examine( const tripoint &examp, bool with_pickup )
             sounds::process_sound_markers( &u );
             // Pick up items, if there are any, unless there is reason to not to
             if( with_pickup && m.has_items( examp ) && !u.is_mounted() &&
-                !m.has_flag( ter_furn_flag::TFLAG_NO_PICKUP_ON_EXAMINE, examp ) ) {
+                !m.has_flag( ter_furn_flag::TFLAG_NO_PICKUP_ON_EXAMINE, examp ) &&
+                !m.only_liquid_in_liquidcont( examp ) ) {
                 pickup( examp );
             }
         }
@@ -6939,6 +6946,57 @@ void game::pre_print_all_tile_info( const tripoint &lp, const catacurses::window
     print_all_tile_info( lp, w_info, area_name, 1, first_line, last_line, cache );
 }
 
+cata::optional<std::vector<tripoint_bub_ms>> game::safe_route_to( Character &who,
+        const tripoint_bub_ms &target, int threshold,
+        const std::function<void( const std::string &msg )> &report ) const
+{
+    map &here = get_map();
+    if( !who.sees( target ) ) {
+        report( _( "You can't see the destination." ) );
+        return cata::nullopt;
+    }
+    if( rl_dist( who.pos_bub(), target ) <= threshold ) {
+        return {}; // no need to move anywhere, already near destination
+    }
+    using route_t = std::vector<tripoint_bub_ms>;
+    const auto get_shorter_route = [&who]( const route_t &a, const route_t &b ) {
+        if( a.empty() ) {
+            return b; // if route is empty return the non-empty one
+        } else if( b.empty() ) {
+            return a; // if route is empty return the non-empty one
+        } else if( a.size() != b.size() ) {
+            return a.size() < b.size() ? a : b; // if both non empty return shortest length in tiles
+        } else {
+            // if both are equal length in tiles return the one closest to target
+            const float dist_a = rl_dist_exact( who.pos_bub().raw(), a.back().raw() );
+            const float dist_b = rl_dist_exact( who.pos_bub().raw(), b.back().raw() );
+            return dist_a < dist_b ? a : b;
+        }
+    };
+    route_t shortest_route;
+    std::set<tripoint> path_avoid;
+    for( const tripoint_bub_ms &p : points_in_radius( who.pos_bub(), 60 ) ) {
+        if( is_dangerous_tile( p.raw() ) ) {
+            path_avoid.insert( p.raw() );
+        }
+    }
+    for( const tripoint_bub_ms &p : here.points_in_radius( target, threshold, 0 ) ) {
+        if( path_avoid.count( p.raw() ) > 0 ) {
+            continue; // dont route to dangerous tiles
+        }
+        const route_t route = here.route( who.pos_bub(), p, who.get_pathfinding_settings(), path_avoid );
+        if( route.empty() ) {
+            continue; // no route
+        }
+        shortest_route = get_shorter_route( shortest_route, route );
+    }
+    if( shortest_route.empty() ) {
+        report( _( "You can't travel there." ) );
+        return cata::nullopt;
+    }
+    return shortest_route;
+}
+
 cata::optional<tripoint> game::look_around()
 {
     tripoint center = u.pos() + u.view_offset;
@@ -7189,17 +7247,12 @@ look_around_result game::look_around(
             u.view_offset.z = center.z - u.posz();
             m.invalidate_map_cache( center.z );
         } else if( action == "TRAVEL_TO" ) {
-            if( !u.sees( lp ) ) {
-                add_msg( _( "You can't see that destination." ) );
-                continue;
-            }
-
-            auto route = m.route( u.pos_bub(), lp, u.get_pathfinding_settings(), u.get_path_avoid() );
-            if( route.size() > 1 ) {
-                route.pop_back();
-                u.set_destination( route );
-            } else {
-                add_msg( m_info, _( "You can't travel there." ) );
+            const cata::optional<std::vector<tripoint_bub_ms>> try_route = safe_route_to( u, lp,
+            0,  []( const std::string & msg ) {
+                add_msg( msg );
+            } );
+            if( try_route.has_value() ) {
+                u.set_destination( *try_route );
                 continue;
             }
         } else if( action == "debug_scent" || action == "debug_scent_type" ) {
@@ -8026,35 +8079,14 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             mSortCategory.clear();
             refilter = true;
         } else if( action == "TRAVEL_TO" && activeItem ) {
-            if( !u.sees( u.pos() + active_pos ) ) {
-                add_msg( _( "You can't see that destination." ) );
-            }
-            if( rl_dist( tripoint_zero, active_pos ) <= 1 ) {
-                break; // no need to move anywhere, already near destination
-            }
-            using route_t = std::vector<tripoint_bub_ms>;
-            const auto get_shorter_route = [&]( const route_t &a, const route_t &b ) {
-                // if one route is empty return the non-empty one
-                // if both non empty return shortest length in tiles
-                // if both equal length in tile return shortest in distance
-                return a.empty() ? b
-                       : b.empty() ? a
-                       : a.size() != b.size() ? ( a.size() < b.size() ? a : b )
-                       : ( rl_dist_exact( a.back().raw(), u.pos() ) < rl_dist_exact( b.back().raw(), u.pos() ) ? a : b );
-            };
-            route_t shortest_route;
-            for( const tripoint_bub_ms &p : m.points_in_radius( u.pos_bub() + active_pos, 1, 0 ) ) {
-                const route_t route = m.route( u.pos_bub(), p, u.get_pathfinding_settings(), u.get_path_avoid() );
-                if( route.empty() ) {
-                    continue;
-                }
-                shortest_route = get_shorter_route( shortest_route, route );
-            }
-            if( !shortest_route.empty() ) {
-                u.set_destination( shortest_route );
+            // try finding route to the tile, or one tile away from it
+            const cata::optional<std::vector<tripoint_bub_ms>> try_route =
+            safe_route_to( u, u.pos_bub() + active_pos, 1, []( const std::string & msg ) {
+                popup( msg );
+            } );
+            if( try_route.has_value() ) {
+                u.set_destination( *try_route );
                 break;
-            } else {
-                popup( _( "You can't travel there." ) );
             }
         }
         if( uistate.list_item_sort == 1 ) {
@@ -8746,9 +8778,10 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
                         corpses[index]->has_flag( flag_FIELD_DRESS_FAILED ) ) ) {
                     has_organs = true;
                 }
-                if( entry.type == harvest_drop_blood && !( corpses[index]->has_flag( flag_QUARTERED ) ||
-                        corpses[index]->has_flag( flag_FIELD_DRESS ) ||
-                        corpses[index]->has_flag( flag_FIELD_DRESS_FAILED ) || corpses[index]->has_flag( flag_BLED ) ) ) {
+                if( entry.type == harvest_drop_blood && dead_mon->bleed_rate > 0 &&
+                    !( corpses[index]->has_flag( flag_QUARTERED ) ||
+                       corpses[index]->has_flag( flag_FIELD_DRESS ) ||
+                       corpses[index]->has_flag( flag_FIELD_DRESS_FAILED ) || corpses[index]->has_flag( flag_BLED ) ) ) {
                     has_blood = true;
                 }
             }
@@ -10879,7 +10912,7 @@ void game::water_affect_items( Character &ch ) const
                    && !loc.protected_from_liquids() ) {
             wet.emplace_back( loc );
         } else if( loc->typeId() == itype_towel && !loc.protected_from_liquids() ) {
-            loc->convert( itype_towel_wet );
+            loc->convert( itype_towel_wet ).active = true;
         }
     }
 
@@ -10927,7 +10960,6 @@ void game::fling_creature( Creature *c, const units::angle &dir, float flvel, bo
     // Target creature shouldn't be grabbed if thrown
     c->remove_effect( effect_grabbed );
 
-    int steps = 0;
     bool thru = true;
     const bool is_u = c == &u;
     // Don't animate critters getting bashed if animations are off
@@ -11013,7 +11045,6 @@ void game::fling_creature( Creature *c, const units::angle &dir, float flvel, bo
             break;
         }
         range--;
-        steps++;
         if( animate && ( seen || u.sees( *c ) ) ) {
             invalidate_main_ui_adaptor();
             inp_mngr.pump_events();

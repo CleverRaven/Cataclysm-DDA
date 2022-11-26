@@ -27,8 +27,7 @@
     "type": "MONSTER_FACTION",
     "name": "zombie",
     "friendly": [ "slime" ],
-    "neutral": [ "cult", "small_animal", "fish", "insect", "aquatic_predator", "passive_machine", "nether_player_hate" ],
-    "by_mood": [ "ant", "acid_ant", "bee", "wasp", "stag_beetle" ]
+    "neutral": [ "cult", "small_animal", "fish", "aquatic_predator", "passive_machine", "nether_player_hate" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -162,6 +161,7 @@
   {
     "type": "MONSTER_FACTION",
     "name": "nether_player_hate",
+    "//": "These creatures aren't necessarily sentient in and of themselves or are drawn to sentient life in and around dimensional breaches.",
     "base_faction": "nether",
     "friendly": [ "zombie" ],
     "hate": [ "player" ]
@@ -351,7 +351,7 @@
   {
     "type": "MONSTER_FACTION",
     "name": "insect",
-    "neutral": [ "fish", "bot", "zombie", "aquatic_predator" ],
+    "neutral": [ "fish", "bot", "aquatic_predator" ],
     "by_mood": [ "insect" ]
   },
   {
@@ -363,16 +363,13 @@
     "type": "MONSTER_FACTION",
     "name": "wasp",
     "base_faction": "insect",
-    "neutral": [ "spider", "centipede" ],
-    "by_mood": [ "zombie", "fungus", "ant", "acid_ant", "bee" ],
+    "by_mood": [ "fungus", "ant", "acid_ant", "bee" ],
     "hate": [ "insect", "small_animal" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "bee",
     "base_faction": "insect",
-    "neutral": [ "spider", "centipede" ],
-    "by_mood": [ "zombie", "fungus" ],
     "friendly": [ "plant" ]
   },
   {
@@ -397,7 +394,6 @@
     "type": "MONSTER_FACTION",
     "name": "centipede",
     "base_faction": "insect",
-    "neutral": [ "spider", "bee", "wasp" ],
     "hate": [ "insect", "animal" ]
   },
   {
@@ -410,7 +406,6 @@
     "type": "MONSTER_FACTION",
     "name": "spider",
     "base_faction": "insect",
-    "neutral": [ "centipede", "bee", "wasp" ],
     "hate": [ "insect", "animal" ],
     "by_mood": [ "spider" ]
   },
@@ -451,7 +446,6 @@
     "type": "MONSTER_FACTION",
     "name": "ant",
     "base_faction": "insect",
-    "by_mood": [ "zombie", "fungus" ],
     "friendly": [ "aphid" ],
     "neutral": [ "stag_beetle_larva" ]
   },
@@ -459,7 +453,6 @@
     "type": "MONSTER_FACTION",
     "name": "acid_ant",
     "base_faction": "insect",
-    "by_mood": [ "zombie", "fungus" ],
     "neutral": [ "aphid", "stag_beetle_larva" ]
   },
   {
@@ -477,8 +470,7 @@
   {
     "type": "MONSTER_FACTION",
     "name": "stag_beetle",
-    "base_faction": "insect",
-    "by_mood": [ "zombie" ]
+    "base_faction": "insect"
   },
   {
     "type": "MONSTER_FACTION",
@@ -490,7 +482,7 @@
     "type": "MONSTER_FACTION",
     "name": "antlion_grub",
     "base_faction": "insect",
-    "neutral": [ "antlion_grub", "antlion_adult", "zombie" ],
+    "neutral": [ "antlion_grub", "antlion_adult" ],
     "by_mood": [ "fungus", "bee" ],
     "hate": [ "insect", "small_animal", "ant", "acid_ant" ]
   },

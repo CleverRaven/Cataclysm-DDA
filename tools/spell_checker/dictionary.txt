@@ -16,6 +16,7 @@ aerially
 aeterna
 aetheric
 afterbirth
+afterglow
 afterimage
 afterlife
 aftermarket
@@ -52,6 +53,8 @@ alquerque
 altamente
 alternators
 alumentum
+amalgamation
+amalgamations
 amargasaurus
 ambusher
 amigara
@@ -120,6 +123,7 @@ ausgegangen
 autoclave
 autoclaving
 autodoc
+autodocs
 autodrive
 autoinjector
 autoloading
@@ -152,6 +156,7 @@ barebones
 barghest
 barkin
 barosaurus
+barotrarumatic
 basecamp
 basecamps
 baselard
@@ -186,6 +191,7 @@ bileworm
 bimetal
 bioblaster
 biocompatibility
+bioelectricity
 bioforms
 biographic
 biohacker
@@ -252,6 +258,8 @@ broadswords
 bronchodilator
 bronchospasm
 bubblicious
+bubo
+buboes
 buchner
 bucka
 bufo
@@ -312,6 +320,7 @@ ceratopsian
 ceratosaurus
 cere
 cerium
+cervine
 cesti
 cestus
 chainmail
@@ -401,6 +410,7 @@ coughupyourscough
 countermine
 couters
 coverplate
+crablike
 crackin
 cracklins
 craftable
@@ -538,9 +548,11 @@ dryptosaurus
 drywalled
 dunderfuck
 dyoplosaurus
+dysmorphia
 dysrhythmia
 earthbag
 earthbags
+earthshaper
 ebon
 ebook
 eboshi
@@ -557,6 +569,7 @@ electrochemistry
 electrohack
 electrolaser
 electrolasers
+electromancy
 electroreceptors
 elete
 elopements
@@ -569,6 +582,7 @@ encumbers
 endochitin
 endolymph
 ener
+enervating
 enjoyability
 envenomations
 eocs
@@ -594,6 +608,7 @@ estocs
 ethereally
 euoplocephalus
 eusocial
+evaced
 evacs
 everburning
 everfrost
@@ -695,6 +710,7 @@ foodburger
 foodcart
 foodplace
 footgear
+forager
 foregrip
 foregrips
 foreleg
@@ -743,6 +759,7 @@ galea
 gallimimus
 gallore
 gambeson
+gardenin
 garghoul
 gargoyleosaurus
 garou
@@ -849,6 +866,8 @@ helpdesk
 hemolymph
 hemostatics
 heoretical
+herbalism
+herbology
 hesperosaurus
 hevel
 hexamine
@@ -992,6 +1011,7 @@ kg
 khopesh
 khru
 kickboard
+kickin
 killbasa
 kilroy
 kinbot
@@ -1033,6 +1053,8 @@ labbit
 lactobacillus
 lajatang
 lambeosaurus
+lamella
+lamellae
 lamellar
 landshark
 langourous
@@ -1291,6 +1313,7 @@ nodachi
 nodosaurus
 noisiness
 nomex
+nonfunctional
 nonpareils
 nonrevealing
 nonsedated
@@ -1336,6 +1359,7 @@ otha
 otherland
 otherlander
 otherlands
+otherworldly
 otherworlds
 overbore
 overclocks
@@ -1345,6 +1369,7 @@ overlayed
 overmap
 overmaps
 overpenetration
+overrates
 overshoes
 overtop
 owlbear
@@ -1356,6 +1381,7 @@ pachyrhinosaurus
 packable
 paf
 palpably
+palpitate
 panoplosaurus
 papyrifera
 parabellum
@@ -1368,6 +1394,8 @@ parst
 parthenogenetic
 partyin
 pasteurize
+patchwork
+patchworks
 pathfinding
 pauldron
 pauldrons
@@ -1419,6 +1447,8 @@ pissbrain
 pixelates
 pixelation
 pizzaiolo
+planer
+planers
 planetside
 plantlike
 plastron
@@ -1462,6 +1492,7 @@ premeasured
 preminiscent
 premix
 preoptic
+prepper
 presaging
 prescriptures
 prev
@@ -1472,6 +1503,7 @@ procompsignathids
 proficiencies
 profusive
 promptus
+proofreader
 propyl
 prosaurolophus
 proten
@@ -1486,6 +1518,7 @@ psychrophile
 ptions
 pts
 pufts
+puker
 pukers
 pumpkinseed
 pumpkinseeds
@@ -1523,6 +1556,7 @@ railguns
 raincatcher
 rainsuit
 rale
+ramblin
 randomize
 rangehands
 raptorial
@@ -1567,6 +1601,7 @@ remodulator
 rended
 renderer
 renfaires
+renfield
 rennet
 replow
 reprime
@@ -1575,6 +1610,7 @@ reptoid
 reptoids
 rerio
 rerolling
+resiliently
 resinosa
 resinous
 resmelt
@@ -1714,6 +1750,9 @@ sinensis
 sixgun
 skeletonized
 skeltal
+skillset
+skillsets
+skippin
 skirmisher
 skitterbot
 skittishly
@@ -1790,6 +1829,9 @@ sssssh
 ssssssss
 starer
 starrin
+startin
+staunchable
+staunching
 std
 steeltoed
 steerable
@@ -1799,6 +1841,7 @@ stegosaurus
 stegosaurusfindsrobot
 stenonychosaurus
 stimulative
+stimulators
 stimulatory
 stipe
 stirfry
@@ -1885,6 +1928,8 @@ temaki
 tems
 tenontosaurus
 tenuously
+teravolt
+teravolts
 terpenes
 terranean
 testbed
@@ -1904,6 +1949,7 @@ thumbholes
 thyreophoran
 tileset
 tillable
+timey
 tindalos
 tinning
 tiredly
@@ -1941,6 +1987,7 @@ transp
 transpositions
 travelpack
 traversal
+treatin
 treelines
 tribesperson
 tribot
@@ -1962,6 +2009,7 @@ tumescences
 tundras
 tuno
 turreted
+tusked
 twere
 txt
 typologies
@@ -1992,8 +2040,10 @@ undulates
 uneasing
 unfavorite
 unfermented
+unfixable
 unflavored
 unfoldable
+unfriendliness
 ungraspable
 unhardened
 unharvested
@@ -2146,9 +2196,9 @@ yateveo
 ybindings
 yipe
 ynn
-yo-yo
 yoroi
 yowl
+yo-yo
 yugg
 yulecat
 z
@@ -2180,3 +2230,4 @@ zweitimbers
 zygomaticus
 zzz
 zzzzchzzzzchurzzzpileus
+foldable

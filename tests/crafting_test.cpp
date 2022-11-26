@@ -1005,13 +1005,13 @@ TEST_CASE( "crafting_skill_gain", "[skill],[crafting],[slow]" )
     }
     SECTION( "lvl 3 -> lvl 4" ) {
         GIVEN( "nominal morale" ) {
-            test_skill_progression( recipe_armguard_larmor, 12131, 0, true );
+            test_skill_progression( recipe_armguard_larmor, 12112, 0, true );
         }
         GIVEN( "high morale" ) {
-            test_skill_progression( recipe_armguard_larmor, 9997, 50, true );
+            test_skill_progression( recipe_armguard_larmor, 9982, 50, true );
         }
         GIVEN( "very high morale" ) {
-            test_skill_progression( recipe_armguard_larmor, 9197, 100, true );
+            test_skill_progression( recipe_armguard_larmor, 9184, 100, true );
         }
     }
     SECTION( "lvl 4 -> 5" ) {
@@ -1149,9 +1149,7 @@ TEST_CASE( "partial_proficiency_mitigation", "[crafting][proficiency]" )
         int unmitigated_time_taken = test_recipe.batch_time( tester, 1, 1, 0 );
 
         WHEN( "player acquires partial proficiency" ) {
-            int np = 0;
             for( const proficiency_id &prof : test_recipe.used_proficiencies() ) {
-                np++;
                 tester.set_proficiency_practice( prof, tester.proficiency_training_needed( prof ) / 2 );
             }
             int mitigated_time_taken = test_recipe.batch_time( tester, 1, 1, 0 );

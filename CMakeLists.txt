@@ -1,10 +1,13 @@
-cmake_minimum_required(VERSION 3.20)
+cmake_minimum_required(VERSION 3.21)
 
 project(CataclysmDDA)
 
-set(CMAKE_MODULE_PATH
-        ${CMAKE_MODULE_PATH}
+list(APPEND CMAKE_MODULE_PATH
         ${CMAKE_SOURCE_DIR}/CMakeModules)
+if (NOT VCPKG_MANIFEST_MODE)
+    list(APPEND CMAKE_MODULE_PATH
+            ${CMAKE_SOURCE_DIR}/CMakeModules/Find)
+endif()
 
 set(CMAKE_TLS_VERIFY ON)
 
@@ -126,10 +129,10 @@ endif ()
 
 if ("${CMAKE_SYSTEM_NAME}" MATCHES "(Windows|MSYS)")
     if (NOT DATA_PREFIX)
-        set(DATA_PREFIX ${CMAKE_INSTALL_PREFIX})
+        set(DATA_PREFIX ${CMAKE_INSTALL_PREFIX}/data)
     endif ()
     if (NOT LOCALE_DIR)
-        set(LOCALE_DIR ${CMAKE_INSTALL_PREFIX})
+        set(LOCALE_DIR ${CMAKE_INSTALL_PREFIX}/lang)
     endif ()
     if (NOT BIN_PREFIX)
         set(BIN_PREFIX ${CMAKE_INSTALL_PREFIX})
@@ -265,7 +268,7 @@ if (TILES)
     # Find SDL, SDL_ttf & SDL_image for graphical install
     message(STATUS "Searching for SDL2 library --")
     find_package(SDL2)
-    if (NOT SDL2_FOUND)
+    if (NOT (SDL2_FOUND OR TARGET SDL2::SDL2))
         message(FATAL_ERROR
                 "This project requires SDL2 to be installed to compile in graphical mode.  \
                  Please install the SDL2 development libraries, \
@@ -285,7 +288,7 @@ if (TILES)
 
     message(STATUS "Searching for SDL2_TTF library --")
     find_package(SDL2_ttf)
-    if (NOT SDL2_TTF_FOUND)
+    if (NOT (SDL2_TTF_FOUND OR TARGET SDL2_ttf::SDL2_ttf OR TARGET SDL2_ttf::SDL2_ttf-static))
         message(FATAL_ERROR
                 "This project requires SDL2_ttf to be installed to compile in graphical mode. \
                  Please install the SDL2_ttf development libraries, \
@@ -294,8 +297,12 @@ if (TILES)
     endif ()
 
     message(STATUS "Searching for SDL2_image library --")
-    find_package(SDL2_image)
-    if (NOT SDL2_IMAGE_FOUND)
+    if(VCPKG_MANIFEST_MODE)
+        find_package(sdl2-image)
+    else()
+        find_package(SDL2_image)
+    endif()
+    if (NOT (SDL2_IMAGE_FOUND OR TARGET SDL2::SDL2_image))
         message(FATAL_ERROR
                 "This project requires SDL2_image to be installed to compile in graphical mode. \
                  Please install the SDL2_image development libraries, \
@@ -335,12 +342,21 @@ if (SOUND)
     # Sound requires SDL_mixer library
     message(STATUS "Searching for SDL2_mixer library --")
     find_package(SDL2_mixer)
-    if (NOT SDL2_MIXER_FOUND)
-        message(FATAL_ERROR
-                "You need the SDL2_mixer development library \
-                 to be able to compile with sound enabled. \
-                 See doc/COMPILING/COMPILING-CMAKE.md for details and more info.")
-    endif ()
+    if(VCPKG_MANIFEST_MODE)
+        if (NOT TARGET SDL2_mixer::SDL2_mixer-static) # TODO x64-mingw-static
+            message(FATAL_ERROR
+                    "You need the SDL2_mixer development library \
+                     to be able to compile with sound enabled. \
+                     See doc/COMPILING/COMPILING-CMAKE.md for details and more info.")
+        endif()
+    else()
+        if (NOT SDL2_MIXER_FOUND)
+            message(FATAL_ERROR
+                    "You need the SDL2_mixer development library \
+                     to be able to compile with sound enabled. \
+                     See doc/COMPILING/COMPILING-CMAKE.md for details and more info.")
+        endif ()
+    endif()
 endif ()
 
 if (BACKTRACE)
@@ -358,6 +374,14 @@ endif ()
 
 if (USE_HOME_DIR)
     add_definitions(-DUSE_HOME_DIR)
+endif ()
+
+find_program(CCACHE_FOUND ccache)
+if (CCACHE_FOUND AND CATA_CCACHE)
+    set(CMAKE_C_COMPILER_LAUNCHER ccache)
+    set(CMAKE_CXX_COMPILER_LAUNCHER ccache)
+    set(CMAKE_C_LINKER_LAUNCHER ccache)
+    set(CMAKE_CXX_LINKER_LAUNCHER ccache)
 endif ()
 
 add_subdirectory(src)
@@ -381,10 +405,4 @@ configure_file(
 add_custom_target(uninstall
         "${CMAKE_COMMAND}"
         -P "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake")
-
-find_program(CCACHE_FOUND ccache)
-if (CCACHE_FOUND AND CATA_CCACHE)
-    set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE ccache)
-    set_property(GLOBAL PROPERTY RULE_LAUNCH_LINK ccache)
-endif ()
 

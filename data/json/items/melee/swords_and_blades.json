@@ -344,7 +344,7 @@
   },
   {
     "id": "knife_rambo",
-    "type": "TOOL",
+    "type": "GENERIC",
     "category": "weapons",
     "name": { "str": "survival knife", "str_pl": "survival knives" },
     "//": "This isn't really supposed to be a very good knife, or a very good saw.  It's more for looking scary.",
@@ -362,8 +362,19 @@
     "color": "dark_gray",
     "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "CUT", 2 ], [ "SAW_W", 1 ], [ "SAW_M", 1 ], [ "BUTCHER", 7 ] ],
-    "flags": [ "STAB", "SHEATH_SWORD" ],
-    "weapon_category": [ "KNIVES" ]
+    "flags": [ "STAB", "SHEATH_SWORD", "COLLAPSE_CONTENTS" ],
+    "weapon_category": [ "KNIVES" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "max_contains_volume": "50 ml",
+        "max_contains_weight": "100 g",
+        "moves": 300,
+        "description": "A hidden handle compartment.  Unscrew the compass to access ."
+      }
+    ]
   },
   {
     "id": "knife_rm42",
@@ -2773,7 +2784,7 @@
     "id": "cavalry_sabre_fake",
     "copy-from": "cavalry_sabre",
     "type": "GENERIC",
-    "name": { "str": "cavalry sabre" },
+    "name": { "str": "cavalry saber" },
     "description": "A dull, cheaply-made replica of a curved sword associated with cavalry from the Early Modern period onwards.",
     "proportional": { "bashing": 1.8, "cutting": 0.077 },
     "delete": { "flags": [ "DURABLE_MELEE" ] },
@@ -3248,7 +3259,7 @@
     "price_postapoc": 3000,
     "bashing": 8,
     "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "neutral" },
-    "material": [ "steel", "aluminum" ],
+    "material": [ "steel", "plastic" ],
     "symbol": "/",
     "color": "light_gray",
     "ammo": [ "gasoline" ],
@@ -3286,7 +3297,7 @@
     "price_postapoc": 3000,
     "bashing": 8,
     "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "neutral" },
-    "material": [ "steel", "aluminum" ],
+    "material": [ "steel", "plastic" ],
     "symbol": "/",
     "color": "light_gray",
     "ammo": [ "battery" ],

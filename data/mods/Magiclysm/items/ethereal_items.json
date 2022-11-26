@@ -9,15 +9,16 @@
     "price": 1,
     "to_hit": 2,
     "bashing": 20,
-    "material": [ "superalloy" ],
+    "material": [ "concentrated_mana" ],
     "symbol": "[",
     "color": "light_gray",
+    "looks_like": "gauntlets_chitin",
     "armor_data": {
       "warmth": 20,
       "environmental_protection": 10,
       "armor": [
         {
-          "material": [ { "type": "superalloy", "covered_by_mat": 100, "thickness": 4.0 } ],
+          "material": [ { "type": "concentrated_mana", "covered_by_mat": 100, "thickness": 4.0 } ],
           "encumbrance": 0,
           "coverage": 100,
           "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ]
@@ -29,39 +30,56 @@
     "techniques": [ "WBLOCK_3" ]
   },
   {
+    "id": "shape_of_dust",
+    "type": "ARMOR",
+    "name": "dust cloak",
+    "description": "You are unseen in between of the sand that cover you.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "symbol": "o",
+    "color": "brown",
+    "looks_like": "cloak",
+    "material": [ "magical_material" ],
+    "flags": [ "AURA", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE", "OVERSIZE" ],
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ALWAYS",
+          "ench_effects": [ { "effect": "invisibility", "intensity": 1 } ],
+          "emitter": "emit_eshaper_dust",
+          "values": [ { "value": "BONUS_DODGE", "add": 2 } ]
+        }
+      ]
+    }
+  },
+  {
     "id": "finger_firelighter",
     "type": "TOOL",
     "name": "finger firelighter",
-    "description": "This is a small flame you can hold in your hand.  With a thought, you can cause it to light something on fire.",
+    "description": "This is a small flame you can hold in your hand.  With a thought, you can cause it to light something on fire, or you can throw it, to ignite something flammable.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "price": 0,
+    "symbol": ",",
+    "color": "red",
+    "use_action": [ { "type": "firestarter", "moves": 20 } ],
+    "drop_action": { "type": "emit_actor", "emits": [ "emit_tiny_fire" ] },
+    "flags": [ "TRADER_AVOID", "FIRESTARTER", "LIGHT_8", "FLAMING", "WATER_EXTINGUISH" ]
+  },
+  {
+    "id": "electric_lighter",
+    "type": "TOOL",
+    "name": "stable spark",
+    "description": "Small electric spark, that does not disappear under your force.  With a thought, you can cause it to light something on fire, or you can throw it, to ignite something flammable.",
     "weight": "1 g",
     "volume": "1 ml",
     "price": 0,
     "symbol": ",",
     "color": "yellow",
     "use_action": [ { "type": "firestarter", "moves": 20 } ],
-    "flags": [ "TRADER_AVOID", "FIRESTARTER", "LIGHT_8", "FLAMING", "WATER_EXTINGUISH" ]
-  },
-  {
-    "id": "armor_stonefist",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "pair of magical armored stone gauntlets", "str_pl": "pairs of magical armored stone gauntlets" },
-    "description": "A magical flexible stonelike substance for protection and attack.",
-    "weight": "1 g",
-    "volume": "250 ml",
-    "price": 1,
-    "to_hit": 2,
-    "bashing": 20,
-    "material": [ "superalloy" ],
-    "symbol": "[",
-    "color": "light_gray",
-    "warmth": 20,
-    "material_thickness": 4,
-    "environmental_protection": 10,
-    "qualities": [ [ "HAMMER", 1 ] ],
-    "flags": [ "VARSIZE", "STURDY", "UNARMED_WEAPON", "DURABLE_MELEE", "NONCONDUCTIVE", "MAGIC_FOCUS" ],
-    "techniques": [ "WBLOCK_3" ],
-    "armor": [ { "encumbrance": 0, "coverage": 100, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ] } ]
+    "drop_action": { "type": "emit_actor", "emits": [ "emit_tiny_fire" ] },
+    "flags": [ "TRADER_AVOID", "FIRESTARTER", "LIGHT_8" ]
   },
   {
     "id": "magic_lamp",
@@ -70,7 +88,7 @@
     "name": "magic lamp",
     "description": "A magical light source that will light up a small area.",
     "weight": "1 g",
-    "material": [ "leather", "glass", "magical_material" ],
+    "material": [ "magical_material" ],
     "volume": "250 ml",
     "price": 1,
     "to_hit": -2,
@@ -106,9 +124,10 @@
     "price": 1,
     "to_hit": 1,
     "bashing": 14,
-    "material": [ "steel" ],
+    "material": [ "concentrated_mana" ],
     "symbol": "[",
     "color": "light_gray",
+    "looks_like": "gauntlets_chitin",
     "sided": true,
     "material_thickness": 3,
     "techniques": [ "WBLOCK_3" ],
@@ -125,9 +144,10 @@
     "price": 1,
     "to_hit": -2,
     "bashing": 6,
-    "material": [ "steel" ],
+    "material": [ "concentrated_mana" ],
     "symbol": "[",
     "color": "brown",
+    "looks_like": "boots_plate",
     "warmth": 30,
     "material_thickness": 3,
     "environmental_protection": 2,
@@ -144,7 +164,8 @@
     "to_hit": 2,
     "color": "brown",
     "symbol": "/",
-    "material": [ "superalloy" ],
+    "looks_like": "warhammer",
+    "material": [ "concentrated_mana" ],
     "techniques": [ "WBLOCK_2", "BRUTAL", "SWEEP" ],
     "flags": [
       "NONCONDUCTIVE",
@@ -158,42 +179,21 @@
     ],
     "volume": "1250 ml",
     "bashing": 30,
-    "//electric": 15,
-    "price": 0,
+    "relic_data": { "passive_effects": [ { "has": "WIELD", "values": [ { "value": "ITEM_DAMAGE_ELEC", "add": 20 } ] } ] },
     "qualities": [ [ "HAMMER", 1 ] ]
   },
   {
-    "id": "stormfist",
-    "type": "SPELL",
-    "name": "Stormfist",
-    "description": "Encases your arm and hand in a sheath of crackling magical lightning, you can punch and defend yourself with it in melee combat.",
-    "valid_targets": [ "self" ],
-    "min_damage": 0,
-    "max_damage": 0,
-    "effect": "spawn_item",
-    "effect_str": "stormglove",
-    "shape": "blast",
-    "energy_source": "MANA",
-    "difficulty": 2,
-    "max_level": 20,
-    "base_casting_time": 200,
-    "base_energy_cost": 100,
-    "min_duration": 10000,
-    "max_duration": 100000,
-    "duration_increment": 2000
-  },
-  {
-    "type": "GENERIC",
+    "type": "ARMOR",
     "id": "stormglove",
     "symbol": "3",
     "color": "light_gray",
+    "looks_like": "gauntlets_chitin",
     "name": { "str": "Stormfist" },
     "description": "Encases your arm and hand in a sheath of crackling magical lightning, you can punch and defend yourself with it in melee combat.",
-    "material": [ "superalloy" ],
-    "volume": "250 ml",
-    "weight": "1 g",
-    "bashing": 10,
-    "//electric": 15,
+    "material": [ "concentrated_mana" ],
+    "volume": "155 ml",
+    "weight": "300 g",
+    "bashing": 6,
     "flags": [
       "UNARMED_WEAPON",
       "UNBREAKABLE_MELEE",
@@ -203,6 +203,31 @@
       "NO_REPAIR",
       "NO_SALVAGE",
       "MAGIC_FOCUS"
+    ],
+    "relic_data": { "passive_effects": [ { "has": "WORN", "values": [ { "value": "ITEM_DAMAGE_ELEC", "add": 20 } ] } ] },
+    "material_thickness": 1,
+    "armor": [
+      {
+        "material": [ { "type": "concentrated_mana", "covered_by_mat": 100, "thickness": 1.0 } ],
+        "encumbrance": 2,
+        "coverage": 100,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_wrist_l", "hand_wrist_r", "hand_palm_l", "hand_palm_r", "hand_back_l", "hand_back_r" ]
+      },
+      {
+        "material": [ { "type": "concentrated_mana", "covered_by_mat": 100, "thickness": 1.0 } ],
+        "encumbrance": 0,
+        "coverage": 50,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ]
+      },
+      {
+        "material": [ { "type": "concentrated_mana", "covered_by_mat": 100, "thickness": 1.0 } ],
+        "encumbrance": 0,
+        "coverage": 60,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_lower_l", "arm_lower_r" ]
+      }
     ]
   },
   {
@@ -213,8 +238,8 @@
     "name": "vicious tentacle whip",
     "description": "A long, writhing, tentacle covered in sharp bonelike blades and spikey protrusions.",
     "weight": "2460 g",
-    "volume": "1500 ml",
-    "material": [ "iron", "leather" ],
+    "volume": "1975 ml",
+    "material": [ "bone", "flesh" ],
     "techniques": [ "PRECISE", "RAPID", "WBLOCK_2" ],
     "flags": [
       "REACH_ATTACK",
@@ -240,7 +265,7 @@
     "description": "A long whip made of blue-hot magical flames.  The heat is horrendous when touching an enemy.",
     "weight": "60 g",
     "volume": "1500 ml",
-    "material": [  ],
+    "material": [ "concentrated_mana" ],
     "techniques": [ "PRECISE", "WIDE", "SWEEP" ],
     "flags": [
       "REACH_ATTACK",
@@ -481,13 +506,23 @@
     "description": "A thin layer of magical ice, covering the entire body.",
     "weight": "5000 g",
     "volume": "5 L",
-    "material": [ "steel" ],
+    "material": [ "concentrated_mana" ],
     "symbol": "[",
     "color": "light_gray",
     "warmth": 0,
     "material_thickness": 2,
     "environmental_protection": 2,
-    "flags": [ "SEMITANGIBLE", "ONLY_ONE", "OVERSIZE", "TRADER_AVOID", "PERSONAL", "STURDY", "NO_TAKEOFF", "NONCONDUCTIVE" ],
+    "flags": [
+      "SEMITANGIBLE",
+      "ONLY_ONE",
+      "OVERSIZE",
+      "TRADER_AVOID",
+      "PERSONAL",
+      "STURDY",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "PADDED"
+    ],
     "armor": [
       {
         "encumbrance": 10,
@@ -502,7 +537,7 @@
     "category": "armor",
     "name": { "str_sp": "stoneskin coating" },
     "description": "A thin layer of shifting, almost fluid living rock, covering the entire body.",
-    "weight": "10200 g",
+    "weight": "100 g",
     "volume": "25 L",
     "material": [ "stone" ],
     "symbol": "[",
@@ -510,7 +545,7 @@
     "warmth": 5,
     "material_thickness": 2,
     "environmental_protection": 2,
-    "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "STURDY" ],
+    "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "STURDY", "PADDED" ],
     "armor": [
       {
         "encumbrance": 20,
@@ -779,13 +814,13 @@
     "description": "An aura of black and green draconic energy, swirling around your body protecting you and punishing those who strike you.",
     "weight": "1 g",
     "volume": "1 ml",
-    "material": [ "steel" ],
+    "material": [ "concentrated_mana" ],
     "symbol": "o",
     "color": "green",
     "warmth": 0,
     "material_thickness": 2,
     "environmental_protection": 2,
-    "flags": [ "AURA", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE", "OVERSIZE" ],
+    "flags": [ "AURA", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE", "OVERSIZE", "PADDED" ],
     "relic_data": {
       "passive_effects": [
         {
@@ -813,7 +848,7 @@
     "price": 1,
     "bashing": 6,
     "cutting": 12,
-    "material": [ "superalloy" ],
+    "material": [ "concentrated_mana" ],
     "symbol": "[",
     "color": "light_gray",
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 12 ] ],
@@ -840,11 +875,21 @@
     "copy-from": "armor_lightplate",
     "name": { "str_sp": "spiritual armor" },
     "description": "A summoned medieval armor.  It glows softly and looks sturdy.",
-    "material": [ "superalloy" ],
-    "//": "I added a helmet to the summon",
+    "material": [ "concentrated_mana" ],
     "warmth": 0,
     "material_thickness": 4,
-    "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "VARSIZE", "STURDY", "NO_REPAIR", "NO_SALVAGE", "LIGHT_2", "TRADER_AVOID" ],
+    "flags": [
+      "ONLY_ONE",
+      "OVERSIZE",
+      "PERSONAL",
+      "VARSIZE",
+      "STURDY",
+      "NO_REPAIR",
+      "NO_SALVAGE",
+      "LIGHT_2",
+      "TRADER_AVOID",
+      "PADDED"
+    ],
     "armor": [
       {
         "encumbrance": 5,
@@ -867,7 +912,7 @@
     "price_postapoc": 0,
     "to_hit": -1,
     "bashing": 1,
-    "material": [  ],
+    "material": [ "concentrated_mana" ],
     "symbol": ")",
     "color": "light_cyan",
     "pocket_data": [
@@ -891,7 +936,7 @@
     "copy-from": "longsword",
     "name": { "str": "holy sword" },
     "description": "This is a summoned medieval sword, between the lighter arming sword and later two-handed swords in size.  It glows slightly and its edge is exceedingly sharp.",
-    "material": [ "superalloy" ],
+    "material": [ "concentrated_mana" ],
     "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS", "LIGHT_2", "TRADER_AVOID" ],
     "bashing": 11,
     "cutting": 42,
@@ -919,14 +964,14 @@
     ],
     "material_thickness": 1.7,
     "environmental_protection": 8,
-    "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "STURDY" ]
+    "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "STURDY", "PADDED" ]
   },
   {
     "id": "pocket_sun",
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "Pocket Sun" },
-    "description": "A small, capsule-shaped field containing a stable portal to the sun.",
+    "description": "A small, capsule-shaped field containing a stable portal to the sun.  You can feel a solar energy radiate from it, and it saturate your body.",
     "weight": "1 g",
     "volume": "1 ml",
     "material": [ "sunlight" ],
@@ -975,7 +1020,7 @@
     "price_postapoc": 0,
     "name": { "str": "magical throwing knife", "str_pl": "magical throwing knives" },
     "description": "A thin and flat knife made for throwing.  Its ineffective cutting edge and odd shape makes it unsuitable for use as a tool.",
-    "material": [ "superalloy" ],
+    "material": [ "concentrated_mana" ],
     "extend": { "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE", "TRADER_AVOID" ] },
     "thrown_damage": [ { "damage_type": "stab", "amount": 20, "armor_penetration": 5 } ]
   },
@@ -1020,17 +1065,116 @@
     "thrown_damage": [ { "damage_type": "pure", "amount": 40 } ]
   },
   {
+    "id": "eshaper_hammer",
+    "copy-from": "hammer",
+    "looks_like": "hammer",
+    "type": "TOOL",
+    "name": { "str": "earthshaper's hammer" },
+    "description": "Shaped with your own magic, this tool has the same abilities as the common hammer.",
+    "material": [ "stone" ],
+    "symbol": ";",
+    "color": "dark_gray",
+    "use_action": {
+      "type": "transform",
+      "need_wielding": true,
+      "target": "eshaper_pickaxe",
+      "menu_text": "Transform",
+      "msg": "Your hammer transforms into a pickaxe!"
+    },
+    "extend": { "flags": [ "TRADER_AVOID", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS" ] }
+  },
+  {
+    "id": "eshaper_pickaxe",
+    "copy-from": "pickaxe",
+    "looks_like": "pickaxe",
+    "type": "TOOL",
+    "name": { "str": "earthshaper's pickaxe" },
+    "description": "Shaped with your own magic, this tool has the same abilities as the common pickaxe.",
+    "material": [ "stone" ],
+    "symbol": "/",
+    "color": "dark_gray",
+    "use_action": {
+      "type": "transform",
+      "need_wielding": true,
+      "target": "eshaper_ax",
+      "menu_text": "Transform",
+      "msg": "Your pickaxe transforms into an ax!"
+    },
+    "extend": { "flags": [ "TRADER_AVOID", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS" ] }
+  },
+  {
+    "id": "eshaper_ax",
+    "copy-from": "ax",
+    "looks_like": "ax",
+    "type": "TOOL",
+    "name": { "str": "earthshaper's axe" },
+    "description": "Shaped with your own magic, this tool has the same abilities as the common axe.",
+    "material": [ "stone" ],
+    "symbol": "/",
+    "cutting": 7,
+    "color": "dark_gray",
+    "use_action": {
+      "type": "transform",
+      "need_wielding": true,
+      "target": "eshaper_knife",
+      "menu_text": "Transform",
+      "msg": "Your ax transforms into a knife!"
+    },
+    "extend": { "flags": [ "TRADER_AVOID", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS" ] }
+  },
+  {
+    "id": "eshaper_knife",
+    "copy-from": "knife_hunting",
+    "looks_like": "knife_hunting",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": { "str": "earthshaper's knife", "str_pl": "earthshaper's knives" },
+    "description": "Shaped with your own magic, this tool has the same abilities as the common knife.",
+    "material": [ "stone" ],
+    "repairs_with": [  ],
+    "symbol": "/",
+    "color": "dark_gray",
+    "use_action": {
+      "type": "transform",
+      "need_wielding": true,
+      "target": "eshaper_shovel",
+      "menu_text": "Transform",
+      "msg": "Your knife transforms into a shovel!"
+    },
+    "extend": { "flags": [ "TRADER_AVOID", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS" ] }
+  },
+  {
+    "id": "eshaper_shovel",
+    "copy-from": "shovel",
+    "looks_like": "shovel",
+    "type": "TOOL",
+    "name": { "str": "earthshaper's shovel" },
+    "description": "Shaped with your own magic, this tool has the same abilities as the common shovel.",
+    "material": [ "stone" ],
+    "symbol": "/",
+    "color": "dark_gray",
+    "use_action": {
+      "type": "transform",
+      "need_wielding": true,
+      "target": "eshaper_hammer",
+      "menu_text": "Transform",
+      "msg": "Your shovel transforms into a hammer!"
+    },
+    "extend": { "flags": [ "TRADER_AVOID", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS" ] }
+  },
+  {
     "id": "flask_ethereal_rebreather",
-    "name": { "str_sp": "spiritus" },
+    "name": { "str_sp": "air bubble" },
     "description": "Now you can breath under water, like a fish.",
     "type": "TOOL_ARMOR",
     "category": "clothing",
     "weight": "0 g",
     "material": [ "concentrated_mana" ],
+    "environmental_protection": 25,
     "volume": "1 ml",
     "symbol": "0",
     "color": "white",
-    "armor": [ { "encumbrance": 0, "coverage": 75, "covers": [ "mouth" ] } ],
+    "armor": [ { "encumbrance": 0, "coverage": 75, "covers": [ "head", "mouth", "eyes" ] } ],
     "flags": [
       "WATER_FRIENDLY",
       "SEMITANGIBLE",
