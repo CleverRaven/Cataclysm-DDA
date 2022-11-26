@@ -31,7 +31,7 @@
   {
     "id": "mon_basiliscus",
     "type": "MONSTER",
-    "name": { "str": "basiliscus" },
+    "name": { "str": "basiliscus", "str_pl": "basiliscuses" },
     "description": "A genus of tropical lizards native to Central and South America.  It's know worldwide for its ability to run on the water.",
     "default_faction": "small_animal",
     "bodytype": "lizard",
@@ -86,7 +86,7 @@
     "id": "mon_laemanctus",
     "type": "MONSTER",
     "name": { "str": "lemacto" },
-    "description": "A member of the laemanctus family.  These long legged lizards can be distinguished for their long tails.",
+    "description": "A member of the Laemanctus family.  These long legged lizards can be distinguished for their long tails.",
     "default_faction": "small_animal",
     "bodytype": "lizard",
     "categories": [ "WILDLIFE" ],
