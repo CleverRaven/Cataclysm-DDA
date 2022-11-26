@@ -1386,7 +1386,7 @@
         ]
       },
       {
-        "covers": [ "arm_l", "arm_r", "leg_l", "leg_r" ], 
+        "covers": [ "arm_l", "arm_r", "leg_l", "leg_r" ],
         "encumbrance": 4,
         "coverage": 90,
         "material": [
