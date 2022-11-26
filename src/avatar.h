@@ -67,6 +67,8 @@ struct monster_visible_info {
 
     // If the monster visible in this direction is dangerous
     std::array<bool, 8> dangerous = {};
+
+    void remove_npc( npc *n );
 };
 
 class avatar : public Character
