@@ -2090,9 +2090,7 @@
       {
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 35,
-        "material": [
-          { "type": "thermo_resin", "covered_by_mat": 100, "thickness": 1.5 }
-        ],
+        "material": [ { "type": "thermo_resin", "covered_by_mat": 100, "thickness": 1.5 } ],
         "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
       }
     ]
