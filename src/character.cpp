@@ -3790,9 +3790,9 @@ int Character::get_enchantment_speed_bonus() const
 int Character::get_speed() const
 {
     if( has_trait( trait_NOMOVE ) ) {
-		return 0;
-	}
-	if( has_flag( json_flag_STEADY ) ) {
+        return 0;
+    }
+    if( has_flag( json_flag_STEADY ) ) {
         return get_speed_base() + std::max( 0, get_speed_bonus() ) + std::max( 0,
                 get_speedydex_bonus( get_dex() ) );
     }
