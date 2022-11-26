@@ -2170,7 +2170,13 @@
     "time": "6 h",
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_metalworking" } ],
-    "components": [ [ [ "pipe", 2 ] ], [ [ "pipe_fittings", 1 ] ], [ [ "sheet_metal", 1 ] ], [ [ "nuts_bolts", 4 ] ], [ [ "duct_tape", 50 ] ] ],
+    "components": [
+      [ [ "pipe", 2 ] ],
+      [ [ "pipe_fittings", 1 ] ],
+      [ [ "sheet_metal", 1 ] ],
+      [ [ "nuts_bolts", 4 ] ],
+      [ [ "duct_tape", 50 ] ]
+    ],
     "tools": [ [ [ "angle_grinder", 50 ] ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 }, { "id": "DRILL", "level": 2 } ]
   },
