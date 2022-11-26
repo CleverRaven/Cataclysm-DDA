@@ -21,6 +21,57 @@
     "armor": [ { "encumbrance_modifiers": [ "IMBALANCED" ], "coverage": 55, "covers": [ "head" ] } ]
   },
   {
+    "id": "stockpot_helmet",
+    "repairs_like": "mc_helm_close",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pot great helm" },
+    "description": "An enclosed helmet made from a stock pot with a 'T' crudely carved into the front and a blanket stuffed inside to cushion it.  There are strings tied to the handles to help fasten it to your body, but it's extremely limiting and smothering.",
+    "weight": "3580 g",
+    "volume": "13 L",
+    "price": 4500,
+    "price_postapoc": 50,
+    "bashing": 10,
+    "material": [ "mc_steel", "aluminum" ],
+    "symbol": "[",
+    "looks_like": "helmet_plate",
+    "color": "light_gray",
+    "warmth": 70,
+    "material_thickness": 1,
+    "qualities": [ [ "COOK", 2 ], [ "BOIL", 1 ] ],
+    "techniques": [ "WBLOCK_1" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "mc_steel", "covered_by_mat": 100, "thickness": 0.95 },
+          { "type": "cotton", "covered_by_mat": 98, "thickness": 2.5 },
+          { "type": "aluminum", "covered_by_mat": 40, "thickness": 4.0 }
+        ],
+        "covers": [ "head" ],
+        "coverage": 92,
+        "layers": [ "NORMAL", "OUTER" ],
+        "encumbrance_modifiers": [ "RESTRICTS_NECK", "IMBALANCED" ]
+      },
+      {
+        "material": [ { "type": "mc_steel", "covered_by_mat": 100, "thickness": 0.95 } ],
+        "covers": [ "eyes" ],
+        "coverage": 90,
+        "encumbrance": 25,
+        "layers": [ "OUTER" ],
+        "rigid_layer_only": true
+      },
+      {
+        "material": [ { "type": "mc_steel", "covered_by_mat": 100, "thickness": 0.95 } ],
+        "covers": [ "mouth" ],
+        "coverage": 80,
+        "encumbrance": 30,
+        "layers": [ "OUTER" ],
+        "rigid_layer_only": true
+      }
+    ],
+    "flags": [ "RAINPROOF", "PADDED", "OUTER" ]
+  },
+  {
     "id": "headgear",
     "repairs_like": "tricorne",
     "type": "ARMOR",
@@ -31,7 +82,7 @@
     "price": 4000,
     "price_postapoc": 250,
     "to_hit": 1,
-    "material": [ "plastic", "leather" ],
+    "material": [ "plastic_pad", "leather" ],
     "symbol": "[",
     "looks_like": "balclava",
     "color": "red",
@@ -39,7 +90,17 @@
     "material_thickness": 3,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "OVERSIZE", "STURDY" ],
-    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 75, "covers": [ "head" ] } ]
+    "armor": [
+      {
+        "encumbrance_modifiers": [ "NONE" ],
+        "coverage": 75,
+        "covers": [ "head" ],
+        "material": [
+          { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 14 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1.5 }
+        ]
+      }
+    ]
   },
   {
     "id": "helmet_army",
@@ -249,13 +310,13 @@
     "category": "armor",
     "name": { "str": "baseball helmet" },
     "description": "A hard plastic helmet that covers the head and ears.  Designed to protect against a baseball to the head.",
-    "weight": "453 g",
+    "weight": "615 g",
     "volume": "1750 ml",
     "price": 3100,
     "price_postapoc": 250,
     "to_hit": -1,
     "bashing": 7,
-    "material": [ "plastic", "iron" ],
+    "material": [ "plastic", "plastic_pad" ],
     "symbol": "[",
     "looks_like": "hat_hard",
     "color": "blue",
@@ -264,7 +325,17 @@
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "PADDED" ],
-    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 95, "covers": [ "head" ] } ]
+    "armor": [
+      {
+        "encumbrance_modifiers": [ "NONE" ],
+        "coverage": 95,
+        "covers": [ "head" ],
+        "material": [
+          { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 12 },
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 3 }
+        ]
+      }
+    ]
   },
   {
     "id": "helmet_barbute",
@@ -316,20 +387,29 @@
     "category": "armor",
     "name": { "str": "bike helmet" },
     "description": "A thick foam helmet.  Designed to protect against concussion.",
-    "weight": "270 g",
+    "weight": "400 g",
     "volume": "1500 ml",
     "price": 17000,
     "price_postapoc": 250,
     "bashing": 4,
-    "material": [ "plastic" ],
+    "material": [ "plastic", "plastic_pad" ],
     "symbol": "[",
     "looks_like": "hat_hard",
     "color": "dark_gray",
     "warmth": 15,
-    "material_thickness": 4,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "PADDED" ],
-    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 75, "covers": [ "head" ] } ],
+    "armor": [
+      {
+        "encumbrance_modifiers": [ "NONE" ],
+        "coverage": 75,
+        "covers": [ "head" ],
+        "material": [
+          { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 14 },
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 1.5 }
+        ]
+      }
+    ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -481,17 +561,38 @@
     "volume": "2250 ml",
     "price": 19800,
     "price_postapoc": 250,
-    "material": [ "thermo_resin" ],
+    "material": [ "thermo_resin", "plastic_pad" ],
     "symbol": "[",
     "looks_like": "helmet_motor",
     "color": "yellow",
     "armor": [
-      { "covers": [ "head" ], "coverage": 95, "encumbrance_modifiers": [ "NONE" ] },
-      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 75, "encumbrance": 5, "breathability": "POOR" },
-      { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 85, "encumbrance": 0, "breathability": "GOOD" }
+      {
+        "covers": [ "head" ],
+        "coverage": 95,
+        "encumbrance_modifiers": [ "NONE" ],
+        "material": [
+          { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 14 },
+          { "type": "thermo_resin", "covered_by_mat": 100, "thickness": 3 }
+        ]
+      },
+      {
+        "covers": [ "eyes" ],
+        "rigid_layer_only": true,
+        "coverage": 70,
+        "encumbrance": 5,
+        "breathability": "POOR",
+        "material": [ { "type": "thermo_resin", "covered_by_mat": 100, "thickness": 4 } ]
+      },
+      {
+        "covers": [ "mouth" ],
+        "rigid_layer_only": true,
+        "coverage": 85,
+        "encumbrance": 0,
+        "breathability": "GOOD",
+        "material": [ { "type": "thermo_resin", "covered_by_mat": 100, "thickness": 4 } ]
+      }
     ],
     "warmth": 10,
-    "material_thickness": 4,
     "flags": [ "WATER_FRIENDLY", "PADDED" ]
   },
   {
@@ -669,14 +770,15 @@
     "price_postapoc": 750,
     "to_hit": -1,
     "bashing": 7,
-    "material": [ "plastic", "epoxy" ],
+    "material": [ "plastic", "epoxy", "plastic_pad" ],
     "symbol": "[",
     "color": "dark_gray",
     "armor": [
       {
         "material": [
-          { "type": "plastic", "covered_by_mat": 100, "thickness": 3.0 },
-          { "type": "epoxy", "covered_by_mat": 100, "thickness": 1.0 }
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "epoxy", "covered_by_mat": 100, "thickness": 0.5 },
+          { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 16 }
         ],
         "covers": [ "head" ],
         "coverage": 100,
@@ -732,8 +834,9 @@
     "armor": [
       {
         "material": [
-          { "type": "plastic", "covered_by_mat": 100, "thickness": 3.0 },
-          { "type": "epoxy", "covered_by_mat": 100, "thickness": 1.0 }
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "epoxy", "covered_by_mat": 100, "thickness": 0.5 },
+          { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 16 }
         ],
         "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ],
         "coverage": 100,
