@@ -150,7 +150,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "8 h 10 m",
     "using": [ [ "sewing_kevlar", 200 ], [ "fabric_lycra", 30 ], [ "fabric_nylon", 45 ], [ "fastener_large", 1 ], [ "clasps", 8 ] ],
-    "components": [ [ [ "sheet_kevlar", 310] ] ]
+    "components": [ [ [ "sheet_kevlar", 310 ] ] ]
   },
   {
     "result": "wsurvivor_jumpsuit",
