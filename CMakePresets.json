@@ -6,9 +6,6 @@
       "description": "Base Build Configuration",
       "binaryDir": "${sourceDir}/out/build/${presetName}",
       "installDir": "${sourceDir}/out/install/${presetName}",
-      "cacheVariables": {
-        "VCPKG_OVERLAY_TRIPLETS": "${sourceDir}/build-scripts"
-      },
       "hidden": true
     },
     {
@@ -18,6 +15,9 @@
         "type": "equals",
         "lhs": "${hostSystemName}",
         "rhs": "Windows"
+      },
+      "cacheVariables": {
+        "VCPKG_OVERLAY_TRIPLETS": "${sourceDir}/build-scripts"
       },
       "hidden": true
     },
