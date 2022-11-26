@@ -5412,6 +5412,16 @@
   },
   {
     "type": "mutation",
+    "id": "NOMOVE",
+    "name": { "str": "Cannot Move" },
+    "points": 99,
+    "description": "Debug nomove trait - drops speed to 0 - to be applied to NPC's only as locks up the game if applied to player!",
+    "purifiable": false,
+    "valid": false,
+    "debug": true
+  },
+  {
+    "type": "mutation",
     "id": "MUT_JUNKIE",
     "name": { "str": "Metallassomaiphile" },
     "//": "name courtesy of wiktionary's Greek for 'mutate'.  Greek-speakers, feel free to correct the term",

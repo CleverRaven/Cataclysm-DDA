@@ -9,7 +9,8 @@
     "mission": 3,
     "chat": "TALK_EVAC_MERCHANT",
     "mission_offered": "MISSION_FREE_MERCHANTS_EVAC_1",
-    "faction": "free_merchants"
+    "faction": "free_merchants",
+    "traits": [ { "trait": "NOMOVE" } ]
   },
   {
     "type": "npc_class",

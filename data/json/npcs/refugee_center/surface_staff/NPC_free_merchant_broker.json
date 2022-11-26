@@ -9,7 +9,8 @@
     "mission": 3,
     "chat": "TALK_FREE_MERCHANT_STOCKS",
     "faction": "free_merchants",
-    "mission_offered": "MISSION_BROKER_1"
+    "mission_offered": "MISSION_BROKER_1",
+    "traits": [ { "trait": "NOMOVE" } ]
   },
   {
     "//": "table of contents - these options will appear in the listed dialogue topics",
