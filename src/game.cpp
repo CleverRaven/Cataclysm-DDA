@@ -10870,6 +10870,12 @@ void game::on_move_effects()
             } else {
                 u.mod_power_level( -bio_jointservo->power_trigger );
             }
+
+            // If there's not enough power to run Joint Servo, forcefully turn it off
+            if( u.get_power_level() <= 0_mJ ) {
+                u.force_bionic_deactivation( **u.find_bionic_by_type( bio_jointservo ) );
+                u.add_msg_if_player( m_bad, _( "Your Joint Servo bionic powers down." ) );
+            }
         }
     }
 
