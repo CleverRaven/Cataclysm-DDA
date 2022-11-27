@@ -403,7 +403,7 @@
       { "id": "hoe", "description": " Craft: Hoe" },
       { "id": "hc_steel_lump", "description": " Craft: High Carbon Steel, Lump" },
       { "id": "hc_wire", "description": " Craft: High Carbon Steel, Wire" },
-	  { "id": "hc_chain_link_fabrication", "description": " Craft: High Carbon Steel, Link" },
+      { "id": "hc_chain_link_fabrication", "description": " Craft: High Carbon Steel, Link" },
       { "id": "hc_link_sheet", "description": " Craft: High Carbon Steel, Link Sheet" }
     ]
   },
