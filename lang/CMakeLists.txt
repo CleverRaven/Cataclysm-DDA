@@ -5,15 +5,6 @@ message(STATUS "Process LANGUAGES variable --")
 find_package(Gettext)
 
 if (NOT GETTEXT_FOUND)
-    if (MSVC)
-        unset(GETTEXT_MSGFMT_EXECUTABLE)
-        find_program(GETTEXT_MSGFMT_EXECUTABLE
-            msgfmt.exe
-            HINTS
-                  C:\\msys64\\usr\\bin
-                  C:\\Program\ Files\\Git\\mingw64\\bin
-        )
-    endif(MSVC)
     if(NOT GETTEXT_MSGFMT_EXECUTABLE)
         message(FATAL_ERROR
                 "Gettext not found. Install gettext package or disable \

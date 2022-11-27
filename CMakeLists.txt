@@ -370,6 +370,13 @@ if (BACKTRACE)
     endif ()
 endif ()
 
+if (LOCALIZE OR BUILD_TESTING)
+    if(MSVC)
+        list(APPEND Gettext_ROOT C:\\msys64\\usr)
+        list(APPEND Gettext_ROOT C:\\Program\ Files\\Git\\mingw64)
+    endif(MSVC)
+    find_package(Gettext)
+endif ()
 # Ok. Now create build and install recipes
 if (LOCALIZE)
     add_subdirectory(lang)

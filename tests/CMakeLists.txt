@@ -12,17 +12,6 @@ if (BUILD_TESTING)
     # build dir
     set(TEST_LANG ${CMAKE_SOURCE_DIR}/data/mods/TEST_DATA/lang)
     set(TEST_MO ${TEST_LANG}/mo/ru/LC_MESSAGES/TEST_DATA.mo)
-    if(MSVC)
-        find_program(GETTEXT_MSGFMT_EXECUTABLE
-            msgfmt.exe
-            HINTS
-                  C:\\msys64\\usr\\bin
-                  C:\\Prorogram\ Files\\Git\\mingw64\\bin
-            REQUIRED
-        )
-    else()
-		set(GETTEXT_MSGFMT_EXECUTABLE msgfmt)
-    endif()
     add_custom_command(
         OUTPUT ${TEST_MO}
         MAIN_DEPENDENCY ${TEST_LANG}/po/ru.po
