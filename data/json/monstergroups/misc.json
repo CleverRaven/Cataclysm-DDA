@@ -512,5 +512,10 @@
       { "monster": "mon_zombullfrog", "weight": 10, "cost_multiplier": 2 },
       { "monster": "mon_frog_mother", "weight": 5, "cost_multiplier": 3, "starts": "15 days" }
     ]
+  },
+  {
+    "type":"monstergroup",
+    "name":"GROUP_BEEKEEPER",
+    "monsters":[ { "monster": "mon_beekeeper", "cost_multiplier": 0 } ]
   }
 ]
