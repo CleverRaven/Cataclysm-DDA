@@ -62,7 +62,8 @@
         "RELEASE": "True",
         "CURSES": "False",
         "LOCALIZE": "True",
-        "TILES": "True"
+        "TILES": "True",
+        "TESTS":  "True"
       }
     }
   ]
