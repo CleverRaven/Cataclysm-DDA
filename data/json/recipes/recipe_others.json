@@ -1769,7 +1769,6 @@
     "skills_required": [ "tailor", 3 ],
     "difficulty": 4,
     "time": "7 h",
-    "reversible": true,
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_basketweaving" } ],
     "qualities": [ { "id": "CUT", "level": 1 } ],

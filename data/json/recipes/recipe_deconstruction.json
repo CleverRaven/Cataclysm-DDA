@@ -3309,9 +3309,8 @@
     "result": "makeshift_crowbar",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "skill_used": "mechanics",
-    "time": "1 m",
-    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "time": "15 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
     "components": [ [ [ "scrap", 3 ] ], [ [ "steel_chunk", 1 ] ] ]
   },
   {
@@ -7400,5 +7399,36 @@
     "time": "30 m",
     "qualities": [ { "id": "PRY", "level": 1 }, { "id": "SAW_W", "level": 2 }, { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "wooden_post_short", 2 ] ], [ [ "wood_block", 24 ] ], [ [ "nuts_bolts", 30 ] ], [ [ "splinter", 10 ] ] ]
+  },
+  {
+    "result": "fish_trap_basket",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "10 m",
+    "components": [ [ [ "withered", 40 ] ] ]
+  },
+  {
+    "result": "30gal_drum",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "1 h",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "sheet_metal", 1 ], [ "steel_lump", 6 ] ] ]
+  },
+  {
+    "result": "55gal_drum",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "2 h",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "sheet_metal", 3 ], [ "steel_lump", 2 ] ] ]
+  },
+  {
+    "result": "manhole_cover",
+    "type": "uncraft",
+    "activity_level": "BRISK_EXERCISE",
+    "time": "6 h",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "steel_lump", 130 ] ] ]
   }
 ]
