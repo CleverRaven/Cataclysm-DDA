@@ -12,9 +12,19 @@
       "name": "windows",
       "description": "Windows Build Configuration",
       "condition": {
-        "type": "equals",
-        "lhs": "${hostSystemName}",
-        "rhs": "Windows"
+        "type": "allOf",
+        "conditions": [
+          {
+            "type": "equals",
+            "lhs": "$env{MSYSTEM}",
+            "rhs": ""
+          },
+          {
+            "type": "equals",
+            "lhs": "${hostSystemName}",
+            "rhs": "Windows"
+          }
+        ]
       },
       "cacheVariables": {
         "VCPKG_OVERLAY_TRIPLETS": "${sourceDir}/build-scripts"

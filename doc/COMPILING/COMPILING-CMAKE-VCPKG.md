@@ -40,6 +40,7 @@ Run the command
  * `cmake --list-presets`<br/>
 It will show the presets available to you.
 The list changes based on the environment you are in.
+If empty, the environment is not supported.
 
 Run the command
  * `cmake --preset <preset>`
