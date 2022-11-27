@@ -4036,7 +4036,7 @@
     "locations": [ "land" ],
     "city_distance": [ 0, 10 ],
     "city_sizes": [ 6, -1 ],
-    "occurrences": [ 75, 100 ],
+    "occurrences": [ 70, 100 ],
     "flags": [ "UNIQUE", "CLASSIC" ]
   },
   {
@@ -4084,7 +4084,7 @@
     "connections": [ { "point": [ 1, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 1, 0, 0 ] } ],
     "locations": [ "land" ],
     "city_distance": [ 15, 50 ],
-    "occurrences": [ 35, 100 ],
+    "occurrences": [ 30, 100 ],
     "flags": [ "UNIQUE", "CLASSIC", "MAN_MADE" ]
   },
   {
@@ -4129,8 +4129,8 @@
       { "point": [ 2, 2, -1 ], "overmap": "mansion_c4d_south" }
     ],
     "locations": [ "wilderness" ],
-    "city_distance": [ 15, 50 ],
-    "occurrences": [ 60, 100 ],
+    "city_distance": [ 20, 60 ],
+    "occurrences": [ 15, 100 ],
     "flags": [ "UNIQUE", "CLASSIC", "MAN_MADE" ]
   },
   {
