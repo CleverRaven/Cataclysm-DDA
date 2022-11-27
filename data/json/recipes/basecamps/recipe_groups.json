@@ -358,7 +358,7 @@
       { "id": "wire", "description": " Craft: Wire" },
       { "id": "swage", "description": " Craft: Swage and Die Set" },
       { "id": "mc_wire", "description": " Craft: Medium Carbon Steel, Wire" },
-	  { "id": "mc_chain_link_fabrication", "description": " Craft: Medium Carbon Steel, Link" },
+      { "id": "mc_chain_link_fabrication", "description": " Craft: Medium Carbon Steel, Link" },
       { "id": "mc_link_sheet", "description": " Craft: Medium Carbon Steel, Link Sheet" }
     ]
   },
