@@ -205,7 +205,7 @@
     "name": "farm field",
     "see_cost": 2,
     "extras": "agricultural",
-    "looks_like": "farm_8",
+    "looks_like": "farm_5",
     "spawns": { "group": "GROUP_FOREST", "population": [ 0, 2 ], "chance": 15 }
   },
   {
@@ -292,6 +292,7 @@
     "name": "apple orchard",
     "sym": "T",
     "color": "light_green",
+    "looks_like": "forest",
     "spawns": { "group": "GROUP_WASP_FORAGER", "population": [ 1, 4 ], "chance": 5 },
     "mondensity": 3
   },
