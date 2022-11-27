@@ -970,7 +970,7 @@ void mapgen_road( mapgendata &dat )
                          dat.monster_density() );
         // 1 per 10 overmaps
         if( one_in( 10000 ) ) {
-            m->place_spawns(GROUP_FAMOUS_SINGERS, 1, point_zero, point(SEEX, SEEY), 1, true);
+            m->place_spawns( GROUP_FAMOUS_SINGERS, 1, point_zero, point( SEEX, SEEY ), 1, true );
         }
     }
 
