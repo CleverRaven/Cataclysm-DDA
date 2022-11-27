@@ -2,16 +2,12 @@ cmake_minimum_required(VERSION 3.1.4)
 
 message(STATUS "Process LANGUAGES variable --")
 
-find_package(Gettext)
-
-if (NOT GETTEXT_FOUND)
-    if(NOT GETTEXT_MSGFMT_EXECUTABLE)
-        message(FATAL_ERROR
-                "Gettext not found. Install gettext package or disable \
-                 localization with \"-DLOCALIZE=OFF\". \
-                 See doc/COMPILING/COMPILING-CMAKE.md for details and more info.")
-    endif()
-endif ()
+if(NOT GETTEXT_MSGFMT_EXECUTABLE)
+    message(FATAL_ERROR
+            "Gettext not found. Install gettext package or disable \
+             localization with \"-DLOCALIZE=OFF\". \
+             See doc/COMPILING/COMPILING-CMAKE.md for details and more info.")
+endif()
 
 foreach (LANG ${LANGUAGES})
     message(STATUS "Add translation for ${LANG}: ${LANG}.po")
