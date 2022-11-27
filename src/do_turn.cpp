@@ -818,7 +818,6 @@ bool do_turn()
     g->mon_info_update();
     u.process_turn();
     if( u.moves < 0 && get_option<bool>( "FORCE_REDRAW" ) ) {
-        g->mon_info_update();
         ui_manager::redraw();
         refresh_display();
     }

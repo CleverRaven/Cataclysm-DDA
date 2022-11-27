@@ -2053,3 +2053,13 @@ void avatar::set_location( const tripoint_abs_ms &loc )
 {
     Creature::set_location( loc );
 }
+
+void monster_visible_info::remove_npc( npc *n )
+{
+    for( auto &t : unique_types ) {
+        auto it = std::find( t.begin(), t.end(), n );
+        if( it != t.end() ) {
+            t.erase( it );
+        }
+    }
+}
