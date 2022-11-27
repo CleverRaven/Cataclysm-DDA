@@ -341,6 +341,7 @@
       { "id": "copper_ax", "description": " Craft: Axe, Copper" },
       { "id": "spear_copper", "description": " Craft: Spear, Copper" },
       { "id": "lc_wire", "description": " Craft: Mild Carbon Steel, Wire" },
+	  { "id": "lc_chain_link_fabrication", "description": " Craft: Mild Carbon Steel, Link" },
       { "id": "lc_link_sheet", "description": " Craft: Mild Carbon Steel, Link Sheet" },
       { "id": "mc_steel_lump", "description": " Craft: Medium Carbon Steel, Lump" }
     ]
@@ -357,6 +358,7 @@
       { "id": "wire", "description": " Craft: Wire" },
       { "id": "swage", "description": " Craft: Swage and Die Set" },
       { "id": "mc_wire", "description": " Craft: Medium Carbon Steel, Wire" },
+	  { "id": "mc_chain_link_fabrication", "description": " Craft: Medium Carbon Steel, Link" },
       { "id": "mc_link_sheet", "description": " Craft: Medium Carbon Steel, Link Sheet" }
     ]
   },
@@ -376,7 +378,10 @@
       { "id": "gold_ring", "description": " Craft: Gold Ring" },
       { "id": "hammer_sledge", "description": " Craft: Hammer, Sledge" },
       { "id": "ch_wire", "description": " Craft: Case Hardened Steel, Wire" },
-      { "id": "ch_link_sheet", "description": " Craft: Case Hardened Steel, Link Sheet" }
+	  { "id": "ch_chain_link_fabrication", "description": " Craft: Case Hardened Steel, Link" },
+      { "id": "ch_link_sheet", "description": " Craft: Case Hardened Steel, Link Sheet" },
+	  { "id": "chain_link_fabrication", "description": " Craft: Steel, Link" },
+      { "id": "link_sheet_fabrication", "description": " Craft: Steel, Link Sheet" }
     ]
   },
   {
@@ -398,6 +403,7 @@
       { "id": "hoe", "description": " Craft: Hoe" },
       { "id": "hc_steel_lump", "description": " Craft: High Carbon Steel, Lump" },
       { "id": "hc_wire", "description": " Craft: High Carbon Steel, Wire" },
+	  { "id": "hc_chain_link_fabrication", "description": " Craft: High Carbon Steel, Link" },
       { "id": "hc_link_sheet", "description": " Craft: High Carbon Steel, Link Sheet" }
     ]
   },
@@ -563,6 +569,7 @@
       { "id": "zweihander", "description": " Craft: Sword, Zweihander" },
       { "id": "pickaxe", "description": " Craft: Pickaxe" },
       { "id": "qt_wire", "description": " Craft: Tempered Steel, Wire" },
+	  { "id": "qt_chain_link_fabrication", "description": " Craft: Tempered Steel, Link" },
       { "id": "qt_link_sheet", "description": " Craft: Tempered Steel, Link Sheet" }
     ]
   },
