@@ -2228,13 +2228,13 @@ static void receive_item( const itype_id &item_name, int count, const std::strin
         item new_item = item( item_name, calendar::turn );
         if( new_item.count_by_charges() ) {
             new_item.mod_charges( count - 1 );
-            d.actor( false )->i_add( new_item );
+            d.actor( false )->i_add_or_drop( new_item );
         } else {
             for( int i_cnt = 0; i_cnt < count; i_cnt++ ) {
                 if( !new_item.ammo_default().is_null() ) {
                     new_item.ammo_set( new_item.ammo_default() );
                 }
-                d.actor( false )->i_add( new_item );
+                d.actor( false )->i_add_or_drop( new_item );
             }
         }
         if( d.has_beta && !d.actor( true )->disp_name().empty() ) {
@@ -2251,7 +2251,7 @@ static void receive_item( const itype_id &item_name, int count, const std::strin
         item container( container_name, calendar::turn );
         container.put_in( item( item_name, calendar::turn, count ),
                           item_pocket::pocket_type::CONTAINER );
-        d.actor( false )->i_add( container );
+        d.actor( false )->i_add_or_drop( container );
         if( d.has_beta && !d.actor( true )->disp_name().empty() ) {
             //~ %1%s is the NPC name, %2$s is an item
             popup( _( "%1$s gives you a %2$s." ), d.actor( true )->disp_name(), container.tname() );
