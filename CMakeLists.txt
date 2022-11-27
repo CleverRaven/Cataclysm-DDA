@@ -420,7 +420,7 @@ if (CATA_CLANG_TIDY_PLUGIN OR CATA_CLANG_TIDY_EXECUTABLE)
     add_subdirectory(tools/clang-tidy-plugin)
 endif()
 
-install(DIRECTORY doc gfx 
+install(DIRECTORY doc gfx
     DESTINATION .
 )
 configure_file(
