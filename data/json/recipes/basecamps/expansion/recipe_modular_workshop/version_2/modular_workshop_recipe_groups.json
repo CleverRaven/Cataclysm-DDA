@@ -268,7 +268,7 @@
       { "id": "hc_chain_link_fabrication", "description": " Craft: High Carbon Steel, Link" },
       { "id": "hc_link_sheet", "description": " Craft: High Carbon Steel, Link Sheet" },
       { "id": "qt_wire", "description": " Craft: Tempered Steel, Wire" },
-	  { "id": "qt_chain_link_fabrication", "description": " Craft: Tempered Steel, Link" },
+      { "id": "qt_chain_link_fabrication", "description": " Craft: Tempered Steel, Link" },
       { "id": "qt_link_sheet", "description": " Craft: Tempered Steel, Link Sheet" }
     ]
   },
