@@ -878,12 +878,12 @@ void npc::move()
                 ai_cache.sound_alerts.resize( 10 );
             }
         }
-    if( has_trait( trait_IGNORESOUND ) ) { //Do not investigate sounds - clear sound alerts as below
-		ai_cache.sound_alerts.clear();
-		action = npc_return_to_guard_pos;
-	} else {
-        action = npc_investigate_sound;
-	}
+        if( has_trait( trait_IGNORESOUND ) ) { //Do not investigate sounds - clear sound alerts as below
+            ai_cache.sound_alerts.clear();
+            action = npc_return_to_guard_pos;
+        } else {
+            action = npc_investigate_sound;
+        }
         if( ai_cache.sound_alerts.front().abs_pos != cur_s_abs_pos ) {
             ai_cache.stuck = 0;
             ai_cache.s_abs_pos = ai_cache.sound_alerts.front().abs_pos;
