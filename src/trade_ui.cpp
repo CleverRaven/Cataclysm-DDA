@@ -41,6 +41,7 @@ point _pane_size()
 trade_preset::trade_preset( Character const &you, Character const &trader )
     : _u( you ), _trader( trader )
 {
+    save_state = &inventory_ui_default_state;
     append_cell(
     [&]( item_location const & loc ) {
         return format_money( npc_trading::trading_price( _trader, _u, { loc, 1 } ) );
