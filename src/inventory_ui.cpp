@@ -1189,13 +1189,14 @@ inventory_entry *inventory_column::add_entry( const inventory_entry &entry )
         item_location entry_item = entry.locations.front();
 
         auto entry_with_loc = std::find_if( entries.begin(),
-        entries.end(), [&entry_item, this]( const inventory_entry & entry ) {
-            if( !entry.is_item() ) {
+        entries.end(), [&entry, &entry_item, this]( const inventory_entry & e ) {
+            if( !e.is_item() ) {
                 return false;
             }
-            item_location found_entry_item = entry.locations.front();
+            item_location found_entry_item = e.locations.front();
             // this would be much simpler if item::parent_item() didn't call debugmsg
-            return entry_item.where() == found_entry_item.where() &&
+            return e.get_category_ptr() == entry.get_category_ptr() &&
+                   entry_item.where() == found_entry_item.where() &&
                    entry_item.position() == found_entry_item.position() &&
                    ( ( !entry_item.has_parent() && !found_entry_item.has_parent() ) ||
                      ( entry_item.has_parent() && found_entry_item.has_parent() &&
