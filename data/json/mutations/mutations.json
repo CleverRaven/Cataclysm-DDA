@@ -7736,6 +7736,15 @@
   },
   {
     "type": "mutation",
+    "id": "IGNORESOUND",
+    "name": { "str": "Ignores Sounds" },
+    "points": 99,
+    "valid": false,
+    "description": "NPC ignores sounds and does not investigate them.",
+    "debug": true
+  },
+  {
+    "type": "mutation",
     "id": "DEBUG_TAIL",
     "name": { "str": "Debug Tail" },
     "points": 99,

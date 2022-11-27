@@ -37,6 +37,7 @@
       { "trait": "THIRST" },
       { "trait": "SLEEPY" },
       { "trait": "CLUMSY" },
+      { "trait": "IGNORESOUND" },
       { "group": "Appearance_Irish" }
     ],
     "skills": [

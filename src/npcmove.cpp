@@ -134,6 +134,8 @@ static const npc_class_id NC_EVAC_SHOPKEEP( "NC_EVAC_SHOPKEEP" );
 
 static const skill_id skill_firstaid( "firstaid" );
 
+static const trait_id trait_IGNORESOUND( "IGNORESOUND" );
+
 static const zone_type_id zone_type_NO_NPC_PICKUP( "NO_NPC_PICKUP" );
 static const zone_type_id zone_type_NPC_RETREAT( "NPC_RETREAT" );
 
@@ -876,7 +878,12 @@ void npc::move()
                 ai_cache.sound_alerts.resize( 10 );
             }
         }
+    if( has_trait( trait_IGNORESOUND ) ) { //Do not investigate sounds - clear sound alerts as below
+		ai_cache.sound_alerts.clear();
+		action = npc_return_to_guard_pos;
+	} else {
         action = npc_investigate_sound;
+	}
         if( ai_cache.sound_alerts.front().abs_pos != cur_s_abs_pos ) {
             ai_cache.stuck = 0;
             ai_cache.s_abs_pos = ai_cache.sound_alerts.front().abs_pos;
