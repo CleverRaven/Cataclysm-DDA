@@ -863,10 +863,7 @@
   },
   {
     "name": "GROUP_FAMOUS_SINGERS",
-    "type" : "monstergroup",
-    "monsters" : [
-      { "monster": "mon_zombie_jackson", "weight": 100 }
-
-    ]
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_zombie_jackson", "weight": 100 } ]
   }
 ]

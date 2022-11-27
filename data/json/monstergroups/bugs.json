@@ -52,10 +52,7 @@
   {
     "type": "monstergroup",
     "name": "GROUP_BEE",
-    "monsters": [ 
-      { "monster": "mon_bee_small", "cost_multiplier": 0 },
-      { "monster": "mon_bee", "cost_multiplier": 5 }
-    ]
+    "monsters": [ { "monster": "mon_bee_small", "cost_multiplier": 0 }, { "monster": "mon_bee", "cost_multiplier": 5 } ]
   },
   {
     "name": "GROUP_DERMATIK",
