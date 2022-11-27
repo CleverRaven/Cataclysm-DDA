@@ -31,6 +31,7 @@ set(CATA_CLANG_TIDY_INCLUDE_DIR "" CACHE STRING
         "Path to internal clang-tidy headers required for plugin (e.g. ClangTidy.h)")
 set(CATA_CHECK_CLANG_TIDY "" CACHE STRING "Path to check_clang_tidy.py for plugin tests")
 set(GIT_BINARY "" CACHE STRING "Git binary name or path.")
+set(GETTEXT_MSGFMT_EXECUTABLE "" CACHE FILEPATH "msgfmt binary name or path.")
 
 include(CTest)
 
@@ -370,7 +371,7 @@ if (BACKTRACE)
     endif ()
 endif ()
 
-if (LOCALIZE OR BUILD_TESTING)
+if ((LOCALIZE OR BUILD_TESTING) AND NOT GETTEXT_MSGFMT_EXECUTABLE STREQUAL "")
     if(MSVC)
         list(APPEND Gettext_ROOT C:\\msys64\\usr)
         list(APPEND Gettext_ROOT C:\\Program\ Files\\Git\\mingw64)

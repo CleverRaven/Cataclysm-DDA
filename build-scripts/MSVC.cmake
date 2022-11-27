@@ -82,7 +82,9 @@ set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded")
 # Where is vcpkg.json ?
 set(VCPKG_MANIFEST_DIR ${CMAKE_SOURCE_DIR}/msvc-full-features)
 
+set(VCPKG_ROOT "" CACHE PATH "Path to VCPKG installation")
 if (NOT $ENV{VCPKG_ROOT} STREQUAL "")
-    # Bring VCPKG in
     include($ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake)
+elseif(NOT $CACHE{VCPKG_ROOT} STREQUAL "")
+    include($CACHE{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake)
 endif()
