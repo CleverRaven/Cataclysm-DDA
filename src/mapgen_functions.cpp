@@ -314,8 +314,8 @@ void mapgen_hive( mapgendata &dat )
         }
     }
 
-    m->place_spawns(GROUP_BEE, 2, point(5, 5), point(11, 11), 2);
-    m->place_spawns(GROUP_BEEKEEPER, 2, point(5, 5), point(11, 11), 1);
+    m->place_spawns(GROUP_BEE, 2, point(5, 5), point(17, 17), 2);
+    m->place_spawns(GROUP_BEEKEEPER, 2, point(5, 5), point(17, 17), 1);
 
 
     // j and i loop through appropriate hive-cell center squares
