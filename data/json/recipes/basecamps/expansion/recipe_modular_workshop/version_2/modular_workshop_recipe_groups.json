@@ -84,7 +84,7 @@
       { "id": "mc_wire", "description": " Craft: Medium Carbon Steel, Wire" },
       { "id": "mc_chain_link_fabrication", "description": " Craft: Medium Carbon Steel, Link" },
       { "id": "mc_link_sheet", "description": " Craft: Medium Carbon Steel, Link Sheet" },
-	  { "id": "chain_link_fabrication", "description": " Craft: Steel, Link" },
+      { "id": "chain_link_fabrication", "description": " Craft: Steel, Link" },
       { "id": "link_sheet_fabrication", "description": " Craft: Steel, Link Sheet" }
     ]
   },
