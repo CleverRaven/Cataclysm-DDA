@@ -314,8 +314,8 @@ void mapgen_hive( mapgendata &dat )
         }
     }
 
-    m->place_spawns(GROUP_BEE, 2, point(5, 5), point(17, 17), 2);
-    m->place_spawns(GROUP_BEEKEEPER, 2, point(5, 5), point(17, 17), 1);
+    m->place_spawns( GROUP_BEE, 2, point( 5, 5 ), point( 17, 17 ), 2 );
+    m->place_spawns( GROUP_BEEKEEPER, 2, point( 5, 5 ), point( 17, 17 ), 1 );
 
 
     // j and i loop through appropriate hive-cell center squares
@@ -970,7 +970,7 @@ void mapgen_road( mapgendata &dat )
                          dat.monster_density() );
         // 1 per 10 overmaps
         if( one_in( 10000 ) ) {
-            m->place_spawns(GROUP_FAMOUS_SINGERS, 1, point_zero, point(SEEX, SEEY), 1, true);
+            m->place_spawns( GROUP_FAMOUS_SINGERS, 1, point_zero, point( SEEX, SEEY ), 1, true );
         }
     }
 
