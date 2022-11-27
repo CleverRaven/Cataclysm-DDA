@@ -17,7 +17,7 @@ For the official way to build CataclysmDDA, see:
 
 `cmake` >= 3.20.0<br/>
 `vcpkg` from [vcpkg.io](https://vcpkg.io/en/getting-started.html)
-
+`msgfmt` (optional) as part of Git Bash or msys2 in the default install paths.
 # 2 Configure
 
 ## Presets
@@ -35,6 +35,9 @@ If vcpkg is checked out in a location different from `C:\vcpkg`, eg. `C:\dev\vcp
 The Standard toolbar shows the presets in the _Configuration_ drop-down box.<br/>
 From the main menu, select _Project -> Configure Cache_
 
+If you do not have `msgfmt` available, or do not want to include translations with the build, you need to additionally set `DLOCALIZE=OFF`. To do this, go to _Project -> CMake Settings_, scroll to the bottom where `"windows-tiles-sounds-x64-msvc"` is defined, and under `"cacheVariables"` change the value from `"LOCALIZE": "True"` to `"LOCALIZE": "OFF"`.
+ * Note: doing this will change the `CMakePresets.json` file which is tracked by source control. Do not commit this change.
+
 ## Terminal
 Run the command
  * `cmake --list-presets`<br/>
@@ -44,6 +47,10 @@ If empty, the environment is not supported.
 
 Run the command
  * `cmake --preset <preset>`
+ 
+ If you do not have `msgfmt` available, or do not want to include translations with the build, you need to additionally pass `-DLOCALIZE=OFF`.
+ 
+ * `cmake --preset <preset> -DLOCALIZE=OFF`
  
 # 3 Build
 
