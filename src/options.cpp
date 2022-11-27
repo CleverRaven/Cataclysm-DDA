@@ -1941,10 +1941,10 @@ void options_manager::add_options_interface()
     },
     "favorites" );
 
-    add("ITEM_NUMERIC_SHORTCUTS", "interface", to_translation("Use Numeric Item Shortcuts"),
-        to_translation("If true, assign numeric shortcuts to the first ten items outside of the inventory in item interaction menus."),
-        true
-    );
+    add( "ITEM_NUMERIC_SHORTCUTS", "interface", to_translation( "Use Numeric Item Shortcuts" ),
+         to_translation( "If true, assign numeric shortcuts to the first ten items outside of the inventory in item interaction menus." ),
+         true
+       );
 
     add( "ITEM_HEALTH_BAR", "interface", to_translation( "Show item health bars" ),
          // NOLINTNEXTLINE(cata-text-style): one space after "etc."
