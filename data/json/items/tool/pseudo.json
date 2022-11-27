@@ -57,6 +57,6 @@
     "ammo": [ "tinder" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "tinder": 50000 } } ],
     "charge_factor": 10,
-	"flags": [ "ZERO_WEIGHT" ]
+    "flags": [ "ZERO_WEIGHT" ]
   }
 ]
