@@ -515,9 +515,9 @@ void Character::update_bodytemp()
         bp_windpower = static_cast<int>( static_cast<float>( bp_windpower ) *
                                          ( 1 - wind_res_per_bp[bp] / 100.0 ) );
         // Calculate windchill
-        units::temperature windchill = get_local_windchill( player_local_temp,
-                                       get_local_humidity( weather.humidity, get_weather().weather_id, sheltered ),
-                                       bp_windpower );
+        units::temperature_delta windchill = get_local_windchill( player_local_temp,
+                                             get_local_humidity( weather.humidity, get_weather().weather_id, sheltered ),
+                                             bp_windpower );
 
         static const auto is_lower = []( const bodypart_id & bp ) {
             return bp->has_flag( json_flag_LIMB_LOWER );
@@ -532,13 +532,13 @@ void Character::update_bodytemp()
         if( here.has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, pos() ) ||
             ( here.has_flag_ter( ter_furn_flag::TFLAG_SHALLOW_WATER, pos() ) && is_lower( bp ) ) ) {
             adjusted_temp += water_temperature - Ctemperature; // Swap out air temp for water temp.
-            windchill = 0_K;
+            windchill = units::from_kelvin_delta( 0 );
         }
 
         // Convergent temperature is affected by ambient temperature,
         // clothing warmth, and body wetness.
         int temp = BODYTEMP_NORM + adjusted_temp + clothing_warmth_adjustment + bp_temp_min +
-                   units::to_kelvin( windchill ) * 1.8 * 100; // dT(K) * 1.8 = dT(F)
+                   units::to_fahrenheit_delta( windchill ) * 100; // dT(K) * 1.8 = dT(F)
         set_part_temp_conv( bp, temp );
         // HUNGER / STARVATION
         mod_part_temp_conv( bp, hunger_warmth );
@@ -776,14 +776,17 @@ void Character::update_bodytemp()
         const int conv_temp = get_part_temp_conv( bp );
         // Warn the player that wind is going to be a problem.
         // But only if it can be a problem, no need to spam player with "wind chills your scorching body"
-        if( conv_temp <= BODYTEMP_COLD && windchill < -5.55_K && one_in( 200 ) ) {
+        if( conv_temp <= BODYTEMP_COLD && windchill < units::from_fahrenheit_delta( -10 ) &&
+            one_in( 200 ) ) {
             add_msg( m_bad, _( "The wind is making your %s feel quite cold." ),
                      body_part_name( bp ) );
-        } else if( conv_temp <= BODYTEMP_COLD && windchill < -11.11_K && one_in( 100 ) ) {
+        } else if( conv_temp <= BODYTEMP_COLD && windchill < units::from_fahrenheit_delta( -20 ) &&
+                   one_in( 100 ) ) {
             add_msg( m_bad,
                      _( "The wind is very strong; you should find some more wind-resistant clothing for your %s." ),
                      body_part_name( bp ) );
-        } else if( conv_temp <= BODYTEMP_COLD && windchill < -16.66_K && one_in( 50 ) ) {
+        } else if( conv_temp <= BODYTEMP_COLD && windchill < units::from_kelvin_delta( -30 ) &&
+                   one_in( 50 ) ) {
             add_msg( m_bad, _( "Your clothing is not providing enough protection from the wind for your %s!" ),
                      body_part_name( bp ) );
         }

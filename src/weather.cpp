@@ -676,8 +676,8 @@ std::string print_pressure( double pressure, int decimals )
     return string_format( pgettext( "air pressure in kPa", "%s kPa" ), ret );
 }
 
-units::temperature get_local_windchill( units::temperature temperature, double humidity,
-                                        double wind_mph )
+units::temperature_delta get_local_windchill( units::temperature temperature, double humidity,
+        double wind_mph )
 {
     double windchill_k = 0;
 
@@ -689,7 +689,7 @@ units::temperature get_local_windchill( units::temperature temperature, double h
 
         if( wind_mph < 3 ) {
             // This model fails when wind is less than 3 mph
-            return units::from_kelvin( 0 );
+            return units::from_kelvin_delta( 0 );
         }
 
         // Temperature is removed at the end, because get_local_windchill is meant to calculate the difference.
@@ -714,7 +714,7 @@ units::temperature get_local_windchill( units::temperature temperature, double h
                       wind_meters_per_sec - 4.00;
     }
 
-    return units::from_kelvin( windchill_k );
+    return units::from_kelvin_delta( windchill_k );
 }
 
 nc_color get_wind_color( double windpower )
