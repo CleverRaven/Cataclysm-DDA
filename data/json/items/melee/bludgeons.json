@@ -1469,7 +1469,7 @@
     "type": "GENERIC",
     "id": "ax_sheets_welded",
     "name": { "str": "welded battle axe" },
-    "description": "A savage looking battle axe made out of layered sheet metal welded into two pipes held together with fittings, vaguely forming a upside down L shape. This should be structurally stable. Hopefully.",
+    "description": "A savage-looking battle axe made out of layered sheet metal welded into two pipes held together with fittings, vaguely forming a upside-down L shape.  This should be structurally stable.  Hopefully.",
     "looks_like": "ax",
     "weight": "2212 g",
     "volume": "2500 ml",
