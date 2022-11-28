@@ -214,8 +214,8 @@ class submap : maptile_soa
             cosmetics.push_back( ins );
         }
 
-        units::temperature get_temperature() const {
-            return units::from_kelvin( temperature_mod / 1.8 );
+        units::temperature_delta get_temperature_mod() const {
+            return units::from_fahrenheit_delta( temperature_mod );
         }
 
         void set_temperature_mod( units::temperature new_temperature_mod ) {

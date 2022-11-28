@@ -1521,9 +1521,9 @@ static int maptile_field_intensity( maptile &mt, field_type_id fld )
     return field_ptr == nullptr ? 0 : field_ptr->get_field_intensity();
 }
 
-units::temperature get_heat_radiation( const tripoint &location )
+units::temperature_delta get_heat_radiation( const tripoint &location )
 {
-    units::temperature temp_mod = 0_K;
+    units::temperature_delta temp_mod = units::from_kelvin_delta( 0 );
     Character &player_character = get_player_character();
     map &here = get_map();
     // Convert it to an int id once, instead of 139 times per turn
@@ -1552,7 +1552,7 @@ units::temperature get_heat_radiation( const tripoint &location )
         }
         // Ensure fire_dist >= 1 to avoid divide-by-zero errors.
         const int fire_dist = std::max( 1, square_dist( dest, location ) );
-        temp_mod += units::from_kelvin( 6.f * heat_intensity * heat_intensity / fire_dist / 1.8 );
+        temp_mod += units::from_fahrenheit_delta( 6.f * heat_intensity * heat_intensity / fire_dist );
     }
     return temp_mod;
 }
@@ -1594,20 +1594,23 @@ int get_best_fire( const tripoint &location )
     return best_fire;
 }
 
-units::temperature get_convection_temperature( const tripoint &location )
+units::temperature_delta get_convection_temperature( const tripoint &location )
 {
-    units::temperature temp_mod = 0_K;
+    units::temperature_delta temp_mod = units::from_kelvin_delta( 0 );
     map &here = get_map();
     // Directly on lava tiles
-    units::temperature lava_mod = here.tr_at( location ).has_flag( json_flag_CONVECTS_TEMPERATURE ) ?
-                                  units::from_kelvin( fd_fire->get_intensity_level().convection_temperature_mod / 1.8 ) : 0_K;
+    units::temperature_delta lava_mod = here.tr_at( location ).has_flag(
+                                            json_flag_CONVECTS_TEMPERATURE ) ?
+                                        units::from_fahrenheit_delta( fd_fire->get_intensity_level().convection_temperature_mod ) :
+                                        units::from_kelvin_delta( 0 );
     // Modifier from fields
     for( auto fd : here.field_at( location ) ) {
         // Nullify lava modifier when there is open fire
         if( fd.first.obj().has_fire ) {
-            lava_mod = 0_K;
+            lava_mod = units::from_kelvin_delta( 0 );
         }
-        temp_mod += units::from_kelvin( fd.second.get_intensity_level().convection_temperature_mod / 1.8 );
+        temp_mod += units::from_fahrenheit_delta(
+                        fd.second.get_intensity_level().convection_temperature_mod );
     }
     return temp_mod + lava_mod;
 }

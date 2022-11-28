@@ -1203,7 +1203,7 @@ class map
         }
 
         // Temperature modifier for submap
-        units::temperature get_temperature_mod( const tripoint &p ) const;
+        units::temperature_delta get_temperature_mod( const tripoint &p ) const;
         // Set temperature modifier for all four submap quadrants
         void set_temperature_mod( const tripoint &p, units::temperature temperature_mod );
         void set_temperature_mod( const point &p, units::temperature new_temperature_mod ) {

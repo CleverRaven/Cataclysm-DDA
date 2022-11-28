@@ -12606,19 +12606,20 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos, map &
 
         const weather_generator &wgen = get_weather().get_cur_weather_gen();
         const unsigned int seed = g->get_seed();
-        units::temperature local_mod = g->new_game ? 0_K : here.get_temperature_mod( pos );
+        units::temperature_delta local_mod = units::from_kelvin_delta( 0 );
 
-        units::temperature enviroment_mod;
+        units::temperature_delta enviroment_mod;
         // Toilets and vending machines will try to get the heat radiation and convection during mapgen and segfault.
         if( !g->new_game ) {
             enviroment_mod = get_heat_radiation( pos );
             enviroment_mod += get_convection_temperature( pos );
+            enviroment_mod += here.get_temperature_mod( pos );
         } else {
-            enviroment_mod = 0_K;
+            enviroment_mod = units::from_kelvin_delta( 0 );
         }
 
         if( carried ) {
-            local_mod += units::from_kelvin( 2.77 ); // body heat increases inventory temperature
+            local_mod += units::from_fahrenheit_delta( 5 ); // body heat increases inventory temperature
         }
 
         // Process the past of this item in 1h chunks until there is less than 1h left.
@@ -12635,8 +12636,7 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos, map &
             } else {
                 env_temperature = AVERAGE_ANNUAL_TEMPERATURE;
             }
-            env_temperature += local_mod;
-            env_temperature += enviroment_mod;
+            env_temperature = env_temperature + enviroment_mod + local_mod;
 
             switch( flag ) {
                 case temperature_flag::NORMAL:

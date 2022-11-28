@@ -1003,15 +1003,15 @@ units::temperature weather_manager::get_temperature( const tripoint &location )
 
 
     //underground temperature = average New England temperature = 43F/6C
-    units::temperature temp = ( location.z < 0 ? AVERAGE_ANNUAL_TEMPERATURE : temperature ) +
-                              ( g->new_game ? 0_K : get_map().get_temperature_mod( location ) );
+    units::temperature temp = location.z < 0 ? AVERAGE_ANNUAL_TEMPERATURE : temperature;
 
     if( !g->new_game ) {
-        units::temperature temp_mod = 0_K;
+        units::temperature_delta temp_mod = units::from_kelvin_delta( 0 );
         temp_mod += get_heat_radiation( location );
         temp_mod += get_convection_temperature( location );
+        temp_mod += get_map().get_temperature_mod( location );
 
-        temp += temp_mod;
+        temp = temp + temp_mod;
     }
 
     temperature_cache.emplace( std::make_pair( location, temp ) );

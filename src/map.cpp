@@ -4601,19 +4601,19 @@ void map::adjust_radiation( const tripoint &p, const int delta )
     current_submap->set_radiation( l, current_radiation + delta );
 }
 
-units::temperature map::get_temperature_mod( const tripoint &p ) const
+units::temperature_delta map::get_temperature_mod( const tripoint &p ) const
 {
     if( !inbounds( p ) ) {
-        return 0_K;
+        return units::from_kelvin_delta( 0 );
     }
 
     const submap *const current_submap = unsafe_get_submap_at( p );
     if( current_submap == nullptr ) {
         debugmsg( "Tried to get temperature at (%d,%d,%d) but the submap is not loaded", p.x, p.y, p.z );
-        return 0_K;
+        return units::from_kelvin_delta( 0 );
     }
 
-    return current_submap->get_temperature();
+    return current_submap->get_temperature_mod();
 }
 
 void map::set_temperature_mod( const tripoint &p, units::temperature new_temperature_mod )
