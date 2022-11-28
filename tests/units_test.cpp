@@ -382,7 +382,7 @@ TEST_CASE( "Temperature delta", "[temperature]" )
 
     SECTION( "Temperature plus delta" ) {
         CHECK( units::to_kelvin( 10_K + units::from_kelvin_delta( 10 ) ) == 20 );
-		CHECK( units::to_kelvin( units::from_kelvin_delta( 10 ) + 10_K ) == 20 );
+        CHECK( units::to_kelvin( units::from_kelvin_delta( 10 ) + 10_K ) == 20 );
         CHECK( units::to_celsius( units::from_celsius( 10 ) + units::from_celsius_delta( 10 ) ) == 20 );
         CHECK( units::to_fahrenheit( units::from_fahrenheit( 10 ) + units::from_fahrenheit_delta(
                                          10 ) ) == Approx( 20.f ).margin( 0.0001f ) );
