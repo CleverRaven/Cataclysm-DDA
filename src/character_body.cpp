@@ -537,7 +537,7 @@ void Character::update_bodytemp()
         // Convergent temperature is affected by ambient temperature,
         // clothing warmth, and body wetness.
         int temp = BODYTEMP_NORM + adjusted_temp + clothing_warmth_adjustment + bp_temp_min +
-                   units::to_fahrenheit_delta( windchill ) * 100; // dT(K) * 1.8 = dT(F)
+                   units::to_fahrenheit_delta( windchill ) * 100;
         set_part_temp_conv( bp, temp );
         // HUNGER / STARVATION
         mod_part_temp_conv( bp, hunger_warmth );
