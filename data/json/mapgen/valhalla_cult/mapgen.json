@@ -194,8 +194,10 @@
       "terrain": { " ": "t_region_groundcover", ".": "t_rock_floor", "]": "t_bars" },
       "furniture": { "1": "f_firefly_terrarium", "3": "f_rack_wood", "L": "f_rack_wood", "r": "f_rack_wood" },
       "place_zones": [
-        { "type": "LOOT_UNSORTED", "faction": "valhallists", "x": [ 17, 17 ], "y": [ 12, 12 ] },
-        { "type": "LOOT_CURRENCY", "faction": "valhallists", "x": [ 19, 19 ], "y": [ 12, 12 ] }
+        { "type": "LOOT_ITEM_GROUP", "filter": "valhallist_shopkeep_0", "faction": "valhallists", "x": [ 16, 20 ], "y": [ 11, 11 ] },
+        { "type": "LOOT_ITEM_GROUP", "filter": "valhallist_shopkeep_1", "faction": "valhallists", "x": [ 16, 20 ], "y": [ 11, 11 ] },
+        { "type": "LOOT_ITEM_GROUP", "filter": "valhallist_weapons", "faction": "valhallists", "x": [ 16, 20 ], "y": [ 11, 11 ] },
+        { "type": "LOOT_UNSORTED", "faction": "valhallists", "x": [ 20, 20 ], "y": [ 12, 12 ] }
       ],
       "items": {
         "L": [
@@ -219,11 +221,6 @@
           { "item": "supplies_farming", "chance": 80, "repeat": [ 2, 4 ] },
           { "item": "supplies_fuel", "chance": 80, "repeat": [ 2, 4 ] },
           { "item": "supplies_metal", "chance": 80, "repeat": [ 2, 4 ] }
-        ],
-        "3": [
-          { "item": "valhallist_shopkeep_0", "chance": 80, "repeat": [ 2, 4 ] },
-          { "item": "valhallist_shopkeep_1", "chance": 80, "repeat": [ 2, 4 ] },
-          { "item": "valhallist_weapons", "chance": 80, "repeat": [ 2, 4 ] }
         ]
       }
     }
