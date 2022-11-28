@@ -11,7 +11,7 @@
     "chat": "TALK_SCIENCE_REP",
     "faction": "old_guard",
     "mission_offered": "MISSION_SCIENCE_REP_1",
-    "traits": [ { "trait": "IGNORESOUND" } ]
+    "traits": [ { "trait": "IGNORESOUND" }, { "trait": "NOBASH" }, { "trait": "RETURNTOSTARTPOS" } ]
   },
   {
     "id": "TALK_SCIENCE_REP",

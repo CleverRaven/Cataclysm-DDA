@@ -10,7 +10,7 @@
     "chat": "TALK_FREE_MERCHANT_STOCKS",
     "faction": "free_merchants",
     "mission_offered": "MISSION_BROKER_1",
-    "traits": [ { "trait": "IGNORESOUND" } ]
+    "traits": [ { "trait": "IGNORESOUND" }, { "trait": "NOBASH" }, { "trait": "RETURNTOSTARTPOS" } ]
   },
   {
     "//": "table of contents - these options will appear in the listed dialogue topics",

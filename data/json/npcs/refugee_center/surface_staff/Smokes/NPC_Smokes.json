@@ -38,6 +38,8 @@
       { "trait": "SLEEPY" },
       { "trait": "CLUMSY" },
       { "trait": "IGNORESOUND" },
+      { "trait": "NOBASH" },
+      { "trait": "RETURNTOSTARTPOS" },
       { "group": "Appearance_Irish" }
     ],
     "skills": [

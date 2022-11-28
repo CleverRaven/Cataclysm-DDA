@@ -135,6 +135,7 @@ static const npc_class_id NC_EVAC_SHOPKEEP( "NC_EVAC_SHOPKEEP" );
 static const skill_id skill_firstaid( "firstaid" );
 
 static const trait_id trait_IGNORESOUND( "IGNORESOUND" );
+static const trait_id trait_RETURNTOSTARTPOS( "RETURNTOSTARTPOS" );
 
 static const zone_type_id zone_type_NO_NPC_PICKUP( "NO_NPC_PICKUP" );
 static const zone_type_id zone_type_NPC_RETREAT( "NPC_RETREAT" );
@@ -723,6 +724,11 @@ void npc::regen_ai_cache()
     map &here = get_map();
     auto i = std::begin( ai_cache.sound_alerts );
     creature_tracker &creatures = get_creature_tracker();
+	if( has_trait( trait_RETURNTOSTARTPOS )) {
+		if( !ai_cache.guard_pos ) {
+            ai_cache.guard_pos = here.getabs( pos() );
+        }
+	}
     while( i != std::end( ai_cache.sound_alerts ) ) {
         if( sees( here.getlocal( i->abs_pos ) ) ) {
             // if they were responding to a call for guards because of thievery

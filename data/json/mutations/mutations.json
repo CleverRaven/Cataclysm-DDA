@@ -7745,6 +7745,24 @@
   },
   {
     "type": "mutation",
+    "id": "NOBASH",
+    "name": { "str": "Will Not Bash" },
+    "points": 99,
+    "valid": false,
+    "description": "NPC will not bash to reach things.",
+    "debug": true
+  },
+  {
+    "type": "mutation",
+    "id": "RETURNTOSTARTPOS",
+    "name": { "str": "Returns to Start POS" },
+    "points": 99,
+    "valid": false,
+    "description": "NPC will return to its spawn position on idle.",
+    "debug": true
+  },
+  {
+    "type": "mutation",
     "id": "DEBUG_TAIL",
     "name": { "str": "Debug Tail" },
     "points": 99,

@@ -9,7 +9,7 @@
     "mission": 3,
     "chat": "TALK_EXODII_MERCHANT",
     "faction": "exodii",
-    "traits": [ { "trait": "IGNORESOUND" } ]
+    "traits": [ { "trait": "IGNORESOUND" }, { "trait": "NOBASH" }, { "trait": "RETURNTOSTARTPOS" } ]
   },
   {
     "type": "npc_class",

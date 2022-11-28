@@ -9,7 +9,7 @@
     "mission": 3,
     "chat": "TALK_CARAVAN_MERCHANT_1",
     "faction": "free_merchants",
-    "traits": [ { "trait": "IGNORESOUND" } ]
+    "traits": [ { "trait": "IGNORESOUND" }, { "trait": "NOBASH" }, { "trait": "RETURNTOSTARTPOS" } ]
   },
   {
     "type": "npc",
@@ -21,7 +21,7 @@
     "mission": 8,
     "chat": "TALK_CARAVAN_GUARD_A1",
     "faction": "free_merchants",
-    "traits": [ { "trait": "IGNORESOUND" } ]
+    "traits": [ { "trait": "IGNORESOUND" }, { "trait": "NOBASH" }, { "trait": "RETURNTOSTARTPOS" } ]
   },
   {
     "type": "npc",
@@ -33,7 +33,7 @@
     "mission": 7,
     "chat": "TALK_CARAVAN_GUARD_B",
     "faction": "free_merchants",
-    "traits": [ { "trait": "IGNORESOUND" } ]
+    "traits": [ { "trait": "IGNORESOUND" }, { "trait": "NOBASH" }, { "trait": "RETURNTOSTARTPOS" } ]
   },
   {
     "type": "talk_topic",
