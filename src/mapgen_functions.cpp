@@ -45,10 +45,10 @@ static const item_group_id Item_spawn_data_road( "road" );
 static const item_group_id Item_spawn_data_sewer( "sewer" );
 static const item_group_id Item_spawn_data_wreckage( "wreckage" );
 
-static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
-static const mongroup_id GROUP_FAMOUS_SINGERS( "GROUP_FAMOUS_SINGERS" );
 static const mongroup_id GROUP_BEE( "GROUP_BEE" );
 static const mongroup_id GROUP_BEEKEEPER( "GROUP_BEEKEEPER" );
+static const mongroup_id GROUP_FAMOUS_SINGERS( "GROUP_FAMOUS_SINGERS" );
+static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
 
 static const npc_template_id npc_template_apis( "apis" );
 
