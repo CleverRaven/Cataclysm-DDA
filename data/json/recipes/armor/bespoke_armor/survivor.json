@@ -113,7 +113,7 @@
     "copy-from": "lsurvivor_jumpsuit",
     "time": "7 h",
     "using": [ [ "sewing_kevlar", 150 ], [ "fabric_lycra", 30 ], [ "fabric_nylon", 45 ], [ "fastener_large", 1 ], [ "clasps", 8 ] ],
-    "components": [ [ [ "sheet_kevlar", 200 ] ] ]
+    "components": [ [ [ "sheet_kevlar", 200  ] ] ]
   },
   {
     "result": "survivor_jumpsuit",
