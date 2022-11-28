@@ -55,6 +55,19 @@ if (NOT "${GIT_VERSION}" MATCHES "GIT-NOTFOUND")
             "// NOLINT(cata-header-guard)\n\#define VERSION \"${GIT_VERSION}\"\n")
     message(STATUS "${PROJECT_NAME} build version is: ${GIT_VERSION}")
     add_definitions(-DGIT_VERSION)
+
+    # get_git_head_revision() does not work with worktrees in Windows
+    execute_process(COMMAND ${GIT_EXECUTABLE} rev-parse HEAD
+        WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
+        OUTPUT_VARIABLE _sha1
+        OUTPUT_STRIP_TRAILING_WHITESPACE)
+    string(TIMESTAMP _timestamp %Y-%m-%d-%H%M)
+    file(WRITE VERSION.txt "\
+build type: ${BUILD_PRESET_NAME}\n\
+build number: ${_timestamp}\n\
+commit sha: ${_sha1}\n\
+commit url: https://github.com/CleverRaven/Cataclysm-DDA/commit/${_sha1}"
+    )
 endif ()
 
 #OS Check Placeholders. Will be used for BINDIST
@@ -430,6 +443,7 @@ if (RELEASE)
         ${CMAKE_SOURCE_DIR}/README.md
         ${CMAKE_SOURCE_DIR}/LICENSE.txt
         ${CMAKE_SOURCE_DIR}/LICENSE-OFL-Terminus-Font.txt
+        ${CMAKE_SOURCE_DIR}/VERSION.txt
         DESTINATION .)
     if (TILES)
         install(DIRECTORY ${CMAKE_SOURCE_DIR}/gfx DESTINATION .)
