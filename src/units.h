@@ -415,13 +415,11 @@ inline constexpr value_type to_kelvin( const
     return v.value();
 }
 
-constexpr temperature freezing_point = from_kelvin( 273.150f );
-
 template<typename value_type>
 inline constexpr quantity<units::temperature::value_type, temperature_in_kelvin_tag> from_celsius(
     const value_type v )
 {
-    return from_kelvin( v ) + freezing_point;
+    return from_kelvin( v + 273.150f );
 }
 
 template<typename value_type>
@@ -436,7 +434,7 @@ template<typename value_type>
 inline constexpr value_type to_celsius( const
                                         quantity<value_type, temperature_in_kelvin_tag> &v )
 {
-    return ( v - freezing_point ).value();
+    return ( v - from_kelvin( 273.150f ) ).value();
 }
 
 template<typename value_type>
@@ -1144,6 +1142,7 @@ units::temperature operator+( const units::temperature &T,
                               const units::temperature_delta &T_delta );
 units::temperature operator+( const units::temperature_delta &T_delta,
                               const units::temperature &T );
+units::temperature operator+( const units::temperature &, const units::temperature & ) = delete;
 
 units::temperature &operator+=( units::temperature &T, const units::temperature_delta &T_delta );
 
