@@ -386,6 +386,10 @@ TEST_CASE( "Temperature delta", "[temperature]" )
         CHECK( units::to_celsius( units::from_celsius( 10 ) + units::from_celsius_delta( 10 ) ) == 20 );
         CHECK( units::to_fahrenheit( units::from_fahrenheit( 10 ) + units::from_fahrenheit_delta(
                                          10 ) ) == Approx( 20.f ).margin( 0.0001f ) );
+
+        units::temperature temp = units::from_kelvin( 22.5 );
+        temp += units::from_kelvin_delta( 10.3 );
+        CHECK( units::to_kelvin( temp ) == 32.8f );
     }
 
 }

@@ -1145,6 +1145,8 @@ units::temperature operator+( const units::temperature &T,
 units::temperature operator+( const units::temperature_delta &T_delta,
                               const units::temperature &T );
 
+units::temperature &operator+=( units::temperature &T, const units::temperature_delta &T_delta );
+
 } // namespace units
 
 namespace detail

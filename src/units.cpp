@@ -194,4 +194,10 @@ units::temperature operator+( const units::temperature_delta &T_delta, const uni
     return from_kelvin( to_kelvin( T ) + to_kelvin_delta( T_delta ) );
 }
 
+units::temperature &operator+=( units::temperature &T, const units::temperature_delta &T_delta )
+{
+    T = T + T_delta;
+    return T;
+}
+
 } // namespace units
