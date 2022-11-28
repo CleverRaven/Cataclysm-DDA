@@ -10,6 +10,8 @@ set(CATACLYSM_DATA_DIRS
         ${CMAKE_SOURCE_DIR}/data/credits
         ${CMAKE_SOURCE_DIR}/data/title
         ${CMAKE_SOURCE_DIR}/data/core
+        ${CMAKE_SOURCE_DIR}/data/screenshots
+        ${CMAKE_SOURCE_DIR}/data/xdg
         ${CMAKE_SOURCE_DIR}/data/help)
 
 if (SOUND)
