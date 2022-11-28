@@ -141,6 +141,7 @@ static const map_extra_id map_extra_mx_shia( "mx_shia" );
 static const map_extra_id map_extra_mx_shrubbery( "mx_shrubbery" );
 static const map_extra_id map_extra_mx_supplydrop( "mx_supplydrop" );
 
+static const mongroup_id GROUP_DERMATIK( "GROUP_DERMATIK" );
 static const mongroup_id GROUP_FISH( "GROUP_FISH" );
 static const mongroup_id GROUP_FUNGI_FUNGALOID( "GROUP_FUNGI_FUNGALOID" );
 static const mongroup_id GROUP_NETHER_PORTAL( "GROUP_NETHER_PORTAL" );
@@ -148,7 +149,6 @@ static const mongroup_id GROUP_STRAY_DOGS( "GROUP_STRAY_DOGS" );
 static const mongroup_id GROUP_WASP_GUARD( "GROUP_WASP_GUARD" );
 static const mongroup_id GROUP_WASP_QUEEN( "GROUP_WASP_QUEEN" );
 
-static const mtype_id mon_dermatik( "mon_dermatik" );
 static const mtype_id mon_jabberwock( "mon_jabberwock" );
 static const mtype_id mon_shia( "mon_shia" );
 static const mtype_id mon_turret_riot( "mon_turret_riot" );
@@ -310,7 +310,7 @@ static void dead_vegetation_parser( map &m, const tripoint &loc )
     }
 }
 
-static bool mx_house_wasp( map &m, const tripoint &loc )
+static bool mx_house_wasp( map &m, const tripoint &/*loc*/ )
 {
     for( int i = 0; i < SEEX * 2; i++ ) {
         for( int j = 0; j < SEEY * 2; j++ ) {
@@ -343,9 +343,8 @@ static bool mx_house_wasp( map &m, const tripoint &loc )
         m.place_spawns( GROUP_WASP_GUARD, 1, pod, pod, 1, true );
     }
     m.place_spawns( GROUP_WASP_QUEEN, 1, point_zero, point( SEEX, SEEY ), 1, true );
-    if( one_in( 5 ) ) {
-        m.add_spawn( mon_dermatik, rng( 1, 3 ), tripoint( point( SEEX * 2 - 1, SEEY * 2 - 1 ), loc.z ) );
-    }
+    m.place_spawns( GROUP_DERMATIK, 5, { SEEX * 2 - 1, SEEY * 2 - 1 }, { SEEX * 2 - 1, SEEY * 2 - 1 },
+                    0.1f );
 
     return true;
 }
