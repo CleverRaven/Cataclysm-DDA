@@ -34,6 +34,22 @@
   },
   {
     "type": "item_group",
+    "id": "large_bags",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "backpack_leather", "prob": 28 },
+      { "item": "wicker_backpack", "prob": 38 },
+      { "item": "backpack_hiking", "prob": 3 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "small_bags",
+    "subtype": "distribution",
+    "entries": [ { "item": "purse", "prob": 40 }, { "item": "backpack_leather", "prob": 8 } ]
+  },
+  {
+    "type": "item_group",
     "id": "female_underwear_top",
     "items": [
       [ "null", 50 ],
