@@ -1542,7 +1542,7 @@ static bool mx_jabberwock( map &m, const tripoint &/*loc*/ )
     // into the monster group, but again the hardcoded rarity it had in the forest mapgen was
     // not easily replicated there.
     if( one_in( 50 ) ) {
-        m.place_spawns( GROUP_JABBERWOCK, 1, { 0, 0 }, { SEEX * 2, SEEY * 2 }, 1, true );
+        m.place_spawns( GROUP_JABBERWOCK, 1, point_zero, { SEEX * 2, SEEY * 2 }, 1, true );
         return true;
     }
 
