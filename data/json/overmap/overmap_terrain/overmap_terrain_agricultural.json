@@ -185,11 +185,7 @@
       "horse_farm_isherwood_3",
       "horse_farm_isherwood_5",
       "horse_farm_isherwood_6",
-      "horse_farm_isherwood_8",
-      "farmland_straight",
-      "farmland_turn",
-      "farmland_turn_inside",
-      "farmland_U"
+      "horse_farm_isherwood_8"
     ],
     "copy-from": "generic_rural_building",
     "name": "farm field"
@@ -203,10 +199,18 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "farmland_straight", "farmland_turn", "farmland_turn_inside", "farmland_U" ],
+    "copy-from": "generic_rural_building",
+    "name": "farm field",
+    "spawns": { "group": "GROUP_FOREST", "population": [ 0, 2 ], "chance": 15 }
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "hayfield_straight", "hayfield_turnL", "hayfield_turnR", "hayfield_end" ],
     "copy-from": "generic_rural_building",
     "name": "hay field",
-    "color": "brown"
+    "color": "brown",
+    "spawns": { "group": "GROUP_FOREST", "population": [ 0, 2 ], "chance": 15 }
   },
   {
     "type": "overmap_terrain",

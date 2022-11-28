@@ -822,5 +822,16 @@
     "start_name": "Retirement Community",
     "professions": [ "senior", "old_vet" ],
     "flags": [ "CITY_START", "LONE_START" ]
+  },
+  {
+    "type": "scenario",
+    "id": "nuclear_plant_start",
+    "name": "Nuclear Power Plant",
+    "points": 1,
+    "description": "When the Cataclysm happened, you were working in a nuclear power plant.  Your power plant has been shut down.  And your colleagues have become zombies.  Looks like you're on your own…",
+    "start_name": "Nuclear Power Plant",
+    "allowed_locs": [ "nuclear_plant" ],
+    "professions": [ "electrician", "labtech", "medic" ],
+    "flags": [ "CHALLENGE", "LONE_START" ]
   }
 ]

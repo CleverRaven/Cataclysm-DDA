@@ -1707,14 +1707,21 @@ class jmapgen_field : public jmapgen_piece
 {
     public:
         mapgen_value<field_type_id> ftype;
-        int intensity;
+        std::vector<int> intensities;
         time_duration age;
         bool remove;
         jmapgen_field( const JsonObject &jsi, const std::string &/*context*/ ) :
             ftype( jsi.get_member( "field" ) )
-            , intensity( jsi.get_int( "intensity", 1 ) )
             , age( time_duration::from_turns( jsi.get_int( "age", 0 ) ) )
             , remove( jsi.get_bool( "remove", false ) ) {
+            if( jsi.has_array( "intensity" ) ) {
+                for( JsonValue jv : jsi.get_array( "intensity" ) ) {
+                    intensities.push_back( jv.get_int() );
+                }
+            }
+            if( intensities.empty() ) {
+                intensities.push_back( jsi.get_int( "intensity", 1 ) );
+            }
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
                     const std::string &/*context*/ ) const override {
@@ -1726,7 +1733,7 @@ class jmapgen_field : public jmapgen_piece
                 dat.m.remove_field( tripoint( x.get(), y.get(), dat.m.get_abs_sub().z() ), chosen_id );
             } else {
                 dat.m.add_field( tripoint( x.get(), y.get(), dat.m.get_abs_sub().z() ), chosen_id,
-                                 intensity, age );
+                                 random_entry( intensities ), age );
             }
         }
 
@@ -3207,6 +3214,7 @@ class jmapgen_remove_npcs : public jmapgen_piece
                     }
                     if( get_map().inbounds( npc->get_location() ) ) {
                         g->remove_npc( npc->getID() );
+                        get_avatar().get_mon_visible().remove_npc( npc.get() );
                     }
                 }
             }
@@ -7486,7 +7494,7 @@ bool update_mapgen_function_json::update_map( const tripoint_abs_omt &omt_pos, c
         // trigger main map cleanup
         p_update_tmap.reset();
         // trigger new traps, etc
-        g->place_player( get_avatar().pos() );
+        g->place_player( get_avatar().pos(), true );
     }
 
     return u;
