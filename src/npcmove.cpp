@@ -728,7 +728,7 @@ void npc::regen_ai_cache()
         if( !ai_cache.guard_pos ) {
             ai_cache.guard_pos = here.getabs( pos() );
         }
-	}
+    }
     while( i != std::end( ai_cache.sound_alerts ) ) {
         if( sees( here.getlocal( i->abs_pos ) ) ) {
             // if they were responding to a call for guards because of thievery
