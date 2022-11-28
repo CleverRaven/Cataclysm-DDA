@@ -4031,7 +4031,7 @@ void map::bash_items( const tripoint &p, bash_params &params )
 
     // Add a glass sound even when something else also breaks
     if( smashed_glass && !params.silent ) {
-        sounds::sound( p, 12, sounds::sound_t::combat, _( "glass shattering" ), false,
+        sounds::sound( p, 12, sounds::sound_t::combat, _( "glass shattering." ), false,
                        "smash_success", "smash_glass_contents" );
     }
 }
