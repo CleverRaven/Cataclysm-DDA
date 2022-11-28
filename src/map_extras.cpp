@@ -149,6 +149,7 @@ static const mongroup_id GROUP_MIL_PILOT( "GROUP_MIL_PILOT" );
 static const mongroup_id GROUP_MIL_WEAK( "GROUP_MIL_WEAK" );
 static const mongroup_id GROUP_NETHER_PORTAL( "GROUP_NETHER_PORTAL" );
 static const mongroup_id GROUP_STRAY_DOGS( "GROUP_STRAY_DOGS" );
+static const mongroup_id GROUP_TURRET_SPEAKER( "GROUP_TURRET_SPEAKER" );
 static const mongroup_id GROUP_WASP_GUARD( "GROUP_WASP_GUARD" );
 static const mongroup_id GROUP_WASP_QUEEN( "GROUP_WASP_QUEEN" );
 
@@ -156,7 +157,6 @@ static const mtype_id mon_jabberwock( "mon_jabberwock" );
 static const mtype_id mon_shia( "mon_shia" );
 static const mtype_id mon_turret_riot( "mon_turret_riot" );
 static const mtype_id mon_turret_searchlight( "mon_turret_searchlight" );
-static const mtype_id mon_turret_speaker( "mon_turret_speaker" );
 static const mtype_id mon_wolf( "mon_wolf" );
 static const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
 
@@ -2663,7 +2663,7 @@ static bool mx_city_trap( map &/*m*/, const tripoint &abs_sub )
         }
         compmap.trap_set( trap_center, tr_engine );
         //... and a loudspeaker to attract zombies
-        compmap.add_spawn( mon_turret_speaker, 1, trap_center );
+        compmap.place_spawns( GROUP_TURRET_SPEAKER, 1, trap_center.xy(), trap_center.xy(), 1, true );
     }
 
     compmap.save();
