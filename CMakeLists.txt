@@ -423,6 +423,18 @@ endif()
 install(DIRECTORY doc gfx
     DESTINATION .
 )
+
+if (RELEASE)
+    install(FILES
+        ${CMAKE_SOURCE_DIR}/README.md
+        ${CMAKE_SOURCE_DIR}/LICENSE.txt
+        ${CMAKE_SOURCE_DIR}/LICENSE-OFL-Terminus-Font.txt
+        DESTINATION .)
+    if (TILES)
+        install(DIRECTORY ${CMAKE_SOURCE_DIR}/gfx DESTINATION .)
+    endif()
+endif()
+
 configure_file(
         "${CMAKE_CURRENT_SOURCE_DIR}/cmake_uninstall.cmake.in"
         "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake"
