@@ -1518,7 +1518,7 @@ static bool mx_shia( map &m, const tripoint &/*loc*/ )
     // otherwise the extreme rarity of this event wildly skewed the values for all of the
     // other extras.
     if( one_in( 5000 ) ) {
-        m.place_spawns( GROUP_CANNIBAL, 1, { 0, 0 }, { SEEX * 2, SEEY * 2 }, 1, true );
+        m.place_spawns( GROUP_CANNIBAL, 1, point_zero, { SEEX * 2, SEEY * 2 }, 1, true );
         return true;
     }
 
