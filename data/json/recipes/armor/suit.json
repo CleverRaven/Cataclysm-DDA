@@ -1956,7 +1956,7 @@
     "components": [
       [ [ "coat_rain", 1 ], [ "jacket_windbreaker", 1 ], [ "jacket_evac", 1 ], [ "coat_gut", 1 ] ],
       [ [ "duct_tape", 225 ] ],
-      [ [ "sheet_kevlar_layered", 408 ] ]
+      [ [ "sheet_kevlar", 408 ] ]
     ]
   },
   {
