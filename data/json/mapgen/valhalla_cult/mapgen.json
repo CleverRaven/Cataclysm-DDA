@@ -194,9 +194,27 @@
       "terrain": { " ": "t_region_groundcover", ".": "t_rock_floor", "]": "t_bars" },
       "furniture": { "1": "f_firefly_terrarium", "3": "f_rack_wood", "L": "f_rack_wood", "r": "f_rack_wood" },
       "place_zones": [
-        { "type": "LOOT_ITEM_GROUP", "filter": "valhallist_shopkeep_0", "faction": "valhallists", "x": [ 16, 20 ], "y": [ 11, 11 ] },
-        { "type": "LOOT_ITEM_GROUP", "filter": "valhallist_shopkeep_1", "faction": "valhallists", "x": [ 16, 20 ], "y": [ 11, 11 ] },
-        { "type": "LOOT_ITEM_GROUP", "filter": "valhallist_weapons", "faction": "valhallists", "x": [ 16, 20 ], "y": [ 11, 11 ] },
+        {
+          "type": "LOOT_ITEM_GROUP",
+          "filter": "valhallist_shopkeep_0",
+          "faction": "valhallists",
+          "x": [ 16, 20 ],
+          "y": [ 11, 11 ]
+        },
+        {
+          "type": "LOOT_ITEM_GROUP",
+          "filter": "valhallist_shopkeep_1",
+          "faction": "valhallists",
+          "x": [ 16, 20 ],
+          "y": [ 11, 11 ]
+        },
+        {
+          "type": "LOOT_ITEM_GROUP",
+          "filter": "valhallist_weapons",
+          "faction": "valhallists",
+          "x": [ 16, 20 ],
+          "y": [ 11, 11 ]
+        },
         { "type": "LOOT_UNSORTED", "faction": "valhallists", "x": [ 20, 20 ], "y": [ 12, 12 ] }
       ],
       "items": {
