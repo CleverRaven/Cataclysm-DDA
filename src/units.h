@@ -446,6 +446,60 @@ inline constexpr value_type to_fahrenheit( const
     return ( v * 1.8f - from_kelvin( 459.67f ) ).value();
 }
 
+// Temperature delta
+// Absolute zero - possibly should just be INT_MIN
+const temperature_delta temperature_delta_min = units::temperature_delta( 0,
+        units::temperature_delta::unit_type{} );
+
+const temperature_delta temperature_delta_max = units::temperature_delta(
+            std::numeric_limits<units::temperature_delta::value_type>::max(),
+            units::temperature_delta::unit_type{} );
+
+template<typename value_type>
+inline constexpr quantity<units::temperature_delta::value_type, temperature_delta_in_kelvin_tag>
+from_kelvin_delta(
+    const value_type v )
+{
+    return quantity<value_type, temperature_delta_in_kelvin_tag>( v, temperature_delta_in_kelvin_tag{} );
+}
+
+template<typename value_type>
+inline constexpr value_type to_kelvin_delta( const
+        quantity<value_type, temperature_delta_in_kelvin_tag> &v )
+{
+    return v.value();
+}
+
+template<typename value_type>
+inline constexpr quantity<units::temperature_delta::value_type, temperature_delta_in_kelvin_tag>
+from_celsius_delta(
+    const value_type v )
+{
+    return from_kelvin_delta( v );
+}
+
+template<typename value_type>
+inline constexpr quantity<units::temperature_delta::value_type, temperature_delta_in_kelvin_tag>
+from_fahrenheit_delta(
+    const value_type v )
+{
+    return from_kelvin_delta( v / 1.8f );
+}
+
+template<typename value_type>
+inline constexpr value_type to_celsius_delta( const
+        quantity<value_type, temperature_in_kelvin_tag> &v )
+{
+    return v.value();
+}
+
+template<typename value_type>
+inline constexpr value_type to_fahrenheit_delta( const
+        quantity<value_type, temperature_delta_in_kelvin_tag> &v )
+{
+    return ( v * 1.8f ).value();
+}
+
 
 // Energy
 
@@ -1083,6 +1137,13 @@ units::energy operator*( const time_duration &time, const units::power &power );
 
 units::power operator/( const units::energy &energy, const time_duration &time );
 time_duration operator/( const units::energy &energy, const units::power &power );
+
+units::temperature_delta operator-( const units::temperature &T1, const units::temperature &T2 );
+
+units::temperature operator+( const units::temperature &T,
+                              const units::temperature_delta &T_delta );
+units::temperature operator+( const units::temperature_delta &T_delta,
+                              const units::temperature &T );
 
 } // namespace units
 
