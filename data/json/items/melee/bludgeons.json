@@ -1491,7 +1491,7 @@
     "id": "ax_sheets_bolted",
     "copy-from": "ax_sheets_welded",
     "name": { "str": "bolted battle axe" },
-    "description": "A savage looking battle axe made out of layered sheet metal bolted to two pipes held together with fittings, vaguely forming a upside down L shape. Swing it with all your might."
+    "description": "A savage-looking battle axe made out of layered sheet metal bolted to two pipes held together with fittings, vaguely forming a upside-down L shape.  Swing it with all your might."
   },
   {
     "type": "GENERIC",
