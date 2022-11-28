@@ -219,7 +219,7 @@
   {
     "type": "SPELL",
     "id": "cellar_spider_leg_detach",
-    "name": { "str": "Detatch Leg" },
+    "name": { "str": "Detach Leg" },
     "description": "The hurt leg of the cellar spider wriggles loose.  Ew.",
     "flags": [ "HOSTILE_SUMMON", "NO_PROJECTILE", "RANDOM_TARGET", "NO_EXPLOSION_SFX" ],
     "effect": "effect_on_condition",

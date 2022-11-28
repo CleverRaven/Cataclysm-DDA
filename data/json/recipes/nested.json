@@ -3870,7 +3870,7 @@
     "activity_level": "fake",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "name": "auxillary weapons",
+    "name": "auxiliary weapons",
     "description": "Recipes related to modifying secondary weapons to attach to a wider variety of guns and crossbows.",
     "skill_used": "fabrication",
     "nested_category_data": [
