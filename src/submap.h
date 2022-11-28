@@ -218,8 +218,8 @@ class submap : maptile_soa
             return units::from_fahrenheit_delta( temperature_mod );
         }
 
-        void set_temperature_mod( units::temperature new_temperature_mod ) {
-            temperature_mod = units::to_kelvin( new_temperature_mod ) * 1.8;
+        void set_temperature_mod( units::temperature_delta new_temperature_mod ) {
+            temperature_mod = units::to_fahrenheit_delta( new_temperature_mod );
         }
 
         bool has_graffiti( const point &p ) const;

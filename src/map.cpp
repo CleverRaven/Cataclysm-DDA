@@ -4616,7 +4616,7 @@ units::temperature_delta map::get_temperature_mod( const tripoint &p ) const
     return current_submap->get_temperature_mod();
 }
 
-void map::set_temperature_mod( const tripoint &p, units::temperature new_temperature_mod )
+void map::set_temperature_mod( const tripoint &p, units::temperature_delta new_temperature_mod )
 {
     if( !inbounds( p ) ) {
         return;
