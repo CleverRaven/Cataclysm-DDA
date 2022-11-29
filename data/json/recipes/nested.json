@@ -4351,6 +4351,7 @@
     "skill_used": "tailoring",
     "nested_category_data": [ "aketon_hood_canvas_layered", "xl_aketon_hood_canvas_layered", "xl_aketon_hood_canvas_layered" ]
   },
+  {
     "id": "nested_chairs",
     "type": "nested_category",
     "activity_level": "MODERATE_EXERCISE",
