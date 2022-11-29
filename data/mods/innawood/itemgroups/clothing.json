@@ -51,6 +51,21 @@
   },
   {
     "type": "item_group",
+    "id": "pants",
+    "items": [ [ "leather_belt", 30 ], [ "pants_leather", 60 ], [ "skirt_leather", 5 ], [ "kilt", 2 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "shirts",
+    "items": [ [ "shirt_straw", 80 ], [ "turtleneck", 10 ], [ "poncho", 10 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "jackets",
+    "items": [ [ "jacket_leather", 30 ], [ "apron_leather", 1 ] ]
+  },
+  {
+    "type": "item_group",
     "id": "hatstore_hats",
     "items": [
       [ "hat_knit", 10 ],
