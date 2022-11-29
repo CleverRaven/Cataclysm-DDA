@@ -609,11 +609,11 @@
     "symbol": "[",
     "looks_like": "armor_lightplate",
     "color": "light_gray",
-    "warmth": 20,
+    "warmth": 25,
     "longest_side": "60 cm",
     "material_thickness": 5,
     "flags": [ "VARSIZE", "OUTER" ],
-    "armor": [ { "encumbrance": 45, "coverage": 90, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ]
+    "armor": [ { "encumbrance": 50, "coverage": 90, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ]
   },
   {
     "id": "xl_armor_plate",
@@ -648,11 +648,11 @@
     "symbol": "[",
     "looks_like": "armor_larmor",
     "color": "light_gray",
-    "warmth": 20,
+    "warmth": 25,
     "longest_side": "60 cm",
     "material_thickness": 4,
     "flags": [ "VARSIZE", "OUTER", "STURDY" ],
-    "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ]
+    "armor": [ { "encumbrance": 35, "coverage": 95, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ]
   },
   {
     "id": "xl_armor_lightplate",

@@ -535,5 +535,36 @@
         { "item": "scrap", "count": [ 3, 8 ] }
       ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_nuclear_fuel_cell",
+    "name": "nuclear fuel cell",
+    "looks_like": "t_machinery_heavy",
+    "description": "This fuel assembly consists of cylindrical rods put into bundles.  A uranium oxide ceramic is formed into pellets and inserted into Zircaloy tubes that are bundled together.  The Zircaloy tubes are pressurized with helium to try to minimize pellet-cladding interaction which can lead to fuel rod failure over long periods.  This fuel cell is used in nuclear power stations to produce heat to power turbines.",
+    "symbol": "|",
+    "color": "light_gray",
+    "coverage": 80,
+    "move_cost_mod": 6,
+    "max_volume": "800 L",
+    "emissions": [ "emit_rad_leak" ],
+    "required_str": -1,
+    "flags": [ "SEALED", "REDUCE_SCENT", "PERMEABLE", "CONTAINER", "FLAMMABLE" ],
+    "bash": {
+      "str_min": 8,
+      "str_max": 45,
+      "explosive": 10,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "furn_set": "f_reactor_meltdown",
+      "items": [
+        { "item": "scrap", "count": [ 4, 16 ] },
+        { "item": "steel_chunk", "count": [ 1, 6 ] },
+        { "item": "uranium", "charges": [ 10, 50 ] },
+        { "item": "uran_cell", "charges": [ 10, 150 ] },
+        { "item": "plutonium", "charges": [ 0, 20 ] },
+        { "item": "lead", "charges": [ 12, 18 ] }
+      ]
+    }
   }
 ]

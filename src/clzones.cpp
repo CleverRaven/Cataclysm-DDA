@@ -626,7 +626,7 @@ bool zone_data::set_type()
 }
 
 void zone_data::set_position( const std::pair<tripoint, tripoint> &position,
-                              const bool manual, bool update_avatar )
+                              const bool manual, bool update_avatar, bool skip_cache_update )
 {
     if( is_vehicle && manual ) {
         debugmsg( "Tried moving a lootzone bound to a vehicle part" );
@@ -635,7 +635,9 @@ void zone_data::set_position( const std::pair<tripoint, tripoint> &position,
     start = position.first;
     end = position.second;
 
-    zone_manager::get_manager().cache_data( update_avatar );
+    if( !skip_cache_update ) {
+        zone_manager::get_manager().cache_data( update_avatar );
+    }
 }
 
 void zone_data::set_enabled( const bool enabled_arg )

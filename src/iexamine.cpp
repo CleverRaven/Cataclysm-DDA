@@ -4287,11 +4287,24 @@ static void reload_furniture( Character &you, const tripoint &examp, bool allow_
         if( you.query_yn( _( "The %1$s contains %2$d %3$s.  Unload?" ), f.name(), amount_in_furn,
                           ammo_itypeID->nname( amount_in_furn ) ) ) {
             map_stack items = here.i_at( examp );
-            for( item &itm : items ) {
-                if( itm.typeId() == ammo_itypeID ) {
-                    you.assign_activity( player_activity( pickup_activity_actor(
-                    { item_location( map_cursor( examp ), &itm ) }, { 0 }, you.pos(), false ) ) );
-                    return;
+            for( map_stack::iterator itm = items.begin(); itm != items.end(); ) {
+                if( itm->typeId() == ammo_itypeID ) {
+                    if( you.can_stash( *itm ) ) {
+                        you.assign_activity( player_activity( pickup_activity_actor(
+                        { item_location( map_cursor( examp ), &*itm ) }, { 0 }, you.pos(), false ) ) );
+                        return;
+                    } else {
+                        // get handling cost before the item reference is invalidated
+                        const int handling_cost = -you.item_handling_cost( *itm );
+
+                        add_msg( _( "You remove %1$s from the %2$s." ), itm->tname(), f.name() );
+                        here.add_item_or_charges( you.pos(), *itm );
+                        itm = items.erase( itm );
+                        you.mod_moves( handling_cost );
+                        return;
+                    }
+                } else {
+                    itm++;
                 }
             }
         }
