@@ -45,7 +45,7 @@ static const item_group_id Item_spawn_data_road( "road" );
 static const item_group_id Item_spawn_data_sewer( "sewer" );
 static const item_group_id Item_spawn_data_wreckage( "wreckage" );
 
-static const mongroup_id GROUP_BEE( "GROUP_BEE" );
+static const mongroup_id GROUP_BEEHIVE( "GROUP_BEEHIVE" );
 static const mongroup_id GROUP_BEEKEEPER( "GROUP_BEEKEEPER" );
 static const mongroup_id GROUP_FAMOUS_SINGERS( "GROUP_FAMOUS_SINGERS" );
 static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
@@ -314,7 +314,7 @@ void mapgen_hive( mapgendata &dat )
         }
     }
 
-    m->place_spawns( GROUP_BEE, 2, point( 5, 5 ), point( 17, 17 ), 2 );
+    m->place_spawns( GROUP_BEEHIVE, 2, point( 5, 5 ), point( 17, 17 ), 2 );
     m->place_spawns( GROUP_BEEKEEPER, 2, point( 5, 5 ), point( 17, 17 ), 1 );
 
 
