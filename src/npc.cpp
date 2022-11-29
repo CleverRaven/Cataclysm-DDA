@@ -3421,9 +3421,9 @@ const pathfinding_settings &npc::get_pathfinding_settings() const
 const pathfinding_settings &npc::get_pathfinding_settings( bool no_bashing ) const
 {
     path_settings->bash_strength = no_bashing ? 0 : smash_ability();
-	if( has_trait( trait_NO_BASH ) ) {
-		path_settings->bash_strength = 0;
-	}
+    if( has_trait( trait_NO_BASH ) ) {
+        path_settings->bash_strength = 0;
+    }
     // TODO: Extract climb skill
     const int climb = std::min( 20, get_dex() );
     if( climb > 1 ) {
