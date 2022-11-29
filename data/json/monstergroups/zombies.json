@@ -844,5 +844,21 @@
       { "monster": "mon_feral_granny", "weight": 10 },
       { "monster": "mon_feral_human_crowbar", "weight": 3 }
     ]
+  },
+  {
+    "name": "GROUP_NUCLEAR_PLANT_WORK_ZOMBIES",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_zombie_static", "weight": 5, "cost_multiplier": 4, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zombie_technician", "weight": 100 },
+      { "monster": "mon_feral_human_tool", "weight": 5 },
+      { "monster": "mon_zombie_crawler", "weight": 15 },
+      { "monster": "mon_zombie_technician", "weight": 50, "cost_multiplier": 5, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_feral_human_tool", "weight": 25, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_survivor", "weight": 30, "starts": "270 hours" },
+      { "monster": "mon_zombie_survivor_elite", "weight": 10, "starts": "540 hours" },
+      { "monster": "mon_zombie_hazmat", "weight": 75, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_fireman", "weight": 25, "cost_multiplier": 2 }
+    ]
   }
 ]

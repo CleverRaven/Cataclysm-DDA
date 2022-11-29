@@ -1586,6 +1586,38 @@ void avatar::log_activity_level( float level )
     calorie_diary.front().activity_levels[level]++;
 }
 
+avatar::daily_calories::daily_calories()
+{
+    activity_levels.emplace( NO_EXERCISE, 0 );
+    activity_levels.emplace( LIGHT_EXERCISE, 0 );
+    activity_levels.emplace( MODERATE_EXERCISE, 0 );
+    activity_levels.emplace( BRISK_EXERCISE, 0 );
+    activity_levels.emplace( ACTIVE_EXERCISE, 0 );
+    activity_levels.emplace( EXTRA_EXERCISE, 0 );
+}
+
+void avatar::daily_calories::serialize( JsonOut &json ) const
+{
+    json.start_object();
+
+    json.member( "spent", spent );
+    json.member( "gained", gained );
+    json.member( "ingested", ingested );
+    save_activity( json );
+
+    json.end_object();
+}
+
+void avatar::daily_calories::deserialize( const JsonObject &data )
+{
+    data.read( "spent", spent );
+    data.read( "gained", gained );
+    data.read( "ingested", ingested );
+    if( data.has_member( "activity" ) ) {
+        read_activity( data );
+    }
+}
+
 void avatar::daily_calories::save_activity( JsonOut &json ) const
 {
     json.member( "activity" );
@@ -2052,4 +2084,14 @@ bool avatar::query_yn( const std::string &mes ) const
 void avatar::set_location( const tripoint_abs_ms &loc )
 {
     Creature::set_location( loc );
+}
+
+void monster_visible_info::remove_npc( npc *n )
+{
+    for( auto &t : unique_types ) {
+        auto it = std::find( t.begin(), t.end(), n );
+        if( it != t.end() ) {
+            t.erase( it );
+        }
+    }
 }
