@@ -863,6 +863,15 @@ bool outfit::is_worn( const itype_id &clothing ) const
     }
     return false;
 }
+bool outfit::is_worn_module( const item &thing ) const
+
+{
+    return thing.has_flag( flag_CANT_WEAR ) &&
+    std::any_of( worn.cbegin(), worn.cend(), [&thing]( item const & elem ) {
+        return elem.contained_where( thing ) != nullptr;
+    } );
+}
+
 
 bool outfit::is_wearing_on_bp( const itype_id &clothing, const bodypart_id &bp ) const
 {

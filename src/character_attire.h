@@ -66,6 +66,7 @@ class outfit
         explicit outfit( const std::list<item> &items ) : worn( items ) {}
         bool is_worn( const item &clothing ) const;
         bool is_worn( const itype_id &clothing ) const;
+        bool is_worn_module( const item &thing ) const;
         bool is_wearing_on_bp( const itype_id &clothing, const bodypart_id &bp ) const;
         bool covered_with_flag( const flag_id &f, const body_part_set &parts ) const;
         bool wearing_something_on( const bodypart_id &bp ) const;
