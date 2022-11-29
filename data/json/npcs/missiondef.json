@@ -528,7 +528,7 @@
         "min_distance": 5,
         "z": 0
       },
-      "update_mapgen": { "place_monster": [ { "monster": "mon_zombie", "x": 12, "y": 12, "target": true } ] }
+      "update_mapgen": { "place_monster": [ { "monster": "mon_zombie", "x": 12, "y": 12, "target": true, "name": "Zombie Mom" } ] }
     },
     "end": { "effect": "npc_thankful" },
     "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
