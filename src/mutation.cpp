@@ -368,18 +368,18 @@ bool mutation_branch::conflicts_with_item( const item &it ) const
 bool mutation_branch::conflicts_with_item_rigid( const item &it ) const
 {
     for( const bodypart_str_id &bp : remove_rigid ) {
-        if( it.covers( bp.id() ) && ( it.is_bp_rigid( bp.id() ) ) ) {
+        if( it.covers( bp.id() ) && it.is_bp_rigid( bp.id() ) ) {
             return true;
         }
     }
 
     for( const sub_bodypart_str_id &bp : remove_rigid_subparts ) {
-        if( it.covers( bp.id() ) && ( it.is_bp_rigid( bp.id() ) ) ) {
+        if( it.covers( bp.id() ) && it.is_bp_rigid( bp.id() ) ) {
             return true;
         }
     }
 
-    // check integrated armor against the characters worn armor directly incase it wasn't specified in JSON
+    // check integrated armor against the character's worn armor directly in case it wasn't specified in JSON
     // this also seems to check the armor against itself, logic should be skipped by the integrated check
     for( const itype_id &integrated : integrated_armor ) {
         if( it.has_flag( json_flag_INTEGRATED ) ) {
@@ -389,7 +389,7 @@ bool mutation_branch::conflicts_with_item_rigid( const item &it ) const
 
         item tmparmor = item( integrated );
         for( const sub_bodypart_id &sbp : tmparmor.get_covered_sub_body_parts() ) {
-            if( ( tmparmor.is_bp_rigid( sbp ) ) && it.covers( sbp ) && ( it.is_bp_rigid( sbp ) ) ) {
+            if( tmparmor.is_bp_rigid( sbp ) && it.covers( sbp ) && it.is_bp_rigid( sbp ) ) {
                 return true;
             }
         }
