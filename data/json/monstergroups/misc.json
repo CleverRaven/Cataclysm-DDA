@@ -517,5 +517,15 @@
     "type": "monstergroup",
     "name": "GROUP_BEEKEEPER",
     "monsters": [ { "monster": "mon_beekeeper", "cost_multiplier": 0 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_CANNIBAL",
+    "monsters": [ { "monster": "mon_shia" } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_JABBERWOCK",
+    "monsters": [ { "monster": "mon_jabberwock" } ]
   }
 ]

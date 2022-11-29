@@ -317,12 +317,9 @@ void mapgen_hive( mapgendata &dat )
     m->place_spawns( GROUP_BEEHIVE, 2, point( 5, 5 ), point( 17, 17 ), 2 );
     m->place_spawns( GROUP_BEEKEEPER, 2, point( 5, 5 ), point( 17, 17 ), 1 );
 
-
     // j and i loop through appropriate hive-cell center squares
     const bool is_center = dat.t_nesw[0] == oter_hive && dat.t_nesw[1] == oter_hive &&
                            dat.t_nesw[2] == oter_hive && dat.t_nesw[3] == oter_hive;
-
-
     for( int j = 5; j < SEEY * 2 - 5; j += 6 ) {
         for( int i = j == 5 || j == 17 ? 3 : 6; i < SEEX * 2 - 5; i += 6 ) {
             if( !one_in( 8 ) ) {
