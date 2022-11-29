@@ -1957,6 +1957,12 @@ void options_manager::add_options_interface()
          true
        );
 
+    add( "ASTERISK_POSITION", "interface", to_translation( "Favorited item's mark position" ),
+         to_translation( "Where to place mark of the favorited item (asterisk): before item's name (prefix) or after item's name (suffix)." ),
+    { { "prefix", to_translation( "Prefix" ) }, { "suffix", to_translation( "Suffix" ) } },
+    "right"
+       );
+
     add_empty_line();
 
     add( "ENABLE_JOYSTICK", "interface", to_translation( "Enable joystick" ),
