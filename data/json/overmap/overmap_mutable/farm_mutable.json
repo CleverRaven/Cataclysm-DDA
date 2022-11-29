@@ -468,7 +468,7 @@
             { "overmap": "farmland_ew", "pos": [ 3, 8, 0 ] },
             { "overmap": "farmland_nw", "pos": [ 4, 8, 0 ] }
           ],
-          "max": { "poisson": 1 }
+          "max": { "poisson": 0 }
         },
         {
           "name": "farmland_9x9_3way_silos",
