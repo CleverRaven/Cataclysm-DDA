@@ -17,7 +17,14 @@
     "id": "REFUGEE_DOCTOR",
     "name": { "str": "Doctor" },
     "job_description": "I'm looking for wounded to help.",
-    "traits": [ { "group": "BG_survival_story_MEDICAL" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" }, { "trait": "IGNORE_SOUND" }, { "trait": "NO_BASH" }, { "trait": "RETURN_TO_START_POS" } ],
+    "traits": [
+      { "group": "BG_survival_story_MEDICAL" },
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" },
+      { "trait": "IGNORE_SOUND" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
     "bonus_str": { "rng": [ -2, 0 ] },
     "bonus_int": { "rng": [ 0, 2 ] },
     "bonus_per": { "one_in": 4 },
