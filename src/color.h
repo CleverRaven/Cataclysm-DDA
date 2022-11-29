@@ -509,6 +509,7 @@ nc_color green_background( const nc_color &c );
 nc_color yellow_background( const nc_color &c );
 nc_color magenta_background( const nc_color &c );
 nc_color cyan_background( const nc_color &c );
+std::string hilite_string( const std::string &text );
 
 nc_color color_from_string( const std::string &color,
                             report_color_error color_error = report_color_error::yes );

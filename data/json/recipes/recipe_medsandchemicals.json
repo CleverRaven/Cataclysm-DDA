@@ -1217,7 +1217,7 @@
     "autolearn": true,
     "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "DISTILL", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
-    "components": [ [ [ "splinter", 40 ], [ "2x4", 12 ] ], [ [ "water", 3 ], [ "water_clean", 3 ] ] ]
+    "components": [ [ [ "splinter", 55 ] ], [ [ "water", 50 ], [ "water_clean", 50 ] ] ]
   },
   {
     "type": "recipe",

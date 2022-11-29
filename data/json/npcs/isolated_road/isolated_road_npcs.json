@@ -10,7 +10,8 @@
     "attitude": 0,
     "mission": 3,
     "chat": "TALK_BLACKSMITH_SERVICES",
-    "faction": "isolated_artisans"
+    "faction": "isolated_artisans",
+    "traits": [ { "trait": "IGNORE_SOUND" }, { "trait": "NO_BASH" }, { "trait": "RETURN_TO_START_POS" } ]
   },
   {
     "type": "npc_class",
@@ -50,7 +51,8 @@
     "attitude": 0,
     "mission": 3,
     "chat": "TALK_GUNSMITH_SERVICES",
-    "faction": "isolated_artisans"
+    "faction": "isolated_artisans",
+    "traits": [ { "trait": "IGNORE_SOUND" }, { "trait": "NO_BASH" }, { "trait": "RETURN_TO_START_POS" } ]
   },
   {
     "type": "npc_class",
