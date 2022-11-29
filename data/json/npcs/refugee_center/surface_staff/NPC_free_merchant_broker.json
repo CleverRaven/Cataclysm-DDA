@@ -4,13 +4,26 @@
     "id": "evac_broker",
     "//": "Appears in the refugee center as a bulk trader.  Promotes production of nonperishable food.",
     "name_suffix": "Broker",
-    "class": "NC_SCAVENGER",
+    "class": "EVAC_BROKER",
     "attitude": 0,
     "mission": 3,
     "chat": "TALK_FREE_MERCHANT_STOCKS",
     "faction": "free_merchants",
-    "mission_offered": "MISSION_BROKER_1",
-    "traits": [ { "trait": "IGNORE_SOUND" }, { "trait": "NO_BASH" }, { "trait": "RETURN_TO_START_POS" } ]
+    "mission_offered": "MISSION_BROKER_1"
+  },
+  {
+    "type": "npc_class",
+    "id": "EVAC_BROKER",
+    "name": { "str": "Scavenger" },
+    "job_description": "I'm just trying to survive.",
+    "traits": [ { "group": "BG_survival_story_EVACUEE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" }, { "trait": "IGNORE_SOUND" }, { "trait": "NO_BASH" }, { "trait": "RETURN_TO_START_POS" } ],
+    "skills": [
+      { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 2 ] }, { "constant": -3 } ] } },
+      { "skill": "gun", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "pistol", "bonus": { "rng": [ 2, 5 ] } },
+      { "skill": "rifle", "bonus": { "rng": [ 0, 3 ] } },
+      { "skill": "archery", "bonus": { "rng": [ 0, 3 ] } }
+    ]
   },
   {
     "//": "table of contents - these options will appear in the listed dialogue topics",
