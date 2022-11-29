@@ -1298,7 +1298,7 @@ int Character::swim_speed() const
         ret -= hand_bonus_mult * webbing_factor * 0.5f;
     }
     if( has_flag( json_flag_WEBBED_FEET ) ) {
-        ret -= ( 1 - footwear_factor() ) * webbing_factor * 0.5f;
+        ret -= is_barefoot() ? 1 : 0 * webbing_factor * 0.5f;
     }
     /** @EFFECT_SWIMMING increases swim speed */
     ret *= get_modifier( character_modifier_swim_mod );
