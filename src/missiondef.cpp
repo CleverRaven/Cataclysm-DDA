@@ -193,8 +193,6 @@ enum legacy_mission_type_id {
 static const std::map<std::string, std::function<void( mission * )>> mission_function_map = {{
         // Starts
         { "standard", { } },
-        { "place_zombie_mom", mission_start::place_zombie_mom },
-        { "kill_horde_master", mission_start::kill_horde_master },
         { "kill_nemesis", mission_start::kill_nemesis },
         { "place_npc_software", mission_start::place_npc_software },
         { "place_priest_diary", mission_start::place_priest_diary },
