@@ -654,6 +654,17 @@
   },
   {
     "type": "material",
+    "//": "similar to layered kevlar, canvas sewn in a way to extend its protectiveness. stopgap material for gambesons until material protection is more thoroughly reworked.",
+    "id": "canvas_quilted",
+    "name": "Quilted Canvas",
+    "copy-from": "canvas",
+    "bash_resist": 2,
+    "cut_resist": 3,
+    "bullet_resist": 2,
+    "wind_resist": 90
+  },
+  {
+    "type": "material",
     "id": "diamond",
     "name": "Diamond",
     "density": 3.53,
@@ -2259,6 +2270,17 @@
       { "fuel": 1, "smoke": 1, "burn": 1 },
       { "fuel": 1, "smoke": 1, "burn": 2 }
     ]
+  },
+  {
+    "type": "material",
+    "//": "similar to layered kevlar, nylon sewn in a way to extend its protectiveness. stopgap material for gambesons until material protection is more thoroughly reworked.",
+    "id": "nylon_quilted",
+    "name": "Quilted Nylon",
+    "copy-from": "nylon",
+    "bash_resist": 1.5,
+    "cut_resist": 2,
+    "bullet_resist": 3,
+    "wind_resist": 65
   },
   {
     "type": "material",
