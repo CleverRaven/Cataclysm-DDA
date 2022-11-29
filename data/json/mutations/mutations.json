@@ -7741,7 +7741,7 @@
     "points": 99,
     "valid": false,
     "description": "NPC ignores sounds and does not investigate them.",
-    "debug": true
+    "purifiable": false
   },
   {
     "type": "mutation",
@@ -7750,7 +7750,7 @@
     "points": 99,
     "valid": false,
     "description": "NPC will not bash to reach things.",
-    "debug": true
+    "purifiable": false
   },
   {
     "type": "mutation",
@@ -7759,7 +7759,7 @@
     "points": 99,
     "valid": false,
     "description": "NPC will return to its spawn position on idle.",
-    "debug": true
+    "purifiable": false
   },
   {
     "type": "mutation",
