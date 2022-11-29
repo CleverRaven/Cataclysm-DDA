@@ -4,7 +4,7 @@
     "id": "evac_teamster",
     "//": "Appears in the refugee center as a source of information and eventually missions.  Works with the free merchant caravans.",
     "name_suffix": "Teamster",
-    "class": "NC_SCAVENGER",
+    "class": "NC_FREE_MERCH_TEAMSTER",
     "attitude": 0,
     "mission": 3,
     "chat": "TALK_FREE_MERCHANT_TEAMSTER",
