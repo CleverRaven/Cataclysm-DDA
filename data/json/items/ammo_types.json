@@ -373,6 +373,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "incense",
+    "name": "incense",
+    "default": "incense"
+  },
+  {
+    "type": "ammunition_type",
     "id": "oxygen",
     "name": "oxygen",
     "default": "oxygen"
@@ -424,6 +430,12 @@
     "id": "plutonium",
     "name": "plutonium",
     "default": "plut_cell"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "uranium",
+    "name": "uranium",
+    "default": "uran_cell"
   },
   {
     "type": "ammunition_type",
