@@ -250,7 +250,14 @@
     "color": "cyan",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "TRANSPARENT_FLOOR" ],
-    "bash": { "str_min": 3, "str_max": 6, "sound": "glass breaking!", "sound_fail": "whack!", "ter_set": "t_hole" }
+    "bash": {
+      "str_min": 3,
+      "str_max": 6,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "ter_set": "t_skylight_frame",
+      "items": [ { "item": "glass_shard", "count": [ 21, 29 ] } ]
+    }
   },
   {
     "type": "terrain",
