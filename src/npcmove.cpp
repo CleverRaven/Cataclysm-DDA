@@ -724,8 +724,8 @@ void npc::regen_ai_cache()
     map &here = get_map();
     auto i = std::begin( ai_cache.sound_alerts );
     creature_tracker &creatures = get_creature_tracker();
-	if( has_trait( trait_RETURN_TO_START_POS )) {
-		if( !ai_cache.guard_pos ) {
+    if( has_trait( trait_RETURN_TO_START_POS ) ) {
+        if( !ai_cache.guard_pos ) {
             ai_cache.guard_pos = here.getabs( pos() );
         }
     }
