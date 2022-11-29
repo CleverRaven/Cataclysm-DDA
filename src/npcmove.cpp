@@ -134,8 +134,8 @@ static const npc_class_id NC_EVAC_SHOPKEEP( "NC_EVAC_SHOPKEEP" );
 
 static const skill_id skill_firstaid( "firstaid" );
 
-static const trait_id trait_IGNORESOUND( "IGNORESOUND" );
-static const trait_id trait_RETURNTOSTARTPOS( "RETURNTOSTARTPOS" );
+static const trait_id trait_IGNORE_SOUND( "IGNORE_SOUND" );
+static const trait_id trait_RETURN_TO_START_POS( "RETURN_TO_START_POS" );
 
 static const zone_type_id zone_type_NO_NPC_PICKUP( "NO_NPC_PICKUP" );
 static const zone_type_id zone_type_NPC_RETREAT( "NPC_RETREAT" );
@@ -724,7 +724,7 @@ void npc::regen_ai_cache()
     map &here = get_map();
     auto i = std::begin( ai_cache.sound_alerts );
     creature_tracker &creatures = get_creature_tracker();
-	if( has_trait( trait_RETURNTOSTARTPOS )) {
+	if( has_trait( trait_RETURN_TO_START_POS )) {
 		if( !ai_cache.guard_pos ) {
             ai_cache.guard_pos = here.getabs( pos() );
         }
@@ -884,7 +884,7 @@ void npc::move()
                 ai_cache.sound_alerts.resize( 10 );
             }
         }
-        if( has_trait( trait_IGNORESOUND ) ) { //Do not investigate sounds - clear sound alerts as below
+        if( has_trait( trait_IGNORE_SOUND ) ) { //Do not investigate sounds - clear sound alerts as below
             ai_cache.sound_alerts.clear();
             action = npc_return_to_guard_pos;
         } else {

@@ -7736,7 +7736,7 @@
   },
   {
     "type": "mutation",
-    "id": "IGNORESOUND",
+    "id": "IGNORE_SOUND",
     "name": { "str": "Ignores Sounds" },
     "points": 99,
     "valid": false,
@@ -7745,7 +7745,7 @@
   },
   {
     "type": "mutation",
-    "id": "NOBASH",
+    "id": "NO_BASH",
     "name": { "str": "Will Not Bash" },
     "points": 99,
     "valid": false,
@@ -7754,7 +7754,7 @@
   },
   {
     "type": "mutation",
-    "id": "RETURNTOSTARTPOS",
+    "id": "RETURN_TO_START_POS",
     "name": { "str": "Returns to Start POS" },
     "points": 99,
     "valid": false,

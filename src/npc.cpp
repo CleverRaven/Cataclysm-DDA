@@ -151,7 +151,7 @@ static const trait_id trait_DEBUG_MIND_CONTROL( "DEBUG_MIND_CONTROL" );
 static const trait_id trait_HALLUCINATION( "HALLUCINATION" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_MUTE( "MUTE" );
-static const trait_id trait_NOBASH( "NOBASH" );
+static const trait_id trait_NO_BASH( "NO_BASH" );
 static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
@@ -3421,7 +3421,7 @@ const pathfinding_settings &npc::get_pathfinding_settings() const
 const pathfinding_settings &npc::get_pathfinding_settings( bool no_bashing ) const
 {
     path_settings->bash_strength = no_bashing ? 0 : smash_ability();
-	if( has_trait( trait_NOBASH ) ) {
+	if( has_trait( trait_NO_BASH ) ) {
 		path_settings->bash_strength = 0;
 	}
     // TODO: Extract climb skill

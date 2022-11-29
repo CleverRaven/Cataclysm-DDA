@@ -37,9 +37,9 @@
       { "trait": "THIRST" },
       { "trait": "SLEEPY" },
       { "trait": "CLUMSY" },
-      { "trait": "IGNORESOUND" },
-      { "trait": "NOBASH" },
-      { "trait": "RETURNTOSTARTPOS" },
+      { "trait": "IGNORE_SOUND" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" },
       { "group": "Appearance_Irish" }
     ],
     "skills": [
