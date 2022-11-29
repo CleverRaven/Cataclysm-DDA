@@ -36,31 +36,10 @@
                   {
                     "collection": [
                       { "group": "pants_female", "prob": 60, "damage": [ 1, 4 ] },
-                      {
-                        "distribution": [
-                          { "group": "shoes_unisex", "prob": 30, "damage": [ 1, 4 ] },
-                          { "group": "shoes_womens", "prob": 20, "damage": [ 1, 4 ] }
-                        ],
-                        "prob": 30
-                      },
+                      { "distribution": [ { "group": "shoes_unisex", "prob": 30, "damage": [ 1, 4 ] } ], "prob": 30 },
                       { "group": "shirts_unisex", "prob": 60, "damage": [ 1, 4 ] }
                     ],
                     "prob": 70
-                  },
-                  {
-                    "collection": [
-                      {
-                        "distribution": [ { "item": "dress", "prob": 70, "damage": [ 1, 4 ] }, { "item": "sundress", "prob": 50, "damage": [ 1, 4 ] } ]
-                      },
-                      {
-                        "distribution": [
-                          { "group": "child_shoes", "prob": 20, "damage": [ 1, 4 ] },
-                          { "group": "shoes_womens", "prob": 20, "damage": [ 1, 4 ] }
-                        ],
-                        "prob": 30
-                      }
-                    ],
-                    "prob": 20
                   }
                 ]
               }
