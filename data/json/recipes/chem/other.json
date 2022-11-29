@@ -54,6 +54,7 @@
     "autolearn": false,
     "book_learn": [ [ "textbook_fabrication", 3 ], [ "adv_chemistry", 3 ], [ "textbook_chemistry", 3 ], [ "textbook_tailor", 5 ] ],
     "qualities": [ { "id": "CHEM", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "tools": [ [ [ "ppe_gas", 1, "LIST" ] ] ],
     "components": [
       [ [ "chem_acetone", 1 ], [ "chem_chloroform", 250 ], [ "ammonia_hydroxide", 1 ], [ "chem_toluene", 250 ] ],
       [ [ "chem_ethanol", 10 ], [ "denat_alcohol", 10 ], [ "methed_alcohol", 10 ], [ "chem_methanol", 10 ] ],
