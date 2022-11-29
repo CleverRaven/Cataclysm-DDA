@@ -549,7 +549,7 @@ std::string hilite_string( const std::string &text )
     while( ( pos = highlighted.find( "<color_", pos ) ) != std::string::npos ) {
         tag_length = highlighted.find( '>', pos ) - pos + 1;
         if( tag_length <= 0 ) {
-            debugmsg( "Tag length calculated incorrectly.  Unable to higlight text %s", text );
+            debugmsg( "Tag length calculated incorrectly.  Unable to highlight text %s", text );
             return text;
         }
         std::string tag = highlighted.substr( pos, tag_length );
