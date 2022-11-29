@@ -77,20 +77,6 @@ void mission_start::place_dog( mission *miss )
     doghouse.save();
 }
 
-void mission_start::place_zombie_mom( mission *miss )
-{
-    const tripoint_abs_omt house = mission_util::random_house_in_closest_city();
-
-    miss->target = house;
-    overmap_buffer.reveal( house, 6 );
-
-    tinymap zomhouse;
-    zomhouse.load( project_to<coords::sm>( house ), false );
-    zomhouse.add_spawn( mon_zombie, 1, { SEEX, SEEY, house.z() }, false, -1, miss->uid,
-                        Name::get( nameFlags::IsFemaleName | nameFlags::IsGivenName ) );
-    zomhouse.save();
-}
-
 void mission_start::kill_horde_master( mission *miss )
 {
     npc *p = g->find_npc( miss->npc_id );
