@@ -827,7 +827,7 @@
   {
     "type": "scenario",
     "id": "nuclear_plant_start",
-    "name": "Scrammed",
+    "name": "Emergency Shutdown",
     "points": 1,
     "description": "When the Cataclysm happened, you were working in a nuclear power plant.  Now you're trapped inside, surrounded by the shambling bodies of what used to be your coworkers.  The reactor's shut down, but you don't know if there's been a radiation leak and you need to get away from here fast before you find out the hard way.",
     "start_name": "Nuclear Power Plant",
