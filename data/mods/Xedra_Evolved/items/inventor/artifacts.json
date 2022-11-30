@@ -204,7 +204,7 @@
         "rigid": true,
         "airtight": true,
         "watertight": true,
-        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_MEDIUM", "BATTERY_HEAVY" ],
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_MEDIUM" ],
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
         "default_magazine": "medium_battery_cell"
