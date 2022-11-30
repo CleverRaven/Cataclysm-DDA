@@ -264,6 +264,17 @@
     "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
   },
   {
+    "id": "mutagen_calliphorid",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Calliphorid primer" },
+    "excess": "mutagen_calliphorid",
+    "min": 0,
+    "max": 2500,
+    "rate": "1 h",
+    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
+  },
+  {
     "id": "mutagen_lizard",
     "type": "vitamin",
     "vit_type": "counter",

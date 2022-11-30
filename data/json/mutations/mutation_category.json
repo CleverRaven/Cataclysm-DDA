@@ -35,6 +35,15 @@
   },
   {
     "type": "mutation_category",
+    "id": "CALLIPHORID",
+    "name": "Calliphorid",
+    "threshold_mut": "THRESH_CALLIPHORID",
+    "mutagen_message": "You involuntarily hum in F sharp.",
+    "memorial_message": "Buzzed off.",
+    "vitamin": "mutagen_calliphorid"
+  },
+  {
+    "type": "mutation_category",
     "id": "SPIDER",
     "name": "Spider",
     "threshold_mut": "THRESH_SPIDER",

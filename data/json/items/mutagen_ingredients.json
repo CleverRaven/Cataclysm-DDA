@@ -146,6 +146,15 @@
   },
   {
     "type": "GENERIC",
+    "id": "calliphorid_sample",
+    "copy-from": "mutagen_sample",
+    "color": "black",
+    "name": { "str": "fly sample" },
+    "description": "A slurry of decay",
+    "material": [ "iflesh", "chitin" ]
+  },
+  {
+    "type": "GENERIC",
     "id": "lizard_sample",
     "copy-from": "mutagen_sample",
     "color": "green_cyan",

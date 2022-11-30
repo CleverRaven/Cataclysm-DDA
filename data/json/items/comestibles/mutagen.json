@@ -218,6 +218,21 @@
     }
   },
   {
+    "id": "iv_mutagen_calliphorid",
+    "copy-from": "iv_mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": { "str": "calliphorid mutagenic primer" },
+    "description": "A processed mutagenic primer resembling blackened, rotted fat",
+    "looks_like": "iv_mutagen",
+    "color": "black",
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You inject the calliphorid mutagenic primer.",
+      "tools_needed": { "syringe": -1 },
+      "vitamins": [ [ "mutagen_calliphorid", 450, 550 ] ]
+    }
+  },
+  {
     "id": "iv_mutagen_lizard",
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
@@ -581,6 +596,18 @@
       "type": "consume_drug",
       "activation_message": "You drink the insect mutagen.",
       "vitamins": [ [ "mutagen_insect", 225 ], [ "mutagen", 125 ] ]
+    }
+  },
+  {
+    "id": "mutagen_calliphorid",
+    "copy-from": "mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": { "str": "calliphorid mutagen" },
+    "looks_like": "mutagen",
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You drink the calliphorid mutagen.",
+      "vitamins": [ [ "mutagen_calliphorid", 225 ], [ "mutagen", 125 ] ]
     }
   },
   {
