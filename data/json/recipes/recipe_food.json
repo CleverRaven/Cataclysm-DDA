@@ -3285,8 +3285,8 @@
       [ [ "dry_beans", 1 ], [ "can_beans", 1 ] ],
       [ [ "corn_kernels", 1 ], [ "can_corn", 1 ] ],
       [ [ "pumpkin", 1 ] ],
-      [ [ "cooking_oil", 1 ] ], 
-      [ [ "broth", 2 ] ] 
+      [ [ "cooking_oil", 1 ] ],
+      [ [ "broth", 2 ] ]
     ]
   },
   {
