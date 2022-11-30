@@ -362,22 +362,25 @@ if (SOUND)
     endif ()
 
     # Sound requires SDL_mixer library
-    message(STATUS "Searching for SDL2_mixer library --")
-    find_package(SDL2_mixer)
     if(VCPKG_MANIFEST_MODE)
-        if (NOT TARGET SDL2_mixer::SDL2_mixer-static) # TODO x64-mingw-static
+        message(STATUS "Searching for sdl2-mixer library --")
+        find_package(sdl2-mixer)
+        if (NOT TARGET SDL2::SDL2_mixer)
             message(FATAL_ERROR
-                    "You need the SDL2_mixer development library \
+                    "You need the sdl2-mixer development library \
                      to be able to compile with sound enabled. \
                      See doc/COMPILING/COMPILING-CMAKE.md for details and more info.")
         endif()
     else()
+        message(STATUS "Searching for SDL2_mixer library --")
+        find_package(SDL2_mixer)
+        # if (NOT TARGET SDL2_mixer::SDL2_mixer-static) # TODO x64-mingw-static ?
         if (NOT SDL2_MIXER_FOUND)
             message(FATAL_ERROR
                     "You need the SDL2_mixer development library \
                      to be able to compile with sound enabled. \
                      See doc/COMPILING/COMPILING-CMAKE.md for details and more info.")
-        endif ()
+        endif()
     endif()
 endif ()
 

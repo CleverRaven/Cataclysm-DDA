@@ -118,7 +118,8 @@ if (TILES)
         if (VCPKG_MANIFEST_MODE)
             find_package(Ogg REQUIRED)
             find_package(Vorbis REQUIRED)
-            target_link_libraries(cataclysm-tiles-common PUBLIC SDL2_mixer::SDL2_mixer-static
+            # SDL2_mixer::SDL2_mixer-static = TODO x64-mingw-static ?
+            target_link_libraries(cataclysm-tiles-common PUBLIC SDL2::SDL2_mixer
                 Ogg::ogg
                 Vorbis::vorbis)
         endif()
