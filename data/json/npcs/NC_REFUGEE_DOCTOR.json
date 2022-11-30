@@ -1,0 +1,121 @@
+[
+  {
+    "type": "item_group",
+    "id": "NC_REFUGEE_DOCTOR_pants_male",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "jeans", "prob": 20 },
+      { "item": "pants", "prob": 60 },
+      { "item": "pants_leather", "prob": 20 },
+      { "item": "pants_cargo", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_REFUGEE_DOCTOR_pants_female",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "jeans", "prob": 20 },
+      { "item": "pants", "prob": 80 },
+      { "item": "pants_leather", "prob": 20 },
+      { "item": "pants_cargo", "prob": 20 },
+      { "item": "skirt", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_REFUGEE_DOCTOR_shirt_male",
+    "subtype": "distribution",
+    "entries": [ { "item": "polo_shirt", "prob": 50 }, { "item": "dress_shirt", "prob": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_REFUGEE_DOCTOR_shirt_female",
+    "subtype": "distribution",
+    "entries": [ { "item": "polo_shirt", "prob": 50 }, { "item": "dress_shirt", "prob": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_REFUGEE_DOCTOR_gloves",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "null", "prob": 60 },
+      { "item": "gloves_leather", "prob": 10 },
+      { "item": "gloves_fingerless", "prob": 10 },
+      { "item": "gloves_medical", "prob": 60 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_REFUGEE_DOCTOR_coat",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "coat_lab", "prob": 90 },
+      { "item": "hoodie", "prob": 5 },
+      { "item": "jacket_light", "prob": 5 },
+      { "item": "jacket_leather", "prob": 5 },
+      { "item": "trenchcoat", "prob": 5 },
+      { "item": "jacket_jean", "prob": 5 },
+      { "item": "kevlar", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_REFUGEE_DOCTOR_masks",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "null", "prob": 5 },
+      { "item": "mask_dust", "prob": 80 },
+      { "item": "bandana", "prob": 10 },
+      { "item": "mask_filter", "prob": 10, "charges-min": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_REFUGEE_DOCTOR_eyes",
+    "subtype": "distribution",
+    "entries": [ { "item": "null", "prob": 50 }, { "item": "glasses_safety", "prob": 50 }, { "item": "sunglasses", "prob": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_REFUGEE_DOCTOR_misc",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "bandages", "prob": 30 },
+      { "item": "adhesive_bandages", "count": [ 1, 20 ], "prob": 30 },
+      { "item": "cotton_ball", "prob": 50 },
+      { "group": "used_1st_aid", "prob": 35 },
+      { "item": "saline", "prob": 25 },
+      { "item": "contacts", "prob": 10 },
+      { "item": "vitamins", "prob": 75 },
+      { "item": "calcium_tablet", "prob": 75 },
+      { "item": "aspirin", "prob": 85 },
+      { "item": "caffeine", "prob": 25 },
+      { "item": "pills_sleep", "prob": 15 },
+      { "item": "iodine", "prob": 5 },
+      { "item": "dayquil", "prob": 70 },
+      { "item": "nyquil", "prob": 70 },
+      { "item": "disinfectant", "prob": 35 },
+      { "item": "protein_powder", "prob": 7 },
+      { "item": "caff_gum", "prob": 10 },
+      { "item": "oxygen_tank", "prob": 20 },
+      { "item": "smoxygen_tank", "prob": 5 },
+      { "item": "eyedrops", "prob": 35 },
+      { "item": "nic_gum", "prob": 25 },
+      { "item": "inhaler", "prob": 20, "charges-min": 10, "charges-max": 100 },
+      { "item": "codeine", "prob": 25 },
+      { "item": "oxycodone", "prob": 20 },
+      { "item": "tramadol", "prob": 20 },
+      { "item": "xanax", "prob": 20 },
+      { "item": "adderall", "prob": 20 },
+      { "item": "thorazine", "prob": 15 },
+      { "item": "prozac", "prob": 20 },
+      { "item": "antibiotics", "prob": 35 },
+      { "item": "antifungal", "prob": 10 },
+      { "item": "antiparasitic", "prob": 10 },
+      { "item": "survnote", "prob": 5 },
+      { "item": "diazepam", "prob": 10 },
+      { "item": "syringe", "prob": 20 }
+    ]
+  }
+]

@@ -4,7 +4,7 @@
     "id": "FM_caravan_merchant_random",
     "//": "Random NPC, non persistent, can direct you to the free merchants and sell you things.",
     "name_suffix": "Caravan Merchant",
-    "class": "CARAVAN_MERCHANT",
+    "class": "NC_CARAVAN_MERCHANT",
     "attitude": 0,
     "mission": 3,
     "chat": "TALK_CARAVAN_MERCHANT_1",
@@ -15,7 +15,7 @@
     "id": "FM_caravan_guard_A",
     "//": "Random NPC, non persistent, tells you about being a guard and directs you to free merchants.",
     "name_suffix": "Caravan Guard",
-    "class": "CARAVAN_GUARD",
+    "class": "NC_CARAVAN_GUARD",
     "attitude": 0,
     "mission": 8,
     "chat": "TALK_CARAVAN_GUARD_A1",
@@ -26,7 +26,7 @@
     "id": "FM_caravan_guard_B",
     "//": "Random NPC, non persistent, doesn't have much to say.",
     "name_suffix": "Caravan Guard",
-    "class": "CARAVAN_GUARD",
+    "class": "NC_CARAVAN_GUARD",
     "attitude": 0,
     "mission": 7,
     "chat": "TALK_CARAVAN_GUARD_B",
@@ -34,7 +34,7 @@
   },
   {
     "type": "npc_class",
-    "id": "CARAVAN_MERCHANT",
+    "id": "NC_CARAVAN_MERCHANT",
     "name": { "str": "Trader" },
     "job_description": "I'm collecting gear and selling it.",
     "traits": [
@@ -50,7 +50,7 @@
   },
   {
     "type": "npc_class",
-    "id": "CARAVAN_GUARD",
+    "id": "NC_CARAVAN_GUARD",
     "name": { "str": "Bounty Hunter" },
     "job_description": "I'm a killer for hire.",
     "traits": [

@@ -4,7 +4,7 @@
     "id": "evac_broker",
     "//": "Appears in the refugee center as a bulk trader.  Promotes production of nonperishable food.",
     "name_suffix": "Broker",
-    "class": "EVAC_BROKER",
+    "class": "NC_EVAC_BROKER",
     "attitude": 0,
     "mission": 3,
     "chat": "TALK_FREE_MERCHANT_STOCKS",
@@ -13,7 +13,7 @@
   },
   {
     "type": "npc_class",
-    "id": "EVAC_BROKER",
+    "id": "NC_EVAC_BROKER",
     "name": { "str": "Scavenger" },
     "job_description": "I'm just trying to survive.",
     "traits": [

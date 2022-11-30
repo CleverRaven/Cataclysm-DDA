@@ -4,7 +4,7 @@
     "id": "science_rep",
     "//": "Appears in the refugee center as a source of missions and info.  Faction critical.",
     "name_suffix": "Doctor",
-    "class": "REFUGEE_DOCTOR",
+    "class": "NC_REFUGEE_DOCTOR",
     "attitude": 0,
     "//2": "Possibly should change to NPC_MISSION_SHOPKEEP and sell medical supplies.",
     "mission": 3,
@@ -14,7 +14,7 @@
   },
   {
     "type": "npc_class",
-    "id": "REFUGEE_DOCTOR",
+    "id": "NC_REFUGEE_DOCTOR",
     "name": { "str": "Doctor" },
     "job_description": "I'm looking for wounded to help.",
     "traits": [
