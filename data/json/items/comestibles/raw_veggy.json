@@ -1156,7 +1156,7 @@
     "symbol": "o",
     "quench": 2,
     "calories": 15,
-    "description": "A vegetable from the gourd family, bottle gourd was one of the very first plants to be domesticated by pre-historic Native Americans.  It can be further prepared to produce a hard, watertight shell, usable as a bio-degradable liquid container.  Eating it doesn't look worth it.",
+    "description": "A vegetable from the gourd family, bottle gourd was one of the very first plants to be domesticated by pre-historic Native Americans.  It can be further prepared to produce a hard, watertight shell, usable as a biodegradable liquid container.  Eating it doesn't look worth it.",
     "volume": "4500 ml",
     "flags": [ "FREEZERBURN", "SMOKABLE", "RAW" ],
     "smoking_result": "dry_bottle_gourd"

@@ -509,7 +509,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 566,
-    "description": "A serving of corn and beans that has been cooked together.  Originally an idigenous dish, it became a standard meal of New England cuisine and is a traditional dish in Thanksgiving celebrations in some places.",
+    "description": "A serving of corn and beans that has been cooked together.  Originally an indigenous dish, it became a standard meal of New England cuisine and is a traditional dish in Thanksgiving celebrations in some places.",
     "price": 500,
     "price_postapoc": 150,
     "material": [ "veggy", "bean" ],
