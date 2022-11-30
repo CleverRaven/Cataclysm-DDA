@@ -1813,7 +1813,7 @@
     "type": "MONSTER",
     "name": { "str": "malicious mane" },
     "//": "A pun. 'Mane' being an archaic synonym of zombie, which also refers hair on the back of an animals neck.",
-    "description": "A human body, swaying awkwardly in a torn cloth suit of an anthropomorphized animal.  Black goo drips from the mouth, and gives off a foul, rotting odor.",
+    "description": "A human body, swaying awkwardly in a torn cloth suit of an anthropomorphized animal.  Black goo and blood drips from the mouth, and gives off a foul, rotting odor.",
     "copy_from": "mon_zombie",
     "default_faction": "zombie",
     "hp": 70,
