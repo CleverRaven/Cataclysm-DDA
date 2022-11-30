@@ -484,7 +484,7 @@
     "name": { "str": "synthetic fabric sheet" },
     "description": "A sheet of synthetic fabric, suitable for making clothing.",
     "weight": "54 g",
-    "volume": "40 ml",
+    "volume": "48 ml",
     "//": ".25mm thick, 288 GSM (nylon 6,6 ranges 250-300 gsm)",
     "//1": "1x2' sheet is 1858 cm^2 and at 288 gsm gives listed weight; density of 1.14g/cm^3 suggests about .25 mm thickness per sheet",
     "price": 5000,
