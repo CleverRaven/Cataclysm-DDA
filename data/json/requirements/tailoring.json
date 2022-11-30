@@ -559,15 +559,6 @@
     "id": "tanning_agent",
     "type": "requirement",
     "//": "Enough to make one tanned hide/pelt",
-    "components": [
-      [
-        [ "tannic_water", 2 ],
-        [ "tanbark", 1 ],
-        [ "acorns", 2 ],
-        [ "hops", 2 ],
-        [ "pine_bough", 6 ],
-        [ "meat_brain", 3, "LIST" ]
-      ]
-    ]
+    "components": [ [ [ "tanbark", 1 ], [ "acorns", 2 ], [ "hops", 2 ], [ "pine_bough", 6 ], [ "meat_brain", 3, "LIST" ] ] ]
   }
 ]

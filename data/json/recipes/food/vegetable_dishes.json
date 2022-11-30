@@ -309,7 +309,7 @@
     "skills_required": [ "survival", 2 ],
     "difficulty": 3,
     "time": "3 m",
-    "batch_time_factors": [ 50, 2 ],
+    "batch_time_factors": [ 25, 10 ],
     "autolearn": true,
     "charges": 2,
     "qualities": [ { "id": "HAMMER", "level": 2 } ],

@@ -554,29 +554,12 @@
     "phase": "liquid",
     "looks_like": "coffee",
     "use_action": {
-      "target": "acorns_blanching_done",
+      "target": "acorns_blanched",
       "msg": "After a week of changing water and taste-testing, the acorns are no longer bitter and ready to decant.",
-      "moves": 10,
+      "moves": 50,
       "type": "delayed_transform",
       "transform_age": 518400,
       "not_ready_msg": "The acorns are still bitter."
     }
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "acorns_blanching_done",
-    "name": { "str_sp": "blanching acorns" },
-    "copy-from": "acorns",
-    "description": "A mix of blanched acorns and tannic water, the acorns are no longer bitter and ready to decant.",
-    "comestible_type": "DRINK",
-    "symbol": "~",
-    "quench": 25,
-    "price_postapoc": 50,
-    "delete": { "flags": [ "EDIBLE_FROZEN" ] },
-    "weight": "512 g",
-    "volume": "500 ml",
-    "charges": 1,
-    "phase": "liquid",
-    "looks_like": "coffee"
   }
 ]
