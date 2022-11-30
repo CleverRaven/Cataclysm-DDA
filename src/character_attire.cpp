@@ -33,8 +33,8 @@ static const trait_id trait_HORNS_POINTED( "HORNS_POINTED" );
 static const trait_id trait_SQUEAMISH( "SQUEAMISH" );
 static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
 
-static const sub_bodypart_str_id sub_bodypart_foot_sole_l( "foot_sole_l" );
-static const sub_bodypart_str_id sub_bodypart_foot_sole_r( "foot_sole_r" );
+static const sub_bodypart_str_id sub_body_part_foot_sole_l( "foot_sole_l" );
+static const sub_bodypart_str_id sub_body_part_foot_sole_r( "foot_sole_r" );
 
 nc_color item_penalties::color_for_stacking_badness() const
 {
@@ -975,8 +975,8 @@ bool outfit::wearing_fitting_on( const bodypart_id &bp ) const
 bool outfit::is_barefoot() const
 {
     for( const item &i : worn ) {
-        if( ( i.covers( sub_bodypart_foot_sole_l ) && !i.has_flag( flag_INTEGRATED ) ) ||
-            ( i.covers( sub_bodypart_foot_sole_r ) && !i.has_flag( flag_INTEGRATED ) ) ) {
+        if( ( i.covers( sub_body_part_foot_sole_l ) && !i.has_flag( flag_INTEGRATED ) ) ||
+            ( i.covers( sub_body_part_foot_sole_r ) && !i.has_flag( flag_INTEGRATED ) ) ) {
             return false;
         }
     }
