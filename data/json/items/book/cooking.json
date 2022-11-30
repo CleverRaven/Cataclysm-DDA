@@ -615,7 +615,7 @@
       { "proficiency": "prof_frying_bread", "time_factor": 0.1, "fail_factor": 0.4 }
     ],
     "fun": 1,
-    "time":"9 m",
+    "time": "9 m",
     "symbol": "?",
     "looks_like": "cookbook"
   }
