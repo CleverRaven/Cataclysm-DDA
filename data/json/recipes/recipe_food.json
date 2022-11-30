@@ -3999,7 +3999,7 @@
     "components": [
       [ [ "rice_cooked", 1 ], [ "dry_rice", 1 ], [ "wild_rice_cooked", 1 ], [ "dry_wild_rice", 1 ] ],
       [ [ "tofu", 1 ], [ "dry_tofu", 1 ] ],
-      [ [ "cooking_oil", 1 ] ] 
+      [ [ "cooking_oil", 1 ] ]
     ]
   },
   {
