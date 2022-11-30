@@ -4325,7 +4325,7 @@
   {
     "id": "nested_arminggloves_canvas",
     "type": "nested_category",
-    "activity_level": "light",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_HANDS",
     "name": "canvas arming gloves",
@@ -4343,7 +4343,7 @@
   {
     "id": "nested_hoods_canvas",
     "type": "nested_category",
-    "activity_level": "light",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_HEAD",
     "name": "canvas coifs",
