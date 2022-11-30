@@ -4014,7 +4014,7 @@
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
-    "components": [ 
+    "components": [
       [ [ "rice_cooked", 1 ], [ "wild_rice_cooked", 1 ] ],
       [ [ "veggy_any", 1, "LIST" ] ], 
       [ [ "any_butter_or_oil", 1, "LIST" ] ]
