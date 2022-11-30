@@ -145,7 +145,7 @@
     "ammo_type": "NULL",
     "category": "spare_parts",
     "name": { "str": "polycarbonate sheet" },
-    "description": "A stack of polycarbonate sheets that can be used for, among other things, vacuum molding.",
+    "description": "A polycarbonate sheet that can be used for, among other things, vacuum molding.",
     "weight": "30 g",
     "//": "Density of 1.2 g/cm3",
     "volume": "500 ml",
