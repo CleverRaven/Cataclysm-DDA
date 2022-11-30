@@ -190,6 +190,18 @@
     "sort_rank": -100
   },
   {
+    "id": "INTEGRATED",
+    "type": "ITEM_CATEGORY",
+    "name": { "str": "INTEGRATED" },
+    "sort_rank": -99
+  },
+  {
+    "id": "BIONIC_FUEL_SOURCE",
+    "type": "ITEM_CATEGORY",
+    "name": { "str": "BIONIC FUEL SOURCE" },
+    "sort_rank": -98
+  },
+  {
     "id": "WEAPON_HELD",
     "type": "ITEM_CATEGORY",
     "name": { "str": "WEAPON HELD" },

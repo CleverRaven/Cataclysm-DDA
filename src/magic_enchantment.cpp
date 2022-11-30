@@ -19,6 +19,7 @@
 #include "map.h"
 #include "point.h"
 #include "rng.h"
+#include "skill.h"
 #include "units.h"
 
 namespace io
@@ -345,6 +346,28 @@ void enchantment::load( const JsonObject &jo, const std::string &,
             }
         }
     }
+
+    // note: if we add another map to enchantment that looks exactly the same as this,
+    // i believe it would then be the time to consider using a template to read this in
+    if( !is_child && jo.has_array( "skills" ) ) {
+        for( const JsonObject value_obj : jo.get_array( "skills" ) ) {
+            const skill_id value = skill_id( value_obj.get_string( "value" ) );
+            if( value_obj.has_member( "add" ) ) {
+                int_or_var<dialogue> add = get_int_or_var<dialogue>( value_obj, "add", false );
+                skill_values_add.emplace( value, add );
+            }
+            if( value_obj.has_member( "multiply" ) ) {
+                int_or_var<dialogue> mult;
+                if( value_obj.has_float( "multiply" ) ) {
+                    mult.max.int_val = mult.min.int_val = value_obj.get_float( "multiply" ) * 100;
+                } else {
+                    mult = get_int_or_var<dialogue>( value_obj, "multiply", false );
+
+                }
+                skill_values_multiply.emplace( value, mult );
+            }
+        }
+    }
 }
 
 void enchant_cache::load( const JsonObject &jo, const std::string &,
@@ -362,6 +385,20 @@ void enchant_cache::load( const JsonObject &jo, const std::string &,
             }
             if( mult != 0.0 ) {
                 values_multiply.emplace( value, mult );
+            }
+        }
+    }
+
+    if( jo.has_array( "skills" ) ) {
+        for( const JsonObject value_obj : jo.get_array( "skills" ) ) {
+            const skill_id value = skill_id( value_obj.get_string( "value" ) );
+            const int add = value_obj.get_int( "add", 0 );
+            const double mult = value_obj.get_float( "multiply", 0.0 );
+            if( add != 0 ) {
+                skill_values_add.emplace( value, add );
+            }
+            if( mult != 0.0 ) {
+                skill_values_multiply.emplace( value, static_cast<int>( mult ) );
             }
         }
     }
@@ -431,6 +468,25 @@ void enchant_cache::serialize( JsonOut &jsout ) const
     }
     jsout.end_array();
 
+    jsout.member( "skills" );
+    jsout.start_array();
+    const auto skill_f = []( const Skill & lhs, const Skill & rhs ) {
+        return lhs.ident() < rhs.ident();
+    };
+    for( const Skill *sk : Skill::get_skills_sorted_by( skill_f ) ) {
+        skill_id skid = sk->ident();
+        jsout.start_object();
+        jsout.member( "value", skid );
+        if( get_skill_value_add( skid ) != 0 ) {
+            jsout.member( "add", get_skill_value_add( skid ) );
+        }
+        if( get_skill_value_multiply( skid ) != 0 ) {
+            jsout.member( "multiply", get_skill_value_multiply( skid ) );
+        }
+        jsout.end_object();
+    }
+    jsout.end_array();
+
     jsout.end_object();
 }
 
@@ -467,6 +523,17 @@ void enchant_cache::force_add( const enchant_cache &rhs )
         // values do not multiply against each other, they add.
         // so +10% and -10% will add to 0%
         values_multiply[pair_values.first] += pair_values.second;
+    }
+
+    for( const std::pair<const skill_id, int> &pair_values :
+         rhs.skill_values_add ) {
+        skill_values_add[pair_values.first] += pair_values.second;
+    }
+    for( const std::pair<const skill_id, int> &pair_values :
+         rhs.skill_values_multiply ) {
+        // values do not multiply against each other, they add.
+        // so +10% and -10% will add to 0%
+        skill_values_multiply[pair_values.first] += 0.01 * pair_values.second;
     }
 
     hit_me_effect.insert( hit_me_effect.end(), rhs.hit_me_effect.begin(), rhs.hit_me_effect.end() );
@@ -507,6 +574,17 @@ void enchant_cache::force_add( const enchantment &rhs, const Character &guy )
         // values do not multiply against each other, they add.
         // so +10% and -10% will add to 0%
         values_multiply[pair_values.first] += 0.01 * pair_values.second.evaluate( d );
+    }
+
+    for( const std::pair<const skill_id, int_or_var<dialogue>> &pair_values :
+         rhs.skill_values_add ) {
+        skill_values_add[pair_values.first] += pair_values.second.evaluate( d );
+    }
+    for( const std::pair<const skill_id, int_or_var<dialogue>> &pair_values :
+         rhs.skill_values_multiply ) {
+        // values do not multiply against each other, they add.
+        // so +10% and -10% will add to 0%
+        skill_values_multiply[pair_values.first] += 0.01 * pair_values.second.evaluate( d );
     }
 
     hit_me_effect.insert( hit_me_effect.end(), rhs.hit_me_effect.begin(), rhs.hit_me_effect.end() );
@@ -589,6 +667,15 @@ int enchant_cache::get_value_add( const enchant_vals::mod value ) const
     return found->second;
 }
 
+int enchant_cache::get_skill_value_add( const skill_id &value ) const
+{
+    const auto found = skill_values_add.find( value );
+    if( found == skill_values_add.cend() ) {
+        return 0;
+    }
+    return found->second;
+}
+
 double enchant_cache::get_value_multiply( const enchant_vals::mod value ) const
 {
     const auto found = values_multiply.find( value );
@@ -598,10 +685,26 @@ double enchant_cache::get_value_multiply( const enchant_vals::mod value ) const
     return found->second;
 }
 
+double enchant_cache::get_skill_value_multiply( const skill_id &value ) const
+{
+    const auto found = skill_values_multiply.find( value );
+    if( found == skill_values_multiply.cend() ) {
+        return 0;
+    }
+    return found->second;
+}
+
 double enchant_cache::modify_value( const enchant_vals::mod mod_val, double value ) const
 {
     value += get_value_add( mod_val );
     value *= 1.0 + get_value_multiply( mod_val );
+    return value;
+}
+
+double enchant_cache::modify_value( const skill_id &mod_val, double value ) const
+{
+    value += get_skill_value_add( mod_val );
+    value *= 1.0 + get_skill_value_multiply( mod_val );
     return value;
 }
 
@@ -624,6 +727,11 @@ units::mass enchant_cache::modify_value( const enchant_vals::mod mod_val,
 int enchant_cache::mult_bonus( enchant_vals::mod value_type, int base_value ) const
 {
     return get_value_multiply( value_type ) * base_value;
+}
+
+int enchant_cache::skill_mult_bonus( const skill_id &value_type, int base_value ) const
+{
+    return get_skill_value_multiply( value_type ) * base_value;
 }
 
 bool enchantment::modifies_bodyparts() const

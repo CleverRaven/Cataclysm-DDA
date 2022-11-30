@@ -41,6 +41,12 @@ class energy_in_millijoule_tag
 
 using energy = quantity<std::int64_t, energy_in_millijoule_tag>;
 
+class power_in_milliwatt_tag
+{
+};
+
+using power = quantity<std::int64_t, power_in_milliwatt_tag>;
+
 class money_in_cent_tag
 {
 };

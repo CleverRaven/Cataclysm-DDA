@@ -1858,7 +1858,7 @@ void move_items_activity_actor::do_turn( player_activity &act, Character &who )
         }
 
         // Check that we can pick it up.
-        if( !target->made_of_from_type( phase_id::LIQUID ) ) {
+        if( target->made_of_from_type( phase_id::SOLID ) ) {
             item &leftovers = *target;
             // Make a copy to be put in the destination location
             item newit = leftovers;
@@ -2225,7 +2225,7 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
 
     if( here.has_furn( target ) ) {
         if( furn_type->lockpick_result.is_null() ) {
-            debugmsg( "%s lockpick_result is null", furn_type.id().str() );
+            who.add_msg_if_player( m_bad, _( "You can't open this lock." ) );
             return;
         }
 
@@ -2235,7 +2235,7 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
         }
     } else {
         if( ter_type->lockpick_result.is_null() ) {
-            debugmsg( "%s lockpick_result is null", ter_type.id().str() );
+            who.add_msg_if_player( m_bad, _( "You can't open this lock." ) );
             return;
         }
 
@@ -6177,7 +6177,7 @@ static void move_item( Character &you, item &it, const int quantity, const tripo
 
     map &here = get_map();
     // Check that we can pick it up.
-    if( !it.made_of_from_type( phase_id::LIQUID ) ) {
+    if( it.made_of_from_type( phase_id::SOLID ) ) {
         you.mod_moves( -activity_handlers::move_cost( it, src, dest ) );
 
         put_into_vehicle_or_drop( you, item_drop_reason::deliberate, { it }, dest );
@@ -6553,7 +6553,7 @@ bool vehicle_folding_activity_actor::fold_vehicle( Character &p, bool check_only
 vehicle_folding_activity_actor::vehicle_folding_activity_actor( const vehicle &target )
 {
     folding_time = target.folding_time();
-    target_pos = target.pos_bub();
+    target_pos = target.bub_part_pos( 0 );
 }
 
 void vehicle_folding_activity_actor::start( player_activity &act, Character &p )
@@ -6628,7 +6628,7 @@ bool vehicle_unfolding_activity_actor::unfold_vehicle( Character &p, bool check_
         here.destroy_vehicle( veh );
         return false;
     }
-    const bool cant_float = size( veh->get_avail_parts( "FLOATS" ) ) <= 2;
+    const bool cant_float = !veh->can_float();
     const auto invalid_pos = [&here, &cant_float]( const tripoint & p ) {
         return ( cant_float && here.has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, p ) )
                || here.veh_at( p )

@@ -704,8 +704,9 @@
           "mx_trees": 500,
           "mx_knotweed_patch": 250,
           "mx_fallen_shed": 200,
-          "mx_pond": 200,
+          "mx_sand_patch": 200,
           "mx_casings": 200,
+          "mx_pond": 150,
           "mx_crater": 150,
           "mx_nest_wasp": 50,
           "mx_mass_grave": 50,
@@ -825,6 +826,29 @@
           "mx_sewer_pipesI": 30,
           "mx_sewer_pipesJ": 30
         }
+      },
+      "agricultural": {
+        "chance": 38,
+        "extras": {
+          "mx_point_burned_ground": 500,
+          "mx_point_dead_vegetation": 500,
+          "mx_casings": 200,
+          "mx_crater": 150,
+          "mx_nest_wasp": 50,
+          "mx_mass_grave": 50,
+          "mx_grave": 50,
+          "mx_supplydrop": 40,
+          "mx_Trapdoor_spider_den": 40,
+          "mx_collegekids": 30,
+          "mx_drugdeal": 30,
+          "mx_corpses": 30,
+          "mx_portal": 10,
+          "mx_portal_in": 10,
+          "mx_science": 10,
+          "mx_military": 4,
+          "mx_exocrash_1": 5,
+          "mx_exocrash_2": 5
+        }
       }
     },
     "city": {
@@ -836,6 +860,15 @@
         "2storyModern01": 5,
         "2storyModern02": 50,
         "2StoryModern03": 50,
+        "2StoryModern04": 50,
+        "bungalow01": 50,
+        "bungalow02": 50,
+        "bungalow03": 50,
+        "bungalow04": 50,
+        "bungalow05": 50,
+        "bungalow06": 50,
+        "bungalow07": 50,
+        "bungalow08": 50,
         "house_w_1": 50,
         "house_two_story_basement": 50,
         "multi_unit_two_story_basement": 40,

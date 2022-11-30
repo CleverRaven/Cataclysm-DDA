@@ -719,6 +719,35 @@ static double butchery_dissect_yield_mult( int skill_level, int dex, int tool_qu
            0.2 * clamp( dex_score, 0.0, 1.0 );
 }
 
+static std::vector<item> create_charge_items( const itype *drop, int count,
+        const harvest_entry &entry, const item *corpse_item, const Character &you )
+{
+    std::vector<item> objs;
+    while( count > 0 ) {
+        item obj( drop, calendar::turn, 1 );
+        obj.charges = std::min( count, 1000_liter / obj.volume() );
+        count -= obj.charges;
+
+        if( obj.has_temperature() ) {
+            obj.set_item_temperature( corpse_item->temperature );
+            if( obj.goes_bad() ) {
+                obj.set_rot( corpse_item->get_rot() );
+            }
+        }
+        for( const flag_id &flg : entry.flags ) {
+            obj.set_flag( flg );
+        }
+        for( const fault_id &flt : entry.faults ) {
+            obj.faults.emplace( flt );
+        }
+        if( !you.backlog.empty() && you.backlog.front().id() == ACT_MULTIPLE_BUTCHER ) {
+            obj.set_var( "activity_var", you.name );
+        }
+        objs.push_back( obj );
+    }
+    return objs;
+}
+
 // Returns false if the calling function should abort
 static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Character &you,
                                     butcher_type action )
@@ -948,23 +977,10 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
                     liquid_handler::handle_all_liquid( obj, 1 );
                 }
             } else if( drop->count_by_charges() ) {
-                item obj( drop, calendar::turn, roll );
-                if( obj.has_temperature() ) {
-                    obj.set_item_temperature( corpse_item->temperature );
-                    if( obj.goes_bad() ) {
-                        obj.set_rot( corpse_item->get_rot() );
-                    }
+                std::vector<item> objs = create_charge_items( drop, roll, entry, corpse_item, you );
+                for( item &obj : objs ) {
+                    here.add_item_or_charges( you.pos(), obj );
                 }
-                for( const flag_id &flg : entry.flags ) {
-                    obj.set_flag( flg );
-                }
-                for( const fault_id &flt : entry.faults ) {
-                    obj.faults.emplace( flt );
-                }
-                if( !you.backlog.empty() && you.backlog.front().id() == ACT_MULTIPLE_BUTCHER ) {
-                    obj.set_var( "activity_var", you.name );
-                }
-                here.add_item_or_charges( you.pos(), obj );
             } else {
                 item obj( drop, calendar::turn );
                 obj.set_mtype( &mt );
@@ -1054,6 +1070,8 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
             }
         }
     }
+
+    you.invalidate_crafting_inventory();
     return true;
 }
 
@@ -2190,6 +2208,16 @@ void repair_item_finish( player_activity *act, Character *you, bool no_menu )
         const int old_level = you->get_skill_level( actor->used_skill );
         const repair_item_actor::attempt_hint attempt = actor->repair( *you, *used_tool,
                 fix_location, repeat == repeat_type::REFIT_ONCE || repeat == repeat_type::REFIT_FULL );
+
+        // If the item being repaired has been destroyed stop further
+        // processing in case the items being used for the repair was
+        // contained by the item being repaired, which will result
+        // in the tool being invalid
+        if( attempt == repair_item_actor::AS_DESTROYED ) {
+            act->set_to_null();
+            return;
+        }
+
         if( attempt != repair_item_actor::AS_CANT ) {
             if( ploc && ploc->where() == item_location::type::map ) {
                 used_tool->ammo_consume( used_tool->ammo_required(), ploc->position(), you );

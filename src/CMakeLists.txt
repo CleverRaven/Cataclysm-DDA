@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.20)
+cmake_minimum_required(VERSION 3.21)
 
 add_subdirectory(${CMAKE_SOURCE_DIR}/src/third-party)
 
@@ -44,7 +44,7 @@ if (TILES)
             ${CATACLYSM_DDA_HEADERS})
     target_include_directories(cataclysm-tiles-common INTERFACE ${CMAKE_SOURCE_DIR}/src)
 
-    target_link_libraries(cataclysm-tiles-common third-party)
+    target_link_libraries(cataclysm-tiles-common PUBLIC third-party)
 
     if (WIN32)
         add_definitions(-DUSE_WINMAIN)
@@ -81,7 +81,7 @@ if (TILES)
     endif ()
 
     if (CMAKE_THREAD_LIBS_INIT)
-        target_link_libraries(cataclysm-tiles-common ${CMAKE_THREAD_LIBS_INIT})
+        target_link_libraries(cataclysm-tiles-common PUBLIC ${CMAKE_THREAD_LIBS_INIT})
     endif ()
 
     if (NOT DYNAMIC_LINKING)
@@ -91,44 +91,60 @@ if (TILES)
                 ${PNG_INCLUDE_DIRS}
                 ${JPEG_INCLUDE_DIR}
                 ${BZIP2_INCLUDE_DIR})
-        target_link_libraries(cataclysm-tiles-common
+        target_link_libraries(cataclysm-tiles-common PUBLIC
                 ${FREETYPE_LIBRARIES}
                 ${PNG_LIBRARIES}
                 ${JPEG_LIBRARIES}
                 ${BZIP2_LIBRARIES})
+        target_link_libraries(cataclysm-tiles-common PUBLIC SDL2::SDL2-static)
     endif ()
     target_include_directories(cataclysm-tiles-common PUBLIC
             ${SDL2_INCLUDE_DIR}
             ${SDL2_IMAGE_INCLUDE_DIRS}
             ${SDL2_TTF_INCLUDE_DIRS}
             ${ZLIB_INCLUDE_DIRS})
-    target_link_libraries(cataclysm-tiles-common
+    target_link_libraries(cataclysm-tiles-common PUBLIC
             ${SDL2_LIBRARY}
             ${SDL2_IMAGE_LIBRARIES}
             ${SDL2_TTF_LIBRARIES}
             ${ZLIB_LIBRARIES})
-
+    if(TARGET SDL2::SDL2)
+        target_link_libraries(cataclysm-tiles-common PUBLIC SDL2::SDL2
+            SDL2::SDL2main
+            SDL2::SDL2_image
+            $<IF:$<TARGET_EXISTS:SDL2_ttf::SDL2_ttf>,SDL2_ttf::SDL2_ttf,SDL2_ttf::SDL2_ttf-static>)
+    endif()
     if (SOUND)
+        if (VCPKG_MANIFEST_MODE)
+            find_package(Ogg REQUIRED)
+            find_package(Vorbis REQUIRED)
+            target_link_libraries(cataclysm-tiles-common PUBLIC SDL2_mixer::SDL2_mixer-static
+                Ogg::ogg
+                Vorbis::vorbis)
+        endif()
         target_compile_definitions(cataclysm-tiles-common PUBLIC SDL_SOUND )
         target_include_directories(cataclysm-tiles-common PUBLIC ${OGGVORBIS_INCLUDE_DIR})
-        target_link_libraries(cataclysm-tiles-common ${OGG_LIBRARY})
-        target_link_libraries(cataclysm-tiles-common ${VORBIS_LIBRARY})
-        target_link_libraries(cataclysm-tiles-common ${VORBISFILE_LIBRARY})
+        target_link_libraries(cataclysm-tiles-common PUBLIC ${OGG_LIBRARY})
+        target_link_libraries(cataclysm-tiles-common PUBLIC ${VORBIS_LIBRARY})
+        target_link_libraries(cataclysm-tiles-common PUBLIC ${VORBISFILE_LIBRARY})
         target_include_directories(cataclysm-tiles-common PUBLIC ${SDL2_MIXER_INCLUDE_DIRS})
-        target_link_libraries(cataclysm-tiles-common ${SDL2_MIXER_LIBRARIES})
+        target_link_libraries(cataclysm-tiles-common PUBLIC ${SDL2_MIXER_LIBRARIES})
     endif ()
 
     if (WIN32)
         # Global settings for Windows targets (at end)
-        target_link_libraries(cataclysm-tiles-common gdi32.lib)
-        target_link_libraries(cataclysm-tiles-common winmm.lib)
-        target_link_libraries(cataclysm-tiles-common imm32.lib)
-        target_link_libraries(cataclysm-tiles-common ole32.lib)
-        target_link_libraries(cataclysm-tiles-common oleaut32.lib)
-        target_link_libraries(cataclysm-tiles-common version.lib)
-        target_link_libraries(cataclysm-tiles-common setupapi.lib)
+        target_link_libraries(cataclysm-tiles-common PUBLIC gdi32.lib)
+        target_link_libraries(cataclysm-tiles-common PUBLIC winmm.lib)
+        target_link_libraries(cataclysm-tiles-common PUBLIC imm32.lib)
+        target_link_libraries(cataclysm-tiles-common PUBLIC ole32.lib)
+        target_link_libraries(cataclysm-tiles-common PUBLIC oleaut32.lib)
+        target_link_libraries(cataclysm-tiles-common PUBLIC version.lib)
+        target_link_libraries(cataclysm-tiles-common PUBLIC setupapi.lib)
         if (BACKTRACE)
-            target_link_libraries(cataclysm-tiles-common dbghelp.lib)
+            target_link_libraries(cataclysm-tiles-common PUBLIC dbghelp.lib)
+            if (LIBBACKTRACE)
+                target_link_libraries(cataclysm-tiles-common PUBLIC backtrace)
+            endif ()
         endif ()
     endif ()
 

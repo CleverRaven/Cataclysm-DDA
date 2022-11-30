@@ -382,49 +382,71 @@
     "upgrades": { "age_grow": 30, "into": "mon_hesperosaurus_juvenile" }
   },
   {
-    "id": "mon_gargoyleosaurus_hatchling",
+    "id": "mon_gastonia_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_stegosaurus_hatchling",
     "name": "brown and magenta hatchling",
+    "upgrades": { "age_grow": 30, "into": "mon_gastonia_juvenile" }
+  },
+  {
+    "id": "mon_gargoyleosaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_gastonia_hatchling",
     "upgrades": { "age_grow": 30, "into": "mon_gargoyleosaurus_juvenile" }
   },
   {
     "id": "mon_sauropelta_hatchling",
     "type": "MONSTER",
-    "copy-from": "mon_stegosaurus_hatchling",
-    "name": "brown and magenta hatchling",
+    "copy-from": "mon_gastonia_hatchling",
     "upgrades": { "age_grow": 30, "into": "mon_sauropelta_juvenile" }
   },
   {
-    "id": "mon_dyoplosaurus_hatchling",
+    "id": "mon_nodosaurus_hatchling",
     "type": "MONSTER",
-    "copy-from": "mon_stegosaurus_hatchling",
-    "name": "brown and magenta hatchling",
-    "upgrades": { "age_grow": 30, "into": "mon_dyoplosaurus_juvenile" }
+    "copy-from": "mon_gastonia_hatchling",
+    "upgrades": { "age_grow": 30, "into": "mon_nodosaurus_juvenile" }
+  },
+  {
+    "id": "mon_panoplosaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_gastonia_hatchling",
+    "upgrades": { "age_grow": 30, "into": "mon_panoplosaurus_juvenile" }
   },
   {
     "id": "mon_edmontonia_hatchling",
     "type": "MONSTER",
-    "copy-from": "mon_dyoplosaurus_hatchling",
+    "copy-from": "mon_gastonia_hatchling",
     "upgrades": { "age_grow": 30, "into": "mon_edmontonia_juvenile" }
   },
   {
     "id": "mon_zuul_hatchling",
     "type": "MONSTER",
-    "copy-from": "mon_dyoplosaurus_hatchling",
+    "copy-from": "mon_gastonia_hatchling",
     "upgrades": { "age_grow": 30, "into": "mon_zuul_juvenile" }
+  },
+  {
+    "id": "mon_dyoplosaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_gastonia_hatchling",
+    "upgrades": { "age_grow": 30, "into": "mon_dyoplosaurus_juvenile" }
   },
   {
     "id": "mon_ankylosaurus_hatchling",
     "type": "MONSTER",
-    "copy-from": "mon_dyoplosaurus_hatchling",
+    "copy-from": "mon_gastonia_hatchling",
     "upgrades": { "age_grow": 30, "into": "mon_ankylosaurus_juvenile" }
   },
   {
-    "id": "mon_nodosaurus_hatchling",
+    "id": "mon_euoplocephalus_hatchling",
     "type": "MONSTER",
-    "copy-from": "mon_dyoplosaurus_hatchling",
-    "upgrades": { "age_grow": 30, "into": "mon_nodosaurus_juvenile" }
+    "copy-from": "mon_gastonia_hatchling",
+    "upgrades": { "age_grow": 30, "into": "mon_euoplocephalus_juvenile" }
+  },
+  {
+    "id": "mon_scolosaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_gastonia_hatchling",
+    "upgrades": { "age_grow": 30, "into": "mon_scolosaurus_juvenile" }
   },
   {
     "id": "mon_tenontosaurus_hatchling",

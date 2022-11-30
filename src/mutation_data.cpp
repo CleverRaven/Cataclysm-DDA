@@ -109,7 +109,7 @@ void mutation_category_trait::load( const JsonObject &jsobj )
     static_cast<void>( translate_marker_context( "memorial_female", "Crossed a threshold" ) );
     optional( jsobj, false, "memorial_message", new_category.raw_memorial_message,
               text_style_check_reader(), "Crossed a threshold" );
-    new_category.vitamin = vitamin_id( jsobj.get_string( "vitamin", "" ) );
+    new_category.vitamin = vitamin_id( jsobj.get_string( "vitamin", "null" ) );
 
     mutation_category_traits[new_category.id] = new_category;
 }
@@ -424,7 +424,6 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "scent_intensity", scent_intensity, cata::nullopt );
     optional( jo, was_loaded, "scent_mask", scent_mask, cata::nullopt );
     optional( jo, was_loaded, "scent_type", scent_typeid, cata::nullopt );
-    optional( jo, was_loaded, "bleed_resist", bleed_resist, 0 );
     optional( jo, was_loaded, "healthy_rate", healthy_rate, 1.0f );
     optional( jo, was_loaded, "fat_to_max_hp", fat_to_max_hp, 0.0f );
     optional( jo, was_loaded, "weakness_to_water", weakness_to_water, 0 );
@@ -550,7 +549,12 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     }
 
     for( const std::string line : jo.get_array( "restricts_gear" ) ) {
-        restricts_gear.insert( bodypart_str_id( line ) );
+        bodypart_str_id bp( line );
+        if( bp.is_valid() ) {
+            restricts_gear.insert( bp );
+        } else {
+            restricts_gear_subparts.insert( sub_bodypart_str_id( line ) );
+        }
     }
 
     for( const std::string line : jo.get_array( "allowed_items" ) ) {
@@ -950,7 +954,11 @@ void mutation_branch::finalize()
         for( const mutation_category_id &cat : branch.category ) {
             mutations_category[cat].push_back( trait_id( branch.id ) );
         }
-        mutations_category[mutation_category_ANY].push_back( trait_id( branch.id ) );
+        // Don't include dummy mutations for the ANY category, since they have a very specific use case
+        // Otherwise, the system will prioritize them
+        if( !branch.dummy ) {
+            mutations_category[mutation_category_ANY].push_back( trait_id( branch.id ) );
+        }
     }
     finalize_trait_blacklist();
 }
