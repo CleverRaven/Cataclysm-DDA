@@ -922,7 +922,7 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "seed_raw_bottle_gourd",
+    "id": "seed_bottle_gourd",
     "copy-from": "seed",
     "price": 50,
     "name": { "str_sp": "bottle gourd seeds" },
