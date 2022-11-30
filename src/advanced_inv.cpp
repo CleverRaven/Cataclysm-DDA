@@ -1555,15 +1555,14 @@ void advanced_inventory::display()
 
     exit = false;
     if( !is_processing() ) {
-        init();
 
         player_character.inv->restack( player_character );
 
         recalc = true;
     }
 
-    std::unique_ptr<string_input_popup> spopup;
     if( !ui ) {
+        init();
         ui = std::make_unique<ui_adaptor>();
         ui->on_screen_resize( [&]( ui_adaptor & ui ) {
             constexpr int min_w_height = 10;
