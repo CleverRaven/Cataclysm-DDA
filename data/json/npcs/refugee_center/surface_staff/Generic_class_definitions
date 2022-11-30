@@ -1,5 +1,4 @@
 [
-    "weapon_override": "FREE_MERCH_GUARD_wield_phase1",
   {
     "type": "item_group",
     "id": "FREE_MERCH_GUARD_wield_phase1",
@@ -14,67 +13,39 @@
   },
   {
     "type": "item_group",
-    "id": "NC_FREE_MERCH_GUARD_pants",
-    "subtype": "distribution",
+    "id": "NC_FREE_MERCH_GUARD_worn_phase1",
+    "//": "Initially the free mechant guards have basic but decent clothing, but they're not geared for heavy combat.",
+    "subtype": "collection",
     "entries": [
-      { "item": "jeans", "prob": 20 },
-      { "item": "pants", "prob": 20 },
-      { "item": "pants_leather", "prob": 20 },
-      { "item": "pants_cargo", "prob": 60 }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "NC_FREE_MERCH_GUARD_shoes",
-    "subtype": "distribution",
-    "entries": [
-      { "item": "sneakers", "prob": 20 },
-      { "item": "boots", "prob": 20 },
-      { "item": "boots_steel", "prob": 40 },
-      { "item": "sneakers_steel", "prob": 28 }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "NC_FREE_MERCH_GUARD_vest",
-    "subtype": "distribution",
-    "entries": [ { "item": "null", "prob": 20 }, { "item": "kevlar", "prob": 80 }, { "item": "tacvest", "prob": 40 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "NC_FREE_MERCH_GUARD_masks",
-    "subtype": "distribution",
-    "entries": [
-      { "item": "null", "prob": 10 },
-      { "item": "mask_dust", "prob": 30 },
+      {
+        "distribution": [
+          { "item": "jeans", "prob": 20 },
+          { "item": "pants", "prob": 20 },
+          { "item": "pants_leather", "prob": 20 },
+          { "item": "pants_cargo", "prob": 60 }
+        ],
+        "prob": 100
+      },
+      {
+        "distribution": [
+          { "item": "sneakers", "prob": 20 },
+          { "item": "boots", "prob": 20 },
+          { "item": "boots_steel", "prob": 40 },
+          { "item": "sneakers_steel", "prob": 28 }
+        ],
+        "prob": 100
+      },
+      { "distribution": [ { "item": "kevlar", "prob": 80 }, { "item": "tacvest", "prob": 40 } ], "prob": 70 },
+      {
+        "distribution": [
+          { "item": "glasses_safety", "prob": 20 },
+          { "item": "goggles_ski", "prob": 10 },
+          { "item": "sunglasses", "prob": 20 }
+        ],
+        "prob": 50
+      },
+      { "item": "jacket_evac", "prob": 90 },
       { "item": "bandana", "prob": 10 }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "NC_FREE_MERCH_GUARD_storage",
-    "subtype": "distribution",
-    "entries": [
-      { "item": "null" }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "NC_FREE_MERCH_GUARD_eyes",
-    "subtype": "distribution",
-    "entries": [
-      { "item": "null", "prob": 60 },
-      { "item": "glasses_safety", "prob": 20 },
-      { "item": "goggles_ski", "prob": 20 },
-      { "item": "sunglasses", "prob": 20 }
-    ]
-  }
-  {
-    "type": "item_group",
-    "id": "NC_FREE_MERCH_GUARD_coat",
-    "subtype": "distribution",
-    "entries": [
-      { "item": "jacket_evac" }
     ]
   },
   {
@@ -82,7 +53,12 @@
     "id": "NC_FREE_MERCH_GUARD",
     "name": { "str": "Guard" },
     "job_description": "I'm on a guard shift.",
-    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" }, { "trait": "NO_BASH" }, { "trait": "RETURN_TO_START_POS" } ],
+    "traits": [
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
     "skills": [
       { "skill": "bashing", "bonus": { "rng": [ 1, 2 ] } },
       { "skill": "cutting", "bonus": { "rng": [ 1, 3 ] } },
