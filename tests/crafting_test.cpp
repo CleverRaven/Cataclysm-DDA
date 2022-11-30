@@ -2062,21 +2062,11 @@ TEST_CASE( "tools with charges as components", "[crafting]" )
             THEN( "craft uses the free thread instead of tool ammo as component" ) {
                 CHECK( !res.is_null() );
                 CHECK( res.is_craft() );
+                CHECK( res.components[itype_sheet_cotton].size() == cotton_sheets_in_recipe );
+                // when threads aren't count by charges anymore, see line above
+                CHECK( res.components[itype_thread].front().count() == threads_in_recipe );
                 int cotton_sheets = 0;
                 int threads = 0;
-                for( const item &comp : res.components ) {
-                    if( comp.typeId() == itype_sheet_cotton ) {
-                        cotton_sheets += comp.count_by_charges() ? comp.charges : 1;
-                    } else if( comp.typeId() == itype_thread ) {
-                        threads += comp.count_by_charges() ? comp.charges : 1;
-                    } else {
-                        FAIL( "found unexpected component " << comp.typeId().str() );
-                    }
-                }
-                CHECK( cotton_sheets == cotton_sheets_in_recipe );
-                CHECK( threads == threads_in_recipe );
-                cotton_sheets = 0;
-                threads = 0;
                 int threads_in_tool = 0;
                 for( const item &i : m.i_at( c.pos() ) ) {
                     if( i.typeId() == itype_sheet_cotton ) {
@@ -2109,21 +2099,11 @@ TEST_CASE( "tools with charges as components", "[crafting]" )
             THEN( "craft uses the free thread instead of tool ammo as component" ) {
                 CHECK( !res.is_null() );
                 CHECK( res.is_craft() );
+                CHECK( res.components[itype_sheet_cotton].size() == cotton_sheets_in_recipe );
+                // when threads aren't count by charges anymore, see line above
+                CHECK( res.components[itype_thread].front().count() == threads_in_recipe );
                 int cotton_sheets = 0;
                 int threads = 0;
-                for( const item &comp : res.components ) {
-                    if( comp.typeId() == itype_sheet_cotton ) {
-                        cotton_sheets += comp.count_by_charges() ? comp.charges : 1;
-                    } else if( comp.typeId() == itype_thread ) {
-                        threads += comp.count_by_charges() ? comp.charges : 1;
-                    } else {
-                        FAIL( "found unexpected component " << comp.typeId().str() );
-                    }
-                }
-                CHECK( cotton_sheets == cotton_sheets_in_recipe );
-                CHECK( threads == threads_in_recipe );
-                cotton_sheets = 0;
-                threads = 0;
                 int threads_in_tool = 0;
                 for( const item *i : pack_loc->all_items_top() ) {
                     if( i->typeId() == itype_sheet_cotton ) {

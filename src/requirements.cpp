@@ -1287,7 +1287,7 @@ requirement_data requirement_data::disassembly_requirements() const
 }
 
 requirement_data requirement_data::continue_requirements( const std::vector<item_comp>
-        &required_comps, const std::list<item> &remaining_comps )
+        &required_comps, const item_components &remaining_comps )
 {
     // Create an empty requirement_data
     requirement_data ret;

@@ -5859,7 +5859,7 @@ void iexamine::mill_finalize( Character &, const tripoint &examp, const time_poi
                 iter = items.erase( iter );
             } else {
                 item result( mdata.into_, start_time + milling_time, charges );
-                result.components.push_back( it );
+                result.components.add( it );
                 // copied from item::inherit_flags, which can not be called here because it requires a recipe.
                 for( const flag_id &f : it.type->get_flags() ) {
                     if( f->craft_inherit() ) {
@@ -5924,7 +5924,7 @@ static void smoker_finalize( Character &, const tripoint &examp, const time_poin
                         // Set charges to 1 for stacking purposes.
                         it = item( it.get_comestible()->cooks_like, it.birthday(), 1 );
                     }
-                    result.components.push_back( it );
+                    result.components.add( it );
                     // Smoking is always 1:1, so these must be equal for correct kcal/vitamin calculation.
                     result.recipe_charges = it.charges;
                     result.set_flag_recursive( flag_COOKED );

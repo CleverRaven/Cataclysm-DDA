@@ -1607,8 +1607,10 @@ void salvage_actor::cut_up( Character &p, item_location &cut ) const
         // All intact components are also cut up and destroyed
         if( !curr.components.empty() )
         {
-            for( const item &iter : curr.components ) {
-                cut_up_component( iter, num_adjusted );
+            for( const item_components::type_vector_pair &tvp : curr.components ) {
+                for( const item &iter : tvp.second ) {
+                    cut_up_component( iter, num_adjusted );
+                }
             }
             return;
         }
