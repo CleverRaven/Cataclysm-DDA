@@ -262,6 +262,7 @@ burdocks
 burette
 burnback
 burs
+butternuts
 buttstock
 buzzz
 bzzt
@@ -711,6 +712,7 @@ frostburnt
 frostnipped
 frostrimed
 froths
+frybread
 ft
 fuckit
 fulleroclathrate
@@ -1093,6 +1095,7 @@ manball
 manfriendwich
 manhack
 manhacks
+manoomin
 manuc
 manufactory
 manwich
