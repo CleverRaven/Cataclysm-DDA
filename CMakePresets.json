@@ -63,6 +63,7 @@
         "CURSES": "False",
         "LOCALIZE": "True",
         "TILES": "True",
+        "SOUND": "True",
         "TESTS":  "False"
       }
     }
