@@ -95,7 +95,7 @@
     "id": "cow_bell",
     "type": "TOOL",
     "name": { "str": "cow bell" },
-    "description": "A brass cow bell.  You feel like you need more of them.",
+    "description": "A brass cow bell.  You feel like you need more of it.",
     "weight": "566 g",
     "volume": "1 L",
     "price": 700,
