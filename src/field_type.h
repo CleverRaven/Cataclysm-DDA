@@ -154,6 +154,7 @@ extern const field_type_str_id fd_bees;
 extern const field_type_str_id fd_incendiary;
 extern const field_type_str_id fd_relax_gas;
 extern const field_type_str_id fd_fungal_haze;
+extern const field_type_str_id fd_churned_earth;
 extern const field_type_str_id fd_cold_air2;
 extern const field_type_str_id fd_cold_air3;
 extern const field_type_str_id fd_cold_air4;

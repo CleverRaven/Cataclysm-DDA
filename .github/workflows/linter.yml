@@ -1,0 +1,43 @@
+name: Code Style Reviewer
+
+on:
+  pull_request_target:
+  pull_request:
+
+jobs:
+  skip-duplicates:
+    if: ${{ github.event_name == 'pull_request_target' }}
+    continue-on-error: true
+    runs-on: ubuntu-latest
+    # Map a step output to a job output
+    outputs:
+      should_skip: ${{ steps.skip_check.outputs.should_skip }}
+    steps:
+    - id: skip_check
+      uses: fkirc/skip-duplicate-actions@master
+      with:
+        cancel_others: 'true'
+        paths: '[ "**.json", "**.cpp", "**.h", "**.c" ]'
+
+  style-code:
+    needs: skip-duplicates
+    if: ${{ needs.skip-duplicates.outputs.should_skip != 'true' && github.event_name == 'pull_request_target' }}
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        ref: '${{ github.event.pull_request.head.sha }}'
+
+    - name: install dependencies
+      run: sudo apt-get install astyle
+
+    - run: make astyle-fast
+    - run: make style-all-json-parallel
+
+    - name: 'suggester / JSON & C++'
+      uses: reviewdog/action-suggester@v1
+      if: ${{ always() }}
+      with:
+        tool_name: 'JSON & C++ formatters'

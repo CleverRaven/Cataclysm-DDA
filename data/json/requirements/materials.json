@@ -48,6 +48,23 @@
     "components": [ [ [ "withered", 2 ], [ "straw_pile", 2 ], [ "tanbark", 1 ], [ "willowbark", 1 ], [ "birchbark", 1 ] ] ]
   },
   {
+    "id": "cordage_fishing",
+    "type": "requirement",
+    "//": " makes 540cm of 10 lbish fishing line with little time spent braiding, thread requires to much work and sinew unglues in water unless threated",
+    "components": [
+      [
+        [ "string_36", 6 ],
+        [ "cordage_36", 6 ],
+        [ "cordage_36_leather", 6 ],
+        [ "string_6", 36 ],
+        [ "cordage_6", 36 ],
+        [ "cordage_6_leather", 36 ],
+        [ "thread_nomex", 108 ],
+        [ "thread_kevlar", 36 ]
+      ]
+    ]
+  },
+  {
     "id": "cordage",
     "type": "requirement",
     "//": "Materials used for tying items, primitive bowstrings, and other uses involving string or makeshift cordage, 36 g/90 cm of cordage per unit.",

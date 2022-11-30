@@ -72,8 +72,18 @@ Maximal HP: 800 (highest for balance purposes; wraith)
 In general larger creatures should have higher HP as should more evolved blob creatures and alien and nether creatures.
 
 
-# Speeds:
-Zombies are a bit faster than "shambling". Zombified versions of fast critters will remain fast, but in general the process slows the undead version. Further, under no circumstances should a zed be more than 50% faster than base character speed. Currently, this means "capped at 150".
+# Monster Speed Scaling:
+Minimum speed: 20 (very little ability to move, 1 km/h; crawling zombie)
+
+Average speed: 70 (average critter, 3.5 km/h, can be walked away from; most basic zeds, slimes, triffids)
+
+Notable speed: 100+ (unusually fast, over 5 km/h, can be run away from; feral human, bee, mi-go, zombie brute, zombie predator, jabberwock, manhack)
+
+Very high speed: ~200 (extremely fast, about 10 km/h; moose, zombie hulk, hulking horror, gracken, jabberwock)
+
+Maximal speed: 300 (highest for balance purposes; flying polyp)
+
+Zombies are a bit faster than "shambling". Zombified versions of fast critters will remain fast, but in general the process slows the undead version. Further, under no circumstances should a day one zed be more than 100% faster than base character speed. Currently, this means "capped at 200". attack_cost flag should be used for monsters with speeds faster or slower than 100 unless faster or slower attacks are intended
 
 
 # Monster Difficulty scaling:

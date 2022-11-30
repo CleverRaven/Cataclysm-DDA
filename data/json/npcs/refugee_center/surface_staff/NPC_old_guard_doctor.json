@@ -10,7 +10,8 @@
     "mission": 3,
     "chat": "TALK_SCIENCE_REP",
     "faction": "old_guard",
-    "mission_offered": "MISSION_SCIENCE_REP_1"
+    "mission_offered": "MISSION_SCIENCE_REP_1",
+    "traits": [ { "trait": "IGNORE_SOUND" }, { "trait": "NO_BASH" }, { "trait": "RETURN_TO_START_POS" } ]
   },
   {
     "id": "TALK_SCIENCE_REP",

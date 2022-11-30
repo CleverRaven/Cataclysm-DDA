@@ -6553,7 +6553,7 @@ bool vehicle_folding_activity_actor::fold_vehicle( Character &p, bool check_only
 vehicle_folding_activity_actor::vehicle_folding_activity_actor( const vehicle &target )
 {
     folding_time = target.folding_time();
-    target_pos = target.pos_bub();
+    target_pos = target.bub_part_pos( 0 );
 }
 
 void vehicle_folding_activity_actor::start( player_activity &act, Character &p )
@@ -6628,7 +6628,7 @@ bool vehicle_unfolding_activity_actor::unfold_vehicle( Character &p, bool check_
         here.destroy_vehicle( veh );
         return false;
     }
-    const bool cant_float = size( veh->get_avail_parts( "FLOATS" ) ) <= 2;
+    const bool cant_float = !veh->can_float();
     const auto invalid_pos = [&here, &cant_float]( const tripoint & p ) {
         return ( cant_float && here.has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, p ) )
                || here.veh_at( p )
