@@ -8878,8 +8878,8 @@
     "batch_time_factors": [ 83, 3 ],
     "flags": [ "BLIND_EASY" ],
     "qualities": [ { "id": "FINE_GRIND", "level": 1 } ],
-    "components": [ 
-      [ [ "buckwheat", 1 ], [ "acorns_cooked", 10 ], [ "dry_rice", 5 ], [ "dry_wild_rice", 5 ], [ "chestnut_roasted", 12 ] ] 
+    "components": [
+      [ [ "buckwheat", 1 ], [ "acorns_cooked", 10 ], [ "dry_rice", 5 ], [ "dry_wild_rice", 5 ], [ "chestnut_roasted", 12 ] ]
     ]
   },
   {
