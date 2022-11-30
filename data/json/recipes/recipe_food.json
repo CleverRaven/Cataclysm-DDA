@@ -1090,7 +1090,13 @@
     "batch_time_factors": [ 25, 2 ],
     "components": [
       [ [ "tofu", 4 ], [ "dry_tofu", 4 ] ],
-      [ [ "dry_rice", 4 ], [ "sushi_rice", 4 ], [ "rice_cooked", 4 ], [ "dry_wild_rice", 4 ], [ "wild_rice_cooked", 4 ] ],
+      [
+        [ "dry_rice", 4 ],
+        [ "sushi_rice", 4 ],
+        [ "rice_cooked", 4 ],
+        [ "dry_wild_rice", 4 ],
+        [ "wild_rice_cooked", 4 ]
+      ],
       [ [ "cooking_oil", 1 ] ],
       [ [ "sugar_standard_half", 1, "LIST" ] ],
       [ [ "irradiated_broccoli", 2 ], [ "broccoli", 2 ], [ "veggy_wild_cooked", 2 ], [ "veggy_cooked", 2 ] ],
