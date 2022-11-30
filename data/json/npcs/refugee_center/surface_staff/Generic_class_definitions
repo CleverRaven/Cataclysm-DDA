@@ -1,4 +1,17 @@
 [
+    "weapon_override": "FREE_MERCH_GUARD_wield_phase1",
+  {
+    "type": "item_group",
+    "id": "FREE_MERCH_GUARD_wield_phase1",
+    "//": "Initially the free mechant guards indoors stick to melee weapons, as most of these folks aren't trained to use guns.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "spear_knife_proper", "prob": 40 },
+      { "item": "spear_pipe", "prob": 40 },
+      { "item": "spear_homemade_halfpike", "prob": 20 },
+      { "item": "makeshift_glaive", "prob": 20 }
+    ]
+  },
   {
     "type": "item_group",
     "id": "NC_FREE_MERCH_GUARD_pants",
@@ -71,11 +84,11 @@
     "job_description": "I'm on a guard shift.",
     "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" }, { "trait": "NO_BASH" }, { "trait": "RETURN_TO_START_POS" } ],
     "skills": [
-      { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 2 ] }, { "constant": -3 } ] } },
-      { "skill": "melee", "bonus": { "rng": [ 2, 4 ] } },
-      { "skill": "gun", "bonus": { "rng": [ 2, 4 ] } },
-      { "skill": "pistol", "bonus": { "rng": [ 2, 4 ] } },
-      { "skill": "rifle", "bonus": { "rng": [ 2, 4 ] } }
+      { "skill": "bashing", "bonus": { "rng": [ 1, 2 ] } },
+      { "skill": "cutting", "bonus": { "rng": [ 1, 3 ] } },
+      { "skill": "dodge", "bonus": { "rng": [ 1, 3 ] } },
+      { "skill": "stabbing", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 2, 4 ] } }
     ]
   }
 ]
