@@ -141,6 +141,13 @@
   },
   {
     "type": "EXTERNAL_OPTION",
+    "name": "PORTAL_STORM_IGNORE_NPC",
+    "info": "Portal storm enemies will ignore NPCs no matter what.",
+    "stype": "bool",
+    "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
     "name": "CRAZY",
     "info": "A boolean specifically for Crazy Cataclysm.",
     "stype": "bool",

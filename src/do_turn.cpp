@@ -678,6 +678,10 @@ bool do_turn()
     while( u.moves > 0 && u.activity ) {
         u.activity.do_turn( u );
     }
+    // FIXME: hack needed due to the legacy code in advanced_inventory::move_all_items()
+    if( !u.activity ) {
+        kill_advanced_inv();
+    }
 
     // Process NPC sound events before they move or they hear themselves talking
     for( npc &guy : g->all_npcs() ) {
