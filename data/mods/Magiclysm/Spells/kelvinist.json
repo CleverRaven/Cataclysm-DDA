@@ -253,7 +253,7 @@
   {
     "id": "glide_ice_plus",
     "type": "SPELL",
-    "name": "Glide on Ice",
+    "name": "Enhanced Glide on Ice",
     "description": "Encases your feet in a magical coating of ice, allowing you to glide along smooth surfaces faster.",
     "valid_targets": [ "none" ],
     "flags": [ "VERBAL", "NO_HANDS", "NO_LEGS" ],
