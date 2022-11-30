@@ -6478,7 +6478,7 @@
     "components": [
       [ [ "meat_red", 1, "LIST" ], [ "dry_meat", 1 ], [ "can_chicken", 1 ] ],
       [ [ "frybread", 3 ] ],
-      [ [ "can_beans", 2 ], ["beans_cooked", 2] ],
+      [ [ "can_beans", 2 ], [ "beans_cooked", 2 ] ],
       [ [ "lettuce", 1 ], [ "irradiated_lettuce", 1 ], [ "cabbage", 1 ] ]
     ]
   },
