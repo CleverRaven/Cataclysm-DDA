@@ -72,7 +72,12 @@
     "id": "NC_VALHALLIST",
     "name": { "str": "Valhallist" },
     "job_description": "I worship the Norse gods.",
-    "traits": [ { "group": "BG_survival_story_RURAL" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" }, { "trait": "RETURN_TO_START_POS" } ],
+    "traits": [
+      { "group": "BG_survival_story_RURAL" },
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
     "bonus_str": { "rng": [ 2, 5 ] },
     "weapon_override": "valhallist_weapons",
     "worn_override": "valhallist_worn",
