@@ -1243,6 +1243,21 @@
     "to_hit": -2
   },
   {
+    "type": "GENERIC",
+    "id": "butternut",
+    "category": "food",
+    "symbol": "%",
+    "color": "yellow",
+    "name": { "str_sp": "butternuts" },
+    "description": "A handful of nuts from a butternut tree, still in their shell.",
+    "//spoils_in": "180 days",
+    "price": 0,
+    "price_postapoc": 0,
+    "weight": "240 g",
+    "volume": "250 ml",
+    "to_hit": -2
+  },
+  {
     "type": "COMESTIBLE",
     "id": "water_sewage",
     "name": { "str_sp": "sewage water" },
