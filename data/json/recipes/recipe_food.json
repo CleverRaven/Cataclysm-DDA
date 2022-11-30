@@ -3280,10 +3280,10 @@
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
-    "components": [ 
-      [ [ "dry_wild_rice", 1 ] ], 
-      [ [ "dry_beans", 1 ], [ "can_beans", 1 ] ], 
-      [ [ "corn_kernels", 1 ], ["can_corn", 1 ] ],
+    "components": [
+      [ [ "dry_wild_rice", 1 ] ],
+      [ [ "dry_beans", 1 ], [ "can_beans", 1 ] ],
+      [ [ "corn_kernels", 1 ], [ "can_corn", 1 ] ],
       [ [ "pumpkin", 1 ] ],
       [ [ "cooking_oil", 1 ] ], 
       [ [ "broth", 2 ] ] 
