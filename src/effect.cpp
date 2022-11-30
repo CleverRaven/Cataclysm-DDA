@@ -1492,6 +1492,7 @@ void load_effect_type( const JsonObject &jo )
     for( auto &&f : jo.get_string_array( "resist_effects" ) ) { // *NOPAD*
         new_etype.resist_effects.emplace_back( f );
     }
+    optional( jo, false, "immune_flags", new_etype.immune_flags );
     for( auto &&f : jo.get_string_array( "removes_effects" ) ) { // *NOPAD*
         new_etype.removes_effects.emplace_back( f );
     }

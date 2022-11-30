@@ -262,6 +262,11 @@
   },
   {
     "type": "item_action",
+    "id": "AFS_TRANSLOCATOR",
+    "name": { "str": "Create a buoy" }
+  },
+  {
+    "type": "item_action",
     "id": "ALCOHOL",
     "name": { "str": "Drink" }
   },

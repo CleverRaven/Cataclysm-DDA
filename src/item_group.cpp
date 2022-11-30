@@ -123,9 +123,12 @@ static void put_into_container(
     item ctr( *container_type, birthday );
     Item_spawn_data::ItemList excess;
     for( auto it = items.end() - num_items; it != items.end(); ++it ) {
-        if( ctr.can_contain( *it ).success() ) {
+        if( ctr.can_contain_directly( *it ).success() ) {
             const item_pocket::pocket_type pk_type = guess_pocket_for( ctr, *it );
             ctr.put_in( *it, pk_type );
+        } else if( ctr.is_corpse() ) {
+            const item_pocket::pocket_type pk_type = guess_pocket_for( ctr, *it );
+            ctr.force_insert_item( *it, pk_type );
         } else {
             switch( on_overflow ) {
                 case Item_spawn_data::overflow_behaviour::none:

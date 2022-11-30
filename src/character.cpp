@@ -126,6 +126,7 @@
 
 struct dealt_projectile_attack;
 
+static const activity_id ACT_ADV_INVENTORY( "ACT_ADV_INVENTORY" );
 static const activity_id ACT_AUTODRIVE( "ACT_AUTODRIVE" );
 static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
 static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
@@ -176,6 +177,7 @@ static const bionic_id bio_voice( "bio_voice" );
 static const character_modifier_id character_modifier_aim_speed_dex_mod( "aim_speed_dex_mod" );
 static const character_modifier_id character_modifier_aim_speed_mod( "aim_speed_mod" );
 static const character_modifier_id character_modifier_aim_speed_skill_mod( "aim_speed_skill_mod" );
+static const character_modifier_id character_modifier_bleed_staunch_mod( "bleed_staunch_mod" );
 static const character_modifier_id
 character_modifier_crawl_speed_movecost_mod( "crawl_speed_movecost_mod" );
 static const character_modifier_id character_modifier_limb_fall_mod( "limb_fall_mod" );
@@ -372,7 +374,6 @@ static const scenttype_id scent_sc_human( "sc_human" );
 static const skill_id skill_archery( "archery" );
 static const skill_id skill_dodge( "dodge" );
 static const skill_id skill_driving( "driving" );
-static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_melee( "melee" );
 static const skill_id skill_pistol( "pistol" );
 static const skill_id skill_speech( "speech" );
@@ -548,6 +549,7 @@ Character::Character() :
     pkill = 0;
     // 55 Mcal or 55k kcal
     healthy_calories = 55'000'000;
+    base_cardio_acc = 1000;
     // this makes sure characters start with normal bmi
     stored_calories = healthy_calories - 1'000'000;
     initialize_stomach_contents();
@@ -2652,7 +2654,10 @@ int Character::get_standard_stamina_cost( const item *thrown_item ) const
     // for each strike, regardless of weight. This is compensated
     // for by the additional move cost as weapon weight increases
     //If the item is thrown, override with the thrown item instead.
-    const int weight_cost = ( thrown_item == nullptr ) ? weapon.weight() /
+
+    item current_weapon = used_weapon() ? *used_weapon() : null_item_reference();
+
+    const int weight_cost = ( thrown_item == nullptr ) ? current_weapon.weight() /
                             16_gram : thrown_item->weight() / 16_gram;
     return ( weight_cost + 50 ) * -1 * get_modifier( character_modifier_melee_stamina_cost_mod );
 }
@@ -3031,9 +3036,13 @@ std::vector<std::pair<std::string, std::string>> Character::get_overlay_ids() co
     return rval;
 }
 
-const SkillLevelMap &Character::get_all_skills() const
+SkillLevelMap Character::get_all_skills() const
 {
-    return *_skills;
+    SkillLevelMap skills = *_skills;
+    for( std::pair<const skill_id, SkillLevel> &sk : skills ) {
+        sk.second.level( std::round( enchantment_cache->modify_value( sk.first, sk.second.level() ) ) );
+    }
+    return skills;
 }
 
 const SkillLevel &Character::get_skill_level_object( const skill_id &ident ) const
@@ -3048,12 +3057,13 @@ SkillLevel &Character::get_skill_level_object( const skill_id &ident )
 
 int Character::get_skill_level( const skill_id &ident ) const
 {
-    return _skills->get_skill_level( ident );
+    return std::round( enchantment_cache->modify_value( ident, _skills->get_skill_level( ident ) ) );
 }
 
 int Character::get_skill_level( const skill_id &ident, const item &context ) const
 {
-    return _skills->get_skill_level( ident, context );
+    return std::round( enchantment_cache->modify_value( ident, _skills->get_skill_level( ident,
+                       context ) ) );
 }
 
 int Character::get_knowledge_level( const skill_id &ident ) const
@@ -3159,15 +3169,6 @@ bool Character::meets_requirements( const item &it, const item &context ) const
 void Character::make_bleed( const effect_source &source, const bodypart_id &bp,
                             time_duration duration, int intensity, bool permanent, bool force, bool defferred )
 {
-    int b_resist = 0;
-    for( const trait_id &mut : get_mutations() ) {
-        b_resist += mut.obj().bleed_resist;
-    }
-
-    if( b_resist > intensity ) {
-        return;
-    }
-
     add_effect( source, effect_bleed, duration, bp, permanent, intensity, force, defferred );
 }
 
@@ -4997,16 +4998,18 @@ void Character::get_sick()
     // Health is in the range [-200,200].
     // Diseases are half as common for every 50 health you gain.
     float health_factor = std::pow( 2.0f, get_lifestyle() / 50.0f );
+    float env_factor = 1.0f + std::pow( 0.3f, get_env_resist( body_part_mouth ) / 2 );
 
-    int disease_rarity = static_cast<int>( checks_per_year * health_factor / base_diseases_per_year );
+    int disease_rarity = static_cast<int>( checks_per_year * health_factor * env_factor /
+                                           base_diseases_per_year );
     add_msg_debug( debugmode::DF_CHAR_HEALTH, "disease_rarity = %d", disease_rarity );
     if( one_in( disease_rarity ) ) {
         if( one_in( 6 ) ) {
             // The flu typically lasts 3-10 days.
-            add_env_effect( effect_flu, body_part_mouth, 3, rng( 3_days, 10_days ) );
+            add_effect( effect_flu, rng( 3_days, 10_days ) );
         } else {
             // A cold typically lasts 1-14 days.
-            add_env_effect( effect_common_cold, body_part_mouth, 3, rng( 1_days, 14_days ) );
+            add_effect( effect_common_cold, rng( 1_days, 14_days ) );
         }
     }
 }
@@ -5389,7 +5392,11 @@ bool Character::is_immune_effect( const efftype_id &eff ) const
         return is_immune_damage( damage_type::ACID ) || has_trait( trait_SLIMY ) ||
                has_trait( trait_VISCOUS );
     }
-
+    for( const json_character_flag &flag : eff->immune_flags ) {
+        if( has_flag( flag ) ) {
+            return true;
+        }
+    }
     return false;
 }
 
@@ -6292,8 +6299,8 @@ int Character::get_stamina_max() const
     static const std::string player_max_stamina( "PLAYER_MAX_STAMINA_BASE" );
     static const std::string player_cardiofit_stamina_scale( "PLAYER_CARDIOFIT_STAMINA_SCALING" );
 
-    // Cardiofit stamina mod defaults to 3, and get_cardiofit() should return a value in the vicinity
-    // of 1000-4000, so this should add somewhere between 3000 to 12000 stamina.
+    // Cardiofit stamina mod defaults to 5, and get_cardiofit() should return a value in the vicinity
+    // of 1000-3000, so this should add somewhere between 3000 to 15000 stamina.
     int max_stamina = get_option<int>( player_max_stamina ) +
                       get_option<int>( player_cardiofit_stamina_scale ) * get_cardiofit();
     max_stamina = enchantment_cache->modify_value( enchant_vals::mod::MAX_STAMINA, max_stamina );
@@ -6385,7 +6392,7 @@ void Character::update_stamina( int turns )
     // Your stamina regen rate works as a function of how fit you are compared to your body size.
     // This allows it to scale more quickly than your stamina, so that at higher fitness levels you
     // recover stamina faster.
-    const float effective_regen_rate = base_regen_rate * get_cardiofit() / base_bmr();
+    const float effective_regen_rate = base_regen_rate * get_cardiofit() / get_cardio_acc_base();
     const int current_stim = get_stim();
     // Mutations can affect stamina regen via stamina_regen_modifier (0.0 is normal)
     // Values above or below normal will increase or decrease stamina regen
@@ -6446,36 +6453,32 @@ int Character::get_cardiofit() const
 {
     if( is_npc() ) {
         // No point in doing a bunch of checks on NPCs for now since they can't use cardio.
-        return 2 * base_bmr();
+        return 2 * get_cardio_acc_base();
     }
-    const int bmr = base_bmr();
-    const int athletics_mod = get_skill_level( skill_swimming ) * 10;
-    const int health_effect = get_lifestyle();
 
-    // FIXME: Delete this untruth
-    // Traits now exclusively affect cardio, NOT max_stamina directly. In the future, make
-    // cardio_acc also be affected by cardio traits so that they don't become less impactful.
-    //const int trait_mod = 0;
+    const int cardio_base = get_cardio_acc();
 
+    // Mut mod contains the base 1.0f for all modifiers
+    const float mut_mod = mutation_value( "cardio_multiplier" );
+    // 1 point of athletics skill = 1% more cardio, up to 10% cardio
+    const float athletics_mod = get_skill_level( skill_swimming ) / 100.0f;
     // At some point we might have proficiencies that affect this.
-    const int prof_mod = 0;
-    const int cardio_acc_mod = get_cardio_acc();
+    const float prof_mod = 0.0f;
+    // 10 points of health = 1% cardio, up to 20% cardio
+    float health_mod = get_lifestyle() / 1000.0f;
 
-    // Base formula for cardio fitness
-    int base_cardio_fitness = bmr / 2 + athletics_mod + health_effect + prof_mod + cardio_acc_mod;
+    // Negative effects of health are doubled, up to 40% cardio
+    if( health_mod < 0.0f ) {
+        health_mod *= 2.0f;
+    }
 
-    // Apply trait modifier as a scaling factor to total cardio
-    // FIXME: Do this additively as a trait_mod using the original formula, somehow
-    const float scale = mutation_value( "cardio_multiplier" );
-    const float scaled_fitness = base_cardio_fitness * scale;
+    // Add up all of our cardio mods.
+    float cardio_modifier = mut_mod + athletics_mod + prof_mod + health_mod;
 
-    // Set a large sane upper limit to cardio fitness. This could be done asymptotically instead of
-    // as a sharp cutoff, but the gradual growth rate of cardio_acc_mod should accomplish that
-    // naturally. The BMR will mostly determine this as it is based on the size of the character,
-    // but mutations might push it up.
-    int final_cardio_fitness = static_cast<int>( std::min( scaled_fitness, 3 * bmr * scale ) );
+    // Modify cardio accumulator by our cardio mods.
+    const int cardio_fitness = static_cast<int>( cardio_base * cardio_modifier );
 
-    return final_cardio_fitness;
+    return cardio_fitness;
 }
 
 int Character::get_cardio_acc() const
@@ -6490,7 +6493,12 @@ void Character::set_cardio_acc( int ncardio_acc )
 
 void Character::reset_cardio_acc()
 {
-    set_cardio_acc( base_bmr() / 2 );
+    set_cardio_acc( get_cardio_acc_base() );
+}
+
+int Character::get_cardio_acc_base() const
+{
+    return base_cardio_acc;
 }
 
 bool Character::invoke_item( item *used )
@@ -7798,6 +7806,16 @@ bool Character::crossed_threshold() const
     return false;
 }
 
+mutation_category_id Character::get_threshold_category() const
+{
+    for( const trait_id &mut : get_mutations() ) {
+        if( mut->threshold && !mut->category.empty() ) {
+            return mut->category[0];
+        }
+    }
+    return mutation_category_id::NULL_ID();
+}
+
 void Character::update_type_of_scent( bool init )
 {
     scenttype_id new_scent = scent_sc_human;
@@ -8193,13 +8211,19 @@ void Character::cancel_activity()
         stop_hauling();
     }
     // Clear any backlog items that aren't auto-resume.
+    // but keep only one instance of ACT_ADV_INVENTORY
+    // FIXME: this is required by the legacy code in advanced_inventory::move_all_items()
+    bool has_adv_inv = has_activity( ACT_ADV_INVENTORY );
     for( auto backlog_item = backlog.begin(); backlog_item != backlog.end(); ) {
-        if( backlog_item->auto_resume ) {
+        if( backlog_item->auto_resume &&
+            ( !has_adv_inv || backlog_item->id() != ACT_ADV_INVENTORY ) ) {
             backlog_item++;
+            has_adv_inv |= backlog_item->id() == ACT_ADV_INVENTORY;
         } else {
             backlog_item = backlog.erase( backlog_item );
         }
     }
+
     // act wait stamina interrupts an ongoing activity.
     // and automatically puts auto_resume = true on it
     // we don't want that to persist if there is another interruption.
@@ -11642,53 +11666,76 @@ void Character::pause()
         try_remove_grab();
     }
 
-    // put pressure on bleeding wound, prioritizing most severe bleeding
+    // put pressure on bleeding wound, prioritizing most severe bleeding that you can compress
     if( !is_armed() && has_effect( effect_bleed ) ) {
-        int most = 0;
-        bodypart_id bp_id;
-        for( const bodypart_id &bp : get_all_body_parts() ) {
-            if( most <= get_effect_int( effect_bleed, bp ) ) {
-                most = get_effect_int( effect_bleed, bp );
-                bp_id =  bp ;
-            }
-        }
-        effect &e = get_effect( effect_bleed, bp_id );
-        int total_hand_encumb = 0;
-        for( const bodypart_id &part : get_all_body_parts_of_type( body_part_type::type::hand ) ) {
-            total_hand_encumb += encumb( part );
-        }
-        // proficiency bonus is equal to having extra levels of firstaid skill (up to +3)
-        int prof_bonus = get_skill_level( skill_firstaid );
-        prof_bonus = has_proficiency( proficiency_prof_wound_care ) ? prof_bonus + 1 : prof_bonus;
-        prof_bonus = has_proficiency( proficiency_prof_wound_care_expert ) ? prof_bonus + 2 : prof_bonus;
-        time_duration penalty = 1_turns * total_hand_encumb;
-        time_duration benefit = 5_turns + 10_turns * prof_bonus;
+        // Calculate max staunchable bleed level
+        // Top out at 20 intensity for base, unencumbered survivors
+        int max = 20;
+        max *= get_modifier( character_modifier_bleed_staunch_mod );
+        add_msg_debug( debugmode::DF_CHARACTER, "Staunch limit after limb score modifier %d", max );
 
-        bool broken_arm = false;
-        for( const bodypart_id &part : get_all_body_parts_of_type( body_part_type::type::arm ) ) {
-            if( is_limb_broken( part ) ) {
-                broken_arm = true;
-                break;
+        // +5 bonus if you know your first aid
+        if( has_proficiency( proficiency_prof_wound_care ) ||
+            has_proficiency( proficiency_prof_wound_care_expert ) ) {
+            max += 5;
+            add_msg_debug( debugmode::DF_CHARACTER, "Wound care proficiency found, new limit %d", max );
+        }
+
+        int num_broken_arms = get_num_broken_body_parts_of_type( body_part_type::type::arm );
+        int num_arms = get_num_body_parts_of_type( body_part_type::type::arm );
+
+        // Don't warn about encumbrance if your arms are broken
+        if( num_broken_arms ) {
+            // Handle multiple arms
+            max *= ( 1.0f - num_broken_arms / static_cast<float>( num_arms ) );
+            add_msg_debug( debugmode::DF_CHARACTER, "%d out of %d arms broken, staunch limit %d",
+                           num_broken_arms, num_arms, max );
+            add_msg_player_or_npc( m_warning,
+                                   _( "Your broken limb significantly hampers your efforts to put pressure on a bleeding wound!" ),
+                                   _( "<npcname>'s broken limb significantly hampers their effort to put pressure on a bleeding wound!" ) );
+        } else if( max < 10 ) {
+            add_msg_player_or_npc( m_warning,
+                                   _( "Your hands are too encumbered to effectively put pressure on a bleeding wound!" ),
+                                   _( "<npcname>'s hands are too encumbered to effectively put pressure on a bleeding wound!" ) );
+        }
+
+        int most = 0;
+        int intensity = 0;
+        bodypart_id bp_id = bodypart_str_id::NULL_ID();
+        for( const bodypart_id &bp : get_all_body_parts() ) {
+            intensity = get_effect_int( effect_bleed, bp );
+            // Staunching a bleeding on one of your arms is hard (handle multiple arms)
+            if( bp->has_type( body_part_type::type::arm ) ) {
+                intensity /= ( 1.0f - 1.0f / num_arms );
+            }
+            // Tourniquets make staunching easier, letting you treat arterial bleeds on your legs
+            if( worn_with_flag( flag_TOURNIQUET, bp ) ) {
+                intensity /= 2;
+            }
+            if( most < get_effect_int( effect_bleed, bp ) && intensity <= max ) {
+                // Don't use intensity here, we might have increased it for the arm penalty
+                most = get_effect_int( effect_bleed, bp );
+                bp_id = bp;
             }
         }
-        if( broken_arm ) {
+        add_msg_debug( debugmode::DF_CHARACTER,
+                       "Selected %s to staunch (base intensity %d, modified intensity %d)", bp_id->name, intensity, most );
+
+        // 5 - 30 sec per turn (with standard hands)
+        time_duration benefit = 5_turns + 1_turns * max;
+
+        if( bp_id == bodypart_str_id::NULL_ID() ) {
+            // We're bleeding, but couldn't find any bp we can staunch
             add_msg_player_or_npc( m_warning,
-                                   _( "Your broken limb significantly hampers your efforts to put pressure on the bleeding wound!" ),
-                                   _( "<npcname>'s broken limb significantly hampers their effort to put pressure on the bleeding wound!" ) );
-            e.mod_duration( -1_turns );
-        } else if( benefit <= penalty ) {
-            add_msg_player_or_npc( m_warning,
-                                   _( "Your hands are too encumbered to effectively put pressure on the bleeding wound!" ),
-                                   _( "<npcname>'s hands are too encumbered to effectively put pressure on the bleeding wound!" ) );
-            e.mod_duration( -1_turns );
+                                   _( "Your bleeding is beyond staunching barehanded!  A tourniquet might help." ),
+                                   _( "<npcname>'s bleeding is beyond staunching barehanded!" ) );
         } else {
-            e.mod_duration( - ( benefit - penalty ) );
+            effect &e = get_effect( effect_bleed, bp_id );
+            e.mod_duration( - benefit );
             add_msg_player_or_npc( m_warning,
                                    _( "You put pressure on the bleeding wound…" ),
                                    _( "<npcname> puts pressure on the bleeding wound…" ) );
-            practice( skill_firstaid, 1 );
             practice_proficiency( proficiency_prof_wound_care, 1_turns );
-            practice_proficiency( proficiency_prof_wound_care_expert, 1_turns );
         }
     }
     // on-pause effects for martial arts

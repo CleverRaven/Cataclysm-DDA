@@ -153,7 +153,7 @@
     "type": "TOOL",
     "copy-from": "fake_item",
     "ammo": [ "battery" ],
-    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ],
+    "extend": { "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ] },
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "default_magazine": "pseudo_battery" } ]
   },
   {
