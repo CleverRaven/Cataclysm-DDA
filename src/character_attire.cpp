@@ -27,14 +27,14 @@ static const itype_id itype_shoulder_strap( "shoulder_strap" );
 
 static const material_id material_wool( "wool" );
 
+static const sub_bodypart_str_id sub_body_part_foot_sole_l( "foot_sole_l" );
+static const sub_bodypart_str_id sub_body_part_foot_sole_r( "foot_sole_r" );
+
 static const trait_id trait_ANTENNAE( "ANTENNAE" );
 static const trait_id trait_ANTLERS( "ANTLERS" );
 static const trait_id trait_HORNS_POINTED( "HORNS_POINTED" );
 static const trait_id trait_SQUEAMISH( "SQUEAMISH" );
 static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
-
-static const sub_bodypart_str_id sub_body_part_foot_sole_l( "foot_sole_l" );
-static const sub_bodypart_str_id sub_body_part_foot_sole_r( "foot_sole_r" );
 
 nc_color item_penalties::color_for_stacking_badness() const
 {
