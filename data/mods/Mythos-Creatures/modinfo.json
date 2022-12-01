@@ -2,7 +2,7 @@
   {
     "type": "MOD_INFO",
     "id": "Mythos-Creatures",
-    "name": "[WIP] Mythos Mod - Mythos Creatures Only",
+    "name": "Mythos Mod - Mythos Creatures Only",
     "authors": [ "mythosmod" ],
     "description": "Removes all the zombies (including fungus zombies), cyborgs and robots from the game and replaces them with a variety of Lovecraftian monsters - intended to be part of a total conversion mod but can be used as a standalone if wanted.",
     "category": "creatures",
