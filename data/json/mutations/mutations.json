@@ -1644,7 +1644,20 @@
     "types": [ "SCENT" ],
     "changes_to": [ "SMELLY2" ],
     "scent_intensity": 800,
-    "category": [ "FELINE", "LUPINE", "MOUSE", "BEAST", "SLIME", "CHIMERA", "URSINE", "BATRACHIAN", "FISH", "INSECT", "CATTLE", "CALLIPHORID" ]
+    "category": [
+      "FELINE",
+      "LUPINE",
+      "MOUSE",
+      "BEAST",
+      "SLIME",
+      "CHIMERA",
+      "URSINE",
+      "BATRACHIAN",
+      "FISH",
+      "INSECT",
+      "CATTLE",
+      "CALLIPHORID"
+    ]
   },
   {
     "type": "mutation",
