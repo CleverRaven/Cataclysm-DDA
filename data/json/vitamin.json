@@ -66,6 +66,7 @@
       [ "mutagen_mouse", 1 ],
       [ "mutagen_rat", 1 ],
       [ "mutagen_troglobite", 1 ],
+      [ "mutagen_calliphorid", 1 ],
       [ "instability", 1 ],
       [ "mutant_toxin", 2 ]
     ]
