@@ -28,7 +28,7 @@
   {
     "id": "plastic_jack_o_lantern_lit",
     "type": "TOOL",
-    "name": { "str": "spooky plastic jack o'lantern", "str_pl": "spooky plastic jack o'lanterns" },
+    "name": { "str": "spooky plastic jack o'lantern" },
     "description": "A plastic lantern that is painted to look like a pumpkin with a face.  It has a thick LED candle inside which is currently on, to delightfully spooky effect.  It doesn't provide very much light, but it can stay lit for a very long time.",
     "weight": "113 g",
     "volume": "3964 ml",
