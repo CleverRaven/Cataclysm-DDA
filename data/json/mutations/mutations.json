@@ -1795,7 +1795,7 @@
     "vomit_multiplier": 2,
     "types": [ "CONSTITUTION" ],
     "changes_to": [ "NAUSEA" ],
-    "category": [ "ALPHA", "SLIME", "RAT", "MEDICAL", "ELFA", "BATRACHIAN", "TROGLOBITE", "RAPTOR", "CHIMERA", "GASTROPOD" ]
+    "category": [ "ALPHA", "SLIME", "RAT", "MEDICAL", "ELFA", "BATRACHIAN", "TROGLOBITE", "RAPTOR", "CHIMERA", "GASTROPOD", "WEAKSTOMACH" ]
   },
   {
     "type": "mutation",
@@ -5931,7 +5931,7 @@
     "types": [ "CONSTITUTION" ],
     "prereqs": [ "WEAKSTOMACH" ],
     "changes_to": [ "VOMITOUS" ],
-    "category": [ "ALPHA", "SLIME", "RAT", "MEDICAL", "ELFA", "BATRACHIAN", "TROGLOBITE", "RAPTOR", "CHIMERA", "GASTROPOD" ],
+    "category": [ "ALPHA", "SLIME", "RAT", "MEDICAL", "ELFA", "BATRACHIAN", "TROGLOBITE", "RAPTOR", "CHIMERA", "GASTROPOD", "CALLIPHORID" ],
     "active": true
   },
   {
@@ -5944,7 +5944,7 @@
     "types": [ "CONSTITUTION" ],
     "prereqs": [ "NAUSEA" ],
     "changes_to": [ "EATPOISON" ],
-    "category": [ "ALPHA", "SLIME", "RAT", "MEDICAL", "ELFA", "BATRACHIAN", "TROGLOBITE", "RAPTOR", "CHIMERA", "GASTROPOD" ],
+    "category": [ "ALPHA", "SLIME", "RAT", "MEDICAL", "ELFA", "BATRACHIAN", "TROGLOBITE", "RAPTOR", "CHIMERA", "GASTROPOD", "CALLIPHORID" ],
     "active": true
   },
   {
