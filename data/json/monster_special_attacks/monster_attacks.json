@@ -418,7 +418,7 @@
     "hitsize_min": 4,
     "attack_upper": false,
     "damage_max_instance": [ { "damage_type": "bash", "amount": 10 } ],
-    "effects_require_dmg": true,
+    "effects_require_dmg": false,
     "hit_dmg_u": "%1$s kicks your %2$s and slams you to the ground!",
     "hit_dmg_npc": "%1$s kicks <npcname> and slams them to the ground!",
     "no_dmg_msg_u": "%1$s tries to kick %2$s and knock you down, but your armor protects you!",
