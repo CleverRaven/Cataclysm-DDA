@@ -140,6 +140,7 @@ Note that **all new traits that can be obtained through mutation must be purifia
   ],
   "craft_skill_bonus": [ [ "electronics", -2 ], [ "tailor", -2 ], [ "mechanics", -2 ] ], // Skill affected by the mutation and their bonuses.  Bonuses can be negative, a bonus of 4 is worth 1 full skill level.
   "restricts_gear": [ "torso" ],              // List of bodyparts that get restricted by this mutation.
+  "remove_rigid": [ "torso" ],                // List of bodyparts that any rigid armor will be removed from on mutation. Any integrated armor items are considered directly
   "allow_soft_gear": true,                    // If there is a list of 'restricts_gear', this sets if the location still allows items made out of soft materials (only one of the types need to be soft for it to be considered soft) (default: false).
   "destroys_gear": true,                      // If true, destroys the gear in the 'restricts_gear' location when mutated into (default: false).
   "encumbrance_always": [                     // Adds this much encumbrance to selected body parts.
