@@ -304,7 +304,7 @@
     "flags": [ "FIRE", "LIGHT_310", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID", "WATER_EXTINGUISH" ]
   },
   {
-    "id": "flu_shot",
+    "id": "flu_shot_fun",
     "copy-from": "flu_shot",
     "type": "COMESTIBLE",
     "comestible_type": "MED",

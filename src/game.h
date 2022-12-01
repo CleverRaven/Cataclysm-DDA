@@ -38,6 +38,7 @@
 
 class Character;
 class creature_tracker;
+class JsonValue;
 class item;
 class location;
 class spell_events;
@@ -204,13 +205,14 @@ class game
 
     protected:
         /** Loads dynamic data from the given directory. May throw. */
-        void load_data_from_dir( const std::string &path, const std::string &src, loading_ui &ui );
+        void load_data_from_dir( const cata_path &path, const std::string &src, loading_ui &ui );
     public:
         void setup();
         /** Saving and loading functions. */
         void serialize( std::ostream &fout ); // for save
-        void unserialize( std::istream &fin, const std::string &path ); // for load
-        void unserialize_master( std::istream &fin ); // for load
+        void unserialize( std::istream &fin, const cata_path &path ); // for load
+        void unserialize_master( const cata_path &file_name, std::istream &fin ); // for load
+        void unserialize_master( const JsonValue &jv ); // for load
 
         /** write statistics to stdout and @return true if successful */
         bool dump_stats( const std::string &what, dump_mode mode, const std::vector<std::string> &opts );
@@ -583,6 +585,16 @@ class game
         bool is_zones_manager_open() const;
         void zones_manager();
 
+        /// @brief attempt to find a safe route (avoids tiles dangerous to '@ref who').
+        /// @param who character to use for evaluating danger tiles and pathfinding start position
+        /// @param target pathfinding destination tile
+        /// @param threshold distance in tiles from target that is considered "arrived" at destination
+        /// @param report when pathfinding fails triggers this function with a translated error string as parameter
+        /// @return safe route if one was found, or cata::nullopt
+        cata::optional<std::vector<tripoint_bub_ms>> safe_route_to( Character &who,
+                const tripoint_bub_ms &target, int threshold,
+                const std::function<void( const std::string &msg )> &report ) const;
+
         // Look at nearby terrain ';', or select zone points
         cata::optional<tripoint> look_around();
         /**
@@ -793,7 +805,7 @@ class game
         bool load( const save_t &name ); // Load a player-specific save file
         void load_master(); // Load the master data file, with factions &c
 #if defined(__ANDROID__)
-        void load_shortcuts( std::istream &fin, const std::string &path );
+        void load_shortcuts( const cata_path &path );
 #endif
         bool start_game(); // Starts a new game in the active world
 
@@ -859,7 +871,7 @@ class game
         void reload_wielded( bool prompt = false );
         void reload_weapon( bool try_everything = true ); // Reload a wielded gun/tool  'r'
         // Places the player at the specified point; hurts feet, lists items etc.
-        point place_player( const tripoint &dest );
+        point place_player( const tripoint &dest, bool quick = false );
         void place_player_overmap( const tripoint_abs_omt &om_dest, bool move_player = true );
 
         unsigned int get_seed() const;

@@ -130,12 +130,12 @@ static const itype_id itype_oxygen_tank( "oxygen_tank" );
 static const itype_id itype_smoxygen_tank( "smoxygen_tank" );
 static const itype_id itype_thorazine( "thorazine" );
 
-static const material_id material_alcohol( "alcohol" );
-static const material_id material_battery( "battery" );
-
 static const npc_class_id NC_EVAC_SHOPKEEP( "NC_EVAC_SHOPKEEP" );
 
 static const skill_id skill_firstaid( "firstaid" );
+
+static const trait_id trait_IGNORE_SOUND( "IGNORE_SOUND" );
+static const trait_id trait_RETURN_TO_START_POS( "RETURN_TO_START_POS" );
 
 static const zone_type_id zone_type_NO_NPC_PICKUP( "NO_NPC_PICKUP" );
 static const zone_type_id zone_type_NPC_RETREAT( "NPC_RETREAT" );
@@ -724,6 +724,11 @@ void npc::regen_ai_cache()
     map &here = get_map();
     auto i = std::begin( ai_cache.sound_alerts );
     creature_tracker &creatures = get_creature_tracker();
+    if( has_trait( trait_RETURN_TO_START_POS ) ) {
+        if( !ai_cache.guard_pos ) {
+            ai_cache.guard_pos = here.getabs( pos() );
+        }
+    }
     while( i != std::end( ai_cache.sound_alerts ) ) {
         if( sees( here.getlocal( i->abs_pos ) ) ) {
             // if they were responding to a call for guards because of thievery
@@ -879,7 +884,12 @@ void npc::move()
                 ai_cache.sound_alerts.resize( 10 );
             }
         }
-        action = npc_investigate_sound;
+        if( has_trait( trait_IGNORE_SOUND ) ) { //Do not investigate sounds - clear sound alerts as below
+            ai_cache.sound_alerts.clear();
+            action = npc_return_to_guard_pos;
+        } else {
+            action = npc_investigate_sound;
+        }
         if( ai_cache.sound_alerts.front().abs_pos != cur_s_abs_pos ) {
             ai_cache.stuck = 0;
             ai_cache.s_abs_pos = ai_cache.sound_alerts.front().abs_pos;
@@ -1689,19 +1699,6 @@ bool npc::can_use_offensive_cbm() const
     return get_power_level() > get_max_power_level() * allowed_ratio;
 }
 
-bool npc::consume_cbm_items( const std::function<bool( const item & )> &filter )
-{
-    std::vector<item *> filtered_items = items_with( filter );
-    if( filtered_items.empty() ) {
-        return false;
-    }
-
-    item_location loc = item_location( *this, filtered_items.front() );
-    const time_duration &consume_time = get_consume_time( *loc );
-    moves -= to_moves<int>( consume_time );
-    return consume( loc, /*force=*/false, /*refuel=*/true ) != trinary::NONE;
-}
-
 bool npc::recharge_cbm()
 {
     // non-allied NPCs don't consume resources to recharge
@@ -1715,32 +1712,9 @@ bool npc::recharge_cbm()
             continue;
         }
 
-        if( !get_fuel_available( bid ).empty() ) {
+        if( !get_bionic_fuels( bid ).empty() ) {
             use_bionic_by_id( bid );
             return true;
-        } else {
-            const std::function<bool( const item & )> fuel_filter = [bid]( const item & it ) {
-                if( bid->fuel_opts.empty() ) {
-                    return false;
-                }
-                return ( it.get_base_material().id == bid->fuel_opts.front() ) || ( it.is_magazine() &&
-                        item( it.ammo_current() ).get_base_material().id == bid->fuel_opts.front() );
-            };
-
-            if( consume_cbm_items( fuel_filter ) ) {
-                use_bionic_by_id( bid );
-                return true;
-            } else {
-                const std::vector<material_id> fuel_op = bid->fuel_opts;
-
-                if( std::find( fuel_op.begin(), fuel_op.end(), material_battery ) != fuel_op.end() ) {
-                    complain_about( "need_batteries", 3_hours, chatbin.snip_need_batteries, false );
-                } else if( std::find( fuel_op.begin(), fuel_op.end(), material_alcohol ) != fuel_op.end() ) {
-                    complain_about( "need_booze", 3_hours, chatbin.snip_need_booze, false );
-                } else {
-                    complain_about( "need_fuel", 3_hours, chatbin.snip_need_fuel, false );
-                }
-            }
         }
     }
 
@@ -2458,7 +2432,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         }
     } else if( !no_bashing && smash_ability() > 0 && here.is_bashable( p ) &&
                here.bash_rating( smash_ability(), p ) > 0 ) {
-        moves -= !is_armed() ? 80 : get_wielded_item()->attack_time() * 0.8;
+        moves -= !is_armed() ? 80 : get_wielded_item()->attack_time( *this ) * 0.8;
         here.bash( p, smash_ability() );
     } else {
         if( attitude == NPCATT_MUG ||
@@ -4058,8 +4032,10 @@ void npc::mug_player( Character &mark )
     }
     double best_value = minimum_item_value() * value_mod;
     item *to_steal = nullptr;
-    const auto inv_valuables = mark.items_with( [this]( const item & itm ) {
-        return value( itm ) > 0;
+    std::vector<const item *> pseudo_items = mark.get_pseudo_items();
+    const auto inv_valuables = mark.items_with( [this, pseudo_items]( const item & itm ) {
+        return std::find( pseudo_items.begin(), pseudo_items.end(), &itm ) == pseudo_items.end() &&
+               value( itm ) > 0;
     } );
     for( item *it : inv_valuables ) {
         item &front_stack = *it; // is this safe?

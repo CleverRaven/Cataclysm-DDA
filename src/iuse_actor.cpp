@@ -51,6 +51,7 @@
 #include "item_pocket.h"
 #include "itype.h"
 #include "json.h"
+#include "json_loader.h"
 #include "line.h"
 #include "magic.h"
 #include "map.h"
@@ -206,6 +207,8 @@ void iuse_transform::load( const JsonObject &obj )
     obj.read( "need_worn", need_worn );
     obj.read( "need_wielding", need_wielding );
 
+    obj.read( "need_empty", need_empty );
+
     obj.read( "qualities_needed", qualities_needed );
 
     obj.read( "menu_text", menu_text );
@@ -233,6 +236,10 @@ cata::optional<int> iuse_transform::use( Character &p, item &it, bool t, const t
     }
     if( possess && need_wielding && !p.is_wielding( it ) ) {
         p.add_msg_if_player( m_info, _( "You need to wield the %1$s before activating it." ), it.tname() );
+        return cata::nullopt;
+    }
+    if( need_empty && !it.empty() ) {
+        p.add_msg_if_player( m_info, _( "You need to empty the %1$s before activating it." ), it.tname() );
         return cata::nullopt;
     }
 
@@ -2488,7 +2495,41 @@ bool holster_actor::store( Character &you, item &holster, item &obj ) const
     return true;
 }
 
-cata::optional<int> holster_actor::use( Character &you, item &it, bool, const tripoint & ) const
+template<typename T>
+static item_location form_loc_recursive( T &loc, item &it )
+{
+    item *parent = loc.find_parent( it );
+    if( parent != nullptr ) {
+        return item_location( form_loc_recursive( loc, *parent ), &it );
+    }
+
+    return item_location( loc, &it );
+}
+
+static item_location form_loc( Character &you, const tripoint &p, item &it )
+{
+    if( you.has_item( it ) ) {
+        return form_loc_recursive( you, it );
+    }
+    map_cursor mc( p );
+    if( mc.has_item( it ) ) {
+        return form_loc_recursive( mc, it );
+    }
+    map &here = get_map();
+    const optional_vpart_position vp = here.veh_at( p );
+    if( vp ) {
+        vehicle_cursor vc( vp->vehicle(), vp->part_index() );
+        if( vc.has_item( it ) ) {
+            return form_loc_recursive( vc, it );
+        }
+    }
+
+    debugmsg( "Couldn't find item %s to form item_location, forming dummy location to ensure minimum functionality",
+              it.display_name() );
+    return item_location( you, &it );
+}
+
+cata::optional<int> holster_actor::use( Character &you, item &it, bool, const tripoint &p ) const
 {
     if( you.is_wielding( it ) ) {
         you.add_msg_if_player( _( "You need to unwield your %s before using it." ), it.tname() );
@@ -2548,8 +2589,9 @@ cata::optional<int> holster_actor::use( Character &you, item &it, bool, const tr
         if( you.as_avatar() == nullptr ) {
             return cata::nullopt;
         }
-        // may not strictly be the correct item_location, but plumbing item_location through all iuse_actor::use won't work
-        item_location item_loc( you, &it );
+
+        // iuse_actor really needs to work with item_location
+        item_location item_loc = form_loc( you, p, it );
         game_menus::inv::insert_items( *you.as_avatar(), item_loc );
     }
 
@@ -2590,12 +2632,8 @@ cata::optional<int> ammobelt_actor::use( Character &p, item &, bool, const tripo
 
     item_location loc = p.i_add( mag );
     item::reload_option opt = p.select_ammo( loc, true );
-    std::vector<item_location> targets;
     if( opt ) {
-        const int moves = opt.moves();
-        targets.push_back( loc );
-        targets.push_back( std::move( opt.ammo ) );
-        p.assign_activity( player_activity( reload_activity_actor( moves, opt.qty(), targets ) ) );
+        p.assign_activity( player_activity( reload_activity_actor( std::move( opt ) ) ) );
     } else {
         loc.remove_item();
     }
@@ -2808,37 +2846,70 @@ bool repair_item_actor::handle_components( Character &pl, const item &fix,
     return true;
 }
 
-// Find the difficulty of the recipes that result in id
+// Find the difficulty of the recipe for the item type.
 // If the recipe is not known by the player, +1 to difficulty
 // If player doesn't meet the requirements of the recipe, +1 to difficulty
 // Returns -1 if no recipe is found
-static int find_repair_difficulty( const Character &pl, const itype_id &id, bool training )
+static std::pair<int, bool> find_repair_difficulty( const Character &pl, const itype &it,
+        bool training )
 {
-    // If the recipe is not found, this will remain unchanged
     int min = -1;
-    for( const auto &e : recipe_dict ) {
-        const recipe r = e.second;
-        if( id != r.result() ) {
-            continue;
-        }
-        // If this is the first time we found a recipe
-        if( min == -1 ) {
-            min = 5;
-        }
+    const int def_diff = 5;
+    const itype_id iid = it.get_id();
+    bool found = false;
+    bool difficulty_defined = false;
 
-        int cur_difficulty = r.difficulty;
-        if( !training && !pl.knows_recipe( &r ) ) {
-            cur_difficulty++;
-        }
+    if( !it.recipes.empty() ) {
+        for( const recipe_id &rid : it.recipes ) {
+            const recipe &r = recipe_id( rid ).obj();
+            if( !r ) {
+                continue;
+            }
+            // If this is the first time we found a recipe
+            if( !found ) {
+                min = def_diff;
+                found = true;
+            }
 
-        if( !training && !pl.has_recipe_requirements( r ) ) {
-            cur_difficulty++;
-        }
+            int cur_difficulty = r.difficulty;
 
-        min = std::min( cur_difficulty, min );
+            // Recipes with difficulty 0 are not present. Difficulty is considered undefined.
+            difficulty_defined = cur_difficulty != 0 || difficulty_defined;
+
+            if( !training && !pl.knows_recipe( &r ) ) {
+                cur_difficulty++;
+            }
+
+            if( !training && !pl.has_recipe_requirements( r ) ) {
+                cur_difficulty++;
+            }
+            min = std::min( cur_difficulty, min );
+        }
     }
 
-    return min;
+    recipe uncraft_recipe = recipe_dictionary::get_uncraft( iid );
+    if( uncraft_recipe ) {
+        found = true;
+        int uncraft_difficulty = uncraft_recipe.difficulty;
+        if( difficulty_defined ) {
+            // Both craft recipe and uncraft recipe are defined, dividing by the sum
+            if( uncraft_difficulty > 0 ) {
+                min = std::max( 1, min + uncraft_difficulty ) / 2;
+            }
+        } else {
+            difficulty_defined = uncraft_difficulty != 0;
+            min = def_diff;
+        }
+    }
+
+    //Couldn't find recipe, try to find from obsolete recipes
+    if( !found ) {
+        auto obsoletes = recipe_dict.find_obsoletes( iid );
+        if( !obsoletes.empty() ) {
+            min = def_diff;
+        }
+    }
+    return { min, difficulty_defined };
 }
 
 // Returns the level of the lowest level recipe that results in item of `fix`'s type
@@ -2847,11 +2918,19 @@ static int find_repair_difficulty( const Character &pl, const itype_id &id, bool
 int repair_item_actor::repair_recipe_difficulty( const Character &pl,
         const item &fix, bool training ) const
 {
-    int diff = find_repair_difficulty( pl, fix.typeId(), training );
+    std::pair<int, bool> ret;
+    ret = find_repair_difficulty( pl, *fix.type, training );
+    int diff = ret.first;
+    bool defined = ret.second;
 
-    // If we don't find a recipe, see if there's a repairs_like that has a recipe
-    if( diff == -1 && !fix.type->repairs_like.is_empty() ) {
-        diff = find_repair_difficulty( pl, fix.type->repairs_like, training );
+    // See if there's a repairs_like that has a recipe
+    if( !defined && !fix.type->repairs_like.is_empty() ) {
+        ret = find_repair_difficulty( pl, fix.type->repairs_like.obj(), training );
+        if( ret.second ) {
+            diff = ret.first;
+        } else {
+            diff = std::min( std::max( 0, diff ), ret.first );
+        }
     }
 
     // If we still don't find a recipe, difficulty is 10
@@ -3124,7 +3203,13 @@ repair_item_actor::attempt_hint repair_item_actor::repair( Character &pl, item &
             const std::string startdurability = fix->durability_indicator( true );
             const int damage = fix->damage();
             handle_components( pl, *fix, false, false );
-            fix->mod_damage( -std::min( static_cast<int>( itype::damage_scale ), damage ) );
+
+            int dmg = fix->damage() + 1;
+            for( const int lvl = fix->damage_level(); lvl == fix->damage_level() && dmg != fix->damage(); ) {
+                dmg = fix->damage(); // break loop if clamped by degradation or no more repair needed
+                fix->mod_damage( -1 ); // scan for next damage indicator breakpoint, repairing that much damage
+            }
+
             const std::string resultdurability = fix->durability_indicator( true );
             if( damage > itype::damage_scale ) {
                 pl.add_msg_if_player( m_good, _( "You repair your %s!  ( %s-> %s)" ), fix->tname( 1, false ),
@@ -3868,7 +3953,7 @@ cata::optional<int> place_trap_actor::use( Character &p, item &it, bool, const t
     }
     const place_trap_actor::data &data = bury ? buried_data : unburied_data;
 
-    p.add_msg_if_player( m_info, data.done_message.translated(), distance_to_trap_center );
+    p.add_msg_if_player( m_info, data.done_message.translated(), here.tername( pos ) );
     p.practice( skill_traps, data.practice );
     p.practice_proficiency( proficiency_prof_traps, time_duration::from_seconds( data.practice * 30 ) );
     p.practice_proficiency( proficiency_prof_trapsetting,

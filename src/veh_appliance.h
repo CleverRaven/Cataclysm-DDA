@@ -130,6 +130,11 @@ class veh_app_interact
         */
         void remove();
         /**
+        * Function associated with the "PLUG" action.
+        * Connects the power cable to selected tile.
+        */
+        void plug();
+        /**
          * Function associated with the "UNPLUG" action.
          * Removes all power connections to other appliances and vehicles and drops
          * any used cable items on the ground.

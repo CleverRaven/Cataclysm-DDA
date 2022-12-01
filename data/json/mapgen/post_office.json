@@ -7,7 +7,7 @@
     "object": {
       "fill_ter": "t_linoleum_gray",
       "rows": [
-        " __________ssssssssssss ",
+        "/__________ssssssssssss ",
         " __________s||---+---|| ",
         " __________s|^.......Y| ",
         " p____p____s-b.......c| ",
@@ -42,6 +42,7 @@
         "Á": "t_pavement",
         "a": "t_door_locked_interior",
         " ": "t_region_groundcover_urban",
+        "/": "t_region_groundcover_urban",
         "p": "t_pavement_y",
         "s": "t_sidewalk",
         "w": "t_window_domestic",
@@ -70,11 +71,12 @@
         "K": "f_stool",
         "t": "f_table",
         "v": "f_vending_c",
-        "{": "f_locker"
+        "{": "f_locker",
+        "/": "f_flagpole"
       },
       "vehicles": { "Á": { "vehicle": "parking_garage", "chance": 33, "rotation": 90 } },
       "toilets": { "T": {  } },
-      "item": { "#": { "item": "greeting_card", "repeat": [ 10, 30 ] } },
+      "item": { "#": { "item": "greeting_card", "repeat": [ 10, 30 ] }, "/": { "item": "american_flag", "chance": 25 } },
       "items": {
         "X": [ { "item": "antique", "chance": 50 }, { "item": "art", "chance": 50 }, { "item": "jewelry_safe", "chance": 10 } ],
         "{": [ { "item": "clothing_outdoor_torso", "chance": 50 }, { "item": "bags", "chance": 50 } ],

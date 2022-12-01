@@ -40,6 +40,7 @@ class JsonObject;
 class JsonOut;
 class book_proficiency_bonuses;
 class enchantment;
+class enchant_cache;
 class faction;
 class gun_type_type;
 class gunmod_location;
@@ -670,7 +671,7 @@ class item : public visitable
          * Base number of moves (@ref Creature::moves) that a single melee attack with this items
          * takes. The actual time depends heavily on the attacker, see melee.cpp.
          */
-        int attack_time() const;
+        int attack_time( const Character &you ) const;
 
         /** Damage of given type caused when this item is used as melee weapon */
         int damage_melee( damage_type dt ) const;
@@ -1423,6 +1424,8 @@ class item : public visitable
         bool process( map &here, Character *carrier, const tripoint &pos, float insulation = 1,
                       temperature_flag flag = temperature_flag::NORMAL, float spoil_multiplier_parent = 1.0f );
 
+        bool leak( map &here, Character *carrier, const tripoint &pos, item_pocket *pocke = nullptr );
+
         /**
          * Gets the point (vehicle tile) the cable is connected to.
          * Returns nothing if not connected to anything.
@@ -1526,7 +1529,7 @@ class item : public visitable
         /** Returns the total area of this wheel or 0 if it isn't one. */
         int wheel_area() const;
 
-        /** Returns energy of this item as fuel for an engine. */
+        /** Returns energy of single unit of this item as fuel for an engine. */
         units::energy fuel_energy() const;
         /** Returns the string of the id of the terrain that pumps this fuel, if any. */
         std::string fuel_pump_terrain() const;
@@ -1547,6 +1550,7 @@ class item : public visitable
          * @param nested whether or not the current call is nested (used recursively).
          * @param ignore_pkt_settings whether to ignore pocket autoinsert settings
          * @param remaining_parent_volume the ammount of space in the parent pocket,
+         * @param allow_nested whether nested pockets should be checked
          * needed to make sure we dont try to nest items which can't fit in the nested pockets
          */
         /*@{*/
@@ -1554,9 +1558,11 @@ class item : public visitable
                                    bool ignore_rigidity = false,
                                    bool ignore_pkt_settings = true,
                                    const item_location &parent_it = item_location(),
-                                   units::volume remaining_parent_volume = 10000000_ml ) const;
+                                   units::volume remaining_parent_volume = 10000000_ml,
+                                   bool allow_nested = true ) const;
         bool can_contain( const itype &tp ) const;
         bool can_contain_partial( const item &it ) const;
+        ret_val<void> can_contain_directly( const item &it ) const;
         /*@}*/
         std::pair<item_location, item_pocket *> best_pocket( const item &it, item_location &this_loc,
                 const item *avoid = nullptr, bool allow_sealed = false, bool ignore_settings = false,
@@ -1697,6 +1703,9 @@ class item : public visitable
          * @param dt type of damage (or damage_type::NONE)
          */
         void on_damage( int qty, damage_type dt );
+
+        // Callback invoked after the item's damage is changed or after deserialization
+        void on_damage_changed();
 
         bool use_relic( Character &guy, const tripoint &pos );
         bool has_relic_recharge() const;
@@ -2661,11 +2670,13 @@ class item : public visitable
         void set_cached_tool_selections( const std::vector<comp_selection<tool_comp>> &selections );
         const std::vector<comp_selection<tool_comp>> &get_cached_tool_selections() const;
 
-        std::vector<enchantment> get_enchantments() const;
+        std::vector<enchant_cache> get_proc_enchantments() const;
+        std::vector<enchantment> get_defined_enchantments() const;
         double calculate_by_enchantment( const Character &owner, double modify, enchant_vals::mod value,
                                          bool round_value = false ) const;
         // calculates the enchantment value as if this item were wielded.
-        double calculate_by_enchantment_wield( double modify, enchant_vals::mod value,
+        double calculate_by_enchantment_wield( const Character &owner, double modify,
+                                               enchant_vals::mod value,
                                                bool round_value = false ) const;
 
         /**
@@ -2699,6 +2710,8 @@ class item : public visitable
          *  if unloading is true it ignores items in pockets that are flagged to not unload
          */
         std::list<item *> all_items_top( item_pocket::pocket_type pk_type, bool unloading = false );
+
+        item const *this_or_single_content() const;
 
         /**
          * returns a list of pointers to all items inside recursively

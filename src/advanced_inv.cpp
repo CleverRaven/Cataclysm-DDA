@@ -21,6 +21,7 @@
 #include "cached_options.h"
 #include "calendar.h"
 #include "cata_assert.h"
+#include "cata_scope_helpers.h"
 #include "catacharset.h"
 #include "character.h"
 #include "colony.h"
@@ -103,10 +104,27 @@ std::string enum_to_string<aim_entry>( const aim_entry v )
 
 } // namespace io
 
+namespace
+{
+std::unique_ptr<advanced_inventory> advinv;
+} // namespace
+
 void create_advanced_inv()
 {
-    advanced_inventory advinv;
-    advinv.display();
+    if( !advinv ) {
+        advinv = std::make_unique<advanced_inventory>();
+    }
+    advinv->display();
+    // keep the UI and its ui_adaptor running if we're returning
+    if( uistate.transfer_save.exit_code != aim_exit::re_entry ) {
+        kill_advanced_inv();
+    }
+}
+
+void kill_advanced_inv()
+{
+    advinv.reset();
+    cancel_aim_processing();
 }
 
 // *INDENT-OFF*
@@ -599,6 +617,7 @@ int advanced_inventory::print_header( advanced_inventory_pane &pane, aim_locatio
     int area = pane.get_area();
     int wwidth = getmaxx( window );
     int ofs = wwidth - 25 - 2 - 14;
+    int min_x = wwidth;
     for( int i = 0; i < NUM_AIM_LOCATIONS; ++i ) {
         int data_location = screen_relative_location( static_cast<aim_location>( i ) );
         const char *bracket = squares[data_location].can_store_in_vehicle() ? "<>" : "[]";
@@ -613,14 +632,15 @@ int advanced_inventory::print_header( advanced_inventory_pane &pane, aim_locatio
                      area == data_location || all_brackets ? c_light_gray : c_dark_gray;
             kcolor = area == data_location ? c_white : sel == data_location ? c_light_gray : c_dark_gray;
         }
-
         const std::string key = get_location_key( static_cast<aim_location>( i ) );
         const point p( squares[i].hscreen + point( ofs, 0 ) );
+        min_x = std::min( min_x, p.x );
         mvwprintz( window, p, bcolor, "%c", bracket[0] );
         wprintz( window, kcolor, "%s", in_vehicle && sel != AIM_DRAGGED ? "V" : key );
         wprintz( window, bcolor, "%c", bracket[1] );
     }
-    return squares[AIM_INVENTORY].hscreen.y + ofs;
+
+    return min_x;
 }
 
 void advanced_inventory::recalc_pane( side p )
@@ -700,10 +720,6 @@ void advanced_inventory::redraw_pane( side p )
 {
     input_context ctxt( "ADVANCED_INVENTORY" );
 
-    // don't update ui if processing demands
-    if( is_processing() ) {
-        return;
-    }
     advanced_inventory_pane &pane = panes[p];
     if( recalc || pane.recalc ) {
         recalc_pane( p );
@@ -731,8 +747,8 @@ void advanced_inventory::redraw_pane( side p )
     std::string desc = utf8_truncate( sq.desc[car], width );
     // starts at offset 2, plus space between the header and the text
     width -= 2 + 1;
-    mvwprintz( w, point( 2, 1 ), active ? c_green  : c_light_gray, name );
-    mvwprintz( w, point( 2, 2 ), active ? c_light_blue : c_dark_gray, desc );
+    trim_and_print( w, point( 2, 1 ), width, active ? c_green  : c_light_gray, name );
+    trim_and_print( w, point( 2, 2 ), width, active ? c_light_blue : c_dark_gray, desc );
     trim_and_print( w, point( 2, 3 ), width, active ? c_cyan : c_dark_gray, square.flags );
 
     if( active ) {
@@ -912,12 +928,17 @@ bool advanced_inventory::move_all_items()
     size_t liquid_items = 0;
     for( const advanced_inv_listitem &elem : spane.items ) {
         for( const item_location &elemit : elem.items ) {
-            if( elemit->made_of_from_type( phase_id::LIQUID ) && !elemit->is_frozen_liquid() ) {
+            if( ( elemit->made_of_from_type( phase_id::LIQUID ) && !elemit->is_frozen_liquid() ) ||
+                elemit->made_of_from_type( phase_id::GAS ) ) {
                 liquid_items++;
             }
         }
     }
+
     if( spane.items.empty() || liquid_items == spane.items.size() ) {
+        if( !is_processing() ) {
+            popup( _( "No eligible items found to be moved." ) );
+        }
         return false;
     }
     std::unique_ptr<on_out_of_scope> restore_area;
@@ -1229,23 +1250,21 @@ void advanced_inventory::redraw_sidebar()
     input_context ctxt( "ADVANCED_INVENTORY" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
-    if( !is_processing() ) {
-        werase( head );
-        werase( minimap );
-        werase( mm_border );
-        draw_border( head );
-        Messages::display_messages( head, 2, 1, w_width - 1, head_height - 2 );
-        draw_minimap();
-        right_print( head, 0, +3, c_white, string_format(
-                         _( "< [<color_yellow>%s</color>] keybindings >" ),
-                         ctxt.get_desc( "HELP_KEYBINDINGS" ) ) );
-        if( get_player_character().has_watch() ) {
-            const std::string time = to_string_time_of_day( calendar::turn );
-            mvwprintz( head, point( 2, 0 ), c_white, time );
-        }
-        wnoutrefresh( head );
-        refresh_minimap();
+    werase( head );
+    werase( minimap );
+    werase( mm_border );
+    draw_border( head );
+    Messages::display_messages( head, 2, 1, w_width - 1, head_height - 2 );
+    draw_minimap();
+    right_print( head, 0, +3, c_white, string_format(
+                     _( "< [<color_yellow>%s</color>] keybindings >" ),
+                     ctxt.get_desc( "HELP_KEYBINDINGS" ) ) );
+    if( get_player_character().has_watch() ) {
+        const std::string time = to_string_time_of_day( calendar::turn );
+        mvwprintz( head, point( 2, 0 ), c_white, time );
     }
+    wnoutrefresh( head );
+    refresh_minimap();
 }
 
 void advanced_inventory::change_square( const aim_location changeSquare,
@@ -1452,7 +1471,7 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
             can_stash = player_character.can_stash( *sitem->items.front() );
         }
         if( destarea == AIM_INVENTORY && !can_stash ) {
-            popup( _( "You have no space for %s" ), sitem->items.front()->tname() );
+            popup( _( "You have no space for the %s!" ), sitem->items.front()->tname() );
             return false;
         }
         // from map/vehicle: start ACT_PICKUP or ACT_MOVE_ITEMS as necessary
@@ -1502,6 +1521,7 @@ void advanced_inventory::action_examine( advanced_inv_listitem *sitem,
             exit = true;
         } else {
             player_character.cancel_activity();
+            uistate.transfer_save.exit_code = aim_exit::none;
         }
         // Might have changed a stack (activated an item, repaired an item, etc.)
         if( spane.get_area() == AIM_INVENTORY ) {
@@ -1530,19 +1550,19 @@ void advanced_inventory::action_examine( advanced_inv_listitem *sitem,
 
 void advanced_inventory::display()
 {
-    init();
-
     avatar &player_character = get_avatar();
-    player_character.inv->restack( player_character );
-
     input_context ctxt{ register_ctxt() };
 
     exit = false;
-    recalc = true;
-
-    std::unique_ptr<string_input_popup> spopup;
-    std::unique_ptr<ui_adaptor> ui;
     if( !is_processing() ) {
+
+        player_character.inv->restack( player_character );
+
+        recalc = true;
+    }
+
+    if( !ui ) {
+        init();
         ui = std::make_unique<ui_adaptor>();
         ui->on_screen_resize( [&]( ui_adaptor & ui ) {
             constexpr int min_w_height = 10;
@@ -1608,7 +1628,8 @@ void advanced_inventory::display()
                advanced_inventory::side::left;
 
         if( ui ) {
-            ui_manager::redraw();
+            ui->invalidate_ui();
+            ui_manager::redraw_invalidated();
         }
 
         recalc = false;
@@ -1858,7 +1879,7 @@ bool advanced_inventory::query_destination( aim_location &def )
 bool advanced_inventory::move_content( item &src_container, item &dest_container )
 {
     if( !src_container.is_container() ) {
-        popup( _( "Source must be container." ) );
+        popup( _( "Source must be a container." ) );
         return false;
     }
     if( src_container.is_container_empty() ) {
@@ -1869,13 +1890,14 @@ bool advanced_inventory::move_content( item &src_container, item &dest_container
     item &src_contents = src_container.legacy_front();
 
     if( !src_contents.made_of( phase_id::LIQUID ) ) {
-        popup( _( "You can unload only liquids into target container." ) );
+        popup( _( "You can unload only liquids into the target container." ) );
         return false;
     }
 
     std::string err;
     // TODO: Allow buckets here, but require them to be on the ground or wielded
-    const int amount = dest_container.get_remaining_capacity_for_liquid( src_contents, false, &err );
+    const int amount = std::min( src_contents.charges,
+                                 dest_container.get_remaining_capacity_for_liquid( src_contents, false, &err ) );
     if( !err.empty() ) {
         popup( err );
         return false;
@@ -1913,7 +1935,11 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
 
     // Includes moving from/to inventory and around on the map.
     if( it.made_of_from_type( phase_id::LIQUID ) && !it.is_frozen_liquid() ) {
-        popup( _( "Spilt liquid cannot be picked back up.  Try mopping it instead." ) );
+        popup( _( "Spilt liquid cannot be picked back up.  Try mopping them up instead." ) );
+        return false;
+    }
+    if( it.made_of_from_type( phase_id::GAS ) ) {
+        popup( _( "Spilt gasses cannot be picked up.  They will disappear over time." ) );
         return false;
     }
 
@@ -2118,4 +2144,6 @@ bool advanced_inventory::is_processing() const
 void cancel_aim_processing()
 {
     uistate.transfer_save.re_enter_move_all = aim_entry::START;
+    uistate.transfer_save.aim_all_location = AIM_AROUND_BEGIN;
+    uistate.transfer_save.exit_code = aim_exit::none;
 }

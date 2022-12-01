@@ -48,6 +48,7 @@ class nc_color;
 class npc;
 class vehicle;
 class vehicle_part_range;
+class veh_menu;
 class vpart_info;
 class vpart_position;
 class zone_data;
@@ -436,7 +437,10 @@ struct vehicle_part {
         int max_damage() const;
         /** Current damage floor of the part base */
         int damage_floor( bool allow_negative ) const;
-
+        // @returns the maximum damage levels possible to repair, accounting for part degradation
+        int repairable_levels() const;
+        // @returns true if part can be repaired, accounting for part degradation
+        bool is_repairable() const;
         /** Current part damage level in same units as item::damage_level */
         int damage_level( int dmg = INT_MIN ) const;
 
@@ -563,6 +567,9 @@ class turret_data
         /** Get base item location */
         item_location base();
         item_location base() const;
+
+        /** @returns true if turret is using vehicle tanks or batteries */
+        bool uses_vehicle_tanks_or_batteries() const;
 
         /** Quantity of ammunition available for use */
         int ammo_remaining() const;
@@ -932,11 +939,6 @@ class vehicle
         autodrive_result do_autodrive( Character &driver );
         // Stop any kind of automatic vehicle control and apply the brakes.
         void stop_autodriving( bool apply_brakes = true );
-        /**
-         *  Operate vehicle controls
-         *  @param pos location of physical controls to operate (ignored during remote operation)
-         */
-        void use_controls( const tripoint &pos );
 
         item init_cord( const tripoint &pos );
         void plug_in( const tripoint &pos );
@@ -1017,17 +1019,24 @@ class vehicle
         bool remove_carried_vehicle( const std::vector<int> &carried_parts, const std::vector<int> &racks );
         // split the current vehicle into up to four vehicles if they have no connection other
         // than the structure part at exclude
-        bool find_and_split_vehicles( map &here, int exclude );
         bool find_and_split_vehicles( map &here, std::set<int> exclude );
         // relocate passengers to the same part on a new vehicle
         void relocate_passengers( const std::vector<Character *> &passengers ) const;
-        // remove a bunch of parts, specified by a vector indices, and move them to a new vehicle at
-        // the same global position
-        // optionally specify the new vehicle position and the mount points on the new vehicle
+        // Split a vehicle into an old vehicle and one or more new vehicles by moving vehicle_parts
+        // from one the old vehicle to the new vehicles. Some of the logic borrowed from remove_part
+        // skipped the grab, curtain, player activity, and engine checks because they deal with pos,
+        // not a vehicle pointer
+        // @param new_vehs vector of vectors of part indexes to move to new vehicles
+        // @param new_vehicles vector of vehicle pointers containing the new vehicles; if empty, new
+        // vehicles will be created
+        // @param new_mounts vector of vector of mount points. must have one vector for every vehicle*
+        // in new_vehicles, and forces the part indices in new_vehs to be mounted on the new vehicle
+        // at those mount points
+        // @param added_vehicles if not nullptr any newly added vehicles will be appended to the vector
         bool split_vehicles( map &here, const std::vector<std::vector <int>> &new_vehs,
                              const std::vector<vehicle *> &new_vehicles,
-                             const std::vector<std::vector <point>> &new_mounts );
-        bool split_vehicles( map &here, const std::vector<std::vector <int>> &new_vehs );
+                             const std::vector<std::vector<point>> &new_mounts,
+                             std::vector<vehicle *> *added_vehicles = nullptr );
 
         /** Get handle for base item of part */
         item_location part_base( int p );
@@ -1181,7 +1190,8 @@ class vehicle
 
         // Seek a vehicle part which obstructs tile with given coordinates relative to vehicle position
         int part_at( const point &dp ) const;
-        int part_displayed_at( const point &dp, bool include_fake = false ) const;
+        int part_displayed_at( const point &dp, bool include_fake = false,
+                               bool below_roof = true, bool roof = true ) const;
         int roof_at_part( int p ) const;
 
         // Given a part, finds its index in the vehicle
@@ -1189,7 +1199,7 @@ class vehicle
 
         // get symbol for map
         char part_sym( int p, bool exact = false, bool include_fake = true ) const;
-        std::string part_id_string( int p, char &part_mod ) const;
+        std::string part_id_string( int p, char &part_mod, bool below_roof = true, bool roof = true ) const;
 
         // get color for map
         nc_color part_color( int p, bool exact = false, bool include_fake = true ) const;
@@ -1214,8 +1224,7 @@ class vehicle
 
         // Pre-calculate mount points for (idir=0) - current direction or
         // (idir=1) - next turn direction
-        // return the set of all z-levels that the vehicle is on
-        std::set<int> precalc_mounts( int idir, const units::angle &dir, const point &pivot );
+        void precalc_mounts( int idir, const units::angle &dir, const point &pivot );
 
         // get a list of part indices where is a passenger inside
         std::vector<int> boarded_parts() const;
@@ -1270,9 +1279,6 @@ class vehicle
         // Returns total vehicle fuel capacity for the given fuel type
         int fuel_capacity( const itype_id &ftype ) const;
 
-        // Returns the total specific energy (J/g) of this fuel type. Frozen is ignored.
-        units::specific_energy fuel_specific_energy( const itype_id &ftype ) const;
-
         // drains a fuel type (e.g. for the kitchen unit)
         // returns amount actually drained, does not engage reactor
         int drain( const itype_id &ftype, int amount,
@@ -1324,7 +1330,8 @@ class vehicle
         // Total power drain across all vehicle accessories.
         int total_accessory_epower_w() const;
         // Net power draw or drain on batteries.
-        int net_battery_charge_rate_w( bool include_reactors = true ) const;
+        int net_battery_charge_rate_w( bool include_reactors = true,
+                                       bool connected_vehicles = false ) const;
         // Maximum available power available from all reactors. Power from
         // reactors is only drawn when batteries are empty.
         int max_reactor_epower_w() const;
@@ -1503,9 +1510,9 @@ class vehicle
         bool is_flyable() const;
         void set_flyable( bool val );
         // Would interacting with this part prevent the vehicle from being flyable?
-        bool would_install_prevent_flyable( const vpart_info &vpinfo, Character &pc ) const;
-        bool would_removal_prevent_flyable( vehicle_part &vp, Character &pc ) const;
-        bool would_repair_prevent_flyable( vehicle_part &vp, Character &pc ) const;
+        bool would_install_prevent_flyable( const vpart_info &vpinfo, const Character &pc ) const;
+        bool would_removal_prevent_flyable( const vehicle_part &vp, const Character &pc ) const;
+        bool would_repair_prevent_flyable( const vehicle_part &vp, const Character &pc ) const;
         /**
          * Traction coefficient of the vehicle.
          * 1.0 on road. Outside roads, depends on mass divided by wheel area
@@ -1536,13 +1543,13 @@ class vehicle
         float handling_difficulty() const;
 
         /**
-         * Use grid traversal to enumerate all connected vehicles.
-         * @param connected_vehicles is an output map from vehicle pointers to
-         * a bool that is true if the vehicle is in the reality bubble.
-         * @param vehicle_list is a set of pointers to vehicles present in the reality bubble.
-         */
-        static void enumerate_vehicles( std::map<vehicle *, bool> &connected_vehicles,
-                                        std::set<vehicle *> &vehicle_list );
+        * Use vehicle::traverse_vehicle_graph (breadth-first search) to enumerate all vehicles
+        * connected to @ref origins by parts with POWER_TRANSFER flag.
+        * @param origins set of pointers to vehicles to start searching from
+        * @return a map of vehicle pointers to a bool that is true if the
+        * vehicle is in the @ref origins set.
+        */
+        static std::map<vehicle *, bool> enumerate_vehicles( const std::set<vehicle *> &origins );
         // idle fuel consumption
         void idle( bool on_map = true );
         // continuous processing for running vehicle alarms
@@ -1769,8 +1776,6 @@ class vehicle
         // opens/closes doors or multipart doors
         void open( int part_index );
         void close( int part_index );
-        // returns whether the door is open or not
-        bool is_open( int part_index ) const;
 
         bool can_close( int part_index, Character &who );
 
@@ -1780,8 +1785,6 @@ class vehicle
         time_duration folding_time() const;
         // @returns how long should unfolding activity take
         time_duration unfolding_time() const;
-        // assigns folding activity to player avatar
-        void start_folding_activity();
         // @returns item of this vehicle folded
         item get_folded_item() const;
         // restores vehicle parts from a folded item
@@ -1814,19 +1817,8 @@ class vehicle
         // for destroying any terrain around vehicle part. Automated mining tool.
         void crash_terrain_around();
         void transform_terrain();
-        void add_toggle_to_opts( std::vector<uilist_entry> &options,
-                                 std::vector<std::function<void()>> &actions,
-                                 const std::string &name,
-                                 const input_event &key,
-                                 const std::string &flag );
-        void set_electronics_menu_options( std::vector<uilist_entry> &options,
-                                           std::vector<std::function<void()>> &actions );
-        //main method for the control of multiple electronics
-        void control_electronics();
         //main method for the control of individual engines
         void control_engines();
-        // shows ui menu to select an engine
-        int select_engine();
         //returns whether the engine is enabled or not, and has fueltype
         bool is_engine_type_on( int e, const itype_id &ft ) const;
         //returns whether the engine is enabled or not
@@ -1903,10 +1895,12 @@ class vehicle
         void use_washing_machine( int p );
         void use_dishwasher( int p );
         void use_monster_capture( int part, const tripoint &pos );
-        void use_bike_rack( int part );
         void use_harness( int part, const tripoint &pos );
 
-        void interact_with( const vpart_position &vp, bool with_pickup = false );
+        void build_electronics_menu( veh_menu &menu );
+        void build_bike_rack_menu( veh_menu &menu, int part );
+        void build_interact_menu( veh_menu &menu, const tripoint &p, bool with_pickup );
+        void interact_with( const tripoint &p, bool with_pickup = false );
 
         std::string disp_name() const;
 

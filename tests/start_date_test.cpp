@@ -47,12 +47,11 @@ TEST_CASE( "Test start dates" )
     }
 
     SECTION( "Scenario with start date" ) {
-        set_scenario( &scenario_ambushed.obj() );
-        // Ambushed scenario starts on winter day 1 (day 273 with default season length)
-
         // Initial time and spawn delay should not affect scenario dates
         override_option initial_time( "INITIAL_TIME", "13" );
         override_option spawn_delay( "SPAWN_DELAY", "10" );
+        set_scenario( &scenario_ambushed.obj() );
+        // Ambushed scenario starts on winter day 1 (day 273 with default season length)
 
         REQUIRE( get_option<int>( "INITIAL_DAY" ) == default_initial_day );
         REQUIRE( get_option<int>( "SEASON_LENGTH" ) == default_season_length );
@@ -65,10 +64,9 @@ TEST_CASE( "Test start dates" )
     }
 
     SECTION( "Scenario with start date tries to start before cataclysm" ) {
+        override_option initial_day( "INITIAL_DAY", "350" );
         set_scenario( &scenario_ambushed.obj() );
         // Ambushed scenario starts on winter day 1 (day 273 with default season length)
-
-        override_option initial_day( "INITIAL_DAY", "350" );
 
         REQUIRE( get_option<int>( "INITIAL_DAY" ) == 350 );
         REQUIRE( get_option<int>( "INITIAL_TIME" ) == default_initial_time );
@@ -115,6 +113,7 @@ TEST_CASE( "Random dates" )
         // If even one of them is different everything is fine.
         bool all_same = true;
         for( int i = 0; i < 10; i++ ) {
+            set_scenario( scenario::generic() );
             g->start_calendar();
             all_same = start_of_cataclysm_1 == calendar::start_of_cataclysm;
             if( !all_same ) {
@@ -155,6 +154,7 @@ TEST_CASE( "Random scenario dates" )
         // If even one of them is different everything is fine.
         bool all_same = true;
         for( int i = 0; i < 10; i++ ) {
+            set_scenario( &scenario_test_random_hour.obj() );
             g->start_calendar();
             all_same = start_of_game_1 == calendar::start_of_game;
             if( !all_same ) {
@@ -183,6 +183,7 @@ TEST_CASE( "Random scenario dates" )
         // If even one of them is different everything is fine.
         bool all_same = true;
         for( int i = 0; i < 10; i++ ) {
+            set_scenario( &scenario_test_random_day.obj() );
             g->start_calendar();
             all_same = start_of_game_1 == calendar::start_of_game;
             if( !all_same ) {
@@ -212,6 +213,7 @@ TEST_CASE( "Random scenario dates" )
         // If even one of them is different everything is fine.
         bool all_same = true;
         for( int i = 0; i < 10; i++ ) {
+            set_scenario( &scenario_test_random_year.obj() );
             g->start_calendar();
             all_same = start_of_game_1 == calendar::start_of_game;
             if( !all_same ) {

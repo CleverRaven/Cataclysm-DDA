@@ -11,11 +11,11 @@
     "id": "bio_ads",
     "type": "bionic",
     "name": { "str": "Active Defense System" },
-    "description": "A thin forcefield surrounds your body, continually draining power.  Anything attempting to penetrate this field has a chance of being deflected at the cost of energy, reducing their ability to deal damage.  Bullets will be deflected more than melee weapons and those in turn more than massive objects.",
+    "description": "A thin forcefield surrounds your body, continually draining power.  Everything loses velocity when penetrating this field, which results in reduced amount of dealt damage at the cost of your bionic energy.  Bullets and stabbing attacks will lose more velocity than cutting attacks and those in turn more than bashing attacks.",
     "occupied_bodyparts": [ [ "torso", 10 ], [ "head", 1 ], [ "arm_l", 1 ], [ "arm_r", 1 ], [ "leg_l", 2 ], [ "leg_r", 2 ] ],
     "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
-    "act_cost": 10,
-    "react_cost": 10,
+    "act_cost": "10 J",
+    "react_cost": "10 J",
     "trigger_cost": "25kJ",
     "time": "1 s"
   },
@@ -465,9 +465,9 @@
     "occupied_bodyparts": [ [ "torso", 20 ] ],
     "fuel_options": [ "battery" ],
     "fuel_efficiency": 1,
-    "fuel_capacity": 2000,
     "time": "1 s",
-    "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ]
+    "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED" ],
+    "passive_pseudo_items": [ "internal_battery_compartment" ]
   },
   {
     "id": "bio_blade",
@@ -602,7 +602,12 @@
     "react_cost": "100 J",
     "time": "1 s",
     "flags": [ "BIONIC_TOGGLED" ],
-    "active_flags": [ "CLIMATE_CONTROL" ]
+    "enchantments": [
+      {
+        "condition": "ACTIVE",
+        "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 50 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 50 } ]
+      }
+    ]
   },
   {
     "id": "bio_cloak",
@@ -780,11 +785,11 @@
     "description": "You burn alcohol as fuel in an extremely efficient reaction.",
     "occupied_bodyparts": [ [ "torso", 20 ] ],
     "fuel_options": [ "alcohol" ],
-    "fuel_capacity": 400,
     "fuel_efficiency": 0.5,
     "exothermic_power_gen": true,
     "time": "1 s",
-    "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF", "BIONIC_TOGGLED" ]
+    "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_SHOCKPROOF", "BIONIC_TOGGLED" ],
+    "passive_pseudo_items": [ "internal_ethanol_tank" ]
   },
   {
     "id": "bio_lampoil",
@@ -793,11 +798,11 @@
     "description": "Slowly generates bionic power out of kerosene or motor oil.",
     "occupied_bodyparts": [ [ "torso", 20 ] ],
     "fuel_options": [ "lamp_oil", "motor_oil" ],
-    "fuel_capacity": 750,
     "fuel_efficiency": 0.35,
     "exothermic_power_gen": true,
     "time": "5 s",
-    "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF", "BIONIC_TOGGLED" ]
+    "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_SHOCKPROOF", "BIONIC_TOGGLED" ],
+    "passive_pseudo_items": [ "internal_oil_tank" ]
   },
   {
     "id": "bio_evap",
@@ -1118,7 +1123,7 @@
     "id": "bio_memory",
     "type": "bionic",
     "name": { "str": "Enhanced Memory Banks" },
-    "description": "Your memory has been enhanced with small quantum storage drives.  While active, you learn - both through reading and practice - more quickly.  Additionally, you can't forget skills you've already learned.",
+    "description": "Your memory has been enhanced with small quantum storage drives.  While active, you learn - both through reading and practice - more quickly.  Additionally, you forget skills you've learned slower.",
     "occupied_bodyparts": [ [ "head", 3 ] ],
     "flags": [ "BIONIC_TOGGLED", "BIONIC_SLEEP_FRIENDLY" ],
     "active_flags": [ "CBQ_LEARN_BONUS" ],
@@ -1320,18 +1325,6 @@
     "occupied_bodyparts": [ [ "torso", 5 ], [ "arm_l", 1 ], [ "arm_r", 1 ], [ "leg_l", 2 ], [ "leg_r", 2 ] ],
     "flags": [ "BIONIC_NPC_USABLE" ],
     "act_cost": "4500 J"
-  },
-  {
-    "id": "bio_railgun",
-    "type": "bionic",
-    "name": { "str": "Railgun" },
-    "description": "EM field generators in your arms double the range and damage of thrown iron and steel objects at a cost of 10 power per throw, causing them to leave a trail of electricity that can cause additional damage.",
-    "occupied_bodyparts": [ [ "arm_l", 5 ], [ "arm_r", 5 ], [ "hand_l", 1 ], [ "hand_r", 1 ] ],
-    "flags": [ "BIONIC_TOGGLED" ],
-    "act_cost": "1 kJ",
-    "react_cost": "100 J",
-    "trigger_cost": "10 kJ",
-    "time": "1 s"
   },
   {
     "id": "bio_razors",
@@ -1674,11 +1667,11 @@
     "occupied_bodyparts": [ [ "torso", 8 ] ],
     "encumbrance": [ [ "torso", 5 ] ],
     "fuel_options": [ "gasoline" ],
-    "fuel_capacity": 500,
     "fuel_efficiency": 0.25,
     "exothermic_power_gen": true,
     "time": "1 s",
-    "flags": [ "BIONIC_TOGGLED", "BIONIC_POWER_SOURCE", "BIONIC_NPC_USABLE" ]
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_POWER_SOURCE" ],
+    "passive_pseudo_items": [ "internal_gasoline_tank" ]
   },
   {
     "id": "bio_syringe",
@@ -1785,5 +1778,14 @@
     "dupes_allowed": true,
     "power_trickle": "2 J",
     "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
+  },
+  {
+    "id": "bio_pitch_perfect",
+    "type": "bionic",
+    "name": { "str": "Throwing Assist" },
+    "description": "Taken from a world that embraced cybernetics in their sports, this CBM links the eyes to a series of nerve stimulators along the arms and hands.  The result is a significant increase to throwing accuracy, and it turns out it works great with fragmentation grenades.",
+    "occupied_bodyparts": [ [ "eyes", 1 ], [ "arm_l", 2 ], [ "arm_r", 2 ], [ "hand_l", 2 ], [ "hand_r", 2 ] ],
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
+    "enchantments": [ { "condition": "ALWAYS", "skills": [ { "value": "throw", "add": 5 } ] } ]
   }
 ]

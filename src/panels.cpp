@@ -477,7 +477,7 @@ bool panel_manager::save()
 
 bool panel_manager::load()
 {
-    return read_from_file_optional_json( PATH_INFO::panel_options(), [&]( JsonIn & jsin ) {
+    return read_from_file_optional_json( PATH_INFO::panel_options(), [&]( const JsonArray & jsin ) {
         deserialize( jsin );
     } );
 }
@@ -519,10 +519,9 @@ void panel_manager::serialize( JsonOut &json )
     json.end_array();
 }
 
-void panel_manager::deserialize( JsonIn &jsin )
+void panel_manager::deserialize( const JsonArray &ja )
 {
-    jsin.start_array();
-    JsonObject joLayouts( jsin.get_object() );
+    JsonObject joLayouts = ja.get_object( 0 );
 
     current_layout_id = joLayouts.get_string( "current_layout_id" );
     if( layouts.find( current_layout_id ) == layouts.end() ) {
@@ -562,7 +561,9 @@ void panel_manager::deserialize( JsonIn &jsin )
             }
         }
     }
-    jsin.end_array();
+    if( ja.size() > 1 ) {
+        ja.throw_error( "panel_manager expects one object" );
+    }
 }
 
 // Dummy render pass to recalculate layout height

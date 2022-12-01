@@ -32,6 +32,8 @@
 #include "translations.h"
 #include "units_fwd.h"
 
+class input_context;
+
 struct input_event;
 
 namespace catacurses
@@ -93,8 +95,9 @@ using chtype = int;
 // Supports line drawing
 std::string string_from_int( catacurses::chtype ch );
 
-// a consistent border color
+// Some consistent colors
 #define BORDER_COLOR c_light_gray
+#define ACTIVE_HOTKEY_COLOR c_yellow
 
 // Display data
 extern int TERMX; // width available for display
@@ -574,6 +577,8 @@ int special_symbol( char sym );
 std::string trim( const std::string &s );
 // Removes trailing periods and exclamation marks.
 std::string trim_trailing_punctuations( const std::string &s );
+// Removes all punctuation except underscore.
+std::string remove_punctuations( const std::string &s );
 // Converts the string to upper case.
 std::string to_upper_case( const std::string &s );
 
@@ -749,6 +754,14 @@ std::string enumerate_as_string( const Container &cont, F &&string_for,
 }
 
 /**
+ * @return A formatted string including the hotkey, color-tagged to stand out, and standardized
+ * surrounding text to highlight that this is a hotkey to anyone using a screen reader
+ * @param hotkey The hotkey to be formatted, without any color tags or other formatting
+ * @param text_color The color of the surrounding text, so that only the hoteky stands out
+ */
+std::string formatted_hotkey( const std::string &hotkey, nc_color text_color );
+
+/**
  * @return String containing the bar. Example: "Label [********    ]".
  * @param val Value to display. Can be unclipped.
  * @param width Width of the entire string.
@@ -902,13 +915,97 @@ class scrollbar
         scrollbar &bar_color( nc_color bar_c );
         // can viewport_pos go beyond (content_size - viewport_size)?
         scrollbar &scroll_to_last( bool scr2last );
+        // Sets up ability for the scrollbar to be dragged with the mouse
+        scrollbar &set_draggable( input_context &ctxt );
         // draw the scrollbar to the window
         void apply( const catacurses::window &window );
+        // Checks if the user is dragging the scrollbar with the mouse (set_draggable first)
+        bool handle_dragging( const std::string &action, const cata::optional<point> &coord,
+                              int &position );
     private:
         int offset_x_v, offset_y_v;
         int content_size_v, viewport_pos_v, viewport_size_v;
         nc_color border_color_v, arrow_color_v, slot_color_v, bar_color_v;
         bool scroll_to_last_v;
+        bool dragging = false;
+        inclusive_rectangle<point> scrollbar_area;
+};
+
+struct multiline_list_entry {
+    bool active = false;
+    std::string prefix;
+    std::string entry_text;
+    std::vector<std::string> folded_text;
+};
+
+/** A class for handling and displaying lists of folded text
+ * Handles folding of text, figuring out what text to display in the window, printing,
+ * and standardized navigation.
+ * Basic usage:
+ * 1. Create a multiline_list( w ) where the window w is only used for this list
+ * 2. Call create_entries() with the list data, ensuring that get_entry() is defined in the
+ * data class
+ * 3. Call set_up_navigation() with the local input_context to ensure all required actions
+ * are registered
+ * 4. Call print_entries() to display all of the folded text that fits and a scrollbar in
+ * the window
+ * 5. Call handle_navigation() to handle scrolling and selection of the text, including
+ * arrow keys, page up/down, home/end, mousewheel scrolling, scrolling based on mouse position,
+ * and click-and-drag of the scrollbar
+ * 6. Call fold_entries() when the window is resized
+ * See dialogue_win.cpp for example usage
+ **/
+class multiline_list
+{
+        bool has_prefix;
+        int entry_position;
+        int offset_position;
+        int mouseover_position;
+        std::chrono::time_point<std::chrono::steady_clock> mouseover_delay_end;
+        size_t mouseover_accel_counter = 1;
+        std::vector<multiline_list_entry> entries;
+        std::vector<int> entry_sizes;
+        int total_length;
+        std::map<size_t, inclusive_rectangle<point>> entry_map;
+
+        std::unique_ptr<scrollbar> list_sb;
+        catacurses::window &w;
+
+        void add_entry( const multiline_list_entry &entry );
+        void create_entry_prep();
+        void print_line( int entry, const point &start, const std::string &text );
+
+    public:
+        explicit multiline_list( catacurses::window &win ) : w( win ) {
+            list_sb = std::make_unique<scrollbar>();
+        }
+
+        void activate_entry( size_t entry_pos, bool exclusive );
+
+        template <typename T> void create_entries( const std::vector<T> &entry_data ) {
+            create_entry_prep();
+            for( const T &entry : entry_data ) {
+                add_entry( entry.get_entry() );
+            }
+            fold_entries();
+        }
+
+        void fold_entries();
+        int get_entry_pos() const {
+            return entry_position;
+        }
+        int get_offset_pos() const {
+            return offset_position;
+        }
+        int get_entry_from_offset();
+        int get_entry_from_offset( int offset );
+        int get_offset_from_entry();
+        int get_offset_from_entry( int entry );
+        bool handle_navigation( std::string &action, input_context &ctxt );
+        void print_entries();
+        void set_entry_pos( int entry_pos, bool looping );
+        void set_offset_pos( int offset_pos, bool update_selection );
+        void set_up_navigation( input_context &ctxt );
 };
 
 /** A simple scrolling view onto some text.  Given a window, it will use the
@@ -940,7 +1037,7 @@ class scrolling_text_view
         bool handle_navigation( const std::string &action, input_context &ctxt );
         void set_up_navigation( input_context &ctxt,
                                 scrolling_key_scheme scheme = scrolling_key_scheme::no_scheme, bool enable_paging = false );
-        void set_text( const std::string & );
+        void set_text( const std::string &text, bool scroll_to_top = true );
         void scroll_up();
         void scroll_down();
         void page_up();
@@ -954,11 +1051,10 @@ class scrolling_text_view
         catacurses::window &w_;
         std::vector<std::string> text_;
         int offset_ = 0;
-        inclusive_rectangle<point> scrollbar_area;
-        bool dragging = false;
         std::string scroll_up_action;
         std::string scroll_down_action;
         bool paging_enabled = false;
+        scrollbar text_view_scrollbar;
 };
 
 class scrollingcombattext

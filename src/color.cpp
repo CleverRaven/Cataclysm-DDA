@@ -7,6 +7,9 @@
 #include <utility>
 #include <vector>
 
+#include <ghc/fs_std_fwd.hpp>
+
+#include "cata_path.h"
 #include "cata_utility.h"
 #include "cursesdef.h"
 #include "debug.h"
@@ -475,7 +478,7 @@ void init_colors()
     init_pair( 71, cyan,       cyan );
 
     all_colors.load_default();
-    all_colors.load_custom();
+    all_colors.load_custom( {} );
 
     // The short color codes (e.g. "br") are intentionally untranslatable.
     color_by_string_map = {
@@ -535,6 +538,36 @@ nc_color cyan_background( const nc_color &c )
 {
     const nc_color color = all_colors.get_highlight( c, HL_CYAN );
     return static_cast<int>( color ) > 0 ? color : c_black_cyan;
+}
+
+std::string hilite_string( const std::string &text )
+{
+    std::string highlighted = text;
+    size_t pos = 0;
+    size_t tag_length = 0;
+    int color_tag_count = 0;
+    while( ( pos = highlighted.find( "<color_", pos ) ) != std::string::npos ) {
+        tag_length = highlighted.find( '>', pos ) - pos + 1;
+        if( tag_length <= 0 ) {
+            debugmsg( "Tag length calculated incorrectly.  Unable to highlight text %s", text );
+            return text;
+        }
+        std::string tag = highlighted.substr( pos, tag_length );
+        color_tag_parse_result old_color = get_color_from_tag( tag );
+        if( old_color.type != color_tag_parse_result::open_color_tag ) {
+            debugmsg( "Unable to highlight text %s, parsing color tag %s failed", text, tag );
+            return text;
+        }
+        nc_color new_color = hilite( old_color.color );
+        std::string new_tag = get_tag_from_color( new_color );
+        highlighted.replace( pos, tag_length, new_tag );
+        pos += new_tag.length();
+        ++color_tag_count;
+    }
+    if( color_tag_count < 1 ) {
+        highlighted = colorize( highlighted, h_white );
+    }
+    return highlighted;
 }
 
 /**
@@ -949,8 +982,8 @@ void color_manager::show_gui()
 
                 ui_templates.text = _( "Color templates:" );
 
-                for( const auto &filename : vFiles ) {
-                    ui_templates.addentry( filename.substr( filename.find_last_of( '/' ) + 1 ) );
+                for( const cata_path &file : vFiles ) {
+                    ui_templates.addentry( file.get_relative_path().filename().generic_u8string() );
                 }
 
                 ui_templates.query();
@@ -984,8 +1017,8 @@ void color_manager::show_gui()
 
                 ui_templates.text = _( "Color themes:" );
 
-                for( const auto &filename : vFiles ) {
-                    ui_templates.addentry( filename.substr( filename.find_last_of( '/' ) + 1 ) );
+                for( const cata_path &filename : vFiles ) {
+                    ui_templates.addentry( filename.get_relative_path().filename().generic_u8string() );
                 }
 
                 ui_templates.query();
@@ -1071,25 +1104,26 @@ void color_manager::show_gui()
 
         clear();
         load_default();
-        load_custom();
+        load_custom( {} );
     }
 }
 
 bool color_manager::save_custom() const
 {
-    const auto savefile = PATH_INFO::custom_colors();
+    const cata_path savefile = PATH_INFO::custom_colors();
 
-    return write_to_file( savefile, [&]( std::ostream & fout ) {
+    return write_to_file( savefile.generic_u8string(), [&](
+    std::ostream & fout ) {
         JsonOut jsout( fout );
         serialize( jsout );
     }, _( "custom colors" ) );
 }
 
-void color_manager::load_custom( const std::string &sPath )
+void color_manager::load_custom( const cata_path &sPath )
 {
-    const auto file = sPath.empty() ? PATH_INFO::custom_colors() : sPath;
+    const cata_path file = sPath.empty() ? PATH_INFO::custom_colors() : sPath;
 
-    read_from_file_optional_json( file, [this]( JsonIn & jsonin ) {
+    read_from_file_optional_json( file, [this]( const JsonArray & jsonin ) {
         deserialize( jsonin );
     } );
     finalize(); // Need to finalize regardless of success
@@ -1113,12 +1147,9 @@ void color_manager::serialize( JsonOut &json ) const
     json.end_array();
 }
 
-void color_manager::deserialize( JsonIn &jsin )
+void color_manager::deserialize( const JsonArray &ja )
 {
-    jsin.start_array();
-    while( !jsin.end_array() ) {
-        JsonObject joColors = jsin.get_object();
-
+    for( JsonObject joColors : ja ) {
         const std::string name = joColors.get_string( "name" );
         const std::string name_custom = joColors.get_string( "custom" );
         const std::string name_invert_custom = joColors.get_string( "invertcustom" );

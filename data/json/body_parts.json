@@ -284,7 +284,7 @@
     "drench_capacity": 1100,
     "smash_message": "You bring your knee down on the %s, smashing it.",
     "bionic_slots": 30,
-    "sub_parts": [ "leg_hip_l", "leg_upper_l", "leg_knee_l", "leg_lower_l" ],
+    "sub_parts": [ "leg_hip_l", "leg_upper_l", "leg_knee_l", "leg_lower_l", "leg_draped_l" ],
     "flags": [ "LIMB_LOWER" ]
   },
   {
@@ -319,7 +319,7 @@
     "drench_capacity": 1100,
     "smash_message": "You bring your knee down on the %s, smashing it.",
     "bionic_slots": 30,
-    "sub_parts": [ "leg_hip_r", "leg_upper_r", "leg_knee_r", "leg_lower_r" ],
+    "sub_parts": [ "leg_hip_r", "leg_upper_r", "leg_knee_r", "leg_lower_r", "leg_draped_r" ],
     "flags": [ "LIMB_LOWER" ]
   },
   {
@@ -439,7 +439,8 @@
     "type": "sub_body_part",
     "side": 0,
     "opposite": "sub_limb_debug",
-    "name": "neck"
+    "name": "neck",
+    "locations_under": [ "torso_upper" ]
   },
   {
     "id": "torso_lower",
@@ -460,7 +461,8 @@
     "side": 0,
     "name": "front torso (hang)",
     "opposite": "torso_hanging_back",
-    "name_multiple": "item hangs off you"
+    "name_multiple": "item hangs off you",
+    "locations_under": [ "torso_upper", "torso_lower" ]
   },
   {
     "id": "torso_hanging_back",
@@ -471,7 +473,32 @@
     "side": 0,
     "name": "back torso (hang)",
     "opposite": "torso_hanging_front",
-    "name_multiple": "item hangs off you"
+    "name_multiple": "item hangs off you",
+    "locations_under": [ "torso_upper", "torso_lower" ]
+  },
+  {
+    "id": "leg_draped_l",
+    "type": "sub_body_part",
+    "max_coverage": 100,
+    "parent": "leg_l",
+    "side": 1,
+    "secondary": true,
+    "opposite": "leg_draped_r",
+    "name_multiple": "legs (draped)",
+    "name": "left leg (draped)",
+    "locations_under": [ "leg_hip_l", "leg_upper_l" ]
+  },
+  {
+    "id": "leg_draped_r",
+    "type": "sub_body_part",
+    "max_coverage": 100,
+    "parent": "leg_r",
+    "side": 2,
+    "secondary": true,
+    "opposite": "leg_draped_l",
+    "name_multiple": "legs (draped)",
+    "name": "right leg (draped)",
+    "locations_under": [ "leg_hip_r", "leg_upper_r" ]
   },
   {
     "id": "torso_waist",
@@ -481,7 +508,8 @@
     "secondary": true,
     "side": 0,
     "name": "waist",
-    "opposite": "sub_limb_debug"
+    "opposite": "sub_limb_debug",
+    "locations_under": [ "leg_hip_r", "leg_hip_l" ]
   },
   {
     "id": "arm_shoulder_r",

@@ -47,7 +47,7 @@
   {
     "type": "construction_group",
     "id": "build_armchair",
-    "name": "Build Armchair"
+    "name": "Place an armchair"
   },
   {
     "type": "construction_group",
@@ -73,11 +73,6 @@
     "type": "construction_group",
     "id": "build_bed_from_scratch",
     "name": "Build Bed from Scratch"
-  },
-  {
-    "type": "construction_group",
-    "id": "build_bench",
-    "name": "Build Bench"
   },
   {
     "type": "construction_group",
@@ -127,7 +122,7 @@
   {
     "type": "construction_group",
     "id": "build_chair",
-    "name": "Build Chair"
+    "name": "Place a wooden chair"
   },
   {
     "type": "construction_group",
@@ -326,6 +321,11 @@
   },
   {
     "type": "construction_group",
+    "id": "build_high_end_of_an_earth_ramp",
+    "name": "Build High End of an Earth Ramp"
+  },
+  {
+    "type": "construction_group",
     "id": "build_high_end_of_a_concrete_ramp",
     "name": "Build High End of a Concrete Ramp"
   },
@@ -362,12 +362,17 @@
   {
     "type": "construction_group",
     "id": "build_log_stool",
-    "name": "Build Log Stool"
+    "name": "Place a log stool"
   },
   {
     "type": "construction_group",
     "id": "build_log_wall",
     "name": "Build Log Wall"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_low_end_of_an_earth_ramp",
+    "name": "Build Low End of an Earth Ramp"
   },
   {
     "type": "construction_group",
@@ -666,11 +671,6 @@
   },
   {
     "type": "construction_group",
-    "id": "build_scrap_metal_bench",
-    "name": "Build Scrap Metal Bench"
-  },
-  {
-    "type": "construction_group",
     "id": "build_scrap_metal_bridge_using_bolts",
     "name": "Build Scrap Metal Bridge Using Bolts"
   },
@@ -736,11 +736,6 @@
   },
   {
     "type": "construction_group",
-    "id": "build_sofa",
-    "name": "Build Sofa"
-  },
-  {
-    "type": "construction_group",
     "id": "build_spinwheel",
     "name": "Build Spinwheel"
   },
@@ -777,7 +772,7 @@
   {
     "type": "construction_group",
     "id": "build_stool",
-    "name": "Build Stool"
+    "name": "Place a wooden stool"
   },
   {
     "type": "construction_group",
@@ -1411,6 +1406,11 @@
   },
   {
     "type": "construction_group",
+    "id": "place_screw_press",
+    "name": "Place Screw Press"
+  },
+  {
+    "type": "construction_group",
     "id": "place_workbench",
     "name": "Place Workbench"
   },
@@ -1616,6 +1616,11 @@
   },
   {
     "type": "construction_group",
+    "id": "hang_heavy_punching_bag",
+    "name": "Hang a Heavy Punching Bag"
+  },
+  {
+    "type": "construction_group",
     "id": "build_training_dummy_light",
     "name": "Install Training Dummy"
   },
@@ -1633,6 +1638,11 @@
     "type": "construction_group",
     "id": "build_archery_target_bale",
     "name": "Mark Hay Bale For Archery"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_flagpole",
+    "name": "Build a Flagpole"
   },
   {
     "type": "construction_group",
@@ -1658,5 +1668,30 @@
     "type": "construction_group",
     "id": "build_chain_hoist",
     "name": "Build Chain & Tackle Hoist"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_bench_wooden",
+    "name": "Build a wooden bench"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_barstool",
+    "name": "Place a barstool"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_chair_plywood",
+    "name": "Place a chair"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_chair_wood_black",
+    "name": "Place a black wooden chair"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_chair_wood_white",
+    "name": "Place a white wooden chair"
   }
 ]

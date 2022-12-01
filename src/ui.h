@@ -23,6 +23,7 @@
 #include "point.h"
 #include "string_formatter.h"
 
+class scrollbar;
 class translation;
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -395,6 +396,7 @@ class uilist // NOLINT(cata-xy)
 
     private:
         int scroll_amount_from_action( const std::string &action );
+        std::unique_ptr<scrollbar> uilist_scrollbar;
         void apply_scrollbar();
         // This function assumes it's being called from `query` and should
         // not be made public.
@@ -530,5 +532,7 @@ class pointmenu_cb : public uilist_callback
         ~pointmenu_cb() override;
         void select( uilist *menu ) override;
 };
+
+void kill_advanced_inv();
 
 #endif // CATA_SRC_UI_H

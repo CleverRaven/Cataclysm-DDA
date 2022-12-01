@@ -28,12 +28,12 @@
 
 ******************************************************************************
 
-<color_white>Main Developers (<color_cyan>0.E</color>):</color>
+<color_white>主要开发者 （<color_cyan>0.E</color>）：</color>
 <color_yellow>mlangsdorf</color> - 载具，船只，营地和mod制作的教程。
 <color_yellow>I-am-Erk</color> - Ultica图像包，对话，NPC和厨房杂物。
 <color_yellow>KorGgenT</color> - 大魔法和胃痛机制。
 
-<color_white>Special thanks to (<color_cyan>0.E</color>):</color>
+<color_white>特别感谢  （<color_cyan>0.E</color>）：</color>
 <color_yellow>Narc</color> - 利用 Jenkins 设立自动游戏自重编译打包服务。
 <color_yellow>Rivet-the-Zombie</color> - 每日合并一个PR请求。
 <color_yellow>BevapDin</color> - 代码复查和底层重构。
@@ -45,12 +45,12 @@
 <color_yellow>Qrox</color> - 提升Windows下回溯可读性。
 <color_yellow>ZhilkinSerg</color> - 代码合并及测试。
 
-<color_white>For a full list of contributors please see the Git repo:</color>
+<color_white>完整贡献者名单请见Git repo：</color>
 <color_cyan>https://github.com/CleverRaven/Cataclysm-DDA</color>
 
 ******************************************************************************
 
-<color_white>Main Developers (<color_cyan>0.D</color>):</color>
+<color_white>主要开发者 （<color_cyan>0.D</color>）：</color>
 <color_yellow>KevinGranade</color>, <color_yellow>Rivet-the-Zombie</color>, <color_yellow>BevapDin</color>, <color_yellow>Coolthulu</color>, <color_yellow>i2amroy</color>
 
 <color_white>Special thanks to (<color_cyan>0.D</color>):</color>
