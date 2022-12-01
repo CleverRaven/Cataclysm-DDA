@@ -5114,7 +5114,7 @@
       "FELINE",
       "CEPHALOPOD",
       "FISH",
-	  "CALLIPHORID"
+      "CALLIPHORID"
     ],
     "passive_mods": { "dex_mod": 1 }
   },
