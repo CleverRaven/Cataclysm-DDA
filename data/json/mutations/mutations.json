@@ -7179,14 +7179,14 @@
     "threshold": true
   },
   {
-	 "type": "mutation",
-	 "id": "THRESH_CALLIPHORID",
-	 "name": { "str": "Calliphorid" },
-	 "points": 1,
-	 "description": "Looking like the victim of a teleporter accident is a small price to pay, and the rotting corpses prowling the streets have never smelled more delicious.",
-	 "valid": false,
-	 "purifiable": false,
-	 "threshold": true
+    "type": "mutation",
+    "id": "THRESH_CALLIPHORID",
+    "name": { "str": "Calliphorid" },
+    "points": 1,
+    "description": "Looking like the victim of a teleporter accident is a small price to pay, and the rotting corpses prowling the streets have never smelled more delicious.",
+    "valid": false,
+    "purifiable": false,
+    "threshold": true
   },
   {
     "type": "mutation",
