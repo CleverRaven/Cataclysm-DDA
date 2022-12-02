@@ -426,7 +426,8 @@
     "miss_msg_u": "%s tries to kick your %2$s but you dodge!",
     "miss_msg_npc": "%s tries to kick and knock down <npcname>, but they dodge!",
     "effects": [ { "id": "downed", "duration": 3 }, { "id": "stunned", "duration": [ 2, 3 ] } ],
-    "dodgeable": true
+    "dodgeable": true,
+    "blockable": false
   },
   {
     "type": "monster_attack",
