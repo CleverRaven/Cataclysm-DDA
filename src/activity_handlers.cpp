@@ -516,7 +516,8 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
         if( you.has_proficiency( proficiency_prof_dissect_humans ) ) {
             //if it's player doing the butchery, ask them first.
             if( you.is_avatar() ) {
-                if( query_yn( _( "Really desecrate the mortal remains of a fellow human being by butchering them for meat?" ) ) ) {
+                if( query_yn(
+                        _( "Really desecrate the mortal remains of a fellow human being by butchering them for meat?" ) ) ) {
                     //give the player a random message showing their disgust and cause morale penalty.
                     switch( rng( 1, 3 ) ) {
                         case 1:
