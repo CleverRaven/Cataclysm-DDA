@@ -285,7 +285,6 @@
     "broken_color": "dark_gray",
     "durability": 75,
     "description": "Spare tire stored on an external carrier rig.",
-    "size": 60,
     "damage_modifier": 60,
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },

@@ -164,7 +164,6 @@
       { "item": "power_supply", "prob": 50 },
       { "item": "RAM", "count": [ 0, 2 ] }
     ],
-    "size": 200,
     "type": "vehicle_part"
   },
   {
@@ -809,7 +808,6 @@
     "color": "light_blue",
     "flags": [ "OBSTACLE", "APPLIANCE", "WASHING_MACHINE", "CARGO", "COVERED", "FLUIDTANK", "ENABLED_DRAINS_EPOWER" ],
     "description": "An appliance used to do laundry, plugged into a power supply and using internal tanks.",
-    "size": 540,
     "copy-from": "washing_machine",
     "item": "household_washing_machine",
     "requirements": { "removal": { "time": "6 m" } }
@@ -823,7 +821,6 @@
     "color": "light_blue",
     "flags": [ "OBSTACLE", "APPLIANCE", "DISHWASHER", "CARGO", "COVERED", "FLUIDTANK", "ENABLED_DRAINS_EPOWER" ],
     "description": "An appliance used to clean dishes, plugged into a power supply and using internal tanks.",
-    "size": 480,
     "copy-from": "dishwasher",
     "item": "household_dishwasher",
     "requirements": { "removal": { "time": "6 m" } }
@@ -837,7 +834,6 @@
     "color": "light_blue",
     "flags": [ "OBSTACLE", "APPLIANCE", "AUTOCLAVE", "CARGO", "COVERED", "FLUIDTANK", "ENABLED_DRAINS_EPOWER" ],
     "description": "An autoclave that can steam its contents at high enough temperatures to completely sterilize them, killing any possible contaminants.  This one is plugged into a power grid and running off internal water tanks",
-    "size": 200,
     "copy-from": "autoclave",
     "item": "autoclave",
     "requirements": { "removal": { "time": "6 m" } }

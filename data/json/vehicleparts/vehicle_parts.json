@@ -107,7 +107,6 @@
     "rolling_resistance": 1.5,
     "wheel_type": "off-road",
     "description": "Attach this part to a beast of burden to allow it to pull your vehicle.",
-    "size": 25,
     "power": 0,
     "location": "structure",
     "requirements": {
@@ -682,7 +681,6 @@
     "durability": 100,
     "description": "A small washing machine.  With detergent, water, and some electrical power, you could clean a lot of clothes.  'e'xamine the tile with the washing machine to use it.",
     "epower": -400,
-    "size": 160,
     "item": "washing_machine",
     "location": "center",
     "requirements": {
@@ -716,7 +714,6 @@
     "durability": 100,
     "description": "A small dishwasher.  With detergent, water, and some electrical power, you could clean your dishes… or something more useful like a CBM dripping with zombie gore.  'e'xamine the tile with the dishwasher to use it.",
     "epower": -400,
-    "size": 160,
     "item": "dishwasher",
     "location": "center",
     "looks_like": "washing_machine",
@@ -751,7 +748,6 @@
     "durability": 100,
     "description": "This is an autoclave.  It's useful for sterilizing things like CBMs.  'e'xamine the tile with the autoclave to use it.",
     "epower": -1500,
-    "size": 11,
     "item": "vh_autoclave",
     "location": "center",
     "requirements": {

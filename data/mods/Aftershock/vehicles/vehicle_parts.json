@@ -85,8 +85,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted external tank (200L)" },
     "item": "55gal_drum",
-    "location": "center",
-    "size": 200000
+    "location": "center"
   },
   {
     "abstract": "afs_lightweight_frame",
