@@ -425,7 +425,7 @@
     "no_dmg_msg_npc": "%1$s tries to kick and knock <npcname> down, but their armor protects them!",
     "miss_msg_u": "%s tries to kick your %2$s but you dodge!",
     "miss_msg_npc": "%s tries to kick and knock down <npcname>, but they dodge!",
-    "effects": [ { "id": "downed", "duration": 3 }, { "id": "stunned", "duration": 1 } ],
+    "effects": [ { "id": "downed", "duration": 3 }, { "id": "stunned", "duration": [ 2, 3 ] } ],
     "dodgeable": true
   },
   {
