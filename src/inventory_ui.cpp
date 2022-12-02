@@ -3648,7 +3648,7 @@ trade_selector::trade_selector( trade_ui *parent, Character &u,
                                 std::string const &selection_column_title,
                                 point const &size, point const &origin )
     : inventory_drop_selector( u, preset, selection_column_title ), _parent( parent ),
-      _ctxt_trade( "INVENTORY" )
+      _ctxt_trade( "INVENTORY", keyboard_mode::keychar )
 {
     _ctxt_trade.register_action( ACTION_SWITCH_PANES );
     _ctxt_trade.register_action( ACTION_TRADE_CANCEL );
