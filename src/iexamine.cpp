@@ -238,6 +238,7 @@ static const trait_id trait_BEAK_HUM( "BEAK_HUM" );
 static const trait_id trait_BURROW( "BURROW" );
 static const trait_id trait_BURROWLARGE( "BURROWLARGE" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
+static const trait_id trait_FELINE_FLEXIBILITY( "FELINE_FLEXIBILITY" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_INSECT_ARMS_OK( "INSECT_ARMS_OK" );
 static const trait_id trait_M_DEFENDER( "M_DEFENDER" );
@@ -1504,9 +1505,12 @@ void iexamine::chainfence( Character &you, const tripoint &examp )
     // TODO: Remove hardcoded trait checks when new arthropod bits happen
     if( here.has_flag( ter_furn_flag::TFLAG_CLIMB_SIMPLE, examp ) ) {
 
-        if( you.has_proficiency( proficiency_prof_parkour ) ) {
+        if( you.has_trait( trait_FELINE_FLEXIBILITY ) {
+            add_msg( _( "You vault over the obstacle with catlike ease." ) );
+            move_cost = 100; // Not tall enough to warrant spider-climbing, so only relevant traits.
+        } else if( you.has_proficiency( proficiency_prof_parkour ) ) {
             add_msg( _( "You vault over the obstacle with ease." ) );
-            move_cost = 100; // Not tall enough to warrant spider-climbing, so only relevant trait.
+            move_cost = 100; // Not tall enough to warrant spider-climbing, so only relevant traits.
         } else {
             add_msg( _( "You vault over the obstacle." ) );
             move_cost = 300; // Most common move cost for barricades pre-change.
@@ -1519,6 +1523,9 @@ void iexamine::chainfence( Character &you, const tripoint &examp )
                !you.wearing_something_on( bodypart_id( "torso" ) ) ) {
         add_msg( _( "You quickly scale the fence." ) );
         move_cost = 90;
+    } else if( you.has_trait( trait_FELINE_FLEXIBILITY) ) {
+        add_msg( _( "This obstacle is no match for your feline flexibility." ) );
+        move_cost = 100;
     } else if( you.has_proficiency( proficiency_prof_parkour ) ) {
         add_msg( _( "This obstacle is no match for your freerunning abilities." ) );
         move_cost = 100;
