@@ -828,7 +828,8 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
             roll = std::max<int>( corpse_damage_effect( roll, entry.type, corpse_item->damage_level() ),
                                   entry.base_num.first );
         }
-
+        add_msg_debug(debugmode::DF_ACT_BUTCHER, "Roll  = %s",
+            roll);
         itype_id drop_id = itype_id::NULL_ID();
         const itype *drop = nullptr;
         if( entry.type->is_itype() ) {
