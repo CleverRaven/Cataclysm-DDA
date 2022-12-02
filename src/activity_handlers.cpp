@@ -359,7 +359,7 @@ static bool check_butcher_dissect( const int roll )
     // Roll is reduced by corpse damage level, but to no less then 0
     add_msg_debug( debugmode::DF_ACT_BUTCHER, "Roll = %i", roll );
     add_msg_debug( debugmode::DF_ACT_BUTCHER, "Failure chance = %f%%",
-                   ( 19.0f / ( 10.0f + roll * 5.0f ) ) * 100.0f );
+                   ( 10.0f / ( 10.0f + roll * 5.0f ) ) * 100.0f );
     const bool failed = x_in_y( 10, ( 10 + roll * 5 ) );
     return !failed;
 }
@@ -814,8 +814,17 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
         const int skill_level = butchery_dissect_skill_level( you, tool_quality, entry.type );
         const int butchery = roll_butchery_dissect( skill_level, you.dex_cur, tool_quality );
         practice += ( 4 + butchery ) / entry_count;
+        add_msg_debug(debugmode::DF_ACT_BUTCHER, "skill level= %s",
+            skill_level);
+        add_msg_debug(debugmode::DF_ACT_BUTCHER, "Butchery = %s",
+            butchery);
         const float min_num = entry.base_num.first + butchery * entry.scale_num.first;
+        add_msg_debug(debugmode::DF_ACT_BUTCHER, "Min num = %s",
+           min_num);
         const float max_num = entry.base_num.second + butchery * entry.scale_num.second;
+        add_msg_debug(debugmode::DF_ACT_BUTCHER, "max num = %s",
+            max_num);
+
         int roll = 0;
         // mass_ratio will override the use of base_num, scale_num, and max
         if( entry.mass_ratio != 0.00f ) {
@@ -827,6 +836,8 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
             roll = std::max<int>( corpse_damage_effect( roll, entry.type, corpse_item->damage_level() ),
                                   entry.base_num.first );
         }
+        add_msg_debug(debugmode::DF_ACT_BUTCHER, "Roll  = %s",
+            roll);
         itype_id drop_id = itype_id::NULL_ID();
         const itype *drop = nullptr;
         if( entry.type->is_itype() ) {
