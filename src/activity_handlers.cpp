@@ -822,8 +822,8 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
         add_msg_debug( debugmode::DF_ACT_BUTCHER, "Min num = %s",
                        min_num );
         const float max_num = entry.base_num.second + butchery * entry.scale_num.second;
-        add_msg_debug(debugmode::DF_ACT_BUTCHER, "max num = %s",
-            max_num);
+        add_msg_debug( debugmode::DF_ACT_BUTCHER, "max num = %s",
+                       max_num );
 
         int roll = 0;
         // mass_ratio will override the use of base_num, scale_num, and max
