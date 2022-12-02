@@ -693,7 +693,7 @@
         "faults": [ "fault_bionic_salvaged" ],
         "base_num": [ 0, 2 ],
         "scale_num": [ 0.1, 0.6 ],
-        "max" : 5
+        "max": 5
       },
       {
         "drop": "Zomborg_CBM_harvest_power",
