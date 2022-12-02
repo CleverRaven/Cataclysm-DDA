@@ -39,7 +39,7 @@
     "type": "proficiency",
     "id": "prof_dissect_humans",
     "category": "prof_firstaid",
-    "name": { "str": "Surgeries and Dissections" },
+    "name": { "str": "Surgeries and Autopsies" },
     "description": "You have been trained such that you are desensitized to the sight of a human's innards, and can dissect human corpses without penalty.",
     "can_learn": false,
     "default_time_multiplier": 2,
