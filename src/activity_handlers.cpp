@@ -197,7 +197,7 @@ static const json_character_flag json_flag_SAPIOVORE( "SAPIOVORE" );
 
 static const mongroup_id GROUP_FISH( "GROUP_FISH" );
 
-static const proficiency_id proficiency_prof_physiology( "prof_physiology" );
+static const proficiency_id proficiency_prof_dissect_humans( "prof_dissect_humans" );
 
 static const quality_id qual_BUTCHER( "BUTCHER" );
 static const quality_id qual_CUT_FINE( "CUT_FINE" );
@@ -512,11 +512,11 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
     // applies to all butchery actions except for dissections
     if( is_human && action != butcher_type::DISSECT && !( you.has_flag( json_flag_CANNIBAL ) ||
             you.has_flag( json_flag_PSYCHOPATH ) || you.has_flag( json_flag_SAPIOVORE ) ) ) {
-        //first determine if the butcherer has the physiology proficiency.
-        if( you.has_proficiency( proficiency_prof_physiology ) ) {
+        //first determine if the butcherer has the dissect_humans proficiency.
+        if( you.has_proficiency( proficiency_prof_dissect_humans ) ) {
             //if it's player doing the butchery, ask them first.
             if( you.is_avatar() ) {
-                if( query_yn( _( "Really desecrate the mortal remains of a fellow human being for meat?" ) ) ) {
+                if( query_yn( _( "Really desecrate the mortal remains of a fellow human being by butchering them for meat?" ) ) ) {
                     //give the player a random message showing their disgust and cause morale penalty.
                     switch( rng( 1, 3 ) ) {
                         case 1:
@@ -532,7 +532,7 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
                     }
                     get_player_character().add_morale( MORALE_BUTCHER, -50, 0, 2_days, 3_hours );
                 } else {
-                    //player has the physiology prof, so they're familiar with dissection. reference this in their refusal to butcher
+                    //player has the dissect_humans prof, so they're familiar with dissection. reference this in their refusal to butcher
                     you.add_msg_if_player( m_good, _( "You were trained for autopsies, not butchery." ) );
                     act.targets.pop_back();
                     return;
@@ -542,7 +542,7 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
                 you.add_morale( MORALE_BUTCHER, -50, 0, 2_days, 3_hours );
             }
         } else {
-            //this runs if the butcherer does NOT have physiology
+            //this runs if the butcherer does NOT have prof_dissect_humans
             if( you.is_avatar() ) {
                 if( query_yn( _( "Would you dare desecrate the mortal remains of a fellow human being?" ) ) ) {
                     //random message and morale penalty
@@ -560,7 +560,7 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
                     }
                     get_player_character().add_morale( MORALE_BUTCHER, -50, 0, 2_days, 3_hours );
                 } else {
-                    //player doesn't have physiology, so just give a regular refusal to mess with the corpse
+                    //player doesn't have dissect_humans, so just give a regular refusal to mess with the corpse
                     you.add_msg_if_player( m_good, _( "It needs a coffin, not a knife." ) );
                     act.targets.pop_back();
                     return;
@@ -572,10 +572,10 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
         }
     }
 
-    // applies to only dissections, so that physiology training makes a difference.
+    // applies to only dissections, so that dissect_humans training makes a difference.
     if( is_human && action == butcher_type::DISSECT && !( you.has_flag( json_flag_CANNIBAL ) ||
             you.has_flag( json_flag_PSYCHOPATH ) || you.has_flag( json_flag_SAPIOVORE ) ) ) {
-        if( you.has_proficiency( proficiency_prof_physiology ) ) {
+        if( you.has_proficiency( proficiency_prof_dissect_humans ) ) {
             //you're either trained for this, densensitized, or both. doesn't bother you.
             if( you.is_avatar() ) {
                 //this is a dissection, and we are trained for dissection, so no morale penalty, and lighter flavor text.
@@ -595,7 +595,7 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
             }
             //if we're not the avatar, we aren't getting a morale penalty as usual, and no message, so nothing happens
         } else {
-            //we don't have physiology but are trying to dissect anyways.
+            //we don't have dissect_humans but are trying to dissect anyways.
             if( you.is_avatar() ) {
                 if( query_yn( _( "Really dissect the remains of a fellow human being?" ) ) ) {
                     //give us a message indicating we are dissecting without the stomach for it, but not actually butchering. lower morale penalty.
@@ -620,7 +620,7 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
                     return;
                 }
             } else {
-                //if we're not player and don't have physiology, just add morale penalty.
+                //if we're not player and don't have dissect_humans, just add morale penalty.
                 you.add_morale( MORALE_BUTCHER, -40, 0, 1_days, 2_hours );
             }
         }
