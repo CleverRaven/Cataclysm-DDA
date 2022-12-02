@@ -5,6 +5,7 @@
     "om_terrain": [ "pagan_cult_enter" ],
     "weight": 100,
     "object": {
+      "faction_owner": [ { "id": "valhallists", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_dirt",
       "rows": [
         "                        ",
@@ -44,6 +45,7 @@
     "om_terrain": [ "pagan_cult_right_corner" ],
     "weight": 100,
     "object": {
+      "faction_owner": [ { "id": "valhallists", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_rock_floor",
       "rows": [
         "                       #",
@@ -83,6 +85,7 @@
     "om_terrain": [ "pagan_cult_left_corner" ],
     "weight": 100,
     "object": {
+      "faction_owner": [ { "id": "valhallists", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_rock_floor",
       "rows": [
         "#                       ",
@@ -122,6 +125,7 @@
     "om_terrain": [ "pagan_cult_right_corner_up" ],
     "weight": 100,
     "object": {
+      "faction_owner": [ { "id": "valhallists", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_rock_floor",
       "rows": [
         "########################",
@@ -250,6 +254,7 @@
     "//": "Garage",
     "weight": 100,
     "object": {
+      "faction_owner": [ { "id": "valhallists", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_dirt",
       "rows": [
         "#                       ",
@@ -297,6 +302,7 @@
     "//": "garden",
     "weight": 70,
     "object": {
+      "faction_owner": [ { "id": "valhallists", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_dirt",
       "rows": [
         "#                       ",
@@ -336,6 +342,7 @@
     "om_terrain": [ "pagan_cult_longhouse" ],
     "weight": 100,
     "object": {
+      "faction_owner": [ { "id": "valhallists", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_rock_floor",
       "rows": [
         "########################",
@@ -375,6 +382,7 @@
     "om_terrain": [ "pagan_cult_henge" ],
     "weight": 100,
     "object": {
+      "faction_owner": [ { "id": "valhallists", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_dirt",
       "rows": [
         "                        ",
