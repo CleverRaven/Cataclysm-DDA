@@ -1115,8 +1115,6 @@
     ],
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
-    "extend": { "flags": [ "UNDERSIZE" ] }
-  },
   {
     "id": "ch_chainmail_arms",
     "type": "ARMOR",
