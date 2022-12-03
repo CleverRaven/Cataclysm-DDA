@@ -732,7 +732,7 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 2,
-    "time": "1 h 45 m",
+    "time": "20 m",
     "reversible": true,
     "autolearn": true,
     "flags": [ "NO_RESIZE" ],
@@ -743,14 +743,14 @@
     "result": "lc_chainmail_hauberk_xs",
     "type": "recipe",
     "copy-from": "lc_chainmail_hauberk",
-    "time": "1 h 45 m",
+    "time": "20 m",
     "components": [ [ [ "xs_lc_chainmail_vest", 1 ] ], [ [ "xs_lc_chainmail_arms", 1 ] ] ]
   },
   {
     "result": "xl_lc_chainmail_hauberk",
     "type": "recipe",
     "copy-from": "lc_chainmail_hauberk",
-    "time": "1h 45m",
+    "time": "20 m",
     "components": [ [ [ "xl_lc_chainmail_vest", 1 ] ], [ [ "xl_lc_chainmail_arms", 1 ] ] ]
   },
   {
@@ -761,7 +761,7 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 2,
-    "time": "1 h 45 m",
+    "time": "20 m",
     "reversible": true,
     "autolearn": true,
     "flags": [ "NO_RESIZE" ],
@@ -772,14 +772,14 @@
     "result": "mc_chainmail_hauberk_xs",
     "type": "recipe",
     "copy-from": "mc_chainmail_hauberk",
-    "time": "1 h 45 m",
+    "time": "20 m",
     "components": [ [ [ "xs_mc_chainmail_vest", 1 ] ], [ [ "xs_mc_chainmail_arms", 1 ] ] ]
   },
   {
     "result": "xl_mc_chainmail_hauberk",
     "type": "recipe",
     "copy-from": "mc_chainmail_hauberk",
-    "time": "1h 45m",
+    "time": "20 m",
     "components": [ [ [ "xl_mc_chainmail_vest", 1 ] ], [ [ "xl_mc_chainmail_arms", 1 ] ] ]
   },
   {
@@ -790,7 +790,7 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 2,
-    "time": "1 h 45 m",
+    "time": "20 m",
     "reversible": true,
     "autolearn": true,
     "flags": [ "NO_RESIZE" ],
@@ -801,14 +801,14 @@
     "result": "hc_chainmail_hauberk_xs",
     "type": "recipe",
     "copy-from": "hc_chainmail_hauberk",
-    "time": "1 h 45 m",
+    "time": "20 m",
     "components": [ [ [ "xs_hc_chainmail_vest", 1 ] ], [ [ "xs_hc_chainmail_arms", 1 ] ] ]
   },
   {
     "result": "xl_hc_chainmail_hauberk",
     "type": "recipe",
     "copy-from": "hc_chainmail_hauberk",
-    "time": "1h 45m",
+    "time": "20 m",
     "components": [ [ [ "xl_hc_chainmail_vest", 1 ] ], [ [ "xl_hc_chainmail_arms", 1 ] ] ]
   },
   {
@@ -819,7 +819,7 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 2,
-    "time": "1 h 45 m",
+    "time": "20 m",
     "reversible": true,
     "autolearn": true,
     "flags": [ "NO_RESIZE" ],
@@ -830,14 +830,14 @@
     "result": "ch_chainmail_hauberk_xs",
     "type": "recipe",
     "copy-from": "ch_chainmail_hauberk",
-    "time": "1 h 45 m",
+    "time": "20 m",
     "components": [ [ [ "xs_ch_chainmail_vest", 1 ] ], [ [ "xs_ch_chainmail_arms", 1 ] ] ]
   },
   {
     "result": "xl_ch_chainmail_hauberk",
     "type": "recipe",
     "copy-from": "ch_chainmail_hauberk",
-    "time": "1h 45m",
+    "time": "20 m",
     "components": [ [ [ "xl_ch_chainmail_vest", 1 ] ], [ [ "xl_ch_chainmail_arms", 1 ] ] ]
   },
   {
@@ -848,7 +848,7 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 2,
-    "time": "1 h 45 m",
+    "time": "20 m",
     "reversible": true,
     "autolearn": true,
     "flags": [ "NO_RESIZE" ],
@@ -859,70 +859,600 @@
     "result": "qt_chainmail_hauberk_xs",
     "type": "recipe",
     "copy-from": "qt_chainmail_hauberk",
-    "time": "1 h 45 m",
+    "time": "20 m",
     "components": [ [ [ "xs_qt_chainmail_vest", 1 ] ], [ [ "xs_qt_chainmail_arms", 1 ] ] ]
   },
   {
     "result": "xl_qt_chainmail_hauberk",
     "type": "recipe",
     "copy-from": "qt_chainmail_hauberk",
-    "time": "1h 45m",
+    "time": "20 m",
     "components": [ [ [ "xl_qt_chainmail_vest", 1 ] ], [ [ "xl_qt_chainmail_arms", 1 ] ] ]
   },
   {
-    "result": "lc_chainmail_suit",
+    "result": "lc_chainmail_sjumpsuit",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "time": "1 h 50 m",
+    "time": "20 m",
     "reversible": true,
     "autolearn": true,
     "flags": [ "NO_RESIZE" ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ],
     "components": [
-      [ [ "lc_chainmail_hood", 1 ] ],
       [ [ "lc_chainmail_vest", 1 ] ],
-      [ [ "lc_chainmail_arms", 1 ] ],
       [ [ "lc_chainmail_legs", 1 ] ]
     ]
   },
   {
-    "result": "lc_chainmail_suit_xs",
+    "result": "lc_chainmail_sjumpsuit_xs",
     "type": "recipe",
-    "copy-from": "lc_chainmail_suit",
-    "time": "1 h 50 m",
+    "copy-from": "lc_chainmail_sjumpsuit",
+    "time": "20 m",
     "components": [
-      [ [ "xs_lc_chainmail_hood", 1 ] ],
       [ [ "xs_lc_chainmail_vest", 1 ] ],
-      [ [ "xs_lc_chainmail_arms", 1 ] ],
       [ [ "xs_lc_chainmail_legs", 1 ] ]
     ]
   },
   {
-    "result": "xl_lc_chainmail_suit",
+    "result": "xl_lc_chainmail_sjumpsuit",
+    "type": "recipe",
+    "copy-from": "lc_chainmail_sjumpsuit",
+    "time": "20 m",
+    "components": [
+      [ [ "xl_lc_chainmail_vest", 1 ] ],
+      [ [ "xl_lc_chainmail_legs", 1 ] ]
+    ]
+  },
+  {
+    "result": "mc_chainmail_sjumpsuit",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "20 m",
+    "reversible": true,
+    "autolearn": true,
+    "flags": [ "NO_RESIZE" ],
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ],
+    "components": [
+      [ [ "mc_chainmail_vest", 1 ] ],
+      [ [ "mc_chainmail_legs", 1 ] ]
+    ]
+  },
+  {
+    "result": "mc_chainmail_sjumpsuit_xs",
+    "type": "recipe",
+    "copy-from": "mc_chainmail_sjumpsuit",
+    "time": "20 m",
+    "components": [
+      [ [ "xs_mc_chainmail_vest", 1 ] ],
+      [ [ "xs_mc_chainmail_legs", 1 ] ]
+    ]
+  },
+  {
+    "result": "xl_mc_chainmail_sjumpsuit",
+    "type": "recipe",
+    "copy-from": "mc_chainmail_sjumpsuit",
+    "time": "20 m",
+    "components": [
+      [ [ "xl_mc_chainmail_vest", 1 ] ],
+      [ [ "xl_mc_chainmail_legs", 1 ] ]
+    ]
+  },
+  {
+    "result": "hc_chainmail_sjumpsuit",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "20 m",
+    "reversible": true,
+    "autolearn": true,
+    "flags": [ "NO_RESIZE" ],
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ],
+    "components": [
+      [ [ "hc_chainmail_vest", 1 ] ],
+      [ [ "hc_chainmail_legs", 1 ] ]
+    ]
+  },
+  {
+    "result": "hc_chainmail_sjumpsuit_xs",
+    "type": "recipe",
+    "copy-from": "hc_chainmail_sjumpsuit",
+    "time": "20 m",
+    "components": [
+      [ [ "xs_hc_chainmail_vest", 1 ] ],
+      [ [ "xs_hc_chainmail_legs", 1 ] ]
+    ]
+  },
+  {
+    "result": "xl_hc_chainmail_sjumpsuit",
+    "type": "recipe",
+    "copy-from": "hc_chainmail_sjumpsuit",
+    "time": "20 m",
+    "components": [
+      [ [ "xl_hc_chainmail_vest", 1 ] ],
+      [ [ "xl_hc_chainmail_legs", 1 ] ]
+    ]
+  },
+  {
+    "result": "ch_chainmail_sjumpsuit",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "20 m",
+    "reversible": true,
+    "autolearn": true,
+    "flags": [ "NO_RESIZE" ],
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ],
+    "components": [
+      [ [ "ch_chainmail_vest", 1 ] ],
+      [ [ "ch_chainmail_legs", 1 ] ]
+    ]
+  },
+  {
+    "result": "ch_chainmail_sjumpsuit_xs",
+    "type": "recipe",
+    "copy-from": "ch_chainmail_sjumpsuit",
+    "time": "20 m",
+    "components": [
+      [ [ "xs_ch_chainmail_vest", 1 ] ],
+      [ [ "xs_ch_chainmail_legs", 1 ] ]
+    ]
+  },
+  {
+    "result": "xl_ch_chainmail_sjumpsuit",
+    "type": "recipe",
+    "copy-from": "ch_chainmail_sjumpsuit",
+    "time": "20 m",
+    "components": [
+      [ [ "xl_ch_chainmail_vest", 1 ] ],
+      [ [ "xl_ch_chainmail_legs", 1 ] ]
+    ]
+  },
+  {
+    "result": "qt_chainmail_sjumpsuit",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "20 m",
+    "reversible": true,
+    "autolearn": true,
+    "flags": [ "NO_RESIZE" ],
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ],
+    "components": [
+      [ [ "qt_chainmail_vest", 1 ] ],
+      [ [ "qt_chainmail_legs", 1 ] ]
+    ]
+  },
+  {
+    "result": "qt_chainmail_sjumpsuit_xs",
+    "type": "recipe",
+    "copy-from": "qt_chainmail_sjumpsuit",
+    "time": "20 m",
+    "components": [
+      [ [ "xs_qt_chainmail_vest", 1 ] ],
+      [ [ "xs_qt_chainmail_legs", 1 ] ]
+    ]
+  },
+  {
+    "result": "xl_qt_chainmail_sjumpsuit",
+    "type": "recipe",
+    "copy-from": "qt_chainmail_sjumpsuit",
+    "time": "20 m",
+    "components": [
+      [ [ "xl_qt_chainmail_vest", 1 ] ],
+      [ [ "xl_qt_chainmail_legs", 1 ] ]
+    ]
+  },
+  {
+    "result": "lc_chainmail_jumpsuit",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "20 m",
+    "reversible": true,
+    "autolearn": true,
+    "flags": [ "NO_RESIZE" ],
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ],
+    "components": [
+      [ [ "lc_chainmail_sjumpsuit", 1 ] ],
+      [ [ "lc_chainmail_arms", 1 ] ]
+    ]
+  },
+  {
+    "result": "lc_chainmail_jumpsuit_xs",
     "type": "recipe",
     "copy-from": "lc_chainmail_suit",
-    "time": "1h 50m",
+    "time": "20 m",
     "components": [
-      [ [ "xl_lc_chainmail_hood", 1 ] ],
-      [ [ "xl_lc_chainmail_vest", 1 ] ],
-      [ [ "xl_lc_chainmail_arms", 1 ] ],
+      [ [ "xs_lc_chainmail_sjumpsuit", 1 ] ],
+      [ [ "xs_lc_chainmail_arms", 1 ] ]
+    ]
+  },
+  {
+    "result": "xl_lc_chainmail_jumpsuit",
+    "type": "recipe",
+    "copy-from": "lc_chainmail_suit",
+    "time": "20 m",
+    "components": [
+      [ [ "xl_lc_chainmail_sjumpsuit", 1 ] ],
+      [ [ "xl_lc_chainmail_arms", 1 ] ]
+    ]
+  },
+  {
+    "result": "lc_chainmail_jumpsuit",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+	"id_suffix": "hauberk",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "20 m",
+    "reversible": true,
+    "autolearn": true,
+    "flags": [ "NO_RESIZE" ],
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ],
+    "components": [
+      [ [ "lc_chainmail_hauberk", 1 ] ],
+      [ [ "lc_chainmail_legs", 1 ] ]
+    ]
+  },
+  {
+    "result": "lc_chainmail_jumpsuit_xs",
+    "type": "recipe",
+    "copy-from": "lc_chainmail_suit",
+    "time": "20 m",
+    "components": [
+      [ [ "xs_lc_chainmail_hauberk", 1 ] ],
+      [ [ "xs_lc_chainmail_legs", 1 ] ]
+    ]
+  },
+  {
+    "result": "xl_lc_chainmail_jumpsuit",
+    "type": "recipe",
+    "copy-from": "lc_chainmail_suit",
+    "time": "20 m",
+    "components": [
+      [ [ "xl_lc_chainmail_hauberk", 1 ] ],
       [ [ "xl_lc_chainmail_legs", 1 ] ]
+    ]
+  },
+  {
+    "result": "mc_chainmail_jumpsuit",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "20 m",
+    "reversible": true,
+    "autolearn": true,
+    "flags": [ "NO_RESIZE" ],
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ],
+    "components": [
+      [ [ "mc_chainmail_sjumpsuit", 1 ] ],
+      [ [ "mc_chainmail_arms", 1 ] ]
+    ]
+  },
+  {
+    "result": "mc_chainmail_jumpsuit_xs",
+    "type": "recipe",
+    "copy-from": "mc_chainmail_suit",
+    "time": "20 m",
+    "components": [
+      [ [ "xs_mc_chainmail_sjumpsuit", 1 ] ],
+      [ [ "xs_mc_chainmail_arms", 1 ] ]
+    ]
+  },
+  {
+    "result": "xl_mc_chainmail_jumpsuit",
+    "type": "recipe",
+    "copy-from": "mc_chainmail_suit",
+    "time": "20 m",
+    "components": [
+      [ [ "xl_mc_chainmail_sjumpsuit", 1 ] ],
+      [ [ "xl_mc_chainmail_arms", 1 ] ]
+    ]
+  },
+  {
+    "result": "mc_chainmail_jumpsuit",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+	"id_suffix": "hauberk",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "20 m",
+    "reversible": true,
+    "autolearn": true,
+    "flags": [ "NO_RESIZE" ],
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ],
+    "components": [
+      [ [ "mc_chainmail_hauberk", 1 ] ],
+      [ [ "mc_chainmail_legs", 1 ] ]
+    ]
+  },
+  {
+    "result": "mc_chainmail_jumpsuit_xs",
+    "type": "recipe",
+    "copy-from": "mc_chainmail_suit",
+    "time": "20 m",
+    "components": [
+      [ [ "xs_mc_chainmail_hauberk", 1 ] ],
+      [ [ "xs_mc_chainmail_legs", 1 ] ]
+    ]
+  },
+  {
+    "result": "xl_mc_chainmail_jumpsuit",
+    "type": "recipe",
+    "copy-from": "mc_chainmail_suit",
+    "time": "20 m",
+    "components": [
+      [ [ "xl_mc_chainmail_hauberk", 1 ] ],
+      [ [ "xl_mc_chainmail_legs", 1 ] ]
+    ]
+  },
+  {
+    "result": "hc_chainmail_jumpsuit",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "20 m",
+    "reversible": true,
+    "autolearn": true,
+    "flags": [ "NO_RESIZE" ],
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ],
+    "components": [
+      [ [ "hc_chainmail_sjumpsuit", 1 ] ],
+      [ [ "hc_chainmail_arms", 1 ] ]
+    ]
+  },
+  {
+    "result": "hc_chainmail_jumpsuit_xs",
+    "type": "recipe",
+    "copy-from": "hc_chainmail_suit",
+    "time": "20 m",
+    "components": [
+      [ [ "xs_hc_chainmail_sjumpsuit", 1 ] ],
+      [ [ "xs_hc_chainmail_arms", 1 ] ]
+    ]
+  },
+  {
+    "result": "xl_hc_chainmail_jumpsuit",
+    "type": "recipe",
+    "copy-from": "hc_chainmail_suit",
+    "time": "20 m",
+    "components": [
+      [ [ "xl_hc_chainmail_sjumpsuit", 1 ] ],
+      [ [ "xl_hc_chainmail_arms", 1 ] ]
+    ]
+  },
+  {
+    "result": "hc_chainmail_jumpsuit",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+	"id_suffix": "hauberk",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "20 m",
+    "reversible": true,
+    "autolearn": true,
+    "flags": [ "NO_RESIZE" ],
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ],
+    "components": [
+      [ [ "hc_chainmail_hauberk", 1 ] ],
+      [ [ "hc_chainmail_legs", 1 ] ]
+    ]
+  },
+  {
+    "result": "hc_chainmail_jumpsuit_xs",
+    "type": "recipe",
+    "copy-from": "hc_chainmail_suit",
+    "time": "20 m",
+    "components": [
+      [ [ "xs_hc_chainmail_hauberk", 1 ] ],
+      [ [ "xs_hc_chainmail_legs", 1 ] ]
+    ]
+  },
+  {
+    "result": "xl_hc_chainmail_jumpsuit",
+    "type": "recipe",
+    "copy-from": "hc_chainmail_suit",
+    "time": "20 m",
+    "components": [
+      [ [ "xl_hc_chainmail_hauberk", 1 ] ],
+      [ [ "xl_hc_chainmail_legs", 1 ] ]
+    ]
+  },
+  {
+    "result": "ch_chainmail_jumpsuit",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "20 m",
+    "reversible": true,
+    "autolearn": true,
+    "flags": [ "NO_RESIZE" ],
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ],
+    "components": [
+      [ [ "ch_chainmail_sjumpsuit", 1 ] ],
+      [ [ "ch_chainmail_arms", 1 ] ]
+    ]
+  },
+  {
+    "result": "ch_chainmail_jumpsuit_xs",
+    "type": "recipe",
+    "copy-from": "ch_chainmail_suit",
+    "time": "20 m",
+    "components": [
+      [ [ "xs_ch_chainmail_sjumpsuit", 1 ] ],
+      [ [ "xs_ch_chainmail_arms", 1 ] ]
+    ]
+  },
+  {
+    "result": "xl_ch_chainmail_jumpsuit",
+    "type": "recipe",
+    "copy-from": "ch_chainmail_suit",
+    "time": "20 m",
+    "components": [
+      [ [ "xl_ch_chainmail_sjumpsuit", 1 ] ],
+      [ [ "xl_ch_chainmail_arms", 1 ] ]
+    ]
+  },
+  {
+    "result": "ch_chainmail_jumpsuit",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+	"id_suffix": "hauberk",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "20 m",
+    "reversible": true,
+    "autolearn": true,
+    "flags": [ "NO_RESIZE" ],
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ],
+    "components": [
+      [ [ "ch_chainmail_hauberk", 1 ] ],
+      [ [ "ch_chainmail_legs", 1 ] ]
+    ]
+  },
+  {
+    "result": "ch_chainmail_jumpsuit_xs",
+    "type": "recipe",
+    "copy-from": "ch_chainmail_suit",
+    "time": "20 m",
+    "components": [
+      [ [ "xs_ch_chainmail_hauberk", 1 ] ],
+      [ [ "xs_ch_chainmail_legs", 1 ] ]
+    ]
+  },
+  {
+    "result": "xl_ch_chainmail_jumpsuit",
+    "type": "recipe",
+    "copy-from": "ch_chainmail_suit",
+    "time": "20 m",
+    "components": [
+      [ [ "xl_ch_chainmail_hauberk", 1 ] ],
+      [ [ "xl_ch_chainmail_legs", 1 ] ]
+    ]
+  }
+  {
+    "result": "qt_chainmail_jumpsuit",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "20 m",
+    "reversible": true,
+    "autolearn": true,
+    "flags": [ "NO_RESIZE" ],
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ],
+    "components": [
+      [ [ "qt_chainmail_sjumpsuit", 1 ] ],
+      [ [ "qt_chainmail_arms", 1 ] ]
+    ]
+  },
+  {
+    "result": "qt_chainmail_jumpsuit_xs",
+    "type": "recipe",
+    "copy-from": "qt_chainmail_suit",
+    "time": "20 m",
+    "components": [
+      [ [ "xs_qt_chainmail_sjumpsuit", 1 ] ],
+      [ [ "xs_qt_chainmail_arms", 1 ] ]
+    ]
+  },
+  {
+    "result": "xl_qt_chainmail_jumpsuit",
+    "type": "recipe",
+    "copy-from": "qt_chainmail_suit",
+    "time": "20 m",
+    "components": [
+      [ [ "xl_qt_chainmail_sjumpsuit", 1 ] ],
+      [ [ "xl_qt_chainmail_arms", 1 ] ]
+    ]
+  },
+  {
+    "result": "qt_chainmail_jumpsuit",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+	"id_suffix": "hauberk",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "20 m",
+    "reversible": true,
+    "autolearn": true,
+    "flags": [ "NO_RESIZE" ],
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ],
+    "components": [
+      [ [ "qt_chainmail_hauberk", 1 ] ],
+      [ [ "qt_chainmail_legs", 1 ] ]
+    ]
+  },
+  {
+    "result": "qt_chainmail_jumpsuit_xs",
+    "type": "recipe",
+    "copy-from": "qt_chainmail_suit",
+    "time": "20 m",
+    "components": [
+      [ [ "xs_qt_chainmail_hauberk", 1 ] ],
+      [ [ "xs_qt_chainmail_legs", 1 ] ]
+    ]
+  },
+  {
+    "result": "xl_qt_chainmail_jumpsuit",
+    "type": "recipe",
+    "copy-from": "qt_chainmail_suit",
+    "time": "20 m",
+    "components": [
+      [ [ "xl_qt_chainmail_hauberk", 1 ] ],
+      [ [ "xl_qt_chainmail_legs", 1 ] ]
     ]
   },
   {
     "result": "lc_chainmail_suit",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "id_suffix": "hauberk",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "time": "5 m",
+    "time": "20 m",
     "reversible": true,
     "autolearn": true,
     "flags": [ "NO_RESIZE" ],
@@ -930,18 +1460,17 @@
       { "proficiency": "prof_closures", "fail_multiplier": 1 },
       { "proficiency": "prof_chain_armour", "fail_multiplier": 1 }
     ],
-    "components": [ [ [ "lc_chainmail_hood", 1 ] ], [ [ "lc_chainmail_hauberk", 1 ] ], [ [ "lc_chainmail_legs", 1 ] ] ]
+    "components": [ [ [ "lc_chainmail_hood", 1 ] ], [ [ "lc_chainmail_jumpsuit", 1 ] ] ]
   },
   {
     "result": "xl_lc_chainmail_suit",
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "id_suffix": "hauberk",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "time": "5 m",
+    "time": "20 m",
     "reversible": true,
     "autolearn": true,
     "flags": [ "NO_RESIZE" ],
@@ -949,18 +1478,17 @@
       { "proficiency": "prof_closures", "fail_multiplier": 1 },
       { "proficiency": "prof_chain_armour", "fail_multiplier": 1 }
     ],
-    "components": [ [ [ "xl_lc_chainmail_hood", 1 ] ], [ [ "xl_lc_chainmail_hauberk", 1 ] ], [ [ "xl_lc_chainmail_legs", 1 ] ] ]
+    "components": [ [ [ "xl_lc_chainmail_hood", 1 ] ], [ [ "xl_lc_chainmail_jumpsuit", 1 ] ] ]
   },
   {
     "result": "lc_chainmail_suit_xs",
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "id_suffix": "hauberk",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "time": "5 m",
+    "time": "20 m",
     "reversible": true,
     "autolearn": true,
     "flags": [ "NO_RESIZE" ],
@@ -968,7 +1496,7 @@
       { "proficiency": "prof_closures", "fail_multiplier": 1 },
       { "proficiency": "prof_chain_armour", "fail_multiplier": 1 }
     ],
-    "components": [ [ [ "xs_lc_chainmail_hood", 1 ] ], [ [ "lc_chainmail_hauberk_xs", 1 ] ], [ [ "xs_lc_chainmail_legs", 1 ] ] ]
+    "components": [ [ [ "xs_lc_chainmail_hood", 1 ] ], [ [ "lc_chainmail_jumpsuit_xs", 1 ] ] ]
   },
   {
     "result": "mc_chainmail_suit",
@@ -978,52 +1506,7 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "time": "1 h 50 m",
-    "reversible": true,
-    "autolearn": true,
-    "flags": [ "NO_RESIZE" ],
-    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ],
-    "components": [
-      [ [ "mc_chainmail_hood", 1 ] ],
-      [ [ "mc_chainmail_vest", 1 ] ],
-      [ [ "mc_chainmail_arms", 1 ] ],
-      [ [ "mc_chainmail_legs", 1 ] ]
-    ]
-  },
-  {
-    "result": "mc_chainmail_suit_xs",
-    "type": "recipe",
-    "copy-from": "mc_chainmail_suit",
-    "time": "1 h 50 m",
-    "components": [
-      [ [ "xs_mc_chainmail_hood", 1 ] ],
-      [ [ "xs_mc_chainmail_vest", 1 ] ],
-      [ [ "xs_mc_chainmail_arms", 1 ] ],
-      [ [ "xs_mc_chainmail_legs", 1 ] ]
-    ]
-  },
-  {
-    "result": "xl_mc_chainmail_suit",
-    "type": "recipe",
-    "copy-from": "mc_chainmail_suit",
-    "time": "1h 50m",
-    "components": [
-      [ [ "xl_mc_chainmail_hood", 1 ] ],
-      [ [ "xl_mc_chainmail_vest", 1 ] ],
-      [ [ "xl_mc_chainmail_arms", 1 ] ],
-      [ [ "xl_mc_chainmail_legs", 1 ] ]
-    ]
-  },
-  {
-    "result": "mc_chainmail_suit",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "id_suffix": "hauberk",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "skill_used": "fabrication",
-    "difficulty": 3,
-    "time": "5 m",
+    "time": "20 m",
     "reversible": true,
     "autolearn": true,
     "flags": [ "NO_RESIZE" ],
@@ -1031,18 +1514,17 @@
       { "proficiency": "prof_closures", "fail_multiplier": 1 },
       { "proficiency": "prof_chain_armour", "fail_multiplier": 1 }
     ],
-    "components": [ [ [ "mc_chainmail_hood", 1 ] ], [ [ "mc_chainmail_hauberk", 1 ] ], [ [ "mc_chainmail_legs", 1 ] ] ]
+    "components": [ [ [ "mc_chainmail_hood", 1 ] ], [ [ "mc_chainmail_jumpsuit", 1 ] ] ]
   },
   {
     "result": "xl_mc_chainmail_suit",
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "id_suffix": "hauberk",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "time": "5 m",
+    "time": "20 m",
     "reversible": true,
     "autolearn": true,
     "flags": [ "NO_RESIZE" ],
@@ -1050,18 +1532,17 @@
       { "proficiency": "prof_closures", "fail_multiplier": 1 },
       { "proficiency": "prof_chain_armour", "fail_multiplier": 1 }
     ],
-    "components": [ [ [ "xl_mc_chainmail_hood", 1 ] ], [ [ "xl_mc_chainmail_hauberk", 1 ] ], [ [ "xl_mc_chainmail_legs", 1 ] ] ]
+    "components": [ [ [ "xl_mc_chainmail_hood", 1 ] ], [ [ "xl_mc_chainmail_jumpsuit", 1 ] ] ]
   },
   {
     "result": "mc_chainmail_suit_xs",
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "id_suffix": "hauberk",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "time": "5 m",
+    "time": "20 m",
     "reversible": true,
     "autolearn": true,
     "flags": [ "NO_RESIZE" ],
@@ -1069,7 +1550,7 @@
       { "proficiency": "prof_closures", "fail_multiplier": 1 },
       { "proficiency": "prof_chain_armour", "fail_multiplier": 1 }
     ],
-    "components": [ [ [ "xs_mc_chainmail_hood", 1 ] ], [ [ "mc_chainmail_hauberk_xs", 1 ] ], [ [ "xs_mc_chainmail_legs", 1 ] ] ]
+    "components": [ [ [ "xs_mc_chainmail_hood", 1 ] ], [ [ "mc_chainmail_jumpsuit_xs", 1 ] ] ]
   },
   {
     "result": "hc_chainmail_suit",
@@ -1079,52 +1560,7 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "time": "1 h 50 m",
-    "reversible": true,
-    "autolearn": true,
-    "flags": [ "NO_RESIZE" ],
-    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ],
-    "components": [
-      [ [ "hc_chainmail_hood", 1 ] ],
-      [ [ "hc_chainmail_vest", 1 ] ],
-      [ [ "hc_chainmail_arms", 1 ] ],
-      [ [ "hc_chainmail_legs", 1 ] ]
-    ]
-  },
-  {
-    "result": "hc_chainmail_suit_xs",
-    "type": "recipe",
-    "copy-from": "hc_chainmail_suit",
-    "time": "1 h 50 m",
-    "components": [
-      [ [ "xs_hc_chainmail_hood", 1 ] ],
-      [ [ "xs_hc_chainmail_vest", 1 ] ],
-      [ [ "xs_hc_chainmail_arms", 1 ] ],
-      [ [ "xs_hc_chainmail_legs", 1 ] ]
-    ]
-  },
-  {
-    "result": "xl_hc_chainmail_suit",
-    "type": "recipe",
-    "copy-from": "hc_chainmail_suit",
-    "time": "1h 50m",
-    "components": [
-      [ [ "xl_hc_chainmail_hood", 1 ] ],
-      [ [ "xl_hc_chainmail_vest", 1 ] ],
-      [ [ "xl_hc_chainmail_arms", 1 ] ],
-      [ [ "xl_hc_chainmail_legs", 1 ] ]
-    ]
-  },
-  {
-    "result": "hc_chainmail_suit",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "id_suffix": "hauberk",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "skill_used": "fabrication",
-    "difficulty": 3,
-    "time": "5 m",
+    "time": "20 m",
     "reversible": true,
     "autolearn": true,
     "flags": [ "NO_RESIZE" ],
@@ -1132,18 +1568,17 @@
       { "proficiency": "prof_closures", "fail_multiplier": 1 },
       { "proficiency": "prof_chain_armour", "fail_multiplier": 1 }
     ],
-    "components": [ [ [ "hc_chainmail_hood", 1 ] ], [ [ "hc_chainmail_hauberk", 1 ] ], [ [ "hc_chainmail_legs", 1 ] ] ]
+    "components": [ [ [ "hc_chainmail_hood", 1 ] ], [ [ "hc_chainmail_jumpsuit", 1 ] ] ]
   },
   {
     "result": "xl_hc_chainmail_suit",
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "id_suffix": "hauberk",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "time": "5 m",
+    "time": "20 m",
     "reversible": true,
     "autolearn": true,
     "flags": [ "NO_RESIZE" ],
@@ -1151,18 +1586,17 @@
       { "proficiency": "prof_closures", "fail_multiplier": 1 },
       { "proficiency": "prof_chain_armour", "fail_multiplier": 1 }
     ],
-    "components": [ [ [ "xl_hc_chainmail_hood", 1 ] ], [ [ "xl_lc_chainmail_hauberk", 1 ] ], [ [ "xl_hc_chainmail_legs", 1 ] ] ]
+    "components": [ [ [ "xl_hc_chainmail_hood", 1 ] ], [ [ "xl_hc_chainmail_jumpsuit", 1 ] ] ]
   },
   {
     "result": "hc_chainmail_suit_xs",
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "id_suffix": "hauberk",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "time": "5 m",
+    "time": "20 m",
     "reversible": true,
     "autolearn": true,
     "flags": [ "NO_RESIZE" ],
@@ -1170,7 +1604,7 @@
       { "proficiency": "prof_closures", "fail_multiplier": 1 },
       { "proficiency": "prof_chain_armour", "fail_multiplier": 1 }
     ],
-    "components": [ [ [ "xs_hc_chainmail_hood", 1 ] ], [ [ "hc_chainmail_hauberk_xs", 1 ] ], [ [ "xs_hc_chainmail_legs", 1 ] ] ]
+    "components": [ [ [ "xs_hc_chainmail_hood", 1 ] ], [ [ "hc_chainmail_jumpsuit_xs", 1 ] ] ]
   },
   {
     "result": "ch_chainmail_suit",
@@ -1180,52 +1614,7 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "time": "1 h 50 m",
-    "reversible": true,
-    "autolearn": true,
-    "flags": [ "NO_RESIZE" ],
-    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ],
-    "components": [
-      [ [ "ch_chainmail_hood", 1 ] ],
-      [ [ "ch_chainmail_vest", 1 ] ],
-      [ [ "ch_chainmail_arms", 1 ] ],
-      [ [ "ch_chainmail_legs", 1 ] ]
-    ]
-  },
-  {
-    "result": "ch_chainmail_suit_xs",
-    "type": "recipe",
-    "copy-from": "ch_chainmail_suit",
-    "time": "1 h 50 m",
-    "components": [
-      [ [ "xs_ch_chainmail_hood", 1 ] ],
-      [ [ "xs_ch_chainmail_vest", 1 ] ],
-      [ [ "xs_ch_chainmail_arms", 1 ] ],
-      [ [ "xs_ch_chainmail_legs", 1 ] ]
-    ]
-  },
-  {
-    "result": "xl_ch_chainmail_suit",
-    "type": "recipe",
-    "copy-from": "ch_chainmail_suit",
-    "time": "1h 50m",
-    "components": [
-      [ [ "xl_ch_chainmail_hood", 1 ] ],
-      [ [ "xl_ch_chainmail_vest", 1 ] ],
-      [ [ "xl_ch_chainmail_arms", 1 ] ],
-      [ [ "xl_ch_chainmail_legs", 1 ] ]
-    ]
-  },
-  {
-    "result": "ch_chainmail_suit",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "id_suffix": "hauberk",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "skill_used": "fabrication",
-    "difficulty": 3,
-    "time": "5 m",
+    "time": "20 m",
     "reversible": true,
     "autolearn": true,
     "flags": [ "NO_RESIZE" ],
@@ -1233,18 +1622,17 @@
       { "proficiency": "prof_closures", "fail_multiplier": 1 },
       { "proficiency": "prof_chain_armour", "fail_multiplier": 1 }
     ],
-    "components": [ [ [ "ch_chainmail_hood", 1 ] ], [ [ "ch_chainmail_hauberk", 1 ] ], [ [ "ch_chainmail_legs", 1 ] ] ]
+    "components": [ [ [ "ch_chainmail_hood", 1 ] ], [ [ "ch_chainmail_jumpsuit", 1 ] ] ]
   },
   {
     "result": "xl_ch_chainmail_suit",
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "id_suffix": "hauberk",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "time": "5 m",
+    "time": "20 m",
     "reversible": true,
     "autolearn": true,
     "flags": [ "NO_RESIZE" ],
@@ -1252,18 +1640,17 @@
       { "proficiency": "prof_closures", "fail_multiplier": 1 },
       { "proficiency": "prof_chain_armour", "fail_multiplier": 1 }
     ],
-    "components": [ [ [ "xl_ch_chainmail_hood", 1 ] ], [ [ "xl_ch_chainmail_hauberk", 1 ] ], [ [ "xl_ch_chainmail_legs", 1 ] ] ]
+    "components": [ [ [ "xl_ch_chainmail_hood", 1 ] ], [ [ "xl_ch_chainmail_jumpsuit", 1 ] ] ]
   },
   {
     "result": "ch_chainmail_suit_xs",
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "id_suffix": "hauberk",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "time": "5 m",
+    "time": "20 m",
     "reversible": true,
     "autolearn": true,
     "flags": [ "NO_RESIZE" ],
@@ -1271,7 +1658,7 @@
       { "proficiency": "prof_closures", "fail_multiplier": 1 },
       { "proficiency": "prof_chain_armour", "fail_multiplier": 1 }
     ],
-    "components": [ [ [ "xs_ch_chainmail_hood", 1 ] ], [ [ "ch_chainmail_hauberk_xs", 1 ] ], [ [ "xs_ch_chainmail_legs", 1 ] ] ]
+    "components": [ [ [ "xs_ch_chainmail_hood", 1 ] ], [ [ "ch_chainmail_jumpsuit_xs", 1 ] ] ]
   },
   {
     "result": "qt_chainmail_suit",
@@ -1281,52 +1668,7 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "time": "1 h 50 m",
-    "reversible": true,
-    "autolearn": true,
-    "flags": [ "NO_RESIZE" ],
-    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ],
-    "components": [
-      [ [ "qt_chainmail_hood", 1 ] ],
-      [ [ "qt_chainmail_vest", 1 ] ],
-      [ [ "qt_chainmail_arms", 1 ] ],
-      [ [ "qt_chainmail_legs", 1 ] ]
-    ]
-  },
-  {
-    "result": "qt_chainmail_suit_xs",
-    "type": "recipe",
-    "copy-from": "qt_chainmail_suit",
-    "time": "1 h 50 m",
-    "components": [
-      [ [ "xs_qt_chainmail_hood", 1 ] ],
-      [ [ "xs_qt_chainmail_vest", 1 ] ],
-      [ [ "xs_qt_chainmail_arms", 1 ] ],
-      [ [ "xs_qt_chainmail_legs", 1 ] ]
-    ]
-  },
-  {
-    "result": "xl_qt_chainmail_suit",
-    "type": "recipe",
-    "copy-from": "qt_chainmail_suit",
-    "time": "1h 50m",
-    "components": [
-      [ [ "xl_qt_chainmail_hood", 1 ] ],
-      [ [ "xl_qt_chainmail_vest", 1 ] ],
-      [ [ "xl_qt_chainmail_arms", 1 ] ],
-      [ [ "xl_qt_chainmail_legs", 1 ] ]
-    ]
-  },
-  {
-    "result": "qt_chainmail_suit",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "id_suffix": "hauberk",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "skill_used": "fabrication",
-    "difficulty": 3,
-    "time": "5 m",
+    "time": "20 m",
     "reversible": true,
     "autolearn": true,
     "flags": [ "NO_RESIZE" ],
@@ -1334,18 +1676,17 @@
       { "proficiency": "prof_closures", "fail_multiplier": 1 },
       { "proficiency": "prof_chain_armour", "fail_multiplier": 1 }
     ],
-    "components": [ [ [ "qt_chainmail_hood", 1 ] ], [ [ "qt_chainmail_hauberk", 1 ] ], [ [ "qt_chainmail_legs", 1 ] ] ]
+    "components": [ [ [ "qt_chainmail_hood", 1 ] ], [ [ "qt_chainmail_jumpsuit", 1 ] ] ]
   },
   {
     "result": "xl_qt_chainmail_suit",
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "id_suffix": "hauberk",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "time": "5 m",
+    "time": "20 m",
     "reversible": true,
     "autolearn": true,
     "flags": [ "NO_RESIZE" ],
@@ -1353,18 +1694,17 @@
       { "proficiency": "prof_closures", "fail_multiplier": 1 },
       { "proficiency": "prof_chain_armour", "fail_multiplier": 1 }
     ],
-    "components": [ [ [ "xl_qt_chainmail_hood", 1 ] ], [ [ "xl_qt_chainmail_hauberk", 1 ] ], [ [ "xl_qt_chainmail_legs", 1 ] ] ]
+    "components": [ [ [ "xl_qt_chainmail_hood", 1 ] ], [ [ "xl_qt_chainmail_jumpsuit", 1 ] ] ]
   },
   {
     "result": "qt_chainmail_suit_xs",
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "id_suffix": "hauberk",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "time": "5 m",
+    "time": "20 m",
     "reversible": true,
     "autolearn": true,
     "flags": [ "NO_RESIZE" ],
@@ -1372,8 +1712,8 @@
       { "proficiency": "prof_closures", "fail_multiplier": 1 },
       { "proficiency": "prof_chain_armour", "fail_multiplier": 1 }
     ],
-    "components": [ [ [ "xs_qt_chainmail_hood", 1 ] ], [ [ "qt_chainmail_hauberk_xs", 1 ] ], [ [ "xs_qt_chainmail_legs", 1 ] ] ]
-  },
+    "components": [ [ [ "xs_qt_chainmail_hood", 1 ] ], [ [ "qt_chainmail_jumpsuit_xs", 1 ] ] ]
+  }
   {
     "result": "chainmail_suit_faraday",
     "type": "recipe",
