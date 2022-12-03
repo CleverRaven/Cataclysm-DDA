@@ -371,15 +371,7 @@ bool advanced_inv_area::is_container_valid( const item *it ) const
 {
     if( it != nullptr ) {
         if( it->typeId() == uistate.adv_inv_container_type ) {
-            if( it->is_container_empty() ) {
-                if( uistate.adv_inv_container_content_type.is_null() ) {
-                    return true;
-                }
-            } else {
-                if( it->legacy_front().typeId() == uistate.adv_inv_container_content_type ) {
-                    return true;
-                }
-            }
+            return true;
         }
     }
 
