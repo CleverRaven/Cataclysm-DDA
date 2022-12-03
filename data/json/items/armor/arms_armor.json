@@ -1189,8 +1189,6 @@
     ],
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
-    "extend": { "flags": [ "UNDERSIZE" ] }
-  },
   {
     "id": "qt_chainmail_arms",
     "type": "ARMOR",
