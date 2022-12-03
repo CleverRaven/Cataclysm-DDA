@@ -2431,27 +2431,6 @@ cata::optional<int> iuse::pack_item( Character *p, item *it, bool t, const tripo
     return 0;
 }
 
-static cata::optional<int> cauterize_elec( Character &p, item &it )
-{
-    if( it.ammo_remaining() == 0 ) {
-        p.add_msg_if_player( m_info, _( "You need batteries to cauterize wounds." ) );
-        return cata::nullopt;
-    } else if( !p.has_effect( effect_bite ) && !p.has_effect( effect_bleed ) && !p.is_underwater() ) {
-        if( ( p.has_trait( trait_MASOCHIST ) || p.has_trait( trait_MASOCHIST_MED ) ||
-              p.has_trait( trait_CENOBITE ) ) &&
-            p.query_yn( _( "Cauterize yourself for fun?" ) ) ) {
-            return cauterize_actor::cauterize_effect( p, it, true ) ? 1 : 0;
-        } else {
-            p.add_msg_if_player( m_info,
-                                 _( "You aren't bleeding or bitten; there is no need to cauterize yourself." ) );
-            return cata::nullopt;
-        }
-    } else if( p.is_npc() || query_yn( _( "Cauterize any open wounds?" ) ) ) {
-        return cauterize_actor::cauterize_effect( p, it, true ) ? 1 : 0;
-    }
-    return cata::nullopt;
-}
-
 cata::optional<int> iuse::water_purifier( Character *p, item *it, bool, const tripoint & )
 {
     if( p->is_mounted() ) {
@@ -5273,22 +5252,8 @@ cata::optional<int> iuse::hotplate( Character *p, item *it, bool, const tripoint
         return cata::nullopt;
     }
 
-    int choice = 0;
-    if( ( p->has_effect( effect_bite ) || p->has_effect( effect_bleed ) ||
-          p->has_trait( trait_MASOCHIST ) ||
-          p->has_trait( trait_MASOCHIST_MED ) || p->has_trait( trait_CENOBITE ) ) && !p->is_underwater() ) {
-        //Might want to cauterize
-        choice = uilist( _( "Using hotplate:" ), {
-            _( "Heat food" ), _( "Cauterize wound" )
-        } );
-    }
-
-    if( choice == 0 ) {
-        if( heat_item( *p ) ) {
-            return 1;
-        }
-    } else if( choice == 1 ) {
-        return cauterize_elec( *p, *it );
+    if( heat_item( *p ) ) {
+        return 1;
     }
     return cata::nullopt;
 }
