@@ -1963,7 +1963,7 @@ void pickup_activity_actor::do_turn( player_activity &, Character &who )
     // Otherwise, we are done.
     if( !keep_going || target_items.empty() ) {
         if( !stash_successful && !autopickup ) {
-            add_msg( m_bad, _( "Some items were not picked up" ) );
+            add_msg( m_bad, _( "Some items were not picked up!" ) );
         }
 
         cancel_pickup( who );
@@ -3109,7 +3109,7 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
     // if item_counter has reached 100% or more
     if( craft.item_counter >= 10'000'000 ) {
         if( rec.is_practice() && !is_long && craft.get_making_batch_size() == 1 ) {
-            if( query_yn( _( "Keep practicing until proficiency increase?" ) ) ) {
+            if( query_yn( _( "Keep practicing until proficiency increases?" ) ) ) {
                 is_long = true;
                 *( crafter.last_craft ) = craft_command( &craft.get_making(), 1, is_long, &crafter, location );
             }
@@ -3588,7 +3588,7 @@ void harvest_activity_actor::start( player_activity &act, Character &who )
     if( harvest.is_null() || harvest->empty() ) {
         if( !auto_forage ) {
             who.add_msg_if_player( m_info,
-                                   _( "Nothing can be harvested from this plant in current season." ) );
+                                   _( "Nothing can be harvested from this plant in the current season." ) );
         }
 
         if( who.manual_examine ) {
@@ -6553,7 +6553,7 @@ bool vehicle_folding_activity_actor::fold_vehicle( Character &p, bool check_only
 vehicle_folding_activity_actor::vehicle_folding_activity_actor( const vehicle &target )
 {
     folding_time = target.folding_time();
-    target_pos = target.pos_bub();
+    target_pos = target.bub_part_pos( 0 );
 }
 
 void vehicle_folding_activity_actor::start( player_activity &act, Character &p )
@@ -6628,7 +6628,7 @@ bool vehicle_unfolding_activity_actor::unfold_vehicle( Character &p, bool check_
         here.destroy_vehicle( veh );
         return false;
     }
-    const bool cant_float = size( veh->get_avail_parts( "FLOATS" ) ) <= 2;
+    const bool cant_float = !veh->can_float();
     const auto invalid_pos = [&here, &cant_float]( const tripoint & p ) {
         return ( cant_float && here.has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, p ) )
                || here.veh_at( p )

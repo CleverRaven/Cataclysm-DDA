@@ -1543,13 +1543,13 @@ class vehicle
         float handling_difficulty() const;
 
         /**
-         * Use grid traversal to enumerate all connected vehicles.
-         * @param connected_vehicles is an output map from vehicle pointers to
-         * a bool that is true if the vehicle is in the reality bubble.
-         * @param vehicle_list is a set of pointers to vehicles present in the reality bubble.
-         */
-        static void enumerate_vehicles( std::map<vehicle *, bool> &connected_vehicles,
-                                        std::set<vehicle *> &vehicle_list );
+        * Use vehicle::traverse_vehicle_graph (breadth-first search) to enumerate all vehicles
+        * connected to @ref origins by parts with POWER_TRANSFER flag.
+        * @param origins set of pointers to vehicles to start searching from
+        * @return a map of vehicle pointers to a bool that is true if the
+        * vehicle is in the @ref origins set.
+        */
+        static std::map<vehicle *, bool> enumerate_vehicles( const std::set<vehicle *> &origins );
         // idle fuel consumption
         void idle( bool on_map = true );
         // continuous processing for running vehicle alarms
