@@ -29,7 +29,7 @@
   {
     "id": "wether_layout",
     "type": "widget",
-    "label": "wether",
+    "label": "weather",
     "style": "layout",
     "arrange": "rows",
     "width": 28,
