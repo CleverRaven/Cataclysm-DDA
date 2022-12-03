@@ -754,7 +754,7 @@
     "id": "Mansion",
     "name": "Challenge - Mansion Escape",
     "points": -5,
-    "description": "You were living the high life when the world ended, surrounded by riches and extravagant food every day.  One day you were drugged and brought to a hidden room for who knows what purpose.  You lost consciousness and now heavy footsteps nearby awake you.  Are you ready to escape from what confined you here?",
+    "description": "You were living the high life when the world ended, surrounded by riches and extravagant food every day.  Now you've woken up alone and drugged in a room of your old mansion for who knows what purpose.  You lost consciousness and now heavy footsteps nearby awake you.  Time to find out if you're ready to escape and survive the real world again.",
     "allowed_locs": [ "sloc_mansion_basement", "sloc_enclosed_mansion_panic_room", "sloc_enclosed_mansion_sex_lair" ],
     "start_name": "Mansion",
     "surround_groups": [ [ "GROUP_MANSION_START", 100.0 ] ],
