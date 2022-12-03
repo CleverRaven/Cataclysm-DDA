@@ -343,7 +343,6 @@ item_location advanced_inv_area::get_container( bool in_vehicle )
             desc[0] = _( "Invalid container" );
         }
     }
-
     return container;
 }
 
@@ -374,7 +373,6 @@ bool advanced_inv_area::is_container_valid( const item *it ) const
             return true;
         }
     }
-
     return false;
 }
 
