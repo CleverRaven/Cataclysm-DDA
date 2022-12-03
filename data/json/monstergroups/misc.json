@@ -69,7 +69,8 @@
       { "monster": "mon_feral_fancy_rapier_fake", "freq": 80, "cost_multiplier": 2 },
       { "monster": "mon_feral_fancy_rapier_fake", "freq": 50, "cost_multiplier": 2, "pack_size": [ 2, 3 ] },
       { "monster": "mon_feral_fancy_crossbow", "freq": 60, "cost_multiplier": 5 },
-      { "monster": "mon_feral_fancy_crossbow", "freq": 40, "cost_multiplier": 10, "pack_size": [ 2, 3 ] }
+      { "monster": "mon_feral_fancy_crossbow", "freq": 40, "cost_multiplier": 10, "pack_size": [ 2, 3 ] },
+      { "group": "GROUP_MANSION_ARMORED", "freq": 180, "cost_multiplier": 15 }
     ]
   },
   {
