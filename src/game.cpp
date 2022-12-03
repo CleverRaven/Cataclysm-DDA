@@ -6899,7 +6899,7 @@ void game::zones_manager()
             const zone_data &zone = zones[active_index].get();
             zone_start = m.getlocal( zone.get_start_point() );
             zone_end = m.getlocal( zone.get_end_point() );
-            ctxt.set_timeout( BLINK_SPEED );
+            ctxt.set_timeout( get_option<int>( "BLINK_SPEED" ) );
         } else {
             blink = false;
             zone_start = zone_end = cata::nullopt;
@@ -7203,7 +7203,7 @@ look_around_result game::look_around(
         ui_manager::redraw();
 
         if( ( select_zone && has_first_point ) || is_moving_zone ) {
-            ctxt.set_timeout( BLINK_SPEED );
+            ctxt.set_timeout( get_option<int>( "BLINK_SPEED" ) );
         }
 
         //Wait for input
