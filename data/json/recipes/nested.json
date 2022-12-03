@@ -1503,7 +1503,7 @@
     "description": "Recipes related to constructing chainmail hauberks in various sizes.",
     "skill_used": "fabrication",
     "nested_category_data": [ "lc_chainmail_hauberk", "lc_chainmail_hauberk_xs", "xl_lc_chainmail_hauberk" ],
-    "difficulty": 1
+    "difficulty": 0
   },
   {
     "id": "nested_mc_chainmail_hauberk",
@@ -1515,7 +1515,7 @@
     "description": "Recipes related to constructing chainmail hauberks in various sizes.",
     "skill_used": "fabrication",
     "nested_category_data": [ "mc_chainmail_hauberk", "mc_chainmail_hauberk_xs", "xl_mc_chainmail_hauberk" ],
-    "difficulty": 2
+    "difficulty": 0
   },
   {
     "id": "nested_hc_chainmail_hauberk",
@@ -1527,7 +1527,7 @@
     "description": "Recipes related to constructing chainmail hauberks in various sizes.",
     "skill_used": "fabrication",
     "nested_category_data": [ "hc_chainmail_hauberk", "hc_chainmail_hauberk_xs", "xl_hc_chainmail_hauberk" ],
-    "difficulty": 3
+    "difficulty": 0
   },
   {
     "id": "nested_ch_chainmail_hauberk",
@@ -1539,7 +1539,7 @@
     "description": "Recipes related to constructing chainmail hauberks in various sizes.",
     "skill_used": "fabrication",
     "nested_category_data": [ "ch_chainmail_hauberk", "ch_chainmail_hauberk_xs", "xl_ch_chainmail_hauberk" ],
-    "difficulty": 4
+    "difficulty": 0
   },
   {
     "id": "nested_qt_chainmail_hauberk",
@@ -1551,7 +1551,7 @@
     "description": "Recipes related to constructing chainmail hauberks in various sizes.",
     "skill_used": "fabrication",
     "nested_category_data": [ "qt_chainmail_hauberk", "qt_chainmail_hauberk_xs", "xl_qt_chainmail_hauberk" ],
-    "difficulty": 5
+    "difficulty": 0
   },
   {
     "id": "nested_all_chainmail_hauberk",
@@ -1569,7 +1569,198 @@
       "nested_ch_chainmail_hauberk",
       "nested_qt_chainmail_hauberk"
     ],
-    "difficulty": 2
+    "difficulty": 0
+  },
+  {
+    "id": "nested_lc_chainmail_sjumpsuit",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "low steel chain sleeveless jumpsuits",
+    "description": "Recipes related to constructing chainmail sleeveless jumpsuits in various sizes.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "lc_chainmail_sjumpsuit", "lc_chainmail_sjumpsuit_xs", "xl_lc_chainmail_sjumpsuit" ],
+    "difficulty": 0
+  },
+  {
+    "id": "nested_mc_chainmail_sjumpsuit",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "medium steel chain sleeveless jumpsuits",
+    "description": "Recipes related to constructing chainmail sleeveless jumpsuits in various sizes.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "mc_chainmail_sjumpsuit", "mc_chainmail_sjumpsuit_xs", "xl_mc_chainmail_sjumpsuit" ],
+    "difficulty": 0
+  },
+  {
+    "id": "nested_hc_chainmail_sjumpsuit",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "high steel chain sleeveless jumpsuits",
+    "description": "Recipes related to constructing chainmail sleeveless jumpsuits in various sizes.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "hc_chainmail_sjumpsuit", "hc_chainmail_sjumpsuit_xs", "xl_hc_chainmail_sjumpsuit" ],
+    "difficulty": 0
+  },
+  {
+    "id": "nested_ch_chainmail_sjumpsuit",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "hardened steel chain sleeveless jumpsuits",
+    "description": "Recipes related to constructing chainmail sleeveless jumpsuits in various sizes.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "ch_chainmail_sjumpsuit", "ch_chainmail_sjumpsuit_xs", "xl_ch_chainmail_sjumpsuit" ],
+    "difficulty": 0
+  },
+  {
+    "id": "nested_qt_chainmail_sjumpsuit",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "tempered steel chain sleeveless jumpsuits",
+    "description": "Recipes related to constructing chainmail sleeveless jumpsuits in various sizes.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "qt_chainmail_sjumpsuit", "qt_chainmail_sjumpsuit_xs", "xl_qt_chainmail_sjumpsuit" ],
+    "difficulty": 0
+  },
+  {
+    "id": "nested_all_chainmail_sjumpsuit",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "name": "steel chain sleeveless jumpsuits",
+    "description": "Recipes related to fitting together chainmail armor to make chainmail sleeveless jumpsuits in various types and sizes.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "nested_lc_chainmail_sjumpsuit",
+      "nested_mc_chainmail_sjumpsuit",
+      "nested_hc_chainmail_sjumpsuit",
+      "nested_ch_chainmail_sjumpsuit",
+      "nested_qt_chainmail_sjumpsuit"
+    ],
+    "difficulty": 0
+  },
+  {
+    "id": "nested_lc_chainmail_jumpsuit",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "mild steel chain jumpsuits",
+    "description": "Recipes related to constructing chainmail jumpsuits in various sizes.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "lc_chainmail_jumpsuit",
+      "lc_chainmail_jumpsuit_xs",
+      "xl_lc_chainmail_jumpsuit",
+      "lc_chainmail_jumpsuit_hauberk",
+      "lc_chainmail_jumpsuit_xs_hauberk",
+      "xl_lc_chainmail_jumpsuit_hauberk"
+    ],
+    "difficulty": 0
+  },
+  {
+    "id": "nested_mc_chainmail_jumpsuit",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "medium steel chain jumpsuits",
+    "description": "Recipes related to constructing chainmail jumpsuits in various sizes.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "mc_chainmail_jumpsuit",
+      "mc_chainmail_jumpsuit_xs",
+      "xl_mc_chainmail_jumpsuit",
+      "mc_chainmail_jumpsuit_hauberk",
+      "mc_chainmail_jumpsuit_xs_hauberk",
+      "xl_mc_chainmail_jumpsuit_hauberk"
+    ],
+    "difficulty": 0
+  },
+  {
+    "id": "nested_hc_chainmail_jumpsuit",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "high steel chain jumpsuits",
+    "description": "Recipes related to constructing chainmail jumpsuits in various sizes.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "hc_chainmail_jumpsuit",
+      "hc_chainmail_jumpsuit_xs",
+      "xl_hc_chainmail_jumpsuit",
+      "hc_chainmail_jumpsuit_hauberk",
+      "hc_chainmail_jumpsuit_xs_hauberk",
+      "xl_hc_chainmail_jumpsuit_hauberk"
+    ],
+    "difficulty": 0
+  },
+  {
+    "id": "nested_ch_chainmail_jumpsuit",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "hardened steel chain jumpsuits",
+    "description": "Recipes related to constructing chainmail jumpsuits in various sizes.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "ch_chainmail_jumpsuit",
+      "ch_chainmail_jumpsuit_xs",
+      "xl_ch_chainmail_jumpsuit",
+      "ch_chainmail_jumpsuit_hauberk",
+      "ch_chainmail_jumpsuit_xs_hauberk",
+      "xl_ch_chainmail_jumpsuit_hauberk"
+    ],
+    "difficulty": 0
+  },
+  {
+    "id": "nested_qt_chainmail_jumpsuit",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "tempered steel chain jumpsuits",
+    "description": "Recipes related to constructing chainmail jumpsuits in various sizes.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "qt_chainmail_jumpsuit",
+      "qt_chainmail_jumpsuit_xs",
+      "xl_qt_chainmail_jumpsuit",
+      "qt_chainmail_jumpsuit_hauberk",
+      "qt_chainmail_jumpsuit_xs_hauberk",
+      "xl_qt_chainmail_jumpsuit_hauberk"
+    ],
+    "difficulty": 0
+  },
+  {
+    "id": "nested_all_chainmail_jumpsuit",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_jumpsuit",
+    "name": "steel chain jumpsuits",
+    "description": "Recipes related to constructing chainmail jumpsuits in various types and sizes.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "nested_lc_chainmail_jumpsuit",
+      "nested_mc_chainmail_jumpsuit",
+      "nested_hc_chainmail_jumpsuit",
+      "nested_ch_chainmail_jumpsuit",
+      "nested_qt_chainmail_jumpsuit"
+    ],
+    "difficulty": 0
   },
   {
     "id": "nested_lc_chainmail_suit",
@@ -1583,12 +1774,9 @@
     "nested_category_data": [
       "lc_chainmail_suit",
       "lc_chainmail_suit_xs",
-      "xl_lc_chainmail_suit",
-      "lc_chainmail_suit_hauberk",
-      "lc_chainmail_suit_xs_hauberk",
-      "xl_lc_chainmail_suit_hauberk"
+      "xl_lc_chainmail_suit"
     ],
-    "difficulty": 1
+    "difficulty": 0
   },
   {
     "id": "nested_mc_chainmail_suit",
@@ -1602,12 +1790,9 @@
     "nested_category_data": [
       "mc_chainmail_suit",
       "mc_chainmail_suit_xs",
-      "xl_mc_chainmail_suit",
-      "mc_chainmail_suit_hauberk",
-      "mc_chainmail_suit_xs_hauberk",
-      "xl_mc_chainmail_suit_hauberk"
+      "xl_mc_chainmail_suit"
     ],
-    "difficulty": 2
+    "difficulty": 0
   },
   {
     "id": "nested_hc_chainmail_suit",
@@ -1621,12 +1806,9 @@
     "nested_category_data": [
       "hc_chainmail_suit",
       "hc_chainmail_suit_xs",
-      "xl_hc_chainmail_suit",
-      "hc_chainmail_suit_hauberk",
-      "hc_chainmail_suit_xs_hauberk",
-      "xl_hc_chainmail_suit_hauberk"
+      "xl_hc_chainmail_suit"
     ],
-    "difficulty": 3
+    "difficulty": 0
   },
   {
     "id": "nested_ch_chainmail_suit",
@@ -1640,12 +1822,9 @@
     "nested_category_data": [
       "ch_chainmail_suit",
       "ch_chainmail_suit_xs",
-      "xl_ch_chainmail_suit",
-      "ch_chainmail_suit_hauberk",
-      "ch_chainmail_suit_xs_hauberk",
-      "xl_ch_chainmail_suit_hauberk"
+      "xl_ch_chainmail_suit"
     ],
-    "difficulty": 4
+    "difficulty": 0
   },
   {
     "id": "nested_qt_chainmail_suit",
@@ -1659,12 +1838,9 @@
     "nested_category_data": [
       "qt_chainmail_suit",
       "qt_chainmail_suit_xs",
-      "xl_qt_chainmail_suit",
-      "qt_chainmail_suit_hauberk",
-      "qt_chainmail_suit_xs_hauberk",
-      "xl_qt_chainmail_suit_hauberk"
+      "xl_qt_chainmail_suit"
     ],
-    "difficulty": 5
+    "difficulty": 0
   },
   {
     "id": "nested_chainmail_suit_faraday",
@@ -1695,7 +1871,7 @@
       "nested_chainmail_suit_faraday",
       "nested_qt_chainmail_suit"
     ],
-    "difficulty": 6
+    "difficulty": 0
   },
   {
     "id": "nested_scrap_cuirass",
