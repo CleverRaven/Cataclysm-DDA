@@ -1713,7 +1713,7 @@
       { "proficiency": "prof_chain_armour", "fail_multiplier": 1 }
     ],
     "components": [ [ [ "xs_qt_chainmail_hood", 1 ] ], [ [ "qt_chainmail_jumpsuit_xs", 1 ] ] ]
-  }
+  },
   {
     "result": "chainmail_suit_faraday",
     "type": "recipe",
