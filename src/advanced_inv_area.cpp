@@ -229,7 +229,7 @@ bool advanced_inv_area::canputitems( const advanced_inv_listitem *advitem )
                 it = get_container( from_vehicle );
             }
             if( it ) {
-                if ( it.get_item()->is_container() ) {
+                if( it.get_item()->is_container() ) {
                     canputitems = true;
                 }
             }

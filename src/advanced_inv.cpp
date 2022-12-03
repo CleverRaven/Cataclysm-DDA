@@ -1410,14 +1410,15 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
     recalc = true;
     cata_assert( amount_to_move > 0 );
     if( destarea == AIM_CONTAINER ) {
-        item_location container = squares[destarea].get_container(dpane.in_vehicle());
+        item_location container = squares[destarea].get_container( dpane.in_vehicle() );
         drop_locations result;
         result.emplace_back( std::make_pair( sitem->items.front(), amount_to_move ) );
 
         // make sure advanced inventory is reopened after activity completion.
         do_return_entry();
 
-        player_character.assign_activity( player_activity( insert_item_activity_actor( container, result ) ) );
+        player_character.assign_activity( player_activity( insert_item_activity_actor( container,
+                                          result ) ) );
         // exit so that the activity can be carried out
         exit = true;
     } else if( srcarea == AIM_INVENTORY && destarea == AIM_WORN ) {
