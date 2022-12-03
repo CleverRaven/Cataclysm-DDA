@@ -1366,7 +1366,7 @@
       [ [ "xl_ch_chainmail_hauberk", 1 ] ],
       [ [ "xl_ch_chainmail_legs", 1 ] ]
     ]
-  }
+  },
   {
     "result": "qt_chainmail_jumpsuit",
     "type": "recipe",
