@@ -91,47 +91,6 @@ void mission_start::place_zombie_mom( mission *miss )
     zomhouse.save();
 }
 
-void mission_start::kill_horde_master( mission *miss )
-{
-    npc *p = g->find_npc( miss->npc_id );
-    if( p == nullptr ) {
-        debugmsg( "could not find mission NPC %d", miss->npc_id.get_value() );
-        return;
-    }
-    // Npc joins you
-    p->set_attitude( NPCATT_FOLLOW );
-    // Pick one of the below locations for the horde to haunt
-    const tripoint_abs_omt center = p->global_omt_location();
-    tripoint_abs_omt site = overmap_buffer.find_closest( center, "office_tower_1", 0, false );
-    if( site == overmap::invalid_tripoint ) {
-        site = overmap_buffer.find_closest( center, "hotel_tower_1_8", 0, false );
-    }
-    if( site == overmap::invalid_tripoint ) {
-        site = overmap_buffer.find_closest( center, "school_5", 0, false );
-    }
-    if( site == overmap::invalid_tripoint ) {
-        site = overmap_buffer.find_closest( center, "forest_thick", 0, false );
-    }
-    miss->target = site;
-    overmap_buffer.reveal( site, 6 );
-    tinymap tile;
-    tile.load( project_to<coords::sm>( site ), false );
-    tile.add_spawn( mon_zombie_master, 1, { SEEX, SEEY, site.z() }, false, -1, miss->uid,
-                    _( "Demonic Soul" ) );
-    tile.add_spawn( mon_zombie_brute, 3, { SEEX, SEEY, site.z() } );
-    tile.add_spawn( mon_zombie_dog, 3, { SEEX, SEEY, site.z() } );
-
-    for( int x = SEEX - 1; x <= SEEX + 1; x++ ) {
-        for( int y = SEEY - 1; y <= SEEY + 1; y++ ) {
-            tile.add_spawn( mon_zombie, rng( 3, 10 ), { x, y, site.z() } );
-        }
-        tile.add_spawn( mon_zombie_dog, rng( 0, 2 ), { SEEX, SEEY, site.z() } );
-    }
-    tile.add_spawn( mon_zombie_necro, 2, { SEEX, SEEY, site.z() } );
-    tile.add_spawn( mon_zombie_hulk, 1, { SEEX, SEEY, site.z() } );
-    tile.save();
-}
-
 void mission_start::kill_nemesis( mission * )
 {
     // Pick an area for the nemesis to spawn

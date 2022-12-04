@@ -102,7 +102,6 @@ struct mission_start {
     static void standard( mission * );           // Standard for its goal type
     static void place_dog( mission * );          // Put a dog in a house!
     static void place_zombie_mom( mission * );   // Put a zombie mom in a house!
-    static void kill_horde_master( mission * );  // Kill the master zombie at the center of the horde
     static void kill_nemesis( mission * );       // Kill the nemesis spawned with the "hunted" trait
     static void place_npc_software( mission * ); // Put NPC-type-dependent software
     static void place_priest_diary( mission * ); // Hides the priest's diary in a local house
