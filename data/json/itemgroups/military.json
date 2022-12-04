@@ -495,6 +495,7 @@
     "entries": [
       { "group": "mil_food", "prob": 1251 },
       { "group": "mil_armor", "prob": 575 },
+      { "item": "goggles_bal", "prob": 5},
       { "item": "m107a1", "prob": 1 },
       { "item": "bipod", "prob": 1 },
       { "item": "50bmg", "prob": 3 },
@@ -696,6 +697,7 @@
     "id": "army_personal_locker",
     "subtype": "distribution",
     "entries": [
+      { "item": "goggles_bal", "prob": 5},
       { "item": "jumpsuit", "prob": 40 },
       { "item": "officer_uniform", "prob": 20 },
       { "item": "flight_helmet", "prob": 5, "charges-min": 0, "charges-max": 100 },
@@ -775,6 +777,7 @@
     "id": "mil_hw",
     "subtype": "distribution",
     "entries": [
+      { "item": "goggles_bal", "prob": 20},
       { "group": "mags_milspec", "prob": 40 },
       { "item": "flamethrower", "prob": 20, "charges": [ 0, 3000 ] },
       { "item": "rm451_flamethrower", "prob": 10, "charges": [ 0, 2000 ] },
@@ -831,6 +834,7 @@
     "//": "A bulk of uniform goods all of the same type likely found in a shipping crate",
     "subtype": "distribution",
     "entries": [
+      { "item": "goggles_bal", "prob": 5},
       { "item": "mil_mess_kit", "prob": 10, "count": 32 },
       { "item": "voltmeter", "prob": 10, "count": 32 },
       { "item": "multimeter", "prob": 10, "count": 32 },
@@ -896,6 +900,7 @@
     "magazine": 100,
     "subtype": "distribution",
     "entries": [
+      { "item": "goggles_bal", "prob": 1},
       { "group": "guns_launcher_milspec", "prob": 5 },
       { "group": "guns_launcher_rocket", "prob": 44 },
       { "group": "guns_rifle_milspec", "prob": 10 },
