@@ -120,7 +120,7 @@
     "color": "brown",
     "warmth": 8,
     "environmental_protection": 18,
-    "flags": [ "WATERPROOF", "SUN_GLASSES", "VARSIZE", "STURDY", "PADDED", ],
+    "flags": [ "WATERPROOF", "SUN_GLASSES", "VARSIZE", "STURDY", "PADDED" ],
     "armor": [ { "encumbrance": 10, "coverage": 100, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
