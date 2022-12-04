@@ -1748,5 +1748,146 @@
       [ "fastener_small", 2 ],
       [ "strap_small", 2 ]
     ]
+  },
+  {
+    "id": "lc_elbow_guards",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pair of mild steel elbow guards", "str_pl": "pairs of mild steel elbow guards" },
+    "description": "A pair of thin elbow guards, forged from mild steel.  Can be comfortably worn over chainmail for extra protection.",
+    "weight": "103 g",
+    "volume": "600 ml",
+    "price": 3500,
+    "price_postapoc": 250,
+    "to_hit": 1,
+    "material": [ "lc_steel" ],
+    "symbol": "[",
+    "looks_like": "armguard_hard",
+    "color": "light_gray",
+    "material_thickness": 1.2,
+    "flags": [ "STURDY", "OUTER", "ABLATIVE_CHAINMAIL_ELBOWS" ],
+    "armor": [
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "encumbrance": 0,
+        "coverage": 90,
+        "cover_melee": 90,
+        "cover_ranged": 95,
+        "cover_vitals": 90,
+        "specifically_covers": [ "arm_elbow_r", "arm_elbow_l" ]
+      }
+    ]
+  },
+  {
+    "id": "xl_lc_elbow_guards",
+    "type": "ARMOR",
+    "copy-from": "lc_elbow_guards",
+    "name": { "str": "XL pair of mild steel elbow guards", "str_pl": "XL pairs of mild steel elbow guards" },
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "lc_elbow_guards_xs",
+    "type": "ARMOR",
+    "copy-from": "lc_elbow_guards",
+    "name": { "str": "XS pair of mild steel elbow guards", "str_pl": "XS pairs of mild steel elbow guards" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "mc_elbow_guards",
+    "type": "ARMOR",
+    "name": { "str": "pair of medium steel elbow guards", "str_pl": "pairs of medium steel elbow guards" },
+    "copy-from": "lc_elbow_guards",
+    "description": "A pair of thin elbow guards, forged from medium steel.  Can be comfortably worn over chainmail for extra protection.",
+    "material": [ "mc_steel" ]
+  },
+  {
+    "id": "xl_mc_elbow_guards",
+    "type": "ARMOR",
+    "copy-from": "mc_elbow_guards",
+    "name": { "str": "XL pair of medium steel elbow guards", "str_pl": "XL pairs of medium steel elbow guards" },
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "mc_elbow_guards_xs",
+    "type": "ARMOR",
+    "copy-from": "mc_elbow_guards",
+    "name": { "str": "XS pair of medium steel elbow guards", "str_pl": "XS pairs of medium steel elbow guards" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "hc_elbow_guards",
+    "type": "ARMOR",
+    "name": { "str": "pair of high steel elbow guards", "str_pl": "pairs of high steel elbow guards" },
+    "copy-from": "lc_elbow_guards",
+    "description": "A pair of thin elbow guards, forged from high steel.  Can be comfortably worn over chainmail for extra protection.",
+    "material": [ "hc_steel" ]
+  },
+  {
+    "id": "xl_hc_elbow_guards",
+    "type": "ARMOR",
+    "copy-from": "hc_elbow_guards",
+    "name": { "str": "XL pair of high steel elbow guards", "str_pl": "XL pairs of high steel elbow guards" },
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "hc_elbow_guards_xs",
+    "type": "ARMOR",
+    "copy-from": "hc_elbow_guards",
+    "name": { "str": "XS pair of high steel elbow guards", "str_pl": "XS pairs of high steel elbow guards" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "ch_elbow_guards",
+    "type": "ARMOR",
+    "name": { "str": "pair of case hardened elbow guards", "str_pl": "pairs of case hardened elbow guards" },
+    "copy-from": "lc_elbow_guards",
+    "description": "A pair of thin elbow guards, made from case hardened steel.  Can be comfortably worn over chainmail for extra protection.",
+    "material": [ "ch_steel" ]
+  },
+  {
+    "id": "xl_ch_elbow_guards",
+    "type": "ARMOR",
+    "copy-from": "ch_elbow_guards",
+    "name": { "str": "XL pair of case hardened elbow guards", "str_pl": "XL pairs of case hardened elbow guards" },
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "ch_elbow_guards_xs",
+    "type": "ARMOR",
+    "copy-from": "ch_elbow_guards",
+    "name": { "str": "XS pair of case hardened elbow guards", "str_pl": "XS pairs of case hardened elbow guards" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "qt_elbow_guards",
+    "type": "ARMOR",
+    "name": { "str": "pair of temperedl elbow guards", "str_pl": "pairs of tempered elbow guards" },
+    "copy-from": "lc_elbow_guards",
+    "description": "A pair of thin elbow guards, made from tempered steel.  Can be comfortably worn over chainmail for extra protection.",
+    "material": [ "qt_steel" ]
+  },
+  {
+    "id": "xl_qt_elbow_guards",
+    "type": "ARMOR",
+    "copy-from": "qt_elbow_guards",
+    "name": { "str": "XL pair of tempered elbow guards", "str_pl": "XL pairs of tempered elbow guards" },
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "qt_elbow_guards_xs",
+    "type": "ARMOR",
+    "copy-from": "qt_elbow_guards",
+    "name": { "str": "XS pair of tempered elbow guards", "str_pl": "XS pairs of tempered elbow guards" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
   }
 ]
