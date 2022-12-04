@@ -171,6 +171,7 @@
       { "group": "clothing_soldier_shirt" },
       { "distribution": [ { "item": "jacket_army_modern", "prob": 50 }, { "item": "combat_shirt", "prob": 50 } ] },
       { "item": "pants_army" },
+      { "item": "goggles_bal", "prob": 5},
       { "item": "webbing_belt" },
       { "distribution": [ { "item": "socks", "prob": 95 }, { "item": "socks_wool", "prob": 5 } ] },
       { "item": "boots_combat" },
@@ -192,6 +193,7 @@
       { "distribution": [ { "item": "jacket_army_modern", "prob": 50 }, { "item": "combat_shirt", "prob": 50 } ] },
       { "item": "pants_army" },
       { "item": "webbing_belt" },
+      { "item": "goggles_bal", "prob": 5},
       { "distribution": [ { "item": "socks", "prob": 95 }, { "item": "socks_wool", "prob": 5 } ] },
       { "item": "boots_combat" },
       {
@@ -212,6 +214,7 @@
       { "item": "winter_jacket_army" },
       { "item": "winter_pants_army" },
       { "item": "webbing_belt" },
+      { "item": "goggles_bal", "prob": 5},
       { "distribution": [ { "item": "socks", "prob": 10 }, { "item": "socks_wool", "prob": 90 } ] },
       { "item": "boots_combat" },
       {
@@ -244,6 +247,7 @@
         "distribution": [
           { "group": "clothing_glasses", "prob": 60 },
           { "item": "glasses_bal", "prob": 30 },
+          { "item": "goggles_bal", "prob": 5},
           { "item": "goggles_nv", "prob": 5, "charges": [ 0, 100 ] },
           { "item": "goggles_ir", "prob": 5, "charges": [ 0, 100 ] }
         ],
@@ -295,6 +299,7 @@
         "distribution": [
           { "group": "clothing_glasses", "prob": 60 },
           { "item": "glasses_bal", "prob": 30 },
+          { "item": "goggles_bal", "prob": 5},
           { "item": "goggles_nv", "prob": 5, "charges": [ 0, 100 ] },
           { "item": "goggles_ir", "prob": 5, "charges": [ 0, 100 ] }
         ],
@@ -321,6 +326,7 @@
         "distribution": [
           { "group": "clothing_glasses", "prob": 60 },
           { "item": "glasses_bal", "prob": 30 },
+          { "item": "goggles_bal", "prob": 5},
           { "item": "goggles_nv", "prob": 5, "charges": [ 0, 100 ] },
           { "item": "goggles_ir", "prob": 5, "charges": [ 0, 100 ] }
         ],
@@ -347,6 +353,7 @@
         "distribution": [
           { "group": "clothing_glasses", "prob": 60 },
           { "item": "glasses_bal", "prob": 30 },
+          { "item": "goggles_bal", "prob": 5},
           { "item": "goggles_nv", "prob": 5, "charges": [ 0, 100 ] },
           { "item": "goggles_ir", "prob": 5, "charges": [ 0, 100 ] }
         ],
@@ -2646,6 +2653,7 @@
       { "group": "military_ballistic_vest", "prob": 30 },
       [ "vest", 15 ],
       { "item": "mask_gas", "prob": 10, "charges-min": 0 },
+      { "item": "goggles_bal", "prob": 5},
       { "item": "goggles_nv", "prob": 1, "charges": [ 0, 100 ] },
       { "item": "goggles_ir", "prob": 1, "charges": [ 0, 100 ] },
       [ "backpack", 38 ],
@@ -2678,6 +2686,7 @@
     "items": [
       { "item": "mask_gas", "prob": 10, "charges": [ 0, 100 ] },
       [ "duffelbag", 15 ],
+      { "item": "goggles_bal", "prob": 5},
       { "item": "goggles_nv", "prob": 1, "charges": [ 0, 100 ] },
       { "item": "goggles_ir", "prob": 1, "charges": [ 0, 100 ] },
       [ "optical_cloak", 1 ],
