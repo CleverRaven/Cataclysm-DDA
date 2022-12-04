@@ -120,7 +120,7 @@
     "looks_like": "glasses_safety",
     "color": "brown",
     "warmth": 8,
-    "environmental_protection": 18,
+    "environmental_protection": 10,
     "flags": [ "WATERPROOF", "SUN_GLASSES", "VARSIZE", "STURDY", "PADDED" ],
     "armor": [ { "encumbrance": 10, "coverage": 100, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
