@@ -487,7 +487,7 @@
     "points": 3,
     "description": "You're just generally quick!  You get a 10% bonus to action points.",
     "starting_trait": true,
-    "category": [ "FISH", "BIRD", "INSECT", "TROGLOBITE", "CHIMERA", "RAPTOR", "MOUSE", "RABBIT", "CALLIPHORID" ],
+    "category": [ "FISH", "BIRD", "INSECT", "TROGLOBITE", "CHIMERA", "RAPTOR", "MOUSE", "RABBIT" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SPEED", "multiply": 0.1 } ] } ]
   },
   {
@@ -586,7 +586,7 @@
     "changes_to": [ "EASYSLEEPER2" ],
     "starting_trait": true,
     "cancels": [ "INSOMNIA" ],
-    "category": [ "MOUSE", "INSECT", "GASTROPOD", "RABBIT", "CALLIPHORID" ],
+    "category": [ "MOUSE", "INSECT", "GASTROPOD", "RABBIT" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SLEEPY", "add": 24 } ] } ]
   },
   {
@@ -682,8 +682,7 @@
       "RAT",
       "BATRACHIAN",
       "CHIMERA",
-      "GASTROPOD",
-      "CALLIPHORID"
+      "GASTROPOD"
     ]
   },
   {
@@ -959,7 +958,7 @@
     "description": "It's very unlikely that you will catch ambient diseases like the cold or flu.",
     "starting_trait": true,
     "changes_to": [ "DISIMMUNE" ],
-    "category": [ "CATTLE", "RAT", "MEDICAL", "PLANT", "SLIME", "TROGLOBITE", "CHIMERA", "CALLIPHORID" ]
+    "category": [ "CATTLE", "RAT", "MEDICAL", "PLANT", "SLIME", "TROGLOBITE", "CHIMERA" ]
   },
   {
     "type": "mutation",
@@ -1644,20 +1643,7 @@
     "types": [ "SCENT" ],
     "changes_to": [ "SMELLY2" ],
     "scent_intensity": 800,
-    "category": [
-      "FELINE",
-      "LUPINE",
-      "MOUSE",
-      "BEAST",
-      "SLIME",
-      "CHIMERA",
-      "URSINE",
-      "BATRACHIAN",
-      "FISH",
-      "INSECT",
-      "CATTLE",
-      "CALLIPHORID"
-    ]
+    "category": [ "FELINE", "LUPINE", "MOUSE", "BEAST", "SLIME", "CHIMERA", "URSINE", "BATRACHIAN", "FISH", "INSECT", "CATTLE" ]
   },
   {
     "type": "mutation",
@@ -1677,7 +1663,7 @@
     "starting_trait": true,
     "types": [ "ANIMAL_EMPATHY" ],
     "changes_to": [ "ANIMALDISCORD2" ],
-    "category": [ "BEAST", "RAPTOR", "INSECT", "MOUSE", "RABBIT", "CALLIPHORID" ]
+    "category": [ "BEAST", "RAPTOR", "INSECT", "MOUSE", "RABBIT" ]
   },
   {
     "type": "mutation",
@@ -1795,7 +1781,7 @@
     "vomit_multiplier": 2,
     "types": [ "CONSTITUTION" ],
     "changes_to": [ "NAUSEA" ],
-    "category": [ "ALPHA", "SLIME", "RAT", "MEDICAL", "ELFA", "BATRACHIAN", "TROGLOBITE", "RAPTOR", "CHIMERA", "GASTROPOD", "CALLIPHORID" ]
+    "category": [ "ALPHA", "SLIME", "RAT", "MEDICAL", "ELFA", "BATRACHIAN", "TROGLOBITE", "RAPTOR", "CHIMERA", "GASTROPOD" ]
   },
   {
     "type": "mutation",
@@ -1843,8 +1829,7 @@
       "SLIME",
       "RAT",
       "CHIMERA",
-      "SPIDER",
-      "CALLIPHORID"
+      "SPIDER"
     ]
   },
   {
@@ -1940,8 +1925,7 @@
       "RABBIT",
       "INSECT",
       "ELFA",
-      "URSINE",
-      "CALLIPHORID"
+      "URSINE"
     ]
   },
   {
@@ -2722,7 +2706,7 @@
     "types": [ "SKIN" ],
     "prereqs": [ "SKIN_ROUGH" ],
     "leads_to": [ "CHITIN2", "CHITIN_FUR", "CHITIN_FUR2", "CHITIN_FUR3" ],
-    "category": [ "SPIDER", "INSECT", "CALLIPHORID" ],
+    "category": [ "SPIDER", "INSECT" ],
     "integrated_armor": [ "integrated_chitin" ],
     "wet_protection": [
       { "part": "head", "ignored": 1 },
@@ -2749,7 +2733,7 @@
     "types": [ "BODY_ARMOR" ],
     "prereqs": [ "CHITIN" ],
     "leads_to": [ "CHITIN3" ],
-    "category": [ "SPIDER", "INSECT", "CALLIPHORID" ],
+    "category": [ "SPIDER", "INSECT" ],
     "integrated_armor": [ "integrated_chitin2" ],
     "wet_protection": [
       { "part": "head", "ignored": 2 },
@@ -3427,8 +3411,19 @@
     "description": "Your body produces low-level pheromones, identifying you as a friend to many species of insects.  Insects will attack you much less.",
     "prereqs": [ "SMELLY2" ],
     "types": [ "PHEROMONE" ],
-    "threshreq": [ "THRESH_INSECT", "THRESH_CALLIPHORID" ],
-    "category": [ "INSECT", "CALLIPHORID" ]
+    "threshreq": [ "THRESH_INSECT" ],
+    "category": [ "INSECT" ]
+  },
+  {
+    "type": "mutation",
+    "id": "SUB_CALLIPHORID",
+    "name": { "str": "fly affinity" },
+    "points": 0,
+    "description": "You feel like you're salivating more than usual, and you have a bitter taste in your mouth. Did the walking corpses always smell that sweet...?",
+    "prereqs": [ "CHITIN2", "INSECT_ARMS", "WINGS_INSECT", "COMPOUND_EYES" ],
+    "types": [ "SUB_CATEGORY" ],
+    "leads_to": [ "SUB_CALLIPHORID2" ],
+    "category": [ "INSECT" ]
   },
   {
     "type": "mutation",
@@ -3459,7 +3454,7 @@
     "points": 2,
     "description": "Your body is simply immune to diseases.  You will never catch an ambient disease.",
     "prereqs": [ "DISRESISTANT" ],
-    "category": [ "PLANT", "SLIME", "TROGLOBITE", "CALLIPHORID" ],
+    "category": [ "PLANT", "SLIME", "TROGLOBITE" ],
     "flags": [ "NO_DISEASE" ]
   },
   {
@@ -3651,7 +3646,7 @@
     "description": "Your eyes are compound, like those of an insect.  This increases your Perception by 2 whenever you aren't wearing eyewear.",
     "types": [ "EYES" ],
     "prereqs": [ "EYEBULGE" ],
-    "category": [ "INSECT", "CALLIPHORID" ]
+    "category": [ "INSECT" ]
   },
   {
     "type": "mutation",
@@ -3819,7 +3814,7 @@
     "name": { "str": "Saprovore" },
     "points": 2,
     "description": "Your digestive system is specialized to allow you to consume decaying material.  You can eat rotten food, albeit for less nutrition than usual.",
-    "category": [ "TROGLOBITE", "CHIMERA", "GASTROPOD", "MOUSE", "CALLIPHORID" ],
+    "category": [ "TROGLOBITE", "CHIMERA", "GASTROPOD", "MOUSE" ],
     "flags": [ "IMMUNE_SPOIL" ]
   },
   {
@@ -3900,17 +3895,9 @@
     "prereqs": [ "POISRESIST" ],
     "//": "Yes, you eventually got over the massive digestive upset.  Mutations aren't easy on a system!",
     "prereqs2": [ "SAPROVORE", "TOLERANCE" ],
-    "threshreq": [
-      "THRESH_TROGLOBITE",
-      "THRESH_CHIMERA",
-      "THRESH_RAPTOR",
-      "THRESH_RAT",
-      "THRESH_MOUSE",
-      "THRESH_BATRACHIAN",
-      "THRESH_CALLIPHORID"
-    ],
+    "threshreq": [ "THRESH_TROGLOBITE", "THRESH_CHIMERA", "THRESH_RAPTOR", "THRESH_RAT", "THRESH_MOUSE", "THRESH_BATRACHIAN" ],
     "vitamins_absorb_multi": [ [ "all", [ [ "mutant_toxin", 0.25 ] ] ] ],
-    "category": [ "TROGLOBITE", "RAPTOR", "RAT", "CHIMERA", "BATRACHIAN", "GASTROPOD", "CALLIPHORID" ]
+    "category": [ "TROGLOBITE", "RAPTOR", "RAT", "CHIMERA", "BATRACHIAN", "GASTROPOD" ]
   },
   {
     "type": "mutation",
@@ -3920,10 +3907,10 @@
     "description": "Your digestion has evolved further.  In addition to mutated meat, you can also stomach the tainted and long-dead flesh of zombies… if you can stand the taste, of course.",
     "types": [ "CONSTITUTION" ],
     "prereqs": [ "EATPOISON" ],
-    "threshreq": [ "THRESH_CHIMERA", "THRESH_RAT", "THRESH_CALLIPHORID" ],
+    "threshreq": [ "THRESH_CHIMERA", "THRESH_RAT" ],
     "cancels": [ "VEGETARIAN", "HERBIVORE", "RUMINANT", "GRAZER" ],
     "vitamins_absorb_multi": [ [ "all", [ [ "mutant_toxin", 0.25 ] ] ] ],
-    "category": [ "RAT", "CHIMERA", "CALLIPHORID" ],
+    "category": [ "RAT", "CHIMERA" ],
     "flags": [ "IMMUNE_SPOIL" ]
   },
   {
@@ -4098,7 +4085,7 @@
     "description": "You have a pair of antennae.  They allow you to detect the presence of monsters up to a few tiles away, even if you can't see or hear them, but prevent wearing headwear that is not made of fabric.",
     "types": [ "HORNS" ],
     "prereqs": [ "HEADBUMPS" ],
-    "category": [ "INSECT", "CALLIPHORID" ],
+    "category": [ "INSECT" ],
     "active": true,
     "starts_active": true,
     "restricts_gear": [ "head_crown" ],
@@ -4615,7 +4602,7 @@
     "description": "You have a pair of large, translucent wings.  They are too small to lift you, but are powerful enough to greatly speed your movement, with some effort and noise.",
     "types": [ "WINGS" ],
     "prereqs": [ "WINGS_STUB" ],
-    "category": [ "INSECT", "CALLIPHORID" ],
+    "category": [ "INSECT" ],
     "active": true,
     "cost": 3,
     "time": "1 s",
@@ -4653,7 +4640,7 @@
     "prereqs": [ "MOUTH_FLAPS" ],
     "changes_to": [ "FANGS_SPIDER" ],
     "leads_to": [ "PROBOSCIS" ],
-    "category": [ "INSECT", "SPIDER", "CALLIPHORID" ],
+    "category": [ "INSECT", "SPIDER" ],
     "wet_protection": [ { "part": "mouth", "ignored": 1 } ],
     "integrated_armor": [ "integrated_mandibles" ],
     "attacks": {
@@ -5113,8 +5100,7 @@
       "ELFA",
       "FELINE",
       "CEPHALOPOD",
-      "FISH",
-      "CALLIPHORID"
+      "FISH"
     ],
     "passive_mods": { "dex_mod": 1 }
   },
@@ -5262,7 +5248,7 @@
     "types": [ "PER" ],
     "changes_to": [ "PER_UP_2" ],
     "leads_to": [ "BIRD_EYE" ],
-    "category": [ "ALPHA", "CHIMERA", "BATRACHIAN", "ELFA", "RAPTOR", "BIRD", "SLIME", "SPIDER", "CALLIPHORID" ],
+    "category": [ "ALPHA", "CHIMERA", "BATRACHIAN", "ELFA", "RAPTOR", "BIRD", "SLIME", "SPIDER" ],
     "passive_mods": { "per_mod": 1 }
   },
   {
@@ -5456,7 +5442,7 @@
     "description": "You have a pair of bumps on your skull.",
     "types": [ "HORNS" ],
     "changes_to": [ "HORNS", "ANTENNAE" ],
-    "category": [ "CATTLE", "CHIMERA", "INSECT", "CALLIPHORID" ]
+    "category": [ "CATTLE", "CHIMERA", "INSECT" ]
   },
   {
     "type": "mutation",
@@ -5522,7 +5508,7 @@
     "description": "Your eyes bulge out several inches from your skull.  This does not affect your vision in any way.",
     "leads_to": [ "MEMBRANE" ],
     "changes_to": [ "COMPOUND_EYES", "EYESTALKS1", "FROG_EYES" ],
-    "category": [ "BATRACHIAN", "INSECT", "GASTROPOD", "FISH", "CALLIPHORID" ]
+    "category": [ "BATRACHIAN", "INSECT", "GASTROPOD", "FISH" ]
   },
   {
     "type": "mutation",
@@ -5564,7 +5550,7 @@
     "ugliness": 6,
     "description": "Skin tabs and odd flaps of skin surround your mouth.  They don't affect your eating, but are unpleasant to look at.",
     "types": [ "MUZZLE" ],
-    "category": [ "CHIMERA", "CEPHALOPOD", "INSECT", "SPIDER", "CALLIPHORID" ],
+    "category": [ "CHIMERA", "CEPHALOPOD", "INSECT", "SPIDER" ],
     "changes_to": [ "MOUTH_TENTACLES", "MANDIBLES" ]
   },
   {
@@ -5577,7 +5563,7 @@
     "description": "You have a pair of stubby little wings projecting from your shoulderblades.  They can be wiggled at will, but are useless.",
     "types": [ "WINGS" ],
     "changes_to": [ "WINGS_BIRD", "WINGS_BAT", "WINGS_INSECT", "WINGS_BUTTERFLY" ],
-    "category": [ "BIRD", "BEAST", "INSECT", "CALLIPHORID" ]
+    "category": [ "BIRD", "BEAST", "INSECT" ]
   },
   {
     "type": "mutation",
@@ -5648,7 +5634,7 @@
     "types": [ "SCENT" ],
     "prereqs": [ "SMELLY" ],
     "leads_to": [ "PHEROMONE_INSECT", "PHEROMONE_MAMMAL", "PHEROMONE_AMPHIBIAN" ],
-    "category": [ "FISH", "BEAST", "SLIME", "CHIMERA", "URSINE", "BATRACHIAN", "INSECT", "CATTLE", "CALLIPHORID" ]
+    "category": [ "FISH", "BEAST", "SLIME", "CHIMERA", "URSINE", "BATRACHIAN", "INSECT", "CATTLE" ]
   },
   {
     "type": "mutation",
@@ -5676,8 +5662,7 @@
       "SLIME",
       "RAT",
       "CHIMERA",
-      "SPIDER",
-      "CALLIPHORID"
+      "SPIDER"
     ]
   },
   {
@@ -5691,7 +5676,7 @@
     "types": [ "ATTRACTIVENESS" ],
     "prereqs": [ "DEFORMED" ],
     "changes_to": [ "DEFORMED3" ],
-    "category": [ "BEAST", "URSINE", "PLANT", "GASTROPOD", "SLIME", "RAT", "CHIMERA", "CALLIPHORID" ]
+    "category": [ "BEAST", "URSINE", "PLANT", "GASTROPOD", "SLIME", "RAT", "CHIMERA" ]
   },
   {
     "type": "mutation",
@@ -5765,21 +5750,7 @@
       "MUZZLE_RAT",
       "RABBIT_NOSE"
     ],
-    "category": [
-      "BIRD",
-      "CEPHALOPOD",
-      "FELINE",
-      "INSECT",
-      "CATTLE",
-      "BEAST",
-      "LUPINE",
-      "URSINE",
-      "LIZARD",
-      "RAT",
-      "RABBIT",
-      "MOUSE",
-      "CALLIPHORID"
-    ]
+    "category": [ "BIRD", "CEPHALOPOD", "FELINE", "INSECT", "CATTLE", "BEAST", "LUPINE", "URSINE", "LIZARD", "RAT", "RABBIT", "MOUSE" ]
   },
   {
     "type": "mutation",
@@ -5901,7 +5872,7 @@
     "description": "You've gotten rid of that terribly imprecise mouth and now imbibe your food like a proper person.  Chewing was tiresome anyway.",
     "purifiable": false,
     "prereqs": [ "MANDIBLES" ],
-    "category": [ "INSECT", "CALLIPHORID" ],
+    "category": [ "INSECT" ],
     "active": true,
     "restricts_gear": [ "mouth" ]
   },
@@ -5931,7 +5902,7 @@
     "types": [ "CONSTITUTION" ],
     "prereqs": [ "WEAKSTOMACH" ],
     "changes_to": [ "VOMITOUS" ],
-    "category": [ "ALPHA", "SLIME", "RAT", "MEDICAL", "ELFA", "BATRACHIAN", "TROGLOBITE", "RAPTOR", "CHIMERA", "GASTROPOD", "CALLIPHORID" ],
+    "category": [ "ALPHA", "SLIME", "RAT", "MEDICAL", "ELFA", "BATRACHIAN", "TROGLOBITE", "RAPTOR", "CHIMERA", "GASTROPOD" ],
     "active": true
   },
   {
@@ -5944,7 +5915,7 @@
     "types": [ "CONSTITUTION" ],
     "prereqs": [ "NAUSEA" ],
     "changes_to": [ "EATPOISON" ],
-    "category": [ "ALPHA", "SLIME", "RAT", "MEDICAL", "ELFA", "BATRACHIAN", "TROGLOBITE", "RAPTOR", "CHIMERA", "GASTROPOD", "CALLIPHORID" ],
+    "category": [ "ALPHA", "SLIME", "RAT", "MEDICAL", "ELFA", "BATRACHIAN", "TROGLOBITE", "RAPTOR", "CHIMERA", "GASTROPOD" ],
     "active": true
   },
   {
@@ -6701,7 +6672,7 @@
     "description": "Your muscle response is dependent on ambient temperatures.  You lose 1% of your speed for every 5 (2.8) degrees below 65 F (18.3 C).  This sluggishness helps you conserve energy, however.",
     "types": [ "ECTOTHERMIC" ],
     "changes_to": [ "COLDBLOOD2" ],
-    "category": [ "FISH", "CEPHALOPOD", "SPIDER", "GASTROPOD", "INSECT", "LIZARD", "BATRACHIAN", "PLANT", "CALLIPHORID" ],
+    "category": [ "FISH", "CEPHALOPOD", "SPIDER", "GASTROPOD", "INSECT", "LIZARD", "BATRACHIAN", "PLANT" ],
     "temperature_speed_modifier": 0.2,
     "metabolism_modifier": -0.333
   },
@@ -6716,7 +6687,7 @@
     "types": [ "ECTOTHERMIC" ],
     "prereqs": [ "COLDBLOOD" ],
     "changes_to": [ "COLDBLOOD3" ],
-    "category": [ "INSECT", "LIZARD", "BATRACHIAN", "PLANT", "CALLIPHORID" ],
+    "category": [ "INSECT", "LIZARD", "BATRACHIAN", "PLANT" ],
     "temperature_speed_modifier": 0.333,
     "metabolism_modifier": -0.5
   },
@@ -6731,7 +6702,7 @@
     "types": [ "ECTOTHERMIC" ],
     "prereqs": [ "COLDBLOOD2" ],
     "changes_to": [ "COLDBLOOD4" ],
-    "category": [ "INSECT", "LIZARD", "BATRACHIAN", "PLANT", "CALLIPHORID" ],
+    "category": [ "INSECT", "LIZARD", "BATRACHIAN", "PLANT" ],
     "temperature_speed_modifier": 0.5,
     "metabolism_modifier": -0.5
   },
@@ -6856,7 +6827,7 @@
     "types": [ "HANDS" ],
     "changes_to": [ "INSECT_ARMS_OK", "ARACHNID_ARMS" ],
     "prereqs": [ "CHITIN", "CHITIN2", "CHITIN3", "CHITIN_FUR2", "CHITIN_FUR3" ],
-    "threshreq": [ "THRESH_INSECT", "THRESH_SPIDER", "THRESH_CALLIPHORID" ],
+    "threshreq": [ "THRESH_INSECT", "THRESH_SPIDER" ],
     "category": [ "INSECT", "SPIDER" ],
     "restricts_gear": [ "torso" ],
     "passive_mods": { "dex_mod": -2 }
@@ -6873,7 +6844,7 @@
     "types": [ "HANDS" ],
     "prereqs": [ "INSECT_ARMS" ],
     "prereqs2": [ "ANTENNAE" ],
-    "threshreq": [ "THRESH_INSECT", "THRESH_CALLIPHORID" ],
+    "threshreq": [ "THRESH_INSECT" ],
     "category": [ "INSECT" ]
   },
   {
@@ -7214,16 +7185,6 @@
     "name": { "str": "Insect" },
     "points": 1,
     "description": "It would be good to be a queen, having workers constantly servicing your every need… but how would you keep them in line?",
-    "valid": false,
-    "purifiable": false,
-    "threshold": true
-  },
-  {
-    "type": "mutation",
-    "id": "THRESH_CALLIPHORID",
-    "name": { "str": "Calliphorid" },
-    "points": 1,
-    "description": "Looking like the victim of a teleporter accident is a small price to pay, and the rotting corpses prowling the streets have never smelled more delicious.",
     "valid": false,
     "purifiable": false,
     "threshold": true
