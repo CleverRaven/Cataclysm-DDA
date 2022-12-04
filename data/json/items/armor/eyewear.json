@@ -101,6 +101,29 @@
     "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
+    "id": "goggles_bal",
+    "repairs_like": "survivor_goggles",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "ballistic goggles", "str_pl": "ballistic goggles" },
+    "description": "Ballistic goggles fitted with anti-glare lenses designed to be worn over a pair of corrective glasses. These goggles protect you from small projectiles, fragments and environmental dangers.",
+    "weight": "450 g",
+    "volume": "350 ml",
+    "price": 4000,
+    "price_postapoc": 3500,
+    "to_hit": -2,
+    "material": [
+      { "type": "kevlar", "covered_by_mat": 90, "thickness": 3 },
+      { "type": "plastic", "covered_by_mat": 10, "thickness": 1 }
+    "symbol": "[",
+    "looks_like": "glasses_safety",
+    "color": "brown",
+    "warmth": 8,
+    "environmental_protection": 18,
+    "flags": [ "WATERPROOF", "SUN_GLASSES", "VARSIZE", "STURDY", "PADDED", ],
+    "armor": [ { "encumbrance": 10, "coverage": 100, "covers": [ "eyes" ], "rigid_layer_only": true } ]
+  },
+  {
     "id": "glasses_bifocal",
     "repairs_like": "survivor_goggles",
     "type": "ARMOR",
