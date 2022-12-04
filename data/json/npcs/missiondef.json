@@ -462,7 +462,7 @@
     "start": {
       "update_mapgen": {
         "place_monster": [
-          { "monster": "mon_zombie_master", "x": [ 12, 15 ], "y": [ 12, 15 ], "target": true },
+          { "monster": "mon_zombie_master", "x": [ 12, 15 ], "y": [ 12, 15 ], "target": true, "name": "Demonic Soul" },
           { "group": "GROUP_ZOMBIE", "x": [ 12, 15 ], "y": [ 12, 15 ], "repeat": [ 21, 29 ] }
         ]
       },
