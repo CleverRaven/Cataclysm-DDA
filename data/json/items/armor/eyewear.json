@@ -115,6 +115,7 @@
     "material": [
       { "type": "kevlar", "covered_by_mat": 90, "thickness": 3 },
       { "type": "plastic", "covered_by_mat": 10, "thickness": 1 }
+      ]
     "symbol": "[",
     "looks_like": "glasses_safety",
     "color": "brown",
