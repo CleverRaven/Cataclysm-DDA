@@ -697,7 +697,7 @@
     "id": "army_personal_locker",
     "subtype": "distribution",
     "entries": [
-      { "item": "goggles_bal", "prob": 5},
+      { "item": "goggles_bal", "prob": 5 },
       { "item": "jumpsuit", "prob": 40 },
       { "item": "officer_uniform", "prob": 20 },
       { "item": "flight_helmet", "prob": 5, "charges-min": 0, "charges-max": 100 },
