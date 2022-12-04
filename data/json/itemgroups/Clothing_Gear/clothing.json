@@ -326,7 +326,7 @@
         "distribution": [
           { "group": "clothing_glasses", "prob": 60 },
           { "item": "glasses_bal", "prob": 30 },
-          { "item": "goggles_bal", "prob": 5},
+          { "item": "goggles_bal", "prob": 5 },
           { "item": "goggles_nv", "prob": 5, "charges": [ 0, 100 ] },
           { "item": "goggles_ir", "prob": 5, "charges": [ 0, 100 ] }
         ],
