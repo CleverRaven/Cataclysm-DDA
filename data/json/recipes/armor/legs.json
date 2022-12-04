@@ -2131,6 +2131,21 @@
     ]
   },
   {
+    "result": "legguard_qt_brigandine_xs",
+    "type": "recipe",
+    "copy-from": "legguard_qt_brigandine",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "time": "1d 4h",
+    "using": [
+      [ "tailoring_canvas_patchwork", 3 ],
+      [ "blacksmithing_standard", 16 ],
+      [ "mc_steel_standard", 2 ],
+      [ "fastener_small", 2 ],
+      [ "strap_small", 2 ]
+    ]
+  },
+  {
     "result": "lc_knee_guards",
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
