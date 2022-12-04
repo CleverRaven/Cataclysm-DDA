@@ -2686,7 +2686,7 @@
     "items": [
       { "item": "mask_gas", "prob": 10, "charges": [ 0, 100 ] },
       [ "duffelbag", 15 ],
-      { "item": "goggles_bal", "prob": 5},
+      { "item": "goggles_bal", "prob": 5 },
       { "item": "goggles_nv", "prob": 1, "charges": [ 0, 100 ] },
       { "item": "goggles_ir", "prob": 1, "charges": [ 0, 100 ] },
       [ "optical_cloak", 1 ],
