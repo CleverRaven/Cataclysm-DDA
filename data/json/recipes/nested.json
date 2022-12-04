@@ -4520,5 +4520,83 @@
     "description": "Recipes related to constructing all planks.",
     "skill_used": "fabrication",
     "nested_category_data": [ "nested_planks_short", "nested_planks_normal", "plank_long" ]
+  },
+  {
+    "id": "nested_lc_brigandine_arms",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "mild steel splint arm guards",
+    "description": "Recipes related to constructing various sizes of splint arm guards.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "armguard_lc_brigandine", "armguard_lc_brigandine_xs", "xl_armguard_lc_brigandine" ],
+    "difficulty": 5
+  },
+  {
+    "id": "nested_mc_brigandine_arms",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "medium steel splint arm guards",
+    "description": "Recipes related to constructing various sizes of splint arm guards.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "armguard_mc_brigandine", "armguard_mc_brigandine_xs", "xl_armguard_mc_brigandine" ],
+    "difficulty": 5
+  },
+  {
+    "id": "nested_hc_brigandine_arms",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "high steel splint arm guards",
+    "description": "Recipes related to constructing various sizes of splint arm guards.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "armguard_hc_brigandine", "armguard_hc_brigandine_xs", "xl_armguard_hc_brigandine" ],
+    "difficulty": 5
+  },
+  {
+    "id": "nested_ch_brigandine_arms",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "hardened steel splint arm guards",
+    "description": "Recipes related to constructing various sizes of splint arm guards.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "armguard_ch_brigandine", "armguard_ch_brigandine_xs", "xl_armguard_ch_brigandine" ],
+    "difficulty": 6
+  },
+  {
+    "id": "nested_qt_brigandine_arms",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "tempered steel splint arm guards",
+    "description": "Recipes related to constructing various sizes of splint arm guards.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "armguard_qt_brigandine", "armguard_qt_brigandine_xs", "xl_armguard_qt_brigandine" ],
+    "difficulty": 7
+  },
+  {
+    "id": "nested_all_brigandine_arms",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_ARMS",
+    "name": "steel splint arm guards",
+    "description": "Recipes related to constructing various sizes of splint arm guards.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "nested_lc_brigandine_arms",
+      "nested_mc_brigandine_arms",
+      "nested_hc_brigandine_arms",
+      "nested_ch_brigandine_arms",
+      "nested_qt_brigandine_arms"
+    ],
+    "difficulty": 5
   }
 ]
