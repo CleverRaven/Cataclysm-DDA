@@ -1749,7 +1749,7 @@
     "type": "nested_category",
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_jumpsuit",
+    "subcategory": "CSC_ARMOR_SUIT",
     "name": "steel chain jumpsuits",
     "description": "Recipes related to constructing chainmail jumpsuits in various types and sizes.",
     "skill_used": "fabrication",
