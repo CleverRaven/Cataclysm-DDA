@@ -171,7 +171,7 @@
       { "group": "clothing_soldier_shirt" },
       { "distribution": [ { "item": "jacket_army_modern", "prob": 50 }, { "item": "combat_shirt", "prob": 50 } ] },
       { "item": "pants_army" },
-      { "item": "goggles_bal", "prob": 5},
+      { "item": "goggles_bal", "prob": 5 },
       { "item": "webbing_belt" },
       { "distribution": [ { "item": "socks", "prob": 95 }, { "item": "socks_wool", "prob": 5 } ] },
       { "item": "boots_combat" },
