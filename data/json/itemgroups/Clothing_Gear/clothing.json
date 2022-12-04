@@ -193,7 +193,7 @@
       { "distribution": [ { "item": "jacket_army_modern", "prob": 50 }, { "item": "combat_shirt", "prob": 50 } ] },
       { "item": "pants_army" },
       { "item": "webbing_belt" },
-      { "item": "goggles_bal", "prob": 5},
+      { "item": "goggles_bal", "prob": 5 },
       { "distribution": [ { "item": "socks", "prob": 95 }, { "item": "socks_wool", "prob": 5 } ] },
       { "item": "boots_combat" },
       {
