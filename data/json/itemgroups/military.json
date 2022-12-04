@@ -834,7 +834,7 @@
     "//": "A bulk of uniform goods all of the same type likely found in a shipping crate",
     "subtype": "distribution",
     "entries": [
-      { "item": "goggles_bal", "prob": 5},
+      { "item": "goggles_bal", "prob": 5 },
       { "item": "mil_mess_kit", "prob": 10, "count": 32 },
       { "item": "voltmeter", "prob": 10, "count": 32 },
       { "item": "multimeter", "prob": 10, "count": 32 },
