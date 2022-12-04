@@ -112,17 +112,21 @@
     "price": 4000,
     "price_postapoc": 3500,
     "to_hit": -2,
-    "material": [
-      { "type": "kevlar", "covered_by_mat": 90, "thickness": 3 },
-      { "type": "plastic", "covered_by_mat": 10, "thickness": 1 }
-      ]
     "symbol": "[",
     "looks_like": "glasses_safety",
     "color": "brown",
     "warmth": 8,
     "environmental_protection": 10,
     "flags": [ "WATERPROOF", "SUN_GLASSES", "VARSIZE", "STURDY", "PADDED" ],
-    "armor": [ { "encumbrance": 10, "coverage": 100, "covers": [ "eyes" ], "rigid_layer_only": true } ]
+    "armor": [ 
+	{ "encumbrance": 10, 
+	"coverage": 100, 
+	"covers": [ "eyes" ], 
+	"material": [
+		{ "type": "kevlar", "covered_by_mat": 100, "thickness": 3 },
+		{ "type": "plastic", "covered_by_mat": 10, "thickness": 1 }
+	],
+	"rigid_layer_only": true } ]
   },
   {
     "id": "glasses_bifocal",
