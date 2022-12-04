@@ -42,7 +42,7 @@
     "name": { "str_sp": "calcium chloride" },
     "symbol": "=",
     "color": "white",
-    "description": "A handful of white, odorless, strongly hygroscopic powder with an extremely salty taste.  Often used as a de-icing agent or a dessicant.",
+    "description": "A handful of white, odorless, strongly hygroscopic powder with an extremely salty taste.  Often used as a de-icing agent or as dessicant.",
     "container": "bag_canvas",
     "material": [ "powder_nonflam" ],
     "volume": "250 ml",

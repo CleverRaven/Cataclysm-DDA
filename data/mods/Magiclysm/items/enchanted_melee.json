@@ -50,7 +50,7 @@
   {
     "type": "GENERIC",
     "id": "longsword_plus_one",
-    "copy-from": "longsword",
+    "copy-from": "qt_longsword",
     "name": { "str": "longsword +1", "str_pl": "longswords +1" },
     "proportional": { "price": 3.0, "price_postapoc": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
     "relative": { "to_hit": 1 }
@@ -58,7 +58,7 @@
   {
     "type": "GENERIC",
     "id": "longsword_plus_two",
-    "copy-from": "longsword",
+    "copy-from": "qt_longsword",
     "name": { "str": "longsword +2", "str_pl": "longswords +2" },
     "proportional": { "price": 6.0, "price_postapoc": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
     "relative": { "to_hit": 2 }
@@ -258,7 +258,7 @@
   {
     "type": "GENERIC",
     "id": "jian_plus_one",
-    "copy-from": "jian",
+    "copy-from": "qt_jian",
     "name": { "str_sp": "jian +1" },
     "proportional": { "price": 3.0, "price_postapoc": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
     "relative": { "to_hit": 1 }
@@ -266,7 +266,7 @@
   {
     "type": "GENERIC",
     "id": "jian_plus_two",
-    "copy-from": "jian",
+    "copy-from": "qt_jian",
     "name": { "str_sp": "jian +2" },
     "proportional": { "price": 6.0, "price_postapoc": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
     "relative": { "to_hit": 2 }
@@ -274,7 +274,7 @@
   {
     "type": "GENERIC",
     "id": "scimitar_plus_one",
-    "copy-from": "scimitar",
+    "copy-from": "qt_scimitar",
     "name": { "str": "scimitar +1", "str_pl": "scimitars +1" },
     "proportional": { "price": 3.0, "price_postapoc": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
     "relative": { "to_hit": 1 }
@@ -282,7 +282,7 @@
   {
     "type": "GENERIC",
     "id": "scimitar_plus_two",
-    "copy-from": "scimitar",
+    "copy-from": "qt_scimitar",
     "name": { "str": "scimitar +2", "str_pl": "scimitars +2" },
     "proportional": { "price": 6.0, "price_postapoc": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
     "relative": { "to_hit": 2 }
@@ -290,7 +290,7 @@
   {
     "type": "GENERIC",
     "id": "estoc_plus_one",
-    "copy-from": "estoc",
+    "copy-from": "qt_estoc",
     "name": { "str": "estoc +1", "str_pl": "estocs +1" },
     "proportional": { "price": 3.0, "price_postapoc": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
     "relative": { "to_hit": 1 }
@@ -298,7 +298,7 @@
   {
     "type": "GENERIC",
     "id": "estoc_plus_two",
-    "copy-from": "estoc",
+    "copy-from": "qt_estoc",
     "name": { "str": "estoc +2", "str_pl": "estocs +2" },
     "proportional": { "price": 6.0, "price_postapoc": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
     "relative": { "to_hit": 2 }
@@ -306,7 +306,7 @@
   {
     "type": "GENERIC",
     "id": "arming_sword_plus_one",
-    "copy-from": "arming_sword",
+    "copy-from": "qt_arming_sword",
     "name": { "str": "arming sword +1", "str_pl": "arming swords +1" },
     "proportional": { "price": 3.0, "price_postapoc": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
     "relative": { "to_hit": 1 }
@@ -314,7 +314,7 @@
   {
     "type": "GENERIC",
     "id": "arming_sword_plus_two",
-    "copy-from": "arming_sword",
+    "copy-from": "qt_arming_sword",
     "name": { "str": "arming sword +2", "str_pl": "arming swords +2" },
     "proportional": { "price": 6.0, "price_postapoc": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
     "relative": { "to_hit": 2 }
@@ -322,7 +322,7 @@
   {
     "type": "GENERIC",
     "id": "broadsword_plus_one",
-    "copy-from": "broadsword",
+    "copy-from": "qt_broadsword",
     "name": { "str": "broadsword +1", "str_pl": "broadswords +1" },
     "proportional": { "price": 3.0, "price_postapoc": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
     "relative": { "to_hit": 1 }
@@ -330,7 +330,7 @@
   {
     "type": "GENERIC",
     "id": "broadsword_plus_two",
-    "copy-from": "broadsword",
+    "copy-from": "qt_broadsword",
     "name": { "str": "broadsword +2", "str_pl": "broadswords +2" },
     "proportional": { "price": 6.0, "price_postapoc": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
     "relative": { "to_hit": 2 }
@@ -354,7 +354,7 @@
   {
     "type": "GENERIC",
     "id": "cavalry_sabre_plus_one",
-    "copy-from": "cavalry_sabre",
+    "copy-from": "qt_cavalry_sabre",
     "name": { "str": "cavalry sabre +1", "str_pl": "cavalry sabres +1" },
     "proportional": { "price": 3.0, "price_postapoc": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
     "relative": { "to_hit": 1 }
@@ -362,7 +362,7 @@
   {
     "type": "GENERIC",
     "id": "cavalry_sabre_plus_two",
-    "copy-from": "cavalry_sabre",
+    "copy-from": "qt_cavalry_sabre",
     "name": { "str": "cavalry sabre +2", "str_pl": "cavalry sabres +2" },
     "proportional": { "price": 6.0, "price_postapoc": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
     "relative": { "to_hit": 2 }
@@ -370,7 +370,7 @@
   {
     "type": "GENERIC",
     "id": "cutlass_plus_one",
-    "copy-from": "cutlass",
+    "copy-from": "qt_cutlass",
     "name": { "str": "cutlass +1", "str_pl": "cutlasses +1" },
     "proportional": { "price": 3.0, "price_postapoc": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
     "relative": { "to_hit": 1 }
@@ -378,7 +378,7 @@
   {
     "type": "GENERIC",
     "id": "cutlass_plus_two",
-    "copy-from": "cutlass",
+    "copy-from": "qt_cutlass",
     "name": { "str": "cutlass +2", "str_pl": "cutlasses +2" },
     "proportional": { "price": 6.0, "price_postapoc": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
     "relative": { "to_hit": 2 }
@@ -402,7 +402,7 @@
   {
     "type": "GENERIC",
     "id": "katana_plus_one",
-    "copy-from": "katana",
+    "copy-from": "qt_katana",
     "name": { "str_sp": "katana +1" },
     "proportional": { "price": 3.0, "price_postapoc": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
     "relative": { "to_hit": 1 }
@@ -410,7 +410,7 @@
   {
     "type": "GENERIC",
     "id": "katana_plus_two",
-    "copy-from": "katana",
+    "copy-from": "qt_katana",
     "name": { "str_sp": "katana +2" },
     "proportional": { "price": 6.0, "price_postapoc": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
     "relative": { "to_hit": 2 }
@@ -498,7 +498,7 @@
   {
     "type": "GENERIC",
     "id": "nodachi_plus_one",
-    "copy-from": "nodachi",
+    "copy-from": "qt_nodachi",
     "name": { "str_sp": "nodachi +1" },
     "proportional": { "price": 3.0, "price_postapoc": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
     "relative": { "to_hit": 1 }
@@ -506,7 +506,7 @@
   {
     "type": "GENERIC",
     "id": "nodachi_plus_two",
-    "copy-from": "nodachi",
+    "copy-from": "qt_nodachi",
     "name": { "str_sp": "nodachi +2" },
     "proportional": { "price": 6.0, "price_postapoc": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
     "relative": { "to_hit": 2 }
@@ -546,7 +546,7 @@
   {
     "type": "GENERIC",
     "id": "rapier_plus_one",
-    "copy-from": "rapier",
+    "copy-from": "qt_rapier",
     "name": { "str": "rapier +1", "str_pl": "rapiers +1" },
     "proportional": { "price": 3.0, "price_postapoc": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
     "relative": { "to_hit": 1 }
@@ -554,7 +554,7 @@
   {
     "type": "GENERIC",
     "id": "rapier_plus_two",
-    "copy-from": "rapier",
+    "copy-from": "qt_rapier",
     "name": { "str": "rapier +2", "str_pl": "rapiers +2" },
     "proportional": { "price": 6.0, "price_postapoc": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
     "relative": { "to_hit": 2 }
@@ -578,7 +578,7 @@
   {
     "type": "GENERIC",
     "id": "wakizashi_plus_one",
-    "copy-from": "wakizashi",
+    "copy-from": "qt_wakizashi",
     "name": { "str_sp": "wakizashi +1" },
     "proportional": { "price": 3.0, "price_postapoc": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
     "relative": { "to_hit": 1 }
@@ -586,7 +586,7 @@
   {
     "type": "GENERIC",
     "id": "wakizashi_plus_two",
-    "copy-from": "wakizashi",
+    "copy-from": "qt_wakizashi",
     "name": { "str_sp": "wakizashi +2" },
     "proportional": { "price": 6.0, "price_postapoc": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
     "relative": { "to_hit": 2 }
@@ -594,7 +594,7 @@
   {
     "type": "GENERIC",
     "id": "zweihander_plus_one",
-    "copy-from": "zweihander",
+    "copy-from": "qt_zweihander",
     "name": { "str": "zweihänder +1", "str_pl": "zweihänders +1" },
     "proportional": { "price": 3.0, "price_postapoc": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
     "relative": { "to_hit": 1 }
@@ -602,7 +602,7 @@
   {
     "type": "GENERIC",
     "id": "zweihander_plus_two",
-    "copy-from": "zweihander",
+    "copy-from": "qt_zweihander",
     "name": { "str": "zweihänder +2", "str_pl": "zweihänders +2" },
     "proportional": { "price": 6.0, "price_postapoc": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
     "relative": { "to_hit": 2 }
@@ -726,10 +726,10 @@
     "looks_like": "halligan",
     "type": "GENERIC",
     "name": { "str": "Technomancer toolbar" },
-    "//": "Combat stats based off crowbar +1, techniques off Halligan bar(closest non-magical substitute), weight based on 75% of hammer & wrench(since their handles aren't included) + 100% crowbar with benefit from +1 enchantment",
+    "//": "Combat stats based off crowbar +1, techniques off Halligan bar(closest non-magical substitute), weight based on 16oz clawhammer head, small wrench and crowbar with a small benefit from being magic",
     "description": "This staff incorporates a sturdy crescent wrench on top of a prybar and a hammer on the other in a convenient package.  There is a Technomancer rune embedded in the hammerhead.",
     "weight": "995 g",
-    "volume": "1750 ml",
+    "volume": "440 ml",
     "longest_side": "65 cm",
     "price": 3900,
     "bashing": 22,
@@ -751,7 +751,7 @@
     "//": "Pretty much the same as the other, but now with a cool touchscreen that casts mirror image and does some minor things",
     "description": "This staff incorporates a sturdy crescent wrench on top of a prybar and a hammer on the other in a convenient package.  There are electronic components in the staff connected to a touchscreen embedded in the staff, you only had time to cram one spell in the prototype software.  There is a Technomancer rune embedded in the hammerhead.",
     "weight": "1000 g",
-    "volume": "1750 ml",
+    "volume": "550 ml",
     "longest_side": "65 cm",
     "price": 5000,
     "bashing": 27,
@@ -816,20 +816,16 @@
     "id": "rune_kelvinist_weapon",
     "looks_like": "longsword",
     "type": "GENERIC",
-    "copy-from": "longsword",
+    "copy-from": "hc_cutlass",
     "name": { "str": "Kelvinist flamberge" },
     "//": "Flame-bladed sword covers half of Kelvinist's heat-cold theme.  Combat stats equivalent to cutlass +1 with BRUTAL technique.",
     "description": "A sword with an undulating blade, reminiscent of a flame.  There is a Kelvinist rune embedded in the pommel.",
-    "weight": "860 g",
-    "volume": "1250 ml",
-    "longest_side": "80 cm",
+    "proportional": { "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "relative": { "to_hit": 1 },
     "price": 3900,
-    "to_hit": 2,
-    "bashing": 6,
-    "cutting": 29,
-    "material": [ "wood", "steel" ],
     "symbol": "/",
     "color": "light_gray",
+    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS" ],
     "techniques": [ "WBLOCK_2", "BRUTAL" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
     "use_action": [ "WEATHER_TOOL" ],
@@ -839,7 +835,7 @@
     "id": "rune_kelvinist_ice_adept_weapon",
     "looks_like": "scimitar",
     "type": "TOOL",
-    "copy-from": "scimitar",
+    "copy-from": "qt_scimitar",
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "Kelvinist Frostbind" },
@@ -847,14 +843,9 @@
     "description": "This curved sword, reminiscent of a scimitar, has a handle with an embedded crystal from which a cold wind emanates.  There are Kelvinist runes embedded in the blade.",
     "price": 558000,
     "price_postapoc": 21000,
-    "material": [ "steel" ],
+    "proportional": { "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "relative": { "to_hit": 2 },
     "techniques": [ "WBLOCK_2", "WIDE" ],
-    "weight": "960 g",
-    "volume": "2 L",
-    "longest_side": "90 cm",
-    "bashing": 8,
-    "cutting": 36,
-    "to_hit": 3,
     "category": "weapons",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
     "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS" ],

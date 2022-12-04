@@ -1,0 +1,52 @@
+[
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "contains cloth for an average zombie child",
+    "id": "default_zombie_children_clothes",
+    "entries": [
+      { "distribution": [ { "group": "coats_unisex", "prob": 90, "damage": [ 1, 4 ] } ], "prob": 20 },
+      { "group": "common_gloves", "damage": [ 1, 4 ], "prob": 20 },
+      { "distribution": [ { "group": "hatstore_hats", "prob": 50, "damage": [ 1, 4 ] } ], "prob": 20 },
+      { "group": "scarfs_unisex", "damage": [ 1, 4 ], "prob": 20 },
+      {
+        "distribution": [
+          {
+            "collection": [
+              { "distribution": [ { "group": "male_underwear", "prob": 90, "damage": [ 1, 4 ] } ] },
+              {
+                "distribution": [
+                  {
+                    "collection": [
+                      { "group": "pants_male", "prob": 60, "damage": [ 1, 4 ] },
+                      { "group": "shirts_unisex", "prob": 60, "damage": [ 1, 4 ] },
+                      { "item": "leather_belt", "prob": 30, "damage": [ 1, 4 ] }
+                    ]
+                  }
+                ]
+              },
+              { "distribution": [ { "group": "shoes_unisex", "prob": 50, "damage": [ 1, 4 ] } ], "prob": 30 }
+            ]
+          },
+          {
+            "collection": [
+              { "group": "female_underwear", "prob": 90, "damage": [ 1, 4 ] },
+              {
+                "distribution": [
+                  {
+                    "collection": [
+                      { "group": "pants_female", "prob": 60, "damage": [ 1, 4 ] },
+                      { "distribution": [ { "group": "shoes_unisex", "prob": 30, "damage": [ 1, 4 ] } ], "prob": 30 },
+                      { "group": "shirts_unisex", "prob": 60, "damage": [ 1, 4 ] }
+                    ],
+                    "prob": 70
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

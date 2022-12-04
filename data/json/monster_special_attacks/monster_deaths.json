@@ -90,6 +90,24 @@
     "field_chance": 1
   },
   {
+    "id": "death_blood",
+    "type": "SPELL",
+    "name": { "str": "Blood Death" },
+    "description": "Explode in a shower of gore.  Metal!",
+    "valid_targets": [ "ground", "self" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "RANDOM_AOE" ],
+    "shape": "blast",
+    "max_level": 3,
+    "min_aoe": 0,
+    "max_aoe": 3,
+    "aoe_increment": 1,
+    "effect": "attack",
+    "field_id": "fd_blood",
+    "min_field_intensity": 3,
+    "max_field_intensity": 3,
+    "field_chance": 1
+  },
+  {
     "id": "death_halfworm",
     "type": "SPELL",
     "name": { "str": "Half Worm Death" },
@@ -317,6 +335,19 @@
     "min_damage": 1,
     "max_damage": 1,
     "effect": "noise"
+  },
+  {
+    "id": "death_shock_blast",
+    "type": "SPELL",
+    "name": { "str": "Shock Death" },
+    "valid_targets": [ "ally", "ground", "hostile" ],
+    "description": "1/5 chance to burst into electric clouds.",
+    "flags": [ "WONDER" ],
+    "effect": "noise",
+    "min_damage": 1,
+    "max_damage": 1,
+    "shape": "blast",
+    "extra_effects": [ { "id": "death_fakespell" }, { "id": "death_fakespell" }, { "id": "shock_blast", "hit_self": true, "min_level": 2 } ]
   },
   {
     "id": "death_fireball",

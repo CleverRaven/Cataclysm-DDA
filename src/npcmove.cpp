@@ -134,6 +134,9 @@ static const npc_class_id NC_EVAC_SHOPKEEP( "NC_EVAC_SHOPKEEP" );
 
 static const skill_id skill_firstaid( "firstaid" );
 
+static const trait_id trait_IGNORE_SOUND( "IGNORE_SOUND" );
+static const trait_id trait_RETURN_TO_START_POS( "RETURN_TO_START_POS" );
+
 static const zone_type_id zone_type_NO_NPC_PICKUP( "NO_NPC_PICKUP" );
 static const zone_type_id zone_type_NPC_RETREAT( "NPC_RETREAT" );
 
@@ -721,6 +724,11 @@ void npc::regen_ai_cache()
     map &here = get_map();
     auto i = std::begin( ai_cache.sound_alerts );
     creature_tracker &creatures = get_creature_tracker();
+    if( has_trait( trait_RETURN_TO_START_POS ) ) {
+        if( !ai_cache.guard_pos ) {
+            ai_cache.guard_pos = here.getabs( pos() );
+        }
+    }
     while( i != std::end( ai_cache.sound_alerts ) ) {
         if( sees( here.getlocal( i->abs_pos ) ) ) {
             // if they were responding to a call for guards because of thievery
@@ -876,7 +884,12 @@ void npc::move()
                 ai_cache.sound_alerts.resize( 10 );
             }
         }
-        action = npc_investigate_sound;
+        if( has_trait( trait_IGNORE_SOUND ) ) { //Do not investigate sounds - clear sound alerts as below
+            ai_cache.sound_alerts.clear();
+            action = npc_return_to_guard_pos;
+        } else {
+            action = npc_investigate_sound;
+        }
         if( ai_cache.sound_alerts.front().abs_pos != cur_s_abs_pos ) {
             ai_cache.stuck = 0;
             ai_cache.s_abs_pos = ai_cache.sound_alerts.front().abs_pos;

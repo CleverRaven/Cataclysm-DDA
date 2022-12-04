@@ -543,6 +543,35 @@
     "flags": [ "SEES", "WARM", "BASHES", "DESTROYS", "NO_BREATHE", "PUSH_MON", "PUSH_VEH", "FIREY", "PATH_AVOID_DANGER_1" ]
   },
   {
+    "id": "mon_teravolt",
+    "type": "MONSTER",
+    "name": "teravolt",
+    "description": "Small energy sphere, that slowly float into the target.",
+    "default_faction": "player",
+    "species": [ "UNKNOWN" ],
+    "volume": "750 ml",
+    "weight": "1 g",
+    "hp": 1,
+    "material": [ "concentrated_mana" ],
+    "symbol": "o",
+    "aggression": 100,
+    "morale": 100,
+    "luminance": 6,
+    "emit_fields": [ { "emit_id": "emit_spark", "delay": "1 s" } ],
+    "flags": [ "SEES", "FLIES", "NOHEAD", "NO_BREATHE", "STUN_IMMUNE", "ELECTRIC", "HARDTOSHOOT", "PRIORITIZE_TARGETS" ],
+    "speed": 40,
+    "color": "light_green",
+    "melee_skill": 0,
+    "melee_dice": 1,
+    "melee_dice_sides": 1,
+    "armor_elec": 50,
+    "death_function": {
+      "effect": { "id": "teravolt_explosion", "hit_self": true },
+      "message": "The %s explode, creating a giant cloud of sparks.",
+      "corpse_type": "NO_CORPSE"
+    }
+  },
+  {
     "id": "mon_razor_butterflies",
     "type": "MONSTER",
     "name": { "str": "razor butterfly", "str_pl": "razor butterflies" },
@@ -606,5 +635,116 @@
     "death_function": { "message": "A %s dissolves.", "corpse_type": "NO_CORPSE" },
     "//1": "PACIFIST because #55528",
     "flags": [ "SEES", "HEARS", "WARM", "HARDTOSHOOT", "BASHES", "DESTROYS", "ATTACKMON", "PUSH_MON", "PUSH_VEH", "PACIFIST" ]
+  },
+  {
+    "id": "mon_electric_demon",
+    "type": "MONSTER",
+    "name": "electric demon",
+    "description": "Small, pure electric elemental, it jumps from target to target, and attack anything on his sight.  Except of caster.",
+    "default_faction": "player",
+    "volume": "62500 ml",
+    "weight": "81500 g",
+    "hp": 70,
+    "speed": 150,
+    "symbol": "g",
+    "color": "yellow",
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 5,
+    "melee_dice": 1,
+    "melee_dice_sides": 1,
+    "dodge": 9,
+    "luminance": 600,
+    "armor_bash": 3,
+    "armor_cut": 3,
+    "armor_bullet": 3,
+    "armor_elec": 50,
+    "vision_day": 30,
+    "vision_night": 30,
+    "emit_fields": [ { "emit_id": "emit_electric_sparks", "delay": "1 s" } ],
+    "special_attacks": [
+      { "type": "spell", "spell_data": { "id": "shocking_lash", "min_level": 15 }, "cooldown": 9 },
+      { "type": "leap", "cooldown": 7, "max_range": 5, "allow_no_target": true },
+      { "id": "shock_punch", "cooldown": 1 }
+    ],
+    "harvest": "exempt",
+    "death_function": {
+      "effect": { "id": "stormshaper_ionization", "min_level": 30, "hit_self": true },
+      "message": "A %s explode!",
+      "corpse_type": "NO_CORPSE"
+    },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "NOHEAD",
+      "HARDTOSHOOT",
+      "FLIES",
+      "PRIORITIZE_TARGETS",
+      "NO_BREATHE",
+      "NOGIB",
+      "ATTACKMON",
+      "ELECTRIC"
+    ]
+  },
+  {
+    "id": "mon_electric_turret",
+    "type": "MONSTER",
+    "name": "thunder pillar",
+    "description": "It looks like a giant floating stone shard, but it's intelligent creature, that can use electric branches as their own bodies.",
+    "default_faction": "player",
+    "volume": "218500 ml",
+    "weight": "240000 g",
+    "hp": 100,
+    "speed": 100,
+    "symbol": "8",
+    "color": "yellow",
+    "aggression": 100,
+    "morale": 100,
+    "luminance": 1200,
+    "armor_bash": 7,
+    "armor_cut": 7,
+    "armor_bullet": 7,
+    "armor_elec": 50,
+    "vision_day": 60,
+    "vision_night": 60,
+    "emit_fields": [ { "emit_id": "emit_electric_sparks", "delay": "1 s" } ],
+    "special_attacks": [
+      {
+        "id": "turret_1",
+        "type": "spell",
+        "spell_data": { "id": "shocking_lash", "min_level": 20 },
+        "monster_message": "",
+        "cooldown": 2
+      },
+      {
+        "id": "turret_2",
+        "type": "spell",
+        "spell_data": { "id": "electric_turret_line", "min_level": 0 },
+        "monster_message": "",
+        "cooldown": 13
+      },
+      {
+        "id": "turret_3",
+        "type": "spell",
+        "spell_data": { "id": "electric_turret_blast", "min_level": 0 },
+        "monster_message": "",
+        "cooldown": 9
+      }
+    ],
+    "harvest": "exempt",
+    "death_function": { "message": "A %s dissolve.", "corpse_type": "NO_CORPSE" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "NOHEAD",
+      "IMMOBILE",
+      "FLIES",
+      "PRIORITIZE_TARGETS",
+      "NO_BREATHE",
+      "NOGIB",
+      "ATTACKMON",
+      "PACIFIST",
+      "ELECTRIC"
+    ]
   }
 ]

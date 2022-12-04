@@ -104,52 +104,60 @@ void Character::update_body_wetness( const w_point &weather )
     weather_mult = std::max( 0.1f, weather_mult );
 
     for( const bodypart_id &bp : get_all_body_parts() ) {
-        const int wetness = get_part_wetness( bp );
-        if( wetness == 0 ) {
-            remove_effect( effect_wet, bp );
-            continue;
-        }
 
-        // Body temperature affects duration of wetness
-        // Note: Using temp_conv rather than temp_cur, to better approximate environment
         const int temp_conv = get_part_temp_conv( bp );
-        float temp_mult = 1.0;
-        if( temp_conv >= BODYTEMP_SCORCHING ) {
-            temp_mult = 0.5;
-        } else if( temp_conv >= BODYTEMP_VERY_HOT ) {
-            temp_mult = 0.67;
-        } else if( temp_conv >= BODYTEMP_HOT ) {
-            temp_mult = 0.75;
-        } else if( temp_conv > BODYTEMP_COLD ) {
-            // Comfortable, doesn't need any changes
-        } else {
-            // Evaporation doesn't change that much at lower temp
-            temp_mult = 1.2;
-        }
+        // do sweat related tests assuming not underwater
+        if( !is_underwater() ) {
+            const int wetness = get_part_wetness( bp );
+            if( wetness == 0 ) {
+                remove_effect( effect_wet, bp );
+                continue;
+            }
 
-        // Make clothing slow down drying
-        const float clothing_mult = worn.clothing_wetness_mult( bp );
+            // Body temperature affects duration of wetness
+            // Note: Using temp_conv rather than temp_cur, to better approximate environment
+            float temp_mult = 1.0;
+            if( temp_conv >= BODYTEMP_SCORCHING ) {
+                temp_mult = 0.5;
+            } else if( temp_conv >= BODYTEMP_VERY_HOT ) {
+                temp_mult = 0.67;
+            } else if( temp_conv >= BODYTEMP_HOT ) {
+                temp_mult = 0.75;
+            } else if( temp_conv > BODYTEMP_COLD ) {
+                // Comfortable, doesn't need any changes
+            } else {
+                // Evaporation doesn't change that much at lower temp
+                temp_mult = 1.2;
+            }
 
-        const time_duration drying = bp->drying_increment * average_drying * trait_mult * weather_mult *
-                                     temp_mult / clothing_mult;
-        const float turns_to_dry = to_turns<float>( drying );
+            // Make clothing slow down drying
+            const float clothing_mult = worn.clothing_wetness_mult( bp );
 
-        const int drench_cap = get_part_drench_capacity( bp );
-        const float dry_per_turn = static_cast<float>( drench_cap ) / turns_to_dry;
-        mod_part_wetness( bp, roll_remainder( dry_per_turn ) * -1 );
+            const time_duration drying = bp->drying_increment * average_drying * trait_mult * weather_mult *
+                                         temp_mult / clothing_mult;
+            const float turns_to_dry = to_turns<float>( drying );
 
+            const int drench_cap = get_part_drench_capacity( bp );
+            const float dry_per_turn = static_cast<float>( drench_cap ) / turns_to_dry;
+            mod_part_wetness( bp, roll_remainder( dry_per_turn ) * -1 );
 
-        // Make evaporation reduce body heat
-        // if under 50 in the menu or 7500 temp_conv you should be able to regulate temperature by sweating
-        // with current calcs a character moving towards 7500 heat will at most move 5 temperature points
-        // down to not having a slowdown
-        if( !bp->has_flag( json_flag_IGNORE_TEMP ) ) {
-            mod_part_temp_cur( bp, roll_remainder( 4 * clothing_mult ) * -1 );
+            // Make evaporation reduce body heat
+            // if under 50 in the menu or 7500 temp_conv you should be able to regulate temperature by sweating
+            // with current calcs a character moving towards 7500 heat will at most move 5 temperature points
+            // down to not having a slowdown
+            if( !bp->has_flag( json_flag_IGNORE_TEMP ) ) {
+                mod_part_temp_cur( bp, roll_remainder( 4 * clothing_mult ) * -1 );
+            }
         }
 
         // Safety measure to keep wetness within bounds
-        if( get_part_wetness( bp ) < 0 ) {
-            set_part_wetness( bp, 0 );
+        if( get_part_wetness( bp ) <= 0 ) {
+            // if we are hot still we should always be a bit wet (still sweating), this is a small hack to make sure we don't miss cooling ticks with good breathability clothing
+            if( temp_conv >= BODYTEMP_HOT && get_part_drench_capacity( bp ) > 0 ) {
+                set_part_wetness( bp, 1 );
+            } else {
+                set_part_wetness( bp, 0 );
+            }
         }
         if( get_part_wetness( bp ) > get_part_drench_capacity( bp ) ) {
             set_part_wetness( bp, get_part_drench_capacity( bp ) );
@@ -272,7 +280,7 @@ void Character::update_body( const time_point &from, const time_point &to )
                 mod_daily_health( -1, -200 );
             }
         }
-        if( cardio_accumultor >= get_bmr() / 2 ) {
+        if( cardio_accumultor >= get_cardio_acc_base() ) {
             mod_daily_health( 2, 200 );
         }
     }
@@ -405,7 +413,7 @@ void Character::update_bodytemp()
     /* Cache calls to g->get_temperature( player position ), used in several places in function */
     const units::temperature player_local_temp = weather_man.get_temperature( pos() );
     // NOTE : visit weather.h for some details on the numbers used
-    // Converts temperature to Celsius/10
+    // Converts temperature to Celsius/100
     int Ctemperature = static_cast<int>( 100 * units::to_celsius( player_local_temp ) );
     const w_point weather = *weather_man.weather_precise;
     int vehwindspeed = 0;
@@ -432,7 +440,8 @@ void Character::update_bodytemp()
     const bool use_floor_warmth = can_use_floor_warmth();
     const furn_id furn_at_pos = here.furn( pos() );
     const cata::optional<vpart_reference> boardable = vp.part_with_feature( "BOARDABLE", true );
-    // Temperature norms
+    // Temperature norms, unit is Celsius/100
+    // This means which temperature is comfortable for a naked person
     // Ambient normal temperature is lower while asleep
     const int ambient_norm = has_sleep ? 3100 : 1900;
 
@@ -744,16 +753,23 @@ void Character::update_bodytemp()
         // Note: Numbers are based off of BODYTEMP at the top of weather.h
         // If torso is BODYTEMP_COLD which is 34C, the early stages of hypothermia begin
         // constant shivering will prevent the player from falling asleep.
+        // Lowering this threshold to BODYTEMP_VERY_COLD because currently temp_cur is added up
+        // by numbers that are in different unit.
         // Otherwise, if any other body part is BODYTEMP_VERY_COLD, or 31C
         // AND you have frostbite, then that also prevents you from sleeping
         if( in_sleep_state() && !has_effect( effect_narcosis ) ) {
-            if( bp == body_part_torso && temp_after <= BODYTEMP_COLD && !has_bionic( bio_sleep_shutdown ) ) {
-                add_msg( m_warning, _( "Your shivering prevents you from sleeping." ) );
-                wake_up();
-            } else if( bp != body_part_torso && temp_after <= BODYTEMP_VERY_COLD &&
-                       has_effect( effect_frostbite ) && !has_bionic( bio_sleep_shutdown ) ) {
-                add_msg( m_warning, _( "You are too cold.  Your frostbite prevents you from sleeping." ) );
-                wake_up();
+            if( bp == body_part_torso && temp_after <= BODYTEMP_COLD && calendar::once_every( 1_hours ) ) {
+                add_msg( m_warning, _( "You feel cold and shiver." ) );
+            }
+            if( temp_after <= BODYTEMP_VERY_COLD &&
+                get_fatigue() <= fatigue_levels::DEAD_TIRED && !has_bionic( bio_sleep_shutdown ) ) {
+                if( bp == body_part_torso ) {
+                    add_msg( m_warning, _( "Your shivering prevents you from sleeping." ) );
+                    wake_up();
+                } else if( has_effect( effect_frostbite ) ) {
+                    add_msg( m_warning, _( "You are too cold.  Your frostbite prevents you from sleeping." ) );
+                    wake_up();
+                }
             }
         }
 

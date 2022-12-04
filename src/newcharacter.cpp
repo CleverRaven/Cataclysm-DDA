@@ -2269,7 +2269,7 @@ static std::string assemble_hobby_details( const avatar &u, const input_context 
     if( !prof_proficiencies.empty() ) {
         assembled += "\n" + colorize( _( "Background proficiencies:" ), COL_HEADER ) + "\n";
         for( const proficiency_id &prof : prof_proficiencies ) {
-            assembled += prof->name() + "\n";
+            assembled += prof->name() + ": " + colorize( prof->description(), COL_HEADER ) + "\n";
         }
     }
 
@@ -3013,7 +3013,7 @@ static std::string assemble_scenario_details( const avatar &u, const input_conte
         assembled += string_format( _( "Season: %s" ),
                                     calendar::name_season( current_scenario->start_season() ) ) + "\n";
         assembled += string_format( current_scenario->is_random_day() ? _( "Day:    Random" ) :
-                                    _( "Day:    %d" ), current_scenario->day_of_season() ) + "\n";
+                                    _( "Day:    %d" ), current_scenario->start_day() ) + "\n";
         assembled += string_format( current_scenario->is_random_hour() ? _( "Hour:   Random" ) :
                                     _( "Hour:   %d" ), current_scenario->start_hour() ) + "\n";
     } else {
@@ -3346,8 +3346,7 @@ static void draw_height( const catacurses::window &w_height, const avatar &you,
     werase( w_height );
     mvwprintz( w_height, point_zero, highlight ? COL_SELECT : c_light_gray, _( "Height:" ) );
     unsigned height_pos = 1 + utf8_width( _( "Height:" ) );
-    mvwprintz( w_height, point( height_pos, 0 ), c_white, string_format( "%d cm",
-               you.base_height() ) );
+    mvwprintz( w_height, point( height_pos, 0 ), c_white, you.height_string() );
     wnoutrefresh( w_height );
 }
 
@@ -3356,7 +3355,7 @@ static void draw_age( const catacurses::window &w_age, const avatar &you, const 
     werase( w_age );
     mvwprintz( w_age, point_zero, highlight ? COL_SELECT : c_light_gray, _( "Age:" ) );
     unsigned age_pos = 1 + utf8_width( _( "Age:" ) );
-    mvwprintz( w_age, point( age_pos, 0 ), c_white, string_format( "%d", you.base_age() ) );
+    mvwprintz( w_age, point( age_pos, 0 ), c_white, you.age_string( get_scenario()->start_of_game() ) );
     wnoutrefresh( w_age );
 }
 

@@ -150,6 +150,7 @@ Use the `Home` key to return to the top.
     - [Harvest Drop Type](#harvest-drop-type)
     - [leftovers](#leftovers)
     - [Weapon Category](#weapon-category)
+    - [Connect group definitions](#connect-group-definitions)
     - [Furniture](#furniture)
       - [`type`](#type-1)
       - [`move_cost_mod`](#move_cost_mod)
@@ -474,6 +475,7 @@ Here's a quick summary of what each of the JSON files contain, broken down by fo
 | `body_parts.json`             | an expansion of anatomy.json - do not edit
 | `clothing_mods.json`          | definition of clothing mods
 | `conducts.json`               | conducts
+| `connect_groups.json`         | definition of terrain and furniture connect groups
 | `construction.json`           | definition of construction menu tasks
 | `default_blacklist.json`      | a standard blacklist of joke monsters
 | `doll_speech.json`            | talking doll speech messages
@@ -3025,6 +3027,8 @@ See `GAME_BALANCE.md`'s `MELEE_WEAPONS` section for the criteria for selecting e
 "count" : 25,         // Number of rounds that spawn together
 "stack_size" : 50,    // (Optional) How many rounds are in the above-defined volume. If omitted, is the same as 'count'
 "show_stats" : true,  // (Optional) Force stat display for combat ammo. (for projectiles lacking both damage and prop_damage)
+"loudness": 10,       // (Optional) Modifier that can increase or decrease base gun's noise when firing. If loudness value is not specified, then game calculates it automatically from ammo's range, damage, and armor penetration.
+
 "effects" : ["COOKOFF", "SHOT"]
 ```
 
@@ -3430,6 +3434,7 @@ Any Item can be a container. To add the ability to contain things to an item, yo
     "weight_multiplier": 1.0,         // The items in this pocket magically weigh less inside than outside.  Nothing in vanilla should have a weight_multiplier.
     "moves": 100,                     // Indicates the number of moves it takes to remove an item from this pocket, assuming best conditions.
     "rigid": false,                   // Default false. If true, this pocket's size is fixed, and does not expand when filled.  A glass jar would be rigid, while a plastic bag is not.
+    "forbidden": true,                // Default false. If true, this pocket cannot be used by players. 
     "magazine_well": "0 ml",          // Amount of space you can put items in the pocket before it starts expanding.  Only works if rigid = false.
     "watertight": false,              // Default false. If true, can contain liquid.
     "airtight": false,                // Default false. If true, can contain gas.
@@ -3499,6 +3504,7 @@ Guns can be defined like this:
 "default_mods": ["m203"]   //An array of mods that will be added to a weapon on spawn.
 "barrel_volume": "30 mL",  // Amount of volume lost when the barrel is sawn. Approximately 250 ml per inch is a decent approximation.
 "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ] ],  // The valid locations for gunmods and the mount of slots for that location.
+"loudness": 10             // Amount of noise produced by this gun when firing. If no value is defined, then it's calculated based on loudness value from loaded ammo. Final loudness is calculated as gun loudness + gunmod loudness + ammo loudness. If final loudness is 0, then the gun is completely silent.
 ```
 Alternately, every item (book, tool, armor, even food) can be used as gun if it has gun_data:
 ```json
@@ -4165,6 +4171,39 @@ itype_id of the item dropped as leftovers after butchery or when the monster is 
 }
 ```
 
+### Connect group definitions
+
+Connect groups can be used by id in terrain and furniture `connect_groups`, `connects_to` and `rotates_to` properties.
+
+Examples from the actual definitions:
+
+**`group_flags`**: Flags that imply that terrain or furniture is added to this group.
+
+**`connects_to_flags`**: Flags that imply that terrain or furniture connects to this group.
+
+**`rotates_to_flags`**: Flags that imply that terrain or furniture rotates to this group.
+
+```json
+[
+  {
+    "type": "connect_group",
+    "id": "WALL",
+    "group_flags": [ "WALL", "CONNECT_WITH_WALL" ],
+    "connects_to_flags": [ "WALL", "CONNECT_WITH_WALL" ]
+  },
+  {
+    "type": "connect_group",
+    "id": "CHAINFENCE"
+  },
+  {
+    "type": "connect_group",
+    "id": "INDOORFLOOR",
+    "group_flags": [ "INDOORS" ],
+    "rotates_to_flags": [ "WINDOW", "DOOR" ]
+  }
+]
+```
+
 ### Furniture
 
 ```C++
@@ -4179,6 +4218,9 @@ itype_id of the item dropped as leftovers after butchery or when the monster is 
     "light_emitted": 5,
     "required_str": 18,
     "flags": [ "TRANSPARENT", "BASHABLE", "FLAMMABLE_HARD" ],
+    "connect_groups" : [ "WALL" ],
+    "connects_to" : [ "WALL" ],
+    "rotates_to" : [ "INDOORFLOOR" ],
     "crafting_pseudo_item": "anvil",
     "examine_action": "toilet",
     "close": "f_foo_closed",
@@ -4583,7 +4625,7 @@ Displayed name of the object. This will be translated.
 
 #### `connect_groups`
 
-(Optional) Makes the type a member of one or more [Connect groups](#connect-groups).
+(Optional) Makes the type a member of one or more [Connection groups](#connection-groups).
 
 Does not make the type connect or rotate itself, but serves as the passive side.
 For the active, connecting or rotating side, see [`connects_to`](#connects_to) and [`rotates_to`](#rotates_to).
@@ -4592,19 +4634,22 @@ Available groups are:
 
 ##### Connection groups
 
+Connect groups are defined by JSON types `connect_group`.
+Current connect groups are:
+
 ```
-NONE                 PIT_DEEP
-WALL                 LINOLEUM
-CHAINFENCE           CARPET
-WOODFENCE            CONCRETE
-RAILING              CLAY
-POOLWATER            DIRT
-WATER                ROCKFLOOR
-PAVEMENT             MULCHFLOOR
+NONE                 SAND
+WALL                 PIT_DEEP
+CHAINFENCE           LINOLEUM
+WOODFENCE            CARPET
+RAILING              CONCRETE
+POOLWATER            CLAY
+WATER                DIRT
+PAVEMENT             ROCKFLOOR
+PAVEMENT_MARKING     MULCHFLOOR
 RAIL                 METALFLOOR
 COUNTER              WOODFLOOR
 CANVAS_WALL          INDOORFLOOR
-SAND
 ```
 
 `WALL` is implied by the flags `WALL` and `CONNECT_WITH_WALL`.
