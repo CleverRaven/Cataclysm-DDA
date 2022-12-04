@@ -777,7 +777,7 @@
     "id": "mil_hw",
     "subtype": "distribution",
     "entries": [
-      { "item": "goggles_bal", "prob": 20},
+      { "item": "goggles_bal", "prob": 20 },
       { "group": "mags_milspec", "prob": 40 },
       { "item": "flamethrower", "prob": 20, "charges": [ 0, 3000 ] },
       { "item": "rm451_flamethrower", "prob": 10, "charges": [ 0, 2000 ] },
