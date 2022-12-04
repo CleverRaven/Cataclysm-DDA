@@ -900,7 +900,7 @@
     "magazine": 100,
     "subtype": "distribution",
     "entries": [
-      { "item": "goggles_bal", "prob": 1},
+      { "item": "goggles_bal", "prob": 1 },
       { "group": "guns_launcher_milspec", "prob": 5 },
       { "group": "guns_launcher_rocket", "prob": 44 },
       { "group": "guns_rifle_milspec", "prob": 10 },
