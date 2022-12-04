@@ -113,7 +113,7 @@
       { "group": "mil_food_nodrugs", "prob": 80 },
       { "item": "gloves_tactical", "prob": 10 },
       { "item": "tac_helmet", "prob": 5 },
-      { "item": "goggles_bal", "prob": 1},
+      { "item": "goggles_bal", "prob": 1 },
       { "item": "helmet_army", "prob": 5 },
       { "item": "knee_pads", "prob": 20 },
       { "item": "kevlar", "prob": 5 },
