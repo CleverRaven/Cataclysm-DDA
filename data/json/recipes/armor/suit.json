@@ -1034,7 +1034,7 @@
     "type": "recipe",
     "copy-from": "lc_chainmail_suit",
     "time": "20 m",
-    "components": [ [ [ "xs_lc_chainmail_sjumpsuit", 1 ] ], [ [ "xs_lc_chainmail_arms", 1 ] ] ]
+    "components": [ [ [ "lc_chainmail_sjumpsuit_xs", 1 ] ], [ [ "xs_lc_chainmail_arms", 1 ] ] ]
   },
   {
     "result": "xl_lc_chainmail_jumpsuit",
@@ -1073,7 +1073,7 @@
     "autolearn": true,
     "flags": [ "NO_RESIZE" ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ],
-    "components": [ [ [ "xs_lc_chainmail_hauberk", 1 ] ], [ [ "xs_lc_chainmail_legs", 1 ] ] ]
+    "components": [ [ [ "lc_chainmail_hauberk_xs", 1 ] ], [ [ "xs_lc_chainmail_legs", 1 ] ] ]
   },
   {
     "result": "xl_lc_chainmail_jumpsuit",
@@ -1111,7 +1111,7 @@
     "type": "recipe",
     "copy-from": "mc_chainmail_suit",
     "time": "20 m",
-    "components": [ [ [ "xs_mc_chainmail_sjumpsuit", 1 ] ], [ [ "xs_mc_chainmail_arms", 1 ] ] ]
+    "components": [ [ [ "mc_chainmail_sjumpsuit_xs", 1 ] ], [ [ "xs_mc_chainmail_arms", 1 ] ] ]
   },
   {
     "result": "xl_mc_chainmail_jumpsuit",
@@ -1150,7 +1150,7 @@
     "autolearn": true,
     "flags": [ "NO_RESIZE" ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ],
-    "components": [ [ [ "xs_mc_chainmail_hauberk", 1 ] ], [ [ "xs_mc_chainmail_legs", 1 ] ] ]
+    "components": [ [ [ "mc_chainmail_hauberk_xs", 1 ] ], [ [ "xs_mc_chainmail_legs", 1 ] ] ]
   },
   {
     "result": "xl_mc_chainmail_jumpsuit",
@@ -1188,7 +1188,7 @@
     "type": "recipe",
     "copy-from": "hc_chainmail_suit",
     "time": "20 m",
-    "components": [ [ [ "xs_hc_chainmail_sjumpsuit", 1 ] ], [ [ "xs_hc_chainmail_arms", 1 ] ] ]
+    "components": [ [ [ "hc_chainmail_sjumpsuit_xs", 1 ] ], [ [ "xs_hc_chainmail_arms", 1 ] ] ]
   },
   {
     "result": "xl_hc_chainmail_jumpsuit",
@@ -1227,7 +1227,7 @@
     "autolearn": true,
     "flags": [ "NO_RESIZE" ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ],
-    "components": [ [ [ "xs_hc_chainmail_hauberk", 1 ] ], [ [ "xs_hc_chainmail_legs", 1 ] ] ]
+    "components": [ [ [ "hc_chainmail_hauberk_xs", 1 ] ], [ [ "xs_hc_chainmail_legs", 1 ] ] ]
   },
   {
     "result": "xl_hc_chainmail_jumpsuit",
@@ -1265,7 +1265,7 @@
     "type": "recipe",
     "copy-from": "ch_chainmail_suit",
     "time": "20 m",
-    "components": [ [ [ "xs_ch_chainmail_sjumpsuit", 1 ] ], [ [ "xs_ch_chainmail_arms", 1 ] ] ]
+    "components": [ [ [ "ch_chainmail_sjumpsuit_xs", 1 ] ], [ [ "xs_ch_chainmail_arms", 1 ] ] ]
   },
   {
     "result": "xl_ch_chainmail_jumpsuit",
@@ -1304,7 +1304,7 @@
     "autolearn": true,
     "flags": [ "NO_RESIZE" ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ],
-    "components": [ [ [ "xs_ch_chainmail_hauberk", 1 ] ], [ [ "xs_ch_chainmail_legs", 1 ] ] ]
+    "components": [ [ [ "ch_chainmail_hauberk_xs", 1 ] ], [ [ "xs_ch_chainmail_legs", 1 ] ] ]
   },
   {
     "result": "xl_ch_chainmail_jumpsuit",
@@ -1342,7 +1342,7 @@
     "type": "recipe",
     "copy-from": "qt_chainmail_suit",
     "time": "20 m",
-    "components": [ [ [ "xs_qt_chainmail_sjumpsuit", 1 ] ], [ [ "xs_qt_chainmail_arms", 1 ] ] ]
+    "components": [ [ [ "qt_chainmail_sjumpsuit_xs", 1 ] ], [ [ "xs_qt_chainmail_arms", 1 ] ] ]
   },
   {
     "result": "xl_qt_chainmail_jumpsuit",
@@ -1381,7 +1381,7 @@
     "autolearn": true,
     "flags": [ "NO_RESIZE" ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ],
-    "components": [ [ [ "xs_qt_chainmail_hauberk", 1 ] ], [ [ "xs_qt_chainmail_legs", 1 ] ] ]
+    "components": [ [ [ "qt_chainmail_hauberk_xs", 1 ] ], [ [ "xs_qt_chainmail_legs", 1 ] ] ]
   },
   {
     "result": "xl_qt_chainmail_jumpsuit",
