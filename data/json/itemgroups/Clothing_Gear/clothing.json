@@ -2653,7 +2653,7 @@
       { "group": "military_ballistic_vest", "prob": 30 },
       [ "vest", 15 ],
       { "item": "mask_gas", "prob": 10, "charges-min": 0 },
-      { "item": "goggles_bal", "prob": 5},
+      { "item": "goggles_bal", "prob": 5 },
       { "item": "goggles_nv", "prob": 1, "charges": [ 0, 100 ] },
       { "item": "goggles_ir", "prob": 1, "charges": [ 0, 100 ] },
       [ "backpack", 38 ],
