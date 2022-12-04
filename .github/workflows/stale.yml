@@ -3,7 +3,9 @@ on:
   workflow_dispatch:
   schedule:
     - cron: '0 0 * * *'
-
+permissions:
+  issues: write
+  pull-requests: write
 jobs:
   stale:
     runs-on: ubuntu-latest
@@ -21,6 +23,5 @@ jobs:
           exempt-pr-labels: '<Bug>,<Bugfix>,<Crash / Freeze>,Organization: Bounty,Good First Issue,(P1 - Critical),(P2 - High),(P3 - Medium),(P4 - Low),(P5 - Long-term),(S2 - Confirmed),0.E Feature Freeze,0.E Content Freeze,0.F Feature Freeze,0.F Content Freeze,0.F String Freeze,0.G Feature Freeze,0.G Content Freeze'
           exempt-all-milestones: true
           exempt-all-assignees: true
-          debug-only: true
       - name: Print outputs
         run: echo ${{ join(steps.stale.outputs.*, ',') }}
