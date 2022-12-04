@@ -100,7 +100,7 @@
     "flags": [ "WATER_FRIENDLY", "SUN_GLASSES", "SKINTIGHT" ],
     "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
-  {
+ {
     "id": "goggles_bal",
     "repairs_like": "survivor_goggles",
     "type": "ARMOR",
@@ -118,17 +118,19 @@
     "warmth": 8,
     "environmental_protection": 10,
     "flags": [ "WATERPROOF", "SUN_GLASSES", "VARSIZE", "STURDY", "PADDED" ],
-    "armor": [ 
-	{ "encumbrance": 10, 
-	"coverage": 100, 
-	"covers": [ "eyes" ], 
-	"material": [
-		{ "type": "kevlar", "covered_by_mat": 100, "thickness": 3 },
-		{ "type": "plastic", "covered_by_mat": 10, "thickness": 1 }
-	],
-	"rigid_layer_only": true } ]
+    "armor": [
+      {
+        "encumbrance": 10,
+        "coverage": 100,
+        "covers": [ "eyes" ],
+        "material": [
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 3 },
+          { "type": "plastic", "covered_by_mat": 10, "thickness": 1 }
+        ],
+        "rigid_layer_only": true
+      }
+    ]
   },
-  {
     "id": "glasses_bifocal",
     "repairs_like": "survivor_goggles",
     "type": "ARMOR",
