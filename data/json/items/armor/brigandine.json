@@ -1355,7 +1355,7 @@
     "id": "legguard_ch_brigandine_xs",
     "type": "ARMOR",
     "copy-from": "legguard_ch_brigandine",
-    "name": { "str": "XS pair of casr hardened splint leg guards", "str_pl": "XS pairs of case hardened splint leg guards" },
+    "name": { "str": "XS pair of case hardened splint leg guards", "str_pl": "XS pairs of case hardened splint leg guards" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -1898,7 +1898,7 @@
   {
     "id": "qt_elbow_guards",
     "type": "ARMOR",
-    "name": { "str": "pair of temperedl elbow guards", "str_pl": "pairs of tempered elbow guards" },
+    "name": { "str": "pair of tempered elbow guards", "str_pl": "pairs of tempered elbow guards" },
     "copy-from": "lc_elbow_guards",
     "description": "A pair of thin elbow guards, made from tempered steel.  Can be comfortably worn over chainmail for extra protection.",
     "material": [ "qt_steel" ]
