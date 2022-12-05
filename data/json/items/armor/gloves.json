@@ -62,7 +62,7 @@
         "material": [ { "type": "budget_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "hand_l", "hand_r" ],
         "coverage": 100,
-        "encumbrance": 20
+        "encumbrance": 14
       }
     ]
   },
@@ -87,7 +87,7 @@
         "material": [ { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "hand_l", "hand_r" ],
         "coverage": 100,
-        "encumbrance": 20
+        "encumbrance": 14
       }
     ]
   },
@@ -119,7 +119,7 @@
         "material": [ { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "hand_l", "hand_r" ],
         "coverage": 100,
-        "encumbrance": 20
+        "encumbrance": 14
       }
     ]
   },
@@ -151,7 +151,7 @@
         "material": [ { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "hand_l", "hand_r" ],
         "coverage": 100,
-        "encumbrance": 20
+        "encumbrance": 14
       }
     ]
   },
@@ -183,7 +183,7 @@
         "material": [ { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "hand_l", "hand_r" ],
         "coverage": 100,
-        "encumbrance": 20
+        "encumbrance": 14
       }
     ]
   },
@@ -215,7 +215,7 @@
         "material": [ { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "hand_l", "hand_r" ],
         "coverage": 100,
-        "encumbrance": 20
+        "encumbrance": 14
       }
     ]
   },
