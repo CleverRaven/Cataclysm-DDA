@@ -4932,7 +4932,7 @@
     "name": "medium steel brigandine coats",
     "description": "Recipes related to constructing various sizes of brigandine coats.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "armor_mc_coat_brigandine", "armor_mc_coat_brigandine_xs", ""xl_armor_mc_coat_brigandine"" ],
+    "nested_category_data": [ "armor_mc_coat_brigandine", "armor_mc_coat_brigandine_xs", "xl_armor_mc_coat_brigandine" ],
     "difficulty": 6
   },
   {
@@ -4944,7 +4944,7 @@
     "name": "high steel brigandine coats",
     "description": "Recipes related to constructing various sizes of brigandine coats.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "armor_hc_coat_brigandine", "armor_hc_coat_brigandine_xs", ""xl_armor_hc_coat_brigandine"" ],
+    "nested_category_data": [ "armor_hc_coat_brigandine", "armor_hc_coat_brigandine_xs", "xl_armor_hc_coat_brigandine" ],
     "difficulty": 6
   },
   {
@@ -4956,7 +4956,7 @@
     "name": "hardened steel brigandine coats",
     "description": "Recipes related to constructing various sizes of brigandine coats.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "armor_ch_coat_brigandine", "armor_ch_coat_brigandine_xs", ""xl_armor_ch_coat_brigandine"" ],
+    "nested_category_data": [ "armor_ch_coat_brigandine", "armor_ch_coat_brigandine_xs", "xl_armor_ch_coat_brigandine" ],
     "difficulty": 7
   },
   {
@@ -4968,7 +4968,7 @@
     "name": "tempered steel brigandine coats",
     "description": "Recipes related to constructing various sizes of brigandine coats.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "armor_qt_coat_brigandine", "armor_qt_coat_brigandine_xs", ""xl_armor_qt_coat_brigandine"" ],
+    "nested_category_data": [ "armor_qt_coat_brigandine", "armor_qt_coat_brigandine_xs", "xl_armor_qt_coat_brigandine" ],
     "difficulty": 8
   },
   {
