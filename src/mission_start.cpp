@@ -472,28 +472,3 @@ void mission_start::create_ice_lab_console( mission *miss )
     const tripoint_abs_omt target = mission_util::target_closest_lab_entrance( place, 2, miss );
     mission_util::reveal_road( player_character.global_omt_location(), target, overmap_buffer );
 }
-
-static bool has_console( const tripoint_abs_omt &location, const int mission_id )
-{
-    tinymap compmap;
-    compmap.load( project_to<coords::sm>( location ), false );
-    cata::optional<tripoint> comppoint;
-
-    for( const tripoint &point : compmap.points_on_zlevel() ) {
-        if( compmap.ter( point ) == t_console ) {
-            comppoint = point;
-            break;
-        }
-    }
-
-    if( !comppoint ) {
-        return false;
-    }
-
-    computer *tmpcomp = compmap.computer_at( *comppoint );
-    tmpcomp->set_mission( mission_id );
-    tmpcomp->add_option( _( "Download Routing Software" ), COMPACT_DOWNLOAD_SOFTWARE, 0 );
-
-    compmap.save();
-    return true;
-}
