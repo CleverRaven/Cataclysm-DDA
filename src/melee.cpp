@@ -193,7 +193,7 @@ bool Character::is_armed() const
 bool Character::unarmed_attack() const
 {
     const item_location weap = used_weapon();
-    return !weap || weap->has_flag( flag_UNARMED_WEAPON );
+    return !weap;
 }
 
 bool Character::handle_melee_wear( item_location shield, float wear_multiplier )
@@ -451,7 +451,7 @@ static void melee_train( Character &you, int lo, int hi, const item &weap )
     float total = std::max( cut + stab + bash, 1 );
 
     // Unarmed may deal cut, stab, and bash damage depending on the weapon
-    if( weap.is_unarmed_weapon() ) {
+    if( weap.is_null() ) {
         you.practice( skill_unarmed, std::ceil( 1 * rng( lo, hi ) ), hi );
     } else {
         you.practice( skill_cutting,  std::ceil( cut  / total * rng( lo, hi ) ), hi );
@@ -1049,7 +1049,7 @@ double Character::crit_chance( float roll_hit, float target_dodge, const item &w
 
     // Weapon to-hit roll
     double weapon_crit_chance = 0.5;
-    if( weap.is_unarmed_weapon() ) {
+    if( weap.is_null() ) {
         // Unarmed attack: 1/2 of unarmed skill is to-hit
         /** @EFFECT_UNARMED increases critical chance with UNARMED_WEAPON */
         weapon_crit_chance = 0.5 + 0.05 * get_skill_level( skill_unarmed );
@@ -2185,7 +2185,7 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
     bool worn_shield = has_shield && shield->has_flag( flag_BLOCK_WHILE_WORN );
 
     bool conductive_shield = false;
-    bool unarmed = !is_armed() || weapon.has_flag( flag_UNARMED_WEAPON );
+    bool unarmed = !is_armed();
     bool force_unarmed = martial_arts_data->is_force_unarmed();
     bool allow_weapon_blocking = martial_arts_data->can_weapon_block();
 
