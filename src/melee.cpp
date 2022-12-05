@@ -1051,7 +1051,7 @@ double Character::crit_chance( float roll_hit, float target_dodge, const item &w
     double weapon_crit_chance = 0.5;
     if( weap.is_null() ) {
         // Unarmed attack: 1/2 of unarmed skill is to-hit
-        /** @EFFECT_UNARMED increases critical chance with UNARMED_WEAPON */
+        /** @EFFECT_UNARMED increases critical chance */
         weapon_crit_chance = 0.5 + 0.05 * get_skill_level( skill_unarmed );
     }
 
