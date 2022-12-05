@@ -290,8 +290,23 @@
     "difficulty": 2,
     "value": 30000,
     "item": "safe_box",
-    "start": "place_deposit_box",
-    "end": "deposit_box",
+    "start": {
+      "update_mapgen": { "place_item": [ { "item": "safe_box", "x": [ 18, 21 ], "y": [ 4, 6 ], "amount": 1 } ] },
+      "effect": "follow_only",
+      "assign_mission_target": { "om_terrain": "bank", "om_terrain_match_type": "PREFIX", "search_range": 120, "random": true, "z": 0 }
+    },
+    "end": {
+      "effect": [
+        "stop_following",
+        {
+          "weighted_list_eocs": [
+            [ { "id": "get_katana" }, { "const": 2 } ],
+            [ { "id": "get_deagle_44" }, { "const": 3 } ],
+            [ { "id": "get_m4_carbine" }, { "const": 4 } ]
+          ]
+        }
+      ]
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_GET_DEPUTY_BADGE",
     "dialogue": {

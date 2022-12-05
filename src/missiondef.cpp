@@ -198,7 +198,6 @@ static const std::map<std::string, std::function<void( mission * )>> mission_fun
         { "kill_nemesis", mission_start::kill_nemesis },
         { "place_npc_software", mission_start::place_npc_software },
         { "place_priest_diary", mission_start::place_priest_diary },
-        { "place_deposit_box", mission_start::place_deposit_box },
         { "find_safety", mission_start::find_safety },
         { "place_book", mission_start::place_book },
         { "reveal_refugee_center", mission_start::reveal_refugee_center },
@@ -206,7 +205,6 @@ static const std::map<std::string, std::function<void( mission * )>> mission_fun
         { "create_hidden_lab_console", mission_start::create_hidden_lab_console },
         { "create_ice_lab_console", mission_start::create_ice_lab_console },
         // Endings
-        { "deposit_box", mission_end::deposit_box }
         // Failures
     }
 };

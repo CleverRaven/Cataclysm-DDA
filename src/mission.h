@@ -105,7 +105,6 @@ struct mission_start {
     static void kill_nemesis( mission * );       // Kill the nemesis spawned with the "hunted" trait
     static void place_npc_software( mission * ); // Put NPC-type-dependent software
     static void place_priest_diary( mission * ); // Hides the priest's diary in a local house
-    static void place_deposit_box( mission * );  // Place a safe deposit box in a nearby bank
     static void find_safety( mission * );        // Goal is set to non-spawn area
     static void place_book( mission * );         // Place a book to retrieve
     static void reveal_refugee_center( mission * ); // Find refugee center
@@ -119,7 +118,6 @@ struct mission_end {
     // Nothing special happens
     static void standard( mission * ) {}
     // random valuable reward
-    static void deposit_box( mission * );
 };
 
 struct mission_fail {
