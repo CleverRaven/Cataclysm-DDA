@@ -4753,9 +4753,11 @@ std::vector<item *> map::spawn_items( const tripoint &p, const std::vector<item>
         if( new_item.made_of( phase_id::LIQUID ) && swimmable ) {
             continue;
         }
-        item &it = add_item_or_charges( p, new_item );
-        if( !it.is_null() ) {
-            ret.push_back( &it );
+        if( check_for_spawn_chance( new_item ) ) {
+            item &it = add_item_or_charges( p, new_item );
+            if( !it.is_null() ) {
+                ret.push_back( &it );
+            }
         }
     }
 
@@ -5020,10 +5022,6 @@ item &map::add_item( const tripoint &p, item new_item )
     }
 
     if( !inbounds( p ) ) {
-        return null_item_reference();
-    }
-
-    if( !check_for_spawn_chance( new_item ) ) {
         return null_item_reference();
     }
 
