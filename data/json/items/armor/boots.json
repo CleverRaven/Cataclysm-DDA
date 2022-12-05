@@ -2311,7 +2311,7 @@
           { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 },
           { "type": "budget_steel_chain", "covered_by_mat": 100, "thickness": 1.2 }
         ],
-        "encumbrance": 20,
+        "encumbrance": 14,
         "coverage": 100
       },
       {
@@ -2354,7 +2354,7 @@
           { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 },
           { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 }
         ],
-        "encumbrance": 20,
+        "encumbrance": 14,
         "coverage": 100
       },
       {
@@ -2406,7 +2406,7 @@
           { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 },
           { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 }
         ],
-        "encumbrance": 20,
+        "encumbrance": 14,
         "coverage": 100
       },
       {
@@ -2458,7 +2458,7 @@
           { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 },
           { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 }
         ],
-        "encumbrance": 20,
+        "encumbrance": 14,
         "coverage": 100
       },
       {
@@ -2509,7 +2509,7 @@
           { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 },
           { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 }
         ],
-        "encumbrance": 20,
+        "encumbrance": 14,
         "coverage": 100
       },
       {
@@ -2560,7 +2560,7 @@
           { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 },
           { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 }
         ],
-        "encumbrance": 20,
+        "encumbrance": 14,
         "coverage": 100
       },
       {
