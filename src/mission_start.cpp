@@ -245,27 +245,6 @@ void mission_start::place_npc_software( mission *miss )
     compmap.save();
 }
 
-void mission_start::place_priest_diary( mission *miss )
-{
-    const tripoint_abs_omt place = mission_util::random_house_in_closest_city();
-    miss->target = place;
-    overmap_buffer.reveal( place, 2 );
-    tinymap compmap;
-    compmap.load( project_to<coords::sm>( place ), false );
-
-    std::vector<tripoint> valid;
-    for( const tripoint &p : compmap.points_on_zlevel() ) {
-        if( compmap.furn( p ) == f_bed || compmap.furn( p ) == f_dresser ||
-            compmap.furn( p ) == f_indoor_plant || compmap.furn( p ) == f_cupboard ) {
-            valid.push_back( p );
-        }
-    }
-    const tripoint fallback( rng( 6, SEEX * 2 - 7 ), rng( 6, SEEY * 2 - 7 ), place.z() );
-    const tripoint comppoint = random_entry( valid, fallback );
-    compmap.spawn_item( comppoint, "priest_diary" );
-    compmap.save();
-}
-
 void mission_start::place_deposit_box( mission *miss )
 {
     npc *p = g->find_npc( miss->npc_id );

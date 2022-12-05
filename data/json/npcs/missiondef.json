@@ -607,7 +607,21 @@
     "difficulty": 2,
     "value": 70000,
     "item": "priest_diary",
-    "start": "place_priest_diary",
+    "start": {
+      "update_mapgen": {
+        "place_item": [
+          { "item": "priest_diary", "x": [ 3, 21 ], "y": [ 6, 21 ], "amount": 1 }
+       ]
+      },
+      "assign_mission_target": {
+        "om_terrain": "house",
+        "om_terrain_match_type": "PREFIX",
+        "search_range": 80,
+        "min_distance": 5,
+        "random": true,
+        "z": 0
+      }
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_INVESTIGATE_CULT",
     "dialogue": {
