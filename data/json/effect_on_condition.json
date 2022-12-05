@@ -73,6 +73,24 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "get_katana",
+    "global": true,
+    "effect": { "u_spawn_item": "katana" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "get_deagle_44",
+    "global": true,
+    "effect": { "u_spawn_item": "deagle_44" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "get_m4_carbine",
+    "global": true,
+    "effect": { "u_spawn_item": "m4_carbine" }
+  },
+  {
+    "type": "effect_on_condition",
     "id": "thunder",
     "recurrence": 1,
     "global": true,
