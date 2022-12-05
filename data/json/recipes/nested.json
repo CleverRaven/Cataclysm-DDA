@@ -4854,7 +4854,7 @@
     "name": "medium steel brigandines",
     "description": "Recipes related to constructing various sizes of brigandines.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "armor_mc_brigandine", "armor_mc_brigandine_xs", "xl_legguard_mc_brigandine" ],
+    "nested_category_data": [ "armor_mc_brigandine", "armor_mc_brigandine_xs", "xl_armor_mc_brigandine" ],
     "difficulty": 6
   },
   {
@@ -4866,7 +4866,7 @@
     "name": "high steel brigandines",
     "description": "Recipes related to constructing various sizes of brigandines.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "armor_hc_brigandine", "armor_hc_brigandine_xs", "xl_legguard_hc_brigandine" ],
+    "nested_category_data": [ "armor_hc_brigandine", "armor_hc_brigandine_xs", "xl_armor_hc_brigandine" ],
     "difficulty": 6
   },
   {
@@ -4878,7 +4878,7 @@
     "name": "hardened steel brigandines",
     "description": "Recipes related to constructing various sizes of brigandines.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "armor_ch_brigandine", "armor_ch_brigandine_xs", "xl_legguard_ch_brigandine" ],
+    "nested_category_data": [ "armor_ch_brigandine", "armor_ch_brigandine_xs", "xl_armor_ch_brigandine" ],
     "difficulty": 7
   },
   {
@@ -5125,7 +5125,7 @@
     "description": "Recipes related to constructing various sizes of brigandine coats with shoulder guards.",
     "skill_used": "fabrication",
     "nested_category_data": [
-      "armor_ch_coat_brigandine_shoulderss",
+      "armor_ch_coat_brigandine_shoulders",
       "armor_ch_coat_brigandine_shoulders_xs",
       "xl_armor_ch_coat_brigandine_shoulders"
     ],
