@@ -3646,7 +3646,7 @@
     "reversible": true,
     "autolearn": true,
     "book_learn": [ [ "textbook_armwest", 0 ] ],
-	"components": [ [ [ "armor_lc_brigandine", 1 ] ], [ [ "lc_shoulder_guards", 1 ] ] ]
+    "components": [ [ [ "armor_lc_brigandine", 1 ] ], [ [ "lc_shoulder_guards", 1 ] ] ]
   },
   {
     "result": "xl_armor_lc_brigandine_shoulders",
@@ -3654,7 +3654,7 @@
     "copy-from": "armor_lc_brigandine_shoulders",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-	"components": [ [ [ "xl_armor_lc_brigandine", 1 ] ], [ [ "xl_lc_shoulder_guards", 1 ] ] ]
+    "components": [ [ [ "xl_armor_lc_brigandine", 1 ] ], [ [ "xl_lc_shoulder_guards", 1 ] ] ]
   },
   {
     "result": "armor_lc_brigandine_shoulders_xs",
@@ -3662,7 +3662,7 @@
     "copy-from": "armor_lc_brigandine_shoulders",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-	"components": [ [ [ "armor_lc_brigandine_xs", 1 ] ], [ [ "lc_shoulder_guards_xs", 1 ] ] ]
+    "components": [ [ [ "armor_lc_brigandine_xs", 1 ] ], [ [ "lc_shoulder_guards_xs", 1 ] ] ]
   },
   {
     "result": "armor_mc_brigandine_shoulders",
@@ -3684,7 +3684,7 @@
     "copy-from": "armor_mc_brigandine_shoulders",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-	"components": [ [ [ "xl_armor_mc_brigandine", 1 ] ], [ [ "xl_mc_shoulder_guards", 1 ] ] ]
+    "components": [ [ [ "xl_armor_mc_brigandine", 1 ] ], [ [ "xl_mc_shoulder_guards", 1 ] ] ]
   },
   {
     "result": "armor_mc_brigandine_shoulders_xs",
@@ -3692,7 +3692,7 @@
     "copy-from": "armor_mc_brigandine_shoulders",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-	"components": [ [ [ "armor_mc_brigandine_xs", 1 ] ], [ [ "mc_shoulder_guards_xs", 1 ] ] ]
+    "components": [ [ [ "armor_mc_brigandine_xs", 1 ] ], [ [ "mc_shoulder_guards_xs", 1 ] ] ]
   },
   {
     "result": "armor_hc_brigandine_shoulders",
@@ -3714,7 +3714,7 @@
     "copy-from": "armor_hc_brigandine_shoulders",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-	"components": [ [ [ "xl_armor_hc_brigandine", 1 ] ], [ [ "xl_hc_shoulder_guards", 1 ] ] ]
+    "components": [ [ [ "xl_armor_hc_brigandine", 1 ] ], [ [ "xl_hc_shoulder_guards", 1 ] ] ]
   },
   {
     "result": "armor_hc_brigandine_shoulders_xs",
@@ -3722,7 +3722,7 @@
     "copy-from": "armor_hc_brigandine_shoulders",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-	"components": [ [ [ "armor_hc_brigandine_xs", 1 ] ], [ [ "hc_shoulder_guards_xs", 1 ] ] ]
+    "components": [ [ [ "armor_hc_brigandine_xs", 1 ] ], [ [ "hc_shoulder_guards_xs", 1 ] ] ]
   },
   {
     "result": "armor_ch_brigandine_shoulders",
@@ -3744,7 +3744,7 @@
     "copy-from": "armor_ch_brigandine_shoulders",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-	"components": [ [ [ "xl_armor_ch_brigandine", 1 ] ], [ [ "xl_ch_shoulder_guards", 1 ] ] ]
+    "components": [ [ [ "xl_armor_ch_brigandine", 1 ] ], [ [ "xl_ch_shoulder_guards", 1 ] ] ]
   },
   {
     "result": "armor_ch_brigandine_shoulders_xs",
@@ -3752,7 +3752,7 @@
     "copy-from": "armor_ch_brigandine_shoulders",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-	"components": [ [ [ "armor_ch_brigandine_xs", 1 ] ], [ [ "ch_shoulder_guards_xs", 1 ] ] ]
+    "components": [ [ [ "armor_ch_brigandine_xs", 1 ] ], [ [ "ch_shoulder_guards_xs", 1 ] ] ]
   },
   {
     "result": "armor_qt_brigandine_shoulders",
@@ -3774,7 +3774,7 @@
     "copy-from": "armor_qt_brigandine_shoulders",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-	"components": [ [ [ "xl_armor_qt_brigandine", 1 ] ], [ [ "xl_qt_shoulder_guards", 1 ] ] ]
+    "components": [ [ [ "xl_armor_qt_brigandine", 1 ] ], [ [ "xl_qt_shoulder_guards", 1 ] ] ]
   },
   {
     "result": "armor_qt_brigandine_shoulders_xs",
@@ -3782,7 +3782,7 @@
     "copy-from": "armor_qt_brigandine_shoulders",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-	"components": [ [ [ "armor_qt_brigandine_xs", 1 ] ], [ [ "qt_shoulder_guards_xs", 1 ] ] ]
+    "components": [ [ [ "armor_qt_brigandine_xs", 1 ] ], [ [ "qt_shoulder_guards_xs", 1 ] ] ]
   },
   {
     "result": "armor_lc_coat_brigandine_shoulders",
@@ -3804,7 +3804,7 @@
     "copy-from": "armor_lc_coat_brigandine_shoulders",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-	"components": [ [ [ "xl_armor_lc_coat_brigandine", 1 ] ], [ [ "xl_lc_shoulder_guards", 1 ] ] ]
+    "components": [ [ [ "xl_armor_lc_coat_brigandine", 1 ] ], [ [ "xl_lc_shoulder_guards", 1 ] ] ]
   },
   {
     "result": "armor_lc_coat_brigandine_shoulders_xs",
@@ -3812,7 +3812,7 @@
     "copy-from": "armor_lc_coat_brigandine_shoulders",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-	"components": [ [ [ "armor_lc_coat_brigandine_xs", 1 ] ], [ [ "lc_shoulder_guards_xs", 1 ] ] ]
+    "components": [ [ [ "armor_lc_coat_brigandine_xs", 1 ] ], [ [ "lc_shoulder_guards_xs", 1 ] ] ]
   },
   {
     "result": "armor_mc_coat_brigandine_shoulders",
@@ -3834,7 +3834,7 @@
     "copy-from": "armor_mc_coat_brigandine_shoulders",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-	"components": [ [ [ "xl_armor_mc_coat_brigandine", 1 ] ], [ [ "xl_mc_shoulder_guards", 1 ] ] ]
+    "components": [ [ [ "xl_armor_mc_coat_brigandine", 1 ] ], [ [ "xl_mc_shoulder_guards", 1 ] ] ]
   },
   {
     "result": "armor_mc_coat_brigandine_shoulders_xs",
@@ -3842,7 +3842,7 @@
     "copy-from": "armor_mc_coat_brigandine_shoulders",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-	"components": [ [ [ "armor_mc_coat_brigandine_xs", 1 ] ], [ [ "mc_shoulder_guards_xs", 1 ] ] ]
+    "components": [ [ [ "armor_mc_coat_brigandine_xs", 1 ] ], [ [ "mc_shoulder_guards_xs", 1 ] ] ]
   },
   {
     "result": "armor_hc_coat_brigandine_shoulders",
@@ -3864,7 +3864,7 @@
     "copy-from": "armor_hc_coat_brigandine_shoulders",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-	"components": [ [ [ "xl_armor_hc_coat_brigandine", 1 ] ], [ [ "xl_hc_shoulder_guards", 1 ] ] ]
+    "components": [ [ [ "xl_armor_hc_coat_brigandine", 1 ] ], [ [ "xl_hc_shoulder_guards", 1 ] ] ]
   },
   {
     "result": "armor_hc_coat_brigandine_shoulders_xs",
@@ -3872,7 +3872,7 @@
     "copy-from": "armor_hc_coat_brigandine_shoulders",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-	"components": [ [ [ "armor_hc_coat_brigandine_xs", 1 ] ], [ [ "hc_shoulder_guards_xs", 1 ] ] ]
+    "components": [ [ [ "armor_hc_coat_brigandine_xs", 1 ] ], [ [ "hc_shoulder_guards_xs", 1 ] ] ]
   },
   {
     "result": "armor_ch_coat_brigandine_shoulders",
@@ -3894,7 +3894,7 @@
     "copy-from": "armor_ch_coat_brigandine_shoulders",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-	"components": [ [ [ "xl_armor_ch_coat_brigandine", 1 ] ], [ [ "xl_ch_shoulder_guards", 1 ] ] ]
+    "components": [ [ [ "xl_armor_ch_coat_brigandine", 1 ] ], [ [ "xl_ch_shoulder_guards", 1 ] ] ]
   },
   {
     "result": "armor_ch_coat_brigandine_shoulders_xs",
@@ -3902,7 +3902,7 @@
     "copy-from": "armor_ch_coat_brigandine_shoulders",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-	"components": [ [ [ "armor_ch_coat_brigandine_xs", 1 ] ], [ [ "ch_shoulder_guards_xs", 1 ] ] ]
+    "components": [ [ [ "armor_ch_coat_brigandine_xs", 1 ] ], [ [ "ch_shoulder_guards_xs", 1 ] ] ]
   },
   {
     "result": "armor_qt_coat_brigandine_shoulders",
@@ -3924,7 +3924,7 @@
     "copy-from": "armor_qt_coat_brigandine_shoulders",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-	"components": [ [ [ "xl_armor_qt_coat_brigandine", 1 ] ], [ [ "xl_qt_shoulder_guards", 1 ] ] ]
+    "components": [ [ [ "xl_armor_qt_coat_brigandine", 1 ] ], [ [ "xl_qt_shoulder_guards", 1 ] ] ]
   },
   {
     "result": "armor_qt_coat_brigandine_shoulders_xs",
@@ -3932,7 +3932,7 @@
     "copy-from": "armor_qt_coat_brigandine_shoulders",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-	"components": [ [ [ "armor_qt_coat_brigandine_xs", 1 ] ], [ [ "qt_shoulder_guards_xs", 1 ] ] ]
+    "components": [ [ [ "armor_qt_coat_brigandine_xs", 1 ] ], [ [ "qt_shoulder_guards_xs", 1 ] ] ]
   },
   {
     "result": "lc_shoulder_guards",
