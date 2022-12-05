@@ -1386,7 +1386,7 @@
     "id": "xl_legguard_qt_brigandine",
     "type": "ARMOR",
     "copy-from": "legguard_qt_brigandine",
-    "name": { "str": "XL pair of temperd splint leg guards", "str_pl": "XL pairs of temperd splint leg guards" },
+    "name": { "str": "XL pair of tempered splint leg guards", "str_pl": "XL pairs of tempered splint leg guards" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -1394,7 +1394,7 @@
     "id": "legguard_qt_brigandine_xs",
     "type": "ARMOR",
     "copy-from": "legguard_qt_brigandine",
-    "name": { "str": "XS pair of temperd splint leg guards", "str_pl": "XS pairs of temperd splint leg guards" },
+    "name": { "str": "XS pair of tempered splint leg guards", "str_pl": "XS pairs of tempered splint leg guards" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -1625,7 +1625,7 @@
     "id": "xl_qt_brigandine_hands",
     "type": "ARMOR",
     "copy-from": "qt_brigandine_hands",
-    "name": { "str": "XL pair of temperd brigandine gloves", "str_pl": "XL pairs of temperd brigandine gloves" },
+    "name": { "str": "XL pair of tempered brigandine gloves", "str_pl": "XL pairs of tempered brigandine gloves" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -1633,7 +1633,7 @@
     "id": "qt_brigandine_hands_xs",
     "type": "ARMOR",
     "copy-from": "qt_brigandine_hands",
-    "name": { "str": "XS pair of temperd brigandine gloves", "str_pl": "XS pairs of temperd brigandine gloves" },
+    "name": { "str": "XS pair of tempered brigandine gloves", "str_pl": "XS pairs of tempered brigandine gloves" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -1766,7 +1766,7 @@
     "id": "xl_qt_knee_guards",
     "type": "ARMOR",
     "copy-from": "qt_knee_guards",
-    "name": { "str": "XL pair of temperd knee guards", "str_pl": "XL pairs of temperd knee guards" },
+    "name": { "str": "XL pair of tempered knee guards", "str_pl": "XL pairs of tempered knee guards" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -1907,7 +1907,7 @@
     "id": "xl_qt_elbow_guards",
     "type": "ARMOR",
     "copy-from": "qt_elbow_guards",
-    "name": { "str": "XL pair of temperd elbow guards", "str_pl": "XL pairs of temperd elbow guards" },
+    "name": { "str": "XL pair of tempered elbow guards", "str_pl": "XL pairs of tempered elbow guards" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -1915,7 +1915,7 @@
     "id": "qt_elbow_guards_xs",
     "type": "ARMOR",
     "copy-from": "qt_elbow_guards",
-    "name": { "str": "XS pair of temperd elbow guards", "str_pl": "XS pairs of temperd elbow guards" },
+    "name": { "str": "XS pair of tempered elbow guards", "str_pl": "XS pairs of tempered elbow guards" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
