@@ -608,11 +608,7 @@
     "value": 70000,
     "item": "priest_diary",
     "start": {
-      "update_mapgen": {
-        "place_item": [
-          { "item": "priest_diary", "x": [ 3, 21 ], "y": [ 6, 21 ], "amount": 1 }
-       ]
-      },
+      "update_mapgen": { "place_item": [ { "item": "priest_diary", "x": [ 3, 21 ], "y": [ 6, 21 ], "amount": 1 } ] },
       "assign_mission_target": {
         "om_terrain": "house",
         "om_terrain_match_type": "PREFIX",
