@@ -49,10 +49,7 @@
     "id": "armor_lc_brigandine_shoulders",
     "type": "ARMOR",
     "category": "armor",
-    "name": {
-      "str": "mild steel brigandine with shoulder guards",
-      "str_pl": "mild steel brigandines with shoulder guards"
-    },
+    "name": { "str": "mild steel brigandine with shoulder guards", "str_pl": "mild steel brigandines with shoulder guards" },
     "description": "A vest made from tough fabric with mild steel plates riveted on the inside, with shoulder guards attached to it.  Can be comfortably worn over chainmail for extra protection.",
     "weight": "7311 g",
     "volume": "6593 ml",
@@ -90,10 +87,7 @@
     "id": "xl_armor_lc_brigandine_shoulders",
     "type": "ARMOR",
     "copy-from": "armor_lc_brigandine_shoulders",
-    "name": {
-      "str": "XL mild steel brigandine with shoulder guards",
-      "str_pl": "XL mild steel brigandines with shoulder guards"
-    },
+    "name": { "str": "XL mild steel brigandine with shoulder guards", "str_pl": "XL mild steel brigandines with shoulder guards" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -101,10 +95,7 @@
     "id": "armor_lc_brigandine_shoulders_xs",
     "type": "ARMOR",
     "copy-from": "armor_lc_brigandine_shoulders",
-    "name": {
-      "str": "XS mild steel brigandine with shoulder guards",
-      "str_pl": "XS mild steel brigandines with shoulder guards"
-    },
+    "name": { "str": "XS mild steel brigandine with shoulder guards", "str_pl": "XS mild steel brigandines with shoulder guards" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -277,10 +268,7 @@
   {
     "id": "armor_mc_brigandine_shoulders",
     "type": "ARMOR",
-    "name": {
-      "str": "medium steel brigandine with shoulder guards",
-      "str_pl": "medium steel brigandines with shoulder guards"
-    },
+    "name": { "str": "medium steel brigandine with shoulder guards", "str_pl": "medium steel brigandines with shoulder guards" },
     "copy-from": "armor_lc_brigandine_shoulders",
     "description": "A vest made from tough fabric with medium steel plates riveted on the inside, with shoulder guards attached to it.  Can be comfortably worn over chainmail for extra protection.",
     "material": [ "mc_steel", "canvas" ],
@@ -473,10 +461,7 @@
   {
     "id": "armor_hc_brigandine_shoulders",
     "type": "ARMOR",
-    "name": {
-      "str": "high steel brigandine with shoulder guards",
-      "str_pl": "high steel brigandines with shoulder guards"
-    },
+    "name": { "str": "high steel brigandine with shoulder guards", "str_pl": "high steel brigandines with shoulder guards" },
     "copy-from": "armor_lc_brigandine_shoulders",
     "description": "A vest made from tough fabric with high steel plates riveted on the inside, with shoulder guards attached to it.  Can be comfortably worn over chainmail for extra protection.",
     "material": [ "hc_steel", "canvas" ],
@@ -504,10 +489,7 @@
     "id": "xl_armor_hc_brigandine_shoulders",
     "type": "ARMOR",
     "copy-from": "armor_hc_brigandine_shoulders",
-    "name": {
-      "str": "XL high steel brigandine with shoulder guards",
-      "str_pl": "XL high steel brigandines with shoulder guards"
-    },
+    "name": { "str": "XL high steel brigandine with shoulder guards", "str_pl": "XL high steel brigandines with shoulder guards" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -515,10 +497,7 @@
     "id": "armor_hc_brigandine_shoulders_xs",
     "type": "ARMOR",
     "copy-from": "armor_hc_brigandine_shoulders",
-    "name": {
-      "str": "XS high steel brigandine with shoulder guards",
-      "str_pl": "XS high steel brigandines with shoulder guards"
-    },
+    "name": { "str": "XS high steel brigandine with shoulder guards", "str_pl": "XS high steel brigandines with shoulder guards" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -669,10 +648,7 @@
   {
     "id": "armor_ch_brigandine_shoulders",
     "type": "ARMOR",
-    "name": {
-      "str": "case hardened brigandine with shoulder guards",
-      "str_pl": "case hardened brigandines with shoulder guards"
-    },
+    "name": { "str": "case hardened brigandine with shoulder guards", "str_pl": "case hardened brigandines with shoulder guards" },
     "copy-from": "armor_lc_brigandine_shoulders",
     "description": "A vest made from tough fabric with case hardened steel plates riveted on the inside, with shoulder guards attached to it.  Can be comfortably worn over chainmail for extra protection.",
     "material": [ "ch_steel", "canvas" ],
@@ -865,10 +841,7 @@
   {
     "id": "armor_qt_brigandine_shoulders",
     "type": "ARMOR",
-    "name": {
-      "str": "tempered brigandine with shoulder guards",
-      "str_pl": "tempered brigandines with shoulder guards"
-    },
+    "name": { "str": "tempered brigandine with shoulder guards", "str_pl": "tempered brigandines with shoulder guards" },
     "copy-from": "armor_lc_brigandine_shoulders",
     "description": "A vest made from tough fabric with tempered steel plates riveted on the inside, with shoulder guards attached to it.  Can be comfortably worn over chainmail for extra protection.",
     "material": [ "qt_steel", "canvas" ],
@@ -896,10 +869,7 @@
     "id": "xl_armor_qt_brigandine_shoulders",
     "type": "ARMOR",
     "copy-from": "armor_qt_brigandine_shoulders",
-    "name": {
-      "str": "XL tempered brigandine with shoulder guards",
-      "str_pl": "XL tempered brigandines with shoulder guards"
-    },
+    "name": { "str": "XL tempered brigandine with shoulder guards", "str_pl": "XL tempered brigandines with shoulder guards" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -907,10 +877,7 @@
     "id": "armor_qt_brigandine_shoulders_xs",
     "type": "ARMOR",
     "copy-from": "armor_qt_brigandine_shoulders",
-    "name": {
-      "str": "XS tempered brigandine with shoulder guards",
-      "str_pl": "XS tempered brigandines with shoulder guards"
-    },
+    "name": { "str": "XS tempered brigandine with shoulder guards", "str_pl": "XS tempered brigandines with shoulder guards" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -963,10 +930,7 @@
   {
     "id": "armor_qt_coat_brigandine_shoulders",
     "type": "ARMOR",
-    "name": {
-      "str": "tempered brigandine coat with shoulder guards",
-      "str_pl": "tempered brigandine coats with shoulder guards"
-    },
+    "name": { "str": "tempered brigandine coat with shoulder guards", "str_pl": "tempered brigandine coats with shoulder guards" },
     "copy-from": "armor_lc_coat_brigandine",
     "description": "A coat made from tough fabric with tempered steel plates riveted on the inside, with shoulder guards attached to it.  Can be comfortably worn over chainmail for extra protection.",
     "material": [ "qt_steel", "canvas" ],
