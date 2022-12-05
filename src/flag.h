@@ -32,6 +32,7 @@ extern const flag_id flag_ALLERGEN_NUT;
 extern const flag_id flag_ALLERGEN_VEGGY;
 extern const flag_id flag_ALLERGEN_WHEAT;
 extern const flag_id flag_ALLERGEN_WOOL;
+extern const flag_id flag_ALLOWS_BODY_BLOCK;
 extern const flag_id flag_ALLOWS_NATURAL_ATTACKS;
 extern const flag_id flag_ALLOWS_REMOTE_USE;
 extern const flag_id flag_ALWAYS_TWOHAND;
