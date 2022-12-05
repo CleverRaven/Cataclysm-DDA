@@ -3417,12 +3417,49 @@
   {
     "type": "mutation",
     "id": "SUB_CALLIPHORID",
-    "name": { "str": "fly affinity" },
+    "name": { "str": "Fly Affinity" },
     "points": 0,
     "description": "You feel like you're salivating more than usual, and you have a bitter taste in your mouth. Did the walking corpses always smell that sweet...?",
-    "prereqs": [ "CHITIN2", "INSECT_ARMS", "WINGS_INSECT", "COMPOUND_EYES" ],
+    "prereqs": [ "CHITIN2", "INSECT_ARMS", "WINGS_INSECT", "COMPOUND_EYES", "PROBOSCIS" ],
     "types": [ "SUB_CATEGORY" ],
     "leads_to": [ "SUB_CALLIPHORID2" ],
+    "category": [ "INSECT" ]
+  },
+  {
+    "type": "mutation",
+    "id": "COMPOUND_EYES2",
+    "name": { "str": "Large Compound Eyes" },
+    "points": 2,
+    "visibility": 6,
+    "ugliness": 4,
+    "mixed_effect": true,
+    "description": "Your multi-lensed eyes have grown so large that they take up most of the space on your head! You can see everywhere at once now, and much farther too - but wearing glasses or even headgear is out of the question.",
+    "types": [ "EYES" ],
+    "prereqs": [ "SUB_CALLIPHORID", "COMPOUND_EYES" ],
+    "restricts_gear": [ "head", "eyes" ],
+    "category": [ "INSECT" ],
+    "pasive_mods": { "per_mod": 3 },
+    "overmap_sight": 4
+  },
+  {
+    "type": "mutation",
+    "id": "CALLIPHORID_HAIRS",
+    "name": { "str": "Bristly Hairs" },
+    "copy-from": "CHITIN_FUR",
+    "description": "Small yet thick hairs cover your body. They're nasty looking but they keep you warm at the very least.",
+    "prereqs": [ "SUB_CALLIPHORID", "CHITIN2" ],
+    "category": [ "INSECT" ]
+  },
+  {
+    "type": "mutation",
+    "id": "CALLIPHORID_PROBOSCIS",
+    "name": { "str": "Sponging Mouthpart" },
+    "points": -5,
+    "visibility": 5,
+    "ugliness": 10,
+    "consume_time_modifier": 2.2,
+    "description": "Sitting at the end of your proboscis is a grooved organ that serves two purposes: spitting enzymes and digestive fluids onto your meal, and then soaking up the digested slurry like a sponge. It's very time consuming and just as disgusting as it sounds.",
+    "prereqs": [ "SUB_CALLIPHORID", "PROBOSCIS" ],
     "category": [ "INSECT" ]
   },
   {
