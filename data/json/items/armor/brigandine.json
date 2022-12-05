@@ -3,7 +3,7 @@
     "id": "armor_lc_brigandine",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "mild steel brigandine", "str_pl": "mild steel brigandines" },
+    "name": { "str": "mild steel brigandine" },
     "description": "A vest made from tough fabric with mild steel plates riveted on the inside.  Can be comfortably worn over chainmail for extra protection.",
     "weight": "6873 g",
     "volume": "6137 ml",
@@ -33,7 +33,7 @@
     "id": "xl_armor_lc_brigandine",
     "type": "ARMOR",
     "copy-from": "armor_lc_brigandine",
-    "name": { "str": "XL mild steel brigandine", "str_pl": "XL mild steel brigandines" },
+    "name": { "str": "XL mild steel brigandine" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -41,7 +41,7 @@
     "id": "armor_lc_brigandine_xs",
     "type": "ARMOR",
     "copy-from": "armor_lc_brigandine",
-    "name": { "str": "XS mild steel brigandine", "str_pl": "XS mild steel brigandines" },
+    "name": { "str": "XS mild steel brigandine" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -103,7 +103,7 @@
     "id": "armor_lc_coat_brigandine",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "mild steel brigandine coat", "str_pl": "mild steel brigandine coats" },
+    "name": { "str": "mild steel brigandine coat" },
     "description": "A coat made from tough fabric with mild steel plates riveted on the inside.  Can be comfortably worn over chainmail for extra protection.",
     "weight": "7646 g",
     "volume": "6880 ml",
@@ -144,7 +144,7 @@
     "id": "xl_armor_lc_coat_brigandine",
     "type": "ARMOR",
     "copy-from": "armor_lc_coat_brigandine",
-    "name": { "str": "XL mild steel brigandine coat", "str_pl": "XL mild steel brigandine coat" },
+    "name": { "str": "XL mild steel brigandine coat" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -152,7 +152,7 @@
     "id": "armor_lc_coat_brigandine_xs",
     "type": "ARMOR",
     "copy-from": "armor_lc_coat_brigandine",
-    "name": { "str": "XS mild steel brigandine coat", "str_pl": "XS mild steel brigandine coat" },
+    "name": { "str": "XS mild steel brigandine coat" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -233,7 +233,7 @@
   {
     "id": "armor_mc_brigandine",
     "type": "ARMOR",
-    "name": { "str": "medium steel brigandine", "str_pl": "medium steel brigandines" },
+    "name": { "str": "medium steel brigandine" },
     "copy-from": "armor_lc_brigandine",
     "description": "A vest made from tough fabric with medium steel plates riveted on the inside.  Can be comfortably worn over chainmail for extra protection.",
     "material": [ "mc_steel", "canvas" ],
@@ -253,7 +253,7 @@
     "id": "xl_armor_mc_brigandine",
     "type": "ARMOR",
     "copy-from": "armor_mc_brigandine",
-    "name": { "str": "XL medium steel brigandine", "str_pl": "XL medium steel brigandine" },
+    "name": { "str": "XL medium steel brigandine" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -261,7 +261,7 @@
     "id": "armor_mc_brigandine_xs",
     "type": "ARMOR",
     "copy-from": "armor_mc_brigandine",
-    "name": { "str": "XS medium steel brigandine", "str_pl": "XS medium steel brigandine" },
+    "name": { "str": "XS medium steel brigandine" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -317,7 +317,7 @@
   {
     "id": "armor_mc_coat_brigandine",
     "type": "ARMOR",
-    "name": { "str": "medium steel brigandine coat", "str_pl": "medium steel brigandine coats" },
+    "name": { "str": "medium steel brigandine coat" },
     "copy-from": "armor_lc_coat_brigandine",
     "description": "A coat made from tough fabric with medium steel plates riveted on the inside.  Can be comfortably worn over chainmail for extra protection.",
     "material": [ "mc_steel", "canvas" ],
@@ -348,7 +348,7 @@
     "id": "xl_armor_mc_coat_brigandine",
     "type": "ARMOR",
     "copy-from": "armor_mc_coat_brigandine",
-    "name": { "str": "XL medium steel brigandine coat", "str_pl": "XL medium steel brigandine coat" },
+    "name": { "str": "XL medium steel brigandine coat" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -356,7 +356,7 @@
     "id": "armor_mc_coat_brigandine_xs",
     "type": "ARMOR",
     "copy-from": "armor_mc_coat_brigandine",
-    "name": { "str": "XS medium steel brigandine coat", "str_pl": "XS medium steel brigandine coat" },
+    "name": { "str": "XS medium steel brigandine coat" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -426,7 +426,7 @@
   {
     "id": "armor_hc_brigandine",
     "type": "ARMOR",
-    "name": { "str": "high steel brigandine", "str_pl": "high steel brigandines" },
+    "name": { "str": "high steel brigandine" },
     "copy-from": "armor_lc_brigandine",
     "description": "A vest made from tough fabric with high steel plates riveted on the inside.  Can be comfortably worn over chainmail for extra protection.",
     "material": [ "hc_steel", "canvas" ],
@@ -446,7 +446,7 @@
     "id": "xl_armor_hc_brigandine",
     "type": "ARMOR",
     "copy-from": "armor_hc_brigandine",
-    "name": { "str": "XL high steel brigandine", "str_pl": "XL high steel brigandines" },
+    "name": { "str": "XL high steel brigandine" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -454,7 +454,7 @@
     "id": "armor_hc_brigandine_xs",
     "type": "ARMOR",
     "copy-from": "armor_hc_brigandine",
-    "name": { "str": "XS high steel brigandine", "str_pl": "XS high steel brigandines" },
+    "name": { "str": "XS high steel brigandine" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -504,7 +504,7 @@
   {
     "id": "armor_hc_coat_brigandine",
     "type": "ARMOR",
-    "name": { "str": "high steel brigandine coat", "str_pl": "high steel brigandine coats" },
+    "name": { "str": "high steel brigandine coat" },
     "copy-from": "armor_lc_coat_brigandine",
     "description": "A coat made from tough fabric with high steel plates riveted on the inside.  Can be comfortably worn over chainmail for extra protection.",
     "material": [ "hc_steel", "canvas" ],
@@ -535,7 +535,7 @@
     "id": "xl_armor_hc_coat_brigandine",
     "type": "ARMOR",
     "copy-from": "armor_hc_coat_brigandine",
-    "name": { "str": "XL high steel brigandine coat", "str_pl": "XL high steel brigandine coats" },
+    "name": { "str": "XL high steel brigandine coat" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -543,7 +543,7 @@
     "id": "armor_hc_coat_brigandine_xs",
     "type": "ARMOR",
     "copy-from": "armor_hc_coat_brigandine",
-    "name": { "str": "XS high steel brigandine coat", "str_pl": "XS high steel brigandine coats" },
+    "name": { "str": "XS high steel brigandine coat" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -613,7 +613,7 @@
   {
     "id": "armor_ch_brigandine",
     "type": "ARMOR",
-    "name": { "str": "case hardened brigandine", "str_pl": "case hardened brigandines" },
+    "name": { "str": "case hardened brigandine" },
     "copy-from": "armor_lc_brigandine",
     "description": "A vest made from tough fabric with case hardened steel plates riveted on the inside.  Can be comfortably worn over chainmail for extra protection.",
     "material": [ "ch_steel", "canvas" ],
@@ -633,7 +633,7 @@
     "id": "xl_armor_ch_brigandine",
     "type": "ARMOR",
     "copy-from": "armor_ch_brigandine",
-    "name": { "str": "XL case hardened brigandine", "str_pl": "XL case hardened brigandines" },
+    "name": { "str": "XL case hardened brigandine" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -641,7 +641,7 @@
     "id": "armor_ch_brigandine_xs",
     "type": "ARMOR",
     "copy-from": "armor_ch_brigandine",
-    "name": { "str": "XS case hardened brigandine", "str_pl": "XS case hardened brigandines" },
+    "name": { "str": "XS case hardened brigandine" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -697,7 +697,7 @@
   {
     "id": "armor_ch_coat_brigandine",
     "type": "ARMOR",
-    "name": { "str": "case hardened brigandine coat", "str_pl": "case hardened brigandine coats" },
+    "name": { "str": "case hardened brigandine coat" },
     "copy-from": "armor_lc_coat_brigandine",
     "description": "A coat made from tough fabric with case hardened steel plates riveted on the inside.  Can be comfortably worn over chainmail for extra protection.",
     "material": [ "ch_steel", "canvas" ],
@@ -728,7 +728,7 @@
     "id": "xl_armor_ch_coat_brigandine",
     "type": "ARMOR",
     "copy-from": "armor_ch_coat_brigandine",
-    "name": { "str": "XL case hardened brigandine coat", "str_pl": "XL case hardened brigandine coats" },
+    "name": { "str": "XL case hardened brigandine coat" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -736,7 +736,7 @@
     "id": "armor_ch_coat_brigandine_xs",
     "type": "ARMOR",
     "copy-from": "armor_ch_coat_brigandine",
-    "name": { "str": "XS case hardened brigandine coat", "str_pl": "XS case hardened brigandine coats" },
+    "name": { "str": "XS case hardened brigandine coat" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -806,7 +806,7 @@
   {
     "id": "armor_qt_brigandine",
     "type": "ARMOR",
-    "name": { "str": "tempered brigandine", "str_pl": "tempered brigandines" },
+    "name": { "str": "tempered brigandine" },
     "copy-from": "armor_lc_brigandine",
     "description": "A vest made from tough fabric with tempered steel plates riveted on the inside.  Can be comfortably worn over chainmail for extra protection.",
     "material": [ "qt_steel", "canvas" ],
@@ -826,7 +826,7 @@
     "id": "xl_armor_qt_brigandine",
     "type": "ARMOR",
     "copy-from": "armor_qt_brigandine",
-    "name": { "str": "XL tempered brigandine", "str_pl": "XL tempered brigandines" },
+    "name": { "str": "XL tempered brigandine" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -834,7 +834,7 @@
     "id": "armor_qt_brigandine_xs",
     "type": "ARMOR",
     "copy-from": "armor_qt_brigandine",
-    "name": { "str": "XS tempered brigandine", "str_pl": "XS tempered brigandines" },
+    "name": { "str": "XS tempered brigandine" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -884,7 +884,7 @@
   {
     "id": "armor_qt_coat_brigandine",
     "type": "ARMOR",
-    "name": { "str": "tempered brigandine coat", "str_pl": "tempered brigandine coats" },
+    "name": { "str": "tempered brigandine coat" },
     "copy-from": "armor_lc_coat_brigandine",
     "description": "A coat made from tough fabric with tempered steel plates riveted on the inside.  Can be comfortably worn over chainmail for extra protection.",
     "material": [ "qt_steel", "canvas" ],
@@ -915,7 +915,7 @@
     "id": "xl_armor_qt_coat_brigandine",
     "type": "ARMOR",
     "copy-from": "armor_qt_coat_brigandine",
-    "name": { "str": "XL tempered brigandine coat", "str_pl": "XL tempered brigandine coats" },
+    "name": { "str": "XL tempered brigandine coat" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -923,7 +923,7 @@
     "id": "armor_qt_coat_brigandine_xs",
     "type": "ARMOR",
     "copy-from": "armor_qt_coat_brigandine",
-    "name": { "str": "XS tempered brigandine coat", "str_pl": "XS tempered brigandine coats" },
+    "name": { "str": "XS tempered brigandine coat" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
