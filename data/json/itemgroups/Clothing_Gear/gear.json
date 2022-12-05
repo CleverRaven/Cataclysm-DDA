@@ -233,7 +233,7 @@
       { "item": "mask_gas", "prob": 20, "charges": 100 },
       { "item": "mask_dust", "prob": 20 },
       { "item": "glasses_bal", "prob": 20 },
-      { "item": "goggles_bal", "prob": 5}
+      { "item": "goggles_bal", "prob": 5 }
     ]
   }
 ]
