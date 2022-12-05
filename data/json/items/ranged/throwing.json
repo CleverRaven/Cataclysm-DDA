@@ -135,7 +135,8 @@
     "to_hit": -2,
     "bashing": 1,
     "cutting": 10,
-    "flags": [ "STAB", "SHEATH_KNIFE" ],
+    "flags": [ "STAB", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "weapon_category": [ "KNIVES" ],
     "thrown_damage": [ { "damage_type": "stab", "amount": 14 } ]
   },
   {

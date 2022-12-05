@@ -144,6 +144,7 @@
     "durability": 7,
     "min_cycle_recoil": 450,
     "blackpowder_tolerance": 48,
+    "flags": [ "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "m1911mag", "m1911bigmag" ] } ]
   },
@@ -430,6 +431,7 @@
     "price_postapoc": 2500,
     "ranged_damage": { "damage_type": "bullet", "amount": 0 },
     "built_in_mods": [ "match_trigger" ],
+    "flags": [ "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "usp45mag" ] } ]
   },
@@ -461,6 +463,7 @@
     "dispersion": 480,
     "durability": 9,
     "min_cycle_recoil": 540,
+    "flags": [ "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "pocket_data": [ { "magazine_well": "240 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ppq45mag" ] } ]
   },
@@ -493,6 +496,7 @@
     "dispersion": 480,
     "durability": 7,
     "min_cycle_recoil": 540,
+    "flags": [ "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "pocket_data": [ { "magazine_well": "353 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "hptjhpmag" ] } ]
   },

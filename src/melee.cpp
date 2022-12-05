@@ -2191,9 +2191,10 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
     bool unarmed = !is_armed() || weapon.has_flag( flag_UNARMED_WEAPON );
     bool force_unarmed = martial_arts_data->is_force_unarmed();
     bool allow_weapon_blocking = martial_arts_data->can_weapon_block();
+    bool armed_body_block = weapon.has_flag( flag_ALLOWS_BODY_BLOCK );
 
     // boolean check if blocking is being done with unarmed or not
-    const bool item_blocking = allow_weapon_blocking && has_shield && !unarmed;
+    const bool item_blocking = allow_weapon_blocking && has_shield && !unarmed&& !armed_body_block;
 
     bool arm_block = false;
     bool leg_block = false;
@@ -2210,7 +2211,7 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
 
     /** @ARM_STR increases attack blocking effectiveness with a limb or worn/wielded item */
     /** @EFFECT_UNARMED increases attack blocking effectiveness with a limb or worn item */
-    if( unarmed || force_unarmed || worn_shield ) {
+    if( unarmed || force_unarmed || worn_shield || armed_body_block ) {
         arm_block = martial_arts_data->can_arm_block( *this );
         leg_block = martial_arts_data->can_leg_block( *this );
         nonstandard_block = martial_arts_data->can_nonstandard_block( *this );
@@ -2236,7 +2237,7 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
     // weapon blocks are preferred to limb blocks
     std::string thing_blocked_with;
     // Do we block with a weapon? Handle melee wear but leave bp the same
-    if( !( unarmed || force_unarmed || worn_shield ) && allow_weapon_blocking ) {
+    if( !( unarmed || force_unarmed || worn_shield || armed_body_block ) && allow_weapon_blocking ) {
         thing_blocked_with = shield->tname();
         // TODO: Change this depending on damage blocked
         float wear_modifier = 1.0f;

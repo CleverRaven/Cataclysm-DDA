@@ -11,7 +11,7 @@
     "material": [ "flesh" ],
     "volume": "250 ml",
     "cutting": 10,
-    "flags": [ "SPEAR" ],
+    "flags": [ "SPEAR", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "SHIVS" ],
     "price": 3000,
     "price_postapoc": 0
@@ -62,7 +62,7 @@
     "material": [ "veggy" ],
     "volume": "250 ml",
     "cutting": 8,
-    "flags": [ "SPEAR", "SHEATH_KNIFE" ],
+    "flags": [ "SPEAR", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "SHIVS" ],
     "price": 500,
     "price_postapoc": 0
@@ -250,8 +250,8 @@
     "material": [ "flesh" ],
     "volume": "250 ml",
     "cutting": 8,
-    "flags": [ "SPEAR", "SHEATH_KNIFE" ],
-    "weapon_category": [ "SHIVS" ],
+    "flags": [ "SPEAR", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "weapon_category": [ "SHIVS", "ALLOWS_BODY_BLOCK" ],
     "price": 1000,
     "price_postapoc": 0
   },

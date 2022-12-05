@@ -35,6 +35,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
+    "flags": [ "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "pocket_data": [ { "magazine_well": "500 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "af2011a1mag" ] } ]
   },
@@ -58,6 +59,7 @@
     "ammo": [ "38super" ],
     "dispersion": 480,
     "durability": 7,
+    "flags": [ "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "m1911mag_10rd_38super" ] } ]
   }

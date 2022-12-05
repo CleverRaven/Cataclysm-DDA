@@ -606,7 +606,7 @@
     "longest_side": "20 cm",
     "cutting": 6,
     "to_hit": { "grip": "none", "length": "hand", "surface": "line", "balance": "good" },
-    "flags": [ "SHEATH_KNIFE", "CONDUCTIVE", "FRAGILE_MELEE" ],
+    "flags": [ "SHEATH_KNIFE", "CONDUCTIVE", "FRAGILE_MELEE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "SHIVS" ],
     "qualities": [ [ "BUTCHER", -18 ] ]
   },
@@ -1288,7 +1288,7 @@
     "bashing": 1,
     "cutting": 3,
     "to_hit": { "grip": "none", "length": "hand", "surface": "point", "balance": "good" },
-    "flags": [ "STAB", "SHEATH_KNIFE", "CONDUCTIVE" ],
+    "flags": [ "STAB", "SHEATH_KNIFE", "CONDUCTIVE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "SHIVS" ]
   },
   {
