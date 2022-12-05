@@ -131,7 +131,8 @@
       }
     ]
   },
-  { "id": "glasses_bifocal",
+  {
+    "id": "glasses_bifocal",
     "repairs_like": "survivor_goggles",
     "type": "ARMOR",
     "name": { "str": "pair of bifocal glasses", "str_pl": "pairs of bifocal glasses" },
