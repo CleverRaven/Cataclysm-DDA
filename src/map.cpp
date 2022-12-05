@@ -51,6 +51,7 @@
 #include "harvest.h"
 #include "iexamine.h"
 #include "item.h"
+#include "item_category.h"
 #include "item_factory.h"
 #include "item_group.h"
 #include "item_location.h"
@@ -118,6 +119,32 @@ static const field_type_str_id field_fd_clairvoyant( "fd_clairvoyant" );
 static const flag_id json_flag_AVATAR_ONLY( "AVATAR_ONLY" );
 static const flag_id json_flag_PRESERVE_SPAWN_OMT( "PRESERVE_SPAWN_OMT" );
 static const flag_id json_flag_UNDODGEABLE( "UNDODGEABLE" );
+
+static const item_category_id item_category_ammo( "ammo" );
+static const item_category_id item_category_armor( "armor" );
+static const item_category_id item_category_artifacts( "artifacts" );
+static const item_category_id item_category_bionics( "bionics" );
+static const item_category_id item_category_books( "books" );
+static const item_category_id item_category_chems( "chems" );
+static const item_category_id item_category_clothing( "clothing" );
+static const item_category_id item_category_container( "container" );
+static const item_category_id item_category_currency( "currency" );
+static const item_category_id item_category_drugs( "drugs" );
+static const item_category_id item_category_food( "food" );
+static const item_category_id item_category_fuel( "fuel" );
+static const item_category_id item_category_guns( "guns" );
+static const item_category_id item_category_keys( "keys" );
+static const item_category_id item_category_magazines( "magazines" );
+static const item_category_id item_category_manuals( "manuals" );
+static const item_category_id item_category_maps( "maps" );
+static const item_category_id item_category_mods( "mods" );
+static const item_category_id item_category_mutagen( "mutagen" );
+static const item_category_id item_category_other( "other" );
+static const item_category_id item_category_seeds( "seeds" );
+static const item_category_id item_category_spare_parts( "spare_parts" );
+static const item_category_id item_category_tools( "tools" );
+static const item_category_id item_category_veh_parts( "veh_parts" );
+static const item_category_id item_category_weapons( "weapons" );
 
 static const item_group_id Item_spawn_data_default_zombie_clothes( "default_zombie_clothes" );
 static const item_group_id Item_spawn_data_default_zombie_items( "default_zombie_items" );
@@ -4927,6 +4954,65 @@ item &map::add_item_or_charges( const tripoint_bub_ms &pos, item obj, bool overf
     return add_item_or_charges( pos.raw(), std::move( obj ), overflow );
 }
 
+bool map::check_for_spawn_chance( item itm )
+{
+    const item_category_id &cat = itm.get_category_of_contents().id;
+    int chance = 100;
+    if( cat == item_category_guns ) {
+        chance = get_option<int>( "SPAWN_CHANCE_GUNS" );
+    } else if( cat == item_category_books ) {
+        chance = get_option<int>( "SPAWN_CHANCE_BOOKS" );
+    } else if( cat == item_category_manuals ) {
+        chance = get_option<int>( "SPAWN_CHANCE_MANUALS" );
+    } else if( cat == item_category_magazines ) {
+        chance = get_option<int>( "SPAWN_CHANCE_MAGAZINES" );
+    } else if( cat == item_category_ammo ) {
+        chance = get_option<int>( "SPAWN_CHANCE_AMMO" );
+    } else if( cat == item_category_weapons ) {
+        chance = get_option<int>( "SPAWN_CHANCE_WEAPONS" );
+    } else if( cat == item_category_clothing ) {
+        chance = get_option<int>( "SPAWN_CHANCE_CLOTHING" );
+    } else if( cat == item_category_food ) {
+        chance = get_option<int>( "SPAWN_CHANCE_FOOD" );
+    } else if( cat == item_category_drugs ) {
+        chance = get_option<int>( "SPAWN_CHANCE_DRUGS" );
+    } else if( cat == item_category_maps ) {
+        chance = get_option<int>( "SPAWN_CHANCE_MAPS" );
+    } else if( cat == item_category_mods ) {
+        chance = get_option<int>( "SPAWN_CHANCE_MODS" );
+    } else if( cat == item_category_mutagen ) {
+        chance = get_option<int>( "SPAWN_CHANCE_MUTAGEN" );
+    } else if( cat == item_category_bionics ) {
+        chance = get_option<int>( "SPAWN_CHANCE_BIONICS" );
+    } else if( cat == item_category_currency ) {
+        chance = get_option<int>( "SPAWN_CHANCE_CURRENCY" );
+    } else if( cat == item_category_veh_parts ) {
+        chance = get_option<int>( "SPAWN_CHANCE_VEH_PARTS" );
+    } else if( cat == item_category_other ) {
+        chance = get_option<int>( "SPAWN_CHANCE_OTHER" );
+    } else if( cat == item_category_fuel ) {
+        chance = get_option<int>( "SPAWN_CHANCE_FUEL" );
+    } else if( cat == item_category_seeds ) {
+        chance = get_option<int>( "SPAWN_CHANCE_SEEDS" );
+    } else if( cat == item_category_chems ) {
+        chance = get_option<int>( "SPAWN_CHANCE_CHEMS" );
+    } else if( cat == item_category_spare_parts ) {
+        chance = get_option<int>( "SPAWN_CHANCE_SPARE_PARTS" );
+    } else if( cat == item_category_container ) {
+        chance = get_option<int>( "SPAWN_CHANCE_CONTAINER" );
+    } else if( cat == item_category_keys ) {
+        chance = get_option<int>( "SPAWN_CHANCE_KEYS" );
+    } else if( cat == item_category_armor ) {
+        chance = get_option<int>( "SPAWN_CHANCE_ARMOR" );
+    } else if( cat == item_category_tools ) {
+        chance = get_option<int>( "SPAWN_CHANCE_TOOLS" );
+    } else if( cat == item_category_artifacts ) {
+        chance = get_option<int>( "SPAWN_CHANCE_ARTIFACTS" );
+    }
+
+    return rng( 1, 100 ) <= clamp( chance, 0, 100 );
+}
+
 item &map::add_item( const tripoint &p, item new_item )
 {
     if( item_is_blacklisted( new_item.typeId() ) ) {
@@ -4936,6 +5022,11 @@ item &map::add_item( const tripoint &p, item new_item )
     if( !inbounds( p ) ) {
         return null_item_reference();
     }
+
+    if( !check_for_spawn_chance( new_item ) ) {
+        return null_item_reference();
+    }
+
     point l;
     submap *const current_submap = unsafe_get_submap_at( p, l );
     if( current_submap == nullptr ) {
