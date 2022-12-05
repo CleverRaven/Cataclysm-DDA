@@ -497,31 +497,3 @@ static bool has_console( const tripoint_abs_omt &location, const int mission_id 
     compmap.save();
     return true;
 }
-
-void mission_start::reveal_lab_train_depot( mission *miss )
-{
-    Character &player_character = get_player_character();
-    // Find and prepare lab location.
-    tripoint_abs_omt loc = player_character.global_omt_location();
-    loc.z() = -4;  // tunnels are at z = -4
-    tripoint_abs_omt place;
-    const int mission_id = miss->get_id();
-
-    omt_find_params params = {{ {{ std::make_pair( "lab_train_depot", ot_match_type::type ) }} }};
-    const std::vector<tripoint_abs_omt> all_omts_near = overmap_buffer.find_all( loc, params );
-    // sort it by range
-    std::multimap<int, tripoint_abs_omt> omts_by_range;
-    for( const tripoint_abs_omt &location : all_omts_near ) {
-        omts_by_range.emplace( rl_dist( loc, location ), location );
-    }
-    for( const std::pair<const int, tripoint_abs_omt> &location : omts_by_range ) {
-        if( has_console( location.second, mission_id ) ) {
-            place = location.second;
-            break;
-        }
-    }
-
-    // Target the lab entrance.
-    const tripoint_abs_omt target = mission_util::target_closest_lab_entrance( place, 2, miss );
-    mission_util::reveal_road( player_character.global_omt_location(), target, overmap_buffer );
-}
