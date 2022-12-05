@@ -5332,7 +5332,7 @@ bool mattack::tindalos_teleport( monster *z )
                     if( z->sees( *target ) ) {
                         here.add_field( oldpos, fd_tindalos_rift, 2 );
                         here.add_field( dest, fd_tindalos_rift, 2 );
-                        add_msg_if_player_sees( *z, m_bad, _( "The %s dissipates and reforms close by." ), z->name() );
+                        add_msg_if_player_sees( *z, m_bad, _( "The %s dissipates and reforms itself from the angles in the corner." ), z->name() );
                         return true;
                     }
                 }
