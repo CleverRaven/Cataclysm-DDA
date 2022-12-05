@@ -32,7 +32,9 @@
       { "trait": "ADRENALINE" },
       { "trait": "NARCOLEPTIC" },
       { "trait": "PROJUNK" },
-      { "trait": "MOODSWINGS" }
+      { "trait": "MOODSWINGS" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
     ],
     "skills": [
       { "skill": "ALL", "level": { "sum": [ { "dice": [ 1, 2 ] }, { "constant": -1 } ] } },
