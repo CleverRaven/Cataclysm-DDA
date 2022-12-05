@@ -3349,7 +3349,7 @@
       [ "strap_large", 1 ]
     ]
   },
-  
+  {
     "result": "armor_lc_coat_brigandine",
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
