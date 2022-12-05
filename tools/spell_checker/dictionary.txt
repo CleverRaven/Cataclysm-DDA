@@ -253,6 +253,8 @@ brachiosaurus
 breatharians
 brennt
 brewable
+brigandine
+brigandines
 brimless
 broadswords
 bronchodilator
@@ -2048,6 +2050,7 @@ ungraspable
 unhardened
 unharvested
 unhidden
+unhindering
 unhomogenized
 uninstalled
 uninstalling
