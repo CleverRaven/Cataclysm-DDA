@@ -4832,5 +4832,337 @@
       "nested_qt_knee_guards"
     ],
     "difficulty": 5
+  },
+  {
+    "id": "nested_lc_brigandine_vest",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "mild steel brigandines",
+    "description": "Recipes related to constructing various sizes of brigandines.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "armor_lc_brigandine", "armor_lc_brigandine_xs", "xl_armor_lc_brigandine" ],
+    "difficulty": 6
+  },
+  {
+    "id": "nested_mc_brigandine_vest",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "medium steel brigandines",
+    "description": "Recipes related to constructing various sizes of brigandines.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "armor_mc_brigandine", "armor_mc_brigandine_xs", "xl_legguard_mc_brigandine" ],
+    "difficulty": 6
+  },
+  {
+    "id": "nested_hc_brigandine_vest",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "high steel brigandines",
+    "description": "Recipes related to constructing various sizes of brigandines.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "armor_hc_brigandine", "armor_hc_brigandine_xs", "xl_legguard_hc_brigandine" ],
+    "difficulty": 6
+  },
+  {
+    "id": "nested_ch_brigandine_vest",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "hardened steel brigandines",
+    "description": "Recipes related to constructing various sizes of brigandines.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "armor_ch_brigandine", "armor_ch_brigandine_xs", "xl_legguard_ch_brigandine" ],
+    "difficulty": 7
+  },
+  {
+    "id": "nested_qt_brigandine_vest",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "tempered steel brigandines",
+    "description": "Recipes related to constructing various sizes of brigandines.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "armor_qt_brigandine", "armor_qt_brigandine_xs", "xl_legguard_qt_brigandine" ],
+    "difficulty": 8
+  },
+  {
+    "id": "nested_all_brigandine_vest",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "name": "brigandines",
+    "description": "Recipes related to constructing various sizes of brigandines.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "nested_lc_brigandine_vest",
+      "nested_mc_brigandine_vest",
+      "nested_hc_brigandine_vest",
+      "nested_ch_brigandine_vest",
+      "nested_qt_brigandine_vest"
+    ],
+    "difficulty": 6
+  },
+  {
+    "id": "nested_lc_brigandine_coat",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "mild steel brigandine coats",
+    "description": "Recipes related to constructing various sizes of brigandine coats.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "armor_lc_brigandine", "armor_lc_brigandine_xs", "xl_armor_lc_brigandine" ],
+    "difficulty": 6
+  },
+  {
+    "id": "nested_mc_brigandine_coat",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "medium steel brigandine coats",
+    "description": "Recipes related to constructing various sizes of brigandine coats.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "armor_mc_brigandine", "armor_mc_brigandine_xs", "xl_legguard_mc_brigandine" ],
+    "difficulty": 6
+  },
+  {
+    "id": "nested_hc_brigandine_coat",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "high steel brigandine coats",
+    "description": "Recipes related to constructing various sizes of brigandine coats.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "armor_hc_brigandine", "armor_hc_brigandine_xs", "xl_legguard_hc_brigandine" ],
+    "difficulty": 6
+  },
+  {
+    "id": "nested_ch_brigandine_coat",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "hardened steel brigandine coats",
+    "description": "Recipes related to constructing various sizes of brigandine coats.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "armor_ch_brigandine", "armor_ch_brigandine_xs", "xl_legguard_ch_brigandine" ],
+    "difficulty": 7
+  },
+  {
+    "id": "nested_qt_brigandine_coat",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "tempered steel brigandine coats",
+    "description": "Recipes related to constructing various sizes of brigandine coats.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "armor_qt_brigandine", "armor_qt_brigandine_xs", "xl_legguard_qt_brigandine" ],
+    "difficulty": 8
+  },
+  {
+    "id": "nested_all_brigandine_coat",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "name": "brigandine coats",
+    "description": "Recipes related to constructing various sizes of brigandine coats.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "nested_lc_brigandine_coat",
+      "nested_mc_brigandine_coat",
+      "nested_hc_brigandine_coat",
+      "nested_ch_brigandine_coat",
+      "nested_qt_brigandine_coat"
+    ],
+    "difficulty": 6
+  },
+  {
+    "id": "nested_lc_brigandine_shoulders",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "mild steel brigandines with shoulder guards",
+    "description": "Recipes related to constructing various sizes of brigandines with shoulder guards.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "armor_lc_brigandine_shoulders", "armor_lc_brigandine_shoulders_xs", "xl_armor_lc_brigandine_shoulders" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_mc_brigandine_shoulders",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "medium steel brigandines with shoulder guards",
+    "description": "Recipes related to constructing various sizes of brigandines with shoulder guards.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "armor_mc_brigandine_shoulders", "armor_mc_brigandine_shoulders_xs", "xl_armor_mc_brigandine_shoulders" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_hc_brigandine_shoulders",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "high steel brigandines with shoulder guards",
+    "description": "Recipes related to constructing various sizes of brigandines with shoulder guards.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "armor_hc_brigandine_shoulders", "armor_hc_brigandine_shoulders_xs", "xl_armor_hc_brigandine_shoulders" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_ch_brigandine_shoulders",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "hardened steel brigandines with shoulder guards",
+    "description": "Recipes related to constructing various sizes of brigandines with shoulder guards.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "armor_ch_brigandine_shoulders", "armor_ch_brigandine_shoulders_xs", "xl_armor_ch_brigandine_shoulders" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_qt_brigandine_shoulders",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "tempered steel brigandines with shoulder guards",
+    "description": "Recipes related to constructing various sizes of brigandines with shoulder guards.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "armor_qt_brigandine_shoulders", "armor_qt_brigandine_shoulders_xs", "xl_armor_qt_brigandine_shoulders" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_all_brigandin_shoulders",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "name": "brigandines with shoulder guards",
+    "description": "Recipes related to constructing various sizes of brigandines with shoulder guards..",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "nested_lc_brigandine_shoulders",
+      "nested_mc_brigandine_shoulders",
+      "nested_hc_brigandine_shoulders",
+      "nested_ch_brigandine_shoulders",
+      "nested_qt_brigandine_shoulders"
+    ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_lc_brigandine_coat_shoulders",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "mild steel brigandine coats with shoulder guards",
+    "description": "Recipes related to constructing various sizes of brigandine coats with shoulder guards.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "armor_lc_coat_brigandine_shoulders",
+      "armor_lc_coat_brigandine_shoulders_xs",
+      "xl_armor_lc_coat_brigandine_shoulders"
+    ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_mc_brigandine_coat_shoulders",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "medium steel brigandine coats with shoulder guards",
+    "description": "Recipes related to constructing various sizes of brigandine coats with shoulder guards.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "armor_mc_coat_brigandine_shoulders",
+      "armor_mc_coat_brigandine_shoulders_xs",
+      "xl_armor_mc_coat_brigandine_shoulders"
+    ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_hc_brigandine_coat_shoulders",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "high steel brigandine coats with shoulder guards",
+    "description": "Recipes related to constructing various sizes of brigandine coats with shoulder guards.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "armor_hc_coat_brigandine_shoulders",
+      "armor_hc_coat_brigandine_shoulders_xs",
+      "xl_armor_hc_coat_brigandine_shoulders"
+    ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_ch_brigandine_coat_shoulders",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "hardened steel brigandine coats with shoulder guards",
+    "description": "Recipes related to constructing various sizes of brigandine coats with shoulder guards.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "armor_ch_coat_brigandine_shoulderss",
+      "armor_ch_coat_brigandine_shoulders_xs",
+      "xl_armor_ch_coat_brigandine_shoulders"
+    ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_qt_brigandine_coat_shoulders",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "tempered steel brigandine coats with shoulder guards",
+    "description": "Recipes related to constructing various sizes of brigandine coats with shoulder guards.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "armor_qt_coat_brigandine_shoulders",
+      "armor_qt_coat_brigandine_shoulders_xs",
+      "xl_armor_qt_coat_brigandine_shoulders"
+    ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_all_brigandin_coat_shoulders",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "name": "brigandine coats with shoulder guards.",
+    "description": "Recipes related to constructing various sizes of brigandine coats with shoulder guards..",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "nested_lc_brigandine_coat_shoulders",
+      "nested_mc_brigandine_coat_shoulders",
+      "nested_hc_brigandine_coat_shoulders",
+      "nested_ch_brigandine_coat_shoulders",
+      "nested_qt_brigandine_coat_shoulders"
+    ],
+    "difficulty": 1
   }
 ]
