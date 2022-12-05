@@ -367,7 +367,7 @@
       "str": "medium steel brigandine coat with shoulder guards",
       "str_pl": "medium steel brigandine coats with shoulder guards"
     },
-    "copy-from": "armor_lc_coat_brigandine",
+    "copy-from": "armor_lc_coat_brigandine_shoulders",
     "description": "A coat made from tough fabric with medium steel plates riveted on the inside, with shoulder guards attached to it.  Can be comfortably worn over chainmail for extra protection.",
     "material": [ "mc_steel", "canvas" ],
     "armor": [
@@ -554,7 +554,7 @@
       "str": "high steel brigandine coat with shoulder guards",
       "str_pl": "high steel brigandine coats with shoulder guards"
     },
-    "copy-from": "armor_lc_coat_brigandine",
+    "copy-from": "armor_lc_coat_brigandine_shoulders",
     "description": "A coat made from tough fabric with high steel plates riveted on the inside, with shoulder guards attached to it.  Can be comfortably worn over chainmail for extra protection.",
     "material": [ "hc_steel", "canvas" ],
     "armor": [
@@ -747,7 +747,7 @@
       "str": "case hardened brigandine coat with shoulder guards",
       "str_pl": "case hardened brigandine coats with shoulder guards"
     },
-    "copy-from": "armor_lc_coat_brigandine",
+    "copy-from": "armor_lc_coat_brigandine_shoulders",
     "description": "A coat made from tough fabric with case hardened steel plates riveted on the inside, with shoulder guards attached to it.  Can be comfortably worn over chainmail for extra protection.",
     "material": [ "ch_steel", "canvas" ],
     "armor": [
@@ -931,7 +931,7 @@
     "id": "armor_qt_coat_brigandine_shoulders",
     "type": "ARMOR",
     "name": { "str": "tempered brigandine coat with shoulder guards", "str_pl": "tempered brigandine coats with shoulder guards" },
-    "copy-from": "armor_lc_coat_brigandine",
+    "copy-from": "armor_lc_coat_brigandine_shoulders",
     "description": "A coat made from tough fabric with tempered steel plates riveted on the inside, with shoulder guards attached to it.  Can be comfortably worn over chainmail for extra protection.",
     "material": [ "qt_steel", "canvas" ],
     "armor": [
