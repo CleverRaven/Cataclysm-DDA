@@ -2194,7 +2194,7 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
     bool armed_body_block = weapon.has_flag( flag_ALLOWS_BODY_BLOCK );
 
     // boolean check if blocking is being done with unarmed or not
-    const bool item_blocking = allow_weapon_blocking && has_shield && !unarmed&& !armed_body_block;
+    const bool item_blocking = allow_weapon_blocking && has_shield && !unarmed && !armed_body_block;
 
     bool arm_block = false;
     bool leg_block = false;
