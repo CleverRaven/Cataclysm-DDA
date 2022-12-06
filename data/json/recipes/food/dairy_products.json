@@ -82,7 +82,7 @@
     "skill_used": "cooking",
     "difficulty": 1,
     "time": "5 m",
-    "result_mult": 6,
+    "result_mult": 8,
     "book_learn": [ [ "dairy_book", 1 ] ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "proficiencies": [
@@ -105,9 +105,8 @@
     "skill_used": "cooking",
     "difficulty": 1,
     "time": "5 m",
-    "result_mult": 6,
     "book_learn": [ [ "dairy_book", 1 ] ],
-    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "cottage_cheese", 1 ] ], [ [ "sweet_fruit", 1, "LIST" ] ] ]
   },
   {
@@ -119,9 +118,8 @@
     "skill_used": "cooking",
     "difficulty": 1,
     "time": "5 m",
-    "result_mult": 6,
     "book_learn": [ [ "dairy_book", 1 ] ],
-    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "cottage_cheese", 1 ] ],
       [ [ "sweet_fruit", 1, "LIST" ] ],

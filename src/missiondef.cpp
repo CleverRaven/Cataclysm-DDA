@@ -193,7 +193,6 @@ enum legacy_mission_type_id {
 static const std::map<std::string, std::function<void( mission * )>> mission_function_map = {{
         // Starts
         { "standard", { } },
-        { "place_dog", mission_start::place_dog },
         { "place_zombie_mom", mission_start::place_zombie_mom },
         { "kill_horde_master", mission_start::kill_horde_master },
         { "kill_nemesis", mission_start::kill_nemesis },
@@ -206,7 +205,6 @@ static const std::map<std::string, std::function<void( mission * )>> mission_fun
         { "create_lab_console", mission_start::create_lab_console },
         { "create_hidden_lab_console", mission_start::create_hidden_lab_console },
         { "create_ice_lab_console", mission_start::create_ice_lab_console },
-        { "reveal_lab_train_depot", mission_start::reveal_lab_train_depot },
         // Endings
         { "deposit_box", mission_end::deposit_box }
         // Failures

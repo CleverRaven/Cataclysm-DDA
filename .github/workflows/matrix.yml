@@ -113,7 +113,7 @@ jobs:
             ccache_limit: 3G
 
           - compiler: clang++-12
-            os: ubuntu-latest
+            os: ubuntu-22.04
             release: 0
             cmake: 0
             tiles: 1
