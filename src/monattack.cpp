@@ -136,8 +136,6 @@ static const efftype_id effect_targeted( "targeted" );
 static const efftype_id effect_tindrift( "tindrift" );
 static const efftype_id effect_under_operation( "under_operation" );
 
-static const furn_str_id furn_f_compact_ASRG_containment( "f_compact_ASRG_containment" );
-
 static const gun_mode_id gun_mode_AUTO( "AUTO" );
 
 static const itype_id itype_120mm_HEAT( "120mm_HEAT" );
@@ -3825,7 +3823,7 @@ bool mattack::searchlight( monster *z )
         for( int x = zpos.x - 24; x < zpos.x + 24; x++ ) {
             for( int y = zpos.y - 24; y < zpos.y + 24; y++ ) {
                 tripoint dest( x, y, z->posz() );
-                if( here.furn( dest ) == furn_f_compact_ASRG_containment ) {
+                if( here.has_flag( ter_furn_flag::TFLAG_ACTIVE_GENERATOR, dest ) ) {
                     generator_ok = true;
                 }
             }
