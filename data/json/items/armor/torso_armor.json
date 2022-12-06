@@ -2070,27 +2070,30 @@
     "armor": [
       {
         "encumbrance": 7,
-        "coverage": 95,
+        "coverage": 90,
         "covers": [ "torso" ],
         "material": [
           { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 8 },
-          { "type": "thermo_resin", "covered_by_mat": 85, "thickness": 2 }
+          { "type": "thermo_resin", "covered_by_mat": 90, "thickness": 2 }
         ]
       },
       {
         "covers": [ "arm_l", "arm_r", "leg_l", "leg_r" ],
         "encumbrance": 2,
-        "coverage": 85,
+        "coverage": 75,
         "material": [
           { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 6 },
-          { "type": "thermo_resin", "covered_by_mat": 70, "thickness": 1.5 }
+          { "type": "thermo_resin", "covered_by_mat": 85, "thickness": 1.5 }
         ],
         "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r", "arm_upper_l", "arm_upper_r", "leg_upper_l", "leg_upper_r" ]
       },
       {
         "covers": [ "leg_l", "leg_r" ],
-        "coverage": 30,
-        "material": [ { "type": "thermo_resin", "covered_by_mat": 100, "thickness": 1.5 } ],
+        "coverage": 65,
+        "material": [
+          { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 6 },
+          { "type": "thermo_resin", "covered_by_mat": 65, "thickness": 1.5 }
+        ],
         "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
       }
     ]
@@ -2118,7 +2121,7 @@
         "coverage": 95,
         "encumbrance": 17,
         "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 4.5 } ]
-      },
+        },
       {
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 90,
