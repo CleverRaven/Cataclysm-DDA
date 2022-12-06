@@ -19,7 +19,11 @@
     "volume": "250 ml",
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitC", 167 ], [ "calcium", 1 ], [ "iron", 1 ] ],
+    "vitamins": [
+      [ "vitC", 167 ],
+      [ "calcium", 1 ],
+      [ "iron", 1 ]
+    ],
     "fun": 2
   },
   {
@@ -64,7 +68,10 @@
     "material": [ "water", "veggy" ],
     "volume": "250 ml",
     "phase": "liquid",
-    "vitamins": [ [ "iron", 1 ], [ "calcium", 7 ] ],
+    "vitamins": [
+      [ "iron", 1 ],
+      [ "calcium", 7 ]
+    ],
     "flags": [ "EATEN_COLD" ],
     "fun": 1
   },
@@ -139,7 +146,11 @@
     "volume": "500 ml",
     "phase": "liquid",
     "charges": 2,
-    "vitamins": [ [ "vitC", 4 ], [ "calcium", 3 ], [ "iron", 43 ] ],
+    "vitamins": [
+      [ "vitC", 4 ],
+      [ "calcium", 3 ],
+      [ "iron", 43 ]
+    ],
     "fun": 1
   },
   {
@@ -208,7 +219,11 @@
     "volume": "250 ml",
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitC", 8 ], [ "calcium", 18 ], [ "iron", 4 ] ],
+    "vitamins": [
+      [ "vitC", 8 ],
+      [ "calcium", 18 ],
+      [ "iron", 4 ]
+    ],
     "fun": 7
   },
   {
@@ -417,14 +432,21 @@
     "volume": "250 ml",
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitC", 131 ], [ "calcium", 3 ], [ "iron", 1 ] ],
+    "vitamins": [
+      [ "vitC", 131 ],
+      [ "calcium", 3 ],
+      [ "iron", 1 ]
+    ],
     "fun": -1
   },
   {
     "type": "COMESTIBLE",
     "id": "crispycran",
     "looks_like": "cranberry_juice",
-    "name": { "str": "crispy cranberry", "str_pl": "crispy cranberries" },
+    "name": {
+      "str": "crispy cranberry",
+      "str_pl": "crispy cranberries"
+    },
     "weight": "250 g",
     "color": "pink",
     "container": "can_drink",
@@ -504,7 +526,11 @@
     "phase": "liquid",
     "charges": 2,
     "flags": [ "EATEN_COLD", "EATEN_HOT", "FREEZERBURN" ],
-    "vitamins": [ [ "vitC", 3 ], [ "calcium", 13 ], [ "iron", 2 ] ],
+    "vitamins": [
+      [ "vitC", 3 ],
+      [ "calcium", 13 ],
+      [ "iron", 2 ]
+    ],
     "fun": 15
   },
   {
@@ -595,7 +621,10 @@
     "quench": 35,
     "fun": 8,
     "spoils_in": "1 day",
-    "vitamins": [ [ "calcium", 4 ], [ "iron", 2 ] ],
+    "vitamins": [
+      [ "calcium", 4 ],
+      [ "iron", 2 ]
+    ],
     "flags": [ "EATEN_HOT" ]
   },
   {
@@ -616,38 +645,166 @@
     "id": "juice",
     "name": { "str": "fruit juice" },
     "conditional_names": [
-      { "type": "COMPONENT_ID", "condition": "apple", "name": { "str_sp": "%s, apple" } },
-      { "type": "COMPONENT_ID", "condition": "apricot", "name": { "str_sp": "%s, apricot" } },
-      { "type": "COMPONENT_ID", "condition": "banana", "name": { "str_sp": "%s, banana" } },
-      { "type": "COMPONENT_ID", "condition": "blackberries", "name": { "str_sp": "%s, blackberry" } },
-      { "type": "COMPONENT_ID", "condition": "blueberries", "name": { "str_sp": "%s, blueberry" } },
-      { "type": "COMPONENT_ID", "condition": "cherries", "name": { "str_sp": "%s, cherry" } },
-      { "type": "COMPONENT_ID", "condition": "elderberries", "name": { "str_sp": "%s, elderberry" } },
-      { "type": "COMPONENT_ID", "condition": "grapefruit", "name": { "str_sp": "%s, grapefruit" } },
-      { "type": "COMPONENT_ID", "condition": "grapes", "name": { "str_sp": "%s, grape" } },
-      { "type": "COMPONENT_ID", "condition": "guayaba", "name": { "str_sp": "%s, guava" } },
-      { "type": "COMPONENT_ID", "condition": "huckleberries", "name": { "str_sp": "%s, huckleberry" } },
-      { "type": "COMPONENT_ID", "condition": "kiwi", "name": { "str_sp": "%s, kiwi" } },
-      { "type": "COMPONENT_ID", "condition": "lulo", "name": { "str_sp": "%s, lulo" } },
-      { "type": "COMPONENT_ID", "condition": "mango", "name": { "str_sp": "%s, mango" } },
-      { "type": "COMPONENT_ID", "condition": "maracuya", "name": { "str_sp": "%s, passionfruit" } },
-      { "type": "COMPONENT_ID", "condition": "melon", "name": { "str_sp": "%s, melon" } },
-      { "type": "COMPONENT_ID", "condition": "mulberries", "name": { "str_sp": "%s, mulberry" } },
-      { "type": "COMPONENT_ID", "condition": "orange", "name": { "str_sp": "%s, orange" } },
-      { "type": "COMPONENT_ID", "condition": "papaya", "name": { "str_sp": "%s, papaya" } },
-      { "type": "COMPONENT_ID", "condition": "peach", "name": { "str_sp": "%s, peach" } },
-      { "type": "COMPONENT_ID", "condition": "pear", "name": { "str_sp": "%s, pear" } },
-      { "type": "COMPONENT_ID", "condition": "pineapple", "name": { "str_sp": "%s, pineapple" } },
-      { "type": "COMPONENT_ID", "condition": "plums", "name": { "str_sp": "%s, plum" } },
-      { "type": "COMPONENT_ID", "condition": "pomegranate", "name": { "str_sp": "%s, pomegranate" } },
-      { "type": "COMPONENT_ID", "condition": "pumpkin", "name": { "str_sp": "%s, pumpkin" } },
-      { "type": "COMPONENT_ID", "condition": "raspberries", "name": { "str_sp": "%s, raspberry" } },
-      { "type": "COMPONENT_ID", "condition": "rose_hips", "name": { "str_sp": "%s, rose hip" } },
-      { "type": "COMPONENT_ID", "condition": "wintergreen_berry", "name": { "str_sp": "%s, wintergreen berry" } },
-      { "type": "COMPONENT_ID", "condition": "mayapple", "name": { "str_sp": "%s, mayapple" } },
-      { "type": "COMPONENT_ID", "condition": "m_stellatum_berries", "name": { "str_sp": "%s, Solomon's seal" } },
-      { "type": "COMPONENT_ID", "condition": "strawberries", "name": { "str_sp": "%s, strawberry" } },
-      { "type": "COMPONENT_ID", "condition": "watermelon", "name": { "str_sp": "%s, watermelon" } }
+      {
+        "type": "COMPONENT_ID",
+        "condition": "apple",
+        "name": { "str_sp": "%s, apple" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "apricot",
+        "name": { "str_sp": "%s, apricot" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "banana",
+        "name": { "str_sp": "%s, banana" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "blackberries",
+        "name": { "str_sp": "%s, blackberry" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "blueberries",
+        "name": { "str_sp": "%s, blueberry" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "cherries",
+        "name": { "str_sp": "%s, cherry" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "elderberries",
+        "name": { "str_sp": "%s, elderberry" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "grapefruit",
+        "name": { "str_sp": "%s, grapefruit" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "grapes",
+        "name": { "str_sp": "%s, grape" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "guayaba",
+        "name": { "str_sp": "%s, guava" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "huckleberries",
+        "name": { "str_sp": "%s, huckleberry" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "kiwi",
+        "name": { "str_sp": "%s, kiwi" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "lulo",
+        "name": { "str_sp": "%s, lulo" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "mango",
+        "name": { "str_sp": "%s, mango" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "maracuya",
+        "name": { "str_sp": "%s, passionfruit" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "melon",
+        "name": { "str_sp": "%s, melon" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "mulberries",
+        "name": { "str_sp": "%s, mulberry" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "orange",
+        "name": { "str_sp": "%s, orange" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "papaya",
+        "name": { "str_sp": "%s, papaya" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "peach",
+        "name": { "str_sp": "%s, peach" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "pear",
+        "name": { "str_sp": "%s, pear" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "pineapple",
+        "name": { "str_sp": "%s, pineapple" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "plums",
+        "name": { "str_sp": "%s, plum" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "pomegranate",
+        "name": { "str_sp": "%s, pomegranate" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "pumpkin",
+        "name": { "str_sp": "%s, pumpkin" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "raspberries",
+        "name": { "str_sp": "%s, raspberry" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "rose_hips",
+        "name": { "str_sp": "%s, rose hip" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "wintergreen_berry",
+        "name": { "str_sp": "%s, wintergreen berry" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "mayapple",
+        "name": { "str_sp": "%s, mayapple" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "m_stellatum_berries",
+        "name": { "str_sp": "%s, Solomon's seal" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "strawberries",
+        "name": { "str_sp": "%s, strawberry" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "watermelon",
+        "name": { "str_sp": "%s, watermelon" }
+      }
     ],
     "weight": "125 g",
     "color": "light_red",
@@ -666,7 +823,10 @@
     "phase": "liquid",
     "charges": 2,
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitC", 53 ], [ "iron", 2 ] ],
+    "vitamins": [
+      [ "vitC", 53 ],
+      [ "iron", 2 ]
+    ],
     "fun": 3
   },
   {
@@ -675,10 +835,14 @@
     "copy-from": "juice",
     "looks_like": "juice",
     "name": { "str_sp": "pineapple juice" },
-    "conditional_names": [  ],
+    "conditional_names": [],
     "calories": 66,
     "description": "Freshly-squeezed from real pineapples!  Tasty and nutritious.",
-    "vitamins": [ [ "vitC", 14 ], [ "calcium", 1 ], [ "iron", 2 ] ]
+    "vitamins": [
+      [ "vitC", 14 ],
+      [ "calcium", 1 ],
+      [ "iron", 2 ]
+    ]
   },
   {
     "type": "COMESTIBLE",
@@ -701,7 +865,11 @@
     "volume": "250 ml",
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitC", 16 ], [ "calcium", 2 ], [ "iron", 3 ] ],
+    "vitamins": [
+      [ "vitC", 16 ],
+      [ "calcium", 2 ],
+      [ "iron", 3 ]
+    ],
     "fun": 12
   },
   {
@@ -726,7 +894,11 @@
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
     "fun": 12,
-    "vitamins": [ [ "vitC", 23 ], [ "calcium", 1 ], [ "iron", 2 ] ]
+    "vitamins": [
+      [ "vitC", 23 ],
+      [ "calcium", 1 ],
+      [ "iron", 2 ]
+    ]
   },
   {
     "type": "COMESTIBLE",
@@ -784,38 +956,166 @@
     "looks_like": "juice",
     "name": { "str": "kompot" },
     "conditional_names": [
-      { "type": "COMPONENT_ID", "condition": "apple", "name": { "str_sp": "%s, apple" } },
-      { "type": "COMPONENT_ID", "condition": "apricot", "name": { "str_sp": "%s, apricot" } },
-      { "type": "COMPONENT_ID", "condition": "banana", "name": { "str_sp": "%s, banana" } },
-      { "type": "COMPONENT_ID", "condition": "blackberries", "name": { "str_sp": "%s, blackberry" } },
-      { "type": "COMPONENT_ID", "condition": "blueberries", "name": { "str_sp": "%s, blueberry" } },
-      { "type": "COMPONENT_ID", "condition": "cherries", "name": { "str_sp": "%s, cherry" } },
-      { "type": "COMPONENT_ID", "condition": "elderberries", "name": { "str_sp": "%s, elderberry" } },
-      { "type": "COMPONENT_ID", "condition": "grapefruit", "name": { "str_sp": "%s, grapefruit" } },
-      { "type": "COMPONENT_ID", "condition": "grapes", "name": { "str_sp": "%s, grape" } },
-      { "type": "COMPONENT_ID", "condition": "guayaba", "name": { "str_sp": "%s, guava" } },
-      { "type": "COMPONENT_ID", "condition": "huckleberries", "name": { "str_sp": "%s, huckleberry" } },
-      { "type": "COMPONENT_ID", "condition": "kiwi", "name": { "str_sp": "%s, kiwi" } },
-      { "type": "COMPONENT_ID", "condition": "lulo", "name": { "str_sp": "%s, lulo" } },
-      { "type": "COMPONENT_ID", "condition": "mango", "name": { "str_sp": "%s, mango" } },
-      { "type": "COMPONENT_ID", "condition": "maracuya", "name": { "str_sp": "%s, passionfruit" } },
-      { "type": "COMPONENT_ID", "condition": "melon", "name": { "str_sp": "%s, melon" } },
-      { "type": "COMPONENT_ID", "condition": "mulberries", "name": { "str_sp": "%s, mulberry" } },
-      { "type": "COMPONENT_ID", "condition": "orange", "name": { "str_sp": "%s, orange" } },
-      { "type": "COMPONENT_ID", "condition": "papaya", "name": { "str_sp": "%s, papaya" } },
-      { "type": "COMPONENT_ID", "condition": "peach", "name": { "str_sp": "%s, peach" } },
-      { "type": "COMPONENT_ID", "condition": "pear", "name": { "str_sp": "%s, pear" } },
-      { "type": "COMPONENT_ID", "condition": "pineapple", "name": { "str_sp": "%s, pineapple" } },
-      { "type": "COMPONENT_ID", "condition": "plums", "name": { "str_sp": "%s, plum" } },
-      { "type": "COMPONENT_ID", "condition": "pomegranate", "name": { "str_sp": "%s, pomegranate" } },
-      { "type": "COMPONENT_ID", "condition": "pumpkin", "name": { "str_sp": "%s, pumpkin" } },
-      { "type": "COMPONENT_ID", "condition": "raspberries", "name": { "str_sp": "%s, raspberry" } },
-      { "type": "COMPONENT_ID", "condition": "rose_hips", "name": { "str_sp": "%s, rose hip" } },
-      { "type": "COMPONENT_ID", "condition": "wintergreen_berry", "name": { "str_sp": "%s, wintergreen berry" } },
-      { "type": "COMPONENT_ID", "condition": "mayapple", "name": { "str_sp": "%s, mayapple" } },
-      { "type": "COMPONENT_ID", "condition": "m_stellatum_berries", "name": { "str_sp": "%s, Solomon's seal" } },
-      { "type": "COMPONENT_ID", "condition": "strawberries", "name": { "str_sp": "%s, strawberry" } },
-      { "type": "COMPONENT_ID", "condition": "watermelon", "name": { "str_sp": "%s, watermelon" } }
+      {
+        "type": "COMPONENT_ID",
+        "condition": "apple",
+        "name": { "str_sp": "%s, apple" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "apricot",
+        "name": { "str_sp": "%s, apricot" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "banana",
+        "name": { "str_sp": "%s, banana" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "blackberries",
+        "name": { "str_sp": "%s, blackberry" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "blueberries",
+        "name": { "str_sp": "%s, blueberry" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "cherries",
+        "name": { "str_sp": "%s, cherry" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "elderberries",
+        "name": { "str_sp": "%s, elderberry" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "grapefruit",
+        "name": { "str_sp": "%s, grapefruit" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "grapes",
+        "name": { "str_sp": "%s, grape" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "guayaba",
+        "name": { "str_sp": "%s, guava" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "huckleberries",
+        "name": { "str_sp": "%s, huckleberry" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "kiwi",
+        "name": { "str_sp": "%s, kiwi" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "lulo",
+        "name": { "str_sp": "%s, lulo" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "mango",
+        "name": { "str_sp": "%s, mango" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "maracuya",
+        "name": { "str_sp": "%s, passionfruit" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "melon",
+        "name": { "str_sp": "%s, melon" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "mulberries",
+        "name": { "str_sp": "%s, mulberry" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "orange",
+        "name": { "str_sp": "%s, orange" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "papaya",
+        "name": { "str_sp": "%s, papaya" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "peach",
+        "name": { "str_sp": "%s, peach" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "pear",
+        "name": { "str_sp": "%s, pear" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "pineapple",
+        "name": { "str_sp": "%s, pineapple" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "plums",
+        "name": { "str_sp": "%s, plum" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "pomegranate",
+        "name": { "str_sp": "%s, pomegranate" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "pumpkin",
+        "name": { "str_sp": "%s, pumpkin" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "raspberries",
+        "name": { "str_sp": "%s, raspberry" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "rose_hips",
+        "name": { "str_sp": "%s, rose hip" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "wintergreen_berry",
+        "name": { "str_sp": "%s, wintergreen berry" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "mayapple",
+        "name": { "str_sp": "%s, mayapple" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "m_stellatum_berries",
+        "name": { "str_sp": "%s, Solomon's seal" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "strawberries",
+        "name": { "str_sp": "%s, strawberry" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "watermelon",
+        "name": { "str_sp": "%s, watermelon" }
+      }
     ],
     "weight": "250 g",
     "color": "red",
@@ -856,7 +1156,10 @@
     "volume": "250 ml",
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitC", 16 ], [ "iron", 2 ] ],
+    "vitamins": [
+      [ "vitC", 16 ],
+      [ "iron", 2 ]
+    ],
     "fun": 3
   },
   {
@@ -949,7 +1252,10 @@
     "phase": "liquid",
     "charges": 2,
     "flags": [ "NO_AUTO_CONSUME" ],
-    "vitamins": [ [ "vitC", 2 ], [ "calcium", 12 ] ],
+    "vitamins": [
+      [ "vitC", 2 ],
+      [ "calcium", 12 ]
+    ],
     "fun": 10
   },
   {
@@ -975,7 +1281,10 @@
     "volume": "500 ml",
     "phase": "liquid",
     "charges": 2,
-    "vitamins": [ [ "vitC", 2 ], [ "calcium", 12 ] ],
+    "vitamins": [
+      [ "vitC", 2 ],
+      [ "calcium", 12 ]
+    ],
     "fun": 10,
     "flags": [ "EATEN_HOT" ]
   },
@@ -1001,7 +1310,11 @@
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
     "//": "most store-bought oj is fortified with calcium.",
-    "vitamins": [ [ "vitC", 146 ], [ "calcium", 28 ], [ "iron", 2 ] ],
+    "vitamins": [
+      [ "vitC", 146 ],
+      [ "calcium", 28 ],
+      [ "iron", 2 ]
+    ],
     "fun": 3
   },
   {
@@ -1070,7 +1383,10 @@
     "volume": "250 ml",
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitC", 50 ], [ "calcium", 3 ] ],
+    "vitamins": [
+      [ "vitC", 50 ],
+      [ "calcium", 3 ]
+    ],
     "fun": 3
   },
   {
@@ -1095,7 +1411,11 @@
     "volume": "250 ml",
     "phase": "liquid",
     "flags": [ "EATEN_COLD", "MYCUS_OK", "NUTRIENT_OVERRIDE" ],
-    "vitamins": [ [ "vitC", 20 ], [ "calcium", 20 ], [ "iron", 16 ] ],
+    "vitamins": [
+      [ "vitC", 20 ],
+      [ "calcium", 20 ],
+      [ "iron", 16 ]
+    ],
     "fun": 30
   },
   {
@@ -1112,6 +1432,30 @@
     "healthy": -1,
     "calories": 106,
     "description": "Like cola, but without caffeine.  Still not that healthy.",
+    "price": 95,
+    "price_postapoc": 50,
+    "material": [ "junk" ],
+    "primary_material": "water",
+    "volume": "250 ml",
+    "phase": "liquid",
+    "flags": [ "EATEN_COLD" ],
+    "fun": 3
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "rootbeer_brewed",
+    "looks_like": "cola",
+    "name": { "str_sp": "root beer" },
+    "weight": "260 g",
+    "color": "brown",
+    "container": "bottle_glass",
+    "comestible_type": "DRINK",
+    "symbol": "~",
+    "quench": 18,
+    "healthy": -1,
+    "calories": 156,
+    "vitamins": [ [ "calcium", 1 ] ],
+    "description": "Like cola, but without caffeine.  Still not that healthy, but better than the canned stuff.",
     "price": 95,
     "price_postapoc": 50,
     "material": [ "junk" ],
@@ -1209,7 +1553,12 @@
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You no longer need to worry about asthma attacks, at least for a while.",
-      "effects": [ { "id": "took_antiasthmatic", "duration": 86400 } ]
+      "effects": [
+        {
+          "id": "took_antiasthmatic",
+          "duration": 86400
+        }
+      ]
     }
   },
   {
@@ -1290,7 +1639,19 @@
     "description": "A bitter tea made by boiling willow bark in water, used since ancient times as a mild painkiller.",
     "fun": -2,
     "flags": [ "NO_AUTO_CONSUME" ],
-    "use_action": { "type": "consume_drug", "effects": [ { "id": "pkill1", "duration": 90 }, { "id": "nausea", "duration": "5 m" } ] }
+    "use_action": {
+      "type": "consume_drug",
+      "effects": [
+        {
+          "id": "pkill1",
+          "duration": 90
+        },
+        {
+          "id": "nausea",
+          "duration": "5 m"
+        }
+      ]
+    }
   },
   {
     "type": "COMESTIBLE",
@@ -1335,7 +1696,11 @@
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
     "fun": 1,
-    "vitamins": [ [ "vitC", 180 ], [ "calcium", 4 ], [ "iron", 4 ] ]
+    "vitamins": [
+      [ "vitC", 180 ],
+      [ "calcium", 4 ],
+      [ "iron", 4 ]
+    ]
   },
   {
     "id": "water",
@@ -1368,7 +1733,7 @@
     "sealed": true,
     "color": "light_cyan",
     "extend": { "flags": [ "NUTRIENT_OVERRIDE" ] },
-    "use_action": [  ]
+    "use_action": []
   },
   {
     "id": "water_mineral",
@@ -1380,7 +1745,7 @@
     "sealed": true,
     "proportional": { "quench": 1.2 },
     "relative": { "fun": 1 },
-    "use_action": [  ]
+    "use_action": []
   },
   {
     "type": "COMESTIBLE",
@@ -1435,7 +1800,10 @@
     "description": "Hot tea with cold milk and added sweetener.",
     "price": 460,
     "price_postapoc": 60,
-    "vitamins": [ [ "vitC", 2 ], [ "calcium", 12 ] ],
+    "vitamins": [
+      [ "vitC", 2 ],
+      [ "calcium", 12 ]
+    ],
     "fun": 14
   },
   {
@@ -1481,7 +1849,11 @@
     "volume": "250 ml",
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitC", 120 ], [ "calcium", 2 ], [ "iron", 2 ] ],
+    "vitamins": [
+      [ "vitC", 120 ],
+      [ "calcium", 2 ],
+      [ "iron", 2 ]
+    ],
     "fun": 2
   }
 ]
