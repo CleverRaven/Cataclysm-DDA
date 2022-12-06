@@ -343,7 +343,7 @@
     "price": 7500,
     "price_postapoc": 3000,
     "to_hit": -1,
-    "material": [ "fancy_bronze", "leather_hardened" ],
+    "material": [ "fancy_bronze", "leather" ],
     "symbol": "[",
     "looks_like": "chainmail_legs",
     "repairs_like": "legguard_bronze",
