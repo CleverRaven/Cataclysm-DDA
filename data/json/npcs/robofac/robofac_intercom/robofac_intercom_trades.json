@@ -110,7 +110,7 @@
       "type": "dialogue",
       "context": "intercom",
       "value": "yes",
-      "no": "Great!  This looks like a very high-quality recording.  Here's the agreed payment, and a small bonus.\"  The tray slides shut, and quickly reopens with your payment.  \"Given your performance and our constant need for new data, you are free to keep the recorder for further use.  We are willing to pay for any future data that you're able to record.",
+      "no": "Great!  This looks like a very high-quality recording.  Because this data is much better we are willing to pay five times what we paid for the base data collected.\"  The tray slides shut, and quickly reopens with your payment.  \"Given your performance and our constant need for new data, you are free to keep the recorder for further use.  We are willing to pay for any future data that you're able to record.",
       "yes": "&\"Excellent.\"  The recording changes hands."
     },
     "speaker_effect": {
@@ -129,7 +129,7 @@
       "type": "dialogue",
       "context": "intercom",
       "value": "yes",
-      "no": "Uh… please allow me a second to check this in.\"  The tray slides shut, and the intercom turns off.  Roughly a minute later, it turns back on.  \"Well, it looks like this is a real treasure trove of information.  In fact, you've made quite an impression on R&D, and probably just saved us a few weeks of research at the least.  They demanded you were given triple the agreed payment, so… well, there you go.\"  The tray slides open, revealing an impressive pile of coins.\n\n\"Given your performance and our constant need for new data, you are free to keep the recorder for further use.  We are willing to pay for any future data that you're able to record.",
+      "no": "Uh… please allow me a second to check this in.\"  The tray slides shut, and the intercom turns off.  Roughly a minute later, it turns back on.  \"Well, it looks like this is a real treasure trove of information.  In fact, you've made quite an impression on R&D, and probably just saved us a few weeks of research at the least.  They demanded you be given a pretty large accomplishment bonus, so… well, there you go.\"  The tray slides open, revealing an impressive pile of coins.\n\n\"Given your performance and our constant need for new data, you are free to keep the recorder for further use.  We are willing to pay for any future data that you're able to record.",
       "yes": "Fantastic.\"  The recording changes hands.  \"At this rate, we'll have some real results soon."
     },
     "speaker_effect": {
