@@ -98,6 +98,22 @@
     "flags": [ "VARSIZE", "STURDY", "OUTER" ],
     "armor": [
       {
+        "material": [
+          {
+            "type": "leather_hardened",
+            "covered_by_mat": 100,
+            "thickness": 4
+          }
+        ],
+        "encumbrance": 8,
+        "coverage": 100,
+        "cover_ranged": 95,
+        "cover_vitals": 70,
+        "covers": [
+          "torso"
+        ]
+      },
+      {
         "material": [ { "type": "leather_hardened", "covered_by_mat": 100, "thickness": 4 } ],
         "encumbrance": 4,
         "coverage": 90,
