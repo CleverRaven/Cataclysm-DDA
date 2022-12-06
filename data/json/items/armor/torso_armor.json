@@ -93,25 +93,18 @@
     "looks_like": "vest_leather",
     "color": "brown",
     "warmth": 20,
+    "copy-from": "armor_chitin",
     "longest_side": "60 cm",
     "material_thickness": 3,
     "flags": [ "VARSIZE", "STURDY", "OUTER" ],
     "armor": [
       {
-        "material": [
-          {
-            "type": "leather_hardened",
-            "covered_by_mat": 100,
-            "thickness": 4
-          }
-        ],
+        "material": [ { "type": "leather_hardened", "covered_by_mat": 100, "thickness": 4 } ],
         "encumbrance": 8,
         "coverage": 100,
         "cover_ranged": 95,
         "cover_vitals": 70,
-        "covers": [
-          "torso"
-        ]
+        "covers": [ "torso" ]
       },
       {
         "material": [ { "type": "leather_hardened", "covered_by_mat": 100, "thickness": 4 } ],
