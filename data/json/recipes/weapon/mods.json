@@ -286,7 +286,7 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "skills_required": [ [ "cutting", 2 ] ],
+    "skills_required": [ [ "gun", 2 ], [ "rifle", 1 ] ],
     "time": "30 m",
     "autolearn": true,
     "tools": [ [ [ "large_repairkit", 25 ], [ "small_repairkit", 45 ] ] ],
@@ -730,6 +730,7 @@
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
     "difficulty": 3,
+    "skills_required": [ [ "cutting", 2 ] ],
     "time": "10 m",
     "qualities": [
       { "id": "WRENCH", "level": 1 },
