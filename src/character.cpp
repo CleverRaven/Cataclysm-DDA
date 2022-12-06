@@ -4371,6 +4371,7 @@ void Character::update_health()
         mod_health_tally( -mean_daily_health );
         set_daily_health( 0 );
     }
+    
     add_msg_debug( debugmode::DF_CHAR_HEALTH, "Lifestyle: %d, Daily health: %d", get_lifestyle(),
                    get_daily_health() );
 }
