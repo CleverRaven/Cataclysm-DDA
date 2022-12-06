@@ -232,10 +232,7 @@
   {
     "type": "GENERIC",
     "id": "leaves",
-    "name": {
-      "str": "handful of leaves",
-      "str_pl": "handfuls of leaves"
-    },
+    "name": { "str": "handful of leaves", "str_pl": "handfuls of leaves" },
     "looks_like": "withered",
     "description": "Some ordinary, mostly dry leaves.  They have very few uses and are thus (almost) only good for burning.",
     "weight": "30 g",
@@ -341,20 +338,14 @@
     "category": "spare_parts",
     "symbol": ",",
     "color": "light_gray",
-    "name": {
-      "str": "chunk of chitin",
-      "str_pl": "chunks of chitin"
-    },
+    "name": { "str": "chunk of chitin", "str_pl": "chunks of chitin" },
     "snippet_category": "chitin_desc",
     "description": "A piece of an insect's exoskeleton.  It is light and very durable.",
     "price": 0,
     "price_postapoc": 25,
     "material": [ "chitin" ],
     "flags": [ "NO_SALVAGE" ],
-    "milling": {
-      "into": "meal_chitin_piece",
-      "conversion_rate": 4
-    },
+    "milling": { "into": "meal_chitin_piece", "conversion_rate": 4 },
     "weight": "89 g",
     "volume": "250 ml",
     "bashing": 1,
@@ -366,19 +357,13 @@
     "category": "spare_parts",
     "symbol": ",",
     "color": "light_gray",
-    "name": {
-      "str": "strand of endochitin",
-      "str_pl": "strands of endochitin"
-    },
+    "name": { "str": "strand of endochitin", "str_pl": "strands of endochitin" },
     "snippet_category": "endochitin_desc",
     "description": "A piece of an insect's endoskeleton.",
     "price": 0,
     "material": [ "chitin" ],
     "flags": [ "NO_SALVAGE" ],
-    "milling": {
-      "into": "meal_chitin_piece",
-      "conversion_rate": 4
-    },
+    "milling": { "into": "meal_chitin_piece", "conversion_rate": 4 },
     "weight": "89 g",
     "volume": "300 ml",
     "bashing": 1
@@ -389,10 +374,7 @@
     "comestible_type": "FOOD",
     "symbol": "o",
     "color": "light_gray",
-    "name": {
-      "str": "cluster of gas sacs",
-      "str_pl": "clusters of gas sacs"
-    },
+    "name": { "str": "cluster of gas sacs", "str_pl": "clusters of gas sacs" },
     "description": "This is a cluster of membranous bubbles, each about the size of a grape, retrieved from inside a mutant insect.  They float like tiny helium balloons - perhaps they are full of a lighter-than-air gas.",
     "price": 0,
     "material": [ "flesh" ],
@@ -409,10 +391,7 @@
     "category": "spare_parts",
     "symbol": "o",
     "color": "light_gray",
-    "name": {
-      "str": "ballast organs",
-      "str_pl": "clusters of ballast organs"
-    },
+    "name": { "str": "ballast organs", "str_pl": "clusters of ballast organs" },
     "description": "This is a cluster of hydrostatic organs, each about the size of a baseball, retrieved from inside a kraken mutant.  Some of them seem to be lighter than air, and some seem to weigh as much as air.",
     "price": 0,
     "material": [ "flesh" ],
@@ -425,10 +404,7 @@
     "type": "GENERIC",
     "id": "acidchitin_piece",
     "copy-from": "chitin_piece",
-    "name": {
-      "str": "chunk of biosilicified chitin",
-      "str_pl": "chunks of biosilicified chitin"
-    },
+    "name": { "str": "chunk of biosilicified chitin", "str_pl": "chunks of biosilicified chitin" },
     "description": "A lump of exoskeleton that has undergone biosilicification.  It is acid-resistant but rather brittle.",
     "material": [ "acidchitin" ],
     "flags": [ "NO_SALVAGE" ],
@@ -439,10 +415,7 @@
     "id": "bundle_rag",
     "type": "GENERIC",
     "category": "spare_parts",
-    "name": {
-      "str": "bundle of cotton patches",
-      "str_pl": "bundles of cotton patches"
-    },
+    "name": { "str": "bundle of cotton patches", "str_pl": "bundles of cotton patches" },
     "description": "Cotton patches, bundled tightly together for storage.  Disassemble to unpack.",
     "weight": "500 g",
     "volume": "500 ml",
@@ -456,10 +429,7 @@
     "id": "bundle_cotton",
     "type": "GENERIC",
     "category": "spare_parts",
-    "name": {
-      "str": "bundle of cotton sheets",
-      "str_pl": "bundles of cotton sheets"
-    },
+    "name": { "str": "bundle of cotton sheets", "str_pl": "bundles of cotton sheets" },
     "description": "Cotton sheets, bundled tightly together for storage.  Disassemble to unpack.",
     "weight": "950 g",
     "volume": "1000 ml",
@@ -473,10 +443,7 @@
     "id": "bundle_leather",
     "type": "GENERIC",
     "category": "spare_parts",
-    "name": {
-      "str": "bundle of leather",
-      "str_pl": "bundles of leather"
-    },
+    "name": { "str": "bundle of leather", "str_pl": "bundles of leather" },
     "description": "Leather patches, bundled tightly together for storage.  Disassemble to unpack.",
     "weight": "1250 g",
     "volume": "1150 ml",
@@ -490,10 +457,7 @@
     "id": "bundle_wool",
     "type": "GENERIC",
     "category": "spare_parts",
-    "name": {
-      "str": "bundle of felt",
-      "str_pl": "bundles of felt"
-    },
+    "name": { "str": "bundle of felt", "str_pl": "bundles of felt" },
     "description": "Felt patches, bundled tightly together for storage.  Disassemble to unpack.",
     "weight": "300 g",
     "volume": "1 L",
@@ -507,10 +471,7 @@
     "id": "bundle_plank",
     "type": "GENERIC",
     "category": "spare_parts",
-    "name": {
-      "str": "bundle of planks",
-      "str_pl": "bundles of planks"
-    },
+    "name": { "str": "bundle of planks", "str_pl": "bundles of planks" },
     "description": "Ten construction planks securely tied together for easier transport.  Disassemble to untie them.",
     "//": "total volume is equal to 10 planks, assuming uniformity and tight stacking",
     "volume": "41300 ml",
@@ -526,10 +487,7 @@
     "id": "bundle_rebar",
     "type": "GENERIC",
     "category": "spare_parts",
-    "name": {
-      "str": "bundle of rebars",
-      "str_pl": "bundles of rebars"
-    },
+    "name": { "str": "bundle of rebars", "str_pl": "bundles of rebars" },
     "description": "Ten pieces of rebar securely tied together for easier transport.  Disassemble to untie them.",
     "//": "total volume is equal to 10 rebars, assuming uniformity and tight stacking",
     "volume": "1600 ml",
@@ -545,10 +503,7 @@
     "id": "bundle_pipe",
     "type": "GENERIC",
     "category": "spare_parts",
-    "name": {
-      "str": "bundle of pipes",
-      "str_pl": "bundles of pipes"
-    },
+    "name": { "str": "bundle of pipes", "str_pl": "bundles of pipes" },
     "description": "Ten pipes securely tied together for easier transport.  Disassemble to untie them.",
     "//": "total volume is equal to 10 pipes, assuming uniformity and tight stacking",
     "volume": "3700 ml",
@@ -564,10 +519,7 @@
     "id": "bundle_copper_pipe",
     "type": "GENERIC",
     "category": "spare_parts",
-    "name": {
-      "str": "bundle of copper tubing",
-      "str_pl": "bundles of copper tubing"
-    },
+    "name": { "str": "bundle of copper tubing", "str_pl": "bundles of copper tubing" },
     "description": "Ten copper pipes securely tied together for easier transport.  Disassemble to untie them.",
     "//": "total volume is equal to 10 pipes, assuming uniformity and tight stacking",
     "volume": "3700 ml",
@@ -583,10 +535,7 @@
     "id": "bundle_branch",
     "type": "GENERIC",
     "category": "spare_parts",
-    "name": {
-      "str": "bundle of sticks",
-      "str_pl": "bundles of sticks"
-    },
+    "name": { "str": "bundle of sticks", "str_pl": "bundles of sticks" },
     "description": "Ten sticks securely tied together for easier transport.  Disassemble to untie them.",
     "//": "total volume is greater than 10 sticks; irregular dimensions leave air gaps",
     "volume": "30 L",
@@ -602,10 +551,7 @@
     "id": "bundle_branch_long",
     "type": "GENERIC",
     "category": "spare_parts",
-    "name": {
-      "str": "bundle of long sticks",
-      "str_pl": "bundles of long sticks"
-    },
+    "name": { "str": "bundle of long sticks", "str_pl": "bundles of long sticks" },
     "description": "Five long sticks securely tied together for easier transport.  Disassemble to untie them.",
     "//": "total volume is greater than 5 long sticks, since they are rough lumber and do not stack perfectly",
     "volume": "30 L",
@@ -621,10 +567,7 @@
     "id": "bundle_javelin",
     "type": "GENERIC",
     "category": "other",
-    "name": {
-      "str": "bundle of javelins",
-      "str_pl": "bundles of javelins"
-    },
+    "name": { "str": "bundle of javelins", "str_pl": "bundles of javelins" },
     "description": "Five wooden javelins securely tied together for easier transport.  Disassemble to untie them.",
     "//": "total volume is greater than 5 wooden javelins, since they are rough lumber and do not stack perfectly",
     "volume": "7 L",
@@ -678,10 +621,7 @@
     "volume": "263 ml",
     "bashing": 2,
     "to_hit": -1,
-    "qualities": [
-      [ "BOIL", 2 ],
-      [ "CONTAIN", 1 ]
-    ],
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -740,11 +680,7 @@
     "weight": "18 g",
     "volume": "5 ml",
     "pocket_data": [
-      {
-        "pocket_type": "SOFTWARE",
-        "max_contains_volume": "1 L",
-        "max_contains_weight": "1 kg"
-      },
+      { "pocket_type": "SOFTWARE", "max_contains_volume": "1 L", "max_contains_weight": "1 kg" },
       {
         "pocket_type": "EBOOK",
         "rigid": true,
@@ -779,12 +715,7 @@
     "volume": "7958 ml",
     "longest_side": "30 cm",
     "price": 0,
-    "to_hit": {
-      "grip": "solid",
-      "length": "short",
-      "surface": "any",
-      "balance": "uneven"
-    },
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "uneven" },
     "bashing": 4,
     "material": [ "steel", "thermo_resin" ],
     "symbol": "?",
@@ -977,10 +908,7 @@
     "id": "wire_mesh",
     "symbol": ";",
     "color": "light_gray",
-    "name": {
-      "str": "steel mesh",
-      "str_pl": "steel meshes"
-    },
+    "name": { "str": "steel mesh", "str_pl": "steel meshes" },
     "description": "A mat of woven fine steel wire, useful for dryer lint traps and reusable coffee filter baskets.  You could put these on a window to keep mosquitoes and other bugs out, but chain link fencing will do these days.",
     "category": "spare_parts",
     "weight": "318 g",
@@ -1051,10 +979,7 @@
     "weight": "10 g",
     "volume": "25 ml",
     "to_hit": -5,
-    "milling": {
-      "into": "meal_bone_tainted",
-      "conversion_rate": 0.16
-    },
+    "milling": { "into": "meal_bone_tainted", "conversion_rate": 0.16 },
     "qualities": [ [ "COOK", 1 ] ]
   },
   {
@@ -1062,10 +987,7 @@
     "id": "torch_done",
     "symbol": "/",
     "color": "brown",
-    "name": {
-      "str": "burnt out torch",
-      "str_pl": "burnt out torches"
-    },
+    "name": { "str": "burnt out torch", "str_pl": "burnt out torches" },
     "description": "A torch that has consumed all its fuel; it can be recrafted into another torch.",
     "category": "other",
     "material": [ "wood" ],
@@ -1208,10 +1130,7 @@
     "volume": "240 L",
     "bashing": 5,
     "to_hit": -5,
-    "use_action": {
-      "type": "deploy_furn",
-      "furn_type": "f_water_heater"
-    }
+    "use_action": { "type": "deploy_furn", "furn_type": "f_water_heater" }
   },
   {
     "type": "GENERIC",
@@ -1369,10 +1288,7 @@
     "type": "GENERIC",
     "id": "broken_robofac_camspy",
     "copy-from": "broken_eyebot",
-    "name": {
-      "str": "broken camspy",
-      "str_pl": "broken camspies"
-    },
+    "name": { "str": "broken camspy", "str_pl": "broken camspies" },
     "description": "A broken camspy.  It probably won't spy on anything ever again.  Could be gutted for parts."
   },
   {
@@ -1596,10 +1512,7 @@
     "id": "broken_dispatch",
     "symbol": ",",
     "color": "yellow",
-    "name": {
-      "str": "broken riot dispatch",
-      "str_pl": "broken riot dispatches"
-    },
+    "name": { "str": "broken riot dispatch", "str_pl": "broken riot dispatches" },
     "category": "other",
     "description": "A broken riot dispatch, with its mesh midsection filled with fried manhacks and its motor limp and still.  Could be gutted for parts.",
     "price": 1000,
@@ -1646,23 +1559,14 @@
     "price": 500,
     "price_postapoc": 50,
     "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE",
-        "rigid": false,
-        "ammo_restriction": { "paper": 90 }
-      }
-    ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": false, "ammo_restriction": { "paper": 90 } } ]
   },
   {
     "type": "GENERIC",
     "id": "broken_dispatch_military",
     "symbol": ",",
     "color": "green",
-    "name": {
-      "str": "broken military dispatch",
-      "str_pl": "broken military dispatches"
-    },
+    "name": { "str": "broken military dispatch", "str_pl": "broken military dispatches" },
     "category": "other",
     "description": "A broken military dispatch.  Though the scratched manhacks visible in its belly are disarmed, their destructive potential still inspires a spark of fear, even now.  Could be gutted for parts.",
     "price": 1000,
@@ -1944,10 +1848,7 @@
     "id": "lens",
     "symbol": ".",
     "color": "light_cyan",
-    "name": {
-      "str": "high-quality lens",
-      "str_pl": "high-quality lenses"
-    },
+    "name": { "str": "high-quality lens", "str_pl": "high-quality lenses" },
     "category": "spare_parts",
     "description": "A high-quality lens, useful for focusing or diffusing light.  Might be useful for starting a fire.",
     "price": 120000,
@@ -1956,12 +1857,7 @@
     "weight": "30 g",
     "volume": "10 ml",
     "to_hit": -3,
-    "use_action": {
-      "type": "firestarter",
-      "moves": 1000,
-      "moves_slow": 30000,
-      "need_sunlight": true
-    },
+    "use_action": { "type": "firestarter", "moves": 1000, "moves_slow": 30000, "need_sunlight": true },
     "flags": [ "FIRESTARTER" ]
   },
   {
@@ -1969,10 +1865,7 @@
     "id": "lens_small",
     "symbol": ".",
     "color": "light_cyan",
-    "name": {
-      "str": "small high-quality lens",
-      "str_pl": "small high-quality lenses"
-    },
+    "name": { "str": "small high-quality lens", "str_pl": "small high-quality lenses" },
     "category": "spare_parts",
     "description": "A small high-quality lens, useful for focusing or diffusing light.  Might be useful for crafting.",
     "price": 6000,
@@ -1986,10 +1879,7 @@
     "id": "glass_tinted",
     "symbol": ".",
     "color": "dark_gray",
-    "name": {
-      "str": "pair of tinted glass",
-      "str_pl": "pairs of tinted glass"
-    },
+    "name": { "str": "pair of tinted glass", "str_pl": "pairs of tinted glass" },
     "category": "spare_parts",
     "description": "A pair of small darkened glass, like the one that sunglasses are made of.",
     "price": 1000,
@@ -2048,10 +1938,7 @@
     "id": "template_photonics",
     "copy-from": "standard_template_construct",
     "color": "yellow",
-    "name": {
-      "str": "nanofabricator template (silicon photonics)",
-      "str_pl": "nanofabricator templates (silicon photonics)"
-    },
+    "name": { "str": "nanofabricator template (silicon photonics)", "str_pl": "nanofabricator templates (silicon photonics)" },
     "description": "A state-of-the-art optical storage system, containing the instruction set required for the fabrication of complex silicon photonic circuitry.  The data within was once clearly worth millions, but now, you are not sure if it's anything more than a fancy, high-tech paperweight.",
     "price": 200000000,
     "price_postapoc": 3000,
@@ -2063,10 +1950,7 @@
     "id": "template_armor",
     "copy-from": "standard_template_construct",
     "color": "yellow",
-    "name": {
-      "str": "nanofabricator template (UHMWPE)",
-      "str_pl": "nanofabricator templates (UHMWPE)"
-    },
+    "name": { "str": "nanofabricator template (UHMWPE)", "str_pl": "nanofabricator templates (UHMWPE)" },
     "description": "A state-of-the-art optical storage system, containing the instruction set required for the fabrication of advanced armor materials.  This seems to just be routines to work with the materials not actual armor schematics.",
     "price": 100000000,
     "price_postapoc": 3000,
@@ -2251,10 +2135,7 @@
     "looks_like": "mobile_memory_card",
     "symbol": ",",
     "color": "white",
-    "name": {
-      "str": "SD-Memory card (clean)",
-      "str_pl": "SD-Memory cards (clean)"
-    },
+    "name": { "str": "SD-Memory card (clean)", "str_pl": "SD-Memory cards (clean)" },
     "description": "This memory card is either unused or has been wiped clean.  You could use it to store your data, though!",
     "price": 500,
     "price_postapoc": 10,
@@ -2279,10 +2160,7 @@
     "looks_like": "mobile_memory_card",
     "symbol": ",",
     "color": "white",
-    "name": {
-      "str": "SD-Memory card (encrypted)",
-      "str_pl": "SD-Memory cards (encrypted)"
-    },
+    "name": { "str": "SD-Memory card (encrypted)", "str_pl": "SD-Memory cards (encrypted)" },
     "description": "This memory card appears to have the firmware encryption set.  Hopefully it contains something worth encrypting.",
     "price": 2000,
     "price_postapoc": 10,
@@ -2547,16 +2425,7 @@
     "weight": "300 g",
     "color": "white",
     "symbol": ",",
-    "material": [
-      {
-        "type": "veggy",
-        "portion": 4
-      },
-      {
-        "type": "glass",
-        "portion": 1
-      }
-    ],
+    "material": [ { "type": "veggy", "portion": 4 }, { "type": "glass", "portion": 1 } ],
     "//1": "A medium sized bouquet is roughly 13\" x 5.5\" x 5.5\", or roughly 6.4 L. When withered, I'm estimating a 30% shrinkage in volume, or 4.5 L.",
     "volume": "4500 ml",
     "price": 0,
@@ -2595,10 +2464,7 @@
     "id": "clay_lump",
     "symbol": ",",
     "color": "brown",
-    "name": {
-      "str": "lump of clay",
-      "str_pl": "lumps of clay"
-    },
+    "name": { "str": "lump of clay", "str_pl": "lumps of clay" },
     "category": "spare_parts",
     "description": "A fresh piece of clay.  Useful for some crafting recipes.",
     "price": 531,
@@ -2858,10 +2724,7 @@
     "id": "ruby",
     "copy-from": "garnet",
     "color": "red",
-    "name": {
-      "str": "ruby",
-      "str_pl": "rubies"
-    },
+    "name": { "str": "ruby", "str_pl": "rubies" },
     "description": "A sparkling ruby."
   },
   {
@@ -2909,10 +2772,7 @@
     "id": "blue_topaz",
     "copy-from": "garnet",
     "color": "light_blue",
-    "name": {
-      "str": "topaz",
-      "str_pl": "topazes"
-    },
+    "name": { "str": "topaz", "str_pl": "topazes" },
     "description": "A sparkling blue topaz."
   },
   {
@@ -2920,10 +2780,7 @@
     "id": "onyx",
     "copy-from": "garnet",
     "color": "dark_gray",
-    "name": {
-      "str": "onyx",
-      "str_pl": "onyxes"
-    },
+    "name": { "str": "onyx", "str_pl": "onyxes" },
     "description": "A beautiful black onyx."
   },
   {
@@ -2931,10 +2788,7 @@
     "id": "straw_pile",
     "symbol": ",",
     "color": "light_gray",
-    "name": {
-      "str": "pile of straw",
-      "str_pl": "piles of straw"
-    },
+    "name": { "str": "pile of straw", "str_pl": "piles of straw" },
     "category": "spare_parts",
     "description": "A pile of dry grass.  Can be used to craft a straw bed if there is nothing else to sleep on.",
     "material": [ "paper" ],
@@ -3163,10 +3017,7 @@
     "type": "AMMO",
     "ammo_type": "NULL",
     "category": "other",
-    "name": {
-      "str": "autoclave pouch",
-      "str_pl": "autoclave pouches"
-    },
+    "name": { "str": "autoclave pouch", "str_pl": "autoclave pouches" },
     "description": "This is a medical device that bears the approval of the FDA (Food and Drug Administration).  If used properly, these pouches can keep things sterile indefinitely.",
     "weight": "2 g",
     "volume": "1 ml",
@@ -3191,11 +3042,7 @@
     "category": "drugs",
     "emits": [ "emit_tobacco_trail" ],
     "use_action": [
-      {
-        "type": "firestarter",
-        "moves": 200,
-        "moves_slow": 2000
-      },
+      { "type": "firestarter", "moves": 200, "moves_slow": 2000 },
       {
         "target": "cigar_butt",
         "msg": "You extinguish the cigar.",
@@ -3209,13 +3056,7 @@
       "warmth": 6,
       "armor": [
         {
-          "material": [
-            {
-              "type": "paper",
-              "covered_by_mat": 100,
-              "thickness": 0.1
-            }
-          ],
+          "material": [ { "type": "paper", "covered_by_mat": 100, "thickness": 0.1 } ],
           "encumbrance": 25,
           "coverage": 70,
           "covers": [ "mouth" ]
@@ -3248,11 +3089,7 @@
     "category": "drugs",
     "emits": [ "emit_tobacco_trail" ],
     "use_action": [
-      {
-        "type": "firestarter",
-        "moves": 200,
-        "moves_slow": 2000
-      },
+      { "type": "firestarter", "moves": 200, "moves_slow": 2000 },
       {
         "target": "cig_butt",
         "msg": "You extinguish the cigarette.",
@@ -3266,13 +3103,7 @@
       "warmth": 3,
       "armor": [
         {
-          "material": [
-            {
-              "type": "paper",
-              "covered_by_mat": 100,
-              "thickness": 0.1
-            }
-          ],
+          "material": [ { "type": "paper", "covered_by_mat": 100, "thickness": 0.1 } ],
           "encumbrance": 15,
           "coverage": 25,
           "covers": [ "mouth" ]
@@ -3305,11 +3136,7 @@
     "category": "drugs",
     "emits": [ "emit_joint_trail" ],
     "use_action": [
-      {
-        "type": "firestarter",
-        "moves": 200,
-        "moves_slow": 2000
-      },
+      { "type": "firestarter", "moves": 200, "moves_slow": 2000 },
       {
         "target": "joint_roach",
         "msg": "You extinguish the joint.",
@@ -3323,13 +3150,7 @@
       "warmth": 3,
       "armor": [
         {
-          "material": [
-            {
-              "type": "paper",
-              "covered_by_mat": 100,
-              "thickness": 0.1
-            }
-          ],
+          "material": [ { "type": "paper", "covered_by_mat": 100, "thickness": 0.1 } ],
           "encumbrance": 15,
           "coverage": 25,
           "covers": [ "mouth" ]
@@ -3341,10 +3162,7 @@
   {
     "type": "GENERIC",
     "id": "joint_roach",
-    "name": {
-      "str": "joint roach",
-      "str_pl": "joint roaches"
-    },
+    "name": { "str": "joint roach", "str_pl": "joint roaches" },
     "color": "green",
     "symbol": "!",
     "description": "The smoked-down butt of a joint, a reminder of some good times.  Pretty much trash now.  Bummer, man.\nA few of these could probably be used to roll another joint.",
@@ -3396,13 +3214,7 @@
     "weight": "3 g",
     "volume": "5 ml",
     "to_hit": -3,
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE",
-        "rigid": true,
-        "ammo_restriction": { "money": 200000000 }
-      }
-    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "money": 200000000 } } ],
     "rand_charges": [
       0,
       1,
@@ -3523,10 +3335,7 @@
     "id": "neoprene",
     "symbol": ",",
     "color": "dark_gray",
-    "name": {
-      "str": "neoprene patch",
-      "str_pl": "neoprene patches"
-    },
+    "name": { "str": "neoprene patch", "str_pl": "neoprene patches" },
     "description": "A small neoprene patch.  Can be used to repair neoprene clothing.",
     "price": 1000,
     "price_postapoc": 100,
@@ -3691,10 +3500,7 @@
     "category": "spare_parts",
     "symbol": "P",
     "color": "dark_gray",
-    "name": {
-      "str": "small lock and key",
-      "str_pl": "small locks and keys"
-    },
+    "name": { "str": "small lock and key", "str_pl": "small locks and keys" },
     "description": "A small lock, with a set of keys still inserted.",
     "price": 500,
     "price_postapoc": 10,
@@ -3722,10 +3528,7 @@
     "id": "disassembly",
     "symbol": "%",
     "color": "white",
-    "name": {
-      "str": "in progress disassembly",
-      "str_pl": "in progress disassemblies"
-    },
+    "name": { "str": "in progress disassembly", "str_pl": "in progress disassemblies" },
     "description": "This is an in progress disassembly.",
     "price": 0,
     "price_postapoc": 0,
@@ -3809,10 +3612,7 @@
     "id": "broken_turret_rifle",
     "symbol": ",",
     "color": "green",
-    "name": {
-      "str": "broken M249 autonomous CROWS II",
-      "str_pl": "broken M249 autonomous CROWS II turrets"
-    },
+    "name": { "str": "broken M249 autonomous CROWS II", "str_pl": "broken M249 autonomous CROWS II turrets" },
     "weight": "75 kg",
     "copy-from": "broken_turret"
   },
@@ -3821,10 +3621,7 @@
     "id": "broken_crows_m240",
     "symbol": ",",
     "color": "green",
-    "name": {
-      "str": "broken M240 autonomous CROWS II",
-      "str_pl": "broken M240 autonomous CROWS II turrets"
-    },
+    "name": { "str": "broken M240 autonomous CROWS II", "str_pl": "broken M240 autonomous CROWS II turrets" },
     "weight": "75 kg",
     "copy-from": "broken_turret"
   },
@@ -3833,10 +3630,7 @@
     "id": "broken_turret_bmg",
     "symbol": ",",
     "color": "green",
-    "name": {
-      "str": "broken M2 autonomous CROWS II",
-      "str_pl": "broken M2 autonomous CROWS II turrets"
-    },
+    "name": { "str": "broken M2 autonomous CROWS II", "str_pl": "broken M2 autonomous CROWS II turrets" },
     "weight": "100 kg",
     "copy-from": "broken_turret"
   },
@@ -4209,14 +4003,7 @@
         ]
       }
     ],
-    "armor": [
-      {
-        "encumbrance": 2,
-        "coverage": 100,
-        "covers": [ "torso" ],
-        "specifically_covers": [ "torso_neck" ]
-      }
-    ]
+    "armor": [ { "encumbrance": 2, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_neck" ] } ]
   },
   {
     "id": "lanyard",
@@ -4279,13 +4066,7 @@
         ]
       }
     ],
-    "armor": [
-      {
-        "encumbrance": 0,
-        "covers": [ "torso" ],
-        "specifically_covers": [ "torso_neck" ]
-      }
-    ]
+    "armor": [ { "encumbrance": 0, "covers": [ "torso" ], "specifically_covers": [ "torso_neck" ] } ]
   },
   {
     "type": "GENERIC",
@@ -4418,10 +4199,7 @@
     "id": "training_dummy_light",
     "symbol": "@",
     "color": "brown",
-    "name": {
-      "str": "training dummy",
-      "str_pl": "training dummies"
-    },
+    "name": { "str": "training dummy", "str_pl": "training dummies" },
     "category": "other",
     "description": "A hand-made humanoid figure, useful for training in close quarters combat.  This one is made from wood and it has some duct tape to mark the striking points.  You need to embed it into the ground for training.",
     "price": 15000,
@@ -4437,10 +4215,7 @@
     "id": "training_dummy_heavy",
     "symbol": "@",
     "color": "light_gray",
-    "name": {
-      "str": "armored training dummy",
-      "str_pl": "armored training dummies"
-    },
+    "name": { "str": "armored training dummy", "str_pl": "armored training dummies" },
     "category": "other",
     "description": "A hand-made humanoid figure, useful for training in close quarters combat.  This one is covered in scrap armor and looks on guard.  You need to embed it into the ground for training.",
     "price": 15000,
@@ -4461,13 +4236,7 @@
     "description": "A soft target for archery consisting of tightly-packed cloth stuffed into a cardboard box, with a bullseye marked on the front.  Must be set up to use.",
     "price": 3000,
     "price_postapoc": 200,
-    "material": [
-      {
-        "type": "cotton",
-        "portion": 9
-      },
-      { "type": "cardboard" }
-    ],
+    "material": [ { "type": "cotton", "portion": 9 }, { "type": "cardboard" } ],
     "weight": "16 kg",
     "volume": "50 L",
     "longest_side": "60 cm",

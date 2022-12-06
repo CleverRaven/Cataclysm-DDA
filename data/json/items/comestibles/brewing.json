@@ -19,10 +19,7 @@
     "charges": 5,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "brewable": {
-      "time": "7 days",
-      "results": [ "wine_mycus", "yeast" ]
-    }
+    "brewable": { "time": "7 days", "results": [ "wine_mycus", "yeast" ] }
   },
   {
     "type": "COMESTIBLE",
@@ -44,10 +41,7 @@
     "charges": 5,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "brewable": {
-      "time": "7 days",
-      "results": [ "wine_marloss", "yeast" ]
-    }
+    "brewable": { "time": "7 days", "results": [ "wine_marloss", "yeast" ] }
   },
   {
     "type": "COMESTIBLE",
@@ -69,19 +63,13 @@
     "charges": 7,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "brewable": {
-      "time": "7 days",
-      "results": [ "wash_whiskey", "yeast" ]
-    }
+    "brewable": { "time": "7 days", "results": [ "wash_whiskey", "yeast" ] }
   },
   {
     "type": "COMESTIBLE",
     "id": "wash_whiskey",
     "looks_like": "whiskey",
-    "name": {
-      "str": "whiskey wash",
-      "str_pl": "whiskey washes"
-    },
+    "name": { "str": "whiskey wash", "str_pl": "whiskey washes" },
     "description": "Fermented, but not distilled whiskey.  No longer tastes sweet.",
     "weight": "50 g",
     "color": "brown",
@@ -109,10 +97,7 @@
     "type": "COMESTIBLE",
     "id": "brew_gin",
     "looks_like": "gin_mash",
-    "name": {
-      "str": "gin mash",
-      "str_pl": "gin mashes"
-    },
+    "name": { "str": "gin mash", "str_pl": "gin mashes" },
     "description": "Unfermented gin mash.  Fermenting it will produce gin.",
     "weight": "36 g",
     "color": "brown",
@@ -128,19 +113,13 @@
     "charges": 7,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "brewable": {
-      "time": "7 days",
-      "results": [ "gin_mash" ]
-    }
+    "brewable": { "time": "7 days", "results": [ "gin_mash" ] }
   },
   {
     "type": "COMESTIBLE",
     "id": "gin_mash",
     "looks_like": "gin",
-    "name": {
-      "str": "gin wash",
-      "str_pl": "gin washes"
-    },
+    "name": { "str": "gin wash", "str_pl": "gin washes" },
     "description": "Gin wash, after the junipers have had time to add flavor.  Ready to be distilled or drunk as is.",
     "weight": "35 g",
     "color": "yellow",
@@ -184,10 +163,7 @@
     "charges": 7,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "brewable": {
-      "time": "7 days",
-      "results": [ "sake_unfiltered", "koji", "yeast" ]
-    }
+    "brewable": { "time": "7 days", "results": [ "sake_unfiltered", "koji", "yeast" ] }
   },
   {
     "type": "COMESTIBLE",
@@ -210,10 +186,7 @@
     "phase": "liquid",
     "comestible_type": "DRINK",
     "freezing_point": -30,
-    "brewable": {
-      "time": "21 days",
-      "results": [ "soy_sauce_unstrained" ]
-    }
+    "brewable": { "time": "21 days", "results": [ "soy_sauce_unstrained" ] }
   },
   {
     "type": "COMESTIBLE",
@@ -257,19 +230,13 @@
     "phase": "liquid",
     "comestible_type": "DRINK",
     "flags": [ "NUTRIENT_OVERRIDE" ],
-    "brewable": {
-      "time": "7 days",
-      "results": [ "wash_vodka", "yeast" ]
-    }
+    "brewable": { "time": "7 days", "results": [ "wash_vodka", "yeast" ] }
   },
   {
     "type": "COMESTIBLE",
     "id": "wash_vodka",
     "looks_like": "vodka",
-    "name": {
-      "str": "vodka wash",
-      "str_pl": "vodka washes"
-    },
+    "name": { "str": "vodka wash", "str_pl": "vodka washes" },
     "description": "Fermented, but not distilled vodka.  No longer tastes sweet.",
     "weight": "36 g",
     "color": "light_cyan",
@@ -313,19 +280,13 @@
     "charges": 7,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "brewable": {
-      "time": "7 days",
-      "results": [ "wash_rum", "yeast" ]
-    }
+    "brewable": { "time": "7 days", "results": [ "wash_rum", "yeast" ] }
   },
   {
     "type": "COMESTIBLE",
     "id": "wash_rum",
     "looks_like": "rum",
-    "name": {
-      "str": "rum wash",
-      "str_pl": "rum washes"
-    },
+    "name": { "str": "rum wash", "str_pl": "rum washes" },
     "description": "Fermented, but not distilled rum.  No longer tastes sweet.",
     "weight": "36 g",
     "color": "light_cyan",
@@ -370,10 +331,7 @@
     "charges": 7,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "brewable": {
-      "time": "7 days",
-      "results": [ "fruit_wine", "yeast" ]
-    }
+    "brewable": { "time": "7 days", "results": [ "fruit_wine", "yeast" ] }
   },
   {
     "type": "COMESTIBLE",
@@ -397,10 +355,7 @@
     "charges": 7,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "brewable": {
-      "time": "14 days",
-      "results": [ "plain_mead", "yeast" ]
-    }
+    "brewable": { "time": "14 days", "results": [ "plain_mead", "yeast" ] }
   },
   {
     "id": "brew_hopped_mead",
@@ -408,10 +363,7 @@
     "name": { "str": "hopped mead must" },
     "description": "Unfermented hopped mead.  Diluted honey cooked with hops for a bitter note, then cooled down and infused with yeast.",
     "type": "COMESTIBLE",
-    "brewable": {
-      "time": "14 days",
-      "results": [ "hopped_mead", "yeast" ]
-    }
+    "brewable": { "time": "14 days", "results": [ "hopped_mead", "yeast" ] }
   },
   {
     "id": "brew_spiced_mead",
@@ -419,10 +371,7 @@
     "name": { "str": "spiced mead must" },
     "description": "Unfermented spiced mead.  Diluted honey infused with spices and yeast.",
     "type": "COMESTIBLE",
-    "brewable": {
-      "time": "14 days",
-      "results": [ "spiced_mead", "yeast" ]
-    }
+    "brewable": { "time": "14 days", "results": [ "spiced_mead", "yeast" ] }
   },
   {
     "type": "COMESTIBLE",
@@ -444,10 +393,7 @@
     "phase": "liquid",
     "comestible_type": "DRINK",
     "flags": [ "NUTRIENT_OVERRIDE" ],
-    "brewable": {
-      "time": "7 days",
-      "results": [ "dandelion_wine", "yeast" ]
-    }
+    "brewable": { "time": "7 days", "results": [ "dandelion_wine", "yeast" ] }
   },
   {
     "type": "COMESTIBLE",
@@ -469,10 +415,7 @@
     "phase": "liquid",
     "comestible_type": "DRINK",
     "flags": [ "NUTRIENT_OVERRIDE" ],
-    "brewable": {
-      "time": "7 days",
-      "results": [ "burdock_wine", "yeast" ]
-    }
+    "brewable": { "time": "7 days", "results": [ "burdock_wine", "yeast" ] }
   },
   {
     "type": "COMESTIBLE",
@@ -494,10 +437,7 @@
     "phase": "liquid",
     "comestible_type": "DRINK",
     "flags": [ "NUTRIENT_OVERRIDE" ],
-    "brewable": {
-      "time": "7 days",
-      "results": [ "pine_wine", "yeast" ]
-    }
+    "brewable": { "time": "7 days", "results": [ "pine_wine", "yeast" ] }
   },
   {
     "type": "COMESTIBLE",
@@ -519,10 +459,7 @@
     "price_postapoc": 10,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "brewable": {
-      "time": "7 days",
-      "results": [ "hb_beer", "yeast" ]
-    }
+    "brewable": { "time": "7 days", "results": [ "hb_beer", "yeast" ] }
   },
   {
     "type": "COMESTIBLE",
@@ -544,19 +481,13 @@
     "price_postapoc": 10,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "brewable": {
-      "time": "7 days",
-      "results": [ "hb_seltzer", "yeast" ]
-    }
+    "brewable": { "time": "7 days", "results": [ "hb_seltzer", "yeast" ] }
   },
   {
     "type": "COMESTIBLE",
     "id": "brew_moonshine",
     "looks_like": "moonshine",
-    "name": {
-      "str": "moonshine mash",
-      "str_pl": "moonshine mashes"
-    },
+    "name": { "str": "moonshine mash", "str_pl": "moonshine mashes" },
     "description": "Unfermented moonshine.  Just some water, sugar and corn, like good ol' auntie's recipe.  Using pumpkin instead of corn would reduce the amount of extra sugar you need to add.",
     "weight": "37 g",
     "color": "brown",
@@ -573,19 +504,13 @@
     "charges": 7,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "brewable": {
-      "time": "5 days",
-      "results": [ "wash_moonshine", "yeast" ]
-    }
+    "brewable": { "time": "5 days", "results": [ "wash_moonshine", "yeast" ] }
   },
   {
     "type": "COMESTIBLE",
     "id": "wash_moonshine",
     "looks_like": "moonshine",
-    "name": {
-      "str": "moonshine wash",
-      "str_pl": "moonshine washes"
-    },
+    "name": { "str": "moonshine wash", "str_pl": "moonshine washes" },
     "description": "Fermented, but not distilled moonshine.  Contains all the contaminants you don't want in your moonshine.",
     "weight": "36 g",
     "color": "brown",
@@ -630,10 +555,7 @@
     "phase": "liquid",
     "fun": -12,
     "flags": [ "NUTRIENT_OVERRIDE" ],
-    "brewable": {
-      "time": "4 hours",
-      "results": [ "milk_curdled" ]
-    }
+    "brewable": { "time": "4 hours", "results": [ "milk_curdled" ] }
   },
   {
     "type": "COMESTIBLE",
@@ -656,10 +578,7 @@
     "phase": "liquid",
     "comestible_type": "DRINK",
     "flags": [ "NUTRIENT_OVERRIDE" ],
-    "brewable": {
-      "time": "14 days",
-      "results": [ "vinegar" ]
-    }
+    "brewable": { "time": "14 days", "results": [ "vinegar" ] }
   },
   {
     "type": "COMESTIBLE",
@@ -682,10 +601,7 @@
     "phase": "liquid",
     "comestible_type": "DRINK",
     "flags": [ "NUTRIENT_OVERRIDE" ],
-    "brewable": {
-      "time": "3 days",
-      "results": [ "yeast" ]
-    }
+    "brewable": { "time": "3 days", "results": [ "yeast" ] }
   },
   {
     "type": "COMESTIBLE",
@@ -705,10 +621,7 @@
     "material": [ "veggy" ],
     "volume": "1 L",
     "flags": [ "EDIBLE_FROZEN", "RAW" ],
-    "vitamins": [
-      [ "calcium", 6 ],
-      [ "iron", 29 ]
-    ],
+    "vitamins": [ [ "calcium", 6 ], [ "iron", 29 ] ],
     "fun": -15,
     "use_action": {
       "target": "malted_grain",
@@ -736,10 +649,7 @@
     "material": [ "veggy" ],
     "volume": "1 L",
     "flags": [ "EDIBLE_FROZEN", "RAW" ],
-    "vitamins": [
-      [ "calcium", 6 ],
-      [ "iron", 29 ]
-    ],
+    "vitamins": [ [ "calcium", 6 ], [ "iron", 29 ] ],
     "fun": -15
   },
   {
@@ -759,10 +669,7 @@
     "material": [ "veggy" ],
     "volume": "250 ml",
     "flags": [ "EDIBLE_FROZEN", "RAW" ],
-    "vitamins": [
-      [ "calcium", 6 ],
-      [ "iron", 29 ]
-    ],
+    "vitamins": [ [ "calcium", 6 ], [ "iron", 29 ] ],
     "fun": -15,
     "use_action": {
       "target": "soaked_dandelion",
@@ -791,11 +698,7 @@
     "material": [ "veggy" ],
     "volume": "250 ml",
     "flags": [ "EDIBLE_FROZEN", "RAW" ],
-    "vitamins": [
-      [ "vitC", 23 ],
-      [ "calcium", 11 ],
-      [ "iron", 10 ]
-    ],
+    "vitamins": [ [ "vitC", 23 ], [ "calcium", 11 ], [ "iron", 10 ] ],
     "fun": -4
   },
   {
@@ -848,9 +751,6 @@
     "phase": "liquid",
     "comestible_type": "DRINK",
     "flags": [ "NUTRIENT_OVERRIDE" ],
-    "brewable": {
-      "time": "7 days",
-      "results": [ "rootbeer_brewed" ]
-    }
+    "brewable": { "time": "7 days", "results": [ "rootbeer_brewed" ] }
   }
 ]
