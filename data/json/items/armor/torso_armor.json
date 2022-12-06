@@ -2121,7 +2121,7 @@
         "coverage": 95,
         "encumbrance": 17,
         "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 4.5 } ]
-        },
+      },
       {
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 90,
