@@ -730,9 +730,7 @@
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "skills_required": [
-      [ "cutting", 2 ]
-    ],
+    "skills_required": [ [ "cutting", 2 ] ],
     "time": "10 m",
     "qualities": [
       { "id": "WRENCH", "level": 1 },
