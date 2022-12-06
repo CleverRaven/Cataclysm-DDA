@@ -557,6 +557,15 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
         }
     }
 
+    for( const std::string line : jo.get_array( "remove_rigid" ) ) {
+        bodypart_str_id bp( line );
+        if( bp.is_valid() ) {
+            remove_rigid.insert( bp );
+        } else {
+            remove_rigid_subparts.insert( sub_bodypart_str_id( line ) );
+        }
+    }
+
     for( const std::string line : jo.get_array( "allowed_items" ) ) {
         allowed_items.insert( flag_id( line ) );
     }
