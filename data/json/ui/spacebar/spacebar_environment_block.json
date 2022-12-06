@@ -12,7 +12,7 @@
     "id": "enviroment_conditions_block_2",
     "type": "widget",
     "style": "layout",
-    "label": "enviroment block",
+    "label": "environment block",
     "arrange": "minimum_columns",
     "width": 56,
     "widgets": [ "time_layout", "wether_layout" ]
@@ -29,7 +29,7 @@
   {
     "id": "wether_layout",
     "type": "widget",
-    "label": "wether",
+    "label": "weather",
     "style": "layout",
     "arrange": "rows",
     "width": 28,

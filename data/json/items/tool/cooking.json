@@ -674,7 +674,7 @@
     "color": "red",
     "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
-    "power_draw": "1500 J",
+    "power_draw": "100 J",
     "qualities": [ [ "CONTAIN", 1 ] ],
     "use_action": [ "MULTICOOKER" ],
     "pocket_data": [
