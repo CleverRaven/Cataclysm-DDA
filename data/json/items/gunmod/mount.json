@@ -146,6 +146,7 @@
     "mod_targets": [ "shotgun", "rifle" ],
     "install_time": "5 m",
     "reload_modifier": 30,
+    "dispersion_modifier": 30,
     "mode_modifier": [ [ "REACH", "bayonet", 1, [ "MELEE" ] ] ],
     "flags": [ "DISABLE_SIGHTS", "PUMP_RAIL_COMPATIBLE" ]
   }
