@@ -2074,7 +2074,7 @@
         "covers": [ "torso" ],
         "material": [
           { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 8 },
-          { "type": "thermo_resin", "covered_by_mat": 95, "thickness": 2 }
+          { "type": "thermo_resin", "covered_by_mat": 90, "thickness": 2 }
         ]
       },
       {
