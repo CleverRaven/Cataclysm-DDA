@@ -1378,7 +1378,7 @@
     "armor": [
       {
         "encumbrance": 7,
-        "coverage": 70,
+        "coverage": 75,
         "covers": [ "torso" ],
         "material": [
           { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 8 },
