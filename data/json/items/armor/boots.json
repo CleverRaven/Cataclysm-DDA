@@ -510,7 +510,7 @@
     "price_postapoc": 1750,
     "to_hit": -1,
     "bashing": 4,
-    "material": [ "leather_hardened" ],
+    "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "boots",
     "color": "brown",

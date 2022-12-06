@@ -349,7 +349,7 @@
     "difficulty": 2,
     "time": "12 h",
     "autolearn": true,
-    "using": [ [ "fastener_small", 2 ], [ "tailoring_leather_hardened_patchwork", 4 ] ],
+    "using": [ [ "fastener_small", 2 ], [ "tailoring_leather_patchwork", 4 ] ],
     "proficiencies": [
       { "proficiency": "prof_cobbling" },
       { "proficiency": "prof_leatherworking_basic" },
@@ -361,14 +361,14 @@
     "type": "recipe",
     "copy-from": "boots_larmor",
     "time": "12 h",
-    "using": [ [ "fastener_small", 1 ], [ "tailoring_leather_hardened_patchwork", 3 ] ]
+    "using": [ [ "fastener_small", 1 ], [ "tailoring_leather_patchwork", 3 ] ]
   },
   {
     "result": "xl_boots_larmor",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "copy-from": "boots_larmor",
-    "using": [ [ "fastener_small", 2 ], [ "tailoring_leather_hardened_patchwork", 5 ] ],
+    "using": [ [ "fastener_small", 2 ], [ "tailoring_leather_patchwork", 5 ] ],
     "time": "13 h 30 m"
   },
   {
@@ -502,7 +502,7 @@
     "skills_required": [ "fabrication", 4 ],
     "time": "22 h",
     "autolearn": true,
-    "using": [ [ "tailoring_kevlar_fabric", 4 ], [ "tailoring_leather_hardened_patchwork", 2 ] ],
+    "using": [ [ "tailoring_kevlar_fabric", 4 ], [ "tailoring_leather_patchwork", 2 ] ],
     "proficiencies": [
       { "proficiency": "prof_cobbling" },
       { "proficiency": "prof_leatherworking_basic" },
@@ -520,7 +520,7 @@
     "type": "recipe",
     "copy-from": "boots_survivor",
     "time": "22 h",
-    "using": [ [ "tailoring_kevlar_fabric", 3 ], [ "tailoring_leather_hardened_patchwork", 1 ] ],
+    "using": [ [ "tailoring_kevlar_fabric", 3 ], [ "tailoring_leather_patchwork", 1 ] ],
     "components": [
       [ [ "duct_tape", 75 ] ],
       [ [ "boots_combat", 1 ], [ "boots_steel", 1 ], [ "boots_hiking", 1 ], [ "boots_bunker", 1 ], [ "boots", 1 ] ]
