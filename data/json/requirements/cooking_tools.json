@@ -19,9 +19,6 @@
         [ "multi_cooker", 35 ],
         [ "char_smoker", 2 ],
         [ "charcoal_cooker", 2 ],
-        [ "toolset", 100 ],
-        [ "welder", 100 ],
-        [ "welder_crude", 200 ],
         [ "fake_oven", 125 ],
         [ "esbit_stove", 2 ],
         [ "oil_cooker", 2 ],
@@ -95,7 +92,6 @@
         [ "propane_cooker", 16 ],
         [ "acetylene_cooker", 8 ],
         [ "popcan_stove", 20 ],
-        [ "fake_oven", 1000 ],
         [ "atomic_coffeepot", 115 ],
         [ "fire", -1 ]
       ]
