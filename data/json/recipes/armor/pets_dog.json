@@ -28,6 +28,7 @@
     "skills_required": [ [ "fabrication", 2 ] ],
     "using": [ [ "cordage", 1 ], [ "clasps", 3 ] ],
     "components": [ [ [ "chitin_piece", 12 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_chitinworking" },
