@@ -86,7 +86,7 @@
     "id": "cargo_aisle",
     "type": "GENERIC",
     "name": { "str": "floor trunk" },
-    "description": "A section of flooring with a cargo-space beneath, and a hinged door for access.",
+    "description": "A section of flooring with a cargo space beneath and a hinged door for access.",
     "weight": "19200 g",
     "color": "cyan",
     "symbol": "]",
