@@ -139,7 +139,7 @@
     "copy-from": "hand_axe",
     "type": "GUNMOD",
     "name": { "str": "mountable hatchet" },
-    "description": "A mountable hatchet that turns a shotgun or rifle into a formidable boarding weapon, straight from the pages of pirate novels. The axe headband greatly increases the weight of the weapon, and the massive mount interferes with the use of standard sights.",
+    "description": "A mountable hatchet that turns a shotgun or rifle into a formidable boarding weapon, straight from the pages of pirate novels.  The axe headband greatly increases the weight of the weapon, and the massive mount interferes with the use of standard sights.",
     "weight": "700 g",
     "material": [ "steel" ],
     "location": "underbarrel mount",
