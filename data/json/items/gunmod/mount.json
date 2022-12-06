@@ -133,5 +133,20 @@
     "min_skills": [ [ "gun", 3 ] ],
     "add_mod": [ [ "underbarrel", 1 ] ],
     "flags": [ "INSTALL_DIFFICULT", "IRREMOVABLE" ]
+  },
+  {
+    "id": "axe_mod",
+    "copy-from": "hand_axe",
+    "type": "GUNMOD",
+    "name": { "str": "mountable hatchet" },
+    "description": "A mountable hatchet that turns a shotgun or rifle into a formidable boarding weapon, straight from the pages of pirate novels. The axe headband greatly increases the weight of the weapon, and the massive mount interferes with the use of standard sights.",
+    "weight": "700 g",
+    "material": [ "steel" ],
+    "location": "underbarrel mount",
+    "mod_targets": [ "shotgun", "rifle" ],
+    "install_time": "5 m",
+    "reload_modifier": 30,
+    "mode_modifier": [ [ "REACH", "bayonet", 1, [ "MELEE" ] ] ],
+    "flags": [ "DISABLE_SIGHTS", "PUMP_RAIL_COMPATIBLE" ]
   }
 ]
