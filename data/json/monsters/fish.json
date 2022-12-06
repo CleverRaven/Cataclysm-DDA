@@ -199,7 +199,7 @@
     "type": "MONSTER",
     "name": { "str_sp": "fish fry" },
     "//": "a default fish type - does not appear in-game",
-    "description": "A miniscule half-translucent fish larva.  Impossible to identify which species it belongs to.",
+    "description": "A minuscule half-translucent fish larva.  Impossible to identify which species it belongs to.",
     "default_faction": "fish",
     "bodytype": "fish",
     "categories": [ "WILDLIFE" ],
@@ -826,7 +826,7 @@
     "copy-from": "mon_fry",
     "upgrades": { "half_life": 14, "into": "mon_fish_crayfish" },
     "name": { "str": "crustacean larva", "str_pl": "crustacean larvae" },
-    "description": "A miniscule half-translucent crustacean larva.  Impossible to identify which species it belongs to.",
+    "description": "A minuscule half-translucent crustacean larva.  Impossible to identify which species it belongs to.",
     "bodytype": "crab"
   },
   {

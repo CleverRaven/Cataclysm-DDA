@@ -540,6 +540,36 @@ nc_color cyan_background( const nc_color &c )
     return static_cast<int>( color ) > 0 ? color : c_black_cyan;
 }
 
+std::string hilite_string( const std::string &text )
+{
+    std::string highlighted = text;
+    size_t pos = 0;
+    size_t tag_length = 0;
+    int color_tag_count = 0;
+    while( ( pos = highlighted.find( "<color_", pos ) ) != std::string::npos ) {
+        tag_length = highlighted.find( '>', pos ) - pos + 1;
+        if( tag_length <= 0 ) {
+            debugmsg( "Tag length calculated incorrectly.  Unable to highlight text %s", text );
+            return text;
+        }
+        std::string tag = highlighted.substr( pos, tag_length );
+        color_tag_parse_result old_color = get_color_from_tag( tag );
+        if( old_color.type != color_tag_parse_result::open_color_tag ) {
+            debugmsg( "Unable to highlight text %s, parsing color tag %s failed", text, tag );
+            return text;
+        }
+        nc_color new_color = hilite( old_color.color );
+        std::string new_tag = get_tag_from_color( new_color );
+        highlighted.replace( pos, tag_length, new_tag );
+        pos += new_tag.length();
+        ++color_tag_count;
+    }
+    if( color_tag_count < 1 ) {
+        highlighted = colorize( highlighted, h_white );
+    }
+    return highlighted;
+}
+
 /**
  * Given the name of a foreground color, returns the nc_color value that matches. If
  * no match is found, c_unset is returned.

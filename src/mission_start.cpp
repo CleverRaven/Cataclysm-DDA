@@ -38,7 +38,6 @@ static const itype_id itype_software_useless( "software_useless" );
 static const mission_type_id
 mission_MISSION_GET_ZOMBIE_BLOOD_ANAL( "MISSION_GET_ZOMBIE_BLOOD_ANAL" );
 
-static const mtype_id mon_dog( "mon_dog" );
 static const mtype_id mon_zombie( "mon_zombie" );
 static const mtype_id mon_zombie_brute( "mon_zombie_brute" );
 static const mtype_id mon_zombie_dog( "mon_zombie_dog" );
@@ -55,26 +54,6 @@ static const overmap_special_id overmap_special_evac_center( "evac_center" );
 
 void mission_start::standard( mission * )
 {
-}
-
-void mission_start::place_dog( mission *miss )
-{
-    const tripoint_abs_omt house = mission_util::random_house_in_closest_city();
-    npc *dev = g->find_npc( miss->npc_id );
-    if( dev == nullptr ) {
-        debugmsg( "Couldn't find NPC!  %d", miss->npc_id.get_value() );
-        return;
-    }
-    get_player_character().i_add( item( "dog_whistle", calendar::turn_zero ) );
-    add_msg( _( "%s gave you a dog whistle." ), dev->get_name() );
-
-    miss->target = house;
-    overmap_buffer.reveal( house, 6 );
-
-    tinymap doghouse;
-    doghouse.load( project_to<coords::sm>( house ), false );
-    doghouse.add_spawn( mon_dog, 1, { SEEX, SEEY, house.z() }, true, -1, miss->uid );
-    doghouse.save();
 }
 
 void mission_start::place_zombie_mom( mission *miss )
@@ -488,59 +467,6 @@ void mission_start::create_ice_lab_console( mission *miss )
 
     create_lab_consoles( miss, place, "ice_lab", 3, _( "Durable Storage Archive" ),
                          _( "Download Archives" ) );
-
-    // Target the lab entrance.
-    const tripoint_abs_omt target = mission_util::target_closest_lab_entrance( place, 2, miss );
-    mission_util::reveal_road( player_character.global_omt_location(), target, overmap_buffer );
-}
-
-static bool has_console( const tripoint_abs_omt &location, const int mission_id )
-{
-    tinymap compmap;
-    compmap.load( project_to<coords::sm>( location ), false );
-    cata::optional<tripoint> comppoint;
-
-    for( const tripoint &point : compmap.points_on_zlevel() ) {
-        if( compmap.ter( point ) == t_console ) {
-            comppoint = point;
-            break;
-        }
-    }
-
-    if( !comppoint ) {
-        return false;
-    }
-
-    computer *tmpcomp = compmap.computer_at( *comppoint );
-    tmpcomp->set_mission( mission_id );
-    tmpcomp->add_option( _( "Download Routing Software" ), COMPACT_DOWNLOAD_SOFTWARE, 0 );
-
-    compmap.save();
-    return true;
-}
-
-void mission_start::reveal_lab_train_depot( mission *miss )
-{
-    Character &player_character = get_player_character();
-    // Find and prepare lab location.
-    tripoint_abs_omt loc = player_character.global_omt_location();
-    loc.z() = -4;  // tunnels are at z = -4
-    tripoint_abs_omt place;
-    const int mission_id = miss->get_id();
-
-    omt_find_params params = {{ {{ std::make_pair( "lab_train_depot", ot_match_type::type ) }} }};
-    const std::vector<tripoint_abs_omt> all_omts_near = overmap_buffer.find_all( loc, params );
-    // sort it by range
-    std::multimap<int, tripoint_abs_omt> omts_by_range;
-    for( const tripoint_abs_omt &location : all_omts_near ) {
-        omts_by_range.emplace( rl_dist( loc, location ), location );
-    }
-    for( const std::pair<const int, tripoint_abs_omt> &location : omts_by_range ) {
-        if( has_console( location.second, mission_id ) ) {
-            place = location.second;
-            break;
-        }
-    }
 
     // Target the lab entrance.
     const tripoint_abs_omt target = mission_util::target_closest_lab_entrance( place, 2, miss );

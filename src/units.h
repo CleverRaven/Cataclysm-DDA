@@ -19,6 +19,8 @@
 #include "translations.h"
 #include "units_fwd.h" // IWYU pragma: export
 
+class time_duration;
+
 namespace units
 {
 
@@ -499,6 +501,62 @@ inline constexpr value_type to_kilojoule( const quantity<value_type, energy_in_m
     return to_joule( v ) / 1000.0;
 }
 
+// Power (watts)
+
+const power power_min = units::power( std::numeric_limits<units::power::value_type>::min(),
+                                      units::power::unit_type{} );
+
+const power power_max = units::power( std::numeric_limits<units::power::value_type>::max(),
+                                      units::power::unit_type{} );
+
+template<typename value_type>
+inline constexpr quantity<value_type, power_in_milliwatt_tag> from_milliwatt(
+    const value_type v )
+{
+    return quantity<value_type, power_in_milliwatt_tag>( v, power_in_milliwatt_tag{} );
+}
+
+template<typename value_type>
+inline constexpr quantity<value_type, power_in_milliwatt_tag> from_watt( const value_type v )
+{
+    constexpr value_type max_power_watts = std::numeric_limits<value_type>::max() / 1000;
+    // Check for overflow - if the power provided is greater than max power, then it
+    // will overflow when converted to milliwatt
+    const value_type power = v > max_power_watts ? max_power_watts : v;
+    return from_milliwatt<value_type>( power * 1000 );
+}
+
+template<typename value_type>
+inline constexpr quantity<value_type, power_in_milliwatt_tag> from_kilowatt( const value_type v )
+{
+    constexpr value_type max_power_watts = std::numeric_limits<value_type>::max() / 1000;
+    // This checks for value_type overflow - if the power we are given in watts is greater
+    // than the max power in watts, overflow will occur when it is converted to milliwatts
+    // The value we are given is in kilowatts, multiply by 1000 to convert it to watts, for use in from_watt
+    value_type power = v * 1000 > max_power_watts ? max_power_watts : v * 1000;
+    return from_watt<value_type>( power );
+}
+
+template<typename value_type>
+inline constexpr value_type to_milliwatt( const quantity<value_type, power_in_milliwatt_tag> &v )
+{
+    return v / from_milliwatt<value_type>( 1 );
+}
+
+template<typename value_type>
+inline constexpr value_type to_watt( const quantity<value_type, power_in_milliwatt_tag> &v )
+{
+    return to_milliwatt( v ) / 1000.0;
+}
+
+template<typename value_type>
+inline constexpr value_type to_kilowatt( const quantity<value_type, power_in_milliwatt_tag> &v )
+{
+    return to_watt( v ) / 1000.0;
+}
+
+// Money(cents)
+
 const money money_min = units::money( std::numeric_limits<units::money::value_type>::min(),
                                       units::money::unit_type{} );
 
@@ -661,6 +719,11 @@ inline std::ostream &operator<<( std::ostream &o, energy_in_millijoule_tag )
     return o << "mJ";
 }
 
+inline std::ostream &operator<<( std::ostream &o, power_in_milliwatt_tag )
+{
+    return o << "mW";
+}
+
 inline std::ostream &operator<<( std::ostream &o, money_in_cent_tag )
 {
     return o << "cent";
@@ -691,6 +754,8 @@ inline std::string quantity_to_string( const quantity<value_type, tag_type> &v )
 }
 
 std::string display( units::energy v );
+
+std::string display( units::power v );
 
 } // namespace units
 
@@ -794,6 +859,21 @@ inline constexpr units::quantity<double, units::energy_in_millijoule_tag> operat
     const long double v )
 {
     return units::from_kilojoule( v );
+}
+
+inline constexpr units::power operator"" _mW( const unsigned long long v )
+{
+    return units::from_milliwatt( v );
+}
+
+inline constexpr units::power operator"" _W( const unsigned long long v )
+{
+    return units::from_watt( v );
+}
+
+inline constexpr units::power operator"" _kW( const unsigned long long v )
+{
+    return units::from_kilowatt( v );
 }
 
 inline constexpr units::money operator"" _cent( const unsigned long long v )
@@ -957,6 +1037,12 @@ static const std::vector<std::pair<std::string, energy>> energy_units = { {
         { "kJ", 1_kJ },
     }
 };
+static const std::vector<std::pair<std::string, power>> power_units = { {
+        { "mW", 1_mW },
+        { "W", 1_W },
+        { "kW", 1_kW },
+    }
+};
 static const std::vector<std::pair<std::string, mass>> mass_units = { {
         { "mg", 1_milligram },
         { "g", 1_gram },
@@ -991,6 +1077,13 @@ static const std::vector<std::pair<std::string, temperature>> temperature_units 
         { "K", 1_K }
     }
 };
+
+units::energy operator*( const units::power &power, const time_duration &time );
+units::energy operator*( const time_duration &time, const units::power &power );
+
+units::power operator/( const units::energy &energy, const time_duration &time );
+time_duration operator/( const units::energy &energy, const units::power &power );
+
 } // namespace units
 
 namespace detail
