@@ -6,7 +6,7 @@
     "description": "The zapback effect from the Storm Elemental Attunement.",
     "effect": "attack",
     "shape": "blast",
-    "flags": [ "NO_PROJECTILE" ],
+    "flags": [ "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
     "min_damage": 5,
     "max_damage": 5,
     "valid_targets": [ "hostile" ],

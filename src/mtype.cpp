@@ -51,6 +51,7 @@ mtype::mtype()
     def_chance = 0;
     upgrades = false;
     upgrade_multi_range = cata::optional<int>();
+    upgrade_null_despawn = false;
     half_life = -1;
     age_grow = -1;
     upgrade_into = mtype_id::NULL_ID();
@@ -152,9 +153,11 @@ std::vector<std::string> mtype::species_descriptions() const
 
 field_type_id mtype::get_bleed_type() const
 {
-    for( const species_id &s : species ) {
-        if( !s->bleeds.is_empty() ) {
-            return s->bleeds;
+    if( bleed_rate > 0 ) {
+        for( const species_id &s : species ) {
+            if( !s->bleeds.is_empty() ) {
+                return s->bleeds;
+            }
         }
     }
     return fd_null;

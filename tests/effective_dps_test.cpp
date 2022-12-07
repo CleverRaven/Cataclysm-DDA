@@ -10,6 +10,7 @@
 #include "player_helpers.h"
 #include "sounds.h"
 #include "ret_val.h"
+#include "test_data.h"
 #include "type_id.h"
 
 static const mtype_id debug_mon( "debug_mon" );
@@ -268,6 +269,7 @@ static void make_experienced_tester( avatar &test_guy )
  * of range without anyone noticing them and adjusting them.
  * Used expected_dps(), which should make actual dps because of the calculations above.
  */
+
 static void check_staves( const std::function<Approx( const std::string & )> &calc_expected_dps )
 {
     SECTION( "staves" ) { // typical value around 18
@@ -552,22 +554,16 @@ TEST_CASE( "expected weapon dps", "[expected][dps]" )
     avatar &test_guy = get_avatar();
     make_experienced_tester( test_guy );
 
-    const auto calc_expected_dps = [&test_guy]( const std::string & weapon_id ) {
+    REQUIRE_FALSE( test_data::expected_dps.empty() );
+
+    const auto calc_expected_dps = [&test_guy]( const itype_id & weapon_id ) {
         item weapon( weapon_id );
         return Approx( test_guy.melee_value( weapon ) ).margin( 0.5 );
     };
 
-    check_staves( calc_expected_dps );
-    check_spears( calc_expected_dps );
-    check_polearms( calc_expected_dps );
-    check_two_handed_axes( calc_expected_dps );
-    check_two_handed_clubs_hammers( calc_expected_dps );
-    check_two_handed_flails( calc_expected_dps );
-    check_fist_weapons( calc_expected_dps );
-    check_axes( calc_expected_dps );
-    check_clubs( calc_expected_dps );
-    check_two_handed_swords( calc_expected_dps );
-    check_swords( calc_expected_dps );
-    check_shortswords( calc_expected_dps );
-    check_knives( calc_expected_dps );
+    for( std::pair<const itype_id, double> &weap : test_data::expected_dps ) {
+        INFO( string_format( "%s's dps changed, if it's intended replace the value in the respective file in data/mods/TEST_DATA/expected_dps_data.",
+                             weap.first.str() ) );
+        CHECK( calc_expected_dps( weap.first ) == weap.second );
+    }
 }

@@ -312,6 +312,45 @@
   },
   {
     "type": "effect_type",
+    "id": "acid_charged",
+    "name": [ "Charged Acid Glands" ],
+    "//": "Enables special attacks where specified",
+    "desc": [ "Your acid glands are full and ready to burst.  Ew." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "maimed_acid_gland",
+    "name": [ "Maimed Acid Glands" ],
+    "//": "Disables special attacks where specified",
+    "desc": [ "Your acid glands got all leaky." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "elec_charged",
+    "name": [ "Charged Capacitor" ],
+    "desc": [ "Your capacitors sizzle with bioelectricity." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "maimed_capacitor",
+    "name": [ "Maimed Capacitor" ],
+    "desc": [ "You can't deal with this charge." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "maimed_tail",
+    "name": [ "Maimed Tail" ],
+    "desc": [ "Your tail is broken.  You're not sure what to do with this information." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "maimed_claws",
+    "name": [ "Maimed Claws" ],
+    "//": "Disables special attacks where specified",
+    "desc": [ "Your claws broke.  Like a broken nail, but somehow worse." ]
+  },
+  {
+    "type": "effect_type",
     "id": "maimed_armor",
     "name": [ "Cracked Shell" ],
     "//": "Exposes certain weakpoints",
@@ -841,7 +880,7 @@
     "id": "mutagen_alpha",
     "name": [ "Alpha Mutation", "Alpha Transformation", "Alpha Metamorphosis" ],
     "desc": [
-      "You consumed alpha mutagen.",
+      "You consumed alpha primer.",
       "You feel better.  So much better.",
       "The world needs you, surely this won't kill you.  It better not."
     ],
@@ -871,14 +910,14 @@
       "pain_chance": [ -30 ]
     },
     "rating": "bad",
-    "blood_analysis_description": "Alpha Mutagen Contamination"
+    "blood_analysis_description": "Alpha Primer Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_batrachian",
     "name": [ "Frog Mutation", "Frog Transformation", "Frog Metamorphosis" ],
     "desc": [
-      "You consumed frog mutagen.",
+      "You consumed frog primer.",
       "Now, to find a quiet pond and settle for the wait…",
       "You feel like you're about to croak… if you don't keel over first."
     ],
@@ -908,14 +947,14 @@
       "pain_chance": [ -30 ]
     },
     "rating": "bad",
-    "blood_analysis_description": "Frog Mutagen Contamination"
+    "blood_analysis_description": "Frog Primer Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_beast",
     "name": [ "Beast Mutation", "Beast Transformation", "Beast Metamorphosis" ],
     "desc": [
-      "You consumed beast mutagen.",
+      "You consumed beast primer.",
       "There must be prey around.  Stay alert.",
       "Primal instincts overwhelm your mind, and your saliva has turned to froth."
     ],
@@ -944,14 +983,14 @@
       "pain_chance": [ -30 ]
     },
     "rating": "bad",
-    "blood_analysis_description": "Beast Mutagen Contamination"
+    "blood_analysis_description": "Beast Primer Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_bird",
     "name": [ "Bird Mutation", "Bird Transformation", "Bird Metamorphosis" ],
     "desc": [
-      "You consumed bird mutagen.",
+      "You consumed bird primer.",
       "You feel the pull of the skies.",
       "Goosebumps stand across your entire body.  You keep feeling that you're falling."
     ],
@@ -969,14 +1008,14 @@
     },
     "scaling_mods": { "str_mod": [ -2 ], "per_mod": [ 1.5 ], "speed_mod": [ 3.5 ], "hurt_chance": [ 21, 0 ], "pain_chance": [ -30 ] },
     "rating": "bad",
-    "blood_analysis_description": "Bird Mutagen Contamination"
+    "blood_analysis_description": "Bird Primer Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_cattle",
     "name": [ "Cattle Mutation", "Cattle Transformation", "Cattle Metamorphosis" ],
     "desc": [
-      "You consumed cattle mutagen.",
+      "You consumed cattle primer.",
       "This pasture will grow barren soon.  Keep moving.",
       "Dull fog clouds your mind, and you feel close to vomiting."
     ],
@@ -1003,14 +1042,14 @@
       "pain_chance": [ -5 ]
     },
     "rating": "bad",
-    "blood_analysis_description": "Cattle Mutagen Contamination"
+    "blood_analysis_description": "Cattle Primer Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_cephalopod",
     "name": [ "Cephalopod Mutation", "Cephalopod Transformation", "Cephalopod Metamorphosis" ],
     "desc": [
-      "You consumed cephalopod mutagen.",
+      "You consumed cephalopod primer.",
       "Become one with your surroundings.",
       "Your skin crawls and your extremities twitch and jerk."
     ],
@@ -1031,14 +1070,14 @@
     },
     "scaling_mods": { "thirst_tick": [ -400 ], "int_mod": [ 2.5 ], "hurt_chance": [ 21, 0 ], "pain_chance": [ -30 ] },
     "rating": "bad",
-    "blood_analysis_description": "Cephalopod Mutagen Contamination"
+    "blood_analysis_description": "Cephalopod Primer Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_chimera",
     "name": [ "Chimera Mutation", "Chimera Transformation", "Chimera Metamorphosis" ],
     "desc": [
-      "You consumed chimera mutagen.  Why?",
+      "You consumed chimera primer.  Why?",
       "Your flesh is the clay of the new world.  You'll overcome all challenges.",
       "Your body heaving and changing is a rough time, but what doesn't kill you makes you stronger."
     ],
@@ -1059,14 +1098,14 @@
     },
     "scaling_mods": { "hunger_tick": [ -120 ], "str_mod": [ 2.5 ], "int_mod": [ -2 ], "hurt_chance": [ 21, 0 ], "pain_chance": [ -30 ] },
     "rating": "bad",
-    "blood_analysis_description": "Chimera Mutagen Contamination"
+    "blood_analysis_description": "Chimera Primer Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_elfa",
     "name": [ "Elf-A Mutation", "Elf-A Transformation", "Elf-A Metamorphosis" ],
     "desc": [
-      "You consumed Elf-A mutagen.",
+      "You consumed Elf-A primer.",
       "You must look after this world, if noone else will.",
       "You see stars.  You see so many stars."
     ],
@@ -1084,14 +1123,14 @@
     },
     "scaling_mods": { "per_mod": [ 2.5 ], "int_mod": [ 1 ], "hurt_chance": [ 21, 0 ], "pain_chance": [ -15 ] },
     "rating": "bad",
-    "blood_analysis_description": "Elf-A Mutagen Contamination"
+    "blood_analysis_description": "Elf-A Primer Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_feline",
     "name": [ "Feline Mutation", "Feline Transformation", "Feline Metamorphosis" ],
     "desc": [
-      "You consumed feline mutagen.",
+      "You consumed feline primer.",
       "Quiet steps and sharp claws.  They'll never see it coming.",
       "If this overdose kills you, you've got a few more lives… right?"
     ],
@@ -1116,14 +1155,14 @@
       "pain_chance": [ -30 ]
     },
     "rating": "bad",
-    "blood_analysis_description": "Feline Mutagen Contamination"
+    "blood_analysis_description": "Feline Primer Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_fish",
     "name": [ "Fish Mutation", "Fish Transformation", "Fish Metamorphosis" ],
     "desc": [
-      "You consumed fish mutagen.",
+      "You consumed fish primer.",
       "The waters call to you.  Leave this exposed wasteland.",
       "You feel clammy yet dry, absolutely parched no matter how much you drink."
     ],
@@ -1144,14 +1183,14 @@
     },
     "scaling_mods": { "thirst_tick": [ -400 ], "per_mod": [ 1 ], "dex_mod": [ 1.5 ], "hurt_chance": [ 21, 0 ], "pain_chance": [ -30 ] },
     "rating": "bad",
-    "blood_analysis_description": "Fish Mutagen Contamination"
+    "blood_analysis_description": "Fish Primer Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_gastropod",
     "name": [ "Snail Mutation", "Snail Transformation", "Snail Metamorphosis" ],
     "desc": [
-      "You consumed snail mutagen.",
+      "You consumed snail primer.",
       "Slow and steady wins the race.",
       "You itch terribly, and your mouth feels salty and dry."
     ],
@@ -1160,7 +1199,7 @@
     "base_mods": { "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_chance": [ -22 ], "hurt_tick": [ 60 ] },
     "scaling_mods": { "str_mod": [ 1.5 ], "speed_mod": [ -7.5 ], "hurt_chance": [ 21, 0 ] },
     "rating": "bad",
-    "blood_analysis_description": "Snail Mutagen Contamination"
+    "blood_analysis_description": "Snail Primer Contamination"
   },
   {
     "type": "effect_type",
@@ -1176,14 +1215,14 @@
     "base_mods": { "str_mod": [ 0, -2 ], "per_mod": [ 0, -2 ], "dex_mod": [ 0, -2 ], "int_mod": [ 0, -2 ] },
     "scaling_mods": { "str_mod": [ 0, -2.5 ], "per_mod": [ 0, -2.5 ], "dex_mod": [ 0, -2.5 ], "int_mod": [ 0, -2.5 ] },
     "rating": "bad",
-    "blood_analysis_description": "Human Mutagen Contamination"
+    "blood_analysis_description": "Human Primer Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_insect",
     "name": [ "Insect Mutation", "Insect Transformation", "Insect Metamorphosis" ],
     "desc": [
-      "You consumed insect mutagen.",
+      "You consumed insect primer.",
       "You can't wait for your change.  It can't be long now.",
       "You can't stop shivering and twitching.  Life is so short."
     ],
@@ -1211,14 +1250,14 @@
       "pain_chance": [ -30 ]
     },
     "rating": "bad",
-    "blood_analysis_description": "Insect Mutagen Contamination"
+    "blood_analysis_description": "Insect Primer Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_lizard",
     "name": [ "Lizard Mutation", "Lizard Transformation", "Lizard Metamorphosis" ],
     "desc": [
-      "You consumed lizard mutagen.",
+      "You consumed lizard primer.",
       "Your skin feels dry and too small.  You'll have to molt soon.",
       "Your limbs slump, almost ready to tear right out of their sockets."
     ],
@@ -1236,14 +1275,14 @@
     },
     "scaling_mods": { "dex_mod": [ 1 ], "int_mod": [ -1.5 ], "hurt_chance": [ 21, 0 ], "pain_chance": [ -30 ] },
     "rating": "bad",
-    "blood_analysis_description": "Lizard Mutagen Contamination"
+    "blood_analysis_description": "Lizard Primer Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_lupine",
     "name": [ "Lupine Mutation", "Lupine Transformation", "Lupine Metamorphosis" ],
     "desc": [
-      "You consumed lupine mutagen.",
+      "You consumed lupine primer.",
       "Where's your pack?  How will you survive without them?",
       "You pant, unable to stop pacing and full of hunger."
     ],
@@ -1273,15 +1312,15 @@
       "pain_chance": [ -30 ]
     },
     "rating": "bad",
-    "blood_analysis_description": "Lupine Mutagen Contamination"
+    "blood_analysis_description": "Lupine Primer Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_medical",
     "name": [ "Medical Mutation", "Medical Transformation", "Medical Metamorphosis" ],
     "desc": [
-      "You consumed medical mutagen.",
-      "You consumed medical mutagen.  You should do that again.",
+      "You consumed medical primer.",
+      "You consumed medical primer.  You should do that again.",
       "You're tearing yourself apart.  Need to get fixed back up.  Should put some stitches in you."
     ],
     "max_intensity": 3,
@@ -1298,14 +1337,14 @@
     },
     "scaling_mods": { "str_mod": [ 2 ], "dex_mod": [ 2 ], "int_mod": [ -2.5 ], "hurt_chance": [ 21, 0 ], "pain_chance": [ -16 ] },
     "rating": "bad",
-    "blood_analysis_description": "Medical Mutagen Contamination"
+    "blood_analysis_description": "Medical Primer Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_mouse",
     "name": [ "Mouse Mutation", "Mouse Transformation", "Mouse Metamorphosis" ],
     "desc": [
-      "You consumed mouse mutagen.",
+      "You consumed mouse primer.",
       "Your heart pounds, knowing that predators could approach at any second!",
       "Your heart hammers away with a rapid, irregular beat."
     ],
@@ -1324,14 +1363,14 @@
     },
     "scaling_mods": { "str_mod": [ -1.5 ], "dex_mod": [ 1 ], "speed_mod": [ 6.5 ], "hurt_chance": [ 21, 0 ], "pain_chance": [ -30 ] },
     "rating": "bad",
-    "blood_analysis_description": "Mouse Mutagen Contamination"
+    "blood_analysis_description": "Mouse Primer Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_plant",
     "name": [ "Plant Mutation", "Plant Transformation", "Plant Metamorphosis" ],
     "desc": [
-      "You consumed plant mutagen.",
+      "You consumed plant primer.",
       "All this running… why don't you just find a nice, fertile spot and bask in the sun?",
       "Your processes are slowing.  You would make great fertilizer."
     ],
@@ -1340,14 +1379,14 @@
     "base_mods": { "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_chance": [ -22 ], "hurt_tick": [ 200 ] },
     "scaling_mods": { "str_mod": [ 1.5 ], "dex_mod": [ 1.5 ], "int_mod": [ -1 ], "speed_mod": [ -7.5 ], "hurt_chance": [ 21, 0 ] },
     "rating": "bad",
-    "blood_analysis_description": "Plant Mutagen Contamination"
+    "blood_analysis_description": "Plant Primer Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_raptor",
     "name": [ "Raptor Mutation", "Raptor Transformation", "Raptor Metamorphosis" ],
     "desc": [
-      "You consumed raptor mutagen.",
+      "You consumed raptor primer.",
       "Sharpen your talons and clean your feathers.  Your prey won't give itself easily.",
       "Delusions fill your head… is it true?  Did you die long ago?"
     ],
@@ -1376,14 +1415,14 @@
       "pain_chance": [ -30 ]
     },
     "rating": "bad",
-    "blood_analysis_description": "Raptor Mutagen Contamination"
+    "blood_analysis_description": "Raptor Primer Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_rabbit",
     "name": [ "Rabbit Mutation", "Rabbit Transformation", "Rabbit Metamorphosis" ],
     "desc": [
-      "You consumed rabbit mutagen.",
+      "You consumed rabbit primer.",
       "So much to do!  Better hop to it!",
       "Will you have a future?  Will any new generations be born… your pounding head is full of worry."
     ],
@@ -1408,14 +1447,14 @@
       "pain_chance": [ -15 ]
     },
     "rating": "bad",
-    "blood_analysis_description": "Rabbit Mutagen Contamination"
+    "blood_analysis_description": "Rabbit Primer Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_rat",
     "name": [ "Rat Mutation", "Rat Transformation", "Rat Metamorphosis" ],
     "desc": [
-      "You consumed rat mutagen.",
+      "You consumed rat primer.",
       "This place is too open.  Hide!",
       "Dull aches fill your stomach, and every smell seems offensive."
     ],
@@ -1433,13 +1472,13 @@
     },
     "scaling_mods": { "dex_mod": [ 1 ], "int_mod": [ -2 ], "speed_mod": [ 3.5 ], "hurt_chance": [ 21, 0 ], "pain_chance": [ -30 ] },
     "rating": "bad",
-    "blood_analysis_description": "Rat Mutagen Contamination"
+    "blood_analysis_description": "Rat Primer Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_slime",
     "name": [ "Slime Mutation", "Slime Transformation", "Slime Metamorphosis" ],
-    "desc": [ "You consumed slime mutagen.", "Plop.", "Brain… melting…" ],
+    "desc": [ "You consumed slime primer.", "Plop.", "Brain… melting…" ],
     "max_intensity": 3,
     "resist_traits": [ "THRESH_SLIME" ],
     "base_mods": {
@@ -1461,14 +1500,14 @@
       "pain_chance": [ -30 ]
     },
     "rating": "bad",
-    "blood_analysis_description": "Slime Mutagen Contamination"
+    "blood_analysis_description": "Slime Primer Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_spider",
     "name": [ "Spider Mutation", "Spider Transformation", "Spider Metamorphosis" ],
     "desc": [
-      "You consumed spider mutagen.",
+      "You consumed spider primer.",
       "An anchor line there and there, connect with capture threads…",
       "Perhaps you should curl up, just curl up and give in."
     ],
@@ -1486,14 +1525,14 @@
     },
     "scaling_mods": { "dex_mod": [ 1.5 ], "int_mod": [ -1 ], "speed_mod": [ 4 ], "hurt_chance": [ 21, 0 ], "pain_chance": [ -25 ] },
     "rating": "bad",
-    "blood_analysis_description": "Spider Mutagen Contamination"
+    "blood_analysis_description": "Spider Primer Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_troglobite",
     "name": [ "Troglobite Mutation", "Troglobite Transformation", "Troglobite Metamorphosis" ],
     "desc": [
-      "You consumed troglobite mutagen.",
+      "You consumed troglobite primer.",
       "Down in the dark corners of the new world.  That's where you belong.",
       "Deep and dark, your bones ache and twist."
     ],
@@ -1511,14 +1550,14 @@
     },
     "scaling_mods": { "str_mod": [ 2 ], "per_mod": [ -2.5 ], "dex_mod": [ 1 ], "hurt_chance": [ 21, 0 ], "pain_chance": [ -30 ] },
     "rating": "bad",
-    "blood_analysis_description": "Troglobite Mutagen Contamination"
+    "blood_analysis_description": "Troglobite Primer Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_ursine",
     "name": [ "Ursine Mutation", "Ursine Transformation", "Ursine Metamorphosis" ],
     "desc": [
-      "You consumed ursine mutagen.",
+      "You consumed ursine primer.",
       "Berries, brood, honey, or meat?  What will today bring?",
       "Sleep sounds good.  Sleep forever, maybe."
     ],
@@ -1546,7 +1585,7 @@
       "pain_chance": [ -30 ]
     },
     "rating": "bad",
-    "blood_analysis_description": "Ursine Mutagen Contamination"
+    "blood_analysis_description": "Ursine Primer Contamination"
   },
   {
     "type": "effect_type",
@@ -2133,6 +2172,7 @@
     "apply_message": "You're bleeding!",
     "remove_message": "The bleeding stops!",
     "rating": "bad",
+    "immune_flags": [ "BLEED_IMMUNE" ],
     "max_intensity": 40,
     "int_dur_factor": 60,
     "max_duration": 2400,
@@ -3033,11 +3073,11 @@
   {
     "type": "effect_type",
     "id": "genetics_damaged",
-    "name": [ "Mild Genetic Damage", "Genetic Damage", "Severe Genetic Damage" ],
+    "name": [ "Spent Phenotype", "Depleted Phenotype", "Bankrupt Phenotype" ],
     "desc": [
-      "After some mutations, you feel slightly uncomfortable - and that's it.",
-      "After many mutations, you feel uncomfortable, and you know for sure - that your Genetics System is getting damaged.",
-      "After LOTS OF mutations, you feel REALLY unnerving, seems like you Genetics System is getting badly damaged now."
+      "Mutation has left you with a persistent mild discomfort.  It seems harmless for now, but you can't predict if it'll get worse.",
+      "There's an enervating sense of dysmorphia throughout your whole body.  It waxes and wanes, but never quite goes away.  Mutating this much can't be good for you…",
+      "You're haunted by phantom pains across your entire body now.  Everything aches from an exhaustion that never seems to fade.  Any further mutation right now is very unlikely to have a happy ending."
     ],
     "max_intensity": 3,
     "rating": "bad"

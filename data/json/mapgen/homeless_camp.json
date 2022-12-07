@@ -212,6 +212,10 @@
       ],
       "npcs": { "@": { "class": "NPC_homeless_broker" }, "`": { "class": "NPC_homeless_group_survivor" } },
       "faction_owner": [ { "id": "wasteland_scavengers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "place_zones": [
+        { "type": "LOOT_UNSORTED", "faction": "wasteland_scavengers", "x": [ 11, 11 ], "y": [ 9, 9 ] },
+        { "type": "LOOT_CURRENCY", "faction": "wasteland_scavengers", "x": [ 11, 11 ], "y": [ 10, 10 ] }
+      ],
       "terrain": {
         " ": "t_region_groundcover",
         "_": "t_region_soil",

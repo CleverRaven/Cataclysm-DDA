@@ -321,7 +321,7 @@ void Item_factory::finalize_pre( itype &obj )
         return string_starts_with( f.str(), "LIGHT_" );
     } );
 
-    // for ammo not specifying loudness (or an explicit zero) derive value from other properties
+    // for ammo not specifying loudness derive value from other properties
     if( obj.ammo ) {
         if( obj.ammo->loudness < 0 ) {
             obj.ammo->loudness = obj.ammo->range * 2;
@@ -578,10 +578,9 @@ void Item_factory::finalize_pre( itype &obj )
         }
     }
 
-    if( obj.tool ) {
-        if( !obj.tool->subtype.is_empty() && has_template( obj.tool->subtype ) ) {
-            tool_subtypes[ obj.tool->subtype ].insert( obj.id );
-        }
+    // recurse into subtypes, adding self as substitution for all items in the subtypes chain
+    for( itype_id it = obj.id; it->tool && it->tool->subtype.is_valid(); it = it->tool->subtype ) {
+        tool_subtypes[ it->tool->subtype ].insert( obj.id );
     }
 
     for( auto &e : obj.use_methods ) {
@@ -647,6 +646,10 @@ void Item_factory::finalize_post( itype &obj )
         return;
     }
 
+    if( obj.armor ) {
+        finalize_post_armor( obj );
+    }
+
     // for each item iterate through potential repair tools
     for( const auto &tool : repair_tools ) {
 
@@ -673,529 +676,6 @@ void Item_factory::finalize_post( itype &obj )
         pocket.name = obj.name;
     }
 
-    if( obj.armor ) {
-        // if this armor doesn't have material info should try to populate it with base item materials
-        for( armor_portion_data &data : obj.armor->sub_data ) {
-            if( data.materials.empty() ) {
-                // if no portion info defined skip scaling for portions
-                bool skip_scale = obj.mat_portion_total == 0;
-                for( const auto &m : obj.materials ) {
-                    float factor = skip_scale
-                                   ? obj.materials.size()
-                                   : static_cast<float>( m.second ) / static_cast<float>( obj.mat_portion_total );
-                    part_material pm( m.first, 100, factor * data.avg_thickness );
-                    // need to ignore sheet thickness since inferred thicknesses are not gonna be perfect
-                    pm.ignore_sheet_thickness = true;
-                    data.materials.push_back( pm );
-                }
-            }
-        }
-
-        // cache some values and entries before consolidating info per limb
-        for( armor_portion_data &data : obj.armor->sub_data ) {
-            // Setting max_encumber must be in finalize_post because it relies on
-            // stack_size being set for all ammo, which happens in finalize_pre.
-            if( data.max_encumber == -1 ) {
-                units::volume total_nonrigid_volume = 0_ml;
-                for( const pocket_data &pocket : obj.pockets ) {
-                    if( !pocket.rigid ) {
-                        // include the modifier for each individual pocket
-                        total_nonrigid_volume += pocket.max_contains_volume() * pocket.volume_encumber_modifier;
-                    }
-                }
-                data.max_encumber = data.encumber + total_nonrigid_volume * data.volume_encumber_modifier /
-                                    armor_portion_data::volume_per_encumbrance;
-            }
-
-            // Precalc average thickness per portion
-            int data_count = 0;
-            float thic_acc = 0.0f;
-            for( part_material &m : data.materials ) {
-                thic_acc += m.thickness * m.cover / 100.0f;
-                data_count++;
-            }
-            if( data_count > 0 && thic_acc > std::numeric_limits<float>::epsilon() ) {
-                data.avg_thickness = thic_acc;
-            }
-
-            // Precalc hardness and comfort for these parts of the armor. uncomfortable material supersedes softness (all rigid materials are assumed to be uncomfy)
-            for( const part_material &m : data.materials ) {
-                if( m.cover > islot_armor::test_threshold ) {
-                    if( m.id->soft() ) {
-                        data.comfortable = true;
-                    } else {
-                        data.rigid = true;
-                    }
-                    if( m.id->uncomfortable() ) {
-                        data.comfortable = false;
-                    }
-                }
-            }
-        }
-
-        for( auto itt = obj.armor->sub_data.begin(); itt != obj.armor->sub_data.end(); ++itt ) {
-            // using empty to signify it has already been consolidated
-            if( !itt->sub_coverage.empty() ) {
-                //check if any further entries should be combined with this one
-                for( auto comp_itt = std::next( itt ); comp_itt != obj.armor->sub_data.end(); ++comp_itt ) {
-                    if( armor_portion_data::should_consolidate( *itt, *comp_itt ) ) {
-                        // they are the same so add the covers and sub covers to the original and then clear them from the other
-                        itt->covers->unify_set( comp_itt->covers.value() );
-                        itt->sub_coverage.insert( comp_itt->sub_coverage.begin(), comp_itt->sub_coverage.end() );
-                        comp_itt->covers->clear();
-                        comp_itt->sub_coverage.clear();
-                    }
-                }
-            }
-        }
-        //remove any now empty entries
-        auto remove_itt = std::remove_if( obj.armor->sub_data.begin(),
-        obj.armor->sub_data.end(), [&]( const armor_portion_data & data ) {
-            return data.sub_coverage.empty() && data.covers.value().none();
-        } );
-        obj.armor->sub_data.erase( remove_itt, obj.armor->sub_data.end() );
-
-        // now consolidate all the loaded sub_data to one entry per body part
-        for( const armor_portion_data &sub_armor : obj.armor->sub_data ) {
-            // for each body part this covers we need to add to the overall data for that bp
-            if( sub_armor.covers.has_value() ) {
-                for( const bodypart_str_id &bp : sub_armor.covers.value() ) {
-                    bool found = false;
-                    // go through and find if the body part already exists
-
-                    for( armor_portion_data &it : obj.armor->data ) {
-                        // if it contains the body part update the values with data from this
-                        //body_part_set set = it.covers.value();
-                        if( it.covers->test( bp ) ) {
-                            found = true;
-                            // modify the values with additional info
-
-
-                            it.encumber += sub_armor.encumber;
-                            it.max_encumber += sub_armor.max_encumber;
-
-                            for( const encumbrance_modifier &en : sub_armor.encumber_modifiers ) {
-                                it.encumber_modifiers.push_back( en );
-                            }
-
-                            // get the amount of the limb that is covered with sublocations
-                            // for overall coverage we need to scale coverage by that
-                            float scale = sub_armor.max_coverage( bp ) / 100.0;
-
-                            float it_scale = it.max_coverage( bp ) / 100.0;
-
-                            it.coverage += sub_armor.coverage * scale;
-                            it.cover_melee += sub_armor.cover_melee * scale;
-                            it.cover_ranged += sub_armor.cover_ranged * scale;
-                            it.cover_vitals += sub_armor.cover_vitals;
-
-                            // these values need to be averaged based on proportion covered
-                            it.avg_thickness = ( sub_armor.avg_thickness * scale + it.avg_thickness * it_scale ) /
-                                               ( scale + it_scale );
-                            it.env_resist = ( sub_armor.env_resist * scale + it.env_resist * it_scale ) /
-                                            ( scale + it_scale );
-                            it.env_resist_w_filter = ( sub_armor.env_resist_w_filter * scale + it.env_resist_w_filter *
-                                                       it_scale ) / ( scale + it_scale );
-
-                            // add layers that are covered by sublimbs
-                            for( const layer_level &ll : sub_armor.layers ) {
-                                it.layers.insert( ll );
-                            }
-
-
-                            // if you are trying to add a new data entry and either the original data
-                            // or the new data has an empty sublocations list then say that you are
-                            // redefining a limb
-                            if( it.sub_coverage.empty() || sub_armor.sub_coverage.empty() ) {
-                                debugmsg( "item %s has multiple entries for %s.",
-                                          obj.id.str(), bp.str() );
-                            }
-
-                            // go through the materials list and update data
-                            for( const part_material &new_mat : sub_armor.materials ) {
-                                bool mat_found = false;
-                                for( part_material &old_mat : it.materials ) {
-                                    if( old_mat.id == new_mat.id ) {
-                                        mat_found = true;
-                                        // values should be averaged
-                                        float max_coverage_new = sub_armor.max_coverage( bp );
-                                        float max_coverage_mats = it.max_coverage( bp );
-
-                                        // the percent of the coverable bits that this armor does cover
-                                        float coverage_multiplier = sub_armor.coverage * max_coverage_new / 100.0f;
-
-                                        // portion should be handled as the portion scaled by relative coverage
-                                        old_mat.cover = old_mat.cover + static_cast<float>( new_mat.cover ) * coverage_multiplier / 100.0f;
-
-                                        // with the max values we can get the weight that each should have
-                                        old_mat.thickness = ( max_coverage_new * new_mat.thickness + max_coverage_mats *
-                                                              old_mat.thickness ) / ( max_coverage_mats + max_coverage_new );
-                                    }
-                                }
-                                // if we didn't find an entry for this material
-                                // create new entry with a scaled material coverage
-                                if( !mat_found ) {
-                                    float max_coverage_new = sub_armor.max_coverage( bp );
-
-                                    // the percent of the coverable bits that this armor does cover
-                                    float coverage_multiplier = sub_armor.coverage * max_coverage_new / 100.0f;
-
-                                    part_material modified_mat = new_mat;
-                                    // if for example your elbow was covered in plastic but none of the rest of the arm
-                                    // this should be represented correctly in the UI with the covers for plastic being 5%
-                                    // of the arm. Similarily 50% covered in plastic covering only 30% of the arm should lead to
-                                    // 15% covered for the arm overall
-                                    modified_mat.cover = static_cast<float>( new_mat.cover ) * coverage_multiplier / 100.0f;
-                                    it.materials.push_back( modified_mat );
-                                }
-                            }
-
-                            // add additional sub coverage locations to the original list
-                            for( const sub_bodypart_str_id &sbp : sub_armor.sub_coverage ) {
-                                it.sub_coverage.insert( sbp );
-                            }
-                        }
-                    }
-
-                    // if not found create a new bp entry
-                    if( !found ) {
-                        // copy values to data but only have one limb
-                        armor_portion_data new_limb = sub_armor;
-                        new_limb.covers->clear();
-                        new_limb.covers->set( bp );
-
-                        // get the amount of the limb that is covered with sublocations
-                        // for overall coverage we need to scale coverage by that
-                        float scale = new_limb.max_coverage( bp ) / 100.0;
-
-                        new_limb.coverage = new_limb.coverage * scale;
-                        new_limb.cover_melee = new_limb.cover_melee * scale;
-                        new_limb.cover_ranged = new_limb.cover_ranged * scale;
-
-                        // need to scale each material coverage the same way since they will after this be
-                        // scaled back up at the end of the amalgamation
-                        for( part_material &mat : new_limb.materials ) {
-                            mat.cover = static_cast<float>( mat.cover ) * new_limb.coverage / 100.0f;
-                        }
-
-                        obj.armor->data.push_back( new_limb );
-                    }
-                }
-            }
-
-        }
-
-        // calculate encumbrance data per limb if done by description
-        for( armor_portion_data &data : obj.armor->data ) {
-            if( !data.encumber_modifiers.empty() ) {
-                // we know that the data entry covers a single bp
-                data.encumber = data.calc_encumbrance( obj.weight, *data.covers.value().begin() );
-
-                // need to account for varsize stuff here and double encumbrance if so
-                if( obj.has_flag( flag_VARSIZE ) ) {
-                    data.encumber = std::min( data.encumber * 2, data.encumber + 10 );
-                }
-
-                // Recalc max encumber as well
-                units::volume total_nonrigid_volume = 0_ml;
-                for( const pocket_data &pocket : obj.pockets ) {
-                    if( !pocket.rigid ) {
-                        // include the modifier for each individual pocket
-                        total_nonrigid_volume += pocket.max_contains_volume() * pocket.volume_encumber_modifier;
-                    }
-                }
-                data.max_encumber = data.encumber + total_nonrigid_volume * data.volume_encumber_modifier /
-                                    armor_portion_data::volume_per_encumbrance;
-            }
-        }
-
-        // need to scale amalgamized portion data based on total coverage.
-        // 3% of 48% needs to be scaled to 6% of 100%
-        for( armor_portion_data &it : obj.armor->data ) {
-            for( part_material &mat : it.materials ) {
-                // scale the value of portion covered based on how much total is covered
-                // if you proportionally only cover 5% of the arm but overall cover 50%
-                // you actually proportionally cover 10% of the armor
-
-                // in case of 0 coverage just say the mats cover it all
-                if( it.coverage == 0 ) {
-                    mat.cover = 100;
-                } else {
-                    mat.cover = std::round( static_cast<float>( mat.cover ) / ( static_cast<float>
-                                            ( it.coverage ) / 100.0f ) );
-                }
-            }
-        }
-
-
-        // store a shorthand var for if the item has notable sub coverage data
-        for( const armor_portion_data &armor_data : obj.armor->data ) {
-            if( obj.armor->has_sub_coverage ) {
-                // if we already know it has subcoverage break from the loop
-                break;
-            }
-
-            // if the item covers everything it doesn't have specific sub coverage
-            // so don't need to display it in the UI and do tests for it
-            if( !armor_data.sub_coverage.empty() ) {
-                // go through and see if we are missing any sublocations
-                // if we are missing some then the item does cover specific locations
-                // this flag is mostly used to skip itterating and testing
-                // if UI should be displayed
-
-                // each armor data entry covers exactly 1 body part
-                for( const sub_bodypart_str_id &compare_sbp : armor_data.covers->begin()->obj().sub_parts ) {
-                    if( compare_sbp->secondary ) {
-                        // don't care about secondary locations
-                        continue;
-                    }
-                    bool found = false;
-                    for( const sub_bodypart_str_id &sbp : armor_data.sub_coverage ) {
-                        if( compare_sbp == sbp ) {
-                            found = true;
-                        }
-                    }
-                    // if an entry is not found we cover specific parts so this item has sub_coverage
-                    if( !found ) {
-                        obj.armor->has_sub_coverage = true;
-                    }
-                }
-            }
-        }
-
-        // calculate worst case and best case protection %
-        for( armor_portion_data &armor_data : obj.armor->data ) {
-            // go through each material and contribute its values
-            float tempbest = 1.0f;
-            float tempworst = 1.0f;
-            for( const part_material &mat : armor_data.materials ) {
-                // the percent chance the material is not hit
-                float cover = mat.cover * .01f;
-                float cover_invert = 1.0f - cover;
-
-                tempbest *= cover;
-                // just interested in cover values that can fail.
-                // multiplying by 0 would make this value pointless
-                if( cover_invert > 0 ) {
-                    tempworst *= cover_invert;
-                }
-            }
-
-            // if tempworst is 1 then the item is homogenous so it only has a single option for damage
-            if( tempworst == 1 ) {
-                tempworst = 0;
-            }
-
-            // if not exactly 0 it should display as at least 1
-            if( tempworst > 0 ) {
-                armor_data.worst_protection_chance = std::max( 1.0f, tempworst * 100.0f );
-            } else {
-                armor_data.worst_protection_chance = 0;
-            }
-            if( tempbest > 0 ) {
-                armor_data.best_protection_chance = std::max( 1.0f, tempbest * 100.0f );
-            } else {
-                armor_data.best_protection_chance = 0;
-            }
-        }
-
-        // calculate worst case and best case protection %
-        for( armor_portion_data &armor_data : obj.armor->sub_data ) {
-            // go through each material and contribute its values
-            float tempbest = 1.0f;
-            float tempworst = 1.0f;
-            for( const part_material &mat : armor_data.materials ) {
-                // the percent chance the material is not hit
-                float cover = mat.cover * .01f;
-                float cover_invert = 1.0f - cover;
-
-                tempbest *= cover;
-                // just interested in cover values that can fail.
-                // multiplying by 0 would make this value pointless
-                if( cover_invert > 0 ) {
-                    tempworst *= cover_invert;
-                }
-            }
-
-            // if tempworst is 1 then the item is homogenous so it only has a single option for damage
-            if( tempworst == 1 ) {
-                tempworst = 0;
-            }
-
-            // if not exactly 0 it should display as at least 1
-            if( tempworst > 0 ) {
-                armor_data.worst_protection_chance = std::max( 1.0f, tempworst * 100.0f );
-            } else {
-                armor_data.worst_protection_chance = 0;
-            }
-            if( tempbest > 0 ) {
-                armor_data.best_protection_chance = std::max( 1.0f, tempbest * 100.0f );
-            } else {
-                armor_data.best_protection_chance = 0;
-            }
-        }
-
-        // create the vector of all layers
-        if( obj.has_flag( flag_PERSONAL ) ) {
-            obj.armor->all_layers.push_back( layer_level::PERSONAL );
-        }
-        if( obj.has_flag( flag_SKINTIGHT ) ) {
-            obj.armor->all_layers.push_back( layer_level::SKINTIGHT );
-        }
-        if( obj.has_flag( flag_NORMAL ) ) {
-            obj.armor->all_layers.push_back( layer_level::NORMAL );
-        }
-        if( obj.has_flag( flag_WAIST ) ) {
-            obj.armor->all_layers.push_back( layer_level::WAIST );
-        }
-        if( obj.has_flag( flag_OUTER ) ) {
-            obj.armor->all_layers.push_back( layer_level::OUTER );
-        }
-        if( obj.has_flag( flag_BELTED ) ) {
-            obj.armor->all_layers.push_back( layer_level::BELTED );
-        }
-        if( obj.has_flag( flag_AURA ) ) {
-            obj.armor->all_layers.push_back( layer_level::AURA );
-        }
-        // fallback for old way of doing items
-        if( obj.armor->all_layers.empty() ) {
-            obj.armor->all_layers.push_back( layer_level::NORMAL );
-        }
-
-        // generate the vector of flags that the item will default to if not override
-        std::vector<layer_level> default_layers = obj.armor->all_layers;
-
-
-        for( armor_portion_data &armor_data : obj.armor->data ) {
-            // if an item or location has no layer data then default to the flags for the item
-            if( armor_data.layers.empty() ) {
-                for( const layer_level &ll : default_layers ) {
-                    armor_data.layers.insert( ll );
-                }
-            } else {
-                armor_data.has_unique_layering = true;
-                // add any unique layer entries to the items total layer info
-                for( const layer_level &ll : armor_data.layers ) {
-                    if( std::count( obj.armor->all_layers.begin(), obj.armor->all_layers.end(), ll ) == 0 ) {
-                        obj.armor->all_layers.push_back( ll );
-                    }
-                }
-            }
-        }
-        for( armor_portion_data &armor_data : obj.armor->sub_data ) {
-            // if an item or location has no layer data then default to the flags for the item
-            if( armor_data.layers.empty() ) {
-                for( const layer_level &ll : default_layers ) {
-                    armor_data.layers.insert( ll );
-                }
-            } else {
-                armor_data.has_unique_layering = true;
-            }
-        }
-
-        // anything on a non traditional clothing layer can't be "rigid" as well since it's storage pouches and stuff
-        for( armor_portion_data &armor_data : obj.armor->sub_data ) {
-            auto clothing_layer = std::find_if( armor_data.layers.begin(),
-            armor_data.layers.end(), []( const layer_level ll ) {
-                return ll == layer_level::SKINTIGHT || ll == layer_level::NORMAL || ll == layer_level::OUTER;
-            } );
-            if( clothing_layer == armor_data.layers.end() ) {
-                armor_data.rigid = false;
-            }
-        }
-
-        bool all_rigid = true;
-        bool all_comfortable = true;
-        for( armor_portion_data &data : obj.armor->sub_data ) {
-            // check if everything on this armor is still rigid / comfortable
-            all_rigid = all_rigid && data.rigid;
-            all_comfortable = all_comfortable && data.comfortable;
-        }
-        obj.armor->rigid = all_rigid;
-        obj.armor->comfortable = all_comfortable;
-
-        // go through the pockets and apply some characteristics
-        for( const pocket_data &pocket : obj.pockets ) {
-            if( pocket.ablative ) {
-                obj.armor->ablative = true;
-                break;
-            }
-            if( pocket.extra_encumbrance > 0 ) {
-                obj.armor->additional_pocket_enc = true;
-            }
-            if( pocket.ripoff > 0 ) {
-                obj.armor->ripoff_chance = true;
-            }
-            if( pocket.activity_noise.chance > 0 ) {
-                obj.armor->noisy = true;
-            }
-        }
-
-        // update the items materials based on the materials defined by the armor
-        // this isn't perfect but neither is the usual definition so this should at
-        // least give a good ballpark
-        if( obj.materials.empty() ) {
-            obj.mat_portion_total = 0;
-            for( const armor_portion_data &armor_data : obj.armor->data ) {
-                for( const part_material &mat : armor_data.materials ) {
-                    // if the material isn't in the map yet
-                    if( obj.materials.find( mat.id ) == obj.materials.end() ) {
-                        obj.materials[mat.id] = mat.thickness * 100;
-                    } else {
-                        obj.materials[mat.id] += mat.thickness * 100;
-                    }
-                    obj.mat_portion_total += mat.thickness * 100;
-                }
-            }
-        }
-
-        // calculate each body part breathability of the armor
-        // breathability is the worst breathability of any material on that portion
-        for( armor_portion_data &armor_data : obj.armor->data ) {
-
-            // only recalculate the breathability when the value is not set in JSON
-            // or when the value in JSON is invalid
-            if( armor_data.breathability < 0 ) {
-
-                std::vector<part_material> sorted_mats = armor_data.materials;
-                std::sort( sorted_mats.begin(), sorted_mats.end(), []( const part_material & lhs,
-                const part_material & rhs ) {
-                    return lhs.id->breathability() < rhs.id->breathability();
-                } );
-
-                // now that mats are sorted least breathable to most
-                int coverage_counted = 0;
-                int combined_breathability = 0;
-
-                // only calcuate the breathability if the armor has no valid loaded value
-                for( const part_material &mat : sorted_mats ) {
-                    // this isn't perfect since its impossible to know the positions of each material relatively
-                    // so some guessing is done
-                    // specifically count the worst breathability then then next best with additional coverage
-                    // and repeat until out of matts or fully covering.
-                    combined_breathability += std::max( ( mat.cover - coverage_counted ) * mat.id->breathability(), 0 );
-                    coverage_counted = std::max( mat.cover, coverage_counted );
-
-                    // this covers the whole piece of armor so we can stop counting better breathability
-                    if( coverage_counted == 100 ) {
-                        break;
-                    }
-                }
-                // whatever isn't covered is as good as skin so 100%
-                armor_data.breathability = ( combined_breathability / 100 ) + ( 100 - coverage_counted );
-            }
-        }
-
-        for( const armor_portion_data &armor_data : obj.armor->data ) {
-            for( const part_material &mat : armor_data.materials ) {
-                if( mat.cover > 100 || mat.cover < 0 ) {
-                    debugmsg( "item %s has coverage %d for material %s.",
-                              obj.id.str(), mat.cover, mat.id.str() );
-                }
-            }
-        }
-    }
-
     if( obj.comestible ) {
         for( const std::pair<const diseasetype_id, int> &elem : obj.comestible->contamination ) {
             const diseasetype_id dtype = elem.first;
@@ -1210,6 +690,529 @@ void Item_factory::finalize_post( itype &obj )
     if( obj.repairs_with.empty() ) {
         for( const auto &mats : obj.materials ) {
             obj.repairs_with.insert( mats.first );
+        }
+    }
+}
+
+void Item_factory::finalize_post_armor( itype &obj )
+{
+    // if this armor doesn't have material info should try to populate it with base item materials
+    for( armor_portion_data &data : obj.armor->sub_data ) {
+        if( data.materials.empty() ) {
+            // if no portion info defined skip scaling for portions
+            bool skip_scale = obj.mat_portion_total == 0;
+            for( const auto &m : obj.materials ) {
+                float factor = skip_scale
+                               ? obj.materials.size()
+                               : static_cast<float>( m.second ) / static_cast<float>( obj.mat_portion_total );
+                part_material pm( m.first, 100, factor * data.avg_thickness );
+                // need to ignore sheet thickness since inferred thicknesses are not gonna be perfect
+                pm.ignore_sheet_thickness = true;
+                data.materials.push_back( pm );
+            }
+        }
+    }
+
+    // cache some values and entries before consolidating info per limb
+    for( armor_portion_data &data : obj.armor->sub_data ) {
+        // Setting max_encumber must be in finalize_post because it relies on
+        // stack_size being set for all ammo, which happens in finalize_pre.
+        if( data.max_encumber == -1 ) {
+            units::volume total_nonrigid_volume = 0_ml;
+            for( const pocket_data &pocket : obj.pockets ) {
+                if( !pocket.rigid ) {
+                    // include the modifier for each individual pocket
+                    total_nonrigid_volume += pocket.max_contains_volume() * pocket.volume_encumber_modifier;
+                }
+            }
+            data.max_encumber = data.encumber + total_nonrigid_volume * data.volume_encumber_modifier /
+                                armor_portion_data::volume_per_encumbrance;
+        }
+
+        // Precalc average thickness per portion
+        int data_count = 0;
+        float thic_acc = 0.0f;
+        for( part_material &m : data.materials ) {
+            thic_acc += m.thickness * m.cover / 100.0f;
+            data_count++;
+        }
+        if( data_count > 0 && thic_acc > std::numeric_limits<float>::epsilon() ) {
+            data.avg_thickness = thic_acc;
+        }
+
+        // Precalc hardness and comfort for these parts of the armor. uncomfortable material supersedes softness (all rigid materials are assumed to be uncomfy)
+        for( const part_material &m : data.materials ) {
+            if( m.cover > islot_armor::test_threshold ) {
+                if( m.id->soft() ) {
+                    data.comfortable = true;
+                } else {
+                    data.rigid = true;
+                }
+                if( m.id->uncomfortable() ) {
+                    data.comfortable = false;
+                }
+            }
+        }
+    }
+
+    for( auto itt = obj.armor->sub_data.begin(); itt != obj.armor->sub_data.end(); ++itt ) {
+        // using empty to signify it has already been consolidated
+        if( !itt->sub_coverage.empty() ) {
+            //check if any further entries should be combined with this one
+            for( auto comp_itt = std::next( itt ); comp_itt != obj.armor->sub_data.end(); ++comp_itt ) {
+                if( armor_portion_data::should_consolidate( *itt, *comp_itt ) ) {
+                    // they are the same so add the covers and sub covers to the original and then clear them from the other
+                    itt->covers->unify_set( comp_itt->covers.value() );
+                    itt->sub_coverage.insert( comp_itt->sub_coverage.begin(), comp_itt->sub_coverage.end() );
+                    comp_itt->covers->clear();
+                    comp_itt->sub_coverage.clear();
+                }
+            }
+        }
+    }
+    //remove any now empty entries
+    auto remove_itt = std::remove_if( obj.armor->sub_data.begin(),
+    obj.armor->sub_data.end(), [&]( const armor_portion_data & data ) {
+        return data.sub_coverage.empty() && data.covers.value().none();
+    } );
+    obj.armor->sub_data.erase( remove_itt, obj.armor->sub_data.end() );
+
+    // now consolidate all the loaded sub_data to one entry per body part
+    for( const armor_portion_data &sub_armor : obj.armor->sub_data ) {
+        // for each body part this covers we need to add to the overall data for that bp
+        if( sub_armor.covers.has_value() ) {
+            for( const bodypart_str_id &bp : sub_armor.covers.value() ) {
+                bool found = false;
+                // go through and find if the body part already exists
+
+                for( armor_portion_data &it : obj.armor->data ) {
+                    // if it contains the body part update the values with data from this
+                    //body_part_set set = it.covers.value();
+                    if( it.covers->test( bp ) ) {
+                        found = true;
+                        // modify the values with additional info
+
+
+                        it.encumber += sub_armor.encumber;
+                        it.max_encumber += sub_armor.max_encumber;
+
+                        for( const encumbrance_modifier &en : sub_armor.encumber_modifiers ) {
+                            it.encumber_modifiers.push_back( en );
+                        }
+
+                        // get the amount of the limb that is covered with sublocations
+                        // for overall coverage we need to scale coverage by that
+                        float scale = sub_armor.max_coverage( bp ) / 100.0;
+
+                        float it_scale = it.max_coverage( bp ) / 100.0;
+
+                        it.coverage += sub_armor.coverage * scale;
+                        it.cover_melee += sub_armor.cover_melee * scale;
+                        it.cover_ranged += sub_armor.cover_ranged * scale;
+                        it.cover_vitals += sub_armor.cover_vitals;
+
+                        // these values need to be averaged based on proportion covered
+                        it.avg_thickness = ( sub_armor.avg_thickness * scale + it.avg_thickness * it_scale ) /
+                                           ( scale + it_scale );
+                        it.env_resist = ( sub_armor.env_resist * scale + it.env_resist * it_scale ) /
+                                        ( scale + it_scale );
+                        it.env_resist_w_filter = ( sub_armor.env_resist_w_filter * scale + it.env_resist_w_filter *
+                                                   it_scale ) / ( scale + it_scale );
+
+                        // add layers that are covered by sublimbs
+                        for( const layer_level &ll : sub_armor.layers ) {
+                            it.layers.insert( ll );
+                        }
+
+
+                        // if you are trying to add a new data entry and either the original data
+                        // or the new data has an empty sublocations list then say that you are
+                        // redefining a limb
+                        if( it.sub_coverage.empty() || sub_armor.sub_coverage.empty() ) {
+                            debugmsg( "item %s has multiple entries for %s.",
+                                      obj.id.str(), bp.str() );
+                        }
+
+                        // go through the materials list and update data
+                        for( const part_material &new_mat : sub_armor.materials ) {
+                            bool mat_found = false;
+                            for( part_material &old_mat : it.materials ) {
+                                if( old_mat.id == new_mat.id ) {
+                                    mat_found = true;
+                                    // values should be averaged
+                                    float max_coverage_new = sub_armor.max_coverage( bp );
+                                    float max_coverage_mats = it.max_coverage( bp );
+
+                                    // the percent of the coverable bits that this armor does cover
+                                    float coverage_multiplier = sub_armor.coverage * max_coverage_new / 100.0f;
+
+                                    // portion should be handled as the portion scaled by relative coverage
+                                    old_mat.cover = old_mat.cover + static_cast<float>( new_mat.cover ) * coverage_multiplier / 100.0f;
+
+                                    // with the max values we can get the weight that each should have
+                                    old_mat.thickness = ( max_coverage_new * new_mat.thickness + max_coverage_mats *
+                                                          old_mat.thickness ) / ( max_coverage_mats + max_coverage_new );
+                                }
+                            }
+                            // if we didn't find an entry for this material
+                            // create new entry with a scaled material coverage
+                            if( !mat_found ) {
+                                float max_coverage_new = sub_armor.max_coverage( bp );
+
+                                // the percent of the coverable bits that this armor does cover
+                                float coverage_multiplier = sub_armor.coverage * max_coverage_new / 100.0f;
+
+                                part_material modified_mat = new_mat;
+                                // if for example your elbow was covered in plastic but none of the rest of the arm
+                                // this should be represented correctly in the UI with the covers for plastic being 5%
+                                // of the arm. Similarily 50% covered in plastic covering only 30% of the arm should lead to
+                                // 15% covered for the arm overall
+                                modified_mat.cover = static_cast<float>( new_mat.cover ) * coverage_multiplier / 100.0f;
+                                it.materials.push_back( modified_mat );
+                            }
+                        }
+
+                        // add additional sub coverage locations to the original list
+                        for( const sub_bodypart_str_id &sbp : sub_armor.sub_coverage ) {
+                            it.sub_coverage.insert( sbp );
+                        }
+                    }
+                }
+
+                // if not found create a new bp entry
+                if( !found ) {
+                    // copy values to data but only have one limb
+                    armor_portion_data new_limb = sub_armor;
+                    new_limb.covers->clear();
+                    new_limb.covers->set( bp );
+
+                    // get the amount of the limb that is covered with sublocations
+                    // for overall coverage we need to scale coverage by that
+                    float scale = new_limb.max_coverage( bp ) / 100.0;
+
+                    new_limb.coverage = new_limb.coverage * scale;
+                    new_limb.cover_melee = new_limb.cover_melee * scale;
+                    new_limb.cover_ranged = new_limb.cover_ranged * scale;
+
+                    // need to scale each material coverage the same way since they will after this be
+                    // scaled back up at the end of the amalgamation
+                    for( part_material &mat : new_limb.materials ) {
+                        mat.cover = static_cast<float>( mat.cover ) * new_limb.coverage / 100.0f;
+                    }
+
+                    obj.armor->data.push_back( new_limb );
+                }
+            }
+        }
+
+    }
+
+    // calculate encumbrance data per limb if done by description
+    for( armor_portion_data &data : obj.armor->data ) {
+        if( !data.encumber_modifiers.empty() ) {
+            // we know that the data entry covers a single bp
+            data.encumber = data.calc_encumbrance( obj.weight, *data.covers.value().begin() );
+
+            // need to account for varsize stuff here and double encumbrance if so
+            if( obj.has_flag( flag_VARSIZE ) ) {
+                data.encumber = std::min( data.encumber * 2, data.encumber + 10 );
+            }
+
+            // Recalc max encumber as well
+            units::volume total_nonrigid_volume = 0_ml;
+            for( const pocket_data &pocket : obj.pockets ) {
+                if( !pocket.rigid ) {
+                    // include the modifier for each individual pocket
+                    total_nonrigid_volume += pocket.max_contains_volume() * pocket.volume_encumber_modifier;
+                }
+            }
+            data.max_encumber = data.encumber + total_nonrigid_volume * data.volume_encumber_modifier /
+                                armor_portion_data::volume_per_encumbrance;
+        }
+    }
+
+    // need to scale amalgamized portion data based on total coverage.
+    // 3% of 48% needs to be scaled to 6% of 100%
+    for( armor_portion_data &it : obj.armor->data ) {
+        for( part_material &mat : it.materials ) {
+            // scale the value of portion covered based on how much total is covered
+            // if you proportionally only cover 5% of the arm but overall cover 50%
+            // you actually proportionally cover 10% of the armor
+
+            // in case of 0 coverage just say the mats cover it all
+            if( it.coverage == 0 ) {
+                mat.cover = 100;
+            } else {
+                mat.cover = std::round( static_cast<float>( mat.cover ) / ( static_cast<float>
+                                        ( it.coverage ) / 100.0f ) );
+            }
+        }
+    }
+
+
+    // store a shorthand var for if the item has notable sub coverage data
+    for( const armor_portion_data &armor_data : obj.armor->data ) {
+        if( obj.armor->has_sub_coverage ) {
+            // if we already know it has subcoverage break from the loop
+            break;
+        }
+
+        // if the item covers everything it doesn't have specific sub coverage
+        // so don't need to display it in the UI and do tests for it
+        if( !armor_data.sub_coverage.empty() ) {
+            // go through and see if we are missing any sublocations
+            // if we are missing some then the item does cover specific locations
+            // this flag is mostly used to skip itterating and testing
+            // if UI should be displayed
+
+            // each armor data entry covers exactly 1 body part
+            for( const sub_bodypart_str_id &compare_sbp : armor_data.covers->begin()->obj().sub_parts ) {
+                if( compare_sbp->secondary ) {
+                    // don't care about secondary locations
+                    continue;
+                }
+                bool found = false;
+                for( const sub_bodypart_str_id &sbp : armor_data.sub_coverage ) {
+                    if( compare_sbp == sbp ) {
+                        found = true;
+                    }
+                }
+                // if an entry is not found we cover specific parts so this item has sub_coverage
+                if( !found ) {
+                    obj.armor->has_sub_coverage = true;
+                }
+            }
+        }
+    }
+
+    // calculate worst case and best case protection %
+    for( armor_portion_data &armor_data : obj.armor->data ) {
+        // go through each material and contribute its values
+        float tempbest = 1.0f;
+        float tempworst = 1.0f;
+        for( const part_material &mat : armor_data.materials ) {
+            // the percent chance the material is not hit
+            float cover = mat.cover * .01f;
+            float cover_invert = 1.0f - cover;
+
+            tempbest *= cover;
+            // just interested in cover values that can fail.
+            // multiplying by 0 would make this value pointless
+            if( cover_invert > 0 ) {
+                tempworst *= cover_invert;
+            }
+        }
+
+        // if tempworst is 1 then the item is homogenous so it only has a single option for damage
+        if( tempworst == 1 ) {
+            tempworst = 0;
+        }
+
+        // if not exactly 0 it should display as at least 1
+        if( tempworst > 0 ) {
+            armor_data.worst_protection_chance = std::max( 1.0f, tempworst * 100.0f );
+        } else {
+            armor_data.worst_protection_chance = 0;
+        }
+        if( tempbest > 0 ) {
+            armor_data.best_protection_chance = std::max( 1.0f, tempbest * 100.0f );
+        } else {
+            armor_data.best_protection_chance = 0;
+        }
+    }
+
+    // calculate worst case and best case protection %
+    for( armor_portion_data &armor_data : obj.armor->sub_data ) {
+        // go through each material and contribute its values
+        float tempbest = 1.0f;
+        float tempworst = 1.0f;
+        for( const part_material &mat : armor_data.materials ) {
+            // the percent chance the material is not hit
+            float cover = mat.cover * .01f;
+            float cover_invert = 1.0f - cover;
+
+            tempbest *= cover;
+            // just interested in cover values that can fail.
+            // multiplying by 0 would make this value pointless
+            if( cover_invert > 0 ) {
+                tempworst *= cover_invert;
+            }
+        }
+
+        // if tempworst is 1 then the item is homogenous so it only has a single option for damage
+        if( tempworst == 1 ) {
+            tempworst = 0;
+        }
+
+        // if not exactly 0 it should display as at least 1
+        if( tempworst > 0 ) {
+            armor_data.worst_protection_chance = std::max( 1.0f, tempworst * 100.0f );
+        } else {
+            armor_data.worst_protection_chance = 0;
+        }
+        if( tempbest > 0 ) {
+            armor_data.best_protection_chance = std::max( 1.0f, tempbest * 100.0f );
+        } else {
+            armor_data.best_protection_chance = 0;
+        }
+    }
+
+    // create the vector of all layers
+    if( obj.has_flag( flag_PERSONAL ) ) {
+        obj.armor->all_layers.push_back( layer_level::PERSONAL );
+    }
+    if( obj.has_flag( flag_SKINTIGHT ) ) {
+        obj.armor->all_layers.push_back( layer_level::SKINTIGHT );
+    }
+    if( obj.has_flag( flag_NORMAL ) ) {
+        obj.armor->all_layers.push_back( layer_level::NORMAL );
+    }
+    if( obj.has_flag( flag_WAIST ) ) {
+        obj.armor->all_layers.push_back( layer_level::WAIST );
+    }
+    if( obj.has_flag( flag_OUTER ) ) {
+        obj.armor->all_layers.push_back( layer_level::OUTER );
+    }
+    if( obj.has_flag( flag_BELTED ) ) {
+        obj.armor->all_layers.push_back( layer_level::BELTED );
+    }
+    if( obj.has_flag( flag_AURA ) ) {
+        obj.armor->all_layers.push_back( layer_level::AURA );
+    }
+    // fallback for old way of doing items
+    if( obj.armor->all_layers.empty() ) {
+        obj.armor->all_layers.push_back( layer_level::NORMAL );
+    }
+
+    // generate the vector of flags that the item will default to if not override
+    std::vector<layer_level> default_layers = obj.armor->all_layers;
+
+
+    for( armor_portion_data &armor_data : obj.armor->data ) {
+        // if an item or location has no layer data then default to the flags for the item
+        if( armor_data.layers.empty() ) {
+            for( const layer_level &ll : default_layers ) {
+                armor_data.layers.insert( ll );
+            }
+        } else {
+            armor_data.has_unique_layering = true;
+            // add any unique layer entries to the items total layer info
+            for( const layer_level &ll : armor_data.layers ) {
+                if( std::count( obj.armor->all_layers.begin(), obj.armor->all_layers.end(), ll ) == 0 ) {
+                    obj.armor->all_layers.push_back( ll );
+                }
+            }
+        }
+    }
+    for( armor_portion_data &armor_data : obj.armor->sub_data ) {
+        // if an item or location has no layer data then default to the flags for the item
+        if( armor_data.layers.empty() ) {
+            for( const layer_level &ll : default_layers ) {
+                armor_data.layers.insert( ll );
+            }
+        } else {
+            armor_data.has_unique_layering = true;
+        }
+    }
+
+    // anything on a non traditional clothing layer can't be "rigid" as well since it's storage pouches and stuff
+    for( armor_portion_data &armor_data : obj.armor->sub_data ) {
+        auto clothing_layer = std::find_if( armor_data.layers.begin(),
+        armor_data.layers.end(), []( const layer_level ll ) {
+            return ll == layer_level::SKINTIGHT || ll == layer_level::NORMAL || ll == layer_level::OUTER;
+        } );
+        if( clothing_layer == armor_data.layers.end() ) {
+            armor_data.rigid = false;
+        }
+    }
+
+    bool all_rigid = true;
+    bool all_comfortable = true;
+    for( armor_portion_data &data : obj.armor->sub_data ) {
+        // check if everything on this armor is still rigid / comfortable
+        all_rigid = all_rigid && data.rigid;
+        all_comfortable = all_comfortable && data.comfortable;
+    }
+    obj.armor->rigid = all_rigid;
+    obj.armor->comfortable = all_comfortable;
+
+    // go through the pockets and apply some characteristics
+    for( const pocket_data &pocket : obj.pockets ) {
+        if( pocket.ablative ) {
+            obj.armor->ablative = true;
+            break;
+        }
+        if( pocket.extra_encumbrance > 0 ) {
+            obj.armor->additional_pocket_enc = true;
+        }
+        if( pocket.ripoff > 0 ) {
+            obj.armor->ripoff_chance = true;
+        }
+        if( pocket.activity_noise.chance > 0 ) {
+            obj.armor->noisy = true;
+        }
+    }
+
+    // update the items materials based on the materials defined by the armor
+    // this isn't perfect but neither is the usual definition so this should at
+    // least give a good ballpark
+    if( obj.materials.empty() ) {
+        obj.mat_portion_total = 0;
+        for( const armor_portion_data &armor_data : obj.armor->data ) {
+            for( const part_material &mat : armor_data.materials ) {
+                // if the material isn't in the map yet
+                if( obj.materials.find( mat.id ) == obj.materials.end() ) {
+                    obj.materials[mat.id] = mat.thickness * 100;
+                } else {
+                    obj.materials[mat.id] += mat.thickness * 100;
+                }
+                obj.mat_portion_total += mat.thickness * 100;
+            }
+        }
+    }
+
+    // calculate each body part breathability of the armor
+    // breathability is the worst breathability of any material on that portion
+    for( armor_portion_data &armor_data : obj.armor->data ) {
+        // only recalculate the breathability when the value is not set in JSON
+        // or when the value in JSON is invalid
+        if( armor_data.breathability < 0 ) {
+
+            std::vector<part_material> sorted_mats = armor_data.materials;
+            std::sort( sorted_mats.begin(), sorted_mats.end(), []( const part_material & lhs,
+            const part_material & rhs ) {
+                return lhs.id->breathability() < rhs.id->breathability();
+            } );
+
+            // now that mats are sorted least breathable to most
+            int coverage_counted = 0;
+            int combined_breathability = 0;
+
+            // only calcuate the breathability if the armor has no valid loaded value
+            for( const part_material &mat : sorted_mats ) {
+                // this isn't perfect since its impossible to know the positions of each material relatively
+                // so some guessing is done
+                // specifically count the worst breathability then then next best with additional coverage
+                // and repeat until out of matts or fully covering.
+                combined_breathability += std::max( ( mat.cover - coverage_counted ) * mat.id->breathability(), 0 );
+                coverage_counted = std::max( mat.cover, coverage_counted );
+
+                // this covers the whole piece of armor so we can stop counting better breathability
+                if( coverage_counted == 100 ) {
+                    break;
+                }
+            }
+            // whatever isn't covered is as good as skin so 100%
+            armor_data.breathability = ( combined_breathability / 100 ) + ( 100 - coverage_counted );
+        }
+    }
+
+    for( const armor_portion_data &armor_data : obj.armor->data ) {
+        for( const part_material &mat : armor_data.materials ) {
+            if( mat.cover > 100 || mat.cover < 0 ) {
+                debugmsg( "item %s has coverage %d for material %s.",
+                          obj.id.str(), mat.cover, mat.id.str() );
+            }
         }
     }
 }
@@ -1545,6 +1548,7 @@ void Item_factory::init()
 {
     add_iuse( "ACIDBOMB_ACT", &iuse::acidbomb_act );
     add_iuse( "ADRENALINE_INJECTOR", &iuse::adrenaline_injector );
+    add_iuse( "AFS_TRANSLOCATOR", &iuse::afs_translocator );
     add_iuse( "ALCOHOL", &iuse::alcohol_medium );
     add_iuse( "ALCOHOL_STRONG", &iuse::alcohol_strong );
     add_iuse( "ALCOHOL_WEAK", &iuse::alcohol_weak );

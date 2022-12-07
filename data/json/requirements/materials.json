@@ -48,6 +48,23 @@
     "components": [ [ [ "withered", 2 ], [ "straw_pile", 2 ], [ "tanbark", 1 ], [ "willowbark", 1 ], [ "birchbark", 1 ] ] ]
   },
   {
+    "id": "cordage_fishing",
+    "type": "requirement",
+    "//": " makes 540cm of 10 lbish fishing line with little time spent braiding, thread requires to much work and sinew unglues in water unless threated",
+    "components": [
+      [
+        [ "string_36", 6 ],
+        [ "cordage_36", 6 ],
+        [ "cordage_36_leather", 6 ],
+        [ "string_6", 36 ],
+        [ "cordage_6", 36 ],
+        [ "cordage_6_leather", 36 ],
+        [ "thread_nomex", 108 ],
+        [ "thread_kevlar", 36 ]
+      ]
+    ]
+  },
+  {
     "id": "cordage",
     "type": "requirement",
     "//": "Materials used for tying items, primitive bowstrings, and other uses involving string or makeshift cordage, 36 g/90 cm of cordage per unit.",
@@ -251,22 +268,36 @@
   {
     "id": "filament",
     "type": "requirement",
-    "//": "Materials for use when sewing items. 10 inches of thread, sinew, fiber or yarn, or 12 inches of nomex and kevlar thread per unit.",
+    "//": "Materials for use when sewing items. 10 inches of thread, sinew, fiber, canvas or yarn, or 12 inches of nomex and kevlar thread per unit.",
     "components": [
-      [ [ "thread", 1 ], [ "sinew", 1 ], [ "plant_fibre", 1 ], [ "yarn", 1 ], [ "thread_nomex", 2 ], [ "thread_kevlar", 2 ] ]
+      [
+        [ "thread", 1 ],
+        [ "sinew", 1 ],
+        [ "plant_fibre", 1 ],
+        [ "yarn", 1 ],
+        [ "thread_canvas", 1 ],
+        [ "thread_nomex", 2 ],
+        [ "thread_kevlar", 2 ]
+      ]
     ]
   },
   {
     "id": "advanced_filament",
     "type": "requirement",
     "//": "each of these equals 12 inches of thread for use when sewing items requiring advanced thread.",
-    "components": [ [ [ "thread_nomex", 2 ], [ "thread_kevlar", 2 ] ] ]
+    "components": [ [ [ "thread_nomex", 2 ], [ "thread_kevlar", 2 ], [ "thread_canvas", 2 ] ] ]
   },
   {
     "id": "filament_durable",
     "type": "requirement",
-    "//": "Materials for use when sewing high end items, restricted to only the aramid threads. This was added in the middle of the tailoring overhaul and is actually half of the thread needed for the new calculations, so i'll be migrating to advanced_filament",
-    "components": [ [ [ "thread_kevlar", 1 ], [ "thread_nomex", 1 ] ] ]
+    "//": "Materials for use when sewing high end items, restricted to only the aramid threads and canvas thread.  Canvas thread is 2x the length of aramid thread and is reasonably sturdy, but will be double-stitched anyways to be on the safe side.",
+    "components": [ [ [ "thread_kevlar", 2 ], [ "thread_nomex", 2 ], [ "thread_canvas", 2 ] ] ]
+  },
+  {
+    "id": "filament_canvas",
+    "type": "requirement",
+    "//": "Thread for sewing canvas.  Unlike filament_durable it's ok to use a single 10 inch canvas thread for this, but half-length aramid threads are still double.  Kept separate from filament_durable because canvas thread is doubled up for those to alleviate it being a bit weaker than kevlar threading.",
+    "components": [ [ [ "thread_kevlar", 2 ], [ "thread_nomex", 2 ], [ "thread_canvas", 1 ] ] ]
   },
   {
     "id": "glazing",

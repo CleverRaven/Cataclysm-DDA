@@ -199,6 +199,19 @@
     ]
   },
   {
+    "type": "item_group",
+    "id": "still_alcohol",
+    "//": "Alcohol you'd find in at a still or moonshine camp",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "brandied_fruit", "prob": 75, "repeat": [ 3, 6 ] },
+      { "item": "moonshine", "prob": 86, "repeat": [ 3, 6 ] },
+      { "item": "beer", "prob": 80, "repeat": [ 3, 6 ] },
+      { "item": "fruit_wine", "prob": 40, "repeat": [ 3, 6 ] },
+      { "item": "brandy", "prob": 20, "repeat": [ 3, 6 ] }
+    ]
+  },
+  {
     "id": "bar_food",
     "type": "item_group",
     "subtype": "distribution",
@@ -884,6 +897,7 @@
       { "item": "butter", "prob": 35, "charges": 8, "container-item": "wrapper" },
       { "item": "buttermilk", "prob": 15 },
       { "item": "cheese", "prob": 60 },
+      { "item": "cottage_cheese", "prob": 30 },
       { "item": "yoghurt", "prob": 40 },
       { "item": "pudding", "prob": 30 },
       { "item": "icecream", "prob": 30 },
