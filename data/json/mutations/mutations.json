@@ -205,6 +205,8 @@
       "POISONOUS",
       "POISONOUS2",
       "RADIOGENIC",
+      "RESISTCHILL",
+      "RESISTWARM",
       "ROBUST",
       "STOCKY_TROGLO",
       "STRONGBACK",
@@ -272,49 +274,19 @@
     "name": { "str": "Reflex Photophore" },
     "points": -1,
     "description": "A photophore has grown from your head.  You can't consciously control it, and it might start to shine in response to your emotions or your physiological state.",
-    "cost": 9,
-    "time": "225 h",
-    "kcal": true,
     "encumbrance_covered": [ [ "head", 5 ] ],
     "changes_to": [ "BIOLUM1" ],
     "types": [ "BIOLUM" ],
     "category": [ "ELFA", "INSECT", "FISH" ],
-    "triggers": [
-      [
-        {
-          "condition": { "compare_int": [ { "u_val": "morale" }, ">", { "const": 20 } ] },
-          "msg_on": { "text": "You're so happy, you're glowing!", "rating": "mixed" }
-        },
-        {
-          "condition": { "compare_int": [ { "u_val": "hunger" }, ">", { "const": 110 } ] },
-          "msg_on": { "text": "You're feeling hungry; time to lure some prey!", "rating": "mixed" }
-        }
-      ]
+    "enchantments": [
+      {
+        "values": [
+          { "value": "LUMINATION", "add": { "arithmetic": [ { "u_val": "hunger" }, "/", { "const": 10 } ] } },
+          { "value": "LUMINATION", "add": { "arithmetic": [ { "u_val": "morale" } ] } }
+        ]
+      }
     ],
-    "transform": { "target": "BIOLUM0_active", "msg_transform": "Your photophore starts glowing.", "active": true, "moves": 10 }
-  },
-  {
-    "type": "mutation",
-    "id": "BIOLUM0_active",
-    "name": { "str": "Reflex Photophore (on)" },
-    "points": -1,
-    "description": "A photophore has grown from your head.  You can't consciously control it, and it might start to shine in response to your emotions or your physiological state.",
-    "copy-from": "BIOLUM0",
-    "valid": false,
-    "triggers": [
-      [
-        {
-          "condition": { "compare_int": [ { "u_val": "morale" }, ">", { "const": 20 } ] },
-          "msg_off": { "text": "Your glow fades.", "rating": "mixed" }
-        },
-        {
-          "condition": { "compare_int": [ { "u_val": "hunger" }, ">", { "const": 110 } ] },
-          "msg_off": { "text": "Your glow fades.", "rating": "mixed" }
-        }
-      ]
-    ],
-    "transform": { "target": "BIOLUM0", "msg_transform": "Your photophore stops glowing.", "active": false, "moves": 10 },
-    "lumination": [ [ "head", 8 ] ]
+    "//": "First enchantment increase lumnation the more you hunger (max hunger = 300, max lumination when you hunger = 30, ie 3 tile of light), second luminate the more you happy (1 tile of lumination for each +10 morale)"
   },
   {
     "type": "mutation",
@@ -1077,7 +1049,7 @@
     "starting_trait": true,
     "cancels": [ "CHAOTIC_BAD" ],
     "category": [ "FISH", "SLIME", "ALPHA", "MEDICAL", "PLANT" ],
-    "vitamin_rates": [ [ "instability", 3600 ] ]
+    "vitamin_rates": [ [ "instability", 7200 ] ]
   },
   {
     "type": "mutation",
@@ -2429,29 +2401,29 @@
   {
     "type": "mutation",
     "id": "SCALES",
-    "name": { "str": "Scales" },
+    "name": { "str": "Sparse Scales" },
     "points": 2,
     "visibility": 10,
     "ugliness": 3,
-    "description": "A set of flexible green scales has grown to cover your body, acting as natural armor.  Somewhat reduces wet effects.",
+    "description": "Your skin has toughened and grown thin, flexible scales in some places, acting as natural armor.  Somewhat reduces wet effects.",
     "types": [ "SKIN" ],
     "category": [ "RAPTOR", "LIZARD", "FISH" ],
     "prereqs": [ "SKIN_ROUGH" ],
     "changes_to": [ "THICK_SCALES", "SLEEK_SCALES" ],
-    "movecost_swim_modifier": 0.9,
     "wet_protection": [
-      { "part": "head", "ignored": 3 },
-      { "part": "leg_l", "ignored": 10 },
-      { "part": "leg_r", "ignored": 10 },
-      { "part": "foot_l", "ignored": 3 },
-      { "part": "foot_r", "ignored": 3 },
-      { "part": "arm_l", "ignored": 9 },
-      { "part": "arm_r", "ignored": 9 },
-      { "part": "hand_l", "ignored": 2 },
-      { "part": "hand_r", "ignored": 2 },
-      { "part": "torso", "ignored": 20 }
+      { "part": "head", "ignored": 2 },
+      { "part": "leg_l", "ignored": 5 },
+      { "part": "leg_r", "ignored": 5 },
+      { "part": "foot_l", "ignored": 2 },
+      { "part": "foot_r", "ignored": 2 },
+      { "part": "arm_l", "ignored": 4 },
+      { "part": "arm_r", "ignored": 4 },
+      { "part": "hand_l", "ignored": 1 },
+      { "part": "hand_r", "ignored": 1 },
+      { "part": "torso", "ignored": 10 }
     ],
-    "armor": [ { "part_types": [ "torso", "head", "arm", "hand", "leg", "foot", "mouth", "tail" ], "cut": 2 } ]
+    "armor": [ { "part_types": [ "tail" ], "cut": 2, "bash": 2 } ],
+    "integrated_armor": [ "integrated_scales" ]
   },
   {
     "type": "mutation",
@@ -2461,7 +2433,7 @@
     "visibility": 10,
     "ugliness": 4,
     "mixed_effect": true,
-    "description": "A set of heavy green scales has grown to cover your body, acting as natural armor.  While difficult to penetrate, it also limits your flexibility, resulting in a -2 penalty to Dexterity.  Greatly reduces wet effects.",
+    "description": "Your skin has grown thick and leathery and a set of heavy green scales has grown to cover most of your body, acting as natural armor.  While difficult to penetrate, it also limits your flexibility.  Greatly reduces wet effects.",
     "types": [ "SKIN" ],
     "prereqs": [ "SCALES" ],
     "threshreq": [ "THRESH_LIZARD" ],
@@ -2478,8 +2450,8 @@
       { "part": "hand_r", "ignored": 4 },
       { "part": "torso", "ignored": 30 }
     ],
-    "armor": [ { "part_types": [ "torso", "head", "arm", "hand", "leg", "foot", "mouth", "tail" ], "cut": 4 } ],
-    "passive_mods": { "dex_mod": -2 }
+    "armor": [ { "part_types": [ "tail" ], "cut": 14, "bash": 10 } ],
+    "integrated_armor": [ "integrated_reptilescales" ]
   },
   {
     "type": "mutation",
@@ -2488,7 +2460,7 @@
     "points": 4,
     "visibility": 10,
     "ugliness": 4,
-    "description": "A set of very flexible and slick scales has grown to cover your body.  These act as weak natural armor, improve your ability to swim, and make you difficult to grab.  Mostly reduces wet effects.",
+    "description": "A set of very flexible and slick scales has grown to cover your toughened skin.  These act as decent natural armor, improve your ability to swim, and make you difficult to grab.  Mostly reduces wet effects.",
     "types": [ "SKIN" ],
     "prereqs": [ "SCALES" ],
     "category": [ "FISH" ],
@@ -2505,7 +2477,8 @@
       { "part": "hand_r", "good": 5 },
       { "part": "torso", "good": 40 }
     ],
-    "armor": [ { "part_types": [ "torso", "head", "arm", "hand", "leg", "foot", "mouth", "tail" ], "cut": 1 } ]
+    "armor": [ { "part_types": [ "tail" ], "cut": 8, "bash": 5 } ],
+    "integrated_armor": [ "integrated_fishscales" ]
   },
   {
     "type": "mutation",
@@ -7763,6 +7736,33 @@
   },
   {
     "type": "mutation",
+    "id": "IGNORE_SOUND",
+    "name": { "str": "Ignores Sounds" },
+    "points": 99,
+    "valid": false,
+    "description": "NPC ignores sounds and does not investigate them.",
+    "purifiable": false
+  },
+  {
+    "type": "mutation",
+    "id": "NO_BASH",
+    "name": { "str": "Will Not Bash" },
+    "points": 99,
+    "valid": false,
+    "description": "NPC will not bash to reach things.",
+    "purifiable": false
+  },
+  {
+    "type": "mutation",
+    "id": "RETURN_TO_START_POS",
+    "name": { "str": "Returns to Start POS" },
+    "points": 99,
+    "valid": false,
+    "description": "NPC will return to its spawn position on idle.",
+    "purifiable": false
+  },
+  {
+    "type": "mutation",
     "id": "DEBUG_TAIL",
     "name": { "str": "Debug Tail" },
     "points": 99,
@@ -7856,6 +7856,22 @@
     "valid": false,
     "description": "Be vewwy vewwy quiet.  We're hunting bugs.",
     "debug": true
+  },
+  {
+    "type": "mutation",
+    "id": "DEBUG_MANA",
+    "//": "Moved to mainline so multiple mods have access to this debug trait.",
+    "name": { "str": "Debug Mana" },
+    "points": 99,
+    "valid": false,
+    "description": "To cast bug killing spells.",
+    "debug": true,
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [ { "value": "MAX_MANA", "add": 500000 }, { "value": "REGEN_MANA", "multiply": 1000 } ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -8251,5 +8267,25 @@
     "points": 0,
     "valid": false,
     "purifiable": false
+  },
+  {
+    "type": "mutation",
+    "id": "RESISTCHILL",
+    "name": { "str": "Cold Tolerance" },
+    "points": 1,
+    "description": "You fare better than most in colder climates and are less bothered by lower temperatures.  Note that while you are slightly less prone to developing frostbite as a result, you aren't any better at dealing with the symptoms.",
+    "starting_trait": true,
+    "category": [ "LUPINE", "URSINE", "CATTLE", "FELINE", "RABBIT", "MOUSE", "BEAST", "PLANT" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 10 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "RESISTWARM",
+    "name": { "str": "Heat Tolerance" },
+    "points": 1,
+    "description": "You fare better than most in warmer climates and are less bothered by hotter temperatures.  Note that while you'll sweat a little less in close proximity to a fire as a result, burns will still hurt just as much.",
+    "starting_trait": true,
+    "category": [ "FISH", "CEPHALOPOD", "GASTROPOD", "LIZARD", "BATRACHIAN", "PLANT" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 10 } ] } ]
   }
 ]
