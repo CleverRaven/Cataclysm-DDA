@@ -751,6 +751,6 @@
     "phase": "liquid",
     "comestible_type": "DRINK",
     "flags": [ "NUTRIENT_OVERRIDE" ],
-    "brewable": { "time": "7 days", "results": [ "rootbeer_brewed" ] }
+    "brewable": { "time": "2 days", "results": [ "rootbeer_brewed" ] }
   }
 ]
