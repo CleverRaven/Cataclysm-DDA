@@ -227,6 +227,7 @@
     "category": [ "DRAGON_BLACK" ],
     "passive_mods": { "str_mod": 2 },
     "weight_capacity_modifier": 1.05,
+    "stomach_size_multiplier": 1.5,
     "anger_relations": [ [ "HUMAN", 10 ] ]
   },
   {
@@ -246,6 +247,7 @@
     "category": [ "DRAGON_BLACK" ],
     "passive_mods": { "str_mod": 2 },
     "weight_capacity_modifier": 1.05,
+    "stomach_size_multiplier": 1.5,
     "anger_relations": [ [ "HUMAN", 20 ] ]
   },
   {
@@ -270,6 +272,7 @@
     "restricts_gear": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r" ],
     "destroys_gear": true,
     "weight_capacity_modifier": 1.1,
+    "stomach_size_multiplier": 2.0,
     "anger_relations": [ [ "HUMAN", 30 ] ]
   },
   {
@@ -344,6 +347,7 @@
     "restricts_gear": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r" ],
     "destroys_gear": true,
     "weight_capacity_modifier": 1.1,
+    "stomach_size_multiplier": 2.0,
     "anger_relations": [ [ "HUMAN", 40 ] ]
   },
   {
