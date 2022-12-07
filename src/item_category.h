@@ -38,6 +38,8 @@ class item_category
         translation name_;
         /** Used to sort categories when displaying.  Lower values are shown first. */
         int sort_rank_ = 0;
+        /** Global spawn chance for items from category */
+        int spawn_chance = 100;
 
         cata::optional<zone_type_id> zone_;
         std::vector<zone_priority_data> zone_priority_;
@@ -63,6 +65,7 @@ class item_category
         cata::optional<zone_type_id> priority_zone( const item &it ) const;
         cata::optional<zone_type_id> zone() const;
         int sort_rank() const;
+        int get_spawn_chance() const;
 
         /**
          * Comparison operators

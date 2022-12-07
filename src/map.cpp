@@ -4956,63 +4956,10 @@ item &map::add_item_or_charges( const tripoint_bub_ms &pos, item obj, bool overf
     return add_item_or_charges( pos.raw(), std::move( obj ), overflow );
 }
 
-bool map::check_for_spawn_chance( item itm )
+bool map::check_for_spawn_chance( const item &itm )
 {
     const item_category_id &cat = itm.get_category_of_contents().id;
-    int chance = 100;
-    if( cat == item_category_guns ) {
-        chance = get_option<int>( "SPAWN_CHANCE_GUNS" );
-    } else if( cat == item_category_books ) {
-        chance = get_option<int>( "SPAWN_CHANCE_BOOKS" );
-    } else if( cat == item_category_manuals ) {
-        chance = get_option<int>( "SPAWN_CHANCE_MANUALS" );
-    } else if( cat == item_category_magazines ) {
-        chance = get_option<int>( "SPAWN_CHANCE_MAGAZINES" );
-    } else if( cat == item_category_ammo ) {
-        chance = get_option<int>( "SPAWN_CHANCE_AMMO" );
-    } else if( cat == item_category_weapons ) {
-        chance = get_option<int>( "SPAWN_CHANCE_WEAPONS" );
-    } else if( cat == item_category_clothing ) {
-        chance = get_option<int>( "SPAWN_CHANCE_CLOTHING" );
-    } else if( cat == item_category_food ) {
-        chance = get_option<int>( "SPAWN_CHANCE_FOOD" );
-    } else if( cat == item_category_drugs ) {
-        chance = get_option<int>( "SPAWN_CHANCE_DRUGS" );
-    } else if( cat == item_category_maps ) {
-        chance = get_option<int>( "SPAWN_CHANCE_MAPS" );
-    } else if( cat == item_category_mods ) {
-        chance = get_option<int>( "SPAWN_CHANCE_MODS" );
-    } else if( cat == item_category_mutagen ) {
-        chance = get_option<int>( "SPAWN_CHANCE_MUTAGEN" );
-    } else if( cat == item_category_bionics ) {
-        chance = get_option<int>( "SPAWN_CHANCE_BIONICS" );
-    } else if( cat == item_category_currency ) {
-        chance = get_option<int>( "SPAWN_CHANCE_CURRENCY" );
-    } else if( cat == item_category_veh_parts ) {
-        chance = get_option<int>( "SPAWN_CHANCE_VEH_PARTS" );
-    } else if( cat == item_category_other ) {
-        chance = get_option<int>( "SPAWN_CHANCE_OTHER" );
-    } else if( cat == item_category_fuel ) {
-        chance = get_option<int>( "SPAWN_CHANCE_FUEL" );
-    } else if( cat == item_category_seeds ) {
-        chance = get_option<int>( "SPAWN_CHANCE_SEEDS" );
-    } else if( cat == item_category_chems ) {
-        chance = get_option<int>( "SPAWN_CHANCE_CHEMS" );
-    } else if( cat == item_category_spare_parts ) {
-        chance = get_option<int>( "SPAWN_CHANCE_SPARE_PARTS" );
-    } else if( cat == item_category_container ) {
-        chance = get_option<int>( "SPAWN_CHANCE_CONTAINER" );
-    } else if( cat == item_category_keys ) {
-        chance = get_option<int>( "SPAWN_CHANCE_KEYS" );
-    } else if( cat == item_category_armor ) {
-        chance = get_option<int>( "SPAWN_CHANCE_ARMOR" );
-    } else if( cat == item_category_tools ) {
-        chance = get_option<int>( "SPAWN_CHANCE_TOOLS" );
-    } else if( cat == item_category_artifacts ) {
-        chance = get_option<int>( "SPAWN_CHANCE_ARTIFACTS" );
-    }
-
-    return rng( 1, 100 ) <= clamp( chance, 0, 100 );
+    return rng( 1, 100 ) <= clamp( cat.obj().get_spawn_chance(), 0, 100 );
 }
 
 item &map::add_item( const tripoint &p, item new_item )
