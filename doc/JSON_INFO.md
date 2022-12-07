@@ -1179,7 +1179,7 @@ When you sort your inventory by category, these are the categories that are disp
     "zone": "LOOT_ARMOR",
     "sort_rank": -21,
     "priority_zones": [ { "id": "LOOT_FARMOR", "filthy": true, "flags": [ "RAINPROOF" ] } ],
-    "spawn_chane": 50
+    "spawn_chance": 50
 }
 ```
 
