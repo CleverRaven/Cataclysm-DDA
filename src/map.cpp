@@ -120,32 +120,6 @@ static const flag_id json_flag_AVATAR_ONLY( "AVATAR_ONLY" );
 static const flag_id json_flag_PRESERVE_SPAWN_OMT( "PRESERVE_SPAWN_OMT" );
 static const flag_id json_flag_UNDODGEABLE( "UNDODGEABLE" );
 
-static const item_category_id item_category_ammo( "ammo" );
-static const item_category_id item_category_armor( "armor" );
-static const item_category_id item_category_artifacts( "artifacts" );
-static const item_category_id item_category_bionics( "bionics" );
-static const item_category_id item_category_books( "books" );
-static const item_category_id item_category_chems( "chems" );
-static const item_category_id item_category_clothing( "clothing" );
-static const item_category_id item_category_container( "container" );
-static const item_category_id item_category_currency( "currency" );
-static const item_category_id item_category_drugs( "drugs" );
-static const item_category_id item_category_food( "food" );
-static const item_category_id item_category_fuel( "fuel" );
-static const item_category_id item_category_guns( "guns" );
-static const item_category_id item_category_keys( "keys" );
-static const item_category_id item_category_magazines( "magazines" );
-static const item_category_id item_category_manuals( "manuals" );
-static const item_category_id item_category_maps( "maps" );
-static const item_category_id item_category_mods( "mods" );
-static const item_category_id item_category_mutagen( "mutagen" );
-static const item_category_id item_category_other( "other" );
-static const item_category_id item_category_seeds( "seeds" );
-static const item_category_id item_category_spare_parts( "spare_parts" );
-static const item_category_id item_category_tools( "tools" );
-static const item_category_id item_category_veh_parts( "veh_parts" );
-static const item_category_id item_category_weapons( "weapons" );
-
 static const item_group_id Item_spawn_data_default_zombie_clothes( "default_zombie_clothes" );
 static const item_group_id Item_spawn_data_default_zombie_items( "default_zombie_items" );
 
