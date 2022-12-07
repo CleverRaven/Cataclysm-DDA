@@ -409,7 +409,7 @@
   {
     "id": "stormshaper_repelling_arc_plus",
     "type": "SPELL",
-    "name": "Repelling Arc",
+    "name": "Enhanced Repelling Arc",
     "description": "Manifests an aura of crackling electricity around you to strike attackers with baleful lightning.  Now you know this spell like the back of your hand, and start to design your own version.",
     "valid_targets": [ "self" ],
     "effect": "spawn_item",
