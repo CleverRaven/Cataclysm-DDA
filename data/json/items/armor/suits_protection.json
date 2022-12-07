@@ -1588,6 +1588,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "7500 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
@@ -1597,6 +1599,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "2200 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ARMS" ]
@@ -1606,6 +1610,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "700 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1000,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ELBOWS" ]
@@ -1651,6 +1657,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "7500 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
@@ -1660,6 +1668,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "2200 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ARMS" ]
@@ -1669,6 +1679,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "700 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1000,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ELBOWS" ]
@@ -1702,6 +1714,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "8500 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
@@ -1711,6 +1725,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "2500 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ARMS" ]
@@ -1720,6 +1736,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "800 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1000,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ELBOWS" ]
@@ -1739,6 +1757,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "6000 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
@@ -1748,6 +1768,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "1700 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ARMS" ]
@@ -1757,6 +1779,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "550 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1000,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ELBOWS" ]
@@ -1799,6 +1823,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "8500 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
@@ -1808,6 +1834,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "2500 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ARMS" ]
@@ -1817,6 +1845,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "800 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1000,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ELBOWS" ]
@@ -1837,6 +1867,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "6000 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
@@ -1846,6 +1878,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "1700 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ARMS" ]
@@ -1855,6 +1889,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "550 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1000,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ELBOWS" ]
@@ -1897,6 +1933,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "8500 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
@@ -1906,6 +1944,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "2500 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ARMS" ]
@@ -1915,6 +1955,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "800 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1000,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ELBOWS" ]
@@ -1934,6 +1976,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "6000 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
@@ -1943,6 +1987,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "1700 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ARMS" ]
@@ -1952,6 +1998,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "550 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1000,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ELBOWS" ]
@@ -1994,6 +2042,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "8500 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
@@ -2003,6 +2053,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "2500 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ARMS" ]
@@ -2012,6 +2064,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "800 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1000,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ELBOWS" ]
@@ -2031,6 +2085,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "6000 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
@@ -2040,6 +2096,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "1700 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ARMS" ]
@@ -2049,6 +2107,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "550 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1000,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ELBOWS" ]
@@ -2091,6 +2151,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "8500 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
@@ -2100,6 +2162,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "2500 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ARMS" ]
@@ -2109,6 +2173,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "800 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1000,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ELBOWS" ]
@@ -2128,6 +2194,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "6000 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
@@ -2137,6 +2205,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "1700 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ARMS" ]
@@ -2146,6 +2216,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "550 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1000,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ELBOWS" ]
@@ -2176,6 +2248,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "7500 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
@@ -2185,6 +2259,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "3300 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
@@ -2194,6 +2270,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "900 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1000,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
@@ -2239,6 +2317,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "7500 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
@@ -2248,6 +2328,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "3300 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
@@ -2257,6 +2339,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "900 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1000,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
@@ -2290,6 +2374,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "8500 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
@@ -2299,6 +2385,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "3800 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
@@ -2308,6 +2396,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "1050 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1000,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
@@ -2327,6 +2417,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "6000 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
@@ -2336,6 +2428,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "2500 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
@@ -2345,6 +2439,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "700 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1000,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
@@ -2387,6 +2483,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "8500 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
@@ -2396,6 +2494,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "3800 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
@@ -2405,6 +2505,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "1050 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1000,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
@@ -2424,6 +2526,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "6000 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
@@ -2433,6 +2537,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "2500 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
@@ -2442,6 +2548,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "700 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1000,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
@@ -2484,6 +2592,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "8500 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
@@ -2493,6 +2603,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "3800 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
@@ -2502,6 +2614,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "1050 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1000,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
@@ -2521,6 +2635,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "6000 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
@@ -2530,6 +2646,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "2500 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
@@ -2539,6 +2657,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "700 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1000,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
@@ -2581,6 +2701,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "8500 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
@@ -2590,6 +2712,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "3800 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
@@ -2599,6 +2723,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "1050 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1000,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
@@ -2618,6 +2744,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "6000 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
@@ -2627,6 +2755,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "2500 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
@@ -2636,6 +2766,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "700 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1000,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
@@ -2678,6 +2810,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "8500 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
@@ -2687,6 +2821,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "3800 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
@@ -2696,6 +2832,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "1050 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1000,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
@@ -2715,6 +2853,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "6000 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
@@ -2724,6 +2864,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "2500 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
@@ -2733,6 +2875,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "700 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1000,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
@@ -2763,6 +2907,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "7500 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
@@ -2772,6 +2918,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "2200 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ARMS" ]
@@ -2781,6 +2929,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "700 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1000,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ELBOWS" ]
@@ -2790,6 +2940,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "3300 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
@@ -2799,6 +2951,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "900 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1000,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
@@ -2836,6 +2990,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "7500 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
@@ -2845,6 +3001,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "2200 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ARMS" ]
@@ -2854,6 +3012,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "700 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1000,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ELBOWS" ]
@@ -2863,6 +3023,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "3300 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
@@ -2872,6 +3034,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "900 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1000,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
@@ -2898,6 +3062,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "8500 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
@@ -2907,6 +3073,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "2500 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ARMS" ]
@@ -2916,6 +3084,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "800 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1000,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ELBOWS" ]
@@ -2925,6 +3095,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "3800 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
@@ -2934,6 +3106,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "1050 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1000,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
@@ -2953,6 +3127,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "6000 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
@@ -2962,6 +3138,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "1700 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ARMS" ]
@@ -2971,6 +3149,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "550 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1000,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ELBOWS" ]
@@ -2980,6 +3160,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "2500 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
@@ -2989,6 +3171,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "700 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1000,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
@@ -3024,6 +3208,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "8500 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
@@ -3033,6 +3219,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "2500 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ARMS" ]
@@ -3042,6 +3230,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "800 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1000,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ELBOWS" ]
@@ -3051,6 +3241,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "3800 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
@@ -3060,6 +3252,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "1050 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1000,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
@@ -3079,6 +3273,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "6000 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
@@ -3088,6 +3284,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "1700 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ARMS" ]
@@ -3097,6 +3295,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "550 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1000,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ELBOWS" ]
@@ -3106,6 +3306,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "2500 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
@@ -3115,6 +3317,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "700 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1000,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
@@ -3150,6 +3354,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "8500 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
@@ -3159,6 +3365,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "2500 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ARMS" ]
@@ -3168,6 +3376,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "800 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1000,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ELBOWS" ]
@@ -3177,6 +3387,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "3800 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
@@ -3186,6 +3398,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "1050 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1000,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
@@ -3206,6 +3420,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "6000 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
@@ -3215,6 +3431,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "1700 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ARMS" ]
@@ -3224,6 +3442,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "550 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1000,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ELBOWS" ]
@@ -3233,6 +3453,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "2500 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
@@ -3242,6 +3464,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "700 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1000,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
@@ -3276,6 +3500,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "8500 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
@@ -3285,6 +3511,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "2500 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ARMS" ]
@@ -3294,6 +3522,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "800 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1000,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ELBOWS" ]
@@ -3303,6 +3533,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "3800 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
@@ -3312,6 +3544,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "1050 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1000,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
@@ -3331,6 +3565,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "6000 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
@@ -3340,6 +3576,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "1700 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ARMS" ]
@@ -3349,6 +3587,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "550 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1000,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ELBOWS" ]
@@ -3358,6 +3598,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "2500 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
@@ -3367,6 +3609,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "700 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1000,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
@@ -3402,6 +3646,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "8500 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
@@ -3411,6 +3657,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "2500 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ARMS" ]
@@ -3420,6 +3668,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "800 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1000,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ELBOWS" ]
@@ -3429,6 +3679,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "3800 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
@@ -3438,6 +3690,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "1050 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1000,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
@@ -3457,6 +3711,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "6000 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
@@ -3466,6 +3722,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "1700 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ARMS" ]
@@ -3475,6 +3733,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "550 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1000,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ELBOWS" ]
@@ -3484,6 +3744,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "2500 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
@@ -3493,6 +3755,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "700 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1000,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
@@ -3523,6 +3787,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "7500 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
@@ -3532,6 +3798,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "2200 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ARMS" ]
@@ -3541,6 +3809,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "700 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1000,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ELBOWS" ]
@@ -3550,6 +3820,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "3300 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
@@ -3559,6 +3831,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "900 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1000,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
@@ -3596,6 +3870,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "7500 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
@@ -3605,6 +3881,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "2200 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ARMS" ]
@@ -3614,6 +3892,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "700 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1000,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ELBOWS" ]
@@ -3623,6 +3903,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "3300 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
@@ -3632,6 +3914,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "900 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1000,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
@@ -3658,6 +3942,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "8500 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
@@ -3667,6 +3953,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "2500 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ARMS" ]
@@ -3676,6 +3964,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "800 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1000,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ELBOWS" ]
@@ -3685,6 +3975,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "3800 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
@@ -3694,6 +3986,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "1050 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1000,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
@@ -3713,6 +4007,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "6000 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
@@ -3722,6 +4018,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "1700 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ARMS" ]
@@ -3731,6 +4029,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "550 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1000,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ELBOWS" ]
@@ -3740,6 +4040,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "2500 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
@@ -3749,6 +4051,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "700 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1000,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
@@ -3784,6 +4088,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "8500 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
@@ -3793,6 +4099,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "2500 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ARMS" ]
@@ -3802,6 +4110,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "800 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1000,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ELBOWS" ]
@@ -3811,6 +4121,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "3800 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
@@ -3820,6 +4132,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "1050 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1000,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
@@ -3839,6 +4153,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "6000 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
@@ -3848,6 +4164,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "1700 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ARMS" ]
@@ -3857,6 +4175,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "550 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1000,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ELBOWS" ]
@@ -3866,6 +4186,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "2500 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
@@ -3875,6 +4197,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "700 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1000,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
@@ -3910,6 +4234,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "8500 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
@@ -3919,6 +4245,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "2500 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ARMS" ]
@@ -3928,6 +4256,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "800 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1000,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ELBOWS" ]
@@ -3937,6 +4267,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "3800 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
@@ -3946,6 +4278,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "1050 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1000,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
@@ -3966,6 +4300,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "6000 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
@@ -3975,6 +4311,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "1700 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ARMS" ]
@@ -3984,6 +4322,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "550 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1000,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ELBOWS" ]
@@ -3993,6 +4333,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "2500 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
@@ -4002,6 +4344,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "700 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1000,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
@@ -4036,6 +4380,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "8500 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
@@ -4045,6 +4391,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "2500 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ARMS" ]
@@ -4054,6 +4402,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "800 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1000,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ELBOWS" ]
@@ -4063,6 +4413,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "3800 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
@@ -4072,6 +4424,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "1050 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1000,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
@@ -4091,6 +4445,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "6000 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
@@ -4100,6 +4456,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "1700 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ARMS" ]
@@ -4109,6 +4467,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "550 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1000,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ELBOWS" ]
@@ -4118,6 +4478,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "2500 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
@@ -4127,6 +4489,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "700 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1000,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
@@ -4162,6 +4526,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "8500 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
@@ -4171,6 +4537,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "2500 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ARMS" ]
@@ -4180,6 +4548,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "800 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1000,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ELBOWS" ]
@@ -4189,6 +4559,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "3800 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
@@ -4198,6 +4570,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "1050 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1000,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
@@ -4217,6 +4591,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "6000 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
@@ -4226,6 +4602,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "1700 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ARMS" ]
@@ -4235,6 +4613,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "550 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1000,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ELBOWS" ]
@@ -4244,6 +4624,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "2500 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1500,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
@@ -4253,6 +4635,8 @@
         "volume_encumber_modifier": 0,
         "ablative": true,
         "max_contains_volume": "700 ml",
+		"max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
         "moves": 1000,
         "description": "You can wear some armor over chainmail with out penalty",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
