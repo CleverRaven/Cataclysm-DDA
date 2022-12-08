@@ -5923,13 +5923,13 @@ float Character::get_bmi() const
 
 float Character::get_bmi_lean() const
 {
-    return bodyweight_lean() / std::pow( height() / 100.0f, 2 );
+    return ( 8.0f + get_str_base() ) * std::pow( height() / 100.0f, 2 ) / std::pow( height() / 100.0f, 2 );
 }
 
 
 float Character::get_bmi_fat() const
 {
-    return bodyweight_fat() / std::pow( height() / 100.0f, 2 );
+    return ( get_stored_kcal() / 7716.17f ) / std::pow( height() / 100.0f, 2 );
 }
 
 units::mass Character::bodyweight() const
