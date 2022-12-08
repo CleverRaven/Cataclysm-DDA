@@ -4473,5 +4473,15 @@
       { "point": [ 1, 0, 1 ], "overmap": "strip_mall_roof_4_south" },
       { "point": [ 0, 0, 1 ], "overmap": "strip_mall_roof_5_south" }
     ]
+  },
+  {
+    "type": "city_building",
+    "id": "open_sewer",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "cs_open_sewer_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "cs_open_sewer_undergound_north" },
+      { "point": [ 0, -1, -1 ], "overmap": "sewer_connector_north" }
+    ]
   }
 ]

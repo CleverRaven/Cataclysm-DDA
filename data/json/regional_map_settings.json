@@ -1050,7 +1050,7 @@
         "cs_public_art_piece": 100,
         "cs_public_space": 100,
         "cs_city_dump_small": 100,
-        "cs_open_sewer": 100
+        "open_sewer": 33
       },
       "shops": {
         "bus_station": 200,
