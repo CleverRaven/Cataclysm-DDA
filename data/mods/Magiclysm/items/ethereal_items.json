@@ -180,7 +180,7 @@
     "use_action": {
       "type": "transform",
       "menu_text": "Conjure ice coating",
-      "target": "ice_gliders_on",
+      "target": "ice_gliders",
       "msg": "Ice coating covers your feet.",
       "moves": 200
     },
