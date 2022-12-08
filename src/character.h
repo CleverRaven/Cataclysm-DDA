@@ -2572,8 +2572,10 @@ class Character : public Creature, public visitable
         float metabolic_rate() const;
         // gets the max value healthy you can be, related to your weight
         int get_max_healthy() const;
-        // calculates the BMI
+        // calculates the BMI, either as the entire BMI or the BMI with only fat or lean mass accounted
         float get_bmi() const;
+        float get_bmi_fat() const;
+        float get_bmi_lean() const;
         // returns amount of calories burned in a day given various metabolic factors
         int get_bmr() const;
         // add spent calories to calorie diary (if avatar)
@@ -2602,7 +2604,9 @@ class Character : public Creature, public visitable
         void randomize_height();
         // returns bodyweight of the Character
         units::mass bodyweight() const;
-        // returns bodyweight of the Character minus weight at BMI 25 - effectively how much weight in fat (stored kcal) there is
+        // returns the weight of the player that is not fat (muscle, etc) based on height and strength
+        units::mass bodyweight_lean() const;
+        // returns the weight of the character that is fatty tissue based on stored kcal
         units::mass bodyweight_fat() const;
         // returns total weight of installed bionics
         units::mass bionics_weight() const;
