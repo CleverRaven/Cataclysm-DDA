@@ -2544,8 +2544,8 @@ See [MUTATIONS.md](MUTATIONS.md)
     "benign": true, // For things such as rollmats, funnels etc. They can not be triggered.
     "always_invisible": true, // Super well hidden traps the player can never detect
     "funnel_radius": 200, // millimeters. The higher the more rain it will capture.
-    "comfort": 0,
-    "floor_bedding_warmth": -500,
+    "comfort": 0, // Same property affecting furniture and terrain
+    "floor_bedding_warmth": -500, // Same property affecting furniture and terrain
     "spell_data": { "id": "bear_trap" }, // data required for trapfunc::spell()
     "trigger_weight": "200 g", // If an item with this weight or more is thrown onto the trap, it triggers. Defaults to 500 grams.
     "drops": [ "beartrap" ], // ID of item spawned when disassembled
