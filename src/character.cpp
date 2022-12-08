@@ -5953,13 +5953,6 @@ units::mass Character::bodyweight_fat() const
     return units::from_kilogram( get_stored_kcal() / 7716.17;
 }
 
-units::mass Character::bodyweight_fat1() const
-{
-    //this is a pared-down version of the above which is used to determine "burden" fat (up to 5 bmis of fat is "fine")
-    float healthy_mass = ( 15 + get_str_base() ) * std::pow( height() / 100.0f, 2 );
-    return units::from_kilogram( std::max( 0.0, bodyweight() - healthy_mass ) );
-}
-
 units::mass Character::bionics_weight() const
 {
     units::mass bio_weight = 0_gram;
