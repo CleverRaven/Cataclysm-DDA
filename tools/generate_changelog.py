@@ -554,7 +554,7 @@ class CommitApi:
                 results_queue.append(commit)
 
             if request_generator.is_active and len(commit_list) == 0:
-                log.debug(f'Target page found, stop giving threads more '
+                log.debug('Target page found, stop giving threads more '
                           f'requests. Target URL: {api_request.full_url}')
                 request_generator.deactivate()
         return _process_commit_data_callback_closure
@@ -617,7 +617,7 @@ class PullRequestApi:
         requests per minute.
         """
         params = {
-            'q': f'is:pr is:merged repo:CleverRaven/Cataclysm-DDA '
+            'q': 'is:pr is:merged repo:CleverRaven/Cataclysm-DDA '
                  f'{commit_hash}'
         }
         request_builder = GitHubApiRequestBuilder(self.api_token)
@@ -701,7 +701,7 @@ class PullRequestApi:
             if len(pull_request_list) == 0 or target_page_found:
                 if request_generator.is_active:
                     log.debug(
-                        f'Target page found, stop giving threads more '
+                        'Target page found, stop giving threads more '
                         f'requests. Target URL: {api_request.full_url}')
                     request_generator.deactivate()
 
@@ -771,13 +771,13 @@ class MultiThreadedGitHubApi:
     def _process_api_requests_on_threads(request_generator, callback):
         """Process HTTP API requests and call the callback for each result
         JSON"""
-        log.debug(f'Thread Started!')
+        log.debug('Thread Started!')
         api_request = request_generator.generate()
         while api_request is not None:
             callback(do_github_request(api_request), request_generator,
                      api_request)
             api_request = request_generator.generate()
-        log.debug(f'No more requests left, killing Thread.')
+        log.debug('No more requests left, killing Thread.')
 
 
 class GitHubApiRequestBuilder(object):
@@ -970,7 +970,7 @@ def do_github_request(api_request, retry_on_limit=3):
                 log.exception(f'Unhandled Exception: {err} - '
                               f'HTTP Headers: {err.getheaders()}')
                 raise
-    raise Exception(f'Retry limit reached')
+    raise Exception('Retry limit reached')
 
 
 def read_personal_token(filename):
