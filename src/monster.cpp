@@ -382,6 +382,10 @@ void monster::try_upgrade( bool pin_time )
         }
 
         if( type->upgrade_into ) {
+            //If we upgrade into a blacklisted monster, treat it as though we are non-upgradeable
+            if( MonsterGroupManager::monster_is_blacklisted( type->upgrade_into ) ) {
+                return;
+            }
             poly( type->upgrade_into );
         } else {
             mtype_id new_type;
