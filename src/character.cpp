@@ -5923,7 +5923,8 @@ float Character::get_bmi() const
 
 float Character::get_bmi_lean() const
 {
-    return ( 8.0f + get_str_base() ) * std::pow( height() / 100.0f, 2 ) / std::pow( height() / 100.0f, 2 );
+    return ( 8.0f + get_str_base() ) * std::pow( height() / 100.0f, 2 ) / std::pow( height() / 100.0f,
+            2 );
 }
 
 
