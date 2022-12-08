@@ -5932,12 +5932,6 @@ float Character::get_bmi_fat() const
     return bodyweight_fat() / std::pow( height() / 100.0f, 2 );
 }
 
-float Character::get_obesity() const
-{
-    //this is currently identical to get_bmi() because get_bmi() assumes muscle/bone/etc are static for all characters.
-    return 12 * get_kcal_percent() + 13;
-}
-
 units::mass Character::bodyweight() const
 {
     return bodyweight_lean() + bodyweight_fat();
