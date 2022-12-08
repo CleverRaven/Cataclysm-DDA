@@ -710,7 +710,7 @@
     "name": { "str": "telescoping umbrella (retracted)", "str_pl": "telescoping umbrellas (retracted)"},
     "description": "A telescoping umbrella which collapses down for easy storage, useful for keeping dry when wielded.  It is currently collapsed.",
     "weight": "411 g",
-    "volume": "500 ml",
+    "volume": "1500 ml",
     "price": 12000,
     "price_postapoc": 100,
     "to_hit": -2,
