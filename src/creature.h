@@ -613,6 +613,7 @@ class Creature : public viewer
         bool has_effect_with_flag( const flag_id &flag, const bodypart_id &bp ) const;
         bool has_effect_with_flag( const flag_id &flag ) const;
         std::vector<effect> get_effects_with_flag( const flag_id &flag ) const;
+        std::vector<effect> get_effects_from_bp( const bodypart_id &bp ) const;
         std::vector<effect> get_effects() const;
 
         /** Return the effect that matches the given arguments exactly. */

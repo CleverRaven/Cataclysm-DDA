@@ -1629,6 +1629,19 @@ std::vector<effect> Creature::get_effects() const
     return effs;
 }
 
+std::vector<effect> Creature::get_effects_from_bp( const bodypart_id &bp ) const
+{
+    std::vector<effect> effs;
+    for( auto &elem : *effects ) {
+        for( const std::pair<const bodypart_id, effect> &_it : elem.second ) {
+            if( _it.first == bp){
+            effs.push_back( _it.second );
+            }
+        }
+    }
+    return effs;
+}
+
 effect &Creature::get_effect( const efftype_id &eff_id, const bodypart_id &bp )
 {
     return const_cast<effect &>( const_cast<const Creature *>( this )->get_effect( eff_id, bp ) );

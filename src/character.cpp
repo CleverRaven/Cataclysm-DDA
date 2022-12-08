@@ -38,7 +38,6 @@
 #include "coordinates.h"
 #include "creature_tracker.h"
 #include "cursesdef.h"
-#include "debug.h"
 #include "disease.h"
 #include "display.h"
 #include "effect.h"

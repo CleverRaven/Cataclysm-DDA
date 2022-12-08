@@ -34,6 +34,7 @@
 #include "craft_command.h"
 #include "creature.h"
 #include "damage.h"
+#include "debug.h"
 #include "enums.h"
 #include "flat_set.h"
 #include "game_constants.h"
@@ -1236,6 +1237,8 @@ class Character : public Creature, public visitable
         float get_limb_score( const limb_score_id &score,
                               const body_part_type::type &bp = body_part_type::type::num_types,
                               int override_encumb = -1, int override_wounds = -1 ) const;
+        float manipulator_score(const std::map<bodypart_str_id, bodypart>& body,
+            body_part_type::type type, int override_encumb, int override_wounds) const;
 
         bool has_min_manipulators() const;
         // technically this is "has more than one arm"
