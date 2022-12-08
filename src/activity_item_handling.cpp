@@ -48,6 +48,8 @@
 #include "mtype.h"
 #include "npc.h"
 #include "optional.h"
+#include "options.h"
+#include "overmapbuffer.h"
 #include "pickup.h"
 #include "player_activity.h"
 #include "point.h"
@@ -378,6 +380,15 @@ void drop_on_map( Character &you, item_drop_reason reason, const std::list<item>
                     it_name, ter_name
                 );
                 break;
+        }
+
+        if( get_option<bool>( "AUTO_NOTES_DROPPED_FAVORITES" ) && it.is_favorite ) {
+            const tripoint_abs_omt your_pos = you.global_omt_location();
+            if( !overmap_buffer.has_note( your_pos ) ) {
+                overmap_buffer.add_note( your_pos, it.display_name() );
+            } else {
+                overmap_buffer.add_note( your_pos, overmap_buffer.note( your_pos ) + "; " + it.display_name() );
+            }
         }
     } else {
         switch( reason ) {
@@ -2265,8 +2276,18 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                         for( item *contained : it->first->all_items_top( item_pocket::pocket_type::MAGAZINE ) ) {
                             // no liquids don't want to spill stuff
                             if( !contained->made_of( phase_id::LIQUID ) && !contained->made_of( phase_id::GAS ) ) {
+                                if( it->first->is_ammo_belt() ) {
+                                    if( it->first->type->magazine->linkage ) {
+                                        item link( *it->first->type->magazine->linkage, calendar::turn, contained->count() );
+                                        here.add_item_or_charges( src_loc, link );
+                                    }
+                                }
                                 move_item( you, *contained, contained->count(), src_loc, src_loc, this_veh, this_part );
                                 it->first->remove_item( *contained );
+
+                                if( it->first->has_flag( flag_MAG_DESTROY ) && it->first->ammo_remaining() == 0 ) {
+                                    here.i_rem( src_loc, it->first );
+                                }
                             }
                         }
                         for( item *contained : it->first->all_items_top( item_pocket::pocket_type::MAGAZINE_WELL ) ) {

@@ -198,6 +198,7 @@
     "clip_size": 1,
     "bashing": 5,
     "to_hit": 1,
+    "ranged_damage": { "damage_type": "bullet", "amount": 24 },
     "reload_noise_volume": 2,
     "loudness": 5,
     "range": 12,

@@ -126,6 +126,7 @@
 
 struct dealt_projectile_attack;
 
+static const activity_id ACT_ADV_INVENTORY( "ACT_ADV_INVENTORY" );
 static const activity_id ACT_AUTODRIVE( "ACT_AUTODRIVE" );
 static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
 static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
@@ -3035,9 +3036,13 @@ std::vector<std::pair<std::string, std::string>> Character::get_overlay_ids() co
     return rval;
 }
 
-const SkillLevelMap &Character::get_all_skills() const
+SkillLevelMap Character::get_all_skills() const
 {
-    return *_skills;
+    SkillLevelMap skills = *_skills;
+    for( std::pair<const skill_id, SkillLevel> &sk : skills ) {
+        sk.second.level( std::round( enchantment_cache->modify_value( sk.first, sk.second.level() ) ) );
+    }
+    return skills;
 }
 
 const SkillLevel &Character::get_skill_level_object( const skill_id &ident ) const
@@ -3052,12 +3057,13 @@ SkillLevel &Character::get_skill_level_object( const skill_id &ident )
 
 int Character::get_skill_level( const skill_id &ident ) const
 {
-    return _skills->get_skill_level( ident );
+    return std::round( enchantment_cache->modify_value( ident, _skills->get_skill_level( ident ) ) );
 }
 
 int Character::get_skill_level( const skill_id &ident, const item &context ) const
 {
-    return _skills->get_skill_level( ident, context );
+    return std::round( enchantment_cache->modify_value( ident, _skills->get_skill_level( ident,
+                       context ) ) );
 }
 
 int Character::get_knowledge_level( const skill_id &ident ) const
@@ -3163,15 +3169,6 @@ bool Character::meets_requirements( const item &it, const item &context ) const
 void Character::make_bleed( const effect_source &source, const bodypart_id &bp,
                             time_duration duration, int intensity, bool permanent, bool force, bool defferred )
 {
-    int b_resist = 0;
-    for( const trait_id &mut : get_mutations() ) {
-        b_resist += mut.obj().bleed_resist;
-    }
-
-    if( b_resist > intensity ) {
-        return;
-    }
-
     add_effect( source, effect_bleed, duration, bp, permanent, intensity, force, defferred );
 }
 
@@ -5001,16 +4998,18 @@ void Character::get_sick()
     // Health is in the range [-200,200].
     // Diseases are half as common for every 50 health you gain.
     float health_factor = std::pow( 2.0f, get_lifestyle() / 50.0f );
+    float env_factor = 1.0f + std::pow( 0.3f, get_env_resist( body_part_mouth ) / 2 );
 
-    int disease_rarity = static_cast<int>( checks_per_year * health_factor / base_diseases_per_year );
+    int disease_rarity = static_cast<int>( checks_per_year * health_factor * env_factor /
+                                           base_diseases_per_year );
     add_msg_debug( debugmode::DF_CHAR_HEALTH, "disease_rarity = %d", disease_rarity );
     if( one_in( disease_rarity ) ) {
         if( one_in( 6 ) ) {
             // The flu typically lasts 3-10 days.
-            add_env_effect( effect_flu, body_part_mouth, 3, rng( 3_days, 10_days ) );
+            add_effect( effect_flu, rng( 3_days, 10_days ) );
         } else {
             // A cold typically lasts 1-14 days.
-            add_env_effect( effect_common_cold, body_part_mouth, 3, rng( 1_days, 14_days ) );
+            add_effect( effect_common_cold, rng( 1_days, 14_days ) );
         }
     }
 }
@@ -5393,7 +5392,11 @@ bool Character::is_immune_effect( const efftype_id &eff ) const
         return is_immune_damage( damage_type::ACID ) || has_trait( trait_SLIMY ) ||
                has_trait( trait_VISCOUS );
     }
-
+    for( const json_character_flag &flag : eff->immune_flags ) {
+        if( has_flag( flag ) ) {
+            return true;
+        }
+    }
     return false;
 }
 
@@ -8208,13 +8211,19 @@ void Character::cancel_activity()
         stop_hauling();
     }
     // Clear any backlog items that aren't auto-resume.
+    // but keep only one instance of ACT_ADV_INVENTORY
+    // FIXME: this is required by the legacy code in advanced_inventory::move_all_items()
+    bool has_adv_inv = has_activity( ACT_ADV_INVENTORY );
     for( auto backlog_item = backlog.begin(); backlog_item != backlog.end(); ) {
-        if( backlog_item->auto_resume ) {
+        if( backlog_item->auto_resume &&
+            ( !has_adv_inv || backlog_item->id() != ACT_ADV_INVENTORY ) ) {
             backlog_item++;
+            has_adv_inv |= backlog_item->id() == ACT_ADV_INVENTORY;
         } else {
             backlog_item = backlog.erase( backlog_item );
         }
     }
+
     // act wait stamina interrupts an ongoing activity.
     // and automatically puts auto_resume = true on it
     // we don't want that to persist if there is another interruption.

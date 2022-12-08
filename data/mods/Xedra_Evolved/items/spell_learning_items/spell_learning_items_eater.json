@@ -64,7 +64,7 @@
     "type": "GENERIC",
     "category": "artifacts",
     "name": { "str": "polaroid of a missing person", "str_pl": "polaroids of a missing person" },
-    "description": "A polaroid of someone you remember that went missing before the Cataclysm.  It caught a ton of media attention because that were seen near what was shortly after identified as a thin place between dimensions.  The more you stare at the picture you begin to see wounds appear and dissapear on the person.  Sometimes they match your wounds that have healed.",
+    "description": "A polaroid of someone you remember that went missing before the Cataclysm.  It caught a ton of media attention because that were seen near what was shortly after identified as a thin place between dimensions.  The more you stare at the picture you begin to see wounds appear and disappear on the person.  Sometimes they match your wounds that have healed.",
     "weight": "50 g",
     "volume": "10 ml",
     "price": 2000,
@@ -73,6 +73,21 @@
     "symbol": "O",
     "color": "white_magenta",
     "use_action": { "type": "learn_spell", "spells": [ "self_healing" ] }
+  },
+  {
+    "id": "strange_coffee",
+    "type": "GENERIC",
+    "category": "artifacts",
+    "name": { "str": "strange cup of coffee", "str_pl": "strange cups of coffee" },
+    "description": "A small jar with coffee, moving in weird patterns with no apparent cause.  After watching the swirls for some time, you are sure that it loops back on its movements, like some sort of message.",
+    "weight": "90 g",
+    "volume": "100 ml",
+    "price": 2000,
+    "price_postapoc": 10,
+    "material": [ "forged_dreamstuff" ],
+    "symbol": "C",
+    "color": "white_magenta",
+    "use_action": { "type": "learn_spell", "spells": [ "supercoffee" ] }
   },
   {
     "id": "blindfold_artifact",

@@ -261,6 +261,7 @@
     "reproduction": { "baby_egg": "egg_reptile", "baby_count": 3, "baby_timer": 10 },
     "baby_flags": [ "SPRING" ],
     "upgrades": { "half_life": 65, "into": "mon_rattlesnake_mega" },
+    "zombify_into": "mon_meat_cocoon_small",
     "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "HARDTOSHOOT", "SWIMS" ]
   },
   {
@@ -313,6 +314,7 @@
     ],
     "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
     "reproduction": { "baby_egg": "egg_cockatrice", "baby_count": 2, "baby_timer": 4 },
+    "zombify_into": "mon_meat_cocoon_small",
     "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "HARDTOSHOOT", "SWIMS" ]
   },
   {
@@ -343,6 +345,7 @@
     "harvest": "mutant_animal_large_noskin",
     "dissect": "dissect_lizard_sample_single",
     "path_settings": { "max_dist": 5 },
+    "zombify_into": "mon_meat_cocoon_small",
     "flags": [ "SEES", "SMELLS", "WARM", "VENOM", "SWIMS" ]
   },
   {

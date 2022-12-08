@@ -3927,7 +3927,7 @@ bool gunmode_checks_common( avatar &you, const map &m, std::vector<std::string> 
 {
     bool result = true;
     if( you.has_trait( trait_BRAWLER ) ) {
-        messages.push_back( string_format( _( "Pfft.  You are a brawler; using %s is beneath you." ),
+        messages.push_back( string_format( _( "Pfft.  You are a brawler; using this %s is beneath you." ),
                                            gmode->tname() ) );
         result = false;
     }
