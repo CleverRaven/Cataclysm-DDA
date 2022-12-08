@@ -761,12 +761,7 @@
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "STAB", "RAIN_PROTECT", "SHEATH_SWORD", "FRAGILE_MELEE" ],
     "weapon_category": [ "FENCING_WEAPONRY" ],
-    "use_action": {
-      "menu_text": "Retract",
-      "type": "transform",
-      "target": "teleumbrella",
-      "msg": "You retract your umbrella."
-    }
+    "use_action": { "menu_text": "Retract", "type": "transform", "target": "teleumbrella", "msg": "You retract your umbrella." }
   },
   {
     "id": "testflames",
