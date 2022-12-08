@@ -732,12 +732,7 @@
         "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 1 } ]
       }
     ],
-    "use_action": {
-      "menu_text": "Expand",
-      "type": "transform",
-      "target": "teleumbrella-extended",
-      "msg": "You open your umbrella."
-    }
+    "use_action": { "menu_text": "Expand", "type": "transform", "target": "teleumbrella-extended", "msg": "You open your umbrella." }
   },
   {
     "id": "teleumbrella-extended",
