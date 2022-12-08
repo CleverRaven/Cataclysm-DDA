@@ -3711,10 +3711,11 @@ void Character::mut_cbm_encumb( std::map<bodypart_id, encumbrance_data> &vals ) 
 
 void Character::calc_bmi_encumb( std::map<bodypart_id, encumbrance_data> &vals ) const
 {
-    //if BMI > minimum BMI for the limb to receive penalty encumbrance, multiply that by the scalar value per point of BMI to get total penalty
+    //if BMI from obesity > minimum BMI from obesity for the limb to receive penalty encumbrance, multiply that by the scalar value per point of BMI to get total penalty
+    //note that it is NOT your real BMI, but the quantity of your BMI the fat represents (which is usually 5 or so at a healthy weight)
     for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
         int penalty = std::floor( elem.second.get_bmi_encumbrance_scalar() * std::max( 0.0f,
-                                  get_bmi() - static_cast<float>( elem.second.get_bmi_encumbrance_threshold() ) ) );
+                                  get_bmi_fat() - static_cast<float>( elem.second.get_bmi_encumbrance_threshold() ) ) );
         vals[elem.first.id()].encumbrance += penalty;
     }
 }
@@ -4094,7 +4095,11 @@ void Character::set_stored_calories( int cal )
 
 int Character::get_healthy_kcal() const
 {
-    return healthy_calories / 1000;
+    //it's healthy to have about 5 BMI points' worth of fat (for a 175cm char this is about 13kg of fat)
+    float healthy_weight = 5 * std::pow( height() / 100.0f, 2 )
+    //then multiply each kg of fat by its caloric content, giving the above 175cm char about 100,000 kcal as healthy
+    //a 200cm char would have about 150,000 kcal as healthy and a 145cm character about 80,0000
+    return std::floor( 7716.17 * healthy_weight );
 }
 
 float Character::get_kcal_percent() const
@@ -5912,19 +5917,53 @@ float Character::healing_rate_medicine( float at_rest_quality, const bodypart_id
 
 float Character::get_bmi() const
 {
+    return get_bmi_lean() + get_bmi_fat();
+}
+
+
+float Character::get_bmi_lean() const
+{
+    return bodyweight_lean() / std::pow( height() / 100.0f, 2 );
+}
+
+
+float Character::get_bmi_fat() const
+{
+    return bodyweight_fat() / std::pow( height() / 100.0f, 2 );
+}
+
+float Character::get_obesity() const
+{
+    //this is currently identical to get_bmi() because get_bmi() assumes muscle/bone/etc are static for all characters.
     return 12 * get_kcal_percent() + 13;
 }
 
 units::mass Character::bodyweight() const
 {
-    return units::from_kilogram( get_bmi() * std::pow( height() / 100.0f, 2 ) );
+    return bodyweight_lean() + bodyweight_fat();
+}
+
+units::mass Character::bodyweight_lean() const
+{
+    //assume a healthy 25 bmi human to be 80% lean mass, some of which should be determined by muscle strength.
+    //if a reasonably fit individual (12 strength) is at bmi 25, 5 of those bmis come from fat and the other 20 come from lean mass.
+    //therefore, assume 32% of the body at healthy weight is agnostic of muscle and fat, and determine the remaining BMI from the latter.
+    //just like in real life, this means being a 20 strength freak show means you are clinically obese, though not unhealthy (BMI sucks for a reason)
+    //so in summary this is what your weight would be at your given height, assuming you had 0% bodyfat.
+    return units::from_kilogram( ( 8 + get_str_base() ) * std::pow( height() / 100.0f, 2 ) );
 }
 
 units::mass Character::bodyweight_fat() const
 {
-    //since BMI currently only represents how obese you are, this compares your current weight to your theoretical weight at BMI 25 to give you the amount of weight that is fat
-    return units::from_kilogram( std::max( 0.0, get_bmi() * std::pow( height() / 100.0f,
-                                           2 ) - 25.0 * std::pow( height() / 100.0f, 2 ) ) );
+    //convert stored kcal into its total weight in fat, kilos (3500 * 2.20462)
+    return units::from_kilogram( get_stored_kcal() / 7716.17;
+}
+
+units::mass Character::bodyweight_fat1() const
+{
+    //this is a pared-down version of the above which is used to determine "burden" fat (up to 5 bmis of fat is "fine")
+    float healthy_mass = ( 15 + get_str_base() ) * std::pow( height() / 100.0f, 2 );
+    return units::from_kilogram( std::max( 0.0, bodyweight() - healthy_mass ) );
 }
 
 units::mass Character::bionics_weight() const
