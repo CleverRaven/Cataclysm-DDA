@@ -300,9 +300,9 @@
         "stop_following",
         {
           "weighted_list_eocs": [
-            [ { "id": "get_katana" }, { "const": 2 } ],
-            [ { "id": "get_deagle_44" }, { "const": 3 } ],
-            [ { "id": "get_m4_carbine" }, { "const": 4 } ]
+            [ { "id": "get_katana" }, { "const": 5 } ],
+            [ { "id": "get_deagle_44" }, { "const": 10 } ],
+            [ { "id": "get_m4_carbine" }, { "const": 6 } ]
           ]
         }
       ]
