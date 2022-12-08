@@ -4097,9 +4097,9 @@ int Character::get_healthy_kcal() const
 {
     //it's healthy to have about 5 BMI points' worth of fat (for a 175cm char this is about 13kg of fat)
     float healthy_weight = 5 * std::pow( height() / 100.0f, 2 )
-    //then multiply each kg of fat by its caloric content, giving the above 175cm char about 100,000 kcal as healthy
-    //a 200cm char would have about 150,000 kcal as healthy and a 145cm character about 80,0000
-    return std::floor( 7716.17 * healthy_weight );
+                           //then multiply each kg of fat by its caloric content, giving the above 175cm char about 100,000 kcal as healthy
+                           //a 200cm char would have about 150,000 kcal as healthy and a 145cm character about 80,0000
+                           return std::floor( 7716.17 * healthy_weight );
 }
 
 float Character::get_kcal_percent() const
