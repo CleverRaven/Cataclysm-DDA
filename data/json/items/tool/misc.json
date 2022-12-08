@@ -707,14 +707,14 @@
     "id": "teleumbrella",
     "type": "ARMOR",
     "category": "tools",
-    "name": { "str": "telescoping umbrella" },
-    "description": "A telescoping umbrella which collapses down for easy storage, useful for keeping dry when wielded.",
-    "weight": "118 g",
+    "name": { "str": "telescoping umbrella (retracted)", "str_pl": "telescoping umbrellas (retracted)"},
+    "description": "A telescoping umbrella which collapses down for easy storage, useful for keeping dry when wielded.  It is currently collapsed.",
+    "weight": "411 g",
     "volume": "500 ml",
     "price": 12000,
     "price_postapoc": 100,
-    "to_hit": 1,
-    "bashing": 1,
+    "to_hit": -2,
+    "bashing": 3,
     "material": [ "plastic", "aluminum" ],
     "symbol": ",",
     "color": "dark_gray",
@@ -728,9 +728,45 @@
         "encumbrance": 25,
         "coverage": 50,
         "covers": [ "hand_l", "hand_r" ],
-        "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ]
+        "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ],
+        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 1 } ]
       }
-    ]
+    ],
+    "use_action": {
+      "menu_text": "Expand",
+      "type": "transform",
+      "target": "teleumbrella-extended",
+      "msg": "You open your umbrella."
+    }
+  },
+  {
+    "id": "teleumbrella-extended",
+    "type": "GENERIC",
+    "category": "tools",
+    "name": { "str": "telescoping umbrella (extended)", "str_pl": "telescoping umbrellas (extended)" },
+    "description": "A telescoping umbrella which collapses down for easy storage, useful for keeping dry when wielded.  It is currently extended.",
+    "weight": "411 g",
+    "volume": "1500 ml",
+    "longest_side": "101 cm",
+    "price": 12000,
+    "price_postapoc": 100,
+    "to_hit": 1,
+    "bashing": 6,
+    "cutting": 4,
+    "material": [ "plastic", "aluminum" ],
+    "symbol": ",",
+    "ascii_picture": "umbrella",
+    "looks_like": "umbrella",
+    "color": "dark_gray",
+    "techniques": [ "WBLOCK_1" ],
+    "flags": [ "STAB", "RAIN_PROTECT", "SHEATH_SWORD", "FRAGILE_MELEE" ],
+    "weapon_category": [ "FENCING_WEAPONRY" ],
+    "use_action": {
+      "menu_text": "Retract",
+      "type": "transform",
+      "target": "teleumbrella",
+      "msg": "You retract your umbrella."
+    }
   },
   {
     "id": "testflames",
@@ -770,7 +806,8 @@
     "category": "tools",
     "name": { "str": "umbrella" },
     "description": "An umbrella with a pointy end, useful for keeping dry when wielded.",
-    "weight": "141 g",
+    "weight": "411 g",
+    "longest_side": "101 cm",
     "volume": "1500 ml",
     "price": 2400,
     "price_postapoc": 50,
