@@ -1750,36 +1750,6 @@
     "extend": { "flags": [ "STRICT_HUMANITARIANISM" ] }
   },
   {
-    "type": "GENERIC",
-    "id": "skull_human",
-    "name": { "str": "human skull" },
-    "description": "The skull of a human being.  Carrying this around probably isn't going to win you any friends.",
-    "flags": [ "CANNIBALISM", "TRADER_AVOID" ],
-    "category": "spare_parts",
-    "weight": "1 kg",
-    "volume": "1400 ml",
-    "symbol": "@",
-    "color": "white",
-    "price": 0,
-    "price_postapoc": 10,
-    "material": [ "bone" ]
-  },
-  {
-    "type": "GENERIC",
-    "id": "skull_canis",
-    "name": { "str": "wolf skull" },
-    "description": "The skull of a wolf or dog.  Essential material for building an articulated wolf skeleton.",
-    "flags": [ "TRADER_AVOID" ],
-    "category": "spare_parts",
-    "weight": "500 g",
-    "volume": "700 ml",
-    "symbol": "@",
-    "color": "white",
-    "price": 0,
-    "price_postapoc": 5,
-    "material": [ "bone" ]
-  },
-  {
     "id": "meat_fried",
     "copy-from": "meat_cooked",
     "type": "COMESTIBLE",

@@ -6,6 +6,7 @@
 #include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
+#include "clzones.h"
 #include "colony.h"
 #include "coordinates.h"
 #include "creature.h"
@@ -28,6 +29,8 @@
 #include "rng.h"
 
 class item;
+
+static const zone_type_id zone_type_ZONE_START_POINT( "ZONE_START_POINT" );
 
 namespace
 {
@@ -374,7 +377,20 @@ void start_location::place_player( avatar &you, const tripoint_abs_omt &omtstart
 
     bool found_good_spot = false;
 
-    // Try some random points at start
+    //Check if a start_point zone exists first
+    const zone_manager &mgr = zone_manager::get_manager();
+    for( const auto &i : mgr.get_zones() ) {
+        const zone_data &zone = i.get();
+        if( zone.get_type() == zone_type_ZONE_START_POINT ) {
+            if( here.inbounds( zone.get_center_point() ) ) {
+                found_good_spot = true;
+                best_spot = here.getlocal( zone.get_center_point() );
+                break;
+            }
+        }
+    }
+
+    // Otherwise, find a random starting spot
 
     int tries = 0;
     const auto check_spot = [&]( const tripoint & pt ) {

@@ -7,9 +7,10 @@
       - [Combination](#combination)
     - [Hardcoded special attacks](#hardcoded-special-attacks)
     - [JSON special attacks](#json-special-attacks)
-    - [Partially hardcoded special attacks](#partially-hardcoded-special-attacks)
         - [`bite`](#bite)
+    - [Non-melee special attacks](#non-melee-special-attacks)
         - [`gun`](#gun)
+        - [`spell`](#spell)
         - [`leap`](#leap)
     - [Monster defensive attacks](#monster-defensive-attacks)        
 
@@ -177,7 +178,7 @@ These special attacks are mostly hardcoded in C++ and are generally not configur
 
 ## JSON special attacks
 
-These special attacks are defined in [JSON](/data/json/monster_special_attacks), and belong to the `monster_attack` type.  These don't have to be declared in the monster's attack data, the `id` of the desired attack can be used instead.  All fields beyond `id` are optional.
+These special attacks are defined in [JSON](/data/json/monster_special_attacks), and belong to the `monster_attack` type, `melee` attack_type.  These don't have to be declared in the monster's attack data, the `id` of the desired attack can be used instead.  All fields beyond `id` are optional.
 
 | field                       | description
 | ---                         | ---
@@ -218,19 +219,15 @@ These special attacks are defined in [JSON](/data/json/monster_special_attacks),
 | `throw_msg_npc`		      | String, message for a flinging attack against an NPC.
 
 
-## Partially hardcoded special attacks
-
-These are hardcoded special attacks that can be altered by specifying certain JSON values.
-
-
 ### `bite`
 
-Makes monster use teeth to bite opponent, uses the same fields as "monster_attack" attacks. Monster bites can give infections, and for humanoid enemies (`human` bodytype) require the target being grabbed.
+Under the hood an attack with `monster_attack` type, `bite` attack_type - if you want to define multiple separate bites for a monster you'll need to do a proper definition using an `id` as well. Makes monster use teeth to bite opponent, uses the same fields as "monster_attack" attacks. Monster bites can give infections, and for humanoid enemies (`human` bodytype) require the target being grabbed.
 If `hitsize_min` is undefined it will default to 1 (disqualifying bites on the eyes and mouth).
 
 | field                       | description
 | ---                         | ---
 | `infection_chance`          | Chance to give infection in a percentage.  Exact chance is `infection_chance` / 100.
+
 
 
 ### `gun`
@@ -262,23 +259,44 @@ The monster fires a gun at a target.  If the monster is friendly, it will avoid 
 | `targeting_volume`          | Volume of the sound made when targeting.
 | `no_ammo_sound`             | Description of the sound made when out of ammo.
 
+### "spell" Monster Spells
 
-### `leap`
 
-The monster leaps a few tiles. It supports the following additional properties:
+Casts a separately-defined spell at the monster's target.  Spells with `target_self: true` will only target the casting monster, and will still be casted only if the monster has a hostile target.
 
-| field                       | description
-| ---                         | ---
-| `max_range`                 | (Required) Maximum range of attack.
-| `min_range`                 | (Required) Minimal range needed for attack.
-| `allow_no_target`           | This prevents monster from using the ability on empty space.
-| `move_cost`                 | Turns needed to complete special attack. 100 `move_cost` with 100 speed is equal to 1 second/turn.
-| `min_consider_range`        | Minimal range to consider for using specific attack.
-| `max_consider_range`        | Maximum range to consider for using specific attack.
-| `forbidden_effects_any`     | Array of effect ids, if the monster has any one the attack can't trigger.
-| `forbidden_effects_all`     | Array of effect ids, if the monster has every effect the attack can't trigger.
-| `required_effects_any`      | Array of effect ids, the monster needs any one for the attack to trigger.
-| `required_effects_all`      | Array of effect ids, the monster needs every effect for the attack to trigger.
+| Identifier              | Description
+|---                      |---
+| `spell_data`            | List of spell properties for the attack.
+| `min_level`             | The level at which the spell is cast. Spells cast by monsters do not gain levels like player spells.
+| `cooldown `             | How often the monster can cast this spell
+| `monster_message`       | Message to print when the spell is cast, replacing the `message` in the spell definition. Dynamic fields correspond to `<Monster Display Name> / <Spell Name> / <Target name>`.
+| `forbidden_effects_any` | Array of effect IDs, if the monster has any one the attack can't trigger.
+| `forbidden_effects_all` | Array of effect IDs, if the monster has every effect the attack can't trigger.
+| `required_effects_any`  | Array of effect IDs, the monster needs any one for the attack to trigger.
+| `required_effects_all`  | Array of effect IDs, the monster needs every effect for the attack to trigger.
+| `allow_no_target`       | Bool, default `false`. If `true` the monster will cast it even without a hostile target.
+
+
+### "leap"
+
+Makes the monster leap a few tiles over passable terrain as long as it can see its destination. It supports the following additional properties:
+
+| field                | description
+| ---                  | ---
+| `max_range`          | (Required) Float, maximal range of the jump.  Respects circular distance setting!
+| `min_range`          | (Required) Float, minimal range of the jump.  Respects circular distance setting!
+| `prefer_leap`        | Leap even when adjacent to target, will still choose the closest acceptable destination.
+| `random_leap`        | Disregard target location entirely when leaping, leading to completely random jumps.
+| `allow_no_target`    | Default `false` prevents monster from using the ability without a hostile target at its destination.
+| `move_cost`          | Moves needed to complete special attack. 100 move_cost with 100 speed is equal to 1 second/turn.
+| `min_consider_range` | Minimal distance to target to consider for using specific attack.
+| `max_consider_range` | Maximal distance to target to consider for using specific attack.
+| `forbidden_effects_any` | Array of effect ids, if the monster has any one the attack can't trigger.
+| `forbidden_effects_all` | Array of effect ids, if the monster has every effect the attack can't trigger.
+| `required_effects_any` | Array of effect ids, the monster needs any one for the attack to trigger.
+| `required_effects_all` | Array of effect ids, the monster needs every effect for the attack to trigger.
+| `self_effects`         | Array of `effects` to apply after a successful leap.
+| `message`              | String, message to print when the player sees the monster jump (or land).
 
 
 ## Monster defensive attacks

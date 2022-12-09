@@ -42,7 +42,7 @@
     "id": "nested_m9_no_ammo",
     "type": "item_group",
     "subtype": "collection",
-    "items": [ { "item": "m9" }, { "group": "m9_mags", "count": [ 1, 3 ] } ]
+    "items": [ { "item": "m9", "variant": "m9" }, { "group": "m9_mags", "count": [ 1, 3 ] } ]
   },
   {
     "id": "m9_mags",
@@ -68,7 +68,7 @@
     "id": "nested_m17_no_ammo",
     "type": "item_group",
     "subtype": "collection",
-    "items": [ { "item": "m9" }, { "group": "m17_mags", "count": [ 1, 3 ] } ]
+    "items": [ { "item": "m17" }, { "group": "m17_mags", "count": [ 1, 3 ] } ]
   },
   {
     "id": "m17_mags",
@@ -169,13 +169,13 @@
   {
     "type": "item_group",
     "id": "ammo_box_9mm",
-    "container-item": "ammunition_box_9mm",
+    "container-item": "ammunition_box_308",
     "items": [ [ "9mm", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "ammo_box_9mmfmj",
-    "container-item": "ammunition_box_9mm",
+    "container-item": "ammunition_box_308",
     "items": [ [ "9mmfmj", 100 ] ]
   }
 ]

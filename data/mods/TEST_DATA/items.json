@@ -3554,6 +3554,75 @@
     "armor": [ { "encumbrance": 70, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
+    "id": "test_jumpsuit_lycra",
+    "type": "ARMOR",
+    "name": { "str": "test_jumpsuit_lycra" },
+    "description": "Lycra test jumpsuit",
+    "weight": "610 g",
+    "volume": "3500 ml",
+    "price": 8900,
+    "price_postapoc": 50,
+    "to_hit": -3,
+    "material": [ "lycra" ],
+    "symbol": "[",
+    "looks_like": "touring_suit",
+    "color": "yellow",
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 1, 2 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 1, 1 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 95, "encumbrance": [ 1, 2 ] },
+      { "covers": [ "foot_l", "foot_r" ], "coverage": 95, "encumbrance": [ 1, 2 ] }
+    ],
+    "warmth": 60,
+    "material_thickness": 0.2
+  },
+  {
+    "id": "test_jumpsuit_fur",
+    "type": "ARMOR",
+    "name": { "str": "test_jumpsuit_fur" },
+    "description": "Fur test jumpsuit",
+    "weight": "610 g",
+    "volume": "3500 ml",
+    "price": 8900,
+    "price_postapoc": 50,
+    "to_hit": -3,
+    "material": [ "fur" ],
+    "symbol": "[",
+    "looks_like": "touring_suit",
+    "color": "yellow",
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 1, 2 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 1, 1 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 95, "encumbrance": [ 1, 2 ] },
+      { "covers": [ "foot_l", "foot_r" ], "coverage": 95, "encumbrance": [ 1, 2 ] }
+    ],
+    "warmth": 60,
+    "material_thickness": 0.2
+  },
+  {
+    "id": "test_jumpsuit_cotton",
+    "type": "ARMOR",
+    "name": { "str": "test_jumpsuit_cotton" },
+    "description": "Cotton test jumpsuit",
+    "weight": "610 g",
+    "volume": "3500 ml",
+    "price": 8900,
+    "price_postapoc": 50,
+    "to_hit": -3,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "touring_suit",
+    "color": "yellow",
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 1, 2 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 1, 1 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 95, "encumbrance": [ 1, 2 ] },
+      { "covers": [ "foot_l", "foot_r" ], "coverage": 95, "encumbrance": [ 1, 2 ] }
+    ],
+    "warmth": 60,
+    "material_thickness": 0.2
+  },
+  {
     "id": "test_winglets",
     "//": "Only for the test wing body parts",
     "repairs_like": "gauntlets_larmor",
