@@ -4476,7 +4476,7 @@
   },
   {
     "type": "city_building",
-    "id": "open_sewer",
+    "id": "cs_open_sewer",
     "locations": [ "land" ],
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "cs_open_sewer_north" },

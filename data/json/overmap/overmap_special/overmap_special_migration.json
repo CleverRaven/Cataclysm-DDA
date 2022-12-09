@@ -37,7 +37,7 @@
   {
     "type": "overmap_special_migration",
     "id": "FakeSpecial_cs_open_sewer",
-    "new_id": "open_sewer"
+    "new_id": "cs_open_sewer"
   },
   {
     "type": "overmap_special_migration",
