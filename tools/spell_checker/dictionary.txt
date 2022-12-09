@@ -30,6 +30,7 @@ aintcha
 airhorn
 airjack
 airworthy
+aketon
 alamosaurus
 alate
 alates
@@ -695,6 +696,7 @@ flechette
 flechettes
 fletched
 fletching
+flexibility
 flightworthy
 flintknapping
 floppies
@@ -1891,6 +1893,7 @@ superpositional
 supersoldier
 supersoldiers
 suppurated
+surcoat
 survivalcraft
 susurrate
 swage
