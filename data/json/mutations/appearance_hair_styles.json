@@ -415,6 +415,45 @@
   },
 	{
     "type": "mutation",
+    "id": "crewcut",
+    "name": "Hair: crewcut",
+    "points": 0,
+    "description": "You have a black crewcut.",
+    "starting_trait": true,
+    "valid": false,
+    "purifiable": false,
+    "player_display": true,
+    "vanity": true,
+    "variants": [	
+      {
+        "id": "blue",
+        "name": { "str": "Hair: blue, crewcut" },
+        "description": "You have a blue crewcut.",
+        "weight": 1
+      },
+      {
+        "id": "green",
+        "name": { "str": "Hair: green, crewcut" },
+        "description": "You have a green crewcut.",
+        "weight": 1
+      },
+      {
+        "id": "pink",
+        "name": { "str": "Hair: pink, crewcut" },
+        "description": "You have a pink crewcut.",
+        "weight": 1
+      },
+      {
+        "id": "purple",
+        "name": { "str": "Hair: purple, crewcut" },
+        "description": "You have a purple crewcut.",
+        "weight": 1
+      }
+    ],
+    "types": [ "hair_style" ]
+  },
+	{
+    "type": "mutation",
     "id": "medium-length",
     "name": "Hair: medium-length",
     "points": 0,
