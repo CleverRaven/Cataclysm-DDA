@@ -77,7 +77,8 @@
       { "group": "BG_survival_story_RURAL" },
       { "group": "NPC_starting_traits" },
       { "group": "Appearance_demographics" },
-      { "trait": "RETURN_TO_START_POS" }
+      { "trait": "RETURN_TO_START_POS" },
+      { "trait": "GETS_RANDOM_MISSION_NOMOVE" }
     ],
     "bonus_str": { "rng": [ 2, 5 ] },
     "weapon_override": "valhallist_weapons",
