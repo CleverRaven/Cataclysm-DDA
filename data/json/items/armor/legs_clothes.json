@@ -227,6 +227,46 @@
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ],
     "armor": [ { "coverage": 75, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] } ]
   },
+	{
+		"id": "cargo_hot_pants",
+		"copy-from": "hot_pants",
+		"type": "ARMOR",
+		"name": { "str_sp": "cargo hot pants" },
+		"description": "A conceptual pair of not so simple short shorts, with straps tied at the thighs, knees, and ankles, with poutches of various shapes and sizes attached every few inches or so.",
+		"weight": "250 g",
+		"volume": "450 ml",
+		"price": 4000,
+		"price_postapoc": 75,
+		"looks_like": "hot_pants",
+		"color": "light_gray",
+		"flags": [ "VARSIZE", "WATER_FRIENDLY" ],
+		"armor": [
+			{ 
+				"covers": [ "leg_l", "leg_r" ], 
+				"specifically_covers": [ "leg_hip_l", "leg_hip_r" ], 
+				"coverage": 85, 
+				"encumbrance": [ 0, 2 ]
+			},
+			{ 
+				"covers": [ "leg_l", "leg_r" ], 
+				"specifically_covers": [ "leg_upper_l", "leg_upper_r" ], 
+				"coverage": 15, 
+				"encumbrance": [ 2, 13 ]
+			},
+			{ 
+				"covers": [ "leg_l", "leg_r" ], 
+				"specifically_covers": [ "leg_knee_l", "leg_knee_r" ], 
+				"coverage": 15, 
+				"encumbrance": [ 2, 13 ]
+			},
+			{ 
+				"covers": [ "leg_l", "leg_r" ], 
+				"specifically_covers": [ "leg_lower_l", "leg_lower_r" ], 
+				"coverage": 15, 
+				"encumbrance": [ 2, 13 ]
+			}
+		]
+	},
   {
     "id": "hot_pants_fur",
     "type": "ARMOR",
