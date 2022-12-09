@@ -284,7 +284,12 @@
     "common": false,
     "job_description": "I'm just trying to survive.",
     "//2": "This is for NPCs who are spawned in by mapgen, to give them a mission.",
-    "traits": [ { "group": "BG_survival_story_EVACUEE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" }, { "trait": "GETS_RANDOM_MISSION" } ],
+    "traits": [
+      { "group": "BG_survival_story_EVACUEE" },
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" },
+      { "trait": "GETS_RANDOM_MISSION" }
+    ],
     "skills": [
       { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 2 ] }, { "constant": -3 } ] } },
       { "skill": "gun", "bonus": { "rng": [ 2, 4 ] } },
