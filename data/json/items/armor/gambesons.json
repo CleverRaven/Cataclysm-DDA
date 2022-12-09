@@ -22,13 +22,13 @@
     "flags": [ "VARSIZE", "STURDY" ],
     "armor": [
       {
-        "material": [ { "type": "canvas", "covered_by_mat": 100, "thickness": 3.5 } ],
+        "material": [ { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 3.5 } ],
         "covers": [ "torso" ],
         "coverage": 100,
         "encumbrance": 10
       },
       {
-        "material": [ { "type": "canvas", "covered_by_mat": 100, "thickness": 3.0 } ],
+        "material": [ { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 3.0 } ],
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
         "encumbrance": 10
@@ -73,7 +73,7 @@
     "flags": [ "VARSIZE", "STURDY" ],
     "armor": [
       {
-        "material": [ { "type": "canvas", "covered_by_mat": 100, "thickness": 3.5 } ],
+        "material": [ { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 3.5 } ],
         "covers": [ "torso" ],
         "coverage": 100,
         "encumbrance": 10
@@ -118,7 +118,7 @@
     "flags": [ "VARSIZE", "STURDY" ],
     "armor": [
       {
-        "material": [ { "type": "canvas", "covered_by_mat": 100, "thickness": 3.0 } ],
+        "material": [ { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 3.0 } ],
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 100,
         "encumbrance": 10
@@ -163,7 +163,7 @@
     "flags": [ "VARSIZE", "STURDY", "SKINTIGHT" ],
     "armor": [
       {
-        "material": [ { "type": "canvas", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "material": [ { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 2.0 } ],
         "covers": [ "head" ],
         "specifically_covers": [ "head_throat", "head_ear_l", "head_ear_r", "head_forehead", "head_crown", "head_nape" ],
         "coverage": 100,
@@ -209,7 +209,7 @@
     "flags": [ "VARSIZE", "STURDY" ],
     "armor": [
       {
-        "material": [ { "type": "canvas", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "material": [ { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 2.0 } ],
         "covers": [ "hand_l", "hand_r" ],
         "coverage": 100,
         "encumbrance": 20
@@ -259,8 +259,8 @@
     "armor": [
       {
         "material": [
-          { "type": "canvas", "covered_by_mat": 100, "thickness": 3.5 },
-          { "type": "canvas", "covered_by_mat": 95, "thickness": 4.0 }
+          { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 3.5 },
+          { "type": "canvas_quilted", "covered_by_mat": 95, "thickness": 4.0 }
         ],
         "covers": [ "torso" ],
         "coverage": 100,
@@ -268,8 +268,8 @@
       },
       {
         "material": [
-          { "type": "canvas", "covered_by_mat": 100, "thickness": 3.0 },
-          { "type": "canvas", "covered_by_mat": 95, "thickness": 3.0 }
+          { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 3.0 },
+          { "type": "canvas_quilted", "covered_by_mat": 95, "thickness": 3.0 }
         ],
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
@@ -277,7 +277,7 @@
         "warmth": 50
       },
       {
-        "material": [ { "type": "canvas", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "material": [ { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 2.0 } ],
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
         "coverage": 72,
@@ -330,22 +330,22 @@
     "armor": [
       {
         "material": [
-          { "type": "canvas", "covered_by_mat": 100, "thickness": 3.5 },
-          { "type": "canvas", "covered_by_mat": 95, "thickness": 4.0 }
+          { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 3.5 },
+          { "type": "canvas_quilted", "covered_by_mat": 95, "thickness": 4.0 }
         ],
         "covers": [ "torso" ],
         "coverage": 100,
         "encumbrance": 20
       },
       {
-        "material": [ { "type": "canvas", "covered_by_mat": 100, "thickness": 3.0 } ],
+        "material": [ { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 3.0 } ],
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
         "encumbrance": 10,
         "warmth": 30
       },
       {
-        "material": [ { "type": "canvas", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "material": [ { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 2.0 } ],
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
         "coverage": 72,
@@ -397,15 +397,15 @@
     "armor": [
       {
         "material": [
-          { "type": "canvas", "covered_by_mat": 100, "thickness": 3.5 },
-          { "type": "canvas", "covered_by_mat": 95, "thickness": 4.0 }
+          { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 3.5 },
+          { "type": "canvas_quilted", "covered_by_mat": 95, "thickness": 4.0 }
         ],
         "covers": [ "torso" ],
         "coverage": 100,
         "encumbrance": 20
       },
       {
-        "material": [ { "type": "canvas", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "material": [ { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 2.0 } ],
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
         "coverage": 72,
@@ -454,8 +454,8 @@
     "armor": [
       {
         "material": [
-          { "type": "canvas", "covered_by_mat": 100, "thickness": 3.0 },
-          { "type": "canvas", "covered_by_mat": 95, "thickness": 3.0 }
+          { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 3.0 },
+          { "type": "canvas_quilted", "covered_by_mat": 95, "thickness": 3.0 }
         ],
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 100,
@@ -503,8 +503,8 @@
     "armor": [
       {
         "material": [
-          { "type": "canvas", "covered_by_mat": 100, "thickness": 2.0 },
-          { "type": "canvas", "covered_by_mat": 90, "thickness": 4.0 }
+          { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "canvas_quilted", "covered_by_mat": 90, "thickness": 4.0 }
         ],
         "//a": "technically, only covering 60% ish - inner hand is thinner - but fist will be clenched so inner hand should not really be hit",
         "covers": [ "hand_l", "hand_r" ],
@@ -514,8 +514,8 @@
       },
       {
         "material": [
-          { "type": "canvas", "covered_by_mat": 100, "thickness": 2.0 },
-          { "type": "canvas", "covered_by_mat": 100, "thickness": 4.0 }
+          { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 4.0 }
         ],
         "covers": [ "hand_l", "hand_r" ],
         "specifically_covers": [ "hand_back_l", "hand_back_r", "hand_wrist_l", "hand_wrist_r" ],
