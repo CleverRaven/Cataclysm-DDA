@@ -8,7 +8,7 @@
     "//3": "5092g combined",
     "type": "ARMOR",
     "name": { "str": "canvas aketon" },
-    "description": "A thick cloth jack, intended to be worn below metal armor.  This one is made of over a dozen layers of tough canvas, and it provides fairly decent protection on its own.",
+    "description": "A thick cloth jack, intended to be worn below metal armor. This one is made of over a dozen layers of tough canvas, and it provides fairly decent protection on its own.",
     "weight": "5092 g",
     "volume": "3500 ml",
     "price_postapoc": 4000,
@@ -59,7 +59,7 @@
     "//1": "human torso is about 7 sq. feet.  76g (canvas) x 14 (layers) x 3.5 (surface area) = 3724g",
     "type": "ARMOR",
     "name": { "str": "canvas aketon vest" },
-    "description": "A thick cloth vest, intended to be worn below metal armor.  This one is made of over a dozen layers of tough canvas, and it provides fairly decent protection on its own.",
+    "description": "A thick cloth vest, intended to be worn below metal armor. This one is made of over a dozen layers of tough canvas, and it provides fairly decent protection on its own.",
     "weight": "3724 g",
     "volume": "2500 ml",
     "price_postapoc": 2500,
@@ -104,7 +104,7 @@
     "//1": "human legs is about 6 sq. feet.  76g (canvas) x 12 (layers) x 3 (surface area) = 2736g",
     "type": "ARMOR",
     "name": { "str": "canvas arming pants", "str_pl": "pairs of canvas arming pants" },
-    "description": "Tough cloth pants worn alongside an aketon underneath metal armor.  These are made of many layers of canvas offering solid protection.",
+    "description": "Tough cloth pants worn alongside an aketon underneath metal armor. These are made of many layers of canvas offering solid protection.",
     "weight": "2736 g",
     "volume": "1750 ml",
     "price_postapoc": 2500,
@@ -194,8 +194,8 @@
     "//": "roughly 0.25mm per sheet of canvas making this 8 layers, sheets are 1x2 feet. 4 sheets total",
     "//1": "human hands assumed to be about 1 sq ft total, 76g (canvas) x 8 (layers) x 0.5 (surface area) = 304g",
     "type": "ARMOR",
-    "name": { "str": "canvas arming gloves" },
-    "description": "Tough gloves made of canvas cloth, thin enough to wear under metal gauntlets. They help to keep your hands safe during a fight.",
+    "name": { "str": "canvas arming gloves", "str_pl": "pairs of canvas arming gloves" },
+    "description": "Tough gloves made of canvas cloth, thin enough to wear under metal gauntlets.  They help to keep your hands safe during a fight.",
     "weight": "304 g",
     "volume": "250 ml",
     "price_postapoc": 1000,
@@ -220,7 +220,7 @@
     "id": "xl_aketon_gloves_canvas_layered",
     "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
     "type": "ARMOR",
-    "name": { "str": "XL canvas arming gloves" },
+    "name": { "str": "XL canvas arming gloves", "str_pl": "pairs of XL canvas arming gloves" },
     "copy-from": "aketon_gloves_canvas_layered",
     "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -229,7 +229,7 @@
     "id": "xs_aketon_gloves_canvas_layered",
     "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
     "type": "ARMOR",
-    "name": { "str": "XS canvas arming gloves" },
+    "name": { "str": "XS canvas arming gloves", "str_pl": "pairs of XS canvas arming gloves" },
     "copy-from": "aketon_gloves_canvas_layered",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
@@ -487,7 +487,7 @@
     "/1": "human hands assumed to be about 1 sq ft total, 76g (canvas) x 8 (layers) x 0.5 (surface area) = 304g",
     "/2": "on top of that, additional 2x as thick layer on about 60% of the hand, so adding another 5 sheets for 9 total (684 g)",
     "type": "ARMOR",
-    "name": { "str": "canvas arming mittens" },
+    "name": { "str": "canvas heavy arming mittens", "str_pl": "pairs of canvas heavy arming mittens" },
     "description": "Very thick canvas gauntlets worn in lieu of metal or leather armor.  Though they make it hard to do anything other than swing a weapon, and they're very warm, they offer excellent protection.",
     "weight": "720 g",
     "volume": "500 ml",
@@ -522,5 +522,23 @@
         "coverage": 100
       }
     ]
+  },
+  {
+    "id": "xl_gambeson_gambeson_gloves_canvas_layered",
+    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
+    "type": "ARMOR",
+    "name": { "str": "XL canvas arming mittens", "str_pl": "pairs of XL canvas arming mittens" },
+    "copy-from": "gambeson_gloves_canvas_layered",
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_gambeson_gambeson_gloves_canvas_layered",
+    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
+    "type": "ARMOR",
+    "name": { "str": "XS canvas arming mittens", "str_pl": "pairs of XS canvas arming mittens" },
+    "copy-from": "gambeson_gloves_canvas_layered",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
   }
 ]
