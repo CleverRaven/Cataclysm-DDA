@@ -740,11 +740,19 @@ Same as
 
 ### Place smoke, gas, or blood with "fields"
 
+Example:
+
+```json
+"place_fields": [ { "field": "fd_blood", "x": 0, "y": 0, "intensity": [ 1, 3 ], "repeat": [ 0, 3 ] } ]
+
+"place_fields": [ { "field": "fd_blood", "x": 0, "y": 0, "intensity": 1, "repeat": [ 0, 3 ] } ]
+```
+
 | Field     | Description
 | ---       | ---
 | field     | (required, string) the field type (e.g. `"fd_blood"`, `"fd_smoke"`)
 | density   | (optional, integer) field density. Defaults to 1. Possible values are 1, 2, or 3.
-| intensity | (optional, integer) how concentrated the field is, from 1 to 3 or more. See `data/json/field_type.json`
+| intensity | (optional, integer, array ) how concentrated the field is, from 1 to 3 or more.  Arrays are randomized.  See `data/json/field_type.json`
 | age       | (optional, integer) field age. Defaults to 0.
 | remove    | (optional, bool) If true the given field will be removed rather than added. Defaults to false.
 

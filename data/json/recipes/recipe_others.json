@@ -1143,7 +1143,16 @@
       { "id": "SCREW", "level": 1 },
       { "id": "WRENCH", "level": 1 }
     ],
-    "tools": [ [ [ "welder", 200 ], [ "welder_crude", 300 ], [ "toolset", 300 ], [ "soldering_iron", 300 ], [ "oxy_torch", 40 ] ] ],
+    "tools": [
+      [
+        [ "welder", 200 ],
+        [ "welding_kit", 200 ],
+        [ "welder_crude", 300 ],
+        [ "toolset", 300 ],
+        [ "soldering_iron", 300 ],
+        [ "oxy_torch", 40 ]
+      ]
+    ],
     "proficiencies": [ { "proficiency": "prof_metalworking" } ],
     "components": [
       [ [ "element", 8 ] ],
@@ -1305,7 +1314,16 @@
       { "id": "SCREW", "level": 1 },
       { "id": "WRENCH", "level": 1 }
     ],
-    "tools": [ [ [ "welder", 100 ], [ "welder_crude", 150 ], [ "toolset", 150 ], [ "soldering_iron", 150 ], [ "oxy_torch", 20 ] ] ],
+    "tools": [
+      [
+        [ "welder", 100 ],
+        [ "welding_kit", 100 ],
+        [ "welder_crude", 150 ],
+        [ "toolset", 150 ],
+        [ "soldering_iron", 150 ],
+        [ "oxy_torch", 20 ]
+      ]
+    ],
     "proficiencies": [ { "proficiency": "prof_metalworking" } ],
     "components": [
       [ [ "pilot_light", 1 ] ],
@@ -1334,7 +1352,16 @@
       { "id": "SCREW", "level": 1 },
       { "id": "WRENCH", "level": 1 }
     ],
-    "tools": [ [ [ "welder", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ], [ "soldering_iron", 75 ], [ "oxy_torch", 10 ] ] ],
+    "tools": [
+      [
+        [ "welder", 50 ],
+        [ "welding_kit", 50 ],
+        [ "welder_crude", 75 ],
+        [ "toolset", 75 ],
+        [ "soldering_iron", 75 ],
+        [ "oxy_torch", 10 ]
+      ]
+    ],
     "proficiencies": [ { "proficiency": "prof_metalworking" } ],
     "components": [ [ [ "pilot_light", 1 ] ], [ [ "scrap", 4 ] ], [ [ "metal_tank_little", 1 ] ] ]
   },
@@ -1485,7 +1512,16 @@
       { "id": "SCREW", "level": 1 },
       { "id": "WRENCH", "level": 1 }
     ],
-    "tools": [ [ [ "welder", 150 ], [ "welder_crude", 225 ], [ "toolset", 225 ], [ "soldering_iron", 225 ], [ "oxy_torch", 30 ] ] ],
+    "tools": [
+      [
+        [ "welder", 150 ],
+        [ "welding_kit", 150 ],
+        [ "welder_crude", 225 ],
+        [ "toolset", 225 ],
+        [ "soldering_iron", 225 ],
+        [ "oxy_torch", 30 ]
+      ]
+    ],
     "proficiencies": [ { "proficiency": "prof_metalworking" } ],
     "components": [
       [ [ "steel_lump", 5 ], [ "steel_chunk", 20 ], [ "scrap", 60 ] ],
@@ -1654,7 +1690,9 @@
       { "id": "WRENCH", "level": 1 },
       { "id": "GLARE", "level": 1 }
     ],
-    "tools": [ [ [ "welder", 100 ], [ "welder_crude", 150 ], [ "toolset", 150 ], [ "soldering_iron", 150 ] ] ],
+    "tools": [
+      [ [ "welder", 100 ], [ "welding_kit", 100 ], [ "welder_crude", 150 ], [ "toolset", 150 ], [ "soldering_iron", 150 ] ]
+    ],
     "components": [ [ [ "steel_chunk", 6 ], [ "scrap", 18 ] ], [ [ "pipe", 2 ] ] ]
   },
   {
@@ -1813,9 +1851,11 @@
     "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "time": "40 m",
+    "time": "2h",
     "reversible": true,
     "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "proficiencies": [ { "proficiency": "prof_chitinworking" } ],
     "components": [
       [ [ "chitin_piece", 20 ] ],
       [ [ "rope_natural", 1, "LIST" ] ],
@@ -2309,6 +2349,86 @@
     "time": "1 s",
     "autolearn": true,
     "components": [ [ [ "washboard", 1 ] ], [ [ "sponge", 1 ], [ "cotton_patchwork", 1 ], [ "brush", 1 ], [ "dish_towel", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "lamellae_lc",
+    "id_suffix": "small",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "30 m",
+    "book_learn": [ [ "textbook_armwest", 2 ], [ "textbook_armeast", 2 ], [ "textbook_armschina", 2 ] ],
+    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "DRILL", "level": 2 } ],
+    "components": [ [ [ "sheet_metal_small", 1 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" } ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "lamellae_lc",
+    "id_suffix": "small_fast",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "5 m",
+    "book_learn": [ [ "textbook_armwest", 2 ], [ "textbook_armeast", 2 ], [ "textbook_armschina", 2 ] ],
+    "qualities": [ { "id": "SAW_M_FINE", "level": 1 } ],
+    "tools": [ [ [ "drill_press_tool", 10 ], [ "cordless_drill", 20 ] ] ],
+    "components": [ [ [ "sheet_metal_small", 1 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" } ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "lamellae_lc",
+    "id_suffix": "large",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "720 m",
+    "charges": 432,
+    "book_learn": [ [ "textbook_armwest", 2 ], [ "textbook_armeast", 2 ], [ "textbook_armschina", 2 ] ],
+    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "DRILL", "level": 2 } ],
+    "components": [ [ [ "sheet_metal", 1 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" } ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "lamellae_lc",
+    "id_suffix": "large_fast",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "60 m",
+    "charges": 432,
+    "book_learn": [ [ "textbook_armwest", 2 ], [ "textbook_armeast", 2 ], [ "textbook_armschina", 2 ] ],
+    "qualities": [ { "id": "SAW_M_FINE", "level": 1 } ],
+    "tools": [ [ [ "drill_press_tool", 10 ], [ "cordless_drill", 20 ] ] ],
+    "components": [ [ [ "sheet_metal", 1 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" } ]
+  },
+  {
+    "result": "lamellae_ch",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "time": "1 h",
+    "batch_time_factors": [ 90, 1 ],
+    "book_learn": [ [ "textbook_armwest", 2 ], [ "textbook_armeast", 2 ], [ "textbook_armschina", 2 ], [ "welding_book", 2 ] ],
+    "using": [ [ "carbon", 1 ] ],
+    "components": [ [ [ "lamellae_lc", 18 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_case_hardening" } ],
+    "tools": [ [ [ "forge", 16 ] ], [ [ "metalworking_tongs", -1 ] ] ]
   },
   {
     "type": "recipe",

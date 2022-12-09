@@ -712,6 +712,7 @@
     "description": "This is a M72 LAW, packed in its storage form.  Use it to pop it out and make it ready to fire.  Once it is activated, it cannot be repacked.",
     "weight": "2500 g",
     "volume": "1500 ml",
+    "longest_side": "63 cm",
     "price": 200000,
     "price_postapoc": 4000,
     "bashing": 6,

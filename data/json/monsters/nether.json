@@ -1344,7 +1344,7 @@
     "vision_day": 60,
     "vision_night": 60,
     "path_settings": { "max_dist": 60, "allow_open_doors": true },
-    "death_function": { "corpse_type": "NO_CORPSE", "message": "it just dissapeared." },
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "it just disappeared." },
     "flags": [
       "NO_BREATHE",
       "SEES",

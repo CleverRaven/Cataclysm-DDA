@@ -359,7 +359,7 @@ static bool check_butcher_dissect( const int roll )
     // Roll is reduced by corpse damage level, but to no less then 0
     add_msg_debug( debugmode::DF_ACT_BUTCHER, "Roll = %i", roll );
     add_msg_debug( debugmode::DF_ACT_BUTCHER, "Failure chance = %f%%",
-                   ( 19.0f / ( 10.0f + roll * 5.0f ) ) * 100.0f );
+                   ( 10.0f / ( 10.0f + roll * 5.0f ) ) * 100.0f );
     const bool failed = x_in_y( 10, ( 10 + roll * 5 ) );
     return !failed;
 }
@@ -719,6 +719,35 @@ static double butchery_dissect_yield_mult( int skill_level, int dex, int tool_qu
            0.2 * clamp( dex_score, 0.0, 1.0 );
 }
 
+static std::vector<item> create_charge_items( const itype *drop, int count,
+        const harvest_entry &entry, const item *corpse_item, const Character &you )
+{
+    std::vector<item> objs;
+    while( count > 0 ) {
+        item obj( drop, calendar::turn, 1 );
+        obj.charges = std::min( count, 1000_liter / obj.volume() );
+        count -= obj.charges;
+
+        if( obj.has_temperature() ) {
+            obj.set_item_temperature( corpse_item->temperature );
+            if( obj.goes_bad() ) {
+                obj.set_rot( corpse_item->get_rot() );
+            }
+        }
+        for( const flag_id &flg : entry.flags ) {
+            obj.set_flag( flg );
+        }
+        for( const fault_id &flt : entry.faults ) {
+            obj.faults.emplace( flt );
+        }
+        if( !you.backlog.empty() && you.backlog.front().id() == ACT_MULTIPLE_BUTCHER ) {
+            obj.set_var( "activity_var", you.name );
+        }
+        objs.push_back( obj );
+    }
+    return objs;
+}
+
 // Returns false if the calling function should abort
 static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Character &you,
                                     butcher_type action )
@@ -787,17 +816,19 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
         practice += ( 4 + butchery ) / entry_count;
         const float min_num = entry.base_num.first + butchery * entry.scale_num.first;
         const float max_num = entry.base_num.second + butchery * entry.scale_num.second;
+
         int roll = 0;
         // mass_ratio will override the use of base_num, scale_num, and max
         if( entry.mass_ratio != 0.00f ) {
             roll = static_cast<int>( std::round( entry.mass_ratio * monster_weight ) );
             roll = corpse_damage_effect( roll, entry.type, corpse_item->damage_level() );
-        } else if( action != butcher_type::DISSECT ) {
+        } else {
             roll = std::min<int>( entry.max, std::round( rng_float( min_num, max_num ) ) );
             // will not give less than min_num defined in the JSON
             roll = std::max<int>( corpse_damage_effect( roll, entry.type, corpse_item->damage_level() ),
                                   entry.base_num.first );
         }
+
         itype_id drop_id = itype_id::NULL_ID();
         const itype *drop = nullptr;
         if( entry.type->is_itype() ) {
@@ -948,23 +979,10 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
                     liquid_handler::handle_all_liquid( obj, 1 );
                 }
             } else if( drop->count_by_charges() ) {
-                item obj( drop, calendar::turn, roll );
-                if( obj.has_temperature() ) {
-                    obj.set_item_temperature( corpse_item->temperature );
-                    if( obj.goes_bad() ) {
-                        obj.set_rot( corpse_item->get_rot() );
-                    }
+                std::vector<item> objs = create_charge_items( drop, roll, entry, corpse_item, you );
+                for( item &obj : objs ) {
+                    here.add_item_or_charges( you.pos(), obj );
                 }
-                for( const flag_id &flg : entry.flags ) {
-                    obj.set_flag( flg );
-                }
-                for( const fault_id &flt : entry.faults ) {
-                    obj.faults.emplace( flt );
-                }
-                if( !you.backlog.empty() && you.backlog.front().id() == ACT_MULTIPLE_BUTCHER ) {
-                    obj.set_var( "activity_var", you.name );
-                }
-                here.add_item_or_charges( you.pos(), obj );
             } else {
                 item obj( drop, calendar::turn );
                 obj.set_mtype( &mt );

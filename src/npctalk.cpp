@@ -1648,12 +1648,20 @@ void parse_tags( std::string &phrase, const Character &u, const Character &me,
 
 void dialogue::add_topic( const std::string &topic_id )
 {
-    topic_stack.emplace_back( topic_id );
+    if( actor( true )->get_npc() ) {
+        topic_stack.emplace_back( actor( true )->get_npc()->get_specified_talk_topic( topic_id ) );
+    } else {
+        topic_stack.emplace_back( topic_id );
+    }
 }
 
 void dialogue::add_topic( const talk_topic &topic )
 {
-    topic_stack.push_back( topic );
+    if( actor( true )->get_npc() ) {
+        topic_stack.emplace_back( actor( true )->get_npc()->get_specified_talk_topic( topic.id ) );
+    } else {
+        topic_stack.push_back( topic );
+    }
 }
 
 talker *dialogue::actor( const bool is_beta ) const
@@ -1694,7 +1702,8 @@ dialogue::dialogue( std::unique_ptr<talker> alpha_in,
     }
 }
 
-talk_data talk_response::create_option_line( const dialogue &d, const input_event &hotkey )
+talk_data talk_response::create_option_line( const dialogue &d, const input_event &hotkey,
+        const bool is_computer )
 {
     std::string ftext;
     text = ( truefalse_condition( d ) ? truetext : falsetext ).translated();
@@ -1729,7 +1738,8 @@ talk_data talk_response::create_option_line( const dialogue &d, const input_even
         color = c_red;
     } else if( text[0] == '*' || consequences.count( dialogue_consequence::helpless ) > 0 ) {
         color = c_light_red;
-    } else if( text[0] == '&' || consequences.count( dialogue_consequence::action ) > 0 ) {
+    } else if( text[0] == '&' || consequences.count( dialogue_consequence::action ) > 0 ||
+               is_computer ) {
         color = c_green;
     } else {
         color = c_white;
@@ -1834,15 +1844,7 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
     }
 
     input_context ctxt( "DIALOGUE_CHOOSE_RESPONSE" );
-    if( !d_win.is_computer && !d_win.is_not_conversation ) {
-        ctxt.register_action( "LOOK_AT" );
-        ctxt.register_action( "SIZE_UP_STATS" );
-        ctxt.register_action( "YELL" );
-        ctxt.register_action( "CHECK_OPINION" );
-    }
-    ctxt.register_updown();
-    ctxt.register_action( "PAGE_UP" );
-    ctxt.register_action( "PAGE_DOWN" );
+    d_win.set_up_scrolling( ctxt );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "ANY_INPUT" );
@@ -1858,7 +1860,7 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
         response_hotkeys.clear();
         input_event evt = ctxt.first_unassigned_hotkey( queue );
         for( talk_response &response : responses ) {
-            const talk_data &td = response.create_option_line( *this, evt );
+            const talk_data &td = response.create_option_line( *this, evt, d_win.is_computer );
             response_lines.emplace_back( td );
             response_hotkeys.emplace_back( evt );
 #if defined(__ANDROID__)
@@ -1866,24 +1868,24 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
 #endif
             evt = ctxt.next_unassigned_hotkey( queue, evt );
         }
+        d_win.set_responses( response_lines );
     };
     generate_response_lines();
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
-        d_win.draw( d_win.is_not_conversation ? "" : actor( true )->disp_name(), response_lines );
+        d_win.draw( d_win.is_not_conversation ? "" : actor( true )->disp_name() );
     } );
 
     size_t response_ind = response_hotkeys.size();
     bool okay;
     do {
-        d_win.refresh_response_display();
         std::string action;
         do {
             ui_manager::redraw();
             input_event evt;
             action = ctxt.handle_input();
             evt = ctxt.get_raw_input();
-            d_win.handle_scrolling( action, response_lines.size() );
+            d_win.handle_scrolling( action, ctxt );
             talk_topic st = special_talk( action );
             if( st.id != "TALK_NONE" ) {
                 return st;
@@ -2220,13 +2222,13 @@ static void receive_item( const itype_id &item_name, int count, const std::strin
         item new_item = item( item_name, calendar::turn );
         if( new_item.count_by_charges() ) {
             new_item.mod_charges( count - 1 );
-            d.actor( false )->i_add( new_item );
+            d.actor( false )->i_add_or_drop( new_item );
         } else {
             for( int i_cnt = 0; i_cnt < count; i_cnt++ ) {
                 if( !new_item.ammo_default().is_null() ) {
                     new_item.ammo_set( new_item.ammo_default() );
                 }
-                d.actor( false )->i_add( new_item );
+                d.actor( false )->i_add_or_drop( new_item );
             }
         }
         if( d.has_beta && !d.actor( true )->disp_name().empty() ) {
@@ -2243,7 +2245,7 @@ static void receive_item( const itype_id &item_name, int count, const std::strin
         item container( container_name, calendar::turn );
         container.put_in( item( item_name, calendar::turn, count ),
                           item_pocket::pocket_type::CONTAINER );
-        d.actor( false )->i_add( container );
+        d.actor( false )->i_add_or_drop( container );
         if( d.has_beta && !d.actor( true )->disp_name().empty() ) {
             //~ %1%s is the NPC name, %2$s is an item
             popup( _( "%1$s gives you a %2$s." ), d.actor( true )->disp_name(), container.tname() );
@@ -4925,6 +4927,36 @@ std::string npc::pick_talk_topic( const Character &/*u*/ )
 
     set_attitude( NPCATT_NULL );
     return chatbin.talk_stranger_neutral;
+}
+
+std::string npc::get_specified_talk_topic( const std::string &topic_id )
+{
+    static const dialogue_chatbin default_chatbin;
+    static const std::vector<std::pair<std::string, std::string>> talk_topics = {
+        {default_chatbin.first_topic, chatbin.first_topic},
+        {default_chatbin.talk_radio, chatbin.talk_radio},
+        {default_chatbin.talk_leader, chatbin.talk_leader},
+        {default_chatbin.talk_friend, chatbin.talk_friend},
+        {default_chatbin.talk_stole_item, chatbin.talk_stole_item},
+        {default_chatbin.talk_wake_up, chatbin.talk_wake_up},
+        {default_chatbin.talk_mug, chatbin.talk_mug},
+        {default_chatbin.talk_stranger_aggressive, chatbin.talk_stranger_aggressive},
+        {default_chatbin.talk_stranger_scared, chatbin.talk_stranger_scared},
+        {default_chatbin.talk_stranger_wary, chatbin.talk_stranger_wary},
+        {default_chatbin.talk_stranger_friendly, chatbin.talk_stranger_friendly},
+        {default_chatbin.talk_stranger_neutral, chatbin.talk_stranger_neutral},
+        {default_chatbin.talk_friend_guard, chatbin.talk_friend_guard}
+    };
+
+    const auto iter = std::find_if( talk_topics.begin(), talk_topics.end(),
+    [&topic_id]( const std::pair<std::string, std::string> &pair ) {
+        return pair.first == topic_id;
+    } );
+    if( iter != talk_topics.end() ) {
+        return iter->second;
+    }
+
+    return topic_id;
 }
 
 bool npc::has_item_whitelist() const

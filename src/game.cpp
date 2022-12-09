@@ -10076,7 +10076,7 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
     return true;
 }
 
-point game::place_player( const tripoint &dest_loc )
+point game::place_player( const tripoint &dest_loc, bool quick )
 {
     const optional_vpart_position vp1 = m.veh_at( dest_loc );
     if( const cata::optional<std::string> label = vp1.get_label() ) {
@@ -10208,10 +10208,11 @@ point game::place_player( const tripoint &dest_loc )
     // If the player is in a vehicle, unboard them from the current part
     bool was_in_control_same_pos = false;
     if( u.in_vehicle ) {
-        if( u.controlling_vehicle && u.pos() == dest_loc ) {
+        if( u.pos() == dest_loc ) {
             was_in_control_same_pos = true;
+        } else {
+            m.unboard_vehicle( u.pos() );
         }
-        m.unboard_vehicle( u.pos() );
     }
     // Move the player
     // Start with z-level, to make it less likely that old functions (2D ones) freak out
@@ -10239,7 +10240,7 @@ point game::place_player( const tripoint &dest_loc )
     // adjusted_pos = ( old_pos.x - submap_shift.x * SEEX, old_pos.y - submap_shift.y * SEEY, old_pos.z )
 
     //Auto pulp or butcher and Auto foraging
-    if( get_option<bool>( "AUTO_FEATURES" ) && mostseen == 0  && !u.is_mounted() ) {
+    if( !quick && get_option<bool>( "AUTO_FEATURES" ) && mostseen == 0  && !u.is_mounted() ) {
         static constexpr std::array<direction, 8> adjacentDir = {
             direction::NORTH, direction::NORTHEAST, direction::EAST, direction::SOUTHEAST,
             direction::SOUTH, direction::SOUTHWEST, direction::WEST, direction::NORTHWEST
@@ -10326,18 +10327,15 @@ point game::place_player( const tripoint &dest_loc )
     }
 
     // Auto pickup
-    if( !u.is_mounted() && get_option<bool>( "AUTO_PICKUP" ) && !u.is_hauling() &&
+    if( !quick && !u.is_mounted() && get_option<bool>( "AUTO_PICKUP" ) && !u.is_hauling() &&
         ( !get_option<bool>( "AUTO_PICKUP_SAFEMODE" ) || mostseen == 0 ) &&
         ( m.has_items( u.pos() ) || get_option<bool>( "AUTO_PICKUP_ADJACENT" ) ) ) {
         Pickup::autopickup( u.pos() );
     }
 
     // If the new tile is a boardable part, board it
-    if( vp1.part_with_feature( "BOARDABLE", true ) && !u.is_mounted() ) {
+    if( !was_in_control_same_pos && vp1.part_with_feature( "BOARDABLE", true ) && !u.is_mounted() ) {
         m.board_vehicle( u.pos(), &u );
-        if( was_in_control_same_pos && vp1.part_with_feature( "CONTROLS", true ) ) {
-            u.controlling_vehicle = true;
-        }
     }
 
     // Traps!
@@ -10357,7 +10355,7 @@ point game::place_player( const tripoint &dest_loc )
     }
 
     // List items here
-    if( !m.has_flag( ter_furn_flag::TFLAG_SEALED, u.pos() ) ) {
+    if( !quick && !m.has_flag( ter_furn_flag::TFLAG_SEALED, u.pos() ) ) {
         if( get_option<bool>( "NO_AUTO_PICKUP_ZONES_LIST_ITEMS" ) ||
             !check_zone( zone_type_NO_AUTO_PICKUP, u.pos() ) ) {
             if( u.is_blind() && !m.i_at( u.pos() ).empty() ) {
@@ -10869,6 +10867,12 @@ void game::on_move_effects()
                 u.mod_power_level( -bio_jointservo->power_trigger * 1.55 );
             } else {
                 u.mod_power_level( -bio_jointservo->power_trigger );
+            }
+
+            // If there's not enough power to run Joint Servo, forcefully turn it off
+            if( u.get_power_level() <= 0_mJ ) {
+                u.force_bionic_deactivation( **u.find_bionic_by_type( bio_jointservo ) );
+                u.add_msg_if_player( m_bad, _( "Your Joint Servo bionic powers down." ) );
             }
         }
     }
