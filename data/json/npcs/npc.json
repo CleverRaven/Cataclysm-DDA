@@ -116,7 +116,7 @@
     "type": "npc",
     "id": "survivor_camper",
     "name_suffix": "camper",
-    "class": "NC_SCAVENGER",
+    "class": "NC_SCAVENGER_STATIC",
     "attitude": 1,
     "mission": 7,
     "chat": "TALK_NPC_CAMPER_SURVIVOR",
@@ -126,7 +126,7 @@
     "type": "npc",
     "id": "apartment_survivor",
     "name_suffix": "scavenger",
-    "class": "NC_SCAVENGER",
+    "class": "NC_SCAVENGER_STATIC",
     "attitude": 1,
     "mission": 7,
     "chat": "TALK_NPC_APARTMENT_SURVIVOR",
@@ -136,7 +136,7 @@
     "type": "npc",
     "id": "prepper_survivor",
     "name_suffix": "prepper",
-    "class": "NC_SCAVENGER",
+    "class": "NC_SCAVENGER_NOMOVE",
     "attitude": 1,
     "mission": 7,
     "chat": "TALK_NPC_PREPPER_SURVIVOR",
@@ -153,7 +153,7 @@
     "type": "npc",
     "id": "survivor_moonshiner",
     "name_suffix": "moonshiner",
-    "class": "NC_SCAVENGER",
+    "class": "NC_SCAVENGER_NOMOVE",
     "attitude": 0,
     "mission": 7,
     "chat": "TALK_NPC_MOONSHINER",
@@ -163,24 +163,22 @@
   {
     "type": "npc",
     "id": "NPC_evac_shelter_survivor",
-    "class": "NC_SCAVENGER",
+    "class": "NC_SCAVENGER_STATIC",
     "name_suffix": "scavenger",
     "attitude": 1,
     "mission": 8,
     "chat": "TALK_NPC_EVAC_SURVIVOR",
-    "faction": "no_faction",
-    "mission_offered": "MISSION_LEARN_ABOUT_CATTAIL_JELLY"
+    "faction": "no_faction"
   },
   {
     "type": "npc",
     "id": "NPC_homeless_survivor",
-    "class": "NC_SCAVENGER",
+    "class": "NC_SCAVENGER_STATIC",
     "name_suffix": "scavenger",
     "attitude": 1,
     "mission": 8,
     "chat": "TALK_NPC_HOMELESS_SURVIVOR",
-    "faction": "no_faction",
-    "mission_offered": "MISSION_LEARN_ABOUT_CATTAIL_JELLY"
+    "faction": "no_faction"
   },
   {
     "type": "npc",
@@ -196,7 +194,7 @@
   {
     "type": "npc",
     "id": "NPC_homeless_group_survivor",
-    "class": "NC_SCAVENGER",
+    "class": "NC_SCAVENGER_NOMOVE",
     "name_suffix": "scavenger",
     "attitude": 0,
     "mission": 7,

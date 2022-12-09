@@ -258,6 +258,38 @@
   },
   {
     "type": "npc_class",
+    "id": "NC_SCAVENGER_NOMOVE",
+    "name": { "str": "Scavenger" },
+    "common": false,
+    "job_description": "I'm just trying to survive.",
+    "//": "This is for NPCs who need to remain in a general area, such as a trader.",
+    "traits": [ { "group": "BG_survival_story_EVACUEE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" }, { "trait": "GETS_RANDOM_MISSION_NOMOVE" } ],
+    "skills": [
+      { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 2 ] }, { "constant": -3 } ] } },
+      { "skill": "gun", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "pistol", "bonus": { "rng": [ 2, 5 ] } },
+      { "skill": "rifle", "bonus": { "rng": [ 0, 3 ] } },
+      { "skill": "archery", "bonus": { "rng": [ 0, 3 ] } }
+    ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_SCAVENGER_STATIC",
+    "name": { "str": "Scavenger" },
+    "common": false,
+    "job_description": "I'm just trying to survive.",
+    "//2": "This is for NPCs who are spawned in by mapgen, to give them a mission.",
+    "traits": [ { "group": "BG_survival_story_EVACUEE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" }, { "trait": "GETS_RANDOM_MISSION" } ],
+    "skills": [
+      { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 2 ] }, { "constant": -3 } ] } },
+      { "skill": "gun", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "pistol", "bonus": { "rng": [ 2, 5 ] } },
+      { "skill": "rifle", "bonus": { "rng": [ 0, 3 ] } },
+      { "skill": "archery", "bonus": { "rng": [ 0, 3 ] } }
+    ]
+  },
+  {
+    "type": "npc_class",
     "id": "NC_HUNTER",
     "name": { "str": "Hunter" },
     "job_description": "I'm tracking game.",
