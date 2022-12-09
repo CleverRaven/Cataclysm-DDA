@@ -842,7 +842,6 @@
       [ "steam_triple_medium", 1 ],
       [ "waffleiron", 60 ],
       [ "spring", 150 ],
-      { "item": "rebar_rail", "prob": 45, "charges-min": 1, "charges-max": 50 },
       [ "pastaextruder", 75 ],
       { "item": "nail", "prob": 300, "charges-min": 1, "charges-max": 15 },
       { "item": "nuts_bolts", "prob": 60, "charges-min": 5, "charges-max": 30 },
@@ -1217,7 +1216,7 @@
       [ "jar_glass_sealed", 80 ],
       { "item": "heroin", "prob": 1, "charges": [ 1, 4 ] },
       { "item": "bleach", "prob": 60, "charges-min": 10 },
-      { "item": "ammonia_liquid", "prob": 80, "charges-min": 10 },
+      { "item": "ammonia_liquid", "prob": 80, "charges-min": 6 },
       { "item": "chem_baking_soda", "prob": 60, "charges-min": 10 },
       [ "syringe", 30 ],
       [ "punch_dagger", 12 ],
@@ -1526,10 +1525,11 @@
     "items": [
       [ "helmet_riot", 25 ],
       { "item": "mask_gas", "prob": 25, "charges": [ 0, 100 ] },
-      [ "armor_riot", 20 ],
+      [ "armor_riot", 25 ],
+      [ "armor_riot_arm", 15 ],
+      [ "armor_riot_leg", 15 ],
+      [ "armor_riot_torso", 5 ],
       [ "gloves_tactical", 10 ],
-      [ "armguard_hard", 20 ],
-      [ "legguard_hard", 20 ],
       [ "emergency_book", 1 ]
     ]
   },

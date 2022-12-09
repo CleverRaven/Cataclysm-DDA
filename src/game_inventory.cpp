@@ -199,7 +199,9 @@ void game_menus::inv::common( avatar &you )
     // Return to inventory menu on those inputs
     static const std::set<int> loop_options = { { '\0', '=', 'f', '<', '>'}};
 
-    inventory_pick_selector inv_s( you );
+    inventory_selector_preset inv_s_p = default_preset;
+    inv_s_p.save_state = &inventory_ui_default_state;
+    inventory_pick_selector inv_s( you, inv_s_p );
 
     inv_s.set_title( _( "Inventory" ) );
     inv_s.set_hint( string_format(
@@ -477,6 +479,7 @@ class pickup_inventory_preset : public inventory_selector_preset
         explicit pickup_inventory_preset( const Character &you,
                                           bool skip_wield_check = false, bool ignore_liquidcont = false ) : you( you ),
             skip_wield_check( skip_wield_check ), ignore_liquidcont( ignore_liquidcont ) {
+            save_state = &pickup_sel_default_state;
             _pk_type = item_pocket::pocket_type::LAST;
         }
 
@@ -1945,7 +1948,8 @@ drop_locations game_menus::inv::multidrop( avatar &you )
 drop_locations game_menus::inv::pickup( avatar &you,
                                         const cata::optional<tripoint> &target, const std::vector<drop_location> &selection )
 {
-    const pickup_inventory_preset preset( you, /*skip_wield_check=*/true, /*ignore_liquidcont=*/true );
+    pickup_inventory_preset preset( you, /*skip_wield_check=*/true, /*ignore_liquidcont=*/true );
+    preset.save_state = &pickup_ui_default_state;
 
     pickup_selector pick_s( you, preset, _( "ITEMS TO PICK UP" ), target );
 

@@ -43,35 +43,30 @@
     "skill_used": "tailor",
     "difficulty": 7,
     "skills_required": [ [ "fabrication", 3 ] ],
-    "time": "6 h 40 m",
+    "time": "12 h",
     "autolearn": true,
     "book_learn": [ [ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ], [ "textbook_arthropod", 6 ] ],
-    "using": [ [ "cordage", 2 ] ],
-    "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
     "proficiencies": [
       { "proficiency": "prof_articulation" },
       { "proficiency": "prof_chitinworking" },
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_leatherworking_basic" }
     ],
-    "components": [ [ [ "chitin_piece", 72 ] ] ]
+    "using": [ [ "armor_chitin", 72 ] ]
   },
   {
     "result": "armor_chitin_xs",
     "type": "recipe",
     "copy-from": "armor_chitin",
-    "time": "6 h 40 m",
-    "using": [ [ "cordage", 1 ] ],
-    "components": [ [ [ "chitin_piece", 54 ] ] ]
+    "time": "9 h",
+    "using": [ [ "armor_chitin", 54 ] ]
   },
   {
     "result": "xl_armor_chitin",
     "type": "recipe",
     "copy-from": "armor_chitin",
-    "time": "7 h 30 m",
-    "using": [ [ "cordage", 3 ] ],
-    "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
-    "components": [ [ [ "chitin_piece", 96 ] ] ]
+    "time": "16 h",
+    "using": [ [ "armor_chitin", 96 ] ]
   },
   {
     "result": "armor_acidchitin",
@@ -1956,7 +1951,7 @@
     "components": [
       [ [ "coat_rain", 1 ], [ "jacket_windbreaker", 1 ], [ "jacket_evac", 1 ], [ "coat_gut", 1 ] ],
       [ [ "duct_tape", 225 ] ],
-      [ [ "sheet_kevlar_layered", 408 ] ]
+      [ [ "sheet_kevlar", 408 ] ]
     ]
   },
   {
@@ -1976,7 +1971,7 @@
     "components": [
       [ [ "coat_rain", 1 ], [ "jacket_windbreaker", 1 ], [ "jacket_evac", 1 ], [ "coat_gut", 1 ] ],
       [ [ "duct_tape", 450 ] ],
-      [ [ "sheet_kevlar_layered", 864 ] ]
+      [ [ "sheet_kevlar", 864 ] ]
     ]
   },
   {
@@ -3372,5 +3367,19 @@
       [ [ "xl_armor_qt_heavyarmguard", 2 ] ],
       [ [ "xl_armor_qt_heavy_leg_guard", 2 ] ]
     ]
+  },
+  {
+    "result": "armor_riot",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "id_suffix": "assembly",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "fabrication",
+    "time": "2 m",
+    "reversible": true,
+    "autolearn": true,
+    "flags": [ "NO_RESIZE" ],
+    "components": [ [ [ "armor_riot_leg", 1 ] ], [ [ "armor_riot_arm", 1 ] ], [ [ "armor_riot_torso", 1 ] ] ]
   }
 ]

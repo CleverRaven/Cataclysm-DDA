@@ -8320,9 +8320,9 @@ cata::optional<int> iuse::multicooker( Character *p, item *it, bool t, const tri
             return 0;
         }
 
-        // Empty the cooker before it can be activated.
+        // Do nothing if there's non-dish contained in the cooker
         if( mc_empty == choice ) {
-            it->handle_liquid_or_spill( *p );
+            return cata::nullopt;
         }
 
         if( mc_start == choice ) {
@@ -8365,12 +8365,12 @@ cata::optional<int> iuse::multicooker( Character *p, item *it, bool t, const tri
                 const recipe *meal = dishes[choice];
                 int mealtime;
                 if( it->get_var( "MULTI_COOK_UPGRADE" ) == "UPGRADE" ) {
-                    mealtime = meal->time_to_craft_moves( *p );
+                    mealtime = meal->time_to_craft_moves( *p, recipe_time_flag::ignore_proficiencies );
                 } else {
-                    mealtime = meal->time_to_craft_moves( *p ) * 2;
+                    mealtime = meal->time_to_craft_moves( *p, recipe_time_flag::ignore_proficiencies ) * 2;
                 }
 
-                const int all_charges = charges_to_start + mealtime / 100 * units::to_joule(
+                const int all_charges = charges_to_start + mealtime / 1000 * units::to_joule(
                                             it->type->tool->power_draw ) / 1000;
 
                 if( it->ammo_remaining( p ) < all_charges ) {
@@ -8899,7 +8899,7 @@ cata::optional<int> iuse::cord_attach( Character *p, item *it, bool, const tripo
         }
         const tripoint posp = *posp_;
         const optional_vpart_position vp = here.veh_at( posp );
-        if( !vp || !vp->vehicle().has_tag( "APPLIANCE" ) ) {
+        if( !vp ) {
             p->add_msg_if_player( _( "There's no appliance here." ) );
             return cata::nullopt;
         } else {
@@ -8959,7 +8959,7 @@ cata::optional<int> iuse::cord_attach( Character *p, item *it, bool, const tripo
         const tripoint vpos = *vpos_;
 
         const optional_vpart_position target_vp = here.veh_at( vpos );
-        if( !target_vp || !target_vp->vehicle().has_tag( "APPLIANCE" ) ) {
+        if( !target_vp ) {
             p->add_msg_if_player( _( "There's no appliance there." ) );
             return cata::nullopt;
         } else {

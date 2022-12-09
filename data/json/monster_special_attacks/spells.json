@@ -219,7 +219,7 @@
   {
     "type": "SPELL",
     "id": "cellar_spider_leg_detach",
-    "name": { "str": "Detatch Leg" },
+    "name": { "str": "Detach Leg" },
     "description": "The hurt leg of the cellar spider wriggles loose.  Ew.",
     "flags": [ "HOSTILE_SUMMON", "NO_PROJECTILE", "RANDOM_TARGET", "NO_EXPLOSION_SFX" ],
     "effect": "effect_on_condition",
@@ -503,12 +503,13 @@
           { "u_val": "fatigue" },
           "+=",
           { "arithmetic": [ { "global_val": "var", "var_name": "ps_str" }, "+", { "const": 20 } ] }
-        ]
+        ],
+        "max": 1200
       },
       {
         "arithmetic": [
           { "u_val": "stamina" },
-          "+=",
+          "-=",
           { "arithmetic": [ { "global_val": "var", "var_name": "ps_str" }, "+", { "const": 50 } ] }
         ]
       },
@@ -722,7 +723,8 @@
           "effect": [
             { "u_message": "Your reflection feasts directly on your essence." },
             {
-              "arithmetic": [ { "u_val": "fatigue" }, "+=", { "global_val": "var", "var_name": "portal_dungeon_reflect_strength" } ]
+              "arithmetic": [ { "u_val": "fatigue" }, "+=", { "global_val": "var", "var_name": "portal_dungeon_reflect_strength" } ],
+              "max": 1200
             },
             {
               "arithmetic": [ { "global_val": "var", "var_name": "portal_dungeon_reflect_strength" }, "+=", { "const": 3 } ]
@@ -734,7 +736,8 @@
           "effect": [
             { "u_message": "Your reflection uses your bond to feast on your essence." },
             {
-              "arithmetic": [ { "u_val": "fatigue" }, "+=", { "global_val": "var", "var_name": "portal_dungeon_reflect_strength" } ]
+              "arithmetic": [ { "u_val": "fatigue" }, "+=", { "global_val": "var", "var_name": "portal_dungeon_reflect_strength" } ],
+              "max": 1200
             },
             { "arithmetic": [ { "global_val": "var", "var_name": "portal_dungeon_reflect_strength" }, "++" ] }
           ]

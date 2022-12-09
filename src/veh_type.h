@@ -473,7 +473,12 @@ class vpart_info
          *  default is half @ref install_moves */
         int removal_moves = -1;
 
-        /** seatbelt (str), muffler (%), horn (vol), light (intensity), recharging (power) */
+        // seatbelt (str, currently non-functional #30239)
+        // muffler (% noise reduction)
+        // horn (sound volume)
+        // light (intensity)
+        // recharging (charging speed in watts)
+        // funnel (water collection area in mm^2)
         int bonus = 0;
 
         /** cargo weight modifier (percentage) */

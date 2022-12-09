@@ -362,6 +362,48 @@
     "extend": { "flags": [ "STURDY" ] }
   },
   {
+    "id": "armguard_metal_sheets_bracer",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pair of sheet metal bracers", "str_pl": "pairs of sheet metal bracers" },
+    "description": "A pair of arm guards hammered out from metal, only covering your forearms.",
+    "weight": "1150 g",
+    "//": "The weight assumes two sheets of about 25cm x 20cm x 1.5mm.",
+    "volume": "1 L",
+    "price": 15000,
+    "price_postapoc": 500,
+    "to_hit": 1,
+    "material": [ "lc_steel" ],
+    "repairs_with": [ "steel" ],
+    "symbol": "[",
+    "looks_like": "armguard_lightplate",
+    "color": "light_gray",
+    "warmth": 10,
+    "material_thickness": 1.5,
+    "environmental_protection": 1,
+    "flags": [ "OUTER", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ],
+    "armor": [
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "encumbrance": 3,
+        "coverage": 95,
+        "cover_melee": 95,
+        "cover_ranged": 90,
+        "cover_vitals": 70,
+        "specifically_covers": [ "arm_lower_r", "arm_lower_l" ]
+      }
+    ]
+  },
+  {
+    "id": "ch_armguard_metal_sheets_bracer",
+    "type": "ARMOR",
+    "copy-from": "armguard_metal_sheets_bracer",
+    "name": { "str": "pair of hardened sheet metal bracers", "str_pl": "pairs of hardened sheet metal bracers" },
+    "description": "A pair of forearm guards hammered out from sheet metal, case hardened for extra protection.",
+    "material": [ "ch_steel" ],
+    "extend": { "flags": [ "STURDY" ] }
+  },
+  {
     "id": "armguard_metal_sheets_shoulders",
     "type": "ARMOR",
     "category": "armor",
@@ -1637,5 +1679,36 @@
     "material_thickness": 2.5,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "WATER_FRIENDLY" ]
+  },
+  {
+    "id": "armor_riot_arm",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pair of riot arm guards", "str_pl": "pairs of riot arm guards" },
+    "description": "Hard arm guards used by riot police.",
+    "weight": "500 g",
+    "volume": "2500 ml",
+    "price": 10000,
+    "price_postapoc": 750,
+    "to_hit": -3,
+    "material": [ "thermo_resin", "plastic_pad" ],
+    "symbol": "[",
+    "looks_like": "armguard_hard",
+    "color": "dark_gray",
+    "warmth": 20,
+    "longest_side": "40 cm",
+    "flags": [ "STURDY", "OUTER", "WATER_FRIENDLY", "PADDED", "BLOCK_WHILE_WORN" ],
+    "armor": [
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "encumbrance": 3,
+        "coverage": 90,
+        "material": [
+          { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 5 },
+          { "type": "thermo_resin", "covered_by_mat": 90, "thickness": 1.75 }
+        ],
+        "specifically_covers": [ "arm_lower_l", "arm_lower_r", "arm_elbow_l", "arm_elbow_r" ]
+      }
+    ]
   }
 ]

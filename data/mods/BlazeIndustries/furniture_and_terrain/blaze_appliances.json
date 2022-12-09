@@ -38,7 +38,7 @@
     "durability": 200,
     "description": "A medium-sized household washing machine, converted to utilize vehicle power.  When turned on, filthy items will be laundered.",
     "epower": -400,
-    "size": 540,
+    "size": "135 L",
     "item": "household_washing_machine"
   }
 ]

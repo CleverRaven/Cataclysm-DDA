@@ -32,7 +32,7 @@
     "autolearn": true,
     "charges": 1,
     "flags": [ "BLIND_EASY" ],
-    "components": [ [ [ "cotton_patchwork", 1 ] ] ]
+    "components": [ [ [ "sheet_cotton", 1 ], [ "sheet_cotton_patchwork", 1 ] ] ]
   },
   {
     "result": "bandages_makeshift_bleached",

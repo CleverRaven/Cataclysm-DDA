@@ -557,7 +557,7 @@
     "type": "MONSTER",
     "copy-from": "mon_peccary_flathead",
     "name": { "str": "long-nosed peccary", "str_pl": "long-nosed peccaries" },
-    "description": "A stocky, short-legged, pig-like animal with coarse brown fur.  It just a bit smaller than a wild boar, its distant European cousin, but considerably bigger than its close relative, the flat-headed peccary.  Different to the latter, they are solitary and more aggresive, but still appreciate good food.",
+    "description": "A stocky, short-legged, pig-like animal with coarse brown fur.  It just a bit smaller than a wild boar, its distant European cousin, but considerably bigger than its close relative, the flat-headed peccary.  Different to the latter, they are solitary and more aggressive, but still appreciate good food.",
     "volume": "90 L",
     "weight": "70 kg",
     "hp": 79,

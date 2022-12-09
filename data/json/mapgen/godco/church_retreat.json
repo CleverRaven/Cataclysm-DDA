@@ -2,12 +2,8 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [
-      [ "cground_3", "cground_2", "cground_1" ],
-      [ "cground_6", "cground_5", "cground_4" ],
-      [ "cground_9", "cground_8", "cground_7" ]
-    ],
-    "weight": 25000,
+    "om_terrain": [ [ "godco_3", "godco_2", "godco_1" ], [ "godco_6", "godco_5", "godco_4" ], [ "godco_9", "godco_8", "godco_7" ] ],
+    "weight": 250,
     "object": {
       "faction_owner": [
         { "id": "gods_community", "x": [ 0, 23 ], "y": [ 0, 23 ] },
@@ -95,7 +91,27 @@
         ",,,,*,,,,,,,,,,*,,,7,,,,||||||||vv||||||||,,,,7,,,, ;;;;;;;;;;;; ,,,,,7,",
         ",,,,,,,,,,*,,,,,,,*,,7,*,,7*,,,****7,,,7*,,7*,,7*,,oooooooooooooo,*,7,*,"
       ],
-      "palettes": [ "cground" ],
+      "palettes": [ "godco_camp" ],
+      "place_npcs": [
+        { "class": "godco_chef", "x": [ 46, 47 ], "y": 14 },
+        { "class": "godco_sonia", "x": 53, "y": 12 },
+        { "class": "godco_zachary_montes", "x": [ 21, 22 ], "y": 11 },
+        { "class": "godco_chloe_taylor", "x": [ 11, 12 ], "y": 55 },
+        { "class": "godco_helena", "x": 17, "y": 10 },
+        { "class": "godco_darryl", "x": 42, "y": 36 },
+        { "class": "godco_julian", "x": 18, "y": 33 },
+        { "class": "godco_katherine", "x": 12, "y": 34 },
+        { "class": "godco_gemma", "x": 19, "y": 54 },
+        { "class": "godco_tom", "x": [ 3, 4 ], "y": 32 },
+        { "class": "godco_kostas", "x": 12, "y": 3 },
+        { "class": "godco_greenwood", "x": [ 19, 20 ], "y": 18 },
+        { "class": "godco_jane", "x": 20, "y": 3 },
+        { "class": "godco_corrie", "x": 64, "y": 8 },
+        { "class": "godco_arturo", "x": 62, "y": 14 },
+        { "class": "godco_felicity", "x": [ 3, 4 ], "y": 55 },
+        { "class": "godco_theresa", "x": [ 9, 10 ], "y": 16 },
+        { "class": "godco_jeremiah", "x": [ 3, 4 ], "y": 51 }
+      ],
       "place_zones": [
         { "type": "NPC_RETREAT", "faction": "gods_community", "x": [ 48, 69 ], "y": [ 4, 18 ] },
         { "type": "NPC_RETREAT", "faction": "gods_community", "x": [ 44, 47 ], "y": [ 4, 18 ] },
@@ -111,9 +127,9 @@
         { "type": "NPC_INVESTIGATE_ONLY", "faction": "gods_community", "x": [ 48, 71 ], "y": [ 48, 71 ] }
       ],
       "place_vehicles": [
-        { "vehicle": "bus", "x": 33, "y": [ 18, 18 ], "chance": 30, "status": 1, "rotation": 90 },
-        { "vehicle": "wheelchair", "x": 8, "y": 35, "chance": 50, "status": 0, "rotation": 90 },
-        { "vehicle": "wheelbarrow", "x": [ 39, 40 ], "y": [ 48, 49 ], "chance": 50, "status": 0, "rotation": 90 }
+        { "vehicle": "bus", "x": 33, "y": [ 18, 18 ], "chance": 100, "status": 1, "rotation": 90 },
+        { "vehicle": "wheelchair", "x": 8, "y": 35, "chance": 100, "status": 0, "rotation": 90 },
+        { "vehicle": "wheelbarrow", "x": [ 39, 40 ], "y": [ 48, 49 ], "chance": 100, "status": 0, "rotation": 90 }
       ],
       "place_loot": [
         { "item": "mess_tray", "repeat": [ 15, 20 ], "x": 52, "y": 14 },
@@ -142,11 +158,11 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [
-      [ "cground_3_1", "cground_2_1", "cground_1_1" ],
-      [ "cground_6_1", "cground_5_1", "cground_4_1" ],
-      [ "cground_9_1", "cground_8_1", "cground_7_1" ]
+      [ "godco_3_1", "godco_2_1", "godco_1_1" ],
+      [ "godco_6_1", "godco_5_1", "godco_4_1" ],
+      [ "godco_9_1", "godco_8_1", "godco_7_1" ]
     ],
-    "weight": 25000,
+    "weight": 250,
     "object": {
       "faction_owner": [
         { "id": "gods_community", "x": [ 0, 23 ], "y": [ 0, 23 ] },
@@ -234,16 +250,25 @@
         "#######################(----(zzzzzzzz)----)#############################",
         "############################(--------)##################################"
       ],
-      "palettes": [ "cground" ],
+      "palettes": [ "godco_camp" ],
+      "place_npcs": [
+        { "class": "godco_guard_food", "x": [ 46, 47 ], "y": 8 },
+        { "class": "godco_russell", "x": 52, "y": 10 },
+        { "class": "godco_olwen", "x": 48, "y": 14 },
+        { "class": "godco_maria", "x": 46, "y": 17 }
+      ],
       "place_nested": [ { "chunks": [ [ "roof_4x4_utility", 10 ], [ "roof_4x4_utility_1", 10 ] ], "x": 31, "y": 65 } ],
-      "place_loot": [ { "group": "novels", "x": [ 46, 47 ], "y": 9, "repeat": [ 6, 10 ], "chance": 50 } ]
+      "place_loot": [
+        { "group": "novels", "x": [ 46, 47 ], "y": 9, "repeat": [ 6, 10 ], "chance": 100 },
+        { "group": "GODCO_russell_sell", "x": 52, "y": 11, "chance": 100 }
+      ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ [ "cground_2_2", "cground_1_2" ] ],
-    "weight": 25000,
+    "om_terrain": [ [ "godco_2_2", "godco_1_2" ] ],
+    "weight": 250,
     "object": {
       "faction_owner": [
         { "id": "gods_community", "x": [ 0, 23 ], "y": [ 0, 23 ] },
@@ -276,7 +301,7 @@
         "#########################(''''')################",
         "#########################(-----)################"
       ],
-      "palettes": [ "cground" ]
+      "palettes": [ "godco_camp" ]
     }
   }
 ]
