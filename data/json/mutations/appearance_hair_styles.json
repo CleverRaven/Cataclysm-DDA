@@ -415,6 +415,45 @@
   },
 	{
     "type": "mutation",
+    "id": "medium-length",
+    "name": "Hair: medium-length",
+    "points": 0,
+    "description": "You have a head of medium-length black hair.",
+    "starting_trait": true,
+    "valid": false,
+    "purifiable": false,
+    "player_display": true,
+    "vanity": true,
+    "variants": [	
+      {
+        "id": "blue",
+        "name": { "str": "Hair: blue, medium-length" },
+        "description": "You have a head of medium-length blue hair.",
+        "weight": 1
+      },
+      {
+        "id": "green",
+        "name": { "str": "Hair: green, medium-length" },
+        "description": "You have a head of medium-length green hair.",
+        "weight": 1
+      },
+      {
+        "id": "pink",
+        "name": { "str": "Hair: pink, medium-length" },
+        "description": "You have a head of medium-length pink hair.",
+        "weight": 1
+      },
+      {
+        "id": "purple",
+        "name": { "str": "Hair: purple, medium-length" },
+        "description": "You have a head of medium-length purple hair.",
+        "weight": 1
+      }
+    ],
+    "types": [ "hair_style" ]
+  },
+	{
+    "type": "mutation",
     "id": "long",
     "name": "Hair: long",
     "points": 0,
