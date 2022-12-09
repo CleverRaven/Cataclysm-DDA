@@ -1481,7 +1481,7 @@ void basecamp::get_available_missions( mission_data &mission_key )
     }
 
     std::vector<ui_mission_id> k;
-    for( int tab_num = base_camps::TAB_MAIN; tab_num < base_camps::TAB_NW; tab_num++ ) {
+    for( int tab_num = base_camps::TAB_MAIN; tab_num <= base_camps::TAB_NW; tab_num++ ) {
         if( temp_ui_mission_keys.size() < size_t( tab_num ) + 1 ) {
             temp_ui_mission_keys.push_back( k );
         } else {
