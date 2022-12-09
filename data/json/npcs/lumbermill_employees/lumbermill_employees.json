@@ -46,7 +46,6 @@
     "type": "npc_class",
     "id": "NC_LUMBERJACK_MERCHANT",
     "name": { "str": "Lumberjack" },
-    "common": false,
     "job_description": "I felled trees before the apocalypse.  Zombies shouldn't be as tough.",
     "traits": [
       { "group": "BG_survival_story_RURAL" },
