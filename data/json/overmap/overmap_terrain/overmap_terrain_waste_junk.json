@@ -133,7 +133,7 @@
   {
     "type": "overmap_terrain",
     "id": "sewer_connector",
-    "copy_from": "pump_station_3",
+    "copy-from": "pump_station_3",
     "flags": [ "SHOULD_NOT_SPAWN" ]
   },
   {
