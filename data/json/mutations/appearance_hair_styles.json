@@ -502,6 +502,84 @@
   },
   {
     "type": "mutation",
+    "id": "mohawk",
+    "name": "Hair: mohawk",
+    "points": 0,
+    "description": "You have a black mohawk.",
+    "starting_trait": true,
+    "valid": false,
+    "purifiable": false,
+    "player_display": true,
+    "vanity": true,
+    "variants": [	
+      {
+        "id": "blue",
+        "name": { "str": "Hair: blue, mohawk" },
+        "description": "You have a blue mohawk.",
+        "weight": 1
+      },
+      {
+        "id": "green",
+        "name": { "str": "Hair: green, mohawk" },
+        "description": "You have a green mohawk.",
+        "weight": 1
+      },
+      {
+        "id": "pink",
+        "name": { "str": "Hair: pink, mohawk" },
+        "description": "You have a pink mohawk.",
+        "weight": 1
+      },
+      {
+        "id": "purple",
+        "name": { "str": "Hair: purple, mohawk" },
+        "description": "You have a purple mohawk.",
+        "weight": 1
+      }
+    ],
+    "types": [ "hair_style" ]
+  },
+	{
+    "type": "mutation",
+    "id": "fro",
+    "name": "Hair: 'fro",
+    "points": 0,
+    "description": "You have a black 'fro.",
+    "starting_trait": true,
+    "valid": false,
+    "purifiable": false,
+    "player_display": true,
+    "vanity": true,
+    "variants": [	
+      {
+        "id": "blue",
+        "name": { "str": "Hair: blue, 'fro" },
+        "description": "You have a blue 'fro.",
+        "weight": 1
+      },
+      {
+        "id": "green",
+        "name": { "str": "Hair: green, 'fro" },
+        "description": "You have a green 'fro.",
+        "weight": 1
+      },
+      {
+        "id": "pink",
+        "name": { "str": "Hair: pink, 'fro" },
+        "description": "You have a pink 'fro.",
+        "weight": 1
+      },
+      {
+        "id": "purple",
+        "name": { "str": "Hair: purple, 'fro" },
+        "description": "You have a purple 'fro.",
+        "weight": 1
+      }
+    ],
+    "types": [ "hair_style" ]
+  },
+	{
+    "type": "mutation",
     "id": "medium-length",
     "name": "Hair: medium-length",
     "points": 0,
