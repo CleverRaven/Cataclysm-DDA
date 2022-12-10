@@ -31,7 +31,7 @@
         "material": [ { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 3.0 } ],
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
-        "encumbrance": 10
+        "encumbrance": 15
       }
     ]
   },
@@ -121,7 +121,7 @@
         "material": [ { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 3.0 } ],
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 100,
-        "encumbrance": 10
+        "encumbrance": 15
       }
     ]
   },
@@ -273,7 +273,7 @@
         ],
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
-        "encumbrance": 20,
+        "encumbrance": 25,
         "warmth": 50
       },
       {
@@ -281,7 +281,7 @@
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
         "coverage": 72,
-        "encumbrance": 7,
+        "encumbrance": 8,
         "layers": [ "BELTED" ],
         "warmth": 20
       }
@@ -341,7 +341,7 @@
         "material": [ { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 3.0 } ],
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
-        "encumbrance": 10,
+        "encumbrance": 15,
         "warmth": 30
       },
       {
@@ -349,7 +349,7 @@
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
         "coverage": 72,
-        "encumbrance": 7,
+        "encumbrance": 8,
         "layers": [ "BELTED" ],
         "warmth": 20
       }
@@ -409,7 +409,7 @@
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
         "coverage": 72,
-        "encumbrance": 7,
+        "encumbrance": 8,
         "layers": [ "BELTED" ],
         "warmth": 20
       }
@@ -459,7 +459,7 @@
         ],
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 100,
-        "encumbrance": 20
+        "encumbrance": 21
       }
     ]
   },
