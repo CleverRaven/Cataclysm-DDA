@@ -18,7 +18,7 @@
     "copy-from": "spear_steel",
     "type": "GENERIC",
     "name": { "str": "Gungnir" },
-    "description": "Gungnir, the spear of Odin.  It is rumored to be the perfect spear, perfectly hitting any target regardless of the wielder's strength or skill.  If feels like Odin's protecting you.",
+    "description": "Gungnir, the spear of Odin.  It is rumored to be the perfect spear, perfectly hitting any target regardless of the wielder's strength or skill.  It feels like Odin's protecting you.",
     "weight": "1854 g",
     "material": [ "orichalcum_metal", "wood", "gold" ],
     "techniques": [ "WBLOCK_1", "IMPALE", "SWEEP" ],
