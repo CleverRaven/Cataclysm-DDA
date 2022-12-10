@@ -766,7 +766,7 @@ int Character::get_fat_to_hp() const
         mut_fat_hp += mut.obj().fat_to_max_hp;
     }
 
-    return mut_fat_hp * ( get_bmi() - character_weight_category::normal );
+    return mut_fat_hp * ( get_bmi_fat() - character_weight_category::normal );
 }
 
 creature_size Character::get_size() const
@@ -4033,7 +4033,7 @@ int Character::kcal_speed_penalty() const
     if( get_kcal_percent() > 0.95f ) {
         return 0;
     } else {
-        return std::round( multi_lerp( starv_thresholds, get_bmi() ) );
+        return std::round( multi_lerp( starv_thresholds, get_bmi_fat() ) );
     }
 }
 
@@ -4069,8 +4069,10 @@ std::string Character::debug_weary_info() const
 
 void Character::mod_stored_kcal( int nkcal, const bool ignore_weariness )
 {
+    //if we are malnourished, we are now burning muscle to stay alive, so half of calories go to/from fat and the other half to/from muscle
+    const int adjust_factor = ( get_bmi_fat() < character_weight_category::underweight ) ? 4.0f / str_max : 1.0f;
     if( needs_food() ) {
-        mod_stored_calories( nkcal * 1000, ignore_weariness );
+        mod_stored_calories( std::floor( nkcal * 1000 * adjust_factor ), ignore_weariness );
     }
 }
 
@@ -4097,13 +4099,13 @@ void Character::set_stored_kcal( int kcal )
 void Character::set_stored_calories( int cal )
 {
     if( stored_calories != cal ) {
-        int cached_bmi = std::floor( get_bmi() );
+        int cached_bmi = std::floor( get_bmi_fat() );
         stored_calories = cal;
 
         //some mutant change their max_hp according to their bmi
         recalc_hp();
         //need to check obesity penalties when this happens if BMI changed
-        if( std::floor( get_bmi() ) != cached_bmi ) {
+        if( std::floor( get_bmi_fat() ) != cached_bmi ) {
             calc_encumbrance();
         }
     }
@@ -4314,7 +4316,7 @@ void Character::reset_bonuses()
 
 int Character::get_max_healthy() const
 {
-    const float bmi = get_bmi();
+    const float bmi = get_bmi_fat();
     return clamp( static_cast<int>( std::round( -3 * ( bmi - character_weight_category::normal ) *
                                     ( bmi - character_weight_category::overweight ) + 200 ) ), -200, 200 );
 }
