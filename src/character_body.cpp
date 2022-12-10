@@ -990,7 +990,7 @@ void Character::update_stomach( const time_point &from, const time_point &to )
         set_thirst( 0 );
     }
 
-    const bool calorie_deficit = get_bmi() < character_weight_category::normal;
+    const bool calorie_deficit = get_bmi_fat() < character_weight_category::normal;
     const units::volume contains = stomach.contains();
     const units::volume cap = stomach.capacity( *this );
 
@@ -1017,9 +1017,9 @@ void Character::update_stomach( const time_point &from, const time_point &to )
             hunger_effect = effect_hunger_hungry;
         } else if( recently_ate ) {
             hunger_effect = effect_hunger_very_hungry;
-        } else if( get_bmi() < character_weight_category::underweight ) {
+        } else if( get_bmi_fat() < character_weight_category::underweight ) {
             hunger_effect = effect_hunger_near_starving;
-        } else if( get_bmi() < character_weight_category::emaciated ) {
+        } else if( get_bmi_fat() < character_weight_category::emaciated ) {
             hunger_effect = effect_hunger_starving;
         } else {
             hunger_effect = effect_hunger_famished;
@@ -1040,7 +1040,7 @@ void Character::update_stomach( const time_point &from, const time_point &to )
             hunger_effect = effect_hunger_satisfied;
         } else if( recently_ate || contains > 0_ml ) {
             hunger_effect = effect_hunger_blank;
-        } else if( get_bmi() > character_weight_category::overweight ) {
+        } else if( get_bmi_fat() > character_weight_category::overweight ) {
             hunger_effect = effect_hunger_hungry;
         } else {
             hunger_effect = effect_hunger_very_hungry;
