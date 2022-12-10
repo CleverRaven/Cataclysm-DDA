@@ -413,7 +413,7 @@
     ],
     "types": [ "hair_style" ]
   },
-	{
+  {
     "type": "mutation",
     "id": "crewcut",
     "name": "Hair: crewcut",
