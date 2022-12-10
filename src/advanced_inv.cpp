@@ -1948,7 +1948,11 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
     const int room_for = it.charges_per_volume( free_volume );
     if( amount > room_for && squares[destarea].id != AIM_WORN ) {
         if( room_for <= 0 ) {
+            if( destarea == AIM_INVENTORY ) {
+                popup( _( "You have no space for the %s!" ), it.tname() );
+            } else {
             popup( _( "Destination area is full.  Remove some items first." ) );
+            }
             return false;
         }
         amount = std::min( room_for, amount );
