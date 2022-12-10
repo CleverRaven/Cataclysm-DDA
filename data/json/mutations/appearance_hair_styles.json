@@ -526,7 +526,7 @@
     "purifiable": false,
     "player_display": true,
     "vanity": true,
-    "variants": [	
+    "variants": [
       {
         "id": "blue",
         "name": { "str": "Hair: blue, medium-length" },
