@@ -54,6 +54,7 @@
   {
     "type": "SPELL",
     "id": "exodii_weapon_pod",
+    "//": "deprecated, remove later.",
     "name": { "str": "Exodii Multipurpose Weapon Pod" },
     "description": "Randomly selects one of several weapons.",
     "valid_targets": [ "hostile", "ground" ],

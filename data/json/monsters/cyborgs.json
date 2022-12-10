@@ -164,10 +164,25 @@
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "special_attacks": [
       {
+        "id": "weaponpod-electric-blaster",
         "type": "spell",
-        "spell_data": { "id": "exodii_weapon_pod", "min_level": 1 },
+        "spell_data": { "id": "weaponpod_electric_blast", "min_level": 1 },
         "cooldown": 200,
         "monster_message": "The Exodii quadruped fires its weapon pod!"
+      },
+      {
+        "id": "weaponpod-heat-blaster",
+        "type": "spell",
+        "spell_data": { "id": "weaponpod_heat_gun", "min_level": 1 },
+        "cooldown": 300,
+        "monster_message": "The Exodii quadruped fires its weapon pod!"
+      },
+      {
+        "id": "weaponpod-saw",
+        "type": "spell",
+        "spell_data": { "id": "weaponpod_saw", "min_level": 1 },
+        "cooldown": 50,
+        "monster_message": "The Exodii quadruped sweeps with its saw arm!"
       },
       {
         "type": "gun",
