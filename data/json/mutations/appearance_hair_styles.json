@@ -554,7 +554,7 @@
     ],
     "types": [ "hair_style" ]
   },
-	{
+  {
     "type": "mutation",
     "id": "long",
     "name": "Hair: long",
