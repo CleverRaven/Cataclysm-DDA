@@ -458,13 +458,8 @@
     "purifiable": false,
     "player_display": true,
     "vanity": true,
-    "variants": [	
-      {
-        "id": "blue",
-        "name": { "str": "Hair: blue, mohawk" },
-        "description": "You have a blue mohawk.",
-        "weight": 1
-      },
+    "variants": [
+      { "id": "blue", "name": { "str": "Hair: blue, mohawk" }, "description": "You have a blue mohawk.", "weight": 1 },
       {
         "id": "green",
         "name": { "str": "Hair: green, mohawk" },
