@@ -1029,12 +1029,12 @@ void avatar::reset_stats()
         set_fake_effect_dur( effect_stim_overdose, 1_turns * ( current_stim - 30 ) );
     }
     // Starvation
-    const float bmi = get_bmi();
+    const float bmi = get_bmi_fat();
     if( bmi < character_weight_category::underweight ) {
         const int str_penalty = std::floor( ( 1.0f - ( bmi - 13.0f ) / 3.0f ) * get_str_base() );
         add_miss_reason( _( "You're weak from hunger." ),
                          static_cast<unsigned>( ( get_starvation() + 300 ) / 1000 ) );
-        mod_str_bonus( -str_penalty );
+        //strength penalty applied to base stat in character.cpp
         mod_dex_bonus( -( str_penalty / 2 ) );
         mod_int_bonus( -( str_penalty / 2 ) );
     }
