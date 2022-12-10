@@ -692,20 +692,10 @@ void advanced_inventory::recalc_pane( side p )
 
     // Prevent same container item appearing in this pane when other pane is the container view.
     if( there.get_area() == AIM_CONTAINER ) {
-        item_location loc = other.get_container();
+        item_location visible_container = other.get_container();
         std::vector<advanced_inv_listitem>::iterator outer_iter = pane.items.begin();
         while( outer_iter != pane.items.end() ) {
-            if( !outer_iter->items.empty() ) {
-                std::vector<item_location>::iterator iter = outer_iter->items.begin();
-                while( iter != outer_iter->items.end() ) {
-                    if( loc == *iter ) {
-                        iter = outer_iter->items.erase( iter );
-                    } else {
-                        iter++;
-                    }
-                }
-            }
-            if( outer_iter->items.empty() ) {
+            if( ( *outer_iter->items.begin() == visible_container ) || ( visible_container.eventually_contains( *outer_iter->items.begin() ) ) ) {
                 outer_iter = pane.items.erase( outer_iter );
             } else {
                 outer_iter++;
