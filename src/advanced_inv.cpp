@@ -1292,8 +1292,10 @@ void advanced_inventory::change_square( const aim_location changeSquare,
         bool in_vehicle_cargo = false;
         if( changeSquare == AIM_CONTAINER ) {
             squares[changeSquare].set_container( spane.get_cur_item_ptr() );
+            dpane.recalc = true;
         } else if( spane.get_area() == AIM_CONTAINER ) {
             squares[changeSquare].set_container( nullptr );
+            dpane.recalc = true;
             // auto select vehicle if items exist at said square, or both are empty
         } else if( squares[changeSquare].can_store_in_vehicle() && spane.get_area() != changeSquare ) {
             if( changeSquare == AIM_DRAGGED ) {
