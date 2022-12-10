@@ -3763,9 +3763,9 @@ int Character::get_str_base() const
     // = std::floor( ( 1.0f - ( 1.0f / 2.0f ) ) * ( 1.0f - ( 4.0f / 12 ) ) * 12 )
     // = std::floor( ( 1.0f - 0.5f ) * ( 1.0f - 0.33f ) * 12 )
     // = std::floor( 0.5f * 0.66f * 12 ) == 4 then 12-4 == 8 total strength
-    if( bmi < character_weight_category::underweight )
-    {
-        const int str_penalty = std::floor( ( 1.0f - ( get_bmi_fat() / character_weight_category::underweight ) ) * ( 1.0f - ( 4.0f / str_max ) ) * str_max );
+    if( bmi < character_weight_category::underweight ) {
+        const int str_penalty = std::floor( ( 1.0f - ( get_bmi_fat() /
+                                              character_weight_category::underweight ) ) * ( 1.0f - ( 4.0f / str_max ) ) * str_max );
         return str_max - str_penalty;
     }
     return str_max;
