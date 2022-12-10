@@ -113,5 +113,32 @@
     "range": 65,
     "durability": 9,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 5 } } ]
+  },
+  {
+    "id": "feral_57",
+    "copy-from": "pistol_base",
+    "looks_like": "fn57",
+    "type": "GUN",
+    "name": { "str_sp": "FN Five-seveN" },
+    "description": "A poorly maintained and inaccurate version of the Five-seveN for feral agents.",
+    "ascii_picture": "FN_five_seven",
+    "weight": "600 g",
+    "volume": "551 ml",
+    "longest_side": "164 mm",
+    "price": 65000,
+    "price_postapoc": 2500,
+    "to_hit": -2,
+    "ranged_damage": { "damage_type": "bullet", "amount": -5 },
+    "bashing": 6,
+    "material": [ "steel", "aluminum" ],
+    "symbol": "(",
+    "color": "light_gray",
+    "ammo": [ "57" ],
+    "range": 1,
+    "dispersion": 4800,
+    "durability": 7,
+    "min_cycle_recoil": 120,
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
+    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "fn57mag" ] } ]
   }
 ]

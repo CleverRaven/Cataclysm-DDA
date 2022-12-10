@@ -1,6 +1,6 @@
 [
   {
-    "id": "mon_exodii_quad",
+    "id": "mon_exodii_quad_jotunn",
     "type": "MONSTER",
     "name": { "str": "Exodii Jotunn" },
     "//": "Needs a heavy duty weakpoint set that is mostly hardpoints.",
