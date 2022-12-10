@@ -324,8 +324,9 @@
       { "trait": "crewcut", "variant": "green", "prob": 25 },
       { "trait": "mohawk", "variant": "green", "prob": 1 },
       { "trait": "fro", "variant": "green", "prob": 1 },
-      { "trait": "medium-length", "variant": "green", "prob": 25 },
-      { "trait": "long", "variant": "green", "prob": 13 }
+      { "trait": "medium", "variant": "green", "prob": 25 },
+      { "trait": "long", "variant": "green", "prob": 13 },
+      { "trait": "short", "variant": "green", "prob": 35 }
     ]
   },
   {
@@ -342,8 +343,9 @@
       { "trait": "crewcut", "variant": "blue", "prob": 25 },
       { "trait": "mohawk", "variant": "blue", "prob": 1 },
       { "trait": "fro", "variant": "blue", "prob": 1 },
-      { "trait": "medium-length", "variant": "blue", "prob": 25 },
-      { "trait": "long", "variant": "blue", "prob": 13 }
+      { "trait": "medium", "variant": "blue", "prob": 25 },
+      { "trait": "long", "variant": "blue", "prob": 13 },
+      { "trait": "short", "variant": "blue", "prob": 35 }
     ]
   },
   {
@@ -360,8 +362,9 @@
       { "trait": "crewcut", "variant": "purple", "prob": 25 },
       { "trait": "mohawk", "variant": "purple", "prob": 1 },
       { "trait": "fro", "variant": "purple", "prob": 1 },
-      { "trait": "medium-length", "variant": "purple", "prob": 25 },
-      { "trait": "long", "variant": "purple", "prob": 13 }
+      { "trait": "medium", "variant": "purple", "prob": 25 },
+      { "trait": "long", "variant": "purple", "prob": 13 },
+      { "trait": "short", "variant": "purple", "prob": 35 }
     ]
   },
   {
@@ -378,8 +381,9 @@
       { "trait": "crewcut", "variant": "pink", "prob": 25 },
       { "trait": "mohawk", "variant": "pink", "prob": 1 },
       { "trait": "fro", "variant": "pink", "prob": 1 },
-      { "trait": "medium-length", "variant": "pink", "prob": 25 },
-      { "trait": "long", "variant": "pink", "prob": 13 }
+      { "trait": "medium", "variant": "pink", "prob": 25 },
+      { "trait": "long", "variant": "pink", "prob": 13 },
+      { "trait": "short", "variant": "pink", "prob": 35 }
     ]
   }
 ]
