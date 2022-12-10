@@ -578,12 +578,7 @@
         "description": "You have long green hair.",
         "weight": 1
       },
-      {
-        "id": "pink",
-        "name": { "str": "Hair: pink, long" },
-        "description": "You have long pink hair.",
-        "weight": 1
-      },
+      { "id": "pink", "name": { "str": "Hair: pink, long" }, "description": "You have long pink hair.", "weight": 1 },
       {
         "id": "purple",
         "name": { "str": "Hair: purple, long" },
