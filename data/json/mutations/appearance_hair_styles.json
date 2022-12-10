@@ -487,25 +487,10 @@
     "purifiable": false,
     "player_display": true,
     "vanity": true,
-    "variants": [	
-      {
-        "id": "blue",
-        "name": { "str": "Hair: blue, 'fro" },
-        "description": "You have a blue 'fro.",
-        "weight": 1
-      },
-      {
-        "id": "green",
-        "name": { "str": "Hair: green, 'fro" },
-        "description": "You have a green 'fro.",
-        "weight": 1
-      },
-      {
-        "id": "pink",
-        "name": { "str": "Hair: pink, 'fro" },
-        "description": "You have a pink 'fro.",
-        "weight": 1
-      },
+    "variants": [
+      { "id": "blue", "name": { "str": "Hair: blue, 'fro" }, "description": "You have a blue 'fro.", "weight": 1 },
+      { "id": "green", "name": { "str": "Hair: green, 'fro" }, "description": "You have a green 'fro.", "weight": 1 },
+      { "id": "pink", "name": { "str": "Hair: pink, 'fro" }, "description": "You have a pink 'fro.", "weight": 1 },
       {
         "id": "purple",
         "name": { "str": "Hair: purple, 'fro" },
