@@ -92,7 +92,7 @@ Use the `Home` key to return to the top.
     - [Vehicle Groups](#vehicle-groups)
     - [Vehicle Parts](#vehicle-parts)
       - [Symbols and Variants](#symbols-and-variants)
-      - [The following optional fields are specific to CARGO or FLUIDTANK parts.](#the-following-optional-fields-are-specific-to-cargo-or-fluidtank-parts)
+      - [The following optional fields are specific to CARGO parts.](#the-following-optional-fields-are-specific-to-cargo-parts)
       - [The following optional fields are specific to ENGINEs.](#the-following-optional-fields-are-specific-to-engines)
       - [The following optional fields are specific to WHEELs.](#the-following-optional-fields-are-specific-to-wheels)
       - [The following optional fields are specific to ROTORs.](#the-following-optional-fields-are-specific-to-rotors)
