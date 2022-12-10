@@ -92,6 +92,13 @@
   },
   {
     "type": "item_group",
+    "id": "guns_rifle_milspec",
+    "//": "Military specification rifles only ever found at military sites.",
+    "//2": "Making the assumption any loaded gun will have additional ammo and mags with it.",
+    "items": [ { "group": "guns_rifle_improvised", "prob": 22 } ]
+  },
+  {
+    "type": "item_group",
     "id": "guns_rifle_obscure",
     "subtype": "distribution",
     "//": "Imported or otherwise very obscure rifles.",

@@ -398,7 +398,9 @@
     "id": "record_portal_storm_data",
     "recurrence": "5 minutes",
     "global": true,
-    "condition": { "and": [ { "is_weather": "portal_storm" }, { "u_has_item": "nre_recorder" }, "u_is_outside" ] },
+    "condition": {
+      "and": [ { "is_weather": "portal_storm" }, { "u_has_items": { "item": "nre_recorder", "charges": 1 } }, "u_is_outside" ]
+    },
     "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
     "effect": [
       { "u_adjust_var": "portal_storm_record", "type": "counter", "context": "nre_recorder", "adjustment": 1 },

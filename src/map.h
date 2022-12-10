@@ -892,6 +892,9 @@ class map
         bool has_items( const tripoint &p ) const;
         bool has_items( const tripoint_bub_ms &p ) const;
 
+        // Check if a tile with LIQUIDCONT flag only contains liquids
+        bool only_liquid_in_liquidcont( const tripoint &p );
+
         /**
          * Calls the examine function of furniture or terrain at given tile, for given character.
          * Will only examine terrain if furniture had @ref iexamine::none as the examine function.
