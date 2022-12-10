@@ -3752,6 +3752,22 @@ int Character::get_int() const
 
 int Character::get_str_base() const
 {
+    //if we are malnourished, our base strength decreases linearly from our natural strength to 4, as BMI 12 is about the lowest possible before organ failure
+    //this represents loss of muscle mass, and uses base strength because it reduces your hp and "true" bmi and weight all the way down to BMI 12 (dead)
+    //character_weight_category::underweight() should be 2.0f but this might change.
+    //example one: bmi_fat is 1.5f and we have strength 8.
+    // = std::floor( ( 1.0f - ( 1.5f / 2.0f ) ) * ( 1.0f - ( 4.0f / 8 ) ) * 8 )
+    // = std::floor( ( 1.0f - 0.75f ) * ( 1.0f - 0.5f ) * 8 )
+    // = std::floor( 0.25f * 0.5f * 8 ) == 1, then 8-1 == 7 total strength
+    //example two: bmi_fat is 1.0f and we have strength 12
+    // = std::floor( ( 1.0f - ( 1.0f / 2.0f ) ) * ( 1.0f - ( 4.0f / 12 ) ) * 12 )
+    // = std::floor( ( 1.0f - 0.5f ) * ( 1.0f - 0.33f ) * 12 )
+    // = std::floor( 0.5f * 0.66f * 12 ) == 4 then 12-4 == 8 total strength
+    if( bmi < character_weight_category::underweight )
+    {
+        const int str_penalty = std::floor( ( 1.0f - ( get_bmi_fat() / character_weight_category::underweight ) ) * ( 1.0f - ( 4.0f / str_max ) ) * str_max );
+        return str_max - str_penalty;
+    }
     return str_max;
 }
 int Character::get_dex_base() const
