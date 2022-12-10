@@ -502,7 +502,7 @@
   },
   {
     "type": "mutation",
-    "id": "medium-length",
+    "id": "medium",
     "name": "Hair: medium-length",
     "points": 0,
     "description": "You have a head of medium-length black hair.",
