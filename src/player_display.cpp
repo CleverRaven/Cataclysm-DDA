@@ -953,7 +953,7 @@ static void draw_speed_tab( const catacurses::window &w_speed,
     }
     if( you.kcal_speed_penalty() < 0 ) {
         pen = std::abs( you.kcal_speed_penalty() );
-        const std::string inanition = you.get_bmi() < character_weight_category::underweight ?
+        const std::string inanition = you.get_bmi_fat() < character_weight_category::underweight ?
                                       _( "Starving" ) : _( "Underfed" );
         //~ %s: Starving/Underfed (already left-justified), %2d: speed penalty
         mvwprintz( w_speed, point( 1, line ), c_red, pgettext( "speed penalty", "%s-%2d%%" ),
@@ -1346,7 +1346,7 @@ void Character::disp_info( bool customize_character )
         effect_name_and_text.emplace_back( _( "Pain" ), pain_text );
     }
 
-    const float bmi = get_bmi();
+    const float bmi = get_bmi_fat();
 
     if( bmi < character_weight_category::underweight ) {
         std::string starvation_name;
