@@ -424,7 +424,6 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "scent_intensity", scent_intensity, cata::nullopt );
     optional( jo, was_loaded, "scent_mask", scent_mask, cata::nullopt );
     optional( jo, was_loaded, "scent_type", scent_typeid, cata::nullopt );
-    optional( jo, was_loaded, "bleed_resist", bleed_resist, 0 );
     optional( jo, was_loaded, "healthy_rate", healthy_rate, 1.0f );
     optional( jo, was_loaded, "fat_to_max_hp", fat_to_max_hp, 0.0f );
     optional( jo, was_loaded, "weakness_to_water", weakness_to_water, 0 );
@@ -555,6 +554,15 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
             restricts_gear.insert( bp );
         } else {
             restricts_gear_subparts.insert( sub_bodypart_str_id( line ) );
+        }
+    }
+
+    for( const std::string line : jo.get_array( "remove_rigid" ) ) {
+        bodypart_str_id bp( line );
+        if( bp.is_valid() ) {
+            remove_rigid.insert( bp );
+        } else {
+            remove_rigid_subparts.insert( sub_bodypart_str_id( line ) );
         }
     }
 

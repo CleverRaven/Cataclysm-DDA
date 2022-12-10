@@ -49,7 +49,7 @@
     "id": "tourniquet_upper",
     "type": "ARMOR",
     "name": { "str": "tourniquet (arm)", "str_pl": "tourniquets (arm)" },
-    "description": "First aid device used to apply pressure to a limb or extremity in order to limit blood flow.  Should be employed only to manage heavy bleedings, because prolonged use will harm the limb.  It can be adjusted in size to fit different limbs.",
+    "description": "First aid device used to apply pressure to a limb or extremity in order to limit blood flow.  Should be employed only to manage heavy bleeding, because prolonged use will harm the limb.  It can be adjusted in size to fit different limbs.",
     "weight": "300 g",
     "volume": "300 ml",
     "price": 20000,
@@ -69,7 +69,7 @@
     "id": "tourniquet_upper_XL",
     "type": "ARMOR",
     "name": { "str": "tourniquet (arm XL)", "str_pl": "tourniquets (arm XL)" },
-    "description": "First aid device used to apply pressure to a limb or extremity in order to limit blood flow.  Should be employed only to manage heavy bleedings, because prolonged use will harm the limb.  It can be adjusted in size to fit different limbs.",
+    "description": "First aid device used to apply pressure to a limb or extremity in order to limit blood flow.  Should be employed only to manage heavy bleeding, because prolonged use will harm the limb.  It can be adjusted in size to fit different limbs.",
     "copy-from": "tourniquet_upper",
     "looks_like": "tourniquet_upper",
     "sided": true,
@@ -80,7 +80,7 @@
     "id": "tourniquet_upper_XS",
     "type": "ARMOR",
     "name": { "str": "tourniquet (arm XS)", "str_pl": "tourniquets (arm XS)" },
-    "description": "First aid device used to apply pressure to a limb or extremity in order to limit blood flow.  Should be employed only to manage heavy bleedings, because prolonged use will harm the limb.  It can be adjusted in size to fit different limbs.",
+    "description": "First aid device used to apply pressure to a limb or extremity in order to limit blood flow.  Should be employed only to manage heavy bleeding, because prolonged use will harm the limb.  It can be adjusted in size to fit different limbs.",
     "copy-from": "tourniquet_upper",
     "looks_like": "tourniquet_upper",
     "covers": [ "arm_l", "arm_r" ],
@@ -92,7 +92,7 @@
     "id": "tourniquet_lower",
     "type": "ARMOR",
     "name": { "str": "tourniquet (leg)", "str_pl": "tourniquets (leg)" },
-    "description": "First aid device used to apply pressure to a limb or extremity in order to limit blood flow.  Should be employed only to manage heavy bleedings, because prolonged use will harm the limb.  It can be adjusted in size to fit different limbs.",
+    "description": "First aid device used to apply pressure to a limb or extremity in order to limit blood flow.  Should be employed only to manage heavy bleeding, because prolonged use will harm the limb.  It can be adjusted in size to fit different limbs.",
     "copy-from": "tourniquet_upper",
     "looks_like": "tourniquet_upper",
     "sided": true,
@@ -105,7 +105,7 @@
     "id": "tourniquet_lower_XL",
     "type": "ARMOR",
     "name": { "str": "tourniquet (leg)", "str_pl": "tourniquets (leg)" },
-    "description": "First aid device used to apply pressure to a limb or extremity in order to limit blood flow.  Should be employed only to manage heavy bleedings, because prolonged use will harm the limb.  It can be adjusted in size to fit different limbs.",
+    "description": "First aid device used to apply pressure to a limb or extremity in order to limit blood flow.  Should be employed only to manage heavy bleeding, because prolonged use will harm the limb.  It can be adjusted in size to fit different limbs.",
     "copy-from": "tourniquet_upper",
     "looks_like": "tourniquet_upper",
     "sided": true,
@@ -1200,7 +1200,19 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 5000 } } ],
     "ammo": "battery",
     "charges_per_use": 1,
-    "relic_data": { "passive_effects": [ { "id": "RM13" } ] },
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ACTIVE",
+          "values": [
+            { "value": "CLIMATE_CONTROL_HEAT", "add": 50 },
+            { "value": "CLIMATE_CONTROL_CHILL", "add": 50 },
+            { "value": "FOOTSTEP_NOISE", "multiply": -0.67 }
+          ]
+        }
+      ]
+    },
     "use_action": [ "RM13ARMOR_OFF" ],
     "warmth": 30,
     "environmental_protection": 10,

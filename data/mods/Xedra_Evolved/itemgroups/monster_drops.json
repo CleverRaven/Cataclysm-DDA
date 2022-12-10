@@ -177,6 +177,7 @@
   {
     "id": "bionic_renfield_harvest",
     "type": "item_group",
+    "//": "Cyborg vampire servant cbm harvest list.",
     "subtype": "distribution",
     "entries": [
       { "item": "bio_dis_shock", "prob": 1 },

@@ -1769,7 +1769,7 @@
           { "group": "charged_cell_phone" },
           { "group": "charged_flashlight" },
           { "item": "lighter", "charges": 100 },
-          { "item": "knife_rambo", "container-item": "scabbard" },
+          { "group": "knife_rambo_full", "container-item": "scabbard" },
           { "item": "tshirt", "variant": "generic_tshirt" }
         ]
       },
@@ -4625,7 +4625,7 @@
           "cloak"
         ],
         "entries": [
-          { "item": "M24", "ammo-item": "762_51", "charges": 20, "contents-item": [ "shoulder_strap", "bipod", "suppressor" ] },
+          { "item": "M24", "ammo-item": "762_51", "charges": 20, "contents-item": [ "shoulder_strap", "suppressor" ] },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "chestrig", "contents-group": "army_mags_m14" },
           { "item": "knife_combat", "container-item": "sheath" },

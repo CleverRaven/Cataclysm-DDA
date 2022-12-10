@@ -199,7 +199,9 @@ void game_menus::inv::common( avatar &you )
     // Return to inventory menu on those inputs
     static const std::set<int> loop_options = { { '\0', '=', 'f', '<', '>'}};
 
-    inventory_pick_selector inv_s( you );
+    inventory_selector_preset inv_s_p = default_preset;
+    inv_s_p.save_state = &inventory_ui_default_state;
+    inventory_pick_selector inv_s( you, inv_s_p );
 
     inv_s.set_title( _( "Inventory" ) );
     inv_s.set_hint( string_format(
@@ -235,7 +237,7 @@ void game_menus::inv::common( item_location &loc, avatar &you )
     // Return to inventory menu on those inputs
     static const std::set<int> loop_options = { { '\0', '=', 'f' } };
 
-    inventory_pick_selector inv_s( you );
+    container_inventory_selector inv_s( you, loc );
 
     inv_s.set_title( string_format( _( "Inventory of %s" ), loc->tname() ) );
     inv_s.set_hint( string_format(
@@ -266,18 +268,19 @@ void game_menus::inv::common( item_location &loc, avatar &you )
 }
 
 item_location game_menus::inv::titled_filter_menu( const item_filter &filter, avatar &you,
-        const std::string &title, const std::string &none_message )
+        const std::string &title, int radius, const std::string &none_message )
 {
     return inv_internal( you, inventory_filter_preset( convert_filter( filter ) ),
-                         title, -1, none_message );
+                         title, radius, none_message );
 }
 
 item_location game_menus::inv::titled_filter_menu( const item_location_filter &filter, avatar &you,
-        const std::string &title, const std::string &none_message )
+        const std::string &title, int radius, const std::string &none_message )
 {
     return inv_internal( you, inventory_filter_preset( filter ),
-                         title, -1, none_message );
+                         title, radius, none_message );
 }
+
 
 item_location game_menus::inv::titled_menu( avatar &you, const std::string &title,
         const std::string &none_message )
@@ -474,8 +477,9 @@ class pickup_inventory_preset : public inventory_selector_preset
 {
     public:
         explicit pickup_inventory_preset( const Character &you,
-                                          bool skip_wield_check = false ) : you( you ),
-            skip_wield_check( skip_wield_check ) {
+                                          bool skip_wield_check = false, bool ignore_liquidcont = false ) : you( you ),
+            skip_wield_check( skip_wield_check ), ignore_liquidcont( ignore_liquidcont ) {
+            save_state = &pickup_sel_default_state;
             _pk_type = item_pocket::pocket_type::LAST;
         }
 
@@ -526,12 +530,20 @@ class pickup_inventory_preset : public inventory_selector_preset
         }
 
         bool is_shown( const item_location &loc ) const override {
+            if( ignore_liquidcont && loc.where() == item_location::type::map &&
+                !loc->made_of( phase_id::SOLID ) ) {
+                map &here = get_map();
+                if( here.has_flag( ter_furn_flag::TFLAG_LIQUIDCONT, loc.position() ) ) {
+                    return false;
+                }
+            }
             return !( loc.has_parent() && loc.parent_item()->is_ammo_belt() );
         }
 
     private:
         const Character &you;
         bool skip_wield_check;
+        bool ignore_liquidcont;
 };
 
 class disassemble_inventory_preset : public inventory_selector_preset
@@ -1936,7 +1948,8 @@ drop_locations game_menus::inv::multidrop( avatar &you )
 drop_locations game_menus::inv::pickup( avatar &you,
                                         const cata::optional<tripoint> &target, const std::vector<drop_location> &selection )
 {
-    const pickup_inventory_preset preset( you, /*skip_wield_check=*/true );
+    pickup_inventory_preset preset( you, /*skip_wield_check=*/true, /*ignore_liquidcont=*/true );
+    preset.save_state = &pickup_ui_default_state;
 
     pickup_selector pick_s( you, preset, _( "ITEMS TO PICK UP" ), target );
 

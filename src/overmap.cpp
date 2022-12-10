@@ -979,7 +979,7 @@ void oter_t::get_rotation_and_subtile( int &rotation, int &subtile ) const
         rotation = t.rotation;
         subtile = t.subtile;
     } else if( is_rotatable() ) {
-        rotation = static_cast<int>( get_dir() );
+        rotation = ( 4 - static_cast<int>( get_dir() ) ) % 4;
         subtile = -1;
     } else {
         rotation = 0;
@@ -2599,9 +2599,9 @@ struct mutable_overmap_special_data : overmap_special_data {
             descriptions.push_back( std::move( satisfy_result.description ) );
             const mutable_overmap_placement_rule_remainder *rule = satisfy_result.rule;
             if( rule ) {
-                const tripoint_om_omt &origin = satisfy_result.origin;
+                const tripoint_om_omt &satisfy_origin = satisfy_result.origin;
                 om_direction::type rot = satisfy_result.dir;
-                for( const mutable_overmap_piece_candidate piece : rule->pieces( origin, rot ) ) {
+                for( const mutable_overmap_piece_candidate piece : rule->pieces( satisfy_origin, rot ) ) {
                     const mutable_overmap_terrain &ter = *piece.overmap;
                     add_ter( ter, piece.pos, piece.rot, satisfy_result.suppressed_joins );
                 }
