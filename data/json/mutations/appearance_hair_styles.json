@@ -476,7 +476,7 @@
     ],
     "types": [ "hair_style" ]
   },
-	{
+  {
     "type": "mutation",
     "id": "fro",
     "name": "Hair: 'fro",
