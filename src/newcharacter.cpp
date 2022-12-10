@@ -805,7 +805,7 @@ bool avatar::create( character_type type, const std::string &tempname )
     randomize_heartrate();
 
     //set stored kcal to a normal amount for your height
-    set_stored_kcal ( get_healthy_kcal() );
+    set_stored_kcal( get_healthy_kcal() );
     if( has_trait( trait_XS ) ) {
         set_stored_kcal( std::floor( get_stored_kcal() / 3 ) );
         toggle_trait( trait_XS );
