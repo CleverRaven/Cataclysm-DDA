@@ -70,7 +70,7 @@
       { "item": "handflare", "count": 2 },
       { "item": "glock17_17", "prob": 25 },
       { "item": "goggles_nv" },
-      { "item": "knife_rambo", "prob": 85 }
+      { "group": "knife_rambo_cont", "prob": 85 }
     ]
   }
 ]

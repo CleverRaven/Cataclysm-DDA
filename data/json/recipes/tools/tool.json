@@ -473,7 +473,7 @@
     "time": "35 m",
     "autolearn": false,
     "book_learn": [ [ "mag_survival", 4 ], [ "manual_survival", 4 ], [ "textbook_survival", 4 ] ],
-    "using": [ [ "cordage", 6 ] ],
+    "using": [ [ "cordage_fishing", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "stick", 1 ], [ "2x4", 2 ] ], [ [ "fishing_hook_bone", 1 ], [ "fishing_hook_basic", 1 ] ] ]
   },

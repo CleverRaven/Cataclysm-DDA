@@ -8,7 +8,8 @@
     "attitude": 0,
     "mission": 3,
     "chat": "TALK_EXODII_MERCHANT",
-    "faction": "exodii"
+    "faction": "exodii",
+    "traits": [ { "trait": "IGNORE_SOUND" }, { "trait": "NO_BASH" }, { "trait": "RETURN_TO_START_POS" } ]
   },
   {
     "type": "npc_class",

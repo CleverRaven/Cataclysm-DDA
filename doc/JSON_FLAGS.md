@@ -353,6 +353,7 @@ List of flags used by [terrain and furniture](/data/json/furniture_and_terrain).
 
 ### Furniture only
 
+- ```ACTIVE_GENERATOR``` This furniture is considered to be an active power source for the purpose of certain monster special attacks (e.g. milspec searchlight's `SEARCHLIGHT`).
 - ```ALIGN_WORKBENCH``` A hint to the tiles display that the sprite for this furniture should face toward any adjacent tile with a workbench quality.
 - ```AUTODOC``` This furniture can be an Autodoc console, it also needs the `autodoc` examine action.
 - ```AUTODOC_COUCH``` This furniture can be a couch for a furniture with the `autodoc` examine action.
@@ -697,6 +698,7 @@ Reminder, these flags are not limited to item type `GENERIC`, but can be used in
 - ```LEAK_ALWAYS``` Leaks (may be combined with `RADIOACTIVE`).
 - ```LEAK_DAM``` Leaks when damaged (may be combined with `RADIOACTIVE`).
 - ```MAGIC_FOCUS``` Used by Magyclism, and related magic-based mods.  This item doesn't impede spell casting when held.
+- ```MISSION_ITEM``` This item's chance to spawn isn't affected by world item spawn scaling factor.
 - ```MOP``` This item could be used to mop up spilled liquids like blood or water.
 - ```NEEDS_UNFOLD``` Has an additional time penalty upon wielding. For melee weapons and guns this is offset by the relevant skill.  Stacks with `SLOW_WIELD`.
 - ```NO_PACKED``` This item is not protected against contamination and won't stay sterile.  Only applies to CBMs.
@@ -1531,6 +1533,7 @@ Gun fault flags:
 
 ## Character
 
+- ```BLEED_IMMUNE``` Immune to bleeding.
 - ```COLDBLOOD``` For heat dependent mutations.
 - ```COLDBLOOD2``` For very heat dependent mutations.
 - ```COLDBLOOD3``` For cold-blooded mutations.
@@ -1599,4 +1602,3 @@ Gun fault flags:
 - ```WALL_CLING_FOURTH``` Same as `WALL_CLING`, but you need four instances of the flag for it to function (ex. four bodyparts with the flag).
 - ```WINGS_1``` You have 50% chance to ignore falling traps (including ledges).
 - ```WINGS_2``` You have 100% chance to ignore falling traps (including ledges).  Requires two flag instances.
-

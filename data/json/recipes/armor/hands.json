@@ -25,7 +25,8 @@
     "type": "recipe",
     "copy-from": "gauntlets_chitin",
     "time": "10 h",
-    "using": [ [ "armor_chitin", 6 ], [ "strap_small", 1 ], [ "clasps", 1 ] ]
+    "using": [ [ "armor_chitin", 6 ], [ "strap_small", 1 ], [ "clasps", 1 ] ],
+    "qualities": [ { "id": "CUT_FINE", "level": 1 } ]
   },
   {
     "result": "xl_gauntlets_chitin",
@@ -938,7 +939,7 @@
     "time": "2 h",
     "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
     "proficiencies": [ { "proficiency": "prof_chain_armour" } ],
-    "using": [ [ "armor_lc_chainmail_assembling", 2 ], [ "strap_small", 2 ] ]
+    "using": [ [ "armor_lc_chainmail_assembling", 1 ], [ "strap_small", 2 ] ]
   },
   {
     "result": "xs_lc_chainmail_hands",
@@ -952,7 +953,7 @@
     "type": "recipe",
     "copy-from": "lc_chainmail_hands",
     "time": "2 h 15 m",
-    "using": [ [ "armor_lc_chainmail_assembling", 3 ], [ "strap_small", 2 ] ]
+    "using": [ [ "armor_lc_chainmail_assembling", 2 ], [ "strap_small", 2 ] ]
   },
   {
     "result": "mc_chainmail_hands",
@@ -965,7 +966,7 @@
     "time": "2 h",
     "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
     "proficiencies": [ { "proficiency": "prof_chain_armour" } ],
-    "using": [ [ "armor_mc_chainmail_assembling", 2 ], [ "strap_small", 2 ] ]
+    "using": [ [ "armor_mc_chainmail_assembling", 1 ], [ "strap_small", 2 ] ]
   },
   {
     "result": "xs_mc_chainmail_hands",
@@ -979,7 +980,7 @@
     "type": "recipe",
     "copy-from": "mc_chainmail_hands",
     "time": "2 h 15 m",
-    "using": [ [ "armor_mc_chainmail_assembling", 3 ], [ "strap_small", 2 ] ]
+    "using": [ [ "armor_mc_chainmail_assembling", 2 ], [ "strap_small", 2 ] ]
   },
   {
     "result": "hc_chainmail_hands",
@@ -992,7 +993,7 @@
     "time": "2 h",
     "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
     "proficiencies": [ { "proficiency": "prof_chain_armour" } ],
-    "using": [ [ "armor_hc_chainmail_assembling", 2 ], [ "strap_small", 2 ] ]
+    "using": [ [ "armor_hc_chainmail_assembling", 1 ], [ "strap_small", 2 ] ]
   },
   {
     "result": "xs_hc_chainmail_hands",
@@ -1006,7 +1007,7 @@
     "type": "recipe",
     "copy-from": "hc_chainmail_hands",
     "time": "2 h 15 m",
-    "using": [ [ "armor_hc_chainmail_assembling", 3 ], [ "strap_small", 2 ] ]
+    "using": [ [ "armor_hc_chainmail_assembling", 2 ], [ "strap_small", 2 ] ]
   },
   {
     "result": "ch_chainmail_hands",
@@ -1019,7 +1020,7 @@
     "time": "2 h",
     "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
     "proficiencies": [ { "proficiency": "prof_chain_armour" } ],
-    "using": [ [ "armor_ch_chainmail_assembling", 2 ], [ "strap_small", 2 ] ]
+    "using": [ [ "armor_ch_chainmail_assembling", 1 ], [ "strap_small", 2 ] ]
   },
   {
     "result": "xs_ch_chainmail_hands",
@@ -1033,7 +1034,7 @@
     "type": "recipe",
     "copy-from": "ch_chainmail_hands",
     "time": "2 h 15 m",
-    "using": [ [ "armor_ch_chainmail_assembling", 3 ], [ "strap_small", 2 ] ]
+    "using": [ [ "armor_ch_chainmail_assembling", 2 ], [ "strap_small", 2 ] ]
   },
   {
     "result": "qt_chainmail_hands",
@@ -1046,7 +1047,7 @@
     "time": "2 h",
     "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
     "proficiencies": [ { "proficiency": "prof_chain_armour" } ],
-    "using": [ [ "armor_qt_chainmail_assembling", 2 ], [ "strap_small", 2 ] ]
+    "using": [ [ "armor_qt_chainmail_assembling", 1 ], [ "strap_small", 2 ] ]
   },
   {
     "result": "xs_qt_chainmail_hands",
@@ -1060,7 +1061,7 @@
     "type": "recipe",
     "copy-from": "qt_chainmail_hands",
     "time": "2 h 15 m",
-    "using": [ [ "armor_qt_chainmail_assembling", 3 ], [ "strap_small", 2 ] ]
+    "using": [ [ "armor_qt_chainmail_assembling", 2 ], [ "strap_small", 2 ] ]
   },
   {
     "result": "gloves_studded",

@@ -96,16 +96,16 @@
     "effect_str": "artificer_toolkit",
     "min_damage": 1,
     "max_damage": 1,
-    "min_duration": 0,
-    "max_duration": 3240000,
-    "duration_increment": 92572,
+    "min_duration": 1680000,
+    "max_duration": 60480000,
+    "duration_increment": 1680000,
     "spell_class": "ARTIFICER",
-    "difficulty": 1,
+    "difficulty": 3,
     "max_level": 35,
     "base_casting_time": 1500,
     "final_casting_time": 500,
     "casting_time_increment": -30,
     "base_energy_cost": 100,
-    "energy_source": "BIONIC"
+    "energy_source": "MANA"
   }
 ]

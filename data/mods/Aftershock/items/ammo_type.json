@@ -52,5 +52,11 @@
     "id": "afs_7.50mm",
     "name": "7.50mm",
     "default": "afs_7.50mm_caseless"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "metal_rail",
+    "name": "ferrous rail projectile",
+    "default": "steel_rail"
   }
 ]
