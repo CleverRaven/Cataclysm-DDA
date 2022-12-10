@@ -515,7 +515,7 @@
     ],
     "types": [ "hair_style" ]
   },
-	{
+  {
     "type": "mutation",
     "id": "medium-length",
     "name": "Hair: medium-length",
