@@ -466,12 +466,7 @@
         "description": "You have a green mohawk.",
         "weight": 1
       },
-      {
-        "id": "pink",
-        "name": { "str": "Hair: pink, mohawk" },
-        "description": "You have a pink mohawk.",
-        "weight": 1
-      },
+      { "id": "pink", "name": { "str": "Hair: pink, mohawk" }, "description": "You have a pink mohawk.", "weight": 1 },
       {
         "id": "purple",
         "name": { "str": "Hair: purple, mohawk" },
