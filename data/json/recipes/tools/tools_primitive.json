@@ -299,7 +299,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "result": "notched_plank",
     "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
     "time": "2 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
