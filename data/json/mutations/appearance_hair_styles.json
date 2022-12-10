@@ -416,32 +416,32 @@
   {
     "type": "mutation",
     "id": "crewcut",
-    "name": "Hair: crewcut",
+    "name": "Hair: crew cut",
     "points": 0,
-    "description": "You have a crewcut.",
+    "description": "You have a crew cut.",
     "starting_trait": true,
     "valid": false,
     "purifiable": false,
     "player_display": true,
     "vanity": true,
     "variants": [
-      { "id": "blue", "name": { "str": "Hair: blue, crewcut" }, "description": "You have a blue crewcut.", "weight": 1 },
+      { "id": "blue", "name": { "str": "Hair: blue, crew cut" }, "description": "You have a blue crew cut.", "weight": 1 },
       {
         "id": "green",
-        "name": { "str": "Hair: green, crewcut" },
-        "description": "You have a green crewcut.",
+        "name": { "str": "Hair: green, crew cut" },
+        "description": "You have a green crew cut.",
         "weight": 1
       },
       {
         "id": "pink",
-        "name": { "str": "Hair: pink, crewcut" },
-        "description": "You have a pink crewcut.",
+        "name": { "str": "Hair: pink, crew cut" },
+        "description": "You have a pink crew cut.",
         "weight": 1
       },
       {
         "id": "purple",
-        "name": { "str": "Hair: purple, crewcut" },
-        "description": "You have a purple crewcut.",
+        "name": { "str": "Hair: purple, crew cut" },
+        "description": "You have a purple crew cut.",
         "weight": 1
       }
     ],
