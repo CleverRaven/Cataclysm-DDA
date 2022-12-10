@@ -524,7 +524,7 @@
     ]
   },
   {
-    "id": "xl_gambeson_gambeson_gloves_canvas_layered",
+    "id": "xl_gambeson_gloves_canvas_layered",
     "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
     "type": "ARMOR",
     "name": { "str": "XL canvas arming mittens", "str_pl": "pairs of XL canvas arming mittens" },
@@ -533,11 +533,554 @@
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
-    "id": "xs_gambeson_gambeson_gloves_canvas_layered",
+    "id": "xs_gambeson_gloves_canvas_layered",
     "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
     "type": "ARMOR",
     "name": { "str": "XS canvas arming mittens", "str_pl": "pairs of XS canvas arming mittens" },
     "copy-from": "gambeson_gloves_canvas_layered",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "-----------------------------------------------------------------------": "----------------------------------------------------------------------",
+    "id": "aketon_nylon_layered",
+    "//-1": "Going off the Rule of Nines for body proportions and assuming about 20 ft sq for the whole surface area of the body",
+    "//": "roughly 0.25mm per sheet of nylon making this a 14-layer jack, sheets are 1x2 feet. 49 sheets for the vest and 18 sheets for the arms (67 total).",
+    "//1": "human torso is about 7 sq. feet.  54g (nylon) x 14 (layers) x 3.5 (surface area) = 2646g",
+    "//2": "human arms is about 3 sq. feet.  54g (nylon) x 12 (layers) x 1.5 (surface area) = 972g",
+    "//3": "3618g combined",
+    "type": "ARMOR",
+    "name": { "str": "nylon aketon" },
+    "description": "A thick cloth jack, intended to be worn below metal armor. This one is made of over a dozen layers of tough nylon, and it provides fairly decent protection on its own.",
+    "weight": "3618 g",
+    "volume": "3500 ml",
+    "price_postapoc": 4000,
+    "to_hit": -5,
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "looks_like": "fencing_jacket",
+    "color": "light_gray",
+    "warmth": 30,
+    "material_thickness": 3.5,
+    "flags": [ "VARSIZE", "STURDY" ],
+    "armor": [
+      {
+        "material": [ { "type": "nylon_quilted", "covered_by_mat": 100, "thickness": 3.5 } ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 8
+      },
+      {
+        "material": [ { "type": "nylon_quilted", "covered_by_mat": 100, "thickness": 3.0 } ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 10
+      }
+    ]
+  },
+  {
+    "id": "xl_aketon_nylon_layered",
+    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
+    "type": "ARMOR",
+    "name": { "str": "XL nylon aketon" },
+    "copy-from": "aketon_nylon_layered",
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_aketon_nylon_layered",
+    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
+    "type": "ARMOR",
+    "name": { "str": "XS nylon aketon" },
+    "copy-from": "aketon_nylon_layered",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "aketon_nylon_layered_vest",
+    "//": "roughly 0.25mm per sheet of nylon making this a 14-layer jack, sheets are 1x2 feet. 49 sheets total.",
+    "//1": "human torso is about 7 sq. feet.  54g (nylon) x 14 (layers) x 3.5 (surface area) = 2646g",
+    "type": "ARMOR",
+    "name": { "str": "nylon aketon vest" },
+    "description": "A thick cloth vest, intended to be worn below metal armor. This one is made of over a dozen layers of tough nylon, and it provides fairly decent protection on its own in addition to being quite light.",
+    "weight": "2646 g",
+    "volume": "2500 ml",
+    "price_postapoc": 2500,
+    "to_hit": -5,
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "looks_like": "vest",
+    "color": "light_gray",
+    "warmth": 30,
+    "material_thickness": 3.5,
+    "flags": [ "VARSIZE", "STURDY" ],
+    "armor": [
+      {
+        "material": [ { "type": "nylon_quilted", "covered_by_mat": 100, "thickness": 3.5 } ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 8
+      }
+    ]
+  },
+  {
+    "id": "xl_aketon_nylon_layered_vest",
+    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
+    "type": "ARMOR",
+    "name": { "str": "XL nylon aketon vest" },
+    "copy-from": "aketon_nylon_layered_vest",
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_aketon_nylon_layered_vest",
+    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
+    "type": "ARMOR",
+    "name": { "str": "XS nylon aketon vest" },
+    "copy-from": "aketon_canvas_layered_vest",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "aketon_pants_nylon_layered",
+    "//": "roughly 0.25mm per sheet of canvas making these 12 layer pants, sheets are 1x2 feet. 36 sheets total",
+    "//1": "human legs is about 6 sq. feet.  54g (nylon) x 12 (layers) x 3 (surface area) = 1944g",
+    "type": "ARMOR",
+    "name": { "str": "nylon arming pants", "str_pl": "pairs of nylon arming pants" },
+    "description": "Tough cloth pants worn alongside an aketon underneath metal armor. These are made of many layers of nylon offering solid protection and the modern material is much lighter than organic fabrics.",
+    "weight": "1944 g",
+    "volume": "1750 ml",
+    "price_postapoc": 2500,
+    "to_hit": -5,
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "looks_like": "fencing_pants",
+    "color": "light_gray",
+    "warmth": 30,
+    "material_thickness": 3.0,
+    "flags": [ "VARSIZE", "STURDY" ],
+    "armor": [
+      {
+        "material": [ { "type": "nylon_quilted", "covered_by_mat": 100, "thickness": 3.0 } ],
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 100,
+        "encumbrance": 10
+      }
+    ]
+  },
+  {
+    "id": "xl_aketon_pants_nylon_layered",
+    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
+    "type": "ARMOR",
+    "name": { "str": "XL nylon arming pants", "str_pl": "pairs of XL nylon arming pants" },
+    "copy-from": "aketon_pants_nylon_layered",
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_aketon_pants_nylon_layered",
+    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
+    "type": "ARMOR",
+    "name": { "str": "XS nylon arming pants", "str_pl": "pairs of XS nylon arming pants" },
+    "copy-from": "aketon_pants_nylon_layered",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "aketon_hood_nylon_layered",
+    "//": "roughly 0.25mm per sheet of nylon making this 8 layers, sheets are 1x2 feet. 10 sheets total",
+    "//1": "human head total is about 2.5 sq. feet.  54g (nylon) x 8 (layers) x 1.25 (surface area) = 540g",
+    "type": "ARMOR",
+    "name": { "str": "nylon coif" },
+    "description": "A cloth coif with neck and forehead protection.  Resting on your shoulders, it serves as padding for a helmet.  It is constructed of tough nylon and provides decent protection even on its own in addition to being fairly.",
+    "weight": "540 g",
+    "volume": "500 ml",
+    "price_postapoc": 1000,
+    "to_hit": -5,
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "looks_like": "wetsuit_hood",
+    "color": "light_gray",
+    "warmth": 25,
+    "material_thickness": 2.0,
+    "flags": [ "VARSIZE", "STURDY", "SKINTIGHT" ],
+    "armor": [
+      {
+        "material": [ { "type": "nylon_quilted", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_throat", "head_ear_l", "head_ear_r", "head_forehead", "head_crown", "head_nape" ],
+        "coverage": 100,
+        "encumbrance_modifiers": [ "WELL_SUPPORTED" ]
+      }
+    ]
+  },
+  {
+    "id": "xl_aketon_hood_nylon_layered",
+    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
+    "type": "ARMOR",
+    "name": { "str": "XL nylon coif" },
+    "copy-from": "aketon_hood_canvas_layered",
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_aketon_hood_nylon_layered",
+    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
+    "type": "ARMOR",
+    "name": { "str": "XS nylon coif" },
+    "copy-from": "aketon_hood_canvas_layered",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "aketon_gloves_nylon_layered",
+    "//": "roughly 0.25mm per sheet of nylon making this 8 layers, sheets are 1x2 feet. 4 sheets total",
+    "//1": "human hands assumed to be about 1 sq ft total, 54g (nylon) x 8 (layers) x 0.5 (surface area) = 216g",
+    "type": "ARMOR",
+    "name": { "str": "nylon arming gloves", "str_pl": "pairs of nylon arming gloves" },
+    "description": "Tough gloves made of nylon cloth, thin enough to wear under metal gauntlets.  They help to keep your hands safe during a fight.",
+    "weight": "216 g",
+    "volume": "250 ml",
+    "price_postapoc": 1000,
+    "to_hit": -1,
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "looks_like": "gloves_work",
+    "color": "light_gray",
+    "warmth": 25,
+    "material_thickness": 2.0,
+    "flags": [ "VARSIZE", "STURDY" ],
+    "armor": [
+      {
+        "material": [ { "type": "nylon_quilted", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "covers": [ "hand_l", "hand_r" ],
+        "coverage": 100,
+        "encumbrance": 17
+      }
+    ]
+  },
+  {
+    "id": "xl_aketon_gloves_nylon_layered",
+    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
+    "type": "ARMOR",
+    "name": { "str": "XL nylon arming gloves", "str_pl": "pairs of XL nylon arming gloves" },
+    "copy-from": "aketon_gloves_nylon_layered",
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_aketon_gloves_nylon_layered",
+    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
+    "type": "ARMOR",
+    "name": { "str": "XS nylon arming gloves", "str_pl": "pairs of XS nylon arming gloves" },
+    "copy-from": "aketon_gloves_nylon_layered",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "gambeson_nylon_layered",
+    "//-1": "Going off the Rule of Nines for body proportions and assuming about 20 ft sq in total",
+    "//": "roughly 0.25mm per sheet of nylon making this a 30-layer jack, sheets are 1x2 feet. 105 sheets for the vest and 36 sheets for the arms (141 total).",
+    "//1": "human torso is about 7 sq. feet.  54g (nylon) x 30 (layers) x 3.5 (surface area) = 5670g",
+    "//2": "human arms is about 3 sq. feet.  54g (nylon) x 24 (layers) x 1.5 (surface area) = 1944g",
+    "//3": "8 layers thick waist. human waist is about 3ft circumference with the extra padding, and reaches to about below knees. doesn't usually cover the whole circumference so guessing about 1.5x2.5x8 total surface area divided by 1x2 ft for about 15-18 extra sheets, about 810g if 15 sheets.",
+    "//4": "5670g + 1944g + 810g = 8424g combined",
+    "type": "ARMOR",
+    "name": { "str": "nylon gambeson" },
+    "description": "A thick cloth greatcoat intended to be worn as standalone armor, as it's a little too thick to comfortably add chainmail or a cuirass on top.  Made of thirty layers of tough canvas, this will protect you from almost everything, but it's very heavy and warm.  The sleeves are a bit thinner for flexibility and it drapes below your legs, providing additional protection there.",
+    "weight": "8424 g",
+    "volume": "7500 ml",
+    "price_postapoc": 8500,
+    "to_hit": -5,
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "looks_like": "gambeson",
+    "color": "light_gray",
+    "warmth": 60,
+    "material_thickness": 7.5,
+    "flags": [ "VARSIZE", "STURDY", "BLOCK_WHEN_WORN" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "nylon_quilted", "covered_by_mat": 100, "thickness": 3.5 },
+          { "type": "nylon_quilted", "covered_by_mat": 95, "thickness": 4.0 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 16
+      },
+      {
+        "material": [
+          { "type": "nylon_quilted", "covered_by_mat": 100, "thickness": 3.0 },
+          { "type": "nylon_quilted", "covered_by_mat": 95, "thickness": 3.0 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 20,
+        "warmth": 50
+      },
+      {
+        "material": [ { "type": "nylon_quilted", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
+        "coverage": 72,
+        "encumbrance": 7,
+        "layers": [ "BELTED" ],
+        "warmth": 20
+      }
+    ]
+  },
+  {
+    "id": "xl_gambeson_nylon_layered",
+    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
+    "type": "ARMOR",
+    "name": { "str": "XL nylon gambeson" },
+    "copy-from": "gambeson_nylon_layered",
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_gambeson_nylon_layered",
+    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
+    "type": "ARMOR",
+    "name": { "str": "XS nylon gambeson" },
+    "copy-from": "gambeson_nylon_layered",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "gambeson_nylon_layered_thinsleeved",
+    "//-1": "Going off the Rule of Nines for body proportions and assuming about 20 ft sq in total",
+    "//": "roughly 0.25mm per sheet of nylon making this a 30-layer jack, sheets are 1x2 feet. 105 sheets for the vest and 18 sheets for the arms (123 total).",
+    "//1": "human torso is about 7 sq. feet.  54g (nylon) x 30 (layers) x 3.5 (surface area) = 5670g",
+    "//2": "human arms is about 3 sq. feet.  54g (nylon) x 12 (layers) x 1.5 (surface area) = 972g",
+    "//3": "8 layers thick waist. human waist is about 3ft circumference with the extra padding, and reaches to about below knees. doesn't usually cover the whole circumference so guessing about 1.5x2.5x8 total surface area divided by 1x2 ft for about 15-18 extra sheets, about 810g if 15 sheets.",
+    "//4": "5670g + 972g + 810g = 7452g combined",
+    "type": "ARMOR",
+    "name": { "str": "nylon gambeson (thinner sleeves)" },
+    "description": "A thick cloth greatcoat intended to be worn as standalone armor, as it's a little too thick to comfortably add chainmail or a cuirass on top.  Made of thirty layers of tough canvas, this will protect you from almost everything, but it's very heavy and warm.  The sleeves are a lot thinner for flexiblity and it drapes below your legs, providing additional protection there.",
+    "weight": "7452 g",
+    "volume": "7000 ml",
+    "price_postapoc": 7500,
+    "to_hit": -5,
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "looks_like": "gambeson",
+    "color": "light_gray",
+    "warmth": 60,
+    "material_thickness": 7.5,
+    "flags": [ "VARSIZE", "STURDY", "BLOCK_WHEN_WORN" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "nylon_quilted", "covered_by_mat": 100, "thickness": 3.5 },
+          { "type": "nylon_quilted", "covered_by_mat": 95, "thickness": 4.0 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 16,
+        "encumbrance": 20
+      },
+      {
+        "material": [ { "type": "nylon_quilted", "covered_by_mat": 100, "thickness": 3.0 } ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 10,
+        "warmth": 30
+      },
+      {
+        "material": [ { "type": "nylon_quilted", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
+        "coverage": 72,
+        "encumbrance": 7,
+        "layers": [ "BELTED" ],
+        "warmth": 20
+      }
+    ]
+  },
+  {
+    "id": "xl_gambeson_nylon_layered_thinsleeved",
+    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
+    "type": "ARMOR",
+    "name": { "str": "XL nylon gambeson (thinner sleeves)" },
+    "copy-from": "gambeson_nylon_layered_thinsleeved",
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_gambeson_nylon_layered_thinsleeved",
+    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
+    "type": "ARMOR",
+    "name": { "str": "XS nylon gambeson (thinner sleeves)" },
+    "copy-from": "gambeson_nylon_layered_thinsleeved",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "gambeson_nylon_layered_vest",
+    "//-1": "Going off the Rule of Nines for body proportions and assuming about 20 ft sq in total",
+    "//": "roughly 0.25mm per sheet of nylon making this a 30-layer jack, sheets are 1x2 feet. 105 sheets for the vest.",
+    "//1": "human torso is about 7 sq. feet.  54g (nylon) x 30 (layers) x 3.5 (surface area) = 5670g",
+    "//2": "8 layers thick waist. human waist is about 3ft circumference with the extra padding, and reaches to about below knees. doesn't usually cover the whole circumference so guessing about 1.5x2.5x8 total surface area divided by 1x2 ft for about 15-18 extra sheets, about 810g if 15 sheets.",
+    "//3": "5670g + 810g = 6480g combined",
+    "type": "ARMOR",
+    "name": { "str": "nylon gambeson (sleeveless)" },
+    "description": "A thick cloth surcoat intended to be worn as standalone armor, as it's a little too thick to comfortably add chainmail or a cuirass on top.  Made of thirty layers of tough nylon, this will protect you from almost everything, but it's very heavy and warm.  It drapes below your legs, providing additional protection there, and it lacks sleeves entirely.",
+    "weight": "6480 g",
+    "volume": "6000 ml",
+    "price_postapoc": 5000,
+    "to_hit": -5,
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "looks_like": "gambeson",
+    "color": "light_gray",
+    "warmth": 60,
+    "material_thickness": 7.5,
+    "flags": [ "VARSIZE", "STURDY", "BLOCK_WHEN_WORN" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "nylon_quilted", "covered_by_mat": 100, "thickness": 3.5 },
+          { "type": "nylon_quilted", "covered_by_mat": 95, "thickness": 4.0 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 16
+      },
+      {
+        "material": [ { "type": "nylon_quilted", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
+        "coverage": 72,
+        "encumbrance": 7,
+        "layers": [ "BELTED" ],
+        "warmth": 20
+      }
+    ]
+  },
+  {
+    "id": "xl_gambeson_nylon_layered_vest",
+    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
+    "type": "ARMOR",
+    "name": { "str": "XL nylon gambeson (thinner sleeves)" },
+    "copy-from": "gambeson_nylon_layered_vest",
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_gambeson_nylon_layered_vest",
+    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
+    "type": "ARMOR",
+    "name": { "str": "XS nylon gambeson (thinner sleeves)" },
+    "copy-from": "gambeson_nylon_layered_vest",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "gambeson_pants_nylon_layered",
+    "//": "roughly 0.25mm per sheet of nylon making these 24 layer pants, sheets are 1x2 feet. 72 sheets total",
+    "//1": "human legs is about 6 sq. feet.  54g (nylon) x 24 (layers) x 3 (surface area) = 3888g",
+    "type": "ARMOR",
+    "name": { "str": "nylon heavy arming pants", "str_pl": "pairs of nylon heavy arming pants" },
+    "description": "Tough, extremely thick nylon pants worn on their own alongside a gambeson.  These are made of a huge number of canvas layers offering very solid protection, though they're too thick to easily add metal armor on top and are both stuffy and restrictive.",
+    "weight": "3888 g",
+    "volume": "3750 ml",
+    "price_postapoc": 5000,
+    "to_hit": -5,
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "looks_like": "fencing_pants",
+    "color": "light_gray",
+    "warmth": 55,
+    "material_thickness": 6.0,
+    "flags": [ "VARSIZE", "STURDY", "NORMAL", "OUTER" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "nylon_quilted", "covered_by_mat": 100, "thickness": 3.0 },
+          { "type": "nylon_quilted", "covered_by_mat": 95, "thickness": 3.0 }
+        ],
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 100,
+        "encumbrance": 18
+      }
+    ]
+  },
+  {
+    "id": "xl_gambeson_pants_nylon_layered",
+    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
+    "type": "ARMOR",
+    "name": { "str": "XL nylon heavy arming pants", "str_pl": "pairs of XL nylon heavy arming pants" },
+    "copy-from": "gambeson_pants_nylon_layered",
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_gambeson_pants_nylon_layered",
+    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
+    "type": "ARMOR",
+    "name": { "str": "XS nylon heavy arming pants", "str_pl": "pairs of XS nylon heavy arming pants" },
+    "copy-from": "gambeson_pants_nylon_layered",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "gambeson_gloves_nylon_layered",
+    "//": "roughly 0.25mm per sheet of nylon making this 8 layers, sheets are 1x2 feet. 4 sheets total",
+    "/1": "human hands assumed to be about 1 sq ft total, 54g (nylon) x 8 (layers) x 0.5 (surface area) = 216g",
+    "/2": "on top of that, additional 2x as thick layer on about 60% of the hand, so adding another 5 sheets for 9 total (486 g)",
+    "type": "ARMOR",
+    "name": { "str": "nylon heavy arming mittens", "str_pl": "pairs of nylon heavy arming mittens" },
+    "description": "Very thick nylon gauntlets worn in lieu of metal or leather armor.  Though they make it hard to do anything other than swing a weapon, and they're very warm, they offer excellent protection.",
+    "weight": "486 g",
+    "volume": "500 ml",
+    "price_postapoc": 2000,
+    "to_hit": -1,
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "looks_like": "mittens",
+    "color": "light_gray",
+    "warmth": 50,
+    "material_thickness": 6.0,
+    "flags": [ "VARSIZE", "STURDY", "NORMAL", "OUTER" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "nylon_quilted", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "nylon_quilted", "covered_by_mat": 90, "thickness": 4.0 }
+        ],
+        "//a": "technically, only covering 60% ish - inner hand is thinner - but fist will be clenched so inner hand should not really be hit",
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "coverage": 100,
+        "encumbrance": 35
+      },
+      {
+        "material": [
+          { "type": "nylon_quilted", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "nylon_quilted", "covered_by_mat": 100, "thickness": 4.0 }
+        ],
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_back_l", "hand_back_r", "hand_wrist_l", "hand_wrist_r" ],
+        "coverage": 100
+      }
+    ]
+  },
+  {
+    "id": "xl_gambeson_gloves_nylon_layered",
+    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
+    "type": "ARMOR",
+    "name": { "str": "XL nylon arming mittens", "str_pl": "pairs of XL canvas arming mittens" },
+    "copy-from": "gambeson_gloves_nylon_layered",
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_gambeson_gloves_nylon_layered",
+    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
+    "type": "ARMOR",
+    "name": { "str": "XS nylon arming mittens", "str_pl": "pairs of XS nylon arming mittens" },
+    "copy-from": "gambeson_gloves_nylon_layered",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   }
