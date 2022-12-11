@@ -85,7 +85,8 @@ jobs:
         if: ${{ steps.tag_check.outputs.exists == 'false' }}
         run: |
           pip3 install ruamel.yaml
-          echo '
+          python3 -c "
+          matrix = '''
           - name: Windows Tiles x64 MSVC
             artifact: windows-tiles-x64-msvc
             arch: x64
@@ -210,12 +211,11 @@ jobs:
             artifact: android-bundle
             ext: aab
             content: application/aap
-          ' | python3 -c "
+          '''
           from ruamel.yaml import YAML; yaml = YAML()
-          from sys import stdin, stdout
-          r = yaml.load(stdin)
-          if not '${{ secrets.KEYSTORE }}': r = [i for i in r if i.get('android', 'none') == 'none']
-          import json; print('matrix='+json.dumps(r))
+          matrix = yaml.load(matrix)
+          if not '${{ secrets.KEYSTORE }}': matrix = [i for i in matrix if i.get('android', 'none') == 'none']
+          import json; print('matrix='+json.dumps(matrix))
           " >> $GITHUB_OUTPUT
   builds:
     needs: release
