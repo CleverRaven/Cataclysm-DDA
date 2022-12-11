@@ -123,7 +123,7 @@
     "id": "flask_teleport",
     "type": "COMESTIBLE",
     "name": { "str": "potion of teleportation", "str_pl": "potions of teleportation" },
-    "description": "Important part of every professional robber.  It was banned by the government due to the popularity in crime sphere, but some people still know the recipe.",
+    "description": "Important part of every professional robber's kit.  It was banned by the government due to the popularity in criminal sphere, but some people still know the recipe.",
     "copy-from": "mana_potion_lesser",
     "calories": 260,
     "use_action": { "type": "cast_spell", "spell_id": "flask_teleport", "no_fail": true, "level": 0 },
