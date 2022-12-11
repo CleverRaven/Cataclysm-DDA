@@ -3,7 +3,7 @@
     "type": "terrain",
     "id": "t_tree_pachira",
     "name": "pachira tree",
-    "description": "A massive tree belonging to the 'Pachira' genus, also known as the Guyanan Chesnut Tree.  This species of tree grows on wetlands, if you look closely, you can see some unharvested chestnuts.",
+    "description": "A massive wetland tree belonging to the 'Pachira' genus, also known as the Guyanan Chesnut Tree.  If you look closely, you can see some unharvested chestnuts.",
     "symbol": "7",
     "color": [ "green", "green", "green_yellow", "brown" ],
     "move_cost": 0,
