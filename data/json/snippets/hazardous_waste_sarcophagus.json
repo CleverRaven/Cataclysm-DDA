@@ -1,0 +1,65 @@
+[
+  {
+    "type": "snippet",
+    "category": "sr1_mess",
+    "text": [
+      "\nSubj: Security Reminder\nTo: all SRCF staff\nFrom: Constantine Dvorak, Undersecretary of Nuclear Security\n\n  I want to remind everyone on staff: do not open or examine containers above your security-clearance.  If you have some question about safety protocols or shipping procedures, please contact your SRCF administrator or on-site military officer.  When in doubt, assume all containers are Class-A Biohazards and highly toxic.  Take full precautions!"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "sr2_mess",
+    "text": [
+      "\nSubj: Security Reminder\nTo: all SRCF staff\nFrom: Constantine Dvorak, Undersecretary of Nuclear Security\n\n  From today onward medical wastes are not to be stored anywhere near radioactive materials.  All containers are to be re-arranged according to these new regulations.  If your facility currently has these containers stored in close proximity, you are to work with armed guards on duty at all times.  Report any unusual activity to your SRCF administrator at once."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "sr3_mess",
+    "text": [
+      "\nSubj: Security Reminder\nTo: all SRCF staff\nFrom: Constantine Dvorak, Undersecretary of Nuclear Security\n\n  Worker health and safety is our number one concern!  As such, we are instituting weekly health examinations for all SRCF employees.  Report any unusual symptoms or physical changes to your SRCF administrator at once."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "sr4_mess",
+    "text": [
+      "\nSubj: Security Reminder\nTo: all SRCF staff\nFrom: Constantine Dvorak, Undersecretary of Nuclear Security\n\n  All compromised facilities will remain under lock down until further notice.  Anyone who has seen or come in direct contact with the creatures is to report to the home office for a full medical evaluation and security debriefing."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "scrf_1_mess",
+    "text": [
+      "Subj: EPA: Report All Potential Containment Breaches 3873643\nTo: all SRCF staff\nFrom: Robert Shane, Director of the EPA\n\n  All hazardous waste dumps and sarcophagi must submit three samples from each operational leache system to the following addresses:\n\nCDC Bioterrorism Lab\nBuilding 10\nCorporate Square Boulevard\nAtlanta, GA 30329\n\nEPA Region 8 Laboratory\n16194 W. 45th Drive\nGolden, CO 80403\n\n  These samples must be accurate and any attempts to cover incompetencies will result in charges of Federal Corruption and potentially Treason.\n\nDirector of the EPA,\n  Robert Shane"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "scrf_2_1_mess",
+    "text": [
+      "Subj: SRCF: Internal Memo, EPA [2918024]\nTo: all SRCF admin staff\nFrom: Constantine Dvorak, Undersecretary of Nuclear Security\n\n  Director Grimes has released a new series of accusations that will soon be investigated by a Congressional committee.  Below is the message that he sent me.\n--------------------------------------------------------------\nSubj: Congressional Investigations\nTo: Constantine Dvorak, Undersecretary of Nuclear Safety\nFrom: Robert Shane, director of the EPA\n\n  The EPA has opposed the Security-Restricted Containment Facility (SRCF) project from its inception.  We were horrified that these facilities would be constructed so close to populated areas, and only agreed to sign-off on the project if we were allowed to freely examine and monitor the sarcophagi.  But that has not happened.  Since then, the DoE has employed any and all means to keep EPA agents from visiting the SRCFs, using military secrecy, emergency powers, and inter-departmental gag orders to surround the project with an impenetrable thicket of red tape."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "scrf_2_2_mess",
+    "text": [
+      "Although our agents have not been allowed inside, our atmospheric testers in nearby communities have detected high levels of toxins and radiation, and we've found dozens of potentially dangerous unidentified compounds in the ground water.  We now have conclusive evidence that the SRCFs are a threat to the public safety.  We are taking these data to state representatives and petitioning for a full Congressional inquiry.  They should be able to force open your secret vaults, and the world will see what you've been hiding.\n\nIf you had any hand in this outbreak I hope you will rot in hell.\n\nDirector of the EPA,\n  Robert Shane"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "scrf_3_mess",
+    "text": [
+      "Subj: CDC: Internal Memo, Standby [2918115]\nTo: all SRCF staff\nFrom: Ellen Grimes, Director of the CDC\n\n  Your site along with many others has been found to be contaminated with what we will now refer to as [redacted]. It is vital that you standby for further orders.  We are currently awaiting the President to decide our course of action in this national crisis.  You will proceed with fail-safe procedures and rig the sarcophagus with C-4 as outlined in Publication 4423.  We will send you orders to either detonate and seal the sarcophagus or remove the charges.  It is of the utmost importance that the facility be sealed immediately when the orders are given.  We have been alerted by Homeland Security that there are potential terrorist suspects that are being detained in connection with the recent national crisis.\n\nDirector of the CDC,\n  Ellen Grimes"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "scrf_seal_order",
+    "text": [
+      "Subj: USARMY: SEAL SRCF [987167]\nTo: all SRCF staff\nFrom: Major General Cornelius, U.S. Army\n\n  As a general warning to all civilian staff: the 10th Mountain Division has been assigned to oversee the sealing of the SRCF facilities.  By direct order, all non-essential staff must vacate at the earliest possible opportunity to prevent potential contamination.  Low yield tactical nuclear demolition charges will be deployed in the lower tunnels to ensure that recovery of hazardous material is impossible.  The Army Corps of Engineers will then dump concrete over the rubble so that we can redeploy the 10th Mountain into the greater Boston area.\n\nCornelius,\nMajor General, U.S. Army\nCommander of the 10th Mountain Division"
+    ]
+  }
+]

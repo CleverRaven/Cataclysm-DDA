@@ -1,0 +1,36 @@
+[
+  {
+    "id": "hk46bigmag",
+    "looks_like": "mp5mag",
+    "type": "MAGAZINE",
+    "name": { "str": "MP7 40-round magazine" },
+    "description": "An extended 40-round magazine for use with H&K's proprietary 4.6x30mm round.",
+    "weight": "240 g",
+    "volume": "500 ml",
+    "price": 6300,
+    "price_postapoc": 500,
+    "material": [ "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "46" ],
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "46": 40 } } ]
+  },
+  {
+    "id": "hk46mag",
+    "looks_like": "mp5mag",
+    "type": "MAGAZINE",
+    "name": { "str": "MP7 20-round magazine" },
+    "description": "A standard capacity 20-round magazine for use with H&K's proprietary 4.6x30mm round.",
+    "weight": "120 g",
+    "volume": "250 ml",
+    "price": 4700,
+    "price_postapoc": 100,
+    "material": [ "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "46" ],
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "46": 20 } } ]
+  }
+]

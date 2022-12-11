@@ -1,0 +1,45 @@
+[
+  {
+    "id": "SUS_welding_gear",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for a rack of welding gear.",
+    "subtype": "collection",
+    "entries": [
+      {
+        "distribution": [
+          {
+            "collection": [
+              { "item": "oxy_torch" },
+              { "item": "weldtank", "count": [ 1, 3 ], "prob": 80 },
+              { "item": "tinyweldtank", "count": [ 1, 3 ], "prob": 60 },
+              {
+                "distribution": [
+                  { "item": "brazing_rod_bronze", "prob": 75, "charges": [ 100, 360 ] },
+                  { "item": "brazing_rod_alloy", "prob": 50, "charges": [ 80, 360 ] }
+                ]
+              }
+            ],
+            "prob": 30
+          },
+          {
+            "collection": [ { "item": "welder" }, { "item": "medium_plus_battery_cell", "count": [ 1, 3 ], "prob": 80, "charges": [ 0, 500 ] } ],
+            "prob": 70
+          }
+        ]
+      },
+      { "distribution": [ { "item": "welding_mask", "prob": 70 }, { "item": "goggles_welding", "prob": 70 } ] },
+      {
+        "distribution": [
+          { "item": "welding_rod_steel", "prob": 65, "charges": [ 50, 360 ] },
+          { "item": "welding_rod_alloy", "prob": 35, "charges": [ 50, 360 ] },
+          { "item": "welding_wire_steel", "prob": 45, "charges": [ 50, 360 ] },
+          { "item": "welding_wire_alloy", "prob": 15, "charges": [ 50, 360 ] },
+          { "item": "brazing_rod_bronze", "prob": 25, "charges": [ 50, 200 ] },
+          { "item": "brazing_rod_alloy", "prob": 10, "charges": [ 50, 200 ] },
+          { "item": "welding_blanket", "prob": 10, "count": [ 0, 1 ] }
+        ]
+      }
+    ]
+  }
+]

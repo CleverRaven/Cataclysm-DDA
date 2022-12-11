@@ -1,0 +1,97 @@
+[
+  {
+    "id": "ench_fishform",
+    "type": "enchantment",
+    "has": "WORN",
+    "condition": "ALWAYS",
+    "mutations": [ "GILLS", "MEMBRANE", "AMPHIBIAN", "WAYFARER", "WILDSHAPE:FISH" ]
+  },
+  {
+    "id": "wildshape_cloak_fish",
+    "type": "ARMOR",
+    "name": { "str": "Wildshape Cloak: Fish", "str_pl": "Wildshape Cloaks: Fish" },
+    "description": "A magical cloak that shimmers like fresh water under a warm sun.  It can be worn to morph your body to a form that is excellent for swimming, but ill-suited for combat.",
+    "looks_like": "cloak_leather",
+    "weight": "2060 g",
+    "volume": "3050 ml",
+    "price": 100000,
+    "symbol": "w",
+    "color": "blue",
+    "material": [ "magical_material" ],
+    "flags": [ "OUTER", "OVERSIZE", "NONCONDUCTIVE", "WATER_FRIENDLY", "RAINPROOF" ],
+    "relic_data": { "passive_effects": [ { "id": "ench_fishform" } ] },
+    "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
+  },
+  {
+    "id": "ench_bearform",
+    "type": "enchantment",
+    "has": "WORN",
+    "condition": "ALWAYS",
+    "values": [ { "value": "STRENGTH", "add": 4 }, { "value": "INTELLIGENCE", "add": -6 }, { "value": "PERCEPTION", "add": -6 } ],
+    "mutations": [
+      "ILLITERATE",
+      "WAYFARER",
+      "DISORGANIZED",
+      "SMELLY",
+      "PSYCHOPATH",
+      "CLUMSY",
+      "FANGS",
+      "CLAWS",
+      "SHOUT3",
+      "FUR",
+      "DEFT",
+      "WILDSHAPE:BEAR"
+    ]
+  },
+  {
+    "id": "wildshape_cloak_bear",
+    "type": "ARMOR",
+    "name": "Wildshape Cloak: Bear",
+    "description": "A magical cloak that smells of the forest.  It can be worn to morph your body to a form that is strong and resilient in melee combat.  However, you feel as if you would lose a part of yourself.",
+    "looks_like": "cloak_leather",
+    "weight": "2060 g",
+    "volume": "3050 ml",
+    "price": 200000,
+    "symbol": "w",
+    "color": "brown",
+    "material": [ "magical_material" ],
+    "flags": [ "OUTER", "OVERSIZE", "NONCONDUCTIVE", "WATER_FRIENDLY", "RAINPROOF" ],
+    "relic_data": { "passive_effects": [ { "id": "ench_bearform" } ] },
+    "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
+  },
+  {
+    "id": "ench_deerform",
+    "type": "enchantment",
+    "has": "WORN",
+    "condition": "ALWAYS",
+    "mutations": [
+      "FUR",
+      "WILDSHAPE:DEER",
+      "FLEET2",
+      "GOODCARDIO2",
+      "QUICK",
+      "LIGHTSTEP",
+      "WEAKSCENT",
+      "DISORGANIZED",
+      "PACIFIST",
+      "WAYFARER",
+      "HUNGER2"
+    ]
+  },
+  {
+    "id": "wildshape_cloak_deer",
+    "type": "ARMOR",
+    "name": "Wildshape Cloak: Deer",
+    "description": "A magical cloak that feels soft to the touch.  It can be worn to morph your body to a form well-suited to escaping difficult situations.  However, it is not suited for combat.",
+    "looks_like": "cloak_leather",
+    "weight": "2060 g",
+    "volume": "3050 ml",
+    "price": 150000,
+    "symbol": "w",
+    "color": "green",
+    "material": [ "magical_material" ],
+    "flags": [ "OUTER", "OVERSIZE", "NONCONDUCTIVE", "WATER_FRIENDLY", "RAINPROOF" ],
+    "relic_data": { "passive_effects": [ { "id": "ench_deerform" } ] },
+    "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
+  }
+]

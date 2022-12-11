@@ -1,0 +1,30 @@
+[
+  {
+    "result": "357mag_fmj",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "5 s",
+    "qualities": [ { "id": "PULL", "level": 1 } ],
+    "components": [
+      [ [ "lead", 3 ] ],
+      [ [ "357mag_casing", 1 ] ],
+      [ [ "lgpistol_primer", 1 ] ],
+      [ [ "gunpowder_magnum_pistol", 5 ] ],
+      [ [ "copper", 1 ] ]
+    ]
+  },
+  {
+    "result": "357mag_jhp",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "5 s",
+    "qualities": [ { "id": "PULL", "level": 1 } ],
+    "components": [
+      [ [ "lead", 4 ] ],
+      [ [ "357mag_casing", 1 ] ],
+      [ [ "lgpistol_primer", 1 ] ],
+      [ [ "gunpowder_magnum_pistol", 5 ] ],
+      [ [ "copper", 1 ] ]
+    ]
+  }
+]

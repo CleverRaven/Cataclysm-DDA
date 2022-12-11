@@ -1,0 +1,63 @@
+[
+  {
+    "type": "palette",
+    "id": "bandit_camp",
+    "furniture": {
+      ",": [ [ "f_null", 200 ], [ "f_region_weed", 2 ], "f_boulder_small" ],
+      "@": "f_bed",
+      "A": "f_fireplace",
+      "b": "f_bench",
+      "d": "f_dresser",
+      "h": "f_chair",
+      "n": "f_table",
+      "o": "f_bookcase",
+      "1": [ "f_rack", "f_utility_shelf", "f_warehouse_shelf" ],
+      "2": [ "f_rack", "f_utility_shelf", "f_warehouse_shelf" ],
+      "3": [ "f_rack", "f_utility_shelf", "f_warehouse_shelf" ],
+      "4": [ "f_rack", "f_utility_shelf", "f_warehouse_shelf" ],
+      "R": [ "f_rack", "f_utility_shelf", "f_warehouse_shelf" ],
+      "z": [ "f_crate_c", "f_crate_o", "f_cardboard_box" ]
+    },
+    "terrain": {
+      "#": "t_wall_log",
+      "%": "t_region_shrub",
+      "$": [ [ "t_region_groundcover_forest", 2 ], "t_region_shrub", "t_region_tree" ],
+      "+": "t_door_c",
+      ",": [ "t_region_groundcover_forest", "t_region_groundcover" ],
+      " ": "t_region_groundcover_barren",
+      "P": "t_palisade",
+      "p": "t_palisade_gate",
+      "x": "t_palisade_pulley",
+      "/": "t_region_groundcover_barren",
+      "z": "t_region_groundcover_barren",
+      "Á": "t_region_groundcover_barren",
+      "É": "t_region_groundcover_barren",
+      "é": "t_region_groundcover_barren"
+    },
+    "items": {
+      "z": [
+        { "item": "trash", "chance": 50, "repeat": [ 1, 3 ] },
+        { "item": "antique", "chance": 5 },
+        { "item": "antique", "chance": 5 },
+        { "item": "art", "chance": 5 }
+      ],
+      "R": [ { "item": "mechanics", "chance": 66, "repeat": [ 1, 4 ] }, { "item": "tools_mechanic", "chance": 20 } ],
+      "1": { "item": "stash_drugs", "chance": 66, "repeat": [ 1, 3 ] },
+      "2": [ { "item": "SUS_pantry", "chance": 33 }, { "item": "cannedfood", "chance": 80, "repeat": [ 1, 4 ] } ],
+      "3": { "item": "cash_register_full", "chance": 80, "repeat": [ 1, 3 ] },
+      "4": [
+        { "item": "home_hw", "chance": 50, "repeat": [ 1, 2 ] },
+        { "item": "cleaning", "chance": 5, "repeat": [ 1, 2 ] },
+        { "item": "camping", "chance": 33, "repeat": [ 1, 2 ] }
+      ],
+      "K": [ { "item": "keg_beer", "chance": 50 }, { "item": "keg_wine_intact", "chance": 33 } ],
+      "o": { "item": "homebooks", "chance": 75, "repeat": [ 1, 5 ] },
+      " ": { "item": "bar_trash", "chance": 2 },
+      ".": { "item": "bar_trash", "chance": 5 },
+      "@": { "item": "army_bed", "chance": 50 },
+      "A": { "item": "stash_wood", "chance": 80, "repeat": [ 1, 10 ] },
+      "d": [ { "item": "SUS_dresser_mens", "chance": 50 }, { "item": "SUS_dresser_womens", "chance": 50 } ]
+    },
+    "nested": { "Á": { "chunks": [ "tent_5x5_N" ] }, "É": { "chunks": [ "tent_5x5_S" ] }, "é": { "chunks": [ "tent_3x3_S" ] } }
+  }
+]

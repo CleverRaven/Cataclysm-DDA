@@ -1,0 +1,60 @@
+[
+  {
+    "type": "AMMO",
+    "id": "rock_flaking",
+    "symbol": "*",
+    "color": "light_gray",
+    "name": { "str": "flaking rock" },
+    "description": "A rock the size of a baseball, which chips in a semi-predictable way if struck, leaving a sharp edge.  Makes a decent melee weapon, and is also good for throwing at enemies.",
+    "category": "spare_parts",
+    "material": [ "stone" ],
+    "ammo_type": "rock",
+    "flags": [ "TRADER_AVOID", "NPC_THROWN" ],
+    "weight": "657 g",
+    "volume": "250 ml",
+    "longest_side": "8 cm",
+    "bashing": 7,
+    "damage": { "damage_type": "stab", "amount": 7 },
+    "range": 10,
+    "dispersion": 14,
+    "loudness": 0,
+    "to_hit": -1,
+    "effects": [ "NEVER_MISFIRES", "NON_FOULING", "RECOVER_60" ]
+  },
+  {
+    "type": "AMMO",
+    "id": "flint",
+    "copy-from": "rock_flaking",
+    "name": { "str": "flint" },
+    "description": "A chunk of flint, the kind of rock that can make sparks if stuck against high-carbon steel.  It also chips in a semi-predictable way if struck, leaving a sharp edge."
+  },
+  {
+    "type": "GENERIC",
+    "id": "rock_large",
+    "symbol": ";",
+    "color": "brown",
+    "name": { "str": "large rock" },
+    "description": "A heavy and large rock, big enough to be used as a primitive anvil, or shaped into larger stone items.",
+    "category": "spare_parts",
+    "material": "stone",
+    "weight": "15768 g",
+    "volume": "6 L",
+    "longest_side": "30 cm",
+    "bashing": 28,
+    "to_hit": -2,
+    "qualities": [ [ "ANVIL", 1 ] ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "rock_wool_bat",
+    "symbol": "#",
+    "color": "brown",
+    "name": { "str": "fiber insulation batt" },
+    "//": "I am assuming this is made of rock wool, but it could also be fiberglass.  There is almost no practical difference for our purposes.",
+    "description": "A foil-wrapped batt of fibrous insulation: fire and moisture resistant, used for hot appliances like dishwashers and ovens.",
+    "category": "spare_parts",
+    "material": "epoxy",
+    "weight": "150 g",
+    "volume": "3 L"
+  }
+]

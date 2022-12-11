@@ -1,0 +1,139 @@
+[
+  {
+    "type": "trait_group",
+    "id": "trait_mutant_npc_common",
+    "subtype": "collection",
+    "traits": [
+      { "distribution": [ { "trait": "FASTLEARNER" }, { "trait": "SLOWLEARNER" } ], "prob": 10 },
+      {
+        "distribution": [ { "trait": "FASTREADER" }, { "trait": "SLOWREADER" }, { "trait": "ILLITERATE", "prob": 5 } ],
+        "prob": 10
+      },
+      { "distribution": [ { "trait": "GOODCARDIO" }, { "trait": "BADKNEES" } ], "prob": 10 },
+      { "distribution": [ { "trait": "LIAR" }, { "trait": "TRUTHTELLER" } ], "prob": 10 },
+      {
+        "distribution": [
+          { "trait": "MARTIAL_ARTS" },
+          { "trait": "MARTIAL_ARTS2" },
+          { "trait": "MARTIAL_ARTS3" },
+          { "trait": "MARTIAL_ARTS4" },
+          { "trait": "MARTIAL_ARTS5" }
+        ],
+        "prob": 10
+      },
+      { "trait": "DEFT", "prob": 10 },
+      { "trait": "ADRENALINE", "prob": 10 },
+      { "trait": "OUTDOORSMAN", "prob": 10 },
+      { "trait": "PAINRESIST", "prob": 10 },
+      { "trait": "QUICK", "prob": 10 },
+      { "trait": "ROBUST", "prob": 10 },
+      { "trait": "SPIRITUAL", "prob": 10 },
+      { "trait": "STYLISH", "prob": 10 },
+      { "trait": "ALBINO", "prob": 5 },
+      { "trait": "ASTHMA", "prob": 5 },
+      { "trait": "CHEMIMBALANCE", "prob": 10 },
+      { "trait": "HOARDER", "prob": 10 },
+      { "trait": "JITTERY", "prob": 10 },
+      { "trait": "MOODSWINGS", "prob": 10 },
+      { "trait": "SAVANT", "prob": 10 },
+      { "trait": "SCHIZOPHRENIC", "prob": 10 },
+      { "trait": "SQUEAMISH", "prob": 10 },
+      { "group": "Appearance_demographics", "prob": 100 }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_manatouched",
+    "subtype": "collection",
+    "traits": [
+      { "trait": "FEYHEARING", "prob": 50 },
+      { "trait": "FASTREADER", "prob": 50 },
+      { "trait": "FASTLEARNER", "prob": 50 },
+      { "trait": "GOODMEMORY", "prob": 50 },
+      { "trait": "SPIRITUAL", "prob": 50 },
+      { "trait": "LOVES_BOOKS" },
+      { "trait": "BADCARDIO", "prob": 50 },
+      { "trait": "SLOWHEALER", "prob": 50 },
+      { "trait": "ASTHMA", "prob": 50 }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_manatouched_nonthres",
+    "subtype": "collection",
+    "traits": [
+      { "trait": "MANA_ADD_MANATOUCHED", "prob": 50 },
+      { "trait": "MANA_REGEN_MANATOUCHED", "prob": 50 },
+      { "trait": "MANA_LUM", "prob": 50 },
+      { "trait": "WEAK", "prob": 50 },
+      { "trait": "ROT2", "prob": 25 },
+      { "trait": "BIOLUM0", "prob": 65 },
+      { "distribution": [ { "trait": "MANA_MULT3" }, { "trait": "MANA_MULT_MANATOUCHED" } ] }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_manatouched_postthres",
+    "subtype": "collection",
+    "traits": [
+      { "trait": "THRESH_MANA" },
+      { "distribution": [ { "trait": "MANA_SIPHON_1" }, { "trait": "MANA_SIPHON_2" } ] },
+      { "trait": "MANA_SEEKER_BOLTS" },
+      { "trait": "ALBINO", "prob": 50 },
+      { "trait": "MANA_CRYST_MANA", "prob": 50 },
+      { "trait": "MANA_SUBTLE_SPELL", "prob": 50 },
+      { "trait": "MANA_SILENT_SPELL", "prob": 50 },
+      { "trait": "MANA_REGEN_MANATOUCHED", "prob": 50 }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_bdragon",
+    "subtype": "collection",
+    "traits": [
+      { "trait": "GOODHEARING", "prob": 50 },
+      { "distribution": [ { "trait": "DRAGON_STR" }, { "trait": "DRAGON_STR2" }, { "trait": "DRAGON_STR3" } ] },
+      { "trait": "PAINRESIST", "prob": 50 },
+      { "trait": "ANTIJUNK", "prob": 50 },
+      { "trait": "NAUSEA", "prob": 50 },
+      { "trait": "HUNGER", "prob": 50 },
+      { "trait": "ADDICTIVE", "prob": 50 },
+      { "trait": "CLUMSY", "prob": 50 },
+      { "trait": "HOARDER", "prob": 50 },
+      { "trait": "LIZ_EYE", "prob": 50 },
+      { "trait": "LARGE_DRAGON", "prob": 20 },
+      { "trait": "SCALES", "prob": 30 },
+      { "trait": "THIRST2", "prob": 40 },
+      { "trait": "CARNIVORE", "prob": 70 },
+      { "trait": "DRAGONBLOOD", "prob": 40 },
+      { "trait": "HISS", "prob": 60 }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_bdragon_nonthres",
+    "subtype": "collection",
+    "traits": [
+      { "trait": "TERRIFYING", "prob": 50 },
+      { "trait": "BADTEMPER", "prob": 50 },
+      { "trait": "CHEMIMBALANCE", "prob": 50 },
+      { "trait": "POISRESIST", "prob": 50 },
+      { "trait": "TOE_CLAWS", "prob": 50 },
+      { "trait": "SCALES", "prob": 50 }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_bdragon_postthres",
+    "subtype": "collection",
+    "traits": [
+      { "trait": "THRESH_DRAGON_BLACK" },
+      { "trait": "LIZ_IR", "prob": 50 },
+      { "trait": "REGEN_LIZ", "prob": 50 },
+      { "trait": "DRAGON_SCALES_BLACK", "prob": 50 },
+      { "trait": "DRAGON_FEET", "prob": 50 },
+      { "trait": "LARGE_OK_DRAGON", "prob": 50 },
+      { "trait": "DRAGON_BREATH_BLACK", "prob": 50 }
+    ]
+  }
+]

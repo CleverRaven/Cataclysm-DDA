@@ -1,0 +1,51 @@
+＃超過78個字符的行將自動換行
+＃以下僅供參考
+##############################################################################
+<color_white>造訪我們</color>
+
+<color_light_gray>* 官網：</color>    <color_cyan>https://cataclysmdda.org</color>
+<color_light_gray>* Wiki:</color>        <color_cyan>https://cddawiki.chezzo.com/cdda_wiki</color>
+
+<color_white>回報bug，提供建議與關注開發進度：</color>
+
+<color_light_gray>* Github: </color><color_light_cyan>https://github.com/CleverRaven/Cataclysm-DDA/issues</color>
+<color_light_gray>* e-mail: </color><color_light_cyan>kevin.granade@gmail.com</color>
+
+<color_white>在論壇或聊天室討論：</color>
+
+<color_light_gray>* Discourse:                 </color><color_cyan>https://discourse.cataclysmdda.org/</color>
+<color_light_gray>* Discord:                   </color><color_cyan>https://discord.gg/jFEc7Yp</color>
+<color_light_gray>* IRC:                       </color><color_cyan>#CataclysmDDA at irc.libera.chat</color>
+<color_light_gray>* Reddit（非官方）:       </color><color_cyan>https://www.reddit.com/r/cataclysmdda/</color>
+
+<color_light_gray>我們的官網上還有其他有用的連結</color>
+
+<color_light_gray>在遊戲中你可以透過主選單 (<color_yellow>Esc</color>)來存取選項。</color>
+
+<color_light_red>******************************************************************************</color>
+<color_light_red>實驗性版本的免責聲明：</color>
+<color_light_red>******************************************************************************</color>
+
+<color_white>問：</color><color_yellow>什麼是實驗性版本?</color>
+
+<color_white>答：</color><color_light_gray>實驗性版本的目的是第二階段的品質管控。新的內容會在第一次品質管控後測試和平衡再加入。要知道選擇遊玩最新的開發中版本你就算是在參與開發過程，幫我們做遊玩測試，做好遇到 bug 和未開發完功能的準備。</color>
+
+<color_white>問：</color><color_yellow>為什麼要有實驗性版本?</color>
+
+<color_white>答：</color><color_light_gray>就像是在玩 alpha 或 beta 版本一樣，bug 和未完成功能是其中的一環。在不斷嚴謹的整合之中，實驗性版本一直都會是在未完成的狀態中。實驗性版本是尋找 bug 和改善新功能的沙盒。各種大小功能都會持續的加到那些版本中來確認整體的穩定性和平衡。正因如此，實驗性版本並不能向你保證平衡和穩定性。其實，實驗性版本不能向你保證任何事。</color>
+
+<color_white>問：</color><color_yellow>實驗性版本可以玩嗎?</color>
+
+<color_white>答：</color><color_light_gray>是的。雖然實驗性版本還算穩定，但它有一些功能還在未完成的狀態；而且可能還有 bug ，甚至會導致遊戲崩潰或存檔毀損。這種狀況很少，但是依這遊戲的複雜性，一開始在整合進實驗性版本前的品質管控可能有所不足，再說一直都有人為疏忽的可能性。這就是為什麼實驗性版本一開始要存在。</color>
+
+<color_white>問：</color><color_yellow>那麼我應該要玩實驗性版本還是待在穩定版呢？</color>
+
+<color_white>答：</color><color_light_gray>回報是能夠立即嘗到新內容，風險是如果有個討厭的 bug 出現你會失去遊戲進度。你永遠都能選擇實驗性版本或穩定版本，所以自己斟酌風險。如果出事了你要承擔所有風險，我警告過你了。防範未然，做好備份。有時甚至最好晚個幾天更新，等到大功能穩定了或是嚴重 bug 修好了。</color>
+
+<color_white>問：</color><color_yellow>我還需要注意什麼？</color>
+
+<color_white>答：</color><color_light_gray>是的。 記得你看到和將會看到的所有東西都有可能會改變。 所有功能，包括新加入的，都是半成品並且可能會隨著遊戲開發而改變。 而且，就如前面所說，沒有東西能跟你保證的，包含遊戲平衡和穩定性。</color>
+
+<color_white>問：</color><color_yellow>如果我覺得實驗性版本的風險大到我不能接受怎麼辦？</color>
+
+<color_white>答：</color><color_light_gray>如果不能接受風險——就玩穩定版本。 如果你願意承擔風險——享受實驗性版本中的新內容並且參與開發——回報bugs，提出建議，或甚至加入你自己的內容到遊戲中。 武運昌隆，馳騁殭場。</color>

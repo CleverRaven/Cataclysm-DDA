@@ -1,0 +1,78 @@
+[
+  {
+    "id": "zombie",
+    "//": "your bog standard zombie",
+    "type": "harvest",
+    "entries": [
+      { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
+      { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
+      { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 }
+    ]
+  },
+  {
+    "id": "dissect_human",
+    "type": "harvest",
+    "entries": [ { "drop": "afs_titanium_implant", "type": "bionic", "flags": [ "FILTHY", "NO_STERILE" ], "max": 1 } ]
+  },
+  {
+    "id": "dissect_human_reaver",
+    "type": "harvest",
+    "entries": [
+      {
+        "drop": "bio_power_storage_salvaged",
+        "type": "bionic",
+        "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
+        "faults": [ "fault_bionic_salvaged" ]
+      },
+      {
+        "drop": "bionics_reaver",
+        "type": "bionic_group",
+        "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
+        "faults": [ "fault_bionic_salvaged" ]
+      }
+    ]
+  },
+  {
+    "id": "dissect_CBM_CIV",
+    "type": "harvest",
+    "entries": [
+      {
+        "drop": "bio_power_storage",
+        "type": "bionic",
+        "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
+        "faults": [ "fault_bionic_salvaged" ]
+      },
+      {
+        "drop": "bionics_common",
+        "type": "bionic_group",
+        "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
+        "faults": [ "fault_bionic_salvaged" ]
+      },
+      { "drop": "afs_titanium_implant", "type": "bionic", "flags": [ "FILTHY", "NO_STERILE" ], "max": 1 }
+    ]
+  },
+  {
+    "id": "CBM_CIV",
+    "type": "harvest",
+    "entries": [
+      { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
+      { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
+      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 }
+    ]
+  },
+  {
+    "id": "human",
+    "type": "harvest",
+    "entries": [
+      { "drop": "human_flesh", "type": "flesh", "mass_ratio": 0.2 },
+      { "drop": "hstomach", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
+      { "drop": "human_fat", "type": "flesh", "mass_ratio": 0.1 },
+      { "drop": "blood", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "bone_human", "type": "bone", "mass_ratio": 0.12 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.001 },
+      { "drop": "raw_hleather", "type": "skin", "mass_ratio": 0.01 }
+    ]
+  }
+]

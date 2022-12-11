@@ -1,0 +1,56 @@
+[
+  {
+    "result": "camp_chair",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "10 m",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "sheet_metal_small", 2 ] ], [ [ "steel_chunk", 3 ] ], [ [ "scrap", 17 ] ], [ [ "cotton_patchwork", 15 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "tourist_table",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "10 m",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "scrap", 6 ] ], [ [ "pipe", 6 ] ], [ [ "nail", 10 ] ], [ [ "sheet_metal", 1 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "catalytic_cracking_reactor",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "60 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 } ]
+  },
+  {
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "beverly_shear",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "40 m",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "scrap", 10 ] ], [ [ "pipe", 2 ] ], [ [ "steel_chunk", 5 ] ], [ [ "steel_lump", 2 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "manual_tire_changer",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "60 m",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [
+      [ [ "scrap", 12 ] ],
+      [ [ "pipe", 2 ] ],
+      [ [ "steel_chunk", 6 ] ],
+      [ [ "steel_lump", 4 ] ],
+      [ [ "plastic_chunk", 6 ] ],
+      [ [ "hand_pump", 1 ] ]
+    ]
+  }
+]

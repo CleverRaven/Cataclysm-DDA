@@ -1,0 +1,221 @@
+[
+  {
+    "type": "monstergroup",
+    "name": "GROUP_CAVE",
+    "default": "mon_null",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_jaguar", "weight": 100, "cost_multiplier": 20, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_bear_andean", "weight": 100, "cost_multiplier": 10, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_large_scorpion", "weight": 60, "cost_multiplier": 3, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_scorpion_giant", "weight": 40, "cost_multiplier": 5, "pack_size": [ 1, 2 ], "starts": 240 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_FOREST",
+    "default": "mon_null",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_ocelot", "weight": 7, "cost_multiplier": 2 },
+      { "monster": "mon_ocelot", "weight": 12, "cost_multiplier": 2, "conditions": [ "DAWN", "DUSK" ] },
+      {
+        "monster": "mon_bear_andean",
+        "weight": 1,
+        "cost_multiplier": 10,
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN", "WINTER" ]
+      },
+      { "monster": "mon_bushdog", "weight": 1, "cost_multiplier": 2, "pack_size": [ 2, 5 ] },
+      { "monster": "mon_coati", "weight": 5, "cost_multiplier": 2, "pack_size": [ 2, 5 ] },
+      { "monster": "mon_tapir", "weight": 3, "cost_multiplier": 10 },
+      { "monster": "mon_jaguar", "weight": 1, "cost_multiplier": 3 },
+      { "monster": "mon_jaguar", "weight": 2, "cost_multiplier": 3, "conditions": [ "DAWN", "DUSK" ] },
+      { "monster": "mon_peccari", "weight": 15, "cost_multiplier": 2, "pack_size": [ 1, 4 ] },
+      { "monster": "mon_large_scorpion", "weight": 2, "cost_multiplier": 0 },
+      { "monster": "mon_onicophore", "weight": 2, "cost_multiplier": 0, "conditions": [ "DAWN", "DUSK" ] },
+      { "monster": "mon_scorpion_giant", "weight": 1, "cost_multiplier": 3, "starts": "240 hours" },
+      {
+        "monster": "mon_onicophore_giant",
+        "weight": 1,
+        "cost_multiplier": 3,
+        "starts": "240 hours",
+        "conditions": [ "DAWN", "DUSK" ]
+      },
+      { "monster": "mon_bushelephant", "weight": 1, "cost_multiplier": 3 },
+      { "monster": "mon_hippo", "weight": 1, "cost_multiplier": 3 },
+      { "monster": "mon_guinea_pig", "weight": 12, "cost_multiplier": 2, "pack_size": [ 1, 6 ] },
+      { "monster": "mon_guinea_fowl", "weight": 9, "cost_multiplier": 2, "pack_size": [ 1, 18 ] },
+      { "monster": "mon_rhea", "weight": 12, "cost_multiplier": 2, "pack_size": [ 1, 10 ] },
+      { "monster": "mon_kangaroo_wallaby", "weight": 12, "cost_multiplier": 2, "pack_size": [ 1, 10 ] },
+      { "monster": "mon_quail", "weight": 15, "cost_multiplier": 0, "pack_size": [ 1, 7 ] },
+      { "monster": "mon_iguana", "weight": 15, "cost_multiplier": 10 },
+      { "monster": "mon_basiliscus", "weight": 15, "cost_multiplier": 10 },
+      { "monster": "mon_corytophanes", "weight": 15, "cost_multiplier": 10 },
+      { "monster": "mon_laemanctus", "weight": 15, "cost_multiplier": 10 },
+      { "monster": "mon_chameleon", "weight": 15, "cost_multiplier": 10 },
+      { "monster": "mon_anole", "weight": 15, "cost_multiplier": 10 },
+      { "monster": "mon_gecko", "weight": 15, "cost_multiplier": 10 },
+      { "monster": "mon_skink", "weight": 15, "cost_multiplier": 10 },
+      { "monster": "mon_turtle_wood", "weight": 15, "cost_multiplier": 10 },
+      { "monster": "mon_tortoise", "weight": 15, "cost_multiplier": 10 },
+      { "monster": "mon_caecilian", "weight": 15, "cost_multiplier": 10 },
+      { "monster": "mon_beaded_lizard", "weight": 15, "cost_multiplier": 10 },
+      { "monster": "mon_monitor_lizard", "weight": 15, "cost_multiplier": 10 },
+      { "monster": "mon_boa", "weight": 15, "cost_multiplier": 10 },
+      { "monster": "mon_anaconda", "weight": 15, "cost_multiplier": 10 },
+      { "monster": "mon_python", "weight": 15, "cost_multiplier": 10 },
+      { "monster": "mon_tortoise_small", "weight": 3, "pack_size": [ 1, 3 ], "starts": "240 hours" },
+      { "monster": "mon_tortoise_giant", "weight": 3, "pack_size": [ 1, 3 ], "starts": "480 hours" },
+      { "monster": "mon_parrot", "weight": 5, "cost_multiplier": 0, "pack_size": [ 1, 14 ] },
+      { "monster": "mon_budgerigar", "weight": 5, "cost_multiplier": 0, "pack_size": [ 1, 14 ] },
+      { "monster": "mon_toucan", "weight": 2, "cost_multiplier": 0, "pack_size": [ 1, 10 ] },
+      { "monster": "mon_cockatoo", "weight": 2, "cost_multiplier": 0, "pack_size": [ 1, 10 ] },
+      { "monster": "mon_macaw", "weight": 3, "cost_multiplier": 0, "pack_size": [ 1, 8 ] },
+      { "monster": "mon_seriema", "weight": 15, "cost_multiplier": 10 },
+      { "monster": "mon_tinamou", "weight": 12, "cost_multiplier": 2, "pack_size": [ 1, 6 ] },
+      { "monster": "mon_chachalaca", "weight": 9, "cost_multiplier": 2, "pack_size": [ 1, 18 ] },
+      { "monster": "mon_guan", "weight": 15, "cost_multiplier": 0, "pack_size": [ 1, 7 ] },
+      { "monster": "mon_curassow", "weight": 12, "cost_multiplier": 2, "pack_size": [ 1, 10 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_RIVER",
+    "default": "mon_null",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_coypus", "weight": 15, "cost_multiplier": 10, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_turtle", "weight": 15, "cost_multiplier": 10, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_flamingo", "weight": 15, "cost_multiplier": 5, "pack_size": [ 1, 4 ] },
+      { "monster": "mon_capybara", "weight": 15, "cost_multiplier": 5, "pack_size": [ 1, 4 ] },
+      { "monster": "mon_caiman", "weight": 10, "cost_multiplier": 5 },
+      { "monster": "mon_crocodile", "weight": 10, "cost_multiplier": 5 },
+      { "monster": "mon_turtle_snapper", "weight": 10, "cost_multiplier": 5 },
+      { "monster": "mon_anaconda", "weight": 10, "cost_multiplier": 5 },
+      { "monster": "mon_hippo", "weight": 5, "cost_multiplier": 10, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_caecilian", "weight": 5, "cost_multiplier": 10 },
+      { "monster": "mon_basiliscus", "weight": 5, "cost_multiplier": 10 },
+      { "monster": "mon_tadpole_small", "weight": 5, "cost_multiplier": 10 },
+      { "monster": "mon_axolotl", "weight": 5, "cost_multiplier": 10 },
+      {
+        "monster": "mon_tadpole_small",
+        "weight": 30,
+        "cost_multiplier": 3,
+        "starts": "7 days",
+        "pack_size": [ 1, 3 ]
+      },
+      { "monster": "mon_shark", "weight": 3, "cost_multiplier": 15 },
+      { "monster": "mon_shark_pup", "weight": 6, "cost_multiplier": 3, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_fish_lungfish", "weight": 6, "cost_multiplier": 3, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_fish_eel_electric", "weight": 5, "cost_multiplier": 10, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_fish_pacu", "weight": 6, "cost_multiplier": 8, "pack_size": [ 1, 4 ] },
+      { "monster": "mon_fish_pacu_giant", "weight": 6, "cost_multiplier": 8, "pack_size": [ 1, 4 ] },
+      { "monster": "mon_fish_piranha", "weight": 6, "cost_multiplier": 8, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_fish_arowana", "weight": 6, "cost_multiplier": 8, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_fish_arapaima", "weight": 6, "cost_multiplier": 8, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_fish_gar", "weight": 6, "cost_multiplier": 8, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_fish_piraiba", "weight": 6, "cost_multiplier": 8, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_fish_pleco", "weight": 6, "cost_multiplier": 3, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_fish_stingray", "weight": 6, "cost_multiplier": 3, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_fish_tucunare", "weight": 6, "cost_multiplier": 8, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_fish_discus", "weight": 6, "cost_multiplier": 3, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_fish_angelfish", "weight": 6, "cost_multiplier": 3, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_fish_goldfish", "weight": 6, "cost_multiplier": 3, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_fish_koi", "weight": 6, "cost_multiplier": 8, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_fish_tilapia", "weight": 6, "cost_multiplier": 3, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_fish_sabalo", "weight": 6, "cost_multiplier": 8, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_fish_oscar", "weight": 6, "cost_multiplier": 3, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_fish_guapote", "weight": 6, "cost_multiplier": 3, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_fish_mayaheros", "weight": 6, "cost_multiplier": 3, "pack_size": [ 1, 3 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_SWAMP",
+    "default": "mon_null",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_crocodile", "weight": 40, "cost_multiplier": 2 },
+      { "monster": "mon_turtle_snapper", "weight": 40, "cost_multiplier": 2 },
+      { "monster": "mon_anaconda", "weight": 50, "cost_multiplier": 2 },
+      { "monster": "mon_caiman", "weight": 50, "cost_multiplier": 2 },
+      { "monster": "mon_turtle", "weight": 60, "cost_multiplier": 2 },
+      { "monster": "mon_caecilian", "weight": 30, "cost_multiplier": 2 },
+      { "monster": "mon_basiliscus", "weight": 30, "cost_multiplier": 2 },
+      { "monster": "mon_axolotl", "weight": 30, "cost_multiplier": 2 },
+      { "monster": "mon_capybara", "weight": 60, "cost_multiplier": 2, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_fish_crab", "weight": 10, "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] },
+      { "monster": "mon_fish_pancora", "weight": 10, "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_PARK_ANIMAL",
+    "//": "Current SPRING first DAY count is 425.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_budgerigar", "weight": 35, "cost_multiplier": 0 },
+      { "monster": "mon_parrot", "weight": 25, "cost_multiplier": 0 },
+      { "monster": "mon_iguana", "weight": 25, "cost_multiplier": 0 },
+      { "monster": "mon_cockatoo", "weight": 25, "cost_multiplier": 0 },
+      { "monster": "mon_macaw", "weight": 15, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ROOF_ANIMAL",
+    "//": "Current SPRING first DAY count is 350.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_budgerigar", "weight": 45, "cost_multiplier": 0 },
+      { "monster": "mon_parrot", "weight": 25, "cost_multiplier": 0 },
+      { "monster": "mon_boa", "weight": 25, "cost_multiplier": 0 },
+      { "monster": "mon_gecko", "weight": 25, "cost_multiplier": 0 },
+      { "monster": "mon_cockatoo", "weight": 25, "cost_multiplier": 0 },
+      { "monster": "mon_guinea_fowl", "weight": 10, "cost_multiplier": 0 },
+      { "monster": "mon_macaw", "weight": 10, "cost_multiplier": 0 },
+      {
+        "monster": "mon_coati",
+        "weight": 25,
+        "cost_multiplier": 0,
+        "pack_size": [ 1, 3 ],
+        "conditions": [ "DAWN", "DUSK", "NIGHT", "SPRING", "SUMMER", "AUTUMN" ]
+      }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_POND_ANIMAL",
+    "default": "mon_null",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_coypus", "weight": 50, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_turtle", "weight": 50, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_axolotl", "weight": 30, "cost_multiplier": 0 },
+      { "monster": "mon_tadpole_small", "weight": 30, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_caecilian", "weight": 30, "cost_multiplier": 0 },
+      { "monster": "mon_basiliscus", "weight": 30, "cost_multiplier": 0 },
+      { "monster": "mon_capybara", "weight": 50, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_caiman", "weight": 40, "cost_multiplier": 0 },
+      { "monster": "mon_anaconda", "weight": 40, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_POND_BIRD",
+    "default": "mon_null",
+    "is_animal": true,
+    "monsters": [ { "monster": "mon_flamingo", "weight": 50, "cost_multiplier": 0 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_BIRDFEEDER",
+    "//": "Current count is 225.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_parrot", "weight": 35, "cost_multiplier": 0 },
+      { "monster": "mon_cockatoo", "weight": 35, "cost_multiplier": 0 },
+      { "monster": "mon_budgerigar", "weight": 50, "cost_multiplier": 0 }
+    ]
+  }
+]

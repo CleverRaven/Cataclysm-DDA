@@ -1,0 +1,84 @@
+[
+  {
+    "type": "MONSTER_FACTION",
+    "name": "deep_ones",
+    "friendly": [ "cthulhu" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "witches",
+    "friendly": [ "nyarlathotep" ],
+    "neutral": [ "rat" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "nyarlathotep",
+    "neutral": [ "witches" ],
+    "hate": [ "nodens" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "nodens",
+    "neutral": [ "ghouls" ],
+    "hate": [ "nyarlathotep" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "ghouls",
+    "neutral": [ "nodens" ],
+    "hate": [ "yig" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "yig",
+    "hate": [ "ghouls" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "elder_things",
+    "hate": [ "polyps", "cthulhu", "shub-niggurath" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "polyps",
+    "hate": [ "elder_things", "yith" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "shub-niggurath",
+    "hate": [ "elder_things" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "cthulhu",
+    "friendly": [ "deep_ones" ],
+    "hate": [ "elder_things", "hastur" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "hastur",
+    "hate": [ "cthulhu" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "yith",
+    "hate": [ "polyps" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "shan",
+    "hate": [ "mi-go" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "rat",
+    "copy-from": "rat",
+    "neutral": [ "witches" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "mi-go",
+    "copy-from": "mi-go",
+    "hate": [ "zombie", "triffid", "fungus", "exodii", "shan" ]
+  }
+]

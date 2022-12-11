@@ -1,0 +1,27 @@
+[
+  {
+    "id": "LOW_RANGE_VAPORIZATION",
+    "type": "ammo_effect",
+    "explosion": { "power": 12000, "max_noise": 25, "distance_factor": 0.2 }
+  },
+  {
+    "id": "FRAG_25mm",
+    "type": "ammo_effect",
+    "explosion": { "power": 40, "shrapnel": { "casing_mass": 15, "fragment_mass": 0.08 } }
+  },
+  {
+    "id": "ELECTRO_ANOMALY",
+    "type": "ammo_effect",
+    "aoe": { "field_type": "fd_elect_anomaly", "intensity_min": 2, "intensity_max": 3, "radius": 0 }
+  },
+  {
+    "id": "DAZZLE_BEAM",
+    "type": "ammo_effect",
+    "trail": { "field_type": "fd_dazzling", "intensity_min": 1, "intensity_max": 1 }
+  },
+  {
+    "id": "SEISMIC_MAPPING",
+    "type": "ammo_effect",
+    "aoe": { "field_type": "fd_clairvoyant", "intensity_min": 10, "intensity_max": 10 }
+  }
+]

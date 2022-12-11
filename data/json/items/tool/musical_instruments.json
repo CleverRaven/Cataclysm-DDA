@@ -1,0 +1,471 @@
+[
+  {
+    "id": "banjo",
+    "type": "TOOL",
+    "category": "tools",
+    "name": { "str": "banjo" },
+    "description": "A standard factory-made banjo.  Looks to be in working condition.",
+    "weight": "2800 g",
+    "volume": "3 L",
+    "longest_side": "72 cm",
+    "price": 7500,
+    "price_postapoc": 500,
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "clumsy" },
+    "bashing": 16,
+    "flags": [ "FRAGILE_MELEE" ],
+    "material": [ { "type": "wood", "portion": 7 }, { "type": "steel" }, { "type": "nylon", "portion": 2 } ],
+    "symbol": "|",
+    "color": "white",
+    "use_action": {
+      "type": "musical_instrument",
+      "volume": 18,
+      "fun": -3,
+      "fun_bonus": 2,
+      "speed_penalty": 18,
+      "description_frequency": 20,
+      "player_descriptions": [
+        "You play a little tune on your banjo.",
+        "You play a bluegrass tune on your banjo.",
+        "You play a quick, Southern ditty on your banjo."
+      ]
+    }
+  },
+  {
+    "id": "bone_flute",
+    "type": "TOOL",
+    "category": "tools",
+    "name": { "str": "bone flute" },
+    "description": "A polished bone flute with five finger holes.",
+    "weight": "250 g",
+    "volume": "400 ml",
+    "longest_side": "32 cm",
+    "price": 5000,
+    "price_postapoc": 100,
+    "bashing": 2,
+    "material": [ "bone" ],
+    "symbol": "-",
+    "color": "white",
+    "use_action": {
+      "type": "musical_instrument",
+      "volume": 12,
+      "fun": -5,
+      "fun_bonus": 2,
+      "speed_penalty": 10,
+      "description_frequency": 20,
+      "player_descriptions": [
+        "You play a little tune on your flute.",
+        "You play a beautiful piece on your flute.",
+        "You play a piece on your bone flute that resembles the howling wind through Aurignacian caves.",
+        "Your bone flute wails for the fallen during the hunt."
+      ]
+    }
+  },
+  {
+    "id": "clarinet",
+    "type": "TOOL",
+    "category": "tools",
+    "name": { "str": "clarinet" },
+    "description": "An ornate clarinet made from wood.",
+    "weight": "550 g",
+    "volume": "1500 ml",
+    "longest_side": "60 cm",
+    "price": 5500,
+    "price_postapoc": 250,
+    "to_hit": 1,
+    "bashing": 4,
+    "material": [ { "type": "wood", "portion": 9 }, { "type": "silver" } ],
+    "symbol": "|",
+    "color": "light_gray",
+    "use_action": {
+      "type": "musical_instrument",
+      "volume": 14,
+      "fun": -5,
+      "fun_bonus": 2,
+      "speed_penalty": 13,
+      "description_frequency": 20,
+      "player_descriptions": [
+        "You play a little tune on your clarinet.",
+        "You play a moving, orchestral piece on your clarinet.",
+        "You play an uplifting marching tune on your clarinet."
+      ]
+    }
+  },
+  {
+    "id": "flute",
+    "type": "TOOL",
+    "category": "tools",
+    "name": { "str": "flute" },
+    "description": "A simple silver-plated flute.",
+    "weight": "440 g",
+    "volume": "500 ml",
+    "longest_side": "66 cm",
+    "price": 5000,
+    "price_postapoc": 150,
+    "bashing": 2,
+    "material": [ "silver" ],
+    "//": "Moved this to just being silver.  Flutes aren't made of iron, and a full size sterling silver flute weighs 440g, which is the existing weight.",
+    "symbol": "-",
+    "color": "light_gray",
+    "use_action": {
+      "type": "musical_instrument",
+      "volume": 12,
+      "fun": -5,
+      "fun_bonus": 2,
+      "speed_penalty": 10,
+      "description_frequency": 20,
+      "player_descriptions": [
+        "You play a little tune on your flute.",
+        "You play a beautiful piece on your flute.",
+        "You play a piece on your flute that sounds harmonious with nature."
+      ]
+    }
+  },
+  {
+    "id": "trumpet",
+    "type": "TOOL",
+    "category": "tools",
+    "name": { "str": "trumpet" },
+    "description": "A brass trumpet with only a few dents here and there.",
+    "weight": "1100 g",
+    "volume": "2500 ml",
+    "longest_side": "50 cm",
+    "price": 7500,
+    "price_postapoc": 300,
+    "to_hit": 1,
+    "bashing": 7,
+    "material": [ "brass" ],
+    "symbol": "-",
+    "color": "yellow",
+    "use_action": {
+      "type": "musical_instrument",
+      "volume": 21,
+      "fun": -3,
+      "fun_bonus": 4,
+      "speed_penalty": 17,
+      "description_frequency": 20,
+      "player_descriptions": [
+        "You play a little tune on your trumpet.",
+        "You play a slow, mourning piece on your trumpet.",
+        "You play a little ballad on your trumpet."
+      ]
+    }
+  },
+  {
+    "id": "ukulele",
+    "type": "TOOL",
+    "category": "tools",
+    "name": { "str": "ukulele" },
+    "description": "A small factory made ukulele.  Looks to be in working condition.",
+    "weight": "600 g",
+    "volume": "2500 ml",
+    "longest_side": "58 cm",
+    "price": 7500,
+    "price_postapoc": 250,
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "clumsy" },
+    "bashing": 14,
+    "flags": [ "FRAGILE_MELEE" ],
+    "material": [ "wood" ],
+    "symbol": "(",
+    "color": "brown",
+    "use_action": {
+      "type": "musical_instrument",
+      "volume": 16,
+      "fun": -3,
+      "fun_bonus": 2,
+      "speed_penalty": 20,
+      "description_frequency": 20,
+      "player_descriptions": [
+        "You play a little tune on your ukulele.",
+        "You play a cute little ditty on your ukulele.",
+        "You play a small jam on your ukulele."
+      ]
+    }
+  },
+  {
+    "id": "violin",
+    "type": "TOOL",
+    "category": "tools",
+    "name": { "str": "violin" },
+    "description": "A cheap, factory-made violin with a built-in holder for a bow.  Still produces a nice sound.",
+    "weight": "500 g",
+    "volume": "2500 ml",
+    "longest_side": "60 cm",
+    "price": 7500,
+    "price_postapoc": 600,
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "clumsy" },
+    "bashing": 12,
+    "flags": [ "FRAGILE_MELEE" ],
+    "material": [ "wood" ],
+    "symbol": "}",
+    "color": "brown",
+    "use_action": {
+      "type": "musical_instrument",
+      "volume": 18,
+      "fun": -2,
+      "fun_bonus": 3,
+      "speed_penalty": 25,
+      "description_frequency": 20,
+      "player_descriptions": [
+        "You play a little tune on your violin.",
+        "You play a beautiful orchestral piece on your violin.",
+        "You play a quick, southern ditty on your fiddle."
+      ]
+    }
+  },
+  {
+    "id": "violin_golden",
+    "type": "TOOL",
+    "category": "tools",
+    "name": { "str": "golden fiddle" },
+    "description": "A shiny golden fiddle, with a strange aura around it.  You feel like it once belonged to the best there's ever been.",
+    "weight": "13000 g",
+    "volume": "2500 ml",
+    "longest_side": "60 cm",
+    "price": 1000000,
+    "price_postapoc": 1000,
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "clumsy" },
+    "bashing": 9,
+    "material": [ "gold" ],
+    "symbol": "}",
+    "color": "yellow",
+    "use_action": {
+      "type": "musical_instrument",
+      "volume": 25,
+      "fun": 1,
+      "fun_bonus": 4,
+      "speed_penalty": 25,
+      "description_frequency": 10,
+      "player_descriptions": [
+        "You play a quick, folksy tune on your fiddle.",
+        "As you pull the bow across its strings, it makes an evil hiss.",
+        "You play a tune so fierce, it feels like hell's broke loose."
+      ]
+    }
+  },
+  {
+    "type": "TOOL_ARMOR",
+    "id": "harmonica_holder",
+    "name": { "str_pl": "harmonicas with holders", "str": "harmonica with a holder" },
+    "category": "tools",
+    "weight": "200 g",
+    "color": "brown",
+    "use_action": {
+      "type": "musical_instrument",
+      "speed_penalty": 10,
+      "volume": 10,
+      "fun": -5,
+      "fun_bonus": 2,
+      "description_frequency": 20,
+      "player_descriptions": [ "You produce a happy tune on the harmonica.", "You whistle on the harmonica." ],
+      "npc_descriptions": [ "produce a happy tune on the harmonica.", "whistle on the harmonica." ]
+    },
+    "symbol": "-",
+    "description": "A harmonica with a holder, so that you can play it without a free hand.",
+    "price": 1000,
+    "price_postapoc": 150,
+    "material": [ "steel" ],
+    "volume": "250 ml",
+    "longest_side": "18 cm",
+    "flags": [ "BELTED", "SLEEP_IGNORE" ],
+    "material_thickness": 1,
+    "armor": [ { "covers": [ "head" ] } ]
+  },
+  {
+    "type": "TOOL_ARMOR",
+    "id": "acoustic_guitar",
+    "name": { "str": "acoustic guitar" },
+    "category": "tools",
+    "weight": "2200 g",
+    "color": "brown",
+    "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "clumsy" },
+    "use_action": {
+      "type": "musical_instrument",
+      "speed_penalty": 15,
+      "volume": 20,
+      "fun": 2,
+      "fun_bonus": 2,
+      "description_frequency": 20,
+      "player_descriptions": [
+        "You strum a few chords on the guitar.",
+        "You pluck a few notes on the guitar.",
+        "You play a slow blues-y tune on the guitar."
+      ],
+      "npc_descriptions": [ "strum a few chords on the guitar.", "pluck a few notes on the guitar.", "play a slow blues-y tune on the guitar." ]
+    },
+    "symbol": "-",
+    "description": "A simple wooden acoustic guitar with a strap so you can wear it around, even when not playing.",
+    "price": 1000,
+    "price_postapoc": 250,
+    "material": [ { "type": "wood", "portion": 19 }, { "type": "steel" } ],
+    "volume": "6750 ml",
+    "longest_side": "97 cm",
+    "warmth": 2,
+    "bashing": 18,
+    "flags": [ "FRAGILE_MELEE", "BELTED", "SLEEP_IGNORE" ],
+    "material_thickness": 2,
+    "armor": [ { "encumbrance": 27, "coverage": 25, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_front" ] } ]
+  },
+  {
+    "type": "TOOL_ARMOR",
+    "id": "guitar_electric",
+    "name": { "str": "electric guitar" },
+    "category": "tools",
+    "weight": "3750 g",
+    "color": "red",
+    "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "clumsy" },
+    "use_action": {
+      "type": "musical_instrument",
+      "speed_penalty": 15,
+      "volume": 6,
+      "fun": 1,
+      "fun_bonus": 1,
+      "description_frequency": 20,
+      "player_descriptions": [
+        "You plink out a shredding solo on your guitar.",
+        "You play an epic classic rock riff on your guitar.",
+        "You play a furious, muted riff on your guitar.",
+        "You play a crunchy stoner tune on your guitar.",
+        "You play an old Britpop song on your guitar.",
+        "You play a tasteful classical piece on your guitar.",
+        "You play a jangly folk ditty on your guitar.",
+        "You play a melancholy melody on your guitar."
+      ]
+    },
+    "symbol": "-",
+    "description": "A standard factory-made electric guitar.  It's probably better at smashing heads than melting faces, these days.  Has a strap.",
+    "price": 1000,
+    "price_postapoc": 250,
+    "//": "Electric guitar less awesome when there's no electricity.  So I made it much quieter and less fun to play.",
+    "material": [ { "type": "wood", "portion": 9 }, { "type": "steel" } ],
+    "volume": "6750 ml",
+    "longest_side": "97 cm",
+    "warmth": 2,
+    "bashing": 26,
+    "flags": [ "FRAGILE_MELEE", "BELTED", "SLEEP_IGNORE" ],
+    "material_thickness": 2,
+    "armor": [ { "encumbrance": 27, "coverage": 25, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_front" ] } ]
+  },
+  {
+    "type": "TOOL_ARMOR",
+    "id": "bagpipes",
+    "name": { "str_sp": "bagpipes" },
+    "category": "tools",
+    "weight": "2500 g",
+    "color": "green",
+    "to_hit": -2,
+    "use_action": {
+      "type": "musical_instrument",
+      "speed_penalty": 15,
+      "volume": 24,
+      "fun": 2,
+      "fun_bonus": 2,
+      "description_frequency": 20,
+      "player_descriptions": [
+        "Your pipes drone loudly as you strikes a battle hymn from the chanter.",
+        "Your pipes drone a slow and piercing dirge.",
+        "You strike a lively quick step march on their pipes."
+      ],
+      "npc_descriptions": [
+        "pipes drone loudly as it strikes a battle hymn from the chanter.",
+        "pipes drone a slow and piercing dirge.",
+        "strike a lively quick step march on their pipes."
+      ]
+    },
+    "symbol": "-",
+    "description": "A traditional musical instrument using enclosed reeds fed from a reservoir of air contained within a leather bag.  It has a strap so you can wear it around, even when not playing.",
+    "price": 10000,
+    "price_postapoc": 500,
+    "material": [ "leather", "wood" ],
+    "volume": "5 L",
+    "longest_side": "65 cm",
+    "bashing": 4,
+    "flags": [ "BELTED", "SLEEP_IGNORE" ],
+    "material_thickness": 2,
+    "armor": [ { "encumbrance": 15, "coverage": 25, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_front" ] } ]
+  },
+  {
+    "type": "TOOL_ARMOR",
+    "id": "tuba",
+    "name": { "str": "tuba" },
+    "category": "tools",
+    "weight": "13600 g",
+    "color": "yellow",
+    "flags": [ "BELTED", "SLEEP_IGNORE" ],
+    "to_hit": -1,
+    "use_action": {
+      "type": "musical_instrument",
+      "speed_penalty": 25,
+      "volume": 20,
+      "fun": -2,
+      "fun_bonus": 4,
+      "description_frequency": 20,
+      "player_descriptions": [ "You play a little tune on the tuba.", "You play a ditty on the tuba.", "You play a marching tune on the tuba." ],
+      "npc_descriptions": [ "play a little tune on the tuba.", "play a ditty on the tuba.", "play a marching tune on the tuba." ]
+    },
+    "symbol": "&",
+    "description": {
+      "//~": "ol' is an informal short-form for old, and here is part of big-ol as large-and-cumbersome.",
+      "str": "A big ol' tuba.  Much easier to play when wearing.  Thankfully, this one has a harness attached."
+    },
+    "price": 5500,
+    "price_postapoc": 250,
+    "material": [ "brass" ],
+    "volume": "12500 ml",
+    "longest_side": "107 cm",
+    "bashing": 13,
+    "material_thickness": 4,
+    "armor": [
+      {
+        "encumbrance": 30,
+        "coverage": 65,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_hanging_front", "torso_hanging_back", "torso_upper" ]
+      }
+    ]
+  },
+  {
+    "type": "TOOL_ARMOR",
+    "id": "saxophone",
+    "name": { "str": "saxophone" },
+    "category": "tools",
+    "weight": "2200 g",
+    "color": "yellow",
+    "flags": [ "BELTED", "SLEEP_IGNORE" ],
+    "to_hit": 1,
+    "use_action": {
+      "type": "musical_instrument",
+      "speed_penalty": 18,
+      "volume": 20,
+      "fun": -3,
+      "fun_bonus": 4,
+      "description_frequency": 20,
+      "player_descriptions": [
+        "You play a little tune on the saxophone.",
+        "You play a soulful jazz piece on the sax.",
+        "You play a quick, energetic ditty on the sax."
+      ],
+      "npc_descriptions": [
+        "play a little tune on the saxophone.",
+        "play a soulful jazz piece on the sax.",
+        "play a quick, energetic ditty on the sax."
+      ]
+    },
+    "symbol": "{",
+    "description": "A brass alto saxophone with a neck strap, so you can wear it while playing.",
+    "price": 7500,
+    "price_postapoc": 250,
+    "material": [ "brass" ],
+    "volume": "4500 ml",
+    "longest_side": "70 cm",
+    "bashing": 12,
+    "material_thickness": 4,
+    "armor": [
+      {
+        "encumbrance": 30,
+        "coverage": 65,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_hanging_front", "torso_hanging_back", "torso_upper" ]
+      }
+    ]
+  }
+]

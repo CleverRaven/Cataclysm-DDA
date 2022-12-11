@@ -1,0 +1,41 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "cs_public_art_piece" ],
+    "weight": 1000,
+    "object": {
+      "fill_ter": "t_region_groundcover_urban",
+      "rows": [
+        "           ss           ",
+        "           ss           ",
+        "           ss           ",
+        "           ss           ",
+        "           ss           ",
+        "           ss           ",
+        "           ss           ",
+        "       ssssssssss       ",
+        "       sOXOXOXOXs       ",
+        "     c sXOXOXOXOs c     ",
+        "     b sOXOXOXOXs b     ",
+        "     b sXOXOXOXOs b     ",
+        "     b sOXOXOXOXs b     ",
+        "     b sXOXOXOXOs b     ",
+        "     c sOXOXOXOXs c     ",
+        "       sXOXOXOXOs       ",
+        "       ssssssssss       ",
+        "                        ",
+        "         cbbbbc         ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { " ": "t_region_groundcover_urban", "s": "t_sidewalk", "X": "t_pavement", "O": "t_concrete" },
+      "furniture": { "b": "f_bench", "c": "f_trashcan" },
+      "items": { "c": { "item": "oa_custom_trash", "chance": 30 }, "b": { "item": "oa_discarded_news", "chance": 5 } },
+      "item": { "X": { "item": "rock", "chance": 20 }, "O": { "item": "rock", "chance": 20 } }
+    }
+  }
+]

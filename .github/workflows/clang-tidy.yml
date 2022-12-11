@@ -1,0 +1,77 @@
+name: Clang-tidy (clang-12, tiles)
+
+on:
+  push:
+    branches:
+    - master
+
+  pull_request:
+    branches:
+    - master
+
+# We only care about the latest revision of a PR, so cancel all previous instances.
+concurrency:
+  group: clang-tidy-build-${{ github.event.pull_request.number || github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  skip-duplicates:
+    continue-on-error: true
+    runs-on: ubuntu-latest
+    # Map a step output to a job output
+    outputs:
+      should_skip: ${{ steps.skip_check.outputs.should_skip }}
+    steps:
+      - id: skip_check
+        uses: fkirc/skip-duplicate-actions@master
+        with:
+          cancel_others: 'true'
+          paths: '[ "**.cpp", "**.h", "**.c", "**/CMakeLists.txt", "**/Makefile", "**.hpp", "**.cmake", ".github/workflows/clang-tidy.yml" ]'
+  build:
+    needs: skip-duplicates
+    if: ${{ needs.skip-duplicates.outputs.should_skip != 'true' }}
+
+    runs-on: ubuntu-20.04
+    env:
+        CMAKE: 1
+        CLANG: clang++-12
+        COMPILER: clang++-12
+        CATA_CLANG_TIDY: plugin
+        TILES: 1
+        SOUND: 1
+    steps:
+    - name: checkout repository
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 1
+    - name: install dependencies
+      run: |
+          wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
+          sudo apt-add-repository "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-12 main"
+          sudo apt-get update
+          sudo apt-get install libncursesw5-dev clang-12 libclang-12-dev llvm-12-dev llvm-12-tools \
+            libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev libsdl2-mixer-dev libpulse-dev ccache \
+            gettext
+    - name: prepare
+      run: bash ./build-scripts/requirements.sh
+    - name: determine changed files
+      if: ${{ github.event_name == 'pull_request' }}
+      uses: actions/github-script@v5
+      with:
+        script: |
+          var fs = require('fs');
+          const response = await github.paginate(github.rest.pulls.listFiles,
+            {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number,
+            }
+          );
+          const files = response.map(x => x.filename);
+          for (const path of files) {
+            console.log(path);
+          }
+          fs.writeFileSync("files_changed", files.join('\n'));
+    - uses: ammaraskar/gcc-problem-matcher@master
+    - name: run clang-tidy
+      run: bash ./build-scripts/clang-tidy.sh

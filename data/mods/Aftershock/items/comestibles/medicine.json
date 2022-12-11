@@ -1,0 +1,30 @@
+[
+  {
+    "type": "COMESTIBLE",
+    "id": "afs_synth_blood",
+    "name": { "str_sp": "synthetic blood" },
+    "weight": "262 g",
+    "color": "white",
+    "container": "bag_iv",
+    "comestible_type": "MED",
+    "symbol": "~",
+    "quench": 5,
+    "price_postapoc": "250 USD",
+    "price": "250 USD",
+    "description": "A chalk white blood analogue for emergency medical use.  Far more efficient at oxygenation than natural blood, it can also be used as a general performance enhancer.  Once injected, it will be metabolized or otherwise expunged from the the body in around 8 hours.",
+    "material": [ "blood" ],
+    "volume": "250 ml",
+    "phase": "liquid",
+    "healthy": -1,
+    "fun": -10,
+    "flags": [ "NO_INGEST", "NPC_SAFE", "EDIBLE_FROZEN" ],
+    "//": "Should add a Mercurial version with stronger performance enhancing effects later on.  As a quest/alliance reward?",
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You inject the %s.",
+      "tools_needed": { "syringe": -1 },
+      "effects": [ { "id": "synth_blood_perf", "duration": 28800 } ],
+      "vitamins": [ [ "blood", 2500, 2500 ], [ "redcells", 2500, 2500 ] ]
+    }
+  }
+]

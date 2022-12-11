@@ -1,0 +1,83 @@
+[
+  {
+    "type": "overmap_special",
+    "id": "dinosaur exhibit",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "dinoexhibit_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "dinoexhibit_roof_north" }
+    ],
+    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road" } ],
+    "locations": [ "wilderness" ],
+    "city_distance": [ 10, -1 ],
+    "city_sizes": [ 0, 20 ],
+    "occurrences": [ 0, 2 ],
+    "flags": [ "WILDERNESS" ],
+    "rotate": false
+  },
+  {
+    "type": "overmap_special",
+    "id": "4x4_DinoLab_surface",
+    "overmaps": [
+      { "point": [ 2, 1, 1 ], "overmap": "microlab_DinoLab_surface_roof_north" },
+      { "point": [ 2, 1, 0 ], "overmap": "microlab_DinoLab_surface_north" },
+      { "point": [ 2, -2, -2 ], "overmap": "microlab_sub_connector_north" },
+      { "point": [ 2, -1, -2 ], "overmap": "microlab_sub_station_north" },
+      { "point": [ 0, -1, -2 ], "overmap": "microlab_rock_border" },
+      { "point": [ 1, -1, -2 ], "overmap": "microlab_rock_border" },
+      { "point": [ 3, -1, -2 ], "overmap": "microlab_rock_border" },
+      { "point": [ 4, -1, -2 ], "overmap": "microlab_rock_border" },
+      { "point": [ -1, 0, -2 ], "overmap": "microlab_rock_border" },
+      { "point": [ 0, 0, -2 ], "overmap": "microlab_DinoLab_edge" },
+      { "point": [ 1, 0, -2 ], "overmap": "microlab_DinoLab_edge" },
+      { "point": [ 2, 0, -2 ], "overmap": "microlab_DinoLab_sub_entry_north" },
+      { "point": [ 3, 0, -2 ], "overmap": "microlab_DinoLab_edge" },
+      { "point": [ 4, 0, -2 ], "overmap": "microlab_rock_border" },
+      { "point": [ -1, 1, -2 ], "overmap": "microlab_rock_border" },
+      { "point": [ 0, 1, -2 ], "overmap": "microlab_DinoLab_edge" },
+      { "point": [ 1, 1, -2 ], "overmap": "microlab_DinoLab" },
+      { "point": [ 2, 1, -2 ], "overmap": "microlab_DinoLab_surface_connector" },
+      { "point": [ 3, 1, -2 ], "overmap": "microlab_DinoLab_edge" },
+      { "point": [ 4, 1, -2 ], "overmap": "microlab_rock_border" },
+      { "point": [ -1, 2, -2 ], "overmap": "microlab_rock_border" },
+      { "point": [ 0, 2, -2 ], "overmap": "microlab_DinoLab_edge" },
+      { "point": [ 1, 2, -2 ], "overmap": "microlab_DinoLab" },
+      { "point": [ 2, 2, -2 ], "overmap": "microlab_DinoLab" },
+      { "point": [ 3, 2, -2 ], "overmap": "microlab_DinoLab_edge" },
+      { "point": [ 4, 2, -2 ], "overmap": "microlab_rock_border" },
+      { "point": [ -1, 3, -2 ], "overmap": "microlab_rock_border" },
+      { "point": [ 0, 3, -2 ], "overmap": "microlab_DinoLab_edge" },
+      { "point": [ 1, 3, -2 ], "overmap": "microlab_DinoLab_edge" },
+      { "point": [ 2, 3, -2 ], "overmap": "microlab_DinoLab_edge" },
+      { "point": [ 3, 3, -2 ], "overmap": "microlab_DinoLab_edge" },
+      { "point": [ 4, 3, -2 ], "overmap": "microlab_rock_border" },
+      { "point": [ -1, 4, -2 ], "overmap": "microlab_rock_border" },
+      { "point": [ 0, 4, -2 ], "overmap": "microlab_rock_border" },
+      { "point": [ 1, 4, -2 ], "overmap": "microlab_rock_border" },
+      { "point": [ 2, 4, -2 ], "overmap": "microlab_rock_border" },
+      { "point": [ 3, 4, -2 ], "overmap": "microlab_rock_border" },
+      { "point": [ 4, 4, -2 ], "overmap": "microlab_rock_border" }
+    ],
+    "connections": [ { "point": [ 2, 0, 0 ], "terrain": "road", "connection": "local_road", "from": [ 2, 1, 0 ] } ],
+    "locations": [ "wilderness" ],
+    "city_distance": [ 10, -1 ],
+    "occurrences": [ 30, 100 ],
+    "flags": [ "LAB", "UNIQUE" ],
+    "rotate": false
+  },
+  {
+    "type": "overmap_special",
+    "id": "Mi-Go Scout Tower Dino",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "mi-go_scout_tower_dino_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "mi-go_scout_tower_2_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "mi-go_scout_tower_dino_3_north" },
+      { "point": [ 0, 0, 3 ], "overmap": "mi-go_scout_tower_4_north" }
+    ],
+    "locations": [ "wilderness" ],
+    "city_distance": [ 5, -1 ],
+    "city_sizes": [ 0, 20 ],
+    "occurrences": [ 0, 3 ],
+    "flags": [ "MI-GO" ],
+    "spawns": { "group": "GROUP_MI-GO_CAMP_OM", "population": [ 2, 5 ], "radius": [ 2, 30 ] }
+  }
+]

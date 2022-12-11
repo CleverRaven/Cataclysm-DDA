@@ -1,0 +1,24 @@
+[
+  {
+    "id": "RUBIK_ANUS_FETICK",
+    "type": "mission_definition",
+    "name": { "str": "Bring 1000 units of anesthetic to Rubik" },
+    "goal": "MGOAL_CONDITION",
+    "goal_condition": { "npc_has_var": "-", "type": "-", "context": "-", "value": "-" },
+    "difficulty": 2,
+    "value": 240,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "If'n us'll to add the metal an' plastic for ye, us'll need a thousand unit o' them anus-feticks, half for your thinkin'-meat an' half for our stock.",
+      "offer": "If'n us'll to add the metal an' plastic for ye, us'll need a thousand unit o' them anus-feticks, half for your thinkin'-meat an' half for our stock.",
+      "accepted": "King's own luck!",
+      "rejected": "That be a choice an' you can tass.  Come back to this'n if you like.",
+      "advice": "Check round the chirurgery an' such, I'd razz.",
+      "inquire": "Us'n waits patient-like for that anus-fetick.",
+      "success": "Fine an' fine.  We can pass it in when you like.",
+      "success_lie": "Fine an' fine.  We can pass it in when you like.",
+      "failure": "Fine an' fine.  Come back to this'n if you like to try again."
+    },
+    "end": { "effect": [ { "u_add_var": "anusfetick", "type": "mission", "context": "completed", "value": "yes" } ] }
+  }
+]

@@ -1,0 +1,59 @@
+[
+  {
+    "id": "BOSS_Brigitte_LaCroix_Story1",
+    "type": "talk_topic",
+    "dynamic_line": "You know those goth kids that used to hang out in malls?  I got out of a bad situation with one.  I did okay but they got bit and we did a viking funeral, very nice.  Before the end, they told me about this other goth kid that was hanging out in graveyards and rocking out to metal or something.  That's the last place I would go, but some people are just broken in the head, you know?",
+    "responses": [
+      {
+        "text": "Let's see how to get there and go check on them.",
+        "topic": "BOSS_Brigitte_LaCroix_Story2",
+        "condition": {
+          "and": [
+            {
+              "compare_int": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 1 } ]
+            },
+            { "npc_has_trait": "BOSS_Brigitte_LaCroix_01" },
+            {
+              "not": { "u_has_var": "directions", "type": "BOSS", "context": "mission", "value": "Brigitte_LaCroix" }
+            }
+          ]
+        },
+        "effect": { "assign_mission": "directions_Brigitte_LaCroix" },
+        "switch": true
+      },
+      { "text": "<done_conversation>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BOSS_Brigitte_LaCroix_Story2",
+    "type": "talk_topic",
+    "dynamic_line": "*shows you on your map where to find it.  \"This looks right to me.",
+    "responses": [ { "text": "Thanks for the directions.  I'll check it out.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "directions_Brigitte_LaCroix",
+    "type": "mission_definition",
+    "name": { "str": "Check out that graveyard" },
+    "description": "Maybe that goth is still alive.",
+    "goal": "MGOAL_GO_TO",
+    "difficulty": 2,
+    "value": 0,
+    "start": {
+      "assign_mission_target": { "om_special": "cemetery_religious", "om_terrain": "cemetery_4square_11", "reveal_radius": 5, "search_range": 400 },
+      "effect": { "u_add_var": "directions", "type": "BOSS", "context": "mission", "value": "Brigitte_LaCroix" }
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "Maybe that goth is still alive.",
+      "offer": "Maybe that goth is still alive.",
+      "accepted": "Good good.",
+      "rejected": "Sure, fine.",
+      "advice": "Maybe bring like a bat or something?",
+      "inquire": "How is the search going?",
+      "success": "Great.",
+      "success_lie": "Great.",
+      "failure": "Not that surprising."
+    }
+  }
+]

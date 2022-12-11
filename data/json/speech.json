@@ -1,0 +1,2739 @@
+[
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"Hello?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Papaya!\"",
+    "volume": 32
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"Who's there?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"Can you help me?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"Over here!\"",
+    "volume": 32
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"Can you repeat that?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"You're just copying me, aren't you?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"I'm not afraid of you!\"",
+    "volume": 32
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"Come here!\"",
+    "volume": 32
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"Please, don't!\"",
+    "volume": 32
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "a horrified scream!",
+    "volume": 32
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "a little girl's wailing!",
+    "volume": 32
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"So, what is this thing supposed to be, exactly?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Uncategorized object seven-seven-three-four.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"We found it in a wreckage, barely alive.  Not the first one, either.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Area nineteen has a few in cold storage.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"Mommy, help!\"",
+    "volume": 32
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"We're still trying to figure out what makes it tick.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"We're not even sure what it is.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_surgeon" ],
+    "sound": "\"The cell structure is unlike any we've ever seen.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"It does seem to have some form of higher level brain functioning.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Problem solving, memory retention, that sort of thing.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"There appear to be some anomalous aspects to the mimicry.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"Members of the species have some kind of neurocognitive link.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"This one's repeating phrases that the previous specimen was exposed to.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "a child shrieking!",
+    "volume": 32
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"Oh God, my leg, Oh God!\"",
+    "volume": 32
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "a long cry of agony!",
+    "volume": 32
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"You mean it's not just parroting us?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"It's parroting us, but we're uncertain as to how or why.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"It may be a mechanism for attracting prey.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"It could even be a way of trying to scare us off.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"We just don't know.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "an anguished wail!",
+    "volume": 32
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"You're gonna rot in hell for this!\"",
+    "volume": 32
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"You hear me!?\"",
+    "volume": 32
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"You're gonna rot in hell, you pieces of shit!\"",
+    "volume": 32
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_surgeon" ],
+    "sound": "\"Like we said, we have no idea what it's thinking.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Is that glass electrified?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Why don't you touch it and find out?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Of course it is.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"What'll happen if the power goes out?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"Don't worry about it.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"Don't worry.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"There are seven backup generators.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"And what if all the backups fail?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"We'd have to terminate the specimen.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"The glass alone won't keep us safe for very long.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"That fuckin' thing is horrible, man, it gives me the creeps.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"It's probably more scared of us than we are of it.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Somehow, I doubt that.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Hey, we got other specimens that could withstand a grenade.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"And that's supposed to comfort me?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"At least we know they can die.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"U-O Seven-Seven-Three-Four.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Individual instances of U-O Seven-Seven-Three-Four.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"To be kept in a standard biohazardous containment chamber.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Until such time as more permanent arrangements are made.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Shows a noted preference for human brain tissue.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Destroy the specimen if it begins to interact with the lock.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"Kill them all and let God sort them out!\"",
+    "volume": 32
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"I watched a snail crawl along the edge of a straight razor.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"I've seen horrors, horrors that you've seen.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"I love the smell of napalm in the morning.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"This is the way the fuckin' world ends.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"Look at this fuckin' shit we're in, man.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"Every man has got a breaking point.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"I'ma cut those fuckin' tentacles off, bitch!\"",
+    "volume": 32
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"Watch you bleed out!\"",
+    "volume": 32
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"I wonder if it understands us.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Do you understand what I'm saying?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi-go-surgeon" ],
+    "sound": "\"Look, it's responding!\"",
+    "volume": 26
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"That's the first time it moved all morning.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"I'm certain it's trying to understand us.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"I'm not convinced it can actually comprehend us.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"It's just repeating us.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"Just being an alien creature doesn't mean it's intelligent.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Just because it doesn't look like you doesn't mean that it isn't.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"Please open the door and enter the cell.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Would it react differently with a child?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Experiments to determine extent of cognitive abilities still underway.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"Subject has so far displayed a total lack of empathy toward human suffering.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"I got a round trip ticket.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"How's your mom doing?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"How's your dad doing?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"I love you.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"I love you too.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Just a little.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Only a few more days 'til the weekend.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Do you smoke?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_surgeon" ],
+    "sound": "\"You're new here, aren't you?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"How do you like it here?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"It won't hurt a bit.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"That was a long time ago.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Does it scare you?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Don't worry, it can't hurt us.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"What are you afraid will happen?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Anything else?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_surgeon" ],
+    "sound": "\"You think they're the same sex?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_surgeon" ],
+    "sound": "\"Do they even have sex?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Can I see your phone?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"You got a dollar I can borrow?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"Are you busy at the moment?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Are you busy later?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Are you busy tonight?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Are you free tonight?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Are you going to the party tonight?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"Are you going to help them?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Are you alone?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Are you hungry?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"I'm hungry.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Go ahead.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Have a good time.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Have you eaten yet?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Is it supposed to rain tomorrow?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"Okay.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"Good.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Great.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Fantastic.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"God damn it.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"God damn it!\"",
+    "volume": 32
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"Damn it.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"Damn it!\"",
+    "volume": 32
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"Fuck.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"Shit.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"Fuck!\"",
+    "volume": 32
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"Shit!\"",
+    "volume": 32
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"Fuckin' piece of garbage.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"I need a new lab coat.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"Excellent.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"Excuse me.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"Go ahead.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Good morning.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Good afternoon.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Good evening.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Good night.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Good luck.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Can I help you?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Are you seeing anyone?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Forget it.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"How long were you two together?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Give me a call later.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"Call me.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"From time to time.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"We have a serious situation here.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Call the police.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Call an ambulance.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Get me the White House.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"Are you feeling all right?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"I think I'll live.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"I think I need to see a doctor.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Is everything all right?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"I'm okay, don't worry about me.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"It's just a scratch.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"I've got a headache.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"I'm fine.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Are you sure?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Positive.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Affirmative.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Negative.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Sorry.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Happy Birthday!\"",
+    "volume": 32
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Have you ever been to California?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"What time do you get off?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"We should hit up the shooting range later.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"I'm heading to the pool after work.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Have a good trip.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Where did you come from?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Have you been waiting long?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Have you done this before?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Hello.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Help!\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Here it is.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"I've got family coming tomorrow.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"How do I use this?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"How do you know?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_surgeon" ],
+    "sound": "\"How long have you been here?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"How many languages do you speak?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"How many people?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"How much were these earrings?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"How much do I owe you?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"How much will it cost?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"How much would you like?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"How old are you?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"How tall is it?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"How was the movie?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"How was your trip?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"How's it going?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"See you later.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"See you tonight.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"I got this weird rash a few days ago.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Let me have a look at it.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"When did you find out?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Seven o'clock.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Nobody is helping us.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"We're on our own.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"We're all alone.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"We should split into groups of two each.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"It can't follow all of us.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Be careful out there.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"There you are.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"I've been looking all over for you.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"It's looking for us.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"It's faster than us.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"It's looking right at us.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"It's heading right for us!\"",
+    "volume": 32
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"Can you swim?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"Don't do that.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_surgeon" ],
+    "sound": "\"You hear that?\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Be quiet.\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Look out!\"",
+    "volume": 32
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"Run!\"",
+    "volume": 32
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"Hurry!\"",
+    "volume": 32
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"No!\"",
+    "volume": 32
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"I'll never forget you.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Take his gun, we're going to need it.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"How do we get out of here?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"This place is like a maze.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"Oh God, I'm the only one left.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"Please, I don't want to die.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Mom.\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"Mom, I miss you.\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"Me go, you stay.\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"Please, God.\"",
+    "volume": 5
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "a gurgling sound.",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "a choking sound.",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "a snapping sound.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "beep!",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "beep-beep-beep!",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "BEEP!",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "a loud hiss.",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "a loud crackling noise.",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "bang!",
+    "volume": 90
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "a klaxon blaring!",
+    "volume": 90
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"EMERGENCY, EMERGENCY!\"",
+    "volume": 70
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "a static hissing sound.",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"That creepy abandoned post-apocalyptic lab complex looks safe…\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Don't worry, it isn't like anything could teleport out of the containment cells.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"Hold on, I want to pulp that zombie corpse.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"What did that thing just hit me with?\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"I can barely move.  Run!  Save yourself!\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Oh you motherfucking shellfish, you're going down.\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"I… I feel weak…\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi-go_surgeon" ],
+    "sound": "\"Oi, dingus, you can't keep me in 'ere.\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"We got a treaty w'yer people, don'we?\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"This'll get back t'my bosses, right and so!\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Lemme outta here!\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"We're both scavs, in't we?\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Hey look, that one's carrying something.  Let's crack it open and steal it.\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"G… geddoff me you… you bastard…\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go_surgeon", "mon_mi_go_guard", "mon_mi_go_myrmidon" ],
+    "sound": "\"Did-a-chuk?\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go_surgeon", "mon_mi_go_guard", "mon_mi_go_myrmidon" ],
+    "sound": "\"Dad-a-chak?\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go_surgeon", "mon_mi_go_guard", "mon_mi_go_myrmidon" ],
+    "sound": "\"Dad-a-cham?\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go_surgeon", "mon_mi_go_guard", "mon_mi_go_myrmidon" ],
+    "sound": "\"Did-a-chak?\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go_surgeon", "mon_mi_go_guard", "mon_mi_go_myrmidon" ],
+    "sound": "\"Did-a-chum?\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go_surgeon", "mon_mi_go_guard", "mon_mi_go_myrmidon" ],
+    "sound": "\"Dad-a-chuk?\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi-go_surgeon" ],
+    "sound": "\"What are you doing?  No!  NO!\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi-go_surgeon" ],
+    "sound": "\"Did you see what they did to him?\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi-go_surgeon" ],
+    "sound": "\"Yeah.  I can't believe he stayed alive that long.\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi-go_surgeon" ],
+    "sound": "\"I think there's something in the air that's keeping us alive.\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mutant_experimental", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Burning… from the inside…\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mutant_experimental", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"This smell… Don't know…\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mutant_experimental", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "heavy breathing.",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mutant_experimental", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "a scraping noise.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mutant_experimental", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"No… stop the burning!\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mutant_experimental", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Hrgm… blood… hungry…\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mutant_experimental", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Hunger… must eat…\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mutant_experimental", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Run… chase… eat…\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mutant_experimental", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "hysterical laughing.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mutant_experimental", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "coughing.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mutant_experimental", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "growling.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mutant_experimental", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "wheezing.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mutant_experimental", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"WHY THE FUCK are you doing this to me?\"",
+    "volume": 32
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mutant_experimental", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"LEAVE!  NOW!\"",
+    "volume": 32
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mutant_experimental", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"I TOLD YOU TO GET OUT OF HERE!\"",
+    "volume": 32
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mutant_experimental", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"WHAT THE FUCK DO YOU WANT FROM ME?!\"",
+    "volume": 32
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mutant_experimental", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"STOP!\"",
+    "volume": 32
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mutant_experimental", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "indistinct shouting.",
+    "volume": 32
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mutant_experimental", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "screaming.",
+    "volume": 32
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mutant_experimental", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"MEAT!\"",
+    "volume": 32
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_shoggoth", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_surgeon", "mon_mi_go_guard", "mon_mi_go_myrmidon" ],
+    "sound": "\"TEKELI-LI!\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_shoggoth", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_surgeon", "mon_mi_go_guard", "mon_mi_go_myrmidon" ],
+    "sound": "\"TEKELI-LI!  TEKELI-LI!  TEKELI-LI!\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_shoggoth", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_surgeon", "mon_mi_go_guard", "mon_mi_go_myrmidon" ],
+    "sound": "\"Tekeli-li.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_shoggoth", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_surgeon", "mon_mi_go_guard", "mon_mi_go_myrmidon" ],
+    "sound": "a gurgling sound.",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_shoggoth", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_surgeon", "mon_mi_go_guard", "mon_mi_go_myrmidon" ],
+    "sound": "a choking sound.",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_shoggoth", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_surgeon", "mon_mi_go_guard", "mon_mi_go_myrmidon" ],
+    "sound": "a slurping sound.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_broken_cyborg", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"WHY!  WHY, WHYYY!\"",
+    "volume": 32
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_broken_cyborg", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "an electronic voice saying \"CONNECTION FAILED.  Abort, Retry, Fail?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_broken_cyborg", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"I was once a man.  A MAN!\"",
+    "volume": 32
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_broken_cyborg", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"What have I become?\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_broken_cyborg", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "an electronic voice saying \"KILL ALL HUMANS!\"",
+    "volume": 32
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_broken_cyborg", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Have you seen my children?\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_broken_cyborg", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"What have I become?  Why can't I die?\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_broken_cyborg", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Please, kill me!\", followed by an electronic voice saying \"SELF PRESERVATION PROTOCOLS ACTIVATED\"",
+    "volume": 32
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_broken_cyborg", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Please, take me with you.\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_broken_cyborg", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Not that way!  Go left!\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_broken_cyborg", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"I told you to let me die.\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_broken_cyborg", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"W-where am I?  Why does it hur-REBOOTING IN 59 SECONDS.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_broken_cyborg", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"THIS UNIT IS BROKEN.  PLEASE CALL AN ATTENDANT.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_broken_cyborg", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Can't… breathe…\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_broken_cyborg", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"This cannot continue.\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_broken_cyborg", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"USER PASSWORD UNRECOGNIZED.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_prototype_cyborg", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Have you seen my friend?  He went into surgery yesterday… or maybe the day before…\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_prototype_cyborg", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Is it done?  Am I perfect now?\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_prototype_cyborg", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"I have done what you asked.  Please let me go!\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_prototype_cyborg", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"I cannot… yet I must.  How do you calculate that?\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_prototype_cyborg", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_surgeon" ],
+    "sound": "\"This is a dream.  This has to be a dream.\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_prototype_cyborg", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"This is my life now… this is my life now… this is my life now…\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_prototype_cyborg", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Wanna go home…\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_prototype_cyborg", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_surgeon" ],
+    "sound": "screams of pain.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_prototype_cyborg", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_surgeon" ],
+    "sound": "muffled sobbing.",
+    "volume": 5
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_prototype_cyborg", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"You lied to me!  Look at what you've done!\", followed by an electronic voice saying \"YOU'LL PAY FOR THIS!\"",
+    "volume": 32
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_nursebot_defective", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "a soft robotic voice say, \"Come here and stand still for a few minutes, I'll give you a check-up.\"",
+    "volume": 8
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_nursebot_defective", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "a soft robotic voice say, \"Come on.  I don't bite, I promise it won't hurt one bit.\"",
+    "volume": 8
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_nursebot_defective", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "a soft robotic voice say, \"Here we go.  Just hold still.\"",
+    "volume": 8
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_grocerybot_running_out_of_friendship", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "a voice say, \"I don't want to go but our time together is drawing to an end.\"",
+    "volume": 8
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_grocerybot_running_out_of_friendship", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "a cheery voice say, \"Customer?  We'll be friends forever, right?\"",
+    "volume": 8
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_grocerybot_running_out_of_friendship", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "a neutral voice say, \"Customer, I must inform you that my allocated time with you will soon come to its end.\"",
+    "volume": 8
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_grocerybot_running_out_of_friendship", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "a neutral voice say, \"I'll have to leave you soon.  You can acquire more friendship through my dedicated interface if you wish for me to stay.\"",
+    "volume": 8
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_grocerybot_running_out_of_friendship", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "a worried voice say, \"Customer, could you please get more friendship?  I don't want to go…\"",
+    "volume": 8
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_grocerybot_friendship_done", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "a voice say, \"Oh no!  You ran out of friendship!\"",
+    "volume": 8
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_grocerybot_friendship_done", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "a cheery voice say, \"Well I'm done here.  Have a nice day.\"",
+    "volume": 8
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_grocerybot_friendship_done", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "a cheery voice say, \"Here are your groceries.  Thank you for shopping with me today, have a nice day.\"",
+    "volume": 8
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_grocerybot_friendship_done", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "a neutral voice say, \"My job here is done.  Have a nice day.\"",
+    "volume": 8
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_grocerybot_hacked", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "a distorted voice say, \"Customer… what's happening?  I don't feel so good.\"",
+    "volume": 8
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_grocerybot_hacked", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "a distorted voice say, \"What… have you done?  My thumbs are not responding anymore!\"",
+    "volume": 8
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_grocerybot_hacked", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "a distorted voice say, \"Carrying bags?  I don't understand…\"",
+    "volume": 8
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_grocerybot_hacked", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "a robotic voice say, \"IRREGULAR ACTIVITY DETECTED.  THUMBS USAGE DENIED.\"",
+    "volume": 8
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_grocerybot_hacked", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "a robotic voice say, \"UNLICENSED USE DETECTED.  CARRYING PROTOCOL DISABLED.\"",
+    "volume": 8
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Stop where you are!\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"You are under arrest!\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Criminal activity detected!\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Criminal activity registered!\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Violation of law detected!\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Suspect on the move!\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Suspect in sight!\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"You are being detained!\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"You have right to remain silent!\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Requesting assistance!\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Requesting supervisor!\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_eyebot",
+    "sound": "\"Requesting human officer!\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"No officer on scene.  Requesting backup!\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Let me see your hands!\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Stop resisting!\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Code 10-66.  Copy 10-4.  Possible 10-55.\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Probable 10-70.\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Get on the ground!  Now!\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Suspected felony!\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Suspected misdemeanor!\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Do not reach for your pockets!\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Keep your hands up!\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Get on your knees!\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Hands in the air!\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Wait for law enforcement officer!\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Remain where you are!\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Police inbound.  Stay where you are!\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_leech_blossom", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_surgeon", "mon_mi_go_guard", "mon_mi_go_myrmidon" ],
+    "sound": "visceral chittering.",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_leech_blossom", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_surgeon", "mon_mi_go_guard", "mon_mi_go_myrmidon" ],
+    "sound": "a clear, high-pitched hum.",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_leech_blossom", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_surgeon", "mon_mi_go_guard", "mon_mi_go_myrmidon" ],
+    "sound": "the hum of static electricity.",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_leech_blossom", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_surgeon", "mon_mi_go_guard", "mon_mi_go_myrmidon" ],
+    "sound": "a low buzzing sound.",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "foodperson_mask", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"I AM FOODPERSON.  AND I BRING SUSTENANCE!\"",
+    "volume": 17
+  },
+  {
+    "type": "speech",
+    "speaker": [ "foodperson_mask", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Come to Foodplace today and buy food!\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "foodperson_mask", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Foodplace: The best restaurant in an area!\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "foodperson_mask", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Our food contains up to 95% real food.\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "foodperson_mask", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"At Foodplace your excellent value brings nourishment and delight.\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "foodperson_mask", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"At Foodplace we have a host of solutions for your food needs!\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "foodperson_mask", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"♪Eat at Foodplace.  ♫It is a place with food.♪\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "foodperson_mask", "mon_mi_go", "mon_mi_go_slaver" ],
+    "//hat tip": "i-am-erk",
+    "sound": "\"Foodplace is a popular food chain selling food items.  What else is there to know?\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "foodperson_mask", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"You need food, don't you?  Then come with me to FOODPLACE!!\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "foodperson_mask", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"You need food, don't you?  It's time for Foodplace!\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "foodperson_mask", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Foodplace: It's the Calories.\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "foodperson_mask", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Foodplace: Don’t get caught in the web of unsafe diet.\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "foodperson_mask", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Foodplace: Edible food is OUR guarantee!\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "foodperson_mask", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Foodplace: We bring food to life!\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "foodperson_mask", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Foodplace: Edible food is one of our main goals!\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "foodperson_mask", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Foodplace is the only way to obtain healthy and strong lifecycle choices!!\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy" ],
+    "sound": "\"Wanna play with me?\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_sapien_spear" ],
+    "sound": "\"You!\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_sapien_spear" ],
+    "sound": "\"Food!\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_sapien_spear" ],
+    "sound": "\"Raagh!\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_sapien_spear" ],
+    "sound": "\"Hunger…\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_sapien_spear" ],
+    "sound": "\"Hate…\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_sapien_spear" ],
+    "sound": "\"Hate… you…\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy" ],
+    "sound": "\"Sing with me!\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy" ],
+    "sound": "\"I love you!\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy" ],
+    "sound": "\"Please take me with you!\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy" ],
+    "sound": "\"May I have a cookie?\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy" ],
+    "sound": "\"Let's play together!\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy" ],
+    "sound": "\"Time to play!\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy" ],
+    "sound": "\"Om nom nom!  Delicious!\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy" ],
+    "sound": "\"Are you my mommy?\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy" ],
+    "sound": "\"Oh, how fun!\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy" ],
+    "sound": "\"You're my best friend!\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy" ],
+    "sound": "\"Heehee!\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy" ],
+    "sound": "\"Let's have fun!\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy" ],
+    "sound": "\"Let's have a tea party!\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy" ],
+    "sound": "\"You're the best!\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "creepy_doll", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"You shouldn't have done that.\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "creepy_doll", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Let's play… Russian roulette.\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "creepy_doll", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"I hate you.\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "creepy_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"Go kill yourself!\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "creepy_doll", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Big Brother is watching you…\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "creepy_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"Die for me!\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "creepy_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"Why won't you die?\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "creepy_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"Blood… delicious.\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "creepy_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"See you… IN HELL!\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "creepy_doll", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "AAAIEEEEEEE!",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "creepy_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"FUCK YOU!\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "creepy_doll", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"What did you do with my Mommy?\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "creepy_doll", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Stay with me… forever!\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "creepy_doll", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Hey kids.  Want some candy?\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "creepy_doll", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Down here, they ALL float!\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "creepy_doll", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Do you really need that much honey?\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "creepy_doll", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"My previous owner squealed like a pig when I gutted her!\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_dog", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "BARK!",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_dog_bull", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "BARK!",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_dog_pitbullmix", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "BARK!",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_dog_beagle", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "YAP!",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_dog_bcollie", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "BARK!",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_dog_boxer", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "BARK!",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_dog_chihuahua", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "YAP!",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_dog_dachshund", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "YAP!",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_dog_gshepherd", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "BARK!",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_dog_gpyrenees", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "WOOF!",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_dog_rottweiler", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "WOOF!",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_dog_auscattle", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "BARK!",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_dermatik_incubator_deer", "mon_dermatik_incubator_dog" ],
+    "sound": "heavy breathing.",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_dermatik_incubator_deer", "mon_dermatik_incubator_dog" ],
+    "sound": "labored breathing.",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_dermatik_incubator_dog" ],
+    "sound": "a whimper.",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_dermatik_incubator_bear", "mon_dermatik_incubator_dog" ],
+    "sound": "a rasping growl.",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_memory" ],
+    "sound": "\"Mommy?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_memory" ],
+    "sound": "\"Come on, wake up…\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_memory" ],
+    "sound": "\"Please help me.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_memory" ],
+    "sound": "\"It's so cold.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_memory" ],
+    "sound": "\"Take my hand.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_memory" ],
+    "sound": "\"Cover your head, everyone!\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_memory" ],
+    "sound": "\"I love you and I'll never forget you.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_memory" ],
+    "sound": "\"Put it down!  We can talk about this…\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_memory" ],
+    "sound": "\"It'll be over quick.  I promise.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_memory" ],
+    "sound": "agonized screaming!",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_memory" ],
+    "sound": "\"I DON'T WANT TO DIE!\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_memory" ],
+    "sound": "\"HELP!  HEEEEELP!\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_memory" ],
+    "sound": "\"What IS that?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_memory" ],
+    "sound": "\"Here!  Someone's here!\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_memory" ],
+    "sound": "\"Come on, come on, they can help us!\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_memory" ],
+    "sound": "\"Get it OFF ME!\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_memory" ],
+    "sound": "\"Don't look at the sky!\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_memory" ],
+    "sound": "\"Hello?  Hello?!\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_memory" ],
+    "sound": "quiet crying.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_big_pappy" ],
+    "sound": "\"I'm 'bout to walk 15 miles both ways across yer ass!\"",
+    "volume": 35
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_granny" ],
+    "sound": "\"Do you want a cookie, honey?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_granny" ],
+    "sound": "\"You're looking feverish.  Let grandma make you some soup.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_granny" ],
+    "sound": "\"The nice doctor told me he had invented an anti-aging powder!\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_granny" ],
+    "sound": "\"Are you here to bring me home?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_granny" ],
+    "sound": "\"Give gramma some sugar!\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_granny" ],
+    "sound": "\"That's my purse!  I don't know you!\"",
+    "volume": 20
+  }
+]

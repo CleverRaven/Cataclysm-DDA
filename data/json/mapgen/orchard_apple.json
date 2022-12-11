@@ -1,0 +1,233 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "orchard_processing" ],
+    "weight": 500,
+    "object": {
+      "fill_ter": "t_metal_floor",
+      "rows": [
+        "QQQQQQQQQQQQQQQQQQQQQQQQ",
+        "q                      q",
+        "q                      q",
+        "q                      q",
+        "q $$$$$$$$$$$$$$$$$$$$ q",
+        "q $MMMMMMMMMMMMMMMMMM$ q",
+        "q $M,,CMmmmmmmmmmOOYM$ q",
+        "q $MCk,omEcccEmmmmOYM$ q",
+        "q $MMx+MmmmmmmmmmOYYM$ q",
+        "q $MmmmmmmmmmMM&&MMMM$ q",
+        "q $MmmEmmmmmmMzmmmXXM$ q",
+        "q $Mfmcmmmmmm&mmmmXXM$ q",
+        "q $Mfmcmmmmmm&mmmmmXM$ q",
+        "q $MfmcmmmmmmMmmmmXXM$ q",
+        "q $MmmEmmmmmmMmmmmmXM$ q",
+        "q $MmmmmmmmmmMmmmmGXM$ q",
+        "q $MMMMMM&&MMM====MMM$ q",
+        "q      ^$]]$]......]   q",
+        "q 7$$7  $]]$]......]   q",
+        "]]]]]]]]]]]]]......]   q",
+        "]...........]......]   q",
+        "]...........]......]   q",
+        "]...........]......]   q",
+        "]...........]......]   q"
+      ],
+      "palettes": [ "orchard_buildings" ],
+      "terrain": { " ": "t_region_groundcover_urban", "$": "t_region_shrub_decorative" },
+      "items": {
+        "O": { "item": "orchard_tools", "chance": 25, "repeat": [ 0, 1 ] },
+        "X": { "item": "orchard_tools", "chance": 25, "repeat": [ 0, 1 ] },
+        "Y": [ { "item": "orchard_tools", "chance": 50, "repeat": [ 1, 2 ] }, { "item": "orchard_supplies", "chance": 50 } ]
+      },
+      "place_items": [
+        { "item": "office", "x": 7, "y": 7, "chance": 75, "repeat": [ 1, 3 ] },
+        { "item": "office", "x": 16, "y": 10, "chance": 50 },
+        { "item": "hardware", "x": 6, "y": [ 11, 13 ], "chance": 50, "repeat": [ 1, 2 ] }
+      ],
+      "place_monsters": [
+        { "monster": "GROUP_PEST", "x": [ 1, 22 ], "y": [ 1, 22 ], "chance": 15 },
+        { "monster": "GROUP_SAFE", "x": [ 1, 22 ], "y": [ 1, 22 ], "chance": 40 },
+        { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "chance": 45 }
+      ],
+      "place_vehicles": [
+        { "vehicle": "suburban_home", "x": [ 3, 8 ], "y": 22, "chance": 45, "rotation": 180 },
+        { "vehicle": "parking_garage_short", "x": 15, "y": 20, "chance": 60, "rotation": -90 },
+        { "vehicle": "forklift_vehicles", "x": 16, "y": 12, "chance": 20, "rotation": 90 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "orchard_stall" ],
+    "weight": 500,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "].y.y.y.y.y.]......]   q",
+        "...................]   q",
+        "...................]   q",
+        "...................]   q",
+        "...................]****",
+        "..................]]****",
+        "..................]*****",
+        "..................]*   q",
+        ".................]]*   q",
+        "................]]**   q",
+        ".............]]]]**    q",
+        "]]]]]]]]]]]]]]****     q",
+        "q************^******   q",
+        "q******bbb**WWWWWWW+WW q",
+        "q******ttt**WcT{vvS,sW q",
+        "q******bbb**oc,D,,,,FW q",
+        "q***********oc,,,,,,FW q",
+        "q***********WPOOa,,TFW q",
+        "q ********* WWWWW++WWW q",
+        "q7 ****btb 7WXOO,,,ffW q",
+        "q  ****btb  WXO,,,,,gW q",
+        "q7 ****btb 7WWW=====WW q",
+        "q *********   g*****dd q",
+        "QQQQ***QQQQQQQQ*****QQQQ"
+      ],
+      "palettes": [ "orchard_buildings" ],
+      "terrain": { " ": "t_region_groundcover_urban" },
+      "place_signs": [ { "signage": "Get Apples n Ciders!", "x": 13, "y": 17 } ],
+      "place_items": [
+        { "item": "fridge", "x": 20, "y": [ 15, 17 ], "chance": 25, "repeat": [ 1, 3 ] },
+        { "item": "orchard_tools", "x": [ 19, 20 ], "y": 19, "chance": 50, "repeat": [ 1, 2 ] },
+        { "item": "trash", "x": 22, "y": [ 15, 16 ], "chance": 65, "repeat": [ 1, 2 ] },
+        { "item": "trash", "x": 11, "y": 12, "chance": 75 },
+        { "item": "stored_pulp", "x": [ 13, 14 ], "y": [ 19, 20 ], "chance": 75 },
+        { "item": "cash_register_random", "x": 13, "y": [ 14, 16 ], "chance": 100 }
+      ],
+      "place_item": [ { "item": "apple", "x": 20, "y": [ 15, 17 ], "chance": 100, "repeat": [ 5, 15 ] } ],
+      "liquids": { "k": { "liquid": "apple_cider", "amount": [ 10, 100 ] } },
+      "place_monsters": [
+        { "monster": "GROUP_PEST", "x": [ 1, 22 ], "y": [ 1, 22 ], "chance": 30 },
+        { "monster": "GROUP_SAFE", "x": [ 1, 22 ], "y": [ 1, 22 ], "chance": 30 },
+        { "monster": "GROUP_DOMESTIC", "x": [ 1, 22 ], "y": [ 1, 22 ], "chance": 40 },
+        { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "chance": 45 }
+      ],
+      "place_vehicles": [ { "vehicle": "suburban_home", "x": 5, "y": 10, "chance": 45 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "orchard_tree_apple" ],
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_dirt",
+      "rows": [
+        "************************",
+        "************************",
+        "**         **         **",
+        "** 7  7  7 ** 7  7  7 **",
+        "**         **         **",
+        "**         **         **",
+        "** 7     7 ** 7     7 **",
+        "**         **         **",
+        "**         **         **",
+        "** 7  7  7 ** 7  7  7 **",
+        "**         **         **",
+        "************************",
+        "************************",
+        "**         **         **",
+        "** 7  7  7 ** 7  7  7 **",
+        "**         **         **",
+        "**         **         **",
+        "** 7     7 ** 7     7 **",
+        "**         **         **",
+        "**         **         **",
+        "** 7  7  7 ** 7  7  7 **",
+        "**         **         **",
+        "************************",
+        "************************"
+      ],
+      "palettes": [ "orchard_tree_apple" ],
+      "place_monsters": [
+        { "monster": "GROUP_PEST", "x": [ 1, 22 ], "y": [ 1, 22 ], "chance": 60 },
+        { "monster": "GROUP_DOMESTIC", "x": [ 1, 22 ], "y": [ 1, 22 ], "chance": 50 },
+        { "monster": "GROUP_SAFE", "x": [ 1, 22 ], "y": [ 1, 22 ], "chance": 20 },
+        { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "chance": 25 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "orchard_processing_roof" ],
+    "object": {
+      "fill_ter": "t_tile_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "   |22222222222222223   ",
+        "   |................3   ",
+        "   |.:...........7..3   ",
+        "   |................3   ",
+        "   |..6......###....3   ",
+        "   |.........#z#....3   ",
+        "   |.........###....3   ",
+        "   |................3   ",
+        "   |................3   ",
+        "   |................3   ",
+        "   |................3   ",
+        "   |---5------------3   ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": { "z": "t_ladder_down" },
+      "nested": {
+        "6": { "chunks": [ [ "null", 20 ], [ "roof_6x6_garden_3", 80 ] ] },
+        "7": { "chunks": [ [ "null", 20 ], [ "roof_2x2_infrastructure", 40 ], [ "roof_2x2_infrastructure_2", 40 ] ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "orchard_stall_roof" ],
+    "weight": 500,
+    "object": {
+      "fill_ter": "t_tile_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "            |5222222223 ",
+        "            |.........3 ",
+        "            |.......6.3 ",
+        "            |.........3 ",
+        "            |.......6.3 ",
+        "            |.........3 ",
+        "            |.........3 ",
+        "            |.........3 ",
+        "            ----------3 ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "nested": { "6": { "chunks": [ [ "null", 30 ], [ "roof_2x2_utilities", 30 ], [ "roof_2x2_utilities_c", 40 ] ] } }
+    }
+  }
+]

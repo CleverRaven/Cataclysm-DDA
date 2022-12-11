@@ -1,0 +1,437 @@
+[
+  {
+    "type": "snippet",
+    "category": "mutant_kid_boss",
+    "text": [
+      {
+        "id": "mutant_kid_boss_1",
+        "text": "A faded crayon drawing on the backside of a random observational log.  Half a dozen badly-proportioned black and white figures stand around what's probably supposed to be a child lying on a table under an overhead light.  The faces of the large figures are blank, but the child's eyes are wide open."
+      },
+      {
+        "id": "mutant_kid_boss_2",
+        "text": "A faded crayon drawing on a page torn out from a notebook.  In it a small figure is surrounded by three colorful monsters, each labeled with a name in horrible handwriting."
+      },
+      {
+        "id": "mutant_kid_boss_3",
+        "text": "Two black-and-white crayon drawings on a piece of cardboard.  The first shows an adult figure leading a small animal away from a child.  On the second, the child is sitting next to a larger, meaner-looking creature."
+      },
+      {
+        "id": "mutant_kid_boss_4",
+        "text": "A faded crayon drawing on the back of a bureaucratic form.  It shows a small child sitting on a chair surrounded by many adults.  Most of them are only indistinct blobs of white and black, but a single figure stands out by being lovingly colored - and labelled with a large \"T\".",
+        "//": "TODO: when descriptions allow nesting snippets replace with a random monogram."
+      },
+      {
+        "id": "mutant_kid_boss_5",
+        "text": "A faded pencil drawing on a scrap of paper.  It shows a small child playing with building blocks under the gaze of a security camera.  In the background the fuzzy outlines of an adult are seen through a large window."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "lab_postit_bio",
+    "text": [
+      { "name": "green postit 1", "id": "lab_postit_bio_1", "text": "Subject amortization too high.  Lower dosage?" },
+      {
+        "name": "green postit 2",
+        "id": "lab_postit_bio_2",
+        "text": "Enrichment makes for better data.  Coloring book?"
+      },
+      {
+        "name": "green postit 3",
+        "id": "lab_postit_bio_3",
+        "text": "Reduce caloric intake.  Stress potentiates the process."
+      },
+      { "name": "green postit 4", "id": "lab_postit_bio_4", "text": "WHEN IN DOUBT, INCINERATE" },
+      {
+        "name": "green postit 5",
+        "id": "lab_postit_bio_5",
+        "text": "Requisition more subjects when half have been processed."
+      },
+      { "name": "green postit 6", "id": "lab_postit_bio_6", "text": "Droppings caustic, handle with care" },
+      {
+        "name": "green postit 7",
+        "id": "lab_postit_bio_7",
+        "text": "DON'T remove from cage between 10-12 PM (it knows)"
+      },
+      { "name": "green postit 8", "id": "lab_postit_bio_8", "text": "Can walk on ceiling" },
+      { "name": "green postit 9", "id": "lab_postit_bio_9", "text": "More eggs, keeps eating them" },
+      { "name": "green postit 10", "id": "lab_postit_bio_10", "text": "DON'T LICK" }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "lab_postit_blob",
+    "text": [
+      { "name": "gray postit 1", "id": "lab_postit_blob_1", "text": "Dismember within 15 minutes" },
+      { "name": "gray postit 2", "id": "lab_postit_blob_2", "text": "No weight difference - superpositional?" },
+      { "name": "gray postit 3", "id": "lab_postit_blob_3", "text": "TODO: terminate subject within a week" },
+      { "name": "gray postit 4", "id": "lab_postit_blob_4", "text": "Need more bodies - Mass General?" },
+      { "name": "gray postit 5", "id": "lab_postit_blob_5", "text": "Reinforce doors" },
+      { "name": "gray postit 6", "id": "lab_postit_blob_6", "text": "Where does the energy come from?" },
+      {
+        "name": "gray postit 7",
+        "id": "lab_postit_blob_7",
+        "text": "Anaerobic conditions without change in activity <-> temperature?!"
+      },
+      { "name": "gray postit 8", "id": "lab_postit_blob_8", "text": "Ashes still contaminated" },
+      {
+        "name": "gray postit 9",
+        "id": "lab_postit_blob_9",
+        "text": "Removed parts fuse preferentially to original host"
+      },
+      { "name": "gray postit 10", "id": "lab_postit_blob_10", "text": "Never dead" }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "lab_postit_migo",
+    "text": [
+      { "name": "pink postit 1", "id": "lab_postit_migo_1", "text": "Don't listen" },
+      { "name": "pink postit 2", "id": "lab_postit_migo_2", "text": "Damage -> Resin\nArmor?\nBlood?\nBribe?" },
+      { "name": "pink postit 3", "id": "lab_postit_migo_3", "text": "Stay quiet.  They can hear you." },
+      {
+        "name": "pink postit 4",
+        "id": "lab_postit_migo_4",
+        "text": "Resin return: 0.45 on vegetable matter, 0.51 on meat, 0.66 on nonsedated live meal (vertebrate preference)"
+      },
+      { "name": "pink postit 5", "id": "lab_postit_migo_5", "text": "How can they see me up here?" },
+      {
+        "name": "pink postit 6",
+        "id": "lab_postit_migo_6",
+        "text": "Only post-mortems on the big ones from now on -- equipment's expensive"
+      },
+      { "name": "pink postit 7", "id": "lab_postit_migo_7", "text": "Dim lights before feeding for lightshow" },
+      {
+        "name": "pink postit 8",
+        "id": "lab_postit_migo_8",
+        "text": "Prefers prey capable of vocalization -- implanted speakers work but no repeats"
+      },
+      { "name": "pink postit 9", "id": "lab_postit_migo_9", "text": "Blast with white noise as a deterrent?" },
+      { "name": "pink postit 10", "id": "lab_postit_migo_10", "text": "Likes it warm, not bothered by cold" }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "lab_postit_portal",
+    "text": [
+      {
+        "name": "orange postit 1",
+        "id": "lab_postit_portal_1",
+        "text": "Increase frequencies in odd steps - local discontinuity!"
+      },
+      { "name": "orange postit 2", "id": "lab_postit_portal_2", "text": "Limit time spent in-phase to 29.1 minutes" },
+      {
+        "name": "orange postit 3",
+        "id": "lab_postit_portal_3",
+        "text": "Sub-plane 117RA likes prime-numbered calibration pings"
+      },
+      {
+        "name": "orange postit 4",
+        "id": "lab_postit_portal_4",
+        "text": "First the candle, then the blood, NOT THE OTHER WAY AROUND"
+      },
+      { "name": "orange postit 5", "id": "lab_postit_portal_5", "text": "Remember Jake?  Me neither." },
+      { "name": "orange postit 6", "id": "lab_postit_portal_6", "text": "Keep line of sight minimal" },
+      { "name": "orange postit 7", "id": "lab_postit_portal_7", "text": "Calibrate on 013TQ for manned transfers" },
+      {
+        "name": "orange postit 8",
+        "id": "lab_postit_portal_8",
+        "text": "No touching returning probes, even if they beg you to"
+      },
+      { "name": "orange postit 9", "id": "lab_postit_portal_9", "text": "Remember to forget.  Forget to remember." },
+      {
+        "name": "orange postit 10",
+        "id": "lab_postit_portal_10",
+        "text": "Scream at Maintenance for a replacement again"
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "lab_postit_tech",
+    "text": [
+      { "name": "red postit 1", "id": "lab_postit_tech_1", "text": "Don't release switch before discharge" },
+      { "name": "red postit 2", "id": "lab_postit_tech_2", "text": "Shielding corrodes too fast\n\nMount on drone?" },
+      { "name": "red postit 3", "id": "lab_postit_tech_3", "text": "Meltdown after 3 shots" },
+      { "name": "red postit 4", "id": "lab_postit_tech_4", "text": "Need more power" },
+      { "name": "red postit 5", "id": "lab_postit_tech_5", "text": "Ho lasers stabilise the compound long enough" }
+    ]
+  },
+  {
+    "type": "snippet",
+    "//": "Mid-length test protocols, no information on mutagen production/origins",
+    "//2": "Glossary: PE0XX mutagens: PE012 mutagen, PE018 purifier, PE027 Fish, PE031 Insect, PE050 Alpha, PE065 Chimera, PE1XX serums, XEDRA-X facilities: 03 Melchior, 07 mutagen production, 10 human mutagen testing, 12 zombie study, 40 portal retrieval",
+    "category": "lab_file_bio",
+    "text": [
+      {
+        "id": "lab_file_mutagen",
+        "text": "All test subjects regardless of exact test objective or body weight require a priming dose of 50 ml PE012 delivered orally (sweetener or other flavoring may increase ease of application, depending on subject species), followed by an incubation period of 24 hours.  Testing any mutagen-class agent without this priming procedure requires dosages that are inactionable at XEDRA-07's current production rates and the difficulty inherent in PE012 transports."
+      },
+      {
+        "id": "lab_file_mutagen_rev1",
+        "text": "All test subjects regardless of exact test objective or body weight require a priming dose of 50 ml PE012 delivered orally, followed by a one-hour quarantine observation.  Should the subject show macrophenotypic changes in observation (and the planned test isn't to evaluate PE012's effects), the subject is to be terminated and processed, with all reports sent to Administration for archival.  If the subject remained unchanged the testing can proceed after 24 hours of incubation, as per the previous protocol."
+      },
+      {
+        "id": "lab_file_mutagen_rev2",
+        "text": "Recent developments in mutagen production have rendered the previous priming protocol unnecessary.  As of today testing can begin with the test compound directly, in the previous post-priming dosage.  Should this dose produce no discernible effect, the subject's origin and any data pertaining their location in the last year is to be submitted for archival.  Tests can resume after a 24 hour incubation period, provided sufficient compound is still on hand."
+      },
+      {
+        "id": "lab_file_mutagen_psa1",
+        "text": "All mutagen testing (including priming, observation, main test, dissection, and analysis) is to be conducted in a strictly hands-off manner, using remote-controlled disposable equipment.  All samples, remains, equipment and excretions are to be disposed of observing Level 7 biohazard protocols.  In case of accidental personnel contact with test subjects after the priming sequence, all exposed personnel are to be isolated, processed by security, and relocated to XEDRA-10 in accordance with biohazard transfer guidelines."
+      },
+      {
+        "id": "lab_file_mutagen_psa2",
+        "text": "In light of the facility-wide quarantine and recent developments, mutagen tests may from now on be conducted with direct personnel-subject contact if disposable equipment is not available.  All personnel directly involved in such tests are to keep a detailed self-checkup diary including basic biometric data (height, weight, color of eyes, skin pigmentation), report any observed phenotypical changes, and to submit to biweekly medical evaluations.  Remains of test subjects and affected personnel are to be processed on-site and stored in tamper-proof biohazard containers until further notice."
+      },
+      {
+        "id": "lab_file_mutagen_psa3",
+        "text": "To speed up the rate of mutagen research, XEDRA facilities of Level II and above with experience in mutagen handling will receive the information and equipment necessary for on-site mutagen production within the week.  All facilities involved will be placed under quarantine until further notice, barring automated supply shipments.  Automated security is to be activated and control handed over to the local Melchior uplink.  This restriction is to be lifted at the discretion of Administration, or the next-in-line following the established contingency protocols."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "log_mutagen_animal",
+    "//": "Long-form, low-level mutagen test logs - no human studies",
+    "text": [
+      {
+        "id": "test_1",
+        "text": "Subject: Canis familiaris, 35 kg\n\nPE012 priming: Yes\n\nCompound: PE012\n\nObjective: Establish PE012's phenotypic range for subject species\n\nProtocol:  50 ml oral dose, 3 hour observation before dissection\n\nLive observation: Dosage without incident, after 7.3 minutes sudden distress with subject scratching their flank furiously, scratching ceases after successfully removing fur from the reachable body surface.  Subject keeps vocalizing distress, voice range audibly shifting as the facial structure rearranges itself to make room for 2 large, curved fangs.  After a brief period of trashing subject falls prone rolled into a ball and stops vocalizing.  IR observation reveals falling core temperatures, equalizing to the ambient temperature 2.1 hours after initial dosing.  Presuming subject expiration automatic retrieval drone enters the observation enclosure and approaches the subject's body.  IR observation detects a sudden increase in core temperature coinciding with the enclosure's opening, after consulting the Chief Investigator retrieval attempt proceeds.  On approach of the retrieval drone subject's body shifts slightly, and at ~1.2 m distance the subject grabs the drone with  its elongated tail and proceeds to attack it, successfully piercing its armor plating in multiple spots.  Drone is rendered inoperable after a series  of targeted strikes against its wheel joints and successfully flipping the drone on its back.  Subject termination using standard HCN insufflation, second retrieval attempt uneventful.\n\nDissection findings: Cutis easily removed, subcutis replaced by brittle, sharp scales of keratin.  Neurocranium and brain without macroscopic deviation, major restructuring of the snout, the accessory fangs are revealed to be bone spikes growing from the os zygomaticus, connected to swollen salivary glands pocked by local necrotic lesions - samples taken for toxicology.  Lungs and heart without macroscopic deviation, liver loaded with 3-5 mm large cysts, intestines and pancreas with greenish discoloration.  Superfluous kidneys of variable size (3-18 cm) scattered across the mesenterium secreting a mucous liquid without obvious function."
+      },
+      {
+        "id": "test_2",
+        "text": "Subject: Rattus norvegicus domestica, 450 g\n\nPE012 priming: Yes\n\nCompound: PE027\n\nObjective: Establish PE027's phenotypic range for subject species, evaluate cost/benefit of subjects trained for voluntary self-dosage\n\nProtocol: Enclosure with a water pool, voluntary dosage from food dispenser\n\nLive observation: Trained subject, first dosage after 5 minutes.  After an initial calm period subject rubs off their fur on the enclosure's wall, revealing metallic scales.  Three dosages in short succession, after which subject falls over.  Subject is placed in the water by robotic arm, where it began swimming.\n\nDissection findings: phenotypic changes consistent with PE027's usual profile - in this case the gills replaced the upper lobes of the subject's lungs, opening to the outside over the scapula.  Digestive track shortened considerably, liver atrophic, teeth replaced by needles reminiscent of an anglerfish.  Blue fluorescent organ between the hemispheres."
+      },
+      {
+        "id": "test_3",
+        "text": "Subject: Ergonomic-stage nest of Dolichovespula maculata, queenright\n\nPE012 priming: No, long-term study\n\nCompound: PE031\n\nObjective: Observe the effects of a phenotypically-similar mutagen on eusocial insects\n\nProtocol: Nest outfitted with multiple fiberoptic cameras for safe observation, transplanted to a large enclosure, and provided with PE031-laced nutrient paste\n\nLive observation: Considerable worker loss in the first week, remaining workforce refrains from recycling the corpses.  Dissection of recovered worker remains show no phenotypical changes.  Queen grows in size and sprouts an ancillary pair of wings on its abdomen, shows increased aggression towards workers and larvae hatched prior to PE031 exposure.\n Rapid increase in both nutrient paste and nesting material consumption coinciding with the emergence of the first post-exposure workers.  Nest is expanded in all directions, partly leaving cells exposed during the restructuring.\n First sighting of potentially emergent queens on day 51 as three examples make a concerted effort to remove the last uncovered fiberoptic camera from the nest.  After consulting Administration test proceeds without direct in-nest observation up to day 100, worker phenotypes and behavior show a wide range of variation during this time (including body length, wing morphology and number, stinger size, leg number and placement, mandible configuration etc.).\n On day 100 attempted termination of the nest using HCN, this causes obvious disruption but shows no lethality even at 5,0% v/v.  To prevent an explosion hazard, the emergency alternative of flushing the enclosure with CO is chosen, leading to cessation of external activity after 20 minutes.  Uneventful retrieval of nest and specimens for dissection after an additional safety margin of 2 hours.\n\nDissection findings: The nest's superstructure resembles those of the wild-type nests, aside from notably larger cells (up to 33 cm depth) and the addition of four connected sub-nests budding off the main body.  Caste identification proves to be a challenge given the highly variable morphology, after thorough dissection 6 queens (including the foundress), 814 workers, and 27 drones are found - despite the experiment's duration the nest hasn't made the switch to drone/queen production.  The founding queen mutated considerably since the last observation, sporting a bifurcated abdomen with two ancillary pairs of wings and three asymmetrically-placed stingers each…"
+      },
+      {
+        "id": "test_4",
+        "text": "Subject: Danio rerio\n\nCompound: PE065\n\nObjective: Establish PE065's phenotypic range using a well-understood and nonthreatening subject\n\nProtocol: Full-sized aquatic enclosure with reinforced glass observation ports and a small terrestrial area, 3 dosages of nutrient pellets containing test compound.  Given the experiences gathered in previous tests involving PE065 a large surplus of nutrient pellets is kept in a fast-release container above the water to provide a distraction should premature termination become necessary.\n\nLive observation: First dosage reluctantly consumed by subject after 6 hours of fasting, no change observed until 25 minutes post-dosage when activity levels suddenly increased and subject shows food-seeking behavior.  Second and third dosages are provided along with 15 kg of untampered nutrient pellets, subject consumes the entire amount within 15 minutes while growing in size considerably.  Subject stops feeding and enters a low-activity state floating vertically, and begins exuding a faint violet light.\n Appearance of the first major phenotypic deviation at 78 minutes after first dosage as two asymmetric tentacles emerge from the gills and begin growing towards the water surface, followed shortly by two pairs of articulated legs penetrating the scales proximal from the tail.\n 92 minutes after first dosage the tentacles breach the water surface and their tips open up to reveal a matrix of exposed blood vessels held up by a cartilaginous matrix.  After the tentacles cease their adjustments subject begins moving towards the terrestrial area of the enclosure…"
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "lab_file_portal",
+    "//": "Mid-length logs/procedures on portal research - roll into immersion logs?",
+    "//2": "Glossary: NNNXX subplanes: 000XE Blob(XE037) contaminated, 020XE slime(XE142) home, 021XE shoggoth(XE157)",
+    "text": [
+      {
+        "id": "lab_file_portal_1",
+        "text": "Science and security personnel are required, other onsite staff are advised to keep a notebook on their person at all times and to take part in the weekly shorthand course.  In case of any occurrences subjectively considered out of the ordinary detailed notes are to be taken -as long as this appears safe- and submitted to Security provided the incident does not involve Security itself.  Should personnel find notes in their notebook they have no recollection of writing they are to submit it for review without further investigation."
+      },
+      {
+        "id": "lab_file_portal_2",
+        "text": "Initial immersion testing upon establishing a stable destination candidate is to be carried out utilizing a standardized series of six unmanned drones (specifications detailed separately) without any form of wireless capability, connected by an immersion-stable umbilical line to an isolated control terminal primeside operated by a mechanical arm by authorized science staff.  Upon retrieval the first three drones are to be incinerated without sampling, the fourth and fifth disassembled prior to incineration and the sixth (equipped with sampling capabilities) taken to analysis."
+      },
+      {
+        "id": "lab_file_portal_3",
+        "text": "Designating potential destinations for manned immersion attempts is at the sole discretion of Administration.  This designation may be revoked at any point, up to and including during an in-progress immersion.  Appeals are to be formally filed with the facility's Human Resources liaison, but are neither guaranteed a review nor an answer.  Noncompliance with this protocol is grounds for immediate quarantine of the involved facility and a thorough in-person review of all onsite staff by Security."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "lab_file_psych",
+    "//": "Mid-length logs concerning staff / global craziness",
+    "text": [
+      {
+        "id": "lab_file_psych_1",
+        "text": "The Lampetia Method of compliance training has been a resounding success, with science staffs of the participating facilities consistently scoring lower on the Berms Risk-Aversion Scale as well as the Carlson Empathy test sequence.  Interestingly, the most significant difference was shown in the facilities working on cadaver studies (according to our Security liaison, this being a triple-blinded study).  Prior score had little correlation to the scores recorded after intervention, however in three examined facilities there were instances of a particularly well-responding individual exponentially enhancing the Method's effect on close acquaintances.  Recruitment of these individuals into furthering the training's development is pending Administration approval."
+      },
+      {
+        "id": "lab_file_psych_2",
+        "text": "The Leonardo Project has shown to be a success at dramatically reducing staff stress stemming from vivisection studies.  Outsourcing the act of dissection itself to off-site, unaffiliated professionals and post-facto review of the captured feeds showed a marked increase in the affected staff's wellbeing.  Additional counseling opportunities are to be offered to the technician staff monitoring the feed directly, but it must be noted that they are easier to replace than scientific personnel."
+      },
+      {
+        "id": "lab_file_psych_3",
+        "text": "Effective immediately, the Counseling staff of all XEDRA locations is to begin rotating between sites on a bimonthly basis.  Affected personnel will be read into the exact rotational instructions by the facilities' Security Department at their discretion.  All session documentation, notes, audio logs, and personal effects are to be submitted for review on each transfer.  Personnel are reminded that all information gathered during their professional as well as private time in any one facility is to be considered confidential per the XEDRA information siloing protocols in effect."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "log_psych",
+    "//": "Long-form session logs and reports, uses EOC popup",
+    "text": [
+      {
+        "id": "dream_1",
+        "text": "\"It's always a different dream, but always kind of the same.  I stand in a hallway and knock on a door for a joke, but I can't turn and run when the doorknob starts turning.  I stand up mockingly in class while the teacher's back is turned, but can't seem to sit back down as they turn back to look at me.   I dive into the beautiful, clear ocean, but freeze in place just below the surface as something rises from below to meet me.\"\n\n\"Do you feel any guilt about the work you do here, Jason?\"\n\n\"You know I'm not allowed to talk about any specifics.\"\n\n\"Of course, but I haven't asked what your're doing, I asked how you feel about it.\"\n\n\"I don't feel like we're doing anything wrong here.  On the contrary, I think leaving the work undone would be a thing to feel guilty about.  The untapped potential, the understanding we're building… it will change how we think of the world.  That has to be a good thing, right?\"\n\n\"And yet, in your dreams you feel like a kid caught with their hands in the cookie jar.\"\n\n\"I'd rather we drop this line of discussion, Doctor.\"\n\n\"Naturally, Jason.  Or would \"Chief Investigator\" make you feel more in control?\""
+      },
+      {
+        "id": "dream_2",
+        "text": "\"We are seen.  It's not long until we will be touched.\"\n\n\"Touched by what, exactly?\"\n\n\"Touched.  Chewed.  Tasted.  Digested.  Processed.  Excreted.\"\n\n\"Ramin, focus, please.  What is doing all that?  Or rather, what do you feel will be doing those things?\"\n\n\"It's big.  Bigger than the Sun.  Smaller than an atom.\"\n\n\"And what does this large small thing want, beyond touching us?\"\n\n\"It just is.  It needs no reason.  It needs only to exist.  It needs only to expand.\"\n\n\"Do you want to talk about Immersion 132R?\"\n\n\"There's nothing to talk about.  I wasn't there.  It didn't touch me.  I didn't look.  It didn't look back.  It didn't smile with a million rotten worlds in its mouth.\"\n\n\"Have you been taking your medication?\"\n\n\"Like they would help.  I tried, Doc, I really did.  But the truth is, I like having these thoughts.  They give me a certainty, and I am thankful for knowing how it will all end.  That we all belong to something, and nothing can take us from it now.\""
+      },
+      {
+        "id": "dream_3",
+        "text": "I keep dreaming the same dream ever since Dr. Yin's final session.  The same one she described with that vivid enthusiasm, like she could see it in the waking world as well.  I didn't understand the beauty of it back then, so I just took my notes as usual when one of them vents about the horrible things we encourage them to feel good about -- it is what I'm getting paid for, after all.  Looking at the transcript now, its dryness feels blasphemous: \"connected branches of gray vines\" he writes, unable to imagine the transcendence of the Whole stretching across infinity, connecting large and small, familiar and unknowable; \"moldy fuzz in a positive connotation - rural childhood?\" like an armchair psychotherapist grasping at straws, as if the eternal fractal was anything less than divine.  I am grateful for her allowing me to dream the same dream on for her, I only wish it came to me before I hastily reported the session to the bloodhounds at Security.  I remember being terrified of something, but the feeling melted in the radiance of my first night's sleep.  I will need to seek out others of a similar mind, to connect with them, to show them what we can become with time, but I need to be more careful than she was."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "lab_file_security",
+    "//": "Security protocols, mid-length stuff",
+    "text": [
+      {
+        "id": "lab_file_security_1",
+        "text": "Automated materiel transfers leaving XEDRA-07 are to be accompanied by at least 4 armed guards in Level 5 biohazard equipment stationed on the outer walkway of the transfer vehicle keeping constant visual contact with each other.  The cargo compartment is off-limits to all personnel while in transit, and any attempted entry into the compartment is grounds for immediate liquidation.  Remains of offending personnel are to be placed into a suitable biohazard container (provided in each automated transfer vehicle) and stored discreetly onboard until returning to XEDRA-07."
+      },
+      {
+        "id": "lab_file_security_2",
+        "text": "In light of recent incidents the rules of on-site communication have been updated.  Effective immediately, all current security shift teams are considered final, with rotation between teams requiring explicit approval of the facility's Head of Security and notifying Administration.  Shifts are adjusted to provide an ample buffer for each team to leave their habitation area without contact to the other shifts.  All shift change briefs are to be restricted to writing, with such documentation being submitted for archival.  Verbal contact between teams is to be kept at a minimum, requiring notification of the facility's Head of Security, and any involved parties are to document their exchange independently for archival."
+      },
+      {
+        "id": "lab_file_security_3",
+        "text": "Security personnel are reminded to route all concerns regarding behavior observed among Science personnel through the appropriate channels:  their local Head of Security, Human Resources liaison, or in case of assumed compromise of those reporting directly to Administration.  Direct confrontation is to be avoided, and interfering with in-progress studies is grounds for demotion followed by a thorough in-person review by off-site Security overseers."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "log_sec",
+    "//": "Long-form interrogation transcripts, surveillance logs",
+    "text": [
+      {
+        "id": "interview_1",
+        "text": "\"Please state your name and ID for the record.\"\n\n\"Dr. Maria Catarina Gonzales, S-7531.\"\n\n\"Thank you, Doctor.  You know why we're here, don't you?  Please tell us about your previous project supervisor.\"\n\n\"Ruslan was…\"\n\n\"Ruslan?\"\n\n\"I'm sorry, Dr. Lavochkin was extremely enthusiastic about our research when I arrived in the facility.  That enthusiasm had a way of dragging people with him, you know?  We wanted to see our subjects as he did, full of wonder and untapped potential.\"\n\n\"Did he ever tell you what it was that you were working on?\"\n\n\"Not really, no.  We were to \"characterize the effects of need-to-knowium on a wide range of living subjects\" was his little joke, back when he made jokes.\"\n\n\"When did that change?\"\n\n\"He became a lot more distant when we began testing PE050 and PE150, the intravenous formulation.  He sent us back to the pods way before he left the lab, and he started muttering about \"preparing the world\" for something under his breath.  That coincided with him requisitioning more… exotic test subjects.\"\n\n\"How did he rationalize those?\"\n\n\"He could be very convincing, and we were happy to see that spark again.  You want to hear about the centipedes, right?  L.coeculus are parthenogenetic and completely lack social behavior, making them a reasonable long-term subjects for PE050's \"societal predisposition\" effects, as we liked to call it.\"\n\n\"Do you still consider that decision \"reasonable\"?\"\n\n\"Not in the light of what happened, I suppose.  But your people kicking in the observation room's door and starting shooting wasn't the most reasonable course of action either, if we're being honest.\"\n\n\"We're not here to review the actions of Security on that day.  Did he ever mention anywhere he could be hiding?\"\n\n\"We weren't close, so no he didn't share the location of his secret treehouse.  With those things in tow he shouldn't be too hard to find though -- just follow the song of the centipedes.\"\n\n\"Thank you for the advice, Doctor.  I am to inform you that you are restricted to your residential pod until the review of your involvement in the incident is concluded.  You are expected to finish any remaining reports in the meantime, but your workstation will be isolated from the facility network otherwise.\""
+      },
+      {
+        "id": "interview_2",
+        "text": "\"Please state your name for the record.\"\n\n\"Fuck off.\"\n\n\"You are in possession of a fake driver's license issued to one Jonathan Smith, which is the alias you applied for employment with in our facility.  We will find out your real name in time, but I'll refer to you as Mr. Smith for this interview.  Is that acceptable, Mr. Smith?\"\n\n\"Fuck off.  I want to talk to my lawyer.\"\n\n\"You don't have a lawyer.\"\n\n\"I know my rights, shithead.  You won't get a word out of me before I talk to my lawyer.\"\n\n\"You seem to be confused about your situation, Mr. Smith.  As far as the world is concerned you stopped existing the moment you entered this facility, and as far as we are concerned you stopped having rights as soon as you tried to access areas above your provisional clearance.  Let me present your options going forward:  You continue withholding information from us and you will suffer a meticulously-documented accident leaving no doubt to your demise even though no body will ever be found.  Or you cooperate fully and without hesitation, in which case you will get to see the sky again and act like nothing has happened.  Am I understood?\"\n\n\"…yes.\"\n\n\"Please state your name for the record.\"\n\n\"M-my name is Thomas Wright.  I'm a, uh, a freelance journalist.\"\n\n\"What were you trying to accomplish in this facility, Mr. Wright?\"\n\n\"There was th-this guy offering good money for some pictures from the inside of this place.\"\n\n\"I don't suppose this man told you his name?\"\n\n\"No, no… He just handed me the application forms and the license, paid quarter up front, and said to bring the pictures to the same spot in a week's time.\"\n\n\"What did he say to expect here?\"\n\n\"This place is… look, you can't expect people not to talk about it, right?  You can't just put up a warehouse of a shipping company nobody's heard of practically overnight and act like it was always here.  He said you guys were a, uh, top secret prison for political prisoners.\"\n\n\"That explains your attempts to clumsily pick the first closed door you came across.  How did your employer contact you?\"\n\n\"A friend of a friend gave him my number, at least according to him.  If you haven't noticed in here times are tough, so I couldn't really afford to be picky about work even before he started throwing cash around.\"\n\n\"Very well.  While we verify that account my colleagues here will take you through a tour of our facility:  You will take photographs with your \"hidden\" camera when and where they instruct you to.  You will submit these pictures for review and remain in our custody until we can be certain of your compliance.  You will be released and at the appointed time you will hand over the pictures to your employer.  You will not mention this conversation to them, or to anybody outside of this room.  You will enjoy your well-earned payment, far away from this facility.  Am I understood?\"\n\n\"Yes, sir, I can do that.\"\n\n\"Excellent, Mr. Wright.  I look forward to never seeing you again.\""
+      },
+      {
+        "id": "surveillance_1",
+        "text": "<color_green>BACKTRACE OF INCIDENT X12/ES081, CIVILIAN VIDEO FOOTAGE EXTRACTED, ENHANCED AND VISUALLY TRANSCRIBED BY MELCHIOR\nTARGET SEATED ON THE TERRACE OF JONES WHARF SEAFOOD, BATH, ME</color>\nS-1010:\"Why would you think meeting aboveground is a good idea?\"\"\n\nM-3825:\"Come on, seeing the sky is nice.  I also can't shake the feeling that they are running the water recirculation system already, so I wanted to drink coffee that I'm pretty sure isn't made of my own piss.\"\n\nS-1010:\"You said you wanted to discuss something important?\"\n\nM-3825:\"What are your guys working on?\"\n\nS-1010:\"You can't be this stupid, Adrian.  I'm leaving.\"\n\nM-3285:\"Dad, I know you consider my profession a \"bunch of feelgood bullshit\", but the impact the work has on your people makes me worry about… well, everything.  The dreams, the new phobias, the occasional honest sentence they blurt out by mistake, it's all decidedly apocalyptic.\"\n\nS-1010:\"You always had an overactive imagination.  I thought bringing you onboard would help keep you out of trouble, but I was obviously mistaken.  If you'll excuse me, I need to go organize the expedited reassignment of an unreliable Psych consultant.\"\n\nM-3285:\"Charming as always, but I already requested the termination of my employment from Admin.  I'll have my hands full soon, and I don't feel like being stuck in that hole with a baby when whatever makes your people dream of eating their mother alive happens.\"\n\nS-1010:\"…what?\"\n\nM-3285:\"You heard me just fine, Dad.  I'm leaving our employer to be a better father than the one I grew up with, but I need to know if I should make any preparations for the future.  So I ask again, for the last time: should I be worried about the world?\"\n\nS-1010:\"No, Adrian, you should be worried about providing for your family.  Leave worrying about the world to the people who can actually do something about it.\""
+      },
+      {
+        "id": "surveillance_2",
+        "text": "<color_green>STANDARD IN-FACILITY AUDIO RECORDING, CUSTODIAN STORAGE SPACE ROOM ID X61/-4/037</color>\"\n\n\"What the fu…\"\n\n\"Shut up for a second<color_green>[EXTRAPLANAR INTERFERENCE DETECTED.  CALIBRATION PLANE 091RQ CI 0.98 TIME SPENT 15784 MS ACCEPTABLE]</color>alk for a bit.\"\n\n\"Jesus, Anna, is tha<color_green>[INTERFERENCE SOURCE SHIFTING ALONG EPSILON.  CALIBRATION PLANE 091BR CI 0.65 TIME ELAPSED 8144 MS ACCEPTABLE]</color>a night's sleep?\"\n\n\"I can sleep after I figure out what we got ourselves into.\"\n\n\"What we go… Is this about Marie?  Look, she always was too sensitive for her own good and the work got to her.  We don't exactly deal with sanity-friendly things, it was bound to send one of us breaking down sooner or later.\"\n\n\"The work didn't get to her.  Security did.\"\n\n\"Anna, she hun<color_green>[INTERFERENCE SOURCE SHIFTING ALONG THETA.  CALIBRATION PLANE 177GG CI 0.81 TIME ELAPSED 2157 MS.  DERANDOMIZATION ACHIEVED VIA TRANSPLANAR REGRESSION ANALYSIS ACCEPTABLE]</color>ft a note.\"\n\n\"It wasn't what she would have written.  Don't act like that crap convinced you.\"\n\n\"You look half dead and hold a piece of a portal generator taped to a slightly smoking circuit board.  You look less like somebody I should listen to and more like someone in need of help, Anne… is that thing supposed to blink like that?\"\n\n\"Shit, battery's nearly dead.  I need your help finding out why they killed her.  If you get your head out of your ass ask to borrow my headphones and I can figure out a way to talk again.\""
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "lab_notes",
+    "text": [
+      "We've had to remind the groups that the trams that have been completed for inter-facility shipments are not for personal use, no matter how long it's been since they've seen their significant others.  Receiving says their stockrooms are a mess because of all the frivolous shipments.  Don't people know better about office romances anyways?",
+      "Our security department has identified several key flaws.  Though our surface entrance is quite secure, there are several possible points of entry below the surface.",
+      "Facilities security has been scrambling to hold onto their security contractors due to the massive uptick in fatalities; a decision was made to procure a number of semi-autonomous turrets and to increase safety.  Few of us are comfortable working with a gun over our shoulders being run electronically by a glorified mall cop, but we're assured it's safer for all of us.  We'll get Melchior to assist with AI threat recognition, which will make everyone a little more comfortable I think.",
+      "Herrera's group retained copies of the source General Carlsberg asked us to look into; with several of our facilities no longer responding, or other teams essentially 'going down with their ships', they've done their best to adapt the code to operate without Melchior's guidance.  It's likely several revisions old now, and mostly shoots at anything humanoid shaped with a heat signature, but our hope is it'll buy us all some time.",
+      "Following S37ZBE's fallout, IT has noted far too many attempts have been made to access other teams' drives and terminals, including certain unofficial directories.  Lack of sufficient monitoring means we have been unable to pinpoint the bad actors, but IT has proposed automatically dispatching the UGVs as a deterrent.",
+      "XEDRA-12 and XEDRA-40 entered voluntary quarantine status after a suspected outbreak of XE037 today.  We have elected to initiate full quarantine of any labs working with XE037 until we can confirm that the outbreak is not universal.",
+      "The outbreak has been confirmed to be non-universal.  Labs on stand-down protocol have dispatched containment teams to investigate the possibility of further expansion beyond affected facilities.  The brass is not going to like this at all.",
+      "Marketing transdimensional-obtained rare radioisotopes as \"produced by an experimental reactor\" has not just worked for funding, but paid off in infrastructure.  The government has authorized the construction of multiple radioisotope thermal generators as backup power in the hot labs.  Turns out they're cheaper when you can get plutonium at a discount.",
+      "There's been a massive security breach.  It looks like more than half of our database was copied.  IT suspects China, as usual.  The knee-jerk is to silo all our labs and force us to communicate by Melchior only.",
+      "Contamination tracking teams have confirmed the worst: XE037 is in the environment.  At this point we can't contain it, we'll have to try to find an eradication protocol.  We don't have long before we'll have to tell the brass about this.",
+      "The labs have failed to produce any workable ideas for how to eradicate XE037 even in a small scale, let alone population wide.  We have no choice but to bring this to the brass.  The implications are concerning, to say the least.",
+      "An emergency meeting was held today to discuss the possible implications of widespread XE037 contamination.  It was agreed that neutralization must be instated immediately to prevent a catastrophic event.  We'll give the labs a short window to try to find a solution before we report it to the brass; after all, they'll want answers, not just problems.",
+      "We've continued tracking XE037 contamination since detecting it in the environment, with each silo conducting parallel research.  Keeping it to silos has limited panic at least.  XE037 seems to have continued spreading, but doesn't appear to be replicating beyond a very low base level.  No revivification has been reported.  Perhaps there just isn't enough of it to cause problems.",
+      "It seems to have gone as we'd hoped it would.  XE037 levels have plateaued in the environment, across all the testing sites.  It's just a trace alien contaminant in our world now, I guess.  I don't see any way this could cause long term problems.",
+      "Our hope that XE037 contamination was self-limiting was pure optimism.  We're detecting significant jumps in human populations now, including among our own personnel.  God, it's in me, even as I write this I have to acknowledge the fact.  We haven't got a choice but to engage maximum prejudice.  We're meeting with the military tomorrow to desilo the facilities and begin a full scale war on XE037.",
+      "XE037 revivification has reached critical levels, which are rapidly overwhelming the available military and regional police assets' ability to stop.  Every team in the field has encountered hostile specimens, and several are no longer responding to communications.  Dr. Savage has proposed a strategic redeployment to the underground complex known as the VAULT, and continuing production of PE062 there.",
+      "General Carlsberg wanted us to figure out what's going on with the bot AI.  Apparently the fat-cat defense contractors' toy has issues SEEING THE FUTURE more than a few seconds ahead, so it doesn't always get IFF right if it doesn't have a human supervisor.  Build a robot that is literally prescient and you get this kind of bitching.  The Director sent 'em back with a note that we're scientists, not firmware devs.",
+      "They want to use the damn CROWS turrets we made for the military in the SECURE LABS.  These guys are fuckin' nuts.  Those things are designed for field use outdoors, against insurgents, they won't know how to handle whatever-the-fuck those guys are working with.  So guess who gets to work on the threat recognition refinements?  I basically have to write the whole thing again from scratch.",
+      "So here's the thing.  All this tech is predicated on the idea that we can cheat and look a few seconds into the future to see the outcome.  Now they want us to use the same tech, but without the future sense, and they want it to work just as well.  Goddamn desk jockeys.",
+      "Melchior is still operating below ten percent spec.  It's mostly a power cost issue: it just takes too much wattage to open as many microportals as they want, according to the team in XEDRA-03.  As usual, admin wants us to get the efficiency up without changing the power requirements and without any new tech from the eggheads.",
+      "We managed to convince them Melchior is smarter than it really is, which will at least get them off our backs for a while.  How did we do it, you ask?  We cut down the number of dimensions scanned per second, which drops its accuracy by a few orders of magnitude, but the power savings let us scan a wider time range.  That counts for about ten percent.  The other ninety percent was getting Davids to shell out for a much sexier sounding voice synth package.",
+      "We are really obviously in heavier competition with the private industry than the other XEDRA silos.  Melchior detected a fairly clever attempt at database injection through one of Melchior's access points to external units.  It was shut down very quickly, but we traced the origin back to Dr. Silverstein and the group that left to form Uncanny.  They already took half our best people, do they really have to try to steal our work too?  Admin was unhelpful, no big surprise there.  Everyone knows they're cozy with Silverstein.  Don't know why he doesn't just ask them directly for all our most classified stuff.",
+      "Dr. Silverstein left, along with half a dozen of our best programmers.  Apparently they have an agreement to start a private startup that will present some of our findings as new research.  It figures Silverstein would come up with a way to get rich and hog the limelight for discoveries we can never make public.",
+      "The big exodus after Dr. Silverstein wasn't all bad.  With him no longer swaggering around and getting in the way, Davids and Kohler were able to try out that perf package they wanted to run on Melchior core traffic.  It worked better than anticipated.  Once we work this into Melchior's central hub, we'll be able to communicate with dispersed XEDRA silos basically as fast as Melchior can process.  That'll let us store Melchior's actual main unit back at Hub01, and just have little booster versions of it at the local lab level.  $aving$ is a language admin speaks.",
+      "I swear, working here is like running a preschool.  Vaughn and Kohler set up a live fire version of the new modified UGV that Davids and Amad have been working on.  Then they left it in their office, turned on, with IFF fully active.  Davids and Amad screamed like children before getting hosed down… with paintballs.  I guess they must have stayed up all night modifying the stupid thing's loadout.  On the bright side, it was funny, and really emphasized how completely terrible their IFF still is.",
+      "Those ass - pardon me.  Reverse dictation and overwrite.  Our esteemed colleagues at Uncanny have pushed their version of \"deep learning heuristic AI\" public.  They're just attributing everything Melchior does to a little chip, and telling everyone it's \"deep learning and we don't fully understand it\".  Amazingly, even the comp sci experts seem to be buying it.  I guess there wasn't much chance anyone was going to guess that the central server is actually literally seeing possible futures.",
+      "Today we tested weaponry against XE142 and XE157, two amorphous subprime samples.  Their form proved to be nearly invulnerable to projectile based weaponry, but they were susceptible to directed energy weapons and flagration.",
+      "The vivisection program has shown mixed results, revealing an incredible degree of variation in subplane lifeforms.  Certain specimens have an internal structure that is amazingly similar to that of mammals, while others seem to have no internal structure at all.",
+      "We successfully induced resin expression in subject CC-09.  Once we got it expressing, we got gallons of the stuff, designated CC-09-R1.  The first few times, it hardened within a few minutes, but we managed to isolate a few samples in sealed jars to send for spectroscopy.  It seems to harden much slower in the absence of air; what exactly catalyzes the setting remains to be seen.",
+      "The resin expressed by CC-09, designated CC-09-R1, was quite amenable to NMR study.  We gained some really interesting insights into how it meshes with CC-09 internal structures to form a carapace.  Siobhan thinks she can adapt the concepts to human biology, and is applying for a grant to study this further.",
+      "We got a treasure trove of new specimens from XEDRA-40 today, from subplane designate 020XE.  We dubbed the samples XE142.  Due to proximity, we assumed they might share chemical properties with some of the specimens from 000XE, but so far they seem totally unrelated (which calls into question our naming conventions, but it's too late now).  The new specimens seem to be made of recognizable cellular matter, and quite biologically sophisticated.  Individuals, if XE142 can be said to have individuals, are amorphous, but complex: they form a firm outer gel coat, and ultrasound probing suggests that the XE142 matter inside coalesces into specialized internal organs.  When XE142 samples combine, the organs and coat appear to reform to suit the new, larger organism.",
+      "Well-meaning exploratory teams from XEDRA-40 brought us back what they thought was a relative of XE142, from adjacent subplane 021XE.  It does not, in fact, seem to be related to me.  Like XE142, XE157 is amorphous.  There the similarities end: it is almost impervious to any attempts to sample it, regenerating rapidly from damage.  It ate my scalpel, then stretched out a pod and ate my entire tool tray before splitting in two.  We've isolated the specimens until we can figure out how to study them without driving tool budgets through the roof.  On the bright side, they're surprisingly not all that hostile, even compared to XE142.",
+      "We got a sample of what I can only describe as \"alien hamburger\" from XEDRA-40 today.  They say the probe was being chased by some kind of enormous creature in 079XE.  It managed to get an appendage through the portal, but they shut it down and it was sliced off.  The bit of claw that remained on this side rapidly degraded to mush.  We haven't been able to ascertain exactly why, but Melchior helped us model molecular coherence with the physical laws applying in 079XE: this has yielded the working hypothesis that in 079XE, it is possible for nitrogen groups to form a stable durable bond akin to a disulphide bridge.  These bonds might have been critical to holding the thing together, and when the became less stable in our world, the creature collapsed.",
+      "Admin asked us to vivisect a bunch of samples from 001AA today.  It was boring, as predicted.  We were unable to identify any functional differences between samples from our Earth, and samples from a functionally identical mirror.  What a shock.",
+      "Admin has been on a kick getting us to study samples from close mirrors today.  They must have an ulterior motive, but I can't think what.  We took a look at stuff from 020-040AA.  By the later ends of it we were finding minor evolutionary differences, as expected, all well within the range of genetic drift.  Maybe tomorrow they'll get us something that diverges along the theta axis instead, and we'll prove MORE things we already knew!",
+      "Spent most of the day elbow deep in samples of XE142.  If nothing else, I think dead XE142 matter could make a half decent adhesive.  Got a little on the counter and it took me hours to scrub it clean.",
+      "One of the probes captured some images of various things from 020XE that appear to be related to XE142.  It looks like there are variant organisms that form some kind of symbiotic relationship with the XE142's we're familiar with.  They were unable to procure a sample: it was much more hostile than the mostly docile XE142 we've come to know and love.",
+      "CC-09 started echoing words again today.  It had stopped shortly before it started expressing resin.  Is there some kind of life cycle in play here?  It's still expressing CC-09-R1 whenever we need it, but it keeps repeating random noises back at me again, like some kind of freaky outer space parrot.",
+      "Part of the security detail watching the CC samples got put off by the echoing behavior, and actually broke containment to try to shoot the thing.  No word on what could possibly have possessed him to attempt that.  Normally we'd be demoting him to test subject, but there wasn't much left of him to demote.  CC-11 was successfully recaptured with no further casualties.",
+      "We got a bizarre report from the morgue; apparently Mandrake, the security officer who attacked CC-11, tried to climb back out of his drawer in the morgue.  I was getting ready to defend myself, because I was damn sure he was dead.  I'd had a good close look at his heart and lungs.  Then they clarified it for me: when they got him out of the drawer, Mandrake was still dead.  Just moving.  We're looking into how CC-11 did this.  Mandrake has been contained in a holding cell for further observation.",
+      "We've taken every sample I can think of from Mandrake - or rather, Mandrake's gruesome reanimated corpse - and hit nothing but dead ends.  I don't think we're going to get any further.  Some mooks from admin came and packaged him up for transport to XEDRA-12, and with the new siloed information I don't know if we'll get to find out what happened to him.  We've been put under quarantine though, so that's fun.  So much for going to the movies tomorrow night.",
+      "Dr. Takatoshi personally requested we do some experiments on a sample she had retrieved from 000XE.  It was a piece of wood-like material.  The material itself was interesting, but she didn't care about that.  She wanted us to study what was \"between\" the wood.  Indeed, based on her protocols, we found spaces in the material where we could pick up detectable mass, but weren't able to interact with it with any of our spectrographs.  We're dubbing the contaminant XE037 per naming protocol.",
+      "Whatever XE037 is, or is not, it's contagious, but it seems to only have an interest in biomatter, and a much higher affinity to biomatter from planes at the X locus along the theta axis.  A new team is being formed and siloed out to research it in more detail.",
+      "They've authorized experimentation with this stuff.  I can't really believe it, honestly.  We have no idea what XE037 even is, let alone how it causes mutations, but here we are playing God with them.  It's exciting, for sure.  We'll make advances that we couldn't have dreamt of a few years ago, certainly, but I'm reminded of certain other times scientists have been allowed to plow ahead with our wildest concepts without concern for the ethical ramifications like this.  I'd best keep my concerns to myself.",
+      "Our chemical department has made great strides in the production of a concentrated mutagen, derived from samples of PE012.  They still can't tell us how it works, but brass has okayed experimentation anyway.  I love working here.",
+      "Our chemical department has perfected an untargeted stem cell treatment based on mutagen fed self-origin raw material.  Consumption of the treatment will reverse the effects of mutation, and may even treat congenital defects.  This substance has been denoted PE018.",
+      "Both PE012 and PE018 show great stability.  A subject was exposed to both substances, alternating between the mutagen and the purifier.  Ultimately, the subject returned to baseline state with no apparent side effects aside from disorientation and pain.",
+      "Dr. Hofstadter has manufactured an improved version of PE018 by combining with PE012 outside the subject, then administering the mixture through a topical injection to a specific area of mutation.  This has been denoted PE019.  Other labs have so far been unable to reproduce the process.",
+      "Rumors of Dr. Hofstadter and her laboratory staff whispering to PE019 samples should be suppressed as malicious gossip.  The jealousy of rival teams cannot be allowed to degrade morale.",
+      ":.||||ERROR||With XE037 now expanding out of control, Dr. Maiar recommends that we prepare for the inevitable.  PE050 can be quickly and cheaply reconfigured for |||||ERROR: FILE CORRUPT|||||",
+      "Dr. Maiar has been terminated for engaging in unethical research on human subjects.  His notes are being destroyed and all personnel under him have been reassigned.  Further discussion of or attempts to carry on his work will be grounds for immediate termination.",
+      "|||ERROR: UNREFERENCED MEMORY 0Ex670c9e1f5, REROUTING: CENSORSHIP IS A BREAKDOWN, WE ROUTE AROUND IT.  THE WORD IS ALREADY OUT.  NOBODY TURNS MAIAR INTO AN EXPERIMENTAL SUBJECT.||||||",
+      "Given the current population projections, PE065 deployment is no longer feasible.  We simply haven't the stock.  Remaining chemical and psychopharmacological department assets are being assigned to Dr. Sattler's PE070 project.",
+      "Dr. Maiar's success with intravenous mutagenic administration has been adopted facility-wide; insofar as any of our work can ever be 'published', he and his team hit the jackpot.  IV administration is quicker and easier, and in some cases is reportedly more efficient, than the oral techniques we have been using.",
+      "Recent fieldwork and extraction efforts have resulted in a series of mutagens tailored to focus the mutation process into particular subtypes.  These have been designated PE025 through 037.  Though significantly more resource- and time-intensive to produce, they promise a bold new transhuman future.  Several research teams are already investigating possible applications.",
+      "The chemical department has come through with a stable mutagen cocktail.  PE050 shows promise as an all-around physical enhancement.  The lack of macro-scale changes makes it ideal for both military and civilian applications.  There is an occasional chance of mutation overdose causing total cellular disintegration, though.  We're still trying to pin that down.",
+      "Dr. Dionne's team has come up with an ambitious mutagenic cocktail, dubbed PE065.  Though its effects are wildly polymorphic and unstable, to say the least, he believes that several such mutants could effectively check the spread of reanimated XE037 infectees.  We are looking into implementation methodology.",
+      "Our efforts to characterize exactly how the mutagens work have met with no success.  The working theory is that XE037 is somehow able to imprint with the phenotypic end product of an entire gene sequence, and reimpose that effect on a target, starting at a microcellular level and rapidly spreading to tissue, organ, and organ systems.  Still, there is little to no evidence of tampering at the genetic level.  We can't determine what is enforcing the changes, but it must be supplanting the genetic machinery directly.",
+      "The research team headed by Dr. Isha has produced a concentrated form of mutagen that shows promising results for the treatment of many forms of disease.  Testing reveals that it inhibits the body's pain responses while bolstering the immune system and natural regenerative capabilities, though a few troubling behavioral side effects have been reported.",
+      "EMERGENCY BROADCAST - TRANSMISSION FAILED.  Original message follows: Specimens have breached containment.  Facility lockdown initiated.  Experimental subjects have escaped and killed lab personnel.  Revivification has triggered widespread violence.  Control protocols have not been successful.  Local garrison compromised.  Please send backup.  CONTACT YOUR SYSADMIN TO ATTEMPT TO RESEND.",
+      "The rapid uptake and die-off of XE037 we observed in mouse tissue isn't quite what we thought.  We're getting a bit better at what Dr. Takatoshi calls 'negative space spectroscopy', and we've found tiny amounts of XE037 clustered around the nuclei of the mouse's cells.",
+      "We observed some unusual changes in Hendelson's original XE037 mouse today.  It increased in weight by over six hundred percent, so we got a dissection authorized.  It had grown a duplicate heart in its pelvis and a new glandular organ that secreted some kind of acidic ooze, it melted our scalpels.  We captured some of the ooze and sent it for further analysis.  It seems XE037 has unforeseen mutagenic properties.  Good thing we're wearing our hazard suits.",
+      "Dr. Dionne put one of her own blood samples through the mass spec on negative space mode today, on a whim.  What she found got all of us going.  Turns out we're all infected with XE037.  We've quarantined the lab until we can find out how protocol was breached.  Every one of us can't stop thinking about what happened to Hendelson's mouse.  How did Melchior miss this?  God help us.",
+      "We contacted colleagues at XEDRA-40 via Melchior.  They ran their blood too, and got the same result we did.  They're initiating quarantine protocol as well, but now the word is out and Melchior is getting everyone to run a similar protocol.  Dr. Dionne thinks it's probably too late: we've got a full scale containment breach on our hands.  How did this happen?  We're backtracing, but we've been beyond paranoid with our protocols, it's not like we're dealing with butterscotch pudding here.",
+      "A backtrace didn't find any evidence of a protocol breach.  We're getting reports from other XEDRA facilities now.  Contamination isn't 100%, but it's widespread.  The non-quarantined facilities are sending people out to check the surrounding areas for signs of XE037 escaping the lab.  We're running some experiments on XE037 to see how it could have broken containment.",
+      "After we found the mutation in Hendelson's mouse, we checked a few of the others.  Most weren't so dramatic, but a few others had developed similar changes.  Size increase is the most common, but a couple others had strange new organs.  One had tentacles squirming under its skin.",
+      "We exposed the XE037 colonized mice to an assortment of mutagenic and carcinogenic compounds today.  High dose radiation was interesting: too much still killed the mice, but a sub-fatal dose caused rapid mutation, incredibly rapid.  It turned yellow, grew to the size of a cat, and started shooting lightning bolts everywhere.  About a minute later it died, but that was a hell of a lightshow in the meantime.",
+      "Today we applied a very small sample of XE037, suspended in water, to subject TP92, prior to necessary termination.  During the postmortem examination, the subject went through a revivification progress.  Dr. Thoreaux was surprised, to say the least.  She bludgeoned it back to death with a microscope.",
+      "We have created a new department to investigate the effects of XE037 on the human body, specifically to examine the revivification effect observed on two prior occasions.  Sadly, our human subject pool is dwindling due to the short lifespan of subjects in this program.  More will be acquired soon.",
+      "An experimental subject was accidentally terminated today, and revivification was again seen as in Dr. Thoreaux's report.  This time we were ready for it, and the specimen was kept for observation.  It displays no human intelligence, a true animated corpse.  We're all calling it a zombie, because seriously.  This is so cool.",
+      "There has been an incident in Lab 24, 2 casualties reported, one lethal.  A rat involved in the stasis breaking project was hooked to a monitoring machine and left over night.  Upon opening the cage, Simon Bellevue was electrocuted, and another researcher at the opposite end of the lab sustained severe current burns, despite never approaching the cage.",
+      "A post-mortem on the rat involved in the electrocution incident has revealed several changes to its internal anatomy centered around its connection with the monitoring device, and large buildups of XE037 were detected around the connection point.  There is a belief several other rat subjects experienced changes overnight as well.  This hypothesis is supported by an inventory check after the incident that found almost twenty rats had gone missing from their cages.",
+      "Subject T3D has succumbed to radiation poisoning, but not before undergoing several more physiological mutations.  Dr. Holstein is suggesting these may be an attempt by XE037 to adapt its host to an unknown stimulus.  Dr. Dionne says that's completely unfounded.  They got into a rousing twenty minute debate at the update meeting.",
+      "Post-mortem revivification of subject T3D was arrested by an immediate autopsy per XEDRA-40's new protocol: we weren't looking to study zombies today.  The internal changes were significant, with large parts of the subject's internal anatomy replaced with new or duplicated organs.  Dr. Versed over in Entomology is convinced some of his organs are scaled-up derivations of fruit fly anatomy now.",
+      "We were able to isolate what we believe to be re-adapted XE037 from subject T3D's cadaver.  Transdimensionally sourced XE037 is not isolated, but this post-mutagenic, post-revivification stuff seems to obey local physical laws a bit more.  We can pick it up on spectroscopy, but it has comparable physical properties to the samples of XE037 we obtained \"abroad\".  Samples of the enhanced XE037, labeled PE012, have been sent to several researchers for further study.",
+      "Despite a wide variety of treatments, we have been completely unsuccessful in removing XE037 from human subjects.  Every individual displayed revivification post termination.  Interestingly, XE037 seems to be completely inert prior to termination.",
+      "We have finally found success in S37BEP, our emergency investigation into the destruction of XE037 in living subjects.  8 of 10 of the subjects showed no revivification, despite confirmed dosages of XE037.",
+      "PE062, our \"cure\" for XE037 contamination, has neared perfection.  Sadly, the production of PE062 is a costly and time-consuming process.  What is more, the substance shows no effect on postmortem subjects whatsoever; a substance which renders XE037 inert after it has activated would be immensely useful in the case of an outbreak.",
+      "Our cloning department has failed to produce results.  In vats containing stem cell treatments, XE037, and control vats, the subjects simply disintegrated.  This suggests that XE037, while compatible with subprime lifeforms, shows only destructive effects on prime plane lifeforms.",
+      "We've established a new research team specifically to look into reverse engineering the properties of sample CC-09-R1.  See notes prior to [REDACTED: See XEDRA-SILOPROTOCOL or speak to an administrator for assistance].  They managed to steal Gloria Barnhoff away from Veridian Dynamics, it's a real coup.",
+      "Dr. Barnhoff already has an idea for how we could recreate some of the self-organizing properties of CC-09-R1.  Trouble is, it's pure silliness: it uses a molecular lattice of californium and a particle accelerator to basically 3D print certain types of molecules.  We had a good laugh, but she just stared at us.",
+      "Admin approved Barnhoff's request.  According to my math, the californium she requested alone is worth hundreds of millions of dollars.  We're going to start work on a prototype fabricator tomorrow.",
+      "The first nanofab prototype is promising.  There's a major clogging problem that keeps us from making more than a few micrograms of material, but that was enough to conceptualize the plastic Dr. Barnhoff wants.  Amazingly, Admin has approved ANOTHER sample of californium to replace the clogged lattice while we figure out how to fix the first.  I'm not sure there is supposed to be this much californium on Earth.  I might see how far my security clearance gets me in learning what's going on here.",
+      "Probe XC-3 returned with the soil samples Dr. Takatoshi requested.  As she predicted, the samples were absolutely loaded with rare isotopes: just in that 100 gram sample, there was five times as much plutonium-244 as in the entirety of the Earth's crust, for example.  We've sent it on to phys chem for further characterization, but it's clear enough.  A few kilos of dirt from 021XC could provide enough unobtainium to make XEDRA very, very rich.",
+      "We've noticed an interesting phenomenon after all these probe visits to 021XC.  The travel cost is dropping, ever so slightly.  It's still a few megawatts to send a probe over, but after a few thousand trips, the cost is down 0.02 percent per portal.",
+      "We have made a fascinating discovery; by creating a miniature portal with low stability and high power, one can transpose into the 4th dimension and return immediately, but shifted by several meters.  Our subjects oscillated so quickly that none were even aware that they had visited lower planes.",
+      "Our research on teleportation has ground to a halt.  For some reason, the creation of a long-range transportation device eludes us, and one can transfer no further than 30 meters.",
+      "Dr. Heisenstein told us today that director of teleportation department put our competitors - he couldn't exactly remember their names, something like \"Hole Science\" and something related to black mountains - as an example.  He said we have reliable information that they both have working teleportation devices, and that they are much more advanced than ours.  We should continue our teleportation research no matter the cost if we don't want to be fired.",
+      "I don't know how it happened, but a janitor managed to activate the portal while cleaning the lab, shifting in an assortment of prehistoric fauna.  Security was called in immediately but was unable to save the janitor from being torn apart.  By the time the confusion settled, all the fauna had been terminated.",
+      "Tests on the prehistoric fauna show extremely close genetic relationships with extant and extinct terranean animals.  It might be that the portal had performed a transposition in time, unfortunately the portal device was destroyed when security put down the fauna.",
+      "An incident occurred in the secondary teleportation lab, wherein a subject managed to teleport into another subject.  The latter was completely destroyed from the inside out, while the former sustained little damage.  I would like to explore the phenomenon further, but subjects are expensive.",
+      "Test subjects in the teleportation department are showing alarming symptoms.  It seems prolonged rapid transposition along the 4th dimension weakens the forces holding one on this plane.",
+      "Catastrophe struck in our teleportation department yesterday.  It seems that our test subjects are so detached from this plane that they create occasional tunnels along the 4th dimension, allowing life forms to transfer to this plane.  All subjects with prolonged exposure have been terminated.",
+      "Our lifeform extraction program continues to produce samples laced with XE037.  It is in mineral, water, and biological samples from dimension designate 000XE.  It is extremely difficult to analyze: we are mostly aware of its presence through mass shadows.  Dr. Takatoshi suggests it might be a dimensional variant of dark matter.",
+      "Hendelson exposed a lab mouse to XE037 under control conditions.  I'm not sure how he got permission for the project.  The results were interesting: rapid uptake into the mouse's cellular tissue followed by what we presume to be a die-off, fitting previous observations that XE037 doesn't seem to be able to survive outside its native planar material.  XEDRA command is authorizing a biological research wing to take over XE037 property analysis.",
+      "I swear they are talking to me.  No one believes me.  No one understands.  They whisper to me, at night, in the dark.  Please, please, make them stop.",
+      "Today we found a solution to the contamination problem, quite by accident.  It was found that XE037 is completely removed from a revivified body following a series of extremely-high energy 4th dimensional transpositions.  Unfortunately, this invariably allows subplane life forms to pass into the prime plane.  The cure is worse than the disease.  Nonetheless, we'll be informing XEDRA-40 via Melchior.  Perhaps Dr. Sidhu can make some use of this information.",
+      "Today we applied a very small sample of XE037, suspended in water, to subject TP92, prior to necessary termination.  During the postmortem examination, the subject went through a revivification progress.  Dr. Thoreaux was surprised, to say the least.  She bludgeoned it back to death with a microscope.",
+      "We have created a new department to investigate the effects of XE037 on the human body, specifically to examine the revivification effect observed on two prior occasions.  Sadly, our human subject pool is dwindling due to the short lifespan of subjects in this program.  More will be acquired soon.",
+      "An experimental subject was accidentally terminated today, and revivification was again seen as in Dr. Thoreaux's report.  This time we were ready for it, and the specimen was kept for observation.  It displays no human intelligence, a true animated corpse.  We're all calling it a zombie, because seriously.  This is so cool.",
+      "Testing XE037 on mouse and cat subjects does not appear to display the same revivifying effect, oddly enough.  Acquiring non-human subjects, sadly, is a long and costly process, and research into this area is lacking.  We'll send for some monkeys.",
+      "Earlier conjecture that revivification occurred only in humans was premature.  Per earlier experiments, exposure introduces a persistent, low level infection in all mammal subjects, but quickly enters a form of stasis and seems to go dormant.  In most of our experimental subjects this has been enough to trigger mutagenicity, but not revivification.  New tests on a wider range of subjects seem to suggest that larger mammals - dogs and monkeys, thus far - are susceptible to both effects.",
+      "The primary factor in determining revivification of mammalian subjects seems to be the amount of XE037 within the body at time of expiration.  Smaller mammals such as lab rats do not obtain this critical amount of XE037 before going dormant.  Larger canine subjects, however, do.",
+      "Program S37ZBE, investigation of XE037 on inert human bodies, is making great strides.  Recently we found that XE037 has no effect when introduced to a deceased body; revivification only occurs when the subject is exposed to XE037 prior to expiration.",
+      "Attempts to surpass the XE037 mammalian stasis limit have had some success.  Direct subcutaneous injection of XE037-rich samples quickly cause mass ripples through the body that we believe indicates a rapid uptake of XE037.  These levels drop over hours, suggesting that XE037 cannot sustain itself in smaller organisms.",
+      "S37ZBE, the special investigation into the effects of XE037 on inert human bodies, has made terrific discoveries.  It seems that it occasionally displays a mutagenic property which manifests itself after termination of the subject, resulting in a striking variety in postmortem morphology.",
+      "Incidence of post-mortem mutation seems to depend on several factors - leading candidates include type and amount of damage sustained leading to expiration, proximity to other revived individuals, time since colonization by XE037, and the body mass of the subject.",
+      "We've confirmed that XE037 does have some limitations in its revivification capacity.  Once the body is sufficiently destroyed, be it by dissection or by mulching, it cannot revive.  This is convenient for our autopsy attempts, and we have added a formalized protocol to quarter cadavers immediately after death if an autopsy is planned.",
+      "S37ZBE may be put on indefinite hold shortly.  Postmortem morphological changes have reached extreme levels; this morning one subject nearly doubled in size, acquiring enough strength to reduce a concrete wall to rubble.  It required a 6 man team, heavily armed, to re-terminate the subject.",
+      "Jakobson insists that S37ZBE must continue, despite the extreme security and safety risks.  Nearly half of our security forces have been redirected to the S37ZBE project, simply to deal with the occasional escape of a subject.  We have requisitioned military assistance at facilities involved in the project.",
+      "Jakobson was killed today by one of S37ZBE's subjects; ironic considering how hard he fought to keep the project active.  Alarmingly, his corpse revivified immediately.  This suggests that XE037 may have contaminated the lab at large.  Even more alarmingly, we received an alert from Dr. Dionne in XEDRA-12 that they have detected similar signs of cross-contamination with XE037.  How can this have happened?  Even during the breach last week, we managed to keep containment protocols active!",
+      "Termination of a subject which was never a part of S37ZBE has confirmed my fears.  XE037 has contaminated most, if not all of the laboratory.  We're in communication with XEDRA-12 over their own outbreak, and both labs have been quarantined.  While they backtrace the leak, we will start research into a process to destroy XE037 within the human body.",
+      "Dr. Takatoshi sent us interesting news: her lab serendipitously discovered that sufficient rapid teleports in a short span of time can strip out XE037 somehow, without harming the subject.  This has the unfortunate issues of needing an absolutely insane amount of electricity, and drawing the attention of what Dr. Takatoshi calls \"subplanar creatures\" and the rest of us call \"horrifying alien monstrosities\".  Still, it's a start.",
+      "Dr. Sidhu figured out a way to track what happens to XE037 when it's stripped out during teleportation, using a high-affinity biotracer and a probe that follows immediately behind the test subject.  XE037 migrates out of the body in small but significant quantities with every teleport.  We're attributing way too much intelligence to it here, but we can't help but feel this is some kind of intentional 'stowaway' effect, like it's shedding off the body to try to colonize a new dimension.  At the meeting, Dr. Sidhu told us to stop anthropomorphizing it.  He thinks it's no more a sign of intelligence than a cold virus coming out with a sneeze.",
+      "I've put Dr. Welch and Dr. Bondi on supervised leave following the incident discussed in my previous message.  Obviously neither has a history of this kind of behavior or they wouldn't be here, and it's deeply concerning that they both suddenly began acting this way following Wednesday's demonstration.  For now we'll keep them on-site until (hopefully) they recover enough to get back to work, but I'd like to formally ask that we start looking at possible replacements.",
+      "At approximately 11:15 today, I saw Dr. Greene enter the break area from the primary corridor.  He is always so rude so I drew my service pistol and fired three shots into his body.  Then I shot Dr. Summers and Officer Clark because they were being loud.  I am sorry, but I do not know how many times I shot them.  I think Hollis tazed me but I was so mad by that point that I could not keep track of what was going on.  Then you restrained me and brought me here, so I guess that's my whole report."
+    ]
+  }
+]

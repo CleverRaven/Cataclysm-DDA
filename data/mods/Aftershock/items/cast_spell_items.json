@@ -1,0 +1,106 @@
+[
+  {
+    "abstract": "afs_caster",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "caster" },
+    "description": "A generic techno doodad used to cast spells.",
+    "weight": "100 g",
+    "volume": "250 ml",
+    "price": 5000,
+    "material": [ "superalloy" ],
+    "symbol": "[",
+    "color": "light_red",
+    "charges_per_use": 1,
+    "warmth": 0,
+    "flags": [ "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "ONLY_ONE", "NO_UNLOAD", "NO_RELOAD" ],
+    "armor": [ { "coverage": 0, "covers": [ "torso" ] } ]
+  },
+  {
+    "id": "afs_holo_transposition_caster",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "hologram transposition caster" },
+    "copy-from": "afs_caster",
+    "description": "A small metallic sphere with a recessed bottom up top.  When activated it will allow you to swap positions with an existing hologram.",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "battery": 15 } } ],
+    "use_action": { "type": "cast_spell", "spell_id": "afs_holo_transposition", "no_fail": true, "level": 1 },
+    "relic_data": { "charge_info": { "regenerate_ammo": true, "recharge_type": "periodic", "time": "1 h" } }
+  },
+  {
+    "id": "afs_holo_flare_caster",
+    "type": "TOOL_ARMOR",
+    "copy-from": "afs_caster",
+    "name": { "str": "hologram flare caster" },
+    "description": "A small metallic sphere with a recessed bottom up top.  When activated it will allow you to select a hologram, which will explode in a blinding flash, stunning anything nearby.",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "battery": 15 } } ],
+    "use_action": { "type": "cast_spell", "spell_id": "afs_holo_flare", "no_fail": true, "level": 1 },
+    "relic_data": { "charge_info": { "regenerate_ammo": true, "recharge_type": "periodic", "time": "1 h" } }
+  },
+  {
+    "id": "afs_holo_decoy_caster",
+    "type": "TOOL_ARMOR",
+    "copy-from": "afs_caster",
+    "name": { "str": "decoy caster" },
+    "description": "A small metallic sphere with a recessed bottom up top.  When activated it will a holographic decoy in a location of your choosing.",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "battery": 2 } } ],
+    "use_action": { "type": "cast_spell", "spell_id": "afs_holo_decoy", "no_fail": true, "level": 1 },
+    "relic_data": { "charge_info": { "regenerate_ammo": true, "recharge_type": "periodic", "time": "1 h" } }
+  },
+  {
+    "id": "afs_holo_field_caster",
+    "type": "TOOL_ARMOR",
+    "copy-from": "afs_caster",
+    "name": { "str": "decoy field caster" },
+    "description": "A small metallic sphere with a recessed bottom up top.  When activated it will create several holographic decoys around you.",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "battery": 1 } } ],
+    "use_action": { "type": "cast_spell", "spell_id": "afs_holo_field", "no_fail": true, "level": 1 },
+    "relic_data": { "charge_info": { "regenerate_ammo": true, "recharge_type": "periodic", "time": "1 h" } }
+  },
+  {
+    "id": "afs_recall_rig",
+    "type": "TOOL_ARMOR",
+    "copy-from": "dimensional_anchor",
+    "name": { "str": "recall rig" },
+    "description": "A complex antennae assembly worn around the upper torso that allows its user to home and teleport towards previously configured teleport pads.  Although relatively functional, it's much inferior to the translocation systems of old, and a successful teleport requires standing perfectly still for several minutes.",
+    "charges_per_use": 1000,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "magazine_well": "75 ml",
+        "flag_restriction": [ "BATTERY_HEAVY" ],
+        "default_magazine": "heavy_atomic_battery_cell"
+      }
+    ],
+    "use_action": { "type": "cast_spell", "spell_id": "afs_translocation_slow", "no_fail": true, "level": 1 }
+  },
+  {
+    "id": "afs_translocation_device",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "translocator" },
+    "copy-from": "afs_wrist_computer",
+    "description": "An arcane device from the late Hyperspace Era, vaguely resembling a wrist computer made from malleable glass.  It can be activated to quickly deploy a translocator buoy or to teleport to previously activated buoys.",
+    "price": "100 kUSD",
+    "charges_per_use": 1000,
+    "material": [ "diamond" ],
+    "ammo": [ "battery" ],
+    "use_action": [
+      {
+        "type": "cast_spell",
+        "spell_id": "afs_translocation",
+        "no_fail": true,
+        "level": 1,
+        "need_worn": true,
+        "mundane": true
+      },
+      [ "AFS_TRANSLOCATOR" ]
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "magazine_well": "75 ml",
+        "item_restriction": [ "afs_archeotech_cartridge" ]
+      }
+    ]
+  }
+]

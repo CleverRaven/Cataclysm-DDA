@@ -1,0 +1,127 @@
+[
+  {
+    "type": "overmap_location",
+    "id": "source_of_anything",
+    "flags": [ "GENERIC_LOOT" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "source_of_ammo",
+    "flags": [ "SOURCE_AMMO" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "source_of_guns",
+    "flags": [ "SOURCE_GUN" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "source_of_weapons",
+    "flags": [ "SOURCE_WEAPON", "SOURCE_GUN" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "source_of_drink",
+    "flags": [ "SOURCE_DRINK" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "source_of_food",
+    "flags": [ "SOURCE_FOOD" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "source_of_fuel",
+    "flags": [ "SOURCE_FUEL" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "source_of_farming",
+    "flags": [ "SOURCE_FARMING" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "source_of_fabrication",
+    "flags": [ "SOURCE_FABRICATION" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "source_of_books",
+    "flags": [ "SOURCE_BOOKS" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "source_of_forage",
+    "flags": [ "SOURCE_FORAGE" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "source_of_cooking",
+    "flags": [ "SOURCE_COOKING" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "source_of_tailoring",
+    "flags": [ "SOURCE_TAILORING" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "source_of_vehicles",
+    "flags": [ "SOURCE_VEHICLES" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "source_of_electronics",
+    "flags": [ "SOURCE_ELECTRONICS" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "source_of_construction",
+    "flags": [ "SOURCE_CONSTRUCTION" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "source_of_chemistry",
+    "flags": [ "SOURCE_CHEMISTRY" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "source_of_clothing",
+    "flags": [ "SOURCE_CLOTHING" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "source_of_safety",
+    "flags": [ "SOURCE_SAFETY" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "source_of_animals",
+    "flags": [ "SOURCE_ANIMALS" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "source_of_medicine",
+    "flags": [ "SOURCE_MEDICINE" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "source_of_luxuries",
+    "flags": [ "SOURCE_LUXURY" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "source_of_people",
+    "flags": [ "SOURCE_PEOPLE" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "risk_high",
+    "flags": [ "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "risk_low",
+    "flags": [ "RISK_LOW" ]
+  }
+]

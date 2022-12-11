@@ -1,0 +1,1066 @@
+[
+  {
+    "type": "item_group",
+    "id": "military_standard_assault_rifles",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "m4_carbine", "variant": "m4a1", "prob": 88, "charges": [ 0, 30 ] },
+      { "item": "m27_assault_rifle", "variant": "m27iar", "prob": 10, "charges": [ 0, 30 ] },
+      {
+        "item": "m27_assault_rifle",
+        "variant": "m38dmr",
+        "contents-group": "m38dmr_mods",
+        "prob": 1,
+        "charges": [ 0, 30 ]
+      },
+      { "item": "m16a4", "prob": 2, "charges": [ 0, 30 ] }
+    ]
+  },
+  {
+    "id": "armor_plates",
+    "type": "item_group",
+    "//": "a list of all plates that could be sold in stores",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "esapi_plate", "prob": 50 },
+      { "item": "stab_plate", "prob": 50 },
+      { "item": "steel_ballistic_plate", "prob": 50 },
+      { "item": "heavy_steel_ballistic_plate", "prob": 50 },
+      { "item": "esbi_plate", "prob": 50 }
+    ]
+  },
+  {
+    "id": "maybe_esapi_plate",
+    "type": "item_group",
+    "//": "plate that is either broken or working",
+    "subtype": "distribution",
+    "entries": [ { "item": "esapi_plate", "prob": 50 }, { "item": "destroyed_large_ceramic_plate", "prob": 50 } ]
+  },
+  {
+    "id": "maybe_esbi_plate",
+    "type": "item_group",
+    "//": "plate that is either broken or working",
+    "subtype": "distribution",
+    "entries": [ { "item": "esbi_plate", "prob": 50 }, { "item": "destroyed_medium_ceramic_plate", "prob": 50 } ]
+  },
+  {
+    "id": "some_esapi_plates",
+    "type": "item_group",
+    "//": "ESAPI plates for full vest",
+    "subtype": "collection",
+    "entries": [
+      { "group": "maybe_esapi_plate" },
+      { "group": "maybe_esapi_plate" },
+      { "group": "maybe_esbi_plate" },
+      { "group": "maybe_esbi_plate" }
+    ]
+  },
+  {
+    "id": "some_esapi_front_plates",
+    "type": "item_group",
+    "//": "ESAPI plates for light vest",
+    "subtype": "collection",
+    "entries": [ { "group": "maybe_esapi_plate" }, { "group": "maybe_esapi_plate" } ]
+  },
+  {
+    "id": "some_steel_front_plates",
+    "type": "item_group",
+    "//": "ESAPI plates for light vest",
+    "subtype": "collection",
+    "entries": [ { "item": "steel_ballistic_plate", "damage": [ 0, 2 ] }, { "item": "steel_ballistic_plate", "damage": [ 0, 2 ] } ]
+  },
+  {
+    "id": "some_heavy_steel_front_plates",
+    "type": "item_group",
+    "//": "ESAPI plates for light vest",
+    "subtype": "collection",
+    "entries": [
+      { "item": "heavy_steel_ballistic_plate", "damage": [ 0, 2 ] },
+      { "item": "heavy_steel_ballistic_plate", "damage": [ 0, 2 ] }
+    ]
+  },
+  {
+    "id": "some_stab_front_plates",
+    "type": "item_group",
+    "//": "ESAPI plates for light vest",
+    "subtype": "collection",
+    "entries": [ { "item": "stab_plate", "damage": [ 0, 2 ] }, { "item": "stab_plate", "damage": [ 0, 2 ] } ]
+  },
+  {
+    "id": "pristine_esapi_plates",
+    "type": "item_group",
+    "//": "ESAPI plates for full vest",
+    "subtype": "collection",
+    "entries": [ { "item": "esapi_plate" }, { "item": "esapi_plate" }, { "item": "esbi_plate" }, { "item": "esbi_plate" } ]
+  },
+  {
+    "id": "pristine_esapi_front_plates",
+    "type": "item_group",
+    "//": "ESAPI plates for light vest",
+    "subtype": "collection",
+    "entries": [ { "item": "esapi_plate" }, { "item": "esapi_plate" } ]
+  },
+  {
+    "id": "some_front_plates",
+    "type": "item_group",
+    "//": "random collection of two matching plates",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "some_esapi_front_plates", "prob": 20 },
+      { "group": "some_steel_front_plates", "prob": 50 },
+      { "group": "some_heavy_steel_front_plates", "prob": 20 },
+      { "group": "some_stab_front_plates", "prob": 50 }
+    ]
+  },
+  {
+    "id": "kitted_heavy_vest",
+    "type": "item_group",
+    "//": "ESAPI plates for full vest and pouches",
+    "subtype": "collection",
+    "entries": [ { "group": "pristine_esapi_plates" }, { "group": "custom_heavy_lbv" } ]
+  },
+  {
+    "id": "used_kitted_heavy_vest",
+    "type": "item_group",
+    "//": "ESAPI plates for full vest and pouches",
+    "subtype": "collection",
+    "entries": [ { "group": "some_esapi_plates" }, { "group": "custom_heavy_lbv" } ]
+  },
+  {
+    "id": "used_kitted_medium_vest",
+    "type": "item_group",
+    "//": "ESAPI plates for full vest and pouches",
+    "subtype": "collection",
+    "entries": [ { "group": "some_esapi_plates" }, { "group": "custom_medium_lbv" } ]
+  },
+  {
+    "id": "kitted_medium_vest",
+    "type": "item_group",
+    "//": "ESAPI plates for full vest and pouches",
+    "subtype": "collection",
+    "entries": [ { "group": "pristine_esapi_plates" }, { "group": "custom_medium_lbv" } ]
+  },
+  {
+    "id": "kitted_light_vest",
+    "type": "item_group",
+    "//": "ESAPI plates for full vest and pouches",
+    "subtype": "collection",
+    "entries": [ { "group": "pristine_esapi_front_plates" }, { "group": "custom_light_lbv" } ]
+  },
+  {
+    "id": "used_kitted_light_vest",
+    "type": "item_group",
+    "//": "ESAPI plates for full vest and pouches",
+    "subtype": "collection",
+    "entries": [ { "group": "some_esapi_front_plates" }, { "group": "custom_light_lbv" } ]
+  },
+  {
+    "id": "military_ballistic_vest",
+    "type": "item_group",
+    "//": "ESAPI vest plus plates",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "distribution": [
+          {
+            "item": "ballistic_vest_esapi",
+            "variant": "us_ballistic_vest",
+            "contents-group": "used_kitted_medium_vest",
+            "prob": 100
+          },
+          {
+            "collection": [
+              { "item": "ballistic_vest_esapi", "variant": "us_ballistic_vest", "contents-group": "some_esapi_plates" },
+              { "group": "loaded_lbv" }
+            ],
+            "prob": 50
+          }
+        ],
+        "prob": 40
+      },
+      {
+        "collection": [
+          { "item": "level_3_vest", "variant": "national_guard_armor_vest", "contents-group": "some_esapi_front_plates" },
+          { "group": "loaded_lbv" }
+        ],
+        "prob": 50
+      },
+      { "group": "military_ballistic_vest_light", "prob": 10 },
+      { "group": "military_ballistic_vest_heavy", "prob": 5 }
+    ]
+  },
+  {
+    "id": "swat_ballistic_vest",
+    "type": "item_group",
+    "//": "ESAPI vest plus plates",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "item": "ballistic_vest_esapi",
+        "variant": "swat_ballistic_vest",
+        "contents-group": "used_kitted_medium_vest",
+        "prob": 7
+      },
+      {
+        "collection": [
+          { "item": "ballistic_vest_esapi", "variant": "swat_ballistic_vest", "contents-group": "some_esapi_plates" },
+          { "item": "tacvest" }
+        ],
+        "prob": 2
+      },
+      {
+        "collection": [
+          { "item": "ballistic_vest_esapi", "variant": "swat_ballistic_vest", "contents-group": "some_esapi_plates" },
+          {
+            "item": "heavy_load_bearing_vest_breacher",
+            "contents-group": "custom_light_lbv",
+            "contents-item": "remington_870_breacher"
+          }
+        ],
+        "prob": 1
+      }
+    ]
+  },
+  {
+    "id": "swat_ballistic_vest_pristine",
+    "type": "item_group",
+    "//": "ESAPI vest plus plates",
+    "subtype": "distribution",
+    "entries": [ { "item": "ballistic_vest_esapi", "variant": "swat_ballistic_vest", "contents-group": "kitted_medium_vest" } ]
+  },
+  {
+    "id": "military_ballistic_vest_pristine",
+    "type": "item_group",
+    "//": "ESAPI vest plus plates",
+    "subtype": "collection",
+    "entries": [
+      {
+        "distribution": [
+          { "item": "ballistic_vest_esapi", "variant": "us_ballistic_vest", "contents-group": "kitted_medium_vest", "prob": 100 },
+          {
+            "collection": [
+              { "item": "ballistic_vest_esapi", "variant": "us_ballistic_vest", "contents-group": "pristine_esapi_plates" },
+              { "group": "loaded_lbv" }
+            ],
+            "prob": 50
+          }
+        ],
+        "prob": 40
+      },
+      {
+        "collection": [
+          { "item": "level_3_vest", "variant": "national_guard_armor_vest", "contents-group": "pristine_esapi_front_plates" },
+          { "group": "loaded_lbv" }
+        ],
+        "prob": 50
+      },
+      { "group": "military_ballistic_vest_light_pristine", "prob": 10 },
+      { "group": "military_ballistic_vest_heavy_pristine", "prob": 5 }
+    ]
+  },
+  {
+    "id": "us_ballistic_vest_pristine",
+    "type": "item_group",
+    "//": "ESAPI vest plus plates",
+    "subtype": "collection",
+    "entries": [ { "item": "ballistic_vest_esapi", "variant": "us_ballistic_vest", "contents-group": "kitted_medium_vest" } ]
+  },
+  {
+    "id": "contractor_ballistic_vest_light",
+    "type": "item_group",
+    "//": "light ballistic vests with assorted plates",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "ballistic_vest_light", "contents-group": "kitted_light_vest", "prob": 50 },
+      { "item": "ballistic_vest_light_pouches", "contents-group": "kitted_light_vest", "prob": 50 },
+      { "item": "ballistic_vest_light_operator", "contents-group": "kitted_light_vest", "prob": 50 }
+    ]
+  },
+  {
+    "id": "military_ballistic_vest_light",
+    "type": "item_group",
+    "//": "light ballistic vests you could get away with in the army",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "item": "ballistic_vest_light",
+        "variant": "ballistic_vest_light_tan",
+        "contents-group": "used_kitted_light_vest",
+        "prob": 50
+      },
+      {
+        "item": "ballistic_vest_light",
+        "variant": "ballistic_vest_light_olive",
+        "contents-group": "used_kitted_light_vest",
+        "prob": 50
+      },
+      {
+        "item": "ballistic_vest_light_pouches",
+        "variant": "ballistic_vest_light_tan",
+        "contents-group": "used_kitted_light_vest",
+        "prob": 50
+      },
+      {
+        "item": "ballistic_vest_light_pouches",
+        "variant": "ballistic_vest_light_olive",
+        "contents-group": "used_kitted_light_vest",
+        "prob": 50
+      },
+      {
+        "item": "ballistic_vest_light_operator",
+        "variant": "ballistic_vest_light_tan",
+        "contents-group": "used_kitted_light_vest",
+        "prob": 50
+      },
+      {
+        "item": "ballistic_vest_light_operator",
+        "variant": "ballistic_vest_light_olive",
+        "contents-group": "used_kitted_light_vest",
+        "prob": 50
+      }
+    ]
+  },
+  {
+    "id": "military_ballistic_vest_light_pristine",
+    "type": "item_group",
+    "//": "light ballistic vests you could get away with in the army",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "item": "ballistic_vest_light",
+        "variant": "ballistic_vest_light_tan",
+        "contents-group": "kitted_light_vest",
+        "prob": 50
+      },
+      {
+        "item": "ballistic_vest_light",
+        "variant": "ballistic_vest_light_olive",
+        "contents-group": "kitted_light_vest",
+        "prob": 50
+      },
+      {
+        "item": "ballistic_vest_light_pouches",
+        "variant": "ballistic_vest_light_tan",
+        "contents-group": "kitted_light_vest",
+        "prob": 50
+      },
+      {
+        "item": "ballistic_vest_light_pouches",
+        "variant": "ballistic_vest_light_olive",
+        "contents-group": "kitted_light_vest",
+        "prob": 50
+      },
+      {
+        "item": "ballistic_vest_light_operator",
+        "variant": "ballistic_vest_light_tan",
+        "contents-group": "kitted_light_vest",
+        "prob": 50
+      },
+      {
+        "item": "ballistic_vest_light_operator",
+        "variant": "ballistic_vest_light_olive",
+        "contents-group": "kitted_light_vest",
+        "prob": 50
+      }
+    ]
+  },
+  {
+    "id": "ballistic_vest_light_pristine",
+    "type": "item_group",
+    "//": "light ballistic vest plus plates",
+    "subtype": "collection",
+    "entries": [ { "item": "ballistic_vest_light", "contents-group": "kitted_light_vest" } ]
+  },
+  {
+    "id": "military_ballistic_vest_heavy_pristine",
+    "type": "item_group",
+    "//": "heavy ballistic vest plus plates",
+    "subtype": "collection",
+    "entries": [ { "item": "ballistic_vest_heavy", "contents-group": "kitted_heavy_vest" } ]
+  },
+  {
+    "id": "military_ballistic_vest_heavy",
+    "type": "item_group",
+    "//": "heavy ballistic vest plus plates",
+    "subtype": "collection",
+    "entries": [ { "item": "ballistic_vest_heavy", "contents-group": "used_kitted_heavy_vest" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "military_standard_shotguns",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "mossberg_930", "variant": "m1014", "prob": 60, "charges": [ 0, 8 ] },
+      { "item": "mossberg_590", "prob": 40, "charges": [ 0, 9 ] },
+      { "item": "m26_mass_standalone", "prob": 5, "charges": [ 0, 3 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "military_standard_sniper_rifles",
+    "subtype": "distribution",
+    "entries": [ { "item": "m2010", "prob": 20, "charges": [ 0, 5 ] }, { "item": "m110a1", "prob": 80, "charges": [ 0, 20 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "military_standard_lmgs",
+    "subtype": "distribution",
+    "entries": [ { "item": "m249", "prob": 100, "charges": [ 0, 200 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "military_standard_pistols",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "m9", "variant": "m9", "prob": 30, "charges": [ 0, 15 ] },
+      { "item": "m11", "prob": 3, "charges": [ 0, 13 ] },
+      { "item": "m17", "prob": 65, "charges": [ 0, 17 ] },
+      { "item": "m18", "prob": 30, "charges": [ 0, 17 ] },
+      { "item": "glock_19", "prob": 3, "charges": [ 0, 15 ] },
+      { "item": "m1911", "variant": "m1911_MEU", "prob": 2, "charges": [ 0, 7 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "military_standard_grenades",
+    "subtype": "distribution",
+    "entries": [ { "item": "grenade", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "military_patrol_food",
+    "subtype": "collection",
+    "entries": [
+      { "group": "any_MRE", "count": [ 1, 3 ], "prob": 70 },
+      { "item": "chocolate", "prob": 20, "charges": [ 1, 3 ] },
+      { "item": "neccowafers", "prob": 20 },
+      { "item": "water_clean", "container-item": "canteen", "prob": 80, "charges": [ 0, 6 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "infantry_common_gear",
+    "subtype": "collection",
+    "entries": [
+      { "item": "e_tool", "prob": 60 },
+      { "item": "mask_gas", "prob": 20, "charges": [ 0, 100 ] },
+      { "item": "two_way_radio", "prob": 60, "charges": [ 0, 100 ] },
+      { "item": "sheath", "contents-item": "knife_combat", "prob": 80 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "infantry_officer_gear",
+    "subtype": "collection",
+    "entries": [
+      { "item": "holster", "contents-group": "military_standard_pistols", "prob": 90 },
+      { "item": "id_military", "prob": 90 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "infantry_medical_gear",
+    "subtype": "collection",
+    "entries": [
+      { "distribution": [ { "group": "full_ifak" }, { "group": "used_ifak" } ], "prob": 90 },
+      { "item": "quikclot", "prob": 60, "charges": [ 1, 6 ] },
+      { "collection": [ { "item": "morphine", "charges": [ 1, 4 ] }, { "item": "syringe" } ], "prob": 30 },
+      { "item": "prophylactic_antivenom", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "sopmod",
+    "subtype": "collection",
+    "entries": [
+      {
+        "distribution": [
+          { "item": "holo_sight", "prob": 50 },
+          { "item": "acog_scope", "prob": 30 },
+          { "item": "hybrid_sight_4x", "prob": 30 },
+          { "item": "red_dot_sight", "prob": 20 }
+        ]
+      },
+      { "distribution": [ { "item": "grip", "prob": 70 }, { "item": "m203", "prob": 30 } ] },
+      { "item": "offset_sights", "prob": 30 },
+      { "item": "shoulder_strap", "prob": 70 },
+      { "item": "rail_laser_sight", "prob": 30 },
+      { "item": "suppressor", "prob": 70 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "military",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "mil_food", "prob": 1251 },
+      { "group": "mil_armor", "prob": 575 },
+      { "item": "m107a1", "prob": 1 },
+      { "item": "bipod", "prob": 1 },
+      { "item": "50bmg", "prob": 3 },
+      { "item": "50ss", "prob": 2 },
+      { "item": "50match", "prob": 1 },
+      { "item": "50_mk211", "prob": 1 },
+      { "item": "small_repairkit", "prob": 10 },
+      { "item": "50_incendiary", "prob": 2 },
+      { "item": "water_clean", "prob": 90 },
+      { "item": "knuckle_brass", "prob": 10 },
+      { "item": "knuckle_steel_forged", "prob": 5 },
+      { "item": "battery_ups", "prob": 10 },
+      { "item": "bandages", "prob": 30 },
+      { "item": "adhesive_bandages", "prob": 20, "count": [ 1, 20 ] },
+      { "item": "cotton_ball", "prob": 20 },
+      { "item": "iodine", "prob": 5 },
+      { "item": "prussian_blue", "prob": 5 },
+      { "item": "adrenaline_injector", "prob": 4 },
+      { "group": "tobacco_products", "prob": 146 },
+      { "item": "knife_combat", "prob": 14 },
+      { "item": "kukri", "prob": 2 },
+      { "item": "throwing_knife", "prob": 7 },
+      { "item": "boots_steel", "prob": 50 },
+      { "item": "sneakers_steel", "prob": 35 },
+      { "item": "gloves_fingerless", "prob": 20 },
+      { "item": "glasses_safety", "prob": 40 },
+      { "item": "hat_boonie", "prob": 10 },
+      { "item": "holster", "prob": 15 },
+      { "item": "sholster", "prob": 10 },
+      { "item": "bandolier_shotgun", "prob": 12 },
+      { "item": "torso_bandolier_shotgun", "prob": 8 },
+      { "item": "torso_bandolier_grenade", "prob": 8 },
+      { "item": "bootstrap", "prob": 3 },
+      { "item": "legpouch", "prob": 8 },
+      { "item": "legpouch_large", "prob": 4 },
+      { "item": "chestpouch", "prob": 6 },
+      { "item": "ammo_satchel", "prob": 3 },
+      { "item": "gobag", "prob": 1 },
+      { "item": "mess_kit", "prob": 9, "charges": [ 0, 500 ] },
+      { "item": "mil_mess_kit", "prob": 1, "charges": [ 0, 500 ] },
+      { "item": "tent_kit", "prob": 10 },
+      { "item": "large_tent_kit", "prob": 10 },
+      { "item": "pistol_bayonet", "prob": 4 },
+      { "item": "9mm", "prob": 8 },
+      { "item": "9mmfmj", "prob": 4 },
+      { "item": "45_acp", "prob": 7 },
+      { "item": "45_jhp", "prob": 3 },
+      { "item": "556", "prob": 6 },
+      { "item": "556_incendiary", "prob": 2 },
+      { "item": "762_51", "prob": 6 },
+      { "item": "762_51_incendiary", "prob": 6 },
+      { "item": "40x46mm_m433", "prob": 10 },
+      { "item": "40x46mm_m433", "prob": 8 },
+      { "item": "40x46mm_m651", "prob": 5 },
+      { "item": "40x46mm_m576", "prob": 12 },
+      { "item": "40x53mm_m1001", "prob": 6 },
+      { "item": "20x66_shot", "prob": 4 },
+      { "item": "20x66_exp", "prob": 1 },
+      { "item": "20x66_inc", "prob": 1 },
+      { "item": "20x66_flare", "prob": 2 },
+      { "item": "20x66_frag", "prob": 1 },
+      { "item": "20x66_slug", "prob": 4 },
+      { "item": "20x66_flechette", "prob": 3 },
+      { "item": "m9", "variant": "m9", "prob": 6 },
+      { "item": "usp_45", "prob": 6 },
+      { "item": "m4_carbine", "variant": "m4a1", "prob": 7 },
+      { "item": "m4_carbine", "variant": "m4_cqbr", "prob": 1 },
+      { "item": "m231pfw", "prob": 1 },
+      { "item": "m16a4", "prob": 5 },
+      { "item": "m16_auto_rifle", "variant": "m16a3", "prob": 1 },
+      { "item": "colt_ro635", "prob": 1 },
+      { "item": "p226_9mm", "prob": 1 },
+      { "item": "sp2022", "prob": 1 },
+      { "item": "m27_assault_rifle", "variant": "h&k416a5", "prob": 7 },
+      { "item": "mossberg_930", "variant": "m1014", "prob": 2 },
+      { "item": "m26_mass_standalone", "prob": 1 },
+      { "item": "m27_assault_rifle", "variant": "scar_l", "prob": 6 },
+      { "item": "scar_h", "prob": 5 },
+      { "item": "sig_mcx_rattler_sbr", "prob": 1 },
+      { "item": "m249", "prob": 1 },
+      { "item": "m240", "prob": 1 },
+      { "item": "m27_assault_rifle", "variant": "m27iar", "prob": 1 },
+      { "item": "m27_assault_rifle", "variant": "m38dmr", "contents-group": "m38dmr_mods", "prob": 1 },
+      { "item": "plasma_gun", "prob": 1 },
+      { "item": "m320", "prob": 5 },
+      { "item": "m320_mod", "prob": 10 },
+      { "item": "ugl_buttstock", "prob": 10 },
+      { "item": "mgl", "prob": 6 },
+      { "item": "rm802", "prob": 6 },
+      { "item": "suppressor", "prob": 15 },
+      { "item": "shot_suppressor", "prob": 1 },
+      { "item": "brass_catcher", "prob": 15 },
+      { "item": "lighter", "prob": 60, "charges": [ 0, 100 ] },
+      { "item": "small_lighter", "prob": 5, "charges": [ 0, 50 ] },
+      { "item": "ref_lighter", "prob": 5, "charges": [ 0, 50 ] },
+      { "item": "flashlight", "prob": 40, "charges": [ 0, 300 ] },
+      { "item": "heavy_flashlight", "prob": 40, "charges": [ 0, 300 ] },
+      { "item": "landmine", "prob": 3 },
+      { "item": "grenade", "prob": 3 },
+      { "item": "grenade_inc", "prob": 3 },
+      { "item": "flashbang", "prob": 3 },
+      { "item": "EMPbomb", "prob": 2 },
+      { "item": "gasbomb", "prob": 3 },
+      { "item": "smokebomb", "prob": 5 },
+      { "item": "tazer", "prob": 3, "charges": [ 0, 500 ] },
+      { "item": "c4", "prob": 5 },
+      { "item": "hk_g80", "prob": 2 },
+      { "item": "12mm", "prob": 2 },
+      { "item": "flamethrower", "prob": 1 },
+      { "item": "rm451_flamethrower", "prob": 1 },
+      { "item": "binoculars", "prob": 20 },
+      { "item": "masterkey", "prob": 2 },
+      { "item": "m26_mass", "prob": 3 },
+      { "item": "rm121aux", "prob": 1 },
+      { "item": "shot_flechette", "prob": 5 },
+      { "item": "canteen", "prob": 15 },
+      { "item": "2lcanteen", "prob": 10 },
+      { "item": "camelbak", "prob": 5 },
+      { "item": "jerrycan", "prob": 10 },
+      { "item": "rucksack", "prob": 20 },
+      { "group": "molle_backpacks_and_accessories", "prob": 15 },
+      { "item": "LAW_Packed", "prob": 30 },
+      { "item": "m3_carlgustav", "prob": 1 },
+      { "item": "m4_carlgustav", "prob": 1 },
+      { "item": "84x246mm_he", "prob": 3 },
+      { "item": "84x246mm_hedp", "prob": 2 },
+      { "item": "84x246mm_smoke", "prob": 3 },
+      { "item": "atgm_launcher", "prob": 1 },
+      { "item": "atgm_heat", "prob": 1 },
+      { "item": "m202_flash", "prob": 2 },
+      { "item": "m74_clip", "prob": 3 },
+      { "item": "rm51_assault_rifle", "prob": 1 },
+      { "item": "rm88_battle_rifle", "prob": 1 },
+      { "item": "rm614_lmg", "prob": 1 },
+      { "item": "rm2000_smg", "prob": 1 },
+      { "item": "8mm_caseless", "prob": 2 },
+      { "item": "8mm_jhp", "prob": 2 },
+      { "item": "8mm_fmj", "prob": 2 },
+      { "item": "laser_rifle", "prob": 1 },
+      { "item": "rm103a_pistol", "prob": 1 },
+      { "item": "laser_sight", "prob": 15 },
+      { "item": "rail_laser_sight", "prob": 10 },
+      { "item": "8mm_inc", "prob": 2 },
+      { "item": "tac_helmet", "prob": 10 },
+      { "item": "tac_fullhelmet", "prob": 5 },
+      { "item": "flight_helmet", "prob": 5 },
+      { "item": "mil_flight_suit", "prob": 5 },
+      { "item": "gum", "prob": 90 },
+      { "item": "caff_gum", "prob": 10 },
+      { "item": "nic_gum", "prob": 1 },
+      { "item": "improve_sights", "prob": 10 },
+      { "item": "waterproof_gunmod", "prob": 4 },
+      { "item": "cleansuit", "prob": 5 },
+      { "item": "needlegun", "prob": 4 },
+      { "item": "needlepistol", "prob": 6 },
+      { "item": "5x50dart", "prob": 8 },
+      { "item": "5x50heavy", "prob": 4 },
+      { "item": "hazmat_suit", "prob": 5 },
+      { "item": "e_tool", "prob": 20 },
+      { "item": "knife_trench", "prob": 14 },
+      { "item": "flaregun", "prob": 20 },
+      { "item": "signal_flare", "prob": 25 },
+      { "item": "militarymap", "prob": 4 },
+      { "item": "halligan", "prob": 10 },
+      { "item": "fire_ax", "prob": 5 },
+      { "item": "antiparasitic", "prob": 2 },
+      { "item": "match_trigger", "prob": 2 },
+      { "item": "grapnel", "prob": 1 },
+      { "item": "bucket", "prob": 4 },
+      { "item": "sheath", "prob": 13 },
+      { "item": "bootsheath", "prob": 8 },
+      { "item": "leg_sheath6", "prob": 2 },
+      { "item": "throwing_knife", "charges-min": 1, "charges-max": 6, "container-item": "leg_sheath6", "prob": 1 },
+      { "group": "tools_toolbox", "prob": 1 },
+      { "item": "knife_rm42", "prob": 4 },
+      { "item": "survnote", "prob": 1 },
+      { "item": "rm11b_sniper_rifle", "prob": 1 },
+      { "item": "shoulder_strap", "prob": 16 },
+      { "item": "single_sling", "prob": 16 },
+      { "item": "bot_manhack", "prob": 1 },
+      { "item": "bot_grenade_hack", "prob": 1 },
+      { "item": "l-stick", "prob": 1 },
+      { "item": "chem_hexamine", "prob": 5 },
+      { "item": "esbit_stove", "prob": 8 },
+      { "item": "mess_tin", "prob": 4 },
+      { "item": "beam_scatterer", "prob": 1 },
+      { "item": "focusing_lens", "prob": 1 },
+      { "item": "electrolaser_conversion", "prob": 1 },
+      { "item": "effective_emitter", "prob": 1 },
+      { "item": "high_density_capacitor", "prob": 1 },
+      { "item": "emp_gun", "prob": 1 },
+      { "item": "bt_apc9k", "prob": 1 },
+      { "item": "kevlar_nape_protector", "prob": 5 },
+      { "item": "counterweight_pouch", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "army_personal_locker",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "jumpsuit", "prob": 40 },
+      { "item": "officer_uniform", "prob": 20 },
+      { "item": "flight_helmet", "prob": 5, "charges-min": 0, "charges-max": 100 },
+      { "item": "mil_flight_suit", "prob": 30 },
+      { "item": "combo_cover", "prob": 20 },
+      { "item": "pants_army", "prob": 70 },
+      { "item": "combat_shirt", "prob": 35 },
+      { "item": "jacket_army_modern", "prob": 35 },
+      { "item": "socks", "prob": 40 },
+      { "item": "winter_pants_army", "prob": 20 },
+      { "item": "winter_jacket_army", "prob": 20 },
+      { "item": "winter_gloves_army", "prob": 20 },
+      { "item": "army_top", "prob": 70 },
+      { "group": "ammo_pocket_batteries_full", "prob": 40 },
+      { "item": "radio", "prob": 10, "charges-min": 10, "charges-max": 95 },
+      { "item": "boots_combat", "prob": 50 },
+      { "item": "bandages", "prob": 10, "charges-min": 1, "charges-max": 3 },
+      { "item": "adhesive_bandages", "prob": 10, "count": [ 1, 20 ] },
+      { "item": "cig", "prob": 60, "charges-min": 1, "charges-max": 20 },
+      { "item": "knife_combat", "prob": 30 },
+      { "item": "pockknife", "prob": 30 },
+      { "item": "knife_folding", "prob": 20 },
+      { "item": "glasses_safety", "prob": 45 },
+      { "item": "eyedrops", "prob": 10, "charges-min": 1, "charges-max": 10 },
+      { "item": "screwdriver", "prob": 5 },
+      { "item": "glasses_eye", "prob": 30 },
+      { "item": "tool_belt", "prob": 20 },
+      { "item": "bra", "prob": 40 },
+      { "item": "undershirt", "prob": 50 },
+      { "item": "boxer_shorts", "prob": 50 },
+      { "item": "briefs", "prob": 50 },
+      { "item": "canteen", "prob": 40 },
+      { "item": "2lcanteen", "prob": 20 },
+      { "item": "camelbak", "prob": 10 },
+      { "item": "rucksack", "prob": 30 },
+      { "group": "molle_backpacks_and_accessories", "prob": 15 },
+      { "item": "heatpack", "prob": 30 },
+      { "item": "sleeping_bag_roll", "prob": 20 },
+      { "item": "duffelbag", "prob": 25 },
+      { "item": "mil_mess_kit", "prob": 50, "charges": [ 0, 500 ] },
+      { "item": "flashlight", "prob": 50, "charges": [ 0, 300 ] },
+      { "item": "heavy_flashlight", "prob": 10, "charges": [ 0, 300 ] },
+      { "item": "mag_fieldrepair", "prob": 20 },
+      { "item": "mag_comic", "prob": 20 },
+      { "group": "book_gunmags", "prob": 20 },
+      { "item": "thermos", "prob": 15 },
+      { "item": "kevlar_nape_protector", "prob": 5 },
+      { "item": "counterweight_pouch", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "army_bed",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "blanket", "prob": 70 },
+      { "item": "pillow", "prob": 70 },
+      { "item": "sheet", "prob": 70 },
+      { "item": "mag_porn", "prob": 40 },
+      { "item": "mag_comic", "prob": 10 },
+      { "item": "mag_guns", "prob": 10 },
+      { "item": "manual_brawl", "prob": 5 },
+      { "item": "manual_melee", "prob": 5 },
+      { "item": "manual_knives", "prob": 5 },
+      { "item": "manual_swords", "prob": 5 },
+      { "item": "manual_gun", "prob": 5 },
+      { "item": "manual_shotgun", "prob": 5 },
+      { "item": "manual_rifle", "prob": 5 },
+      { "item": "manual_pistol", "prob": 5 },
+      { "item": "manual_traps_mil", "prob": 5 },
+      { "item": "mag_pistol", "prob": 10 },
+      { "item": "mag_rifle", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "mil_hw",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "mags_milspec", "prob": 40 },
+      { "item": "flamethrower", "prob": 20, "charges": [ 0, 3000 ] },
+      { "item": "rm451_flamethrower", "prob": 10, "charges": [ 0, 2000 ] },
+      { "item": "m249", "prob": 30, "charges": [ 0, 30 ] },
+      { "item": "m240", "prob": 20, "charges": [ 0, 200 ] },
+      { "item": "m27_assault_rifle", "variant": "m27iar", "prob": 30, "charges": [ 0, 30 ] },
+      { "item": "m27_assault_rifle", "variant": "m38dmr", "contents-group": "m38dmr_mods", "charges": [ 0, 30 ] },
+      { "item": "m2browning", "prob": 15, "charges": [ 0, 100 ] },
+      { "item": "mark19", "prob": 15, "charges": [ 0, 50 ] },
+      { "item": "556", "prob": 30, "charges": [ 1, 30 ] },
+      { "item": "belt40mm", "prob": 8, "charges": [ 0, 50 ] },
+      { "item": "40x46mm_m433", "prob": 10, "charges": [ 1, 6 ] },
+      { "item": "40x46mm_m576", "prob": 6, "charges": [ 1, 6 ] },
+      { "item": "8mm_hvp", "prob": 4, "charges": [ 1, 20 ] },
+      { "item": "556_incendiary", "prob": 10, "charges": [ 1, 30 ] },
+      { "item": "rm802", "prob": 5, "charges": [ 1, 4 ] },
+      { "item": "40x46mm_m433", "prob": 7, "charges": [ 1, 6 ] },
+      { "item": "40x53mm_m1001", "prob": 6, "charges": [ 1, 10 ] },
+      { "item": "m3_carlgustav", "prob": 10 },
+      { "item": "m4_carlgustav", "prob": 10 },
+      { "item": "84x246mm_he", "prob": 8 },
+      { "item": "84x246mm_hedp", "prob": 8 },
+      { "item": "84x246mm_smoke", "prob": 9 },
+      { "item": "hk_g80", "prob": 5, "charges": [ 0, 20 ] },
+      { "item": "12mm", "prob": 5, "charges": [ 1, 20 ] },
+      { "item": "rm614_lmg", "prob": 2, "charges": [ 0, 250 ] },
+      { "item": "rm298", "prob": 1, "charges": [ 0, 250 ] },
+      { "item": "m134", "prob": 1, "charges": [ 0, 200 ] },
+      { "item": "m107a1", "prob": 8, "charges": [ 0, 10 ] },
+      { "item": "50bmg", "prob": 12, "charges": [ 1, 25 ] },
+      { "item": "50match", "prob": 4, "charges": [ 1, 10 ] },
+      { "item": "50_mk211", "prob": 1, "charges": [ 1, 25 ] },
+      { "item": "50ss", "prob": 8, "charges": [ 1, 10 ] },
+      { "item": "50_incendiary", "prob": 8, "charges": [ 1, 10 ] },
+      { "item": "8mm_fmj", "prob": 6, "charges": [ 1, 40 ] },
+      { "item": "8mm_inc", "prob": 6, "charges": [ 1, 20 ] },
+      { "item": "8mm_caseless", "prob": 6, "charges": [ 1, 40 ] },
+      { "item": "m202_flash", "prob": 15 },
+      { "item": "m74_clip", "prob": 15 },
+      { "item": "atgm_heat", "prob": 1 },
+      { "item": "rm20", "prob": 3, "charges": [ 0, 20 ] },
+      { "item": "20x66_flechette", "prob": 4, "charges": [ 1, 10 ] },
+      { "item": "20x66_slug", "prob": 5, "charges": [ 1, 20 ] },
+      { "item": "20x66_exp", "prob": 2, "charges": [ 1, 20 ] },
+      { "item": "20x66_frag", "prob": 2, "charges": [ 1, 5 ] },
+      { "item": "20x66_flare", "prob": 4, "charges": [ 1, 10 ] },
+      { "item": "20x66_inc", "prob": 2, "charges": [ 1, 10 ] },
+      { "item": "bt_apc9k", "prob": 1, "charges": [ 0, 15 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "mil_bulk",
+    "//": "A bulk of uniform goods all of the same type likely found in a shipping crate",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "mil_mess_kit", "prob": 10, "count": 32 },
+      { "item": "voltmeter", "prob": 10, "count": 32 },
+      { "item": "multimeter", "prob": 10, "count": 32 },
+      { "item": "drivebelt", "prob": 10, "count": 64 },
+      { "item": "grapnel", "prob": 10, "count": 32 },
+      { "item": "string_floss", "prob": 5, "count": 128 },
+      { "item": "toothbrush_plain", "prob": 5, "count": 128 },
+      { "item": "sm_extinguisher", "prob": 5, "count": 16, "charges": 10 },
+      { "item": "fire_ax", "prob": 5, "count": 16 },
+      { "item": "manual_stabbing", "prob": 5, "count": 64 },
+      { "item": "manual_rifle", "prob": 5, "count": 64 },
+      { "item": "m11", "prob": 1, "count": 16 },
+      { "item": "m17", "prob": 3, "count": 32 },
+      { "item": "m18", "prob": 2, "count": 16 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "mil_food",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "mil_food_nodrugs", "prob": 1410 },
+      { "item": "codeine", "prob": 15, "charges": [ 1, 10 ] },
+      { "item": "antibiotics", "prob": 25, "charges": [ 1, 15 ] },
+      { "item": "purifier", "prob": 12 },
+      { "item": "heatpack", "prob": 60 },
+      { "item": "pur_tablets", "container-item": "bottle_plastic_small", "prob": 20, "charges": [ 1, 15 ] },
+      { "item": "fungicide", "prob": 5 },
+      { "item": "insecticide", "prob": 5 },
+      { "item": "rx12_injector", "prob": 8, "charges": [ 0, 2 ] },
+      { "item": "rx11_stimpack", "prob": 8, "charges": [ 0, 5 ] },
+      { "item": "oxygen_tank", "prob": 10, "charges": [ 0, 24 ] },
+      { "item": "smoxygen_tank", "prob": 20, "charges": [ 0, 12 ] },
+      { "item": "bfipowder", "prob": 15, "charges": [ 1, 4 ] },
+      { "item": "quikclot", "prob": 10, "charges": [ 1, 6 ] },
+      { "item": "weak_antibiotic", "prob": 40, "charges": [ 1, 5 ] },
+      { "item": "prophylactic_antivenom", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "mil_food_nodrugs",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "MRE", "prob": 1035 },
+      { "item": "chocolate", "prob": 20 },
+      { "item": "neccowafers", "prob": 30 },
+      { "item": "can_beans", "prob": 40 },
+      { "item": "pork_beans", "prob": 40 },
+      { "distribution": [ { "group": "full_ifak" }, { "group": "used_ifak" } ], "prob": 35 },
+      { "item": "saline", "prob": 10 },
+      { "item": "instant_coffee", "prob": 25 },
+      { "item": "con_milk", "prob": 10 },
+      { "item": "milk_UHT", "prob": 25 },
+      { "item": "cereal", "prob": 20 },
+      { "item": "sports_drink", "prob": 40 },
+      { "item": "water_clean", "prob": 90 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "helicopter",
+    "magazine": 100,
+    "subtype": "distribution",
+    "entries": [
+      { "group": "guns_launcher_milspec", "prob": 5 },
+      { "group": "guns_launcher_rocket", "prob": 44 },
+      { "group": "guns_rifle_milspec", "prob": 10 },
+      { "item": "human_flesh", "prob": 4, "count-min": 1, "count-max": 10 },
+      { "item": "bone_human", "prob": 10, "count-min": 1, "count-max": 5 },
+      { "item": "cotton_patchwork", "prob": 10, "count-min": 1, "count-max": 10, "custom-flags": [ "FILTHY" ] },
+      { "item": "sheet_metal", "prob": 22 },
+      { "item": "seat", "prob": 4 },
+      { "item": "chain", "prob": 20 },
+      { "item": "power_supply", "prob": 16 },
+      { "item": "antenna", "prob": 18 },
+      { "item": "steel_chunk", "prob": 30 },
+      { "item": "spring", "prob": 50 },
+      { "item": "steel_lump", "prob": 30 },
+      { "item": "frame", "prob": 20 },
+      { "item": "steel_plate", "prob": 30 },
+      { "item": "mil_plate", "prob": 30 },
+      { "item": "wheel_armor", "prob": 15 },
+      { "item": "spiked_plate", "prob": 15 },
+      { "item": "hard_plate", "prob": 30 },
+      { "item": "motor", "prob": 2 },
+      { "item": "motor_large", "prob": 1 },
+      { "item": "motor_small", "prob": 1 },
+      { "item": "hose", "prob": 15 },
+      { "item": "pants_army", "prob": 30 },
+      { "item": "flight_helmet", "prob": 10, "charges-min": 0, "charges-max": 100 },
+      { "item": "mil_flight_suit", "prob": 30 },
+      { "item": "combat_shirt", "prob": 15 },
+      { "item": "jacket_army_modern", "prob": 15 },
+      { "item": "winter_pants_army", "prob": 10 },
+      { "item": "winter_jacket_army", "prob": 10 },
+      { "item": "winter_gloves_army", "prob": 10 },
+      { "item": "army_top", "prob": 30 },
+      { "item": "boots_combat", "prob": 10 },
+      { "item": "gloves_tactical", "prob": 10 },
+      { "item": "jumpsuit", "prob": 20 },
+      { "item": "kevlar", "prob": 10 },
+      { "item": "officer_uniform", "prob": 5 },
+      { "item": "combo_cover", "prob": 5 },
+      { "group": "military_ballistic_vest", "prob": 40 },
+      { "item": "sheet_kevlar_layered", "prob": 10 },
+      { "item": "mask_gas", "prob": 10, "charges": [ 0, 100 ] },
+      { "item": "helmet_army", "prob": 40 },
+      { "item": "helmet_liner", "prob": 10 },
+      { "group": "ammo_pocket_batteries_full", "prob": 50 },
+      { "item": "plut_cell", "prob": 10, "charges": [ 1, 5 ] },
+      { "item": "m249", "prob": 1, "charges": [ 0, 30 ] },
+      { "item": "m240", "prob": 1, "charges": [ 0, 200 ] },
+      { "item": "rm614_lmg", "prob": 1, "charges": [ 0, 250 ] },
+      { "item": "rm298", "prob": 1, "charges": [ 0, 250 ] },
+      { "item": "m134", "prob": 1, "charges": [ 0, 200 ] },
+      { "item": "atgm_launcher", "prob": 1 },
+      { "item": "atgm_heat", "prob": 3 },
+      { "item": "v8_combustion", "prob": 10 },
+      { "item": "extinguisher", "prob": 20, "charges": 100 },
+      { "item": "radio", "prob": 20, "charges": [ 0, 100 ] },
+      { "item": "UPS_off", "prob": 8, "charges": [ 0, 1000 ] },
+      { "item": "tacvest", "prob": 10 },
+      { "group": "molle_backpacks_and_accessories", "prob": 15 },
+      { "item": "legrig", "prob": 10 },
+      { "item": "rucksack", "prob": 20 },
+      { "item": "gobag", "prob": 2 },
+      { "group": "full_survival_kit", "prob": 3 },
+      { "item": "recipe_raptor", "prob": 2 },
+      { "item": "tac_helmet", "prob": 5 },
+      { "item": "tac_fullhelmet", "prob": 2 },
+      { "item": "cowboy_hat", "prob": 4 },
+      { "item": "mask_bal", "prob": 1 },
+      { "item": "sm_extinguisher", "prob": 10, "charges": 10 },
+      { "item": "flaregun", "prob": 20 },
+      { "item": "signal_flare", "prob": 25 },
+      { "item": "glasses_bal", "prob": 10 },
+      { "item": "55gal_drum", "prob": 1 },
+      { "item": "30gal_drum", "prob": 2 },
+      { "item": "optical_cloak", "prob": 1 },
+      { "item": "holo_cloak", "prob": 1, "charges": [ 0, 1000 ] },
+      { "item": "grapnel", "prob": 1 },
+      { "item": "briefcase", "prob": 5 },
+      { "item": "survnote", "prob": 2 },
+      { "item": "robot_controls", "prob": 3 },
+      { "item": "solarpack", "prob": 1 },
+      { "item": "flight_helmet", "prob": 20, "ammo-item": "light_plus_battery_cell", "charges": [ 0, 150 ] },
+      { "item": "mil_flight_suit", "prob": 20 }
+    ]
+  },
+  {
+    "id": "inactive_bots_milspec",
+    "type": "item_group",
+    "items": [
+      [ "bot_EMP_hack", 100 ],
+      [ "bot_c4_hack", 25 ],
+      [ "bot_flashbang_hack", 50 ],
+      [ "bot_gasbomb_hack", 50 ],
+      [ "bot_grenade_hack", 50 ],
+      [ "bot_antimateriel", 5 ],
+      [ "bot_manhack", 100 ],
+      [ "bot_mininuke_hack", 2 ],
+      [ "bot_rifleturret", 10 ],
+      [ "bot_crows_m240", 10 ],
+      [ "bot_talon_m202a1", 10 ],
+      [ "bot_dispatch_military", 15 ],
+      [ "bot_turret_searchlight", 75 ]
+    ]
+  },
+  {
+    "id": "maps_milspec",
+    "type": "item_group",
+    "items": [ [ "militarymap", 100 ], [ "satellitemap", 100 ] ]
+  },
+  {
+    "id": "supplies_mechanics_milspec",
+    "type": "item_group",
+    "//": "same as supplies_mechanics, but mostly for heavy vehicle",
+    "items": [
+      [ "v_airjack_item", 20 ],
+      [ "jumper_cable", 15 ],
+      [ "jumper_cable_heavy", 5 ],
+      [ "frame", 10 ],
+      [ "hd_tow_cable", 5 ],
+      [ "hdframe", 20 ],
+      [ "motor", 2 ],
+      [ "wheel", 10 ],
+      { "item": "polycarbonate_sheet", "prob": 4, "count": [ 1, 3 ] },
+      { "item": "rubber_cement", "prob": 15, "count": [ 3, 9 ] },
+      [ "vac_mold", 1 ],
+      [ "wheel_wide", 10 ],
+      [ "wheel_small", 10 ],
+      [ "wheel_wide_or", 5 ],
+      [ "tire_medium", 10 ],
+      [ "tire_wide", 5 ],
+      [ "tire_wide_or", 5 ],
+      [ "deflated_wheel", 10 ],
+      [ "deflated_wheel_wide_or", 5 ],
+      [ "wheel_rim_medium", 5 ],
+      [ "wheel_rim_wide", 5 ],
+      [ "1cyl_combustion", 1 ],
+      [ "v2_combustion", 2 ],
+      [ "i4_combustion", 2 ],
+      [ "v6_combustion", 10 ],
+      [ "v6_diesel", 10 ],
+      { "item": "aero_engine_light", "prob": 1 },
+      [ "vehicle_controls", 3 ],
+      [ "horn_car", 1 ],
+      [ "horn_big", 1 ],
+      [ "v8_combustion", 7 ],
+      [ "v8_diesel", 7 ],
+      [ "v12_combustion", 5 ],
+      [ "v12_diesel", 5 ],
+      [ "small_turbine_engine", 7 ],
+      [ "medium_turbine_engine", 5 ],
+      [ "large_turbine_engine", 3 ],
+      [ "weldrig", 1 ],
+      [ "solar_cell", 1 ],
+      [ "bearing", 1 ],
+      [ "headlight_reinforced", 10 ],
+      [ "motor_large", 1 ],
+      [ "battery_car", 6 ],
+      [ "alternator_car", 6 ],
+      [ "alternator_truck", 6 ],
+      [ "hd_tow_cable", 1 ],
+      [ "generator_7500w", 3 ],
+      [ "storage_battery", 6 ],
+      [ "motor_oil", 100 ],
+      [ "solar_panel", 3 ],
+      [ "recharge_station", 8 ]
+    ]
+  }
+]

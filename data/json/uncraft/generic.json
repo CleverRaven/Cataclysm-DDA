@@ -1,0 +1,462 @@
+[
+  {
+    "result": "blade_scythe",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "0 s",
+    "components": [ [ [ "steel_lump", 1 ] ] ]
+  },
+  {
+    "result": "young_koji_done",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "1 m",
+    "components": [ [ [ "koji", 5 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "handflare",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "20 s",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "incendiary", 75 ] ] ]
+  },
+  {
+    "result": "rock_large",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "time": "5 m",
+    "tools": [ [ [ "pickaxe", -1 ], [ "bronze_pickaxe", -1 ], [ "jackhammer", 1 ], [ "elec_jackhammer", 50 ] ] ],
+    "components": [ [ [ "rock", 24 ] ] ]
+  },
+  {
+    "result": "sheet_metal",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "150 s",
+    "qualities": [ { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "sheet_metal_small", 24 ] ] ]
+  },
+  {
+    "result": "sheet_metal_small",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "12 s",
+    "qualities": [ { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "scrap", 5 ] ] ]
+  },
+  {
+    "result": "exodii_ingot_tin",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "16 h",
+    "tools": [ [ [ "angle_grinder", 500 ] ] ],
+    "components": [ [ [ "10l_tin", 80 ] ] ]
+  },
+  {
+    "result": "10l_tin",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "10 m",
+    "tools": [ [ [ "angle_grinder", 10 ] ] ],
+    "components": [ [ [ "5l_tin", 2 ] ] ]
+  },
+  {
+    "result": "5l_tin",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "1 h",
+    "tools": [ [ [ "angle_grinder", 50 ] ] ],
+    "components": [ [ [ "scrap_tin", 94 ] ] ]
+  },
+  {
+    "result": "exodii_ingot_lead",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "16 h",
+    "tools": [ [ [ "angle_grinder", 500 ] ] ],
+    "components": [ [ [ "10l_lead", 80 ] ] ]
+  },
+  {
+    "result": "10l_lead",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "10 m",
+    "tools": [ [ [ "angle_grinder", 10 ] ] ],
+    "components": [ [ [ "5l_lead", 2 ] ] ]
+  },
+  {
+    "result": "5l_lead",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "1 h",
+    "tools": [ [ [ "angle_grinder", 50 ] ] ],
+    "components": [ [ [ "lead", 18900 ] ] ]
+  },
+  {
+    "result": "exodii_ingot_zinc",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "16 h",
+    "tools": [ [ [ "angle_grinder", 500 ] ] ],
+    "components": [ [ [ "10l_zinc", 80 ] ] ]
+  },
+  {
+    "result": "10l_zinc",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "10 m",
+    "tools": [ [ [ "angle_grinder", 10 ] ] ],
+    "components": [ [ [ "5l_zinc", 2 ] ] ]
+  },
+  {
+    "result": "5l_zinc",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "1 h",
+    "tools": [ [ [ "angle_grinder", 50 ] ] ],
+    "components": [ [ [ "zinc_metal", 5071 ] ] ]
+  },
+  {
+    "result": "exodii_ingot_steel",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "16 h",
+    "tools": [ [ [ "angle_grinder", 500 ] ] ],
+    "components": [ [ [ "10l_steel", 80 ] ] ]
+  },
+  {
+    "result": "10l_steel",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "10 m",
+    "tools": [ [ [ "angle_grinder", 10 ] ] ],
+    "components": [ [ [ "5l_steel", 2 ] ] ]
+  },
+  {
+    "result": "5l_steel",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "1 h",
+    "tools": [ [ [ "angle_grinder", 50 ] ] ],
+    "components": [ [ [ "steel_lump", 39 ] ] ]
+  },
+  {
+    "result": "exodii_ingot_copper",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "16 h",
+    "tools": [ [ [ "angle_grinder", 500 ] ] ],
+    "components": [ [ [ "10l_copper", 80 ] ] ]
+  },
+  {
+    "result": "10l_copper",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "10 m",
+    "tools": [ [ [ "angle_grinder", 10 ] ] ],
+    "components": [ [ [ "5l_copper", 2 ] ] ]
+  },
+  {
+    "result": "5l_copper",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "1 h",
+    "tools": [ [ [ "angle_grinder", 50 ] ] ],
+    "components": [ [ [ "scrap_copper", 103 ] ] ]
+  },
+  {
+    "result": "exodii_ingot_aluminum",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "16 h",
+    "tools": [ [ [ "angle_grinder", 500 ] ] ],
+    "components": [ [ [ "10l_aluminum", 80 ] ] ]
+  },
+  {
+    "result": "10l_aluminum",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "10 m",
+    "tools": [ [ [ "angle_grinder", 10 ] ] ],
+    "components": [ [ [ "5l_aluminum", 2 ] ] ]
+  },
+  {
+    "result": "5l_aluminum",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "1 h",
+    "tools": [ [ [ "angle_grinder", 50 ] ] ],
+    "components": [ [ [ "material_aluminium_ingot", 20 ] ] ]
+  },
+  {
+    "result": "exodii_ingot_plastic",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "16 h",
+    "tools": [ [ [ "reciprocating_saw", 500 ], [ "circsaw_off", 500 ] ] ],
+    "components": [ [ [ "10l_plastic", 80 ] ] ]
+  },
+  {
+    "result": "10l_plastic",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "10 m",
+    "tools": [ [ [ "reciprocating_saw", 10 ], [ "circsaw_off", 10 ] ] ],
+    "components": [ [ [ "5l_plastic", 2 ] ] ]
+  },
+  {
+    "result": "5l_plastic",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "1 h",
+    "tools": [ [ [ "reciprocating_saw", 50 ], [ "circsaw_off", 50 ] ] ],
+    "components": [ [ [ "plastic_chunk", 100 ] ] ]
+  },
+  {
+    "result": "10l_lc_steel",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "10 m",
+    "tools": [ [ [ "angle_grinder", 10 ] ] ],
+    "components": [ [ [ "5l_lc_steel", 2 ] ] ]
+  },
+  {
+    "result": "5l_lc_steel",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "1 h",
+    "tools": [ [ [ "angle_grinder", 50 ] ] ],
+    "components": [ [ [ "lc_steel_lump", 39 ] ] ]
+  },
+  {
+    "result": "10l_mc_steel",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "10 m",
+    "tools": [ [ [ "angle_grinder", 10 ] ] ],
+    "components": [ [ [ "5l_mc_steel", 2 ] ] ]
+  },
+  {
+    "result": "5l_mc_steel",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "1 h",
+    "tools": [ [ [ "angle_grinder", 50 ] ] ],
+    "components": [ [ [ "mc_steel_lump", 39 ] ] ]
+  },
+  {
+    "result": "10l_hc_steel",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "10 m",
+    "tools": [ [ [ "angle_grinder", 10 ] ] ],
+    "components": [ [ [ "5l_hc_steel", 2 ] ] ]
+  },
+  {
+    "result": "5l_hc_steel",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "1 h",
+    "tools": [ [ [ "angle_grinder", 50 ] ] ],
+    "components": [ [ [ "hc_steel_lump", 39 ] ] ]
+  },
+  {
+    "result": "atgm_spent",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "time": "30 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "steel_chunk", 38 ] ] ]
+  },
+  {
+    "result": "mattress",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "22 s",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "cotton_patchwork", 60 ] ], [ [ "sheet", 4 ] ], [ [ "spring", 4 ] ], [ [ "wire", 20 ] ] ]
+  },
+  {
+    "result": "character_sheet",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "time": "1 s",
+    "components": [ [ [ "paper", 3 ] ] ]
+  },
+  {
+    "result": "sandbag",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "fabrication",
+    "time": "10 s",
+    "components": [ [ [ "bag_canvas", 1 ] ], [ [ "material_sand", 3000 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "scrap_cotton",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "tailor",
+    "time": "2 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "thread", 1 ] ] ]
+  },
+  {
+    "result": "spatula",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "time": "2 m",
+    "components": [ [ [ "chunk_rubber", 2 ] ] ],
+    "flags": [ "BLIND_HARD" ]
+  },
+  {
+    "result": "sole_rubber",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "time": "4 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "chunk_rubber", 3 ] ] ]
+  },
+  {
+    "result": "tire_medium",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "time": "5 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "rubber_tire_strip", 1 ] ] ]
+  },
+  {
+    "result": "tire_medium_slick",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "time": "7 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "rubber_tire_strip", 2 ] ] ]
+  },
+  {
+    "result": "tire_motorbike",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "time": "5 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "rubber_tire_strip", 1 ] ] ]
+  },
+  {
+    "result": "tire_motorbike_or",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "time": "5 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "rubber_tire_strip", 1 ] ] ]
+  },
+  {
+    "result": "tire_wide",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "time": "10 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "rubber_tire_strip", 3 ] ] ]
+  },
+  {
+    "result": "tire_wide_or",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "time": "10 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "rubber_tire_strip", 3 ] ] ]
+  },
+  {
+    "result": "tire_bicycle",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "time": "5 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "rubber_tire_chunk", 3 ] ] ]
+  },
+  {
+    "result": "tire_bicycle_or",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "time": "5 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "rubber_tire_chunk", 3 ] ] ]
+  },
+  {
+    "result": "rubber_tire_strip",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "time": "5 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "rubber_tire_chunk", 5 ] ] ]
+  },
+  {
+    "result": "rubber_slug",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "time": "10 s",
+    "components": [ [ [ "chunk_rubber", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "earthbag",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "fabrication",
+    "time": "10 s",
+    "components": [ [ [ "bag_canvas", 1 ] ], [ [ "material_soil", 3 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "gravelbag",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "fabrication",
+    "time": "10 s",
+    "components": [ [ [ "bag_canvas", 1 ] ], [ [ "material_gravel", 2700 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "skull_human",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "time": "10 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "bone_human", 4 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "skull_canis",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "time": "10 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "bone", 2 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  }
+]

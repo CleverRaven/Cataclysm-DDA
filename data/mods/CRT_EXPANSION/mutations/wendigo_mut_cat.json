@@ -1,0 +1,103 @@
+[
+  {
+    "type": "mutation_category",
+    "id": "SYLVAN",
+    "name": "Sylvan Avenger",
+    "threshold_mut": "THRESH_SYLVAN",
+    "mutagen_message": "A serene feeling of terror grips you as become acutely aware of the flora and fauna beckoning towards you.",
+    "memorial_message": "Reclaimed by nature.",
+    "vitamin": "mutagen_sylvan"
+  },
+  {
+    "id": "mutagen_sylvan",
+    "copy-from": "mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": "sylvan avenger mutagen",
+    "description": "Mutagen cocktail simply labeled 'C.R.I.T R&D.'",
+    "vitamins": [ [ "mutagen_sylvan", 175 ], [ "mutagen", 125 ] ]
+  },
+  {
+    "id": "iv_mutagen_sylvan",
+    "copy-from": "iv_mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": "sylvan avenger mutagenic primer",
+    "description": "A super-concentrated peat-brown substance with glittering green flecks that reminds you of a tree.",
+    "color": "light_gray",
+    "healthy": -2,
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You inject the sylvan avenger mutagenic primer.",
+      "tools_needed": { "syringe": -1 },
+      "vitamins": [ [ "mutagen_sylvan", 450, 550 ] ]
+    }
+  },
+  {
+    "id": "mutagen_sylvan",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Sylvan Avenger Mutagen" },
+    "excess": "mutagen_sylvan",
+    "min": 0,
+    "max": 2500,
+    "rate": "1 h",
+    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_sylvan",
+    "name": [ "Sylvan Mutation", "Sylvan Transformation", "Sylvan Metamorphosis" ],
+    "desc": [
+      "You consumed sylvan avenger mutagen.",
+      "You consumed a large amount of sylvan avenger mutagen.",
+      "You consumed a life-changing amount of sylvan avenger mutagen."
+    ],
+    "main_parts_only": true,
+    "max_intensity": 3,
+    "base_mods": {
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 75 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 100 ],
+      "pain_tick": [ 75 ]
+    },
+    "scaling_mods": { "hurt_chance": [ 21 ], "pain_chance": [ -30 ] },
+    "rating": "bad",
+    "blood_analysis_description": "Sylvan Avenger Mutagen Contamination"
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You have a strange dream about the mountain forests.",
+      "Your dreams give you a peculiar feeling of sinking into the treelines."
+    ],
+    "category": "SYLVAN",
+    "strength": 1
+  },
+  {
+    "type": "dream",
+    "messages": [ "You have a vivid dream of strolling through the woods.", "You dream of drinking copious amounts of warm water." ],
+    "category": "SYLVAN",
+    "strength": 2
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You have a dream of chasing something as a raw hunger sears your mind.",
+      "Recollections of stalking a human shakes you awake."
+    ],
+    "category": "SYLVAN",
+    "strength": 3
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You dream of tearing into more and more enemies.",
+      "You have a lucid dream where nature carefully welcomes your body."
+    ],
+    "category": "SYLVAN",
+    "strength": 4
+  }
+]

@@ -1,0 +1,51 @@
+# Zeilen, die länger als 78 Zeichen sind, werden automatisch umgebrochen.
+# Die folgende Zeile dient als Referenz
+##############################################################################
+<color_white>Besuche uns:</color>
+
+<color_light_gray>* Homepage:</color>    <color_cyan>https://cataclysmdda.org</color>
+<color_light_gray>* Wiki:</color>        <color_cyan>https://cddawiki.chezzo.com/cdda_wiki</color>
+
+<color_white>Melde Fehler, mache Vorschläge und folgen der Entwicklung unter:</color>
+
+<color_light_gray>* Github: </color><color_light_cyan>https://github.com/CleverRaven/Cataclysm-DDA/issues</color>
+<color_light_gray>* E-Mail: </color><color_light_cyan>kevin.granade@gmail.com</color>
+
+<color_white>Nimm an den Diskussionen in Foren und Chats teil:</color>
+
+<color_light_gray>* Discourse:                 </color><color_cyan>https://discourse.cataclysmdda.org/</color>
+<color_light_gray>* Discord:                   </color><color_cyan>https://discord.gg/jFEc7Yp</color>
+<color_light_gray>* IRC:                       </color><color_cyan>#CataclysmDDA at libera.chat4</color>
+<color_light_gray>* Reddit (unofficial):       </color><color_cyan>https://www.reddit.com/r/cataclysmdda/</color>
+
+<color_light_gray>Weitere nützliche Links findest Du auch auf unserer Homepage.</color>
+
+<color_light_gray>Im Spiel kannst du die Optionen jederzeit mit (<color_yellow>Esc</color>).</color> über das Hauptmenü aufrufen.
+
+<color_light_red>******************************************************************************</color>
+<color_light_red>    Haftungsausschluss für die experimentellen Builds:</color>
+<color_light_red>******************************************************************************</color>
+
+<color_white>Q: </color><color_yellow>Was ist ein experimenteller Build?</color>
+
+<color_white>A: </color><color_light_gray>Das Ziel der experimentellen Builds ist es, eine zweite Stufe der Qualitätskontrolle zu sein. Es ist der erste Ort, wo neue Inhalte zum Testen und Balancen veröffentlicht werden, abgesehen von der ursprünglichen Qualitätskontrolle. Sei dir bewusst, dass durch das Spielen des neusten experimentellen Builds du diesen aktiv testest und beim Entwicklungsprozess teilnimmst. Hierbei können jederzeit Fehler auftreten oder Features sehr unausgereift sein.</color>
+
+<color_white>Q: </color><color_yellow>Warum gibt es überhaupt experimentelle Builds?</color>
+
+<color_white>A: </color><color_light_gray>Sieh es als Alpha/Beta Version - Fehler und unausgereifte Features sind ein Teil davon. Wegen durchgehender Integrationen sind experimentelle Builds immer im Wandel und es wird dauerhaft an ihnen gearbeitet. Es ist wie ein Sandkasten, bei dem ständig Fehler gesucht werden und Features ihren Feinschliff bekommen. Sowohl große als auch kleine Features werden in diesen Builds veröffentlicht und auf Stabilität und Balance geprüft. Deswegen gibt es keine Garantie, dass die experimentellen Builds stabil laufen oder gut gebalanced sind. Tatsächlich ist nichts in experimentellen Builds garantiert. </color>
+
+<color_white>Q: </color><color_yellow>Also sind experimentelle Builds spielbar?</color>
+
+<color_white>A: </color><color_light_gray>Ja. Zwar laufen experimentelle Builds meistens stabil, aber dies kann sich jederzeit durch neue unausgereifte oder halbfertige Features ändern und kann Fehler hervorrufen, die das Spiel zum Absturz bringen oder sogar den Spielstand zerstören. Es ist zwar selten,  aber durch die Komplexität des Spiels reicht manchmal die initiale Qualitätskontrolle vor der Integration mit dem experimentellen Build nicht aus und Menschen machen nunmal Fehler. Das ist der Grund, warum experimentelle Builds existieren. </color>
+
+<color_white>Q: </color><color_yellow>Sollte ich also experimentelle Builds spielen oder lieber beim stabilen Build bleiben?</color>
+
+<color_white>A: </color><color_light_gray>Vorteil ist, dass du sofort Zugang zu den neusten Inhalten bekommst. Der Nachteil auf der anderen Seite ist, dass du mit dem Risiko lebst, deinen Spielfortschritt zu verlieren, wenn ein unschöner Fehler auftritt. Es bleibt dir überlassen mit dem experimentellen Build zu spielen, während es einen stabilen Build gibt. Falls etwas schief läuft, ist es deine eigene Verantwortung, also sei gewarnt. Als Sicherheitsvorkehrung solltest du immer Backups machen. Manchmal ist es besser, mit dem aktualisieren zu warten, bis ein größeres Feature stabil läuft oder ein wichtiger Fehler behoben wurde. </color>
+
+<color_white>Q: </color><color_yellow>Muss ich noch etwas anderes beachten?</color>
+
+<color_white>A: </color><color_light_gray>Ja. Denk dran, dass alles was du siehst und sehen wirst, sich jederzeit ändern kann. An allen Features, inklusive der neu Implementierten, wird dauerhaft gearbeitet und können sich jederzeit während der Entwicklung ändern. Und wie bereits gesagt, nichts ist garantiert, sowohl Spielebalance als auch Stabilität.</color>
+
+<color_white>Q: </color><color_yellow>Was ist, wenn ich das Risiko des experimentellen Builds nicht einsehe?</color>
+
+<color_white>A: </color><color_light_gray>Wenn du das Risiko nicht einsiehst, dann spiele den stabilen Build. Wenn du bereit bist, das Risiko einzugehen, dann genieße die neuen Inhalte des experimentellen Builds und nimm an der Entwicklung teil. Melde Fehler, mache Verbesserungsvorschläge oder erstelle sogar deine eigene Inhalte. Viel Glück.</color>

@@ -1,0 +1,18 @@
+[
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "structural_spur_drops",
+    "entries": [
+      { "item": "rock", "count": [ 10, 22 ] },
+      { "item": "scrap", "count": [ 10, 12 ] },
+      { "item": "rebar", "count": [ 3, 8 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "shrapnel_swarm_drops",
+    "entries": [ { "item": "shrapnel", "count": [ 3, 7 ] } ]
+  }
+]

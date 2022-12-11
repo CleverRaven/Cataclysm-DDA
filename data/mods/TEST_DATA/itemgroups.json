@@ -1,0 +1,51 @@
+[
+  {
+    "id": "test_truncating_to_container",
+    "type": "item_group",
+    "//": "A baloon with three items, which can't all fit.  The intention is that we should get one or the other",
+    "subtype": "collection",
+    "container-item": "test_balloon",
+    "on_overflow": "discard",
+    "items": [ [ "test_pants_fur", 100 ], [ "test_utility_belt", 100 ], [ "test_nuclear_carafe", 100 ] ]
+  },
+  {
+    "id": "test_spilling_from_container",
+    "type": "item_group",
+    "//": "A baloon with three items, which can't all fit.  The intention is that we should get two in the container and one outside",
+    "subtype": "collection",
+    "container-item": "test_balloon",
+    "on_overflow": "spill",
+    "items": [ [ "test_pants_fur", 100 ], [ "test_utility_belt", 100 ], [ "test_nuclear_carafe", 100 ] ]
+  },
+  {
+    "id": "test_event_item_spawn",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "test_pants_fur", "prob": 100, "event": "christmas" },
+      { "item": "test_utility_belt", "prob": 100, "event": "christmas" },
+      { "item": "test_nuclear_carafe", "prob": 100, "event": "christmas" },
+      { "item": "test_pipe", "prob": 100, "event": "halloween" },
+      { "item": "test_rag", "prob": 100, "event": "halloween" },
+      { "item": "test_rock", "prob": 100 }
+    ]
+  },
+  {
+    "id": "test_tools_group",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "hammer", "prob": 100 }, { "item": "bow_saw", "prob": 100 } ]
+  },
+  {
+    "id": "test_multitool_group",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "test_multitool", "prob": 100 } ]
+  },
+  {
+    "id": "test_group_disp",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "test_battery_disposable", "prob": 100 } ]
+  }
+]

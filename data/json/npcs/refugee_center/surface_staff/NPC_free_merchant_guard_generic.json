@@ -1,0 +1,69 @@
+[
+  {
+    "type": "npc",
+    "id": "guard",
+    "//": "A generic guard for the Free Merchants faction.",
+    "name_suffix": "Guard",
+    "class": "NC_BOUNTY_HUNTER",
+    "attitude": 0,
+    "mission": 8,
+    "chat": "TALK_GUARD",
+    "faction": "free_merchants"
+  },
+  {
+    "id": "TALK_GUARD",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "I'm not in charge here, you're looking for someone else…",
+      "Keep civil or I'll bring the pain.",
+      "Just on watch, move along.",
+      "Don't distract me.  I'm on watch.",
+      { "is_day": [ "Hello.  Welcome to our safe zone." ], "no": [ "Good evening.  Welcome to our safe zone." ] },
+      {
+        "u_male": [ "Sir.", "Rough out there, isn't it?" ],
+        "no": [ "Ma'am", "Ma'am, you really shouldn't be traveling out there." ]
+      }
+    ],
+    "responses": [
+      {
+        "text": "I'm trying to put a cleanup crew together to tidy up the back room.  Can you offer any help?",
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
+            {
+              "not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
+            }
+          ]
+        },
+        "topic": "TALK_GUARD_Boris_Mission_1"
+      },
+      { "text": "How did you get saddled with guard duty?", "topic": "TALK_GUARD_FM_BACKGROUND" },
+      { "text": "Don't mind me…", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GUARD_FM_BACKGROUND",
+    "dynamic_line": [
+      "Nothing too fancy.  We have a rota of anyone able bodied that can handle themselves.",
+      "None of your business really, is it.",
+      "I've seen my share of zombies, I'm one of the ones that's ready to take em on.  Nothing more.",
+      "Gotta earn my keep.",
+      "It's honest work, and now and then I get to take a zombie down."
+    ],
+    "responses": [ { "text": "Well, bye.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GUARD_Boris_Mission_1",
+    "dynamic_line": [
+      "Talk to one of the bosses about that.  You'd have to pay me to go back there though, that's gonna be a hell of a job.",
+      "I don't have a lot of free time for that sort of thing.  Maybe talk to the shopkeep, they know more about scheduling and stuff.",
+      "Nah.",
+      "I'd rather stand around looking threatening than scrub gore out of the tiles.",
+      "Not unless you pay me.  Try the shopkeep, they can sell our services just like anything else."
+    ],
+    "speaker_effect": { "effect": { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" } },
+    "responses": [ { "text": "Well, thanks anyway.", "topic": "TALK_DONE" } ]
+  }
+]

@@ -1,0 +1,113 @@
+[
+  {
+    "id": "22_cb",
+    "copy-from": "22_lr",
+    "type": "AMMO",
+    "name": { "str_sp": ".22 CB" },
+    "description": ".22 Conical Ball, a variety of .22 ammunition that propels its bullet using a primer instead of gunpowder.  The end result is a subsonic round that is so weak as to be nearly useless given your predicament.",
+    "price": 100,
+    "price_postapoc": 1000,
+    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
+    "count": 100,
+    "stack_size": 150,
+    "recoil": 39,
+    "proportional": { "range": 0.6, "damage": { "damage_type": "bullet", "amount": 0.5 }, "dispersion": 1.2 },
+    "extend": { "effects": [ "NOGIB" ] }
+  },
+  {
+    "id": "22_fmj",
+    "copy-from": "22_lr",
+    "type": "AMMO",
+    "name": { "str_sp": ".22 FMJ" },
+    "description": ".22 Long Rifle ammunition with a 30gr FMJ bullet.  The .22LR round is extremely weak, with short range and negligible recoil.  This type is marginally better at piercing through targets, but deals even less damage as a result.",
+    "relative": { "damage": { "damage_type": "bullet", "amount": -1, "armor_penetration": 2 } }
+  },
+  {
+    "id": "22_lr",
+    "type": "AMMO",
+    "name": { "str_sp": ".22 LR" },
+    "description": ".22 Long Rifle ammunition with a 40gr unjacketed bullet.  The .22LR round is extremely weak, with short range and negligible recoil.  It is most useful for target practice and hunting small animals.",
+    "weight": "3 g",
+    "volume": "65 ml",
+    "price": 150,
+    "price_postapoc": 800,
+    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
+    "material": [ "brass", "lead", "powder" ],
+    "symbol": "=",
+    "color": "yellow",
+    "count": 80,
+    "stack_size": 100,
+    "ammo_type": "22",
+    "casing": "22_casing",
+    "range": 13,
+    "damage": { "damage_type": "bullet", "amount": 12 },
+    "dispersion": 60,
+    "recoil": 150,
+    "effects": [ "COOKOFF" ]
+  },
+  {
+    "id": "22_ratshot",
+    "copy-from": "22_lr",
+    "type": "AMMO",
+    "name": { "str_sp": ".22 rat-shot" },
+    "description": "A .22 caliber cartridge loaded with very small pieces of shot contained within a fragmenting plastic capsule.  It has an extremely short range and poor penetration ability, but the spread of shot can hit targets with greater ease.",
+    "count": 100,
+    "price_postapoc": 400,
+    "dispersion": 0,
+    "projectile_count": 20,
+    "shot_damage": { "damage_type": "bullet", "amount": 0.1 },
+    "damage": { "damage_type": "bullet", "amount": 10 },
+    "proportional": { "range": 0.6, "recoil": 0.5 },
+    "extend": { "effects": [ "SHOT", "NOGIB" ] }
+  },
+  {
+    "id": "bp_22_fmj",
+    "copy-from": "22_fmj",
+    "type": "AMMO",
+    "name": { "str_sp": ".22 LR FMJ, black powder" },
+    "description": ".22 Long Rifle ammunition with a 30gr FMJ bullet.  The .22LR round is extremely weak, with short range and negligible recoil.  This type is marginally better at piercing through targets, but deals even less damage as a result.  Someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
+    "proportional": {
+      "price": 0.3,
+      "damage": { "damage_type": "bullet", "amount": 0.57, "armor_penetration": 0.5 },
+      "recoil": 0.57,
+      "dispersion": 1.2
+    },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+  },
+  {
+    "id": "bp_22_lr",
+    "copy-from": "22_lr",
+    "type": "AMMO",
+    "name": { "str_sp": ".22 LR, black powder" },
+    "description": ".22 Long Rifle ammunition with a 40gr unjacketed bullet.  The .22LR round is extremely weak, with short range and negligible recoil.  It is most useful for target practice and hunting small animals.  Someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
+    "proportional": {
+      "price": 0.3,
+      "damage": { "damage_type": "bullet", "amount": 0.57, "armor_penetration": 0.5 },
+      "recoil": 0.57,
+      "dispersion": 1.2
+    },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+  },
+  {
+    "id": "reloaded_22_lr",
+    "copy-from": "22_lr",
+    "type": "AMMO",
+    "name": { "str_sp": ".22 LR, reloaded" },
+    "description": ".22 Long Rifle ammunition with a 40gr unjacketed bullet.  The .22LR round is extremely weak, with short range and negligible recoil.  It is most useful for target practice and hunting small animals.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
+    "extend": { "effects": [ "RECYCLED" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+  },
+  {
+    "id": "reloaded_22_fmj",
+    "copy-from": "22_fmj",
+    "type": "AMMO",
+    "name": { "str_sp": ".22 FMJ, reloaded" },
+    "description": ".22 Long Rifle ammunition with a 30gr FMJ bullet.  The .22LR round is extremely weak, with short range and negligible recoil.  This type is marginally better at piercing through targets, but deals even less damage as a result.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
+    "extend": { "effects": [ "RECYCLED" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+  }
+]

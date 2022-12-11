@@ -1,0 +1,10 @@
+NAME: Chibi_Ultica
+VIEW: Chibi_Ultica
+JSON: tile_config.json
+TILESET: tiles.png
+
+# Chibi Ultica is a combination of MSXotto+ tileset for monsters and characters, the Chibi part, and the Ultica tilset for the rest of the world.
+# Visit https://discord.gg/kAXNZuy to discuss and contribute to this community-driven tileset!
+# Source of both tileset ( and more ) can be found there: https://github.com/I-am-Erk/CDDA-Tilesets/tree/master/gfx
+
+# All sprites included in the dcss sheet come from Dungeon Crawl: Stone Soup and are under CC0 license. See https://github.com/crawl/tiles for more informations.

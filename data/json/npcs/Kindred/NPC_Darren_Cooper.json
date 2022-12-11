@@ -1,0 +1,613 @@
+[
+  {
+    "type": "npc_class",
+    "id": "NC_KINDRED_COOPER",
+    "name": { "str": "Rogue Kindred" },
+    "job_description": "I have to gather more bones.",
+    "traits": [
+      { "trait": "OUTDOORSMAN" },
+      { "trait": "INSOMNIA" },
+      { "trait": "GOODCARDIO2" },
+      { "trait": "STRONGSTOMACH" },
+      { "trait": "SPIRITUAL" },
+      { "trait": "TERRIFYING" },
+      { "trait": "KILLER" },
+      { "trait": "seer_mark" },
+      { "group": "Appearance_Caucasian" },
+      { "trait": "hair_brown_short" },
+      { "trait": "FACIAL_HAIR_3DAYSTUBBLE" }
+    ],
+    "common": false,
+    "bonus_per": { "rng": [ 0, 2 ] },
+    "bonus_str": { "rng": [ 0, 2 ] },
+    "worn_override": "KINDRED_COOPER_worn",
+    "weapon_override": "KINDRED_COOPER_wield",
+    "shopkeeper_item_group": "NC_KINDRED_COOPER_misc",
+    "skills": [
+      {
+        "skill": "ALL",
+        "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -2 }, { "one_in": 4 } ] } ] }
+      },
+      { "skill": "dodge", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 5, 7 ] } },
+      { "skill": "cutting", "bonus": { "rng": [ 4, 6 ] } }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "KINDRED_COOPER_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "loincloth_leather" },
+      { "item": "socks" },
+      { "item": "kevlar" },
+      { "item": "helmet_liner" },
+      { "item": "gloves_liner" },
+      { "item": "boots_larmor" },
+      { "group": "swat_ballistic_vest" },
+      { "item": "gauntlets_larmor" },
+      { "item": "leather_belt" },
+      { "item": "canteen" },
+      { "item": "armguard_larmor" },
+      { "item": "backpack_leather" },
+      { "item": "knee_pads" },
+      { "item": "knit_scarf" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "KINDRED_COOPER_wield",
+    "subtype": "collection",
+    "entries": [ { "item": "survivor_machete" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_KINDRED_COOPER_misc",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "needle_bone", "prob": 40 },
+      { "item": "bone_glue", "prob": 20 },
+      { "item": "bone_flute", "prob": 10 },
+      { "item": "bone_human", "prob": 10 },
+      { "item": "broth_bone", "prob": 60 },
+      { "item": "water_clean", "prob": 90 }
+    ]
+  },
+  {
+    "type": "npc",
+    "id": "KINDRED_Darren_Cooper",
+    "//": "A once member of a doomsday cult.",
+    "name_unique": "Darren Cooper",
+    "gender": "male",
+    "name_suffix": "Rogue Kindred",
+    "class": "NC_KINDRED_COOPER",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_KINDRED_COOPER",
+    "faction": "no_faction"
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_KINDRED_COOPER",
+    "dynamic_line": {
+      "u_has_var": "talked_to_cooper",
+      "type": "dialogue",
+      "context": "first_meeting",
+      "value": "yes",
+      "no": {
+        "u_has_trait": "seer_mark",
+        "yes": "How do you do.  Name's Cooper.  What's your- wait… that's the Mark of the Seer on your hand.  You're Kindred.  So I guess you know who I am then.",
+        "no": "How do you do.  Name's Cooper.  And you are?"
+      },
+      "yes": {
+        "u_has_trait": "seer_mark",
+        "no": {
+          "u_has_var": "cooper_friendly",
+          "type": "dialogue",
+          "context": "cooper",
+          "value": "yes",
+          "yes": "Hello again, traveller.",
+          "no": "Yes?"
+        },
+        "yes": {
+          "u_has_var": "cooper_friendly",
+          "type": "dialogue",
+          "context": "cooper",
+          "value": "yes",
+          "no": "What do you want, Kindred?",
+          "yes": "Kindred.  What can I do for you?"
+        }
+      }
+    },
+    "speaker_effect": { "effect": { "u_add_var": "talked_to_cooper", "type": "dialogue", "context": "first_meeting", "value": "yes" } },
+    "responses": [
+      {
+        "text": "I do.  Brigitte told me about you, and that you're dangerous.",
+        "topic": "TALK_KNOWS_COOPER1",
+        "condition": {
+          "and": [
+            { "not": { "u_has_var": "confronted_cooper", "type": "dialogue", "context": "cooper", "value": "yes" } },
+            { "u_has_trait": "seer_mark" },
+            { "u_has_var": "knows_cooper", "type": "dialogue", "context": "kindred_cooper", "value": "yes" },
+            {
+              "not": { "u_has_var": "knows_cooper_kill", "type": "dialogue", "context": "kindred_cooper", "value": "yes" }
+            }
+          ]
+        }
+      },
+      {
+        "text": "Brigitte told me everything.  What could drive a man to carve the bones of living people?",
+        "topic": "TALK_KNOWS_COOPER_CARVE",
+        "condition": {
+          "and": [
+            { "not": { "u_has_var": "confronted_cooper", "type": "dialogue", "context": "cooper", "value": "yes" } },
+            { "u_has_trait": "seer_mark" },
+            { "u_has_var": "knows_cooper", "type": "dialogue", "context": "kindred_cooper", "value": "yes" },
+            { "u_has_var": "knows_cooper_kill", "type": "dialogue", "context": "kindred_cooper", "value": "yes" }
+          ]
+        }
+      },
+      {
+        "text": "Brigitte told me about you.  I think what you do might be what's necessary, even if Brigitte doesn't agree.",
+        "topic": "TALK_COOPER_AGREE",
+        "condition": {
+          "and": [
+            { "not": { "u_has_var": "confronted_cooper", "type": "dialogue", "context": "cooper", "value": "yes" } },
+            { "u_has_trait": "seer_mark" },
+            { "u_has_var": "knows_cooper", "type": "dialogue", "context": "kindred_cooper", "value": "yes" },
+            { "u_has_var": "knows_cooper_kill", "type": "dialogue", "context": "kindred_cooper", "value": "yes" },
+            { "u_has_var": "admires_cooper", "type": "dialogue", "context": "kindred", "value": "yes" }
+          ]
+        }
+      },
+      {
+        "text": "I can't say that I do.  Should I?",
+        "topic": "TALK_COOPER_NOTFMLR",
+        "condition": {
+          "and": [
+            { "not": { "u_has_var": "talked_to_cooper", "type": "dialogue", "context": "first_meeting", "value": "yes" } },
+            { "u_has_trait": "seer_mark" },
+            {
+              "not": { "u_has_var": "knows_cooper", "type": "dialogue", "context": "kindred_cooper", "value": "yes" }
+            }
+          ]
+        }
+      },
+      {
+        "text": "Just a traveller, trying to survive.  What about you?  Scavenging?",
+        "topic": "TALK_COOPER_INTRODUCTION",
+        "condition": {
+          "and": [
+            { "not": { "u_has_trait": "seer_mark" } },
+            {
+              "not": { "u_has_var": "knows_cooper", "type": "dialogue", "context": "kindred_cooper", "value": "yes" }
+            },
+            {
+              "not": { "u_has_var": "talked_to_cooper", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+            }
+          ]
+        }
+      },
+      {
+        "text": "Wait, Cooper?  Brigitte LaCroix mentioned someone by that name.  You're the man who carved the bones of living people.",
+        "topic": "TALK_KNOWS_COOPER_CARVE",
+        "condition": {
+          "and": [
+            { "not": { "u_has_trait": "seer_mark" } },
+            {
+              "not": { "u_has_var": "talked_to_cooper", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+            },
+            { "u_has_var": "knows_cooper", "type": "dialogue", "context": "kindred_cooper", "value": "yes" },
+            { "u_has_var": "knows_cooper_kill", "type": "dialogue", "context": "kindred_cooper", "value": "yes" }
+          ]
+        }
+      },
+      {
+        "text": "Cooper?  I met a woman who mentioned you, Brigitte.  She said you're dangerous.",
+        "topic": "TALK_COOPER_INTRODUCTION_QUERY",
+        "condition": {
+          "and": [
+            { "not": { "u_has_trait": "seer_mark" } },
+            {
+              "not": { "u_has_var": "talked_to_cooper", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+            },
+            { "u_has_var": "knows_cooper", "type": "dialogue", "context": "kindred_cooper", "value": "yes" },
+            {
+              "not": { "u_has_var": "knows_cooper_kill", "type": "dialogue", "context": "kindred_cooper", "value": "yes" }
+            }
+          ]
+        }
+      },
+      {
+        "text": "Wait, Cooper?  I heard about you.  A woman, Brigitte LaCroix, said that you're dangerous, but seems to me like you're just doing what it takes.",
+        "topic": "TALK_COOPER_AGREE",
+        "condition": {
+          "and": [
+            { "not": { "u_has_trait": "seer_mark" } },
+            {
+              "not": { "u_has_var": "talked_to_cooper", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+            },
+            { "u_has_var": "knows_cooper", "type": "dialogue", "context": "kindred_cooper", "value": "yes" },
+            { "u_has_var": "admires_cooper", "type": "dialogue", "context": "kindred", "value": "yes" }
+          ]
+        }
+      },
+      {
+        "text": "Why did Brigitte say you're dangerous?",
+        "topic": "TALK_COOPERS_SIDE",
+        "condition": {
+          "and": [
+            { "not": { "u_has_trait": "seer_mark" } },
+            { "u_has_var": "talked_to_cooper", "type": "dialogue", "context": "first_meeting", "value": "yes" },
+            { "u_has_var": "knows_cooper", "type": "dialogue", "context": "kindred_cooper", "value": "yes" },
+            {
+              "not": { "u_has_var": "cooper_goal_k", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+            },
+            {
+              "not": { "u_has_var": "knows_cooper_kill", "type": "dialogue", "context": "kindred_cooper", "value": "yes" }
+            }
+          ]
+        }
+      },
+      {
+        "text": "Why do you kill people?",
+        "topic": "TALK_COOPER_GOAL",
+        "condition": {
+          "and": [
+            { "not": { "u_has_trait": "seer_mark" } },
+            { "u_has_var": "talked_to_cooper", "type": "dialogue", "context": "first_meeting", "value": "yes" },
+            { "u_has_var": "knows_cooper", "type": "dialogue", "context": "kindred_cooper", "value": "yes" },
+            {
+              "not": { "u_has_var": "cooper_goal_k", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+            },
+            { "u_has_var": "knows_cooper_kill", "type": "dialogue", "context": "kindred_cooper", "value": "yes" }
+          ]
+        }
+      },
+      {
+        "text": "Could you tell me about yourself?",
+        "topic": "TALK_COOPER_ABOUT",
+        "condition": { "and": [ { "u_has_var": "talked_to_cooper", "type": "dialogue", "context": "first_meeting", "value": "yes" } ] }
+      },
+      {
+        "text": "I'll be going now.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "and": [
+            { "u_has_var": "talked_to_cooper", "type": "dialogue", "context": "first_meeting", "value": "yes" },
+            { "not": { "u_has_var": "cooper_friendly", "type": "dialogue", "context": "cooper", "value": "yes" } }
+          ]
+        }
+      },
+      {
+        "text": "Remind me what happened between you and Brigitte.",
+        "topic": "TALK_COOPERS_SIDE",
+        "condition": {
+          "and": [
+            { "u_has_var": "talked_to_cooper", "type": "dialogue", "context": "first_meeting", "value": "yes" },
+            { "u_has_trait": "seer_mark" }
+          ]
+        }
+      },
+      {
+        "text": "I've been thinking about what you do.  I can't let you keep hurting people.  You have to be stopped.",
+        "topic": "TALK_COOPER_FIGHT",
+        "condition": {
+          "and": [
+            { "u_has_var": "talked_to_cooper", "type": "dialogue", "context": "first_meeting", "value": "yes" },
+            { "u_has_var": "knows_cooper_kill", "type": "dialogue", "context": "kindred_cooper", "value": "yes" }
+          ]
+        }
+      },
+      {
+        "text": "Could you remind me of your goal again?",
+        "topic": "TALK_COOPER_GOAL",
+        "condition": {
+          "and": [
+            { "not": { "u_has_trait": "seer_mark" } },
+            { "u_has_var": "talked_to_cooper", "type": "dialogue", "context": "first_meeting", "value": "yes" },
+            { "u_has_var": "cooper_goal_k", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+          ]
+        }
+      },
+      {
+        "text": "You mentioned that you have a goal.  What is that exactly?",
+        "topic": "TALK_COOPER_GOAL",
+        "condition": {
+          "and": [
+            { "not": { "u_has_trait": "seer_mark" } },
+            { "u_has_var": "talked_to_cooper", "type": "dialogue", "context": "first_meeting", "value": "yes" },
+            { "u_has_var": "cooper_goal_dk", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+          ]
+        }
+      },
+      {
+        "text": "The woman you mentioned - Brigitte - why isn't she with you?",
+        "topic": "TALK_COOPERS_SIDE",
+        "condition": { "u_has_var": "cooper_goal_k", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+      },
+      {
+        "text": "I was just checking in.  Take care.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "and": [
+            { "u_has_var": "talked_to_cooper", "type": "dialogue", "context": "first_meeting", "value": "yes" },
+            { "u_has_var": "cooper_friendly", "type": "dialogue", "context": "cooper", "value": "yes" }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_KNOWS_COOPER1",
+    "dynamic_line": "I suppose she probably said I'm some sort of a maniac and that you should kill me on the spot, correct?",
+    "speaker_effect": { "effect": { "u_add_var": "confronted_cooper", "type": "dialogue", "context": "cooper", "value": "yes" } },
+    "responses": [
+      {
+        "text": "I want to hear your side of the story.  You make it sound like it's not so cut and dry.",
+        "topic": "TALK_COOPERS_SIDE"
+      },
+      {
+        "text": "You kill innocent people and butcher them like animals.  I don't care what you say.  You have to be stopped.",
+        "topic": "TALK_COOPER_FIGHT"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_COOPER_INTRODUCTION_QUERY",
+    "dynamic_line": "I see.  Would you like to hear my side, or is your mind made up already?",
+    "responses": [
+      { "text": "I'm curious.  Go on.", "topic": "TALK_COOPERS_SIDE" },
+      { "text": "She told me to stop you, and that's what I'll do.", "topic": "TALK_COOPER_FIGHT" },
+      { "text": "I don't care about any of this.  Bye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_KNOWS_COOPER_CARVE",
+    "dynamic_line": "What?  I'd never do anything like that!  Dammit… if she thinks I did that, that would explain why she's not willing to work with me.  Maybe there's still some hope she'll understand what's necessary.",
+    "responses": [
+      { "text": "So what happened then?", "topic": "TALK_COOPERS_SIDE" },
+      { "text": "You're still a killer, and I can't let you keep going.", "topic": "TALK_COOPER_FIGHT" },
+      { "text": "I don't really care.  I'm leaving.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_COOPERS_SIDE",
+    "dynamic_line": "I met Brigitte shortly after everything collapsed.  Seeing so much death and insanity around me… it almost crushed me, but when she explained everything about the bones to me, it gave me a sliver of hope, that one time, things might turn around.  For that, I am grateful to her.  But we'll never change anything if we keep using scraps of bones found on corpses on the side of the road.  By the time the animals are done with those, there is barely any Song left to be used.  It's not enough.  I had to leave, to work on my own.  To do what's necessary.",
+    "responses": [
+      {
+        "text": "What do you mean by 'necessary'?",
+        "topic": "TALK_COOPER_NECESSARY",
+        "condition": { "not": { "u_has_var": "knows_cooper_kill", "type": "dialogue", "context": "kindred_cooper", "value": "yes" } }
+      },
+      {
+        "text": "What are you actually trying to accomplish?",
+        "topic": "TALK_COOPER_GOAL",
+        "condition": { "not": { "u_has_var": "cooper_goal_k", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
+      },
+      { "text": "Can't have been easy to split off, but I understand why you did it.", "topic": "TALK_COOPER_AGREE" },
+      {
+        "text": "Necessary?  You kill innocent people!",
+        "topic": "TALK_COOPER_NECESSARY",
+        "condition": { "u_has_var": "knows_cooper_kill", "type": "dialogue", "context": "kindred_cooper", "value": "yes" }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_COOPER_NECESSARY",
+    "dynamic_line": "People will die in this world overrun with monsters.  There is no avoiding it.  But I can give those deaths meaning, allow them to help the world after death, more than they could in life.  It brings me no pleasure, but… yes, some must give their life for the greater good.  It's the only way.  Wish there was an alternative, but it must be done.  I only take people from this world to save it.  Make no mistake though, the only people that I… kill are those who would not survive anyway.",
+    "speaker_effect": { "effect": { "u_add_var": "knows_cooper_kill", "type": "dialogue", "context": "kindred_cooper", "value": "yes" } },
+    "responses": [
+      {
+        "text": "Why do you kill people?",
+        "topic": "TALK_COOPER_GOAL",
+        "condition": { "not": { "u_has_var": "cooper_goal_k", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
+      },
+      { "text": "Are you going to kill me?", "topic": "TALK_COOPER_KILL_PLAYER" },
+      { "text": "You're a monster.", "topic": "TALK_COOPER_MONSTER" },
+      {
+        "text": "You're just a murderer with a shoddy excuse.  I can't let you keep doing this.",
+        "topic": "TALK_COOPER_FIGHT"
+      },
+      { "text": "You have a point.  The ends justify the means.", "topic": "TALK_COOPER_AGREE" },
+      {
+        "text": "Do you have any proof that this will work?",
+        "topic": "TALK_COOPER_WORK",
+        "condition": { "u_has_var": "cooper_goal_k", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_COOPER_MONSTER",
+    "dynamic_line": "And how many people have you killed?  Maybe it was in self defense, maybe because you wanted their gear.  It's all the same.  I give their death meaning.  I hate that I have to do it, I truly do, but you really must understand, there is no other way.  The sooner I finish my mission, the sooner all this madness can end.",
+    "responses": [
+      { "text": "I suppose you're right.", "topic": "TALK_COOPER_AGREE" },
+      { "text": "You're mad.  You have to be stopped.", "topic": "TALK_COOPER_FIGHT" },
+      { "text": "Whatever.  I'm leaving.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_COOPER_FIGHT",
+    "dynamic_line": {
+      "u_has_trait": "seer_mark",
+      "no": "I can't allow you to stop me.  If you try, I'll have no option but to fight you.  Maybe I'll die, or maybe you will.  But know that should you win, you'll be ridding the world of the only hope it has.",
+      "yes": "I knew a Kindred would not understand.  But I can't allow you to stop me.  If you try, I'll have no option but to fight you.  But know that should you win, you'll be ridding the world of the only hope it has."
+    },
+    "responses": [
+      {
+        "text": "All I'm ridding the world of is a dangerous madman.  Now die.",
+        "topic": "TALK_DONE",
+        "effect": [ "hostile", { "u_add_var": "fought_cooper", "type": "dialogue", "context": "cooper", "value": "yes" } ]
+      },
+      { "text": "This is a waste of time not worth the risk.  I'm out of here.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_COOPER_AGREE",
+    "dynamic_line": {
+      "u_has_trait": "seer_mark",
+      "yes": "You're like me then, Kindred.  I'm glad I'm not the only one who realizes what's necessary.  Perhaps one day, we'll be able to work together, but what I do now, I must do alone.",
+      "no": "I'm glad you realize the necessity of the burden I bear.  Maybe someday we'll even join our forces, but for now, I have to do this alone."
+    },
+    "speaker_effect": { "effect": { "u_add_var": "cooper_friendly", "type": "dialogue", "context": "cooper", "value": "yes" } },
+    "responses": [
+      { "text": "I won't delay you then.  Good luck.", "topic": "TALK_DONE" },
+      {
+        "text": "That being said, I need to know why you do it - what purpose it fills.",
+        "topic": "TALK_COOPER_GOAL",
+        "condition": { "not": { "u_has_var": "cooper_goal_k", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_COOPER_WORK",
+    "dynamic_line": {
+      "u_has_trait": "seer_mark",
+      "yes": "You're Kindred, and yet you question the power the bones hold, the Song itself?  This hypocrisy is why I set off on my own.  Stop wasting my time and get out of my way.",
+      "no": "I know it's hard to comprehend when you can't hear the song.  The bones hold power, you just don't hear it yet.  But you will, eventually."
+    },
+    "responses": [
+      { "text": "I meant no offense.  I'm sure you have your reasons.", "topic": "TALK_COOPER_AGREE" },
+      {
+        "text": "What about the woman you mentioned - Brigitte - what happened to her?",
+        "topic": "TALK_COOPERS_SIDE",
+        "condition": { "u_has_var": "cooper_goal_k", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+      },
+      {
+        "text": "Brigitte was right.  I can't reason with you.  You have to be stopped.",
+        "topic": "TALK_COOPER_FIGHT",
+        "condition": {
+          "and": [
+            { "u_has_var": "knows_cooper", "type": "dialogue", "context": "kindred_cooper", "value": "yes" },
+            { "u_has_var": "knows_cooper_kill", "type": "dialogue", "context": "cooper", "value": "yes" }
+          ]
+        }
+      },
+      {
+        "text": "You're rambling.  I can't let you keep hurting people.  This ends now.",
+        "topic": "TALK_COOPER_FIGHT",
+        "condition": {
+          "and": [
+            { "not": { "u_has_var": "knows_cooper", "type": "dialogue", "context": "kindred_cooper", "value": "yes" } },
+            { "u_has_var": "knows_cooper_kill", "type": "dialogue", "context": "cooper", "value": "yes" }
+          ]
+        }
+      },
+      { "text": "This is a waste of time.  I'm leaving.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_COOPER_NOTFMLR",
+    "dynamic_line": "Brigitte did not mention me?  I'm surprised.  Perhaps she's starting to understand I was right.  I was with her for a time, learned from her.  I'm still on her side, but she doesn't realize it yet.",
+    "responses": [ { "text": "You know Brigitte?  What happened with you two?", "topic": "TALK_COOPERS_SIDE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_COOPER_INTRODUCTION",
+    "dynamic_line": "I scavenge only so I can survive, but I have a much greater goal than just to live.",
+    "speaker_effect": { "effect": { "u_add_var": "cooper_goal_dk", "type": "dialogue", "context": "first_meeting", "value": "yes" } },
+    "responses": [
+      { "text": "A… goal?  What do you mean?  What is there to do other than survive?", "topic": "TALK_COOPER_GOAL" },
+      { "text": "Uh, okay then.  I have to go now; have a nice day.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_COOPER_GOAL",
+    "dynamic_line": "Something changed during the Collapse - the apocalypse, if you prefer that.  The way the dead rise again and again, it's tied to their bones - notice that only when you pulp and crush them properly do they actually die.  A woman I met - Brigitte was her name - taught me how to use the power.  We call it the Song, since if you know how, you can hear it, a quiet hum in the bones.  If I collect enough Song, the concentrated power can reverse the Cataclysm.  Undo all of this.",
+    "speaker_effect": {
+      "effect": [
+        { "u_lose_var": "cooper_goal_dk", "type": "dialogue", "context": "first_meeting" },
+        { "u_add_var": "cooper_goal_k", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+      ]
+    },
+    "responses": [
+      { "text": "Do you have any proof that this will work?", "topic": "TALK_COOPER_WORK" },
+      {
+        "text": "You mentioned a woman, Brigitte.  Why isn't she with you?  What happened?",
+        "topic": "TALK_COOPERS_SIDE",
+        "condition": { "not": { "u_has_var": "asked_about_song", "type": "dialogue", "context": "song", "value": "yes" } }
+      },
+      {
+        "text": "Wait, Brigitte LaCroix?  I've met her.",
+        "topic": "TALK_COOPER_KNOWBRIG",
+        "condition": {
+          "and": [
+            { "u_has_var": "asked_about_song", "type": "dialogue", "context": "song", "value": "yes" },
+            { "not": { "u_has_var": "cooper_friendly", "type": "dialogue", "context": "cooper", "value": "yes" } }
+          ]
+        }
+      },
+      { "text": "That's insane.  I'm going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_COOPER_KNOWBRIG",
+    "dynamic_line": "Small world, huh?  I hope she's doing fine.  Despite our differences, I owe everything to her.  I hope one day we'll be able to reconcile.",
+    "responses": [
+      { "text": "So, how do you know that any of this works?", "topic": "TALK_COOPER_WORK" },
+      { "text": "What differences?  Why did you part ways?", "topic": "TALK_COOPERS_SIDE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_COOPER_ABOUT",
+    "dynamic_line": {
+      "u_has_var": "cooper_friendly",
+      "type": "dialogue",
+      "context": "cooper",
+      "value": "yes",
+      "no": "Sorry, but I don't know you that well and I'd rather not go into that.",
+      "yes": "I was born here in New England, lived here all my life.  Was an accountant before the Collapse, if you can believe that.  There wasn't really anything special about my life before I learned about the Song, so there isn't much to say."
+    },
+    "responses": [
+      {
+        "text": "I understand.",
+        "topic": "TALK_KINDRED_COOPER",
+        "condition": { "not": { "u_has_var": "cooper_friendly", "type": "dialogue", "context": "cooper", "value": "yes" } }
+      },
+      {
+        "text": "Do you have a favorite food?",
+        "topic": "TALK_COOPER_FOOD",
+        "condition": { "u_has_var": "cooper_friendly", "type": "dialogue", "context": "cooper", "value": "yes" }
+      },
+      {
+        "text": "I see.  Thanks for sharing.",
+        "topic": "TALK_KINDRED_COOPER",
+        "condition": { "u_has_var": "cooper_friendly", "type": "dialogue", "context": "cooper", "value": "yes" }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_COOPER_FOOD",
+    "dynamic_line": "I've always loved crêpes.",
+    "responses": [ { "text": "Fair enough.", "topic": "TALK_KINDRED_COOPER" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_COOPER_KILL_PLAYER",
+    "dynamic_line": "No.  You seem like you have a chance of surviving in this world.  Plus, you took the time to actually hear me out, so there is a chance one day you'll hear the Song the same way I do.",
+    "responses": [
+      { "text": "Nevertheless, I can't allow you to keep killing people.", "topic": "TALK_COOPER_FIGHT" },
+      {
+        "text": "I'm glad you see it that way.",
+        "topic": "TALK_COOPER_AGREE",
+        "condition": { "not": { "u_has_trait": "seer_mark" } }
+      },
+      { "text": "Maybe one day I will.", "topic": "TALK_COOPER_AGREE", "condition": { "u_has_trait": "seer_mark" } },
+      { "text": "This is a waste of time.  I'm leaving", "topic": "TALK_DONE" }
+    ]
+  }
+]

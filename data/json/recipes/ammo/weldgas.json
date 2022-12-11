@@ -1,0 +1,216 @@
+[
+  {
+    "result": "oxyacetylene",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "chemistry",
+    "difficulty": 4,
+    "time": "45 m",
+    "batch_time_factors": [ 80, 1 ],
+    "charges": 120,
+    "book_learn": [ [ "textbook_chemistry", 4 ], [ "textbook_gaswarfare", 4 ], [ "atomic_survival", 3 ] ],
+    "qualities": [ { "id": "PRESSURIZATION", "level": 1 } ],
+    "tools": [ [ [ "oxygen_tank", 24 ], [ "oxygen_cylinder", 24 ], [ "smoxygen_tank", 24 ] ] ],
+    "components": [ [ [ "acetylene", 96 ] ] ]
+  },
+  {
+    "result": "acetylene",
+    "byproduct_group": [ { "item": "chem_slaked_lime", "charges": 50 } ],
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "chemistry",
+    "difficulty": 4,
+    "time": "60 m",
+    "batch_time_factors": [ 80, 1 ],
+    "charges": 12,
+    "book_learn": [ [ "textbook_chemistry", 4 ], [ "textbook_gaswarfare", 4 ], [ "atomic_survival", 3 ] ],
+    "tools": [ [ [ "acetylene_machine", -1 ] ] ],
+    "components": [ [ [ "water", 12 ], [ "water_clean", 12 ] ], [ [ "chem_carbide", 326 ] ] ]
+  },
+  {
+    "result": "tinyweldtank",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "20 m",
+    "book_learn": [ [ "welding_book", 2 ] ],
+    "qualities": [ { "id": "PRESSURIZATION", "level": 1 } ],
+    "components": [ [ [ "tinyweldtank", 1 ] ], [ [ "oxyacetylene", 60 ] ] ]
+  },
+  {
+    "result": "weldtank",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "90 m",
+    "book_learn": [ [ "welding_book", 2 ] ],
+    "qualities": [ { "id": "PRESSURIZATION", "level": 1 } ],
+    "components": [ [ [ "weldtank", 1 ] ], [ [ "oxyacetylene", 240 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "welding_rod_steel",
+    "result_mult": 2,
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "skills_required": [ "chemistry", 1 ],
+    "difficulty": 3,
+    "time": "15 m",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "ANVIL", "level": 1 }, { "id": "SAW_M", "level": 2 } ],
+    "tools": [
+      [ [ "tongs", -1 ], [ "metalworking_tongs", -1 ] ],
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
+      [ [ "forge", 30 ] ],
+      [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ], [ "food_processor", 10 ] ]
+    ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" } ],
+    "components": [
+      [ [ "scrap", 1 ] ],
+      [ [ "flour_any", 1, "LIST" ], [ "paper", 3 ] ],
+      [ [ "material_limestone", 1 ], [ "chem_manganese_dioxide", 1 ], [ "light_disposable_cell", 1 ] ],
+      [
+        [ "rosin", 5 ],
+        [ "superglue", 1 ],
+        [ "bone_glue", 1 ],
+        [ "sugar", 1 ],
+        [ "plastic_chunk", 1 ],
+        [ "wax", 1 ],
+        [ "candle", 1 ]
+      ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "welding_rod_alloy",
+    "result_mult": 50,
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "skills_required": [ "chemistry", 3 ],
+    "difficulty": 4,
+    "time": "3 h 30 m",
+    "autolearn": true,
+    "qualities": [
+      { "id": "HAMMER", "level": 1 },
+      { "id": "ANVIL", "level": 1 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "CHEM", "level": 1 }
+    ],
+    "tools": [
+      [ [ "tongs", -1 ], [ "metalworking_tongs", -1 ] ],
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
+      [ [ "forge", 350 ] ],
+      [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ], [ "food_processor", 25 ] ]
+    ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" } ],
+    "components": [
+      [ [ "material_aluminium_ingot", 1 ], [ "scrap_aluminum", 15 ] ],
+      [ [ "chem_sulphuric_acid", 1 ], [ "chem_aluminium_sulphate", 6 ], [ "chem_sulphur", 50 ] ],
+      [ [ "salt", 12 ], [ "chem_potassium_chloride", 65 ], [ "material_rocksalt", 1 ] ],
+      [ [ "lye_powder", 20 ], [ "lye", 1 ], [ "chem_potassium_hydroxide", 40 ] ],
+      [ [ "material_sand", 15 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "welding_wire_steel",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "skills_required": [ "chemistry", 2 ],
+    "difficulty": 4,
+    "time": "2 h",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "ANVIL", "level": 1 } ],
+    "tools": [
+      [ [ "tongs", -1 ], [ "metalworking_tongs", -1 ] ],
+      [ [ "forge", 240 ], [ "oxy_torch", 40 ] ],
+      [ [ "wire_draw_machine", 100 ] ],
+      [ [ "electrolysis_kit", 100 ] ],
+      [ [ "jar_glass_sealed", -1 ], [ "jar_3l_glass_sealed", -1 ] ]
+    ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" } ],
+    "components": [
+      [ [ "wire", 4 ] ],
+      [ [ "copper", 1 ] ],
+      [ [ "any_strong_acid", 1, "LIST" ] ],
+      [ [ "water", 3 ], [ "water_clean", 3 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "welding_wire_alloy",
+    "result_mult": 2,
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "5 h",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "ANVIL", "level": 1 } ],
+    "tools": [
+      [ [ "tongs", -1 ], [ "metalworking_tongs", -1 ] ],
+      [ [ "forge", 250 ], [ "oxy_torch", 50 ] ],
+      [ [ "wire_draw_machine", 120 ] ]
+    ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" } ],
+    "components": [ [ [ "material_aluminium_ingot", 1 ], [ "scrap_aluminum", 11 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "brazing_rod_bronze",
+    "result_mult": 7,
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "skills_required": [ "chemistry", 1 ],
+    "difficulty": 3,
+    "time": "45 m",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "ANVIL", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "tools": [
+      [ [ "tongs", -1 ], [ "metalworking_tongs", -1 ] ],
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
+      [ [ "forge", 50 ] ]
+    ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_redsmithing" } ],
+    "components": [ [ [ "scrap_bronze", 1 ] ], [ [ "detergent", 7 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "brazing_rod_alloy",
+    "result_mult": 38,
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "2 h 45 m",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "ANVIL", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "tools": [
+      [ [ "tongs", -1 ], [ "metalworking_tongs", -1 ] ],
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
+      [ [ "forge", 200 ] ]
+    ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" } ],
+    "components": [ [ [ "material_aluminium_ingot", 1 ], [ "scrap_aluminum", 13 ] ] ]
+  }
+]

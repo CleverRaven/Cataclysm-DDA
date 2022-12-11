@@ -1,0 +1,218 @@
+[
+  {
+    "type": "npc",
+    "id": "refugee_StanBorichenko",
+    "name_unique": "Stan Borichenko",
+    "gender": "male",
+    "name_suffix": "refugee",
+    "class": "NC_REFUGEE_Stan",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_REFUGEE_Stan_1",
+    "faction": "free_merchants"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_REFUGEE_Stan",
+    "name": { "str": "Refugee" },
+    "job_description": "I'm just trying to survive.",
+    "common": false,
+    "//": "Stan is a broken man since he and Boris lost their son in the Cataclysm.  It might be possible to help put him back together slowly.",
+    "bonus_str": { "rng": [ -2, 2 ] },
+    "bonus_dex": { "rng": [ -2, 2 ] },
+    "bonus_int": { "rng": [ -2, 2 ] },
+    "bonus_per": { "rng": [ -2, 2 ] },
+    "worn_override": "REFUGEE_Stan_worn",
+    "carry_override": "REFUGEE_Stan_carried",
+    "weapon_override": "REFUGEE_Stan_wield",
+    "traits": [ { "trait": "MYOPIC" }, { "group": "Appearance_Germanic" } ],
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } },
+      { "skill": "cooking", "bonus": { "rng": [ 3, 4 ] } },
+      { "skill": "computer", "bonus": { "rng": [ 1, 2 ] } }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "REFUGEE_Stan_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "briefs" },
+      { "item": "socks" },
+      { "item": "tie_skinny" },
+      { "item": "dress_shirt" },
+      { "item": "pants" },
+      { "item": "blazer" },
+      { "item": "glasses_eye" },
+      { "item": "sneakers" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "REFUGEE_Stan_carried",
+    "subtype": "collection",
+    "entries": [ { "item": "photo_album" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "REFUGEE_Stan_wield",
+    "subtype": "collection",
+    "entries": [ { "item": "camera_pro" } ]
+  },
+  {
+    "type": "talk_topic",
+    "//": "common talk responses",
+    "id": [
+      "TALK_REFUGEE_Stan_2",
+      "TALK_REFUGEE_Stan_Background",
+      "TALK_REFUGEE_Stan_Situation",
+      "TALK_REFUGEE_Stan_Boris",
+      "TALK_REFUGEE_Stan_Garry"
+    ],
+    "responses": [
+      {
+        "text": "I'm trying to put a cleanup crew together to tidy up the back room.  Can you help?",
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
+            {
+              "not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
+            }
+          ]
+        },
+        "topic": "TALK_REFUGEE_Refuse_Boris_Mission_1"
+      },
+      { "text": "Do you want to talk about your story?", "topic": "TALK_REFUGEE_Stan_Background" },
+      { "text": "How are things here?", "topic": "TALK_REFUGEE_Stan_Situation" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Stan_1",
+    "dynamic_line": "*seems to look past you for a while before realizing you are there.  \"Hello.  I'm sorry, if we've met before, I don't really remember.  I'm… I'm Stan.\"",
+    "speaker_effect": {
+      "effect": [
+        { "u_add_var": "u_met_Stan_Borichenko", "type": "general", "context": "meeting", "value": "yes" },
+        { "npc_first_topic": "TALK_REFUGEE_Stan_1a" }
+      ]
+    },
+    "responses": [
+      { "text": "Stan, hey?  Nice to meet you.", "topic": "TALK_REFUGEE_Stan_1_firstmeet" },
+      { "text": "Hi Stan, nice to meet you.  I gotta go though.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Stan_1a",
+    "dynamic_line": {
+      "concatenate": [
+        "*seems to look past you for a while before realizing you are there.  \"",
+        [ "Hi.", "Hello.", "Hm?  Oh, hi.", "…Hi." ],
+        "\""
+      ]
+    },
+    "responses": [
+      { "text": "Hi, Stan.  What's up?", "topic": "TALK_REFUGEE_Stan_2" },
+      { "text": "Hi Stan.  I can't stay to talk.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Stan_1_firstmeet",
+    "dynamic_line": "Huh?  Sorry, yes, nice to meet you too.",
+    "responses": [
+      { "text": "You seem distracted.", "topic": "TALK_REFUGEE_Stan_2" },
+      { "text": "I just wanted to say hi.  I'll be on my way.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Stan_2",
+    "dynamic_line": "I'm sorry, I've been through some hard stuff.  I'm not really myself lately.",
+    "responses": [ { "text": "Sorry to hear that.  I'll leave you be.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Stan_Background",
+    "dynamic_line": "No, I don't particularly want to talk about it, but I can I guess.  Before <the_cataclysm> I was an insurance adjuster.  My husband Boris and I were evacuated with my brother Garry, and from our evacuation center we caught a commissioned bus out here.  The bus was attacked by a monster, we lived.  Not everyone on the bus did.  We lost people dear to us, now we're stuck here with little to do but think about it.",
+    "responses": [
+      { "text": "Tell me about Boris.", "topic": "TALK_REFUGEE_Stan_Boris" },
+      { "text": "Tell me about Garry.", "topic": "TALK_REFUGEE_Stan_Garry" },
+      { "text": "I'm sorry for your loss.  What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "Sorry to hear that.  I'll leave you be.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Stan_Situation",
+    "dynamic_line": {
+      "concatenate": [
+        "Mostly my family and I have just been mourning.  This isn't the best place to do it.  ",
+        {
+          "u_has_var": "Boris_mission_1",
+          "type": "mission",
+          "context": "completed",
+          "value": "yes",
+          "yes": "Still, now that we've found ways to make this community a bit of our own, I feel like maybe there's a chance things will get better.  Sometimes, when he's working, Boris seems like himself again and I have some hope.",
+          "no": "I hope we'll have something productive to do soon; Boris, in particular, has skills to contribute that might help him feel alive again."
+        }
+      ]
+    },
+    "responses": [
+      { "text": "Tell me about Boris.", "topic": "TALK_REFUGEE_Stan_Boris" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I had better be going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Stan_Boris",
+    "dynamic_line": {
+      "concatenate": [
+        "He's a strong man.  The things we've been through… that he's been through, before any of this.  If anyone can survive the loss we've seen, it's him.  But he pushes it all down, ",
+        {
+          "u_has_var": "Boris_mission_1",
+          "type": "mission",
+          "context": "completed",
+          "value": "yes",
+          "yes": "if he's left with it too long.  Having work has been helping him.  Cleaning up that back room might seem small, but it was a big deal for him.",
+          "no": "and if he keeps it up, I don't know how much of him will be left.  He needs something to *do*.  We can't just sit here, trapped like rats in a cage forever."
+        },
+        {
+          "u_has_var": "Boris_mission_3",
+          "type": "mission",
+          "context": "completed",
+          "value": "yes",
+          "yes": "  Even more, though, having a little memory of Ash has been more than we could ever have asked.  I thought it might hurt him, dwelling on those memories, but instead it's given both of us some strength back.",
+          "no": ""
+        }
+      ]
+    },
+    "responses": [
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I had better be going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Stan_Garry",
+    "dynamic_line": {
+      "concatenate": [
+        "*smiles thinly.  \"Best little brother a guy could ask for.  He's been with me through everything, literally everything.",
+        {
+          "u_compare_var": "refugee_happiness",
+          "type": "counter",
+          "context": "refugee_center",
+          "op": ">=",
+          "value": 6,
+          "yes": "\u00A0 I wouldn't wish this world we find ourselves in on anyone, but I'm glad Garry made it through with me.\"  Stan sighs, touching his neck.",
+          "no": "\"  He seems to realize where he is suddenly, and the faint smile melts.  \"He's lost too much, too.\""
+        }
+      ]
+    },
+    "responses": [
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I had better be going.", "topic": "TALK_DONE" }
+    ]
+  }
+]

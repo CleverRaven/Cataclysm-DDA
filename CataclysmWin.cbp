@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Cataclysm" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Release">
+				<Option output="Cataclysm" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-Os" />
+					<Add option="-O2" />
+					<Add option="-DRELEASE=1" />
+				</Compiler>
+			</Target>
+			<Target title="Release (Localized)">
+				<Option output="CataclysmWin" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/ReleaseLocalized/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-Os" />
+					<Add option="-O2" />
+					<Add option="-DLOCALIZE=1" />
+					<Add option="-DRELEASE=1" />
+					<Add directory="WinDepend/include" />
+				</Compiler>
+				<Linker>
+					<Add library="libintl.dll.a" />
+					<Add library="libiconv.dll.a" />
+					<Add directory="WinDepend/lib" />
+				</Linker>
+			</Target>
+			<Target title="Release (SDL)">
+				<Option output="Cataclysm-Tiles" prefix_auto="0" extension_auto="1" />
+				<Option object_output="obj/ReleaseSDL/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-Os" />
+					<Add option="-O2" />
+					<Add option="-DTILES=1" />
+					<Add option="-DRELEASE=1" />
+					<Add directory="WinDepend/include" />
+					<Add directory="WinDepend/include/SDL2" />
+				</Compiler>
+				<Linker>
+					<Add library="libSDL2.dll.a" />
+					<Add library="libSDL2main.a" />
+					<Add library="libSDL2_ttf.dll.a" />
+					<Add library="libSDL2_image.dll.a" />
+					<Add directory="WinDepend/lib" />
+				</Linker>
+			</Target>
+			<Target title="Release (SDL, Sound)">
+				<Option output="Cataclysm-Tiles" prefix_auto="0" extension_auto="1" />
+				<Option object_output="obj/ReleaseSoundSDL/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-Os" />
+					<Add option="-O2" />
+					<Add option="-DTILES=1" />
+					<Add option="-DSDL_SOUND=1" />
+					<Add option="-DRELEASE=1" />
+					<Add directory="WinDepend/include" />
+					<Add directory="WinDepend/include/SDL2" />
+				</Compiler>
+				<Linker>
+					<Add library="libSDL2.dll.a" />
+					<Add library="libSDL2main.a" />
+					<Add library="libSDL2_ttf.dll.a" />
+					<Add library="libSDL2_image.dll.a" />
+					<Add library="libSDL2_mixer.dll.a" />
+					<Add directory="WinDepend/lib" />
+				</Linker>
+			</Target>
+			<Target title="Release (SDL, Localized)">
+				<Option output="Cataclysm-Tiles" prefix_auto="0" extension_auto="1" />
+				<Option object_output="obj/ReleaseLocalizedSDL/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-Os" />
+					<Add option="-O2" />
+					<Add option="-DLOCALIZE=1" />
+					<Add option="-DTILES=1" />
+					<Add option="-DRELEASE=1" />
+					<Add directory="WinDepend/include" />
+					<Add directory="WinDepend/include/SDL2" />
+				</Compiler>
+				<Linker>
+					<Add library="libintl.dll.a" />
+					<Add library="libiconv.dll.a" />
+					<Add library="libSDL2.dll.a" />
+					<Add library="libSDL2main.a" />
+					<Add library="libSDL2_ttf.dll.a" />
+					<Add library="libSDL2_image.dll.a" />
+					<Add directory="WinDepend/lib" />
+				</Linker>
+			</Target>
+			<Target title="Release (SDL, Loc, Sound)">
+				<Option output="Cataclysm-Tiles" prefix_auto="0" extension_auto="1" />
+				<Option object_output="obj/ReleaseLocalizedSoundSDL/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-Os" />
+					<Add option="-O2" />
+					<Add option="-DLOCALIZE=1" />
+					<Add option="-DTILES=1" />
+					<Add option="-DSDL_SOUND=1" />
+					<Add option="-DRELEASE=1" />
+					<Add directory="WinDepend/include" />
+					<Add directory="WinDepend/include/SDL2" />
+				</Compiler>
+				<Linker>
+					<Add library="libintl.dll.a" />
+					<Add library="libiconv.dll.a" />
+					<Add library="libSDL2.dll.a" />
+					<Add library="libSDL2main.a" />
+					<Add library="libSDL2_ttf.dll.a" />
+					<Add library="libSDL2_image.dll.a" />
+					<Add library="libSDL2_mixer.dll.a" />
+					<Add directory="WinDepend/lib" />
+				</Linker>
+			</Target>
+			<Target title="Debug">
+				<Option output="CataclysmWin" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-pg -g" />
+				</Compiler>
+				<Linker>
+					<Add option="-pg -lgmon" />
+				</Linker>
+			</Target>
+			<Target title="Debug (Localized)">
+				<Option output="CataclysmWin" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/DebugLocalized/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-pg" />
+					<Add option="-g" />
+					<Add option="-DLOCALIZE=1" />
+					<Add directory="WinDepend/include" />
+				</Compiler>
+				<Linker>
+					<Add option="-pg" />
+					<Add option="-lgmon" />
+					<Add library="libintl.dll.a" />
+					<Add library="libiconv.dll.a" />
+					<Add directory="WinDepend/lib" />
+				</Linker>
+			</Target>
+			<Target title="Debug (SDL)">
+				<Option output="CataclysmWin-Tiles" prefix_auto="0" extension_auto="1" />
+				<Option object_output="obj/DebugSDL/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-pg" />
+					<Add option="-g" />
+					<Add option="-DTILES=1" />
+					<Add directory="WinDepend/include" />
+					<Add directory="WinDepend/include/SDL2" />
+				</Compiler>
+				<Linker>
+					<Add option="-pg" />
+					<Add option="-lgmon" />
+					<Add library="libSDL2.dll.a" />
+					<Add library="libSDL2main.a" />
+					<Add library="libSDL2_ttf.dll.a" />
+					<Add library="libSDL2_image.dll.a" />
+					<Add directory="WinDepend/lib" />
+				</Linker>
+			</Target>
+			<Target title="Debug (SDL, Sound)">
+				<Option output="Cataclysm-Tiles" prefix_auto="0" extension_auto="1" />
+				<Option object_output="obj/DebugSoundSDL/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-pg" />
+					<Add option="-g" />
+					<Add option="-DTILES=1" />
+					<Add option="-DSDL_SOUND=1" />
+					<Add directory="WinDepend/include" />
+					<Add directory="WinDepend/include/SDL2" />
+				</Compiler>
+				<Linker>
+					<Add option="-pg" />
+					<Add option="-lgmon" />
+					<Add library="libSDL2.dll.a" />
+					<Add library="libSDL2main.a" />
+					<Add library="libSDL2_ttf.dll.a" />
+					<Add library="libSDL2_image.dll.a" />
+					<Add library="libSDL2_mixer.dll.a" />
+					<Add directory="WinDepend/lib" />
+				</Linker>
+			</Target>
+			<Target title="Debug (SDL, Localized)">
+				<Option output="CataclysmWin-Tiles" prefix_auto="0" extension_auto="1" />
+				<Option object_output="obj/DebugLocalizedSDL/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-pg" />
+					<Add option="-g" />
+					<Add option="-DLOCALIZE=1" />
+					<Add option="-DTILES=1" />
+					<Add directory="WinDepend/include" />
+					<Add directory="WinDepend/include/SDL2" />
+				</Compiler>
+				<Linker>
+					<Add option="-pg" />
+					<Add option="-lgmon" />
+					<Add library="libintl.dll.a" />
+					<Add library="libiconv.dll.a" />
+					<Add library="libSDL2.dll.a" />
+					<Add library="libSDL2main.a" />
+					<Add library="libSDL2_ttf.dll.a" />
+					<Add library="libSDL2_image.dll.a" />
+					<Add directory="WinDepend/lib" />
+				</Linker>
+			</Target>
+			<Target title="Debug (SDL, Loc, Sound)">
+				<Option output="Cataclysm-Tiles" prefix_auto="0" extension_auto="1" />
+				<Option object_output="obj/DebugLocalizedSoundSDL/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-pg" />
+					<Add option="-g" />
+					<Add option="-DLOCALIZE=1" />
+					<Add option="-DTILES=1" />
+					<Add option="-DSDL_SOUND=1" />
+					<Add directory="WinDepend/include" />
+					<Add directory="WinDepend/include/SDL2" />
+				</Compiler>
+				<Linker>
+					<Add option="-pg" />
+					<Add option="-lgmon" />
+					<Add library="libintl.dll.a" />
+					<Add library="libiconv.dll.a" />
+					<Add library="libSDL2.dll.a" />
+					<Add library="libSDL2main.a" />
+					<Add library="libSDL2_ttf.dll.a" />
+					<Add library="libSDL2_image.dll.a" />
+					<Add library="libSDL2_mixer.dll.a" />
+					<Add directory="WinDepend/lib" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wextra" />
+			<Add option="-Wall" />
+			<Add option="-std=c++14" />
+			<Add option="-DCB_BUILD" />
+			<Add option="-D_WINDOWS" />
+			<Add option="-D_MINGW" />
+			<Add option="-D_WIN32" />
+			<Add option="-D__MINGW__" />
+		</Compiler>
+		<Linker>
+			<Add option="-Wl,-stack,12000000,-subsystem,windows" />
+			<Add option="-static" />
+			<Add library="gdi32" />
+			<Add library="winmm" />
+		</Linker>
+		<ExtraCommands>
+			<Add before="cmd /c git --version || echo &apos;git&apos; command not found!" />
+			<Add before="cmd /c git describe --tags --always --dirty &gt; version.tmp || echo no-git&gt; version.tmp" />
+			<Add before='cmd /c for /F &quot;tokens=*&quot; %%i in (version.tmp) do echo #define VERSION &quot;%%i&quot; &gt; src/version.h' />
+			<Add before="cmd /c del version.tmp" />
+			<Mode after="always" />
+		</ExtraCommands>
+		<UnitsGlob directory="src" recursive="0" />
+		<Unit filename="src/resource.rc">
+			<Option compilerVar="WINDRES" />
+		</Unit>
+		<Extensions>
+			<code_completion />
+			<debugger />
+			<envvars />
+			<DoxyBlocks>
+				<comment_style block="0" line="0" />
+				<doxyfile_project />
+				<doxyfile_build />
+				<doxyfile_warnings />
+				<doxyfile_output />
+				<doxyfile_dot />
+				<general />
+			</DoxyBlocks>
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

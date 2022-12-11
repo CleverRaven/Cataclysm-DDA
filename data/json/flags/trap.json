@@ -1,0 +1,14 @@
+[
+  {
+    "type": "json_flag",
+    "id": "SONAR_DETECTABLE"
+  },
+  {
+    "type": "json_flag",
+    "id": "CONVECTS_TEMPERATURE"
+  },
+  {
+    "type": "json_flag",
+    "id": "UNDODGEABLE"
+  }
+]

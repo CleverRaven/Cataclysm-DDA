@@ -1,0 +1,417 @@
+[
+  {
+    "id": "morale_food_good",
+    "type": "morale_type",
+    "text": "Enjoyed %s"
+  },
+  {
+    "id": "morale_food_hot",
+    "type": "morale_type",
+    "text": "Enjoyed a hot meal"
+  },
+  {
+    "id": "morale_chat",
+    "type": "morale_type",
+    "text": "Enjoyed a conversation"
+  },
+  {
+    "id": "morale_ate_with_table",
+    "type": "morale_type",
+    "text": "Ate with a table and chair"
+  },
+  {
+    "id": "morale_ate_without_table",
+    "type": "morale_type",
+    "text": "Ate like an animal"
+  },
+  {
+    "id": "morale_music",
+    "type": "morale_type",
+    "text": "Music"
+  },
+  {
+    "id": "morale_honey",
+    "type": "morale_type",
+    "text": "Enjoyed honey"
+  },
+  {
+    "id": "morale_game",
+    "type": "morale_type",
+    "text": "Played a game"
+  },
+  {
+    "id": "morale_marloss",
+    "type": "morale_type",
+    "text": "Marloss bliss"
+  },
+  {
+    "id": "morale_mutagen",
+    "type": "morale_type",
+    "text": "Mutagenic anticipation"
+  },
+  {
+    "id": "morale_feeling_good",
+    "type": "morale_type",
+    "text": "Feeling good"
+  },
+  {
+    "id": "morale_support",
+    "type": "morale_type",
+    "text": "Supported"
+  },
+  {
+    "id": "morale_photos",
+    "type": "morale_type",
+    "text": "Looked at photos"
+  },
+  {
+    "id": "morale_craving_nicotine",
+    "type": "morale_type",
+    "text": "Craving nicotine"
+  },
+  {
+    "id": "morale_craving_caffeine",
+    "type": "morale_type",
+    "text": "Craving caffeine"
+  },
+  {
+    "id": "morale_craving_alcohol",
+    "type": "morale_type",
+    "text": "Craving alcohol"
+  },
+  {
+    "id": "morale_craving_opiate",
+    "type": "morale_type",
+    "text": "Craving opiates"
+  },
+  {
+    "id": "morale_craving_speed",
+    "type": "morale_type",
+    "text": "Craving speed"
+  },
+  {
+    "id": "morale_craving_cocaine",
+    "type": "morale_type",
+    "text": "Craving cocaine"
+  },
+  {
+    "id": "morale_craving_crack",
+    "type": "morale_type",
+    "text": "Craving crack cocaine"
+  },
+  {
+    "id": "morale_craving_mutagen",
+    "type": "morale_type",
+    "text": "Craving mutagen"
+  },
+  {
+    "id": "morale_craving_diazepam",
+    "type": "morale_type",
+    "text": "Craving prescription sedatives"
+  },
+  {
+    "id": "morale_craving_marloss",
+    "type": "morale_type",
+    "text": "Craving Marloss"
+  },
+  {
+    "id": "morale_food_bad",
+    "type": "morale_type",
+    "text": "Disliked %s"
+  },
+  {
+    "id": "morale_cannibal",
+    "type": "morale_type",
+    "text": "Ate human flesh"
+  },
+  {
+    "id": "morale_demicannibal",
+    "type": "morale_type",
+    "text": "Ate demihuman flesh"
+  },
+  {
+    "id": "morale_vegetarian",
+    "type": "morale_type",
+    "text": "Ate vegetables"
+  },
+  {
+    "id": "morale_antiveggy",
+    "type": "morale_type",
+    "text": "Ate vegetables"
+  },
+  {
+    "id": "morale_meatarian",
+    "type": "morale_type",
+    "text": "Ate meat"
+  },
+  {
+    "id": "morale_antimeat",
+    "type": "morale_type",
+    "text": "Ate meat"
+  },
+  {
+    "id": "morale_antifruit",
+    "type": "morale_type",
+    "text": "Ate fruit"
+  },
+  {
+    "id": "morale_lactose",
+    "type": "morale_type",
+    "text": "Lactose intolerance"
+  },
+  {
+    "id": "morale_antijunk",
+    "type": "morale_type",
+    "text": "Ate junk food"
+  },
+  {
+    "id": "morale_antiwheat",
+    "type": "morale_type",
+    "text": "Grain intolerance"
+  },
+  {
+    "id": "morale_sweettooth",
+    "type": "morale_type",
+    "text": "Enjoyed something sugary"
+  },
+  {
+    "id": "morale_no_digest",
+    "type": "morale_type",
+    "text": "Ate indigestible food"
+  },
+  {
+    "id": "morale_wet",
+    "type": "morale_type",
+    "text": "Wet"
+  },
+  {
+    "id": "morale_dried_off",
+    "type": "morale_type",
+    "text": "Dried off"
+  },
+  {
+    "id": "morale_cold",
+    "type": "morale_type",
+    "text": "Cold"
+  },
+  {
+    "id": "morale_hot",
+    "type": "morale_type",
+    "text": "Hot"
+  },
+  {
+    "id": "morale_feeling_bad",
+    "type": "morale_type",
+    "text": "Feeling bad"
+  },
+  {
+    "id": "morale_killed_innocent",
+    "type": "morale_type",
+    "text": "Killed an innocent person"
+  },
+  {
+    "id": "morale_killed_friend",
+    "type": "morale_type",
+    "text": "Killed a friend"
+  },
+  {
+    "id": "morale_killed_monster",
+    "type": "morale_type",
+    "text": "Guilty about killing"
+  },
+  {
+    "id": "morale_mutilate_corpse",
+    "type": "morale_type",
+    "text": "Guilty about mutilating a corpse"
+  },
+  {
+    "id": "morale_mutagen_elf",
+    "type": "morale_type",
+    "text": "Fey mutation"
+  },
+  {
+    "id": "morale_mutagen_chimera",
+    "type": "morale_type",
+    "text": "Chimerical mutation"
+  },
+  {
+    "id": "morale_mutagen_mutation",
+    "type": "morale_type",
+    "text": "Mutation"
+  },
+  {
+    "id": "morale_moodswing",
+    "type": "morale_type",
+    "text": "Mood swing"
+  },
+  {
+    "id": "morale_book",
+    "type": "morale_type",
+    "text": "Read %s"
+  },
+  {
+    "id": "morale_comfy",
+    "type": "morale_type",
+    "text": "Got comfy"
+  },
+  {
+    "id": "morale_scream",
+    "type": "morale_type",
+    "text": "Heard a disturbing scream"
+  },
+  {
+    "id": "morale_perm_masochist",
+    "type": "morale_type",
+    "text": "Masochism"
+  },
+  {
+    "id": "morale_perm_noface",
+    "type": "morale_type",
+    "text": "You have no face!"
+  },
+  {
+    "id": "morale_perm_fpmode_on",
+    "type": "morale_type",
+    "text": "You feel pumped!"
+  },
+  {
+    "id": "morale_perm_hoarder",
+    "type": "morale_type",
+    "text": "Hoarder"
+  },
+  {
+    "id": "morale_perm_fancy",
+    "type": "morale_type",
+    "text": "Stylish"
+  },
+  {
+    "id": "morale_perm_optimist",
+    "type": "morale_type",
+    "text": "Optimist"
+  },
+  {
+    "id": "morale_perm_badtemper",
+    "type": "morale_type",
+    "text": "Bad Tempered"
+  },
+  {
+    "id": "morale_perm_numb",
+    "type": "morale_type",
+    "text": "Numb"
+  },
+  {
+    "id": "morale_perm_constrained",
+    "type": "morale_type",
+    "text": "Uncomfortable gear"
+  },
+  {
+    "id": "morale_perm_nomad",
+    "type": "morale_type",
+    "text": "Nomadic restlessness"
+  },
+  {
+    "id": "morale_game_found_kitten",
+    "type": "morale_type",
+    "text": "Found kitten <3"
+  },
+  {
+    "id": "morale_haircut",
+    "type": "morale_type",
+    "text": "Got a haircut"
+  },
+  {
+    "id": "morale_shave",
+    "type": "morale_type",
+    "text": "Freshly shaven"
+  },
+  {
+    "id": "morale_vomited",
+    "type": "morale_type",
+    "text": "Threw up"
+  },
+  {
+    "id": "morale_play_with_pet",
+    "type": "morale_type",
+    "text": "Spent time playing with a pet"
+  },
+  {
+    "id": "morale_pyromania_startfire",
+    "type": "morale_type",
+    "text": "Lit a fire"
+  },
+  {
+    "id": "morale_pyromania_nearfire",
+    "type": "morale_type",
+    "text": "Spent time close to fire"
+  },
+  {
+    "id": "morale_pyromania_nofire",
+    "type": "morale_type",
+    "text": "Craving fire"
+  },
+  {
+    "id": "morale_killer_has_killed",
+    "type": "morale_type",
+    "text": "Killed recently"
+  },
+  {
+    "id": "morale_killer_need_to_kill",
+    "type": "morale_type",
+    "text": "Longing to kill"
+  },
+  {
+    "id": "morale_perm_filthy",
+    "type": "morale_type",
+    "text": "Filthy gear"
+  },
+  {
+    "id": "morale_butcher",
+    "type": "morale_type",
+    "text": "Anguished by memories of butchering a human corpse"
+  },
+  {
+    "id": "morale_gravedigger",
+    "type": "morale_type",
+    "text": "Dug out a grave"
+  },
+  {
+    "id": "morale_funeral",
+    "type": "morale_type",
+    "text": "Conducted a funeral"
+  },
+  {
+    "id": "morale_tree_communion",
+    "type": "morale_type",
+    "text": "Communed with the trees"
+  },
+  {
+    "id": "morale_accomplishment",
+    "type": "morale_type",
+    "text": "Accomplishment"
+  },
+  {
+    "id": "morale_failure",
+    "type": "morale_type",
+    "text": "Failure"
+  },
+  {
+    "id": "morale_perm_debug",
+    "type": "morale_type",
+    "text": "Debug morale"
+  },
+  {
+    "id": "morale_nightmare",
+    "type": "morale_type",
+    "text": "Had a vivid nightmare"
+  },
+  {
+    "id": "morale_migo_bio_tech",
+    "type": "morale_type",
+    "text": "Used mi-go biotech"
+  },
+  {
+    "id": "morale_impossible_shape",
+    "type": "morale_type",
+    "text": "Saw something that hurts to remember"
+  }
+]

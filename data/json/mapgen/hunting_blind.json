@@ -1,0 +1,86 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "hunting_blind" ],
+    "weight": 100,
+    "object": {
+      "predecessor_mapgen": "field",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "              |fff|     ",
+        "              |ffc|     ",
+        "              |000|     ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "0": "t_window_empty", "c": "t_dirtfloor", "f": "t_dirtfloor", "|": "t_wall_wood" },
+      "furniture": { "c": "f_camp_chair" },
+      "place_items": [
+        { "item": "ammo_rifle_common", "x": 16, "y": 14, "chance": 10 },
+        { "item": "ammo_shotgun_common", "x": 15, "y": 14, "chance": 25 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "hunting_blind" ],
+    "weight": 100,
+    "object": {
+      "predecessor_mapgen": "field",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "      ||||              ",
+        "      fcf0              ",
+        "      fff0              ",
+        "      ||||              ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "0": "t_window_empty", "c": "t_dirtfloor", "f": "t_dirtfloor", "|": "t_wall_wood" },
+      "furniture": { "c": "f_camp_chair" },
+      "place_items": [
+        { "item": "ammo_rifle_common", "x": 12, "y": 9, "chance": 10 },
+        { "item": "ammo_shotgun_common", "x": 13, "y": 10, "chance": 25 }
+      ]
+    }
+  }
+]

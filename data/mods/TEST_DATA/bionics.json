@@ -1,0 +1,58 @@
+[
+  {
+    "id": "test_bio_ench",
+    "type": "bionic",
+    "name": { "str": "Artificial Night Generator" },
+    "description": "When active, this bionic eliminates all light within a 2 tile radius through destructive interference.",
+    "occupied_bodyparts": [ [ "torso", 16 ] ],
+    "flags": [ "BIONIC_TOGGLED" ],
+    "enchantments": [ "TEST_ENCH" ],
+    "act_cost": "9 kJ",
+    "react_cost": "9 kJ",
+    "included": true,
+    "//": "not actually included, this is a trick to not have to add an item version.",
+    "time": "1 s"
+  },
+  {
+    "id": "bio_fuel_wood",
+    "type": "bionic",
+    "name": { "str": "Wood burner bionic" },
+    "description": "Test bionic that generates energy from wood.  Tests for bionic fueled by items that are not counted by charge.",
+    "occupied_bodyparts": [ [ "torso", 8 ] ],
+    "encumbrance": [ [ "torso", 5 ] ],
+    "fuel_options": [ "wood" ],
+    "fuel_efficiency": 0.25,
+    "exothermic_power_gen": true,
+    "time": "1 s",
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_POWER_SOURCE" ],
+    "passive_pseudo_items": [ "internal_woodshed" ],
+    "included": true,
+    "//": "not actually included, this is a trick to not have to add an item version."
+  },
+  {
+    "id": "internal_woodshed",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "internal woodshed" },
+    "description": "Woodshed, in your chest..",
+    "volume": "301 L",
+    "weight": "1 g",
+    "price": 0,
+    "material": [ "plastic" ],
+    "symbol": "(",
+    "color": "magenta",
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "NO_REPAIR", "ALLOWS_NATURAL_ATTACKS", "BIONIC_FUEL_SOURCE" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "max_contains_volume": "300 L",
+        "max_item_volume": "300 L",
+        "max_contains_weight": "300 kg",
+        "max_item_length": "140 cm",
+        "material_restriction": [ "wood" ]
+      }
+    ]
+  }
+]

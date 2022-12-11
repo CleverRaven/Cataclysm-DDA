@@ -1,0 +1,126 @@
+[
+  {
+    "type": "npc",
+    "id": "spiral_madman",
+    "//": "Former miner, poor fellow succumbed to spiral madness.",
+    "name_suffix": "miner",
+    "class": "NC_SPIRAL_MADMAN",
+    "attitude": 0,
+    "mission": 8,
+    "chat": "TALK_SPIRAL_MADMAN_FIRST_MEETING",
+    "faction": "no_faction"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_SPIRAL_MADMAN",
+    "name": { "str": "Miner" },
+    "job_description": "Spirals.",
+    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "bonus_str": { "rng": [ 2, 4 ] },
+    "bonus_dex": { "rng": [ 0, 2 ] },
+    "worn_override": "NC_SPIRAL_MADMAN_worn",
+    "weapon_override": "NC_SPIRAL_MADMAN_wield"
+  },
+  {
+    "type": "item_group",
+    "id": "NC_SPIRAL_MADMAN_worn",
+    "subtype": "collection",
+    "entries": [
+      { "group": "clothing_work_boots", "damage": [ 0, 2 ] },
+      { "group": "clothing_work_glasses", "prob": 60, "damage": [ 0, 2 ] },
+      { "group": "clothing_work_gloves", "prob": 75, "damage": [ 0, 2 ] },
+      { "group": "clothing_work_mask", "prob": 40, "damage": [ 0, 2 ] },
+      { "item": "ear_plugs", "prob": 15, "damage": [ 0, 2 ] },
+      { "item": "tool_belt", "prob": 25, "damage": [ 0, 2 ] },
+      {
+        "distribution": [
+          {
+            "collection": [ { "group": "clothing_work_pants", "damage": [ 0, 2 ] }, { "group": "clothing_work_torso", "damage": [ 0, 2 ] } ],
+            "prob": 75
+          },
+          { "item": "jumpsuit", "prob": 25, "damage": [ 0, 2 ] }
+        ]
+      },
+      { "group": "underwear", "damage": [ 0, 1 ] },
+      { "item": "miner_hat", "prob": 90, "damage": [ 0, 2 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_SPIRAL_MADMAN_wield",
+    "items": [
+      [ "pickaxe", 50 ],
+      [ "shovel", 50 ],
+      [ "bucket", 20 ],
+      [ "gasoline_lantern", 10 ],
+      [ "electric_lantern", 10 ],
+      [ "oil_lamp", 10 ],
+      [ "jackhammer", 5 ],
+      [ "elec_jackhammer", 5 ]
+    ]
+  },
+  {
+    "id": "TALK_SPIRAL_MADMAN_FIRST_MEETING",
+    "type": "talk_topic",
+    "dynamic_line": "Spirals?",
+    "speaker_effect": { "effect": { "u_add_var": "first_meeting", "type": "dialogue", "context": "first_meeting", "value": "yes" } },
+    "responses": [
+      {
+        "text": "Hello there!",
+        "topic": "TALK_SPIRAL_MADMAN_GENERIC",
+        "condition": { "not": { "u_has_var": "first_meeting", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
+      },
+      {
+        "text": "I'm outta here.  Bye.",
+        "topic": "TALK_DONE",
+        "condition": { "not": { "u_has_var": "first_meeting", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
+      },
+      {
+        "text": "Poor fellow - looks like you're out of your mind.  Can't help you, sorry.  I'm outta here.  Bye.",
+        "topic": "TALK_DONE",
+        "condition": { "u_has_var": "first_meeting", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+      }
+    ]
+  },
+  {
+    "id": "TALK_SPIRAL_MADMAN_GENERIC",
+    "type": "talk_topic",
+    "dynamic_line": "<spirals>",
+    "responses": [
+      { "text": "What are you doing here?", "topic": "TALK_SPIRAL_MADMAN_SPIRALS" },
+      { "text": "Sorry, what?", "topic": "TALK_SPIRAL_MADMAN_SPIRALS" },
+      { "text": "I'm outta here.  Bye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_SPIRAL_MADMAN_SPIRALS",
+    "type": "talk_topic",
+    "dynamic_line": "<spirals>",
+    "responses": [
+      { "text": "Why are you repeating 'spirals' over and over again?", "topic": "TALK_SPIRAL_MADMAN_R_U_NUTS" },
+      { "text": "Sorry, what?", "topic": "TALK_SPIRAL_MADMAN_R_U_NUTS" },
+      { "text": "I'm outta here.  Bye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_SPIRAL_MADMAN_R_U_NUTS",
+    "type": "talk_topic",
+    "dynamic_line": "<spirals>",
+    "responses": [
+      { "text": "Are you nuts?", "topic": "TALK_SPIRAL_MADMAN_THIS_IS_MADNESS" },
+      { "text": "Sorry, what?", "topic": "TALK_SPIRAL_MADMAN_THIS_IS_MADNESS" },
+      { "text": "I'm outta here.  Bye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_SPIRAL_MADMAN_THIS_IS_MADNESS",
+    "type": "talk_topic",
+    "dynamic_line": "<spirals>",
+    "responses": [
+      {
+        "text": "Poor fellow - looks like you're out of your mind.  Can't help you, sorry.  I'm outta here.  Bye.",
+        "topic": "TALK_DONE"
+      }
+    ]
+  }
+]

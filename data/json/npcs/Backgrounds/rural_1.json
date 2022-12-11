@@ -1,0 +1,120 @@
+[
+  {
+    "id": "BGSS_RURAL_1_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": [
+      {
+        "npc_female": true,
+        "yes": "I lived alone, on the old family property way out of town.  My husband passed away a bit over a month before this started… cancer.  If anything good has come out of all this, it's that I finally see a positive to losing him so young.  I'd been shut in for a while anyway.  When the news started talking about Chinese bio weapons and sleeper agents, and showing the rioting in Boston and such, I curled up with my canned soup and changed the channel.",
+        "no": "I lived alone, on the old family property way out of town.  My wife passed away a bit over a month before this started… cancer.  If anything good has come out of all this, it's that I finally see a positive to losing her so young.  I'd been shut in for a while anyway.  When the news started talking about Chinese bio weapons and sleeper agents, and showing the rioting in Boston and such, I curled up with my canned soup and changed the channel."
+      }
+    ],
+    "responses": [
+      { "text": "What happened next?", "topic": "BGSS_RURAL_1_STORY2" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_RURAL_1_STORY2",
+    "type": "talk_topic",
+    "dynamic_line": "Well, it built up a bit.  There was that acid rain, it burnt up one of my tractors.  Not that I'd been working the fields since… well, it'd been a <shitty> year and I hadn't done much worth doing.  There were explosions and things, and choppers overhead.  I was scared, kept the curtains drawn, kept changing the channels.  Then, one day, there were no channels to change to.  Just the emergency broadcast, over and over.",
+    "responses": [
+      { "text": "What happened next?", "topic": "BGSS_RURAL_1_STORY3" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_RURAL_1_STORY3",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "u_has_var": "rural_1_started_quest",
+      "type": "mission",
+      "context": "BGSS",
+      "value": "yes",
+      "no": "That was the first thing to really shake me out of it.  I didn't really have any very close friends, but there were people back in town I cared about a bit.  I had sent some texts, but I hadn't really twigged that they hadn't replied for days.  I got in my truck and tried to get back to town.  Didn't get far before I hit a <zombie> infested pileup blocking the highway, and that's when I started to put it all together.  Never did get to town.  Unfortunately I led the <zombies> back to my farm, and had to bug out of there.  Might go back and clear it out, someday.",
+      "yes": "That was the first thing to really shake me out of it.  I didn't really have any very close friends, but there were people back in town I cared about a bit.  I had sent some texts, but I hadn't really twigged that they hadn't replied for days.  I got in my truck and tried to get back to town.  Didn't get far before I hit a <zombie> infested pileup blocking the highway, and that's when I started to put it all together.  Never did get to town.  Unfortunately I led the <zombies> back to my farm, and had to bug out of there.  And now I'm here with you."
+    },
+    "responses": [
+      {
+        "text": "I could help you clear out your farm if you wanted.  You just have to show me the way…",
+        "condition": {
+          "and": [
+            { "not": { "u_has_var": "rural_1_started_quest", "type": "mission", "context": "BGSS", "value": "yes" } },
+            {
+              "not": {
+                "and": [
+                  { "u_has_var": "rural_1_asked_about_quest", "type": "general", "context": "BGSS", "value": "yes" },
+                  {
+                    "u_compare_time_since_var": "rural_1_asked_about_quest",
+                    "type": "timer",
+                    "context": "timers",
+                    "op": "<",
+                    "time": "8 h"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "trial": { "type": "PERSUADE", "difficulty": 30, "mod": [ [ "TRUST", 6 ], [ "VALUE", 3 ], [ "ANGER", -6 ] ] },
+        "success": {
+          "topic": "BGSS_RURAL_1_FARMSUCCESS",
+          "effect": [
+            { "add_mission": "directions_rural_1_FARM" },
+            { "u_message": "<npc_name> marks the location of the farm on your map.", "type": "good", "popup": true }
+          ]
+        },
+        "failure": {
+          "topic": "BGSS_RURAL_1_FARMFAILURE",
+          "opinion": { "trust": -1 },
+          "effect": [
+            { "u_add_var": "rural_1_asked_about_quest", "type": "timer", "context": "timers", "time": true },
+            { "u_add_var": "rural_1_asked_about_quest", "type": "general", "context": "BGSS", "value": "yes" }
+          ]
+        }
+      },
+      { "text": "Thanks for telling me that.  <done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_RURAL_1_FARMSUCCESS",
+    "type": "talk_topic",
+    "dynamic_line": "I guess you look sturdy enough to take them on.  I marked the spot for you.  Take me with you so I can make sure you don't steal anything.  No offense… the farm is just all I've got.",
+    "responses": [ { "text": "Thanks for the directions.  Let's check it out.", "topic": "TALK_NONE" } ]
+  },
+  {
+    "id": "BGSS_RURAL_1_FARMFAILURE",
+    "type": "talk_topic",
+    "dynamic_line": "I don't know if I trust you quite like that, just giving away so many personal details all at once.  Maybe later…",
+    "responses": [ { "text": "Sorry, didn't mean to intrude.", "topic": "TALK_NONE" } ]
+  },
+  {
+    "id": "directions_rural_1_FARM",
+    "type": "mission_definition",
+    "name": { "str": "Check out that farm" },
+    "description": "You were told to check out a farm that might be infested with zombies.",
+    "goal": "MGOAL_GO_TO",
+    "difficulty": 3,
+    "value": 0,
+    "start": {
+      "assign_mission_target": { "om_special": "Farm", "om_terrain": "farm_3", "reveal_radius": 3, "search_range": 400 },
+      "effect": { "u_add_var": "rural_1_started_quest", "type": "mission", "context": "BGSS", "value": "yes" }
+    },
+    "end": { "opinion": { "trust": 2, "value": 2 } },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "Any luck finding the farm?",
+      "success": "I don't know how I can ever make it up to you!  I barely made it out of this place alive.  I wasn't sure I'd ever see it again, to be honest.",
+      "success_lie": "Great!",
+      "failure": "I guess I don't blame you.  I knew it wouldn't be easy."
+    }
+  }
+]

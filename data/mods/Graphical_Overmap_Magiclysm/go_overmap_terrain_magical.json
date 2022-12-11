@@ -1,0 +1,351 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": "magic_shop",
+    "copy-from": "magic_shop",
+    "sym": "\u00FF"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "magic_shop_2ndfloor",
+    "copy-from": "magic_shop_2ndfloor",
+    "sym": "\u00FF"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "magic_shop_roof",
+    "copy-from": "magic_shop_roof",
+    "sym": "\u00FF"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "magic_cabin",
+    "copy-from": "magic_cabin",
+    "sym": "\u00E2"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "magic_cabin_roof",
+    "copy-from": "magic_cabin_roof",
+    "sym": "\u00E2"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "demon_spider_lair",
+    "copy-from": "demon_spider_lair",
+    "sym": "\u00E8"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "used_bookstore",
+    "copy-from": "used_bookstore",
+    "sym": "\u00E7"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "used_bookstore_roof",
+    "copy-from": "used_bookstore_roof",
+    "sym": "\u00E7"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "black_dragon_lair_z-0_NW",
+    "copy-from": "black_dragon_lair_z-0_NW",
+    "sym": "\u00E8"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "black_dragon_lair_z-0_NE",
+    "copy-from": "black_dragon_lair_z-0_NE",
+    "sym": "\u00E8"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "black_dragon_lair_z-0_SW",
+    "copy-from": "black_dragon_lair_z-0_SW",
+    "sym": "\u00E8"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "black_dragon_lair_z-0_SE",
+    "copy-from": "black_dragon_lair_z-0_SE",
+    "sym": "\u00E8"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "black_dragon_lair_z-1_NW",
+    "copy-from": "black_dragon_lair_z-1_NW",
+    "sym": "\u00AE"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "black_dragon_lair_z-1_NE",
+    "copy-from": "black_dragon_lair_z-1_NE",
+    "sym": "\u00AE"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "black_dragon_lair_z-1_SW",
+    "copy-from": "black_dragon_lair_z-1_SW",
+    "sym": "\u00AE"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "black_dragon_lair_z-1_SE",
+    "copy-from": "black_dragon_lair_z-1_SE",
+    "sym": "\u00AE"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "black_dragon_lair_z-2_NW",
+    "copy-from": "black_dragon_lair_z-2_NW",
+    "sym": "\u00AE"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "black_dragon_lair_z-2_NE",
+    "copy-from": "black_dragon_lair_z-2_NE",
+    "sym": "\u00AE"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "black_dragon_lair_z-2_SW",
+    "copy-from": "black_dragon_lair_z-2_SW",
+    "sym": "\u00AE"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "black_dragon_lair_z-2_SE",
+    "copy-from": "black_dragon_lair_z-2_SE",
+    "sym": "\u00AE"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "black_dragon_lair_z-3_NW",
+    "copy-from": "black_dragon_lair_z-3_NW",
+    "sym": "\u00AE"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "black_dragon_lair_z-3_NE",
+    "copy-from": "black_dragon_lair_z-3_NE",
+    "sym": "\u00AE"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "black_dragon_lair_z-3_SW",
+    "copy-from": "black_dragon_lair_z-3_SW",
+    "sym": "\u00AE"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "black_dragon_lair_z-3_SE",
+    "copy-from": "black_dragon_lair_z-3_SE",
+    "sym": "\u00AE"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "black_dragon_lair_z-4_NW",
+    "copy-from": "black_dragon_lair_z-4_NW",
+    "sym": "\u00AE"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "black_dragon_lair_z-4_NE",
+    "copy-from": "black_dragon_lair_z-4_NE",
+    "sym": "\u00AE"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "black_dragon_lair_z-4_SW",
+    "copy-from": "black_dragon_lair_z-4_SW",
+    "sym": "\u00AE"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "black_dragon_lair_z-4_SE",
+    "copy-from": "black_dragon_lair_z-4_SE",
+    "sym": "\u00AE"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lake_retreat_ground",
+    "copy-from": "lake_retreat_ground",
+    "sym": "\u00ED"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lake_retreat_z1",
+    "copy-from": "lake_retreat_z1",
+    "sym": "\u00ED"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lake_retreat_z2",
+    "copy-from": "lake_retreat_z2",
+    "sym": "\u00ED"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lake_retreat_z3",
+    "copy-from": "lake_retreat_z3",
+    "sym": "\u00ED"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lake_retreat_z4",
+    "copy-from": "lake_retreat_z4",
+    "sym": "\u00ED"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lake_retreat_boathouse",
+    "copy-from": "lake_retreat_boathouse",
+    "sym": "\u00E7"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lake_retreat_boathouse_roof",
+    "copy-from": "lake_retreat_boathouse_roof",
+    "sym": "\u00E7"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "wizardtower1_ground",
+    "copy-from": "wizardtower1_ground",
+    "sym": "\u00ED"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "wizardtower1_living",
+    "copy-from": "wizardtower1_ground"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "wizardtower1_golems",
+    "copy-from": "wizardtower1_ground"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "wizardtower1_study",
+    "copy-from": "wizardtower1_ground"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "wizardtower1_roof",
+    "copy-from": "wizardtower1_ground"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "wizardtower2_ground",
+    "copy-from": "wizardtower1_ground"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "wizardtower2_stairs1",
+    "copy-from": "wizardtower1_ground"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "wizardtower2_stairs2",
+    "copy-from": "wizardtower1_ground"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "wizardtower2_study",
+    "copy-from": "wizardtower1_ground"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "wizardtower2_roof",
+    "copy-from": "wizardtower1_ground"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "forest_tomb",
+    "copy-from": "forest_tomb",
+    "sym": "\u00EA"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "forest_tomb_roof",
+    "copy-from": "forest_tomb",
+    "sym": "\u00EA"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "forest_tomb_bottom",
+    "copy-from": "forest_tomb",
+    "sym": "\u00EA"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "magic_academy_ground",
+    "copy-from": "magic_academy_ground",
+    "color": "cyan",
+    "sym": "\u00C1"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "magic_academy_2nd",
+    "copy-from": "magic_academy_2nd",
+    "color": "cyan",
+    "sym": "\u00C1"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "magic_academy_3rd",
+    "copy-from": "magic_academy_3rd",
+    "color": "cyan",
+    "sym": "\u00C1"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "magic_academy_4th",
+    "copy-from": "magic_academy_4th",
+    "color": "cyan",
+    "sym": "\u00C1"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "magic_academy_5th",
+    "copy-from": "magic_academy_5th",
+    "color": "cyan",
+    "sym": "\u00C1"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "magic_academy_6th",
+    "copy-from": "magic_academy_6th",
+    "color": "cyan",
+    "sym": "\u00C1"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "magic_academy_7th",
+    "copy-from": "magic_academy_7th",
+    "color": "cyan",
+    "sym": "\u00C1"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "magic_academy_8th",
+    "copy-from": "magic_academy_8th",
+    "color": "cyan",
+    "sym": "\u00C1"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "magic_academy_basement",
+    "copy-from": "magic_academy_basement",
+    "color": "cyan",
+    "sym": "\u00C1"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "magic_academy_roof",
+    "copy-from": "magic_academy_roof",
+    "color": "cyan",
+    "sym": "\u00C1"
+  }
+]

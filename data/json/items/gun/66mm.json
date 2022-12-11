@@ -1,0 +1,30 @@
+[
+  {
+    "id": "m202_flash",
+    "looks_like": "m79",
+    "type": "GUN",
+    "symbol": "(",
+    "color": "dark_gray",
+    "name": { "str_sp": "M202A1 FLASH" },
+    "description": "An American rocket launcher designed in the 1970s to replace WWII-era flamethrowers still in use in Vietnam.  It has four barrels sharing the 66mm caliber of the M72 LAW.",
+    "price": 2900000,
+    "price_postapoc": 4000,
+    "material": [ "steel" ],
+    "skill": "launcher",
+    "ammo": [ "m235" ],
+    "weight": "5220 g",
+    "volume": "12120 ml",
+    "longest_side": "693 mm",
+    "reload_noise_volume": 10,
+    "bashing": 12,
+    "to_hit": -3,
+    "dispersion": 300,
+    "durability": 7,
+    "modes": [ [ "DEFAULT", "single shot", 1 ], [ "BURST", "all barrels", 4 ] ],
+    "reload": 600,
+    "loudness": 200,
+    "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "sling", 1 ] ],
+    "flags": [ "BACKBLAST", "NEVER_JAMS" ],
+    "pocket_data": [ { "magazine_well": "500 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "m74_clip" ] } ]
+  }
+]

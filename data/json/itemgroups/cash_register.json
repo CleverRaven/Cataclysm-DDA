@@ -1,0 +1,43 @@
+[
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "cash_register_full",
+    "container-item": "cash_register",
+    "items": [ { "group": "banknotes", "prob": 80, "count": [ 5, 33 ] }, { "group": "coins", "prob": 80, "count": [ 5, 33 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "cash_register_looted",
+    "container-item": "cash_register",
+    "items": [
+      { "group": "banknotes", "prob": 15, "count": [ 1, 2 ] },
+      { "group": "coins", "prob": 50, "count": [ 1, 10 ] },
+      [ "survnote", 4 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "cash_register_empty",
+    "container-item": "cash_register",
+    "items": [ [ "survnote", 5 ] ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "cash_register_random",
+    "items": [
+      { "group": "cash_register_full", "prob": 40 },
+      { "group": "cash_register_looted", "prob": 45 },
+      { "group": "cash_register_empty", "prob": 15 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "cash_register_random_ransacked",
+    "items": [ { "group": "cash_register_looted", "prob": 30 }, { "group": "cash_register_empty", "prob": 20 }, [ "null", 50 ] ]
+  }
+]

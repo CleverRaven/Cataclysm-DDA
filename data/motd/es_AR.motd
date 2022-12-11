@@ -1,0 +1,51 @@
+# Las líneas de más de 78 caracteres se cortarán automáticamente
+# La línea siguiente es para referencia
+##############################################################################
+<color_white>Visitanos:</color>
+
+<color_light_gray>* Página web:</color>    <color_cyan>https://cataclysmdda.org</color>
+<color_light_gray>* Wiki:</color>        <color_cyan>https://cddawiki.chezzo.com/cdda_wiki</color>
+
+<color_white>Comentar bugs, sugerencias y ver el desarrollo del juego:</color>
+
+<color_light_gray>* Github: </color><color_light_cyan>https://github.com/CleverRaven/Cataclysm-DDA/issues</color>
+<color_light_gray>* e-mail: </color><color_light_cyan>kevin.granade@gmail.com</color>
+
+<color_white>Vení a discutir en los foros y chats:</color>
+
+<color_light_gray>* Discourse:                 </color><color_cyan>https://discourse.cataclysmdda.org/</color>
+<color_light_gray>* Discord:                   </color><color_cyan>https://discord.gg/jFEc7Yp</color>
+<color_light_gray>* IRC:                       </color><color_cyan>#CataclysmDDA en libera.chat</color>
+<color_light_gray>* Reddit (no oficial):       </color><color_cyan>https://www.reddit.com/r/cataclysmdda/</color>
+
+<color_light_gray>En nuestra página web también hay otros links interesantes.</color>
+
+<color_light_gray>En el juego, podés acceder a las opciones en el menú principal (<color_yellow>Esc</color>).</color>
+
+<color_light_red>******************************************************************************</color>
+<color_light_red>    Sobre las versiones experimentales:</color>
+<color_light_red>******************************************************************************</color>
+
+<color_white>P: </color><color_yellow>¿Qué es una versión experimental?</color>
+
+<color_white>R: </color><color_light_gray>El objetivo de las versiones experimentales es ser un segundo paso de control de calidad. Es la línea de choque donde se prueba el contenido nuevo y el balance luego de un control de calidad inicial. Acordate que si elegís jugar en la última experimental, vas a participar del proceso de desarrolla probando literalmente el contenido nuevo, y es propenso a los bugs o partes sin terminar.</color>
+
+<color_white>P: </color><color_yellow>¿Y para qué existen las versiones experimentales?</color>
+
+<color_white>R: </color><color_light_gray>Pensalo como jugar la versión alfa o beta, donde los bugs o las partes sin terminar pueden aparecer. Debido a los rigores de las continuas integraciones, las versiones experimentales son siempre un constante trabajo en progreso. Las experimentales son una caja de arena donde se detectan los bugs y se pulen las características. Cosas grandes y pequeñas son agregadas constantemente en estas versiones para ser probadas su estabilidad y balance. Por eso, estas versiones no garantizan ni balance ni estabilidad. De hecho, no hay nada garantizado.</color>
+
+<color_white>P: </color><color_yellow>¿Pero se pueden jugar las experimentales entonces?</color>
+
+<color_white>R: </color><color_light_gray>Sí. Aunque las versiones experimentales son bastante estables, no está garantizado que algunas características sean incorporadas, en parte; y pueden incluir bugs, algunos severos que pueden hacer fallar al juego o corromper partidas guardadas. Es raro pero dada la complejidad del juego, el control de calidad inicial antes de incluir cosas en las experimentales puede ser inadecuado, y siempre puede estar el error humano. Esto es por lo que existen las versiones experimantales.</color>
+
+<color_white>P: </color><color_yellow>¿Tendría que jugar las versiones experimentales, o solo las estables?</color>
+
+<color_white>R: </color><color_light_gray>El chiste es tener acceso instantáneo al contenido nuevo, con el riesgo de perder el progreso de tu juego por algún bug grave. Es tu elección jugar experimentales con una versión estable disponible, así que vos elegís. La responsabilidad será tuya si algo sale mal, así que estás advertido. Tené cuidado, hacé backups. A veces incluso es mejor esperar unos días antes de actualizar, para que alguna característica grande sea estable o algún bug significativo sea quitado.</color>
+
+<color_white>P: </color><color_yellow>¿Tengo que tener cuidado de algo más?</color>
+
+<color_white>R: </color><color_light_gray>Sí. Acordate que todo lo que ves y vas a ver está propenso a cambiarse. Todas las características, incluyendo las implementadas recientemente, son un trabajo en progreso y pueden cambiar durante el desarrollo del juego. Y, como dijimos antes, nada está garantizado, incluyendo la estabilidad y el balance.</color>
+
+<color_white>P: </color><color_yellow>¿Qué pasa si me parece inaceptable el riesgo de jugar experimentales?</color>
+
+<color_white>A: </color><color_light_gray>Si el riesgo es inaceptable - jugá la versión estable. Si estás dispuesto a tomar el riesgo - disfrutá el contenido nuevo y formá parte del desarrollo - avisanos de los bugs, mandá sugerencias, o si podés, contribuí con tu propio contenido en el juego. Buena suerte.</color>

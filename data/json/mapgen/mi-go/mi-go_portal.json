@@ -1,0 +1,77 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "mi-go_portal",
+    "object": {
+      "fill_ter": "t_region_groundcover",
+      "rows": [
+        "........................",
+        "........................",
+        "........................",
+        "............||..........",
+        "..........||||||........",
+        "......||| |    |||......",
+        ".....||          |||....",
+        "....|| 1           ||...",
+        "...||               |...",
+        "...|||              ||..",
+        "....||                ..",
+        ".....|           P   |..",
+        ".....|              ||..",
+        "....||              |...",
+        "....                |...",
+        "....|              ||...",
+        "....|||          |||....",
+        "......||||||||  ||......",
+        ".............||||.......",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................"
+      ],
+      "terrain": { "|": "t_wall_resin", " ": "t_floor_resin" },
+      "furniture": {
+        " ": [
+          "f_alien_pod",
+          "f_alien_pod_organ",
+          "f_alien_pod_resin",
+          "f_alien_tendril",
+          "f_alien_zapper",
+          "f_alien_gasper",
+          "f_alien_anemone",
+          "f_alien_table",
+          "f_alien_tendril",
+          [ "f_null", 90 ]
+        ]
+      },
+      "fields": { "P": { "field": "fd_fatigue", "intensity": 1, "age": 10 } },
+      "place_monsters": [ { "monster": "GROUP_MI-GO_BASE_COMMON", "density": 0.1, "x": 8, "y": 10 } ],
+      "nested": {
+        "1": {
+          "chunks": [
+            [ "mi-go_encampment1_room1", 100 ],
+            [ "mi-go_encampment1_room2", 100 ],
+            [ "mi-go_encampment1_room3", 100 ],
+            [ "mi-go_encampment1_room4", 100 ],
+            [ "mi-go_encampment1_room5", 100 ],
+            [ "mi-go_encampment1_room7", 100 ],
+            [ "mi-go_encampment1_room8", 100 ],
+            [ "mi-go_encampment1_room9", 100 ],
+            [ "mi-go_encampment1_room9a", 100 ],
+            [ "mi-go_encampment1_room10", 100 ],
+            [ "mi-go_encampment1_room11", 100 ],
+            [ "mi-go_encampment1_room12", 100 ],
+            [ "mi-go_encampment1_room13", 100 ],
+            [ "mi-go_encampment1_room14", 100 ],
+            [ "mi-go_encampment1_room15", 100 ],
+            [ "mi-go_encampment1_room16", 100 ],
+            [ "mi-go_encampment1_room17", 100 ]
+          ]
+        }
+      },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  }
+]

@@ -1,0 +1,806 @@
+[
+  {
+    "id": "mon_dilophosaurus_juvenile",
+    "type": "MONSTER",
+    "name": "dilophosaurus juvenile",
+    "description": "A small bipedal dinosaur juvenile with large eyes and sharp teeth.",
+    "default_faction": "dilophosaurus_juvenile",
+    "copy-from": "mon_dilophosaurus",
+    "melee_dice": 1,
+    "melee_dice_sides": 2,
+    "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
+    "proportional": { "hp": 0.5, "speed": 1.25 },
+    "upgrades": { "age_grow": 65, "into": "mon_dilophosaurus" },
+    "petfood": { "food": [ "DINOFOOD_B" ] },
+    "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
+  },
+  {
+    "id": "mon_ceratosaurus_juvenile",
+    "type": "MONSTER",
+    "name": "ceratosaurus juvenile",
+    "default_faction": "ceratosaurus_juvenile",
+    "copy-from": "mon_dilophosaurus_juvenile",
+    "upgrades": { "age_grow": 90, "into": "mon_ceratosaurus" }
+  },
+  {
+    "id": "mon_spinosaurus_juvenile",
+    "type": "MONSTER",
+    "name": "spinosaurus juvenile",
+    "description": "A huge dinosaur juvenile with sharp teeth and a large fan on its back.",
+    "default_faction": "spinosaurus_juvenile",
+    "copy-from": "mon_spinosaurus",
+    "melee_dice": 2,
+    "melee_dice_sides": 2,
+    "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
+    "proportional": { "hp": 0.5, "speed": 1.25 },
+    "upgrades": { "age_grow": 365, "into": "mon_spinosaurus" },
+    "petfood": { "food": [ "DINOFOOD_B" ] },
+    "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
+  },
+  {
+    "id": "mon_torvosaurus_juvenile",
+    "type": "MONSTER",
+    "name": "torvosaurus juvenile",
+    "description": "A large bipedal dinosaur juvenile with sharp teeth.",
+    "default_faction": "torvosaurus_juvenile",
+    "copy-from": "mon_torvosaurus",
+    "melee_dice": 2,
+    "melee_dice_sides": 2,
+    "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
+    "proportional": { "hp": 0.5, "speed": 1.25 },
+    "upgrades": { "age_grow": 365, "into": "mon_torvosaurus" },
+    "petfood": { "food": [ "DINOFOOD_B" ] },
+    "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
+  },
+  {
+    "id": "mon_allosaurus_juvenile",
+    "type": "MONSTER",
+    "name": { "str": "juvenile allosaurus", "str_pl": "juvenile allosauruses" },
+    "description": "A large bipedal meat-eating dinosaur juvenile.",
+    "default_faction": "allosaurus_juvenile",
+    "copy-from": "mon_allosaurus",
+    "melee_dice": 1,
+    "melee_dice_sides": 2,
+    "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
+    "volume": "750 L",
+    "weight": "750 kg",
+    "proportional": { "hp": 0.5, "speed": 1.25 },
+    "upgrades": { "age_grow": 150, "into": "mon_allosaurus" },
+    "petfood": { "food": [ "DINOFOOD_B" ] },
+    "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
+  },
+  {
+    "id": "mon_acrocanthosaurus_juvenile",
+    "type": "MONSTER",
+    "name": "acrocanthosaurus juvenile",
+    "description": "Large predatory bipedal dinosaur juvenile with a tall ridge running the length of its back covered with heavy muscles.",
+    "default_faction": "acrocanthosaurus_juvenile",
+    "copy-from": "mon_acrocanthosaurus",
+    "melee_dice": 1,
+    "melee_dice_sides": 2,
+    "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
+    "volume": "750 L",
+    "weight": "750 kg",
+    "proportional": { "hp": 0.5, "speed": 1.25 },
+    "upgrades": { "age_grow": 365, "into": "mon_acrocanthosaurus" },
+    "petfood": { "food": [ "DINOFOOD_B" ] },
+    "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
+  },
+  {
+    "id": "mon_siats_juvenile",
+    "type": "MONSTER",
+    "name": "siats juvenile",
+    "description": "Large predatory bipedal dinosaur juvenile with long claws and strong arms for grappling.",
+    "default_faction": "siats_juvenile",
+    "copy-from": "mon_siats",
+    "melee_dice": 1,
+    "melee_dice_sides": 2,
+    "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
+    "volume": "750 L",
+    "weight": "750 kg",
+    "proportional": { "hp": 0.5, "speed": 1.25 },
+    "upgrades": { "age_grow": 365, "into": "mon_siats" },
+    "petfood": { "food": [ "DINOFOOD_B" ] },
+    "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
+  },
+  {
+    "id": "mon_dryptosaurus_juvenile",
+    "type": "MONSTER",
+    "name": "dryptosaurus juvenile",
+    "description": "Large teeth, fierce eyes, and a powerful frame to drive this juvenile forward, with claws and a feathered mullet and tail.",
+    "default_faction": "dryptosaurus_juvenile",
+    "copy-from": "mon_dryptosaurus",
+    "melee_dice": 2,
+    "melee_dice_sides": 2,
+    "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
+    "volume": "750 L",
+    "weight": "750 kg",
+    "proportional": { "hp": 0.5, "speed": 1.25 },
+    "upgrades": { "age_grow": 365, "into": "mon_dryptosaurus" },
+    "petfood": { "food": [ "DINOFOOD_B" ] },
+    "dissect": "dissect_tyrant_sample_small",
+    "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
+  },
+  {
+    "id": "mon_appalachiosaurus_juvenile",
+    "type": "MONSTER",
+    "name": "appalachiosaurus juvenile",
+    "description": "Large teeth, fierce eyes, and a powerful frame to drive this juvenile forward, with two small arms and a feathered mullet and tail.",
+    "default_faction": "appalachiosaurus_juvenile",
+    "copy-from": "mon_appalachiosaurus",
+    "melee_dice": 2,
+    "melee_dice_sides": 2,
+    "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
+    "volume": "750 L",
+    "weight": "750 kg",
+    "proportional": { "hp": 0.5, "speed": 1.25 },
+    "upgrades": { "age_grow": 365, "into": "mon_appalachiosaurus" },
+    "petfood": { "food": [ "DINOFOOD_B" ] },
+    "dissect": "dissect_tyrant_sample_small",
+    "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
+  },
+  {
+    "id": "mon_gorgosaurus_juvenile",
+    "type": "MONSTER",
+    "name": "gorgosaurus juvenile",
+    "description": "Enormous teeth, fierce eyes, and a powerful frame to drive this juvenile forward, with two small arms and a feathered mullet and tail.",
+    "default_faction": "gorgosaurus_juvenile",
+    "copy-from": "mon_gorgosaurus",
+    "melee_dice": 2,
+    "melee_dice_sides": 2,
+    "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
+    "volume": "750 L",
+    "weight": "750 kg",
+    "proportional": { "hp": 0.5, "speed": 1.25 },
+    "upgrades": { "age_grow": 365, "into": "mon_gorgosaurus" },
+    "petfood": { "food": [ "DINOFOOD_B" ] },
+    "dissect": "dissect_tyrant_sample_small",
+    "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
+  },
+  {
+    "id": "mon_albertosaurus_juvenile",
+    "type": "MONSTER",
+    "name": "albertosaurus juvenile",
+    "description": "Enormous teeth, fierce eyes, and a powerful frame to drive this juvenile forward, with short strong arms and a feathered mullet and tail.",
+    "default_faction": "albertosaurus_juvenile",
+    "copy-from": "mon_albertosaurus",
+    "melee_dice": 2,
+    "melee_dice_sides": 2,
+    "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
+    "volume": "750 L",
+    "weight": "750 kg",
+    "proportional": { "hp": 0.5, "speed": 1.25 },
+    "upgrades": { "age_grow": 365, "into": "mon_albertosaurus" },
+    "petfood": { "food": [ "DINOFOOD_B" ] },
+    "dissect": "dissect_tyrant_sample_small",
+    "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
+  },
+  {
+    "id": "mon_qianzhousaurus_juvenile",
+    "type": "MONSTER",
+    "name": "qianzhousaurus juvenile",
+    "description": "This large, bipedal, feather-covered dinosaur juvenile has a long, gator-like mouth with sharp teeth.",
+    "default_faction": "qianzhousaurus_juvenile",
+    "copy-from": "mon_qianzhousaurus",
+    "melee_dice": 2,
+    "melee_dice_sides": 2,
+    "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
+    "volume": "750 L",
+    "weight": "750 kg",
+    "proportional": { "hp": 0.5, "speed": 1.25 },
+    "upgrades": { "age_grow": 365, "into": "mon_qianzhousaurus" },
+    "petfood": { "food": [ "DINOFOOD_B" ] },
+    "dissect": "dissect_tyrant_sample_small",
+    "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
+  },
+  {
+    "id": "mon_nanuqsaurus_juvenile",
+    "type": "MONSTER",
+    "name": "nanuqsaurus juvenile",
+    "description": "This large, bipedal dinosaur juvenile has long, sharp teeth and fluffy white feathers.",
+    "default_faction": "nanuqsaurus_juvenile",
+    "copy-from": "mon_nanuqsaurus",
+    "melee_dice": 2,
+    "melee_dice_sides": 2,
+    "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
+    "volume": "750 L",
+    "weight": "750 kg",
+    "proportional": { "hp": 0.5, "speed": 1.25 },
+    "upgrades": { "age_grow": 365, "into": "mon_nanuqsaurus" },
+    "petfood": { "food": [ "DINOFOOD_B" ] },
+    "dissect": "dissect_tyrant_sample_small",
+    "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
+  },
+  {
+    "id": "mon_daspletosaurus_juvenile",
+    "type": "MONSTER",
+    "name": "daspletosaurus juvenile",
+    "description": "This large, bipedal dinosaur juvenile has long, sharp teeth.",
+    "default_faction": "daspletosaurus_juvenile",
+    "copy-from": "mon_daspletosaurus",
+    "melee_dice": 2,
+    "melee_dice_sides": 2,
+    "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
+    "volume": "750 L",
+    "weight": "750 kg",
+    "proportional": { "hp": 0.5, "speed": 1.25 },
+    "upgrades": { "age_grow": 365, "into": "mon_daspletosaurus" },
+    "petfood": { "food": [ "DINOFOOD_B" ] },
+    "dissect": "dissect_tyrant_sample_small",
+    "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
+  },
+  {
+    "id": "mon_tyrannosaurus_juvenile",
+    "type": "MONSTER",
+    "name": "tyrannosaurus juvenile",
+    "description": "A large predatory dinosaur juvenile with large sharp teeth.",
+    "default_faction": "tyrannosaurus_juvenile",
+    "copy-from": "mon_tyrannosaurus",
+    "melee_dice": 2,
+    "melee_dice_sides": 2,
+    "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
+    "volume": "750 L",
+    "weight": "750 kg",
+    "proportional": { "hp": 0.5, "speed": 1.25 },
+    "upgrades": { "age_grow": 365, "into": "mon_tyrannosaurus" },
+    "petfood": { "food": [ "DINOFOOD_B" ] },
+    "dissect": "dissect_tyrant_sample_small",
+    "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
+  },
+  {
+    "id": "mon_gallimimus_juvenile",
+    "type": "MONSTER",
+    "name": "greenish yellow two-legged juvenile",
+    "description": "A small two-legged dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
+    "default_faction": "herbivore_young",
+    "categories": [ "DINOSAUR", "WILDLIFE" ],
+    "species": [ "DINOSAUR" ],
+    "volume": "10 L",
+    "weight": "10 kg",
+    "hp": 10,
+    "speed": 60,
+    "material": [ "flesh" ],
+    "symbol": "v",
+    "color": "light_gray",
+    "looks_like": "mon_eoraptor",
+    "aggression": -99,
+    "morale": 5,
+    "melee_skill": 2,
+    "melee_dice": 1,
+    "melee_dice_sides": 1,
+    "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
+    "dodge": 2,
+    "upgrades": { "age_grow": 70, "into": "mon_gallimimus" },
+    "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 3 },
+    "petfood": { "food": [ "DINOFOOD_A", "DINOFOOD_B", "DINOFOOD_C" ] },
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "NO_BREED", "CANPLAY" ],
+    "harvest": "bird_small"
+  },
+  {
+    "id": "mon_struthiomimus_juvenile",
+    "type": "MONSTER",
+    "copy-from": "mon_gallimimus_juvenile",
+    "upgrades": { "age_grow": 70, "into": "mon_struthiomimus" }
+  },
+  {
+    "id": "mon_ornithomimus_juvenile",
+    "type": "MONSTER",
+    "copy-from": "mon_gallimimus_juvenile",
+    "upgrades": { "age_grow": 365, "into": "mon_ornithomimus" }
+  },
+  {
+    "id": "mon_nothronychus_juvenile",
+    "type": "MONSTER",
+    "name": "green and magenta two-legged juvenile",
+    "description": "A small bipedal plant-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
+    "copy-from": "mon_gallimimus_juvenile",
+    "upgrades": { "age_grow": 365, "into": "mon_nothronychus" }
+  },
+  {
+    "id": "mon_anzu_juvenile",
+    "type": "MONSTER",
+    "name": "green and magenta two-legged juvenile",
+    "description": "A small bipedal dinosaur juvenile with huge shiny eyes and a beak, it could be from a number of different species.",
+    "copy-from": "mon_gallimimus_juvenile",
+    "default_faction": "anzu_juvenile",
+    "upgrades": { "age_grow": 365, "into": "mon_anzu" },
+    "petfood": { "food": [ "DINOFOOD_A", "DINOFOOD_B", "DINOFOOD_C" ] }
+  },
+  {
+    "id": "mon_deinonychus_juvenile",
+    "type": "MONSTER",
+    "name": "red and green two-legged juvenile",
+    "description": "A small bipedal meat-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
+    "default_faction": "deinonychus_juvenile",
+    "copy-from": "mon_gallimimus_juvenile",
+    "color": "red_green",
+    "upgrades": { "age_grow": 14, "into": "mon_deinonychus" },
+    "petfood": { "food": [ "DINOFOOD_B" ] },
+    "dissect": "dissect_raptor_sample_single",
+    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "NO_BREED", "CANPLAY" ]
+  },
+  {
+    "id": "mon_utahraptor_juvenile",
+    "type": "MONSTER",
+    "name": "gray and white two-legged juvenile",
+    "description": "A small bipedal meat-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
+    "default_faction": "utahraptor_juvenile",
+    "copy-from": "mon_gallimimus_juvenile",
+    "color": "dark_gray_white",
+    "upgrades": { "age_grow": 80, "into": "mon_utahraptor" },
+    "petfood": { "food": [ "DINOFOOD_B" ] },
+    "dissect": "dissect_raptor_sample_single"
+  },
+  {
+    "id": "mon_sarahsaurus_juvenile",
+    "type": "MONSTER",
+    "copy-from": "mon_amargasaurus_juvenile",
+    "description": "A large, two-legged, plant-eating juvenile sauropod with a long neck and tail.",
+    "zombify_into": "mon_zarahsaurus_juvenile",
+    "upgrades": { "age_grow": 365, "into": "mon_sarahsaurus" },
+    "volume": "100 L",
+    "weight": "100 kg",
+    "bodytype": "ostrich",
+    "hp": 65,
+    "speed": 100,
+    "special_attacks": [
+      { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 8 } ] },
+      [ "EAT_CROP", 10 ]
+    ]
+  },
+  {
+    "id": "mon_anchisaurus_juvenile",
+    "type": "MONSTER",
+    "copy-from": "mon_issi_juvenile",
+    "description": "A four-legged, plant-eating juvenile sauropod with a long neck.",
+    "zombify_into": "mon_zanchisaurus",
+    "upgrades": { "age_grow": 5, "into": "mon_anchisaurus" },
+    "volume": "15 L",
+    "weight": "15 kg",
+    "bodytype": "bear",
+    "hp": 25,
+    "special_attacks": [ [ "EAT_CROP", 50 ] ]
+  },
+  {
+    "id": "mon_issi_juvenile",
+    "type": "MONSTER",
+    "copy-from": "mon_amargasaurus_juvenile",
+    "description": "A large, two-legged, plant-eating juvenile sauropod with a long neck and tail.",
+    "zombify_into": "mon_zissi_juvenile",
+    "upgrades": { "age_grow": 365, "into": "mon_issi" },
+    "volume": "500 L",
+    "weight": "500 kg",
+    "bodytype": "ostrich",
+    "hp": 100,
+    "speed": 100,
+    "special_attacks": [
+      { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 8 } ] },
+      [ "EAT_CROP", 10 ]
+    ]
+  },
+  {
+    "id": "mon_haplocanthosaurus_juvenile",
+    "type": "MONSTER",
+    "copy-from": "mon_amargasaurus_juvenile",
+    "zombify_into": "mon_zaplocanthosaurus_juvenile",
+    "upgrades": { "age_grow": 365, "into": "mon_haplocanthosaurus" }
+  },
+  {
+    "id": "mon_amargasaurus_juvenile",
+    "type": "MONSTER",
+    "name": "brown and magenta sauropod juvenile",
+    "copy-from": "mon_gallimimus_juvenile",
+    "looks_like": "mon_apatosaurus",
+    "default_faction": "herbivore_dino",
+    "aggro_character": false,
+    "description": "A huge, four-legged, plant-eating juvenile sauropod with a long neck and tail, it could be from a number of different species.",
+    "volume": "1000 L",
+    "weight": "1000 kg",
+    "bodytype": "elephant",
+    "families": [ "prof_intro_biology", "prof_wp_dino" ],
+    "weakpoint_sets": [ "wps_sauropod_body" ],
+    "hp": 200,
+    "aggression": -10,
+    "morale": 90,
+    "speed": 80,
+    "melee_skill": 5,
+    "melee_dice": 2,
+    "melee_dice_sides": 4,
+    "zombify_into": "mon_zamargasaurus_juvenile",
+    "special_attacks": [
+      { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 8 } ] },
+      [ "tailsmash_DinoMod", 30 ],
+      [ "EAT_CROP", 5 ]
+    ],
+    "harvest": "dino_sauropod",
+    "anger_triggers": [ "HURT", "FRIEND_ATTACKED" ],
+    "fear_triggers": [ "FRIEND_DIED" ],
+    "upgrades": { "age_grow": 365, "into": "mon_amargasaurus" },
+    "petfood": { "food": [ "DINOFOOD_C" ] },
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "NO_BREED", "CANPLAY", "GROUP_MORALE" ]
+  },
+  {
+    "id": "mon_apatosaurus_juvenile",
+    "type": "MONSTER",
+    "copy-from": "mon_amargasaurus_juvenile",
+    "zombify_into": "mon_zapatosaurus_juvenile",
+    "upgrades": { "age_grow": 365, "into": "mon_apatosaurus" }
+  },
+  {
+    "id": "mon_brontosaurus_juvenile",
+    "type": "MONSTER",
+    "copy-from": "mon_amargasaurus_juvenile",
+    "zombify_into": "mon_zrontosaurus_juvenile",
+    "upgrades": { "age_grow": 365, "into": "mon_brontosaurus" }
+  },
+  {
+    "id": "mon_diplodocus_juvenile",
+    "type": "MONSTER",
+    "copy-from": "mon_amargasaurus_juvenile",
+    "zombify_into": "mon_ziplodocus_juvenile",
+    "upgrades": { "age_grow": 365, "into": "mon_diplodocus" }
+  },
+  {
+    "id": "mon_barosaurus_juvenile",
+    "type": "MONSTER",
+    "copy-from": "mon_amargasaurus_juvenile",
+    "zombify_into": "mon_zarosaurus_juvenile",
+    "upgrades": { "age_grow": 365, "into": "mon_barosaurus" }
+  },
+  {
+    "id": "mon_camarasaurus_juvenile",
+    "type": "MONSTER",
+    "copy-from": "mon_amargasaurus_juvenile",
+    "zombify_into": "mon_zamarasaurus_juvenile",
+    "upgrades": { "age_grow": 365, "into": "mon_camarasaurus" }
+  },
+  {
+    "id": "mon_brachiosaurus_juvenile",
+    "type": "MONSTER",
+    "copy-from": "mon_amargasaurus_juvenile",
+    "zombify_into": "mon_zrachiosaurus_juvenile",
+    "upgrades": { "age_grow": 365, "into": "mon_brachiosaurus" }
+  },
+  {
+    "id": "mon_alamosaurus_juvenile",
+    "type": "MONSTER",
+    "copy-from": "mon_amargasaurus_juvenile",
+    "zombify_into": "mon_zalamosaurus_juvenile",
+    "armor_bash": 7,
+    "armor_cut": 9,
+    "upgrades": { "age_grow": 365, "into": "mon_alamosaurus" }
+  },
+  {
+    "id": "mon_stegosaurus_juvenile",
+    "type": "MONSTER",
+    "name": "green and magenta four-legged juvenile",
+    "description": "A small four-legged plant-eating dinosaur juvenile, it could be from a number of different species.",
+    "copy-from": "mon_gallimimus_juvenile",
+    "hp": 200,
+    "volume": "1000 L",
+    "weight": "1000 kg",
+    "petfood": { "food": [ "DINOFOOD_C" ] },
+    "upgrades": { "age_grow": 365, "into": "mon_stegosaurus" }
+  },
+  {
+    "id": "mon_hesperosaurus_juvenile",
+    "type": "MONSTER",
+    "name": "green and magenta four-legged juvenile",
+    "copy-from": "mon_stegosaurus_juvenile",
+    "upgrades": { "age_grow": 365, "into": "mon_hesperosaurus" }
+  },
+  {
+    "id": "mon_gastonia_juvenile",
+    "type": "MONSTER",
+    "copy-from": "mon_dyoplosaurus_juvenile",
+    "upgrades": { "age_grow": 316, "into": "mon_gastonia" }
+  },
+  {
+    "id": "mon_gargoyleosaurus_juvenile",
+    "type": "MONSTER",
+    "copy-from": "mon_dyoplosaurus_juvenile",
+    "upgrades": { "age_grow": 83, "into": "mon_gargoyleosaurus" }
+  },
+  {
+    "id": "mon_sauropelta_juvenile",
+    "type": "MONSTER",
+    "copy-from": "mon_dyoplosaurus_juvenile",
+    "upgrades": { "age_grow": 333, "into": "mon_sauropelta" }
+  },
+  {
+    "id": "mon_nodosaurus_juvenile",
+    "type": "MONSTER",
+    "copy-from": "mon_dyoplosaurus_juvenile",
+    "upgrades": { "age_grow": 365, "into": "mon_nodosaurus" }
+  },
+  {
+    "id": "mon_panoplosaurus_juvenile",
+    "type": "MONSTER",
+    "copy-from": "mon_dyoplosaurus_juvenile",
+    "upgrades": { "age_grow": 266, "into": "mon_panoplosaurus" }
+  },
+  {
+    "id": "mon_edmontonia_juvenile",
+    "type": "MONSTER",
+    "copy-from": "mon_dyoplosaurus_juvenile",
+    "upgrades": { "age_grow": 365, "into": "mon_edmontonia" }
+  },
+  {
+    "id": "mon_zuul_juvenile",
+    "type": "MONSTER",
+    "copy-from": "mon_stegosaurus_juvenile",
+    "upgrades": { "age_grow": 365, "into": "mon_zuul" }
+  },
+  {
+    "id": "mon_dyoplosaurus_juvenile",
+    "type": "MONSTER",
+    "copy-from": "mon_stegosaurus_juvenile",
+    "upgrades": { "age_grow": 365, "into": "mon_dyoplosaurus" }
+  },
+  {
+    "id": "mon_ankylosaurus_juvenile",
+    "type": "MONSTER",
+    "copy-from": "mon_dyoplosaurus_juvenile",
+    "upgrades": { "age_grow": 365, "into": "mon_ankylosaurus" }
+  },
+  {
+    "id": "mon_euoplocephalus_juvenile",
+    "type": "MONSTER",
+    "copy-from": "mon_dyoplosaurus_juvenile",
+    "upgrades": { "age_grow": 333, "into": "mon_euoplocephalus" }
+  },
+  {
+    "id": "mon_scolosaurus_juvenile",
+    "type": "MONSTER",
+    "copy-from": "mon_dyoplosaurus_juvenile",
+    "upgrades": { "age_grow": 365, "into": "mon_scolosaurus" }
+  },
+  {
+    "id": "mon_tenontosaurus_juvenile",
+    "type": "MONSTER",
+    "name": "green and yellow four-legged juvenile",
+    "copy-from": "mon_stegosaurus_juvenile",
+    "color": "yellow",
+    "upgrades": { "age_grow": 133, "into": "mon_tenontosaurus" },
+    "extend": { "flags": [ "SWIMS" ] }
+  },
+  {
+    "id": "mon_camptosaurus_juvenile",
+    "type": "MONSTER",
+    "name": "green and yellow four-legged juvenile",
+    "copy-from": "mon_stegosaurus_juvenile",
+    "color": "yellow",
+    "upgrades": { "age_grow": 140, "into": "mon_camptosaurus" },
+    "extend": { "flags": [ "SWIMS" ] }
+  },
+  {
+    "id": "mon_hadrosaurus_juvenile",
+    "type": "MONSTER",
+    "name": "gray and magenta two-legged juvenile",
+    "description": "A small two-legged plant-eating dinosaur juvenile, it could be from a number of different species.",
+    "copy-from": "mon_camptosaurus_juvenile",
+    "color": "yellow",
+    "petfood": { "food": [ "DINOFOOD_C" ] },
+    "upgrades": { "age_grow": 365, "into": "mon_hadrosaurus" }
+  },
+  {
+    "id": "mon_maiasaura_juvenile",
+    "type": "MONSTER",
+    "copy-from": "mon_hadrosaurus_juvenile",
+    "upgrades": { "age_grow": 365, "into": "mon_maiasaura" }
+  },
+  {
+    "id": "mon_gryposaurus_juvenile",
+    "type": "MONSTER",
+    "copy-from": "mon_hadrosaurus_juvenile",
+    "upgrades": { "age_grow": 365, "into": "mon_gryposaurus" }
+  },
+  {
+    "id": "mon_prosaurolophus_juvenile",
+    "type": "MONSTER",
+    "copy-from": "mon_hadrosaurus_juvenile",
+    "upgrades": { "age_grow": 365, "into": "mon_prosaurolophus" }
+  },
+  {
+    "id": "mon_saurolophus_juvenile",
+    "type": "MONSTER",
+    "copy-from": "mon_hadrosaurus_juvenile",
+    "upgrades": { "age_grow": 365, "into": "mon_saurolophus" }
+  },
+  {
+    "id": "mon_edmontosaurus_juvenile",
+    "type": "MONSTER",
+    "copy-from": "mon_hadrosaurus_juvenile",
+    "upgrades": { "age_grow": 365, "into": "mon_edmontosaurus" }
+  },
+  {
+    "id": "mon_parasaurolophus_juvenile",
+    "type": "MONSTER",
+    "copy-from": "mon_hadrosaurus_juvenile",
+    "upgrades": { "age_grow": 365, "into": "mon_parasaurolophus" }
+  },
+  {
+    "id": "mon_lambeosaurus_juvenile",
+    "type": "MONSTER",
+    "copy-from": "mon_hadrosaurus_juvenile",
+    "upgrades": { "age_grow": 365, "into": "mon_lambeosaurus" }
+  },
+  {
+    "id": "mon_corythosaurus_juvenile",
+    "type": "MONSTER",
+    "copy-from": "mon_hadrosaurus_juvenile",
+    "upgrades": { "age_grow": 365, "into": "mon_corythosaurus" }
+  },
+  {
+    "id": "mon_hypacrosaurus_juvenile",
+    "type": "MONSTER",
+    "copy-from": "mon_hadrosaurus_juvenile",
+    "upgrades": { "age_grow": 365, "into": "mon_hypacrosaurus" }
+  },
+  {
+    "id": "mon_pachycephalosaurus_juvenile",
+    "type": "MONSTER",
+    "copy-from": "mon_stegosaurus_juvenile",
+    "upgrades": { "age_grow": 70, "into": "mon_pachycephalosaurus" }
+  },
+  {
+    "id": "mon_leptoceratops_juvenile",
+    "type": "MONSTER",
+    "name": "leptoceratops juvenile",
+    "description": "A four-legged plant-eating dinosaur juvenile with a beak and head crest.",
+    "copy-from": "mon_leptoceratops",
+    "volume": "50 L",
+    "weight": "50 kg",
+    "bodytype": "bear",
+    "hp": 30,
+    "upgrades": { "age_grow": 17, "into": "mon_leptoceratops" },
+    "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
+  },
+  {
+    "id": "mon_zuniceratops_juvenile",
+    "type": "MONSTER",
+    "name": "zuniceratops juvenile",
+    "description": "A four-legged plant-eating dinosaur juvenile with a tall thin bony head crest, two brow horns, and a beak.",
+    "copy-from": "mon_zuniceratops",
+    "volume": "90 L",
+    "weight": "90 kg",
+    "hp": 55,
+    "upgrades": { "age_grow": 29, "into": "mon_pachyrhinosaurus" },
+    "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
+  },
+  {
+    "id": "mon_styracosaurus_juvenile",
+    "type": "MONSTER",
+    "name": "styracosaurus juvenile",
+    "description": "A huge four-legged plant-eating dinosaur juvenile with a beak, a bony crest with spikes, and a horn above the nose.",
+    "copy-from": "mon_styracosaurus",
+    "hp": 90,
+    "upgrades": { "age_grow": 365, "into": "mon_styracosaurus" },
+    "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
+  },
+  {
+    "id": "mon_centrosaurus_juvenile",
+    "type": "MONSTER",
+    "name": "centrosaurus juvenile",
+    "description": "A huge four-legged plant-eating dinosaur juvenile with a beak and a horn above the nose.",
+    "copy-from": "mon_centrosaurus",
+    "hp": 90,
+    "upgrades": { "age_grow": 365, "into": "mon_centrosaurus" },
+    "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
+  },
+  {
+    "id": "mon_einiosaurus_juvenile",
+    "type": "MONSTER",
+    "name": "einiosaurus juvenile",
+    "description": "A four-legged plant-eating dinosaur juvenile with a beak and a horn curved forward above the nose.",
+    "copy-from": "mon_einiosaurus",
+    "volume": "650 L",
+    "weight": "650 kg",
+    "hp": 75,
+    "upgrades": { "age_grow": 220, "into": "mon_einiosaurus" },
+    "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
+  },
+  {
+    "id": "mon_achelousaurus_juvenile",
+    "type": "MONSTER",
+    "name": "achelousaurus juvenile",
+    "description": "A four-legged plant-eating dinosaur juvenile with a tall bony crest with two curved spikes and three rough bosses above the eyes and nose as well as a short tail and hooked beak.",
+    "copy-from": "mon_achelousaurus",
+    "hp": 125,
+    "upgrades": { "age_grow": 365, "into": "mon_achelousaurus" },
+    "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
+  },
+  {
+    "id": "mon_pachyrhinosaurus_juvenile",
+    "type": "MONSTER",
+    "name": "pachyrhinosaurus juvenile",
+    "description": "A huge four-legged plant-eating dinosaur juvenile with a beak, two horns, and a broad bony nose.",
+    "copy-from": "mon_pachyrhinosaurus",
+    "hp": 200,
+    "upgrades": { "age_grow": 365, "into": "mon_pachyrhinosaurus" },
+    "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
+  },
+  {
+    "id": "mon_chasmosaurus_juvenile",
+    "type": "MONSTER",
+    "copy-from": "mon_triceratops_juvenile",
+    "hp": 90,
+    "upgrades": { "age_grow": 365, "into": "mon_chasmosaurus" }
+  },
+  {
+    "id": "mon_pentaceratops_juvenile",
+    "type": "MONSTER",
+    "copy-from": "mon_triceratops_juvenile",
+    "hp": 115,
+    "upgrades": { "age_grow": 365, "into": "mon_pentaceratops" }
+  },
+  {
+    "id": "mon_kosmoceratops_juvenile",
+    "type": "MONSTER",
+    "copy-from": "mon_triceratops_juvenile",
+    "volume": "600 L",
+    "weight": "600 kg",
+    "hp": 75,
+    "upgrades": { "age_grow": 200, "into": "mon_kosmoceratops" }
+  },
+  {
+    "id": "mon_torosaurus_juvenile",
+    "type": "MONSTER",
+    "copy-from": "mon_triceratops_juvenile",
+    "upgrades": { "age_grow": 365, "into": "mon_torosaurus" }
+  },
+  {
+    "id": "mon_triceratops_juvenile",
+    "type": "MONSTER",
+    "name": "green and magenta ceratopsian juvenile",
+    "description": "A huge four-legged plant-eating dinosaur juvenile with a bony crest, beak, and horns.",
+    "copy-from": "mon_triceratops",
+    "hp": 200,
+    "upgrades": { "age_grow": 365, "into": "mon_triceratops" },
+    "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
+  },
+  {
+    "id": "mon_thescelosaurus_juvenile",
+    "type": "MONSTER",
+    "name": "thescelosaurus juvenile",
+    "description": "A two-legged plant-eating dinosaur juvenile with strong arms and a long toothy beak.",
+    "copy-from": "mon_thescelosaurus",
+    "hp": 70,
+    "upgrades": { "age_grow": 60, "into": "mon_thescelosaurus" },
+    "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
+  },
+  {
+    "id": "mon_pteranodon_juvenile",
+    "type": "MONSTER",
+    "name": "winged juvenile",
+    "description": "A small winged dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
+    "default_faction": "pteranodon_young",
+    "copy-from": "mon_gallimimus_juvenile",
+    "color": "light_gray_yellow",
+    "upgrades": { "age_grow": 14, "into": "mon_pteranodon" },
+    "petfood": { "food": [ "DINOFOOD_B" ] },
+    "flags": [ "SEES", "HEARS", "SMELLS", "FLIES", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "NO_BREED", "HIT_AND_RUN" ]
+  },
+  {
+    "id": "mon_quetzalcoatlus_juvenile",
+    "type": "MONSTER",
+    "default_faction": "quetzalcoatlus_juvenile",
+    "copy-from": "mon_pteranodon_juvenile",
+    "upgrades": { "age_grow": 40, "into": "mon_quetzalcoatlus" }
+  },
+  {
+    "id": "mon_mosasaurus_juvenile",
+    "type": "MONSTER",
+    "name": "mosasaurus juvenile",
+    "description": "A juvenile predatory aquatic reptile with large pointy teeth, but not the largest.",
+    "default_faction": "mosasaurus_juvenile",
+    "copy-from": "mon_mosasaurus",
+    "volume": "750 L",
+    "weight": "750 kg",
+    "aggression": 50,
+    "hp": 100,
+    "upgrades": { "age_grow": 365, "into": "mon_mosasaurus" },
+    "petfood": { "food": [ "DINOFOOD_B" ] },
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "CANPLAY", "NO_BREED", "SWIMS", "AQUATIC" ]
+  }
+]

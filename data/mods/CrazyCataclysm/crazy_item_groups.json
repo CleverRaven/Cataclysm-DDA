@@ -1,0 +1,72 @@
+[
+  {
+    "id": "grenades",
+    "type": "item_group",
+    "copy-from": "grenades",
+    "extend": { "items": [ [ "granade", 1 ] ] }
+  },
+  {
+    "id": "skeltal_drops",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "milk", "prob": 9 }, { "item": "trumpet", "prob": 1 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "bionics",
+    "copy-from": "bionics",
+    "extend": { "items": [ [ "bio_chest_gun", 5 ] ] }
+  },
+  {
+    "type": "item_group",
+    "id": "bionics_mil",
+    "copy-from": "bionics_mil",
+    "extend": { "items": [ [ "bio_chest_gun", 1 ] ] }
+  },
+  {
+    "type": "item_group",
+    "id": "bionics_op",
+    "items": [ [ "bio_chest_gun", 1 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_pistol_common",
+    "copy-from": "guns_pistol_common",
+    "extend": { "items": [ [ "yeet_cannon", 12 ] ] }
+  },
+  {
+    "type": "item_group",
+    "id": "powerthirst_flavors",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "powerthirst1", "prob": 10, "container-item": "rocket_can_drink", "charges-min": 2, "charges-max": 2 },
+      { "item": "powerthirst2", "prob": 10, "container-item": "rocket_can_drink", "charges-min": 2, "charges-max": 2 },
+      { "item": "powerthirst3", "prob": 10, "container-item": "rocket_can_drink", "charges-min": 2, "charges-max": 2 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "fridgesnacks",
+    "copy-from": "fridgesnacks",
+    "subtype": "distribution",
+    "extend": { "entries": [ { "group": "powerthirst_flavors", "prob": 10 } ] }
+  },
+  {
+    "id": "virology_lab_fridge",
+    "type": "item_group",
+    "copy-from": "virology_lab_fridge",
+    "extend": { "items": [ [ "flu_shot_fun", 50 ] ] }
+  },
+  {
+    "id": "drugs_misc",
+    "type": "item_group",
+    "copy-from": "drugs_misc",
+    "extend": { "items": [ [ "flu_shot_fun", 50 ] ] }
+  },
+  {
+    "id": "harddrugs",
+    "type": "item_group",
+    "copy-from": "harddrugs",
+    "extend": { "items": [ [ "flu_shot_fun", 50 ] ] }
+  }
+]

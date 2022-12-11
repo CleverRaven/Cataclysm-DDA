@@ -1,0 +1,646 @@
+[
+  {
+    "type": "MONSTER_FACTION",
+    "name": "very_small_predator",
+    "base_faction": "cat",
+    "by_mood": [ "small_animal", "cat", "very_small_predator" ],
+    "hate": [ "vermin" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "small_predator",
+    "base_faction": "cat",
+    "by_mood": [ "small_predator", "cat", "eoraptor" ],
+    "hate": [ "small_animal", "very_small_predator" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "medium_predator",
+    "base_faction": "wolf",
+    "by_mood": [ "wolf", "medium_predator", "zombie_aquatic", "vermin" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "predator_dino",
+    "base_faction": "animal",
+    "neutral": [ "small_animal", "fish" ],
+    "by_mood": [ "predator_dino", "animal", "zombie_aquatic" ],
+    "hate": [ "herbivore", "zombie", "human" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "herbivore_young",
+    "base_faction": "small_animal",
+    "neutral": [ "small_animal", "herbivore" ],
+    "friendly": [ "herbivore_dino" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "herbivore_dino",
+    "base_faction": "herbivore",
+    "neutral": [ "herbivore", "small_animal" ],
+    "friendly": [ "herbivore_young" ],
+    "hate": [ "plant" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "hadrosaur",
+    "base_faction": "herbivore_dino",
+    "friendly": [ "herbivore_young" ],
+    "hate": [ "fungus" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "insectivore_young",
+    "base_faction": "small_animal",
+    "neutral": [ "small_animal" ],
+    "friendly": [ "insectivore_dino" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "insectivore_dino",
+    "base_faction": "very_small_predator",
+    "neutral": [ "herbivore" ],
+    "friendly": [ "insectivore_young" ],
+    "hate": [ "insect" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "very_small_mixed",
+    "base_faction": "very_small_predator",
+    "neutral": [ "fishing_dino", "zombie_aquatic", "mixed_dino" ],
+    "by_mood": [ "very_small_mixed", "small_fisher" ],
+    "hate": [ "fish", "vermin" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "small_fisher",
+    "base_faction": "fish",
+    "neutral": [ "fishing_dino", "zombie_aquatic", "mixed_dino" ],
+    "by_mood": [ "small_fisher", "very_small_mixed" ],
+    "hate": [ "fish" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "small_mixed",
+    "base_faction": "small_predator",
+    "neutral": [ "fishing_dino", "zombie_aquatic", "mixed_dino" ],
+    "by_mood": [ "small_mixed", "small_fisher" ],
+    "hate": [ "fish", "vermin" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "medium_mixed",
+    "base_faction": "big_cat",
+    "by_mood": [ "big_cat", "medium_mixed", "vermin", "aquatic_predator" ],
+    "hate": [ "fish" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "medium_fisher",
+    "base_faction": "aquatic_predator",
+    "by_mood": [ "small_fisher", "medium_fisher", "aquatic_predator" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "mixed_dino",
+    "base_faction": "gator",
+    "neutral": [ "small_animal", "small_fisher" ],
+    "hate": [ "herbivore", "zombie", "human", "gator", "aquatic_predator" ],
+    "by_mood": [ "mixed_dino", "predator_dino", "herbivore_dino", "fishing_dino" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "fishing_dino",
+    "base_faction": "aquatic_predator",
+    "by_mood": [ "fishing_dino", "mixed_dino", "aquatic_predator" ],
+    "neutral": [ "small_animal", "small_fisher" ],
+    "hate": [ "gator" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "compsognathus",
+    "base_faction": "small_predator",
+    "friendly": [ "compsognathus_hatchling" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "compsognathus_hatchling",
+    "base_faction": "very_small_predator",
+    "friendly": [ "compsognathus" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "spinosaurus",
+    "base_faction": "fishing_dino",
+    "friendly": [ "spinosaurus_juvenile", "spinosaurus_hatchling" ],
+    "by_mood": [ "spinosaurus" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "spinosaurus_juvenile",
+    "base_faction": "medium_fisher",
+    "friendly": [ "spinosaurus", "spinosaurus_hatchling" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "spinosaurus_hatchling",
+    "base_faction": "small_fisher",
+    "friendly": [ "spinosaurus", "spinosaurus_juvenile" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "torvosaurus",
+    "base_faction": "predator_dino",
+    "friendly": [ "torvosaurus_juvenile", "torvosaurus_hatchling" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "torvosaurus_juvenile",
+    "base_faction": "small_predator",
+    "friendly": [ "torvosaurus", "torvosaurus_hatchling" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "torvosaurus_hatchling",
+    "base_faction": "very_small_predator",
+    "friendly": [ "torvosaurus", "torvosaurus_juvenile" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "allosaurus",
+    "base_faction": "predator_dino",
+    "friendly": [ "allosaurus_juvenile", "allosaurus_hatchling" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "allosaurus_juvenile",
+    "base_faction": "small_predator",
+    "friendly": [ "allosaurus", "allosaurus_hatchling" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "allosaurus_hatchling",
+    "base_faction": "very_small_predator",
+    "friendly": [ "allosaurus", "allosaurus_juvenile" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "acrocanthosaurus",
+    "base_faction": "predator_dino",
+    "friendly": [ "acrocanthosaurus_juvenile", "acrocanthosaurus_hatchling" ],
+    "by_mood": [ "acrocanthosaurus" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "acrocanthosaurus_juvenile",
+    "base_faction": "small_predator",
+    "friendly": [ "acrocanthosaurus", "acrocanthosaurus_hatchling" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "acrocanthosaurus_hatchling",
+    "base_faction": "very_small_predator",
+    "friendly": [ "acrocanthosaurus", "acrocanthosaurus_juvenile" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "siats",
+    "base_faction": "predator_dino",
+    "friendly": [ "siats_juvenile", "siats_hatchling" ],
+    "by_mood": [ "siats" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "siats_juvenile",
+    "base_faction": "small_predator",
+    "friendly": [ "siats", "siats_hatchling" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "siats_hatchling",
+    "base_faction": "very_small_predator",
+    "friendly": [ "siats", "siats_juvenile" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "dryptosaurus",
+    "base_faction": "predator_dino",
+    "friendly": [ "dryptosaurus_juvenile", "dryptosaurus_hatchling" ],
+    "by_mood": [ "dryptosaurus" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "dryptosaurus_juvenile",
+    "base_faction": "small_predator",
+    "friendly": [ "dryptosaurus", "dryptosaurus_hatchling" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "dryptosaurus_hatchling",
+    "base_faction": "very_small_predator",
+    "friendly": [ "dryptosaurus", "dryptosaurus_juvenile" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "appalachiosaurus",
+    "base_faction": "predator_dino",
+    "friendly": [ "appalachiosaurus_juvenile", "appalachiosaurus_hatchling" ],
+    "by_mood": [ "appalachiosaurus" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "appalachiosaurus_juvenile",
+    "base_faction": "small_predator",
+    "friendly": [ "appalachiosaurus", "appalachiosaurus_hatchling" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "appalachiosaurus_hatchling",
+    "base_faction": "very_small_predator",
+    "friendly": [ "appalachiosaurus", "appalachiosaurus_juvenile" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "gorgosaurus",
+    "base_faction": "predator_dino",
+    "friendly": [ "gorgosaurus_juvenile", "gorgosaurus_hatchling" ],
+    "by_mood": [ "gorgosaurus" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "gorgosaurus_juvenile",
+    "base_faction": "small_predator",
+    "friendly": [ "gorgosaurus", "gorgosaurus_hatchling" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "gorgosaurus_hatchling",
+    "base_faction": "very_small_predator",
+    "friendly": [ "gorgosaurus", "gorgosaurus_juvenile" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "albertosaurus",
+    "base_faction": "predator_dino",
+    "friendly": [ "albertosaurus_juvenile", "albertosaurus_hatchling" ],
+    "by_mood": [ "albertosaurus" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "albertosaurus_juvenile",
+    "base_faction": "small_predator",
+    "friendly": [ "albertosaurus", "albertosaurus_hatchling" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "albertosaurus_hatchling",
+    "base_faction": "very_small_predator",
+    "friendly": [ "albertosaurus", "albertosaurus_juvenile" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "nanuqsaurus",
+    "base_faction": "predator_dino",
+    "hate": [ "animal", "zombie", "human" ],
+    "friendly": [ "nanuqsaurus_juvenile", "nanuqsaurus_hatchling" ],
+    "by_mood": [ "nanuqsaurus" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "nanuqsaurus_juvenile",
+    "base_faction": "small_predator",
+    "friendly": [ "nanuqsaurus", "nanuqsaurus_hatchling" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "nanuqsaurus_hatchling",
+    "base_faction": "very_small_predator",
+    "friendly": [ "nanuqsaurus", "nanuqsaurus_juvenile" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "daspletosaurus",
+    "base_faction": "predator_dino",
+    "hate": [ "animal", "zombie", "human" ],
+    "friendly": [ "daspletosaurus_juvenile", "daspletosaurus_hatchling" ],
+    "by_mood": [ "daspletosaurus" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "daspletosaurus_juvenile",
+    "base_faction": "small_predator",
+    "friendly": [ "daspletosaurus", "daspletosaurus_hatchling" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "daspletosaurus_hatchling",
+    "base_faction": "very_small_predator",
+    "friendly": [ "daspletosaurus", "daspletosaurus_juvenile" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "tyrannosaurus",
+    "base_faction": "predator_dino",
+    "hate": [ "animal", "zombie", "human" ],
+    "friendly": [ "tyrannosaurus_juvenile", "tyrannosaurus_hatchling" ],
+    "by_mood": [ "tyrannosaurus" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "tyrannosaurus_juvenile",
+    "base_faction": "small_predator",
+    "friendly": [ "tyrannosaurus", "tyrannosaurus_hatchling" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "tyrannosaurus_hatchling",
+    "base_faction": "very_small_predator",
+    "friendly": [ "tyrannosaurus", "tyrannosaurus_juvenile" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "saurornitholestes",
+    "base_faction": "small_predator",
+    "friendly": [ "saurornitholestes_hatchling" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "saurornitholestes_hatchling",
+    "base_faction": "very_small_predator",
+    "friendly": [ "saurornitholestes" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "velociraptor",
+    "base_faction": "small_predator",
+    "friendly": [ "velociraptor_hatchling" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "velociraptor_hatchling",
+    "base_faction": "very_small_predator",
+    "friendly": [ "velociraptor" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "deinonychus",
+    "base_faction": "medium_predator",
+    "hate": [ "herbivore", "zombie", "human" ],
+    "friendly": [ "deinonychus_juvenile", "deinonychus_hatchling" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "deinonychus_juvenile",
+    "base_faction": "small_predator",
+    "friendly": [ "deinonychus", "deinonychus_hatchling" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "deinonychus_hatchling",
+    "base_faction": "very_small_predator",
+    "friendly": [ "deinonychus", "deinonychus_juvenile" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "utahraptor",
+    "base_faction": "predator_dino",
+    "friendly": [ "utahraptor_juvenile", "utahraptor_hatchling" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "utahraptor_juvenile",
+    "base_faction": "small_predator",
+    "friendly": [ "utahraptor", "utahraptor_hatchling" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "utahraptor_hatchling",
+    "base_faction": "very_small_predator",
+    "friendly": [ "utahraptor", "utahraptor_juvenile" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "dromaeosaurus",
+    "base_faction": "small_predator",
+    "friendly": [ "dromaeosaurus_hatchling" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "dromaeosaurus_hatchling",
+    "base_faction": "very_small_predator",
+    "friendly": [ "dromaeosaurus" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "stenonychosaurus",
+    "base_faction": "small_predator",
+    "friendly": [ "stenonychosaurus_hatchling" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "stenonychosaurus_hatchling",
+    "base_faction": "very_small_predator",
+    "friendly": [ "stenonychosaurus" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "dimorphodon",
+    "base_faction": "small_fisher"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "pteranodon",
+    "base_faction": "medium_fisher",
+    "friendly": [ "pteranodon_young" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "pteranodon_young",
+    "base_faction": "small_fisher",
+    "friendly": [ "pteranodon" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "quetzalcoatlus",
+    "base_faction": "medium_mixed",
+    "friendly": [ "quetzalcoatlus_hatchling", "quetzalcoatlus_juvenile" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "quetzalcoatlus_juvenile",
+    "base_faction": "small_mixed",
+    "friendly": [ "quetzalcoatlus", "quetzalcoatlus_hatchling" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "quetzalcoatlus_hatchling",
+    "base_faction": "very_small_mixed",
+    "friendly": [ "quetzalcoatlus", "quetzalcoatlus_juvenile" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "anzu",
+    "base_faction": "medium_mixed",
+    "friendly": [ "anzu_hatchling", "anzu_juvenile" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "anzu_juvenile",
+    "base_faction": "small_mixed",
+    "friendly": [ "anzu", "anzu_hatchling" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "anzu_hatchling",
+    "base_faction": "very_small_mixed",
+    "friendly": [ "anzu", "anzu_juvenile" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "eoraptor",
+    "//": "omnivore",
+    "base_faction": "very_small_predator"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "coelophysis",
+    "base_faction": "small_predator",
+    "friendly": [ "coelophysis_hatchling" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "coelophysis_hatchling",
+    "base_faction": "very_small_predator",
+    "friendly": [ "coelophysis" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "dilophosaurus",
+    "base_faction": "mixed_dino",
+    "friendly": [ "dilophosaurus_juvenile", "dilophosaurus_hatchling" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "dilophosaurus_juvenile",
+    "base_faction": "small_mixed",
+    "friendly": [ "dilophosaurus", "dilophosaurus_hatchling" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "dilophosaurus_hatchling",
+    "base_faction": "very_small_mixed",
+    "friendly": [ "dilophosaurus", "dilophosaurus_juvenile" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "mosasaurus",
+    "base_faction": "mixed_dino",
+    "friendly": [ "mosasaurus_juvenile", "mosasaurus_hatchling" ],
+    "by_mood": [ "mosasaurus" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "mosasaurus_juvenile",
+    "base_faction": "small_mixed",
+    "friendly": [ "mosasaurus", "mosasaurus_hatchling" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "mosasaurus_hatchling",
+    "base_faction": "very_small_mixed",
+    "friendly": [ "mosasaurus", "mosasaurus_juvenile" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "ceratosaurus",
+    "base_faction": "mixed_dino",
+    "friendly": [ "ceratosaurus_juvenile", "ceratosaurus_hatchling" ],
+    "by_mood": [ "fish" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "ceratosaurus_juvenile",
+    "base_faction": "small_predator",
+    "friendly": [ "ceratosaurus", "ceratosaurus_hatchling" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "ceratosaurus_hatchling",
+    "base_faction": "very_small_predator",
+    "friendly": [ "ceratosaurus", "ceratosaurus_juvenile" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "qianzhousaurus",
+    "base_faction": "predator_dino",
+    "friendly": [ "qianzhousaurus_juvenile", "qianzhousaurus_hatchling" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "qianzhousaurus_juvenile",
+    "base_faction": "small_predator",
+    "friendly": [ "qianzhousaurus", "qianzhousaurus_hatchling" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "qianzhousaurus_hatchling",
+    "base_faction": "very_small_predator",
+    "friendly": [ "qianzhousaurus", "qianzhousaurus_juvenile" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "small_animal",
+    "copy-from": "small_animal",
+    "neutral": [ "predator_dino", "mixed_dino", "fishing_dino", "insectivore_young", "herbivore_young", "herbivore_dino" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "herbivore",
+    "copy-from": "herbivore",
+    "neutral": [ "herbivore_dino", "insectivore_dino", "herbivore_young" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "cat",
+    "copy-from": "cat",
+    "by_mood": [ "small_predator", "very_small_predator" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "wolf",
+    "copy-from": "wolf",
+    "by_mood": [ "medium_predator", "herbivore_dino" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "big_cat",
+    "copy-from": "big_cat",
+    "by_mood": [ "medium_mixed", "herbivore_dino" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "zombie_aquatic",
+    "copy-from": "zombie_aquatic",
+    "by_mood": [ "mixed_dino" ],
+    "neutral": [ "small_fisher" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "gator",
+    "copy-from": "gator",
+    "by_mood": [ "mixed_dino", "fishing_dino", "predator_dino", "herbivore_dino" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "fish",
+    "copy-from": "fish",
+    "by_mood": [ "mixed_dino", "aquatic_predator", "small_mixed", "small_fisher", "very_small_mixed" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "aquatic_predator",
+    "copy-from": "aquatic_predator",
+    "by_mood": [ "medium_fisher", "fishing_dino", "mixed_dino", "medium_mixed" ]
+  }
+]

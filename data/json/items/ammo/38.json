@@ -1,0 +1,107 @@
+[
+  {
+    "id": "38_fmj",
+    "copy-from": "38_special",
+    "type": "AMMO",
+    "name": { "str_sp": ".38 FMJ" },
+    "description": ".38 Special ammunition with a brass jacketed 130gr bullet.  From its inception, the .38 Special round has been known for its accuracy and low recoil.",
+    "relative": { "damage": { "damage_type": "bullet", "amount": -2, "armor_penetration": 4 } }
+  },
+  {
+    "id": "38_special",
+    "type": "AMMO",
+    "name": { "str": ".38 Special" },
+    "description": ".38 Special ammunition with a 130gr FMJ bullet.  The .38 Special round was extremely common among US police forces during the 20th century.",
+    "weight": "8 g",
+    "volume": "113 ml",
+    "price": 210,
+    "price_postapoc": 800,
+    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
+    "material": [ "brass", "powder" ],
+    "symbol": "=",
+    "color": "yellow",
+    "count": 40,
+    "stack_size": 40,
+    "ammo_type": "38",
+    "casing": "38_casing",
+    "range": 14,
+    "damage": { "damage_type": "bullet", "amount": 22 },
+    "dispersion": 30,
+    "recoil": 250,
+    "effects": [ "COOKOFF" ]
+  },
+  {
+    "id": "38_super",
+    "copy-from": "38_special",
+    "type": "AMMO",
+    "name": { "str_sp": ".38 Super" },
+    "description": ".38 Super ammunition with a 90gr JHP bullet.  Designed in 1929, the .38 super cartridge was designed to penetrate body armor and vehicles.",
+    "price": 240,
+    "price_postapoc": 600,
+    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
+    "count": 20,
+    "ammo_type": "38super",
+    "relative": { "damage": { "damage_type": "bullet", "amount": 5, "armor_penetration": 4 }, "dispersion": -10 },
+    "proportional": { "recoil": 1.5 }
+  },
+  {
+    "id": "reloaded_38_fmj",
+    "copy-from": "38_fmj",
+    "type": "AMMO",
+    "name": { "str_sp": ".38 FMJ, reloaded" },
+    "description": ".38 Special ammunition with a brass jacketed 130gr bullet.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
+    "extend": { "effects": [ "RECYCLED" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+  },
+  {
+    "id": "reloaded_38_special",
+    "copy-from": "38_special",
+    "type": "AMMO",
+    "name": { "str_sp": ".38 Special, reloaded" },
+    "description": ".38 Special ammunition with a 130gr FMJ bullet.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
+    "extend": { "effects": [ "RECYCLED" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+  },
+  {
+    "id": "reloaded_38_super",
+    "copy-from": "38_super",
+    "type": "AMMO",
+    "name": { "str_sp": ".38 Super, reloaded" },
+    "description": ".38 Super ammunition with a 90gr JHP bullet.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
+    "extend": { "effects": [ "RECYCLED" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+  },
+  {
+    "id": "bp_38_fmj",
+    "copy-from": "38_fmj",
+    "type": "AMMO",
+    "name": { "str_sp": ".38 FMJ, black powder" },
+    "description": ".38 Special ammunition with a brass jacketed 130gr bullet.  Someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
+    "proportional": {
+      "price": 0.3,
+      "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
+      "recoil": 0.76,
+      "dispersion": 1.2
+    },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+  },
+  {
+    "id": "bp_38_special",
+    "copy-from": "38_special",
+    "type": "AMMO",
+    "name": { "str_sp": ".38 Special, black powder" },
+    "description": ".38 Special ammunition with a 130gr FMJ bullet.  Someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
+    "proportional": {
+      "price": 0.3,
+      "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
+      "recoil": 0.76,
+      "dispersion": 1.2
+    },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+  }
+]

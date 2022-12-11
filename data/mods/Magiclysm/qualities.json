@@ -1,0 +1,33 @@
+[
+  {
+    "type": "recipe_category",
+    "id": "CC_ENCHANTED",
+    "recipe_subcategories": [
+      "CSC_ALL",
+      "CSC_ENCHANTED_MATERIALS",
+      "CSC_ENCHANTED_TOOLS",
+      "CSC_ENCHANTED_WEAPONS",
+      "CSC_ENCHANTED_AMMO",
+      "CSC_ENCHANTED_ARMOR",
+      "CSC_ENCHANTED_POTIONS",
+      "CSC_ENCHANTED_RUNES",
+      "CSC_ENCHANTED_MODS",
+      "CSC_ENCHANTED_OTHER"
+    ]
+  },
+  {
+    "type": "tool_quality",
+    "id": "MANA_FOCUS",
+    "name": "mana focusing"
+  },
+  {
+    "type": "tool_quality",
+    "id": "MANA_INFUSE",
+    "name": "mana infusing"
+  },
+  {
+    "type": "tool_quality",
+    "id": "MANA_WEAVE",
+    "name": "mana weaving"
+  }
+]

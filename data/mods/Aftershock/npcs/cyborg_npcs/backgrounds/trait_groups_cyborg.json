@@ -1,0 +1,16 @@
+[
+  {
+    "//": "This group picks out background traits that could apply to specific Aftershock cyborg survivor.",
+    "type": "trait_group",
+    "id": "BG_survival_story_GANGER",
+    "subtype": "distribution",
+    "traits": [ { "trait": "BGSS_GANGER_1" }, { "trait": "BGSS_GANGER_2" }, { "trait": "BGSS_GANGER_3" } ]
+  },
+  {
+    "//": "This group picks out background traits that could apply to specific Aftershock cyborg survivor.",
+    "type": "trait_group",
+    "id": "BG_survival_story_CYBERNINJA",
+    "subtype": "distribution",
+    "traits": [ { "trait": "BGSS_CYBERNINJA" } ]
+  }
+]

@@ -1,0 +1,116 @@
+[
+  {
+    "id": "manual_mma_desert_wind",
+    "copy-from": "book_martial",
+    "looks_like": "manual_karate",
+    "type": "BOOK",
+    "name": { "str": "Scorching Sirocco", "str_pl": "copies of Scorching Sirocco" },
+    "description": "This book contains the teaching of the Desert Wind discipline.",
+    "martial_art": "style_mma_desert_wind"
+  },
+  {
+    "id": "manual_mma_diamond_mind",
+    "copy-from": "book_martial",
+    "looks_like": "manual_karate",
+    "type": "BOOK",
+    "name": { "str": "Perfect Clarity of Mind and Body", "str_pl": "copies of Perfect Clarity of Mind and Body" },
+    "description": "This book contains the teaching of the Diamond Mind discipline.",
+    "martial_art": "style_mma_diamond_mind"
+  },
+  {
+    "id": "manual_mma_hylian",
+    "copy-from": "book_martial",
+    "looks_like": "manual_karate",
+    "type": "BOOK",
+    "name": { "str": "The Book of Mudora", "str_pl": "copies of The Book of Mudora" },
+    "description": "A collection of ancient Hylian lore and stories.  A section on historic battles is bookmarked.",
+    "martial_art": "style_mma_hylian"
+  },
+  {
+    "id": "manual_mma_iron_heart",
+    "copy-from": "book_martial",
+    "looks_like": "manual_karate",
+    "type": "BOOK",
+    "name": { "str": "Stormguard Warrior", "str_pl": "copies of Stormguard Warrior" },
+    "description": "This book contains the teaching of the Iron Heart discipline.",
+    "martial_art": "style_mma_iron_heart"
+  },
+  {
+    "id": "manual_mma_panzer",
+    "copy-from": "book_martial",
+    "looks_like": "manual_karate",
+    "type": "BOOK",
+    "name": { "str": "The Life and Work of Tiger Sauer", "str_pl": "copies of The Life and Work of Tiger Sauer" },
+    "description": "A biography of a combat cyborg agent detailing his philosophy and martial art.",
+    "martial_art": "style_mma_panzer"
+  },
+  {
+    "id": "manual_mma_pokken",
+    "copy-from": "book_martial",
+    "looks_like": "manual_karate",
+    "type": "BOOK",
+    "name": { "str": "Pocket Monster Encyclopedia", "str_pl": "copies of Pocket Monster Encyclopedia" },
+    "description": "This encyclopedia contains a detailed listing of the strengths and techniques of various fictional monsters and how to apply them the in a real fight.",
+    "martial_art": "style_mma_pokken"
+  },
+  {
+    "id": "manual_mma_setting_sun",
+    "copy-from": "book_martial",
+    "looks_like": "manual_karate",
+    "type": "BOOK",
+    "name": { "str": "Distant Horizon", "str_pl": "copies of Distant Horizon" },
+    "description": "This book contains the teaching of the Setting Sun discipline.",
+    "martial_art": "style_mma_setting_sun"
+  },
+  {
+    "id": "manual_mma_shii_cho",
+    "copy-from": "book_martial",
+    "looks_like": "manual_karate",
+    "type": "BOOK",
+    "name": { "str": "Jedi Holocrons: Form I", "str_pl": "copies of Jedi Holocrons: Form I" },
+    "description": "This device contains the teachings of the first form of Jedi lightsaber combat: Shii-Cho.",
+    "martial_art": "style_mma_shii_cho"
+  },
+  {
+    "id": "manual_mma_stone_dragon",
+    "copy-from": "book_martial",
+    "looks_like": "manual_karate",
+    "type": "BOOK",
+    "name": { "str": "Shards of Granite", "str_pl": "copies of Shards of Granite" },
+    "description": "This book contains the teaching of the Stone Dragon discipline.",
+    "martial_art": "style_mma_stone_dragon"
+  },
+  {
+    "id": "manual_mma_tiger_claw",
+    "copy-from": "book_martial",
+    "looks_like": "manual_karate",
+    "type": "BOOK",
+    "name": { "str": "Reaping Talons", "str_pl": "copies of Reaping Talons" },
+    "description": "This book contains the teaching of the Tiger Claw discipline.",
+    "martial_art": "style_mma_tiger_claw"
+  },
+  {
+    "abstract": "scroll_martial_base",
+    "type": "TOOL",
+    "name": { "str": "scroll abstract" },
+    "weight": "415 g",
+    "volume": "250 ml",
+    "material": [ "paper" ],
+    "symbol": "!",
+    "looks_like": "manual_dragon",
+    "color": "white",
+    "flags": [ "NO_SALVAGE" ]
+  },
+  {
+    "id": "ki_strike_scroll",
+    "copy-from": "scroll_martial_base",
+    "type": "TOOL",
+    "name": { "str": "dragon hand scroll" },
+    "description": "Focus your ki into magical attacks.",
+    "price_postapoc": 12000,
+    "use_action": { "type": "countdown", "name": "Unroll", "message": "You unroll the dragon scroll…" },
+    "countdown_interval": 1,
+    "countdown_destroy": true,
+    "countdown_action": { "type": "cast_spell", "spell_id": "learn_ki_strike", "no_fail": true, "level": 0 }
+  }
+]

@@ -1,0 +1,29 @@
+[
+  {
+    "type": "ITEM_BLACKLIST",
+    "whitelist": false,
+    "items": [
+      "lemat_revolver_shotgun",
+      "llink",
+      "dias",
+      "M6_shotgun",
+      "ksg_aux_shotgun",
+      "ksg25_aux_shotgun",
+      "combination_gun_shotgun",
+      "belt_clip",
+      "retool_ar15_300blk",
+      "ts12_aux_shotgun",
+      "ts12_aux_shotgun2",
+      "inter_bayonet",
+      "factory_handguard",
+      "robofac_gun_ar",
+      "robofac_gun_dmr",
+      "robofac_gun_shotgun",
+      "robofac_gun_smg",
+      "robofac_gun_46",
+      "robofac_gun_57",
+      "robofac_laser_sight",
+      "robofac_handguard"
+    ]
+  }
+]

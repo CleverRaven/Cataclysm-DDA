@@ -1,0 +1,13 @@
+[
+  {
+    "id": "TALK_REFUGEE_Alonso_2",
+    "type": "talk_topic",
+    "responses": [ { "text": "What can you tell me about the dinosaurs?", "topic": "TALK_REFUGEE_Alonso_DINOSAURS" } ]
+  },
+  {
+    "id": "TALK_REFUGEE_Alonso_DINOSAURS",
+    "type": "talk_topic",
+    "dynamic_line": "It could be a mighty challenge, but Alonso knows there are some that are into this, no?  I think they call themselves escalier, which is Italian for the scaly banana.  Or staircase.  It is not important, I mean to say that people love who they love, and the dinosaur, she does the same, and there is no shame in what two people or dinosaurs do in the escalier.  Alonso does not judge you.  You do you.  And maybe Alonso as well when you are done with the you doing.",
+    "responses": [ { "text": "Thank you so much.", "topic": "TALK_NONE" } ]
+  }
+]

@@ -1,0 +1,138 @@
+[
+  {
+    "type": "recipe_category",
+    "id": "CC_*",
+    "//": "This is just a dummy category. No recipes should be added in here.",
+    "recipe_subcategories": [ "CSC_*_FAVORITE", "CSC_*_RECENT", "CSC_*_HIDDEN", "CSC_*_NESTED" ]
+  },
+  {
+    "type": "recipe_category",
+    "id": "CC_WEAPON",
+    "recipe_subcategories": [
+      "CSC_ALL",
+      "CSC_WEAPON_BASHING",
+      "CSC_WEAPON_CUTTING",
+      "CSC_WEAPON_PIERCING",
+      "CSC_WEAPON_RANGED",
+      "CSC_WEAPON_EXPLOSIVE",
+      "CSC_WEAPON_MODS",
+      "CSC_WEAPON_MAGAZINES",
+      "CSC_WEAPON_OTHER"
+    ]
+  },
+  {
+    "type": "recipe_category",
+    "id": "CC_AMMO",
+    "recipe_subcategories": [
+      "CSC_ALL",
+      "CSC_AMMO_PISTOL",
+      "CSC_AMMO_RIFLE",
+      "CSC_AMMO_SHOT",
+      "CSC_AMMO_GRENADES",
+      "CSC_AMMO_ARROWS",
+      "CSC_AMMO_COMPONENTS",
+      "CSC_AMMO_OTHER"
+    ]
+  },
+  {
+    "type": "recipe_category",
+    "id": "CC_FOOD",
+    "recipe_subcategories": [
+      "CSC_ALL",
+      "CSC_FOOD_DRINKS",
+      "CSC_FOOD_DRY",
+      "CSC_FOOD_MEAT",
+      "CSC_FOOD_VEGGI",
+      "CSC_FOOD_SNACK",
+      "CSC_FOOD_BREAD",
+      "CSC_FOOD_PASTA",
+      "CSC_FOOD_BREW",
+      "CSC_FOOD_SEEDS",
+      "CSC_FOOD_OTHER"
+    ]
+  },
+  {
+    "type": "recipe_category",
+    "id": "CC_CHEM",
+    "recipe_subcategories": [ "CSC_ALL", "CSC_CHEM_DRUGS", "CSC_CHEM_FUEL", "CSC_CHEM_MUTAGEN", "CSC_CHEM_CHEMICALS", "CSC_CHEM_OTHER" ]
+  },
+  {
+    "type": "recipe_category",
+    "id": "CC_ELECTRONIC",
+    "recipe_subcategories": [
+      "CSC_ALL",
+      "CSC_ELECTRONIC_TOOLS",
+      "CSC_ELECTRONIC_PARTS",
+      "CSC_ELECTRONIC_LIGHTING",
+      "CSC_ELECTRONIC_COMPONENTS",
+      "CSC_ELECTRONIC_OTHER"
+    ]
+  },
+  {
+    "type": "recipe_category",
+    "id": "CC_ARMOR",
+    "recipe_subcategories": [
+      "CSC_ALL",
+      "CSC_ARMOR_STORAGE",
+      "CSC_ARMOR_SUIT",
+      "CSC_ARMOR_HEAD",
+      "CSC_ARMOR_TORSO",
+      "CSC_ARMOR_ARMS",
+      "CSC_ARMOR_HANDS",
+      "CSC_ARMOR_LEGS",
+      "CSC_ARMOR_FEET",
+      "CSC_ARMOR_OTHER"
+    ]
+  },
+  {
+    "type": "recipe_category",
+    "id": "CC_APPLIANCE",
+    "recipe_subcategories": [ "CSC_ALL", "CSC_APPLIANCE_LIGHTING", "CSC_APPLIANCE_UTILITY" ]
+  },
+  {
+    "type": "recipe_category",
+    "id": "CC_OTHER",
+    "recipe_subcategories": [
+      "CSC_ALL",
+      "CSC_OTHER_TOOLS",
+      "CSC_OTHER_MEDICAL",
+      "CSC_OTHER_CONTAINERS",
+      "CSC_OTHER_MATERIALS",
+      "CSC_OTHER_PARTS",
+      "CSC_OTHER_TRAPS",
+      "CSC_OTHER_VEHICLE",
+      "CSC_OTHER_OTHER"
+    ]
+  },
+  {
+    "type": "recipe_category",
+    "id": "CC_ANIMALS",
+    "recipe_subcategories": [ "CSC_ALL", "CSC_ANIMALS_CANINE ARMOR", "CSC_ANIMALS_EQUINE ARMOR", "CSC_ANIMALS_EQUINE STORAGE" ]
+  },
+  {
+    "type": "recipe_category",
+    "id": "CC_BUILDING",
+    "recipe_subcategories": [ "CSC_ALL", "CSC_BUILDING_BASES", "CSC_BUILDING_EXPANSIONS" ],
+    "is_hidden": true
+  },
+  {
+    "type": "recipe_category",
+    "id": "CC_PRACTICE",
+    "recipe_subcategories": [
+      "CSC_ALL",
+      "CSC_PRACTICE_SCIENCE",
+      "CSC_PRACTICE_ELECTRONICS",
+      "CSC_PRACTICE_FABRICATION",
+      "CSC_PRACTICE_FOOD",
+      "CSC_PRACTICE_SURVIVAL",
+      "CSC_PRACTICE_TAILORING",
+      "CSC_PRACTICE_ATHLETICS",
+      "CSC_PRACTICE_COMPUTERS",
+      "CSC_PRACTICE_DEVICES",
+      "CSC_PRACTICE_HEALTH",
+      "CSC_PRACTICE_MECHANICS",
+      "CSC_PRACTICE_SOCIAL",
+      "CSC_PRACTICE_COMBAT"
+    ]
+  }
+]

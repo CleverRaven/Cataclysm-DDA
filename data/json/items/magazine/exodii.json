@@ -1,0 +1,38 @@
+[
+  {
+    "id": "exodiiminimag",
+    "looks_like": "garandclip",
+    "type": "MAGAZINE",
+    "name": { "str": "PA md. 71 Exodii 10-round magazine" },
+    "description": "A small, sleek magazine based on a classic PA md. 71 clip, with some redesigns by the Exodii for better use in lighter-than-air drones.  Its small size is less appropriate for ground-fighting of hordes of zombies, as it is a bit inconvenient to reload.",
+    "weight": "30 g",
+    "volume": "250 ml",
+    "price": 600,
+    "price_postapoc": 50,
+    "material": [ "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "123ln" ],
+    "reload_time": 220,
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "123ln": 10 } } ]
+  },
+  {
+    "id": "exodiiBRmag",
+    "looks_like": "stanag30",
+    "type": "MAGAZINE",
+    "name": { "str": "PA md. 68 Exodii 60-round magazine" },
+    "description": "An unreasonably large magazine for the already heavy PA md. 68 battle rifle, custom designed and manufactured by the Exodii.",
+    "weight": "600 g",
+    "volume": "1250 ml",
+    "price": 10500,
+    "price_postapoc": 450,
+    "material": [ "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "123ln" ],
+    "reload_time": 180,
+    "flags": [ "MAG_BULKY" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "123ln": 60 } } ]
+  }
+]

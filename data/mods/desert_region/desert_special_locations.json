@@ -1,0 +1,37 @@
+[
+  {
+    "type": "overmap_location",
+    "id": "mesa",
+    "terrains": [ "mesa", "mesa_edge", "mesa_corner", "mesa_air", "mesa_air_1", "mesa_2way", "mesa_3way" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "land",
+    "terrains": [ "forest", "forest_thick", "forest_water", "field", "forest_trail", "desert" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "wilderness",
+    "terrains": [ "forest", "forest_thick", "field", "forest_trail", "desert" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "subterranean_empty",
+    "terrains": [ "deep_rock", "sandstone", "empty_rock", "rock", "solid_earth" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "canyon",
+    "terrains": [ "canyon_edge", "canyon_corner", "canyon_2way", "canyon_3way", "canyon_air", "canyon_air_surface" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "subterranean",
+    "terrains": [ "empty_rock", "sandstone", "rock", "slimepit", "sewer", "solid_earth" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "subterranean_subway",
+    "terrains": [ "empty_rock", "sandstone", "slimepit", "subway" ]
+  }
+]

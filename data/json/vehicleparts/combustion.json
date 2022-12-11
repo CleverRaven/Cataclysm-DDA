@@ -1,0 +1,605 @@
+[
+  {
+    "abstract": "engine_combustion",
+    "type": "vehicle_part",
+    "categories": [ "movement" ],
+    "location": "engine_block",
+    "symbol": "*",
+    "color": "light_red",
+    "broken_color": "red",
+    "damage_modifier": 80,
+    "backfire_threshold": 0.25,
+    "backfire_freq": 20,
+    "noise_factor": 15,
+    "damaged_power_factor": 0.25,
+    "m2c": 50,
+    "flags": [ "ENGINE", "E_COMBUSTION", "E_ALTERNATOR", "E_HIGHER_SKILL", "E_HEATER" ],
+    "description": "A combustion engine.  Burns fuel from a tank in the vehicle."
+  },
+  {
+    "abstract": "aero_engine",
+    "copy-from": "engine_combustion",
+    "type": "vehicle_part",
+    "fuel_type": "avgas",
+    "fuel_options": [ "avgas", "gasoline" ],
+    "m2c": 60,
+    "//": "30% energy efficiency",
+    "description": "A combustion engine for use on aircraft.  Burns gasoline or avgas fuel from a tank in the vehicle."
+  },
+  {
+    "abstract": "diesel_engine",
+    "copy-from": "engine_combustion",
+    "type": "vehicle_part",
+    "fuel_type": "diesel",
+    "fuel_options": [ "diesel", "biodiesel", "lamp_oil", "motor_oil", "jp8" ],
+    "m2c": 65,
+    "//": "40% energy efficiency",
+    "extend": { "flags": [ "E_COLD_START", "E_DIESEL_FUEL" ] },
+    "description": "A combustion engine.  Burns diesel fuel from a tank in the vehicle.  Can also burn biodiesel or kerosene, though somewhat less efficiently."
+  },
+  {
+    "abstract": "gasoline_engine",
+    "copy-from": "engine_combustion",
+    "type": "vehicle_part",
+    "fuel_type": "gasoline",
+    "m2c": 60,
+    "//": "30% energy efficiency",
+    "description": "A combustion engine.  Burns gasoline fuel from a tank in the vehicle."
+  },
+  {
+    "abstract": "gas_turbine_engine",
+    "copy-from": "engine_combustion",
+    "type": "vehicle_part",
+    "fuel_type": "gasoline",
+    "fuel_options": [ "gasoline", "diesel", "lamp_oil", "jp8", "motor_oil", "avgas", "biodiesel" ],
+    "m2c": 60,
+    "//": "25% energy efficiency",
+    "description": "An advanced combustion engine.  Burns gasoline or diesel or aviation fuel from a tank in the vehicle.  Can also burn kerosene, though somewhat less efficiently.  Better power-to-weight ratio than a traditional engine, but consumes more fuel."
+  },
+  {
+    "id": "diesel_engine_i6",
+    "copy-from": "diesel_engine",
+    "type": "vehicle_part",
+    "item": "i6_diesel",
+    "description": "An inline 6-cylinder diesel engine.  Somewhat more powerful but much larger than a V6, you might see an engine like this in a road roller or excavator.",
+    "durability": 400,
+    "epower": -350,
+    "power": 223800,
+    "energy_consumption": "559500 W",
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 30, 40 ] },
+      { "item": "steel_chunk", "count": [ 30, 40 ] },
+      { "item": "scrap", "count": [ 30, 40 ] }
+    ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": {
+        "skills": [ [ "mechanics", 5 ] ],
+        "time": "60 m",
+        "using": [ [ "repair_welding_standard", 3 ], [ "repair_welding_alloys", 1 ], [ "vehicle_wrench_2", 1 ], [ "vehicle_screw", 1 ] ]
+      }
+    },
+    "damage_reduction": { "all": 100 }
+  },
+  {
+    "id": "diesel_engine_inline4",
+    "copy-from": "diesel_engine",
+    "type": "vehicle_part",
+    "item": "i4_diesel",
+    "description": "A four-cylinder diesel engine, commonly found in small passenger cars and light trucks.",
+    "durability": 300,
+    "epower": -200,
+    "power": 93250,
+    "energy_consumption": "266000 W",
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 20, 30 ] },
+      { "item": "steel_chunk", "count": [ 20, 30 ] },
+      { "item": "scrap", "count": [ 20, 30 ] }
+    ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": {
+        "skills": [ [ "mechanics", 4 ] ],
+        "time": "60 m",
+        "using": [ [ "repair_welding_standard", 3 ], [ "repair_welding_alloys", 1 ], [ "vehicle_wrench_2", 1 ], [ "vehicle_screw", 1 ] ]
+      }
+    },
+    "damage_reduction": { "all": 50 }
+  },
+  {
+    "id": "diesel_engine_v6",
+    "copy-from": "diesel_engine",
+    "type": "vehicle_part",
+    "item": "v6_diesel",
+    "description": "A powerful 6-cylinder diesel engine, typical of a bus, RV, large van, or armored personnel carrier.",
+    "durability": 400,
+    "epower": -250,
+    "power": 149200,
+    "energy_consumption": "373000 W",
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 30, 40 ] },
+      { "item": "steel_chunk", "count": [ 30, 40 ] },
+      { "item": "scrap", "count": [ 30, 40 ] }
+    ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": {
+        "skills": [ [ "mechanics", 5 ] ],
+        "time": "60 m",
+        "using": [ [ "repair_welding_standard", 3 ], [ "repair_welding_alloys", 1 ], [ "vehicle_wrench_2", 1 ], [ "vehicle_screw", 1 ] ]
+      }
+    },
+    "damage_reduction": { "all": 100 }
+  },
+  {
+    "id": "diesel_engine_v8",
+    "copy-from": "diesel_engine",
+    "type": "vehicle_part",
+    "item": "v8_diesel",
+    "description": "A large 8-cylinder diesel engine, powerful enough for a semi truck, armored car, or Humvee.",
+    "durability": 400,
+    "epower": -350,
+    "power": 242450,
+    "energy_consumption": "606250 W",
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 30, 40 ] },
+      { "item": "steel_chunk", "count": [ 30, 40 ] },
+      { "item": "scrap", "count": [ 30, 40 ] }
+    ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": {
+        "skills": [ [ "mechanics", 5 ] ],
+        "time": "60 m",
+        "using": [ [ "repair_welding_standard", 5 ], [ "repair_welding_alloys", 1 ], [ "vehicle_wrench_2", 1 ], [ "vehicle_screw", 1 ] ]
+      }
+    },
+    "damage_reduction": { "all": 100 }
+  },
+  {
+    "id": "engine_1cyl",
+    "copy-from": "gasoline_engine",
+    "type": "vehicle_part",
+    "item": "1cyl_combustion",
+    "//": "10 HP scooter engine",
+    "description": "A small 1-cylinder gasoline engine delivering around 10 horsepower, enough for a scooter or motorized bicycle.",
+    "durability": 150,
+    "epower": 0,
+    "power": 7370,
+    "energy_consumption": "18425 W",
+    "folded_volume": "60 L",
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 5, 10 ] },
+      { "item": "steel_chunk", "count": [ 5, 10 ] },
+      { "item": "scrap", "count": [ 5, 10 ] }
+    ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": "60 m",
+        "using": [ [ "repair_welding_standard", 1 ], [ "repair_welding_alloys", 1 ], [ "vehicle_wrench_2", 1 ], [ "vehicle_screw", 1 ] ]
+      }
+    },
+    "damage_reduction": { "all": 40 }
+  },
+  {
+    "id": "engine_1cyl_large",
+    "copy-from": "gasoline_engine",
+    "type": "vehicle_part",
+    "item": "1cyl_combustion_large",
+    "//": "55 HP high-performance water-cooled single-cylinder engine",
+    "description": "A hefty 1-cylinder gasoline engine of about 55 horsepower, normally found in a motocross or dirt bike.",
+    "durability": 150,
+    "epower": 0,
+    "power": 41000,
+    "energy_consumption": "124500 W",
+    "folded_volume": "90 L",
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 6, 12 ] },
+      { "item": "steel_chunk", "count": [ 6, 12 ] },
+      { "item": "scrap", "count": [ 6, 12 ] }
+    ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": {
+        "skills": [ [ "mechanics", 4 ] ],
+        "time": "60 m",
+        "using": [ [ "repair_welding_standard", 2 ], [ "repair_welding_alloys", 1 ], [ "vehicle_wrench_2", 1 ], [ "vehicle_screw", 1 ] ]
+      }
+    },
+    "damage_reduction": { "all": 40 }
+  },
+  {
+    "id": "engine_1cyl_small",
+    "copy-from": "gasoline_engine",
+    "type": "vehicle_part",
+    "item": "1cyl_combustion_small",
+    "//": "5 HP lawnmower engine - a big pusher or small walk-behind",
+    "description": "A small 1-cylinder gasoline engine with only a few horsepower, suitable for a push lawn mower.",
+    "fuel_type": "gasoline",
+    "durability": 120,
+    "epower": 0,
+    "power": 3728,
+    "energy_consumption": "9320 W",
+    "folded_volume": "629 ml",
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 2, 4 ] },
+      { "item": "steel_chunk", "count": [ 2, 4 ] },
+      { "item": "scrap", "count": [ 2, 4 ] }
+    ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": "60 m",
+        "using": [ [ "repair_welding_standard", 1 ], [ "vehicle_wrench_2", 1 ], [ "vehicle_screw", 1 ] ]
+      }
+    },
+    "damage_reduction": { "all": 40 }
+  },
+  {
+    "id": "engine_aero_light",
+    "copy-from": "aero_engine",
+    "type": "vehicle_part",
+    "item": "aero_engine_light",
+    "durability": 300,
+    "epower": -200,
+    "power": 111900,
+    "energy_consumption": "373000 W",
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 30, 40 ] },
+      { "item": "steel_chunk", "count": [ 30, 40 ] },
+      { "item": "scrap", "count": [ 30, 40 ] }
+    ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 4 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": {
+        "skills": [ [ "mechanics", 6 ] ],
+        "time": "60 m",
+        "using": [ [ "repair_welding_standard", 3 ], [ "repair_welding_alloys", 2 ], [ "vehicle_wrench_2", 1 ], [ "vehicle_screw", 1 ] ]
+      }
+    },
+    "damage_reduction": { "all": 50 }
+  },
+  {
+    "id": "engine_inline4",
+    "copy-from": "gasoline_engine",
+    "type": "vehicle_part",
+    "item": "i4_combustion",
+    "description": "A four-cylinder gasoline engine, commonly found in small passenger cars and light trucks.",
+    "durability": 300,
+    "epower": -150,
+    "power": 93250,
+    "energy_consumption": "311000 W",
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 20, 30 ] },
+      { "item": "steel_chunk", "count": [ 20, 30 ] },
+      { "item": "scrap", "count": [ 20, 30 ] }
+    ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": "60 m",
+        "using": [ [ "repair_welding_standard", 3 ], [ "repair_welding_alloys", 1 ], [ "vehicle_wrench_2", 1 ], [ "vehicle_screw", 1 ] ]
+      }
+    },
+    "damage_reduction": { "all": 50 }
+  },
+  {
+    "id": "engine_v12",
+    "copy-from": "gasoline_engine",
+    "type": "vehicle_part",
+    "item": "v12_combustion",
+    "description": "A massive 12-cylinder gasoline engine, with the kind of power you might need in a sports car.",
+    "durability": 600,
+    "epower": -350,
+    "power": 447600,
+    "energy_consumption": "1492000 W",
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 45, 58 ] },
+      { "item": "steel_chunk", "count": [ 45, 58 ] },
+      { "item": "scrap", "count": [ 45, 58 ] }
+    ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 4 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": {
+        "skills": [ [ "mechanics", 7 ] ],
+        "time": "60 m",
+        "using": [ [ "repair_welding_standard", 5 ], [ "repair_welding_alloys", 4 ], [ "vehicle_wrench_2", 1 ], [ "vehicle_screw", 1 ] ]
+      }
+    },
+    "damage_reduction": { "all": 110 }
+  },
+  {
+    "id": "diesel_engine_v12",
+    "copy-from": "diesel_engine",
+    "type": "vehicle_part",
+    "item": "v12_diesel",
+    "description": "A massive 12-cylinder diesel engine, typical of a heavy cargo truck.",
+    "durability": 600,
+    "epower": -400,
+    "power": 447600,
+    "energy_consumption": "1119000 W",
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 45, 58 ] },
+      { "item": "steel_chunk", "count": [ 45, 58 ] },
+      { "item": "scrap", "count": [ 45, 58 ] }
+    ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 7 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 5 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": {
+        "skills": [ [ "mechanics", 8 ] ],
+        "time": "60 m",
+        "using": [ [ "repair_welding_standard", 8 ], [ "repair_welding_alloys", 2 ], [ "vehicle_wrench_2", 1 ], [ "vehicle_screw", 1 ] ]
+      }
+    },
+    "damage_reduction": { "all": 110 }
+  },
+  {
+    "id": "engine_v6",
+    "copy-from": "gasoline_engine",
+    "type": "vehicle_part",
+    "item": "v6_combustion",
+    "description": "A powerful 6-cylinder gasoline engine strong enough for a pickup truck, SUV, or full-size van.",
+    "durability": 400,
+    "epower": -200,
+    "power": 149200,
+    "energy_consumption": "497500 W",
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 30, 40 ] },
+      { "item": "steel_chunk", "count": [ 30, 40 ] },
+      { "item": "scrap", "count": [ 30, 40 ] }
+    ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": {
+        "skills": [ [ "mechanics", 4 ] ],
+        "time": "60 m",
+        "using": [ [ "repair_welding_standard", 3 ], [ "repair_welding_alloys", 2 ], [ "vehicle_wrench_2", 1 ], [ "vehicle_screw", 1 ] ]
+      }
+    },
+    "damage_reduction": { "all": 100 }
+  },
+  {
+    "id": "engine_v8",
+    "copy-from": "gasoline_engine",
+    "type": "vehicle_part",
+    "item": "v8_combustion",
+    "description": "A heavy-duty 8-cylinder gasoline engine, like you might find in a fire truck, ambulance, or tow truck.",
+    "durability": 400,
+    "epower": -250,
+    "power": 242450,
+    "energy_consumption": "808200 W",
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 40, 50 ] },
+      { "item": "steel_chunk", "count": [ 40, 50 ] },
+      { "item": "scrap", "count": [ 40, 50 ] }
+    ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": {
+        "skills": [ [ "mechanics", 4 ] ],
+        "time": "60 m",
+        "using": [ [ "repair_welding_standard", 4 ], [ "repair_welding_alloys", 3 ], [ "vehicle_wrench_2", 1 ], [ "vehicle_screw", 1 ] ]
+      }
+    },
+    "damage_reduction": { "all": 100 }
+  },
+  {
+    "id": "engine_vtwin",
+    "copy-from": "gasoline_engine",
+    "type": "vehicle_part",
+    "item": "v2_combustion",
+    "description": "A 2-cylinder gasoline engine appropriate for a motorcycle or quad bike.",
+    "durability": 200,
+    "epower": -50,
+    "power": 37300,
+    "energy_consumption": "124500 W",
+    "folded_volume": "109 L",
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 10, 20 ] },
+      { "item": "steel_chunk", "count": [ 10, 20 ] },
+      { "item": "scrap", "count": [ 10, 20 ] }
+    ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": "60 m",
+        "using": [ [ "repair_welding_standard", 1 ], [ "repair_welding_alloys", 1 ], [ "vehicle_wrench_2", 1 ], [ "vehicle_screw", 1 ] ]
+      }
+    },
+    "damage_reduction": { "all": 60 }
+  },
+  {
+    "abstract": "steam_engine",
+    "copy-from": "engine_combustion",
+    "type": "vehicle_part",
+    "fuel_type": "coal_lump",
+    "fuel_options": [ "coal_lump", "charcoal" ],
+    "looks_like": "diesel_engine_v12",
+    "m2c": 65,
+    "//": "50% energy efficiency",
+    "extend": { "flags": [ "E_COLD_START" ] },
+    "backfire_threshold": 0.7,
+    "backfire_freq": 10,
+    "noise_factor": 20,
+    "description": "A closed cycle, external combustion steam engine.  Burns coal or charcoal from a bunker in the vehicle to produce steam.",
+    "damage_reduction": { "all": 75 }
+  },
+  {
+    "id": "engine_steam_makeshift",
+    "copy-from": "steam_engine",
+    "type": "vehicle_part",
+    "item": "steam_watts_small",
+    "durability": 200,
+    "epower": 0,
+    "power": 55950,
+    "energy_consumption": "112000 W",
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 30, 60 ] },
+      { "item": "steel_chunk", "count": [ 30, 60 ] },
+      { "item": "scrap", "count": [ 30, 60 ] },
+      { "item": "water", "count": [ 50, 120 ] }
+    ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": {
+        "skills": [ [ "mechanics", 5 ] ],
+        "time": "60 m",
+        "using": [ [ "repair_welding_standard", 4 ], [ "vehicle_wrench_1", 1 ] ]
+      }
+    },
+    "damage_reduction": { "all": 40 }
+  },
+  {
+    "id": "engine_steam_small",
+    "copy-from": "steam_engine",
+    "type": "vehicle_part",
+    "item": "steam_triple_small",
+    "durability": 200,
+    "epower": 0,
+    "power": 93250,
+    "energy_consumption": "186500 W",
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 30, 60 ] },
+      { "item": "steel_chunk", "count": [ 30, 60 ] },
+      { "item": "scrap", "count": [ 30, 60 ] },
+      { "item": "water", "count": [ 50, 120 ] }
+    ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": {
+        "skills": [ [ "mechanics", 5 ] ],
+        "time": "60 m",
+        "using": [ [ "repair_welding_standard", 5 ], [ "vehicle_wrench_1", 1 ] ]
+      }
+    },
+    "damage_reduction": { "all": 45 }
+  },
+  {
+    "id": "engine_steam_medium",
+    "copy-from": "steam_engine",
+    "type": "vehicle_part",
+    "item": "steam_triple_medium",
+    "durability": 200,
+    "epower": -20,
+    "power": 149200,
+    "energy_consumption": "298500 W",
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 30, 60 ] },
+      { "item": "steel_chunk", "count": [ 30, 60 ] },
+      { "item": "scrap", "count": [ 30, 60 ] },
+      { "item": "water", "count": [ 50, 120 ] }
+    ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": {
+        "skills": [ [ "mechanics", 5 ] ],
+        "time": "60 m",
+        "using": [ [ "repair_welding_standard", 6 ], [ "vehicle_wrench_1", 1 ] ]
+      }
+    },
+    "damage_reduction": { "all": 50 }
+  },
+  {
+    "id": "engine_turbine_small",
+    "copy-from": "gas_turbine_engine",
+    "type": "vehicle_part",
+    "item": "small_turbine_engine",
+    "description": "A small but powerful gas turbine engine, suitable for powering a small one or two-seat helicopter.",
+    "durability": 400,
+    "epower": -10,
+    "power": 1006695,
+    "energy_consumption": "4026780 W",
+    "breaks_into": [
+      { "item": "alloy_plate", "count": [ 1, 2 ] },
+      { "item": "steel_lump", "count": [ 45, 58 ] },
+      { "item": "steel_chunk", "count": [ 45, 58 ] },
+      { "item": "scrap", "count": [ 45, 58 ] }
+    ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 7 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 5 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": {
+        "skills": [ [ "mechanics", 8 ] ],
+        "time": "60 m",
+        "using": [ [ "repair_welding_standard", 3 ], [ "repair_welding_alloys", 2 ], [ "vehicle_wrench_2", 1 ], [ "vehicle_screw", 1 ] ]
+      }
+    },
+    "damage_reduction": { "all": 60 }
+  },
+  {
+    "id": "engine_turbine_medium",
+    "copy-from": "gas_turbine_engine",
+    "type": "vehicle_part",
+    "item": "medium_turbine_engine",
+    "description": "A heavy-duty gas turbine engine, like those typically found in a Medevac, Apache, or Blackhawk helicopter.",
+    "durability": 400,
+    "epower": -10,
+    "power": 1416830,
+    "energy_consumption": "5667320 W",
+    "breaks_into": [
+      { "item": "alloy_plate", "count": [ 2, 4 ] },
+      { "item": "steel_lump", "count": [ 50, 65 ] },
+      { "item": "steel_chunk", "count": [ 50, 65 ] },
+      { "item": "scrap", "count": [ 50, 65 ] }
+    ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 8 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 6 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": {
+        "skills": [ [ "mechanics", 9 ] ],
+        "time": "60 m",
+        "using": [ [ "repair_welding_standard", 5 ], [ "repair_welding_alloys", 3 ], [ "vehicle_wrench_2", 1 ], [ "vehicle_screw", 1 ] ]
+      }
+    },
+    "damage_reduction": { "all": 65 }
+  },
+  {
+    "id": "engine_turbine_large",
+    "copy-from": "gas_turbine_engine",
+    "type": "vehicle_part",
+    "item": "large_turbine_engine",
+    "description": "A huge gas turbine engine, used to lift large military helicopters such as the V-22 Osprey.",
+    "durability": 400,
+    "epower": -10,
+    "power": 4474199,
+    "energy_consumption": "17896796 W",
+    "breaks_into": [
+      { "item": "alloy_plate", "count": [ 4, 6 ] },
+      { "item": "steel_lump", "count": [ 100, 120 ] },
+      { "item": "steel_chunk", "count": [ 100, 120 ] },
+      { "item": "scrap", "count": [ 100, 120 ] }
+    ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 9 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 7 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": {
+        "skills": [ [ "mechanics", 10 ] ],
+        "time": "60 m",
+        "using": [ [ "repair_welding_standard", 7 ], [ "repair_welding_alloys", 5 ], [ "vehicle_wrench_2", 1 ], [ "vehicle_screw", 1 ] ]
+      }
+    },
+    "damage_reduction": { "all": 70 }
+  }
+]

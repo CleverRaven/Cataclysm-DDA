@@ -1,0 +1,62 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "church" ],
+    "//": "Swamper Church",
+    "weight": 3000,
+    "object": {
+      "rotation": [ 2, 2 ],
+      "fill_ter": "t_floor",
+      "rows": [
+        "         ^^^^^^         ",
+        "     ||||||||||||||     ",
+        "    ||dhy|.6ooo.ll||    ",
+        "    |D...+.........-sss ",
+        "  ^^|||+||||||||+|||^^s ",
+        "  ^||yy...,,,,...yy||^s ",
+        "   ♡p...b.,tt,.b....♡ s ",
+        "   |......,,,,......| s ",
+        "  ^♡.......,,.......♡^s ",
+        "  ^|.######,,######.|^s ",
+        "  ^♡.......,,.......♡^s ",
+        "  ^|.######,,######.|^s ",
+        "   ♡.......,,.......♡ s ",
+        "   |.######,,######.| s ",
+        "  ^♡.......,,.......♡^s ",
+        "  ^|.######,,######.|^s ",
+        "  ^|y......,,......y|^s ",
+        "   ||♡|||||,,|||||♡|| s ",
+        "    ^^|ll|<,,y|ST|^^  s ",
+        "     ^|....,,.+..|^   s ",
+        "      |||||++|||||    s ",
+        "         O ss O       s ",
+        "     ^^    ss    ^^   s ",
+        "     ^^    ss    ^^   s "
+      ],
+      "terrain": { "♡": "t_window_enhanced", " ": "t_region_soil", "^": "t_region_shrub" },
+      "palettes": [ "church" ],
+      "items": {
+        "#": { "item": "butcher_tools", "chance": 40 },
+        ".": { "item": "butcher_tools", "chance": 5 },
+        "d": { "item": "office_DinoLab", "chance": 30 },
+        "o": { "item": "butcher_tools", "chance": 40 }
+      },
+      "place_nested": [ { "chunks": [ "NC_BO_BARONYX_spawn" ], "x": 12, "y": 5 } ],
+      "place_npcs": [
+        { "class": "guard", "x": 7, "y": 7 },
+        { "class": "guard", "x": 7, "y": 11 },
+        { "class": "guard", "x": 14, "y": 7 },
+        { "class": "guard", "x": 14, "y": 11 },
+        { "class": "guard", "x": 17, "y": 7 },
+        { "class": "guard", "x": 17, "y": 11 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "NC_BO_BARONYX_spawn",
+    "object": { "mapgensize": [ 1, 1 ], "place_npcs": [ { "class": "SWAMPER_Bo_Baronyx", "x": 0, "y": 0 } ] }
+  }
+]

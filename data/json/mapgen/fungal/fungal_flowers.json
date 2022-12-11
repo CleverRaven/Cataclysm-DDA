@@ -1,0 +1,58 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "fungal_flowers" ],
+    "weight": 100,
+    "object": {
+      "rows": [
+        "     ..............     ",
+        "  ....................  ",
+        " ......,,,,,,,,,,...... ",
+        " ....,,,,,,,,,,,,,,.... ",
+        " ...,,,,,_____,,,,,,... ",
+        "...,,,,__________,,,,...",
+        "...,,,____________,,,...",
+        "..,,,,_____________,,,..",
+        "..,,,______________,,,..",
+        "..,,,______________,,,..",
+        "..,,________________,,..",
+        "..,,________Y_______,,..",
+        "..,,_______X________,,..",
+        "..,,________________,,..",
+        "..,,,______________,,,..",
+        "..,,,______________,,,..",
+        "..,,,,_____________,,,..",
+        "...,,,____________,,,...",
+        "...,,,,__________,,,,...",
+        " ...,,,,,_____,,,,,,... ",
+        " ....,,,,,,,,,,,,,,.... ",
+        " ......,,,,,,,,,,...... ",
+        "  ....................  ",
+        "     ..............     "
+      ],
+      "terrain": {
+        " ": [ [ "t_grass_dead", 2 ], [ "t_grass", 3 ], "t_fungus" ],
+        ".": [ "t_grass_dead", "t_grass", "t_fungus" ],
+        ",": [ [ "t_grass_dead", 3 ], [ "t_fungus", 7 ], "t_fungus_mound", "t_shrub_fungal" ],
+        "_": [
+          [ "t_fungus", 25 ],
+          [ "t_fungus_mound", 3 ],
+          [ "t_tree_fungal", 2 ],
+          [ "t_tree_fungal_young", 2 ],
+          [ "t_shrub_fungal", 3 ]
+        ],
+        "X": "t_marloss",
+        "Y": "t_fungus_mound"
+      },
+      "furniture": {
+        " ": [ [ "f_null", 20 ], [ "f_boulder_small", 3 ], [ "f_flower_fungal", 3 ], "f_fungal_mass" ],
+        ".": [ [ "f_null", 36 ], [ "f_flower_fungal", 8 ], [ "f_fungal_mass", 3 ], "f_fungal_clump" ],
+        ",": [ [ "f_null", 24 ], [ "f_fungal_mass", 2 ], [ "f_flower_fungal", 5 ], "f_fungal_clump" ],
+        "_": [ [ "f_null", 20 ], [ "f_flower_fungal", 8 ], [ "f_fungal_mass", 2 ], "f_fungal_clump" ],
+        "X": "f_flower_marloss"
+      },
+      "monster": { "Y": { "monster": "mon_fungaloid_seeder" } }
+    }
+  }
+]

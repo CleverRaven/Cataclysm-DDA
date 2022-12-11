@@ -1,0 +1,56 @@
+[
+  {
+    "type": "MONSTER_FACTION",
+    "name": "magical_beast"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "dragon_black",
+    "friendly": [ "ooze", "lizardfolk" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "hunllef",
+    "base_faction": "herbivore"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "ooze",
+    "friendly": [ "dragon_black", "lizardfolk", "ooze" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "lizardfolk",
+    "friendly": [ "dragon_black", "ooze", "lizardfolk" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "goblin"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "robot"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "wonder_forge",
+    "hate": [ "zombie", "fungus" ],
+    "friendly": [ "forge_lords" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "orcs"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "ogre"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "leprechaun"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "elves"
+  }
+]

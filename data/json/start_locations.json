@@ -1,0 +1,620 @@
+[
+  {
+    "type": "start_location",
+    "id": "sloc_fort",
+    "name": "Bastion Fort",
+    "terrain": [
+      "fort_1a",
+      "fort_2a",
+      "fort_3a",
+      "fort_4a",
+      "fort_1b",
+      "fort_2b",
+      "fort_3b",
+      "fort_4b",
+      "fort_1c",
+      "fort_2c",
+      "fort_3c",
+      "fort_4c"
+    ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_shelter_a",
+    "name": "Shelter - Open Floorplan",
+    "terrain": [ "shelter" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_town_hall",
+    "name": "Town Hall",
+    "terrain": [
+      "town_hall_0_0_0",
+      "town_hall_1_0_0",
+      "town_hall_0_1_0",
+      "town_hall_1_1_0",
+      "town_hall_0_0_1",
+      "town_hall_1_0_1",
+      "town_hall_0_1_1",
+      "town_hall_1_1_1",
+      "town_hall_0_0_roof"
+    ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_shelter_b",
+    "name": "Shelter - Compartmentalized",
+    "terrain": [ "shelter_1", "shelter_1b" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_shelter_c",
+    "name": "Shelter - Central Pillar",
+    "terrain": [ "shelter_2" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_shelter_vandalized_a",
+    "name": "Shelter - Open Floorplan (Vandalized)",
+    "terrain": [ "shelter_vandal" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_shelter_vandalized_b",
+    "name": "Shelter - Compartmentalized (Vandalized)",
+    "terrain": [ "shelter_1_vandal", "shelter_1b_vandal" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_shelter_vandalized_c",
+    "name": "Shelter - Central Pillar (Vandalized)",
+    "terrain": [ "shelter_2_vandal" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_shelter_infest_a",
+    "name": "Infested Shelter - Open Floorplan",
+    "terrain": [ "shelter_under_infested" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_shelter_infest_b",
+    "name": "Infested Shelter - Compartmentalized",
+    "terrain": [ "shelter_under_1_infested", "shelter_under_1b_infested" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_shelter_infest_c",
+    "name": "Infested Shelter - Central Pillar",
+    "terrain": [ "shelter_under_2_infested" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_refugee_center",
+    "name": "Refugee Center",
+    "terrain": [ "evac_center_7" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_house_boarded",
+    "copy-from": "sloc_house",
+    "name": "House (boarded up)",
+    "extend": { "flags": [ "BOARDED" ] }
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_field",
+    "name": "Field",
+    "terrain": [ "field" ],
+    "flags": [ "ALLOW_OUTSIDE" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_house",
+    "name": "House",
+    "terrain": [
+      "house_w_1",
+      "house_2story_basement",
+      "house_crack1",
+      "house_crack2",
+      "house_crack3",
+      "house_wooded",
+      "house_prepper",
+      "house_prepper2",
+      "house_fortified",
+      "duplex",
+      "house_duplex2",
+      "house_duplex3",
+      "house_duplex4",
+      "house_duplex5",
+      "house_duplex6",
+      "house_duplex7",
+      "house_duplex8",
+      "house_duplex9",
+      "house_duplex10",
+      "house_duplex11",
+      "house_w_2",
+      "house_w_3",
+      "house_w_4",
+      "house_w_5",
+      "house_w_6",
+      "house_01",
+      "house_02",
+      "house_03",
+      "house_04",
+      "house_05",
+      "house_05ab",
+      "house_06",
+      "house_07",
+      "house_08",
+      "house_09",
+      "house_09b",
+      "house_10",
+      "house_11",
+      "house_12",
+      "house_13",
+      "house_14",
+      "house_15",
+      "house_16",
+      "house_17",
+      "house_18",
+      "house_19",
+      "house_20",
+      "house_21",
+      "house_22",
+      "house_23",
+      "house_24",
+      "house_25",
+      "house_26",
+      "house_27",
+      "house_28",
+      "house_29",
+      "house_30",
+      "house_31",
+      "house_32",
+      "house_garage",
+      "house_garage2",
+      "house_garage3",
+      "house_garage4",
+      "house_garage5",
+      "house_garage6",
+      "house_garage7",
+      "house_garage8",
+      "rural_house1",
+      "rural_house2",
+      "house_toolshed",
+      "house_suicide",
+      "house_quiverfull",
+      "house_rv",
+      "house_porch",
+      "house_patio",
+      "house_modern_1",
+      "house_library",
+      "house_detatched1",
+      "house_detatched2",
+      "house_detatched3",
+      "house_detatched4",
+      "house_detatched5",
+      "house_detatched6",
+      "house_detatched7",
+      "house_detatched8",
+      "house_detatched9",
+      "house_detatched10",
+      "house_dogs",
+      "house_gardener",
+      "house_inner_garden",
+      "house_vacant",
+      "house_vacant2"
+    ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_grocery_store",
+    "name": "Grocery Store",
+    "terrain": [ "s_grocery", "s_grocery_1" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_gun_store",
+    "name": "Gun Store",
+    "terrain": [ "s_gun", "s_gun_1", "s_gun_2", "s_gun_3", "s_gun_4" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_garage",
+    "name": "Garage",
+    "terrain": [ "s_garage", "s_garage_1", "s_garage_2", "garage_gas_1", "garage_gas_2", "garage_gas_3" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_pawn_shop",
+    "name": "Pawn Shop",
+    "terrain": [ "pawn", "pawn_1", "pawn_pf" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_bank",
+    "name": "Bank",
+    "terrain": [ "bank", "bank_1" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_military_surplus",
+    "name": "Military Surplus",
+    "terrain": [ "mil_surplus", "mil_surplus_1", "mil_surplus_2" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_furniture_store",
+    "name": "Furniture Store",
+    "terrain": [ "furniture" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_library",
+    "name": "Library",
+    "terrain": [ "s_library", "s_library_1", "s_library_2" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_bookstore",
+    "name": "Bookstore",
+    "terrain": [ "s_bookstore", "s_bookstore_1", "s_bookstore_2" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_cabin",
+    "name": "Cabin",
+    "terrain": [ "cabin" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_hospital",
+    "name": "Hospital",
+    "terrain": [ { "om_terrain": "hospital", "om_terrain_match_type": "PREFIX" } ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_lmoe",
+    "name": "LMOE shelter",
+    "terrain": [ "lmoe" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_lmoe_empty",
+    "name": "LMOE shelter (underground)",
+    "terrain": [ "lmoe_under_empty" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_forest",
+    "name": "Middle of Nowhere",
+    "terrain": [ "forest" ],
+    "flags": [ "ALLOW_OUTSIDE" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_river",
+    "name": "River",
+    "terrain": [ "river" ],
+    "flags": [ "ALLOW_OUTSIDE" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_bridge",
+    "name": "Bridge",
+    "terrain": [ "bridgehead_ground" ],
+    "flags": [ "ALLOW_OUTSIDE" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_desert_island",
+    "name": "Desert Island",
+    "terrain": [ "island_sand", "island_forest", "island_forest_thick", "island_forest_water", "island_field" ],
+    "flags": [ "ALLOW_OUTSIDE" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_lab_escape_cells",
+    "name": "Experiment Cell",
+    "terrain": [ "lab_escape_cells" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_lab_random",
+    "name": "Science lab",
+    "terrain": [ "lab_stairs" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_lab_finale",
+    "name": "Bottom of a science lab",
+    "terrain": [ "lab_finale" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_ice_lab_stairs",
+    "name": "Frozen science lab",
+    "terrain": [ "ice_lab_stairs" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_ice_lab_finale",
+    "name": "Deep-frozen science lab",
+    "terrain": [ "ice_lab_finale" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_lab_concourse_area",
+    "name": "Cargo area Trans-Coast Logistics",
+    "terrain": [ { "om_terrain": "lab_CORE_2x1_1DN", "om_terrain_match_type": "TYPE" } ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_mall_loading_area",
+    "name": "Mall (loading area)",
+    "terrain": [ "mall_a_12" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_mall_food_court",
+    "name": "Mall (food court)",
+    "terrain": [ "mall_a_30" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_fire_station",
+    "name": "Fire Station",
+    "terrain": [
+      { "om_terrain": "fire_station", "om_terrain_match_type": "TYPE" },
+      { "om_terrain": "fire_station_1", "om_terrain_match_type": "TYPE" }
+    ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_police",
+    "name": "Police Station",
+    "terrain": [
+      { "om_terrain": "police", "om_terrain_match_type": "TYPE" },
+      { "om_terrain": "police_1", "om_terrain_match_type": "TYPE" },
+      { "om_terrain": "police_2", "om_terrain_match_type": "TYPE" }
+    ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_restaraunt_foodplace_break_room",
+    "name": "Foodplace Break Room",
+    "terrain": [ "s_restaurant_foodplace_roof" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_school",
+    "name": "School",
+    "terrain": [ { "om_terrain": "school", "om_terrain_match_type": "CONTAINS" } ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_mine_finale",
+    "name": "Bottom of a mine",
+    "terrain": [ "mine_finale" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_prison",
+    "name": "Prison",
+    "terrain": [ "prison_1_5" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_prison_alcatraz",
+    "name": "Island prison type A",
+    "terrain": [ "prison_alcatraz_3" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_prison_island",
+    "name": "Island prison type B",
+    "terrain": [ "prison_island_1_1" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_mi-go_camp",
+    "name": "Mi-go camp",
+    "terrain": [ "mi-go_camp1" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_hermit_shack",
+    "name": "Hermit Shack",
+    "terrain": [ "hunter_shack" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_campsite",
+    "name": "Campsite",
+    "terrain": [ { "om_terrain": "campsite", "om_terrain_match_type": "CONTAINS" } ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_campground",
+    "name": "Campground",
+    "terrain": [ "campground_1a", "campground_1b", "campground_2a", "campground_2b" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_farm_survivalist",
+    "name": "Farm",
+    "terrain": [ "farm_2" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_church",
+    "name": "Church",
+    "terrain": [ "church_3rdfloor_1", "church_1", "church_steeple_end", "church" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_cemetery",
+    "name": "Cemetery",
+    "terrain": [
+      { "om_terrain": "cemetery_4square", "om_terrain_match_type": "PREFIX" },
+      { "om_terrain": "Cemetery", "om_terrain_match_type": "PREFIX" },
+      { "om_terrain": "cemetery_small", "om_terrain_match_type": "PREFIX" }
+    ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_basement_bionic",
+    "name": "Shady Basement",
+    "terrain": [ "basement_bionic" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_zoo_giftshop",
+    "name": "Zoo (Giftshop)",
+    "terrain": [ "zoo_0_1" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_zoo_cages",
+    "name": "Zoo (Cages)",
+    "terrain": [ "zoo_1_1" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_golfcourse_mid_course",
+    "name": "Golf Course (mid course)",
+    "terrain": [ "golfcourse_11" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_golfcourse_clubhouse",
+    "name": "Golf Course (clubhouse)",
+    "terrain": [ "golfcourse_31" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_apartments_rooftop",
+    "name": "Apartment Building (rooftop)",
+    "terrain": [ "apartments_con_tower_114", "apartments_con_tower_014", "apartments_con_tower_104", "apartments_con_tower_004" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_apartments_rooftop2",
+    "name": "Apartment Building Alternate (rooftop)",
+    "terrain": [ "apartments_mod_tower_113", "apartments_mod_tower_013", "apartments_mod_tower_103", "apartments_mod_tower_003" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_horse_ranch",
+    "name": "Horse Ranch",
+    "terrain": [ "horse_farm_13" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_cabin_lake",
+    "name": "Lake Cabin",
+    "terrain": [ "cabin_lake" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_freshwater_research_station",
+    "name": "Freshwater Research Station",
+    "terrain": [ "sealab_small_surface" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_lodge_ground",
+    "name": "Hunting Lodge",
+    "terrain": [ "lodge_ground1" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_gas_station",
+    "name": "Gas Station",
+    "terrain": [ "s_gas_rural" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_lighthouse_ground",
+    "name": "Lighthouse Island",
+    "terrain": [ "lighthouse_ground" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_military_base_warehouse",
+    "name": "Military Base Warehouse",
+    "terrain": [ "mil_base_2g" ]
+  },
+  {
+    "type": "start_location",
+    "id": "aircraft_carrier_berth",
+    "name": "Aircraft Carrier Berth",
+    "terrain": [ "aircraft_carrier_1b" ]
+  },
+  {
+    "type": "start_location",
+    "id": "aircraft_carrier_bridge",
+    "name": "Aircraft Carrier Captain's Bridge",
+    "terrain": [ "aircraft_carrier_1b" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_private_resort",
+    "name": "Private resort",
+    "terrain": [ "p_resort_2ss" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_road",
+    "name": "Road",
+    "terrain": [
+      "road_nesw_manhole",
+      { "om_terrain": "road_straight", "om_terrain_match_type": "PREFIX" },
+      { "om_terrain": "road_curved", "om_terrain_match_type": "PREFIX" },
+      { "om_terrain": "road_end", "om_terrain_match_type": "PREFIX" }
+    ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_light_industry_scen",
+    "name": "Industrial Offices",
+    "terrain": [ "s_lightindustry_scen_10" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_mansion_basement",
+    "name": "Mansion Basement",
+    "terrain": [ "mansion_t2d", "mansion_c2d", "mansion_c3d", "mansion_c4d", "mansion_t4d" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_hotel_rooftop",
+    "name": "Hotel Rooftop",
+    "terrain": [ "hotel_tower_roof_1_9", "hotel_tower_roof_1_8", "hotel_tower_roof_1_7" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_office_tower_rooftop",
+    "name": "Office Tower Rooftop",
+    "terrain": [ "loffice_tower_13", "loffice_tower_14", "loffice_tower_15", "loffice_tower_16" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_cathedral_rooftop",
+    "name": "Cathedral Rooftop",
+    "terrain": [ "cathedral_3_NW", "cathedral_3_NE", "cathedral_3_SW", "cathedral_3_SE" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_retirement_community",
+    "name": "Retirement Community - Townhouse",
+    "terrain": [ "retirement_community_b_5" ]
+  },
+  {
+    "type": "start_location",
+    "id": "nuclear_plant",
+    "name": "Nuclear Power Plant",
+    "terrain": [ "nuclear_plant_5_5_1", "nuclear_plant_10_5_1" ]
+  }
+]

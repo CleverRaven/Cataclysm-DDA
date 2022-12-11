@@ -1,0 +1,64 @@
+[
+  {
+    "id": "rare_martial_arts_books",
+    "type": "item_group",
+    "//": "This group may be a bit overpopulated by MMA, but it seemed the most appropriate place for all of these",
+    "copy-from": "rare_martial_arts_books",
+    "extend": {
+      "items": [
+        [ "manual_centipede", 1 ],
+        [ "manual_lizard", 1 ],
+        [ "manual_scorpion", 1 ],
+        [ "manual_toad", 1 ],
+        [ "manual_venom_snake", 1 ],
+        [ "manual_mma_desert_wind", 1 ],
+        [ "manual_mma_diamond_mind", 1 ],
+        [ "manual_mma_iron_heart", 1 ],
+        [ "manual_mma_setting_sun", 1 ],
+        [ "manual_mma_stone_dragon", 1 ],
+        [ "manual_mma_tiger_claw", 1 ],
+        [ "manual_mma_shii_cho", 1 ],
+        [ "manual_mma_pokken", 1 ],
+        [ "manual_mma_hylian", 1 ]
+      ]
+    }
+  },
+  {
+    "id": "museum_misc",
+    "type": "item_group",
+    "copy-from": "museum_misc",
+    "extend": { "items": [ [ "ki_strike_scroll", 3 ] ] }
+  },
+  {
+    "type": "item_group",
+    "id": "book_military",
+    "copy-from": "book_military",
+    "extend": { "items": [ [ "manual_mma_panzer", 10 ] ] }
+  },
+  {
+    "type": "item_group",
+    "id": "mansion_books",
+    "//": "Sublime Way seem to be like books that rich people would be more likely to collect than the others, although still very rare",
+    "copy-from": "mansion_books",
+    "extend": {
+      "items": [
+        [ "manual_mma_desert_wind", 2 ],
+        [ "manual_mma_diamond_mind", 2 ],
+        [ "manual_mma_iron_heart", 2 ],
+        [ "manual_mma_setting_sun", 2 ],
+        [ "manual_mma_stone_dragon", 2 ],
+        [ "manual_mma_tiger_claw", 2 ],
+        [ "manual_mma_shii_cho", 1 ],
+        [ "manual_mma_pokken", 1 ],
+        [ "manual_mma_hylian", 1 ]
+      ]
+    }
+  },
+  {
+    "type": "item_group",
+    "id": "kids_books",
+    "//": "It seemed like something kids may have, despite technically being a martial art.",
+    "copy-from": "kids_books",
+    "extend": { "items": [ [ "manual_mma_pokken", 1 ] ] }
+  }
+]

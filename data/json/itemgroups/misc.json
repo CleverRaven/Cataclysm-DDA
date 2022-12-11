@@ -1,0 +1,293 @@
+[
+  {
+    "id": "misc_smoking",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "Smokable item and something to light it with",
+    "entries": [
+      {
+        "distribution": [
+          { "item": "cig", "prob": 70, "charges": [ 1, 10 ] },
+          {
+            "collection": [
+              { "item": "tobacco", "charges-min": 1, "charges-max": 20 },
+              {
+                "distribution": [ { "item": "rolling_paper", "prob": 70, "charges-min": 1, "charges-max": 30 }, { "item": "pipe_tobacco", "prob": 30 } ]
+              }
+            ],
+            "prob": 20
+          },
+          { "item": "cigar", "prob": 5, "charges": [ 1, 1 ] },
+          { "item": "joint", "prob": 5 }
+        ]
+      },
+      {
+        "distribution": [
+          { "item": "lighter", "charges": [ 0, 100 ] },
+          { "item": "matches", "charges": [ 1, 20 ] },
+          { "item": "ref_matches", "charges": [ 1, 32 ] }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "stoner",
+    "type": "item_group",
+    "//": "Processed weed and weed accessories",
+    "items": [ [ "joint", 100 ], [ "joint_roach", 20 ], [ "pipe_glass", 10 ] ]
+  },
+  {
+    "id": "butane_lighter_and_fuel",
+    "//": "Used for shop spawns where unused cans of butane are stocked",
+    "type": "item_group",
+    "items": [ { "collection": [ { "item": "ref_lighter_butane" }, { "item": "butane_can", "count": [ 1, 2 ], "charges": 30 } ] } ]
+  },
+  {
+    "id": "butane_can_full",
+    "//": "Used for shop spawns where unused cans of butane are stocked",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "butane_can", "count": [ 1, 2 ], "charges": 30 } ]
+  },
+  {
+    "id": "cannabis_extraction_equipment",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      {
+        "distribution": [
+          {
+            "//": "Improvised butane extraction supplies for shatter.",
+            "collection": [ { "item": "pipe" }, { "item": "vac_oven_small" }, { "group": "butane_can_full", "count": [ 0, 3 ] } ],
+            "prob": 70
+          },
+          {
+            "//": "Commercial ethanol extraction supplies for distillate.",
+            "collection": [
+              { "item": "closed_loop_extractor_small" },
+              { "item": "pipe" },
+              { "item": "flask_glass" },
+              { "item": "microcentrifuge", "prob": 80 },
+              { "item": "still_lab", "prob": 80 },
+              { "item": "cotton_patchwork", "count": [ 3, 10 ] },
+              {
+                "distribution": [
+                  { "item": "hotplate", "prob": 80, "charges": [ 0, 500 ] },
+                  { "item": "chemistry_set", "prob": 20, "charges": [ 0, 500 ] }
+                ]
+              },
+              { "item": "vac_pump" },
+              { "item": "chem_ethanol", "charges-min": 150, "prob": 80 }
+            ],
+            "prob": 30
+          }
+        ]
+      },
+      {
+        "collection": [
+          { "item": "filter_paper_qualitative", "charges-min": 30 },
+          { "item": "filter_paper_quantitative", "charges-min": 30 },
+          { "item": "gasket_plastic_set", "count": [ 1, 3 ] },
+          { "item": "textbook_extraction", "prob": 75 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "silverware",
+    "type": "item_group",
+    "//": "Forks, spoons, knives, etc.",
+    "items": [ [ "knife_butter", 30 ], [ "knife_steak", 10 ], [ "fork", 30 ], [ "spoon", 30 ] ]
+  },
+  {
+    "id": "used_toy_box",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "rc_car_box",
+    "items": [ { "item": "bubblewrap", "count": [ 0, 2 ] }, { "item": "screwdriver", "prob": 10 } ]
+  },
+  {
+    "id": "tinware",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ [ "bowl_pewter", 100 ], [ "tin_plate", 100 ], [ "tin_cup", 100 ] ]
+  },
+  {
+    "id": "dinnerware",
+    "type": "item_group",
+    "//": "Plates, bowls, cups, etc.",
+    "items": [
+      [ "glass", 20 ],
+      [ "glass_plate", 20 ],
+      [ "glass_bowl", 20 ],
+      [ "ceramic_plate", 10 ],
+      [ "wine_glass", 10 ],
+      [ "ceramic_bowl", 10 ],
+      [ "ceramic_cup", 10 ]
+    ]
+  },
+  {
+    "id": "digging_soil_loam_50L",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "~50L of loamy soil, sand, clay, and rocks from digging in generic dirt",
+    "items": [
+      { "item": "material_soil", "count": [ 8, 12 ] },
+      { "item": "material_sand", "charges": [ 1, 10 ], "prob": 5 },
+      { "item": "clay_lump", "count": [ 1, 4 ], "prob": 5 },
+      { "item": "rock", "count": [ 1, 4 ], "prob": 10 },
+      { "item": "rock_flaking", "count": [ 1, 4 ], "prob": 2 },
+      { "item": "flint", "prob": 1 },
+      { "item": "rock_large", "prob": 10 },
+      { "item": "pebble", "count": [ 1, 4 ], "prob": 15 }
+    ]
+  },
+  {
+    "id": "mining_rock",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      { "item": "rock", "count": [ 17, 37 ] },
+      { "item": "rock_large", "count": [ 1, 3 ] },
+      { "item": "coal_lump", "charges": [ 250, 500 ], "prob": 10 },
+      { "item": "material_limestone", "charges": [ 10, 25 ], "prob": 80 },
+      { "item": "material_rocksalt", "count": [ 0, 1 ], "prob": 20 },
+      { "item": "material_rhodonite", "count": [ 0, 1 ], "prob": 3 },
+      { "item": "material_zincite", "count": [ 0, 5 ], "prob": 5 }
+    ]
+  },
+  {
+    "id": "office_paper",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "Random paper/data items. for filing cabinets or other office locations",
+    "items": [
+      { "group": "oa_discarded_news", "count": [ 2, 12 ], "prob": 20 },
+      { "group": "flask_liquor", "prob": 10 },
+      { "group": "elecsto_pcs", "count": [ 1, 2 ], "prob": 10 },
+      { "item": "file", "count": [ 1, 8 ], "prob": 50 },
+      { "group": "elecsto_stor", "count": [ 1, 2 ], "prob": 30 },
+      { "item": "office_holepunch", "prob": 30 },
+      { "item": "money_strap_twenty", "count": [ 1, 10 ], "prob": 20 },
+      { "item": "scorecard", "count": [ 1, 10 ], "prob": 10 },
+      { "item": "survnote", "prob": 10 },
+      { "item": "flyer", "count": [ 1, 10 ], "prob": 30 },
+      { "item": "character_sheet", "count": [ 1, 2 ], "prob": 5 },
+      { "item": "phonebook", "prob": 10 },
+      { "item": "magic_8_ball", "prob": 5 },
+      { "item": "family_photo", "prob": 5 },
+      { "item": "coin_quarter", "prob": 5 },
+      { "item": "mobile_memory_card_used", "count": [ 1, 4 ], "prob": 15 },
+      { "item": "RPG_die", "prob": 5 },
+      { "item": "metal_RPG_die", "prob": 1 },
+      { "item": "mobile_memory_card_encrypted", "count": [ 1, 2 ], "prob": 15 }
+    ]
+  },
+  {
+    "id": "bus_common",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      { "group": "child_items", "prob": 15 },
+      { "group": "jackets", "prob": 15 },
+      { "group": "novels", "prob": 15 },
+      { "group": "bags_trip", "prob": 20 }
+    ]
+  },
+  {
+    "id": "gobag_contents",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "Items generated from a go bag",
+    "items": [
+      { "item": "duffelbag" },
+      { "item": "backpack" },
+      { "item": "helmet_army" },
+      { "item": "jacket_army_modern" },
+      { "item": "pants_army" },
+      { "item": "tshirt", "count": 3 },
+      { "item": "under_armor" },
+      { "item": "tacvest" },
+      { "item": "coat_rain" },
+      { "item": "hood_rain" },
+      { "item": "long_underpants" },
+      { "item": "towel" },
+      { "item": "boots_combat" },
+      { "item": "socks", "count": 3 },
+      { "item": "gloves_tactical" },
+      { "item": "light_plus_battery_cell", "charges": 150 },
+      { "item": "light_plus_battery_cell", "charges": 150, "container-item": "flashlight" },
+      { "item": "light_plus_battery_cell", "charges": 150, "container-item": "radio" },
+      { "item": "lighter", "charges": 100 },
+      { "item": "pockknife" },
+      { "item": "multitool" },
+      { "group": "full_ifak" },
+      { "item": "rollmat" },
+      { "item": "sleeping_bag_roll" },
+      { "item": "ear_plugs" },
+      { "group": "MRE", "count": 3 },
+      { "item": "water_clean", "count": 2, "charges": 2, "container-item": "bottle_plastic", "sealed": false }
+    ]
+  },
+  {
+    "id": "premium_contents",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "large_survival_kit_box",
+    "items": [
+      { "item": "knife_folding" },
+      { "item": "flint_steel" },
+      { "item": "whistle_multitool" },
+      { "item": "bottle_folding" },
+      { "item": "light_plus_battery_cell", "charges": 150, "container-item": "flashlight" },
+      { "item": "picklocks" },
+      { "item": "lifestraw" },
+      { "item": "pocket_survival" },
+      { "item": "solarpack" },
+      { "item": "handflare", "count": 4, "charges": 300 }
+    ]
+  },
+  {
+    "id": "horse_gear",
+    "type": "item_group",
+    "//": "Horse vehicle items",
+    "items": [ [ "horse_tack", 50 ], [ "yoke_harness", 50 ], [ "reins_tackle", 50 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "maps",
+    "items": [ { "item": "roadmap", "prob": 33 }, { "item": "touristmap", "prob": 33 }, { "item": "survivormap", "prob": 33 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "spiral",
+    "items": [ [ "spiral_stone", 20 ], [ "vortex_stone", 2 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "makeshift_memorial",
+    "subtype": "collection",
+    "entries": [
+      { "item": "candle", "prob": 100, "count": [ 1, 3 ], "charges-max": 50 },
+      { "item": "candle", "prob": 33, "count": [ 1, 2 ], "charges-min": 50 },
+      { "item": "family_photo", "prob": 20, "count": [ 1, 2 ] },
+      { "item": "teddy_bear", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "cathedral_archives",
+    "subtype": "collection",
+    "entries": [
+      { "item": "book_binder", "prob": 90, "charges-max": 90, "count": [ 1, 5 ] },
+      { "item": "file", "prob": 50, "count": [ 1, 15 ] },
+      { "item": "paper", "prob": 60, "count": [ 10, 125 ] },
+      { "item": "book_pieces", "prob": 20 },
+      { "item": "candle", "prob": 3, "charges": 100 },
+      { "item": "holybook_bible1", "prob": 3 },
+      { "item": "candlestick", "prob": 2 },
+      { "item": "chalice", "prob": 1 },
+      { "item": "book_ruined", "prob": 1 }
+    ]
+  }
+]

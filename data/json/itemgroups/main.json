@@ -1,0 +1,203 @@
+[
+  {
+    "type": "item_group",
+    "id": "debug_template_item",
+    "subtype": "distribution",
+    "entries": [ { "item": "standard_template_construct", "prob": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "nanofab_recipes",
+    "//": "Very rare high level loot. This list doesn't spawn anywhere directly, it is used to create the recipes inside nanofabricator templates. ",
+    "magazine": 100,
+    "subtype": "distribution",
+    "entries": [
+      { "item": "12mm", "prob": 10 },
+      { "item": "alloy_plate", "prob": 10 },
+      { "item": "plasma_gun", "prob": 10 },
+      { "item": "can_sealer", "prob": 10 },
+      { "item": "hk_g80", "prob": 10 },
+      { "item": "hk_g80mag", "prob": 10 },
+      { "item": "stillsuit", "prob": 10 },
+      { "item": "hk_g80mag", "prob": 10 },
+      { "item": "emp_gun", "prob": 10 },
+      { "item": "knife_rm42", "prob": 10 },
+      { "item": "laser_rifle", "prob": 10 },
+      { "item": "mininuke", "prob": 10 },
+      { "item": "UPS_off", "prob": 10 },
+      { "item": "optical_cloak", "prob": 10 },
+      { "item": "superalloy_harness_dog", "prob": 10 },
+      { "item": "holo_cloak", "prob": 10 },
+      { "item": "plasma_rifle", "prob": 10 },
+      { "item": "portal", "prob": 10 },
+      { "item": "atomic_coffeepot", "prob": 10 },
+      { "item": "power_armor_basic", "prob": 10 },
+      { "item": "power_armor_frame", "prob": 10 },
+      { "item": "power_armor_heavy", "prob": 10 },
+      { "item": "power_armor_helmet_basic", "prob": 10 },
+      { "item": "power_armor_helmet_heavy", "prob": 10 },
+      { "item": "power_armor_helmet_light", "prob": 10 },
+      { "item": "high_density_capacitor", "prob": 10 },
+      { "item": "beam_scatterer", "prob": 10 },
+      { "item": "power_armor_light", "prob": 10 },
+      { "item": "rm11b_sniper_rifle", "prob": 10 },
+      { "item": "rm13_armor", "prob": 10 },
+      { "item": "v29", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "player_crafted",
+    "//": "items that should only be crafted by the player. Excluded from all other item groups. this is just an FYI list, it's not used to spawn items in game.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "chemical_thrower", "prob": 0 },
+      { "item": "diamond_bayonet", "prob": 0 },
+      { "item": "diamond_bayonet", "prob": 0 },
+      { "item": "diamond_broadsword", "prob": 0 },
+      { "item": "diamond_katana", "prob": 0 },
+      { "item": "diamond_knife", "prob": 0 },
+      { "item": "diamond_kukri", "prob": 0 },
+      { "item": "diamond_machete", "prob": 0 },
+      { "item": "diamond_nodachi", "prob": 0 },
+      { "item": "diamond_rapier", "prob": 0 },
+      { "item": "diamond_sword_bayonet", "prob": 0 },
+      { "item": "diamond_wakizashi", "prob": 0 },
+      { "item": "diamond_punch_dagger", "prob": 0 },
+      { "item": "diamond_zweihander", "prob": 0 },
+      { "item": "fertilizer_bomb", "prob": 0 },
+      { "item": "iv_mutagen_alpha", "prob": 0 },
+      { "item": "iv_mutagen_chimera", "prob": 0 },
+      { "item": "iv_mutagen_elfa", "prob": 0 },
+      { "item": "iv_mutagen_medical", "prob": 0 },
+      { "item": "m2browning_sawn", "prob": 0 },
+      { "item": "mutagen_alpha", "prob": 0 },
+      { "item": "mutagen_chimera", "prob": 0 },
+      { "item": "mutagen_elfa", "prob": 0 },
+      { "item": "mutagen_medical", "prob": 0 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "ammo_pistol_common", "prob": 1000 },
+      { "group": "ammo_shotgun_common", "prob": 1000 },
+      { "group": "ammo_rifle_common", "prob": 1000 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "launchers",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "m79", "prob": 10 },
+      { "item": "m320", "prob": 50 },
+      { "item": "mgl", "prob": 60 },
+      { "item": "rm802", "prob": 40 },
+      { "item": "m203", "prob": 50 },
+      { "item": "LAW_Packed", "prob": 80 },
+      { "item": "m3_carlgustav", "prob": 10 },
+      { "item": "m4_carlgustav", "prob": 10 },
+      { "item": "m202_flash", "prob": 20 },
+      { "item": "RPG", "prob": 40 },
+      { "item": "RPG-7_ammo", "prob": 35 },
+      { "item": "RPG-7_og7v", "prob": 45 },
+      { "item": "RPG-7_tbg7v", "prob": 15 },
+      { "item": "RPG-7_pg7vr", "prob": 20 },
+      { "item": "atgm_launcher", "prob": 3 },
+      { "item": "atgm_heat", "prob": 6 },
+      { "item": "flamethrower", "prob": 50 },
+      { "item": "rm451_flamethrower", "prob": 40 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "antique_guns",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "pistol_flintlock", "prob": 60 },
+      { "item": "carbine_flintlock", "prob": 40 },
+      { "item": "lemat_revolver", "prob": 30 },
+      { "item": "rifle_flintlock", "prob": 75 },
+      { "item": "colt_army", "prob": 30 },
+      { "item": "colt_navy", "prob": 30 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "antique_guns_with_ammo",
+    "ammo": 100,
+    "magazine": 100,
+    "subtype": "distribution",
+    "entries": [
+      { "item": "pistol_flintlock", "prob": 60 },
+      { "item": "carbine_flintlock", "prob": 40 },
+      { "item": "lemat_revolver", "prob": 30 },
+      { "item": "rifle_flintlock", "prob": 75 },
+      { "item": "colt_army", "prob": 30 },
+      { "item": "colt_navy", "prob": 30 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "antique_ammo",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "flintlock_ammo", "prob": 60 },
+      { "item": "flintlock_shot", "prob": 40 },
+      { "item": "36navy", "prob": 50 },
+      { "item": "44army", "prob": 50 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "archery",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "crossbow", "prob": 70 },
+      { "item": "compcrossbow", "prob": 10 },
+      { "item": "bullet_crossbow", "prob": 10 },
+      { "item": "hand_crossbow", "prob": 10 },
+      { "item": "bow_sling", "prob": 10 },
+      { "item": "longbow", "prob": 40 },
+      { "item": "compbow", "prob": 40 },
+      { "item": "shortbow", "prob": 20 },
+      { "item": "recurbow", "prob": 40 },
+      { "item": "takedown_recurbow", "prob": 2 },
+      { "item": "quiver_takedown_bow", "prob": 1 },
+      { "item": "reflexbow", "prob": 20 },
+      { "item": "slingshot", "prob": 50 },
+      { "item": "wristrocket", "prob": 50 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "archery_mods",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "arrowrest", "prob": 50 },
+      { "item": "bow_scope", "prob": 30 },
+      { "item": "bow_sight", "prob": 50 },
+      { "item": "bow_sight_pin", "prob": 50 },
+      { "item": "bow_silencer", "prob": 50 },
+      { "item": "bow_stabilizer", "prob": 50 },
+      { "item": "bow_stabilizer_set", "prob": 40 },
+      { "item": "gun_crossbow", "prob": 40 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "archery_ammo",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "arrow_wood", "prob": 100 },
+      { "item": "arrow_field_point_fletched", "prob": 50 },
+      { "item": "arrow_cf", "prob": 100 },
+      { "item": "bolt_wood", "prob": 100 },
+      { "item": "bolt_wood_bodkin", "prob": 50 },
+      { "item": "bolt_cf", "prob": 100 }
+    ]
+  }
+]

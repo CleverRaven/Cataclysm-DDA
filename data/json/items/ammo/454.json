@@ -1,0 +1,50 @@
+[
+  {
+    "id": "454_Casull",
+    "type": "AMMO",
+    "name": { "str_sp": ".454 Casull" },
+    "description": ".454 Casull ammunition with a 300gr jacketed soft point bullet.  The .454 Casull round is derived from .45 Long Colt with a stronger, lengthened case.  It is an exceptionally powerful cartridge with higher stopping power than many rifle rounds, although its extreme recoil makes it unsuitable for most purposes.",
+    "weight": "16 g",
+    "volume": "79 ml",
+    "price": 500,
+    "price_postapoc": 800,
+    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
+    "material": [ "steel", "powder" ],
+    "symbol": "=",
+    "color": "light_gray",
+    "count": 20,
+    "stack_size": 15,
+    "ammo_type": "454",
+    "casing": "454_casing",
+    "range": 16,
+    "damage": { "damage_type": "bullet", "amount": 48, "armor_penetration": 8 },
+    "dispersion": 30,
+    "recoil": 2500,
+    "effects": [ "COOKOFF" ]
+  },
+  {
+    "id": "reloaded_454_Casull",
+    "copy-from": "454_Casull",
+    "type": "AMMO",
+    "name": { "str_sp": ".454 Casull, reloaded" },
+    "description": ".454 Casull ammunition with a 300gr jacketed soft point bullet.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
+    "extend": { "effects": [ "RECYCLED" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+  },
+  {
+    "id": "bp_454_Casull",
+    "copy-from": "454_Casull",
+    "type": "AMMO",
+    "name": { "str_sp": ".454 Casull, black powder" },
+    "description": ".454 Casull ammunition with a 300gr jacketed soft point bullet.  Someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
+    "proportional": {
+      "price": 0.3,
+      "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
+      "recoil": 0.76,
+      "dispersion": 1.2
+    },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+  }
+]

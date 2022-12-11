@@ -1,0 +1,51 @@
+# 超过78个字符的段落将自动换行
+# 下面这行这么长
+##############################################################################
+<color_white>访问官网：</color>
+
+<color_light_gray>* 主页：</color><color_cyan>https://cataclysmdda.org</color>
+<color_light_gray>* 维基：</color><color_cyan>https://cddawiki.chezzo.com/cdda_wiki</color>
+
+<color_white>报告BUG，提交建议及跟进开发进度：</color>
+
+<color_light_gray>* Github：</color><color_light_cyan>https://github.com/CleverRaven/Cataclysm-DDA/issues</color>
+<color_light_gray>* E-mail：</color><color_light_cyan>kevin.granade@gmail.com</color>
+
+<color_white>加入论坛及讨论组：</color>
+
+<color_light_gray>* 论坛            ：</color><color_cyan>https://discourse.cataclysmdda.org/</color>
+<color_light_gray>* 讨论组          ：</color><color_cyan>https://discord.gg/jFEc7Yp</color>
+<color_light_gray>* IRC             ：</color><color_cyan>#CataclysmDDA at libera.chat</color>
+<color_light_gray>* Reddit（非官方）：</color><color_cyan>https://www.reddit.com/r/cataclysmdda/</color>
+
+<color_light_gray>官网主页上还提供了其他有用的链接。</color>
+
+<color_light_gray>在游戏中你可以通过主菜单查看游戏设置。（<color_yellow>Esc键</color>）。</color>
+
+<color_light_red>******************************************************************************</color>
+<color_light_red>实验测试版，免责声明：</color>
+<color_light_red>******************************************************************************</color>
+
+<color_white>问：</color><color_yellow>什么是实验测试版？</color>
+
+<color_white>答：</color><color_light_gray>实验测试版是版本质量控制的第二线。这里是各种最新内容在经过最初的质量控制检查后首次公开发布的版本，用来进行进一步的测试和平衡。请注意，通过选择最新的实验测试版开始游戏，你已经是在通过游玩的方式协助及参与最新内容的开发过程，因此会很容易遇见bug和尚未完善的系统。</color>
+
+<color_white>问：</color><color_yellow>为什么会有实验测试版？</color>
+
+<color_white>答：</color><color_light_gray>你可以想象成其他游戏的Alpha/Beta版本，BUG和不完善的系统是这些版本的一部分。由于持续集成开发流程的严格性，实验测试版永远处于正在开发中的状态。测试版是一个让开发者能够测试发现BUG及完善游戏系统的沙盒。各种或大或小的新内容都需要经过测试版的检测保证游戏整体稳定和平衡性。因此，开发者无法完全保证每个实验测试版的游戏平衡和稳定性。事实上，我们对实验测试版不做任何保证。</color>
+
+<color_white>问：</color><color_yellow>实验测试版可以玩吗？</color>
+
+<color_white>答：</color><color_light_gray>可以。虽然总体上实验测试版是稳定的，但总会有些内容和系统处于尚待开发的状态。而且由于持续开发的特点，总会有BUG的存在，甚至会使游戏崩溃或者毁档。虽然很罕见，但由于游戏代码的复杂程度及开发的不确定性，在合并新功能前的简单质量控制可能并不充分，而人为过失总是难免。这也是为什么实验测试版会存在的原因之一。</color>
+
+<color_white>问：</color><color_yellow>我应该选择实验版还是稳定版？</color>
+
+<color_white>答：</color><color_light_gray>实验测试版的好处是能够第一时间体验最新内容，风险则是当出现严重BUG时会毁档。是否使用实验测试版是你自己的选择，由于稳定版的存在，使用实验版风险自负。你将承担一切不可预料的后果，所以别说我们没有事先警告你。采取预防措施，做好备份。有时甚至最好推迟几天更新，直到一个大更新稳定下来或者一个重大BUG被修复。</color>
+
+<color_white>问：</color><color_yellow>还有什么我要了解的？</color>
+
+<color_white>答：</color><color_light_gray>有的。请时刻铭记，你所看到和将要看到的一切都有可能发生变化。所有功能，包括最新实现的功能，都属于未完成的开发，并可能在游戏开发过程中随时发生变化。而且，正如前面所说，我们不做任何承诺，包括平衡和稳定性。</color>
+
+<color_white>问：</color><color_yellow>如果不能接受实验测试版带来的稳定性风险，应该怎么办？</color>
+
+<color_white>答：</color><color_light_gray>如果你觉得风险不可接受：选择稳定版；如果你愿意承担风险：享受有着最新内容的实验测试版并参与开发过程——报告错误，提交建议，甚至贡献自己创造的游戏内容。祝你好运。</color>

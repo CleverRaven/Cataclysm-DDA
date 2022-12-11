@@ -1,0 +1,77 @@
+[
+  {
+    "id": "standing_stones_accident",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      [ "holy_symbol", 5 ],
+      [ "holy_symbol_wood", 4 ],
+      [ "essay_book", 6 ],
+      [ "poetry_book", 6 ],
+      [ "philosophy_book", 2 ],
+      [ "holybook_havamal", 8 ],
+      [ "robe", 3 ],
+      [ "tunic", 3 ]
+    ]
+  },
+  {
+    "id": "standing_stones_libation",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "mead", "container-item": "bowl_clay", "charges-min": 2, "charges-max": 7 } ]
+  },
+  {
+    "name": "GROUP_STANDING_STONES",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_null", "weight": 900 }, { "monster": "mon_darkman", "weight": 100, "conditions": [ "NIGHT" ] } ]
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "standing_stones" ],
+    "weight": 500,
+    "object": {
+      "predecessor_mapgen": "forest",
+      "rows": [
+        "                        ",
+        "               ...      ",
+        "               .o...    ",
+        "    ....        ....    ",
+        "    .o.......   ....    ",
+        " .....   ....     ....  ",
+        " ...... ......  ........",
+        "  ....................o.",
+        "  .o........o...........",
+        " ..........ss...O.....  ",
+        " ........ossssss....... ",
+        "     ..sssssssss.....   ",
+        "   ..Ossss#sOsss.o..... ",
+        " ......sssssssss.....o. ",
+        " .o.....ossssssO....... ",
+        " .......ss..ss.......   ",
+        "   .......o.......      ",
+        "  ..................    ",
+        "   .................... ",
+        "  ...o..  ...........o. ",
+        "   .....   ......   ... ",
+        "           ....o..      ",
+        "             .....      ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        "#": "t_region_soil",
+        ".": [ "t_region_soil", "t_region_groundcover" ],
+        "O": "t_region_soil",
+        "o": "t_region_soil",
+        "s": "t_region_soil"
+      },
+      "furniture": { "#": "f_brazier", "O": "f_boulder_large", "o": "f_boulder_small" },
+      "place_items": [
+        { "item": "standing_stones_accident", "x": [ 9, 14 ], "y": [ 13, 15 ], "chance": 50, "repeat": [ 3, 6 ] },
+        { "item": "standing_stones_libation", "x": 11, "y": 11, "chance": 100 }
+      ],
+      "items": { "#": { "item": "fireplace_fill", "repeat": [ 1, 3 ] } }
+    }
+  }
+]

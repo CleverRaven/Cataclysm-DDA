@@ -1,0 +1,90 @@
+[
+  {
+    "type": "GENERIC",
+    "id": "solar_panel",
+    "name": { "str": "solar panel" },
+    "description": "An electronic device that can convert solar radiation into electric power.  Useful for a vehicle or a static power grid.",
+    "weight": "14000 g",
+    "to_hit": -4,
+    "color": "yellow",
+    "symbol": "]",
+    "material": [ "glass" ],
+    "volume": "3 L",
+    "bashing": 1,
+    "flags": [ "NO_REPAIR", "WATER_BREAK" ],
+    "category": "veh_parts",
+    "price": 90000,
+    "price_postapoc": 1000
+  },
+  {
+    "type": "GENERIC",
+    "copy-from": "solar_panel",
+    "id": "folding_solar_panel",
+    "name": { "str": "collapsible solar array" },
+    "description": "An electronic device that can convert solar radiation into electric power, mounted on a folding frame.  This one is a common, inexpensive type made with polycrystalline silicon cells.",
+    "price": 120000,
+    "price_postapoc": 1500
+  },
+  {
+    "type": "GENERIC",
+    "copy-from": "folding_solar_panel",
+    "id": "folding_solar_panel_v2",
+    "name": { "str": "advanced collapsible solar array" },
+    "description": "An electronic device that can convert solar radiation into electric power, mounted on a folding frame.  This one is a high-performance type made with monocrystalline silicon cells.",
+    "price": 220000,
+    "price_postapoc": 3500
+  },
+  {
+    "type": "GENERIC",
+    "id": "reinforced_solar_panel",
+    "name": { "str": "reinforced solar panel" },
+    "description": "A solar panel that has been covered with a pane of reinforced glass to protect the delicate solar cells from zombies or errant baseballs.  The glass causes this panel to produce slightly less power than a normal panel.",
+    "weight": "24153 g",
+    "color": "light_blue",
+    "material": [ "glass", "steel" ],
+    "volume": "6500 ml",
+    "price": 120000,
+    "price_postapoc": 1500,
+    "copy-from": "solar_panel"
+  },
+  {
+    "type": "GENERIC",
+    "id": "solar_panel_v2",
+    "name": { "str": "advanced solar panel" },
+    "description": "An electronic device that can convert solar radiation into electric power.  This one is a high-performance type made with monocrystalline silicon cells.",
+    "price": 190000,
+    "price_postapoc": 3000,
+    "copy-from": "solar_panel"
+  },
+  {
+    "type": "GENERIC",
+    "id": "reinforced_solar_panel_v2",
+    "name": { "str": "advanced reinforced solar panel" },
+    "description": "An advanced solar panel that has been covered with a pane of reinforced glass to protect the delicate solar cells from zombies or errant baseballs.  The glass causes this panel to produce slightly less power than a normal advanced panel.",
+    "price": 240000,
+    "price_postapoc": 3500,
+    "copy-from": "reinforced_solar_panel"
+  },
+  {
+    "type": "GENERIC",
+    "id": "solar_cell",
+    "name": { "str": "solar cell" },
+    "description": "A small electronic device that can convert solar radiation into electric power.  This one is a common, inexpensive type made of polycrystalline silicon.",
+    "weight": "500 g",
+    "symbol": ";",
+    "volume": "250 ml",
+    "category": "spare_parts",
+    "price": 5000,
+    "price_postapoc": 100,
+    "copy-from": "solar_panel"
+  },
+  {
+    "type": "GENERIC",
+    "id": "solar_cell_v2",
+    "name": { "str": "advanced solar cell" },
+    "description": "A small electronic device that can convert solar radiation into electric power.  This one is a high-performance type made of monocrystalline silicon.",
+    "price": 15000,
+    "price_postapoc": 300,
+    "copy-from": "solar_cell"
+  }
+]

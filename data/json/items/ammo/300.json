@@ -1,0 +1,50 @@
+[
+  {
+    "id": "300_winmag",
+    "type": "AMMO",
+    "name": { "str": ".300 Winchester Magnum" },
+    "description": ".300 Winchester Magnum ammunition with a 220gr JHP bullet.  The 300WM round is an extremely powerful and accurate rifle round introduced in 1963.  It has proven popular with hunters and snipers, although it is not as common as .308 or .30-06.",
+    "weight": "28 g",
+    "volume": "169 ml",
+    "price": 220,
+    "price_postapoc": 400,
+    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
+    "material": [ "brass", "powder" ],
+    "symbol": "=",
+    "color": "yellow",
+    "count": 10,
+    "stack_size": 15,
+    "ammo_type": "300",
+    "casing": "300_casing",
+    "range": 65,
+    "damage": { "damage_type": "bullet", "amount": 70, "armor_penetration": 8 },
+    "dispersion": 15,
+    "recoil": 5300,
+    "effects": [ "COOKOFF" ]
+  },
+  {
+    "id": "bp_300_winmag",
+    "copy-from": "300_winmag",
+    "type": "AMMO",
+    "name": { "str_sp": ".300 Winchester Magnum, black powder" },
+    "description": ".300 Winchester Magnum ammunition with a 220gr JHP bullet.  The 300WM round is an extremely powerful and accurate rifle round, but someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
+    "proportional": {
+      "price": 0.3,
+      "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
+      "recoil": 0.76,
+      "dispersion": 1.2
+    },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+  },
+  {
+    "id": "reloaded_300_winmag",
+    "copy-from": "300_winmag",
+    "type": "AMMO",
+    "name": { "str_sp": ".300 Winchester Magnum, reloaded" },
+    "description": "A .300 Winchester Magnum round, an extremely versatile cartridge that has been adopted by many shooting disciplines, finding use with hunters, military units, and law enforcement departments.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo..",
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
+    "extend": { "effects": [ "RECYCLED" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+  }
+]

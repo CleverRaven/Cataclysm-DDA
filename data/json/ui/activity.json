@@ -1,0 +1,52 @@
+[
+  {
+    "id": "activity_desc",
+    "type": "widget",
+    "label": "Activity",
+    "style": "text",
+    "clauses": [
+      {
+        "id": "none",
+        "text": "None",
+        "color": "light_gray",
+        "condition": { "compare_int": [ { "u_val": "activity_level" }, "==", { "const": 0 } ] }
+      },
+      {
+        "id": "light",
+        "text": "Light",
+        "color": "yellow",
+        "condition": { "compare_int": [ { "u_val": "activity_level" }, "==", { "const": 1 } ] }
+      },
+      {
+        "id": "moderate",
+        "text": "Moderate",
+        "color": "yellow",
+        "condition": { "compare_int": [ { "u_val": "activity_level" }, "==", { "const": 2 } ] }
+      },
+      {
+        "id": "brisk",
+        "text": "Brisk",
+        "color": "light_red",
+        "condition": { "compare_int": [ { "u_val": "activity_level" }, "==", { "const": 3 } ] }
+      },
+      {
+        "id": "active",
+        "text": "Active",
+        "color": "light_red",
+        "condition": { "compare_int": [ { "u_val": "activity_level" }, "==", { "const": 4 } ] }
+      },
+      {
+        "id": "extreme",
+        "text": "Extreme",
+        "color": "red",
+        "condition": { "compare_int": [ { "u_val": "activity_level" }, ">=", { "const": 5 } ] }
+      }
+    ]
+  },
+  {
+    "id": "activity_desc_no_label",
+    "type": "widget",
+    "copy-from": "activity_desc",
+    "flags": [ "W_LABEL_NONE" ]
+  }
+]

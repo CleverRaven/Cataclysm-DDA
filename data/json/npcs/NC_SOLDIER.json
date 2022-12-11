@@ -1,0 +1,163 @@
+[
+  {
+    "type": "item_group",
+    "id": "NC_SOLDIER_pants",
+    "subtype": "distribution",
+    "entries": [ { "item": "pants_army", "prob": 80 }, { "item": "winter_pants_army", "prob": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_SOLDIER_shirt",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "army_top", "prob": 20 },
+      { "item": "tshirt", "prob": 20 },
+      { "item": "polo_shirt", "prob": 20 },
+      { "item": "longshirt", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_SOLDIER_gloves",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "null", "prob": 20 },
+      { "item": "gloves_tactical", "prob": 50 },
+      { "item": "gloves_fingerless", "prob": 30 },
+      { "item": "winter_gloves_army", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_SOLDIER_coat",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "null", "prob": 20 },
+      { "item": "jacket_army_modern", "prob": 50 },
+      { "item": "winter_jacket_army", "prob": 50 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_SOLDIER_vest",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "null", "prob": 10 },
+      { "item": "jacket_army", "prob": 50 },
+      { "item": "kevlar", "prob": 10 },
+      { "group": "military_ballistic_vest", "prob": 25 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_SOLDIER_shoes",
+    "subtype": "distribution",
+    "entries": [ { "item": "boots_combat", "prob": 90 }, { "item": "boots", "prob": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_SOLDIER_masks",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "null", "prob": 50 },
+      { "item": "mask_gas", "prob": 20, "charges-min": 10 },
+      { "item": "mask_bal", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_SOLDIER_eyes",
+    "subtype": "distribution",
+    "entries": [ { "item": "null", "prob": 20 }, { "item": "glasses_safety", "prob": 10 }, { "item": "glasses_bal", "prob": 60 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_SOLDIER_hat",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "null", "prob": 10 },
+      { "item": "tac_helmet", "prob": 50 },
+      { "item": "helmet_army", "prob": 50 },
+      { "item": "helmet_skid", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_SOLDIER_storage",
+    "subtype": "distribution",
+    "entries": [ { "item": "null", "prob": 5 }, { "item": "molle_pack", "prob": 40 }, { "item": "rucksack", "prob": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_SOLDIER_holster",
+    "subtype": "distribution",
+    "entries": [ { "item": "null", "prob": 20 }, { "item": "holster", "prob": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_SOLDIER_cutting",
+    "subtype": "distribution",
+    "entries": [ { "item": "knife_combat", "prob": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_SOLDIER_stabbing",
+    "subtype": "distribution",
+    "entries": [ { "item": "knife_combat", "prob": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_SOLDIER_pistols",
+    "subtype": "distribution",
+    "entries": [ { "item": "m9", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_SOLDIER_smg",
+    "subtype": "distribution",
+    "entries": [ { "item": "hk_mp5", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_SOLDIER_rifle",
+    "subtype": "distribution",
+    "entries": [ { "item": "m4_carbine", "variant": "m4a1", "prob": 90 }, { "item": "m14ebr", "prob": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_SOLDIER_weapon_random",
+    "subtype": "distribution",
+    "entries": [ { "item": "m4_carbine", "variant": "m4a1", "prob": 35 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_SOLDIER_misc",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "grenade", "prob": 10 },
+      { "item": "flashbang", "prob": 2 },
+      { "item": "c4", "prob": 5 },
+      { "item": "goggles_nv", "prob": 1 },
+      { "item": "goggles_ir", "prob": 1 },
+      { "item": "optical_cloak", "prob": 1 },
+      { "item": "UPS_off", "prob": 8 },
+      { "item": "tacvest", "prob": 10 },
+      { "item": "backpack", "prob": 8 },
+      { "item": "dump_pouch", "prob": 20 },
+      { "item": "legrig", "prob": 10 },
+      { "item": "under_armor", "prob": 20 },
+      { "item": "elbow_pads", "prob": 20 },
+      { "item": "knee_pads", "prob": 20 },
+      { "item": "mil_mess_kit", "prob": 30 },
+      { "item": "e_tool", "prob": 15 },
+      { "item": "chocolate", "prob": 30 },
+      { "item": "can_beans", "prob": 20 },
+      { "group": "any_MRE", "count": [ 2, 3 ], "prob": 45 },
+      { "group": "full_ifak", "prob": 35 },
+      { "item": "saline", "prob": 10 },
+      { "item": "con_milk", "prob": 10 },
+      { "item": "sports_drink", "prob": 40 },
+      { "item": "water_clean", "prob": 90 }
+    ]
+  }
+]

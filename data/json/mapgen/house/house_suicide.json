@@ -1,0 +1,162 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "house_suicide" ],
+    "//": "uses house_10 basement",
+    "weight": 200,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "............--..........",
+        "............--..........",
+        "...........p--..........",
+        "..##oo##oo##--......%...",
+        "..#c      y#--..........",
+        "..or hffh  o-------.....",
+        "..or hffh  #-------.....",
+        "..or hffh  #**###ooo##..",
+        "..#c          y|Ih  d#..",
+        "..#||| |||||  L|I  @@o..",
+        "..oS +  EsE    +   @@o..",
+        "..#8t|x       H| y  s#..",
+        "..#|||x    l  H|+||||#..",
+        "..#q>+     l  H|D|8St#..",
+        "..####R  A    s|||8 B#^.",
+        "....^oY AJJ    |D| 8B#..",
+        ".....o7 AJ  6|+|+||!|#..",
+        "%....o1     6|   RE T#..",
+        ".....#F 45O32|d      o..",
+        ".....##*#ooo##I @@   o..",
+        ".....--------oI @@s D#..",
+        ".....--------##o###o##..",
+        "........................",
+        "........................"
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "terrain": {
+        "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
+        "#": "t_rock_wall",
+        "!": "t_door_locked_interior"
+      },
+      "place_nested": [ { "chunks": [ [ "bathroom_suicide", 100 ] ], "x": 18, "y": 13 } ]
+    }
+  },
+  {
+    "id": "house_suicide_clothing",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "group": "underwear" }, { "group": "shoes" }, { "group": "pants" }, { "group": "shirts" } ]
+  },
+  {
+    "id": "house_suicide_shotgun",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "group": "guns_shotgun_common" }, { "item": "shot_hull", "charges": 1 }, { "item": "corpse", "damage": [ 2, 3 ] } ]
+  },
+  {
+    "id": "oxy_small",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "oxycodone", "charges": 1 } ]
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "bathroom_suicide",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "place_fields": [ { "field": "fd_blood", "x": [ 0, 2 ], "y": [ 0, 2 ], "repeat": [ 8, 12 ] } ],
+      "place_loot": [ { "group": "house_suicide_clothing", "x": 1, "y": 1 }, { "group": "house_suicide_shotgun", "x": 1, "y": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "bathroom_suicide",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "place_furniture": [ { "furn": "f_chair", "x": 0, "y": 1 } ],
+      "place_loot": [
+        { "group": "house_suicide_clothing", "x": 1, "y": 1 },
+        { "item": "corpse", "x": 1, "y": 1 },
+        { "item": "rope_30", "x": 1, "y": 1 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "bathroom_suicide",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "place_fields": [ { "field": "fd_bile", "x": [ 0, 2 ], "y": [ 0, 2 ], "repeat": [ 0, 5 ] } ],
+      "place_liquids": [ { "liquid": "vodka", "x": [ 1, 2 ], "y": [ 1, 2 ], "amount": [ 2, 4 ] } ],
+      "place_loot": [
+        { "group": "house_suicide_clothing", "x": 2, "y": 2 },
+        { "group": "oxy_small", "x": [ 1, 2 ], "y": [ 1, 2 ], "repeat": [ 2, 8 ] },
+        { "item": "bottle_glass", "x": 2, "y": 2 },
+        { "item": "corpse", "x": 2, "y": 2 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "bathroom_suicide",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "place_fields": [
+        { "field": "fd_blood", "x": 2, "y": 1, "repeat": [ 0, 2 ] },
+        { "field": "fd_blood", "x": 2, "y": 2, "repeat": [ 0, 2 ] }
+      ],
+      "place_liquids": [
+        { "liquid": "blood", "x": 2, "y": 1, "amount": [ 1, 3 ] },
+        { "liquid": "blood", "x": 2, "y": 2, "amount": [ 1, 3 ] },
+        { "liquid": "water", "x": 2, "y": 1, "amount": 50 },
+        { "liquid": "water", "x": 2, "y": 2, "amount": 50 }
+      ],
+      "place_loot": [
+        { "group": "house_suicide_clothing", "x": 2, "y": 2 },
+        { "item": "razor_blade", "x": 2, "y": 2 },
+        { "item": "corpse", "x": 2, "y": 2 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "house_suicide_roof",
+    "object": {
+      "fill_ter": "t_shingle_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "  |222222223            ",
+        "  |........3            ",
+        "  |........3            ",
+        "  |........3            ",
+        "  |........32222222223  ",
+        "  |..................3  ",
+        "  |.....&............3  ",
+        "  |..................3  ",
+        "  |..................3  ",
+        "  |..................3  ",
+        "  |..................3  ",
+        "  |--5............oo.5  ",
+        "     |....=.......oo.3  ",
+        "     |...............3  ",
+        "     |...............3  ",
+        "     |...............3  ",
+        "     |-------|.......3  ",
+        "             |.......3  ",
+        "             |-------3  ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": { ".": "t_shingle_flat_roof" }
+    }
+  }
+]

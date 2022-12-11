@@ -1,0 +1,565 @@
+[
+  {
+    "type": "npc",
+    "id": "refugee_BorisBorichenko",
+    "name_unique": "Boris Borichenko",
+    "gender": "male",
+    "name_suffix": "refugee",
+    "class": "NC_REFUGEE_Boris",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_REFUGEE_Boris_1",
+    "mission_offered": "MISSION_REFUGEE_Boris_CLEANUP",
+    "faction": "free_merchants"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_REFUGEE_Boris",
+    "name": { "str": "Refugee" },
+    "job_description": "I'm just trying to survive.",
+    "common": false,
+    "//": "Boris is nice, but shy and sad.  He was a carpenter; he and his partner lost their son in the Cataclysm, and it makes it harder for them to make friends in the survivor group.",
+    "bonus_str": { "rng": [ 1, 4 ] },
+    "bonus_dex": { "rng": [ -1, 2 ] },
+    "bonus_int": { "rng": [ -3, 2 ] },
+    "bonus_per": { "rng": [ -2, 2 ] },
+    "worn_override": "REFUGEE_Boris_worn",
+    "carry_override": "REFUGEE_Boris_carried",
+    "weapon_override": "REFUGEE_Boris_wield",
+    "traits": [
+      { "trait": "OUTDOORSMAN" },
+      { "trait": "PAINRESIST" },
+      { "group": "trait_group_STRONGBACK" },
+      { "group": "Appearance_Caucasian" }
+    ],
+    "proficiencies": [ "prof_carpentry_basic", "prof_carving", "prof_plumbing" ],
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } },
+      { "skill": "fabrication", "bonus": { "rng": [ 3, 4 ] } },
+      { "skill": "survival", "bonus": { "rng": [ 1, 2 ] } }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "REFUGEE_Boris_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "briefs" },
+      { "item": "socks" },
+      { "item": "tank_top" },
+      { "item": "technician_shirt_gray" },
+      { "item": "technician_pants_gray" },
+      { "item": "jacket_flannel" },
+      { "item": "hat_knit" },
+      { "item": "boots" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "REFUGEE_Boris_carried",
+    "subtype": "collection",
+    "entries": [ { "item": "multitool" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "REFUGEE_Boris_wield",
+    "subtype": "collection",
+    "entries": [ { "group": "tools_toolbox" } ]
+  },
+  {
+    "type": "talk_topic",
+    "//": "common talk responses",
+    "id": [
+      "TALK_REFUGEE_Boris_2",
+      "TALK_REFUGEE_Boris_3",
+      "TALK_REFUGEE_Boris_Background",
+      "TALK_REFUGEE_Boris_Background_B",
+      "TALK_REFUGEE_Boris_Background_loss",
+      "TALK_REFUGEE_Boris_Work1",
+      "TALK_REFUGEE_Boris_Situation"
+    ],
+    "responses": [
+      {
+        "text": "I'm trying to put a cleanup crew together to tidy up the back room.  Can you help?",
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
+            {
+              "not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
+            }
+          ]
+        },
+        "topic": "TALK_REFUGEE_Boris_Refuse_Boris_Mission_1"
+      },
+      {
+        "text": "Is there anything I can help you out with?",
+        "topic": "TALK_REFUGEE_Boris_Work1",
+        "condition": { "not": { "u_has_var": "Boris_mission_1", "type": "mission", "context": "completed", "value": "yes" } }
+      },
+      {
+        "text": "Got anything else I can help out with?",
+        "topic": "TALK_MISSION_LIST",
+        "condition": {
+          "and": [
+            { "u_has_var": "Boris_mission_1", "type": "mission", "context": "completed", "value": "yes" },
+            { "not": { "u_has_var": "Boris_mission_3", "type": "mission", "context": "completed", "value": "yes" } }
+          ]
+        }
+      },
+      {
+        "text": "So, have you had a chance to get that laptop working and look at it yet?",
+        "topic": "TALK_REFUGEE_Boris_ReadLaptop1",
+        "condition": { "u_has_var": "Boris_mission_3", "type": "mission", "context": "completed", "value": "yes" }
+      },
+      {
+        "text": "Now that you've got your tools and shop set up, do you think you could teach me a thing or two about construction?",
+        "topic": "TALK_REFUGEE_Boris_Teach",
+        "condition": {
+          "and": [
+            { "u_has_var": "Boris_mission_2", "type": "mission", "context": "completed", "value": "yes" },
+            {
+              "not": { "npc_compare_time_since_var": "Boris_teach", "type": "timer", "context": "flag", "op": "<=", "time": "1 d" }
+            }
+          ]
+        }
+      },
+      { "text": "What's your story?", "topic": "TALK_REFUGEE_Boris_Background" },
+      { "text": "You don't seem to be doing great.", "topic": "TALK_REFUGEE_Boris_Background_B" },
+      { "text": "How are things here?", "topic": "TALK_REFUGEE_Boris_Situation" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Boris_1",
+    "dynamic_line": "Ah, another new face.  Hello.  I am Boris.",
+    "speaker_effect": {
+      "effect": [
+        { "u_add_var": "u_met_Boris_Borichenko", "type": "general", "context": "meeting", "value": "yes" },
+        { "npc_first_topic": "TALK_REFUGEE_Boris_1a" }
+      ]
+    },
+    "responses": [
+      { "text": "Nice to meet you, Boris.", "topic": "TALK_REFUGEE_Boris_1_firstmeet" },
+      { "text": "Hi Boris, nice to meet you.  I gotta go though.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Boris_1a",
+    "dynamic_line": {
+      "concatenate": [
+        "*stares at you for a moment before nodding in recognition.  \"",
+        [ "Well, well.  You are back.", "So, you have survived." ],
+        "\""
+      ]
+    },
+    "//": "Subsequent meetings with Boris before you have helped him finish some of his quests",
+    "responses": [
+      { "text": "Hi, Boris.  What's up?", "topic": "TALK_REFUGEE_Boris_2" },
+      { "text": "Hi Boris.  I can't stay to talk.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Boris_1b",
+    "dynamic_line": {
+      "concatenate": [
+        "*nods at you, his eyes lighting up a little as you approach.  \"",
+        [ "Well, well.  I'm glad you are back.", "It is good to see you again, my friend.", "Hello, my friend." ],
+        "\""
+      ]
+    },
+    "//": "Later meetings with Boris, after you've started doing quests for him",
+    "responses": [
+      { "text": "Good to see you, Boris.  Are things looking up for you at all?", "topic": "TALK_REFUGEE_Boris_3" },
+      { "text": "Hi Boris.  I can't stay to talk.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Boris_1_firstmeet",
+    "dynamic_line": "It is nice to meet you too.  To what do I owe the pleasure?",
+    "responses": [
+      {
+        "text": "I'm just a traveler, taking the chance to have some living human company.  What's up in your life these days?",
+        "topic": "TALK_REFUGEE_Boris_2"
+      },
+      { "text": "I just wanted to say hi.  I'll be on my way.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Boris_2",
+    "dynamic_line": "What is 'up'?  Less than I would like, it seems.  I am better when I am busy, and I am not at all busy.",
+    "responses": [ { "text": "I'd better get going.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Boris_3",
+    "//": "This option is Boris' start point after you've finished his first mission and got to know him a bit.",
+    "dynamic_line": "*forces a bit of a smile through his bushy beard, though it doesn't reach his eyes.  \"It is good to see you too.  I would not say things are looking 'up' yet, but they are not so much looking down perhaps.  I am keeping a bit busier.",
+    "responses": [
+      { "text": "Want to talk about it a little?", "topic": "TALK_REFUGEE_Boris_Son" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Boris_Background",
+    "dynamic_line": "I was a carpenter.  I like to keep my hands busy, especially when I am stressed.  Now, here I am, picking my nose and stuck thinking about my problems and all that I've lost.",
+    "responses": [
+      { "text": "What have you lost, if it's okay for me to ask?", "topic": "TALK_REFUGEE_Boris_Background_loss" },
+      {
+        "text": "It seems like carpentry work would be something the Free Merchants need.  Why are you so bored?",
+        "topic": "TALK_REFUGEE_Boris_Work1",
+        "condition": { "not": { "u_has_var": "Boris_mission_1", "type": "mission", "context": "completed", "value": "yes" } }
+      },
+      {
+        "text": "Could you teach me something about carpentry?",
+        "topic": "TALK_REFUGEE_Boris_NoTeach",
+        "condition": { "not": { "u_has_var": "Boris_mission_2", "type": "mission", "context": "completed", "value": "yes" } }
+      },
+      {
+        "text": "Could you teach me something about carpentry?",
+        "topic": "TALK_REFUGEE_Boris_Teach",
+        "condition": { "u_has_var": "Boris_mission_2", "type": "mission", "context": "completed", "value": "yes" }
+      },
+      {
+        "text": "Now that things are cleaned up in the back, is there anything holding you back from working?",
+        "topic": "TALK_MISSION_LIST",
+        "condition": { "u_has_var": "Boris_mission_1", "type": "mission", "context": "completed", "value": "yes" }
+      },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Boris_Background_B",
+    "dynamic_line": "No, not great.  Like all here, I have lost too much.  I do not feel I can ever come back from it.  Can anyone be strong enough?",
+    "responses": [
+      { "text": "What have you lost, if it's okay for me to ask?", "topic": "TALK_REFUGEE_Boris_Background_loss" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Boris_Background_loss",
+    "dynamic_line": "I would rather talk about what I have left: my husband, Stan, and his brother Garry, my best friend.  Without them, I'd be lost myself.  What we've lost is more than anyone should have to think about.",
+    "responses": [
+      { "text": "I'm sorry.  What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'm sorry.  I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Boris_Son",
+    "dynamic_line": "…Ash.  His name was Ash, and he was ten years old.  Such a light, a spark.  I wanted to see the man he would grow into.  I… now I can barely say his name.  I miss him so much, every instant.  If I did not have Stan, I would walk out through the barbed wire and join the walking dead.",
+    "responses": [
+      { "text": "I'm sorry for your loss.  Tell me more about Ash.", "topic": "TALK_REFUGEE_Boris_Son_Remember" },
+      {
+        "text": "We've all lost a lot of people.  You can either let yourself die, or learn to survive.",
+        "topic": "TALK_REFUGEE_Boris_Son_Tough"
+      },
+      { "text": "I'm so sorry, man.  Let's talk about something else.", "topic": "TALK_NONE" },
+      { "text": "I'm sorry for your loss.  I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Boris_Son_Remember",
+    "dynamic_line": "I could talk forever, but it's hard to make the words come.  He was so *smart*.  Always on the computer, writing stories and programming silly games in Scratch.  He had a little robotics toy he made walk around and do funny dances.  It was a challenge to make him play with his friends sometimes, he would get so far into himself and buried in that thing.  So tough to be a parent, you know?  It is good for him to write, to learn, but he also needs to socialize and have friends.  He'll grow out… he…",
+    "responses": [
+      { "text": "Do you have any of his writing?", "topic": "TALK_REFUGEE_Boris_Son_Writing" },
+      {
+        "text": "We've all lost a lot of people.  You can either let yourself die, or learn to survive.",
+        "topic": "TALK_REFUGEE_Boris_Son_Tough"
+      },
+      { "text": "I'm so sorry, man.  Let's talk about something else.", "topic": "TALK_NONE" },
+      { "text": "I'm sorry for your loss.  I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Boris_Son_Tough",
+    "dynamic_line": "Of course, yes.  I know this, but it is not so easy, is it?  So many are gone, and I do not know which of the two I would prefer, just yet.",
+    "responses": [ { "text": "Yeah, fine.  Just wallow in it.  I'm out.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Boris_Son_Writing",
+    "dynamic_line": "No.  In the evacuation shelter, distracted by grief, I forgot it.  We were rushed onto the bus so quickly, and… well, I don't remember much of that time.  His work was all saved on the hard drive, we thought we could download it from the cloud when we arrived but, well, there is no cloud now.  Even if there were, it would only have his writing, not his little games, his silly voice recordings.",
+    "//": "TK add a quest.",
+    "responses": [
+      { "text": "I'm so sorry, man.  Let's talk about something else.", "topic": "TALK_NONE" },
+      { "text": "I'm sorry for your loss.  I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Boris_Work1",
+    "dynamic_line": {
+      "u_has_var": "FMShopkeep_Mission1",
+      "type": "mission",
+      "context": "flag",
+      "value": "yes",
+      "yes": "Well, now that you mention it, with the back bay cleared I could probably set up back there and start work.  I don't know if I can handle it.  The last time I was back there was the last time I saw… if… if someone were to clean up back there, wipe away some memories, then I could start renovating it into a better living space.",
+      "no": "There isn't much to do with a hammer and a saw here indoors, and working outside is too dangerous.  If we had enough space for me to do some shuffling around, I could build some privacy walls in here.  I tried to set up a bit of a shop in the garage space, but I had to keep taking everything down for caravan loading and unloading and couldn't get anything done.  The caravans bring food, so they get priority, I can't argue with that."
+    },
+    "responses": [
+      {
+        "text": "What do you need to get things cleaned up?  Can I help?",
+        "condition": { "u_has_var": "FMShopkeep_Mission1", "type": "mission", "context": "flag", "value": "yes" },
+        "topic": "TALK_REFUGEE_Boris_Work2"
+      },
+      { "text": "I'm sorry.  What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Boris_Work2",
+    "dynamic_line": "We could put together a little clean up group, but everyone here has terrible memories of that place.  I could not ask anyone here to go back and see the leftovers of people we knew.  Still, it's a big job.  Who here might be able to do it?",
+    "responses": [
+      { "text": "I'm sure there's someone.  Would you like me to ask around?", "topic": "TALK_MISSION_LIST" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Boris_NoTeach",
+    "dynamic_line": "I am afraid I cannot teach you right now.  Not only do I have no shop, but I do not think I am in a good place for anything so taxing.",
+    "responses": [
+      {
+        "text": "Is there anything I can do to help?",
+        "condition": { "not": { "u_has_var": "Boris_mission_1", "type": "mission", "context": "completed", "value": "yes" } },
+        "topic": "TALK_REFUGEE_Boris_Work1"
+      },
+      {
+        "text": "Is there anything more I can do to help?",
+        "condition": { "u_has_var": "Boris_mission_1", "type": "mission", "context": "completed", "value": "yes" },
+        "topic": "TALK_MISSION_LIST"
+      },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Boris_Teach",
+    "dynamic_line": "Yes, my friend.  You have done so much for me, I would be glad to teach you what I can.  I must ask a small amount in trade, for materials.  I hope you understand.",
+    "speaker_effect": { "effect": { "npc_add_var": "Boris_teach", "type": "timer", "context": "flag", "time": true } },
+    "responses": [
+      { "text": "Great!  let's get started.", "topic": "TALK_TRAIN" },
+      { "text": "Actually, what were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.  Let's do this later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Boris_Situation",
+    "dynamic_line": {
+      "concatenate": [
+        "Everyone agrees this is bad.  Sleeping on a cot on the floor, crowded in with strangers",
+        {
+          "u_has_var": "Boris_mission_1",
+          "type": "mission",
+          "context": "completed",
+          "value": "yes",
+          "yes": ", but it is a bit better since we cleaned up our dead",
+          "no": ", woken by zombies in the night"
+        },
+        ".  To me, though, that is all just a drop in the bucket",
+        {
+          "u_has_var": "Boris_mission_3",
+          "type": "mission",
+          "context": "completed",
+          "value": "yes",
+          "yes": ".  What is killing me is being forced to sit with nothing but my thoughts of what I've lost.",
+          "no": ".  I have spent so much time, just regretting what I have lost.  Thank you for bringing back what little you could."
+        }
+      ]
+    },
+    "responses": [
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Boris_ReadLaptop1",
+    "dynamic_line": "It was difficult at first, but yes, I did.  It hurts, but it is good.  I am so proud of him.  Would you like to see some… some of what you brought me?",
+    "responses": [
+      { "text": "Sure, my friend.  I'd love to hear you brag about your boy.", "topic": "TALK_REFUGEE_Boris_ReadLaptop2" },
+      { "text": "That sounds a bit heavy for me right now, let's talk about something else", "topic": "TALK_NONE" },
+      { "text": "Not today, I have to get going.  Just glad I was able to help.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Boris_ReadLaptop2",
+    "dynamic_line": [
+      "[Boris boots up the laptop and opens a folder labelled 'ART'.  He shows you simple digital paintings, clearly done by an adolescent.  There's nothing terribly remarkable about them except the number: Ash was a prolific creator.  Boris goes through several, proudly showing how his son learned little lighting tricks, or reminiscing on the time his son showed him the art.  After a while, he stops commenting and just continues quietly clicking through photos.  He seems different in the glow of the screen, like several years dropped away from his face, despite the deep sadness still etched there.]",
+      "[Boris boots up the laptop and opens a folder labelled 'STORY 1'.  In it are numerous text files containing smatterings of stream-of-conscious notes, copy-and-pasted bits of fanfictions, notes about how to write a novel, and more.  The story itself is a handful of poorly fleshed out chapters written with the quality level you'd expect from a grade schooler.  Nonetheless it's quite impressive that there's this much stuff on a single topic.  Boris talks for a while about dinner conversations for weeks that would focus on Ash's ideas for his stories.  After a while, he trails off and just continues flipping through the files, reading silently.]",
+      "[Boris boots up the laptop and opens the videos folder.  He shows you several self-made videos that follow a loose blog style, of an awkward young man talking about his favorite games, interspersed with comments about art and writing.  Boris comments on little events and laughs a few times, before becoming engrossed in his reminiscence.]"
+    ],
+    "//": "I would like a specialized effect here that reduces the 'guilty about killing' morale penalty while also adding a small morale penalty of its own.",
+    "responses": [ { "text": "(Leave Boris alone for now)", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Boris_Refuse_Boris_Mission_1",
+    "dynamic_line": "Have you had a problem with memory, friend?  I was the one who asked you this, I thought I explained why I could not.",
+    "speaker_effect": { "effect": { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" } },
+    "responses": [
+      { "text": "Oh.  Right.  It's been a long apocalypse.  What were you saying?", "topic": "TALK_NONE" },
+      {
+        "text": "Sorry.  I didn't notice which dialogue option I was selecting.  I'll just back away slowly now.",
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "MISSION_REFUGEE_Boris_CLEANUP",
+    "type": "mission_definition",
+    "name": { "str": "Find someone to clean up the back bay." },
+    "description": "Boris in the refugee center is looking for at least five people to help clean up the back bay",
+    "difficulty": 1,
+    "value": 0,
+    "goal": "MGOAL_CONDITION",
+    "goal_condition": { "u_compare_var": "Boris_mission_1", "type": "mission", "context": "cleanup_promises", "op": ">=", "value": 5 },
+    "followup": "MISSION_REFUGEE_Boris_WORKSPACE",
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "Find a few people able to help clean the back, people without too much trauma there.",
+      "offer": "Yes, please.  If you can ask around for someone who can help, I can gather the tools they will need and some payment for them.",
+      "accepted": "You are a kind soul.",
+      "rejected": "Ah well.  I can ask around myself, perhaps.",
+      "advice": "Those of us here in the back have too many bad memories, but perhaps someone who didn't come with the original refugee groups would be less burdened.",
+      "inquire": "Greetings, my friend.  Have you found anyone?",
+      "success": "This has great promise.  Perhaps something to keep me busy will help.  Here, I found some small money to thank you.",
+      "success_lie": "I see….  Well I shall get things in order!",
+      "failure": "No worries.  Let me know if you want to try again."
+    },
+    "end": {
+      "effect": [
+        { "u_spawn_item": "FMCNote", "count": 5 },
+        { "u_add_var": "Boris_mission_1", "type": "mission", "context": "completed", "value": "yes" },
+        { "npc_first_topic": "TALK_REFUGEE_Boris_1b" },
+        { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 3 },
+        { "mapgen_update": "boris_cleanup_garage", "om_terrain": "evac_center_8" },
+        { "mapgen_update": "boris_cleanup_back_bay", "om_terrain": "evac_center_9" }
+      ]
+    }
+  },
+  {
+    "id": "MISSION_REFUGEE_Boris_WORKSPACE",
+    "type": "mission_definition",
+    "name": { "str": "Bring Boris a circular saw." },
+    "difficulty": 1,
+    "value": 0,
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "circsaw_off",
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_REFUGEE_Boris_LAPTOP",
+    "dialogue": {
+      "describe": "Find a circular saw for Boris.",
+      "offer": "We now have a space to work in, and I have wood and nails to spare.  All I need is a saw.  I would love a table saw and mitre saw, but I can work with a hand held circular saw for now.  I have looked, and what we have is garbage.  Can you bring me a good one?",
+      "accepted": "You are a kind soul.",
+      "rejected": "Ah well.  I can ask around myself, perhaps.",
+      "advice": "It is not hard to find.  I have even seen them for sale at the merchants, but they save them as trade goods and will not give me as a gift.",
+      "inquire": "Greetings, my friend.  Have you found a saw I can use?",
+      "success": "Ah, good.  VonWalt is good brand, I had a saw like this at home.  Now I shall set to work, and make myself a shop back there.  Oh yes, here is a little payment I saved.",
+      "success_lie": "I see…",
+      "failure": "No worries.  Let me know if you want to try again."
+    },
+    "end": {
+      "effect": [
+        { "u_spawn_item": "FMCNote", "count": 5 },
+        { "u_add_var": "Boris_mission_2", "type": "mission", "context": "completed", "value": "yes" },
+        { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 2 }
+      ]
+    },
+    "//": "TK add update mapgen."
+  },
+  {
+    "id": "MISSION_REFUGEE_Boris_LAPTOP",
+    "type": "mission_definition",
+    "name": { "str": "Bring Boris his son's lost writing." },
+    "difficulty": 1,
+    "value": 0,
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "laptop_boris",
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "shelter_2_vandal",
+        "om_special": "Evac Shelter Vandalized 3",
+        "reveal_radius": 1,
+        "random": true,
+        "search_range": 120
+      },
+      "update_mapgen": {
+        "om_terrain": "shelter_2_vandal",
+        "place_item": [ { "item": "laptop_boris", "x": 15, "y": 12 }, { "item": "mbag", "x": 15, "y": 12 } ]
+      }
+    },
+    "dialogue": {
+      "describe": "Find Boris' son's laptop.",
+      "offer": "My son, Ash, had a laptop on which he kept his writing.  If you can find it, it would mean so much to me.  I will give you directions to the shelter where he left it.  It was barely a shelter, broken and torn apart.  It should just be on the floor where it was dropped.",
+      "accepted": "You are a kind soul.",
+      "rejected": "Ah well.  I can ask around myself, perhaps.",
+      "advice": "You can tell it is his because he covered it in stickers.",
+      "inquire": "I know it is a hard thing to hope, but were you able to find Ash's laptop?",
+      "success": "It is so strange to see this again, like a little piece of my old life.  I don't know if I can bring myself to read what's on it yet, but having this piece of him is a great comfort.",
+      "success_lie": "I see…",
+      "failure": "Even that you tried means a lot to me."
+    },
+    "end": {
+      "effect": [
+        { "u_spawn_item": "FMCNote", "count": 5 },
+        { "u_add_var": "Boris_mission_3", "type": "mission", "context": "completed", "value": "yes" },
+        { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 2 }
+      ]
+    }
+  },
+  {
+    "id": "laptop_boris",
+    "copy-from": "laptop",
+    "type": "TOOL",
+    "name": { "str": "Ash's laptop computer" },
+    "description": "A small, somewhat worn-out laptop computer.  The flip-top is decorated with various stickers."
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "boris_cleanup_garage",
+    "method": "json",
+    "object": {
+      "set": [
+        { "square": "furniture", "id": "f_clear", "x": 6, "y": 3, "x2": 17, "y2": 3 },
+        { "square": "furniture", "id": "f_clear", "x": 3, "y": 4, "x2": 20, "y2": 14 },
+        { "square": "furniture", "id": "f_clear", "x": 4, "y": 15, "x2": 20, "y2": 15 },
+        { "square": "furniture", "id": "f_clear", "x": 5, "y": 16, "x2": 18, "y2": 16 },
+        { "square": "item_remove", "x": 3, "y": 3, "x2": 20, "y2": 16 },
+        { "square": "item_remove", "x": 21, "y": 12, "x2": 23, "y2": 15 },
+        { "square": "field_remove", "x": 2, "y": 2, "x2": 21, "y2": 17 },
+        { "square": "field_remove", "x": 22, "y": 11, "x2": 23, "y2": 17 },
+        { "square": "terrain", "id": "t_rdoor_c", "x": 21, "y": 13, "x2": 21, "y2": 14 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "boris_cleanup_back_bay",
+    "method": "json",
+    "object": {
+      "set": [
+        { "square": "furniture", "id": "f_clear", "x": 0, "y": 4, "x2": 17, "y2": 22 },
+        { "square": "item_remove", "x": 0, "y": 4, "x2": 17, "y2": 22 },
+        { "square": "field_remove", "x": 0, "y": 4, "x2": 17, "y2": 22 },
+        { "square": "furniture", "id": "f_locker", "x": 17, "y": 6, "x2": 17, "y2": 19 }
+      ]
+    }
+  }
+]

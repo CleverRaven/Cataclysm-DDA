@@ -1,0 +1,241 @@
+[
+  {
+    "id": "bn_bio_solar",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Solar Panels CBM" },
+    "description": "Installed on your back is a set of retractable solar panels.  When in direct sunlight, they will automatically deploy and slowly recharge your power level.",
+    "price": 350000,
+    "difficulty": 4
+  },
+  {
+    "id": "afs_bio_missiles",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Deployable Grenade Launcher CBM" },
+    "description": "A small, folding tube that attaches to your right arm.  Once implanted, it can serve as a portable, integrated tool for firing 40mm grenades and canisters.",
+    "price": 100000,
+    "difficulty": 5
+  },
+  {
+    "id": "afs_bio_monowhip",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Monofilament Whip CBM" },
+    "description": "A carbon nanotube wire covertly installed in your right arm.  When activated, it extends to its full length and can be used to strike enemies both at close and long range.",
+    "price": "15 kUSD",
+    "difficulty": 5
+  },
+  {
+    "id": "afs_bio_linguistic_coprocessor",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Linguistic Coprocessor CBM" },
+    "description": "A microcomputer installed into the left hemisphere of your brain to increase the speed that it processes language.  When installed, it provides a passive boost to reading speed.",
+    "price": 100000,
+    "price_postapoc": 50000,
+    "difficulty": 5
+  },
+  {
+    "id": "bio_shock_absorber",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Archeotech Grav Chute CBM" },
+    "looks_like": "bio_int_enhancer",
+    "description": "Pre-Discontinuity bionic module that was implanted into elite drop troops who could jump from their insertion vehicle during the radar disruption of reentry.  While active, the field will prevent damage to your body from severe impacts, at the cost of impaired movement.",
+    "price": 10000,
+    "weight": "3000 g",
+    "difficulty": 8
+  },
+  {
+    "id": "bio_power_storage_salvaged",
+    "copy-from": "bionic_general_npc_usable",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Power Storage, salvaged", "str_pl": "several salvaged Power Storage cbms" },
+    "looks_like": "bio_int_enhancer",
+    "description": "A battered and used Compact Bionics Module that upgrades the user's power capacity by 50 units.  Having at least one of these is a prerequisite to using powered bionics.  The user will also need a power supply, found in various CBMs.",
+    "price": 380000,
+    "weight": "70 g",
+    "difficulty": 1,
+    "installation_data": "AID_bio_power_storage"
+  },
+  {
+    "id": "afs_bio_dopamine_stimulators",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Dopamine Stimulators CBM" },
+    "description": "A set of tiny bionic nerve stimulators that install into the reward center of your brain.  When run with bionic power, it periodically releases a hit of dopamine and other reward chemicals, inducing a state of euphoria and suppressing fear.",
+    "price": 1000000,
+    "price_postapoc": 100000,
+    "difficulty": 8
+  },
+  {
+    "id": "afs_bio_melee_counteraction",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Counteractive Reflexes CBM" },
+    "description": "Cybernetic stimulators installed across your nervous system boost your reflexes whenever you are hit in melee, granting you an extra action.  This bionic must be active to function.",
+    "price": 1000000,
+    "price_postapoc": 100000,
+    "difficulty": 9
+  },
+  {
+    "id": "afs_bio_melee_optimization_unit",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Melee Optimization Unit CBM" },
+    "description": "An implanted AI executes the optimal followup for each of your melee strikes, allowing you to chain them with unnatural speed and grace.  This bionic must be active to function.",
+    "price": 1000000,
+    "price_postapoc": 100000,
+    "difficulty": 10
+  },
+  {
+    "id": "afs_bio_neurosoft_aeronautics",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Neurosoft: Aeronautics CBM" },
+    "description": "A brain implant that grants instinctual knowledge about the operation of flying machines.",
+    "price": 1000000,
+    "price_postapoc": 100000,
+    "difficulty": 8
+  },
+  {
+    "id": "afs_bio_cranialbomb",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Cranium Bomb CBM" },
+    "description": "A bomb installed where your spine meets your brain stem.  It's on a timer from installation and you don't have the codes to reset the timer.",
+    "price": 0,
+    "price_postapoc": 0,
+    "difficulty": 8
+  },
+  {
+    "id": "afs_bio_chemical_enhancement_rig",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Chemical Enhancement Rig and computer CBM" },
+    "description": "An implanted AI module and medication dispenser calculates the optimal chemical mix to keep you on your toes and ready for combat.  This bionic must be active to function and while it functions your body is at a heightened performance but if it turns off it will take you several days to get back to normal.  There are a significant number of baseline bonuses granted by this setup but people around will notice your junkie behavior.  This bionic must be active to function.",
+    "price": 1000000,
+    "price_postapoc": 100000,
+    "difficulty": 9
+  },
+  {
+    "id": "afs_speed_injection",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Speed Injection System CBM" },
+    "description": "Should never be found outside of the chemical enhancement rig, but probably can be uninstalled, there is no point to doing that.",
+    "price": 1000000,
+    "price_postapoc": 100000,
+    "difficulty": 9
+  },
+  {
+    "id": "afs_healing_injection",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Pain Suppression Injection System CBM" },
+    "description": "Should never be found outside of the chemical enhancement rig, but probably can be uninstalled, there is no point to doing that.",
+    "price": 1000000,
+    "price_postapoc": 100000,
+    "difficulty": 9
+  },
+  {
+    "id": "afs_strength_injection",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Strength Injection System CBM" },
+    "description": "Should never be found outside of the chemical enhancement rig, but probably can be uninstalled, there is no point to doing that.",
+    "price": 1000000,
+    "price_postapoc": 100000,
+    "difficulty": 9
+  },
+  {
+    "id": "afs_bio_skullgun",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Skullgun CBM" },
+    "description": "Concealed in your head is a single shot .40 pistol.  Activate the bionic to fire and reload the skullgun.",
+    "price": 100000,
+    "price_postapoc": 1500,
+    "difficulty": 16
+  },
+  {
+    "id": "afs_bio_translocator",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Implanted Translocator CBM" },
+    "description": "An experimental teleportation system carefully weaved into bone marrow and coiled alongside the skeletal system.  It allows its user to safely and readily teleport towards a previously activated telepad.",
+    "price": "30 kUSD",
+    "difficulty": 16
+  },
+  {
+    "id": "bio_cold_absorber",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Emergency Insulation CBM" },
+    "description": "A system designed to prevent instantaneous frostbite in workers exposed to things like hard vacuum and liquid nitrogen.",
+    "price": 100000,
+    "price_postapoc": 1500,
+    "difficulty": 6
+  },
+  {
+    "id": "bio_forcefield_bash_cut_weak",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "HawkingCorps GravyField Mark I CBM" },
+    "description": "Imagine a computer inside your body playing pong against the universe.  The paddles are made of energy fields and how it causes this to happen are trade secrets.  -From the owners manual of HawkingCorps GravyField Mark I.  Activating the field will reduce incoming bashing and cut damage by 5 points.",
+    "price": 100000,
+    "price_postapoc": 2500,
+    "difficulty": 6
+  },
+  {
+    "id": "bio_forcefield_bash_cut_medium",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "HawkingCorps GravyField Mark II CBM" },
+    "description": "The HawkingCorps GravyField Mark II was designed for police actions during food riots and other civilian uprisings.  It has proven capable of protecting against most improvised weapons.  Activating the field will reduce incoming and cut damage by 15 points.",
+    "price": 100000,
+    "price_postapoc": 3500,
+    "difficulty": 8
+  },
+  {
+    "id": "bio_forcefield_bash_cut_heavy",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Debt Collection Agent GravyField CBM" },
+    "description": "This class of personal energy field often sees action on both sides of the vicious ship-to-ship boarding fights that are common with both repossession and piracy.  It remains practically impenetrable to melee weapons that lack sharp piercing points.  Activating the field will reduce incoming bashing and cut damage by 25 points.",
+    "price": 100000,
+    "price_postapoc": 6500,
+    "difficulty": 10
+  },
+  {
+    "id": "bio_forcefield_ballistic_weak",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Point Energy Conversion Field CBM" },
+    "description": "A personal kinetic attenuation field that slows incoming projectiles by converting their kinetic energy into bursts of visible light.  Although this version is not powerful enough to defeat most pistol or rifle cartridges by itself, it greatly increases survival odds when combined with traditional ballistic armor.  Activating the field will reduce incoming ballistic and piercing damage by 10 points.",
+    "price": 100000,
+    "price_postapoc": 2500,
+    "difficulty": 6
+  },
+  {
+    "id": "bio_forcefield_ballistic_medium",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Holtzman Personal Shield Generator CBM" },
+    "description": "A military grade kinetic attenuation system developed for use within UICA's special service branches.  Although much more effective than anything that could be conceived with current technology, it remains a pale imitation of the Hyperspace Age systems it was reverse engineered from.  A side effect modern engineering seems unable to address is the tendency for this unit to release electrical fields when hit.  Activating the field will reduce incoming ballistic and piercing damage by 20 points.",
+    "price": 100000,
+    "price_postapoc": 6500,
+    "difficulty": 10
+  },
+  {
+    "id": "bio_forcefield_ballistic_heavy",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Kinetic Annulment System CBM" },
+    "description": "A kinetic attenuation system salvaged from a pre-Discontinuity robotic warframe, crudely adapted for compatibility with biological hosts.  Powerful enough to completely stop most rifle cartridges.  Activating the field will reduce incoming ballistic and piercing damage by 40 points.",
+    "price": 100000,
+    "price_postapoc": 12500,
+    "difficulty": 16
+  }
+]

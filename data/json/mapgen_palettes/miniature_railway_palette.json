@@ -1,0 +1,60 @@
+[
+  {
+    "type": "palette",
+    "id": "miniature_railway_palette",
+    "terrain": {
+      ".": "t_region_groundcover_urban",
+      " ": [ [ "t_region_groundcover_forest", 35 ], [ "t_region_shrub", 3 ], [ "t_region_tree", 3 ] ],
+      "w": "t_region_groundcover_urban",
+      "@": "t_region_groundcover_urban",
+      "B": "t_region_groundcover_urban",
+      "+": "t_door_locked",
+      "_": "t_pavement",
+      "É": "t_pavement",
+      "Á": "t_pavement",
+      "X": "t_railroad_track_small_d",
+      "=": "t_railroad_track_small",
+      "H": "t_wall_w",
+      "*": "t_window_open",
+      "%": "t_fence",
+      "|": "t_floor",
+      ",": "t_thconc_floor",
+      "l": "t_thconc_floor",
+      "s": "t_thconc_floor",
+      "p": "t_sidewalk",
+      "W": "t_sidewalk",
+      "!": "t_sidewalk",
+      "a": "t_sidewalk",
+      "4": "t_gutter_downspout",
+      "5": "t_wall_wood",
+      "y": "t_pavement_y"
+    },
+    "furniture": {
+      "a": "f_trashcan",
+      "h": "f_chair",
+      "d": "f_desk",
+      "s": "f_utility_shelf",
+      "l": "f_locker",
+      "W": "f_bench",
+      "w": "f_bench",
+      "S": "f_sink",
+      "!": "f_street_light",
+      "@": "f_hedge_short",
+      "7": "f_filing_cabinet",
+      "B": "f_birdbath",
+      "C": "f_counter",
+      "c": "f_counter_gate_c"
+    },
+    "items": {
+      "a": { "item": "trash", "chance": 40, "repeat": [ 1, 3 ] },
+      "d": { "item": "SUS_office_desk", "chance": 55 },
+      "s": { "item": "metal_workshop", "chance": 80, "repeat": [ 1, 6 ] },
+      "l": { "item": "mechanics", "chance": 80, "repeat": [ 1, 6 ] },
+      "W": [ { "item": "snacks", "chance": 10 }, { "item": "novels", "chance": 10 }, { "item": "alcohol", "chance": 5 } ],
+      "w": [ { "item": "snacks", "chance": 10 }, { "item": "novels", "chance": 10 }, { "item": "alcohol", "chance": 5 } ],
+      "7": { "item": "office_paper", "chance": 70, "repeat": [ 1, 3 ] }
+    },
+    "toilets": { "t": {  } },
+    "vendingmachines": { "D": { "item_group": "vending_drink" }, "V": { "item_group": "vending_food" } }
+  }
+]

@@ -1,0 +1,47 @@
+[
+  {
+    "id": "rebar_plate",
+    "type": "vehicle_part",
+    "name": { "str": "rebar reinforcement" },
+    "item": "rebar_plate",
+    "location": "armor",
+    "symbol": "X",
+    "broken_symbol": "*",
+    "categories": [ "warfare" ],
+    "color": "dark_gray",
+    "broken_color": "light_gray",
+    "durability": 150,
+    "folded_volume": "1 L",
+    "breaks_into": [ { "item": "rebar", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 4, 8 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 1 ] ] }
+    },
+    "flags": [ "ARMOR" ],
+    "damage_reduction": { "all": 10, "cut": 45, "stab": 45 }
+  },
+  {
+    "id": "spring_plate",
+    "type": "vehicle_part",
+    "name": { "str": "shock absorber" },
+    "item": "spring_plate",
+    "location": "armor",
+    "symbol": "X",
+    "broken_symbol": "*",
+    "categories": [ "warfare" ],
+    "color": "dark_gray",
+    "broken_color": "dark_gray",
+    "durability": 340,
+    "bonus": 50,
+    "description": "A system of springs and pads, intended to cushion the effects of collisions on the interior of your vehicle.",
+    "breaks_into": [ { "item": "scrap", "count": [ 1, 5 ] }, { "item": "spring", "count": [ 0, 4 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 1 ] ] }
+    },
+    "flags": [ "SHOCK_ABSORBER" ],
+    "damage_reduction": { "all": 25 }
+  }
+]

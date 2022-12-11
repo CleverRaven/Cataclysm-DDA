@@ -1,0 +1,1027 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "mil_surplus" ],
+    "//": "Intact variant",
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "...........~~...........",
+        "...........~~...........",
+        "..-''''''--++--''''''--.",
+        "..|             QrQ@  |.",
+        "..| #         b     b |.",
+        "..|S#           *]*   |.",
+        "..| #        @  *8*   |.",
+        "..| #           ***   |.",
+        "..|                   |.",
+        "..| A A A B B B C C C |.",
+        "..| A A A B B B C C C |.",
+        "..| A A A F E E C C C |.",
+        "..| A A A F E E C C C |.",
+        "..| A A A F E E C C C |.",
+        "..| A A A F E E C C C |.",
+        "..| A A A F F F C C C |.",
+        "..| A A A F F F F F F |.",
+        "..| A A A F D D F F F |.",
+        "..| A A A F D D F F F |.",
+        "..| A A A F D D F F F |.",
+        "..|                   |.",
+        "..|-+-----+--------+- |.",
+        "..|&  |4YYYUUYUU<|LL|@|.",
+        "..|----YYYYYYYYYY-----|."
+      ],
+      "palettes": [ "mil_surplus" ],
+      "terrain": { " ": "t_thconc_floor" },
+      "place_loot": [ { "group": "cash_register_random", "x": 4, "y": [ 4, 7 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "mil_surplus" ],
+    "//": "Looted variant",
+    "weight": 1000,
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "...........~~...........",
+        "...........~~...........",
+        "..-''''''--++--''''''--.",
+        "..|             QrQ!  |.",
+        "..| #    1    b     b |.",
+        "..|S#           T     |.",
+        "..|1#        !        |.",
+        "..| #   1             |.",
+        "..|                   |.",
+        "..| А А А Б Б Б В В В |.",
+        "..| А А А Б Б Б В В В |.",
+        "..| А А А Е Д Д В В В |.",
+        "..| А А А Е Д Д В В В |.",
+        "..| А А А Е Д Д В В В |.",
+        "..| А А А Е Д Д В В В |.",
+        "..| А А А Е Е Е В В В |.",
+        "..| А А А Е Е Е Е Е Е |.",
+        "..| А А А Е Г Г Е Е Е |.",
+        "..| А А А Е Г Г Е Е Е |.",
+        "..| А А А Е Г Г Е Е Е |.",
+        "..|                   |.",
+        "..|-+-----+--------+- |.",
+        "..|&  |4YYYUUYUU<|LL|!|.",
+        "..|----YYYYYYYYYY-----|."
+      ],
+      "palettes": [ "mil_surplus" ],
+      "terrain": {
+        "'": [ [ "t_window_frame", 70 ], [ "t_window_empty", 20 ], [ "t_window", 5 ] ],
+        "+": [ [ "t_door_b", 20 ], [ "t_door_frame", 10 ], [ "t_door_o", 70 ], [ "t_door_c", 5 ], [ "t_door_locked_interior", 3 ] ],
+        " ": "t_thconc_floor"
+      },
+      "furniture": {
+        "А": "f_rack",
+        "Б": "f_rack",
+        "В": "f_rack",
+        "Г": "f_rack",
+        "Д": "f_rack",
+        "Е": "f_rack",
+        "!": "f_mannequin",
+        "Q": [ [ "f_camp_chair", 20 ], [ "f_null", 80 ] ],
+        "r": [ [ "f_tourist_table", 20 ], [ "f_null", 80 ] ],
+        "b": [ [ "f_brazier", 20 ], [ "f_null", 80 ] ]
+      },
+      "items": {
+        "!": {
+          "item": { "subtype": "distribution", "entries": [ { "group": "clothing_military" }, { "group": "clothing_military_winter" } ] },
+          "chance": 2
+        },
+        "А": {
+          "item": {
+            "subtype": "distribution",
+            "entries": [
+              { "item": "canteen", "prob": 3 },
+              { "item": "e_tool", "prob": 3 },
+              { "item": "two_way_radio", "prob": 1 },
+              { "item": "mess_kit", "prob": 3 },
+              { "item": "camelbak", "prob": 2 },
+              { "item": "mess_tin", "prob": 2 },
+              {
+                "collection": [ { "item": "esbit_stove" }, { "item": "chem_hexamine", "count": [ 1, 3 ] } ],
+                "prob": 2
+              }
+            ]
+          },
+          "repeat": [ 1, 3 ],
+          "chance": 2
+        },
+        "Б": {
+          "item": {
+            "subtype": "distribution",
+            "entries": [
+              { "item": "ballistic_vest_esapi", "prob": 15 },
+              { "item": "ballistic_vest_light", "prob": 15 },
+              { "item": "soft_3a_vest", "variant": "security_armor_vest", "prob": 10 },
+              { "group": "armor_plates", "count": [ 2, 6 ], "prob": 70 }
+            ]
+          },
+          "repeat": [ 1, 3 ],
+          "chance": 2
+        },
+        "В": { "item": "MRE", "chance": 2, "repeat": [ 1, 3 ] },
+        "Г": {
+          "item": {
+            "subtype": "distribution",
+            "entries": [
+              { "item": "helmet_army", "prob": 60 },
+              { "item": "tac_helmet", "prob": 10 },
+              { "item": "helmet_liner", "prob": 10 },
+              { "item": "glasses_bal", "prob": 10 },
+              { "item": "mask_gas", "prob": 10 }
+            ]
+          },
+          "repeat": [ 1, 3 ],
+          "chance": 2
+        },
+        "Д": { "item": "SUS_field_manual_bookcase", "chance": 2 },
+        "F": {
+          "item": {
+            "subtype": "distribution",
+            "entries": [
+              { "item": "hat_boonie", "prob": 1 },
+              { "item": "webbing_belt", "prob": 1 },
+              { "item": "pants_army", "prob": 1 },
+              { "item": "jacket_army", "prob": 1 },
+              { "item": "winter_pants_army", "prob": 1 },
+              { "item": "winter_jacket_army", "prob": 1 },
+              { "item": "knee_pads", "prob": 1 },
+              { "item": "elbow_pads", "prob": 1 },
+              { "item": "legpouch_large", "prob": 1 },
+              { "item": "gloves_tactical", "prob": 1 },
+              { "group": "molle_backpacks_and_accessories", "prob": 1 },
+              { "group": "loaded_lbv", "prob": 1 }
+            ]
+          },
+          "repeat": [ 1, 3 ],
+          "chance": 2
+        },
+        "L": { "item": "SUS_janitors_closet", "chance": 50 },
+        " ": { "item": "trash_cart", "chance": 5 }
+      },
+      "nested": {
+        "|": { "chunks": [ [ "bile_field", 10 ], [ "shelter_graffiti", 5 ], [ "general_graffiti", 20 ], [ "null", 75 ] ] },
+        "-": { "chunks": [ [ "bile_field", 10 ], [ "shelter_graffiti", 5 ], [ "general_graffiti", 20 ], [ "null", 75 ] ] },
+        "А": { "chunks": [ [ "destroyed_furniture", 20 ], [ "null", 80 ] ] },
+        "Б": { "chunks": [ [ "destroyed_furniture", 20 ], [ "null", 80 ] ] },
+        "В": { "chunks": [ [ "destroyed_furniture", 20 ], [ "null", 80 ] ] },
+        "Г": { "chunks": [ [ "destroyed_furniture", 20 ], [ "null", 80 ] ] },
+        "Д": { "chunks": [ [ "destroyed_furniture", 20 ], [ "null", 80 ] ] },
+        "Е": { "chunks": [ [ "destroyed_furniture", 20 ], [ "null", 80 ] ] },
+        "!": { "chunks": [ [ "destroyed_furniture", 80 ], [ "null", 20 ] ] },
+        "T": { "chunks": [ [ "deployed_small_tent", 20 ], [ "destroyed_small_tent", 20 ], [ "null", 60 ] ] },
+        "S": { "chunks": [ [ "destroyed_furniture", 80 ], [ "null", 20 ] ] },
+        "1": { "chunks": [ [ "corpse_blood_casings_3x3", 50 ], [ "null", 50 ] ] }
+      },
+      "place_loot": [ { "group": "cash_register_random_ransacked", "x": 4, "y": [ 4, 7 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "mil_surplus" ],
+    "//": "Boarded up variant",
+    "weight": 500,
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "...........~~...........",
+        "...........~~...........",
+        "..-''''''--++--''''''--.",
+        "..|             QrQ!  |.",
+        "..| #         b     b |.",
+        "..|S#           T     |.",
+        "..| #        !        |.",
+        "..| #                 |.",
+        "..|                   |.",
+        "..| А А А Б Б Б В В В |.",
+        "..| А А А Б Б Б В В В |.",
+        "..| А А А Е Д Д В В В |.",
+        "..| А А А Е Д Д В В В |.",
+        "..| А А А Е Д Д В В В |.",
+        "..| А А А Е Д Д В В В |.",
+        "..| А А А Е Е Е В В В |.",
+        "..| А А А Е Е Е Е Е Е |.",
+        "..| А А А Е Г Г Е Е Е |.",
+        "..| А А А Е Г Г Е Е Е |.",
+        "..| А А А Е Г Г Е Е Е |.",
+        "..|                   |.",
+        "..|-+-----+--------+- |.",
+        "..|&  |4YYYUUYUU<|LL|!|.",
+        "..|----YYYYYYYYYY-----|."
+      ],
+      "palettes": [ "mil_surplus" ],
+      "terrain": { "'": "t_window_boarded", "+": "t_door_boarded", " ": "t_thconc_floor" },
+      "furniture": {
+        "А": "f_rack",
+        "Б": "f_rack",
+        "В": "f_rack",
+        "Г": "f_rack",
+        "Д": "f_rack",
+        "Е": "f_rack",
+        "!": "f_mannequin",
+        "Q": [ [ "f_camp_chair", 5 ], [ "f_null", 95 ] ],
+        "r": [ [ "f_tourist_table", 5 ], [ "f_null", 95 ] ],
+        "b": [ [ "f_brazier", 5 ], [ "f_null", 95 ] ]
+      },
+      "items": {
+        "!": {
+          "item": { "subtype": "distribution", "entries": [ { "group": "clothing_military" }, { "group": "clothing_military_winter" } ] },
+          "chance": 2
+        },
+        "А": {
+          "item": {
+            "subtype": "distribution",
+            "entries": [
+              { "item": "canteen", "prob": 3 },
+              { "item": "e_tool", "prob": 3 },
+              { "item": "two_way_radio", "prob": 1 },
+              { "item": "mess_kit", "prob": 3 },
+              { "item": "camelbak", "prob": 2 },
+              { "item": "mess_tin", "prob": 2 },
+              {
+                "collection": [ { "item": "esbit_stove" }, { "item": "chem_hexamine", "count": [ 1, 3 ] } ],
+                "prob": 2
+              }
+            ]
+          },
+          "repeat": [ 1, 3 ],
+          "chance": 2
+        },
+        "Б": {
+          "item": {
+            "subtype": "distribution",
+            "entries": [
+              { "item": "ballistic_vest_esapi", "prob": 15 },
+              { "item": "ballistic_vest_light", "prob": 15 },
+              { "item": "soft_3a_vest", "variant": "security_armor_vest", "prob": 10 },
+              { "group": "armor_plates", "count": [ 2, 6 ], "prob": 70 }
+            ]
+          },
+          "repeat": [ 1, 3 ],
+          "chance": 2
+        },
+        "В": { "item": "MRE", "chance": 2, "repeat": [ 1, 3 ] },
+        "Г": {
+          "item": {
+            "subtype": "distribution",
+            "entries": [
+              { "item": "helmet_army", "prob": 60 },
+              { "item": "tac_helmet", "prob": 10 },
+              { "item": "helmet_liner", "prob": 10 },
+              { "item": "glasses_bal", "prob": 10 },
+              { "item": "mask_gas", "prob": 10 }
+            ]
+          },
+          "repeat": [ 1, 3 ],
+          "chance": 2
+        },
+        "Д": { "item": "SUS_field_manual_bookcase", "chance": 2 },
+        "F": {
+          "item": {
+            "subtype": "distribution",
+            "entries": [
+              { "item": "hat_boonie", "prob": 1 },
+              { "item": "webbing_belt", "prob": 1 },
+              { "item": "pants_army", "prob": 1 },
+              { "item": "jacket_army", "prob": 1 },
+              { "item": "winter_pants_army", "prob": 1 },
+              { "item": "winter_jacket_army", "prob": 1 },
+              { "item": "knee_pads", "prob": 1 },
+              { "item": "elbow_pads", "prob": 1 },
+              { "item": "legpouch_large", "prob": 1 },
+              { "item": "gloves_tactical", "prob": 1 },
+              { "item": "molle_pack", "prob": 1 }
+            ]
+          },
+          "repeat": [ 1, 3 ],
+          "chance": 2
+        },
+        "L": { "item": "SUS_janitors_closet", "chance": 50 }
+      },
+      "nested": { "T": { "chunks": [ [ "deployed_small_tent", 15 ], [ "null", 85 ] ] } },
+      "place_loot": [ { "group": "cash_register_random_ransacked", "x": 4, "y": [ 4, 7 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "mil_surplus_roof",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "  |22222222222222222223 ",
+        "  |...................3 ",
+        "  |...................3 ",
+        "  |...................3 ",
+        "  |...................3 ",
+        "  |...................3 ",
+        "  |...................3 ",
+        "  |...................3 ",
+        "  |...................3 ",
+        "  |...................3 ",
+        "  |...................3 ",
+        "  |...................3 ",
+        "  |...................3 ",
+        "  |...................3 ",
+        "  |...................3 ",
+        "  |...................3 ",
+        "  |...................3 ",
+        "  |...................3 ",
+        "  |...................3 ",
+        "  |.R.5-------####..U.3 ",
+        "  |...3     ####>#....3 ",
+        "  |---3          |----3 "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": { ">": "t_ladder_down" },
+      "nested": { "U": { "chunks": [ "roof_2x2_infrastructure" ] }, "R": { "chunks": [ "roof_2x2_infrastructure_1" ] } },
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_2x2_utilities_b", 15 ],
+            [ "roof_2x2_utilities_c", 5 ],
+            [ "roof_2x2_utilities_d", 40 ],
+            [ "roof_2x2_utilities", 40 ]
+          ],
+          "x": [ 4, 18 ],
+          "y": [ 5, 6 ]
+        },
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_4x4_utility", 40 ],
+            [ "roof_6x6_survivor", 20 ],
+            [ "roof_4x4_holdout", 5 ],
+            [ "roof_6x6_utility", 20 ]
+          ],
+          "x": [ 3, 13 ],
+          "y": [ 8, 14 ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "mil_surplus_1" ],
+    "//": "Intact variant",
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "...........~~...........",
+        "...........~~...........",
+        ".--``````--++--``````--.",
+        ".|###           @  @  |.",
+        ".| S#                 |.",
+        ".|  #          A BB C |.",
+        ".|L                   |.",
+        ".|---   A  A  A    ---|.",
+        ".|&_|   A  A  A    / ^|.",
+        ".|__+   A  A  A    ---|.",
+        ".|__|   A  A  A    / ^|.",
+        ".|---   A  A  A    ---|.",
+        ".|                    |.",
+        ".| DDDBBBB    C C F F |.",
+        ".|            C C F F |.",
+        ".| CCCCCCC    C C F F |.",
+        ".|            C C F F |.",
+        ".| CCCCCCC    C C F F |.",
+        ".|                    |.",
+        ".| EEEEEEE    FFFFFFF |.",
+        ".|                    |.",
+        ".| FFFFFFF    FFFFFFF |4",
+        ".----------------------.",
+        "........................"
+      ],
+      "palettes": [ "mil_surplus" ],
+      "terrain": { "_": "t_linoleum_white", "&": "t_linoleum_white" },
+      "place_loot": [ { "group": "cash_register_random", "x": 4, "y": [ 3, 5 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "mil_surplus_1" ],
+    "//": "Looted variant",
+    "weight": 1000,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "...........~~...........",
+        "...........~~...........",
+        ".--``````--++--``````--.",
+        ".|###      1    !  !  |.",
+        ".| S#                 |.",
+        ".| 1#          А ББ В |.",
+        ".|L       1           |.",
+        ".|---   А  А  А    ---|.",
+        ".|&_|   А  А  А    / ^|.",
+        ".|__+   А  А  А    ---|.",
+        ".|__|   А  А  А    / ^|.",
+        ".|---   А  А  А    ---|.",
+        ".|                    |.",
+        ".| ГГГББББ    В В Е Е |.",
+        ".|            В В Е Е |.",
+        ".| ВВВВВВВ    В В Е Е |.",
+        ".|            В В Е Е |.",
+        ".| ВВВВВВВ    В В Е Е |.",
+        ".|                    |.",
+        ".| ДДДДДДД    ЕЕЕЕЕЕЕ |.",
+        ".|                    |.",
+        ".| ЕЕЕЕЕЕЕ    ЕЕЕЕЕЕЕ |4",
+        ".----------------------.",
+        "........................"
+      ],
+      "palettes": [ "mil_surplus" ],
+      "terrain": {
+        "`": [ [ "t_window_frame", 70 ], [ "t_window_empty", 20 ], [ "t_window", 5 ] ],
+        "+": [ [ "t_door_b", 20 ], [ "t_door_frame", 10 ], [ "t_door_o", 70 ], [ "t_door_c", 5 ], [ "t_door_locked_interior", 3 ] ],
+        "_": "t_linoleum_white",
+        "&": "t_linoleum_white"
+      },
+      "furniture": { "А": "f_rack", "Б": "f_rack", "В": "f_rack", "Г": "f_rack", "Д": "f_rack", "Е": "f_rack", "!": "f_mannequin" },
+      "items": {
+        "!": {
+          "item": { "subtype": "distribution", "entries": [ { "group": "clothing_military" }, { "group": "clothing_military_winter" } ] },
+          "chance": 2
+        },
+        "А": {
+          "item": {
+            "subtype": "distribution",
+            "entries": [
+              { "item": "canteen", "prob": 3 },
+              { "item": "e_tool", "prob": 3 },
+              { "item": "two_way_radio", "prob": 1 },
+              { "item": "mess_kit", "prob": 3 },
+              { "item": "camelbak", "prob": 2 },
+              { "item": "mess_tin", "prob": 2 },
+              {
+                "collection": [ { "item": "esbit_stove" }, { "item": "chem_hexamine", "count": [ 1, 3 ] } ],
+                "prob": 2
+              }
+            ]
+          },
+          "repeat": [ 1, 3 ],
+          "chance": 2
+        },
+        "Б": {
+          "item": {
+            "subtype": "distribution",
+            "entries": [
+              { "item": "ballistic_vest_esapi", "prob": 15 },
+              { "item": "ballistic_vest_light", "prob": 15 },
+              { "item": "soft_3a_vest", "variant": "security_armor_vest", "prob": 10 },
+              { "group": "armor_plates", "count": [ 2, 6 ], "prob": 70 }
+            ]
+          },
+          "repeat": [ 1, 3 ],
+          "chance": 2
+        },
+        "В": { "item": "MRE", "chance": 2, "repeat": [ 1, 3 ] },
+        "Г": {
+          "item": {
+            "subtype": "distribution",
+            "entries": [
+              { "item": "helmet_army", "prob": 60 },
+              { "item": "tac_helmet", "prob": 10 },
+              { "item": "helmet_liner", "prob": 10 },
+              { "item": "glasses_bal", "prob": 10 },
+              { "item": "mask_gas", "prob": 10 }
+            ]
+          },
+          "repeat": [ 1, 3 ],
+          "chance": 2
+        },
+        "Д": { "item": "SUS_field_manual_bookcase", "chance": 2 },
+        "F": {
+          "item": {
+            "subtype": "distribution",
+            "entries": [
+              { "item": "hat_boonie", "prob": 1 },
+              { "item": "webbing_belt", "prob": 1 },
+              { "item": "pants_army", "prob": 1 },
+              { "item": "jacket_army", "prob": 1 },
+              { "item": "winter_pants_army", "prob": 1 },
+              { "item": "winter_jacket_army", "prob": 1 },
+              { "item": "knee_pads", "prob": 1 },
+              { "item": "elbow_pads", "prob": 1 },
+              { "item": "legpouch_large", "prob": 1 },
+              { "item": "gloves_tactical", "prob": 1 },
+              { "item": "molle_pack", "prob": 1 }
+            ]
+          },
+          "repeat": [ 1, 3 ],
+          "chance": 2
+        },
+        "L": { "item": "SUS_janitors_closet", "chance": 50 },
+        " ": { "item": "trash_cart", "chance": 5 }
+      },
+      "nested": {
+        "|": { "chunks": [ [ "bile_field", 10 ], [ "shelter_graffiti", 5 ], [ "general_graffiti", 20 ], [ "null", 75 ] ] },
+        "-": { "chunks": [ [ "bile_field", 10 ], [ "shelter_graffiti", 5 ], [ "general_graffiti", 20 ], [ "null", 75 ] ] },
+        "А": { "chunks": [ [ "destroyed_furniture", 20 ], [ "null", 80 ] ] },
+        "Б": { "chunks": [ [ "destroyed_furniture", 20 ], [ "null", 80 ] ] },
+        "В": { "chunks": [ [ "destroyed_furniture", 20 ], [ "null", 80 ] ] },
+        "Г": { "chunks": [ [ "destroyed_furniture", 20 ], [ "null", 80 ] ] },
+        "Д": { "chunks": [ [ "destroyed_furniture", 20 ], [ "null", 80 ] ] },
+        "Е": { "chunks": [ [ "destroyed_furniture", 20 ], [ "null", 80 ] ] },
+        "!": { "chunks": [ [ "destroyed_furniture", 80 ], [ "null", 20 ] ] },
+        "S": { "chunks": [ [ "destroyed_furniture", 80 ], [ "null", 20 ] ] },
+        "1": { "chunks": [ [ "corpse_blood_casings_3x3", 50 ], [ "null", 50 ] ] }
+      },
+      "place_loot": [ { "group": "cash_register_random_ransacked", "x": 4, "y": [ 3, 5 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "mil_surplus_1" ],
+    "//": "Boarded up variant",
+    "weight": 500,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "...........~~...........",
+        "...........~~...........",
+        ".--``````--++--``````--.",
+        ".|###           !  !  |.",
+        ".| S#                 |.",
+        ".|  #          А ББ В |.",
+        ".|L                   |.",
+        ".|---   А  А  А    ---|.",
+        ".|&_|   А  А  А    / ^|.",
+        ".|__+   А  А  А    ---|.",
+        ".|__|   А  А  А    / ^|.",
+        ".|---   А  А  А    ---|.",
+        ".|                    |.",
+        ".| ГГГББББ    В В Е Е |.",
+        ".|            В В Е Е |.",
+        ".| ВВВВВВВ    В В Е Е |.",
+        ".|            В В Е Е |.",
+        ".| ВВВВВВВ    В В Е Е |.",
+        ".|                    |.",
+        ".| ДДДДДДД    ЕЕЕЕЕЕЕ |.",
+        ".|                    |.",
+        ".| ЕЕЕЕЕЕЕ    ЕЕЕЕЕЕЕ |4",
+        ".----------------------.",
+        "........................"
+      ],
+      "palettes": [ "mil_surplus" ],
+      "terrain": { "`": "t_window_boarded", "+": "t_door_boarded", "_": "t_linoleum_white", "&": "t_linoleum_white" },
+      "furniture": { "А": "f_rack", "Б": "f_rack", "В": "f_rack", "Г": "f_rack", "Д": "f_rack", "Е": "f_rack", "!": "f_mannequin" },
+      "items": {
+        "!": {
+          "item": { "subtype": "distribution", "entries": [ { "group": "clothing_military" }, { "group": "clothing_military_winter" } ] },
+          "chance": 2
+        },
+        "А": {
+          "item": {
+            "subtype": "distribution",
+            "entries": [
+              { "item": "canteen", "prob": 3 },
+              { "item": "e_tool", "prob": 3 },
+              { "item": "two_way_radio", "prob": 1 },
+              { "item": "mess_kit", "prob": 3 },
+              { "item": "camelbak", "prob": 2 },
+              { "item": "mess_tin", "prob": 2 },
+              {
+                "collection": [ { "item": "esbit_stove" }, { "item": "chem_hexamine", "count": [ 1, 3 ] } ],
+                "prob": 2
+              }
+            ]
+          },
+          "repeat": [ 1, 3 ],
+          "chance": 2
+        },
+        "Б": {
+          "item": {
+            "subtype": "distribution",
+            "entries": [
+              { "item": "ballistic_vest_esapi", "prob": 15 },
+              { "item": "ballistic_vest_light", "prob": 15 },
+              { "item": "soft_3a_vest", "variant": "security_armor_vest", "prob": 10 },
+              { "group": "armor_plates", "count": [ 2, 6 ], "prob": 70 }
+            ]
+          },
+          "repeat": [ 1, 3 ],
+          "chance": 2
+        },
+        "В": { "item": "MRE", "chance": 2, "repeat": [ 1, 3 ] },
+        "Г": {
+          "item": {
+            "subtype": "distribution",
+            "entries": [
+              { "item": "helmet_army", "prob": 60 },
+              { "item": "tac_helmet", "prob": 10 },
+              { "item": "helmet_liner", "prob": 10 },
+              { "item": "glasses_bal", "prob": 10 },
+              { "item": "mask_gas", "prob": 10 }
+            ]
+          },
+          "repeat": [ 1, 3 ],
+          "chance": 2
+        },
+        "Д": { "item": "SUS_field_manual_bookcase", "chance": 2 },
+        "F": {
+          "item": {
+            "subtype": "distribution",
+            "entries": [
+              { "item": "hat_boonie", "prob": 1 },
+              { "item": "webbing_belt", "prob": 1 },
+              { "item": "pants_army", "prob": 1 },
+              { "item": "jacket_army", "prob": 1 },
+              { "item": "winter_pants_army", "prob": 1 },
+              { "item": "winter_jacket_army", "prob": 1 },
+              { "item": "knee_pads", "prob": 1 },
+              { "item": "elbow_pads", "prob": 1 },
+              { "item": "legpouch_large", "prob": 1 },
+              { "item": "gloves_tactical", "prob": 1 },
+              { "item": "molle_pack", "prob": 1 }
+            ]
+          },
+          "repeat": [ 1, 3 ],
+          "chance": 2
+        },
+        "L": { "item": "SUS_janitors_closet", "chance": 50 }
+      },
+      "place_loot": [ { "group": "cash_register_random_ransacked", "x": 4, "y": [ 3, 5 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "mil_surplus_roof_1",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        " |222222222222222222223 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |..U...............Z.3 ",
+        " |..........R.........3 ",
+        " |................... 5 ",
+        " |--------------------3 ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "nested": {
+        "U": { "chunks": [ "roof_2x2_infrastructure" ] },
+        "R": { "chunks": [ "roof_2x2_infrastructure_1" ] },
+        "Z": { "chunks": [ "roof_2x2_infrastructure_2" ] }
+      },
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_2x2_utilities_b", 15 ],
+            [ "roof_2x2_utilities_c", 5 ],
+            [ "roof_2x2_utilities_d", 40 ],
+            [ "roof_2x2_utilities", 50 ]
+          ],
+          "x": [ 4, 18 ],
+          "y": [ 4, 6 ]
+        },
+        {
+          "chunks": [ [ "null", 20 ], [ "roof_4x4_utility", 40 ], [ "roof_6x6_utility", 20 ] ],
+          "x": [ 5, 13 ],
+          "y": [ 8, 11 ]
+        }
+      ]
+    }
+  },
+  {
+    "method": "json",
+    "om_terrain": "mil_surplus_2",
+    "//": "Intact variant",
+    "type": "mapgen",
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "                    ss  ",
+        "  ||||||||||||------ssr ",
+        "  |####.....Dsssssssssr ",
+        "  |.........Dsssssssssr ",
+        "  |.{{{.....||||||||||| ",
+        "  |........^|....{{{{{| ",
+        "  |####.....+..c.....{| ",
+        "  |||||.....||######||| ",
+        "  |###................| ",
+        "  |{.....tt...........| ",
+        "  |{.....tt...........| ",
+        "  |###........{{.{{..{| ",
+        "  |||||.......{{.{{..{| ",
+        "  |###...tt...{{.{{..{| ",
+        "  |#.....tt...{{.{{..{| ",
+        "  |#..........{{.{{..{| ",
+        "  |#..........{{.{{..{| ",
+        "  |b...||||||.{{.{{..{| ",
+        "  |b...|llll|.{{.{{..{| ",
+        "  ||||.|....|........{| ",
+        "  |&,+.+....|||||||||||4",
+        "  |%,|y|tc..+ss         ",
+        "  |||||||||||ss         ",
+        "                        "
+      ],
+      "terrain": {
+        "+": "t_door_c",
+        "-": "t_railing_h",
+        ".": "t_floor",
+        "&": "t_linoleum_white",
+        "%": "t_linoleum_white",
+        ",": "t_linoleum_white",
+        "D": "t_door_glass_c",
+        " ": "t_region_groundcover_urban",
+        "r": "t_railing_v",
+        "s": "t_sidewalk",
+        "|": "t_wall_g",
+        "4": "t_gutter_downspout"
+      },
+      "furniture": {
+        "#": "f_counter",
+        "^": "f_indoor_plant",
+        "b": "f_bench",
+        "c": "f_chair",
+        "l": "f_locker",
+        "t": "f_table",
+        "{": "f_rack_wood",
+        "%": "f_sink",
+        "y": [ "f_indoor_plant_y", "f_indoor_plant" ]
+      },
+      "toilets": { "&": {  } },
+      "place_items": [
+        { "chance": 75, "repeat": [ 1, 2 ], "item": "mil_armor_pants", "x": [ 3, 5 ], "y": 11 },
+        { "chance": 75, "repeat": [ 1, 2 ], "item": "mil_armor_pants", "x": [ 3, 5 ], "y": 8 },
+        { "chance": 75, "repeat": [ 1, 4 ], "item": "jackets", "x": [ 8, 9 ], "y": 18 },
+        { "chance": 85, "repeat": [ 1, 3 ], "item": "winter", "x": [ 4, 5 ], "y": 13 },
+        { "chance": 85, "repeat": [ 1, 3 ], "item": "winter", "x": [ 3, 6 ], "y": 6 },
+        { "chance": 85, "repeat": [ 1, 3 ], "item": "winter", "x": [ 3, 6 ], "y": 2 },
+        { "chance": 75, "repeat": [ 1, 4 ], "item": "mil_accessories", "x": 3, "y": [ 13, 16 ] },
+        { "chance": 85, "repeat": [ 1, 3 ], "item": "magazines", "x": [ 10, 11 ], "y": 18 },
+        { "chance": 95, "repeat": [ 1, 3 ], "item": "knife_shop", "x": [ 4, 6 ], "y": 4 },
+        { "chance": 35, "repeat": [ 1, 2 ], "item": "antique_guns", "x": 20, "y": 5 },
+        { "chance": 35, "repeat": [ 1, 2 ], "item": "antique_guns", "x": 18, "y": 5 },
+        { "chance": 35, "repeat": [ 1, 4 ], "item": "mil_surplus", "x": [ 9, 10 ], "y": [ 13, 14 ] },
+        { "chance": 75, "repeat": [ 1, 4 ], "item": "mil_surplus", "x": 21, "y": [ 11, 19 ] },
+        { "chance": 75, "repeat": [ 1, 4 ], "item": "mil_surplus", "x": [ 17, 18 ], "y": [ 11, 18 ] },
+        { "chance": 75, "repeat": [ 1, 4 ], "item": "mil_surplus", "x": [ 14, 15 ], "y": [ 11, 18 ] },
+        { "chance": 75, "repeat": [ 1, 4 ], "item": "mil_surplus", "x": [ 9, 10 ], "y": [ 9, 10 ] },
+        { "item": "cash_register_random", "x": [ 14, 19 ], "y": 7, "chance": 100 }
+      ]
+    }
+  },
+  {
+    "method": "json",
+    "om_terrain": "mil_surplus_2",
+    "//": "Looted variant",
+    "type": "mapgen",
+    "weight": 1000,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "                    ss  ",
+        "  ||||||||||||------ssr ",
+        "  |####.....Dsssssssssr ",
+        "  |......1..Dsssssssssr ",
+        "  |.{{{.....||||||||||| ",
+        "  |........^|..1.{{{{{| ",
+        "  |####.....+..c.....{| ",
+        "  |||||.....||######||| ",
+        "  |###................| ",
+        "  |{.....tt.......1...| ",
+        "  |{.....tt...........| ",
+        "  |###........{{.{{..{| ",
+        "  |||||.....1.{{.{{..{| ",
+        "  |###...tt...{{.{{..{| ",
+        "  |#.....tt...{{.{{..{| ",
+        "  |#..........{{.{{..{| ",
+        "  |#.1........{{.{{..{| ",
+        "  |b...||||||.{{.{{..{| ",
+        "  |b...|llll|.{{.{{..{| ",
+        "  ||||.|....|........{| ",
+        "  |&,+.+....|||||||||||4",
+        "  |%,|y|tc..+ss         ",
+        "  |||||||||||ss         ",
+        "                        "
+      ],
+      "terrain": {
+        "+": [ [ "t_door_b", 20 ], [ "t_door_frame", 10 ], [ "t_door_o", 70 ], [ "t_door_c", 5 ], [ "t_door_locked_interior", 3 ] ],
+        "-": "t_railing_h",
+        ".": "t_floor",
+        "&": "t_linoleum_white",
+        "%": "t_linoleum_white",
+        ",": "t_linoleum_white",
+        "D": "t_door_glass_c",
+        " ": "t_region_groundcover_urban",
+        "r": "t_railing_v",
+        "s": "t_sidewalk",
+        "|": "t_wall_g",
+        "4": "t_gutter_downspout"
+      },
+      "furniture": {
+        "#": "f_counter",
+        "^": "f_indoor_plant",
+        "b": "f_bench",
+        "c": "f_chair",
+        "l": "f_locker",
+        "t": "f_table",
+        "{": "f_rack_wood",
+        "%": "f_sink",
+        "y": [ "f_indoor_plant_y", "f_indoor_plant" ]
+      },
+      "toilets": { "&": {  } },
+      "place_items": [
+        { "chance": 2, "repeat": [ 1, 2 ], "item": "mil_armor_pants", "x": [ 3, 5 ], "y": 11 },
+        { "chance": 2, "repeat": [ 1, 2 ], "item": "mil_armor_pants", "x": [ 3, 5 ], "y": 8 },
+        { "chance": 2, "repeat": [ 1, 4 ], "item": "jackets", "x": [ 8, 9 ], "y": 18 },
+        { "chance": 2, "repeat": [ 1, 3 ], "item": "winter", "x": [ 4, 5 ], "y": 13 },
+        { "chance": 2, "repeat": [ 1, 3 ], "item": "winter", "x": [ 3, 6 ], "y": 6 },
+        { "chance": 2, "repeat": [ 1, 3 ], "item": "winter", "x": [ 3, 6 ], "y": 2 },
+        { "chance": 2, "repeat": [ 1, 4 ], "item": "mil_accessories", "x": 3, "y": [ 13, 16 ] },
+        { "chance": 2, "repeat": [ 1, 3 ], "item": "magazines", "x": [ 10, 11 ], "y": 18 },
+        { "chance": 2, "repeat": [ 1, 3 ], "item": "knife_shop", "x": [ 4, 6 ], "y": 4 },
+        { "chance": 2, "repeat": [ 1, 2 ], "item": "antique_guns", "x": 20, "y": 5 },
+        { "chance": 2, "repeat": [ 1, 2 ], "item": "antique_guns", "x": 18, "y": 5 },
+        { "chance": 2, "repeat": [ 1, 4 ], "item": "mil_surplus", "x": [ 9, 10 ], "y": [ 13, 14 ] },
+        { "chance": 2, "repeat": [ 1, 4 ], "item": "mil_surplus", "x": 21, "y": [ 11, 19 ] },
+        { "chance": 2, "repeat": [ 1, 4 ], "item": "mil_surplus", "x": [ 17, 18 ], "y": [ 11, 18 ] },
+        { "chance": 2, "repeat": [ 1, 4 ], "item": "mil_surplus", "x": [ 14, 15 ], "y": [ 11, 18 ] },
+        { "chance": 2, "repeat": [ 1, 4 ], "item": "mil_surplus", "x": [ 9, 10 ], "y": [ 9, 10 ] },
+        { "item": "cash_register_random_ransacked", "x": [ 14, 19 ], "y": 7, "chance": 100 }
+      ],
+      "items": { ".": { "item": "trash_cart", "chance": 5 } },
+      "nested": {
+        "|": { "chunks": [ [ "bile_field", 1 ], [ "shelter_graffiti", 10 ], [ "general_graffiti", 20 ], [ "null", 75 ] ] },
+        "{": { "chunks": [ [ "destroyed_furniture", 20 ], [ "null", 80 ] ] },
+        "D": { "chunks": [ [ "destroyed_glass_door_wall", 80 ], [ "null", 20 ] ] },
+        "1": { "chunks": [ [ "corpse_blood_casings_3x3", 50 ], [ "null", 50 ] ] }
+      }
+    }
+  },
+  {
+    "method": "json",
+    "om_terrain": "mil_surplus_2",
+    "//": "Boarded up variant",
+    "type": "mapgen",
+    "weight": 500,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "                    ss  ",
+        "  ||||||||||||------ssr ",
+        "  |####.....DЮssssssssr ",
+        "  |.........DЮssssssssr ",
+        "  |.{{{.....||||||||||| ",
+        "  |........^|....{{{{{| ",
+        "  |####.....+..c.....{| ",
+        "  |||||.....||######||| ",
+        "  |###................| ",
+        "  |{.....tt...........| ",
+        "  |{.....tt...........| ",
+        "  |###........{{.{{..{| ",
+        "  |||||.......{{.{{..{| ",
+        "  |###...tt...{{.{{..{| ",
+        "  |#.....tt...{{.{{..{| ",
+        "  |#..........{{.{{..{| ",
+        "  |#..........{{.{{..{| ",
+        "  |b...||||||.{{.{{..{| ",
+        "  |b...|llll|.{{.{{..{| ",
+        "  ||||.|....|........{| ",
+        "  |&,+.+....|||||||||||4",
+        "  |%,|y|tc..+ss         ",
+        "  |||||||||||ss         ",
+        "                        "
+      ],
+      "terrain": {
+        "+": "t_door_boarded",
+        "-": "t_railing_h",
+        ".": "t_floor",
+        "&": "t_linoleum_white",
+        "%": "t_linoleum_white",
+        ",": "t_linoleum_white",
+        "D": "t_door_glass_c",
+        " ": "t_region_groundcover_urban",
+        "r": "t_railing_v",
+        "s": "t_sidewalk",
+        "|": "t_wall_g",
+        "4": "t_gutter_downspout",
+        "Ю": "t_sidewalk"
+      },
+      "furniture": {
+        "#": "f_counter",
+        "^": "f_indoor_plant",
+        "b": "f_bench",
+        "c": "f_chair",
+        "l": "f_locker",
+        "t": "f_table",
+        "{": "f_rack_wood",
+        "%": "f_sink",
+        "y": [ "f_indoor_plant_y", "f_indoor_plant" ],
+        "Ю": "f_sandbag_half"
+      },
+      "toilets": { "&": {  } },
+      "place_items": [
+        { "chance": 2, "repeat": [ 1, 2 ], "item": "mil_armor_pants", "x": [ 3, 5 ], "y": 11 },
+        { "chance": 2, "repeat": [ 1, 2 ], "item": "mil_armor_pants", "x": [ 3, 5 ], "y": 8 },
+        { "chance": 2, "repeat": [ 1, 4 ], "item": "jackets", "x": [ 8, 9 ], "y": 18 },
+        { "chance": 2, "repeat": [ 1, 3 ], "item": "winter", "x": [ 4, 5 ], "y": 13 },
+        { "chance": 2, "repeat": [ 1, 3 ], "item": "winter", "x": [ 3, 6 ], "y": 6 },
+        { "chance": 2, "repeat": [ 1, 3 ], "item": "winter", "x": [ 3, 6 ], "y": 2 },
+        { "chance": 2, "repeat": [ 1, 4 ], "item": "mil_accessories", "x": 3, "y": [ 13, 16 ] },
+        { "chance": 2, "repeat": [ 1, 3 ], "item": "magazines", "x": [ 10, 11 ], "y": 18 },
+        { "chance": 2, "repeat": [ 1, 3 ], "item": "knife_shop", "x": [ 4, 6 ], "y": 4 },
+        { "chance": 2, "repeat": [ 1, 2 ], "item": "antique_guns", "x": 20, "y": 5 },
+        { "chance": 2, "repeat": [ 1, 2 ], "item": "antique_guns", "x": 18, "y": 5 },
+        { "chance": 2, "repeat": [ 1, 4 ], "item": "mil_surplus", "x": [ 9, 10 ], "y": [ 13, 14 ] },
+        { "chance": 2, "repeat": [ 1, 4 ], "item": "mil_surplus", "x": 21, "y": [ 11, 19 ] },
+        { "chance": 2, "repeat": [ 1, 4 ], "item": "mil_surplus", "x": [ 17, 18 ], "y": [ 11, 18 ] },
+        { "chance": 2, "repeat": [ 1, 4 ], "item": "mil_surplus", "x": [ 14, 15 ], "y": [ 11, 18 ] },
+        { "chance": 2, "repeat": [ 1, 4 ], "item": "mil_surplus", "x": [ 9, 10 ], "y": [ 9, 10 ] },
+        { "item": "cash_register_random_ransacked", "x": [ 14, 19 ], "y": 7, "chance": 100 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "mil_surplus_roof_2",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "  |22222222222222222223 ",
+        "  |...................3 ",
+        "  |...................3 ",
+        "  |...................3 ",
+        "  |...................3 ",
+        "  |...................3 ",
+        "  |...................3 ",
+        "  |...................3 ",
+        "  |...................3 ",
+        "  |...................3 ",
+        "  |...................3 ",
+        "  |...................3 ",
+        "  |...................3 ",
+        "  |...................3 ",
+        "  |...................3 ",
+        "  |...................3 ",
+        "  |...................3 ",
+        "  |...................3 ",
+        "  |...................3 ",
+        "  |..R...U..3---------5 ",
+        "  |.........3           ",
+        "  |---------3           ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "nested": { "U": { "chunks": [ "roof_2x2_infrastructure" ] }, "R": { "chunks": [ "roof_2x2_infrastructure_1" ] } },
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_2x2_utilities_b", 15 ],
+            [ "roof_2x2_utilities_c", 5 ],
+            [ "roof_2x2_utilities_d", 40 ],
+            [ "roof_2x2_utilities", 50 ]
+          ],
+          "x": [ 5, 18 ],
+          "y": [ 3, 6 ]
+        },
+        {
+          "chunks": [ [ "null", 20 ], [ "roof_4x4_utility", 40 ], [ "roof_6x6_utility", 20 ] ],
+          "x": [ 3, 13 ],
+          "y": [ 8, 13 ]
+        }
+      ]
+    }
+  }
+]

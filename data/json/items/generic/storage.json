@@ -1,0 +1,85 @@
+[
+  {
+    "id": "clothes_hanger",
+    "type": "TOOL",
+    "name": { "str": "clothes hanger" },
+    "description": "A plastic clothes hanger with a metal hook to hang something on a rail.",
+    "weight": "100 g",
+    "volume": "150 ml",
+    "price": 100,
+    "price_postapoc": 0,
+    "material": [ "plastic", "steel" ],
+    "symbol": ";",
+    "color": "brown"
+  },
+  {
+    "id": "storage_line",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "storage line" },
+    "description": "A four foot long collection of carabiners for hanging items while camping.",
+    "weight": "127 g",
+    "volume": "500 ml",
+    "longest_side": "45 cm",
+    "price": 4000,
+    "price_postapoc": 200,
+    "to_hit": -1,
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "looks_like": "rope_6",
+    "color": "light_gray",
+    "pocket_data": [
+      {
+        "description": "Small carabiner.",
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "2 L",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "30 cm",
+        "min_item_length": "10 cm",
+        "moves": 150
+      },
+      {
+        "description": "Small carabiner.",
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "2 L",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "30 cm",
+        "min_item_length": "10 cm",
+        "moves": 150
+      },
+      {
+        "description": "Small carabiner.",
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "2 L",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "30 cm",
+        "min_item_length": "10 cm",
+        "moves": 150
+      },
+      {
+        "description": "Large carabiner.",
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "4 L",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "40 cm",
+        "min_item_length": "10 cm",
+        "moves": 150
+      },
+      {
+        "description": "Large carabiner.",
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "4 L",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "40 cm",
+        "min_item_length": "10 cm",
+        "moves": 150
+      }
+    ],
+    "flags": [ "WATER_FRIENDLY", "HARD" ]
+  }
+]

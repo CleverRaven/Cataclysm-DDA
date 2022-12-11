@@ -1,0 +1,99 @@
+[
+  {
+    "id": "bh_m89",
+    "copy-from": "rifle_manual",
+    "looks_like": "ar15",
+    "type": "GUN",
+    "name": { "str": ".500 Magnum lever gun" },
+    "description": "A finely put together rifle, constructed in the image of old west lever-guns, this weapon features an impressive chambering of .500 Magnum.  Less unmanageable and impractical than within a handgun platform, the power potential of the huge round is nevertheless preserved within this rifle sized package.  Capable of taking down most forms of game, including deer, boars, and small dinosaurs, this is a respectable weapon for only the most enthusiastic of large-calibre shooters.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "bh_m89",
+        "name": { "str_sp": "Big Horn Model 89" },
+        "description": "Built in the image of the venerable Winchester Model 1886, Big Horn Armory's Model 89 rifle packs all the power of the .500 S&W Magnum cartridge into a package less likely to break one's wrist.",
+        "weight": 1
+      }
+    ],
+    "weight": "3742 g",
+    "volume": "1995 ml",
+    "longest_side": "953 mm",
+    "price": 329900,
+    "price_postapoc": 4000,
+    "to_hit": -1,
+    "bashing": 12,
+    "material": [ "steel", "wood" ],
+    "color": "dark_gray",
+    "ammo": [ "500" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": 2 },
+    "dispersion": 180,
+    "durability": 8,
+    "blackpowder_tolerance": 32,
+    "clip_size": 7,
+    "valid_mod_locations": [
+      [ "accessories", 2 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "muzzle", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock mount", 1 ],
+      [ "stock accessory", 2 ],
+      [ "rail mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "500": 7 } } ]
+  },
+  {
+    "id": "sw_500",
+    "copy-from": "pistol_revolver",
+    "looks_like": "sw_619",
+    "type": "GUN",
+    "name": { "str": ".500 Magnum revolver" },
+    "description": "The definition of ‘overkill,’ this behemoth handgun puts large .44 calibre revolvers to shame with its sheer size, power, and immense chambering.  Firing the appropriately named .500 Magnum cartridge, the most powerful handgun round in the world, the weapon has seen work in both sport shooting and hunting roles.  A pistol for those of the ‘bigger is better’ mentality, a high recoil junky’s personal dream, and an all-around useless military sidearm, should the urge to assault the Cataclysm in fine style grip you, this giant provides you with 5 rounds with which to reduce a zombie into an afterthought.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "sw_500",
+        "name": { "str_sp": "S&W 500" },
+        "description": "The 5-shot Smith and Wesson 500 revolver fires the comparably-named .500 S&W Magnum.  It's an impressive weapon.",
+        "weight": 1
+      }
+    ],
+    "weight": "1960 g",
+    "volume": "1307 ml",
+    "price": 90000,
+    "price_postapoc": 3500,
+    "to_hit": -2,
+    "bashing": 12,
+    "longest_side": "407 mm",
+    "material": [ "steel", "plastic" ],
+    "symbol": "(",
+    "color": "light_gray",
+    "ammo": [ "500" ],
+    "dispersion": 280,
+    "durability": 8,
+    "blackpowder_tolerance": 56,
+    "clip_size": 5,
+    "valid_mod_locations": [
+      [ "accessories", 2 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "rigid": true,
+        "ammo_restriction": { "500": 5 },
+        "allowed_speedloaders": [ "500_speedloader5" ]
+      }
+    ]
+  }
+]

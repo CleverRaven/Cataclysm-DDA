@@ -1,0 +1,483 @@
+[
+  {
+    "id": "survivor_duffel_bag",
+    "type": "ARMOR",
+    "name": { "str": "survivor duffel bag" },
+    "description": "A custom-built heavy duffel bag.  Durable and carefully crafted to hold as much stuff as possible.",
+    "weight": "1000 g",
+    "volume": "7875 ml",
+    "price": 24000,
+    "price_postapoc": 3250,
+    "material": [ "leather", "canvas" ],
+    "symbol": "[",
+    "looks_like": "rucksack",
+    "color": "dark_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "38 L",
+        "max_contains_weight": "60 kg",
+        "max_item_length": "60 cm",
+        "magazine_well": "7500 ml",
+        "moves": 300
+      },
+      {
+        "//": "dedicated tool loops. either a daisy chain, hooking to compression straps, or ice axe loop",
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "4 L",
+        "max_contains_weight": "6 kg",
+        "max_item_length": "100 cm",
+        "min_item_length": "40 cm",
+        "moves": 300,
+        "extra_encumbrance": 1,
+        "description": "Secured under compression straps or with a tool loop.",
+        "ripoff": 5
+      },
+      {
+        "//": "dedicated tool loops. either a daisy chain, hooking to compression straps, or ice axe loop",
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "4 L",
+        "max_contains_weight": "6 kg",
+        "max_item_length": "100 cm",
+        "min_item_length": "40 cm",
+        "moves": 300,
+        "extra_encumbrance": 1,
+        "description": "Secured under compression straps or with a tool loop.",
+        "ripoff": 5
+      },
+      {
+        "//": "items slipped under the top of a duffelbag not well secured",
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "4 L",
+        "max_contains_weight": "6 kg",
+        "max_item_length": "100 cm",
+        "min_item_length": "40 cm",
+        "moves": 80,
+        "extra_encumbrance": 5,
+        "description": "Tucked under the carry handles.",
+        "ripoff": 1
+      }
+    ],
+    "warmth": 10,
+    "material_thickness": 2,
+    "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED", "OVERSIZE" ],
+    "armor": [ { "encumbrance": [ 8, 30 ], "coverage": 80, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
+  },
+  {
+    "id": "survivor_pack",
+    "type": "ARMOR",
+    "name": { "str": "survivor backpack" },
+    "description": "A custom-built backpack.  Durable and carefully crafted to hold as much stuff as possible.",
+    "weight": "600 g",
+    "volume": "5250 ml",
+    "price": 24000,
+    "price_postapoc": 2250,
+    "material": [ "leather", "canvas" ],
+    "symbol": "[",
+    "looks_like": "backpack",
+    "color": "brown",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "30 L",
+        "max_contains_weight": "32 kg",
+        "max_item_length": "50 cm",
+        "magazine_well": "5 L",
+        "moves": 300
+      },
+      {
+        "//": "water bottle pocket",
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "510 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "12 cm",
+        "min_item_length": "7 cm",
+        "moves": 80,
+        "description": "Small pocket for a water bottle.",
+        "ripoff": 2
+      },
+      {
+        "//": "dedicated tool loops. either a daisy chain, hooking to compression straps, or ice axe loop",
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "4 L",
+        "max_contains_weight": "6 kg",
+        "max_item_length": "100 cm",
+        "min_item_length": "40 cm",
+        "moves": 300,
+        "extra_encumbrance": 1,
+        "description": "Secured under compression straps or with a tool loop.",
+        "ripoff": 5
+      },
+      {
+        "//": "carabiner pocket",
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "5 L",
+        "max_contains_weight": "6 kg",
+        "max_item_length": "120 cm",
+        "min_item_length": "20 cm",
+        "moves": 150,
+        "extra_encumbrance": 3,
+        "ripoff": 2,
+        "description": "Attached with a carabiner or strap.",
+        "activity_noise": { "volume": 8, "chance": 60 }
+      },
+      {
+        "//": "carabiner pocket",
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "5 L",
+        "max_contains_weight": "6 kg",
+        "max_item_length": "120 cm",
+        "min_item_length": "20 cm",
+        "moves": 150,
+        "extra_encumbrance": 3,
+        "ripoff": 2,
+        "description": "Attached with a carabiner or strap.",
+        "activity_noise": { "volume": 8, "chance": 60 }
+      }
+    ],
+    "warmth": 6,
+    "material_thickness": 2,
+    "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED" ],
+    "armor": [ { "encumbrance": [ 3, 24 ], "coverage": 60, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
+  },
+  {
+    "id": "survivor_rucksack",
+    "type": "ARMOR",
+    "name": { "str": "survivor rucksack" },
+    "description": "A custom-built heavy backpack.  Durable and carefully crafted to hold as much stuff as possible.",
+    "weight": "800 g",
+    "volume": "10 L",
+    "price": 24000,
+    "price_postapoc": 3000,
+    "material": [ "leather", "canvas" ],
+    "symbol": "[",
+    "looks_like": "rucksack",
+    "color": "dark_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "35 L",
+        "max_contains_weight": "40 kg",
+        "max_item_length": "55 cm",
+        "magazine_well": "6 L",
+        "moves": 300
+      },
+      {
+        "//": "carabiner pocket",
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "5 L",
+        "max_contains_weight": "6 kg",
+        "max_item_length": "120 cm",
+        "min_item_length": "20 cm",
+        "moves": 150,
+        "extra_encumbrance": 3,
+        "ripoff": 2,
+        "description": "Attached with a carabiner or strap.",
+        "activity_noise": { "volume": 8, "chance": 60 }
+      },
+      {
+        "//": "carabiner pocket",
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "5 L",
+        "max_contains_weight": "6 kg",
+        "max_item_length": "120 cm",
+        "min_item_length": "20 cm",
+        "moves": 150,
+        "extra_encumbrance": 3,
+        "ripoff": 2,
+        "description": "Attached with a carabiner or strap.",
+        "activity_noise": { "volume": 8, "chance": 60 }
+      },
+      {
+        "//": "carabiner pocket",
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "5 L",
+        "max_contains_weight": "6 kg",
+        "max_item_length": "120 cm",
+        "min_item_length": "20 cm",
+        "moves": 150,
+        "extra_encumbrance": 3,
+        "ripoff": 2,
+        "description": "Attached with a carabiner or strap.",
+        "activity_noise": { "volume": 8, "chance": 60 }
+      },
+      {
+        "//": "dedicated tool loops. either a daisy chain, hooking to compression straps, or ice axe loop",
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "4 L",
+        "max_contains_weight": "6 kg",
+        "max_item_length": "100 cm",
+        "min_item_length": "40 cm",
+        "moves": 300,
+        "extra_encumbrance": 1,
+        "description": "Secured under compression straps or with a tool loop.",
+        "ripoff": 5
+      },
+      {
+        "//": "dedicated tool loops. either a daisy chain, hooking to compression straps, or ice axe loop",
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "4 L",
+        "max_contains_weight": "6 kg",
+        "max_item_length": "100 cm",
+        "min_item_length": "40 cm",
+        "moves": 300,
+        "extra_encumbrance": 1,
+        "description": "Secured under compression straps or with a tool loop.",
+        "ripoff": 5
+      }
+    ],
+    "warmth": 8,
+    "material_thickness": 2,
+    "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED", "OVERSIZE" ],
+    "armor": [ { "encumbrance": [ 3, 28 ], "coverage": 80, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
+  },
+  {
+    "id": "survivor_runner_pack",
+    "type": "ARMOR",
+    "name": { "str": "survivor runner pack" },
+    "description": "A custom-built lightweight runner pack.  Durable and carefully crafted to hold as much stuff as possible.",
+    "weight": "440 g",
+    "volume": "4200 ml",
+    "price": 24000,
+    "price_postapoc": 2500,
+    "material": [ "leather", "canvas" ],
+    "symbol": "[",
+    "looks_like": "backpack",
+    "color": "brown",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "16 kg",
+        "max_item_length": "40 cm",
+        "magazine_well": "4 L",
+        "moves": 250
+      }
+    ],
+    "warmth": 2,
+    "material_thickness": 2,
+    "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED" ],
+    "armor": [ { "encumbrance": [ 3, 12 ], "coverage": 60, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
+  },
+  {
+    "id": "survivor_rig",
+    "type": "ARMOR",
+    "name": { "str": "survivor distributed rigging" },
+    "description": "A custom-built lightweight set of weight distributing pouches on the thighs and stomach.  This configuration is designed to be worn with a military harness or tactical vest.",
+    "weight": "440 g",
+    "volume": "3000 ml",
+    "price": 24000,
+    "price_postapoc": 2500,
+    "material": [ "nylon", "leather" ],
+    "symbol": "[",
+    "looks_like": "legrig",
+    "color": "brown",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "2 L",
+        "max_contains_weight": "6 kg",
+        "moves": 80,
+        "max_item_length": "30 cm",
+        "description": "Upper leg pouch."
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "2 L",
+        "max_contains_weight": "6 kg",
+        "moves": 80,
+        "max_item_length": "30 cm",
+        "description": "Upper leg pouch."
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "3 kg",
+        "moves": 120,
+        "description": "Tactical fanny pack."
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "3 kg",
+        "moves": 200,
+        "description": "Back tactical fanny pack."
+      }
+    ],
+    "warmth": 1,
+    "material_thickness": 2,
+    "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED" ],
+    "armor": [
+      {
+        "encumbrance": [ 1, 3 ],
+        "coverage": 80,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r" ]
+      },
+      { "encumbrance": [ 1, 3 ], "coverage": 70, "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ] }
+    ]
+  },
+  {
+    "id": "nomad_rig",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "nomad harness", "str_pl": "nomad harnesses" },
+    "description": "A custom-built lightweight set of weight distributing pouches over your entire body.  Its cunningly placed and stabilized pockets can store a remarkable amount of useful stuff without getting in the way or sacrificing balance.  Has a flashlight mounted on the shoulder and an internal reservoir for water purification in the field, both exclusively powered by your internal bionic energy.",
+    "weight": "440 g",
+    "volume": "3000 ml",
+    "price": 24000,
+    "price_postapoc": 2500,
+    "material": [ "nylon", "leather" ],
+    "symbol": "[",
+    "looks_like": "legrig",
+    "color": "brown",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "4 L",
+        "max_contains_weight": "8 kg",
+        "moves": 80,
+        "volume_encumber_modifier": 0.3
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "4 L",
+        "max_contains_weight": "8 kg",
+        "moves": 80,
+        "volume_encumber_modifier": 0.3
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "2 kg",
+        "moves": 80,
+        "volume_encumber_modifier": 0.3
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "2 kg",
+        "moves": 80,
+        "volume_encumber_modifier": 0.3
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "3 kg",
+        "moves": 80,
+        "volume_encumber_modifier": 0.3
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "3 kg",
+        "moves": 80,
+        "volume_encumber_modifier": 0.3
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "8 L",
+        "max_contains_weight": "16 kg",
+        "moves": 150,
+        "volume_encumber_modifier": 0.3
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "1 kg",
+        "moves": 120,
+        "volume_encumber_modifier": 0.3
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "1 kg",
+        "moves": 120,
+        "volume_encumber_modifier": 0.3
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "description": "Liquid storage compartment.",
+        "airtight": true,
+        "watertight": true,
+        "max_contains_volume": "3000 ml",
+        "max_item_volume": "17 ml",
+        "max_contains_weight": "3000 g",
+        "sealed_data": { "spoil_multiplier": 0.5 },
+        "moves": 80,
+        "volume_encumber_modifier": 0.3
+      },
+      {
+        "description": "Archaic holster.",
+        "magazine_well": "1500 ml",
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "130 cm",
+        "min_item_length": "30 cm",
+        "moves": 80,
+        "holster": true,
+        "volume_encumber_modifier": 0.5
+      }
+    ],
+    "charges_per_use": 1,
+    "use_action": [
+      "WATER_PURIFIER",
+      {
+        "type": "transform",
+        "msg": "You turn the shoulder mounted flashlight on.",
+        "target": "nomad_rig_on",
+        "active": true,
+        "need_charges": 1,
+        "need_charges_msg": "Your internal reservoir is empty."
+      },
+      { "type": "holster" }
+    ],
+    "warmth": 1,
+    "material_thickness": 2,
+    "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED", "USES_BIONIC_POWER" ],
+    "armor": [
+      {
+        "encumbrance": 1,
+        "coverage": 80,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r" ],
+        "volume_encumber_modifier": 0.2
+      },
+      { "encumbrance": 1, "coverage": 70, "covers": [ "torso" ], "volume_encumber_modifier": 0.6 },
+      {
+        "encumbrance": 1,
+        "coverage": 80,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_upper_l", "arm_upper_r" ],
+        "volume_encumber_modifier": 0.2
+      }
+    ]
+  },
+  {
+    "id": "nomad_rig_on",
+    "copy-from": "nomad_rig",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "nomad harness (on)", "str_pl": "nomad harnesses (on)" },
+    "power_draw": "15 W",
+    "revert_to": "nomad_rig",
+    "use_action": {
+      "ammo_scale": 0,
+      "menu_text": "Turn off",
+      "type": "transform",
+      "msg": "You turn the shoulder mounted flashlight off.",
+      "target": "nomad_rig"
+    },
+    "flags": [ "LIGHT_500", "WATER_FRIENDLY", "STURDY", "BELTED", "USES_BIONIC_POWER" ]
+  }
+]

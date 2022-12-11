@@ -1,0 +1,271 @@
+[
+  {
+    "type": "palette",
+    "id": "dumpsite_palette",
+    "terrain": {
+      ".": [ [ "t_region_soil", 5 ], "t_region_groundcover" ],
+      "z": "t_region_soil",
+      "#": "t_region_soil",
+      "_": [ [ "t_region_soil", 100 ], [ "t_dirtmound", 33 ], [ "t_pit_glass", 5 ] ]
+    },
+    "furniture": {
+      "#": [ [ "f_rubble", 3 ], [ "f_rubble_landfill", 3 ], "f_rubble_rock", [ "f_wreckage", 2 ] ],
+      "z": [ [ "f_rubble", 3 ], [ "f_rubble_landfill", 3 ], "f_rubble_rock", [ "f_wreckage", 2 ], [ "f_null", 4 ] ],
+      ".": [ [ "f_rubble", 3 ], [ "f_rubble_landfill", 3 ], "f_rubble_rock", [ "f_wreckage", 2 ], [ "f_null", 12 ] ]
+    },
+    "items": {
+      ".": [
+        { "item": "trash", "chance": 25, "repeat": 2 },
+        { "item": "road", "chance": 2 },
+        { "item": "allclothes_damaged", "chance": 3 },
+        { "item": "stoner", "chance": 1 },
+        { "item": "oven", "chance": 2 },
+        { "item": "garden_shed", "chance": 2 },
+        { "item": "homebooks", "chance": 2 },
+        { "item": "wheels", "chance": 2 },
+        { "item": "oa_ig_rd_electronic_trash", "chance": 2 },
+        { "item": "oa_ig_rd_metal_trash", "chance": 2 },
+        { "item": "oa_ig_rd_glass_trash", "chance": 2 },
+        { "item": "creepy", "chance": 1 },
+        { "item": "chem_home", "chance": 1 },
+        { "item": "hardware", "chance": 2 },
+        { "item": "misc_smoking", "chance": 1 },
+        { "item": "tools_home", "chance": 1 },
+        { "item": "oa_ig_ash_pile", "chance": 1 }
+      ],
+      "z": [
+        { "item": "trash", "chance": 35 },
+        { "item": "road", "chance": 1 },
+        { "item": "allclothes_damaged", "chance": 2 },
+        { "item": "stoner", "chance": 1 },
+        { "item": "oven", "chance": 1 },
+        { "item": "garden_shed", "chance": 1 },
+        { "item": "homebooks", "chance": 1 },
+        { "item": "wheels", "chance": 1 },
+        { "item": "oa_ig_rd_electronic_trash", "chance": 2 },
+        { "item": "oa_ig_rd_metal_trash", "chance": 2 },
+        { "item": "oa_ig_rd_glass_trash", "chance": 2 },
+        { "item": "creepy", "chance": 1 },
+        { "item": "chem_home", "chance": 1 },
+        { "item": "hardware", "chance": 1 },
+        { "item": "misc_smoking", "chance": 1 },
+        { "item": "tools_home", "chance": 1 },
+        { "item": "oa_ig_ash_pile", "chance": 1 }
+      ],
+      "#": [
+        { "item": "trash", "chance": 15 },
+        { "item": "road", "chance": 1 },
+        { "item": "oa_ig_rd_glass_trash", "chance": 1 },
+        { "item": "allclothes_damaged", "chance": 1 },
+        { "item": "oven", "chance": 1 },
+        { "item": "wheels", "chance": 1 },
+        { "item": "garden_shed", "chance": 1 },
+        { "item": "oa_ig_rd_metal_trash", "chance": 1 },
+        { "item": "hardware", "chance": 1 },
+        { "item": "misc_smoking", "chance": 1 },
+        { "item": "oa_ig_ash_pile", "chance": 1 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "dumpsite",
+    "weight": 100,
+    "object": {
+      "predecessor_mapgen": "forest",
+      "rotation": [ 0, 3 ],
+      "rows": [
+        " __zz____zzz...__..z___ ",
+        "__ z _...zzz...zz..zzz__",
+        ".._.....zzz...zzzz..zz__",
+        "..zzzzz..z...zzzzzzz..._",
+        ".zz##zz.....__z###zz...z",
+        ".z###z....__zzz####zz.zz",
+        ".zzzzz..__..zz#####zz.zz",
+        "_..z..____...zz###zz..._",
+        "z_...zz__.....zz#zz...._",
+        "z _.zzz._....zzzz...._zz",
+        "__.zz#zzz.__...zz...._ _",
+        "z.zzz###z..._.....z...__",
+        "z.zz###zz......zzz...zz.",
+        "...zzzzz_.zzzz.zz...zzzz",
+        "_.....__.zz##zz....z##zz",
+        "_..___...zz###z....z##z.",
+        "zz _......z#zzz.___.z#z.",
+        "  _...zzz.zzzz.___..zzz.",
+        "z_..zzz#zzz......__.....",
+        "_..zz###zzz...zzzz..._..",
+        "..zzz####z...zzz#zz.._._",
+        " ..zzzz#zz.zzz###zzz.._ ",
+        "_..zzzzzz..zzz#z##z..z__",
+        " ___..zz..__.zzzzzz..__ "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "dumpsite_palette" ],
+      "set": [
+        { "point": "furniture", "id": "f_sink", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 7, "repeat": [ 1, 3 ] },
+        { "point": "furniture", "id": "f_fridge", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 7, "repeat": [ 1, 3 ] },
+        { "point": "furniture", "id": "f_oven", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 7, "repeat": [ 1, 3 ] },
+        { "point": "furniture", "id": "f_ash", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 5, "repeat": [ 1, 5 ] },
+        { "point": "furniture", "id": "f_toilet", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 7, "repeat": [ 1, 3 ] },
+        { "point": "furniture", "id": "f_sofa", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 7, "repeat": [ 1, 3 ] },
+        { "point": "furniture", "id": "f_armchair", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 7, "repeat": [ 1, 3 ] },
+        {
+          "point": "furniture",
+          "id": "f_floor_lamp",
+          "x": [ 0, 23 ],
+          "y": [ 0, 23 ],
+          "chance": 7,
+          "repeat": [ 1, 3 ]
+        },
+        {
+          "point": "furniture",
+          "id": "f_water_heater",
+          "x": [ 0, 23 ],
+          "y": [ 0, 23 ],
+          "chance": 7,
+          "repeat": [ 1, 3 ]
+        },
+        { "point": "furniture", "id": "f_exercise", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 7, "repeat": [ 1, 3 ] },
+        { "point": "furniture", "id": "f_treadmill", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 7, "repeat": [ 1, 3 ] },
+        { "point": "furniture", "id": "f_ergometer", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 7, "repeat": [ 1, 3 ] },
+        { "point": "furniture", "id": "f_washer", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 7, "repeat": [ 1, 3 ] },
+        { "point": "furniture", "id": "f_dryer", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 7, "repeat": [ 1, 3 ] },
+        { "point": "furniture", "id": "f_dumpster", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 7, "repeat": [ 1, 3 ] },
+        { "point": "furniture", "id": "f_bathtub", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 7, "repeat": [ 1, 3 ] }
+      ],
+      "place_vehicles": [
+        {
+          "vehicle": "dumpsite_vehicles",
+          "x": [ 8, 15 ],
+          "y": [ 8, 15 ],
+          "rotation": [ 0, 90, 180, 270 ],
+          "chance": 20,
+          "fuel": 0
+        },
+        {
+          "vehicle": "car_chassis",
+          "x": [ 7, 15 ],
+          "y": [ 7, 15 ],
+          "rotation": [ 0, 90, 180, 270 ],
+          "chance": 40,
+          "fuel": 0
+        },
+        {
+          "vehicle": "motorcycle_chassis",
+          "x": [ 7, 15 ],
+          "y": [ 7, 15 ],
+          "rotation": [ 0, 90, 180, 270 ],
+          "chance": 30,
+          "fuel": 0
+        },
+        {
+          "vehicle": "quad_bike_chassis",
+          "x": [ 7, 15 ],
+          "y": [ 7, 15 ],
+          "rotation": [ 0, 90, 180, 270 ],
+          "chance": 10,
+          "fuel": 0
+        }
+      ],
+      "place_monsters": [
+        { "monster": "DUMP_ANIMALS", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 5 },
+        { "monster": "DUMP_ZOMBIES", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "dumpsite_edge",
+    "weight": 100,
+    "object": {
+      "predecessor_mapgen": "field",
+      "rows": [
+        " zz.zzzz..._..zz._..zz..",
+        " ..zz###z.._...._z.z#zz.",
+        " ...z##zz._..zzzz..z##z.",
+        ".....zzz..zz.zz##zz.zzz ",
+        "...._...zzz#z.zz##z__.. ",
+        "  __....z###z_.z##zz._  ",
+        " ...zzzzzzzzz_.zz#zz... ",
+        " ..zz###z__ _...z##zz...",
+        " ..zz###z...__..zz##zz..",
+        " ...zz##z...__..zzzzz...",
+        "  ....zzz.. _.....z.... ",
+        "     ....  .. ......    ",
+        "          .zzz.         ",
+        "          .zz.          ",
+        "            .           ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "dumpsite_palette" ],
+      "set": [
+        { "point": "furniture", "id": "f_sink", "x": [ 0, 23 ], "y": [ 0, 11 ], "chance": 7 },
+        { "point": "furniture", "id": "f_fridge", "x": [ 0, 23 ], "y": [ 0, 11 ], "chance": 7 },
+        { "point": "furniture", "id": "f_oven", "x": [ 0, 23 ], "y": [ 0, 11 ], "chance": 7 },
+        { "point": "furniture", "id": "f_ash", "x": [ 0, 23 ], "y": [ 0, 11 ], "chance": 5, "repeat": [ 1, 3 ] },
+        { "point": "furniture", "id": "f_toilet", "x": [ 0, 23 ], "y": [ 0, 11 ], "chance": 7 },
+        { "point": "furniture", "id": "f_sofa", "x": [ 0, 23 ], "y": [ 0, 11 ], "chance": 7 },
+        { "point": "furniture", "id": "f_armchair", "x": [ 0, 23 ], "y": [ 0, 11 ], "chance": 7 },
+        { "point": "furniture", "id": "f_floor_lamp", "x": [ 0, 23 ], "y": [ 0, 11 ], "chance": 7 },
+        { "point": "furniture", "id": "f_water_heater", "x": [ 0, 23 ], "y": [ 0, 11 ], "chance": 7 },
+        { "point": "furniture", "id": "f_exercise", "x": [ 0, 23 ], "y": [ 0, 11 ], "chance": 7 },
+        { "point": "furniture", "id": "f_treadmill", "x": [ 0, 23 ], "y": [ 0, 11 ], "chance": 7 },
+        { "point": "furniture", "id": "f_ergometer", "x": [ 0, 23 ], "y": [ 0, 11 ], "chance": 7 },
+        { "point": "furniture", "id": "f_washer", "x": [ 0, 23 ], "y": [ 0, 11 ], "chance": 7 },
+        { "point": "furniture", "id": "f_dryer", "x": [ 0, 23 ], "y": [ 0, 11 ], "chance": 7 },
+        { "point": "furniture", "id": "f_dumpster", "x": [ 0, 23 ], "y": [ 0, 11 ], "chance": 7 },
+        { "point": "furniture", "id": "f_bathtub", "x": [ 0, 23 ], "y": [ 0, 11 ], "chance": 7 }
+      ],
+      "place_vehicles": [
+        {
+          "vehicle": "dumpsite_vehicles",
+          "x": [ 8, 15 ],
+          "y": [ 8, 15 ],
+          "rotation": [ 0, 90, 180, 270 ],
+          "chance": 10,
+          "fuel": 0
+        },
+        {
+          "vehicle": "car_chassis",
+          "x": [ 7, 15 ],
+          "y": [ 7, 15 ],
+          "rotation": [ 0, 90, 180, 270 ],
+          "chance": 20,
+          "fuel": 0
+        },
+        {
+          "vehicle": "motorcycle_chassis",
+          "x": [ 7, 15 ],
+          "y": [ 7, 10 ],
+          "rotation": [ 0, 90, 180, 270 ],
+          "chance": 15,
+          "fuel": 0
+        },
+        {
+          "vehicle": "quad_bike_chassis",
+          "x": [ 7, 15 ],
+          "y": [ 7, 10 ],
+          "rotation": [ 0, 90, 180, 270 ],
+          "chance": 5,
+          "fuel": 0
+        }
+      ],
+      "place_monsters": [
+        { "monster": "DUMP_ANIMALS", "x": [ 0, 23 ], "y": [ 0, 11 ], "chance": 5 },
+        { "monster": "DUMP_ZOMBIES", "x": [ 0, 23 ], "y": [ 0, 11 ], "chance": 10 }
+      ]
+    }
+  }
+]

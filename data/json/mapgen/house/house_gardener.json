@@ -1,0 +1,146 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "house_gardener" ],
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        ".%.--.%.................",
+        "...--p..................",
+        ".##**###................",
+        ".#L  +U#^...............",
+        ".#y  ||##oooo###oo#oo#..",
+        ".#3  h   HHHHy|dy TII#..",
+        ".o2  ff       +     h#..",
+        ".o5  ff  E   R|E     #..",
+        ".#O   h    E R|T  @@ #..",
+        ".#1F7  66y   y|D s@@s#..",
+        ".#|||+|||||+|||||||||#..",
+        ".#t   B|>+   yy ;;;;;#..",
+        ".#S8y8B|U|i        y;#..",
+        ".##o####v|i  yyy'''''#^.",
+        ".$%%%%%####*##########..",
+        ".$...................$..",
+        ".$.=.!.!.!..!!!!!!!!.$..",
+        ".$.=.!.!.!...........$..",
+        ".$.&.!.!.!..!!!!!!!!.$..",
+        ".$.&.!.!.!...........$..",
+        ".$.&.!.!.!..!!!!!!!!.$..",
+        ".$...................$..",
+        ".$$$$$$$$$$$$$$$$$$$$$..",
+        "........................"
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "terrain": {
+        "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
+        "$": "t_fence",
+        "#": "t_adobe_brick_wall",
+        "=": "t_shrub_blueberry",
+        "!": "t_dirtmound",
+        "&": "t_shrub_strawberry"
+      },
+      "furniture": { ";": "f_rack", "'": "f_table" },
+      "sealed_item": { "!": { "items": { "item": "farming_seeds", "chance": 100 }, "furniture": "f_plant_seedling", "chance": 80 } },
+      "place_loot": [
+        { "group": "farming_tools", "x": [ 16, 20 ], "y": 11, "chance": 65, "repeat": [ 1, 2 ] },
+        { "group": "farming_seeds", "x": [ 16, 20 ], "y": 13, "chance": 85, "repeat": [ 1, 5 ] }
+      ],
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "chance": 2 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "house_gardener_roof",
+    "object": {
+      "fill_ter": "t_shingle_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        " |222223                ",
+        " |.....3                ",
+        " |.....522222222222223  ",
+        " |...................3  ",
+        " |...................3  ",
+        " |...=...............3  ",
+        " |...................3  ",
+        " |...................3  ",
+        " |...................3  ",
+        " |........&..........3  ",
+        " |...................3  ",
+        " |-----|.............5  ",
+        "       |-------------3  ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": { ".": "t_shingle_flat_roof" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "house_gardener_basement",
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "                        ",
+        "                        ",
+        " |||||||                ",
+        " |2....|                ",
+        " |.....|||||||||||||||  ",
+        " |.......g..1........|  ",
+        " |...................|  ",
+        " |...................|  ",
+        " |...................|  ",
+        " |ZW.JJJ.............|  ",
+        " |%%+%%%.............|  ",
+        " |9....%<............|  ",
+        " |t.88S%.z...........|  ",
+        " |||||||Fzz..........|  ",
+        "       |||||||||||||||  ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "basement_empty" ],
+      "nested": {
+        "1": { "chunks": [ [ "null", 80 ], [ "room_9x9_recroom_W", 40 ], [ "room_9x9_cellar_W", 20 ], [ "room_9x9_weed_W", 5 ] ] },
+        "2": {
+          "chunks": [
+            [ "null", 90 ],
+            [ "5x5_holdout_S", 2 ],
+            [ "5x5_sauna_S", 10 ],
+            [ "5x5_gym_S", 20 ],
+            [ "5x5_gym_W", 20 ],
+            [ "livingroom_5x5_S_1", 30 ],
+            [ "livingroom_5x5_E_1", 30 ],
+            [ "livingroom_5x5_N_1", 30 ],
+            [ "livingroom_5x5_W_1", 30 ],
+            [ "livingroom_5x5_S_2", 30 ],
+            [ "livingroom_5x5_E_2", 30 ],
+            [ "livingroom_5x5_N_2", 30 ],
+            [ "livingroom_5x5_W_2", 30 ],
+            [ "home_office_4x4_N", 20 ],
+            [ "home_office_4x4_S", 20 ]
+          ]
+        }
+      }
+    }
+  }
+]

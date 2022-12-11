@@ -1,0 +1,365 @@
+[
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "quiver_bow_hunter",
+    "entries": [ { "item": "arrow_heavy_fire_hardened_fletched", "charges": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "quiver_crossbow_hunter",
+    "entries": [ { "item": "bolt_simple_wood", "charges": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "bag_javelin_hunter",
+    "entries": [ { "item": "javelin", "count": 5 } ]
+  },
+  {
+    "type": "profession",
+    "id": "goat_man",
+    "name": { "male": "Goat Man", "female": "Goat Lady" },
+    "description": "Nobody around?  Oh well, it doesn't matter.  Your beloved goats are all you need!",
+    "points": 2,
+    "skills": [ { "level": 2, "name": "cooking" } ],
+    "pets": [ { "name": "mon_goat", "amount": 2 } ],
+    "items": {
+      "both": {
+        "items": [ "jeans", "leather_belt", "socks", "boots", "pockknife", "diving_watch" ],
+        "entries": [
+          { "item": "rope_6", "count": 2 },
+          { "group": "charged_smart_phone" },
+          { "item": "tshirt", "variant": "generic_tshirt" }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "lost_tribal",
+    "name": "Lost Tribal",
+    "description": "You were out gathering for the tribe when the sky broke and the gods called to you, then you collapsed.  When you woke up, you were in an unfamiliar place with new memories crowding your thoughts.",
+    "points": 2,
+    "skills": [ { "level": 2, "name": "survival" }, { "level": 2, "name": "cooking" } ],
+    "proficiencies": [ "prof_fibers", "prof_knapping" ],
+    "items": {
+      "both": {
+        "items": [ "cloak_leather", "footrags_leather", "chestwrap_leather", "loincloth_fur", "stone_chopper", "straw_basket" ]
+      }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "shaman",
+    "name": "Shaman",
+    "description": "You've trained in the medical arts, refining natural remedies into real cures for disease.  Your tribe would have lived long and healthy lives, were they still here.",
+    "points": 3,
+    "skills": [ { "level": 3, "name": "firstaid" }, { "level": 2, "name": "chemistry" }, { "level": 1, "name": "survival" } ],
+    "proficiencies": [ "prof_wound_care", "prof_wound_care_expert", "prof_intro_biology", "prof_physiology", "prof_burn_care" ],
+    "items": {
+      "both": {
+        "items": [
+          "straw_basket",
+          "grass_cloak",
+          "shirt_straw",
+          "skirt_grass",
+          "footrags_leather",
+          "grass_keffiyeh",
+          "primitive_knife",
+          "tourniquet_upper",
+          "arm_splint"
+        ],
+        "entries": [
+          { "item": "bandages_birchbark_adv", "count": 10 },
+          { "item": "cattail_jelly", "charges": 7, "container-item": "bowl_clay" }
+        ]
+      }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "backpacker",
+    "name": "Backpacker",
+    "description": "For the past few years you've been traveling the world, sightseeing and living off tribal donations.  You came home to find your home abandoned, and the only thing between you and death is the open fields and your pack.",
+    "points": 2,
+    "skills": [ { "level": 1, "name": "survival" } ],
+    "items": {
+      "both": {
+        "items": [ "wicker_backpack", "mocassins", "tunic", "footrags_leather" ],
+        "entries": [ { "item": "water_clean", "charges": 6, "container-item": "waterskin" } ]
+      }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "miner",
+    "name": "Miner",
+    "description": "You're a miner, not a minor!  Your waterskin is dry, you lost your haul, and you're on your last torch…",
+    "points": 5,
+    "items": {
+      "both": {
+        "items": [
+          "primitive_shovel",
+          "bronze_pickaxe",
+          "mocassins",
+          "torch",
+          "fire_drill",
+          "waterskin",
+          "tunic",
+          "helmet_larmor",
+          "gloves_wraps_leather",
+          "bigtrapper_pack"
+        ]
+      }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "bow_hunter",
+    "name": "Bow Hunter",
+    "description": "Ever since you were a child you loved hunting, and quickly developed a talent for archery.  Why, if the world ended, there's nothing you'd want at your side more than your trusty bow.  So, when it did, you made sure to bring it along.",
+    "points": 3,
+    "proficiencies": [ "prof_bow_basic", "prof_bow_expert", "prof_fletching" ],
+    "skills": [ { "level": 2, "name": "archery" }, { "level": 1, "name": "gun" }, { "level": 1, "name": "swimming" } ],
+    "items": {
+      "both": {
+        "items": [ "mocassins", "shirt_straw", "skirt_grass", "longbow" ],
+        "entries": [
+          { "item": "quiver_birchbark", "contents-group": "quiver_bow_hunter" },
+          { "item": "sheath_birchbark", "contents-item": "primitive_knife" }
+        ]
+      }
+    },
+    "missions": [ "MISSION_HUNTER" ]
+  },
+  {
+    "type": "profession",
+    "id": "spear_hunter",
+    "name": "Spear Hunter",
+    "description": "Ever since you were a child you loved hunting, and quickly developed a talent for chasing down your prey with a spear.  Why, if the world ended, there's nothing you'd want at your side more than your trusty spear.  So, when it did, you made sure to bring it along.",
+    "points": 3,
+    "skills": [
+      { "level": 2, "name": "stabbing" },
+      { "level": 2, "name": "melee" },
+      { "level": 1, "name": "swimming" },
+      { "level": 1, "name": "dodge" }
+    ],
+    "items": {
+      "both": {
+        "items": [ "footrags_leather", "shirt_straw", "skirt_grass" ],
+        "entries": [
+          { "item": "sheath_birchbark", "contents-item": "primitive_knife" },
+          { "item": "spear_stone", "custom-flags": [ "auto_wield" ] }
+        ]
+      }
+    },
+    "missions": [ "MISSION_HUNTER" ]
+  },
+  {
+    "type": "profession",
+    "id": "javelin_hunter",
+    "name": "Javelin Hunter",
+    "description": "Ever since you were a child you loved hunting, and quickly developed a talent for javelin throwing.  Why, if the world ended, there's nothing you'd want at your side more than your trusty javelins.  So, when it did, you made sure to bring them along.",
+    "points": 3,
+    "skills": [ { "level": 2, "name": "throw" }, { "level": 1, "name": "stabbing" }, { "level": 1, "name": "swimming" } ],
+    "items": {
+      "both": {
+        "items": [ "footrags_leather", "shirt_straw", "skirt_grass" ],
+        "entries": [
+          { "item": "sheath_birchbark", "contents-item": "primitive_knife" },
+          { "item": "javelin_bag", "contents-group": "bag_javelin_hunter" }
+        ]
+      }
+    },
+    "missions": [ "MISSION_HUNTER" ]
+  },
+  {
+    "type": "profession",
+    "id": "crossbow_hunter",
+    "name": "Crossbow Hunter",
+    "description": "Ever since you were a child you loved hunting, and crossbow hunting was always your favorite.  Why, if the world ended, there's nothing you'd want at your side more than your trusty crossbow.  So, when it did, you made sure to bring it along, though most of your bolts were lost during the escape.",
+    "points": 3,
+    "proficiencies": [ "prof_bow_basic", "prof_fletching" ],
+    "skills": [ { "level": 2, "name": "rifle" }, { "level": 1, "name": "gun" }, { "level": 1, "name": "swimming" } ],
+    "items": {
+      "both": {
+        "items": [ "mocassins", "shirt_straw", "skirt_grass" ],
+        "entries": [
+          {
+            "item": "compositecrossbow",
+            "ammo-item": "bolt_simple_wood",
+            "charges": 1,
+            "contents-item": "shoulder_strap",
+            "custom-flags": [ "no_auto_equip" ]
+          },
+          { "item": "quiver_birchbark", "contents-group": "quiver_crossbow_hunter" },
+          { "item": "sheath_birchbark", "contents-item": "primitive_knife" }
+        ]
+      }
+    },
+    "missions": [ "MISSION_HUNTER" ]
+  },
+  {
+    "type": "profession",
+    "id": "fisher",
+    "name": "Fisher",
+    "description": "You spent most of your days fishing in the swamp, getting by quietly on your catch.  You found the buzzing of insects enjoyable, but recently they've gotten bigger and meaner.  Now their horrible noises have you spooked - you just hope the fish aren't as nasty.",
+    "points": 3,
+    "skills": [ { "level": 2, "name": "swimming" }, { "level": 2, "name": "survival" } ],
+    "traits": [ "OUTDOORSMAN" ],
+    "proficiencies": [ "prof_fibers" ],
+    "items": {
+      "both": {
+        "items": [ "fire_drill", "wicker_backpack", "footrags_leather", "shirt_straw", "skirt_grass", "straw_hat" ],
+        "entries": [
+          { "item": "primitive_knife", "container-item": "sheath_birchbark" },
+          { "item": "fishing_rod_basic", "custom-flags": [ "auto_wield" ] }
+        ]
+      }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "redsmith",
+    "name": "Redsmith",
+    "description": "You ran into trouble coming out from your forge, but despite the havoc you've managed to keep some of your equipment along with your latest project.",
+    "points": 3,
+    "skills": [ { "level": 3, "name": "fabrication" }, { "level": 1, "name": "swimming" } ],
+    "proficiencies": [ "prof_metalworking", "prof_redsmithing" ],
+    "items": {
+      "both": {
+        "items": [
+          "pants",
+          "socks",
+          "mocassins",
+          "longshirt",
+          "apron_leather",
+          "gloves_leather",
+          "primitive_hammer",
+          "copper_knife",
+          "wicker_backpack",
+          "crucible_clay"
+        ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "unemployed",
+    "name": "Survivor",
+    "description": "Some would say that there's nothing particularly notable about you, but you've survived, and that's more than most could say right now.",
+    "points": 0,
+    "items": {
+      "both": {
+        "items": [ "skirt_grass", "shirt_straw", "footrags", "straw_basket", "primitive_knife", "fire_drill" ],
+        "entries": [ { "item": "water_clean", "charges": 6, "container-item": "waterskin" } ]
+      }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "tailor",
+    "name": "Tailor",
+    "description": "Tailoring may not seem like the most useful skill when the world has ended.  Most people wouldn't expect a simple tailor to live very long.  This is your opportunity to prove them wrong.",
+    "points": 3,
+    "skills": [ { "level": 3, "name": "tailor" }, { "level": 1, "name": "survival" } ],
+    "proficiencies": [
+      "prof_fibers",
+      "prof_fibers_rope",
+      "prof_leatherworking_basic",
+      "prof_leatherworking",
+      "prof_furriery",
+      "prof_closures",
+      "prof_closures_waterproofing",
+      "prof_cobbling",
+      "prof_millinery"
+    ],
+    "items": {
+      "both": {
+        "items": [
+          "straw_basket",
+          "straw_fedora",
+          "longshirt",
+          "pants",
+          "socks",
+          "mocassins",
+          "patchwork_scarf",
+          "awl_bone",
+          "bronze_shears"
+        ],
+        "entries": [ { "item": "needle_bone", "ammo-item": "plant_fibre", "charges": 200 } ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "lumberjack",
+    "name": "Lumberjack",
+    "description": "You're a lumberjack, and you're okay.  You felled trees before the world ended, and you suspect the undead aren't nearly as tough.",
+    "points": 0,
+    "skills": [ { "level": 2, "name": "swimming" } ],
+    "items": {
+      "both": {
+        "items": [ "pants", "socks", "mocassins", "straw_hat", "longshirt", "patchwork_scarf", "vest_leather", "rope_makeshift_6" ],
+        "entries": [ { "item": "copper_ax", "custom-flags": [ "auto_wield" ] } ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "musician",
+    "name": "Musician",
+    "description": "You nailed your solo, but the audience erupted into screams instead of applause.  You weren't able to grab much during the panic, but at least you have your flute in your basket.",
+    "points": 0,
+    "skills": [ { "level": 2, "name": "speech" } ],
+    "items": {
+      "both": {
+        "items": [ "straw_basket", "shirt_straw", "skirt_grass", "socks", "mocassins", "bone_flute" ],
+        "entries": [ { "item": "water_clean", "charges": 6, "container-item": "waterskin" } ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "recruit",
+    "name": "Tribal Warrior Recruit",
+    "description": "Joining the tribal guard has been your dream for years.  You finally got in, just in time for your training to get interrupted by some sort of emergency.  As far as you can tell, the elders abandoned you in this hellhole when you missed the emergency evac.",
+    "points": 4,
+    "proficiencies": [ "prof_bow_basic", "prof_bow_expert" ],
+    "skills": [
+      { "level": 2, "name": "gun" },
+      { "level": 2, "name": "archery" },
+      { "level": 2, "name": "stabbing" },
+      { "level": 2, "name": "melee" },
+      { "level": 1, "name": "dodge" },
+      { "level": 1, "name": "swimming" }
+    ],
+    "items": {
+      "both": {
+        "items": [ "helmet_larmor", "armor_larmor", "socks", "boots_larmor", "gauntlets_larmor" ],
+        "entries": [
+          { "item": "water_clean", "charges": 6, "container-item": "waterskin" },
+          { "item": "quiver_birchbark", "contents-group": "quiver_bow_hunter" },
+          { "item": "spear_copper", "container-item": "spearsling" },
+          { "item": "makeshift_ear_plugs_off", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "copper_knife", "container-item": "sheath_birchbark" },
+          { "item": "longbow", "contents-item": [ "bow_silencer" ] }
+        ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    }
+  }
+]

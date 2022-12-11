@@ -1,0 +1,43 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": "c_cave_entrance",
+    "name": "river cave entrance",
+    "sym": "O",
+    "color": "light_cyan",
+    "see_cost": 2,
+    "flags": [ "KNOWN_DOWN", "RISK_HIGH", "REQUIRES_PREDECESSOR", "RIVER", "LAKE_SHORE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "river_cave_food",
+    "name": "kraken food storage",
+    "sym": "O",
+    "color": "cyan_green",
+    "see_cost": 5,
+    "spawns": { "group": "GROUP_KRAKEN", "population": [ 6, 10 ], "chance": 100 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "river_cave_nest",
+    "copy-from": "river_cave_food",
+    "name": "river cave nest",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "river_cave_kraken",
+    "copy-from": "river_cave_food",
+    "name": "kraken chamber",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "river_cave",
+    "name": "river cave tunnel",
+    "color": "brown",
+    "see_cost": 5,
+    "spawns": { "group": "GROUP_KRAKEN", "population": [ 4, 6 ], "chance": 100 },
+    "flags": [ "LINEAR" ]
+  }
+]

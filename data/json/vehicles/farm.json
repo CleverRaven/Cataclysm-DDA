@@ -1,0 +1,344 @@
+[
+  {
+    "id": "oldtractor",
+    "type": "vehicle",
+    "name": "Primitive Tractor",
+    "blueprint": [
+      [ " O  O " ],
+      [ "&&#==&" ],
+      [ " O  O " ]
+    ],
+    "parts": [
+      { "x": 0, "y": 0, "parts": [ "frame_vertical", "seat", "controls" ] },
+      { "x": 1, "y": 0, "parts": [ "frame_vertical", "halfboard_vertical" ] },
+      { "x": 2, "y": 0, "parts": [ "frame_horizontal_front", "halfboard_vertical" ] },
+      { "x": -1, "y": 0, "parts": [ "frame_horizontal_rear", "plow" ] },
+      { "x": 2, "y": -1, "parts": [ "frame_vertical_T_left", "wheel_mount_medium_steerable" ] },
+      { "x": 2, "y": 1, "parts": [ "frame_vertical_T_right", "wheel_mount_medium_steerable" ] },
+      { "x": -1, "y": -1, "parts": [ "frame_vertical_T_left", "wheel_mount_medium" ] },
+      { "x": -1, "y": 1, "parts": [ "frame_vertical_T_right", "wheel_mount_medium" ] },
+      { "x": 0, "y": 0, "part": "dashboard" },
+      { "x": 1, "y": 0, "parts": [ "engine_steam_medium", "alternator_truck", "battery_car" ] },
+      { "x": 2, "y": -1, "part": "wheel_wide_or" },
+      { "x": 2, "y": 0, "part": "fuel_bunker", "fuel": "coal_lump" },
+      { "x": 2, "y": 1, "part": "wheel_wide_or" },
+      { "x": 3, "y": 0, "part": "reaper" },
+      { "x": -1, "y": -1, "part": "wheel_wide_or" },
+      { "x": -1, "y": 1, "part": "wheel_wide_or" },
+      { "x": -2, "y": 0, "part": "seed_drill" }
+    ],
+    "items": [  ]
+  },
+  {
+    "id": "autotractor",
+    "type": "vehicle",
+    "name": "Automatic Tractor",
+    "blueprint": [
+      [ "O---O" ],
+      [ "8|=x|" ],
+      [ "O-+-O" ]
+    ],
+    "parts": [
+      { "x": 0, "y": 0, "parts": [ "frame_cross", "reaper_advanced", "roof" ] },
+      { "x": 0, "y": -1, "parts": [ "frame_vertical_left", "board_vertical_left" ] },
+      { "x": 0, "y": 1, "parts": [ "frame_vertical_right", "door_opaque_full_right" ] },
+      { "x": 1, "y": -1, "parts": [ "frame_vertical_left", "board_vertical_left" ] },
+      { "x": 1, "y": 0, "parts": [ "frame_cross", "robot_controls", "dashboard", "engine_electric", "roof" ] },
+      { "x": 1, "y": 1, "parts": [ "frame_vertical_right", "board_vertical_right" ] },
+      { "x": 2, "y": -1, "parts": [ "frame_nw", "board_nw", "wheel_mount_medium_steerable" ] },
+      { "x": 2, "y": -1, "part": "wheel_wide_or" },
+      { "x": 2, "y": 0, "parts": [ "frame_horizontal_front", "board_horizontal_front" ] },
+      { "x": 2, "y": 0, "parts": [ "headlight", "omnicam" ] },
+      { "x": 2, "y": 1, "parts": [ "frame_ne", "board_ne" ] },
+      { "x": 2, "y": 1, "parts": [ "wheel_mount_medium_steerable", "wheel_wide_or" ] },
+      { "x": -1, "y": -1, "parts": [ "frame_cross", "storage_battery_mount" ] },
+      { "x": -1, "y": -1, "parts": [ "storage_battery_removable", "board_sw" ] },
+      { "x": -1, "y": 0, "parts": [ "frame_horizontal_2", "plow", "board_horizontal_rear" ] },
+      { "x": -1, "y": 1, "parts": [ "frame_cross", "storage_battery_mount" ] },
+      { "x": -1, "y": 1, "parts": [ "storage_battery_removable", "board_se" ] },
+      { "x": -2, "y": -1, "parts": [ "frame_sw", "engine_electric", "storage_battery_mount" ] },
+      { "x": -2, "y": -1, "parts": [ "storage_battery_removable", "cargo_space" ] },
+      { "x": -2, "y": -1, "parts": [ "wheel_mount_medium_steerable", "wheel_wide_or" ] },
+      { "x": -2, "y": 0, "part": "seed_drill_advanced" },
+      { "x": -2, "y": 1, "parts": [ "frame_se", "engine_electric", "storage_battery_mount" ] },
+      { "x": -2, "y": 1, "parts": [ "storage_battery_removable", "cargo_space" ] },
+      { "x": -2, "y": 1, "parts": [ "wheel_mount_medium_steerable", "wheel_wide_or" ] }
+    ],
+    "items": [  ]
+  },
+  {
+    "id": "tractor_plow",
+    "type": "vehicle",
+    "name": "Plow Tractor",
+    "blueprint": [
+      [ "&    " ],
+      [ "+O  O" ],
+      [ "&=#==" ],
+      [ "+O  O" ],
+      [ "&    " ]
+    ],
+    "parts": [
+      { "x": 0, "y": 0, "parts": [ "frame_vertical", "seat", "controls" ] },
+      { "x": 1, "y": 0, "parts": [ "frame_horizontal", "halfboard_vertical" ] },
+      { "x": 2, "y": 0, "parts": [ "frame_horizontal_front", "halfboard_vertical" ] },
+      { "x": 2, "y": -1, "parts": [ "frame_vertical_T_left", "wheel_mount_medium_steerable" ] },
+      { "x": 2, "y": 1, "parts": [ "frame_vertical_T_right", "wheel_mount_medium_steerable" ] },
+      { "x": -1, "y": 0, "parts": [ "frame_cross", { "part": "tank", "fuel": "diesel" } ] },
+      { "x": -1, "y": -1, "parts": [ "frame_vertical_T_left", "wheel_mount_medium" ] },
+      { "x": -1, "y": 1, "parts": [ "frame_vertical_T_right", "wheel_mount_medium" ] },
+      { "x": -2, "y": 0, "parts": [ "frame_cross", "plow" ] },
+      { "x": -2, "y": -1, "part": "frame_cross" },
+      { "x": -2, "y": -2, "parts": [ "frame_cross", "plow" ] },
+      { "x": -2, "y": 1, "part": "frame_cross" },
+      { "x": -2, "y": 2, "parts": [ "frame_cross", "plow" ] },
+      { "x": 0, "y": 0, "part": "dashboard" },
+      { "x": 1, "y": 0, "parts": [ "battery_car", "diesel_engine_v6", "alternator_truck" ] },
+      { "x": 2, "y": -1, "part": "wheel_wide_or" },
+      { "x": 2, "y": 1, "part": "wheel_wide_or" },
+      { "x": -1, "y": -1, "part": "wheel_wide_or" },
+      { "x": -1, "y": 0, "part": "halfboard_vertical" },
+      { "x": -1, "y": 1, "part": "wheel_wide_or" }
+    ],
+    "items": [  ]
+  },
+  {
+    "id": "tractor_reaper",
+    "type": "vehicle",
+    "name": "Reaper Tractor",
+    "blueprint": [
+      [ "&    " ],
+      [ "+O  O" ],
+      [ "&=#==" ],
+      [ "+O  O" ],
+      [ "&    " ]
+    ],
+    "parts": [
+      { "x": 0, "y": 0, "parts": [ "frame_vertical", "seat", "controls" ] },
+      { "x": 0, "y": 0, "part": "dashboard" },
+      { "x": 1, "y": 0, "parts": [ "frame_horizontal", "halfboard_vertical" ] },
+      { "x": 1, "y": 0, "parts": [ "battery_car", "diesel_engine_v6", "alternator_truck" ] },
+      { "x": 2, "y": 0, "parts": [ "frame_horizontal_front", "halfboard_vertical" ] },
+      { "x": 2, "y": -1, "parts": [ "frame_vertical_T_left", "wheel_mount_medium_steerable" ] },
+      { "x": 2, "y": -1, "part": "wheel_wide_or" },
+      { "x": 2, "y": 1, "parts": [ "frame_vertical_T_right", "wheel_mount_medium_steerable" ] },
+      { "x": 2, "y": 1, "part": "wheel_wide_or" },
+      { "x": -1, "y": 0, "parts": [ "frame_cross", { "part": "tank", "fuel": "diesel" } ] },
+      { "x": -1, "y": -1, "parts": [ "frame_vertical_T_left", "wheel_mount_medium" ] },
+      { "x": -1, "y": -1, "part": "wheel_wide_or" },
+      { "x": -1, "y": 0, "part": "halfboard_vertical" },
+      { "x": -1, "y": 1, "parts": [ "frame_vertical_T_right", "wheel_mount_medium" ] },
+      { "x": -1, "y": 1, "part": "wheel_wide_or" },
+      { "x": -2, "y": -1, "part": "frame_cross" },
+      { "x": -2, "y": -2, "part": "reaper" },
+      { "x": -2, "y": 0, "part": "reaper" },
+      { "x": -2, "y": 1, "part": "frame_cross" },
+      { "x": -2, "y": 2, "part": "reaper" }
+    ],
+    "items": [  ]
+  },
+  {
+    "id": "tractor_seed",
+    "type": "vehicle",
+    "name": "Planter Tractor",
+    "blueprint": [
+      [ "&    " ],
+      [ "+O  O" ],
+      [ "&=#==" ],
+      [ "+O  O" ],
+      [ "&    " ]
+    ],
+    "parts": [
+      { "x": 0, "y": 0, "parts": [ "frame_vertical", "seat", "controls" ] },
+      { "x": -1, "y": 0, "parts": [ "frame_cross", { "part": "tank", "fuel": "diesel" } ] },
+      { "x": -1, "y": 1, "parts": [ "frame_vertical_T_right", "wheel_mount_medium" ] },
+      { "x": -1, "y": -1, "parts": [ "frame_vertical_T_left", "wheel_mount_medium" ] },
+      { "x": 1, "y": 0, "parts": [ "frame_horizontal", "halfboard_vertical" ] },
+      { "x": 2, "y": 0, "parts": [ "frame_horizontal_front", "halfboard_vertical" ] },
+      { "x": 2, "y": -1, "parts": [ "frame_vertical_T_left", "wheel_mount_medium_steerable" ] },
+      { "x": 2, "y": 1, "parts": [ "frame_vertical_T_right", "wheel_mount_medium_steerable" ] },
+      { "x": 0, "y": 0, "part": "dashboard" },
+      { "x": 1, "y": 0, "parts": [ "battery_car", "diesel_engine_v6", "alternator_truck" ] },
+      { "x": 2, "y": -1, "part": "wheel_wide_or" },
+      { "x": 2, "y": 1, "part": "wheel_wide_or" },
+      { "x": -1, "y": -1, "part": "wheel_wide_or" },
+      { "x": -1, "y": 0, "part": "halfboard_vertical" },
+      { "x": -1, "y": 1, "part": "wheel_wide_or" },
+      { "x": -2, "y": -1, "part": "frame_cross" },
+      { "x": -2, "y": -2, "part": "seed_drill" },
+      { "x": -2, "y": 0, "part": "seed_drill" },
+      { "x": -2, "y": 1, "part": "frame_cross" },
+      { "x": -2, "y": 2, "part": "seed_drill" }
+    ],
+    "items": [  ]
+  },
+  {
+    "id": "uncovered_wagon",
+    "type": "vehicle",
+    "name": "Wagon",
+    "blueprint": [
+      [ "H H" ],
+      [ "###" ],
+      [ "oHo" ],
+      [ "oHo" ],
+      [ "oHo" ]
+    ],
+    "parts": [
+      { "x": 0, "y": 0, "parts": [ "frame_wood_cross", "wooden_aisle_vertical" ] },
+      { "x": 0, "y": -1, "parts": [ "frame_wood_vertical_left", "wood box" ] },
+      { "x": 0, "y": 1, "parts": [ "frame_wood_vertical_right", "wood box" ] },
+      { "x": 1, "y": -1, "parts": [ "frame_wood_nw", "seat_wood", "wheel_mount_wood_steerable", "wheel_wood_b" ] },
+      { "x": 1, "y": 0, "parts": [ "frame_wood_cross", "seat_wood", "controls" ] },
+      { "x": 1, "y": 1, "parts": [ "frame_wood_ne", "seat_wood", "wheel_mount_wood_steerable", "wheel_wood_b" ] },
+      { "x": 2, "y": -1, "part": "yoke_harness" },
+      { "x": 2, "y": 1, "part": "yoke_harness" },
+      { "x": -1, "y": -1, "parts": [ "frame_wood_vertical_left", "wood box" ] },
+      { "x": -1, "y": 0, "parts": [ "frame_wood_cross", "wooden_aisle_vertical" ] },
+      { "x": -1, "y": 1, "parts": [ "frame_wood_vertical_right", "wood box" ] },
+      { "x": -2, "y": -1, "parts": [ "frame_wood_sw", "wood box", "wheel_mount_wood", "wheel_wood_b" ] },
+      { "x": -2, "y": 0, "parts": [ "frame_wood_cross", "wooden_aisle_vertical" ] },
+      { "x": -2, "y": 1, "parts": [ "frame_wood_se", "wood box", "wheel_mount_wood", "wheel_wood_b" ] }
+    ]
+  },
+  {
+    "id": "covered_wagon",
+    "type": "vehicle",
+    "name": "Covered Wagon",
+    "blueprint": [
+      [ " H H" ],
+      [ "|###|" ],
+      [ "|oHo|" ],
+      [ "|oHo|" ],
+      [ "|oHo|" ],
+      [ "|oHo|" ]
+    ],
+    "parts": [
+      { "x": 0, "y": 0, "parts": [ "frame_wood_cross", "wooden_aisle_vertical", "roof_cloth" ] },
+      { "x": 0, "y": -1, "parts": [ "frame_wood_cross", "wood box", "roof_cloth" ] },
+      { "x": 0, "y": 1, "parts": [ "frame_wood_cross", "wood box", "roof_cloth" ] },
+      { "x": 0, "y": -2, "parts": [ "frame_wood_vertical_left", "clothboard_vertical_left", "roof_cloth" ] },
+      { "x": 0, "y": 2, "parts": [ "frame_wood_vertical_right", "clothboard_vertical_right", "roof_cloth" ] },
+      { "x": 1, "y": 0, "parts": [ "frame_wood_cross", "wooden_aisle_vertical", "roof_cloth" ] },
+      { "x": 1, "y": -1, "parts": [ "frame_wood_cross", "clothboard_horizontal_front", "roof_cloth" ] },
+      { "x": 1, "y": 1, "parts": [ "frame_wood_cross", "clothboard_horizontal_front", "roof_cloth" ] },
+      { "x": 1, "y": -2, "parts": [ "frame_wood_vertical_left", "clothboard_nw", "roof_cloth" ] },
+      { "x": 1, "y": 2, "parts": [ "frame_wood_vertical_right", "clothboard_ne", "roof_cloth" ] },
+      { "x": 2, "y": -1, "parts": [ "frame_wood_horizontal_front", "seat_wood" ] },
+      { "x": 2, "y": 0, "parts": [ "frame_wood_horizontal_front", "seat_wood", "controls" ] },
+      { "x": 2, "y": 1, "parts": [ "frame_wood_horizontal_front", "seat_wood" ] },
+      {
+        "x": 2,
+        "y": -2,
+        "parts": [ "frame_wood_nw", "wooden_aisle_horizontal", "wheel_mount_wood_steerable", "wheel_wood_b" ]
+      },
+      {
+        "x": 2,
+        "y": 2,
+        "parts": [ "frame_wood_ne", "wooden_aisle_horizontal", "wheel_mount_wood_steerable", "wheel_wood_b" ]
+      },
+      { "x": 3, "y": -1, "part": "yoke_harness" },
+      { "x": 3, "y": 1, "part": "yoke_harness" },
+      { "x": -1, "y": -1, "parts": [ "frame_wood_cross", "wood box", "roof_cloth" ] },
+      { "x": -1, "y": 0, "parts": [ "frame_wood_cross", "wooden_aisle_vertical", "roof_cloth" ] },
+      { "x": -1, "y": 1, "parts": [ "frame_wood_cross", "wood box", "roof_cloth" ] },
+      { "x": -1, "y": -2, "parts": [ "frame_wood_vertical_left", "clothboard_vertical_left", "roof_cloth" ] },
+      { "x": -1, "y": 2, "parts": [ "frame_wood_vertical_right", "clothboard_vertical_right", "roof_cloth" ] },
+      { "x": -2, "y": -1, "parts": [ "frame_wood_cross", "wood box", "roof_cloth" ] },
+      { "x": -2, "y": 0, "parts": [ "frame_wood_cross", "wooden_aisle_vertical", "roof_cloth" ] },
+      { "x": -2, "y": 1, "parts": [ "frame_wood_cross", "wood box", "roof_cloth" ] },
+      {
+        "x": -2,
+        "y": -2,
+        "parts": [ "frame_wood_vertical_left", "clothboard_vertical_left", "wheel_mount_wood", "wheel_wood_b", "roof_cloth" ]
+      },
+      {
+        "x": -2,
+        "y": 2,
+        "parts": [ "frame_wood_vertical_right", "clothboard_vertical_right", "roof_cloth", "wheel_mount_wood", "wheel_wood_b" ]
+      },
+      { "x": -3, "y": 0, "parts": [ "frame_wood_horizontal_rear", "wooden_aisle_vertical", "roof_cloth" ] },
+      { "x": -3, "y": -1, "parts": [ "frame_wood_horizontal_rear", "clothboard_horizontal_rear", "roof_cloth" ] },
+      { "x": -3, "y": 1, "parts": [ "frame_wood_horizontal_rear", "clothboard_horizontal_rear", "roof_cloth" ] },
+      { "x": -3, "y": -2, "parts": [ "frame_wood_sw", "clothboard_sw", "roof_cloth" ] },
+      { "x": -3, "y": 2, "parts": [ "frame_wood_se", "clothboard_se", "roof_cloth" ] }
+    ]
+  },
+  {
+    "id": "stagecoach",
+    "type": "vehicle",
+    "name": "Stagecoach",
+    "blueprint": [
+      [ " HH " ],
+      [ " HH " ],
+      [ " ## " ],
+      [ "||||" ],
+      [ "|##|" ],
+      [ "+==+" ],
+      [ "|##|" ],
+      [ "||||" ],
+      [ " ## " ]
+    ],
+    "parts": [
+      { "x": 0, "y": 0, "parts": [ "frame_wood_nw", "seat_wood", "controls" ] },
+      { "x": 0, "y": 1, "parts": [ "frame_wood_ne", "seat_wood" ] },
+      { "x": 1, "y": 0, "part": "yoke_harness" },
+      { "x": 1, "y": 1, "part": "yoke_harness" },
+      { "x": 2, "y": 0, "part": "yoke_harness" },
+      { "x": 2, "y": 1, "part": "yoke_harness" },
+      { "x": -1, "y": 0, "parts": [ "frame_wood_horizontal", "woodboard_horizontal_front", "roof_wood" ] },
+      { "x": -1, "y": 1, "parts": [ "frame_wood_horizontal", "woodboard_horizontal_front", "roof_wood" ] },
+      {
+        "x": -1,
+        "y": -1,
+        "parts": [ "frame_wood_nw", "woodboard_nw", "roof_wood", "wheel_mount_wood_steerable", "wheel_wood_b" ]
+      },
+      {
+        "x": -1,
+        "y": 2,
+        "parts": [ "frame_wood_ne", "woodboard_ne", "roof_wood", "wheel_mount_wood_steerable", "wheel_wood_b" ]
+      },
+      { "x": -2, "y": 0, "parts": [ "frame_wood_cross", "seat_wood", "roof_wood" ] },
+      { "x": -2, "y": 1, "parts": [ "frame_wood_cross", "seat_wood", "roof_wood" ] },
+      { "x": -2, "y": -1, "parts": [ "frame_wood_vertical_left", "woodboard_vertical_left", "roof_wood" ] },
+      { "x": -2, "y": 2, "parts": [ "frame_wood_vertical_right", "woodboard_vertical_right", "roof_wood" ] },
+      { "x": -3, "y": 0, "parts": [ "frame_wood_cross", "wooden_aisle_horizontal", "roof_wood" ] },
+      { "x": -3, "y": 1, "parts": [ "frame_wood_cross", "wooden_aisle_horizontal", "roof_wood" ] },
+      { "x": -3, "y": -1, "parts": [ "frame_wood_vertical_left", "door_wood_nw", "roof_wood" ] },
+      { "x": -3, "y": 2, "parts": [ "frame_wood_vertical_right", "door_wood_ne", "roof_wood" ] },
+      { "x": -4, "y": 0, "parts": [ "frame_wood_cross", "seat_wood", "roof_wood" ] },
+      { "x": -4, "y": 1, "parts": [ "frame_wood_cross", "seat_wood", "roof_wood" ] },
+      { "x": -4, "y": -1, "parts": [ "frame_wood_vertical_left", "woodboard_vertical_left", "roof_wood" ] },
+      { "x": -4, "y": 2, "parts": [ "frame_wood_vertical_right", "woodboard_vertical_right", "roof_wood" ] },
+      { "x": -5, "y": 0, "parts": [ "frame_wood_horizontal", "woodboard_horizontal_rear", "roof_wood" ] },
+      { "x": -5, "y": 1, "parts": [ "frame_wood_horizontal", "woodboard_horizontal_rear", "roof_wood" ] },
+      {
+        "x": -5,
+        "y": -1,
+        "parts": [ "frame_wood_sw", "woodboard_sw", "roof_wood", "wheel_mount_wood", "wheel_wood_b" ]
+      },
+      {
+        "x": -5,
+        "y": 2,
+        "parts": [ "frame_wood_se", "woodboard_se", "roof_wood", "wheel_mount_wood", "wheel_wood_b" ]
+      },
+      { "x": -6, "y": 0, "parts": [ "frame_wood_sw", "seat_wood" ] },
+      { "x": -6, "y": 1, "parts": [ "frame_wood_se", "wood box" ] }
+    ]
+  },
+  {
+    "id": "gig_carriage",
+    "type": "vehicle",
+    "name": "Gig Carriage",
+    "blueprint": [
+      [ " TT " ],
+      [ "+##+" ]
+    ],
+    "parts": [
+      { "x": 0, "y": 0, "parts": [ "frame_wood_cross", "seat_wood", "controls" ] },
+      { "x": 0, "y": 1, "parts": [ "frame_wood_cross", "seat_wood" ] },
+      { "x": 0, "y": -1, "parts": [ "frame_wood_cross", "wheel_mount_wood_steerable", "wheel_wood_b" ] },
+      { "x": 0, "y": 2, "parts": [ "frame_wood_cross", "wheel_mount_wood_steerable", "wheel_wood_b" ] },
+      { "x": 1, "y": 0, "part": "yoke_harness" },
+      { "x": 1, "y": 1, "part": "yoke_harness" }
+    ]
+  }
+]

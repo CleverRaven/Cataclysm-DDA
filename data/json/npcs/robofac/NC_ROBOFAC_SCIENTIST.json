@@ -1,0 +1,15 @@
+[
+  {
+    "type": "item_group",
+    "id": "NC_ROBOFAC_SCIENTIST_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "under_armor" },
+      { "item": "under_armor_shorts" },
+      { "item": "robofac_jumpsuit" },
+      { "group": "robofac_mantle_prototype" },
+      { "item": "coat_lab" },
+      { "item": "boots" }
+    ]
+  }
+]

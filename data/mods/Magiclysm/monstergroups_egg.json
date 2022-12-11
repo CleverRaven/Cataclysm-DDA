@@ -1,0 +1,7 @@
+[
+  {
+    "name": "GROUP_EGG_OWLBEAR",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_owlbear_cub" } ]
+  }
+]

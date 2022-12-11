@@ -1,0 +1,88 @@
+[
+  {
+    "method": "json",
+    "om_terrain": "house_duplex3",
+    "type": "mapgen",
+    "weight": 200,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        ".......`........`.......",
+        ".......`........`.......",
+        ".%%%...`p!!jj!!p`...%%%.",
+        ".%##oo#*#o####o#*#oo##%.",
+        ".%#sE L   a|a    LxxT#%.",
+        "..#E   Hl y|         #..",
+        "..oT   Hl x|rE    ll o..",
+        "..o    Hl x|r    HHHHo..",
+        "..#       R|TRRR     #..",
+        "..#4   ||||||||||   7#..",
+        "..#3   |t8S|QS8t|   2#..",
+        "..oF   +--9|9---+   Fo..",
+        "..#5  6||||||||||Y  5#..",
+        "..oO  6|s@d|@@ d|6  Oo..",
+        "..#2  Y| @ |s   |6  1#..",
+        ".^#1   +  y|Ih  +   3#^.",
+        "..#    ||||||||||    #..",
+        "..ohh  + IId|D  + hfho..",
+        "..off R|  h |@@ | hfho..",
+        "..#hh  |  @@|@@ |    #..",
+        "..##o#*#Ds@@|d  #*#o##..",
+        ".....``##o####o##``...[.",
+        ".[...``.....^....``..X..",
+        ".........u.............."
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "terrain": {
+        "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
+        "[": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
+        "!": "t_region_groundcover_urban",
+        "`": "t_concrete",
+        "t": "t_linoleum_gray",
+        "S": "t_linoleum_gray",
+        "Q": "t_linoleum_gray",
+        "8": "t_linoleum_gray",
+        "9": "t_linoleum_gray",
+        "-": "t_linoleum_gray"
+      },
+      "furniture": { "!": "f_region_flower" },
+      "place_item": [ { "item": "television", "x": 10, "y": 7 }, { "item": "television", "x": 18, "y": 4 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "house_duplex3_roof",
+    "object": {
+      "fill_ter": "t_shingle_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "  |2222222222222222223  ",
+        "  |.......~..~.......3  ",
+        "  |..................3  ",
+        "  |..................3  ",
+        "  |..................3  ",
+        "  |..................3  ",
+        "  |..................3  ",
+        "  |..................3  ",
+        "  |.N............N...3  ",
+        "  |..................3  ",
+        "  |..................3  ",
+        "  |.....&.........&..3  ",
+        "  5..................5  ",
+        "  |..................3  ",
+        "  |..................3  ",
+        "  |..................3  ",
+        "  |......=....=......3  ",
+        "  |----|........3----3  ",
+        "       |----5---3       ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": { ".": "t_shingle_flat_roof" }
+    }
+  }
+]

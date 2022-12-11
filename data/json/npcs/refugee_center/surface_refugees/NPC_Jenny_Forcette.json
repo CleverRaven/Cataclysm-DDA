@@ -1,0 +1,629 @@
+[
+  {
+    "type": "npc_class",
+    "id": "NC_REFUGEE_Jenny",
+    "name": { "str": "Refugee" },
+    "job_description": "I'm just trying to survive.",
+    "common": false,
+    "//": "Jenny Forcette is an experienced mechanical engineer.  Like the other refugees in the center, she's terrified of the outside world.  Unlike many, she has some ideas what to do about it.",
+    "bonus_str": { "rng": [ -4, -2 ] },
+    "bonus_dex": { "rng": [ -2, 1 ] },
+    "bonus_int": { "rng": [ 3, 4 ] },
+    "bonus_per": { "rng": [ -1, 1 ] },
+    "worn_override": "REFUGEE_Jenny_worn",
+    "carry_override": "REFUGEE_Jenny_carried",
+    "weapon_override": "REFUGEE_Jenny_wield",
+    "traits": [ { "trait": "PACIFIST" }, { "group": "Appearance_Caucasian" } ],
+    "proficiencies": [ "prof_elec_soldering", "prof_metalworking", "prof_welding_basic" ],
+    "skills": [
+      { "skill": "mechanics", "bonus": { "rng": [ 5, 6 ] } },
+      { "skill": "computer", "bonus": { "rng": [ 2, 5 ] } },
+      { "skill": "electronics", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "fabrication", "bonus": { "rng": [ 2, 5 ] } }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "REFUGEE_Jenny_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "sports_bra" },
+      { "item": "panties" },
+      { "item": "socks" },
+      { "item": "linuxtshirt" },
+      { "item": "jeans" },
+      { "item": "hoodie" },
+      { "item": "sneakers" },
+      { "item": "backpack" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "REFUGEE_Jenny_carried",
+    "subtype": "collection",
+    "entries": [ { "item": "paper" }, { "item": "soldering_iron", "ammo-item": "battery", "charges": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "REFUGEE_Jenny_wield",
+    "subtype": "collection",
+    "entries": [ { "item": "laptop" } ]
+  },
+  {
+    "type": "npc",
+    "id": "refugee_JennyForcette",
+    "name_unique": "Jenny Forcette",
+    "gender": "female",
+    "name_suffix": "refugee",
+    "class": "NC_REFUGEE_Jenny",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_REFUGEE_JENNY_1",
+    "faction": "free_merchants",
+    "mission_offered": "MISSION_REFUGEE_Jenny_GET_MOTOR"
+  },
+  {
+    "type": "effect_type",
+    "id": "u_met_Jenny_Forcette",
+    "//": "Use this flag to indicate if the player has met this NPC before."
+  },
+  {
+    "type": "talk_topic",
+    "//": "common talk responses",
+    "id": [
+      "TALK_REFUGEE_JENNY_2",
+      "TALK_REFUGEE_JENNY_Background1",
+      "TALK_REFUGEE_JENNY_Personal1",
+      "TALK_REFUGEE_JENNY_Project1",
+      "TALK_REFUGEE_JENNY_Project2",
+      "TALK_REFUGEE_JENNY_Project3",
+      "TALK_REFUGEE_JENNY_Refugees1",
+      "TALK_REFUGEE_JENNY_FreeMerchants",
+      "TALK_REFUGEE_JENNY_Refugees2_Fatima",
+      "TALK_REFUGEE_JENNY_Refugees2_Friends",
+      "TALK_REFUGEE_JENNY_Refugees2_Borichenko",
+      "TALK_REFUGEE_JENNY_Refugees2_Singh",
+      "TALK_REFUGEE_JENNY_Refugees2_Others"
+    ],
+    "responses": [
+      {
+        "text": "I'm trying to put a cleanup crew together to tidy up the back room.  Can you help?",
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
+            {
+              "not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
+            }
+          ]
+        },
+        "topic": "TALK_REFUGEE_Refuse_Boris_Mission_1"
+      },
+      {
+        "text": "What are you working on?",
+        "condition": { "not": { "u_has_var": "Jenny_mission_3", "type": "mission", "context": "completed", "value": "yes" } },
+        "topic": "TALK_REFUGEE_JENNY_Project1"
+      },
+      {
+        "text": "How's everything going with that defense system?",
+        "condition": { "u_has_var": "Jenny_mission_3", "type": "mission", "context": "completed", "value": "yes" },
+        "topic": "TALK_REFUGEE_JENNY_Project3"
+      },
+      { "text": "Tell me a bit about your background.", "topic": "TALK_REFUGEE_JENNY_Background1" },
+      { "text": "How are things, living here?", "topic": "TALK_REFUGEE_JENNY_Personal1" },
+      {
+        "text": "Are you free to teach me anything today?",
+        "topic": "TALK_REFUGEE_JENNY_Teach2",
+        "condition": {
+          "and": [
+            {
+              "not": { "npc_compare_time_since_var": "Jenny_teach", "type": "timer", "context": "flag", "op": "<=", "time": "1 day" }
+            },
+            { "u_has_var": "Jenny_teach", "type": "knowledge", "context": "flag", "value": "yes" }
+          ]
+        }
+      },
+      { "text": "Can you tell me anything about the other refugees here?", "topic": "TALK_REFUGEE_JENNY_Refugees1" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_JENNY_1",
+    "dynamic_line": "*is a thin woman in her early thirties, with the sort of pale, freckled skin that looks like it would burn if she thought too hard about the sun.  Her clothes and bearing suggest she might once have been carefully put-together, but she now has the harried look of someone with too many worries and too little sleep.  She looks up from a laptop and smiles as you approach.  \"Hi there.  Haven't see you around here before.  I'm Jenny, Jenny Forcette.\"",
+    "speaker_effect": {
+      "effect": [
+        { "u_add_var": "u_met_Jenny_Forcette", "type": "general", "context": "meeting", "value": "yes" },
+        { "npc_first_topic": "TALK_REFUGEE_JENNY_1a" }
+      ]
+    },
+    "responses": [
+      { "text": "Nice meeting you.  What are you doing on that computer?", "topic": "TALK_REFUGEE_JENNY_2" },
+      { "text": "Nice meeting you.  I'd best get going, though.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_JENNY_1a",
+    "dynamic_line": [
+      "*looks up from her computer and gives you a quick, thin smile.  \"Hello again.\"",
+      "*tips the lid of her laptop closed and looks up.  \"Nice to see you again.\""
+    ],
+    "responses": [
+      { "text": "Hi, Jenny.  What are you up to these days?", "topic": "TALK_REFUGEE_JENNY_2" },
+      { "text": "Sorry Jenny, I can't stay to chat.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_JENNY_2",
+    "dynamic_line": "\"I'm puttering around, I always have stuff on the go.\"  Jenny rubs the bridge of her nose briefly, blinking fatigue from her eyes.  \"Gotta keep busy, keep my mind off stuff, you know?\"",
+    "responses": [
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_JENNY_Background1",
+    "dynamic_line": "\"Me?  I trained at MIT in mechanical engineering, I worked for a long time as senior engineer at Marduk Thermal in Rhode Island.  It was a good job, but I landed my dream gig at Boston Dynamics and moved up north to start there.\"  She tips back her head and lets out a long, wistful sigh.  \"I had just finished my orientation and was going to start work when the riots started.  Just my damn luck.\"",
+    "responses": [
+      {
+        "text": "That's impressive, but there must be more to you than just your job.",
+        "topic": "TALK_REFUGEE_JENNY_Background2"
+      },
+      {
+        "text": "You must know some great stuff.  Can you teach me anything?",
+        "topic": "TALK_REFUGEE_JENNY_Teach1",
+        "condition": {
+          "and": [
+            {
+              "not": { "npc_compare_time_since_var": "Jenny_teach", "type": "timer", "context": "flag", "op": "<=", "time": "1 day" }
+            },
+            { "not": { "u_has_var": "Jenny_teach", "type": "knowledge", "context": "flag", "value": "yes" } }
+          ]
+        }
+      },
+      { "text": "Sorry about your luck.  What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_JENNY_Background2",
+    "dynamic_line": "*grins and tugs at her shirt, an uncharacteristically crisp white T-shirt sporting a brightly colored penguin holding a slide rule, and a rainbow slogan reading 'sudo build it the way I told you to'.  \"Ha!  You must not know many engineers, hey?  I guess there's more to me than engineering, but most of my hobbies come back to it one way or the other.  It's not that I live for my work, doing engineering for a heating company wasn't some great dream, but when I got home I'd putter with the projects I wanted to do instead of the ones they made me do.  You know?  And of course, I had my friends and things, we'd go out or hang out and play board games and stuff.  Maybe some day I'll get a board game group started up here, although there's nothing wrong with the card games we've got now.  Plus I don't think Zombicide would hold the same interest for me as it used to.\"",
+    "responses": [
+      { "text": "What kind of board games do you play?", "topic": "TALK_REFUGEE_JENNY_Games1" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_JENNY_Games1",
+    "dynamic_line": "*scrunches her face in thought for a moment.  \"There was a whole world out there of weird board games for ultra nerdy people.  Lots of that stuff never really reached mainstream.  One of the hardest parts of evacuating for me was leaving my garage full of esoteric crowdfunded games I've never played.\"",
+    "responses": [
+      { "text": "Have you ever thought about going back for them?", "topic": "TALK_REFUGEE_JENNY_Games2" },
+      { "text": "Do you mean stuff like D&D?", "topic": "TALK_REFUGEE_JENNY_Games3" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_JENNY_Games2",
+    "dynamic_line": "No, mainly because my whole neighborhood burnt to the ground.  Some scouts went by a while ago.  Nothing there for me but melted plastic miniatures and thousands of hours of gameplay I'll never have.",
+    "responses": [
+      { "text": "Do you mean stuff like D&D?", "topic": "TALK_REFUGEE_JENNY_Games3" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_JENNY_Games3",
+    "dynamic_line": "Well, of course I played the mandatory amount of dice based RPGs necessary to graduate my engineering program,\" she grins.  \"They're fun, something like that would be nice around here, but I'm not that kind of storyteller and I don't think anyone else here is nerdy enough for it.\"  Jenny tips her head a bit.  \"It's nice that you're asking but don't worry about me, I've got recreation.\"",
+    "responses": [
+      { "text": "Have you ever thought about going back for your board games?", "topic": "TALK_REFUGEE_JENNY_Games2" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_JENNY_Teach1",
+    "dynamic_line": "Huh.\"  She purses her lips and looks at you reluctantly.  \"I guess I can teach you a bit, but you'd have to be like, my on-the-job apprentice and help me get stuff done.  It'll cost you a bit depending on what you want to learn.  Do you know anything about electronics, computers, or mechanics already?\"",
+    "responses": [
+      {
+        "text": "[SKILL 2] I'm not a total noob.",
+        "condition": {
+          "or": [
+            { "u_has_skill": { "skill": "computer", "level": 2 } },
+            { "u_has_skill": { "skill": "electronics", "level": 2 } },
+            { "u_has_skill": { "skill": "mechanics", "level": 2 } }
+          ]
+        },
+        "topic": "TALK_REFUGEE_JENNY_Teach2"
+      },
+      {
+        "text": "[SKILL <2] No, that's why I want you to teach me.",
+        "condition": {
+          "not": {
+            "or": [
+              { "u_has_skill": { "skill": "computer", "level": 2 } },
+              { "u_has_skill": { "skill": "electronics", "level": 2 } },
+              { "u_has_skill": { "skill": "mechanics", "level": 2 } }
+            ]
+          }
+        },
+        "topic": "TALK_REFUGEE_JENNY_Teach2_Sorry"
+      },
+      {
+        "text": "[INT 10] No, but I'm a fast learner.",
+        "condition": {
+          "and": [
+            {
+              "not": {
+                "or": [
+                  { "u_has_skill": { "skill": "computer", "level": 2 } },
+                  { "u_has_skill": { "skill": "electronics", "level": 2 } },
+                  { "u_has_skill": { "skill": "mechanics", "level": 2 } }
+                ]
+              }
+            },
+            { "u_has_intelligence": 10 }
+          ]
+        },
+        "trial": { "type": "PERSUADE", "difficulty": 30 },
+        "failure": { "topic": "TALK_REFUGEE_JENNY_Teach2_Sorry" },
+        "success": { "topic": "TALK_REFUGEE_JENNY_Teach2" }
+      },
+      { "text": "Um, you know what?  Nevermind.  What were you saying?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_JENNY_Teach2",
+    "dynamic_line": "\"All right, fine.\"  Jenny sets aside the computer and gets up.  \"Grab some tools and do as I tell you.\"",
+    "speaker_effect": {
+      "effect": [
+        { "u_add_var": "Jenny_teach", "type": "knowledge", "context": "flag", "value": "yes" },
+        { "npc_add_var": "Jenny_teach", "type": "timer", "context": "flag", "time": true }
+      ]
+    },
+    "responses": [
+      { "text": "Just say the word, teach.", "topic": "TALK_TRAIN" },
+      { "text": "Actually, I'd better get going.  Let's do this later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_JENNY_Teach2_Sorry",
+    "dynamic_line": "\"I'm sorry, I don't have the time to teach someone who can't pull their weight, I just don't.\"  She gives you a look of genuine regret, then shrugs.",
+    "speaker_effect": { "effect": { "npc_add_var": "Jenny_teach", "type": "timer", "context": "flag", "time": true } },
+    "responses": [
+      { "text": "Fine.  What were you saying?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_JENNY_Project1",
+    "dynamic_line": {
+      "u_has_var": "Jenny_pneumatics",
+      "value": "mission_complete",
+      "no": {
+        "days_since_cataclysm": 60,
+        "no": "I recently came into possession of this mold for making high-caliber air rifle bullets.  I'm kinda working on a design that would use them to protect the base.  Got a long way to go, though.  If you happen to see anything in your travels about high-powered air rifles, it would help a lot.",
+        "yes": "\"About a month ago, I got a mold for making high-caliber air rifle bullets.  I've been designing some turrets that would use a central air system to power pneumatic rifle turrets around the center.  It's a lot easier than trying to make gunpowder!\"  She shrugs quickly.  \"I'm probably getting ahead of myself here, I don't think we're due to run out of gunpowder for years, but I also think the design is quieter and more long-term extendable.\""
+      },
+      "yes": "\"Well, thanks to your help, I've been designing some turrets that would use a central air system to power pneumatic rifle turrets around the center.  It's a lot easier than trying to make gunpowder!\"  She shrugs quickly.  \"I'm probably getting ahead of myself here, I don't think we're due to run out of gunpowder for years, but I also think the design is quieter and more long-term extendable.\""
+    },
+    "responses": [
+      {
+        "text": "If I see anything, I'll let you know.  Can you tell me more about your project?",
+        "topic": "TALK_REFUGEE_JENNY_Project2",
+        "effect": { "assign_mission": "MISSION_REFUGEE_Jenny_GET_PNEUMATICS" },
+        "condition": {
+          "and": [
+            { "not": { "u_has_var": "Jenny_pneumatics", "value": "mission_complete" } },
+            { "not": { "days_since_cataclysm": 60 } }
+          ]
+        }
+      },
+      { "text": "Tell me more about your project.", "topic": "TALK_REFUGEE_JENNY_Project2" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_JENNY_Project1_helped",
+    "//": "The talk_response to lead here should be in TALK_REFUGEE_JENNY_Project1, and should have these components, saved here until we can check for the pneumatics proficiency in conditions: What do you need to know?  I'm pretty handy with pneumatic devices, I can probably help. 'u_add_var: Jenny_pneumatics value: mission_complete'.",
+    "dynamic_line": "\"Holy shit, what are the odds?  OK, stand back and hold on.\"  Jenny begins peppering you with questions, which you answer to the best of your ability.  She seems quite satisfied.  \"Well, I can't thank you enough,\" she smiles after a few minutes.  \"You probably just saved me weeks of reinventing the wheel.  Here, it's not much but it's all I've got.\"  She hands you a bundle of the local currency.",
+    "responses": [
+      { "text": "Tell me more about your project.", "topic": "TALK_REFUGEE_JENNY_Project2" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_JENNY_Project2",
+    "dynamic_line": {
+      "days_since_cataclysm": 60,
+      "no": "Well, these things are a standard .30 caliber.  They should be compatible with any similar rifle barrel.  It would be pretty easy to repurpose some rifle parts into large air weapons that we could use without relying on gunpowder, and without so much noise.  I'm still drawing up an actual design though, I have a bunch of features I want.  Ask me again in a couple weeks and I'll give you some more info.",
+      "yes": "\"They're pretty big.  This isn't something you'd carry around with you.  They fire .30 cal bullets using compressed air that we'd make inside the basement and then pipe up to individual storage tanks for the guns that would be good for a few hundred shots each.  The design should be capable of auto or semi-auto fire, at a range that's pretty comparable to a gunpowder-based weapon.  It takes out some of the most limited parts of ranged weapons: no gunpowder, no brass casings, just lead that we melt into my mold.  It's not soundless, but it's not as loud as a chemical weapon.  There are tons of advantages.  Only trouble is, I can't convince the Free Merchants to give me the parts I need, even though it's for our own defense.\"  She grimaces.  \"Being one of the 'surface people' is so frustrating.  I'm pretty sure they talk about these decisions downstairs, behind our backs, and we're just not part of the process and can't advocate for our own projects.\""
+    },
+    "responses": [
+      {
+        "text": "Is there some way I can help you get the stuff you need?",
+        "condition": { "days_since_cataclysm": 60 },
+        "topic": "TALK_MISSION_LIST"
+      },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_JENNY_Project3",
+    "dynamic_line": {
+      "npc_compare_time_since_var": "Jenny_project_timer",
+      "type": "timer",
+      "context": "flag",
+      "op": ">=",
+      "time": "7 d",
+      "no": "Things are coming along.  I have a lot of studying to do before I know how to fix my design issues, but the book you brought definitely has everything I need.  Now that I've got some progress to show, administration is much more willing to help me get the parts I need.  You've been a great gofer, but I can probably handle the rest on my own.  Check back in a week or two!",
+      "yes": {
+        "npc_compare_time_since_var": "Jenny_project_timer",
+        "type": "timer",
+        "context": "flag",
+        "op": ">=",
+        "time": "14 d",
+        "no": "I'm really making headway.  We've done some live demonstrations with a working device, and now it's just a matter of manufacturing a few of them.  We should be ready for release in a week or two.",
+        "yes": "It's finally ready!  The pipes are laid to the first patch of ground we'll set turrets up in and I'd like for you to join me to go inspect how they are working.  I'll let you know when I'm ready to go.",
+        "//": "After content freeze remove last sentence on var yes, create mission to nearby field, create air powered turrets, use update mapgen to have some corpses that will rise near the turrets as you approach, create followup followup missions that add additional turrets to nearby fields as time goes on."
+      }
+    },
+    "responses": [
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_JENNY_Personal1",
+    "dynamic_line": {
+      "days_since_cataclysm": 30,
+      "no": "Living here?  Yeah, I guess I live here now.  It's… it's weird.  We're crowded into this tiny space, I don't know these people, but we're sharing bathrooms and we've all been through the same stuff.  It's not great.  At night we can hear the <zombies> outside, and we all just lie there awake, thinking the same things but too scared to talk about it.",
+      "yes": {
+        "days_since_cataclysm": 60,
+        "no": "It's been over a month now, so I guess I'm starting to get used to it.  Things were pretty rough after Sean died, but it wasn't our first big loss and it won't be the last I guess.  I've made a couple friends, and in a weird way we're all like family.  We were all hoping they'd let us downstairs sooner than this though.  We're never quite sure if there's going to be enough food to go around.  I'm really hoping I can lose myself in this project.  Still haven't had a good night's sleep since <the_cataclysm>.",
+        "yes": {
+          "days_since_cataclysm": 120,
+          "no": "There's good and there's bad.  We're all pretty sick of being cooped up in here for months, never knowing if there's going to be food to eat or not.  It's starting to look like they're never going to let us go down to the secure basement, and none of us have slept well since we were brought in.  We know we've got it pretty good… we're safe, we're alive.  It's just, like, what kind of life are we even living?",
+          "yes": "It's getting bad.  We've been stuck in here for months, nothing changing, nothing improving.  We can't go outside, we don't have enough to eat, and we didn't choose to be with each other.  I don't know how long we can stay like this before somebody snaps."
+        }
+      }
+    },
+    "responses": [
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "//": "Table of contents for repeated conversation options when asking Jenny about the other refugees",
+    "id": [
+      "TALK_REFUGEE_JENNY_Refugees1",
+      "TALK_REFUGEE_JENNY_FreeMerchants",
+      "TALK_REFUGEE_JENNY_Refugees2_Fatima",
+      "TALK_REFUGEE_JENNY_Refugees2_Friends",
+      "TALK_REFUGEE_JENNY_Refugees2_Borichenko",
+      "TALK_REFUGEE_JENNY_Refugees2_Singh",
+      "TALK_REFUGEE_JENNY_Refugees2_Others"
+    ],
+    "responses": [
+      { "text": "Can you tell me about the Free Merchants?", "topic": "TALK_REFUGEE_JENNY_FreeMerchants" },
+      { "text": "Can you tell me about Fatima?", "topic": "TALK_REFUGEE_JENNY_Refugees2_Fatima" },
+      {
+        "text": "What has made you friends with Dana, Draco, and Aleesha?",
+        "topic": "TALK_REFUGEE_JENNY_Refugees2_Friends"
+      },
+      { "text": "Can you tell me about the Borichenkos?", "topic": "TALK_REFUGEE_JENNY_Refugees2_Borichenko" },
+      { "text": "Can you tell me about the Singhs?", "topic": "TALK_REFUGEE_JENNY_Refugees2_Singh" },
+      { "text": "Can you tell me about the others?", "topic": "TALK_REFUGEE_JENNY_Refugees2_Others" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_JENNY_Refugees1",
+    "dynamic_line": {
+      "days_since_cataclysm": 90,
+      "yes": "For better or worse, we're a community now.  Fatima and I work together a fair bit, and I consider Dana, Draco, and Aleesha my friends, and so of course I've gotten to know Dana's husband Pedro too.  The Borichenkos are their own sweet brand of messed up, like all of us.  The Singhs have each other, and keep mostly to themselves.  Vanessa and I don't see eye to eye, but I'm still glad she's here.  Uyen and Rhyzaea are always bickering about leadership decisions, as if they made those kind of calls.  What did you want to know?",
+      "no": "Well, there's a bunch of us.  We're starting to form a bit of a community.  Fatima and I work together a fair bit, and I've been hanging out with Dana, Draco, and Aleesha quite a lot.  I don't know the Borichenko bunch, the Singhs, Vanessa, Uyen, or Rhyzaea quite as well, but we've talked.  What did you want to know?"
+    },
+    "//": "see table of contents for the rest of the conversation options here",
+    "responses": [
+      { "text": "What was it you said earlier?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_JENNY_FreeMerchants",
+    "dynamic_line": "They run this place, and they don't run a charity.  We get paid for working around the place, maintaining it, what have you, and we trade cash for food.  The thing is, supply and demand and all… there's a lot more cash than food around.  It's easier to buy a laptop than a piece of beef jerky, and there's no sign of that getting better.  The balance is way off right now, a hard day of work barely gets you enough to fill your belly.  I shouldn't bitch too much though.  I don't know much better way to run it, although rumor is that the folks living downstairs have it a lot easier than we do.  I try not to think too much on that.",
+    "responses": [
+      { "text": "What was it you said earlier?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_JENNY_Refugees2_Fatima",
+    "dynamic_line": "Fatima's a sweety, but she's a total dork.  I know, I know, it's backwards for the engineer to call the heavy-duty mechanic a nerd, but hey.  I call it like it is.  She and I have been doing some odd jobs around the upstairs here, fixing up old machinery and things.",
+    "responses": [
+      { "text": "What was it you said earlier?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_JENNY_Refugees2_Friends",
+    "dynamic_line": "Well, Dana lost her baby right after <the_cataclysm>, in a bus rollover.  She was lucky to make it out alive.  She and Pedro had one of the rougher trips here, I guess.  We just kinda click as friends, I'm grateful there's someone else here I can really get along with.  Her husband, Pedro, is still pretty shell-shocked.  He doesn't talk much.  I like him though, when he opens up he's just hilarious.  Draco is just a cantankerous old fart who hasn't actually got old yet, give him twenty years and he'll be there.  I like grumpy people.  We also have pretty similar taste in music.  Aleesha's a sweet kid, and we've all kind of adopted her, but she seems to hang out with me and Dana the most.  She's a great artist, and she's full of crazy ideas.  I guess I like her because of all of us, she seems to have the most hope that there's a future to be had.",
+    "responses": [
+      { "text": "What was it you said earlier?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_JENNY_Refugees2_Borichenko",
+    "dynamic_line": {
+      "days_since_cataclysm": 90,
+      "yes": "I didn't get to know Boris, Garry, and Stan so well for the first while.  They kinda kept to themselves.  Boris and Stan had just lost their son, you know.  It's pretty lucky that Garry was with them, he's Stan's little brother.  Together, they're a pretty good team.  I feel bad for thinking they were standoffish before.  They probably do the most to pull their weight around here whenever there's work to be done.",
+      "no": "Boris and Stan are married, I guess.  They kinda keep to themselves, they seem a bit standoffish if you ask me.  Garry is Stan's brother, I think, but I'm not totally sure.  He seems nice enough, but he's a man of few words.  I can't get a good bead on them.  I've learned not to pry too much though."
+    },
+    "responses": [
+      { "text": "What was it you said earlier?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_JENNY_Refugees2_Singh",
+    "dynamic_line": {
+      "days_since_cataclysm": 120,
+      "yes": "The Singhs are really shy, and I think they feel pretty bad about making it through this together.  They're the only complete family I've seen since <the_cataclysm>.  That has to feel really weird, and I think it's made them stick really close together.  I think… I think they also just don't really like any of us.",
+      "no": "I really can't get a bead on them.  They never really talk to anyone outside of their little family group, they just sit in their own spot and speak Punjabi.  They always seem nice, and they do their share, they just don't have any social connection."
+    },
+    "responses": [
+      { "text": "What was it you said earlier?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_JENNY_Refugees2_Others",
+    "dynamic_line": {
+      "days_since_cataclysm": 80,
+      "yes": "Vanessa… I'm doing my best, I really am, but we just do not get along.  One of these days one of us is probably going to brain the other with a tire iron, and I'm just grateful I spend more time around the tire irons.  Uyen and Rhyzaea are both excellent people, and I genuinely like them, but I can't stand this ongoing political bullshit they've got going on.  Alonso is just a… he's… there's no polite word for what he is.  A lot of the others are fine with it, and okay, sure, I guess.  John is a walking stereotype, but he's a great poker buddy.  I admit I kinda like him.",
+      "no": "Vanessa… well, she's nice, I guess.  I gotta say, she kinda drives me nuts, but we're in this together so I try not to be too harsh.  Uyen and Rhyzaea both seem to want to run the show here, but I try to stay out of those politics and just focus on building stuff.  I don't see much good coming of it.  Alonso is fine, he's clearly interested in me, and also in every other single person here.  Not my thing, in a group this small.  John is a walking stereotype, I imagine there must be more depth to him, but I haven't seen it yet."
+    },
+    "responses": [
+      { "text": "What was it you said earlier?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "MISSION_REFUGEE_Jenny_GET_PNEUMATICS",
+    "type": "mission_definition",
+    "name": { "str": "Find reference material about air rifles for Jenny." },
+    "difficulty": 1,
+    "value": 0,
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "book_pneumatics",
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "If you happen to see anything in your travels about high-powered air rifles, it would help a lot.",
+      "offer": "If you happen to see anything in your travels about high-powered air rifles, it would help a lot.",
+      "accepted": "Great!  Bring it to me if you find one.",
+      "rejected": "Oh well.  Thanks anyway.",
+      "advice": "Honestly I don't even have a search engine to find the name of a good book.  It's the air compression part I need to know about, gun books won't help much.",
+      "inquire": "Any sign of an air rifle book I can use?",
+      "success": "That's exactly what I need!  Here, I saved a few merch for you, I hope this helps cover your troubles.",
+      "success_lie": "Huh.  This isn't going to work like I thought.",
+      "failure": "No worries.  Let me know if you want to try again."
+    },
+    "end": {
+      "effect": [ { "u_spawn_item": "FMCNote", "count": 4 }, { "u_add_var": "Jenny_pneumatics", "value": "mission_complete" } ]
+    }
+  },
+  {
+    "id": "MISSION_REFUGEE_Jenny_GET_MOTOR",
+    "type": "mission_definition",
+    "name": { "str": "Find an electric motor" },
+    "difficulty": 1,
+    "value": 0,
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "motor",
+    "followup": "MISSION_REFUGEE_Jenny_GET_TANK",
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "Yeah, if you want to risk your neck out there and bring me what I need, I'm not gonna say no.  I can't, like, pay you or anything though, you know that right?",
+      "offer": "Before I get anything going, I'm going to need to set up a compressor.  I have a lot of the stuff for that, but I need a large tank for air, and a good sized electric motor - about 10 kg or so.  I'm also going to need a 60 liter tank, after that.",
+      "accepted": "Great!  Bring it to me when you find one.",
+      "rejected": "Oh well.  Thanks for offering anyway.",
+      "advice": "Try a basic hybrid car, or maybe farm equipment that uses an electric motor.  The kind on a bike would be too small, and the kind on those fance Edison sports cars is going to be too big.",
+      "inquire": "Any sign of a motor I can use?",
+      "success": "That's exactly what I need!  Want to talk about that tank now?  I saved a few merch for you, by the way.",
+      "success_lie": "Huh.  This isn't going to work like I thought.",
+      "failure": "No worries.  Let me know if you want to try again."
+    },
+    "end": {
+      "effect": [
+        { "u_spawn_item": "FMCNote", "count": 4 },
+        { "u_add_var": "Jenny_mission_2", "type": "mission", "context": "completed", "value": "yes" },
+        { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 1 }
+      ]
+    }
+  },
+  {
+    "id": "MISSION_REFUGEE_Jenny_GET_TANK",
+    "type": "mission_definition",
+    "name": { "str": "Bring back a 60L metal tank" },
+    "difficulty": 1,
+    "value": 0,
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "metal_tank",
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_REFUGEE_Jenny_GET_TEXT",
+    "dialogue": {
+      "describe": "Now that I've got that motor, I can get my compressor mostly built.  I will need a tank though.",
+      "offer": "I can get started building the compressor, but I need a large metal tank to store compressed air centrally.  About 60 liters should do…",
+      "accepted": "Great!  Bring it to me when you find one.",
+      "rejected": "Oh well.  Thanks for offering anyway.",
+      "advice": "It needs to be a good strong tank, like a big propane tank or something… you could look at fuel storage tanks and things, as long as they're durable enough.  Heck, if you get some sheet metal you could probably even weld a good one together.",
+      "inquire": "Any sign of a tank I can use?",
+      "success": "Hey, this is perfect, \"tanks\" a bunch.  Okay, I'm sorry for that.  Anyway, now that I've got the parts, I might be able to build a proof of concept.  First I gotta get this thing up and running, and argue with the bean counters about letting me draw power to run it.  Oh right, and here's some merch, thanks for the help!",
+      "success_lie": "Huh.  This isn't going to work like I thought.  Back to the drawing board I guess.",
+      "failure": "No worries.  Let me know if you want to try again."
+    },
+    "end": {
+      "effect": [
+        { "u_spawn_item": "FMCNote", "count": 5 },
+        { "u_add_var": "Jenny_mission_2", "type": "mission", "context": "completed", "value": "yes" },
+        { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 1 }
+      ]
+    }
+  },
+  {
+    "id": "MISSION_REFUGEE_Jenny_GET_TEXT",
+    "type": "mission_definition",
+    "name": { "str": "Find a gunsmithing textbook" },
+    "difficulty": 1,
+    "value": 0,
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "text_gunsmith",
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "I hate to admit it, but my first few tests haven't gone well.  I think I know what's wrong, but I need more information.",
+      "offer": "I need a good quality reference book on gunsmithing.  This isn't my area of expertise, and I don't want to blow anybody up.",
+      "accepted": "Great!  Bring it to me when you find one.",
+      "rejected": "Oh well.  Thanks for offering anyway.",
+      "advice": "This is a bit of a tricky one.  A college library would be a good start, and I imagine maybe military bases have that kind of thing?  I'm not entirely sure.",
+      "inquire": "Any luck looking for that gunsmithing text?",
+      "success": "Oh yeah.  Ooooh yeah.  Now we're cookin' with gas.  Here's a bit more merch, you beautiful gofer maniac.",
+      "success_lie": "Huh.  This isn't going to work like I thought.  Back to the drawing board I guess.",
+      "failure": "No worries.  Let me know if you want to try again."
+    },
+    "end": {
+      "effect": [
+        { "u_spawn_item": "FMCNote", "count": 5 },
+        { "u_add_var": "Jenny_mission_3", "type": "mission", "context": "completed", "value": "yes" },
+        { "npc_add_var": "Jenny_project_timer", "type": "timer", "context": "flag", "time": true },
+        { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 1 }
+      ]
+    }
+  }
+]

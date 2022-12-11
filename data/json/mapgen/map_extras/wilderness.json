@@ -1,0 +1,773 @@
+[
+  {
+    "type": "palette",
+    "id": "long_grass_meadow_palette",
+    "terrain": {
+      ".": [ [ "t_region_groundcover", 10 ], "t_grass_long" ],
+      ",": [ [ "t_region_groundcover", 4 ], "t_grass_long" ],
+      ";": [ "t_region_groundcover", [ "t_grass_long", 2 ] ],
+      "|": [ "t_region_groundcover", [ "t_grass_long", 10 ] ]
+    },
+    "furniture": {
+      ".": [ [ "f_null", 2000 ], [ "f_region_plain", 20 ], [ "f_boulder_small", 6 ], "f_boulder_medium", "f_boulder_large" ],
+      ",": [ [ "f_null", 2000 ], [ "f_region_plain", 40 ], [ "f_boulder_small", 6 ], "f_boulder_medium", "f_boulder_large" ],
+      ";": [ [ "f_null", 2000 ], [ "f_region_plain", 50 ], [ "f_boulder_small", 6 ], "f_boulder_medium", "f_boulder_large" ],
+      "|": [ [ "f_null", 2000 ], [ "f_region_plain", 60 ], [ "f_boulder_small", 6 ], "f_boulder_medium", "f_boulder_large" ]
+    }
+  },
+  {
+    "type": "palette",
+    "id": "copse_trees_palette",
+    "terrain": {
+      ".": [ [ "t_region_groundcover", 60 ], "t_region_tree", "t_region_shrub" ],
+      ",": [ [ "t_region_groundcover", 30 ], [ "t_region_groundcover_forest", 8 ], [ "t_region_tree", 2 ], "t_region_shrub" ],
+      ";": [ [ "t_region_groundcover", 10 ], [ "t_region_groundcover_forest", 8 ], [ "t_region_tree", 6 ], "t_region_shrub" ],
+      "|": [ [ "t_region_groundcover_forest", 7 ], "t_puddle" ]
+    },
+    "furniture": {
+      ".": [ [ "f_null", 2000 ], [ "f_region_plain", 20 ], [ "f_boulder_small", 6 ], "f_boulder_medium", "f_boulder_large" ],
+      ",": [ [ "f_null", 2000 ], [ "f_region_plain", 40 ], [ "f_boulder_small", 6 ], [ "f_boulder_medium", 2 ], "f_boulder_large" ],
+      ";": [ [ "f_null", 2000 ], [ "f_region_plain", 60 ], [ "f_boulder_small", 6 ], [ "f_boulder_medium", 2 ], "f_boulder_large" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_grass_map",
+    "object": {
+      "rows": [
+        "        .........       ",
+        "     ...............    ",
+        "   .......,,,,,.......  ",
+        "  .....,,,,,,,,,,.....  ",
+        "  ...,,,,,,,,,,,,,,.... ",
+        " ....,,,;;;;;;;,,,,.... ",
+        " ...,,,;;;;;;;;;,,,,... ",
+        "....,,;;;;||;;;;,,,,....",
+        "...,,,,;;;;;||;;,,,,,...",
+        "...,;,;;||;||;;;;,,,,...",
+        "...,,;;;;;;;;||;;,,,,...",
+        "...,;,;||;||;;;;;,,,,...",
+        "...,,,,;;;;;;||;,,,,,...",
+        "...,;,,;;||;||;;,,,,,...",
+        "...,,,;;|;;;;||;;,,,,...",
+        "...,,,,,;;||;;;;,,,,,...",
+        "....,,;,;;;;;;;,,,,,....",
+        " ...,,,,,,;;||;;;,,,... ",
+        " ....,,,,,;;;;;,,,,.... ",
+        " ....,,,,,,,,,,,,,,.... ",
+        "  .......,,,,,,.......  ",
+        "  ....................  ",
+        "    ................    ",
+        "       ..........       "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "long_grass_meadow_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_grass2_map",
+    "object": { "place_nested": [ { "chunks": [ [ "mx_grass_nested", 100 ] ], "x": [ 0, 16 ], "y": [ 0, 16 ], "repeat": [ 1, 6 ] } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mx_grass_nested",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        " .... ",
+        ".,,,,.",
+        ".,|;,.",
+        ".,;|,.",
+        ".,,,,.",
+        " .... "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "long_grass_meadow_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mx_grass_nested",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rows": [
+        " ...... ",
+        "..,,,,..",
+        ".,,|;,,.",
+        ".,;||;,.",
+        ".,;|;;,.",
+        ".,,;|,,.",
+        "..,,,,..",
+        " ...... "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "long_grass_meadow_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_knotweed_patch",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "        ;;;|;;;;        ",
+        "       ;;;;|||;;        ",
+        "      ;;||;||;;;;       ",
+        "     ;;;;;||;||;;       ",
+        "      ;|||||;|;;;       ",
+        "       ;;;;|;||;        ",
+        "       ;;|||||;;        ",
+        "      ;;|;||;||;;       ",
+        "        ;;||;;;;        ",
+        "        ;;;;|;;         ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { ";": [ "t_region_groundcover", [ "t_grass_long", 2 ] ], "|": [ "t_region_groundcover", [ "t_grass_tall", 3 ] ] },
+      "furniture": { "|": [ [ "f_japanese_knotweed", 10 ], "f_null" ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_blackberry_patch",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "        ;;;|;;;;        ",
+        "       ;;;;|||;;        ",
+        "      ;;||;||;;;;       ",
+        "     ;;;;;||;||;;       ",
+        "      ;|||||;|;;;       ",
+        "       ;;;;|;||;        ",
+        "       ;;|||||;;        ",
+        "      ;;|;||;||;;       ",
+        "        ;;||;;;;        ",
+        "        ;;;;|;;         ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        ";": [ "t_region_groundcover", [ "t_grass_long", 2 ] ],
+        "|": [ "t_region_groundcover", [ "t_shrub_blackberry", 10 ], [ "t_region_tree", 3 ] ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_trees_map",
+    "object": {
+      "rows": [
+        "        .........       ",
+        "     ...............    ",
+        "   .......,,,,,.......  ",
+        "  .....,,,,,,,,,,.....  ",
+        "  ...,,,,,,,,,,,,,,.... ",
+        " ....,,,;;;;;;;,,,,.... ",
+        " ...,,,;;;;;;;;;,,,,... ",
+        "....,,;;;;||;;;;,,,,....",
+        "...,,,,;;;;;||;;,,,,,...",
+        "...,;,;;||;||;;;;,,,,...",
+        "...,,;;;;;;;;||;;,,,,...",
+        "...,;,;||;||;;;;;,,,,...",
+        "...,,,,;;;;;;||;,,,,,...",
+        "...,;,,;;||;||;;,,,,,...",
+        "...,,,;;|;;;;||;;,,,,...",
+        "...,,,,,;;||;;;;,,,,,...",
+        "....,,;,;;;;;;;,,,,,....",
+        " ...,,,,,,;;||;;;,,,... ",
+        " ....,,,,,;;;;;,,,,.... ",
+        " ....,,,,,,,,,,,,,,.... ",
+        "  .......,,,,,,.......  ",
+        "  ....................  ",
+        "    ................    ",
+        "       ..........       "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "copse_trees_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_trees2_map",
+    "object": { "place_nested": [ { "chunks": [ [ "mx_trees_nested", 100 ] ], "x": [ 0, 16 ], "y": [ 0, 16 ], "repeat": [ 1, 6 ] } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mx_trees_nested",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        " .... ",
+        ".,,,,.",
+        ".,|;,.",
+        ".,;|,.",
+        ".,,,,.",
+        " .... "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "copse_trees_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mx_trees_nested",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rows": [
+        " ...... ",
+        "..,,,,..",
+        ".,,|;,,.",
+        ".,;||;,.",
+        ".,;|;;,.",
+        ".,,;|,,.",
+        "..,,,,..",
+        " ...... "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "copse_trees_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_fallen_shed_map",
+    "object": {
+      "place_nested": [
+        {
+          "chunks": [ [ "mx_grass_nested", 70 ], [ "mx_trees_nested", 30 ] ],
+          "x": [ 0, 16 ],
+          "y": [ 0, 16 ],
+          "repeat": [ 2, 6 ]
+        },
+        { "chunks": [ [ "mx_fallen_shed_nested", 100 ] ], "x": [ 0, 11 ], "y": [ 0, 11 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mx_fallen_shed_nested",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rows": [
+        "--++++--||-",
+        "-_______RR|",
+        "w_______RRw",
+        "w________Rw",
+        "|_________|",
+        "||-_____|||",
+        "|_________|",
+        "w_________w",
+        "w_________w",
+        "-_________|",
+        "--||||||-||"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "desolatebarn_palette" ],
+      "terrain": { "_": "t_dirt" },
+      "furniture": { "_": [ [ "f_null", 30 ], "f_rubble", "f_rubble_rock" ] },
+      "items": {
+        "_": { "item": "wood_workshop", "chance": 1 },
+        "R": [ { "item": "wood_workshop", "chance": 3 }, { "item": "mischw", "chance": 2 } ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mx_fallen_shed_nested",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rows": [
+        "--w_-||-",
+        "-______|",
+        "|______+",
+        "|R_____+",
+        "|RR____|",
+        "|_RRR__w",
+        "-__RRR_w",
+        "--w||-||"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "desolatebarn_palette" ],
+      "terrain": { "_": "t_dirt" },
+      "furniture": { "_": [ [ "f_null", 30 ], "f_rubble", "f_rubble_rock" ] },
+      "items": {
+        "_": { "item": "wood_workshop", "chance": 1 },
+        "R": [ { "item": "wood_workshop", "chance": 3 }, { "item": "mischw", "chance": 2 } ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "pond_water_furniture",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ " " ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "furniture": { " ": [ [ "f_region_water_plant", 10 ], "f_boulder_small", "f_boulder_medium", "f_boulder_large", "f_rubble_rock" ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "pond_rocks",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ " " ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "furniture": { " ": [ "f_boulder_small", "f_boulder_medium", "f_boulder_large", "f_rubble_rock" ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_pond_forest",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "     ????????????????   ",
+        "   ???????????????????  ",
+        "   ?**]]]]]*]***]]]]??  ",
+        "  ???**************]??  ",
+        "  ???*************]]??  ",
+        "  ????***[[[*******]??  ",
+        "  ???***[[[[[[[[**]]??  ",
+        "  ???***[[[[[[[[**]]??  ",
+        "  ???***[[[~~~[[**]]??  ",
+        "  ??****[[[~~~[[***]??  ",
+        "  ??]***[[~~~~[[***]??  ",
+        "  ??]***[[~~~~[[**]]??  ",
+        "  ??]***[[~[[[[[**]]??  ",
+        "  ??]***[[[[[[[[**]]??  ",
+        "  ??]*****[[******]]??  ",
+        "  ??]**************]??  ",
+        "  ??]**************]??  ",
+        "  ????]??]]]]]]]]]]]??  ",
+        "  ????????]]]????????   ",
+        "  ?????????????????     ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "nested": {
+        "*": { "chunks": [ [ "pond_water_furniture", 8 ], [ "null", 92 ] ] },
+        "[": { "chunks": [ [ "pond_water_furniture", 8 ], [ "null", 92 ] ] },
+        "]": { "chunks": [ [ "pond_water_furniture", 8 ], [ "null", 92 ] ] },
+        "~": { "chunks": [ [ "pond_water_furniture", 8 ], [ "null", 92 ] ] }
+      },
+      "terrain": {
+        "*": "t_water_sh",
+        "?": [
+          [ "t_water_sh", 3 ],
+          [ "t_dirt", 5 ],
+          [ "t_grass", 6 ],
+          [ "t_shrub", 2 ],
+          "t_tree_young",
+          [ "t_tree", 2 ],
+          "t_tree_willow"
+        ],
+        "[": [ [ "t_water_dp", 2 ], [ "t_water_sh", 3 ] ],
+        "]": [ [ "t_water_sh", 8 ], "t_dirt", "t_grass" ],
+        "~": "t_water_dp"
+      },
+      "place_monsters": [
+        { "monster": "GROUP_SAFE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 5, "density": 0.5 },
+        { "monster": "GROUP_FISH", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 1, "repeat": [ 1, 2 ], "density": 0.5 },
+        { "monster": "GROUP_FOREST", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 5, "density": 0.5 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_pond_forest_2",
+    "object": {
+      "rows": [
+        "                        ",
+        "         ??             ",
+        "         ???            ",
+        "          ???? ?        ",
+        "          ?????         ",
+        "        ]]]**]]]]       ",
+        "        ]]*****]]]      ",
+        "       ]***[******]     ",
+        "      ]]***[[[[****]    ",
+        "     ]]***[[[[*****]    ",
+        "     ?**[[~~~~[****]]   ",
+        "     ]**[[~~~~[****]]   ",
+        "    ]]***[~~~~[***]]]   ",
+        "    ]]***[~~~~[[]]]     ",
+        "    ]]****[[[[**]???    ",
+        "     ]]***[[***]]???    ",
+        "     ]]]]*****]]  ? ?   ",
+        "       ??]]****]        ",
+        "           **           ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "nested": {
+        "*": { "chunks": [ [ "pond_water_furniture", 8 ], [ "null", 92 ] ] },
+        "[": { "chunks": [ [ "pond_water_furniture", 8 ], [ "null", 92 ] ] },
+        "]": { "chunks": [ [ "pond_water_furniture", 8 ], [ "null", 92 ] ] },
+        "~": { "chunks": [ [ "pond_water_furniture", 8 ], [ "null", 92 ] ] }
+      },
+      "furniture": { "~": "f_clear", "*": "f_clear", "[": "f_clear", "]": "f_clear" },
+      "terrain": {
+        "*": "t_water_sh",
+        "?": [
+          [ "t_water_sh", 3 ],
+          [ "t_dirt", 5 ],
+          [ "t_grass", 6 ],
+          [ "t_shrub", 2 ],
+          "t_tree_young",
+          [ "t_tree", 2 ],
+          "t_tree_willow"
+        ],
+        "[": [ [ "t_water_dp", 2 ], [ "t_water_sh", 3 ] ],
+        "]": [ [ "t_water_sh", 8 ], "t_dirt", "t_grass" ],
+        "~": "t_water_dp"
+      },
+      "place_monsters": [
+        { "monster": "GROUP_SAFE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 5, "density": 0.5 },
+        { "monster": "GROUP_FISH", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 1, "repeat": [ 1, 2 ], "density": 0.5 },
+        { "monster": "GROUP_FOREST", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 5, "density": 0.5 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "pond_dirt",
+    "object": { "mapgensize": [ 1, 1 ], "rows": [ " " ], "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ], "terrain": { " ": "t_dirt" } }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "pond_grass",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ " " ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "terrain": { " ": "t_grass" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "pond_shrub",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ " " ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { " ": "t_shrub" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "pond_underbrush",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ " " ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { " ": "t_underbrush" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "pond_tree",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ " " ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { " ": "t_tree" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "pond_tree_young",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ " " ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { " ": "t_tree_young" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "pond_tree_willow",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ " " ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { " ": "t_tree_willow" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "pond_saltwater_shallow",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ " " ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { " ": "t_swater_sh" },
+      "furniture": { " ": [ "f_region_water_plant", [ "f_null", 10 ] ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "pond_saltwater_deep",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ " " ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { " ": "t_swater_dp" },
+      "furniture": { " ": [ "f_region_water_plant", [ "f_null", 10 ] ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_pond_swamp",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "     ????????????????   ",
+        "   ???????????????????  ",
+        "   ?**]]]]]*]***]]]]??  ",
+        "  ???**************]??  ",
+        "  ???*************]]??  ",
+        "  ????***[[[*******]??  ",
+        "  ???***[[[[[[[[**]]??  ",
+        "  ???***[[[[[[[[**]]??  ",
+        "  ???***[[[~~~[[**]]??  ",
+        "  ??****[[[~~~[[***]??  ",
+        "  ??]***[[~~~~[[***]??  ",
+        "  ??]***[[~~~~[[**]]??  ",
+        "  ??]***[[~[[[[[**]]??  ",
+        "  ??]***[[[[[[[[**]]??  ",
+        "  ??]*****[[******]]??  ",
+        "  ??]**************]??  ",
+        "  ??]**************]??  ",
+        "  ????]??]]]]]]]]]]]??  ",
+        "  ????????]]]????????   ",
+        "  ?????????????????     ",
+        "                        ",
+        "                        "
+      ],
+      "nested": {
+        " ": {
+          "chunks": [
+            [ "pond_saltwater_shallow", 3 ],
+            [ "pond_saltwater_deep", 2 ],
+            [ "pond_dirt", 4 ],
+            [ "pond_grass", 6 ],
+            [ "pond_shrub", 1 ],
+            [ "pond_underbrush", 1 ],
+            [ "pond_tree", 1 ],
+            [ "pond_tree_willow", 1 ],
+            [ "pond_tree_young", 1 ],
+            [ "pond_rocks", 1 ]
+          ]
+        },
+        "*": {
+          "chunks": [
+            [ "pond_saltwater_shallow", 8 ],
+            [ "pond_dirt", 1 ],
+            [ "pond_grass", 1 ],
+            [ "pond_underbrush", 1 ],
+            [ "pond_tree_willow", 1 ],
+            [ "pond_rocks", 1 ]
+          ]
+        },
+        "?": {
+          "chunks": [
+            [ "pond_saltwater_shallow", 3 ],
+            [ "pond_dirt", 5 ],
+            [ "pond_grass", 6 ],
+            [ "pond_shrub", 1 ],
+            [ "pond_tree", 1 ],
+            [ "pond_tree_willow", 1 ],
+            [ "pond_tree_young", 1 ],
+            [ "pond_rocks", 1 ]
+          ]
+        },
+        "[": {
+          "chunks": [ [ "pond_saltwater_deep", 4 ], [ "pond_saltwater_shallow", 4 ], [ "pond_underbrush", 1 ], [ "pond_rocks", 1 ] ]
+        },
+        "]": {
+          "chunks": [
+            [ "pond_saltwater_shallow", 8 ],
+            [ "pond_dirt", 1 ],
+            [ "pond_grass", 1 ],
+            [ "pond_tree_willow", 1 ],
+            [ "pond_rocks", 1 ]
+          ]
+        },
+        "~": {
+          "chunks": [
+            [ "pond_saltwater_deep", 8 ],
+            [ "pond_dirt", 1 ],
+            [ "pond_grass", 1 ],
+            [ "pond_tree_willow", 1 ],
+            [ "pond_underbrush", 1 ],
+            [ "pond_rocks", 1 ]
+          ]
+        }
+      },
+      "furniture": { "~": "f_clear", "*": "f_clear", "[": "f_clear", "]": "f_clear", "?": "f_clear", " ": "f_clear" },
+      "place_monsters": [
+        { "monster": "GROUP_SAFE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 5, "density": 0.5 },
+        { "monster": "GROUP_FISH", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "repeat": [ 1, 2 ], "density": 0.5 },
+        { "monster": "GROUP_SWAMP", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 5, "density": 0.5 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_pond_swamp_2",
+    "object": {
+      "rows": [
+        "                        ",
+        "         ??             ",
+        "         ???            ",
+        "          ???? ?        ",
+        "          ?????         ",
+        "        ]]]**]]]]       ",
+        "        ]]*****]]]      ",
+        "       ]***[******]     ",
+        "      ]]***[[[[****]    ",
+        "     ]]***[[[[*****]    ",
+        "     ?**[[~~~~[****]]   ",
+        "     ]**[[~~~~[****]]   ",
+        "    ]]***[~~~~[***]]]   ",
+        "    ]]***[~~~~[[]]]     ",
+        "    ]]****[[[[**]???    ",
+        "     ]]***[[***]]???    ",
+        "     ]]]]*****]]  ? ?   ",
+        "       ??]]****]        ",
+        "           **           ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "nested": {
+        " ": {
+          "chunks": [
+            [ "pond_saltwater_shallow", 3 ],
+            [ "pond_saltwater_deep", 2 ],
+            [ "pond_dirt", 4 ],
+            [ "pond_grass", 6 ],
+            [ "pond_shrub", 1 ],
+            [ "pond_underbrush", 1 ],
+            [ "pond_tree", 1 ],
+            [ "pond_tree_willow", 1 ],
+            [ "pond_tree_young", 1 ],
+            [ "pond_rocks", 1 ]
+          ]
+        },
+        "*": {
+          "chunks": [
+            [ "pond_saltwater_shallow", 8 ],
+            [ "pond_dirt", 1 ],
+            [ "pond_grass", 1 ],
+            [ "pond_underbrush", 1 ],
+            [ "pond_tree_willow", 1 ],
+            [ "pond_rocks", 1 ]
+          ]
+        },
+        "?": {
+          "chunks": [
+            [ "pond_saltwater_shallow", 3 ],
+            [ "pond_dirt", 5 ],
+            [ "pond_grass", 6 ],
+            [ "pond_shrub", 1 ],
+            [ "pond_tree", 1 ],
+            [ "pond_tree_willow", 1 ],
+            [ "pond_tree_young", 1 ],
+            [ "pond_rocks", 1 ]
+          ]
+        },
+        "[": {
+          "chunks": [ [ "pond_saltwater_deep", 4 ], [ "pond_saltwater_shallow", 4 ], [ "pond_underbrush", 1 ], [ "pond_rocks", 1 ] ]
+        },
+        "]": {
+          "chunks": [
+            [ "pond_saltwater_shallow", 8 ],
+            [ "pond_dirt", 1 ],
+            [ "pond_grass", 1 ],
+            [ "pond_tree_willow", 1 ],
+            [ "pond_rocks", 1 ]
+          ]
+        },
+        "~": {
+          "chunks": [
+            [ "pond_saltwater_deep", 8 ],
+            [ "pond_dirt", 1 ],
+            [ "pond_grass", 1 ],
+            [ "pond_tree_willow", 1 ],
+            [ "pond_underbrush", 1 ],
+            [ "pond_rocks", 1 ]
+          ]
+        }
+      },
+      "furniture": { "~": "f_clear", "*": "f_clear", "[": "f_clear", "]": "f_clear", "?": "f_clear", " ": "f_clear" },
+      "place_monsters": [
+        { "monster": "GROUP_SAFE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 5, "density": 0.5 },
+        { "monster": "GROUP_FISH", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "repeat": [ 1, 2 ], "density": 0.5 },
+        { "monster": "GROUP_SWAMP", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 5, "density": 0.5 }
+      ]
+    }
+  }
+]

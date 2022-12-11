@@ -1,0 +1,226 @@
+[
+  {
+    "id": "aisle_lights",
+    "type": "vehicle_part",
+    "name": { "str": "aisle lights" },
+    "item": "flashlight",
+    "location": "on_ceiling",
+    "symbol": "*",
+    "broken_symbol": "*",
+    "categories": [ "lighting" ],
+    "color": "white",
+    "durability": 20,
+    "//": "essentially an 800lm 10W LED flashlight",
+    "epower": -10,
+    "bonus": 30,
+    "folded_volume": "500 ml",
+    "breaks_into": [ { "item": "scrap", "count": [ 0, 2 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "using": [ [ "vehicle_screw", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "using": [ [ "vehicle_screw", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ], [ "soldering_standard", 4 ] ] }
+    },
+    "flags": [ "AISLE_LIGHT", "ENABLED_DRAINS_EPOWER" ]
+  },
+  {
+    "id": "atomic_lamp",
+    "type": "vehicle_part",
+    "name": { "str": "atomic lamp" },
+    "item": "atomic_lamp",
+    "location": "on_ceiling",
+    "symbol": "*",
+    "broken_symbol": "*",
+    "categories": [ "lighting" ],
+    "color": "light_blue",
+    "durability": 20,
+    "description": "A bright light, self-powered by an atomic decay reaction that never stops.  When turned on, it illuminates several squares inside the vehicle.",
+    "bonus": 30,
+    "folded_volume": "1 L",
+    "breaks_into": [ { "item": "scrap", "prob": 50 } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "using": [ [ "vehicle_screw", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "using": [ [ "vehicle_screw", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ], [ "soldering_standard", 5 ] ] }
+    },
+    "flags": [ "ATOMIC_LIGHT", "LEAK_DAM", "RADIOACTIVE" ]
+  },
+  {
+    "id": "atomic_light",
+    "copy-from": "atomic_lamp",
+    "type": "vehicle_part",
+    "name": { "str": "atomic nightlight" },
+    "item": "atomic_light",
+    "description": "A very dim light, self-powered by an atomic decay reaction that never stops.  When turned on, it illuminates a single square inside the vehicle that isn't suitable for crafting.",
+    "bonus": 5,
+    "folded_volume": "500 ml"
+  },
+  {
+    "id": "floodlight",
+    "type": "vehicle_part",
+    "name": { "str": "floodlight" },
+    "item": "floodlight",
+    "location": "on_roof",
+    "symbol": "*",
+    "broken_symbol": "-",
+    "categories": [ "lighting" ],
+    "color": "white",
+    "broken_color": "blue",
+    "durability": 20,
+    "description": "A very bright, circular light that illuminates the area outside the vehicle when turned on.",
+    "epower": -200,
+    "bonus": 8000,
+    "damage_modifier": 10,
+    "folded_volume": "2 L",
+    "breaks_into": [
+      { "item": "cable", "charges": [ 1, 4 ] },
+      { "item": "steel_chunk", "count": [ 0, 2 ] },
+      { "item": "scrap", "count": [ 1, 2 ] }
+    ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "using": [ [ "vehicle_screw", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "using": [ [ "vehicle_screw", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ], [ "soldering_standard", 4 ] ] }
+    },
+    "flags": [ "CIRCLE_LIGHT", "ENABLED_DRAINS_EPOWER" ]
+  },
+  {
+    "id": "directed_floodlight",
+    "type": "vehicle_part",
+    "name": { "str": "directed floodlight" },
+    "item": "directed_floodlight",
+    "copy-from": "floodlight",
+    "looks_like": "floodlight",
+    "description": "A very bright, directed light that illuminates a half-circular area outside the vehicle when turned on.  During installation, you can choose what direction to point the light.",
+    "//": "8000lm 100W LED floodlight",
+    "epower": -100,
+    "flags": [ "HALF_CIRCLE_LIGHT", "ENABLED_DRAINS_EPOWER" ]
+  },
+  {
+    "id": "headlight",
+    "type": "vehicle_part",
+    "name": { "str": "headlight" },
+    "item": "car_headlight",
+    "symbol": "*",
+    "broken_symbol": "*",
+    "categories": [ "lighting" ],
+    "color": "white",
+    "broken_color": "white",
+    "durability": 20,
+    "description": "A bright light that illuminates a narrow cone outside the vehicle when turned on.  During installation, you can choose what direction to point the light, so multiple headlights can illuminate the sides or rear, as well as the front.",
+    "epower": -60,
+    "bonus": 8000,
+    "damage_modifier": 10,
+    "folded_volume": "250 ml",
+    "breaks_into": [ { "item": "cable", "charges": [ 1, 4 ] }, { "item": "scrap", "count": [ 0, 2 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "using": [ [ "vehicle_screw", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "using": [ [ "vehicle_screw", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ], [ "soldering_standard", 4 ] ] }
+    },
+    "flags": [ "CONE_LIGHT", "ENABLED_DRAINS_EPOWER" ]
+  },
+  {
+    "id": "motorcycle_headlight",
+    "type": "vehicle_part",
+    "name": { "str": "motorcycle headlight" },
+    "item": "motorcycle_headlight",
+    "symbol": "*",
+    "broken_symbol": "*",
+    "categories": [ "lighting" ],
+    "color": "white",
+    "broken_color": "white",
+    "durability": 8,
+    "description": "A small, lightweight, bright light that illuminates a narrow cone outside the vehicle when turned on.  During installation, you can choose what direction to point the light, so multiple headlights can illuminate the sides or rear, as well as the front.",
+    "epower": -60,
+    "bonus": 8000,
+    "damage_modifier": 10,
+    "folded_volume": "250 ml",
+    "breaks_into": [ { "item": "cable", "charges": [ 1, 4 ] }, { "item": "scrap", "count": [ 0, 2 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "using": [ [ "vehicle_screw", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "using": [ [ "vehicle_screw", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ], [ "soldering_standard", 3 ] ] }
+    },
+    "flags": [ "CONE_LIGHT", "ENABLED_DRAINS_EPOWER" ]
+  },
+  {
+    "id": "wide_headlight",
+    "type": "vehicle_part",
+    "name": { "str": "wide angle headlight" },
+    "item": "car_wide_headlight",
+    "copy-from": "headlight",
+    "looks_like": "headlight",
+    "description": "A bright light that illuminates a wide cone outside the vehicle when turned on.  During installation, you can choose what direction to point the light, so multiple headlights can illuminate the sides or rear, as well as the front.",
+    "epower": -150,
+    "flags": [ "WIDE_CONE_LIGHT", "ENABLED_DRAINS_EPOWER" ]
+  },
+  {
+    "id": "headlight_reinforced",
+    "copy-from": "headlight",
+    "type": "vehicle_part",
+    "name": { "str": "reinforced headlight" },
+    "item": "headlight_reinforced",
+    "color": "light_blue",
+    "proportional": { "durability": 4 },
+    "damage_reduction": { "all": 12 }
+  },
+  {
+    "id": "wide_headlight_reinforced",
+    "copy-from": "wide_headlight",
+    "type": "vehicle_part",
+    "name": { "str": "reinforced wide-angle headlight" },
+    "item": "wide_headlight_reinforced",
+    "color": "light_blue",
+    "proportional": { "durability": 4 },
+    "damage_reduction": { "all": 12 }
+  },
+  {
+    "abstract": "light_emergency",
+    "type": "vehicle_part",
+    "categories": [ "lighting" ],
+    "location": "on_roof",
+    "symbol": "*",
+    "broken_symbol": "-",
+    "durability": 20,
+    "description": "Emergency lights, like a police car's or ambulance's, mounted on the vehicle's roof.  Flashes between red and blue when turned on, attracting attention without illuminating the area.",
+    "//": "essentially a pair of overpowered RGB LED flashlights",
+    "epower": -10,
+    "bonus": 500,
+    "damage_modifier": 10,
+    "folded_volume": "500 ml",
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 4, 6 ] },
+      { "item": "steel_chunk", "count": [ 4, 6 ] },
+      { "item": "scrap", "count": [ 4, 6 ] },
+      { "item": "cable", "charges": [ 2, 4 ] },
+      { "item": "plastic_chunk", "count": [ 1, 3 ] }
+    ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "using": [ [ "vehicle_screw", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "using": [ [ "vehicle_screw", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ], [ "soldering_standard", 4 ] ] }
+    },
+    "flags": [ "CIRCLE_LIGHT", "ENABLED_DRAINS_EPOWER" ],
+    "damage_reduction": { "all": 6 }
+  },
+  {
+    "id": "light_blue",
+    "copy-from": "light_emergency",
+    "type": "vehicle_part",
+    "name": { "str": "blue light" },
+    "item": "light_emergency_blue",
+    "color": "blue",
+    "broken_color": "blue",
+    "extend": { "flags": [ "EVENTURN" ] }
+  },
+  {
+    "id": "light_red",
+    "copy-from": "light_emergency",
+    "type": "vehicle_part",
+    "name": { "str": "red light" },
+    "item": "light_emergency_red",
+    "color": "red",
+    "broken_color": "red",
+    "extend": { "flags": [ "ODDTURN" ] }
+  }
+]

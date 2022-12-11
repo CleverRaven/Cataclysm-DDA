@@ -1,0 +1,291 @@
+[
+  {
+    "id": "LOOT_UNSORTED",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Unsorted",
+    "can_be_personal": true,
+    "description": "Place to drop unsorted loot.  You can use \"sort out loot\" zone-action to sort items inside.  It can overlap with Loot zones of different types."
+  },
+  {
+    "id": "LOOT_FOOD",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Food",
+    "can_be_personal": true,
+    "description": "Destination for comestibles.  If more specific food zone is not defined, all food is moved here."
+  },
+  {
+    "id": "LOOT_PFOOD",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Perishable Food",
+    "can_be_personal": true,
+    "description": "Destination for perishable comestibles.  Does include perishable drinks if such zone is not specified."
+  },
+  {
+    "id": "LOOT_DRINK",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Drink",
+    "can_be_personal": true,
+    "description": "Destination for drinks.  Does include perishable drinks if such zone is not specified."
+  },
+  {
+    "id": "LOOT_PDRINK",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Perishable Drink",
+    "can_be_personal": true,
+    "description": "Destination for perishable drinks."
+  },
+  {
+    "id": "LOOT_CONTAINERS",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Containers",
+    "can_be_personal": true,
+    "description": "Destination for empty containers."
+  },
+  {
+    "id": "LOOT_GUNS",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Guns",
+    "can_be_personal": true,
+    "description": "Destination for guns, bows and similar weapons."
+  },
+  {
+    "id": "LOOT_MAGAZINES",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Magazines",
+    "can_be_personal": true,
+    "description": "Destination for gun magazines."
+  },
+  {
+    "id": "LOOT_AMMO",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Ammo",
+    "can_be_personal": true,
+    "description": "Destination for ammo."
+  },
+  {
+    "id": "LOOT_WEAPONS",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Weapons",
+    "can_be_personal": true,
+    "description": "Destination for melee weapons."
+  },
+  {
+    "id": "LOOT_TOOLS",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Tools",
+    "can_be_personal": true,
+    "description": "Destination for tools."
+  },
+  {
+    "id": "LOOT_CLOTHING",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Clothing",
+    "can_be_personal": true,
+    "description": "Destination for clothing.  Does include filthy clothing if such zone is not specified."
+  },
+  {
+    "id": "LOOT_FCLOTHING",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Filthy Clothing",
+    "can_be_personal": true,
+    "description": "Destination for filthy clothing."
+  },
+  {
+    "id": "LOOT_DRUGS",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Drugs",
+    "can_be_personal": true,
+    "description": "Destination for drugs and other medical items."
+  },
+  {
+    "id": "LOOT_BOOKS",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Books",
+    "can_be_personal": true,
+    "description": "Destination for books and magazines."
+  },
+  {
+    "id": "LOOT_MANUALS",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Manuals",
+    "can_be_personal": true,
+    "description": "Destination for instructional books and magazines."
+  },
+  {
+    "id": "LOOT_MODS",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Mods",
+    "can_be_personal": true,
+    "description": "Destination for firearm modifications and similar items."
+  },
+  {
+    "id": "LOOT_MUTAGENS",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Mutagens",
+    "can_be_personal": true,
+    "description": "Destination for mutagens, serums, and purifiers."
+  },
+  {
+    "id": "LOOT_BIONICS",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Bionics",
+    "can_be_personal": true,
+    "description": "Destination for Compact Bionics Modules, a.k.a. CBMs."
+  },
+  {
+    "id": "LOOT_VEHICLE_PARTS",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Vehicle Parts",
+    "can_be_personal": true,
+    "description": "Destination for vehicle parts."
+  },
+  {
+    "id": "LOOT_OTHER",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Other",
+    "can_be_personal": true,
+    "description": "Destination for other miscellaneous items."
+  },
+  {
+    "id": "LOOT_MAPS",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Maps",
+    "can_be_personal": true,
+    "description": "Destination for maps."
+  },
+  {
+    "id": "LOOT_KEYS",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Keys",
+    "can_be_personal": true,
+    "description": "Destination for keys."
+  },
+  {
+    "id": "LOOT_CURRENCY",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Currency",
+    "can_be_personal": true,
+    "description": "Destination for currency."
+  },
+  {
+    "id": "LOOT_FUEL",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Fuel",
+    "can_be_personal": true,
+    "description": "Destination for gasoline, diesel, kerosene and other substances used as a fuel."
+  },
+  {
+    "id": "LOOT_SEEDS",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Seeds",
+    "can_be_personal": true,
+    "description": "Destination for seeds, stems and similar items."
+  },
+  {
+    "id": "LOOT_CHEMICAL",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Chemical",
+    "can_be_personal": true,
+    "description": "Destination for chemicals."
+  },
+  {
+    "id": "LOOT_SPARE_PARTS",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Spare Parts",
+    "can_be_personal": true,
+    "description": "Destination for spare parts."
+  },
+  {
+    "id": "LOOT_ARTIFACTS",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Artifacts",
+    "can_be_personal": true,
+    "description": "Destination for artifacts."
+  },
+  {
+    "id": "LOOT_CORPSE",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Corpses",
+    "can_be_personal": true,
+    "description": "Destination for corpses."
+  },
+  {
+    "id": "LOOT_ARMOR",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Armor",
+    "can_be_personal": true,
+    "description": "Destination for armor.  Does include filthy armor if such zone is not specified."
+  },
+  {
+    "id": "LOOT_FARMOR",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Filthy Armor",
+    "can_be_personal": true,
+    "description": "Destination for filthy armor."
+  },
+  {
+    "id": "LOOT_WOOD",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Wood",
+    "can_be_personal": true,
+    "description": "Destination for firewood and items that can be used as such."
+  },
+  {
+    "id": "LOOT_CUSTOM",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Custom",
+    "can_be_personal": true,
+    "description": "Destination for loot with a custom filter that you can modify."
+  },
+  {
+    "id": "LOOT_IGNORE",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Ignore",
+    "can_be_personal": true,
+    "description": "Items inside of this zone are ignored by \"sort out loot\" zone-action."
+  },
+  {
+    "id": "LOOT_IGNORE_FAVORITES",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Ignore Favorites",
+    "can_be_personal": true,
+    "description": "Favorite items inside of this zone are ignored by \"sort out loot\" zone-action."
+  },
+  {
+    "id": "LOOT_ITEM_GROUP",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Item Group",
+    "can_be_personal": false,
+    "description": "Destination for items from an item group."
+  },
+  {
+    "id": "NO_AUTO_PICKUP",
+    "type": "LOOT_ZONE",
+    "name": "No Auto Pickup",
+    "description": "You won't auto-pickup items inside the zone."
+  },
+  {
+    "id": "NO_NPC_PICKUP",
+    "type": "LOOT_ZONE",
+    "name": "No NPC Pickup",
+    "description": "Friendly NPCs don't pickup items inside the zone."
+  },
+  {
+    "id": "NPC_RETREAT",
+    "type": "LOOT_ZONE",
+    "name": "NPC Retreat",
+    "description": "When fleeing, friendly NPCs will attempt to retreat toward this zone if it is within 60 tiles."
+  },
+  {
+    "id": "NPC_NO_INVESTIGATE",
+    "type": "LOOT_ZONE",
+    "name": "NPC Ignore Sounds",
+    "description": "Friendly NPCs won't investigate unseen sounds coming from this zone."
+  },
+  {
+    "id": "NPC_INVESTIGATE_ONLY",
+    "type": "LOOT_ZONE",
+    "name": "NPC Investigation Area",
+    "description": "Friendly NPCs will investigate unseen sounds only if they come from inside this area."
+  }
+]

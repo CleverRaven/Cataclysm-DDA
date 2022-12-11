@@ -1,0 +1,98 @@
+[
+  {
+    "type": "npc",
+    "id": "ranch_scrapper_1",
+    "//": "Flavor",
+    "name_suffix": "Scrapper",
+    "class": "NC_HUNTER",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_RANCH_SCRAPPER",
+    "faction": "tacoma_commune"
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RANCH_SCRAPPER",
+    "dynamic_line": "Don't mind me.",
+    "responses": [
+      {
+        "text": "The doctor needs some help building an anesthetic machine.  Do you have anything that could help?",
+        "topic": "TALK_RANCH_SCRAPPER_ANESTHETIC_FOR_DOCTOR",
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_RANCH_DOCTOR_MEDICAL_ANESTHETIC" },
+            { "not": { "u_has_mission": "MISSION_RANCH_SCRAPPER_TOOLS_FOR_SCRAP" } },
+            {
+              "not": { "u_has_var": "doctor_anesthetic_scrappers_helped", "type": "mission", "context": "tacoma_ranch", "value": "yes" }
+            }
+          ]
+        }
+      },
+      { "text": "What is your job here?", "topic": "TALK_RANCH_SCRAPPER_JOB" },
+      { "text": "Do you need any help?", "topic": "TALK_RANCH_SCRAPPER_HIRE" },
+      { "text": "I've got to go…", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RANCH_SCRAPPER_JOB",
+    "dynamic_line": "I chop up useless vehicles for spare parts and raw materials.  If we can't use a vehicle immediately, we haul it into the ring we are building to surround the outpost.  It provides a measure of defense in the event that we get attacked.",
+    "responses": [ { "text": "Interesting.", "topic": "TALK_RANCH_SCRAPPER" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RANCH_SCRAPPER_HIRE",
+    "dynamic_line": "I don't personally, the teams we send out to recover the vehicles usually need a hand, but can be hard to catch since they spend most of their time outside the outpost.",
+    "responses": [ { "text": "OK.", "topic": "TALK_RANCH_SCRAPPER" } ]
+  },
+  {
+    "id": "TALK_RANCH_SCRAPPER_ANESTHETIC_FOR_DOCTOR",
+    "type": "talk_topic",
+    "dynamic_line": "Hmm, let me think.  There might be a few things I could scrounge up to help, but it's going to take some time to sort through the scrap to find exactly what you need.  How about this… some of my tools are getting a bit worn and are in need of replacement.  If you could bring me a new angle grinder and a hacksaw, I should be able to find all the parts you need by the time you get back.",
+    "responses": [
+      {
+        "text": "An angle grinder and a hacksaw?  I'll see what I can do.",
+        "topic": "TALK_DONE",
+        "effect": [ { "add_mission": "MISSION_RANCH_SCRAPPER_TOOLS_FOR_SCRAP" } ]
+      },
+      { "text": "Never mind.", "topic": "TALK_NONE" },
+      { "text": "I've got to go…", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "MISSION_RANCH_SCRAPPER_TOOLS_FOR_SCRAP",
+    "type": "mission_definition",
+    "name": { "str": "Tools for Scrap" },
+    "description": "The scrapper is willing to part with some scrap to help build an anesthetic machine in exchange for an angle grinder and a hacksaw.",
+    "goal": "MGOAL_CONDITION",
+    "goal_condition": { "and": [ { "u_has_item": "angle_grinder" }, { "u_has_item": "hacksaw" } ] },
+    "difficulty": 1,
+    "value": 0,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_NULL",
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "Have you found the tools yet?",
+      "success": "These will be very useful, thanks!  I found the parts that you needed and can work with the doctor to build the equipment whenever they are ready.",
+      "success_lie": "…",
+      "failure": "…"
+    },
+    "end": {
+      "effect": [
+        { "u_consume_item": "angle_grinder" },
+        { "u_consume_item": "hacksaw" },
+        {
+          "u_add_var": "doctor_anesthetic_scrappers_helped",
+          "type": "mission",
+          "context": "tacoma_ranch",
+          "value": "yes"
+        }
+      ]
+    }
+  }
+]

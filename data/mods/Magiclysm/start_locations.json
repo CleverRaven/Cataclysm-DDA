@@ -1,0 +1,14 @@
+[
+  {
+    "type": "start_location",
+    "id": "sloc_magic_basement",
+    "name": "Wizard's Secret Basement Study",
+    "terrain": [ "magic_basement" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_lake_retreat",
+    "name": "Wizard's lake retreat",
+    "terrain": [ "lake_retreat_ground" ]
+  }
+]

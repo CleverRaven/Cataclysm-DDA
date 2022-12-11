@@ -1,0 +1,83 @@
+[
+  {
+    "type": "monstergroup",
+    "name": "GROUP_MI-GO_CAMP_OM",
+    "//": "Mi-go raiding parties spawning in the vicinity of a mi-go camp.  Puts slavers later on and keeps large groups from spawning until the player can deal with them.",
+    "monsters": [
+      { "monster": "mon_mi_go", "weight": 530 },
+      { "monster": "mon_mi_go", "weight": 100, "cost_multiplier": 20, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_mi_go", "weight": 100, "cost_multiplier": 10, "pack_size": [ 4, 8 ] },
+      { "monster": "mon_mi_go", "weight": 100, "cost_multiplier": 2, "starts": "180 hours", "pack_size": [ 3, 6 ] },
+      { "monster": "mon_mi_go_slaver", "weight": 30, "cost_multiplier": 10, "starts": "210 hours" },
+      {
+        "monster": "mon_mi_go_slaver",
+        "weight": 30,
+        "cost_multiplier": 20,
+        "starts": "270 hours",
+        "pack_size": [ 1, 2 ]
+      },
+      { "monster": "mon_mi_go_scout", "weight": 100, "cost_multiplier": 50, "starts": "210 hours" },
+      { "monster": "mon_mi_go_myrmidon", "weight": 10, "cost_multiplier": 50, "starts": "270 hours" }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_MI-GO_BASE_COMMON",
+    "//": "Basic mi-go base defenders.",
+    "monsters": [
+      { "monster": "mon_mi_go", "weight": 100, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_mi_go", "weight": 100, "cost_multiplier": 3, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_mi_go_guard", "weight": 550 },
+      { "monster": "mon_mi_go_guard", "weight": 50, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_mi_go_guard", "weight": 30, "cost_multiplier": 3, "pack_size": [ 1, 2 ] },
+      {
+        "monster": "mon_mi_go_slaver",
+        "weight": 20,
+        "cost_multiplier": 4,
+        "starts": "210 hours",
+        "pack_size": [ 1, 2 ]
+      },
+      { "monster": "mon_mi_go_scout", "weight": 100, "cost_multiplier": 2, "starts": "210 hours" }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_MI-GO_BASE_CAPTORS",
+    "//": "Mi-go base defenders for rooms where captives are being held.",
+    "monsters": [
+      { "monster": "mon_mi_go_guard", "weight": 700 },
+      { "monster": "mon_mi_go_guard", "weight": 50, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_mi_go_guard", "weight": 50, "cost_multiplier": 3, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_mi_go_surgeon", "weight": 100, "cost_multiplier": 2 },
+      { "monster": "mon_mi_go_surgeon", "weight": 100, "cost_multiplier": 4, "pack_size": [ 1, 2 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_MI-GO_BASE_BOSS",
+    "//": "Mi-go base defenders for major boss battles.",
+    "monsters": [
+      { "monster": "mon_mi_go_guard", "weight": 620 },
+      { "monster": "mon_mi_go_guard", "weight": 70, "cost_multiplier": 3, "pack_size": [ 2, 5 ] },
+      {
+        "monster": "mon_mi_go_myrmidon",
+        "weight": 30,
+        "cost_multiplier": 6,
+        "starts": "210 hours",
+        "pack_size": [ 1, 2 ]
+      },
+      { "monster": "mon_mi_go_scout", "weight": 100, "cost_multiplier": 3, "pack_size": [ 1, 2 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_MI-GO_SCOUT_TOWER",
+    "//": "Mi-go scout tower prisoner room.",
+    "monsters": [
+      { "monster": "mon_mi_go_surgeon", "weight": 100, "cost_multiplier": 3 },
+      { "monster": "mon_mi_go_guard", "weight": 100, "cost_multiplier": 6 },
+      { "monster": "mon_mi_go", "weight": 700 },
+      { "monster": "mon_mi_go", "weight": 100, "cost_multiplier": 2, "pack_size": [ 3, 4 ] }
+    ]
+  }
+]

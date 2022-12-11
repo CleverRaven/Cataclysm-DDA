@@ -1,0 +1,236 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "house_08" ],
+    "//": "Standard variant",
+    "weight": 300,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        ".%%%.....p.`....%%%.....",
+        ".%###o####o*o##########.",
+        ".%#hr E | RRRR       ho.",
+        ".^# r E +HHH    lll  ho.",
+        ".%#y    |            h#.",
+        ".##||||+|             o.",
+        ".o      |         h   o.",
+        ".#E @@  |       A   A #.",
+        ".o d@@s | hfh | ||JJJ|#.",
+        ".#|||||+| hfh |  Y   4#.",
+        ".#g|d                Oo.",
+        ".#>+          |6 31F52#.",
+        ".#||+|##¶###¶###o######.",
+        ".oB8 S#%``````.......^Ŧ.",
+        ".#B  t#.``````........Ŧ.",
+        ".######...............Ŧ.",
+        ".Ŧ....................Ŧ.",
+        ".Ŧ....................Ŧ.",
+        ".Ŧ....................Ŧ.",
+        ".Ŧ....................Ŧ.",
+        ".Ŧ....................Ŧ.",
+        ".Ŧ....................Ŧ.",
+        ".ŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦ.",
+        "........................"
+      ],
+      "palettes": [
+        { "distribution": [ [ "standard_domestic_palette", 10 ], [ "standard_domestic_palette_abandoned", 2 ] ] },
+        "standard_domestic_landscaping_palette"
+      ],
+      "set": [
+        { "point": "terrain", "id": "t_tree_apple", "x": [ 0, 14 ], "y": [ 0, 0 ], "repeat": [ 1, 2 ] },
+        { "point": "terrain", "id": "t_tree", "x": [ 2, 11 ], "y": [ 16, 21 ], "repeat": [ 2, 6 ] },
+        { "point": "terrain", "id": "t_tree_young", "x": [ 2, 11 ], "y": [ 16, 21 ], "repeat": [ 3, 5 ] }
+      ],
+      "place_loot": [ { "group": "guns_pistol_common", "x": 4, "y": 10, "chance": 10, "ammo": 90, "magazine": 100 } ],
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 50 ],
+            [ "roof_6x6_garden_4", 15 ],
+            [ "roof_6x6_garden_1", 15 ],
+            [ "greenhouse_6x6_herbal", 25 ],
+            [ "greenhouse_6x6_vegetable", 25 ],
+            [ "pond_6x6", 25 ],
+            [ "shed_6x6_junk", 25 ],
+            [ "shed_6x6_bike", 25 ],
+            [ "shed_6x6_woodworker", 25 ]
+          ],
+          "x": 15,
+          "y": 15
+        }
+      ],
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "chance": 2 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "house_08" ],
+    "//": "Child birthday party variant",
+    "weight": 15,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        ".%%%.....p.-....%%%.....",
+        ".%###o####o*o##########.",
+        ".%#s@ dD|       HHH   o.",
+        ".^# @   +       lll E o.",
+        ".%#    T|             #.",
+        ".##||||||R            o.",
+        ".o      |R        h   o.",
+        ".#E @@  |       A   A #.",
+        ".o d@@s | hfh | ||JJJ|#.",
+        ".#|||||+| hfh |  Y   4#.",
+        ".#g|d                Oo.",
+        ".#>+          |6 31F52#.",
+        ".#||+|##¶###¶###o######.",
+        ".oB8 S#%-----........^Ŧ.",
+        ".#B  t#.-----.........Ŧ.",
+        ".######...............Ŧ.",
+        ".Ŧ.........?.??.......Ŧ.",
+        ".Ŧ........?!!!!?......Ŧ.",
+        ".Ŧ.........??.........Ŧ.",
+        ".Ŧ....................Ŧ.",
+        ".Ŧ....................Ŧ.",
+        ".Ŧ....................Ŧ.",
+        ".ŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦ.",
+        "........................"
+      ],
+      "palettes": [
+        { "distribution": [ [ "standard_domestic_palette", 10 ], [ "standard_domestic_palette_abandoned", 2 ] ] },
+        "standard_domestic_party_palette"
+      ],
+      "place_fields": [ { "field": "fd_blood", "x": [ 9, 11 ], "y": [ 12, 14 ], "repeat": [ 4, 6 ] } ],
+      "place_loot": [
+        { "group": "livingroom", "x": [ 9, 21 ], "y": [ 2, 7 ], "chance": 90, "repeat": [ 1, 4 ] },
+        { "group": "toy_store", "x": [ 9, 10 ], "y": [ 16, 18 ], "chance": 80, "repeat": [ 3, 6 ] },
+        { "group": "candy_shop", "x": [ 12, 14 ], "y": 17, "chance": 75, "repeat": [ 3, 6 ] },
+        { "item": "red_pen", "x": [ 11, 12 ], "y": [ 5, 6 ], "chance": 75, "repeat": [ 1, 2 ] },
+        { "item": "blue_pen", "x": [ 11, 12 ], "y": [ 5, 6 ], "chance": 75, "repeat": [ 1, 2 ] },
+        { "item": "paper", "x": [ 11, 12 ], "y": [ 5, 6 ], "chance": 75, "repeat": [ 3, 6 ] },
+        { "item": "child_book", "x": 9, "y": [ 5, 6 ], "chance": 66, "repeat": [ 2, 4 ] },
+        { "item": "baseball", "x": 3, "y": 4, "chance": 100 },
+        { "item": "bat_metal", "x": 5, "y": 2, "chance": 100 },
+        { "item": "roller_blades", "x": [ 6, 7 ], "y": 2, "chance": 50 },
+        { "item": "backpack", "x": [ 6, 7 ], "y": 2, "chance": 50 },
+        { "item": "child_book", "x": 3, "y": 2, "chance": 100 },
+        { "item": "sponge_cake", "x": 11, "y": 17, "chance": 100 },
+        { "item": "candle", "x": 11, "y": 17, "chance": 100 },
+        { "item": "knife_chef", "x": 11, "y": 17, "chance": 100 },
+        { "item": "ceramic_plate", "x": 11, "y": 17, "chance": 100 },
+        { "item": "balloon", "x": [ 7, 18 ], "y": [ 15, 19 ], "chance": 75, "repeat": [ 3, 6 ] },
+        { "item": "paper", "x": [ 9, 10 ], "y": [ 16, 18 ], "chance": 66, "repeat": [ 2, 5 ] },
+        { "item": "box_small", "x": [ 9, 10 ], "y": [ 16, 18 ], "chance": 66, "repeat": [ 2, 3 ] },
+        { "item": "football", "x": [ 7, 18 ], "y": [ 19, 21 ], "chance": 80 },
+        { "item": "frisbee", "x": [ 7, 18 ], "y": [ 19, 21 ], "chance": 80 },
+        { "item": "clown_wig", "x": 10, "y": 13, "chance": 100 },
+        { "item": "clown_nose", "x": 10, "y": 13, "chance": 100 },
+        { "item": "clown_suit", "x": 10, "y": 13, "chance": 100 },
+        { "item": "clownshoes", "x": 10, "y": 13, "chance": 100 },
+        { "item": "corpse_painful", "x": 10, "y": 13, "chance": 100 }
+      ],
+      "place_monster": [
+        { "monster": "mon_zombie_child", "x": [ 7, 21 ], "y": [ 13, 21 ], "chance": 100, "repeat": 4 },
+        { "monster": "mon_zombie_child", "x": [ 4, 21 ], "y": [ 3, 11 ], "chance": 100, "repeat": 2 },
+        { "monster": "mon_zombie", "x": [ 4, 21 ], "y": [ 3, 11 ], "chance": 66, "repeat": 2 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "house_08_roof",
+    "object": {
+      "fill_ter": "t_shingle_flat_roof",
+      "rows": [
+        "                        ",
+        "  |22222222222222222223 ",
+        "  |...................3 ",
+        "  5..............:....3 ",
+        "  |...................3 ",
+        " ||...................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |..............&.....3 ",
+        " |....................3 ",
+        " |....3--------------53 ",
+        " |.=..3                 ",
+        " |....3                 ",
+        " |22223                 ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": { ".": "t_shingle_flat_roof" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "house_08_basement",
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "                        ",
+        "  ||||||||||||||||||||| ",
+        "  |2........1.........| ",
+        "  |...................| ",
+        "  |...................| ",
+        " ||...................| ",
+        " |z...................| ",
+        " |....................| ",
+        " |g...................| ",
+        " |....................| ",
+        " |.....z..............| ",
+        " |<..zFz..............| ",
+        " |%%+%||||||||||||||||| ",
+        " |....|                 ",
+        " |JWZJ|                 ",
+        " ||||||                 ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "basement_empty" ],
+      "nested": {
+        "2": {
+          "chunks": [
+            [ "null", 70 ],
+            [ "room_6x6_guns_E", 2 ],
+            [ "room_6x6_guns_S", 2 ],
+            [ "room_6x6_junk_E", 30 ],
+            [ "room_6x6_junk_S", 30 ],
+            [ "room_6x6_office_E", 30 ],
+            [ "room_6x6_office_S", 30 ],
+            [ "room_6x6_brewer_E", 10 ],
+            [ "room_6x6_brewer_S", 10 ]
+          ]
+        },
+        "1": {
+          "chunks": [
+            [ "null", 70 ],
+            [ "room_10x10_woodworker_W", 20 ],
+            [ "room_10x10_guns_W", 7 ],
+            [ "room_10x10_pool_W", 2 ],
+            [ "room_10x10_junk_W", 30 ],
+            [ "room_10x10_recording_studio_W", 20 ]
+          ]
+        }
+      }
+    }
+  }
+]

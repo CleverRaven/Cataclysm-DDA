@@ -1,0 +1,133 @@
+[
+  {
+    "type": "recipe",
+    "activity_level": "fake",
+    "result": "test_soldering_iron",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "skill_used": "electronics",
+    "difficulty": 1,
+    "time": "20 m",
+    "reversible": true,
+    "decomp_learn": 0,
+    "autolearn": [ [ "electronics", 2 ] ],
+    "book_learn": [ [ "manual_electronics", 1 ], [ "advanced_electronics", 2 ], [ "textbook_anarch", 2 ] ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "e_scrap", 2 ], [ "glowplug", 1 ] ],
+      [ [ "copper", 1 ], [ "nail", 1 ], [ "wire", 1 ] ],
+      [ [ "scrap", 1 ] ],
+      [ [ "duct_tape", 10 ] ],
+      [ [ "cable", 5 ] ]
+    ]
+  },
+  {
+    "result": "armguard_metal",
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_ARMS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "skills_required": [ "tailor", 4 ],
+    "time": "30 m",
+    "autolearn": true,
+    "book_learn": [ [ "recipe_melee", 3 ] ],
+    "using": [ [ "cordage", 1 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "sheet_metal_small", 4 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_armorsmithing", "fail_multiplier": 1 }, { "proficiency": "prof_articulation" } ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "test_baseball",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "1 m",
+    "autolearn": true,
+    "flags": [ "BLIND_EASY" ],
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "rock", 1 ], [ "sharp_rock", 1 ] ] ]
+  },
+  {
+    "//": "Basic test requirement extension for components",
+    "type": "requirement",
+    "id": "eggs_bird",
+    "extend": { "components": [ [ [ "test_eggs", 1, "LIST" ] ] ] }
+  },
+  {
+    "type": "requirement",
+    "id": "test_eggs",
+    "components": [ [ [ "test_egg", 2 ] ] ]
+  },
+  {
+    "//": "multigroup requirement extension for tools",
+    "id": "explosives_casting_standard",
+    "type": "requirement",
+    "extend": {
+      "tools": [
+        [ [ "metal_tank_test", -1 ] ],
+        [ [ "test_pipe", -1 ], [ "test_glass_pipe_mostly_steel", -1 ], [ "test_glass_pipe_mostly_glass", -1 ] ]
+      ]
+    }
+  },
+  {
+    "//": "Simplified on purpose. For testing byproducts.",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "test_tallow",
+    "byproducts": [ [ "test_cracklins" ], [ "test_gum" ] ],
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "time": "10 m",
+    "charges": 3,
+    "autolearn": false,
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "fat", 2 ] ] ]
+  },
+  {
+    "//": "Simplified on purpose. For testing byproducts.",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "test_tallow2",
+    "byproduct_group": [ { "item": "test_cracklins", "charges": [ 2, 3 ] }, { "item": "test_gum", "count": [ 2, 3 ] } ],
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "time": "10 m",
+    "charges": 3,
+    "autolearn": false,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "fat", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "cudgel",
+    "id_suffix": "simple",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "time": "1 h",
+    "proficiencies": [ { "proficiency": "prof_carving", "fail_multiplier": 1, "time_multiplier": 2 } ],
+    "components": [ [ [ "2x4", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "cudgel",
+    "id_suffix": "slow",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "time": "10 d",
+    "proficiencies": [ { "proficiency": "prof_carving", "fail_multiplier": 1, "time_multiplier": 2 } ],
+    "components": [ [ [ "2x4", 1 ] ] ]
+  }
+]

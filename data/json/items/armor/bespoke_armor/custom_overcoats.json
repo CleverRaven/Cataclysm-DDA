@@ -1,0 +1,338 @@
+[
+  {
+    "id": "duster_survivor",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "survivor duster" },
+    "description": "A Kevlar armored custom full-length duster, covered with pouches and pockets.  Comfortable, durable, and great for storage.",
+    "weight": "2592 g",
+    "volume": "9500 ml",
+    "price": 40000,
+    "price_postapoc": 8000,
+    "to_hit": -1,
+    "material": [ "canvas", "kevlar" ],
+    "symbol": "[",
+    "looks_like": "duster_leather",
+    "color": "brown",
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 8, 13 ] },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 86,
+        "encumbrance": [ 5, 6 ],
+        "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
+        "layers": [ "BELTED" ]
+      },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 8, 8 ] }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "6 kg",
+        "max_item_length": "31 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "6 kg",
+        "max_item_length": "31 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "25 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "25 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "13 cm",
+        "moves": 120
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "13 cm",
+        "moves": 120
+      }
+    ],
+    "warmth": 20,
+    "material_thickness": 3,
+    "valid_mods": [ "steel_padded" ],
+    "environmental_protection": 3,
+    "flags": [ "VARSIZE", "POCKETS", "HOOD", "COLLAR", "STURDY", "WATERPROOF", "RAINPROOF", "OUTER" ]
+  },
+  {
+    "id": "xl_duster_survivor",
+    "type": "ARMOR",
+    "name": { "str": "XL survivor duster" },
+    "copy-from": "duster_survivor",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_duster_survivor",
+    "type": "ARMOR",
+    "copy-from": "duster_survivor",
+    "looks_like": "duster_survivor",
+    "name": { "str": "XS survivor duster" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "sleeveless_duster_survivor",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "sleeveless survivor duster" },
+    "//": "The general guideline for sleeveless dusters is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
+    "description": "A custom Kevlar armored full-length duster without sleeves, covered with pouches and pockets.  Comfortable, durable, and great for storage.",
+    "weight": "2203 g",
+    "volume": "8 L",
+    "price": 34000,
+    "price_postapoc": 4500,
+    "to_hit": -1,
+    "material": [ "canvas", "kevlar" ],
+    "symbol": "[",
+    "looks_like": "duster_survivor",
+    "color": "brown",
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 8, 13 ] },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 86,
+        "encumbrance": [ 5, 6 ],
+        "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
+        "layers": [ "BELTED" ]
+      }
+    ],
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "3 L", "max_contains_weight": "6 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "3 L", "max_contains_weight": "6 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "2 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "2 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 120 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 120 }
+    ],
+    "warmth": 20,
+    "material_thickness": 3,
+    "valid_mods": [ "steel_padded" ],
+    "environmental_protection": 3,
+    "flags": [ "VARSIZE", "POCKETS", "HOOD", "COLLAR", "STURDY", "WATERPROOF", "RAINPROOF", "OUTER" ]
+  },
+  {
+    "id": "armor_mercenary_top",
+    "type": "ARMOR",
+    "name": { "str": "mercenary coat" },
+    "description": "A sturdy coat fit for a soldier of fortune.  Made from a ballistic vest combined with a military jacket reinforced with soft armor panels.  Has pockets for armor inserts and MOLLE webbing to attach accessories.",
+    "//": "weight is currently an estimation could be better",
+    "weight": "5500 g",
+    "volume": "7500 ml",
+    "price": 180000,
+    "price_postapoc": 2000,
+    "to_hit": -3,
+    "material": [ "kevlar_layered", "nylon" ],
+    "symbol": "[",
+    "looks_like": "armor_scavenger",
+    "color": "green",
+    "armor": [
+      {
+        "//": "stats of a bullet proof vest",
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "kevlar_layered", "covered_by_mat": 90, "thickness": 4.4 }
+        ],
+        "volume_encumber_modifier": 0.3,
+        "encumbrance": 6,
+        "coverage": 100,
+        "cover_vitals": 90,
+        "covers": [ "torso" ]
+      },
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.5 },
+          { "type": "kevlar_layered", "covered_by_mat": 90, "thickness": 4.4 }
+        ],
+        "encumbrance": 9,
+        "volume_encumber_modifier": 0,
+        "coverage": 100,
+        "cover_vitals": 90,
+        "covers": [ "arm_l", "arm_r" ]
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "2000 ml",
+        "max_contains_weight": "5 kg",
+        "max_item_length": "33 cm",
+        "moves": 800,
+        "description": "Pocket for front plate.",
+        "flag_restriction": [ "ABLATIVE_LARGE" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "2000 ml",
+        "max_contains_weight": "5 kg",
+        "max_item_length": "33 cm",
+        "moves": 800,
+        "description": "Pocket for back plate.",
+        "flag_restriction": [ "ABLATIVE_LARGE" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "21 cm",
+        "moves": 800,
+        "description": "Pocket for right side plate.",
+        "flag_restriction": [ "ABLATIVE_MEDIUM" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "21 cm",
+        "moves": 800,
+        "description": "Pocket for left side plate.",
+        "flag_restriction": [ "ABLATIVE_MEDIUM" ]
+      }
+    ],
+    "warmth": 40,
+    "material_thickness": 5,
+    "use_action": [ { "type": "attach_molle", "size": 10 }, { "type": "detach_molle" } ],
+    "valid_mods": [ "steel_padded" ],
+    "environmental_protection": 2,
+    "flags": [ "STURDY", "WATERPROOF", "OUTER" ]
+  },
+  {
+    "id": "trenchcoat_survivor",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "survivor trenchcoat" },
+    "description": "A Kevlar armored custom trenchcoat, covered with pouches and pockets.  Comfortable, durable, and great for storage.",
+    "weight": "1920 g",
+    "volume": "7 L",
+    "price": 40000,
+    "price_postapoc": 8000,
+    "to_hit": -1,
+    "material": [ "canvas", "kevlar" ],
+    "symbol": "[",
+    "looks_like": "trenchcoat",
+    "color": "brown",
+    "armor": [
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 100, "encumbrance": [ 8, 15 ] },
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 95, "encumbrance": [ 0, 0 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 8, 8 ] }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "6 kg",
+        "max_item_length": "31 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "6 kg",
+        "max_item_length": "31 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "25 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "25 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "13 cm",
+        "moves": 120
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "13 cm",
+        "moves": 120
+      }
+    ],
+    "warmth": 20,
+    "material_thickness": 3,
+    "valid_mods": [ "steel_padded" ],
+    "environmental_protection": 3,
+    "flags": [ "VARSIZE", "POCKETS", "HOOD", "COLLAR", "STURDY", "WATERPROOF", "RAINPROOF", "OUTER" ]
+  },
+  {
+    "id": "sleeveless_trenchcoat_survivor",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "sleeveless survivor trenchcoat" },
+    "//": "The general guideline for sleeveless trenchcoats is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
+    "description": "A custom Kevlar armored trenchcoat without sleeves, covered with pouches and pockets.  Comfortable, durable, and great for storage.",
+    "weight": "1632 g",
+    "volume": "6 L",
+    "price": 34000,
+    "price_postapoc": 500,
+    "to_hit": -1,
+    "material": [ "canvas", "kevlar" ],
+    "symbol": "[",
+    "looks_like": "sleeveless_duster_survivor",
+    "color": "brown",
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "3 L", "max_contains_weight": "6 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "3 L", "max_contains_weight": "6 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "2 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "2 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 120 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 120 }
+    ],
+    "warmth": 20,
+    "material_thickness": 3,
+    "valid_mods": [ "steel_padded" ],
+    "environmental_protection": 3,
+    "flags": [ "VARSIZE", "POCKETS", "HOOD", "COLLAR", "STURDY", "WATERPROOF", "RAINPROOF", "OUTER" ],
+    "armor": [
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 100, "encumbrance": [ 8, 15 ] },
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 95, "encumbrance": [ 0, 0 ] },
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ],
+        "coverage": 40,
+        "encumbrance": [ 0, 0 ]
+      }
+    ]
+  }
+]

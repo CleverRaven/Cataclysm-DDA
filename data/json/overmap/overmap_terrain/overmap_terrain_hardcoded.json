@@ -1,0 +1,209 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": "open_air",
+    "name": "open air",
+    "sym": ".",
+    "color": "blue",
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "field",
+    "copy-from": "generic_open_land",
+    "name": "field",
+    "sym": ".",
+    "color": "brown",
+    "see_cost": 2,
+    "extras": "field",
+    "spawns": { "group": "GROUP_FOREST", "population": [ 0, 1 ], "chance": 13 },
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "forest",
+    "copy-from": "generic_forest",
+    "name": "forest",
+    "sym": "F",
+    "color": "green",
+    "see_cost": 3,
+    "extras": "forest",
+    "spawns": { "group": "GROUP_FOREST", "population": [ 0, 3 ], "chance": 13 },
+    "flags": [ "NO_ROTATE", "SOURCE_FORAGE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "forest_thick",
+    "copy-from": "generic_forest",
+    "name": "forest",
+    "sym": "F",
+    "color": "green",
+    "see_cost": 4,
+    "extras": "forest_thick",
+    "spawns": { "group": "GROUP_FOREST", "population": [ 0, 6 ], "chance": 15 },
+    "mapgen": [ { "method": "builtin", "name": "forest" } ],
+    "flags": [ "NO_ROTATE", "SOURCE_FORAGE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "forest_water",
+    "copy-from": "generic_wetland_forest",
+    "name": "swamp",
+    "sym": "F",
+    "color": "cyan",
+    "see_cost": 4,
+    "extras": "forest_water",
+    "spawns": { "group": "GROUP_SWAMP", "population": [ 2, 6 ], "chance": 50 },
+    "mapgen": [ { "method": "builtin", "name": "forest" } ],
+    "flags": [ "NO_ROTATE", "SOURCE_FORAGE", "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "standing_stones",
+    "name": "standing stones",
+    "sym": "O",
+    "color": "dark_gray",
+    "see_cost": 3,
+    "spawns": { "group": "GROUP_STANDING_STONES", "population": [ 1, 4 ], "chance": 100 },
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "temple_stairs", "temple_underground_1", "temple_underground_2", "temple_underground_3", "temple_underground_4" ],
+    "name": "strange temple",
+    "sym": "T",
+    "color": "pink",
+    "see_cost": 5,
+    "flags": [ "KNOWN_DOWN" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "temple_finale",
+    "name": "strange temple",
+    "sym": "T",
+    "color": "yellow",
+    "see_cost": 5,
+    "flags": [ "KNOWN_DOWN" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cave",
+    "name": "cave",
+    "sym": "C",
+    "color": "brown",
+    "see_cost": 2,
+    "flags": [ "NO_ROTATE", "SOURCE_SAFETY" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cave_underground",
+    "name": "cave",
+    "sym": "C",
+    "color": "brown",
+    "see_cost": 2,
+    "flags": [ "NO_ROTATE", "SOURCE_SAFETY" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cave_rat_underground",
+    "name": "rat cave",
+    "looks_like": "cave_underground",
+    "sym": "C",
+    "color": "brown",
+    "see_cost": 2,
+    "flags": [ "NO_ROTATE", "SOURCE_SAFETY" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cave_rat",
+    "name": "rat cave",
+    "looks_like": "cave",
+    "sym": "C",
+    "color": "dark_gray",
+    "see_cost": 2,
+    "flags": [ "KNOWN_DOWN", "NO_ROTATE", "SOURCE_SAFETY" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "hive",
+    "name": "bee hive",
+    "sym": "8",
+    "color": "yellow",
+    "see_cost": 3,
+    "flags": [ "NO_ROTATE", "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "slimepit",
+    "name": "slime pit",
+    "sym": "~",
+    "color": "light_green",
+    "see_cost": 2,
+    "flags": [ "NO_ROTATE", "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "slimepit_down",
+    "name": "slime pit",
+    "sym": "~",
+    "color": "light_green",
+    "see_cost": 2,
+    "flags": [ "KNOWN_DOWN", "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "rock",
+    "//": "This is old rock type, new one (below) will replace it in new overmaps",
+    "name": "solid rock",
+    "looks_like": "empty_rock",
+    "sym": "%",
+    "color": "dark_gray",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "empty_rock",
+    "name": "solid rock",
+    "sym": "%",
+    "color": "dark_gray",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "rift",
+    "name": "rift",
+    "sym": "^",
+    "color": "red",
+    "see_cost": 2,
+    "flags": [ "NO_ROTATE", "RISK_HIGH", "SHOULD_NOT_SPAWN" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "hellmouth",
+    "name": "hellmouth",
+    "sym": "^",
+    "color": "light_red",
+    "see_cost": 2,
+    "flags": [ "KNOWN_DOWN", "NO_ROTATE", "RISK_HIGH", "SHOULD_NOT_SPAWN" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "tutorial",
+    "name": "tutorial room",
+    "sym": "O",
+    "color": "cyan",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE", "SHOULD_NOT_SPAWN" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "tutorial_underground",
+    "name": "tutorial room",
+    "sym": "O",
+    "color": "cyan",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE", "SHOULD_NOT_SPAWN" ]
+  }
+]

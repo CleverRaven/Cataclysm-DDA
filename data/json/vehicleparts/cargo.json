@@ -1,0 +1,297 @@
+[
+  {
+    "type": "vehicle_part",
+    "id": "cargo_bag",
+    "name": { "str": "storage bag" },
+    "symbol": "o",
+    "categories": [ "cargo" ],
+    "color": "light_gray",
+    "broken_symbol": "#",
+    "broken_color": "dark_gray",
+    "damage_modifier": 60,
+    "durability": 15,
+    "folded_volume": "1 L",
+    "size": "15 L",
+    "item": "bag_canvas",
+    "location": "center",
+    "requirements": {
+      "install": { "skills": [ [ "fabrication", 1 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
+      "removal": { "skills": [ [ "fabrication", 2 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
+      "repair": { "skills": [ [ "fabrication", 2 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
+    },
+    "flags": [ "CARGO", "BOARDABLE", "COVERED" ],
+    "breaks_into": "ig_vp_cloth"
+  },
+  {
+    "type": "vehicle_part",
+    "abstract": "basketlg_abstract",
+    "name": { "str": "shopping cart basket" },
+    "categories": [ "cargo" ],
+    "symbol": "o",
+    "looks_like": "basketsm",
+    "color": "brown",
+    "broken_symbol": "#",
+    "broken_color": "brown",
+    "damage_modifier": 60,
+    "durability": 75,
+    "size": "150 L",
+    "item": "basket",
+    "location": "center",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "450 s", "using": [ [ "welding_standard", 2 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "450 s", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": {
+        "skills": [ [ "mechanics", 1 ], [ "fabrication", 2 ] ],
+        "time": "350 s",
+        "using": [ [ "repair_welding_standard", 1 ] ]
+      }
+    },
+    "flags": [ "CARGO", "OBSTACLE" ],
+    "damage_reduction": { "all": 6 }
+  },
+  {
+    "copy-from": "basketlg_abstract",
+    "id": "basketlg",
+    "symbol": "o",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "basketlg_abstract",
+    "id": "basketlg_cart",
+    "symbol": "o",
+    "type": "vehicle_part"
+  },
+  {
+    "id": "basketlg_external",
+    "type": "vehicle_part",
+    "name": { "str": "external shopping cart basket" },
+    "looks_like": "basketlg",
+    "item": "basket",
+    "location": "structure",
+    "symbol": "o",
+    "broken_symbol": "#",
+    "categories": [ "cargo" ],
+    "color": "brown",
+    "broken_color": "brown",
+    "durability": 75,
+    "description": "Storage space, mounted outside your vehicle's armor and vulnerable to damage.",
+    "size": "50 L",
+    "damage_modifier": 60,
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 1 ] ] }
+    },
+    "flags": [ "UNMOUNT_ON_DAMAGE", "CARGO", "PROTRUSION" ],
+    "damage_reduction": { "all": 6 }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "basketlg_folding",
+    "name": { "str": "folding shopping cart basket" },
+    "symbol": "o",
+    "looks_like": "basketlg",
+    "categories": [ "cargo" ],
+    "color": "brown",
+    "broken_symbol": "#",
+    "broken_color": "brown",
+    "damage_modifier": 60,
+    "durability": 75,
+    "size": "150 L",
+    "folded_volume": "6 L",
+    "item": "folding_basket",
+    "location": "center",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "450 s", "using": [ [ "welding_standard", 2 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "450 s", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": {
+        "skills": [ [ "mechanics", 1 ], [ "fabrication", 2 ] ],
+        "time": "350 s",
+        "using": [ [ "repair_welding_standard", 1 ] ]
+      }
+    },
+    "flags": [ "CARGO", "OBSTACLE" ],
+    "damage_reduction": { "all": 4 }
+  },
+  {
+    "type": "vehicle_part",
+    "abstract": "basketsm_abstract",
+    "name": { "str": "wire bike basket" },
+    "symbol": "o",
+    "looks_like": "basketlg",
+    "categories": [ "cargo" ],
+    "color": "brown",
+    "broken_symbol": "#",
+    "broken_color": "brown",
+    "damage_modifier": 60,
+    "durability": 75,
+    "folded_volume": "1500 ml",
+    "size": "20 L",
+    "item": "bike_basket",
+    "location": "center",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "150 s", "using": [ [ "vehicle_screw", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "150 s", "using": [ [ "vehicle_screw", 1 ] ] },
+      "repair": {
+        "skills": [ [ "mechanics", 1 ], [ "fabrication", 1 ] ],
+        "time": "250 s",
+        "using": [ [ "repair_welding_standard", 1 ] ]
+      }
+    },
+    "flags": [ "CARGO", "BOARDABLE" ],
+    "damage_reduction": { "all": 6 }
+  },
+  {
+    "copy-from": "basketsm_abstract",
+    "id": "basketsm",
+    "looks_like": "basketlg",
+    "symbol": "o",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "basketsm_abstract",
+    "id": "basketsm_bike_rear",
+    "looks_like": "basketsm",
+    "symbol": "o",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "basketsm_abstract",
+    "id": "basketsm_wheelchair",
+    "looks_like": "basketsm",
+    "symbol": "o",
+    "type": "vehicle_part"
+  },
+  {
+    "id": "basketsm_external",
+    "type": "vehicle_part",
+    "name": { "str": "external wire bike basket" },
+    "looks_like": "basketsm",
+    "item": "bike_basket",
+    "location": "structure",
+    "symbol": "o",
+    "broken_symbol": "#",
+    "categories": [ "cargo" ],
+    "color": "brown",
+    "broken_color": "brown",
+    "durability": 75,
+    "description": "Storage space, mounted outside your vehicle's armor and vulnerable to damage.",
+    "size": "15 L",
+    "damage_modifier": 60,
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 1 ] ] }
+    },
+    "flags": [ "UNMOUNT_ON_DAMAGE", "CARGO", "PROTRUSION" ],
+    "damage_reduction": { "all": 6 }
+  },
+  {
+    "type": "vehicle_part",
+    "abstract": "box_abstract",
+    "name": { "str": "box" },
+    "categories": [ "cargo" ],
+    "symbol": "o",
+    "looks_like": "f_crate_o",
+    "color": "brown",
+    "broken_symbol": "#",
+    "broken_color": "brown",
+    "damage_modifier": 60,
+    "durability": 100,
+    "size": "68750 ml",
+    "item": "frame",
+    "location": "center",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_screw", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_screw", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "adhesive", 1 ] ] }
+    },
+    "flags": [ "CARGO", "BOARDABLE", "COVERED", "LOCKABLE_CARGO" ],
+    "breaks_into": "ig_vp_frame",
+    "damage_reduction": { "all": 28 }
+  },
+  {
+    "copy-from": "box_abstract",
+    "id": "box",
+    "symbol": "o",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "box_abstract",
+    "id": "box_wheelbarrow",
+    "looks_like": "box",
+    "symbol": "o",
+    "type": "vehicle_part"
+  },
+  {
+    "id": "cargo_space_external",
+    "type": "vehicle_part",
+    "name": { "str": "external cargo rack" },
+    "item": "cargo_rack",
+    "location": "structure",
+    "symbol": "=",
+    "broken_symbol": "#",
+    "categories": [ "cargo" ],
+    "color": "light_gray",
+    "broken_color": "dark_gray",
+    "durability": 250,
+    "description": "Storage space, mounted outside your vehicle's armor and vulnerable to damage.",
+    "size": "250 L",
+    "breaks_into": [  ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 3 ] ] }
+    },
+    "flags": [ "UNMOUNT_ON_DAMAGE", "CARGO", "PROTRUSION", "COVERED", "BOARDABLE" ],
+    "damage_reduction": { "all": 26 }
+  },
+  {
+    "id": "bike_rack",
+    "type": "vehicle_part",
+    "name": { "str": "bike rack" },
+    "item": "bike_rack",
+    "location": "anywhere",
+    "symbol": "=",
+    "broken_symbol": "#",
+    "categories": [ "cargo" ],
+    "color": "light_gray",
+    "broken_color": "dark_gray",
+    "durability": 150,
+    "description": "A collection of pipes and frames for supporting a bike or other small vehicle and carrying it on your vehicle.  Move a single tile wide vehicle so that all of that vehicle's tiles are next to bike racks, and then 'e'xamine any bike rack to mount that vehicle onto the bike rack.  'e'xamine the bike rack to unmount the carried vehicle.",
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 6, 8 ] },
+      { "item": "steel_chunk", "count": [ 6, 8 ] },
+      { "item": "scrap", "count": [ 6, 8 ] }
+    ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 2 ] ] }
+    },
+    "flags": [ "BIKE_RACK_VEH", "MULTISQUARE" ],
+    "damage_reduction": { "all": 10 }
+  },
+  {
+    "id": "mounted_spare_tire",
+    "type": "vehicle_part",
+    "name": { "str": "mounted spare tire" },
+    "item": "mounted_spare_tire",
+    "location": "structure",
+    "symbol": "o",
+    "broken_symbol": "#",
+    "categories": [ "other" ],
+    "color": "light_gray",
+    "broken_color": "dark_gray",
+    "durability": 75,
+    "description": "Spare tire stored on an external carrier rig.",
+    "damage_modifier": 60,
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 1 ] ] }
+    },
+    "flags": [ "UNMOUNT_ON_DAMAGE", "PROTRUSION" ],
+    "damage_reduction": { "all": 10 }
+  }
+]

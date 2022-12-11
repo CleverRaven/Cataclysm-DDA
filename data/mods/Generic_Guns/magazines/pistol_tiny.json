@@ -1,0 +1,11 @@
+[
+  {
+    "id": "pistol_tiny_mag",
+    "copy-from": "sw22mag",
+    "type": "MAGAZINE",
+    "name": "target pistol magazine",
+    "description": "A flush fitting magazine for use with target pistols, capable of feeding 10 tiny pistol cartridges.",
+    "ammo_type": [ "ammo_pistol_tiny" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_pistol_tiny": 10 }, "rigid": true } ]
+  }
+]

@@ -1,0 +1,78 @@
+[
+  {
+    "id": "banishment_greater",
+    "type": "SPELL",
+    "name": "Greater Banishment",
+    "description": "A more advanced version of Banishment, which is a ritual spell that attempts to banish a monster.  Being closely related to blood magic, the Blood Mage is much more specialized to use a spell like this.",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "SOMATIC", "VERBAL", "MUST_HAVE_CLASS_TO_LEARN", "NO_HANDS" ],
+    "effect": "banishment",
+    "shape": "blast",
+    "min_damage": 120,
+    "damage_increment": 15,
+    "max_damage": 640,
+    "min_range": 6,
+    "max_range": 6,
+    "min_aoe": 0,
+    "max_aoe": 2,
+    "aoe_increment": 0.04,
+    "base_energy_cost": 400,
+    "spell_class": "BLOOD_MAGE",
+    "difficulty": 6,
+    "max_level": 35,
+    "base_casting_time": 100,
+    "energy_source": "MANA"
+  },
+  {
+    "id": "demon_possession_aura",
+    "type": "ARMOR",
+    "name": "Ixythyug the Destroyer's soul",
+    "description": "RIP AND TEAR",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "symbol": "o",
+    "color": "white",
+    "flags": [ "PERSONAL", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ALWAYS",
+          "mutations": [
+            "DEMON_HORNS",
+            "DEMON_HOOVES",
+            "DEMON_POSSES",
+            "DEMON_CLAWS",
+            "DEMON_SKIN",
+            "DEMON_TAIL",
+            "HUGE_OK",
+            "NOPAIN",
+            "FACIAL_HAIR_GOATEE"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "demonic_possession",
+    "type": "SPELL",
+    "name": "Demonic Possession",
+    "description": "You allow a demon to possess your body for a short time, giving you great combat abilities.  You still retain control, though lose your spellcasting abilities temporarily.",
+    "valid_targets": [ "none" ],
+    "flags": [ "SOMATIC", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ],
+    "effect": "spawn_item",
+    "shape": "blast",
+    "effect_str": "demon_possession_aura",
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_duration": 360000,
+    "max_duration": 1440000,
+    "duration_increment": 30858,
+    "spell_class": "BLOOD_MAGE",
+    "difficulty": 5,
+    "max_level": 35,
+    "base_casting_time": 800,
+    "base_energy_cost": 5,
+    "energy_source": "HP"
+  }
+]

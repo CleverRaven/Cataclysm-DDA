@@ -1,0 +1,41 @@
+# TEST_DATA
+
+msgid ""
+msgstr ""
+"Project-Id-Version: TEST_DATA\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-09-05 18:17+0800\n"
+"PO-Revision-Date: 2021-09-05 18:17+0800\n"
+"Last-Translator: Binrui Dong <brett.browning.dong@gmail.com>\n"
+"Language-Team: Russian <gnu@d07.ru>\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
+
+#: lang/json/AMMO_from_json.py
+msgid "battery"
+msgid_plural "battery"
+msgstr[0] "батарейка"
+msgstr[1] "батарейки"
+msgstr[2] "батареек"
+msgstr[3] "батарейки"
+
+#: lang/json/GENERIC_from_json.py
+msgctxt "weapon"
+msgid "pike"
+msgid_plural "pikes"
+msgstr[0] "пика"
+msgstr[1] "пики"
+msgstr[2] "пик"
+msgstr[3] "пики"
+
+#: lang/json/MONSTER_from_json.py
+msgctxt "fish"
+msgid "pike"
+msgid_plural "pikes"
+msgstr[0] "щука"
+msgstr[1] "щуки"
+msgstr[2] "щук"
+msgstr[3] "щуки"

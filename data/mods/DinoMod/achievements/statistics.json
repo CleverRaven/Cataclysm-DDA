@@ -1,0 +1,15 @@
+[
+  {
+    "id": "avatar_dino_kills",
+    "type": "event_transformation",
+    "event_transformation": "avatar_species_kills",
+    "value_constraints": { "species": { "equals": [ "species_id", "DINOSAUR" ] } }
+  },
+  {
+    "id": "num_avatar_dino_kills",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_dino_kills",
+    "description": { "str": "dino killed", "str_pl": "dinos killed" }
+  }
+]

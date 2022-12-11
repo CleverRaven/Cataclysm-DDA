@@ -1,0 +1,42 @@
+[
+  {
+    "type": "palette",
+    "id": "bike_shop",
+    "terrain": {
+      " ": "t_region_groundcover_urban",
+      "*": "t_region_tree_shade",
+      "_": "t_sidewalk",
+      ".": "t_thconc_floor",
+      "#": "t_wall_w",
+      "-": "t_wall_glass",
+      "|": "t_wall_glass",
+      "+": "t_door_c",
+      ":": "t_door_glass_c",
+      ";": "t_door_locked",
+      "@": "t_sidewalk",
+      "<": "t_ladder_up",
+      "4": "t_gutter_downspout"
+    },
+    "furniture": {
+      "c": "f_counter",
+      "D": "f_vending_c",
+      "F": "f_vending_c",
+      "S": "f_sink",
+      "T": "f_toilet",
+      "h": "f_chair",
+      "d": "f_desk",
+      "f": "f_fridge",
+      "l": "f_locker",
+      "r": "f_rack",
+      "t": "f_table",
+      "q": "f_stool",
+      "B": "f_bench",
+      "%": "f_counter",
+      "&": "f_trashcan",
+      "@": "f_dumpster",
+      "^": "f_indoor_plant"
+    },
+    "toilets": { "T": {  } },
+    "items": { "%": { "item": "cash_register_random", "chance": 100 } }
+  }
+]

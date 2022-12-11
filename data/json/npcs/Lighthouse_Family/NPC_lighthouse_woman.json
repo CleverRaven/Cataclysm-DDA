@@ -1,0 +1,121 @@
+[
+  {
+    "type": "npc",
+    "id": "NPC_lighthouse_woman",
+    "name_unique": "Heather Frolova",
+    "gender": "female",
+    "class": "NC_NONE",
+    "attitude": 1,
+    "mission": 8,
+    "chat": "TALK_lighthouse_woman_start",
+    "faction": "fisherman_family"
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_lighthouse_woman_start",
+    "dynamic_line": "I'm scared.  Where is my husband?",
+    "speaker_effect": { "sentinel": "met", "effect": [ "follow_only", { "add_mission": "MISSION_lighthouse_woman_0" } ] },
+    "responses": [
+      {
+        "text": "I want you to use this item.",
+        "topic": "TALK_lighthouse_woman_start",
+        "condition": "npc_following",
+        "effect": "npc_gets_item_to_use"
+      },
+      {
+        "text": "We're here.",
+        "topic": "TALK_lighthouse_woman_safe",
+        "condition": { "npc_at_om_location": "lighthouse_ground" },
+        "effect": [
+          "mission_success",
+          "clear_mission",
+          "stop_following",
+          { "npc_first_topic": "TALK_lighthouse_woman_safe" },
+          { "u_add_var": "lighthouse_woman", "type": "flag", "context": "safe", "value": "yes" }
+        ]
+      },
+      { "text": "Let's go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_lighthouse_woman_safe",
+    "dynamic_line": {
+      "u_has_mission": "MISSION_lighthouse_man_3",
+      "yes": {
+        "u_has_var": "lighthouse_girl_dead",
+        "type": "flag",
+        "context": "death",
+        "value": "yes",
+        "yes": "Thank you for saving me.  It's a shame my Angelina didn't make it… you did everything you could, and I don't blame you for it…",
+        "no": "Thank you!"
+      },
+      "no": {
+        "u_has_var": "lighthouse_girl_dead",
+        "type": "flag",
+        "context": "death",
+        "value": "yes",
+        "yes": "Poor, poor Angelina…",
+        "no": "Hello."
+      }
+    },
+    "responses": [
+      {
+        "text": "Hi.",
+        "condition": { "u_has_var": "lighthouse_family_safe", "type": "flag", "context": "help", "value": "yes" },
+        "topic": "TALK_lighthouse_woman_1",
+        "effect": { "npc_first_topic": "TALK_lighthouse_woman_1" },
+        "switch": true
+      },
+      {
+        "truefalsetext": {
+          "true": "I'm sorry…",
+          "false": "…",
+          "condition": { "u_has_var": "lighthouse_girl_dead", "type": "flag", "context": "death", "value": "yes" }
+        },
+        "topic": "TALK_DONE",
+        "switch": true
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": [ "TALK_lighthouse_woman_1", "TALK_lighthouse_woman_Background" ],
+    "dynamic_line": "How are you today?",
+    "responses": [
+      { "text": "About that job…", "condition": "has_assigned_mission", "topic": "TALK_MISSION_INQUIRE" },
+      { "text": "<BGSS_intro_question>", "topic": "TALK_lighthouse_woman_Background" },
+      { "text": "Do you need any help?", "topic": "TALK_MISSION_LIST" },
+      { "text": "Goodbye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_lighthouse_woman_Background",
+    "dynamic_line": "I don't have much to tell, sorry.  I'm busy with tiding this place, making it our new home.  You should talk to my husband, he doesn't look busy right now.  Or always…"
+  },
+  {
+    "id": "MISSION_lighthouse_woman_0",
+    "type": "mission_definition",
+    "has_generic_rewards": false,
+    "name": { "str": "Protect fisherman's wife" },
+    "description": "She looks like a nice woman.  Maybe you should not let her die?",
+    "goal": "MGOAL_CONDITION",
+    "goal_condition": { "npc_has_var": "-", "type": "-", "context": "-", "value": "-" },
+    "difficulty": 0,
+    "value": 0,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "-",
+      "offer": "-",
+      "accepted": "-",
+      "rejected": "-",
+      "advice": "-",
+      "inquire": "-",
+      "success": "-",
+      "success_lie": "-",
+      "failure": "-"
+    },
+    "fail": { "effect": [ { "u_add_var": "lighthouse_wife_dead", "type": "flag", "context": "death", "value": "yes" } ] }
+  }
+]

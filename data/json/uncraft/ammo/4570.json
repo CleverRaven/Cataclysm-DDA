@@ -1,0 +1,44 @@
+[
+  {
+    "result": "4570_sp",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "5 s",
+    "qualities": [ { "id": "PULL", "level": 1 } ],
+    "components": [
+      [ [ "copper", 3 ] ],
+      [ [ "lead", 5 ] ],
+      [ [ "4570_casing", 1 ] ],
+      [ [ "lgrifle_primer", 1 ] ],
+      [ [ "gunpowder_large_rifle", 28 ] ]
+    ]
+  },
+  {
+    "result": "4570_pen",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "5 s",
+    "qualities": [ { "id": "PULL", "level": 1 } ],
+    "components": [
+      [ [ "copper", 5 ] ],
+      [ [ "lead", 3 ] ],
+      [ [ "4570_casing", 1 ] ],
+      [ [ "lgrifle_primer", 1 ] ],
+      [ [ "gunpowder_large_rifle", 30 ] ]
+    ]
+  },
+  {
+    "result": "4570_low",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "5 s",
+    "qualities": [ { "id": "PULL", "level": 1 } ],
+    "components": [
+      [ [ "lead", 8 ] ],
+      [ [ "4570_casing", 1 ] ],
+      [ [ "lgrifle_primer", 1 ] ],
+      [ [ "gunpowder_large_rifle", 19 ] ],
+      [ [ "copper", 3 ] ]
+    ]
+  }
+]

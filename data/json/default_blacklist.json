@@ -1,0 +1,6 @@
+[
+  {
+    "type": "MONSTER_BLACKLIST",
+    "monsters": [ "mon_zombie_dancer", "mon_zombie_jackson", "mon_shia" ]
+  }
+]

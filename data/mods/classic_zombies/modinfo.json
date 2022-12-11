@@ -1,0 +1,29 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "classic_zombies",
+    "name": "Dark Days of the Dead",
+    "authors": [ "Hirmuolio", "I-am-Erk" ],
+    "maintainers": [ "I-am-Erk" ],
+    "description": "Turns the game into a classic Romero zombie game.  You must destroy the brain.  Getting bitten is fatal.  However, zombies don't evolve, and when they're down, they're down.  Removes the sci-fi and interdimensional aspects of CDDA.",
+    "category": "total_conversion",
+    "dependencies": [ "dda" ]
+  },
+  {
+    "type": "monster_adjustment",
+    "species": "ZOMBIE",
+    "flag": { "name": "REVIVES", "value": false },
+    "stat": { "name": "speed", "modifier": 0.95 }
+  },
+  {
+    "type": "monster_adjustment",
+    "species": "ZOMBIE",
+    "flag": { "name": "DEADLY_VIRUS", "value": true },
+    "stat": { "name": "hp", "modifier": 5 }
+  },
+  {
+    "type": "monster_adjustment",
+    "species": "ZOMBIE",
+    "stat": { "name": "bleed_rate", "modifier": 0 }
+  }
+]

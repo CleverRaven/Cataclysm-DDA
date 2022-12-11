@@ -1,0 +1,311 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "landfill",
+    "weight": 100,
+    "object": {
+      "rows": [
+        "    _____               ",
+        "  4 _____ 4  4  4  4  4 ",
+        "    _____               ",
+        " |||+++++|||||||||||||| ",
+        " |____________#######_| ",
+        " |________############| ",
+        " |_____###############| ",
+        " |####################| ",
+        " |####################| ",
+        " |####################| ",
+        " |####################| ",
+        " |####################| ",
+        " |####################| ",
+        " |####################| ",
+        " |####################| ",
+        " |####################| ",
+        " |####################| ",
+        " |####################| ",
+        " |####################| ",
+        " |####################| ",
+        " |####################| ",
+        " |####################| ",
+        " |||||||||||||||||||||| ",
+        "                        "
+      ],
+      "terrain": {
+        "#": "t_region_groundcover_barren",
+        "_": "t_region_groundcover_barren",
+        " ": "t_region_groundcover_urban",
+        "4": "t_region_tree",
+        "|": "t_privacy_fence",
+        "+": "t_chaingate_l"
+      },
+      "furniture": { "#": "f_rubble_landfill" },
+      "items": {
+        "#": [
+          { "item": "trash", "chance": 25, "repeat": 2 },
+          { "item": "road", "chance": 2 },
+          { "item": "allclothes_damaged", "chance": 3 },
+          { "item": "stoner", "chance": 1 },
+          { "item": "oven", "chance": 2 },
+          { "item": "garden_shed", "chance": 2 },
+          { "item": "homebooks", "chance": 2 },
+          { "item": "wheels", "chance": 1 },
+          { "item": "electronics", "chance": 2 },
+          { "item": "creepy", "chance": 1 },
+          { "item": "barrels", "chance": 1 },
+          { "item": "chem_home", "chance": 1 },
+          { "item": "hardware", "chance": 2 },
+          { "item": "misc_smoking", "chance": 1 },
+          { "item": "tools_home", "chance": 1 }
+        ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "landfill",
+    "weight": 100,
+    "object": {
+      "rows": [
+        "               ______   ",
+        "              P______   ",
+        " ______________________ ",
+        " ______________________ ",
+        " ______________________ ",
+        " ______________________ ",
+        " ______________________ ",
+        " _#############________ ",
+        " ################______ ",
+        " ##################____ ",
+        " ####################__ ",
+        " ####################__ ",
+        " ###################### ",
+        " ###################### ",
+        " ###################### ",
+        " ###################### ",
+        " ###################### ",
+        " ###################### ",
+        " ###################### ",
+        " ###################### ",
+        " ###################### ",
+        " ###################### ",
+        " _####################_ ",
+        "                        "
+      ],
+      "terrain": {
+        "#": "t_region_groundcover_barren",
+        "_": "t_region_groundcover_barren",
+        " ": "t_region_groundcover_urban",
+        "P": "t_region_groundcover_urban"
+      },
+      "furniture": { "#": "f_rubble_landfill" },
+      "items": {
+        "#": [
+          { "item": "trash", "chance": 25, "repeat": 2 },
+          { "item": "road", "chance": 2 },
+          { "item": "allclothes_damaged", "chance": 3 },
+          { "item": "stoner", "chance": 1 },
+          { "item": "oven", "chance": 2 },
+          { "item": "garden_shed", "chance": 2 },
+          { "item": "homebooks", "chance": 2 },
+          { "item": "electronics", "chance": 2 },
+          { "item": "barrels", "chance": 1 },
+          { "item": "wheels", "chance": 1 },
+          { "item": "creepy", "chance": 1 },
+          { "item": "chem_home", "chance": 1 },
+          { "item": "hardware", "chance": 2 },
+          { "item": "misc_smoking", "chance": 1 },
+          { "item": "tools_home", "chance": 1 }
+        ]
+      },
+      "place_signs": [ { "signage": "<city> Landfill", "x": 14, "y": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "landfill",
+    "weight": 100,
+    "object": {
+      "rows": [
+        "         ______         ",
+        " 7 sss 7 ______ 7 sss 7 ",
+        "         ______         ",
+        " | __________________ | ",
+        " |____________________| ",
+        " |____________________| ",
+        " |_______##########___| ",
+        " |______############__| ",
+        " |______############__| ",
+        " |______############__| ",
+        " |______############__| ",
+        " |______############__| ",
+        " |_____#############__| ",
+        " |_____#############__| ",
+        " |_____#############__| ",
+        " |_____#############__| ",
+        " |____##############__| ",
+        " |____##############__| ",
+        " |____##############__| ",
+        " |_____############___| ",
+        " |____________________| ",
+        " |____________________| ",
+        " |||||||||||||||||||||| ",
+        "                        "
+      ],
+      "terrain": {
+        "#": "t_region_groundcover_barren",
+        "_": "t_region_groundcover_barren",
+        " ": "t_region_groundcover_urban",
+        "7": "t_region_tree",
+        "s": "t_region_shrub",
+        "|": "t_privacy_fence"
+      },
+      "furniture": { "#": "f_rubble_landfill" },
+      "items": {
+        "#": [
+          { "item": "trash", "chance": 25, "repeat": 2 },
+          { "item": "road", "chance": 2 },
+          { "item": "allclothes_damaged", "chance": 3 },
+          { "item": "stoner", "chance": 1 },
+          { "item": "oven", "chance": 2 },
+          { "item": "garden_shed", "chance": 2 },
+          { "item": "homebooks", "chance": 2 },
+          { "item": "electronics", "chance": 2 },
+          { "item": "wheels", "chance": 1 },
+          { "item": "barrels", "chance": 1 },
+          { "item": "creepy", "chance": 1 },
+          { "item": "chem_home", "chance": 1 },
+          { "item": "hardware", "chance": 2 },
+          { "item": "misc_smoking", "chance": 1 },
+          { "item": "tools_home", "chance": 1 }
+        ]
+      },
+      "place_vehicles": [ { "chance": 40, "fuel": 0, "rotation": 90, "status": -1, "vehicle": "excavator", "x": 4, "y": 14 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "landfill",
+    "weight": 100,
+    "object": {
+      "rows": [
+        "         ______         ",
+        "         ______         ",
+        " | ss ss ______ ss ss | ",
+        " |       ______       | ",
+        " |     __________     | ",
+        " |  ________________  | ",
+        " |  ________________  | ",
+        " | __________________ | ",
+        " | __#####___________ | ",
+        " | _#######__________ | ",
+        " | _#######__________ | ",
+        " | _#######__________ | ",
+        " | _#########________ | ",
+        " | _##########_______ | ",
+        " | _##########___##__ | ",
+        " | _################_ | ",
+        " | _################_ | ",
+        " | _################_ | ",
+        " | _################_ | ",
+        " | __##############__ | ",
+        " |  ________________  | ",
+        " |                    | ",
+        " |||||||||||||||||||||| ",
+        "                        "
+      ],
+      "terrain": {
+        "#": "t_region_groundcover_barren",
+        "_": "t_region_groundcover_barren",
+        " ": "t_region_groundcover_urban",
+        "s": "t_region_shrub",
+        "|": "t_chainfence"
+      },
+      "furniture": { "#": "f_rubble_landfill" },
+      "items": {
+        "#": [
+          { "item": "trash", "chance": 25, "repeat": 2 },
+          { "item": "road", "chance": 2 },
+          { "item": "allclothes_damaged", "chance": 3 },
+          { "item": "stoner", "chance": 1 },
+          { "item": "oven", "chance": 2 },
+          { "item": "garden_shed", "chance": 2 },
+          { "item": "homebooks", "chance": 2 },
+          { "item": "electronics", "chance": 2 },
+          { "item": "creepy", "chance": 1 },
+          { "item": "wheels", "chance": 1 },
+          { "item": "chem_home", "chance": 1 },
+          { "item": "hardware", "chance": 2 },
+          { "item": "misc_smoking", "chance": 1 },
+          { "item": "tools_home", "chance": 1 }
+        ]
+      },
+      "place_vehicles": [ { "chance": 40, "fuel": 0, "rotation": 180, "status": -1, "vehicle": "excavator", "x": 18, "y": 7 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "landfill",
+    "weight": 100,
+    "object": {
+      "rows": [
+        "         ______         ",
+        "         ______         ",
+        " ||||||||++++++|||||||| ",
+        " |      ________      | ",
+        " |    ____________    | ",
+        " |   ______________   | ",
+        " |  ________________  | ",
+        " | __________________ | ",
+        " | __________________ | ",
+        " | __________________ | ",
+        " |________####________| ",
+        " |______########______| ",
+        " |____#############___| ",
+        " |__#################_| ",
+        " |_###################| ",
+        " |####################| ",
+        " |####################| ",
+        " |####################| ",
+        " |####################| ",
+        " |####################| ",
+        " |||||||||||||||||||||| ",
+        "                        ",
+        " 7  7  7  7  7  7  7  7 ",
+        "                        "
+      ],
+      "terrain": {
+        "#": "t_region_groundcover_barren",
+        "_": "t_region_groundcover_barren",
+        " ": "t_region_groundcover_urban",
+        "7": "t_region_tree",
+        "|": "t_chainfence",
+        "+": "t_chaingate_l"
+      },
+      "furniture": { "#": "f_rubble_landfill" },
+      "items": {
+        "#": [
+          { "item": "trash", "chance": 25, "repeat": 2 },
+          { "item": "road", "chance": 2 },
+          { "item": "allclothes_damaged", "chance": 3 },
+          { "item": "stoner", "chance": 1 },
+          { "item": "oven", "chance": 2 },
+          { "item": "garden_shed", "chance": 2 },
+          { "item": "homebooks", "chance": 2 },
+          { "item": "electronics", "chance": 2 },
+          { "item": "creepy", "chance": 1 },
+          { "item": "wheels", "chance": 1 },
+          { "item": "barrels", "chance": 1 },
+          { "item": "chem_home", "chance": 1 },
+          { "item": "hardware", "chance": 2 },
+          { "item": "misc_smoking", "chance": 1 },
+          { "item": "tools_home", "chance": 1 }
+        ]
+      }
+    }
+  }
+]

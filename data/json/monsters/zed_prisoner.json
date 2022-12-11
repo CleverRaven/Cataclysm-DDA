@@ -1,0 +1,41 @@
+[
+  {
+    "id": "mon_zombie_prisoner",
+    "type": "MONSTER",
+    "name": { "str": "prisoner zombie" },
+    "description": "Apparently this zombie was doing time when the Cataclysm struck.  It wears black and white striped prisoner clothes, and tattoos can be seen on its decaying skin.",
+    "copy-from": "mon_zombie",
+    "looks_like": "mon_zombie",
+    "hp": 90,
+    "color": "green",
+    "melee_dice_sides": 4,
+    "death_drops": "mon_zombie_prisoner_death_drops"
+  },
+  {
+    "id": "mon_zombie_prisoner_brute",
+    "type": "MONSTER",
+    "name": { "str": "prisoner brute" },
+    "description": "This muscular zombie wears black and white striped prisoner clothes.",
+    "copy-from": "mon_zombie_brute",
+    "looks_like": "mon_zombie_brute",
+    "death_drops": "mon_zombie_prisoner_death_drops"
+  },
+  {
+    "id": "mon_zombie_prisoner_fat",
+    "type": "MONSTER",
+    "name": { "str": "fat prisoner" },
+    "description": "This fat zombie wears black and white striped prisoner clothes.",
+    "copy-from": "mon_zombie_fat",
+    "looks_like": "mon_zombie_fat",
+    "death_drops": "mon_zombie_prisoner_death_drops"
+  },
+  {
+    "id": "mon_zombie_prisoner_tough",
+    "type": "MONSTER",
+    "name": { "str": "tough prisoner" },
+    "description": "This tough-looking zombie wears black and white striped prisoner clothes.",
+    "copy-from": "mon_zombie_tough",
+    "looks_like": "mon_zombie_tough",
+    "death_drops": "mon_zombie_prisoner_death_drops"
+  }
+]

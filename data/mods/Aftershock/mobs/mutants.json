@@ -1,0 +1,65 @@
+[
+  {
+    "id": "mon_mutant_cryo",
+    "type": "MONSTER",
+    "name": { "str": "frost maddened human" },
+    "description": "Sky blue irises cover the entirety of the eye.  What happened to this person during their deep freeze?",
+    "default_faction": "cryo",
+    "looks_like": "chud",
+    "bodytype": "human",
+    "species": [ "HUMAN" ],
+    "volume": "62500 ml",
+    "weight": "81500 g",
+    "hp": 80,
+    "speed": 100,
+    "material": [ "flesh" ],
+    "symbol": "@",
+    "color": "magenta",
+    "aggression": 40,
+    "morale": 100,
+    "melee_skill": 4,
+    "melee_dice": 1,
+    "melee_dice_sides": 2,
+    "melee_damage": [ { "damage_type": "cold", "amount": 4 } ],
+    "dodge": 2,
+    "harvest": "human",
+    "dissect": "dissect_human",
+    "vision_day": 30,
+    "vision_night": 3,
+    "path_settings": { "avoid_traps": true, "avoid_sharp": true },
+    "death_drops": "cryo_lab_drops",
+    "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER_1", "COLDPROOF" ]
+  },
+  {
+    "id": "mon_cryokinetic",
+    "type": "MONSTER",
+    "copy-from": "mon_mutant_cryo",
+    "description": "Sky blue irises with gray floating flecks cover the entirety of the eye.  Flurries seem to emanate from around them.",
+    "hp": 90,
+    "color": "light_blue",
+    "aggression": 30,
+    "morale": 100,
+    "melee_skill": 4,
+    "melee_dice": 2,
+    "melee_dice_sides": 4,
+    "melee_damage": [ { "damage_type": "cold", "amount": 8 } ],
+    "dodge": 3,
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "cryo_blast", "min_level": 5 },
+        "cooldown": 20,
+        "monster_message": "A burst of frozen air explodes from their lungs!"
+      }
+    ]
+  },
+  {
+    "id": "mon_flesh_golem_afs",
+    "type": "MONSTER",
+    "copy-from": "mon_flesh_golem",
+    "upgrades": { "half_life": 15, "into": "mon_flesh_golem_afs" },
+    "special_attacks": [ [ "FLESH_GOLEM", 8 ], [ "ABSORB_MEAT", 1 ], [ "hypo_pkill", 1 ] ],
+    "death_drops": "mon_zombie_scientist_death_drops"
+  }
+]

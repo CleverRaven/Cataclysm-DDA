@@ -1,0 +1,168 @@
+[
+  {
+    "type": "npc",
+    "id": "refugee_MangalpreetSingh",
+    "name_unique": "Mangalpreet Singh",
+    "gender": "female",
+    "name_suffix": "refugee",
+    "class": "NC_REFUGEE_Mangalpreet",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_REFUGEE_Mangalpreet_1",
+    "faction": "free_merchants"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_REFUGEE_Mangalpreet",
+    "name": { "str": "Refugee" },
+    "job_description": "I'm just trying to survive.",
+    "common": false,
+    "//": "Mangalpreet is the mother of a small family.  They've made it through this unscathed and have a lot of survivor's guilt.",
+    "bonus_str": { "rng": [ -2, 2 ] },
+    "bonus_dex": { "rng": [ -2, 2 ] },
+    "bonus_int": { "rng": [ -2, 2 ] },
+    "bonus_per": { "rng": [ -2, 2 ] },
+    "worn_override": "REFUGEE_Mangalpreet_worn",
+    "carry_override": "REFUGEE_Mangalpreet_carried",
+    "weapon_override": "EMPTY_GROUP",
+    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_SouthAsian" } ],
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } },
+      { "skill": "cooking", "bonus": { "rng": [ 3, 4 ] } },
+      { "skill": "tailor", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "fabrication", "bonus": { "rng": [ 1, 2 ] } }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "REFUGEE_Mangalpreet_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "breeches" },
+      { "item": "tank_top" },
+      { "item": "socks" },
+      { "item": "leggings" },
+      { "item": "robe" },
+      { "item": "headscarf" },
+      { "item": "boots" },
+      { "group": "REFUGEE_Mangalpreet_wield" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "REFUGEE_Mangalpreet_carried",
+    "subtype": "collection",
+    "entries": [ { "item": "holybook_granth" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "REFUGEE_Mangalpreet_wield",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "knife_steak", "container-item": "sheath", "prob": 4 },
+      { "item": "knife_butcher", "container-item": "sheath", "prob": 2 },
+      { "item": "kukri", "container-item": "sheath", "prob": 1 }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "//": "common talk responses",
+    "id": [ "TALK_REFUGEE_Mangalpreet_2", "TALK_REFUGEE_Mangalpreet_Background", "TALK_REFUGEE_Mangalpreet_Situation" ],
+    "responses": [
+      {
+        "text": "I'm trying to put a cleanup crew together to tidy up the back room.  Can you help?",
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
+            {
+              "not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
+            }
+          ]
+        },
+        "topic": "TALK_REFUGEE_Refuse_Boris_Mission_1"
+      },
+      { "text": "What's your story?", "topic": "TALK_REFUGEE_Mangalpreet_Background" },
+      { "text": "How are things here?", "topic": "TALK_REFUGEE_Mangalpreet_Situation" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Mangalpreet_1",
+    "dynamic_line": "*is a well-kept middle aged woman with dark hair tied back in a long braid.  She looks surprised as you approach.  \"Ah!  You are new.  I'm sorry, I'm Mangalpreet.\"",
+    "speaker_effect": {
+      "effect": [
+        { "u_add_var": "u_met_Mangalpreet_Singh", "type": "general", "context": "meeting", "value": "yes" },
+        { "npc_first_topic": "TALK_REFUGEE_Mangalpreet_1a" }
+      ]
+    },
+    "responses": [
+      { "text": "Nice to meet you, Mangalpreet.", "topic": "TALK_REFUGEE_Mangalpreet_1_firstmeet" },
+      { "text": "Hi Mangalpreet, nice to meet you.  I gotta go though.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Mangalpreet_1a",
+    "dynamic_line": {
+      "concatenate": [ "*gives you a solemn nod of recognition.  \"", [ "Hello again.", "Hi there.", "Oh, hello there." ], "\"" ]
+    },
+    "responses": [
+      { "text": "Hi, Mangalpreet.", "topic": "TALK_REFUGEE_Mangalpreet_2" },
+      { "text": "Hi Mangalpreet.  I can't stay to talk.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Mangalpreet_1_firstmeet",
+    "dynamic_line": "Yes, I'm glad to meet you too.  Will you be staying with us?  I thought they were taking no more refugees.",
+    "responses": [
+      { "text": "I'm a traveler actually.  Just saying hello.", "topic": "TALK_REFUGEE_Mangalpreet_2" },
+      { "text": "Actually I'm just heading out.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Mangalpreet_2",
+    "dynamic_line": "Is there anything you'd like to talk about?",
+    "responses": [ { "text": "Not really.  I'd better get going.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Mangalpreet_Background",
+    "dynamic_line": "Before the end of the world, I was the vice principal of an elementary school.  Now, I'm not sure what I am.  A person without a purpose.",
+    "responses": [
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Mangalpreet_Situation",
+    "dynamic_line": {
+      "concatenate": [
+        "I have my family.  I have the Guru Granth Sahib",
+        {
+          "u_compare_var": "refugee_happiness",
+          "type": "counter",
+          "context": "refugee_center",
+          "op": ">=",
+          "value": 7,
+          "yes": ".  For a while, I thought these might not be enough but… I am allowing myself to hope.  Still, w",
+          "no": ".  I have these things, but I do not have peace.  No one here does.  W"
+        },
+        {
+          "u_has_var": "Boris_mission_1",
+          "type": "mission",
+          "context": "completed",
+          "value": "yes",
+          "yes": "e have so much work to do to make a home here.",
+          "no": "e are crowded, we are plagued by the sounds and the memories of the dead.  The situation is grim."
+        }
+      ]
+    },
+    "responses": [
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  }
+]

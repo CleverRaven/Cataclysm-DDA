@@ -1,0 +1,124 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ [ "dairy_farm_isherwood_SW", "dairy_farm_isherwood_SE" ] ],
+    "weight": 25000,
+    "object": {
+      "fill_ter": "t_floor",
+      "faction_owner": [
+        { "id": "isherwood_family", "x": [ 0, 23 ], "y": [ 0, 23 ] },
+        { "id": "isherwood_family", "x": [ 24, 47 ], "y": [ 0, 23 ] }
+      ],
+      "rows": [
+        ".$............................................$.",
+        ".$............................................$.",
+        ".$............................................$.",
+        ".$.......................|!|=|!|....|!|=|!|...$.",
+        ".$$$$$$$$$$$ff$$$$$$$$$..|_____|....|_____|...$.",
+        "......................$..|O%_%O|....|___H_|...$.",
+        "......................f..!O%_%O!....!_H___!...$.",
+        ".....###**###=##**##..$..|O%_%O|....|_____|...$.",
+        ".....#Fcsoccw_w{ddd#..$..|O%_%O|....|___H_|...$.",
+        ".....*c_______=__C_*..$..|O%_%O|....|_____|...$.",
+        ".....#c_CTC_w_wA__g#..$..!O%_%O!H...!_H___!...$.",
+        ".....=__CTC_w_wwwww#..$..|O%_%O|H...|_____|...$.",
+        ".....#Y____tw_w&y_S#..$..|O%_%O|..HH|_____|...$.",
+        ".....#ww__www_=___b#4.$..|O%_%O|...H|_H___|...$.",
+        "....##{{__{{w_wwwww#..$..!O%_%O!....!_____!...$.",
+        "....*T________=___y*..$..|O%_%O|...H|H____|...$.",
+        "....*@_T_A____wD_^^#..$..|O%_%O|...H|_____|...$.",
+        "....*@_T_A_yw=wwwww#..$..|O%_%O|....|___H_|...$.",
+        "....*T_____Rw__y___*..$..|OOOOO|....|_____|...$.",
+        "....##{____YwD__^^_*..$..|!|||!|....|!|||!|...$.",
+        ".....###==###D_T^^T*..f.....a..........a......$.",
+        "............###**###..$.......................$.",
+        "......................$$$$$$$$$fffff$$$$$$$$$$$.",
+        "................................................"
+      ],
+      "terrain": {
+        "$": "t_splitrail_fence",
+        "'": "t_door_o",
+        "%": "t_milking_machine",
+        "!": "t_window_bars",
+        "*": "t_window_domestic",
+        "=": "t_door_c",
+        "+": "t_door_locked_interior",
+        ".": [ [ "t_grass", 2 ], [ "t_dirt", 3 ] ],
+        "N": [ [ "t_grass", 2 ], [ "t_dirt", 3 ] ],
+        "X": [ [ "t_grass", 2 ], [ "t_dirt", 3 ] ],
+        "O": "t_bulk_tank",
+        "H": "t_dirt",
+        "Y": "t_floor",
+        "_": "t_floor",
+        "a": [ [ "t_grass", 2 ], [ "t_dirt", 3 ] ],
+        "f": "t_splitrail_fencegate_c",
+        "|": "t_wall_r",
+        "#": "t_wall_wood",
+        "w": "t_wall_w",
+        "4": "t_gutter_downspout"
+      },
+      "furniture": {
+        "^": "f_bed",
+        "&": "f_sink",
+        "s": "f_sink",
+        "A": "f_armchair",
+        "C": "f_chair",
+        "D": "f_dresser",
+        "F": "f_fridge",
+        "@": "f_sofa",
+        "H": "f_hay",
+        "N": "f_crate_o",
+        "T": "f_table",
+        "X": "f_crate_c",
+        "Y": "f_rack_coat",
+        "a": "f_dumpster",
+        "b": "f_toilet",
+        "c": "f_cupboard",
+        "d": "f_desk",
+        "g": "f_gunsafe_ml",
+        "o": "f_oven",
+        "S": "f_shower",
+        "t": "f_trashcan",
+        "R": "f_fireplace",
+        "{": "f_bookcase",
+        "y": [ "f_indoor_plant_y", "f_indoor_plant" ]
+      },
+      "items": {
+        "Y": { "item": "coat_rack", "chance": 35, "repeat": [ 1, 4 ] },
+        "d": { "item": "office", "chance": 30 },
+        "{": [ { "item": "ranch_homebooks", "chance": 30 }, { "item": "book_survival", "chance": 30 } ],
+        "^": { "item": "bed", "chance": 30 },
+        "o": { "item": "oven", "chance": 30, "repeat": [ 1, 2 ] },
+        "T": { "item": "everyday_gear", "chance": 30, "repeat": [ 1, 2 ] },
+        "F": { "item": "fridge", "chance": 30, "repeat": [ 2, 6 ] },
+        "&": { "item": "drugs_heal_simple", "chance": 30, "repeat": [ 1, 2 ] },
+        "D": { "item": "clothing_outdoor_set", "chance": 30, "repeat": [ 1, 2 ] },
+        "s": [
+          { "item": "SUS_dishes", "chance": 20, "repeat": [ 2, 4 ] },
+          { "item": "SUS_silverware", "chance": 20, "repeat": [ 2, 4 ] },
+          { "item": "SUS_knife_drawer", "chance": 20 }
+        ],
+        "c": [
+          { "item": "SUS_cookware", "chance": 20, "repeat": [ 2, 4 ] },
+          { "item": "SUS_utensils", "chance": 20, "repeat": [ 2, 4 ] }
+        ],
+        "t": { "item": "trash", "chance": 20, "repeat": [ 2, 4 ] }
+      },
+      "place_item": [
+        { "item": "cattlefodder", "x": 37, "y": 15, "amount": [ 0, 4 ] },
+        { "item": "cattlefodder", "x": 38, "y": 6, "amount": [ 0, 4 ] },
+        { "item": "cattlefodder", "x": 38, "y": 10, "amount": [ 0, 4 ] },
+        { "item": "cattlefodder", "x": 38, "y": 13, "amount": [ 0, 4 ] },
+        { "item": "cattlefodder", "x": 39, "y": 5, "amount": [ 0, 4 ] },
+        { "item": "cattlefodder", "x": 39, "y": 8, "amount": [ 0, 4 ] },
+        { "item": "cattlefodder", "x": 39, "y": 17, "amount": [ 0, 4 ] }
+      ],
+      "place_vehicles": [
+        { "vehicle": "quad_bike", "x": 17, "y": 2, "chance": 30, "fuel": 200, "status": -1, "rotation": 0 },
+        { "vehicle": "bicycle", "x": 17, "y": 2, "chance": 80, "fuel": 0, "rotation": 0 }
+      ],
+      "place_npcs": [ { "class": "isherwood_eddie", "x": 8, "y": 17 } ]
+    }
+  }
+]

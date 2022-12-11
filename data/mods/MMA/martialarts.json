@@ -1,0 +1,621 @@
+[
+  {
+    "type": "martial_art",
+    "id": "style_mma_desert_wind",
+    "name": { "str": "Desert Wind" },
+    "description": "Followers of the Desert Wind discipline learn to channel their inner strength into powerful spirals of fire.  Always on the move, Desert Wind students use their weapons as a conduit to burn their opponents with searing flames.  Furthermore, these flames expand outward with explosive force, damaging anyone nearby.",
+    "initiate": [
+      "You feel a wave of heat wash over you as you assume a running combat stance.",
+      "%s assumes into a running combat stance."
+    ],
+    "learn_difficulty": 10,
+    "primary_skill": "cutting",
+    "strictly_melee": true,
+    "ondodge_buffs": [
+      {
+        "id": "mma_buff_desert_wind_ondodge",
+        "name": "Zephyr Dance",
+        "description": "Your graceful and fluid movements allow you to avoid attacks with ease.\n\n+1.0 Dodging skill, +1 dodge attempt.\nLasts 2 turns.",
+        "skill_requirements": [ { "name": "melee", "level": 3 } ],
+        "melee_allowed": true,
+        "buff_duration": 2,
+        "bonus_dodges": 1,
+        "flat_bonuses": [ { "stat": "dodge", "scale": 1.0 } ]
+      }
+    ],
+    "onmove_buffs": [
+      {
+        "id": "mma_buff_desert_wind_onmove",
+        "name": "Wind Stride",
+        "description": "Your movement is hastened as if a strong wind is always at your back.\n\n+1.0 Dodging skill.\nLasts 1 turn.  Stacks 2 times.",
+        "skill_requirements": [ { "name": "melee", "level": 3 } ],
+        "melee_allowed": true,
+        "buff_duration": 1,
+        "max_stacks": 2,
+        "flat_bonuses": [ { "stat": "dodge", "scale": 1.0 } ]
+      }
+    ],
+    "techniques": [
+      "mma_tec_desert_wind_strike",
+      "mma_tec_desert_wind_crit",
+      "mma_tec_desert_wind_impale",
+      "mma_tec_desert_wind_spin",
+      "mma_tec_desert_wind_wide"
+    ],
+    "weapon_category": [ "MACES", "EXEMPLAR_WEAPON_DESERT_WIND", "SPEARS" ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_mma_diamond_mind",
+    "name": { "str": "Diamond Mind" },
+    "description": "A student of the Diamond Mind discipline has honed their mind to defeat any opponent.  With quick reflexes and surgical precision, they are able to move so fast that their opponents are unable react.  Marked by unparalleled confidence, those that hesitate for even a moment will fall before them in the blink of an eye.",
+    "initiate": [ "You concentrate and become very still for a moment.", "%s becomes very still for a moment." ],
+    "learn_difficulty": 10,
+    "primary_skill": "cutting",
+    "strictly_melee": true,
+    "static_buffs": [
+      {
+        "id": "mma_buff_diamond_mind_static",
+        "name": "Stance of Alacrity",
+        "description": "Your mind is clearer than normal.  This clarity allows you to move slightly faster in combat.\n\n-15% move cost.",
+        "skill_requirements": [ { "name": "melee", "level": 3 } ],
+        "melee_allowed": true,
+        "mult_bonuses": [ { "stat": "movecost", "scale": 0.85 } ]
+      }
+    ],
+    "ondodge_buffs": [
+      {
+        "id": "mma_buff_diamond_mind_ondodge",
+        "name": "Pearl of Black Doubt",
+        "description": "Each attack that misses you casts doubt on your opponents' skill.  It becomes more obvious with each failed attack how untouchable you are.\n\n+1 dodge attempt.\nLasts 1 turn.  Stacks 2 times.",
+        "melee_allowed": true,
+        "buff_duration": 1,
+        "max_stacks": 2,
+        "bonus_dodges": 1
+      }
+    ],
+    "ongethit_buffs": [
+      {
+        "id": "mma_buff_diamond_mind_ongethit",
+        "name": "Mind over Body",
+        "description": "Your well trained mind allows you to briefly shrug off the effects of pain while in combat.\n\n+1 accuracy.\nLasts 1 turn.  Stacks 2 times.",
+        "skill_requirements": [ { "name": "melee", "level": 2 } ],
+        "melee_allowed": true,
+        "buff_duration": 1,
+        "max_stacks": 2,
+        "flat_bonuses": [ { "stat": "hit", "scale": 1.0 } ]
+      }
+    ],
+    "onpause_buffs": [
+      {
+        "id": "mma_buff_diamond_mind_onpause",
+        "name": "Quicksilver Motion",
+        "description": "Taking a moment to concentrate, you surge forward with incredible speed and act in the blink of an eye.\n\n+50 speed.\nLasts 1 turn.",
+        "skill_requirements": [ { "name": "melee", "level": 5 } ],
+        "melee_allowed": true,
+        "buff_duration": 1,
+        "flat_bonuses": [ { "stat": "speed", "scale": 50.0 } ]
+      }
+    ],
+    "techniques": [ "mma_tec_diamond_mind_strike", "mma_tec_diamond_mind_crit" ],
+    "weapon_category": [ "FENCING_WEAPONRY", "SPEARS", "JAPANESE_SWORDS", "EXEMPLAR_WEAPON_DIAMOND_MIND" ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_mma_hylian",
+    "name": { "str": "Hylian Swordsmanship" },
+    "description": "This rare form of combat has been practiced by many legendary heroes throughout the ages.  Hylian Swordsmanship favors mobility for offense and defense by using spins, jumps, and flips to confuse enemies and strike from unexpected angles.",
+    "initiate": [ "You begin to step lightly from side to side.", "%s begins to step lightly from side to side." ],
+    "learn_difficulty": 10,
+    "primary_skill": "cutting",
+    "strictly_melee": true,
+    "static_buffs": [
+      {
+        "id": "mma_buff_hylian_static1",
+        "name": "Combat Acrobat",
+        "description": "Always stay light on your feet.  It is better to evade than be hit.\n\n+1 accuracy.",
+        "melee_allowed": true,
+        "flat_bonuses": [ { "stat": "hit", "scale": 1.0 } ]
+      },
+      {
+        "id": "mma_buff_hylian_static2",
+        "name": "Intermediate Combat Acrobat",
+        "description": "After a great deal of practice, you have become even more nimble in a battle.\n\n+1.0 Dodging skill.",
+        "skill_requirements": [ { "name": "melee", "level": 3 } ],
+        "melee_allowed": true,
+        "flat_bonuses": [ { "stat": "dodge", "scale": 1.0 } ]
+      },
+      {
+        "id": "mma_buff_hylian_static3",
+        "name": "Master Combat Acrobat",
+        "description": "You have seen so much combat that your dodging skills have become top notch!\n\n+1.0 Dodging skill.",
+        "skill_requirements": [ { "name": "melee", "level": 5 } ],
+        "melee_allowed": true,
+        "flat_bonuses": [ { "stat": "dodge", "scale": 1.0 } ]
+      }
+    ],
+    "onattack_buffs": [
+      {
+        "id": "mma_buff_hylian_spin",
+        "name": "Spinning",
+        "description": "You keep on spinning!  You can still move while spinning but it slows you down quite a bit.\n\n+25% move cost.\nEnables \"Spin Attack\" technique.\nLasts 5 turns after your last spin.",
+        "required_buffs_any": [ "mma_buff_hylian_onpause_2", "mma_buff_hylian_spin" ],
+        "weapon_categories_allowed": [ "HYLIAN_MASTER_SWORD" ],
+        "max_stacks": 1,
+        "melee_allowed": true,
+        "buff_duration": 5,
+        "mult_bonuses": [ { "stat": "movecost", "scale": 1.25 } ]
+      }
+    ],
+    "ondodge_buffs": [
+      {
+        "id": "mma_buff_hylian_ondodge",
+        "name": "Flurry Rush",
+        "description": "When you perfectly dodge an attack, you can attack rapidly for a short time.\n\n-25% move cost.\nLasts 1 turn.",
+        "skill_requirements": [ { "name": "melee", "level": 2 } ],
+        "forbidden_buffs_all": [ "mma_buff_hylian_spin", "mma_buff_hylian_onpause_2" ],
+        "melee_allowed": true,
+        "buff_duration": 1,
+        "mult_bonuses": [ { "stat": "movecost", "scale": 0.75 } ]
+      }
+    ],
+    "onmove_buffs": [
+      {
+        "id": "mma_buff_hylian_onmove",
+        "name": "Dash Attack",
+        "description": "Taking advantage of momentum, you rush towards foes to deliver a powerful strike.\n\n+10% damage.\nLasts 1 turn.  Stacks 3 times.",
+        "skill_requirements": [ { "name": "melee", "level": 1 } ],
+        "forbidden_buffs_all": [ "mma_buff_hylian_spin" ],
+        "melee_allowed": true,
+        "buff_duration": 1,
+        "max_stacks": 3,
+        "mult_bonuses": [
+          { "stat": "damage", "type": "bash", "scale": 1.1 },
+          { "stat": "damage", "type": "cut", "scale": 1.1 },
+          { "stat": "damage", "type": "stab", "scale": 1.1 }
+        ]
+      }
+    ],
+    "onpause_buffs": [
+      {
+        "id": "mma_buff_hylian_onpause",
+        "name": "Charge Up",
+        "description": "By taking a moment to prepare, you can unleash a strong, spinning slash!\n\n+20% damage.\nEnables \"Spin Attack\" technique.\nLasts 1 turn.",
+        "skill_requirements": [ { "name": "melee", "level": 4 } ],
+        "forbidden_buffs_all": [ "mma_buff_hylian_spin" ],
+        "melee_allowed": true,
+        "buff_duration": 1,
+        "mult_bonuses": [
+          { "stat": "damage", "type": "bash", "scale": 1.2 },
+          { "stat": "damage", "type": "cut", "scale": 1.2 },
+          { "stat": "damage", "type": "stab", "scale": 1.2 }
+        ]
+      },
+      {
+        "id": "mma_buff_hylian_onpause_2",
+        "name": "Greater Charge Up",
+        "description": "By charging a second time, you are able to keep on spinning with slightly less destructive force after the first spin.\n\nLasts 1 turn.",
+        "skill_requirements": [ { "name": "melee", "level": 5 } ],
+        "required_buffs_all": [ "mma_buff_hylian_onpause" ],
+        "weapon_categories_allowed": [ "HYLIAN_MASTER_SWORD" ],
+        "melee_allowed": true,
+        "buff_duration": 1
+      }
+    ],
+    "techniques": [ "mma_tec_hylian_spin", "mma_tec_hylian_wide" ],
+    "weapon_category": [ "MEDIUM_SWORDS", "GREAT_SWORDS", "HYLIAN_IMPROV_WEAPONS", "HYLIAN_MASTER_SWORD" ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_mma_iron_heart",
+    "name": { "str": "Iron Heart" },
+    "description": "The Iron Heart discipline is the study of combat.  Nothing more but also nothing less.  Iron Heart students practice endlessly to achieve a complete and absolute mastery of their weapon.  Users of Iron Heart are easily able to disable and dispatch opponents with superior skill and technique.  Only the fool would attempt to fight an Iron Heart student head-on.",
+    "initiate": [ "You push away your fear and stand tall.", "%s takes a bold and fearless stance." ],
+    "learn_difficulty": 10,
+    "primary_skill": "cutting",
+    "strictly_melee": true,
+    "techniques": [
+      "mma_tec_iron_heart_disarm",
+      "mma_tec_iron_heart_feint",
+      "mma_tec_iron_heart_execute",
+      "mma_tec_iron_heart_stun",
+      "mma_tec_iron_heart_wide",
+      "mma_tec_iron_heart_wide_crit"
+    ],
+    "weapon_category": [ "MEDIUM_SWORDS", "GREAT_AXES", "EXEMPLAR_WEAPON_IRON_HEART" ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_mma_panzer",
+    "name": { "str": "Panzer Kunst" },
+    "description": "Panzer Kunst or \"Armor Art\" is a futuristic martial art devised for cyborgs fighting in zero-gravity environments.",
+    "initiate": [ "You adopt a panzer kunst stance.", "%s adopts a panzer kunst stance." ],
+    "learn_difficulty": 10,
+    "arm_block_with_bio_armor_arms": true,
+    "leg_block_with_bio_armor_legs": true,
+    "static_buffs": [
+      {
+        "id": "mma_buff_panzer_static1",
+        "name": "Schatten Folgen",
+        "description": "\"Shadow Tracking\"\nAs a künstler, you are trained to stay in your target's blind spot.\n\n+1 dodge attempt, Dodging skill increased by 15% of Perception.",
+        "unarmed_allowed": true,
+        "melee_allowed": true,
+        "bonus_dodges": 1,
+        "flat_bonuses": [ { "stat": "dodge", "scaling-stat": "per", "scale": 0.15 } ]
+      },
+      {
+        "id": "mma_buff_panzer_static2",
+        "name": "Seinerweisen",
+        "description": "\"Personal Wisdom\"\nThrough your mastery of Panzer Kunst, you have earned the ability to manipulate deadly plasma into all of your attacks!\n\nElectric damage equal to 50% of Perception.",
+        "skill_requirements": [ { "name": "unarmed", "level": 4 } ],
+        "unarmed_allowed": true,
+        "melee_allowed": true,
+        "flat_bonuses": [ { "stat": "damage", "type": "electric", "scaling-stat": "per", "scale": 0.5 } ]
+      }
+    ],
+    "ondodge_buffs": [
+      {
+        "id": "mma_buff_panzer_ondodge",
+        "name": "Einzug Rüstungen",
+        "description": "\"Armor Penetration\"\nBy attuning to the rhythm of your opponent, you can strike where their guard is the weakest.\n\n+1 accuracy, armor penetration increased by 50% of Perception.\nLasts 3 turns.",
+        "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
+        "unarmed_allowed": true,
+        "melee_allowed": true,
+        "buff_duration": 3,
+        "flat_bonuses": [
+          { "stat": "hit", "scale": 1.0 },
+          { "stat": "arpen", "type": "bash", "scaling-stat": "per", "scale": 0.5 },
+          { "stat": "arpen", "type": "cut", "scaling-stat": "per", "scale": 0.5 },
+          { "stat": "arpen", "type": "stab", "scaling-stat": "per", "scale": 0.5 }
+        ]
+      }
+    ],
+    "techniques": [ "mma_tec_panzer_somersault", "mma_tec_panzer_precise", "mma_tec_panzer_rapid" ],
+    "weapon_category": [ "BIONIC_WEAPONRY" ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_mma_pokken",
+    "name": { "str": "Pokken" },
+    "description": "Pokken or \"Pocket Fist\" is a strange martial art developed from the famous Pokémon video game series.  Somehow, a group of dedicated fans managed to combine the moves used by various Pokémon with multiple existing martial arts such as boxing and karate.  Amazingly, it actually works.  Some might even say it's a super effective way to fight.",
+    "initiate": [ "You get ready to battle.", "%s is about to challenge someone to a battle." ],
+    "learn_difficulty": 10,
+    "primary_skill": "bashing",
+    "oncrit_buffs": [
+      {
+        "id": "mma_buff_pokken_oncrit",
+        "name": "Sniper",
+        "description": "Powers up your techniques after you score a critical hit.\n\n+50% damage.\nLasts 1 turn.",
+        "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
+        "unarmed_allowed": true,
+        "buff_duration": 1,
+        "mult_bonuses": [
+          { "stat": "damage", "type": "bash", "scale": 1.5 },
+          { "stat": "damage", "type": "cut", "scale": 1.5 },
+          { "stat": "damage", "type": "stab", "scale": 1.5 }
+        ]
+      }
+    ],
+    "ongethit_buffs": [
+      {
+        "id": "mma_buff_pokken_ongethit",
+        "name": "Stamina",
+        "description": "Boosts your defense after you get hit.\n\nBash, cut, and stab armor increased by 50% of Strength.\nLasts 3 turns.",
+        "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
+        "unarmed_allowed": true,
+        "buff_duration": 3,
+        "flat_bonuses": [
+          { "stat": "armor", "type": "bash", "scaling-stat": "str", "scale": 0.5 },
+          { "stat": "armor", "type": "cut", "scaling-stat": "str", "scale": 0.5 },
+          { "stat": "armor", "type": "stab", "scaling-stat": "str", "scale": 0.5 }
+        ]
+      }
+    ],
+    "onkill_buffs": [
+      {
+        "id": "mma_buff_pokken_onkill",
+        "name": "Moxie",
+        "description": "Boosts your damage after defeating an opponent.\n\n+50% damage.\nLasts 3 turns.",
+        "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
+        "unarmed_allowed": true,
+        "buff_duration": 3,
+        "persists": true,
+        "mult_bonuses": [
+          { "stat": "damage", "type": "bash", "scale": 1.5 },
+          { "stat": "damage", "type": "cut", "scale": 1.5 },
+          { "stat": "damage", "type": "stab", "scale": 1.5 }
+        ]
+      }
+    ],
+    "techniques": [ "mma_tec_pokken_kick", "mma_tec_pokken_lariat", "mma_tec_pokken_strike", "mma_tec_pokken_sweep" ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_mma_setting_sun",
+    "name": { "str": "Setting Sun" },
+    "description": "The Setting Sun discipline teaches its initiates to turn their opponents' advantages into disadvantages.  Students of this discipline are able to able to fool their opponents and then turn their strength against them with a powerful throw.",
+    "initiate": [ "You shift your weight and prepare to defend yourself.", "%s shifts their weight and assumes a new stance." ],
+    "arm_block": 0,
+    "learn_difficulty": 10,
+    "primary_skill": "bashing",
+    "onblock_buffs": [
+      {
+        "id": "mma_buff_setting_sun_onblock",
+        "name": "Fool's Strike",
+        "description": "You moved in such a deceptived that you have turned your opponent's attack against them.\n\n+20% damage.\nLasts 2 turns.",
+        "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
+        "melee_allowed": true,
+        "unarmed_allowed": true,
+        "buff_duration": 2,
+        "mult_bonuses": [
+          { "stat": "damage", "type": "bash", "scale": 1.2 },
+          { "stat": "damage", "type": "cut", "scale": 1.2 },
+          { "stat": "damage", "type": "stab", "scale": 1.2 }
+        ]
+      }
+    ],
+    "ondodge_buffs": [
+      {
+        "id": "mma_buff_setting_sun_ondodge",
+        "name": "Feigned Opening",
+        "description": "By faking an opening, you able to throw your opponent off balance and act quicker for a short time.\n\n+20 speed.\nLasts 1 turn.",
+        "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
+        "melee_allowed": true,
+        "unarmed_allowed": true,
+        "buff_duration": 1,
+        "flat_bonuses": [ { "stat": "speed", "scale": 20.0 } ]
+      }
+    ],
+    "onpause_buffs": [
+      {
+        "id": "mma_buff_setting_sun_onpause",
+        "name": "Baffling Defense",
+        "description": "You ready yourself for your opponent attack while preparing to send them flying!\n\nDodging skill increased by 20% of Intelligence.\nEnables \"Mighty Throw\" and \"Ballista Throw\" techniques.\nLasts 2 turns.",
+        "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
+        "melee_allowed": true,
+        "unarmed_allowed": true,
+        "buff_duration": 2,
+        "flat_bonuses": [ { "stat": "dodge", "scaling-stat": "int", "scale": 0.2 } ]
+      }
+    ],
+    "techniques": [ "mma_tec_setting_sun_stun", "mma_tec_setting_sun_throw", "mma_tec_setting_sun_throw_crit" ],
+    "weapon_category": [ "QUARTERSTAVES", "SHORT_SWORDS", "CONSTRUCTED_SWORDS", "EXEMPLAR_WEAPON_SETTING_SUN" ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_mma_shii_cho",
+    "name": { "str": "Shii-Cho" },
+    "description": "Shii-Cho, \"The way of the Sarlacc\" was the first form lightsaber combat developed by the Jedi during their transition from metal weaponry to lightsabers.  Shii-Cho is regarded as a training form that all Jedi learn to understand the basics of armed combat.  Shii-Cho excels at fighting against groups but lacks the offensive power of the other lightsaber forms.",
+    "initiate": [
+      "You place one foot back and hold your weapon vertically on your dominant side.",
+      "%s places one foot back and hold their weapon vertically."
+    ],
+    "learn_difficulty": 10,
+    "primary_skill": "cutting",
+    "strictly_melee": true,
+    "static_buffs": [
+      {
+        "id": "mma_buff_shii_cho_static1",
+        "name": "Determination",
+        "description": "You are a determined warrior.  Your inner calm aids you in landing your strikes and protecting yourself.\n\nBlocked damage reduced by 100% of Strength, +1 accuracy.",
+        "melee_allowed": true,
+        "flat_bonuses": [ { "stat": "hit", "scale": 1.0 }, { "stat": "block", "scaling-stat": "str", "scale": 1.0 } ]
+      },
+      {
+        "id": "mma_buff_shii_cho_static2",
+        "name": "Apprentice Training",
+        "description": "Your training in Shii-Cho teaches you how to combat multiple opponents.\n\n+1 block attempt, +1 blocking effectiveness.",
+        "skill_requirements": [ { "name": "melee", "level": 1 } ],
+        "melee_allowed": true,
+        "bonus_blocks": 1,
+        "flat_bonuses": [ { "stat": "block_effectiveness", "scale": 1.0 } ]
+      },
+      {
+        "id": "mma_buff_shii_cho_static3",
+        "name": "Knight Training",
+        "description": "Further training in Shii-Cho improves your ability to combat multiple opponents.\n\n+1 block attempt, +1 blocking effectiveness.",
+        "skill_requirements": [ { "name": "melee", "level": 3 } ],
+        "melee_allowed": true,
+        "bonus_blocks": 1,
+        "flat_bonuses": [ { "stat": "block_effectiveness", "scale": 1.0 } ]
+      },
+      {
+        "id": "mma_buff_shii_cho_static4",
+        "name": "Master Training",
+        "description": "As a master of Shii-Cho, your ability to fight against groups is second to none.\n\n+1 block attempt, +1 blocking effectiveness.",
+        "skill_requirements": [ { "name": "melee", "level": 5 } ],
+        "melee_allowed": true,
+        "bonus_blocks": 1,
+        "flat_bonuses": [ { "stat": "block_effectiveness", "scale": 1.0 } ]
+      }
+    ],
+    "onblock_buffs": [
+      {
+        "id": "mma_buff_shii_cho_onblock",
+        "name": "Flowing Water",
+        "description": "You are able to deflect an attack and counter in the same motion.\n\n-25% move cost.\nLasts 1 turn.",
+        "skill_requirements": [ { "name": "melee", "level": 4 } ],
+        "melee_allowed": true,
+        "buff_duration": 1,
+        "mult_bonuses": [ { "stat": "movecost", "scale": 0.75 } ]
+      }
+    ],
+    "techniques": [ "mma_tec_shii_cho_disarm", "mma_tec_shii_cho_wide" ],
+    "weapon_category": [ "SHORT_SWORDS", "MEDIUM_SWORDS", "LONG_SWORDS" ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_mma_stone_dragon",
+    "name": { "str": "Stone Dragon" },
+    "description": "Strength, endurance, and patience are the cornerstones of the Stone Dragon discipline.  Stone Dragon students are taught to end battles with a single, powerful blow.  By standing still for a moment, the user can fortify themselves with the power of stone.",
+    "initiate": [ "You dig your heels into the ground and steady yourself.", "%s digs their heels into the ground." ],
+    "learn_difficulty": 10,
+    "primary_skill": "cutting",
+    "static_buffs": [
+      {
+        "id": "mma_buff_stone_dragon_static",
+        "name": "Stonefoot Stance",
+        "description": "You maintain a steady stance that improves your combat prowess.  However, moving too much will break your stance.\n\n+10% damage, +2 bash, cut, and stab armor.",
+        "melee_allowed": true,
+        "unarmed_allowed": true,
+        "flat_bonuses": [
+          { "stat": "armor", "type": "bash", "scale": 2.0 },
+          { "stat": "armor", "type": "cut", "scale": 2.0 },
+          { "stat": "armor", "type": "stab", "scale": 2.0 }
+        ],
+        "mult_bonuses": [
+          { "stat": "damage", "type": "bash", "scale": 1.1 },
+          { "stat": "damage", "type": "cut", "scale": 1.1 },
+          { "stat": "damage", "type": "stab", "scale": 1.1 }
+        ]
+      }
+    ],
+    "oncrit_buffs": [
+      {
+        "id": "mma_buff_stone_dragon_oncrit",
+        "name": "Iron Bones",
+        "description": "With a powerful strike, you further fortify yourself again counterattacks!\n\n+5 bash, cut, and stab armor.\nLasts 1 turn.",
+        "skill_requirements": [ { "name": "melee", "level": 2 } ],
+        "melee_allowed": true,
+        "unarmed_allowed": true,
+        "buff_duration": 1,
+        "flat_bonuses": [
+          { "stat": "armor", "type": "bash", "scale": 5.0 },
+          { "stat": "armor", "type": "cut", "scale": 5.0 },
+          { "stat": "armor", "type": "stab", "scale": 5.0 }
+        ]
+      }
+    ],
+    "onhit_buffs": [
+      {
+        "id": "mma_buff_stone_dragon_onhit",
+        "name": "Stone Bones",
+        "description": "Each attack against your opponents slowly steels your defenses.\n\n+1 bash, cut, and stab armor.\nLasts 3 turns.  Stacks 5 times.",
+        "skill_requirements": [ { "name": "melee", "level": 2 } ],
+        "melee_allowed": true,
+        "unarmed_allowed": true,
+        "buff_duration": 3,
+        "max_stacks": 5,
+        "flat_bonuses": [
+          { "stat": "armor", "type": "bash", "scale": 1.0 },
+          { "stat": "armor", "type": "cut", "scale": 1.0 },
+          { "stat": "armor", "type": "stab", "scale": 1.0 }
+        ]
+      }
+    ],
+    "onmove_buffs": [
+      {
+        "id": "mma_buff_stone_dragon_onmove1",
+        "name": "Cracked Stone",
+        "description": "Moving too much will negate the effects of Surefoot Stance.  Stay still to avoid shattering your stance!\n\nEnables \"Shattered Stone\" buff.\nLasts 1 turn.",
+        "melee_allowed": true,
+        "unarmed_allowed": true,
+        "buff_duration": 1
+      },
+      {
+        "id": "mma_buff_stone_dragon_onmove2",
+        "name": "Shattered Stone",
+        "description": "You are unable to maintain your Surefoot Stance and must stop moving for a short time to regain its benefits.\n\n-10% damage, -2 bash, cut, and stab armor.\nLasts 1 turn.",
+        "melee_allowed": true,
+        "unarmed_allowed": true,
+        "required_buffs_all": [ "mma_buff_stone_dragon_onmove1" ],
+        "buff_duration": 1,
+        "persists": true,
+        "flat_bonuses": [
+          { "stat": "armor", "type": "bash", "scale": -2.0 },
+          { "stat": "armor", "type": "cut", "scale": -2.0 },
+          { "stat": "armor", "type": "stab", "scale": -2.0 }
+        ],
+        "mult_bonuses": [
+          { "stat": "damage", "type": "bash", "scale": 0.9 },
+          { "stat": "damage", "type": "cut", "scale": 0.9 },
+          { "stat": "damage", "type": "stab", "scale": 0.9 }
+        ]
+      }
+    ],
+    "techniques": [ "mma_tec_stone_dragon_hammer", "mma_tec_stone_dragon_strike", "mma_tec_stone_dragon_colossus" ],
+    "weapon_category": [ "MACES", "GREAT_SWORDS", "GREAT_AXES", "EXEMPLAR_WEAPON_STONE_DRAGON" ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_mma_tiger_claw",
+    "name": { "str": "Tiger Claw" },
+    "description": "The Tiger Claw discipline embraces the fury and power of a wild beast.  Attacks from a Tiger Claw student are vicious and very few can stand against the might of a frenzied animal.",
+    "initiate": [ "You emit a low growl as you prepare for battle.", "%s hunkers down like a wild animal." ],
+    "learn_difficulty": 10,
+    "primary_skill": "cutting",
+    "static_buffs": [
+      {
+        "id": "mma_buff_tiger_claw_static",
+        "name": "Improved Critical",
+        "description": "Always strike with full force.  Never hold back anything unless you want to die.\n\n+5% critical hit chance.",
+        "skill_requirements": [ { "name": "melee", "level": 5 } ],
+        "melee_allowed": true,
+        "unarmed_allowed": true,
+        "flat_bonuses": [ { "stat": "crit_chance", "scale": 5.0 } ]
+      }
+    ],
+    "oncrit_buffs": [
+      {
+        "id": "mma_buff_tiger_claw_oncrit",
+        "name": "Blood In The Water",
+        "description": "The scent of blood is near.  You want more.  NOW!\n\n+1 accuracy, +15% damage.\nLasts 1 turn.  Stacks 2 times.",
+        "skill_requirements": [ { "name": "melee", "level": 4 } ],
+        "melee_allowed": true,
+        "unarmed_allowed": true,
+        "buff_duration": 1,
+        "max_stacks": 2,
+        "flat_bonuses": [ { "stat": "hit", "scale": 1.0 } ],
+        "mult_bonuses": [
+          { "stat": "damage", "type": "bash", "scale": 1.15 },
+          { "stat": "damage", "type": "cut", "scale": 1.15 },
+          { "stat": "damage", "type": "stab", "scale": 1.15 }
+        ]
+      }
+    ],
+    "ongethit_buffs": [
+      {
+        "id": "mma_buff_tiger_claw_ongethit",
+        "name": "Cornered Predator",
+        "description": "A cornered animal is a terrifying and dangerous creature.  You are no different.\n\n-20% move cost.\nLasts 1 turn.",
+        "skill_requirements": [ { "name": "melee", "level": 2 } ],
+        "melee_allowed": true,
+        "unarmed_allowed": true,
+        "buff_duration": 1,
+        "mult_bonuses": [ { "stat": "movecost", "scale": 0.8 } ]
+      }
+    ],
+    "onkill_buffs": [
+      {
+        "id": "mma_buff_tiger_claw_onkill",
+        "name": "Prey on the Weak",
+        "description": "You have started culling the herd.  It should be easier remove the rest now.\n\n+30 speed.\nLasts 2 turns.  Stacks 2 times.",
+        "skill_requirements": [ { "name": "melee", "level": 3 } ],
+        "melee_allowed": true,
+        "unarmed_allowed": true,
+        "buff_duration": 2,
+        "max_stacks": 2,
+        "flat_bonuses": [ { "stat": "speed", "scale": 30.0 } ]
+      }
+    ],
+    "onmove_buffs": [
+      {
+        "id": "mma_buff_tiger_claw_onmove",
+        "name": "Pounching Charge",
+        "description": "You recklessly throw yourself into battle to overpower your prey.  Strike first and strike hard.\n\n+2 accuracy, +10% damage.\nLasts 1 turn.",
+        "skill_requirements": [ { "name": "melee", "level": 1 } ],
+        "melee_allowed": true,
+        "unarmed_allowed": true,
+        "buff_duration": 1,
+        "flat_bonuses": [ { "stat": "hit", "scale": 2.0 } ],
+        "mult_bonuses": [
+          { "stat": "damage", "type": "bash", "scale": 1.1 },
+          { "stat": "damage", "type": "cut", "scale": 1.1 },
+          { "stat": "damage", "type": "stab", "scale": 1.1 }
+        ]
+      }
+    ],
+    "techniques": [ "mma_tec_tiger_claw_break" ],
+    "weapon_category": [ "CLAWS", "HAND_AXES", "GREAT_AXES", "EXEMPLAR_WEAPON_TIGER_CLAW" ]
+  }
+]

@@ -1,0 +1,34 @@
+[
+  {
+    "type": "npc",
+    "id": "ranch_construction_1",
+    "//": "Flavor",
+    "name_suffix": "Carpenter",
+    "class": "NC_HUNTER",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_RANCH_CONSTRUCTION_1",
+    "faction": "tacoma_commune"
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RANCH_CONSTRUCTION_1",
+    "dynamic_line": "My partner is in charge of fortifying this place, you should ask him about what needs to be done.",
+    "responses": [
+      {
+        "text": "The doctor needs some help building an anesthetic machine.  Do you have anything that could help?",
+        "topic": "TALK_RANCH_GENERIC_ANESTHETIC_FOR_DOCTOR",
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_RANCH_DOCTOR_MEDICAL_ANESTHETIC" },
+            {
+              "not": { "npc_has_var": "doctor_anesthetic_asked", "type": "mission", "context": "tacoma_ranch", "value": "yes" }
+            }
+          ]
+        },
+        "effect": [ { "npc_add_var": "doctor_anesthetic_asked", "type": "mission", "context": "tacoma_ranch", "value": "yes" } ]
+      },
+      { "text": "I'll talk to him then…", "topic": "TALK_DONE" }
+    ]
+  }
+]

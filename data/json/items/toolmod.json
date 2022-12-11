@@ -1,0 +1,89 @@
+[
+  {
+    "abstract": "mod_battery",
+    "type": "TOOLMOD",
+    "name": { "str": "base toolmod" },
+    "weight": "142 g",
+    "volume": "250 ml",
+    "material": [ "plastic", "ceramic" ],
+    "symbol": ";",
+    "color": "dark_gray",
+    "price": 100,
+    "acceptable_ammo": [ "battery" ]
+  },
+  {
+    "id": "battery_ups",
+    "copy-from": "mod_battery",
+    "type": "TOOLMOD",
+    "category": "spare_parts",
+    "name": { "str": "UPS conversion mod" },
+    "description": "This device replaces conventional battery connections with a connector port that can plug into a UPS.  Any device modified with this can be used without a battery as long as you have a charged UPS with you.",
+    "flags": [ "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ]
+  },
+  {
+    "id": "battery_bionic",
+    "copy-from": "mod_battery",
+    "type": "TOOLMOD",
+    "category": "spare_parts",
+    "name": { "str": "bionic power conversion mod" },
+    "description": "This kit permanently replaces conventional battery connections with the circuitry and cable required to draw power from a Standard Neurobionics Interface (SNI).  Any device modified with this is powered by your own bionic power storage instead of conventional batteries.",
+    "flags": [ "USES_BIONIC_POWER", "NO_UNLOAD", "NO_RELOAD" ]
+  },
+  {
+    "id": "magazine_battery_mod",
+    "copy-from": "mod_battery",
+    "type": "TOOLMOD",
+    "category": "spare_parts",
+    "name": { "str": "battery compartment mod" },
+    "description": "A battery compartment mod that allows using vehicle batteries and small storage batteries in regular tools.",
+    "color": "light_green",
+    "acceptable_ammo": [ "battery" ],
+    "pocket_mods": [
+      { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "small_storage_battery", "battery_car", "battery_motorbike" ] }
+    ],
+    "magazine_adaptor": [ [ "battery", [ "small_storage_battery", "battery_car", "battery_motorbike" ] ] ]
+  },
+  {
+    "id": "magazine_battery_light_mod",
+    "copy-from": "mod_battery",
+    "type": "TOOLMOD",
+    "category": "spare_parts",
+    "name": { "str": "light battery mod" },
+    "description": "A battery compartment mod that allows the use of light and ultra-light batteries in tools that otherwise could not.",
+    "color": "light_green",
+    "acceptable_ammo": [ "battery" ],
+    "pocket_mods": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_minus_battery_cell"
+      }
+    ]
+  },
+  {
+    "id": "magazine_battery_medium_mod",
+    "copy-from": "mod_battery",
+    "type": "TOOLMOD",
+    "category": "spare_parts",
+    "name": { "str": "medium battery mod" },
+    "description": "A battery compartment mod that allows the use of medium batteries in tools that otherwise could not.",
+    "color": "light_green",
+    "acceptable_ammo": [ "battery" ],
+    "pocket_mods": [
+      { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "BATTERY_MEDIUM" ], "default_magazine": "medium_battery_cell" }
+    ]
+  },
+  {
+    "id": "magazine_battery_heavy_mod",
+    "copy-from": "mod_battery",
+    "type": "TOOLMOD",
+    "category": "spare_parts",
+    "name": { "str": "heavy battery mod" },
+    "description": "A battery compartment mod that allows the use of heavy batteries in tools that otherwise could not.",
+    "color": "light_green",
+    "acceptable_ammo": [ "battery" ],
+    "pocket_mods": [
+      { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "BATTERY_HEAVY" ], "default_magazine": "heavy_battery_cell" }
+    ]
+  }
+]

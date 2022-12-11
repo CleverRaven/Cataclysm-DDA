@@ -1,0 +1,329 @@
+[
+  {
+    "type": "npc",
+    "id": "ranch_doctor",
+    "//": "Provides advanced medical attention.",
+    "name_suffix": "Doctor",
+    "class": "NC_DOCTOR",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_RANCH_DOCTOR",
+    "faction": "tacoma_commune"
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RANCH_DOCTOR",
+    "dynamic_line": {
+      "npc_has_var": "provides_aid",
+      "type": "dialogue",
+      "context": "tacoma_ranch",
+      "value": "yes",
+      "yes": "How can I help you today?",
+      "no": "I'm sorry, I don't have time to help you at the moment."
+    },
+    "responses": [
+      {
+        "text": "Is there anything else I can help with?",
+        "topic": "TALK_MISSION_LIST",
+        "condition": {
+          "and": [ { "npc_has_var": "doctor_completed_supplies", "type": "mission", "context": "tacoma_ranch", "value": "yes" } ]
+        }
+      },
+      {
+        "text": "Maybe I could help you with something?",
+        "topic": "TALK_RANCH_DOCTOR_SUPPLIES",
+        "condition": {
+          "and": [
+            { "not": { "npc_has_var": "doctor_completed_supplies", "type": "mission", "context": "tacoma_ranch", "value": "yes" } },
+            { "not": { "u_has_mission": "MISSION_RANCH_DOCTOR_SUPPLIES" } }
+          ]
+        },
+        "effect": [
+          { "add_mission": "MISSION_RANCH_DOCTOR_SUPPLIES" },
+          { "npc_add_var": "doctor_completed_supplies", "type": "mission", "context": "tacoma_ranch", "value": "no" }
+        ]
+      },
+      {
+        "text": "I couldn't find any crutches, but I made these.  Will they work?",
+        "topic": "TALK_RANCH_DOCTOR",
+        "condition": {
+          "and": [
+            { "u_has_items": { "item": "makeshift_crutches", "count": 1 } },
+            { "u_has_mission": "MISSION_RANCH_DOCTOR_CRUTCHES" }
+          ]
+        },
+        "effect": [
+          { "u_consume_item": "makeshift_crutches", "count": 1 },
+          { "u_message": "These will have to do…", "type": "good", "popup": true },
+          "mission_success",
+          "clear_mission"
+        ]
+      },
+      { "text": "Could you help me with some bionics?", "topic": "TALK_RANCH_DOCTOR_BIONICS" },
+      { "text": "I could use your medical assistance.", "topic": "TALK_RANCH_DOCTOR_AID" },
+      { "text": "…", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_RANCH_DOCTOR_AID",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "npc_has_var": "provides_aid",
+      "type": "dialogue",
+      "context": "tacoma_ranch",
+      "value": "yes",
+      "yes": {
+        "npc_has_effect": "currently_busy",
+        "yes": "I have other patients to attend to.  Come back later.",
+        "no": "What can I help you with?"
+      },
+      "no": "I can't right now, I have other matters to attend to."
+    },
+    "responses": [
+      {
+        "text": "[$200, 30m] I need you to patch me up.",
+        "topic": "TALK_RANCH_DOCTOR_AID_DONE",
+        "effect": [ "give_aid", { "u_spend_cash": 20000 } ],
+        "condition": {
+          "and": [
+            { "npc_service": true },
+            { "npc_has_var": "provides_aid", "type": "dialogue", "context": "tacoma_ranch", "value": "yes" }
+          ]
+        }
+      },
+      {
+        "text": "[$500, 1h] I need you to patch my friends up.",
+        "topic": "TALK_RANCH_DOCTOR_AID_DONE",
+        "effect": [ "give_all_aid", { "u_spend_cash": 50000 } ],
+        "condition": {
+          "and": [
+            { "npc_service": true },
+            { "npc_has_var": "provides_aid", "type": "dialogue", "context": "tacoma_ranch", "value": "yes" }
+          ]
+        }
+      },
+      { "text": "Never mind.", "topic": "TALK_NONE" },
+      { "text": "I've got to go…", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RANCH_DOCTOR_AID_DONE",
+    "dynamic_line": "Take it easy now.  Wouldn't want you coming back here too soon.",
+    "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "TALK_RANCH_DOCTOR_BIONICS",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "npc_has_var": "provides_bionics",
+      "type": "dialogue",
+      "context": "tacoma_ranch",
+      "value": "yes",
+      "yes": "What can I help you with?",
+      "no": "We don't have the medical equipment to do that right now."
+    },
+    "responses": [
+      {
+        "text": "I was wondering if you could install a cybernetic implant…",
+        "topic": "TALK_DONE",
+        "effect": "bionic_install",
+        "condition": {
+          "and": [
+            { "npc_service": true },
+            { "npc_has_var": "provides_bionics", "type": "dialogue", "context": "tacoma_ranch", "value": "yes" }
+          ]
+        }
+      },
+      {
+        "text": "I need help removing an implant…",
+        "topic": "TALK_DONE",
+        "effect": "bionic_remove",
+        "condition": {
+          "and": [
+            { "npc_service": true },
+            { "npc_has_var": "provides_bionics", "type": "dialogue", "context": "tacoma_ranch", "value": "yes" }
+          ]
+        }
+      },
+      { "text": "Never mind.", "topic": "TALK_NONE" },
+      { "text": "I've got to go…", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_RANCH_DOCTOR_SUPPLIES",
+    "type": "talk_topic",
+    "dynamic_line": "I'm running out of office supplies.  I know… of all the things to need at a time like this!  I just need to be able to keep track of and organize medical records so that I can focus on helping people.  Ten binders and a ream of paper should tide me over until some shipments come in.",
+    "responses": [
+      {
+        "text": "I'll see what I can find.",
+        "topic": "TALK_DONE",
+        "effect": [ { "npc_add_var": "doctor_completed_supplies", "type": "mission", "context": "tacoma_ranch", "value": "no" } ]
+      },
+      { "text": "Never mind.", "topic": "TALK_NONE" },
+      { "text": "I've got to go…", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "MISSION_RANCH_DOCTOR_MEDICAL_ANESTHETIC_DELIVERED",
+    "type": "talk_topic",
+    "dynamic_line": "Thanks, this will help a lot.",
+    "responses": [ { "text": "Glad to help.", "topic": "TALK_NONE" }, { "text": "I've got to go…", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "MISSION_RANCH_DOCTOR_SUPPLIES",
+    "type": "mission_definition",
+    "name": { "str": "Collect Office Supplies" },
+    "description": "The doctor needs office supplies to keep track of medical records.  Bring them 10 Book binders and 500 paper",
+    "goal": "MGOAL_CONDITION",
+    "goal_condition": {
+      "and": [ { "u_has_items": { "item": "book_binder", "count": 10 } }, { "u_has_items": { "item": "paper", "count": 500 } } ]
+    },
+    "difficulty": 1,
+    "value": 0,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_RANCH_DOCTOR_CRUTCHES",
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "Have you found the supplies yet?",
+      "success": "Thanks!  This should help keep things organized for a while.",
+      "success_lie": "…",
+      "failure": "…"
+    },
+    "end": {
+      "update_mapgen": [
+        {
+          "om_terrain": "ranch_camp_59",
+          "set": [
+            { "square": "furniture", "id": "f_filing_cabinet", "x": 5, "y": 0, "x2": 8, "y2": 0 },
+            { "square": "furniture", "id": "f_filing_cabinet", "x": 5, "y": 2, "x2": 8, "y2": 2 }
+          ],
+          "place_items": [
+            {
+              "item": "ranch_doctor_filing_cabinets",
+              "x": [ 5, 8 ],
+              "chance": 100,
+              "y": 0,
+              "repeat": 5,
+              "faction": "tacoma_commune"
+            },
+            {
+              "item": "ranch_doctor_filing_cabinets",
+              "x": [ 5, 8 ],
+              "chance": 100,
+              "y": 2,
+              "repeat": 5,
+              "faction": "tacoma_commune"
+            }
+          ]
+        }
+      ],
+      "effect": [
+        { "u_consume_item": "paper", "count": 500 },
+        { "u_consume_item": "book_binder", "count": 10 },
+        { "npc_add_var": "doctor_completed_supplies", "type": "mission", "context": "tacoma_ranch", "value": "yes" }
+      ]
+    }
+  },
+  {
+    "id": "MISSION_RANCH_DOCTOR_CRUTCHES",
+    "type": "mission_definition",
+    "name": { "str": "A Crutch to Lean on" },
+    "description": "Bring the doctor some crutches.",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 5,
+    "value": 2500,
+    "item": "crutches",
+    "count": 1,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_RANCH_DOCTOR_MEDICAL_GLOVES",
+    "dialogue": {
+      "describe": "We need help…",
+      "offer": "One of the laborers injured their foot pretty badly and I don't want them walking on it for a few days at least.  Do you think you could find a pair of crutches?",
+      "accepted": "I'm counting on you.",
+      "rejected": "Come back when you get a chance.  We need skilled survivors.",
+      "advice": "You might be able to find some in hospitals, but some makeshift crutches would be better than nothing.",
+      "inquire": "Do you have the crutches?",
+      "success": "Thank you for your assistance.",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways…"
+    }
+  },
+  {
+    "id": "MISSION_RANCH_DOCTOR_MEDICAL_GLOVES",
+    "type": "mission_definition",
+    "name": { "str": "Find 5 Pairs of Medical Gloves" },
+    "description": "Bring the doctor 5 pairs of medical gloves.",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 5,
+    "value": 3500,
+    "item": "gloves_medical",
+    "count": 5,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_RANCH_DOCTOR_MEDICAL_ANESTHETIC",
+    "dialogue": {
+      "describe": "We need help…",
+      "offer": "We're getting a lot of scrapes and bruises coming in right now, but it's only a matter of time before we see a serious injury.  I'm not prepared for when that happens and I'm hoping you can help.  To start off, I'm going to need some more medical gloves to help prevent infections.  Can you bring me 5 pairs?",
+      "accepted": "I'm counting on you.",
+      "rejected": "Come back when you get a chance.  We need skilled survivors.",
+      "advice": "Hospitals or clinics might have a few sitting around.",
+      "inquire": "Do you have the medical gloves?",
+      "success": "Thank you for your assistance.",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways…"
+    },
+    "end": { "effect": [ { "npc_add_var": "provides_aid", "type": "dialogue", "context": "tacoma_ranch", "value": "yes" } ] }
+  },
+  {
+    "id": "MISSION_RANCH_DOCTOR_MEDICAL_ANESTHETIC",
+    "type": "mission_definition",
+    "name": { "str": "Anesthetic for the Doctor" },
+    "description": "Bring the doctor 3000 units of anesthetic.  Ask around the commune for assistance in building an anesthetic machine.",
+    "goal": "MGOAL_CONDITION",
+    "goal_condition": {
+      "and": [
+        { "u_has_items": { "item": "anesthetic", "count": 3000 } },
+        {
+          "u_has_var": "doctor_anesthetic_scavengers_helped",
+          "type": "mission",
+          "context": "tacoma_ranch",
+          "value": "yes"
+        },
+        {
+          "u_has_var": "doctor_anesthetic_scrappers_helped",
+          "type": "mission",
+          "context": "tacoma_ranch",
+          "value": "yes"
+        }
+      ]
+    },
+    "difficulty": 5,
+    "value": 0,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_NULL",
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "We need help…",
+      "offer": "I want to make sure we are setup to handle any major surgeries that come our way, but pain management is going to be an issue.  For longer surgeries, we're going to need some anesthetic.  Can you bring me 3000 units to start?  We're also going to need an anesthetic machine to deliver it.  Maybe some people around the commune can help with that?",
+      "accepted": "I'm counting on you.",
+      "rejected": "Come back when you get a chance.  We need skilled survivors.",
+      "advice": "Hospitals or clinics might have some.  Labs could have some as well.",
+      "inquire": "Any progress on getting some anesthetic or parts?",
+      "success": "The scavengers found more medical equipment than I expected and with the help from the scrappers, I've been able to get most of it up and running.  I should be able to perform more operations now and could even help with some bionics if you have any.",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways…"
+    },
+    "end": {
+      "update_mapgen": [ { "om_terrain": "ranch_camp_50", "set": [ { "point": "furniture", "id": "f_anesthetic", "x": 19, "y": 19 } ] } ],
+      "effect": [
+        { "u_consume_item": "anesthetic", "count": 3000 },
+        { "npc_add_var": "provides_bionics", "type": "dialogue", "context": "tacoma_ranch", "value": "yes" }
+      ]
+    }
+  }
+]

@@ -1,0 +1,51 @@
+# Le righe che superano 78 caratteri andranno a capo automaticamente
+# Questa riga è per riferimento
+##############################################################################
+<color_white>Visitaci:</color>
+
+<color_light_gray>* Homepage:</color>  <color_cyan>https://cataclysmdda.org</color>
+<color_light_gray>* Wiki:</color>        <color_cyan>https://cddawiki.chezzo.com/cdda_wiki</color>
+
+<color_white>Segnala bug, suggerimenti e segui lo sviluppo su:</color>
+
+<color_light_gray>* Github: </color><color_light_cyan>https://github.com/CleverRaven/Cataclysm-DDA/issues</color>
+<color_light_gray>* e-mail: </color><color_light_cyan>kevin.granade@gmail.com</color>
+
+<color_white>Unisciti alla discussione nei forum e nelle chat:</color>
+
+<color_light_gray>* Discourse:                 </color><color_cyan>https://discourse.cataclysmdda.org/</color>
+<color_light_gray>* Discord:                   </color><color_cyan>https://discord.gg/jFEc7Yp</color>
+<color_light_gray>* IRC:                       </color><color_cyan>#CataclysmDDA su libera.chat</color>
+<color_light_gray>* Reddit (non-ufficiale):       </color><color_cyan>https://www.reddit.com/r/cataclysmdda/</color>
+
+<color_light_gray>Altri link utili sono disponibili sulla nostra Homepage.</color>
+
+<color_light_gray>Nel gioco, puoi accedere alle opzioni attraverso il menu principale (<color_yellow>Esc</color>).</color>
+
+<color_light_red>******************************************************************************</color>
+<color_light_red>Avvertenza sulle build sperimentali e note sulla traduzione italiana di Cataclysm: Dark Days Ahead :</color>La traduzione italiana di C:DDA è un progetto portato avanti da pochissimi volontari che ha visto il susseguirsi del contributo non sempre continuo di più persone nel corso del tempo; questo comporta alcuni problemi: le traduzioni possono non essere accurate, in molti casi totalmente mancanti, possono essere presenti incoerenze di traduzione, errori grammaticali, traduzioni palesemente effettuate tramite copia-incolla da internet e via discorrendo. Anche se il desiderio di rendere C:DDA linguisticamente accessibile è molto forte, la carenza di volontari nel processo di traduzione rende questo processo molto lungo e difficile, soprattutto in virtù del fatto che viene svolto in modo volontario da persone che dedicano alla traduzione il poco tempo libero di cui dispongono. Se ti interessa contribuire al processo di traduzione, troverai tutte le informazioni necessarie sulla pagina Github di C:DDA: https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/TRANSLATING.md. Se vuoi segnalare errori o hai bisogno di una mano per accedere a Transifex, manda una e-mail a: sniper27it@gmail.com
+<color_light_red>******************************************************************************</color>
+
+<color_white>D: </color><color_yellow>Cos'è una build sperimentale?</color>
+
+<color_white>R: </color><color_light_gray>L'obiettivo delle build sperimentali è quello di essere una seconda categoria di controllo qualità. Sono la linea frontale sulla quale vengono rilasciati nuovi contenuti, da essere testati e bilanciati dopo un controllo qualità iniziale. Sii consapevole che scegliendo di giocare alle ultime build sperimentali stai partecipando al processo di sviluppo, testando nuove caratteristiche che sono suscettibili a bug e contenuti sottosviluppati.</color>
+
+<color_white>D: </color><color_yellow>Perchè esistono le build sperimentali?</color>
+
+<color_white>R: </color><color_light_gray>Considerale come giocare ad una versione alpha/beta- i bug ed i contenuti sottosviluppati fanno parte di essa. A causa dei continui rigori d'integrazione, le build sperimentali sono sempre in uno stato di costante lavori in corso. Sperimentale è una sandbox in cui l'individuazione dei bug e la smussatura dei contenuti prendono piede. Grandi e piccoli contenuti sono costantemente rilasciati in queste build, da essere controllati per la loro complessiva stabilità e bilanciamento. In effetti, nulla è garantito nelle build sperimentali.</color>
+
+<color_white>D: </color><color_yellow>Allora le build sperimentali sono giocabili?</color>
+
+<color_white>R: </color><color_light_gray>Sì. Ma anche se le build sperimentali sono complessivamente stabili, ciò non è sempre garantito, dato che dei contenuti potrebbero essere introdotti in uno stato sottosviluppato, in parte; e potrebbero introdurre bug, inclusi alcuni gravi che potrebbero crashare il gioco o corrompere i salvataggi. Ciò è raro, ma data la complessità del gioco, il controllo qualità iniziale prima di unirsi con la build sperimentali potrebbe essere inadeguato, e c'è sempre spazio per l'errore umano. Ecco perché esistono le build sperimentali, in primo luogo.</color>
+
+<color_white>D: </color><color_yellow>Dovrei giocare alle build sperimentali allora, o rimanere fermo alla build stabile?</color>
+
+<color_white>R: </color><color_light_gray>Il premio è l'accesso istantaneo ai nuovi contenuti, il rischio è quello di perdere i tuoi progressi nel gioco se un brutto bug emerge. La scelta di giocare alle build sperimentali è sempre tua, con una build stabile a disposizione, perciò gioca a tua discrezione. Ti assumi tutte le responsabilità nel caso che qualcosa vada storto, perciò sii avvisato. Prendi precauzioni, fai backup. Certe volte è meglio rimandare l'aggiornamento per alcuni giorni, finché un grande contenuto non è stato stabilizzato o un bug importante non è stato rimosso.</color>
+
+<color_white>D: </color><color_yellow>C'è qualcos'altro che dovrei sapere?</color>
+
+<color_white>R: </color><color_light_gray>Sì.  Ricorda che tutto ciò che vedi e che stai per vedere è potenzialmente soggetto a cambiamenti. Tutti i contenuti, compresi quelli recentemente implementati, sono un lavoro in corso, e potrebbero cambiare nel corso dello sviluppo del gioco. E, come detto precedentemente, nulla è garantito, inclusi bilanciamento e stabilità.</color>
+
+<color_white>D: </color><color_yellow>E se trovo il rischio di giocare alla build sperimentale inaccettabile ?</color>
+
+<color_white>R: </color><color_light_gray>Se il rischio è inaccettabile - gioca alla versione stabile. Se hai la volontà di assumerti il rischio - goditi i contenuti nuovamente aggiunti delle versioni sperimentali e collabora allo sviluppo - segnala bug, fai presente suggerimenti o persino contribuisci il tuo contenuto al gioco. Buona fortuna.</color>

@@ -1,0 +1,1608 @@
+[
+  {
+    "id": "test_activity_clauses",
+    "type": "widget",
+    "separator": ": ",
+    "label": "Activity",
+    "style": "text",
+    "clauses": [
+      {
+        "id": "none",
+        "text": "None",
+        "color": "light_gray",
+        "condition": { "compare_int": [ { "u_val": "activity_level" }, "==", { "const": 0 } ] }
+      },
+      {
+        "id": "light",
+        "text": "Light",
+        "color": "yellow",
+        "condition": { "compare_int": [ { "u_val": "activity_level" }, "==", { "const": 1 } ] }
+      },
+      {
+        "id": "moderate",
+        "text": "Moderate",
+        "color": "yellow",
+        "condition": { "compare_int": [ { "u_val": "activity_level" }, "==", { "const": 2 } ] }
+      },
+      {
+        "id": "brisk",
+        "text": "Brisk",
+        "color": "light_red",
+        "condition": { "compare_int": [ { "u_val": "activity_level" }, "==", { "const": 3 } ] }
+      },
+      {
+        "id": "active",
+        "text": "Active",
+        "color": "light_red",
+        "condition": { "compare_int": [ { "u_val": "activity_level" }, "==", { "const": 4 } ] }
+      },
+      {
+        "id": "extreme",
+        "text": "Extreme",
+        "color": "red",
+        "condition": { "compare_int": [ { "u_val": "activity_level" }, ">=", { "const": 5 } ] }
+      }
+    ]
+  },
+  {
+    "id": "test_fatigue_clause_template",
+    "type": "widget",
+    "separator": ": ",
+    "style": "clause",
+    "clauses": [
+      {
+        "id": "tired",
+        "text": "Tired",
+        "color": "yellow",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "fatigue" }, ">", { "const": 191 } ] },
+            { "compare_int": [ { "u_val": "fatigue" }, "<=", { "const": 383 } ] }
+          ]
+        }
+      },
+      {
+        "id": "dead_tired",
+        "text": "Dead Tired",
+        "color": "light_red",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "fatigue" }, ">", { "const": 383 } ] },
+            { "compare_int": [ { "u_val": "fatigue" }, "<=", { "const": 575 } ] }
+          ]
+        }
+      },
+      {
+        "id": "exhausted",
+        "text": "Exhausted",
+        "color": "red",
+        "condition": { "compare_int": [ { "u_val": "fatigue" }, ">", { "const": 575 } ] }
+      }
+    ]
+  },
+  {
+    "id": "test_bp_status_indicator_template",
+    "type": "widget",
+    "separator": ": ",
+    "style": "clause",
+    "clauses": [
+      { "id": "bitten", "text": "bitten", "sym": "B", "color": "yellow", "condition": { "u_has_effect": "bite" } },
+      {
+        "id": "infected",
+        "text": "infected",
+        "sym": "I",
+        "color": "pink",
+        "condition": { "u_has_effect": "infected" }
+      },
+      {
+        "id": "broken",
+        "text": "broken",
+        "sym": "%",
+        "color": "magenta",
+        "condition": { "compare_int": [ { "u_val": "hp" }, "==", { "const": 0 } ] }
+      },
+      {
+        "id": "splinted",
+        "text": "splinted",
+        "sym": "=",
+        "color": "light_gray",
+        "condition": { "u_has_worn_with_flag": "SPLINT" }
+      },
+      {
+        "id": "bandaged",
+        "text": "bandaged",
+        "sym": "+",
+        "color": "white",
+        "condition": { "u_has_effect": "bandaged" }
+      },
+      {
+        "id": "disinfected",
+        "text": "disinfected",
+        "sym": "$",
+        "color": "light_green",
+        "condition": { "u_has_effect": "disinfected" }
+      },
+      {
+        "id": "bleeding",
+        "text": "bleeding",
+        "sym": "b",
+        "color": "light_red",
+        "condition": {
+          "and": [
+            { "u_has_effect": "bleed", "intensity": 1 },
+            { "compare_int": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 11 } ] }
+          ]
+        }
+      },
+      {
+        "id": "bleeding",
+        "text": "bleeding",
+        "sym": "b",
+        "color": "red",
+        "condition": {
+          "and": [
+            { "u_has_effect": "bleed", "intensity": 11 },
+            { "compare_int": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 21 } ] }
+          ]
+        }
+      },
+      {
+        "id": "bleeding",
+        "text": "bleeding",
+        "sym": "b",
+        "color": "red_red",
+        "condition": { "u_has_effect": "bleed", "intensity": 21 }
+      }
+    ]
+  },
+  {
+    "id": "test_rad_badge_template",
+    "type": "widget",
+    "separator": ": ",
+    "style": "clause",
+    "clauses": [
+      {
+        "id": "rad_0",
+        "text": " green ",
+        "color": "white_green",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "rad" }, "<=", { "const": 0 } ] },
+            { "or": [ { "u_has_worn_with_flag": "RAD_DETECT" }, { "u_has_wielded_with_flag": "RAD_DETECT" } ] }
+          ]
+        }
+      },
+      {
+        "id": "rad_30",
+        "text": " blue ",
+        "color": "h_white",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "rad" }, "<=", { "const": 30 } ] },
+            { "compare_int": [ { "u_val": "rad" }, ">", { "const": 0 } ] },
+            { "or": [ { "u_has_worn_with_flag": "RAD_DETECT" }, { "u_has_wielded_with_flag": "RAD_DETECT" } ] }
+          ]
+        }
+      },
+      {
+        "id": "rad_60",
+        "text": " yellow ",
+        "color": "i_yellow",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "rad" }, "<=", { "const": 60 } ] },
+            { "compare_int": [ { "u_val": "rad" }, ">", { "const": 30 } ] },
+            { "or": [ { "u_has_worn_with_flag": "RAD_DETECT" }, { "u_has_wielded_with_flag": "RAD_DETECT" } ] }
+          ]
+        }
+      },
+      {
+        "id": "rad_120",
+        "text": " orange ",
+        "color": "red_yellow",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "rad" }, "<=", { "const": 120 } ] },
+            { "compare_int": [ { "u_val": "rad" }, ">", { "const": 60 } ] },
+            { "or": [ { "u_has_worn_with_flag": "RAD_DETECT" }, { "u_has_wielded_with_flag": "RAD_DETECT" } ] }
+          ]
+        }
+      },
+      {
+        "id": "rad_240",
+        "text": " red ",
+        "color": "red_red",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "rad" }, "<=", { "const": 240 } ] },
+            { "compare_int": [ { "u_val": "rad" }, ">", { "const": 120 } ] },
+            { "or": [ { "u_has_worn_with_flag": "RAD_DETECT" }, { "u_has_wielded_with_flag": "RAD_DETECT" } ] }
+          ]
+        }
+      },
+      {
+        "id": "rad_500",
+        "text": " black ",
+        "color": "pink",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "rad" }, "<=", { "const": 500 } ] },
+            { "compare_int": [ { "u_val": "rad" }, ">", { "const": 240 } ] },
+            { "or": [ { "u_has_worn_with_flag": "RAD_DETECT" }, { "u_has_wielded_with_flag": "RAD_DETECT" } ] }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "test_thirst_clause_template",
+    "type": "widget",
+    "separator": ": ",
+    "style": "clause",
+    "clauses": [
+      {
+        "id": "parched",
+        "text": "Parched",
+        "color": "light_red",
+        "condition": { "compare_int": [ { "u_val": "thirst" }, ">", { "const": 520 } ] }
+      },
+      {
+        "id": "dehydrated",
+        "text": "Dehydrated",
+        "color": "light_red",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "thirst" }, ">", { "const": 240 } ] },
+            { "compare_int": [ { "u_val": "thirst" }, "<=", { "const": 520 } ] }
+          ]
+        }
+      },
+      {
+        "id": "very_thirsty",
+        "text": "Very thirsty",
+        "color": "yellow",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "thirst" }, ">", { "const": 80 } ] },
+            { "compare_int": [ { "u_val": "thirst" }, "<=", { "const": 240 } ] }
+          ]
+        }
+      },
+      {
+        "id": "thirsty",
+        "text": "Thirsty",
+        "color": "yellow",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "thirst" }, ">", { "const": 40 } ] },
+            { "compare_int": [ { "u_val": "thirst" }, "<=", { "const": 80 } ] }
+          ]
+        }
+      },
+      {
+        "id": "neutral",
+        "text": "",
+        "color": "white",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "thirst" }, ">=", { "const": 0 } ] },
+            { "compare_int": [ { "u_val": "thirst" }, "<=", { "const": 40 } ] }
+          ]
+        }
+      },
+      {
+        "id": "slaked",
+        "text": "Slaked",
+        "color": "green",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "thirst" }, ">=", { "const": -20 } ] },
+            { "compare_int": [ { "u_val": "thirst" }, "<", { "const": 0 } ] }
+          ]
+        }
+      },
+      {
+        "id": "hydrated",
+        "text": "Hydrated",
+        "color": "green",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "thirst" }, ">=", { "const": -60 } ] },
+            { "compare_int": [ { "u_val": "thirst" }, "<", { "const": -20 } ] }
+          ]
+        }
+      },
+      {
+        "id": "turgid",
+        "text": "Turgid",
+        "color": "green",
+        "condition": { "compare_int": [ { "u_val": "thirst" }, "<", { "const": -60 } ] }
+      }
+    ]
+  },
+  {
+    "id": "test_hunger_clause_template",
+    "type": "widget",
+    "separator": ": ",
+    "style": "clause",
+    "clauses": [
+      { "id": "engorged", "text": "Engorged", "color": "red", "condition": { "u_has_effect": "hunger_engorged" } },
+      { "id": "full", "text": "Full", "color": "yellow", "condition": { "u_has_effect": "hunger_full" } },
+      {
+        "id": "satisfied",
+        "text": "Satisfied",
+        "color": "green",
+        "condition": { "u_has_effect": "hunger_satisfied" }
+      },
+      { "id": "blank", "text": "", "color": "white", "condition": { "u_has_effect": "hunger_blank" } },
+      { "id": "hungry", "text": "Hungry", "color": "yellow", "condition": { "u_has_effect": "hunger_hungry" } },
+      {
+        "id": "very_hungry",
+        "text": "Very hungry",
+        "color": "yellow",
+        "condition": { "u_has_effect": "hunger_very_hungry" }
+      },
+      {
+        "id": "near_starving",
+        "text": "Near starving",
+        "color": "red",
+        "condition": { "u_has_effect": "hunger_near_starving" }
+      },
+      { "id": "starving", "text": "Starving!", "color": "red", "condition": { "u_has_effect": "hunger_starving" } },
+      {
+        "id": "famished",
+        "text": "Famished",
+        "color": "light_red",
+        "condition": { "u_has_effect": "hunger_famished" }
+      }
+    ]
+  },
+  {
+    "id": "test_move_mode_template",
+    "type": "widget",
+    "separator": ": ",
+    "style": "clause",
+    "default_clause": { "text": "bugging out", "sym": "-", "color": "dark_gray" },
+    "clauses": [
+      { "id": "run", "text": "running", "sym": "R", "color": "red", "condition": { "u_has_move_mode": "run" } },
+      { "id": "walk", "text": "walking", "sym": "W", "color": "white", "condition": { "u_has_move_mode": "walk" } },
+      {
+        "id": "crouch",
+        "text": "crouching",
+        "sym": "C",
+        "color": "light_blue",
+        "condition": { "u_has_move_mode": "crouch" }
+      },
+      { "id": "prone", "text": "prone", "sym": "P", "color": "green", "condition": { "u_has_move_mode": "prone" } }
+    ]
+  },
+  {
+    "id": "test_lighting_template",
+    "type": "widget",
+    "separator": ": ",
+    "style": "clause",
+    "clauses": [
+      {
+        "id": "bright",
+        "text": "bright",
+        "color": "yellow",
+        "condition": { "compare_int": [ { "u_val": "fine_detail_vision_mod" }, "<=", { "const": 1 } ] }
+      },
+      {
+        "id": "cloudy",
+        "text": "cloudy",
+        "color": "white",
+        "condition": { "compare_int": [ { "u_val": "fine_detail_vision_mod" }, "==", { "const": 2 } ] }
+      },
+      {
+        "id": "shady",
+        "text": "shady",
+        "color": "light_gray",
+        "condition": { "compare_int": [ { "u_val": "fine_detail_vision_mod" }, "==", { "const": 3 } ] }
+      },
+      {
+        "id": "dark",
+        "text": "dark",
+        "color": "dark_gray",
+        "condition": { "compare_int": [ { "u_val": "fine_detail_vision_mod" }, "==", { "const": 4 } ] }
+      },
+      {
+        "id": "very dark",
+        "text": "very dark",
+        "color": "black_white",
+        "condition": { "compare_int": [ { "u_val": "fine_detail_vision_mod" }, ">=", { "const": 5 } ] }
+      }
+    ]
+  },
+  {
+    "id": "test_moon_phase_template",
+    "type": "widget",
+    "separator": ": ",
+    "style": "clause",
+    "clauses": [
+      {
+        "id": "new_moon",
+        "text": "New moon",
+        "color": "white",
+        "condition": { "compare_int": [ "moon", "==", { "const": 0 } ] }
+      },
+      {
+        "id": "waxing_crescent",
+        "text": "Waxing crescent",
+        "color": "white",
+        "condition": { "compare_int": [ "moon", "==", { "const": 1 } ] }
+      },
+      {
+        "id": "half_moon",
+        "text": "Half moon",
+        "color": "white",
+        "condition": { "compare_int": [ "moon", "==", { "const": 2 } ] }
+      },
+      {
+        "id": "waxing_gibbous",
+        "text": "Waxing gibbous",
+        "color": "white",
+        "condition": { "compare_int": [ "moon", "==", { "const": 3 } ] }
+      },
+      {
+        "id": "full_moon",
+        "text": "Full moon",
+        "color": "white",
+        "condition": { "compare_int": [ "moon", "==", { "const": 4 } ] }
+      },
+      {
+        "id": "waning_gibbous",
+        "text": "Waning gibbous",
+        "color": "white",
+        "condition": { "compare_int": [ "moon", "==", { "const": 5 } ] }
+      },
+      {
+        "id": "half_moon",
+        "text": "Half moon",
+        "color": "white",
+        "condition": { "compare_int": [ "moon", "==", { "const": 6 } ] }
+      },
+      {
+        "id": "waning_crescent",
+        "text": "Waning crescent",
+        "color": "white",
+        "condition": { "compare_int": [ "moon", "==", { "const": 7 } ] }
+      },
+      {
+        "id": "dark_moon",
+        "text": "Dark moon",
+        "color": "white",
+        "condition": { "compare_int": [ "moon", "==", { "const": 8 } ] }
+      }
+    ]
+  },
+  {
+    "id": "test_health_clause_template",
+    "type": "widget",
+    "separator": ": ",
+    "style": "clause",
+    "clauses": [
+      {
+        "id": "horrible",
+        "text": "Horrible",
+        "color": "red",
+        "condition": { "compare_int": [ { "u_val": "health" }, "<", { "const": -100 } ] }
+      },
+      {
+        "id": "very_bad",
+        "text": "Very bad",
+        "color": "light_red",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "health" }, ">=", { "const": -100 } ] },
+            { "compare_int": [ { "u_val": "health" }, "<", { "const": -50 } ] }
+          ]
+        }
+      },
+      {
+        "id": "bad",
+        "text": "Bad",
+        "color": "yellow",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "health" }, ">=", { "const": -50 } ] },
+            { "compare_int": [ { "u_val": "health" }, "<", { "const": -10 } ] }
+          ]
+        }
+      },
+      {
+        "id": "ok",
+        "text": "OK",
+        "color": "light_gray",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "health" }, ">=", { "const": -10 } ] },
+            { "compare_int": [ { "u_val": "health" }, "<", { "const": 10 } ] }
+          ]
+        }
+      },
+      {
+        "id": "good",
+        "text": "Good",
+        "color": "white",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "health" }, ">=", { "const": 10 } ] },
+            { "compare_int": [ { "u_val": "health" }, "<", { "const": 50 } ] }
+          ]
+        }
+      },
+      {
+        "id": "very_good",
+        "text": "Very good",
+        "color": "green",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "health" }, ">=", { "const": 50 } ] },
+            { "compare_int": [ { "u_val": "health" }, "<", { "const": 100 } ] }
+          ]
+        }
+      },
+      {
+        "id": "excellent",
+        "text": "Excellent",
+        "color": "light_green",
+        "condition": { "compare_int": [ { "u_val": "health" }, ">=", { "const": 100 } ] }
+      }
+    ]
+  },
+  {
+    "id": "test_body_temp_template",
+    "type": "widget",
+    "separator": ": ",
+    "style": "clause",
+    "clauses": [
+      {
+        "id": "scorching",
+        "text": "Scorching!",
+        "color": "red",
+        "condition": { "compare_int": [ { "u_val": "body_temp" }, ">", { "const": 9500 } ] }
+      },
+      {
+        "id": "very_hot",
+        "text": "Very hot!",
+        "color": "light_red",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "body_temp" }, "<=", { "const": 9500 } ] },
+            { "compare_int": [ { "u_val": "body_temp" }, ">", { "const": 8000 } ] }
+          ]
+        }
+      },
+      {
+        "id": "warm",
+        "text": "warm",
+        "color": "yellow",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "body_temp" }, "<=", { "const": 8000 } ] },
+            { "compare_int": [ { "u_val": "body_temp" }, ">", { "const": 6500 } ] }
+          ]
+        }
+      },
+      {
+        "id": "comfortable",
+        "text": "Comfortable",
+        "color": "green",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "body_temp" }, "<=", { "const": 6500 } ] },
+            { "compare_int": [ { "u_val": "body_temp" }, ">", { "const": 3500 } ] }
+          ]
+        }
+      },
+      {
+        "id": "chilly",
+        "text": "Chilly",
+        "color": "light_blue",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "body_temp" }, "<=", { "const": 3500 } ] },
+            { "compare_int": [ { "u_val": "body_temp" }, ">", { "const": 2000 } ] }
+          ]
+        }
+      },
+      {
+        "id": "very_cold",
+        "text": "Very cold!",
+        "color": "cyan",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "body_temp" }, "<=", { "const": 2000 } ] },
+            { "compare_int": [ { "u_val": "body_temp" }, ">", { "const": 500 } ] }
+          ]
+        }
+      },
+      {
+        "id": "freezing",
+        "text": "Freezing!",
+        "color": "blue",
+        "condition": { "compare_int": [ { "u_val": "body_temp" }, "<=", { "const": 500 } ] }
+      }
+    ]
+  },
+  {
+    "id": "test_body_temp_delta_template",
+    "type": "widget",
+    "separator": ": ",
+    "style": "clause",
+    "default_clause": { "text": "", "sym": "-", "color": "green" },
+    "clauses": [
+      {
+        "id": "rising3",
+        "text": "(Rising!!)",
+        "sym": "↑↑↑",
+        "color": "red",
+        "condition": { "compare_int": [ { "u_val": "body_temp_delta" }, ">", { "const": 4500 } ] }
+      },
+      {
+        "id": "rising2",
+        "text": "(Rising!)",
+        "sym": "↑↑",
+        "color": "light_red",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "body_temp_delta" }, "<=", { "const": 4500 } ] },
+            { "compare_int": [ { "u_val": "body_temp_delta" }, ">", { "const": 3000 } ] }
+          ]
+        }
+      },
+      {
+        "id": "rising1",
+        "text": "(Rising)",
+        "sym": "↑",
+        "color": "yellow",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "body_temp_delta" }, "<=", { "const": 3000 } ] },
+            { "compare_int": [ { "u_val": "body_temp_delta" }, ">", { "const": 1500 } ] }
+          ]
+        }
+      },
+      {
+        "id": "falling1",
+        "text": "(Falling)",
+        "sym": "↓",
+        "color": "light_blue",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "body_temp_delta" }, "<", { "const": -1500 } ] },
+            { "compare_int": [ { "u_val": "body_temp_delta" }, ">=", { "const": -3000 } ] }
+          ]
+        }
+      },
+      {
+        "id": "falling2",
+        "text": "(Falling!)",
+        "sym": "↓↓",
+        "color": "cyan",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "body_temp_delta" }, "<", { "const": -3000 } ] },
+            { "compare_int": [ { "u_val": "body_temp_delta" }, ">=", { "const": -4500 } ] }
+          ]
+        }
+      },
+      {
+        "id": "falling3",
+        "text": "(Falling!!)",
+        "sym": "↓↓↓",
+        "color": "blue",
+        "condition": { "compare_int": [ { "u_val": "body_temp_delta" }, "<", { "const": -4500 } ] }
+      }
+    ]
+  },
+  {
+    "id": "test_bucket_graph",
+    "type": "widget",
+    "separator": ": ",
+    "style": "graph",
+    "label": "BUCKET",
+    "width": 4,
+    "symbols": "0123",
+    "fill": "bucket"
+  },
+  {
+    "id": "test_pool_graph",
+    "type": "widget",
+    "separator": ": ",
+    "style": "graph",
+    "label": "POOL",
+    "width": 4,
+    "symbols": "0123",
+    "fill": "pool"
+  },
+  {
+    "id": "test_number_widget",
+    "type": "widget",
+    "separator": ": ",
+    "label": "NUM",
+    "style": "number"
+  },
+  {
+    "id": "test_color_number_widget",
+    "type": "widget",
+    "separator": ": ",
+    "label": "COLORNUM",
+    "style": "number",
+    "colors": [ "c_red", "c_yellow", "c_green" ]
+  },
+  {
+    "id": "test_color_graph_widget",
+    "type": "widget",
+    "separator": ": ",
+    "label": "COLORGRAPH",
+    "style": "graph",
+    "width": 5,
+    "symbols": "-=#",
+    "colors": [ "c_red", "c_yellow", "c_light_green", "c_green" ]
+  },
+  {
+    "id": "test_color_graph_10k_widget",
+    "type": "widget",
+    "separator": ": ",
+    "label": "COLORGRAPH",
+    "style": "graph",
+    "width": 10,
+    "symbols": "-=#",
+    "fill": "pool",
+    "colors": [ "c_red", "c_light_red", "c_yellow", "c_light_green", "c_green" ]
+  },
+  {
+    "id": "test_focus_num",
+    "type": "widget",
+    "separator": ": ",
+    "label": "FOCUS",
+    "var": "focus",
+    "style": "number"
+  },
+  {
+    "id": "test_mana_num",
+    "type": "widget",
+    "separator": ": ",
+    "label": "MANA",
+    "var": "mana",
+    "style": "number"
+  },
+  {
+    "id": "test_morale_num",
+    "type": "widget",
+    "separator": ": ",
+    "label": "MORALE",
+    "var": "morale_level",
+    "style": "number"
+  },
+  {
+    "id": "test_sundial_text",
+    "type": "widget",
+    "separator": ": ",
+    "label": "SUN",
+    "style": "text",
+    "var": "sundial_text"
+  },
+  {
+    "id": "test_rad_badge_text",
+    "type": "widget",
+    "separator": ": ",
+    "label": "RADIATION",
+    "style": "text",
+    "default_clause": { "text": "Unknown", "color": "light_gray" },
+    "copy-from": "test_rad_badge_template"
+  },
+  {
+    "id": "test_compass_N_nodir_nowidth",
+    "type": "widget",
+    "separator": ": ",
+    "label": "N",
+    "var": "compass_text",
+    "style": "text"
+  },
+  {
+    "id": "test_compass_N_nowidth",
+    "type": "widget",
+    "separator": ": ",
+    "label": "N",
+    "var": "compass_text",
+    "style": "text",
+    "direction": "N"
+  },
+  {
+    "id": "test_compass_N",
+    "type": "widget",
+    "separator": ": ",
+    "label": "N",
+    "var": "compass_text",
+    "style": "text",
+    "direction": "N",
+    "width": 4
+  },
+  {
+    "id": "test_compass_legend_1",
+    "type": "widget",
+    "separator": ": ",
+    "style": "text",
+    "var": "compass_legend_text",
+    "width": 0,
+    "text_align": "left",
+    "flags": [ "W_DYNAMIC_HEIGHT" ]
+  },
+  {
+    "id": "test_compass_legend_3",
+    "type": "widget",
+    "separator": ": ",
+    "style": "text",
+    "var": "compass_legend_text",
+    "height": 3,
+    "width": 0,
+    "text_align": "left",
+    "flags": [ "W_DYNAMIC_HEIGHT" ]
+  },
+  {
+    "id": "test_compass_legend_5",
+    "type": "widget",
+    "separator": ": ",
+    "style": "text",
+    "var": "compass_legend_text",
+    "height": 5,
+    "width": 0,
+    "text_align": "left",
+    "flags": [ "W_DYNAMIC_HEIGHT" ]
+  },
+  {
+    "id": "test_speed_num",
+    "type": "widget",
+    "separator": ": ",
+    "label": "SPEED",
+    "var": "speed",
+    "style": "number"
+  },
+  {
+    "id": "test_stamina_num",
+    "type": "widget",
+    "separator": ": ",
+    "label": "STAMINA",
+    "var": "stamina",
+    "style": "number"
+  },
+  {
+    "id": "test_stamina_graph",
+    "type": "widget",
+    "separator": ": ",
+    "label": "STAMINA",
+    "var": "stamina",
+    "style": "graph",
+    "fill": "pool",
+    "width": 10,
+    "symbols": "-=#"
+  },
+  {
+    "id": "test_sound_num",
+    "type": "widget",
+    "separator": ": ",
+    "label": "SOUND",
+    "var": "sound",
+    "style": "number"
+  },
+  {
+    "id": "test_move_num",
+    "type": "widget",
+    "separator": ": ",
+    "label": "MOVE",
+    "var": "move",
+    "style": "number"
+  },
+  {
+    "id": "test_move_cost_num",
+    "type": "widget",
+    "separator": ": ",
+    "label": "MOVE COST",
+    "var": "move_cost",
+    "style": "number"
+  },
+  {
+    "id": "test_move_mode_text",
+    "type": "widget",
+    "separator": ": ",
+    "label": "MODE",
+    "style": "text",
+    "copy-from": "test_move_mode_template"
+  },
+  {
+    "id": "test_move_mode_letter",
+    "type": "widget",
+    "separator": ": ",
+    "label": "MODE",
+    "style": "symbol",
+    "copy-from": "test_move_mode_template"
+  },
+  {
+    "id": "test_move_count_mode_text",
+    "type": "widget",
+    "separator": ": ",
+    "label": "MOVE/MODE",
+    "var": "move_count_mode_text",
+    "style": "text"
+  },
+  {
+    "id": "test_stat_num",
+    "//": "Plain text stat widget, for use in column-layout tests where color tags would interfere",
+    "type": "widget",
+    "separator": ": ",
+    "style": "number"
+  },
+  {
+    "id": "test_str_num",
+    "type": "widget",
+    "separator": ": ",
+    "label": "STR",
+    "var": "stat_str",
+    "copy-from": "test_stat_num"
+  },
+  {
+    "id": "test_dex_num",
+    "type": "widget",
+    "separator": ": ",
+    "label": "DEX",
+    "var": "stat_dex",
+    "copy-from": "test_stat_num"
+  },
+  {
+    "id": "test_int_num",
+    "type": "widget",
+    "separator": ": ",
+    "label": "INT",
+    "var": "stat_int",
+    "copy-from": "test_stat_num"
+  },
+  {
+    "id": "test_per_num",
+    "type": "widget",
+    "separator": ": ",
+    "label": "PER",
+    "var": "stat_per",
+    "copy-from": "test_stat_num"
+  },
+  {
+    "id": "test_stat_color_num",
+    "//": "Stat widget with color, to indicate below/at/above normal level",
+    "colors": [ "c_red", "c_light_red", "c_yellow", "c_light_cyan", "c_light_green", "c_green" ],
+    "type": "widget",
+    "separator": ": ",
+    "style": "number"
+  },
+  {
+    "id": "test_str_color_num",
+    "type": "widget",
+    "separator": ": ",
+    "label": "STR",
+    "var": "stat_str",
+    "copy-from": "test_stat_color_num"
+  },
+  {
+    "id": "test_dex_color_num",
+    "type": "widget",
+    "separator": ": ",
+    "label": "DEX",
+    "var": "stat_dex",
+    "copy-from": "test_stat_color_num"
+  },
+  {
+    "id": "test_int_color_num",
+    "type": "widget",
+    "separator": ": ",
+    "label": "INT",
+    "var": "stat_int",
+    "copy-from": "test_stat_color_num"
+  },
+  {
+    "id": "test_per_color_num",
+    "type": "widget",
+    "separator": ": ",
+    "label": "PER",
+    "var": "stat_per",
+    "copy-from": "test_stat_color_num"
+  },
+  {
+    "id": "test_health_color_num",
+    "colors": [ "c_red", "c_light_red", "c_light_green", "c_green" ],
+    "type": "widget",
+    "separator": ": ",
+    "label": "Health",
+    "var": "health",
+    "style": "number"
+  },
+  {
+    "id": "test_health_clause",
+    "type": "widget",
+    "separator": ": ",
+    "label": "Health",
+    "style": "text",
+    "copy-from": "test_health_clause_template"
+  },
+  {
+    "id": "test_weather_text",
+    "type": "widget",
+    "separator": ": ",
+    "label": "Weather",
+    "var": "weather_text",
+    "style": "text"
+  },
+  {
+    "id": "test_weather_text_height5",
+    "type": "widget",
+    "separator": ": ",
+    "label": "Weather",
+    "var": "weather_text",
+    "style": "text",
+    "height": 5
+  },
+  {
+    "id": "test_weariness_num",
+    "type": "widget",
+    "separator": ": ",
+    "label": "WEARINESS",
+    "var": "weariness_level",
+    "style": "number"
+  },
+  {
+    "id": "test_fatigue_clause",
+    "type": "widget",
+    "separator": ": ",
+    "label": "Rest",
+    "style": "text",
+    "copy-from": "test_fatigue_clause_template"
+  },
+  {
+    "id": "test_hp_head_graph",
+    "type": "widget",
+    "separator": ": ",
+    "label": "HEAD",
+    "var": "bp_hp",
+    "bodypart": "head",
+    "style": "graph",
+    "width": 5,
+    "symbols": ",\\|",
+    "fill": "bucket"
+  },
+  {
+    "id": "test_hp_head_num",
+    "type": "widget",
+    "separator": ": ",
+    "label": "HEAD",
+    "var": "bp_hp",
+    "bodypart": "head",
+    "style": "number"
+  },
+  {
+    "id": "test_bp_wetness_head_num",
+    "type": "widget",
+    "separator": ": ",
+    "label": "HEAD WET",
+    "var": "bp_wetness",
+    "bodypart": "head",
+    "style": "number"
+  },
+  {
+    "id": "test_bp_wetness_torso_num",
+    "type": "widget",
+    "separator": ": ",
+    "label": "TORSO WET",
+    "var": "bp_wetness",
+    "bodypart": "torso",
+    "style": "number"
+  },
+  {
+    "id": "test_status_torso_text",
+    "type": "widget",
+    "separator": ": ",
+    "label": "TORSO STATUS",
+    "bodypart": "torso",
+    "style": "text",
+    "default_clause": { "text": "--" },
+    "copy-from": "test_bp_status_indicator_template"
+  },
+  {
+    "id": "test_status_left_arm_text",
+    "type": "widget",
+    "separator": ": ",
+    "label": "LEFT ARM STATUS",
+    "bodypart": "arm_l",
+    "style": "text",
+    "default_clause": { "text": "--" },
+    "copy-from": "test_bp_status_indicator_template"
+  },
+  {
+    "id": "test_status_sym_torso_text",
+    "type": "widget",
+    "separator": ": ",
+    "style": "symbol",
+    "label": "TORSO",
+    "bodypart": "torso",
+    "copy-from": "test_bp_status_indicator_template"
+  },
+  {
+    "id": "test_status_sym_left_arm_text",
+    "type": "widget",
+    "separator": ": ",
+    "style": "symbol",
+    "label": "L ARM",
+    "bodypart": "arm_l",
+    "copy-from": "test_bp_status_indicator_template"
+  },
+  {
+    "id": "test_status_legend_text",
+    "type": "widget",
+    "separator": ": ",
+    "label": "Status Legend",
+    "style": "legend",
+    "bodyparts": [ "head", "torso", "arm_l", "arm_r", "leg_l", "leg_r" ],
+    "copy-from": "test_bp_status_indicator_template",
+    "width": 0,
+    "height": 3,
+    "text_align": "left",
+    "flags": [ "W_LABEL_NONE", "W_DYNAMIC_HEIGHT" ]
+  },
+  {
+    "id": "test_torso_armor_outer_text",
+    "type": "widget",
+    "separator": ": ",
+    "style": "text",
+    "label": "Torso Armor",
+    "var": "bp_armor_outer_text",
+    "bodypart": "torso"
+  },
+  {
+    "id": "test_overmap_3x3_text",
+    "type": "widget",
+    "separator": ": ",
+    "var": "overmap_text",
+    "style": "text",
+    "width": 3,
+    "height": 3
+  },
+  {
+    "id": "test_thirst_clause",
+    "type": "widget",
+    "separator": ": ",
+    "label": "THIRST",
+    "style": "text",
+    "copy-from": "test_thirst_clause_template"
+  },
+  {
+    "id": "test_hunger_clause",
+    "type": "widget",
+    "separator": ": ",
+    "label": "HUNGER",
+    "style": "text",
+    "copy-from": "test_hunger_clause_template"
+  },
+  {
+    "id": "test_lighting_clause",
+    "type": "widget",
+    "separator": ": ",
+    "label": "LIGHTING",
+    "style": "text",
+    "copy-from": "test_lighting_template"
+  },
+  {
+    "id": "test_moon_phase_clause",
+    "type": "widget",
+    "separator": ": ",
+    "label": "MOON",
+    "style": "text",
+    "copy-from": "test_moon_phase_template"
+  },
+  {
+    "id": "test_body_temp_clause",
+    "type": "widget",
+    "separator": ": ",
+    "label": "Heat",
+    "style": "text",
+    "copy-from": "test_body_temp_template"
+  },
+  {
+    "id": "test_body_temp_delta_text",
+    "type": "widget",
+    "separator": ": ",
+    "label": "Temp change",
+    "style": "text",
+    "copy-from": "test_body_temp_delta_template"
+  },
+  {
+    "id": "test_body_temp_delta_sym",
+    "type": "widget",
+    "separator": ": ",
+    "label": "Temp change",
+    "style": "symbol",
+    "copy-from": "test_body_temp_delta_template"
+  },
+  {
+    "id": "test_disabled_when_empty",
+    "type": "widget",
+    "separator": ": ",
+    "label": "NOT EMPTY",
+    "style": "text",
+    "flags": [ "W_DISABLED_WHEN_EMPTY" ],
+    "clauses": [
+      { "text": "Text exists", "color": "yellow", "condition": "u_can_see" },
+      { "text": "", "color": "red", "condition": { "not": "u_can_see" } }
+    ]
+  },
+  {
+    "id": "test_clause_number",
+    "type": "widget",
+    "separator": ": ",
+    "style": "number",
+    "label": "Num Values",
+    "default_clause": { "value": 1, "color": "dark_gray" },
+    "clauses": [
+      { "value": -20, "color": "red_red", "condition": { "not": "u_can_see" } },
+      { "value": -10, "color": "i_yellow", "condition": "u_is_deaf" },
+      { "value": 0, "color": "yellow", "condition": "is_day" },
+      { "value": 10, "color": "white_green", "condition": { "u_has_trait": "GOODHEARING" } },
+      { "value": 20, "color": "light_green", "condition": { "u_has_trait": "NIGHTVISION" } }
+    ]
+  },
+  {
+    "id": "test_clause_text",
+    "type": "widget",
+    "separator": ": ",
+    "style": "text",
+    "label": "Text Values",
+    "default_clause": { "text": "None", "color": "dark_gray" },
+    "clauses": [
+      { "text": "blind", "color": "red_red", "condition": { "not": "u_can_see" } },
+      { "text": "deaf", "color": "i_yellow", "condition": "u_is_deaf" },
+      { "text": "daylight", "color": "yellow", "condition": "is_day" },
+      { "text": "good hearing", "color": "white_green", "condition": { "u_has_trait": "GOODHEARING" } },
+      { "text": "good vision", "color": "light_green", "condition": { "u_has_trait": "NIGHTVISION" } }
+    ]
+  },
+  {
+    "id": "test_clause_sym",
+    "type": "widget",
+    "separator": ": ",
+    "style": "symbol",
+    "label": "Symbol Values",
+    "default_clause": { "sym": ".", "color": "dark_gray" },
+    "clauses": [
+      { "sym": "<", "color": "red_red", "condition": { "not": "u_can_see" } },
+      { "sym": "-", "color": "i_yellow", "condition": "u_is_deaf" },
+      { "sym": "=", "color": "yellow", "condition": "is_day" },
+      { "sym": "+", "color": "white_green", "condition": { "u_has_trait": "GOODHEARING" } },
+      { "sym": ">", "color": "light_green", "condition": { "u_has_trait": "NIGHTVISION" } }
+    ]
+  },
+  {
+    "id": "test_clause_legend",
+    "type": "widget",
+    "separator": ": ",
+    "style": "legend",
+    "label": "Legend Values",
+    "height": 5,
+    "width": 0,
+    "default_clause": { "text": "None", "sym": ".", "color": "dark_gray" },
+    "clauses": [
+      { "text": "blind", "sym": "<", "color": "red_red", "condition": { "not": "u_can_see" } },
+      { "text": "deaf", "sym": "-", "color": "i_yellow", "condition": "u_is_deaf" },
+      { "text": "daylight", "sym": "=", "color": "yellow", "condition": "is_day" },
+      { "text": "good hearing", "sym": "+", "color": "white_green", "condition": { "u_has_trait": "GOODHEARING" } },
+      { "text": "good vision", "sym": ">", "color": "light_green", "condition": { "u_has_trait": "NIGHTVISION" } }
+    ],
+    "flags": [ "W_LABEL_NONE", "W_DYNAMIC_HEIGHT" ]
+  },
+  {
+    "id": "test_weight_clauses_normal",
+    "type": "widget",
+    "separator": ": ",
+    "label": "Weight",
+    "style": "text",
+    "clauses": [
+      {
+        "id": "skeletal",
+        "text": "Skeletal",
+        "color": "red",
+        "condition": { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 14000 } ] }
+      },
+      {
+        "id": "emaciated",
+        "text": "Emaciated",
+        "color": "light_red",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 14000 } ] },
+            { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 16000 } ] }
+          ]
+        }
+      },
+      {
+        "id": "underweight",
+        "text": "Underweight",
+        "color": "yellow",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 16000 } ] },
+            { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 18500 } ] }
+          ]
+        }
+      },
+      {
+        "id": "normal",
+        "text": "Normal",
+        "color": "light_gray",
+        "//": "Actually 18.5 - 25",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 18500 } ] },
+            { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 25000 } ] }
+          ]
+        }
+      },
+      {
+        "id": "overweight",
+        "text": "Overweight",
+        "color": "yellow",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 25000 } ] },
+            { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 30000 } ] }
+          ]
+        }
+      },
+      {
+        "id": "obese",
+        "text": "Obese",
+        "color": "light_red",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 30000 } ] },
+            { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 35000 } ] }
+          ]
+        }
+      },
+      {
+        "id": "very_obese",
+        "text": "Very Obese",
+        "color": "red",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 35000 } ] },
+            { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 40000 } ] }
+          ]
+        }
+      },
+      {
+        "id": "morbidly_obese",
+        "text": "Morbidly Obese",
+        "color": "red",
+        "condition": { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 40000 } ] }
+      }
+    ]
+  },
+  {
+    "id": "test_weight_clauses_fun",
+    "type": "widget",
+    "separator": ": ",
+    "label": "Thiccness",
+    "style": "text",
+    "clauses": [
+      {
+        "text": "Skin and Bones",
+        "color": "yellow",
+        "condition": { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 18000 } ] }
+      },
+      {
+        "text": "Boring",
+        "color": "white",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 18000 } ] },
+            { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 30000 } ] }
+          ]
+        }
+      },
+      {
+        "text": "C H O N K",
+        "color": "pink",
+        "condition": { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 30000 } ] }
+      }
+    ]
+  },
+  {
+    "id": "test_stat_panel",
+    "type": "widget",
+    "separator": ": ",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "test_str_num", "test_dex_num", "test_int_num", "test_per_num" ]
+  },
+  {
+    "id": "test_2_column_layout",
+    "type": "widget",
+    "separator": ": ",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "test_move_num", "test_speed_num" ]
+  },
+  {
+    "id": "test_3_column_layout",
+    "type": "widget",
+    "separator": ": ",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "test_move_num", "test_speed_num", "test_focus_num" ]
+  },
+  {
+    "id": "test_4_column_layout",
+    "type": "widget",
+    "separator": ": ",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "test_move_num", "test_speed_num", "test_focus_num", "test_mana_num" ]
+  },
+  {
+    "id": "test_text_widget",
+    "type": "widget",
+    "separator": ": ",
+    "label": "CLAUSE",
+    "style": "text",
+    "string": "Zero"
+  },
+  {
+    "id": "test_layout_list",
+    "type": "widget",
+    "separator": ": ",
+    "style": "layout",
+    "widgets": [ "test_text_widget", "test_pool_graph", "test_number_widget" ]
+  },
+  {
+    "id": "test_layout_rows1",
+    "type": "widget",
+    "separator": ": ",
+    "style": "layout",
+    "arrange": "rows",
+    "widgets": [ "test_move_num", "test_speed_num", "test_focus_num", "test_mana_num" ]
+  },
+  {
+    "id": "test_layout_rows2",
+    "type": "widget",
+    "separator": ": ",
+    "style": "layout",
+    "arrange": "rows",
+    "widgets": [ "test_str_num", "test_dex_num", "test_int_num", "test_per_num" ]
+  },
+  {
+    "id": "test_layout_rows3",
+    "type": "widget",
+    "separator": ": ",
+    "style": "layout",
+    "arrange": "rows",
+    "widgets": [ "test_text_widget", "test_pool_graph", "test_number_widget" ]
+  },
+  {
+    "id": "test_layout_rows_in_columns",
+    "type": "widget",
+    "separator": ": ",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "test_overmap_3x3_text", "test_layout_rows1", "test_layout_rows2" ]
+  },
+  {
+    "id": "test_layout_cols_in_cols",
+    "type": "widget",
+    "separator": ": ",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "test_layout_rows3", "test_layout_rows_in_columns" ]
+  },
+  {
+    "id": "test_bp_bleed_sym_arm_l",
+    "type": "widget",
+    "style": "symbol",
+    "label": "LA : ",
+    "bodypart": "arm_l",
+    "clauses": [
+      {
+        "id": "bleeding",
+        "text": "bleeding",
+        "sym": "│",
+        "color": "c_light_red_white",
+        "condition": {
+          "and": [
+            { "u_has_effect": "bleed", "intensity": 1 },
+            { "compare_int": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 11 } ] }
+          ]
+        }
+      },
+      {
+        "id": "bleeding",
+        "text": "bleeding",
+        "sym": "║",
+        "color": "c_red_white",
+        "condition": {
+          "and": [
+            { "u_has_effect": "bleed", "intensity": 11 },
+            { "compare_int": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 21 } ] }
+          ]
+        }
+      },
+      {
+        "id": "bleeding",
+        "text": "bleeding",
+        "sym": "║",
+        "color": "c_red_red",
+        "condition": { "u_has_effect": "bleed", "intensity": 21 }
+      }
+    ]
+  },
+  {
+    "id": "test_bp_broken_sym_arm_l",
+    "type": "widget",
+    "style": "symbol",
+    "width": 1,
+    "bodypart": "arm_l",
+    "clauses": [
+      {
+        "id": "broken",
+        "text": "broken",
+        "sym": "ℵ",
+        "color": "c_red_white",
+        "condition": { "compare_int": [ { "u_val": "hp" }, "==", { "const": 0 } ] }
+      },
+      {
+        "id": "intact",
+        "text": "intact",
+        "sym": "‖",
+        "color": "c_dark_gray_white",
+        "condition": { "compare_int": [ { "u_val": "hp" }, ">", { "const": 0 } ] }
+      }
+    ]
+  },
+  {
+    "id": "test_bp_hpgraph_sym_arm_l",
+    "type": "widget",
+    "style": "graph",
+    "var": "bp_hp",
+    "bodypart": "arm_l",
+    "width": 5,
+    "symbols": " ▏▎▍▍▌▋▊▉█",
+    "fill": "bucket",
+    "colors": [ "c_red_white", "c_light_red_white", "c_yellow_white", "c_light_green_white", "c_green_white" ]
+  },
+  {
+    "id": "test_layout_nopad_nested",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "test_bp_bleed_sym_arm_l", "test_bp_broken_sym_arm_l", "test_bp_hpgraph_sym_arm_l" ]
+  },
+  {
+    "id": "test_row_nopad",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "widgets": [ "test_layout_nopad_nested" ]
+  },
+  {
+    "//": "use sidebar width = 36",
+    "id": "test_layout_nopad",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "separator": "",
+    "widgets": [ "test_row_nopad", "test_row_nopad", "test_row_nopad" ],
+    "flags": [ "W_NO_PADDING" ]
+  },
+  {
+    "//": "use sidebar width = 36",
+    "id": "test_layout_nopad_noflag",
+    "type": "widget",
+    "copy-from": "test_layout_nopad",
+    "flags": [  ]
+  }
+]

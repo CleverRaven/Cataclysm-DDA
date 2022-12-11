@@ -1,0 +1,39 @@
+[
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "mon_mutant_experimental_death_drops",
+    "entries": [ { "item": "subsuit_xl", "damage": [ 2, 3 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "mon_mutant_evolved_death_drops",
+    "entries": [ { "item": "cotton_patchwork", "damage": [ 1, 4 ], "count": [ 1, 4 ] }, { "item": "pants", "damage": [ 2, 3 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "mon_mutant_alpha_boss_death_drops",
+    "entries": [
+      { "item": "id_science_mutagen_green" },
+      { "item": "coat_lab", "damage": [ 0, 2 ] },
+      {
+        "collection": [
+          { "item": "leather_journal", "prob": 80, "contents-item": "note_mutant_alpha_boss" },
+          { "item": "recipe_alpha", "prob": 5 },
+          { "item": "recipe_animal", "prob": 10 },
+          { "item": "recipe_chimera", "prob": 5 },
+          { "item": "recipe_creepy", "prob": 10 },
+          { "item": "recipe_labchem", "prob": 10 },
+          { "item": "recipe_maiar", "prob": 10 },
+          { "item": "recipe_medicalmut", "prob": 5 },
+          { "item": "recipe_raptor", "prob": 5 },
+          { "group": "lab_files_biology", "prob": 5 }
+        ]
+      },
+      { "group": "mut_iv", "count": [ 3, 15 ] },
+      { "item": "jumpsuit" }
+    ]
+  }
+]

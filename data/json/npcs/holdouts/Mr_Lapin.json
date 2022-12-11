@@ -1,0 +1,259 @@
+[
+  {
+    "type": "npc",
+    "id": "warrener",
+    "//": "A survivor raising rabbits, all by themselves. Give special quests to give rabbits to player",
+    "name_unique": "Mr. Lapin",
+    "name_suffix": "Warrener",
+    "gender": "male",
+    "class": "NC_Rabbit_Raiser",
+    "attitude": 0,
+    "mission": 7,
+    "mission_offered": "MISSION_Warrener_LOG_1",
+    "chat": "TALK_WARRENER",
+    "faction": "lapin"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_Rabbit_Raiser",
+    "name": { "str": "Mr. Lapin" },
+    "job_description": "I raise rabbits.",
+    "//": "This is a unique NPC who doesn't get randomly selected background traits",
+    "common": false,
+    "skills": [
+      {
+        "skill": "ALL",
+        "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -2 }, { "one_in": 4 } ] } ] }
+      },
+      { "skill": "survival", "bonus": { "rng": [ 1, 5 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 2, 4 ] } }
+    ],
+    "traits": [
+      [ "FLEET2", 100 ],
+      [ "GOODHEARING", 100 ],
+      [ "DEFT", 100 ],
+      [ "ANIMALEMPATH2", 100 ],
+      [ "LIGHTFUR", 100 ],
+      [ "HOOVES", 100 ]
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_WARRENER",
+    "dynamic_line": { "u_is_wearing": "badge_marshal", "yes": "Are you here to protect us?", "no": "Pleased to meet you." },
+    "responses": [
+      { "text": "I'm just trying to get by.", "topic": "TALK_WARRENER_TRYING" },
+      { "text": "What are you doing here?", "topic": "TALK_WARRENER_DOING" },
+      { "text": "Heard anything about the outside world?", "topic": "TALK_WARRENER_WORLD" },
+      { "text": "You look different?", "topic": "TALK_WARRENER_MUTATION" },
+      { "text": "Anything I can help with?", "topic": "TALK_MISSION_LIST" },
+      { "text": "About that work…", "topic": "TALK_MISSION_INQUIRE", "condition": "has_assigned_mission" },
+      {
+        "text": "About that work…",
+        "topic": "TALK_MISSION_LIST_ASSIGNED",
+        "condition": "has_many_assigned_missions"
+      },
+      {
+        "text": "Any jobs you need done?",
+        "condition": { "and": [ { "not": "has_assigned_mission" }, { "not": "has_many_assigned_missions" } ] },
+        "topic": "TALK_MISSION_LIST"
+      },
+      { "text": "Do you need any resources?", "topic": "TALK_LAPIN_RESOURCES" },
+      { "text": "Where did you get that giant firefly terrarium?", "topic": "TALK_LAPIN_FIREFLY" },
+      { "text": "Well, bye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_WARRENER_TRYING",
+    "dynamic_line": "Getting by will do for now.",
+    "responses": [ { "text": "I guess it has to.", "topic": "TALK_WARRENER" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_WARRENER_DOING",
+    "dynamic_line": "I raise my rabbits, I seem to have more in common with them every day.",
+    "responses": [ { "text": "Well, then…", "topic": "TALK_WARRENER" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_WARRENER_WORLD",
+    "dynamic_line": "People come to me to learn how to keep rabbits.  They learn and they go.  I like to think I'm making the world better.",
+    "responses": [
+      { "text": "…", "topic": "TALK_WARRENER" },
+      { "text": "Anyone nearby I should meet?", "topic": "TALK_WARRENER_ISHERWOOD" },
+      { "text": "That sounds optimistic?", "topic": "TALK_WARRENER_WORLD_OPTIMISTIC" }
+    ]
+  },
+  {
+    "id": "TALK_WARRENER_ISHERWOOD",
+    "type": "talk_topic",
+    "dynamic_line": "There is a family of nearby farmers that I trade with.  I'd appreciate it if you could go check on them.",
+    "responses": [
+      {
+        "text": "Seems like a deal to me.",
+        "topic": "TALK_WARRENER_ISHERWOOD_MISSION_ACCEPTED",
+        "effect": { "add_mission": "MISSION_Warrener_ISHERWOOD" }
+      },
+      { "text": "That seems rather dangerous, I think I'll pass.", "topic": "TALK_WARRENER" }
+    ]
+  },
+  {
+    "id": "TALK_WARRENER_ISHERWOOD_MISSION_ACCEPTED",
+    "type": "talk_topic",
+    "dynamic_line": "It can be quite a hike depending on your transportation.  Lot of bad news between here and there.",
+    "responses": [
+      { "text": "Don't worry, I'll be careful.", "topic": "TALK_DONE" },
+      { "text": "Just a walk in the woods.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_WARRENER_WORLD_OPTIMISTIC",
+    "dynamic_line": "If I teach one hundred people how to raise rabbits, that's potentially a hundred communities given food and fur before those people teach anyone else.",
+    "responses": [ { "text": "That's the most hopeful thing I've heard so far.", "topic": "TALK_WARRENER" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_LAPIN_FIREFLY",
+    "dynamic_line": "A traveler brought this to me in return for some rabbits.  Said that he'd gotten it from a scientist out in the swamps but it took up too much space in his car.",
+    "responses": [ { "text": "It's quite unique!", "topic": "TALK_WARRENER" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_WARRENER_MUTATION",
+    "dynamic_line": {
+      "u_has_any_trait": [ "CANINE_EARS", "LUPINE_EARS", "FELINE_EARS", "URSINE_EARS", "ELFA_EARS", "LIGHTFUR" ],
+      "yes": "Same way you got yours, I bet.",
+      "no": "CRISPR?  Radiation?  Something in the water?  Maybe it was bunnies."
+    },
+    "responses": [
+      { "text": "So it goes.", "topic": "TALK_WARRENER" },
+      { "text": "You're disgusting.", "topic": "TALK_WARRENER_MUTATION_INSULT" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_WARRENER_MUTATION_INSULT",
+    "dynamic_line": {
+      "u_has_any_trait": [ "CANINE_EARS", "LUPINE_EARS", "FELINE_EARS", "URSINE_EARS", "ELFA_EARS", "LIGHTFUR" ],
+      "yes": "I'm very sorry to tell you this, but you should look in a mirror.",
+      "no": "Insulting people who could help you is unlikely to aid survival."
+    },
+    "responses": [
+      {
+        "text": "…",
+        "success": { "effect": "end_conversation", "opinion": { "trust": -1, "fear": -2, "value": -1, "anger": 1 }, "topic": "TALK_DONE" }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_LAPIN_RESOURCES",
+    "dynamic_line": "The bunnies and I love adding some diversity to the menu and I always need materials for patching fences.",
+    "repeat_responses": {
+      "for_item": [
+        "log",
+        "2x4",
+        "wood_panel",
+        "wood_sheet",
+        "material_sand",
+        "clay_lump",
+        "nail",
+        "wire",
+        "apple",
+        "banana",
+        "orange",
+        "blueberries",
+        "strawberries",
+        "raspberries",
+        "huckleberries",
+        "mulberries",
+        "plums",
+        "carrot",
+        "cabbage",
+        "lettuce",
+        "onion"
+      ],
+      "response": { "text": "Delivering <topic_item>.", "topic": "TALK_DELIVER_ASK" }
+    },
+    "responses": [
+      { "text": "That's all for now.  Can we discuss something else?", "topic": "TALK_WARRENER" },
+      { "text": "That's all for now.  I'd best get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "MISSION_Warrener_LOG_1",
+    "type": "mission_definition",
+    "name": { "str": "Timber!" },
+    "description": "Bring five logs.",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 1,
+    "value": 0,
+    "item": "log",
+    "count": 5,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_Warrener_FOOD_2",
+    "dialogue": {
+      "describe": "I need 5 logs for fences.",
+      "offer": "I need to build fences and ditches around my rabbits.  Could you find about… five logs for me?",
+      "accepted": "Don't forget to tell me when you have them.",
+      "rejected": "It's okay, I can do without them.  Just let me know if you reconsider.",
+      "advice": "There's a lot of places to look.  Trees are pretty common.",
+      "inquire": "How is the search going?  Have you found'em?",
+      "success": "I really appreciate your help.  Don't worry, you won't leave empty-handed.",
+      "success_lie": "Thanks for trying… I guess.",
+      "failure": "Don't worry about it, it's not that important."
+    },
+    "end": { "effect": [ { "u_spawn_item": "cattlefodder", "count": 2 } ] }
+  },
+  {
+    "id": "MISSION_Warrener_FOOD_2",
+    "type": "mission_definition",
+    "name": { "str": "Sweets" },
+    "description": "Find 25 blackberries.",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 2,
+    "value": 0,
+    "item": "blackberries",
+    "count": 25,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "I need 25 blackberries.",
+      "offer": "Fruits would let me break the monotony of grains and meats.",
+      "accepted": "Thanks for accepting this task.  Otherwise I might kill a stranger for some oranges.  Just kidding.",
+      "rejected": "Just let me know if you change your mind.",
+      "advice": "Find someone growing berries or an orchard.",
+      "inquire": "Have you found the fruit?",
+      "success": "Thank you for your help.  Here's your reward.",
+      "success_lie": "Thanks for trying… I guess.",
+      "failure": "It's not a big deal, it isn't that urgent."
+    },
+    "end": { "effect": [ { "u_spawn_item": "petpack", "count": 1 } ] }
+  },
+  {
+    "id": "MISSION_Warrener_ISHERWOOD",
+    "type": "mission_definition",
+    "name": { "str": "Visit the Isherwoods" },
+    "description": "There is a family that nearby that I'd like you to check in on. After you talk to all of them come back to me and tell me how they are doing.",
+    "goal": "MGOAL_CONDITION",
+    "difficulty": 3,
+    "start": {
+      "assign_mission_target": { "om_terrain": "farm_isherwood_2", "om_special": "Isherwood Farms", "reveal_radius": 3, "search_range": 360 }
+    },
+    "goal_condition": { "u_has_var": "u_met_carlos_isherwood", "type": "general", "context": "meeting", "value": "yes" },
+    "value": 5000,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "Have you checked on them?",
+      "success": "Good, that's one less thing to worry about.",
+      "success_lie": "I'm glad to hear they are fine.  Why haven't they been by then?",
+      "failure": "At least you came back with your life…"
+    }
+  }
+]

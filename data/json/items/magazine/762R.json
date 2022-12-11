@@ -1,0 +1,20 @@
+[
+  {
+    "id": "762R_clip",
+    "looks_like": "stanag30",
+    "type": "MAGAZINE",
+    "name": { "str": "7.62x54mmR 5-round clip" },
+    "description": "A tiny piece of grooved metal designed to allow a shooter to quickly load five 7.62x54mmR rounds into a compatible firearm.",
+    "weight": "40 g",
+    "volume": "10 ml",
+    "longest_side": "8 cm",
+    "price": 1000,
+    "price_postapoc": 50,
+    "material": [ "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "762R" ],
+    "flags": [ "SPEEDLOADER" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "762R": 5 } } ]
+  }
+]

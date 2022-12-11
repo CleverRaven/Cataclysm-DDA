@@ -1,0 +1,1254 @@
+[
+  {
+    "id": "batter",
+    "type": "requirement",
+    "//": "Bread type food usable as batter for frying.",
+    "components": [
+      [
+        [ "flour", 2 ],
+        [ "flour_wheat_free", 2 ],
+        [ "bread_flour", 2 ],
+        [ "cornmeal", 1 ],
+        [ "flatbread", 1 ],
+        [ "flatbread_wheat_free", 1 ],
+        [ "tortilla_corn", 1 ],
+        [ "bread", 1 ],
+        [ "bread_wheat_free", 1 ],
+        [ "wastebread", 1 ],
+        [ "cornbread", 1 ],
+        [ "biscuit", 1 ],
+        [ "hardtack", 1 ],
+        [ "crackers", 1 ],
+        [ "hallula", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "bread_sandwich",
+    "type": "requirement",
+    "//": "Bread appropriate for sandwiches.",
+    "components": [
+      [
+        [ "flatbread", 1 ],
+        [ "bread", 1 ],
+        [ "wastebread", 1 ],
+        [ "sourdough_bread", 1 ],
+        [ "biscuit", 1 ],
+        [ "brioche", 1 ],
+        [ "crackers", 1 ],
+        [ "brown_bread", 1 ],
+        [ "hallula", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "bread_sandwich_wheat_free",
+    "type": "requirement",
+    "//": "Wheat free bread appropriate for sandwiches.",
+    "components": [ [ [ "cornbread", 1 ], [ "bread_wheat_free", 1 ], [ "flatbread_wheat_free", 1 ], [ "brown_bread_wheat_free", 1 ] ] ]
+  },
+  {
+    "id": "any_bread",
+    "type": "requirement",
+    "//": "Any type of bread",
+    "components": [ [ [ "bread_sandwich", 1, "LIST" ], [ "bread_sandwich_wheat_free", 1, "LIST" ] ] ]
+  },
+  {
+    "id": "any_peanutbutter",
+    "type": "requirement",
+    "//": "Peanut butter of all types and other peanut butter substitutes",
+    "components": [ [ [ "peanutbutter", 1 ], [ "spread_peanutbutter", 1 ], [ "peanutbutter_imitation", 1 ] ] ]
+  },
+  {
+    "id": "eggs_bird",
+    "type": "requirement",
+    "//": "All of the different bird eggs",
+    "components": [
+      [
+        [ "egg_bird", 1 ],
+        [ "egg_bird_unfert", 1 ],
+        [ "egg_chicken", 1 ],
+        [ "egg_grouse", 1 ],
+        [ "egg_crow", 1 ],
+        [ "egg_raven", 1 ],
+        [ "egg_bluejay", 1 ],
+        [ "egg_cardinal", 1 ],
+        [ "egg_robin", 1 ],
+        [ "egg_sparrow", 2 ],
+        [ "egg_duck", 1 ],
+        [ "egg_goose_canadian", 1 ],
+        [ "egg_turkey", 1 ],
+        [ "egg_pheasant", 1 ],
+        [ "egg_cockatrice", 1 ],
+        [ "egg_goose", 1 ],
+        [ "egg_goose_golden", 1 ],
+        [ "egg_hummingbird", 5 ],
+        [ "egg_woodpecker", 5 ],
+        [ "egg_coot", 1 ],
+        [ "egg_cormorant", 1 ],
+        [ "egg_moorhen", 1 ],
+        [ "egg_grebe", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "eggs_insect",
+    "type": "requirement",
+    "//": "All of the different insect eggs",
+    "components": [
+      [
+        [ "ant_egg", 1 ],
+        [ "spider_egg", 4 ],
+        [ "egg_roach", 4 ],
+        [ "egg_roach_plague", 4 ],
+        [ "egg_locust", 4 ],
+        [ "egg_dragonfly", 4 ],
+        [ "egg_firefly", 4 ],
+        [ "egg_centipede", 2 ],
+        [ "egg_wasp", 4 ],
+        [ "egg_antlion", 2 ],
+        [ "egg_strider", 4 ],
+        [ "egg_grasshopper", 4 ],
+        [ "egg_lady_bug", 4 ],
+        [ "egg_mole_cricket", 4 ],
+        [ "egg_mantis", 4 ],
+        [ "egg_stag_beetle", 1 ],
+        [ "egg_water_beetle", 4 ],
+        [ "egg_water_bug", 4 ],
+        [ "egg_butterfly", 1 ],
+        [ "egg_moth", 1 ],
+        [ "egg_cicada", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "eggs_roe",
+    "type": "requirement",
+    "//": "All of the different fish eggs",
+    "components": [
+      [
+        [ "egg_fish", 1 ],
+        [ "egg_trout", 1 ],
+        [ "egg_brown_trout", 1 ],
+        [ "egg_brook_trout", 1 ],
+        [ "egg_lake_trout", 1 ],
+        [ "egg_rainbow_trout", 1 ],
+        [ "egg_steelhead_trout", 1 ],
+        [ "egg_salmon", 1 ],
+        [ "egg_kokanee_salmon", 1 ],
+        [ "egg_chinook_salmon", 1 ],
+        [ "egg_coho_salmon", 1 ],
+        [ "egg_whitefish", 1 ],
+        [ "egg_lbass", 1 ],
+        [ "egg_sbass", 1 ],
+        [ "egg_pbass", 1 ],
+        [ "egg_white_bass", 1 ],
+        [ "egg_perch", 1 ],
+        [ "egg_walleye", 1 ],
+        [ "egg_sunfish", 1 ],
+        [ "egg_pumpkinseed", 1 ],
+        [ "egg_bluegill", 1 ],
+        [ "egg_redbreast", 1 ],
+        [ "egg_green_sunfish", 1 ],
+        [ "egg_longear_sunfish", 1 ],
+        [ "egg_redear_sunfish", 1 ],
+        [ "egg_rock_bass", 1 ],
+        [ "egg_calico_bass", 1 ],
+        [ "egg_bullhead", 1 ],
+        [ "egg_channel_catfish", 1 ],
+        [ "egg_white_catfish", 1 ],
+        [ "egg_pike", 1 ],
+        [ "egg_pickerel", 1 ],
+        [ "egg_muskellunge", 1 ],
+        [ "egg_white_sucker", 1 ],
+        [ "egg_carp", 1 ],
+        [ "egg_grass_carp", 1 ],
+        [ "egg_bowfin", 1 ],
+        [ "egg_fallfish", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "eggs_any_shape",
+    "type": "requirement",
+    "//": "When we only need the nutrition of eggs and don't care about their shape. About 0.05L ",
+    "components": [ [ [ "eggs_bird", 1, "LIST" ], [ "rehydrated_eggs", 1 ], [ "egg_reptile", 1 ] ] ]
+  },
+  {
+    "id": "milk_standard",
+    "type": "requirement",
+    "//": "Pasteurized milk, including reconstituted",
+    "components": [ [ [ "milk", 1 ], [ "milk_reconstituted", 1 ], [ "milk_UHT", 1 ] ] ]
+  },
+  {
+    "id": "cheese_standard",
+    "type": "requirement",
+    "//": "Any cheese you could use as is",
+    "components": [ [ [ "cheese", 1 ], [ "cheese_hard", 1 ], [ "can_cheese", 1 ], [ "cheese_rehydrated", 1 ], [ "cottage_cheese", 1 ] ] ]
+  },
+  {
+    "id": "lf_milk_standard",
+    "type": "requirement",
+    "//": "Any kind of lactose-free plant-based milk. Not for use in fermentation recipes.",
+    "components": [ [ [ "soy_milk", 1 ], [ "almond_milk", 1 ] ] ]
+  },
+  {
+    "id": "any_frosting",
+    "type": "requirement",
+    "//": "Frosting for cakes and treats",
+    "components": [ [ [ "buttercream", 2 ], [ "milk_cream_whipped", 2 ] ] ]
+  },
+  {
+    "id": "any_butter",
+    "type": "requirement",
+    "//": "Butter of all types and other future butter substitutes",
+    "components": [ [ [ "raw_butter", 1 ], [ "butter", 1 ], [ "ghee", 1 ] ] ]
+  },
+  {
+    "id": "milk_standard_raw",
+    "type": "requirement",
+    "//": "Equivalent to milk_standard, with addition of raw milk for recipes using a heat source to kill microbes",
+    "components": [ [ [ "milk_standard", 1, "LIST" ], [ "milk_raw", 1 ] ] ]
+  },
+  {
+    "id": "milk_standard_raw_fresh",
+    "type": "requirement",
+    "//": "Equivalent to milk_standard_raw, but without milk_reconstituted",
+    "components": [ [ [ "milk", 1 ], [ "milk_UHT", 1 ], [ "milk_raw", 1 ] ] ]
+  },
+  {
+    "id": "sugar_powdered",
+    "type": "requirement",
+    "//": "  Only powdered sugar",
+    "components": [ [ [ "sugar", 1 ], [ "artificial_sweetener", 1 ] ] ]
+  },
+  {
+    "id": "sugar_standard",
+    "type": "requirement",
+    "//": "One unit provides ~200kcal; chosen to match one unit of molasses",
+    "components": [
+      [
+        [ "sugar", 10 ],
+        [ "syrup", 4 ],
+        [ "beet_syrup", 5 ],
+        [ "molasses", 1 ],
+        [ "honey_bottled", 3 ],
+        [ "honey_glassed", 1 ],
+        [ "sweet_water", 1 ],
+        [ "honeydew", 3 ],
+        [ "artificial_sweetener", 10 ]
+      ]
+    ]
+  },
+  {
+    "id": "sugar_standard_half",
+    "type": "requirement",
+    "//": "About a little more than half of standard",
+    "components": [
+      [
+        [ "sugar", 6 ],
+        [ "syrup", 2 ],
+        [ "beet_syrup", 3 ],
+        [ "honey_bottled", 2 ],
+        [ "honeydew", 2 ],
+        [ "artificial_sweetener", 6 ]
+      ]
+    ]
+  },
+  {
+    "id": "whiskey_any",
+    "type": "requirement",
+    "//": "Any kind of whiskey.",
+    "components": [
+      [
+        [ "whiskey", 1 ],
+        [ "single_malt_whiskey", 1 ],
+        [ "single_pot_whiskey", 1 ],
+        [ "cheap_whiskey", 1 ],
+        [ "canadian_whiskey", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "hard_liquor_unmixed",
+    "type": "requirement",
+    "//": "Technical artifact to support mixed alcohol recipe. See comment on `hard_liquor` below for semantics.",
+    "components": [
+      [
+        [ "brandy", 1 ],
+        [ "gin", 1 ],
+        [ "moonshine", 1 ],
+        [ "rum", 1 ],
+        [ "tequila", 1 ],
+        [ "vodka", 1 ],
+        [ "triple_sec", 1 ],
+        [ "whiskey_any", 1, "LIST" ]
+      ]
+    ]
+  },
+  {
+    "id": "hard_liquor",
+    "type": "requirement",
+    "//": "Hard liquor - necessarily comestible and high proof, not necessarily high quality. 7 portions per 250ml",
+    "components": [ [ [ "hard_liquor_unmixed", 1, "LIST" ], [ "mixed_alcohol_strong", 1 ] ] ]
+  },
+  {
+    "id": "cheap_wine",
+    "type": "requirement",
+    "//": "Cheap and improvised wines.",
+    "components": [
+      [
+        [ "bum_wine", 1 ],
+        [ "burdock_wine", 1 ],
+        [ "dandelion_wine", 1 ],
+        [ "fruit_wine", 1 ],
+        [ "pine_wine", 1 ],
+        [ "wine_barley", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "worthy_wine",
+    "type": "requirement",
+    "//": "More expensive wines.",
+    "components": [
+      [
+        [ "bristol_sherry", 1 ],
+        [ "madeira", 1 ],
+        [ "sherry", 1 ],
+        [ "wine_cabernet", 1 ],
+        [ "wine_chardonnay", 1 ],
+        [ "wine_marsala", 1 ],
+        [ "wine_noir", 1 ],
+        [ "wine_riesling", 1 ],
+        [ "wine_vermouth", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "hard_liquor_chem",
+    "type": "requirement",
+    "//": "Hard liquor and ethanol - Must be diluted. Added for ease of use",
+    "components": [ [ [ "hard_liquor", 7, "LIST" ], [ "chem_ethanol", 125 ] ] ]
+  },
+  {
+    "id": "hard_liquor_toxic",
+    "type": "requirement",
+    "//": "Hard liquor, ethanol, and denaturalized alcohol - Do not use in comestibles",
+    "components": [ [ [ "hard_liquor_chem", 1, "LIST" ], [ "denat_alcohol", 125 ] ] ]
+  },
+  {
+    "id": "meat_offal",
+    "type": "requirement",
+    "//": "Anything you might consider offal or intestines.",
+    "components": [
+      [
+        [ "meat_lung", 4, "LIST" ],
+        [ "meat_liver", 4, "LIST" ],
+        [ "meat_kidney", 4, "LIST" ],
+        [ "sweetbread", 4 ],
+        [ "human_sweetbread", 4 ],
+        [ "demihuman_sweetbread", 4 ],
+        [ "offal", 1 ],
+        [ "mutant_bug_organs", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "meat_raw_steak",
+    "type": "requirement",
+    "//": "An unbroken slab of raw meat.  For when scraps just aren't good enough.",
+    "components": [ [ [ "meat", 1 ], [ "mutant_meat", 1 ], [ "human_flesh", 1 ], [ "mutant_human_flesh", 1 ], [ "demihuman_flesh", 1 ] ] ]
+  },
+  {
+    "id": "meat_red_raw",
+    "type": "requirement",
+    "//": "Anything you might consider raw, unpreserved 'red' meat.  About 250mL of meat.",
+    "components": [
+      [
+        [ "meat_raw_steak", 1, "LIST" ],
+        [ "meat_scrap", 10 ],
+        [ "human_meat_scrap", 10 ],
+        [ "demihuman_meat_scrap", 10 ],
+        [ "mutant_meat_scrap", 10 ],
+        [ "porkbelly", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "meat_red",
+    "type": "requirement",
+    "//": "Anything you might consider raw 'red' meat.  About 250mL of meat.",
+    "components": [ [ [ "meat_red_raw", 1, "LIST" ], [ "rehydrated_meat", 1 ], [ "meat_canned", 1 ] ] ]
+  },
+  {
+    "id": "meat_lung",
+    "type": "requirement",
+    "//": "Anything you might consider raw lung.  About 250mL of lungs.",
+    "components": [ [ [ "lung", 1 ], [ "human_lung", 1 ], [ "demihuman_lung", 1 ], [ "mutant_bug_lungs", 1 ], [ "mutant_lung", 1 ] ] ]
+  },
+  {
+    "id": "meat_liver",
+    "type": "requirement",
+    "components": [ [ [ "liver", 1 ], [ "human_liver", 1 ], [ "demihuman_liver", 1 ], [ "canned_liver", 1 ], [ "mutant_liver", 1 ] ] ]
+  },
+  {
+    "id": "meat_kidney",
+    "type": "requirement",
+    "components": [ [ [ "kidney", 1 ], [ "human_kidney", 1 ], [ "demihuman_kidney", 1 ], [ "mutant_kidney", 1 ] ] ]
+  },
+  {
+    "id": "meat_brain",
+    "type": "requirement",
+    "//": "Anything resembling brains and other nervous tissue.",
+    "components": [ [ [ "brain", 1 ], [ "human_brain", 1 ], [ "demihuman_brain", 1 ], [ "mutant_brain", 1 ] ] ]
+  },
+  {
+    "id": "meat_stomach",
+    "type": "requirement",
+    "//": "Anything you might consider a raw stomach.  About 500mL of stomachs.",
+    "components": [ [ [ "meat_stomach_small", 2, "LIST" ], [ "meat_stomach_large", 1, "LIST" ] ] ]
+  },
+  {
+    "id": "meat_stomach_cooked",
+    "type": "requirement",
+    "//": "Anything you might consider a cooked stomach.  About 500mL of stomachs.",
+    "components": [ [ [ "meat_stomach_small", 2, "LIST" ], [ "meat_stomach_large", 1, "LIST" ] ] ]
+  },
+  {
+    "id": "meat_stomach_boiled",
+    "type": "requirement",
+    "//": "Anything you might consider a boiled stomach.  About 500mL of stomachs.",
+    "components": [
+      [
+        [ "small_stomach_boiled", 2 ],
+        [ "stomach_boiled", 1 ],
+        [ "small_hstomach_boiled", 2 ],
+        [ "hstomach_boiled", 1 ],
+        [ "small_demihuman_stomach_boiled", 2 ],
+        [ "demihuman_stomach_boiled", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "meat_stomach_large",
+    "type": "requirement",
+    "//": "Anything you might consider a small raw stomach.",
+    "components": [ [ [ "stomach_large", 1 ], [ "hstomach_large", 1 ], [ "demihuman_stomach_large", 1 ] ] ]
+  },
+  {
+    "id": "meat_stomach_small",
+    "type": "requirement",
+    "//": "Anything you might consider a small raw stomach.",
+    "components": [ [ [ "stomach", 1 ], [ "hstomach", 1 ], [ "demihuman_stomach", 1 ] ] ]
+  },
+  {
+    "id": "any_cracklins",
+    "type": "requirement",
+    "//": "multifarious cracklins",
+    "components": [
+      [
+        [ "cracklins", 1 ],
+        [ "human_cracklins", 1 ],
+        [ "mutant_cracklins", 1 ],
+        [ "mutant_human_cracklins", 1 ],
+        [ "demihuman_cracklins", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "edible_bonemarrow",
+    "type": "requirement",
+    "//": "Any type of edible bone marrow.",
+    "components": [
+      [
+        [ "bone_marrow", 1 ],
+        [ "human_marrow", 1 ],
+        [ "demihuman_marrow", 1 ],
+        [ "mutant_marrow", 1 ],
+        [ "mutant_human_marrow", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "meat_nofish",
+    "type": "requirement",
+    "//": "Any type of raw meat except for fish.  About 300-400kcal of meat.",
+    "components": [
+      [ [ "meat_red", 1, "LIST" ], [ "meat_offal", 1, "LIST" ], [ "can_spam", 2 ], [ "lunchmeat", 2 ], [ "can_chicken", 1 ] ]
+    ]
+  },
+  {
+    "id": "meat_cooked",
+    "type": "requirement",
+    "//": "meat you'd put on a sandwich",
+    "components": [
+      [
+        [ "any_cracklins", 2, "LIST" ],
+        [ "meat_cooked", 1 ],
+        [ "meat_fatty_cooked", 1 ],
+        [ "meat_scrap_cooked", 10 ],
+        [ "mutant_meat_cooked", 1 ],
+        [ "mutant_meat_scrap_cooked", 10 ],
+        [ "human_cooked", 1 ],
+        [ "mutant_human_cooked", 1 ],
+        [ "demihuman_cooked", 1 ],
+        [ "meat_pickled", 1 ],
+        [ "meat_smoked", 1 ],
+        [ "meat_salted", 1 ],
+        [ "dry_meat", 1 ],
+        [ "rehydrated_meat", 1 ],
+        [ "jerky", 1 ],
+        [ "bacon", 2 ],
+        [ "lunchmeat", 2 ],
+        [ "bologna", 2 ],
+        [ "can_spam", 2 ],
+        [ "fried_spam", 2 ],
+        [ "can_chicken", 1 ],
+        [ "fish_cooked", 1 ],
+        [ "fish_scrap_cooked", 10 ],
+        [ "fish_smoked", 1 ],
+        [ "lobster_cooked", 1 ],
+        [ "lobster_smoked", 1 ],
+        [ "can_herring", 1 ],
+        [ "can_salmon", 1 ],
+        [ "can_tuna", 1 ],
+        [ "can_sardine", 1 ],
+        [ "can_clams", 1 ],
+        [ "salted_fish", 1 ],
+        [ "meat_canned", 1 ],
+        [ "fish_canned", 1 ],
+        [ "fish_pickled", 1 ],
+        [ "lobster_canned", 1 ],
+        [ "meat_aspic", 1 ],
+        [ "sausage", 1 ],
+        [ "sausage_cooked", 1 ],
+        [ "sausage_wasteland", 1 ],
+        [ "bratwurst_sausage", 1 ],
+        [ "meat_fried", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "human_meat",
+    "type": "requirement",
+    "//": "Raw meat that non-cannibals would be unhappy eating.",
+    "components": [ [ [ "human_flesh", 1 ], [ "mutant_human_flesh", 1 ] ] ]
+  },
+  {
+    "id": "human_meat_cooked",
+    "type": "requirement",
+    "//": "Cooked meat that non-cannibals would be unhappy eating.",
+    "components": [ [ [ "human_cooked", 1 ], [ "mutant_human_cooked", 1 ] ] ]
+  },
+  {
+    "id": "meat_soup_ingredients",
+    "type": "requirement",
+    "components": [
+      [ [ "broth", 2 ], [ "broth_bone", 2 ] ],
+      [
+        [ "veggy_potatolike", 1, "LIST" ],
+        [ "celery", 1 ],
+        [ "irradiated_celery", 1 ],
+        [ "cabbage", 1 ],
+        [ "irradiated_cabbage", 1 ],
+        [ "sauerkraut", 1 ],
+        [ "powder_eggs", 1 ],
+        [ "eggs_bird", 1, "LIST" ],
+        [ "egg_reptile", 1 ],
+        [ "can_beans", 1 ],
+        [ "beans_cooked", 1 ],
+        [ "spaghetti_raw", 1 ],
+        [ "macaroni_raw", 1 ],
+        [ "noodles_fast", 1 ],
+        [ "dry_beans", 1 ],
+        [ "raw_beans", 1 ],
+        [ "dry_rice", 1 ],
+        [ "dandelion_cooked", 1 ],
+        [ "burdock_cooked", 1 ],
+        [ "bamboo_cooked", 1 ],
+        [ "acorns_cooked", 1 ],
+        [ "dry_lentils", 1 ],
+        [ "raw_lentils", 1 ]
+      ],
+      [ [ "meat_red", 1, "LIST" ], [ "dry_meat", 1 ], [ "can_chicken", 1 ] ]
+    ]
+  },
+  {
+    "id": "fish_soup_ingredients",
+    "type": "requirement",
+    "components": [
+      [ [ "broth", 2 ], [ "broth_bone", 2 ] ],
+      [
+        [ "spaghetti_raw", 1 ],
+        [ "macaroni_raw", 1 ],
+        [ "noodles_fast", 1 ],
+        [ "veggy_any", 1, "LIST" ],
+        [ "sauerkraut", 1 ],
+        [ "can_corn", 1 ],
+        [ "hominy", 1 ],
+        [ "dry_veggy", 1 ],
+        [ "dry_corn", 1 ],
+        [ "corn_kernels", 1 ],
+        [ "con_milk", 1 ],
+        [ "flatbread", 1 ],
+        [ "tortilla_corn", 1 ],
+        [ "bread", 1 ],
+        [ "cornbread", 1 ],
+        [ "biscuit", 1 ],
+        [ "hardtack", 1 ],
+        [ "wastebread", 1 ],
+        [ "sourdough_bread", 1 ],
+        [ "hallula", 1 ],
+        [ "brioche", 1 ],
+        [ "flour", 2 ],
+        [ "cornmeal", 2 ],
+        [ "milk_powder", 1 ],
+        [ "crackers", 1 ],
+        [ "powder_eggs", 1 ],
+        [ "eggs_bird", 1, "LIST" ],
+        [ "egg_reptile", 1 ],
+        [ "dry_beans", 1 ],
+        [ "raw_beans", 1 ],
+        [ "dry_lentils", 1 ],
+        [ "raw_lentils", 1 ],
+        [ "dry_rice", 1 ],
+        [ "can_beans", 1 ],
+        [ "beans_cooked", 1 ],
+        [ "mushroom", 1 ],
+        [ "dry_mushroom", 1 ],
+        [ "mushroom_cooked", 1 ],
+        [ "morel_cooked", 1 ],
+        [ "acorns_cooked", 1 ]
+      ],
+      [
+        [ "fish", 2 ],
+        [ "dry_fish", 2 ],
+        [ "fish_smoked", 2 ],
+        [ "fish_pickled", 2 ],
+        [ "salted_fish", 2 ],
+        [ "fish_canned", 2 ],
+        [ "can_salmon", 2 ],
+        [ "fish_scrap", 10 ],
+        [ "can_tuna", 2 ]
+      ]
+    ]
+  },
+  {
+    "id": "lobster_stew_ingredients",
+    "type": "requirement",
+    "components": [
+      [ [ "broth", 2 ], [ "broth_bone", 2 ] ],
+      [
+        [ "spaghetti_raw", 1 ],
+        [ "macaroni_raw", 1 ],
+        [ "noodles_fast", 1 ],
+        [ "veggy_any", 1, "LIST" ],
+        [ "sauerkraut", 1 ],
+        [ "can_corn", 1 ],
+        [ "hominy", 1 ],
+        [ "dry_veggy", 1 ],
+        [ "dry_corn", 1 ],
+        [ "corn_kernels", 1 ],
+        [ "con_milk", 1 ],
+        [ "flatbread", 1 ],
+        [ "tortilla_corn", 1 ],
+        [ "bread", 1 ],
+        [ "cornbread", 1 ],
+        [ "biscuit", 1 ],
+        [ "hardtack", 1 ],
+        [ "wastebread", 1 ],
+        [ "sourdough_bread", 1 ],
+        [ "brioche", 1 ],
+        [ "hallula", 1 ],
+        [ "flour", 2 ],
+        [ "cornmeal", 2 ],
+        [ "milk_powder", 1 ],
+        [ "crackers", 1 ],
+        [ "powder_eggs", 1 ],
+        [ "eggs_bird", 1, "LIST" ],
+        [ "egg_reptile", 1 ],
+        [ "dry_beans", 1 ],
+        [ "raw_beans", 1 ],
+        [ "dry_lentils", 1 ],
+        [ "raw_lentils", 1 ],
+        [ "dry_rice", 1 ],
+        [ "can_beans", 1 ],
+        [ "beans_cooked", 1 ],
+        [ "mushroom", 1 ],
+        [ "dry_mushroom", 1 ],
+        [ "mushroom_cooked", 1 ],
+        [ "morel_cooked", 1 ],
+        [ "acorns_cooked", 1 ]
+      ],
+      [ [ "lobster", 2 ], [ "dry_lobster", 2 ], [ "lobster_smoked", 2 ], [ "lobster_canned", 2 ] ]
+    ]
+  },
+  {
+    "id": "woods_soup_ingredients",
+    "type": "requirement",
+    "components": [
+      [ [ "broth", 2 ], [ "broth_bone", 2 ], [ "pine_tea", 2 ] ],
+      [
+        [ "meat_nofish", 1, "LIST" ],
+        [ "bacon", 4 ],
+        [ "bologna", 5 ],
+        [ "meat_pickled", 1 ],
+        [ "dry_meat", 1 ],
+        [ "jerky", 1 ],
+        [ "meat_smoked", 1 ],
+        [ "meat_salted", 1 ],
+        [ "meat_fried", 1 ],
+        [ "fish", 1 ],
+        [ "fish_smoked", 1 ],
+        [ "dry_fish", 1 ],
+        [ "rehydrated_fish", 1 ],
+        [ "fish_canned", 1 ],
+        [ "can_salmon", 1 ],
+        [ "can_tuna", 1 ],
+        [ "lobster", 1 ],
+        [ "dry_lobster", 1 ],
+        [ "lobster_smoked", 1 ],
+        [ "lobster_canned", 1 ],
+        [ "sausage", 1 ],
+        [ "sausage_cooked", 1 ],
+        [ "bratwurst_sausage", 1 ]
+      ],
+      [
+        [ "veggy_wild", 2 ],
+        [ "veggy", 2 ],
+        [ "corn_kernels", 2 ],
+        [ "rehydrated_veggy", 2 ],
+        [ "rehydrated_corn_kernels", 2 ],
+        [ "dry_veggy", 2 ],
+        [ "dry_corn", 2 ],
+        [ "dry_beans", 2 ],
+        [ "can_beans", 2 ],
+        [ "raw_beans", 2 ],
+        [ "beans_cooked", 2 ],
+        [ "dry_lentils", 2 ],
+        [ "raw_lentils", 2 ],
+        [ "dry_rice", 2 ],
+        [ "dandelion_cooked", 2 ],
+        [ "burdock_cooked", 2 ],
+        [ "bamboo_cooked", 2 ],
+        [ "mushroom", 2 ],
+        [ "dry_mushroom", 2 ],
+        [ "mushroom_cooked", 2 ],
+        [ "morel_cooked", 2 ],
+        [ "acorns_cooked", 2 ]
+      ]
+    ]
+  },
+  {
+    "id": "woods_soup_ingredients_veggy",
+    "type": "requirement",
+    "components": [
+      [ [ "broth", 1 ], [ "broth_bone", 1 ], [ "pine_tea", 1 ] ],
+      [ [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
+      [
+        [ "veggy_wild", 1 ],
+        [ "veggy", 1 ],
+        [ "rehydrated_veggy", 1 ],
+        [ "rehydrated_corn_kernels", 1 ],
+        [ "dry_veggy", 1 ],
+        [ "dry_corn", 1 ],
+        [ "dry_beans", 1 ],
+        [ "can_beans", 1 ],
+        [ "raw_beans", 1 ],
+        [ "beans_cooked", 1 ],
+        [ "dry_lentils", 1 ],
+        [ "raw_lentils", 1 ],
+        [ "dry_rice", 1 ],
+        [ "dandelion_cooked", 1 ],
+        [ "burdock_cooked", 1 ],
+        [ "bamboo_cooked", 1 ],
+        [ "mushroom", 1 ],
+        [ "dry_mushroom", 1 ],
+        [ "mushroom_cooked", 1 ],
+        [ "morel_cooked", 1 ],
+        [ "acorns_cooked", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "any_fat",
+    "type": "requirement",
+    "//": "Any type of raw fat.",
+    "components": [ [ [ "edible_fat", 1, "LIST" ], [ "fat_tainted", 1 ] ] ]
+  },
+  {
+    "id": "edible_fat",
+    "type": "requirement",
+    "//": "Any type of edible raw fat.",
+    "components": [ [ [ "fat", 1 ], [ "mutant_fat", 1 ], [ "human_fat", 1 ], [ "mutant_human_fat", 1 ], [ "demihuman_fat", 1 ] ] ]
+  },
+  {
+    "id": "edible_tallow",
+    "type": "requirement",
+    "//": "Any type of edible tallow.",
+    "components": [
+      [
+        [ "tallow", 1 ],
+        [ "mutant_tallow", 1 ],
+        [ "human_tallow", 1 ],
+        [ "mutant_human_tallow", 1 ],
+        [ "demihuman_tallow", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "any_tallow",
+    "type": "requirement",
+    "//": "Any type of tallow.",
+    "components": [ [ [ "edible_tallow", 1, "LIST" ], [ "tallow_tainted", 1 ] ] ]
+  },
+  {
+    "id": "edible_lard",
+    "type": "requirement",
+    "//": "Lard that is safe for consumption.",
+    "components": [ [ [ "lard", 1 ], [ "mutant_lard", 1 ], [ "human_lard", 1 ], [ "mutant_human_lard", 1 ], [ "demihuman_lard", 1 ] ] ]
+  },
+  {
+    "id": "edible_tallow_lard",
+    "type": "requirement",
+    "//": "Any type of edible rendered fat.",
+    "components": [ [ [ "edible_tallow", 1, "LIST" ], [ "edible_lard", 1, "LIST" ] ] ]
+  },
+  {
+    "id": "edible_blood",
+    "type": "requirement",
+    "//": "Any type of edible blood.",
+    "components": [
+      [ [ "animal_blood", 1 ], [ "mutant_blood", 1 ], [ "blood", 1 ], [ "mutant_human_blood", 1 ], [ "demihuman_blood", 1 ] ]
+    ]
+  },
+  {
+    "id": "any_blood",
+    "type": "requirement",
+    "//": "Any type of blood.",
+    "components": [ [ [ "edible_blood", 1, "LIST" ], [ "blood_tainted", 1 ] ] ]
+  },
+  {
+    "id": "any_butter_or_oil",
+    "type": "requirement",
+    "//": "For when a recipe calls for either cooking oil or butter, like many baking recipes do.",
+    "components": [ [ [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ], [ "raw_butter", 1 ], [ "butter", 1 ], [ "ghee", 1 ] ] ]
+  },
+  {
+    "id": "fry_oil",
+    "type": "requirement",
+    "//": "For when a recipe calls for deep frying, and the food absorbs some oil. Clarafied butter or ghee can be used to deep fry, but butter's smoke point is too low without clarification",
+    "components": [ [ [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ], [ "ghee", 1 ] ] ]
+  },
+  {
+    "id": "seasoning_mild",
+    "type": "requirement",
+    "//": "Non-salt seasonings you might add to a dish to flavor it. Should be about a teaspoon, or smallest serving",
+    "components": [
+      [
+        [ "hot_sauce", 1 ],
+        [ "pepper", 1 ],
+        [ "seasoning_salt", 1 ],
+        [ "seasoning_italian", 1 ],
+        [ "wild_herbs", 1 ],
+        [ "soysauce", 1 ],
+        [ "wild_garlic", 1 ],
+        [ "garlic_clove", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "condiment",
+    "type": "requirement",
+    "//": " Should be about a teaspoon, or smallest serving",
+    "components": [
+      [
+        [ "mayonnaise", 1 ],
+        [ "mustard", 1 ],
+        [ "soysauce", 1 ],
+        [ "hot_sauce", 1 ],
+        [ "ketchup", 1 ],
+        [ "barbecue_sauce", 1 ],
+        [ "honey_mustard", 1 ],
+        [ "horseradish", 1 ],
+        [ "sauerkraut", 1 ],
+        [ "butter", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "salt_preservation",
+    "type": "requirement",
+    "//": "Salt-like ingredients that can be used to preserve foods",
+    "components": [
+      [
+        [ "salt_water", 1 ],
+        [ "saline", 1 ],
+        [ "salt", 1 ],
+        [ "soysauce", 1 ],
+        [ "seasoning_salt", 1 ],
+        [ "pepper", 2 ],
+        [ "chem_saltpetre", 1 ],
+        [ "chem_black_powder", 47 ]
+      ]
+    ]
+  },
+  {
+    "id": "sweet_fruit_fresh",
+    "type": "requirement",
+    "//": "Sweet, unprocessed fruit, roughly by mass.",
+    "components": [
+      [
+        [ "apple", 1 ],
+        [ "apricot", 1 ],
+        [ "banana", 1 ],
+        [ "blackberries", 1 ],
+        [ "blueberries", 1 ],
+        [ "cherries", 1 ],
+        [ "grapefruit", 1 ],
+        [ "grapes", 1 ],
+        [ "guayaba", 1 ],
+        [ "kiwi", 2 ],
+        [ "lulo", 2 ],
+        [ "mango", 1 ],
+        [ "maracuya", 1 ],
+        [ "melon", 1 ],
+        [ "orange", 1 ],
+        [ "papaya", 1 ],
+        [ "peach", 1 ],
+        [ "pear", 1 ],
+        [ "pineapple", 1 ],
+        [ "plums", 1 ],
+        [ "pomegranate", 1 ],
+        [ "pumpkin", 1 ],
+        [ "raspberries", 1 ],
+        [ "rose_hips", 1 ],
+        [ "wintergreen_berry", 4 ],
+        [ "mayapple", 2 ],
+        [ "m_stellatum_berries", 2 ],
+        [ "strawberries", 1 ],
+        [ "huckleberries", 1 ],
+        [ "mulberries", 1 ],
+        [ "elderberries", 1 ],
+        [ "watermelon", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "sweet_fruit_irradiated",
+    "type": "requirement",
+    "//": "Sweet, irradiated fruit, roughly by mass.",
+    "components": [
+      [
+        [ "irradiated_apple", 1 ],
+        [ "irradiated_apricot", 1 ],
+        [ "irradiated_banana", 1 ],
+        [ "irradiated_blackberries", 1 ],
+        [ "irradiated_blueberries", 1 ],
+        [ "irradiated_cherries", 1 ],
+        [ "irradiated_grapefruit", 1 ],
+        [ "irradiated_grapes", 1 ],
+        [ "irradiated_guayaba", 1 ],
+        [ "irradiated_kiwi", 2 ],
+        [ "irradiated_lulo", 2 ],
+        [ "irradiated_mango", 1 ],
+        [ "irradiated_maracuya", 1 ],
+        [ "irradiated_melon", 1 ],
+        [ "irradiated_orange", 1 ],
+        [ "irradiated_papaya", 1 ],
+        [ "irradiated_peach", 1 ],
+        [ "irradiated_pumpkin", 1 ],
+        [ "irradiated_pear", 1 ],
+        [ "irradiated_pineapple", 1 ],
+        [ "irradiated_plums", 1 ],
+        [ "irradiated_pomegranate", 1 ],
+        [ "irradiated_raspberries", 1 ],
+        [ "irradiated_rose_hips", 1 ],
+        [ "irradiated_strawberries", 1 ],
+        [ "irradiated_huckleberries", 1 ],
+        [ "irradiated_mulberries", 1 ],
+        [ "irradiated_elderberries", 1 ],
+        [ "irradiated_watermelon", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "sweet_fruit",
+    "type": "requirement",
+    "//": "Sweet, unprocessed or irradiated, roughly by mass.",
+    "components": [ [ [ "sweet_fruit_fresh", 1, "LIST" ], [ "sweet_fruit_irradiated", 1, "LIST" ] ] ]
+  },
+  {
+    "id": "sweet_fruit_like",
+    "type": "requirement",
+    "//": "Similar to sweet_fruit, but allows processed fruit and vegetables that can pretend to be fruit.",
+    "components": [
+      [
+        [ "sweet_fruit", 1, "LIST" ],
+        [ "lemon", 1 ],
+        [ "irradiated_lemon", 1 ],
+        [ "apple_canned", 1 ],
+        [ "apple_sugar", 1 ],
+        [ "dry_fruit", 1 ],
+        [ "can_peach", 1 ],
+        [ "juice_pulp", 2 ],
+        [ "rehydrated_fruit", 1 ],
+        [ "rhubarb", 2 ]
+      ]
+    ]
+  },
+  {
+    "id": "veggy_green",
+    "type": "requirement",
+    "//": "anything you would consider a leafy green vegetable",
+    "components": [
+      [
+        [ "cabbage", 1 ],
+        [ "irradiated_cabbage", 1 ],
+        [ "cattail_stalk", 1 ],
+        [ "lettuce", 1 ],
+        [ "irradiated_lettuce", 1 ],
+        [ "horseradish_greens", 1 ],
+        [ "raw_dandelion", 1 ],
+        [ "raw_burdock", 1 ],
+        [ "rehydrated_veggy", 1 ],
+        [ "rehydrated_corn_kernels", 1 ],
+        [ "corn_kernels", 1 ],
+        [ "veggy", 1 ],
+        [ "veggy_wild", 1 ],
+        [ "veggy_salted", 1 ],
+        [ "spinach", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "veggy_potatolike",
+    "type": "requirement",
+    "//": "Any edible tuber that can be used like potato",
+    "components": [ [ [ "potato", 1 ], [ "irradiated_potato", 1 ], [ "groundnut_prepared", 5 ] ] ]
+  },
+  {
+    "id": "veggy_any_corn_uncooked",
+    "type": "requirement",
+    "components": [ [ [ "corn", 1 ], [ "corn_kernels", 1 ], [ "rehydrated_corn_kernels", 1 ], [ "can_corn", 1 ] ] ]
+  },
+  {
+    "id": "veggy_any_uncooked",
+    "type": "requirement",
+    "components": [ [ [ "rehydrated_veggy", 1 ], [ "veggy_any_corn_uncooked", 1, "LIST" ], [ "veggy_any_fresh_uncooked", 1, "LIST" ] ] ]
+  },
+  {
+    "id": "veggy_any_fresh_uncooked",
+    "type": "requirement",
+    "components": [
+      [
+        [ "broccoli", 1 ],
+        [ "irradiated_broccoli", 1 ],
+        [ "cabbage", 1 ],
+        [ "irradiated_cabbage", 1 ],
+        [ "carrot", 2 ],
+        [ "irradiated_carrot", 2 ],
+        [ "cattail_stalk", 1 ],
+        [ "celery", 1 ],
+        [ "irradiated_celery", 1 ],
+        [ "corn_kernels", 1 ],
+        [ "cucumber", 1 ],
+        [ "irradiated_cucumber", 1 ],
+        [ "lettuce", 1 ],
+        [ "irradiated_lettuce", 1 ],
+        [ "onion", 1 ],
+        [ "irradiated_onion", 1 ],
+        [ "plant_sac", 1 ],
+        [ "potato", 1 ],
+        [ "irradiated_potato", 1 ],
+        [ "pumpkin", 1 ],
+        [ "irradiated_pumpkin", 1 ],
+        [ "raw_dandelion", 1 ],
+        [ "raw_burdock", 1 ],
+        [ "raw_bamboo", 1 ],
+        [ "rhubarb", 1 ],
+        [ "irradiated_rhubarb", 1 ],
+        [ "sugar_beet", 1 ],
+        [ "tomato", 1 ],
+        [ "irradiated_tomato", 1 ],
+        [ "veggy", 1 ],
+        [ "veggy_wild", 1 ],
+        [ "zucchini", 1 ],
+        [ "irradiated_zucchini", 1 ],
+        [ "carrot_wild", 1 ],
+        [ "wild_garlic", 2 ],
+        [ "spinach", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "veggy_any",
+    "type": "requirement",
+    "components": [
+      [
+        [ "fiddlehead_boiled", 1 ],
+        [ "dandelion_cooked", 1 ],
+        [ "burdock_cooked", 1 ],
+        [ "bamboo_cooked", 1 ],
+        [ "salsify_baked", 1 ],
+        [ "groundnut_prepared", 1 ],
+        [ "veggy_any_uncooked", 1, "LIST" ],
+        [ "veggy_canned", 1 ],
+        [ "veggy_salted", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "mushroom_soup_ingredients",
+    "type": "requirement",
+    "components": [
+      [ [ "broth", 1 ] ],
+      [ [ "mushroom", 1 ], [ "mushroom_cooked", 1 ], [ "dry_mushroom", 1 ], [ "morel_cooked", 1 ] ],
+      [ [ "flour", 1 ] ]
+    ]
+  },
+  {
+    "id": "broth_ingredients",
+    "type": "requirement",
+    "components": [
+      [
+        [ "veggy_any", 1, "LIST" ],
+        [ "empty_corn_cob", 1 ],
+        [ "corn", 1 ],
+        [ "powder_eggs", 1 ],
+        [ "eggs_bird", 1, "LIST" ],
+        [ "egg_reptile", 1 ],
+        [ "mushroom_cooked", 1 ],
+        [ "morel_cooked", 1 ],
+        [ "mushroom", 1 ],
+        [ "dry_mushroom", 1 ]
+      ],
+      [
+        [ "hot_sauce", 1 ],
+        [ "seasoning_italian", 4 ],
+        [ "wild_herbs", 8 ],
+        [ "seasoning_salt", 4 ],
+        [ "soysauce", 1 ],
+        [ "pepper", 4 ],
+        [ "garlic_clove", 2 ],
+        [ "salt", 4 ]
+      ]
+    ]
+  },
+  {
+    "id": "veggy_soup_ingredients",
+    "type": "requirement",
+    "components": [
+      [ [ "broth", 1 ] ],
+      [
+        [ "spaghetti_raw", 1 ],
+        [ "macaroni_raw", 1 ],
+        [ "noodles_fast", 1 ],
+        [ "celery", 1 ],
+        [ "irradiated_celery", 1 ],
+        [ "veggy_green", 1, "LIST" ],
+        [ "veggy_potatolike", 1, "LIST" ],
+        [ "sauerkraut", 1 ],
+        [ "powder_eggs", 1 ],
+        [ "eggs_bird", 1, "LIST" ],
+        [ "egg_reptile", 1 ],
+        [ "dry_beans", 1 ],
+        [ "raw_beans", 1 ],
+        [ "dry_rice", 1 ],
+        [ "can_beans", 1 ],
+        [ "beans_cooked", 1 ],
+        [ "dandelion_cooked", 1 ],
+        [ "burdock_cooked", 1 ],
+        [ "bamboo_cooked", 1 ],
+        [ "acorns_cooked", 1 ],
+        [ "tofu", 1 ],
+        [ "dry_tofu", 1 ],
+        [ "raw_edamame", 1 ],
+        [ "dry_lentils", 1 ],
+        [ "raw_lentils", 1 ]
+      ],
+      [ [ "veggy_any", 1, "LIST" ] ]
+    ]
+  },
+  {
+    "id": "wash_liquor",
+    "type": "requirement",
+    "//": "Wash liquor - needs to be concentrated",
+    "components": [ [ [ "wash_vodka", 1 ], [ "wash_whiskey", 1 ], [ "wash_rum", 1 ], [ "wash_moonshine", 1 ] ] ]
+  },
+  {
+    "id": "weak_liquor_unmixed",
+    "type": "requirement",
+    "//": "Technical artifact to support mixed alcohol recipe. See `weak_liquor` comment below for semantics.",
+    "components": [
+      [
+        [ "cheap_wine", 5, "LIST" ],
+        [ "worthy_wine", 5, "LIST" ],
+        [ "beer", 1 ],
+        [ "belgian_ale", 1 ],
+        [ "bristol_sherry", 1 ],
+        [ "drink_hard_seltzer", 1 ],
+        [ "european_pilsner", 1 ],
+        [ "hb_beer", 1 ],
+        [ "hb_seltzer", 1 ],
+        [ "imperial_stout", 1 ],
+        [ "india_pale_ale", 1 ],
+        [ "mead", 1 ],
+        [ "pale_ale", 1 ],
+        [ "stout", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "weak_liquor",
+    "type": "requirement",
+    "//": "Weak liquor - necessarily comestible and low proof, not necessarily high quality. 250ml",
+    "components": [ [ [ "weak_liquor_unmixed", 1, "LIST" ], [ "mixed_alcohol_weak", 1 ] ] ]
+  },
+  {
+    "id": "soda_pop",
+    "type": "requirement",
+    "//": "Soda's and such. Anything carbonated that isn't alcoholic or an energy drink.",
+    "components": [
+      [
+        [ "cola", 1 ],
+        [ "creamsoda", 1 ],
+        [ "crispycran", 1 ],
+        [ "lemonlime", 1 ],
+        [ "orangesoda", 1 ],
+        [ "purple_drink", 1 ],
+        [ "rootbeer", 1 ],
+        [ "spezi", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "sweet_juice",
+    "type": "requirement",
+    "//": "Non-carbonated, sweet fruit based drinks.",
+    "components": [
+      [
+        [ "oj", 1 ],
+        [ "lemonade", 1 ],
+        [ "apple_cider", 1 ],
+        [ "cranberry_juice", 1 ],
+        [ "juice", 1 ],
+        [ "juice_pasteurized", 1 ],
+        [ "kompot", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "small_cans",
+    "type": "requirement",
+    "//": "Small can, 250ml.",
+    "components": [ [ [ "canister_empty", 1 ], [ "can_drink", 1 ], [ "can_food", 1 ] ] ]
+  },
+  {
+    "id": "flour_any",
+    "type": "requirement",
+    "//": "Flour, irrespective of whether it's wheat-free or wheat-full.",
+    "components": [ [ [ "flour", 1 ], [ "flour_wheat_free", 1 ], [ "bread_flour", 1 ] ] ]
+  }
+]

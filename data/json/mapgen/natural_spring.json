@@ -1,0 +1,44 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "natural_spring",
+    "weight": 100,
+    "object": {
+      "rotation": [ 0, 3 ],
+      "predecessor_mapgen": "forest_thick",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "          wWWw          ",
+        "         wWWWWw         ",
+        "         WWWWWW         ",
+        "         WWWWWW         ",
+        "         wWWWWw         ",
+        "          wWWw          ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "W": "t_water_sh", "w": [ "t_water_sh", "t_region_groundcover" ] },
+      "nested": {
+        "W": { "chunks": [ [ "pond_water_furniture", 1 ], [ "null", 6 ] ] },
+        "w": { "chunks": [ [ "pond_water_furniture", 1 ], [ "null", 4 ] ] }
+      }
+    }
+  }
+]

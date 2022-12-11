@@ -1,0 +1,89 @@
+[
+  {
+    "type": "palette",
+    "id": "evac_center",
+    "terrain": {
+      " ": "t_floor",
+      "'": "t_thconc_floor",
+      "#": "t_brick_wall",
+      "%": "t_region_shrub_decorative",
+      "+": "t_rdoor_c",
+      ",": "t_pavement_y",
+      ".": [ [ "t_region_groundcover_urban", 70 ], "t_region_shrub" ],
+      "0": "t_door_locked_interior",
+      "1": "t_reinforced_glass_shutter",
+      "2": "t_floor_olight",
+      "3": "t_thconc_floor_olight",
+      "!": "t_fence_barbed",
+      "=": "t_door_metal_locked",
+      ">": "t_stairs_down",
+      "<": "t_stairs_up",
+      "E": "t_elevator",
+      "U": "t_sidewalk",
+      "V": "t_reinforced_glass",
+      "_": "t_pavement",
+      "n": "t_sidewalk",
+      "s": "t_sidewalk",
+      "{": "t_region_groundcover_barren",
+      "}": "t_sidewalk"
+    },
+    "furniture": {
+      "6": "f_console_broken",
+      ")": "f_wreckage",
+      "@": "f_bed",
+      "D": "f_trashcan",
+      "F": "f_fridge",
+      "H": "f_sofa",
+      "L": "f_locker",
+      "O": "f_oven",
+      "P": "f_indoor_plant",
+      "S": "f_sink",
+      "T": "f_table",
+      "U": "f_statue",
+      "b": "f_bench",
+      "c": "f_counter",
+      "d": "f_dishwasher",
+      "h": "f_chair",
+      "i": "f_filing_cabinet",
+      "k": "f_desk",
+      "l": "f_vending_c",
+      "n": "f_slab",
+      "o": "f_bookcase",
+      "p": "f_cardboard_fort",
+      "r": "f_rack",
+      "t": "f_toilet",
+      "u": "f_utility_shelf",
+      "v": "f_utility_shelf",
+      "w": "f_utility_shelf",
+      "z": "f_crate_c",
+      "}": "f_rubble",
+      "~": "f_shower"
+    },
+    "toilets": { "t": {  } }
+  },
+  {
+    "type": "palette",
+    "id": "rc_grounds",
+    "//": "should give the feeling of overgrown and decaying grounds even prior to the Cataclysm",
+    "terrain": {
+      "'": [ [ "t_region_groundcover", 4 ], "t_region_groundcover_forest" ],
+      ",": [ [ "t_pavement_y", 300 ], [ "t_region_groundcover_barren", 6 ], "t_region_groundcover_forest" ],
+      ".": [
+        [ "t_region_groundcover", 400 ],
+        [ "t_region_groundcover_forest", 100 ],
+        [ "t_region_shrub", 70 ],
+        [ "t_region_tree", 3 ],
+        [ "t_puddle", 3 ]
+      ],
+      "~": [
+        [ "t_region_groundcover", 400 ],
+        [ "t_region_groundcover_forest", 50 ],
+        [ "t_region_shrub", 30 ],
+        [ "t_region_tree", 2 ],
+        [ "t_puddle", 1 ]
+      ],
+      "|": [ [ "t_chainfence", 30 ], [ "t_chainfence_posts", 4 ], [ "t_region_groundcover_forest", 2 ], "t_region_shrub" ],
+      "_": [ [ "t_pavement", 300 ], [ "t_region_groundcover_barren", 6 ], "t_region_groundcover_forest" ]
+    }
+  }
+]

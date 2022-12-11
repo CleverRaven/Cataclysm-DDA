@@ -1,0 +1,26 @@
+[
+  {
+    "id": "cannon_shot",
+    "type": "AMMO",
+    "name": { "str_sp": "cannon round shot" },
+    "description": "A bundle of wadding, black gunpowder, and a cannonball, ready to be loaded into a cannon.",
+    "weight": "2350 g",
+    "volume": "1000 ml",
+    "price": 1100,
+    "price_postapoc": 1200,
+    "material": [ "steel", "powder" ],
+    "symbol": "=",
+    "color": "white",
+    "count": 1,
+    "stack_size": 1,
+    "ammo_type": "cannon",
+    "range": 50,
+    "damage": { "damage_type": "bullet", "amount": 352 },
+    "//": "4 pound cannonball weighs 28000 grains,shot at 1215 ft/s by a 3in ordnance rifle, equals 124459 joules of muzzle energy according to Shooters Calculator, round down from square root 352.78",
+    "dispersion": 620,
+    "recoil": 26250,
+    "//2": "Recoil currently copied from 50 bmg ball as game_balance.md does not state a method for calculating recoil",
+    "loudness": 900,
+    "effects": [ "COOKOFF", "MUZZLE_SMOKE", "BLACKPOWDER", "RECYCLED" ]
+  }
+]

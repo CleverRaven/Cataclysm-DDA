@@ -1,0 +1,12 @@
+extraction:
+  cpp:
+    prepare:
+      packages:
+      - "libncurses-dev"
+    index:
+      build_command: "make RELEASE=1 cataclysm -j2"
+
+# Disable FIXME query, in DDA it is as likely to be a future feature as a bug.
+queries:
+    - exclude: cpp/fixme-comment
+    - exclude: cpp/non-constant-format

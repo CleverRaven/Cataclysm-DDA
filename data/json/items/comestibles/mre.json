@@ -1,0 +1,318 @@
+[
+  {
+    "abstract": "mre_entree",
+    "type": "COMESTIBLE",
+    "name": { "str": "MRE entree" },
+    "weight": "125 g",
+    "color": "brown",
+    "spoils_in": "3 days 8 hours",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "calories": 320,
+    "description": "A generic MRE entree, you shouldn't see this.",
+    "price": 1250,
+    "price_postapoc": 300,
+    "volume": "250 ml",
+    "flags": [ "EATEN_HOT", "RAD_STERILIZED", "DECAY_EXPOSED_ATMOSPHERE" ],
+    "looks_like": "mre_beef",
+    "fun": -1
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mre_chilibeans",
+    "copy-from": "mre_entree",
+    "name": { "str": "chili & beans entree" },
+    "calories": 289,
+    "description": "The chili & beans entree from an MRE.",
+    "material": [ "veggy", "bean" ],
+    "fun": -2
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mre_bbqbeef",
+    "copy-from": "mre_entree",
+    "name": { "str": "BBQ beef entree" },
+    "calories": 293,
+    "description": "The BBQ beef entree from an MRE.",
+    "material": [ "flesh" ],
+    "fun": 2
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mre_chickennoodle",
+    "copy-from": "mre_entree",
+    "name": { "str": "chicken noodle entree" },
+    "calories": 231,
+    "description": "The chicken noodle entree from an MRE.",
+    "material": [ "flesh", "veggy", "wheat" ],
+    "fun": 1
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mre_spaghetti",
+    "copy-from": "mre_entree",
+    "name": { "str": "spaghetti entree" },
+    "calories": 280,
+    "description": "The spaghetti entree from an MRE.",
+    "material": [ "flesh", "wheat" ],
+    "fun": 0
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mre_chicken",
+    "copy-from": "mre_entree",
+    "name": { "str": "chicken chunks entree" },
+    "calories": 238,
+    "description": "The chicken chunks entree from an MRE, with an included beef stick.",
+    "material": [ "flesh" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mre_beeftaco",
+    "copy-from": "mre_entree",
+    "name": { "str": "beef taco entree" },
+    "calories": 273,
+    "description": "The beef taco entree from an MRE.",
+    "material": [ "flesh", "veggy" ],
+    "fun": 0
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mre_beef",
+    "copy-from": "mre_entree",
+    "name": { "str": "beef brisket entree" },
+    "calories": 289,
+    "description": "The beef brisket entree from an MRE.",
+    "material": [ "flesh" ],
+    "fun": 1
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mre_meatball",
+    "copy-from": "mre_entree",
+    "name": { "str": "meatballs & marinara entree" },
+    "calories": 311,
+    "description": "The meatballs & marinara entree from an MRE.",
+    "material": [ "flesh", "tomato" ],
+    "fun": 0
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mre_beefstew",
+    "copy-from": "mre_entree",
+    "name": { "str": "beef stew entree" },
+    "calories": 211,
+    "description": "The beef stew entree from an MRE.",
+    "material": [ "flesh", "veggy" ],
+    "fun": 0
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mre_chilimac",
+    "copy-from": "mre_entree",
+    "name": { "str": "chili & macaroni entree" },
+    "calories": 280,
+    "description": "The chili & macaroni entree from an MRE.",
+    "material": [ "wheat", "veggy" ],
+    "fun": 1
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mre_veggy",
+    "copy-from": "mre_entree",
+    "name": { "str": "vegetarian taco entree" },
+    "calories": 231,
+    "description": "The vegetarian taco entree from an MRE.",
+    "material": [ "veggy", "tomato" ],
+    "fun": -2
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mre_macaronimarinara",
+    "copy-from": "mre_entree",
+    "name": { "str": "macaroni & marinara entree" },
+    "calories": 223,
+    "description": "The macaroni & marinara entree from an MRE.",
+    "material": [ "tomato", "veggy" ],
+    "fun": 0
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mre_sfettuccine",
+    "copy-from": "mre_entree",
+    "name": { "str": "spinach fettuccine entree" },
+    "calories": 219,
+    "description": "The creamy spinach fettuccine entree from an MRE.",
+    "material": [ "veggy", "milk" ],
+    "fun": -2
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mre_ratatouille",
+    "copy-from": "mre_entree",
+    "name": { "str": "ratatouille entree" },
+    "calories": 248,
+    "description": "The ratatouille entree from an MRE.",
+    "material": [ "veggy", "tomato", "wheat" ],
+    "fun": 0
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mre_cheesetort",
+    "copy-from": "mre_entree",
+    "name": { "str": "cheese tortellini entree" },
+    "calories": 251,
+    "description": "The cheese tortellini entree from an MRE.",
+    "material": [ "tomato", "veggy", "milk" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mre_mushroomfettuccine",
+    "copy-from": "mre_entree",
+    "name": { "str": "mushroom fettuccine entree" },
+    "calories": 239,
+    "description": "The mushroom fettuccine entree from an MRE.",
+    "material": [ "mushroom", "veggy", "wheat" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mre_mexicanchickenstew",
+    "copy-from": "mre_entree",
+    "name": { "str": "Mexican chicken stew entree" },
+    "calories": 214,
+    "description": "The Mexican chicken stew entree from an MRE.",
+    "material": [ "tomato", "veggy", "flesh", "bean" ],
+    "fun": 1
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mre_chickenburritobowl",
+    "copy-from": "mre_entree",
+    "name": { "str": "chicken burrito bowl entree" },
+    "calories": 264,
+    "description": "The chicken burrito bowl entree from an MRE.",
+    "material": [ "flesh", "veggy", "bean" ],
+    "fun": 0
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mre_maplesausage",
+    "copy-from": "mre_entree",
+    "name": { "str": "maple sausage entree" },
+    "calories": 218,
+    "description": "The maple sausage entree from an MRE.",
+    "material": [ "flesh", "junk" ],
+    "fun": 1
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mre_ravioli",
+    "copy-from": "mre_entree",
+    "name": { "str": "ravioli entree" },
+    "calories": 293,
+    "description": "The ravioli entree from an MRE.",
+    "material": [ "flesh", "wheat" ],
+    "fun": 0
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mre_pepperjackbeef",
+    "copy-from": "mre_entree",
+    "name": { "str": "pepper jack beef entree" },
+    "calories": 148,
+    "description": "The pepper jack beef entree from an MRE.",
+    "material": [ "flesh", "milk" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mre_hashbrownbacon",
+    "copy-from": "mre_entree",
+    "name": { "str": "hash browns & bacon entree" },
+    "calories": 249,
+    "description": "The hash browns & bacon entree from an MRE.",
+    "material": [ "flesh", "veggy" ],
+    "fun": 2
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mre_lemontuna",
+    "copy-from": "mre_entree",
+    "name": { "str": "lemon pepper tuna entree" },
+    "calories": 136,
+    "description": "The lemon pepper tuna entree from an MRE.",
+    "material": [ "flesh" ],
+    "fun": 2
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mre_lobstermedley",
+    "copy-from": "mre_entree",
+    "name": { "str": "lobster seafood medley entree" },
+    "calories": 130,
+    "description": "The lobster seafood medley entree from an MRE.",
+    "material": [ "flesh" ],
+    "fun": 3
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mre_asianbeef",
+    "copy-from": "mre_entree",
+    "name": { "str": "Asian beef & vegetables entree" },
+    "calories": 247,
+    "description": "The Asian beef & vegetables entree from an MRE.",
+    "material": [ "flesh", "veggy" ],
+    "fun": 1
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mre_chickenpesto",
+    "copy-from": "mre_entree",
+    "name": { "str": "chicken pesto & pasta entree" },
+    "calories": 264,
+    "description": "The chicken pesto & pasta entree from an MRE.",
+    "material": [ "flesh", "wheat", "veggy" ],
+    "fun": 0
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mre_southwestbeef",
+    "copy-from": "mre_entree",
+    "name": { "str": "southwest beef & beans entree" },
+    "calories": 262,
+    "description": "The southwest beef & beans entree from an MRE.",
+    "material": [ "flesh", "bean" ],
+    "fun": 2
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mre_hotdog",
+    "copy-from": "mre_entree",
+    "name": { "str": "frankfurters & beans entree" },
+    "calories": 254,
+    "description": "The dreaded four fingers of death.  It seems to be several decades old.",
+    "price": 850,
+    "material": [ "flesh", "junk", "bean" ],
+    "fun": -6
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mre_cheesepizza",
+    "copy-from": "mre_entree",
+    "name": { "str": "cheese pizza entree" },
+    "calories": 261,
+    "description": "The pizza entree from an MRE, now in vegetarian form.",
+    "price": 850,
+    "material": [ "wheat", "milk" ],
+    "fun": 1
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mre_pizza",
+    "copy-from": "mre_entree",
+    "name": { "str": "pepperoni pizza entree" },
+    "calories": 291,
+    "description": "The pizza entree from an MRE.",
+    "material": [ "flesh", "wheat", "milk" ],
+    "fun": 3
+  }
+]

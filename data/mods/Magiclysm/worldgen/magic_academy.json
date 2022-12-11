@@ -1,0 +1,534 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "magic_academy_ground",
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        ",.####################.,",
+        ",.#d h&o==jjjj==o%h d#.,",
+        ",.#@@  +========+  @@#.,",
+        ",.########=~~=########.,",
+        ",...#d h0o=~~=o$h d#...,",
+        ",...#@@  +====+  @@#...,",
+        ",...#######==#######...,",
+        ",[...##S  +==+  S##..[.,",
+        ",.....#t ##++## t#.....,",
+        ",.....#9##<  >##9#..[..,",
+        ",..[..###c    c###.....,",
+        ",.....##c E  E c##...[.,",
+        ",,,,,,*          *,,,,,,",
+        ",,,,,,*   HHHH   *,,,,,,",
+        "......##c      c##......",
+        "...[..###c rr c###......",
+        ".....##<## h  ##<##..[..",
+        ".[...#B t##++##t B#.....",
+        "....##B  S#==#S  B##....",
+        "...####+###==###+####...",
+        "####xxy +======+ yxx####",
+        "#D )   Eoj=~~=joI   ) D#",
+        "#@@#HHTR#j====j#IEHH#@@#",
+        "########################"
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "place_monsters": [ { "monster": "GROUP_TOWER_GOLEM", "x": 12, "y": 12, "density": 0.01, "repeat": [ 3, 5 ] } ],
+      "terrain": {
+        "[": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
+        " ": "t_floor",
+        "#": "t_rock_wall",
+        ",": "t_concrete",
+        "~": "t_water_pool_shallow_outdoors",
+        "=": "t_grass_golf",
+        "j": "t_grass_golf",
+        "}": "t_grass_golf"
+      },
+      "furniture": { ")": "f_beaded_door", "&": "f_desk", "%": "f_desk", "$": "f_desk", "0": "f_desk" },
+      "place_loot": [
+        { "item": "television", "x": 4, "y": 20, "chance": 100 },
+        { "item": "television", "x": 19, "y": 20, "chance": 100 },
+        { "item": "stereo", "x": 18, "y": 20, "chance": 100 },
+        { "item": "stereo", "x": 5, "y": 20, "chance": 100 }
+      ],
+      "items": {
+        "&": [ { "item": "classless_items", "chance": 30 }, { "item": "druid_items", "chance": 70 } ],
+        "%": [ { "item": "classless_items", "chance": 30 }, { "item": "biomancer_items", "chance": 70 } ],
+        "$": [ { "item": "classless_items", "chance": 30 }, { "item": "earthshaper_items", "chance": 70 } ],
+        "0": [ { "item": "classless_items", "chance": 30 }, { "item": "technomancer_items", "chance": 70 } ],
+        "x": { "item": "enchanted_small_items", "chance": 20 },
+        "r": [
+          { "item": "academy_lore", "chance": 100 },
+          { "item": "enchanted_small_items", "chance": 10 },
+          { "item": "enchanted_combat_items", "chance": 10 }
+        ],
+        "d": [
+          { "item": "magic_shop_clothes", "chance": 25, "repeat": [ 1, 2 ] },
+          { "item": "enchanted_worn_items", "chance": 10 },
+          { "item": "enchanted_small_items", "chance": 20 }
+        ],
+        "D": [
+          { "item": "magic_shop_clothes", "chance": 30, "repeat": [ 1, 2 ] },
+          { "item": "enchanted_worn_items", "chance": 10 },
+          { "item": "enchanted_combat_items", "chance": 5 }
+        ],
+        "R": [
+          { "item": "magic_shop_books", "chance": 40, "repeat": [ 1, 2 ] },
+          { "item": "spellbook_loot_2", "chance": 10, "repeat": [ 1, 2 ] }
+        ],
+        "j": [
+          { "item": "enchanted_small_items", "chance": 5, "repeat": [ 1, 2 ] },
+          { "item": "enchanted_combat_items", "chance": 1 },
+          { "item": "enchanted_misc", "chance": 1 }
+        ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "magic_academy_basement",
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "``####################``",
+        "``#@d|vRR  H|FFF  666#``",
+        "``#@ )    lH|       6#``",
+        "``###||+|||||4 JA 6###``",
+        "````#H  JWWQ|O J  n#````",
+        "````#H     Z|1 J  5#````",
+        "````##T    Z|2   Y##````",
+        "`````##JJy Q|3  7##`````",
+        "``````#|||+|||+||#``````",
+        "``````#qq|   < |U#``````",
+        "``````#q +     +U#``````",
+        "``````#|||||   ||#``````",
+        "``````#          #``````",
+        "``````# $ $ ~~~ i#``````",
+        "``````#     ~~~ i#``````",
+        "``````# ! ! ~~~ i#``````",
+        "`````##     ~~~  ##`````",
+        "`````#  % % ~~~   #`````",
+        "````##      ~~~   ##````",
+        "```## = = = ~~~~~  ##```",
+        "####i       ~~~~~  i####",
+        "#9 |i = = = ~~~~~  i| 9#",
+        "#9 ]                ] 9#",
+        "########################"
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "traps": { "=": "tr_rollmat" },
+      "terrain": { " ": "t_thconc_floor", "`": "t_rock", "]": "t_door_glass_green_c", "#": "t_rock_blue", "~": "t_water_pool" },
+      "furniture": {
+        ")": "f_beaded_door",
+        "}": "f_huge_mana_crystal",
+        "!": [ "f_ergometer", "f_ergometer_mechanical" ],
+        "$": [ "f_treadmill", "f_treadmill_mechanical" ],
+        "%": "f_exercise"
+      },
+      "place_loot": [ { "item": "television", "x": 8, "y": 1, "chance": 100 }, { "item": "stereo", "x": 7, "y": 1, "chance": 100 } ],
+      "items": {
+        "q": [
+          { "item": "alchemy_items", "chance": 45, "repeat": [ 1, 3 ] },
+          { "item": "magic_shop_potions", "chance": 30, "repeat": [ 1, 2 ] }
+        ],
+        "l": { "item": "enchanted_small_items", "chance": 15 },
+        "v": { "item": "boss_treasure_items", "chance": 20, "repeat": [ 1, 3 ] },
+        "d": [
+          { "item": "magic_shop_clothes", "chance": 25, "repeat": [ 1, 2 ] },
+          { "item": "enchanted_worn_items", "chance": 5 },
+          { "item": "enchanted_small_items", "chance": 10 },
+          { "item": "enchanted_combat_items", "chance": 10 }
+        ],
+        "R": [ { "item": "magic_shop_books", "chance": 30 }, { "item": "enchanted_misc", "chance": 1 } ],
+        "i": [ { "item": "enchanted_small_items", "chance": 10 }, { "item": "enchanted_combat_items", "chance": 15 } ]
+      },
+      "place_monsters": [ { "monster": "GROUP_TOWER_GOLEM", "x": 12, "y": 12, "density": 0.01, "repeat": [ 3, 5 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "magic_academy_2nd",
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "__####################__",
+        "__#d h&o,______,o%h d#__",
+        "__#@@  +,,,__,,,+  @@#__",
+        "__########,__,########__",
+        "____#d h0o,__,o$h d#____",
+        "____#@@  +,,,,+  @@#____",
+        "____#######,,#######____",
+        "_____##S  +,,+  S##_____",
+        "______#t ##++## t#______",
+        "______#9##>  <##9#______",
+        "______###      ###______",
+        "______##  hhhh  ##______",
+        "______)y  ffff  y)______",
+        "______)y  hhhh  y)______",
+        "______##        ##______",
+        "______###  ff  ###______",
+        "_____##>## hh ##>##_____",
+        "_____#` v##))##vE`#_____",
+        "____##`E R#__#R  `##____",
+        "___###)]))#__#))])###___",
+        "#####,,,===__===,,,#####",
+        "#k  ],=}=______=}=,]  k#",
+        "#RHH)====______====)HHR#",
+        "########################"
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "terrain": {
+        "_": "t_open_air",
+        "/": "t_open_air_rooved_outside",
+        ",": "t_concrete",
+        "#": "t_rock_wall",
+        ")": "t_wall_glass",
+        "]": "t_door_glass_c",
+        "=": "t_grass_golf",
+        "j": "t_grass_golf",
+        "}": "t_grass_golf"
+      },
+      "furniture": {
+        "y": [ "f_indoor_plant_y", "f_indoor_plant" ],
+        "`": "f_magic_bench",
+        "}": "f_huge_mana_crystal",
+        "&": "f_desk",
+        "%": "f_desk",
+        "$": "f_desk",
+        "0": "f_desk"
+      },
+      "items": {
+        "&": [ { "item": "classless_items", "chance": 30 }, { "item": "kelvinist_items", "chance": 70 } ],
+        "%": [ { "item": "classless_items", "chance": 30 }, { "item": "animist_items", "chance": 70 } ],
+        "$": [ { "item": "classless_items", "chance": 30 }, { "item": "magus_items", "chance": 70 } ],
+        "0": [ { "item": "classless_items", "chance": 30 }, { "item": "stormshaper_items", "chance": 70 } ],
+        "H": [
+          { "item": "magic_shop_clothes", "chance": 5 },
+          { "item": "enchanted_small_items", "chance": 10 },
+          { "item": "magic_shop_books", "chance": 10 }
+        ],
+        "`": [
+          { "item": "alchemy_items", "chance": 35, "repeat": [ 1, 2 ] },
+          { "item": "magic_tools_and_loot", "chance": 35 },
+          { "item": "magic_shop_potions", "chance": 20 }
+        ],
+        "v": { "item": "boss_treasure_items", "chance": 20, "repeat": [ 0, 2 ] },
+        "d": [
+          { "item": "magic_shop_clothes", "chance": 25, "repeat": [ 1, 2 ] },
+          { "item": "enchanted_worn_items", "chance": 10 },
+          { "item": "enchanted_small_items", "chance": 10 }
+        ],
+        "R": [ { "item": "classless_items", "chance": 20 }, { "item": "enchanted_misc", "chance": 1 } ]
+      },
+      "place_monsters": [ { "monster": "GROUP_TOWER_GOLEM", "x": 12, "y": 12, "density": 0.01, "repeat": [ 3, 5 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "magic_academy_3rd",
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "__....................__",
+        "__......________......__",
+        "__......________......__",
+        "__........____........__",
+        "____......____......____",
+        "____......____......____",
+        "____.......__.......____",
+        "_____......__......_____",
+        "______...##))##...______",
+        "______..##<  >##..______",
+        "______.##))]]))##.______",
+        "______##y       ##______",
+        "______)i h h h h )______",
+        "______)i & & & & )______",
+        "______##        ##______",
+        "______.##R && R##.______",
+        "_____...## E y##..._____",
+        "_____....##))##...._____",
+        "____......#__#......____",
+        "___........__........___",
+        ".....______________.....",
+        ".....______________.....",
+        ".....______________.....",
+        "........................"
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "terrain": { "_": "t_open_air", ")": "t_wall_glass", "#": "t_rock_wall", "]": "t_door_glass_c", ".": "t_shingle_flat_roof" },
+      "furniture": { "&": "f_magic_bench" },
+      "items": {
+        "&": [ { "item": "magic_tools_and_loot", "chance": 35, "repeat": [ 1, 2 ] }, { "item": "magic_shop_potions", "chance": 30 } ],
+        "R": [ { "item": "magic_shop_books", "chance": 30 }, { "item": "dragon_books", "chance": 10 } ]
+      },
+      "place_monsters": [ { "monster": "GROUP_TOWER_GOLEM", "x": 12, "y": 12, "density": 0.01, "repeat": [ 3, 5 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "magic_academy_4th",
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "_________##))##_________",
+        "________##>  <##________",
+        "_______##))]]))##_______",
+        "______##y       ##______",
+        "______)i h h h h )______",
+        "______)i & & & & )______",
+        "______##        ##______",
+        "_______##R && R##_______",
+        "________## E y##________",
+        "_________##))##_________",
+        "__________#__#__________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________"
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "terrain": { "_": "t_open_air", ")": "t_wall_glass", "#": "t_rock_wall", "]": "t_door_glass_c" },
+      "furniture": { "&": "f_magic_bench" },
+      "items": {
+        "&": [ { "item": "magic_tools_and_loot", "chance": 35 }, { "item": "magic_shop_potions", "chance": 30 } ],
+        "R": [ { "item": "magic_shop_books", "chance": 30 }, { "item": "dragon_books", "chance": 10 } ]
+      },
+      "place_monsters": [ { "monster": "GROUP_TOWER_GOLEM", "x": 12, "y": 12, "density": 0.01, "repeat": [ 3, 5 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "magic_academy_5th",
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "_________##))##_________",
+        "________##<  >##________",
+        "_______##))]]))##_______",
+        "______##Tx     y##______",
+        "______)Hl  ee  lH)______",
+        "______)Hl  ee  lH)______",
+        "______##y  ee  T##______",
+        "_______##y    y##_______",
+        "________##k Es##________",
+        "_________##))##_________",
+        "__________#__#__________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________"
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "terrain": { "_": "t_open_air", ")": "t_wall_glass", "#": "t_rock_wall", "]": "t_door_glass_c" },
+      "place_loot": [ { "item": "television", "x": 9, "y": 11, "chance": 100 }, { "item": "stereo", "x": 13, "y": 16, "chance": 100 } ],
+      "items": {
+        "l": { "item": "enchanted_small_items", "chance": 5 },
+        "H": [
+          { "item": "magic_shop_clothes", "chance": 30 },
+          { "item": "enchanted_worn_items", "chance": 10 },
+          { "item": "enchanted_combat_items", "chance": 3 },
+          { "item": "enchanted_small_items", "chance": 5 }
+        ],
+        "s": [ { "item": "enchanted_small_items", "chance": 10 }, { "item": "enchanted_combat_items", "chance": 1 } ]
+      },
+      "place_monsters": [ { "monster": "GROUP_TOWER_GOLEM", "x": 12, "y": 12, "density": 0.01, "repeat": [ 3, 5 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "magic_academy_6th",
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "_________##))##_________",
+        "________##>  <##________",
+        "_______##))]]))##_______",
+        "______##R      R##______",
+        "______)rh RRRR hr)______",
+        "______)rh RRRR hr)______",
+        "______##R      R##______",
+        "_______##R hh R##_______",
+        "________##RrrR##________",
+        "_________##))##_________",
+        "__________#__#__________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________"
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "terrain": { "_": "t_open_air", ")": "t_wall_glass", "#": "t_rock_wall", "]": "t_door_glass_c" },
+      "items": {
+        "r": [
+          { "item": "magic_shop_books", "chance": 20 },
+          { "item": "magic_shop_wands", "chance": 10 },
+          { "item": "enchanted_small_items", "chance": 5 },
+          { "item": "enchanted_combat_items", "chance": 2 }
+        ],
+        "R": [ { "item": "magic_shop_books", "chance": 30 }, { "item": "dragon_books", "chance": 30 } ]
+      },
+      "place_monsters": [ { "monster": "GROUP_TOWER_GOLEM", "x": 12, "y": 12, "density": 0.01, "repeat": [ 3, 5 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "magic_academy_7th",
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "_________##))##_________",
+        "________##<  >##________",
+        "_______##))]]))##_______",
+        "______##?      ?##______",
+        "______)  A=  =A  )______",
+        "______)  A=  =A  )______",
+        "______##? -  - ?##______",
+        "_______##?    ?##_______",
+        "________##?  ?##________",
+        "_________##))##_________",
+        "__________#__#__________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________"
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "terrain": { "_": "t_open_air", ")": "t_wall_glass", "#": "t_rock_wall", "-": "t_floor", "]": "t_door_glass_c" },
+      "furniture": { "=": "f_magic_bench", "-": "f_alembic", "?": "f_rack_wood" },
+      "items": {
+        "=": [
+          { "item": "alchemy_items", "chance": 35, "repeat": [ 1, 2 ] },
+          { "item": "magic_shop_potions", "chance": 30 },
+          { "item": "magic_recipe_basic", "chance": 40 },
+          { "item": "magic_shop_wands", "chance": 5 }
+        ],
+        "?": [ { "item": "alchemy_items", "chance": 45 }, { "item": "magic_shop_potions", "chance": 30 } ]
+      },
+      "place_monsters": [ { "monster": "GROUP_TOWER_GOLEM", "x": 12, "y": 12, "density": 0.01, "repeat": [ 3, 5 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "magic_academy_8th",
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "_________##))##_________",
+        "________##>  <##________",
+        "_______##      ##_______",
+        "______##  ====  ##______",
+        "______)i ===-== i)______",
+        "______)i ==0=== i)______",
+        "______##  ====  ##______",
+        "_______##      ##_______",
+        "________## ii ##________",
+        "_________##))##_________",
+        "__________#__#__________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________"
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "terrain": {
+        "_": "t_open_air",
+        ")": "t_wall_glass",
+        "#": "t_rock_wall",
+        "]": "t_door_glass_c",
+        "=": "t_grass_golf",
+        "0": "t_grass_golf",
+        "-": "t_grass_golf"
+      },
+      "furniture": { "0": "f_orrery", "-": "f_magic_circle" },
+      "place_monsters": [ { "monster": "GROUP_TOWER_GOLEM", "x": 12, "y": 12, "density": 0.01, "repeat": [ 3, 5 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "magic_academy_roof",
+    "object": {
+      "fill_ter": "t_shingle_flat_roof",
+      "rows": [
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "_________######_________",
+        "________##   >##________",
+        "_______##c====c##_______",
+        "______## ====== ##______",
+        "______#i ====== i#______",
+        "______#i ====== i#______",
+        "______## ====== ##______",
+        "_______##c====c##_______",
+        "________##    ##________",
+        "_________######_________",
+        "__________#__#__________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________"
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "terrain": { ">": "t_stairs_down", "_": "t_open_air", "=": "t_grass_golf", "#": "t_rock_wall_half" }
+    }
+  }
+]

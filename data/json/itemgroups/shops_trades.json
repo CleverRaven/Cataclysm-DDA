@@ -1,0 +1,160 @@
+[
+  {
+    "id": "ceramics_workroom",
+    "type": "item_group",
+    "items": [
+      [ "cooking_oil", 15 ],
+      [ "mag_fabrication", 5 ],
+      [ "manual_fabrication", 5 ],
+      [ "mag_survival", 10 ],
+      [ "theater_props", 8 ],
+      [ "vac_mold", 20 ],
+      [ "polycarbonate_sheet", 20 ],
+      [ "wax", 30 ],
+      [ "straw_pile", 15 ],
+      [ "charcoal", 25 ],
+      [ "clay_lump", 100 ]
+    ]
+  },
+  {
+    "id": "metal_workshop",
+    "type": "item_group",
+    "items": [
+      { "group": "tools_blacksmith", "prob": 50 },
+      { "group": "supplies_metal", "prob": 40 },
+      [ "welding_book", 5 ],
+      [ "mag_fabrication", 15 ],
+      [ "manual_fabrication", 15 ],
+      [ "goggles_welding", 10 ],
+      [ "apron_leather", 15 ],
+      [ "apron_cut_resistant", 20 ],
+      [ "gloves_leather", 25 ],
+      [ "vac_mold", 10 ],
+      [ "polycarbonate_sheet", 20 ],
+      [ "mask_dust", 15 ],
+      [ "gas_forge", 10 ],
+      [ "sandpaper", 75 ],
+      { "item": "ear_plugs", "prob": 25, "count": [ 1, 3 ] },
+      { "item": "charcoal", "prob": 25, "charges": [ 25, 50 ] },
+      { "item": "small_propane_tank", "prob": 10, "count": [ 1, 5 ] },
+      { "item": "medium_propane_tank", "prob": 20, "count": [ 1, 3 ] },
+      { "item": "large_propane_tank", "prob": 15, "count": [ 1, 2 ] },
+      { "item": "lc_steel_lump", "prob": 5, "count": [ 1, 3 ] },
+      { "item": "lc_steel_chunk", "prob": 15, "count": [ 1, 5 ] },
+      { "item": "mc_steel_lump", "prob": 5, "count": [ 1, 3 ] },
+      { "item": "mc_steel_chunk", "prob": 15, "count": [ 1, 5 ] },
+      { "item": "hc_steel_lump", "prob": 5, "count": [ 1, 3 ] },
+      { "item": "hc_steel_chunk", "prob": 15, "count": [ 1, 5 ] },
+      {
+        "collection": [
+          { "item": "oxy_torch", "prob": 100 },
+          {
+            "distribution": [ { "item": "weldtank", "prob": 100, "count": [ 1, 2 ] }, { "item": "tinyweldtank", "prob": 100, "count": [ 1, 3 ] } ],
+            "prob": 100
+          },
+          {
+            "distribution": [
+              { "item": "brazing_rod_bronze", "prob": 75, "charges": [ 100, 360 ] },
+              { "item": "brazing_rod_alloy", "prob": 50, "charges": [ 80, 360 ] }
+            ]
+          }
+        ],
+        "prob": 6
+      },
+      [ "oxy_torch", 5 ],
+      { "item": "weldtank", "prob": 2, "count": [ 1, 2 ] },
+      { "item": "tinyweldtank", "prob": 2, "count": [ 1, 3 ] },
+      { "item": "oxygen_cylinder", "prob": 10, "count": [ 1, 2 ] },
+      { "item": "polisher", "prob": 1, "charges": [ 0, 100 ] },
+      { "item": "welder", "prob": 2, "charges": [ 0, 500 ] },
+      { "item": "welding_blanket", "prob": 10, "count": [ 0, 1 ] },
+      {
+        "distribution": [
+          { "item": "welding_rod_steel", "prob": 20, "charges": [ 50, 360 ] },
+          { "item": "welding_rod_alloy", "prob": 10, "charges": [ 50, 360 ] },
+          { "item": "welding_wire_steel", "prob": 15, "charges": [ 50, 360 ] },
+          { "item": "welding_wire_alloy", "prob": 5, "charges": [ 50, 360 ] },
+          { "item": "brazing_rod_bronze", "prob": 5, "charges": [ 50, 200 ] },
+          { "item": "brazing_rod_alloy", "prob": 5, "charges": [ 50, 200 ] }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "glass_workroom",
+    "type": "item_group",
+    "items": [
+      [ "pipe", 90 ],
+      [ "glassblowing_book", 50 ],
+      [ "tongs", 30 ],
+      [ "crucible", 30 ],
+      [ "chisel", 30 ],
+      [ "glass_cutter", 30 ],
+      [ "vac_mold", 10 ],
+      [ "polycarbonate_sheet", 20 ],
+      [ "glasses_safety", 25 ],
+      { "item": "charcoal", "prob": 50, "charges": [ 25, 50 ] },
+      { "item": "glass_shard", "prob": 90, "count": [ 1, 8 ] },
+      [ "material_sand", 80 ],
+      { "item": "chemistry_set", "prob": 5, "charges": [ 0, 500 ] },
+      [ "sandpaper", 50 ]
+    ]
+  },
+  {
+    "id": "gift_shop",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "collection": [
+          { "item": "hairpin", "prob": 25, "count": [ 3, 4 ] },
+          { "item": "touristmap", "prob": 2, "count": [ 0, 1 ] },
+          { "item": "UPS_off", "prob": 5, "count": [ 0, 2 ] },
+          { "item": "pockknife", "prob": 20, "count": [ 0, 5 ] },
+          { "item": "fork", "prob": 60, "count": [ 3, 10 ] },
+          { "item": "spoon", "prob": 60, "count": [ 3, 10 ] },
+          { "item": "novel_pulp", "prob": 30, "count": [ 1, 5 ] }
+        ]
+      },
+      {
+        "collection": [
+          { "item": "bottle_glass", "prob": 60, "count": [ 1, 10 ] },
+          { "item": "glass_bowl", "prob": 65, "count": [ 1, 6 ] },
+          { "item": "malachite", "prob": 75, "count": [ 3, 15 ] },
+          { "item": "citrine", "prob": 75, "count": [ 3, 15 ] },
+          { "item": "jar_glass", "prob": 60, "count": [ 1, 5 ] },
+          { "item": "glass", "prob": 60, "count": [ 1, 7 ] }
+        ]
+      },
+      {
+        "collection": [
+          { "item": "generic_figurine_plastic", "prob": 75, "count": [ 1, 10 ] },
+          { "item": "deck_of_cards", "prob": 60, "count": [ 1, 5 ] },
+          { "item": "monopoly", "prob": 5, "count": [ 1, 2 ] },
+          { "item": "teddy_bear", "prob": 10, "count": [ 1, 5 ] },
+          { "item": "creepy_doll", "prob": 5, "count": [ 1, 5 ] },
+          { "item": "straw_doll", "prob": 5, "count": [ 1, 5 ] }
+        ]
+      },
+      {
+        "collection": [
+          { "item": "chalice", "prob": 40, "count": [ 1, 10 ] },
+          { "item": "candle", "prob": 90, "count": [ 25, 75 ], "charges": 100 },
+          { "item": "candlestick", "prob": 40, "count": [ 1, 5 ] },
+          { "item": "incense", "prob": 75, "count": [ 5, 20 ], "container-item": "box_small" },
+          { "item": "lighter", "prob": 90, "charges": 100, "count": [ 3, 10 ] },
+          { "item": "marble", "prob": 30, "charges": [ 10, 50 ] }
+        ]
+      },
+      {
+        "collection": [
+          { "item": "box_small", "prob": 60, "count": [ 1, 10 ] },
+          { "item": "bath_toy", "prob": 60, "count": [ 1, 2 ] },
+          { "item": "liquid_soap", "prob": 60, "count": [ 1, 4 ] },
+          { "item": "towel", "prob": 60, "count": [ 1, 2 ] },
+          { "item": "soap", "prob": 60, "count": [ 1, 3 ], "charges": 100 }
+        ]
+      }
+    ]
+  }
+]

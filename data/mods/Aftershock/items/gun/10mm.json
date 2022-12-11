@@ -1,0 +1,82 @@
+[
+  {
+    "id": "afs_seyfert_84K",
+    "copy-from": "pistol_base",
+    "looks_like": "glock_17",
+    "type": "GUN",
+    "name": { "str": "Seyfert 84K" },
+    "description": "Commonly carried by shipping crews that can afford it, Seyfert Armistice's 84K pistol doesn't particularly shine or show anything special but it keeps you safe on long journeys in the vast dark of Orion's Arm.",
+    "weight": "780 g",
+    "volume": "480 ml",
+    "longest_side": "205 mm",
+    "price": 59200,
+    "to_hit": -2,
+    "bashing": 8,
+    "material": [ "plastic", "superalloy" ],
+    "symbol": "(",
+    "color": "dark_gray",
+    "ammo": "afs_10mm",
+    "ranged_damage": { "damage_type": "bullet", "amount": -5 },
+    "dispersion": 480,
+    "durability": 8,
+    "blackpowder_tolerance": 48,
+    "min_cycle_recoil": 570,
+    "pocket_data": [
+      {
+        "magazine_well": "103 ml",
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "afs_84k_20mag" ]
+      }
+    ]
+  },
+  {
+    "id": "afs_silvergram_pistol",
+    "copy-from": "pistol_base",
+    "looks_like": "glock_17",
+    "type": "GUN",
+    "name": { "str": "W1011 Silvergram" },
+    "description": "A finely sculpted white and silver pistol entrusted to Wraitheon's corporate elite.  It employs advanced targeting and precision guiding capabilities to deliver devastating bursts of guided 10mm microjet darts.  Firing is as expensive as it looks.",
+    "weight": "780 g",
+    "volume": "480 ml",
+    "longest_side": "205 mm",
+    "price": "750 kUSD",
+    "to_hit": -2,
+    "bashing": 8,
+    "material": [ "plastic", "superalloy" ],
+    "built_in_mods": [ "afs_smart_scope" ],
+    "skill": "smartgun",
+    "symbol": "(",
+    "color": "dark_gray",
+    "ammo": "afs_10mm_smart",
+    "dispersion": 0,
+    "durability": 9,
+    "blackpowder_tolerance": 0,
+    "variants": [
+      {
+        "id": "silverhawk",
+        "name": { "str": "W1011 Silverhawk" },
+        "description": "A Silvergram smart pistol given a far less conspicuous \"military carbon\" black finish.  Its performance and smart targeting capacities are otherwise identical."
+      }
+    ],
+    "min_cycle_recoil": 570,
+    "modes": [ [ "DEFAULT", "2rd.  burst", 2 ] ],
+    "pocket_data": [
+      {
+        "magazine_well": "103 ml",
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "afs_silvergram_22mag" ]
+      }
+    ],
+    "valid_mod_locations": [ [ "sights", 1 ], [ "sling", 1 ] ],
+    "flags": [ "NEVER_JAMS", "MUNDANE", "WONT_TRAIN_MARKSMANSHIP" ],
+    "relic_data": {
+      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "WEAPON_DISPERSION", "multiply": -0.9 } ] } ]
+    }
+  }
+]

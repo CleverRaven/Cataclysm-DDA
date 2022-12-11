@@ -1,0 +1,516 @@
+[
+  {
+    "id": "american_flag",
+    "repairs_like": "sheet",
+    "type": "ARMOR",
+    "name": { "str": "American flag" },
+    "description": "A large American flag, made to fly in even the worst conditions.",
+    "weight": "3200 g",
+    "volume": "2 L",
+    "price": 5000,
+    "price_postapoc": 50,
+    "to_hit": -1,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "towel",
+    "color": "light_red",
+    "warmth": 20,
+    "material_thickness": 0.3,
+    "environmental_protection": 1,
+    "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS" ],
+    "armor": [
+      {
+        "encumbrance": 50,
+        "coverage": 60,
+        "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+      }
+    ]
+  },
+  {
+    "id": "pride_flag",
+    "repairs_like": "sheet",
+    "type": "ARMOR",
+    "name": { "str": "pride flag" },
+    "description": "A large rainbow flag, The colors reflect the diversity of the LGBT community and the spectrum of human sexuality and gender.",
+    "copy-from": "american_flag",
+    "symbol": "]",
+    "looks_like": "sheet",
+    "color": "pink",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "rainbow_pride_flag",
+        "name": { "str": "pride flag" },
+        "description": "A large rainbow flag, The colors reflect the diversity of the LGBT community and the spectrum of human sexuality and gender.",
+        "weight": 10
+      },
+      {
+        "id": "progress_pride_flag",
+        "name": { "str": "progress pride flag" },
+        "description": "A large rainbow flag, The colors reflect the diversity of the LGBT community and the spectrum of human sexuality and gender.  On the left side you can see a chevron that features black, brown, light blue, pink, and white stripes to bring those communities to the forefront; \"the arrow points to the right to show forward movement, while being along the left edge shows that progress still needs to be made\".",
+        "weight": 10
+      },
+      {
+        "id": "agender_pride_flag",
+        "name": { "str": "agender flag" },
+        "description": "A large green grey and black agender flag.  The black and white stripes represent complete absence of gender, grey represents being semi-genderless, and green represents non-binary gender.",
+        "weight": 2
+      },
+      {
+        "id": "bisexual_pride_flag",
+        "name": { "str": "bisexual flag" },
+        "description": "A large pink and blue bisexual flag.  The pink stripe represents homosexuality, while the blue stripe represents heterosexuality.  The purple stripe, the \"overlap\" of the blue and pink stripes, purple represents attraction regardless of sex or gender a.k.a bisexuality.",
+        "weight": 5
+      },
+      {
+        "id": "pansexual_pride_flag",
+        "name": { "str": "pansexual flag" },
+        "description": "A large pink, blue and yellow pansexual flag.  The pan-pride flag uses pink for people on the female-spectrum, blue for people on the male-spectrum, and yellow for non-binary or genderqueer people.",
+        "weight": 5
+      },
+      {
+        "id": "labrys_lesbian_pride_flag",
+        "name": { "str": "labrys lesbian flag" },
+        "description": "A large black and purple labrys lesbian flag.  On the flag you can see a labrys, a type of double-headed axe, superimposed on a downward-pointing black triangle, set against a violet background.",
+        "weight": 2
+      },
+      {
+        "id": "lesbian_pride_flag",
+        "name": { "str": "lesbian flag" },
+        "description": "A large pink, white and orange lesbian flag.  The dark orange representing \"gender non-conformity\", orange for \"independence\", light orange for \"community\", white for \"unique relationships to womanhood\", pink for \"serenity and peace\", dusty pink for \"love and sex\", and dark rose for \"femininity\".",
+        "weight": 5
+      },
+      {
+        "id": "asexual_pride_flag",
+        "name": { "str": "asexual flag" },
+        "description": "A large purple, white, grey and black asexual flag.  Black for asexuality (feeling no sexual attraction), grey for grey-asexuality and demisexuality (feeling sexual attraction only sometimes), white for non-asexual partners and allies, and purple for community.",
+        "weight": 2
+      },
+      {
+        "id": "aromantic_pride_flag",
+        "name": { "str": "aromantic flag" },
+        "description": "A large black, grey, white and green aromantic flag.  The green and light green stripes cover everyone under the aromantic spectrum, while represents nonromantic forms of love and attraction, and the gray and black represent all sexualities under the aromantic spectrum.",
+        "weight": 2
+      },
+      {
+        "id": "transgender_pride_flag",
+        "name": { "str": "transgender flag" },
+        "description": "A large white, pink, and blue transgender flag.  The stripes at the top and bottom are light blue, the traditional color for baby boys.  The stripes next to them are pink, the traditional color for baby girls.  The white stripe is for people that are nonbinary, feel that they don't have a gender.  The pattern is such that no matter which way you fly it, it is always correct, signifying finding correctness in one's life.",
+        "weight": 5
+      },
+      {
+        "id": "genderqueer_pride_flag",
+        "name": { "str": "genderqueer flag" },
+        "description": "A large green, white, and purple genderqueer flag.  Lavender, a mixture of blue and pink to represent androgynes and androgyny, white to represent agender identity, and green, the inverse of lavender, to represent all those who fall outside of the gender binary.",
+        "weight": 2
+      },
+      {
+        "id": "intersex_pride_flag",
+        "name": { "str": "intersex flag" },
+        "description": "A large yellow, and purple intersex flag.  It displays a purple circle on a yellow field.  Yellow and purple were chosen as colours as they were viewed as free from gender associations and were historically used to represent intersex people.  The circle is described as \"unbroken and unornamented, symbolizing wholeness and completeness, and our potentialities\".",
+        "weight": 2
+      },
+      {
+        "id": "genderfluid_pride_flag",
+        "name": { "str": "genderfluid flag" },
+        "description": "A large blue, black, purple, white and pink genderfluid flag.  The genderfluid flag has a pink stripe for femininity, a blue stripe for masculinity, a purple stripe for both masculinity and femininity, a black stripe for lack of gender, and a white stripe for all genders.",
+        "weight": 2
+      },
+      {
+        "id": "agender_pride_flag",
+        "name": { "str": "agender flag" },
+        "description": "A large green, white, grey and black agender flag.  The black and white stripes represent complete absence of gender, grey represents being semi-genderless, and green represents non-binary gender.  The symmetry of the pattern makes it so that it's correct no matter how it flies.",
+        "weight": 2
+      },
+      {
+        "id": "nonbinary_pride_flag",
+        "name": { "str": "non-binary flag" },
+        "description": "A large black, purple, white, and yellow non-binary flag.  Yellow for those whose gender exists outside of and without reference to the binary, white for those who have many or all genders, purple for those who feel their gender is between or a mix of female and male, and black for those who feel they are without gender.",
+        "weight": 5
+      },
+      {
+        "id": "polysexual_pride_flag",
+        "name": { "str": "polysexual flag" },
+        "description": "A large blue, green, and pink polysexual flag.  Pink for people on the female-spectrum, blue for people on the male-spectrum, and green for non-binary or genderqueer people.",
+        "weight": 2
+      },
+      {
+        "id": "leather_pride_flag",
+        "name": { "str": "leather flag" },
+        "description": "A large black and blue leather flag.  A horizontally striped black and blue flag with a white band in the middle and red heart in a corner.  The black represents leather; the blue represents devotion, loyalty, and community; the white represents purity and innocence; and the red heart represents love for the community.",
+        "weight": 1
+      },
+      {
+        "id": "bear_pride_flag",
+        "name": { "str": "bear flag" },
+        "description": "A large black and orange international bear brotherhood flag.  The flag displays seven horizontal stripes of colors ranging from black to brown representing the colours of different bear species, you can see a black bear paw in the upper right corner.",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "state_flag",
+    "repairs_like": "sheet",
+    "type": "ARMOR",
+    "name": { "str": "state flag" },
+    "description": "A large white flag with a shield featuring an American Native and a star which represents the state of Massachusetts.",
+    "copy-from": "american_flag",
+    "symbol": "]",
+    "looks_like": "sheet",
+    "color": "white",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "massachusetts_flag",
+        "name": { "str": "Massachusetts flag" },
+        "description": "A large white flag with a shield featuring an American Native and a star which represents the state of Massachusetts.",
+        "weight": 5
+      },
+      {
+        "id": "maine_flag",
+        "name": { "str": "Maine flag" },
+        "description": "A large blue flag featuring a moose and pine tree emblem on a shield supported by a farmer and a sailor, above is the north star and the Latin motto “Dirigo” (“I direct”), below the shield reads out the state of “Maine”.",
+        "weight": 5
+      },
+      {
+        "id": "new_hampshire_flag",
+        "name": { "str": "New Hampshire flag" },
+        "description": "A large blue flag with New Hampshire's state seal of the frigate Raleigh surrounded by laurel leaves and nine stars against a field of blue.",
+        "weight": 5
+      },
+      {
+        "id": "vermont_flag",
+        "name": { "str": "Vermont flag" },
+        "description": "A large blue flag featuring a shield with wreaths on both sides, a pine tree in a green field along with a cow and bales of wheat reside within the shield representing Vermont.",
+        "weight": 5
+      },
+      {
+        "id": "connecticut_flag",
+        "name": { "str": "Connecticut flag" },
+        "description": "A large blue flag featuring a white baroque shield with three grapevines, each bearing three bunches of purple grapes on a field of royal blue, below the shield reads “Qui Transtulit Sustinet”, which is Latin for “He who transplanted sustains” which represents the state of Connecticut.",
+        "weight": 5
+      },
+      {
+        "id": "rhode_island_flag",
+        "name": { "str": "Rhode Island flag" },
+        "description": "A large white flag of Rhode Island that features a golden anchor in the middle of it surrounded by thirteen gold stars, below the anchor is a blue banner that reads “hope”.",
+        "weight": 5
+      }
+    ]
+  },
+  {
+    "id": "cape_fp",
+    "repairs_like": "sheet",
+    "type": "ARMOR",
+    "name": { "str": "Foodperson's cape" },
+    "description": "A brightly-colored cape emblazoned with the \"Fp\" symbol.",
+    "weight": "900 g",
+    "volume": "3 L",
+    "price": 5000,
+    "price_postapoc": 150,
+    "to_hit": -1,
+    "material": [ "cotton" ],
+    "symbol": "]",
+    "looks_like": "cloak",
+    "color": "pink",
+    "warmth": 10,
+    "material_thickness": 0.3,
+    "flags": [ "OVERSIZE", "BELTED", "POWERARMOR_COMPATIBLE" ],
+    "armor": [ { "encumbrance": 4, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
+  },
+  {
+    "id": "grass_cloak",
+    "type": "ARMOR",
+    "name": { "str": "grass cloak" },
+    "description": "A primitive cloak.  Ötzi wore one, too.",
+    "weight": "710 g",
+    "volume": "1600 ml",
+    "price": 2000,
+    "price_postapoc": 1000,
+    "to_hit": -1,
+    "material": [ "dry_plant" ],
+    "symbol": "[",
+    "looks_like": "cloak",
+    "color": "yellow",
+    "warmth": 10,
+    "material_thickness": 0.4,
+    "flags": [ "OVERSIZE", "OUTER" ],
+    "armor": [ { "encumbrance": 4, "coverage": 65, "covers": [ "torso", "leg_l", "leg_r" ] } ]
+  },
+  {
+    "id": "cloak",
+    "type": "ARMOR",
+    "name": { "str": "cloak" },
+    "description": "A heavy cloak meant to be thrown over your body.",
+    "weight": "1175 g",
+    "volume": "3 L",
+    "price": 10700,
+    "price_postapoc": 500,
+    "to_hit": -1,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "coat_rain",
+    "color": "green",
+    "warmth": 30,
+    "material_thickness": 0.4,
+    "environmental_protection": 3,
+    "flags": [ "OVERSIZE", "HOOD", "OUTER" ],
+    "armor": [ { "encumbrance": 4, "coverage": 65, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
+  },
+  {
+    "id": "cloak_vampire",
+    "type": "ARMOR",
+    "repairs_like": "cloak",
+    "name": { "str": "sinister cloak (black)", "str_pl": "sinister cloaks (black)" },
+    "description": "A sinister-looking hooded cloak meant to be thrown over your body.  The black side is currently facing outwards.  Use it to reverse it and show the red side.",
+    "weight": "150 g",
+    "volume": "2500 ml",
+    "price": 10800,
+    "price_postapoc": 500,
+    "to_hit": -1,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "cloak",
+    "color": "dark_gray",
+    "warmth": 10,
+    "material_thickness": 0.2,
+    "environmental_protection": 1,
+    "flags": [ "OVERSIZE", "HOOD", "OUTER", "FANCY" ],
+    "armor": [ { "encumbrance": 2, "coverage": 65, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ],
+    "use_action": {
+      "type": "transform",
+      "msg": "Your cloak is now bathed in blood.",
+      "target": "cloak_vampire_red",
+      "menu_text": "Reverse the colors"
+    }
+  },
+  {
+    "id": "cloak_vampire_red",
+    "copy-from": "cloak_vampire",
+    "repairs_like": "cloak",
+    "type": "ARMOR",
+    "name": { "str": "sinister cloak (red)", "str_pl": "sinister cloaks (red)" },
+    "description": "A sinister-looking hooded cloak meant to be thrown over your body.  The red side is currently facing outwards.  Use it to reverse it and show the black side.",
+    "color": "red",
+    "use_action": {
+      "type": "transform",
+      "msg": "Your cloak is now one with the night.",
+      "target": "cloak_vampire",
+      "menu_text": "Reverse the colors"
+    }
+  },
+  {
+    "id": "cloak_black",
+    "type": "ARMOR",
+    "repairs_like": "cloak",
+    "name": { "str": "dark cloak" },
+    "description": "A black cloak meant to be thrown over your body.  Commonly used by witches and other creatures of the night.",
+    "weight": "100 g",
+    "volume": "2000 ml",
+    "price": 9000,
+    "price_postapoc": 50,
+    "to_hit": -1,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "cloak",
+    "color": "dark_gray",
+    "warmth": 8,
+    "material_thickness": 0.1,
+    "flags": [ "OVERSIZE", "OUTER" ],
+    "armor": [ { "encumbrance": 2, "coverage": 65, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
+  },
+  {
+    "id": "cloak_fur",
+    "type": "ARMOR",
+    "name": { "str": "fur cloak" },
+    "description": "A heavy fur cloak meant to be thrown over your body.",
+    "weight": "1735 g",
+    "volume": "4 L",
+    "price": 24500,
+    "price_postapoc": 750,
+    "to_hit": -1,
+    "material": [ "fur" ],
+    "symbol": "[",
+    "looks_like": "cloak_leather",
+    "color": "brown",
+    "warmth": 60,
+    "material_thickness": 0.6,
+    "environmental_protection": 3,
+    "flags": [ "OVERSIZE", "HOOD", "OUTER", "WATERPROOF", "RAINPROOF" ],
+    "armor": [ { "encumbrance": 6, "coverage": 65, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
+  },
+  {
+    "id": "cloak_leather",
+    "type": "ARMOR",
+    "name": { "str": "leather cloak" },
+    "description": "A heavy leather cloak meant to be thrown over your body.",
+    "weight": "2060 g",
+    "volume": "3500 ml",
+    "price": 24500,
+    "price_postapoc": 1000,
+    "to_hit": -1,
+    "material": [ "leather" ],
+    "symbol": "[",
+    "looks_like": "cloak",
+    "color": "dark_gray",
+    "warmth": 40,
+    "material_thickness": 1.5,
+    "environmental_protection": 3,
+    "flags": [ "OVERSIZE", "HOOD", "OUTER", "WATERPROOF", "RAINPROOF" ],
+    "armor": [ { "encumbrance": 6, "coverage": 65, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
+  },
+  {
+    "id": "cloak_wool",
+    "type": "ARMOR",
+    "name": { "str": "wool cloak" },
+    "description": "A heavy woolen cloak meant to be thrown over your body.",
+    "weight": "900 g",
+    "volume": "3750 ml",
+    "price": 24500,
+    "price_postapoc": 750,
+    "to_hit": -1,
+    "material": [ "wool" ],
+    "symbol": "[",
+    "looks_like": "cloak",
+    "color": "blue",
+    "warmth": 50,
+    "material_thickness": 0.5,
+    "environmental_protection": 3,
+    "flags": [ "OVERSIZE", "HOOD", "OUTER" ],
+    "armor": [ { "encumbrance": 5, "coverage": 65, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
+  },
+  {
+    "id": "jedi_cloak",
+    "repairs_like": "cloak",
+    "type": "ARMOR",
+    "name": { "str": "Jedi cloak" },
+    "description": "A long, flowing robe.  Be sure to tear it off dramatically before fighting any foes!",
+    "weight": "1587 g",
+    "volume": "2500 ml",
+    "price": 22500,
+    "price_postapoc": 500,
+    "to_hit": -1,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "robe",
+    "color": "brown",
+    "warmth": 5,
+    "material_thickness": 0.3,
+    "environmental_protection": 5,
+    "flags": [ "OVERSIZE", "OUTER" ],
+    "armor": [
+      {
+        "encumbrance": 3,
+        "coverage": 65,
+        "covers": [ "leg_r", "leg_l", "torso", "arm_l", "arm_r", "head", "hand_l", "hand_r" ]
+      }
+    ]
+  },
+  {
+    "id": "optical_cloak",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "FB51 optical cloak" },
+    "description": "A plastic cloak embedded with cameras and LEDs that will render you fully invisible to normal vision when powered and worn.  You must be carrying a unified power supply, or UPS, to use it.  Activate to toggle visibility.",
+    "weight": "1552 g",
+    "volume": "3500 ml",
+    "price": 5500000,
+    "price_postapoc": 25000,
+    "to_hit": -1,
+    "material": [ "plastic" ],
+    "symbol": "[",
+    "looks_like": "cloak",
+    "color": "light_gray",
+    "warmth": 10,
+    "material_thickness": 0.5,
+    "environmental_protection": 4,
+    "ammo": "battery",
+    "use_action": {
+      "type": "transform",
+      "msg": "Your optical cloak flickers as it becomes transparent.",
+      "target": "optical_cloak_on",
+      "active": true,
+      "need_charges": 20,
+      "need_charges_msg": "You don't have enough UPS charges to turn on the %s"
+    },
+    "flags": [ "USE_UPS", "OVERSIZE", "HOOD", "WATERPROOF", "OUTER", "VARSIZE", "SOFT" ],
+    "armor": [ { "encumbrance": 50, "coverage": 65, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
+  },
+  {
+    "id": "optical_cloak_on",
+    "copy-from": "optical_cloak",
+    "repairs_like": "optical_cloak",
+    "looks_like": "optical_cloak",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "FB51 optical cloak (on)", "str_pl": "FB51 optical cloaks (on)" },
+    "description": "A plastic cloak embedded with cameras and LEDs that will render you fully invisible to normal vision when powered and worn.  It is turned on, and continually draining power from a UPS.  Use it to turn it off.",
+    "flags": [ "USE_UPS", "OVERSIZE", "HOOD", "WATERPROOF", "OUTER", "VARSIZE", "ACTIVE_CLOAKING", "TRADER_AVOID", "SOFT" ],
+    "power_draw": "20 kW",
+    "revert_to": "optical_cloak",
+    "use_action": {
+      "ammo_scale": 0,
+      "type": "transform",
+      "menu_text": "Turn off",
+      "msg": "The %s flickers for a moment as it becomes opaque.",
+      "target": "optical_cloak"
+    }
+  },
+  {
+    "id": "poncho",
+    "type": "ARMOR",
+    "name": { "str": "wool poncho" },
+    "description": "A simple wool garment worn over the torso.",
+    "weight": "907 g",
+    "volume": "1250 ml",
+    "price": 12000,
+    "price_postapoc": 750,
+    "to_hit": -1,
+    "material": [ "wool" ],
+    "symbol": "[",
+    "looks_like": "cloak",
+    "color": "light_gray",
+    "warmth": 35,
+    "material_thickness": 1,
+    "environmental_protection": 1,
+    "flags": [ "VARSIZE", "OUTER" ],
+    "armor": [ { "encumbrance": 5, "coverage": 85, "covers": [ "torso" ] } ]
+  },
+  {
+    "id": "poncho_makeshift",
+    "type": "ARMOR",
+    "category": "clothing",
+    "symbol": "[",
+    "color": "black",
+    "name": { "str": "makeshift poncho" },
+    "description": "A large plastic trash bag with holes cut out for the head and arms.",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "plastic" ],
+    "weight": "30 g",
+    "volume": "50 ml",
+    "to_hit": -1,
+    "flags": [ "WATERPROOF", "RAINPROOF", "OVERSIZE", "HOOD", "OUTER", "SOFT" ],
+    "environmental_protection": 1,
+    "material_thickness": 0.1,
+    "armor": [ { "coverage": 90, "covers": [ "torso" ] } ]
+  },
+  {
+    "id": "snuggie",
+    "type": "ARMOR",
+    "name": { "str": "snuggie" },
+    "description": "Perfect for reading all those books you scavenged.",
+    "weight": "625 g",
+    "volume": "3 L",
+    "price": 3600,
+    "price_postapoc": 250,
+    "to_hit": -1,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "blanket",
+    "color": "light_red",
+    "warmth": 50,
+    "material_thickness": 2,
+    "environmental_protection": 1,
+    "flags": [ "OVERSIZE", "OUTER" ],
+    "armor": [ { "encumbrance": 20, "coverage": 85, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
+  }
+]

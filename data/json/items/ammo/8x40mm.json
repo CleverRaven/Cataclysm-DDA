@@ -1,0 +1,81 @@
+[
+  {
+    "id": "8mm_bootleg",
+    "copy-from": "8mm_jhp",
+    "type": "AMMO",
+    "name": { "str_sp": "bootleg 8x40mm JHP" },
+    "description": "A bootleg duplicate of the Rivtech 8x40mm caseless round.",
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
+    "extend": { "effects": [ "RECYCLED" ], "flags": [ "CASELESS_ROUNDS" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+  },
+  {
+    "id": "8mm_caseless",
+    "type": "AMMO",
+    "name": { "str_sp": "8x40mm caseless" },
+    "//": "Cased ammo tends to be roughly $1/shot, more or less.  Rivtech ammo, being New and Proprietary and Expensive, $2-2.50 or so.",
+    "description": "An 8x40mm caseless round.  Proprietary ammunition for Rivtech firearms.",
+    "weight": "12 g",
+    "volume": "230 ml",
+    "price": 225,
+    "price_postapoc": 8000,
+    "flags": [ "IRREPLACEABLE_CONSUMABLE", "CASELESS_ROUNDS" ],
+    "material": [ "plastic", "powder" ],
+    "symbol": "=",
+    "color": "pink",
+    "count": 40,
+    "stack_size": 40,
+    "ammo_type": "8x40mm",
+    "range": 42,
+    "damage": { "damage_type": "bullet", "amount": 42, "armor_penetration": 18 },
+    "dispersion": 75,
+    "recoil": 2200,
+    "effects": [ "NEVER_MISFIRES" ]
+  },
+  {
+    "id": "8mm_civilian",
+    "copy-from": "8mm_caseless",
+    "type": "AMMO",
+    "name": { "str_sp": "8x40mm sporting" },
+    "description": "An 8x40mm caseless round, light sporting load sold for civilian use.  Proprietary ammunition for Rivtech firearms.",
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] },
+    "proportional": { "price": 0.8, "damage": { "damage_type": "bullet", "amount": 0.5 }, "dispersion": 1.2, "recoil": 0.5 }
+  },
+  {
+    "id": "8mm_fmj",
+    "copy-from": "8mm_caseless",
+    "type": "AMMO",
+    "name": { "str_sp": "8x40mm FMJ" },
+    "description": "An 8x40mm caseless round, full metal jacket.  Military grade ammunition for Rivtech firearms.",
+    "relative": { "damage": { "damage_type": "bullet", "amount": -5, "armor_penetration": 10 } }
+  },
+  {
+    "id": "8mm_hvp",
+    "copy-from": "8mm_caseless",
+    "type": "AMMO",
+    "name": { "str_sp": "8x40mm HVP" },
+    "description": "An 8x40mm caseless round, saboted high-velocity penetrator type.  Advanced military grade, armor-piercing ammunition that fires a single depleted uranium flechette.",
+    "price": 2500,
+    "price_postapoc": 50000,
+    "count": 20,
+    "relative": { "damage": { "damage_type": "bullet", "amount": 5, "armor_penetration": 20 } }
+  },
+  {
+    "id": "8mm_inc",
+    "copy-from": "8mm_caseless",
+    "type": "AMMO",
+    "name": { "str_sp": "8x40mm tracer" },
+    "description": "An 8x40mm caseless ammunition mixed with tracers to help keep the weapon they are fired from on target at the risk of igniting flammable substances.  Military grade ammunition for Rivtech firearms.",
+    "count": 20,
+    "proportional": { "dispersion": 0.8 },
+    "extend": { "effects": [ "INCENDIARY" ] }
+  },
+  {
+    "id": "8mm_jhp",
+    "copy-from": "8mm_caseless",
+    "type": "AMMO",
+    "name": { "str_sp": "8x40mm JHP" },
+    "description": "An 8x40mm caseless round, jacketed hollowpoint.  Military grade ammunition for Rivtech firearms.",
+    "relative": { "damage": { "damage_type": "bullet", "amount": 5, "armor_penetration": -10 } }
+  }
+]

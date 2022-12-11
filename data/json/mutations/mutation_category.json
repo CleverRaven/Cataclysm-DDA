@@ -1,0 +1,245 @@
+[
+  {
+    "type": "mutation_category",
+    "id": "ANY",
+    "name": "Any",
+    "threshold_mut": "",
+    "mutagen_message": "You feel strange."
+  },
+  {
+    "type": "mutation_category",
+    "id": "HUMAN",
+    "name": "Human",
+    "threshold_mut": "",
+    "skip_test": true,
+    "mutagen_message": "You feel the aberrance fade.",
+    "vitamin": "mutagen_human"
+  },
+  {
+    "type": "mutation_category",
+    "id": "PLANT",
+    "name": "Plant",
+    "threshold_mut": "THRESH_PLANT",
+    "mutagen_message": "You feel much closer to nature.  Your breath and thoughts slow.",
+    "memorial_message": "Bloomed forth.",
+    "vitamin": "mutagen_plant"
+  },
+  {
+    "type": "mutation_category",
+    "id": "INSECT",
+    "name": "Insect",
+    "threshold_mut": "THRESH_INSECT",
+    "mutagen_message": "You hear buzzing, and feel your body harden.",
+    "memorial_message": "Metamorphosed.",
+    "vitamin": "mutagen_insect"
+  },
+  {
+    "type": "mutation_category",
+    "id": "SPIDER",
+    "name": "Spider",
+    "threshold_mut": "THRESH_SPIDER",
+    "mutagen_message": "You feel insidious, and your vision fragments for a moment.",
+    "memorial_message": "Found a place in the web of life.",
+    "vitamin": "mutagen_spider"
+  },
+  {
+    "type": "mutation_category",
+    "id": "SLIME",
+    "name": "Slime",
+    "threshold_mut": "THRESH_SLIME",
+    "mutagen_message": "Your body loses all rigidity for a moment.",
+    "memorial_message": "Gave up on rigid human norms.",
+    "vitamin": "mutagen_slime"
+  },
+  {
+    "type": "mutation_category",
+    "id": "FISH",
+    "name": "Fish",
+    "threshold_mut": "THRESH_FISH",
+    "mutagen_message": "You are overcome by an overwhelming longing for the ocean.",
+    "memorial_message": "Went deep.",
+    "vitamin": "mutagen_fish"
+  },
+  {
+    "type": "mutation_category",
+    "id": "GASTROPOD",
+    "name": "Gastropod",
+    "threshold_mut": "THRESH_GASTROPOD",
+    "mutagen_message": "Your split lower body starts to come back together.",
+    "memorial_message": "Left a trail.",
+    "vitamin": "mutagen_gastropod"
+  },
+  {
+    "type": "mutation_category",
+    "id": "RAT",
+    "name": "Rat",
+    "threshold_mut": "THRESH_RAT",
+    "mutagen_message": "You feel a momentary nausea.",
+    "memorial_message": "Found that survival *is* everything.",
+    "vitamin": "mutagen_rat"
+  },
+  {
+    "type": "mutation_category",
+    "id": "BEAST",
+    "name": "Beast",
+    "threshold_mut": "THRESH_BEAST",
+    "mutagen_message": "Your heart races and you see blood for a moment.",
+    "memorial_message": "Embraced their bestial nature.",
+    "vitamin": "mutagen_beast"
+  },
+  {
+    "type": "mutation_category",
+    "id": "URSINE",
+    "name": "Ursine",
+    "threshold_mut": "THRESH_URSINE",
+    "mutagen_message": "You feel an urge to… patrol?  The forests?",
+    "memorial_message": "Became one with the bears.",
+    "vitamin": "mutagen_ursine"
+  },
+  {
+    "type": "mutation_category",
+    "id": "FELINE",
+    "name": "Feline",
+    "threshold_mut": "THRESH_FELINE",
+    "mutagen_message": "Your back arches and the hair stands up on the back of your neck.",
+    "memorial_message": "Realized the dream.",
+    "vitamin": "mutagen_feline"
+  },
+  {
+    "type": "mutation_category",
+    "id": "LUPINE",
+    "name": "Lupine",
+    "threshold_mut": "THRESH_LUPINE",
+    "mutagen_message": "You feel an urge to mark your territory.  But then it passes.",
+    "memorial_message": "Wolfed out.",
+    "vitamin": "mutagen_lupine"
+  },
+  {
+    "type": "mutation_category",
+    "id": "CATTLE",
+    "name": "Cattle",
+    "threshold_mut": "THRESH_CATTLE",
+    "mutagen_message": "Your mind and body slow down.  You feel peaceful.",
+    "memorial_message": "Stopped worrying and learned to love the cowbell.",
+    "vitamin": "mutagen_cattle"
+  },
+  {
+    "type": "mutation_category",
+    "id": "CEPHALOPOD",
+    "name": "Cephalopod",
+    "threshold_mut": "THRESH_CEPHALOPOD",
+    "mutagen_message": "Your mind is overcome by images of eldritch horrors… and then they pass.",
+    "memorial_message": "Began living the dreams.",
+    "vitamin": "mutagen_cephalopod"
+  },
+  {
+    "type": "mutation_category",
+    "id": "BIRD",
+    "name": "Bird",
+    "threshold_mut": "THRESH_BIRD",
+    "mutagen_message": "Your body lightens and you long for the sky.",
+    "memorial_message": "Broke free of humanity.",
+    "vitamin": "mutagen_bird"
+  },
+  {
+    "type": "mutation_category",
+    "id": "LIZARD",
+    "name": "Lizard",
+    "threshold_mut": "THRESH_LIZARD",
+    "mutagen_message": "For a heartbeat, your blood cools down.",
+    "memorial_message": "Shed the ugly human skin.",
+    "vitamin": "mutagen_lizard"
+  },
+  {
+    "type": "mutation_category",
+    "id": "BATRACHIAN",
+    "name": "Batrachian",
+    "threshold_mut": "THRESH_BATRACHIAN",
+    "mutagen_message": "Like a tadpole you must transform.",
+    "memorial_message": "Found a bigger pond.",
+    "vitamin": "mutagen_batrachian"
+  },
+  {
+    "type": "mutation_category",
+    "id": "TROGLOBITE",
+    "name": "Troglobite",
+    "threshold_mut": "THRESH_TROGLOBITE",
+    "mutagen_message": "You yearn for a cool, dark place to hide.",
+    "memorial_message": "Adapted to underground living.",
+    "vitamin": "mutagen_troglobite"
+  },
+  {
+    "type": "mutation_category",
+    "id": "ALPHA",
+    "name": "Alpha",
+    "threshold_mut": "THRESH_ALPHA",
+    "mutagen_message": "You feel… better.  Somehow.",
+    "memorial_message": "Started representing.",
+    "vitamin": "mutagen_alpha"
+  },
+  {
+    "type": "mutation_category",
+    "id": "MEDICAL",
+    "name": "Medical",
+    "threshold_mut": "THRESH_MEDICAL",
+    "mutagen_message": "You can feel the blood rushing through your veins and a strange, medicated feeling washes over your senses.",
+    "memorial_message": "Resumed clinical trials.",
+    "vitamin": "mutagen_medical"
+  },
+  {
+    "type": "mutation_category",
+    "id": "CHIMERA",
+    "name": "Chimera",
+    "threshold_mut": "THRESH_CHIMERA",
+    "mutagen_message": "You need to roar, bask, bite, and flap.  NOW.",
+    "memorial_message": "United disunity.",
+    "vitamin": "mutagen_chimera"
+  },
+  {
+    "type": "mutation_category",
+    "id": "ELFA",
+    "name": "Elf-A",
+    "threshold_mut": "THRESH_ELFA",
+    "mutagen_message": "Everything goes green for a second.  Nature is becoming one with you…",
+    "memorial_message": "Accepted a more natural way of life.",
+    "vitamin": "mutagen_elfa"
+  },
+  {
+    "type": "mutation_category",
+    "id": "RAPTOR",
+    "name": "Raptor",
+    "threshold_mut": "THRESH_RAPTOR",
+    "mutagen_message": "You're struck by a primordial flashback… and then it passes.",
+    "memorial_message": "Hatched.",
+    "vitamin": "mutagen_raptor"
+  },
+  {
+    "type": "mutation_category",
+    "id": "MOUSE",
+    "name": "Mouse",
+    "threshold_mut": "THRESH_MOUSE",
+    "mutagen_message": "You feel a desire to curl up in a nice, warm pile of… shredded paper.",
+    "memorial_message": "Found the cheese.",
+    "vitamin": "mutagen_mouse"
+  },
+  {
+    "type": "mutation_category",
+    "id": "RABBIT",
+    "name": "Rabbit",
+    "threshold_mut": "THRESH_RABBIT",
+    "mutagen_message": "Walking is overrated.  It's time to start hopping.",
+    "memorial_message": "Acquired a taste for carrots.",
+    "vitamin": "mutagen_rabbit"
+  },
+  {
+    "type": "mutation_category",
+    "id": "MYCUS",
+    "//": "Mycus has special logic and doesn't function like a normal mutation category, so some of the vars here only exist to prevent errors",
+    "name": "Mycus",
+    "threshold_mut": "THRESH_MYCUS",
+    "skip_test": true,
+    "mutagen_message": "",
+    "memorial_message": "Dissolved into the collective.",
+    "vitamin": "null"
+  }
+]

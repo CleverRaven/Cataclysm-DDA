@@ -1,0 +1,104 @@
+[
+  {
+    "type": "dream",
+    "messages": [ "You dream of a strange jungle with giant ferns.", "Dreams of being the king are all you can remember." ],
+    "category": "TYRANT",
+    "strength": 1
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You brush through tree sized ferns as you hunt for your prey.  The rain falls slick upon your skin.",
+      "Thunderous footsteps shake the earth, are they yours?"
+    ],
+    "category": "TYRANT",
+    "strength": 2
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "Your teeth, how do you have so many teeth?  Am I growing extra teeth?",
+      "The hairless apes around you smell like food.  Are they?"
+    ],
+    "category": "TYRANT",
+    "strength": 3
+  },
+  {
+    "type": "dream",
+    "messages": [ "So close, you can taste the rebirth of a glorious past.", "King, nay not a king.  A god among beasts." ],
+    "category": "TYRANT",
+    "strength": 4
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "The warm sun upon your skin.  A heavier air, golden dreams.",
+      "You dream of eating the largest fern you've ever seen."
+    ],
+    "category": "STEGO",
+    "strength": 1
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "Large, you are becoming larger every day.  Armored skin, to protect you from the world.  These are the gifts you are receiving.",
+      "You dream of before the Cataclysm, but you are different somehow.  The other humans all seem so soft to you."
+    ],
+    "category": "STEGO",
+    "strength": 2
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "Slower, trudging through the universe, you cease to notice those that try to stop you as you walk through them.",
+      "Why is this world so cold compared to the one in your dreams?"
+    ],
+    "category": "STEGO",
+    "strength": 3
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "Is this how superman feels?  Bulletproof?  But superman is much faster than you.",
+      "Nothing less than an asteroid can kill you."
+    ],
+    "category": "STEGO",
+    "strength": 4
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "The warm sun upon your skin after escaping from a hard shell.",
+      "You dream of eating the largest fern you've ever seen."
+    ],
+    "category": "HORNS",
+    "strength": 1
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "Large, you are becoming larger every day.  Majestic horns, to protect you from the world and show your power.  These are the gifts you are receiving.",
+      "You dream of before the Cataclysm, but you are different somehow.  The other humans all seem so flat and weak to you."
+    ],
+    "category": "HORNS",
+    "strength": 2
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "Wandering peacefully through the woods with your family, easily knocking down anything in your path, fearing nothing.",
+      "Why is this world so cold compared to the one in your dreams?"
+    ],
+    "category": "HORNS",
+    "strength": 3
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "Giant teeth come down on you, finding horns.  The screaming and blood is not yours.",
+      "While you are not the most feared, your majestic horns and powerful herd command respect."
+    ],
+    "category": "HORNS",
+    "strength": 4
+  }
+]

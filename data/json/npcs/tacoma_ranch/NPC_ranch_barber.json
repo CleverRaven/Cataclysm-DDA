@@ -1,0 +1,78 @@
+[
+  {
+    "type": "npc",
+    "id": "ranch_barber",
+    "//": "Provides hair cuts",
+    "name_suffix": "Barber",
+    "class": "NC_HUNTER",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_RANCH_BARBER",
+    "faction": "tacoma_commune"
+  },
+  {
+    "id": "TALK_RANCH_BARBER",
+    "type": "talk_topic",
+    "dynamic_line": "Can I interest you in a trim?  It'll cost you 6 merch for a haircut or 3 for a beard trim.  I can do color and styling too.",
+    "responses": [
+      {
+        "text": "The doctor needs some help building an anesthetic machine.  Do you have anything that could help?",
+        "topic": "TALK_RANCH_GENERIC_ANESTHETIC_FOR_DOCTOR",
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_RANCH_DOCTOR_MEDICAL_ANESTHETIC" },
+            {
+              "not": { "npc_has_var": "doctor_anesthetic_asked", "type": "mission", "context": "tacoma_ranch", "value": "yes" }
+            }
+          ]
+        },
+        "effect": [ { "npc_add_var": "doctor_anesthetic_asked", "type": "mission", "context": "tacoma_ranch", "value": "yes" } ]
+      },
+      { "text": "What is your job here?", "topic": "TALK_RANCH_BARBER_JOB" },
+      { "text": "Do you need any help?", "topic": "TALK_RANCH_BARBER_HIRE" },
+      {
+        "text": "[3 merch] I'll have a shave.",
+        "topic": "TALK_RANCH_BARBER_CUT",
+        "condition": { "u_has_items": { "item": "FMCNote", "count": 3 } },
+        "effect": [
+          {
+            "u_sell_item": "FMCNote",
+            "count": 3,
+            "true_eocs": { "id": "eoc_barber_shave", "effect": [ "buy_shave", "barber_beard" ] }
+          }
+        ]
+      },
+      {
+        "text": "[6 merch] I'll get a haircut.",
+        "topic": "TALK_RANCH_BARBER_CUT",
+        "condition": { "u_has_items": { "item": "FMCNote", "count": 6 } },
+        "effect": [
+          {
+            "u_sell_item": "FMCNote",
+            "count": 6,
+            "true_eocs": { "id": "eoc_barber_hair", "effect": [ "buy_haircut", "barber_hair" ] }
+          }
+        ]
+      },
+      { "text": "Maybe another time…", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RANCH_BARBER_JOB",
+    "dynamic_line": "What?  I'm a barber… I cut hair.  There's demand for cheap cuts and a shave out here.",
+    "responses": [ { "text": "Sorry.", "topic": "TALK_RANCH_BARBER" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RANCH_BARBER_HIRE",
+    "dynamic_line": "I can't imagine what I'd need your assistance with.",
+    "responses": [ { "text": "Fine.", "topic": "TALK_RANCH_BARBER" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RANCH_BARBER_CUT",
+    "dynamic_line": "Stand still while I get my clippers…",
+    "responses": [ { "text": "Thanks…", "topic": "TALK_DONE" } ]
+  }
+]

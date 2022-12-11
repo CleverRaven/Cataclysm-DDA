@@ -1,0 +1,116 @@
+[
+  {
+    "type": "snippet",
+    "category": "general_graffiti_snippets",
+    "//": "This graffiti is generally assumed to come from before the Cataclysm",
+    "text": [
+      { "id": "general_graffiti_1", "text": "<full_name> is the biggest slut in <city>, and I'm damn proud of it!" },
+      { "id": "general_graffiti_2", "text": "There is a beautifully drawn graffiti tag on the wall here." },
+      { "id": "general_graffiti_3", "text": "<given_name> is a heteronormative bully!" },
+      { "id": "general_graffiti_4", "text": "<given_name> + <given_name>" },
+      { "id": "general_graffiti_5", "text": "Hell in <city>" },
+      { "id": "general_graffiti_6", "text": "were all gonna die" },
+      { "id": "general_graffiti_7", "text": "MOM" },
+      { "id": "general_graffiti_8", "text": "FUCK YOU" },
+      { "id": "general_graffiti_9", "text": "This is a cartoon rendition of a zombie." },
+      { "id": "general_graffiti_10", "text": "This is a crudely spraypainted tag adorned with skulls." },
+      {
+        "id": "general_graffiti_11",
+        "text": "I have a secure and loving relationship with your mom and you're going to need to come to terms with that.\n\nDo you want to talk about it?  You know where to find me.  Love you sweety."
+      },
+      { "id": "general_graffiti_12", "text": "<given_name> you fuckin gave me ADES you SHIT." },
+      { "id": "general_graffiti_13", "text": "I <3 <full_name>." },
+      { "id": "general_graffiti_14", "text": "<given_name> fucked <full_name>." },
+      { "id": "general_graffiti_15", "text": "This is a spraypainted drawing of an angel with wings made of vines." },
+      { "id": "general_graffiti_16", "text": "Mr. <family_name> is a vampire!" },
+      { "id": "general_graffiti_17", "text": "Their hiding the truth" },
+      { "id": "general_graffiti_18", "text": "FOLLOW THE CHEMTRAILS" },
+      {
+        "id": "general_graffiti_19",
+        "text": "This is a curious drawing of a roll of toilet paper dissolving into a rainbow."
+      },
+      { "id": "general_graffiti_20", "text": "All we wanna do is eat yer brains" },
+      { "id": "general_graffiti_21", "text": "<given_name>" },
+      { "id": "general_graffiti_22", "text": "don't drink the water" },
+      {
+        "id": "general_graffiti_23",
+        "text": "And they walked upon His Earth, and there was a RECKONING, and only the worthy survived"
+      },
+      { "id": "general_graffiti_24", "text": "This is a drawing of a zombie with a bullet hole in its head." },
+      { "id": "general_graffiti_25", "text": "This is a surprisingly artistic drawing of a penis." },
+      { "id": "general_graffiti_26", "text": "This is a simple spraypainted graphic of a forest made of bones." },
+      {
+        "id": "general_graffiti_27",
+        "text": "This is a spraypainted mural of a giant mushroom with people praying at its base."
+      },
+      { "id": "general_graffiti_28", "text": "we can never go back" },
+      { "id": "general_graffiti_29", "text": "dont by meth from <given_name>" },
+      { "id": "general_graffiti_30", "text": "<full_name> you owe me fifty bucks" },
+      { "id": "general_graffiti_31", "text": "Im gonna kill u <given_name>" },
+      { "id": "general_graffiti_32", "text": "its in the water" },
+      {
+        "id": "general_graffiti_33",
+        "text": "This is a spraypainting of an anatomically unlikely woman wearing very little."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "shelter_graffiti_snippets",
+    "text": [
+      { "id": "shelter_graffiti_1", "text": "BIGGEST WASTE OF TAX MONEY FUCK YOU GOVERMINT" },
+      { "id": "shelter_graffiti_2", "text": "Dont eat the proten bars" },
+      { "id": "shelter_graffiti_3", "text": "FEMA: FUCKIN EAT MY ASSHOLE" },
+      {
+        "id": "shelter_graffiti_4",
+        "text": "This is a simple drawing of a skinny figure wearing an emergency evac jacket and a gas mask.  Scrawled beneath, it says \"thanks for the outfit\"."
+      },
+      { "id": "shelter_graffiti_5", "text": "Abandon hope, all ye who enter here." },
+      { "id": "shelter_graffiti_6", "text": "NO ONE IS COMING FOR US" },
+      { "id": "shelter_graffiti_7", "text": "THERE'S NO RESCUE BUS" },
+      { "id": "shelter_graffiti_8", "text": "THEY LET US DOWN" },
+      { "id": "shelter_graffiti_9", "text": "Don't dead open inside" },
+      { "id": "shelter_graffiti_10", "text": "SANCTUARY" },
+      { "id": "shelter_graffiti_11", "text": "<given_name>'s cosplay supply all welcome" },
+      { "id": "shelter_graffiti_12", "text": "Cataclysm Bus Stop" },
+      { "id": "shelter_graffiti_13", "text": "They aren't coming to help, they're coming to clean up" },
+      {
+        "id": "shelter_graffiti_14",
+        "text": "This is a far-too-detailed drawing of an enormous mind-bending monster, the sort that attacked during the Cataclysm."
+      },
+      {
+        "id": "shelter_graffiti_15",
+        "text": "This is a quick rendition in permanent marker of a swirling gateway, with zombies spilling out of it.  Underneath, it reads \"What did they do?\""
+      },
+      { "id": "shelter_graffiti_16", "text": "RIP humanity" },
+      { "id": "shelter_graffiti_17", "text": "Everyone's dead Dave" },
+      { "id": "shelter_graffiti_18", "text": "WE'RE ALL FINE HERE HOW R U" },
+      {
+        "id": "shelter_graffiti_19",
+        "text": "<given_name> I couldn't wait any longer, went to camp 36.  Meet me there.  Love <given_name>."
+      },
+      { "id": "shelter_graffiti_20", "text": "<given_name> I am still looking for you." },
+      { "id": "shelter_graffiti_21", "text": "<full_name> was here and still alive" },
+      { "id": "shelter_graffiti_22", "text": "Blue 52" },
+      { "id": "shelter_graffiti_23", "text": "<given_name> I no I said Id wait for u but I gotta run, find me" },
+      {
+        "id": "shelter_graffiti_24",
+        "text": "In memoriam:\n<full_name>\n<full_name>\n<full_name>\n<full_name>\n<full_name>\nI would not be alive without all of you.  I will not forget."
+      },
+      {
+        "id": "shelter_graffiti_25",
+        "text": "This is a drawing of a cartoon character smashing a zombie corpse with a sledgehammer.  Beneath it is a scrawled message: \"Gotta pulp em all\""
+      },
+      { "id": "shelter_graffiti_26", "text": "They get back up.  Headshots don't work." },
+      { "id": "shelter_graffiti_27", "text": "stay out of <city>" },
+      { "id": "shelter_graffiti_28", "text": "<city> has fallen" },
+      { "id": "shelter_graffiti_29", "text": "NO ONE LEFT HERE MOVE ON" },
+      { "id": "shelter_graffiti_30", "text": "deth trap" },
+      { "id": "shelter_graffiti_31", "text": "no ones coming" },
+      { "id": "shelter_graffiti_32", "text": "GOVERMENT DID THIS TO US" },
+      { "id": "shelter_graffiti_33", "text": "FUCK CHINA" },
+      { "id": "shelter_graffiti_34", "text": "FUCK THE COMMUNISTS" },
+      { "id": "shelter_graffiti_35", "text": "Remember <given_name>" }
+    ]
+  }
+]

@@ -1,0 +1,326 @@
+[
+  {
+    "id": "pillowcase",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "pillowcase" },
+    "looks_like": "pillow",
+    "description": "A simple cotton pillowcase.",
+    "weight": "415 g",
+    "volume": "1 L",
+    "price": 0,
+    "price_postapoc": 2,
+    "to_hit": -5,
+    "material": [ "cotton" ],
+    "flags": [ "SLEEP_AID_CONTAINER" ],
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "15 L", "max_contains_weight": "15 kg", "moves": 400 } ],
+    "symbol": ")",
+    "color": "white"
+  },
+  {
+    "type": "GENERIC",
+    "id": "hammock",
+    "name": { "str": "hammock" },
+    "category": "tools",
+    "description": "A large sheet of cloth with ropes on two sides.  Could be tied to something and then used as a sleeping place that is comfortable, but lacks warmth.",
+    "weight": "1664 g",
+    "price": 5000,
+    "price_postapoc": 250,
+    "color": "white",
+    "symbol": "=",
+    "material": [ "cotton" ],
+    "volume": "2 L"
+  },
+  {
+    "type": "GENERIC",
+    "id": "hammock_net",
+    "name": { "str": "net hammock" },
+    "category": "tools",
+    "description": "A large net with ropes on two sides.  Could be tied to something and then used as a sleeping place that is comfortable, but lacks warmth.",
+    "weight": "1584 g",
+    "price": 5000,
+    "price_postapoc": 250,
+    "color": "white",
+    "symbol": "=",
+    "material": [ "cotton" ],
+    "volume": "1500 ml"
+  },
+  {
+    "id": "sheet",
+    "type": "ARMOR",
+    "name": { "str": "sheet" },
+    "description": "A 72 by 24 inch two-layer-thick fabric sheet.  It could be used as a curtain or bedsheet, or cut up for a bunch of rags.",
+    "//density": "1.6 grams per mL",
+    "weight": "420 g",
+    "volume": "564 ml",
+    "price": 2000,
+    "price_postapoc": 50,
+    "to_hit": -1,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "blanket",
+    "color": "white",
+    "warmth": 10,
+    "material_thickness": 0.1,
+    "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS" ],
+    "armor": [
+      {
+        "encumbrance": 15,
+        "coverage": 100,
+        "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+      }
+    ]
+  },
+  {
+    "id": "blanket",
+    "type": "ARMOR",
+    "name": { "str": "blanket" },
+    "description": "Hiding under here will not protect you from the monsters.",
+    "weight": "1123 g",
+    "volume": "15 L",
+    "price": 5500,
+    "price_postapoc": 50,
+    "to_hit": -1,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "towel",
+    "color": "blue",
+    "warmth": 50,
+    "material_thickness": 1,
+    "environmental_protection": 1,
+    "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS" ],
+    "armor": [
+      {
+        "encumbrance": 35,
+        "coverage": 100,
+        "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+      }
+    ]
+  },
+  {
+    "id": "down_blanket",
+    "type": "ARMOR",
+    "name": { "str": "down-filled blanket" },
+    "description": "Hiding under here will not protect you from the monsters, but it'll keep you warm.",
+    "weight": "3500 g",
+    "volume": "15 L",
+    "price": 5500,
+    "price_postapoc": 150,
+    "to_hit": -1,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "blanket",
+    "color": "blue",
+    "warmth": 70,
+    "material_thickness": 1,
+    "environmental_protection": 1,
+    "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS" ],
+    "armor": [
+      {
+        "encumbrance": 45,
+        "coverage": 100,
+        "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+      }
+    ]
+  },
+  {
+    "id": "fur_blanket",
+    "type": "ARMOR",
+    "name": { "str": "fur blanket" },
+    "description": "A heavy fur blanket that covers most of your body.",
+    "weight": "3500 g",
+    "volume": "31 L",
+    "price": 19500,
+    "price_postapoc": 250,
+    "to_hit": -1,
+    "material": [ "cotton", "fur" ],
+    "symbol": "[",
+    "looks_like": "blanket",
+    "color": "brown",
+    "warmth": 80,
+    "material_thickness": 2,
+    "environmental_protection": 1,
+    "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS" ],
+    "armor": [
+      {
+        "encumbrance": 55,
+        "coverage": 100,
+        "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+      }
+    ]
+  },
+  {
+    "id": "quilt",
+    "type": "ARMOR",
+    "name": { "str": "quilt" },
+    "description": "A big, comfy quilt made of thick wool in a triangle pattern.  Extremely cozy!",
+    "weight": "1814 g",
+    "volume": "5 L",
+    "price": 5500,
+    "to_hit": -1,
+    "material": [ "wool" ],
+    "symbol": "[",
+    "color": "white",
+    "warmth": 75,
+    "material_thickness": 1,
+    "environmental_protection": 2,
+    "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS" ],
+    "looks_like": "down_blanket",
+    "armor": [
+      {
+        "encumbrance": 40,
+        "coverage": 100,
+        "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+      }
+    ]
+  },
+  {
+    "id": "quilt_patchwork",
+    "type": "ARMOR",
+    "copy-from": "quilt",
+    "name": { "str": "patchwork quilt" },
+    "description": "A huge, patchwork wool quilt.  Very, very warm.",
+    "material": [ "wool" ],
+    "warmth": 70,
+    "armor": [
+      {
+        "encumbrance": 50,
+        "coverage": 100,
+        "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+      }
+    ]
+  },
+  {
+    "id": "emer_blanket",
+    "repairs_like": "sheet",
+    "type": "ARMOR",
+    "category": "clothing",
+    "symbol": "[",
+    "color": "light_gray",
+    "name": { "str": "emergency blanket" },
+    "description": "A blanket made of space-age material that covers your most important body parts.  It folds into a very compact form when not in use.",
+    "price": 425,
+    "price_postapoc": 10,
+    "material": [ "plastic" ],
+    "weight": "500 g",
+    "volume": "500 ml",
+    "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS", "SOFT" ],
+    "warmth": 50,
+    "environmental_protection": 1,
+    "material_thickness": 0.1,
+    "armor": [
+      {
+        "encumbrance": 50,
+        "coverage": 90,
+        "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+      }
+    ]
+  },
+  {
+    "id": "sleeping_bag",
+    "type": "ARMOR",
+    "name": { "str": "sleeping bag" },
+    "description": "A large sleeping bag that covers you head to toe, with a strap for carrying it on your back when not in use.  This one is medium weight.  It is currently unrolled; activate it to roll it up for easy storage.",
+    "weight": "1600 g",
+    "volume": "1 L",
+    "price": 20500,
+    "price_postapoc": 500,
+    "to_hit": -1,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "blanket",
+    "color": "light_red",
+    "warmth": 80,
+    "material_thickness": 3,
+    "environmental_protection": 1,
+    "flags": [ "OVERSIZE", "OUTER" ],
+    "use_action": {
+      "menu_text": "Roll up",
+      "type": "transform",
+      "target": "sleeping_bag_roll",
+      "msg": "You roll up the sleeping bag, preparing it for transport."
+    },
+    "armor": [
+      {
+        "encumbrance": 80,
+        "coverage": 100,
+        "covers": [ "torso", "head", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+      }
+    ]
+  },
+  {
+    "id": "sleeping_bag_improvised",
+    "type": "ARMOR",
+    "name": { "str": "improvised sleeping bag" },
+    "description": "You might think it is bizarre to sleep in a body bag stuffed with dead plants.  However, the thought of sleeping in the cold is far more uncomfortable.",
+    "weight": "4700 g",
+    "volume": "30 L",
+    "price": 2000,
+    "price_postapoc": 500,
+    "material": [ "plastic", "dry_plant" ],
+    "symbol": "[",
+    "looks_like": "blanket",
+    "color": "light_red",
+    "warmth": 30,
+    "material_thickness": 1,
+    "environmental_protection": 1,
+    "flags": [ "OVERSIZE", "OUTER", "SOFT" ],
+    "armor": [
+      {
+        "encumbrance": 80,
+        "coverage": 100,
+        "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+      }
+    ]
+  },
+  {
+    "id": "grass_sheet",
+    "type": "ARMOR",
+    "name": { "str": "grass sheet" },
+    "description": "Some grass yarn woven into a crude sheet.",
+    "weight": "500 g",
+    "volume": "700 ml",
+    "price": 500,
+    "price_postapoc": 50,
+    "to_hit": -1,
+    "material": [ "dry_plant" ],
+    "symbol": "[",
+    "looks_like": "blanket",
+    "color": "white",
+    "warmth": 10,
+    "material_thickness": 0.1,
+    "flags": [ "OVERSIZE", "OUTER" ],
+    "armor": [
+      {
+        "encumbrance": 15,
+        "coverage": 100,
+        "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+      }
+    ]
+  },
+  {
+    "id": "grass_blanket",
+    "type": "ARMOR",
+    "name": { "str": "grass blanket" },
+    "description": "Some grass sheets sewn together.  Itchy, but more comfortable than the cold.",
+    "weight": "1020 g",
+    "volume": "1400 ml",
+    "price": 1000,
+    "price_postapoc": 100,
+    "to_hit": -1,
+    "material": [ "dry_plant" ],
+    "symbol": "[",
+    "looks_like": "blanket",
+    "color": "white",
+    "warmth": 20,
+    "material_thickness": 0.1,
+    "flags": [ "OVERSIZE", "OUTER" ],
+    "armor": [
+      {
+        "encumbrance": 30,
+        "coverage": 100,
+        "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+      }
+    ]
+  }
+]

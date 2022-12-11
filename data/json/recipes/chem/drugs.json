@@ -1,0 +1,69 @@
+[
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "caffeine",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_DRUGS",
+    "skill_used": "chemistry",
+    "difficulty": 6,
+    "time": "10 h",
+    "batch_time_factors": [ 99, 2 ],
+    "book_learn": [ [ "adv_chemistry", 7 ], [ "recipe_labchem", 7 ] ],
+    "charges": 1941,
+    "qualities": [ { "id": "CHEM", "level": 2 }, { "id": "SEPARATE", "level": 1 }, { "id": "ANALYSIS", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 60, "LIST" ] ], [ [ "cotton_patchwork", -1 ], [ "felt_patch", -1 ] ] ],
+    "components": [
+      [ [ "feces_bird", 17 ] ],
+      [ [ "formic_acid", 23 ] ],
+      [ [ "ammonia_liquid", 1 ] ],
+      [ [ "chem_sulphuric_acid", 2 ] ],
+      [ [ "chem_methanol", 97 ] ],
+      [ [ "water", 5 ], [ "water_clean", 5 ] ],
+      [ [ "lye_powder", 2 ], [ "chem_potassium_hydroxide", 10 ], [ "lye", 1 ], [ "lye_potassium", 1 ] ],
+      [ [ "chem_muriatic_acid", 1 ] ],
+      [ [ "paper", 2 ] ]
+    ]
+  },
+  {
+    "result": "chaw",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_DRUGS",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "time": "30 m",
+    "autolearn": true,
+    "qualities": [ { "id": "COOK", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+    "components": [
+      [ [ "tobacco", 20 ] ],
+      [ [ "sugar_standard", 1, "LIST" ], [ "artificial_sweetener", 14 ] ],
+      [ [ "juice", 2 ], [ "oj", 1 ], [ "cranberry_juice", 1 ], [ "sweet_water", 1 ] ],
+      [ [ "salt", 1 ], [ "seasoning_salt", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "pure_meth",
+    "id_suffix": "from_phosporous_iodine",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_DRUGS",
+    "skill_used": "chemistry",
+    "difficulty": 8,
+    "time": "6 h",
+    "book_learn": [ [ "recipe_labchem", 6 ] ],
+    "batch_time_factors": [ 30, 5 ],
+    "qualities": [ { "id": "CHEM", "level": 3 }, { "id": "SEPARATE", "level": 1 } ],
+    "components": [
+      [ [ "dayquil", 15 ] ],
+      [ [ "iodine_crystal", 15 ] ],
+      [ [ "red_phosphorous", 15 ] ],
+      [ [ "chem_acetone", 1 ] ],
+      [ [ "chem_methanol", 3 ] ],
+      [ [ "lye_powder", 5 ], [ "chem_potassium_hydroxide", 25 ], [ "lye", 1 ], [ "lye_potassium", 1 ] ]
+    ]
+  }
+]

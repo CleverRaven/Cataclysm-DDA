@@ -1,0 +1,266 @@
+[
+  {
+    "type": "GENERIC",
+    "abstract": "mutagen_sample",
+    "symbol": "q",
+    "color": "red",
+    "name": { "str": "abstract mutagen sample" },
+    "description": "This item needs a description defined, and is copied from abstract mutagen sample.",
+    "price": 1000,
+    "price_postapoc": 50,
+    "material": [ "flesh" ],
+    "flags": [ "NO_SALVAGE", "MUTAGEN_SAMPLE" ],
+    "weight": "114 g",
+    "volume": "250 ml",
+    "category": "spare_parts"
+  },
+  {
+    "type": "GENERIC",
+    "id": "alpha_sample",
+    "copy-from": "mutagen_sample",
+    "color": "red",
+    "name": { "str": "alpha sample" },
+    "description": "A slurry of superiority.",
+    "looks_like": "medical_sample",
+    "material": [ "hflesh", "hblood", "bone" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "batrachian_sample",
+    "copy-from": "mutagen_sample",
+    "color": "green",
+    "name": { "str": "frog sample" },
+    "description": "A slurry of simplicity.",
+    "looks_like": "medical_sample",
+    "material": [ "slime", "blood" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "beast_sample",
+    "copy-from": "mutagen_sample",
+    "color": "light_red",
+    "name": { "str": "beast sample" },
+    "description": "A slurry of might.",
+    "looks_like": "medical_sample",
+    "material": [ "flesh", "blood", "bone", "fur" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "bird_sample",
+    "copy-from": "mutagen_sample",
+    "color": "cyan",
+    "name": { "str": "bird sample" },
+    "description": "A slurry of freedom.",
+    "looks_like": "medical_sample",
+    "material": [ "bone" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "cattle_sample",
+    "copy-from": "mutagen_sample",
+    "color": "brown",
+    "name": { "str": "cattle sample" },
+    "description": "A slurry of tranquility.",
+    "looks_like": "medical_sample",
+    "material": [ "flesh", "gutskin" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "cephalopod_sample",
+    "copy-from": "mutagen_sample",
+    "color": "black",
+    "name": { "str": "cephalopod sample" },
+    "description": "A slurry of curiosity.",
+    "looks_like": "medical_sample",
+    "material": [ "flesh", "slime" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "chimera_sample",
+    "copy-from": "mutagen_sample",
+    "color": "white",
+    "name": { "str": "chimera sample" },
+    "description": "A slurry of adaptation.",
+    "looks_like": "medical_sample",
+    "material": [ "gutskin", "bone", "fur" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "elfa_sample",
+    "copy-from": "mutagen_sample",
+    "color": "light_green",
+    "name": { "str": "Elf-A sample" },
+    "description": "A slurry of responsibility.",
+    "looks_like": "medical_sample",
+    "material": [ "veggy", "hblood" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "feline_sample",
+    "copy-from": "mutagen_sample",
+    "color": "light_gray",
+    "name": { "str": "feline sample" },
+    "description": "A slurry of flexibility.",
+    "looks_like": "medical_sample",
+    "material": [ "fur", "blood" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "fish_sample",
+    "copy-from": "mutagen_sample",
+    "color": "yellow",
+    "name": { "str": "fish sample" },
+    "description": "A slurry of transformation.",
+    "looks_like": "medical_sample",
+    "material": [ "blood", "water" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "gastropod_sample",
+    "copy-from": "mutagen_sample",
+    "color": "brown_cyan",
+    "name": { "str": "snail sample" },
+    "description": "A slurry of steadfastness.",
+    "looks_like": "medical_sample",
+    "material": [ "chitin", "slime" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "human_sample",
+    "copy-from": "mutagen_sample",
+    "color": "black_red",
+    "name": { "str": "human sample" },
+    "description": "A slurry of purity.",
+    "looks_like": "medical_sample",
+    "material": [ "hflesh", "hblood" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "insect_sample",
+    "copy-from": "mutagen_sample",
+    "color": "brown",
+    "name": { "str": "insect sample" },
+    "description": "A slurry of stability.",
+    "looks_like": "medical_sample",
+    "material": [ "iflesh", "chitin" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "lizard_sample",
+    "copy-from": "mutagen_sample",
+    "color": "green_cyan",
+    "name": { "str": "lizard sample" },
+    "description": "A slurry of healing.",
+    "looks_like": "medical_sample",
+    "material": [ "flesh", "blood" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "lupine_sample",
+    "copy-from": "mutagen_sample",
+    "color": "brown",
+    "name": { "str": "lupine sample" },
+    "description": "A slurry of community.",
+    "looks_like": "medical_sample",
+    "material": [ "fur", "flesh", "blood" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "medical_sample",
+    "copy-from": "mutagen_sample",
+    "color": "magenta",
+    "name": { "str": "medical sample" },
+    "description": "A slurry of satisfaction.",
+    "material": [ "hflesh", "iron" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "mouse_sample",
+    "copy-from": "mutagen_sample",
+    "color": "brown",
+    "name": { "str": "mouse sample" },
+    "description": "A slurry of experimentation.",
+    "looks_like": "medical_sample",
+    "material": [ "flesh", "bone" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "plant_sample",
+    "copy-from": "mutagen_sample",
+    "color": "green",
+    "name": { "str": "plant sample" },
+    "description": "A slurry of peace.",
+    "looks_like": "medical_sample",
+    "material": [ "veggy", "wood" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "raptor_sample",
+    "copy-from": "mutagen_sample",
+    "color": "red",
+    "name": { "str": "raptor sample" },
+    "description": "A slurry of evolution.",
+    "looks_like": "medical_sample",
+    "material": [ "bone" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "rabbit_sample",
+    "copy-from": "mutagen_sample",
+    "color": "light_gray",
+    "name": { "str": "rabbit sample" },
+    "description": "A slurry of luck.",
+    "looks_like": "medical_sample",
+    "material": [ "flesh", "fur" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "rat_sample",
+    "copy-from": "mutagen_sample",
+    "color": "brown",
+    "name": { "str": "rat sample" },
+    "description": "A slurry of survival.",
+    "looks_like": "medical_sample",
+    "material": [ "fur", "bone" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "slime_sample",
+    "copy-from": "mutagen_sample",
+    "color": "light_green",
+    "name": { "str": "slime sample" },
+    "description": "A slurry of sharing.",
+    "looks_like": "medical_sample",
+    "material": [ "slime" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "spider_sample",
+    "copy-from": "mutagen_sample",
+    "color": "dark_gray",
+    "name": { "str": "spider sample" },
+    "description": "A slurry of sustainability.",
+    "looks_like": "medical_sample",
+    "material": [ "chitin", "fur" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "troglobite_sample",
+    "copy-from": "mutagen_sample",
+    "color": "light_gray",
+    "name": { "str": "troglobite sample" },
+    "description": "A slurry of reliability.",
+    "looks_like": "medical_sample",
+    "material": [ "flesh", "soil" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "ursine_sample",
+    "copy-from": "mutagen_sample",
+    "color": "brown",
+    "name": { "str": "ursine sample" },
+    "description": "A slurry of toughness.",
+    "looks_like": "medical_sample",
+    "material": [ "flesh", "fur", "gutskin" ]
+  }
+]

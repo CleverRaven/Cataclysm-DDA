@@ -1,0 +1,458 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_camp_0",
+    "copy-from": "faction_base_camp_0",
+    "sym": "\u00C5"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_camp_new_0",
+    "copy-from": "faction_base_camp_new_0",
+    "sym": "\u00C5"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_camp_1",
+    "copy-from": "faction_base_camp_1",
+    "sym": "\u00C5"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_camp_2",
+    "copy-from": "faction_base_camp_2",
+    "sym": "\u00C5"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_camp_3",
+    "copy-from": "faction_base_camp_3",
+    "sym": "\u00C5"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_camp_4",
+    "copy-from": "faction_base_camp_4",
+    "sym": "\u00C5"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_camp_5",
+    "copy-from": "faction_base_camp_5",
+    "sym": "\u00C5"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_camp_6",
+    "copy-from": "faction_base_camp_6",
+    "sym": "\u00C5"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_camp_7",
+    "copy-from": "faction_base_camp_7",
+    "sym": "\u00C5"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_camp_8",
+    "copy-from": "faction_base_camp_8",
+    "sym": "\u00C5"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_camp_9",
+    "copy-from": "faction_base_camp_9",
+    "sym": "\u00C5"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_camp_10",
+    "copy-from": "faction_base_camp_10",
+    "sym": "\u00C5"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_camp_11",
+    "copy-from": "faction_base_camp_11",
+    "sym": "\u00C5"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_camp_12",
+    "copy-from": "faction_base_camp_12",
+    "sym": "\u00C5"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_camp_13",
+    "copy-from": "faction_base_camp_13",
+    "sym": "\u00C5"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_camp_14",
+    "copy-from": "faction_base_camp_14",
+    "sym": "\u00C5"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_camp_15",
+    "copy-from": "faction_base_camp_15",
+    "sym": "\u00C5"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_camp_16",
+    "copy-from": "faction_base_camp_16",
+    "sym": "\u00C5"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_camp_17",
+    "copy-from": "faction_base_camp_17",
+    "sym": "\u00C5"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_camp_18",
+    "copy-from": "faction_base_camp_18",
+    "sym": "\u00C5"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_camp_19",
+    "copy-from": "faction_base_camp_19",
+    "sym": "\u00C5"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_camp_20",
+    "copy-from": "faction_base_camp_20",
+    "sym": "\u00C5"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_farm_0",
+    "copy-from": "faction_base_farm_0",
+    "sym": "\u00A9",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_farm_1",
+    "copy-from": "faction_base_farm_1",
+    "sym": "\u00A9",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_farm_2",
+    "copy-from": "faction_base_farm_2",
+    "sym": "\u00A9",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_farm_3",
+    "copy-from": "faction_base_farm_3",
+    "sym": "\u00A9",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_farm_4",
+    "copy-from": "faction_base_farm_4",
+    "sym": "\u00A9",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_garage_0",
+    "copy-from": "faction_base_garage_0",
+    "sym": "\u00E6",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_garage_1",
+    "copy-from": "faction_base_garage_1",
+    "sym": "\u00E6",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_garage_2",
+    "copy-from": "faction_base_garage_2",
+    "sym": "\u00E6",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_garage_3",
+    "copy-from": "faction_base_garage_3",
+    "sym": "\u00E6",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_garage_4",
+    "copy-from": "faction_base_garage_4",
+    "sym": "\u00E6",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_garage_5",
+    "copy-from": "faction_base_garage_5",
+    "sym": "\u00E6",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_garage_6",
+    "copy-from": "faction_base_garage_6",
+    "sym": "\u00E6",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_kitchen_0",
+    "copy-from": "faction_base_kitchen_0",
+    "sym": "\u00E7",
+    "color": "light_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_kitchen_1",
+    "copy-from": "faction_base_kitchen_1",
+    "sym": "\u00E7",
+    "color": "light_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_kitchen_2",
+    "copy-from": "faction_base_kitchen_2",
+    "sym": "\u00E7",
+    "color": "light_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_kitchen_3",
+    "copy-from": "faction_base_kitchen_3",
+    "sym": "\u00E7",
+    "color": "light_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_kitchen_4",
+    "copy-from": "faction_base_kitchen_4",
+    "sym": "\u00E7",
+    "color": "light_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_kitchen_5",
+    "copy-from": "faction_base_kitchen_5",
+    "sym": "\u00E7",
+    "color": "light_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_kitchen_6",
+    "copy-from": "faction_base_kitchen_6",
+    "sym": "\u00E7",
+    "color": "light_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_kitchen_7",
+    "copy-from": "faction_base_kitchen_7",
+    "sym": "\u00E7",
+    "color": "light_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_kitchen_8",
+    "copy-from": "faction_base_kitchen_8",
+    "sym": "\u00E7",
+    "color": "light_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_hide_site_0",
+    "copy-from": "faction_hide_site_0",
+    "sym": "\u00C5"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_wall_level_N_0",
+    "copy-from": "faction_wall_level_N_0",
+    "sym": "\u00DC"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_wall_level_E_0",
+    "copy-from": "faction_wall_level_E_0",
+    "sym": "\u00DC"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_wall_level_S_0",
+    "copy-from": "faction_wall_level_S_0",
+    "sym": "\u00DC"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_wall_level_W_0",
+    "copy-from": "faction_wall_level_W_0",
+    "sym": "\u00DC"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_wall_level_N_1",
+    "copy-from": "faction_wall_level_N_1",
+    "sym": "\u00DC"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_wall_level_E_1",
+    "copy-from": "faction_wall_level_E_1",
+    "sym": "\u00DC"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_wall_level_S_1",
+    "copy-from": "faction_wall_level_S_1",
+    "sym": "\u00DC"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_wall_level_W_1",
+    "copy-from": "faction_wall_level_W_1",
+    "sym": "\u00DC"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_workshop_0",
+    "copy-from": "faction_base_workshop_0",
+    "sym": "\u00E6"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_blacksmith_0",
+    "copy-from": "faction_base_blacksmith_0",
+    "sym": "\u00E7",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_blacksmith_1",
+    "copy-from": "faction_base_blacksmith_1",
+    "sym": "\u00E7",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_blacksmith_2",
+    "copy-from": "faction_base_blacksmith_2",
+    "sym": "\u00E7",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_blacksmith_3",
+    "copy-from": "faction_base_blacksmith_3",
+    "sym": "\u00E7",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_blacksmith_4",
+    "copy-from": "faction_base_blacksmith_4",
+    "sym": "\u00E7",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_blacksmith_5",
+    "copy-from": "faction_base_blacksmith_5",
+    "sym": "\u00E7",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_blacksmith_6",
+    "copy-from": "faction_base_blacksmith_6",
+    "sym": "\u00E7",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_blacksmith_7",
+    "copy-from": "faction_base_blacksmith_7",
+    "sym": "\u00E7",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_blacksmith_8",
+    "copy-from": "faction_base_blacksmith_8",
+    "sym": "\u00E7",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_blacksmith_9",
+    "copy-from": "faction_base_blacksmith_9",
+    "sym": "\u00E7",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_blacksmith_10",
+    "copy-from": "faction_base_blacksmith_10",
+    "sym": "\u00E7",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_blacksmith_11",
+    "copy-from": "faction_base_blacksmith_11",
+    "sym": "\u00E7",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_blacksmith_12",
+    "copy-from": "faction_base_blacksmith_12",
+    "sym": "\u00E7",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_livestock_0",
+    "copy-from": "faction_base_livestock_0",
+    "sym": "\u00E9"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_storehouse_0",
+    "copy-from": "faction_base_storehouse_0",
+    "sym": "\u00D6"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_saltworks_0",
+    "copy-from": "faction_base_saltworks_0",
+    "sym": "\u00D6",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_canteen_0",
+    "copy-from": "faction_base_canteen_0",
+    "sym": "\u00E7",
+    "color": "green"
+  }
+]

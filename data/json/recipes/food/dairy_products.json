@@ -1,0 +1,150 @@
+[
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "raw_butter",
+    "result_mult": 3,
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 5,
+    "batch_time_factors": [ 95, 2 ],
+    "time": "30 m",
+    "qualities": [ { "id": "CHURN", "level": 1 } ],
+    "book_learn": [ [ "dairy_book", 3 ] ],
+    "//": "Book Things to do with milk.  Add curdled milk and cheese recipes to the book.  Also consider adding to brewing json Airag from this book.",
+    "components": [ [ [ "milk_cream", 5 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "raw_butter",
+    "id_suffix": "shake",
+    "byproducts": [ [ "buttermilk", 3 ] ],
+    "result_mult": 1,
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 5,
+    "time": "20 m",
+    "book_learn": [ [ "dairy_book", 3 ] ],
+    "//": "Book Things to do with milk.  Add curdled milk and cheese recipes to the book.  Also consider adding to brewing json Airag from this book.",
+    "tools": [ [ [ "jar_glass_sealed", -1 ] ] ],
+    "components": [ [ [ "water_clean", 1 ] ], [ [ "milk_cream", 3 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "milk_cream_rising",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "time": "5 m",
+    "autolearn": true,
+    "qualities": [ { "id": "COOK", "level": 3 } ],
+    "components": [ [ [ "jar_3l_glass_sealed", 1 ] ], [ [ "milk_raw", 12 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "milk_cream_whipped",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": "5 m",
+    "autolearn": true,
+    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "components": [ [ [ "milk_cream", 1 ] ], [ [ "sugar", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "milk_cream",
+    "result_mult": 5,
+    "byproducts": [ [ "jar_3l_glass_sealed", 1 ], [ "buttermilk", 7 ] ],
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "time": "30 m",
+    "autolearn": true,
+    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "components": [ [ [ "milk_cream_jar", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "cottage_cheese",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": "5 m",
+    "result_mult": 8,
+    "book_learn": [ [ "dairy_book", 1 ] ],
+    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "proficiencies": [
+      { "proficiency": "prof_food_prep" },
+      { "proficiency": "prof_cheesemaking_1" },
+      { "proficiency": "prof_cheesemaking_2" }
+    ],
+    "tools": [
+      [ [ "water_boiling_heat", 2, "LIST" ] ],
+      [ [ "colander_steel", -1 ], [ "sieve_steel", -1 ], [ "sieve_primitive", -1 ], [ "cotton_patchwork", -1 ] ]
+    ],
+    "components": [ [ [ "milk", 16 ], [ "milk_raw", 16 ] ], [ [ "vinegar", 1 ] ], [ [ "salt", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "cottage_cheese_with_fruit",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": "5 m",
+    "book_learn": [ [ "dairy_book", 1 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "cottage_cheese", 1 ] ], [ [ "sweet_fruit", 1, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "cottage_cheese_with_savory_veg",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": "5 m",
+    "book_learn": [ [ "dairy_book", 1 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "cottage_cheese", 1 ] ],
+      [ [ "sweet_fruit", 1, "LIST" ] ],
+      [ [ "onion", 1 ] ],
+      [ [ "bell_pepper", 1 ], [ "tomato", 1 ], [ "cucumber", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "ghee",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "//": "Increased recipe size, due to such minuscule amounts would have excessive loss in the straining step otherwise. Made it X8",
+    "charges": 8,
+    "book_learn": [ [ "cookbook_indian", 1 ] ],
+    "time": "30 m",
+    "batch_time_factors": [ 70, 1 ],
+    "qualities": [ { "id": "BOIL", "level": 1 }, { "id": "COOK", "level": 2 } ],
+    "tools": [
+      [ [ "water_boiling_heat", 2, "LIST" ] ],
+      [ [ "colander_steel", -1 ], [ "sieve_steel", -1 ], [ "sieve_primitive", -1 ], [ "cotton_patchwork", -1 ] ]
+    ],
+    "components": [ [ [ "raw_butter", 8 ], [ "butter", 8 ] ] ]
+  }
+]

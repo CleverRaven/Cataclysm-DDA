@@ -1,0 +1,15 @@
+[
+  {
+    "id": "afs_voltaic_cartridge",
+    "copy-from": "afs_cartridge",
+    "type": "MAGAZINE",
+    "name": { "str": "voltaic cell" },
+    "description": "A high-density energy cell purposely made to power voltaic weaponry.",
+    "weight": "20 g",
+    "volume": "125 ml",
+    "price": "3 kUSD",
+    "price_postapoc": "3 kUSD",
+    "capacity": 500,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 1500 } } ]
+  }
+]

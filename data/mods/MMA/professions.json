@@ -1,0 +1,36 @@
+[
+  {
+    "type": "profession",
+    "id": "mma_battle_angel",
+    "name": "Battle Angel",
+    "description": "A combat-ready cyborg once salvaged from an obscure junkyard…",
+    "points": 8,
+    "traits": [ "MMA_MARTIAL_ARTS_PANZER" ],
+    "skills": [ { "level": 3, "name": "unarmed" }, { "level": 3, "name": "melee" }, { "level": 1, "name": "dodge" } ],
+    "items": { "both": { "items": [ "wetsuit", "trenchcoat", "gloves_fingerless", "knee_pads", "boots" ] } },
+    "CBMs": [
+      "bio_power_storage_mkII",
+      "bio_armor_arms",
+      "bio_armor_head",
+      "bio_armor_legs",
+      "bio_armor_torso",
+      "bio_blade",
+      "bio_metabolics"
+    ]
+  },
+  {
+    "type": "profession",
+    "id": "mma_hylian_adventurer",
+    "name": "Hylian Adventurer",
+    "description": "Sucked through a vortex into what appears to be a shadow realm, you will continue to fight for justice.",
+    "points": 6,
+    "traits": [ "MMA_MARTIAL_ARTS_HYLIAN", "ELFAEYES", "ELFA_EARS" ],
+    "skills": [ { "level": 3, "name": "cutting" }, { "level": 3, "name": "melee" }, { "level": 1, "name": "dodge" } ],
+    "items": {
+      "both": {
+        "items": [ "combat_shirt", "cloak", "gloves_fingerless", "antarvasa", "ragpouch", "socks", "boots" ],
+        "entries": [ { "item": "sword_wood", "custom-flags": [ "auto_wield" ] } ]
+      }
+    }
+  }
+]

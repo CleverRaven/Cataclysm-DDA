@@ -1,0 +1,51 @@
+# Linhas com mais de 78 caracteres serão quebradas automaticamente
+# A linha a seguir é para referência
+##############################################################################
+<color_white>Nos visite:</color>
+
+<color_light_gray>* Homepage:</color>    <color_cyan>https://cataclysmdda.org</color>
+<color_light_gray>* Wiki:</color>        <color_cyan>https://cddawiki.chezzo.com/cdda_wiki</color>
+
+<color_white>Reporte bugs, sugestões e siga o desenvolvimento em: </color>
+
+<color_light_gray>* Github: </color><color_light_cyan>https://github.com/CleverRaven/Cataclysm-DDA/issues</color>
+<color_light_gray>* e-mail: </color><color_light_cyan>kevin.granade@gmail.com</color>
+
+<color_white>Entre na discussão em fóruns e chats:</color>
+
+<color_light_gray>* Discourse:                 </color><color_cyan>https://discourse.cataclysmdda.org/</color>
+<color_light_gray>* Discord:                   </color><color_cyan>https://discord.gg/jFEc7Yp</color>
+<color_light_gray>* IRC:                       </color><color_cyan>#CataclysmDDA no libera.chat</color>
+<color_light_gray>* Reddit (não oficial):       </color><color_cyan>https://www.reddit.com/r/cataclysmdda/</color>
+
+<color_light_gray>Outros links úteis também estão disponíveis na nossa Homepage.</color>
+
+<color_light_gray>No jogo você pode acessar as opções pelo menu principal (<color_yellow>Esc</color>).</color>
+
+<color_light_red>******************************************************************************</color>
+<color_light_red>     Aviso sobre as builds experimentais:</color>
+<color_light_red>******************************************************************************</color>
+
+<color_white>P: </color><color_yellow>O que é uma build experimental?</color>
+
+<color_white>R: </color><color_light_gray>O objetivo das builds experimentais é ser um segundo nível de controle de qualidade. É a linha de frente onde conteúdo novo é lançado para ser testado e balanceado após o controle de qualidade inicial. Esteja avisado que ao escolher jogar a última build experimental você está participando do processo de desenvolvimento ao literalmente testar o novo conteúdo, e ele está propenso a bugs e funcionalidades mal desenvolvidas.</color>
+
+<color_white>P: </color><color_yellow>Por que as builds experimentais existem?</color>
+
+<color_white>R: </color><color_light_gray>Considere isso como jogar uma versão alpha/beta - bugs e funcionalidades mal desenvolvidas são uma parte disso. Devido aos rigores da integração continua, builds experimentais sempre estão em um estado de constante trabalho em progresso. Experimental é uma caixa de areia onde os bugs são detectados e o polimento de funcionalidades acontece. Funcionalidades pequenas e grandes são constantemente lançadas para essas builds para serem checadas por estabilidade geral e balanceamento. Por causa disso, as experimentais não estão sob o rigor de garantir balanceamento e estabilidade. Na verdade, nada é garantido nas builds experimentais.</color>
+
+<color_white>P: </color><color_yellow>As builds experimentais são jogáveis então?</color>
+
+<color_white>A: </color><color_light_gray>Sim. Mas mesmo as builds experimentais sendo estáveis no geral, isso também não é garantido porque funcionalidades podem ser introduzidas em um estado mal desenvolvido, em partes; e podem introduzir muitos bugs, incluindo alguns severos que podem crashar seu jogo ou corromper os jogos salvos. É raro, mas devido à complexidade do jogo, o controle de qualidade inicial antes de combinar com a build experimental pode ser insuficiente, e sempre há espaço para o erro humano. E é por isso que builds iniciais existem primeiramente.</color>
+
+<color_white>P: </color><color_yellow>Eu devo jogar as builds experimentais então, ou devo aderir às builds estáveis?</color> 
+
+<color_white>R: </color><color_light_gray>A recompensa é acesso instantâneo ao conteúdo mais novo que há, e o risco é perder todo o progresso do seu jogo se um bug sério surgir. É sempre sua escolha jogar builds experimentais, com uma build estável disponível, então jogue ao seu próprio critério. Você carrega todo o fardo se algo der errado, então esteja avisado. Tome precauções, faça backups. Algumas vezes é até melhor adiar as atualizações por alguns dias até que uma grande funcionalidade tenha sido estabilizada ou um bug significante tenha sido removido.</color> 
+
+<color_white>P: </color><color_yellow>Eu devenho estar ciente de alguma outra coisa?</color>
+
+<color_white>R: </color><color_light_gray>Sim. Lembre que tudo que você vê e está prestes a ver está potencialmente sujeito a mudanças. Todas as funcionalidades, incluindo novas implementações, são um trabalho em progresso e podem mudar no curso do desenvolvimento. E, como dito antes, nada é garantido, incluindo balanceamento e estabilidade.</color>
+
+<color_white>Q: </color><color_yellow>E se eu achar o risco de jogar uma build experimental inaceitável?</color> 
+
+<color_white>R: </color><color_light_gray>Se o risco for inaceitável - jogue a versão estável. Se você está disposto a assumir o risco - aproveite o conteúdo novo adicionado às builds experimentais e participe do desenvolvimento - reporte bugs, envie sugestões, ou até contribua com seu próprio conteúdo no jogo. Boa sorte.</color>

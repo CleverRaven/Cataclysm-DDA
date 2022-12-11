@@ -1,0 +1,109 @@
+[
+  {
+    "name": "GROUP_DOGS",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_null", "weight": 730 },
+      { "monster": "mon_zombie_dog", "weight": 135, "cost_multiplier": 0, "pack_size": [ 5, 8 ] },
+      { "monster": "mon_dog_zombie_rot", "weight": 135, "cost_multiplier": 1, "pack_size": [ 1, 4 ] }
+    ]
+  },
+  {
+    "id": "dogfight",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "postman_shirt" },
+      { "item": "postman_shorts" },
+      { "item": "postman_hat" },
+      { "group": "underwear" },
+      { "item": "dress_shoes" },
+      { "item": "corpse" }
+    ]
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "house_dogs" ],
+    "//": "uses house_08_basement",
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        ".[%%....p.```...........",
+        ".%###o####o*o##########.",
+        ".%#EI  y| RRRR   sHHHHo.",
+        ".%# I E +            Ho.",
+        ".%#P    |            H#.",
+        ".##||||+|        EsE so.",
+        ".o      |             o.",
+        ".#d @@  |       A A A #.",
+        ".o  @@s | hfh | ||JJJ|#^",
+        ".#|||||+| hfh |  Y    #.",
+        ".#U|d     hfh |6     Oo.",
+        ".#>+          |7432F51#.",
+        ".###+###¶###¶###o######.",
+        ".oB  S#^``````........Ŧ.",
+        ".#B8 t#%``````........Ŧ.",
+        ".######%``````........Ŧ.",
+        ".Ŧ....................Ŧ.",
+        ".Ŧ....................Ŧ.",
+        ".Ŧ....................Ŧ.",
+        ".ɤ....................ɤ.",
+        ".Ŧ....................Ŧ.",
+        ".Ŧ....................Ŧ.",
+        ".ŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦ.",
+        "........................"
+      ],
+      "palettes": [
+        { "distribution": [ [ "standard_domestic_palette", 10 ], [ "standard_domestic_palette_abandoned", 2 ] ] },
+        "standard_domestic_landscaping_palette"
+      ],
+      "set": [
+        { "point": "terrain", "id": "t_tree_apple", "x": [ 0, 14 ], "y": 0, "repeat": [ 1, 2 ] },
+        { "point": "terrain", "id": "t_tree_young", "x": [ 2, 14 ], "y": [ 17, 21 ], "repeat": [ 3, 5 ] }
+      ],
+      "place_loot": [
+        { "group": "guns_pistol_common", "x": 4, "y": 10, "chance": 5, "ammo": 90, "magazine": 100 },
+        { "group": "dogfight", "x": 18, "y": 17, "chance": 95 }
+      ],
+      "place_monsters": [ { "monster": "GROUP_DOGS", "x": [ 7, 21 ], "y": [ 13, 21 ], "chance": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "house_dogs_roof",
+    "object": {
+      "fill_ter": "t_shingle_flat_roof",
+      "rows": [
+        "                        ",
+        "  |22222222222222222223 ",
+        "  |...................3 ",
+        "  |...................3 ",
+        "  |.............X.....3 ",
+        " |2...................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................5 ",
+        " |....................3 ",
+        " |................&...3 ",
+        " |....................3 ",
+        " |....5---------------- ",
+        " |.=..3                 ",
+        " |....3                 ",
+        " |----3                 ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": { ".": "t_shingle_flat_roof" }
+    }
+  }
+]

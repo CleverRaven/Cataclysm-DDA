@@ -1,0 +1,101 @@
+[
+  {
+    "type": "item_group",
+    "id": "default_vending_machine",
+    "subtype": "collection",
+    "entries": [ { "group": "vending_drink", "prob": 50 }, { "group": "vending_drink", "prob": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "vending_food",
+    "entries": [
+      { "group": "vending_food_items", "count-min": 5, "count-max": 20 },
+      { "group": "vending_food_items", "prob": 66, "count-min": 5, "count-max": 25 },
+      { "group": "vending_food_items", "prob": 20, "count-min": 5, "count-max": 25 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "vending_drink",
+    "entries": [
+      { "group": "vending_drink_items", "count-min": 5, "count-max": 20 },
+      { "group": "vending_drink_items", "prob": 66, "count-min": 5, "count-max": 25 },
+      { "group": "vending_drink_items", "prob": 20, "count-min": 5, "count-max": 25 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "vending_ammo",
+    "entries": [
+      { "group": "ammo_pistol_common", "count-min": 3, "count-max": 8 },
+      { "group": "ammo_rifle_common", "prob": 50, "count-min": 2, "count-max": 6 },
+      { "group": "ammo_shotgun_common", "prob": 50, "count-min": 2, "count-max": 6 },
+      { "group": "ammo_pistol_rare", "prob": 20, "count-min": 1, "count-max": 2 },
+      { "group": "ammo_rifle_rare", "prob": 20, "count-min": 1, "count-max": 2 },
+      { "group": "ammo_shotgun_rare", "prob": 20, "count-min": 1, "count-max": 2 }
+    ]
+  },
+  {
+    "id": "vending_drink_home_impr",
+    "type": "item_group",
+    "items": [
+      [ "water_clean", 50 ],
+      [ "water_mineral", 20 ],
+      [ "oj", 40 ],
+      [ "pineapple_juice", 35 ],
+      [ "juice", 35 ],
+      [ "cranberry_juice", 35 ],
+      [ "cola", 50 ],
+      [ "lemonlime", 45 ],
+      [ "V8", 15 ],
+      [ "gum", 15 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "vending_food_items",
+    "items": [
+      { "group": "candy_chocolate", "prob": 615 },
+      { "group": "salty_snacks", "prob": 485 },
+      [ "peanut_shelled", 60 ],
+      [ "almond_shelled", 60 ],
+      [ "cashews", 60 ],
+      [ "pistachio_shelled", 60 ],
+      [ "cookies", 80 ],
+      [ "choco_coffee_beans", 10 ],
+      [ "fruit_leather", 25 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "vending_drink_items",
+    "items": [
+      [ "water_clean", 90 ],
+      [ "water_mineral", 10 ],
+      [ "oj", 50 ],
+      [ "pineapple_juice", 50 ],
+      [ "juice", 50 ],
+      [ "cranberry_juice", 50 ],
+      [ "sports_drink", 50 ],
+      [ "apple_cider", 50 ],
+      [ "lemonade", 50 ],
+      [ "energy_drink", 55 ],
+      [ "energy_drink_atomic", 4 ],
+      { "group": "softdrinks_canned", "prob": 70 },
+      { "item": "cola", "prob": 70, "container-item": "bottle_plastic", "sealed": false },
+      { "item": "rootbeer", "prob": 20, "container-item": "bottle_plastic", "sealed": false },
+      { "item": "tonic_water", "prob": 5, "container-item": "bottle_plastic", "sealed": false },
+      { "item": "creamsoda", "prob": 60, "container-item": "bottle_plastic", "sealed": false },
+      { "item": "lemonlime", "prob": 60, "container-item": "bottle_plastic", "sealed": false },
+      { "item": "orangesoda", "prob": 5, "container-item": "bottle_plastic", "sealed": false },
+      { "item": "colamdew", "prob": 60, "container-item": "bottle_plastic", "sealed": false },
+      { "item": "rootbeer", "prob": 65, "container-item": "bottle_plastic", "sealed": false },
+      [ "purple_drink", 45 ],
+      [ "herbal_tea", 30 ],
+      [ "V8", 15 ]
+    ]
+  }
+]

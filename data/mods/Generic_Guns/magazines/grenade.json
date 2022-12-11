@@ -1,0 +1,20 @@
+[
+  {
+    "id": "grenade_belt",
+    "type": "MAGAZINE",
+    "name": { "str": "grenade machine gun belt" },
+    "description": "An ammo belt consisting of metal linkages which separate from the belt upon firing.  This one holds grenade cartridges and is too bulky to be worn like other ammo belts.",
+    "volume": "10 L",
+    "weight": "7800 g",
+    "price": 0,
+    "material": [ "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "ammo_grenade" ],
+    "capacity": 50,
+    "count": 25,
+    "linkage": "ammolinkgrenade",
+    "flags": [ "MAG_BELT", "MAG_DESTROY" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_grenade": 50 }, "rigid": true } ]
+  }
+]

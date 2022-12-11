@@ -1,0 +1,80 @@
+[
+  {
+    "id": "fn57mag",
+    "looks_like": "glock17_17",
+    "type": "MAGAZINE",
+    "name": { "str": "Five-seveN 20-round magazine" },
+    "description": "A standard capacity magazine for use with the FN Five-seveN.",
+    "weight": "120 g",
+    "volume": "250 ml",
+    "price": 3700,
+    "price_postapoc": 100,
+    "material": [ "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "57" ],
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "57": 20 } } ]
+  },
+  {
+    "id": "fnp90mag",
+    "looks_like": "mp5mag",
+    "type": "MAGAZINE",
+    "name": { "str": "FN 5.7x28mm 50-round magazine" },
+    "description": "A translucent 50-round box magazine, for use with long guns chambering FN’s proprietary 5.7x28mm cartridge.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "fnp90mag",
+        "name": { "str": "P90 50-round magazine" },
+        "description": "A factory issue translucent polymer box magazine that fits with the frame of the FN P90.",
+        "weight": 1
+      }
+    ],
+    "weight": "300 g",
+    "volume": "500 ml",
+    "longest_side": "27 cm",
+    "price": 5400,
+    "price_postapoc": 100,
+    "material": [ "plastic" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "57" ],
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "57": 50 } } ]
+  },
+  {
+    "id": "ruger_57mag",
+    "looks_like": "glock17_17",
+    "type": "MAGAZINE",
+    "name": { "str": "Ruger-57 20-round magazine" },
+    "description": "A standard capacity 20-round 5.7x28mm magazine for use with the Ruger-57.",
+    "weight": "100 g",
+    "volume": "250 ml",
+    "price": 4000,
+    "price_postapoc": 100,
+    "material": [ "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "57" ],
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "57": 20 } } ]
+  },
+  {
+    "id": "ruger_57_10_round_mag",
+    "looks_like": "glock17_17",
+    "type": "MAGAZINE",
+    "name": { "str": "Ruger-57 10-round magazine" },
+    "description": "A small capacity 10-round magazine for use with the Ruger-57, developed for use in states in which larger capacity magazines are prohibited.",
+    "weight": "70 g",
+    "volume": "150 ml",
+    "price": 3700,
+    "price_postapoc": 100,
+    "material": [ "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "57" ],
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "57": 10 } } ]
+  }
+]

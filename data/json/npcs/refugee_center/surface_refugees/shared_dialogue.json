@@ -1,0 +1,39 @@
+[
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Refuse_Boris_Mission_1",
+    "dynamic_line": [
+      "Sorry, but you couldn't pay me enough to go back there.",
+      "No way, sorry.  I was in there when things went bad.  It'll be hard enough to go back after it's cleaned up, I can't bear to look at it right now.",
+      "I can't.  Too many memories back there.  Sorry.",
+      "I wish I could, but no.  I can't face the memories.",
+      "Sorry, no.  That's too much to ask from me.  I was back there when it went wrong.",
+      "You won't get much luck asking those of us who were back there I'm afraid.  Sorry."
+    ],
+    "speaker_effect": { "effect": { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" } },
+    "responses": [
+      { "text": "Thanks anyway.  What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "Well, thanks anyway.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Accept_Boris_Mission_1",
+    "dynamic_line": [
+      "This is for Boris?  Yeah, Boris is has been through a lot, I'll do it for him.",
+      "It won't be pretty, but I'll see what I can do.  We'll all benefit from it after all.",
+      "I can try.  It's worth trying for Boris.",
+      "That's a big ask, for sure.  Okay, I'll see what I can do."
+    ],
+    "speaker_effect": {
+      "effect": [
+        { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" },
+        { "u_adjust_var": "Boris_mission_1", "type": "mission", "context": "cleanup_promises", "adjustment": 1 }
+      ]
+    },
+    "responses": [
+      { "text": "Thanks anyway.  What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "Well, thanks anyway.", "topic": "TALK_DONE" }
+    ]
+  }
+]

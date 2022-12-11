@@ -1,0 +1,64 @@
+[
+  {
+    "type": "region_overlay",
+    "regions": [ "all" ],
+    "city": {
+      "houses": { "house_technomancer": 20, "wizard_tower_1": 10, "wizard_tower_2": 20 },
+      "shops": { "magic_shop": 100, "used_bookstore": 225, "magic_academy": 150 }
+    },
+    "field_coverage": { "other": { "f_boulder_large": 0.98, "f_glow_boulder": 0.02 } },
+    "region_terrain_and_furniture": {
+      "terrain": { "t_region_groundcover_swamp": { "t_horn_moss": 10 } },
+      "furniture": {
+        "f_region_water_plant": { "f_barnacle_weed": 1, "f_golden_reed": 1 },
+        "f_region_flower": {
+          "f_kampuch": 30,
+          "f_olieribos": 30,
+          "f_barnacle_weed": 13,
+          "f_dragonail": 17,
+          "f_moly": 17,
+          "f_flowering_fern": 3,
+          "f_funnelcap": 17,
+          "f_sojourners_palm": 3,
+          "f_platonic_flower": 7
+        },
+        "f_region_weed": {
+          "f_whiskflower": 100,
+          "f_kampuch": 17,
+          "f_olieribos": 17,
+          "f_glowing_mushroom": 33,
+          "f_dragonail": 17,
+          "f_moly": 17,
+          "f_flowering_fern": 3,
+          "f_funnelcap": 17,
+          "f_sojourners_palm": 7,
+          "f_platonic_flower": 7
+        },
+        "f_region_plain": {
+          "f_dragonail": 17,
+          "f_moly": 17,
+          "f_flowering_fern": 3,
+          "f_olieribos": 30,
+          "f_sojourners_palm": 3,
+          "f_whiskflower": 120
+        },
+        "f_region_forest": {
+          "f_platonic_flower": 6,
+          "f_kampuch": 20,
+          "f_flowering_fern": 3,
+          "f_funnelcap": 8,
+          "f_sojourners_palm": 3,
+          "f_whiskflower": 60
+        },
+        "f_region_forest_dense": {
+          "f_platonic_flower": 12,
+          "f_kampuch": 30,
+          "f_flowering_fern": 3,
+          "f_funnelcap": 17,
+          "f_sojourners_palm": 3,
+          "f_whiskflower": 10
+        }
+      }
+    }
+  }
+]

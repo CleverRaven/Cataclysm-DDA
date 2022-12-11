@@ -1,0 +1,129 @@
+[
+  {
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "result": "bio_power_storage",
+    "skill_used": "electronics",
+    "skills_required": [ "firstaid", 5 ],
+    "difficulty": 6,
+    "time": "4 h",
+    "decomp_learn": 5,
+    "using": [ [ "soldering_standard", 20 ] ],
+    "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "BIONIC_ASSEMBLY", "level": 2 } ],
+    "components": [
+      [ [ "afs_energy_storage_3", 2 ] ],
+      [ [ "afs_material_1", 6 ] ],
+      [ [ "plut_cell", 1 ] ],
+      [ [ "burnt_out_bionic", 1 ] ]
+    ]
+  },
+  {
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "result": "bio_power_storage_mkII",
+    "skill_used": "electronics",
+    "skills_required": [ "firstaid", 5 ],
+    "difficulty": 10,
+    "time": "4 h",
+    "decomp_learn": 8,
+    "using": [ [ "soldering_standard", 20 ] ],
+    "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "BIONIC_ASSEMBLY", "level": 2 } ],
+    "components": [
+      [ [ "afs_energy_storage_4", 2 ] ],
+      [ [ "afs_material_1", 6 ] ],
+      [ [ "plut_cell", 2 ] ],
+      [ [ "burnt_out_bionic", 1 ] ]
+    ]
+  },
+  {
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "result": "bio_batteries",
+    "skill_used": "electronics",
+    "skills_required": [ "firstaid", 5 ],
+    "difficulty": 7,
+    "time": "4 h",
+    "decomp_learn": 7,
+    "using": [ [ "soldering_standard", 20 ] ],
+    "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "BIONIC_ASSEMBLY", "level": 2 } ],
+    "components": [
+      [ [ "afs_energy_storage_1", 2 ] ],
+      [ [ "afs_circuitry_2", 2 ] ],
+      [ [ "afs_material_2", 6 ] ],
+      [ [ "burnt_out_bionic", 1 ] ]
+    ]
+  },
+  {
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "result": "bio_ups",
+    "skill_used": "electronics",
+    "skills_required": [ "firstaid", 5 ],
+    "difficulty": 6,
+    "time": "4 h",
+    "using": [ [ "soldering_standard", 20 ] ],
+    "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "BIONIC_ASSEMBLY", "level": 2 } ],
+    "components": [
+      [ [ "afs_energy_storage_4", 1 ] ],
+      [ [ "afs_circuitry_2", 1 ] ],
+      [ [ "afs_material_2", 6 ] ],
+      [ [ "burnt_out_bionic", 1 ] ]
+    ]
+  },
+  {
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "result": "bio_evap",
+    "skill_used": "electronics",
+    "skills_required": [ "firstaid", 5 ],
+    "difficulty": 7,
+    "time": "4 h",
+    "decomp_learn": 7,
+    "using": [ [ "soldering_standard", 60 ] ],
+    "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "BIONIC_ASSEMBLY", "level": 2 } ],
+    "components": [
+      [ [ "afs_biomaterial_4", 1 ] ],
+      [ [ "afs_neural_io_1", 2 ] ],
+      [ [ "afs_circuitry_2", 1 ] ],
+      [ [ "afs_material_2", 6 ] ],
+      [ [ "burnt_out_bionic", 1 ] ]
+    ]
+  },
+  {
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "result": "bio_flashlight",
+    "skill_used": "electronics",
+    "skills_required": [ "firstaid", 5 ],
+    "difficulty": 6,
+    "time": "4 h",
+    "decomp_learn": 5,
+    "using": [ [ "soldering_standard", 20 ] ],
+    "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "BIONIC_ASSEMBLY", "level": 2 } ],
+    "components": [
+      [ [ "afs_neural_io_1", 1 ] ],
+      [ [ "afs_circuitry_1", 1 ] ],
+      [ [ "afs_material_1", 6 ] ],
+      [ [ "burnt_out_bionic", 1 ] ]
+    ]
+  },
+  {
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "result": "bio_water_extractor",
+    "skill_used": "electronics",
+    "skills_required": [ "firstaid", 5 ],
+    "difficulty": 7,
+    "time": "4 h",
+    "decomp_learn": 7,
+    "using": [ [ "soldering_standard", 60 ] ],
+    "qualities": [ { "id": "BIONIC_ASSEMBLY", "level": 2 } ],
+    "components": [
+      [ [ "afs_biomaterial_4", 1 ] ],
+      [ [ "afs_neural_io_1", 2 ] ],
+      [ [ "afs_circuitry_2", 1 ] ],
+      [ [ "afs_material_2", 6 ] ],
+      [ [ "burnt_out_bionic", 1 ] ]
+    ]
+  }
+]

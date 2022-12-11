@@ -1,0 +1,78 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "small_wooded_trail" ],
+    "weight": 100,
+    "object": {
+      "predecessor_mapgen": "forest_thick",
+      "rows": [
+        "|||||||||||||___||||||||",
+        "|            ___       |",
+        "|            ___       |",
+        "|           ____       |",
+        "|       Y ______       |",
+        "|        ___  ___      |",
+        "|      ____    ___     |",
+        "|     ___       ___    |",
+        "|    __          __ Y  |",
+        "|   __           ___   |",
+        "|   __            __   |",
+        "|  ___            ___  |",
+        "|  __              __  |",
+        "|  ___             __  |",
+        "| Y __             __  |",
+        "|   ___            __  |",
+        "|    ___          ___  |",
+        "|     _____      ___   |",
+        "|     ' ____________   |",
+        "|     '   ________     |",
+        "|    '    & bbbb Y     |",
+        "|    '                 |",
+        "|   '                  |",
+        "||||'|||||||||||||||||||"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "park_nature_palette" ],
+      "place_monsters": [ { "monster": "GROUP_PARK_ANIMAL", "x": [ 2, 15 ], "y": [ 5, 13 ], "chance": 20 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "small_wooded_trail_2" ],
+    "weight": 100,
+    "object": {
+      "predecessor_mapgen": "forest_thick",
+      "rows": [
+        "|||||||||||||___||||||||",
+        "|            ___       |",
+        "|            ___       |",
+        "|           ____       |",
+        "|       Y ______       |",
+        "|        ___  ___      |",
+        "|      ____    ___     |",
+        "|     ___       ___    |",
+        "|    __   WWWW   __ Y  |",
+        "|   __   WWwwWWW ___   |",
+        "|   __   WwwwwwWW __   |",
+        "|  ___  WwwwwwwwW ___  |",
+        "|  __'''===wwwwwW  __  |",
+        "|  ___''===wwwwWW  __  |",
+        "| Y __   WwwwwwW   __  |",
+        "|   ___  WWWwwWW   __  |",
+        "|    ___   WWWW   ___  |",
+        "|     _____      ___   |",
+        "|     ' ____________   |",
+        "|     '   ________     |",
+        "|    '    & bbbb Y     |",
+        "|    '                 |",
+        "|   '                  |",
+        "||||'|||||||||||||||||||"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "park_nature_palette" ],
+      "place_monsters": [ { "monster": "GROUP_PARK_ANIMAL", "x": 2, "y": 5, "chance": 20 } ]
+    }
+  }
+]

@@ -1,0 +1,263 @@
+[
+  {
+    "id": "battery_car",
+    "type": "vehicle_part",
+    "name": { "str": "car battery" },
+    "item": "battery_car",
+    "fuel_type": "battery",
+    "symbol": "o",
+    "categories": [ "energy" ],
+    "color": "yellow",
+    "broken_color": "red",
+    "durability": 120,
+    "description": "A battery for storing electrical power, and discharging it to power electrical devices built into the vehicle.",
+    "folded_volume": "10 L",
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 6, 9 ] },
+      { "item": "steel_chunk", "count": [ 6, 9 ] },
+      { "item": "scrap", "count": [ 6, 9 ] }
+    ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "50 s", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
+      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "50 s", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "600 s", "using": [ [ "soldering_standard", 5 ] ] }
+    },
+    "damage_reduction": { "bash": 10 }
+  },
+  {
+    "id": "battery_motorbike",
+    "copy-from": "battery_car",
+    "type": "vehicle_part",
+    "name": { "str": "motorbike battery" },
+    "item": "battery_motorbike",
+    "durability": 100,
+    "folded_volume": "1500 ml",
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 4, 7 ] },
+      { "item": "steel_chunk", "count": [ 4, 7 ] },
+      { "item": "scrap", "count": [ 4, 7 ] }
+    ]
+  },
+  {
+    "id": "battery_motorbike_small",
+    "copy-from": "battery_car",
+    "type": "vehicle_part",
+    "name": { "str": "motorbike battery, small" },
+    "item": "battery_motorbike_small",
+    "durability": 30,
+    "folded_volume": "750 ml",
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 4, 7 ] },
+      { "item": "steel_chunk", "count": [ 4, 7 ] },
+      { "item": "scrap", "count": [ 4, 7 ] }
+    ]
+  },
+  {
+    "id": "large_storage_battery",
+    "copy-from": "storage_battery",
+    "type": "vehicle_part",
+    "name": { "str": "very large storage battery" },
+    "item": "large_storage_battery",
+    "durability": 600,
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 10, 20 ] },
+      { "item": "steel_chunk", "count": [ 5, 10 ] },
+      { "item": "scrap", "count": [ 5, 10 ] },
+      { "item": "storage_battery", "count": [ 0, 1 ] }
+    ]
+  },
+  {
+    "id": "large_storage_battery_removable",
+    "copy-from": "large_storage_battery",
+    "type": "vehicle_part",
+    "name": { "str": "swappable very large storage battery" },
+    "item": "large_storage_battery",
+    "location": "on_battery_mount",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "10 s", "using": [  ] },
+      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "10 s", "using": [  ] }
+    },
+    "description": "A battery for storing electrical power, and discharging it to power electrical devices built into the vehicle.  This one is mounted on a quick release framework to allow it to be easily swapped, though it still weighs so much that a lifting tool of some kind is necessary for most people.",
+    "flags": [ "NEEDS_BATTERY_MOUNT" ]
+  },
+  {
+    "id": "medium_storage_battery",
+    "copy-from": "storage_battery",
+    "type": "vehicle_part",
+    "name": { "str": "medium storage battery" },
+    "item": "medium_storage_battery",
+    "durability": 250,
+    "folded_volume": "5 L",
+    "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] }, { "item": "small_storage_battery", "count": [ 0, 7 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "200 s", "using": "vehicle_screw" },
+      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "200 s", "using": "vehicle_screw" }
+    }
+  },
+  {
+    "id": "small_storage_battery",
+    "copy-from": "storage_battery",
+    "type": "vehicle_part",
+    "name": { "str": "small storage battery" },
+    "item": "small_storage_battery",
+    "durability": 100,
+    "folded_volume": "500 ml",
+    "breaks_into": [ { "item": "scrap", "count": [ 1, 2 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "100 s", "using": [  ] },
+      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "100 s", "using": [  ] }
+    }
+  },
+  {
+    "id": "storage_battery",
+    "type": "vehicle_part",
+    "name": { "str": "large storage battery" },
+    "categories": [ "energy" ],
+    "item": "storage_battery",
+    "location": "fuel_source",
+    "fuel_type": "battery",
+    "symbol": "O",
+    "color": "yellow",
+    "broken_color": "red",
+    "durability": 300,
+    "description": "A battery for storing electrical power, and discharging it to power electrical devices built into the vehicle.",
+    "damage_modifier": 80,
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 5, 10 ] },
+      { "item": "steel_chunk", "count": [ 5, 10 ] },
+      { "item": "scrap", "count": [ 5, 10 ] },
+      { "item": "medium_storage_battery", "count": [ 1, 2 ] }
+    ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "600 s", "using": [ [ "welding_standard", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "300 s", "using": "vehicle_weld_removal" }
+    },
+    "damage_reduction": { "bash": 10 }
+  },
+  {
+    "id": "storage_battery_removable",
+    "copy-from": "storage_battery",
+    "type": "vehicle_part",
+    "name": { "str": "swappable large storage battery" },
+    "item": "storage_battery",
+    "location": "on_battery_mount",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "10 s", "using": [  ] },
+      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "10 s", "using": [  ] }
+    },
+    "description": "A battery for storing electrical power, and discharging it to power electrical devices built into the vehicle.  This one is mounted on a quick release framework to allow it to be easily swapped, though it still weighs so much that a lifting tool of some kind is necessary for some people.",
+    "flags": [ "NEEDS_BATTERY_MOUNT" ]
+  },
+  {
+    "id": "car_light_minus_battery_cell",
+    "copy-from": "battery_car",
+    "type": "vehicle_part",
+    "name": { "str": "ultra-light battery" },
+    "item": "light_minus_battery_cell",
+    "location": "on_battery_mount",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "50 s", "using": [  ] },
+      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "50 s", "using": [  ] }
+    },
+    "durability": 10,
+    "folded_volume": "10 ml",
+    "breaks_into": [ { "item": "e_scrap", "prob": 10 } ],
+    "flags": [ "NEEDS_HANDHELD_BATTERY_MOUNT", "NO_REPAIR" ]
+  },
+  {
+    "id": "car_light_battery_cell",
+    "copy-from": "battery_car",
+    "type": "vehicle_part",
+    "name": { "str": "light battery" },
+    "item": "light_battery_cell",
+    "location": "on_battery_mount",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "50 s", "using": [  ] },
+      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "50 s", "using": [  ] }
+    },
+    "durability": 20,
+    "folded_volume": "25ml",
+    "breaks_into": [ { "item": "e_scrap", "prob": 10 } ],
+    "flags": [ "NEEDS_HANDHELD_BATTERY_MOUNT", "NO_REPAIR" ]
+  },
+  {
+    "id": "car_light_plus_battery_cell",
+    "copy-from": "battery_car",
+    "type": "vehicle_part",
+    "name": { "str": "light battery (high-capacity)" },
+    "item": "light_plus_battery_cell",
+    "location": "on_battery_mount",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "50 s", "using": [  ] },
+      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "50 s", "using": [  ] }
+    },
+    "durability": 20,
+    "folded_volume": "35ml",
+    "breaks_into": [ { "item": "e_scrap", "prob": 10 } ],
+    "flags": [ "NEEDS_HANDHELD_BATTERY_MOUNT", "NO_REPAIR" ]
+  },
+  {
+    "id": "car_medium_battery_cell",
+    "copy-from": "battery_car",
+    "type": "vehicle_part",
+    "name": { "str": "medium battery" },
+    "item": "medium_battery_cell",
+    "location": "on_battery_mount",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "50 s", "using": [  ] },
+      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "50 s", "using": [  ] }
+    },
+    "durability": 30,
+    "folded_volume": "450 ml",
+    "breaks_into": [ { "item": "light_battery_cell", "count": [ 0, 3 ] }, { "item": "scrap", "count": [ 1, 4 ] } ],
+    "flags": [ "NEEDS_HANDHELD_BATTERY_MOUNT", "NO_REPAIR" ]
+  },
+  {
+    "id": "car_medium_plus_battery_cell",
+    "copy-from": "battery_car",
+    "type": "vehicle_part",
+    "name": { "str": "medium battery (high-capacity)" },
+    "item": "medium_plus_battery_cell",
+    "location": "on_battery_mount",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "50 s", "using": [  ] },
+      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "50 s", "using": [  ] }
+    },
+    "durability": 30,
+    "folded_volume": "525 ml",
+    "breaks_into": [ { "item": "light_plus_battery_cell", "count": [ 0, 3 ] }, { "item": "scrap", "count": [ 1, 4 ] } ],
+    "flags": [ "NEEDS_HANDHELD_BATTERY_MOUNT", "NO_REPAIR" ]
+  },
+  {
+    "id": "car_heavy_battery_cell",
+    "copy-from": "battery_car",
+    "type": "vehicle_part",
+    "name": { "str": "heavy battery" },
+    "item": "heavy_battery_cell",
+    "location": "on_battery_mount",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "50 s", "using": [  ] },
+      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "50 s", "using": [  ] }
+    },
+    "durability": 40,
+    "folded_volume": "1225 ml",
+    "breaks_into": [ { "item": "medium_battery_cell", "count": [ 0, 1 ] }, { "item": "scrap", "count": [ 1, 4 ] } ],
+    "flags": [ "NEEDS_HANDHELD_BATTERY_MOUNT", "NO_REPAIR" ]
+  },
+  {
+    "id": "car_heavy_plus_battery_cell",
+    "copy-from": "battery_car",
+    "type": "vehicle_part",
+    "name": { "str": "heavy battery (high-capacity)" },
+    "item": "heavy_plus_battery_cell",
+    "location": "on_battery_mount",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "50 s", "using": [  ] },
+      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "50 s", "using": [  ] }
+    },
+    "durability": 40,
+    "folded_volume": "1500 ml",
+    "breaks_into": [ { "item": "medium_battery_cell", "count": [ 0, 1 ] }, { "item": "scrap", "count": [ 1, 4 ] } ],
+    "flags": [ "NEEDS_HANDHELD_BATTERY_MOUNT", "NO_REPAIR" ]
+  }
+]

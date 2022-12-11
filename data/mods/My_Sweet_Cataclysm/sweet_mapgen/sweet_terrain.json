@@ -1,0 +1,40 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_chocolate_sh",
+    "name": "shallow chocolate",
+    "description": "The chocolate isn't too deep here.  With a watertight container, you could gather what looks to be pure melted cacao.  This will not be tasty.",
+    "symbol": "~",
+    "color": "light_blue",
+    "move_cost": 5,
+    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "FISHABLE", "SHALLOW_WATER", "CHOCOLATE" ],
+    "connect_groups": "WATER",
+    "connects_to": "WATER",
+    "examine_action": "water_source"
+  },
+  {
+    "type": "terrain",
+    "id": "t_chocolate_dp",
+    "name": "deep chocolate",
+    "description": "The chocolate here is deep enough to drown in.  With a watertight container, you could gather what looks to be pure melted cacao.  This will not be tasty.",
+    "symbol": "~",
+    "color": "light_blue",
+    "move_cost": 5,
+    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "FISHABLE", "CHOCOLATE" ],
+    "connect_groups": "WATER",
+    "connects_to": "WATER",
+    "examine_action": "water_source"
+  },
+  {
+    "type": "terrain",
+    "id": "t_caramel",
+    "name": "caramel",
+    "description": "An extremely hot, glowing liquid, composed of molten caramel.  In some places, caramel coated fruit is a delicacy.",
+    "symbol": "~",
+    "color": "red",
+    "move_cost": 4,
+    "light_emitted": 50,
+    "trap": "tr_lava",
+    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "DESTROY_ITEM", "USABLE_FIRE" ]
+  }
+]

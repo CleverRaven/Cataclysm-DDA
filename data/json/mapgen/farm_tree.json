@@ -1,0 +1,65 @@
+[
+  {
+    "method": "json",
+    "type": "mapgen",
+    "om_terrain": [ [ "TreeFarm_1a", "TreeFarm_1b" ] ],
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "                                                ",
+        "                                                ",
+        "  -+--                                          ",
+        "  -.&C    1  1  1  1  1  1  1  1  1  1  1  1  1 ",
+        "  wc.C                                          ",
+        "  -d.C                                          ",
+        "  -w--    1  1  1  1  1  1  1  1  1  1  1  1  1 ",
+        "                                                ",
+        "  ||||                                          ",
+        "  |##|    1  1  1  1  1  1  1  1  1  1  1  1  1 ",
+        "  |#D+                                          ",
+        "  |##|                                          ",
+        "  ||||    4  4  4  4  4  4  4  4  4  4  4  4  4 ",
+        "                                                ",
+        "                                                ",
+        " 4  4  4  4  4  4  4  4  4  4  4  4  4  4  4  4 ",
+        "                                                ",
+        "                                                ",
+        " 4  4  4  4  4  4  4  4  4  4  4  4  4  4  4  4 ",
+        "                                                ",
+        "                                                ",
+        " 4  4  4  4  4  4  4  4  4  4  4  4  4  4  4  4 ",
+        "                                                ",
+        "                                                "
+      ],
+      "furniture": { "#": "f_utility_shelf", "&": "f_trashcan", "C": "f_counter", "c": "f_chair", "d": "f_desk" },
+      "terrain": {
+        "#": "t_dirtfloor",
+        "+": "t_door_c",
+        "-": "t_wall",
+        " ": "t_region_groundcover",
+        "1": "t_tree_young",
+        "4": "t_tree_pine",
+        "D": "t_dirtfloor",
+        "P": "t_grass",
+        ".": "t_floor",
+        "w": "t_window",
+        "|": "t_wall_wood"
+      },
+      "place_item": [ { "item": "chainsaw_off", "chance": 70, "x": 3, "y": 10 }, { "item": "saw", "chance": 70, "x": 3, "y": 10 } ],
+      "place_items": [
+        { "chance": 30, "item": "tools_common", "x": 4, "y": 11 },
+        { "chance": 20, "repeat": [ 1, 4 ], "item": "trash", "x": 4, "y": 3 },
+        { "chance": 30, "item": "tools_earthworking", "x": 3, "y": 11 },
+        { "chance": 30, "item": "tools_earthworking", "x": 3, "y": 9 },
+        { "chance": 30, "item": "tools_earthworking", "x": 4, "y": 9 },
+        { "chance": 20, "repeat": [ 1, 2 ], "item": "office", "x": 3, "y": 5 },
+        { "item": "cash_register_random", "x": 5, "y": [ 3, 5 ], "chance": 100 }
+      ],
+      "place_signs": [
+        { "signage": "<given_name>'s Tree Farm, call us at 555-8758!", "x": 4, "y": 1 },
+        { "signage": "Christmas trees available early winter!", "x": 5, "y": 1 }
+      ]
+    }
+  }
+]

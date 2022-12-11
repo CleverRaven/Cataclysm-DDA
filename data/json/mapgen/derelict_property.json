@@ -1,0 +1,383 @@
+[
+  {
+    "type": "palette",
+    "id": "derelict_palette",
+    "parameters": {
+      "broken_wall_type": {
+        "type": "ter_str_id",
+        "default": {
+          "distribution": [ [ "t_wall_wood_broken", 3 ], [ "t_wall_log_broken", 3 ], [ "t_wall_half", 2 ], [ "t_brick_wall_halfway", 1 ] ]
+        }
+      },
+      "fence_type": {
+        "type": "ter_str_id",
+        "default": {
+          "distribution": [
+            [ "t_fence_wire", 3 ],
+            [ "t_fence_barbed", 1 ],
+            [ "t_chainfence", 1 ],
+            [ "t_fence", 2 ],
+            [ "t_privacy_fence", 2 ],
+            [ "t_null", 10 ]
+          ]
+        }
+      },
+      "trash_type": {
+        "type": "furn_str_id",
+        "default": { "distribution": [ [ "f_wreckage", 2 ], [ "f_null", 5 ], [ "f_rubble_landfill", 3 ], [ "f_rubble", 1 ] ] }
+      }
+    },
+    "terrain": {
+      "F": {
+        "switch": { "param": "fence_type", "fallback": "fence_type" },
+        "cases": {
+          "t_fence_wire": "t_fence_post",
+          "t_fence_barbed": "t_fence_post",
+          "t_chainfence": "t_chainfence_posts",
+          "t_fence": "t_fence",
+          "t_privacy_fence": "t_privacy_fence",
+          "t_null": "t_null"
+        }
+      },
+      "$": { "param": "fence_type", "fallback": "t_null" },
+      ".": "t_floor",
+      "d": "t_floor",
+      "n": "t_floor",
+      "h": "t_floor",
+      "H": "t_floor",
+      "m": "t_floor",
+      "r": "t_floor",
+      "{": "t_floor",
+      "B": "t_floor",
+      "c": "t_floor",
+      "O": "t_floor",
+      "@": "t_floor",
+      "t": "t_floor",
+      ":": "t_linoleum_gray",
+      "b": "t_linoleum_gray",
+      "T": "t_linoleum_gray",
+      "&": "t_linoleum_gray",
+      "v": "t_linoleum_gray",
+      "=": "t_thconc_floor",
+      "R": "t_thconc_floor",
+      "0": [ [ "t_window_boarded_noglass", 2 ], [ "t_window_boarded", 2 ], "t_window_empty" ],
+      "^": "t_region_soil",
+      "o": "t_dirtmound",
+      "s": "t_concrete",
+      "+": [ "t_door_c", "t_door_o", "t_door_b" ],
+      "D": [ "t_door_locked_interior", "t_door_b", [ "t_door_boarded", 4 ] ],
+      "w": { "param": "broken_wall_type", "fallback": "t_wall_wood_broken" },
+      "|": {
+        "switch": { "param": "broken_wall_type", "fallback": "t_wall_wood_broken" },
+        "cases": {
+          "t_wall_wood_broken": "t_wall_wood",
+          "t_wall_log_broken": "t_wall_log",
+          "t_wall_half": "t_wall",
+          "t_brick_wall_halfway": "t_brick_wall"
+        }
+      }
+    },
+    "furniture": {
+      "r": "f_rubble",
+      "^": "f_rubble",
+      "v": "f_rubble",
+      "d": "f_desk",
+      "@": "f_floor_mattress",
+      "h": "f_chair",
+      "n": "f_table",
+      "c": "f_cupboard",
+      "H": "f_armchair",
+      "{": "f_bookcase",
+      "b": "f_shower",
+      "&": "f_sink",
+      "B": "f_bigmirror_b",
+      "R": "f_utility_shelf",
+      "O": "f_cardboard_box",
+      "t": "f_woodstove",
+      "W": { "param": "trash_type", "fallback": "f_null" }
+    },
+    "nested": {
+      "|": { "chunks": [ [ "1x1_bash", 7 ], [ "general_graffiti", 20 ], [ "null", 90 ] ] },
+      "w": { "chunks": [ [ "1x1_bash", 1 ], [ "null", 6 ] ] },
+      ".": { "chunks": [ [ "1x1_bash", 1 ], [ "null", 10 ] ] }
+    },
+    "items": {
+      "{": { "item": "homebooks", "chance": 20, "repeat": [ 1, 2 ] },
+      "p": { "item": "fireplace_fill", "chance": 60, "repeat": [ 1, 2 ] },
+      "R": [ { "item": "tools_earthworking", "chance": 10 }, { "item": "farming_seeds", "chance": 30, "repeat": [ 1, 4 ] } ],
+      "O": [
+        { "item": "tools_carpentry", "chance": 20, "repeat": [ 1, 2 ] },
+        { "item": "tools_construction", "chance": 20, "repeat": [ 1, 2 ] },
+        { "item": "trash", "chance": 40, "repeat": [ 1, 3 ] }
+      ],
+      " ": { "item": "clutter_yard", "chance": 1, "repeat": [ 1, 2 ] },
+      ".": { "item": "bar_trash", "chance": 5, "repeat": [ 1, 2 ] },
+      "C": { "item": "alcohol", "chance": 25 },
+      "c": { "item": "trash", "chance": 25, "repeat": [ 1, 4 ] },
+      "@": { "item": "gear_homeless", "chance": 25 }
+    },
+    "toilets": { "T": {  } }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "derelict_property" ],
+    "weight": 100,
+    "object": {
+      "predecessor_mapgen": "forest",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "       |||00|||00|||    ",
+        "       |d....|t...@|    ",
+        "       |dh.@.+.....0    ",
+        "       |d....w...r.|    ",
+        "       |...r.r.rr.r|    ",
+        "       ||+||wwrrrr^|^   ",
+        "       |H.rrr^rrr^^w^   ",
+        "     ss|..rr^r^r^^^w    ",
+        "     ssD.rr^^ ^^  ^^    ",
+        "     ss|..rr^^^    ^    ",
+        "       |.rr^^   ^       ",
+        " F$$F$$|||ww^^^         ",
+        "         ^^             ",
+        "                  WW    ",
+        " F             WWW      ",
+        "        W     W W W     ",
+        "       WW W   WW  WW    ",
+        " F       W       W      ",
+        " $      WW W            ",
+        " $                      ",
+        " F  F  F$$F     F       "
+      ],
+      "palettes": [ "derelict_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "derelict_property" ],
+    "weight": 100,
+    "object": {
+      "predecessor_mapgen": "forest",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "        sss             ",
+        "        sss             ",
+        "F$$$$F|||D||00||00|||^  ",
+        "      |@@......ccccrw   ",
+        "      |r....rrrr..rrw^  ",
+        "     ^|{..rrr^^rr||||^  ",
+        "     ^|{.rr^^ ^^r|&b|   ",
+        "      |{Br^^^ ^^r+:T|   ",
+        "    ^ ||||ww^ ^^w||||   ",
+        "      wrr^^^   ^^wr.|   ",
+        "     ^wr^^   ^  ^^^r|^  ",
+        "     ^^^^         ^^w^  ",
+        "    ^^w^       ^^^ ^w   ",
+        "     ^w^^      ^^w^ ^   ",
+        "      |r^    ^^^r|      ",
+        "      |rr^^ ^^r..|    W ",
+        "      ||0ww^ww|0|| W    ",
+        "         ^^^^^^^^ WW W  ",
+        "        ^ ^^   ^   WW   ",
+        "             ^    W  W  ",
+        "                        "
+      ],
+      "palettes": [ "derelict_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "derelict_property" ],
+    "weight": 100,
+    "object": {
+      "predecessor_mapgen": "forest",
+      "rows": [
+        "                        ",
+        "     sss                ",
+        "     sss^  ^            ",
+        "  ||||Dww^^^w|          ",
+        "  |d....rr^rr|^         ",
+        " ^0dh...r^^^rw^^^       ",
+        " ^|d.@.rr^  ^^^ww       ",
+        " ^||||+|wr^  ^^r|^      ",
+        "  |t....rr^^ ^^rw^^     ",
+        "  0c...h.rr^^^rrr^      ",
+        "  0c..@.rrrr^vvvw^ ^    ",
+        "  |c.....rrr^^vv|^      ",
+        "  ||||D|ww^^^^ww|   W   ",
+        "    $ s^  ^^   ^$    WW ",
+        "    $ oo oo oo  $   WW  ",
+        "    $ oo oo oo  $     W ",
+        "    F oo oo oo  ||0||   ",
+        "      oo oo oo  |==R|   ",
+        "      oo oo oo  D==R|   ",
+        "                |==R|   ",
+        "    F   F$$$F   ||0||   ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "derelict_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "derelict_property" ],
+    "weight": 100,
+    "object": {
+      "predecessor_mapgen": "forest_water",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                s       ",
+        " F   F$$$F$$$|0|D|0|    ",
+        "             |.h..c|    ",
+        "       WW    ^....r|    ",
+        "      WW W   ^rr..r|    ",
+        " F     WW   ^^rrrrr^    ",
+        "             ^^^^r^^    ",
+        "               ^^^^     ",
+        "              ^  ^ ^    ",
+        " F             ^        ",
+        " $                  ^   ",
+        " $               ^      ",
+        " $            ^ ^ ^^    ",
+        " F W            ^^^|    ",
+        "      WW       ^^rr|    ",
+        "    WW        ^^rr.|    ",
+        "  W WWW        ^^r.|    ",
+        " F    W       ^^||||    ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "derelict_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "place_vehicles": [ { "vehicle": "car_chassis", "x": [ 5, 10 ], "y": [ 10, 14 ], "chance": 50, "status": 1, "rotation": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "derelict_property",
+    "weight": 100,
+    "object": {
+      "predecessor_mapgen": "forest",
+      "rows": [
+        "F                 $ $$ F",
+        "$  WW                  $",
+        "$ WW  W                $",
+        "$   WW       ^         $",
+        "$ W W  ^  ^^^   ^sss   $",
+        "       ^^^^^^^^^ sss    ",
+        "$    ||0|ww^^www||D||   ",
+        "$    |...rrrrrr..@.O|  $",
+        "     0.hnn.rr.......|^ $",
+        "     |r.nn.....OO..rw^  ",
+        "    ^wr..h...@.|r..rw^  ",
+        "$   ^wrr..cccct|n.rr^  ^",
+        "     ^r.ww||||||H..r^^  ",
+        "    ^^rr...|&:T|..rrw   ",
+        "     ^^^r..+:::|{..rw^  ",
+        "    ^w^^rr.wv:b|{.rr|   ",
+        "    ^w^^^rrwvvv|{.rr|   ",
+        "    ^|w^^^ww|ww|||w||   ",
+        "     ^^  ^^ ^^^^ ^^     ",
+        "           ^  ^         ",
+        "$                W   W  ",
+        "$                   WW  ",
+        "$                 WW  W ",
+        "F $$             $  $$$F"
+      ],
+      "palettes": [ "derelict_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "derelict_property",
+    "weight": 100,
+    "object": {
+      "predecessor_mapgen": "forest",
+      "rows": [
+        "F   F$$$FsF   F   F$$$F ",
+        "         s       W   W  ",
+        "         s  ^       WW W",
+        "F        s^^ ^ ^      F ",
+        "       ||Dww^^w||     $ ",
+        "  WW   |..rrrrr.|     $ ",
+        "     W 0....rr..0     $ ",
+        "       |@....O.r|^    F ",
+        "       |||||...rw ^     ",
+        "       |.OO|..rr^^      ",
+        "       0...|...r^^      ",
+        "F      0...+..rrw     F ",
+        "$      |.@.|..rr|^      ",
+        "$      ||||||..r|       ",
+        "$      |.hnnh..r|       ",
+        "F      |.hnnh...|     F ",
+        "       |r.......|       ",
+        "      ^wrrr..ccc|   W   ",
+        "       ^^w||||0||  W  W ",
+        "F     ^^^^         WW F ",
+        " W   W ^             W$ ",
+        "   WW                 $ ",
+        "   W                  $ ",
+        "F$$$F$$$F     F   F   F "
+      ],
+      "palettes": [ "derelict_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "derelict_property",
+    "weight": 100,
+    "object": {
+      "predecessor_mapgen": "forest",
+      "rows": [
+        "F  F$$F  F$$F           ",
+        "                    W   ",
+        "                 WWW  W ",
+        "F oo oo oo oo      WW   ",
+        "$ oo oo oo oo     WW  W ",
+        "$ oo oo oo oo   W   W   ",
+        "F oo oo oo oo           ",
+        "  oo oo oo oo           ",
+        "                        ",
+        "F   ||000||             ",
+        "    |t...@|      ^      ",
+        "    |.hnh.Dsss ^ w||||  ",
+        "F   |.....|     ^wvvR|  ",
+        "   ^|rrrrr|^    ^vvvR|  ",
+        "  ^^wrr^^^w    ^^wv=R|  ",
+        "F  ^w^^^  ^^    ^ww|||  ",
+        "$   w^^  ^w   ^  ^^^ $  ",
+        "$  ^|r^ ^rw^   WW    $  ",
+        "F   |w^w|||^     W W F  ",
+        "       ^^       WW      ",
+        "                        ",
+        "F  F$$F  F  F$$F$$F  F  ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "derelict_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "v": "t_thconc_floor" },
+      "place_vehicles": [ { "vehicle": "car_chassis", "x": [ 17, 20 ], "y": [ 7, 8 ], "chance": 50, "status": 1, "rotation": 0 } ]
+    }
+  }
+]

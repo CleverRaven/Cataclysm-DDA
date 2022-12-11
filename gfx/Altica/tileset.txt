@@ -1,0 +1,11 @@
+#Alternative Ultica
+
+NAME: Alternative Ultica
+VIEW: AltiCa
+JSON: tile_config.json
+TILESET: tiles.png
+
+#visit https://discord.gg/kAXNZuy to discuss and contribute to this community-driven tileset!
+#Development ongoing constantly!
+#Filler trees originally sourced from opengameart.org and drawn by Yar, edited by I-am-Erk
+#Further tile credits can be found in at https://github.com/I-am-Erk/CDDA-Tilesets/tree/master/gfx/Altica in folders for individual tiles.

@@ -1,0 +1,50 @@
+[
+  {
+    "id": "32_acp",
+    "type": "AMMO",
+    "name": { "str_sp": ".32 ACP" },
+    "description": "A .32 ACP round, once a popular handgun cartridge in the 20th century.  It lacks power compared to the .38 and the 9x19mm.",
+    "weight": "5 g",
+    "volume": "116 ml",
+    "price": 160,
+    "price_postapoc": 1600,
+    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
+    "material": [ "brass", "powder" ],
+    "symbol": "=",
+    "color": "yellow",
+    "count": 80,
+    "stack_size": 80,
+    "ammo_type": "32",
+    "casing": "32_casing",
+    "range": 12,
+    "damage": { "damage_type": "bullet", "amount": 16 },
+    "dispersion": 70,
+    "recoil": 150,
+    "effects": [ "COOKOFF" ]
+  },
+  {
+    "id": "bp_32_acp",
+    "copy-from": "32_acp",
+    "type": "AMMO",
+    "name": { "str_sp": ".32 ACP, black powder" },
+    "description": "A .32 ACP round, once a popular handgun cartridge in the 20th century.  Someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
+    "proportional": {
+      "price": 0.3,
+      "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
+      "recoil": 0.76,
+      "dispersion": 1.2
+    },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+  },
+  {
+    "id": "reloaded_32_acp",
+    "copy-from": "32_acp",
+    "type": "AMMO",
+    "name": { "str_sp": ".32 ACP, reloaded" },
+    "description": "A .32 ACP round, once a popular handgun cartridge in the 20th century.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
+    "extend": { "effects": [ "RECYCLED" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+  }
+]

@@ -1,0 +1,74 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "ws_giant_sinkhole_1" ],
+    "weight": 1000,
+    "object": {
+      "predecessor_mapgen": "field",
+      "rows": [
+        "                        ",
+        "                        ",
+        "       XXX              ",
+        "      XXXXX             ",
+        "     XXXXXXX   XXXXXX   ",
+        "    XXXXXXXXXXXXXXXXXX  ",
+        "   XXXXXXXXXXXXXXXXXXX  ",
+        "   XXXXXXXXXXXXXXXXXX   ",
+        "  XXXXXXXXXXXXXXXXXX    ",
+        "  XXXXXXXXXXXXXXXXX     ",
+        "  XXXXXXXXXXXXXXXX      ",
+        "  XXXXXXXXXXXXXXXXX     ",
+        "   XXXXXXXXXXXXXXXXX    ",
+        "   XXXXXXXXXXXXXXXXXX   ",
+        "    XXXXXXXXXXXXXXXXX   ",
+        "     XXXXXXXXXXXXXXXX   ",
+        "    XXXXXXXXXXXXXXXXXX  ",
+        "    XXXXXXXXXXXXXXXXXXX ",
+        "   XXXXXXXXXXXXXXXXXXXX ",
+        "  XXXXXXXXXXXXXXXXXXXX  ",
+        "     XXXXXXXXXXXXXXXXX  ",
+        "               XXXXXX   ",
+        "                 XX     ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "X": "t_open_air" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "ws_giant_sinkhole_2" ],
+    "weight": 1000,
+    "object": {
+      "rows": [
+        "########################",
+        "########################",
+        "#######ooo##############",
+        "######o..oo#############",
+        "#####...w...###o...oo###",
+        "####...wwww..........o##",
+        "###o...wWwww.........o##",
+        "###...wwWWWww........###",
+        "##o..wwWWWWww.......####",
+        "##....wwWWWwww.....#####",
+        "##o...wwWWWWww....######",
+        "##o...wWWWWWww.....#####",
+        "###..wwwwWWWwww.....####",
+        "###o..wwwWWWwww.....o###",
+        "####....wwwWWww......###",
+        "#####....wwWWwww.....###",
+        "####o.....wwWWww......##",
+        "####......wwWWww......o#",
+        "###o.......wwww.......o#",
+        "##ooo.......ww........##",
+        "#####ooo..............##",
+        "###############o..ooo###",
+        "#################oo#####",
+        "########################"
+      ],
+      "terrain": { "o": "t_dirtmound", ".": "t_region_soil", "#": "t_soil", "W": "t_water_dp", "w": "t_water_sh" }
+    }
+  }
+]
