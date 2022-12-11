@@ -1429,8 +1429,8 @@ void veh_interact::calc_overview()
     overview_headers["1_ENGINE"] = [this]( const catacurses::window & w, int y ) {
         trim_and_print( w, point( 1, y ), getmaxx( w ) - 2, c_light_gray,
                         string_format( _( "Engines: %sSafe %4d kW</color> %sMax %4d kW</color>" ),
-                                       health_color( true ), veh->total_power_w( true, true ) / 1000,
-                                       health_color( false ), veh->total_power_w() / 1000 ) );
+                                       health_color( true ), units::to_kilowatt( veh->total_power_w( true, true ) ),
+                                       health_color( false ), units::to_kilowatt( veh->total_power_w() ) ) );
         right_print( w, y, 1, c_light_gray, _( "Fuel     Use" ) );
     };
     overview_headers["2_TANK"] = []( const catacurses::window & w, int y ) {
@@ -2739,7 +2739,7 @@ void veh_interact::display_stats() const
 
     fold_and_print( w_stats, point( x[i], y[i] ), w[i], c_light_gray,
                     _( "Static drag:    <color_light_blue>%5d</color>" ),
-                    veh->static_drag( false ) );
+                    units::to_watt( veh->static_drag( false ) ) );
     i += 1;
 
     fold_and_print( w_stats, point( x[i], y[i] ), w[i], c_light_gray,
@@ -3059,13 +3059,13 @@ void veh_interact::display_details( const vpart_info *part )
                         small_mode ? _( "BatCap" ) : _( "Battery Capacity" ),
                         battery->capacity );
     } else {
-        int part_power = part->power;
-        if( part_power == 0 ) {
-            part_power = item( part->base_item ).engine_displacement();
+        units::power part_power = part->power;
+        if( part_power == 0_W ) {
+            part_power = units::from_watt( item( part->base_item ).engine_displacement() );
         }
-        if( part_power != 0 ) {
+        if( part_power != 0_W ) {
             fold_and_print( w_details, point( col_2, line + 5 ), column_width, c_white,
-                            _( "Power: <color_light_gray>%+8d</color>" ), part_power );
+                            _( "Power: <color_light_gray>%+8d</color>" ), units::to_watt( part_power ) );
         }
     }
 

@@ -1017,7 +1017,7 @@ bool vehicle::has_security_working() const
 
 void vehicle::backfire( const int e ) const
 {
-    const int power = part_vpower_w( engines[e], true );
+    const int power = units::to_watt( part_vpower_w( engines[e], true ) );
     const tripoint pos = global_part_pos3( engines[e] );
     sounds::sound( pos, 40 + power / 10000, sounds::sound_t::movement,
                    // single space after the exclamation mark because it does not end the sentence
@@ -1038,28 +1038,29 @@ const vpart_info &vehicle::part_info( int index, bool include_removed ) const
 
 // engines & alternators all have power.
 // engines provide, whilst alternators consume.
-int vehicle::part_vpower_w( const int index, const bool at_full_hp ) const
+units::power vehicle::part_vpower_w( const int index, const bool at_full_hp ) const
 {
     const vehicle_part &vp = parts[ index ];
-    int pwr = vp.info().power;
+    units::power pwr = vp.info().power;
     if( part_flag( index, VPFLAG_ENGINE ) ) {
-        if( pwr == 0 ) {
+        if( pwr == 0_W ) {
             pwr = vhp_to_watts( vp.base.engine_displacement() );
         }
         if( vp.info().fuel_type == fuel_type_animal ) {
             monster *mon = get_monster( index );
             if( mon != nullptr && mon->has_effect( effect_harnessed ) ) {
                 // An animal that can carry twice as much weight, can pull a cart twice as hard.
-                pwr = mon->get_speed() * ( mon->get_size() - 1 ) * 3
-                      * ( mon->get_mountable_weight_ratio() * 5 );
+                pwr = units::from_watt( mon->get_speed() * ( mon->get_size() - 1 ) * 3
+                                        * ( mon->get_mountable_weight_ratio() * 5 ) );
             } else {
-                pwr = 0;
+                pwr = 0_W;
             }
         }
         // Weary multiplier
         const float weary_mult = get_player_character().exertion_adjusted_move_multiplier();
         ///\EFFECT_STR increases power produced for MUSCLE_* vehicles
-        pwr += ( get_player_character().str_cur - 8 ) * part_info( index ).engine_muscle_power_factor() *
+        pwr += units::from_watt( get_player_character().str_cur - 8 ) * part_info(
+                   index ).engine_muscle_power_factor() *
                weary_mult;
         /// wind-powered vehicles have differing power depending on wind direction
         if( vp.info().fuel_type == fuel_type_wind ) {
@@ -1077,12 +1078,12 @@ int vehicle::part_vpower_w( const int index, const bool at_full_hp ) const
             } else {
                 dot = std::max( 0.1, dot );
             }
-            int windeffectint = static_cast<int>( ( windpower * dot ) * 200 );
-            pwr = std::max( 1, pwr + windeffectint );
+            units::power windeffectint = units::from_watt( ( windpower * dot ) * 200 );
+            pwr = std::max( 1_W, pwr + windeffectint );
         }
     }
 
-    if( pwr < 0 ) {
+    if( pwr < 0_W ) {
         return pwr; // Consumers always draw full power, even if broken
     }
     if( at_full_hp ) {
@@ -1094,7 +1095,7 @@ int vehicle::part_vpower_w( const int index, const bool at_full_hp ) const
     // provides a floor otherwise
     float dpf = part_info( index ).engine_damaged_power_factor();
     double effective_percent = dpf + ( ( 1 - dpf ) * health );
-    return static_cast<int>( pwr * effective_percent );
+    return pwr * effective_percent;
 }
 
 // alternators, solar panels, reactors, and accessories all have epower.
@@ -1116,12 +1117,12 @@ int vehicle::power_to_energy_bat( const units::power power, const time_duration 
     return produced_kj;
 }
 
-int vehicle::vhp_to_watts( const int power_vhp )
+units::power vehicle::vhp_to_watts( const int power_vhp )
 {
     // Convert vhp units (0.5 HP ) to watts
     // Used primarily for calculating battery charge/discharge
     // TODO: convert batteries to use energy units based on watts (watt-ticks?)
-    constexpr int conversion_factor = 373; // 373 watts == 1 power_vhp == 0.5 HP
+    constexpr units::power conversion_factor = 373_W; // 373 watts == 1 power_vhp == 0.5 HP
     return power_vhp * conversion_factor;
 }
 
@@ -3452,15 +3453,15 @@ int vehicle::drain( const int index, int amount )
     return drained;
 }
 
-int vehicle::basic_consumption( const itype_id &ftype ) const
+units::power vehicle::basic_consumption( const itype_id &ftype ) const
 {
-    int fcon = 0;
+    units::power fcon = 0_W;
     for( size_t e = 0; e < engines.size(); ++e ) {
         if( is_engine_type_on( e, ftype ) ) {
             if( parts[ engines[e] ].ammo_current() == fuel_type_battery &&
                 part_epower( engines[e] ) >= 0_W ) {
                 // Electric engine - use epower instead
-                fcon -= units::to_watt( part_epower( engines[e] ) );
+                fcon -= part_epower( engines[e] );
 
             } else if( !is_perpetual_type( e ) ) {
                 fcon += part_vpower_w( engines[e] );
@@ -3486,10 +3487,10 @@ int vehicle::consumption_per_hour( const itype_id &ftype, units::energy fuel_per
     return -1000 * energy_per_h / energy_per_liter;
 }
 
-int vehicle::total_power_w( const bool fueled, const bool safe ) const
+units::power vehicle::total_power_w( const bool fueled, const bool safe ) const
 {
-    int pwr = 0;
-    int cnt = 0;
+    units::power pwr = 0_W;
+    int count = 0;
 
     for( size_t e = 0; e < engines.size(); e++ ) {
         int p = engines[e];
@@ -3499,7 +3500,7 @@ int vehicle::total_power_w( const bool fueled, const bool safe ) const
                 m2c *= 0.6;
             }
             pwr += part_vpower_w( p ) * m2c / 100;
-            cnt++;
+            count++;
         }
     }
 
@@ -3509,10 +3510,10 @@ int vehicle::total_power_w( const bool fueled, const bool safe ) const
             pwr += part_vpower_w( p ); // alternators have negative power
         }
     }
-    pwr = std::max( 0, pwr );
+    pwr = std::max( 0_W, pwr );
 
-    if( cnt > 1 ) {
-        pwr = pwr * 4 / ( 4 + cnt - 1 );
+    if( count > 1 ) {
+        pwr = pwr * 4 / ( 4 + count - 1 );
     }
     return pwr;
 }
@@ -3555,7 +3556,7 @@ int vehicle::ground_acceleration( const bool fueled, int at_vel_in_vmi ) const
             weight = weight + to_kilogram( other_veh->total_mass() );
         }
     }
-    int engine_power_ratio = total_power_w( fueled ) / weight;
+    int engine_power_ratio = units::to_watt( total_power_w( fueled ) ) / weight;
     int accel_at_vel = 100 * 100 * engine_power_ratio / cmps;
     add_msg_debug( debugmode::DF_VEHICLE, "%s: accel at %d vimph is %d", name, target_vmiph,
                    cmps_to_vmiph( accel_at_vel ) );
@@ -3587,7 +3588,7 @@ int vehicle::water_acceleration( const bool fueled, int at_vel_in_vmi ) const
             weight = weight + to_kilogram( other_veh->total_mass() );
         }
     }
-    int engine_power_ratio = total_power_w( fueled ) / weight;
+    int engine_power_ratio = units::to_watt( total_power_w( fueled ) ) / weight;
     int accel_at_vel = 100 * 100 * engine_power_ratio / cmps;
     add_msg_debug( debugmode::DF_VEHICLE, "%s: water accel at %d vimph is %d", name, target_vmiph,
                    cmps_to_vmiph( accel_at_vel ) );
@@ -3670,7 +3671,7 @@ int vehicle::current_acceleration( const bool fueled ) const
 // got it? quiz on Wednesday.
 int vehicle::max_ground_velocity( const bool fueled ) const
 {
-    int total_engine_w = total_power_w( fueled );
+    int total_engine_w = units::to_watt( total_power_w( fueled ) );
     double c_rolling_drag = coeff_rolling_drag();
     double max_in_mps = simple_cubic_solution( coeff_air_drag(), c_rolling_drag,
                         c_rolling_drag * vehicles::rolling_constant_to_variable,
@@ -3693,7 +3694,7 @@ int vehicle::max_ground_velocity( const bool fueled ) const
 // velocity = cube root( engine_power / ( c_water_drag + c_air_drag ) )
 int vehicle::max_water_velocity( const bool fueled ) const
 {
-    int total_engine_w = total_power_w( fueled );
+    int total_engine_w = units::to_watt( total_power_w( fueled ) );
     double total_drag = coeff_water_drag() + coeff_air_drag();
     double max_in_mps = std::cbrt( total_engine_w / total_drag );
     add_msg_debug( debugmode::DF_VEHICLE,
@@ -3737,7 +3738,7 @@ int vehicle::max_reverse_velocity( const bool fueled ) const
 // the same physics as max_ground_velocity, but with a smaller engine power
 int vehicle::safe_ground_velocity( const bool fueled ) const
 {
-    int effective_engine_w = total_power_w( fueled, true );
+    int effective_engine_w = units::to_watt( total_power_w( fueled, true ) );
     double c_rolling_drag = coeff_rolling_drag();
     double safe_in_mps = simple_cubic_solution( coeff_air_drag(), c_rolling_drag,
                          c_rolling_drag * vehicles::rolling_constant_to_variable,
@@ -3755,7 +3756,7 @@ int vehicle::safe_rotor_velocity( const bool fueled ) const
 // the same physics as max_water_velocity, but with a smaller engine power
 int vehicle::safe_water_velocity( const bool fueled ) const
 {
-    int total_engine_w = total_power_w( fueled, true );
+    int total_engine_w = units::to_watt( total_power_w( fueled, true ) );
     double total_drag = coeff_water_drag() + coeff_air_drag();
     double safe_in_mps = std::cbrt( total_engine_w / total_drag );
     return mps_to_vmiph( safe_in_mps );
@@ -3832,7 +3833,7 @@ void vehicle::noise_and_smoke( int load, time_duration time )
         if( engine_on && is_engine_on( e ) && engine_fuel_left( e ) ) {
             // convert current engine load to units of watts/40K
             // then spew more smoke and make more noise as the engine load increases
-            int part_watts = part_vpower_w( p, true );
+            int part_watts = units::to_watt( part_vpower_w( p, true ) );
             double max_stress = static_cast<double>( part_watts / 40000.0 );
             double cur_stress = load / 1000.0 * max_stress;
             // idle stress = 1.0 resulting in nominal working engine noise = engine_noise_factor()
@@ -4160,9 +4161,8 @@ double vehicle::lift_thrust_of_rotorcraft( const bool fuelled, const bool safe )
         double rotor_diameter_in_feet = parts[ rotor ].info().rotor_diameter() * 3.28084;
         rotor_area_in_feet += ( M_PI / 4 ) * std::pow( rotor_diameter_in_feet, 2 );
     }
-    int total_engine_w = total_power_w( fuelled, safe );
     // take off 15 % due to the imaginary tail rotor power.
-    double engine_power_in_hp = total_engine_w * 0.00134102;
+    double engine_power_in_hp = 0.00134102 * units::to_watt( total_power_w( fuelled, safe ) );
     // lift_thrust in lbthrust
     double lift_thrust = ( 8.8658 * std::pow( engine_power_in_hp / rotor_area_in_feet,
                            -0.3107 ) ) * engine_power_in_hp;
@@ -4329,7 +4329,7 @@ float vehicle::k_traction( float wheel_traction_area ) const
     return std::max( 0.1f, traction );
 }
 
-int vehicle::static_drag( bool actual ) const
+units::power vehicle::static_drag( bool actual ) const
 {
     bool is_actively_towed = is_towed();
     if( is_actively_towed ) {
@@ -4354,7 +4354,7 @@ int vehicle::static_drag( bool actual ) const
         }
     }
 
-    return extra_drag + ( actual && !engine_on && !is_actively_towed ? -1500 : 0 );
+    return extra_drag + ( actual && !engine_on && !is_actively_towed ? -1500_W : 0_W );
 }
 
 float vehicle::strain() const
@@ -4973,19 +4973,23 @@ void vehicle::update_alternator_load()
         int engine_vpower = 0;
         for( size_t e = 0; e < engines.size(); ++e ) {
             if( is_engine_on( e ) && parts[engines[e]].info().has_flag( "E_ALTERNATOR" ) ) {
-                engine_vpower += part_vpower_w( engines[e] );
+                engine_vpower += units::to_watt( part_vpower_w( engines[e] ) );
             }
         }
+
+        if( !engine_vpower ) {
+            alternator_load = 0;
+            return;
+        }
+
         int alternators_power = 0;
         for( size_t p = 0; p < alternators.size(); ++p ) {
             if( is_alternator_on( p ) ) {
-                alternators_power += part_vpower_w( alternators[p] );
+                alternators_power += units::to_watt( part_vpower_w( alternators[p] ) );
             }
         }
-        alternator_load =
-            engine_vpower
-            ? 1000 * ( std::abs( alternators_power ) + std::abs( extra_drag ) ) / engine_vpower
-            : 0;
+        alternator_load = 1000 * ( std::abs( alternators_power ) + std::abs( units::to_watt(
+                                       extra_drag ) ) ) / engine_vpower;
     } else {
         alternator_load = 0;
     }
@@ -5030,7 +5034,7 @@ void vehicle::power_parts()
                 } else if( parts[elem].ammo_remaining() > 0 ) {
                     // Efficiency: one unit of fuel is this many units of battery
                     // Note: One battery is 1 kJ
-                    const int efficiency = part_info( elem ).power;
+                    const int efficiency = units::to_watt( part_info( elem ).power );
                     const int avail_fuel = parts[elem].ammo_remaining() * efficiency;
                     const int elem_energy_bat = std::min( gen_energy_bat, avail_fuel );
                     // Cap output at what we can achieve and utilize
@@ -5306,7 +5310,7 @@ void vehicle::idle( bool on_map )
 
     power_parts();
     Character &player_character = get_player_character();
-    if( engine_on && total_power_w() > 0 ) {
+    if( engine_on && total_power_w() > 0_W ) {
         int idle_rate = alternator_load;
         if( idle_rate < 10 ) {
             idle_rate = 10;    // minimum idle is 1% of full throttle
@@ -5821,7 +5825,7 @@ void vehicle::refresh( const bool remove_fakes )
     accessories.clear();
 
     alternator_load = 0;
-    extra_drag = 0;
+    extra_drag = 0_W;
     all_wheels_on_one_axis = true;
     int first_wheel_y_mount = INT_MAX;
 

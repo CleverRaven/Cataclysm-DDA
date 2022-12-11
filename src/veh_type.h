@@ -463,7 +463,7 @@ class vpart_info
          * For engines and motors this is maximum output (watts)
          * For alternators is engine power consumed (negative value)
          */
-        int power = 0;
+        units::power power = 0_W;
 
         /** Installation time (in moves) for component (@see install_time), default 1 hour */
         int install_moves = to_moves<int>( 1_hours );

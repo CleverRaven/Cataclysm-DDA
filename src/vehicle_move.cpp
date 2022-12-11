@@ -113,10 +113,10 @@ int vehicle::slowdown( int at_velocity ) const
     }
     add_msg_debug( debugmode::DF_VEHICLE_MOVE,
                    "%s at %d vimph, f_drag %3.2f, drag accel %d vmiph - extra drag %d",
-                   name, at_velocity, f_total_drag, slowdown, static_drag() );
+                   name, at_velocity, f_total_drag, slowdown, units::to_watt( static_drag() ) );
     // plows slow rolling vehicles, but not falling or floating vehicles
     if( !( is_falling || is_floating || is_flying ) ) {
-        slowdown -= static_drag();
+        slowdown -= units::to_watt( static_drag() );
     }
 
     return std::max( 1, slowdown );
@@ -493,9 +493,9 @@ void vehicle::thrust( int thd, int z )
     // only consume resources if engine accelerating
     if( load >= 1 && thrusting ) {
         //abort if engines not operational
-        if( total_power_w() <= 0 || !engine_on || ( z == 0 && accel == 0 ) ) {
+        if( total_power_w() <= 0_W || !engine_on || ( z == 0 && accel == 0 ) ) {
             if( pl_ctrl ) {
-                if( total_power_w( false ) <= 0 ) {
+                if( total_power_w( false ) <= 0_W ) {
                     add_msg( m_info, _( "The %s doesn't have an engine!" ), name );
                 } else if( has_engine_type( fuel_type_muscle, true ) ) {
                     add_msg( m_info, _( "The %s's mechanism is out of reach!" ), name );

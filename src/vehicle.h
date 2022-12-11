@@ -766,7 +766,7 @@ class vehicle
         //damages vehicle controls and security system
         void smash_security_system();
         // get vpart powerinfo for part number, accounting for variable-sized parts and hps.
-        int part_vpower_w( int index, bool at_full_hp = false ) const;
+        units::power part_vpower_w( int index, bool at_full_hp = false ) const;
 
         // Get part power consumption/production for part number.
         units::power part_epower( int index ) const;
@@ -775,7 +775,7 @@ class vehicle
         int power_to_energy_bat( units::power power, const time_duration &d ) const;
 
         // convert vhp to watts.
-        static int vhp_to_watts( int power );
+        static units::power vhp_to_watts( int power );
 
         // Do stuff like clean up blood and produce smoke from broken parts. Returns false if nothing needs doing.
         bool do_environmental_effects() const;
@@ -1293,7 +1293,7 @@ class vehicle
         units::energy drain_energy( const itype_id &ftype, units::energy wanted_energy );
 
         // fuel consumption of vehicle engines of given type
-        int basic_consumption( const itype_id &ftype ) const;
+        units::power basic_consumption( const itype_id &ftype ) const;
         // Fuel consumption mL/hour
         int consumption_per_hour( const itype_id &ftype, units::energy fuel_per_s ) const;
 
@@ -1388,7 +1388,7 @@ class vehicle
         // Get combined power of all engines. If fueled == true, then only engines which
         // vehicle have fuel for are accounted.  If safe == true, then limit engine power to
         // their safe power.
-        int total_power_w( bool fueled = true, bool safe = false ) const;
+        units::power total_power_w( bool fueled = true, bool safe = false ) const;
 
         // Get ground acceleration gained by combined power of all engines. If fueled == true,
         // then only engines which the vehicle has fuel for are included
@@ -1529,7 +1529,7 @@ class vehicle
 
         // Extra drag on the vehicle from components other than wheels.
         // @param actual is current drag if true or nominal drag otherwise
-        int static_drag( bool actual = true ) const;
+        units::power static_drag( bool actual = true ) const;
 
         // strain of engine(s) if it works higher that safe speed (0-1.0)
         float strain() const;
@@ -2115,7 +2115,7 @@ class vehicle
         float of_turn = 0.0f; // NOLINT(cata-serialize)
         // leftover from previous turn
         float of_turn_carry = 0.0f;
-        int extra_drag = 0; // NOLINT(cata-serialize)
+        units::power extra_drag = 0_W; // NOLINT(cata-serialize)
         // the time point when it was successfully stolen
         cata::optional<time_point> theft_time;
         // rotation used for mount precalc values

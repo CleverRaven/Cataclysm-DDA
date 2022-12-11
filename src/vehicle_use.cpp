@@ -590,7 +590,7 @@ int vehicle::engine_start_time( const int e ) const
     // watts to old vhp = watts / 373
     // divided by magic 16 = watts / 6000
     const double watts_per_time = 6000;
-    return part_vpower_w( engines[ e ], true ) / watts_per_time + 100 * dmg + cold;
+    return units::to_watt( part_vpower_w( engines[ e ], true ) ) / watts_per_time + 100 * dmg + cold;
 }
 
 bool vehicle::auto_select_fuel( int e )
@@ -938,7 +938,7 @@ void vehicle::play_chimes() const
 
 void vehicle::crash_terrain_around()
 {
-    if( total_power_w() <= 0 ) {
+    if( total_power_w() <= 0_W ) {
         return;
     }
     map &here = get_map();
