@@ -36,9 +36,9 @@
     "material": [ "wood" ],
     "symbol": ",",
     "color": "brown",
-    "initial_charges": 50,
-    "max_charges": 50,
+    "ammo": [ "notch" ],
     "charges_per_use": 1,
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "notched_plank" ] } ],
     "use_action": { "type": "firestarter", "moves": 500, "moves_slow": 25000 },
     "flags": [ "FIRESTARTER", "BURNOUT" ]
   },
@@ -54,9 +54,9 @@
     "material": [ "wood", "stone" ],
     "symbol": ",",
     "color": "brown",
-    "initial_charges": 50,
-    "max_charges": 50,
+    "ammo": [ "notch" ],
     "charges_per_use": 1,
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "notched_plank" ] 
     "use_action": { "type": "firestarter", "moves": 200, "moves_slow": 10000 },
     "flags": [ "FIRESTARTER", "BURNOUT" ]
   },
