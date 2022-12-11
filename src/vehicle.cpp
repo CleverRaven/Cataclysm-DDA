@@ -7405,7 +7405,7 @@ void vehicle::update_time( const time_point &update_to )
                 here.emit_field( exhaust_dest( exhaust_part ), e );
             }
         }
-        discharge_battery( power_to_energy_bat( pt.info().epower, update_to - last_update ); );
+        discharge_battery( power_to_energy_bat( pt.info().epower, update_to - last_update ) );
     }
 
     if( sm_pos.z < 0 ) {
