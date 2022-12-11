@@ -1044,7 +1044,7 @@ units::power vehicle::part_vpower_w( const int index, const bool at_full_hp ) co
     units::power pwr = vp.info().power;
     if( part_flag( index, VPFLAG_ENGINE ) ) {
         if( pwr == 0_W ) {
-            pwr = vhp_to_watts( vp.base.engine_displacement() );
+            pwr = vp.base.engine_displacement() * 373_W;
         }
         if( vp.info().fuel_type == fuel_type_animal ) {
             monster *mon = get_monster( index );
@@ -1115,15 +1115,6 @@ int vehicle::power_to_energy_bat( const units::power power, const time_duration 
     units::energy produced = power * d;
     int produced_kj = roll_remainder( units::to_millijoule( produced ) / 1000000.0 );
     return produced_kj;
-}
-
-units::power vehicle::vhp_to_watts( const int power_vhp )
-{
-    // Convert vhp units (0.5 HP ) to watts
-    // Used primarily for calculating battery charge/discharge
-    // TODO: convert batteries to use energy units based on watts (watt-ticks?)
-    constexpr units::power conversion_factor = 373_W; // 373 watts == 1 power_vhp == 0.5 HP
-    return power_vhp * conversion_factor;
 }
 
 bool vehicle::has_structural_part( const point &dp ) const
@@ -3487,7 +3478,7 @@ int vehicle::consumption_per_hour( const itype_id &ftype, units::energy fuel_per
     return -1000 * energy_per_h / energy_per_liter;
 }
 
-units::power vehicle::total_power_w( const bool fueled, const bool safe ) const
+units::power vehicle::total_power( const bool fueled, const bool safe ) const
 {
     units::power pwr = 0_W;
     int count = 0;
@@ -3556,7 +3547,7 @@ int vehicle::ground_acceleration( const bool fueled, int at_vel_in_vmi ) const
             weight = weight + to_kilogram( other_veh->total_mass() );
         }
     }
-    int engine_power_ratio = units::to_watt( total_power_w( fueled ) ) / weight;
+    int engine_power_ratio = units::to_watt( total_power( fueled ) ) / weight;
     int accel_at_vel = 100 * 100 * engine_power_ratio / cmps;
     add_msg_debug( debugmode::DF_VEHICLE, "%s: accel at %d vimph is %d", name, target_vmiph,
                    cmps_to_vmiph( accel_at_vel ) );
@@ -3588,7 +3579,7 @@ int vehicle::water_acceleration( const bool fueled, int at_vel_in_vmi ) const
             weight = weight + to_kilogram( other_veh->total_mass() );
         }
     }
-    int engine_power_ratio = units::to_watt( total_power_w( fueled ) ) / weight;
+    int engine_power_ratio = units::to_watt( total_power( fueled ) ) / weight;
     int accel_at_vel = 100 * 100 * engine_power_ratio / cmps;
     add_msg_debug( debugmode::DF_VEHICLE, "%s: water accel at %d vimph is %d", name, target_vmiph,
                    cmps_to_vmiph( accel_at_vel ) );
@@ -3671,7 +3662,7 @@ int vehicle::current_acceleration( const bool fueled ) const
 // got it? quiz on Wednesday.
 int vehicle::max_ground_velocity( const bool fueled ) const
 {
-    int total_engine_w = units::to_watt( total_power_w( fueled ) );
+    int total_engine_w = units::to_watt( total_power( fueled ) );
     double c_rolling_drag = coeff_rolling_drag();
     double max_in_mps = simple_cubic_solution( coeff_air_drag(), c_rolling_drag,
                         c_rolling_drag * vehicles::rolling_constant_to_variable,
@@ -3694,7 +3685,7 @@ int vehicle::max_ground_velocity( const bool fueled ) const
 // velocity = cube root( engine_power / ( c_water_drag + c_air_drag ) )
 int vehicle::max_water_velocity( const bool fueled ) const
 {
-    int total_engine_w = units::to_watt( total_power_w( fueled ) );
+    int total_engine_w = units::to_watt( total_power( fueled ) );
     double total_drag = coeff_water_drag() + coeff_air_drag();
     double max_in_mps = std::cbrt( total_engine_w / total_drag );
     add_msg_debug( debugmode::DF_VEHICLE,
@@ -3738,7 +3729,7 @@ int vehicle::max_reverse_velocity( const bool fueled ) const
 // the same physics as max_ground_velocity, but with a smaller engine power
 int vehicle::safe_ground_velocity( const bool fueled ) const
 {
-    int effective_engine_w = units::to_watt( total_power_w( fueled, true ) );
+    int effective_engine_w = units::to_watt( total_power( fueled, true ) );
     double c_rolling_drag = coeff_rolling_drag();
     double safe_in_mps = simple_cubic_solution( coeff_air_drag(), c_rolling_drag,
                          c_rolling_drag * vehicles::rolling_constant_to_variable,
@@ -3756,7 +3747,7 @@ int vehicle::safe_rotor_velocity( const bool fueled ) const
 // the same physics as max_water_velocity, but with a smaller engine power
 int vehicle::safe_water_velocity( const bool fueled ) const
 {
-    int total_engine_w = units::to_watt( total_power_w( fueled, true ) );
+    int total_engine_w = units::to_watt( total_power( fueled, true ) );
     double total_drag = coeff_water_drag() + coeff_air_drag();
     double safe_in_mps = std::cbrt( total_engine_w / total_drag );
     return mps_to_vmiph( safe_in_mps );
@@ -4162,7 +4153,7 @@ double vehicle::lift_thrust_of_rotorcraft( const bool fuelled, const bool safe )
         rotor_area_in_feet += ( M_PI / 4 ) * std::pow( rotor_diameter_in_feet, 2 );
     }
     // take off 15 % due to the imaginary tail rotor power.
-    double engine_power_in_hp = 0.00134102 * units::to_watt( total_power_w( fuelled, safe ) );
+    double engine_power_in_hp = 1.34102 * units::to_milliwatt( total_power( fuelled, safe ) );
     // lift_thrust in lbthrust
     double lift_thrust = ( 8.8658 * std::pow( engine_power_in_hp / rotor_area_in_feet,
                            -0.3107 ) ) * engine_power_in_hp;
@@ -5310,7 +5301,7 @@ void vehicle::idle( bool on_map )
 
     power_parts();
     Character &player_character = get_player_character();
-    if( engine_on && total_power_w() > 0_W ) {
+    if( engine_on && total_power() > 0_W ) {
         int idle_rate = alternator_load;
         if( idle_rate < 10 ) {
             idle_rate = 10;    // minimum idle is 1% of full throttle
@@ -7414,7 +7405,7 @@ void vehicle::update_time( const time_point &update_to )
                 here.emit_field( exhaust_dest( exhaust_part ), e );
             }
         }
-        discharge_battery( units::to_kilowatt( pt.info().epower ) );
+        discharge_battery( power_to_energy_bat( pt.info().epower, update_to - last_update ); );
     }
 
     if( sm_pos.z < 0 ) {

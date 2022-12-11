@@ -493,9 +493,9 @@ void vehicle::thrust( int thd, int z )
     // only consume resources if engine accelerating
     if( load >= 1 && thrusting ) {
         //abort if engines not operational
-        if( total_power_w() <= 0_W || !engine_on || ( z == 0 && accel == 0 ) ) {
+        if( total_power() <= 0_W || !engine_on || ( z == 0 && accel == 0 ) ) {
             if( pl_ctrl ) {
-                if( total_power_w( false ) <= 0_W ) {
+                if( total_power( false ) <= 0_W ) {
                     add_msg( m_info, _( "The %s doesn't have an engine!" ), name );
                 } else if( has_engine_type( fuel_type_muscle, true ) ) {
                     add_msg( m_info, _( "The %s's mechanism is out of reach!" ), name );

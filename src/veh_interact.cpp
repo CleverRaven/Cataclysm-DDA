@@ -1429,8 +1429,8 @@ void veh_interact::calc_overview()
     overview_headers["1_ENGINE"] = [this]( const catacurses::window & w, int y ) {
         trim_and_print( w, point( 1, y ), getmaxx( w ) - 2, c_light_gray,
                         string_format( _( "Engines: %sSafe %4d kW</color> %sMax %4d kW</color>" ),
-                                       health_color( true ), units::to_kilowatt( veh->total_power_w( true, true ) ),
-                                       health_color( false ), units::to_kilowatt( veh->total_power_w() ) ) );
+                                       health_color( true ), units::to_kilowatt( veh->total_power( true, true ) ),
+                                       health_color( false ), units::to_kilowatt( veh->total_power() ) ) );
         right_print( w, y, 1, c_light_gray, _( "Fuel     Use" ) );
     };
     overview_headers["2_TANK"] = []( const catacurses::window & w, int y ) {

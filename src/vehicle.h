@@ -774,9 +774,6 @@ class vehicle
         // convert watts over time to battery energy (kJ)
         int power_to_energy_bat( units::power power, const time_duration &d ) const;
 
-        // convert vhp to watts.
-        static units::power vhp_to_watts( int power );
-
         // Do stuff like clean up blood and produce smoke from broken parts. Returns false if nothing needs doing.
         bool do_environmental_effects() const;
 
@@ -1388,7 +1385,7 @@ class vehicle
         // Get combined power of all engines. If fueled == true, then only engines which
         // vehicle have fuel for are accounted.  If safe == true, then limit engine power to
         // their safe power.
-        units::power total_power_w( bool fueled = true, bool safe = false ) const;
+        units::power total_power( bool fueled = true, bool safe = false ) const;
 
         // Get ground acceleration gained by combined power of all engines. If fueled == true,
         // then only engines which the vehicle has fuel for are included

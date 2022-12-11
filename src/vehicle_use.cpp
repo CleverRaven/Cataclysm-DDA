@@ -587,9 +587,8 @@ int vehicle::engine_start_time( const int e ) const
     // diesel engines with working glow plugs always start with f = 0.6 (or better)
     const double cold = 100 / tanh( 1 - std::min( engine_cold_factor( e ), 0.9 ) );
 
-    // watts to old vhp = watts / 373
     // divided by magic 16 = watts / 6000
-    const double watts_per_time = 6000;
+    const int watts_per_time = 6000;
     return units::to_watt( part_vpower_w( engines[ e ], true ) ) / watts_per_time + 100 * dmg + cold;
 }
 
@@ -938,7 +937,7 @@ void vehicle::play_chimes() const
 
 void vehicle::crash_terrain_around()
 {
-    if( total_power_w() <= 0_W ) {
+    if( total_power() <= 0_W ) {
         return;
     }
     map &here = get_map();
