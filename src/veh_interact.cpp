@@ -2680,8 +2680,8 @@ void veh_interact::display_stats() const
                     format_volume( total_cargo ), volume_units_abbr() );
     i += 1;
     // Write the overall damage
-    mvwprintz( w_stats, point( x[i], y[i] ), c_light_gray, _( "Status:" ) );
-    x[i] += utf8_width( _( "Status:" ) ) + 1;
+    mvwprintz( w_stats, point( x[i], y[i] ), c_light_gray, _( "Status: " ) );
+    x[i] += utf8_width( _( "Status: " ) );
     fold_and_print( w_stats, point( x[i], y[i] ), w[i], total_durability_color, total_durability_text );
     i += 1;
 
