@@ -103,7 +103,7 @@
     "id": "flask_confusion",
     "type": "COMESTIBLE",
     "name": { "str": "potion of instability", "str_pl": "potions of instability" },
-    "description": "That thing temporary freeze the high brain activity for a while.  It was banned by the government due to the popularity in crime sphere, but some people still know the recipe.",
+    "description": "A potion that temporarily freezes the higher brain activity for a while.  It was banned by the government due to popularity in the criminal sphere, but some people still know the recipe.",
     "copy-from": "mana_potion_lesser",
     "calories": 0,
     "use_action": { "type": "cast_spell", "spell_id": "flask_confusion", "no_fail": true, "level": 0 },
