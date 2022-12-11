@@ -1122,5 +1122,14 @@
     "fungalize_into": "mon_zombie_fungus",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER_1", "GRABS" ]
+  },
+  {
+    "id": "mon_feral_human_archaeologist",
+    "type": "MONSTER",
+    "name": "feral archaeologist",
+    "description": "Judging by its look, this creature was probably an archaeologist digging the earth in search for something valuable.  Now it seems to forgot about its former passion, and with persistence of a maniac it's fixed on anything that lives and moves rather than on inanimate soil.",
+    "copy-from": "mon_feral_human_pipe",
+    "looks_like": "mon_feral_human_tool",
+    "death_drops": "feral_archaelogist_death_drops"
   }
 ]
