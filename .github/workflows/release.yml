@@ -1,6 +1,7 @@
 name: "Experimental Release"
 concurrency: release
 on:
+  workflow_dispatch:
   push:
     branches:
       - master
@@ -29,6 +30,7 @@ jobs:
       upload_url: ${{ steps.create_release.outputs.upload_url }}
       timestamp: ${{ steps.get-timestamp.outputs.time }}
       release_already_exists: ${{ steps.tag_check.outputs.exists }}
+      matrix: ${{ steps.matrix.outputs.matrix }}
     steps:
       - name: Get build timestamp
         id: get-timestamp
@@ -62,9 +64,9 @@ jobs:
           gh api \
             --method POST \
             -H "Accept: application/vnd.github.v3+json" \
-            /repos/CleverRaven/Cataclysm-DDA/releases/generate-notes \
+            '/repos/${{ github.repository }}/releases/generate-notes' \
             -f tag_name='${{ steps.generate_env_vars.outputs.tag_name }}' \
-            -f target_commitish='master' \
+            -f target_commitish='${{ github.ref_name }}' \
             -q .body > CHANGELOG.md
       - name: Create release
         id: create_release
@@ -78,13 +80,12 @@ jobs:
           body_path: ./CHANGELOG.md
           draft: false
           prerelease: true
-  builds:
-    needs: release
-    if: ${{ needs.release.outputs.release_already_exists == 'false' }}
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
+      - name: Generate matrix list
+        id: matrix
+        if: ${{ steps.tag_check.outputs.exists == 'false' }}
+        run: |
+          pip3 install ruamel.yaml
+          echo '
           - name: Windows Tiles x64 MSVC
             artifact: windows-tiles-x64-msvc
             arch: x64
@@ -209,6 +210,20 @@ jobs:
             artifact: android-bundle
             ext: aab
             content: application/aap
+          ' | python3 -c "
+          from ruamel.yaml import YAML; yaml = YAML()
+          from sys import stdin, stdout
+          r = yaml.load(stdin)
+          if not '${{ secrets.KEYSTORE }}': r = [i for i in r if i.get('android', 'none') == 'none']
+          import json; print('matrix='+json.dumps(r))
+          " >> $GITHUB_OUTPUT
+  builds:
+    needs: release
+    if: ${{ needs.release.outputs.matrix }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include: ${{ fromJson(needs.release.outputs.matrix) }}
     name: ${{ matrix.name }}
     runs-on: ${{ matrix.os }}
     env:
@@ -348,6 +363,7 @@ jobs:
           asset_name: cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.${{ matrix.ext }}
           asset_content_type: ${{ matrix.content }}
       - name: Trigger GitHub pages rebuild
+        if: github.repository == 'CleverRaven/Cataclysm-DDA'
         shell: bash
         run: |
           curl --fail --request POST \
