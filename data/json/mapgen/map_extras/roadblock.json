@@ -40,7 +40,7 @@
         "                        ",
         "                        "
       ],
-      "furniture": { "s": "f_sandbag_half", "g": "f_generator_broken", "b": "f_barricade_road" },
+      "furniture": { "s": "f_sandbag_half", "g": "f_active_backup_generator", "b": "f_barricade_road" },
       "monster": { "t": { "monster": "mon_turret_riot" }, "L": { "monster": "mon_turret_searchlight" } },
       "place_vehicles": [
         { "vehicle": "policecar", "x": 7, "y": 7, "chance": 100, "status": 1, "rotation": 180 },
