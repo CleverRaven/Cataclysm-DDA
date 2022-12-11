@@ -135,6 +135,10 @@ struct bash_params {
     bool destroy = false;
     // Do we want to bash floor if no furn/wall exists?
     bool bash_floor = false;
+    // Avoid bashing furniture, even if we can?
+    bool skip_furniture = false;
+    // Avoid bashing terrain, even if we can?
+    bool skip_terrain = false;
     /**
      * Value from 0.0 to 1.0 that affects interpolation between str_min and str_max
      * At 0.0, the bash is against str_min of targeted objects
@@ -1145,10 +1149,13 @@ class map
          * @param destroy Destroys some otherwise unbashable tiles
          * @param bash_floor Allow bashing the floor and the tile that supports it
          * @param bashing_vehicle Vehicle that should NOT be bashed (because it is doing the bashing)
+         * @param skip_furniture Affect terrain, but never furniture
+         * @param skip_terrain Affect furniture, but never terrain
          */
         bash_params bash( const tripoint &p, int str, bool silent = false,
                           bool destroy = false, bool bash_floor = false,
-                          const vehicle *bashing_vehicle = nullptr );
+                          const vehicle *bashing_vehicle = nullptr,
+                          bool skip_furniture = false, bool skip_terrain = false );
 
         // Effects of attacks/items
         bool hit_with_acid( const tripoint &p );

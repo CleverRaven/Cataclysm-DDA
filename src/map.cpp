@@ -3707,11 +3707,11 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
 
     bool success = false;
 
-    if( has_furn( p ) && furnid.bash.str_max != -1 ) {
+    if( has_furn( p ) && furnid.bash.str_max != -1 && !params.skip_furniture ) {
         bash = &furnid.bash;
         smash_furn = true;
-    } else if( ter( p ).obj().bash.str_max != -1 ) {
-        bash = &ter( p ).obj().bash;
+    } else if( terid.bash.str_max != -1 && !params.skip_terrain ) {
+        bash = &terid.bash;
         smash_ter = true;
     }
 
@@ -3967,10 +3967,11 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
 
 bash_params map::bash( const tripoint &p, const int str,
                        bool silent, bool destroy, bool bash_floor,
-                       const vehicle *bashing_vehicle )
+                       const vehicle *bashing_vehicle,
+                       bool skip_furniture, bool skip_terrain )
 {
     bash_params bsh{
-        str, silent, destroy, bash_floor, static_cast<float>( rng_float( 0, 1.0f ) ), false, false, false, false
+        str, silent, destroy, bash_floor, skip_furniture, skip_terrain, static_cast<float>( rng_float( 0, 1.0f ) ), false, false, false, false
     };
     if( !inbounds( p ) ) {
         return bsh;
@@ -4201,7 +4202,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
                 const int max_damage = shoot.destroy_dmg_max - shoot.destroy_dmg_min;
                 if( x_in_y( min_damage, max_damage ) ) {
                     // don't need to duplicate all the destruction logic here
-                    bash_params bsh{ 0, false, true, false, 0.0, false, false, false, false };
+                    bash_params bsh{ 0, false, true, false, false, false, 0.0, false, false, false, false };
                     bash_ter_furn( p, bsh );
                     destroyed = true;
                 }

@@ -4497,7 +4497,8 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const point &offset ) const
             }
             break;
             case JMAPGEN_SETMAP_BASH: {
-                m.bash( tripoint( x_get(), y_get(), m.get_abs_sub().z() ), 9999 );
+                m.bash( tripoint( x_get(), y_get(), m.get_abs_sub().z() ), 9999, false, false, false, nullptr,
+                        false, true );
             }
             break;
             case JMAPGEN_SETMAP_VARIABLE: {
