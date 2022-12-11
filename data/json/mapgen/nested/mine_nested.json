@@ -352,5 +352,40 @@
     "type": "item_group",
     "subtype": "collection",
     "entries": [ { "group": "mine_equipment", "prob": 60 }, { "item": "corpse", "damage": 4 } ]
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mine_finale_archaeology",
+    "object": {
+      "fill_ter": "t_rock_floor",
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "!!!###",
+        "#C  D#",
+        "##!Ac#",
+        "##GG##",
+        "@####@",
+        "@@@@@@"
+      ],
+      "terrain": { " ": "t_rock_floor", "#": "t_rock", "@": [ [ "t_rock", 4 ], [ "t_rock_floor", 1 ] ] },
+      "furniture": {
+        "c": "f_crate_c",
+        "C": "f_crate_c",
+        "D": "f_crate_c",
+        "G": [ "f_grave_stone_old", "f_grave_head", "f_grave_monument" ],
+        " ": [ "f_null", "f_rubble_rock" ]
+      },
+      "item": {
+        "!": { "item": "material_soil", "chance": 40, "amount": [ 5, 10 ] },
+        "D": { "item": "dynamite", "chance": 90, "repeat": 2 }
+      },
+      "items": {
+        "C": { "item": "museum_misc", "chance": 90, "repeat": [ 1, 2 ] },
+        "c": { "item": "museum_primitive", "chance": 90, "repeat": [ 1, 2 ] }
+      },
+      "monster": { "A": { "monster": "mon_feral_human_archaeologist" } },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
   }
 ]
