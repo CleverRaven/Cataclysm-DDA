@@ -38,7 +38,7 @@
     "color": "brown",
     "ammo": [ "notch" ],
     "charges_per_use": 1,
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "notched_plank" ] } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "notched_plank", "notched_stick" ] } ],
     "use_action": { "type": "firestarter", "moves": 500, "moves_slow": 25000 },
     "flags": [ "FIRESTARTER", "BURNOUT" ]
   },
@@ -56,7 +56,7 @@
     "color": "brown",
     "ammo": [ "notch" ],
     "charges_per_use": 1,
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "notched_plank" ] 
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "notched_plank", "notched_stick" ] 
     "use_action": { "type": "firestarter", "moves": 200, "moves_slow": 10000 },
     "flags": [ "FIRESTARTER", "BURNOUT" ]
   },
