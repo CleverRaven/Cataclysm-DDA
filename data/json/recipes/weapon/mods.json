@@ -734,7 +734,6 @@
     "time": "10 m",
     "qualities": [ { "id": "WRENCH", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "DRILL", "level": 1 } ],
     "using": [ [ "welding_standard", 1 ] ],
-    "reversible": true,
     "autolearn": true,
     "components": [
       [ [ "makeshift_axe", 1 ], [ "ax", 1 ], [ "copper_ax", 1 ], [ "bronze_axe", 1 ], [ "fire_ax", 1 ], [ "crash_axe", 1 ] ],
