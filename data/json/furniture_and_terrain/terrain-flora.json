@@ -1595,7 +1595,7 @@
     "type": "terrain",
     "id": "t_tree_sassafras_harvested",
     "name": "sassafras tree",
-    "description": "This tree is a member of the 'Sassafras' genus, known for its aromatic qualities.  This tree's roots have been harvested, anymore and the tree will die.",
+    "description": "This tree is a member of the 'Sassafras' genus, known for its aromatic qualities.  This tree's roots have been harvested, any more and the tree will die.",
     "symbol": "7",
     "color": [ "light_green", "light_green_yellow", "yellow_red", "brown" ],
     "//": "Cannot be harvested",
