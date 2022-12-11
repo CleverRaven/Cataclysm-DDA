@@ -3752,20 +3752,20 @@ int Character::get_int() const
 
 int Character::get_str_base() const
 {
-    //if we are malnourished, our base strength decreases linearly from our natural strength to 4, as BMI 12 is about the lowest possible before organ failure
+    //if we are malnourished, our base strength decreases linearly from our natural strength to 2, as BMI 12 is about the lowest possible before organ failure
     //this represents loss of muscle mass, and uses base strength because it reduces your hp and "true" bmi and weight all the way down to BMI 12 (dead)
     //character_weight_category::underweight() should be 2.0f but this might change.
     //example one: bmi_fat is 1.5f and we have strength 8.
-    // = std::floor( ( 1.0f - ( 1.5f / 2.0f ) ) * ( 1.0f - ( 4.0f / 8 ) ) * 8 )
-    // = std::floor( ( 1.0f - 0.75f ) * ( 1.0f - 0.5f ) * 8 )
-    // = std::floor( 0.25f * 0.5f * 8 ) == 1, then 8-1 == 7 total strength
+    // = std::floor( ( 1.0f - ( 1.5f / 2.0f ) ) * ( 1.0f - ( 2.0f / 8 ) ) * 8 )
+    // = std::floor( ( 1.0f - 0.75f ) * ( 1.0f - 0.25f ) * 8 )
+    // = std::floor( 0.25f * 0.75f * 8 ) == 1.5, then 8-1.5 == (floored) 6 total strength
     //example two: bmi_fat is 1.0f and we have strength 12
-    // = std::floor( ( 1.0f - ( 1.0f / 2.0f ) ) * ( 1.0f - ( 4.0f / 12 ) ) * 12 )
-    // = std::floor( ( 1.0f - 0.5f ) * ( 1.0f - 0.33f ) * 12 )
-    // = std::floor( 0.5f * 0.66f * 12 ) == 4 then 12-4 == 8 total strength
+    // = std::floor( ( 1.0f - ( 1.0f / 2.0f ) ) * ( 1.0f - ( 2.0f / 12 ) ) * 12 )
+    // = std::floor( ( 1.0f - 0.5f ) * ( 1.0f - 0.17f ) * 12 )
+    // = std::floor( 0.5f * 0.83f * 12 ) == 5 then 12-5 == 7 total strength
     if( get_bmi_fat() < character_weight_category::underweight ) {
         const int str_penalty = std::floor( ( 1.0f - ( get_bmi_fat() /
-                                              character_weight_category::underweight ) ) * ( 1.0f - ( 4.0f / str_max ) ) * str_max );
+                                              character_weight_category::underweight ) ) * ( 1.0f - ( 2.0f / str_max ) ) * str_max );
         return str_max - str_penalty;
     }
     return str_max;
@@ -4070,8 +4070,8 @@ std::string Character::debug_weary_info() const
 void Character::mod_stored_kcal( int nkcal, const bool ignore_weariness )
 {
     //if we are malnourished, we are now burning muscle to stay alive, so half of calories go to/from fat and the other half to/from muscle
-    const int adjust_factor = ( get_bmi_fat() < character_weight_category::underweight ) ? 4.0f /
-                              str_max : 1.0f;
+    const int adjust_factor = ( get_bmi_fat() < character_weight_category::underweight ) ? std::min( 1.0, 4.0f /
+                              str_max ) : 1.0f;
     if( needs_food() ) {
         mod_stored_calories( std::floor( nkcal * 1000 * adjust_factor ), ignore_weariness );
     }
@@ -5960,12 +5960,12 @@ units::mass Character::bodyweight() const
 
 units::mass Character::bodyweight_lean() const
 {
-    //assume a healthy 25 bmi human to be 80% lean mass, some of which should be determined by muscle strength.
-    //if a reasonably fit individual (12 strength) is at bmi 25, 5 of those bmis come from fat and the other 20 come from lean mass.
-    //therefore, assume 32% of the body at healthy weight is agnostic of muscle and fat, and determine the remaining BMI from the latter.
+    //assume a healthy 25 bmi human to be 80% lean mass, about 40% muscle and 40% non muscle for average strength.
+    //if a reasonably fit individual (10 strength) is at bmi 25, 5 of those bmis come from fat and the other 20 come from lean mass.
+    //therefore, assume 40% of the body at healthy weight is agnostic of muscle and fat, and determine the remaining BMI from the latter.
     //just like in real life, this means being a 20 strength freak show means you are clinically obese, though not unhealthy (BMI sucks for a reason)
     //so in summary this is what your weight would be at your given height, assuming you had 0% bodyfat.
-    return units::from_kilogram( ( 8.0f + get_str_base() ) * std::pow( height() / 100.0f, 2 ) );
+    return units::from_kilogram( ( 10.0f + get_str_base() ) * std::pow( height() / 100.0f, 2 ) );
 }
 
 units::mass Character::bodyweight_fat() const
