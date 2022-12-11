@@ -55,20 +55,16 @@ class light
         void operator+=( const light &other ) {
             value += other.value;
         }
-        light operator*( const light &other ) const {
-            return light( value * other.value );
+        friend light operator*( const light &l, const float x ) {
+            return light( l.value * x );
         }
-        light operator*( const float x ) const {
-            return light( value * x );
+        friend light operator*( const float x, const light &l ) {
+            return light( l.value * x );
         }
-        friend light operator*( const float x, const light &other ) {
-            return light( other.value * x );
-        }
+
+        // Relative brightness as a fraction
         float operator/( const light &other ) const {
             return value / other.value;
-        }
-        light operator-( const light &other ) const {
-            return light( value - other.value );
         }
 
         bool operator<=( const light &other ) const {
