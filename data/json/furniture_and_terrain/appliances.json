@@ -52,6 +52,7 @@
     "damage_modifier": 80,
     "durability": 100,
     "description": "A chest freezer.  When turned on, it will freeze and preserve the food inside.",
+    "size": "450 L",
     "epower": "-35 W",
     "item": "freezer",
     "requirements": {
