@@ -4070,7 +4070,7 @@ std::string Character::debug_weary_info() const
 void Character::mod_stored_kcal( int nkcal, const bool ignore_weariness )
 {
     //if we are malnourished, we are now burning muscle to stay alive, so half of calories go to/from fat and the other half to/from muscle
-    const int adjust_factor = ( get_bmi_fat() < character_weight_category::underweight ) ? std::min( 1.0, 4.0f /
+    const int adjust_factor = ( get_bmi_fat() < character_weight_category::underweight ) ? std::min( 1.0f, 4.0f /
                               str_max ) : 1.0f;
     if( needs_food() ) {
         mod_stored_calories( std::floor( nkcal * 1000 * adjust_factor ), ignore_weariness );
