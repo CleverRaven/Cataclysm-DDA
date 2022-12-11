@@ -737,7 +737,7 @@
     "looks_like": "brew_mead",
     "name": { "str": "unfermented root beer" },
     "description": "A mixture of water, sugar, yeast and sassafras roots that will eventually become root beer.",
-    "weight": "16 g",
+    "weight": "260 g",
     "color": "brown",
     "container": "bottle_glass",
     "symbol": "~",
