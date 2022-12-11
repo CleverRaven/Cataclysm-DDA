@@ -26,7 +26,7 @@
     "type": "vehicle_part",
     "item": "v2_combustion_magic",
     "durability": 200,
-    "epower": "-50 J",
+    "epower": "-50 W",
     "power": 37300,
     "energy_consumption": "124500 W",
     "folded_volume": "2 L",

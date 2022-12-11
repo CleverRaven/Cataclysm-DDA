@@ -13,7 +13,7 @@
     "description": "A small transmitter that lets you locate the vehicle on the map.",
     "item": "veh_tracker",
     "//": "10W GPS transponder like an XPC-TR",
-    "epower": -10,
+    "epower": "-10 W",
     "folded_volume": "500 ml",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "200 s", "using": [ [ "vehicle_screw", 1 ] ] },

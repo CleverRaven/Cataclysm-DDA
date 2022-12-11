@@ -20,7 +20,7 @@
     "looks_like": "alternator_motorbike",
     "durability": 250,
     "power": -75,
-    "epower": "36 J",
+    "epower": "36 W",
     "damage_modifier": 80,
     "folded_volume": "1250 ml",
     "breaks_into": [
@@ -44,7 +44,7 @@
     "item": "alternator_motorbike",
     "durability": 250,
     "power": -746,
-    "epower": "360 J",
+    "epower": "360 W",
     "damage_modifier": 80,
     "folded_volume": "1250 ml",
     "breaks_into": [
@@ -72,7 +72,7 @@
     "item": "alternator_car",
     "durability": 275,
     "power": -1492,
-    "epower": "780 J",
+    "epower": "780 W",
     "damage_modifier": 80,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 3, 6 ] },
@@ -99,7 +99,7 @@
     "item": "alternator_truck",
     "durability": 325,
     "power": -2238,
-    "epower": "1320 J",
+    "epower": "1320 W",
     "damage_modifier": 80,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 4, 7 ] },
@@ -126,7 +126,7 @@
     "item": "generator_7500w",
     "durability": 400,
     "power": -10444,
-    "epower": "7500 J",
+    "epower": "7500 W",
     "damage_modifier": 80,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 10, 18 ] },
