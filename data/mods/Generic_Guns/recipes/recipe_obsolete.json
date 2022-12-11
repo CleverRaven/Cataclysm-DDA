@@ -161,6 +161,11 @@
   },
   {
     "type": "recipe",
+    "result": "longrifle_flintlock",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "carbine_flintlock",
     "obsolete": true
   },

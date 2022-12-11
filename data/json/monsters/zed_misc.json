@@ -393,7 +393,7 @@
     "harvest": "zombie",
     "special_attacks": [
       { "id": "smash", "throw_strength": 72, "cooldown": 30 },
-      [ "BIO_OP_TAKEDOWN", 20 ],
+      { "id": "bio_op_takedown", "cooldown": 20 },
       [ "RANGED_PULL", 20 ],
       [ "GRAB_DRAG", 10 ]
     ],

@@ -367,6 +367,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "incense",
+    "name": "incense",
+    "default": "incense"
+  },
+  {
+    "type": "ammunition_type",
     "id": "oxygen",
     "name": "oxygen",
     "default": "oxygen"
@@ -418,6 +424,12 @@
     "id": "plutonium",
     "name": "plutonium",
     "default": "plut_cell"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "uranium",
+    "name": "uranium",
+    "default": "uran_cell"
   },
   {
     "type": "ammunition_type",
@@ -502,12 +514,6 @@
     "id": "cac2powder",
     "name": "powdered calcium carbide premix",
     "default": "cac2powder"
-  },
-  {
-    "type": "ammunition_type",
-    "id": "metal_rail",
-    "name": "ferrous rail projectile",
-    "default": "steel_rail"
   },
   {
     "type": "ammunition_type",

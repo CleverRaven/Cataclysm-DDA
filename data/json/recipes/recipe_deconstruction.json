@@ -6609,7 +6609,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "10 m",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "scrap_aluminum", 14 ] ] ]
+    "components": [ [ [ "scrap", 8 ], [ "plastic_chunk", 3 ] ] ]
   },
   {
     "result": "baton-extended",
@@ -6617,7 +6617,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "10 m",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "scrap_aluminum", 14 ] ] ]
+    "components": [ [ [ "scrap", 8 ], [ "plastic_chunk", 3 ] ] ]
   },
   {
     "result": "pot_aluminum",
@@ -7163,5 +7163,242 @@
     "time": "1 s",
     "components": [ [ [ "cardboard", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "armor_riot",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "1 m",
+    "components": [ [ [ "armor_riot_leg", 1 ] ], [ [ "armor_riot_arm", 1 ] ], [ [ "armor_riot_torso", 1 ] ] ]
+  },
+  {
+    "result": "matches",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "1 s",
+    "components": [ [ [ "cardboard", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "ref_matches",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "1 s",
+    "components": [ [ [ "cardboard", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "box_snack",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "1 s",
+    "components": [ [ [ "cardboard", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "carton_egg",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "1 s",
+    "components": [ [ [ "cardboard", 2 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "rc_car_box",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "30 s",
+    "components": [ [ [ "cardboard", 40 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "labmap",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "1 s",
+    "components": [ [ [ "paper", 3 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "bag_paper_powder",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "1 s",
+    "components": [ [ [ "paper", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "lug_wrench",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "15 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "steel_chunk", 1 ], [ "scrap", 4 ] ] ]
+  },
+  {
+    "result": "metal_tank_little",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "15 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "steel_chunk", 3 ], [ "scrap", 4 ] ] ]
+  },
+  {
+    "result": "skull_pig",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "10 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "bone", 2 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "skull_sheep",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "10 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "bone", 2 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "skull_goat",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "10 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "bone", 2 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "skull_bovine",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "1 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
+    "components": [ [ [ "bone", 43 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "skull_equine",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "1 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
+    "components": [ [ [ "bone", 43 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "skull_cervine",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "10 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "bone", 2 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "skull_moose",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "1 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
+    "components": [ [ [ "bone", 43 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "skull_moose_tusked",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "1 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
+    "components": [ [ [ "bone", 65 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "deck_chair",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "30 m",
+    "qualities": [ { "id": "PRY", "level": 1 }, { "id": "SAW_W", "level": 2 }, { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "plank_short", 2 ] ], [ [ "nuts_bolts", 12 ] ], [ [ "cotton_patchwork", 30 ] ], [ [ "splinter", 22 ] ] ]
+  },
+  {
+    "result": "chair_wood",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "30 m",
+    "qualities": [ { "id": "PRY", "level": 1 }, { "id": "SAW_W", "level": 2 }, { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "wooden_post_short", 2 ] ], [ [ "wood_block", 24 ] ], [ [ "nuts_bolts", 30 ] ], [ [ "splinter", 10 ] ] ]
+  },
+  {
+    "result": "armchair",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "60 m",
+    "qualities": [ { "id": "CUT_FINE", "level": 1 }, { "id": "SAW_W", "level": 2 }, { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "cotton_patchwork", 110 ] ],
+      [ [ "wooden_post_short", 6 ] ],
+      [ [ "wood_block", 4 ] ],
+      [ [ "nuts_bolts", 16 ] ],
+      [ [ "splinter", 30 ] ]
+    ]
+  },
+  {
+    "result": "stool_wood",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "30 m",
+    "qualities": [ { "id": "PRY", "level": 1 }, { "id": "SAW_W", "level": 2 }, { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "wood_block", 12 ] ], [ [ "nuts_bolts", 10 ] ], [ [ "splinter", 4 ] ] ]
+  },
+  {
+    "result": "stool_log",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "10 m",
+    "qualities": [ { "id": "AXE", "level": 3 } ],
+    "components": [ [ [ "splinter", 80 ] ] ]
+  },
+  {
+    "result": "barstool",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "45 m",
+    "qualities": [ { "id": "CUT_FINE", "level": 1 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "leather", 6 ] ], [ [ "steel_chunk", 29 ] ], [ [ "scrap", 2 ] ] ]
+  },
+  {
+    "result": "chair_folding",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "30 m",
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "plastic_chunk", 20 ] ], [ [ "scrap", 38 ] ] ]
+  },
+  {
+    "result": "chair_plywood",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "30 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "splinter", 16 ] ], [ [ "scrap", 38 ] ] ]
+  },
+  {
+    "result": "chair_wood_black",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "30 m",
+    "qualities": [ { "id": "PRY", "level": 1 }, { "id": "SAW_W", "level": 2 }, { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "wooden_post_short", 2 ] ], [ [ "wood_block", 24 ] ], [ [ "nuts_bolts", 30 ] ], [ [ "splinter", 10 ] ] ]
+  },
+  {
+    "result": "chair_wood_white",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "30 m",
+    "qualities": [ { "id": "PRY", "level": 1 }, { "id": "SAW_W", "level": 2 }, { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "wooden_post_short", 2 ] ], [ [ "wood_block", 24 ] ], [ [ "nuts_bolts", 30 ] ], [ [ "splinter", 10 ] ] ]
   }
 ]

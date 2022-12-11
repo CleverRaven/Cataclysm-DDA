@@ -9,10 +9,13 @@
   - "**/*.md"
 
 "Game: Achievements / Conducts / Scores":
-  - "**/**scores**"
+  - "**/scores**"
   - "**/**statistics**"
-  - "**/**achievements**"
+  - "**/statistics**"
+  - "**/**achievement**"
+  - "**/achievement**"
   - "**/**conducts**"
+  - "**/conducts**"
 
 "[Python]":
   - "**/*.py"
@@ -32,8 +35,8 @@
   - "data/mods/TEST_DATA/**"
 
 "Character / World Generation":
-  - "**/**newcharacter**"
-  - "**/**worldfactory**"
+  - "**/newcharacter**"
+  - "**/worldfactory**"
 
 "Code: Build":
   - "build-data/**"
@@ -49,118 +52,161 @@
   - .lgtm.yml
 
 "Crafting / Construction / Recipes":
-  - "**/**recipes**"
+  - "**/**crafting**"
+  - "**/crafting**"
+  - "**/**recipe**"
+  - "**/recipe**"
   - "**/**construction**"
+  - "**/construction**"
 
 "EOC: Effects On Condition":
   - "**/**effect_on_condition**"
+  - "**/effect_on_condition**"
   - "**/**eocs**"
+  - "**/eocs**"
 
 "Fields / Furniture / Terrain / Traps":
   - "**/**furniture**"
+  - "**/furniture**"
+  - "**/**field**"
+  - "**/field**"
+  - "**/**terrain**"
+  - "**/terrain**"
+  - "**/**trap**"
+  - "**/trap**"
 
 "Items: Food / Vitamins":
   - "**/**food**"
+  - "**/food**"
   - "**/**comestible**"
+  - "**/comestible**"
 
 "NPC / Factions":
   - "**/**npc**"
+  - "**/npc**"
   - "**/**NPC**"
+  - "**/NPC**"
 
 "Melee":
   - "**/**melee**"
+  - "**/melee**"
   - "**/**techniques**"
+  - "**/techniques**"
 
 "Missions":
   - "**/**mission**"
+  - "**/mission**"
 
 "Info / User Interface":
-  - "**/**ui**"
+  - "src/**ui**"
+  - "**/ui/**"
   - "**/**widget**"
+  - "**/widget**"
   - "**/**view**"
+  - "**/view**"
 
 "Items: Archery":
-  - "**/**archery**"
-  - "**/**crossbows**"
+  - "**/archery**"
+  - "**/crossbow**"
 
 "Items: Armor / Clothing":
   - "**/**armor**"
+  - "**/armor**"
+  - "**/armor/**"
 
 "Items: Battery / UPS":
   - "**/**battery**"
+  - "**/battery**"
 
 "Items: Containers":
-  - "**/**containers**"
-  - "**/**storage**"
-  - "**/**sheath**"
-  - "**/**holster**"
-  - "**/**ammo_pouch**"
-  - "**/**bandolier**"
+  - "**/container**"
   - "**/**pocket**"
+  - "**/pocket**"
   - "**/**contents**"
+  - "**/contents**"
 
 "Items: Magazines":
   - "**/**magazine**"
+  - "**/magazine**"
 
 "Appliance/Power Grid":
   - "**/**appliance**"
+  - "**/appliance**"
 
 "Monsters":
   - "**/**monsters**"
+  - "**/monsters**"
 
 "Mutations / Traits / Professions/ Hobbies":
   - "**/**profession**"
+  - "**/profession**"
   - "**/**mutations**"
-  - "**/**hobbies**"
+  - "**/mutation**"
+  - "**/hobbies**"
 
 "Lore":
   - data/json/npcs/BG_trait_groups.json
   - data/json/npcs/Personality_trait_groups.json
   - data/json/npcs/personality_traits.json
   - "**/**Backgrounds**"
+  - "**/Backgrounds**"
   - "**/**snippets**"
+  - "**/snippets**"
 
 "Limbs":
   - "**/**bodypart**"
+  - "**/bodypart**"
   - "data/json/limb_scores.json"
 
 "Spawn":
-  - "**/**itemgroups**"
-  - "**/**monstergroups**"
+  - "**/**itemgroup**"
+  - "**/itemgroup**"
+  - "**/itemgroups/**"
+  - "**/**monstergroup**"
+  - "**/monstergroup**"
+  - "**/monstergroups/**"
 
 "Bionics":
-  - "**/**bionics**"
+  - "**/bionic**"
+  - "**/**bionic**"
 
 "Map / Mapgen":
   - "**/**mapgen**"
+  - "**/mapgen**"
   - "**/**overmap**"
+  - "**/overmap**"
 
 "Martial Arts":
-  - "**/**martialarts**"
+  - "**/martialart**"
 
 "Player Faction Base / Camp":
-  - "**/**basecamp**"
+  - "**/basecamp**"
   - "**/faction_camp**"
 
 "Items: Ammo / Guns":
   - "**/**gun**"
+  - "**/gun**"
   - "**/**ammo**"
+  - "**/ammo**"
 
 "Items: Gunmod / Toolmod":
   - "**/**gunmod**"
+  - "**/gunmod**"
   - "**/**toolmod**"
+  - "**/toolmod**"
 
 "SDL: Tiles / Sound":
   - "gfx/**"
   - "sound/**"
 
 "Scenarios":
-  - "**/**scenario**"
-  - "**/**start_location**"
+  - "**/scenario**"
+  - "**/start_location**"
 
 "Translation":
   - "lang/**"
   - "**/**translation**"
+  - "**/translation**"
 
 "Mods: Aftershock":
   - data/mods/Aftershock/**/*
@@ -210,11 +256,16 @@
     all: [ '!data/mods/TEST_DATA/**' ]
 
 "Mechanics: Enchantments / Spells":
-  - "**/**enchantments**"
+  - "**/**enchantment**"
+  - "**/enchantment**"
   - "**/**spells**"
+  - "**/spells**"
+  - "**/Spells/**"
+  - any: ['**/**spell**', '!tools/**']
 
 "Mechanics: Weather":
-  - "**/**weather**"
+  - "**/weather**"
 
 "Vehicles":
   - "**/**vehicle**"
+  - "**/vehicle**"

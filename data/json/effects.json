@@ -312,6 +312,45 @@
   },
   {
     "type": "effect_type",
+    "id": "acid_charged",
+    "name": [ "Charged Acid Glands" ],
+    "//": "Enables special attacks where specified",
+    "desc": [ "Your acid glands are full and ready to burst.  Ew." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "maimed_acid_gland",
+    "name": [ "Maimed Acid Glands" ],
+    "//": "Disables special attacks where specified",
+    "desc": [ "Your acid glands got all leaky." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "elec_charged",
+    "name": [ "Charged Capacitor" ],
+    "desc": [ "Your capacitors sizzle with bioelectricity." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "maimed_capacitor",
+    "name": [ "Maimed Capacitor" ],
+    "desc": [ "You can't deal with this charge." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "maimed_tail",
+    "name": [ "Maimed Tail" ],
+    "desc": [ "Your tail is broken.  You're not sure what to do with this information." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "maimed_claws",
+    "name": [ "Maimed Claws" ],
+    "//": "Disables special attacks where specified",
+    "desc": [ "Your claws broke.  Like a broken nail, but somehow worse." ]
+  },
+  {
+    "type": "effect_type",
     "id": "maimed_armor",
     "name": [ "Cracked Shell" ],
     "//": "Exposes certain weakpoints",
@@ -2133,6 +2172,7 @@
     "apply_message": "You're bleeding!",
     "remove_message": "The bleeding stops!",
     "rating": "bad",
+    "immune_flags": [ "BLEED_IMMUNE" ],
     "max_intensity": 40,
     "int_dur_factor": 60,
     "max_duration": 2400,

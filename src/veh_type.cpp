@@ -893,8 +893,16 @@ void vpart_info::check()
             debugmsg( "vehicle part %s has undefined default ammo %s", part.id.c_str(),
                       part.base_item.c_str() );
         }
-        if( part.size < 0_ml ) {
-            debugmsg( "vehicle part %s has negative size", part.id.c_str() );
+        if( part.size != 0_ml ) {
+            if( part.size < 0_ml ) {
+                debugmsg( "vehicle part %s has negative size", part.id.c_str() );
+            }
+            if( !part.has_flag( "CARGO" ) ) {
+                debugmsg( "vehicle part %s is not CARGO and cannot define size", part.id.c_str() );
+            } else if( part.has_flag( "FLUIDTANK" ) ) {
+                debugmsg( "vehicle part %s is FLUIDTANK and cannot define size; it's defined on part's base item",
+                          part.id.c_str() );
+            }
         }
         if( !item::type_is_defined( part.base_item ) ) {
             debugmsg( "vehicle part %s uses undefined item %s", part.id.c_str(), part.base_item.c_str() );
