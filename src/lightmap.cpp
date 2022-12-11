@@ -227,18 +227,12 @@ void map::apply_character_light( Character &p )
 {
     if( p.has_effect( effect_onfire ) ) {
         apply_light_source( p.pos(), light( 8.0f ) );
-    } else if( p.has_effect( effect_haslight ) ) {
-        apply_light_source( p.pos(), light( 4.0f ) );
     }
 
     const light held_luminance = p.active_light();
-    if( held_luminance > LIGHT_AMBIENT_LOW ) {
-        apply_light_source( p.pos(), held_luminance );
-    }
-
-    if( held_luminance >= light( 4.0f ) &&
-        held_luminance > ambient_light_at( p.pos() ) - light( 0.5f ) ) {
+    if( held_luminance >= LIGHT_AMBIENT_LOW ) {
         p.add_effect( effect_haslight, 1_turns );
+        apply_light_source( p.pos(), held_luminance );
     }
 }
 
