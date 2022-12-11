@@ -76,8 +76,8 @@
 static const efftype_id effect_ridden( "ridden" );
 
 static const itype_id itype_corpse( "corpse" );
-static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 static const trait_id trait_INATTENTIVE( "INATTENTIVE" );
+static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 
 static const std::string ITEM_HIGHLIGHT( "highlight_item" );
 static const std::string ZOMBIE_REVIVAL_INDICATOR( "zombie_revival_indicator" );
