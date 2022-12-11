@@ -205,17 +205,17 @@ void veh_app_interact::draw_info()
         row++;
     }
 
-    auto print_charge = [this]( const std::string & lbl, units::energy rate, int row ) {
+    auto print_charge = [this]( const std::string & lbl, units::power rate, int row ) {
         std::string rstr;
-        if( rate > 10_kJ || rate < -10_kJ ) {
+        if( rate > 10_kW || rate < -10_kW ) {
             //~ Power in killoWatts. %+4.1f is a 4 digit number with 1 decimal point (ex: 2198.3 kW)
-            rstr = string_format( _( "%+4.1f kW" ), units::to_joule( rate ) / 1000.f );
+            rstr = string_format( _( "%+4.1f kW" ), units::to_watt( rate ) / 1000.f );
         } else {
             //~ Power in Watts. %+4.1f is a 4 digit number with 1 decimal point (ex: 4737.3 W)
-            rstr = string_format( _( "%+4.1f W" ), units::to_millijoule( rate ) / 1000.f );
+            rstr = string_format( _( "%+4.1f W" ), units::to_milliwatt( rate ) / 1000.f );
         }
-        nc_color rcol = rate < 0_J ? c_light_red :
-                        rate > 0_J ? c_light_green : c_yellow;
+        nc_color rcol = rate < 0_W ? c_light_red :
+                        rate > 0_W ? c_light_green : c_yellow;
         mvwprintz( w_info, point( 0, row ), c_white, lbl );
         wprintz( w_info, rcol, rstr );
     };
@@ -226,48 +226,48 @@ void veh_app_interact::draw_info()
     }
 
     // Battery power output
-    units::energy charge_rate = veh->net_battery_charge_rate( true, true );
+    units::power charge_rate = veh->net_battery_charge_rate( true, true );
     print_charge( _( "Grid battery power flow: " ), charge_rate, row );
     row++;
 
     // Reactor power output
     if( !veh->reactors.empty() ) {
-        units::energy rate = veh->active_reactor_epower( true );
+        units::power rate = veh->active_reactor_epower( true );
         print_charge( _( "Reactor power output: " ), rate, row );
         row++;
     }
 
     // Wind power output
     if( !veh->wind_turbines.empty() ) {
-        units::energy rate = veh->total_wind_epower();
+        units::power rate = veh->total_wind_epower();
         print_charge( _( "Wind power output: " ), rate, row );
         row++;
     }
 
     // Solar power output
     if( !veh->solar_panels.empty() ) {
-        units::energy rate = veh->total_solar_epower();
+        units::power rate = veh->total_solar_epower();
         print_charge( _( "Solar power output: " ), rate, row );
         row++;
     }
 
     // Water power output
     if( !veh->water_wheels.empty() ) {
-        units::energy rate = veh->total_water_wheel_epower();
+        units::power rate = veh->total_water_wheel_epower();
         print_charge( _( "Water power output: " ), rate, row );
         row++;
     }
 
     // Alternator power output
     if( !veh->alternators.empty() ) {
-        units::energy rate = veh->total_alternator_epower();
+        units::power rate = veh->total_alternator_epower();
         print_charge( _( "Alternator power output: " ), rate, row );
         row++;
     }
 
     // Other power output
     if( !veh->accessories.empty() ) {
-        units::energy rate = veh->total_accessory_epower();
+        units::power rate = veh->total_accessory_epower();
         print_charge( _( "Appliance power consumption: " ), rate, row );
         row++;
     }

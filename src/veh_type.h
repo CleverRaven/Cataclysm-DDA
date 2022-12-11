@@ -451,7 +451,7 @@ class vpart_info
          * Electrical power, flat rate energy (per second); positive for generation, negative for consumption
          * For electric motor consumption scaled with powertrain demand see @ref energy_consumption instead
          */
-        units::energy epower = 0_J;
+        units::power epower = 0_W;
 
         /**
          * Energy consumed per second by engines and motors when delivering max @ref power

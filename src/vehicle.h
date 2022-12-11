@@ -114,7 +114,7 @@ struct smart_controller_cache {
     bool gas_engine_shutdown_forbidden = false;
     int velocity = 0;
     int battery_percent = 0;
-    units::energy battery_net_charge_rate = 0_J;
+    units::power battery_net_charge_rate = 0_W;
     float load = 0.0f;
 };
 
@@ -769,10 +769,10 @@ class vehicle
         int part_vpower_w( int index, bool at_full_hp = false ) const;
 
         // Get part power consumption/production for part number.
-        units::energy part_epower( int index ) const;
+        units::power part_epower( int index ) const;
 
         // convert watts over time to battery energy (kJ)
-        int power_to_energy_bat( units::energy power, const time_duration &d ) const;
+        int power_to_energy_bat( units::power power, const time_duration &d ) const;
 
         // convert vhp to watts.
         static int vhp_to_watts( int power );
@@ -1302,13 +1302,13 @@ class vehicle
         /**
          * Maps used fuel to its basic (unscaled by load/strain) consumption.
          */
-        std::map<itype_id, units::energy> fuel_usage() const;
+        std::map<itype_id, units::power> fuel_usage() const;
 
         /**
         * Fuel usage for specific engine
         * @param e is the index of the engine in the engines array
         */
-        units::energy engine_fuel_usage( int e ) const;
+        units::power engine_fuel_usage( int e ) const;
         /**
          * Get all vehicle lights (excluding any that are destroyed)
          * @param active if true return only lights which are enabled
@@ -1318,25 +1318,25 @@ class vehicle
         void update_alternator_load();
 
         // Total drain or production of electrical power from engines.
-        units::energy total_engine_epower() const;
+        units::power total_engine_epower() const;
         // Total production of electrical power from alternators.
-        units::energy total_alternator_epower() const;
+        units::power total_alternator_epower() const;
         // Total power (W) currently being produced by all solar panels.
-        units::energy total_solar_epower() const;
+        units::power total_solar_epower() const;
         // Total power currently being produced by all wind turbines.
-        units::energy total_wind_epower() const;
+        units::power total_wind_epower() const;
         // Total power currently being produced by all water wheels.
-        units::energy total_water_wheel_epower() const;
+        units::power total_water_wheel_epower() const;
         // Total power drain across all vehicle accessories.
-        units::energy total_accessory_epower() const;
+        units::power total_accessory_epower() const;
         // Net power draw or drain on batteries.
-        units::energy net_battery_charge_rate( bool include_reactors = true,
-                                               bool connected_vehicles = false ) const;
+        units::power net_battery_charge_rate( bool include_reactors = true,
+                                              bool connected_vehicles = false ) const;
         // Maximum available power available from all reactors. Power from
         // reactors is only drawn when batteries are empty.
-        units::energy max_reactor_epower() const;
+        units::power max_reactor_epower() const;
         // Active power from reactors that is actually being drained by batteries.
-        units::energy active_reactor_epower( bool connected_vehicles ) const;
+        units::power active_reactor_epower( bool connected_vehicles ) const;
         // Produce and consume electrical power, with excess power stored or
         // taken from batteries.
         void power_parts();

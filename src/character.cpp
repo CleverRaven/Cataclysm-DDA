@@ -3532,7 +3532,7 @@ std::pair<int, int> Character::climate_control_strength()
                                  // Also check for a working alternator. Muscle or animal could be powering it.
                                  (
                                      vp->is_inside() &&
-                                     vp->vehicle().total_alternator_epower() > 0_J
+                                     vp->vehicle().total_alternator_epower() > 0_W
                                  )
                              );
         }
