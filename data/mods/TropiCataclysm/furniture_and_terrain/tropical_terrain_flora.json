@@ -230,7 +230,7 @@
     "type": "terrain",
     "id": "t_tree_parajubea",
     "name": "parajubea",
-    "description": "A medium sized palm tree belonging to the 'Parajubea' genus.  There are only tree confirmed members of this genus, two of them endangered in Bolivia.",
+    "description": "A medium sized palm tree belonging to the 'Parajubea' genus.  There are only three confirmed members of this genus, two of them endangered in Bolivia.",
     "symbol": "7",
     "color": [ "green", "green", "green", "green" ],
     "move_cost": 0,
