@@ -30,7 +30,7 @@
     "type": "terrain",
     "id": "t_tree_pachira_harvested",
     "name": "chestnut tree",
-    "description": "A massive tree belonging to the 'Pachira' genus, also known as the Guyanan Chesnut tree.",
+    "description": "A massive wetland tree belonging to the 'Pachira' genus, also known as the Guyanan Chesnut tree.",
     "symbol": "7",
     "color": [ "green", "green", "green", "brown" ],
     "move_cost": 0,
