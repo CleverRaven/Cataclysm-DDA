@@ -439,7 +439,7 @@
     "points": 1,
     "visibility": 9,
     "ugliness": 4,
-    "description": "You have a pair of large, black scaled dragon wings.  While you have control of them and can make attacks with them, they are not large enough nor strong enough to allow you to fly and they throw your off balance, greatly reducing your ability to dodge.  They can be used to cast a protective spell on yourself however.",
+    "description": "You have a pair of large, black scaled dragon wings.  While you have control of them and can make attacks with them, they are not large enough nor strong enough to allow you to fly and they throw you off balance, greatly reducing your ability to dodge.  They can be used to cast a protective spell on yourself however.",
     "types": [ "WINGS" ],
     "prereqs": [ "WINGS_STUB" ],
     "category": [ "DRAGON_BLACK" ],
