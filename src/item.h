@@ -1270,8 +1270,7 @@ class item : public visitable
         float _environmental_resist( damage_type dmg_type, bool to_self = false,
                                      int base_env_resist = 0,
                                      bool bp_null = true,
-                                     const std::vector<const part_material *> &armor_mats =
-                                         std::vector<const part_material *>() ) const;
+                                     const std::vector<const part_material *> &armor_mats = {} ) const;
         /*@}*/
     public:
 
