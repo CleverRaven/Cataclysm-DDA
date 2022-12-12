@@ -966,8 +966,8 @@ static void wait()
 
     } else {
         if( player_character.get_stamina() < player_character.get_stamina_max() ) {
-            as_m.addentry( 12, true, 'w', _( "Wait until you catch your breath" ) );
-            durations.emplace( 12, 15_minutes ); // to hide it from showing
+            as_m.addentry( 14, true, 'w', _( "Wait until you catch your breath" ) );
+            durations.emplace( 14, 15_minutes ); // to hide it from showing
         }
         add_menu_item( 1, '1', !has_watch ? _( "Wait 20 heartbeats" ) : "", 20_seconds );
         add_menu_item( 2, '2', !has_watch ? _( "Wait 60 heartbeats" ) : "", 1_minutes );
@@ -1029,7 +1029,7 @@ static void wait()
     if( setting_alarm ) {
         // Setting alarm
         player_character.remove_effect( effect_alarm_clock );
-        if( as_m.ret == 11 ) {
+        if( as_m.ret == 13 ) {
             add_msg( _( "You cancel your alarm." ) );
         } else {
             player_character.add_effect( effect_alarm_clock, time_to_wait );
@@ -1039,9 +1039,9 @@ static void wait()
     } else {
         // Waiting
         activity_id actType;
-        if( as_m.ret == 11 ) {
+        if( as_m.ret == 13 ) {
             actType = ACT_WAIT_WEATHER;
-        } else if( as_m.ret == 12 ) {
+        } else if( as_m.ret == 14 ) {
             actType = ACT_WAIT_STAMINA;
         } else {
             actType = ACT_WAIT;

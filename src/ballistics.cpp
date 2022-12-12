@@ -442,10 +442,13 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
             // Critter can still dodge the projectile
             // In this case hit_critter won't be set
             if( attack.hit_critter != nullptr ) {
-                const size_t bt_len = blood_trail_len( attack.dealt_dam.total_damage() );
-                if( bt_len > 0 ) {
-                    const tripoint &dest = move_along_line( tp, trajectory, bt_len );
-                    here.add_splatter_trail( critter->bloodType(), tp, dest );
+                const field_type_id blood_type = critter->bloodType();
+                if( blood_type ) {
+                    const size_t bt_len = blood_trail_len( attack.dealt_dam.total_damage() );
+                    if( bt_len > 0 ) {
+                        const tripoint &dest = move_along_line( tp, trajectory, bt_len );
+                        here.add_splatter_trail( blood_type, tp, dest );
+                    }
                 }
                 sfx::do_projectile_hit( *attack.hit_critter );
                 has_momentum = false;

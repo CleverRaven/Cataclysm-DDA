@@ -12,8 +12,8 @@
   - "**/scores**"
   - "**/**statistics**"
   - "**/statistics**"
-  - "**/**achievements**"
-  - "**/achievements**"
+  - "**/**achievement**"
+  - "**/achievement**"
   - "**/**conducts**"
   - "**/conducts**"
 
@@ -107,11 +107,12 @@
 
 "Items: Archery":
   - "**/archery**"
-  - "**/crossbows**"
+  - "**/crossbow**"
 
 "Items: Armor / Clothing":
   - "**/**armor**"
   - "**/armor**"
+  - "**/armor/**"
 
 "Items: Battery / UPS":
   - "**/**battery**"
@@ -130,6 +131,7 @@
 
 "Appliance/Power Grid":
   - "**/**appliance**"
+  - "**/appliance**"
 
 "Monsters":
   - "**/**monsters**"
@@ -157,11 +159,16 @@
   - "data/json/limb_scores.json"
 
 "Spawn":
-  - "**/itemgroups**"
-  - "**/monstergroups**"
+  - "**/**itemgroup**"
+  - "**/itemgroup**"
+  - "**/itemgroups/**"
+  - "**/**monstergroup**"
+  - "**/monstergroup**"
+  - "**/monstergroups/**"
 
 "Bionics":
   - "**/bionic**"
+  - "**/**bionic**"
 
 "Map / Mapgen":
   - "**/**mapgen**"
@@ -183,7 +190,9 @@
   - "**/ammo**"
 
 "Items: Gunmod / Toolmod":
+  - "**/**gunmod**"
   - "**/gunmod**"
+  - "**/**toolmod**"
   - "**/toolmod**"
 
 "SDL: Tiles / Sound":

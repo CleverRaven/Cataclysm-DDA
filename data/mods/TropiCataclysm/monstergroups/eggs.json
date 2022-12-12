@@ -98,8 +98,9 @@
     "type": "monstergroup",
     "default": "mon_anaconda",
     "monsters": [
-      { "monster": "mon_anaconda", "freq": 100, "cost_multiplier": 1 },
-      { "monster": "mon_boa", "freq": 100, "cost_multiplier": 1 }
+      { "monster": "mon_anaconda", "freq": 40, "cost_multiplier": 1 },
+      { "monster": "mon_python", "freq": 20, "cost_multiplier": 1 },
+      { "monster": "mon_boa", "freq": 40, "cost_multiplier": 1 }
     ]
   },
   {

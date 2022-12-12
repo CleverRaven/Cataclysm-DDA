@@ -904,7 +904,7 @@
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "terrain": { "6": "t_metal_floor", "C": "t_metal_floor", "W": "t_metal_floor" },
-      "furniture": { "6": "f_console_broken", "C": "f_compact_ASRG", "W": "f_workbench" },
+      "furniture": { "6": "f_console_broken", "C": "f_compact_ASRG_containment", "W": "f_workbench" },
       "items": {
         "W": [
           { "item": "tools_robotics", "chance": 80, "repeat": [ 1, 3 ] },

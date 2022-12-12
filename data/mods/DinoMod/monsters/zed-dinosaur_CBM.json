@@ -30,7 +30,7 @@
     "luminance": 1,
     "starting_ammo": { "battery": 10 },
     "special_attacks": [
-      [ "BIO_OP_TAKEDOWN", 20 ],
+      { "id": "bio_op_takedown", "cooldown": 20 },
       {
         "type": "gun",
         "cooldown": 20,
@@ -70,7 +70,7 @@
       [ "scratch", 10 ],
       [ "GRAB", 7 ],
       { "type": "bite", "cooldown": 5 },
-      [ "BIO_OP_TAKEDOWN", 20 ],
+      { "id": "bio_op_takedown", "cooldown": 20 },
       { "type": "spell", "spell_data": { "id": "CBM_TRex_recording" }, "cooldown": 1600 }
     ],
     "description": "The shuffling corpse of a bipedal dinosaur dotted with crackling bionics, tattered feathers, and black putrid liquid with glowing curved claws.",
@@ -90,7 +90,7 @@
     "melee_damage": [ { "damage_type": "electric", "amount": 4 } ],
     "vision_day": 50,
     "luminance": 4,
-    "special_attacks": [ [ "BIO_OP_TAKEDOWN", 20 ] ],
+    "special_attacks": [ { "id": "bio_op_takedown", "cooldown": 20 } ],
     "description": "The shuffling corpse of a bipedal dinosaur dotted with crackling bionics, tattered feathers, and black putrid liquid with glowing curved claws.",
     "special_when_hit": [ "ZAPBACK", 75 ],
     "upgrades": {  },
@@ -108,7 +108,10 @@
     "melee_damage": [ { "damage_type": "electric", "amount": 4 } ],
     "vision_day": 50,
     "luminance": 4,
-    "special_attacks": [ { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true }, [ "BIO_OP_TAKEDOWN", 20 ] ],
+    "special_attacks": [
+      { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true },
+      { "id": "bio_op_takedown", "cooldown": 20 }
+    ],
     "description": "A bipedal dinosaur covered with tattered feathers, black goo, and crackling bionics.  Each foot has a large glowing sickle-like claw.",
     "special_when_hit": [ "ZAPBACK", 75 ],
     "upgrades": {  },
@@ -127,7 +130,7 @@
     "vision_day": 50,
     "luminance": 4,
     "special_attacks": [
-      [ "BIO_OP_TAKEDOWN", 20 ],
+      { "id": "bio_op_takedown", "cooldown": 20 },
       { "id": "slam", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
       [ "tailsmash_DinoMod", 30 ]
     ],
@@ -148,7 +151,7 @@
     "melee_damage": [ { "damage_type": "electric", "amount": 4 } ],
     "vision_day": 50,
     "luminance": 4,
-    "special_attacks": [ [ "BIO_OP_TAKEDOWN", 20 ] ],
+    "special_attacks": [ { "id": "bio_op_takedown", "cooldown": 20 } ],
     "description": "The shuffling corpse of a bipedal dinosaur with a round hard-looking domed head.  The body is dotted with crackling bionics, tattered feathers, and black putrid liquid and carries glowing, curved claws.",
     "special_when_hit": [ "ZAPBACK", 75 ],
     "upgrades": {  },
@@ -166,7 +169,7 @@
     "melee_damage": [ { "damage_type": "electric", "amount": 4 } ],
     "vision_day": 50,
     "luminance": 4,
-    "special_attacks": [ [ "BIO_OP_TAKEDOWN", 20 ] ],
+    "special_attacks": [ { "id": "bio_op_takedown", "cooldown": 20 } ],
     "description": "A massive shambling rhino-like dinosaur corpse dotted with crackling bionics with a bony crest and three wicked looking glowing horns.  Its black eyes ooze like tears.",
     "special_when_hit": [ "ZAPBACK", 75 ],
     "upgrades": {  },

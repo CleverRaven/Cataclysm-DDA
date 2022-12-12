@@ -151,6 +151,7 @@ static const trait_id trait_DEBUG_MIND_CONTROL( "DEBUG_MIND_CONTROL" );
 static const trait_id trait_HALLUCINATION( "HALLUCINATION" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_MUTE( "MUTE" );
+static const trait_id trait_NO_BASH( "NO_BASH" );
 static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
@@ -2129,7 +2130,7 @@ void npc::shop_restock()
     int shop_value = 75000;
     if( my_fac ) {
         shop_value = my_fac->wealth * 0.0075;
-        if( is_shopkeeper() && !my_fac->currency.is_empty() ) {
+        if( !my_fac->currency.is_empty() ) {
             item my_currency( my_fac->currency );
             if( !my_currency.is_null() ) {
                 my_currency.set_owner( *this );
@@ -2180,22 +2181,14 @@ void npc::shop_restock()
         }
     }
 
-    if( is_shopkeeper() ) {
-        add_fallback_zone( *this );
-        consume_items_in_zones( *this, elapsed );
-        distribute_items_to_npc_zones( ret, *this );
-    } else {
-        for( const item &i : ret ) {
-            i_add( i, true, nullptr, nullptr, true, false );
-        }
-        DebugLog( DebugLevel::D_WARNING, DebugClass::D_GAME )
-                << "shop_restock() called on NPC who is not a shopkeeper " << name;
-    }
+    add_fallback_zone( *this );
+    consume_items_in_zones( *this, elapsed );
+    distribute_items_to_npc_zones( ret, *this );
 }
 
 bool npc::is_shopkeeper() const
 {
-    return mission == NPC_MISSION_SHOPKEEP || !myclass->get_shopkeeper_items().empty();
+    return !is_player_ally() && !myclass->get_shopkeeper_items().empty();
 }
 
 int npc::minimum_item_value() const
@@ -3428,6 +3421,9 @@ const pathfinding_settings &npc::get_pathfinding_settings() const
 const pathfinding_settings &npc::get_pathfinding_settings( bool no_bashing ) const
 {
     path_settings->bash_strength = no_bashing ? 0 : smash_ability();
+    if( has_trait( trait_NO_BASH ) ) {
+        path_settings->bash_strength = 0;
+    }
     // TODO: Extract climb skill
     const int climb = std::min( 20, get_dex() );
     if( climb > 1 ) {
