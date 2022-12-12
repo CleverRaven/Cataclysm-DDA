@@ -16,7 +16,7 @@
     "id": "SCRAP_MERCHANT",
     "name": { "str": "Merchant" },
     "job_description": "I'm a local shopkeeper.",
-    "common": true,
+    "common": false,
     "sells_belongings": false,
     "bonus_str": 4,
     "traits": [
