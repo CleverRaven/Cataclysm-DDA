@@ -1066,15 +1066,17 @@ int monster::sight_range( const light light_level ) const
         ( underwater && !swims() && !has_flag( MF_AQUATIC ) && !digging() ) ) {
         return 1;
     }
-    static const light default_daylight = default_daylight_level();
-    if( static_cast<int>( light_level.value ) == 0 ) {
-        return type->vision_night;
-    } else if( light_level == default_daylight ) {
-        return type->vision_day;
-    }
-    light range = light_level * type->vision_day + ( default_daylight - light_level ) *
-                  type->vision_night;
-    return range / default_daylight;
+    float fraction = std::min(1.0f, light_level / LIGHT_DAY);
+    // TODO Hacky: Right now sight ranges are hardcoded. This doesn't mesh well with physical
+    // sight range calculations.
+    // Therefore, we define a weighted sum of relative sight range at daytime and nighttime.
+    // As a result, a creature that sees 1/2 as far as humans in day and night continues to do so.
+    // A creature with nightvision sees vision_night / PITCH_BLACK.sight_range further at night etc.
+    // Essentially this is a complicated way to find the right range for brightnesses between day and night.
+    // For day and night the hardcoded values are returned.
+    float range_adjustment = fraction * (type->vision_day / LIGHT_DAY.sight_range())
+        + ( 1.0f - fraction ) * (type->vision_night / LIGHT_AMBIENT_PITCH_BLACK.sight_range());
+    return light_level.sight_range() * range_adjustment;
 }
 
 bool monster::made_of( const material_id &m ) const

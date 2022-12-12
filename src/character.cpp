@@ -2283,24 +2283,23 @@ void Character::recalc_sight_limits()
     }
 }
 
-static float threshold_for_range( float range )
+static light threshold_for_range( float range )
 {
     constexpr float epsilon = 0.01f;
-    return LIGHT_AMBIENT_MINIMAL.value / std::exp( range * LIGHT_TRANSPARENCY_OPEN_AIR ) - epsilon;
+    return light(sight_calc(LIGHT_AMBIENT_MINIMAL.value, LIGHT_TRANSPARENCY_OPEN_AIR, range ) - epsilon);
 }
 
 light Character::get_vision_threshold() const
 {
-    light light_level = get_map().ambient_light_at( pos() );
+    light ambient = get_map().ambient_light_at( pos() );
     if( vision_mode_cache[DEBUG_NIGHTVISION] ) {
         // Debug vision always works with absurdly little light.
         return light( 0.01f );
     }
 
-    // As light_level goes from LIGHT_AMBIENT_MINIMAL to LIGHT_AMBIENT_LIT,
-    // dimming goes from 1.0 to 2.0.
-    const float dimming_from_light = 1.0f + ( ( light_level - LIGHT_AMBIENT_MINIMAL ) /
-                                     ( LIGHT_AMBIENT_LIT - LIGHT_AMBIENT_MINIMAL ) );
+    // As ambient goes from LIGHT_AMBIENT_MINIMAL to LIGHT_AMBIENT_LIT,
+    // glare goes from 1.0 to 2.0, thereby increasing the threshold when in brightly lit spaces
+    const float glare = 1.0f + ( ambient / LIGHT_AMBIENT_LIT );
 
     float range = get_per() / 3.0f;
     if( vision_mode_cache[NV_GOGGLES] || vision_mode_cache[NIGHTVISION_3] ||
@@ -2320,8 +2319,7 @@ light Character::get_vision_threshold() const
     // Clamp range to 1+, so that we can always see where we are
     range = std::max( 1.0f, range * get_limb_score( limb_score_night_vis ) );
 
-    return std::min( LIGHT_AMBIENT_LOW,
-                     light( threshold_for_range( range ) ) * dimming_from_light );
+    return std::min( LIGHT_AMBIENT_LOW, threshold_for_range( range ) * glare );
 }
 
 void Character::flag_encumbrance()
@@ -2466,6 +2464,8 @@ bool Character::practice( const skill_id &id, int amount, int cap, bool suppress
 }
 
 // Returned values range from 1.0 (unimpeded vision) to 11.0 (totally blind).
+//  The value depends on the sight_range with the current ambient light and active_light()
+//  TODO check values
 //  1.0 is LIGHT_AMBIENT_LIT or brighter
 //  4.0 is a dark clear night, barely bright enough for reading and crafting
 //  6.0 is LIGHT_AMBIENT_DIM
@@ -2481,16 +2481,17 @@ float Character::fine_detail_vision_mod( const tripoint &p ) const
           !has_trait( trait_PER_SLIME_OK ) ) ) {
         return 11.0;
     }
-    // Scale linearly as light level approaches LIGHT_AMBIENT_LIT.
+    light ambient_light = get_map().ambient_light_at( p == tripoint_zero ? pos() : p );
     // If we're actually a source of light, assume we can direct it where we need it.
     // Therefore give a hefty bonus relative to ambient light.
-    light own_light = std::max( light( 1.0f ), LIGHT_AMBIENT_LIT - active_light() - light( 2.0f ) );
+    // sight_range() is logarithmic, therefore active_light is counted thrice
+    // E.g. a candle in the hand is as good as 3 to your feet
+    int sight_range = this->sight_range(100 * active_light() + ambient_light);
+    sight_range = clamp(sight_range, 0, unimpaired_range());
 
-    // Same calculation as above, but with a result 3 lower.
-    light ambient_light = std::max( light( 1.0f ),
-                                    LIGHT_AMBIENT_LIT - get_map().ambient_light_at( p == tripoint_zero ? pos() : p ) + light( 1.0f ) );
+    float fraction = static_cast<float>(sight_range) / unimpaired_range();
 
-    return std::min( own_light, ambient_light ).value;
+    return 11.0f - 10.0f * fraction;
 }
 
 units::energy Character::get_power_level() const
