@@ -20,13 +20,8 @@
   },
   {
     "text": "[Investigation 2] Are you feeling ok after all of this?  I can see some of your wounds.",
-    "condition": {
-    "and": [
-      { "npc_has_trait": [ "EGGSAC_SURVIVABLE", "EGGSAC_FATAL" ] },
-     { "u_has_deduction": 2 }
-   ]
- },
-   "effect": { "u_add_var": "u_knows_goblinspider_eggs", "type": "knowledge", "context": "reproduction", "value": "yes" },
+    "condition": { "and": [ { "npc_has_trait": [ "EGGSAC_SURVIVABLE", "EGGSAC_FATAL" ] }, { "u_has_deduction": 2 } ] },
+    "effect": { "u_add_var": "u_knows_goblinspider_eggs", "type": "knowledge", "context": "reproduction", "value": "yes" },
     "topic": "TALK_RESCUED_INFESTED"
   },
   {
@@ -47,12 +42,19 @@
         "effect": { "assign_mission": "BRING_INFESTED_ANTIPARASITICS" },
         "topic": "TALK_RESCUED_1"
       },
-
-  {
-    "text": "I've brought the antiparasitic for you.  Do you want it?",
-    "condition": { "and": [ { "u_has_items": { "item": "antiparasitic", "count": 10 } }, { "u_has_mission": "BRING_INFESTED_ANTIPARASITICS" } ] },
-    "effect": [ { "u_sell_item": "antiparasitic", "count": 10 }, { "finish_mission": "BRING_INFESTED_ANTIPARASITICS", "success": true }, { "npc_lose_trait": [ "EGGSAC_SURVIVABLE", "EGGSAC_FATAL" ] } ],
-    "topic": "TALK_RESCUED_1"
+      {
+        "text": "I've brought the antiparasitic for you.  Do you want it?",
+        "condition": {
+          "and": [ { "u_has_items": { "item": "antiparasitic", "count": 10 } }, { "u_has_mission": "BRING_INFESTED_ANTIPARASITICS" } ]
+        },
+        "effect": [
+          { "u_sell_item": "antiparasitic", "count": 10 },
+          { "finish_mission": "BRING_INFESTED_ANTIPARASITICS", "success": true },
+          { "npc_lose_trait": [ "EGGSAC_SURVIVABLE", "EGGSAC_FATAL" ] }
+        ],
+        "topic": "TALK_RESCUED_1"
+      }
+    ]
   },
   {
     "id": "BRING_INFESTED_ANTIPARASITICS",
