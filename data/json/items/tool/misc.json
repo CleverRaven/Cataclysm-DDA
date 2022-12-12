@@ -751,7 +751,7 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ",",
     "ascii_picture": "umbrella",
-    "looks_like": "umbrella", 
+    "looks_like": "umbrella",
     "color": "dark_gray",
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "STAB", "RAIN_PROTECT", "SHEATH_SWORD", "FRAGILE_MELEE" ],
