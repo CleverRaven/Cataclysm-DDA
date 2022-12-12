@@ -114,9 +114,9 @@ void advanced_inv_area::init()
             // location always valid, actual check is done in canputitems()
             // and depends on selected item in pane (if it is valid container)
             canputitemsloc = true;
-            if( !get_container() ) {
-                desc[0] = _( "Invalid container!" );
-            }
+            // write "invalid container" by default, in case it
+            // doesn't get overwritten by a legitimate container later
+            desc[0] = _( "Invalid container!" );
             break;
         case AIM_ALL:
             desc[0] = _( "All 9 squares" );
@@ -214,22 +214,14 @@ bool advanced_inv_area::is_same( const advanced_inv_area &other ) const
     return id == other.id;
 }
 
-bool advanced_inv_area::canputitems( const advanced_inv_listitem *advitem )
+bool advanced_inv_area::canputitems( const item_location container )
 {
     bool canputitems = false;
     bool from_vehicle = false;
     switch( id ) {
         case AIM_CONTAINER: {
-            item_location it;
-            if( advitem != nullptr ) {
-                it = advitem->items.front();
-                from_vehicle = advitem->from_vehicle;
-            }
-            if( get_container( from_vehicle ) ) {
-                it = get_container( from_vehicle );
-            }
-            if( it ) {
-                if( it.get_item()->is_container() ) {
+            if( container ) {
+                if( container.get_item()->is_container() ) {
                     canputitems = true;
                 }
             }
