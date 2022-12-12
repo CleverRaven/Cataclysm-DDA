@@ -905,7 +905,8 @@ void vpart_info::check()
             }
         }
         if( part.has_flag( "CARGO" ) && part.has_flag( "FLUIDTANK" ) ) {
-            debugmsg( "vehicle part %s can't have both CARGO and FLUIDTANK flags at the same time", part.id.c_str() );
+            debugmsg( "vehicle part %s can't have both CARGO and FLUIDTANK flags at the same time",
+                      part.id.c_str() );
         }
         if( !item::type_is_defined( part.base_item ) ) {
             debugmsg( "vehicle part %s uses undefined item %s", part.id.c_str(), part.base_item.c_str() );
