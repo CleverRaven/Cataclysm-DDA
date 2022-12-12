@@ -49,6 +49,7 @@
 #include "pimpl.h"
 #include "player_activity.h"
 #include "point.h"
+#include "popup.h"
 #include "ret_val.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
@@ -116,7 +117,7 @@ void create_advanced_inv()
     }
     advinv->display();
     // keep the UI and its ui_adaptor running if we're returning
-    if( uistate.transfer_save.exit_code != aim_exit::re_entry ) {
+    if( uistate.transfer_save.exit_code != aim_exit::re_entry || get_avatar().activity.is_null() ) {
         kill_advanced_inv();
     }
 }
@@ -1559,6 +1560,7 @@ void advanced_inventory::display()
         player_character.inv->restack( player_character );
 
         recalc = true;
+        g->wait_popup.reset();
     }
 
     if( !ui ) {

@@ -205,7 +205,7 @@
       },
       "furniture": {
         "#": [ "f_bench" ],
-        "/": [ "f_compact_ASRG_containment" ],
+        "/": [ "f_active_backup_generator" ],
         "0": [ "f_console" ],
         "5": [ "f_console" ],
         "6": [ "f_console" ],

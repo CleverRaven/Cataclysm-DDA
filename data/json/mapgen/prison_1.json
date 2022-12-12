@@ -1099,7 +1099,7 @@
         "Y": [ "f_rack_coat" ],
         "А": [ "f_speaker_cabinet" ],
         "а": [ "f_fridge" ],
-        "Ё": [ "f_compact_ASRG_containment" ],
+        "Ё": [ "f_active_backup_generator" ],
         "Ж": [ "f_locker" ],
         "З": [ "f_bookcase" ],
         "И": [ "f_counter" ],

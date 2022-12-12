@@ -245,24 +245,45 @@ void mission_start::place_npc_software( mission *miss )
     compmap.save();
 }
 
-void mission_start::place_priest_diary( mission *miss )
+void mission_start::place_deposit_box( mission *miss )
 {
-    const tripoint_abs_omt place = mission_util::random_house_in_closest_city();
-    miss->target = place;
-    overmap_buffer.reveal( place, 2 );
-    tinymap compmap;
-    compmap.load( project_to<coords::sm>( place ), false );
+    npc *p = g->find_npc( miss->npc_id );
+    if( p == nullptr ) {
+        debugmsg( "could not find mission NPC %d", miss->npc_id.get_value() );
+        return;
+    }
+    // Npc joins you
+    p->set_attitude( NPCATT_FOLLOW );
+    tripoint_abs_omt site =
+        overmap_buffer.find_closest( p->global_omt_location(), "bank", 0, false );
+    if( site == overmap::invalid_tripoint ) {
+        site = overmap_buffer.find_closest( p->global_omt_location(), "office_tower_1", 0, false );
+    }
 
+    if( site == overmap::invalid_tripoint ) {
+        site = p->global_omt_location();
+        debugmsg( "Couldn't find a place for deposit box" );
+    }
+
+    miss->target = site;
+    overmap_buffer.reveal( site, 2 );
+
+    tinymap compmap;
+    compmap.load( project_to<coords::sm>( site ), false );
     std::vector<tripoint> valid;
     for( const tripoint &p : compmap.points_on_zlevel() ) {
-        if( compmap.furn( p ) == f_bed || compmap.furn( p ) == f_dresser ||
-            compmap.furn( p ) == f_indoor_plant || compmap.furn( p ) == f_cupboard ) {
-            valid.push_back( p );
+        if( compmap.ter( p ) == t_floor ) {
+            for( const tripoint &p2 : compmap.points_in_radius( p, 1 ) ) {
+                if( compmap.ter( p2 ) == t_wall_metal ) {
+                    valid.push_back( p );
+                    break;
+                }
+            }
         }
     }
-    const tripoint fallback( rng( 6, SEEX * 2 - 7 ), rng( 6, SEEY * 2 - 7 ), place.z() );
+    const tripoint fallback( rng( 6, SEEX * 2 - 7 ), rng( 6, SEEY * 2 - 7 ), site.z() );
     const tripoint comppoint = random_entry( valid, fallback );
-    compmap.spawn_item( comppoint, "priest_diary" );
+    compmap.spawn_item( comppoint, "safe_box" );
     compmap.save();
 }
 
