@@ -1815,8 +1815,8 @@ void query_destination_callback::draw_squares( const uilist *menu )
         const char *bracket = in_vehicle ? "<>" : "[]";
         // always show storage option for vehicle storage, if applicable
         bool canputitems = menu->entries[i - 1].enabled && square.canputitems();
-        nc_color bcolor = canputitems ? sel == loc ? h_white : c_light_gray : c_dark_gray;
-        nc_color kcolor = canputitems ? sel == loc ? h_white : c_light_gray : c_dark_gray;
+        nc_color bcolor = canputitems ? sel == loc ? h_white : c_light_gray : c_red;
+        nc_color kcolor = canputitems ? sel == loc ? h_white : c_dark_gray : c_red;
         const point p( square.hscreen + point( ofs, 5 ) );
         mvwprintz( menu->window, p, bcolor, "%c", bracket[0] );
         wprintz( menu->window, kcolor, "%s", key );
