@@ -115,7 +115,7 @@ void advanced_inv_area::init()
             // and depends on selected item in pane (if it is valid container)
             canputitemsloc = true;
             // write "invalid container" by default, in case it
-            // doesn't get overwritten by a legitimate container later
+            // doesn't get overwritten in advanced_inv_pane.add_items_from_area()
             desc[0] = _( "Invalid container!" );
             break;
         case AIM_ALL:
