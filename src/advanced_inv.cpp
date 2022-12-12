@@ -654,6 +654,15 @@ void advanced_inventory::recalc_pane( side p )
     pane.items.clear();
     advanced_inventory_pane &there = panes[-p + 1];
     advanced_inv_area &other = squares[there.get_area()];
+    avatar &player_character = get_avatar();
+    if( pane.container ) {
+        // If container is no longer adjacent or on the player's z-level, nullify it.
+        if( square_dist( player_character.pos_bub(), pane.container.pos_bub() ) > 1 ||
+            player_character.pos_bub().z() != pane.container.pos_bub().z() ) {
+
+            pane.container = item_location::nowhere;
+        }
+    }
     // Add items from the source location or in case of all 9 surrounding squares,
     // add items from several locations.
     if( pane.get_area() == AIM_ALL ) {
