@@ -36,9 +36,7 @@
       "and": [
         { "u_compare_time_since_var": "RandEnc", "type": "timer", "context": "jotunn", "op": ">", "time": "3 h" },
         { "not": { "u_near_om_location": "roadstop_a", "range": 2 } },
-        {
-          "compare_int": [ { "global_val": "var", "var_name": "RandEnc_Jotunn" }, "==", { "const": 1 } ]
-        }
+        { "compare_int": [ { "global_val": "var", "var_name": "RandEnc_Jotunn" }, "==", { "const": 1 } ] }
       ]
     },
     "effect": [
