@@ -463,25 +463,25 @@
     "result": "engine_block_large",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "time": "1 h",
-    "tools": [ [ [ "angle_grinder", 100 ] ] ],
+    "time": "5 h",
+    "tools": [ [ [ "angle_grinder", 500 ] ] ],
     "components": [ [ [ "steel_lump", 100 ] ] ]
   },
   {
     "result": "engine_block_massive",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "time": "1 h",
-    "tools": [ [ [ "angle_grinder", 100 ] ] ],
+    "time": "5 h",
+    "tools": [ [ [ "angle_grinder", 500 ] ] ],
     "components": [ [ [ "steel_lump", 100 ] ] ]
   },
   {
     "result": "engine_block_medium",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "time": "40 m",
+    "time": "2 h",
     "tools": [ [ [ "angle_grinder", 100 ] ] ],
-    "components": [ [ [ "steel_lump", 75 ] ] ]
+    "components": [ [ [ "steel_lump", 80 ] ] ]
   },
   {
     "result": "engine_block_small",
@@ -489,7 +489,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "30 m",
     "qualities": [ { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "steel_lump", 20 ] ] ]
+    "components": [ [ [ "steel_lump", 22 ] ] ]
   },
   {
     "result": "engine_block_tiny",
@@ -497,6 +497,6 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "25 m",
     "qualities": [ { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "steel_lump", 18 ] ] ]
+    "components": [ [ [ "steel_lump", 8 ] ] ]
   }
 ]
