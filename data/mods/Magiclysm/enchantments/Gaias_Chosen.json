@@ -30,8 +30,8 @@
   {
     "type": "mutation",
     "id": "DUST_REBORN",
-    "name": { "str": "Splitted" },
-    "description": "Your body and soul were splitted in half, and part of it were left inside the ley-line, connected with your main body with tiniest, ethereal thread.  In danger situation, you will abandon your main body and turn back into copy, with all knowledge and skills you have.",
+    "name": { "str": "Split" },
+    "description": "Your body and soul were split in half, and part of it were left inside the ley-line, connected with your main body with tiniest, ethereal thread.  In danger situation, you will abandon your main body and turn back into copy, with all knowledge and skills you have.",
     "points": 0,
     "valid": false,
     "purifiable": false
@@ -43,14 +43,14 @@
       { "u_location_variable": { "u_val": "dust_reborn_teleport" }, "min_radius": 0, "max_radius": 0 },
       { "u_add_effect": "effect_dust_reborn", "duration": "30 days" },
       { "u_add_trait": "DUST_REBORN", "duration": "30 days" },
-      { "u_message": "Part of your body and soul were divorsed.", "type": "neutral" }
+      { "u_message": "Part of your body and soul were divorced.", "type": "neutral" }
     ]
   },
   {
     "id": "effect_dust_reborn",
     "type": "effect_type",
     "name": [ "Divided" ],
-    "desc": [ "Your body was splitted before, which makes you really fragile, but allow you to accept more mana than before." ],
+    "desc": [ "Your body was split before, which makes you really fragile, but allow you to accept more mana than before." ],
     "remove_message": "Your body turns back to normal state.",
     "enchantments": [ { "values": [ { "value": "MAX_HP", "multiply": -0.7 }, { "value": "MAX_MANA", "multiply": 0.3 } ] } ]
   },
