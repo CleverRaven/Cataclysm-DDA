@@ -69,7 +69,7 @@
     "explode_in_fire": true
   },
   {
-    "type": "MAGAZINE",
+    "type": "TOOL",
     "id": "notched_plank",
     "category": "spare_parts",
     "name": { "str": "notched plank", "str_pl": "notched planks" },
@@ -82,13 +82,11 @@
     "price": 500,
     "price_postapoc": 5,
     "material": [ "wood" ],
-    "ammo_type": [ "notch" ], 
-    "capacity" : 40,
-    "count" : 40,
-    "flags": [ "NO_RELOAD", "NO_UNLOAD" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "notch": 40 } } ],
+    "flags": [ "NO_RELOAD", "NO_UNLOAD" ]
   },
   {
-    "type": "MAGAZINE",
+    "type": "TOOL",
     "id": "notched_stick",
     "category": "spare_parts",
     "name": { "str": "notched stick", "str_pl": "notched stick" },
@@ -101,10 +99,8 @@
     "price": 500,
     "price_postapoc": 5,
     "material": [ "wood" ],
-    "ammo_type": [ "notch" ], 
-    "capacity" : 10,
-    "count" : 10,
-    "flags": [ "NO_RELOAD", "NO_UNLOAD" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "notch": 10 } } ],
+    "flags": [ "NO_RELOAD", "NO_UNLOAD" ]
   },
   {
     "id": "clay_urn",

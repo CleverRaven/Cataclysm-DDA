@@ -112,7 +112,7 @@
           "helmet_larmor",
           "gloves_wraps_leather",
           "bigtrapper_pack"
-        ]
+        ],
         "entries": [ { "item": "fire_drill", "ammo-item": "notch", "charges": 40 } ]
       }
     }
