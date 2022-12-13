@@ -724,8 +724,8 @@ void advanced_inventory::recalc_pane( side p )
     if( there.get_area() == AIM_CONTAINER ) {
         std::vector<advanced_inv_listitem>::iterator outer_iter = pane.items.begin();
         while( outer_iter != pane.items.end() ) {
-            if( ( *outer_iter->items.begin() == there.container )
-                || ( there.container.eventually_contains( *outer_iter->items.begin() ) ) ) {
+            if( *outer_iter->items.begin() == there.container ||
+                there.container.eventually_contains( *outer_iter->items.begin() ) ) {
 
                 outer_iter = pane.items.erase( outer_iter );
             } else {
