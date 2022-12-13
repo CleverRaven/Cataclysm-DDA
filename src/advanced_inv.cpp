@@ -619,6 +619,19 @@ int advanced_inventory::print_header( advanced_inventory_pane &pane, aim_locatio
     int wwidth = getmaxx( window );
     int ofs = wwidth - 25 - 2 - 14;
     int min_x = wwidth;
+    int container_loc = -1;
+    if( pane.container ) {
+        tripoint_rel_ms container_rel_pos = pane.container.pos_bub() - get_avatar().pos_bub();
+        switch( pane.container.where_recursive() ) {
+            case item_location::type::character:
+                container_loc = pane.container.has_parent() ? 0 : 13;
+                break;
+            case item_location::type::map:
+            case item_location::type::vehicle:
+                container_loc = container_rel_pos.y() * -3 + 5 + container_rel_pos.x();
+                break;
+        }
+    }
     for( int i = 0; i < NUM_AIM_LOCATIONS; ++i ) {
         int data_location = screen_relative_location( static_cast<aim_location>( i ) );
         const char *bracket = squares[data_location].can_store_in_vehicle() ? "<>" : "[]";
@@ -628,13 +641,16 @@ int advanced_inventory::print_header( advanced_inventory_pane &pane, aim_locatio
                             data_location <= AIM_NORTHEAST );
         nc_color bcolor = c_red;
         nc_color kcolor = c_red;
+        // Highlight location [#] if it can recieve items,
+        // or highlight container [C] if container mode is active.
         if( squares[data_location].canputitems( pane.get_cur_item_ptr() != nullptr ? 
             pane.get_cur_item_ptr()->items.front() : item_location::nowhere ) || 
             ( area == AIM_CONTAINER && data_location == AIM_CONTAINER) ) {
 
             bcolor = in_vehicle ? c_light_blue :
                      area == data_location || all_brackets ? c_light_gray : c_dark_gray;
-            kcolor = area == data_location ? c_white : sel == data_location ? c_light_gray : c_dark_gray;
+            kcolor = area == data_location ? c_white : sel == data_location || 
+                container_loc == data_location ? c_light_gray : c_dark_gray;
         }
         const std::string key = get_location_key( static_cast<aim_location>( i ) );
         const point p( squares[i].hscreen + point( ofs, 0 ) );
