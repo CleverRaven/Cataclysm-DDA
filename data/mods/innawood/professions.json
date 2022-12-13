@@ -261,7 +261,7 @@
         "items": [ "skirt_grass", "shirt_straw", "footrags", "straw_basket", "primitive_knife" ],
         "entries": [
           { "item": "water_clean", "charges": 6, "container-item": "waterskin" },
-          { "item": "fire_drill", "ammo-item": "notch", "charges": 40 } 
+          { "item": "fire_drill", "ammo-item": "notch", "charges": 40 }
         ]
       }
     }
