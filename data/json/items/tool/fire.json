@@ -59,12 +59,7 @@
     "charges_per_use": 1,
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "notched_plank", "notched_stick" ] } ],
     "use_action": { "type": "firestarter", "moves": 6000, "moves_slow": 15000 },
-    "qualities": [
-      [
-        "DRILL_ROCK",
-        1
-      ]
-    ],
+    "qualities": [ [ "DRILL_ROCK", 1 ] ],
     "flags": [ "FIRESTARTER", "REQUIRES_TINDER" ]
   },
   {
