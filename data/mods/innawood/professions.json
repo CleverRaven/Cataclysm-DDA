@@ -259,7 +259,7 @@
     "items": {
       "both": {
         "items": [ "skirt_grass", "shirt_straw", "footrags", "straw_basket", "primitive_knife" ],
-        "entries": [ 
+        "entries": [
           { "item": "water_clean", "charges": 6, "container-item": "waterskin" },
           { "item": "fire_drill", "ammo-item": "notch", "charges": 40 } 
         ]
