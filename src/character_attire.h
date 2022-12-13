@@ -221,8 +221,6 @@ class outfit
         std::vector<item_location> all_items_loc( Character &guy );
         item_location adv_inv_get_container( item_location container, const advanced_inv_area &area,
                                              Character &guy );
-        void adv_inv_move_all_items( Character &player_character, advanced_inventory_pane &spane,
-                                     drop_locations &dropped, drop_locations &dropped_favorite );
 
         // gets item position. not translated for worn index. DEPRECATE ME!
         cata::optional<int> get_item_position( const item &it ) const;
