@@ -1502,9 +1502,6 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
                 if( destarea == AIM_CONTAINER ) {
                     do_return_entry();
                     start_activity( destarea, srcarea, sitem, amount_to_move, from_vehicle, to_vehicle );
-
-                    // exit so that the activity can be carried out
-                    exit = true;
                 } else {
                     const tripoint placement = squares[destarea].off;
                     // incase there is vehicle cargo space at dest but the player wants to drop to ground
