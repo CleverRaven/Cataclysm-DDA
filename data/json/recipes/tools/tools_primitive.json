@@ -278,7 +278,7 @@
     "autolearn": true,
     "using": [ [ "cordage_short", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ "stick", 2 ], [ [ "splinter", 1 ] ] ]
+    "components": [ [ [ "stick", 2 ] ] , [ [ "splinter", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -292,7 +292,7 @@
     "autolearn": true,
     "using": [ [ "cordage_short", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "DRILL_ROCK", "level": 1 } ],
-    "components": [ [ "stick", 2 ], [ [ "rock", 1 ], [ "ceramic_shard", 1 ] ] ]
+    "components": [ [ [ "stick", 2 ] ], [ [ "rock", 1 ], [ "ceramic_shard", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -303,6 +303,7 @@
     "time": "10 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
+    "flags": [ "FULL_MAGAZINE" ],
     "components": [ [ [ "2x4", 1 ] ] ]
   },
   {
@@ -314,6 +315,7 @@
     "time": "2 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
+    "flags": [ "FULL_MAGAZINE" ],
     "components": [ [ [ "stick", 1 ] ] ]
   },
   {
