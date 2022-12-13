@@ -643,14 +643,14 @@ int advanced_inventory::print_header( advanced_inventory_pane &pane, aim_locatio
         nc_color kcolor = c_red;
         // Highlight location [#] if it can recieve items,
         // or highlight container [C] if container mode is active.
-        if( squares[data_location].canputitems( pane.get_cur_item_ptr() != nullptr ? 
-            pane.get_cur_item_ptr()->items.front() : item_location::nowhere ) || 
-            ( area == AIM_CONTAINER && data_location == AIM_CONTAINER) ) {
+        if( squares[data_location].canputitems( pane.get_cur_item_ptr() != nullptr ?
+                                                pane.get_cur_item_ptr()->items.front() : item_location::nowhere ) ||
+            ( area == AIM_CONTAINER && data_location == AIM_CONTAINER ) ) {
 
             bcolor = in_vehicle ? c_light_blue :
                      area == data_location || all_brackets ? c_light_gray : c_dark_gray;
-            kcolor = area == data_location ? c_white : sel == data_location || 
-                container_loc == data_location ? c_light_gray : c_dark_gray;
+            kcolor = area == data_location ? c_white : sel == data_location ||
+                     container_loc == data_location ? c_light_gray : c_dark_gray;
         }
         const std::string key = get_location_key( static_cast<aim_location>( i ) );
         const point p( squares[i].hscreen + point( ofs, 0 ) );
@@ -722,7 +722,7 @@ void advanced_inventory::recalc_pane( side p )
     if( there.get_area() == AIM_CONTAINER ) {
         std::vector<advanced_inv_listitem>::iterator outer_iter = pane.items.begin();
         while( outer_iter != pane.items.end() ) {
-            if( ( *outer_iter->items.begin() == there.container ) 
+            if( ( *outer_iter->items.begin() == there.container )
                 || ( there.container.eventually_contains( *outer_iter->items.begin() ) ) ) {
 
                 outer_iter = pane.items.erase( outer_iter );
@@ -1307,9 +1307,9 @@ void advanced_inventory::change_square( const aim_location changeSquare,
             swap_panes();
         }
         // we need to check the original area if we can place items in vehicle storage
-    } else if( squares[changeSquare].canputitems( 
-        changeSquare == AIM_CONTAINER && spane.get_cur_item_ptr() != nullptr ? 
-        spane.get_cur_item_ptr()->items.front() : item_location::nowhere ) ) {
+    } else if( squares[changeSquare].canputitems(
+                   changeSquare == AIM_CONTAINER && spane.get_cur_item_ptr() != nullptr ?
+                   spane.get_cur_item_ptr()->items.front() : item_location::nowhere ) ) {
 
         bool in_vehicle_cargo = false;
         if( changeSquare == AIM_CONTAINER ) {
@@ -1408,7 +1408,8 @@ void advanced_inventory::start_activity(
             && panes[dest].container.where() != item_location::type::map
             && !player_character.is_wielding( *panes[dest].container ) ) {
 
-            popup( _( "The %s would spill unless it's on the ground or wielded." ), panes[dest].container->type_name() );
+            popup( _( "The %s would spill unless it's on the ground or wielded." ),
+                   panes[dest].container->type_name() );
             return;
         }
         // Create drop locations out of target items and quantities
@@ -1417,16 +1418,16 @@ void advanced_inventory::start_activity(
             target_inserts.emplace_back( std::make_pair( sitem->items.front(), amount_to_move ) );
         } else {
             for( std::vector<item_location>::iterator it = sitem->items.begin(); amount_to_move > 0 &&
-                it != sitem->items.end(); ++it ) {
+                 it != sitem->items.end(); ++it ) {
                 target_inserts.emplace_back( std::make_pair( *it, 0 ) );
                 --amount_to_move;
             }
         }
 
-        player_character.assign_activity( player_activity( insert_item_activity_actor( 
-                                                panes[dest].container, 
-                                                target_inserts 
-                                            ) ) );
+        player_character.assign_activity( player_activity( insert_item_activity_actor(
+                                              panes[dest].container,
+                                              target_inserts
+                                          ) ) );
     }
 }
 
@@ -1469,7 +1470,8 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
     // but are potentially at a different place).
     recalc = true;
     cata_assert( amount_to_move > 0 );
-    if( srcarea == AIM_CONTAINER && destarea == AIM_INVENTORY && spane.container.held_by(player_character)) {
+    if( srcarea == AIM_CONTAINER && destarea == AIM_INVENTORY &&
+        spane.container.held_by( player_character ) ) {
         popup( _( "The %s is already in your inventory." ), sitem->items.front()->tname() );
 
     } else if( srcarea == AIM_INVENTORY && destarea == AIM_WORN ) {
@@ -1502,27 +1504,27 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
                     // exit so that the activity can be carried out
                     exit = true;
                 } else {
-                const tripoint placement = squares[destarea].off;
-                // incase there is vehicle cargo space at dest but the player wants to drop to ground
-                const bool force_ground = !to_vehicle;
-                std::vector<drop_or_stash_item_info> to_drop;
+                    const tripoint placement = squares[destarea].off;
+                    // incase there is vehicle cargo space at dest but the player wants to drop to ground
+                    const bool force_ground = !to_vehicle;
+                    std::vector<drop_or_stash_item_info> to_drop;
 
-                int remaining_amount = amount_to_move;
-                for( const item_location &itm : sitem->items ) {
-                    if( remaining_amount <= 0 ) {
-                        break;
+                    int remaining_amount = amount_to_move;
+                    for( const item_location &itm : sitem->items ) {
+                        if( remaining_amount <= 0 ) {
+                            break;
+                        }
+                        const int move_amount = itm->count_by_charges() ?
+                                                std::min( remaining_amount, itm->charges ) : 1;
+                        to_drop.emplace_back( itm, move_amount );
+                        remaining_amount -= move_amount;
                     }
-                    const int move_amount = itm->count_by_charges() ?
-                                            std::min( remaining_amount, itm->charges ) : 1;
-                    to_drop.emplace_back( itm, move_amount );
-                    remaining_amount -= move_amount;
-                }
 
-                player_character.assign_activity( player_activity( drop_activity_actor(
-                                                      to_drop, placement, force_ground
-                                                  ) ) );
+                    player_character.assign_activity( player_activity( drop_activity_actor(
+                                                          to_drop, placement, force_ground
+                                                      ) ) );
+                }
             }
-        }
         }
 
         // exit so that the activity can be carried out
@@ -2017,7 +2019,7 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
             if( destarea == AIM_INVENTORY ) {
                 popup( _( "You have no space for the %s!" ), it.tname() );
             } else {
-            popup( _( "Destination area is full.  Remove some items first." ) );
+                popup( _( "Destination area is full.  Remove some items first." ) );
             }
             return false;
         }
