@@ -92,7 +92,7 @@ Use the `Home` key to return to the top.
     - [Vehicle Groups](#vehicle-groups)
     - [Vehicle Parts](#vehicle-parts)
       - [Symbols and Variants](#symbols-and-variants)
-      - [The following optional fields are specific to CARGO or FLUIDTANK parts.](#the-following-optional-fields-are-specific-to-cargo-or-fluidtank-parts)
+      - [The following optional fields are specific to CARGO parts.](#the-following-optional-fields-are-specific-to-cargo-parts)
       - [The following optional fields are specific to ENGINEs.](#the-following-optional-fields-are-specific-to-engines)
       - [The following optional fields are specific to WHEELs.](#the-following-optional-fields-are-specific-to-wheels)
       - [The following optional fields are specific to ROTORs.](#the-following-optional-fields-are-specific-to-rotors)
@@ -640,7 +640,7 @@ This section describes each json file and their contents. Each json has their ow
     ]
   }
 ```
-For information about tools with option to export ASCII art in format ready to be pasted into `ascii_arts.json`, see `ASCII_ARTS.md`.
+For information about tools with option to export ASCII art in format ready to be pasted into `ascii_arts.json`, see [ASCII_ARTS.md](ASCII_ARTS.md).
 
 ### Addiction types
 
@@ -1409,12 +1409,11 @@ In monster groups, within the `"monsters"` array, you can define `"group"` objec
 
 ### Monsters
 
-See MONSTERS.md
+See [MONSTERS.md](MONSTERS.md)
 
 ### Mutation Categories
 
-See MUTATIONS.md
-
+See [MUTATIONS.md](MUTATIONS.md)
 
 ### Names
 
@@ -1523,7 +1522,7 @@ Point cost of profession. Positive values cost points and negative values grant 
 (optional, array of addictions)
 
 List of starting addictions. Each entry in the list should be an object with the following members:
-- "type": the string id of the addiction (see JSON_FLAGS.md),
+- "type": the string id of the addiction (see [JSON_FLAGS.md](JSON_FLAGS.md)),
 - "intensity": intensity (integer) of the addiction.
 
 Example:
@@ -2522,35 +2521,35 @@ at level `2` to the item.
 
 ### Traits/Mutations
 
-See MUTATIONS.md
+See [MUTATIONS.md](MUTATIONS.md)
 
 ### Trait Migrations
 
-See MUTATIONS.md
+See [MUTATIONS.md](MUTATIONS.md)
 
 ### Traps
 
 ```C++
     "type": "trap",
-    "id": "tr_beartrap",  // Unique ID
-    "name": "bear trap",  // In-game name displayed
+    "id": "tr_beartrap", // Unique ID
+    "name": "bear trap", // In-game name displayed
     "color": "blue",
     "symbol": "^",
-    "visibility": 2,  // 1 to ??, affects detection
-    "avoidance": 7,  // 0 to ??, affects avoidance
-    "difficulty": 3,  // 0 to ??, difficulty of assembly & disassembly
-    "trap_radius": 1,  // 0 to ??, trap radius
-    "action": "blade",
+    "visibility": 2, // 0 to infinity, 0 means a blatantly obvious trap, the higher, the harder to spot.
+    "avoidance": 7, // 0 to infinity, affects how easy it is to dodge a triggered trap. 0 means dead easy, the higher the harder.
+    "difficulty": 3, // 0 to 99, 0 means disarming is always successful (e.g funnels or other benign traps), 99 means disarming is impossible.
+    "trap_radius": 1, // 0 to infinity, radius of space the trap needs when being deployed.
+    "action": "blade", // C++ function that gets run when trap is triggered, usually in trapfunc.cpp
     "map_regen": "microlab_shifting_hall",  // a valid overmap id, for map_regen action traps
-    "benign": true,
-    "always_invisible": true,
-    "funnel_radius": 200,  // millimeters?
-    "comfort": 4,
-    "floor_bedding_warmth": -500,
-    "spell_data": { "id": "bear_trap" },   // data required for trapfunc::spell()
-    "trigger_weight": "200 g",  // If an item with this weight or more is thrown onto the trap, it triggers. TODO: what is the default?
-    "drops": [ "beartrap" ],  // ID of item spawned when disassembled
-    "flags": [ "EXAMPLE_FLAG" ], // A set of valid flags for this trap
+    "benign": true, // For things such as rollmats, funnels etc. They can not be triggered.
+    "always_invisible": true, // Super well hidden traps the player can never detect
+    "funnel_radius": 200, // millimeters. The higher the more rain it will capture.
+    "comfort": 0, // Same property affecting furniture and terrain
+    "floor_bedding_warmth": -500, // Same property affecting furniture and terrain
+    "spell_data": { "id": "bear_trap" }, // data required for trapfunc::spell()
+    "trigger_weight": "200 g", // If an item with this weight or more is thrown onto the trap, it triggers. Defaults to 500 grams.
+    "drops": [ "beartrap" ], // ID of item spawned when disassembled
+    "flags": [ "UNDODGEABLE", "AVATAR_ONLY" ], // UNDODGEABLE means that it can not be dodged, no roll required. AVATAR_ONLY means only the player can trigger this trap.
     "vehicle_data": {
       "damage": 300,
       "sound_volume": 8,
@@ -2560,8 +2559,8 @@ See MUTATIONS.md
       "remove_trap": true,
       "spawn_items": [ "beartrap" ]
     },
-    "trigger_message_u": "A bear trap closes on your foot!",  // This message will be printed when player steps on a trap
-    "trigger_message_npc": "A bear trap closes on <npcname>'s foot!"  // This message will be printed when NPC or monster step on a trap
+    "trigger_message_u": "A bear trap closes on your foot!", // This message will be printed when player steps on a trap
+    "trigger_message_npc": "A bear trap closes on <npcname>'s foot!" // This message will be printed when NPC or monster steps on a trap
 ```
 
 ### Vehicle Groups
@@ -2591,6 +2590,13 @@ Vehicle components when installed on a vehicle.
                               // must have one of symbol, symbols, or standard_symbols
 "looks_like": "small_wheel",  // (Optional) hint to tilesets if this part has no tile,
                               // use the looks_like tile.
+"bonus": 100,                 // Function depends on part type:
+                              // seatbelt part is in "str" (non-functional #30239)
+                              // muffler part is % noise reduction
+                              // horn part volume
+                              // light part intensity
+                              // recharger part charging speed in watts
+                              // funnel part water collection area in mm^2
 "color": "dark_gray",         // Color used when part is working
 "broken_symbol": "x",         // ASCII character displayed when part is broken
 "broken_color": "light_gray", // Color used when part is broken
@@ -2681,17 +2687,16 @@ Otherwise, variants can use any of the following suffices:
 ```
 
 Unless specified as optional, the following fields are mandatory for parts with appropriate flag and are ignored otherwise.
-#### The following optional fields are specific to CARGO or FLUIDTANK parts.
+#### The following optional fields are specific to CARGO parts.
 ```c++
-"size": 2000,                 // with flag "FLUIDTANK" this is capacity in mLs,
-                              // else with "CARGO" flag the capacity in 250mL volume units.
+"size": "400 L",              // for parts with "CARGO" flag the capacity in liters
 "cargo_weight_modifier": 33,  // (Optional, default = 100) Multiplies cargo weight by this percentage.
 ```
 
 #### The following optional fields are specific to ENGINEs.
 ```c++
 "power": 15000                // Engine motive power in watts.
-"energy_consumption": 17500   // Engine power consumption at maximum power in watts.  Defaults to
+"energy_consumption": "55 W"  // Engine power consumption at maximum power in watts.  Defaults to
                               // electrical power and the E_COMBUSTION flag turns it to thermal
                               // power produced from fuel_type.  Should always be larger than "power".
 "m2c": 50,                    // The ratio of safe power to maximum power.
@@ -2817,7 +2822,8 @@ It also has a hotplate that can be activated by examining it with `e` then `h` o
 ```
 
 ### Vehicles
-See also VEHICLE_JSON.md
+
+See also [VEHICLE_JSON.md](VEHICLE_JSON.md)
 
 ```C++
 "id": "shopping_cart",                     // Internally-used name.
@@ -3005,7 +3011,7 @@ For additional clarity, an item's `to_hit` bonus can be encoded as string of 4 f
     "balance": "neutral"   // one of "clumsy", "uneven", "neutral", or "good"
 }
 ```
-See `GAME_BALANCE.md`'s `MELEE_WEAPONS` section for the criteria for selecting each value.
+See [GAME_BALANCE.md](GAME_BALANCE.md)'s `MELEE_WEAPONS` section for the criteria for selecting each value.
 
 ### Ammo
 
@@ -3230,7 +3236,7 @@ Pet armor can be defined like this:
                       // additional some armor specific entries:
 "environmental_protection" : 0,  //  (Optional, default = 0) How much environmental protection it affords
 "material_thickness" : 1,  // Thickness of material, in millimeter units (approximately).  Generally ranges between 1 - 5, more unusual armor types go up to 10 or more
-"pet_bodytype":        // the body type of the pet that this monster will fit.  See MONSTERS.md
+"pet_bodytype":        // the body type of the pet that this monster will fit. See MONSTERS.md
 "max_pet_vol":          // the maximum volume of the pet that will fit into this armor. Volume in ml or L can be used - "50 ml" or "2 L".
 "min_pet_vol":          // the minimum volume of the pet that will fit into this armor. Volume in ml or L can be used - "50 ml" or "2 L".
 "power_armor" : false, // If this is a power armor item (those are special).
@@ -3599,7 +3605,7 @@ Alternately, every item (book, tool, armor, even food) can be used as a gunmod i
 "initial_charges": 75,     // Charges when spawned
 "max_charges": 75,         // Maximum charges tool can hold
 "rand_charges": [10, 15, 25], // Randomize the charges when spawned. This example has a 50% chance of rng(10, 15) charges and a 50% chance of rng(15, 25). (The endpoints are included.)
-"power_draw": "50 mJ",          // Energy consumption per second
+"power_draw": "50 mW",          // Energy consumption per second
 "revert_to": "torch_done", // Transforms into item when charges are expended
 "sub": "hotplate",         // optional; this tool has the same functions as another tool
 ```
@@ -4621,7 +4627,7 @@ Displayed name of the object. This will be translated.
 
 #### `flags`
 
-(Optional) Various additional flags, see "doc/JSON_FLAGS.md".
+(Optional) Various additional flags, see [JSON_FLAGS.md](JSON_FLAGS.md).
 
 #### `connect_groups`
 
@@ -4718,7 +4724,7 @@ Color of the object as it appears in the game. "color" defines the foreground co
 
 #### `examine_action`
 
-(Optional) The json function that is called when the object is examined. See [doc/EXAMINE.md](EXAMINE.md).
+(Optional) The json function that is called when the object is examined. See [EXAMINE.md](EXAMINE.md).
 
 #### `close" And "open`
 
@@ -4790,7 +4796,7 @@ TODO
 
 #### `items`
 
-(Optional) An item group (inline) or an id of an item group, see doc/ITEM_SPAWN.md. The default subtype is "collection". Upon successful bashing, items from that group will be spawned.
+(Optional) An item group (inline) or an id of an item group, see [ITEM_SPAWN.md](ITEM_SPAWN.md). The default subtype is "collection". Upon successful bashing, items from that group will be spawned.
 
 #### `map_deconstruct_info`
 
@@ -4808,7 +4814,7 @@ The terrain / furniture that will be set after the original has been deconstruct
 
 ### `items`
 
-(Optional) An item group (inline) or an id of an item group, see doc/ITEM_SPAWN.md. The default subtype is "collection". Upon deconstruction the object, items from that group will be spawned.
+(Optional) An item group (inline) or an id of an item group, see [ITEM_SPAWN.md](ITEM_SPAWN.md). The default subtype is "collection". Upon deconstruction the object, items from that group will be spawned.
 
 ### `plant_data`
 

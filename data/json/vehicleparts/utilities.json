@@ -31,7 +31,7 @@
         "using": [ [ "repair_welding_standard", 1 ], [ "soldering_standard", 10 ] ]
       }
     },
-    "size": 200,
+    "size": "50 L",
     "symbol": "&",
     "type": "vehicle_part"
   },
@@ -65,7 +65,7 @@
         "using": [ [ "repair_welding_standard", 1 ], [ "soldering_standard", 15 ] ]
       }
     },
-    "size": 200,
+    "size": "50 L",
     "symbol": "&",
     "type": "vehicle_part"
   },
@@ -113,7 +113,7 @@
         "using": [ [ "repair_welding_standard", 2 ], [ "soldering_standard", 15 ] ]
       }
     },
-    "size": 200,
+    "size": "50 L",
     "symbol": "&",
     "type": "vehicle_part"
   },
@@ -154,7 +154,7 @@
         "using": [ [ "repair_welding_standard", 1 ], [ "soldering_standard", 5 ] ]
       }
     },
-    "size": 200,
+    "size": "50 L",
     "symbol": "&",
     "type": "vehicle_part"
   },
@@ -188,7 +188,7 @@
         "using": [ [ "repair_welding_standard", 2 ], [ "soldering_standard", 15 ] ]
       }
     },
-    "size": 200,
+    "size": "50 L",
     "symbol": "&",
     "type": "vehicle_part"
   },
@@ -222,7 +222,7 @@
         "using": [ [ "repair_welding_standard", 2 ], [ "soldering_standard", 10 ] ]
       }
     },
-    "size": 200,
+    "size": "50 L",
     "symbol": "&",
     "type": "vehicle_part"
   },
@@ -288,7 +288,7 @@
       }
     },
     "pseudo_tools": [ { "id": "pseudo_veh_oil_press" } ],
-    "size": 20,
+    "size": "5 L",
     "breaks_into": [
       { "item": "steel_lump", "count": [ 4, 7 ] },
       { "item": "steel_chunk", "count": [ 3, 6 ] },

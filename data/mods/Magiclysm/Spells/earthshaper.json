@@ -506,7 +506,7 @@
     "id": "eshaper_melee_damage",
     "type": "SPELL",
     "name": "Weighting",
-    "description": "Fill yourself with power of Earth, and make each your attack devastating as quake.",
+    "description": "Fill yourself with the power of Earth, and make each your attacks as devastating as an earthquake.",
     "valid_targets": [ "self" ],
     "effect": "attack",
     "effect_str": "eshaper_melee_damage",
