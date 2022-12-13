@@ -997,6 +997,10 @@ bool advanced_inventory::move_all_items()
         }
 
         if( dropped.empty() ) {
+            if( dropped_favorite.empty() ) {
+                popup( _( "No eligible items found to be moved." ) );
+                return false;
+            }
             if( !query_yn( _( "Really drop all your favorite items?" ) ) ) {
                 return false;
             }
