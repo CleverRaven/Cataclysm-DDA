@@ -4070,7 +4070,7 @@ std::string Character::debug_weary_info() const
 void Character::mod_stored_kcal( int nkcal, const bool ignore_weariness )
 {
     if( needs_food() ) {
-        mod_stored_calories( std::floor( nkcal * 1000 ), ignore_weariness );
+        mod_stored_calories( nkcal * 1000, ignore_weariness );
     }
 }
 
