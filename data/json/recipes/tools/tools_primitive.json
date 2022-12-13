@@ -329,6 +329,7 @@
     "time": "10 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
+    "flags": [ "FULL_MAGAZINE" ],
     "components": [ [ [ "2x4", 1 ] ] ]
   },
   {
@@ -340,6 +341,7 @@
     "time": "2 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
+    "flags": [ "FULL_MAGAZINE" ],
     "components": [ [ [ "stick", 1 ] ] ]
   },
   {
