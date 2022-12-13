@@ -218,11 +218,7 @@
         "entries": [
           { "item": "primitive_knife", "container-item": "sheath_birchbark" },
           { "item": "fishing_rod_basic", "custom-flags": [ "auto_wield" ] },
-<<<<<<< HEAD
           { "item": "fire_drill", "ammo-item": "notch", "charges": 24 }
-=======
-          { "item": "fire_drill", "ammo-item": "notch", "charges": 40 }
->>>>>>> 1d753ac744 (Update data/mods/innawood/professions.json)
         ]
       }
     }
