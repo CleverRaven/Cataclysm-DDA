@@ -118,7 +118,6 @@ static const quality_id qual_WELD( "WELD" );
 static const requirement_id requirement_data_mining_standard( "mining_standard" );
 
 static const trap_str_id tr_firewood_source( "tr_firewood_source" );
-static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 
 static const zone_type_id zone_type_( "" );
 static const zone_type_id zone_type_AUTO_DRINK( "AUTO_DRINK" );
@@ -1814,9 +1813,6 @@ static bool construction_activity( Character &you, const zone_data * /*zone*/,
     pc.id = built_chosen.id;
     map &here = get_map();
     // Set the trap that has the examine function
-    if( here.tr_at( src_loc ).is_null() ) {
-        here.trap_set( src_loc, tr_unfinished_construction );
-    }
     // Use up the components
     for( const std::vector<item_comp> &it : built_chosen.requirements->get_components() ) {
         std::list<item> tmp = you.consume_items( it, 1, is_crafting_component );
