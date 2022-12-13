@@ -630,6 +630,7 @@ int advanced_inventory::print_header( advanced_inventory_pane &pane, aim_locatio
             case item_location::type::vehicle:
                 container_loc = container_rel_pos.y() * -3 + 5 + container_rel_pos.x();
                 break;
+            default:
         }
     }
     for( int i = 0; i < NUM_AIM_LOCATIONS; ++i ) {
