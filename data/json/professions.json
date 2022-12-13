@@ -3745,7 +3745,7 @@
           { "item": "needle_bone", "ammo-item": "sinew", "charges": 200 },
           { "item": "primitive_knife", "container-item": "sheath" },
           { "item": "quiver", "contents-group": "quiver_naturalist" },
-          { "item": "fire_drill", "ammo-item": "notch", "charges": 40 }
+          { "item": "fire_drill", "ammo-item": "notch", "charges": 24 }
         ]
       },
       "male": [ "chestwrap_fur", "loincloth_fur" ],
