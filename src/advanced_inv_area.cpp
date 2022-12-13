@@ -214,7 +214,7 @@ bool advanced_inv_area::is_same( const advanced_inv_area &other ) const
     return id == other.id;
 }
 
-bool advanced_inv_area::canputitems( const item_location container )
+bool advanced_inv_area::canputitems( const item_location &container ) const
 {
     bool canputitems = false;
     switch( id ) {
