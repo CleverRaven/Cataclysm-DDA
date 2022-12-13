@@ -217,7 +217,6 @@ bool advanced_inv_area::is_same( const advanced_inv_area &other ) const
 bool advanced_inv_area::canputitems( const item_location container )
 {
     bool canputitems = false;
-    bool from_vehicle = false;
     switch( id ) {
         case AIM_CONTAINER: {
             if( container ) {
