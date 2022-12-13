@@ -291,7 +291,7 @@
     "time": "30 m",
     "autolearn": true,
     "using": [ [ "cordage_short", 1 ] ],
-    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "DRILL_ROCK", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 }, [ { "id": "DRILL_ROCK", "level": 1 }, { "id": "DRILL", "level": 1 } ] ],
     "components": [ [ [ "stick", 2 ] ], [ [ "rock", 1 ], [ "ceramic_shard", 1 ] ] ]
   },
   {
@@ -302,7 +302,8 @@
     "subcategory": "CSC_OTHER_MATERIALS",
     "time": "10 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "result_mult": 4,
+    "qualities": [ [ { "id": "CUT", "level": 1 }, { "id": "DRILL", "level": 1 }, { "id": "DRILL_ROCK", "level": 1 } ] ],
     "flags": [ "FULL_MAGAZINE" ],
     "components": [ [ [ "2x4", 1 ] ] ]
   },
@@ -314,7 +315,8 @@
     "subcategory": "CSC_OTHER_MATERIALS",
     "time": "2 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "result_mult": 4,
+    "qualities": [ [ { "id": "CUT", "level": 1 }, { "id": "DRILL", "level": 1 }, { "id": "DRILL_ROCK", "level": 1 } ] ],
     "flags": [ "FULL_MAGAZINE" ],
     "components": [ [ [ "stick", 1 ] ] ]
   },
