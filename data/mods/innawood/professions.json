@@ -218,7 +218,7 @@
         "entries": [
           { "item": "primitive_knife", "container-item": "sheath_birchbark" },
           { "item": "fishing_rod_basic", "custom-flags": [ "auto_wield" ] },
-          { "item": "fire_drill", "ammo-item": "notch", "charges": 40 } 
+          { "item": "fire_drill", "ammo-item": "notch", "charges": 40 }
         ]
       }
     }
