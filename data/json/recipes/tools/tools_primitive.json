@@ -278,7 +278,7 @@
     "autolearn": true,
     "using": [ [ "cordage_short", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "stick", 2 ] ] , [ [ "splinter", 1 ] ] ]
+    "components": [ [ [ "stick", 2 ] ], [ [ "splinter", 1 ] ] ]
   },
   {
     "type": "recipe",
