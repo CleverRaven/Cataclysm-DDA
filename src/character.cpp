@@ -5954,7 +5954,7 @@ float Character::get_bmi_fat() const
 units::mass Character::bodyweight() const
 {
     float kg_from_kcal = get_stored_kcal() / 7716.17f;
-    float lean_mass = ( 8.0f + get_str_base() ) * std::pow( height() / 100.0f, 2 );
+    float lean_mass = ( 10.0f + get_str_base() ) * std::pow( height() / 100.0f, 2 );
     return units::from_kilogram( kg_from_kcal + lean_mass );
 }
 
@@ -5970,7 +5970,7 @@ units::mass Character::bodyweight_lean() const
 
 units::mass Character::bodyweight_fat() const
 {
-    //convert stored kcal into its total weight in fat, kilos (3500 * 2.20462)
+    //convert stored kcal into its total weight in fat kilos 3500 * 2.20462
     return units::from_kilogram( get_stored_kcal() / 7716.17f );
 }
 
