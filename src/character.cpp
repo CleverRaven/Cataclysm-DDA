@@ -5981,7 +5981,7 @@ units::mass Character::bodyweight_fat() const
     return units::from_kilogram( get_stored_kcal() / 7716.17 );
 }
 
-units::mass Character::bionics_weight() const
+       units::mass Character::bionics_weight() const
 {
     units::mass bio_weight = 0_gram;
     for( const bionic_id &bid : get_bionics() ) {
