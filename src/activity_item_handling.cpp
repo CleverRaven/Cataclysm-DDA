@@ -2280,10 +2280,6 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                                 }
                                 move_item( you, *contained, contained->count(), src_loc, src_loc, this_veh, this_part );
                                 it->first->remove_item( *contained );
-
-                                if( it->first->has_flag( flag_MAG_DESTROY ) && it->first->ammo_remaining() == 0 ) {
-                                    here.i_rem( src_loc, it->first );
-                                }
                             }
                         }
                         for( item *contained : it->first->all_items_top( item_pocket::pocket_type::MAGAZINE_WELL ) ) {
@@ -2319,6 +2315,11 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                             move_item( you, removed, 1, src_loc, src_loc, this_veh, this_part );
                             moved_something = true;
                         }
+                    }
+                    if( it->first->has_flag( flag_MAG_DESTROY ) && it->first->ammo_remaining() == 0 ) {
+                        here.i_rem( src_loc, it->first );
+                        num_processed = std::max( num_processed - 1, 0 );
+                        return;
                     }
 
                     // after dumping items go back to start of activity loop
