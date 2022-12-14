@@ -489,7 +489,7 @@ void Character::update_bodytemp()
     // at 5 over healthy bmi (obese), it is ~5 warmth, at 20 over healthy bmi (morbid obesity) it is ~12 warmth
     // effects start to kick in halfway through overweightness
     int bmi_heat_bonus = std::floor( 50 * std::sqrt( std::max( 0.0f, ( get_bmi_fat() - 8.0f ) ) ) );
-    std::map<bodypart_id, int> warmth_per_bp = worn.warmth( *this );
+                         std::map<bodypart_id, int> warmth_per_bp = worn.warmth( *this );
     std::map<bodypart_id, int> bonus_warmth_per_bp = bonus_item_warmth();
     std::map<bodypart_id, int> wind_res_per_bp = get_wind_resistance( clothing_map );
     // We might not use this at all, so leave it empty
