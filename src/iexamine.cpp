@@ -1176,6 +1176,8 @@ tripoint _rotate_point_sm( tripoint const &p, int erot, tripoint const &orig )
     return tripoint{ rd + orig.xy() };
 }
 
+constexpr int uilist_positive = 10000; // workaround for uilist retval autoassign when retval == -1
+
 int _choose_elevator_destz( tripoint const &examp, tripoint_abs_omt const &this_omt,
                             tripoint const &sm_orig )
 {
@@ -1191,7 +1193,7 @@ int _choose_elevator_destz( tripoint const &examp, tripoint_abs_omt const &this_
             std::string const omt_name = overmap_buffer.ter_existing( that_omt )->get_name();
             std::string const name = string_format(
                                          "%i %s%s", z, omt_name, z == examp.z ? _( " (this floor)" ) : std::string() );
-            choice.addentry( z, z != examp.z, MENU_AUTOASSIGN, name );
+            choice.addentry( z + uilist_positive, z != examp.z, MENU_AUTOASSIGN, name );
         }
     }
     choice.query();
@@ -1256,7 +1258,7 @@ void iexamine::elevator( Character &you, const tripoint &examp )
         return;
     }
 
-    int const movez = _choose_elevator_destz( examp, this_omt, sm_orig );
+    int const movez = _choose_elevator_destz( examp, this_omt, sm_orig ) - uilist_positive;
     if( movez < -OVERMAP_DEPTH ) {
         return;
     }
@@ -1335,7 +1337,7 @@ void iexamine::controls_gate( Character &you, const tripoint &examp )
     g->open_gate( examp );
 }
 
-bool iexamine::try_start_hacking( Character &you, const tripoint &examp )
+bool iexamine::can_hack( Character &you )
 {
     if( you.has_trait( trait_ILLITERATE ) ) {
         add_msg( _( "You cannot read!" ) );
@@ -1346,10 +1348,19 @@ bool iexamine::try_start_hacking( Character &you, const tripoint &examp )
         add_msg( _( "You don't have a hacking tool with enough charges!" ) );
         return false;
     }
-    you.use_charges( itype_electrohack, 25 );
-    you.assign_activity( player_activity( hacking_activity_actor() ) );
-    you.activity.placement = get_map().getglobal( examp );
     return true;
+}
+
+bool iexamine::try_start_hacking( Character &you, const tripoint &examp )
+{
+    if( !can_hack( you ) ) {
+        return false;
+    } else {
+        you.use_charges( itype_electrohack, 25 );
+        you.assign_activity( player_activity( hacking_activity_actor() ) );
+        you.activity.placement = get_map().getglobal( examp );
+        return true;
+    }
 }
 
 void iexamine::cardreader_robofac( Character &you, const tripoint &examp )
@@ -1408,7 +1419,7 @@ void iexamine::cardreader_foodplace( Character &you, const tripoint &examp )
         sounds::sound( examp, 6, sounds::sound_t::electronic_speech,
                        _( "\"Your face is inadequate.  Please go away.\"" ), true,
                        "speech", "welcome" );
-        if( query_yn( _( "Attempt to hack this card-reader?" ) ) ) {
+        if( can_hack( you ) && query_yn( _( "Attempt to hack this card-reader?" ) ) ) {
             try_start_hacking( you, examp );
         }
     }
@@ -4085,30 +4096,6 @@ void trap::examine( const tripoint &examp ) const
         return;
     }
 
-    // TODO: fix point types
-    if( partial_con *const pc = here.partial_con_at( tripoint_bub_ms( examp ) ) ) {
-        if( player_character.fine_detail_vision_mod() > 4 &&
-            !player_character.has_trait( trait_DEBUG_HS ) ) {
-            add_msg( m_info, _( "It is too dark to construct right now." ) );
-            return;
-        }
-        const construction &built = pc->id.obj();
-        if( !query_yn( _( "Unfinished task: %s, %d%% complete here, continue construction?" ),
-                       built.group->name(), pc->counter / 100000 ) ) {
-            if( query_yn( _( "Cancel construction?" ) ) ) {
-                on_disarmed( here, examp );
-                for( const item &it : pc->components ) {
-                    here.add_item_or_charges( player_character.pos(), it );
-                }
-                // TODO: fix point types
-                here.partial_con_remove( tripoint_bub_ms( examp ) );
-            }
-        } else {
-            player_character.assign_activity( ACT_BUILD );
-            player_character.activity.placement = here.getglobal( examp );
-        }
-        return;
-    }
     if( can_not_be_disarmed() ) {
         add_msg( m_info, _( "That %s looks too dangerous to mess with.  Best leave it alone." ), name() );
         return;
@@ -4179,6 +4166,34 @@ void trap::examine( const tripoint &examp ) const
             player_character.practice_proficiency( proficiency_prof_disarming, 5_minutes );
         }
 
+        return;
+    }
+}
+
+void iexamine::part_con( Character &you, tripoint const &examp )
+{
+    map &here = get_map();
+    // TODO: fix point types
+    if( partial_con *const pc = here.partial_con_at( tripoint_bub_ms( examp ) ) ) {
+        if( you.fine_detail_vision_mod() > 4 &&
+            !you.has_trait( trait_DEBUG_HS ) ) {
+            add_msg( m_info, _( "It is too dark to construct right now." ) );
+            return;
+        }
+        const construction &built = pc->id.obj();
+        if( !query_yn( _( "Unfinished task: %s, %d%% complete here, continue construction?" ),
+                       built.group->name(), pc->counter / 100000 ) ) {
+            if( query_yn( _( "Cancel construction?" ) ) ) {
+                for( const item &it : pc->components ) {
+                    here.add_item_or_charges( you.pos(), it );
+                }
+                // TODO: fix point types
+                here.partial_con_remove( tripoint_bub_ms( examp ) );
+            }
+        } else {
+            you.assign_activity( ACT_BUILD );
+            you.activity.placement = here.getglobal( examp );
+        }
         return;
     }
 }
@@ -4276,11 +4291,24 @@ static void reload_furniture( Character &you, const tripoint &examp, bool allow_
         if( you.query_yn( _( "The %1$s contains %2$d %3$s.  Unload?" ), f.name(), amount_in_furn,
                           ammo_itypeID->nname( amount_in_furn ) ) ) {
             map_stack items = here.i_at( examp );
-            for( item &itm : items ) {
-                if( itm.typeId() == ammo_itypeID ) {
-                    you.assign_activity( player_activity( pickup_activity_actor(
-                    { item_location( map_cursor( examp ), &itm ) }, { 0 }, you.pos(), false ) ) );
-                    return;
+            for( map_stack::iterator itm = items.begin(); itm != items.end(); ) {
+                if( itm->typeId() == ammo_itypeID ) {
+                    if( you.can_stash( *itm ) ) {
+                        you.assign_activity( player_activity( pickup_activity_actor(
+                        { item_location( map_cursor( examp ), &*itm ) }, { 0 }, you.pos(), false ) ) );
+                        return;
+                    } else {
+                        // get handling cost before the item reference is invalidated
+                        const int handling_cost = -you.item_handling_cost( *itm );
+
+                        add_msg( _( "You remove %1$s from the %2$s." ), itm->tname(), f.name() );
+                        here.add_item_or_charges( you.pos(), *itm );
+                        itm = items.erase( itm );
+                        you.mod_moves( handling_cost );
+                        return;
+                    }
+                } else {
+                    itm++;
                 }
             }
         }

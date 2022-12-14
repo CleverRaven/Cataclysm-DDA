@@ -497,7 +497,11 @@
         "effect": { "npc_consume_item": "beer", "count": 1 },
         "//": "Response 15, out of order"
       },
-      { "text": "This is a u_spawn_item beer response", "topic": "TALK_DONE", "effect": { "u_spawn_item": "beer" } },
+      {
+        "text": "This is a u_spawn_item beer response",
+        "topic": "TALK_DONE",
+        "effect": { "u_spawn_item": "beer", "container": "bottle_glass" }
+      },
       {
         "text": "This is a u_consume_item beer response",
         "topic": "TALK_DONE",

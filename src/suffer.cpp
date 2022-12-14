@@ -1711,7 +1711,7 @@ void suffer::from_nyctophobia( Character &you )
 
         if( one_in( 50 ) ) {
             you.add_msg_if_player( m_bad,
-                                   _( "Your fear of the dark is so intense that you start breathing rapidly, and you feel like your heart is ready to jump out of the chest." ) );
+                                   _( "Your fear of the dark is so intense that you start breathing rapidly, and you feel like your heart is ready to jump out of your chest." ) );
             you.mod_stamina( -500 * rng( 1, 3 ) );
         }
 

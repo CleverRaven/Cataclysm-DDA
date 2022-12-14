@@ -315,7 +315,7 @@
     "id": "druidic_healing",
     "type": "SPELL",
     "name": "Sacrificial Healing",
-    "description": "Channels some of the user's own life force into healing energy, for the sake of ones allies.",
+    "description": "Channels some of the user's own life force into healing energy, for the sake of one's allies.",
     "valid_targets": [ "ally" ],
     "effect": "attack",
     "shape": "blast",
@@ -402,7 +402,7 @@
   {
     "id": "druid_feralform_plus",
     "type": "SPELL",
-    "name": "Feral Form",
+    "name": "Enhanced Feral Form",
     "description": "This spell unleashes your inner beast, growing claws & fangs to rend your foes limb from limb.  Now you know this spell like the back of your hand, and start to design your own version.",
     "valid_targets": [ "self" ],
     "effect": "spawn_item",

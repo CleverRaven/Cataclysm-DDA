@@ -45,6 +45,8 @@ enum fuel_station_fuel_type {
 namespace iexamine
 {
 
+bool can_hack( Character &you );
+
 bool try_start_hacking( Character &you, const tripoint &examp );
 
 void egg_sack_generic( Character &you, const tripoint &examp, const mtype_id &montype );
@@ -109,6 +111,7 @@ void tree_maple_tapped( Character &you, const tripoint &examp );
 void shrub_marloss( Character &you, const tripoint &examp );
 void tree_marloss( Character &you, const tripoint &examp );
 void shrub_wildveggies( Character &you, const tripoint &examp );
+void part_con( Character &you, const tripoint &examp );
 void water_source( Character &, const tripoint &examp );
 void finite_water_source( Character &, const tripoint &examp );
 void kiln_empty( Character &you, const tripoint &examp );

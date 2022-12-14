@@ -19,11 +19,9 @@
       "MOLLUSK",
       "WORM",
       "ZOMBIE",
-      "ROBOT",
       "HORROR",
       "ABERRATION",
       "HALLUCINATION",
-      "HUMAN",
       "UNKNOWN"
     ]
   },
@@ -52,7 +50,6 @@
       "MOLLUSK",
       "WORM",
       "ZOMBIE",
-      "ROBOT",
       "HORROR",
       "ABERRATION",
       "HALLUCINATION",

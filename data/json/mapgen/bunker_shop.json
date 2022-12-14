@@ -55,6 +55,7 @@
     "method": "json",
     "om_terrain": [ "bunker_shop_b" ],
     "object": {
+      "faction_owner": [ { "id": "wasteland_scavengers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_thconc_floor",
       "rows": [
         "                        ",
@@ -113,11 +114,26 @@
         "S": "f_sink",
         "!": "f_shower"
       },
+      "place_zones": [
+        { "type": "LOOT_UNSORTED", "faction": "wasteland_scavengers", "x": 16, "y": 13 },
+        {
+          "type": "LOOT_ITEM_GROUP",
+          "filter": "NC_BUNKER_MERCHANT_misc",
+          "faction": "wasteland_scavengers",
+          "x": [ 14, 16 ],
+          "y": [ 14, 14 ]
+        },
+        {
+          "type": "LOOT_ITEM_GROUP",
+          "filter": "NC_BUNKER_MERCHANT_sell",
+          "faction": "wasteland_scavengers",
+          "x": [ 14, 16 ],
+          "y": [ 14, 14 ]
+        }
+      ],
       "place_loot": [
         { "group": "cash_register_random", "x": [ 14, 16 ], "y": 12 },
         { "group": "book_military", "chance": 90, "repeat": [ 1, 4 ], "x": [ 14, 16 ], "y": 12 },
-        { "group": "guns_milspec", "chance": 90, "repeat": [ 4, 6 ], "x": [ 14, 15 ], "y": 14 },
-        { "group": "mil_armor", "chance": 90, "repeat": [ 5, 7 ], "x": [ 14, 15 ], "y": 14 },
         { "group": "mil_food_nodrugs", "chance": 90, "repeat": [ 5 ], "x": 13, "y": 17 },
         { "group": "mil_food_nodrugs", "chance": 90, "repeat": [ 8, 16 ], "x": [ 6, 10 ], "y": 18 },
         { "group": "ammo_rifle_milspec", "chance": 90, "repeat": 10, "x": [ 6, 10 ], "y": 16 },

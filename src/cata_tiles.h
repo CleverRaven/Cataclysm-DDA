@@ -504,6 +504,8 @@ class cata_tiles
                             const std::array<bool, 5> &invisible );
         bool draw_trap( const tripoint &p, lit_level ll, int &height_3d,
                         const std::array<bool, 5> &invisible );
+        bool draw_part_con( const tripoint &p, lit_level ll, int &height_3d,
+                            const std::array<bool, 5> &invisible );
         bool draw_field_or_item( const tripoint &p, lit_level ll, int &height_3d,
                                  const std::array<bool, 5> &invisible );
         bool draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
