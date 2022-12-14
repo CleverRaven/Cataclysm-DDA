@@ -16,6 +16,7 @@
 #include "catacharset.h"
 #include "character.h"
 #include "coordinates.h"
+#include "condition.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "display.h"
@@ -24,6 +25,7 @@
 #include "game_constants.h"
 #include "input.h"
 #include "item.h"
+#include "item_group.h"
 #include "json.h"
 #include "line.h"
 #include "localized_comparator.h"
@@ -50,7 +52,7 @@ static const flag_id json_flag_TWO_WAY_RADIO( "TWO_WAY_RADIO" );
 
 namespace npc_factions
 {
-std::vector<faction_template> all_templates;
+static std::vector<faction_template> all_templates;
 } // namespace npc_factions
 
 faction_template::faction_template()
@@ -107,6 +109,16 @@ void faction_template::load_relations( const JsonObject &jsobj )
         relations[fac.name()] = fac_relation;
     }
 }
+faction_price_rule faction_price_rules_reader::get_next( JsonValue &jv )
+{
+    JsonObject jo = jv.get_object();
+    faction_price_rule ret( icg_entry_reader::_part_get_next( jo ) );
+    optional( jo, false, "markup", ret.markup, 1.0 );
+    optional( jo, false, "premium", ret.premium, 1.0 );
+    optional( jo, false, "fixed_adj", ret.fixed_adj, cata::nullopt );
+    optional( jo, false, "price", ret.price, cata::nullopt );
+    return ret;
+}
 
 faction_template::faction_template( const JsonObject &jsobj )
     : name( jsobj.get_string( "name" ) )
@@ -121,8 +133,10 @@ faction_template::faction_template( const JsonObject &jsobj )
     , wealth( jsobj.get_int( "wealth" ) )
 {
     jsobj.get_member( "description" ).read( desc );
+    optional( jsobj, false, "price_rules", price_rules, faction_price_rules_reader {} );
     if( jsobj.has_string( "currency" ) ) {
         jsobj.read( "currency", currency, true );
+        price_rules.emplace_back( currency, 1, 0 );
     } else {
         currency = itype_id::NULL_ID();
     }
@@ -341,6 +355,18 @@ nc_color faction::food_supply_color()
     }
 }
 
+faction_price_rule const *faction::get_price_rules( item const &it, npc const &guy ) const
+{
+    auto const el = std::find_if(
+    price_rules.crbegin(), price_rules.crend(), [&it, &guy]( faction_price_rule const & fc ) {
+        return fc.matches( it, guy );
+    } );
+    if( el != price_rules.crend() ) {
+        return &*el;
+    }
+    return nullptr;
+}
+
 bool faction::has_relationship( const faction_id &guy_id, npc_factions::relationship flag ) const
 {
     for( const auto &rel_data : relations ) {
@@ -440,6 +466,7 @@ faction *faction_manager::get( const faction_id &id, const bool complain )
                 for( const faction_template &fac_temp : npc_factions::all_templates ) {
                     if( fac_temp.id == id ) {
                         elem.second.currency = fac_temp.currency;
+                        elem.second.price_rules = fac_temp.price_rules;
                         elem.second.lone_wolf_faction = fac_temp.lone_wolf_faction;
                         elem.second.name = fac_temp.name;
                         elem.second.desc = fac_temp.desc;
@@ -678,7 +705,7 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     mvwprintz( fac_w, point( width, ++y ), fatigue_pair.second,
                _( "Fatigue: " ) + ( fatigue_pair.first.empty() ? nominal : fatigue_pair.first ) );
     int lines = fold_and_print( fac_w, point( width, ++y ), getmaxx( fac_w ) - width - 2, c_white,
-                                _( "Wielding: " ) + get_wielded_item().tname() );
+                                _( "Wielding: " ) + weapname_simple() );
     y += lines;
 
     const auto skillslist = Skill::get_skills_sorted_by( [&]( const Skill & a, const Skill & b ) {
@@ -699,7 +726,8 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     }
     std::string best_three_noncombat = _( "Best other skills: " );
     std::string best_skill_text = string_format( _( "Best combat skill: %s: %d" ),
-                                  best_skill().obj().name(), best_skill_level() );
+                                  best_combat_skill( combat_skills::NO_GENERAL ).first.obj().name(),
+                                  best_combat_skill( combat_skills::NO_GENERAL ).second );
     mvwprintz( fac_w, point( width, ++y ), col, best_skill_text );
     mvwprintz( fac_w, point( width, ++y ), col, best_three_noncombat + skill_strs[0] );
     mvwprintz( fac_w, point( width + utf8_width( best_three_noncombat ), ++y ), col, skill_strs[1] );
@@ -915,7 +943,7 @@ void faction_manager::display() const
     while( true ) {
         // create a list of NPCs, visible and the ones on overmapbuffer
         followers.clear();
-        for( const auto &elem : g->get_follower_list() ) {
+        for( const character_id &elem : g->get_follower_list() ) {
             shared_ptr_fast<npc> npc_to_get = overmap_buffer.find_npc( elem );
             if( !npc_to_get ) {
                 continue;

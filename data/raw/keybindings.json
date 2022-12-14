@@ -1,43 +1,25 @@
 [
   {
     "type": "keybinding",
-    "id": "SCROLL_UP",
-    "category": "UILIST",
-    "name": "Scroll up",
-    "bindings": [ { "input_method": "mouse", "key": "SCROLL_UP" } ]
-  },
-  {
-    "type": "keybinding",
-    "id": "SCROLL_DOWN",
-    "category": "UILIST",
-    "name": "Scroll down",
-    "bindings": [ { "input_method": "mouse", "key": "SCROLL_DOWN" } ]
-  },
-  {
-    "type": "keybinding",
-    "id": "UP",
-    "category": "UILIST",
+    "id": "UILIST.UP",
     "name": "Pan up",
     "bindings": [ { "input_method": "keyboard_any", "key": "UP" } ]
   },
   {
     "type": "keybinding",
-    "id": "DOWN",
-    "category": "UILIST",
+    "id": "UILIST.DOWN",
     "name": "Pan down",
     "bindings": [ { "input_method": "keyboard_any", "key": "DOWN" } ]
   },
   {
     "type": "keybinding",
-    "id": "FILTER",
-    "category": "UILIST",
+    "id": "UILIST.FILTER",
     "name": "Filter",
     "bindings": [ { "input_method": "keyboard_any", "key": "/" }, { "input_method": "keyboard_code", "key": "KEYPAD_DIVIDE" } ]
   },
   {
     "type": "keybinding",
-    "id": "QUIT",
-    "category": "UILIST",
+    "id": "UILIST.QUIT",
     "name": "Cancel menu",
     "bindings": [ { "input_method": "keyboard_any", "key": "ESC" } ]
   },
@@ -47,48 +29,6 @@
     "category": "MELEE_STYLE_PICKER",
     "name": "Show description of melee style",
     "bindings": [ { "input_method": "keyboard_any", "key": "F1" } ]
-  },
-  {
-    "type": "keybinding",
-    "id": "SCROLL_UP",
-    "category": "MELEE_STYLE_PICKER",
-    "name": "Scroll up",
-    "bindings": [ { "input_method": "mouse", "key": "SCROLL_UP" } ]
-  },
-  {
-    "type": "keybinding",
-    "id": "SCROLL_DOWN",
-    "category": "MELEE_STYLE_PICKER",
-    "name": "Scroll down",
-    "bindings": [ { "input_method": "mouse", "key": "SCROLL_DOWN" } ]
-  },
-  {
-    "type": "keybinding",
-    "id": "UP",
-    "category": "MELEE_STYLE_PICKER",
-    "name": "Pan up",
-    "bindings": [ { "input_method": "keyboard_any", "key": "UP" } ]
-  },
-  {
-    "type": "keybinding",
-    "id": "DOWN",
-    "category": "MELEE_STYLE_PICKER",
-    "name": "Pan down",
-    "bindings": [ { "input_method": "keyboard_any", "key": "DOWN" } ]
-  },
-  {
-    "type": "keybinding",
-    "id": "FILTER",
-    "category": "MELEE_STYLE_PICKER",
-    "name": "Filter",
-    "bindings": [ { "input_method": "keyboard_any", "key": "/" }, { "input_method": "keyboard_code", "key": "KEYPAD_DIVIDE" } ]
-  },
-  {
-    "type": "keybinding",
-    "id": "QUIT",
-    "category": "MELEE_STYLE_PICKER",
-    "name": "Cancel menu",
-    "bindings": [ { "input_method": "keyboard_any", "key": "ESC" } ]
   },
   {
     "type": "keybinding",
@@ -431,6 +371,20 @@
   },
   {
     "type": "keybinding",
+    "id": "QUIT",
+    "category": "AUTO_PICKUP",
+    "name": "Quit",
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "ESC" },
+      { "input_method": "keyboard_any", "key": "q" },
+      { "input_method": "keyboard_char", "key": "Q" },
+      { "input_method": "keyboard_code", "key": "q", "mod": [ "shift" ] },
+      { "input_method": "keyboard_any", "key": "SPACE" },
+      { "input_method": "mouse", "key": "MOUSE_RIGHT" }
+    ]
+  },
+  {
+    "type": "keybinding",
     "id": "ADD_DEFAULT_RULESET",
     "category": "SAFEMODE",
     "name": "Add default ruleset",
@@ -544,6 +498,20 @@
   },
   {
     "type": "keybinding",
+    "id": "QUIT",
+    "category": "SAFEMODE",
+    "name": "Quit",
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "ESC" },
+      { "input_method": "keyboard_any", "key": "q" },
+      { "input_method": "keyboard_char", "key": "Q" },
+      { "input_method": "keyboard_code", "key": "q", "mod": [ "shift" ] },
+      { "input_method": "keyboard_any", "key": "SPACE" },
+      { "input_method": "mouse", "key": "MOUSE_RIGHT" }
+    ]
+  },
+  {
+    "type": "keybinding",
     "id": "USAGE_HELP",
     "category": "SORT_ARMOR",
     "name": "Display usage help",
@@ -605,6 +573,20 @@
     "category": "SORT_ARMOR",
     "name": "Sort armor into natural layer order",
     "bindings": [ { "input_method": "keyboard_char", "key": "S" }, { "input_method": "keyboard_code", "key": "s", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "SCROLL_ITEM_INFO_UP",
+    "category": "SORT_ARMOR",
+    "name": "Scroll item info up",
+    "bindings": [ { "input_method": "keyboard_char", "key": "<" }, { "input_method": "keyboard_code", "key": ",", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "SCROLL_ITEM_INFO_DOWN",
+    "category": "SORT_ARMOR",
+    "name": "Scroll item info down",
+    "bindings": [ { "input_method": "keyboard_char", "key": ">" }, { "input_method": "keyboard_code", "key": ".", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
@@ -887,6 +869,45 @@
   },
   {
     "type": "keybinding",
+    "id": "QUIT",
+    "category": "MODMANAGER_DIALOG",
+    "name": "Quit",
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "ESC" },
+      { "input_method": "keyboard_any", "key": "q" },
+      { "input_method": "keyboard_char", "key": "Q" },
+      { "input_method": "keyboard_code", "key": "q", "mod": [ "shift" ] },
+      { "input_method": "keyboard_any", "key": "SPACE" },
+      { "input_method": "mouse", "key": "MOUSE_RIGHT" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "QUIT",
+    "category": "OPTIONS",
+    "name": "Quit",
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "ESC" },
+      { "input_method": "keyboard_any", "key": "q" },
+      { "input_method": "keyboard_char", "key": "Q" },
+      { "input_method": "keyboard_code", "key": "q", "mod": [ "shift" ] },
+      { "input_method": "keyboard_any", "key": "SPACE" },
+      { "input_method": "mouse", "key": "MOUSE_RIGHT" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "PICK_RANDOM_WORLDNAME",
+    "category": "STRING_INPUT",
+    "name": "Pick random world name",
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "*" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_MULTIPLY" },
+      { "input_method": "keyboard_code", "key": "8", "mod": [ "shift" ] }
+    ]
+  },
+  {
+    "type": "keybinding",
     "id": "PICK_RANDOM_WORLDNAME",
     "category": "WORLDGEN_CONFIRM_DIALOG",
     "name": "Pick random world name",
@@ -898,11 +919,101 @@
   },
   {
     "type": "keybinding",
-    "id": "QUIT",
+    "//": "Use a prefix here to avoid falling back to QUIT.  Otherwise MOUSE_RIGHT is dropped when keyboard_mode is keychar.",
+    "id": "WORLDGEN_CONFIRM.QUIT",
     "category": "WORLDGEN_CONFIRM_DIALOG",
     "name": "Exit worldgen screen",
-    "//": "separate entry, because the global entry also has 'q' and 'Q' listed, which conflicts with the world name entry feature of this dialog",
-    "bindings": [ { "input_method": "keyboard_any", "key": "ESC" } ]
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "ESC" },
+      { "input_method": "keyboard_any", "key": "q" },
+      { "input_method": "keyboard_char", "key": "Q" },
+      { "input_method": "keyboard_code", "key": "q", "mod": [ "shift" ] },
+      { "input_method": "keyboard_any", "key": "SPACE" },
+      { "input_method": "mouse", "key": "MOUSE_RIGHT" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "PICK_MODS",
+    "category": "WORLDGEN_CONFIRM_DIALOG",
+    "name": "Pick random world name",
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "m" },
+      { "input_method": "keyboard_char", "key": "M" },
+      { "input_method": "keyboard_code", "key": "m", "mod": [ "shift" ] }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "ADVANCED_SETTINGS",
+    "category": "WORLDGEN_CONFIRM_DIALOG",
+    "name": "View advanced world settings",
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "s" },
+      { "input_method": "keyboard_char", "key": "S" },
+      { "input_method": "keyboard_code", "key": "s", "mod": [ "shift" ] }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "FINALIZE",
+    "category": "WORLDGEN_CONFIRM_DIALOG",
+    "name": "Finalize world creation",
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "f" },
+      { "input_method": "keyboard_char", "key": "F" },
+      { "input_method": "keyboard_code", "key": "f", "mod": [ "shift" ] }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "RANDOMIZE",
+    "category": "WORLDGEN_CONFIRM_DIALOG",
+    "name": "Randomize world settings",
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "a" },
+      { "input_method": "keyboard_char", "key": "A" },
+      { "input_method": "keyboard_code", "key": "a", "mod": [ "shift" ] }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "RESET",
+    "category": "WORLDGEN_CONFIRM_DIALOG",
+    "name": "Reset world settings and mods",
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "r" },
+      { "input_method": "keyboard_char", "key": "R" },
+      { "input_method": "keyboard_code", "key": "r", "mod": [ "shift" ] }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "QUIT",
+    "category": "DISPLAY_HELP",
+    "name": "Quit",
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "ESC" },
+      { "input_method": "keyboard_any", "key": "q" },
+      { "input_method": "keyboard_char", "key": "Q" },
+      { "input_method": "keyboard_code", "key": "q", "mod": [ "shift" ] },
+      { "input_method": "keyboard_any", "key": "SPACE" },
+      { "input_method": "mouse", "key": "MOUSE_RIGHT" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "QUIT",
+    "category": "SCROLLABLE_TEXT",
+    "name": "Quit",
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "ESC" },
+      { "input_method": "keyboard_any", "key": "q" },
+      { "input_method": "keyboard_char", "key": "Q" },
+      { "input_method": "keyboard_code", "key": "q", "mod": [ "shift" ] },
+      { "input_method": "keyboard_any", "key": "SPACE" },
+      { "input_method": "mouse", "key": "MOUSE_RIGHT" }
+    ]
   },
   {
     "type": "keybinding",
@@ -1208,6 +1319,12 @@
   },
   {
     "type": "keybinding",
+    "id": "CLICK_AND_DRAG",
+    "name": "Click and drag with mouse",
+    "bindings": [ { "input_method": "mouse", "key": "MOUSE_LEFT_PRESSED" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "SEC_SELECT",
     "name": "Secondary select",
     "bindings": [ { "input_method": "mouse", "key": "MOUSE_RIGHT" } ]
@@ -1217,6 +1334,20 @@
     "id": "MOUSE_MOVE",
     "name": "Mouse move",
     "bindings": [ { "input_method": "mouse", "key": "MOUSE_MOVE" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "QUIT",
+    "category": "PICK_WORLD_DIALOG",
+    "name": "Quit",
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "ESC" },
+      { "input_method": "keyboard_any", "key": "q" },
+      { "input_method": "keyboard_char", "key": "Q" },
+      { "input_method": "keyboard_code", "key": "q", "mod": [ "shift" ] },
+      { "input_method": "keyboard_any", "key": "SPACE" },
+      { "input_method": "mouse", "key": "MOUSE_RIGHT" }
+    ]
   },
   {
     "type": "keybinding",
@@ -1476,6 +1607,20 @@
   },
   {
     "type": "keybinding",
+    "id": "PLUG",
+    "category": "APP_INTERACT",
+    "name": "Plug in appliance",
+    "bindings": [ { "input_method": "keyboard_any", "key": "g" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "UNPLUG",
+    "category": "APP_INTERACT",
+    "name": "Unplug power connections",
+    "bindings": [ { "input_method": "keyboard_any", "key": "u" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "INSTALL",
     "category": "VEH_INTERACT",
     "name": "Install part",
@@ -1651,7 +1796,7 @@
     "name": "Confirm and quit",
     "bindings": [
       { "input_method": "keyboard_any", "key": "e" },
-      { "input_method": "keyboard_any", "key": "u" },
+      { "input_method": "keyboard_any", "key": "r" },
       { "input_method": "keyboard_any", "key": "t" }
     ]
   },
@@ -1822,6 +1967,13 @@
   },
   {
     "type": "keybinding",
+    "id": "ORGANIZE_MENU",
+    "category": "INVENTORY",
+    "name": "Organize contents",
+    "bindings": [ { "input_method": "keyboard_any", "key": "i" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "TOGGLE_FAVORITE",
     "category": "INVENTORY",
     "name": "Toggle item as favorite",
@@ -1833,17 +1985,10 @@
   },
   {
     "type": "keybinding",
-    "id": "HIDE_CONTENTS",
+    "id": "SHOW_HIDE_CONTENTS",
     "category": "INVENTORY",
-    "name": "Hide contents",
+    "name": "Show/hide contents",
     "bindings": [ { "input_method": "keyboard_char", "key": ">" }, { "input_method": "keyboard_code", "key": ".", "mod": [ "shift" ] } ]
-  },
-  {
-    "type": "keybinding",
-    "id": "SHOW_CONTENTS",
-    "category": "INVENTORY",
-    "name": "Show contents",
-    "bindings": [ { "input_method": "keyboard_char", "key": "<" }, { "input_method": "keyboard_code", "key": ",", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
@@ -2153,14 +2298,14 @@
   },
   {
     "type": "keybinding",
-    "name": "Eat",
+    "name": "Consume item (all items)",
     "category": "DEFAULTMODE",
     "id": "eat",
     "bindings": [ { "input_method": "keyboard_char", "key": "E" }, { "input_method": "keyboard_code", "key": "e", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
-    "name": "Consume item",
+    "name": "Consume item (by type)",
     "category": "DEFAULTMODE",
     "id": "open_consume"
   },
@@ -2272,6 +2417,13 @@
     "category": "DEFAULTMODE",
     "id": "medical",
     "bindings": [ { "input_method": "keyboard_char", "key": "N" }, { "input_method": "keyboard_code", "key": "n", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "name": "View body status",
+    "category": "DEFAULTMODE",
+    "id": "bodystatus",
+    "bindings": [ { "input_method": "keyboard_char", "key": "{" }, { "input_method": "keyboard_code", "key": "[", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
@@ -2723,6 +2875,12 @@
   },
   {
     "type": "keybinding",
+    "name": "Distractions manager",
+    "category": "DEFAULTMODE",
+    "id": "open_distraction_manager"
+  },
+  {
+    "type": "keybinding",
     "name": "Color manager",
     "category": "DEFAULTMODE",
     "id": "open_color"
@@ -2739,6 +2897,12 @@
     "category": "DEFAULTMODE",
     "id": "cycle_move",
     "bindings": [ { "input_method": "gamepad", "key": "JOY_10" } ]
+  },
+  {
+    "type": "keybinding",
+    "name": "Cycle movement mode reverse",
+    "category": "DEFAULTMODE",
+    "id": "cycle_move_reverse"
   },
   {
     "type": "keybinding",
@@ -3124,6 +3288,13 @@
   },
   {
     "type": "keybinding",
+    "id": "CHANGE_FACTION",
+    "category": "ZONES_MANAGER",
+    "name": "Change shown faction",
+    "bindings": [ { "input_method": "keyboard_any", "key": "F" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "PAGE_DOWN",
     "category": "ADVANCED_INVENTORY",
     "name": "Page down",
@@ -3489,48 +3660,6 @@
   },
   {
     "type": "keybinding",
-    "id": "SCROLL_UP",
-    "category": "ITEM_ACTIONS",
-    "name": "Scroll up",
-    "bindings": [ { "input_method": "mouse", "key": "SCROLL_UP" } ]
-  },
-  {
-    "type": "keybinding",
-    "id": "SCROLL_DOWN",
-    "category": "ITEM_ACTIONS",
-    "name": "Scroll down",
-    "bindings": [ { "input_method": "mouse", "key": "SCROLL_DOWN" } ]
-  },
-  {
-    "type": "keybinding",
-    "id": "UP",
-    "category": "ITEM_ACTIONS",
-    "name": "Pan up",
-    "bindings": [ { "input_method": "keyboard_any", "key": "UP" } ]
-  },
-  {
-    "type": "keybinding",
-    "id": "DOWN",
-    "category": "ITEM_ACTIONS",
-    "name": "Pan down",
-    "bindings": [ { "input_method": "keyboard_any", "key": "DOWN" } ]
-  },
-  {
-    "type": "keybinding",
-    "id": "FILTER",
-    "category": "ITEM_ACTIONS",
-    "name": "Filter",
-    "bindings": [ { "input_method": "keyboard_any", "key": "/" }, { "input_method": "keyboard_code", "key": "KEYPAD_DIVIDE" } ]
-  },
-  {
-    "type": "keybinding",
-    "id": "QUIT",
-    "category": "ITEM_ACTIONS",
-    "name": "Cancel menu",
-    "bindings": [ { "input_method": "keyboard_any", "key": "ESC" } ]
-  },
-  {
-    "type": "keybinding",
     "id": "repair_fabric",
     "category": "ITEM_ACTIONS",
     "name": "Sew",
@@ -3574,6 +3703,31 @@
       { "input_method": "keyboard_any", "key": "t" },
       { "input_method": "keyboard_char", "key": "T" },
       { "input_method": "keyboard_code", "key": "t", "mod": [ "shift" ] }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "LOAD_BASE_COLORS",
+    "category": "COLORS",
+    "name": "Load base colors",
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "c" },
+      { "input_method": "keyboard_char", "key": "C" },
+      { "input_method": "keyboard_code", "key": "c", "mod": [ "shift" ] }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "QUIT",
+    "category": "COLORS",
+    "name": "Quit",
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "ESC" },
+      { "input_method": "keyboard_any", "key": "q" },
+      { "input_method": "keyboard_char", "key": "Q" },
+      { "input_method": "keyboard_code", "key": "q", "mod": [ "shift" ] },
+      { "input_method": "keyboard_any", "key": "SPACE" },
+      { "input_method": "mouse", "key": "MOUSE_RIGHT" }
     ]
   },
   {
@@ -3631,6 +3785,39 @@
       { "input_method": "keyboard_code", "key": "c", "mod": [ "shift" ] },
       { "input_method": "keyboard_any", "key": "c" },
       { "input_method": "keyboard_any", "key": "ESC" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "LOAD",
+    "category": "LOAD_DELETE_CANCEL",
+    "name": "Load",
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "L" },
+      { "input_method": "keyboard_code", "key": "l", "mod": [ "shift" ] },
+      { "input_method": "keyboard_any", "key": "l" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "DELETE",
+    "category": "LOAD_DELETE_CANCEL",
+    "name": "Delete",
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "D" },
+      { "input_method": "keyboard_code", "key": "d", "mod": [ "shift" ] },
+      { "input_method": "keyboard_any", "key": "d" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "CANCEL",
+    "category": "LOAD_DELETE_CANCEL",
+    "name": "Cancel",
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "C" },
+      { "input_method": "keyboard_code", "key": "c", "mod": [ "shift" ] },
+      { "input_method": "keyboard_any", "key": "c" }
     ]
   },
   {
@@ -3699,6 +3886,17 @@
       { "input_method": "keyboard_char", "key": "I" },
       { "input_method": "keyboard_code", "key": "i", "mod": [ "shift" ] },
       { "input_method": "keyboard_any", "key": "i" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "MANAGER",
+    "category": "CANCEL_ACTIVITY_OR_IGNORE_QUERY",
+    "name": "Open manager",
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "M" },
+      { "input_method": "keyboard_code", "key": "m", "mod": [ "shift" ] },
+      { "input_method": "keyboard_any", "key": "m" }
     ]
   },
   {
@@ -3788,7 +3986,8 @@
       { "input_method": "keyboard_any", "key": "ESC" },
       { "input_method": "keyboard_any", "key": "SPACE" },
       { "input_method": "keyboard_any", "key": "RETURN" },
-      { "input_method": "keyboard_any", "key": "KEYPAD_ENTER" }
+      { "input_method": "keyboard_any", "key": "KEYPAD_ENTER" },
+      { "input_method": "mouse", "key": "MOUSE_RIGHT" }
     ]
   },
   {
@@ -3814,10 +4013,91 @@
   },
   {
     "type": "keybinding",
+    "id": "VEHICLE",
+    "category": "EXTENDED_DESCRIPTION",
+    "name": "Describe vehicle/appliance",
+    "bindings": [ { "input_method": "keyboard_any", "key": "v" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "SWITCH_LISTS",
     "category": "INVENTORY",
     "name": "Switch lists",
     "bindings": [ { "input_method": "keyboard_any", "key": "TAB" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "FAV_PRIORITY",
+    "category": "INVENTORY",
+    "name": "Set priority",
+    "bindings": [ { "input_method": "keyboard_any", "key": "p" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "FAV_AUTO_PICKUP",
+    "category": "INVENTORY",
+    "name": "Toggle auto pickup",
+    "bindings": [ { "input_method": "keyboard_any", "key": "d" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "FAV_AUTO_UNLOAD",
+    "category": "INVENTORY",
+    "name": "Toggle auto unload",
+    "bindings": [ { "input_method": "keyboard_any", "key": "u" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "FAV_ITEM",
+    "category": "INVENTORY",
+    "name": "Whitelist/blacklist item",
+    "bindings": [ { "input_method": "keyboard_any", "key": "i" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "FAV_CATEGORY",
+    "category": "INVENTORY",
+    "name": "Whitelist/blacklist category",
+    "bindings": [ { "input_method": "keyboard_any", "key": "c" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "FAV_WHITELIST",
+    "category": "INVENTORY",
+    "name": "Switch to modifying whitelist",
+    "bindings": [ { "input_method": "keyboard_any", "key": "w" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "FAV_BLACKLIST",
+    "category": "INVENTORY",
+    "name": "Switch to modifying blacklist",
+    "bindings": [ { "input_method": "keyboard_any", "key": "b" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "FAV_CLEAR",
+    "category": "INVENTORY",
+    "name": "Clear entries",
+    "bindings": [ { "input_method": "keyboard_any", "key": "x" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "FAV_MOVE_ITEM",
+    "category": "INVENTORY",
+    "name": "Move item",
+    "bindings": [ { "input_method": "keyboard_any", "key": "m" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "FAV_CONTEXT_MENU",
+    "category": "INVENTORY",
+    "name": "Open context menu",
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "RETURN" },
+      { "input_method": "keyboard_any", "key": "KEYPAD_ENTER" },
+      { "input_method": "mouse", "key": "MOUSE_LEFT" }
+    ]
   },
   {
     "type": "keybinding",
@@ -3867,9 +4147,9 @@
   {
     "type": "keybinding",
     "category": "WISH_ITEM",
-    "id": "FILTER",
-    "name": "Filter",
-    "bindings": [ { "input_method": "keyboard_any", "key": "/" }, { "input_method": "keyboard_code", "key": "KEYPAD_DIVIDE" } ]
+    "id": "SNIPPET",
+    "name": "Choose snippet",
+    "bindings": [ { "input_method": "keyboard_any", "key": "S" }, { "input_method": "keyboard_code", "key": "s", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
@@ -3912,6 +4192,12 @@
     "category": "NEW_CHAR_TRAITS",
     "name": "Sort traits list",
     "bindings": [ { "input_method": "keyboard_any", "key": "s" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "SELECT_TRAIT_VARIANT",
+    "name": "Select variant for trait",
+    "bindings": [ { "input_method": "keyboard_char", "key": "S" }, { "input_method": "keyboard_code", "key": "s", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",

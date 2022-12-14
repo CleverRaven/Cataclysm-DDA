@@ -172,6 +172,12 @@ class blueprint_options : public zone_options, public mark_option
         query_con_result query_con();
 
     public:
+        blueprint_options() = default;
+        blueprint_options( std::string mark, construction_group_str_id const &group,
+                           construction_id const &index )
+            : mark( std::move( mark ) ), group( group ), index( index ) {
+        }
+
         std::string get_mark() const override {
             return mark;
         }
@@ -217,6 +223,60 @@ class loot_options : public zone_options, public mark_option
         std::string get_mark() const override {
             return mark;
         }
+
+        void set_mark( std::string const &nmark ) {
+            mark = nmark;
+        }
+
+        bool has_options() const override {
+            return true;
+        }
+
+        bool query_at_creation() override;
+        bool query() override;
+
+        std::string get_zone_name_suggestion() const override;
+
+        std::vector<std::pair<std::string, std::string>> get_descriptions() const override;
+
+        void serialize( JsonOut &json ) const override;
+        void deserialize( const JsonObject &jo_zone ) override;
+};
+
+class unload_options : public zone_options, public mark_option
+{
+    private:
+        // what to unload
+        std::string mark;
+        bool mods;
+        bool molle;
+        bool always_unload;
+
+        enum query_unload_result {
+            canceled,
+            successful,
+            changed,
+        };
+
+        query_unload_result query_unload();
+
+    public:
+        std::string get_mark() const override {
+            return mark;
+        }
+
+        bool unload_mods() const {
+            return mods;
+        }
+
+        bool unload_molle() const {
+            return molle;
+        }
+
+        bool unload_always() const {
+            return always_unload;
+        }
+
 
         void set_mark( std::string const &nmark ) {
             mark = nmark;
@@ -300,7 +360,7 @@ class zone_data
         // returns true if type is changed
         bool set_type();
         void set_position( const std::pair<tripoint, tripoint> &position, bool manual = true,
-                           bool update_avatar = true );
+                           bool update_avatar = true, bool skip_cache_update = false );
         void set_enabled( bool enabled_arg );
         void set_temporary_disabled( bool enabled_arg );
         void set_is_vehicle( bool is_vehicle_arg );
@@ -432,9 +492,14 @@ class zone_manager
         void add( const std::string &name, const zone_type_id &type, const faction_id &faction,
                   bool invert, bool enabled,
                   const tripoint &start, const tripoint &end,
-                  const shared_ptr_fast<zone_options> &options = nullptr, const bool personal = false,
+                  const shared_ptr_fast<zone_options> &options = nullptr, bool personal = false,
                   bool silent = false, map *pmap = nullptr );
-        const zone_data *get_zone_at( const tripoint_abs_ms &where, const zone_type_id &type ) const;
+        // get first matching zone
+        const zone_data *get_zone_at( const tripoint_abs_ms &where, const zone_type_id &type,
+                                      const faction_id &fac = your_fac ) const;
+        // get all matching zones (useful for LOOT_CUSTOM and LOOT_ITEM_GROUP)
+        std::vector<zone_data const *> get_zones_at( const tripoint_abs_ms &where, const zone_type_id &type,
+                const faction_id &fac = your_fac ) const;
         void create_vehicle_loot_zone( class vehicle &vehicle, const point &mount_point,
                                        zone_data &new_zone, map *pmap = nullptr );
 
@@ -459,7 +524,7 @@ class zone_manager
                        int range = MAX_DISTANCE, const faction_id &fac = your_fac ) const;
         bool has_loot_dest_near( const tripoint_abs_ms &where ) const;
         bool custom_loot_has( const tripoint_abs_ms &where, const item *it,
-                              const zone_type_id &ztype ) const;
+                              const zone_type_id &ztype, const faction_id &fac = your_fac ) const;
         std::unordered_set<tripoint_abs_ms> get_near(
             const zone_type_id &type, const tripoint_abs_ms &where, int range = MAX_DISTANCE,
             const item *it = nullptr, const faction_id &fac = your_fac ) const;
@@ -491,10 +556,10 @@ class zone_manager
 
         bool has_personal_zones() const;
 
-        bool save_zones();
-        bool save_world_zones();
-        void load_zones();
-        void load_world_zones();
+        bool save_zones( std::string const &suffix = {} );
+        bool save_world_zones( std::string const &suffix = {} );
+        void load_zones( std::string const &suffix = {} );
+        void load_world_zones( std::string const &suffix = {} );
         void zone_edited( zone_data &zone );
         void revert_vzones();
         void serialize( JsonOut &json ) const;

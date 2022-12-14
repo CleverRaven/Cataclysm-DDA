@@ -1,5 +1,7 @@
 #if defined(TILES)
 #include "sdl_font.h"
+
+#include "font_loader.h"
 #include "output.h"
 
 #if defined(_WIN32)
@@ -22,12 +24,12 @@ static int test_face_size( const std::string &f, int size, int faceIndex )
 {
     const TTF_Font_Ptr fnt( TTF_OpenFontIndex( f.c_str(), size, faceIndex ) );
     if( fnt ) {
-        char *style = TTF_FontFaceStyleName( fnt.get() );
+        const char *style = TTF_FontFaceStyleName( fnt.get() );
         if( style != nullptr ) {
             int faces = TTF_FontFaces( fnt.get() );
             for( int i = faces - 1; i >= 0; i-- ) {
                 const TTF_Font_Ptr tf( TTF_OpenFontIndex( f.c_str(), size, i ) );
-                char *ts = nullptr;
+                const char *ts = nullptr;
                 if( tf ) {
                     if( nullptr != ( ts = TTF_FontFaceStyleName( tf.get() ) ) ) {
                         if( 0 == strcasecmp( ts, style ) && TTF_FontHeight( tf.get() ) <= size ) {
@@ -301,7 +303,7 @@ SDL_Texture_Ptr CachedTTFFont::create_glyph( const SDL_Renderer_Ptr &renderer,
     static const Uint32 bmask = 0x00ff0000;
     static const Uint32 amask = 0xff000000;
 #endif
-    const int wf = utf8_wrapper( ch ).display_width();
+    const int wf = utf8_width( ch );
     // Note: bits per pixel must be 8 to be synchronized with the surface
     // that TTF_RenderGlyph above returns. This is important for SDL_BlitScaled
     SDL_Surface_Ptr surface = CreateRGBSurface( 0, width * wf, height, 32, rmask, gmask, bmask,
@@ -354,7 +356,7 @@ void CachedTTFFont::OutputChar( const SDL_Renderer_Ptr &renderer, const Geometry
     if( it == std::end( glyph_cache_map ) ) {
         cached_t new_entry {
             create_glyph( renderer, key.codepoints, key.color ),
-            static_cast<int>( width * utf8_wrapper( key.codepoints ).display_width() )
+            static_cast<int>( width * utf8_width( key.codepoints ) )
         };
         it = glyph_cache_map.insert( std::make_pair( std::move( key ), std::move( new_entry ) ) ).first;
     }
@@ -389,7 +391,7 @@ BitmapFont::BitmapFont(
     }
     Uint32 key = SDL_MapRGB( asciiload->format, 0xFF, 0, 0xFF );
     SDL_SetColorKey( asciiload.get(), SDL_TRUE, key );
-    SDL_Surface_Ptr ascii_surf[std::tuple_size<decltype( ascii )>::value];
+    std::array<SDL_Surface_Ptr, std::tuple_size<decltype( ascii )>::value> ascii_surf;
     ascii_surf[0].reset( SDL_ConvertSurface( asciiload.get(), format.get(), 0 ) );
     SDL_SetSurfaceRLE( ascii_surf[0].get(), 1 );
     asciiload.reset();

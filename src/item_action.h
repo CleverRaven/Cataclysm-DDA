@@ -52,7 +52,7 @@ class item_action_generator
         * @return actions mapped to items
         */
         item_action_map map_actions_to_items( Character &you, const std::vector<item *> &pseudos,
-                                              const bool use_player_inventory = true ) const;
+                                              bool use_player_inventory = true ) const;
 
         // Returns (translated) name of action
         std::string get_action_name( const item_action_id &id ) const;

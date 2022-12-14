@@ -1,0 +1,65 @@
+[
+  {
+    "id": "structured_tiny_body_graph_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "widgets": [ "structured_tiny_body_graph_top_layout", "structured_separator_10", "structured_tiny_body_graph_bottom_layout" ]
+  },
+  {
+    "id": "structured_separator_10",
+    "type": "widget",
+    "style": "text",
+    "string": "          "
+  },
+  {
+    "id": "structured_tiny_body_graph_top_layout",
+    "type": "widget",
+    "style": "layout",
+    "width": 10,
+    "padding": 0,
+    "arrange": "minimum_columns",
+    "widgets": [ "tiny_body_graph", "tiny_body_graph_status" ]
+  },
+  {
+    "id": "structured_tiny_body_graph_bottom_layout",
+    "type": "widget",
+    "style": "layout",
+    "width": 10,
+    "padding": 0,
+    "arrange": "minimum_columns",
+    "widgets": [ "tiny_body_graph_encumb", "tiny_body_graph_temp" ]
+  },
+  {
+    "id": "structured_tiny_body_graph_hp_layout",
+    "type": "widget",
+    "style": "layout",
+    "width": 5,
+    "arrange": "rows",
+    "widgets": [ "tiny_body_graph" ]
+  },
+  {
+    "id": "structured_tiny_body_graph_encumb_layout",
+    "type": "widget",
+    "style": "layout",
+    "width": 5,
+    "arrange": "rows",
+    "widgets": [ "tiny_body_graph_encumb" ]
+  },
+  {
+    "id": "structured_tiny_body_graph_temp_layout",
+    "type": "widget",
+    "style": "layout",
+    "width": 5,
+    "arrange": "rows",
+    "widgets": [ "tiny_body_graph_temp" ]
+  },
+  {
+    "id": "structured_tiny_body_graph_status_layout",
+    "type": "widget",
+    "style": "layout",
+    "width": 5,
+    "arrange": "rows",
+    "widgets": [ "tiny_body_graph_status" ]
+  }
+]

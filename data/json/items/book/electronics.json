@@ -21,6 +21,27 @@
     "fun": -1
   },
   {
+    "id": "arduino_experiments",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": { "str": "Arduino Experiments", "str_pl": "copies of Arduino Experiments" },
+    "description": "A textbook-sized book of electronics and robotics experiments.",
+    "weight": "1587 g",
+    "volume": "1750 ml",
+    "price": 8200,
+    "price_postapoc": 750,
+    "bashing": 5,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "blue",
+    "skill": "electronics",
+    "required_level": 2,
+    "max_level": 4,
+    "intelligence": 10,
+    "time": "35 m",
+    "fun": -1
+  },
+  {
     "id": "mag_electronics",
     "type": "BOOK",
     "category": "manuals",
@@ -256,6 +277,25 @@
     "intelligence": 12,
     "time": "45 m",
     "fun": 1
+  },
+  {
+    "id": "exodii_wiring_kit_reference",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": { "str_sp": "CBM interface wiring reference" },
+    "description": "A printed technical reference for the Exodii's CBM interface wire kit using numerous alien symbols along with Anglic terminology.  Thankfully someone's hand-written a legend for those symbols and terms along the margins, but it'll still take significant electronics knowledge to decipher this document.",
+    "weight": "30 g",
+    "volume": "400 ml",
+    "price_postapoc": 5000,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "light_green",
+    "skill": "electronics",
+    "required_level": 4,
+    "max_level": 4,
+    "intelligence": 10,
+    "time": "30 m",
+    "fun": -1
   },
   {
     "abstract": "schematics_generic",

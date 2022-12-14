@@ -28,9 +28,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 1
+    - uses: actions/checkout@v3
 
     - name: install dependencies
       run: sudo apt-get install astyle
@@ -38,8 +36,10 @@ jobs:
     - name: astyle check
       run: make astyle-check
 
+    - name: Format
+      if: failure()
+      run: make astyle-fast
+
     - name: Display Corrections
       if: failure()
-      run: |
-        make astyle-fast
-        git diff
+      run: git diff --color

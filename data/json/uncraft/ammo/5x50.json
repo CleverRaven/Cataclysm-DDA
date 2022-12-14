@@ -7,8 +7,7 @@
     "difficulty": 5,
     "time": "5 s",
     "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "combatnail", 1 ] ], [ [ "5x50_hull", 1 ] ], [ [ "smrifle_primer", 1 ] ], [ [ "gunpowder_rifle", 30 ] ] ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    "components": [ [ [ "combatnail", 1 ] ], [ [ "5x50_hull", 1 ] ], [ [ "smrifle_primer", 1 ] ], [ [ "gunpowder_rifle", 30 ] ] ]
   },
   {
     "result": "5x50heavy",
@@ -18,7 +17,6 @@
     "difficulty": 5,
     "time": "5 s",
     "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "lead", 3 ] ], [ [ "5x50_hull", 1 ] ], [ [ "smrifle_primer", 1 ] ], [ [ "gunpowder_rifle", 30 ] ] ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    "components": [ [ [ "lead", 3 ] ], [ [ "5x50_hull", 1 ] ], [ [ "smrifle_primer", 1 ] ], [ [ "gunpowder_rifle", 30 ] ] ]
   }
 ]

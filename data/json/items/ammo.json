@@ -12,7 +12,7 @@
     "flags": [ "TRADER_AVOID", "ZERO_WEIGHT" ],
     "material": [ "battery" ],
     "effects": [ "COOKOFF" ],
-    "volume": "250 ml",
+    "volume": "100 ml",
     "//": "Setting battery volume to 0 causes weirdness in vehicle tests.  Please don't do that.",
     "ammo_type": "battery",
     "count": 100,
@@ -27,7 +27,7 @@
     "volume": "1 ml",
     "weight": "1 mg",
     "color": "white",
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [ "TRADER_AVOID", "NO_DROP" ],
     "phase": "liquid",
     "ammo_type": "butane"
   },
@@ -150,6 +150,7 @@
     "weight": "135 mg",
     "//": "Density of 2.7 g/cm3",
     "ammo_type": "components",
+    "flags": [ "NO_REPAIR" ],
     "count": 200
   },
   {
@@ -180,6 +181,7 @@
     "flags": [ "NO_SALVAGE" ],
     "volume": "250 ml",
     "weight": "1 g",
+    "//": "50 weight thread - 50m per gram. Each unit is .25m or roughly 10 inches.",
     "ammo_type": "thread",
     "count": 50,
     "stack_size": 200
@@ -232,6 +234,7 @@
     "looks_like": "thread",
     "description": "Wool yarn, could be used to knit wool clothing.",
     "material": [ "wool" ],
+    "flags": [ "NO_SALVAGE" ],
     "volume": "250 ml",
     "weight": "1 g",
     "ammo_type": "thread",
@@ -253,6 +256,86 @@
     "ammo_type": "soap",
     "count": 10,
     "stack_size": 10
+  },
+  {
+    "type": "AMMO",
+    "id": "moisturizer",
+    "category": "chems",
+    "price": 300,
+    "price_postapoc": 100,
+    "name": { "str_sp": "moisturizer" },
+    "symbol": "m",
+    "color": "white",
+    "description": "A cosmetic preparation used for protecting, moisturizing, and lubricating the skin.",
+    "volume": "250 ml",
+    "weight": "25 g",
+    "phase": "liquid",
+    "container": "bottle_plastic_small",
+    "ammo_type": "soap",
+    "count": 10,
+    "stack_size": 10,
+    "variants": [
+      {
+        "id": "facecream_moisturizer",
+        "name": { "str_sp": "face cream moisturizer" },
+        "description": "This moisturizer works for all skin types and is really affordable!",
+        "weight": 5
+      },
+      {
+        "id": "lightcream_moisturizer",
+        "name": { "str_sp": "light cream moisturizer" },
+        "description": "This moisturizer is smooth like milk, just like your skin after applying this wonderful product.",
+        "weight": 5
+      },
+      {
+        "id": "simple_moisturizer",
+        "name": { "str_sp": "simple moisturizer" },
+        "description": "This is a simple moisturizer with all-organic ingredients.",
+        "weight": 40
+      },
+      {
+        "id": "sensitive_moisturizer",
+        "name": { "str_sp": "sensitive moisturizer" },
+        "description": "A favorite among customers with sensitive skin.",
+        "weight": 5
+      },
+      {
+        "id": "oilfree_moisturizer",
+        "name": { "str_sp": "oil free moisturizer" },
+        "description": "If you have an oily skin, this moisturizer is for you!",
+        "weight": 5
+      },
+      {
+        "id": "hydro_moisturizer",
+        "name": { "str_sp": "hydro moisturizer" },
+        "description": "After applying this moisturizer your skin will feel hydrated and smooth.",
+        "weight": 5
+      },
+      {
+        "id": "healthy_moisturizer",
+        "name": { "str_sp": "healthy moisturizer" },
+        "description": "Using various plants as ingredients, this moisturizer will give your skin all the vitamins for the day.",
+        "weight": 5
+      },
+      {
+        "id": "mushroom_moisturizer",
+        "name": { "str_sp": "mushroom moisturizer" },
+        "description": "This moisturizer contains mushroom extract to help improve the wellbeing of your skin.",
+        "weight": 5
+      },
+      {
+        "id": "antiaging_moisturizer",
+        "name": { "str_sp": "anti-aging moisturizer" },
+        "description": "A favorite among the mature customers.  This moisturizer will smooth out the wrinkles on your face and make you appear younger.",
+        "weight": 5
+      },
+      {
+        "id": "daynight_moisturizer",
+        "name": { "str_sp": "day and night moisturizer" },
+        "description": "This moisturizer will work day and night.  A perfect fit for those that decide their own sleep schedule.",
+        "weight": 5
+      }
+    ]
   },
   {
     "type": "AMMO",
@@ -343,6 +426,25 @@
   },
   {
     "type": "AMMO",
+    "id": "uran_cell",
+    "category": "spare_parts",
+    "price": 5000,
+    "price_postapoc": 1000,
+    "name": { "str": "uranium fuel cell" },
+    "symbol": "=",
+    "looks_like": "cobalt_60",
+    "color": "green",
+    "description": "The uranium dioxide (UO2) powder is fired in a high-temperature, sintering furnace to create hard, ceramic pellets of enriched uranium dioxide.",
+    "material": [ "uran_cell" ],
+    "flags": [ "LEAK_DAM", "RADIOACTIVE" ],
+    "volume": "2 ml",
+    "weight": "38 g",
+    "ammo_type": "uranium",
+    "count": 1,
+    "effects": [ "COOKOFF", "NEVER_MISFIRES" ]
+  },
+  {
+    "type": "AMMO",
     "id": "plut_slurry_dense",
     "category": "spare_parts",
     "price": 250,
@@ -402,7 +504,7 @@
     "id": "rock",
     "symbol": "*",
     "color": "light_gray",
-    "name": { "str": "rock" },
+    "name": { "str": "rock", "ctxt": "stone" },
     "description": "A rock the size of a baseball.  Makes a decent melee weapon, and is also good for throwing at enemies.",
     "category": "spare_parts",
     "material": [ "stone" ],
@@ -697,7 +799,7 @@
     "name": { "str_sp": "lye powder" },
     "symbol": "=",
     "color": "white",
-    "description": "Powdered caustic soda.",
+    "description": "Pellets of caustic soda, also known as sodium hydroxide.",
     "container": "bottle_plastic_small",
     "material": [ "powder_nonflam" ],
     "volume": "250 ml",
@@ -733,6 +835,7 @@
     "color": "dark_gray",
     "description": "Primer from a small caliber pistol round.",
     "material": [ "steel", "powder" ],
+    "looks_like": "shotgun_primer",
     "volume": "250 ml",
     "weight": "1 g",
     "ammo_type": "components",
@@ -750,6 +853,7 @@
     "color": "dark_gray",
     "description": "Primer from a large caliber pistol round.",
     "material": [ "steel", "powder" ],
+    "looks_like": "shotgun_primer",
     "volume": "250 ml",
     "weight": "1 g",
     "ammo_type": "components",
@@ -767,6 +871,7 @@
     "color": "dark_gray",
     "description": "Primer from a small caliber rifle round.",
     "material": [ "steel", "powder" ],
+    "looks_like": "shotgun_primer",
     "volume": "250 ml",
     "weight": "1 g",
     "ammo_type": "components",
@@ -784,6 +889,7 @@
     "color": "dark_gray",
     "description": "Primer from a large caliber rifle round.",
     "material": [ "steel", "powder" ],
+    "looks_like": "shotgun_primer",
     "volume": "250 ml",
     "weight": "1 g",
     "ammo_type": "components",
@@ -947,7 +1053,7 @@
     "material": [ "plastic" ],
     "volume": "1 ml",
     "weight": "1 mg",
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [ "TRADER_AVOID", "NO_DROP" ],
     "phase": "gas",
     "ammo_type": "albuterol"
   },
@@ -1029,21 +1135,6 @@
     "volume": "250 ml",
     "weight": "2 g",
     "ammo_type": "gasfilter_m",
-    "count": 100
-  },
-  {
-    "type": "AMMO",
-    "id": "gasfilter_l",
-    "category": "spare_parts",
-    "price": 2500,
-    "price_postapoc": 1000,
-    "name": { "str": "chemical mask cartridge" },
-    "symbol": "=",
-    "color": "light_gray",
-    "description": "Heavy replacement filter cartridge for air filtration masks.",
-    "volume": "250 ml",
-    "weight": "3 g",
-    "ammo_type": "gasfilter_l",
     "count": 100
   },
   {
@@ -1166,6 +1257,42 @@
   },
   {
     "type": "AMMO",
+    "id": "lamellae_lc",
+    "category": "spare_parts",
+    "name": { "str_sp": "low steel lamellae" },
+    "description": "A pile of small 3cm by 6cm steel rectangles with a pattern of holes drilled into it.  For use in creating or repairing lamellar armor.",
+    "//": "An individual lamella is roughly 3cm x 6cm x 1mm in size.",
+    "weight": "14 g",
+    "volume": "100 ml",
+    "price": 1000,
+    "price_postapoc": 50,
+    "material": [ "lc_steel" ],
+    "symbol": ",",
+    "color": "light_gray",
+    "ammo_type": "components",
+    "count": 18,
+    "flags": [ "NO_SALVAGE" ]
+  },
+  {
+    "type": "AMMO",
+    "id": "lamellae_ch",
+    "category": "spare_parts",
+    "name": { "str_sp": "hardened steel lamellae" },
+    "description": "A pile of small 3cm by 6cm steel rectangles with a pattern of holes drilled into it, then case hardened.  For use in creating or repairing hardened lamellar armor.",
+    "//": "An individual lamella is roughly 3cm x 6cm x 1mm in size.",
+    "weight": "14 g",
+    "volume": "100 ml",
+    "price": 1000,
+    "price_postapoc": 60,
+    "material": [ "ch_steel" ],
+    "symbol": ",",
+    "color": "light_gray",
+    "ammo_type": "components",
+    "count": 18,
+    "flags": [ "NO_SALVAGE" ]
+  },
+  {
+    "type": "AMMO",
     "id": "chain_link",
     "category": "spare_parts",
     "price": 150,
@@ -1238,6 +1365,7 @@
     "description": "Mixture of oxygen and nitrogen in proportions suitable for diving.",
     "volume": "250 ml",
     "weight": "1 g",
+    "flags": [ "TRADER_AVOID", "NO_DROP" ],
     "phase": "gas",
     "ammo_type": "nitrox"
   },
@@ -1309,7 +1437,7 @@
     "symbol": "=",
     "color": "light_gray",
     "looks_like": "marble",
-    "description": "A metal die used to play various role-playing games",
+    "description": "A metal die used to play various role-playing games.",
     "material": [ "zinc" ],
     "volume": "250 ml",
     "weight": "1 g",

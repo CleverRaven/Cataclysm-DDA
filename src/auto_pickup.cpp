@@ -13,6 +13,7 @@
 #include "color.h"
 #include "cursesdef.h"
 #include "filesystem.h"
+#include "flag.h"
 #include "game.h"
 #include "input.h"
 #include "item.h"
@@ -52,13 +53,15 @@ auto_pickup::player_settings &get_auto_pickup()
  */
 static bool within_autopickup_limits( const item *pickup_item )
 {
+    bool valid_item = !pickup_item->has_any_flag( cata::flat_set<flag_id> { flag_ZERO_WEIGHT, flag_NO_DROP } );
+
     int weight_limit = get_option<int>( "AUTO_PICKUP_WEIGHT_LIMIT" );
     int volume_limit = get_option<int>( "AUTO_PICKUP_VOLUME_LIMIT" );
 
     bool valid_volume = pickup_item->volume() <= volume_limit * 50_ml;
     bool valid_weight = pickup_item->weight() <= weight_limit * 50_gram;
 
-    return ( volume_limit <= 0 || valid_volume ) && ( weight_limit <= 0 || valid_weight );
+    return valid_item && ( volume_limit <= 0 || valid_volume ) && ( weight_limit <= 0 || valid_weight );
 }
 
 /**
@@ -806,7 +809,7 @@ void rule::test_pattern() const
 bool player_settings::has_rule( const item *it )
 {
     const std::string &name = it->tname( 1 );
-    for( auto &elem : character_rules ) {
+    for( auto_pickup::rule &elem : character_rules ) {
         if( name.length() == elem.sRule.length() && ci_find_substr( name, elem.sRule ) != -1 ) {
             return true;
         }
@@ -994,10 +997,10 @@ bool player_settings::save_global()
 
 bool player_settings::save( const bool bCharacter )
 {
-    auto savefile = PATH_INFO::autopickup();
+    cata_path savefile = PATH_INFO::autopickup();
 
     if( bCharacter ) {
-        savefile = PATH_INFO::player_base_save_path() + ".apu.json";
+        savefile = PATH_INFO::player_base_save_path_path() + ".apu.json";
 
         const std::string player_save = PATH_INFO::player_base_save_path() + ".sav";
         //Character not saved yet.
@@ -1024,13 +1027,13 @@ void player_settings::load_global()
 
 void player_settings::load( const bool bCharacter )
 {
-    std::string sFile = PATH_INFO::autopickup();
+    cata_path sFile = PATH_INFO::autopickup();
     if( bCharacter ) {
-        sFile = PATH_INFO::player_base_save_path() + ".apu.json";
+        sFile = PATH_INFO::player_base_save_path_path() + ".apu.json";
     }
 
-    read_from_file_optional_json( sFile, [&]( JsonIn & jsin ) {
-        ( bCharacter ? character_rules : global_rules ).deserialize( jsin );
+    read_from_file_optional_json( sFile, [&]( const JsonValue & jv ) {
+        ( bCharacter ? character_rules : global_rules ).deserialize( jv );
     } ) ;
 
     invalidate();
@@ -1061,14 +1064,13 @@ void rule::deserialize( const JsonObject &jo )
     bExclude = jo.get_bool( "exclude" );
 }
 
-void rule_list::deserialize( JsonIn &jsin )
+void rule_list::deserialize( const JsonArray &ja )
 {
     clear();
 
-    jsin.start_array();
-    while( !jsin.end_array() ) {
+    for( JsonObject jo : ja ) {
         rule tmp;
-        tmp.deserialize( jsin.get_object() );
+        tmp.deserialize( jo );
         push_back( tmp );
     }
 }
@@ -1091,9 +1093,9 @@ void npc_settings::serialize( JsonOut &jsout ) const
     rules.serialize( jsout );
 }
 
-void npc_settings::deserialize( JsonIn &jsin )
+void npc_settings::deserialize( const JsonArray &ja )
 {
-    rules.deserialize( jsin );
+    rules.deserialize( ja );
 }
 
 void npc_settings::refresh_map_items( cache &map_items ) const

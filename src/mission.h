@@ -13,6 +13,7 @@
 #include "calendar.h"
 #include "character_id.h"
 #include "coordinates.h"
+#include "dialogue.h"
 #include "enums.h"
 #include "game_constants.h"
 #include "npc_favor.h"
@@ -25,7 +26,6 @@
 
 class Creature;
 class JsonArray;
-class JsonIn;
 class JsonObject;
 class JsonOut;
 class avatar;
@@ -100,12 +100,9 @@ struct mission_place {
  */
 struct mission_start {
     static void standard( mission * );           // Standard for its goal type
-    static void place_dog( mission * );          // Put a dog in a house!
     static void place_zombie_mom( mission * );   // Put a zombie mom in a house!
-    static void kill_horde_master( mission * );  // Kill the master zombie at the center of the horde
     static void kill_nemesis( mission * );       // Kill the nemesis spawned with the "hunted" trait
     static void place_npc_software( mission * ); // Put NPC-type-dependent software
-    static void place_priest_diary( mission * ); // Hides the priest's diary in a local house
     static void place_deposit_box( mission * );  // Place a safe deposit box in a nearby bank
     static void find_safety( mission * );        // Goal is set to non-spawn area
     static void place_book( mission * );         // Place a book to retrieve
@@ -113,7 +110,6 @@ struct mission_start {
     static void create_lab_console( mission * );  // Reveal lab with an unlocked workstation
     static void create_hidden_lab_console( mission * );  // Reveal hidden lab with workstation
     static void create_ice_lab_console( mission * );  // Reveal lab with an unlocked workstation
-    static void reveal_lab_train_depot( mission * );  // Find lab train depot
 };
 
 // These functions are run when a mission ends
@@ -139,6 +135,7 @@ struct mission_target_params {
     cata::optional<std::string> replaceable_overmap_terrain;
     cata::optional<overmap_special_id> overmap_special;
     cata::optional<int> reveal_radius;
+    cata::optional<var_info> target_var;
     int min_distance = 0;
 
     bool must_see = false;
@@ -182,6 +179,8 @@ struct mission_goal_condition_context {
     mission_goal_condition_context() = default;
     std::unique_ptr<talker> alpha;
     std::unique_ptr<talker> beta;
+    bool has_alpha = false;
+    bool has_beta = false;
     std::vector<mission *> missions_assigned;
     mutable std::string reason;
     bool by_radio = false;
@@ -382,6 +381,7 @@ class mission
         /*@{*/
         void set_target( const tripoint_abs_omt &p );
         void set_target_npc_id( const character_id &npc_id );
+        void set_assigned_player_id( const character_id &char_id );
         /*@}*/
 
         /** Assigns the mission to the player. */
@@ -439,7 +439,7 @@ class mission
 
         // Serializes and unserializes all missions
         static void serialize_all( JsonOut &json );
-        static void unserialize_all( JsonIn &jsin );
+        static void unserialize_all( const JsonArray &ja );
         /** Converts a vector mission ids to a vector of mission pointers. Invalid ids are skipped! */
         static std::vector<mission *> to_ptr_vector( const std::vector<int> &vec );
         static std::vector<int> to_uid_vector( const std::vector<mission *> &vec );

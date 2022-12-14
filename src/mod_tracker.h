@@ -4,7 +4,7 @@
 
 #include <string>
 
-#include "cata_void.h"
+#include "cata_type_traits.h"
 #include "debug.h"
 #include "demangle.h"
 #include "type_id.h"
@@ -25,6 +25,12 @@
  * If the entity is not loaded with generic_factory, 'assign_src()' must be called sometime
  * after the 'id' member has been assigned.
  */
+
+class mod_error : public std::runtime_error
+{
+    public:
+        explicit mod_error( const std::string &msg ) : std::runtime_error( msg ) {}
+};
 
 struct mod_tracker {
     /** Template magic to determine if the conditions above are satisfied */
@@ -72,8 +78,8 @@ struct has_src_member<T, cata::void_t<decltype( std::declval<T &>().src.emplace_
         // We need to make sure we're keeping where this entity has been loaded
         // If the id this was last loaded with is not this one, discard the history and start again
         if( n.src.back() == o.src.back() ) {
-            debugmsg( "%s (%s) has two definitions from the same source (%s)!", n.id.str(),
-                      demangle( typeid( T ).name() ), n.src.back().second.str() );
+            throw mod_error( string_format( "%s (%s) has two definitions from the same source (%s)!",
+                                            n.id.str(), demangle( typeid( T ).name() ), n.src.back().second.str() ) );
         }
     }
 

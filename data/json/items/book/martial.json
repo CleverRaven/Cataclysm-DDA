@@ -46,6 +46,7 @@
     "copy-from": "book_martial",
     "type": "BOOK",
     "name": { "str": "The Centipede Lu Feng", "str_pl": "copies of The Centipede Lu Feng" },
+    "//": "Could be moved to Mythical Martial Arts mod after 0.G.",
     "price_postapoc": 2000,
     "description": "A complete guide to Centipede Kung Fu.",
     "martial_art": "style_centipede"
@@ -105,6 +106,24 @@
     "martial_art": "style_karate"
   },
   {
+    "id": "manual_bojutsu",
+    "copy-from": "book_martial",
+    "type": "BOOK",
+    "name": { "str": "Bojutsu The Matsumoto System", "str_pl": "copies of Bojutsu The Matsumoto System" },
+    "price_postapoc": 2000,
+    "description": "A complete guide to Bojutsu.",
+    "martial_art": "style_bojutsu"
+  },
+  {
+    "id": "manual_kickboxing",
+    "copy-from": "book_martial",
+    "type": "BOOK",
+    "name": { "str": "The Ultimate Guide to Kickboxing", "str_pl": "copies of Ultimate Guide to Kickboxing" },
+    "price_postapoc": 2000,
+    "description": "The ultimate guide to learning and mastering kickboxing, from beginner to black belt.",
+    "martial_art": "style_kickboxing"
+  },
+  {
     "id": "manual_krav_maga",
     "copy-from": "book_martial",
     "type": "BOOK",
@@ -127,6 +146,7 @@
     "copy-from": "book_martial",
     "type": "BOOK",
     "name": { "str": "The Lizard Kuo Chui", "str_pl": "copies of The Lizard Kuo Chui" },
+    "//": "Could be moved to Mythical Martial Arts mod after 0.G.",
     "price_postapoc": 2000,
     "description": "A complete guide to Lizard Kung Fu.",
     "martial_art": "style_lizard"
@@ -172,6 +192,7 @@
     "copy-from": "book_martial",
     "type": "BOOK",
     "name": { "str": "The Scorpion Sun Chien", "str_pl": "copies of The Scorpion Sun Chien" },
+    "//": "Could be moved to Mythical Martial Arts mod after 0.G.",
     "price_postapoc": 2000,
     "description": "A complete guide to Scorpion Kung Fu.",
     "martial_art": "style_scorpion"
@@ -182,7 +203,7 @@
     "type": "BOOK",
     "name": { "str": "The Indonesian Warrior", "str_pl": "copies of The Indonesian Warrior" },
     "price_postapoc": 3000,
-    "description": "A complete guide to Pentjak Silat.",
+    "description": "A complete guide to Pencak Silat.",
     "martial_art": "style_silat"
   },
   {
@@ -226,6 +247,7 @@
     "copy-from": "book_martial",
     "type": "BOOK",
     "name": { "str": "The Toad Lo Mang", "str_pl": "copies of The Toad Lo Mang" },
+    "//": "Could be moved to Mythical Martial Arts mod after 0.G.",
     "price_postapoc": 2000,
     "description": "A complete guide to Toad Kung Fu.",
     "martial_art": "style_toad"
@@ -235,6 +257,7 @@
     "copy-from": "book_martial",
     "type": "BOOK",
     "name": { "str": "The Viper Wei Pai", "str_pl": "copies of The Viper Wei Pai" },
+    "//": "Could be moved to Mythical Martial Arts mod after 0.G.",
     "price_postapoc": 2000,
     "description": "A complete guide to Viper Kung Fu.",
     "martial_art": "style_venom_snake"
@@ -272,7 +295,7 @@
     "type": "BOOK",
     "name": { "ctxt": "book", "str": "Fior Di Battaglia", "str_pl": "copies of Fior Di Battaglia" },
     "price_postapoc": 3000,
-    "description": "A completely translated medieval guide teaching various techniques with polearms, there is a chapter about the many variations of common polearms… there are even pictures!",
+    "description": "A completely translated medieval guide teaching various techniques with polearms.  There is a chapter about the many variations of common polearms… there are even pictures!",
     "martial_art": "style_medievalpole"
   },
   {

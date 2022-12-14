@@ -11,7 +11,7 @@
 
 static const bionic_id bio_ads( "bio_ads" );
 
-static const trait_id trait_SEESLEEP( "SEESLEEP" );
+static const json_character_flag json_flag_SEESLEEP( "SEESLEEP" );
 
 bool Character::can_interface_armor() const
 {
@@ -202,7 +202,7 @@ int Character::get_env_resist( bodypart_id bp ) const
         }
     }
 
-    if( bp == body_part_eyes && has_trait( trait_SEESLEEP ) ) {
+    if( bp == body_part_eyes && has_flag( json_flag_SEESLEEP ) ) {
         ret += 8;
     }
     return ret;
@@ -318,14 +318,28 @@ const weakpoint *Character::absorb_hit( const weakpoint_attack &, const bodypart
         // The bio_ads CBM absorbs damage before hitting armor
         if( has_active_bionic( bio_ads ) ) {
             if( elem.amount > 0 && get_power_level() > 24_kJ ) {
+                // ADS requires 25 kJ to trigger
+                // Assuming it absorbs damage at 10% efficiency, it can absorb at most 2500 J of energy
+                // Taking muzzle energy of 5.56mm ammo as a reference, 1936 J is equal to 44 damage
+                // Having this in mind, let's make 2500 J equal to 50 damage, which will be the maximum damage ADS can absorb
+                // costs energy equal to the 10x damage^2, before it is reduced, regardless of how much it is reduced
+                // a 50 damage attack would incur the whole 25kJ. A 12 damage attack would cost 1440j
+                const int max_absorption = 50;
+                units::energy power_cost = units::from_joule( std::max( -25000.0f,
+                                           elem.amount * elem.amount * -10 ) );
+
+                // If damage is higher than maximum absorption capability, lower the damage by a flat amount of this capability
+                // Otherwise, divide the damage by X times, depending on damage type
                 if( elem.type == damage_type::BASH ) {
-                    elem.amount -= rng( 1, 2 );
+                    elem.amount = elem.amount > max_absorption ? elem.amount - max_absorption : elem.amount / 2;
                 } else if( elem.type == damage_type::CUT ) {
-                    elem.amount -= rng( 1, 4 );
+                    elem.amount = elem.amount > max_absorption ? elem.amount - max_absorption : elem.amount / 3;
                 } else if( elem.type == damage_type::STAB || elem.type == damage_type::BULLET ) {
-                    elem.amount -= rng( 1, 8 );
+                    elem.amount = elem.amount > max_absorption ? elem.amount - max_absorption : elem.amount / 4;
                 }
-                mod_power_level( -bio_ads->power_trigger );
+                mod_power_level( power_cost );
+                add_msg_if_player( m_good,
+                                   _( "The defensive forcefield surrounding your body ripples as it reduces velocity of incoming attack." ) );
             }
             if( elem.amount < 0 ) {
                 elem.amount = 0;
@@ -356,17 +370,15 @@ bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &b
 {
     item::cover_type ctype = item::get_cover_type( du.type );
 
-    if( roll > armor.get_coverage( sbp, ctype ) ) {
-        return false;
-    }
-
     // if the armor location has ablative armor apply that first
     if( armor.is_ablative() ) {
         ablative_armor_absorb( du, armor, sbp, roll );
     }
 
-    // if we hit the specific location then we should continue with absorption as normal
-
+    // if the core armor is missed then exit
+    if( roll > armor.get_coverage( sbp, ctype ) ) {
+        return false;
+    }
 
     // reduce the damage
     // -1 is passed as roll so that each material is rolled individually
@@ -382,7 +394,7 @@ bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &b
     return damaged == item::armor_status::DESTROYED;
 }
 
-bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &bp, int roll )
+bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &bp, int roll ) const
 {
     item::cover_type ctype = item::get_cover_type( du.type );
 
@@ -415,16 +427,7 @@ bool Character::ablative_armor_absorb( damage_unit &du, item &armor, const sub_b
             // get the contained plate
             item &ablative_armor = pocket->front();
 
-            float ablative_coverage = ablative_armor.get_coverage( bp, ctype );
-            float armor_coverage = armor.get_coverage( bp, ctype );
-
-            // ablative armor stores its overall coverage ex: covers 30% of the torso
-            // but if that plate is in a vest that only covers 60% of the torso then
-            // it covers 50% of the vest so need to scale the coverage appropriately
-            // since the attack has already hit the vest now we are checking if it hits
-            // a plate
-
-            float coverage = ( ablative_coverage / armor_coverage ) * 100;
+            float coverage = ablative_armor.get_coverage( bp, ctype );
 
             // if the attack hits this plate
             if( roll < coverage ) {

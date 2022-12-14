@@ -8,6 +8,7 @@
 #include "cube_direction.h"
 #include "enum_bitset.h"
 #include "jmapgen_flags.h"
+#include "mapgen.h"
 #include "type_id.h"
 #include "weighted_list.h"
 
@@ -75,7 +76,7 @@ class mapgendata
         std::vector<oter_id> predecessors_;
 
     public:
-        oter_id t_nesw[8];
+        std::array<oter_id, 8> t_nesw;
 
         int n_fac = 0;  // dir == 0
         int e_fac = 0;  // dir == 1
@@ -104,6 +105,8 @@ class mapgendata
 
         mapgendata( const tripoint_abs_omt &over, map &m, float density, const time_point &when,
                     ::mission *miss );
+
+        std::vector<mapgen_phase> skip;
 
         /**
          * Creates a copy of this mapgen data, but stores a different @ref terrain_type.
@@ -190,7 +193,7 @@ class mapgendata
 
         bool has_flag( jmapgen_flags ) const;
 
-        bool has_join( const cube_direction, const std::string &join_id ) const;
+        bool has_join( cube_direction, const std::string &join_id ) const;
 
         bool has_predecessor() const;
         const oter_id &last_predecessor() const;

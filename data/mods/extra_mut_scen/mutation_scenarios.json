@@ -211,6 +211,7 @@
       "STR_UP",
       "STR_UP_2",
       "STR_UP_3",
+      "STRONG_LEGS",
       "STYLISH",
       "SUNBURN",
       "SUNLIGHT_DEPENDENT",
@@ -244,6 +245,7 @@
       "VINES2",
       "VOMITOUS",
       "WEBBED",
+      "WEBBED_FEET",
       "WEB_WALKER",
       "WHISKERS",
       "WHISKERS_RAT",
@@ -263,6 +265,35 @@
     "description": "Start as a post-threshold Prime Mutant",
     "forced_traits": "THRESH_ALPHA",
     "extend": { "traits": [ "DEX_ALPHA", "INT_ALPHA", "PER_ALPHA", "STR_ALPHA", "WAKEFUL2" ] }
+  },
+  {
+    "type": "scenario",
+    "id": "extscenario_batrachian",
+    "copy-from": "extscenario_prethresh",
+    "name": "Mutant - Batrachian Threshold",
+    "description": "Start as a post-threshold Batrachian Mutant",
+    "forced_traits": "THRESH_BATRACHIAN",
+    "extend": {
+      "traits": [
+        "AMPHIBIAN",
+        "COLDBLOOD4",
+        "DIRTSLEEPER",
+        "EATPOISON",
+        "FRESHWATEROSMOSIS",
+        "FROG_EYES",
+        "GILLS",
+        "LEAPING_LEGS",
+        "LEAPING_LEGS2",
+        "LONG_TONGUE2",
+        "PHEROMONE_AMPHIBIAN",
+        "PRED1",
+        "THIRST3",
+        "VOMITSTOMACH",
+        "WAKEFUL2",
+        "WATERSLEEP",
+        "WATERSLEEPER"
+      ]
+    }
   },
   {
     "type": "scenario",

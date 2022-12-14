@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_OPTIONS_H
 #define CATA_SRC_OPTIONS_H
 
+#include <algorithm>
 #include <functional>
 #include <functional>
 #include <iosfwd>
@@ -14,9 +15,12 @@
 
 #include "optional.h"
 #include "translations.h"
+#include "type_id.h"
 
-class JsonIn;
+class cata_path;
+class JsonArray;
 class JsonOut;
+class JsonObject;
 
 class options_manager
 {
@@ -37,6 +41,10 @@ class options_manager
         static void search_resource(
             std::map<std::string, std::string> &storage, std::vector<id_and_option> &option_list,
             const std::vector<std::string> &search_paths, const std::string &resource_name,
+            const std::string &resource_filename );
+        static void search_resource(
+            std::map<std::string, cata_path> &storage, std::vector<id_and_option> &option_list,
+            const std::vector<cata_path> &search_paths, const std::string &resource_name,
             const std::string &resource_filename );
         static std::vector<id_and_option> build_tilesets_list();
         static std::vector<id_and_option> build_soundpacks_list();
@@ -196,15 +204,14 @@ class options_manager
         void add_options_debug();
         void add_options_android();
         void load();
-        bool save();
-        std::string show( bool ingame = false, bool world_options_only = false,
-                          const std::function<bool()> &on_quit = nullptr );
+        bool save() const;
+        std::string show( bool ingame = false, bool world_options_only = false, bool with_tabs = true );
 
         void add_value( const std::string &lvar, const std::string &lval,
                         const translation &lvalname );
 
         void serialize( JsonOut &json ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonArray &ja );
 
         std::string migrateOptionName( const std::string &name ) const;
         std::string migrateOptionValue( const std::string &name, const std::string &val ) const;
@@ -301,18 +308,126 @@ class options_manager
         std::vector<std::reference_wrapper<Page>> pages_; // NOLINT(cata-serialize)
 };
 
+struct option_slider {
+    private:
+        struct option_slider_level {
+            private:
+                struct opt_slider_option {
+                    std::string _opt;
+                    std::string _type;
+                    std::string _val;
+                    opt_slider_option( const std::string &opt, const std::string &type, const std::string &val ) :
+                        _opt( opt ), _type( type ), _val( val ) {}
+                };
+                translation _name;
+                translation _desc;
+                int _level = 0;
+                std::vector<opt_slider_option> _opts;
+
+            public:
+                option_slider_level() = default;
+                option_slider_level( const translation &name, const translation &desc, int level ) :
+                    _name( name ), _desc( desc ), _level( level ) {}
+
+                const translation &name() const {
+                    return _name;
+                }
+
+                const translation &desc() const {
+                    return _desc;
+                }
+
+                int level() const {
+                    return _level;
+                }
+
+                void add( const std::string &opt, const std::string &type, const std::string &val ) {
+                    _opts.emplace_back( opt, type, val );
+                }
+
+                bool remove( const std::string &opt );
+                void apply_opts( options_manager::options_container &OPTIONS ) const;
+                void deserialize( const JsonObject &jo );
+        };
+
+        translation _name;
+        std::vector<option_slider_level> _levels;
+        std::string _context;
+        int _default_level = 0;
+
+    public:
+        option_slider_id id;
+        bool was_loaded = false;
+
+        static void load_option_sliders( const JsonObject &jo, const std::string &src );
+        static void reset();
+        static void finalize_all();
+        static void check_consistency();
+        void load( const JsonObject &jo, const std::string &src );
+        void finalize();
+        void check() const;
+        static const std::vector<option_slider> &get_all();
+
+        void reorder_opts() {
+            std::sort( _levels.begin(), _levels.end(),
+            []( const option_slider_level & a, const option_slider_level & b ) {
+                return a.level() < b.level();
+            } );
+        }
+
+        const translation &name() const {
+            return _name;
+        }
+
+        const std::string &context() const {
+            return _context;
+        }
+
+        int default_level() const {
+            return _default_level;
+        }
+
+        int count() const {
+            return _levels.size();
+        }
+
+        void apply_opts( int level, options_manager::options_container &OPTIONS ) const {
+            if( level >= 0 && level < static_cast<int>( _levels.size() ) ) {
+                _levels[level].apply_opts( OPTIONS );
+            }
+        }
+
+        const translation &level_name( int level ) const {
+            static const translation none;
+            if( level >= 0 && level < static_cast<int>( _levels.size() ) ) {
+                return _levels[level].name();
+            }
+            return none;
+        }
+
+        const translation &level_desc( int level ) const {
+            static const translation none;
+            if( level >= 0 && level < static_cast<int>( _levels.size() ) ) {
+                return _levels[level].desc();
+            }
+            return none;
+        }
+
+        int random_level() const;
+};
+
 bool use_narrow_sidebar(); // short-circuits to on if terminal is too small
 
 /** A mapping(string:string) that stores all tileset values.
  * Firsts string is tileset NAME from config.
  * Second string is directory that contain tileset.
  */
-extern std::map<std::string, std::string> TILESETS;
+extern std::map<std::string, cata_path> TILESETS;
 /** A mapping(string:string) that stores all soundpack values.
  * Firsts string is soundpack NAME from config.
  * Second string is directory that contains soundpack.
  */
-extern std::map<std::string, std::string> SOUNDPACKS;
+extern std::map<std::string, cata_path> SOUNDPACKS;
 
 options_manager &get_options();
 

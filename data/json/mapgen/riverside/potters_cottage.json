@@ -67,7 +67,7 @@
         "♠": "t_clay",
         ",": "t_water_dp",
         ";": "t_water_sh",
-        "`": "t_dirt",
+        "`": "t_region_soil",
         "=": "t_dirtmound",
         "?": "t_dock",
         "}": "t_screened_porch_wall",

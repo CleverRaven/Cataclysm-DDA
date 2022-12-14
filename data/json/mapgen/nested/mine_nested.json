@@ -229,6 +229,7 @@
     "nested_mapgen_id": "mine_sinkhole",
     "object": {
       "mapgensize": [ 1, 1 ],
+      "place_terrain": [ { "ter": "t_rock_floor", "x": 0, "y": 0 } ],
       "place_traps": [ { "trap": "tr_sinkhole", "x": 0, "y": 0 } ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }

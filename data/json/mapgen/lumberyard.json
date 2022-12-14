@@ -111,7 +111,15 @@
       ],
       "palettes": [ "lumberyard" ],
       "place_vehicles": [
-        { "vehicle": "forklift", "x": [ 8, 10 ], "y": [ 30, 35 ], "chance": 70, "fuel": 25, "status": 1, "rotation": 90 },
+        {
+          "vehicle": "forklift_vehicles",
+          "x": [ 8, 10 ],
+          "y": [ 30, 35 ],
+          "chance": 70,
+          "fuel": 25,
+          "status": 1,
+          "rotation": 90
+        },
         {
           "vehicle": "flatbed_truck",
           "x": [ 43, 45 ],

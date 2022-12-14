@@ -13,6 +13,7 @@
 #include <utility>
 #include <vector>
 
+#include "bodypart.h"
 #include "calendar.h"
 #include "catacharset.h"
 #include "color.h"
@@ -153,6 +154,7 @@ extern const field_type_str_id fd_bees;
 extern const field_type_str_id fd_incendiary;
 extern const field_type_str_id fd_relax_gas;
 extern const field_type_str_id fd_fungal_haze;
+extern const field_type_str_id fd_churned_earth;
 extern const field_type_str_id fd_cold_air2;
 extern const field_type_str_id fd_cold_air3;
 extern const field_type_str_id fd_cold_air4;
@@ -200,8 +202,10 @@ struct field_type {
         // chance, issue, duration, speech
         std::tuple<int, std::string, time_duration, std::string> npc_complain_data;
 
-        std::vector<trait_id> immunity_data_traits;
-        std::vector<std::pair<bodypart_str_id, int>> immunity_data_body_part_env_resistance;
+        std::vector<json_character_flag> immunity_data_flags;
+        std::vector<std::pair<body_part_type::type, int>> immunity_data_body_part_env_resistance;
+        std::vector < std::pair<body_part_type::type, flag_id>> immunity_data_part_item_flags;
+        std::vector < std::pair<body_part_type::type, flag_id>> immunity_data_part_item_flags_any;
         std::set<mtype_id> immune_mtypes;
 
         int priority = 0;

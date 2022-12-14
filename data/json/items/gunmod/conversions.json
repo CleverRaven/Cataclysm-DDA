@@ -14,7 +14,7 @@
     "symbol": ":",
     "color": "green",
     "location": "bore",
-    "mod_targets": [ "ar15", "m4a1", "m16a4", "m16_auto_rifle", "m27_assault_rifle" ],
+    "mod_targets": [ "ar15", "m4_carbine", "m16a4", "m16_auto_rifle", "m27_assault_rifle" ],
     "install_time": "1 m",
     "ammo_modifier": [ "300blk" ],
     "magazine_adaptor": [ [ "300blk", [ "stanag30", "stanag50", "survivor223mag" ] ] ],

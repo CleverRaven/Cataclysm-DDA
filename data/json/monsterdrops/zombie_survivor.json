@@ -4,7 +4,6 @@
     "subtype": "collection",
     "id": "mon_zombie_survivor_death_drops",
     "magazine": 100,
-    "ammo": 60,
     "entries": [
       { "group": "clothing_outdoor_set", "damage": [ 1, 4 ] },
       { "group": "bags", "damage": [ 1, 4 ], "prob": 10 },
@@ -105,7 +104,12 @@
   {
     "id": "survivor_knife",
     "type": "item_group",
-    "items": [ [ "makeshift_knife", 80 ], [ "copper_knife", 20 ], [ "knife_steak", 20 ], [ "knife_rambo", 60 ] ]
+    "items": [
+      [ "makeshift_knife", 80 ],
+      [ "copper_knife", 20 ],
+      [ "knife_steak", 20 ],
+      { "group": "knife_rambo_cont", "prob": 60 }
+    ]
   },
   {
     "id": "survivor_melee",
@@ -133,12 +137,16 @@
     "type": "item_group",
     "//": "Survivor piercing weapons other than knives",
     "items": [
-      [ "spear_copper", 10 ],
-      [ "spear_forked", 10 ],
-      [ "spear_knife", 10 ],
+      [ "spear_copper", 1 ],
+      [ "spear_steel", 1 ],
+      [ "spear_forked", 15 ],
+      [ "spear_knife", 15 ],
+      [ "spear_pipe", 10 ],
+      [ "spear_spike", 15 ],
+      [ "spear_stone", 15 ],
       [ "spear_rebar", 10 ],
-      [ "spear_wood", 10 ],
-      [ "spear_homemade_halfpike", 10 ]
+      [ "spear_wood", 20 ],
+      [ "spear_homemade_halfpike", 15 ]
     ]
   },
   {

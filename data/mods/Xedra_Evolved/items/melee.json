@@ -1,0 +1,108 @@
+[
+  {
+    "id": "glass_knife",
+    "type": "GENERIC",
+    "category": "weapons",
+    "name": { "str": "glasknife", "str_pl": "glasknives" },
+    "description": "This is a knife that appears to be made of glass, it's much more durable than glass appearing to be some sort of crystal with the strength of metal.",
+    "copy-from": "knife_combat",
+    "volume": "500 ml",
+    "longest_side": "30 cm",
+    "price_postapoc": 1250,
+    "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "good" },
+    "proportional": { "cutting": 1.1, "price": 5, "weight": 0.8 },
+    "material": [ "moon_tears", "leather" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
+    "techniques": [ "RAPID" ],
+    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 19 ] ],
+    "thrown_damage": [ { "damage_type": "stab", "amount": 14 } ],
+    "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_KNIFE", "NPC_THROWN" ],
+    "weapon_category": [ "KNIVES" ]
+  },
+  {
+    "id": "mirror_march_estoc",
+    "type": "GENERIC",
+    "symbol": "/",
+    "color": "light_gray",
+    "name": { "str": "mirrored estoc" },
+    "description": "A thin piercing sword no wider than two fingers side by side, it's mirrored surface reflects the world back at it's wielders opponents and is difficult to see to parry.  You've never felt a sword like this before.",
+    "price": 135000,
+    "price_postapoc": 50000,
+    "material": [ "moon_tears" ],
+    "techniques": [ "WBLOCK_2", "PRECISE" ],
+    "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_SWORD" ],
+    "weapon_category": [ "MEDIEVAL_SWORDS", "LONG_SWORDS", "FENCING_WEAPONRY" ],
+    "weight": "1214 g",
+    "volume": "2750 ml",
+    "longest_side": "130 cm",
+    "bashing": 8,
+    "cutting": 42,
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
+    "category": "weapons",
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ]
+  },
+  {
+    "id": "winter_lord_estoc",
+    "type": "GENERIC",
+    "name": { "str": "frostrimed estoc" },
+    "copy-from": "mirror_march_estoc",
+    "description": "This sword is covered in shifting frost and seems to move of its own volition in your hands.",
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WIELD",
+          "condition": "ALWAYS",
+          "values": [ { "value": "ITEM_DAMAGE_COLD", "add": 9 }, { "value": "ATTACK_SPEED", "add": -20 } ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "redcap_club",
+    "type": "GENERIC",
+    "name": { "str": "redcap club" },
+    "copy-from": "mace",
+    "description": "A giant bloodstained club, barely human wieldable with two hands.  You see whenever it connects with an enemy shadowy tendrils of blood stick to whatever it hits and burn like acid.",
+    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "BELT_CLIP", "ALWAYS_TWOHAND" ],
+    "relic_data": { "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "hit_you_effect": [ { "id": "blood_tendrils" } ] } ] }
+  },
+  {
+    "id": "blood_tendrils",
+    "type": "SPELL",
+    "name": "Blood Tendrils",
+    "description": "Brownish reddish tendrils connect from the club to your enemies.",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "NO_HANDS", "NO_LEGS" ],
+    "damage_type": "biological",
+    "min_damage": 8,
+    "min_range": 2,
+    "shape": "blast",
+    "effect": "attack"
+  },
+  {
+    "id": "pooka_gladius",
+    "type": "GENERIC",
+    "name": { "str": "pooka gladius", "str_pl": "pooka gladii" },
+    "copy-from": "wakizashi",
+    "description": "A gladius covered in the whorls of Celtic knots.  Sparks seems to pop off the edge of the blade.",
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
+    "longest_side": "60 cm",
+    "weapon_category": [ "CONSTRUCTED_SWORDS", "SHORT_SWORDS", "DURABLE_MELEE" ],
+    "relic_data": { "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "hit_you_effect": [ { "id": "distant_thunder" } ] } ] }
+  },
+  {
+    "id": "distant_thunder",
+    "type": "SPELL",
+    "name": "Distant Thunder",
+    "description": "Sparks zap at your opponent.",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "NO_HANDS", "NO_LEGS" ],
+    "damage_type": "electric",
+    "min_damage": 8,
+    "min_range": 1,
+    "shape": "blast",
+    "effect": "attack"
+  }
+]

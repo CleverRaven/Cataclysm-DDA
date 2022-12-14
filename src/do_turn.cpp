@@ -37,6 +37,7 @@
 #include "worldfactory.h"
 
 static const activity_id ACT_AUTODRIVE( "ACT_AUTODRIVE" );
+static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 
 static const bionic_id bio_alarm( "bio_alarm" );
@@ -490,6 +491,8 @@ void monmove()
     // Now, do active NPCs.
     for( npc &guy : g->all_npcs() ) {
         int turns = 0;
+        int real_count = 0;
+        const int count_limit = std::max( 10, guy.moves / 64 );
         if( guy.is_mounted() ) {
             guy.check_mount_is_spooked();
         }
@@ -499,13 +502,16 @@ void monmove()
         }
         while( !guy.is_dead() && ( !guy.in_sleep_state() || guy.activity.id() == ACT_OPERATION ) &&
                guy.moves > 0 && turns < 10 ) {
-            int moves = guy.moves;
+            const int moves = guy.moves;
+            const bool has_destination = guy.has_destination_activity();
             guy.move();
             if( moves == guy.moves ) {
                 // Count every time we exit npc::move() without spending any moves.
-                turns++;
+                real_count++;
+                if( has_destination == guy.has_destination_activity() || real_count > count_limit ) {
+                    turns++;
+                }
             }
-
             // Turn on debug mode when in infinite loop
             // It has to be done before the last turn, otherwise
             // there will be no meaningful debug output.
@@ -552,7 +558,7 @@ void overmap_npc_move()
         }
     }
     bool npcs_need_reload = false;
-    for( auto &elem : travelling_npcs ) {
+    for( npc *&elem : travelling_npcs ) {
         if( elem->has_omt_destination() ) {
             if( !elem->omt_path.empty() ) {
                 if( rl_dist( elem->omt_path.back(), elem->global_omt_location() ) > 2 ) {
@@ -593,7 +599,7 @@ bool do_turn()
         return turn_handler::cleanup_at_end();
     }
     // Actual stuff
-    if( g-> new_game ) {
+    if( g->new_game ) {
         g->new_game = false;
     } else {
         g->gamemode->per_turn();
@@ -603,6 +609,15 @@ bool do_turn()
     play_music( music::get_music_id_string() );
 
     weather_manager &weather = get_weather();
+    if( get_option<std::string>( "ETERNAL_WEATHER" ) != "normal" ) {
+        weather.weather_override = static_cast<weather_type_id>
+                                   ( get_option<std::string>( "ETERNAL_WEATHER" ) );
+        weather.set_nextweather( calendar::turn );
+    } else {
+        weather.weather_override = WEATHER_NULL;
+        weather.set_nextweather( calendar::turn );
+    }
+
     // starting a new turn, clear out temperature cache
     weather.temperature_cache.clear();
 
@@ -622,6 +637,10 @@ bool do_turn()
             veh->handle_potential_theft( dynamic_cast<Character &>( u ), false, false );
         }
     }
+
+    // Make sure players cant defy gravity by standing still, Looney tunes style.
+    u.gravity_check();
+
     // If riding a horse - chance to spook
     if( u.is_mounted() ) {
         u.check_mount_is_spooked();
@@ -659,6 +678,10 @@ bool do_turn()
     while( u.moves > 0 && u.activity ) {
         u.activity.do_turn( u );
     }
+    // FIXME: hack needed due to the legacy code in advanced_inventory::move_all_items()
+    if( !u.activity ) {
+        kill_advanced_inv();
+    }
 
     // Process NPC sound events before they move or they hear themselves talking
     for( npc &guy : g->all_npcs() ) {
@@ -687,6 +710,7 @@ bool do_turn()
                         sounds::process_sound_markers( &guy );
                     }
                 }
+                explosion_handler::process_explosions();
                 sounds::process_sound_markers( &u );
                 if( !u.activity && g->uquit != QUIT_WATCH
                     && ( !u.has_distant_destination() || calendar::once_every( 10_seconds ) ) ) {
@@ -776,7 +800,7 @@ bool do_turn()
     const int levz = m.get_abs_sub().z();
     // Update vision caches for monsters. If this turns out to be expensive,
     // consider a stripped down cache just for monsters.
-    m.build_map_cache( levz );
+    m.build_map_cache( levz, true );
     monmove();
     if( calendar::once_every( 5_minutes ) ) {
         overmap_npc_move();
@@ -822,6 +846,8 @@ bool do_turn()
         }
         if( u.activity.id() == ACT_AUTODRIVE ) {
             wait_refresh_rate = 1_turns;
+        } else if( u.activity.id() == ACT_FIRSTAID ) {
+            wait_refresh_rate = 5_turns;
         } else {
             wait_refresh_rate = 5_minutes;
         }
@@ -830,7 +856,6 @@ bool do_turn()
         if( g->first_redraw_since_waiting_started ||
             calendar::once_every( std::min( 1_minutes, wait_refresh_rate ) ) ) {
             if( g->first_redraw_since_waiting_started || calendar::once_every( wait_refresh_rate ) ) {
-                m.build_lightmap( levz, u.pos() );
                 ui_manager::redraw();
             }
 
@@ -843,7 +868,6 @@ bool do_turn()
             g->first_redraw_since_waiting_started = false;
         }
     } else {
-        m.build_lightmap( levz, u.pos() );
         // Nothing to wait for now
         g->wait_popup.reset();
         g->first_redraw_since_waiting_started = true;
@@ -871,6 +895,10 @@ bool do_turn()
 
     // reset player noise
     u.volume = 0;
+
+    // Calculate bionic power balance
+    u.power_balance = u.get_power_level() - u.power_prev_turn;
+    u.power_prev_turn = u.get_power_level();
 
     return false;
 }

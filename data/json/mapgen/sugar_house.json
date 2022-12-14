@@ -5,23 +5,23 @@
     "om_terrain": [ "sugar_house" ],
     "weight": 300,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_linoleum_white",
       "rows": [
         "........................",
         ".||vvvv|||;;|||||vv|||..",
-        ".|hnnh p|D   |p hnnh |..",
+        ".|hnnh p|D  n|p hnnh |..",
         ".vhnnh  |   ||  hnnh v..",
         ".vhnnh  +       hnnh v..",
         ".|hnnh  |   hh  hnnh |..",
         ".|hnnh  |F  nn  hnnh |||",
         ".|     p|F  nn  hnnh |t|",
-        ".||||||||   hh  hnnh + v",
-        ".|Cff| t|       hnnh |S|",
-        ".vS  |+|| hhhh  hnnh |||",
-        ".vO    D| nnnn  hnnh |t|",
-        ".|C cc  + nnnn  hnnh + v",
-        ".|C cc S| hhhh  hnnh |S|",
-        ".|C cc O|            |||",
+        ".||||||||   hh  hnnh +'v",
+        ".|Cff|'t|       hnnh |S|",
+        ".vS''|+|| hhhh  hnnh |||",
+        ".vO''''d| nnnn  hnnh |t|",
+        ".|C'cc''+ nnnn  hnnh +'v",
+        ".|C'cc'S| hhhh  hnnh |S|",
+        ".|C'cc'O|            |||",
         ".||||||||||||||||++|||4.",
         ".|__________________r|..",
         ".|____________ww____r|.M",
@@ -39,7 +39,13 @@
         "M": "t_tree_maple_tapped",
         "v": "t_window",
         " ": "t_floor",
+        "'": "t_linoleum_white",
+        "n": "t_floor",
+        "h": "t_floor",
+        "p": "t_floor",
+        "D": "t_floor",
         "_": "t_thconc_floor",
+        "F": "t_thconc_floor",
         "r": "t_thconc_floor",
         "s": "t_thconc_floor",
         "w": "t_thconc_floor",
@@ -49,6 +55,7 @@
       "furniture": {
         "C": "f_cupboard",
         "D": "f_trashcan",
+        "d": "f_trashcan",
         "F": "f_fireplace",
         "O": "f_oven",
         "S": "f_sink",
@@ -98,12 +105,10 @@
         { "group": "kitchen", "x": 2, "y": 9, "chance": 60, "repeat": [ 1, 2 ] },
         { "group": "kitchen", "x": 2, "y": 12, "chance": 60, "repeat": [ 1, 2 ] },
         { "group": "kitchen", "x": 2, "y": 13, "chance": 60, "repeat": [ 1, 2 ] },
-        { "group": "kitchen", "x": 2, "y": 14, "chance": 60, "repeat": [ 1, 2 ] }
+        { "group": "kitchen", "x": 2, "y": 14, "chance": 60, "repeat": [ 1, 2 ] },
+        { "group": "cash_register_random", "x": 12, "y": 2 }
       ],
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 9, 20 ], "y": [ 2, 14 ], "repeat": [ 2, 5 ] },
-        { "monster": "GROUP_ZOMBIE", "x": [ 2, 19 ], "y": [ 16, 21 ], "repeat": [ 2, 3 ] }
-      ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 0, 23 ], "y": [ 0, 23 ] } ]
     }
   },
   {

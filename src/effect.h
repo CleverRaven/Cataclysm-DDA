@@ -14,6 +14,7 @@
 #include "calendar.h"
 #include "color.h"
 #include "effect_source.h"
+#include "flat_set.h"
 #include "hash_utils.h"
 #include "translations.h"
 #include "type_id.h"
@@ -127,7 +128,8 @@ class effect_type
         const time_duration &intensity_duration() const {
             return int_dur_factor;
         }
-
+        std::vector<enchantment_id> enchantments;
+        cata::flat_set<json_character_flag> immune_flags;
     protected:
         int max_intensity = 0;
         int max_effective_intensity = 0;

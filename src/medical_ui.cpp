@@ -26,7 +26,8 @@ static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_mending( "mending" );
 
-static const trait_id trait_COLDBLOOD4( "COLDBLOOD4" );
+static const json_character_flag json_flag_ECTOTHERM( "ECTOTHERM" );
+
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_SUNLIGHT_DEPENDENT( "SUNLIGHT_DEPENDENT" );
 static const trait_id trait_TROGLO( "TROGLO" );
@@ -41,7 +42,7 @@ class selection_line
 {
     public:
         selection_line() = default;
-        selection_line( const std::string text, const std::string &desc_str, const int max_width )
+        selection_line( const std::string &text, const std::string &desc_str, const int max_width )
             : desc_str( desc_str ) {
             std::vector<std::string> textformatted = foldstring( text, max_width,
                     ']' );
@@ -81,7 +82,7 @@ class selection_line
             return detail_str;
         }
 
-        int get_row_count() {
+        int get_row_count() const {
             return row_count;
         }
 
@@ -89,7 +90,7 @@ class selection_line
             highlight_line = true;
         }
 
-        bool highlighted() {
+        bool highlighted() const {
             return highlight_line;
         }
 
@@ -110,7 +111,7 @@ class medical_column
             : column_id( column_id ), COLUMN_BOUNDS( COLUMN_BOUNDS ), COLUMN_START( COLUMN_START ) {}
 
         void draw_column( const catacurses::window &window, const int BORDER_START,
-                          const int BORDER_END ) {
+                          const int BORDER_END ) const {
             mvwvline( window, point( COLUMN_START.x, BORDER_START ), LINE_XOXO,
                       BORDER_END - 4 ); // |
             mvwputch( window, point( COLUMN_START.x, BORDER_END - 1 ), BORDER_COLOR,
@@ -145,7 +146,7 @@ class medical_column
             COLUMN_ROWS = { selectionrow, linerow };
         }
 
-        void add_column_line( selection_line line ) {
+        void add_column_line( const selection_line &line ) {
             column_lines.emplace_back( line );
             COLUMN_ROWS.second += line.get_row_count();
         }
@@ -156,15 +157,15 @@ class medical_column
             return column_lines[offset];
         }
 
-        int selection_count() {
+        int selection_count() const {
             return COLUMN_ROWS.first;
         }
 
-        int row_count() {
+        int row_count() const {
             return COLUMN_ROWS.second;
         }
 
-        int max_width() {
+        int max_width() const {
             return COLUMN_BOUNDS.first - COLUMN_START.x - left_padding;
         }
 
@@ -172,7 +173,7 @@ class medical_column
             return column_lines.empty();
         }
 
-        bool current_column( const int selected_id ) {
+        bool current_column( const int selected_id ) const {
             return column_id == selected_id;
         }
 
@@ -363,7 +364,7 @@ static medical_column draw_health_summary( const int column_count, avatar *playe
             if( no_feeling ) {
                 hp_str = colorize( "==%==", c_blue );
             } else {
-                const auto &eff = player->get_effect( effect_mending, part );
+                const effect &eff = player->get_effect( effect_mending, part );
                 const int mend_perc = eff.is_null() ? 0.0 : 100 * eff.get_duration() / eff.get_max_duration();
 
                 const int num = mend_perc / 20;
@@ -373,11 +374,14 @@ static medical_column draw_health_summary( const int column_count, avatar *playe
             detail += string_format( _( "[ %s ]" ), colorize( _( "BROKEN" ), c_red ) );
             hp_str = "==%==";
         } else if( no_feeling ) {
-            if( current_hp < maximal_hp * 0.25 ) {
+            const float cur_hp_pcnt = current_hp / static_cast<float>( maximal_hp );
+            if( cur_hp_pcnt < 0.125f ) {
                 hp_str = colorize( _( "Very Bad" ), c_red );
-            } else if( current_hp < maximal_hp * 0.5 ) {
+            } else if( cur_hp_pcnt < 0.375f ) {
                 hp_str = colorize( _( "Bad" ), c_light_red );
-            } else if( current_hp < maximal_hp * 0.75 ) {
+            } else if( cur_hp_pcnt < 0.625f ) {
+                hp_str = colorize( _( "So-so" ), c_yellow );
+            } else if( cur_hp_pcnt < 0.875f ) {
                 hp_str = colorize( _( "Okay" ), c_light_green );
             } else {
                 hp_str = colorize( _( "Good" ), c_green );
@@ -540,19 +544,21 @@ static medical_column draw_effects_summary( const int column_count, avatar *play
         effects_column.add_column_line( selection_line( starvation_name, starvation_text, max_width ) );
     }
 
-    if( player->has_trait( trait_TROGLO ) && g->is_in_sunlight( player->pos() ) &&
-        get_weather().weather_id->sun_intensity >= sun_intensity_type::high ) {
-        effects_column.add_column_line( selection_line( "In Sunlight", "The sunlight irritates you.\n",
-                                        max_width ) );
-    } else if( player->has_trait( trait_TROGLO2 ) && g->is_in_sunlight( player->pos() ) ) {
-        effects_column.add_column_line( selection_line( "In Sunlight",
-                                        "The sunlight irritates you badly.\n", max_width ) );
-    } else if( player->has_trait( trait_TROGLO3 ) && g->is_in_sunlight( player->pos() ) ) {
+    if( player->has_trait( trait_TROGLO3 ) && g->is_in_sunlight( player->pos() ) ) {
         effects_column.add_column_line( selection_line( "In Sunlight",
                                         "The sunlight irritates you terribly.\n", max_width ) );
+    } else if( player->has_trait( trait_TROGLO2 ) && g->is_in_sunlight( player->pos() ) &&
+               incident_sun_irradiance( get_weather().weather_id, calendar::turn ) > irradiance::low ) {
+        effects_column.add_column_line( selection_line( "In Sunlight",
+                                        "The sunlight irritates you badly.\n", max_width ) );
+    } else if( ( player->has_trait( trait_TROGLO ) || player->has_trait( trait_TROGLO2 ) ) &&
+               g->is_in_sunlight( player->pos() ) &&
+               incident_sun_irradiance( get_weather().weather_id, calendar::turn ) > irradiance::moderate ) {
+        effects_column.add_column_line( selection_line( "In Sunlight", "The sunlight irritates you.\n",
+                                        max_width ) );
     }
 
-    for( auto &elem : player->addictions ) {
+    for( addiction &elem : player->addictions ) {
         if( elem.sated < 0_turns && elem.intensity >= MIN_ADDICTION_LEVEL ) {
             effects_column.add_column_line( selection_line( elem.type->get_name().translated(),
                                             elem.type->get_description().translated(), max_width ) );
@@ -637,19 +643,19 @@ static medical_column draw_stats_summary( const int column_count, avatar *player
     if( temperature_speed_modifier != 0 ) {
         nc_color pen_color;
         std::string pen_sign;
-        const int player_local_temp = get_weather().get_temperature( player->pos() );
-        if( player->has_trait( trait_COLDBLOOD4 ) && player_local_temp > 65 ) {
+        const units::temperature player_local_temp = get_weather().get_temperature( player->pos() );
+        if( player->has_flag( json_flag_ECTOTHERM ) && player_local_temp > units::from_fahrenheit( 65 ) ) {
             pen_color = c_green;
             pen_sign = "+";
-        } else if( player_local_temp < 65 ) {
+        } else if( player_local_temp < units::from_fahrenheit( 65 ) ) {
             pen_color = c_red;
             pen_sign = "-";
         }
         if( !pen_sign.empty() ) {
-            pen = ( player_local_temp - 65 ) * temperature_speed_modifier;
+            pen = ( units::to_fahrenheit( player_local_temp ) - 65 ) * temperature_speed_modifier;
             pge_str = pgettext( "speed modifier", "Cold-Blooded " );
             speed_detail_str += colorize( string_format( _( "%s     %s%2d%%\n" ), pge_str, pen_sign,
-                                          std::abs( pen ) ), c_red );
+                                          std::abs( pen ) ), pen_color );
         }
     }
 
@@ -737,7 +743,7 @@ void avatar::disp_medical()
     int info_lines = 0;
 
     // Cursor
-    int cursor_bounds[3]; // Number of selectable rows in each column
+    std::array<int, 3> cursor_bounds; // Number of selectable rows in each column
     point cursor;
 
     ui_adaptor ui;

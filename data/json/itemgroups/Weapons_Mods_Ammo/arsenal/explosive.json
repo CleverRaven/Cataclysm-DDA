@@ -1,0 +1,42 @@
+[
+  {
+    "type": "item_group",
+    "id": "grenade_can_full",
+    "container-item": "ammunition_box_grenade",
+    "items": [ { "item": "grenade" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "grenade_can_empty",
+    "items": [ { "item": "ammunition_box_grenade" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "grenade_can_both",
+    "items": [ { "group": "grenade_can_full", "prob": 14 }, { "group": "grenade_can_empty" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "grenade_can_pa120_grenades_part",
+    "container-item": "ammunition_can_pa120",
+    "items": [ { "group": "grenade_can_both", "count": 25 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "grenade_can_pa120_grenades_full",
+    "container-item": "ammunition_can_pa120",
+    "items": [ { "group": "grenade_can_full", "count": 25 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "c4_box_part",
+    "container-item": "box_compact_wood",
+    "items": [ { "item": "c4", "count": [ 1, 4 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "c4_box_full",
+    "container-item": "box_compact_wood",
+    "items": [ { "item": "c4", "count": 4 } ]
+  }
+]

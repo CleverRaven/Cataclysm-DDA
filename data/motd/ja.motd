@@ -1,0 +1,51 @@
+# 78文字を超える行は自動的に折り返されます
+# 次の行は参照用です
+##############################################################################
+<color_white>関連リンク:</color>
+
+<color_light_gray>* 公式サイト:</color>    <color_cyan>https://cataclysmdda.org</color>
+<color_light_gray>* Wiki:</color>        <color_cyan>https://cddawiki.chezzo.com/cdda_wiki</color>
+
+<color_white>バグ報告、提案、開発状況の確認:</color>
+
+<color_light_gray>* Github: </color><color_light_cyan>https://github.com/CleverRaven/Cataclysm-DDA/issues</color>
+<color_light_gray>* e-mail: </color><color_light_cyan>kevin.granade@gmail.com</color>
+
+<color_white>議論やチャットへの参加:</color>
+
+<color_light_gray>* Discourse:                 </color><color_cyan>https://discourse.cataclysmdda.org/</color>
+<color_light_gray>* Discord:                   </color><color_cyan>https://discord.gg/jFEc7Yp</color>
+<color_light_gray>* IRC:                       </color><color_cyan>libera.chat チャンネル名#CataclysmDDA</color>
+<color_light_gray>* Reddit(非公式):       </color><color_cyan>https://www.reddit.com/r/cataclysmdda/</color>
+
+<color_light_gray>その他の便利なリンクは公式サイトでご覧いただけます。</color>
+
+<color_light_gray>ゲーム中はメインメニュー(<color_yellow>Esc</color>)からオプションを変更できます。</color>
+
+<color_light_red>******************************************************************************</color>
+<color_light_red>開発版ビルド免責事項:</color>
+<color_light_red>******************************************************************************</color>
+
+<color_white>Q: </color><color_yellow>開発版ビルドとは何ですか？</color>
+
+<color_white>A: </color><color_light_gray>開発版ビルドは、品質管理の第二段階となることを目標に更新されます。新しいコンテンツが公開されて品質管理の第一段階を経た後に、テストやバランス調整をおこなう最前線となるのが、開発版ビルドです。最新の開発版ビルドをプレイする行為は、文字通り新しいコンテンツのテストプレイを行って開発プロセスに参加していると言うことです。バグや機能の不具合が発生しやすいビルドであることをご承知おきください。</color>
+
+<color_white>Q: </color><color_yellow>開発版ビルドは何のために存在しているのですか？</color>
+
+<color_white>A: </color><color_light_gray>アルファ版やベータ版をプレイするようなものだと考えてください。開発版ビルドにはバグや機能の不具合も含まれています。常に全体の統合を行うのが困難であるため、開発版ビルドの内容は常に現在進行形の状態です。開発版はバグの発見と機能を洗練するサンドボックスであると考えてください。全体的な安定性とバランスをチェックするため、大小様々な機能が開発版ビルドに追加され続けています。もっとはっきり言ってしまえば、開発版ビルドで保障されているものは何一つありません。</color>
+
+<color_white>Q: </color><color_yellow>開発版ビルドをプレイすることはできますか？</color>
+
+<color_white>A: </color><color_light_gray>はい。しかし、開発版ビルドは全般的には安定しているものの、機能が未完成の状態で導入されることもあるため、安定した動作は保証されていません。加えて、ゲームのクラッシュや、セーブデータの破壊といった重大なバグが含まれている場合もあります。稀なケースですが、ゲームデータが複雑なため、開発版ビルドにマージする以前の品質管理の第一段階が不十分であることも稀にあり、人的ミスが含まれている可能性は常にあります。これは開発版ビルドが存在するそもそもの理由です。</color>
+
+<color_white>Q: </color><color_yellow>開発版ビルドと安定版ビルド、どちらをプレイするべきですか？</color>
+
+<color_white>A: </color><color_light_gray>開発版ビルドの利点は、最新のコンテンツにいち早くアクセスできることであり、欠点は厄介なバグの発生によってゲームの進行状況が失われるリスクがあることです。開発版と安定版、どちらをプレイするかは自身の判断で選択してください。何か問題が発生した時は自己責任となることに留意しましょう。予防策として、バックアップを取っておきましょう。大規模な機能が安定するか、あるいは重大なバグが修正されるまで、数日間アップデートをしないでおくのが最善の選択となる場合もあります。</color>
+
+<color_white>Q: </color><color_yellow>他に知っておくべきことはありますか？</color>
+
+<color_white>A: </color><color_light_gray>既に確認した、あるいは今後確認するゲーム中の挙動は全て、将来的に変更される可能性があることを心に留めておきましょう。新たに実装されたものも含め、全ての機能は開発中であり、ゲーム開発の過程で変更される可能性があります。そして、前述の通り、バランスや安定性を含めてあらゆる動作は保証されていません。</color>
+
+<color_white>Q: </color><color_yellow>開発版ビルドをプレイするリスクが受け入れられないと感じた場合はどうすればいいですか？</color>
+
+<color_white>A: </color><color_light_gray>リスクが許容できない場合は...安定版ビルドをプレイしましょう。リスクを受け入れて開発版ビルドの最新追加コンテンツを楽しみ、開発に参加する場合は...バグの報告や機能の提案、あるいは思い付いたコンテンツをゲームに追加するなど...様々な方法で開発に貢献しましょう。健闘を祈ります。</color>

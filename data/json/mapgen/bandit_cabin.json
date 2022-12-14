@@ -14,7 +14,7 @@
         "          #___##+##_@@# ",
         "          #@@_#___#___# ",
         "          #@@_+___+___# ",
-        "        S #___#___#_:_# ",
+        "        S4#___#___#_:_# ",
         " ###0###3######___##### ",
         " #EEEF#__777#________D# ",
         " #=___#_____#__B666B__# ",
@@ -35,6 +35,7 @@
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "toilets": { ";": {  } },
       "items": {
+        "7": { "item": "homebooks", "chance": 75, "repeat": [ 1, 5 ] },
         "_": { "item": "bar_trash", "chance": 5 },
         " ": { "item": "clutter_yard", "chance": 1 },
         "@": { "item": "bed", "chance": 80 },
@@ -46,7 +47,6 @@
       },
       "place_items": [
         { "item": "camping", "x": [ 13, 14 ], "y": [ 13, 13 ], "chance": 70 },
-        { "item": "homebooks", "x": [ 10, 11 ], "y": [ 9, 9 ], "chance": 70 },
         { "item": "kitchen", "x": [ 2, 2 ], "y": [ 9, 12 ], "chance": 70 },
         { "item": "dining", "x": [ 17, 19 ], "y": [ 10, 11 ], "chance": 70 },
         { "item": "magazines", "x": [ 7, 8 ], "y": [ 16, 17 ], "chance": 50 }
@@ -54,6 +54,7 @@
       "place_npcs": [ { "class": "bandit", "x": 5, "y": 16 }, { "class": "bandit", "x": 8, "y": 18 } ],
       "place_vehicles": [ { "vehicle": "bandit_vehicles", "x": 19, "y": 19, "chance": 40, "rotation": 90, "status": 0 } ],
       "terrain": {
+        "4": "t_gutter_downspout",
         "#": "t_wall_log",
         "+": "t_door_c",
         "0": "t_window_boarded",
@@ -96,6 +97,44 @@
         "H": "f_armchair",
         "c": "f_counter"
       }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "bandit_cabin_roof",
+    "weight": 250,
+    "object": {
+      "fill_ter": "t_shingle_flat_roof",
+      "rows": [
+        "                        ",
+        "              |2223     ",
+        "          |222|...32223 ",
+        "          |...........3 ",
+        "          |...........3 ",
+        "          |...........3 ",
+        "          |...........3 ",
+        "          |...........3 ",
+        " |222222225...........3 ",
+        " |....................3 ",
+        " |~...................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |............3-------3 ",
+        " |............3         ",
+        " |............3         ",
+        " |............3         ",
+        " |............3         ",
+        " |............3         ",
+        " |------------3         ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "items": { ".": { "item": "roof_trash", "chance": 5 } },
+      "terrain": { ".": "t_shingle_flat_roof" }
     }
   }
 ]

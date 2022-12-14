@@ -90,12 +90,12 @@ struct morale_mult {
     }
 };
 
-static inline double operator * ( double morale, const morale_mult &mult )
+static double operator * ( double morale, const morale_mult &mult )
 {
     return morale * ( ( morale >= 0.0 ) ? mult.good : mult.bad );
 }
 
-static inline int operator *= ( int &morale, const morale_mult &mult )
+static int operator *= ( int &morale, const morale_mult &mult )
 {
     morale = morale * mult;
     return morale;
@@ -251,34 +251,59 @@ player_morale::player_morale() :
     stylish( false ),
     perceived_pain( 0 )
 {
-    using namespace std::placeholders;
     // Cannot use 'this' because the object is copyable
-    const auto set_optimist       = std::bind( &player_morale::set_permanent, _1, MORALE_PERM_OPTIMIST,
-                                    _2, nullptr );
-    const auto set_badtemper      = std::bind( &player_morale::set_permanent, _1, MORALE_PERM_BADTEMPER,
-                                    _2, nullptr );
-    const auto set_numb           = std::bind( &player_morale::set_permanent, _1, MORALE_PERM_NUMB,
-                                    _2, nullptr );
-    const auto set_stylish        = std::bind( &player_morale::set_stylish, _1, _2 );
-    const auto update_constrained = std::bind( &player_morale::update_constrained_penalty, _1 );
-    const auto update_masochist   = std::bind( &player_morale::update_masochist_bonus, _1 );
+    const auto set_optimist = []( player_morale * pm, int bonus ) {
+        pm->set_permanent( MORALE_PERM_OPTIMIST, bonus, nullptr );
+    };
+    const auto set_badtemper = []( player_morale * pm, int bonus ) {
+        pm->set_permanent( MORALE_PERM_BADTEMPER, bonus, nullptr );
+    };
+    const auto set_numb = []( player_morale * pm, int bonus ) {
+        pm->set_permanent( MORALE_PERM_NUMB, bonus, nullptr );
+    };
+    const auto set_stylish = []( player_morale * pm, bool new_stylish ) {
+        pm->set_stylish( new_stylish );
+    };
+    const auto update_constrained = []( player_morale * pm ) {
+        pm->update_constrained_penalty();
+    };
+    const auto update_masochist = []( player_morale * pm ) {
+        pm->update_masochist_bonus();
+    };
 
-    mutations[trait_OPTIMISTIC]    = mutation_data(
-                                         std::bind( set_optimist, _1, 9 ),
-                                         std::bind( set_optimist, _1, 0 ) );
-    mutations[trait_BADTEMPER]     = mutation_data(
-                                         std::bind( set_badtemper, _1, -9 ),
-                                         std::bind( set_badtemper, _1, 0 ) );
-    mutations[trait_NUMB]          = mutation_data(
-                                         std::bind( set_numb, _1, -1 ),
-                                         std::bind( set_numb, _1, 0 ) );
-    mutations[trait_STYLISH]       = mutation_data(
-                                         std::bind( set_stylish, _1, true ),
-                                         std::bind( set_stylish, _1, false ) );
+    mutations[trait_OPTIMISTIC] =
+    mutation_data( [set_optimist]( player_morale * pm ) {
+        return set_optimist( pm, 9 );
+    },
+    [set_optimist]( player_morale * pm ) {
+        return set_optimist( pm, 0 );
+    } );
+    mutations[trait_BADTEMPER] =
+    mutation_data( [set_badtemper]( player_morale * pm ) {
+        return set_badtemper( pm, -9 );
+    },
+    [set_badtemper]( player_morale * pm ) {
+        return set_badtemper( pm, 0 );
+    } );
+    mutations[trait_NUMB] =
+    mutation_data( [set_numb]( player_morale * pm ) {
+        return set_numb( pm, -1 );
+    },
+    [set_numb]( player_morale * pm ) {
+        return set_numb( pm, 0 );
+    } );
+    mutations[trait_STYLISH] =
+    mutation_data( [set_stylish]( player_morale * pm ) {
+        return set_stylish( pm, true );
+    },
+    [set_stylish]( player_morale * pm ) {
+        return set_stylish( pm, false );
+    } );
     mutations[trait_FLOWERS]       = mutation_data( update_constrained );
     mutations[trait_ROOTS1]        = mutation_data( update_constrained );
     mutations[trait_ROOTS2]        = mutation_data( update_constrained );
     mutations[trait_ROOTS3]        = mutation_data( update_constrained );
+    mutations[trait_CHLOROMORPH]   = mutation_data( update_constrained );
     mutations[trait_LEAVES2]       = mutation_data( update_constrained );
     mutations[trait_LEAVES3]       = mutation_data( update_constrained );
     mutations[trait_MASOCHIST]     = mutation_data( update_masochist );
@@ -296,7 +321,7 @@ void player_morale::add( const morale_type &type, int bonus, int max_bonus,
         return;
     }
 
-    for( auto &m : points ) {
+    for( player_morale::morale_point &m : points ) {
         if( m.matches( type, item_type ) ) {
             const int prev_bonus = m.get_net_bonus();
 
@@ -384,7 +409,7 @@ void player_morale::calculate_percentage()
     int sum_of_positive_squares = 0;
     int sum_of_negative_squares = 0;
 
-    for( auto &m : points ) {
+    for( player_morale::morale_point &m : points ) {
         const int bonus = m.get_net_bonus( mult );
         if( bonus > 0 ) {
             sum_of_positive_squares += std::pow( bonus, 2 );
@@ -393,7 +418,7 @@ void player_morale::calculate_percentage()
         }
     }
 
-    for( auto &m : points ) {
+    for( player_morale::morale_point &m : points ) {
         const int bonus = m.get_net_bonus( mult );
         if( bonus > 0 ) {
             m.set_percent_contribution( ( std::pow( bonus, 2 ) / sum_of_positive_squares ) * 100 );
@@ -790,7 +815,7 @@ void player_morale::display( int focus_eq, int pain_penalty, int fatigue_penalty
 bool player_morale::consistent_with( const player_morale &morale ) const
 {
     const auto test_points = []( const player_morale & lhs, const player_morale & rhs ) {
-        for( const auto &lhp : lhs.points ) {
+        for( const player_morale::morale_point &lhp : lhs.points ) {
             if( !lhp.is_permanent() ) {
                 continue;
             }
@@ -941,6 +966,7 @@ void player_morale::set_worn( const item &it, bool worn )
     const bool fancy = it.has_flag( STATIC( flag_id( "FANCY" ) ) );
     const bool super_fancy = it.has_flag( STATIC( flag_id( "SUPER_FANCY" ) ) );
     const bool filthy_gear = it.has_flag( STATIC( flag_id( "FILTHY" ) ) );
+    const bool integrated = it.has_flag( STATIC( flag_id( "INTEGRATED" ) ) );
     const int sign = worn ? 1 : -1;
 
     const auto update_body_part = [&]( body_part_data & bp_data ) {
@@ -950,7 +976,10 @@ void player_morale::set_worn( const item &it, bool worn )
         if( filthy_gear ) {
             bp_data.filthy += sign;
         }
-        bp_data.covered += sign;
+        // If armor is integrated (Subdermal CBM, Skin armor mutation) don't count it as covering
+        if( !integrated ) {
+            bp_data.covered += sign;
+        }
     };
 
     const body_part_set covered( it.get_covered_body_parts() );

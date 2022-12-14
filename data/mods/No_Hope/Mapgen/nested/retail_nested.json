@@ -1083,7 +1083,7 @@
         "y": [ "f_indoor_plant", "f_indoor_plant_y" ],
         "z": [ [ "f_cardboard_box", 5 ], "f_crate_c" ]
       },
-      "vendingmachines": { "D": { "item_group": "vending_drink" }, "F": { "item_group": "vending_food" } },
+      "vendingmachines": { "D": { "item_group": "vending_drink", "lootable": true }, "F": { "item_group": "vending_food", "lootable": true } },
       "items": {
         "C": [ { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] } ],
         "G": [ { "item": "jackets", "chance": 30, "repeat": [ 0, 1 ] }, { "item": "bags", "chance": 30, "repeat": [ 0, 1 ] } ]
@@ -1114,7 +1114,7 @@
         "F": "f_vending_c",
         "y": [ "f_indoor_plant", "f_indoor_plant_y" ]
       },
-      "vendingmachines": { "D": { "item_group": "vending_drink" }, "F": { "item_group": "vending_food" } },
+      "vendingmachines": { "D": { "item_group": "vending_drink", "lootable": true }, "F": { "item_group": "vending_food", "lootable": true } },
       "items": {
         "G": [ { "item": "jackets", "chance": 30, "repeat": [ 0, 1 ] }, { "item": "bags", "chance": 30, "repeat": [ 0, 1 ] } ]
       }
@@ -1144,7 +1144,7 @@
         "y": [ "f_indoor_plant", "f_indoor_plant_y" ],
         "?": "f_console_broken"
       },
-      "vendingmachines": { "D": { "item_group": "vending_drink" }, "F": { "item_group": "vending_food" } },
+      "vendingmachines": { "D": { "item_group": "vending_drink", "lootable": true }, "F": { "item_group": "vending_food", "lootable": true } },
       "items": {
         "C": [ { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] } ],
         "G": [ { "item": "jackets", "chance": 30, "repeat": [ 0, 1 ] }, { "item": "bags", "chance": 30, "repeat": [ 0, 1 ] } ]
@@ -1213,7 +1213,7 @@
         "z": [ [ "f_cardboard_box", 5 ], "f_crate_c" ],
         "?": "f_console_broken"
       },
-      "vendingmachines": { "D": { "item_group": "vending_drink" }, "F": { "item_group": "vending_food" } },
+      "vendingmachines": { "D": { "item_group": "vending_drink", "lootable": true }, "F": { "item_group": "vending_food", "lootable": true } },
       "items": {
         "C": [ { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] } ],
         "G": [ { "item": "jackets", "chance": 30, "repeat": [ 0, 1 ] }, { "item": "bags", "chance": 30, "repeat": [ 0, 1 ] } ]
@@ -1246,7 +1246,7 @@
         "y": [ "f_indoor_plant", "f_indoor_plant_y" ],
         "z": [ [ "f_cardboard_box", 5 ], "f_crate_c" ]
       },
-      "vendingmachines": { "D": { "item_group": "vending_drink" }, "F": { "item_group": "vending_food" } },
+      "vendingmachines": { "D": { "item_group": "vending_drink", "lootable": true }, "F": { "item_group": "vending_food", "lootable": true } },
       "items": {
         "C": [ { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] } ],
         "G": [ { "item": "jackets", "chance": 30, "repeat": [ 0, 1 ] }, { "item": "bags", "chance": 30, "repeat": [ 0, 1 ] } ]

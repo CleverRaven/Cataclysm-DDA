@@ -118,7 +118,7 @@ struct tech_effect_data {
     tech_effect_data( const efftype_id &nid, int dur, bool perm, bool ondmg,
                       int nchance, std::string message, json_character_flag req_flag ) :
         id( nid ), duration( dur ), permanent( perm ), on_damage( ondmg ),
-        chance( nchance ), message( message ), req_flag( req_flag ) {}
+        chance( nchance ), message( std::move( message ) ), req_flag( req_flag ) {}
 };
 
 class ma_technique
@@ -343,7 +343,7 @@ class martialart
         // determines if a weapon is valid for this style
         bool has_weapon( const itype_id & ) const;
         // Is this weapon OK with this art?
-        bool weapon_valid( const item &it ) const;
+        bool weapon_valid( const item_location &it ) const;
         // Getter for Character style change message
         std::string get_initiate_avatar_message() const;
         // Getter for NPC style change message

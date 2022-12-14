@@ -64,13 +64,14 @@
     "flags": [ "LIMB_UPPER" ],
     "sub_parts": [ "head_forehead", "head_crown", "head_nape", "head_throat", "head_ear_r", "head_ear_l" ],
     "encumbrance_per_weight": [
-      { "weight": "1 g", "encumbrance": 1 },
+      { "weight": "1 mg", "encumbrance": 1 },
       { "weight": "300 g", "encumbrance": 4 },
       { "weight": "800 g", "encumbrance": 8 },
       { "weight": "1300 g", "encumbrance": 20 },
       { "weight": "1600 g", "encumbrance": 30 },
       { "weight": "2200 g", "encumbrance": 50 },
-      { "weight": "5600 g", "encumbrance": 80 }
+      { "weight": "5600 g", "encumbrance": 80 },
+      { "weight": "10000 g", "encumbrance": 160 }
     ]
   },
   {
@@ -126,7 +127,7 @@
     "smash_efficiency": 0.25,
     "bionic_slots": 4,
     "flags": [ "LIMB_UPPER" ],
-    "sub_parts": [ "mouth_lips", "mouth_nose", "mouth_cheeks" ]
+    "sub_parts": [ "mouth_lips", "mouth_nose", "mouth_cheeks", "mouth_chin" ]
   },
   {
     "id": "arm_l",
@@ -283,7 +284,7 @@
     "drench_capacity": 1100,
     "smash_message": "You bring your knee down on the %s, smashing it.",
     "bionic_slots": 30,
-    "sub_parts": [ "leg_hip_l", "leg_upper_l", "leg_knee_l", "leg_lower_l" ],
+    "sub_parts": [ "leg_hip_l", "leg_upper_l", "leg_knee_l", "leg_lower_l", "leg_draped_l" ],
     "flags": [ "LIMB_LOWER" ]
   },
   {
@@ -318,7 +319,7 @@
     "drench_capacity": 1100,
     "smash_message": "You bring your knee down on the %s, smashing it.",
     "bionic_slots": 30,
-    "sub_parts": [ "leg_hip_r", "leg_upper_r", "leg_knee_r", "leg_lower_r" ],
+    "sub_parts": [ "leg_hip_r", "leg_upper_r", "leg_knee_r", "leg_lower_r", "leg_draped_r" ],
     "flags": [ "LIMB_LOWER" ]
   },
   {
@@ -349,7 +350,7 @@
     "drench_capacity": 300,
     "smash_message": "You kick down the %s, smashing it.",
     "bionic_slots": 7,
-    "sub_parts": [ "foot_arch_l", "foot_toes_l", "foot_ankle_l", "foot_heel_l" ],
+    "sub_parts": [ "foot_sole_l", "foot_arch_l", "foot_toes_l", "foot_ankle_l", "foot_heel_l" ],
     "flags": [ "LIMB_LOWER" ]
   },
   {
@@ -380,7 +381,7 @@
     "drench_capacity": 300,
     "smash_message": "You kick down the %s, smashing it.",
     "bionic_slots": 7,
-    "sub_parts": [ "foot_arch_r", "foot_toes_r", "foot_ankle_r", "foot_heel_r" ],
+    "sub_parts": [ "foot_sole_r", "foot_arch_r", "foot_toes_r", "foot_ankle_r", "foot_heel_r" ],
     "flags": [ "LIMB_LOWER" ]
   },
   {
@@ -438,7 +439,8 @@
     "type": "sub_body_part",
     "side": 0,
     "opposite": "sub_limb_debug",
-    "name": "neck"
+    "name": "neck",
+    "locations_under": [ "torso_upper" ]
   },
   {
     "id": "torso_lower",
@@ -459,7 +461,8 @@
     "side": 0,
     "name": "front torso (hang)",
     "opposite": "torso_hanging_back",
-    "name_multiple": "item hangs off you"
+    "name_multiple": "item hangs off you",
+    "locations_under": [ "torso_upper", "torso_lower" ]
   },
   {
     "id": "torso_hanging_back",
@@ -470,7 +473,32 @@
     "side": 0,
     "name": "back torso (hang)",
     "opposite": "torso_hanging_front",
-    "name_multiple": "item hangs off you"
+    "name_multiple": "item hangs off you",
+    "locations_under": [ "torso_upper", "torso_lower" ]
+  },
+  {
+    "id": "leg_draped_l",
+    "type": "sub_body_part",
+    "max_coverage": 100,
+    "parent": "leg_l",
+    "side": 1,
+    "secondary": true,
+    "opposite": "leg_draped_r",
+    "name_multiple": "legs (draped)",
+    "name": "left leg (draped)",
+    "locations_under": [ "leg_hip_l", "leg_upper_l" ]
+  },
+  {
+    "id": "leg_draped_r",
+    "type": "sub_body_part",
+    "max_coverage": 100,
+    "parent": "leg_r",
+    "side": 2,
+    "secondary": true,
+    "opposite": "leg_draped_l",
+    "name_multiple": "legs (draped)",
+    "name": "right leg (draped)",
+    "locations_under": [ "leg_hip_r", "leg_upper_r" ]
   },
   {
     "id": "torso_waist",
@@ -480,7 +508,8 @@
     "secondary": true,
     "side": 0,
     "name": "waist",
-    "opposite": "sub_limb_debug"
+    "opposite": "sub_limb_debug",
+    "locations_under": [ "leg_hip_r", "leg_hip_l" ]
   },
   {
     "id": "arm_shoulder_r",
@@ -679,7 +708,7 @@
     "parent": "hand_r",
     "side": 2,
     "opposite": "hand_fingers_l",
-    "name_multiple": "wrists",
+    "name_multiple": "fingers",
     "name": "right fingers"
   },
   {
@@ -745,7 +774,7 @@
   {
     "id": "mouth_lips",
     "type": "sub_body_part",
-    "max_coverage": 30,
+    "max_coverage": 15,
     "parent": "mouth",
     "opposite": "sub_limb_debug",
     "side": 0,
@@ -754,7 +783,7 @@
   {
     "id": "mouth_nose",
     "type": "sub_body_part",
-    "max_coverage": 30,
+    "max_coverage": 15,
     "parent": "mouth",
     "opposite": "sub_limb_debug",
     "side": 0,
@@ -763,16 +792,35 @@
   {
     "id": "mouth_cheeks",
     "type": "sub_body_part",
-    "max_coverage": 40,
+    "max_coverage": 30,
     "parent": "mouth",
     "opposite": "sub_limb_debug",
     "side": 0,
     "name": "cheeks"
   },
   {
+    "id": "mouth_chin",
+    "type": "sub_body_part",
+    "max_coverage": 40,
+    "parent": "mouth",
+    "opposite": "sub_limb_debug",
+    "side": 0,
+    "name": "chin"
+  },
+  {
+    "id": "foot_sole_l",
+    "type": "sub_body_part",
+    "max_coverage": 25,
+    "parent": "foot_l",
+    "side": 1,
+    "opposite": "foot_sole_r",
+    "name_multiple": "foot bottoms",
+    "name": "left foot bottom"
+  },
+  {
     "id": "foot_arch_l",
     "type": "sub_body_part",
-    "max_coverage": 50,
+    "max_coverage": 25,
     "parent": "foot_l",
     "side": 1,
     "opposite": "foot_arch_r",
@@ -810,9 +858,19 @@
     "name": "left heel"
   },
   {
+    "id": "foot_sole_r",
+    "type": "sub_body_part",
+    "max_coverage": 25,
+    "parent": "foot_r",
+    "side": 2,
+    "opposite": "foot_sole_l",
+    "name_multiple": "foot bottoms",
+    "name": "right foot bottom"
+  },
+  {
     "id": "foot_arch_r",
     "type": "sub_body_part",
-    "max_coverage": 50,
+    "max_coverage": 25,
     "parent": "foot_r",
     "side": 2,
     "opposite": "foot_arch_l",

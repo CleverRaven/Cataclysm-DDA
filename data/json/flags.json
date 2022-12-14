@@ -24,6 +24,12 @@
     "restriction": "Item must be an armored skirt"
   },
   {
+    "id": "ABLATIVE_HELMET",
+    "type": "json_flag",
+    "info": "This will hook to a <info>Hub 01 proprietary</info> helmet connector",
+    "restriction": "Item must be an armored helmet"
+  },
+  {
     "id": "ACTIVE_CLOAKING",
     "type": "json_flag",
     "info": "This gear has <info>cloaking tech</info> that will <good>make you invisible</good> when active, at the cost of <info>power from a UPS</info>."
@@ -44,7 +50,7 @@
   {
     "id": "ALLOWS_NATURAL_ATTACKS",
     "type": "json_flag",
-    "info": "This clothing won't hinder special attacks that involve <info>mutated anatomy</info>."
+    "info": "This clothing won't hinder special attacks that involve <info>mutated or cybernetic anatomy</info>."
   },
   {
     "id": "ALLOWS_REMOTE_USE",
@@ -109,11 +115,6 @@
     "id": "CBM",
     "type": "json_flag",
     "info": "This item is a Compact Bionic Module.  You'll need to <info>use specialized machinery</info> or <info>ask a surgeon</info> to install it into your body."
-  },
-  {
-    "id": "CLIMATE_CONTROL",
-    "type": "json_flag",
-    "info": "This clothing has <info>built-in or attached climate control</info>, keeping you at a <good>comfortable temperature</good>."
   },
   {
     "id": "COLLAR",
@@ -201,7 +202,8 @@
   {
     "id": "CANT_WEAR",
     "type": "json_flag",
-    "info": "This armor can't be worn directly."
+    "info": "This armor can't be worn directly.",
+    "inherit": false
   },
   {
     "id": "DECAY_EXPOSED_ATMOSPHERE",
@@ -261,6 +263,42 @@
     "id": "HEAT_IMMUNE",
     "type": "json_flag",
     "info": "This gear <good>completely protects</good> you from <info>high temperatures</info>."
+  },
+  {
+    "id": "HELMET_FACE_SHIELD",
+    "type": "json_flag",
+    "info": "This item is attachable in the front of <info>hard hats and helmets</info> to protect your eyes or face.",
+    "restriction": "Item must be some kind of face shield"
+  },
+  {
+    "id": "HELMET_EAR_ATTACHMENT",
+    "type": "json_flag",
+    "info": "This item is attachable in <info>hard hats and helmets</info> to cover the ears.",
+    "restriction": "Item must be some kind of ear attachment"
+  },
+  {
+    "id": "HELMET_NAPE_PROTECTOR",
+    "type": "json_flag",
+    "info": "This item is attachable in <info>hard hats and helmets</info> as a nape protector.",
+    "restriction": "Item must be some kind of nape protector"
+  },
+  {
+    "id": "HELMET_MANDIBLE_GUARD",
+    "type": "json_flag",
+    "info": "This item is attachable as a mandible guard in military <info>helmets</info> or headgear specifically adapted with rails for attachments.",
+    "restriction": "Item must be some kind of rail-mounted mandible guard"
+  },
+  {
+    "id": "HELMET_MANDIBLE_GUARD_STRAPPED",
+    "type": "json_flag",
+    "info": "This item is attachable as a mandible guard in <info>hard hats and helmets</info>.",
+    "restriction": "Item must be some kind of strapped mandible guard"
+  },
+  {
+    "id": "HELMET_BACK_POUCH",
+    "type": "json_flag",
+    "info": "This item is attachable in the back of <info>hard hats and helmets</info> as a counterweight pouch.",
+    "restriction": "Item must be some kind of back pouch"
   },
   {
     "id": "COLD_IMMUNE",
@@ -416,6 +454,12 @@
     "//": "forces calories and vitamins to be the ones defined in the json, instead of inheriting from ingredients"
   },
   {
+    "id": "OBSOLETE",
+    "type": "json_flag",
+    "//": "This thing has been removed from the game",
+    "info": "This thing no longer spawns naturally and has been obsoleted."
+  },
+  {
     "id": "PLANTABLE_SEED",
     "type": "json_flag",
     "info": "You could probably <color_brown>plant</color> these."
@@ -427,6 +471,10 @@
   },
   {
     "id": "MAG_DESTROY",
+    "type": "json_flag"
+  },
+  {
+    "id": "MOP",
     "type": "json_flag"
   },
   {
@@ -606,17 +654,17 @@
   {
     "id": "PALS_SMALL",
     "type": "json_flag",
-    "info": "This item will <good>attach directly</good> to <info>load bearing vests</info> taking a <good>small amount of space</good>."
+    "info": "This item will <good>attach directly</good> to <info>load bearing vests</info>, taking a <good>small amount of space</good>."
   },
   {
     "id": "PALS_MEDIUM",
     "type": "json_flag",
-    "info": "This item will <good>attach directly</good> to <info>load bearing vests</info> taking an average amount of space."
+    "info": "This item will <good>attach directly</good> to <info>load bearing vests</info>, taking an average amount of space."
   },
   {
     "id": "PALS_LARGE",
     "type": "json_flag",
-    "info": "This item will <good>attach directly</good> to <info>load bearing vests</info> take a <bad>large amount of space</bad>."
+    "info": "This item will <good>attach directly</good> to <info>load bearing vests</info>, taking a <bad>large amount of space</bad>."
   },
   {
     "id": "PSYSHIELD_PARTIAL",
@@ -883,6 +931,11 @@
     "info": "This clothing has a wool lining sewn into it to <good>increase</good> its overall <info>warmth</info>."
   },
   {
+    "id": "WONT_TRAIN_MARKSMANSHIP",
+    "type": "json_flag",
+    "//": "This gun wont train marksmanship when fired.  Used in Aftershock smart guns."
+  },
+  {
     "id": "UNARMED_WEAPON",
     "type": "json_flag",
     "//": "Allows wielding with unarmed fighting styles and trains unarmed when used.",
@@ -1004,6 +1057,11 @@
     "//": "Chooses a spell at random to cast from extra_effects.  See MAGIC.md for details"
   },
   {
+    "id": "EXTRA_EFFECTS_FIRST",
+    "type": "json_flag",
+    "//": "A spell extra effects are cast before the main spell.  See MAGIC.md for details"
+  },
+  {
     "id": "PAIN_NORESIST",
     "type": "json_flag",
     "//": "pain altering spells can't be resisted (like with the deadened trait)"
@@ -1097,6 +1155,7 @@
   },
   {
     "id": "ALWAYS_TWOHAND",
+    "info": "<bad>You must</bad> have two free hands to wield this item.",
     "type": "json_flag"
   },
   {
@@ -1163,6 +1222,12 @@
     "id": "COLLAPSIBLE_STOCK",
     "//": "this is deprecated for the COLLAPSED_STOCK and FOLDED_STOCK, kept around for mod support",
     "type": "json_flag"
+  },
+  {
+    "id": "REMOVED_STOCK",
+    "//": "for weapons whose stock has been cut off.",
+    "type": "json_flag",
+    "info": "This item has had its stock removed, it will be hard to shoot with."
   },
   {
     "id": "FOLDED_STOCK",
@@ -1301,10 +1366,6 @@
     "type": "json_flag"
   },
   {
-    "id": "HELMET_COMPAT",
-    "type": "json_flag"
-  },
-  {
     "id": "HIDDEN_ITEM",
     "type": "json_flag"
   },
@@ -1352,7 +1413,8 @@
   {
     "id": "IS_UPS",
     "type": "json_flag",
-    "info": "This item provides power to <info>UPS compatible items</info>."
+    "info": "This item provides power to <info>UPS compatible items</info>.",
+    "inherit": false
   },
   {
     "id": "LEAK_DAM",
@@ -1394,6 +1456,7 @@
   },
   {
     "id": "MOUNTED_GUN",
+    "info": "This weapon is <bad>too unwieldy</bad> to fire on its own and <info>must be mounted</info> on a vehicle or furniture (window, table, mound of dirt, etc.) before use.",
     "type": "json_flag"
   },
   {
@@ -1475,8 +1538,14 @@
     "type": "json_flag"
   },
   {
+    "id": "NO_TURRET",
+    "type": "json_flag",
+    "//": "This flag should only be applied to GUN definitions, it will prevent generation of a turret vehicle part for the gun.  This blocks fake guns, or player unobtainable ones from appearing in turret list."
+  },
+  {
     "id": "NO_UNLOAD",
-    "type": "json_flag"
+    "type": "json_flag",
+    "inherit": false
   },
   {
     "id": "NO_UNWIELD",
@@ -1770,11 +1839,13 @@
   },
   {
     "id": "FIRE_TWOHAND",
+    "info": "<bad>You must</bad> have two free hands to fire this item.",
     "type": "json_flag"
   },
   {
     "id": "GRENADE",
-    "type": "json_flag"
+    "type": "json_flag",
+    "restriction": "Item must be a grenade"
   },
   {
     "id": "JAVELIN",
@@ -1923,6 +1994,12 @@
     "name": "heavy battery"
   },
   {
+    "id": "METHANOL_TANK",
+    "type": "json_flag",
+    "info": "This item fits in items that use methanol fuel cells.",
+    "name": "methanol fuel cell"
+  },
+  {
     "id": "COMBAT_TOGGLEABLE",
     "type": "json_flag",
     "info": "This item is meant to be toggled during combat."
@@ -1942,6 +2019,16 @@
     "type": "json_flag",
     "info": "Invalid when the target position is <bad>too far</bad> or <bad>too bright</bad>.",
     "name": "laser sight"
+  },
+  {
+    "id": "JETPACK",
+    "type": "json_flag",
+    "info": "This item is a jetpack."
+  },
+  {
+    "id": "LEVITATION",
+    "type": "json_flag",
+    "info": "Allows movement in open air."
   },
   {
     "id": "EXO_SMALL",
@@ -1979,6 +2066,11 @@
     "info": "This is meant for large exosuit gadgets, larger than 5 L."
   },
   {
+    "id": "EXO_UNDERLAYER",
+    "type": "json_flag",
+    "info": "This is meant for exosuit underlayers."
+  },
+  {
     "id": "EXO_HELMET_PLATE",
     "type": "json_flag",
     "info": "This is meant for exosuit helmet plating."
@@ -1987,11 +2079,6 @@
     "id": "EXO_TORSO_PLATE",
     "type": "json_flag",
     "info": "This is meant for exosuit torso plating."
-  },
-  {
-    "id": "EXO_PSU_PLATE",
-    "type": "json_flag",
-    "info": "This is meant for exosuit PSU plating."
   },
   {
     "id": "EXO_ARM_PLATE",
@@ -2012,5 +2099,33 @@
     "id": "EXO_BOOT_PLATE",
     "type": "json_flag",
     "info": "This is meant for exosuit foot plating."
+  },
+  {
+    "id": "VOLTMETER",
+    "type": "json_flag",
+    "info": "This tool can test for voltage."
+  },
+  {
+    "id": "SHREDDED",
+    "type": "json_flag",
+    "info": "This is a small fragment."
+  },
+  {
+    "id": "FROM_FROZEN_LIQUID",
+    "type": "json_flag"
+  },
+  {
+    "id": "SINGLE_USE",
+    "type": "json_flag",
+    "info": "This item is removed after use."
+  },
+  {
+    "id": "BIONIC_FUEL_SOURCE",
+    "type": "json_flag",
+    "info": "Contents of this item are used for fueling bionics."
+  },
+  {
+    "id": "ELECTRONIC",
+    "type": "json_flag"
   }
 ]

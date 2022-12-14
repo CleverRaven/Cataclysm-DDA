@@ -148,8 +148,7 @@ class query_popup
         query_popup &option( const std::string &opt,
                              const std::function<bool( const input_event & )> &filter );
         /**
-         * Specify whether non-option actions can be returned. Mouse movement
-         * is always ignored regardless of this setting.
+         * Specify whether non-option actions can be returned.
          **/
         query_popup &allow_anykey( bool allow );
         /**
@@ -227,9 +226,11 @@ class query_popup
 
         struct button {
             button( const std::string &text, const point & );
+            bool contains( const point &p ) const;
 
             std::string text;
             point pos;
+            int width;
         };
 
         std::weak_ptr<ui_adaptor> adaptor;

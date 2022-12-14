@@ -37,6 +37,7 @@ enum class debug_menu_index : int {
     CHANGE_THEORY,
     LEARN_MA,
     UNLOCK_RECIPES,
+    UNLOCK_ALL,
     EDIT_PLAYER,
     CONTROL_NPC,
     SPAWN_ARTIFACT,
@@ -55,6 +56,7 @@ enum class debug_menu_index : int {
     DISPLAY_WEATHER,
     DISPLAY_SCENTS,
     CHANGE_TIME,
+    FORCE_TEMP,
     SET_AUTOMOVE,
     SHOW_MUT_CAT,
     OM_EDITOR,
@@ -95,6 +97,8 @@ enum class debug_menu_index : int {
     WRITE_GLOBAL_VARS,
     EDIT_GLOBAL_VARS,
     ACTIVATE_EOC,
+    WRITE_TIMED_EVENTS,
+    QUICKLOAD,
     last
 };
 
@@ -109,10 +113,10 @@ void wishproficiency( Character *you );
 void debug();
 
 /* Splits a string by @param delimiter and push_back's the elements into _Container */
-template<typename _Container>
-_Container string_to_iterable( const std::string &str, const std::string &delimiter )
+template<typename Container>
+Container string_to_iterable( const std::string &str, const std::string &delimiter )
 {
-    _Container res;
+    Container res;
 
     size_t pos = 0;
     size_t start = 0;
@@ -133,8 +137,8 @@ _Container string_to_iterable( const std::string &str, const std::string &delimi
  * @param delimiter between them
  * @param f is callable that is called to transform each value
  * */
-template<typename _Container, typename Mapper>
-std::string iterable_to_string( const _Container &values, const std::string &delimiter,
+template<typename Container, typename Mapper>
+std::string iterable_to_string( const Container &values, const std::string &delimiter,
                                 const Mapper &f )
 {
     std::string res;
@@ -147,8 +151,8 @@ std::string iterable_to_string( const _Container &values, const std::string &del
     return res;
 }
 
-template<typename _Container>
-std::string iterable_to_string( const _Container &values, const std::string &delimiter )
+template<typename Container>
+std::string iterable_to_string( const Container &values, const std::string &delimiter )
 {
     return iterable_to_string( values, delimiter, []( const std::string & f ) {
         return f;

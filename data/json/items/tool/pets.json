@@ -26,7 +26,7 @@
     "volume": "5 ml",
     "price": 1000,
     "price_postapoc": 100,
-    "material": [ "aluminum" ],
+    "material": [ "steel" ],
     "symbol": ";",
     "color": "yellow",
     "use_action": [ "DOG_WHISTLE" ]
@@ -45,7 +45,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "CUT", 1 ], [ "SHEAR", 1 ], [ "BUTCHER", 3 ] ],
+    "qualities": [ [ "CUT", 1 ], [ "FABRIC_CUT", 1 ], [ "SHEAR", 1 ], [ "BUTCHER", 3 ] ],
     "flags": [ "STAB" ]
   },
   {
@@ -62,8 +62,26 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "CUT", 1 ], [ "SHEAR", 1 ], [ "BUTCHER", 3 ] ],
+    "qualities": [ [ "CUT", 1 ], [ "FABRIC_CUT", 1 ], [ "SHEAR", 1 ], [ "BUTCHER", 3 ] ],
     "flags": [ "STAB" ]
+  },
+  {
+    "id": "bronze_shears",
+    "type": "TOOL",
+    "name": { "str_sp": "bronze shears" },
+    "description": "This is a set of forged single-piece bronze shears for cutting fabrics.  Made of two painstakingly sharpened blades connected by a carefully tempered twisted bridge.",
+    "weight": "900 g",
+    "volume": "750 ml",
+    "price": 500,
+    "price_postapoc": 250,
+    "to_hit": -1,
+    "cutting": 3,
+    "material": [ "bronze" ],
+    "symbol": ";",
+    "color": "yellow",
+    "looks_like": "forged_shears",
+    "qualities": [ [ "CUT", 1 ], [ "FABRIC_CUT", 1 ], [ "SHEAR", 1 ], [ "BUTCHER", 3 ] ],
+    "flags": [ "STAB", "FRAGILE_MELEE" ]
   },
   {
     "id": "elec_shears",
@@ -107,6 +125,36 @@
     "symbol": "M",
     "color": "yellow",
     "flags": [ "TACK" ]
+  },
+  {
+    "//": "https://primeusascales.com/product/sls-single-animal-livestock-scales/",
+    "id": "livestock_scale",
+    "type": "TOOL",
+    "name": { "str": "livestock scale" },
+    "symbol": "_",
+    "looks_like": "tr_rollmat",
+    "color": "light_gray",
+    "description": "A giant electronic scale with a rubber mat meant for weighing a single horse, cow, or other large animal.  You could also weigh yourself with it.",
+    "weight": "52800 g",
+    "volume": "40000 ml",
+    "longest_side": "196 cm",
+    "price": 1200000,
+    "price_postapoc": 50,
+    "to_hit": -8,
+    "bashing": 16,
+    "material": [ "steel", "rubber" ],
+    "ammo": [ "battery" ],
+    "use_action": { "type": "weigh_self", "max_weight": "2300 kg" },
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "charges_per_use": 1,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
+      }
+    ]
   },
   {
     "id": "pet_carrier",

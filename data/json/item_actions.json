@@ -20,6 +20,7 @@
     "name": { "str": "Start a fire quickly" }
   },
   {
+    "//": "Remove after 0.G.",
     "type": "item_action",
     "id": "HAMMER",
     "name": { "str": "Pry crate, window, door or nails" }
@@ -246,6 +247,11 @@
   },
   {
     "type": "item_action",
+    "id": "saw_stock",
+    "name": { "str": "Saw down stock" }
+  },
+  {
+    "type": "item_action",
     "id": "ACIDBOMB_ACT",
     "name": { "str": "Activate" }
   },
@@ -253,6 +259,11 @@
     "type": "item_action",
     "id": "ADRENALINE_INJECTOR",
     "name": { "str": "Inject" }
+  },
+  {
+    "type": "item_action",
+    "id": "AFS_TRANSLOCATOR",
+    "name": { "str": "Create a buoy" }
   },
   {
     "type": "item_action",
@@ -822,7 +833,7 @@
   {
     "type": "item_action",
     "id": "MANAGE_EXOSUIT",
-    "name": { "str": "Manage exoskeleton modules" }
+    "name": { "str": "Manage exosuit modules" }
   },
   {
     "type": "item_action",
@@ -908,11 +919,6 @@
     "type": "item_action",
     "id": "UNPACK_ITEM",
     "name": { "str": "Unpack" }
-  },
-  {
-    "type": "item_action",
-    "id": "VACCINE",
-    "name": { "str": "Inject" }
   },
   {
     "type": "item_action",
@@ -1031,11 +1037,6 @@
   },
   {
     "type": "item_action",
-    "id": "unfold_vehicle",
-    "name": { "str": "Unfold" }
-  },
-  {
-    "type": "item_action",
     "id": "install_bionic",
     "name": { "str": "Install bionic" }
   },
@@ -1096,7 +1097,17 @@
   },
   {
     "type": "item_action",
+    "id": "DBG_LUX_METER",
+    "name": { "str": "Measure light level" }
+  },
+  {
+    "type": "item_action",
     "id": "CALORIES_INTAKE_TRACKER",
     "name": { "str": "Calories intake tracker" }
+  },
+  {
+    "type": "item_action",
+    "id": "VOLTMETER",
+    "name": { "str": "Test for voltage" }
   }
 ]

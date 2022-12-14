@@ -1,0 +1,11 @@
+[
+  {
+    "id": "emit_changeling_mist",
+    "type": "emit",
+    "//": "Slow infrequent leak of changeling mist.  This should summon various changeling monsters similar to Angle Dog Fog.",
+    "field": "fd_mirrored",
+    "intensity": 3,
+    "qty": 10,
+    "chance": 15
+  }
+]
