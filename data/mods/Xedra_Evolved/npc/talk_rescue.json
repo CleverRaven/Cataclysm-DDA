@@ -24,7 +24,12 @@
     "text": "[Investigation 2] Are you feeling ok after all of this?  I can see some of your wounds.",
     "condition": { "and": [ { "npc_has_trait": [ "EGGSAC_SURVIVABLE", "EGGSAC_FATAL" ] }, { "u_has_deduction": 2 } ] },
     "effect": { "u_add_var": "u_knows_goblinspider_eggs", "type": "knowledge", "context": "reproduction", "value": "yes" },
-    "responses": [ { "text": "I can't help but thinking there is something different about some of these wounds.", "topic": "TALK_RESCUED_INFESTED" } ]
+    "responses": [
+      {
+        "text": "I can't help but thinking there is something different about some of these wounds.",
+        "topic": "TALK_RESCUED_INFESTED"
+      }
+    ]
   },
   {
     "id": "TALK_RESCUED_INFESTED",
