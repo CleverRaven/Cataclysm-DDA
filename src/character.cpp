@@ -5967,21 +5967,15 @@ units::mass Character::bodyweight() const
 
 units::mass Character::bodyweight_lean() const
 {
-    //assume a healthy 25 bmi human to be 80% lean mass, about 40% muscle and 40% non muscle for average strength.
-    //if a reasonably fit individual (10 strength) is at bmi 25, 5 of those bmis come from fat and the other 20 come from lean mass.
-    //therefore, assume 40% of the body at healthy weight is agnostic of muscle and fat, and determine the remaining BMI from the latter.
-    //just like in real life, this means being a 20 strength freak show means you are clinically obese, though not unhealthy (BMI sucks for a reason)
-    //so in summary this is what your weight would be at your given height, assuming you had 0% bodyfat.
     return units::from_kilogram( ( 10.0f + get_str_base() ) * std::pow( height() / 100.0f, 2 ) );
 }
 
 units::mass Character::bodyweight_fat() const
 {
-    //convert stored kcal into its total weight in fat kilos 3500 x 2.20462
     return units::from_kilogram( get_stored_kcal() / 7716.17 );
 }
 
-       units::mass Character::bionics_weight() const
+units::mass Character::bionics_weight() const
 {
     units::mass bio_weight = 0_gram;
     for( const bionic_id &bid : get_bionics() ) {
