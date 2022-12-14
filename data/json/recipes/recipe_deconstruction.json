@@ -2211,8 +2211,7 @@
       [ [ "light_plus_battery_cell", 1 ] ],
       [ [ "small_lcd_screen", 1 ] ],
       [ [ "mobile_memory_card", 1 ] ],
-      [ [ "processor", 1 ] ],
-      [ [ "lens_small", 1 ] ]
+      [ [ "processor", 1 ] ]
     ]
   },
   {
