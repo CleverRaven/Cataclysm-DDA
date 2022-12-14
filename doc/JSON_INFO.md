@@ -3849,17 +3849,15 @@ The contents of use_action fields can either be a string indicating a built-in f
 },
 "use_action": {
     "type": "firestarter", // Start a fire, like with a lighter.
-    "moves_cost": 15 // Number of moves it takes to start the fire.
+    "moves": 15 // Number of moves it takes to start the fire. This is reduced by survival skill.
+    "moves_slow": 1500 // Number of moves it takes to start a fire on something that is difficult to ignite. This is reduced by survival skill.
+    "need_sunlight": true // Whether the character needs to be in direct sunlight, e.g. to use magnifying glasses.
 },
 "use_action": {
     "type": "unpack", // unpack this item
     "group": "gobag_contents", // itemgroup this unpacks into
     "items_fit": true, // Do the armor items in this fit? Defaults to false.
     "filthy_volume_threshold": "10 L" // If the items unpacked from this item have volume, and this item is filthy, at what amount of held volume should they become filthy
-},
-"use_action": {
-    "type": "extended_firestarter", // Start a fire (like with magnifying glasses or a fire drill). This action can take many turns, not just some moves like firestarter, it can also be canceled (firestarter can't).
-    "need_sunlight": true // Whether the character needs to be in direct sunlight, e.g. to use magnifying glasses.
 },
 "use_action": {
     "type": "salvage", // Try to salvage base materials from an item, e.g. cutting up cloth to get rags or leather.
