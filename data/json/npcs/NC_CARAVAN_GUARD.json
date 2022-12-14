@@ -26,7 +26,7 @@
     "id": "NC_CARAVAN_GUARD_coat",
     "subtype": "distribution",
     "entries": [
-      { "item": "null", "prob": 20 },
+      { "item": "tshirt", "prob": 20 },
       { "item": "hoodie", "prob": 20 },
       { "item": "jacket_light", "prob": 20 },
       { "item": "jacket_windbreaker", "prob": 10 },
