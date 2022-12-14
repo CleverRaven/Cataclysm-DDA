@@ -484,7 +484,6 @@ void Character::update_bodytemp()
     for( const bodypart_id &bp : get_all_body_parts() ) {
         clothing_map.emplace( bp, std::vector<const item *>() );
     }
-
     // fat insulates and increases total heat production of body, but it should have a diminishing effect.
     // at 5 over healthy bmi (obese), it is ~5 warmth, at 20 over healthy bmi (morbid obesity) it is ~12 warmth
     // effects start to kick in halfway through overweightness
