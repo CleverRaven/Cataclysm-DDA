@@ -6417,7 +6417,9 @@ void Character::mod_stamina( int mod )
 void Character::burn_move_stamina( int moves )
 {
     int overburden_percentage = 0;
-    units::mass current_weight = weight_carried() + bodyweight_fat() / 2;
+    //add half the difference between current stored kcal weight and healthy stored kcal weight to weight of carried gear
+    units::mass fat_penalty = units::from_kilogram( 0.5f * std::max ( 0, ( get_healthy_kcal() - get_stored_kcal() ) / 7716.17 ) );
+    units::mass current_weight = weight_carried() + fat_penalty;
     // Make it at least 1 gram to avoid divide-by-zero warning
     units::mass max_weight = std::max( weight_capacity(), 1_gram );
     if( current_weight > max_weight ) {
