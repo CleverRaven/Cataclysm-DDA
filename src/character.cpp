@@ -5977,11 +5977,11 @@ units::mass Character::bodyweight_lean() const
 
 units::mass Character::bodyweight_fat() const
 {
-    //convert stored kcal into its total weight in fat kilos 3500 * 2.20462
-    return units::from_kilogram( get_stored_kcal() / 7716.17f );
+    //convert stored kcal into its total weight in fat kilos 3500 x 2.20462
+    return units::from_kilogram( get_stored_kcal() / 7716.17 );
 }
 
-       units::mass Character::bionics_weight() const
+units::mass Character::bionics_weight() const
 {
     units::mass bio_weight = 0_gram;
     for( const bionic_id &bid : get_bionics() ) {
