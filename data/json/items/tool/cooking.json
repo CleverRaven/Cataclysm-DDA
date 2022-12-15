@@ -400,7 +400,7 @@
     "price_postapoc": 700,
     "to_hit": -1,
     "bashing": 10,
-    "material": [ { "type": "plastic", "portion": 50 }, { "type": "steel" } ],
+    "material": [ "plastic", "steel" ],
     "symbol": "%",
     "color": "white",
     "ammo": [ "battery" ],

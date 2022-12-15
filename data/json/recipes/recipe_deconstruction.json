@@ -101,7 +101,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "12 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "copper", 3 ] ] ]
+    "components": [ [ [ "copper", 4 ] ] ]
   },
   {
     "result": "copper_locket",

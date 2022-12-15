@@ -2499,7 +2499,6 @@
   {
     "id": "fc_hairpin",
     "type": "TOOL_ARMOR",
-    "category": "clothing",
     "copy-from": "hairpin",
     "color": "pink",
     "name": { "str": "fancy hairpin" },

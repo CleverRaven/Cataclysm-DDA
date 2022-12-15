@@ -902,7 +902,6 @@
     "name": { "str": "gold hairpin" },
     "description": "A gold hairpin, designed by the rich, for the rich.",
     "copy-from": "hairpin",
-    "weight": "200 mg",
     "price": 5000,
     "price_postapoc": 25,
     "material": [ "gold" ],
