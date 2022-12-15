@@ -34,7 +34,7 @@
     "id": "electric_turret",
     "type": "SPELL",
     "name": { "str": "Thunder Pillar" },
-    "description": "Summon an immovable pillars, that will attack your enemies with devastating lightnings.",
+    "description": "Summon immovable pillars, that will attack your enemies with devastating lightning bolts.",
     "valid_targets": [ "ground" ],
     "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE", "RANDOM_TARGET" ],
     "effect": "summon",

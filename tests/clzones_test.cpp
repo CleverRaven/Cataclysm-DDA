@@ -13,6 +13,7 @@
 #include "ret_val.h"
 #include "type_id.h"
 
+static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
 static const faction_id faction_your_followers( "your_followers" );
 
 static const itype_id itype_556( "556" );
@@ -23,6 +24,7 @@ static const zone_type_id zone_type_LOOT_DRINK( "LOOT_DRINK" );
 static const zone_type_id zone_type_LOOT_FOOD( "LOOT_FOOD" );
 static const zone_type_id zone_type_LOOT_PDRINK( "LOOT_PDRINK" );
 static const zone_type_id zone_type_LOOT_PFOOD( "LOOT_PFOOD" );
+static const zone_type_id zone_type_LOOT_UNSORTED( "LOOT_UNSORTED" );
 static const zone_type_id zone_type_zone_unload_all( "zone_unload_all" );
 
 static int count_items_or_charges( const tripoint src, const itype_id &id )
@@ -52,7 +54,9 @@ TEST_CASE( "zone unloading ammo belts", "[zones][items][ammo_belt][activities][u
     clear_map();
 
     tripoint_abs_ms const start = here.getglobal( tripoint_east );
+    bool const move_act = GENERATE( true, false );
     dummy.set_location( start );
+    create_tile_zone( "Unsorted", zone_type_LOOT_UNSORTED, start.raw() );
     create_tile_zone( "Unload All", zone_type_zone_unload_all, start.raw() );
 
     item ammo_belt = item( itype_belt223, calendar::turn );
@@ -63,8 +67,11 @@ TEST_CASE( "zone unloading ammo belts", "[zones][items][ammo_belt][activities][u
 
     WHEN( "unloading ammo belts using zone_unload_all " ) {
         here.add_item_or_charges( tripoint_east, ammo_belt );
-        dummy.assign_activity(
-            player_activity( unload_loot_activity_actor() ) );
+        if( move_act ) {
+            dummy.assign_activity( player_activity( ACT_MOVE_LOOT ) );
+        } else {
+            dummy.assign_activity( player_activity( unload_loot_activity_actor() ) );
+        }
         process_activity( dummy );
 
         THEN( "check that the ammo and linkages are both unloaded and the ammo belt is removed" ) {
