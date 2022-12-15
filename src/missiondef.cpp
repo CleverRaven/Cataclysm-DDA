@@ -195,7 +195,6 @@ static const std::map<std::string, std::function<void( mission * )>> mission_fun
         { "standard", { } },
         { "kill_nemesis", mission_start::kill_nemesis },
         { "place_npc_software", mission_start::place_npc_software },
-        { "place_priest_diary", mission_start::place_priest_diary },
         { "place_deposit_box", mission_start::place_deposit_box },
         { "find_safety", mission_start::find_safety },
         { "place_book", mission_start::place_book },

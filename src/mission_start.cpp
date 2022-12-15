@@ -39,11 +39,6 @@ static const mission_type_id
 mission_MISSION_GET_ZOMBIE_BLOOD_ANAL( "MISSION_GET_ZOMBIE_BLOOD_ANAL" );
 
 static const mtype_id mon_zombie( "mon_zombie" );
-static const mtype_id mon_zombie_brute( "mon_zombie_brute" );
-static const mtype_id mon_zombie_dog( "mon_zombie_dog" );
-static const mtype_id mon_zombie_hulk( "mon_zombie_hulk" );
-static const mtype_id mon_zombie_master( "mon_zombie_master" );
-static const mtype_id mon_zombie_necro( "mon_zombie_necro" );
 
 static const overmap_special_id overmap_special_evac_center( "evac_center" );
 
@@ -188,27 +183,6 @@ void mission_start::place_npc_software( mission *miss )
                         dev->get_name() ), 0 );
     tmpcomp->set_mission( miss->get_id() );
     tmpcomp->add_option( _( "Download Software" ), COMPACT_DOWNLOAD_SOFTWARE, 0 );
-    compmap.save();
-}
-
-void mission_start::place_priest_diary( mission *miss )
-{
-    const tripoint_abs_omt place = mission_util::random_house_in_closest_city();
-    miss->target = place;
-    overmap_buffer.reveal( place, 2 );
-    tinymap compmap;
-    compmap.load( project_to<coords::sm>( place ), false );
-
-    std::vector<tripoint> valid;
-    for( const tripoint &p : compmap.points_on_zlevel() ) {
-        if( compmap.furn( p ) == f_bed || compmap.furn( p ) == f_dresser ||
-            compmap.furn( p ) == f_indoor_plant || compmap.furn( p ) == f_cupboard ) {
-            valid.push_back( p );
-        }
-    }
-    const tripoint fallback( rng( 6, SEEX * 2 - 7 ), rng( 6, SEEY * 2 - 7 ), place.z() );
-    const tripoint comppoint = random_entry( valid, fallback );
-    compmap.spawn_item( comppoint, "priest_diary" );
     compmap.save();
 }
 
