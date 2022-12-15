@@ -5873,7 +5873,7 @@
     "type": "TOOL_ARMOR",
     "name": { "str": "nomad plate armor (on)", "str_pl": "nomad plate armors (on)" },
     "revert_to": "armor_nomad_plate",
-    "power_draw": "100 J",
+    "power_draw": "100 W",
     "use_action": {
       "ammo_scale": 0,
       "type": "transform",
@@ -5949,7 +5949,7 @@
     "type": "TOOL_ARMOR",
     "name": { "str": "nomad light plate armor (on)", "str_pl": "nomad light plate armors (on)" },
     "revert_to": "armor_nomad_lightplate",
-    "power_draw": "100 J",
+    "power_draw": "100 W",
     "use_action": {
       "ammo_scale": 0,
       "type": "transform",
@@ -6025,7 +6025,7 @@
     "type": "TOOL_ARMOR",
     "name": { "str": "nomad heavy plate armor (on)", "str_pl": "nomad heavy plate armors (on)" },
     "revert_to": "armor_nomad_heavyplate",
-    "power_draw": "100 J",
+    "power_draw": "100 W",
     "use_action": {
       "ammo_scale": 0,
       "type": "transform",

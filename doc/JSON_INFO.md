@@ -92,7 +92,7 @@ Use the `Home` key to return to the top.
     - [Vehicle Groups](#vehicle-groups)
     - [Vehicle Parts](#vehicle-parts)
       - [Symbols and Variants](#symbols-and-variants)
-      - [The following optional fields are specific to CARGO or FLUIDTANK parts.](#the-following-optional-fields-are-specific-to-cargo-or-fluidtank-parts)
+      - [The following optional fields are specific to CARGO parts.](#the-following-optional-fields-are-specific-to-cargo-parts)
       - [The following optional fields are specific to ENGINEs.](#the-following-optional-fields-are-specific-to-engines)
       - [The following optional fields are specific to WHEELs.](#the-following-optional-fields-are-specific-to-wheels)
       - [The following optional fields are specific to ROTORs.](#the-following-optional-fields-are-specific-to-rotors)
@@ -2590,6 +2590,13 @@ Vehicle components when installed on a vehicle.
                               // must have one of symbol, symbols, or standard_symbols
 "looks_like": "small_wheel",  // (Optional) hint to tilesets if this part has no tile,
                               // use the looks_like tile.
+"bonus": 100,                 // Function depends on part type:
+                              // seatbelt part is in "str" (non-functional #30239)
+                              // muffler part is % noise reduction
+                              // horn part volume
+                              // light part intensity
+                              // recharger part charging speed in watts
+                              // funnel part water collection area in mm^2
 "color": "dark_gray",         // Color used when part is working
 "broken_symbol": "x",         // ASCII character displayed when part is broken
 "broken_color": "light_gray", // Color used when part is broken
@@ -2680,17 +2687,16 @@ Otherwise, variants can use any of the following suffices:
 ```
 
 Unless specified as optional, the following fields are mandatory for parts with appropriate flag and are ignored otherwise.
-#### The following optional fields are specific to CARGO or FLUIDTANK parts.
+#### The following optional fields are specific to CARGO parts.
 ```c++
-"size": 2000,                 // with flag "FLUIDTANK" this is capacity in mLs,
-                              // else with "CARGO" flag the capacity in 250mL volume units.
+"size": "400 L",              // for parts with "CARGO" flag the capacity in liters
 "cargo_weight_modifier": 33,  // (Optional, default = 100) Multiplies cargo weight by this percentage.
 ```
 
 #### The following optional fields are specific to ENGINEs.
 ```c++
 "power": 15000                // Engine motive power in watts.
-"energy_consumption": 17500   // Engine power consumption at maximum power in watts.  Defaults to
+"energy_consumption": "55 W"  // Engine power consumption at maximum power in watts.  Defaults to
                               // electrical power and the E_COMBUSTION flag turns it to thermal
                               // power produced from fuel_type.  Should always be larger than "power".
 "m2c": 50,                    // The ratio of safe power to maximum power.
@@ -3599,7 +3605,7 @@ Alternately, every item (book, tool, armor, even food) can be used as a gunmod i
 "initial_charges": 75,     // Charges when spawned
 "max_charges": 75,         // Maximum charges tool can hold
 "rand_charges": [10, 15, 25], // Randomize the charges when spawned. This example has a 50% chance of rng(10, 15) charges and a 50% chance of rng(15, 25). (The endpoints are included.)
-"power_draw": "50 mJ",          // Energy consumption per second
+"power_draw": "50 mW",          // Energy consumption per second
 "revert_to": "torch_done", // Transforms into item when charges are expended
 "sub": "hotplate",         // optional; this tool has the same functions as another tool
 ```
@@ -3843,17 +3849,15 @@ The contents of use_action fields can either be a string indicating a built-in f
 },
 "use_action": {
     "type": "firestarter", // Start a fire, like with a lighter.
-    "moves_cost": 15 // Number of moves it takes to start the fire.
+    "moves": 15 // Number of moves it takes to start the fire. This is reduced by survival skill.
+    "moves_slow": 1500 // Number of moves it takes to start a fire on something that is difficult to ignite. This is reduced by survival skill.
+    "need_sunlight": true // Whether the character needs to be in direct sunlight, e.g. to use magnifying glasses.
 },
 "use_action": {
     "type": "unpack", // unpack this item
     "group": "gobag_contents", // itemgroup this unpacks into
     "items_fit": true, // Do the armor items in this fit? Defaults to false.
     "filthy_volume_threshold": "10 L" // If the items unpacked from this item have volume, and this item is filthy, at what amount of held volume should they become filthy
-},
-"use_action": {
-    "type": "extended_firestarter", // Start a fire (like with magnifying glasses or a fire drill). This action can take many turns, not just some moves like firestarter, it can also be canceled (firestarter can't).
-    "need_sunlight": true // Whether the character needs to be in direct sunlight, e.g. to use magnifying glasses.
 },
 "use_action": {
     "type": "salvage", // Try to salvage base materials from an item, e.g. cutting up cloth to get rags or leather.
