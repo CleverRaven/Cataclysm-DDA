@@ -2071,6 +2071,8 @@ bool vehicle::remove_carried_vehicle( const std::vector<int> &carried_parts,
 
     std::vector<point> new_mounts;
     new_vehicle->name = carried_pivot->veh_name;
+    new_vehicle->owner = owner;
+    new_vehicle->old_owner = old_owner;
     for( int carried_part : carried_parts ) {
         const vehicle_part &pt = parts[carried_part];
         tripoint mount;
@@ -2288,6 +2290,8 @@ bool vehicle::split_vehicles( map &here,
                 added_vehicles->emplace_back( new_vehicle );
             }
             new_vehicle->name = name;
+            new_vehicle->owner = owner;
+            new_vehicle->old_owner = old_owner;
             new_vehicle->move = move;
             new_vehicle->turn_dir = turn_dir;
             new_vehicle->velocity = velocity;
@@ -4591,7 +4595,7 @@ units::energy vehicle::engine_fuel_usage( int e ) const
     }
     const vpart_info &info = part_info( engines[ e ] );
 
-    units::energy usage = info.energy_consumption;
+    units::energy usage = info.energy_consumption * 1_seconds;
     if( parts[ engines[ e ] ].has_fault_flag( "DOUBLE_FUEL_CONSUMPTION" ) ) {
         usage *= 2;
     }
@@ -5134,19 +5138,18 @@ vehicle *vehicle::find_vehicle( const tripoint &where )
     return nullptr;
 }
 
-void vehicle::enumerate_vehicles( std::map<vehicle *, bool> &connected_vehicles,
-                                  std::set<vehicle *> &vehicle_list )
+std::map<vehicle *, bool> vehicle::enumerate_vehicles( const std::set<vehicle *> &origins )
 {
-    auto enumerate_visitor = [&connected_vehicles]( vehicle * veh, int amount, int ) {
-        // Only emplaces if element is not present already.
-        connected_vehicles.emplace( veh, false );
+    std::map<vehicle *, bool> result; // the bool represents if vehicle ptr is in origins set
+    const auto enumerate_visitor = [&result]( vehicle * veh, int amount, int /* loss_amount */ ) {
+        result.emplace( veh, false ); // only add if element is not present already.
         return amount;
     };
-    for( vehicle *veh : vehicle_list ) {
-        // This autovivifies, and also overwrites the value if already present.
-        connected_vehicles[veh] = true;
+    for( vehicle *veh : origins ) {
+        result[veh] = true; // add or overwrite the value
         traverse_vehicle_graph( veh, 1, enumerate_visitor );
     }
+    return result;
 }
 
 template <typename Func, typename Vehicle>
@@ -7466,8 +7469,8 @@ void vehicle::update_time( const time_point &update_to )
             continue;
         }
 
-        double area = std::pow( pt.info().size / units::legacy_volume_factor, 2 ) * M_PI;
-        int qty = roll_remainder( funnel_charges_per_turn( area, accum_weather.rain_amount ) );
+        const double area_in_mm2 = std::pow( pt.info().bonus, 2 ) * M_PI;
+        const int qty = roll_remainder( funnel_charges_per_turn( area_in_mm2, accum_weather.rain_amount ) );
         int c_qty = qty + ( tank->can_reload( water_clean ) ?  tank->ammo_remaining() : 0 );
         int cost_to_purify = c_qty * item::find_type( itype_pseudo_water_purifier )->charges_to_use();
 
@@ -7811,11 +7814,12 @@ bool vehicle::refresh_zones()
             tripoint zone_pos = global_part_pos3( part_idx );
             zone_pos = here.getabs( zone_pos );
             //Set the position of the zone to that part
-            zone.set_position( std::pair<tripoint, tripoint>( zone_pos, zone_pos ), false, false );
+            zone.set_position( std::pair<tripoint, tripoint>( zone_pos, zone_pos ), false, false, true );
             new_zones.emplace( z.first, zone );
         }
         loot_zones = new_zones;
         zones_dirty = false;
+        zone_manager::get_manager().cache_data( false );
         return true;
     }
     return false;

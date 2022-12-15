@@ -235,6 +235,7 @@
     "default_faction": "science",
     "speed": 190,
     "color": "light_gray",
+    "scents_tracked": [ "sc_human" ],
     "melee_skill": 2,
     "melee_dice": 1,
     "melee_dice_sides": 4,
@@ -247,7 +248,7 @@
     "revert_to_itype": "bot_bloodhound_drone",
     "death_drops": { "groups": [ [ "robots", 4 ], [ "manhack", 1 ], [ "turret_searchlight", 1 ] ] },
     "death_function": { "corpse_type": "BROKEN" },
-    "extend": { "flags": [ "HIT_AND_RUN" ] }
+    "extend": { "flags": [ "HIT_AND_RUN", "SMELLS" ] }
   },
   {
     "id": "mon_utilibot",
@@ -382,6 +383,7 @@
     "volume": "750 ml",
     "weight": "1 kg",
     "color": "light_gray",
+    "scents_tracked": [ "sc_human" ],
     "speed": 100,
     "attack_cost": 500,
     "hp": 10,
@@ -393,7 +395,7 @@
     "melee_dice": 2,
     "melee_dice_sides": 2,
     "special_attacks": [ { "type": "leap", "cooldown": 2, "move_cost": 0, "max_range": 2, "min_consider_range": 3 }, [ "TAZER", 10 ] ],
-    "extend": { "flags": [ "CLIMBS", "HIT_AND_RUN" ] }
+    "extend": { "flags": [ "CLIMBS", "HIT_AND_RUN", "SMELLS" ] }
   },
   {
     "id": "mon_skitterbot_grab",
@@ -403,6 +405,7 @@
     "description": "A salvaged skitterbot repurposed to grab onto and immobilize enemies.  It's meant to work in a pack.",
     "aggression": 50,
     "color": "light_green",
+    "scents_tracked": [ "sc_human" ],
     "speed": 200,
     "hp": 30,
     "armor_bash": 8,
@@ -414,7 +417,7 @@
     "melee_dice_sides": 2,
     "attack_effs": [ { "id": "downed", "chance": 20, "duration": 5 } ],
     "special_attacks": [ [ "GRAB", 1 ] ],
-    "extend": { "flags": [ "SWARMS", "GRABS", "GROUP_BASH" ] }
+    "extend": { "flags": [ "SWARMS", "GRABS", "GROUP_BASH", "SMELLS" ] }
   },
   {
     "id": "mon_skitterbot_hunter",
@@ -423,6 +426,7 @@
     "name": "pest hunter",
     "description": "A salvaged skitterbot refitted with an 8mm integrated firearm.  The robot's small size precludes rapid-fire, due to recoil, and requires the use of lightweight caseless ammo.",
     "color": "dark_gray",
+    "scents_tracked": [ "sc_human" ],
     "aggression": 50,
     "speed": 200,
     "hp": 30,

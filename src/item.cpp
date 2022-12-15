@@ -2311,7 +2311,7 @@ void item::med_info( const item *med_item, std::vector<iteminfo> &info, const it
     }
 
     if( med_com->stim != 0 && parts->test( iteminfo_parts::MED_STIMULATION ) ) {
-        std::string name = string_format( "%s <stat>%s</stat>", _( "Stimulation:" ),
+        std::string name = string_format( "%s<stat>%s</stat>", _( "Stimulation: " ),
                                           med_com->stim > 0 ? _( "Upper" ) : _( "Downer" ) );
         info.emplace_back( "MED", name );
     }
@@ -3916,7 +3916,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             item tmp = *this;
 
             //no need to clutter the ui with inactive versions when the armor is already active
-            if( !( active || ( type->tool && type->tool->power_draw > 0_J ) ) ) {
+            if( !( active || ( type->tool && type->tool->power_draw > 0_W ) ) ) {
                 bool print_prot = true;
                 if( parts->test( iteminfo_parts::ARMOR_PROTECTION ) ) {
                     print_prot = !tmp.armor_full_protection_info( info, parts );
@@ -5286,7 +5286,7 @@ void item::properties_info( std::vector<iteminfo> &info, const iteminfo_query *p
                 not_rigid = true;
             }
         }
-        if( !not_rigid && !all_pockets_rigid() ) {
+        if( !not_rigid && !all_pockets_rigid() && !is_corpse() ) {
             info.emplace_back( "BASE",
                                _( "* This items pockets are <info>not rigid</info>.  Its"
                                   " volume increases with contents." ) );
@@ -6742,7 +6742,7 @@ std::string item::display_name( unsigned int quantity ) const
 
 bool item::is_collapsed() const
 {
-    return !contents.get_pockets( []( item_pocket const & pocket ) {
+    return !contents.empty() && !contents.get_pockets( []( item_pocket const & pocket ) {
         return pocket.settings.is_collapsed() && pocket.is_standard_type();
     } ).empty();
 }
@@ -10291,9 +10291,14 @@ ret_val<void> item::is_compatible( const item &it ) const
     return contents.is_compatible( it );
 }
 
-ret_val<void> item::can_contain( const item &it, const bool nested,
-                                 const bool ignore_rigidity, const bool ignore_pkt_settings,
-                                 const item_location &parent_it, units::volume remaining_parent_volume ) const
+ret_val<void> item::can_contain_directly( const item &it ) const
+{
+    return can_contain( it, false, false, true, item_location(), 10000000_ml, false );
+}
+
+ret_val<void> item::can_contain( const item &it, const bool nested, const bool ignore_rigidity,
+                                 const bool ignore_pkt_settings, const item_location &parent_it,
+                                 units::volume remaining_parent_volume, const bool allow_nested ) const
 {
     if( this == &it || ( parent_it.where() != item_location::type::invalid &&
                          this == parent_it.get_item() ) ) {
@@ -10310,31 +10315,33 @@ ret_val<void> item::can_contain( const item &it, const bool nested,
         return ret_val<void>::make_failure();
     }
 
-    for( const item_pocket *pkt : contents.get_all_contained_pockets() ) {
-        if( pkt->empty() ) {
-            continue;
-        }
-
-        // early exit for max length no nested item is gonna fix this
-        if( pkt->max_containable_length() < it.length() ) {
-            continue;
-        }
-
-        // If the current pocket has restrictions or blacklists the item,
-        // try the nested pocket regardless of whether it's soft or rigid.
-        const bool ignore_nested_rigidity =
-            !pkt->settings.accepts_item( it ) ||
-            !pkt->get_pocket_data()->get_flag_restrictions().empty();
-        for( const item *internal_it : pkt->all_items_top() ) {
-            if( parent_it.where() != item_location::type::invalid && internal_it == parent_it.get_item() ) {
+    if( allow_nested ) {
+        for( const item_pocket *pkt : contents.get_all_contained_pockets() ) {
+            if( pkt->empty() ) {
                 continue;
             }
-            if( !internal_it->is_container() ) {
+
+            // early exit for max length no nested item is gonna fix this
+            if( pkt->max_containable_length() < it.length() ) {
                 continue;
             }
-            if( internal_it->can_contain( it, true, ignore_nested_rigidity, ignore_pkt_settings,
-                                          parent_it, pkt->remaining_volume() ).success() ) {
-                return ret_val<void>::make_success();
+
+            // If the current pocket has restrictions or blacklists the item,
+            // try the nested pocket regardless of whether it's soft or rigid.
+            const bool ignore_nested_rigidity =
+                !pkt->settings.accepts_item( it ) ||
+                !pkt->get_pocket_data()->get_flag_restrictions().empty();
+            for( const item *internal_it : pkt->all_items_top() ) {
+                if( parent_it.where() != item_location::type::invalid && internal_it == parent_it.get_item() ) {
+                    continue;
+                }
+                if( !internal_it->is_container() ) {
+                    continue;
+                }
+                if( internal_it->can_contain( it, true, ignore_nested_rigidity, ignore_pkt_settings,
+                                              parent_it, pkt->remaining_volume() ).success() ) {
+                    return ret_val<void>::make_success();
+                }
             }
         }
     }
@@ -10816,8 +10823,9 @@ int item::ammo_remaining( const Character *carrier ) const
         ret += units::to_kilojoule( carrier->get_power_level() );
     }
 
+    std::set<ammotype> ammo = ammo_types();
     // Non ammo using item that uses charges
-    if( ammo_types().empty() ) {
+    if( ammo.empty() ) {
         ret += charges;
     }
 
@@ -10836,9 +10844,11 @@ int item::ammo_remaining( const Character *carrier ) const
     }
 
     // Handle non-magazines with ammo_restriction in a CONTAINER type pocket (like quivers)
-    if( !ammo_types().empty() ) {
+    if( !( mag || is_magazine() || ammo.empty() ) ) {
         for( const item *e : contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
-            ret += e->charges;
+            if( e->is_ammo() && ammo.find( e->ammo_type() ) != ammo.end() ) {
+                ret += e->charges;
+            }
         }
     }
     return ret;
@@ -10958,8 +10968,8 @@ int item::ammo_consume( int qty, const tripoint &pos, Character *carrier )
 
     // Consume UPS power from various sources
     if( carrier != nullptr && has_flag( flag_USE_UPS ) ) {
-        units::energy power_draw = units::from_kilojoule( qty );
-        qty -= units::to_kilojoule( carrier->consume_ups( power_draw ) );
+        units::energy energy_draw = units::from_kilojoule( qty );
+        qty -= units::to_kilojoule( carrier->consume_ups( energy_draw ) );
     }
 
     // Consume bio pwr directly
@@ -13328,7 +13338,7 @@ bool item::process_tool( Character *carrier, const tripoint &pos )
 
     avatar &player_character = get_avatar();
     // if insufficient available charges shutdown the tool
-    if( ( type->tool->turns_per_charge > 0 || type->tool->power_draw > 0_J ) &&
+    if( ( type->tool->turns_per_charge > 0 || type->tool->power_draw > 0_W ) &&
         ammo_remaining( carrier ) == 0 ) {
         if( carrier && has_flag( flag_USE_UPS ) ) {
             carrier->add_msg_if_player( m_info, _( "You need an UPS to run the %s!" ), tname() );
@@ -13352,12 +13362,12 @@ bool item::process_tool( Character *carrier, const tripoint &pos )
     if( type->tool->turns_per_charge > 0 &&
         to_turn<int>( calendar::turn ) % type->tool->turns_per_charge == 0 ) {
         energy = std::max( ammo_required(), 1 );
-    } else if( type->tool->power_draw > 0_J ) {
+    } else if( type->tool->power_draw > 0_W ) {
         // kJ (battery unit) per second
-        energy = units::to_kilojoule( type->tool->power_draw );
+        energy = units::to_kilowatt( type->tool->power_draw );
         // energy_bat remainder results in chance at additional charge/discharge
-        const int kj_in_mj = units::to_millijoule( 1_kJ );
-        energy += x_in_y( units::to_millijoule( type->tool->power_draw ) % kj_in_mj, kj_in_mj ) ? 1 : 0;
+        const int kw_in_mw = units::to_milliwatt( 1_kW );
+        energy += x_in_y( units::to_milliwatt( type->tool->power_draw ) % kw_in_mw, kw_in_mw ) ? 1 : 0;
     }
 
     if( energy > 0 ) {
@@ -13517,7 +13527,7 @@ bool item::process_internal( map &here, Character *carrier, const tripoint &pos,
             return true;
         }
     } else {
-        // guns are never active so we only need thick this on inactive items. For performance reasons.
+        // guns are never active so we only need to tick this on inactive items. For performance reasons.
         if( has_fault_flag( flag_BLACKPOWDER_FOULING_DAMAGE ) ) {
             return process_blackpowder_fouling( carrier );
         }
@@ -14146,7 +14156,8 @@ units::volume item::check_for_free_space() const
             volume += container->check_for_free_space();
 
             for( const item_pocket *pocket : containedPockets ) {
-                if( pocket->rigid() && ( pocket->empty() || pocket->contains_phase( phase_id::SOLID ) ) ) {
+                if( pocket->rigid() && ( pocket->empty() || pocket->contains_phase( phase_id::SOLID ) ) &&
+                    pocket->get_pocket_data()->ammo_restriction.empty() ) {
                     volume += pocket->remaining_volume();
                 }
             }

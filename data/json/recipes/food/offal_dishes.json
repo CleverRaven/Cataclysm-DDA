@@ -252,7 +252,7 @@
     "components": [
       [ [ "meat_liver", 8, "LIST" ] ],
       [ [ "edible_fat", 2, "LIST" ], [ "edible_lard", 2, "LIST" ] ],
-      [ [ "powder_eggs", 10 ], [ "eggs_bird", 2, "LIST" ] ],
+      [ [ "powder_eggs", 2 ], [ "eggs_bird", 2, "LIST" ] ],
       [ [ "onion", 1 ], [ "irradiated_onion", 1 ] ],
       [ [ "flour_any", 2, "LIST" ] ],
       [ [ "salt", 3 ] ],

@@ -128,7 +128,7 @@
     "coverage": 80,
     "required_str": -1,
     "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "compact_ASRG_containment" },
-    "flags": [ "NOITEM", "SEALED", "REDUCE_SCENT", "PERMEABLE", "EASY_DECONSTRUCT" ],
+    "flags": [ "NOITEM", "SEALED", "REDUCE_SCENT", "PERMEABLE", "EASY_DECONSTRUCT", "ACTIVE_GENERATOR" ],
     "bash": {
       "str_min": 70,
       "str_max": 400,
@@ -533,6 +533,74 @@
         { "item": "amplifier", "prob": 40 },
         { "item": "plastic_chunk", "count": [ 2, 8 ] },
         { "item": "scrap", "count": [ 3, 8 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_nuclear_fuel_cell",
+    "name": "nuclear fuel cell",
+    "looks_like": "t_machinery_heavy",
+    "description": "This fuel assembly consists of cylindrical rods put into bundles.  A uranium oxide ceramic is formed into pellets and inserted into Zircaloy tubes that are bundled together.  The Zircaloy tubes are pressurized with helium to try to minimize pellet-cladding interaction which can lead to fuel rod failure over long periods.  This fuel cell is used in nuclear power stations to produce heat to power turbines.",
+    "symbol": "|",
+    "color": "light_gray",
+    "coverage": 80,
+    "move_cost_mod": 6,
+    "max_volume": "800 L",
+    "emissions": [ "emit_rad_leak" ],
+    "required_str": -1,
+    "flags": [ "SEALED", "REDUCE_SCENT", "PERMEABLE", "CONTAINER", "FLAMMABLE" ],
+    "bash": {
+      "str_min": 8,
+      "str_max": 45,
+      "explosive": 10,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "furn_set": "f_reactor_meltdown",
+      "items": [
+        { "item": "scrap", "count": [ 4, 16 ] },
+        { "item": "steel_chunk", "count": [ 1, 6 ] },
+        { "item": "uranium", "charges": [ 10, 50 ] },
+        { "item": "uran_cell", "charges": [ 10, 150 ] },
+        { "item": "plutonium", "charges": [ 0, 20 ] },
+        { "item": "lead", "charges": [ 12, 18 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_active_backup_generator",
+    "name": "active backup generator",
+    "looks_like": "t_plut_generator",
+    "description": "A ubiquitous piece of compact machinery meant for running anything from the bathroom lights to electric stoves and other necessities when grid electricity is unavailable.  This one is currently running.  You can hear it humming slightly when you are very close.",
+    "symbol": "0",
+    "color": "green_white",
+    "move_cost_mod": -1,
+    "coverage": 80,
+    "required_str": 8,
+    "flags": [ "NOITEM", "SEALED", "REDUCE_SCENT", "PERMEABLE", "ACTIVE_GENERATOR" ],
+    "bash": {
+      "str_min": 5,
+      "str_max": 40,
+      "explosive": 10,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 8, 38 ] },
+        { "item": "steel_chunk", "count": [ 1, 6 ] },
+        { "item": "sheet_metal", "count": [ 1, 4 ] },
+        { "item": "jp8", "charges": [ 1000, 10000 ], "container-item": "jerrycan_big", "prob": 25 },
+        { "item": "i4_diesel", "prob": 10 },
+        { "item": "bearing", "charges": [ 5, 60 ] }
+      ]
+    },
+    "deconstruct": {
+      "items": [
+        { "item": "scrap", "count": [ 5, 15 ] },
+        { "item": "sheet_metal", "count": [ 4, 6 ] },
+        { "item": "jp8", "charges": [ 1000, 10000 ], "container-item": "jerrycan_big" },
+        { "item": "i4_diesel" },
+        { "item": "bearing", "charges": [ 5, 40 ] }
       ]
     }
   }
