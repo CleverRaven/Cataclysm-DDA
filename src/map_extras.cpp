@@ -64,7 +64,7 @@
 
 static const flag_id json_flag_FILTHY( "FILTHY" );
 
-static const furn_str_id furn_f_compact_ASRG_containment( "f_compact_ASRG_containment" );
+static const furn_str_id furn_f_active_backup_generator( "f_active_backup_generator" );
 static const furn_str_id furn_f_sign_warning( "f_sign_warning" );
 
 static const item_group_id Item_spawn_data_ammo_casings( "ammo_casings" );
