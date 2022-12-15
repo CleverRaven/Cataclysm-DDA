@@ -46,13 +46,13 @@ static void set_player_bmi( Character &dummy, float bmi )
 }
 
 // Return the player's `get_bmi_fat` at `kcal_percent` (actually a ratio of stored_kcal to healthy_kcal)
-static float bmi_at_kcal_ratio( Character &dummy, float kcal_percent )
-{
-    dummy.set_stored_kcal( dummy.get_healthy_kcal() * kcal_percent );
-    REQUIRE( dummy.get_kcal_percent() == Approx( kcal_percent ).margin( 0.001f ) );
-
-    return dummy.get_bmi_fat();
-}
+//static float bmi_at_kcal_ratio( Character &dummy, float kcal_percent )
+//{
+//    dummy.set_stored_kcal( dummy.get_healthy_kcal() * kcal_percent );
+//    REQUIRE( dummy.get_kcal_percent() == Approx( kcal_percent ).margin( 0.001f ) );
+//
+//    return dummy.get_bmi_fat();
+//}
 
 // Return the player's `get_bmi` at `kcal_percent` (actually a ratio of stored_kcal to healthy_kcal)
 static float true_bmi_at_kcal_ratio( Character &dummy, float kcal_percent )
