@@ -2489,25 +2489,25 @@
     "color": "brown",
     "name": { "str": "hairpin" },
     "description": "A plain hairpin to keep your hair in place.",
-    "price": 50,
-    "price_postapoc": 25,
-    "material": [ "iron" ],
-    "weight": "2 g",
-    "volume": "1 ml"
+    "price": 4,
+    "price_postapoc": 10,
+    "material": [ "steel" ],
+    "weight": "200 mg",
+    "volume": "1 ml",
+    "longest_side": "45 mm"
   },
   {
     "id": "fc_hairpin",
     "type": "TOOL_ARMOR",
     "category": "clothing",
-    "symbol": "[",
+    "copy-from": "hairpin",
     "color": "pink",
     "name": { "str": "fancy hairpin" },
     "description": "A pink hairpin with cute flower textures.",
     "price": 1000,
     "price_postapoc": 5,
     "material": [ "plastic" ],
-    "weight": "1 g",
-    "volume": "1 ml",
+    "weight": "100 mg",
     "flags": [ "FANCY" ]
   },
   {
