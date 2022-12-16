@@ -5974,7 +5974,6 @@ units::mass Character::bodyweight_fat() const
 {
     return units::from_kilogram( get_stored_kcal() / 7716.17 );
 }
-
 units::mass Character::bionics_weight() const
 {
     units::mass bio_weight = 0_gram;
@@ -6412,7 +6411,7 @@ void Character::burn_move_stamina( int moves )
 {
     int overburden_percentage = 0;
     //add half the difference between current stored kcal weight and healthy stored kcal weight to weight of carried gear
-    units::mass fat_penalty = units::from_kilogram( 0.5f * std::max ( 0.5f, ( get_healthy_kcal() - get_stored_kcal() ) / 7716.17f ) );
+    units::mass fat_penalty = units::from_kilogram( 0.5f * std::max ( 0.0f, ( get_healthy_kcal() - get_stored_kcal() ) / 7716.17f ) );
     units::mass current_weight = weight_carried() + fat_penalty;
     // Make it at least 1 gram to avoid divide-by-zero warning
     units::mass max_weight = std::max( weight_capacity(), 1_gram );
