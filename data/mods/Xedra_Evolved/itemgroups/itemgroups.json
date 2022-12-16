@@ -251,7 +251,7 @@
     "//": "Adding spell learning items to standard itemgroups",
     "copy-from": "SUS_junk_drawer",
     "subtype": "collection",
-    "extend": { "entries": [ { "group": "xe_all_spells_low", "prob": 1 } ] }
+    "extend": { "entries": [ { "group": "xe_all_spells_mid", "prob": 50 } ] }
   },
   {
     "id": "SUS_junk_drawer_messy",
@@ -259,7 +259,7 @@
     "//": "Adding spell learning items to standard itemgroups",
     "copy-from": "SUS_junk_drawer_messy",
     "subtype": "collection",
-    "extend": { "entries": [ { "group": "xe_all_spells_low", "prob": 1 } ] }
+    "extend": { "entries": [ { "group": "xe_all_spells_mid", "prob": 50 } ] }
   },
   {
     "id": "SUS_office_filing_cabinet",
@@ -267,7 +267,7 @@
     "//": "Adding spell learning items to standard itemgroups",
     "copy-from": "SUS_office_filing_cabinet",
     "subtype": "collection",
-    "extend": { "entries": [ { "group": "xe_all_spells_low", "prob": 1 } ] }
+    "extend": { "entries": [ { "group": "xe_all_spells_mid", "prob": 50 } ] }
   },
   {
     "id": "costume_misc_items",

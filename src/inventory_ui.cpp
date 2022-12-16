@@ -290,12 +290,14 @@ std::string enum_to_string<inventory_selector::uimode>( inventory_selector::uimo
 
 static inventory_selector_save_state inventory_sel_default_state{ inventory_selector::uimode::categories };
 inventory_selector_save_state inventory_ui_default_state{ inventory_selector::uimode::categories };
+inventory_selector_save_state pickup_sel_default_state{ inventory_selector::uimode::categories };
 inventory_selector_save_state pickup_ui_default_state{ inventory_selector::uimode::hierarchy };
 
 void save_inv_state( JsonOut &json )
 {
     json.member( "inventory_sel_default_state", inventory_sel_default_state );
     json.member( "inventory_ui_state", inventory_ui_default_state );
+    json.member( "pickup_sel_state", pickup_sel_default_state );
     json.member( "pickup_ui_state", pickup_ui_default_state );
 }
 
@@ -303,6 +305,7 @@ void load_inv_state( const JsonObject &jo )
 {
     jo.read( "inventory_sel_default_state", inventory_sel_default_state );
     jo.read( "inventory_ui_state", inventory_ui_default_state );
+    jo.read( "pickup_sel_state", pickup_sel_default_state );
     jo.read( "pickup_ui_state", pickup_ui_default_state );
 }
 
@@ -3648,7 +3651,7 @@ trade_selector::trade_selector( trade_ui *parent, Character &u,
                                 std::string const &selection_column_title,
                                 point const &size, point const &origin )
     : inventory_drop_selector( u, preset, selection_column_title ), _parent( parent ),
-      _ctxt_trade( "INVENTORY" )
+      _ctxt_trade( "INVENTORY", keyboard_mode::keychar )
 {
     _ctxt_trade.register_action( ACTION_SWITCH_PANES );
     _ctxt_trade.register_action( ACTION_TRADE_CANCEL );

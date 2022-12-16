@@ -64,7 +64,7 @@
 
 static const flag_id json_flag_FILTHY( "FILTHY" );
 
-static const furn_str_id furn_f_compact_ASRG_containment( "f_compact_ASRG_containment" );
+static const furn_str_id furn_f_active_backup_generator( "f_active_backup_generator" );
 static const furn_str_id furn_f_sign_warning( "f_sign_warning" );
 
 static const item_group_id Item_spawn_data_ammo_casings( "ammo_casings" );
@@ -600,7 +600,7 @@ static bool mx_roadblock( map &m, const tripoint &abs_sub )
 
         line_furn( &m, f_sandbag_half, point( 12, 7 ), point( 15, 7 ) );
         m.add_spawn( mon_turret_searchlight, 1, { 13, 8, abs_sub.z } );
-        m.furn_set( point( 14, 8 ), furn_f_compact_ASRG_containment );
+        m.furn_set( point( 14, 8 ), furn_f_active_backup_generator );
         line_furn( &m, f_sandbag_half, point( 12, 9 ), point( 15, 9 ) );
 
         int num_bodies = dice( 2, 5 );
@@ -659,7 +659,7 @@ static bool mx_roadblock( map &m, const tripoint &abs_sub )
 
         line_furn( &m, f_sandbag_half, point( 6, 10 ), point( 9, 10 ) );
         m.add_spawn( mon_turret_searchlight, 1, { 7, 11, abs_sub.z } );
-        m.furn_set( point( 8, 11 ), furn_f_compact_ASRG_containment );
+        m.furn_set( point( 8, 11 ), furn_f_active_backup_generator );
         line_furn( &m, f_sandbag_half, point( 6, 12 ), point( 9, 12 ) );
 
         int num_bodies = dice( 1, 6 );
