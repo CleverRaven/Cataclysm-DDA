@@ -2695,7 +2695,7 @@
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ],
     "armor": [
-      { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 100, "encumbrance": [ 8, 17 ] },
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 100, "encumbrance": [ 11, 17 ] },
       { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 95, "encumbrance": [ 0, 0 ] },
       {
         "covers": [ "arm_l", "arm_r" ],
