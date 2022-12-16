@@ -15,6 +15,19 @@
     "id": "TALK_RANCH_WOODCUTTER_2",
     "dynamic_line": "Don't have much time to talk.",
     "responses": [
+      {
+        "text": "The doctor needs some help building an anesthetic machine.  Do you have anything that could help?",
+        "topic": "TALK_RANCH_GENERIC_ANESTHETIC_FOR_DOCTOR",
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_RANCH_DOCTOR_MEDICAL_ANESTHETIC" },
+            {
+              "not": { "npc_has_var": "doctor_anesthetic_asked", "type": "mission", "context": "tacoma_ranch", "value": "yes" }
+            }
+          ]
+        },
+        "effect": [ { "npc_add_var": "doctor_anesthetic_asked", "type": "mission", "context": "tacoma_ranch", "value": "yes" } ]
+      },
       { "text": "What is your job here?", "topic": "TALK_RANCH_WOODCUTTER_2_JOB" },
       { "text": "Do you need any help?", "topic": "TALK_RANCH_WOODCUTTER_2_HIRE" },
       { "text": "I've got to go…", "topic": "TALK_DONE" }

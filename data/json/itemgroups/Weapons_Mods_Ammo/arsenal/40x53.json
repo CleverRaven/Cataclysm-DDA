@@ -1,0 +1,30 @@
+[
+  {
+    "type": "item_group",
+    "id": "milspec_arsenal_40x53_gun&mags&cans",
+    "subtype": "collection",
+    "items": [ { "group": "milspec_arsenal_40x53_gun&ammo" }, { "item": "ammunition_can_pa120", "count": [ 1, 4 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "milspec_arsenal_40x53_gun&ammo",
+    "subtype": "collection",
+    "items": [
+      { "group": "milspec_arsenal_40x53_gun&mags" },
+      { "group": "ammo_can_belt40mm_full", "prob": 60 },
+      { "group": "ammo_can_belt40mm_full", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "milspec_arsenal_40x53_gun&mags",
+    "subtype": "collection",
+    "items": [ { "item": "mark19", "count": 1, "prob": 80 }, { "item": "mark19", "count": 1, "prob": 30 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_can_belt40mm_full",
+    "container-item": "ammunition_can_pa120",
+    "items": [ { "item": "belt40mm", "count": 1, "charges-min": 32, "charges-max": 32 } ]
+  }
+]

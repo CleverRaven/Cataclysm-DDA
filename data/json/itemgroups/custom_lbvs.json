@@ -26,7 +26,8 @@
       { "item": "grenade_pouch", "prob": 10 },
       { "item": "triple_stacker_pouch", "prob": 10 },
       { "item": "dump_pouch", "prob": 20 },
-      { "item": "canteen_pouch", "prob": 30 }
+      { "item": "canteen_pouch", "prob": 30 },
+      { "item": "deployment_bag", "prob": 10 }
     ]
   },
   {

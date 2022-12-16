@@ -15,8 +15,8 @@
 // - Uncraft recipe "difficulty" affects component recovery success using character skill
 // - Damage to the original item reduces the chance of successful component recovery
 
+static const itype_id itype_cotton_patchwork( "cotton_patchwork" );
 static const itype_id itype_debug_backpack( "debug_backpack" );
-static const itype_id itype_rag( "rag" );
 static const itype_id itype_string_6( "string_6" );
 static const itype_id itype_test_knotted_string_ball( "test_knotted_string_ball" );
 static const itype_id itype_test_multitool( "test_multitool" );
@@ -51,12 +51,11 @@ static std::map<itype_id, int> repeat_uncraft( Character &they, const itype_id &
 
     for( int rep = 0; rep < repeat; ++rep ) {
         // Add another instance of the disassembly item
-        item &it = they.i_add( item( dis_itype ) );
+        item_location it = they.i_add( item( dis_itype ) );
         if( damage > 0 ) {
-            it.set_damage( damage );
+            it->set_damage( damage );
         }
-        it_loc = item_location( they, &it );
-        it_dis_loc = they.create_in_progress_disassembly( it_loc );
+        it_dis_loc = they.create_in_progress_disassembly( it );
 
         // Clear away bits
         clear_map();
@@ -144,28 +143,30 @@ TEST_CASE( "uncraft difficulty and character skill", "[uncraft][difficulty][skil
         CHECK( uncraft_yield( they, decon_it, part_it, 0, 4 ) == 1000 );
     }
 
+    constexpr int margin = 55;
+
     SECTION( "uncraft recipe with difficulty 1" ) {
-        CHECK( uncraft_yield( they, decon_it, part_it, 1, 0 ) == Approx( 830 ).margin( 50 ) );
-        CHECK( uncraft_yield( they, decon_it, part_it, 1, 1 ) == Approx( 1000 ).margin( 50 ) );
-        CHECK( uncraft_yield( they, decon_it, part_it, 1, 2 ) == Approx( 1000 ).margin( 50 ) );
-        CHECK( uncraft_yield( they, decon_it, part_it, 1, 3 ) == Approx( 1000 ).margin( 50 ) );
-        CHECK( uncraft_yield( they, decon_it, part_it, 1, 4 ) == Approx( 1000 ).margin( 50 ) );
+        CHECK( uncraft_yield( they, decon_it, part_it, 1, 0 ) == Approx( 830 ).margin( margin ) );
+        CHECK( uncraft_yield( they, decon_it, part_it, 1, 1 ) == Approx( 1000 ).margin( margin ) );
+        CHECK( uncraft_yield( they, decon_it, part_it, 1, 2 ) == Approx( 1000 ).margin( margin ) );
+        CHECK( uncraft_yield( they, decon_it, part_it, 1, 3 ) == Approx( 1000 ).margin( margin ) );
+        CHECK( uncraft_yield( they, decon_it, part_it, 1, 4 ) == Approx( 1000 ).margin( margin ) );
     }
 
     SECTION( "uncraft recipe with difficulty 5" ) {
-        CHECK( uncraft_yield( they, decon_it, part_it, 5, 0 ) == Approx( 20 ).margin( 50 ) );
-        CHECK( uncraft_yield( they, decon_it, part_it, 5, 1 ) == Approx( 700 ).margin( 50 ) );
-        CHECK( uncraft_yield( they, decon_it, part_it, 5, 2 ) == Approx( 990 ).margin( 50 ) );
-        CHECK( uncraft_yield( they, decon_it, part_it, 5, 3 ) == Approx( 1000 ).margin( 50 ) );
-        CHECK( uncraft_yield( they, decon_it, part_it, 5, 4 ) == Approx( 1000 ).margin( 50 ) );
+        CHECK( uncraft_yield( they, decon_it, part_it, 5, 0 ) == Approx( 20 ).margin( margin ) );
+        CHECK( uncraft_yield( they, decon_it, part_it, 5, 1 ) == Approx( 700 ).margin( margin ) );
+        CHECK( uncraft_yield( they, decon_it, part_it, 5, 2 ) == Approx( 990 ).margin( margin ) );
+        CHECK( uncraft_yield( they, decon_it, part_it, 5, 3 ) == Approx( 1000 ).margin( margin ) );
+        CHECK( uncraft_yield( they, decon_it, part_it, 5, 4 ) == Approx( 1000 ).margin( margin ) );
     }
 
     SECTION( "uncraft recipe with difficulty 10" ) {
-        CHECK( uncraft_yield( they, decon_it, part_it, 10, 0 ) == Approx( 0 ).margin( 50 ) );
-        CHECK( uncraft_yield( they, decon_it, part_it, 10, 1 ) == Approx( 30 ).margin( 50 ) );
-        CHECK( uncraft_yield( they, decon_it, part_it, 10, 2 ) == Approx( 500 ).margin( 50 ) );
-        CHECK( uncraft_yield( they, decon_it, part_it, 10, 3 ) == Approx( 930 ).margin( 50 ) );
-        CHECK( uncraft_yield( they, decon_it, part_it, 10, 4 ) == Approx( 1000 ).margin( 50 ) );
+        CHECK( uncraft_yield( they, decon_it, part_it, 10, 0 ) == Approx( 0 ).margin( margin ) );
+        CHECK( uncraft_yield( they, decon_it, part_it, 10, 1 ) == Approx( 30 ).margin( margin ) );
+        CHECK( uncraft_yield( they, decon_it, part_it, 10, 2 ) == Approx( 500 ).margin( margin ) );
+        CHECK( uncraft_yield( they, decon_it, part_it, 10, 3 ) == Approx( 930 ).margin( margin ) );
+        CHECK( uncraft_yield( they, decon_it, part_it, 10, 4 ) == Approx( 1000 ).margin( margin ) );
     }
 }
 
@@ -199,28 +200,28 @@ TEST_CASE( "uncraft from a damaged item", "[uncraft][damage]" )
     // Chance of recovering all 100 is about 1 in 5 billion
     SECTION( "1 damage_level: 80 percent chance to recover components" ) {
         yield = repeat_uncraft( they, itype_test_rag_bundle, uncraft_rags, 1, 1000 );
-        CHECK( yield[itype_rag] == Approx( 80 ).margin( 20 ) );
+        CHECK( yield[itype_cotton_patchwork] == Approx( 80 ).margin( 20 ) );
     }
 
     // 64% chance for each component
     // Recovering more than 90 is billlions-to-one
     SECTION( "2 damage_level: 64 percent chance to recover components" ) {
         yield = repeat_uncraft( they, itype_test_rag_bundle, uncraft_rags, 1, 2000 );
-        CHECK( yield[itype_rag] == Approx( 64 ).margin( 30 ) );
+        CHECK( yield[itype_cotton_patchwork] == Approx( 64 ).margin( 30 ) );
     }
 
     // 51% chance for each component
     // Recovering more than 80 is billions-to-one
     SECTION( "3 damage_level: 51 percent chance to recover components" ) {
         yield = repeat_uncraft( they, itype_test_rag_bundle, uncraft_rags, 1, 3000 );
-        CHECK( yield[itype_rag] == Approx( 51 ).margin( 40 ) );
+        CHECK( yield[itype_cotton_patchwork] == Approx( 51 ).margin( 40 ) );
     }
 
     // 41% chance for each component
     // Recovering more than 70 is billions-to-one
     SECTION( "4 damage_level: 41 percent chance to recover components" ) {
         yield = repeat_uncraft( they, itype_test_rag_bundle, uncraft_rags, 1, 4000 );
-        CHECK( yield[itype_rag] == Approx( 41 ).margin( 40 ) );
+        CHECK( yield[itype_cotton_patchwork] == Approx( 41 ).margin( 40 ) );
     }
 }
 

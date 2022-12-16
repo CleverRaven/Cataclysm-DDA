@@ -17,40 +17,6 @@
     "pocket_data": [ { "watertight": true, "rigid": true, "pocket_type": "MAGAZINE", "ammo_restriction": { "anesthetic": 6000 } } ]
   },
   {
-    "id": "autoclave",
-    "type": "TOOL",
-    "name": { "str": "autoclave" },
-    "description": "This is an autoclave.  It's useful for sterilizing things like CBMs.  It requires a massive amount of power, so standard batteries will not power it sufficiently.",
-    "weight": "34500 g",
-    "volume": "76 L",
-    "price": 162654,
-    "price_postapoc": 2000,
-    "to_hit": -6,
-    "bashing": 10,
-    "material": [ "steel" ],
-    "symbol": "A",
-    "color": "yellow",
-    "use_action": [ "AUTOCLAVE" ],
-    "flags": [ "ALLOWS_REMOTE_USE" ],
-    "power_draw": 1500000,
-    "looks_like": "microwave",
-    "ammo": [ "battery" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "flag_restriction": [ "BATTERY_HEAVY" ],
-        "default_magazine": "heavy_plus_battery_cell"
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "flag_restriction": [ "CBM" ]
-      }
-    ]
-  },
-  {
     "id": "inhaler",
     "type": "TOOL",
     "category": "drugs",
@@ -124,7 +90,7 @@
     "price_postapoc": 250,
     "to_hit": -3,
     "bashing": 6,
-    "material": [ "aluminum", "plastic" ],
+    "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
     "pocket_data": [
@@ -142,11 +108,14 @@
     "weight": "4240 mg",
     "volume": "10ml",
     "longest_side": "10 cm",
+    "cutting": 1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "point", "balance": "neutral" },
     "price": 2500,
     "price_postapoc": 10,
     "material": [ "plastic" ],
     "symbol": ",",
-    "color": "white"
+    "color": "white",
+    "flags": [ "FRAGILE_MELEE", "STAB" ]
   },
   {
     "id": "thermometer",
@@ -220,10 +189,10 @@
     "type": "TOOL",
     "name": { "str": "wrapped radiation badge" },
     "description": "This is a badge that detects radiation dosage sealed in a radiation-blocking bag.  Use it to remove it from the bag.",
-    "weight": "20 g",
-    "volume": "15 ml",
-    "price": 1000,
-    "price_postapoc": 100,
+    "weight": "25 g",
+    "volume": "25 ml",
+    "price": 8000,
+    "price_postapoc": 500,
     "material": [ "plastic" ],
     "symbol": ",",
     "color": "light_blue",

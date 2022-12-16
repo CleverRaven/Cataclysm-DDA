@@ -223,9 +223,9 @@ void weakpoint_difficulty::load( const JsonObject &jo )
     float default_value = difficulty[static_cast<int>( attack_type::NONE )];
     float all = jo.get_float( "all", default_value );
     // Determine default values
-    float bash = all;
-    float cut = all;
-    float stab = all;
+    float bash;
+    float cut;
+    float stab;
     float ranged = all;
     // Support either "melee" shorthand or "broad"/"point" shorthand.
     if( jo.has_float( "melee" ) ) {
@@ -256,6 +256,11 @@ weakpoint_effect::weakpoint_effect()  :
     intensity( 0, 0 ),
     damage_required( 0.0f, 100.0f ) {}
 
+std::string weakpoint_effect::get_message() const
+{
+    return message.translated();
+}
+
 void weakpoint_effect::apply_to( Creature &target, int total_damage,
                                  const weakpoint_attack &attack ) const
 {
@@ -273,8 +278,8 @@ void weakpoint_effect::apply_to( Creature &target, int total_damage,
                        time_duration::from_turns( rng( duration.first, duration.second ) ),
                        permanent, rng( intensity.first, intensity.second ) );
 
-    if( !message.empty() && attack.source != nullptr && attack.source->is_avatar() ) {
-        add_msg_if_player_sees( target, m_good, message, target.get_name() );
+    if( !get_message().empty() && attack.source != nullptr && attack.source->is_avatar() ) {
+        add_msg_if_player_sees( target, m_good, get_message(), target.get_name() );
     }
 }
 
@@ -327,7 +332,7 @@ weakpoint_attack::type_of_melee_attack( const damage_instance &damage )
 {
     damage_type primary = damage_type::NONE;
     int primary_amount = 0;
-    for( const auto &du : damage.damage_units ) {
+    for( const damage_unit &du : damage.damage_units ) {
         if( du.amount > primary_amount ) {
             primary = du.type;
             primary_amount = du.amount;
@@ -433,8 +438,13 @@ void weakpoint::load( const JsonObject &jo )
 
     // Set the ID to the name, if not provided.
     if( !jo.has_string( "id" ) ) {
-        id = name;
+        assign( jo, "name", id );
     }
+}
+
+std::string weakpoint::get_name() const
+{
+    return name.translated();
 }
 
 void weakpoint::apply_to( resistances &resistances ) const
@@ -447,7 +457,7 @@ void weakpoint::apply_to( resistances &resistances ) const
 
 void weakpoint::apply_to( damage_instance &damage, bool is_crit ) const
 {
-    for( auto &elem : damage.damage_units ) {
+    for( damage_unit &elem : damage.damage_units ) {
         int idx = static_cast<int>( elem.type );
         elem.damage_multiplier *= is_crit ? crit_mult[idx] : damage_mult[idx];
     }
@@ -456,7 +466,7 @@ void weakpoint::apply_to( damage_instance &damage, bool is_crit ) const
 void weakpoint::apply_effects( Creature &target, int total_damage,
                                const weakpoint_attack &attack ) const
 {
-    for( const auto &effect : effects ) {
+    for( const weakpoint_effect &effect : effects ) {
         effect.apply_to( target, total_damage, attack );
     }
 }
@@ -512,7 +522,7 @@ const weakpoint *weakpoints::select_weakpoint( const weakpoint_attack &attack ) 
         float hit_chance = new_reweighed - reweighed;
         add_msg_debug( debugmode::DF_MONSTER,
                        "Weakpoint Selection: weakpoint %s, hit_chance %.4f",
-                       weakpoint.name, hit_chance );
+                       weakpoint.id, hit_chance );
         if( idx < hit_chance ) {
             return &weakpoint;
         }

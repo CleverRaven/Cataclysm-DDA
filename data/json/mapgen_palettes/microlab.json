@@ -23,7 +23,7 @@
       "#": "t_rock"
     },
     "furniture": {
-      "&": "f_toilet",
+      ";": "f_toilet",
       "~": "f_shower",
       "@": "f_bed",
       "6": "f_console_broken",

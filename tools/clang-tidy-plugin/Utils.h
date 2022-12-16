@@ -169,16 +169,7 @@ inline auto isYParam()
     return matchesName( "[yY]" );
 }
 
-inline bool isPointMethod( const FunctionDecl *d )
-{
-    if( const CXXMethodDecl *Method = dyn_cast_or_null<CXXMethodDecl>( d ) ) {
-        const CXXRecordDecl *Record = Method->getParent();
-        if( isPointType( Record ) ) {
-            return true;
-        }
-    }
-    return false;
-}
+bool isPointMethod( const FunctionDecl *d );
 
 // Struct to help identify and construct names of associated points and
 // coordinates

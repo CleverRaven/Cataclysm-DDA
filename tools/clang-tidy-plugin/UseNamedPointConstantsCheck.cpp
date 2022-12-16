@@ -123,13 +123,20 @@ static void CheckConstructor( UseNamedPointConstantsCheck &Check,
         } else if( const IntegerLiteral *Literal = dyn_cast<IntegerLiteral>( E ) ) {
             Value = Literal->getValue().getZExtValue();
         } else if( const UnaryOperator *UOp = dyn_cast<UnaryOperator>( E ) ) {
-            const IntegerLiteral *Literal = dyn_cast<IntegerLiteral>( UOp->getSubExpr() );
-            Value = Literal->getValue().getZExtValue();
-            if( UOp->getOpcode() == UO_Minus ) {
-                Value = -Value;
+            if( const IntegerLiteral *Literal = dyn_cast<IntegerLiteral>( UOp->getSubExpr() ) ) {
+                Value = Literal->getValue().getZExtValue();
+                if( UOp->getOpcode() == UO_Minus ) {
+                    Value = -Value;
+                }
+            } else {
+                Check.diag( ConstructorCall->getBeginLoc(),
+                            "Internal check error: unary operand not an integer." );
+                return;
             }
         } else {
-            abort(); // NOLINT(cata-assert)
+            Check.diag( ConstructorCall->getBeginLoc(),
+                        "Internal check error: expression not a unary operator nor an integer." );
+            return;
         }
         Args.insert( { Key, Value } );
     };

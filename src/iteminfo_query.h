@@ -21,6 +21,8 @@ enum class iteminfo_parts : size_t {
     BASE_TOHIT,
     BASE_MOVES,
     BASE_DPS,
+    BASE_STAMINA,
+    BASE_DPSTAM,
     BASE_REQUIREMENTS,
     BASE_MATERIAL,
     BASE_CONTENTS,
@@ -50,6 +52,7 @@ enum class iteminfo_parts : size_t {
     FOOD_CONSUME_TIME,
     FOOD_HEALTH,
 
+    MAGAZINE_COMPATIBLE_GUNS,
     MAGAZINE_CAPACITY,
     MAGAZINE_RELOAD,
 
@@ -130,6 +133,7 @@ enum class iteminfo_parts : size_t {
     GUNMOD_LOCATION,
     GUNMOD_BLACKLIST_MOD,
 
+    ARMOR_BODYGRAPH,
     ARMOR_BODYPARTS,
     ARMOR_LAYER,
     ARMOR_COVERAGE,
@@ -137,6 +141,9 @@ enum class iteminfo_parts : size_t {
     ARMOR_WARMTH,
     ARMOR_ENCUMBRANCE,
     ARMOR_PROTECTION,
+    ARMOR_BREATHABILITY,
+    ARMOR_MATERIALS,
+    ARMOR_ADDITIONAL_INFO,
 
     BOOK_SUMMARY,
     BOOK_REQUIREMENTS_BEGINNER,
@@ -166,6 +173,7 @@ enum class iteminfo_parts : size_t {
 
     QUALITIES,
     QUALITIES_CONTAINED,
+    ACTIONS,
 
     DESCRIPTION,
     DESCRIPTION_TECHNIQUES,
@@ -225,6 +233,8 @@ enum class iteminfo_parts : size_t {
     DESCRIPTION_CONTENTS,
 
     DESCRIPTION_APPLICABLE_RECIPES,
+
+    DESCRIPTION_VEHICLE_PARTS,
 
     DESCRIPTION_MED_ADDICTING,
 

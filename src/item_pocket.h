@@ -30,6 +30,7 @@ class pocket_data;
 struct iteminfo;
 struct itype;
 struct tripoint;
+class map;
 template <typename E> struct enum_traits;
 
 class item_pocket
@@ -148,6 +149,9 @@ class item_pocket
         bool rigid() const;
         bool watertight() const;
         bool airtight() const;
+        bool inherits_flags() const;
+        // open pockets are always considered transparent
+        bool transparent() const;
         // is this speedloader compatible with this pocket (if any speedloaders are whitelisted)
         bool allows_speedloader( const itype_id &speedloader_id ) const;
 
@@ -155,8 +159,7 @@ class item_pocket
         // exceptions are MOD, CORPSE, SOFTWARE, MIGRATION, etc.
         bool is_standard_type() const;
 
-        bool is_allowed() const;
-        void set_usability( bool show );
+        bool is_forbidden() const;
 
         const translation &get_description() const;
         const translation &get_name() const;
@@ -197,7 +200,7 @@ class item_pocket
          * @param ammo item to be loaded in
          * @param now whether the currently contained ammo/magazine should be taken into account
          */
-        bool can_reload_with( const item &ammo, const bool now ) const;
+        bool can_reload_with( const item &ammo, bool now ) const;
 
         units::length max_containable_length() const;
         units::length min_containable_length() const;
@@ -275,7 +278,7 @@ class item_pocket
 
         std::string translated_sealed_prefix() const;
         bool detonate( const tripoint &p, std::vector<item> &drops );
-        bool process( const itype &type, Character *carrier, const tripoint &pos,
+        bool process( const itype &type, map &here, Character *carrier, const tripoint &pos,
                       float insulation, temperature_flag flag );
         void remove_all_ammo( Character &guy );
         void remove_all_mods( Character &guy );
@@ -299,8 +302,11 @@ class item_pocket
          * Is part of the recursive call of item::process. see that function for additional comments
          * NOTE: this destroys the items that get processed
          */
-        void process( Character *carrier, const tripoint &pos, float insulation = 1,
+        void process( map &here, Character *carrier, const tripoint &pos, float insulation = 1,
                       temperature_flag flag = temperature_flag::NORMAL, float spoil_multiplier_parent = 1.0f );
+
+        void leak( map &here, Character *carrier, const tripoint &pos, item_pocket *pocke = nullptr );
+
         pocket_type saved_type() const {
             return _saved_type;
         }
@@ -310,13 +316,16 @@ class item_pocket
         }
 
         // tries to put an item in the pocket. returns false if failure
-        ret_val<contain_code> insert_item( const item &it );
+        ret_val<contain_code> insert_item( const item &it, bool into_bottom = false );
         /**
           * adds an item to the pocket with no checks
           * may create a new pocket
           */
         void add( const item &it, item **ret = nullptr );
         bool can_unload_liquid() const;
+
+        int fill_with( const item &contained, Character &guy, int amount = 0,
+                       bool allow_unseal = false, bool ignore_settings = false );
 
         /**
         * @brief Check contents of pocket to see if it contains a valid item/pocket to store the given item.
@@ -328,9 +337,9 @@ class item_pocket
         *
         * @returns A non-nullptr if a suitable pocket is found.
         */
-        item_pocket *best_pocket_in_contents(
-            item_location &parent, const item &it, const item *avoid,
-            const bool allow_sealed, const bool ignore_settings );
+        std::pair<item_location, item_pocket *> best_pocket_in_contents(
+            item_location &this_loc, const item &it, const item *avoid,
+            bool allow_sealed, bool ignore_settings );
 
         // only available to help with migration from previous usage of std::list<item>
         std::list<item> &edit_contents();
@@ -348,7 +357,7 @@ class item_pocket
 
         void general_info( std::vector<iteminfo> &info, int pocket_number, bool disp_pocket_number ) const;
         void contents_info( std::vector<iteminfo> &info, int pocket_number, bool disp_pocket_number ) const;
-        void favorite_info( std::vector<iteminfo> &info );
+        void favorite_info( std::vector<iteminfo> &info ) const;
 
         void serialize( JsonOut &json ) const;
         void deserialize( const JsonObject &data );
@@ -384,8 +393,6 @@ class item_pocket
         // the items inside the pocket
         std::list<item> contents;
         bool _sealed = false;
-
-        bool allowed = true; // is it possible to put things in this pocket
 };
 
 /**
@@ -479,6 +486,10 @@ class pocket_data
         bool airtight = false;
         // the pocket will spill its contents if placed in another container
         bool open_container = false;
+        // items in this pocket pass their flags to the parent item
+        bool inherits_flags = false;
+        // the contents of the pocket are visible
+        bool transparent = false;
 
         // a description of the pocket
         translation description;
@@ -504,11 +515,15 @@ class pocket_data
         // items stored are restricted to these item ids.
         // this takes precedence over the other two restrictions
         cata::flat_set<itype_id> item_id_restriction;
+        // Restricts items by their material.
+        cata::flat_set<material_id> material_restriction;
         cata::flat_set<itype_id> allowed_speedloaders;
         // the first in the json array for item_id_restriction when loaded
         itype_id default_magazine = itype_id::NULL_ID();
         // container's size and encumbrance does not change based on contents.
         bool rigid = false;
+        // if true, the pocket cannot be used by the player
+        bool forbidden = false;
 
         bool operator==( const pocket_data &rhs ) const;
 

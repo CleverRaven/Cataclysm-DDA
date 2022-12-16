@@ -5,7 +5,7 @@
     "type": "item_group",
     "subtype": "distribution",
     "items": [
-      { "item": "rag", "prob": 40 },
+      { "item": "cotton_patchwork", "prob": 40 },
       { "item": "bath_toy", "count": [ 1, 4 ], "prob": 10 },
       { "item": "bathroom_scale", "prob": 20 },
       { "item": "liquid_soap", "count": [ 1, 4 ], "prob": 70, "charges-min": 1 },
@@ -74,6 +74,7 @@
       [ "casserole", 25 ],
       [ "stock_pot", 15 ],
       [ "pressure_cooker", 5 ],
+      [ "dutch_oven", 5 ],
       [ "teapot", 40 ],
       [ "kettle", 40 ],
       [ "colander_steel", 35 ],
@@ -103,7 +104,8 @@
       [ "knife_meat_cleaver", 10 ],
       [ "knife_vegetable_cleaver", 10 ],
       [ "cutting_board", 20 ],
-      [ "bottle_opener", 15 ]
+      [ "bottle_opener", 15 ],
+      [ "mortar_pestle", 10 ]
     ]
   },
   {
@@ -193,7 +195,10 @@
       { "item": "water_clean", "prob": 80 },
       { "item": "salt_water", "prob": 30 },
       { "item": "bleach", "prob": 20, "charges-min": 1 },
-      { "item": "ammonia", "prob": 24, "charges-min": 1 },
+      { "item": "chem_calcium_chloride", "prob": 2 },
+      { "item": "chem_washing_soda", "prob": 20, "charges-min": 1 },
+      { "item": "chem_baking_soda", "prob": 20, "charges-min": 1 },
+      { "item": "ammonia_hydroxide", "prob": 24, "charges-min": 1 },
       { "item": "yeast", "prob": 2 },
       { "item": "royal_jelly", "prob": 8 },
       { "item": "superglue", "prob": 20 },
@@ -208,8 +213,10 @@
       { "item": "funnel", "prob": 50 },
       { "item": "jar_glass_sealed", "prob": 20 },
       { "item": "jar_3l_glass_sealed", "prob": 15 },
+      { "item": "apron_plastic", "prob": 15 },
+      { "item": "apron_cotton", "prob": 3 },
       { "item": "apron_leather", "prob": 3 },
-      { "item": "pur_tablets", "prob": 15, "charges": [ 1, 15 ] },
+      { "item": "pur_tablets", "container-item": "bottle_plastic_small", "prob": 15, "charges": [ 1, 15 ] },
       { "item": "lye_powder", "prob": 20, "charges-min": 100 },
       { "item": "oxy_powder", "prob": 24, "charges-min": 100 },
       { "item": "chemistry_set", "prob": 10, "charges": [ 0, 500 ] },
@@ -226,27 +233,13 @@
       { "item": "denat_alcohol", "prob": 6 },
       { "item": "methed_alcohol", "prob": 4 },
       { "item": "textbook_extraction", "prob": 5 },
-      { "item": "butane_can", "prob": 10 },
+      { "item": "butane_can", "prob": 10, "charges-min": 1, "charges": [ 1, 30 ] },
       { "item": "gasket_plastic", "prob": 10 },
       { "item": "vac_pump", "prob": 3 },
       { "item": "recovery_pump", "prob": 3 },
       { "item": "filter_paper_qualitative", "prob": 5 },
-      { "item": "filter_paper_quantitative", "prob": 5 }
-    ]
-  },
-  {
-    "id": "mail",
-    "type": "item_group",
-    "subtype": "distribution",
-    "entries": [
-      { "group": "magazines", "prob": 515 },
-      { "group": "newspaper_recent", "prob": 200, "count-min": 3, "count-max": 5 },
-      { "item": "flyer", "prob": 80 },
-      { "item": "survnote", "prob": 3 },
-      { "item": "touristmap", "prob": 3 },
-      { "item": "trailmap", "prob": 3 },
-      { "item": "phonebook", "prob": 60 },
-      { "group": "religious_books", "prob": 4 }
+      { "item": "filter_paper_quantitative", "prob": 5 },
+      { "item": "chem_turpentine", "prob": 20, "charges-min": 20 }
     ]
   },
   {
@@ -263,6 +256,7 @@
       [ "glasses_bifocal", 20 ],
       [ "cotton_ball", 20 ],
       [ "contacts", 20 ],
+      { "item": "pride_flag", "prob": 5 },
       { "item": "vitamins", "prob": 20, "charges": [ 1, 20 ] },
       { "item": "aspirin", "prob": 20, "charges": [ 1, 20 ] },
       { "item": "nic_gum", "prob": 20, "charges": [ 1, 10 ] },
@@ -281,9 +275,159 @@
       { "group": "mansion_guns", "prob": 3 },
       { "group": "harddrugs", "prob": 1 },
       { "group": "wallets", "prob": 10 },
+      [ "ankle_wallet_pouch", 1 ],
       [ "joint", 1 ],
       [ "curler_hair", 10 ],
       [ "hairbrush", 5 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "memorial",
+    "subtype": "collection",
+    "entries": [
+      { "item": "corpse_ash", "prob": 100, "charges-min": 1905, "charges-max": 3969, "container-item": "porcelain_urn" },
+      { "item": "photo_album", "prob": 75 },
+      { "item": "bouquet", "prob": 50 },
+      { "item": "candle", "prob": 50, "charges-min": 1, "charges-max": 6 },
+      {
+        "distribution": [
+          { "group": "religious_books", "prob": 20 },
+          { "item": "bead_necklace", "prob": 20 },
+          { "item": "bead_bracelet", "prob": 20 },
+          { "item": "holy_symbol", "prob": 20 },
+          { "item": "candlestick", "prob": 20 }
+        ]
+      },
+      {
+        "distribution": [
+          {
+            "collection": [
+              { "item": "american_flag", "prob": 70 },
+              { "item": "beret", "prob": 33 },
+              { "item": "service_medal", "prob": 50 },
+              { "item": "dog_tag", "prob": 100 }
+            ],
+            "prob": 10
+          },
+          {
+            "collection": [
+              { "item": "ceramic_mug", "prob": 50 },
+              { "group": "beer", "prob": 50 },
+              { "group": "liquor_and_spirits", "prob": 20 },
+              { "group": "wines_worthy", "prob": 10 },
+              { "item": "cigar", "prob": 20 },
+              { "item": "hat_ball", "prob": 20 },
+              { "group": "jewelry_accessories", "prob": 50 },
+              { "group": "clothing_glasses", "prob": 50 },
+              { "item": "foodperson_mask", "prob": 1, "charges": [ 0, 500 ] }
+            ],
+            "prob": 70
+          },
+          {
+            "collection": [
+              { "item": "teddy", "prob": 50 },
+              { "item": "hat_ball", "prob": 20 },
+              { "item": "baseball", "prob": 20 },
+              { "item": "roller_shoes_off", "prob": 10 },
+              { "item": "gold_medal", "prob": 20 },
+              { "item": "silver_medal", "prob": 20 },
+              { "item": "bronze_medal", "prob": 20 },
+              { "item": "story_book", "prob": 50 },
+              { "item": "hairpin", "prob": 20 },
+              { "item": "barrette", "prob": 20 },
+              { "item": "newspaper_memorial", "prob": 20 }
+            ],
+            "prob": 5
+          },
+          {
+            "collection": [
+              { "item": "dog_whistle", "prob": 50 },
+              { "item": "dog_whistle_wood", "prob": 25 },
+              { "item": "leather_harness_dog", "prob": 50 },
+              { "item": "dogfood_dry", "prob": 50 },
+              { "item": "bone", "prob": 50 },
+              { "item": "dog_tag_dog", "prob": 100 }
+            ],
+            "prob": 15
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "memorial_mansion",
+    "subtype": "collection",
+    "entries": [
+      { "item": "corpse_ash", "prob": 100, "charges-min": 1905, "charges-max": 3969, "container-item": "crystal_urn" },
+      { "item": "photo_album", "prob": 80 },
+      { "item": "bouquet", "prob": 80 },
+      { "item": "candlestick", "prob": 50, "charges-min": 1, "charges-max": 6 },
+      { "group": "liquor_and_spirits", "prob": 60 },
+      { "group": "wines_worthy", "prob": 50 },
+      { "item": "cigar", "prob": 50 },
+      { "group": "jewelry_accessories", "prob": 50 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "grave_cremains",
+    "subtype": "collection",
+    "entries": [
+      { "item": "corpse_ash", "prob": 100, "charges-min": 1905, "charges-max": 3969, "container-item": "porcelain_urn" },
+      { "item": "bouquet", "prob": 100 },
+      {
+        "distribution": [
+          { "group": "religious_books", "prob": 25 },
+          { "item": "bead_necklace", "prob": 25 },
+          { "item": "bead_bracelet", "prob": 25 },
+          { "item": "holy_symbol", "prob": 25 }
+        ]
+      },
+      {
+        "distribution": [
+          {
+            "collection": [
+              { "item": "american_flag", "prob": 70 },
+              { "item": "beret", "prob": 33 },
+              { "item": "service_medal", "prob": 50 },
+              { "item": "dog_tag", "prob": 100 }
+            ],
+            "prob": 20
+          },
+          {
+            "collection": [
+              { "item": "ceramic_mug", "prob": 50 },
+              { "group": "beer", "prob": 50 },
+              { "group": "liquor_and_spirits", "prob": 20 },
+              { "group": "wines_worthy", "prob": 10 },
+              { "item": "cigar", "prob": 20 },
+              { "item": "hat_ball", "prob": 20 },
+              { "group": "jewelry_accessories", "prob": 50 },
+              { "group": "clothing_glasses", "prob": 50 },
+              { "item": "foodperson_mask", "prob": 1, "charges": [ 0, 500 ] }
+            ],
+            "prob": 70
+          },
+          {
+            "collection": [
+              { "item": "teddy", "prob": 50 },
+              { "item": "hat_ball", "prob": 20 },
+              { "item": "baseball", "prob": 20 },
+              { "item": "roller_shoes_off", "prob": 10 },
+              { "item": "gold_medal", "prob": 20 },
+              { "item": "silver_medal", "prob": 20 },
+              { "item": "bronze_medal", "prob": 20 },
+              { "item": "story_book", "prob": 50 },
+              { "item": "hairpin", "prob": 20 },
+              { "item": "barrette", "prob": 20 },
+              { "item": "newspaper_memorial", "prob": 20 }
+            ],
+            "prob": 10
+          }
+        ]
+      }
     ]
   },
   {
@@ -325,6 +469,7 @@
       { "item": "tailor_portfolio", "prob": 1 },
       { "item": "trappers_companion", "prob": 1 },
       { "item": "puck", "prob": 5 },
+      { "item": "shuttlecock", "prob": 1 },
       { "item": "baseball", "prob": 5 },
       { "item": "football", "prob": 5 },
       { "item": "golf_club", "prob": 10 },
@@ -353,6 +498,7 @@
       { "item": "smart_lamp", "prob": 1 },
       { "item": "runner_bag", "prob": 5 },
       { "item": "flip_flops", "prob": 35 },
+      { "item": "flip_flops_exp", "prob": 5 },
       { "item": "lowtops", "prob": 45 },
       { "item": "dress_shoes", "prob": 50 },
       { "item": "dance_shoes", "prob": 5 },
@@ -360,11 +506,15 @@
       { "item": "coat_rain", "prob": 50 },
       { "item": "hood_rain", "prob": 20 },
       { "item": "jacket_windbreaker", "prob": 25 },
+      { "item": "rashguard", "prob": 15 },
+      { "item": "flag_swimsuit", "prob": 10 },
       { "item": "wetsuit", "prob": 2 },
       { "item": "wetsuit_spring", "prob": 2 },
+      { "item": "wetsuit_spring_sleeveless", "prob": 2 },
       { "item": "wetsuit_gloves", "prob": 3 },
       { "item": "wetsuit_booties", "prob": 3 },
       { "item": "wetsuit_hood", "prob": 2 },
+      { "item": "swim_cap", "prob": 10 },
       { "item": "scuba_tank", "prob": 2 },
       { "item": "dive_bag", "prob": 3 },
       { "item": "poncho", "prob": 15 },
@@ -407,10 +557,13 @@
       { "item": "motorbike_armor", "prob": 10 },
       { "item": "motorbike_pants", "prob": 10 },
       { "item": "motorbike_boots", "prob": 10 },
+      { "item": "leg_bag", "prob": 10 },
       { "item": "briefcase", "prob": 2 },
       { "item": "trailmap", "prob": 10 },
       { "item": "lighter", "prob": 60, "charges": [ 0, 100 ] },
+      { "item": "lighter", "prob": 30, "charges": [ 0, 50 ] },
       { "item": "ref_lighter", "prob": 2, "charges": [ 0, 50 ] },
+      { "group": "butane_lighter_and_fuel", "prob": 2 },
       { "item": "matches", "prob": 60, "charges": [ 1, 20 ] },
       { "item": "ref_matches", "prob": 60, "charges": [ 1, 32 ] },
       { "item": "extinguisher", "prob": 20, "charges": 100 },
@@ -434,7 +587,9 @@
       { "item": "file", "prob": 5 },
       { "item": "eink_tablet_pc", "prob": 2, "charges": [ 0, 100 ] },
       { "item": "mobile_memory_card", "prob": 8 },
-      { "item": "camera", "prob": 3, "charges": [ 0, 150 ] },
+      { "item": "camera", "prob": 1, "charges": [ 0, 150 ] },
+      { "item": "camera", "container-item": "camera_bag", "prob": 2, "charges": [ 0, 150 ] },
+      { "item": "camera_bag", "prob": 3 },
       { "item": "gum", "prob": 30, "charges": [ 1, 10 ] },
       { "item": "caff_gum", "prob": 3, "charges": [ 1, 10 ] },
       { "item": "licorice", "prob": 3 },
@@ -443,6 +598,7 @@
       { "item": "atomic_lamp", "prob": 1 },
       { "item": "dog_whistle", "prob": 5 },
       { "item": "pet_carrier", "prob": 2 },
+      { "item": "rubber_harness_dog", "prob": 2 },
       { "item": "dogfood", "prob": 5, "container-item": "can_medium" },
       { "item": "catfood", "prob": 5, "container-item": "can_food" },
       { "item": "dogfood_dry", "prob": 2, "charges": 8, "container-item": "bag_plastic" },
@@ -468,7 +624,9 @@
       { "item": "yukata", "prob": 1 },
       { "item": "eclipse_glasses", "prob": 1 },
       { "item": "reading_light", "prob": 9, "charges": [ 0, 50 ] },
-      { "item": "balloon", "prob": 5 }
+      { "item": "balloon", "prob": 5 },
+      { "group": "memorial", "prob": 3 },
+      { "item": "air_launcher", "prob": 1 }
     ]
   },
   {
@@ -485,6 +643,10 @@
       { "item": "cereal2", "prob": 60 },
       { "item": "cereal3", "prob": 45 },
       { "group": "kitchen_appliances", "prob": 253 },
+      { "item": "apron_cotton", "prob": 25 },
+      { "item": "waist_apron_long", "prob": 7 },
+      { "item": "waist_apron_short", "prob": 4 },
+      { "item": "apron_leather", "prob": 2 },
       { "item": "hat_chef", "prob": 2 },
       { "item": "jacket_chef", "prob": 2 },
       { "item": "gloves_cut_resistant", "prob": 1 },
@@ -493,6 +655,7 @@
       { "item": "pot_copper", "prob": 15 },
       { "item": "pot_canning", "prob": 15 },
       { "item": "pressure_cooker", "prob": 5 },
+      { "item": "dutch_oven", "prob": 5 },
       { "item": "thermometer", "prob": 5 },
       { "item": "pan", "prob": 25 },
       { "group": "dishes_dining", "prob": 460 },
@@ -500,15 +663,17 @@
       { "group": "pantry_liquids", "prob": 160 },
       { "item": "knife_butcher", "prob": 10 },
       { "item": "cookbook", "prob": 35 },
-      { "item": "rag", "prob": 1 },
+      { "item": "cotton_patchwork", "prob": 1 },
       { "item": "popcan_stove", "prob": 5, "charges": [ 0, 500 ] },
       { "group": "alcohol", "prob": 101 },
       { "item": "sweet_sausage", "prob": 2 },
       { "item": "roasted_coffee_bean", "prob": 10 },
       { "item": "bacon", "prob": 25 },
       { "item": "bleach", "prob": 20, "charges-min": 1 },
-      { "item": "ammonia", "prob": 24, "charges-min": 1 },
-      { "item": "butane_can", "prob": 10 },
+      { "item": "chem_washing_soda", "prob": 20, "charges-min": 1 },
+      { "item": "chem_baking_soda", "prob": 20, "charges-min": 1 },
+      { "item": "ammonia_hydroxide", "prob": 24, "charges-min": 1 },
+      { "item": "butane_can", "prob": 10, "charges": [ 0, 30 ] },
       { "item": "milk_powder", "prob": 15 },
       { "item": "powder_eggs", "prob": 20 },
       {
@@ -535,6 +700,7 @@
       { "item": "vac_sealer", "prob": 10 },
       { "item": "cookbook_italian", "prob": 10 },
       { "item": "cookbook_indian", "prob": 10 },
+      { "item": "cookbook_mexican", "prob": 10 },
       { "item": "sweets_book", "prob": 10 },
       { "item": "cookbook_liverforkids", "prob": 10 },
       { "item": "cookbook_foodfashions", "prob": 7 },
@@ -602,6 +768,7 @@
       { "item": "cheese", "prob": 40 },
       { "item": "cheese_hard", "prob": 5 },
       { "item": "can_cheese", "prob": 8 },
+      { "item": "cottage_cheese", "prob": 8 },
       { "item": "yoghurt", "prob": 8 },
       { "item": "pudding", "prob": 10 },
       { "item": "gelatin_dessert_processed", "prob": 10 },
@@ -750,6 +917,7 @@
       { "item": "corndogs_frozen", "prob": 8 },
       { "item": "blt", "prob": 8 },
       { "item": "cheese", "prob": 10 },
+      { "item": "cottage_cheese", "prob": 2 },
       { "item": "cheese_hard", "prob": 5 },
       { "item": "orange", "prob": 65 },
       { "item": "irradiated_orange", "prob": 32 },
@@ -868,6 +1036,7 @@
       { "item": "roller_shoes_off", "prob": 10 },
       { "item": "jersey", "prob": 40 },
       { "item": "puck", "prob": 5 },
+      { "item": "shuttlecock", "prob": 1 },
       { "item": "baseball", "prob": 5 },
       { "item": "football", "prob": 5 },
       { "item": "hairpin", "prob": 20 },
@@ -898,6 +1067,10 @@
       { "item": "backpack", "prob": 38 },
       { "item": "backpack_leather", "prob": 18 },
       { "item": "purse", "prob": 40 },
+      { "item": "armrig", "prob": 5 },
+      { "item": "leg_small_bag", "prob": 5 },
+      { "item": "leg_bag", "prob": 5 },
+      { "item": "ankle_wallet_pouch", "prob": 2 },
       { "item": "mbag", "prob": 20 },
       { "item": "slingpack", "prob": 15 },
       { "item": "fanny", "prob": 10 },
@@ -942,6 +1115,7 @@
       { "item": "ref_matches", "prob": 60, "charges": [ 1, 32 ] },
       { "item": "sewing_kit", "prob": 47, "charges-min": 0 },
       { "item": "tailors_kit", "prob": 3, "charges-min": 0 },
+      { "item": "electric_spinwheel", "prob": 3, "charges-min": 0 },
       { "item": "thread", "prob": 40 },
       { "item": "scissors", "prob": 50 },
       { "item": "soldering_iron", "prob": 70, "charges": [ 0, 50 ] },
@@ -987,6 +1161,8 @@
       { "item": "clownshoes", "prob": 1 },
       { "item": "bondage_suit", "prob": 5 },
       { "item": "bondage_mask", "prob": 5 },
+      { "item": "bodysuit_lycra", "variant": "bondage_suit", "prob": 5 },
+      { "item": "bodysuit_lycra", "prob": 1 },
       { "item": "flask_hip", "prob": 5 },
       { "item": "vibrator", "prob": 5, "charges": [ 0, 100 ] },
       { "item": "tux", "prob": 1 },
@@ -1020,11 +1196,13 @@
       { "item": "magnifying_glass", "prob": 2 },
       { "item": "holy_symbol", "prob": 5 },
       { "item": "pet_carrier", "prob": 3 },
+      { "item": "rubber_harness_dog", "prob": 3 },
       { "item": "eclipse_glasses", "prob": 1 },
       { "item": "bodypillow", "prob": 2 },
       { "item": "teddy_bear", "prob": 2 },
       { "item": "reading_light", "prob": 8, "charges": [ 0, 50 ] },
-      { "item": "condom", "prob": 50, "count": [ 1, 5 ] }
+      { "item": "condom", "prob": 50, "count": [ 1, 5 ] },
+      { "item": "air_launcher", "prob": 1 }
     ]
   },
   {
@@ -1042,6 +1220,8 @@
       { "item": "foon", "prob": 5 },
       { "group": "ketchup_sealed_rng", "prob": 10 },
       { "group": "mustard_sealed_rng", "prob": 10 },
+      { "group": "barbecue_sauce_sealed_rng", "prob": 5 },
+      { "group": "honey_mustard_sealed_rng", "prob": 3 },
       { "item": "soysauce", "prob": 10 },
       { "item": "horseradish", "prob": 10 },
       { "item": "glass", "prob": 90 },
@@ -1058,12 +1238,14 @@
     "entries": [
       { "item": "salt_water", "prob": 20 },
       { "item": "bleach", "prob": 20, "charges-min": 1 },
-      { "item": "ammonia", "prob": 24, "charges-min": 1 },
+      { "item": "chem_washing_soda", "prob": 20, "charges-min": 1 },
+      { "item": "ammonia_hydroxide", "prob": 24, "charges-min": 1 },
       { "item": "broom", "prob": 30 },
       { "item": "mop", "prob": 15 },
       { "item": "mop_folded", "prob": 15 },
       { "item": "sponge", "prob": 30 },
       { "item": "gloves_rubber", "prob": 20 },
+      { "item": "apron_plastic", "prob": 15 },
       { "item": "mask_dust", "prob": 65 },
       { "item": "towel", "prob": 40 },
       { "item": "plastic_sheet", "prob": 40 },
@@ -1071,8 +1253,9 @@
       { "item": "bottle_plastic_small", "prob": 5 },
       { "item": "sewing_kit", "prob": 47, "charges-min": 0 },
       { "item": "tailors_kit", "prob": 3, "charges-min": 0 },
+      { "item": "electric_spinwheel", "prob": 3, "charges-min": 0 },
       { "item": "thread", "prob": 40 },
-      { "item": "rag", "prob": 1 },
+      { "item": "cotton_patchwork", "prob": 1 },
       { "item": "scissors", "prob": 50 },
       { "item": "string_36", "prob": 40 },
       { "item": "vinegar", "prob": 10 },
@@ -1088,7 +1271,8 @@
       { "item": "plunger_toilet", "prob": 30 },
       { "item": "plunger_futuristic", "prob": 15 },
       { "item": "toilet_paper", "prob": 10 },
-      { "item": "dish_towel", "prob": 20 }
+      { "item": "dish_towel", "prob": 20 },
+      { "item": "chem_turpentine", "prob": 10, "charges-min": 20 }
     ]
   },
   {
@@ -1123,6 +1307,7 @@
       [ "hat_ball", 50 ],
       [ "football", 50 ],
       [ "baseball", 50 ],
+      [ "shuttlecock", 5 ],
       [ "jersey", 50 ],
       [ "helmet_football", 50 ],
       [ "mask_hockey", 50 ],
@@ -1137,18 +1322,15 @@
       [ "dragonskin", 2 ],
       [ "knife_hunting", 25 ],
       [ "throwing_knife", 25 ],
+      { "item": "throwing_knife", "charges-min": 1, "charges-max": 6, "container-item": "leg_sheath6", "prob": 5 },
       [ "throwing_axe", 25 ],
       [ "binoculars", 50 ],
       [ "crossbow", 20 ],
       [ "compcrossbow", 20 ],
-      [ "rapier", 1 ],
       [ "rapier_fake", 10 ],
-      [ "cavalry_sabre", 1 ],
       [ "cavalry_sabre_fake", 20 ],
-      [ "katana", 1 ],
       [ "katana_fake", 20 ],
       [ "katana_inferior", 2 ],
-      [ "cutlass", 1 ],
       [ "cutlass_fake", 25 ],
       [ "cutlass_inferior", 2 ],
       [ "longbow", 10 ],
@@ -1163,6 +1345,23 @@
       [ "fencing_sabre", 20 ],
       [ "fencing_epee", 20 ],
       [ "fencing_mask", 20 ]
+    ]
+  },
+  {
+    "id": "hoarder",
+    "//": "Items that might be found scattered around the home of a hoarder.",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "group": "trash", "prob": 100 },
+      { "group": "cleaning", "prob": 20 },
+      { "group": "dishes_dining", "prob": 20 },
+      { "group": "dishes_utility", "prob": 10 },
+      { "group": "child_items", "prob": 10 },
+      { "group": "SUS_bathroom_sink", "prob": 10 },
+      { "group": "bed", "prob": 10 },
+      { "group": "games", "prob": 5 },
+      { "group": "SUS_junk_drawer", "prob": 1 }
     ]
   }
 ]

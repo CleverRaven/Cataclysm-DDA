@@ -47,7 +47,7 @@
   {
     "type": "construction_group",
     "id": "build_armchair",
-    "name": "Build Armchair"
+    "name": "Place an armchair"
   },
   {
     "type": "construction_group",
@@ -73,11 +73,6 @@
     "type": "construction_group",
     "id": "build_bed_from_scratch",
     "name": "Build Bed from Scratch"
-  },
-  {
-    "type": "construction_group",
-    "id": "build_bench",
-    "name": "Build Bench"
   },
   {
     "type": "construction_group",
@@ -117,17 +112,17 @@
   {
     "type": "construction_group",
     "id": "build_chainlink_fence",
-    "name": "Build Chainlink Fence"
+    "name": "Build Chain Link Fence"
   },
   {
     "type": "construction_group",
     "id": "build_chainlink_gate",
-    "name": "Build Chainlink Gate"
+    "name": "Build Chain Link Gate"
   },
   {
     "type": "construction_group",
     "id": "build_chair",
-    "name": "Build Chair"
+    "name": "Place a wooden chair"
   },
   {
     "type": "construction_group",
@@ -326,6 +321,11 @@
   },
   {
     "type": "construction_group",
+    "id": "build_high_end_of_an_earth_ramp",
+    "name": "Build High End of an Earth Ramp"
+  },
+  {
+    "type": "construction_group",
     "id": "build_high_end_of_a_concrete_ramp",
     "name": "Build High End of a Concrete Ramp"
   },
@@ -362,12 +362,17 @@
   {
     "type": "construction_group",
     "id": "build_log_stool",
-    "name": "Build Log Stool"
+    "name": "Place a log stool"
   },
   {
     "type": "construction_group",
     "id": "build_log_wall",
     "name": "Build Log Wall"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_low_end_of_an_earth_ramp",
+    "name": "Build Low End of an Earth Ramp"
   },
   {
     "type": "construction_group",
@@ -666,11 +671,6 @@
   },
   {
     "type": "construction_group",
-    "id": "build_scrap_metal_bench",
-    "name": "Build Scrap Metal Bench"
-  },
-  {
-    "type": "construction_group",
     "id": "build_scrap_metal_bridge_using_bolts",
     "name": "Build Scrap Metal Bridge Using Bolts"
   },
@@ -736,11 +736,6 @@
   },
   {
     "type": "construction_group",
-    "id": "build_sofa",
-    "name": "Build Sofa"
-  },
-  {
-    "type": "construction_group",
     "id": "build_spinwheel",
     "name": "Build Spinwheel"
   },
@@ -777,7 +772,7 @@
   {
     "type": "construction_group",
     "id": "build_stool",
-    "name": "Build Stool"
+    "name": "Place a wooden stool"
   },
   {
     "type": "construction_group",
@@ -861,6 +856,16 @@
   },
   {
     "type": "construction_group",
+    "id": "build_wooden_gangway",
+    "name": "Build Wooden Gangway"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_metal_gangway",
+    "name": "Build Metal Gangway"
+  },
+  {
+    "type": "construction_group",
     "id": "build_wooden_keg",
     "name": "Build Wooden Keg"
   },
@@ -941,18 +946,18 @@
   },
   {
     "type": "construction_group",
-    "id": "dig_a_deep_pit",
-    "name": "Dig a Deep Pit"
-  },
-  {
-    "type": "construction_group",
-    "id": "underground_pit",
-    "name": "Dig a Deep Pit Underground"
-  },
-  {
-    "type": "construction_group",
     "id": "dig_a_shallow_pit",
     "name": "Dig a Shallow Pit"
+  },
+  {
+    "type": "construction_group",
+    "id": "dig_a_pit",
+    "name": "Dig a Pit"
+  },
+  {
+    "type": "construction_group",
+    "id": "dig_a_water_channel",
+    "name": "Dig a Water Channel"
   },
   {
     "type": "construction_group",
@@ -1013,6 +1018,11 @@
     "type": "construction_group",
     "id": "fill_shallow_water_with_dirt",
     "name": "Fill Shallow Water With Dirt"
+  },
+  {
+    "type": "construction_group",
+    "id": "fill_recess_with_dirt",
+    "name": "Fill Recess With Dirt"
   },
   {
     "type": "construction_group",
@@ -1121,6 +1131,11 @@
   },
   {
     "type": "construction_group",
+    "id": "place_stereo",
+    "name": "Place Stereo System"
+  },
+  {
+    "type": "construction_group",
     "id": "place_minifridge",
     "name": "Place Minifridge"
   },
@@ -1138,6 +1153,31 @@
     "type": "construction_group",
     "id": "place_oven",
     "name": "Place Oven"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_water_purifier",
+    "name": "Place Stationary Water Purifier"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_foodco",
+    "name": "Place FOODCO"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_chemlab",
+    "name": "Place Onboard Chemistry Lab"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_weldrig",
+    "name": "Place Welding Rig"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_weldkit",
+    "name": "Place Welding Kit"
   },
   {
     "type": "construction_group",
@@ -1191,6 +1231,16 @@
   },
   {
     "type": "construction_group",
+    "id": "place_hydraulic_press",
+    "name": "Place Hydraulic Press"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_air_compressor",
+    "name": "Place Air Compressor"
+  },
+  {
+    "type": "construction_group",
     "id": "place_heater_large",
     "name": "Place Large Heater"
   },
@@ -1217,12 +1267,22 @@
   {
     "type": "construction_group",
     "id": "place_solar_panel_v2",
-    "name": "Place Upgraded Solar Panel"
+    "name": "Place Advanced Solar Panel"
   },
   {
     "type": "construction_group",
     "id": "place_reinforced_solar_panel_v2",
-    "name": "Place Upgraded Reinforced Solar Panel"
+    "name": "Place Advanced Reinforced Solar Panel"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_wind_turbine",
+    "name": "Place Wind Turbine"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_xl_wind_turbine",
+    "name": "Place Large Wind Turbine"
   },
   {
     "type": "construction_group",
@@ -1237,12 +1297,12 @@
   {
     "type": "construction_group",
     "id": "place_battery",
-    "name": "Place Battery"
+    "name": "Place Large Battery"
   },
   {
     "type": "construction_group",
     "id": "place_large_battery",
-    "name": "Place Large Battery"
+    "name": "Place Very Large Battery"
   },
   {
     "type": "construction_group",
@@ -1258,6 +1318,11 @@
     "type": "construction_group",
     "id": "place_dishwasher",
     "name": "Place Dishwasher"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_autoclave",
+    "name": "Place Autoclave"
   },
   {
     "type": "construction_group",
@@ -1281,6 +1346,11 @@
   },
   {
     "type": "construction_group",
+    "id": "place_wall_wiring",
+    "name": "Place Wall Wirings"
+  },
+  {
+    "type": "construction_group",
     "id": "place_anvil",
     "name": "Place Anvil"
   },
@@ -1288,6 +1358,26 @@
     "type": "construction_group",
     "id": "place_forge",
     "name": "Place Forge"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_nitrogen_generator",
+    "name": "Place Makeshift Nitrogen Generator"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_ammonia_machine_reactor",
+    "name": "Place Makeshift Ammonia Machine Reactor"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_ammonia_machine_pipework",
+    "name": "Place Makeshift Ammonia Machine Pipework"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_electrolyzer_makeshift",
+    "name": "Place Makeshift Water Electrolyzer"
   },
   {
     "type": "construction_group",
@@ -1313,6 +1403,11 @@
     "type": "construction_group",
     "id": "place_wind_mill",
     "name": "Place Wind Mill"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_screw_press",
+    "name": "Place Screw Press"
   },
   {
     "type": "construction_group",
@@ -1521,6 +1616,11 @@
   },
   {
     "type": "construction_group",
+    "id": "hang_heavy_punching_bag",
+    "name": "Hang a Heavy Punching Bag"
+  },
+  {
+    "type": "construction_group",
     "id": "build_training_dummy_light",
     "name": "Install Training Dummy"
   },
@@ -1528,5 +1628,70 @@
     "type": "construction_group",
     "id": "build_training_dummy_heavy",
     "name": "Install Armored Training Dummy"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_archery_target_box",
+    "name": "Set Up Box Archery Target"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_archery_target_bale",
+    "name": "Mark Hay Bale For Archery"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_flagpole",
+    "name": "Build a Flagpole"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_clay_oven",
+    "name": "Build Clay Oven"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_asrg_containment",
+    "name": "Place ASRG"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_rope_hoist",
+    "name": "Hang Simple Rope Hoist"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_rope_tackle_hoist",
+    "name": "Build Rope & Tackle Hoist"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_chain_hoist",
+    "name": "Build Chain & Tackle Hoist"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_bench_wooden",
+    "name": "Build a wooden bench"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_barstool",
+    "name": "Place a barstool"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_chair_plywood",
+    "name": "Place a chair"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_chair_wood_black",
+    "name": "Place a black wooden chair"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_chair_wood_white",
+    "name": "Place a white wooden chair"
   }
 ]

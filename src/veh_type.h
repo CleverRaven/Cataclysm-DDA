@@ -295,7 +295,7 @@ class vpart_info
         /** Requirements for repair of this component (per level of damage) */
         requirement_data repair_requirements() const;
 
-        /** Returns whether or not the part is repairable  */
+        /** Returns whether or not the part type is repairable */
         bool is_repairable() const;
 
         /** Repair time (in moves) to fully repair this component, accounting for player skills */
@@ -330,6 +330,15 @@ class vpart_info
         const cata::optional<vpslot_workbench> &get_workbench_info() const;
 
         std::set<std::pair<itype_id, int>> get_pseudo_tools() const;
+
+        // @returns tools required for folding this part
+        std::vector<itype_id> get_folding_tools() const;
+        // @returns tools required for unfolding this part
+        std::vector<itype_id> get_unfolding_tools() const;
+        // @returns time required for folding this part
+        time_duration get_folding_time() const;
+        // @returns time required for unfolding this part
+        time_duration get_unfolding_time() const;
     private:
         std::set<std::string> flags;
         // category list for installation ui breakdown
@@ -344,6 +353,14 @@ class vpart_info
 
         /** Pseudo tools this provides when installed, second is the hotkey */
         std::set<std::pair<itype_id, int>> pseudo_tools;
+        // tools required to fold this part
+        std::vector<itype_id> folding_tools;
+        // tools required to unfold this part
+        std::vector<itype_id> unfolding_tools;
+        // time required to fold this part
+        time_duration folding_time = time_duration::from_seconds( 10 );
+        // time required to unfold this part
+        time_duration unfolding_time = time_duration::from_seconds( 10 );
 
         cata::optional<vpslot_engine> engine_info;
         cata::optional<vpslot_wheel> wheel_info;
@@ -399,7 +416,7 @@ class vpart_info
         itype_id default_ammo = itype_id::NULL_ID();
 
         /** Volume of a foldable part when folded */
-        units::volume folded_volume = 0_ml;
+        cata::optional<units::volume> folded_volume = cata::nullopt;
 
         /** Cargo location volume */
         units::volume size = 0_ml;
@@ -437,10 +454,10 @@ class vpart_info
         int epower = 0;
 
         /**
-         * Energy consumed by engines and motors (watts) when delivering max @ref power
+         * Energy consumed per second by engines and motors when delivering max @ref power
          * Includes waste. Gets scaled based on powertrain demand.
          */
-        int energy_consumption = 0;
+        units::power energy_consumption = 0_W;
 
         /**
          * For engines and motors this is maximum output (watts)
@@ -456,7 +473,12 @@ class vpart_info
          *  default is half @ref install_moves */
         int removal_moves = -1;
 
-        /** seatbelt (str), muffler (%), horn (vol), light (intensity), recharging (power) */
+        // seatbelt (str, currently non-functional #30239)
+        // muffler (% noise reduction)
+        // horn (sound volume)
+        // light (intensity)
+        // recharging (charging speed in watts)
+        // funnel (water collection area in mm^2)
         int bonus = 0;
 
         /** cargo weight modifier (percentage) */
@@ -504,6 +526,13 @@ struct vehicle_prototype {
         itype_id fuel = itype_id::NULL_ID();
     };
 
+    struct zone_def {
+        zone_type_id zone_type;
+        std::string name;
+        std::string filter;
+        point pt;
+    };
+
     vehicle_prototype();
     vehicle_prototype( vehicle_prototype && ) noexcept;
     ~vehicle_prototype();
@@ -513,6 +542,7 @@ struct vehicle_prototype {
     translation name;
     std::vector<part_def> parts;
     std::vector<vehicle_item_spawn> item_spawns;
+    std::vector<zone_def> zone_defs;
 
     std::unique_ptr<vehicle> blueprint;
 
@@ -521,6 +551,29 @@ struct vehicle_prototype {
     static void finalize();
 
     static std::vector<vproto_id> get_all();
+};
+
+/**
+* Holder for all vpart migrations, when loading parts with vpart_id present
+* in the map keys they'll be replaced by vpart_id in the pair's value
+*/
+class vpart_migration
+{
+    public:
+        /** Handler for loading "vehicle_part_migration" type of json object */
+        static void load( const JsonObject &jo );
+
+        /** Clears migration list */
+        static void reset();
+
+        /** Finalizes migrations */
+        static void finalize();
+
+        /** Map of deprecated vpart_id to their replacement vpart_id */
+        static const std::map<vpart_id, vpart_id> &get_migrations();
+
+        /** Find vpart_id with all migrations applied. */
+        static vpart_id migrate( const vpart_id &original );
 };
 
 #endif // CATA_SRC_VEH_TYPE_H

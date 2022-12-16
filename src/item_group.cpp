@@ -123,9 +123,12 @@ static void put_into_container(
     item ctr( *container_type, birthday );
     Item_spawn_data::ItemList excess;
     for( auto it = items.end() - num_items; it != items.end(); ++it ) {
-        if( ctr.can_contain( *it ).success() ) {
+        if( ctr.can_contain_directly( *it ).success() ) {
             const item_pocket::pocket_type pk_type = guess_pocket_for( ctr, *it );
             ctr.put_in( *it, pk_type );
+        } else if( ctr.is_corpse() ) {
+            const item_pocket::pocket_type pk_type = guess_pocket_for( ctr, *it );
+            ctr.force_insert_item( *it, pk_type );
         } else {
             switch( on_overflow ) {
                 case Item_spawn_data::overflow_behaviour::none:
@@ -330,7 +333,20 @@ void Single_item_creator::replace_items( const std::unordered_map<itype_id, ityp
 
 bool Single_item_creator::has_item( const itype_id &itemid ) const
 {
-    return type == S_ITEM && itemid.str() == id;
+    switch( type ) {
+        case S_ITEM:
+            return itemid.str() == id;
+        case S_ITEM_GROUP: {
+            Item_spawn_data *isd = item_controller->get_group( item_group_id( id ) );
+            if( isd != nullptr ) {
+                return isd->has_item( itemid );
+            }
+            return false;
+        }
+        case S_NONE:
+            return false;
+    }
+    return false;
 }
 
 std::set<const itype *> Single_item_creator::every_item() const
@@ -606,6 +622,7 @@ bool Item_modifier::remove_item( const itype_id &itemid )
 }
 
 void Item_modifier::replace_items( const std::unordered_map<itype_id, itype_id> &replacements )
+const
 {
     if( ammo ) {
         ammo->replace_items( replacements );
@@ -878,7 +895,7 @@ static item_group_id get_unique_group_id()
     // names should not be seen anywhere.
     static const std::string unique_prefix = "\u01F7 ";
     while( true ) {
-        const item_group_id new_group( unique_prefix + std::to_string( next_id++ ) );
+        item_group_id new_group( unique_prefix + std::to_string( next_id++ ) );
         if( !item_group::group_is_defined( new_group ) ) {
             return new_group;
         }
@@ -891,7 +908,7 @@ item_group_id item_group::load_item_group( const JsonValue &value,
     if( value.test_string() ) {
         return item_group_id( value.get_string() );
     } else if( value.test_object() ) {
-        const item_group_id group = get_unique_group_id();
+        item_group_id group = get_unique_group_id();
 
         JsonObject jo = value.get_object();
         const std::string subtype = jo.get_string( "subtype", default_subtype );
@@ -899,7 +916,7 @@ item_group_id item_group::load_item_group( const JsonValue &value,
 
         return group;
     } else if( value.test_array() ) {
-        const item_group_id group = get_unique_group_id();
+        item_group_id group = get_unique_group_id();
 
         JsonArray jarr = value.get_array();
         // load_item_group needs a bool, invalid subtypes are unexpected and most likely errors

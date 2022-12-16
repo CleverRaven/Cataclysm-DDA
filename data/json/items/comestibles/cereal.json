@@ -12,7 +12,6 @@
     "comestible_type": "FOOD",
     "quench": -2,
     "calories": 145,
-    "healthy": 1,
     "description": "A generic box of cereal, you shouldn't see this.",
     "price": 300,
     "price_postapoc": 200,

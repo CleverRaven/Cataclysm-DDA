@@ -35,7 +35,6 @@ using Item_list = std::vector<item>;
 
 class Item_factory;
 class JsonArray;
-class JsonIn;
 class JsonObject;
 
 extern std::unique_ptr<Item_factory> item_controller;
@@ -49,6 +48,9 @@ class migration
         itype_id replace;
         std::set<std::string> flags;
         int charges = 0;
+
+        // if set to true then reset item_vars std::map to the value of itype's item_variables
+        bool reset_item_vars;
 
         class content
         {
@@ -335,7 +337,7 @@ class Item_factory
                             const std::string &iuse_id );
 
         void set_use_methods_from_json( const JsonObject &jo, const std::string &member,
-                                        std::map<std::string, use_function> &use_methods, std::map<std::string, float> &ammo_scale );
+                                        std::map<std::string, use_function> &use_methods, std::map<std::string, int> &ammo_scale );
 
         use_function usage_from_string( const std::string &type ) const;
 
@@ -380,6 +382,8 @@ class Item_factory
         void register_cached_uses( const itype &obj );
         /** Applies part of finalization that depends on other items. */
         void finalize_post( itype &obj );
+
+        void finalize_post_armor( itype &obj );
 
         //iuse stuff
         std::map<item_action_id, use_function> iuse_function_list;

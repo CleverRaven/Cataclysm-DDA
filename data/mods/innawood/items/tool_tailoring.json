@@ -108,5 +108,42 @@
       }
     ],
     "flags": [ "ALLOWS_REMOTE_USE" ]
+  },
+  {
+    "id": "sheet_fibercloth",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "fibercloth sheet" },
+    "description": "A 12 inch by 24 inch sheet of fabric woven from plant fiber, suitable for making clothing.",
+    "weight": "38 g",
+    "volume": "47 ml",
+    "price": 1000,
+    "price_postapoc": 100,
+    "material": [ "fibercloth" ],
+    "symbol": "=",
+    "color": "green"
+  },
+  {
+    "id": "fibercloth_patchwork",
+    "type": "TOOL",
+    "category": "spare_parts",
+    "name": { "str": "fibercloth patch", "str_pl": "fibercloth patches" },
+    "description": "A 6 inch square fibercloth patch, suitable for use in repairing and tailoring of clothing.",
+    "weight": "5 g",
+    "volume": "6 ml",
+    "price": 200,
+    "price_postapoc": 2,
+    "material": [ "fibercloth" ],
+    "symbol": ",",
+    "color": "green",
+    "use_action": [
+      {
+        "type": "heal",
+        "move_cost": 200,
+        "used_up_item": { "id": "fibercloth_patchwork", "quantity": 1, "flags": [ "FILTHY" ] }
+      },
+      "WASH_HARD_ITEMS"
+    ],
+    "flags": [ "NO_SALVAGE" ]
   }
 ]

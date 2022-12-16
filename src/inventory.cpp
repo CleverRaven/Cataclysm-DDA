@@ -19,6 +19,7 @@
 #include "inventory_ui.h" // auto inventory blocking
 #include "item_pocket.h"
 #include "item_stack.h"
+#include "itype.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -44,7 +45,6 @@ static const itype_id itype_heroin( "heroin" );
 static const itype_id itype_oxycodone( "oxycodone" );
 static const itype_id itype_salt_water( "salt_water" );
 static const itype_id itype_tramadol( "tramadol" );
-static const itype_id itype_water( "water" );
 
 static const material_id material_iron( "iron" );
 
@@ -175,7 +175,7 @@ inventory &inventory::operator+= ( const inventory &rhs )
 
 inventory &inventory::operator+= ( const std::list<item> &rhs )
 {
-    for( const auto &rh : rhs ) {
+    for( const item &rh : rhs ) {
         add_item( rh, false, false );
     }
     return *this;
@@ -183,7 +183,7 @@ inventory &inventory::operator+= ( const std::list<item> &rhs )
 
 inventory &inventory::operator+= ( const std::vector<item> &rhs )
 {
-    for( const auto &rh : rhs ) {
+    for( const item &rh : rhs ) {
         add_item( rh, true );
     }
     return *this;
@@ -197,7 +197,7 @@ inventory &inventory::operator+= ( const item &rhs )
 
 inventory &inventory::operator+= ( const item_stack &rhs )
 {
-    for( const auto &p : rhs ) {
+    for( const item &p : rhs ) {
         if( !p.made_of( phase_id::LIQUID ) ) {
             add_item( p, true );
         }
@@ -235,11 +235,12 @@ void inventory::clear()
     items.clear();
     max_empty_liq_cont.clear();
     binned = false;
+    qualities_cache.clear();
 }
 
 void inventory::push_back( const std::list<item> &newits )
 {
-    for( const auto &newit : newits ) {
+    for( const item &newit : newits ) {
         add_item( newit, true );
     }
 }
@@ -386,7 +387,7 @@ void inventory::restack( Character &p )
         if( !inv_chars.valid( topmost.invlet ) || ( invlet_item != nullptr &&
                 position_by_item( invlet_item ) != idx ) ) {
             assign_empty_invlet( topmost, p );
-            for( auto &stack_iter : stack ) {
+            for( item &stack_iter : stack ) {
                 stack_iter.invlet = topmost.invlet;
             }
         }
@@ -414,7 +415,7 @@ void inventory::restack( Character &p )
     }
 
     //re-add non-matching items
-    for( auto &elem : to_restack ) {
+    for( item &elem : to_restack ) {
         add_item( elem );
     }
 
@@ -433,8 +434,29 @@ void inventory::restack( Character &p )
 
 static int count_charges_in_list( const itype *type, const map_stack &items )
 {
-    for( const auto &candidate : items ) {
+    for( const item &candidate : items ) {
         if( candidate.type == type ) {
+            return candidate.charges;
+        }
+    }
+    return 0;
+}
+
+/**
+* Finds the number of charges of the first item that matches ammotype.
+*
+* @param ammotype   Search target.
+* @param items      Stack of items. Search stops at first match.
+* @param [out] item_type Matching type.
+*
+* @return           Number of charges.
+* */
+static int count_charges_in_list( const ammotype *ammotype, const map_stack &items,
+                                  itype_id &item_type )
+{
+    for( const item &candidate : items ) {
+        if( candidate.is_ammo() && candidate.type->ammo->type == *ammotype ) {
+            item_type = candidate.typeId();
             return candidate.charges;
         }
     }
@@ -494,7 +516,16 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
             const itype *ammo = f.crafting_ammo_item_type();
             if( furn_item->has_pocket_type( item_pocket::pocket_type::MAGAZINE ) ) {
                 // NOTE: This only works if the pseudo item has a MAGAZINE pocket, not a MAGAZINE_WELL!
-                item furn_ammo( ammo, calendar::turn, count_charges_in_list( ammo, m.i_at( p ) ) );
+                const bool using_ammotype = f.has_flag( ter_furn_flag::TFLAG_AMMOTYPE_RELOAD );
+                int amount = 0;
+                itype_id ammo_id = ammo->get_id();
+                // Some furniture can consume more than one item type.
+                if( using_ammotype ) {
+                    amount = count_charges_in_list( &ammo->ammo->type, m.i_at( p ), ammo_id );
+                } else {
+                    amount = count_charges_in_list( ammo, m.i_at( p ) );
+                }
+                item furn_ammo( ammo_id, calendar::turn, amount );
                 furn_item->put_in( furn_ammo, item_pocket::pocket_type::MAGAZINE );
             }
         }
@@ -525,27 +556,11 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
         if( !water.is_null() ) {
             add_item( water );
         }
-        // kludge that can probably be done better to check specifically for toilet water to use in
-        // crafting
-        if( m.furn( p )->has_examine( iexamine::toilet ) ) {
-            // get water charges at location
-            map_stack toilet = m.i_at( p );
-            auto water = toilet.end();
-            for( auto candidate = toilet.begin(); candidate != toilet.end(); ++candidate ) {
-                if( candidate->typeId() == itype_water ) {
-                    water = candidate;
-                    break;
-                }
-            }
-            if( water != toilet.end() && water->charges > 0 ) {
-                add_item( *water );
-            }
-        }
 
         // keg-kludge
         if( m.furn( p )->has_examine( iexamine::keg ) ) {
             map_stack liq_contained = m.i_at( p );
-            for( auto &i : liq_contained ) {
+            for( item &i : liq_contained ) {
                 if( i.made_of( phase_id::LIQUID ) ) {
                     add_item( i );
                 }
@@ -655,7 +670,7 @@ std::list<item> inventory::remove_randomly_by_volume( const units::volume &volum
 void inventory::dump( std::vector<item *> &dest )
 {
     for( auto &elem : items ) {
-        for( auto &elem_stack_iter : elem ) {
+        for( item &elem_stack_iter : elem ) {
             dest.push_back( &elem_stack_iter );
         }
     }
@@ -663,8 +678,8 @@ void inventory::dump( std::vector<item *> &dest )
 
 void inventory::dump( std::vector<const item *> &dest ) const
 {
-    for( auto &elem : items ) {
-        for( auto &elem_stack_iter : elem ) {
+    for( const auto &elem : items ) {
+        for( const item &elem_stack_iter : elem ) {
             dest.push_back( &elem_stack_iter );
         }
     }
@@ -703,7 +718,7 @@ int inventory::position_by_item( const item *it ) const
 {
     int p = 0;
     for( const auto &stack : items ) {
-        for( const auto &e : stack ) {
+        for( const item &e : stack ) {
             if( e.has_item( *it ) ) {
                 return p;
             }
@@ -745,24 +760,6 @@ std::list<item> inventory::use_amount( const itype_id &it, int quantity,
             iter = items.erase( iter );
         } else if( iter != items.end() ) {
             ++iter;
-        }
-    }
-    return ret;
-}
-
-int inventory::leak_level( const flag_id &flag ) const
-{
-    int ret = 0;
-
-    for( const auto &elem : items ) {
-        for( const auto &elem_stack_iter : elem ) {
-            if( elem_stack_iter.has_flag( flag ) ) {
-                if( elem_stack_iter.has_flag( flag_LEAK_ALWAYS ) ) {
-                    ret += elem_stack_iter.volume() / units::legacy_volume_factor;
-                } else if( elem_stack_iter.has_flag( flag_LEAK_DAM ) && elem_stack_iter.damage() > 0 ) {
-                    ret += elem_stack_iter.damage_level();
-                }
-            }
         }
     }
     return ret;
@@ -826,7 +823,7 @@ void inventory::rust_iron_items()
     Character &player_character = get_player_character();
     map &here = get_map();
     for( auto &elem : items ) {
-        for( auto &elem_stack_iter : elem ) {
+        for( item &elem_stack_iter : elem ) {
             if( elem_stack_iter.made_of( material_iron ) &&
                 !elem_stack_iter.has_flag( flag_WATERPROOF_GUN ) &&
                 !elem_stack_iter.has_flag( flag_WATERPROOF ) &&
@@ -854,7 +851,7 @@ units::mass inventory::weight() const
 {
     units::mass ret = 0_gram;
     for( const auto &elem : items ) {
-        for( const auto &elem_stack_iter : elem ) {
+        for( const item &elem_stack_iter : elem ) {
             ret += elem_stack_iter.weight();
         }
     }
@@ -885,7 +882,7 @@ void for_each_item_in_both(
             copy.charges = std::min( copy.charges, num_to_count );
             f( copy );
         } else {
-            for( const auto &elem_stack_iter : elem ) {
+            for( const item &elem_stack_iter : elem ) {
                 f( elem_stack_iter );
                 if( --num_to_count <= 0 ) {
                     break;
@@ -917,7 +914,7 @@ units::volume inventory::volume() const
 {
     units::volume ret = 0_ml;
     for( const auto &elem : items ) {
-        for( const auto &elem_stack_iter : elem ) {
+        for( const item &elem_stack_iter : elem ) {
             ret += elem_stack_iter.volume();
         }
     }
@@ -955,14 +952,19 @@ std::vector<item *> inventory::active_items()
     return ret;
 }
 
-enchantment inventory::get_active_enchantment_cache( const Character &owner ) const
+enchant_cache inventory::get_active_enchantment_cache( const Character &owner ) const
 {
-    enchantment temp_cache;
+    enchant_cache temp_cache;
     for( const std::list<item> &elem : items ) {
         for( const item &check_item : elem ) {
-            for( const enchantment &ench : check_item.get_enchantments() ) {
+            for( const enchant_cache &ench : check_item.get_proc_enchantments() ) {
                 if( ench.is_active( owner, check_item ) ) {
                     temp_cache.force_add( ench );
+                }
+            }
+            for( const enchantment &ench : check_item.get_defined_enchantments() ) {
+                if( ench.is_active( owner, check_item ) ) {
+                    temp_cache.force_add( ench, owner );
                 }
             }
         }
@@ -1004,7 +1006,7 @@ void inventory::assign_empty_invlet( item &it, const Character &p, const bool fo
         // FIXME: Find a better way to get bound keys
         inventory_selector selector( get_avatar() );
 
-        for( const auto &inv_char : inv_chars ) {
+        for( const char &inv_char : inv_chars ) {
             if( assigned_invlet.count( inv_char ) ) {
                 // don't overwrite assigned keys
                 continue;
@@ -1144,7 +1146,7 @@ bool inventory::must_use_liq_container( const itype_id &id, int to_use ) const
     return leftover < 0 && leftover * -1 <= total - iter->second;
 }
 
-void inventory::replace_liq_container_count( const std::map<itype_id, int> newmap, bool use_max )
+void inventory::replace_liq_container_count( const std::map<itype_id, int> &newmap, bool use_max )
 {
     for( const auto &it : newmap ) {
         if( !use_max || max_empty_liq_cont.find( it.first ) == max_empty_liq_cont.end() ||

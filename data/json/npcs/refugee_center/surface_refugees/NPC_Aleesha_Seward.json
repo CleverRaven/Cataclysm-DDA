@@ -90,7 +90,7 @@
     "speaker_effect": {
       "effect": [
         { "u_add_var": "u_met_Aleesha_Seward", "type": "general", "context": "meeting", "value": "yes" },
-        { "npc_first_topic": "TALK_REFUGEE_ALEESHA_1a" }
+        { "npc_first_topic": "TALK_REFUGEE_Aleesha_1a" }
       ]
     },
     "responses": [
@@ -102,7 +102,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Aleesha_1a",
     "dynamic_line": {
-      "and": [
+      "concatenate": [
         "*doesn't quite meet your gaze as you approach.  \"",
         [
           "Hey there.",

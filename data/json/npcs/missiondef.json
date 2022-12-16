@@ -459,7 +459,23 @@
     "difficulty": 5,
     "value": 250000,
     "urgent": true,
-    "start": "kill_horde_master",
+    "start": {
+      "update_mapgen": {
+        "place_monster": [
+          { "monster": "mon_zombie_master", "x": [ 12, 15 ], "y": [ 12, 15 ], "target": true, "name": "Demonic Soul" },
+          { "group": "GROUP_ZOMBIE", "x": [ 12, 15 ], "y": [ 12, 15 ], "repeat": [ 21, 29 ] }
+        ]
+      },
+      "effect": "follow_only",
+      "assign_mission_target": {
+        "om_terrain": "house",
+        "om_terrain_match_type": "CONTAINS",
+        "search_range": 80,
+        "min_distance": 10,
+        "random": true,
+        "z": 0
+      }
+    },
     "end": { "effect": "stop_following" },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_RECRUIT_TRACKER",
@@ -474,18 +490,6 @@
       "success_lie": "I don't think we got it yet.",
       "failure": "Quitting already?"
     }
-  },
-  {
-    "id": "MISSION_KILL_NEMESIS",
-    "type": "mission_definition",
-    "name": { "str": "Kill your pursuer" },
-    "description": "Since the start of the Cataclysm, something has been hunting you relentlessly.  You can outrun it but never truly escape it.  It won't end until one of you dies.",
-    "goal": "MGOAL_KILL_NEMESIS",
-    "difficulty": 5,
-    "value": 0,
-    "start": "kill_nemesis",
-    "end": { "effect": [ { "u_lose_trait": "HAS_NEMESIS" } ] },
-    "origins": [ "ORIGIN_GAME_START" ]
   },
   {
     "id": "MISSION_KILL_JABBERWOCK",
@@ -612,31 +616,6 @@
     "origins": [ "ORIGIN_NULL" ]
   },
   {
-    "id": "MISSION_LAST_DELIVERY",
-    "type": "mission_definition",
-    "name": { "str": "Reach The Mansion And Finish This Delivery" },
-    "goal": "MGOAL_GO_TO_TYPE",
-    "destination": "mansion_c3",
-    "difficulty": 1,
-    "value": 0,
-    "start": { "assign_mission_target": { "om_terrain": "mansion_c3", "om_special": "Mansion_Wild", "search_range": 200 } },
-    "origins": [ "ORIGIN_GAME_START" ]
-  },
-  {
-    "id": "MISSION_HELICOPTER_REFUEL",
-    "type": "mission_definition",
-    "name": { "str": "Refuel your helicopter." },
-    "description": "You were flying towards a nearby private airport before your forced landing.  You could still reach it by ground, and scavenge it for fuel.",
-    "goal": "MGOAL_GO_TO_TYPE",
-    "destination": "s_air_hangars",
-    "difficulty": 1,
-    "value": 0,
-    "start": {
-      "assign_mission_target": { "om_terrain": "s_air_hangars", "reveal_radius": 5, "om_special": "o_airport", "search_range": 120 }
-    },
-    "origins": [ "ORIGIN_GAME_START" ]
-  },
-  {
     "id": "MISSION_RECOVER_PRIEST_DIARY",
     "type": "mission_definition",
     "name": { "str": "Recover Priest's Diary" },
@@ -644,7 +623,17 @@
     "difficulty": 2,
     "value": 70000,
     "item": "priest_diary",
-    "start": "place_priest_diary",
+    "start": {
+      "update_mapgen": { "place_item": [ { "item": "priest_diary", "x": [ 3, 21 ], "y": [ 6, 21 ], "amount": 1 } ] },
+      "assign_mission_target": {
+        "om_terrain": "house",
+        "om_terrain_match_type": "PREFIX",
+        "search_range": 80,
+        "min_distance": 5,
+        "random": true,
+        "z": 0
+      }
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_INVESTIGATE_CULT",
     "dialogue": {
@@ -691,8 +680,18 @@
     "goal": "MGOAL_FIND_MONSTER",
     "difficulty": 3,
     "value": 100000,
-    "place": "near_town",
-    "start": "place_dog",
+    "start": {
+      "update_mapgen": { "place_monster": [ { "monster": "mon_dog", "x": [ 3, 21 ], "y": [ 6, 21 ], "friendly": true, "target": true } ] },
+      "effect": [ { "u_spawn_item": "dog_whistle" } ],
+      "assign_mission_target": {
+        "om_terrain": "house",
+        "om_terrain_replace": "field",
+        "om_terrain_match_type": "PREFIX",
+        "search_range": 43,
+        "random": true,
+        "z": 0
+      }
+    },
     "origins": [ "ORIGIN_OPENER_NPC" ],
     "dialogue": {
       "describe": "Oh, my poor puppy…",
@@ -726,16 +725,6 @@
       "success_lie": "OK, then hand it over.",
       "failure": "Shit happens."
     }
-  },
-  {
-    "id": "MISSION_INFECTED_START_FIND_ANTIBIOTICS",
-    "type": "mission_definition",
-    "name": { "str": "Find Antibiotics Before You Die!" },
-    "goal": "MGOAL_FIND_ITEM",
-    "difficulty": 1,
-    "value": 0,
-    "origins": [ "ORIGIN_GAME_START" ],
-    "item": "antibiotics"
   },
   {
     "id": "MISSION_PROVE_YOUR_WORTH",
@@ -824,7 +813,7 @@
       "accepted": "Great!  This bag should be big enough to hold all of the stalks we'll need.  Don't forget to bring it back.",
       "rejected": "Your loss.",
       "advice": "The cattails grow in the fresh water in swamps.  You can't miss them.",
-      "inquire": "Got those cattail stalks yet?  Don't forget to bring back my bag and improve your survival skill to at least 1 as well.",
+      "inquire": "Got those cattail stalks yet?  Don't forget to bring back my bag and to work on improving your survival skill as well.",
       "success": "Great!  Hand them over and I'll show you how this works.",
       "success_lie": "OK, then hand them over.",
       "failure": "Well, that's a shame."
@@ -879,25 +868,13 @@
     }
   },
   {
-    "id": "MISSION_MANSION_START",
+    "id": "MISSION_INVESTIGATE_PORTAL_DUNGEON",
     "type": "mission_definition",
-    "name": { "str": "Ready or Not" },
-    "description": "Survive all day from the crazy inhabitants of the mansion.",
-    "goal": "MGOAL_CONDITION",
-    "goal_condition": { "days_since_cataclysm": 1 },
-    "difficulty": 3,
+    "name": { "str": "Investigate Strange Location" },
+    "goal": "MGOAL_GO_TO",
+    "description": "You could find this place upside down, dizzy and blindfolded.  Its presence is too altered to allow the mercy of ignorance.",
+    "difficulty": 0,
     "value": 0,
-    "end": {
-      "effect": [
-        {
-          "u_add_morale": "morale_feeling_good",
-          "bonus": 50,
-          "max_bonus": 50,
-          "duration": "60 minutes",
-          "decay_start": "60 minutes"
-        }
-      ]
-    },
-    "origins": [ "ORIGIN_GAME_START" ]
+    "start": { "assign_mission_target": { "var": { "global_val": "portal_dungeon" } } }
   }
 ]

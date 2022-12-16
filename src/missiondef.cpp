@@ -193,12 +193,9 @@ enum legacy_mission_type_id {
 static const std::map<std::string, std::function<void( mission * )>> mission_function_map = {{
         // Starts
         { "standard", { } },
-        { "place_dog", mission_start::place_dog },
         { "place_zombie_mom", mission_start::place_zombie_mom },
-        { "kill_horde_master", mission_start::kill_horde_master },
         { "kill_nemesis", mission_start::kill_nemesis },
         { "place_npc_software", mission_start::place_npc_software },
-        { "place_priest_diary", mission_start::place_priest_diary },
         { "place_deposit_box", mission_start::place_deposit_box },
         { "find_safety", mission_start::find_safety },
         { "place_book", mission_start::place_book },
@@ -206,7 +203,6 @@ static const std::map<std::string, std::function<void( mission * )>> mission_fun
         { "create_lab_console", mission_start::create_lab_console },
         { "create_hidden_lab_console", mission_start::create_hidden_lab_console },
         { "create_ice_lab_console", mission_start::create_ice_lab_console },
-        { "reveal_lab_train_depot", mission_start::reveal_lab_train_depot },
         // Endings
         { "deposit_box", mission_end::deposit_box }
         // Failures
@@ -307,7 +303,7 @@ void assign_function( const JsonObject &jo, const std::string &id, Fun &target,
         if( iter != cont.end() ) {
             target = iter->second;
         } else {
-            jo.throw_error( "Invalid mission function", id );
+            jo.throw_error_at( id, "Invalid mission function" );
         }
     }
 }
@@ -367,7 +363,7 @@ void mission_type::load( const JsonObject &jo, const std::string &src )
         } else if( jo.has_member( phase ) ) {
             JsonObject j_start = jo.get_object( phase );
             if( !parse_funcs( j_start, phase_func ) ) {
-                deferred.emplace_back( jo.get_source_location(), src );
+                deferred.emplace_back( jo, src );
                 jo.allow_omitted_members();
                 j_start.allow_omitted_members();
                 return false;
@@ -425,7 +421,7 @@ void mission_type::finalize()
 
 void mission_type::check_consistency()
 {
-    for( const auto &m : get_all() ) {
+    for( const mission_type &m : get_all() ) {
         if( !m.item_id.is_empty() && !item::type_is_defined( m.item_id ) ) {
             debugmsg( "Mission %s has undefined item id %s", m.id.c_str(), m.item_id.c_str() );
         }

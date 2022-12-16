@@ -192,12 +192,18 @@ the message fields the "apply_memorial_log" will only be added to the log for ne
 
 ### Resistances
 ```C++
-    "resist_trait": "NOPAIN",
+    "resist_traits": "NOPAIN",
     "resist_effect": "flumed"
 ```
 These fields are used to determine if an effect is being resisted or not. If the player has the
 matching trait or effect then they are "resisting" the effect, which changes its effects and description.
 Effects can only have one "resist_trait" and one "resist_effect" at a time.
+
+### Immunity Flags
+````JSON
+"immunity_flags": [ "INFECTION_IMMUNE", "YOUR_FLAG" ]
+```
+Having any of the defined character flags (See JSON_FLAGS.md#Character flags) will make you immune to the effect. Note that these are completely JSON-driven, so you can add a custom flag for your effect without C++ changes.
 
 ### Removes effects
 ```C++
@@ -300,11 +306,6 @@ main part (arms, head, legs, etc.).
 "pkill_addict_reduces" makes a player's addiction to painkillers reduce the chance of the effect giving
 them more pkill. "pain_sizing" and "hurt_sizing" cause large/huge mutations to affect the chance of pain
 and hurt effects triggering. "harmful_cough" means that the coughs caused by this effect can hurt the player.
-
-### Flags
-
-"EFFECT_INVISIBLE" Character affected by an effect with this flag are invisible.
-"EFFECT_IMPEDING" Character affected by an effect with this flag can't move until they break free from the effect.  Breaking free requires a strength check: `x_in_y( STR * limb lifting score * limb grip score, 6 * get_effect_int( eff_id )`
 
 ### Vitamin Mods
 
@@ -502,7 +503,7 @@ Valid arguments:
 "healing_rate"      - Healed rate per day
 "healing_head"      - Percentage of healing value for head
 "healing_torso"     - Percentage of healing value for torso
-
+"enchantments" - (_optional_) List of enchantments applied by this effect (see MAGIC.md for instructions on enchantment. NB: enchantments are not necessarily magic.) Values can either be the enchantments id or an inline definition of the enchantment.
 ```
 Each argument can also take either one or two values.
 ```C++

@@ -10,5 +10,11 @@
     "name": "CBM_SLOTS_ENABLED",
     "stype": "bool",
     "value": true
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "EMP_DISABLE_ELECTRONICS",
+    "stype": "bool",
+    "value": false
   }
 ]

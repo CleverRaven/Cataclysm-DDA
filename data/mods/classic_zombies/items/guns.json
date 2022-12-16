@@ -5,7 +5,7 @@
     "id": "m16_auto_rifle",
     "copy-from": "m16_auto_rifle",
     "name": { "str": "C7 assault rifle" },
-    "description": "The C7A1 is the standard issue rifle for the Canadian military manufactured by Diemaco.  It is a gas operated, rotating bolt rifle known for its accuracy and controllable recoil.",
+    "description": "The C7A1 is the standard issue rifle for the Canadian military manufactured by Diemaco.  It is a gas-operated, rotating bolt rifle known for its accuracy and controllable recoil.",
     "variant_type": "gun",
     "variants": [
       {

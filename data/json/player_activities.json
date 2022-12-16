@@ -38,7 +38,7 @@
   {
     "id": "ACT_MULTIPLE_CONSTRUCTION",
     "type": "activity_type",
-    "activity_level": "BRISK_EXERCISE",
+    "activity_level": "NO_EXERCISE",
     "verb": "constructing",
     "based_on": "neither",
     "suspendable": false,
@@ -89,6 +89,26 @@
     "suspendable": false,
     "no_resume": true,
     "multi_activity": true
+  },
+  {
+    "id": "ACT_VEHICLE_FOLD",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "folding a vehicle",
+    "based_on": "speed",
+    "suspendable": false,
+    "no_resume": true,
+    "multi_activity": false
+  },
+  {
+    "id": "ACT_VEHICLE_UNFOLD",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "unfolding a vehicle",
+    "based_on": "speed",
+    "suspendable": false,
+    "no_resume": true,
+    "multi_activity": false
   },
   {
     "id": "ACT_VEHICLE_REPAIR",
@@ -304,7 +324,7 @@
   {
     "id": "ACT_BUILD",
     "type": "activity_type",
-    "activity_level": "BRISK_EXERCISE",
+    "activity_level": "NO_EXERCISE",
     "based_on": "neither",
     "refuel_fires": true,
     "auto_needs": true,
@@ -355,7 +375,8 @@
     "type": "activity_type",
     "activity_level": "LIGHT_EXERCISE",
     "verb": "using first aid",
-    "based_on": "speed"
+    "based_on": "speed",
+    "suspendable": false
   },
   {
     "id": "ACT_FISH",
@@ -472,6 +493,14 @@
     "activity_level": "MODERATE_EXERCISE",
     "verb": "sorting out the loot",
     "based_on": "neither"
+  },
+  {
+    "id": "ACT_UNLOAD_LOOT",
+    "type": "activity_type",
+    "activity_level": "MODERATE_EXERCISE",
+    "verb": "unloading loot",
+    "based_on": "neither",
+    "multi_activity": true
   },
   {
     "id": "ACT_FETCH_REQUIRED",
@@ -784,27 +813,6 @@
     "based_on": "time"
   },
   {
-    "id": "ACT_DIG",
-    "type": "activity_type",
-    "activity_level": "EXTRA_EXERCISE",
-    "verb": "digging",
-    "based_on": "speed"
-  },
-  {
-    "id": "ACT_DIG_CHANNEL",
-    "type": "activity_type",
-    "activity_level": "EXTRA_EXERCISE",
-    "verb": "digging",
-    "based_on": "speed"
-  },
-  {
-    "id": "ACT_FILL_PIT",
-    "type": "activity_type",
-    "activity_level": "ACTIVE_EXERCISE",
-    "verb": "filling",
-    "based_on": "speed"
-  },
-  {
     "id": "ACT_SHAVE",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
@@ -980,24 +988,6 @@
     "verb": "using drugs",
     "suspendable": false,
     "based_on": "neither",
-    "no_resume": true
-  },
-  {
-    "id": "ACT_CONSUME_FUEL_MENU",
-    "type": "activity_type",
-    "activity_level": "NO_EXERCISE",
-    "verb": "consuming fuel",
-    "suspendable": false,
-    "based_on": "neither",
-    "no_resume": true
-  },
-  {
-    "id": "ACT_MIND_SPLICER",
-    "type": "activity_type",
-    "activity_level": "NO_EXERCISE",
-    "verb": "using the mind splicer",
-    "rooted": true,
-    "based_on": "speed",
     "no_resume": true
   },
   {

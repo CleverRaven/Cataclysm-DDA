@@ -1642,14 +1642,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "bunker_basement",
-    "copy-from": "bunker_basement",
-    "name": "military bunker",
-    "sym": "b",
-    "color": "red"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "outpost",
     "copy-from": "outpost",
     "name": "military outpost",
@@ -6255,6 +6247,22 @@
     "id": "looted_house_basement",
     "copy-from": "looted_house_basement",
     "name": "looted house basement",
+    "sym": "%",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "looted_hospital",
+    "copy-from": "looted_hospital",
+    "name": "looted hospital",
+    "sym": "%",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "looted_hospital_roof",
+    "copy-from": "looted_hospital_roof",
+    "name": "looted hospital roof",
     "sym": "%",
     "color": "white"
   },

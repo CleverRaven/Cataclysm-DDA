@@ -292,7 +292,9 @@ class Creature : public viewer
         virtual bool is_fake() const;
         /** Sets a Creature's fake boolean. */
         virtual void set_fake( bool fake_value );
+        // TODO: fix point types (remove pos() and rename pos_bub() to be the new pos())
         tripoint pos() const;
+        tripoint_bub_ms pos_bub() const;
         inline int posx() const {
             return pos().x;
         }
@@ -374,13 +376,14 @@ class Creature : public viewer
         /*@{*/
         bool sees( const Creature &critter ) const override;
         bool sees( const tripoint &t, bool is_avatar = false, int range_mod = 0 ) const override;
+        bool sees( const tripoint_bub_ms &t, bool is_avatar = false, int range_mod = 0 ) const override;
         /*@}*/
 
         /**
          * How far the creature sees under the given light. Places outside this range can
          * @param light_level See @ref game::light_level.
          */
-        virtual int sight_range( int light_level ) const = 0;
+        virtual int sight_range( float light_level ) const = 0;
 
         /** Returns an approximation of the creature's strength. */
         virtual float power_rating() const = 0;
@@ -485,7 +488,7 @@ class Creature : public viewer
          * @param name Name of the implement used to pull the target.
          * @param p Position of the target creature.
         */
-        void longpull( const std::string name, const tripoint &p );
+        void longpull( const std::string &name, const tripoint &p );
 
         /**
          * This creature just dodged an attack - possibly special/ranged attack - from source.
@@ -632,6 +635,7 @@ class Creature : public viewer
         void set_value( const std::string &key, const std::string &value );
         void remove_value( const std::string &key );
         std::string get_value( const std::string &key ) const;
+        void clear_values();
 
         virtual units::mass get_weight() const = 0;
 
@@ -748,6 +752,12 @@ class Creature : public viewer
         /* Returns the bodyparts to drench : upper/mid/lower correspond to the appropriate limb flag */
         body_part_set get_drenching_body_parts( bool upper = true, bool mid = true,
                                                 bool lower = true ) const;
+
+        /* Returns the number of bodyparts of a given type*/
+        int get_num_body_parts_of_type( body_part_type::type part_type ) const;
+
+        /* Returns the number of broken bodyparts of a given type */
+        int get_num_broken_body_parts_of_type( body_part_type::type part_type ) const;
 
         const std::map<bodypart_str_id, bodypart> &get_body() const;
         void set_body();
@@ -1236,7 +1246,6 @@ class Creature : public viewer
         Creature &operator=( const Creature & );
         Creature &operator=( Creature && ) noexcept;
 
-    protected:
         virtual void on_stat_change( const std::string &, int ) {}
         virtual void on_effect_int_change( const efftype_id &, int, const bodypart_id & ) {}
         virtual void on_damage_of_type( int, damage_type, const bodypart_id & ) {}

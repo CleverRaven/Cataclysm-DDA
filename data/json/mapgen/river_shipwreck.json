@@ -108,7 +108,7 @@
         "6": "f_machinery_light",
         "e": "f_machinery_heavy",
         "r": "f_console_broken",
-        "R": "f_compact_ASRG_containment",
+        "R": "f_active_backup_generator",
         "#": "f_wreckage",
         "9": "f_locker",
         "A": "f_standing_tank"

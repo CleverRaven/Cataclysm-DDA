@@ -23,6 +23,7 @@
     "ranged_damage": { "damage_type": "bullet", "amount": 2500, "armor_penetration": 400 },
     "ammo_effects": [ "PLASMA", "EMP", "LOW_RANGE_VAPORIZATION" ],
     "skill": "rifle",
+    "extend": { "flags": [ "NO_TURRET" ] },
     "ups_charges": 0
   },
   {
@@ -32,6 +33,7 @@
     "name": "integral railgun",
     "ammo": "metal_rail",
     "skill": "rifle",
+    "extend": { "flags": [ "NO_TURRET" ] },
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "2 rd.", 2 ] ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "metal_rail": 100 } } ],
     "ammo_effects": [ "TRAIL" ]

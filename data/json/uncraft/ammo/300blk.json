@@ -13,8 +13,7 @@
       [ [ "smrifle_primer", 1 ] ],
       [ [ "gunpowder_rifle", 11 ] ],
       [ [ "copper", 1 ] ]
-    ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    ]
   },
   {
     "result": "300blk_ss",
@@ -30,7 +29,6 @@
       [ [ "smrifle_primer", 1 ] ],
       [ [ "gunpowder", 11 ] ],
       [ [ "copper", 1 ] ]
-    ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    ]
   }
 ]

@@ -112,7 +112,7 @@
   {
     "id": "morale_craving_marloss",
     "type": "morale_type",
-    "text": "Craving marloss"
+    "text": "Craving Marloss"
   },
   {
     "id": "morale_food_bad",
@@ -135,7 +135,17 @@
     "text": "Ate vegetables"
   },
   {
+    "id": "morale_antiveggy",
+    "type": "morale_type",
+    "text": "Ate vegetables"
+  },
+  {
     "id": "morale_meatarian",
+    "type": "morale_type",
+    "text": "Ate meat"
+  },
+  {
+    "id": "morale_antimeat",
     "type": "morale_type",
     "text": "Ate meat"
   },

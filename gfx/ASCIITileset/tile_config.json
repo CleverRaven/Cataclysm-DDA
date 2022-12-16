@@ -92,7 +92,23 @@
         { "id": "t_grass_long", "bg": 2418 },
         { "id": "weather_rain_drop", "bg": 3191 },
         { "id": [ "npc_female", "npc_male" ], "fg": 3728 },
-        { "id": "unknown_map_extra", "fg": 0 }
+        { "id": "unknown_map_extra", "fg": 0 },
+        {
+          "id": [
+            "mission_arrow_down",
+            "mission_arrow_e",
+            "mission_arrow_n",
+            "mission_arrow_ne",
+            "mission_arrow_nw",
+            "mission_arrow_s",
+            "mission_arrow_se",
+            "mission_arrow_sw",
+            "mission_arrow_up",
+            "mission_arrow_w",
+            "mission_cursor"
+          ],
+          "fg": 70
+        }
       ]
     },
     {

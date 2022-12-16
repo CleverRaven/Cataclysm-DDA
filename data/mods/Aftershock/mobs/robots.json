@@ -64,7 +64,7 @@
     "melee_skill": 3,
     "melee_dice": 3,
     "melee_dice_sides": 3,
-    "melee_cut": 0,
+    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "armor_bash": 18,
     "armor_cut": 14,
     "armor_bullet": 11,
@@ -97,7 +97,7 @@
     "melee_skill": 5,
     "melee_dice": 5,
     "melee_dice_sides": 5,
-    "melee_cut": 0,
+    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "armor_bash": 90,
     "armor_cut": 90,
     "armor_bullet": 72,
@@ -137,10 +137,11 @@
     "color": "white",
     "aggression": 0,
     "morale": 100,
+    "aggro_character": false,
     "melee_skill": 10,
     "melee_dice": 3,
     "melee_dice_sides": 12,
-    "melee_cut": 6,
+    "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "armor_bash": 12,
     "armor_cut": 8,
     "armor_bullet": 6,
@@ -190,7 +191,7 @@
     "melee_skill": 6,
     "melee_dice": 3,
     "melee_dice_sides": 4,
-    "melee_cut": 5,
+    "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
     "dodge": 8,
     "armor_bash": 10,
     "armor_cut": 20,
@@ -234,19 +235,20 @@
     "default_faction": "science",
     "speed": 190,
     "color": "light_gray",
+    "scents_tracked": [ "sc_human" ],
     "melee_skill": 2,
     "melee_dice": 1,
     "melee_dice_sides": 4,
     "special_attacks": [ [ "SEARCHLIGHT", 1 ] ],
     "luminance": 60,
-    "melee_cut": 12,
+    "melee_damage": [ { "damage_type": "cut", "amount": 12 } ],
     "armor_bash": 2,
     "armor_cut": 8,
     "armor_bullet": 6,
     "revert_to_itype": "bot_bloodhound_drone",
     "death_drops": { "groups": [ [ "robots", 4 ], [ "manhack", 1 ], [ "turret_searchlight", 1 ] ] },
     "death_function": { "corpse_type": "BROKEN" },
-    "extend": { "flags": [ "HIT_AND_RUN" ] }
+    "extend": { "flags": [ "HIT_AND_RUN", "SMELLS" ] }
   },
   {
     "id": "mon_utilibot",
@@ -301,7 +303,7 @@
     "melee_skill": 2,
     "melee_dice": 4,
     "melee_dice_sides": 6,
-    "melee_cut": 1,
+    "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "starting_ammo": { "nail": 1000 },
     "special_attacks": [
       {
@@ -326,7 +328,7 @@
     "melee_skill": 3,
     "melee_dice": 4,
     "melee_dice_sides": 5,
-    "melee_cut": 1,
+    "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "starting_ammo": { "water": 1000 },
     "special_attacks": [
       {
@@ -363,7 +365,7 @@
     "melee_skill": 8,
     "melee_dice": 1,
     "melee_dice_sides": 2,
-    "melee_cut": 5,
+    "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
     "attack_effs": [ { "id": "bleed", "chance": 20, "duration": 3 } ],
     "vision_day": 50,
     "special_attacks": [ { "id": "hypo_pkill" } ],
@@ -381,6 +383,7 @@
     "volume": "750 ml",
     "weight": "1 kg",
     "color": "light_gray",
+    "scents_tracked": [ "sc_human" ],
     "speed": 100,
     "attack_cost": 500,
     "hp": 10,
@@ -392,7 +395,7 @@
     "melee_dice": 2,
     "melee_dice_sides": 2,
     "special_attacks": [ { "type": "leap", "cooldown": 2, "move_cost": 0, "max_range": 2, "min_consider_range": 3 }, [ "TAZER", 10 ] ],
-    "extend": { "flags": [ "CLIMBS", "HIT_AND_RUN" ] }
+    "extend": { "flags": [ "CLIMBS", "HIT_AND_RUN", "SMELLS" ] }
   },
   {
     "id": "mon_skitterbot_grab",
@@ -402,6 +405,7 @@
     "description": "A salvaged skitterbot repurposed to grab onto and immobilize enemies.  It's meant to work in a pack.",
     "aggression": 50,
     "color": "light_green",
+    "scents_tracked": [ "sc_human" ],
     "speed": 200,
     "hp": 30,
     "armor_bash": 8,
@@ -413,7 +417,7 @@
     "melee_dice_sides": 2,
     "attack_effs": [ { "id": "downed", "chance": 20, "duration": 5 } ],
     "special_attacks": [ [ "GRAB", 1 ] ],
-    "extend": { "flags": [ "SWARMS", "GRABS", "GROUP_BASH" ] }
+    "extend": { "flags": [ "SWARMS", "GRABS", "GROUP_BASH", "SMELLS" ] }
   },
   {
     "id": "mon_skitterbot_hunter",
@@ -422,6 +426,7 @@
     "name": "pest hunter",
     "description": "A salvaged skitterbot refitted with an 8mm integrated firearm.  The robot's small size precludes rapid-fire, due to recoil, and requires the use of lightweight caseless ammo.",
     "color": "dark_gray",
+    "scents_tracked": [ "sc_human" ],
     "aggression": 50,
     "speed": 200,
     "hp": 30,

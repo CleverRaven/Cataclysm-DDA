@@ -15,9 +15,11 @@
 #include "ascii_art.h"
 #include "behavior.h"
 #include "bionics.h"
+#include "bodygraph.h"
 #include "bodypart.h"
 #include "butchery_requirements.h"
 #include "cata_assert.h"
+#include "cata_scope_helpers.h"
 #include "cata_utility.h"
 #include "character_modifier.h"
 #include "clothing_mod.h"
@@ -46,6 +48,7 @@
 #include "item_factory.h"
 #include "itype.h"
 #include "json.h"
+#include "json_loader.h"
 #include "loading_ui.h"
 #include "lru_cache.h"
 #include "magic.h"
@@ -72,6 +75,7 @@
 #include "overmap.h"
 #include "overmap_connection.h"
 #include "overmap_location.h"
+#include "path_info.h"
 #include "profession.h"
 #include "proficiency.h"
 #include "recipe_dictionary.h"
@@ -90,6 +94,7 @@
 #include "speed_description.h"
 #include "start_location.h"
 #include "string_formatter.h"
+#include "test_data.h"
 #include "text_snippets.h"
 #include "translations.h"
 #include "trap.h"
@@ -116,13 +121,13 @@ DynamicDataLoader &DynamicDataLoader::get_instance()
 }
 
 void DynamicDataLoader::load_object( const JsonObject &jo, const std::string &src,
-                                     const std::string &base_path,
-                                     const std::string &full_path )
+                                     const cata_path &base_path,
+                                     const cata_path &full_path )
 {
     const std::string type = jo.get_string( "type" );
     const t_type_function_map::iterator it = type_function_map.find( type );
     if( it == type_function_map.end() ) {
-        jo.throw_error( "unrecognized JSON object", "type" );
+        jo.throw_error_at( "type", "unrecognized JSON object" );
     }
     it->second( jo, src, base_path, full_path );
 }
@@ -156,17 +161,11 @@ void DynamicDataLoader::load_deferred( deferred_json &data )
         const size_t n = data.size();
         auto it = data.begin();
         for( size_t idx = 0; idx != n; ++idx ) {
-            if( !it->first.path ) {
-                debugmsg( "JSON source location has null path, data may load incorrectly" );
-            } else {
-                try {
-                    shared_ptr_fast<std::istream> stream = get_cached_stream( *it->first.path );
-                    JsonIn jsin( *stream, it->first );
-                    JsonObject jo = jsin.get_object();
-                    load_object( jo, it->second );
-                } catch( const JsonError &err ) {
-                    debugmsg( "(json-error)\n%s", err.what() );
-                }
+            try {
+                JsonObject jo = it->first;
+                load_object( jo, it->second );
+            } catch( const JsonError &err ) {
+                debugmsg( "(json-error)\n%s", err.what() );
             }
             ++it;
             inp_mngr.pump_events();
@@ -174,16 +173,10 @@ void DynamicDataLoader::load_deferred( deferred_json &data )
         data.erase( data.begin(), it );
         if( data.size() == n ) {
             for( const auto &elem : data ) {
-                if( !elem.first.path ) {
-                    debugmsg( "JSON source location has null path when reporting circular dependency" );
-                } else {
-                    try {
-                        shared_ptr_fast<std::istream> stream = get_cached_stream( *it->first.path );
-                        JsonIn jsin( *stream, elem.first );
-                        jsin.error( "JSON contains circular dependency, this object is discarded" );
-                    } catch( const JsonError &err ) {
-                        debugmsg( "(json-error)\n%s", err.what() );
-                    }
+                try {
+                    elem.first.throw_error( "JSON contains circular dependency, this object is discarded" );
+                } catch( const JsonError &err ) {
+                    debugmsg( "(json-error)\n%s", err.what() );
                 }
                 inp_mngr.pump_events();
             }
@@ -202,7 +195,7 @@ static void load_ignored_type( const JsonObject &jo )
 }
 
 void DynamicDataLoader::add( const std::string &type,
-                             const std::function<void( const JsonObject &, const std::string &, const std::string &, const std::string & )>
+                             const std::function<void( const JsonObject &, const std::string &, const cata_path &, const cata_path & )>
                              &f )
 {
     const auto pair = type_function_map.emplace( type, f );
@@ -212,28 +205,31 @@ void DynamicDataLoader::add( const std::string &type,
 }
 
 void DynamicDataLoader::add( const std::string &type,
+                             const std::function<void( const JsonObject &, const std::string &, const std::string &, const std::string & )>
+                             &f )
+{
+    add( type, [f]( const JsonObject & obj, const std::string & src, const cata_path & base_path,
+    const cata_path & full_path ) {
+        f( obj, src, base_path.generic_u8string(), full_path.generic_u8string() );
+    } );
+}
+
+void DynamicDataLoader::add( const std::string &type,
                              const std::function<void( const JsonObject &, const std::string & )> &f )
 {
-    const auto pair = type_function_map.emplace( type, [f]( const JsonObject & obj,
-                      const std::string & src,
-    const std::string &, const std::string & ) {
+    add( type, [f]( const JsonObject & obj, const std::string & src, const cata_path &,
+    const cata_path & ) {
         f( obj, src );
     } );
-    if( !pair.second ) {
-        debugmsg( "tried to insert a second handler for type %s into the DynamicDataLoader", type.c_str() );
-    }
 }
 
 void DynamicDataLoader::add( const std::string &type,
                              const std::function<void( const JsonObject & )> &f )
 {
-    const auto pair = type_function_map.emplace( type, [f]( const JsonObject & obj, const std::string &,
-    const std::string &, const std::string & ) {
+    add( type, [f]( const JsonObject & obj, const std::string &,  const cata_path &,
+    const cata_path & ) {
         f( obj );
     } );
-    if( !pair.second ) {
-        debugmsg( "tried to insert a second handler for type %s into the DynamicDataLoader", type.c_str() );
-    }
 }
 
 void DynamicDataLoader::initialize()
@@ -246,7 +242,9 @@ void DynamicDataLoader::initialize()
     // Static Function Access
     add( "WORLD_OPTION", &load_world_option );
     add( "EXTERNAL_OPTION", &load_external_option );
+    add( "option_slider", &option_slider::load_option_sliders );
     add( "json_flag", &json_flag::load_all );
+    add( "connect_group", &connect_group::load );
     add( "fault", &fault::load_fault );
     add( "relic_procgen_data", &relic_procgen_data::load_relic_procgen_data );
     add( "effect_on_condition", &effect_on_conditions::load );
@@ -282,6 +280,8 @@ void DynamicDataLoader::initialize()
     add( "start_location", &start_locations::load );
     add( "scenario", &scenario::load_scenario );
     add( "SCENARIO_BLACKLIST", &scen_blacklist::load_scen_blacklist );
+    add( "shopkeeper_blacklist", &shopkeeper_blacklist::load_blacklist );
+    add( "shopkeeper_consumption_rates", &shopkeeper_cons_rates::load_rate );
     add( "skill_boost", &skill_boost::load_boost );
     add( "enchantment", &enchantment::load_enchantment );
     add( "hit_range", &Creature::load_hit_range );
@@ -306,6 +306,7 @@ void DynamicDataLoader::initialize()
 
     add( "vehicle_part",  &vpart_info::load );
     add( "vehicle_part_category",  &vpart_category::load );
+    add( "vehicle_part_migration", &vpart_migration::load );
     add( "vehicle",  &vehicle_prototype::load );
     add( "vehicle_group",  &VehicleGroup::load );
     add( "vehicle_placement",  &VehiclePlacement::load );
@@ -373,6 +374,7 @@ void DynamicDataLoader::initialize()
 
     add( "charge_removal_blacklist", load_charge_removal_blacklist );
     add( "charge_migration_blacklist", load_charge_migration_blacklist );
+    add( "test_data", &test_data::load );
 
     add( "MONSTER", []( const JsonObject & jo, const std::string & src ) {
         MonsterGenerator::generator().load_monster( jo, src );
@@ -387,6 +389,7 @@ void DynamicDataLoader::initialize()
     add( "recipe",  &recipe_dictionary::load_recipe );
     add( "uncraft", &recipe_dictionary::load_uncraft );
     add( "practice", &recipe_dictionary::load_practice );
+    add( "nested_category", &recipe_dictionary::load_nested_category );
     add( "recipe_group",  &recipe_group::load );
 
     add( "tool_quality", &quality::load_static );
@@ -416,6 +419,10 @@ void DynamicDataLoader::initialize()
     } );
     add( "TRAIT_BLACKLIST", []( const JsonObject & jo ) {
         mutation_branch::load_trait_blacklist( jo );
+    } );
+
+    add( "TRAIT_MIGRATION", []( const JsonObject & jo ) {
+        mutation_branch::load_trait_migration( jo );
     } );
 
     // loaded earlier.
@@ -452,6 +459,7 @@ void DynamicDataLoader::initialize()
     add( "character_mod", &character_modifier::load_character_modifiers );
     add( "body_part", &body_part_type::load_bp );
     add( "sub_body_part", &sub_body_part_type::load_bp );
+    add( "body_graph", &bodygraph::load_bodygraphs );
     add( "anatomy", &anatomy::load_anatomy );
     add( "morale_type", &morale_type_data::load_type );
     add( "SPELL", &spell_type::load_spell );
@@ -472,7 +480,7 @@ void DynamicDataLoader::initialize()
 #endif
 }
 
-void DynamicDataLoader::load_data_from_path( const std::string &path, const std::string &src,
+void DynamicDataLoader::load_data_from_path( const cata_path &path, const std::string &src,
         loading_ui &ui )
 {
     cata_assert( !finalized &&
@@ -484,9 +492,9 @@ void DynamicDataLoader::load_data_from_path( const std::string &path, const std:
     // But not the other way round.
 
     // get a list of all files in the directory
-    str_vec files = get_files_from_path( ".json", path, true, true );
+    std::vector<cata_path> files = get_files_from_path( ".json", path, true, true );
     if( files.empty() ) {
-        cata::ifstream tmp( fs::u8path( path ), std::ios::in );
+        cata::ifstream tmp( path.get_unrelative_path(), std::ios::in );
         if( tmp ) {
             // path is actually a file, don't checking the extension,
             // assume we want to load this file anyway
@@ -494,12 +502,10 @@ void DynamicDataLoader::load_data_from_path( const std::string &path, const std:
         }
     }
     // iterate over each file
-    for( const std::string &file : files ) {
-        // and stuff it into ram
-        std::istringstream iss( read_entire_file( file ) );
+    for( const cata_path &file : files ) {
         try {
             // parse it
-            JsonIn jsin( iss, file );
+            JsonValue jsin = json_loader::from_path( file );
             load_all_from_json( jsin, src, ui, path, file );
         } catch( const JsonError &err ) {
             throw std::runtime_error( err.what() );
@@ -507,30 +513,23 @@ void DynamicDataLoader::load_data_from_path( const std::string &path, const std:
     }
 }
 
-void DynamicDataLoader::load_all_from_json( JsonIn &jsin, const std::string &src, loading_ui &,
-        const std::string &base_path, const std::string &full_path )
+void DynamicDataLoader::load_all_from_json( const JsonValue &jsin, const std::string &src,
+        loading_ui &,
+        const cata_path &base_path, const cata_path &full_path )
 {
     if( jsin.test_object() ) {
         // find type and dispatch single object
         JsonObject jo = jsin.get_object();
         load_object( jo, src, base_path, full_path );
-        jo.finish();
-        // if there's anything else in the file, it's an error.
-        jsin.eat_whitespace();
-        if( jsin.good() ) {
-            jsin.error( string_format( "expected single-object file but found '%c'", jsin.peek() ) );
-        }
     } else if( jsin.test_array() ) {
-        jsin.start_array();
+        JsonArray ja = jsin.get_array();
         // find type and dispatch each object until array close
-        while( !jsin.end_array() ) {
-            JsonObject jo = jsin.get_object();
+        for( JsonObject jo : ja ) {
             load_object( jo, src, base_path, full_path );
-            jo.finish();
         }
     } else {
         // not an object or an array?
-        jsin.error( "expected object or array" );
+        jsin.throw_error( "expected object or array" );
     }
     inp_mngr.pump_events();
 }
@@ -550,6 +549,7 @@ void DynamicDataLoader::unload_data()
     body_part_type::reset();
     butchery_requirements::reset();
     sub_body_part_type::reset();
+    bodygraph::reset();
     weapon_category::reset();
     clear_techniques_and_martial_arts();
     character_modifier::reset();
@@ -572,6 +572,7 @@ void DynamicDataLoader::unload_data()
     item_category::reset();
     item_controller->reset();
     json_flag::reset();
+    connect_group::reset();
     limb_score::reset();
     mapgen_palette::reset();
     materials::reset();
@@ -586,6 +587,7 @@ void DynamicDataLoader::unload_data()
     mutations_category.clear();
     npc_class::reset_npc_classes();
     npc_template::reset();
+    option_slider::reset();
     overmap_connections::reset();
     overmap_land_use_codes::reset();
     overmap_locations::reset();
@@ -620,6 +622,8 @@ void DynamicDataLoader::unload_data()
     scenario::reset();
     scent_type::reset();
     score::reset();
+    shopkeeper_blacklist::reset();
+    shopkeeper_cons_rates::reset();
     Skill::reset();
     skill_boost::reset();
     SNIPPET.clear_snippets();
@@ -635,6 +639,7 @@ void DynamicDataLoader::unload_data()
     vitamin::reset();
     vpart_info::reset();
     vpart_category::reset();
+    vpart_migration::reset();
     weakpoints::reset();
     weather_types::reset();
     widget::reset();
@@ -664,8 +669,10 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
     using named_entry = std::pair<std::string, std::function<void()>>;
     const std::vector<named_entry> entries = {{
             { _( "Flags" ), &json_flag::finalize_all },
+            { _( "Option sliders" ), &option_slider::finalize_all },
             { _( "Body parts" ), &body_part_type::finalize_all },
             { _( "Sub body parts" ), &sub_body_part_type::finalize_all },
+            { _( "Body graphs" ), &bodygraph::finalize_all },
             { _( "Weather types" ), &weather_types::finalize_all },
             { _( "Effect on conditions" ), &effect_on_conditions::finalize_all },
             { _( "Field types" ), &field_types::finalize_all },
@@ -695,6 +702,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Overmap locations" ), &overmap_locations::finalize },
             { _( "Cities" ), &city::finalize },
             { _( "Start locations" ), &start_locations::finalize_all },
+            { _( "Vehicle part migrations" ), &vpart_migration::finalize },
             { _( "Vehicle prototypes" ), &vehicle_prototype::finalize },
             { _( "Mapgen weights" ), &calculate_mapgen_weights },
             { _( "Mapgen parameters" ), &overmap_specials::finalize_mapgen_parameters },
@@ -747,6 +755,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
     using named_entry = std::pair<std::string, std::function<void()>>;
     const std::vector<named_entry> entries = {{
             { _( "Flags" ), &json_flag::check_consistency },
+            { _( "Option sliders" ), &option_slider::check_consistency },
             {
                 _( "Crafting requirements" ), []()
                 {
@@ -759,9 +768,9 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Field types" ), &field_types::check_consistency },
             { _( "Ammo effects" ), &ammo_effects::check_consistency },
             { _( "Emissions" ), &emit::check_consistency },
-            { _( "Effect Types" ), &effect_type::check_consistency },
+            { _( "Effect types" ), &effect_type::check_consistency },
             { _( "Activities" ), &activity_type::check_consistency },
-            { _( "Addiction Types" ), &add_type::check_add_types },
+            { _( "Addiction types" ), &add_type::check_add_types },
             {
                 _( "Items" ), []()
                 {
@@ -787,7 +796,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Scenarios" ), &scenario::check_definitions },
             { _( "Martial arts" ), &check_martialarts },
             { _( "Mutations" ), &mutation_branch::check_consistency },
-            { _( "Mutation Categories" ), &mutation_category_trait::check_consistency },
+            { _( "Mutation categories" ), &mutation_category_trait::check_consistency },
             { _( "Region settings" ), check_region_settings },
             { _( "Overmap land use codes" ), &overmap_land_use_codes::check_consistency },
             { _( "Overmap connections" ), &overmap_connections::check_consistency },
@@ -796,6 +805,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Cities" ), &city::check_consistency },
             { _( "Overmap specials" ), &overmap_specials::check_consistency },
             { _( "Map extras" ), &MapExtras::check_consistency },
+            { _( "Shop rates" ), &shopkeeper_cons_rates::check_all },
             { _( "Start locations" ), &start_locations::check_consistency },
             { _( "Ammunition types" ), &ammunition_type::check_consistency },
             { _( "Traps" ), &trap::check_consistency },
@@ -813,6 +823,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Harvest lists" ), &harvest_list::check_consistency },
             { _( "NPC templates" ), &npc_template::check_consistency },
             { _( "Body parts" ), &body_part_type::check_consistency },
+            { _( "Body graphs" ), &bodygraph::check_all },
             { _( "Anatomies" ), &anatomy::check_consistency },
             { _( "Spells" ), &spell_type::check_consistency },
             { _( "Transformations" ), &event_transformation::check_consistency },

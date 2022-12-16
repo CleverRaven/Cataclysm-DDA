@@ -5,7 +5,7 @@
     "om_terrain": [ "gym_fitness" ],
     "weight": 500,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_thconc_floor",
       "rows": [
         ".........,,,,,,.........",
         ".U.....,,,,,,,,,,U......",
@@ -33,11 +33,11 @@
         "........................"
       ],
       "terrain": {
-        " ": "t_floor",
+        " ": "t_thconc_floor",
         "+": "t_door_c",
         ",": "t_sidewalk",
         "-": "t_wall_w",
-        ".": [ [ "t_grass", 5 ], [ "t_grass_long", 2 ], "t_dirt", "t_shrub" ],
+        ".": "t_region_groundcover_urban",
         "5": "t_wall_glass",
         "8": "t_wall_glass",
         "=": "t_door_glass_c",
@@ -67,7 +67,8 @@
         "f": { "item": "vending_drink_items", "chance": 30, "repeat": [ 2, 4 ] },
         "r": { "item": "snacks", "chance": 20, "repeat": [ 2, 4 ] }
       },
-      "nested": { "U": { "chunks": [ [ "roof_6x6_garden_1", 50 ], [ "roof_6x6_garden_2", 50 ] ] } }
+      "nested": { "U": { "chunks": [ [ "roof_6x6_garden_1", 50 ], [ "roof_6x6_garden_2", 50 ] ] } },
+      "place_loot": [ { "group": "cash_register_random", "x": 10, "y": [ 4, 6 ] } ]
     }
   },
   {
@@ -130,7 +131,7 @@
     "om_terrain": [ "gym_fitness_1" ],
     "weight": 500,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_thconc_floor",
       "rows": [
         "..............|55===55|.",
         "..............|c     c|.",
@@ -158,13 +159,13 @@
         ".........|||5555555|||.."
       ],
       "terrain": {
-        " ": "t_floor",
+        " ": "t_thconc_floor",
         "~": "t_water_pool",
         ":": "t_linoleum_white",
         "*": "t_linoleum_white",
         "+": "t_door_c",
         ",": "t_sidewalk",
-        ".": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_shrub", "t_dirt" ],
+        ".": "t_region_groundcover_urban",
         "5": "t_wall_glass",
         "=": "t_door_glass_c",
         "O": "t_linoleum_white",
@@ -192,7 +193,8 @@
       },
       "place_monsters": [ { "monster": "GROUP_MAPGEN_POOL", "x": [ 12, 19 ], "y": [ 18, 21 ] } ],
       "toilets": { "T": {  } },
-      "items": { "O": { "item": "gym", "chance": 80 }, "H": { "item": "vending_drink", "chance": 75, "repeat": [ 4, 8 ] } }
+      "items": { "O": { "item": "gym", "chance": 80 }, "H": { "item": "vending_drink", "chance": 75, "repeat": [ 4, 8 ] } },
+      "place_loot": [ { "group": "cash_register_random", "x": [ 17, 19 ], "y": 2 } ]
     }
   },
   {
@@ -200,7 +202,7 @@
     "method": "json",
     "om_terrain": "gym_fitness_2ndFloor_1",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_thconc_floor",
       "rows": [
         "              ||55555|| ",
         "              |I..y..F| ",
@@ -235,7 +237,7 @@
         { "point": "trap", "id": "tr_rollmat", "x": [ 16, 20 ], "y": 13, "repeat": [ 2, 4 ] }
       ],
       "terrain": {
-        ".": "t_floor",
+        ".": "t_thconc_floor",
         "5": "t_wall_glass",
         "|": "t_brick_wall",
         "+": "t_door_c",

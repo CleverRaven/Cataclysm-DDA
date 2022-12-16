@@ -1,0 +1,10 @@
+[
+  {
+    "id": "wrapper_wyld",
+    "type": "GENERIC",
+    "name": { "str": "candy wrapper" },
+    "description": { "str": "\"Wyld Candy, our flavors span the possible\" is emblazoned proudly upon this shiny colorful wrapper." },
+    "copy-from": "wrapper",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "225 ml", "max_contains_weight": "1 kg" } ]
+  }
+]

@@ -34,7 +34,7 @@
     "type": "GENERIC",
     "category": "veh_parts",
     "name": { "str": "medium wheel hub assembly", "str_pl": "medium wheel hub assemblies" },
-    "description": "A metal assembly that allows bolting a wheel on a car.  Fit for a car wheel.",
+    "description": "A metal assembly that allows bolting a wheel onto a car.  Fit for a car wheel.",
     "weight": "5 kg",
     "volume": "6 L",
     "longest_side": "204 mm",
@@ -51,7 +51,7 @@
     "type": "GENERIC",
     "category": "veh_parts",
     "name": { "str": "heavy wheel hub assembly", "str_pl": "heavy wheel hub assemblies" },
-    "description": "A heavy metal assembly that allows bolting a wheel on a car.  Fit for a large car wheel.",
+    "description": "A heavy metal assembly that allows bolting a wheel onto a car.  Fit for a large car wheel.",
     "weight": "6 kg",
     "volume": "7 L",
     "longest_side": "254 mm",
@@ -68,7 +68,7 @@
     "type": "GENERIC",
     "category": "veh_parts",
     "name": { "str": "medium steel rim" },
-    "description": "A medium size steel rim for a car tire.",
+    "description": "A medium-size steel rim for a car tire.",
     "weight": "5245 g",
     "volume": "28 L",
     "bashing": 8,
@@ -119,7 +119,7 @@
     "type": "GENERIC",
     "category": "veh_parts",
     "name": { "str": "bicycle rim" },
-    "description": "A large spoked rim for a bicycle tire.",
+    "description": "A large, spoked rim for a bicycle tire.",
     "weight": "750 g",
     "volume": "11 L",
     "bashing": 6,
@@ -246,7 +246,7 @@
     "copy-from": "tire_bicycle",
     "type": "GENERIC",
     "name": { "str": "27\" off-road bicycle tire" },
-    "description": "A wide, studded, bicycle tire intended to be fitted to a bicycle rim for off-road biking."
+    "description": "A wide, studded bicycle tire intended to be fitted to a bicycle rim for off-road biking."
   },
   {
     "id": "deflated_wheel",
@@ -400,7 +400,7 @@
     "id": "wheel_armor",
     "category": "veh_parts",
     "name": { "str": "armored wheel" },
-    "description": "A wide military grade wheel.",
+    "description": "A wide military-grade wheel.",
     "weight": "24500 g",
     "volume": "17500 ml",
     "longest_side": "813 mm",
@@ -457,14 +457,14 @@
     "copy-from": "wheel_bicycle",
     "type": "WHEEL",
     "name": { "str": "off-road bicycle wheel" },
-    "description": "A wide, studded, bicycle wheel intended for off-road biking."
+    "description": "A wide, studded bicycle wheel intended for off-road biking."
   },
   {
     "id": "wheel_caster",
     "category": "veh_parts",
     "type": "WHEEL",
     "name": { "str": "set of casters", "str_pl": "sets of casters" },
-    "description": "A set of casters, like on a shopping cart.",
+    "description": "A set of casters, like you'd find on a shopping cart.",
     "weight": "1500 g",
     "volume": "1250 ml",
     "longest_side": "102 mm",
@@ -582,7 +582,7 @@
     "type": "WHEEL",
     "category": "veh_parts",
     "name": { "str": "large steel drum" },
-    "description": "A large cylinder fashioned out of thick plates of hardened steel, that is normally found on road rollers.  Numerous massive spokes, attached to a central axis, reinforce its structure even further, making it an unstoppable force once it starts rolling.",
+    "description": "A large cylinder fashioned out of thick plates of hardened steel, normally found on road rollers.  Numerous massive spokes, attached to a central axis, reinforce its structure even further, making it an unstoppable force once it starts rolling.",
     "weight": "750000 g",
     "volume": "200 L",
     "longest_side": "1524 mm",
@@ -703,7 +703,7 @@
     "type": "WHEEL",
     "category": "veh_parts",
     "name": { "str": "wooden cart wheel" },
-    "description": "A wooden cart wheel, hand made.",
+    "description": "A handmade wooden cart wheel.",
     "weight": "4500 g",
     "volume": "8750 ml",
     "longest_side": "508 mm",
@@ -721,7 +721,7 @@
     "copy-from": "wheel_wood",
     "type": "WHEEL",
     "name": { "str": "banded wooden cart wheel" },
-    "description": "A wooden cart wheel with metal bands for durability, hand made.",
+    "description": "A handmade wooden cart wheel with metal bands for durability.",
     "relative": { "weight": "500 g" }
   }
 ]

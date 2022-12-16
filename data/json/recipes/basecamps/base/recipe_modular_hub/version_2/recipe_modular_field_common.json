@@ -22,7 +22,7 @@
       { "id": "logging" }
     ],
     "blueprint_requires": [ { "id": "not_an_upgrade" } ],
-    "blueprint_name": "basic hub version 1 survey",
+    "blueprint_name": "basic hub version 2 survey",
     "check_blueprint_needs": false
   },
   {

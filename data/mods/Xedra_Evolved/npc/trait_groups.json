@@ -1,0 +1,67 @@
+[
+  {
+    "type": "trait_group",
+    "id": "trait_group_spider_victim_eggsac",
+    "subtype": "collection",
+    "traits": [
+      { "trait": "FEYHEARING", "prob": 50 },
+      { "trait": "FLEET", "prob": 50 },
+      { "trait": "NIGHTVISION", "prob": 50 },
+      { "trait": "CHITIN", "prob": 20 },
+      { "trait": "POISONOUS", "prob": 20 },
+      { "trait": "MANDIBLES", "prob": 15 },
+      { "trait": "DEX_UP_2", "prob": 50 },
+      { "trait": "PER_UP_2", "prob": 50 },
+      { "distribution": [ { "trait": "EGGSAC_SURVIVABLE" }, { "trait": "EGGSAC_FATAL" } ] }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_spider_victim_transformation",
+    "subtype": "collection",
+    "traits": [
+      { "trait": "FEYHEARING", "prob": 50 },
+      { "trait": "FLEET", "prob": 50 },
+      { "trait": "NIGHTVISION", "prob": 50 },
+      { "trait": "CHITIN", "prob": 20 },
+      { "trait": "POISONOUS", "prob": 25 },
+      { "trait": "MANDIBLES", "prob": 15 },
+      { "trait": "DEX_UP_2", "prob": 65 },
+      { "trait": "PER_UP_2", "prob": 50 },
+      { "distribution": [ { "trait": "MANIFEST_DESTINY_GOBLIN" }, { "trait": "MANIFEST_DESTINY_SPIDER" } ] }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_dreamer_danger",
+    "subtype": "collection",
+    "traits": [
+      { "trait": "FEYHEARING", "prob": 50 },
+      { "trait": "FASTREADER", "prob": 50 },
+      { "trait": "MOODSWINGS", "prob": 50 },
+      { "trait": "ELFAEYES", "prob": 50 },
+      { "trait": "GOODMEMORY", "prob": 50 },
+      { "trait": "SPIRITUAL", "prob": 50 },
+      { "trait": "LOVES_BOOKS", "prob": 50 },
+      { "distribution": [ { "trait": "BADCARDIO" }, { "trait": "GOODCARDIO" } ] },
+      { "trait": "SLOWHEALER", "prob": 50 },
+      { "trait": "NIGHTMARE_CHIMERAS", "prob": 100 }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_dreamer_hero",
+    "subtype": "collection",
+    "traits": [
+      { "trait": "FEYHEARING", "prob": 50 },
+      { "trait": "FASTREADER", "prob": 50 },
+      { "trait": "ELFAEYES", "prob": 50 },
+      { "trait": "MOODSWINGS", "prob": 50 },
+      { "trait": "GOODMEMORY", "prob": 50 },
+      { "trait": "SPIRITUAL", "prob": 50 },
+      { "trait": "LOVES_BOOKS" },
+      { "distribution": [ { "trait": "BADCARDIO" }, { "trait": "GOODCARDIO" } ] },
+      { "trait": "FRIENDLY_CHIMERAS", "prob": 100 }
+    ]
+  }
+]

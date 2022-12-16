@@ -24,7 +24,7 @@ class ui_adaptor;
  * Example:
  *
  * std::string action = query_popup()
- *                      .context( "YESNOCANCEL" ) // input context to use
+ *                      .context( "YESNOQUIT" ) // input context to use
  *                      .message( "%s", _( "Do you want to save before jumping into the lava?" ) )
  *                      .option( "YES" ) // yes, save before jumping
  *                      .option( "NO" ) // no, don't save before jumping
@@ -148,8 +148,7 @@ class query_popup
         query_popup &option( const std::string &opt,
                              const std::function<bool( const input_event & )> &filter );
         /**
-         * Specify whether non-option actions can be returned. Mouse movement
-         * is always ignored regardless of this setting.
+         * Specify whether non-option actions can be returned.
          **/
         query_popup &allow_anykey( bool allow );
         /**
@@ -227,9 +226,11 @@ class query_popup
 
         struct button {
             button( const std::string &text, const point & );
+            bool contains( const point &p ) const;
 
             std::string text;
             point pos;
+            int width;
         };
 
         std::weak_ptr<ui_adaptor> adaptor;

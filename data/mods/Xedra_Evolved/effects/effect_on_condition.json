@@ -1,0 +1,28 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "blood_spiders_itch",
+    "//": "Blood spiders effect should bother the player unless they are under the influence of stim_overdose, in which case the blood spiders are quieted.",
+    "recurrence": [ "25 minutes", "1 hours 15 minutes" ],
+    "condition": { "and": [ { "u_has_effect": "blood_spiders" }, { "not": { "u_has_effect": "formication" } } ] },
+    "deactivate_condition": { "not": { "or": [ { "u_has_effect": "blood_spiders" }, { "u_has_effect": "stim_overdose" } ] } },
+    "effect": [
+      { "u_message": "The spiders in your veins itch!", "type": "bad" },
+      { "u_add_effect": "formication", "duration": "10 minutes", "target_part": "RANDOM" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "xe_night_messages",
+    "recurrence": [ "8 hours", "72 hours" ],
+    "condition": { "and": [ { "one_in_chance": 6 }, { "not": "is_day" }, "u_can_see", { "is_weather": "clear" }, "u_is_outside" ] },
+    "effect": [ { "u_message": "XE_NIGHT_MESSAGES_1", "snippet": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "xe_day_messages",
+    "recurrence": [ "8 hours", "72 hours" ],
+    "condition": { "and": [ { "one_in_chance": 6 }, "is_day", "u_can_see", { "is_weather": "clear" }, "u_is_outside" ] },
+    "effect": [ { "u_message": "XE_DAY_MESSAGES_1", "snippet": true } ]
+  }
+]

@@ -80,7 +80,14 @@
     "symbol": ";",
     "color": "light_gray",
     "charges_per_use": 1,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "black_pen_ink": 100 }, "watertight": true, "rigid": true } ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "ammo_restriction": { "black_pen_ink": 100, "blue_pen_ink": 100, "red_pen_ink": 100, "green_pen_ink": 100 },
+        "watertight": true,
+        "rigid": true
+      }
+    ],
     "use_action": [ { "type": "inscribe", "verb": "Write", "gerund": "Written", "on_terrain": false, "material_restricted": false } ],
     "flags": [ "STAB", "FRAGILE_MELEE", "WRITE_MESSAGE" ]
   },
@@ -221,5 +228,24 @@
         ]
       }
     ]
+  },
+  {
+    "id": "steel_scissors",
+    "type": "TOOL",
+    "name": { "str": "pair of makeshift scissors", "str_pl": "pairs of makeshift scissors" },
+    "description": "These are a pair of makeshift steel scissors.  Despite the difference in material and craftsmanship they are functionally identical to their aluminum counterparts.",
+    "ascii_picture": "scissors",
+    "weight": "160 g",
+    "volume": "145 ml",
+    "price": 50,
+    "price_postapoc": 10,
+    "to_hit": -1,
+    "cutting": 6,
+    "material": [ "steel" ],
+    "symbol": ",",
+    "color": "light_gray",
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 3 ], [ "FABRIC_CUT", 1 ] ],
+    "flags": [ "STAB", "BELT_CLIP", "SHEATH_KNIFE" ],
+    "weapon_category": [ "SHIVS" ]
   }
 ]

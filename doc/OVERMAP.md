@@ -244,6 +244,7 @@ rotation for the referenced overmap terrains (e.g. the `_north` version for all)
 | `mapgen_end`      | Specify a C++ mapgen function for a LINEAR feature variation. Prefer JSON instead.               |
 | `mapgen_tee`      | Specify a C++ mapgen function for a LINEAR feature variation. Prefer JSON instead.               |
 | `mapgen_four_way` | Specify a C++ mapgen function for a LINEAR feature variation. Prefer JSON instead.               |
+| `eoc`             | Supply an effect_on_condition id or an inline effect_on_condition.  The condition of the eoc will be tested to see if the special can be placed.  The effect of the eoc will be run when the special is placed.  See [effect_on_condition.md](effect_on_condition.md). |
 
 ### Example
 
@@ -268,7 +269,12 @@ an exhaustive example...
     "mapgen_curved": [ { "method": "builtin", "name": "road_curved" } ],
     "mapgen_end": [ { "method": "builtin", "name": "road_end" } ],
     "mapgen_tee": [ { "method": "builtin", "name": "road_tee" } ],
-    "mapgen_four_way": [ { "method": "builtin", "name": "road_four_way" } ]
+    "mapgen_four_way": [ { "method": "builtin", "name": "road_four_way" } ],
+    "eoc": {
+      "id": "EOC_REFUGEE_CENTER_GENERATE",
+      "condition": { "compare_int": [ { "global_val": "var", "var_name": "refugee_centers", "default": 0 }, "<", { "const": 1 } ] },
+      "effect": [ { "arithmetic": [ { "global_val": "var", "var_name": "refugee_centers" }, "++" ] } ]
+    }
 }
 ```
 
@@ -337,11 +343,12 @@ each normal special has a very high chance of being placed at least once per ove
 quirks of the code (most notably, the number of specials is only slightly more than the number of slots per
 overmap, specials that failed placement don't get disqualified and can be rolled for again, and placement iterates
 until all sectors are occupied). For specials that are not common enough to warrant appearing more
-than once per overmap please use the "UNIQUE" flag.
+than once per overmap please use the "UNIQUE" flag. For specials that should only have one instance
+per world use "GLOBALLY_UNIQUE".
 
-### Occurrences ( UNIQUE )
+### Occurrences ( UNIQUE, GLOBALLY_UNIQUE )
 
-When the special has the "UNIQUE" flag, instead of defining the minimum and maximum number placed
+When the special has the "UNIQUE" or "GLOBALLY_UNIQUE" flag, instead of defining the minimum and maximum number placed.
 the occurrences field defines the chance of the special to be included in any one given overmap.
 Before any placement rolls, all specials with this flag have to succeed in an x_in_y (first value, second
 value) roll to be included in the `overmap_special_batch` for the currently generated overmap;
@@ -537,6 +544,23 @@ Overmaps can always be rotated, so a `north` constraint can correspond to other
 directions.  So, the above `dead_end` overmap can represent a dead end tunnel
 in any direction, but it's important that the chosen OMT `ants_end_south` is
 consistent with the `north` join for the generated map to make sense.
+
+Overmaps can also specify connections.  For example, an overmap might be
+defined as:
+
+```json
+"where_road_connects": {
+  "overmap": "road_end_north",
+  "west": "parking_lot_to_road",
+  "connections": { "north": { "connection": "local_road" } }
+}
+```
+
+Once the mutable special placement is complete, a `local_road` connection will
+be built from the north edge of this overmap (again, 'north' is a relative
+term, that will rotate as the overmap is rotated) in the same way as
+connections are built for fixed specials.  'Existing' connections are not
+supported for mutable specials.
 
 #### Layout phases
 

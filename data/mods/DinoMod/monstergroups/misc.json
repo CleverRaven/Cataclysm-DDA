@@ -28,8 +28,11 @@
       { "monster": "mon_struthiomimus", "weight": 50, "pack_size": [ 4, 8 ] },
       { "monster": "mon_ornithomimus", "weight": 50, "pack_size": [ 4, 8 ] },
       { "monster": "mon_albertonykus", "weight": 50, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_eoraptor", "weight": 20, "pack_size": [ 4, 12 ] },
+      { "monster": "mon_dryosaurus", "weight": 20, "pack_size": [ 2, 4 ] },
       { "monster": "mon_scutellosaurus", "weight": 20, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_aquilops", "weight": 20, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_nanosaurus", "weight": 20, "pack_size": [ 4, 12 ] },
+      { "monster": "mon_oryctodromeus", "weight": 20, "pack_size": [ 1, 2 ] },
       { "monster": "mon_dimorphodon", "weight": 50, "pack_size": [ 2, 4 ] }
     ]
   },
@@ -39,7 +42,7 @@
     "monsters": [
       { "monster": "mon_compsognathus", "weight": 100 },
       { "monster": "mon_anzu", "weight": 50 },
-      { "monster": "mon_eoraptor", "weight": 100 },
+      { "monster": "mon_saurornitholestes", "weight": 50 },
       { "monster": "mon_dimorphodon", "weight": 100 }
     ]
   },
@@ -49,7 +52,8 @@
     "is_animal": true,
     "monsters": [
       { "monster": "mon_compsognathus", "weight": 50 },
-      { "monster": "mon_eoraptor", "weight": 50 },
+      { "monster": "mon_saurornitholestes", "weight": 50 },
+      { "monster": "mon_nanosaurus", "weight": 50 },
       { "monster": "mon_dimorphodon", "weight": 50 }
     ]
   },
@@ -108,13 +112,6 @@
       { "monster": "mon_zeratosaurus", "weight": 2, "cost_multiplier": 35, "starts": 2160 },
       { "monster": "mon_compsognathus", "weight": 300, "pack_size": [ 4, 12 ] },
       {
-        "monster": "mon_velociraptor",
-        "weight": 150,
-        "cost_multiplier": 10,
-        "pack_size": [ 2, 4 ],
-        "conditions": [ "DAY" ]
-      },
-      {
         "monster": "mon_deinonychus",
         "weight": 100,
         "cost_multiplier": 15,
@@ -125,11 +122,6 @@
       { "monster": "mon_zeinonychus", "weight": 25, "cost_multiplier": 30, "starts": 168, "pack_size": [ 2, 3 ] },
       { "monster": "mon_zeinonychus", "weight": 25, "cost_multiplier": 30, "starts": 672, "pack_size": [ 2, 3 ] },
       { "monster": "mon_zeinonychus", "weight": 25, "cost_multiplier": 30, "starts": 2160, "pack_size": [ 2, 3 ] },
-      { "monster": "mon_utahraptor", "weight": 100, "cost_multiplier": 30, "conditions": [ "DAY" ] },
-      { "monster": "mon_zutahraptor", "weight": 25, "cost_multiplier": 30, "starts": 72 },
-      { "monster": "mon_zutahraptor", "weight": 25, "cost_multiplier": 30, "starts": 168 },
-      { "monster": "mon_zutahraptor", "weight": 25, "cost_multiplier": 30, "starts": 672 },
-      { "monster": "mon_zutahraptor", "weight": 25, "cost_multiplier": 30, "starts": 2160 },
       {
         "monster": "mon_dromaeosaurus",
         "weight": 150,
@@ -150,7 +142,8 @@
         "pack_size": [ 4, 12 ],
         "conditions": [ "DAY", "SPRING", "SUMMER", "AUTUMN" ]
       },
-      { "monster": "mon_eoraptor", "weight": 200, "pack_size": [ 4, 12 ], "conditions": [ "WINTER" ] }
+      { "monster": "mon_eoraptor", "weight": 200, "pack_size": [ 4, 12 ], "conditions": [ "WINTER" ] },
+      { "monster": "mon_oryctodromeus", "weight": 200, "pack_size": [ 1, 2 ] }
     ]
   },
   {
@@ -168,16 +161,7 @@
       { "monster": "mon_zeinonychus", "weight": 25, "cost_multiplier": 30, "starts": 72, "pack_size": [ 2, 3 ] },
       { "monster": "mon_zeinonychus", "weight": 25, "cost_multiplier": 30, "starts": 168, "pack_size": [ 2, 3 ] },
       { "monster": "mon_zeinonychus", "weight": 25, "cost_multiplier": 30, "starts": 672, "pack_size": [ 2, 3 ] },
-      { "monster": "mon_zeinonychus", "weight": 25, "cost_multiplier": 30, "starts": 2160, "pack_size": [ 2, 3 ] },
-      { "monster": "mon_zutahraptor", "weight": 25, "cost_multiplier": 30, "starts": 72 },
-      { "monster": "mon_zutahraptor", "weight": 25, "cost_multiplier": 30, "starts": 168 },
-      { "monster": "mon_zutahraptor", "weight": 25, "cost_multiplier": 30, "starts": 672 },
-      { "monster": "mon_zutahraptor", "weight": 25, "cost_multiplier": 30, "starts": 2160 }
+      { "monster": "mon_zeinonychus", "weight": 25, "cost_multiplier": 30, "starts": 2160, "pack_size": [ 2, 3 ] }
     ]
-  },
-  {
-    "name": "GROUP_VETS",
-    "type": "monstergroup",
-    "monsters": [ { "monster": "mon_scutellosaurus", "weight": 15 } ]
   }
 ]

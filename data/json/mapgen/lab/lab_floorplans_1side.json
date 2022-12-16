@@ -170,7 +170,7 @@
       "mapping": {
         "l": {
           "items": [
-            { "item": "clothing_soldier_set", "chance": 100 },
+            { "item": "clothing_soldier_set_pristine", "chance": 100 },
             { "item": "gear_soldier_sidearm", "chance": 33 },
             { "item": "book_military", "chance": 33 }
           ]
@@ -210,7 +210,17 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "lab_barracks_turret",
-    "object": { "mapgensize": [ 24, 24 ], "place_monster": [ { "monster": "mon_turret_rifle", "x": [ 10, 13 ], "y": [ 15, 22 ] } ] }
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "place_monster": [
+        {
+          "monster": "mon_turret_rifle",
+          "x": [ 10, 13 ],
+          "y": [ 15, 22 ],
+          "spawn_data": { "ammo": [ { "ammo_id": "556", "qty": [ 30, 90 ] } ] }
+        }
+      ]
+    }
   },
   {
     "//": "prisoner containment",
