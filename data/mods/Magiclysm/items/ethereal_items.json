@@ -878,17 +878,7 @@
     "material": [ "concentrated_mana" ],
     "warmth": 0,
     "material_thickness": 4,
-    "flags": [
-      "ONLY_ONE",
-      "OVERSIZE",
-      "PERSONAL",
-      "STURDY",
-      "NO_REPAIR",
-      "NO_SALVAGE",
-      "LIGHT_2",
-      "TRADER_AVOID",
-      "PADDED"
-    ],
+    "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "STURDY", "NO_REPAIR", "NO_SALVAGE", "LIGHT_2", "TRADER_AVOID", "PADDED" ],
     "armor": [
       {
         "encumbrance": 5,
