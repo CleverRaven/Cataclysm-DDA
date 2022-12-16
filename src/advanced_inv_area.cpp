@@ -453,6 +453,19 @@ bool advanced_inv_area::can_store_in_vehicle() const
     }
 }
 
+bool advanced_inv_area::is_appliance() const
+{
+    // disallow for non-valid vehicle locations
+    if( id > AIM_DRAGGED || id < AIM_SOUTHWEST ) {
+        return false;
+    }
+    if( veh != nullptr && vstor >= 0 ) {
+        return veh->part( vstor ).info().has_flag( VPFLAG_APPLIANCE );
+    } else {
+        return false;
+    }
+}
+
 template <typename T>
 advanced_inv_area::itemstack advanced_inv_area::i_stacked( T items )
 {

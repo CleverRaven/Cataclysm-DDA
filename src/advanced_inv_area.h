@@ -105,5 +105,6 @@ class advanced_inv_area
         void set_container_position();
         aim_location offset_to_location() const;
         bool can_store_in_vehicle() const;
+        bool is_appliance() const;
 };
 #endif // CATA_SRC_ADVANCED_INV_AREA_H

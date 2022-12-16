@@ -637,7 +637,7 @@ int advanced_inventory::print_header( advanced_inventory_pane &pane, aim_locatio
         const point p( squares[i].hscreen + point( ofs, 0 ) );
         min_x = std::min( min_x, p.x );
         mvwprintz( window, p, bcolor, "%c", bracket[0] );
-        wprintz( window, kcolor, "%s", in_vehicle && sel != AIM_DRAGGED ? "V" : key );
+        wprintz( window, kcolor, "%s", in_vehicle && sel != AIM_DRAGGED ? squares[data_location].is_appliance() ? "A" : "V" : key );
         wprintz( window, bcolor, "%c", bracket[1] );
     }
 
