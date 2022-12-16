@@ -2898,7 +2898,7 @@
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_upper_l", "leg_upper_r" ],
         "coverage": 80,
-        "encumbrance": [ 3, 4 ]
+        "encumbrance": [ 4, 4 ]
       }
     ],
     "pocket_data": [
