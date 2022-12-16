@@ -13,11 +13,11 @@
     "blockable": false,
     "dodgeable": true,
     "self_effects_always": [ { "id": "grabbing", "duration": 30000 } ],
-    "hit_dmg_u": "%s catches your %2$s in its long sharp teeth!",
+    "hit_dmg_u": "%1$s catches your %2$s in its long sharp teeth!",
     "hit_dmg_npc": "%s grabs <npcname> in a powerful bite!",
-    "miss_msg_u": "%s tries to catch your %2$s in its teeth, but you dodge!",
+    "miss_msg_u": "%1$s tries to catch your %2$s in its teeth, but you dodge!",
     "miss_msg_npc": "%s tries to close its teeth around <npcname>, but they dodge!",
-    "no_dmg_msg_u": "%s grabs your %2$s in its long sharp teeth!",
+    "no_dmg_msg_u": "%1$s grabs your %2$s in its long sharp teeth!",
     "no_dmg_msg_npc": "%s grabs <npcname> in its long sharp teeth!"
   },
   {
@@ -57,11 +57,11 @@
     "blockable": false,
     "dodgeable": true,
     "self_effects_always": [ { "id": "grabbing", "duration": 30000 } ],
-    "hit_dmg_u": "%s punctures your %2$s with its long sharp teeth!",
+    "hit_dmg_u": "%1$s punctures your %2$s with its long sharp teeth!",
     "hit_dmg_npc": "%s punctures <npcname> in a powerful bite!",
-    "miss_msg_u": "%s tries to catch your %2$s in its teeth, but you dodge!",
+    "miss_msg_u": "%1$s tries to catch your %2$s in its teeth, but you dodge!",
     "miss_msg_npc": "%s tries to close its teeth around <npcname>, but they dodge!",
-    "no_dmg_msg_u": "%s grabs your %2$s in its long sharp teeth!",
+    "no_dmg_msg_u": "%1$s grabs your %2$s in its long sharp teeth!",
     "no_dmg_msg_npc": "%s grabs <npcname> in its long sharp teeth!"
   },
   {

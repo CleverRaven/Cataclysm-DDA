@@ -224,19 +224,6 @@
     "families": [ "prof_wp_cyborg" ],
     "harvest": "mon_zomborg",
     "dissect": "dissect_mon_zomborg",
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "STUMBLES",
-      "WARM",
-      "BASHES",
-      "GROUP_BASH",
-      "POISON",
-      "NO_BREATHE",
-      "REVIVES",
-      "PUSH_MON",
-      "FILTHY"
-    ]
+    "flags": [ "SEES", "HEARS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
   }
 ]
