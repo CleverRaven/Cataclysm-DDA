@@ -56,9 +56,9 @@
         },
         "effect": [
           { "u_sell_item": "antiparasitic", "count": 10 },
-          { "finish_mission": "BRING_INFESTED_ANTIPARASITICS", "success": true },
-          { "npc_lose_trait": [ "EGGSAC_SURVIVABLE" ] },
-          { "npc_lose_trait": [ "EGGSAC_FATAL" ] }
+          { "npc_lose_trait": "EGGSAC_SURVIVABLE" },
+          { "npc_lose_trait": "EGGSAC_FATAL" },
+          { "finish_mission": "BRING_INFESTED_ANTIPARASITICS", "success": true }
         ],
         "topic": "TALK_RESCUED_1"
       }
