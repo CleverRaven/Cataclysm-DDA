@@ -2621,9 +2621,24 @@
     "armor": [
       { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 100, "encumbrance": [ 9, 19 ] },
       { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 95, "encumbrance": [ 0, 0 ] },
-      { "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ], "coverage": 40, "encumbrance": [ 0, 0 ] },
-      { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ], "coverage": 90, "encumbrance": [ 4, 5 ]  },
-      { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ], "coverage": 80, "encumbrance": [ 4, 4 ] }
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ],
+        "coverage": 40,
+        "encumbrance": [ 0, 0 ]
+      },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
+        "coverage": 90,
+        "encumbrance": [ 4, 5 ]
+      },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r" ],
+        "coverage": 80,
+        "encumbrance": [ 4, 4 ]
+      }
     ]
   },
   {
