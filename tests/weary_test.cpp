@@ -374,13 +374,13 @@ TEST_CASE( "weary_24h_tasks", "[weary][activities]" )
         INFO( info.summarize() );
         INFO( guy.debug_weary_info() );
         REQUIRE( !info.empty() );
-        CHECK( info.transition_minutes( 0, 1, 165_minutes ) == Approx( 165 ).margin( 5 ) );
-        CHECK( info.transition_minutes( 1, 2, 295_minutes ) == Approx( 295 ).margin( 5 ) );
-        CHECK( info.transition_minutes( 2, 3, 390_minutes ) == Approx( 390 ).margin( 5 ) );
-        CHECK( info.transition_minutes( 3, 4, 485_minutes ) == Approx( 485 ).margin( 5 ) );
-        CHECK( info.transition_minutes( 4, 5, 600_minutes ) == Approx( 600 ).margin( 5 ) );
-        CHECK( info.transition_minutes( 5, 6, 715_minutes ) == Approx( 715 ).margin( 5 ) );
-        CHECK( info.transition_minutes( 6, 7, 800_minutes ) == Approx( 800 ).margin( 5 ) );
+        CHECK( info.transition_minutes( 0, 1, 165_minutes ) == Approx( 165 ).margin( 10 ) );
+        CHECK( info.transition_minutes( 1, 2, 295_minutes ) == Approx( 295 ).margin( 10 ) );
+        CHECK( info.transition_minutes( 2, 3, 390_minutes ) == Approx( 390 ).margin( 10 ) );
+        CHECK( info.transition_minutes( 3, 4, 485_minutes ) == Approx( 485 ).margin( 10 ) );
+        CHECK( info.transition_minutes( 4, 5, 600_minutes ) == Approx( 600 ).margin( 10 ) );
+        CHECK( info.transition_minutes( 5, 6, 715_minutes ) == Approx( 715 ).margin( 10 ) );
+        CHECK( info.transition_minutes( 6, 7, 800_minutes ) == Approx( 800 ).margin( 10 ) );
         CHECK( info.transition_minutes( 7, 8, 870_minutes ) == Approx( 870 ).margin( 10 ) );
         CHECK( !info.have_weary_decrease() );
         // TODO: You should collapse from this - currently we
