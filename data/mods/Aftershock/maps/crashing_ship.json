@@ -152,6 +152,8 @@
         "P": "t_foamcrete_wall_seal",
         "p": "t_foamcrete_floor_seal"
       },
+	  "set": [
+	  { "point": "trap", "id": "tr_escape_pod", 
       "mapping": {
         "z": { "items": [ { "item": "afs_escape_pod_suppliesII", "chance": 100 } ] },
         "L": {
