@@ -468,9 +468,9 @@ TEST_CASE( "activity levels and calories in daily diary", "[avatar][biometrics][
         test_activity_duration( dummy, EXTRA_EXERCISE, 10_minutes );
         test_activity_duration( dummy, NO_EXERCISE, 1_minutes );
 
-        int expect_gained_kcal = 1282;
+        int expect_gained_kcal = 1283;
         int expect_net_kcal = 552;
-        int expect_spent_kcal = 730;
+        int expect_spent_kcal = 686;
 
         CHECK( condensed_spaces( dummy.total_daily_calories_string() ) == string_format(
                    "<color_c_white> Minutes at each exercise level Calories per day</color>\n"
