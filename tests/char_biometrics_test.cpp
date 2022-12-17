@@ -385,7 +385,7 @@ TEST_CASE( "riding various creatures at various sizes", "[avatar][bodyweight]" )
     DummyMap dummies_max_height = create_dummies_of_all_sizes( Character::max_height() );
 
     auto can_mount = []( const avatar_ptr & dummy, const monster & steed ) {
-        dummy.set_stored_kcal( dummy.get_healthy_kcal() );
+        dummy->set_stored_kcal( dummy->get_healthy_kcal() );
         return dummy->bodyweight() <= steed.get_weight() * steed.get_mountable_weight_ratio();
     };
 
