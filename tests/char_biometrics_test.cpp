@@ -235,19 +235,19 @@ TEST_CASE( "body mass index determines maximum healthiness", "[biometrics][bmi][
     avatar dummy;
 
     // Skeletal (0-1/5)
-    CHECK( max_healthy_at_bmi( dummy, 0.1f ) == 150 );
-    CHECK( max_healthy_at_bmi( dummy, 0.4f ) == 177 );
-    CHECK( max_healthy_at_bmi( dummy, 0.8f ) == 195 );
-    CHECK( max_healthy_at_bmi( dummy, 1.0f ) == -25 );
+    CHECK( max_healthy_at_bmi( dummy, 0.1f ) == 117 );
+    CHECK( max_healthy_at_bmi( dummy, 0.4f ) == 129 );
+    CHECK( max_healthy_at_bmi( dummy, 0.8f ) == 143 );
+    CHECK( max_healthy_at_bmi( dummy, 1.0f ) == 150 );
     // Emaciated (1.01-2/5)
-    CHECK( max_healthy_at_bmi( dummy, 1.3f ) == -200 );
-    CHECK( max_healthy_at_bmi( dummy, 1.6f ) == -200 );
-    CHECK( max_healthy_at_bmi( dummy, 1.9f ) == -200 );
+    CHECK( max_healthy_at_bmi( dummy, 1.3f ) == 159 );
+    CHECK( max_healthy_at_bmi( dummy, 1.6f ) == 168 );
+    CHECK( max_healthy_at_bmi( dummy, 1.9f ) == 175 );
     // Underweight (2.1-3.5/5)
-    CHECK( max_healthy_at_bmi( dummy, 2.1f ) == 133 );
-    CHECK( max_healthy_at_bmi( dummy, 2.5f ) == 133 );
-    CHECK( max_healthy_at_bmi( dummy, 3.0f ) == 164 );
-    CHECK( max_healthy_at_bmi( dummy, 3.5f ) == 189 );
+    CHECK( max_healthy_at_bmi( dummy, 2.1f ) == 180 );
+    CHECK( max_healthy_at_bmi( dummy, 2.5f ) == 187 );
+    CHECK( max_healthy_at_bmi( dummy, 3.0f ) == 195 );
+    CHECK( max_healthy_at_bmi( dummy, 3.5f ) == 200 );
     // Normal (3.6-5/5)
     CHECK( max_healthy_at_bmi( dummy, 3.6f ) == 200 );
     CHECK( max_healthy_at_bmi( dummy, 3.8f ) == 200 );
@@ -257,14 +257,14 @@ TEST_CASE( "body mass index determines maximum healthiness", "[biometrics][bmi][
     CHECK( max_healthy_at_bmi( dummy, 4.8f ) == 200 );
     CHECK( max_healthy_at_bmi( dummy, 5.0f ) == 200 );
     // Overweight (5.1-10/5)
-    CHECK( max_healthy_at_bmi( dummy, 6.0f ) == 178 );
-    CHECK( max_healthy_at_bmi( dummy, 7.0f ) == 149 );
-    CHECK( max_healthy_at_bmi( dummy, 8.0f ) == 115 );
-    CHECK( max_healthy_at_bmi( dummy, 9.0f ) == 74 );
+    CHECK( max_healthy_at_bmi( dummy, 6.0f ) == 188 );
+    CHECK( max_healthy_at_bmi( dummy, 7.0f ) == 165 );
+    CHECK( max_healthy_at_bmi( dummy, 8.0f ) == 133 );
+    CHECK( max_healthy_at_bmi( dummy, 9.0f ) == 90 );
     // Obese (10.1-15/5)
-    CHECK( max_healthy_at_bmi( dummy, 10.0f ) == 28 );
+    CHECK( max_healthy_at_bmi( dummy, 10.0f ) == 38 );
     CHECK( max_healthy_at_bmi( dummy, 11.0f ) == -25 );
-    CHECK( max_healthy_at_bmi( dummy, 12.0f ) == -83 );
+    CHECK( max_healthy_at_bmi( dummy, 12.0f ) == -97 );
     CHECK( max_healthy_at_bmi( dummy, 13.0f ) == -148 );
     CHECK( max_healthy_at_bmi( dummy, 14.0f ) == -200 );
     // Very obese (15.1-20/5)
@@ -355,8 +355,8 @@ TEST_CASE( "character's weight should increase with their body size and BMI",
                 CHECK( dummies[size]->bodyweight() < dummies[next_size]->bodyweight() );
             }
             avatar_ptr &dummy = dummies[size];
-            CHECK( bodyweight_kg_at_bmi( *dummy, 16.0f ) < bodyweight_kg_at_bmi( *dummy, 25.0f ) );
-            CHECK( bodyweight_kg_at_bmi( *dummy, 25.0f ) < bodyweight_kg_at_bmi( *dummy, 35.0f ) );
+            CHECK( bodyweight_kg_at_bmi( *dummy, 3.0f ) < bodyweight_kg_at_bmi( *dummy, 5.0f ) );
+            CHECK( bodyweight_kg_at_bmi( *dummy, 5.0f ) < bodyweight_kg_at_bmi( *dummy, 15.0f ) );
         } );
     };
 
@@ -385,6 +385,7 @@ TEST_CASE( "riding various creatures at various sizes", "[avatar][bodyweight]" )
     DummyMap dummies_max_height = create_dummies_of_all_sizes( Character::max_height() );
 
     auto can_mount = []( const avatar_ptr & dummy, const monster & steed ) {
+        dummy.set_stored_kcal( dummy.get_healthy_kcal() );
         return dummy->bodyweight() <= steed.get_weight() * steed.get_mountable_weight_ratio();
     };
 
@@ -527,7 +528,7 @@ TEST_CASE( "basal metabolic rate with various size and metabolism", "[biometrics
 
     // To keep things simple, use normal BMI for all tests
     set_player_bmi( dummy, 5.0f );
-    REQUIRE( dummy.get_bmi() == Approx( 25.0f ).margin( 0.001f ) );
+    REQUIRE( dummy.get_bmi() == Approx( 23.0f ).margin( 0.001f ) );
 
     // Tests cover:
     // - normal, very fast, and cold-blooded metabolisms for normal body size
