@@ -265,7 +265,7 @@ TEST_CASE( "body mass index determines maximum healthiness", "[biometrics][bmi][
     CHECK( max_healthy_at_bmi( dummy, 10.0f ) == 38 );
     CHECK( max_healthy_at_bmi( dummy, 11.0f ) == -25 );
     CHECK( max_healthy_at_bmi( dummy, 12.0f ) == -97 );
-    CHECK( max_healthy_at_bmi( dummy, 13.0f ) == -148 );
+    CHECK( max_healthy_at_bmi( dummy, 13.0f ) == -180 );
     CHECK( max_healthy_at_bmi( dummy, 14.0f ) == -200 );
     // Very obese (15.1-20/5)
     CHECK( max_healthy_at_bmi( dummy, 15.0f ) == -200 );
@@ -540,27 +540,27 @@ TEST_CASE( "basal metabolic rate with various size and metabolism", "[biometrics
         REQUIRE( dummy.get_size() == creature_size::medium );
 
         SECTION( "normal metabolism" ) {
-            CHECK( 1738 == bmr_at_act_level( dummy, NO_EXERCISE ) );
-            CHECK( 6952 == bmr_at_act_level( dummy, MODERATE_EXERCISE ) );
-            CHECK( 17380 == bmr_at_act_level( dummy, EXTRA_EXERCISE ) );
+            CHECK( 1677 == bmr_at_act_level( dummy, NO_EXERCISE ) );
+            CHECK( 6708 == bmr_at_act_level( dummy, MODERATE_EXERCISE ) );
+            CHECK( 16770 == bmr_at_act_level( dummy, EXTRA_EXERCISE ) );
         }
 
         SECTION( "very fast metabolism" ) {
             set_single_trait( dummy, "HUNGER2" );
             REQUIRE( dummy.metabolic_rate_base() == 2.0f );
 
-            CHECK( 3476 == bmr_at_act_level( dummy, NO_EXERCISE ) );
-            CHECK( 13904 == bmr_at_act_level( dummy, MODERATE_EXERCISE ) );
-            CHECK( 34760 == bmr_at_act_level( dummy, EXTRA_EXERCISE ) );
+            CHECK( 3354 == bmr_at_act_level( dummy, NO_EXERCISE ) );
+            CHECK( 13416 == bmr_at_act_level( dummy, MODERATE_EXERCISE ) );
+            CHECK( 33540 == bmr_at_act_level( dummy, EXTRA_EXERCISE ) );
         }
 
         SECTION( "very slow (cold-blooded) metabolism" ) {
             set_single_trait( dummy, "COLDBLOOD3" );
             REQUIRE( dummy.metabolic_rate_base() == 0.5f );
 
-            CHECK( 869 == bmr_at_act_level( dummy, NO_EXERCISE ) );
-            CHECK( 3476 == bmr_at_act_level( dummy, MODERATE_EXERCISE ) );
-            CHECK( 8690 == bmr_at_act_level( dummy, EXTRA_EXERCISE ) );
+            CHECK( 838 == bmr_at_act_level( dummy, NO_EXERCISE ) );
+            CHECK( 3352 == bmr_at_act_level( dummy, MODERATE_EXERCISE ) );
+            CHECK( 8380 == bmr_at_act_level( dummy, EXTRA_EXERCISE ) );
         }
     }
 
