@@ -235,18 +235,18 @@ TEST_CASE( "body mass index determines maximum healthiness", "[biometrics][bmi][
     avatar dummy;
 
     // Skeletal (0-1/5)
-    CHECK( max_healthy_at_bmi( dummy, 0.1f ) == 117 );
-    CHECK( max_healthy_at_bmi( dummy, 0.4f ) == 129 );
-    CHECK( max_healthy_at_bmi( dummy, 0.8f ) == 143 );
-    CHECK( max_healthy_at_bmi( dummy, 1.0f ) == 150 );
+    CHECK( max_healthy_at_bmi( dummy, 0.1f ) == -140 );
+    CHECK( max_healthy_at_bmi( dummy, 0.4f ) == -110 );
+    CHECK( max_healthy_at_bmi( dummy, 0.8f ) == -70 );
+    CHECK( max_healthy_at_bmi( dummy, 1.0f ) == -50 );
     // Emaciated (1.01-2/5)
-    CHECK( max_healthy_at_bmi( dummy, 1.3f ) == 159 );
-    CHECK( max_healthy_at_bmi( dummy, 1.6f ) == 168 );
-    CHECK( max_healthy_at_bmi( dummy, 1.9f ) == 175 );
+    CHECK( max_healthy_at_bmi( dummy, 1.3f ) == -20 );
+    CHECK( max_healthy_at_bmi( dummy, 1.6f ) == 10 );
+    CHECK( max_healthy_at_bmi( dummy, 1.9f ) == 40 );
     // Underweight (2.1-3.5/5)
-    CHECK( max_healthy_at_bmi( dummy, 2.1f ) == 180 );
-    CHECK( max_healthy_at_bmi( dummy, 2.5f ) == 187 );
-    CHECK( max_healthy_at_bmi( dummy, 3.0f ) == 195 );
+    CHECK( max_healthy_at_bmi( dummy, 2.1f ) == 60 );
+    CHECK( max_healthy_at_bmi( dummy, 2.5f ) == 100 );
+    CHECK( max_healthy_at_bmi( dummy, 3.0f ) == 150 );
     CHECK( max_healthy_at_bmi( dummy, 3.5f ) == 200 );
     // Normal (3.6-5/5)
     CHECK( max_healthy_at_bmi( dummy, 3.6f ) == 200 );
@@ -257,22 +257,22 @@ TEST_CASE( "body mass index determines maximum healthiness", "[biometrics][bmi][
     CHECK( max_healthy_at_bmi( dummy, 4.8f ) == 200 );
     CHECK( max_healthy_at_bmi( dummy, 5.0f ) == 200 );
     // Overweight (5.1-10/5)
-    CHECK( max_healthy_at_bmi( dummy, 6.0f ) == 188 );
-    CHECK( max_healthy_at_bmi( dummy, 7.0f ) == 165 );
-    CHECK( max_healthy_at_bmi( dummy, 8.0f ) == 133 );
-    CHECK( max_healthy_at_bmi( dummy, 9.0f ) == 90 );
+    CHECK( max_healthy_at_bmi( dummy, 6.0f ) == 175 );
+    CHECK( max_healthy_at_bmi( dummy, 7.0f ) == 150 );
+    CHECK( max_healthy_at_bmi( dummy, 8.0f ) == 125 );
+    CHECK( max_healthy_at_bmi( dummy, 9.0f ) == 100 );
     // Obese (10.1-15/5)
-    CHECK( max_healthy_at_bmi( dummy, 10.0f ) == 38 );
-    CHECK( max_healthy_at_bmi( dummy, 11.0f ) == -25 );
-    CHECK( max_healthy_at_bmi( dummy, 12.0f ) == -97 );
-    CHECK( max_healthy_at_bmi( dummy, 13.0f ) == -180 );
-    CHECK( max_healthy_at_bmi( dummy, 14.0f ) == -200 );
+    CHECK( max_healthy_at_bmi( dummy, 10.0f ) == 75 );
+    CHECK( max_healthy_at_bmi( dummy, 11.0f ) == 50 );
+    CHECK( max_healthy_at_bmi( dummy, 12.0f ) == 25 );
+    CHECK( max_healthy_at_bmi( dummy, 13.0f ) == 0 );
+    CHECK( max_healthy_at_bmi( dummy, 14.0f ) == -25 );
     // Very obese (15.1-20/5)
-    CHECK( max_healthy_at_bmi( dummy, 15.0f ) == -200 );
-    CHECK( max_healthy_at_bmi( dummy, 16.0f ) == -200 );
-    CHECK( max_healthy_at_bmi( dummy, 17.0f ) == -200 );
-    CHECK( max_healthy_at_bmi( dummy, 18.0f ) == -200 );
-    CHECK( max_healthy_at_bmi( dummy, 19.0f ) == -200 );
+    CHECK( max_healthy_at_bmi( dummy, 15.0f ) == -50 );
+    CHECK( max_healthy_at_bmi( dummy, 16.0f ) == -75 );
+    CHECK( max_healthy_at_bmi( dummy, 17.0f ) == -100 );
+    CHECK( max_healthy_at_bmi( dummy, 18.0f ) == -150 );
+    CHECK( max_healthy_at_bmi( dummy, 19.0f ) == -175 );
     // Morbidly obese (>20/5)
     CHECK( max_healthy_at_bmi( dummy, 20.0f ) == -200 );
     CHECK( max_healthy_at_bmi( dummy, 21.0f ) == -200 );
@@ -469,7 +469,7 @@ TEST_CASE( "activity levels and calories in daily diary", "[avatar][biometrics][
         test_activity_duration( dummy, NO_EXERCISE, 1_minutes );
 
         int expect_gained_kcal = 1283;
-        int expect_net_kcal = 552;
+        int expect_net_kcal = 597;
         int expect_spent_kcal = 686;
 
         CHECK( condensed_spaces( dummy.total_daily_calories_string() ) == string_format(
