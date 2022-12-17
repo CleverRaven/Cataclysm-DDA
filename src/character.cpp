@@ -3712,8 +3712,6 @@ void Character::mut_cbm_encumb( std::map<bodypart_id, encumbrance_data> &vals ) 
 
 void Character::calc_bmi_encumb( std::map<bodypart_id, encumbrance_data> &vals ) const
 {
-    //if BMI from obesity > minimum BMI from obesity for the limb to receive penalty encumbrance, multiply that by the scalar value per point of BMI to get total penalty
-    //note that it is NOT your real BMI, but the quantity of your BMI the fat represents (which is usually 5 or so at a healthy weight)
     for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
         int penalty = std::floor( elem.second.get_bmi_encumbrance_scalar() * std::max( 0.0f,
                                   get_bmi_fat() - static_cast<float>( elem.second.get_bmi_encumbrance_threshold() ) ) );
@@ -3753,17 +3751,6 @@ int Character::get_int() const
 
 int Character::get_str_base() const
 {
-    //if we are malnourished, our base strength decreases linearly from our natural strength to 2, as BMI 12 is about the lowest possible before organ failure
-    //this represents loss of muscle mass, and uses base strength because it reduces your hp and "true" bmi and weight all the way down to BMI 12 (dead)
-    //character_weight_category::underweight() should be 2.0f but this might change.
-    //example one: bmi_fat is 1.5f and we have strength 8.
-    // = std::floor( ( 1.0f - ( 1.5f / 2.0f ) ) * ( 1.0f - ( 2.0f / 8 ) ) * 8 )
-    // = std::floor( ( 1.0f - 0.75f ) * ( 1.0f - 0.25f ) * 8 )
-    // = std::floor( 0.25f * 0.75f * 8 ) == 1.5, then 8-1.5 == (floored) 6 total strength
-    //example two: bmi_fat is 1.0f and we have strength 12
-    // = std::floor( ( 1.0f - ( 1.0f / 2.0f ) ) * ( 1.0f - ( 2.0f / 12 ) ) * 12 )
-    // = std::floor( ( 1.0f - 0.5f ) * ( 1.0f - 0.17f ) * 12 )
-    // = std::floor( 0.5f * 0.83f * 12 ) == 5 then 12-5 == 7 total strength
     if( get_bmi_fat() < character_weight_category::underweight ) {
         const int str_penalty = std::floor( ( 1.0f - ( get_bmi_fat() /
                                               character_weight_category::underweight ) ) * ( 1.0f - ( 2.0f / str_max ) ) * str_max );
@@ -4077,7 +4064,7 @@ void Character::mod_stored_kcal( int nkcal, const bool ignore_weariness )
 
 void Character::mod_stored_calories( int ncal, const bool ignore_weariness )
 {
-    //if we are malnourished, we are now burning muscle to stay alive, so half of calories go to/from fat and the other half to/from muscle
+    //if we are malnourished, we are now burning muscle to stay alive
     const int adjust_factor = ( get_bmi_fat() < character_weight_category::underweight ) ? std::min( 1.0f, 4.0f /
                               str_max ) : 1.0f;
     int nkcal = ( ncal * adjust_factor ) / 1000;
@@ -4115,10 +4102,7 @@ void Character::set_stored_calories( int cal )
 
 int Character::get_healthy_kcal() const
 {
-    //it's healthy to have about 5 BMI points' worth of fat (for a 175cm char this is about 13kg of fat)
     float healthy_weight = 5.0f * std::pow( height() / 100.0f, 2 );
-    //then multiply each kg of fat by its caloric content, giving the above 175cm char about 100000 kcal as healthy
-    //a 200cm char would have about 150000 kcal as healthy and a 145cm character about 800000
     return std::floor( 7716.17 * healthy_weight );
 }
 
