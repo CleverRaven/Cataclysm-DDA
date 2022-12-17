@@ -26,7 +26,7 @@
       ]
     },
     "qualities": [ [ "HAMMER", 1 ] ],
-    "flags": [ "VARSIZE", "STURDY", "UNARMED_WEAPON", "DURABLE_MELEE", "NONCONDUCTIVE", "MAGIC_FOCUS" ],
+    "flags": [ "STURDY", "UNARMED_WEAPON", "DURABLE_MELEE", "NONCONDUCTIVE", "MAGIC_FOCUS" ],
     "techniques": [ "WBLOCK_3" ]
   },
   {
@@ -152,7 +152,7 @@
     "material_thickness": 3,
     "environmental_protection": 2,
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MOVE_COST", "add": -5 } ] } ] },
-    "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "ROLLER_QUAD", "BELTED" ],
+    "flags": [ "OVERSIZE", "WATERPROOF", "ROLLER_QUAD", "BELTED" ],
     "armor": [ { "encumbrance": 0, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ]
   },
   {
@@ -878,18 +878,7 @@
     "material": [ "concentrated_mana" ],
     "warmth": 0,
     "material_thickness": 4,
-    "flags": [
-      "ONLY_ONE",
-      "OVERSIZE",
-      "PERSONAL",
-      "VARSIZE",
-      "STURDY",
-      "NO_REPAIR",
-      "NO_SALVAGE",
-      "LIGHT_2",
-      "TRADER_AVOID",
-      "PADDED"
-    ],
+    "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "STURDY", "NO_REPAIR", "NO_SALVAGE", "LIGHT_2", "TRADER_AVOID", "PADDED" ],
     "armor": [
       {
         "encumbrance": 5,
