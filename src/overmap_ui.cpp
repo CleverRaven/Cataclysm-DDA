@@ -88,6 +88,7 @@ static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
 static const mongroup_id GROUP_FOREST( "GROUP_FOREST" );
 static const mongroup_id GROUP_NEMESIS( "GROUP_NEMESIS" );
 
+static const oter_str_id oter_explored( "explored" );
 static const oter_str_id oter_forest( "forest" );
 static const oter_str_id oter_unexplored( "unexplored" );
 
@@ -601,7 +602,8 @@ static void draw_ascii(
         // Ok, we found something
         if( info ) {
             const bool explored = show_explored && overmap_buffer.is_explored( omp );
-            ter_color = explored ? c_dark_gray : info->get_color( uistate.overmap_show_land_use_codes );
+            ter_color = explored ? oter_explored.obj().get_color() :
+                        info->get_color( uistate.overmap_show_land_use_codes );
             ter_sym = info->get_symbol( uistate.overmap_show_land_use_codes );
         }
     };
