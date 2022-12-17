@@ -4307,7 +4307,7 @@ int Character::get_max_healthy() const
                                             25 * ( bmi - character_weight_category::overweight ) ) );
     int under_factor = std::round( std::max( 0.0f,
                                    100 * ( character_weight_category::normal - bmi ) ) );
-    return std::max( 200 - over_factor - under_factor, -200);
+    return std::max( 200 - over_factor - under_factor, -200 );
 }
 
 void Character::regen( int rate_multiplier )
