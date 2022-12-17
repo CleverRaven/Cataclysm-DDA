@@ -4319,9 +4319,9 @@ void Character::reset_bonuses()
 int Character::get_max_healthy() const
 {
     const float bmi = get_bmi_fat();
-    int over_factor = std::max( 0, std::round( 25 * ( bmi - character_weight_category::overweight ) ) );
-    int under_factor = std::max( 0, std::round( 100 * ( character_weight_category::normal - bmi ) ) );
-    return 200 - over_factor - under_factor;
+    int over_factor = std::round( std::max( 0.0f, 25 * ( bmi - character_weight_category::overweight ) ) );
+    int under_factor = std::round( std::max( 0.0f, 100 * ( character_weight_category::normal - bmi ) ) );
+    return std::max( 200 - over_factor - under_factor, -200);
 }
 
 void Character::regen( int rate_multiplier )
