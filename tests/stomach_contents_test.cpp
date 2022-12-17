@@ -123,7 +123,7 @@ TEST_CASE( "starve_test", "[starve][slow]" )
 
     // A specific BMR isn't the real target of this test, the number of days
     // is, but it helps to debug the test faster if this value is wrong.
-    REQUIRE( dummy.get_bmr() == 1738 );
+    REQUIRE( dummy.get_bmr() == 1677 );
 
     constexpr int expected_day = 36;
     int day = 0;
@@ -295,7 +295,7 @@ TEST_CASE( "starve_test_hunger3", "[starve][slow]" )
         dummy.mutate_towards( trait_HUNGER3 );
     }
     clear_stomach( dummy );
-
+    dummy.set_stored_kcal( dummy.get_healthy_kcal() );
     CAPTURE( dummy.metabolic_rate_base() );
     CAPTURE( dummy.activity_level_str() );
     CAPTURE( dummy.base_height() );
@@ -317,9 +317,13 @@ TEST_CASE( "starve_test_hunger3", "[starve][slow]" )
         day++;
     } while( dummy.get_stored_kcal() > 0 );
 
+    //you are burning through 5000 kcal a day out of a healthy base reserve of ~120000 kcal (15kg which is ~20% of your expected total weight of ~72kg)
+    //as your metabolism slows as you starve this puts your expected lifespan at about 25 days, which is likely too high for a super hungry mutant.
+    //however, you also start breaking down muscle below 2 fat BMIs (~50,000 kcal), which is hard to recover from, and 15kg is a fairly solid buffer.
+    //the system should probably account for the fact that fat ketones cannot power your whole body (brain can't think without food, stored kcal or not)
     CAPTURE( results );
-    CHECK( day <= 12 );
-    CHECK( day >= 10 );
+    CHECK( day <= 27 );
+    CHECK( day >= 24 );
 }
 
 // does eating enough food per day keep you alive
