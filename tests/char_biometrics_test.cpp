@@ -271,10 +271,10 @@ TEST_CASE( "body mass index determines maximum healthiness", "[biometrics][bmi][
     CHECK( max_healthy_at_bmi( dummy, 15.0f ) == -50 );
     CHECK( max_healthy_at_bmi( dummy, 16.0f ) == -75 );
     CHECK( max_healthy_at_bmi( dummy, 17.0f ) == -100 );
-    CHECK( max_healthy_at_bmi( dummy, 18.0f ) == -150 );
-    CHECK( max_healthy_at_bmi( dummy, 19.0f ) == -175 );
+    CHECK( max_healthy_at_bmi( dummy, 18.0f ) == -125 );
+    CHECK( max_healthy_at_bmi( dummy, 19.0f ) == -150 );
     // Morbidly obese (>20/5)
-    CHECK( max_healthy_at_bmi( dummy, 20.0f ) == -200 );
+    CHECK( max_healthy_at_bmi( dummy, 20.0f ) == -175 );
     CHECK( max_healthy_at_bmi( dummy, 21.0f ) == -200 );
     CHECK( max_healthy_at_bmi( dummy, 22.0f ) == -200 );
 }
