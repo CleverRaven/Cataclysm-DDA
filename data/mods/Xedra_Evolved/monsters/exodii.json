@@ -12,6 +12,7 @@
     "bodytype": "horse",
     "material": [ "steel" ],
     "speed": 110,
+    "attack_cost": 80,
     "symbol": "J",
     "aggression": -10,
     "morale": 70,

@@ -33,7 +33,7 @@
     "vision_night": 4,
     "path_settings": { "max_dist": 30, "avoid_traps": true, "avoid_sharp": true },
     "diff": 5,
-    "starting_ammo": { "57": 5 },
+    "starting_ammo": { "57mm_ss": 5 },
     "special_attacks": [
       {
         "type": "gun",
