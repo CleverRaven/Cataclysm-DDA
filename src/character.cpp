@@ -4065,8 +4065,7 @@ void Character::mod_stored_kcal( int nkcal, const bool ignore_weariness )
 void Character::mod_stored_calories( int ncal, const bool ignore_weariness )
 {
     //if we are malnourished, we are now burning muscle to stay alive
-    const int adjust_factor = ( get_bmi_fat() < character_weight_category::underweight ) ? std::min( 1.0f, 4.0f /
-                              str_max ) : 1.0f;
+    const int adjust_factor = ( get_bmi_fat() < character_weight_category::underweight ) ? std::min( 1.0f, 4.0f / str_max ) : 1.0f;
     int nkcal = ( ncal * adjust_factor ) / 1000;
     if( nkcal > 0 ) {
         add_gained_calories( nkcal );
@@ -4303,8 +4302,10 @@ void Character::reset_bonuses()
 int Character::get_max_healthy() const
 {
     const float bmi = get_bmi_fat();
-    int over_factor = std::round( std::max( 0.0f, 25 * ( bmi - character_weight_category::overweight ) ) );
-    int under_factor = std::round( std::max( 0.0f, 100 * ( character_weight_category::normal - bmi ) ) );
+    int over_factor = std::round( std::max( 0.0f,
+                                            25 * ( bmi - character_weight_category::overweight ) ) );
+    int under_factor = std::round( std::max( 0.0f,
+                                             100 * ( character_weight_category::normal - bmi ) ) );
     return std::max( 200 - over_factor - under_factor, -200);
 }
 
@@ -6396,7 +6397,8 @@ void Character::burn_move_stamina( int moves )
 {
     int overburden_percentage = 0;
     //add half the difference between current stored kcal weight and healthy stored kcal weight to weight of carried gear
-    units::mass fat_penalty = units::from_kilogram( 0.5f * std::max( 0.0f, ( get_healthy_kcal() - get_stored_kcal() ) / 7716.17f ) );
+    units::mass fat_penalty = units::from_kilogram( 0.5f * std::max( 0.0f,
+                              ( get_healthy_kcal() - get_stored_kcal() ) / 7716.17f ) );
     units::mass current_weight = weight_carried() + fat_penalty;
     // Make it at least 1 gram to avoid divide-by-zero warning
     units::mass max_weight = std::max( weight_capacity(), 1_gram );
