@@ -125,7 +125,7 @@ TEST_CASE( "starve_test", "[starve][slow]" )
     // is, but it helps to debug the test faster if this value is wrong.
     REQUIRE( dummy.get_bmr() == 1677 );
 
-    constexpr int expected_day = 36;
+    constexpr int expected_day = 72;
     int day = 0;
     std::vector<std::string> results;
 
