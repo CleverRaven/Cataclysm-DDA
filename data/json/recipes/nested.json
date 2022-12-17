@@ -4280,7 +4280,8 @@
       "xs_aketon_canvas_layered",
       "xl_aketon_canvas_layered_vest",
       "xs_aketon_canvas_layered_vest"
-    ]
+    ],
+    "difficulty": 3
   },
   {
     "id": "nested_gambeson_canvas",
@@ -4301,7 +4302,8 @@
       "xs_gambeson_canvas_layered_thinsleeved",
       "xl_gambeson_canvas_layered_vest",
       "xs_gambeson_canvas_layered_vest"
-    ]
+    ],
+    "difficulty": 3
   },
   {
     "id": "nested_armingpants_canvas",
@@ -4319,7 +4321,8 @@
       "xs_gambeson_pants_canvas_layered",
       "xl_aketon_pants_canvas_layered",
       "xs_gambeson_pants_canvas_layered"
-    ]
+    ],
+    "difficulty": 3
   },
   {
     "id": "nested_arminggloves_canvas",
@@ -4337,7 +4340,8 @@
       "xs_gambeson_gloves_canvas_layered",
       "xl_aketon_gloves_canvas_layered",
       "xs_gambeson_gloves_canvas_layered"
-    ]
+    ],
+    "difficulty": 3
   },
   {
     "id": "nested_hoods_canvas",
@@ -4348,7 +4352,8 @@
     "name": "canvas coifs",
     "description": "Recipes related to armored cloth hoods made of canvas.",
     "skill_used": "tailoring",
-    "nested_category_data": [ "aketon_hood_canvas_layered", "xl_aketon_hood_canvas_layered", "xl_aketon_hood_canvas_layered" ]
+    "nested_category_data": [ "aketon_hood_canvas_layered", "xl_aketon_hood_canvas_layered", "xl_aketon_hood_canvas_layered" ],
+    "difficulty": 3
   },
   {
     "id": "nested_chairs",
