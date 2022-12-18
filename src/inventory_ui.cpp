@@ -64,6 +64,11 @@ static const item_category_id item_category_INTEGRATED( "INTEGRATED" );
 static const item_category_id item_category_ITEMS_WORN( "ITEMS_WORN" );
 static const item_category_id item_category_WEAPON_HELD( "WEAPON_HELD" );
 
+#if defined(__ANDROID__)
+extern std::map<std::string, std::list<input_event>> quick_shortcuts_map;
+extern bool add_key_to_quick_shortcuts( int key, const std::string &category, bool back );
+#endif
+
 namespace
 {
 
@@ -141,6 +146,15 @@ item_category const *wielded_worn_category( item_location const &loc, Character 
     }
     return nullptr;
 }
+
+#if defined( __ANDROID__ )
+void add_quick_shortcut( std::string const &action, input_context &ctxt )
+{
+    std::vector<input_event> const evlist =
+        inp_mngr.get_input_for_action( action, ctxt.get_category() );
+    ctxt.register_manual_key( evlist.front().get_first_input(), ctxt.get_action_name( action ) );
+}
+#endif
 
 } // namespace
 
@@ -2448,6 +2462,9 @@ inventory_selector::inventory_selector( Character &u, const inventory_selector_p
     , _uimode( preset.save_state == nullptr ? inventory_sel_default_state.uimode :
                preset.save_state->uimode )
 {
+#if defined(__ANDROID__)
+    quick_shortcuts_map.clear();
+#endif
     ctxt.register_action( "DOWN", to_translation( "Next item" ) );
     ctxt.register_action( "UP", to_translation( "Previous item" ) );
     ctxt.register_action( "PAGE_DOWN", to_translation( "Page down" ) );
@@ -2471,6 +2488,12 @@ inventory_selector::inventory_selector( Character &u, const inventory_selector_p
     ctxt.register_action( "EXAMINE_CONTENTS" );
     ctxt.register_action( "TOGGLE_SKIP_UNSELECTABLE" );
     ctxt.register_action( "ORGANIZE_MENU" );
+
+#if defined(__ANDROID__)
+    add_quick_shortcut( "EXAMINE", ctxt );
+    add_quick_shortcut( "VIEW_CATEGORY_MODE", ctxt );
+    add_quick_shortcut( "SHOW_HIDE_CONTENTS", ctxt );
+#endif
 
     append_column( own_inv_column );
     append_column( map_column );
@@ -3372,6 +3395,8 @@ pickup_selector::pickup_selector( Character &p, const inventory_selector_preset 
     ctxt.register_action( "WEAR" );
     ctxt.register_action( "WIELD" );
 #if defined(__ANDROID__)
+    add_quick_shortcut( "WEAR", ctxt );
+    add_quick_shortcut( "WIELD", ctxt );
     // allow user to type a drop number without dismissing virtual keyboard after each keypress
     ctxt.allow_text_entry = true;
 #endif
@@ -3665,6 +3690,11 @@ trade_selector::trade_selector( trade_ui *parent, Character &u,
     resize( size, origin );
     _ui = create_or_get_ui_adaptor();
     set_invlet_type( inventory_selector::SELECTOR_INVLET_ALPHA );
+
+#if defined( __ANDROID__ )
+    add_quick_shortcut( ACTION_SWITCH_PANES, _ctxt_trade );
+    add_quick_shortcut( ACTION_AUTOBALANCE, _ctxt_trade );
+#endif
 }
 
 trade_selector::select_t trade_selector::to_trade() const
