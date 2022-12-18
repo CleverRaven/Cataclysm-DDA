@@ -458,5 +458,45 @@
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "bone", 2 ] ] ],
     "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "engine_block_large",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "5 h",
+    "tools": [ [ [ "angle_grinder", 500 ] ] ],
+    "components": [ [ [ "steel_lump", 95 ] ] ]
+  },
+  {
+    "result": "engine_block_massive",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "5 h",
+    "tools": [ [ [ "angle_grinder", 500 ] ] ],
+    "components": [ [ [ "steel_lump", 96 ] ] ]
+  },
+  {
+    "result": "engine_block_medium",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "2 h",
+    "tools": [ [ [ "angle_grinder", 100 ] ] ],
+    "components": [ [ [ "steel_lump", 80 ] ] ]
+  },
+  {
+    "result": "engine_block_small",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "30 m",
+    "qualities": [ { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "steel_lump", 23 ] ] ]
+  },
+  {
+    "result": "engine_block_tiny",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "25 m",
+    "qualities": [ { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "steel_lump", 10 ] ] ]
   }
 ]
