@@ -11,8 +11,12 @@
       { "group": "newspaper_recent", "prob": 60 },
       { "item": "flyer", "prob": 30, "count-max": 2 },
       { "item": "survnote", "prob": 3 },
-      { "item": "touristmap", "prob": 3 },
-      { "item": "trailmap", "prob": 3 }
+      { "item": "restaurantbrochure", "prob": 6 },
+      { "item": "grocerybrochure", "prob": 6 },
+      { "item": "historybrochure", "prob": 3 },
+      { "item": "mallbrochure", "prob": 6 },
+      { "item": "furniturebrochure", "prob": 3 },
+      { "item": "technologybrochure", "prob": 3 }
     ]
   },
   {

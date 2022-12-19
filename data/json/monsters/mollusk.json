@@ -92,6 +92,7 @@
     "harvest": "mutant_mollusk",
     "dissect": "dissect_gastropod_sample_single",
     "proportional": { "hp": 0.4, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
+    "zombify_into": "mon_meat_cocoon_small",
     "upgrades": { "half_life": 14, "into": "mon_snail_giant" }
   },
   {
@@ -125,6 +126,7 @@
     "dissect": "dissect_gastropod_sample_small",
     "special_attacks": [ [ "ACID", 10 ] ],
     "anger_triggers": [ "PLAYER_CLOSE" ],
+    "zombify_into": "mon_meat_cocoon_med",
     "flags": [ "SEES", "SMELLS", "BASHES", "ACIDPROOF", "ACIDTRAIL", "ARTHROPOD_BLOOD" ]
   },
   {
@@ -165,6 +167,7 @@
     "harvest": "mutant_mollusk",
     "dissect": "dissect_gastropod_sample_single",
     "proportional": { "hp": 0.4, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
+    "zombify_into": "mon_meat_cocoon_small",
     "upgrades": { "half_life": 14, "into": "mon_slug_giant" }
   },
   {
@@ -198,6 +201,7 @@
     "dissect": "dissect_gastropod_sample_small",
     "special_attacks": [ [ "ACID", 10 ] ],
     "anger_triggers": [ "PLAYER_CLOSE" ],
+    "zombify_into": "mon_meat_cocoon_med",
     "flags": [ "SEES", "SMELLS", "BASHES", "ACIDPROOF", "ACIDTRAIL", "ARTHROPOD_BLOOD" ]
   },
   {
@@ -233,6 +237,7 @@
     "fear_triggers": [ "FIRE" ],
     "dissect": "dissect_gastropod_sample_huge",
     "regenerates": 50,
+    "zombify_into": "mon_meat_cocoon_med",
     "flags": [ "NOHEAD", "SEES", "POISON", "HEARS", "SMELLS", "SLUDGEPROOF", "SLUDGETRAIL", "SWIMS", "FLAMMABLE", "NOGIB" ]
   }
 ]

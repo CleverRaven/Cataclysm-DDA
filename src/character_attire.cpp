@@ -1236,9 +1236,14 @@ ret_val<void> outfit::check_rigid_conflicts( const item &clothing, side s ) cons
                 continue;
             }
 
-            // skip if either item cares only about it's layer and they don't match up
+            // skip if either item cares only about its layer and they don't match up
             if( ( i.is_bp_rigid_selective( sbp ) || clothing.is_bp_rigid_selective( sbp ) ) &&
                 !i.has_layer( clothing.get_layer( sbp ), sbp ) ) {
+                continue;
+            }
+
+            // allow wearing splints on integrated armor such as protective bark
+            if( i.has_flag( flag_INTEGRATED ) && clothing.has_flag( flag_SPLINT ) ) {
                 continue;
             }
 
@@ -1663,19 +1668,6 @@ void outfit::get_overlay_ids( std::vector<std::pair<std::string, std::string>> &
     }
 }
 
-bool outfit::in_climate_control() const
-{
-    for( const item &w : worn ) {
-        if( w.active && w.is_power_armor() ) {
-            return true;
-        }
-        if( w.has_flag( flag_CLIMATE_CONTROL ) ) {
-            return true;
-        }
-    }
-    return false;
-}
-
 std::list<item>::iterator outfit::position_to_wear_new_item( const item &new_item )
 {
     // By default we put this item on after the last item on the same or any
@@ -1873,7 +1865,7 @@ std::map<bodypart_id, int> outfit::warmth( const Character &guy ) const
     return total_warmth;
 }
 
-std::unordered_set<bodypart_id> outfit::where_discomfort() const
+std::unordered_set<bodypart_id> outfit::where_discomfort( const Character &guy ) const
 {
     // get all rigid body parts to begin with
     std::unordered_set<sub_bodypart_id> covered_sbps;
@@ -1889,8 +1881,17 @@ std::unordered_set<bodypart_id> outfit::where_discomfort() const
             // note anything selectively rigid reasonably can be assumed to support itself so we don't need to worry about this
             // items must also be somewhat heavy in order to cause discomfort
             if( !i.is_bp_rigid_selective( sbp ) && !i.is_bp_comfortable( sbp ) &&
-                covered_sbps.count( sbp ) != 1 && i.weight() > units::from_gram( 250 ) ) {
-                uncomfortable_bps.insert( sbp->parent );
+                i.weight() > units::from_gram( 250 ) ) {
+
+                // need to go through each locations under location to check if its covered, since secondary locations can cover multiple underlying locations
+                for( const sub_bodypart_str_id &under_sbp : sbp->locations_under ) {
+                    if( covered_sbps.count( under_sbp ) != 1 ) {
+                        guy.add_msg_if_player(
+                            string_format( _( "<color_c_red> the %s rubs uncomfortably against your unpadded %s </color>" ),
+                                           i.display_name(), under_sbp->name ) );
+                        uncomfortable_bps.insert( sbp->parent );
+                    }
+                }
             }
         }
     }
@@ -2234,6 +2235,71 @@ void outfit::pickup_stash( const item &newit, int &remaining_charges, bool ignor
     }
 }
 
+static std::vector<pocket_data_with_parent> get_child_pocket_with_parent(
+    const item_pocket *pocket, const item_location &parent, item_location it, const int nested_level,
+    const std::function<bool( const item_pocket * )> &filter = return_true<const item_pocket *> )
+{
+    std::vector<pocket_data_with_parent> ret;
+    if( pocket != nullptr ) {
+        pocket_data_with_parent pocket_data = { pocket, item_location::nowhere, nested_level };
+        const item_location new_parent = item_location( it );
+
+        if( parent != item_location::nowhere ) {
+            pocket_data.parent = item_location( parent, it.get_item() );
+        }
+        if( filter( pocket_data.pocket_ptr ) ) {
+            ret.emplace_back( pocket_data );
+        }
+
+        for( const item *contained : pocket->all_items_top() ) {
+            const item_location poc_loc = item_location( it, const_cast<item *>( contained ) );
+            for( const item_pocket *pocket_nest : contained->get_all_contained_pockets() ) {
+                std::vector<pocket_data_with_parent> child =
+                    get_child_pocket_with_parent( pocket_nest, new_parent,
+                                                  poc_loc, nested_level + 1, filter );
+                ret.insert( ret.end(), child.begin(), child.end() );
+            }
+        }
+    }
+    return ret;
+}
+
+std::vector<pocket_data_with_parent> Character::get_all_pocket_with_parent(
+    const std::function<bool( const item_pocket * )> &filter,
+    const std::function<bool( const pocket_data_with_parent &a, const pocket_data_with_parent &b )>
+    *sort_func )
+{
+    std::vector<pocket_data_with_parent> ret;
+    const auto sort_pockets_func = [ sort_func ]
+    ( const pocket_data_with_parent & l, const pocket_data_with_parent & r ) {
+        const auto sort_pockets = *sort_func;
+        return sort_pockets( l, r );
+    };
+
+    std::list<item_location> locs;
+    item_location carried_item = get_wielded_item();
+    if( carried_item != item_location::nowhere ) {
+        locs.emplace_back( carried_item );
+    }
+    for( item_location &worn_loc : top_items_loc( ) ) {
+        if( worn_loc != item_location::nowhere ) {
+            locs.emplace_back( worn_loc );
+        }
+    }
+
+    for( item_location &loc : locs ) {
+        for( const item_pocket *pocket : loc->get_all_contained_pockets() ) {
+            std::vector<pocket_data_with_parent> child =
+                get_child_pocket_with_parent( pocket, item_location::nowhere, loc, 0, filter );
+            ret.insert( ret.end(), child.begin(), child.end() );
+        }
+    }
+    if( sort_func ) {
+        std::sort( ret.begin(), ret.end(), sort_pockets_func );
+    }
+    return ret;
+}
+
 void outfit::add_stash( Character &guy, const item &newit, int &remaining_charges,
                         bool ignore_pkt_settings )
 {
@@ -2249,52 +2315,50 @@ void outfit::add_stash( Character &guy, const item &newit, int &remaining_charge
         // Crawl Next : worn items
         pickup_stash( newit, remaining_charges, ignore_pkt_settings );
     } else {
-        item_pocket *found_pocket;
-        std::vector<item_pocket *> pockets;
+        //item copy for test can contain
         item temp_it = item( newit );
         temp_it.charges = 1;
 
         // Collect all pockets
-        std::list<item *> items;
-        item_location carried_item = guy.get_wielded_item();
-        if( carried_item != item_location::nowhere ) {
-            items.emplace_back( &*carried_item );
-        }
-        for( item &i : worn ) {
-            items.emplace_back( &i );
-        }
-        for( item *i : items ) {
-            for( const item_pocket *pocket : i->get_all_contained_pockets() ) {
-                if( pocket->can_contain( temp_it ).success() ) {
-                    // Top-level( wielded, worn ) pockets may be stored
-                    found_pocket = const_cast<item_pocket *>( pocket );
-                    pockets.emplace_back( found_pocket );
-                }
-                for( const item *contained : pocket->all_items_ptr( item_pocket::pocket_type::CONTAINER ) ) {
-                    for( const item_pocket *pocket_nest : contained->get_all_contained_pockets() ) {
-                        if( pocket_nest->can_contain( temp_it ).success() && pocket_nest->rigid() ) {
-                            // Nested pocket with rigid() can only be stored
-                            found_pocket = const_cast<item_pocket *>( pocket_nest );
-                            pockets.emplace_back( found_pocket );
-                        }
-                    }
-                }
-            }
-        }
+        std::vector<pocket_data_with_parent> pockets_with_parent;
+        auto const pocket_filter = [&temp_it]( item_pocket const * pck ) {
+            return pck->can_contain( temp_it ).success();
+        };
+        const std::function<bool( const pocket_data_with_parent &a, const pocket_data_with_parent &b )>
+        &sort_f = [&temp_it]( const pocket_data_with_parent & a, const pocket_data_with_parent & b ) {
+            return b.pocket_ptr->better_pocket( *a.pocket_ptr, temp_it, false );
+        };
+        pockets_with_parent = guy.get_all_pocket_with_parent( pocket_filter, &sort_f );
 
-        // Sort by item_pocket::better_pocket
-        std::sort( pockets.begin(), pockets.end(), [newit, temp_it]( item_pocket * lhs,
-        item_pocket * rhs ) {
-            return rhs->better_pocket( *lhs, newit, false );
-        } );
-
-        int amount = remaining_charges;
+        const int amount = remaining_charges;
         int num_contained = 0;
-        for( item_pocket *&pocket : pockets ) {
+        for( const pocket_data_with_parent &pocket_data_ptr : pockets_with_parent ) {
             if( amount <= num_contained || remaining_charges <= 0 ) {
                 break;
             }
-            const int filled_count = pocket->fill_with( newit, remaining_charges, false, false );
+            int filled_count = 0;
+            item_pocket *pocke = const_cast<item_pocket *>( pocket_data_ptr.pocket_ptr );
+            if( pocke == nullptr ) {
+                continue;
+            }
+            if( pocke->rigid() ) {
+                // Rigid container allow to fill unconditionally till volume limit
+                // because do not depend on the capacity of the parent's pocket.
+                filled_count = pocke->fill_with( newit, guy, remaining_charges, false, false );
+            } else {
+                int max_contain_value = pocke->remaining_capacity_for_item( newit );
+                const item_location parent_data = pocket_data_ptr.parent;
+
+                if( parent_data.has_parent() ) {
+                    if( parent_data.parents_can_contain_recursive( &temp_it ) ) {
+                        max_contain_value = parent_data.max_charges_by_parent_recursive( temp_it );
+                    } else {
+                        max_contain_value = 0;
+                    }
+                }
+                const int charges = std::min( max_contain_value, remaining_charges ) ;
+                filled_count = pocke->fill_with( newit, guy, charges, false, false );
+            }
             num_contained += filled_count;
             remaining_charges -= filled_count;
         }

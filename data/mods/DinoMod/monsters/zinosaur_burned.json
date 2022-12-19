@@ -668,10 +668,22 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_zastonia_scorched",
+    "name": { "str": "scorched gastonia zombie" },
+    "copy-from": "mon_zankylosaurus_scorched",
+    "looks_like": "mon_zastonia",
+    "hp": 150,
+    "fungalize_into": "mon_zastonia_fungus",
+    "description": "A heavily-burned, armored four legged zombie dinosaur that still reeks of charred meat.  What little flesh is exposed has mended into a leathery shell."
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_zargoyleosaurus_scorched",
     "name": { "str": "scorched gargoyleosaurus zombie" },
     "copy-from": "mon_zankylosaurus_scorched",
     "looks_like": "mon_zargoyleosaurus",
+    "volume": "415 L",
+    "weight": "500 kg",
     "hp": 120,
     "speed": 30,
     "attack_cost": 30,
@@ -703,6 +715,19 @@
     "armor_bullet": 18,
     "fungalize_into": "mon_zodosaurus_fungus",
     "description": "A heavily-burned, armored zombie dinosaur that still reeks of charred meat.  What little flesh is exposed has mended into a leathery shell."
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zanoplosaurus_scorched",
+    "name": { "str": "scorched panoplosaurus zombie" },
+    "copy-from": "mon_zankylosaurus_scorched",
+    "looks_like": "mon_zanoplosaurus",
+    "hp": 135,
+    "armor_bash": 23,
+    "armor_cut": 32,
+    "armor_bullet": 18,
+    "fungalize_into": "mon_zanoplosaurus_fungus",
+    "description": "A heavily-burned, four legged armored zombie dinosaur that still reeks of charred meat.  What little flesh is exposed has mended into a leathery shell."
   },
   {
     "type": "MONSTER",
@@ -777,6 +802,26 @@
     "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explodes!" },
     "harvest": "zed_dino_leather",
     "flags": [ "SEES", "HEARS", "STUMBLES", "POISON", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zuoplocephalus_scorched",
+    "name": { "str": "scorched euoplocephalus zombie" },
+    "copy-from": "mon_zankylosaurus_scorched",
+    "looks_like": "mon_zuoplocephalus",
+    "hp": 200,
+    "fungalize_into": "mon_zuoplocephalus_fungus",
+    "description": "A heavily-burned, armored zombie dinosaur that still reeks of charred meat.  What little flesh is exposed has mended into a leathery shell."
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zcolosaurus_scorched",
+    "name": { "str": "scorched scolosaurus zombie" },
+    "copy-from": "mon_zankylosaurus_scorched",
+    "looks_like": "mon_zcolosaurus",
+    "hp": 200,
+    "fungalize_into": "mon_zcolosaurus_fungus",
+    "description": "A heavily-burned, armored zombie dinosaur that still reeks of charred meat.  What little flesh is exposed has mended into a leathery shell."
   },
   {
     "type": "MONSTER",
@@ -919,31 +964,6 @@
   },
   {
     "type": "MONSTER",
-    "id": "mon_zarasaurolophus_scorched",
-    "name": { "str": "scorched parasaurolophus zombie" },
-    "copy-from": "mon_zadrosaurus_scorched",
-    "looks_like": "mon_zarasaurolophus",
-    "hp": 170,
-    "fungalize_into": "mon_zarasaurolophus_fungus",
-    "description": "A heavily-burned zombie dinosaur with a pointed beak; it still reeks of charred meat.  Its flesh has mended into a leathery shell."
-  },
-  {
-    "type": "MONSTER",
-    "id": "mon_zorythosaurus_scorched",
-    "name": { "str": "scorched corythosaurus zombie" },
-    "copy-from": "mon_zarasaurolophus_scorched",
-    "looks_like": "mon_zorythosaurus",
-    "melee_dice": 2,
-    "melee_dice_sides": 5,
-    "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
-    "armor_cut": 15,
-    "armor_bullet": 11,
-    "hp": 180,
-    "fungalize_into": "mon_zorythosaurus_fungus",
-    "description": "A heavily-burned zombie dinosaur with a pointed beak and tall head crest; it still reeks of charred meat.  Its flesh has mended into a leathery shell."
-  },
-  {
-    "type": "MONSTER",
     "id": "mon_zaiasaura_scorched",
     "name": { "str": "scorched maiasaura zombie" },
     "copy-from": "mon_zarasaurolophus_scorched",
@@ -951,6 +971,36 @@
     "hp": 100,
     "fungalize_into": "mon_zaiasaura_fungus",
     "description": "A heavily-burned zombie dinosaur with a pointed beak; it still reeks of charred meat.  Its flesh has mended into a leathery shell."
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zryposaurus_scorched",
+    "name": { "str": "scorched gryposaurus zombie" },
+    "copy-from": "mon_zedmontosaurus_scorched",
+    "looks_like": "mon_zryposaurus",
+    "hp": 250,
+    "fungalize_into": "mon_zryposaurus_fungus",
+    "description": "A heavily-burned zombie dinosaur with a pointed beak; it still reeks of charred meat.  Its flesh has mended into a leathery shell."
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zrosaurolophus_scorched",
+    "name": { "str": "scorched prosaurolophus zombie" },
+    "copy-from": "mon_zedmontosaurus_scorched",
+    "looks_like": "mon_zrosaurolophus",
+    "hp": 250,
+    "fungalize_into": "mon_zrosaurolophus_fungus",
+    "description": "A heavily-burned zombie dinosaur with a short beak and tall head crest; it still reeks of charred meat.  Its flesh has mended into a leathery shell."
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zaurolophus_scorched",
+    "name": { "str": "scorched saurolophus zombie" },
+    "copy-from": "mon_zedmontosaurus_scorched",
+    "looks_like": "mon_zaurolophus",
+    "hp": 250,
+    "fungalize_into": "mon_zaurolophus_fungus",
+    "description": "A heavily-burned zombie dinosaur with a broad beak and spiky head crest; it still reeks of charred meat.  Its flesh has mended into a leathery shell."
   },
   {
     "type": "MONSTER",
@@ -971,13 +1021,58 @@
   },
   {
     "type": "MONSTER",
-    "id": "mon_zryposaurus_scorched",
-    "name": { "str": "scorched gryposaurus zombie" },
-    "copy-from": "mon_zedmontosaurus_scorched",
-    "looks_like": "mon_zryposaurus",
-    "hp": 250,
-    "fungalize_into": "mon_zaiasaura_fungus",
+    "id": "mon_zarasaurolophus_scorched",
+    "name": { "str": "scorched parasaurolophus zombie" },
+    "copy-from": "mon_zadrosaurus_scorched",
+    "looks_like": "mon_zarasaurolophus",
+    "hp": 170,
+    "fungalize_into": "mon_zarasaurolophus_fungus",
     "description": "A heavily-burned zombie dinosaur with a pointed beak; it still reeks of charred meat.  Its flesh has mended into a leathery shell."
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zambeosaurus_scorched",
+    "name": { "str": "scorched lambeosaurus zombie" },
+    "copy-from": "mon_zarasaurolophus_scorched",
+    "looks_like": "mon_zambeosaurus",
+    "melee_dice": 2,
+    "melee_dice_sides": 5,
+    "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
+    "armor_cut": 15,
+    "armor_bullet": 11,
+    "hp": 180,
+    "fungalize_into": "mon_zambeosaurus_fungus",
+    "description": "A heavily-burned zombie dinosaur with a long stiff tail, hooves, a narrow beak and a tall head crest; it still reeks of charred meat.  Its flesh has mended into a leathery shell."
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zorythosaurus_scorched",
+    "name": { "str": "scorched corythosaurus zombie" },
+    "copy-from": "mon_zarasaurolophus_scorched",
+    "looks_like": "mon_zorythosaurus",
+    "melee_dice": 2,
+    "melee_dice_sides": 5,
+    "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
+    "armor_cut": 15,
+    "armor_bullet": 11,
+    "hp": 180,
+    "fungalize_into": "mon_zorythosaurus_fungus",
+    "description": "A heavily-burned zombie dinosaur with a pointed beak and tall head crest; it still reeks of charred meat.  Its flesh has mended into a leathery shell."
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zypacrosaurus_scorched",
+    "name": { "str": "scorched hypacrosaurus zombie" },
+    "copy-from": "mon_zarasaurolophus_scorched",
+    "looks_like": "mon_zypacrosaurus",
+    "melee_dice": 2,
+    "melee_dice_sides": 5,
+    "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
+    "armor_cut": 15,
+    "armor_bullet": 11,
+    "hp": 180,
+    "fungalize_into": "mon_zypacrosaurus_fungus",
+    "description": "A heavily-burned zombie dinosaur with a tall ridge down the back, a tail, hooves, a short beak and a wide, rounded head crest; it still reeks of charred meat.  Its flesh has mended into a leathery shell."
   },
   {
     "type": "MONSTER",

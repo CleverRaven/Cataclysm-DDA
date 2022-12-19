@@ -112,7 +112,6 @@ static const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );
 
 static const trap_str_id tr_firewood_source( "tr_firewood_source" );
 static const trap_str_id tr_practice_target( "tr_practice_target" );
-static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 
 static const vpart_id vpart_frame_vertical_2( "frame_vertical_2" );
 
@@ -1030,7 +1029,7 @@ void place_construction( const construction_group_str_id &group )
     partial_con *pre_c = here.partial_con_at( pnt );
     if( pre_c ) {
         add_msg( m_info,
-                 _( "There is already an unfinished construction there, examine it to continue working on it" ) );
+                 _( "There is already an unfinished construction there, examine it to continue working on it." ) );
         return;
     }
     std::list<item> used;
@@ -1038,13 +1037,6 @@ void place_construction( const construction_group_str_id &group )
     // create the partial construction struct
     partial_con pc;
     pc.id = con.id;
-    // Set the trap that has the examine function
-    // Special handling for constructions that take place on existing traps.
-    // Basically just don't add the unfinished construction trap.
-    // TODO: handle this cleaner, instead of adding a special case to pit iexamine.
-    if( here.tr_at( pnt ).is_null() ) {
-        here.trap_set( pnt, tr_unfinished_construction );
-    }
     if( player_character.has_trait( trait_DEBUG_HS ) ) {
         // Gift components
         for( const auto &it : con.requirements->get_components() ) {
@@ -1077,9 +1069,6 @@ void complete_construction( Character *you )
     partial_con *pc = here.partial_con_at( terp );
     if( !pc ) {
         debugmsg( "No partial construction found at activity placement in complete_construction()" );
-        if( here.tr_at( terp ) == tr_unfinished_construction ) {
-            here.remove_trap( terp );
-        }
         if( you->is_npc() ) {
             npc *guy = dynamic_cast<npc *>( you );
             guy->current_activity_id = activity_id::NULL_ID();
@@ -1112,9 +1101,6 @@ void complete_construction( Character *you )
 
             award_xp( *elem );
         }
-    }
-    if( here.tr_at( terp ) == tr_unfinished_construction ) {
-        here.remove_trap( terp );
     }
 
     // partial_con contains components for vehicle and appliance construction
@@ -1588,7 +1574,22 @@ void construct::done_deconstruct( const tripoint_bub_ms &p, Character &player_ch
             here.furn_set( p, f.deconstruct.furn_set );
         }
         add_msg( _( "The %s is disassembled." ), f.name() );
-        here.spawn_items( p, item_group::items_from( f.deconstruct.drop_group, calendar::turn ) );
+        item &item_here = here.i_at( p ).size() != 1 ? null_item_reference() : here.i_at( p ).only_item();
+        const std::vector<item *> drop = here.spawn_items( p,
+                                         item_group::items_from( f.deconstruct.drop_group, calendar::turn ) );
+        // if furniture has liquid in it and deconstructs into watertight containers then fill them
+        if( f.has_flag( "LIQUIDCONT" ) && item_here.made_of( phase_id::LIQUID ) ) {
+            for( item *it : drop ) {
+                if( it->get_remaining_capacity_for_liquid( item_here ) <= 0 ) {
+                    continue;
+                }
+                item_here.charges -= it->fill_with( item_here, item_here.charges, false, true, true );
+                if( item_here.charges <= 0 ) {
+                    here.i_rem( p, &item_here );
+                    break;
+                }
+            }
+        }
         // HACK: Hack alert.
         // Signs have cosmetics associated with them on the submap since
         // furniture can't store dynamic data to disk. To prevent writing
@@ -1609,7 +1610,6 @@ void construct::done_deconstruct( const tripoint_bub_ms &p, Character &player_ch
             }
             done_deconstruct( top, player_character );
         }
-        avatar &player_character = get_avatar();
         if( t.id.id() == t_console_broken )  {
             if( player_character.get_skill_level( skill_electronics ) >= 1 ) {
                 player_character.practice( skill_electronics, 20, 4 );

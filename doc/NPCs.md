@@ -38,7 +38,7 @@ Format:
   ],
   "shopkeeper_consumption_rates": "basic_shop_rates",
   "shopkeeper_price_rules": [
-    { "item": "scrap", "fixed_price": 10000 },
+    { "item": "scrap", "price": 10000 },
   ]
   "shopkeeper_blacklist": "test_blacklist",
   "restock_interval": "6 days",
@@ -62,6 +62,15 @@ There are a couple of items in the above template that may not be self explanato
 - `"strict"` : (_optional_) If true, items in this group will not be available for restocking unless the conditions are met. (Defaults to false)
 - `"rigid"` : (_optional_) By default, item groups will be continually iterated until they reach a certain value or size threshold for the NPC. Rigid groups are instead guaranteed to populate a single time if they can, and will not include duplicate reruns. (Defaults to false)
 - `"refusal"` : (_optional_) message to display in UIs (ex: trade UI) when conditions are not met. Defaults to `"<npcname> does not trust you enough"`
+
+##### Shop restocking
+NPCs with at least one `shopkeeper_item_group` will (re)stock their shop in nearby loot zones (within `PICKUP_RANGE` = 6 tiles) owned by their faction and will ignore all other items. If there isn't at least one `LOOT_UNSORTED` zone nearby, fallback zones will be automatically placed on all nearby, reachable, unsealed furniture with either the `CONTAINER` flag or a max volume higher than the floor. If there is no suitable furniture around, a 3x3 zone centered on the NPC will be created instead.
+
+Before restocking, items owned by the NPC's faction within these zones will be consumed according to `shopkeeper_consumption_rates`.
+
+The shop restocks every `restock_interval` regardless of interactions with the avatar.
+
+NOTE: do not place items within these loot zones in mapgen definitions as these will be consumed during the first restock. Add them to the item groups instead.
 
 #### NPC
 There is a second template required for a new NPC. It looks like this:
@@ -942,6 +951,7 @@ Condition | Type | Description
 `"mission_goal" or "npc_mission_goal" or "u_mission_goal"` | string | `true` if u or the NPC's current mission has the same goal as `mission_goal`.
 `"mission_complete" or "npc_mission_complete" or "u_mission_complete"` | simple string | `true` if u or the NPC has completed the other's current mission.
 `"mission_incomplete" or "npc_mission_incomplete" or "u_mission_incomplete"` | simple string | `true` if u or the NPC hasn't completed the other's current mission.
+`"mission_failed" or "npc_mission_failed" or "u_mission_failed"` | simple string | `true` if u or the NPC has failed the other's current mission.
 `"mission_has_generic_rewards"` | simple string | `true` if the NPC's current mission is flagged as having generic rewards.
 `"npc_service"` | int | `true` if the NPC does not have the `"currently_busy"` effect and the player character has at least `npc_service` cash available.  Useful to check if the player character can hire an NPC to perform a task that would take time to complete.  Functionally, this is identical to `"and": [ { "not": { "npc_has_effect": "currently_busy" } }, { "u_has_cash": service_cost } ]`
 `"npc_allies"` | int or variable_object | `true` if the player character has at least `npc_allies` (or the value of the variable described; see `variable_object` above) number of NPC allies _within the reality bubble_.
@@ -982,6 +992,12 @@ Condition | Type | Description
 `"one_in_chance"` | int or variable_object | `true` if a one in `one_in_chance`( or the value of the variable described see `variable_object` above) random chance occurs.
 `"x_in_y_chance"` | object | `true` if a `x` in `y` random chance occurs. `x` and `y` are either ints or `variable_object`s ( see `variable_object` above).
 `"is_weather"` | int or variable_object | `true` if current weather is `"is_weather"`.
+
+#### Meta
+
+Condition | Type | Description
+--- | --- | ---
+`"mod_is_loaded"` | string | `true` if the mod with the given ID is loaded.
 
 
 #### Compare itergers & arithmetics
@@ -1052,6 +1068,9 @@ Example | Description
 `"u_val": "bmi_permil"` | Current BMI per mille (Body Mass Index x 1000)
 `"u_val": "height"` | Current height in cm. When setting there is a range for your character size category. Setting it too high or low will use the limit instead. For tiny its 58, and 87. For small its 88 and 144. For medium its 145 and 200. For large its 201 and 250. For huge its 251 and 320.
 `"u_val": "monsters_nearby"` | Number of monsters nearby. Optional params: `target_var` is a variable_object of a location variable to center the effect on, `id` is a variable_object, if its provided only monsters with this id will be counted, `radius` a variable_object of how far around the center to count from. 
+`"u_val": "spell_level"` | Level of a given spell. -1 means the spell is not known when read and that the spell should be forgotten if written. Optional params: `school` gives the highest level of spells known of that school (read only), `spell` reads or writes the level of the spell with matching spell id. If no parameter is provided, you will get the highest spell level of the spells you know (read only).
+`"u_val": "spell_exp"` | Experience for a given spell. -1 means the spell is not known when read and that the spell should be forgotten if written. Required param: `spell` is the id of the spell in question.
+`"u_val": "proficiency"` | Deals with a proficiency. Required params: `proficiency_id` is the id of the proficiency dealt with. `format` determines how the proficiency will be interacted with. `"format": <int>` will read or write how much you have trained a proficiency out of <int>. So for exaple, if you write a 5 to a proficiency using `"format": 10`, you will set the proficiency to be trained to 50%. `"format": "percent"` reads or writes how many percen done the learning is. `"format": "permille"` does likewise for permille. `"format": "total_time_required"` gives you total time required to train a given proficiency (read only). `"format": "time_spent"` deals with total time spent. `"format": "time_left"` sets the remaining time instead. For most formats possible, If the resulting time is set to equal or more than the time required to learn the proficiency, you learn it. If you read it and it gives back the total time required, it means it is learnt. Setting the total time practiced to a negative value completely removes the proficiency from your known and practiced proficiencies. If you try to read time spent on a proficiency that is not in your proficiency list, you will get back 0 seconds.
 `"distance": []` | Distance between two targets. Valid targets are: "u","npc" and an object with a variable name.
 `"hour"` | Hours since midnight.
 `"moon"` | Phase of the moon. MOON_NEW =0, WAXING_CRESCENT =1, HALF_MOON_WAXING =2, WAXING_GIBBOUS =3, FULL =4, WANING_GIBBOUS =5, HALF_MOON_WANING =6, WANING_CRESCENT =7

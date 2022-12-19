@@ -16,7 +16,6 @@
 #include "coordinates.h"
 #include "enums.h"
 #include "game_constants.h"
-#include "json.h"
 #include "magic_teleporter_list.h"
 #include "memory_fast.h"
 #include "point.h"
@@ -29,6 +28,8 @@ class diary;
 class faction;
 class item;
 class item_location;
+class JsonObject;
+class JsonOut;
 class mission;
 class monster;
 class nc_color;
@@ -67,6 +68,8 @@ struct monster_visible_info {
 
     // If the monster visible in this direction is dangerous
     std::array<bool, 8> dangerous = {};
+
+    void remove_npc( npc *n );
 };
 
 class avatar : public Character
@@ -307,43 +310,20 @@ class avatar : public Character
             int spent = 0;
             int gained = 0;
             int ingested = 0;
-            int total() const {
+            int total() const noexcept {
                 return gained - spent;
             }
             std::map<float, int> activity_levels; // NOLINT(cata-serialize)
 
-            void serialize( JsonOut &json ) const {
-                json.start_object();
+            daily_calories();
 
-                json.member( "spent", spent );
-                json.member( "gained", gained );
-                json.member( "ingested", ingested );
-                save_activity( json );
-
-                json.end_object();
-            }
-            void deserialize( const JsonObject &data ) {
-                data.read( "spent", spent );
-                data.read( "gained", gained );
-                data.read( "ingested", ingested );
-                if( data.has_member( "activity" ) ) {
-                    read_activity( data );
-                }
-            }
-
-            daily_calories() {
-                activity_levels.emplace( NO_EXERCISE, 0 );
-                activity_levels.emplace( LIGHT_EXERCISE, 0 );
-                activity_levels.emplace( MODERATE_EXERCISE, 0 );
-                activity_levels.emplace( BRISK_EXERCISE, 0 );
-                activity_levels.emplace( ACTIVE_EXERCISE, 0 );
-                activity_levels.emplace( EXTRA_EXERCISE, 0 );
-            }
+            void serialize( JsonOut &json ) const;
+            void deserialize( const JsonObject &data );
 
             void save_activity( JsonOut &json ) const;
             void read_activity( const JsonObject &data );
-
         };
+
         // called once a day; adds a new daily_calories to the
         // front of the list and pops off the back if there are more than 30
         void advance_daily_calories();
@@ -369,7 +349,7 @@ class avatar : public Character
         // amount of turns since last check for pocket noise
         time_point last_pocket_noise = time_point( 0 );
 
-        vproto_id starting_vehicle;
+        vproto_id starting_vehicle = vproto_id::NULL_ID();
         std::vector<mtype_id> starting_pets;
         std::set<character_id> follower_ids;
 

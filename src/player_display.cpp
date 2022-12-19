@@ -539,7 +539,7 @@ static void draw_stats_info( const catacurses::window &w_info, const Character &
     } else if( line == 5 ) {
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta,
-                        _( "How healthy you feel.  Excercise, vitamins, sleep and not ingesting poison will increase this overtime." ) );
+                        _( "How healthy you feel.  Exercise, vitamins, sleep and not ingesting poison will increase this overtime." ) );
     } else if( line == 6 ) {
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         const int lines = fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta,
@@ -844,6 +844,7 @@ static void draw_skills_tab( ui_adaptor &ui, const catacurses::window &w_skills,
                 exercise = 0;
                 locked = true;
             }
+            level_num = you.enchantment_cache->modify_value( aSkill->ident(), level_num );
             if( is_current_tab && i == line ) {
                 ui.set_cursor( w_skills, point( 1, y_pos ) );
                 if( locked ) {
@@ -1281,7 +1282,9 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
         ++info_line;
         ui_info.invalidate_ui();
     } else if( action == "MEDICAL_MENU" ) {
-        you.as_avatar()->disp_medical();
+        if( you.is_avatar() ) {
+            you.as_avatar()->disp_medical();
+        }
     }
     return done;
 }

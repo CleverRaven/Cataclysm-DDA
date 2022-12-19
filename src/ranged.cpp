@@ -942,7 +942,9 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
     moves -= time_to_attack( *this, *gun_id );
 
     // Practice the base gun skill proportionally to number of hits, but always by one.
-    practice( skill_gun, ( hits + 1 ) * 5 );
+    if( !gun.has_flag( flag_WONT_TRAIN_MARKSMANSHIP ) ) {
+        practice( skill_gun, ( hits + 1 ) * 5 );
+    }
     // launchers train weapon skill for both hits and misses.
     int practice_units = gun_skill == skill_launcher ? curshot : hits;
     practice( gun_skill, ( practice_units + 1 ) * 5 );
@@ -2139,7 +2141,7 @@ void make_gun_sound_effect( const Character &p, bool burst, item *weapon )
         sounds::sound( p.pos(), data.volume, sounds::sound_t::combat,
                        data.sound.empty() ? _( "Bang!" ) : data.sound );
     }
-    p.add_msg_if_player( _( "You shoot your %1$s. %2$s" ), weapon->tname( 1, false, false ),
+    p.add_msg_if_player( _( "You shoot your %1$s.  %2$s" ), weapon->tname( 1, false, false ),
                          uppercase_first_letter( data.sound ) );
 }
 
@@ -3925,7 +3927,7 @@ bool gunmode_checks_common( avatar &you, const map &m, std::vector<std::string> 
 {
     bool result = true;
     if( you.has_trait( trait_BRAWLER ) ) {
-        messages.push_back( string_format( _( "Pfft.  You are a brawler; using %s is beneath you." ),
+        messages.push_back( string_format( _( "Pfft.  You are a brawler; using this %s is beneath you." ),
                                            gmode->tname() ) );
         result = false;
     }
