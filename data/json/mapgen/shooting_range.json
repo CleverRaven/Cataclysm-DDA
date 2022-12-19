@@ -108,7 +108,7 @@
         { "chance": 5, "item": "guns_pistol_common", "x": 2, "y": 9 },
         { "chance": 25, "item": "office", "x": [ 3, 4 ], "y": 4 }
       ],
-      "place_item": [ { "chance": 75, "item": "american_flag", "x": 7, "y": 2 } ],
+      "place_item": [ { "chance": 100, "item": "american_flag", "x": 7, "y": 2 } ],
       "items": {
         "w": { "item": "casings", "chance": 60, "repeat": 7 },
         "a": { "item": "casings", "chance": 50, "repeat": 5 },
