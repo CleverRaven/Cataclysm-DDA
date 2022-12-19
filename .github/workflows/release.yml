@@ -64,7 +64,7 @@ jobs:
           gh api \
             --method POST \
             -H "Accept: application/vnd.github.v3+json" \
-            '/repos/${{ github.repository }}/releases/generate-notes' \
+            /repos/'${{ github.repository }}'/releases/generate-notes \
             -f tag_name='${{ steps.generate_env_vars.outputs.tag_name }}' \
             -f target_commitish='${{ github.ref_name }}' \
             -q .body > CHANGELOG.md
