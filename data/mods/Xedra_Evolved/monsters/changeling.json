@@ -520,7 +520,6 @@
     "anger_triggers": [ "FRIEND_ATTACKED" ],
     "fear_triggers": [ "FIRE", "HURT" ],
     "special_attacks": [
-      [ "RANGED_PULL", 30 ],
       [ "GRAB_DRAG", 10 ],
       {
         "type": "leap",
@@ -530,6 +529,6 @@
         "forbidden_effects_any": [ "maimed_leg" ]
       }
     ],
-    "flags": [ "SEES", "HEARS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL", "COMBAT_MOUNT" ]
+    "flags": [ "SEES", "HEARS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL", "COMBAT_MOUNT", "INSECTICIDEPROOF" ]
   }
 ]
