@@ -48,6 +48,8 @@
 #include "mtype.h"
 #include "npc.h"
 #include "optional.h"
+#include "options.h"
+#include "overmapbuffer.h"
 #include "pickup.h"
 #include "player_activity.h"
 #include "point.h"
@@ -116,7 +118,6 @@ static const quality_id qual_WELD( "WELD" );
 static const requirement_id requirement_data_mining_standard( "mining_standard" );
 
 static const trap_str_id tr_firewood_source( "tr_firewood_source" );
-static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 
 static const zone_type_id zone_type_( "" );
 static const zone_type_id zone_type_AUTO_DRINK( "AUTO_DRINK" );
@@ -378,6 +379,15 @@ void drop_on_map( Character &you, item_drop_reason reason, const std::list<item>
                     it_name, ter_name
                 );
                 break;
+        }
+
+        if( get_option<bool>( "AUTO_NOTES_DROPPED_FAVORITES" ) && it.is_favorite ) {
+            const tripoint_abs_omt your_pos = you.global_omt_location();
+            if( !overmap_buffer.has_note( your_pos ) ) {
+                overmap_buffer.add_note( your_pos, it.display_name() );
+            } else {
+                overmap_buffer.add_note( your_pos, overmap_buffer.note( your_pos ) + "; " + it.display_name() );
+            }
         }
     } else {
         switch( reason ) {
@@ -1803,9 +1813,6 @@ static bool construction_activity( Character &you, const zone_data * /*zone*/,
     pc.id = built_chosen.id;
     map &here = get_map();
     // Set the trap that has the examine function
-    if( here.tr_at( src_loc ).is_null() ) {
-        here.trap_set( src_loc, tr_unfinished_construction );
-    }
     // Use up the components
     for( const std::vector<item_comp> &it : built_chosen.requirements->get_components() ) {
         std::list<item> tmp = you.consume_items( it, 1, is_crafting_component );
@@ -2265,6 +2272,12 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                         for( item *contained : it->first->all_items_top( item_pocket::pocket_type::MAGAZINE ) ) {
                             // no liquids don't want to spill stuff
                             if( !contained->made_of( phase_id::LIQUID ) && !contained->made_of( phase_id::GAS ) ) {
+                                if( it->first->is_ammo_belt() ) {
+                                    if( it->first->type->magazine->linkage ) {
+                                        item link( *it->first->type->magazine->linkage, calendar::turn, contained->count() );
+                                        here.add_item_or_charges( src_loc, link );
+                                    }
+                                }
                                 move_item( you, *contained, contained->count(), src_loc, src_loc, this_veh, this_part );
                                 it->first->remove_item( *contained );
                             }
@@ -2302,6 +2315,11 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                             move_item( you, removed, 1, src_loc, src_loc, this_veh, this_part );
                             moved_something = true;
                         }
+                    }
+                    if( it->first->has_flag( flag_MAG_DESTROY ) && it->first->ammo_remaining() == 0 ) {
+                        here.i_rem( src_loc, it->first );
+                        num_processed = std::max( num_processed - 1, 0 );
+                        return;
                     }
 
                     // after dumping items go back to start of activity loop

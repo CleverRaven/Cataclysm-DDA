@@ -41,6 +41,7 @@ point _pane_size()
 trade_preset::trade_preset( Character const &you, Character const &trader )
     : _u( you ), _trader( trader )
 {
+    save_state = &inventory_ui_default_state;
     append_cell(
     [&]( item_location const & loc ) {
         return format_money( npc_trading::trading_price( _trader, _u, { loc, 1 } ) );
@@ -85,16 +86,13 @@ std::string trade_preset::get_denial( const item_location &loc ) const
 
 bool trade_preset::cat_sort_compare( const inventory_entry &lhs, const inventory_entry &rhs ) const
 {
-    item_category const *const lcat = lhs.get_category_ptr();
-    if( lcat->get_id() == item_category_ITEMS_WORN || lcat->get_id() == item_category_WEAPON_HELD ) {
-        return false;
-    }
-    item_category const *const rcat = rhs.get_category_ptr();
-    if( rcat->get_id() == item_category_ITEMS_WORN || rcat->get_id() == item_category_WEAPON_HELD ) {
-        return true;
-    }
-
-    return inventory_selector_preset::cat_sort_compare( lhs, rhs );
+    // sort worn and held categories last we likely don't want to trade them
+    auto const fudge_rank = []( inventory_entry const & e ) -> int {
+        item_category_id const cat = e.get_category_ptr()->get_id();
+        int const rank = e.get_category_ptr()->sort_rank();
+        return cat != item_category_ITEMS_WORN && cat != item_category_WEAPON_HELD ? rank : rank + 10000;
+    };
+    return fudge_rank( lhs ) < fudge_rank( rhs );
 }
 
 trade_ui::trade_ui( party_t &you, npc &trader, currency_t cost, std::string title )

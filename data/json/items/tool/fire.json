@@ -30,7 +30,7 @@
     "name": { "str": "bow fire drill" },
     "description": "This fire drill is a simple item for starting fires by friction between a notched plank and wooden shaft.  The shaft is spun rapidly with a sawing motion by a bowstring wrapped around it.  Very slow to acquire a usable ember.",
     "weight": "240 g",
-    "volume": "250 ml",
+    "volume": "400 ml",
     "price": 0,
     "price_postapoc": 10,
     "material": [ "wood" ],
@@ -339,7 +339,7 @@
     "symbol": ",",
     "color": "light_gray",
     "ammo": [ "tinder" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "tinder": 100 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "tinder": 50 } } ],
     "turns_per_charge": 600,
     "revert_to": "tinderbox",
     "use_action": [
