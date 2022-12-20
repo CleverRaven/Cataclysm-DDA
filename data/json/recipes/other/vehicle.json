@@ -165,10 +165,7 @@
     "result": "stowed_fridge",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
-    "skill_used": "fabrication",
-    "skills_required": [ "mechanics", 1 ],
-    "difficulty": 1,
-    "time": "1 m",
+    "time": "30 s",
     "autolearn": true,
     "reversible": true,
     "components": [ [ [ "fridge", 1 ] ], [ [ "rope_30", 1 ], [ "rope_30", 5 ] ] ]
@@ -179,10 +176,7 @@
     "result": "stowed_freezer",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
-    "skill_used": "fabrication",
-    "skills_required": [ "mechanics", 1 ],
-    "difficulty": 1,
-    "time": "1 m",
+    "time": "30 s",
     "autolearn": true,
     "reversible": true,
     "components": [ [ [ "freezer", 1 ] ], [ [ "rope_30", 1 ], [ "rope_30", 5 ] ] ]
