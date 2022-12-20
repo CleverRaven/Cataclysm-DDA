@@ -85,12 +85,6 @@
         "||wwww|||||wwww|||||wwww||                                              "
       ],
       "palettes": [ "school_palette" ],
-      "place_items": [  ],
-      "place_item": [
-        { "item": "american_flag", "x": 36, "y": 56 },
-        { "item": "american_flag", "x": 22, "y": 9, "chance": 25 },
-        { "item": "american_flag", "x": 22, "y": 14, "chance": 25 }
-      ],
       "place_monster": [
         { "monster": [ "mon_nursebot", "mon_nursebot_defective" ], "x": [ 27, 33 ], "y": [ 20, 23 ], "chance": 50 },
         { "group": "GROUP_SCHOOL", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 5, 10 ] },
@@ -525,6 +519,7 @@
         { "item": "dining", "chance": 5, "repeat": [ 1, 3 ] }
       ]
     },
+    "item": { "§": { "item": "american_flag" } },
     "vendingmachines": { "8": { "item_group": "vending_drink", "lootable": true }, "9": { "item_group": "vending_food", "lootable": true } },
     "computers": {
       "6": {
