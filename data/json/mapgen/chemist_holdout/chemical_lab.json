@@ -33,7 +33,7 @@
       ],
       "palettes": [ "cabin_palette" ],
       "faction_owner": [ { "id": "wasteland_scavengers", "x": [ 1, 23 ], "y": [ 1, 23 ] } ],
-      "items": { "C": [ { "item": "cabin_chemist_sell", "chance": 100, "repeat": [ 4, 5 ] } ] },
+      "items": { "C": [ { "item": "cabin_chemist_sell_base", "chance": 100, "repeat": [ 4, 5 ] } ] },
       "place_npcs": [ { "class": "NPC_cabin_chemist", "x": 16, "y": 8 } ],
       "place_zones": [
         { "type": "LOOT_UNSORTED", "faction": "wasteland_scavengers", "x": [ 15, 15 ], "y": [ 8, 8 ] },
