@@ -158,5 +158,31 @@
     "using": [ [ "welding_standard", 2 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "components": [ [ [ "pipe", 6 ] ], [ [ "basket", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "stowed_fridge",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "fabrication",
+    "skills_required": [ "mechanics", 1 ],
+    "difficulty": 1,
+    "time": "1 m",
+    "autolearn": true,
+    "components": [ [ [ "fridge", 6 ] ], [ [ [ "rope_30", 1 ] ], [ "rope_30", 5 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "stowed_freezer",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "fabrication",
+    "skills_required": [ "mechanics", 1 ],
+    "difficulty": 1,
+    "time": "1 m",
+    "autolearn": true,
+    "components": [ [ [ "freezer", 6 ] ], [ [ [ "rope_30", 1 ] ], [ "rope_30", 5 ] ] ]
   }
 ]

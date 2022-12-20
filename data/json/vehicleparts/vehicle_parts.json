@@ -3293,13 +3293,13 @@
     "broken_color": "light_gray",
     "damage_modifier": 5,
     "durability": 200,
-    "description": "A refrigerator, secured to the roof for transportation. Not functional, but easier than carrying it with your hands.",
+    "description": "A fridge, secured to the roof for transportation. Not functional, but easier than carrying it with your hands.",
     "bonus": 300,
     "item": "stowed_fridge",
     "location": "on_roof",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "using": [ [ "rope_30", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "rope_6", 5 ] ] }
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m" },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m" }
     },
     "breaks_into": [
       { "item": "steel_lump", "count": [ 8, 13 ] },
@@ -3327,8 +3327,8 @@
     "item": "stowed_freezer",
     "location": "on_roof",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "using": [ [ "rope_30", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "rope_6", 5 ] ] }
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m" },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m" }
     },
     "breaks_into": [
       { "item": "sheet_metal", "count": [ 1, 4 ] },
