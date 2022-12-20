@@ -315,7 +315,7 @@
     "id": "druidic_healing",
     "type": "SPELL",
     "name": "Sacrificial Healing",
-    "description": "Channels some of the user's own life force into healing energy, for the sake of ones allies.",
+    "description": "Channels some of the user's own life force into healing energy, for the sake of one's allies.",
     "valid_targets": [ "ally" ],
     "effect": "attack",
     "shape": "blast",
