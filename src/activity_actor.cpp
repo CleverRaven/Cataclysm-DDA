@@ -3966,10 +3966,6 @@ void insert_item_activity_actor::finish( player_activity &act, Character &who )
         handler.handle_by( who );
         act.set_to_null();
         return;
-    } else if( items.front().first == item_location::nowhere ) {
-        handler.handle_by( who );
-        act.set_to_null();
-        return;
     }
 
     // Restart the activity
