@@ -145,7 +145,7 @@
     "symbol": "F",
     "looks_like": "fridge",
     "material": "steel",
-    "description": "A fridge, secured to the roof for transportation. Not functional, but easier than carrying it with your hands.",
+    "description": "A fridge, secured to the roof for transportation.  Not functional, but easier than carrying it with your hands.",
     "weight": "75 kg",
     "volume": "800 L"
   },
@@ -156,7 +156,7 @@
     "symbol": "F",
     "looks_like": "freezer",
     "material": "steel",
-    "description": "A chest freezer, secured to the roof for transportation. Not functional, but easier than carrying it with your hands.",
+    "description": "A chest freezer, secured to the roof for transportation.  Not functional, but easier than carrying it with your hands.",
     "weight": "50 kg",
     "volume": "900 L"
   }
