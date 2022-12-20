@@ -7400,5 +7400,25 @@
     "time": "30 m",
     "qualities": [ { "id": "PRY", "level": 1 }, { "id": "SAW_W", "level": 2 }, { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "wooden_post_short", 2 ] ], [ [ "wood_block", 24 ] ], [ [ "nuts_bolts", 30 ] ], [ [ "splinter", 10 ] ] ]
+  },
+  {
+    "result": "glass_fridge",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "10 m",
+    "qualities": [ { "id": "PRY", "level": 1 }, { "id": "SAW_W", "level": 2 }, { "id": "SCREW", "level": 1 } ],
+    "components": [ 
+      [ [ "sheet_metal", 15 ] ],
+      [ [ "condensor_coil", 1 ] ],
+      [ [ "evaporator_coil", 1 ] ],
+      [ [ "cable", 3 ] ],
+      [ [ "hose", 1 ] ],
+      [ [ "pipe_fittings", 6 ] ],
+      [ [ "thermostat", 1 ] ],
+      [ [ "motor_small", 1 ] ],
+      [ [ "refrigerant_tank", 1 ] ],
+      [ [ "plastic_chunk", 16 ] ],
+      [ [ "glass_shard", 100 ] ]
+    ]
   }
 ]

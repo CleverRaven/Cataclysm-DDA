@@ -36,6 +36,23 @@
   },
   {
     "type": "vehicle_part",
+    "id": "ap_glass_fridge",
+    "name": { "str": "glass fridge" },
+    "looks_like": "f_glass_fridge",
+    "description": "A modern refrigerator with a thick sheet of glass in the door, often specially treated to be more insulative.  Allows seeing the contents without letting out the cold air, which used to be a minor convenience, and now saves precious minutes until spoilage.",
+    "item": "glass_fridge",
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 4, 9 ] },
+      { "item": "steel_chunk", "count": [ 4, 9 ] },
+      { "item": "scrap", "count": [ 8, 13 ] },
+      { "item": "glass_shard", "count": [ 25, 50 ] },
+      { "item": "hose", "prob": 50 },
+      { "item": "motor_tiny", "prob": 25 }
+    ],
+    "copy-from": "ap_fridge"
+  },
+  {
+    "type": "vehicle_part",
     "id": "ap_minifridge",
     "flags": [ "CARGO", "OBSTACLE", "FRIDGE", "COVERED", "ENABLED_DRAINS_EPOWER", "APPLIANCE", "CTRL_ELECTRONIC" ],
     "copy-from": "minifridge"
