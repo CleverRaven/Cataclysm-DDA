@@ -72,6 +72,8 @@
         "+": "t_door_c",
         "-": "t_wall_w",
         ".": "t_region_groundcover",
+        "s": "t_region_groundcover",
+        "/": "t_region_groundcover",
         " ": "t_region_groundcover_barren",
         "@": "t_dirt",
         "C": "t_floor",
@@ -83,8 +85,6 @@
         "c": "t_thconc_floor",
         "d": "t_floor",
         "f": "t_floor",
-        "s": "t_grass",
-        "/": "t_grass",
         "w": "t_thconc_floor",
         "|": "t_wall_wood",
         "O": "t_dirtmound"
@@ -108,7 +108,7 @@
         { "chance": 5, "item": "guns_pistol_common", "x": 2, "y": 9 },
         { "chance": 25, "item": "office", "x": [ 3, 4 ], "y": 4 }
       ],
-      "place_item": [ { "chance": 75, "item": "american_flag", "x": 7, "y": 2 } ],
+      "place_item": [ { "chance": 100, "item": "american_flag", "x": 7, "y": 2 } ],
       "items": {
         "w": { "item": "casings", "chance": 60, "repeat": 7 },
         "a": { "item": "casings", "chance": 50, "repeat": 5 },
