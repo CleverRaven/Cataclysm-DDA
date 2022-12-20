@@ -1,0 +1,73 @@
+[
+  {
+    "type": "item_group",
+    "id": "SCRAP_MERCHANT_worn",
+    "subtype": "collection",
+    "items": [
+      { "item": "leathersandals" },
+      { "item": "bikini_top_leather" },
+      { "item": "pants_fur" },
+      { "item": "straw_hat" },
+      { "item": "wicker_backpack" },
+      { "item": "pistol_flintlock" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "SCRAP_MERCHANT_carried",
+    "subtype": "collection",
+    "items": [ { "item": "primitive_hammer" }, { "item": "stone_chopper" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "SCRAP_MERCHANT_weapon",
+    "subtype": "collection",
+    "items": [ { "item": "primitive_adze" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "no_sell",
+    "subtype": "collection",
+    "items": [
+      { "item": "cash_register", "count": 0 },
+      { "item": "wheel_wide", "count": 0 },
+      { "group": "SUS_fridge_survivor", "count": 0 },
+      { "group": "SUS_utensils", "count": 0 },
+      { "item": "microwave", "count": 0 },
+      { "group": "used_1st_aid", "count": 0 },
+      { "item": "coffee", "count": 0 },
+      { "item": "hd_tow_cable", "count": 0 },
+      { "item": "roadmap", "count": 0 },
+      { "item": "folding_poncho", "count": 0 },
+      { "item": "rope_6", "count": 0 },
+      { "item": "handflare", "count": 0 },
+      { "item": "sm_extinguisher", "count": 0 },
+      { "item": "towel", "count": 0 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "SCRAPPER_Shop",
+    "subtype": "collection",
+    "items": [
+      { "item": "scrap", "count": [ 125, 250 ] },
+      { "item": "sheet_metal_small", "count": [ 50, 100 ] },
+      { "item": "steel_chunk", "count": [ 100, 200 ] },
+      { "item": "steel_lump", "count": [ 50, 100 ] },
+      { "item": "sheet_metal", "count": [ 25, 50 ] },
+      { "item": "lc_steel_lump", "count": [ 25, 50 ] },
+      { "item": "mc_steel_lump", "count": [ 25, 50 ] },
+      { "item": "hc_steel_lump", "count": [ 25, 50 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "SCRAPPER_Shop_Specialty_Metals",
+    "subtype": "collection",
+    "items": [
+      { "item": "scrap_aluminum", "count": [ 100, 200 ] },
+      { "item": "scrap_bronze", "count": [ 20, 50 ] },
+      { "item": "scrap_copper", "count": [ 100, 200 ] }
+    ]
+  }
+]
