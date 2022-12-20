@@ -843,9 +843,6 @@ void advanced_inventory::fill_lists_with_pane_items( Character &player_character
     for( const advanced_inv_listitem &listit : spane.items ) {
         item_location *it;
         for( const item_location &it : listit.items ) {
-            /*if( spane.is_filtered( *it ) ) {
-                continue;
-            }*/
             if( ( it->made_of_from_type( phase_id::LIQUID ) && !it->is_frozen_liquid() ) ||
                 it->made_of_from_type( phase_id::GAS ) ) {
                 continue;
@@ -872,83 +869,6 @@ bool advanced_inventory::move_all_items()
     advanced_inventory_pane &dpane = panes[dest];
 
     Character &player_character = get_player_character();
-    // AIM_ALL source area routine
-    /*if( spane.get_area() == AIM_ALL && false ) {
-        // move all to `AIM_WORN' doesn't make sense (see `MAX_WORN_PER_TYPE')
-        if( dpane.get_area() == AIM_WORN ) {
-            popup( _( "You look at the items, then your clothes, and scratch your head…" ) );
-            return false;
-        }
-        // if the source pane (AIM_ALL) is empty, then show a message and leave
-        if( !is_processing() && spane.items.empty() ) {
-            popup( _( "There are no items to be moved!" ) );
-            return false;
-        }
-
-        advanced_inv_area &sarea = squares[spane.get_area()];
-        advanced_inv_area &darea = squares[dpane.get_area()];
-
-        // Check first if the destination area still have enough room for moving all.
-        if( !is_processing() && sarea.volume > darea.free_volume( dpane.in_vehicle() ) &&
-            !query_yn( _( "There isn't enough room, do you really want to move all?" ) ) ) {
-            return false;
-        }
-
-        // copy the current pane, to be restored after the move is queued
-        advanced_inventory_pane shadow = panes[src];
-        // here we recursively call this function with each area in order to
-        // put all items in the proper destination area, with minimal fuss
-        int &loc = save_state->aim_all_location;
-        // re-entry nonsense
-        aim_entry &entry = save_state->re_enter_move_all;
-        switch( entry ) {
-            case aim_entry::START:
-                entry = aim_entry::VEHICLE;
-            /* fallthrough *
-            case aim_entry::VEHICLE:
-                if( squares[loc].can_store_in_vehicle() ) {
-                    spane.set_area( squares[loc], true );
-                    // add items, calculate weights and volumes... the fun stuff
-                    recalc_pane( src );
-                    // then move the items to the destination area
-                    if( !move_all_items() ) {
-                        do_return_entry();
-                    }
-                } else {
-                    do_return_entry();
-                }
-                entry = aim_entry::MAP;
-                break;
-            case aim_entry::MAP:
-                spane.set_area( squares[loc++], false );
-                recalc_pane( src );
-                if( !move_all_items() ) {
-                    do_return_entry();
-                }
-                entry = aim_entry::RESET;
-                break;
-            case aim_entry::RESET:
-                if( loc > AIM_AROUND_END ) {
-                    loc = AIM_AROUND_BEGIN;
-                    entry = aim_entry::START;
-                    if( !get_option<bool>( "CLOSE_ADV_INV" ) ) {
-                        do_return_entry();
-                    }
-                } else {
-                    entry = aim_entry::VEHICLE;
-                    do_return_entry();
-                }
-                break;
-            default:
-                debugmsg( "Invalid `aim_entry' [%d] reached!", entry - 1 );
-                entry = aim_entry::START;
-                loc = AIM_AROUND_BEGIN;
-                return false;
-        }
-        // restore the pane to its former glory
-        panes[src] = shadow;
-        return true;
-    }*/
 
     // Check some preconditions to quickly leave the function.
     if( spane.get_area() == AIM_CONTAINER && dpane.get_area() == AIM_INVENTORY ) {
@@ -1007,7 +927,6 @@ bool advanced_inventory::move_all_items()
         return false;
     }
 
-    //map &here = get_map();
     if( spane.get_area() == AIM_INVENTORY || spane.get_area() == AIM_WORN ) {
         if( dpane.get_area() == AIM_INVENTORY ) {
             popup( _( "You try to put your bags into themselves, but physics won't let you." ) );
