@@ -7407,7 +7407,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "10 m",
     "qualities": [ { "id": "PRY", "level": 1 }, { "id": "SAW_W", "level": 2 }, { "id": "SCREW", "level": 1 } ],
-    "components": [ 
+    "components": [
       [ [ "sheet_metal", 15 ] ],
       [ [ "condensor_coil", 1 ] ],
       [ [ "evaporator_coil", 1 ] ],
