@@ -320,8 +320,7 @@
     "price": 0,
     "price_postapoc": 0,
     "material": [ "paper" ],
-    "volume": "250 ml",
-    "charges": 50
+    "volume": "5 ml"
   },
   {
     "type": "GENERIC",
@@ -336,8 +335,7 @@
     "price": 0,
     "price_postapoc": 0,
     "material": [ "cardboard" ],
-    "volume": "250 ml",
-    "charges": 10
+    "volume": "50 ml"
   },
   {
     "type": "COMESTIBLE",
