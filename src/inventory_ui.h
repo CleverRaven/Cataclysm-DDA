@@ -1061,6 +1061,7 @@ struct inventory_selector_save_state {
         void deserialize( JsonObject const &jo );
 };
 extern inventory_selector_save_state inventory_ui_default_state;
+extern inventory_selector_save_state pickup_sel_default_state;
 extern inventory_selector_save_state pickup_ui_default_state;
 
 #endif // CATA_SRC_INVENTORY_UI_H

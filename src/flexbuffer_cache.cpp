@@ -372,7 +372,9 @@ class flexbuffer_disk_cache
 flexbuffer_cache::flexbuffer_cache( const fs::path &cache_directory,
                                     const fs::path &root_directory )
 {
-    disk_cache_ = flexbuffer_disk_cache::init_from_folder( cache_directory, root_directory );
+    if( !cache_directory.empty() ) {
+        disk_cache_ = flexbuffer_disk_cache::init_from_folder( cache_directory, root_directory );
+    }
 }
 
 flexbuffer_cache::~flexbuffer_cache() = default;
@@ -406,18 +408,21 @@ std::shared_ptr<parsed_flexbuffer> flexbuffer_cache::parse( fs::path json_source
 std::shared_ptr<parsed_flexbuffer> flexbuffer_cache::parse_and_cache(
     fs::path lexically_normal_json_source_path, size_t offset )
 {
-    // Is our cache potentially stale?
-    std::shared_ptr<flexbuffer_mmap_storage> cached_storage = disk_cache_->load_flexbuffer_if_not_stale(
-                lexically_normal_json_source_path );
-    if( cached_storage ) {
-        std::error_code ec;
-        fs::file_time_type mtime = fs::last_write_time( lexically_normal_json_source_path, ec );
-        if( ec ) {
-            // Whatever.
-        }
 
-        return std::make_shared<file_flexbuffer>( std::move( cached_storage ),
-                std::move( lexically_normal_json_source_path ), mtime, offset );
+    // Is our cache potentially stale?
+    if( disk_cache_ ) {
+        std::shared_ptr<flexbuffer_mmap_storage> cached_storage = disk_cache_->load_flexbuffer_if_not_stale(
+                    lexically_normal_json_source_path );
+        if( cached_storage ) {
+            std::error_code ec;
+            fs::file_time_type mtime = fs::last_write_time( lexically_normal_json_source_path, ec );
+            if( ec ) {
+                // Whatever.
+            }
+
+            return std::make_shared<file_flexbuffer>( std::move( cached_storage ),
+                    std::move( lexically_normal_json_source_path ), mtime, offset );
+        }
     }
 
     std::string json_source_path_string = lexically_normal_json_source_path.generic_u8string();
@@ -431,7 +436,9 @@ std::shared_ptr<parsed_flexbuffer> flexbuffer_cache::parse_and_cache(
     const char *json_text = reinterpret_cast<const char *>( json_source.c_str() ) + offset;
     std::vector<uint8_t> fb = parse_json_to_flexbuffer_( json_text, json_source_path_string.c_str() );
 
-    disk_cache_->save_to_disk( lexically_normal_json_source_path, fb );
+    if( disk_cache_ ) {
+        disk_cache_->save_to_disk( lexically_normal_json_source_path, fb );
+    }
 
     auto storage = std::make_shared<flexbuffer_vector_storage>( std::move( fb ) );
 

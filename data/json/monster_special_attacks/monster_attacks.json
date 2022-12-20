@@ -423,7 +423,7 @@
     "hit_dmg_npc": "%1$s kicks <npcname> and slams them to the ground!",
     "no_dmg_msg_u": "%1$s tries to kick %2$s and knock you down, but your armor protects you!",
     "no_dmg_msg_npc": "%1$s tries to kick and knock <npcname> down, but their armor protects them!",
-    "miss_msg_u": "%s tries to kick your %2$s but you dodge!",
+    "miss_msg_u": "%1$s tries to kick your %2$s but you dodge!",
     "miss_msg_npc": "%s tries to kick and knock down <npcname>, but they dodge!",
     "effects": [ { "id": "downed", "duration": 3 }, { "id": "stunned", "duration": 100 } ]
   },

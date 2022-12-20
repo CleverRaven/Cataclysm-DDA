@@ -2956,5 +2956,33 @@
     "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
     "bash_dmg_verb": "damaged",
     "cut_dmg_verb": "damaged"
+  },
+  {
+    "type": "material",
+    "id": "mut_fur",
+    "name": "Mutant Fur",
+    "density": 1.1,
+    "specific_heat_liquid": 0.02,
+    "specific_heat_solid": 0.02,
+    "latent_heat": 333,
+    "soft": true,
+    "bash_resist": 0.5,
+    "cut_resist": 0.31,
+    "bullet_resist": 0.25,
+    "acid_resist": 1,
+    "fire_resist": 1,
+    "chip_resist": 8,
+    "breathability": "POOR",
+    "repaired_with": "fur",
+    "salvaged_into": "fur",
+    "dmg_adj": [ "ripped", "torn", "shredded", "tattered" ],
+    "bash_dmg_verb": "ripped",
+    "cut_dmg_verb": "sliced",
+    "burn_data": [
+      { "fuel": 1, "smoke": 3, "burn": 1, "volume_per_turn": "1250 ml" },
+      { "fuel": 1, "smoke": 5, "burn": 2 },
+      { "fuel": 1, "smoke": 10, "burn": 4 }
+    ],
+    "burn_products": [ [ "corpse_ash", 0.035 ] ]
   }
 ]

@@ -1658,7 +1658,8 @@ void dialogue::add_topic( const std::string &topic_id )
 void dialogue::add_topic( const talk_topic &topic )
 {
     if( actor( true )->get_npc() ) {
-        topic_stack.emplace_back( actor( true )->get_npc()->get_specified_talk_topic( topic.id ) );
+        std::string const &newid = actor( true )->get_npc()->get_specified_talk_topic( topic.id );
+        topic_stack.emplace_back( newid, topic.item_type, topic.reason );
     } else {
         topic_stack.push_back( topic );
     }
@@ -1702,7 +1703,8 @@ dialogue::dialogue( std::unique_ptr<talker> alpha_in,
     }
 }
 
-talk_data talk_response::create_option_line( const dialogue &d, const input_event &hotkey )
+talk_data talk_response::create_option_line( const dialogue &d, const input_event &hotkey,
+        const bool is_computer )
 {
     std::string ftext;
     text = ( truefalse_condition( d ) ? truetext : falsetext ).translated();
@@ -1737,7 +1739,8 @@ talk_data talk_response::create_option_line( const dialogue &d, const input_even
         color = c_red;
     } else if( text[0] == '*' || consequences.count( dialogue_consequence::helpless ) > 0 ) {
         color = c_light_red;
-    } else if( text[0] == '&' || consequences.count( dialogue_consequence::action ) > 0 ) {
+    } else if( text[0] == '&' || consequences.count( dialogue_consequence::action ) > 0 ||
+               is_computer ) {
         color = c_green;
     } else {
         color = c_white;
@@ -1842,15 +1845,7 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
     }
 
     input_context ctxt( "DIALOGUE_CHOOSE_RESPONSE" );
-    if( !d_win.is_computer && !d_win.is_not_conversation ) {
-        ctxt.register_action( "LOOK_AT" );
-        ctxt.register_action( "SIZE_UP_STATS" );
-        ctxt.register_action( "YELL" );
-        ctxt.register_action( "CHECK_OPINION" );
-    }
-    ctxt.register_updown();
-    ctxt.register_action( "PAGE_UP" );
-    ctxt.register_action( "PAGE_DOWN" );
+    d_win.set_up_scrolling( ctxt );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "ANY_INPUT" );
@@ -1866,7 +1861,7 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
         response_hotkeys.clear();
         input_event evt = ctxt.first_unassigned_hotkey( queue );
         for( talk_response &response : responses ) {
-            const talk_data &td = response.create_option_line( *this, evt );
+            const talk_data &td = response.create_option_line( *this, evt, d_win.is_computer );
             response_lines.emplace_back( td );
             response_hotkeys.emplace_back( evt );
 #if defined(__ANDROID__)
@@ -1874,24 +1869,24 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
 #endif
             evt = ctxt.next_unassigned_hotkey( queue, evt );
         }
+        d_win.set_responses( response_lines );
     };
     generate_response_lines();
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
-        d_win.draw( d_win.is_not_conversation ? "" : actor( true )->disp_name(), response_lines );
+        d_win.draw( d_win.is_not_conversation ? "" : actor( true )->disp_name() );
     } );
 
     size_t response_ind = response_hotkeys.size();
     bool okay;
     do {
-        d_win.refresh_response_display();
         std::string action;
         do {
             ui_manager::redraw();
             input_event evt;
             action = ctxt.handle_input();
             evt = ctxt.get_raw_input();
-            d_win.handle_scrolling( action, response_lines.size() );
+            d_win.handle_scrolling( action, ctxt );
             talk_topic st = special_talk( action );
             if( st.id != "TALK_NONE" ) {
                 return st;
@@ -4935,10 +4930,10 @@ std::string npc::pick_talk_topic( const Character &/*u*/ )
     return chatbin.talk_stranger_neutral;
 }
 
-std::string npc::get_specified_talk_topic( const std::string &topic_id )
+std::string const &npc::get_specified_talk_topic( std::string const &topic_id )
 {
     static const dialogue_chatbin default_chatbin;
-    static const std::vector<std::pair<std::string, std::string>> talk_topics = {
+    std::vector<std::pair<std::string const &, std::string const &>> const talk_topics = {
         {default_chatbin.first_topic, chatbin.first_topic},
         {default_chatbin.talk_radio, chatbin.talk_radio},
         {default_chatbin.talk_leader, chatbin.talk_leader},

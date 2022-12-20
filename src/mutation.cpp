@@ -45,6 +45,8 @@
 static const activity_id ACT_PULL_CREATURE( "ACT_PULL_CREATURE" );
 static const activity_id ACT_TREE_COMMUNION( "ACT_TREE_COMMUNION" );
 
+static const flag_id json_flag_INTEGRATED( "INTEGRATED" );
+
 static const itype_id itype_fake_burrowing( "fake_burrowing" );
 
 static const json_character_flag json_flag_CHLOROMORPH( "CHLOROMORPH" );
@@ -54,6 +56,7 @@ static const json_character_flag json_flag_ROOTS2( "ROOTS2" );
 static const json_character_flag json_flag_ROOTS3( "ROOTS3" );
 static const json_character_flag json_flag_SMALL( "SMALL" );
 static const json_character_flag json_flag_TINY( "TINY" );
+
 
 static const mtype_id mon_player_blob( "mon_player_blob" );
 
@@ -190,7 +193,9 @@ void Character::set_mutation_unsafe( const trait_id &trait, const mutation_varia
     }
     my_mutations.emplace( trait, trait_data{variant} );
     cached_mutations.push_back( &trait.obj() );
-    mutation_effect( trait, false );
+    if( !trait.obj().vanity ) {
+        mutation_effect( trait, false );
+    }
 }
 
 void Character::do_mutation_updates()
@@ -240,7 +245,9 @@ void Character::unset_mutation( const trait_id &trait_ )
     cached_mutations.erase( std::remove( cached_mutations.begin(), cached_mutations.end(), &mut ),
                             cached_mutations.end() );
     my_mutations.erase( iter );
-    mutation_loss_effect( trait );
+    if( !mut.vanity ) {
+        mutation_loss_effect( trait );
+    }
     do_mutation_updates();
 }
 
@@ -362,6 +369,39 @@ bool mutation_branch::conflicts_with_item( const item &it ) const
     return false;
 }
 
+bool mutation_branch::conflicts_with_item_rigid( const item &it ) const
+{
+    for( const bodypart_str_id &bp : remove_rigid ) {
+        if( it.covers( bp.id() ) && it.is_bp_rigid( bp.id() ) ) {
+            return true;
+        }
+    }
+
+    for( const sub_bodypart_str_id &bp : remove_rigid_subparts ) {
+        if( it.covers( bp.id() ) && it.is_bp_rigid( bp.id() ) ) {
+            return true;
+        }
+    }
+
+    // check integrated armor against the character's worn armor directly in case it wasn't specified in JSON
+    // this also seems to check the armor against itself, logic should be skipped by the integrated check
+    for( const itype_id &integrated : integrated_armor ) {
+        if( it.has_flag( json_flag_INTEGRATED ) ) {
+            // skip other integrated armor, that should be handled with other rules
+            continue;
+        }
+
+        item tmparmor = item( integrated );
+        for( const sub_bodypart_id &sbp : tmparmor.get_covered_sub_body_parts() ) {
+            if( tmparmor.is_bp_rigid( sbp ) && it.covers( sbp ) && it.is_bp_rigid( sbp ) ) {
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
 const resistances &mutation_branch::damage_resistance( const bodypart_id &bp ) const
 {
     const auto iter = armor.find( bp.id() );
@@ -435,6 +475,15 @@ void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_
     }
 
     remove_worn_items_with( [&]( item & armor ) {
+        // initial check for rigid items to pull off, doesn't matter what else the item has you can only wear one rigid item
+        if( branch.conflicts_with_item_rigid( armor ) ) {
+            add_msg_player_or_npc( m_bad,
+                                   _( "Your %s is pushed off!" ),
+                                   _( "<npcname>'s %s is pushed off!" ),
+                                   armor.tname() );
+            get_map().add_item_or_charges( pos(), armor );
+            return true;
+        }
         if( armor.has_flag( STATIC( flag_id( "OVERSIZE" ) ) ) ) {
             return false;
         }
