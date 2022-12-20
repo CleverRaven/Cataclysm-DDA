@@ -166,6 +166,7 @@
     "description": "A large, rigid sheet of translucent plastic, useful for all manner of things; from construction to art, or even junior snowboarding.",
     "weight": "14875 g",
     "volume": "12500 ml",
+    "longest_side": "122 cm",
     "price": 0,
     "price_postapoc": 25,
     "material": [ "plastic" ],
