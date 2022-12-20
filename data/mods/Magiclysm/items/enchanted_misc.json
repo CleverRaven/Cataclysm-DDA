@@ -30,8 +30,7 @@
         "menu_text": "Activate torch mode",
         "moves": 150
       },
-      { "type": "firestarter" },
-      { "flame": false, "type": "cauterize" }
+      { "type": "firestarter" }
     ]
   },
   {
