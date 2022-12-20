@@ -139,14 +139,25 @@
     "volume": "31250 ml"
   },
   {
-	  "id": "stowed_refridgerator",
-	  "type": "GENERIC",
-	  "name": "tied-down refrigerator",
-	  "symbol", "F",
-	  "looks_like", "fridge",
-	  "material": "steel",
-	  "description": "A refrigerator, secured to the roof for transportation. Not functional, but easier than carrying it with your hands.",
-	  "weight": "75 kg",
-	  "volume": "800 L"
+    "id": "stowed_refridgerator",
+    "type": "GENERIC",
+    "name": "tied-down refrigerator",
+    "symbol": "F",
+    "looks_like": "fridge",
+    "material": "steel",
+    "description": "A refrigerator, secured to the roof for transportation. Not functional, but easier than carrying it with your hands.",
+    "weight": "75 kg",
+    "volume": "800 L"
+  },
+  {
+    "id": "stowed_freezer",
+    "type": "GENERIC",
+    "name": "tied-down freezer",
+    "symbol": "F",
+    "looks_like": "freezer",
+    "material": "steel",
+    "description": "A chest freezer, secured to the roof for transportation. Not functional, but easier than carrying it with your hands.",
+    "weight": "50 kg",
+    "volume": "900 L"
   }
 ]
