@@ -24,10 +24,16 @@
       { "trait": "RETURN_TO_START_POS" }
     ],
     "bonus_int": { "rng": [ 1, 2 ] },
-    "shopkeeper_item_group": [ 
+    "shopkeeper_item_group": [
       { "group": "cabin_chemist_sell_base", "rigid": true },
-      { "group": "cabin_chemist_sell_trusted", "rigid": true, "strict": true, "condition": { "npc_has_var": "mass_chem_tradeable", "type": "dialogue", "context": "trade", "value": "yes"  } }
-     ],
+      {
+        "group": "cabin_chemist_sell_trusted",
+        "rigid": true,
+        "strict": true,
+        "condition": { "npc_has_var": "mass_chem_tradeable", "type": "dialogue", "context": "trade", "value": "yes" }
+      }
+    ],
+    "shopkeeper_price_rules": [ { "group": "cabin_chemist_sell_trusted", "markup": 1.8 } ],
     "skills": [
       { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } },
       { "skill": "speech", "bonus": { "rng": [ 0, 2 ] } },
@@ -59,10 +65,7 @@
     "responses": [
       { "text": "Who are you?", "topic": "TALK_NPC_CABIN_CHEMIST_STORY" },
       { "text": "What is this place?", "topic": "TALK_NPC_CABIN_CHEMIST_HOME" },
-      {
-        "text": "Can you make chemicals for me?",
-        "topic": "TALK_CABIN_CHEMIST_CAN_I_BUY"
-      },
+      { "text": "Can you make chemicals for me?", "topic": "TALK_CABIN_CHEMIST_CAN_I_BUY" },
       { "text": "Care to trade?", "topic": "TALK_NPC_CABIN_CHEMIST_INTRO", "effect": "start_trade" },
       {
         "text": "Any jobs you need done?",
@@ -88,12 +91,12 @@
     "type": "talk_topic",
     "id": "TALK_CABIN_CHEMIST_CAN_I_BUY",
     "dynamic_line": {
-      "u_has_var": "mass_chem_tradeable",
+      "npc_has_var": "mass_chem_tradeable",
       "type": "dialogue",
       "context": "trade",
       "value": "yes",
       "no": "I have to scavenge for most of what you see here, but if I had some more supplies I could easily cook up some antifungal powder and adjust the dosage for medicine.  I also know how to make some other stuff which would be useful.  Used to make napalm in my dad's garage, haha!",
-      "yes": "Now that you've brought me some basic supplies, it's much easier to make what I need.  On top of the supplies I typically scavenge for, I can now cook up some explosives and stuff like antifungal powder."
+      "yes": "Now that you've brought me some basic supplies, it's much easier to make what I need.  I could cook up some explosives and even stuff like antifungal powder.  I can't just conjure up the reagents, though.  I have to go scavenging sometimes, so it won't necessarily be cheap."
     },
     "responses": [ { "text": "Sounds good to me.", "topic": "TALK_NONE" } ]
   }

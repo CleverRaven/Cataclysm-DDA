@@ -9,15 +9,30 @@
     "type": "item_group",
     "id": "cabin_chemist_sell_trusted",
     "subtype": "collection",
-    "entries": [ 
-      { "item": "bandages", "container-item": "bag_plastic", "charges-min": 5, "count": [ 2, 5 ] }, 
+    "entries": [
+      { "item": "bandages", "container-item": "bag_plastic", "charges-min": 5, "count": [ 2, 5 ] },
       { "item": "aspirin", "container-item": "bottle_plastic_pill_prescription", "charges-min": 5, "count": [ 1, 5 ] },
       { "item": "gas_fungicidal", "container-item": "jug_plastic", "charges": 1500, "count": [ 0, 2 ] },
       { "item": "fungicide", "container-item": "bottle_twoliter", "charges-min": 1500, "count": [ 0, 2 ] },
       { "item": "disinfectant", "container-item": "bottle_plastic", "charges-min": 20, "count": [ 0, 2 ] },
-      { "item": "antibiotics", "container-item": "bottle_plastic_pill_prescription", "charges-min": 4, "count": [ 0, 3 ] },
-      { "item": "antifungal", "container-item": "bottle_plastic_pill_prescription", "charges-min": 4, "count": [ 0, 3 ] },
-      { "item": "chem_black_powder", "container-item": "jar_3l_glass_sealed", "charges-min": 15000, "count": [ 0, 2 ] },
+      {
+        "item": "antibiotics",
+        "container-item": "bottle_plastic_pill_prescription",
+        "charges-min": 4,
+        "count": [ 0, 3 ]
+      },
+      {
+        "item": "antifungal",
+        "container-item": "bottle_plastic_pill_prescription",
+        "charges-min": 4,
+        "count": [ 0, 3 ]
+      },
+      {
+        "item": "chem_black_powder",
+        "container-item": "jar_3l_glass_sealed",
+        "charges-min": 15000,
+        "count": [ 0, 2 ]
+      },
       { "item": "napalm", "container-item": "jerrycan", "charges-min": 8000, "count": [ 0, 2 ] }
     ]
   }
