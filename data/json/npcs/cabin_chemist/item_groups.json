@@ -11,7 +11,13 @@
     "subtype": "collection",
     "entries": [
       { "item": "bandages", "container-item": "bag_plastic", "charges-min": 2, "charges-max": 30, "count": [ 1, 4 ] },
-      { "item": "aspirin", "container-item": "bottle_plastic_pill_prescription", "charges-min": 5, "charges-max": 100, "count": [ 1, 3 ] },
+      {
+        "item": "aspirin",
+        "container-item": "bottle_plastic_pill_prescription",
+        "charges-min": 5,
+        "charges-max": 100,
+        "count": [ 1, 3 ]
+      },
       { "item": "gas_fungicidal", "container-item": "jug_plastic", "charges": 1000, "count": [ 0, 2 ] },
       { "item": "fungicide", "container-item": "bottle_twoliter", "charges-min": 1000, "count": [ 0, 2 ] },
       { "item": "disinfectant", "container-item": "bottle_plastic", "charges-min": 20, "count": [ 0, 2 ] },
