@@ -280,7 +280,7 @@ void advanced_inventory::print_items( const advanced_inventory_pane &pane, bool 
     std::string spaces( columns - 4, ' ' );
 
     nc_color norm = active ? c_white : c_dark_gray;
-
+    
     Character &player_character = get_player_character();
     //print inventory's current and total weight + volumeS
     if( pane.get_area() == AIM_INVENTORY || pane.get_area() == AIM_WORN || ( pane.get_area() == AIM_CONTAINER && pane.container ) ) {
@@ -834,6 +834,38 @@ void advanced_inventory::redraw_pane( side p )
     wnoutrefresh( w );
 }
 
+void advanced_inventory::fill_lists_with_pane_items( Character &player_character, advanced_inventory_pane &spane,
+    std::vector<drop_or_stash_item_info> &item_list, std::vector<drop_or_stash_item_info> &fav_list,
+    bool filter_buckets = false, bool *filtered_any_bucket = nullptr )
+{
+    int incr = -1;
+
+    for( const advanced_inv_listitem &listit : spane.items ) {
+        item_location *it;
+        for( const item_location &it : listit.items ) {
+            /*if( spane.is_filtered( *it ) ) {
+                continue;
+            }*/
+            if( ( it->made_of_from_type( phase_id::LIQUID ) && !it->is_frozen_liquid() ) ||
+                it->made_of_from_type( phase_id::GAS ) ) {
+                continue;
+            }
+            if( it == player_character.get_wielded_item() ) {
+                continue;
+            }
+            if( filter_buckets && it->is_bucket_nonempty() ) {
+                *filtered_any_bucket = true;
+                continue;
+            }
+            if( it->is_favorite ) {
+                fav_list.emplace_back( it, it->count() );
+            } else {
+                item_list.emplace_back( it, it->count() );
+            }
+        }
+    }
+}
+
 bool advanced_inventory::move_all_items()
 {
     advanced_inventory_pane &spane = panes[src];
@@ -841,7 +873,7 @@ bool advanced_inventory::move_all_items()
 
     Character &player_character = get_player_character();
     // AIM_ALL source area routine
-    if( spane.get_area() == AIM_ALL ) {
+    /*if( spane.get_area() == AIM_ALL && false ) {
         // move all to `AIM_WORN' doesn't make sense (see `MAX_WORN_PER_TYPE')
         if( dpane.get_area() == AIM_WORN ) {
             popup( _( "You look at the items, then your clothes, and scratch your head…" ) );
@@ -872,7 +904,7 @@ bool advanced_inventory::move_all_items()
         switch( entry ) {
             case aim_entry::START:
                 entry = aim_entry::VEHICLE;
-            /* fallthrough */
+            /* fallthrough *
             case aim_entry::VEHICLE:
                 if( squares[loc].can_store_in_vehicle() ) {
                     spane.set_area( squares[loc], true );
@@ -916,9 +948,16 @@ bool advanced_inventory::move_all_items()
         // restore the pane to its former glory
         panes[src] = shadow;
         return true;
-    }
+    }*/
 
     // Check some preconditions to quickly leave the function.
+    if( spane.get_area() == AIM_CONTAINER && dpane.get_area() == AIM_INVENTORY ) {
+        if( spane.container.held_by(player_character ) ) {
+            // TODO: Implement this, distributing the contents to other inventory pockets.
+            popup( _( "You already have everything in that container." ) );
+            return false;
+        }
+    }
     size_t liquid_items = 0;
     for( const advanced_inv_listitem &elem : spane.items ) {
         for( const item_location &elemit : elem.items ) {
@@ -950,7 +989,7 @@ bool advanced_inventory::move_all_items()
             dpane.restore_area();
         } );
     }
-    if( !squares[dpane.get_area()].canputitems() ) {
+    if( !squares[dpane.get_area()].canputitems( dpane.container ) ) {
         popup( _( "You can't put items there!" ) );
         return false;
     }
@@ -968,223 +1007,132 @@ bool advanced_inventory::move_all_items()
         return false;
     }
 
-    map &here = get_map();
+    //map &here = get_map();
     if( spane.get_area() == AIM_INVENTORY || spane.get_area() == AIM_WORN ) {
         if( dpane.get_area() == AIM_INVENTORY ) {
             popup( _( "You try to put your bags into themselves, but physics won't let you." ) );
             return false;
         } else if( dpane.get_area() == AIM_WORN ) {
-            // TODO: implement this
-            popup( _( "Putting on everything from your inventory would be tricky." ) );
-            return false;
-        } else if( dpane.get_area() == AIM_CONTAINER ) {
-            // TODO: implement this
-            popup( _( "Putting everything into the container would be tricky." ) );
+            // TODO: implement move_all to worn from inventory.
+            popup( _( "Putting on everything from your inventory would be tricky. Try equipping one by one." ) );
             return false;
         }
+    }
 
-        // Check first if the destination area still have enough room for moving all.
-        const units::volume &src_volume = spane.in_vehicle() ? sarea.volume_veh : sarea.volume;
-        if( !is_processing() && src_volume > darea.free_volume( dpane.in_vehicle() ) &&
-            !query_yn( _( "There isn't enough room, do you really want to move all?" ) ) ) {
+    if( dpane.get_area() == AIM_WORN ) {
+        // TODO: implement move_all to worn from everywhere other than inventory.
+        popup( _( "You look at the items, then your clothes, and scratch your head… Try equipping one by one." ) );
+        return false;
+    }
+
+    // Check first if the destination area still has enough room for moving all.
+    const units::volume &src_volume = spane.in_vehicle() ? sarea.volume_veh : sarea.volume;
+    units::volume dest_volume_free;
+    if( dpane.container ) {
+        dest_volume_free = dpane.container->get_remaining_capacity();
+    } else {
+        dest_volume_free = darea.free_volume( dpane.in_vehicle() );
+    }
+    if( !is_processing() && src_volume > dest_volume_free &&
+        !query_yn( _( "There isn't enough room. Attempt to move as much as you can?" ) ) ) {
+        return false;
+    }
+
+    std::vector<drop_or_stash_item_info> pane_items;
+    // Keep a list of favorites separated, only drop non-fav first if they exist.
+    std::vector<drop_or_stash_item_info> pane_favs;
+    bool filter_buckets = dpane.get_area() == AIM_INVENTORY || dpane.get_area() == AIM_WORN ||
+        dpane.get_area() == AIM_CONTAINER || dpane.in_vehicle();
+    bool filtered_any_bucket = false;
+
+    fill_lists_with_pane_items( player_character, spane, pane_items, pane_favs,
+        filter_buckets, &filtered_any_bucket );
+
+    if( filtered_any_bucket ) {
+        add_msg( m_info, _( "Skipping filled buckets to avoid spilling their contents." ) );
+    }
+
+    // Move all the favorite items only if there are no other items
+    if( pane_items.empty() ) {
+        // Check if the list is still empty for when all that's in the aim_worn list is a wielded weapon.
+        if( pane_favs.empty() ) {
+            popup( _( "No eligible items found to be moved." ) );
             return false;
         }
-
-        drop_locations dropped;
-        // keep a list of favorites separated, only drop non-fav first if they exist
-        drop_locations dropped_favorite;
-
-        for( const advanced_inv_listitem &listit : spane.items ) {
-            for( const item_location &it : listit.items ) {
-                if( ( it->made_of_from_type( phase_id::LIQUID ) && !it->is_frozen_liquid() ) ||
-                    it->made_of_from_type( phase_id::GAS ) ) {
-                    continue;
-                }
-                if( it == player_character.get_wielded_item() ) {
-                    continue;
-                }
-                if( it->is_favorite ) {
-                    dropped_favorite.emplace_back( it, it->count() );
-                } else {
-                    dropped.emplace_back( it, it->count() );
-                }
-            }
-        }
-
-        if( dropped.empty() ) {
-            if( dropped_favorite.empty() ) {
-                popup( _( "No eligible items found to be moved." ) );
-                return false;
-            }
+        // Ask to move favorites if the player is holding them
+        if( spane.get_area() == AIM_INVENTORY || spane.get_area() == AIM_WORN ) {
             if( !query_yn( _( "Really drop all your favorite items?" ) ) ) {
                 return false;
             }
-            dropped = dropped_favorite;
         }
+        pane_items = pane_favs;
+    }
 
+    if( dpane.get_area() == AIM_CONTAINER ) {
+        if( dpane.container ) {
+            drop_locations items_to_insert;
+
+            for( const drop_or_stash_item_info &drop : pane_items ) {
+                items_to_insert.emplace_back( drop.loc(), drop.count() );
+            }
+            do_return_entry();
+
+            player_character.assign_activity( player_activity( insert_item_activity_actor(
+                                                    dpane.container,
+                                                    items_to_insert
+                                                ) ) );
+        }
+    } else if( spane.get_area() == AIM_INVENTORY || spane.get_area() == AIM_WORN ) {
         const tripoint placement = darea.off;
         // in case there is vehicle cargo space at dest but the player wants to drop to ground
         const bool force_ground = !dpane.in_vehicle();
-        std::vector<drop_or_stash_item_info> to_drop;
-
-        for( const std::pair<item_location, int> &it : dropped ) {
-            to_drop.emplace_back( it.first, it.second );
-        }
 
         do_return_entry();
 
         player_character.assign_activity( player_activity( drop_activity_actor(
-                                              to_drop, placement, force_ground
-                                          ) ) );
-    } else {
-        if( dpane.get_area() == AIM_WORN ) {
-            popup( _( "You look at the items, then your clothes, and scratch your head…" ) );
-            return false;
-        } else if( dpane.get_area() == AIM_INVENTORY ) {
-            player_character.activity.coords.push_back( player_character.pos() );
-            std::vector<item_location> target_items;
-            std::vector<item_location> target_items_favorites;
-            std::vector<int> quantities;
-            item_stack::iterator stack_begin;
-            item_stack::iterator stack_end;
-            if( panes[src].in_vehicle() ) {
-                vehicle_stack targets = sarea.veh->get_items( sarea.vstor );
-                stack_begin = targets.begin();
-                stack_end = targets.end();
-            } else {
-                map_stack targets = here.i_at( sarea.pos );
-                stack_begin = targets.begin();
-                stack_end = targets.end();
-            }
-
-            // If moving to inventory or worn, silently filter buckets
-            // Moving them would cause tons of annoying prompts or spills
-            const bool filter_buckets = dpane.get_area() == AIM_INVENTORY;
-            bool filtered_any_bucket = false;
-            // Push item_locations and item counts for all items at placement
-            for( item_stack::iterator it = stack_begin; it != stack_end; ++it ) {
-                if( spane.is_filtered( *it ) ) {
-                    continue;
-                }
-                if( filter_buckets && it->is_bucket_nonempty() ) {
-                    continue;
-                }
-                if( spane.in_vehicle() ) {
-                    if( it->is_favorite ) {
-                        target_items_favorites.emplace_back( vehicle_cursor( *sarea.veh, sarea.vstor ), &*it );
-                    } else {
-                        target_items.emplace_back( vehicle_cursor( *sarea.veh, sarea.vstor ), &*it );
-                    }
-
-                } else {
-                    if( it->is_favorite ) {
-                        target_items_favorites.emplace_back( map_cursor( sarea.pos ), &*it );
-                    } else {
-                        target_items.emplace_back( map_cursor( sarea.pos ), &*it );
-                    }
-                }
-                // quantity of 0 means move all
-                quantities.push_back( 0 );
-            }
-
-            if( filtered_any_bucket ) {
-                add_msg( m_info, _( "Skipping filled buckets to avoid spilling their contents." ) );
-            }
-
-            // move all the favorite items only if there are no other items.
-            if( target_items.empty() ) {
-                target_items = target_items_favorites;
-            }
-
-            do_return_entry();
-
-            player_character.assign_activity( player_activity( pickup_activity_actor(
-                                                  target_items,
-                                                  quantities,
-                                                  cata::optional<tripoint>( player_character.pos() ),
-                                                  false
-                                              ) ) );
-
-        } else {
-            // Vehicle and map destinations are handled the same.
-            // Check first if the destination area still have enough room for moving all.
-            const units::volume &src_volume = spane.in_vehicle() ? sarea.volume_veh : sarea.volume;
-            if( !is_processing() && src_volume > darea.free_volume( dpane.in_vehicle() ) &&
-                !query_yn( _( "There isn't enough room, do you really want to move all?" ) ) ) {
-                return false;
-            }
-
-            // Stash the destination
-            const tripoint relative_destination = darea.off;
-
-            // Find target items and quantities thereof for the new activity
-            std::vector<item_location> target_items;
-            std::vector<item_location> target_items_favorites;
-
-            std::vector<int> quantities;
-
-            item_stack::iterator stack_begin;
-            item_stack::iterator stack_end;
-            if( panes[src].in_vehicle() ) {
-                vehicle_stack targets = sarea.veh->get_items( sarea.vstor );
-                stack_begin = targets.begin();
-                stack_end = targets.end();
-            } else {
-                map_stack targets = here.i_at( sarea.pos );
-                stack_begin = targets.begin();
-                stack_end = targets.end();
-            }
-            // If moving to vehicle, silently filter buckets
-            // Moving them would cause tons of annoying prompts or spills
-            const bool filter_buckets = dpane.in_vehicle();
-            bool filtered_any_bucket = false;
-            // Push item_locations and item counts for all items at placement
-            for( item_stack::iterator it = stack_begin; it != stack_end; ++it ) {
-                if( spane.is_filtered( *it ) ) {
-                    continue;
-                }
-                if( filter_buckets && it->is_bucket_nonempty() ) {
-                    filtered_any_bucket = true;
-                    continue;
-                }
-                if( spane.in_vehicle() ) {
-                    if( it->is_favorite ) {
-                        target_items_favorites.emplace_back( vehicle_cursor( *sarea.veh, sarea.vstor ), &*it );
-                    } else {
-                        target_items.emplace_back( vehicle_cursor( *sarea.veh, sarea.vstor ), &*it );
-                    }
-
-                } else {
-                    if( it->is_favorite ) {
-                        target_items_favorites.emplace_back( map_cursor( sarea.pos ), &*it );
-                    } else {
-                        target_items.emplace_back( map_cursor( sarea.pos ), &*it );
-                    }
-                }
-                // quantity of 0 means move all
-                quantities.push_back( 0 );
-            }
-
-            if( filtered_any_bucket ) {
-                add_msg( m_info, _( "Skipping filled buckets to avoid spilling their contents." ) );
-            }
-
-            // move all the favorite items only if there are no other items.
-            if( target_items.empty() ) {
-                target_items = target_items_favorites;
-            }
-
-            do_return_entry();
-
-            player_character.assign_activity( player_activity( move_items_activity_actor(
-                                                  target_items,
-                                                  quantities,
-                                                  dpane.in_vehicle(),
-                                                  relative_destination
-                                              ) ) );
+                                                pane_items, placement, force_ground
+                                            ) ) );
+    } else if( dpane.get_area() == AIM_INVENTORY ) {
+        std::vector<item_location> target_items;
+        std::vector<int> quantities;
+        for( const drop_or_stash_item_info &drop : pane_items ) {
+            target_items.emplace_back( drop.loc() );
+            // quantity of 0 means move all
+            quantities.emplace_back( 0 );
         }
 
+        do_return_entry();
+
+        player_character.assign_activity( player_activity( pickup_activity_actor(
+                                                target_items,
+                                                quantities,
+                                                cata::optional<tripoint>( player_character.pos() ),
+                                                false
+                                            ) ) );
+    } else {
+        // Vehicle and map destinations are handled the same.
+        
+        // Stash the destination
+        const tripoint relative_destination = darea.off;
+
+        std::vector<item_location> target_items;
+        std::vector<int> quantities;
+        for( const drop_or_stash_item_info &drop : pane_items ) {
+            target_items.emplace_back( drop.loc() );
+            // quantity of 0 means move all
+            quantities.emplace_back( 0 );
+        }
+
+        do_return_entry();
+
+        player_character.assign_activity( player_activity( move_items_activity_actor(
+                                                target_items,
+                                                quantities,
+                                                dpane.in_vehicle(),
+                                                relative_destination
+                                            ) ) );
     }
+
     return true;
 }
 
