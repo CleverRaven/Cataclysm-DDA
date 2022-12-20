@@ -1,0 +1,122 @@
+[
+  {
+    "type": "item_group",
+    "id": "NC_OPS_pants_male",
+    "entries": [ { "group": "npc_pants_male" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_OPS_pants_female",
+    "entries": [ { "group": "npc_pants_female", "prob": 80 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_OPS_shirt_male",
+    "entries": [ { "group": "npc_shirt_male", "prob": 80 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_OPS_shirt_female",
+    "entries": [ { "group": "npc_shirt_female", "prob": 80 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_OPS_gloves",
+    "entries": [ { "group": "npc_gloves", "prob": 80 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_OPS_coat",
+    "entries": [ { "group": "npc_coat", "prob": 80 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_OPS_shoes",
+    "entries": [ { "group": "npc_shoes_male", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_OPS_masks",
+    "entries": [ { "item": "null", "prob": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_OPS_eyes",
+    "entries": [ { "item": "null", "prob": 60 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_OPS_hat",
+    "entries": [ { "group": "npc_hat", "prob": 80 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_OPS_extra",
+    "entries": [ { "item": "null", "prob": 30 }, { "item": "wicker_backpack", "prob": 70 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_OPS_bashing",
+    "entries": [ { "item": "primitive_hammer", "prob": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_OPS_cutting",
+    "entries": [ { "item": "stone_chopper", "prob": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_OPS_stabbing",
+    "entries": [ { "item": "pointy_stick", "prob": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_OPS_throw",
+    "entries": [ { "item": "rock", "prob": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_OPS_archery",
+    "items": [ [ "selfbow", 50 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_OPS_pistols",
+    "items": [ { "group": "guns_pistol_improvised", "prob": 35 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_OPS_shotgun",
+    "items": [ { "group": "guns_shotgun_improvised", "prob": 22 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_OPS_smg",
+    "items": [ { "group": "guns_shotgun_improvised", "prob": 22 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_OPS_rifle",
+    "entries": [ { "group": "guns_rifle_improvised", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_OPS_launcher",
+    "entries": [ { "group": "guns_rifle_improvised", "prob": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_OPS_weapon_random",
+    "items": [ [ "q_staff", 100 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_OPS_misc",
+    "entries": [
+      { "item": "tobacco", "prob": 2 },
+      { "item": "weed", "prob": 50 },
+      { "item": "seed_weed", "prob": 35 },
+      { "item": "seed_tobacco", "prob": 15 }
+    ]
+  }
+]
