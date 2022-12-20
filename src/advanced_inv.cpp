@@ -280,10 +280,12 @@ void advanced_inventory::print_items( const advanced_inventory_pane &pane, bool 
     std::string spaces( columns - 4, ' ' );
 
     nc_color norm = active ? c_white : c_dark_gray;
-    
+
     Character &player_character = get_player_character();
     //print inventory's current and total weight + volumeS
-    if( pane.get_area() == AIM_INVENTORY || pane.get_area() == AIM_WORN || ( pane.get_area() == AIM_CONTAINER && pane.container ) ) {
+    if( pane.get_area() == AIM_INVENTORY || pane.get_area() == AIM_WORN ||
+        ( pane.get_area() == AIM_CONTAINER && pane.container ) ) {
+
         double weight_carried;
         double weight_capacity;
         units::volume volume_carried;
@@ -834,9 +836,10 @@ void advanced_inventory::redraw_pane( side p )
     wnoutrefresh( w );
 }
 
-void advanced_inventory::fill_lists_with_pane_items( Character &player_character, advanced_inventory_pane &spane,
-    std::vector<drop_or_stash_item_info> &item_list, std::vector<drop_or_stash_item_info> &fav_list,
-    bool filter_buckets = false, bool *filtered_any_bucket = nullptr )
+void advanced_inventory::fill_lists_with_pane_items( Character &player_character,
+        advanced_inventory_pane &spane, std::vector<drop_or_stash_item_info> &item_list,
+        std::vector<drop_or_stash_item_info> &fav_list,
+        bool filter_buckets = false, bool *filtered_any_bucket = nullptr )
 {
     int incr = -1;
 
@@ -872,7 +875,7 @@ bool advanced_inventory::move_all_items()
 
     // Check some preconditions to quickly leave the function.
     if( spane.get_area() == AIM_CONTAINER && dpane.get_area() == AIM_INVENTORY ) {
-        if( spane.container.held_by(player_character ) ) {
+        if( spane.container.held_by( player_character ) ) {
             // TODO: Implement this, distributing the contents to other inventory pockets.
             popup( _( "You already have everything in that container." ) );
             return false;
@@ -961,11 +964,11 @@ bool advanced_inventory::move_all_items()
     // Keep a list of favorites separated, only drop non-fav first if they exist.
     std::vector<drop_or_stash_item_info> pane_favs;
     bool filter_buckets = dpane.get_area() == AIM_INVENTORY || dpane.get_area() == AIM_WORN ||
-        dpane.get_area() == AIM_CONTAINER || dpane.in_vehicle();
+                          dpane.get_area() == AIM_CONTAINER || dpane.in_vehicle();
     bool filtered_any_bucket = false;
 
     fill_lists_with_pane_items( player_character, spane, pane_items, pane_favs,
-        filter_buckets, &filtered_any_bucket );
+                                filter_buckets, &filtered_any_bucket );
 
     if( filtered_any_bucket ) {
         add_msg( m_info, _( "Skipping filled buckets to avoid spilling their contents." ) );
@@ -997,9 +1000,9 @@ bool advanced_inventory::move_all_items()
             do_return_entry();
 
             player_character.assign_activity( player_activity( insert_item_activity_actor(
-                                                    dpane.container,
-                                                    items_to_insert
-                                                ) ) );
+                                                  dpane.container,
+                                                  items_to_insert
+                                              ) ) );
         }
     } else if( spane.get_area() == AIM_INVENTORY || spane.get_area() == AIM_WORN ) {
         const tripoint placement = darea.off;
@@ -1009,8 +1012,8 @@ bool advanced_inventory::move_all_items()
         do_return_entry();
 
         player_character.assign_activity( player_activity( drop_activity_actor(
-                                                pane_items, placement, force_ground
-                                            ) ) );
+                                              pane_items, placement, force_ground
+                                          ) ) );
     } else if( dpane.get_area() == AIM_INVENTORY ) {
         std::vector<item_location> target_items;
         std::vector<int> quantities;
@@ -1023,14 +1026,14 @@ bool advanced_inventory::move_all_items()
         do_return_entry();
 
         player_character.assign_activity( player_activity( pickup_activity_actor(
-                                                target_items,
-                                                quantities,
-                                                cata::optional<tripoint>( player_character.pos() ),
-                                                false
-                                            ) ) );
+                                              target_items,
+                                              quantities,
+                                              cata::optional<tripoint>( player_character.pos() ),
+                                              false
+                                          ) ) );
     } else {
         // Vehicle and map destinations are handled the same.
-        
+
         // Stash the destination
         const tripoint relative_destination = darea.off;
 
@@ -1045,11 +1048,11 @@ bool advanced_inventory::move_all_items()
         do_return_entry();
 
         player_character.assign_activity( player_activity( move_items_activity_actor(
-                                                target_items,
-                                                quantities,
-                                                dpane.in_vehicle(),
-                                                relative_destination
-                                            ) ) );
+                                              target_items,
+                                              quantities,
+                                              dpane.in_vehicle(),
+                                              relative_destination
+                                          ) ) );
     }
 
     return true;

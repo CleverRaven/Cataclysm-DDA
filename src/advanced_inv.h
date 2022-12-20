@@ -156,8 +156,8 @@ class advanced_inventory
         * @param filtered_any_bucket Bool pointer to set true if any buckets were skipped over.
         */
         void fill_lists_with_pane_items( Character &player_character, advanced_inventory_pane &spane,
-            std::vector<drop_or_stash_item_info> &item_list, std::vector<drop_or_stash_item_info> &fav_list,
-            bool filter_buckets, bool *filtered_any_bucket );
+                                         std::vector<drop_or_stash_item_info> &item_list, std::vector<drop_or_stash_item_info> &fav_list,
+                                         bool filter_buckets, bool *filtered_any_bucket );
         // Returns the x coordinate where the header started. The header is
         // displayed right of it, everything left of it is till free.
         int print_header( advanced_inventory_pane &pane, aim_location sel );
