@@ -219,8 +219,6 @@ class outfit
 
         std::vector<item_location> top_items_loc( Character &guy );
         std::vector<item_location> all_items_loc( Character &guy );
-        item_location adv_inv_get_container( item_location container, const advanced_inv_area &area,
-                                             Character &guy );
 
         // gets item position. not translated for worn index. DEPRECATE ME!
         cata::optional<int> get_item_position( const item &it ) const;
