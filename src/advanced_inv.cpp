@@ -282,26 +282,37 @@ void advanced_inventory::print_items( const advanced_inventory_pane &pane, bool 
     nc_color norm = active ? c_white : c_dark_gray;
 
     Character &player_character = get_player_character();
-    //print inventory's current and total weight + volume
-    if( pane.get_area() == AIM_INVENTORY || pane.get_area() == AIM_WORN ) {
-        const double weight_carried = convert_weight( player_character.weight_carried() );
-        const double weight_capacity = convert_weight( player_character.weight_capacity() );
-        std::string volume_carried = format_volume( player_character.volume_carried() );
-        std::string volume_capacity = format_volume( player_character.volume_capacity() );
+    //print inventory's current and total weight + volumeS
+    if( pane.get_area() == AIM_INVENTORY || pane.get_area() == AIM_WORN || ( pane.get_area() == AIM_CONTAINER && pane.container ) ) {
+        double weight_carried;
+        double weight_capacity;
+        units::volume volume_carried;
+        units::volume volume_capacity;
+        if( pane.get_area() == AIM_CONTAINER ) {
+            weight_carried = convert_weight( squares[pane.get_area()].weight );
+            weight_capacity = convert_weight( pane.container->get_total_weight_capacity() );
+            volume_carried = squares[pane.get_area()].volume;
+            volume_capacity = pane.container->get_total_capacity();
+        } else {
+            weight_carried = convert_weight( player_character.weight_carried() );
+            weight_capacity = convert_weight( player_character.weight_capacity() );
+            volume_carried = player_character.volume_carried();
+            volume_capacity = player_character.volume_capacity();
+        }
         // align right, so calculate formatted head length
         const std::string formatted_head = string_format( "%.1f/%.1f %s  %s/%s %s",
                                            weight_carried, weight_capacity, weight_units(),
-                                           volume_carried,
-                                           volume_capacity,
+                                           format_volume( volume_carried ),
+                                           format_volume( volume_capacity ),
                                            volume_units_abbr() );
         const int hrightcol = columns - 1 - utf8_width( formatted_head );
         nc_color color = weight_carried > weight_capacity ? c_red : c_light_green;
         mvwprintz( window, point( hrightcol, 4 ), color, "%.1f", weight_carried );
         wprintz( window, c_light_gray, "/%.1f %s  ", weight_capacity, weight_units() );
-        color = player_character.volume_carried().value() > player_character.volume_capacity().value() ?
+        color = volume_carried.value() > volume_capacity.value() ?
                 c_red : c_light_green;
-        wprintz( window, color, volume_carried );
-        wprintz( window, c_light_gray, "/%s %s", volume_capacity, volume_units_abbr() );
+        wprintz( window, color, format_volume( volume_carried ) );
+        wprintz( window, c_light_gray, "/%s %s", format_volume( volume_capacity ), volume_units_abbr() );
     } else {
         //print square's current and total weight + volume
         std::string formatted_head;
