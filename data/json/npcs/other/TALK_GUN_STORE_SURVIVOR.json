@@ -8,7 +8,7 @@
       "context": "first_meeting",
       "value": "yes",
       "yes": "<greet>",
-      "no": "Hey stranger. How's life treatin' ya these days?"
+      "no": "Hey stranger.  How's life treatin' ya these days?"
     },
     "speaker_effect": { "effect": { "npc_add_var": "knows_u", "type": "dialogue", "context": "first_meeting", "value": "yes" } },
     "responses": [
@@ -90,9 +90,9 @@
   {
     "type": "talk_topic",
     "id": "TALK_NPC_GUN_STORE_SURVIVOR_WHY_HERE",
-    "dynamic_line": "Well, they weren't really around to lock it up…  Whoever got here first blew their head off with a 12-gauge, but they were up and movin', tried to kill me too.  They're out in the dumpster now.",
+    "dynamic_line": "Well, they weren't really around to lock it up.  Whoever got here first blew their head off with a 12-gauge, but they were up and movin', tried to kill me too.  They're out in the dumpster now.",
     "responses": [
-      { "text": "I'm sorry to hear that. Mabye we should change the subject.", "topic": "TALK_NPC_GUN_STORE_SURVIVOR_INTRO" },
+      { "text": "I'm sorry to hear that.  Mabye we should change the subject.", "topic": "TALK_NPC_GUN_STORE_SURVIVOR_INTRO" },
       {
         "text": "Would you be interested in trading at all?",
         "topic": "TALK_NPC_GUN_STORE_SURVIVOR_INTRO",
