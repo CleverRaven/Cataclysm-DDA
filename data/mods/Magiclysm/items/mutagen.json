@@ -59,7 +59,7 @@
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
     "name": "black dragon mutagenic primer",
-    "description": "A super-concentrated mutagen that seems swirl with the anger of a black dragon.  Do you dare leave you humanity behind and inject it?",
+    "description": "A super-concentrated mutagen that seems to swirl with the anger of a black dragon.  Do you dare leave your humanity behind and inject it?",
     "color": "black",
     "use_action": {
       "type": "consume_drug",
