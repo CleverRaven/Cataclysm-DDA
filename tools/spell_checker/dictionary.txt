@@ -705,6 +705,7 @@ flump
 flusteration
 flyin
 foamcrete
+foldable
 foodborne
 foodburger
 foodcart
@@ -1025,6 +1026,7 @@ km
 knapping
 knifehand
 knockback
+knockin
 knotweed
 knowium
 knuckledusters
@@ -1988,6 +1990,7 @@ transpositions
 travelpack
 traversal
 treatin
+treatin
 treelines
 tribesperson
 tribot
@@ -2230,4 +2233,3 @@ zweitimbers
 zygomaticus
 zzz
 zzzzchzzzzchurzzzpileus
-foldable
