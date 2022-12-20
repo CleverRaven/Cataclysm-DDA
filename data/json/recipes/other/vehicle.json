@@ -170,6 +170,7 @@
     "difficulty": 1,
     "time": "1 m",
     "autolearn": true,
+    "reversible": true,
     "components": [ [ [ "fridge", 1 ] ], [ [ "rope_30", 1 ], [ "rope_30", 5 ] ] ]
   },
   {
@@ -183,6 +184,7 @@
     "difficulty": 1,
     "time": "1 m",
     "autolearn": true,
+    "reversible": true,
     "components": [ [ [ "freezer", 1 ] ], [ [ "rope_30", 1 ], [ "rope_30", 5 ] ] ]
   }
 ]
