@@ -139,13 +139,13 @@
     "volume": "31250 ml"
   },
   {
-    "id": "stowed_refridgerator",
+    "id": "stowed_fridge",
     "type": "GENERIC",
-    "name": "tied-down refrigerator",
+    "name": "tied-down fridge",
     "symbol": "F",
     "looks_like": "fridge",
     "material": "steel",
-    "description": "A refrigerator, secured to the roof for transportation. Not functional, but easier than carrying it with your hands.",
+    "description": "A fridge, secured to the roof for transportation. Not functional, but easier than carrying it with your hands.",
     "weight": "75 kg",
     "volume": "800 L"
   },

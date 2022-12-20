@@ -170,7 +170,7 @@
     "difficulty": 1,
     "time": "1 m",
     "autolearn": true,
-    "components": [ [ [ "fridge", 6 ] ], [ [ [ "rope_30", 1 ] ], [ "rope_30", 5 ] ] ]
+    "components": [ [ [ "fridge", 1 ] ], [ [ "rope_30", 1 ], [ "rope_30", 5 ] ] ]
   },
   {
     "type": "recipe",
@@ -183,6 +183,6 @@
     "difficulty": 1,
     "time": "1 m",
     "autolearn": true,
-    "components": [ [ [ "freezer", 6 ] ], [ [ [ "rope_30", 1 ] ], [ "rope_30", 5 ] ] ]
+    "components": [ [ [ "freezer", 1 ] ], [ [ "rope_30", 1 ], [ "rope_30", 5 ] ] ]
   }
 ]
