@@ -841,8 +841,6 @@ void advanced_inventory::fill_lists_with_pane_items( Character &player_character
         std::vector<drop_or_stash_item_info> &fav_list,
         bool filter_buckets = false, bool *filtered_any_bucket = nullptr )
 {
-    int incr = -1;
-
     for( const advanced_inv_listitem &listit : spane.items ) {
         item_location *it;
         for( const item_location &it : listit.items ) {
