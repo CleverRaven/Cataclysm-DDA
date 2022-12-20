@@ -111,6 +111,7 @@ void tree_maple_tapped( Character &you, const tripoint &examp );
 void shrub_marloss( Character &you, const tripoint &examp );
 void tree_marloss( Character &you, const tripoint &examp );
 void shrub_wildveggies( Character &you, const tripoint &examp );
+void part_con( Character &you, const tripoint &examp );
 void water_source( Character &, const tripoint &examp );
 void finite_water_source( Character &, const tripoint &examp );
 void kiln_empty( Character &you, const tripoint &examp );

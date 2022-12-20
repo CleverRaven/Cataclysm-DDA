@@ -3814,7 +3814,6 @@
     "description": "Recipes related to constructing long cordage ropes.",
     "skill_used": "tailor",
     "nested_category_data": [
-      "rope_makeshift_30",
       "rope_makeshift_30_spinwheel_cordages",
       "rope_makeshift_30_electric_spinwheel_cordages",
       "rope_makeshift_30_from_rope_makeshift_6",
@@ -3870,7 +3869,7 @@
     "activity_level": "fake",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "name": "auxillary weapons",
+    "name": "auxiliary weapons",
     "description": "Recipes related to modifying secondary weapons to attach to a wider variety of guns and crossbows.",
     "skill_used": "fabrication",
     "nested_category_data": [

@@ -155,7 +155,6 @@ static const efftype_id effect_antibiotic_visible( "antibiotic_visible" );
 static const efftype_id effect_antifungal( "antifungal" );
 static const efftype_id effect_asthma( "asthma" );
 static const efftype_id effect_beartrap( "beartrap" );
-static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_blood_spiders( "blood_spiders" );
@@ -371,7 +370,6 @@ static const ter_str_id ter_t_utility_light( "t_utility_light" );
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_ACIDPROOF( "ACIDPROOF" );
 static const trait_id trait_ALCMET( "ALCMET" );
-static const trait_id trait_CENOBITE( "CENOBITE" );
 static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
 static const trait_id trait_EATDEAD( "EATDEAD" );
 static const trait_id trait_EATPOISON( "EATPOISON" );
@@ -382,8 +380,6 @@ static const trait_id trait_MARLOSS( "MARLOSS" );
 static const trait_id trait_MARLOSS_AVOID( "MARLOSS_AVOID" );
 static const trait_id trait_MARLOSS_BLUE( "MARLOSS_BLUE" );
 static const trait_id trait_MARLOSS_YELLOW( "MARLOSS_YELLOW" );
-static const trait_id trait_MASOCHIST( "MASOCHIST" );
-static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
 static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
@@ -2429,27 +2425,6 @@ cata::optional<int> iuse::pack_item( Character *p, item *it, bool t, const tripo
         it->convert( itype_id( oname ) ).active = false;
     }
     return 0;
-}
-
-static cata::optional<int> cauterize_elec( Character &p, item &it )
-{
-    if( it.ammo_remaining() == 0 ) {
-        p.add_msg_if_player( m_info, _( "You need batteries to cauterize wounds." ) );
-        return cata::nullopt;
-    } else if( !p.has_effect( effect_bite ) && !p.has_effect( effect_bleed ) && !p.is_underwater() ) {
-        if( ( p.has_trait( trait_MASOCHIST ) || p.has_trait( trait_MASOCHIST_MED ) ||
-              p.has_trait( trait_CENOBITE ) ) &&
-            p.query_yn( _( "Cauterize yourself for fun?" ) ) ) {
-            return cauterize_actor::cauterize_effect( p, it, true ) ? 1 : 0;
-        } else {
-            p.add_msg_if_player( m_info,
-                                 _( "You aren't bleeding or bitten; there is no need to cauterize yourself." ) );
-            return cata::nullopt;
-        }
-    } else if( p.is_npc() || query_yn( _( "Cauterize any open wounds?" ) ) ) {
-        return cauterize_actor::cauterize_effect( p, it, true ) ? 1 : 0;
-    }
-    return cata::nullopt;
 }
 
 cata::optional<int> iuse::water_purifier( Character *p, item *it, bool, const tripoint & )
@@ -5273,22 +5248,8 @@ cata::optional<int> iuse::hotplate( Character *p, item *it, bool, const tripoint
         return cata::nullopt;
     }
 
-    int choice = 0;
-    if( ( p->has_effect( effect_bite ) || p->has_effect( effect_bleed ) ||
-          p->has_trait( trait_MASOCHIST ) ||
-          p->has_trait( trait_MASOCHIST_MED ) || p->has_trait( trait_CENOBITE ) ) && !p->is_underwater() ) {
-        //Might want to cauterize
-        choice = uilist( _( "Using hotplate:" ), {
-            _( "Heat food" ), _( "Cauterize wound" )
-        } );
-    }
-
-    if( choice == 0 ) {
-        if( heat_item( *p ) ) {
-            return 1;
-        }
-    } else if( choice == 1 ) {
-        return cauterize_elec( *p, *it );
+    if( heat_item( *p ) ) {
+        return 1;
     }
     return cata::nullopt;
 }
@@ -8320,9 +8281,9 @@ cata::optional<int> iuse::multicooker( Character *p, item *it, bool t, const tri
             return 0;
         }
 
-        // Empty the cooker before it can be activated.
+        // Do nothing if there's non-dish contained in the cooker
         if( mc_empty == choice ) {
-            it->handle_liquid_or_spill( *p );
+            return cata::nullopt;
         }
 
         if( mc_start == choice ) {
@@ -8365,12 +8326,12 @@ cata::optional<int> iuse::multicooker( Character *p, item *it, bool t, const tri
                 const recipe *meal = dishes[choice];
                 int mealtime;
                 if( it->get_var( "MULTI_COOK_UPGRADE" ) == "UPGRADE" ) {
-                    mealtime = meal->time_to_craft_moves( *p );
+                    mealtime = meal->time_to_craft_moves( *p, recipe_time_flag::ignore_proficiencies );
                 } else {
-                    mealtime = meal->time_to_craft_moves( *p ) * 2;
+                    mealtime = meal->time_to_craft_moves( *p, recipe_time_flag::ignore_proficiencies ) * 2;
                 }
 
-                const int all_charges = charges_to_start + mealtime / 100 * units::to_joule(
+                const int all_charges = charges_to_start + mealtime / 1000 * units::to_watt(
                                             it->type->tool->power_draw ) / 1000;
 
                 if( it->ammo_remaining( p ) < all_charges ) {
@@ -8899,7 +8860,7 @@ cata::optional<int> iuse::cord_attach( Character *p, item *it, bool, const tripo
         }
         const tripoint posp = *posp_;
         const optional_vpart_position vp = here.veh_at( posp );
-        if( !vp || !vp->vehicle().has_tag( "APPLIANCE" ) ) {
+        if( !vp ) {
             p->add_msg_if_player( _( "There's no appliance here." ) );
             return cata::nullopt;
         } else {
@@ -8959,7 +8920,7 @@ cata::optional<int> iuse::cord_attach( Character *p, item *it, bool, const tripo
         const tripoint vpos = *vpos_;
 
         const optional_vpart_position target_vp = here.veh_at( vpos );
-        if( !target_vp || !target_vp->vehicle().has_tag( "APPLIANCE" ) ) {
+        if( !target_vp ) {
             p->add_msg_if_player( _( "There's no appliance there." ) );
             return cata::nullopt;
         } else {

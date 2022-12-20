@@ -148,7 +148,7 @@
         { "item": "winter", "chance": 30 }
       ]
     },
-    "item": { "T": { "item": "toilet_paper", "chance": 33 }, "/": { "item": "american_flag", "chance": 10 } },
+    "item": { "T": { "item": "toilet_paper", "chance": 33 }, "/": { "item": "american_flag", "chance": 100 } },
     "toilets": { "T": {  } },
     "vehicles": {
       "1": { "vehicle": "food_cart", "chance": 33, "rotation": [ 0, 90, 180, 270 ] },

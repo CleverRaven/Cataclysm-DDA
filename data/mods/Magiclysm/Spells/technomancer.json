@@ -76,7 +76,7 @@
   {
     "id": "holy_blade_plus",
     "type": "SPELL",
-    "name": "Holy Blade",
+    "name": "Enhanced Holy Blade",
     "description": "This blade of light will cut through any evil it makes contact with!  Now you know this spell like the back of your hand, and start to design your own version.",
     "valid_targets": [ "self" ],
     "flags": [ "VERBAL", "NO_LEGS" ],
@@ -125,7 +125,7 @@
   {
     "id": "spirit_armor_plus",
     "type": "SPELL",
-    "name": "Spiritual Armor",
+    "name": "Enhanced Spiritual Armor",
     "description": "Evil will not make it through your defenses if your faith is strong enough!  Now you know this spell like the back of your hand, and start to design your own version.",
     "valid_targets": [ "self" ],
     "flags": [ "VERBAL", "NO_LEGS", "SOMATIC" ],
@@ -513,7 +513,7 @@
     "type": "SPELL",
     "name": "X-ray Vision",
     "id": "x-ray",
-    "description": "You fire a cone of X-rays that magically allow you to see that area for a short time.",
+    "description": "You fire a cone of X-rays that magically allows you to see that area for a short time.",
     "valid_targets": [ "hostile", "ground", "ally" ],
     "flags": [ "CONCENTRATE", "IGNORE_WALLS" ],
     "effect": "attack",
