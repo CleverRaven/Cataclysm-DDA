@@ -1563,6 +1563,7 @@ class item : public visitable
         bool can_contain( const itype &tp ) const;
         bool can_contain_partial( const item &it ) const;
         ret_val<void> can_contain_directly( const item &it ) const;
+        bool can_contain_partial_directly( const item &it ) const;
         /*@}*/
         std::pair<item_location, item_pocket *> best_pocket( const item &it, item_location &this_loc,
                 const item *avoid = nullptr, bool allow_sealed = false, bool ignore_settings = false,
