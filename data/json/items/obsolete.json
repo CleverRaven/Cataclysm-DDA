@@ -1212,5 +1212,34 @@
     "category": "veh_parts",
     "price": 80000,
     "price_postapoc": 750
+  },
+  {
+    "id": "armor_bio_carbon_filament",
+    "type": "ARMOR",
+    "category": "armor",
+    "weight": "500 g",
+    "volume": "1200 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "symbol": ",",
+    "color": "brown",
+    "warmth": 0,
+    "environmental_protection": 0,
+    "material_thickness": 1,
+    "flags": [ "CANT_WEAR", "UNBREAKABLE", "PERSONAL", "PADDED", "WATER_FRIENDLY", "SOFT", "NO_REPAIR", "ALLOWS_NATURAL_ATTACKS" ],
+    "material": [ "cotton" ],
+    "name": { "str_sp": "subdermal carbon filament (obsolete)" },
+    "description": "An obsolete item.",
+    "armor": [
+      {
+        "material": [
+          { "type": "cotton", "covered_by_mat": 1, "thickness": 0.01 }
+        ],
+        "covers": [ "torso", "head", "mouth", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "foot_l", "foot_r" ],
+        "coverage": 1,
+        "encumbrance": 100,
+        "cover_vitals": 1
+      }
+    ]
   }
 ]
