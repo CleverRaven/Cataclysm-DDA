@@ -1864,7 +1864,6 @@
     "color": "green_white",
     "broken_symbol": "#",
     "broken_color": "blue",
-    "location": "structure",
     "damage_modifier": 80,
     "durability": 400,
     "description": "A military ASRG covered in heavy plating.  Provides constant power when plugged in to your power grid.",
