@@ -933,14 +933,14 @@ bool advanced_inventory::move_all_items()
             return false;
         } else if( dpane.get_area() == AIM_WORN ) {
             // TODO: implement move_all to worn from inventory.
-            popup( _( "Putting on everything from your inventory would be tricky. Try equipping one by one." ) );
+            popup( _( "Putting on everything from your inventory would be tricky.  Try equipping one by one." ) );
             return false;
         }
     }
 
     if( dpane.get_area() == AIM_WORN ) {
         // TODO: implement move_all to worn from everywhere other than inventory.
-        popup( _( "You look at the items, then your clothes, and scratch your head… Try equipping one by one." ) );
+        popup( _( "You look at the items, then your clothes, and scratch your head…  Try equipping one by one." ) );
         return false;
     }
 
@@ -953,7 +953,7 @@ bool advanced_inventory::move_all_items()
         dest_volume_free = darea.free_volume( dpane.in_vehicle() );
     }
     if( !is_processing() && src_volume > dest_volume_free &&
-        !query_yn( _( "There isn't enough room. Attempt to move as much as you can?" ) ) ) {
+        !query_yn( _( "There isn't enough room.  Attempt to move as much as you can?" ) ) ) {
         return false;
     }
 
