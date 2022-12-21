@@ -929,35 +929,5 @@
         "cover_vitals": 90
       }
     ]
-  },
-  {
-    "id": "armor_bio_carbon_filament",
-    "type": "ARMOR",
-    "category": "armor",
-    "weight": "500 g",
-    "volume": "1200 ml",
-    "price": 0,
-    "price_postapoc": 0,
-    "symbol": ",",
-    "color": "brown",
-    "warmth": 0,
-    "environmental_protection": 1,
-    "material_thickness": 1.25,
-    "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "PADDED", "WATER_FRIENDLY", "SOFT", "NO_REPAIR", "ALLOWS_NATURAL_ATTACKS" ],
-    "material": [ "nanotubes" ],
-    "name": { "str_sp": "subdermal carbon filament" },
-    "description": "A layer of thin carbon nanotubes implanted in your skin.  Helps protect your vitals from laceration.",
-    "armor": [
-      {
-        "material": [
-          { "type": "nanotubes", "covered_by_mat": 100, "thickness": 1 },
-          { "type": "nanotubes", "covered_by_mat": 75, "thickness": 0.25 }
-        ],
-        "covers": [ "torso", "head", "mouth", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "foot_l", "foot_r" ],
-        "coverage": 100,
-        "encumbrance": 0,
-        "cover_vitals": 60
-      }
-    ]
   }
 ]
