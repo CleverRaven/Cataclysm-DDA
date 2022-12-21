@@ -899,32 +899,32 @@
   },
   {
     "id": "armor_bio_eyes",
-    "//": "These do not preclude wearing glasses, but you'll get double-up penalties.  If you really needed to you could likely still situate the lenses in front of them.  You should probably just augment your eyes though.",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str_sp": "protective lenses" },
-    "description": "Highly protective lenses which seal off your eyes from danger, routing your tear ducts to your mouth.",
+    "description": "Highly protective lenses made of aluminized polycarbonate which surgically seal off your eyes from danger, routing your tear ducts to your mouth.  They make you look intimidating too!",
     "weight": "180 g",
     "volume": "250 ml",
     "price": 0,
     "price_postapoc": 0,
     "to_hit": -2,
-    "material": [ "plastic", "lvl4ballisticglass" ],
+    "material": [ "plastic", "lvl4ballisticglass", "aluminum" ],
     "symbol": "[",
     "color": "dark_gray",
     "warmth": 5,
-    "material_thickness": 1.5,
+    "material_thickness": 1.2,
     "environmental_protection": 10,
-    "flags": [ "INTEGRATED", "UNBREAKABLE", "SKINTIGHT", "SOFT", "WATER_FRIENDLY", "SUN_GLASSES", "NO_REPAIR", "SWIM_GOGGLES" ],
+    "flags": [ "PERSONAL", "UNBREAKABLE", "SKINTIGHT", "SOFT", "WATER_FRIENDLY", "SUN_GLASSES", "NO_REPAIR", "SWIM_GOGGLES" ],
     "armor": [
       {
         "material": [
-          { "type": "plastic", "covered_by_mat": 100, "thickness": 0.5 },
+          { "type": "aluminum", "covered_by_mat": 100, "thickness": 0.1 },
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 0.1 },
           { "type": "lvl4ballisticglass", "covered_by_mat": 100, "thickness": 1.0 }
         ],
         "covers": [ "eyes" ],
         "coverage": 100,
-        "encumbrance": 5,
+        "encumbrance": 1,
         "rigid_layer_only": true,
         "cover_vitals": 90
       }
