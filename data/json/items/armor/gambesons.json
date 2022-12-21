@@ -255,7 +255,7 @@
     "color": "light_gray",
     "warmth": 60,
     "material_thickness": 7.5,
-    "flags": [ "VARSIZE", "STURDY", "BLOCK_WHEN_WORN" ],
+    "flags": [ "VARSIZE", "STURDY", "BLOCK_WHILE_WORN" ],
     "armor": [
       {
         "material": [
@@ -326,7 +326,7 @@
     "color": "light_gray",
     "warmth": 60,
     "material_thickness": 7.5,
-    "flags": [ "VARSIZE", "STURDY", "BLOCK_WHEN_WORN" ],
+    "flags": [ "VARSIZE", "STURDY", "BLOCK_WHILE_WORN" ],
     "armor": [
       {
         "material": [
@@ -393,7 +393,7 @@
     "color": "light_gray",
     "warmth": 60,
     "material_thickness": 7.5,
-    "flags": [ "VARSIZE", "STURDY", "BLOCK_WHEN_WORN" ],
+    "flags": [ "VARSIZE", "STURDY", "BLOCK_WHILE_WORN" ],
     "armor": [
       {
         "material": [
@@ -798,7 +798,7 @@
     "color": "light_gray",
     "warmth": 60,
     "material_thickness": 7.5,
-    "flags": [ "VARSIZE", "STURDY", "BLOCK_WHEN_WORN" ],
+    "flags": [ "VARSIZE", "STURDY", "BLOCK_WHILE_WORN" ],
     "armor": [
       {
         "material": [
@@ -869,7 +869,7 @@
     "color": "light_gray",
     "warmth": 60,
     "material_thickness": 7.5,
-    "flags": [ "VARSIZE", "STURDY", "BLOCK_WHEN_WORN" ],
+    "flags": [ "VARSIZE", "STURDY", "BLOCK_WHILE_WORN" ],
     "armor": [
       {
         "material": [
@@ -936,7 +936,7 @@
     "color": "light_gray",
     "warmth": 60,
     "material_thickness": 7.5,
-    "flags": [ "VARSIZE", "STURDY", "BLOCK_WHEN_WORN" ],
+    "flags": [ "VARSIZE", "STURDY", "BLOCK_WHILE_WORN" ],
     "armor": [
       {
         "material": [
