@@ -904,10 +904,10 @@
     "broken_color": "blue",
     "location": "structure",
     "damage_modifier": 80,
-    "durability": 500,
-    "description": "A military-grade ASRG covered in heavy plating.  Provides constant power when plugged in to your power grid.",
+    "durability": 400,
+    "description": "A military ASRG covered in heavy plating.  Provides constant power when plugged in to your power grid.",
     "epower": 130,
-    "size": "450 L",
+    "size": "150 L",
     "item": "compact_ASRG_containment",
     "requirements": {
       "repair": {
@@ -930,9 +930,9 @@
     "breaks_into": [
       { "item": "scrap", "count": [ 4, 16 ] },
       { "item": "steel_chunk", "count": [ 1, 6 ] },
-      { "item": "plutonium", "charges": [ 0, 3 ] },
+      { "item": "plutonium", "charges": [ 0, 2 ] },
       { "item": "lead", "charges": [ 12, 18 ] }
     ],
-    "damage_reduction": { "all": 80 }
+    "damage_reduction": { "all": 60 }
   }
 ]
