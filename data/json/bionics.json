@@ -1551,20 +1551,9 @@
     "type": "bionic",
     "name": { "str": "Integrated Multitool" },
     "description": "Surgically implanted in your hands and forearms is a set of compact tools and a welder that runs off your internal power banks.",
-    "occupied_bodyparts": [ [ "hand_l", 2 ], [ "hand_r", 2 ], [ "arm_l", 3 ], [ "arm_r", 3 ] ],
-    "toggled_pseudo_items": [ "toolset" ],
-    "included_bionics": [ "bio_tools_extend" ],
-    "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE", "USES_BIONIC_POWER" ],
-    "activated_on_install": true
-  },
-  {
-    "id": "bio_tools_extend",
-    "type": "bionic",
-    "name": { "str": "Extended Multitool" },
-    "description": "Extend or withdraw your integrated multitool to access its functions.  This takes up your hands.",
-    "fake_weapon": "toolset_extended",
-    "included": true,
-    "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON", "USES_BIONIC_POWER" ]
+    "occupied_bodyparts": [ [ "hand_l", 2 ], [ "hand_r", 2 ], [ "arm_l", 2 ], [ "arm_r", 2 ] ],
+    "passive_pseudo_items": [ "integrated_toolset" ],
+    "flags": [ "BIO_SHOCKPROOF", "BIONIC_NPC_USABLE" ]
   },
   {
     "id": "bio_torsionratchet",
