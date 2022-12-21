@@ -45,6 +45,7 @@
     "id": "ap_freezer",
     "name": { "str": "freezer" },
     "symbol": "H",
+    "looks_like": "f_fridge",
     "categories": [ "cargo" ],
     "color": "blue",
     "broken_symbol": "#",
