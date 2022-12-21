@@ -33,7 +33,17 @@
         "condition": { "npc_has_var": "mass_chem_tradeable", "type": "dialogue", "context": "trade", "value": "yes" }
       }
     ],
-    "shopkeeper_price_rules": [ { "group": "cabin_chemist_sell_trusted", "markup": 1.5 } ],
+    "shopkeeper_price_rules": [ 
+      { "item": "bandages", "premium": 2 },
+      { "item": "aspirin", "premium": 2 },
+      { "item": "gas_fungicidal", "premium": 1.3 },
+      { "item": "fungicide", "premium": 0.8 },
+      { "item": "disinfectant", "premium": 5 },
+      { "item": "antibiotics", "premium": 2 },
+      { "item": "antifungal", "premium": 2 },
+      { "item": "chem_black_powder", "premium": 1 },
+      { "item": "napalm", "premium": 0.5 }
+    ],
     "skills": [
       { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } },
       { "skill": "speech", "bonus": { "rng": [ 0, 2 ] } },

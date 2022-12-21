@@ -15,8 +15,8 @@
         "item": "aspirin",
         "container-item": "bottle_plastic_pill_prescription",
         "charges-min": 5,
-        "charges-max": 100,
-        "count": [ 1, 3 ]
+        "charges-max": 40,
+        "count": [ 1, 2 ]
       },
       { "item": "gas_fungicidal", "container-item": "jug_plastic", "charges": 1000, "count": [ 0, 2 ] },
       { "item": "fungicide", "container-item": "bottle_twoliter", "charges-min": 500, "count": [ 0, 2 ] },
@@ -25,20 +25,20 @@
         "item": "antibiotics",
         "container-item": "bottle_plastic_pill_prescription",
         "charges-min": 4,
-        "charges-max": 100,
+        "charges-max": 30,
         "count": [ 0, 3 ]
       },
       {
         "item": "antifungal",
         "container-item": "bottle_plastic_pill_prescription",
         "charges-min": 4,
-        "charges-max": 100,
+        "charges-max": 30,
         "count": [ 0, 3 ]
       },
       {
         "item": "chem_black_powder",
         "container-item": "jar_3l_glass_sealed",
-        "charges-min": 10000,
+        "charges-min": 8000,
         "count": [ 0, 2 ]
       },
       { "item": "napalm", "container-item": "jerrycan", "charges-min": 5000, "count": [ 0, 2 ] }
