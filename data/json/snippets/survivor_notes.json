@@ -688,7 +688,10 @@
         "id": "note_253",
         "text": "\"G, There's something not right with the forests here.  The ground there feels soft and is overgrown with some sort of mushrooms.  Be careful not to breathe in the dust they kick up, I accidentally took a whiff and have been coughing and vomiting since.  The map shows there's a cabin just outside town, I'll lay low  there until I feel better.  I'm almost home.  I know you will be waiting for me there.\""
       },
-      { "id": "msn_note_01", "text": "\"Killed my best friend yesterday, I can't beleive the world has come to this.\"" },
+      {
+        "id": "msn_note_01",
+        "text": "\"Killed my best friend yesterday, I can't beleive the world has come to this.\""
+      },
       {
         "id": "msn_note_02",
         "text": "\"Lindsay, meet us at Jason's house. Jason, the nut that he is, is going to set it on fire at midnight before we all make a break for it. He's convinced the monsters aren't afraid of fire, but DRAWN to it. If it works it's at least going to make one giant distraction. Let's hope it'll clear the entire block.\""
