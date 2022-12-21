@@ -1532,7 +1532,7 @@ std::vector<vehicle::rackable_vehicle> vehicle::find_vehicles_to_rack( int rack 
             for( const int &rack_part : filtered_rack ) {
                 const tripoint search_pos = global_part_pos3( rack_part ) + offset;
                 const optional_vpart_position ovp = get_map().veh_at( search_pos );
-                if( !ovp || &ovp->vehicle() == this ) {
+                if( !ovp || &ovp->vehicle() == this || ovp->vehicle().is_appliance() ) {
                     continue;
                 }
                 vehicle *const test_veh = &ovp->vehicle();
