@@ -191,6 +191,7 @@ void zone_type::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "id", id );
     optional( jo, was_loaded, "description", desc_, translation() );
     optional( jo, was_loaded, "can_be_personal", can_be_personal );
+    optional( jo, was_loaded, "hidden", hidden );
 }
 
 shared_ptr_fast<zone_options> zone_options::create( const zone_type_id &type )
@@ -559,8 +560,10 @@ cata::optional<zone_type_id> zone_manager::query_type( bool personal ) const
             }
         }
     } else {
-        std::copy( types.begin(), types.end(),
-                   std::back_inserter<std::vector<std::pair<zone_type_id, zone_type>>>( types_vec ) );
+        std::copy_if( types.begin(), types.end(), std::back_inserter( types_vec ),
+        []( std::pair<zone_type_id, zone_type> const & it ) {
+            return !it.first.is_valid() || !it.first->hidden;
+        } );
     }
     std::sort( types_vec.begin(), types_vec.end(),
     []( const std::pair<zone_type_id, zone_type> &lhs, const std::pair<zone_type_id, zone_type> &rhs ) {
