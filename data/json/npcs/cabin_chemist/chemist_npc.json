@@ -33,7 +33,7 @@
         "condition": { "npc_has_var": "mass_chem_tradeable", "type": "dialogue", "context": "trade", "value": "yes" }
       }
     ],
-    "shopkeeper_price_rules": [ 
+    "shopkeeper_price_rules": [
       { "item": "bandages", "premium": 2 },
       { "item": "aspirin", "premium": 2 },
       { "item": "gas_fungicidal", "premium": 1.3 },

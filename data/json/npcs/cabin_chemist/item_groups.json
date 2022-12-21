@@ -35,12 +35,7 @@
         "charges-max": 30,
         "count": [ 0, 3 ]
       },
-      {
-        "item": "chem_black_powder",
-        "container-item": "jar_3l_glass_sealed",
-        "charges-min": 8000,
-        "count": [ 0, 2 ]
-      },
+      { "item": "chem_black_powder", "container-item": "jar_3l_glass_sealed", "charges-min": 8000, "count": [ 0, 2 ] },
       { "item": "napalm", "container-item": "jerrycan", "charges-min": 5000, "count": [ 0, 2 ] }
     ]
   }
