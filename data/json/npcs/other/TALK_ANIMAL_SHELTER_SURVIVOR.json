@@ -47,12 +47,6 @@
         "topic": "TALK_NPC_ANIMAL_SHELTER_SURVIVOR_INTRO",
         "effect": "start_trade"
       },
-      {
-        "text": "Why don't you come with me?",
-        "trial": { "type": "PERSUADE", "difficulty": 15, "mod": [ [ "value", 2 ] ] },
-        "success": { "topic": "TALK_AGREE_FOLLOW", "effect": "follow", "opinion": { "trust": 1, "value": 1 } },
-        "failure": { "topic": "TALK_DENY_FOLLOW", "effect": "deny_follow", "opinion": { "trust": 0, "fear": 0 } }
-      },
       { "text": "Could I buy one of your pets?", "topic": "TALK_NPC_ANIMAL_SHELTER_SURVIVOR_BUY_PETS" },
       {
         "text": "Any jobs you need done?",
@@ -77,12 +71,6 @@
         "effect": "start_trade"
       },
       {
-        "text": "Why don't you come with me?",
-        "trial": { "type": "PERSUADE", "difficulty": -15, "mod": [ [ "value", 2 ] ] },
-        "success": { "topic": "TALK_AGREE_FOLLOW", "effect": "follow", "opinion": { "trust": 1, "value": 1 } },
-        "failure": { "topic": "TALK_DENY_FOLLOW", "effect": "deny_follow", "opinion": { "trust": 0, "fear": 0 } }
-      },
-      {
         "text": "Any jobs you need done?",
         "condition": { "and": [ { "not": "has_assigned_mission" }, { "not": "has_many_assigned_missions" } ] },
         "topic": "TALK_MISSION_LIST"
@@ -100,12 +88,6 @@
         "text": "Wanna buy something, maybe sell off what you don't need?",
         "topic": "TALK_NPC_ANIMAL_SHELTER_SURVIVOR_INTRO",
         "effect": "start_trade"
-      },
-      {
-        "text": "Why don't you come with me?",
-        "trial": { "type": "PERSUADE", "difficulty": -15, "mod": [ [ "value", 2 ] ] },
-        "success": { "topic": "TALK_AGREE_FOLLOW", "effect": "follow", "opinion": { "trust": 1, "value": 1 } },
-        "failure": { "topic": "TALK_DENY_FOLLOW", "effect": "deny_follow", "opinion": { "trust": 0, "fear": 0 } }
       },
       {
         "text": "Any jobs you need done?",
