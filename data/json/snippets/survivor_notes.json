@@ -687,6 +687,166 @@
       {
         "id": "note_253",
         "text": "\"G, There's something not right with the forests here.  The ground there feels soft and is overgrown with some sort of mushrooms.  Be careful not to breathe in the dust they kick up, I accidentally took a whiff and have been coughing and vomiting since.  The map shows there's a cabin just outside town, I'll lay low  there until I feel better.  I'm almost home.  I know you will be waiting for me there.\""
+      },
+      { "id": "msn_note_01", "text": "\"Killed my best friend yesterday, I can't beleive the world has come to this.\"" },
+      {
+        "id": "msn_note_02",
+        "text": "\"Lindsay, meet us at Jason's house. Jason, the nut that he is, is going to set it on fire at midnight before we all make a break for it. He's convinced the monsters aren't afraid of fire, but DRAWN to it. If it works it's at least going to make one giant distraction. Let's hope it'll clear the entire block.\""
+      },
+      {
+        "id": "msn_note_03",
+        "text": "\"Jason, get all the dryfood out of the kitchen before you... burn everything. And stuff your belly full of anything that's going to go bad soon. -Mom\""
+      },
+      {
+        "id": "msn_note_04",
+        "text": "\"...and remember: Do the math. Your life depends on it. If you have 30 rounds in a rifle, you can take down maybe 10 zombies with it if you're a good shot... and lucky. Can you kill one of those things with 3 rounds?\""
+      },
+      {
+        "id": "msn_note_05",
+        "text": "\"Dad said something about a bear trap and a tear gas grenade. I... I think he's going to trap and gas that freak moose out on the street. It'll give us meat for weeks if we use the dehydrator. He hasn't come back though...\""
+      },
+      {
+        "id": "msn_note_06",
+        "text": "\"Honey, we're going to hole up in the garage for a day before we make a break for it out of the city. If we try to plow through the horde, I fear the car won't stand ten seconds. I'm going to move the engine to the back, and maybe the fuel tank too... add some plating to the front... Maybe reinforce the windows. The modifications are going to take at least a day. Find my caffeine pills. I may not get any sleep in the next 36 hours.\""
+      },
+      {
+        "id": "msn_note_07",
+        "text": "\"Remember to carry some desinfectant. I ran out, a lighter and a knife had to do in a pinch.\""
+      },
+      {
+        "id": "msn_note_08",
+        "text": "\"[Part of the note is unintelligible] ... I believe these things can't see well at night either. If you're quiet you might just pass a horde.\""
+      },
+      { "id": "msn_note_09", "text": "\"I doubt they can smell anything if you light some tires on fire\"" },
+      {
+        "id": "msn_note_10",
+        "text": "\"Remember when I told you about that moose coming right at me last year? Try shouting at them\""
+      },
+      {
+        "id": "msn_note_11",
+        "text": "\"Look, I know they look like kids, but you gotta take 'em out. You'll get used to it, just like I have. Remember, those things aren't human anymore.\""
+      },
+      {
+        "id": "msn_note_12",
+        "text": "\"Always plan ahead, never sleep in a place that has only one exit. Lost a good friend to a bad decision.\""
+      },
+      {
+        "id": "msn_note_13",
+        "text": "\"If you're planning on using a building for a temporary stash, might be a good idea to open and close the windows. Sure, having unlocked windows might seem unsafe, but if I'm trying to sneak back in while some Zed's are wandering near the door, you'll thank me later for the quiet entrance.\""
+      },
+      {
+        "id": "msn_note_14",
+        "text": "\"Mama always used to say life was like a box of chocolates, sometimes it gives you radiation poisoning.\""
+      },
+      {
+        "id": "msn_note_15",
+        "text": "\"I don't know if we each have a destiny, or if we're all just floatin' around accidental-like on a breeze, but I, I think maybe it's both. Maybe both is happenin' at the same time. I mid'ha ate too many of them hallucina'gan mushroms.\""
+      },
+      {
+        "id": "msn_note_16",
+        "//": "Thanks to Lorith for helping me by providing this snippet idea.",
+        "text": "\"I swear I am not drunk, but I just saw a bear riding a motorcycle.\""
+      },
+      {
+        "id": "msn_note_17",
+        "//": "Thanks to Lorith for helping me by providing this snippet idea.",
+        "text": "\"Heard noises outside.  Saw giant scrapheap move by.  Not going out, nope, never.\""
+      },
+      {
+        "id": "msn_note_18",
+        "//": "Thanks to Lorith for helping me by providing this snippet idea.",
+        "text": "\"I thought it was a zombie, but there was this thing in the distance, looked like nothing but metal parts stuck together.  A zombie attacked it and it spewed lightning all over, then sprouted blades and minced it.  Not going out, nuh uh.\""
+      },
+      {
+        "id": "msn_note_20",
+        "//": "Thanks to Vetulus for helping me by providing this snippet idea.",
+        "text": "\"Why are their so many fucking giant spiders?\""
+      },
+      {
+        "id": "msn_note_21",
+        "//": "Thanks to Vetulus for helping me by providing this snippet idea.",
+        "text": "\"Partake of the fruit, eat the seed, accept the sap\""
+      },
+      {
+        "id": "msn_note_22",
+        "//": "It's actually a thing to say 'You can't draw blood from a stone' - http://www.phrases.org.uk/meanings/you-cant-get-blood-out-of-a-stone.html",
+        "text": "\"I saw a rock moving, I took out my blood draw kit then drew blood from it.  Fuck you Vicesimus Knox!\""
+      },
+      {
+        "id": "msn_note_23",
+        "//": "Thanks to Lorith for helping me by providing this snippet idea.",
+        "text": "\"I knew I shoulda killed that spider in the basement.  Now there is a mob of giant spiders.  Fuck this place.\""
+      },
+      {
+        "id": "msn_note_24",
+        "//": "Thanks to Vetulus for helping me by providing this snippet idea.",
+        "text": "\"Do not go in the fucking basement my dude.\""
+      },
+      {
+        "id": "msn_note_25",
+        "//": "Thanks to Vetulus for helping me by providing this snippet idea.",
+        "text": "\"Call me at: 0406 650 430\""
+      },
+      {
+        "id": "msn_note_26",
+        "//": "Thanks to Lorith for helping me by providing this snippet idea.",
+        "text": "\"Fuck, I don't think this bug spray is going to work.\""
+      },
+      {
+        "id": "msn_note_27",
+        "//": "Thanks to 'TooFewSecrets' for helping me by providing this snippet idea.",
+        "text": "\"Those spores don't burn, but the rest of the mushrooms sure as Hell do.\""
+      },
+      {
+        "id": "msn_note_28",
+        "//": "Thanks to Aeron for helping me by providing this snippet idea.",
+        "text": "\"I saw some naked guy try to fistfight a hulk the other day. He died, but someone who looked EXACTLY like him came by 5 minutes later attempting the same exact thing. What the hell's going on there?\""
+      },
+      {
+        "id": "msn_note_29",
+        "//": "Thanks to Vetulus for helping me by providing this snippet idea.",
+        "text": "\"If by all laws of aviation a normal bee shouldn’t be able to fly, then how the fuck does a giant one?\""
+      },
+      {
+        "id": "msn_note_30",
+        "//": "Thanks to Lorith for helping me by providing this snippet idea.",
+        "text": "\"There was a turret on the corner yesterday.  I watched fifty people who looked the same run right up to it yelling \"SHOOT ME BITCH!\" before the last one punched it and died when it exploded.  Not five minutes later, another ran through the intersection like he knew it was safe.\""
+      },
+      {
+        "id": "msn_note_31",
+        "//": "Thanks to 'DracoGriffen' for helping me by providing this snippet idea.",
+        "text": "\"I keep having the same dream over and over: here I am slaughtering this electrified zombie, heaps of flesh gouged out, putrified goo and parts filling my hands, slopping against my clothes and face. I can feel the sweat pouring down my cheeks and my back, and every time I pull out some sort of burnt out bionic. Sometimes I find a battery, or if I'm really lucky, I'll find some really extravagant gizmo and I wake up from the dream.\""
+      },
+      { "id": "msn_note_32", "text": "\"My mama always used to says \"stupid is as stupid does.\"\"" },
+      {
+        "id": "msn_note_33",
+        "//": "I'm pretty proud of this one.",
+        "text": "\"There was a man who I met today, he told me his name was Forest.  He talked funny, just after we got acquainted a group of people on bikes came by and he started a' runnin'.  I don't know why but I got this urge to yell, so I did. I yelled \"Run Forest! Run!\" at the top of my lungs.  Just then after I finished yellin' I saw one of them pull out a rifle of sorts and shoot his right in the ass, I heard him yell \"Somethin' dun' jumped up and bit me!\".  That was the last I saw of that man, but to this day if I ever see someone a runnin' I get up and shout \"Run Forest! Run!\" like something just comes over me..."
+      },
+      {
+        "id": "msn_note_34",
+        "//": "Previous story but from Forest's perspective.",
+        "text": "\"I was a chattin' with a man a whiles ago, he was a nic-a person.  Then these people on bikes came and chased after me, I rans and rans but then I felt somethin' a jump up and bite me, I yelled about it to. That nic man was rootin for me-I think. He'd a yell \"Run Forest! Run, and never stop a-runnin.\""
+      },
+      {
+        "id": "msn_note_35",
+        "text": "\"I used to be in the army.  The Army was real easy. You just have to stand up straight, make your bed real neat, and always answer every question with \"Yes, Drill Seargent!\".\""
+      },
+      {
+        "id": "msn_note_36",
+        "text": "\"There was a man, he was protestin' this war with China.  He'd always be yellin' and-a using the \"F\" word, and every time he did a crowd of people would whistle and a-clap for him.\""
+      },
+      {
+        "id": "msn_note_37",
+        "text": "\"... But in the army we were always takin' long walks and we were always lookin' for a guy named Charlie?\""
+      },
+      {
+        "id": "msn_note_38",
+        "text": "\"When I joined the army I had to get up on this a-bus, I walked up to the driver and said \"My name'sa Forrest Gump!\". He said to me in a loud voice, \"Nobody gives a hunky shit who you are, pus ball. You're not even a low-life, scum-sucking maggot. Get your ass on the bus, you're in the army now!\" He was a nice man, he always yelled a lot thoug.\""
+      },
+      {
+        "id": "msn_note_39",
+        "text": "\"In the army I used to have a friend named Bubba, he wanted to be a shrimp boat captian.  Instead he died right there by the ocean over in Vietnam.\""
       }
     ]
   }
