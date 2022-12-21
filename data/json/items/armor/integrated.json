@@ -914,7 +914,7 @@
     "warmth": 5,
     "material_thickness": 1.2,
     "environmental_protection": 10,
-    "flags": [ "PERSONAL", "UNBREAKABLE", "SKINTIGHT", "SOFT", "WATER_FRIENDLY", "SUN_GLASSES", "NO_REPAIR", "SWIM_GOGGLES" ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "SOFT", "WATER_FRIENDLY", "SUN_GLASSES", "NO_REPAIR", "SWIM_GOGGLES" ],
     "armor": [
       {
         "material": [
