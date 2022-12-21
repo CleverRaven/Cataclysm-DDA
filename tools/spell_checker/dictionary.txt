@@ -448,6 +448,7 @@ chaotically
 chaplet
 chasin
 chasmosaurus
+chattin
 chaturanga
 chausses
 cheapshot
@@ -988,6 +989,7 @@ flightworthy
 flim
 flintknapping
 flippin
+floatin
 floppies
 flours
 floury
@@ -1187,6 +1189,7 @@ handloading
 hanmi
 haori
 haplocanthosaurus
+happenin
 haptic
 hardbound
 hardhat
@@ -2103,6 +2106,7 @@ prosaurolophus
 prosaurulophus
 protectiveness
 proten
+protestin
 prototyping
 protuberances
 prybar
@@ -2134,6 +2138,7 @@ purviews
 pushmower
 pussywillows
 putrescent
+putrified
 pwn
 pyrolusite
 pyrolysis
@@ -2174,6 +2179,7 @@ rainsuit
 randomize
 randomizes
 rangehands
+rans
 raptorial
 rashguard
 rashy
@@ -2293,6 +2299,7 @@ roleplaying
 rollerskates
 rollmat
 roofless
+rootin
 rootlike
 ropy
 rothe
@@ -3042,6 +3049,7 @@ yarker
 yarkin
 yateveo
 yd
+yellin
 yellowjacket
 yme
 ynn
