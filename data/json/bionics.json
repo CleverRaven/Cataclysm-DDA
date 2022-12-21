@@ -531,7 +531,7 @@
     "id": "bio_carbon",
     "type": "bionic",
     "name": { "str": "Subdermal Carbon Filament" },
-    "description": "Lying just beneath your skin is a thin armor made of carbon nanotubes.  This has little impact on blunt trauma but will protect you against deep cuts.",
+    "description": "Lying just beneath your skin is a thin armor made of carbon nanotubes, providing minor protection against bashing attacks and decent protection against cuts.",
     "occupied_bodyparts": [
       [ "torso", 6 ],
       [ "head", 2 ],
@@ -546,7 +546,43 @@
       [ "mouth", 1 ]
     ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
-    "passive_pseudo_items": [ "armor_bio_carbon_filament" ]
+    "bash_protec": [
+      [ "torso", 2 ],
+      [ "head", 2 ],
+      [ "mouth", 2 ],
+      [ "arm_r", 2 ],
+      [ "leg_l", 2 ],
+      [ "leg_r", 2 ],
+      [ "foot_l", 2 ],
+      [ "foot_r", 2 ],
+      [ "hand_l", 2 ],
+      [ "hand_r", 2 ]
+    ],
+    "cut_protec": [
+      [ "torso", 4 ],
+      [ "head", 4 ],
+      [ "mouth", 4 ],
+      [ "arm_l", 4 ],
+      [ "arm_r", 4 ],
+      [ "leg_l", 4 ],
+      [ "leg_r", 4 ],
+      [ "foot_l", 4 ],
+      [ "foot_r", 4 ],
+      [ "hand_l", 4 ],
+      [ "hand_r", 4 ]
+    ],
+    "bullet_protec": [
+      [ "torso", 4 ],
+      [ "head", 4 ],
+      [ "mouth", 4 ],
+      [ "arm_r", 4 ],
+      [ "leg_l", 4 ],
+      [ "leg_r", 4 ],
+      [ "foot_l", 4 ],
+      [ "foot_r", 4 ],
+      [ "hand_l", 4 ],
+      [ "hand_r", 4 ]
+    ]
   },
   {
     "id": "bio_chain_lightning",
