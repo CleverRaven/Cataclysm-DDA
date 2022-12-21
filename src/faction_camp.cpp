@@ -1928,7 +1928,7 @@ void basecamp::scan_pseudo_items()
             }
 
             if( expansion_map.veh_at( pos ).has_value() &&
-                expansion_map.veh_at( pos )->vehicle().has_tag( "APPLIANCE" ) ) {
+                expansion_map.veh_at( pos )->vehicle().is_appliance() ) {
                 const std::vector<std::pair<itype_id, int>> tools =
                             expansion_map.veh_at( pos )->part_displayed().value().get_tools();
 

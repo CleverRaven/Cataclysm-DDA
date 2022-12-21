@@ -1509,7 +1509,7 @@ void construct::done_wiring( const tripoint_bub_ms &p, Character &/*who*/ )
             continue;
         }
         const vehicle &veh_target = vp->vehicle();
-        if( veh_target.has_tag( flag_APPLIANCE ) || veh_target.has_tag( flag_WIRING ) ) {
+        if( veh_target.is_appliance() || veh_target.has_tag( flag_WIRING ) ) {
             if( connected_vehicles.find( &veh_target ) == connected_vehicles.end() ) {
                 // TODO: fix point types
                 veh->connect( p.raw(), trip.raw() );

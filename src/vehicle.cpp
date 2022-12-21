@@ -1432,6 +1432,11 @@ bool vehicle::is_connected( const vehicle_part &to, const vehicle_part &from,
     return false;
 }
 
+bool vehicle::is_appliance() const
+{
+    return has_tag( flag_APPLIANCE );
+}
+
 /**
  * Installs a part into this vehicle.
  * @param dp The coordinate of where to install the part.
@@ -6044,7 +6049,7 @@ void vehicle::refresh( const bool remove_fakes )
     };
     // re-install fake parts - this could be done in a separate function, but we want to
     // guarantee that the fake parts were removed before being added
-    if( remove_fakes && !has_tag( "wreckage" ) && !has_tag( "APPLIANCE" ) ) {
+    if( remove_fakes && !has_tag( "wreckage" ) && !is_appliance() ) {
         // add all the obstacles first
         for( const std::pair <const point, std::vector<int>> &rp : relative_parts ) {
             add_fake_part( rp.first, "OBSTACLE" );
@@ -7144,7 +7149,7 @@ std::list<item *> vehicle::fuel_items_left()
 
 bool vehicle::is_foldable() const
 {
-    if( has_tag( flag_APPLIANCE ) ) {
+    if( is_appliance() ) {
         return false;
     }
     for( const vehicle_part &vp : real_parts() ) {
