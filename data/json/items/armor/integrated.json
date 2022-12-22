@@ -973,7 +973,17 @@
     "warmth": 0,
     "environmental_protection": 1,
     "material_thickness": 0.5,
-    "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY", "SOFT", "NO_REPAIR", "ALLOWS_NATURAL_ATTACKS", "TRADER_AVOID", "USES_BIONIC_POWER" ],
+    "flags": [
+      "INTEGRATED",
+      "UNBREAKABLE",
+      "PERSONAL",
+      "WATER_FRIENDLY",
+      "SOFT",
+      "NO_REPAIR",
+      "ALLOWS_NATURAL_ATTACKS",
+      "TRADER_AVOID",
+      "USES_BIONIC_POWER"
+    ],
     "material": [ "superalloy", "copper" ],
     "name": { "str_sp": "integrated bionic toolset" },
     "description": "Integrated bionic tools implanted in your fingers.",
