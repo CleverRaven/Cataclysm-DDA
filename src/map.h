@@ -1293,10 +1293,11 @@ class map
         }
 
         /**
-         * Checks for SPAWN_CHANCE_FOO external option (where FOO corresponds to category of @param itm).
-         * If random roll (1..100) is less than or equal to the option value, the item can be spawned, and function returns true.
+         * Checks for spawn_rate value for item category of 'itm'.
+         * If spawn_rate is less than 1.0, it will make a random roll (0.1-1.0) to check if the item will have a chance to spawn.
+         * If spawn_rate is more than or equal to 1.0, it will make item spawn that many times (using roll_remainder).
         */
-        bool check_for_spawn_chance( const item &itm );
+        float item_category_spawn_rate( const item &itm );
 
         /**
          * Place an item on the map, despite the parameter name, this is not necessarily a new item.

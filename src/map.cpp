@@ -4727,11 +4727,9 @@ std::vector<item *> map::spawn_items( const tripoint &p, const std::vector<item>
         if( new_item.made_of( phase_id::LIQUID ) && swimmable ) {
             continue;
         }
-        if( check_for_spawn_chance( new_item ) ) {
-            item &it = add_item_or_charges( p, new_item );
-            if( !it.is_null() ) {
-                ret.push_back( &it );
-            }
+        item &it = add_item_or_charges( p, new_item );
+        if( !it.is_null() ) {
+            ret.push_back( &it );
         }
     }
 
@@ -4930,10 +4928,12 @@ item &map::add_item_or_charges( const tripoint_bub_ms &pos, item obj, bool overf
     return add_item_or_charges( pos.raw(), std::move( obj ), overflow );
 }
 
-bool map::check_for_spawn_chance( const item &itm )
+float map::item_category_spawn_rate( const item &itm )
 {
     const item_category_id &cat = itm.get_category_of_contents().id;
-    return rng( 1, 100 ) <= clamp( cat.obj().get_spawn_chance(), 0, 100 );
+    const float spawn_rate = cat.obj().get_spawn_rate();
+
+    return spawn_rate > 1.0f ? roll_remainder( spawn_rate ) : spawn_rate;
 }
 
 item &map::add_item( const tripoint &p, item new_item )

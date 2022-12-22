@@ -1170,7 +1170,7 @@ When you sort your inventory by category, these are the categories that are disp
 | zone            | The corresponding loot_zone (see loot_zones.json)
 | sort_rank       | Used to sort categories when displaying.  Lower values are shown first
 | priority_zones  | When set, items in this category will be sorted to the priority zone if the conditions are met. If the user does not have the priority zone in the zone manager, the items get sorted into zone set in the 'zone' property. It is a list of objects. Each object has 3 properties: ID: The id of a LOOT_ZONE (see LOOT_ZONES.json), filthy: boolean. setting this means filthy items of this category will be sorted to the priority zone, flags: array of flags
-|spawn_chance     | Sets a global spawn chance for items from this category.  If random roll (1..100) is less than or equal to this value, the item can be spawned at all. Note that item's actual chance to spawn in some location of game world is defined through other means (e.g. use of item groups in mapgen for this location).
+|spawn_rate       | Sets amount of items from item category that might spawn.  Checks for `spawn_rate` value for item category.  If `spawn_chance` is less than 1.0, it will make a random roll (0.1-1.0) to check if the item will have a chance to spawn.  If `spawn_chance` is more than or equal to 1.0, it will add a chance to spawn additional items from the same category.  Items will be taken from item group which original item was located in.  Therefore this parameter won't affect chance to spawn additional items for items set to spawn solitary in mapgen (e.g. through use of `item` or `place_item`).
 
 ```C++
 {
@@ -1179,7 +1179,7 @@ When you sort your inventory by category, these are the categories that are disp
     "zone": "LOOT_ARMOR",
     "sort_rank": -21,
     "priority_zones": [ { "id": "LOOT_FARMOR", "filthy": true, "flags": [ "RAINPROOF" ] } ],
-    "spawn_chance": 50
+    "spawn_rate": 0.5
 }
 ```
 
