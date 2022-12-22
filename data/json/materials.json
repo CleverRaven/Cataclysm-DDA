@@ -2878,7 +2878,7 @@
     "bullet_resist": 4,
     "acid_resist": 5,
     "soft": true,
-    "breathability": "SECOND_SKIN",
+    "breathability": "GOOD",
     "fire_resist": 3,
     "conductive": true,
     "chip_resist": 20,
