@@ -341,6 +341,6 @@
     "price_postapoc": 12000,
     "symbol": "O",
     "color": "green_white",
-    "flags": [ "LEAK_DAM", "NO_SALVAGE" ]
+    "flags": [ "NO_SALVAGE" ]
   }
 ]
