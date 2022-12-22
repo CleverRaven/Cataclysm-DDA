@@ -961,7 +961,7 @@
     ]
   },
   {
-    "id": "integrated_toolset_item",
+    "id": "toolset",
     "type": "ARMOR",
     "category": "armor",
     "weight": "200 g",
