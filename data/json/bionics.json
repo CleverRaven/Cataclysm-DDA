@@ -531,7 +531,7 @@
     "id": "bio_carbon",
     "type": "bionic",
     "name": { "str": "Subdermal Carbon Filament" },
-    "description": "Lying just beneath your skin is a thin armor made of carbon nanotubes, providing minor protection against bashing attacks and decent protection against cuts.",
+    "description": "Lying just beneath your skin is a thin armor made of carbon nanotubes.  This has little impact on blunt trauma but will protect you against deep cuts.",
     "occupied_bodyparts": [
       [ "torso", 6 ],
       [ "head", 2 ],
