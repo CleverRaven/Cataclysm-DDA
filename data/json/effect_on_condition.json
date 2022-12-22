@@ -483,5 +483,58 @@
         }
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MISSION_GET_DRIVEBELTS_done",
+    "global": true,
+    "condition": { "u_has_items": { "item": "drivebelt", "count": 3 } },
+    "effect": [ { "u_sell_item": "drivebelt", "count": 3 } ],
+    "false_effect": [ { "u_sell_item": "drivebelt_makeshift", "count": 3 } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MISSION_LUMBERMILL_GET_6_BLANKETS_done",
+    "global": true,
+    "condition": {
+      "or": [
+        { "u_has_items": { "item": "blanket", "count": 6 } },
+        { "u_has_items": { "item": "fur_blanket", "count": 6 } },
+        { "u_has_items": { "item": "electric_blanket", "count": 6 } },
+        { "u_has_items": { "item": "quilt", "count": 6 } },
+        { "u_has_items": { "item": "quilt_patchwork", "count": 6 } }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "sell_blanket",
+            "condition": { "u_has_items": { "item": "blanket", "count": 6 } },
+            "effect": { "u_sell_item": "blanket", "count": 6 }
+          },
+          {
+            "id": "sell_fur_blanket",
+            "condition": { "u_has_items": { "item": "fur_blanket", "count": 6 } },
+            "effect": { "u_sell_item": "fur_blanket", "count": 6 }
+          },
+          {
+            "id": "sell_electric_blanket",
+            "condition": { "u_has_items": { "item": "electric_blanket", "count": 6 } },
+            "effect": { "u_sell_item": "electric_blanket", "count": 6 }
+          },
+          {
+            "id": "sell_quilt",
+            "condition": { "u_has_items": { "item": "quilt", "count": 6 } },
+            "effect": { "u_sell_item": "quilt", "count": 6 }
+          },
+          {
+            "id": "sell_quilt_patchwork",
+            "condition": { "u_has_items": { "item": "quilt_patchwork", "count": 6 } },
+            "effect": { "u_sell_item": "quilt_patchwork", "count": 6 }
+          }
+        ]
+      }
+    ]
   }
 ]

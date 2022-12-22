@@ -77,6 +77,7 @@ static const efftype_id effect_ridden( "ridden" );
 
 static const itype_id itype_corpse( "corpse" );
 static const trait_id trait_INATTENTIVE( "INATTENTIVE" );
+static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 
 static const std::string ITEM_HIGHLIGHT( "highlight_item" );
 static const std::string ZOMBIE_REVIVAL_INDICATOR( "zombie_revival_indicator" );
@@ -1578,8 +1579,8 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
 
             draw_points.emplace_back( pos, height_3d, ll, invisible );
         }
-        const std::array<decltype( &cata_tiles::draw_furniture ), 12> drawing_layers = {{
-                &cata_tiles::draw_furniture, &cata_tiles::draw_graffiti, &cata_tiles::draw_trap,
+        const std::array<decltype( &cata_tiles::draw_furniture ), 13> drawing_layers = {{
+                &cata_tiles::draw_furniture, &cata_tiles::draw_graffiti, &cata_tiles::draw_trap, &cata_tiles::draw_part_con,
                 &cata_tiles::draw_field_or_item, &cata_tiles::draw_vpart_below,
                 &cata_tiles::draw_critter_at_below, &cata_tiles::draw_terrain_below,
                 &cata_tiles::draw_vpart_no_roof, &cata_tiles::draw_vpart_roof,
@@ -1677,6 +1678,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
             if( here.check_seen_cache( p ) ) {
                 draw_furniture( p, lighting, height_3d, invisible );
                 draw_trap( p, lighting, height_3d, invisible );
+                draw_part_con( p, lighting, height_3d, invisible );
                 draw_vpart_no_roof( p, lighting, height_3d, invisible );
                 draw_vpart_roof( p, lighting, height_3d, invisible );
                 here.check_and_set_seen_cache( p );
@@ -3080,6 +3082,23 @@ bool cata_tiles::draw_trap( const tripoint &p, const lit_level ll, int &height_3
         return draw_from_id_string(
                    t.tile, TILE_CATEGORY::TRAP, empty_string, p, t.subtile, t.rotation,
                    lit_level::MEMORIZED, nv_goggles_activated, height_3d );
+    }
+    return false;
+}
+
+bool cata_tiles::draw_part_con( const tripoint &p, const lit_level ll, int &height_3d,
+                                const std::array<bool, 5> &invisible )
+{
+    map &here = get_map();
+    // FIXME: fix tripoint type
+    if( here.partial_con_at( tripoint_bub_ms( p ) ) != nullptr && !invisible[0] ) {
+        avatar &you = get_avatar();
+        std::string const &trname = tr_unfinished_construction.str();;
+        if( here.check_seen_cache( p ) ) {
+            you.memorize_tile( here.getabs( p ), trname, 0, 0 );
+        }
+        return draw_from_id_string( trname, TILE_CATEGORY::TRAP, empty_string, p, 0,
+                                    0, ll, nv_goggles_activated, height_3d );
     }
     return false;
 }

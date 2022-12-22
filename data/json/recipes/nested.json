@@ -3814,7 +3814,6 @@
     "description": "Recipes related to constructing long cordage ropes.",
     "skill_used": "tailor",
     "nested_category_data": [
-      "rope_makeshift_30",
       "rope_makeshift_30_spinwheel_cordages",
       "rope_makeshift_30_electric_spinwheel_cordages",
       "rope_makeshift_30_from_rope_makeshift_6",
