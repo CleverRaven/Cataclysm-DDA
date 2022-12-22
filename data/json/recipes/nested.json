@@ -4272,7 +4272,7 @@
     "subcategory": "CSC_ARMOR_TORSO",
     "name": "canvas aketons",
     "description": "Recipes related to canvas cloth armor meant to be worn under other armor.",
-    "skill_used": "tailoring",
+    "skill_used": "tailor",
     "nested_category_data": [
       "aketon_canvas_layered",
       "aketon_canvas_layered_vest",
@@ -4291,7 +4291,7 @@
     "subcategory": "CSC_ARMOR_TORSO",
     "name": "canvas gambesons",
     "description": "Recipes related to thicker canvas cloth armor meant to be worn standalone.",
-    "skill_used": "tailoring",
+    "skill_used": "tailor",
     "nested_category_data": [
       "gambeson_canvas_layered",
       "gambeson_canvas_layered_thinsleeved",
@@ -4313,7 +4313,7 @@
     "subcategory": "CSC_ARMOR_LEGS",
     "name": "canvas arming pants",
     "description": "Recipes related to armored cloth pants made of canvas.",
-    "skill_used": "tailoring",
+    "skill_used": "tailor",
     "nested_category_data": [
       "aketon_pants_canvas_layered",
       "gambeson_pants_canvas_layered",
@@ -4332,7 +4332,7 @@
     "subcategory": "CSC_ARMOR_HANDS",
     "name": "canvas arming gloves",
     "description": "Recipes related to armored cloth gloves made of canvas.",
-    "skill_used": "tailoring",
+    "skill_used": "tailor",
     "nested_category_data": [
       "aketon_gloves_canvas_layered",
       "gambeson_gloves_canvas_layered",
@@ -4351,7 +4351,7 @@
     "subcategory": "CSC_ARMOR_HEAD",
     "name": "canvas coifs",
     "description": "Recipes related to armored cloth hoods made of canvas.",
-    "skill_used": "tailoring",
+    "skill_used": "tailor",
     "nested_category_data": [ "aketon_hood_canvas_layered", "xl_aketon_hood_canvas_layered", "xl_aketon_hood_canvas_layered" ],
     "difficulty": 3
   },
