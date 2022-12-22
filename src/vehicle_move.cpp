@@ -2146,7 +2146,7 @@ units::angle map::shake_vehicle( vehicle &veh, const int velocity_before,
             throw_from_seat = d_vel * rng( 80, 120 ) > move_resist;
         } else {
             // Reduce potential damage based on quality of seatbelt
-            dmg -= veh.part_info( veh.part_with_feature( ps, "SEATBELT", true ) ).bonus;
+            dmg -= veh.part_info( veh.part_with_feature( ps, VPFLAG_SEATBELT, true ) ).bonus;
         }
 
         // Damage passengers if d_vel is too high
