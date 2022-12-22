@@ -30,8 +30,7 @@
         "menu_text": "Activate torch mode",
         "moves": 150
       },
-      { "type": "firestarter" },
-      { "flame": false, "type": "cauterize" }
+      { "type": "firestarter" }
     ]
   },
   {
@@ -153,6 +152,7 @@
           "kevlar_layered",
           "neoprene",
           "gutskin",
+          "canvas",
           "black_dragon_hide",
           "demon_chitin"
         ],

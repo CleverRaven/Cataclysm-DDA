@@ -203,6 +203,7 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "attackcost_modifier": 0.9,                 // Attack cost modifier (0.9 is 10% faster, 1.1 is 10% slower).
   "movecost_modifier": 0.9,                   // Overall movement speed cost modifier (0.9 is 10% faster, 1.1 is 10% slower).
   "movecost_flatground_modifier": 0.9,        // Movement speed cost modifier on flat terrain, free from obstacles (0.9 is 10% faster, 1.1 is 10% slower).
+  "movecost_obstacle_modifier": 0.9,          // Movement speed cost modifier on rough, uneven terrain (0.9 is 10% faster, 1.1 is 10% slower).
   "movecost_swim_modifier": 0.9,              // Swimming speed cost modifier (0.9 is 10% faster, 1.1 is 10% slower).
   "weight_capacity_modifier": 0.9             // Carrying capacity modifier (0.9 is 10% less, 1.1 is 10% more).
   "social_modifiers": { "persuade": -10 },    // Social modifiers.  Can be: intimidate, lie, persuade.

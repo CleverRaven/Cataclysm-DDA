@@ -382,6 +382,10 @@ void monster::try_upgrade( bool pin_time )
         }
 
         if( type->upgrade_into ) {
+            //If we upgrade into a blacklisted monster, treat it as though we are non-upgradeable
+            if( MonsterGroupManager::monster_is_blacklisted( type->upgrade_into ) ) {
+                return;
+            }
             poly( type->upgrade_into );
         } else {
             mtype_id new_type;
@@ -2645,6 +2649,23 @@ void monster::die( Creature *nkiller )
             break;
     }
 
+    if( death_drops ) {
+        // Drop items stored in optionals
+        move_special_item_to_inv( tack_item );
+        move_special_item_to_inv( armor_item );
+        move_special_item_to_inv( storage_item );
+        move_special_item_to_inv( tied_item );
+
+        if( has_effect( effect_lightsnare ) ) {
+            add_item( item( "string_36", calendar::turn_zero ) );
+            add_item( item( "snare_trigger", calendar::turn_zero ) );
+        }
+        if( has_effect( effect_heavysnare ) ) {
+            add_item( item( "rope_6", calendar::turn_zero ) );
+            add_item( item( "snare_trigger", calendar::turn_zero ) );
+        }
+    }
+
     if( death_drops && !no_extra_death_drops ) {
         drop_items_on_death( corpse );
         spawn_dissectables_on_death( corpse );
@@ -2663,25 +2684,6 @@ void monster::die( Creature *nkiller )
             } else {
                 get_map().add_item( pos(), it );
             }
-        }
-    }
-    if( death_drops ) {
-        // Drop items stored in optionals
-        move_special_item_to_inv( tack_item );
-        move_special_item_to_inv( armor_item );
-        move_special_item_to_inv( storage_item );
-        move_special_item_to_inv( tied_item );
-
-        if( has_effect( effect_lightsnare ) ) {
-            add_item( item( "string_36", calendar::turn_zero ) );
-            add_item( item( "snare_trigger", calendar::turn_zero ) );
-        }
-        if( has_effect( effect_heavysnare ) ) {
-            add_item( item( "rope_6", calendar::turn_zero ) );
-            add_item( item( "snare_trigger", calendar::turn_zero ) );
-        }
-        if( has_effect( effect_beartrap ) ) {
-            add_item( item( "beartrap", calendar::turn_zero ) );
         }
     }
 
