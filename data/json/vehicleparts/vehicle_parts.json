@@ -1877,7 +1877,7 @@
         "using": [ [ "repair_welding_standard", 5 ], [ "soldering_standard", 5 ] ]
       }
     },
-    "flags": [ "OBSTACLE", "LEAK_DAM", "RADIOACTIVE", "COVERED", "PERPETUAL", "REACTOR" ],
+    "flags": [ "OBSTACLE", "RADIOACTIVE", "COVERED", "PERPETUAL", "REACTOR" ],
     "breaks_into": [
       { "item": "scrap", "count": [ 4, 16 ] },
       { "item": "steel_chunk", "count": [ 1, 6 ] },
