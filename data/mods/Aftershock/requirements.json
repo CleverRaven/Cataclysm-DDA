@@ -46,7 +46,7 @@
     "id": "meat_raw_steak",
     "type": "requirement",
     "//": "An unbroken slab of raw meat.  For when scraps just aren't good enough.",
-    "extend": { "components": [ [ [ "frost_human_flesh", 1 ], [ "alien_flesh", 1 ] ] ] }
+    "extend": { "components": [ [ [ "frost_human_flesh", 1 ], [ "afs_synthetic_meat", 1 ], [ "alien_flesh", 1 ] ] ] }
   },
   {
     "id": "meat_red_raw",
@@ -76,28 +76,15 @@
     "id": "meat_nofish",
     "type": "requirement",
     "//": "Any type of raw meat except for fish.  About 300-400kcal of meat.",
-    "extend": {
-      "components": [
-        [
-          [ "alien_liver", 5 ],
-          [ "alien_kidney", 5 ],
-          [ "alien_sweetbread", 5 ],
-          [ "bacon", 4 ],
-          [ "bologna", 5 ],
-          [ "meat_pickled", 1 ],
-          [ "dry_meat", 1 ],
-          [ "jerky", 1 ],
-          [ "meat_smoked", 1 ],
-          [ "meat_salted", 1 ]
-        ]
-      ]
-    }
+    "extend": { "components": [ [ [ "afs_mealgrubs", 1 ], [ "alien_liver", 5 ], [ "alien_kidney", 5 ], [ "alien_sweetbread", 5 ] ] ] }
   },
   {
     "id": "meat_cooked",
     "type": "requirement",
     "//": "meat you'd put on a sandwich",
-    "extend": { "components": [ [ [ "alien_flesh_cooked", 1 ], [ "alien_meat_scrap_cooked", 10 ], [ "frost_human_cooked", 1 ] ] ] }
+    "extend": {
+      "components": [ [ [ "alien_flesh_cooked", 1 ], [ "alien_meat_scrap_cooked", 10 ], [ "frost_human_cooked", 1 ], [ "afs_jerky", 1 ] ] ]
+    }
   },
   {
     "id": "human_meat",
@@ -110,5 +97,17 @@
     "type": "requirement",
     "//": "Cooked meat that non-cannibals would be unhappy eating.",
     "extend": { "components": [ [ [ "frost_human_cooked", 1 ] ] ] }
+  },
+  {
+    "id": "veggy_any_fresh_uncooked",
+    "type": "requirement",
+    "//": "Any type of edible raw fat.",
+    "extend": { "components": [ [ [ "afs_kelp", 1 ] ] ] }
+  },
+  {
+    "id": "veggy_green",
+    "type": "requirement",
+    "//": "Any type of edible raw fat.",
+    "extend": { "components": [ [ [ "afs_kelp", 1 ] ] ] }
   }
 ]

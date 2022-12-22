@@ -81,10 +81,7 @@
         "o": "f_habitat_kitchenette",
         "F": "f_fridge"
       },
-      "items": {
-        "o": { "item": "afs_kitchenette", "chance": 100 },
-        "F": { "item": "afs_cheap_food", "chance": 80, "repeat": [ 1, 10 ] }
-      },
+      "items": { "o": { "item": "afs_kitchenette", "chance": 100 }, "F": { "item": "afs_old_food_storage", "chance": 80 } },
       "monster": { "ö": { "monster": "mon_skitterbot" } }
     }
   },
