@@ -907,7 +907,6 @@
     "durability": 400,
     "description": "A military ASRG covered in heavy plating.  Provides constant power when plugged in to your power grid.",
     "epower": 130,
-    "size": "150 L",
     "item": "compact_ASRG_containment",
     "requirements": {
       "repair": {
@@ -917,7 +916,6 @@
       }
     },
     "flags": [
-      "CARGO",
       "OBSTACLE",
       "LEAK_DAM",
       "RADIOACTIVE",
