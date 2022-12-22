@@ -1113,6 +1113,7 @@
           "zinc"
         ],
         "skill": "fabrication",
+        "tool_quality": 10,
         "cost_scaling": 0.1,
         "move_cost": 1000
       }
