@@ -1857,7 +1857,7 @@
   {
     "type": "vehicle_part",
     "id": "ap_compact_ASRG_containment",
-    "name": { "str": "Compact Advanced Sterling Radioisotope Generator" },
+    "name": { "str": "advanced sterling radioisotope generator" },
     "looks_like": "f_compact_ASRG_containment",
     "symbol": "0",
     "categories": [ "energy" ],
@@ -1866,7 +1866,7 @@
     "broken_color": "blue",
     "damage_modifier": 80,
     "durability": 400,
-    "description": "A military ASRG covered in heavy plating.  Provides constant power when plugged in to your power grid.",
+    "description": "A military ASRG covered in heavy plating.  Provides constant albeit low power to your car.",
     "epower": 130,
     "location": "center",
     "item": "compact_ASRG_containment",
