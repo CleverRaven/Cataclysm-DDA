@@ -917,7 +917,6 @@
     },
     "flags": [
       "OBSTACLE",
-      "LEAK_DAM",
       "RADIOACTIVE",
       "COVERED",
       "ENABLED_DRAINS_EPOWER",
