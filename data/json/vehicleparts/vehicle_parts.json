@@ -1453,7 +1453,7 @@
     "durability": 35,
     "description": "A belt, attached to a seat.",
     "folded_volume": "500 ml",
-    "bonus": 25,
+    "bonus": 10,
     "item": "rope_6",
     "location": "on_seat",
     "requirements": {
