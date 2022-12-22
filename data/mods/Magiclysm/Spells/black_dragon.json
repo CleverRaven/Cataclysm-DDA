@@ -196,7 +196,7 @@
     "id": "dragon_spit_acid",
     "type": "SPELL",
     "name": "Dragon Acid Spit",
-    "description": "You conjur up acidic spittle that you can shoot long distances as you close on your terrified prey.",
+    "description": "You conjure up acidic spittle that you can shoot long distances as you close in on your terrified prey.",
     "valid_targets": [ "hostile" ],
     "flags": [ "LOUD", "VERBAL", "NO_HANDS", "NO_LEGS" ],
     "effect": "attack",

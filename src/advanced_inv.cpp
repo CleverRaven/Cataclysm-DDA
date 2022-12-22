@@ -49,6 +49,7 @@
 #include "pimpl.h"
 #include "player_activity.h"
 #include "point.h"
+#include "popup.h"
 #include "ret_val.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
@@ -116,7 +117,7 @@ void create_advanced_inv()
     }
     advinv->display();
     // keep the UI and its ui_adaptor running if we're returning
-    if( uistate.transfer_save.exit_code != aim_exit::re_entry ) {
+    if( uistate.transfer_save.exit_code != aim_exit::re_entry || get_avatar().activity.is_null() ) {
         kill_advanced_inv();
     }
 }
@@ -938,6 +939,10 @@ bool advanced_inventory::move_all_items()
     if( spane.items.empty() || liquid_items == spane.items.size() ) {
         if( !is_processing() ) {
             popup( _( "No eligible items found to be moved." ) );
+        } else if( spane.get_area() != AIM_ALL ) {
+            // ensure we don't get stuck if the recursive calls in the switch above were interrupted
+            // by a save-load cycle before the shadowed pane was restored
+            spane.set_area( AIM_ALL );
         }
         return false;
     }
@@ -1471,7 +1476,7 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
             can_stash = player_character.can_stash( *sitem->items.front() );
         }
         if( destarea == AIM_INVENTORY && !can_stash ) {
-            popup( _( "You have no space for %s" ), sitem->items.front()->tname() );
+            popup( _( "You have no space for the %s!" ), sitem->items.front()->tname() );
             return false;
         }
         // from map/vehicle: start ACT_PICKUP or ACT_MOVE_ITEMS as necessary
@@ -1559,6 +1564,7 @@ void advanced_inventory::display()
         player_character.inv->restack( player_character );
 
         recalc = true;
+        g->wait_popup.reset();
     }
 
     if( !ui ) {
@@ -1879,7 +1885,7 @@ bool advanced_inventory::query_destination( aim_location &def )
 bool advanced_inventory::move_content( item &src_container, item &dest_container )
 {
     if( !src_container.is_container() ) {
-        popup( _( "Source must be container." ) );
+        popup( _( "Source must be a container." ) );
         return false;
     }
     if( src_container.is_container_empty() ) {
@@ -1890,7 +1896,7 @@ bool advanced_inventory::move_content( item &src_container, item &dest_container
     item &src_contents = src_container.legacy_front();
 
     if( !src_contents.made_of( phase_id::LIQUID ) ) {
-        popup( _( "You can unload only liquids into target container." ) );
+        popup( _( "You can unload only liquids into the target container." ) );
         return false;
     }
 
@@ -1935,7 +1941,7 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
 
     // Includes moving from/to inventory and around on the map.
     if( it.made_of_from_type( phase_id::LIQUID ) && !it.is_frozen_liquid() ) {
-        popup( _( "Spilt liquid cannot be picked back up.  Try mopping it instead." ) );
+        popup( _( "Spilt liquid cannot be picked back up.  Try mopping them up instead." ) );
         return false;
     }
     if( it.made_of_from_type( phase_id::GAS ) ) {

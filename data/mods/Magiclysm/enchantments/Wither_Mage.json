@@ -85,7 +85,7 @@
     "name": { "str": "Toxic Aura" },
     "points": 0,
     "active": true,
-    "description": "Your body can emit a deadly venoms.  You suppress this ability now.",
+    "description": "Your body can emit deadly venoms.  You suppress this ability now.",
     "transform": { "target": "TOXIC_AURA_ON", "msg_transform": "Living creatures around you are poisoned!", "active": true, "moves": 10 }
   },
   {
@@ -97,7 +97,7 @@
     "active": true,
     "name": { "str": "Toxic Aura (on)" },
     "points": 0,
-    "description": "Your body can emit a deadly venoms.",
+    "description": "Your body can emit deadly venoms.",
     "enchantments": [ "WITHER_MAGE_BIO_AOE" ],
     "transform": { "target": "TOXIC_AURA_OFF", "msg_transform": "You suppress your toxic aura.", "active": false, "moves": 10 }
   }

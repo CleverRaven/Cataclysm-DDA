@@ -60,7 +60,7 @@
     "name": { "str": "Mind Reading" },
     "points": 0,
     "active": true,
-    "description": "You can feel the living energy of creatures around you, which allow you to predict their movements or words.  You suppress it now.",
+    "description": "You can feel the living energy of creatures around you, which allows you to predict their movements or words.  You suppress it now.",
     "transform": { "target": "MIND_READ_ON", "msg_transform": "Living creatures around you are crushed!", "active": true, "moves": 10 }
   },
   {
@@ -72,7 +72,7 @@
     "active": true,
     "name": { "str": "Mind Reading (on)" },
     "points": 0,
-    "description": "You can feel the living energy of creatures around you, which allow you to predict their movements or words.",
+    "description": "You can feel the living energy of creatures around you, which allows you to predict their movements or words.",
     "enchantments": [ "SHAMAN" ],
     "transform": { "target": "MIND_READ_OFF", "msg_transform": "You suppress your mind abilities.", "active": false, "moves": 10 }
   }

@@ -665,13 +665,19 @@
         "drop": "bio_power_storage",
         "type": "bionic",
         "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
-        "faults": [ "fault_bionic_salvaged" ]
+        "faults": [ "fault_bionic_salvaged" ],
+        "base_num": [ 0, 2 ],
+        "scale_num": [ 0.1, 0.6 ],
+        "max": 5
       },
       {
         "drop": "cyborg_harvest",
         "type": "bionic_group",
         "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
-        "faults": [ "fault_bionic_salvaged" ]
+        "faults": [ "fault_bionic_salvaged" ],
+        "base_num": [ 0, 2 ],
+        "scale_num": [ 0.1, 0.6 ],
+        "max": 5
       }
     ]
   },
@@ -684,13 +690,19 @@
         "drop": "Zomborg_CBM_harvest",
         "type": "bionic_group",
         "flags": [ "NO_STERILE", "NO_PACKED", "FILTHY" ],
-        "faults": [ "fault_bionic_salvaged" ]
+        "faults": [ "fault_bionic_salvaged" ],
+        "base_num": [ 0, 2 ],
+        "scale_num": [ 0.1, 0.6 ],
+        "max": 5
       },
       {
         "drop": "Zomborg_CBM_harvest_power",
         "type": "bionic_group",
         "flags": [ "NO_STERILE", "NO_PACKED", "FILTHY" ],
-        "faults": [ "fault_bionic_salvaged" ]
+        "faults": [ "fault_bionic_salvaged" ],
+        "base_num": [ 0, 2 ],
+        "scale_num": [ 0.1, 0.6 ],
+        "max": 5
       }
     ]
   }

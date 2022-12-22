@@ -44,6 +44,7 @@
                   android:keepScreenOn="true"
                   android:screenOrientation="userLandscape"
                   android:configChanges="keyboardHidden|keyboard|orientation|screenSize|navigation"
+                  android:exported="true"
                   >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
