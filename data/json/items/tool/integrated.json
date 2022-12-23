@@ -121,7 +121,7 @@
       "USES_BIONIC_POWER"
     ],
     "material": [ "superalloy", "copper" ],
-    "name": { "str_sp": "integrated bionic toolset" },
+    "name": { "str_sp": "integrated multitool" },
     "description": "Integrated bionic tools implanted in your fingers.",
     "bashing": 1,
     "cutting": 3,
