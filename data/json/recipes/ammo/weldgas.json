@@ -88,7 +88,7 @@
         [ "bone_glue", 1 ],
         [ "sugar", 1 ],
         [ "plastic_chunk", 1 ],
-        [ "wax", 1 ],
+        [ [ "wax", 1 ], [ "wax_paraffin", 1 ] ],
         [ "candle", 1 ]
       ]
     ]

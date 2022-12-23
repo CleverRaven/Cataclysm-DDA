@@ -109,7 +109,7 @@
     "components": [
       [ [ "water", 30 ], [ "water_clean", 30 ] ],
       [
-        [ "wax", 6 ],
+        [ [ "wax", 6 ], [ "wax_paraffin", 6 ] ],
         [ "tallow", 24 ],
         [ "mutant_tallow", 24 ],
         [ "human_tallow", 24 ],
@@ -182,7 +182,7 @@
     "tools": [ [ [ "surface_heat", 60, "LIST" ] ] ],
     "components": [
       [ [ "water", 30 ], [ "water_clean", 30 ] ],
-      [ [ "wax", 6 ], [ "any_tallow", 24, "LIST" ], [ "vinegar", 30 ], [ "pine_bough", 60 ] ],
+      [ [ "wax", 6 ], [ "wax_paraffin", 6 ], [ "any_tallow", 24, "LIST" ], [ "vinegar", 30 ], [ "pine_bough", 60 ] ],
       [ [ "salt", 150 ] ],
       [ [ "bone_sturdy", 39, "LIST" ] ]
     ],

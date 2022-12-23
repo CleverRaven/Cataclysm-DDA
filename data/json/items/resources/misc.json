@@ -326,5 +326,6 @@
     "price": 500,
     "price_postapoc": 10,
     "volume": "250 ml",
+    "flags": [ "UNRECOVERABLE" ]
   }
 ]

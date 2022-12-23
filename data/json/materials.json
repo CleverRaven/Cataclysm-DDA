@@ -1450,6 +1450,7 @@
     "chip_resist": 0,
     "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
     "repaired_with": "wax",
+    "salvaged_into": "wax",
     "bash_dmg_verb": "damaged",
     "cut_dmg_verb": "damaged",
     "//1": "Basically as flammable as a candle.",
@@ -1476,6 +1477,7 @@
     "chip_resist": 0,
     "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
     "repaired_with": "wax_paraffin",
+    "salvaged_into": "wax_paraffin",
     "bash_dmg_verb": "damaged",
     "cut_dmg_verb": "damaged",
     "burn_data": [

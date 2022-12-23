@@ -80,21 +80,18 @@
     "fun": 9
   },
   {
-    "type": "COMESTIBLE",
+    "type": "GENERIC",
     "id": "wax",
     "name": { "str": "chunk of beeswax", "str_pl": "chunks of beeswax" },
     "weight": "235 g",
     "color": "white",
-    "comestible_type": "FOOD",
     "material": [ "beeswax" ],
     "symbol": "%",
-    "quench": -4,
-    "calories": 0,
-    "description": "A large chunk of beeswax.  While you can consume it to fill your stomach, it provides no nutrional value.",
+    "description": "A large chunk of beeswax.  Despite being used in some cooking recipes, beeswax in itself is indigestible to humans.",
     "price": 1300,
     "price_postapoc": 10,
     "volume": "250 ml",
-    "fun": -5
+    "flags": [ "UNRECOVERABLE" ]
   },
   {
     "type": "COMESTIBLE",
