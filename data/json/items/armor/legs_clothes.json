@@ -62,8 +62,18 @@
     "material_thickness": 0.1,
     "flags": [ "VARSIZE" ],
     "armor": [
-      { "coverage": 100, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ], "volume_encumber_modifier": 0.7 },
-      { "coverage": 80, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ], "volume_encumber_modifier": 0.0 }
+      {
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
+        "volume_encumber_modifier": 0.7
+      },
+      {
+        "coverage": 80,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r" ],
+        "volume_encumber_modifier": 0.0
+      }
     ]
   },
   {
@@ -1024,8 +1034,18 @@
     "material_thickness": 0.2,
     "flags": [ "VARSIZE" ],
     "armor": [
-      { "coverage": 100, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ], "volume_encumber_modifier": 0.7 },
-      { "coverage": 50, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ], "volume_encumber_modifier": 0.0 }
+      {
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
+        "volume_encumber_modifier": 0.7
+      },
+      {
+        "coverage": 50,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r" ],
+        "volume_encumber_modifier": 0.0
+      }
     ]
   },
   {
@@ -1160,7 +1180,12 @@
         "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
         "volume_encumber_modifier": 0.7
       },
-      { "coverage": 50, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ], "volume_encumber_modifier": 0.0 }
+      {
+        "coverage": 50,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r" ],
+        "volume_encumber_modifier": 0.0
+      }
     ]
   },
   {
@@ -1232,7 +1257,12 @@
         "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
         "volume_encumber_modifier": 0.7
       },
-      { "coverage": 50, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ], "volume_encumber_modifier": 0.0 }
+      {
+        "coverage": 50,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r" ],
+        "volume_encumber_modifier": 0.0
+      }
     ]
   },
   {
