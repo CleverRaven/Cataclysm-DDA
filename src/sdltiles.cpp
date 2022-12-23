@@ -3202,7 +3202,7 @@ static void CheckMessages()
                     last_input = input_event( lc, input_event_t::keyboard_char );
                 } else {
                     // no key pressed in this event
-                    last_input = input_event();
+                    // last_input = input_event(); //i don't know why it works
                     last_input.type = input_event_t::keyboard_char;
                 }
                 last_input.edit = ev.edit.text;
