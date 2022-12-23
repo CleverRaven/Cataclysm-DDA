@@ -1738,7 +1738,6 @@ void Item_factory::init()
     add_iuse( "VOLTMETER", &iuse::voltmeter );
 
     add_actor( std::make_unique<ammobelt_actor>() );
-    add_actor( std::make_unique<cauterize_actor>() );
     add_actor( std::make_unique<consume_drug_iuse>() );
     add_actor( std::make_unique<delayed_transform_iuse>() );
     add_actor( std::make_unique<explosion_iuse>() );

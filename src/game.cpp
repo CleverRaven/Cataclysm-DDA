@@ -6439,6 +6439,12 @@ void game::zones_manager()
                 }
             }
         }
+        zones.erase( std::remove_if( zones.begin(), zones.end(),
+        []( zone_manager::ref_zone_data const & it ) {
+            zone_type_id const type = it.get().get_type();
+            return !debug_mode && type.is_valid() && type->hidden;
+        } ),
+        zones.end() );
         zone_cnt = static_cast<int>( zones.size() );
         return zones;
     };
