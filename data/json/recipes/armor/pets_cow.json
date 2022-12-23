@@ -109,7 +109,8 @@
     "components": [
       [ [ "water", 36 ], [ "water_clean", 36 ] ],
       [
-        [ [ "wax", 7 ], [ "wax_paraffin", 7 ] ],
+        [ "wax", 7 ],
+        [ "wax_paraffin", 7 ],
         [ "tallow", 28 ],
         [ "mutant_tallow", 28 ],
         [ "human_tallow", 28 ],
