@@ -83,6 +83,7 @@
     "type": "GENERIC",
     "id": "wax",
     "name": { "str": "chunk of beeswax", "str_pl": "chunks of beeswax" },
+    "category": "spare_parts",
     "weight": "235 g",
     "color": "white",
     "material": [ "beeswax" ],
