@@ -894,6 +894,8 @@ class vehicle
         bool is_external_part( const tripoint &part_pt ) const;
         bool is_towed() const;
         void set_tow_directions();
+        /// @return true if vehicle is an appliance
+        bool is_appliance() const;
         // owner functions
         bool is_owned_by( const Character &c, bool available_to_take = false ) const;
         bool is_old_owner( const Character &c, bool available_to_take = false ) const;
