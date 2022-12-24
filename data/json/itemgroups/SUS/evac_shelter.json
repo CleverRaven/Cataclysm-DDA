@@ -273,7 +273,7 @@
       { "item": "evac_pamphlet", "prob": 15 },
       { "group": "games_basic", "prob": 8 },
       { "item": "paper", "prob": 10, "count": [ 1, 2 ] },
-      { "item": "pencil", "prob": 10, "count": [ 1, 2 ], "charges"" [ 0, 100 ] }
+      { "item": "pencil", "prob": 10, "count": [ 1, 2 ], "charges": [ 0, 100 ] }
     ]
   },
   {
