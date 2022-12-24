@@ -4543,7 +4543,8 @@
     "activity_level": "NO_EXERCISE",
     "skill_used": "tailor",
     "time": "1 m",
-    "components": [ [ [ "cotton_patchwork", 5 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "sheet_cotton_patchwork", 2 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
@@ -4552,7 +4553,8 @@
     "activity_level": "LIGHT_EXERCISE",
     "skill_used": "tailor",
     "time": "1 m",
-    "components": [ [ [ "cotton_patchwork", 5 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "sheet_cotton_patchwork", 2 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
@@ -4561,7 +4563,8 @@
     "activity_level": "NO_EXERCISE",
     "skill_used": "tailor",
     "time": "1 m",
-    "components": [ [ [ "cotton_patchwork", 5 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "sheet_cotton_patchwork", 2 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
@@ -4570,7 +4573,8 @@
     "activity_level": "NO_EXERCISE",
     "skill_used": "tailor",
     "time": "1 m",
-    "components": [ [ [ "cotton_patchwork", 5 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "sheet_cotton_patchwork", 2 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
@@ -4579,7 +4583,8 @@
     "activity_level": "NO_EXERCISE",
     "skill_used": "tailor",
     "time": "1 m",
-    "components": [ [ [ "cotton_patchwork", 5 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "sheet_cotton_patchwork", 2 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
@@ -5310,10 +5315,10 @@
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "skill_used": "tailor",
-    "time": "30 m",
+    "time": "5 m",
     "difficulty": 1,
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "cotton_patchwork", 25 ] ], [ [ "element", 5 ] ], [ [ "cable", 5 ] ] ]
+    "components": [ [ [ "sheet_cotton_patchwork", 4 ] ], [ [ "element", 5 ] ], [ [ "cable", 5 ] ] ]
   },
   {
     "result": "wearable_light",
@@ -6440,16 +6445,16 @@
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "60 s",
-    "components": [ [ [ "cotton_patchwork", 32 ] ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ]
+    "components": [ [ [ "sheet_cotton_patchwork", 4 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 2 } ]
   },
   {
     "result": "pants_cargo",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
-    "time": "10 m",
-    "components": [ [ [ "cotton_patchwork", 80 ] ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ]
+    "time": "1 m",
+    "components": [ [ [ "sheet_cotton_patchwork", 4 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 2 } ]
   },
   {
     "result": "pants_leather",
@@ -6471,9 +6476,9 @@
     "result": "sleeping_bag_fur_roll",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
-    "time": "20 m",
-    "components": [ [ [ "cotton_patchwork", 60 ], [ "fur", 8 ] ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ]
+    "time": "2 m",
+    "components": [ [ [ "sheet_cotton_patchwork", 8 ], [ "fur", 8 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 2 } ]
   },
   {
     "result": "backpack",
