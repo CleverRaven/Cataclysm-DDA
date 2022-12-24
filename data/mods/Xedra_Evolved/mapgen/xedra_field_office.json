@@ -428,7 +428,7 @@
           "y": [ 14, 14 ]
         },
         {
-          "chunks": [ [ "xed_8x8_containment", 20 ], [ "xed_8x8_containment_broken", 20 ] ],
+          "chunks": [ [ "xed_8x8_containment", 20 ], [ "xed_8x8_containment_broken", 20 ], [ "xed_8x8_containment_empty", 40 ] ],
           "x": [ 14, 14 ],
           "y": [ 5, 5 ]
         },
