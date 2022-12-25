@@ -195,7 +195,7 @@
     "name": { "str": "extra light quarterpanel" },
     "item": "pipe",
     "looks_like": "halfboard",
-    "durability": 96,
+    "durability": 70,
     "description": "A half-height thin metal wall.  Keeps zombies outside the vehicle but allows people to see over it.",
     "breaks_into": [ { "item": "pipe", "prob": 50 } ],
     "requirements": {
