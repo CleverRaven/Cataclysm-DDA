@@ -4588,6 +4588,86 @@
     "flags": [ "BLIND_HARD" ]
   },
   {
+    "result": "sweatshirt",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "skill_used": "tailor",
+    "time": "1 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "sheet_cotton_patchwork", 3 ] ] ],
+    "flags": [ "BLIND_HARD" ]
+  },
+  {
+    "result": "hoodie",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "skill_used": "tailor",
+    "time": "1 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "sheet_cotton_patchwork", 3 ] ] ],
+    "flags": [ "BLIND_HARD" ]
+  },
+  {
+    "result": "longshirt",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "skill_used": "tailor",
+    "time": "1 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "sheet_cotton_patchwork", 3 ] ] ],
+    "flags": [ "BLIND_HARD" ]
+  },
+  {
+    "result": "polo_shirt",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "skill_used": "tailor",
+    "time": "1 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "sheet_cotton_patchwork", 3 ] ] ],
+    "flags": [ "BLIND_HARD" ]
+  },
+  {
+    "result": "dress_shirt",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "skill_used": "tailor",
+    "time": "1 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "sheet_cotton_patchwork", 3 ] ] ],
+    "flags": [ "BLIND_HARD" ]
+  },
+  {
+    "result": "officer_uniform",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "skill_used": "tailor",
+    "time": "1 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "sheet_cotton_patchwork", 4 ] ] ],
+    "flags": [ "BLIND_HARD" ]
+  },
+  {
+    "result": "undershirt",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "skill_used": "tailor",
+    "time": "1 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "sheet_cotton_patchwork", 2 ] ] ],
+    "flags": [ "BLIND_HARD" ]
+  },
+  {
+    "result": "sheriffshirt",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "skill_used": "tailor",
+    "time": "1 m",
+    "qualities": [ { "id": "CUT", "level": 3 } ],
+    "components": [ [ [ "sheet_cotton_patchwork", 3 ] ] ],
+    "flags": [ "BLIND_HARD" ]
+  },
+  {
     "result": "dish_towel",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
@@ -6455,6 +6535,16 @@
     "time": "1 m",
     "components": [ [ [ "sheet_cotton_patchwork", 4 ] ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ]
+  },
+  {
+    "result": "pants",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "skill_used": "tailor",
+    "time": "1 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "sheet_cotton_patchwork", 4 ] ] ],
+    "flags": [ "BLIND_HARD" ]
   },
   {
     "result": "pants_leather",
