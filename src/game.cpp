@@ -5628,7 +5628,7 @@ void game::examine( const tripoint &examp, bool with_pickup )
     const optional_vpart_position vp = m.veh_at( examp );
     if( vp ) {
         if( !u.is_mounted() || u.mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
-            if( !vp->vehicle().has_tag( "APPLIANCE" ) ) {
+            if( !vp->vehicle().is_appliance() ) {
                 vp->vehicle().interact_with( examp, with_pickup );
             } else {
                 g->exam_appliance( vp->vehicle(), vp->mount() );
@@ -6439,6 +6439,12 @@ void game::zones_manager()
                 }
             }
         }
+        zones.erase( std::remove_if( zones.begin(), zones.end(),
+        []( zone_manager::ref_zone_data const & it ) {
+            zone_type_id const type = it.get().get_type();
+            return !debug_mode && type.is_valid() && type->hidden;
+        } ),
+        zones.end() );
         zone_cnt = static_cast<int>( zones.size() );
         return zones;
     };

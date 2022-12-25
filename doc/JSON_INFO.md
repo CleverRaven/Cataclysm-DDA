@@ -2491,7 +2491,7 @@ Examples of various usages syntax:
 ```C++
 "usages": [ [ 1, [ "PICK_LOCK" ] ] ]
 "usages": [ [ 2, [ "LUMBER" ] ] ]
-"usages": [ [ 1, [ "salvage", "inscribe", "cauterize" ] ] ]
+"usages": [ [ 1, [ "salvage", "inscribe"] ] ]
 "usages": [ [ 2, [ "HACKSAW", "saw_barrel" ] ] ]
 "usages": [ [ 1, [ "CHOP_TREE", "CHOP_LOGS" ] ], [ 2, [ "LUMBER" ] ] ]
 ```
@@ -3887,10 +3887,6 @@ The contents of use_action fields can either be a string indicating a built-in f
         "steel",
         "silver"
     ]
-},
-"use_action": {
-    "type": "cauterize", // Cauterize the character.
-    "flame": true // If true, the character needs 4 charges of fire (e.g. from a lighter) to do this action, if false, the charges of the item itself are used.
 },
 "use_action": {
     "type": "fireweapon_off", // Activate a fire based weapon.
