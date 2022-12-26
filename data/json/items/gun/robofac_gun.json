@@ -293,7 +293,7 @@
     "id": "robofac_stock_folded",
     "type": "GUNMOD",
     "copy-from": "high_end_folding_stock_folded",
-    "name": { "str": "bullpup modular folding stock (folded)" },
+    "name": { "str": "bullpup modular folding stock (folded)", "str_pl": "bullpup modular folding stocks (folded)" },
     "use_action": {
       "type": "transform",
       "msg": "You unfold the stock for combat.",
