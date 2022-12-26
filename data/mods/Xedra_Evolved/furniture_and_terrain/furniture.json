@@ -8,9 +8,29 @@
     "symbol": "H",
     "color": "white_yellow",
     "coverage": 60,
-    "description": "A shiny golden monolith covered in shimmering pictograms.  There is a mist condensing near it.",
+    "description": "A shiny golden monolith covered in shimmering pictograms.  There is a mist condensing near it.  A light seems to emanate from it.",
     "light_emitted": 15,
     "emissions": [ "emit_changeling_mist" ],
+    "required_str": -1,
+    "bash": {
+      "str_min": 600,
+      "str_max": 860,
+      "furn_set": "f_broken_golden_monolith",
+      "sound": "smash!",
+      "sound_fail": "thump.",
+      "items": [ { "item": "rock", "count": [ 5, 15 ] }, { "item": "sharp_rock", "count": [ 3, 5 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_broken_golden_monolith",
+    "name": "broken golden monolith",
+    "move_cost_mod": -1,
+    "symbol": "H",
+    "color": "white_yellow",
+    "coverage": 60,
+    "description": "A dully glowing golden monolith, the golden pictograms covering it have been scarred by a tremendous force.",
+    "light_emitted": 3,
     "required_str": -1,
     "bash": {
       "str_min": 600,
