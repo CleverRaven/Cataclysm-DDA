@@ -279,7 +279,28 @@
     "id": "robofac_stock",
     "type": "GUNMOD",
     "copy-from": "high_end_folding_stock",
-    "name": { "str": "bullpup modular stock" },
+    "name": { "str": "bullpup modular folding stock" },
+    "use_action": {
+      "type": "transform",
+      "msg": "You fold the stock for transport.",
+      "menu_text": "Fold",
+      "target": "robofac_stock_folded",
+      "moves": 120
+    },
+    "flags": [ "IRREMOVABLE" ]
+  },
+  {
+    "id": "robofac_stock_folded",
+    "type": "GUNMOD",
+    "copy-from": "high_end_folding_stock_folded",
+    "name": { "str": "bullpup modular folding stock (folded)" },
+    "use_action": {
+      "type": "transform",
+      "msg": "You unfold the stock for combat.",
+      "menu_text": "Unfold",
+      "target": "robofac_stock",
+      "moves": 120
+    },
     "flags": [ "IRREMOVABLE" ]
   },
   {
