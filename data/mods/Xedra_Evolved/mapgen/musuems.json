@@ -45,10 +45,7 @@
         "4": "t_gutter_downspout",
         "|": "t_brick_wall"
       },
-      "nested": {
-        "d": { "chunks": [ "display_1x1_curiosities" ] },
-        "#": { "chunks": [ "display_1x1_curiosities" ] }
-      },
+      "nested": { "d": { "chunks": [ "display_1x1_curiosities" ] }, "#": { "chunks": [ "display_1x1_curiosities" ] } },
       "toilets": { "&": {  } },
       "furniture": {
         "f": "f_region_flower_decorative",
