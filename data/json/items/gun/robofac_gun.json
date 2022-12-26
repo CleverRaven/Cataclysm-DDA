@@ -278,7 +278,7 @@
   {
     "id": "robofac_stock",
     "type": "GUNMOD",
-    "copy-from": "adjustable_stock",
+    "copy-from": "high_end_folding_stock",
     "name": { "str": "bullpup adjustable stock" },
     "flags": [ "IRREMOVABLE" ]
   },
