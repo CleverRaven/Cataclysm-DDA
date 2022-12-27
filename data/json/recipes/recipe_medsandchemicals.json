@@ -1830,10 +1830,7 @@
       [ [ "ppe_gloves", 1, "LIST" ] ],
       [ [ "ppe_skin", 1, "LIST" ] ]
     ],
-    "components": [
-      [ [ "chem_ethanol", 250 ], [ "denat_alcohol", 250 ], [ "mixed_alcohol_strong", 14 ] ],
-      [ [ "blood_acid", 2 ] ]
-    ]
+    "components": [ [ [ "chem_ethanol", 250 ], [ "denat_alcohol", 250 ], [ "mixed_alcohol_strong", 14 ] ], [ [ "blood_acid", 2 ] ] ]
   },
   {
     "type": "recipe",
