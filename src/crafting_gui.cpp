@@ -83,7 +83,6 @@ static std::vector<std::string> craft_cat_list;
 static std::map<std::string, std::vector<std::string> > craft_subcat_list;
 
 static bool query_is_yes( const std::string &query );
-static int craft_info_width( int window_width );
 static void draw_hidden_amount( const catacurses::window &w, int amount, int num_recipe );
 static void draw_can_craft_indicator( const catacurses::window &w, const recipe &rec );
 static std::map<size_t, inclusive_rectangle<point>> draw_recipe_tabs( const catacurses::window &w,
@@ -1042,7 +1041,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
 
         width = isWide ? ( freeWidth > FULL_SCREEN_WIDTH ? FULL_SCREEN_WIDTH * 2 : TERMX ) :
                 FULL_SCREEN_WIDTH;
-        const unsigned int header_info_width = craft_info_width( width );
+        const unsigned int header_info_width = width - FULL_SCREEN_WIDTH - 1;
         const int wStart = ( TERMX - width ) / 2;
 
         // Keybinding tips
@@ -2007,18 +2006,6 @@ static bool query_is_yes( const std::string &query )
     return subquery == "yes" || subquery == "y" || subquery == "1" ||
            subquery == "true" || subquery == "t" || subquery == "on" ||
            subquery == _( "yes" );
-}
-
-static int craft_info_width( const int window_width )
-{
-    int reason_width = 0;
-    //The crafting speed string is necessary.  Find the longest one
-    for( const auto &pair : craft_speed_reason_strings ) {
-        reason_width = std::max( utf8_width( pair.second.translated(), true ), reason_width );
-    }
-    reason_width += 2; //Allow for borders
-    //Use about a quarter of the screen if there's room to play, otherwise limit to the longest string
-    return std::max( window_width / 4, reason_width );
 }
 
 static void draw_hidden_amount( const catacurses::window &w, int amount, int num_recipe )
