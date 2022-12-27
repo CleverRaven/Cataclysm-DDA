@@ -1379,7 +1379,7 @@ These flags apply to the `use_action` field, instead of the `flags` field.
 - ```SMOKEBOMB``` Pull the pin on a smoke bomb.
 - ```SOLARPACK_OFF``` Fold solar backpack array.
 - ```SOLARPACK``` Unfold solar backpack array.
-- ```SOLDER_WELD``` Solder or weld items, or cauterize wounds.
+- ```SOLDER_WELD``` Solder or weld items.
 - ```SPRAY_CAN``` Graffiti the town.
 - ```SURVIVORMAP``` Learn of local points-of-interest that can help you survive, and show roads.
 - ```TAZER``` Shock someone or something.

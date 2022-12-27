@@ -844,7 +844,7 @@
     "id": "test_soldering_iron",
     "type": "TOOL",
     "name": "TEST soldering iron",
-    "description": "This is a device with a metal tip that can get very hot.  It is necessary for advanced electronics crafting.  You could also use it to cauterize wounds, if you had to.",
+    "description": "This is a device with a metal tip that can get very hot.  It is necessary for advanced electronics crafting.",
     "weight": "181 g",
     "volume": "500 ml",
     "price": 1000,
@@ -863,8 +863,7 @@
         "skill": "fabrication",
         "cost_scaling": 0.1,
         "move_cost": 1500
-      },
-      { "flame": false, "type": "cauterize" }
+      }
     ],
     "flags": [ "SPEAR", "BELT_CLIP", "ALLOWS_REMOTE_USE" ],
     "pocket_data": [

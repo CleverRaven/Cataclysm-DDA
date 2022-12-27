@@ -365,8 +365,8 @@
         "x,,,,b ,,               ,,,,,,ssssssssssssssssssssssssssssssssssssssssssssss_______yy___________",
         "x ,, b ,,              ,NNN,,,ssssssssssssssssssssssssssssssssssssssssssssss________________ssss",
         "x ,,,b ,,,            ,NNnN,,sssssssssssssssssssssssssssssssssssssssssssssss_______yy_______ssss",
-        "x,,, b,,,,      ,  ,,,,Nn,,,Nsssssss{{ssssssssssssssssssssssssssssssssssssss_______yy_______sssI",
-        "x ,,,b ,,,,,  ,,,,,,,,,NNn,,Nss//D///////////////////////////////////////sss_______yy_______ssss",
+        "x,,, b,,,,      ,  ,,,,Nn,,,Nsssssss{{ssssssssssssssssssssssssssssssssssssss_______yy_______ssss",
+        "x ,,,b ,,,,,  ,,,,,,,,,NNn,,Nss//D///////////////////////////////////////sss_______yy_______sssI",
         "x ,,,b ,,,,,,,,,,,,,,,,,NNnNNss/e...???????????..???????....<..(>/$$.`OO/sss________________ssss",
         "x ,, b ,,,,,,,,,,,  ,   ,NNN,ss/...............................///....ht/sss_______yy_______ssss",
         "x ,, b,,,,,,,, ,         ,,, ss/.................................d.i.###gsss_______yy_______sss-",
@@ -429,7 +429,6 @@
         { "group": "SUS_fridge", "x": [ 48, 49 ], "y": 39, "chance": 90, "repeat": [ 2, 6 ] },
         { "group": "SUS_fridge", "x": [ 44, 47 ], "y": 41, "chance": 90, "repeat": [ 4, 12 ] },
         { "group": "SUS_fridge", "x": [ 48, 49 ], "y": 41, "chance": 90, "repeat": [ 2, 6 ] },
-        { "item": "american_flag", "x": 95, "y": 47 },
         { "item": "tshirt", "x": 59, "y": 71, "chance": 75, "repeat": [ 250, 300 ] },
         { "item": "long_undertop", "x": 58, "y": 71, "chance": 75, "repeat": [ 250, 300 ] },
         { "item": "long_underpants", "x": 57, "y": 71, "chance": 75, "repeat": [ 250, 300 ] },
@@ -1255,7 +1254,7 @@
     "om_terrain": [ "mil_base_road_entrance" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_dirt",
+      "fill_ter": "t_region_soil",
       "rows": [
         "    ________________    ",
         "    _______yy_______    ",
@@ -1297,7 +1296,7 @@
     "om_terrain": [ "mil_base_minefield_n" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_dirt",
+      "fill_ter": "t_region_soil",
       "rows": [
         "xxxxxxxxxxxxxxxxxxxxxxxx",
         "PmmmmmmmmmmmPmmmmmmmmmmm",
@@ -1335,7 +1334,7 @@
     "om_terrain": [ "mil_base_minefield_ne" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_dirt",
+      "fill_ter": "t_region_soil",
       "rows": [
         "xxxxxxxxxxxxxxxxxxxxxxxx",
         "PmmmmmmmmmmmPmmmmmmmmmPx",
@@ -1378,7 +1377,7 @@
     "om_terrain": [ "mil_base_minefield_e" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_dirt",
+      "fill_ter": "t_region_soil",
       "rows": [
         "mmmmmmmmmmmmmmmmmmmmmmPx",
         "mmmmmmmmmmmmmmmmmmmmmmmx",
@@ -1416,7 +1415,7 @@
     "om_terrain": [ "mil_base_minefield_se" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_dirt",
+      "fill_ter": "t_region_soil",
       "rows": [
         "mmmmmmmmmmmmmmmmmmmmmmPx",
         "mmmmmmmmmmmmmmmmmmmmmmmx",
@@ -1459,7 +1458,7 @@
     "om_terrain": [ "mil_base_minefield_s" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_dirt",
+      "fill_ter": "t_region_soil",
       "rows": [
         "mmmmmmmmmmmmmmmmmmmmmmmm",
         "mmmmmmmmmmmmmmmmmmmmmmmm",
@@ -1497,7 +1496,7 @@
     "om_terrain": [ "mil_base_minefield_sw" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_dirt",
+      "fill_ter": "t_region_soil",
       "rows": [
         "xmmmmmmmmmmmmmmmmmmmmmmm",
         "xmmmmmmmmmmmmmmmmmmmmmmm",
@@ -1540,7 +1539,7 @@
     "om_terrain": [ "mil_base_minefield_w" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_dirt",
+      "fill_ter": "t_region_soil",
       "rows": [
         "xmmmmmmmmmmmmmmmmmmmmmmm",
         "xmmmmmmmmmmmmmmmmmmmmmmm",
@@ -1578,7 +1577,7 @@
     "om_terrain": [ "mil_base_minefield_nw" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_dirt",
+      "fill_ter": "t_region_soil",
       "rows": [
         "xxxxxxxxxxxxxxxxxxxxxxxx",
         "xPmmmmmmmmmmmPmmmmmmmmmm",
