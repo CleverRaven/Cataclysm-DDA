@@ -145,6 +145,8 @@ static const ter_str_id ter_t_tree_willow_harvested( "t_tree_willow_harvested" )
 
 static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
 
+static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
+
 #define dbg(x) DebugLog((x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 
 static cata::colony<item> nulitems;          // Returned when &i_at() is asked for an OOB value
@@ -6685,6 +6687,11 @@ bool map::draw_maptile( const catacurses::window &w, const tripoint &p,
         } else {
             memory_sym = sym = curr_trap.sym;
         }
+    }
+    // FIXME: fix point type
+    if( const_cast<map *>( this )->partial_con_at( tripoint_bub_ms( p ) ) != nullptr ) {
+        tercol = tr_unfinished_construction->color;
+        memory_sym = sym = tr_unfinished_construction->sym;
     }
     if( curr_field.field_count() > 0 ) {
         const field_type_id &fid = curr_field.displayed_field_type();

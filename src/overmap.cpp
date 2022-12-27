@@ -979,7 +979,7 @@ void oter_t::get_rotation_and_subtile( int &rotation, int &subtile ) const
         rotation = t.rotation;
         subtile = t.subtile;
     } else if( is_rotatable() ) {
-        rotation = static_cast<int>( get_dir() );
+        rotation = ( 4 - static_cast<int>( get_dir() ) ) % 4;
         subtile = -1;
     } else {
         rotation = 0;

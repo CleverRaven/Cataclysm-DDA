@@ -118,7 +118,6 @@ static const quality_id qual_WELD( "WELD" );
 static const requirement_id requirement_data_mining_standard( "mining_standard" );
 
 static const trap_str_id tr_firewood_source( "tr_firewood_source" );
-static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 
 static const zone_type_id zone_type_( "" );
 static const zone_type_id zone_type_AUTO_DRINK( "AUTO_DRINK" );
@@ -1088,7 +1087,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
         act == ACT_VEHICLE_REPAIR ) {
         std::vector<int> already_working_indexes;
         vehicle *veh = veh_pointer_or_null( here.veh_at( src_loc ) );
-        if( !veh || veh->has_tag( "APPLIANCE" ) ) {
+        if( !veh || veh->is_appliance() ) {
             return activity_reason_info::fail( do_activity_reason::NO_ZONE );
         }
         // if the vehicle is moving or player is controlling it.
@@ -1814,9 +1813,6 @@ static bool construction_activity( Character &you, const zone_data * /*zone*/,
     pc.id = built_chosen.id;
     map &here = get_map();
     // Set the trap that has the examine function
-    if( here.tr_at( src_loc ).is_null() ) {
-        here.trap_set( src_loc, tr_unfinished_construction );
-    }
     // Use up the components
     for( const std::vector<item_comp> &it : built_chosen.requirements->get_components() ) {
         std::list<item> tmp = you.consume_items( it, 1, is_crafting_component );
@@ -2276,6 +2272,12 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                         for( item *contained : it->first->all_items_top( item_pocket::pocket_type::MAGAZINE ) ) {
                             // no liquids don't want to spill stuff
                             if( !contained->made_of( phase_id::LIQUID ) && !contained->made_of( phase_id::GAS ) ) {
+                                if( it->first->is_ammo_belt() ) {
+                                    if( it->first->type->magazine->linkage ) {
+                                        item link( *it->first->type->magazine->linkage, calendar::turn, contained->count() );
+                                        here.add_item_or_charges( src_loc, link );
+                                    }
+                                }
                                 move_item( you, *contained, contained->count(), src_loc, src_loc, this_veh, this_part );
                                 it->first->remove_item( *contained );
                             }
@@ -2313,6 +2315,11 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                             move_item( you, removed, 1, src_loc, src_loc, this_veh, this_part );
                             moved_something = true;
                         }
+                    }
+                    if( it->first->has_flag( flag_MAG_DESTROY ) && it->first->ammo_remaining() == 0 ) {
+                        here.i_rem( src_loc, it->first );
+                        num_processed = std::max( num_processed - 1, 0 );
+                        return;
                     }
 
                     // after dumping items go back to start of activity loop

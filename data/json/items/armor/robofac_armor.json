@@ -305,7 +305,7 @@
     "description": "Heavy duty hooded headwear for the true frontier explorer.  The visor has been lowered over the eyes, and is drawing low power to provide light amplification by way of an infrared illuminator and detector.  Activate to switch to full IR scanning.",
     "copy-from": "robofac_head_rig",
     "extend": { "flags": [ "GNV_EFFECT" ] },
-    "power_draw": "375 mJ",
+    "power_draw": "375 mW",
     "revert_to": "robofac_head_rig",
     "use_action": [
       {
@@ -342,7 +342,7 @@
     "description": "Heavy duty hooded headwear for the true frontier explorer.  The visor has been lowered over the eyes, and is drawing moderate power to provide full infra-red scanning, allowing you to see warm blooded creatures in the dark.  Activate to turn the visor off again.",
     "copy-from": "robofac_head_rig",
     "extend": { "flags": [ "IR_EFFECT" ] },
-    "power_draw": "1 J",
+    "power_draw": "1 W",
     "revert_to": "robofac_head_rig",
     "use_action": [
       {

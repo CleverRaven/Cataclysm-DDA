@@ -3214,6 +3214,7 @@ class jmapgen_remove_npcs : public jmapgen_piece
                     }
                     if( get_map().inbounds( npc->get_location() ) ) {
                         g->remove_npc( npc->getID() );
+                        get_avatar().get_mon_visible().remove_npc( npc.get() );
                     }
                 }
             }
@@ -7493,7 +7494,7 @@ bool update_mapgen_function_json::update_map( const tripoint_abs_omt &omt_pos, c
         // trigger main map cleanup
         p_update_tmap.reset();
         // trigger new traps, etc
-        g->place_player( get_avatar().pos() );
+        g->place_player( get_avatar().pos(), true );
     }
 
     return u;

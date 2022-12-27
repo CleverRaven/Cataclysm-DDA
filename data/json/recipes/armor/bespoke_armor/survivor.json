@@ -147,7 +147,7 @@
     "copy-from": "lsurvivor_jumpsuit",
     "time": "7 h",
     "using": [ [ "sewing_kevlar", 150 ], [ "fabric_lycra", 30 ], [ "fabric_nylon", 45 ], [ "fastener_large", 1 ], [ "clasps", 8 ] ],
-    "components": [ [ [ "sheet_kevlar_layered", 200 ] ] ]
+    "components": [ [ [ "sheet_kevlar", 200 ] ] ]
   },
   {
     "result": "survivor_jumpsuit",
@@ -225,7 +225,7 @@
     "time": "11 h 36 m",
     "using": [ [ "sewing_kevlar", 300 ], [ "fabric_lycra", 30 ], [ "fabric_fur_pelt", 5 ], [ "fastener_large", 1 ], [ "clasps", 8 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
-    "components": [ [ [ "sheet_kevlar_layered", 200 ] ] ]
+    "components": [ [ [ "sheet_kevlar", 200 ] ] ]
   },
   {
     "result": "survivor_rig",

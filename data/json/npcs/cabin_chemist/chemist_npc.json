@@ -15,7 +15,14 @@
     "id": "NC_CHEM_MERCHANT",
     "name": { "str": "Chemist" },
     "job_description": "I make and sell chemicals",
-    "traits": [ { "group": "BG_survival_story_RURAL" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "common": false,
+    "traits": [
+      { "group": "BG_survival_story_RURAL" },
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
     "bonus_int": { "rng": [ 1, 2 ] },
     "shopkeeper_item_group": [ { "group": "cabin_chemist_sell", "rigid": true } ],
     "skills": [
