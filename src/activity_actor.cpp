@@ -3962,7 +3962,7 @@ void insert_item_activity_actor::finish( player_activity &act, Character &who )
     }
 
     items.pop_front();
-    if( items.empty() || !success ) {
+    if( items.empty() || !success || items.front().first == item_location::nowhere ) {
         handler.handle_by( who );
         act.set_to_null();
         return;
