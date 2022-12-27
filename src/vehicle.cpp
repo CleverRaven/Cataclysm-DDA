@@ -1137,8 +1137,11 @@ int vehicle::vhp_to_watts( const int power_vhp )
 bool vehicle::has_structural_part( const point &dp ) const
 {
     for( const int elem : parts_at_relative( dp, false ) ) {
-        if( part_info( elem ).location == part_location_structure &&
-            !part_info( elem ).has_flag( "PROTRUSION" ) ) {
+        const vehicle_part &vp = part( elem );
+        const vpart_info &vpi = vp.info();
+        if( vpi.location == part_location_structure &&
+            !vp.has_flag( vehicle_part::carried_flag ) &&
+            !vpi.has_flag( "PROTRUSION" ) ) {
             return true;
         }
     }
@@ -1432,6 +1435,11 @@ bool vehicle::is_connected( const vehicle_part &to, const vehicle_part &from,
     return false;
 }
 
+bool vehicle::is_appliance() const
+{
+    return has_tag( flag_APPLIANCE );
+}
+
 /**
  * Installs a part into this vehicle.
  * @param dp The coordinate of where to install the part.
@@ -1527,7 +1535,7 @@ std::vector<vehicle::rackable_vehicle> vehicle::find_vehicles_to_rack( int rack 
             for( const int &rack_part : filtered_rack ) {
                 const tripoint search_pos = global_part_pos3( rack_part ) + offset;
                 const optional_vpart_position ovp = get_map().veh_at( search_pos );
-                if( !ovp || &ovp->vehicle() == this ) {
+                if( !ovp || &ovp->vehicle() == this || ovp->vehicle().is_appliance() ) {
                     continue;
                 }
                 vehicle *const test_veh = &ovp->vehicle();
@@ -6044,7 +6052,7 @@ void vehicle::refresh( const bool remove_fakes )
     };
     // re-install fake parts - this could be done in a separate function, but we want to
     // guarantee that the fake parts were removed before being added
-    if( remove_fakes && !has_tag( "wreckage" ) && !has_tag( "APPLIANCE" ) ) {
+    if( remove_fakes && !has_tag( "wreckage" ) && !is_appliance() ) {
         // add all the obstacles first
         for( const std::pair <const point, std::vector<int>> &rp : relative_parts ) {
             add_fake_part( rp.first, "OBSTACLE" );
@@ -7144,7 +7152,7 @@ std::list<item *> vehicle::fuel_items_left()
 
 bool vehicle::is_foldable() const
 {
-    if( has_tag( flag_APPLIANCE ) ) {
+    if( is_appliance() ) {
         return false;
     }
     for( const vehicle_part &vp : real_parts() ) {

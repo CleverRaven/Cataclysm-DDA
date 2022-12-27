@@ -1907,7 +1907,7 @@ void activity_handlers::vehicle_finish( player_activity *act, Character *you )
                 // Or not, because the vehicle coordinates are dropped anyway
                 if( !resume_for_multi_activities( *you ) ) {
                     point int_p( act->values[ 2 ], act->values[ 3 ] );
-                    if( vp->vehicle().has_tag( "APPLIANCE" ) ) {
+                    if( vp->vehicle().is_appliance() ) {
                         g->exam_appliance( vp->vehicle(), int_p );
                     } else {
                         g->exam_vehicle( vp->vehicle(), int_p );
