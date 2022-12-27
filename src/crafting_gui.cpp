@@ -47,9 +47,10 @@
 #include "ui_manager.h"
 #include "uistate.h"
 
+static const limb_score_id limb_score_manip( "manip" );
+
 static const std::string flag_BLIND_EASY( "BLIND_EASY" );
 static const std::string flag_BLIND_HARD( "BLIND_HARD" );
-
 
 class npc;
 
@@ -2050,7 +2051,7 @@ static void draw_can_craft_indicator( const catacurses::window &w, const recipe 
     } else if( player_character.crafting_speed_multiplier( rec ) < 1.0f ) {
         int morale_modifier = get_player_character().morale_crafting_speed_multiplier( rec ) * 100;
         int lighting_modifier = get_player_character().lighting_craft_speed_multiplier( rec ) * 100;
-        int limb_modifier = get_player_character().get_limb_score( limb_score_id( "manip" ) ) * 100;
+        int limb_modifier = get_player_character().get_limb_score( limb_score_manip ) * 100;
 
         std::stringstream modifiers_list;
         if( morale_modifier < 100 ) {
@@ -2060,7 +2061,7 @@ static void draw_can_craft_indicator( const catacurses::window &w, const recipe 
             if( !modifiers_list.str().empty() ) {
                 modifiers_list << ", ";
             }
-            modifiers_list << ( "lighting" ) << " " << lighting_modifier << "%";
+            modifiers_list << _( "lighting" ) << " " << lighting_modifier << "%";
         }
         if( limb_modifier < 100 ) {
             if( !modifiers_list.str().empty() ) {
