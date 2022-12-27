@@ -14,9 +14,11 @@
       },
       {
         "id": "mag_bashing_1",
-        "name": { "str": "The Science of Baseball", "str_pl": "copies of The Science of Baseball" },
-        "description": "Author, as  well as several experts via interviews, covers topics like what makes the ball break, bounce, and fly; how material science and physics work together to make the bat function; how hitters use physics, geometry, and force to connect; injuries; and much more.",
-        "intelligence": 8,
+        "name": {
+          "str": "Bludgeons and Broken Bones: A Reference Guide",
+          "str_pl": "copies of Bludgeons and Broken Bones: A Reference Guide"
+        },
+        "description": "Writed with hard prison slang, this book says a lot about how to use maximum power from your muscles and weight of your weapon.",
         "weight": 1
       },
       {
@@ -26,6 +28,15 @@
           "str_pl": "copies of Bash Weapons for Self-Defense: A Practical Guide"
         },
         "description": "Small brochure of unknown self-defense shop, focused on using bash weapons for self-defense in real-world situations. It cover topics like assessing threats, using verbal commands and body language to de-escalate situations, and legal considerations for using force in self-defense. It also include techniques for using bash weapons to defend against attackers armed with knives, guns, and other weapons.",
+        "weight": 1
+      },
+      {
+        "id": "mag_bashing_3",
+        "name": {
+          "str": "Ultra Tactics: The ways of the modern warrior",
+          "str_pl": "copies of Ultra Tactics: the Ways of the Modern Warrior"
+        },
+        "description": "The book research the long, international story of ultras - fanatics football fans, that ready and want to defend the prestige of their football team in any possible way, including brutal violense and heavy bats.",
         "weight": 1
       }
     ],
