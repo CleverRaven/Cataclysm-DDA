@@ -1979,7 +1979,7 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "acid_blood",
+    "id": "blood_acid",
     "//": "depending on the lore as what acid these enemies use this could change, muriatic acid is stomach acid",
     "copy-from": "chem_muriatic_acid",
     "price": 0,
