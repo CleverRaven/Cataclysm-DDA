@@ -5612,7 +5612,7 @@ bool Character::pour_into( item_location &container, item &liquid, bool ignore_s
     }
 
     if( amount == 0) {
-        add_msg_if_player( _( "There is not enough room to add any %1$s." ), liquid.tname() );
+        add_msg_if_player( _( "There is not enough room to add any more %1$s." ), liquid.tname() );
         return false;
     }
 
