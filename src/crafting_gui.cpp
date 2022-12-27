@@ -72,8 +72,8 @@ enum CRAFTING_SPEED_STATE {
 static const std::map<const CRAFTING_SPEED_STATE, translation> craft_speed_reason_strings = {
     {TOO_DARK_TO_CRAFT, to_translation( "too dark to craft" )},
     {TOO_SLOW_TO_CRAFT, to_translation( "unable to craft" )},
-    {SLOW_BUT_CRAFTABLE, to_translation( "crafting is slow %d%%" )},
-    {FAST_CRAFTING, to_translation( "crafting is fast %d%%" )},
+    {SLOW_BUT_CRAFTABLE, to_translation( "crafting is slowed to %d%%: %s" )},
+    {FAST_CRAFTING, to_translation( "crafting is accelerated to %d%% due to amount of manipulators" )},
     {NORMAL_CRAFTING, to_translation( "craftable" )}
 };
 
@@ -2048,9 +2048,31 @@ static void draw_can_craft_indicator( const catacurses::window &w, const recipe 
     } else if( player_character.crafting_speed_multiplier( rec ) <= 0.0f ) {
         right_print( w, 0, 1, i_red, craft_speed_reason_strings.at( TOO_SLOW_TO_CRAFT ).translated() );
     } else if( player_character.crafting_speed_multiplier( rec ) < 1.0f ) {
+        int morale_modifier = get_player_character().morale_crafting_speed_multiplier( rec ) * 100;
+        int lighting_modifier = get_player_character().lighting_craft_speed_multiplier( rec ) * 100;
+        int limb_modifier = get_player_character().get_limb_score( limb_score_id( "manip" ) ) * 100;
+
+        std::stringstream modifiers_list;
+        if( morale_modifier < 100 ) {
+            modifiers_list << _( "morale" ) << " " << morale_modifier << "%";
+        }
+        if( lighting_modifier < 100 ) {
+            if( !modifiers_list.str().empty() ) {
+                modifiers_list << ", ";
+            }
+            modifiers_list << ( "lighting" ) << " " << lighting_modifier << "%";
+        }
+        if( limb_modifier < 100 ) {
+            if( !modifiers_list.str().empty() ) {
+                modifiers_list << ", ";
+            }
+            modifiers_list << _( "hands encumbrance/wounds" ) << " " << limb_modifier << "%";
+        }
+
         right_print( w, 0, 1, i_yellow,
                      string_format( craft_speed_reason_strings.at( SLOW_BUT_CRAFTABLE ).translated(),
-                                    static_cast<int>( player_character.crafting_speed_multiplier( rec ) * 100 ) ) );
+                                    static_cast<int>( player_character.crafting_speed_multiplier( rec ) * 100 ),
+                                    modifiers_list.str() ) );
     } else if( player_character.crafting_speed_multiplier( rec ) > 1.0f ) {
         right_print( w, 0, 1, i_green,
                      string_format( craft_speed_reason_strings.at( FAST_CRAFTING ).translated(),
