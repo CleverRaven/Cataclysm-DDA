@@ -5611,6 +5611,11 @@ bool Character::pour_into( item_location &container, item &liquid, bool ignore_s
         return false;
     }
 
+    if( amount == 0) {
+        add_msg_if_player( _( "There is not enough room to add any %1$s." ), liquid.tname() );
+        return false;
+    }
+
     // get_remaining_capacity_for_liquid doesn't consider the current amount of liquid
     if( liquid.count_by_charges() ) {
         amount = std::min( amount, liquid.charges );
