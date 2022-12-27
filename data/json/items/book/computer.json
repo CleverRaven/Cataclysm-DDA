@@ -239,7 +239,7 @@
       {
         "id": "manual_computer_2",
         "name": { "str": "Multimedia Computing", "str_pl": "copies of Multimedia Computing" },
-        "description": "Small book, that explain work in different application, multi and hypermedia, web, and basic work with hardvare.",
+        "description": "Small book, that explain work in different application, multi and hypermedia, web, and basic work with hardware.",
         "weight": 1
       },
       {
@@ -446,6 +446,15 @@
         "fun": 1,
         "max_level": 2,
         "intelligence": 7,
+        "weight": 1
+      },
+      {
+        "id": "hackerman_computer_4",
+        "name": { "str": "Get Coding 2!", "str_pl": "copies of Get Coding 2!" },
+        "description": "Tiny book, that describe how games are created, and simple project to make your own simple games, with lot of illustrations and funny facts.",
+        "fun": 1,
+        "max_level": 2,
+        "intelligence": 6,
         "weight": 1
       }
     ],

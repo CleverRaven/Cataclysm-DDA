@@ -1261,6 +1261,7 @@ hotkeys
 hotplates
 hotwiring
 housecat
+how-tos
 hp
 hr
 hrm
