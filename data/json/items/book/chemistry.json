@@ -360,7 +360,7 @@
       },
       {
         "id": "textbook_chemistry_3",
-        "name": { "str": "Modern Chemistry: Student Edition", "str_pl": "copies of idididididididididididid" },
+        "name": { "str": "Modern Chemistry: Student Edition", "str_pl": "copies of Modern Chemistry: Student Edition" },
         "description": "Giant, almost 1000 page book that cover anything the student may want (and may not want) to know about chemistry, from foundations to intermediate level.",
         "weight": 1
       }
@@ -407,7 +407,7 @@
       {
         "id": "textbook_extraction_2",
         "name": { "str": "Essential Oil Distillation", "str_pl": "copies of Essential Oil Distillation" },
-        "description": "This book provides a detailed guide to the process of distilling essential oils, including information on equipment and process of extracting them from plant materials. It also includes tips for selecting and storing essential oils, as well as using the subproducts of manufacturing.",
+        "description": "This book provides a detailed guide to the process of distilling essential oils, including information on equipment and process of extracting them from plant materials. It also includes tips for selecting and storing essential oils, as well as using the byproducts of manufacturing.",
         "weight": 1
       }
     ],
@@ -549,7 +549,7 @@
           "str": "A Literature Review on Cold Cracking of Petroleum Crude Oil",
           "str_pl": "copies of A Literature Review on Cold Cracking of Petroleum Crude Oil"
         },
-        "description": "This book describe the method of cold petroleum cracking - the type of process, that occur in the temperature below the freezing point, comparing the common process, that occur on nearly 400 centrigrade level.  You can't really use this type of process without lot of additional equipment, but the book provide plenty of information about common methods, that you can make by hand.",
+        "description": "This book describe the method of cold petroleum cracking - the type of process, that occur in the temperature below the freezing point, comparing the common process, that occur on nearly 400 centigrade level.  You can't really use this type of process without lot of additional equipment, but the book provide plenty of information about common methods, that you can make by hand.",
         "fun": -2,
         "intelligence": 10,
         "weight": 1
@@ -637,7 +637,7 @@
       {
         "id": "textbook_biodiesel_7",
         "name": { "str": "Bean Diesel", "str_pl": "copies of Bean Diesel" },
-        "description": "The original cover of this book was replaced wiht white sheet of paper with hand made \"Bean Diesel\" lable and simplified, draw by pen, image of Vin Diesel.  Except of this, it is pretty mundane handbook about biofuel production.",
+        "description": "The original cover of this book was replaced with white sheet of paper with hand made \"Bean Diesel\" lable and simplified, draw by pen, image of Vin Diesel.  Except of this, it is pretty mundane handbook about biofuel production.",
         "weight": 1
       }
     ],

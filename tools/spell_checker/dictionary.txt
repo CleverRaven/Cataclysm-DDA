@@ -262,6 +262,8 @@ bioblaster
 biocompatibility
 bioelectricity
 bioforms
+biofuel
+biofuels
 biographic
 biohacker
 biollante
@@ -991,6 +993,8 @@ flippin
 floppies
 flours
 floury
+flowchart
+flowcharts
 fluffies
 fluidly
 flummox
@@ -1283,6 +1287,7 @@ hypacrosaurus
 hyperaggressive
 hyperdimensional
 hypergeometric
+hypermedia
 hypervelocity
 hypervitaminosis
 hypno
@@ -1481,6 +1486,7 @@ lbs
 leache
 leatherbacked
 leatherbound
+leathercrafters 
 leatherworking
 leavening
 lectern
@@ -1627,6 +1633,7 @@ metalworking
 metamaterial
 metatopography
 methacola
+methodologies
 methothexazole
 metrology
 miasaura
@@ -2106,6 +2113,7 @@ proten
 prototyping
 protuberances
 prybar
+pseudocode
 pseudopod
 pseudopods
 pshht
@@ -2635,6 +2643,7 @@ swappable
 swashbucklers
 sweetish
 switchgear
+swordmanship
 syde
 sylvatica
 sylvite

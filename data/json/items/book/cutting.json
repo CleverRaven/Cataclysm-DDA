@@ -24,7 +24,7 @@
       {
         "id": "mag_cutting_2",
         "name": { "str": "The Beginner's Guide to the Long Sword", "str_pl": "copies of The Beginner's Guide to the Long Sword" },
-        "description": "Based on different europeans martial arts, this book describe the main principles of swordmanships.",
+        "description": "Based on different europeans martial arts, this book describe the main principles of swordmanship.",
         "max_level": 3,
         "intelligence": 7,
         "fun": 0,
@@ -70,7 +70,7 @@
       {
         "id": "manual_cutting_1",
         "name": { "str": "The Medieval Dagger", "str_pl": "copies of The Medieval Dagger" },
-        "description": "Principles and guides of italian dagger combat, with useful drills and novice adcives.",
+        "description": "Principles and guides of italian dagger combat, with useful drills and novice advices.",
         "weight": 1
       },
       {
@@ -141,7 +141,7 @@
       {
         "id": "manual_swords_3",
         "name": { "str": "The Unfettered Mind", "str_pl": "copies of The Unfettered Mind" },
-        "description": "Ancient japanese book of advice about builing proper skills and mind for sword fight.  Talks too much about Zen, but sword techniques are worth noting.",
+        "description": "Ancient japanese book of advice about building proper skills and mind for sword fight.  Talks too much about Zen, but sword techniques are worth noting.",
         "weight": 1
       },
       {
@@ -153,7 +153,7 @@
       {
         "id": "manual_swords_5",
         "name": { "str": "Art of Sword Combat", "str_pl": "copies of Art of Sword Combat" },
-        "description": "Translation of an old german treatise about using few different cut weapons in a real fight, with modern comments and clarifications.",
+        "description": "Translation of an old german treatise about using few different cut weapons in a real fight, with modern comments and clarification.",
         "weight": 1
       }
     ],

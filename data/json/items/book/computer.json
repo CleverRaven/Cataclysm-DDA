@@ -21,14 +21,14 @@
       {
         "id": "SICP_2",
         "name": { "str": "The Art of Computer Programming, Vol. 1", "str_pl": "copies of The Art of Computer Programming, Vol. 1" },
-        "description": "Huge referense manual about fundamental algoritms, with lot of examples and math.",
+        "description": "Huge reference  manual about fundamental algorithms, with lot of examples and math.",
         "fun": -2,
         "weight": 1
       },
       {
         "id": "SICP_3",
         "name": { "str": "The Art of Computer Programming, Vol. 3", "str_pl": "copies of The Art of Computer Programming, Vol. 3" },
-        "description": "Huge referense manual about sorting and searching algoritms, with lot of examples and math.",
+        "description": "Huge reference manual about sorting and searching algorithms, with lot of examples and math.",
         "fun": -2,
         "weight": 1
       }
@@ -172,7 +172,7 @@
       {
         "id": "mag_computer_1",
         "name": { "str": "PCMag", "str_pl": "issues of PCMag" },
-        "description": "Old, shabby magazine about harware and software.  The last page says this is the last printed issue, as they going all digit.",
+        "description": "Old, shabby magazine about hardware and software.  The last page says this is the last printed issue, as they going all digit.",
         "weight": 1
       },
       {
@@ -284,13 +284,13 @@
       {
         "id": "textbook_computer_1",
         "name": { "str": "Modern Software Engineering", "str_pl": "copies of Modern Software Engineering" },
-        "description": "The book illuminates durable principles at the heart of effective software developement, with historic examples and personal experience.",
+        "description": "The book illuminates durable principles at the heart of effective software development, with historic examples and personal experience.",
         "weight": 1
       },
       {
         "id": "textbook_computer_2",
         "name": { "str": "Fundamentals of Software Architecture", "str_pl": "copies of Fundamentals of Software Architecture" },
-        "description": "This book examine different arcitecture patterns and components of good application.",
+        "description": "This book examine different architecture patterns and components of good application.",
         "weight": 1
       },
       {
@@ -305,19 +305,19 @@
       {
         "id": "textbook_computer_4",
         "name": { "str": "Clean Code", "str_pl": "copies of Clean Code" },
-        "description": "The book describe the key features of popular computer language, with features you can use to enhance your working enviroment and experience, same as code.",
+        "description": "The book describe the key features of popular computer language, with features you can use to enhance your working environment and experience, same as code.",
         "weight": 1
       },
       {
         "id": "textbook_computer_5",
         "name": { "str": "Mastering Apex Programming", "str_pl": "copies of Mastering Apex Programming" },
-        "description": "The book shows the most common pitfall unexperienced programmer may met in his work, and different solutions it can use to resolve or avoid them.",
+        "description": "The book shows the most common pitfall inexperienced programmer may met in his work, and different solutions it can use to resolve or avoid them.",
         "weight": 1
       },
       {
         "id": "textbook_computer_5",
         "name": { "str": "Data-Driven Science and Engineering", "str_pl": "copies of Data-Driven Science and Engineering" },
-        "description": "Guide for scientists and engineeres of how to use modern computer systems and methods in their work.",
+        "description": "Guide for scientists and engineers of how to use modern computer systems and methods in their work.",
         "weight": 1
       }
     ],
@@ -354,7 +354,7 @@
       {
         "id": "webbasics_computer_1",
         "name": { "str": "Get Coding!", "str_pl": "copies of Get Coding!" },
-        "description": "Comics-like manual of how to perform simple code tasks, targetet at kids.",
+        "description": "Comics-like manual of how to perform simple code tasks, targeted at kids.",
         "required_level": 0,
         "weight": 1
       },
@@ -442,7 +442,7 @@
       {
         "id": "hackerman_computer_3",
         "name": { "str": "Grokking Algorithms", "str_pl": "copies of Grokking Algorithms" },
-        "description": "Fully illustrated, friendly guide how different algoritms are used to solve practical problems - both in real life and in programming.",
+        "description": "Fully illustrated, friendly guide how different algorithms are used to solve practical problems - both in real life and in programming.",
         "fun": 1,
         "max_level": 2,
         "intelligence": 7,
