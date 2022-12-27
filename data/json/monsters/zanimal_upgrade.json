@@ -316,6 +316,7 @@
     "attack_cost": 195,
     "color": "light_gray_yellow",
     "bleed_rate": 40,
+    "harvest": "zombie_leather_acid",
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_biochemistry" ],
     "special_attacks": [ [ "ACID", 15 ] ],
     "death_function": { "message": "The %s's body leaks acid.", "effect": { "id": "death_acid", "hit_self": true } },

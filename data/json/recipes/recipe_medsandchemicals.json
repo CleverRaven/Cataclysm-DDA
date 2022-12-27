@@ -1819,8 +1819,9 @@
     "skill_used": "chemistry",
     "difficulty": 3,
     "time": "20 m",
-    "batch_time_factors": [ 80, 4 ],
+    "batch_time_factors": [ 50, 2 ],
     "autolearn": true,
+    "book_learn": [ [ "textbook_chemistry", 2 ], [ "adv_chemistry", 2 ], [ "atomic_survival", 1 ], [ "recipe_labchem", 1 ] ],
     "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "CHEM", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" } ],
     "tools": [
@@ -1831,7 +1832,7 @@
     ],
     "components": [
       [ [ "chem_ethanol", 250 ], [ "denat_alcohol", 250 ], [ "mixed_alcohol_strong", 14 ] ],
-      [ [ "blood_acid_zombie", 3 ] ]
+      [ [ "blood_acid", 2 ] ]
     ]
   },
   {
@@ -1843,11 +1844,12 @@
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
     "skill_used": "chemistry",
-    "difficulty": 5,
+    "difficulty": 6,
     "time": "40 m",
-    "batch_time_factors": [ 80, 4 ],
-    "autolearn": true,
-    "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "CHEM", "level": 2 }, { "id": "DISTILL", "level": 2 } ],
+    "batch_time_factors": [ 50, 2 ],
+    "autolearn": false,
+    "book_learn": [ [ "textbook_chemistry", 6 ], [ "adv_chemistry", 6 ], [ "atomic_survival", 5 ], [ "recipe_labchem", 5 ] ],
+    "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "CHEM", "level": 2 }, { "id": "DISTILL", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" } ],
     "tools": [
       [ [ "surface_heat", 10, "LIST" ] ],
@@ -1857,7 +1859,7 @@
     ],
     "components": [
       [ [ "chem_ethanol", 250 ], [ "denat_alcohol", 250 ], [ "mixed_alcohol_strong", 14 ] ],
-      [ [ "blood_acid_zombie", 3 ] ]
+      [ [ "blood_acid", 2 ] ]
     ]
   },
   {
@@ -1871,14 +1873,15 @@
     "skill_used": "chemistry",
     "difficulty": 3,
     "time": "20 m",
-    "batch_time_factors": [ 80, 4 ],
+    "batch_time_factors": [ 50, 2 ],
     "autolearn": true,
+    "book_learn": [ [ "textbook_chemistry", 2 ], [ "adv_chemistry", 2 ], [ "atomic_survival", 1 ], [ "recipe_labchem", 1 ] ],
     "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "CHEM", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" } ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ], [ [ "ppe_eyes", 1, "LIST" ] ], [ [ "ppe_gloves", 1, "LIST" ] ] ],
     "components": [
       [ [ "chem_ethanol", 250 ], [ "denat_alcohol", 250 ], [ "mixed_alcohol_strong", 14 ] ],
-      [ [ "blood_acid_arachnid", 3 ] ]
+      [ [ "blood_acid_insect", 2 ] ]
     ]
   },
   {
@@ -1891,16 +1894,17 @@
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
     "skill_used": "chemistry",
-    "difficulty": 5,
+    "difficulty": 6,
     "time": "40 m",
-    "batch_time_factors": [ 80, 4 ],
-    "autolearn": true,
-    "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "CHEM", "level": 2 }, { "id": "DISTILL", "level": 2 } ],
+    "batch_time_factors": [ 50, 2 ],
+    "autolearn": false,
+    "book_learn": [ [ "textbook_chemistry", 6 ], [ "adv_chemistry", 6 ], [ "atomic_survival", 5 ], [ "recipe_labchem", 5 ] ],
+    "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "CHEM", "level": 2 }, { "id": "DISTILL", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "ppe_eyes", 1, "LIST" ] ], [ [ "ppe_gloves", 1, "LIST" ] ] ],
     "components": [
       [ [ "chem_ethanol", 250 ], [ "denat_alcohol", 250 ], [ "mixed_alcohol_strong", 14 ] ],
-      [ [ "blood_acid_arachnid", 3 ] ]
+      [ [ "blood_acid_insect", 2 ] ]
     ]
   },
   {
@@ -1913,12 +1917,13 @@
     "skill_used": "chemistry",
     "difficulty": 3,
     "time": "20 m",
-    "batch_time_factors": [ 80, 4 ],
+    "batch_time_factors": [ 50, 2 ],
     "autolearn": true,
+    "book_learn": [ [ "textbook_chemistry", 2 ], [ "adv_chemistry", 2 ], [ "atomic_survival", 1 ], [ "recipe_labchem", 1 ] ],
     "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "CHEM", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" } ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ], [ [ "ppe_eyes", 1, "LIST" ] ], [ [ "ppe_gloves", 1, "LIST" ] ] ],
-    "components": [ [ [ "chem_ethanol", 250 ], [ "denat_alcohol", 250 ], [ "mixed_alcohol_strong", 14 ] ], [ [ "blood_acid_plant", 3 ] ] ]
+    "components": [ [ [ "chem_ethanol", 250 ], [ "denat_alcohol", 250 ], [ "mixed_alcohol_strong", 14 ] ], [ [ "blood_acid_plant", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -1929,14 +1934,15 @@
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
     "skill_used": "chemistry",
-    "difficulty": 5,
+    "difficulty": 6,
     "time": "40 m",
-    "batch_time_factors": [ 80, 4 ],
-    "autolearn": true,
-    "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "CHEM", "level": 2 }, { "id": "DISTILL", "level": 2 } ],
+    "batch_time_factors": [ 50, 2 ],
+    "autolearn": false,
+    "book_learn": [ [ "textbook_chemistry", 6 ], [ "adv_chemistry", 6 ], [ "atomic_survival", 5 ], [ "recipe_labchem", 5 ] ],
+    "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "CHEM", "level": 2 }, { "id": "DISTILL", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "ppe_eyes", 1, "LIST" ] ], [ [ "ppe_gloves", 1, "LIST" ] ] ],
-    "components": [ [ [ "chem_ethanol", 250 ], [ "denat_alcohol", 250 ], [ "mixed_alcohol_strong", 14 ] ], [ [ "blood_acid_plant", 3 ] ] ]
+    "components": [ [ [ "chem_ethanol", 250 ], [ "denat_alcohol", 250 ], [ "mixed_alcohol_strong", 14 ] ], [ [ "blood_acid_plant", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -1948,8 +1954,9 @@
     "skill_used": "chemistry",
     "difficulty": 4,
     "time": "20 m",
-    "batch_time_factors": [ 80, 4 ],
+    "batch_time_factors": [ 50, 2 ],
     "autolearn": true,
+    "book_learn": [ [ "textbook_chemistry", 2 ], [ "adv_chemistry", 2 ], [ "atomic_survival", 1 ], [ "recipe_labchem", 1 ] ],
     "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "CHEM", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_inorganic_chemistry" } ],
     "tools": [
@@ -1958,6 +1965,6 @@
       [ [ "ppe_gloves", 1, "LIST" ] ],
       [ [ "ppe_skin", 1, "LIST" ] ]
     ],
-    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "blood_acid_ground", 3 ] ] ]
+    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "blood_acid_ground", 2 ] ] ]
   }
 ]

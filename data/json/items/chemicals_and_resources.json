@@ -1979,7 +1979,7 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "blood_acid_zombie",
+    "id": "blood_acid",
     "//": "depending on the lore as what acid these enemies use this could change, muriatic acid is stomach acid",
     "copy-from": "chem_muriatic_acid",
     "price": 0,
@@ -1992,7 +1992,7 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "blood_acid_arachnid",
+    "id": "blood_acid_insect",
     "copy-from": "formic_acid",
     "category": "chems",
     "price_postapoc": 0,
