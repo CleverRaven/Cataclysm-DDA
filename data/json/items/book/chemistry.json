@@ -42,7 +42,7 @@
           "str": "Physical Chemistry for Scientists and Engineers",
           "str_pl": "copies of Physical Chemistry for Scientists and Engineers"
         },
-        "description": "This book is designed for students in engineering and the physical sciences who are interested in applying physical chemistry concepts to real-world problems. It covers topics such as thermodynamics, statistical mechanics, and transport phenomena, and includes examples and problems drawn from engineering and scientific applications.",
+        "description": "This book is designed for students in engineering and the physical sciences who are interested in applying physical chemistry concepts to real-world problems.  It covers topics such as thermodynamics, statistical mechanics, and transport phenomena, and includes examples and problems drawn from engineering and scientific applications.",
         "weight": 1
       }
     ],
@@ -355,7 +355,7 @@
       {
         "id": "textbook_chemistry_2",
         "name": { "str": "General Chemistry", "str_pl": "copies of General Chemistry" },
-        "description": "Revised third edition of classic first-year text by Nobel laureate. Covers atomic and molecular structure, quantum mechanics, statistical mechanics, and thermodynamics correlated with descriptive chemistry problems.",
+        "description": "Revised third edition of classic first-year text by Nobel laureate.  Covers atomic and molecular structure, quantum mechanics, statistical mechanics, and thermodynamics correlated with descriptive chemistry problems.",
         "weight": 1
       },
       {
@@ -399,7 +399,7 @@
         "id": "textbook_extraction_1",
         "name": {
           "str": "Handbook of Essential Oils: Science, Technology, and Applications",
-          "str_pl": "Handbook of Essential Oils: Science, Technology, and Applications"
+          "str_pl": "copies of Handbook of Essential Oils: Science, Technology, and Applications"
         },
         "description": "This book presents the development, use and marketing of essential oils, with wide range of topic, sources, production and analysis.",
         "weight": 1
