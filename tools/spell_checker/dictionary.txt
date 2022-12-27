@@ -1261,7 +1261,6 @@ hotkeys
 hotplates
 hotwiring
 housecat
-how-tos
 hp
 hr
 hrm
@@ -2739,6 +2738,7 @@ topickup
 toroids
 torosaurus
 torvosaurus
+tos
 totipotent
 tourmaline
 trailheads
@@ -2804,6 +2804,7 @@ uggo
 uistate
 ultracapacitor
 ultralight
+ultras 
 ultratech
 unarmored
 unawareness
