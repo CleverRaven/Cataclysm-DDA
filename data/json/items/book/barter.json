@@ -34,13 +34,13 @@
       {
         "id": "manual_business_1",
         "name": { "str": "How To Day Trade For A Living", "str_pl": "copies of How To Day Trade For A Living" },
-        "description": "Author describe the fundamentals of day trading, explain how day trading is different from other styles of trading and investment, and elaborate on important trading strategies that many traders use every day.",
+        "description": "Author describes the fundamentals of day trading, explain how day trading is different from other styles of trading and investment, and elaborate on important trading strategies that many traders use every day.",
         "weight": 1
       },
       {
         "id": "manual_business_1",
         "name": { "str": "Trading Psychology For Dummies", "str_pl": "copies of Trading Psychology For Dummies" },
-        "description": "Helps you develop a mindset to trade on a rapidly changes stock market.  Not much useful in current moment, when the main stock you have is a stock of your gun.",
+        "description": "Helps you develop a mindset to trade on a rapidly changing stock market.  Not much useful in current moment, when the main stock you have is a stock of your gun, or maybe a soup.",
         "weight": 1
       }
     ],
@@ -75,14 +75,14 @@
       {
         "id": "textbook_business_1",
         "name": { "str": "Peer to Peer Bartering", "str_pl": "copies of Peer to Peer Bartering" },
-        "description": "In this work author adopt bartering incentive pattern as an attractive foundation for a simple and robust form of exchange to re allocate resources.",
+        "description": "In this work author adopt bartering incentive pattern as an attractive foundation for a simple and robust form of exchange to reallocate resources.",
         "price": 60000,
         "weight": 1
       },
       {
         "id": "textbook_business_2",
         "name": { "str": "Trading Basics", "str_pl": "copies of Trading Basics" },
-        "description": "Comprehensive coverage of the most major trading styles.",
+        "description": "Comprehensive coverage of most major trading styles.",
         "weight": 1
       }
     ],

@@ -32,7 +32,7 @@
       {
         "id": "book_archery_1",
         "name": { "str": "Archery Anatomy", "str_pl": "copies of Archery Anatomy" },
-        "description": "Book, that highlight archery techniques from the point of view of the relationship between the anatomy of the human body and the anatomy of the bow.",
+        "description": "A book that highlights archery techniques from the point of view of the relationship between the anatomy of the human body and the anatomy of the bow.",
         "weight": 1
       },
       {
@@ -64,7 +64,7 @@
       {
         "id": "manual_archery_1",
         "name": {
-          "str": "Beginner s Guide to Traditional Archery Sorrells",
+          "str": "Beginner's Guide to Traditional Archery Sorrells",
           "str_pl": "copies of Beginner s Guide to Traditional Archery Sorrells"
         },
         "description": "Easy-to-understand instruction for traditional archery.  Covers both target shooting and bow hunting.",

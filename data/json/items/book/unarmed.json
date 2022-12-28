@@ -99,7 +99,7 @@
       },
       {
         "id": "manual_brawl_5",
-        "name": { "str": "The Bigger They Are, The Harder They Fall", "str_pl": "The Bigger They Are, The Harder They Fall" },
+        "name": { "str": "The Bigger They Are, The Harder They Fall", "str_pl": "copies of The Bigger They Are, The Harder They Fall" },
         "description": "Simple rules, that you need to rely on to fight the enemy of different constitution - with techniques and tactics.",
         "weight": 1
       }

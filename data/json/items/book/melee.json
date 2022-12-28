@@ -8,7 +8,7 @@
     "variants": [
       {
         "id": "mag_melee",
-        "name": { "str": "CQB Monthly", "str_pl": "copies of CQB Monthly" },
+        "name": { "str": "CQB Monthly", "str_pl": "issues of CQB Monthly" },
         "description": "An in-depth look at various styles of close quarters fighting.  There's an amusing essay about dirty tricks in the front section.",
         "weight": 1
       },
@@ -21,7 +21,7 @@
       {
         "id": "mag_melee_2",
         "name": { "str": "Maximum Damage", "str_pl": "copies of Maximum Damage" },
-        "description": "The book teach user the method to predict enemies attacks, with nice explanation of how to reach on each of them - both defense and counterattacks.",
+        "description": "The book teach user the method to predict enemies attacks, with nice explanation of how to react on each of them - both defense and counterattacks.",
         "weight": 1
       },
       {

@@ -407,7 +407,7 @@
       {
         "id": "textbook_extraction_2",
         "name": { "str": "Essential Oil Distillation", "str_pl": "copies of Essential Oil Distillation" },
-        "description": "This book provides a detailed guide to the process of distilling essential oils, including information on equipment and process of extracting them from plant materials. It also includes tips for selecting and storing essential oils, as well as using the byproducts of manufacturing.",
+        "description": "This book provides a detailed guide to the process of distilling essential oils, including information on equipment and process of extracting them from plant materials.  It also includes tips for selecting and storing essential oils, as well as using the byproducts of manufacturing.",
         "weight": 1
       }
     ],
