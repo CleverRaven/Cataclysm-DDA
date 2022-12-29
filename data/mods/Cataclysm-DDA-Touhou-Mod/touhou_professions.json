@@ -1,0 +1,526 @@
+[
+  {
+    "ident": "fujiwara_no_mokou",
+    "type": "profession",
+    "name": "Hourai Incarnate",
+    "description": "Your immortal rival that you've been killing constantly (and vice-versa) has mysteriously vanished during the Cataclysm, along with everyone else that you knew.  You face the post-Cataclysm world alone with lots and lots of fire.",
+    "points": 4,
+    "proficiencies": [ "prof_food_prep", "prof_wound_care" ],
+    "spells": [
+      { "level": 1, "id": "dash_mokou" },
+      { "level": 1, "id": "mokou_blazekick" },
+      { "level": 1, "id": "mokou_cauterize" },
+      { "level": 1, "id": "mokou_combustion" },
+      { "level": 1, "id": "mokou_fingeflame" },
+      { "level": 1, "id": "mokou_fujiyamakazan" },
+      { "level": 1, "id": "mokou_phoenixtalons" }
+    ],
+    "skills": [
+      { "level": 2, "name": "cooking" },
+      { "level": 1, "name": "dodge" },
+      { "level": 1, "name": "firstaid" },
+      { "level": 3, "name": "melee" },
+      { "level": 2, "name": "survival" },
+      { "level": 2, "name": "tailor" },
+      { "level": 3, "name": "unarmed" }
+    ],
+    "traits": [ "HOURAI_SPECIES", "PROF_MOKOU", "SPIRIT_USER" ],
+    "items": {
+      "both": [
+        "mokou_boots",
+        "mokou_hakama",
+        "mokou_ribbon",
+        "mokou_ribbon",
+        "mokou_ribbon",
+        "mokou_ribbon",
+        "mokou_ribbon",
+        "mokou_ribbon",
+        "mokou_ribbon",
+        "mokou_shirt"
+      ],
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
+    },
+    "flags": [ "SCEN_ONLY" ],
+    "//": "Lorewise she sould have lots of numbers, skills, proficiencies, etc. Balancewise that's not very good. Also, I took the yakitori joke seriously"
+  },
+  {
+    "ident": "hong_meiling",
+    "type": "profession",
+    "name": "Gatekeeper of the Devil",
+    "description": "Another uneventful day: holding the gates, doing repeats, not napping… The Mistress called you, very unusual for her to be awake at daytime.  She asked to lock down everything and go track the head maid for \"security reasons\".  You complied, almost caught up, really just at the boundary of your vision, when she… vanished?  Seems that you lost yourself too, you can't recall the last time humans walked without qi.",
+    "points": 2,
+    "proficiencies": [ "prof_food_prep" ],
+    "spells": [
+      { "level": 1, "id": "dash_meiling" },
+      { "level": 1, "id": "meiling_bloodfm" },
+      { "level": 1, "id": "meiling_mountainbreak" },
+      { "level": 1, "id": "meiling_qiblast" },
+      { "level": 1, "id": "meiling_qiheal" },
+      { "level": 1, "id": "meiling_qipunch" },
+      { "level": 1, "id": "meiling_redrelease" },
+      { "level": 1, "id": "meiling_tigerrelease" }
+    ],
+    "//": "A barrier/counter spell would be nice, something like a hit_me_effect trigger to grant a buff_meiling_onblock (her martial arts technique)",
+    "skills": [
+      { "level": 1, "name": "cooking" },
+      { "level": 1, "name": "dodge" },
+      { "level": 2, "name": "melee" },
+      { "level": 3, "name": "unarmed" }
+    ],
+    "traits": [ "DEFT", "EASYSLEEPER", "HEAVYSLEEPER", "PROF_MEILING", "YOUKAI_SPECIES", "SPIRIT_USER" ],
+    "items": {
+      "both": [
+        "dress_shoes",
+        "meiling_cheongsam_upper",
+        "meiling_cheongsam_lower",
+        "meiling_hat",
+        "meiling_shirt",
+        "socks",
+        "tai_chi_pants"
+      ],
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
+    },
+    "flags": [ "SCEN_ONLY" ],
+    "//2": "Meiling uses the pants in Soku but not in PMiSS"
+  },
+  {
+    "ident": "iku_nagae",
+    "type": "profession",
+    "name": "Oarfish Messenger",
+    "description": "The last day was very busy.  First, you were given a message to deliver to the head of the Hinanawi.  After reaching the clan however, you were told by them and your superiors to find Tenshi as soon as possible.  You followed her down in Earth, when the event struck.  Now you don't only have to complete your mission, but you also seem to be stuck here.",
+    "points": 4,
+    "skills": [
+      { "level": 2, "name": "bashing" },
+      { "level": 1, "name": "cutting" },
+      { "level": 2, "name": "dodge" },
+      { "level": 2, "name": "melee" },
+      { "level": 2, "name": "speech" },
+      { "level": 4, "name": "swimming" }
+    ],
+    "spells": [
+      { "level": 1, "id": "dash_basic" },
+      { "level": 1, "id": "iku_dragonstrike" },
+      { "level": 1, "id": "iku_elekiter" },
+      { "level": 1, "id": "iku_staticfield" },
+      { "level": 1, "id": "iku_stickleback" },
+      { "level": 1, "id": "iku_thunderfish" },
+      { "level": 1, "id": "iku_waterveil" }
+    ],
+    "traits": [ "OARFISH_SPECIES", "PROF_IKU", "SPIRIT_USER" ],
+    "items": {
+      "both": [ "dress_shoes", "iku_dress_shirt", "iku_fedora", "iku_long_scarf", "iku_skirt", "stockings" ],
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
+    },
+    "flags": [ "SCEN_ONLY" ]
+  },
+  {
+    "ident": "kaenbyou_rin",
+    "type": "profession",
+    "name": "Hell's traffic accident",
+    "description": "It was yet another uneventful day down there helping Okuu with the reactor: corpses burning, spirits floating, fusion fuel being distilled, eating lunch with your master… You craved a nap at the Shrine, so you snuck to reach your goal… and somehow got lost.  You smell death *everywhere*, which would be amazing if it wasn't that these dead are moving, they're angry, and they're not listening to what you have to say.",
+    "points": 2,
+    "spells": [
+      { "level": 1, "id": "dash_basic" },
+      { "level": 1, "id": "kaenbyou_immolate" },
+      { "level": 1, "id": "kaenbyou_soulfire" },
+      { "level": 1, "id": "kaenbyou_vssummon" },
+      { "level": 1, "id": "kaenbyou_vsrelease" }
+    ],
+    "skills": [
+      { "level": 2, "name": "dodge" },
+      { "level": 4, "name": "driving" },
+      { "level": 2, "name": "mechanics" },
+      { "level": 2, "name": "speech" }
+    ],
+    "vehicle": "kaenbyou_wheelbarrow",
+    "traits": [ "KASHA_EARS", "KASHA_SPECIES", "KASHA_TAILS", "PROF_KAENBYOU", "YOUKAI_SPECIES", "SPIRIT_USER" ],
+    "items": {
+      "both": {
+        "items": [
+          "kasha_book",
+          "kaenbyou_dress",
+          "kaenbyou_leg_lace",
+          "kaenbyou_shoes",
+          "kaenbyou_vest",
+          "ribbon_black",
+          "ribbon_black",
+          "ribbon_black",
+          "ribbon_black"
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
+    },
+    "flags": [ "SCEN_ONLY" ],
+    "//2": "Investigate about the Necromancy: Communication stuff for her profession !!!"
+  },
+  {
+    "ident": "nitori_kawashiro",
+    "type": "profession",
+    "name": "Lateral-Thinking Kappa",
+    "description": "WIP.",
+    "points": 4,
+    "skills": [
+      { "level": 6, "name": "dodge" },
+      { "level": 8, "name": "electronics" },
+      { "level": 8, "name": "fabrication" },
+      { "level": 8, "name": "mechanics" },
+      { "level": 8, "name": "swimming" }
+    ],
+    "traits": [ "YOUKAI_SPECIES", "SPIRIT_USER" ],
+    "items": {
+      "both": { "items": [ "hose" ], "entries": [ { "item": "rm451_flamethrower", "contents-item": "shoulder_strap" } ] },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
+    },
+    "flags": [ "SCEN_ONLY" ]
+  },
+  {
+    "ident": "reisen_udongein_inaba",
+    "type": "profession",
+    "name": "Lunatic Moon Rabbit",
+    "description": "The weekly lesson you were being given by your Master was promptly interrupted after receiving some kind of message (from the Moon?).  Shortly after, she returned with a serious face and lots of letters directed to the faction leaders.  You finished the errand when you noticed you got lost.  For some reason, the Network is silent too.",
+    "points": 4,
+    "proficiencies": [ "prof_intro_biology", "prof_intro_chemistry", "prof_inorganic_chemistry", "prof_pharmaceutical" ],
+    "spells": [
+      { "level": 1, "id": "dash_basic" },
+      { "level": 1, "id": "udonge_iblast" },
+      { "level": 1, "id": "udonge_waveinsight" },
+      { "level": 1, "id": "udonge_wavemfortitude" },
+      { "level": 1, "id": "udonge_waveperception" },
+      { "level": 1, "id": "udonge_wavestealth" }
+    ],
+    "skills": [
+      { "level": 2, "name": "dodge" },
+      { "level": 2, "name": "firstaid" },
+      { "level": 2, "name": "gun" },
+      { "level": 1, "name": "launcher" },
+      { "level": 3, "name": "pistol" },
+      { "level": 2, "name": "rifle" },
+      { "level": 2, "name": "smg" },
+      { "level": 1, "name": "shotgun" }
+    ],
+    "traits": [ "GYOKUTO_SPECIES", "GYOKUTO_EARS", "SPIRIT_UNTRAINED" ],
+    "items": {
+      "both": {
+        "items": [
+          "udonge_clip",
+          "udonge_dress_shoes",
+          "ldc_ear_accessory",
+          "lunar_guide1",
+          "udonge_skirt",
+          "udonge_shirt",
+          "socks",
+          "udonge_tie"
+        ],
+        "entries": [ { "item": "lunatic_pistol2", "ammo-item": "ammo_lunar_small_2", "charges": 13, "container-item": "lunatic_holster" } ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ],
+      "//3": "if possible, implement a shot spread effect with 2-3 bullets on a cone and 8-7 illusionary bullets that deal no damage, and change the sprite because I don't like the current * ",
+      "//4": "Finally, see if I can implement her LoLK bomb, or not if that would be outright broken alongside her stealth passive that should have priority"
+    },
+    "flags": [ "SCEN_ONLY" ]
+  },
+  {
+    "ident": "reisen_II",
+    "type": "profession",
+    "name": "Moon Rabbit Recruit",
+    "description": "You were accompanying the Watatsuki sisters on their visit to Earth when the Cataclysm struck! In the chaos and panic that followed the collapse of the Barrier (or that's what you heard from them), you got separated and left alone.  To make things worse, you can't contact your peers by use of the Gyokuto network.  You've got some skills from your Lunar Defense Corps training, but you'll need more than that to survive…",
+    "points": 4,
+    "spells": [
+      { "level": 1, "id": "dash_reisen" },
+      { "level": 1, "id": "reisen_entanglement" },
+      { "level": 1, "id": "reisen_optimism" },
+      { "level": 1, "id": "reisen_probabilitynoise" },
+      { "level": 1, "id": "reisen_uncertaintybox" }
+    ],
+    "skills": [
+      { "level": 2, "name": "dodge" },
+      { "level": 2, "name": "gun" },
+      { "level": 1, "name": "melee" },
+      { "level": 2, "name": "rifle" },
+      { "level": 2, "name": "stabbing" }
+    ],
+    "traits": [ "GYOKUTO_SPECIES", "GYOKUTO_EARS", "LUNARDIET", "SPIRIT_UNTRAINED" ],
+    "items": {
+      "both": {
+        "items": [
+          "ldc_dress_shirt",
+          "ldc_dress_shoes",
+          "ldc_helmet",
+          "ldc_kneesocks",
+          "ldc_skirt",
+          "ldc_suit",
+          "ldc_tie",
+          "ldc_veil_deactivated",
+          "lunar_guide1"
+        ],
+        "entries": [ { "item": "lunar_rifle2", "ammo-item": "ammo_lunar_medium_1", "charges": 11, "contents-item": "shoulder_strap" } ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
+    },
+    "flags": [ "SCEN_ONLY" ]
+  },
+  {
+    "ident": "remilia_scarlet",
+    "type": "profession",
+    "name": "Scarlet Devil",
+    "description": "That scheming youkai refusing to elaborate was part of her plan for you to move.  Both sides knew that, but that's a custom when dealing important matters to you, so you didn't mind.  What pisses you off is that innocent parties are involved with this much of a threat.  This better be interesting.",
+    "points": 5,
+    "spells": [
+      { "level": 1, "id": "dash_remi" },
+      { "level": 1, "id": "remilia_bloodboil" },
+      { "level": 1, "id": "remilia_consumeblood" },
+      { "level": 1, "id": "remilia_demonfork" },
+      { "level": 1, "id": "remilia_gungnir" },
+      { "level": 1, "id": "remilia_gungnir_throw" },
+      { "level": 1, "id": "remilia_miserablefate" },
+      { "level": 1, "id": "remilia_vampiricaura" }
+    ],
+    "skills": [
+      { "level": 2, "name": "dodge" },
+      { "level": 3, "name": "melee" },
+      { "level": 3, "name": "stabbing" },
+      { "level": 3, "name": "throw" }
+    ],
+    "traits": [ "TABLEMANNERS", "VAMPIRE_SPECIES", "VAMPIRE_BAT_REMI", "PROF_REMI", "SPIRIT_USER" ],
+    "items": {
+      "both": [ "remi_bowbelt", "remi_dress", "remi_hat", "remi_shoes", "remi_socks" ],
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "bloomers" ]
+    },
+    "flags": [ "SCEN_ONLY" ]
+  },
+  {
+    "ident": "sakuya_izayoi",
+    "type": "profession",
+    "name": "Maid of the Scarlet Devil",
+    "description": "Despite being suspicious of the errand your Mistress' gave you outside the Barrier, you went to carry it out.  The Cataclysm struck in the middle of that, however, interrumpting you.  How annoying.",
+    "points": 4,
+    "proficiencies": [ "prof_food_prep", "prof_knife_skills" ],
+    "spells": [
+      { "level": 1, "id": "dash_sakuya" },
+      { "level": 1, "id": "sakuya_contraction" },
+      { "level": 1, "id": "sakuya_dilation" },
+      { "level": 1, "id": "sakuya_jackknife" },
+      { "level": 1, "id": "sakuya_maidsecret" },
+      { "level": 1, "id": "sakuya_quickrest" },
+      { "level": 1, "id": "sakuya_timeparadox" },
+      { "level": 1, "id": "sakuya_timestop" }
+    ],
+    "skills": [
+      { "level": 4, "name": "cooking" },
+      { "level": 2, "name": "cutting" },
+      { "level": 2, "name": "dodge" },
+      { "level": 1, "name": "melee" },
+      { "level": 4, "name": "throw" }
+    ],
+    "traits": [ "MYSTERIOUS", "PSYCHOPATH", "SPIRIT_USER" ],
+    "//": "Change PSYCHOPATH for something like CALLOUS instead: no bonuses like PSYCHOPATH but no demerits for killing and butchering humans and children specifically",
+    "items": {
+      "both": {
+        "items": [ "dress_shoes", "knit_scarf", "maid_dress", "maid_hat", "pocketwatch", "sakuya_pads", "stockings" ],
+        "entries": [
+          { "item": "sakuya_knife", "container-item": "sheath" },
+          { "item": "knife_holster_leg", "contents-group": "nested_silver_knife" },
+          { "item": "knife_holster_leg", "contents-group": "nested_silver_knife" }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
+    },
+    "flags": [ "SCEN_ONLY" ]
+  },
+  {
+    "ident": "seiga_kaku",
+    "type": "profession",
+    "name": "Wicked Hermit",
+    "description": "You're a wicked, amoral hermit with the ability to pass through walls and enslave the undead.  You never really cared about anyone else, only seeing fit to manipulate them for your own ends. Surviving the cataclysm should be… interesting.",
+    "points": 4,
+    "proficiencies": [ "prof_intro_biology", "prof_intro_chemistry", "prof_lockpicking", "prof_pharmaceutical", "prof_physiology" ],
+    "spells": [
+      { "level": 1, "id": "dash_basic" },
+      { "level": 1, "id": "seiga_charmcorpse" },
+      { "level": 1, "id": "seiga_chidrain" },
+      { "level": 1, "id": "seiga_chireversal" },
+      { "level": 1, "id": "seiga_darksplash" },
+      { "level": 1, "id": "seiga_foetusshot" },
+      { "level": 1, "id": "seiga_hermitwalk" },
+      { "level": 1, "id": "seiga_raisechild" },
+      { "level": 1, "id": "seiga_wallwalk" }
+    ],
+    "skills": [
+      { "level": 3, "name": "chemistry" },
+      { "level": 1, "name": "dodge" },
+      { "level": 3, "name": "firstaid" },
+      { "level": 2, "name": "speech" },
+      { "level": 2, "name": "survival" }
+    ],
+    "traits": [ "LIAR", "PSYCHOPATH", "SPIRITUAL", "SPIRIT_HERMIT" ],
+    "items": {
+      "both": [ "dress_shoes", "knit_scarf", "runner_bag", "scalpel", "seiga_dress", "seiga_hairstick", "socks_long" ],
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
+    },
+    "flags": [ "SCEN_ONLY" ]
+  },
+  {
+    "ident": "shameimaru_aya",
+    "type": "profession",
+    "name": "Crow Tengu Journalist",
+    "description": "There wasn't a lot going on so you went to visit some of your friends.  First stop was the Shrine Maiden, but she was more dismissive than usual.  Second stop was Momiji, but she wasn't available.  Third stop was the Village librarian, but she was sleeping.  Going through the Bamboo Forest of the Lost you, well… it was bound to happen some time.  You're pretty sure these people wearing filthy Outside world clothing shouldn't be here, which means this one's good!",
+    "points": 1,
+    "spells": [
+      { "level": 1, "id": "dash_aya" },
+      { "level": 1, "id": "aya_deadlineday" },
+      { "level": 1, "id": "aya_draftblast" },
+      { "level": 1, "id": "aya_fanwind" },
+      { "level": 1, "id": "aya_stormgust" },
+      { "level": 1, "id": "aya_windsickle" }
+    ],
+    "skills": [ { "level": 2, "name": "cutting" }, { "level": 4, "name": "dodge" }, { "level": 2, "name": "speech" } ],
+    "//": "Cutting for katana and other Tengu (Japanese) weapons I think",
+    "traits": [ "TENGUCROW_SPECIES", "WINGS_TENGUCROW", "YOUKAI_SPECIES", "PROF_AYA", "SPIRIT_USER" ],
+    "items": {
+      "both": {
+        "items": [ "aya_shirt", "aya_skirt", "ribbon_neck", "socks_ankle", "tengu_fan", "tengu_geta", "tengu_hat" ],
+        "entries": [ { "item": "tengu_reporter_holster", "contents-group": "nested_tengu_reporter" } ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
+    },
+    "flags": [ "SCEN_ONLY" ]
+  },
+  {
+    "ident": "tenshi_hinanawi",
+    "type": "profession",
+    "name": "Celestial Delinquent",
+    "description": "Feeling bored doing basically noting in Heaven, you came down to visit the Shrine and your friends.  Something happened in the meantime though.  At first you were amused, then became slightly worried, then very, very curious.  The outside world looks… different now.",
+    "points": 4,
+    "spells": [
+      { "level": 1, "id": "dash_basic" },
+      { "level": 1, "id": "tenko_earthquake" },
+      { "level": 1, "id": "tenko_keystonecrash" },
+      { "level": 1, "id": "tenko_keystonefloating" },
+      { "level": 1, "id": "tenko_keystonepillar" },
+      { "level": 1, "id": "tenko_keystonedismiss" },
+      { "level": 1, "id": "tenko_scarletperception" },
+      { "level": 1, "id": "tenko_unletting_soil" }
+    ],
+    "skills": [
+      { "level": 2, "name": "bashing" },
+      { "level": 2, "name": "cutting" },
+      { "level": 1, "name": "dodge" },
+      { "level": 3, "name": "melee" },
+      { "level": 2, "name": "swimming" }
+    ],
+    "traits": [ "CELESTIAL_SPECIES", "HATES_BOOKS", "PAINRESIST", "SLOWLEARNER", "PROF_TENKO", "SPIRIT_USER" ],
+    "items": {
+      "both": [ "boots", "knit_scarf", "socks", "tenshi_bowbelt", "tenshi_bowhat", "tenshi_jian", "tenshi_shirt", "tenshi_skirt" ],
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
+    },
+    "flags": [ "SCEN_ONLY" ]
+  },
+  {
+    "ident": "utsuho_reiuji",
+    "type": "profession",
+    "name": "Subterranean sun",
+    "description": "Resuming your duties after lunch, you master asked you to go look for Orin, and she was indeed missing again.  You went to the surface, noticing the friendly cave spider wasn't at her usual spot, maybe both went together!  You know she likes to go nap at the Shrine, so you went… to the wrong one, and noticing this was no mountain, nothing close, you looked back, you saw no \"back\".  You're aware you can get lost sometimes, but this is too much even for yourself.  Now you have to find Orin, find the Tsuchigumo, and return.",
+    "points": 2,
+    "spells": [
+      { "level": 1, "id": "dash_utsuho" },
+      { "level": 1, "id": "utsuho_blacksun" },
+      { "level": 1, "id": "utsuho_detectrad" },
+      { "level": 1, "id": "utsuho_fusionblade" },
+      { "level": 1, "id": "utsuho_groundmelt" },
+      { "level": 1, "id": "utsuho_hellcannon" },
+      { "level": 1, "id": "utsuho_nuke" },
+      { "level": 1, "id": "utsuho_ugeyser" }
+    ],
+    "skills": [ { "level": 1, "name": "bashing" }, { "level": 1, "name": "dodge" }, { "level": 2, "name": "melee" } ],
+    "traits": [ "HELLRAVEN_SPECIES", "WINGS_HELLRAVEN", "YATAGARASU_VESSEL", "YOUKAI_SPECIES", "PROF_OKUU", "SPIRIT_USER" ],
+    "items": {
+      "both": [ "dress_shoes", "socks_long", "utsuho_cape", "utsuho_ribbon", "utsuho_rod", "utsuho_shirt", "utsuho_skirt" ],
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
+    },
+    "flags": [ "SCEN_ONLY" ]
+  },
+  {
+    "ident": "yamame_kurodani",
+    "type": "profession",
+    "name": "Friendly Youkai of the Cave",
+    "description": "It was sales day at the nearby market, so you left home at the entrance to try that new \"coffee\" product, perhaps share it at the weekly danmaku exhibitions, or at the hotsprings.  However, seems you somehow lost yourself on the way back, not recognizing landmarks, and not meeting anyone to ask about it.",
+    "points": 4,
+    "spells": [
+      { "level": 1, "id": "dash_basic" },
+      { "level": 1, "id": "yamame_curedisease" },
+      { "level": 1, "id": "yamame_icypyrexia" },
+      { "level": 1, "id": "yamame_miasmashot" },
+      { "level": 1, "id": "yamame_scarletplague" },
+      { "level": 1, "id": "yamame_unconstrainedrot" },
+      { "level": 1, "id": "yamame_webbridge" },
+      { "level": 1, "id": "yamame_webcapture" },
+      { "level": 1, "id": "yamame_webrappel" }
+    ],
+    "skills": [
+      { "level": 2, "name": "dodge" },
+      { "level": 2, "name": "fabrication" },
+      { "level": 2, "name": "speech" },
+      { "level": 2, "name": "tailor" }
+    ],
+    "traits": [ "TSUCHIGUMO_SPECIES", "YOUKAI_SPECIES", "PROF_YAMAME", "SPIRIT_USER" ],
+    "items": {
+      "both": { "items": [ "dress_shoes", "socks", "yamame_dress", "yamame_ribbon", "yamame_shirt" ] },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "bloomers" ]
+    },
+    "flags": [ "SCEN_ONLY" ],
+    "//2": "WIP!!! There's a lot of fun stuff that can't be implemented, or I don't know how to. Plus she's missing at least two more spells",
+    "//3": "There's no way to check for monsters having effects, so the idea of a base dot disease + applying different effects on top of that can't be used. Worse, this also affects other effects that rely on dot spells, like kaenbyou_immolate ",
+    "//4": "Enchantments don't work on monsters either, so things like reduced attack speed can't be set at all",
+    "//5": "EOCs don't work with monsters, so a disease that causes outburst to spread to nearby enemies currently can't exist",
+    "//6": "There's an issue with the remove_field spell effect that causes it to remove 1 field in the entire aoe, so Yamame can't aoe dismiss webs from yamame_webcapture"
+  },
+  {
+    "ident": "youmu_konpaku",
+    "type": "profession",
+    "name": "Phantom Gardener",
+    "description": "You were preparing tea for your Mistress when the shikigami of the Gap Youkai came to deliver an urgent private message.  Your Mistress then gave you some cryptic errand at the Shrine, and to \"take care\".  You didn't understand the last part, until you didn't recognize your surroundings minutes before reaching the Shrine.",
+    "points": 4,
+    "spells": [
+      { "level": 1, "id": "dash_youmu" },
+      { "level": 1, "id": "youmu_doublewheel" },
+      { "level": 1, "id": "youmu_halfbody" },
+      { "level": 1, "id": "youmu_reflectionslash" },
+      { "level": 1, "id": "youmu_slasheternal" },
+      { "level": 1, "id": "youmu_slashnether" }
+    ],
+    "skills": [
+      { "level": 3, "name": "cooking" },
+      { "level": 4, "name": "cutting" },
+      { "level": 3, "name": "dodge" },
+      { "level": 2, "name": "melee" }
+    ],
+    "traits": [ "HALF_PHANTOM_SPECIES", "TRUTHTELLER", "PROF_YOUMU", "SPIRIT_UNTRAINED" ],
+    "//": "Add parry and dual wield somewhere",
+    "items": {
+      "both": {
+        "items": [ "dress_shirt", "dress_shoes", "knit_scarf", "stockings", "youmu_ribbon", "youmu_skirt", "youmu_vest" ],
+        "entries": [
+          { "item": "youmu_roukanken", "container-item": "youmu_scabbard_rouka" },
+          { "item": "youmu_hakurouken", "container-item": "youmu_scabbard_haku" }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "bloomers" ]
+    },
+    "flags": [ "SCEN_ONLY" ]
+  }
+]

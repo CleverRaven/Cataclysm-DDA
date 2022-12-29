@@ -1,0 +1,25 @@
+[
+  {
+    "id": "handle_corpsecart",
+    "type": "vehicle_part",
+    "categories": [ "utility" ],
+    "name": { "str": "corpse cart handle" },
+    "description": "A pair of simple wood handles, made from a strange Former Hell wood.",
+    "item": "handle_corpsecart",
+    "location": "structure",
+    "symbol": "^",
+    "broken_symbol": "#",
+    "looks_like": "stick_long",
+    "color": "brown",
+    "broken_color": "red",
+    "durability": 200,
+    "breaks_into": [ { "item": "splinter", "count": [ 7, 9 ] }, { "item": "nail", "charges": [ 5, 10 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
+    },
+    "damage_reduction": { "bash": 20, "cut": 20, "stab": 20, "bullet": 20, "acid": 20, "heat": 40, "electric": 40 },
+    "flags": [ "PROTRUSION" ]
+  }
+]

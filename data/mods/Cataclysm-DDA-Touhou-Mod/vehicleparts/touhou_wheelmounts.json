@@ -1,0 +1,26 @@
+[
+  {
+    "id": "wheelmount_corpsecart",
+    "type": "vehicle_part",
+    "name": { "str": "corpse cart wheel mount" },
+    "item": "wheelmount_corpsecart",
+    "location": "axle",
+    "symbol": "-",
+    "categories": [ "movement" ],
+    "color": "brown",
+    "broken_symbol": "X",
+    "broken_color": "red",
+    "durability": 200,
+    "folded_volume": "1000 ml",
+    "description": "Test wheel mount for kaenbyou_wheelbarrow ",
+    "breaks_into": [ { "item": "2x4", "count": [ 2, 5 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "20 m", "using": [ [ "vehicle_nail_install", 2 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "20 m", "using": [ [ "vehicle_nail_removal", 2 ] ] },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "10 m", "using": [ [ "adhesive", 2 ] ] }
+    },
+    "damage_reduction": { "all": 10 },
+    "flags": [ "NEEDS_JACKING", "STEERABLE", "WHEEL_MOUNT_MEDIUM" ],
+    "//": "No idea what NEEDS_JACKING does"
+  }
+]

@@ -1,0 +1,20 @@
+[
+  {
+    "id": "human_egg",
+    "type": "AMMO",
+    "category": "spare_parts",
+    "name": { "str": "egg cells" },
+    "copy-from": "sheet_cotton",
+    "description": "Clumps of human egg cells.  While extremely lurid, these can be used for substitutes in certain dark Taoist techniques.",
+    "weight": "3 g",
+    "volume": "3 ml",
+    "price": 200000,
+    "price_postapoc": 0,
+    "material": [ "flesh" ],
+    "symbol": "ɵ",
+    "color": "dark_gray",
+    "ammo_type": "components",
+    "count": 1,
+    "stack_size": 200
+  }
+]

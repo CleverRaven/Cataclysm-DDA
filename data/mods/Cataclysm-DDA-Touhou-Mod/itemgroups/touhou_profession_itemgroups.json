@@ -1,0 +1,47 @@
+[
+  {
+    "id": "nested_tengu_reporter",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "aya_notes" }, { "item": "camera_aya" }, { "item": "pen" } ]
+  },
+  {
+    "id": "nested_silver_knife",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "silver_knife" }, { "item": "silver_knife" }, { "item": "silver_knife" } ]
+  },
+  {
+    "id": "thrown_weapons",
+    "type": "item_group",
+    "items": [
+      [ "hammer", 1 ],
+      [ "wrench", 1 ],
+      [ "hatchet", 1 ],
+      [ "ax", 1 ],
+      [ "knife_combat", 1 ],
+      [ "kukri", 1 ],
+      [ "knife_hunting", 1 ],
+      [ "knife_rambo", 1 ],
+      [ "knife_rm42", 1 ],
+      [ "throwing_knife", 1 ],
+      [ "throwing_axe", 1 ],
+      [ "punch_dagger", 1 ],
+      [ "machete", 1 ],
+      [ "blackjack", 1 ],
+      [ "knife_trench", 1 ],
+      [ "switchblade", 1 ],
+      [ "tanto", 1 ],
+      [ "knife_butcher", 1 ],
+      [ "knife_steak", 1 ],
+      [ "knife_paring", 1 ],
+      [ "knife_chef", 1 ],
+      [ "knife_carving", 1 ],
+      [ "knife_bread", 1 ],
+      [ "knife_vegetable_cleaver", 1 ],
+      [ "knife_meat_cleaver", 1 ],
+      [ "sakuya_knife", 1 ],
+      [ "silver_knife", 1 ]
+    ]
+  }
+]

@@ -1,0 +1,39 @@
+[
+  {
+    "result": "lunarian_cloth",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "tailor",
+    "skills_required": [ [ "tailor", 2 ] ],
+    "difficulty": 3,
+    "time": "10 m",
+    "reversible": true,
+    "autolearn": false,
+    "book_learn": [ [ "lunar_guide1", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_weaving" } ],
+    "tools": [ [ [ "loom_frame", -1 ] ], [ [ "shed_stick", -1 ] ] ],
+    "qualities": [ { "level": 2, "id": "SEW" }, { "level": 2, "id": "CUT" } ],
+    "components": [ [ [ "cotton_patchwork", 2 ] ], [ [ "filament", 2, "LIST" ] ] ],
+    "//": "Note: these come from data/json/recipes/other/materials.json "
+  },
+  {
+    "result": "lunarian_leather",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "10 m",
+    "charges": 2,
+    "autolearn": false,
+    "book_learn": [ [ "lunar_guide1", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" } ],
+    "tools": [ [ [ "loom_frame", -1 ] ], [ [ "shed_stick", -1 ] ] ],
+    "//": "Recheck this !!!",
+    "qualities": [ { "level": 3, "id": "SEW" }, { "level": 3, "id": "CUT" } ],
+    "components": [ [ [ "fur", 2 ] ] ]
+  }
+]

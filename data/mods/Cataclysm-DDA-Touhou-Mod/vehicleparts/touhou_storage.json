@@ -1,0 +1,28 @@
+[
+  {
+    "id": "storage_corpsecart",
+    "type": "vehicle_part",
+    "categories": [ "cargo" ],
+    "name": { "str": "corpse wheelbarrow tray" },
+    "description": "The inner tray of the corpse wheelbarrow, made from a strange Former Hell wood.",
+    "symbol": "o",
+    "broken_symbol": "#",
+    "looks_like": "basketsm",
+    "color": "brown",
+    "broken_color": "red",
+    "item": "storage_corpsecart",
+    "location": "center",
+    "durability": 100,
+    "damage_reduction": { "all": 10 },
+    "cargo_weight_modifier": 5,
+    "size": "90000 ml",
+    "//4": "This should be around the size of 1 regular zombie plus allow her to push the cart by hand without issues",
+    "breaks_into": [ { "item": "splinter", "count": [ 7, 9 ] }, { "item": "nail", "charges": [ 5, 10 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "450 s", "using": [ [ "welding_standard", 2 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "450 s", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ], [ "fabrication", 2 ] ], "time": "350 s", "using": [ [ "welding_standard", 2 ] ] }
+    },
+    "flags": [ "CARGO", "OBSTACLE" ]
+  }
+]

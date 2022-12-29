@@ -1,0 +1,17 @@
+[
+  {
+    "result": "ribbon_black",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "tailor",
+    "difficulty": 0,
+    "skills_required": [ "fabrication", 0 ],
+    "time": "15 s",
+    "batch_time_factors": [ 66, 4 ],
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "strip_black", 1 ] ] ]
+  }
+]

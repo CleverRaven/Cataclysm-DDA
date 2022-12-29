@@ -1,0 +1,60 @@
+[
+  {
+    "result": "touhou_corpse_medium",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_FUEL",
+    "id_suffix": "from corpse",
+    "skill_used": "chemistry",
+    "skills_required": [ "chemistry", 0 ],
+    "difficulty": 0,
+    "//": "By doing a huge stretch, that's the closest thing to necromancy",
+    "time": "5 s",
+    "charges": 1,
+    "reversible": false,
+    "autolearn": false,
+    "book_learn": { "kasha_book": { "skill_level": 1 } },
+    "components": [
+      [ [ "corpse_generic_human", 1 ] ],
+      [ [ "corpse_generic_male", 1 ] ],
+      [ [ "corpse_generic_female", 1 ] ],
+      [ [ "corpse_oldwoman_jewelry", 1 ] ],
+      [ [ "corpse_bloody", 1 ] ],
+      [ [ "corpse_painful", 1 ] ],
+      [ [ "corpse_scorched", 1 ] ],
+      [ [ "corpse_stabbed", 1 ] ],
+      [ [ "corpse_gunned", 1 ] ],
+      [ [ "corpse_half_beheaded", 1 ] ],
+      [ [ "corpse_generic_gunned", 1 ] ]
+    ],
+    "flags": [ "ALLOW_ROTTEN" ],
+    "//2": "Implement a charge system later, to make more sense of small corpses producing less energy, possibly 70 Kg = 35-70 charges or something. Also, implement an item or tool from the corpsecart so this can't be done without the corpsecart nearby",
+    "//3": "All of the above is until I figure out a good way to use the 'raw' corpses as fuel without also giving them combustible properties outside of the corpse_reactor which would make things unstable to say the least. Ideally, one should go driving around the apocalyptic city, stop and pick up the whole corpses into the fueltank, and these would automatically be tagged as fuel, which means the burnable part comes from the engine, not the corpse"
+  },
+  {
+    "result": "touhou_corpse_small",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_FUEL",
+    "id_suffix": "from small corpse",
+    "skill_used": "chemistry",
+    "skills_required": [ "chemistry", 0 ],
+    "difficulty": 0,
+    "time": "5 s",
+    "charges": 1,
+    "reversible": false,
+    "autolearn": false,
+    "book_learn": { "kasha_book": { "skill_level": 1 } },
+    "components": [
+      [ [ "corpse_generic_boy", 1 ] ],
+      [ [ "corpse_generic_girl", 1 ] ],
+      [ [ "corpse_child_calm", 1 ] ],
+      [ [ "corpse_child_gunned", 1 ] ],
+      [ [ "corpse_halved_upper", 1 ] ],
+      [ [ "rmi2_corpse", 1 ] ]
+    ],
+    "flags": [ "ALLOW_ROTTEN" ]
+  }
+]

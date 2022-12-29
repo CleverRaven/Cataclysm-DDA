@@ -1,0 +1,54 @@
+[
+  {
+    "id": "frame_corpsecart",
+    "type": "vehicle_part",
+    "categories": [ "hull" ],
+    "name": { "str": "corpse wheelbarrow frame" },
+    "description": "The wooden frame of the corpse wheelbarrow.",
+    "symbol": "X",
+    "color": "brown",
+    "broken_color": "red",
+    "item": "frame_corpsecart",
+    "location": "structure",
+    "durability": 100,
+    "damage_reduction": { "all": 10 },
+    "breaks_into": [ { "item": "splinter", "count": [ 7, 9 ] }, { "item": "nail", "charges": [ 5, 10 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
+    },
+    "flags": [ "INITIAL_PART", "MOUNTABLE" ]
+  },
+  {
+    "id": "frame_keystone",
+    "type": "vehicle_part",
+    "categories": [ "hull", "movement" ],
+    "name": "keystone frame",
+    "description": "A heavy, conic-shaped floating granite rock, wrapped with a hemp rope.",
+    "symbol": "V",
+    "broken_symbol": "W",
+    "color": "light_gray",
+    "broken_color": "red",
+    "item": "wheel_keystone",
+    "location": "structure",
+    "damage_modifier": 10,
+    "durability": 120,
+    "damage_reduction": { "all": 12 },
+    "size": "320 L",
+    "fuel_type": "mana_fuel",
+    "fuel_options": [ "mana_fuel" ],
+    "m2c": 65,
+    "noise_factor": 1,
+    "power": 200,
+    "contact_area": 50,
+    "wheel_type": "standard",
+    "rolling_resistance": 0.45,
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 20 ] ], "time": "60 m", "using": [ [ "welding_standard", 10 ] ] },
+      "removal": { "skills": [ [ "mechanics", 20 ] ], "time": "60 m", "using": [ [ "vehicle_weld_removal", 10 ] ] },
+      "repair": { "skills": [ [ "mechanics", 20 ] ], "time": "60 m", "using": [ [ "welding_standard", 10 ] ] }
+    },
+    "flags": [ "CARGO", "E_STARTS_INSTANTLY", "ENGINE", "FLOATS", "STABLE", "STEERABLE", "OBSOLETE", "WHEEL" ]
+  }
+]

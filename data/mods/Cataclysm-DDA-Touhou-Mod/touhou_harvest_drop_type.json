@@ -1,0 +1,12 @@
+[
+  {
+    "id": "wicked",
+    "type": "harvest_drop_type",
+    "dissect_only": true,
+    "group": true,
+    "harvest_skills": [ "firstaid" ],
+    "msg_fielddress_fail": "wicked_field_dress_msg",
+    "msg_butcher_fail": "wicked_butcher_msg",
+    "msg_dissect_fail": "wicked_dissect_failed"
+  }
+]

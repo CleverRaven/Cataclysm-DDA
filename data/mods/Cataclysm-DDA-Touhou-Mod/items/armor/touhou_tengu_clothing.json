@@ -1,0 +1,41 @@
+[
+  {
+    "id": "tengu_geta",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": "Tengu geta",
+    "copy-from": "geta",
+    "description": "A pair of red Tengu geta.  These are the real deal however, and they look like shoes with a long underside teeth.",
+    "repairs_like": "geta",
+    "volume": "1000 ml",
+    "weight": "660 g",
+    "price": 13000,
+    "price_postapoc": 650,
+    "material": [ "leather", "wood" ],
+    "material_thickness": 2,
+    "symbol": "[",
+    "looks_like": "dress_shoes",
+    "color": "red",
+    "warmth": 10,
+    "armor": [ { "covers": [ "foot_l", "foot_r" ], "coverage": 65, "encumbrance": 10 } ],
+    "flags": [ "FANCY", "VARSIZE", "WATERPROOF" ]
+  },
+  {
+    "id": "tengu_hat",
+    "type": "TOOL_ARMOR",
+    "category": "armor",
+    "name": "tokin",
+    "description": "A small, red polyhedric box-like hat.  It's useful for drinking too.",
+    "volume": "350 ml",
+    "weight": "200 g",
+    "price": 10000,
+    "price_postapoc": 100,
+    "material": [ "wood" ],
+    "material_thickness": 2,
+    "symbol": "[",
+    "color": "red",
+    "warmth": 1,
+    "armor": [ { "covers": [ "head" ], "coverage": 5, "encumbrance": [ 0, 0 ] } ],
+    "flags": [ "FANCY", "OUTER", "STURDY" ]
+  }
+]

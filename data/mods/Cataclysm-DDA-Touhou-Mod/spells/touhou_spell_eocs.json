@@ -1,0 +1,265 @@
+[
+  {
+    "id": "sakuya_maidsecret_start",
+    "type": "effect_on_condition",
+    "effect": [
+      { "arithmetic": [ { "u_val": "var", "var_name": "var_sakuyafocus" }, "++" ] },
+      { "run_eocs": [ "sakuya_maidsecret_cycle1" ] }
+    ],
+    "//": "This EOC is a simplified version of udonge_waveinsight_start "
+  },
+  {
+    "id": "sakuya_maidsecret_cycle1",
+    "type": "effect_on_condition",
+    "condition": { "compare_int": [ { "u_val": "var", "var_name": "var_sakuyafocus" }, "<", { "const": 2 } ] },
+    "effect": [ { "run_eocs": [ "sakuya_maidsecret_cycle2" ] } ],
+    "false_effect": { "run_eocs": "sakuya_maidsecret_toggle" }
+  },
+  {
+    "id": "sakuya_maidsecret_cycle2",
+    "type": "effect_on_condition",
+    "condition": {
+      "and": [
+        { "compare_int": [ { "u_val": "mana" }, ">=", { "const": 100 } ] },
+        { "compare_int": [ { "u_val": "stamina" }, ">=", { "const": 2000 } ] },
+        { "compare_int": [ { "global_val": "monsters_nearby", "radius": 14 }, "=", { "const": 0 } ] },
+        { "compare_int": [ { "u_val": "var", "var_name": "var_sakuyafocus" }, ">", { "const": 0 } ] }
+      ]
+    },
+    "effect": [
+      { "arithmetic": [ { "u_val": "stamina" }, "+=", { "const": 1 } ] },
+      { "u_add_effect": "sakuya_maidsecret_effect", "duration": "3 s" },
+      { "queue_eocs": [ "sakuya_maidsecret_cycle1" ], "time_in_future": "2 s" }
+    ],
+    "false_effect": { "run_eocs": "sakuya_maidsecret_broken" }
+  },
+  {
+    "id": "sakuya_maidsecret_toggle",
+    "type": "effect_on_condition",
+    "condition": { "compare_int": [ { "u_val": "var", "var_name": "var_sakuyafocus" }, ">=", { "const": 2 } ] },
+    "effect": [
+      { "arithmetic": [ { "u_val": "var", "var_name": "var_sakuyafocus" }, "=", { "const": 0 } ] },
+      { "u_lose_effect": "sakuya_maidsecret_effect" }
+    ]
+  },
+  {
+    "id": "sakuya_maidsecret_broken",
+    "type": "effect_on_condition",
+    "effect": [
+      { "u_message": "You lose your concentration.", "type": "mixed" },
+      { "arithmetic": [ { "u_val": "var", "var_name": "var_sakuyafocus" }, "=", { "const": 0 } ] },
+      { "u_lose_effect": "sakuya_maidsecret_effect" }
+    ]
+  },
+  {
+    "id": "udonge_waveinsight_start",
+    "type": "effect_on_condition",
+    "effect": [
+      { "arithmetic": [ { "u_val": "var", "var_name": "var_waveinsight" }, "++" ] },
+      { "arithmetic": [ { "u_val": "var", "var_name": "var_wavemfortitude" }, "=", { "const": 0 } ] },
+      { "arithmetic": [ { "u_val": "var", "var_name": "var_waveperception" }, "=", { "const": 0 } ] },
+      { "arithmetic": [ { "u_val": "var", "var_name": "var_wavestealth" }, "=", { "const": 0 } ] },
+      { "u_lose_effect": "udonge_mfortitude" },
+      { "u_lose_effect": "udonge_perception" },
+      { "u_lose_effect": "udonge_stealth" },
+      { "run_eocs": [ "udonge_waveinsight_cycle1" ] }
+    ],
+    "//": "Always activates every time the spell is cast. It sets var_waveinsight > 0 to signal that aura is ON. It also sets the other auras OFF"
+  },
+  {
+    "id": "udonge_waveinsight_cycle1",
+    "type": "effect_on_condition",
+    "condition": { "compare_int": [ { "u_val": "var", "var_name": "var_waveinsight" }, "<", { "const": 2 } ] },
+    "effect": [ { "run_eocs": [ "udonge_waveinsight_cycle2" ] } ],
+    "false_effect": { "run_eocs": "udonge_waveinsight_toggle" },
+    "//": "This is immediately checked after the previous eoc: if the player has casted the spell just once then var_waveinsight < 2, so cycle2 is run. However, if the player has casted the spell twice then var_waveinsight >= 2, so it runs the toggle EOC instead"
+  },
+  {
+    "id": "udonge_waveinsight_cycle2",
+    "type": "effect_on_condition",
+    "condition": {
+      "and": [
+        { "compare_int": [ { "u_val": "mana" }, ">=", { "const": 50 } ] },
+        { "compare_int": [ { "u_val": "var", "var_name": "var_waveinsight" }, ">", { "const": 0 } ] }
+      ]
+    },
+    "effect": [
+      { "arithmetic": [ { "u_val": "mana" }, "-=", { "const": 1 } ] },
+      { "u_add_effect": "udonge_insight", "duration": "3 s" },
+      { "queue_eocs": [ "udonge_waveinsight_cycle1" ], "time_in_future": "2 s" }
+    ],
+    "false_effect": { "run_eocs": "udonge_wave_oom" }
+  },
+  {
+    "id": "udonge_waveinsight_toggle",
+    "type": "effect_on_condition",
+    "condition": { "compare_int": [ { "u_val": "var", "var_name": "var_waveinsight" }, ">=", { "const": 2 } ] },
+    "effect": [
+      { "arithmetic": [ { "u_val": "var", "var_name": "var_waveinsight" }, "=", { "const": 0 } ] },
+      { "u_lose_effect": "udonge_insight" }
+    ]
+  },
+  {
+    "id": "udonge_wave_oom",
+    "type": "effect_on_condition",
+    "condition": { "compare_int": [ { "u_val": "mana" }, "<=", { "const": 49 } ] },
+    "effect": [
+      { "u_message": "You are too mentally exhausted!  You lose focus of the wavelengths.", "type": "mixed" },
+      { "arithmetic": [ { "u_val": "var", "var_name": "var_waveinsight" }, "=", { "const": 0 } ] },
+      { "u_lose_effect": "udonge_insight" },
+      { "u_lose_effect": "udonge_mfortitude" },
+      { "u_lose_effect": "udonge_perception" },
+      { "u_lose_effect": "udonge_stealth" }
+    ]
+  },
+  {
+    "id": "udonge_wavemfortitude_start",
+    "type": "effect_on_condition",
+    "effect": [
+      { "arithmetic": [ { "u_val": "var", "var_name": "var_waveinsight" }, "=", { "const": 0 } ] },
+      { "arithmetic": [ { "u_val": "var", "var_name": "var_wavemfortitude" }, "++" ] },
+      { "arithmetic": [ { "u_val": "var", "var_name": "var_waveperception" }, "=", { "const": 0 } ] },
+      { "arithmetic": [ { "u_val": "var", "var_name": "var_wavestealth" }, "=", { "const": 0 } ] },
+      { "u_lose_effect": "udonge_insight" },
+      { "u_lose_effect": "udonge_perception" },
+      { "u_lose_effect": "udonge_stealth" },
+      { "run_eocs": [ "udonge_wavemfortitude_cycle1" ] }
+    ]
+  },
+  {
+    "id": "udonge_wavemfortitude_cycle1",
+    "type": "effect_on_condition",
+    "condition": { "compare_int": [ { "u_val": "var", "var_name": "var_wavemfortitude" }, "<", { "const": 2 } ] },
+    "effect": [ { "run_eocs": [ "udonge_wavemfortitude_cycle2" ] } ],
+    "false_effect": { "run_eocs": "udonge_wavemfortitude_toggle" }
+  },
+  {
+    "id": "udonge_wavemfortitude_cycle2",
+    "type": "effect_on_condition",
+    "condition": {
+      "and": [
+        { "compare_int": [ { "u_val": "mana" }, ">=", { "const": 50 } ] },
+        { "compare_int": [ { "u_val": "var", "var_name": "var_wavemfortitude" }, ">", { "const": 0 } ] }
+      ]
+    },
+    "effect": [
+      { "arithmetic": [ { "u_val": "mana" }, "-=", { "const": 6 } ] },
+      { "u_add_effect": "udonge_mfortitude", "duration": "3 s" },
+      { "queue_eocs": [ "udonge_wavemfortitude_cycle1" ], "time_in_future": "2 s" }
+    ],
+    "false_effect": { "run_eocs": "udonge_wave_oom" }
+  },
+  {
+    "id": "udonge_wavemfortitude_toggle",
+    "type": "effect_on_condition",
+    "condition": { "compare_int": [ { "u_val": "var", "var_name": "var_wavemfortitude" }, ">=", { "const": 2 } ] },
+    "effect": [
+      { "arithmetic": [ { "u_val": "var", "var_name": "var_wavemfortitude" }, "=", { "const": 0 } ] },
+      { "u_lose_effect": "udonge_mfortitude" }
+    ]
+  },
+  {
+    "id": "udonge_waveperception_start",
+    "type": "effect_on_condition",
+    "effect": [
+      { "arithmetic": [ { "u_val": "var", "var_name": "var_waveinsight" }, "=", { "const": 0 } ] },
+      { "arithmetic": [ { "u_val": "var", "var_name": "var_wavemfortitude" }, "=", { "const": 0 } ] },
+      { "arithmetic": [ { "u_val": "var", "var_name": "var_waveperception" }, "++" ] },
+      { "arithmetic": [ { "u_val": "var", "var_name": "var_wavestealth" }, "=", { "const": 0 } ] },
+      { "u_lose_effect": "udonge_insight" },
+      { "u_lose_effect": "udonge_mfortitude" },
+      { "u_lose_effect": "udonge_stealth" },
+      { "run_eocs": [ "udonge_waveperception_cycle1" ] }
+    ]
+  },
+  {
+    "id": "udonge_waveperception_cycle1",
+    "type": "effect_on_condition",
+    "condition": { "compare_int": [ { "u_val": "var", "var_name": "var_waveperception" }, "<", { "const": 2 } ] },
+    "effect": [ { "run_eocs": [ "udonge_waveperception_cycle2" ] } ],
+    "false_effect": { "run_eocs": "udonge_waveperception_toggle" }
+  },
+  {
+    "id": "udonge_waveperception_cycle2",
+    "type": "effect_on_condition",
+    "condition": {
+      "and": [
+        { "compare_int": [ { "u_val": "mana" }, ">=", { "const": 50 } ] },
+        { "compare_int": [ { "u_val": "var", "var_name": "var_waveperception" }, ">", { "const": 0 } ] }
+      ]
+    },
+    "effect": [
+      { "arithmetic": [ { "u_val": "mana" }, "-=", { "const": 6 } ] },
+      { "u_add_effect": "udonge_perception", "duration": "3 s" },
+      { "queue_eocs": [ "udonge_waveperception_cycle1" ], "time_in_future": "2 s" }
+    ],
+    "false_effect": { "run_eocs": "udonge_wave_oom" }
+  },
+  {
+    "id": "udonge_waveperception_toggle",
+    "type": "effect_on_condition",
+    "condition": { "compare_int": [ { "u_val": "var", "var_name": "var_waveperception" }, ">=", { "const": 2 } ] },
+    "effect": [
+      { "arithmetic": [ { "u_val": "var", "var_name": "var_waveperception" }, "=", { "const": 0 } ] },
+      { "u_lose_effect": "udonge_perception" }
+    ]
+  },
+  {
+    "id": "udonge_wavestealth_start",
+    "type": "effect_on_condition",
+    "effect": [
+      { "arithmetic": [ { "u_val": "var", "var_name": "var_waveinsight" }, "=", { "const": 0 } ] },
+      { "arithmetic": [ { "u_val": "var", "var_name": "var_wavemfortitude" }, "=", { "const": 0 } ] },
+      { "arithmetic": [ { "u_val": "var", "var_name": "var_waveperception" }, "=", { "const": 0 } ] },
+      { "arithmetic": [ { "u_val": "var", "var_name": "var_wavestealth" }, "++" ] },
+      { "u_lose_effect": "udonge_insight" },
+      { "u_lose_effect": "udonge_mfortitude" },
+      { "u_lose_effect": "udonge_perception" },
+      { "run_eocs": [ "udonge_wavestealth_cycle1" ] }
+    ]
+  },
+  {
+    "id": "udonge_wavestealth_cycle1",
+    "type": "effect_on_condition",
+    "condition": { "compare_int": [ { "u_val": "var", "var_name": "var_wavestealth" }, "<", { "const": 2 } ] },
+    "effect": [ { "run_eocs": [ "udonge_wavestealth_cycle2" ] } ],
+    "false_effect": { "run_eocs": "udonge_wavestealth_toggle" }
+  },
+  {
+    "id": "udonge_wavestealth_cycle2",
+    "type": "effect_on_condition",
+    "condition": {
+      "and": [
+        { "compare_int": [ { "u_val": "mana" }, ">=", { "const": 50 } ] },
+        { "compare_int": [ { "u_val": "var", "var_name": "var_wavestealth" }, ">", { "const": 0 } ] }
+      ]
+    },
+    "effect": [
+      { "arithmetic": [ { "u_val": "mana" }, "-=", { "const": 10 } ] },
+      { "u_add_effect": "udonge_stealth", "duration": "3 s" },
+      { "queue_eocs": [ "udonge_wavestealth_cycle1" ], "time_in_future": "2 s" }
+    ],
+    "false_effect": { "run_eocs": "udonge_wave_oom" }
+  },
+  {
+    "id": "udonge_wavestealth_toggle",
+    "type": "effect_on_condition",
+    "condition": { "compare_int": [ { "u_val": "var", "var_name": "var_wavestealth" }, ">=", { "const": 2 } ] },
+    "effect": [
+      { "arithmetic": [ { "u_val": "var", "var_name": "var_wavestealth" }, "=", { "const": 0 } ] },
+      { "u_lose_effect": "udonge_stealth" }
+    ]
+  },
+  {
+    "id": "yamame_damnedrope_start",
+    "type": "effect_on_condition",
+    "condition": { "u_has_trait": "TSUCHIGUMO_SPECIES" },
+    "effect": [ { "u_add_trait": "damnedrope_str_mut" }, { "queue_eocs": [ "yamame_damnedrope_end" ], "time_in_future": "5 s" } ]
+  },
+  {
+    "id": "yamame_damnedrope_end",
+    "type": "effect_on_condition",
+    "condition": { "u_has_trait": "damnedrope_str_mut" },
+    "effect": [ { "u_lose_trait": "damnedrope_str_mut" } ]
+  }
+]

@@ -1,0 +1,34 @@
+[
+  {
+    "id": "reactor_corpsecart",
+    "type": "vehicle_part",
+    "categories": [ "movement" ],
+    "name": { "str": "corpse reactor" },
+    "description": "Test engine for kaenbyou_wheelbarrow ",
+    "item": "reactor_corpsecart",
+    "location": "engine_block",
+    "symbol": "*",
+    "color": "light_red",
+    "broken_color": "red",
+    "durability": 200,
+    "breaks_into": [ { "item": "splinter", "count": [ 7, 13 ] }, { "item": "nail", "charges": [ 3, 17 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
+    },
+    "damage_reduction": { "all": 10 },
+    "fuel_type": "diesel",
+    "fuel_options": [ "diesel", "touhou_corpse_small" ],
+    "//": "Diesel so it can be be driven",
+    "backfire_threshold": 0.25,
+    "backfire_freq": 20,
+    "noise_factor": 15,
+    "damaged_power_factor": 0.25,
+    "m2c": 65,
+    "power": 95000,
+    "//2": "Can't find the exact amount of watts produced by burning an average adult human body, so this value equals 81500 Kcal burned in 1 hour",
+    "energy_consumption": 190000,
+    "flags": [ "ENGINE", "E_COMBUSTION", "E_HEATER" ]
+  }
+]

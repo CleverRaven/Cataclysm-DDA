@@ -1,0 +1,10 @@
+[
+  {
+    "name": "touhou_summon",
+    "type": "MONSTER_FACTION",
+    "friendly": [ "your_followers" ],
+    "neutral": [ "bot", "fish", "small_animal" ],
+    "hate": [ "animal", "fungus", "mi-go", "mutant", "triffid", "zombie" ],
+    "//": "Default faction for touhou summons (vengeful spirits), these should attack everything on sight except for the caster (and allies or neutral parties)"
+  }
+]

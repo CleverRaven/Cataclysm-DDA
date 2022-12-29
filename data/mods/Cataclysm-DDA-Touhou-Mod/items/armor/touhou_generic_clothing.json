@@ -1,0 +1,317 @@
+[
+  {
+    "id": "bloomers",
+    "type": "ARMOR",
+    "name": "bloomers",
+    "description": "A pair of comfortable, louse white trousers worn beneath the dress but over other undergarments.  As important as your hat.",
+    "repairs_like": "jeans",
+    "volume": "1000 ml",
+    "weight": "200 g",
+    "price": 2500,
+    "price_postapoc": 500,
+    "material": [ "cotton" ],
+    "material_thickness": 1,
+    "symbol": "[",
+    "looks_like": "leg_warmers",
+    "color": "white",
+    "warmth": 5,
+    "armor": [
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
+        "coverage": 100,
+        "encumbrance": [ 2, 4 ]
+      },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r" ],
+        "coverage": 35,
+        "encumbrance": [ 2, 4 ]
+      }
+    ]
+  },
+  {
+    "id": "cheongsam",
+    "type": "ARMOR",
+    "name": { "str": "cheongsam", "str_pl": "cheongsam" },
+    "copy-from": "dress",
+    "description": "An elegant Chinese style dress, showing the characteristic sideways seam going from the collar to the end of the right side, plus an intrincate embroided design across the surface.  Tight and slightly uncomfortable for the upper body, the tiny sleeves are no issue, and the sideways seam enables natural leg movement by use of a clever breaking point for the entire fabric.",
+    "repairs_like": "dress",
+    "volume": "3500 ml",
+    "weight": "1000 g",
+    "price": 24000,
+    "price_postapoc": 65,
+    "material": [ "cotton" ],
+    "material_thickness": 0.2,
+    "symbol": "[",
+    "looks_like": "robe",
+    "color": "red",
+    "warmth": 10,
+    "armor": [
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ],
+        "coverage": 8,
+        "encumbrance": [ 0, 2 ]
+      },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
+        "coverage": 100,
+        "encumbrance": [ 2, 4 ]
+      },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r" ],
+        "coverage": 95,
+        "encumbrance": [ 2, 4 ]
+      },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_knee_l", "leg_knee_r" ],
+        "coverage": 95,
+        "encumbrance": [ 2, 4 ]
+      },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_lower_l", "leg_lower_r" ],
+        "coverage": 20,
+        "encumbrance": [ 0, 2 ]
+      },
+      { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 8, 16 ] }
+    ],
+    "flags": [ "FANCY", "VARSIZE" ],
+    "//": "Generic below the knee version, no silk material so it's made of cotton instead"
+  },
+  {
+    "id": "cheongsam_medium",
+    "type": "ARMOR",
+    "name": { "str": "cheongsam (medium)", "str_pl": "cheongsam (medium)" },
+    "copy-from": "cheongsam",
+    "description": "An elegant Chinese style dress, showing the characteristic sideways seam going from the collar to the end of the right side, plus an intrincate embroided design across the surface.  This one's shorter than usual, barely covering below the knees.",
+    "repairs_like": "cheongsam",
+    "volume": "3000 ml",
+    "weight": "900 g",
+    "price": 22000,
+    "price_postapoc": 60,
+    "material": [ "cotton" ],
+    "material_thickness": 0.2,
+    "symbol": "[",
+    "looks_like": "dress",
+    "color": "red",
+    "warmth": 9,
+    "armor": [
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ],
+        "coverage": 8,
+        "encumbrance": [ 0, 2 ]
+      },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
+        "coverage": 100,
+        "encumbrance": [ 2, 4 ]
+      },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r" ],
+        "coverage": 95,
+        "encumbrance": [ 2, 4 ]
+      },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_knee_l", "leg_knee_r" ],
+        "coverage": 45,
+        "encumbrance": [ 0, 2 ]
+      },
+      { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 8, 16 ] }
+    ],
+    "flags": [ "FANCY", "VARSIZE" ],
+    "//": "Ends around 4-6 cm below the knee"
+  },
+  {
+    "id": "cheongsam_short",
+    "type": "ARMOR",
+    "name": { "str": "cheongsam (short)", "str_pl": "cheongsam (short)" },
+    "copy-from": "cheongsam",
+    "description": "An elegant Chinese style dress, showing the characteristic sideways seam going from the collar to the end of the right side, plus an intrincate embroided design across the surface.  This one's bold, as it's short enough it barely covers your thighs, similar to an oversized shirt if it were twenty times more elegant.",
+    "repairs_like": "cheongsam",
+    "volume": "2700 ml",
+    "weight": "750 g",
+    "price": 22000,
+    "price_postapoc": 60,
+    "material": [ "cotton" ],
+    "material_thickness": 0.2,
+    "symbol": "[",
+    "looks_like": "dress",
+    "color": "red",
+    "warmth": 9,
+    "armor": [
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ],
+        "coverage": 8,
+        "encumbrance": [ 0, 2 ]
+      },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
+        "coverage": 100,
+        "encumbrance": [ 2, 4 ]
+      },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r" ],
+        "coverage": 30,
+        "encumbrance": [ 2, 4 ]
+      },
+      { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 8, 16 ] }
+    ],
+    "flags": [ "FANCY", "VARSIZE" ],
+    "//": "Covers one third of the thigh at best"
+  },
+  {
+    "id": "tai_chi_pants",
+    "type": "ARMOR",
+    "name": { "str": "tai chi pants" },
+    "description": "White baggy pants for practicing Tai Chi.  Very comfy.",
+    "volume": "2000 ml",
+    "weight": "350 g",
+    "price": 3000,
+    "price_postapoc": 50,
+    "material": [ "cotton" ],
+    "material_thickness": 0.15,
+    "symbol": "[",
+    "looks_like": "pants",
+    "color": "white",
+    "warmth": 4,
+    "armor": [ { "covers": [ "leg_l", "leg_r" ], "coverage": 85, "encumbrance": [ 1, 3 ] } ],
+    "flags": [ "VARSIZE" ]
+  },
+  {
+    "id": "tang_shirt",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": "tang shirt",
+    "copy-from": "longshirt",
+    "description": "A long sleeved shirt made in characteristic Chinese style.  It has a short, somewhat flexible collar, knots replacing buttons, with the fabric feeling different to the touch compared to the average longshirt.",
+    "repairs_like": "longshirt",
+    "volume": "1000 ml",
+    "weight": "300 g",
+    "price": 2000,
+    "price_postapoc": 65,
+    "material": [ "cotton" ],
+    "material_thickness": 0.35,
+    "symbol": "[",
+    "looks_like": "longshirt",
+    "color": "light_gray",
+    "warmth": 6,
+    "armor": [
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": [ 2, 4 ] },
+      { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 2, 5 ] }
+    ],
+    "flags": [ "VARSIZE" ]
+  },
+  {
+    "id": "tang_suit",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": "Tang suit",
+    "copy-from": "jacket_jean",
+    "description": "A long sleeved jacket made in characteristic Chinese style.  Despite looking like a shirt, it's worn over it, so it qualifies as a jacket.  Has the characteristic collar and the knots replacing buttons, featuring inner pockets.  Special cut allows to hold the overall shape, so it doesn't look loose or baggy.  Putting this on makes you want to try those sick moves.",
+    "repairs_like": "jacket_jean",
+    "volume": "4000 ml",
+    "weight": "800 g",
+    "price": 6000,
+    "price_postapoc": 300,
+    "material": [ "cotton" ],
+    "material_thickness": 0.35,
+    "symbol": "[",
+    "looks_like": "jacket_jean",
+    "color": "white",
+    "warmth": 24,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "13 cm",
+        "moves": 150
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "13 cm",
+        "moves": 150
+      }
+    ],
+    "armor": [
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": [ 6, 10 ] },
+      { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 6, 12 ] }
+    ],
+    "flags": [ "OUTER", "POCKETS", "VARSIZE" ]
+  },
+  {
+    "id": "ribbon_black",
+    "type": "TOOL_ARMOR",
+    "name": "black ribbon",
+    "description": "A small black ribbon, used to tie your hair.",
+    "repairs_like": "tie_bow",
+    "volume": "200 ml",
+    "weight": "150 g",
+    "price": 1000,
+    "price_postapoc": 10,
+    "symbol": "[",
+    "color": "black",
+    "material": [ "cotton" ],
+    "armor": [ { "covers": [ "head" ], "coverage": 0, "encumbrance": [ 0, 0 ] } ],
+    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
+  },
+  {
+    "id": "ribbon_neck",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "neck ribbon", "str_pl": "neck ribbons" },
+    "copy-from": "tie_necktie",
+    "description": "A black ribbon tied in a bow, used as substitute for a tie.",
+    "repairs_like": "tie_necktie",
+    "volume": "600 ml",
+    "weight": "400 g",
+    "price": 1000,
+    "price_postapoc": 10,
+    "material": [ "cotton" ],
+    "material_thickness": 1,
+    "symbol": "[",
+    "color": "black",
+    "armor": [ { "covers": [ "torso" ], "coverage": 5, "encumbrance": [ 0, 0 ] } ],
+    "flags": [ "FANCY", "NO_WEAR_EFFECT", "VARSIZE" ]
+  },
+  {
+    "id": "socks_long",
+    "type": "ARMOR",
+    "name": { "str": "pair of long socks", "str_pl": "pairs of long socks" },
+    "description": "Long socks, reaching just below the knee.",
+    "volume": "400 ml",
+    "weight": "50 g",
+    "price": 2000,
+    "price_postapoc": 500,
+    "material": [ "cotton" ],
+    "material_thickness": 0.2,
+    "symbol": "[",
+    "looks_like": "socks_wool",
+    "color": "black",
+    "warmth": 8,
+    "armor": [
+      { "covers": [ "foot_l", "foot_r" ], "coverage": 100, "encumbrance": [ 1, 2 ] },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_lower_l", "leg_lower_r" ],
+        "coverage": 25,
+        "encumbrance": [ 2, 4 ]
+      }
+    ],
+    "flags": [ "SKINTIGHT", "VARSIZE" ]
+  }
+]

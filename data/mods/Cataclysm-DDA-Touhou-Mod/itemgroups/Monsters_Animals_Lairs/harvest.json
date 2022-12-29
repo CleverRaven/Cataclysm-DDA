@@ -1,0 +1,15 @@
+[
+  {
+    "id": "touhou_human_eggs",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "group": "human_egg_group", "prob": 50 } ]
+  },
+  {
+    "id": "human_egg_group",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "human_egg", "prob": 100, "count-min": 1, "count-max": 300 } ],
+    "//": "According to literature a maximum of 400 is the average, but that amount is out of range"
+  }
+]

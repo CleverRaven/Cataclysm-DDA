@@ -1,0 +1,56 @@
+[
+  {
+    "id": "kaenbyou_wheelbarrow",
+    "type": "vehicle",
+    "name": "Corpse wheelbarrow",
+    "blueprint": [ "#" ],
+    "parts": [ { "x": 0, "y": 0, "parts": [ "frame_corpsecart", "wheel_corpsecart", "storage_corpsecart" ] } ],
+    "items": [ { "x": 0, "y": 0, "chance": 100, "items": [ "ash" ] } ]
+  },
+  {
+    "id": "kaenbyou_wheelbarrow2",
+    "type": "vehicle",
+    "name": "Corpse wheelbarrow (test for engine and fuels)",
+    "blueprint": [
+      [ " -###> " ],
+      [ " -###> " ]
+    ],
+    "parts": [
+      { "x": 1, "y": 0, "parts": [ "frame_corpsecart", "front_corpsecart" ] },
+      { "x": 1, "y": 1, "parts": [ "frame_corpsecart", "front_corpsecart" ] },
+      {
+        "x": 0,
+        "y": 0,
+        "parts": [ "frame_corpsecart", "seat_corpsecart", "wheelmount_corpsecart", "wheel_corpsecart" ]
+      },
+      {
+        "x": 0,
+        "y": 1,
+        "parts": [ "frame_corpsecart", "seat_corpsecart", "wheelmount_corpsecart", "wheel_corpsecart" ]
+      },
+      { "x": -1, "y": 0, "parts": [ "frame_corpsecart", "storage_corpsecart", "support_corpsecart" ] },
+      { "x": -1, "y": 1, "parts": [ "frame_corpsecart", "storage_corpsecart", "support_corpsecart" ] },
+      { "x": -2, "y": 0, "parts": [ "frame_corpsecart", "wheelmount_corpsecart", "wheel_corpsecart" ] },
+      { "x": -2, "y": 1, "parts": [ "frame_corpsecart", "wheelmount_corpsecart", "wheel_corpsecart" ] },
+      { "x": -3, "y": 0, "parts": [ "handle_corpsecart" ] },
+      { "x": -3, "y": 1, "parts": [ "handle_corpsecart" ] },
+      { "x": 0, "y": 0, "parts": [ "controls_corpsecart" ] },
+      { "x": -1, "y": 0, "parts": [ "tank_corpsecart" ] },
+      { "x": -1, "y": 0, "parts": [ "reactor_corpsecart" ] }
+    ],
+    "items": [
+      { "x": -1, "y": 0, "chance": 100, "items": [ "ash" ] },
+      { "x": -1, "y": 0, "chance": 100, "item_groups": [ "fuel_diesel" ] }
+    ],
+    "//": "This one is for testing engines and fuels. The objective is to directly use corpses as fuel. However, I don't know how to do that, and the alternative is to process the corpses and then use that as fuel, which is not comfortable"
+  },
+  {
+    "id": "keystone_floating",
+    "type": "vehicle",
+    "name": "floating keystone",
+    "blueprint": [ "V" ],
+    "parts": [ { "x": 0, "y": 0, "parts": [ "frame_keystone", "seat_corpsecart", "controls_keystone" ] } ],
+    "items": [ { "x": 0, "y": 0, "chance": 100, "items": [ "mana_fuel" ] } ],
+    "//": "I don't know how or why, but that's the minimum parts necessary for the vehicle to be drive-able. The frame_keystone alone isn't enough, even if it has all the necessary flags, frame + controls isn't enough (even if the frame has SEAT), and frame + seat isn't enough either (even if frame has CONTROLS )"
+  }
+]

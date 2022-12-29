@@ -1,0 +1,31 @@
+[
+  {
+    "id": "wheel_corpsecart",
+    "type": "vehicle_part",
+    "categories": [ "movement" ],
+    "name": { "str": "corpse wheelbarrow wheel" },
+    "description": "A pair of wooden wheels, for the corpse wheelbarrow.",
+    "folded_volume": "1000 ml",
+    "symbol": "|",
+    "broken_symbol": "x",
+    "looks_like": "wheel_wood",
+    "color": "brown",
+    "broken_color": "red",
+    "item": "wheel_corpsecart",
+    "location": "under",
+    "durability": 100,
+    "damage_reduction": { "all": 10 },
+    "contact_area": 40,
+    "//": "Calculated area for the wheel's dimensions are 754 cm2 ",
+    "rolling_resistance": 0.45,
+    "wheel_type": "off_road",
+    "breaks_into": [ { "item": "splinter", "count": [ 7, 9 ] }, { "item": "nail", "charges": [ 5, 10 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "5 m", "using": [ [ "vehicle_wrench_1", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "5 m", "using": [ [ "vehicle_wrench_1", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "50 s", "using": [ [ "adhesive", 1 ] ] }
+    },
+    "flags": [ "NEEDS_JACKING", "STABLE", "STEERABLE", "WHEEL" ],
+    "//3": "No idea what NEEDS_JACKING does"
+  }
+]

@@ -1,0 +1,164 @@
+[
+  {
+    "id": "fd_blood2",
+    "type": "field_type",
+    "legacy_enum_id": 1,
+    "intensity_levels": [ { "name": "blood splatter", "color": "red" }, { "name": "blood stain" }, { "name": "puddle of blood" } ],
+    "description_affix": "covered_in",
+    "underwater_age_speedup": "2 turns",
+    "decay_amount_factor": 2,
+    "is_splattering": true,
+    "half_life": "12 turns",
+    "phase": "liquid",
+    "accelerated_decay": true,
+    "display_field": true,
+    "//": "faster decaying blood for effects"
+  },
+  {
+    "id": "fd_incendiary2",
+    "type": "field_type",
+    "legacy_enum_id": 10,
+    "intensity_levels": [
+      {
+        "name": "small fire",
+        "sym": "4",
+        "color": "yellow",
+        "dangerous": true,
+        "light_emitted": 1,
+        "translucency": 0.1,
+        "convection_temperature_mod": 400
+      },
+      { "name": { "ctxt": "noun", "str": "fire" }, "color": "light_red", "light_emitted": 2, "translucency": 0.1 },
+      { "name": "raging fire", "color": "red", "light_emitted": 3, "translucency": 0.1 }
+    ],
+    "description_affix": "on",
+    "has_fire": true,
+    "priority": 4,
+    "half_life": "12 turns",
+    "phase": "plasma",
+    "display_items": false,
+    "display_field": true,
+    "looks_like": "fd_fire",
+    "immunity_data": { "traits": [ "PROF_MOKOU" ] },
+    "//": "Fire field for mokou_fujiyamakazan , closest thing to the 6 - 9 turn fire field I wanted"
+  },
+  {
+    "id": "fd_poison",
+    "type": "field_type",
+    "legacy_enum_id": 7,
+    "intensity_levels": [
+      {
+        "name": "poison splatter",
+        "sym": "5",
+        "color": "yellow",
+        "translucency": 1,
+        "dangerous": true,
+        "effects": [
+          {
+            "effect_id": "poison",
+            "intensity": 1,
+            "min_duration": "4 turns",
+            "max_duration": "8 turns",
+            "immune_inside_vehicle": true,
+            "message": "You feel sick… You're losing consciousness!",
+            "message_type": "bad"
+          }
+        ]
+      },
+      { "name": "poison streak" },
+      { "name": "pool of poison" }
+    ],
+    "immunity_data": { "traits": [ "BIO_IMMUNE" ] },
+    "underwater_age_speedup": "2 turns",
+    "decay_amount_factor": 3,
+    "gas_absorption_factor": 6,
+    "percent_spread": 50,
+    "outdoor_age_speedup": "1 turns",
+    "dirty_transparency_cache": true,
+    "has_fume": true,
+    "has_acid": false,
+    "priority": 4,
+    "half_life": "12 turns",
+    "phase": "gas",
+    "display_items": true,
+    "display_field": true,
+    "looks_like": "fd_bile"
+  },
+  {
+    "id": "fd_rubble2",
+    "type": "field_type",
+    "legacy_enum_id": 11,
+    "intensity_levels": [ { "name": "legacy rubble", "sym": "#", "color": "dark_gray" } ],
+    "description_affix": "covered_in",
+    "half_life": "1 turns",
+    "phase": "gas",
+    "display_items": false,
+    "display_field": true,
+    "looks_like": "f_rubble",
+    "legacy_make_rubble": false
+  },
+  {
+    "id": "fd_smoke2",
+    "type": "field_type",
+    "legacy_enum_id": 12,
+    "intensity_levels": [
+      { "name": "thin darkness", "sym": "8", "dangerous": true, "translucency": 1 },
+      {
+        "name": "darkness",
+        "color": "light_gray",
+        "transparent": false,
+        "translucency": 10,
+        "scent_neutralization": 1
+      },
+      { "name": "thick darkness", "color": "dark_gray", "translucency": 0, "scent_neutralization": 5 }
+    ],
+    "decay_amount_factor": 2,
+    "dirty_transparency_cache": true,
+    "percent_spread": 10,
+    "outdoor_age_speedup": "0 turns",
+    "priority": 8,
+    "half_life": "6 seconds",
+    "phase": "gas",
+    "accelerated_decay": false,
+    "display_items": false,
+    "display_field": true,
+    "looks_like": "fd_smoke"
+  },
+  {
+    "id": "fd_web2",
+    "type": "field_type",
+    "legacy_enum_id": 5,
+    "intensity_levels": [
+      {
+        "name": "cobwebs",
+        "sym": "}",
+        "effects": [
+          { "effect_id": "webbed", "intensity": 1, "min_duration": "1 s", "immune_in_vehicle": true, "is_environmental": false }
+        ]
+      },
+      {
+        "name": "webs",
+        "effects": [
+          { "effect_id": "webbed", "intensity": 2, "min_duration": "1 s", "immune_in_vehicle": true, "is_environmental": false }
+        ]
+      }
+    ],
+    "description_affix": "covered_in",
+    "immunity_data": { "flags": [ "WEBWALK" ] },
+    "decrease_intensity_on_contact": false,
+    "priority": 2,
+    "half_life": "1 seconds",
+    "phase": "gas",
+    "display_items": false,
+    "bash": {
+      "str_min": 10,
+      "str_max": 20,
+      "sound_vol": 2,
+      "sound_fail_vol": 2,
+      "sound": " !",
+      "msg_success": "You brush aside some webs."
+    },
+    "display_field": true,
+    "looks_like": "fd_web"
+  }
+]

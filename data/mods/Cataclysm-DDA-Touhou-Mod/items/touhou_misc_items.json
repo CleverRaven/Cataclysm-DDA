@@ -1,0 +1,17 @@
+[
+  {
+    "id": "strip_black",
+    "type": "GENERIC",
+    "category": "other",
+    "name": { "str": "black strip" },
+    "description": "A black colored strip of cloth.",
+    "weight": "19 mg",
+    "volume": "12 ml",
+    "//": "Density of 1.55 grams per mL",
+    "longest_side": "30 cm",
+    "to_hit": -5,
+    "material": [ "cotton" ],
+    "symbol": "ϫ",
+    "color": "black"
+  }
+]

@@ -1,0 +1,73 @@
+[
+  {
+    "id": "f_keystone",
+    "type": "furniture",
+    "name": "keystone",
+    "description": "A heavy, diamond-shaped granite rock, wrapped with a hemp rope.",
+    "symbol": "v",
+    "looks_like": "f_boulder_medium",
+    "color": "light_gray",
+    "bash": {
+      "str_min": 120,
+      "str_max": 400,
+      "sound": "clang!",
+      "sound_fail": "thud!",
+      "items": [ { "item": "rock", "count": [ 1, 2 ] }, { "item": "material_rocksalt", "count": [ 0, 1 ], "prob": 4 } ]
+    },
+    "coverage": 50,
+    "move_cost_mod": 33,
+    "required_str": 16,
+    "flags": [ "CAN_SIT", "FLAT_SURF", "MOUNTABLE", "PLACE_ITEM", "TRANSPARENT" ]
+  },
+  {
+    "id": "f_keystone_pillar",
+    "type": "furniture",
+    "name": "keystone pillar",
+    "description": "A heavy, large, tall granite rock, wrapped with a hemp rope.",
+    "symbol": "I",
+    "looks_like": "t_rock_smooth",
+    "color": "light_gray",
+    "bash": {
+      "str_min": 120,
+      "str_max": 400,
+      "sound": "clang!",
+      "sound_fail": "thud!",
+      "items": [ { "item": "rock", "count": [ 1, 2 ] }, { "item": "material_rocksalt", "count": [ 0, 1 ], "prob": 4 } ]
+    },
+    "coverage": 100,
+    "examine_action": "chainfence",
+    "move_cost_mod": -1,
+    "required_str": 20,
+    "flags": [ "BLOCK_WIND", "CLIMBABLE", "FLAT_SURF", "NOITEM", "WALL" ]
+  },
+  {
+    "id": "f_web_bridge",
+    "type": "furniture",
+    "name": "web bridge",
+    "description": "A long, silver, thick rope of web.  It can be used to cross gaps.",
+    "symbol": "<",
+    "looks_like": "fd_web",
+    "color": "white",
+    "bash": { "str_min": 10, "str_max": 20, "sound": "rrrrip!", "sound_fail": "twang." },
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "ALLOW_ON_OPEN_AIR", "TRANSPARENT", "SEEN_FROM_ABOVE" ],
+    "//": "Modified f_web_up "
+  },
+  {
+    "id": "f_web_rappel",
+    "type": "furniture",
+    "name": "web rappel",
+    "description": "A long, silver, thin strand of web.  It can be used to climb up or down.",
+    "symbol": "<",
+    "looks_like": "f_web_up",
+    "color": "white",
+    "bash": { "str_min": 10, "str_max": 20, "sound": "rrrrip!", "sound_fail": "twang." },
+    "deployed_item": "rope_30",
+    "examine_action": "deployed_furniture",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "ALLOW_ON_OPEN_AIR", "CLIMBABLE", "GOES_DOWN", "GOES_UP", "SEEN_FROM_ABOVE", "TRANSPARENT" ],
+    "//": "Modified f_web_up "
+  }
+]

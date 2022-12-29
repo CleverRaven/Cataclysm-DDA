@@ -1,0 +1,46 @@
+[
+  {
+    "ident": "touhou_everything",
+    "type": "scenario",
+    "name": "Touhou mod",
+    "description": "You were walking to some location in Gensokyo, and ended up in the Outside World.  Not only that, but thousands of ri away! This incident seems to be on another whole level.",
+    "points": 0,
+    "allowed_locs": [
+      "sloc_bridge",
+      "sloc_cabin",
+      "sloc_cabin_lake",
+      "sloc_desert_island",
+      "sloc_farm_survivalist",
+      "sloc_field",
+      "sloc_forest",
+      "sloc_hermit_shack",
+      "sloc_horse_ranch",
+      "sloc_lmoe",
+      "sloc_river",
+      "sloc_shelter_a",
+      "sloc_shelter_b",
+      "sloc_shelter_c",
+      "sloc_shelter_vandalized_a",
+      "sloc_shelter_vandalized_b",
+      "sloc_shelter_vandalized_c"
+    ],
+    "custom_initial_date": { "day": 61 },
+    "eoc": [ "touhou_everything_eoc" ],
+    "professions": [
+      "fujiwara_no_mokou",
+      "hong_meiling",
+      "iku_nagae",
+      "kaenbyou_rin",
+      "reisen_udongein_inaba",
+      "reisen_II",
+      "remilia_scarlet",
+      "sakuya_izayoi",
+      "shameimaru_aya",
+      "seiga_kaku",
+      "tenshi_hinanawi",
+      "utsuho_reiuji",
+      "youmu_konpaku"
+    ],
+    "start_name": "Outdoors starting locations."
+  }
+]

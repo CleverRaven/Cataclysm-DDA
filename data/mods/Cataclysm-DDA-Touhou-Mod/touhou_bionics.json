@@ -1,0 +1,25 @@
+[
+  {
+    "id": "bio_udonge_gun",
+    "type": "bionic",
+    "name": "Lunatic gun",
+    "description": "Your ability, weaponized.",
+    "occupied_bodyparts": [ [ "HAND_R", 1 ] ],
+    "act_cost": 20,
+    "fake_weapon": "bio_udonge_shot",
+    "included": true,
+    "flags": [ "BIONIC_GUN", "BIONIC_SHOCKPROOF" ],
+    "//": "Note: these items come from /data/json/bionics.json NOT /data/json/items/bionics.json"
+  },
+  {
+    "id": "bio_reisen_gun",
+    "type": "bionic",
+    "name": { "str": "Lunatic shot" },
+    "description": "",
+    "occupied_bodyparts": [ [ "HAND_R", 1 ] ],
+    "act_cost": 20,
+    "fake_weapon": "bio_reisen_shot",
+    "included": true,
+    "flags": [ "BIONIC_GUN", "BIONIC_SHOCKPROOF" ]
+  }
+]

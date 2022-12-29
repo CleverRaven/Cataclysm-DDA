@@ -1,0 +1,24 @@
+[
+  {
+    "id": "front_corpsecart",
+    "type": "vehicle_part",
+    "name": { "str": "corpse cart front" },
+    "item": "front_corpsecart",
+    "location": "armor",
+    "symbol": "X",
+    "categories": [ "warfare" ],
+    "color": "brown",
+    "broken_color": "red",
+    "durability": 400,
+    "damage_modifier": 200,
+    "description": "Test part for kaenbyou_wheelbarrow .",
+    "breaks_into": [ { "item": "splinter", "count": [ 7, 9 ] }, { "item": "nail", "charges": [ 5, 10 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "adhesive", 2 ] ] }
+    },
+    "damage_reduction": { "all": 20, "cut": 10, "stab": 10 },
+    "flags": [ "ARMOR", "PROTRUSION", "OBSTACLE" ]
+  }
+]

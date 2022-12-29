@@ -1,0 +1,118 @@
+[
+  {
+    "id": "WINGS_BAT_REMI_activate",
+    "type": "effect_on_condition",
+    "condition": { "compare_int": [ { "u_val": "stamina" }, ">=", { "const": 200 } ] },
+    "effect": { "queue_eocs": [ "WINGS_BAT_REMI_drain1" ], "time_in_future": "2 s" },
+    "false_effect": { "run_eocs": "WINGS_BAT_REMI_stop" },
+    "//": "queue_eocs instead of run_eocs as the latter triggers immediately, before WINGS_BAT_REMI_spread (and remi_levitation) are present, not running the cycle"
+  },
+  {
+    "id": "WINGS_BAT_REMI_drain1",
+    "type": "effect_on_condition",
+    "condition": {
+      "and": [ { "compare_int": [ { "u_val": "stamina" }, ">=", { "const": 200 } ] }, { "u_has_effect": "remi_levitation" } ]
+    },
+    "effect": [ { "arithmetic": [ { "u_val": "stamina" }, "-=", { "const": 200 } ] }, { "run_eocs": "WINGS_BAT_REMI_drain2" } ],
+    "false_effect": { "run_eocs": "WINGS_BAT_REMI_stop" },
+    "//": "Uses remi_levitation so the cycle can be stopped early by 'disabling' VAMPIRE_BAT_REMI_active"
+  },
+  {
+    "id": "WINGS_BAT_REMI_drain2",
+    "type": "effect_on_condition",
+    "condition": {
+      "and": [ { "compare_int": [ { "u_val": "stamina" }, ">=", { "const": 200 } ] }, { "u_has_effect": "remi_levitation" } ]
+    },
+    "effect": { "queue_eocs": [ "WINGS_BAT_REMI_drain1" ], "time_in_future": "2 s" },
+    "false_effect": { "run_eocs": "WINGS_BAT_REMI_stop" }
+  },
+  {
+    "id": "WINGS_BAT_REMI_stop",
+    "type": "effect_on_condition",
+    "condition": { "compare_int": [ { "u_val": "stamina" }, "<=", { "const": 200 } ] },
+    "effect": [
+      { "u_message": "You are too tired to fly!", "type": "bad" },
+      { "u_lose_effect": "WINGS_BAT_REMI_activate" },
+      { "u_lose_effect": "WINGS_BAT_REMI_drain1" },
+      { "u_lose_effect": "WINGS_BAT_REMI_drain2" },
+      { "u_lose_trait": "VAMPIRE_BAT_REMI_active" },
+      { "u_add_trait": "VAMPIRE_BAT_REMI" }
+    ]
+  },
+  {
+    "id": "WINGS_HELLRAVEN_activate",
+    "type": "effect_on_condition",
+    "condition": { "compare_int": [ { "u_val": "stamina" }, ">=", { "const": 200 } ] },
+    "effect": { "queue_eocs": [ "WINGS_HELLRAVEN_drain1" ], "time_in_future": "2 s" },
+    "false_effect": { "run_eocs": "WINGS_HELLRAVEN_stop" }
+  },
+  {
+    "id": "WINGS_HELLRAVEN_drain1",
+    "type": "effect_on_condition",
+    "condition": {
+      "and": [ { "compare_int": [ { "u_val": "stamina" }, ">=", { "const": 200 } ] }, { "u_has_effect": "utsuho_levitation" } ]
+    },
+    "effect": [ { "arithmetic": [ { "u_val": "stamina" }, "-=", { "const": 200 } ] }, { "run_eocs": "WINGS_HELLRAVEN_drain2" } ],
+    "false_effect": { "run_eocs": "WINGS_HELLRAVEN_stop" }
+  },
+  {
+    "id": "WINGS_HELLRAVEN_drain2",
+    "type": "effect_on_condition",
+    "condition": {
+      "and": [ { "compare_int": [ { "u_val": "stamina" }, ">=", { "const": 200 } ] }, { "u_has_effect": "utsuho_levitation" } ]
+    },
+    "effect": { "queue_eocs": [ "WINGS_HELLRAVEN_drain1" ], "time_in_future": "2 s" },
+    "false_effect": { "run_eocs": "WINGS_HELLRAVEN_stop" }
+  },
+  {
+    "id": "WINGS_HELLRAVEN_stop",
+    "type": "effect_on_condition",
+    "condition": { "compare_int": [ { "u_val": "stamina" }, "<=", { "const": 200 } ] },
+    "effect": [
+      { "u_message": "You are too tired to fly!", "type": "bad" },
+      { "u_lose_effect": "WINGS_HELLRAVEN_activate" },
+      { "u_lose_effect": "WINGS_HELLRAVEN_drain1" },
+      { "u_lose_effect": "WINGS_HELLRAVEN_drain2" },
+      { "u_lose_trait": "WINGS_HELLRAVEN_spread" },
+      { "u_add_trait": "WINGS_HELLRAVEN" }
+    ]
+  },
+  {
+    "id": "WINGS_TENGUCROW_activate",
+    "type": "effect_on_condition",
+    "condition": { "compare_int": [ { "u_val": "stamina" }, ">=", { "const": 250 } ] },
+    "effect": { "queue_eocs": [ "WINGS_TENGUCROW_drain1" ], "time_in_future": "2 s" },
+    "false_effect": { "run_eocs": "WINGS_TENGUCROW_stop" }
+  },
+  {
+    "id": "WINGS_TENGUCROW_drain1",
+    "type": "effect_on_condition",
+    "condition": {
+      "and": [ { "compare_int": [ { "u_val": "stamina" }, ">=", { "const": 250 } ] }, { "u_has_effect": "aya_levitation" } ]
+    },
+    "effect": [ { "arithmetic": [ { "u_val": "stamina" }, "-=", { "const": 250 } ] }, { "run_eocs": "WINGS_TENGUCROW_drain2" } ],
+    "false_effect": { "run_eocs": "WINGS_TENGUCROW_stop" }
+  },
+  {
+    "id": "WINGS_TENGUCROW_drain2",
+    "type": "effect_on_condition",
+    "condition": {
+      "and": [ { "compare_int": [ { "u_val": "stamina" }, ">=", { "const": 250 } ] }, { "u_has_effect": "aya_levitation" } ]
+    },
+    "effect": { "queue_eocs": [ "WINGS_TENGUCROW_drain1" ], "time_in_future": "2 s" },
+    "false_effect": { "run_eocs": "WINGS_TENGUCROW_stop" }
+  },
+  {
+    "id": "WINGS_TENGUCROW_stop",
+    "type": "effect_on_condition",
+    "condition": { "compare_int": [ { "u_val": "stamina" }, "<=", { "const": 250 } ] },
+    "effect": [
+      { "u_message": "You are too tired to fly!", "type": "bad" },
+      { "u_lose_effect": "WINGS_TENGUCROW_activate" },
+      { "u_lose_effect": "WINGS_TENGUCROW_drain1" },
+      { "u_lose_effect": "WINGS_TENGUCROW_drain2" },
+      { "u_lose_trait": "WINGS_TENGUCROW_spread" },
+      { "u_add_trait": "WINGS_TENGUCROW" }
+    ]
+  }
+]

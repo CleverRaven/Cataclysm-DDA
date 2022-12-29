@@ -1,0 +1,38 @@
+[
+  {
+    "id": "ammo_lunar_medium",
+    "type": "ammunition_type",
+    "name": "lunar ammo (medium)",
+    "default": "ammo_lunar_medium_1"
+  },
+  {
+    "id": "ammo_lunar_small",
+    "type": "ammunition_type",
+    "name": "lunar ammo (small)",
+    "default": "ammo_lunar_small_2"
+  },
+  {
+    "id": "alternate_knife",
+    "type": "ammunition_type",
+    "name": "silver knife",
+    "default": "alternate_knife_knife"
+  },
+  {
+    "id": "magic_fuel_ammo",
+    "name": "magic fuel",
+    "type": "ammunition_type",
+    "default": "mana_fuel"
+  },
+  {
+    "id": "myon_bullet",
+    "type": "ammunition_type",
+    "name": "danmaku",
+    "default": "myon_bullet_bullet"
+  },
+  {
+    "id": "touhou_corpse_ammo",
+    "type": "ammunition_type",
+    "name": "corpse",
+    "default": "touhou_corpse_medium"
+  }
+]

@@ -1,0 +1,84 @@
+[
+  {
+    "id": "spell_components_battery_ultralight",
+    "type": "requirement",
+    "components": [ [ [ "light_minus_battery_cell", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_battery_light",
+    "type": "requirement",
+    "components": [ [ [ "light_battery_cell", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_battery_medium",
+    "type": "requirement",
+    "components": [ [ [ "medium_battery_cell", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_battery_heavy",
+    "type": "requirement",
+    "components": [ [ [ "heavy_battery_cell", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_blood",
+    "type": "requirement",
+    "components": [ [ [ "blood", 1 ] ] ],
+    "//": "Should be 250 ml, not 1 ml",
+    "//2": "hblood is not recognized as a valid item template, but it should be there"
+  },
+  {
+    "id": "spell_components_gungnir",
+    "type": "requirement",
+    "components": [ [ [ "remilia_gungnir2", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_humanegg20",
+    "type": "requirement",
+    "components": [ [ [ "human_egg", 20 ] ] ]
+  },
+  {
+    "id": "spell_components_ikuscarf",
+    "type": "requirement",
+    "tools": [ [ [ "iku_long_scarf", -1 ], [ "iku_long_scarf_loose", -1 ] ] ]
+  },
+  {
+    "id": "spell_components_tengufan",
+    "type": "requirement",
+    "tools": [ [ [ "tengu_fan", -1 ] ] ]
+  },
+  {
+    "id": "spell_components_tenkojian",
+    "type": "requirement",
+    "tools": [ [ [ "tenshi_jian_extended", -1 ] ] ]
+  },
+  {
+    "id": "spell_components_seigastick",
+    "type": "requirement",
+    "tools": [ [ [ "seiga_hairstick", -1 ] ] ]
+  },
+  {
+    "id": "spell_components_utsuhorod",
+    "type": "requirement",
+    "tools": [ [ [ "utsuho_rod", -1 ] ] ]
+  },
+  {
+    "id": "spell_components_utsuhosun",
+    "type": "requirement",
+    "components": [ [ [ "utsuho_minisun", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_youmuhaku",
+    "type": "requirement",
+    "tools": [ [ [ "youmu_hakurouken", -1 ] ] ]
+  },
+  {
+    "id": "spell_components_youmurouka",
+    "type": "requirement",
+    "tools": [ [ [ "youmu_roukanken", -1 ] ] ]
+  },
+  {
+    "id": "spell_components_youmuswords",
+    "type": "requirement",
+    "tools": [ [ [ "youmu_roukanken", -1 ], [ "youmu_hakurouken", -1 ] ] ]
+  }
+]

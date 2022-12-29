@@ -1,0 +1,40 @@
+[
+  {
+    "id": "vs_stab",
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "cooldown": 1,
+    "move_cost": 100,
+    "damage_max_instance": [ { "damage_type": "stab", "amount": 20, "armor_penetration": 1 } ],
+    "min_mul": 0.05,
+    "max_mul": 0.15,
+    "hitsize_min": 0,
+    "dodgeable": true,
+    "blockable": true,
+    "//": "Weak stab attack for Vengeful spirits"
+  },
+  {
+    "id": "youmumyon_slash",
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "cooldown": 2,
+    "move_cost": 90,
+    "damage_max_instance": [ { "damage_type": "cut", "amount": 42, "armor_penetration": 6 } ],
+    "min_mul": 0.5,
+    "max_mul": 1,
+    "body_parts": [
+      [ "arm_l", 25 ],
+      [ "arm_r", 25 ],
+      [ "foot_l", 10 ],
+      [ "foot_r", 10 ],
+      [ "hand_l", 10 ],
+      [ "hand_r", 10 ],
+      [ "head", 15 ],
+      [ "leg_l", 10 ],
+      [ "leg_r", 10 ],
+      [ "torso", 25 ]
+    ],
+    "dodgeable": true,
+    "blockable": true
+  }
+]

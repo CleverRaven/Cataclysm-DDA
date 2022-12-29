@@ -1,0 +1,36 @@
+[
+  {
+    "id": "lunarian_cloth",
+    "type": "AMMO",
+    "category": "spare_parts",
+    "name": { "str": "Lunarian cloth" },
+    "copy-from": "sheet_cotton",
+    "description": "A sheet of fabric used by Lunarians for their clothing.",
+    "weight": "5 g",
+    "volume": "200 ml",
+    "price": 2000,
+    "price_postapoc": 200,
+    "material": [ "cotton" ],
+    "symbol": "=",
+    "color": "dark_gray",
+    "ammo_type": "components",
+    "count": 100,
+    "//": "These come from data/json/items/resources"
+  },
+  {
+    "id": "lunarian_leather",
+    "type": "AMMO",
+    "category": "spare_parts",
+    "name": { "str": "Lunarian leather" },
+    "description": "A sheet of Lunarian leather.  Where do they get their hides?.",
+    "weight": "8 g",
+    "volume": "1600 ml",
+    "price": 5000,
+    "price_postapoc": 500,
+    "material": [ "wool" ],
+    "symbol": "=",
+    "color": "dark_gray",
+    "ammo_type": "components",
+    "count": 100
+  }
+]

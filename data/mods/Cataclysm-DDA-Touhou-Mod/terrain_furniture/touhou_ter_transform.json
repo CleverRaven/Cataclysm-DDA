@@ -1,0 +1,78 @@
+[
+  {
+    "id": "groundmelt_ter",
+    "type": "ter_furn_transform",
+    "terrain": [
+      { "result": "t_lava", "message": "The ground heats up and turns into lava!", "valid_flags": [ "DIGGABLE", "MINEABLE" ] }
+    ]
+  },
+  {
+    "id": "keystone_crash_fur",
+    "type": "ter_furn_transform",
+    "furniture": [
+      {
+        "result": "f_keystone",
+        "message": "A keystone materializes and crashes down!",
+        "valid_flags": [ "EASY_DECONSTRUCT", "FLAMMABLE", "FLAMMABLE_ASH", "FLAMMABLE_HARD", "MINEABLE", "TRANSPARENT" ]
+      }
+    ]
+  },
+  {
+    "id": "keystone_dismiss_fur",
+    "type": "ter_furn_transform",
+    "furniture": [
+      {
+        "result": "f_null",
+        "message": "A keystone is dismissed.",
+        "valid_furniture": [ "f_keystone", "f_keystone_pillar", "f_rubble" ]
+      }
+    ]
+  },
+  {
+    "id": "keystone_pillar_fur",
+    "type": "ter_furn_transform",
+    "furniture": [
+      {
+        "result": "f_keystone_pillar",
+        "message": "A pillar keystone materializes and crashes down!",
+        "valid_flags": [ "EASY_DECONSTRUCT", "FLAMMABLE", "FLAMMABLE_ASH", "FLAMMABLE_HARD", "MINEABLE", "TRANSPARENT" ]
+      }
+    ]
+  },
+  {
+    "id": "nukeglassing_ter",
+    "type": "ter_furn_transform",
+    "terrain": [ { "result": "t_glassed_sand", "valid_flags": [ "DIGGABLE" ] } ]
+  },
+  {
+    "id": "prankster_pit_ter",
+    "type": "ter_furn_transform",
+    "terrain": [ { "result": "t_hole", "valid_flags": [ "DIGGABLE", "PLOWABLE" ] } ]
+  },
+  {
+    "id": "sunflower_spam_fur",
+    "type": "ter_furn_transform",
+    "furniture": [
+      {
+        "result": [ [ "f_sunflower", 2 ], [ "f_null", 3 ] ],
+        "message": "Sunflowers sprout around you!",
+        "valid_flags": [ "DIGGABLE" ]
+      }
+    ]
+  },
+  {
+    "id": "web_bridge_fur",
+    "type": "ter_furn_transform",
+    "furniture": [ { "result": "f_web_bridge", "valid_flags": [ "NO_FLOOR", "TRANSPARENT" ] } ]
+  },
+  {
+    "id": "web_dismiss_fur",
+    "type": "ter_furn_transform",
+    "furniture": [ { "result": "f_null", "message": "Webs around you quickly disintegrate.", "valid_furniture": [ "f_web_up" ] } ]
+  },
+  {
+    "id": "web_rappel_fur",
+    "type": "ter_furn_transform",
+    "furniture": [ { "result": "f_web_rappel", "valid_flags": [ "NO_FLOOR" ] } ]
+  }
+]

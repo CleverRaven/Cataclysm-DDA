@@ -1,0 +1,140 @@
+[
+  {
+    "id": "touhou_everything_eoc",
+    "type": "effect_on_condition",
+    "eoc_type": "SCENARIO_SPECIFIC",
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "vampire_bloodthirst_start",
+            "condition": { "u_has_trait": "VAMPIRE_SPECIES" },
+            "effect": [
+              {
+                "arithmetic": [ { "u_val": "vitamin", "name": "hblood_vitamin" }, "=", { "arithmetic": [ { "const": 648 }, "+", { "rand": 144 } ] } ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "mokou_death_eoc",
+    "type": "effect_on_condition",
+    "eoc_type": "PREVENT_DEATH",
+    "condition": {
+      "and": [
+        { "u_has_trait": "PROF_MOKOU" },
+        { "compare_int": [ { "u_val": "var", "var_name": "var_mokoudeath" }, "<", { "rand": 504 } ] }
+      ]
+    },
+    "effect": [
+      { "u_message": "Too bad you can't actually die for good.", "popup": true },
+      { "u_lose_trait": "PORTAL_RESURRECTION" },
+      { "u_add_effect": "mokou_resurrectcleanse", "duration": "6 s" },
+      { "u_add_effect": "mokou_resurrectpain", "duration": "168 hours" },
+      { "u_set_hp": 100, "only_increase": true },
+      { "u_cast_spell": { "id": "mokou_resurrectionphoenix" }, "targeted": false },
+      { "arithmetic": [ { "u_val": "var", "var_name": "var_mokoudeath" }, "+=", { "const": 168 } ] },
+      { "arithmetic": [ { "u_val": "fatigue" }, "=", { "const": 0 } ] },
+      { "arithmetic": [ { "u_val": "mana" }, "=", { "const": 800 } ] },
+      { "arithmetic": [ { "u_val": "pain" }, "=", { "const": 0 } ] }
+    ],
+    "//": "ANY trait that revives the character should be lost every time Mokou dies. So far, it's just PORTAL_RESURRECTION ",
+    "//2": "Every time Mokou dies she gets var_mokoudeath, which lasts for 7 days and slowly decreases over time. Every time she revives, the value is checked, so the more she dies in a short time the harder it is for her to not give up for real"
+  },
+  {
+    "id": "mokou_resurrect_counter_eoc",
+    "type": "effect_on_condition",
+    "recurrence": "1 hour",
+    "condition": {
+      "and": [
+        { "u_has_trait": "PROF_MOKOU" },
+        { "compare_int": [ { "u_val": "var", "var_name": "var_mokoudeath" }, ">", { "const": 0 } ] }
+      ]
+    },
+    "deactivate_condition": { "compare_int": [ { "u_val": "var", "var_name": "var_mokoudeath" }, "<=", { "const": 0 } ] },
+    "effect": [ { "arithmetic": [ { "u_val": "var", "var_name": "var_mokoudeath" }, "-=", { "const": 1 } ] } ]
+  },
+  {
+    "id": "vampire_bloodthirst_eoc",
+    "type": "effect_on_condition",
+    "recurrence": "1 hour",
+    "condition": { "u_has_trait": "VAMPIRE_SPECIES" },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "vampire_bloodthirst_veryhigh",
+            "condition": { "compare_int": [ { "u_val": "vitamin", "name": "hblood_vitamin" }, "<", { "const": 144 } ] },
+            "effect": [
+              { "u_lose_effect": "bloodthirst_low" },
+              { "u_lose_effect": "bloodthirst_medium" },
+              { "u_lose_effect": "bloodthirst_high" },
+              { "u_add_effect": "bloodthirst_veryhigh", "duration": "1 hour" }
+            ]
+          },
+          {
+            "id": "vampire_bloodthirst_high",
+            "condition": {
+              "and": [
+                { "compare_int": [ { "u_val": "vitamin", "name": "hblood_vitamin" }, ">=", { "const": 145 } ] },
+                { "compare_int": [ { "u_val": "vitamin", "name": "hblood_vitamin" }, "<", { "const": 288 } ] }
+              ]
+            },
+            "effect": [
+              { "u_lose_effect": "bloodthirst_low" },
+              { "u_lose_effect": "bloodthirst_medium" },
+              { "u_lose_effect": "bloodthirst_veryhigh" },
+              { "u_add_effect": "bloodthirst_high", "duration": "1 hour" }
+            ]
+          },
+          {
+            "id": "vampire_bloodthirst_medium",
+            "condition": {
+              "and": [
+                { "compare_int": [ { "u_val": "vitamin", "name": "hblood_vitamin" }, ">=", { "const": 289 } ] },
+                { "compare_int": [ { "u_val": "vitamin", "name": "hblood_vitamin" }, "<", { "const": 432 } ] }
+              ]
+            },
+            "effect": [
+              { "u_lose_effect": "bloodthirst_low" },
+              { "u_lose_effect": "bloodthirst_high" },
+              { "u_lose_effect": "bloodthirst_veryhigh" },
+              { "u_add_effect": "bloodthirst_medium", "duration": "1 hour" }
+            ]
+          },
+          {
+            "id": "vampire_bloodthirst_low",
+            "condition": {
+              "and": [
+                { "compare_int": [ { "u_val": "vitamin", "name": "hblood_vitamin" }, ">=", { "const": 433 } ] },
+                { "compare_int": [ { "u_val": "vitamin", "name": "hblood_vitamin" }, "<", { "const": 576 } ] }
+              ]
+            },
+            "effect": [
+              { "u_lose_effect": "bloodthirst_medium" },
+              { "u_lose_effect": "bloodthirst_high" },
+              { "u_lose_effect": "bloodthirst_veryhigh" },
+              { "u_add_effect": "bloodthirst_low", "duration": "1 hour" }
+            ]
+          },
+          {
+            "id": "vampire_bloodthirst_verylow",
+            "condition": { "and": [ { "compare_int": [ { "u_val": "vitamin", "name": "hblood_vitamin" }, ">=", { "const": 577 } ] } ] },
+            "effect": [
+              { "u_lose_effect": "bloodthirst_low" },
+              { "u_lose_effect": "bloodthirst_medium" },
+              { "u_lose_effect": "bloodthirst_high" },
+              { "u_lose_effect": "bloodthirst_veryhigh" }
+            ]
+          }
+        ]
+      }
+    ],
+    "//": "hblood_vitamin decays 1 point every 20 min, so 72 points equals 24 hours of not consuming human blood/flesh",
+    "//2": "Boundaries for each blood thirst tier are: 0 (including excess) - 24 h (no thirst), 1 - 3 days (low), 3 - 5 days (medium), 5 - 7 days (high), >7 days (veryhigh)",
+    "//3": "This means that, assuming the little vampires start at the lower boundary of day 0 (648), they can go up to 24 hours with no thirst (reach 576), and then get increased thirst every two days, peaking at one week (144) without consumption"
+  }
+]

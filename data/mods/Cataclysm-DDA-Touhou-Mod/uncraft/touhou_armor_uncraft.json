@@ -1,0 +1,16 @@
+[
+  {
+    "result": "strip_black",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "5 s",
+    "components": [ [ [ "sheet_cotton", 2 ] ] ]
+  },
+  {
+    "result": "ribbon_black",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "5 s",
+    "components": [ [ [ "strip_black", 1 ] ] ]
+  }
+]

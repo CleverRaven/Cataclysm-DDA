@@ -1,0 +1,32 @@
+[
+  {
+    "id": "touhou_corpse_medium",
+    "type": "AMMO",
+    "name": { "str_sp": "corpse (prepared)" },
+    "category": "fuel",
+    "description": "A corpse, prepared for use in special reactors",
+    "weight": "70000 g",
+    "volume": "65 L",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "hcorpse" ],
+    "symbol": "💀",
+    "color": "dark_gray",
+    "ammo_type": "touhou_corpse_ammo",
+    "count": 1,
+    "stack_size": 1,
+    "phase": "solid",
+    "effects": [ "NEVER_MISFIRES", "SMOKE" ],
+    "flags": [ "IRREPLACEABLE_CONSUMABLE" ]
+  },
+  {
+    "id": "touhou_corpse_small",
+    "type": "AMMO",
+    "name": { "str_sp": "corpse (prepared)" },
+    "category": "fuel",
+    "copy-from": "touhou_corpse_medium",
+    "description": "A small corpse, prepared for use in special reactors",
+    "weight": "35000 g",
+    "volume": "30 L"
+  }
+]

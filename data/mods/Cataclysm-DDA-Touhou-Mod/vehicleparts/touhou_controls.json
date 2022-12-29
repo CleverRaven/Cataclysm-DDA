@@ -1,0 +1,48 @@
+[
+  {
+    "id": "controls_corpsecart",
+    "type": "vehicle_part",
+    "categories": [ "operations" ],
+    "name": { "str": "corpse cart controls" },
+    "copy-from": "controls",
+    "description": "Test controls for kaenbyou_wheelbarrow ",
+    "symbol": "$",
+    "color": "black",
+    "broken_color": "red",
+    "item": "controls_corpsecart",
+    "location": "anywhere",
+    "durability": 200,
+    "folded_volume": "1500 ml",
+    "breaks_into": [ { "item": "splinter", "count": [ 7, 9 ] }, { "item": "nail", "charges": [ 5, 10 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_nail_install", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "vehicle_nail_removal", 3 ] ] },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "adhesive", 3 ] ] }
+    },
+    "damage_reduction": { "all": 10 },
+    "flags": [ "CONTROLS" ]
+  },
+  {
+    "id": "controls_keystone",
+    "type": "vehicle_part",
+    "categories": [ "operations" ],
+    "name": { "str": "keystone controls" },
+    "copy-from": "controls",
+    "description": "A set of small bumps in the rock, that handle the keystone.  Or not and the keystone just goes wherever you want it to.",
+    "symbol": "^",
+    "broken_symbol": "#",
+    "looks_like": "rock",
+    "color": "light_gray",
+    "broken_color": "red",
+    "item": "controls_keystone",
+    "location": "anywhere",
+    "durability": 60,
+    "breaks_into": [ { "item": "rock", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 20 ] ], "time": "60 m", "using": [ [ "welding_standard", 10 ] ] },
+      "removal": { "skills": [ [ "mechanics", 20 ] ], "time": "60 m", "using": [ [ "vehicle_weld_removal", 10 ] ] },
+      "repair": { "skills": [ [ "mechanics", 20 ] ], "time": "60 m", "using": [ [ "welding_standard", 10 ] ] }
+    },
+    "flags": [ "CONTROLS" ]
+  }
+]
