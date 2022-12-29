@@ -80,7 +80,6 @@
         "id": "manual_stabbing",
         "name": { "str": "FM 23-25 Army bayonet manual", "str_pl": "copies of FM 23-25 Army bayonet manual" },
         "description": "A hefty military field manual about bayonet usage and combat theory.",
-        "//": "idididididididid",
         "weight": 1
       },
       {
