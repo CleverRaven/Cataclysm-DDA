@@ -22,21 +22,21 @@
       {
         "id": "mag_stabbing_2",
         "name": { "str": "Learning Fencing", "str_pl": "copies of Learning Fencing" },
-        "description": "Childish book about fencing, where mascot-épée Foily guide reader into different nuanses of fencing with lot of photos and images.",
+        "description": "Childish book about fencing, where mascot-épée Foily guide reader into different nuances of fencing with lot of photos and images.",
         "//": "978-1782551133",
         "weight": 1
       },
       {
         "id": "mag_stabbing_3",
         "name": { "str": "The Complete Guide to Fencing", "str_pl": "copies of The Complete Guide to Fencing" },
-        "description": "Thick book, writed by professional fensers, that ground every possible aspect of modern sport fencing.",
+        "description": "Thick book, written by professional fensers, that ground every possible aspect of modern sport fencing.",
         "//": "978-1782551119",
         "weight": 1
       },
       {
         "id": "mag_stabbing_4",
         "name": { "str": "Fencing: Skills, Tactics, Training", "str_pl": "copies of Fencing: Skills, Tactics, Training" },
-        "description": "Textbook for fence instructors, that fullfill every aspect the fenser must know, from very basics to master level, from theory to drill training exercises.",
+        "description": "Textbook for fence instructors, that fulfill every aspect the fenser must know, from very basics to master level, from theory to drill training exercises.",
         "//": "978-1847973054",
         "weight": 1
       },
@@ -194,7 +194,7 @@
       {
         "id": "manual_knives_6",
         "name": { "str": "Secrets of the Karambit", "str_pl": "copies of Secrets of the Karambit" },
-        "description": "This book aspires to describe and explain the history, design, materials, and demonstrate deployment and drills of such unusual indonesian weapon as karambit knife.  The final thoughts are dissapoing.",
+        "description": "This book aspires to describe and explain the history, design, materials, and demonstrate deployment and drills of such unusual indonesian weapon as karambit knife.  The final thoughts are disappointing.",
         "//": "978-1530527953",
         "weight": 1
       },
@@ -208,7 +208,7 @@
       {
         "id": "manual_knives_8",
         "name": { "str": "The Silent Bodyguard", "str_pl": "copies of The Silent Bodyguard" },
-        "description": "\"The Art of Knife Fencing & the Chronicles of the Modern Fighting Knife and their Wielders\", the book teach user how to defend yourself against the agressor with various weapons.",
+        "description": "\"The Art of Knife Fencing & the Chronicles of the Modern Fighting Knife and their Wielders\", the book teach user how to defend yourself against the aggressor with various weapons.",
         "//": "979-8667992141",
         "weight": 1
       }
