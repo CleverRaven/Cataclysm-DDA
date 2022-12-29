@@ -3,12 +3,12 @@
     "id": "mag_launcher",
     "type": "BOOK",
     "category": "manuals",
-    "name": { "str": "High Explosives Quarterly", "str_pl": "copies of High Explosives Quarterly" },
+    "name": { "str": "High Explosives Quarterly", "str_pl": "issues of High Explosives Quarterly" },
     "description": "An interesting quarterly report about rocket launchers and recoilless rifles.  There are lots of large, exciting photos of explosions and weaponry.",
     "variants": [
       {
         "id": "mag_launcher",
-        "name": { "str": "High Explosives Quarterly", "str_pl": "copies of High Explosives Quarterly" },
+        "name": { "str": "High Explosives Quarterly", "str_pl": "issues of High Explosives Quarterly" },
         "description": "An interesting quarterly report about rocket launchers and recoilless rifles.  There are lots of large, exciting photos of explosions and weaponry.",
         "weight": 1
       },
