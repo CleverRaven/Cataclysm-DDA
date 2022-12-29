@@ -101,7 +101,7 @@
       {
         "id": "mag_cars_7",
         "name": { "str": "Cruisin' Style Magazine", "str_pl": "issues of Cruisin' Style Magazine" },
-        "description": "Really old issue about classic car maintainance and restoration.",
+        "description": "Really old issue about classic car maintenance and restoration.",
         "weight": 1
       },
       {
@@ -223,7 +223,7 @@
       {
         "id": "textbook_anarch_2",
         "name": { "str": "Science of Revolutionary Warfare", "str_pl": "copies of Science of Revolutionary Warfare" },
-        "description": "Small shabby book about making explosives, poisons and weapon with resourses you may find in your backyard.",
+        "description": "Small shabby book about making explosives, poisons and weapon with resources you may find in your backyard.",
         "skill": "chemistry",
         "required_level": 2,
         "max_level": 5,
@@ -233,7 +233,7 @@
       {
         "id": "textbook_anarch_3",
         "name": { "str": "The Poor Man's James Bond", "str_pl": "copies of The Poor Man's James Bond" },
-        "description": "Weirdly named book with weird lable, it contain a lot of information about how to make dangerous weapon and explosives in pretty dry language.",
+        "description": "Weirdly named book with weird label, it contain a lot of information about how to make dangerous weapon and explosives in pretty dry language.",
         "skill": "chemistry",
         "required_level": 2,
         "max_level": 5,
