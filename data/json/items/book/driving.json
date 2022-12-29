@@ -64,7 +64,7 @@
       {
         "id": "mag_cars_1",
         "name": { "str": "Automobile", "str_pl": "issues of Automobile" },
-        "description": "Nice looking magazine about automobile industry, with shiny images and long articles.  Dated 2019 year.",
+        "description": "A nice-looking magazine about the automobile industry, with shiny images and long articles.  Dated 2019.",
         "weight": 1
       },
       {
@@ -120,7 +120,7 @@
       {
         "id": "mag_cars_10",
         "name": { "str": "Quatro Rodas", "str_pl": "issues of Quatro Rodas" },
-        "description": "It seems to be a car magazine, but you can undertand only images, as the text is wrote on another language.",
+        "description": "It seems to be a car magazine, but you can only understand the images, as the text is written in another language.",
         "fun": -1,
         "intelligence": 7,
         "weight": 1
@@ -162,7 +162,7 @@
       {
         "id": "manual_driving_2",
         "name": { "str": "The official DVSA guide to driving", "str_pl": "copies of The official DVSA guide to driving" },
-        "description": "The book, packed with comprehensive information about driving, how to do it properly, and take a joy.  You wonder why is it here, as DVSA is a British organisation, and book has some information about specific british driving rules.",
+        "description": "The book, packed with comprehensive information about driving, how to do it properly, and take a joy.  You wonder why is it here, as DVSA is a British organization, and book has some information about specific British driving rules.",
         "weight": 1
       },
       {
@@ -213,7 +213,7 @@
       {
         "id": "textbook_anarch_1",
         "name": { "str": "The Anarchist Cookbook", "str_pl": "copies of The Anarchist Cookbook" },
-        "description": "Classic illegal manual about making weapon and explosives.  The first page contain quote of original author, that describe it as \"a youthful indiscretion or mistake that can haunt someone during their early years or even longer\".",
+        "description": "Classic illegal manual about making weapons and explosives.  The first page contains a quote from its author William Powell, that describes it as \"a youthful indiscretion or mistake that can haunt someone during their early years or even longer\".",
         "skill": "chemistry",
         "required_level": 2,
         "max_level": 5,
@@ -233,7 +233,7 @@
       {
         "id": "textbook_anarch_3",
         "name": { "str": "The Poor Man's James Bond", "str_pl": "copies of The Poor Man's James Bond" },
-        "description": "Weirdly named book with weird label, it contain a lot of information about how to make dangerous weapon and explosives in pretty dry language.",
+        "description": "A collection of American paramilitary knowledge throughout history, containing a lot of information about how to make dangerous weapons and explosives in pretty dry language.",
         "skill": "chemistry",
         "required_level": 2,
         "max_level": 5,
