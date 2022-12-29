@@ -120,7 +120,7 @@
       {
         "id": "mag_cars_10",
         "name": { "str": "Quatro Rodas", "str_pl": "issues of Quatro Rodas" },
-        "description": "It seems to be a car magazine, but you can undertand only images, as the text is writed on another language.",
+        "description": "It seems to be a car magazine, but you can undertand only images, as the text is wrote on another language.",
         "fun": -1,
         "intelligence": 7,
         "weight": 1
