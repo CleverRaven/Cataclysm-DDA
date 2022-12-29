@@ -16,6 +16,7 @@
         "id": "decoy_anarch_1",
         "name": { "str": "Driving Around", "str_pl": "copies of Driving Around" },
         "description": "Travelogue about group of teenagers in late nineties.",
+        "//": "978-1638607175",
         "max_level": 1,
         "weight": 1
       },
@@ -23,13 +24,15 @@
         "id": "decoy_anarch_2",
         "name": { "str": "Off The Road", "str_pl": "copies of Off The Road" },
         "description": "Notebook about living outside of main roads, with wide collection of stories, examples, tips and advices.",
+        "//": "978-3899555943",
         "fun": 1,
         "weight": 1
       },
       {
         "id": "decoy_anarch_3",
-        "name": { "str": "Traffic", "str_pl": "copies of Traffic" },
-        "description": "Small research, that talk about how roads are build, why they build in such manner, and what we can do to improve it.",
+        "name": { "str": "Traffic: Why We Drive the Way We Do", "str_pl": "copies of Traffic: Why We Drive the Way We Do" },
+        "description": "Big research, that talk about how roads are build, why they build in such manner, and what we can do to improve it.",
+        "//": "978-0307277190",
         "fun": 0,
         "weight": 1
       }
@@ -157,12 +160,14 @@
         "id": "manual_driving_1",
         "name": { "str": "Guide to Passing the Driving Test", "str_pl": "copies of Guide to Passing the Driving Test" },
         "description": "A thick, heavy book about every thing you may be asked in your driving exam.  Biggest part of book contain theory quests with detailed answers, and many how-to's about driving overall.",
+        "//": "978-1789630473",
         "weight": 1
       },
       {
         "id": "manual_driving_2",
         "name": { "str": "The official DVSA guide to driving", "str_pl": "copies of The official DVSA guide to driving" },
         "description": "The book, packed with comprehensive information about driving, how to do it properly, and take a joy.  You wonder why is it here, as DVSA is a British organization, and book has some information about specific British driving rules.",
+        "//": "978-0115537011",
         "weight": 1
       },
       {
@@ -172,6 +177,7 @@
           "str_pl": "copies of Automated Driving and Driver Assistance Systems"
         },
         "description": "The book explain technologies and approaches of advanced driving systems, what tool they use, and why it is hard to get a good result.  It is hard to understand sometimes, but it shows the driving from the perspective no another driver thought about.",
+        "//": "978-0367265595",
         "required_level": 2,
         "max_level": 5,
         "intelligence": 8,
@@ -181,6 +187,7 @@
         "id": "manual_driving_4",
         "name": { "str": "The Driving Instructor's Handbook", "str_pl": "copies of The Driving Instructor's Handbook" },
         "description": "Detailed textbook about how to provide driving lessons, what may be discussed, and how to prevent dangerous situations and collisions.",
+        "//": "978-1398602786",
         "weight": 1
       }
     ],
@@ -214,6 +221,7 @@
         "id": "textbook_anarch_1",
         "name": { "str": "The Anarchist Cookbook", "str_pl": "copies of The Anarchist Cookbook" },
         "description": "Classic illegal manual about making weapons and explosives.  The first page contains a quote from its author William Powell, that describes it as \"a youthful indiscretion or mistake that can haunt someone during their early years or even longer\".",
+        "//": "really? you don't know how to find the anarchist cookbook?",
         "skill": "chemistry",
         "required_level": 2,
         "max_level": 5,
@@ -224,6 +232,7 @@
         "id": "textbook_anarch_2",
         "name": { "str": "Science of Revolutionary Warfare", "str_pl": "copies of Science of Revolutionary Warfare" },
         "description": "Small shabby book about making explosives, poisons and weapon with resources you may find in your backyard.",
+        "//": "978-0879472115",
         "skill": "chemistry",
         "required_level": 2,
         "max_level": 5,
@@ -234,6 +243,7 @@
         "id": "textbook_anarch_3",
         "name": { "str": "The Poor Man's James Bond", "str_pl": "copies of The Poor Man's James Bond" },
         "description": "A collection of American paramilitary knowledge throughout history, containing a lot of information about how to make dangerous weapons and explosives in pretty dry language.",
+        "//": "978-0879472306",
         "skill": "chemistry",
         "required_level": 2,
         "max_level": 5,
