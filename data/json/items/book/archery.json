@@ -73,7 +73,7 @@
       {
         "id": "manual_archery_2",
         "name": { "str": "The Theory And Practice Of Archery", "str_pl": "copies of The Theory And Practice Of Archery" },
-        "description": "Authored by Horace Ford, the champion archer of England for the years 1850 to 1859 and 1867, and known as one of the greatest archers of all time, this books holds all his experience in archery, which is still high for modern standards.",
+        "description": "Authored by Horace Ford, the champion archer of England for the years 1850 to 1859 and 1867, and known as one of the greatest archers of all time, this book holds all his experience in archery, which is still high for modern standards.",
         "weight": 1
       }
     ],
@@ -96,7 +96,7 @@
       {
         "id": "mag_archery_1",
         "name": { "str": "Archery Drill Book", "str_pl": "copies of Archery Drill Book" },
-        "description": "Become a more consistent and accurate archer, The Archery Drill Book covers all aspects of the sport, with 130 of the best drills for developing superior technique, skill, physical stamina, and the focused mind-set needed to shoot under pressure.",
+        "description": "Become a more consistent and accurate archer, The Archery Drill Book covers all aspects of the sport, with 130 of the best drills for developing superior technique, skill, physical stamina, and the focused mindset needed to shoot under pressure.",
         "weight": 1
       },
       {

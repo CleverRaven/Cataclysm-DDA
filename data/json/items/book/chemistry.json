@@ -80,13 +80,13 @@
           "str": "Leathercraft: Traditional Handcrafted Leatherwork Skills and Projects",
           "str_pl": "copies of Leathercraft: Traditional Handcrafted Leatherwork Skills and Projects"
         },
-        "description": "Book, that offer learning resource and projects for leathercrafters who believe that high quality matters, in how you make things and in the finished results.",
+        "description": "A guide by Nigel Armitage offering traditional leatherworking techniques with modern applications, creating durable goods able to last generations.",
         "weight": 1
       },
       {
         "id": "modern_tanner_2",
         "name": { "str": "Leatherworking Handbook", "str_pl": "copies of Leatherworking Handbook" },
-        "description": "A leather working book for amateurs by a top professional, with some key techniques and various projects.",
+        "description": "A leatherworking book for amateurs by a top professional, with some key techniques and various projects.",
         "weight": 1
       },
       {
@@ -471,7 +471,7 @@
           "str": "The Chemistry Book: Big Ideas Simply Explained",
           "str_pl": "copies of The Chemistry Book: Big Ideas Simply Explained"
         },
-        "description": "short, pithy explanations of some of the most historic moments in science, from the birth of alchemy to modern chemistry state.  Simple graphics, such as flowcharts and mind maps, support the text and make the explanation of key concepts easy to follow.",
+        "description": "Short, pithy explanations of some of the most historic moments in science, from the birth of alchemy to modern chemistry state.  Simple graphics, such as flowcharts and mind maps, support the text and make the explanation of key concepts easy to follow.",
         "weight": 1
       },
       {
@@ -494,7 +494,7 @@
           "str": "Everything You Need to Ace Chemistry in One Big Fat Notebook",
           "str_pl": "copies of Everything You Need to Ace Chemistry in One Big Fat Notebook"
         },
-        "description": "The book provide plenty of info about school level chemistry, with plenty of additional tables and formulas, but with lack of additional pictures.",
+        "description": "The book provide plenty of info about school-level chemistry, with plenty of additional tables and formulas, but with lack of additional pictures.",
         "fun": -1,
         "weight": 1
       }
@@ -549,7 +549,7 @@
           "str": "A Literature Review on Cold Cracking of Petroleum Crude Oil",
           "str_pl": "copies of A Literature Review on Cold Cracking of Petroleum Crude Oil"
         },
-        "description": "This book describe the method of cold petroleum cracking - the type of process, that occur in the temperature below the freezing point, comparing the common process, that occur on nearly 400 centigrade level.  You can't really use this type of process without lot of additional equipment, but the book provide plenty of information about common methods, that you can make by hand.",
+        "description": "This book describe the method of cold petroleum cracking - the type of process, that occur in the temperature below the freezing point, comparing the common process, that occur on nearly 400 centigrade level.  You can't really use this type of process without lot of additional equipment, but the book provide plenty of information about common methods that you can make by hand.",
         "fun": -2,
         "intelligence": 10,
         "weight": 1
@@ -588,7 +588,7 @@
           "str": "Biodiesel Production: Technologies, Challenges, and Future Prospects",
           "str_pl": "copies of Biodiesel Production: Technologies, Challenges, and Future Prospects"
         },
-        "description": "Sponcored by American Society of Civil Engineers, this book presents approaches, technologies, and source materials for biodiesel production, as well as socioeconomic and political impacts of his applications.  You surely don't need the second part anymore.",
+        "description": "Sponsored by the American Society of Civil Engineers, this book presents approaches, technologies, and source materials for biodiesel production, as well as socioeconomic and political impacts of its applications.  You surely don't need the second part anymore.",
         "weight": 1
       },
       {
@@ -604,7 +604,7 @@
           "str": "Biodiesel: a Realistic Fuel Alternative for Diesel Engines",
           "str_pl": "copies of Biodiesel: a Realistic Fuel Alternative for Diesel Engines"
         },
-        "description": "Small book, that offer insights into plant-based fuels, with detailed analysis of biodiesel, and possible scenarios how it can be implemented in .",
+        "description": "A small book offering insights into plant-based fuels, with detailed analysis of biodiesel, and possible scenarios for their implementation.",
         "weight": 1
       },
       {
@@ -622,7 +622,7 @@
           "str": "Biodiesel Basics and Beyond: A Comprehensive Guide to Production and Use for the Home and Farm",
           "str_pl": "copies of Biodiesel Basics and Beyond: A Comprehensive Guide to Production and Use for the Home and Farm"
         },
-        "description": "Big reference book about using biodiesel in homemade scale, with lot of how-to's and original thoughts about processes.",
+        "description": "A comprehensive guide by William Kemp to produce biodiesel at small scale while avoiding common failures of fuel quality and byproduct waste management, with accuracies of data and process backed by government or university verification.",
         "weight": 1
       },
       {
@@ -637,7 +637,7 @@
       {
         "id": "textbook_biodiesel_7",
         "name": { "str": "Bean Diesel", "str_pl": "copies of Bean Diesel" },
-        "description": "The original cover of this book was replaced with white sheet of paper with hand made \"Bean Diesel\" label and simplified, draw by pen, image of Vin Diesel.  Except of this, it is pretty mundane handbook about biofuel production.",
+        "description": "The original cover of this book was replaced with a white sheet of paper with a hand-made \"Bean Diesel\" label and simplified, draw by pen, image of Vin Diesel.  Excluding this, it is a pretty mundane handbook about biofuel production.",
         "weight": 1
       }
     ],
