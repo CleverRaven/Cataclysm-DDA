@@ -275,7 +275,6 @@
     "spells": [
       { "level": 1, "id": "dash_remi" },
       { "level": 1, "id": "remilia_bloodboil" },
-      { "level": 1, "id": "remilia_consumeblood" },
       { "level": 1, "id": "remilia_demonfork" },
       { "level": 1, "id": "remilia_gungnir" },
       { "level": 1, "id": "remilia_gungnir_throw" },
@@ -435,6 +434,7 @@
     "points": 2,
     "spells": [
       { "level": 1, "id": "dash_utsuho" },
+      { "level": 1, "id": "utsuho_abyssnova" },
       { "level": 1, "id": "utsuho_blacksun" },
       { "level": 1, "id": "utsuho_detectrad" },
       { "level": 1, "id": "utsuho_fusionblade" },
