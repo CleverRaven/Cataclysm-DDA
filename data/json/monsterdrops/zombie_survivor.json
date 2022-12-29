@@ -4,7 +4,6 @@
     "subtype": "collection",
     "id": "mon_zombie_survivor_death_drops",
     "magazine": 100,
-    "ammo": 60,
     "entries": [
       { "group": "clothing_outdoor_set", "damage": [ 1, 4 ] },
       { "group": "bags", "damage": [ 1, 4 ], "prob": 10 },
@@ -105,7 +104,12 @@
   {
     "id": "survivor_knife",
     "type": "item_group",
-    "items": [ [ "makeshift_knife", 80 ], [ "copper_knife", 20 ], [ "knife_steak", 20 ], [ "knife_rambo", 60 ] ]
+    "items": [
+      [ "makeshift_knife", 80 ],
+      [ "copper_knife", 20 ],
+      [ "knife_steak", 20 ],
+      { "group": "knife_rambo_cont", "prob": 60 }
+    ]
   },
   {
     "id": "survivor_melee",

@@ -8,7 +8,7 @@
     "color": "light_red",
     "move_cost": 0,
     "coverage": 55,
-    "flags": [ "FLAMMABLE", "NOITEM", "DOOR", "CONNECT_TO_WALL", "WALL", "REDUCE_SCENT", "BLOCK_WIND", "BURROWABLE" ],
+    "flags": [ "FLAMMABLE", "NOITEM", "DOOR", "WALL", "REDUCE_SCENT", "BLOCK_WIND", "BURROWABLE" ],
     "bash": {
       "str_min": 24,
       "str_max": 150,
@@ -26,7 +26,7 @@
     "symbol": ".",
     "color": "brown",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "FLAT", "CONNECT_TO_WALL", "BURROWABLE" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "FLAT", "CONNECT_WITH_WALL", "BURROWABLE" ],
     "bash": {
       "str_min": 6,
       "str_max": 150,
@@ -44,7 +44,7 @@
     "symbol": "&",
     "color": "cyan",
     "move_cost": 0,
-    "flags": [ "TRANSPARENT", "NOITEM", "PERMEABLE", "CONNECT_TO_WALL", "MINEABLE", "BURROWABLE" ],
+    "flags": [ "TRANSPARENT", "NOITEM", "PERMEABLE", "CONNECT_WITH_WALL", "MINEABLE", "BURROWABLE" ],
     "bash": {
       "str_min": 60,
       "str_max": 210,
@@ -73,6 +73,7 @@
       "byproducts": [ { "item": "scrap", "count": 3 } ]
     },
     "flags": [ "TRANSPARENT", "PERMEABLE", "LOCKED", "PICKABLE", "THIN_OBSTACLE", "BURROWABLE" ],
+    "connect_groups": "CHAINFENCE",
     "connects_to": "CHAINFENCE",
     "examine_action": "locked_object_pickable",
     "oxytorch": {
@@ -106,6 +107,7 @@
     "color": "cyan",
     "move_cost": 0,
     "flags": [ "TRANSPARENT", "DOOR", "PERMEABLE", "THIN_OBSTACLE", "BURROWABLE" ],
+    "connect_groups": "CHAINFENCE",
     "connects_to": "CHAINFENCE",
     "oxytorch": {
       "result": "t_dirt",
@@ -143,6 +145,7 @@
     "color": "cyan",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAT", "ROAD", "BURROWABLE" ],
+    "connect_groups": "CHAINFENCE",
     "connects_to": "CHAINFENCE",
     "close": "t_chaingate_c",
     "oxytorch": {
@@ -184,6 +187,7 @@
       "byproducts": [ { "item": "chain", "count": [ 1, 2 ] }, { "item": "wire", "count": [ 8, 22 ] } ]
     },
     "flags": [ "TRANSPARENT", "PERMEABLE", "LOCKED", "PICKABLE", "THIN_OBSTACLE" ],
+    "connect_groups": "WALL",
     "connects_to": "WALL",
     "examine_action": "locked_object_pickable",
     "lockpick_result": "t_retractable_gate_c",
@@ -217,6 +221,7 @@
     "color": "cyan",
     "move_cost": 0,
     "flags": [ "TRANSPARENT", "DOOR", "PERMEABLE", "THIN_OBSTACLE" ],
+    "connect_groups": "WALL",
     "connects_to": "WALL",
     "hacksaw": {
       "result": "t_strconc_floor",
@@ -254,6 +259,7 @@
     "color": "cyan",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAT", "ROAD" ],
+    "connect_groups": "WALL",
     "connects_to": "WALL",
     "close": "t_retractable_gate_c",
     "bash": {
@@ -279,6 +285,7 @@
     "move_cost": 3,
     "coverage": 60,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DOOR", "MOUNTABLE", "BURROWABLE" ],
+    "connect_groups": "WOODFENCE",
     "connects_to": "WOODFENCE",
     "open": "t_fencegate_o",
     "deconstruct": {
@@ -315,6 +322,7 @@
     "color": "brown",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "FLAT", "ROAD", "BURROWABLE" ],
+    "connect_groups": "WOODFENCE",
     "connects_to": "WOODFENCE",
     "close": "t_fencegate_c",
     "deconstruct": {
@@ -349,7 +357,7 @@
     "color": "brown",
     "looks_like": "t_chickenwire_gate_c",
     "move_cost": 0,
-    "flags": [ "TRANSPARENT", "DOOR", "PERMEABLE", "BURROWABLE", "CONNECT_TO_WALL" ],
+    "flags": [ "TRANSPARENT", "DOOR", "PERMEABLE", "BURROWABLE", "CONNECT_WITH_WALL" ],
     "open": "t_screen_door_o",
     "deconstruct": {
       "ter_set": "t_floor",
@@ -384,7 +392,7 @@
     "color": "brown",
     "looks_like": "t_chickenwire_gate_o",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "PERMEABLE", "BURROWABLE", "CONNECT_TO_WALL" ],
+    "flags": [ "TRANSPARENT", "PERMEABLE", "BURROWABLE", "CONNECT_WITH_WALL" ],
     "close": "t_screen_door_c",
     "deconstruct": {
       "ter_set": "t_floor",
@@ -420,6 +428,7 @@
     "looks_like": "t_chaingate_c",
     "move_cost": 0,
     "flags": [ "TRANSPARENT", "DOOR", "PERMEABLE", "BURROWABLE" ],
+    "connect_groups": "CHAINFENCE",
     "connects_to": "CHAINFENCE",
     "open": "t_chickenwire_gate_o",
     "deconstruct": {
@@ -452,6 +461,7 @@
     "looks_like": "t_chaingate_o",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAT", "ROAD", "BURROWABLE" ],
+    "connect_groups": "CHAINFENCE",
     "connects_to": "CHAINFENCE",
     "close": "t_chickenwire_gate_c",
     "deconstruct": {
@@ -493,6 +503,7 @@
       "AUTO_WALL_SYMBOL",
       "BURROWABLE"
     ],
+    "connect_groups": "WOODFENCE",
     "connects_to": "WOODFENCE",
     "deconstruct": { "ter_set": "t_fence_post", "items": [ { "item": "2x4", "count": 5 }, { "item": "nail", "charges": 8 } ] },
     "bash": {
@@ -535,6 +546,7 @@
       "AUTO_WALL_SYMBOL",
       "BURROWABLE"
     ],
+    "connect_groups": "WOODFENCE",
     "connects_to": "WOODFENCE",
     "deconstruct": { "ter_set": "t_fence_post", "items": [ { "item": "splinter", "count": 20 } ] },
     "bash": {
@@ -581,6 +593,7 @@
       "byproducts": [ { "item": "wire", "count": 20 } ]
     },
     "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "PERMEABLE", "UNSTABLE", "CLIMBABLE", "AUTO_WALL_SYMBOL", "BURROWABLE" ],
+    "connect_groups": "CHAINFENCE",
     "connects_to": "CHAINFENCE",
     "examine_action": "chainfence",
     "oxytorch": {
@@ -643,6 +656,7 @@
     "looks_like": "t_chainfence",
     "move_cost": 0,
     "flags": [ "TRANSPARENT", "NOITEM", "PERMEABLE", "AUTO_WALL_SYMBOL", "BURROWABLE", "CLIMBABLE" ],
+    "connect_groups": "CHAINFENCE",
     "connects_to": "CHAINFENCE",
     "examine_action": "chainfence",
     "deconstruct": {
@@ -818,6 +832,7 @@
       "AUTO_WALL_SYMBOL",
       "BURROWABLE"
     ],
+    "connect_groups": "WOODFENCE",
     "connects_to": "WOODFENCE",
     "deconstruct": { "ter_set": "t_fence_post", "items": [ { "item": "2x4", "count": 2 }, { "item": "nail", "charges": 20 } ] },
     "bash": {
@@ -840,6 +855,7 @@
     "move_cost": 0,
     "coverage": 60,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DOOR", "BURROWABLE" ],
+    "connect_groups": "WOODFENCE",
     "connects_to": "WOODFENCE",
     "open": "t_splitrail_fencegate_o",
     "deconstruct": {
@@ -877,6 +893,7 @@
     "looks_like": "t_fencegate_o",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "FLAT", "ROAD", "BURROWABLE" ],
+    "connect_groups": "WOODFENCE",
     "connects_to": "WOODFENCE",
     "close": "t_splitrail_fencegate_c",
     "deconstruct": {
@@ -916,6 +933,7 @@
     "coverage": 60,
     "examine_action": "chainfence",
     "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "PERMEABLE", "CLIMBABLE", "AUTO_WALL_SYMBOL", "BURROWABLE" ],
+    "connect_groups": "WOODFENCE",
     "connects_to": "WOODFENCE",
     "deconstruct": {
       "ter_set": "t_floor",
@@ -950,6 +968,7 @@
     "move_cost": 0,
     "coverage": 60,
     "flags": [ "TRANSPARENT", "DOOR", "BURROWABLE" ],
+    "connect_groups": "WOODFENCE",
     "connects_to": "WOODFENCE",
     "open": "t_gate_metal_o",
     "deconstruct": {
@@ -989,6 +1008,7 @@
     "move_cost": 2,
     "coverage": 60,
     "flags": [ "TRANSPARENT", "BURROWABLE", "FLAT", "ROAD" ],
+    "connect_groups": "WOODFENCE",
     "connects_to": "WOODFENCE",
     "close": "t_gate_metal_c",
     "deconstruct": {
@@ -1029,6 +1049,7 @@
     "move_cost": 0,
     "examine_action": "chainfence",
     "flags": [ "NOITEM", "CLIMBABLE", "PERMEABLE", "AUTO_WALL_SYMBOL", "FLAMMABLE_ASH", "THIN_OBSTACLE", "BURROWABLE" ],
+    "connect_groups": "WOODFENCE",
     "connects_to": "WOODFENCE",
     "deconstruct": { "ter_set": "t_fence_post", "items": [ { "item": "2x4", "count": 8 }, { "item": "nail", "charges": 20 } ] },
     "bash": {
@@ -1051,6 +1072,7 @@
     "move_cost": 0,
     "coverage": 60,
     "flags": [ "FLAMMABLE_ASH", "DOOR", "BURROWABLE" ],
+    "connect_groups": "WOODFENCE",
     "connects_to": "WOODFENCE",
     "open": "t_privacy_fencegate_o",
     "deconstruct": {
@@ -1088,6 +1110,7 @@
     "looks_like": "t_fencegate_o",
     "move_cost": 2,
     "flags": [ "FLAMMABLE_ASH", "FLAT", "ROAD", "BURROWABLE", "TRANSPARENT" ],
+    "connect_groups": "WOODFENCE",
     "connects_to": "WOODFENCE",
     "close": "t_privacy_fencegate_c",
     "deconstruct": {
@@ -1125,6 +1148,7 @@
     "color": "yellow",
     "move_cost": 3,
     "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "SHORT", "AUTO_WALL_SYMBOL", "BURROWABLE" ],
+    "connect_groups": "RAILING",
     "connects_to": "RAILING",
     "bash": {
       "str_min": 20,
@@ -1150,6 +1174,7 @@
     "color": "cyan",
     "move_cost": 3,
     "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "SHORT", "AUTO_WALL_SYMBOL", "BURROWABLE" ],
+    "connect_groups": "RAILING",
     "connects_to": "RAILING",
     "deconstruct": { "ter_set": "t_rock_floor", "items": [ { "item": "glass_sheet", "count": 2 }, { "item": "pipe", "count": 4 } ] },
     "bash": {
@@ -1175,6 +1200,7 @@
     "color": "dark_gray",
     "move_cost": 3,
     "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "SHORT", "AUTO_WALL_SYMBOL", "BURROWABLE" ],
+    "connect_groups": "RAILING",
     "connects_to": "RAILING",
     "deconstruct": { "ter_set": "t_rock_floor", "items": [ { "item": "sheet_metal", "count": 2 }, { "item": "pipe", "count": 4 } ] },
     "bash": {
@@ -1201,6 +1227,7 @@
     "looks_like": "t_ponywall",
     "move_cost": 3,
     "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "SHORT", "AUTO_WALL_SYMBOL", "MINEABLE", "BURROWABLE" ],
+    "connect_groups": "RAILING",
     "connects_to": "RAILING",
     "bash": {
       "str_min": 100,

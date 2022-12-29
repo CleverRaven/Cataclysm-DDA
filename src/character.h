@@ -390,6 +390,12 @@ struct needs_rates {
     float kcal = 0.0f;
 };
 
+struct pocket_data_with_parent {
+    const item_pocket *pocket_ptr;
+    item_location parent;
+    int nested_level;
+};
+
 class Character : public Creature, public visitable
 {
     public:
@@ -749,6 +755,8 @@ class Character : public Creature, public visitable
         void update_body( const time_point &from, const time_point &to );
         /** Updates the stomach to give accurate hunger messages */
         void update_stomach( const time_point &from, const time_point &to );
+        /** Updates the mutations from enchantments */
+        void update_enchantment_mutations();
         /** Returns true if character needs food, false if character is an NPC with NO_NPC_FOOD set */
         bool needs_food() const;
         /** Increases hunger, thirst, fatigue and stimulants wearing off. `rate_multiplier` is for retroactive updates. */
@@ -808,8 +816,8 @@ class Character : public Creature, public visitable
         /** Returns true if the player is wearing an active optical cloak */
         bool is_wearing_active_optcloak() const;
 
-        /** Returns true if the player is in a climate controlled area or armor */
-        bool in_climate_control();
+        /** Returns strength of any climate control affecting character, for heating and chilling respectively */
+        std::pair<int, int> climate_control_strength();
 
         /** Returns wind resistance provided by armor, etc **/
         std::map<bodypart_id, int> get_wind_resistance( const
@@ -1362,20 +1370,21 @@ class Character : public Creature, public visitable
         void mutate( );
         /** Returns true if the player doesn't have the mutation or a conflicting one and it complies with the allowed typing */
         bool mutation_ok( const trait_id &mutation, bool allow_good, bool allow_bad, bool allow_neutral,
-                          const vitamin_id &mut_vit, const bool &terminal ) const;
+                          const vitamin_id &mut_vit ) const;
         bool mutation_ok( const trait_id &mutation, bool allow_good, bool allow_bad,
                           bool allow_neutral ) const;
         /** Roll, based on instability, whether next mutation should be good or bad */
         bool roll_bad_mutation() const;
         /** Picks a random valid mutation in a category and mutate_towards() it */
-        void mutate_category( const mutation_category_id &mut_cat, bool use_vitamins );
+        void mutate_category( const mutation_category_id &mut_cat, bool use_vitamins,
+                              bool true_random = false );
         void mutate_category( const mutation_category_id &mut_cat );
         /** Mutates toward one of the given mutations, upgrading or removing conflicts if necessary */
         bool mutate_towards( std::vector<trait_id> muts, const mutation_category_id &mut_cat,
-                             int num_tries = INT_MAX );
+                             int num_tries = INT_MAX, bool use_vitamins = true );
         /** Mutates toward the entered mutation, upgrading or removing conflicts if necessary */
         bool mutate_towards( const trait_id &mut, const mutation_category_id &mut_cat,
-                             const mutation_variant *chosen_var = nullptr );
+                             const mutation_variant *chosen_var = nullptr, bool use_vitamins = true );
         bool mutate_towards( const trait_id &mut, const mutation_variant *chosen_var = nullptr );
         /** Removes a mutation, downgrading to the previous level if possible */
         void remove_mutation( const trait_id &mut, bool silent = false );
@@ -1434,25 +1443,22 @@ class Character : public Creature, public visitable
         bool has_active_bionic( const bionic_id &b ) const;
         /**Returns true if the player has any bionic*/
         bool has_any_bionic() const;
-        /**Returns true if the character can fuel a bionic with the item*/
-        bool can_fuel_bionic_with( const item &it ) const;
         /**Return bionic_id of bionics able to use it as fuel*/
-        std::vector<bionic_id> get_bionic_fueled_with( const item &it ) const;
-        std::vector<bionic_id> get_bionic_fueled_with( const material_id &mat ) const;
+        std::vector<bionic_id> get_bionic_fueled_with_muscle() const;
         /**Return bionic_id of fueled bionics*/
         std::vector<bionic_id> get_fueled_bionics() const;
         /**Returns bionic_id of first remote fueled bionic found*/
         bionic_id get_remote_fueled_bionic() const;
-        /**Return bionic_id of bionic of most fuel efficient bionic*/
-        bionic_id get_most_efficient_bionic( const std::vector<bionic_id> &bids ) const;
-        /**Return list of available fuel for this bionic*/
-        std::vector<material_id> get_fuel_available( const bionic_id &bio ) const;
-        /**Return available space to store specified fuel*/
-        int get_fuel_capacity( const material_id &fuel ) const;
-        /**Return total space to store specified fuel*/
-        int get_total_fuel_capacity( const material_id &fuel ) const;
-        /**Updates which bionic contain fuel and which is empty*/
-        void update_fuel_storage( const material_id &fuel );
+
+        /**Return list of available fuel sources that are not empty for this bionic*/
+        std::vector<item *> get_bionic_fuels( const bionic_id &bio );
+        /** Returns not-empty UPS connected to cable charger bionic */
+        std::vector<item *> get_cable_ups();
+        /** Returns solar items connected to cable charger bionic */
+        std::vector<item *> get_cable_solar();
+        /** Returns vehicles connected to cable charger bionic */
+        std::vector<vehicle *> get_cable_vehicle();
+
         /**Get stat bonus from bionic*/
         int get_mod_stat_from_bionic( const character_stat &Stat ) const;
         // route for overmap-scale traveling
@@ -1548,12 +1554,12 @@ class Character : public Creature, public visitable
         /** Used for eating object at a location. Removes item if all of it was consumed.
         *   @returns trinary enum NONE, SOME or ALL amount consumed.
         */
-        trinary consume( item_location loc, bool force = false, bool refuel = false );
+        trinary consume( item_location loc, bool force = false );
 
         /** Used for eating a particular item that doesn't need to be in inventory.
          *  @returns trinary enum NONE, SOME or ALL (doesn't remove).
          */
-        trinary consume( item &target, bool force = false, bool refuel = false );
+        trinary consume( item &target, bool force = false );
 
         /**
          * Stores an item inside another consuming moves proportional to weapon skill and volume.
@@ -1629,13 +1635,6 @@ class Character : public Creature, public visitable
         void leak_items();
         /** Search surrounding squares for traps (and maybe other things in the future). */
         void search_surroundings();
-        /**Passively produce power from PERPETUAL fuel*/
-        void passive_power_gen( const bionic &bio );
-        /**Find fuel used by remote powered bionic*/
-        material_id find_remote_fuel( bool look_only = false );
-        /**Consume fuel used by remote powered bionic, return amount of request unfulfilled (0 if totally successful).*/
-        int consume_remote_fuel( int amount );
-        void reset_remote_fuel();
         /**Handle heat from exothermic power generation*/
         void heat_emission( const bionic &bio, units::energy fuel_energy );
         /**Applies modifier to fuel_efficiency and returns the resulting efficiency*/
@@ -2045,6 +2044,18 @@ class Character : public Creature, public visitable
                 bool ignore_settings = false );
 
         /**
+         * Collect all pocket data (with parent and nest levels added) that the character has.
+         * @param filter only collect pockets that match the filter.
+         * @param sort_func customizable sorting function.
+         *
+         * @returns pocket_data_with_parent vector to return.
+         */
+        std::vector<pocket_data_with_parent> get_all_pocket_with_parent(
+            const std::function<bool( const item_pocket * )> &filter = return_true<const item_pocket *>,
+            const std::function<bool( const pocket_data_with_parent &a, const pocket_data_with_parent &b )>
+            *sort_func = nullptr );
+
+        /**
          * Checks if character stats and skills meet minimum requirements for the item.
          * Prints an appropriate message if requirements not met.
          * @param it Item we are checking
@@ -2135,7 +2146,7 @@ class Character : public Creature, public visitable
         int get_knowledge_level( const skill_id &ident ) const;
         int get_knowledge_level( const skill_id &ident, const item &context ) const;
 
-        const SkillLevelMap &get_all_skills() const;
+        SkillLevelMap get_all_skills() const;
         SkillLevel &get_skill_level_object( const skill_id &ident );
         const SkillLevel &get_skill_level_object( const skill_id &ident ) const;
 
@@ -2166,12 +2177,14 @@ class Character : public Creature, public visitable
         // --------------- Proficiency Stuff ----------------
         bool has_proficiency( const proficiency_id &prof ) const;
         float get_proficiency_practice( const proficiency_id &prof ) const;
+        time_duration get_proficiency_practiced_time( const proficiency_id &prof ) const;
         bool has_prof_prereqs( const proficiency_id &prof ) const;
         void add_proficiency( const proficiency_id &prof, bool ignore_requirements = false );
         void lose_proficiency( const proficiency_id &prof, bool ignore_requirements = false );
         bool practice_proficiency( const proficiency_id &prof, const time_duration &amount,
                                    const cata::optional<time_duration> &max = cata::nullopt );
         time_duration proficiency_training_needed( const proficiency_id &prof ) const;
+        void set_proficiency_practiced_time( const proficiency_id &prof, int turns );
         std::vector<display_proficiency> display_proficiencies() const;
         std::vector<proficiency_id> known_proficiencies() const;
         std::vector<proficiency_id> learning_proficiencies() const;
@@ -2291,10 +2304,6 @@ class Character : public Creature, public visitable
         int impact( int force, const tripoint &pos ) override;
         /** Knocks the player to a specified tile */
         void knock_back_to( const tripoint &to ) override;
-        /** Siphons fuel (if available) from the specified vehicle into container or
-         * similar via @ref game::handle_liquid. May start a player activity.
-         */
-        void siphon( vehicle &veh, const itype_id &desired_liquid );
 
         /** Returns overall % of HP remaining */
         int hp_percentage() const override;
@@ -2365,6 +2374,9 @@ class Character : public Creature, public visitable
          *  Player can only cross one mutation threshold.
          */
         bool crossed_threshold() const;
+        /** Returns the category that the player has crossed the threshold of, if they have one
+         */
+        mutation_category_id get_threshold_category() const;
 
         void environmental_revert_effect();
 
@@ -2595,8 +2607,8 @@ class Character : public Creature, public visitable
         void set_base_age( int age );
         void mod_base_age( int mod );
         // age in years
-        int age() const;
-        std::string age_string() const;
+        int age( time_point when = calendar::turn ) const;
+        std::string age_string( time_point when = calendar::turn ) const;
         // returns the height in cm
         int base_height() const;
         void set_base_height( int height );
@@ -2674,6 +2686,7 @@ class Character : public Creature, public visitable
         int get_cardio_acc() const;
         void set_cardio_acc( int ncardio_acc );
         void reset_cardio_acc();
+        int get_cardio_acc_base() const;
         virtual void update_cardio_acc() = 0;
 
         /** Returns true if a gun misfires, jams, or has other problems, else returns false */
@@ -2752,7 +2765,7 @@ class Character : public Creature, public visitable
 
         std::map<mutation_category_id, int> mutation_category_level;
 
-        int adjust_for_focus( int amount ) const;
+        float adjust_for_focus( float amount ) const;
         void update_type_of_scent( bool init = false );
         void update_type_of_scent( const trait_id &mut, bool gain = true );
         void set_type_of_scent( const scenttype_id &id );
@@ -2866,7 +2879,8 @@ class Character : public Creature, public visitable
         /** Correction factor of the body temperature due to traits and mutations for player lying on the floor **/
         int bodytemp_modifier_traits_floor() const;
         /** Value of the body temperature corrected by climate control **/
-        int temp_corrected_by_climate_control( int temperature ) const;
+        int temp_corrected_by_climate_control( int temperature, int heat_strength,
+                                               int chill_strength ) const;
 
         bool in_sleep_state() const override;
         /** Set vitamin deficiency/excess disease states dependent upon current vitamin levels */
@@ -2914,8 +2928,6 @@ class Character : public Creature, public visitable
         int nutrition_for( const item &comest ) const;
         /** Can the food be [theoretically] eaten no matter the consequences? */
         ret_val<edible_rating> can_eat( const item &food ) const;
-        /** Can the fuel be [theoretically] eaten? */
-        ret_val<edible_rating> can_consume_fuel( const item &fuel ) const;
         /**
          * Same as @ref can_eat, but takes consequences into account.
          * Asks about them if @param interactive is true, refuses otherwise.
@@ -2926,11 +2938,6 @@ class Character : public Creature, public visitable
         */
         int get_acquirable_energy( const item &it ) const;
 
-        /**
-        * Recharge CBMs whenever possible.
-        * @return true when recharging was successful.
-        */
-        bool fuel_bionic_with( item &it );
         /** Used to apply stimulation modifications from food and medication **/
         void modify_stimulation( const islot_comestible &comest );
         /** Used to apply fatigue modifications from food and medication **/
@@ -3507,17 +3514,21 @@ class Character : public Creature, public visitable
          */
         bool is_visible_in_range( const Creature &critter, int range ) const;
 
-        struct auto_toggle_bionic_result;
+        struct bionic_fuels;
 
         /**
-         * Automatically turn bionic on or off according to remaining fuel and
-         * user settings, and return info of the first burnable fuel.
+         * Check fuel for the bionic.
+         * Returns fuels available for the bionic.
+         * @param bio the bionic
+         * @param start true if player is trying to turn the bionic on
          */
-        auto_toggle_bionic_result auto_toggle_bionic( bionic &bio, bool start );
+        bionic_fuels bionic_fuel_check( bionic &bio, bool start );
+
         /**
-         *Convert fuel to bionic power
+         * Convert fuel to bionic power. Handles both active and passive bionics
+         * @param bio the bionic
          */
-        void burn_fuel( bionic &bio, const auto_toggle_bionic_result &result );
+        void burn_fuel( bionic &bio );
 
         player_activity destination_activity;
         /// A unique ID number, assigned by the game class. Values should never be reused.
@@ -3540,6 +3551,7 @@ class Character : public Creature, public visitable
         int stamina;
 
         int cardio_acc;
+        int base_cardio_acc;
 
         // All indices represent the percentage compared to normal.
         // i.e. a value of 1.1 means 110% of normal.
@@ -3603,7 +3615,7 @@ class Character : public Creature, public visitable
 
         // a cache of all active enchantment values.
         // is recalculated every turn in Character::recalculate_enchantment_cache
-        pimpl<enchantment> enchantment_cache;
+        pimpl<enchant_cache> enchantment_cache;
 };
 
 Character &get_player_character();

@@ -53,4 +53,4 @@
 --exclude=src/third-party
 
 # but don't be sad about no tests/src/third-party
---ignore-exclude-errors
+--ignore-exclude-errors-x

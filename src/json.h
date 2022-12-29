@@ -1101,6 +1101,8 @@ class TextJsonObject
         TextJsonArray get_array( const std::string &name ) const;
         std::vector<int> get_int_array( const std::string &name ) const;
         std::vector<std::string> get_string_array( const std::string &name ) const;
+        // returns a single element array if the sype is string instead of array
+        std::vector<std::string> get_as_string_array( const std::string &name ) const;
         // get_object returns empty object if not found
         TextJsonObject get_object( const std::string &name ) const;
 

@@ -136,6 +136,10 @@ static const anatomy_id anatomy_human_anatomy( "human_anatomy" );
 
 static const efftype_id effect_riding( "riding" );
 
+static const itype_id itype_internal_battery_compartment( "internal_battery_compartment" );
+static const itype_id itype_internal_ethanol_tank( "internal_ethanol_tank" );
+static const itype_id itype_internal_gasoline_tank( "internal_gasoline_tank" );
+static const itype_id itype_internal_oil_tank( "internal_oil_tank" );
 static const itype_id itype_rad_badge( "rad_badge" );
 static const itype_id itype_radio( "radio" );
 static const itype_id itype_radio_on( "radio_on" );
@@ -242,7 +246,6 @@ void item_pocket::serialize( JsonOut &json ) const
     json.member( "pocket_type", data->type );
     json.member( "contents", contents );
     json.member( "_sealed", _sealed );
-    json.member( "allowed", allowed );
     if( !this->settings.is_null() ) {
         json.member( "favorite_settings", this->settings );
     }
@@ -258,7 +261,6 @@ void item_pocket::deserialize( const JsonObject &data )
     _saved_type = static_cast<item_pocket::pocket_type>( saved_type_int );
     data.read( "_sealed", _sealed );
     _saved_sealed = _sealed;
-    data.read( "allowed", allowed );
     if( data.has_member( "favorite_settings" ) ) {
         data.read( "favorite_settings", this->settings );
     } else {
@@ -1118,6 +1120,7 @@ void Character::load( const JsonObject &data )
 
     item_location weapon = get_wielded_item();
     bool has_old_bionic_weapon = !is_using_bionic_weapon() && weapon &&
+                                 ( weapon->has_flag( flag_BIONIC_WEAPON ) || weapon->has_flag( flag_BIONIC_GUN ) ) &&
                                  weapon->has_flag( flag_NO_UNWIELD ) && !weapon->ethereal;
 
     const auto find_parent = [this]( bionic_id & bio_id ) {
@@ -1166,6 +1169,54 @@ void Character::load( const JsonObject &data )
         for( const bionic_id &bid : bio.id->included_bionics ) {
             if( !has_bionic( bid ) ) {
                 add_bionic( bid, bio.get_uid() );
+            }
+        }
+    }
+
+    // Add missing pseudoitems
+    std::vector<item_location> items = top_items_loc();
+    for( const bionic &bio : *my_bionics ) {
+        for( const itype_id &b_it : bio.id->passive_pseudo_items ) {
+            bool pseudo_found = false;
+            for( item_location it : items ) {
+                if( it->typeId() == b_it ) {
+                    pseudo_found = true;
+                    break;
+                }
+            }
+            if( !pseudo_found ) {
+                // No pseudoitem was found so add it.
+                item pseudo( b_it );
+
+                if( pseudo.has_flag( flag_INTEGRATED ) ) {
+                    // Migrate old fuels to new system.
+                    // Needed to be compatible with 0.F
+                    if( b_it == itype_internal_gasoline_tank && !get_value( "gasoline" ).empty() ) {
+                        item gasoline( "gasoline" );
+                        gasoline.charges = std::stoi( get_value( "gasoline" ) );
+                        remove_value( "gasoline" );
+                        pseudo.put_in( gasoline, item_pocket::pocket_type::CONTAINER );
+                    } else if( b_it == itype_internal_ethanol_tank && !get_value( "alcohol" ).empty() ) {
+                        item ethanol( "chem_ethanol" );
+                        ethanol.charges = std::stoi( get_value( "alcohol" ) );
+                        remove_value( "alcohol" );
+                        pseudo.put_in( ethanol, item_pocket::pocket_type::CONTAINER );
+                    } else if( b_it == itype_internal_oil_tank && !get_value( "motor_oil" ).empty() ) {
+                        item oil( "motor_oil" );
+                        oil.charges = std::stoi( get_value( "motor_oil" ) );
+                        remove_value( "motor_oil" );
+                        pseudo.put_in( oil, item_pocket::pocket_type::CONTAINER );
+                    } else if( b_it == itype_internal_battery_compartment && !get_value( "battery" ).empty() ) {
+                        item battery( "medium_battery_cell" );
+                        item battery_charge( "battery" );
+                        battery_charge.charges = std::min( 500, std::stoi( get_value( "battery" ) ) );
+                        battery.put_in( battery_charge, item_pocket::pocket_type::MAGAZINE );
+                        remove_value( "battery" );
+                        pseudo.put_in( battery, item_pocket::pocket_type::MAGAZINE_WELL );
+                    }
+
+                    wear_item( pseudo, false );
+                }
             }
         }
     }
@@ -1224,6 +1275,7 @@ void Character::load( const JsonObject &data )
         queued_effect_on_conditions.push( temp );
     }
     data.read( "inactive_eocs", inactive_effect_on_condition_vector );
+    update_enchantment_mutations();
 }
 
 /**
@@ -2620,7 +2672,7 @@ void monster::load( const JsonObject &data )
     data.read( "morale", morale );
     data.read( "hallucination", hallucination );
     data.read( "fish_population", fish_population );
-    data.read( "lifespan_end ", lifespan_end );
+    data.read( "lifespan_end", lifespan_end );
     //for older saves convert summon time limit to lifespan end
     cata::optional<time_duration> summon_time_limit;
     data.read( "summon_time_limit", summon_time_limit );
@@ -3081,7 +3133,7 @@ void item::deserialize( const JsonObject &data )
 
         contents.read_mods( read_contents );
         update_modified_pockets();
-        contents.combine( read_contents );
+        contents.combine( read_contents, false, true );
 
         if( data.has_object( "contents" ) ) {
             JsonObject tested = data.get_object( "contents" );
@@ -3131,6 +3183,8 @@ void item::deserialize( const JsonObject &data )
             select_itype_variant();
         }
     }
+
+    on_damage_changed();
 }
 
 void item::serialize( JsonOut &json ) const

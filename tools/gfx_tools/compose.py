@@ -42,6 +42,9 @@ run_silent = True
 # variable for progress bar support (tqdm module dependency)
 no_tqdm = False
 
+# File name to ignore containing directory
+ignore_file = ".scratch"
+
 
 # progress bar setup
 # requires tqdm module, if not installed prompts
@@ -579,8 +582,12 @@ class Tilesheet:
             for root, dirs, filenames in \
                     os.walk(self.subdir_path, followlinks=True):
                 # replace dirs in-place to prevent walking down excluded paths
-                dirs[:] = [d for d in dirs
-                           if Path(root).joinpath(d) not in excluded]
+                dirs[:] = [
+                    d
+                    for d in dirs
+                    if Path(root).joinpath(d) not in excluded and
+                    not Path(root).joinpath(d, ignore_file).is_file()
+                ]
                 yield [root, dirs, filenames]
 
         sorted_files = sorted(

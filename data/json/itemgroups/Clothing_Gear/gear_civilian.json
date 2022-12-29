@@ -139,6 +139,7 @@
       { "group": "toy_makerspace_kit", "prob": 1 },
       { "group": "toy_robot_kit", "prob": 1 },
       { "group": "toy_engine_kit", "prob": 1 },
+      { "item": "air_launcher", "prob": 1 },
       [ "breadboard", 30 ],
       { "item": "voltmeter", "prob": 20, "charges": [ 0, 100 ] },
       { "item": "multimeter", "prob": 20, "charges": [ 0, 100 ] },

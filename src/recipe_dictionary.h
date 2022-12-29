@@ -40,6 +40,8 @@ class recipe_dictionary
             return blueprints;
         }
 
+        std::map<recipe_id, const recipe *> find_obsoletes( const itype_id &item_id ) const;
+
         size_t size() const;
         std::map<recipe_id, recipe>::const_iterator begin() const;
         std::map<recipe_id, recipe>::const_iterator end() const;
@@ -76,6 +78,7 @@ class recipe_dictionary
         std::set<const recipe *> autolearn;
         std::set<const recipe *> nested;
         std::set<const recipe *> blueprints;
+        std::map<const itype_id, const recipe *> obsoletes;
         std::unordered_set<itype_id> items_on_loops;
 
         static void finalize_internal( std::map<recipe_id, recipe> &obj );

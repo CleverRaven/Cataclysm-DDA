@@ -77,7 +77,7 @@ struct alignas( T * ) small_literal_vector {
         return on_heap() ? heap_ : inline_;
     }
 
-    size_t size() const {
+    SizeT size() const {
         return len_;
     }
 

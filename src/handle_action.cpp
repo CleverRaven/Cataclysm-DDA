@@ -305,7 +305,7 @@ input_context game::get_player_input( std::string &action )
                 Location to add rain drop animation bits! Since it refreshes w_terrain it can be added to the animation section easily
                 Get tile information from above's weather information:
                 WEATHER_ACID_DRIZZLE | WEATHER_ACID_RAIN = "weather_acid_drop"
-                WEATHER_DRIZZLE | WEATHER_LIGHT_DRIZZLE | WEATHER_RAINY | WEATHER_THUNDER | WEATHER_LIGHTNING = "weather_rain_drop"
+                WEATHER_DRIZZLE | WEATHER_LIGHT_DRIZZLE | WEATHER_RAINY | WEATHER_RAINSTORM | WEATHER_THUNDER | WEATHER_LIGHTNING = "weather_rain_drop"
                 WEATHER_FLURRIES | WEATHER_SNOW | WEATHER_SNOWSTORM = "weather_snowflake"
                 */
                 invalidate_main_ui_adaptor();
@@ -709,7 +709,7 @@ static void smash()
         }
     }
     const int move_cost = !player_character.is_armed() ? 80 :
-                          player_character.get_wielded_item()->attack_time() *
+                          player_character.get_wielded_item()->attack_time( player_character ) *
                           0.8;
     bool mech_smash = false;
     int smashskill;
@@ -838,7 +838,7 @@ static void smash()
     const bash_params bash_result = here.bash( smashp, smashskill, false, false, smash_floor );
     // Weariness scaling
     float weary_mult = 1.0f;
-    item_location weapon = player_character.get_wielded_item();
+    item_location weapon = player_character.used_weapon();
     if( bash_result.did_bash ) {
         if( !mech_smash ) {
             player_character.set_activity_level( MODERATE_EXERCISE );
@@ -966,17 +966,19 @@ static void wait()
 
     } else {
         if( player_character.get_stamina() < player_character.get_stamina_max() ) {
-            as_m.addentry( 12, true, 'w', _( "Wait until you catch your breath" ) );
-            durations.emplace( 12, 15_minutes ); // to hide it from showing
+            as_m.addentry( 14, true, 'w', _( "Wait until you catch your breath" ) );
+            durations.emplace( 14, 15_minutes ); // to hide it from showing
         }
-        add_menu_item( 1, '1', !has_watch ? _( "Wait 300 heartbeats" ) : "", 5_minutes );
-        add_menu_item( 2, '2', !has_watch ? _( "Wait 1800 heartbeats" ) : "", 30_minutes );
+        add_menu_item( 1, '1', !has_watch ? _( "Wait 20 heartbeats" ) : "", 20_seconds );
+        add_menu_item( 2, '2', !has_watch ? _( "Wait 60 heartbeats" ) : "", 1_minutes );
+        add_menu_item( 3, '3', !has_watch ? _( "Wait 300 heartbeats" ) : "", 5_minutes );
+        add_menu_item( 4, '4', !has_watch ? _( "Wait 1800 heartbeats" ) : "", 30_minutes );
 
         if( has_watch ) {
-            add_menu_item( 3, '3', "", 1_hours );
-            add_menu_item( 4, '4', "", 2_hours );
-            add_menu_item( 5, '5', "", 3_hours );
-            add_menu_item( 6, '6', "", 6_hours );
+            add_menu_item( 5, '5', "", 1_hours );
+            add_menu_item( 6, '6', "", 2_hours );
+            add_menu_item( 7, '7', "", 3_hours );
+            add_menu_item( 8, '8', "", 6_hours );
         }
     }
 
@@ -990,25 +992,25 @@ static void wait()
             return target_time - calendar::turn;
         };
 
-        add_menu_item( 7,  'd',
+        add_menu_item( 9,  'd',
                        setting_alarm ? _( "Set alarm for dawn" ) : _( "Wait till daylight" ),
                        diurnal_time_before( daylight_time( calendar::turn ) ) );
-        add_menu_item( 8,  'n',
+        add_menu_item( 10,  'n',
                        setting_alarm ? _( "Set alarm for noon" ) : _( "Wait till noon" ),
                        diurnal_time_before( last_midnight + 12_hours ) );
-        add_menu_item( 9,  'k',
+        add_menu_item( 11,  'k',
                        setting_alarm ? _( "Set alarm for dusk" ) : _( "Wait till night" ),
                        diurnal_time_before( night_time( calendar::turn ) ) );
-        add_menu_item( 10, 'm',
+        add_menu_item( 12, 'm',
                        setting_alarm ? _( "Set alarm for midnight" ) : _( "Wait till midnight" ),
                        diurnal_time_before( last_midnight ) );
         if( setting_alarm ) {
             if( player_character.has_effect( effect_alarm_clock ) ) {
-                add_menu_item( 11, 'x', _( "Cancel the currently set alarm." ),
+                add_menu_item( 13, 'x', _( "Cancel the currently set alarm." ),
                                0_turns );
             }
         } else {
-            add_menu_item( 11, 'W', _( "Wait till weather changes" ) );
+            add_menu_item( 13, 'W', _( "Wait till weather changes" ) );
         }
     }
 
@@ -1027,7 +1029,7 @@ static void wait()
     if( setting_alarm ) {
         // Setting alarm
         player_character.remove_effect( effect_alarm_clock );
-        if( as_m.ret == 11 ) {
+        if( as_m.ret == 13 ) {
             add_msg( _( "You cancel your alarm." ) );
         } else {
             player_character.add_effect( effect_alarm_clock, time_to_wait );
@@ -1037,9 +1039,9 @@ static void wait()
     } else {
         // Waiting
         activity_id actType;
-        if( as_m.ret == 11 ) {
+        if( as_m.ret == 13 ) {
             actType = ACT_WAIT_WEATHER;
-        } else if( as_m.ret == 12 ) {
+        } else if( as_m.ret == 14 ) {
             actType = ACT_WAIT_STAMINA;
         } else {
             actType = ACT_WAIT;
@@ -1652,7 +1654,8 @@ bool Character::cast_spell( spell &sp, bool fake_spell,
             distraction_type::talked_to,
             distraction_type::asthma,
             distraction_type::motion_alarm,
-            distraction_type::weather_change
+            distraction_type::weather_change,
+            distraction_type::mutation
         };
         for( const distraction_type ignored : ignored_distractions ) {
             spell_act.ignore_distraction( ignored );
@@ -1685,7 +1688,6 @@ void game::open_consume_item_menu()
     as_m.entries.emplace_back( 0, true, 'f', _( "Food" ) );
     as_m.entries.emplace_back( 1, true, 'd', _( "Drink" ) );
     as_m.entries.emplace_back( 2, true, 'm', _( "Medication" ) );
-    as_m.entries.emplace_back( 3, true, 'u', _( "Fuel" ) );
     as_m.query();
 
     avatar &player_character = get_avatar();
@@ -1698,9 +1700,6 @@ void game::open_consume_item_menu()
             break;
         case 2:
             avatar_action::eat( player_character, game_menus::inv::consume_meds( player_character ) );
-            break;
-        case 3:
-            avatar_action::eat( player_character, game_menus::inv::consume_fuel( get_avatar() ), true );
             break;
         default:
             break;

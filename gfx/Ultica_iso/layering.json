@@ -1,0 +1,28 @@
+{
+  "variants": [
+    {
+      "context": "f_flagpole",
+      "item_variants": [
+        {
+          "item": "american_flag",
+          "sprite": [ { "id": "american_flag_hoisted", "weight": 1 } ],
+          "layer": 90,
+          "offset_x": 24,
+          "offset_y": -115
+        }
+      ]
+    },
+    {
+      "context": "f_wooden_flagpole",
+      "item_variants": [
+        {
+          "item": "american_flag",
+          "sprite": [ { "id": "american_flag_hoisted", "weight": 1 } ],
+          "layer": 90,
+          "offset_x": 24,
+          "offset_y": -115
+        }
+      ]
+    }
+  ]
+}

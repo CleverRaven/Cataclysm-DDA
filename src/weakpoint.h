@@ -10,6 +10,7 @@
 
 #include "damage.h"
 #include "optional.h"
+#include "translation.h"
 #include "type_id.h"
 
 class Character;
@@ -67,9 +68,11 @@ struct weakpoint_effect {
     // The range of damage, as a percentage of max health, required to the effect.
     std::pair<float, float> damage_required;
     // The message to print, if the player causes the effect.
-    std::string message;
+    translation message;
 
     weakpoint_effect();
+    // Gets translated effect message
+    std::string get_message() const;
     // Maybe apply an effect to the target.
     void apply_to( Creature &target, int total_damage, const weakpoint_attack &attack ) const;
     void load( const JsonObject &jo );
@@ -117,7 +120,7 @@ struct weakpoint {
     // ID of the weakpoint. Equal to the name, if not provided.
     std::string id;
     // Name of the weakpoint. Can be empty.
-    std::string name;
+    translation name;
     // Percent chance of hitting the weakpoint. Can be increased by skill.
     float coverage = 100.0f;
     // Multiplier for existing armor values. Defaults to 1.
@@ -138,6 +141,8 @@ struct weakpoint {
     weakpoint_difficulty difficulty;
 
     weakpoint();
+    // Gets translated name
+    std::string get_name() const;
     // Apply the armor multipliers and offsets to a set of resistances.
     void apply_to( resistances &resistances ) const;
     // Apply the damage multipliers to a set of damage values.

@@ -916,7 +916,7 @@
       [ "pudding", 2 ],
       [ "puller", 1 ],
       [ "punch_dagger", 2 ],
-      [ "pur_tablets", 5 ],
+      { "item": "pur_tablets", "container-item": "bottle_plastic_small", "charges": 5 },
       [ "purple_drink", 3 ],
       [ "purse", 4 ],
       [ "quikclot", 5 ],

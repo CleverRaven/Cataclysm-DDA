@@ -648,7 +648,7 @@ std::string print_temperature( units::temperature temperature, int decimals )
 
     if( get_option<std::string>( "USE_CELSIUS" ) == "celsius" ) {
         return string_format( pgettext( "temperature in Celsius", "%sC" ),
-                              text( units::to_celcius( temperature ) ) );
+                              text( units::to_celsius( temperature ) ) );
     } else if( get_option<std::string>( "USE_CELSIUS" ) == "kelvin" ) {
         return string_format( pgettext( "temperature in Kelvin", "%sK" ),
                               text( units::to_kelvin( temperature ) ) );
@@ -681,7 +681,7 @@ units::temperature get_local_windchill( units::temperature temperature, double h
 {
     double windchill_k = 0;
 
-    const double temperature_c = units::to_celcius( temperature );
+    const double temperature_c = units::to_celsius( temperature );
 
     if( temperature_c < 10 ) {
         /// Model 1, cold wind chill (only valid for temps below 50F/10C)
@@ -992,6 +992,10 @@ void weather_manager::set_nextweather( time_point t )
 
 units::temperature weather_manager::get_temperature( const tripoint &location )
 {
+    if( forced_temperature ) {
+        return *forced_temperature;
+    }
+
     const auto &cached = temperature_cache.find( location );
     if( cached != temperature_cache.end() ) {
         return cached->second;

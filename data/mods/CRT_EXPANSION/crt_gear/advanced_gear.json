@@ -47,6 +47,15 @@
     "symbol": "[",
     "color": "light_gray",
     "warmth": 15,
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ACTIVE",
+          "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 50 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 50 } ]
+        }
+      ]
+    },
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -60,7 +69,7 @@
     "material_thickness": 3,
     "environmental_protection": 18,
     "use_action": [ "WEATHER_TOOL" ],
-    "flags": [ "ELECTRIC_IMMUNE", "GAS_PROOF", "VARSIZE", "OVERSIZE", "STURDY", "ONLY_ONE", "WATERPROOF", "CLIMATE_CONTROL" ],
+    "flags": [ "ELECTRIC_IMMUNE", "GAS_PROOF", "VARSIZE", "OVERSIZE", "STURDY", "ONLY_ONE", "WATERPROOF" ],
     "armor": [
       {
         "encumbrance": 25,

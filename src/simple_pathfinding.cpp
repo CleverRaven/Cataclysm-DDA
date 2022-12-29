@@ -290,12 +290,10 @@ simple_path<tripoint_abs_omt> find_overmap_path( const tripoint_abs_omt &source,
     known_nodes.emplace( start, navigation_node{0, 0, -1, start_score.allow_z_change} );
     open_set.push( scored_address{ start, 0 } );
     const point_abs_omt source_point = source.xy();
-    int search_count = 0;
     constexpr int max_search_count = 100000;
     while( !open_set.empty() ) {
         const node_address cur_addr = open_set.top().addr;
         open_set.pop();
-        search_count++;
         const tripoint_abs_omt cur_point = cur_addr.to_tripoint( source );
         if( cur_point == dest ) {
             node_address addr = cur_addr;

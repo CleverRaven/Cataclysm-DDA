@@ -172,7 +172,7 @@
         "text": "Thanks.",
         "condition": { "npc_has_var": "u_want_bicycle", "type": "general", "context": "trade", "value": "yes" },
         "effect": [
-          { "mapgen_update": "valahllist_place_bicycle", "om_terrain": "pagan_cult_long_wall" },
+          { "mapgen_update": "valhallist_place_bicycle", "om_terrain": "pagan_cult_long_wall" },
           { "npc_lose_var": "currently_busy", "type": "general", "context": "trade" },
           { "npc_lose_var": "npc_making_car", "type": "timer", "context": "trade" },
           { "npc_lose_var": "u_want_bicycle", "type": "general", "context": "trade" }
@@ -183,7 +183,7 @@
         "text": "Thanks.",
         "condition": { "npc_has_var": "u_want_bicycle_dirt", "type": "general", "context": "trade", "value": "yes" },
         "effect": [
-          { "mapgen_update": "valahllist_place_bicycle_dirt", "om_terrain": "pagan_cult_long_wall" },
+          { "mapgen_update": "valhallist_place_bicycle_dirt", "om_terrain": "pagan_cult_long_wall" },
           { "npc_lose_var": "currently_busy", "type": "general", "context": "trade" },
           { "npc_lose_var": "npc_making_car", "type": "timer", "context": "trade" },
           { "npc_lose_var": "u_want_bicycle_dirt", "type": "general", "context": "trade" }
@@ -194,7 +194,7 @@
         "text": "Thanks.",
         "condition": { "npc_has_var": "u_want_bicycle_electric", "type": "general", "context": "trade", "value": "yes" },
         "effect": [
-          { "mapgen_update": "valahllist_place_bicycle_electric", "om_terrain": "pagan_cult_long_wall" },
+          { "mapgen_update": "valhallist_place_bicycle_electric", "om_terrain": "pagan_cult_long_wall" },
           { "npc_lose_var": "currently_busy", "type": "general", "context": "trade" },
           { "npc_lose_var": "npc_making_car", "type": "timer", "context": "trade" },
           { "npc_lose_var": "u_want_bicycle_electric", "type": "general", "context": "trade" }
@@ -205,7 +205,7 @@
         "text": "Thanks.",
         "condition": { "npc_has_var": "u_want_motorcycle_enduro", "type": "general", "context": "trade", "value": "yes" },
         "effect": [
-          { "mapgen_update": "valahllist_place_motorcycle_enduro", "om_terrain": "pagan_cult_long_wall" },
+          { "mapgen_update": "valhallist_place_motorcycle_enduro", "om_terrain": "pagan_cult_long_wall" },
           { "npc_lose_var": "currently_busy", "type": "general", "context": "trade" },
           { "npc_lose_var": "npc_making_car", "type": "timer", "context": "trade" },
           { "npc_lose_var": "u_want_motorcycle_enduro", "type": "general", "context": "trade" }
@@ -216,7 +216,7 @@
         "text": "Thanks.",
         "condition": { "npc_has_var": "u_want_motorcycle_sidecart", "type": "general", "context": "trade", "value": "yes" },
         "effect": [
-          { "mapgen_update": "valahllist_place_motorcycle_sidecart", "om_terrain": "pagan_cult_long_wall" },
+          { "mapgen_update": "valhallist_place_motorcycle_sidecart", "om_terrain": "pagan_cult_long_wall" },
           { "npc_lose_var": "currently_busy", "type": "general", "context": "trade" },
           { "npc_lose_var": "npc_making_car", "type": "timer", "context": "trade" },
           { "npc_lose_var": "u_want_motorcycle_sidecart", "type": "general", "context": "trade" }
@@ -227,7 +227,7 @@
         "text": "Thanks.",
         "condition": { "npc_has_var": "u_want_scooter", "type": "general", "context": "trade", "value": "yes" },
         "effect": [
-          { "mapgen_update": "valahllist_place_scooter", "om_terrain": "pagan_cult_long_wall" },
+          { "mapgen_update": "valhallist_place_scooter", "om_terrain": "pagan_cult_long_wall" },
           { "npc_lose_var": "currently_busy", "type": "general", "context": "trade" },
           { "npc_lose_var": "npc_making_car", "type": "timer", "context": "trade" },
           { "npc_lose_var": "u_want_scooter", "type": "general", "context": "trade" }
@@ -238,7 +238,7 @@
         "text": "Thanks.",
         "condition": { "npc_has_var": "u_want_scooter_electric", "type": "general", "context": "trade", "value": "yes" },
         "effect": [
-          { "mapgen_update": "valahllist_place_scooter_electric", "om_terrain": "pagan_cult_long_wall" },
+          { "mapgen_update": "valhallist_place_scooter_electric", "om_terrain": "pagan_cult_long_wall" },
           { "npc_lose_var": "currently_busy", "type": "general", "context": "trade" },
           { "npc_lose_var": "npc_making_car", "type": "timer", "context": "trade" },
           { "npc_lose_var": "u_want_scooter_electric", "type": "general", "context": "trade" }

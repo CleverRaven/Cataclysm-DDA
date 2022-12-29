@@ -147,15 +147,24 @@ float Character::lighting_craft_speed_multiplier( const recipe &rec ) const
         // 100% speed in well lit area at skill+0
         // 25% speed in pitch black at skill+0
         // skill+2 removes speed penalty
-        return 1.0f - ( darkness / ( 7.0f / 0.75f ) ) * std::max( 0,
-                2 - exceeds_recipe_requirements( rec ) ) / 2.0f;
+        if( rec.skill_used ) {
+            return 1.0f - ( darkness / ( 7.0f / 0.75f ) ) * std::max( 0,
+                    2 - exceeds_recipe_requirements( rec ) ) / 2.0f;
+        } else { // If there's no skill involved there shouldn't be any speed reduction due to not having levels in a non existent skill.
+            return 1.0f;
+        }
     }
-    if( rec.has_flag( flag_BLIND_HARD ) && exceeds_recipe_requirements( rec ) >= 2 ) {
+    if( rec.has_flag( flag_BLIND_HARD ) && ( !rec.skill_used ||
+            exceeds_recipe_requirements( rec ) >= 2 ) ) {
         // 100% speed in well lit area at skill+2
         // 25% speed in pitch black at skill+2
         // skill+8 removes speed penalty
-        return 1.0f - ( darkness / ( 7.0f / 0.75f ) ) * std::max( 0,
-                8 - exceeds_recipe_requirements( rec ) ) / 6.0f;
+        if( rec.skill_used ) {
+            return 1.0f - ( darkness / ( 7.0f / 0.75f ) ) * std::max( 0,
+                    8 - exceeds_recipe_requirements( rec ) ) / 6.0f;
+        } else { // No skill involved, so apply arbitrary penalty.
+            return 0.5f;
+        }
     }
     return 0.0f; // it's dark and you could craft this if you had more skill
 }
@@ -1004,19 +1013,32 @@ double Character::crafting_success_roll( const recipe &making ) const
     if( has_trait( trait_DEBUG_CNF ) ) {
         return 1.0;
     }
+
+    // Adjust skill and difficulty such that the lowest level is 1 not 0
+    // This allows characters with 0 level skills to attempt higher level recipes
+    int primary_skill_level = get_skill_level( making.skill_used ) + 1;
+    int primary_difficulty = making.difficulty + 1;
+
     int secondary_dice = 0;
     int secondary_difficulty = 0;
     for( const auto &pr : making.required_skills ) {
-        secondary_dice += get_skill_level( pr.first );
-        secondary_difficulty += pr.second;
+        // Adjust skill and difficulty such that the lowest level is 1 not 0
+        // This allows characters with 0 level skills to attempt higher level recipes
+        secondary_dice += get_skill_level( pr.first ) + 1;
+        secondary_difficulty += pr.second + 1;
     }
 
     // # of dice is 75% primary skill, 25% secondary (unless secondary is null)
     int skill_dice;
     if( secondary_difficulty > 0 ) {
-        skill_dice = get_skill_level( making.skill_used ) * 3 + secondary_dice;
+        skill_dice = primary_skill_level * 3 + secondary_dice;
     } else {
-        skill_dice = get_skill_level( making.skill_used ) * 4;
+        skill_dice = primary_skill_level * 4;
+    }
+    // Even with no skill you should have "some" chance to complete a craft
+    // this is equilavant to a quarter of a level
+    if( skill_dice == 0 ) {
+        skill_dice = 1;
     }
 
     for( const npc *np : get_crafting_helpers() ) {
@@ -1058,10 +1080,10 @@ double Character::crafting_success_roll( const recipe &making ) const
 
     int diff_dice;
     if( secondary_difficulty > 0 ) {
-        diff_dice = making.difficulty * 3 + secondary_difficulty;
+        diff_dice = primary_difficulty * 3 + secondary_difficulty;
     } else {
         // Since skill level is * 4 also
-        diff_dice = making.difficulty * 4;
+        diff_dice = primary_difficulty * 4;
     }
 
     const int diff_sides = 24; // 16 + 8 (default intelligence)
@@ -1346,7 +1368,7 @@ void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc
                 // forget byproducts below either when you fix this.
                 //
                 // Temperature is not functional for non-foods
-                food_contained.set_item_temperature( units::from_celcius( 20 ) );
+                food_contained.set_item_temperature( units::from_celsius( 20 ) );
             }
         }
 
@@ -1382,7 +1404,7 @@ void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc
                 if( should_heat ) {
                     bp.heat_up();
                 } else {
-                    bp.set_item_temperature( units::from_celcius( 20 ) );
+                    bp.set_item_temperature( units::from_celsius( 20 ) );
                 }
             }
             bp.set_owner( get_faction()->id );

@@ -107,7 +107,7 @@ struct islot_tool {
     int charge_factor = 1;
     int charges_per_use = 0;
     int turns_per_charge = 0;
-    units::energy power_draw = 0_J;
+    units::power power_draw = 0_W;
 
     std::vector<int> rand_charges;
 };
@@ -1411,12 +1411,5 @@ struct itype {
 
 void load_charge_removal_blacklist( const JsonObject &jo, const std::string &src );
 void load_charge_migration_blacklist( const JsonObject &jo, const std::string &src );
-// can be removed once all known bad items got fixed
-class known_bad_density
-{
-    public:
-        static std::set<itype_id> known_bad;
-        static void load( const JsonObject &jo );
-};
 
 #endif // CATA_SRC_ITYPE_H

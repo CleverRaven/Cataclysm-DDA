@@ -158,27 +158,27 @@
     "subcategory": "CSC_ARMOR_ARMS",
     "skill_used": "tailor",
     "difficulty": 3,
-    "time": "120 m",
+    "time": "6 h",
     "autolearn": true,
     "byproducts": [ [ "leather", 2 ], [ "scrap_leather", 5 ] ],
-    "using": [ [ "tailoring_leather_patchwork", 2 ] ],
+    "using": [ [ "tailoring_leather_patchwork", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ]
   },
   {
     "result": "xs_armguard_larmor",
     "type": "recipe",
     "copy-from": "armguard_larmor",
-    "time": "120 m",
+    "time": "6 h",
     "byproducts": [ [ "leather", 6 ], [ "scrap_leather", 1 ] ],
-    "using": [ [ "tailoring_leather_patchwork", 2 ] ]
+    "using": [ [ "tailoring_leather_patchwork", 3 ] ]
   },
   {
     "result": "xl_armguard_larmor",
     "type": "recipe",
     "copy-from": "armguard_larmor",
-    "time": "180 m",
+    "time": "8 h",
     "byproducts": [ [ "leather", 2 ], [ "scrap_leather", 1 ] ],
-    "using": [ [ "tailoring_leather_patchwork", 3 ] ]
+    "using": [ [ "tailoring_leather_patchwork", 5 ] ]
   },
   {
     "result": "armguard_lightplate",
@@ -242,8 +242,13 @@
     "difficulty": 6,
     "time": "4 h",
     "book_learn": [ [ "textbook_armwest", 6 ], [ "welding_book", 6 ] ],
-    "components": [ [ [ "charcoal", 64 ] ], [ [ "armguard_metal", 1 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
+    "using": [ [ "carbon", 3 ] ],
+    "components": [ [ [ "armguard_metal", 1 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_case_hardening" }
+    ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "tools": [ [ [ "forge", 64 ] ], [ [ "metalworking_tongs", -1 ] ] ]
   },
@@ -264,6 +269,42 @@
     "components": [ [ [ "sheet_metal", 2 ] ], [ [ "cordage_36_leather", 4 ] ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 }, { "id": "DRILL", "level": 1 } ]
+  },
+  {
+    "result": "armguard_metal_sheets_bracer",
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_ARMS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "skills_required": [ "tailor", 1 ],
+    "time": "80 m",
+    "autolearn": true,
+    "byproducts": [ [ "sheet_metal_small", 12 ] ],
+    "components": [ [ [ "sheet_metal", 1 ] ], [ [ "cordage_6_leather", 4 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" } ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 }, { "id": "DRILL", "level": 1 } ]
+  },
+  {
+    "result": "ch_armguard_metal_sheets_bracer",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_ARMS",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "time": "4 h",
+    "book_learn": [ [ "textbook_armwest", 6 ], [ "welding_book", 6 ] ],
+    "using": [ [ "carbon", 3 ] ],
+    "components": [ [ [ "armguard_metal_sheets_bracer", 1 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_case_hardening" }
+    ],
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
+    "tools": [ [ [ "forge", 64 ] ], [ [ "metalworking_tongs", -1 ] ] ]
   },
   {
     "result": "armguard_metal_sheets_elbows",
@@ -290,8 +331,13 @@
     "difficulty": 6,
     "time": "3 h",
     "book_learn": [ [ "textbook_armwest", 6 ], [ "welding_book", 6 ] ],
-    "components": [ [ [ "charcoal", 16 ] ], [ [ "armguard_metal_sheets_elbows", 1 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
+    "using": [ [ "carbon", 2 ] ],
+    "components": [ [ [ "armguard_metal_sheets_elbows", 1 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_case_hardening" }
+    ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "tools": [ [ [ "forge", 16 ] ], [ [ "metalworking_tongs", -1 ] ] ]
   },
@@ -320,8 +366,13 @@
     "difficulty": 6,
     "time": "3 h",
     "book_learn": [ [ "textbook_armwest", 6 ], [ "welding_book", 6 ] ],
-    "components": [ [ [ "charcoal", 16 ] ], [ [ "armguard_metal_sheets_shoulders", 1 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
+    "using": [ [ "carbon", 1 ] ],
+    "components": [ [ [ "armguard_metal_sheets_shoulders", 1 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_case_hardening" }
+    ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "tools": [ [ [ "forge", 16 ] ], [ [ "metalworking_tongs", -1 ] ] ]
   },
@@ -532,7 +583,7 @@
     "time": "840 m",
     "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
     "byproducts": [ [ "cotton_patchwork", 1 ], [ "scrap_cotton", 66 ] ],
-    "using": [ [ "armor_lc_chainmail_assembling", 2 ], [ "tailoring_cotton_patchwork", 8 ] ],
+    "using": [ [ "armor_lc_chainmail_assembling", 3 ], [ "tailoring_cotton_patchwork", 8 ] ],
     "proficiencies": [
       { "proficiency": "prof_chain_armour", "required": false, "time_multiplier": 3 },
       { "proficiency": "prof_articulation", "required": false, "time_multiplier": 2, "fail_multiplier": 1.15 }
@@ -544,7 +595,7 @@
     "copy-from": "lc_chainmail_arms",
     "time": "840 m",
     "byproducts": [ [ "cotton_patchwork", 1 ], [ "scrap_cotton", 49 ] ],
-    "using": [ [ "armor_lc_chainmail_assembling", 1 ], [ "tailoring_cotton_patchwork", 6 ] ]
+    "using": [ [ "armor_lc_chainmail_assembling", 2 ], [ "tailoring_cotton_patchwork", 6 ] ]
   },
   {
     "result": "xl_lc_chainmail_arms",
@@ -552,7 +603,7 @@
     "copy-from": "lc_chainmail_arms",
     "time": "945 m",
     "byproducts": [ [ "cotton_patchwork", 3 ], [ "scrap_cotton", 86 ] ],
-    "using": [ [ "armor_lc_chainmail_assembling", 3 ], [ "tailoring_cotton_patchwork", 11 ] ]
+    "using": [ [ "armor_lc_chainmail_assembling", 4 ], [ "tailoring_cotton_patchwork", 11 ] ]
   },
   {
     "result": "mc_chainmail_arms",
@@ -566,7 +617,7 @@
     "time": "840 m",
     "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
     "byproducts": [ [ "cotton_patchwork", 1 ], [ "scrap_cotton", 66 ] ],
-    "using": [ [ "armor_mc_chainmail_assembling", 2 ], [ "tailoring_cotton_patchwork", 8 ] ],
+    "using": [ [ "armor_mc_chainmail_assembling", 3 ], [ "tailoring_cotton_patchwork", 8 ] ],
     "proficiencies": [
       { "proficiency": "prof_chain_armour", "required": false, "time_multiplier": 3 },
       { "proficiency": "prof_articulation", "required": false, "time_multiplier": 2, "fail_multiplier": 1.15 }
@@ -578,7 +629,7 @@
     "copy-from": "mc_chainmail_arms",
     "time": "840 m",
     "byproducts": [ [ "cotton_patchwork", 1 ], [ "scrap_cotton", 49 ] ],
-    "using": [ [ "armor_mc_chainmail_assembling", 1 ], [ "tailoring_cotton_patchwork", 6 ] ]
+    "using": [ [ "armor_mc_chainmail_assembling", 2 ], [ "tailoring_cotton_patchwork", 6 ] ]
   },
   {
     "result": "xl_mc_chainmail_arms",
@@ -586,7 +637,7 @@
     "copy-from": "mc_chainmail_arms",
     "time": "945 m",
     "byproducts": [ [ "cotton_patchwork", 3 ], [ "scrap_cotton", 86 ] ],
-    "using": [ [ "armor_mc_chainmail_assembling", 3 ], [ "tailoring_cotton_patchwork", 11 ] ]
+    "using": [ [ "armor_mc_chainmail_assembling", 4 ], [ "tailoring_cotton_patchwork", 11 ] ]
   },
   {
     "result": "hc_chainmail_arms",
@@ -600,7 +651,7 @@
     "time": "840 m",
     "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
     "byproducts": [ [ "cotton_patchwork", 1 ], [ "scrap_cotton", 66 ] ],
-    "using": [ [ "armor_hc_chainmail_assembling", 2 ], [ "tailoring_cotton_patchwork", 8 ] ],
+    "using": [ [ "armor_hc_chainmail_assembling", 3 ], [ "tailoring_cotton_patchwork", 8 ] ],
     "proficiencies": [
       { "proficiency": "prof_chain_armour", "required": false, "time_multiplier": 3 },
       { "proficiency": "prof_articulation", "required": false, "time_multiplier": 2, "fail_multiplier": 1.15 }
@@ -612,7 +663,7 @@
     "copy-from": "hc_chainmail_arms",
     "time": "840 m",
     "byproducts": [ [ "cotton_patchwork", 1 ], [ "scrap_cotton", 49 ] ],
-    "using": [ [ "armor_hc_chainmail_assembling", 1 ], [ "tailoring_cotton_patchwork", 6 ] ]
+    "using": [ [ "armor_hc_chainmail_assembling", 2 ], [ "tailoring_cotton_patchwork", 6 ] ]
   },
   {
     "result": "xl_hc_chainmail_arms",
@@ -620,7 +671,7 @@
     "copy-from": "hc_chainmail_arms",
     "time": "945 m",
     "byproducts": [ [ "cotton_patchwork", 3 ], [ "scrap_cotton", 86 ] ],
-    "using": [ [ "armor_hc_chainmail_assembling", 3 ], [ "tailoring_cotton_patchwork", 11 ] ]
+    "using": [ [ "armor_hc_chainmail_assembling", 4 ], [ "tailoring_cotton_patchwork", 11 ] ]
   },
   {
     "result": "ch_chainmail_arms",
@@ -634,7 +685,7 @@
     "time": "840 m",
     "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
     "byproducts": [ [ "cotton_patchwork", 1 ], [ "scrap_cotton", 66 ] ],
-    "using": [ [ "armor_ch_chainmail_assembling", 2 ], [ "tailoring_cotton_patchwork", 8 ] ],
+    "using": [ [ "armor_ch_chainmail_assembling", 3 ], [ "tailoring_cotton_patchwork", 8 ] ],
     "proficiencies": [
       { "proficiency": "prof_chain_armour", "required": false, "time_multiplier": 3 },
       { "proficiency": "prof_articulation", "required": false, "time_multiplier": 2, "fail_multiplier": 1.15 }
@@ -646,7 +697,7 @@
     "copy-from": "ch_chainmail_arms",
     "time": "840 m",
     "byproducts": [ [ "cotton_patchwork", 1 ], [ "scrap_cotton", 49 ] ],
-    "using": [ [ "armor_ch_chainmail_assembling", 1 ], [ "tailoring_cotton_patchwork", 6 ] ]
+    "using": [ [ "armor_ch_chainmail_assembling", 2 ], [ "tailoring_cotton_patchwork", 6 ] ]
   },
   {
     "result": "xl_ch_chainmail_arms",
@@ -654,7 +705,7 @@
     "copy-from": "ch_chainmail_arms",
     "time": "945 m",
     "byproducts": [ [ "cotton_patchwork", 3 ], [ "scrap_cotton", 86 ] ],
-    "using": [ [ "armor_ch_chainmail_assembling", 3 ], [ "tailoring_cotton_patchwork", 11 ] ]
+    "using": [ [ "armor_ch_chainmail_assembling", 4 ], [ "tailoring_cotton_patchwork", 11 ] ]
   },
   {
     "result": "qt_chainmail_arms",
@@ -668,7 +719,7 @@
     "time": "840 m",
     "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
     "byproducts": [ [ "cotton_patchwork", 1 ], [ "scrap_cotton", 66 ] ],
-    "using": [ [ "armor_qt_chainmail_assembling", 2 ], [ "tailoring_cotton_patchwork", 8 ] ],
+    "using": [ [ "armor_qt_chainmail_assembling", 3 ], [ "tailoring_cotton_patchwork", 8 ] ],
     "proficiencies": [
       { "proficiency": "prof_chain_armour", "required": false, "time_multiplier": 3 },
       { "proficiency": "prof_articulation", "required": false, "time_multiplier": 2, "fail_multiplier": 1.15 }
@@ -680,7 +731,7 @@
     "copy-from": "qt_chainmail_arms",
     "time": "840 m",
     "byproducts": [ [ "cotton_patchwork", 1 ], [ "scrap_cotton", 49 ] ],
-    "using": [ [ "armor_qt_chainmail_assembling", 1 ], [ "tailoring_cotton_patchwork", 6 ] ]
+    "using": [ [ "armor_qt_chainmail_assembling", 2 ], [ "tailoring_cotton_patchwork", 6 ] ]
   },
   {
     "result": "xl_qt_chainmail_arms",
@@ -688,7 +739,7 @@
     "copy-from": "qt_chainmail_arms",
     "time": "945 m",
     "byproducts": [ [ "cotton_patchwork", 3 ], [ "scrap_cotton", 86 ] ],
-    "using": [ [ "armor_qt_chainmail_assembling", 3 ], [ "tailoring_cotton_patchwork", 11 ] ]
+    "using": [ [ "armor_qt_chainmail_assembling", 4 ], [ "tailoring_cotton_patchwork", 11 ] ]
   },
   {
     "result": "armguard_bronze",
@@ -932,16 +983,19 @@
       [ "fabric_leather_fur_hide", 1 ],
       [ "blacksmithing_standard", 16 ],
       [ "lc_steel_standard", 2 ],
-      [ "armor_chainmail_assembling", 1 ]
+      [ "armor_chainmail_assembling", 1 ],
+      [ "carbon", 2 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
     "proficiencies": [
-      { "proficiency": "prof_armorsmithing" },
-      { "proficiency": "prof_closures", "time_multiplier": 1.25, "fail_multiplier": 1.15 },
+      { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.15, "time_multiplier": 1.1 },
+      { "proficiency": "prof_closures", "time_multiplier": 1.1 },
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.15 }
+      { "proficiency": "prof_armorsmithing" },
+      { "proficiency": "prof_articulation" },
+      { "proficiency": "prof_case_hardening" }
     ]
   },
   {
@@ -953,7 +1007,8 @@
       [ "fabric_leather_fur_hide", 2 ],
       [ "blacksmithing_standard", 22 ],
       [ "lc_steel_standard", 3 ],
-      [ "armor_chainmail_assembling", 2 ]
+      [ "armor_chainmail_assembling", 2 ],
+      [ "carbon", 3 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
@@ -975,7 +1030,7 @@
       [ "armor_chainmail_assembling", 1 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_armorsmithing" },
       { "proficiency": "prof_closures", "time_multiplier": 1.25, "fail_multiplier": 1.15 },
@@ -997,7 +1052,7 @@
       [ "armor_chainmail_assembling", 2 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ]
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ]
   },
   {
     "result": "armor_lc_armguard",
@@ -1133,16 +1188,19 @@
       [ "fabric_leather_fur_hide", 1 ],
       [ "blacksmithing_standard", 16 ],
       [ "lc_steel_standard", 3 ],
-      [ "armor_chainmail_assembling", 1 ]
+      [ "armor_chainmail_assembling", 1 ],
+      [ "carbon", 2 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
     "proficiencies": [
-      { "proficiency": "prof_armorsmithing" },
-      { "proficiency": "prof_closures", "time_multiplier": 1.25, "fail_multiplier": 1.15 },
+      { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.15, "time_multiplier": 1.1 },
+      { "proficiency": "prof_closures", "time_multiplier": 1.1 },
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.15 }
+      { "proficiency": "prof_armorsmithing" },
+      { "proficiency": "prof_articulation" },
+      { "proficiency": "prof_case_hardening" }
     ]
   },
   {
@@ -1154,7 +1212,8 @@
       [ "fabric_leather_fur_hide", 2 ],
       [ "blacksmithing_standard", 22 ],
       [ "lc_steel_standard", 4 ],
-      [ "armor_chainmail_assembling", 2 ]
+      [ "armor_chainmail_assembling", 2 ],
+      [ "carbon", 3 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
@@ -1176,7 +1235,7 @@
       [ "armor_chainmail_assembling", 1 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_armorsmithing" },
       { "proficiency": "prof_closures", "time_multiplier": 1.25, "fail_multiplier": 1.15 },
@@ -1198,7 +1257,7 @@
       [ "armor_chainmail_assembling", 2 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ]
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ]
   },
   {
     "result": "armor_lc_heavyarmguard",
@@ -1334,16 +1393,19 @@
       [ "fabric_leather_fur_hide", 1 ],
       [ "blacksmithing_standard", 16 ],
       [ "lc_steel_standard", 4 ],
-      [ "armor_chainmail_assembling", 1 ]
+      [ "armor_chainmail_assembling", 1 ],
+      [ "carbon", 2 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
     "proficiencies": [
-      { "proficiency": "prof_armorsmithing" },
-      { "proficiency": "prof_closures", "time_multiplier": 1.25, "fail_multiplier": 1.15 },
+      { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.15, "time_multiplier": 1.1 },
+      { "proficiency": "prof_closures", "time_multiplier": 1.1 },
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.15 }
+      { "proficiency": "prof_armorsmithing" },
+      { "proficiency": "prof_articulation" },
+      { "proficiency": "prof_case_hardening" }
     ]
   },
   {
@@ -1355,7 +1417,8 @@
       [ "fabric_leather_fur_hide", 2 ],
       [ "blacksmithing_standard", 22 ],
       [ "lc_steel_standard", 5 ],
-      [ "armor_chainmail_assembling", 2 ]
+      [ "armor_chainmail_assembling", 2 ],
+      [ "carbon", 3 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
@@ -1377,7 +1440,7 @@
       [ "armor_chainmail_assembling", 1 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_armorsmithing" },
       { "proficiency": "prof_closures", "time_multiplier": 1.25, "fail_multiplier": 1.15 },
@@ -1399,6 +1462,6 @@
       [ "armor_chainmail_assembling", 2 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ]
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ]
   }
 ]
