@@ -140,7 +140,6 @@
     "items": {
       "both": {
         "items": [
-          "kasha_book",
           "kaenbyou_dress",
           "kaenbyou_leg_lace",
           "kaenbyou_shoes",
@@ -206,16 +205,7 @@
     "traits": [ "GYOKUTO_SPECIES", "GYOKUTO_EARS", "SPIRIT_UNTRAINED" ],
     "items": {
       "both": {
-        "items": [
-          "udonge_clip",
-          "udonge_dress_shoes",
-          "ldc_ear_accessory",
-          "lunar_guide1",
-          "udonge_skirt",
-          "udonge_shirt",
-          "socks",
-          "udonge_tie"
-        ],
+        "items": [ "udonge_clip", "udonge_dress_shoes", "ldc_ear_accessory", "udonge_skirt", "udonge_shirt", "socks", "udonge_tie" ],
         "entries": [ { "item": "lunatic_pistol2", "ammo-item": "ammo_lunar_small_2", "charges": 13, "container-item": "lunatic_holster" } ]
       },
       "male": [ "boxer_shorts" ],
@@ -256,8 +246,7 @@
           "ldc_skirt",
           "ldc_suit",
           "ldc_tie",
-          "ldc_veil_deactivated",
-          "lunar_guide1"
+          "ldc_veil_deactivated"
         ],
         "entries": [ { "item": "lunar_rifle2", "ammo-item": "ammo_lunar_medium_1", "charges": 11, "contents-item": "shoulder_strap" } ]
       },
@@ -434,6 +423,7 @@
     "points": 2,
     "spells": [
       { "level": 1, "id": "dash_utsuho" },
+      { "level": 1, "id": "utsuho_abyssnova" },
       { "level": 1, "id": "utsuho_blacksun" },
       { "level": 1, "id": "utsuho_detectrad" },
       { "level": 1, "id": "utsuho_fusionblade" },
