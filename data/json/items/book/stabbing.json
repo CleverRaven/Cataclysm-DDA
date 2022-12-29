@@ -29,14 +29,14 @@
       {
         "id": "mag_stabbing_3",
         "name": { "str": "The Complete Guide to Fencing", "str_pl": "copies of The Complete Guide to Fencing" },
-        "description": "Thick book, written by professional fensers, that ground every possible aspect of modern sport fencing.",
+        "description": "Thick book, written by professional fencers, that ground every possible aspect of modern sport fencing.",
         "//": "978-1782551119",
         "weight": 1
       },
       {
         "id": "mag_stabbing_4",
         "name": { "str": "Fencing: Skills, Tactics, Training", "str_pl": "copies of Fencing: Skills, Tactics, Training" },
-        "description": "Textbook for fence instructors, that fulfill every aspect the fenser must know, from very basics to master level, from theory to drill training exercises.",
+        "description": "Textbook for fence instructors, that fulfill every aspect the fencer must know, from very basics to master level, from theory to drill training exercises.",
         "//": "978-1847973054",
         "weight": 1
       },
