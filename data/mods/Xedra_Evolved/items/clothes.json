@@ -8,5 +8,49 @@
     "name": { "str": "OA jumpsuit" },
     "description": "A brown jumpsuit with OA written in big yellow block letters on the back.",
     "color": "brown"
+  },
+  {
+    "id": "tshirt",
+    "type": "ARMOR",
+    "name": { "str": "t-shirt" },
+    "description": "A short-sleeved cotton shirt.",
+    "copy-from": "tshirt",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "alt_broadway_tshirt2",
+        "name": { "str": "Seven Faceless Voids for Seven Brothers t-shirt" },
+        "description": "A pink t-shirt with seven ominous figures in bridal wear facing towards seven identical men.  There are tears running down from the eyes of the men.",
+        "weight": 1
+      },
+      {
+        "id": "alt_broadway_tshirt",
+        "name": { "str": "Sawzall the Musical t-shirt" },
+        "description": "A shirt that says Sawzall the Musical in bold letters, over a giant Sawzall tool.",
+        "symbol": "M",
+        "color": "light_gray",
+        "weight": 1
+      },
+      {
+        "id": "go_star_tshirt",
+        "name": { "str": "go t-shirt", "str_pl": "go t-shirts" },
+        "description": "This t-shirt displays a picture of a man standing behind a go table, the text is using an unfamiliar alphabet.  His features seem subtly off.",
+        "symbol": "o",
+        "color": "dark_gray",
+        "weight": 1
+      },
+      {
+        "id": "tachli_fan_tshirt",
+        "name": { "str": "Tachli t-shirt" },
+        "description": "A short-sleeved cotton shirt with the logo of a Tachli team printed on its front and back.  It looks like it might be a violent sport.",
+        "weight": 1
+      },
+      {
+        "id": "rollerball_fan_tshirt",
+        "name": { "str": "rollerball t-shirt" },
+        "description": "A short-sleeved cotton shirt with the logo of a rollerball team, whatever that is, printed on its front and back.",
+        "weight": 1
+      }
+    ]
   }
 ]
