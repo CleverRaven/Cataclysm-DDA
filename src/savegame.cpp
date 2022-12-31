@@ -432,8 +432,22 @@ void overmap::convert_terrain(
                 ter_set( pos + point_west, oter_id( "triffid_rootsw_north" ) );
                 ter_set( pos + point_south_west, oter_id( "triffid_rootsnw_north" ) );
             }
+        } else if( old == "temple_stairs" ) {
+            {
+                ter_set( pos, oter_id( "temple_stairs_north" ) );
+            }
+        } else if( old == "temple_finale" ) {
+            {
+                ter_set( pos, oter_id( "temple_finale_north" ) );
+                ter_set( pos + tripoint_above, oter_id( "temple_underground_4_north" ) );
+                ter_set( pos + tripoint( 0, 0, 2 ), oter_id( "temple_underground_3_north" ) );
+                ter_set( pos + tripoint( 0, 0, 3 ), oter_id( "temple_underground_2_north" ) );
+                ter_set( pos + tripoint( 0, 0, 4 ), oter_id( "temple_underground_1_north" ) );
+            }
         } else if( old.compare( 0, 10, "mass_grave" ) == 0 ) {
             ter_set( pos, oter_id( "field" ) );
+        } else if( old.compare( 0, 15, "bunker_basement" ) == 0 ) {
+            ter_set( pos, oter_id( "bunker_basement_1" ) );
         } else if( old.compare( 0, 11, "pond_forest" ) == 0 ) {
             ter_set( pos, oter_id( "forest" ) );
         } else if( old.compare( 0, 10, "pond_swamp" ) == 0 ) {
@@ -1482,6 +1496,22 @@ void mission::serialize_all( JsonOut &json )
     json.end_array();
 }
 
+void weather_manager::serialize_all( JsonOut &json )
+{
+    weather_manager &weather = get_weather();
+    json.start_object();
+    json.member( "lightning", weather.lightning_active );
+    json.member( "weather_id", weather.weather_id );
+    json.member( "next_weather", weather.nextweather );
+    json.member( "temperature", units::to_fahrenheit( weather.temperature ) );
+    json.member( "winddirection", weather.winddirection );
+    json.member( "windspeed", weather.windspeed );
+    if( weather.forced_temperature ) {
+        json.member( "forced_temperature", units::to_fahrenheit( *weather.forced_temperature ) );
+    }
+    json.end_object();
+}
+
 void weather_manager::unserialize_all( const JsonObject &w )
 {
     w.read( "lightning", get_weather().lightning_active );
@@ -1492,6 +1522,13 @@ void weather_manager::unserialize_all( const JsonObject &w )
     get_weather().temperature = units::from_fahrenheit( read_temperature );
     w.read( "winddirection", get_weather().winddirection );
     w.read( "windspeed", get_weather().windspeed );
+    if( w.has_member( "forced_temperature" ) ) {
+        float read_forced_temp;
+        w.read( "forced_temperature", read_forced_temp );
+        get_weather().forced_temperature = units::from_fahrenheit( read_forced_temp );
+    } else {
+        get_weather().forced_temperature.reset();
+    }
 }
 
 void global_variables::unserialize( JsonObject &jo )
@@ -1557,14 +1594,8 @@ void game::serialize_master( std::ostream &fout )
         json.member( "seed", seed );
 
         json.member( "weather" );
-        json.start_object();
-        json.member( "lightning", weather.lightning_active );
-        json.member( "weather_id", weather.weather_id );
-        json.member( "next_weather", weather.nextweather );
-        json.member( "temperature", units::to_fahrenheit( weather.temperature ) );
-        json.member( "winddirection", weather.winddirection );
-        json.member( "windspeed", weather.windspeed );
-        json.end_object();
+        weather_manager::serialize_all( json );
+
         json.end_object();
     } catch( const JsonError &e ) {
         debugmsg( "error saving to %s: %s", SAVE_MASTER, e.c_str() );

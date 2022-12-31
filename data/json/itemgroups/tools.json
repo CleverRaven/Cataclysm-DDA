@@ -203,12 +203,12 @@
       [ "storage_line", 5 ],
       [ "knife_folding", 25 ],
       [ "knife_hunting", 10 ],
-      [ "knife_rambo", 10 ],
+      { "group": "knife_rambo_cont", "prob": 10 },
       [ "knife_swissarmy", 10 ],
       { "item": "mess_kit", "prob": 20, "charges": [ 0, 500 ] },
       [ "multitool", 10 ],
       [ "pockknife", 30 ],
-      { "item": "pur_tablets", "prob": 10, "charges": [ 1, 15 ] },
+      { "item": "pur_tablets", "container-item": "bottle_plastic_small", "prob": 10, "charges": [ 1, 15 ] },
       { "item": "ref_lighter", "prob": 20, "charges": [ 0, 50 ] },
       [ "rope_30", 20 ],
       [ "flint_steel", 10 ],
@@ -391,7 +391,7 @@
       { "item": "whistle_multitool" },
       { "item": "glowstick", "charges": 1400 },
       { "item": "handflare", "count": 4, "charges": 300 },
-      { "item": "pur_tablets", "charges": 15 },
+      { "item": "pur_tablets", "container-item": "bottle_plastic_small", "charges": 15 },
       { "item": "pocket_survival" }
     ]
   },
@@ -406,9 +406,41 @@
       { "item": "whistle_multitool", "prob": 70 },
       { "item": "glowstick", "charges": 1400, "prob": 60 },
       { "item": "handflare", "count": [ 0, 4 ], "charges": 300 },
-      { "item": "pur_tablets", "charges": [ 0, 15 ] },
+      { "item": "pur_tablets", "container-item": "bottle_plastic_small", "charges": [ 0, 15 ] },
       { "item": "pocket_survival", "prob": 40 }
     ]
+  },
+  {
+    "id": "knife_rambo_full",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "knife_rambo",
+    "entries": [
+      { "item": "fishing_hook_basic" },
+      { "item": "needle_steel" },
+      { "item": "pur_tablets", "count": 3 },
+      { "item": "survival_match", "count": 3 },
+      { "item": "thread_kevlar", "charges": 36 }
+    ]
+  },
+  {
+    "id": "knife_rambo_used",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "knife_rambo",
+    "entries": [
+      { "item": "fishing_hook_basic", "prob": 50 },
+      { "item": "needle_steel", "prob": 40 },
+      { "item": "pur_tablets", "prob": 50, "count": [ 0, 3 ] },
+      { "item": "survival_match", "prob": 50, "count": [ 0, 3 ] },
+      { "item": "thread_kevlar", "charges": [ 0, 36 ] }
+    ]
+  },
+  {
+    "id": "knife_rambo_cont",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "group": "knife_rambo_full", "prob": 20 }, { "group": "knife_rambo_used", "prob": 80 } ]
   },
   {
     "id": "full_1st_aid",
@@ -482,7 +514,7 @@
       { "item": "bandages", "charges": 3, "count": 3 },
       { "item": "medical_gauze", "count": 3 },
       { "item": "adhesive_bandages", "count": 3 },
-      { "item": "pur_tablets", "charges": 3 },
+      { "item": "pur_tablets", "container-item": "bottle_plastic_small", "charges": [ 0, 3 ] },
       { "item": "gloves_medical" },
       { "item": "scissors" }
     ]
@@ -499,7 +531,7 @@
       { "item": "bandages", "charges": [ 0, 3 ], "count": [ 0, 3 ] },
       { "item": "medical_gauze", "count": [ 0, 3 ] },
       { "item": "adhesive_bandages", "count": [ 0, 3 ] },
-      { "item": "pur_tablets", "charges": [ 0, 3 ] },
+      { "item": "pur_tablets", "container-item": "bottle_plastic_small", "charges": [ 0, 3 ] },
       { "item": "gloves_medical", "prob": 50 },
       { "item": "scissors", "prob": 30 }
     ]
@@ -555,14 +587,14 @@
       { "item": "handflare", "prob": 20, "charges": 300 },
       [ "hatchet", 10 ],
       [ "knife_hunting", 10 ],
-      [ "knife_rambo", 10 ],
+      { "group": "knife_rambo_cont", "prob": 10 },
       [ "knife_swissarmy", 5 ],
       [ "knife_trench", 10 ],
       { "item": "mess_kit", "prob": 20, "charges": [ 0, 500 ] },
       [ "multitool", 5 ],
       [ "pockknife", 50 ],
       [ "knife_folding", 30 ],
-      { "item": "pur_tablets", "prob": 10, "charges": [ 1, 15 ] },
+      { "item": "pur_tablets", "container-item": "bottle_plastic_small", "prob": 10, "charges": [ 1, 15 ] },
       { "item": "ref_lighter", "prob": 20, "charges": [ 0, 50 ] },
       {
         "collection": [ { "item": "ref_lighter_butane" }, { "item": "butane_can", "charges": [ 1, 30 ] } ],

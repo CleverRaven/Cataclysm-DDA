@@ -33,6 +33,16 @@
     "act_cost": "35 J"
   },
   {
+    "type": "bionic",
+    "id": "afs_bio_monowhip",
+    "name": { "str": "Monofilament Whip" },
+    "description": "A carbon nanotube wire covertly installed in your right arm.  When activated, it extends to its full length and can be used to strike enemies both at close and long range.",
+    "occupied_bodyparts": [ [ "arm_r", 4 ], [ "hand_r", 1 ] ],
+    "act_cost": "50 J",
+    "fake_weapon": "afs_bio_whip_weapon",
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON", "BIONIC_NPC_USABLE" ]
+  },
+  {
     "id": "afs_bio_linguistic_coprocessor",
     "type": "bionic",
     "name": { "str": "Linguistic Coprocessor" },
@@ -73,6 +83,99 @@
     "act_cost": "12 kJ",
     "react_cost": "12 kJ",
     "time": "1 s"
+  },
+  {
+    "id": "afs_bio_chemical_enhancement_rig",
+    "type": "bionic",
+    "name": { "str": "Chemical Enhancement Rig and computer" },
+    "description": "An implanted AI module and medication dispenser calculates the optimal chemical mix to keep you on your toes and ready for combat.  This bionic must be active to function and while it functions your body is at a heightened performance but if it turns off it will take you several days to get back to normal.  There are a significant number of baseline bonuses granted by this setup but people around will notice your junkie behavior.",
+    "occupied_bodyparts": [ [ "head", 5 ], [ "torso", 10 ], [ "arm_l", 3 ], [ "arm_r", 3 ], [ "leg_l", 3 ], [ "leg_r", 3 ] ],
+    "flags": [ "BIONIC_TOGGLED" ],
+    "enchantments": [ "heightened_performance" ],
+    "included_bionics": [ "afs_speed_injection", "afs_healing_injection", "afs_strength_injection" ],
+    "deactivated_eocs": [ "afs_eoc_hangover_baseline" ],
+    "act_cost": "100 J",
+    "time": "1 m"
+  },
+  {
+    "id": "afs_speed_injection",
+    "type": "bionic",
+    "name": { "str": "Speed Injection System" },
+    "description": "The chemical injection system and microcomputer that when activated greatly enhances your reaction times and overall speed.  Upon deactivation, the user may experience dizziness, heart palpitations and ravenous appetites.",
+    "flags": [ "BIONIC_TOGGLED" ],
+    "enchantments": [
+      {
+        "condition": "ACTIVE",
+        "values": [
+          { "value": "HUNGER", "multiply": 2 },
+          { "value": "SPEED", "multiply": 1.75 },
+          { "value": "MAX_STAMINA", "multiply": 1.35 },
+          { "value": "THIRST", "multiply": 2.5 },
+          { "value": "METABOLISM", "multiply": 2.5 },
+          { "value": "REGEN_STAMINA", "multiply": 1.15 },
+          { "value": "BONUS_DODGE", "add": 2 }
+        ]
+      }
+    ],
+    "deactivated_eocs": [ "afs_eoc_hangover_speed" ],
+    "act_cost": "100 J",
+    "time": "1 m"
+  },
+  {
+    "id": "afs_healing_injection",
+    "type": "bionic",
+    "name": { "str": "Pain Suppression Injection System" },
+    "description": "The chemical injection system and microcomputer that when activated gives a burst of chemicals that allows your blood to work a little harder at stabilizing the body and then flushes your system with a powerful anesthetic that allows you to continue operating at high capacity.  Upon deactivation, the user may experience extreme lethargy, sudden loss of consciousness, among other symptoms that may prove potentially fatal if not in a safe location.",
+    "flags": [ "BIONIC_TOGGLED" ],
+    "enchantments": [
+      {
+        "condition": "ACTIVE",
+        "values": [
+          { "value": "ARMOR_BIO", "add": 7 },
+          { "value": "ARMOR_COLD", "add": 5 },
+          { "value": "PAIN", "add": -45 },
+          { "value": "METABOLISM", "multiply": 1.5 },
+          { "value": "REGEN_HP", "multiply": 2 }
+        ]
+      }
+    ],
+    "deactivated_eocs": [ "afs_eoc_hangover_healing" ],
+    "act_cost": "100 J",
+    "time": "1 m"
+  },
+  {
+    "id": "afs_strength_injection",
+    "type": "bionic",
+    "name": { "str": "Strength Injection System" },
+    "description": "The chemical injection system and microcomputer that when activated greatly enhances your reaction times and overall speed.  Upon deactivation, the user may experience dizziness, heart palpitations and ravenous appetites.",
+    "flags": [ "BIONIC_TOGGLED" ],
+    "enchantments": [
+      {
+        "condition": "ACTIVE",
+        "values": [
+          { "value": "STRENGTH", "add": 3 },
+          { "value": "MAX_HP", "add": 17 },
+          { "value": "BONUS_BLOCK", "add": 3 },
+          { "value": "MAX_STAMINA", "multiply": 1.25 },
+          { "value": "THIRST", "multiply": 2.5 },
+          { "value": "METABOLISM", "multiply": 2.5 },
+          { "value": "REGEN_STAMINA", "multiply": 1.05 },
+          { "value": "FOOTSTEP_NOISE", "add": 4 }
+        ]
+      }
+    ],
+    "deactivated_eocs": [ "afs_eoc_hangover_strength" ],
+    "act_cost": "100 J",
+    "time": "1 m"
+  },
+  {
+    "id": "bio_power_storage_salvaged",
+    "type": "bionic",
+    "name": { "str": "Power Storage, salvaged" },
+    "capacity": "50 kJ",
+    "dupes_allowed": true,
+    "description": "A battered and used Compact Bionics Module that increases your power capacity by 50 kJ.  Having at least one of these is a prerequisite to using powered bionics.  You will also need a power supply, found in various CBMs.",
+    "flags": [ "BIONIC_NPC_USABLE" ]
   },
   {
     "id": "bio_forcefield_bash_cut_weak",

@@ -628,6 +628,13 @@ class item_location::impl::item_in_container : public item_location::impl
         void remove_item() override {
             on_contents_changed();
             container->remove_item( *target() );
+            item_location ancestor = parent_item();
+            while( ancestor.has_parent() ) {
+                ancestor = ancestor.parent_item();
+            }
+            if( !ancestor->needs_processing() ) {
+                get_map().remove_active_item( ancestor.position(), ancestor.get_item() );
+            }
         }
 
         void on_contents_changed() override {
@@ -947,7 +954,7 @@ void item_location::set_should_stack( bool should_stack ) const
     ptr->should_stack = should_stack;
 }
 
-bool item_location::held_by( Character &who ) const
+bool item_location::held_by( Character const &who ) const
 {
     if( where() == type::character &&
         get_creature_tracker().creature_at<Character>( position() ) == &who ) {

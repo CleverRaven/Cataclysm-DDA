@@ -11,6 +11,7 @@
     "coverage": 50,
     "required_str": -1,
     "flags": [ "TRANSPARENT", "NOITEM", "INDOORS", "SHORT", "PERMEABLE" ],
+    "connect_groups": "COUNTER",
     "connects_to": "COUNTER",
     "deconstruct": {
       "furn_set": "f_counter",
@@ -60,6 +61,7 @@
     "required_str": -1,
     "light_emitted": 10,
     "flags": [ "TRANSPARENT", "CONSOLE", "NOITEM", "INDOORS", "SHORT", "PERMEABLE" ],
+    "connect_groups": "COUNTER",
     "connects_to": "COUNTER",
     "deconstruct": {
       "furn_set": "f_counter",
@@ -291,6 +293,31 @@
     "deconstruct": { "items": [ { "item": "still", "count": 1 } ] },
     "flags": [ "TRANSPARENT", "NOITEM", "EASY_DECONSTRUCT" ],
     "bash": { "str_min": 4, "str_max": 8, "sound": "crunch!", "sound_fail": "whump.", "items": [ { "item": "still", "count": 1 } ] }
+  },
+  {
+    "type": "furniture",
+    "id": "f_screw_press",
+    "name": "screw press",
+    "description": "A large screw press for the purpose of manually pressing oil out of fruit or seed paste.  The paste gets placed in wetted bags and gets pressed down by the force of the screw mechanism.",
+    "symbol": "T",
+    "color": "light_red",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": -1,
+    "crafting_pseudo_item": "screw_press",
+    "deconstruct": { "items": [ { "item": "screw_press_tool", "count": 1 } ] },
+    "flags": [ "TRANSPARENT", "NOITEM", "EASY_DECONSTRUCT" ],
+    "bash": {
+      "str_min": 4,
+      "str_max": 8,
+      "sound": "crunch!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "wood_beam", "count": [ 0, 2 ] },
+        { "item": "2x4", "count": [ 2, 6 ] },
+        { "item": "splinter", "count": [ 5, 20 ] }
+      ]
+    }
   },
   {
     "type": "furniture",
@@ -1160,7 +1187,7 @@
     "id": "f_fvat_empty",
     "name": "fermenting vat",
     "looks_like": "f_standing_tank",
-    "description": "A sealable vat for fermenting vinegar and various alcoholic brews.",
+    "description": "A sealable 50-liter vat for fermenting vinegar and various alcoholic brews.",
     "symbol": "O",
     "color": "brown",
     "move_cost_mod": -1,
@@ -1196,7 +1223,7 @@
     "id": "f_fvat_full",
     "name": "filled fermenting vat",
     "looks_like": "f_fvat_empty",
-    "description": "A sealable vat for fermenting vinegar and various alcoholic brews.",
+    "description": "A sealable 50-liter vat for fermenting vinegar and various alcoholic brews.",
     "symbol": "O",
     "color": "brown_cyan",
     "move_cost_mod": -1,

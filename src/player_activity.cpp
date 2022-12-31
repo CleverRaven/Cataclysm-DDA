@@ -37,7 +37,6 @@ static const activity_id ACT_CLEAR_RUBBLE( "ACT_CLEAR_RUBBLE" );
 static const activity_id ACT_CONSUME( "ACT_CONSUME" );
 static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
 static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
-static const activity_id ACT_CONSUME_FUEL_MENU( "ACT_CONSUME_FUEL_MENU" );
 static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
 static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
@@ -72,8 +71,7 @@ static const std::vector<activity_id> consuming {
     ACT_EAT_MENU,
     ACT_CONSUME_FOOD_MENU,
     ACT_CONSUME_DRINK_MENU,
-    ACT_CONSUME_MEDS_MENU,
-    ACT_CONSUME_FUEL_MENU };
+    ACT_CONSUME_MEDS_MENU };
 
 constexpr tripoint_abs_ms player_activity::invalid_place;
 

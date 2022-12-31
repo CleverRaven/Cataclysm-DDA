@@ -113,5 +113,104 @@
       { "item": "grimy_recipe", "prob": 55 },
       { "item": "scrap_dreamdross", "prob": 75, "count": [ 1, 4 ] }
     ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "renfield_death_drops",
+    "entries": [ { "group": "default_zombie_clothes", "prob": 100 }, { "item": "scrap_dreamdross", "prob": 75, "count": [ 1, 4 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "renfield_9mm_death_drops",
+    "entries": [
+      {
+        "distribution": [
+          { "item": "renfield_glock", "prob": 100, "damage": [ 1, 3 ] },
+          { "group": "renfield_glock_mags", "prob": 40 },
+          { "item": "scrap_dreamdross", "prob": 75, "count": [ 1, 4 ] }
+        ]
+      },
+      { "group": "default_zombie_clothes", "prob": 100 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "renfield_shotgun_death_drops",
+    "entries": [
+      {
+        "distribution": [
+          { "item": "renfield_remington", "prob": 100, "damage": [ 1, 3 ] },
+          { "item": "shot_00", "prob": 40, "count": [ 1, 6 ] },
+          { "item": "scrap_dreamdross", "prob": 75, "count": [ 1, 4 ] }
+        ]
+      },
+      { "group": "default_zombie_clothes", "prob": 100 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "renfield_flamethrower_death_drops",
+    "entries": [
+      {
+        "distribution": [
+          { "item": "rm451_flamethrower", "prob": 100, "damage": [ 1, 3 ] },
+          { "item": "scrap_dreamdross", "prob": 75, "count": [ 1, 4 ] }
+        ]
+      },
+      { "group": "default_zombie_clothes", "prob": 100 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "mon_renfield_abomination_death_drops",
+    "entries": [
+      { "item": "cotton_patchwork", "damage": [ 1, 4 ], "count": [ 1, 4 ] },
+      { "group": "mutagens", "count": [ 0, 1 ], "prob": 10 },
+      { "item": "pants", "damage": [ 2, 3 ] }
+    ]
+  },
+  {
+    "id": "bionic_renfield_harvest",
+    "type": "item_group",
+    "//": "Cyborg vampire servant cbm harvest list.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "bio_dis_shock", "prob": 1 },
+      { "item": "bio_dis_acid", "prob": 1 },
+      { "item": "bio_drain", "prob": 1 },
+      { "item": "bio_noise", "prob": 1 },
+      { "item": "bio_power_weakness", "prob": 1 },
+      { "item": "bio_itchy", "prob": 1 },
+      { "item": "bio_nostril", "prob": 1 },
+      { "item": "bio_thumbs", "prob": 1 },
+      { "item": "bio_spasm", "prob": 1 },
+      { "item": "bio_shakes", "prob": 1 },
+      { "item": "bio_leaky", "prob": 1 },
+      { "item": "bio_sleepy", "prob": 1 },
+      { "item": "bio_deformity", "prob": 1 },
+      { "item": "bio_voice", "prob": 1 },
+      { "item": "bio_pokedeye", "prob": 1 },
+      { "item": "bio_ankles", "prob": 1 },
+      { "item": "bio_trip", "prob": 1 },
+      { "item": "bio_stiff", "prob": 1 },
+      { "item": "bio_flesh_roots", "prob": 3 },
+      { "item": "xe_bio_chiropteran_signal", "prob": 3 },
+      { "item": "xe_bio_xl_chiropteran_signal", "prob": 1 },
+      { "item": "xe_bio_spore_enhancer", "prob": 3 },
+      { "item": "bio_ears", "prob": 3 },
+      { "item": "bio_claws", "prob": 3 },
+      { "item": "bio_power_storage", "prob": 2 },
+      { "item": "bio_fuel_cell_vamp_blood", "prob": 4 },
+      { "item": "bio_glowy", "prob": 1 },
+      { "item": "bio_sleep_shutdown", "prob": 1 },
+      { "item": "bio_faulty_electromagnetic_leak", "prob": 1 },
+      { "item": "bio_faulty_grossfood", "prob": 1 },
+      { "item": "bio_radleak", "prob": 1 }
+    ]
   }
 ]

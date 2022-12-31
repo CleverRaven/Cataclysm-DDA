@@ -8,6 +8,15 @@
     "color": "red"
   },
   {
+    "id": "garlic_powder",
+    "copy-from": "spice",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "garlic powder" },
+    "description": "Garlic that has been dehydrated and ground into a powder.  A must-have seasoning in any pantry.",
+    "weight": "1 g",
+    "color": "white"
+  },
+  {
     "id": "hot_sauce",
     "container": "bottle_plastic_small",
     "type": "COMESTIBLE",

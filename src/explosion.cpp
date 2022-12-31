@@ -28,6 +28,7 @@
 #include "debug.h"
 #include "enums.h"
 #include "field_type.h"
+#include "flag.h"
 #include "game.h"
 #include "game_constants.h"
 #include "item.h"
@@ -46,6 +47,7 @@
 #include "mtype.h"
 #include "npc.h"
 #include "optional.h"
+#include "options.h"
 #include "point.h"
 #include "projectile.h"
 #include "rng.h"
@@ -70,7 +72,6 @@ static const flag_id json_flag_ACTIVATE_ON_PLACE( "ACTIVATE_ON_PLACE" );
 static const furn_str_id furn_f_machinery_electronic( "f_machinery_electronic" );
 
 static const itype_id fuel_type_none( "null" );
-static const itype_id itype_battery( "battery" );
 static const itype_id itype_e_handcuffs( "e_handcuffs" );
 static const itype_id itype_mininuke_act( "mininuke_act" );
 static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
@@ -755,11 +756,27 @@ void emp_blast( const tripoint &p )
             add_msg( m_good, _( "The %s on your wrists spark briefly, then release your hands!" ),
                      weapon->tname() );
         }
+
+        for( item_location &it : player_character.all_items_loc() ) {
+            // Render any electronic stuff in player's possession non-functional
+            if( it->has_flag( flag_ELECTRONIC ) && !it->is_broken() &&
+                get_option<bool>( "EMP_DISABLE_ELECTRONICS" ) ) {
+                add_msg( m_bad, _( "The EMP blast fries your %s!" ), it->tname() );
+                it->deactivate();
+                it->set_flag( flag_ITEM_BROKEN );
+            }
+        }
     }
-    // Drain any items of their battery charge
+
     for( item &it : here.i_at( p ) ) {
-        if( it.is_tool() && it.ammo_current() == itype_battery ) {
-            it.charges = 0;
+        // Render any electronic stuff on the ground non-functional
+        if( it.has_flag( flag_ELECTRONIC ) && !it.is_broken() &&
+            get_option<bool>( "EMP_DISABLE_ELECTRONICS" ) ) {
+            if( sight ) {
+                add_msg( _( "The EMP blast fries the %s!" ), it.tname() );
+            }
+            it.deactivate();
+            it.set_flag( flag_ITEM_BROKEN );
         }
     }
     // TODO: Drain NPC energy reserves

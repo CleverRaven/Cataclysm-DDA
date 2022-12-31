@@ -1508,20 +1508,28 @@ void avatar::update_cardio_acc()
     // This function should be called once every 24 hours,
     // before the front of the calorie diary is reset for the next day.
 
-    // Daily gain or loss is the square root of the difference between
-    // current cardio fitness and the kcals spent in the previous 24 hours.
-    const int cardio_fit = get_cardiofit();
+    // Cardio goal is 1000 times the ratio of kcals spent versus bmr,
+    // giving a default of 1000 for no extra activity.
+    const int bmr = get_bmr();
     const int last_24h_kcal = calorie_diary.front().spent;
 
-    // If we burned kcals beyond our current fitness level, gain some cardio.
-    // Or, if we burned fewer kcals than current fitness, lose some cardio.
+    const int cardio_goal = ( last_24h_kcal * get_cardio_acc_base() ) / bmr;
+
+    // If cardio accumulator is below cardio goal, gain some cardio.
+    // Or, if cardio accumulator is above cardio goal, lose some cardio.
+    const int cardio_accum = get_cardio_acc();
     int adjustment = 0;
-    if( cardio_fit > last_24h_kcal ) {
-        adjustment = -std::sqrt( cardio_fit - last_24h_kcal );
-    } else if( last_24h_kcal > cardio_fit ) {
-        adjustment = std::sqrt( last_24h_kcal - cardio_fit );
+    if( cardio_accum > cardio_goal ) {
+        adjustment = -std::sqrt( cardio_accum - cardio_goal );
+    } else if( cardio_goal > cardio_accum ) {
+        adjustment = std::sqrt( cardio_goal - cardio_accum );
     }
-    set_cardio_acc( get_cardio_acc() + adjustment );
+
+    // Set a large sane upper limit to cardio fitness. This could be done
+    // asymptotically instead of as a sharp cutoff, but the gradual growth
+    // rate of cardio_acc should accomplish that naturally.
+    set_cardio_acc( clamp( cardio_accum + adjustment, get_cardio_acc_base(),
+                           get_cardio_acc_base() * 3 ) );
 }
 
 void avatar::advance_daily_calories()
@@ -1576,6 +1584,38 @@ void avatar::add_gained_calories( int cal )
 void avatar::log_activity_level( float level )
 {
     calorie_diary.front().activity_levels[level]++;
+}
+
+avatar::daily_calories::daily_calories()
+{
+    activity_levels.emplace( NO_EXERCISE, 0 );
+    activity_levels.emplace( LIGHT_EXERCISE, 0 );
+    activity_levels.emplace( MODERATE_EXERCISE, 0 );
+    activity_levels.emplace( BRISK_EXERCISE, 0 );
+    activity_levels.emplace( ACTIVE_EXERCISE, 0 );
+    activity_levels.emplace( EXTRA_EXERCISE, 0 );
+}
+
+void avatar::daily_calories::serialize( JsonOut &json ) const
+{
+    json.start_object();
+
+    json.member( "spent", spent );
+    json.member( "gained", gained );
+    json.member( "ingested", ingested );
+    save_activity( json );
+
+    json.end_object();
+}
+
+void avatar::daily_calories::deserialize( const JsonObject &data )
+{
+    data.read( "spent", spent );
+    data.read( "gained", gained );
+    data.read( "ingested", ingested );
+    if( data.has_member( "activity" ) ) {
+        read_activity( data );
+    }
 }
 
 void avatar::daily_calories::save_activity( JsonOut &json ) const
@@ -2044,4 +2084,14 @@ bool avatar::query_yn( const std::string &mes ) const
 void avatar::set_location( const tripoint_abs_ms &loc )
 {
     Creature::set_location( loc );
+}
+
+void monster_visible_info::remove_npc( npc *n )
+{
+    for( auto &t : unique_types ) {
+        auto it = std::find( t.begin(), t.end(), n );
+        if( it != t.end() ) {
+            t.erase( it );
+        }
+    }
 }

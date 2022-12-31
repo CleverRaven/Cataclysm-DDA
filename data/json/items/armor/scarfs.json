@@ -37,7 +37,7 @@
     "warmth": 5,
     "material_thickness": 0.1,
     "environmental_protection": 1,
-    "flags": [ "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ],
+    "flags": [ "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "SKINTIGHT" ],
     "armor": [ { "encumbrance": 4, "coverage": 70, "covers": [ "head" ] } ]
   },
   {

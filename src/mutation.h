@@ -163,8 +163,6 @@ struct mutation_branch {
         bool purifiable = false;
         // True if it's a threshold itself, and shouldn't be obtained *easily* (False by default).
         bool threshold = false;
-        // True if it can only be obtained after reaching the Terminus, (False by default, prevents purification).
-        bool terminus = false;
         // True if this is a trait associated with professional training/experience, so profession/quest ONLY.
         bool profession = false;
         // True if the mutation is obtained through the debug menu
@@ -173,6 +171,8 @@ struct mutation_branch {
         bool player_display = true;
         // True if mutation is purely comestic and can be changed anytime without any effect
         bool vanity = false;
+        // Dummy mutations are special; they're not gained through normal mutating, and will instead be targeted for the purposes of removing conflicting mutations
+        bool dummy = false;
         // Whether it has positive as well as negative effects.
         bool mixed_effect  = false;
         bool startingtrait = false;
@@ -233,7 +233,6 @@ struct mutation_branch {
         float scent_modifier = 1.0f;
         cata::optional<int> scent_intensity;
         cata::optional<int> scent_mask;
-        int bleed_resist = 0;
 
         int butchering_quality = 0;
 
@@ -388,6 +387,10 @@ struct mutation_branch {
         std::map<bodypart_str_id, float> encumbrance_multiplier_always;
         // Body parts that now need OVERSIZE gear
         std::set<bodypart_str_id> restricts_gear;
+        std::set<sub_bodypart_str_id> restricts_gear_subparts;
+        // Body parts that will now already have rigid gear
+        std::set<bodypart_str_id> remove_rigid;
+        std::set<sub_bodypart_str_id> remove_rigid_subparts;
         // item flags that allow wearing gear even if its body part is restricted
         std::set<flag_id> allowed_items;
         // Mutation stat mods
@@ -428,6 +431,10 @@ struct mutation_branch {
          * Returns true if a character with this mutation shouldn't be able to wear given item.
          */
         bool conflicts_with_item( const item &it ) const;
+        /**
+         * Returns true if a character with this mutation has to take off rigid items at the location.
+         */
+        bool conflicts_with_item_rigid( const item &it ) const;
         /**
          * Returns damage resistance on a given body part granted by this mutation.
          */
@@ -561,6 +568,8 @@ struct mutation_category_trait {
 
         // Meta-label indicating that the category isn't finished yet.
         bool wip = false;
+        // Skip consistency tests for this category. This should only really be used on categories that only contain dummy mutations.
+        bool skip_test = false;
         // Mutation category i.e "BIRD", "CHIMERA"
         mutation_category_id id;
         // The trait that you gain when you break the threshold for this category

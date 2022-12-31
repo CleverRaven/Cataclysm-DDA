@@ -15,13 +15,13 @@
       {
         "level": 1,
         "name": "Rural",
-        "description": "Cities are twice as small and twice as far apart.",
+        "description": "Cities are half as large and twice as far apart.",
         "options": [ { "option": "CITY_SIZE", "type": "int", "val": 4 }, { "option": "CITY_SPACING", "type": "int", "val": 8 } ]
       },
       {
         "level": 2,
         "name": "Semirural",
-        "description": "Cities are 50% smaller and 50% farther apart.",
+        "description": "Cities are 25% smaller and 50% farther apart.",
         "options": [ { "option": "CITY_SIZE", "type": "int", "val": 6 }, { "option": "CITY_SPACING", "type": "int", "val": 6 } ]
       },
       {

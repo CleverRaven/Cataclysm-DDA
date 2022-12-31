@@ -1481,7 +1481,7 @@ void basecamp::get_available_missions( mission_data &mission_key )
     }
 
     std::vector<ui_mission_id> k;
-    for( int tab_num = base_camps::TAB_MAIN; tab_num < base_camps::TAB_NW; tab_num++ ) {
+    for( int tab_num = base_camps::TAB_MAIN; tab_num <= base_camps::TAB_NW; tab_num++ ) {
         if( temp_ui_mission_keys.size() < size_t( tab_num ) + 1 ) {
             temp_ui_mission_keys.push_back( k );
         } else {
@@ -1928,7 +1928,7 @@ void basecamp::scan_pseudo_items()
             }
 
             if( expansion_map.veh_at( pos ).has_value() &&
-                expansion_map.veh_at( pos )->vehicle().has_tag( "APPLIANCE" ) ) {
+                expansion_map.veh_at( pos )->vehicle().is_appliance() ) {
                 const std::vector<std::pair<itype_id, int>> tools =
                             expansion_map.veh_at( pos )->part_displayed().value().get_tools();
 

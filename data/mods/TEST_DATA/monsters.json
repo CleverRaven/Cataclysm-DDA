@@ -94,7 +94,14 @@
     "weight": "81500 g",
     "hp": 100,
     "speed": 50,
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_WONT_FOLLOW" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_WONT_FOLLOW" ],
+    "upgrades": {
+      "half_life": 0,
+      "into_group": "test_upgrades_multi_null",
+      "multiple_spawns": true,
+      "spawn_range": 5,
+      "despawn_when_null": true
+    }
   },
   {
     "id": "dissect_mon_test_CBM",

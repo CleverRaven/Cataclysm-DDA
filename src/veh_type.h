@@ -295,7 +295,7 @@ class vpart_info
         /** Requirements for repair of this component (per level of damage) */
         requirement_data repair_requirements() const;
 
-        /** Returns whether or not the part is repairable  */
+        /** Returns whether or not the part type is repairable */
         bool is_repairable() const;
 
         /** Repair time (in moves) to fully repair this component, accounting for player skills */
@@ -416,7 +416,7 @@ class vpart_info
         itype_id default_ammo = itype_id::NULL_ID();
 
         /** Volume of a foldable part when folded */
-        units::volume folded_volume = 0_ml;
+        cata::optional<units::volume> folded_volume = cata::nullopt;
 
         /** Cargo location volume */
         units::volume size = 0_ml;
@@ -457,7 +457,7 @@ class vpart_info
          * Energy consumed per second by engines and motors when delivering max @ref power
          * Includes waste. Gets scaled based on powertrain demand.
          */
-        units::energy energy_consumption = 0_J;
+        units::power energy_consumption = 0_W;
 
         /**
          * For engines and motors this is maximum output (watts)
@@ -473,7 +473,12 @@ class vpart_info
          *  default is half @ref install_moves */
         int removal_moves = -1;
 
-        /** seatbelt (str), muffler (%), horn (vol), light (intensity), recharging (power) */
+        // seatbelt (str, currently non-functional #30239)
+        // muffler (% noise reduction)
+        // horn (sound volume)
+        // light (intensity)
+        // recharging (charging speed in watts)
+        // funnel (water collection area in mm^2)
         int bonus = 0;
 
         /** cargo weight modifier (percentage) */

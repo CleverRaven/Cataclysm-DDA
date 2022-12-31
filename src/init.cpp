@@ -94,6 +94,7 @@
 #include "speed_description.h"
 #include "start_location.h"
 #include "string_formatter.h"
+#include "test_data.h"
 #include "text_snippets.h"
 #include "translations.h"
 #include "trap.h"
@@ -243,6 +244,7 @@ void DynamicDataLoader::initialize()
     add( "EXTERNAL_OPTION", &load_external_option );
     add( "option_slider", &option_slider::load_option_sliders );
     add( "json_flag", &json_flag::load_all );
+    add( "connect_group", &connect_group::load );
     add( "fault", &fault::load_fault );
     add( "relic_procgen_data", &relic_procgen_data::load_relic_procgen_data );
     add( "effect_on_condition", &effect_on_conditions::load );
@@ -372,7 +374,7 @@ void DynamicDataLoader::initialize()
 
     add( "charge_removal_blacklist", load_charge_removal_blacklist );
     add( "charge_migration_blacklist", load_charge_migration_blacklist );
-    add( "known_bad_density_list", &known_bad_density::load );
+    add( "test_data", &test_data::load );
 
     add( "MONSTER", []( const JsonObject & jo, const std::string & src ) {
         MonsterGenerator::generator().load_monster( jo, src );
@@ -570,6 +572,7 @@ void DynamicDataLoader::unload_data()
     item_category::reset();
     item_controller->reset();
     json_flag::reset();
+    connect_group::reset();
     limb_score::reset();
     mapgen_palette::reset();
     materials::reset();

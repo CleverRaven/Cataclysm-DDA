@@ -23,17 +23,7 @@ TEST_CASE( "Fuel energy", "[energy]" )
         battery.charges = 200;
         gasoline.charges = 200;
 
-        CHECK( units::to_millijoule( gasoline.fuel_energy() ) == gasoline_per_charge * 200 ); // 6840 kJ
-        CHECK( units::to_millijoule( battery.fuel_energy() ) == battery_per_charge * 200 ); // 200 kJ
-    }
-
-    SECTION( "Energy of gasoline liter" ) {
-        gasoline.charges = 1000;
-
-        REQUIRE( units::to_milliliter( gasoline.volume() ) == 1000 );
-        // 34200 kJ
-        // Fuel data has energy per liter so it should match here.
-        CHECK( units::to_millijoule( gasoline.fuel_energy() )
-               == units::to_millijoule( gasoline.get_base_material().get_fuel_data().energy ) );
+        CHECK( units::to_millijoule( gasoline.fuel_energy() ) == gasoline_per_charge );
+        CHECK( units::to_millijoule( battery.fuel_energy() ) == battery_per_charge );
     }
 }

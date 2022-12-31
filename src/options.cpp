@@ -893,7 +893,7 @@ void options_manager::cOpt::setNext()
         int iMenuTextLength = utf8_width( sMenuText.translated() );
         string_input_popup()
         .width( iMaxLength > 80 ? 80 : iMaxLength < iMenuTextLength ? iMenuTextLength : iMaxLength + 1 )
-        .description( sMenuText.translated() )
+        .title( sMenuText.translated() )
         .max_length( iMaxLength )
         .edit( sSet );
 
@@ -1547,6 +1547,13 @@ void options_manager::add_options_general()
        );
 
     get_option( "AUTO_NOTES_MAP_EXTRAS" ).setPrerequisite( "AUTO_NOTES" );
+
+    add( "AUTO_NOTES_DROPPED_FAVORITES", "general", to_translation( "Auto notes (dropped favorites)" ),
+         to_translation( "If true, automatically sets notes when player drops favorited items." ),
+         false
+       );
+
+    get_option( "AUTO_NOTES_DROPPED_FAVORITES" ).setPrerequisite( "AUTO_NOTES" );
 
     add_empty_line();
 

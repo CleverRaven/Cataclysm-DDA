@@ -80,6 +80,9 @@ class iuse_transform : public iuse_actor
         /**does the item requires to be wielded to be activable*/
         bool need_wielding = false;
 
+        /** does the item require being empty to be activable */
+        bool need_empty = false;
+
         /** subtracted from @ref Creature::moves when transformation is successful */
         int moves = 0;
 
@@ -472,6 +475,7 @@ class salvage_actor : public iuse_actor
             material_id( "acidchitin" ),
             material_id( "alien_resin" ),
             material_id( "bone" ),
+            material_id( "canvas" ),
             material_id( "chitin" ),
             material_id( "cotton" ),
             material_id( "faux_fur" ),
@@ -486,6 +490,7 @@ class salvage_actor : public iuse_actor
             material_id( "nylon" ),
             material_id( "plastic" ),
             material_id( "rubber" ),
+            material_id( "thermo_resin" ),
             material_id( "wood" ),
             material_id( "wool" )
         };
@@ -542,26 +547,6 @@ class inscribe_actor : public iuse_actor
         ~inscribe_actor() override = default;
         void load( const JsonObject &obj ) override;
         cata::optional<int> use( Character &, item &, bool, const tripoint & ) const override;
-        std::unique_ptr<iuse_actor> clone() const override;
-};
-
-/**
- * Cauterizes a wounded/masochistic survivor
- */
-class cauterize_actor : public iuse_actor
-{
-    public:
-        // Use flame. If false, uses item charges instead.
-        bool flame = true;
-
-        static bool cauterize_effect( Character &p, item &it, bool force );
-
-        explicit cauterize_actor( const std::string &type = "cauterize" ) : iuse_actor( type ) {}
-
-        ~cauterize_actor() override = default;
-        void load( const JsonObject &obj ) override;
-        cata::optional<int> use( Character &, item &, bool, const tripoint & ) const override;
-        ret_val<void> can_use( const Character &, const item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
 };
 

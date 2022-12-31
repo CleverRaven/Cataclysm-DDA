@@ -257,7 +257,7 @@
       [ "kukri", 4 ],
       [ "sandbox_kit", 5 ],
       [ "knife_hunting", 18 ],
-      [ "knife_rambo", 20 ],
+      { "group": "knife_rambo_cont", "prob": 20 },
       [ "machete", 5 ],
       [ "machete_gimmick", 5 ],
       [ "vest", 15 ],
@@ -395,7 +395,7 @@
       [ "pocketwatch", 5 ],
       [ "boots_hiking", 20 ],
       [ "runner_bag", 15 ],
-      { "item": "pur_tablets", "prob": 10, "charges": [ 1, 15 ] },
+      { "item": "pur_tablets", "container-item": "bottle_plastic_small", "prob": 10, "charges": [ 1, 15 ] },
       [ "e_tool", 10 ],
       [ "knife_trench", 7 ],
       [ "flaregun", 20 ],
@@ -461,7 +461,7 @@
       { "group": "tinware", "prob": 10 },
       [ "kukri", 4 ],
       [ "knife_hunting", 18 ],
-      [ "knife_rambo", 20 ],
+      { "group": "knife_rambo_cont", "prob": 20 },
       [ "machete", 5 ],
       [ "machete_gimmick", 5 ],
       [ "armrig", 3 ],
@@ -528,7 +528,7 @@
       [ "pocketwatch", 5 ],
       [ "boots_hiking", 20 ],
       [ "runner_bag", 15 ],
-      { "item": "pur_tablets", "prob": 10, "charges": [ 1, 15 ] },
+      { "item": "pur_tablets", "container-item": "bottle_plastic_small", "prob": 10, "charges": [ 1, 15 ] },
       [ "e_tool", 10 ],
       [ "knife_trench", 7 ],
       [ "flaregun", 20 ],
@@ -574,9 +574,26 @@
       [ "metal_RPG_die", 30 ],
       [ "RPG_die", 40 ],
       [ "character_sheet", 20 ],
+      [ "mahjong", 20 ],
+      [ "go", 15 ],
+      [ "shogi", 15 ],
+      [ "snakesnladders", 15 ],
+      [ "ludo", 15 ],
+      [ "jackstraws", 12 ],
+      [ "domino", 10 ],
       [ "scorecard", 10 ],
+      [ "poppirate", 9 ],
       [ "dnd_handbook", 5 ],
-      { "item": "portable_game", "prob": 5, "charges": [ 0, 100 ] }
+      [ "senet", 5 ],
+      [ "ambush", 5 ],
+      [ "ranger", 5 ],
+      [ "openfire", 5 ],
+      { "item": "portable_game", "prob": 5, "charges": [ 0, 100 ] },
+      [ "hnefatafl", 3 ],
+      [ "alquerque", 3 ],
+      [ "chaturanga", 3 ],
+      [ "backgammon", 3 ],
+      [ "latrunculi", 2 ]
     ]
   },
   {
@@ -589,7 +606,19 @@
       [ "checkers", 50 ],
       [ "battleship", 30 ],
       [ "monopoly", 10 ],
-      [ "clue", 10 ]
+      [ "clue", 10 ],
+      [ "snakesnladders", 10 ],
+      [ "domino", 7 ],
+      [ "jackstraws", 5 ],
+      [ "poppirate", 3 ],
+      [ "go", 1 ],
+      [ "shogi", 1 ]
     ]
+  },
+  {
+    "type": "item_group",
+    "//": "oriental games, for dojo location.",
+    "id": "games_dojo",
+    "items": [ [ "go", 50 ], [ "shogi", 50 ], [ "mahjong", 50 ], [ "chaturanga", 25 ] ]
   }
 ]

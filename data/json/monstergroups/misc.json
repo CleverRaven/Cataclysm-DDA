@@ -473,5 +473,44 @@
     "name": "GROUP_MUTATION_SNAIL",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_null", "weight": 85 }, { "monster": "mon_snail_forest", "weight": 15 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_NUCLEAR_PLANT_BEASTS",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_bat", "weight": 600, "cost_multiplier": 5, "pack_size": [ 6, 32 ] },
+      { "monster": "mon_nakedmolerat_giant", "weight": 100, "cost_multiplier": 3 },
+      { "monster": "mon_mole_cricket", "weight": 60, "cost_multiplier": 3 },
+      { "monster": "mon_woodlouse", "weight": 60, "cost_multiplier": 3, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_stag_beetle_larva", "freq": 40, "cost_multiplier": 5 },
+      { "monster": "mon_centipede_giant", "weight": 200 },
+      { "monster": "mon_sewer_snake", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_sewer_rat", "weight": 50, "cost_multiplier": 0, "pack_size": [ 3, 12 ] },
+      { "monster": "mon_gator", "weight": 25, "cost_multiplier": 2 },
+      { "monster": "mon_frog", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_frog_small", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_slug_small", "weight": 50, "ends": "180 hours" },
+      { "monster": "mon_sludge_crawler", "weight": 25 },
+      { "monster": "mon_zombie_mancroc", "weight": 100, "starts": "180 hours" },
+      { "monster": "mon_toad", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_toad_small", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_gastro_bufo", "weight": 5, "cost_multiplier": 3, "starts": "15 days" }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_BEEKEEPER",
+    "monsters": [ { "monster": "mon_beekeeper", "cost_multiplier": 0 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_CANNIBAL",
+    "monsters": [ { "monster": "mon_shia" } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_JABBERWOCK",
+    "monsters": [ { "monster": "mon_jabberwock" } ]
   }
 ]
