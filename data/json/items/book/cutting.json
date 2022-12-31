@@ -131,7 +131,9 @@
       {
         "id": "manual_swords",
         "name": { "str": "USMC Sword Manual Procedure", "str_pl": "copies of USMC Sword Manual Procedure" },
-        "description": "A text on stationary sword drills in US Marine Corps.",
+        "description": "A text on stationary sword drills in US Marine Corps.  Contain lot of information how to draw and pose with sword, but nothing about using it.",
+        "required_level": 0,
+        "max_level": 1,
         "weight": 1
       },
       {
