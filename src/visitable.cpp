@@ -705,12 +705,12 @@ std::list<item> map_cursor::remove_items_with( const
             iter = stack.erase( iter );
 
             if( --count == 0 ) {
-                return res;
+                break;
             }
         } else {
             iter->remove_internal( filter, count, res );
             if( count == 0 ) {
-                return res;
+                break;
             }
             ++iter;
         }
