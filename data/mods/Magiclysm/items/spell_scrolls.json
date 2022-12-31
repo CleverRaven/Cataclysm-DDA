@@ -349,7 +349,7 @@
     "id": "spell_scroll_druid_healing_herb",
     "//": "Druid spell",
     "name": { "str": "Scroll of Floral Healing", "str_pl": "Scrolls of Floral Healing" },
-    "description": "Using a magic energy from herbs allow you to heal yourself.",
+    "description": "Using magic energy from herbs to allows you to heal yourself.",
     "use_action": { "type": "learn_spell", "spells": [ "druid_healing_herb" ] }
   },
   {
@@ -484,7 +484,7 @@
     "id": "spell_scroll_eshaper_melee_damage",
     "//": "Earthshaper spell",
     "name": { "str": "Scroll of Weighting", "str_pl": "Scrolls of Weighting" },
-    "description": "Fill yourself with power of Earth, and make each your attack as devastating as quake.",
+    "description": "Fill yourself with the power of Earth, and make each your attacks as devastating as an earthquake.",
     "use_action": { "type": "learn_spell", "spells": [ "eshaper_melee_damage" ] }
   },
   {
@@ -493,7 +493,7 @@
     "id": "spell_scroll_eshaper_crystal_wrap",
     "//": "Earthshaper spell",
     "name": { "str": "Scroll of Crystal Wrapping", "str_pl": "Scrolls of Crystal Wrapping" },
-    "description": "Your cover your body with small layer of razor sharp crystals.  It makes monster's, that attack you, take some damage in return, and gives you some additional cut damage in melee.",
+    "description": "You cover your body with a layer of razor sharp crystals.  Monster that attack you will take some damage in return, and gives you some additional cut damage in melee.",
     "use_action": { "type": "learn_spell", "spells": [ "eshaper_crystal_wrap" ] }
   },
   {
@@ -1118,7 +1118,7 @@
     "id": "spell_scroll_druidic_healing",
     "//": "Druid spell",
     "name": { "str": "Scroll of Sacrificial Healing", "str_pl": "Scrolls of Sacrificial Healing" },
-    "description": "Channels some of the user's own life force into healing energy, for the sake of ones allies.",
+    "description": "Channels some of the user's own life force into healing energy, for the sake of one's allies.",
     "use_action": { "type": "learn_spell", "spells": [ "druidic_healing" ] }
   },
   {
@@ -1144,7 +1144,7 @@
     "id": "spell_scroll_biomancer_visceral_projection",
     "//": "Biomancer spell",
     "name": { "str": "Scroll of Visceral Projection", "str_pl": "Scrolls of Visceral Projection" },
-    "description": "Projects a spray of acrid blood and gore all around you, growing to ensnare your prey in in a field of twitching poisonous tendrils.",
+    "description": "Projects a spray of acrid blood and gore all around you, growing to ensnare your prey in a field of twitching poisonous tendrils.",
     "use_action": { "type": "learn_spell", "spells": [ "biomancer_visceral_projection" ] }
   },
   {

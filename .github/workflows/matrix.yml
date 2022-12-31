@@ -68,9 +68,9 @@ jobs:
     steps:
       - id: matrix_vars
         run: |
-          echo "::set-output name=fail_fast::$([ "$GITHUB_REF_NAME" = "master" ] && echo false || echo true)"
-          echo "::set-output name=skip_tests::$([ "$GITHUB_REF_NAME" = "master" ] && echo true || echo false)"
-          echo "::set-output name=max_parallel::$([ "$GITHUB_REF_NAME" = "master" ] && echo 20 || echo 1)"
+          echo "fail_fast=$([ "$GITHUB_REF_NAME" = "master" ] && echo false || echo true)" >> $GITHUB_OUTPUT
+          echo "skip_tests=$([ "$GITHUB_REF_NAME" = "master" ] && echo true || echo false)" >> $GITHUB_OUTPUT
+          echo "max_parallel=$([ "$GITHUB_REF_NAME" = "master" ] && echo 20 || echo 1)" >> $GITHUB_OUTPUT
   varied_builds:
     needs: [ skip-duplicates-code, skip-duplicates-data, matrix-variables ]
     strategy:
@@ -276,8 +276,8 @@ jobs:
       id: get-vars
       if: ${{ env.SKIP == 'false' }}
       run: |
-        echo "::set-output name=datetime::$(/bin/date -u "+%Y%m%d%H%M")"
-        echo "::set-output name=ccache-path::$([ "$RUNNER_OS" = "macOS" ] && echo '/Users/runner/Library/Caches/ccache' || echo '~/.ccache')"
+        echo "datetime=$(/bin/date -u "+%Y%m%d%H%M")" >> $GITHUB_OUTPUT
+        echo "ccache-path=$([ "$RUNNER_OS" = "macOS" ] && echo '/Users/runner/Library/Caches/ccache' || echo '~/.ccache')" >> $GITHUB_OUTPUT
       shell: bash
     - name: ccache cache files
       if: ${{ env.SKIP == 'false' && ( runner.os == 'Linux' || runner.os == 'macOS' ) }}
