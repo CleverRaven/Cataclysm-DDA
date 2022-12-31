@@ -30,7 +30,7 @@
     "//": "Entirely provisional.  Could someone design a better wound ballistics system?",
     "description": "7.62x39mm M67 ammunition with a 123gr bullet.  The inadequate terminal ballistics of the M43 round led to the development of the M67 round in Yugoslavia in the 1960s.  It destabilizes much faster than M43 after hitting a target, leading to greater damage.",
     "price": 150,
-    "price_postapoc": 980,
+    "price_postapoc": 98,
     "relative": { "damage": { "damage_type": "bullet", "amount": 4, "armor_penetration": 2 } }
   },
   {
