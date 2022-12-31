@@ -1,7 +1,7 @@
 {
   "id": "org.cataclysmdda.CataclysmDDA",
   "runtime": "org.freedesktop.Platform",
-  "runtime-version": "20.08",
+  "runtime-version": "22.08",
   "sdk": "org.freedesktop.Sdk",
   "command": "cataclysm-tiles",
   "finish-args": [
@@ -29,7 +29,7 @@
         {
           "type": "git",
           "url": "https://github.com/CleverRaven/Cataclysm-DDA",
-          "branch": "0.F"
+          "branch": "master"
         }
       ]
     }

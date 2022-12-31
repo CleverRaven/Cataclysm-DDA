@@ -1444,6 +1444,7 @@ class item : public visitable
          * The rate at which an item should be processed, in number of turns between updates.
          */
         int processing_speed() const;
+        static constexpr int NO_PROCESSING = 10000;
         /**
          * Process and apply artifact effects. This should be called exactly once each turn, it may
          * modify character stats (like speed, strength, ...), so call it after those have been reset.

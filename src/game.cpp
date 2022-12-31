@@ -5628,7 +5628,7 @@ void game::examine( const tripoint &examp, bool with_pickup )
     const optional_vpart_position vp = m.veh_at( examp );
     if( vp ) {
         if( !u.is_mounted() || u.mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
-            if( !vp->vehicle().has_tag( "APPLIANCE" ) ) {
+            if( !vp->vehicle().is_appliance() ) {
                 vp->vehicle().interact_with( examp, with_pickup );
             } else {
                 g->exam_appliance( vp->vehicle(), vp->mount() );
