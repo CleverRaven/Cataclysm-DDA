@@ -3753,7 +3753,8 @@ int Character::get_str_base() const
 {
     //base strength decreases to zero as you starve
     if( get_bmi_fat() < character_weight_category::underweight ) {
-        const int str_penalty = std::floor( ( 1.0f - ( get_bmi_fat() / character_weight_category::underweight ) ) * str_max );
+        const int str_penalty = std::floor( ( 1.0f - ( get_bmi_fat() /
+                                              character_weight_category::underweight ) ) * str_max );
         return str_max - str_penalty;
     }
     return str_max;
