@@ -250,7 +250,7 @@
       {
         "id": "manual_computer_2",
         "name": { "str": "Multimedia Computing", "str_pl": "copies of Multimedia Computing" },
-        "description": "Printouts, holded together by staple, that explain work in different application, multi and hypermedia, web, and basic work with hardware.",
+        "description": "Printouts, held together by a staple, that explain work in different applications, multimedia, web, and basic work with hardware.",
         "weight": 1
       },
       {
