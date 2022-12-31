@@ -591,10 +591,10 @@ TEST_CASE( "widgets showing avatar stamina", "[widget][avatar][stamina]" )
 // Set the avatar's stored kcals to reach a given BMI value
 static void set_avatar_bmi( avatar &ava, float bmi )
 {
-    // BMI is split into muscle, fat and other. Other is always 10 and muscle is 1:1 strength stat.
-    // It is normal to have 5 BMIs of fat (this is bordering Normal and Overweight - BMI 23 for an 8 str character)
+    // BMI is split into muscle, fat and other. Other is always 12 and muscle is 1:1 strength stat.
+    // It is normal to have 5 BMIs of fat (this is bordering Normal and Overweight - BMI 25 for an 8 str character)
     // Normal BMI is now irrelevant for almost everything, as "fat bmis" are what determine your obesity.
-    // Your natural strength trends down to 2 as you starve (below 2 fat BMIs - emaciated/skeletal) meaning you die at BMI 12.
+    // Your natural strength trends down to 0 as you starve (below 2 fat BMIs - emaciated/skeletal) meaning you die at BMI 12.
     // (see char_biometrics_test.cpp for more BMI details)
     ava.set_stored_kcal( ava.get_healthy_kcal() * ( bmi / 5 ) );
 }
