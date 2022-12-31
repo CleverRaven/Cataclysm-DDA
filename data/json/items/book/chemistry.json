@@ -19,12 +19,14 @@
           "str_pl": "copies of Physical Chemistry: Principles and Applications"
         },
         "description": "Fifth Edition of a best seller book about using physical chemistry in various branches, with real examples.",
+        "//": "978-0136056065",
         "weight": 1
       },
       {
         "id": "adv_chemistry_2",
         "name": { "str": "Physical Chemistry: A Molecular Approach", "str_pl": "copies of Physical Chemistry: A Molecular Approach" },
         "description": "Textbook, that covers more specialized topics in physical chemistry, including quantum chemistry, statistical mechanics, and surface science.",
+        "//": "978-8184959888",
         "weight": 1
       },
       {
@@ -33,7 +35,7 @@
           "str": "Physical Chemistry: From Quantum Mechanics to Statistical Thermodynamics",
           "str_pl": "copies of Physical Chemistry: From Quantum Mechanics to Statistical Thermodynamics"
         },
-        "description": "provides a comprehensive introduction to the principles of physical chemistry, covering topics such as quantum mechanics, thermodynamics, and statistical mechanics.",
+        "description": "The book provides a comprehensive introduction to the principles of physical chemistry, covering topics such as quantum mechanics, thermodynamics, and statistical mechanics.",
         "weight": 1
       },
       {
@@ -81,12 +83,14 @@
           "str_pl": "copies of Leathercraft: Traditional Handcrafted Leatherwork Skills and Projects"
         },
         "description": "A guide by Nigel Armitage offering traditional leatherworking techniques with modern applications, creating durable goods able to last generations.",
+        "//": "978-0764360398",
         "weight": 1
       },
       {
         "id": "modern_tanner_2",
         "name": { "str": "Leatherworking Handbook", "str_pl": "copies of Leatherworking Handbook" },
         "description": "A leatherworking book for amateurs by a top professional, with some key techniques and various projects.",
+        "//": "978-1844034741",
         "weight": 1
       },
       {
@@ -96,6 +100,7 @@
           "str_pl": "copies of The Leather Manufacture in the United States"
         },
         "description": "This vintage book contains a detailed treatise on the leather industry in late-nineteenth century America, being a dissertation on the methods employed in and the economics of tanning.",
+        "//": "978-3337106478",
         "weight": 1
       }
     ],
@@ -337,12 +342,12 @@
     "id": "textbook_chemistry",
     "type": "BOOK",
     "category": "manuals",
-    "name": { "str": "chemistry textbook" },
+    "name": { "str": "chemistry textbook", "str_pl": "copies of chemistry textbook" },
     "description": "A college textbook on chemistry.",
     "variants": [
       {
         "id": "textbook_chemistry",
-        "name": { "str": "chemistry textbook" },
+        "name": { "str": "chemistry textbook", "str_pl": "copies of chemistry textbook" },
         "description": "A college textbook on chemistry.",
         "weight": 1
       },
@@ -350,18 +355,21 @@
         "id": "textbook_chemistry_1",
         "name": { "str": "Chemistry Essentials For Dummies", "str_pl": "copies of Chemistry Essentials For Dummies" },
         "description": "Invaluable quick reference guide to the fundamentals of chemistry for students.",
+        "//": "978-1119591146",
         "weight": 1
       },
       {
         "id": "textbook_chemistry_2",
         "name": { "str": "General Chemistry", "str_pl": "copies of General Chemistry" },
         "description": "Revised third edition of classic first-year text by Nobel laureate.  Covers atomic and molecular structure, quantum mechanics, statistical mechanics, and thermodynamics correlated with descriptive chemistry problems.",
+        "//": "978-0486656229",
         "weight": 1
       },
       {
         "id": "textbook_chemistry_3",
         "name": { "str": "Modern Chemistry: Student Edition", "str_pl": "copies of Modern Chemistry: Student Edition" },
         "description": "Giant, almost 1000 page book that cover anything the student may want (and may not want) to know about chemistry, from foundations to intermediate level.",
+        "//": "978-0554023557",
         "weight": 1
       }
     ],
@@ -402,6 +410,7 @@
           "str_pl": "copies of Handbook of Essential Oils: Science, Technology, and Applications"
         },
         "description": "This book presents the development, use and marketing of essential oils, with wide range of topic, sources, production and analysis.",
+        "//": "978-0815370963",
         "weight": 1
       },
       {
@@ -472,12 +481,14 @@
           "str_pl": "copies of The Chemistry Book: Big Ideas Simply Explained"
         },
         "description": "Short, pithy explanations of some of the most historic moments in science, from the birth of alchemy to modern chemistry state.  Simple graphics, such as flowcharts and mind maps, support the text and make the explanation of key concepts easy to follow.",
+        "//": "978-0241515549",
         "weight": 1
       },
       {
         "id": "basic_chemistry_2",
         "name": { "str": "Basic Chemistry", "str_pl": "copies of Basic Chemistry" },
         "description": "Fifth edition to help students master math and problem solving they will use in their future chemistry classes.",
+        "//": "978-0134138046",
         "fun": 0,
         "weight": 1
       },
@@ -485,6 +496,7 @@
         "id": "basic_chemistry_3",
         "name": { "str": "Basic Chemistry Concepts and Exercises", "str_pl": "copies of Basic Chemistry Concepts and Exercises" },
         "description": "The book communicate the fundamentals of chemistry in a practical, down-to-earth manner, with simple language and detailed images.",
+        "//": "978-1439813379",
         "fun": 0,
         "weight": 1
       },
@@ -495,6 +507,7 @@
           "str_pl": "copies of Everything You Need to Ace Chemistry in One Big Fat Notebook"
         },
         "description": "The book provide plenty of info about school-level chemistry, with plenty of additional tables and formulas, but with lack of additional pictures.",
+        "//": "978-1523504251",
         "fun": -1,
         "weight": 1
       }
@@ -533,6 +546,7 @@
           "str_pl": "copies of Modeling and Simulation of Fluid Catalytic Cracking Riser"
         },
         "description": "Describing the problems, that may occur on oil refinery, this book is excellent reference and teaching material for students and researchers in chemical engineering and chemistry.",
+        "//": "978-3659713538",
         "fun": -1,
         "weight": 1
       },
@@ -550,6 +564,7 @@
           "str_pl": "copies of A Literature Review on Cold Cracking of Petroleum Crude Oil"
         },
         "description": "This book describe the method of cold petroleum cracking - the type of process, that occur in the temperature below the freezing point, comparing the common process, that occur on nearly 400 centigrade level.  You can't really use this type of process without lot of additional equipment, but the book provide plenty of information about common methods that you can make by hand.",
+        "//": "978-1523389322",
         "fun": -2,
         "intelligence": 10,
         "weight": 1
@@ -589,12 +604,14 @@
           "str_pl": "copies of Biodiesel Production: Technologies, Challenges, and Future Prospects"
         },
         "description": "Sponsored by the American Society of Civil Engineers, this book presents approaches, technologies, and source materials for biodiesel production, as well as socioeconomic and political impacts of its applications.  You surely don't need the second part anymore.",
+        "//": "978-0784415344",
         "weight": 1
       },
       {
         "id": "textbook_biodiesel_2",
         "name": { "str": "The Biodiesel Handbook", "str_pl": "copies of The Biodiesel Handbook" },
         "description": "Big, 500-page book, that provide plenty info about history of different fuels, methods to apply them, and required properties for them, mainly center on biodiesel and another biofuels.",
+        "//": "978-1893997622",
         "intelligence": 8,
         "weight": 1
       },
@@ -604,7 +621,10 @@
           "str": "Biodiesel: a Realistic Fuel Alternative for Diesel Engines",
           "str_pl": "copies of Biodiesel: a Realistic Fuel Alternative for Diesel Engines"
         },
-        "description": "A small book offering insights into plant-based fuels, with detailed analysis of biodiesel, and possible scenarios for their implementation.",
+        "description": "A small book offering insights into plant-based fuels, with detailed analysis of biodiesel, and possible scenarios for their implementation.  Sadly most of the book just repeat itself, writing the same text over and over again, which make you feel you stuck in a constant loop.",
+        "//": "978-1846289941",
+        "max_level": 5,
+        "fun": -2,
         "weight": 1
       },
       {
@@ -614,6 +634,7 @@
           "str_pl": "copies of Biodiesel Science and Technology: From Soil to Oil"
         },
         "description": "The book contain information on different steps in producing biofuels in different scales - from home-made work in your backyard to large manufacturing - with different issues you may met in the process, and ways to resolve them.",
+        "//": "978-1845695910",
         "weight": 1
       },
       {
@@ -623,6 +644,7 @@
           "str_pl": "copies of Biodiesel Basics and Beyond: A Comprehensive Guide to Production and Use for the Home and Farm"
         },
         "description": "A comprehensive guide by William Kemp to produce biodiesel at small scale while avoiding common failures of fuel quality and byproduct waste management, with accuracies of data and process backed by government or university verification.",
+        "//": "978-1505404630",
         "weight": 1
       },
       {
@@ -632,6 +654,7 @@
           "str_pl": "copies of Handbook of Biofuels Production: Process and Technologies"
         },
         "description": "Book about different types of biofuels, issues in their production and using, and different processes and technologies that are used in their manufacturing.",
+        "//": "978-0323911931",
         "weight": 1
       },
       {

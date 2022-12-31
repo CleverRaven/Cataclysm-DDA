@@ -71,6 +71,7 @@
         "id": "manual_bashing_1",
         "name": { "str": "The Art and Science of Stick Fighting", "str_pl": "copies of The Art and Science of Stick Fighting" },
         "description": "Non-style specific guide of fighting with the short stick, with few levels of instructions from easy to master, and a lot of photos of movements with motion arrows.",
+        "//": "978-1594397332",
         "weight": 1
       },
       {
@@ -83,6 +84,7 @@
         "id": "manual_bashing_3",
         "name": { "str": "Cane Fighting", "str_pl": "copies of Cane Fighting" },
         "description": "\"The Authoritative Guide to Using the Cane or Walking Stick for Self-Defense\", the book provide plenty of ways to use essential tool as a sturdy weapon.",
+        "//": "978-1941845738",
         "weight": 1
       }
     ],
