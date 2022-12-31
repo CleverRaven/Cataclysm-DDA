@@ -131,8 +131,6 @@ extern const flag_id flag_FIRE_100;
 extern const flag_id flag_FIRE_20;
 extern const flag_id flag_FIRE_50;
 extern const flag_id flag_FIRE_TWOHAND;
-extern const flag_id flag_FISH_GOOD;
-extern const flag_id flag_FISH_POOR;
 extern const flag_id flag_FIT;
 extern const flag_id flag_FIX_FARSIGHT;
 extern const flag_id flag_FIX_NEARSIGHT;

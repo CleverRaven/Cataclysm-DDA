@@ -1251,7 +1251,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
             return activity_reason_info::fail( do_activity_reason::NO_ZONE );
         }
         std::vector<item *> rod_inv = you.items_with( []( const item & itm ) {
-            return itm.has_flag( flag_FISH_POOR ) || itm.has_flag( flag_FISH_GOOD );
+            return itm.has_quality( qual_FISHING );
         } );
         if( rod_inv.empty() ) {
             return activity_reason_info::fail( do_activity_reason::NEEDS_FISHING );

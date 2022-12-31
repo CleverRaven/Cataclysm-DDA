@@ -1253,8 +1253,6 @@ Melee flags are fully compatible with tool flags, and vice versa.
 - ```DIG_TOOL``` If wielded, digs thorough terrain like rock and walls, as player walks into them. If item also has ```POWERED``` flag, then it digs faster, but uses up the item's ammo as if activating it.
 - ```FIRESTARTER``` Item will start fire with some difficulty.
 - ```FIRE``` Item will start a fire immediately.
-- ```FISH_GOOD``` When used for fishing, it's a good tool (requires that the matching use_action has been set).
-- ```FISH_POOR``` When used for fishing, it's a poor tool (requires that the matching use_action has been set).
 - ```HAS_RECIPE``` Used by the E-Ink tablet to indicate it's currently showing a recipe.
 - ```IS_UPS``` Item is Unified Power Supply. Used in active item processing.
 - ```LIGHT_[X]``` Illuminates the area with light intensity `[X]` where `[X]` is an intensity value. (e.x. `LIGHT_4` or `LIGHT_100`). Note: this flags sets `itype::light_emission` field and then is removed (can't be found using `has_flag`);
