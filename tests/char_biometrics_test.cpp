@@ -207,22 +207,22 @@ TEST_CASE( "stored kcal ratio influences body mass index", "[biometrics][kcal][b
     CHECK( true_bmi_at_kcal_ratio( dummy, 0.8f ) == Approx( 22.0f ).margin( 0.01f ) );
     CHECK( true_bmi_at_kcal_ratio( dummy, 0.9f ) == Approx( 22.5f ).margin( 0.01f ) );
     // Overweight (fat bmi 5.1-10)
-    CHECK( true_bmi_at_kcal_ratio( dummy, 1.0f ) == Approx( 23.0f ).margin( 0.01f ) );
-    CHECK( true_bmi_at_kcal_ratio( dummy, 1.25f ) == Approx( 24.25f ).margin( 0.01f ) );
-    CHECK( true_bmi_at_kcal_ratio( dummy, 1.5f ) == Approx( 25.5f ).margin( 0.01f ) );
-    CHECK( true_bmi_at_kcal_ratio( dummy, 1.75f ) == Approx( 26.75f ).margin( 0.01f ) );
-    CHECK( true_bmi_at_kcal_ratio( dummy, 2.0f ) == Approx( 28.0f ).margin( 0.01f ) );
+    CHECK( true_bmi_at_kcal_ratio( dummy, 1.0f ) == Approx( 25.0f ).margin( 0.01f ) );
+    CHECK( true_bmi_at_kcal_ratio( dummy, 1.25f ) == Approx( 26.25f ).margin( 0.01f ) );
+    CHECK( true_bmi_at_kcal_ratio( dummy, 1.5f ) == Approx( 27.5f ).margin( 0.01f ) );
+    CHECK( true_bmi_at_kcal_ratio( dummy, 1.75f ) == Approx( 28.75f ).margin( 0.01f ) );
+    CHECK( true_bmi_at_kcal_ratio( dummy, 2.0f ) == Approx( 30.0f ).margin( 0.01f ) );
     // Obese (fat bmi 10.1-15)
-    CHECK( true_bmi_at_kcal_ratio( dummy, 2.25f ) == Approx( 29.25f ).margin( 0.01f ) );
-    CHECK( true_bmi_at_kcal_ratio( dummy, 2.5f ) == Approx( 30.5f ).margin( 0.01f ) );
-    CHECK( true_bmi_at_kcal_ratio( dummy, 2.75f ) == Approx( 31.75f ).margin( 0.01f ) );
-    CHECK( true_bmi_at_kcal_ratio( dummy, 3.0f ) == Approx( 33.0f ).margin( 0.01f ) );
+    CHECK( true_bmi_at_kcal_ratio( dummy, 2.25f ) == Approx( 31.25f ).margin( 0.01f ) );
+    CHECK( true_bmi_at_kcal_ratio( dummy, 2.5f ) == Approx( 32.5f ).margin( 0.01f ) );
+    CHECK( true_bmi_at_kcal_ratio( dummy, 2.75f ) == Approx( 33.75f ).margin( 0.01f ) );
+    CHECK( true_bmi_at_kcal_ratio( dummy, 3.0f ) == Approx( 35.0f ).margin( 0.01f ) );
     // Very obese (fat bmi 15.1-20)
-    CHECK( true_bmi_at_kcal_ratio( dummy, 3.5f ) == Approx( 35.5f ).margin( 0.01f ) );
-    CHECK( true_bmi_at_kcal_ratio( dummy, 4.0f ) == Approx( 38.0f ).margin( 0.01f ) );
+    CHECK( true_bmi_at_kcal_ratio( dummy, 3.5f ) == Approx( 37.5f ).margin( 0.01f ) );
+    CHECK( true_bmi_at_kcal_ratio( dummy, 4.0f ) == Approx( 39.0f ).margin( 0.01f ) );
     // Morbidly obese (fat bmi 20.1+)
-    CHECK( true_bmi_at_kcal_ratio( dummy, 4.5f ) == Approx( 40.5f ).margin( 0.01f ) );
-    CHECK( true_bmi_at_kcal_ratio( dummy, 5.0f ) == Approx( 43.0f ).margin( 0.01f ) );
+    CHECK( true_bmi_at_kcal_ratio( dummy, 4.5f ) == Approx( 42.5f ).margin( 0.01f ) );
+    CHECK( true_bmi_at_kcal_ratio( dummy, 5.0f ) == Approx( 45.0f ).margin( 0.01f ) );
 }
 
 TEST_CASE( "body mass index determines maximum healthiness", "[biometrics][bmi][max]" )
