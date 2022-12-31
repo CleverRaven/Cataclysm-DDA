@@ -63,6 +63,15 @@ There are a couple of items in the above template that may not be self explanato
 - `"rigid"` : (_optional_) By default, item groups will be continually iterated until they reach a certain value or size threshold for the NPC. Rigid groups are instead guaranteed to populate a single time if they can, and will not include duplicate reruns. (Defaults to false)
 - `"refusal"` : (_optional_) message to display in UIs (ex: trade UI) when conditions are not met. Defaults to `"<npcname> does not trust you enough"`
 
+##### Shop restocking
+NPCs with at least one `shopkeeper_item_group` will (re)stock their shop in nearby loot zones (within `PICKUP_RANGE` = 6 tiles) owned by their faction and will ignore all other items. If there isn't at least one `LOOT_UNSORTED` zone nearby, fallback zones will be automatically placed on all nearby, reachable, unsealed furniture with either the `CONTAINER` flag or a max volume higher than the floor. If there is no suitable furniture around, a 3x3 zone centered on the NPC will be created instead.
+
+Before restocking, items owned by the NPC's faction within these zones will be consumed according to `shopkeeper_consumption_rates`.
+
+The shop restocks every `restock_interval` regardless of interactions with the avatar.
+
+NOTE: do not place items within these loot zones in mapgen definitions as these will be consumed during the first restock. Add them to the item groups instead.
+
 #### NPC
 There is a second template required for a new NPC. It looks like this:
 Format:
@@ -942,6 +951,7 @@ Condition | Type | Description
 `"mission_goal" or "npc_mission_goal" or "u_mission_goal"` | string | `true` if u or the NPC's current mission has the same goal as `mission_goal`.
 `"mission_complete" or "npc_mission_complete" or "u_mission_complete"` | simple string | `true` if u or the NPC has completed the other's current mission.
 `"mission_incomplete" or "npc_mission_incomplete" or "u_mission_incomplete"` | simple string | `true` if u or the NPC hasn't completed the other's current mission.
+`"mission_failed" or "npc_mission_failed" or "u_mission_failed"` | simple string | `true` if u or the NPC has failed the other's current mission.
 `"mission_has_generic_rewards"` | simple string | `true` if the NPC's current mission is flagged as having generic rewards.
 `"npc_service"` | int | `true` if the NPC does not have the `"currently_busy"` effect and the player character has at least `npc_service` cash available.  Useful to check if the player character can hire an NPC to perform a task that would take time to complete.  Functionally, this is identical to `"and": [ { "not": { "npc_has_effect": "currently_busy" } }, { "u_has_cash": service_cost } ]`
 `"npc_allies"` | int or variable_object | `true` if the player character has at least `npc_allies` (or the value of the variable described; see `variable_object` above) number of NPC allies _within the reality bubble_.

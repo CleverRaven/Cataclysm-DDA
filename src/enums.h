@@ -330,7 +330,8 @@ enum class distraction_type : int {
     dangerous_field,
     hunger,
     thirst,
-    temperature
+    temperature,
+    mutation
 };
 
 enum game_message_type : int {

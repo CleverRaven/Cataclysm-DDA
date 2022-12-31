@@ -500,6 +500,10 @@ ifeq ($(NATIVE), linux64)
     CXXFLAGS += -fuse-ld=gold
     LDFLAGS += -fuse-ld=gold -Wl,--detect-odr-violations
   endif
+  ifeq ($(MOLD), 1)
+    CXXFLAGS += -fuse-ld=mold
+    LDFLAGS += -fuse-ld=mold
+  endif
 else
   # Linux 32-bit
   ifeq ($(NATIVE), linux32)
@@ -509,6 +513,10 @@ else
     ifeq ($(GOLD), 1)
       CXXFLAGS += -fuse-ld=gold
       LDFLAGS += -fuse-ld=gold -Wl,--detect-odr-violations
+    endif
+    ifeq ($(MOLD), 1)
+      CXXFLAGS += -fuse-ld=mold
+      LDFLAGS += -fuse-ld=mold
     endif
   endif
 endif
@@ -1208,7 +1216,10 @@ $(ODIR)/.astyle-check-stamp: $(ASTYLE_SOURCES)
 endif
 
 astyle-fast: $(ASTYLE_SOURCES)
-	$(ASTYLE_BINARY) --options=.astylerc -n $(ASTYLE_SOURCES)
+	echo $(ASTYLE_SOURCES) | xargs -P 0 -L 1 $(ASTYLE_BINARY) --quiet --options=.astylerc -n
+
+astyle-diff: $(ASTYLE_SOURCES)
+	$(ASTYLE_BINARY) --options=.astylerc -n $$(git diff --name-only src/*.h src/*.cpp tests/*.h tests/*.cpp)
 
 astyle-all: $(ASTYLE_SOURCES)
 	$(ASTYLE_BINARY) --options=.astylerc -n $(ASTYLE_SOURCES)

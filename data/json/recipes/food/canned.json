@@ -532,7 +532,7 @@
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ], [ "pot_canning_clay", -1 ] ] ],
-    "using": [ [ "mushroom_soup_ingredients", 12 ] ],
+    "using": [ [ "mushroom_soup_ingredients", 8 ] ],
     "components": [ [ [ "jar_3l_glass_sealed", 1 ] ], [ [ "water", 10 ], [ "water_clean", 10 ] ] ]
   },
   {
@@ -1843,7 +1843,7 @@
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ], [ "pot_canning_clay", -1 ] ] ],
-    "using": [ [ "woods_soup_ingredients", 6 ] ],
+    "using": [ [ "woods_soup_ingredients", 3 ] ],
     "components": [ [ [ "jar_3l_glass_sealed", 1 ] ], [ [ "water", 16 ], [ "water_clean", 16 ] ] ]
   },
   {
@@ -1865,7 +1865,7 @@
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ], [ "pot_canning_clay", -1 ] ] ],
-    "using": [ [ "meat_soup_ingredients", 6 ] ],
+    "using": [ [ "meat_soup_ingredients", 3 ] ],
     "components": [ [ [ "jar_3l_glass_sealed", 1 ] ], [ [ "water", 16 ], [ "water_clean", 16 ] ] ]
   },
   {
@@ -1887,7 +1887,7 @@
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ], [ "pot_canning_clay", -1 ] ] ],
-    "using": [ [ "veggy_soup_ingredients", 12 ] ],
+    "using": [ [ "veggy_soup_ingredients", 6 ] ],
     "components": [ [ [ "jar_3l_glass_sealed", 1 ] ], [ [ "water", 16 ], [ "water_clean", 16 ] ] ]
   },
   {
@@ -1909,7 +1909,7 @@
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ], [ "pot_canning_clay", -1 ] ] ],
-    "using": [ [ "fish_soup_ingredients", 6 ] ],
+    "using": [ [ "fish_soup_ingredients", 4 ] ],
     "components": [ [ [ "jar_3l_glass_sealed", 1 ] ], [ [ "water", 16 ], [ "water_clean", 16 ] ] ]
   },
   {

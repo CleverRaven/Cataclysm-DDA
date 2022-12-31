@@ -213,6 +213,29 @@ Another mandatory field is the spell shape. This dictates how the area of effect
 
 The following JSON fields are also used in spells and, while optional, greatly expand how spells can behave.
 
+| Field group | Description | Example
+| ---  | --- | ---
+| `min_X`, `max_X`, ``X_increment`` | Minimun value, maximum value, and the value, that add each level. Note: your spell don't take max_X on the max lvl, it will always add the correct amount of X_increment to your spell - in spell with `min_damage: 0, max_damage: 100, damage_increment: 5` and `max_level: 10`, on level 10 the spell will deal only 50 damage, as [ 0 + (5\*10) ]. Opposite is also true, in spell with `min_damage: 0, max_damage: 25, damage_increment: 5` on level 10 will deal only 25 damage, as the highest value, described in `max_X` | `min_damage`, `min_range`, `min_aoe`
+| `min_damage`, `max_damage`, `damage_increment` |  By default respond for the damage (or healing, if the damage is negative) of the spell, but, depending on `effect`, may respond for different things. For damage, that do not increase with level (like for a monster spell) you need to use both `min_damage` and `max_damage` of the same value (`"min_damage": 15, "max_damage": 15`), increment isn't nesessary | "min_damage": 0,  <br>"max_damage": 100,  <br>"damage_increment": 5,|
+| `min_duration`, `max_duration`, `duration_increment` | Respond for the duration of the effect. Writed in moves, so `100` means `1 second`, and `1 minute` described as `6000`.  Usually works with some `effects`, and with `effect_str` | "min_duration": 100, <br>"max_duration": 6000, <br>"duration_increment": 100,
+| `min_range`, `max_range`, `range_increment` | Respond for the distance caster can use the spell. Can be ignored, if the target is user (giving an buff/debuff, spawning an item). Note: the reality bubble diameter is ~60 | "min_range": 2, <br>"max_range": 10, <br>"range_increment": 0.5,
+| `min_aoe`, `max_aoe`, `aoe_increment` | Respond for area of effect. | "min_aoe": 0, <br>"max_aoe": 5, <br>"aoe_increment": 0.1, 
+| `min_accuracy`, `max_accuracy`, `accuracy_increment` | Respond for accuracy of the spell. -20 accuracy will make it always miss, 20 will make it always hit. Doesn't work currently | "min_accuracy" -20, <br>"max_accuracy": 20, <br>"accuracy_increment": 1.5
+| `min_dot`, `max_dot`, `dot_increment` | Respond for damage over time. Same as damage, may respond both for damage and for healing (except the healing would be too fast for default character) | "min_dot": 0, <br>"max_dot": 2, <br>"dot_increment": 0.1,
+| `min_pierce`, `max_pierce`, `pierce_increment` | Respond for armor piersing of the spell | "min_pierce": 0, <br>"max_pierce": 1, <br>"pierce_increment": 0.1,
+| `base_casting_time`, `final_casting_time`, `casting_time_increment` | Respond for amount of time user cast the spell. Same as duration, writed in moves, which allow to make spells, that can be casted for 0.5 or 0.25 seconds. Doesn't work for monsters and for items, that cast spells | "base_casting_time": 1000, <br>"final_casting_time": 100, <br>"casting_time_increment": -50,
+| `base_energy_cost`, `final_energy_cost`, `energy_increment` | Respond for amount of energy you spend for cast | "base_energy_cost": 30, <br>"final_energy_cost": 100, <br>"energy_increment": -6,
+| `field_id`, `field_chance`, `min_field_intensity`, `max_field_intensity`, `field_intensity_increment`, `field_intensity_variance` | Respond for field spawn. `field_id` describe what field will be spawned; `field_chance` describe the chance of spawning the field, as "one in `field_chance`" (1 means the probability is 100%, 2 is 50%, 3 is 33% etc.); `min_field_intensity`, `max_field_intensity` and `field_intensity_increment` are respond for the field intensity and it grow depend on level (for example, for fd_electricity intensity 1 represent spark, when intensity 10 is electric cloud); `field_intensity_variance` allow the spell randomly increase and decrease the intensity of the spell as a percent (intencity 10 and variance 0.1 means it can grow or shring at 10%, from 9 to 11)| "field_id": "fd_blood", <br>"field_chance": 100,    <br>"min_field_intensity": 10, <br>"max_field_intensity": 10, <br>"field_intensity_increment": 1, <br>"field_intensity_variance": 0.1
+| `effect_str` | By default respond for effect, the spell can deal (see EFFECTS_JSON.md), but can vary depend on effect | "effect_str": "zapped", 
+| `max_level` | How much you can train the spell. 0 by default | "max_level": 10,
+| `difficulty` | How hard to cast the spell. Higher difficulty make spell easier to fail, but also train your spell skill to the `difficulty` level (spell with difficulty 10 can train user to spellcasting lvl 10) | "difficulty": 7,
+| `affected_body_parts` | Respond on which body part `effect_str` will occur. Doesn't respond what body part the spell will target if you damage the target, it always aim a `torso` no matter what | "affected_body_parts": [ "head" ] 
+| `extra_effects` | Cast `id` spell right after the end of the main. Can cast multiple different spells at once | "extra_effects": [ <br> { <br> "id": "fireball", <br> "hit_self": false, <br> "max_level": 3 <br> }, <br> { "id": "storm_chain_1" } <br>]
+| `learn_spells` | Allow user to learn this spells, when it will reach the amount of levels ("create_atomic_light": 5 means user can learn create_atomic_light, when it will reach the 5 level of the spell) | "learn_spells": { "create_atomic_light": 5, "megablast": 10 }
+| `message` | The message, that will be send in log, when you cast a spell. "You cast %s!" by default | "message": "You feel refreshed."
+| `sound_type`, `sound_description`, `sound_ambient`, `sound_id`, `sound_variant` | Respond for the sound that play when you use the spell. `sound_type` is one of `background`, `weather`, `music`, `movement`, `speech`, `activity`, `destructive_activity`, `alarm`, `combat`, `alert`, `order`; `sound_description` respond for the message in log, as "You hear %s" ("an explosion" by default); `sound_ambient` whether or not this is treated as an ambient sound | "sound_type": "combat", <bp>"sound_description": "a whoosh", <bp>"sound_ambient": true, <bp>"sound_id": "misc", <bp>"sound_variant": "shockwave", 
+| `targeted_monster_ids` | You can target only `monster_id` | "targeted_monster_ids": [ "mon_hologram" ],
+| `targeted_monster_species` | You can target only picked species (for list see data/json/species.json) | "targeted_monster_species": [ "ROBOT", "CYBORG" ],
 
 ### Spell Flags
 
@@ -573,28 +596,7 @@ Explanation: Here we have one main spell with two subspells: one on the caster a
 
 ### Monster spells
 
-`MONSTER`s can also cast spells.  To do this, you need to declare the spells in `special_attacks`.  Spells with `target_self: true` will only target the casting monster, and will be casted only if the monster has a hostile target.
-
-```json 
-  { 
-    "type": "spell", 
-    "spell_data": { "id": "cone_cold", "min_level": 4 }, 
-    "monster_message": "%1$s casts %2$s at %3$s!", 
-    "cooldown": 25 
-  }
-```
-
-| Identifier              | Description
-|---                      |---
-| `spell_data`            | List of spell properties for the attack.
-| `min_level`             | The level at which the spell is cast.  Spells cast by monsters do not gain levels like player spells.
-| `cooldown `             | How often the monster can cast this spell
-| `monster_message`       | Message to print when the spell is cast, replacing the `message` in the spell definition.  Dynamic fields correspond to `<Monster Display Name> / <Spell Name> / <Target name>`.
-| `forbidden_effects_any` | Array of effect IDs, if the monster has any one the attack can't trigger.
-| `forbidden_effects_all` | Array of effect IDs, if the monster has every effect the attack can't trigger.
-| `required_effects_any`  | Array of effect IDs, the monster needs any one for the attack to trigger.
-| `required_effects_all`  | Array of effect IDs, the monster needs every effect for the attack to trigger.
-| `allow_no_target`       | Bool, default `false`.  If `true` the monster will cast it even without a hostile target.
+See [Monster special attacks - Spells](MONSTER_SPECIAL_ATTACKS.md#spell-monster-spells).
 
 
 ## Enchantments
@@ -696,7 +698,7 @@ The following is a list of possible `values`:
 
 | Character status value | Description
 |---                          |---
-| `ARMOR_ACID` | 
+| `ARMOR_ACID` | Negative values give armor against the damage, positive values make you accept more damage of this type
 | `ARMOR_BASH` | 
 | `ARMOR_BIO` | 
 | `ARMOR_BULLET` | 

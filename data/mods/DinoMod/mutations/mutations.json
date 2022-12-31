@@ -327,19 +327,19 @@
     "type": "mutation",
     "id": "HORNS",
     "copy-from": "HORNS",
-    "extend": { "category": [ "STEGO", "HORNS" ], "threshreq": [ "THRESH_STEGO", "THRESH_HORNS" ] }
+    "extend": { "category": [ "STEGO", "HORNS" ] }
   },
   {
     "type": "mutation",
     "id": "HORNS_POINTED",
     "copy-from": "HORNS_POINTED",
-    "extend": { "category": [ "HORNS" ], "threshreq": [ "THRESH_HORNS" ] }
+    "extend": { "category": [ "HORNS" ] }
   },
   {
     "type": "mutation",
     "id": "HORNS_CURLED",
     "copy-from": "HORNS_CURLED",
-    "extend": { "category": [ "HORNS" ], "threshreq": [ "THRESH_HORNS" ] }
+    "extend": { "category": [ "HORNS" ] }
   },
   {
     "type": "mutation",

@@ -20,6 +20,7 @@
 #include "mtype.h"
 #include "player_helpers.h"
 #include "ret_val.h"
+#include "test_data.h"
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
@@ -727,7 +728,7 @@ static bool assert_maximum_density_for_material( const item &target )
         return false;
     }
     const std::map<material_id, int> &mats = target.made_of();
-    if( !mats.empty() && known_bad_density::known_bad.count( target.typeId() ) == 0 ) {
+    if( !mats.empty() && test_data::known_bad.count( target.typeId() ) == 0 ) {
         const float max_density = max_density_for_mats( mats, target.type->mat_portion_total );
         INFO( target.typeId() );
         CHECK( item_density( target ) <= max_density );
@@ -759,7 +760,7 @@ TEST_CASE( "item_material_density_sanity_check", "[item]" )
 
 TEST_CASE( "item_material_density_blacklist_is_pruned", "[item]" )
 {
-    for( const itype_id &bad : known_bad_density::known_bad ) {
+    for( const itype_id &bad : test_data::known_bad ) {
         if( !bad.is_valid() ) {
             continue;
         }

@@ -646,6 +646,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 
 ### Furniture Only
 
+- ```ACTIVE_GENERATOR``` This furniture is considered to be an active power source for the purpose of certain monster special attacks (e.g. milspec searchlight's SEARCHLIGHT)
 - ```AUTODOC``` This furniture can be an Autodoc console, it also needs the `autodoc` examine action.
 - ```AUTODOC_COUCH``` This furniture can be a couch for a furniture with the `autodoc` examine action.
 - ```BLOCKSDOOR``` This will boost map terrain's resistance to bashing if `str_*_blocked` is set (see `map_bash_info`).
@@ -683,6 +684,7 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 - ```IS_PET_ARMOR``` ... Is armor for a pet monster, not armor for a person.
 - ```LEAK_ALWAYS``` ... Leaks (may be combined with `RADIOACTIVE`).
 - ```LEAK_DAM``` ... Leaks when damaged (may be combined with `RADIOACTIVE`).
+- ```MISSION_ITEM``` ... This item's chance to spawn isn't affected by world item spawn scaling factor.
 - ```MOP``` ... This item could be used to mop up spilled liquids like blood or water.
 - ```NEEDS_UNFOLD``` ... Has an additional time penalty upon wielding. For melee weapons and guns this is offset by the relevant skill. Stacks with `SLOW_WIELD`.
 - ```NO_PACKED``` ... This item is not protected against contamination and won't stay sterile.  Only applies to CBMs.
@@ -1377,7 +1379,7 @@ These flags apply to the `use_action` field, instead of the `flags` field.
 - ```SMOKEBOMB``` Pull the pin on a smoke bomb.
 - ```SOLARPACK_OFF``` Fold solar backpack array.
 - ```SOLARPACK``` Unfold solar backpack array.
-- ```SOLDER_WELD``` Solder or weld items, or cauterize wounds.
+- ```SOLDER_WELD``` Solder or weld items.
 - ```SPRAY_CAN``` Graffiti the town.
 - ```SURVIVORMAP``` Learn of local points-of-interest that can help you survive, and show roads.
 - ```TAZER``` Shock someone or something.
@@ -1571,6 +1573,7 @@ Gun fault flags:
 
 ## Character
 
+- ```BLEED_IMMUNE``` Immune to bleeding.
 - ```COLDBLOOD``` For heat dependent mutations.
 - ```COLDBLOOD2``` For very heat dependent mutations.
 - ```COLDBLOOD3``` For cold-blooded mutations.
@@ -1580,6 +1583,7 @@ Gun fault flags:
 - ```NO_THIRST``` Your thirst is not modified by food or drinks.
 - ```NO_RADIATION``` This mutation grants immunity to radiations.
 - ```NO_MINIMAL_HEALING``` This mutation disables the minimal healing of 1 hp a day.
+- ```INFECTION_IMMUNE``` This mutation grants immunity to infections, including infection from bites and tetanus.
 - ```SUPER_HEARING``` You can hear much better than a normal person.
 - ```IMMUNE_HEARING_DAMAGE``` Immune to hearing damage from loud sounds.
 - ```CANNIBAL``` Butcher humans, eat foods with the `CANNIBALISM` and `STRICT_HUMANITARIANISM` flags without a morale penalty

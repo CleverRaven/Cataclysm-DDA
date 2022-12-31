@@ -1637,5 +1637,16 @@
     "half_life": "1 seconds",
     "phase": "solid",
     "display_field": false
+  },
+  {
+    "id": "fd_churned_earth",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "churned earth", "sym": "^", "color": "brown", "dangerous": false } ],
+    "half_life": "1 minute",
+    "accelerated_decay": true,
+    "display_field": true,
+    "display_items": true,
+    "phase": "solid",
+    "looks_like": "t_dirtmound"
   }
 ]

@@ -736,18 +736,6 @@
     "difficulty": 4
   },
   {
-    "id": "bio_railgun",
-    "copy-from": "bionic_general",
-    "type": "BIONIC_ITEM",
-    "name": { "str": "Railgun CBM" },
-    "looks_like": "bio_int_enhancer",
-    "description": "EM field generators in the user's arms increase the range and damage of thrown magnetic objects at a cost of 1 bionic power per throw.  They will create a trail of electricity that can cause additional damage.",
-    "price": 220000,
-    "weight": "1000 g",
-    "difficulty": 3,
-    "installation_data": "AID_bio_railgun"
-  },
-  {
     "id": "bio_razors",
     "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
@@ -1276,5 +1264,17 @@
     "price": 120000,
     "difficulty": 3,
     "installation_data": "AID_bio_trickle"
+  },
+  {
+    "id": "bio_pitch_perfect",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Throwing Assist CBM" },
+    "looks_like": "bio_int_enhancer",
+    "description": "This CBM links the eyes to a series of nerve stimulators along the arms and hands, resulting in a significant increase to throwing accuracy.  The user enjoys a significant edge in baseball, and it turns out it works great with fragmentation grenades too.",
+    "price": 220000,
+    "weight": "1000 g",
+    "difficulty": 3,
+    "installation_data": "AID_bio_pitch_perfect"
   }
 ]

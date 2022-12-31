@@ -173,6 +173,7 @@ void pocket_data::load( const JsonObject &jo )
     optional( jo, was_loaded, "open_container", open_container, false );
     optional( jo, was_loaded, "transparent", transparent, false );
     optional( jo, was_loaded, "rigid", rigid, false );
+    optional( jo, was_loaded, "forbidden", forbidden, false );
     optional( jo, was_loaded, "holster", holster );
     optional( jo, was_loaded, "ablative", ablative );
     optional( jo, was_loaded, "inherits_flags", inherits_flags );
@@ -1125,6 +1126,9 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
 void item_pocket::contents_info( std::vector<iteminfo> &info, int pocket_number,
                                  bool disp_pocket_number ) const
 {
+    if( is_forbidden() ) {
+        return;
+    }
     const std::string space = "  ";
 
     insert_separation_line( info );
@@ -1828,14 +1832,9 @@ bool item_pocket::is_standard_type() const
            data->type == pocket_type::MAGAZINE_WELL;
 }
 
-bool item_pocket::is_allowed() const
+bool item_pocket::is_forbidden() const
 {
-    return allowed;
-}
-
-void item_pocket::set_usability( bool show )
-{
-    allowed = show;
+    return data->forbidden;
 }
 
 bool item_pocket::airtight() const
@@ -1884,8 +1883,8 @@ bool item_pocket::can_unload_liquid() const
     return will_spill() || !cts_is_frozen_liquid;
 }
 
-int item_pocket::fill_with( const item &contained, int amount, bool allow_unseal,
-                            bool ignore_settings )
+int item_pocket::fill_with( const item &contained, Character &guy, int amount,
+                            bool allow_unseal, bool ignore_settings )
 {
     int num_contained = 0;
 
@@ -1914,10 +1913,13 @@ int item_pocket::fill_with( const item &contained, int amount, bool allow_unseal
     if( contained_item.charges == 0 ) {
         return 0;
     }
+
+    contained_item.handle_pickup_ownership( guy );
     if( !insert_item( contained_item ).success() ) {
         debugmsg( "charges per remaining pocket volume does not fit in that very volume" );
         return 0;
     }
+
     num_contained += contained_item.charges;
     if( allow_unseal ) {
         unseal();

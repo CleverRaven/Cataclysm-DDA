@@ -148,7 +148,7 @@
       "7": "t_vault_vent"
     },
     "furniture": {
-      "h": "f_demon_forge",
+      "h": "f_demon_forge_forge_lord",
       "@": "f_logstool",
       "c": "f_orrery",
       "Y": [ [ "f_boulder_small", 5 ], "f_boulder_medium", "f_boulder_large", "f_glow_boulder" ],

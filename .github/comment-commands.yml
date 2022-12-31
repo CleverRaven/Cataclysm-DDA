@@ -16,10 +16,12 @@ users:
     - PatrikLundell
     - TheShadowFerret
     - Jan-Blasiak
+    - MNG-cataclysm
     - mqrause
     - andrei8l
     - haveric
     - MylieDaniels
+    - nopenoperson 
     - Inglonias
     - GuardianDll
     - hexagonrecursion
@@ -30,6 +32,7 @@ users:
     - Stadler76
     - sonphantrung
     - sadenar
+    - RenechCDDA
 
 keywords:
   - name: confirm-bug

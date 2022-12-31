@@ -29,7 +29,7 @@
     "time": "1 h",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "tailoring_cotton_patchwork", 4 ], [ "strap_large", 1 ] ],
+    "using": [ [ "tailoring_canvas_patchwork", 4 ], [ "strap_large", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ],
     "components": [ [ [ "fastener_small", 2, "LIST" ] ] ]
   },
@@ -243,7 +243,8 @@
     "difficulty": 4,
     "time": "6 h",
     "autolearn": true,
-    "using": [ [ "tailoring_cotton_patchwork", 14 ], [ "fastener_large", 1 ] ]
+    "using": [ [ "tailoring_canvas_patchwork", 14 ], [ "fastener_large", 1 ], [ "fastener_small", 4 ] ],
+    "byproducts": [ [ "scrap_canvas", 28 ] ]
   },
   {
     "result": "chestrig",
@@ -257,7 +258,7 @@
     "time": "2 h 30 m",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "tailoring_cotton_small", 4 ], [ "strap_small", 1 ], [ "clasps", 4 ] ],
+    "using": [ [ "tailoring_canvas_patchwork", 2 ], [ "strap_small", 1 ], [ "clasps", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ],
     "components": [ [ [ "chestpouch", 4 ], [ "legpouch_large", 2 ] ] ]
   },
@@ -266,7 +267,7 @@
     "type": "recipe",
     "copy-from": "chestrig",
     "time": "1 h",
-    "using": [ [ "tailoring_cotton_small", 3 ], [ "strap_small", 1 ], [ "clasps", 4 ] ],
+    "using": [ [ "tailoring_canvas_patchwork", 2 ], [ "strap_small", 1 ], [ "clasps", 4 ] ],
     "components": [ [ [ "chestpouch", 4 ], [ "legpouch_large", 2 ] ] ]
   },
   {
@@ -274,7 +275,7 @@
     "type": "recipe",
     "copy-from": "chestrig",
     "time": "4 h 30 m",
-    "using": [ [ "tailoring_cotton_small", 6 ], [ "strap_large", 1 ], [ "clasps", 4 ] ],
+    "using": [ [ "tailoring_canvas_patchwork", 3 ], [ "strap_large", 1 ], [ "clasps", 4 ] ],
     "components": [ [ [ "chestpouch", 4 ], [ "legpouch_large", 2 ] ] ]
   },
   {
@@ -404,8 +405,9 @@
     "difficulty": 5,
     "time": "8 h",
     "autolearn": true,
-    "using": [ [ "tailoring_cotton_patchwork", 8 ], [ "fastener_large", 1 ], [ "plastic_molding", 2 ] ],
-    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ]
+    "using": [ [ "tailoring_canvas_patchwork", 8 ], [ "fastener_large", 1 ], [ "plastic_molding", 2 ] ],
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ],
+    "byproducts": [ [ "scrap_canvas", 24 ] ]
   },
   {
     "result": "baldric",
@@ -507,7 +509,7 @@
     "time": "1 h 20 m",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "strap_small", 1 ], [ "clasps", 1 ], [ "tailoring_cotton_patchwork", 1 ], [ "fastener_small", 1 ] ],
+    "using": [ [ "strap_small", 1 ], [ "clasps", 1 ], [ "tailoring_canvas_patchwork", 1 ], [ "fastener_small", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" } ]
   },
   {
@@ -668,7 +670,7 @@
     "time": "1 h 30 m",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "tailoring_cotton_patchwork", 3 ], [ "fastener_small", 1 ], [ "strap_small", 1 ], [ "clasps", 1 ] ],
+    "using": [ [ "tailoring_canvas_patchwork", 3 ], [ "fastener_small", 1 ], [ "strap_small", 1 ], [ "clasps", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ]
   },
   {
@@ -682,7 +684,7 @@
     "time": "1 h 30 m",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "tailoring_cotton_patchwork", 3 ], [ "fastener_small", 1 ], [ "strap_small", 1 ], [ "clasps", 1 ] ],
+    "using": [ [ "tailoring_canvas_patchwork", 3 ], [ "fastener_small", 1 ], [ "strap_small", 1 ], [ "clasps", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ]
   },
   {
@@ -754,7 +756,7 @@
     "time": "14 h",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "tailoring_cotton_patchwork", 26 ], [ "fastener_large", 2 ] ],
+    "using": [ [ "tailoring_canvas_patchwork", 26 ], [ "fastener_large", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ]
   },
   {
@@ -1194,7 +1196,7 @@
     "time": "5 h 30 m",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "tailoring_cotton_patchwork", 3 ] ],
+    "using": [ [ "tailoring_canvas_patchwork", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ],
     "components": [ [ [ "strap_large", 1, "LIST" ] ], [ [ "clasps", 2, "LIST" ] ] ]
   },
@@ -1500,7 +1502,7 @@
     "time": "45 m",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "tailoring_cotton_patchwork", 2 ] ],
+    "using": [ [ "tailoring_canvas_patchwork", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" } ],
     "components": [ [ [ "strap_large", 1, "LIST" ] ], [ [ "clasps", 1, "LIST" ] ] ]
   },
@@ -1538,7 +1540,7 @@
       { "proficiency": "prof_leatherworking" }
     ],
     "components": [
-      [ [ "cotton_patchwork", 18 ] ],
+      [ [ "canvas_patch", 78 ] ],
       [ [ "plastic_sheet", 2 ] ],
       [ [ "duffelbag", 1 ], [ "rucksack", 1 ] ],
       [
@@ -1629,7 +1631,7 @@
       { "proficiency": "prof_leatherworking" }
     ],
     "components": [
-      [ [ "cotton_patchwork", 10 ] ],
+      [ [ "canvas_patch", 50 ] ],
       [ [ "backpack", 1 ], [ "backpack_leather", 1 ], [ "molle_pack", 1 ] ],
       [ [ "plastic_sheet", 1 ] ],
       [
@@ -1665,7 +1667,7 @@
       { "proficiency": "prof_leatherworking" }
     ],
     "components": [
-      [ [ "cotton_patchwork", 14 ] ],
+      [ [ "canvas_patch", 64 ] ],
       [
         [ "backpack", 1 ],
         [ "backpack_leather", 1 ],
@@ -1708,7 +1710,7 @@
       { "proficiency": "prof_elastics" }
     ],
     "components": [
-      [ [ "cotton_patchwork", 6 ] ],
+      [ [ "canvas_patch", 26 ] ],
       [ [ "runner_bag", 1 ], [ "backpack", 1 ], [ "backpack_leather", 1 ] ],
       [ [ "plastic_sheet", 1 ] ],
       [
@@ -1744,7 +1746,7 @@
       { "proficiency": "prof_leatherworking" }
     ],
     "components": [
-      [ [ "cotton_patchwork", 6 ] ],
+      [ [ "canvas_patch", 22 ] ],
       [ [ "holster", 1 ], [ "sholster", 1 ] ],
       [ [ "leather_pouch", 3 ] ],
       [ [ "duct_tape", 50 ] ]
@@ -1757,7 +1759,7 @@
     "time": "12 h",
     "using": [ [ "sewing_standard", 75 ], [ "tailoring_leather_small", 4 ], [ "fastener_large", 1 ] ],
     "components": [
-      [ [ "cotton_patchwork", 5 ] ],
+      [ [ "canvas_patch", 18 ] ],
       [ [ "holster", 1 ], [ "sholster", 1 ] ],
       [ [ "leather_pouch", 2 ] ],
       [ [ "duct_tape", 38 ] ]
@@ -1770,7 +1772,7 @@
     "time": "13 h 30 m",
     "using": [ [ "sewing_standard", 150 ], [ "tailoring_leather_small", 9 ], [ "fastener_large", 2 ] ],
     "components": [
-      [ [ "cotton_patchwork", 8 ] ],
+      [ [ "canvas_patch", 28 ] ],
       [ [ "holster", 1 ], [ "sholster", 1 ] ],
       [ [ "leather_pouch", 3 ] ],
       [ [ "duct_tape", 80 ] ]
@@ -2071,7 +2073,7 @@
     "time": "10 h",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "tailoring_cotton_patchwork", 32 ], [ "fastener_large", 2 ], [ "waterproofing_plastic_sheets", 4 ] ],
+    "using": [ [ "tailoring_canvas_patchwork", 32 ], [ "fastener_large", 2 ], [ "waterproofing_plastic_sheets", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ]
   },
   {
@@ -2084,7 +2086,7 @@
     "time": "4 h",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "tailoring_cotton_patchwork", 13 ], [ "fastener_large", 2 ] ],
+    "using": [ [ "tailoring_canvas_patchwork", 13 ], [ "fastener_large", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" } ]
   },
   {
@@ -2121,7 +2123,7 @@
     "time": "4h 30 m",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "tailoring_cotton_patchwork", 13 ], [ "fastener_large", 3 ] ],
+    "using": [ [ "tailoring_canvas_patchwork", 17 ], [ "fastener_large", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" } ],
     "components": [ [ [ "strap_large", 1, "LIST" ] ] ]
   },
@@ -2252,7 +2254,7 @@
     "time": "3 h",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "strap_large", 3 ], [ "tailoring_cotton_patchwork", 5 ] ],
+    "using": [ [ "strap_large", 3 ], [ "tailoring_canvas_patchwork", 5 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
@@ -2271,7 +2273,7 @@
     "time": "5 h",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "strap_large", 3 ], [ "tailoring_cotton_patchwork", 8 ] ],
+    "using": [ [ "strap_large", 3 ], [ "tailoring_canvas_patchwork", 8 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },

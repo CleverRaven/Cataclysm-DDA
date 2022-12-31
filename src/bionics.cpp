@@ -1168,13 +1168,12 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
 
         const std::vector<bionic_id> &deactivated_bionics = bio.info().autodeactivated_bionics;
         if( !deactivated_bionics.empty() ) {
-            for( bionic &bio : *my_bionics ) {
+            for( bionic &it : *my_bionics ) {
                 if( std::find( deactivated_bionics.begin(), deactivated_bionics.end(),
-                               bio.id ) != deactivated_bionics.end() ) {
-                    if( bio.powered ) {
-                        bio.powered = false;
-                        add_msg_if_player( m_info, _( "Your %s automatically turn off." ),
-                                           bio.info().name );
+                               it.id ) != deactivated_bionics.end() ) {
+                    if( it.powered ) {
+                        it.powered = false;
+                        add_msg_if_player( m_info, _( "Your %s automatically turn off." ), it.info().name );
                     }
                 }
             }
@@ -2132,10 +2131,9 @@ bool Character::uninstall_bionic( const bionic &bio, Character &installer, bool 
     int chance_of_success = bionic_success_chance( autodoc, skill_level, difficulty + 2, installer );
 
     // Surgery is imminent, retract claws or blade if active
-    for( size_t i = 0; i < installer.my_bionics->size(); i++ ) {
-        bionic &bio = ( *installer.my_bionics )[ i ];
-        if( bio.powered && bio.info().has_flag( json_flag_BIONIC_WEAPON ) ) {
-            installer.deactivate_bionic( bio );
+    for( bionic &it : *installer.my_bionics ) {
+        if( it.powered && it.info().has_flag( json_flag_BIONIC_WEAPON ) ) {
+            installer.deactivate_bionic( it );
         }
     }
 

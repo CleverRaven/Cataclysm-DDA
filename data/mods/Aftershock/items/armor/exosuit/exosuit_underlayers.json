@@ -28,7 +28,7 @@
       }
     ],
     "warmth": 10,
-    "flags": [ "EXO_UNDERLAYER", "CANT_WEAR", "SKINTIGHT", "WATERPROOF", "POWERARMOR_COMPATIBLE", "SOFT" ],
+    "flags": [ "EXO_UNDERLAYER", "SKINTIGHT", "WATERPROOF", "POWERARMOR_COMPATIBLE", "SOFT" ],
     "relic_data": {
       "passive_effects": [
         {
@@ -81,7 +81,7 @@
       }
     ],
     "warmth": 10,
-    "flags": [ "EXO_UNDERLAYER", "CANT_WEAR", "SKINTIGHT", "WATERPROOF", "POWERARMOR_COMPATIBLE", "SOFT" ],
+    "flags": [ "EXO_UNDERLAYER", "SKINTIGHT", "WATERPROOF", "POWERARMOR_COMPATIBLE", "SOFT" ],
     "relic_data": {
       "passive_effects": [
         {
@@ -90,8 +90,8 @@
           "values": [
             { "value": "ITEM_ENCUMBRANCE", "add": -10 },
             { "value": "ARMOR_COLD", "multiply": -0.25 },
-            { "value": "CLIMATE_CONTROL_HEAT", "add": 50 },
-            { "value": "CLIMATE_CONTROL_CHILL", "add": 50 }
+            { "value": "CLIMATE_CONTROL_HEAT", "add": 100 },
+            { "value": "CLIMATE_CONTROL_CHILL", "add": 100 }
           ]
         }
       ]
@@ -126,17 +126,7 @@
       }
     ],
     "warmth": 10,
-    "flags": [
-      "EXO_UNDERLAYER",
-      "CANT_WEAR",
-      "SKINTIGHT",
-      "WATERPROOF",
-      "POWERARMOR_COMPATIBLE",
-      "SOFT",
-      "GAS_PROOF",
-      "RAD_RESIST",
-      "RAINPROOF"
-    ],
+    "flags": [ "EXO_UNDERLAYER", "SKINTIGHT", "WATERPROOF", "POWERARMOR_COMPATIBLE", "SOFT", "GAS_PROOF", "RAD_RESIST", "RAINPROOF" ],
     "relic_data": {
       "passive_effects": [
         {
@@ -145,8 +135,8 @@
           "values": [
             { "value": "ITEM_ENCUMBRANCE", "add": -10 },
             { "value": "ARMOR_COLD", "multiply": -0.25 },
-            { "value": "CLIMATE_CONTROL_HEAT", "add": 50 },
-            { "value": "CLIMATE_CONTROL_CHILL", "add": 50 }
+            { "value": "CLIMATE_CONTROL_HEAT", "add": 300 },
+            { "value": "CLIMATE_CONTROL_CHILL", "add": 300 }
           ]
         }
       ]
@@ -189,17 +179,7 @@
       }
     ],
     "warmth": 10,
-    "flags": [
-      "EXO_UNDERLAYER",
-      "CANT_WEAR",
-      "SKINTIGHT",
-      "WATERPROOF",
-      "POWERARMOR_COMPATIBLE",
-      "SOFT",
-      "GAS_PROOF",
-      "RAD_RESIST",
-      "RAINPROOF"
-    ],
+    "flags": [ "EXO_UNDERLAYER", "SKINTIGHT", "WATERPROOF", "POWERARMOR_COMPATIBLE", "SOFT", "GAS_PROOF", "RAD_RESIST", "RAINPROOF" ],
     "relic_data": {
       "passive_effects": [
         {
@@ -208,8 +188,8 @@
           "values": [
             { "value": "ITEM_ENCUMBRANCE", "add": -10 },
             { "value": "ARMOR_COLD", "multiply": -0.25 },
-            { "value": "CLIMATE_CONTROL_HEAT", "add": 50 },
-            { "value": "CLIMATE_CONTROL_CHILL", "add": 50 }
+            { "value": "CLIMATE_CONTROL_HEAT", "add": 150 },
+            { "value": "CLIMATE_CONTROL_CHILL", "add": 150 }
           ]
         }
       ]

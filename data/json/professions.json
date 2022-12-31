@@ -539,6 +539,22 @@
   },
   {
     "type": "profession",
+    "id": "video_blogger",
+    "name": "Video Blogger",
+    "description": "You're a video blogger, creating and commenting video content and then posting it on various platforms.  Now most of your fans are dead, alongside your equipment.  Maybe leading a fanbase, moderating myriads of comments and surviving shitstorms has taught you something valuable after all.",
+    "points": 2,
+    "skills": [ { "level": 3, "name": "speech" }, { "level": 2, "name": "computer" } ],
+    "items": {
+      "both": {
+        "items": [ "jeans", "longshirt", "socks", "sneakers", "backpack", "pockknife", "water_clean", "wearable_camera", "wristwatch" ],
+        "entries": [ { "group": "charged_smart_phone" }, { "group": "charged_laptop" }, { "group": "charged_matches" } ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
     "id": "sheltered_survivor",
     "name": "Sheltered Survivor",
     "description": "At the start of the Cataclysm, you hunkered down in a bomb shelter.  You've spent the past months eating canned food, reading books, and tinkering with stuff in the bunker.  Now it is winter - time to face the world above.",
@@ -1753,7 +1769,7 @@
           { "group": "charged_cell_phone" },
           { "group": "charged_flashlight" },
           { "item": "lighter", "charges": 100 },
-          { "item": "knife_rambo", "container-item": "scabbard" },
+          { "group": "knife_rambo_full", "container-item": "scabbard" },
           { "item": "tshirt", "variant": "generic_tshirt" }
         ]
       },
@@ -4609,7 +4625,7 @@
           "cloak"
         ],
         "entries": [
-          { "item": "M24", "ammo-item": "762_51", "charges": 20, "contents-item": [ "shoulder_strap", "bipod", "suppressor" ] },
+          { "item": "M24", "ammo-item": "762_51", "charges": 20, "contents-item": [ "shoulder_strap", "suppressor" ] },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "chestrig", "contents-group": "army_mags_m14" },
           { "item": "knife_combat", "container-item": "sheath" },

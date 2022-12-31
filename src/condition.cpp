@@ -1036,6 +1036,15 @@ void conditional_t<T>::set_mission_incomplete( bool is_npc )
 }
 
 template<class T>
+void conditional_t<T>::set_mission_failed( bool is_npc )
+{
+    condition = [is_npc]( const T & d ) {
+        mission *miss = d.actor( is_npc )->selected_mission();
+        return miss && miss->has_failed();
+    };
+}
+
+template<class T>
 void conditional_t<T>::set_npc_available( bool is_npc )
 {
     condition = [is_npc]( const T & d ) {
@@ -1972,7 +1981,8 @@ static int handle_min_max( const T &d, int input, cata::optional<int_or_var_part
 
 template<class T>
 static std::function<void( const T &, int )> get_set_int( const JsonObject &jo,
-        cata::optional<int_or_var_part<T>> min, cata::optional<int_or_var_part<T>> max, bool temp_var )
+        const cata::optional<int_or_var_part<T>> &min, const cata::optional<int_or_var_part<T>> &max,
+        bool temp_var )
 {
     if( temp_var ) {
         jo.allow_omitted_members();
@@ -2991,6 +3001,10 @@ conditional_t<T>::conditional_t( const std::string &type )
         set_mission_incomplete( true );
     } else if( type == "u_mission_incomplete" ) {
         set_mission_incomplete( false );
+    } else if( type == "mission_failed" || type == "npc_mission_failed" ) {
+        set_mission_failed( true );
+    } else if( type == "u_mission_failed" ) {
+        set_mission_failed( false );
     } else if( type == "npc_available" ) {
         set_npc_available( true );
     } else if( type == "u_available" ) {

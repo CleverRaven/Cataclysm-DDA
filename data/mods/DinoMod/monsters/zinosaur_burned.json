@@ -816,7 +816,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zcolosaurus_scorched",
-    "name": { "str": "scorched scolosaurus_scorched zombie" },
+    "name": { "str": "scorched scolosaurus zombie" },
     "copy-from": "mon_zankylosaurus_scorched",
     "looks_like": "mon_zcolosaurus",
     "hp": 200,

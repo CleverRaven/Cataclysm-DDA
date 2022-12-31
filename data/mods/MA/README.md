@@ -22,7 +22,7 @@ Overmap terrain might be unpolished at times on some of the overmaps (e.g. field
 * OVERMAP_PLACE_SWAMPS - Allows to place procgen swamps during overmap generation.
 * OVERMAP_PLACE_RAVINES - Allows to place procgen ravines during overmap generation.
 
-# Additonal files
+# Additional files
 
 * MA_overmap_index.png - visual index of overmap coordinates.
 * MA_overmap_cities.xlsx - visual index of city coordinates, original data and json generator.

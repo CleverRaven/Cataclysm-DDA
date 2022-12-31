@@ -49,9 +49,10 @@ item_location titled_menu( avatar &you, const std::string &title,
                            const std::string &none_message = "" );
 // item selector for items in @you's inventory with a filter
 item_location titled_filter_menu( const item_filter &filter, avatar &you,
-                                  const std::string &title, const std::string &none_message = "" );
+                                  const std::string &title, int radius = -1, const std::string &none_message = "" );
 item_location titled_filter_menu( const item_location_filter &filter, avatar &you,
-                                  const std::string &title, const std::string &none_message = "" );
+                                  const std::string &title, int radius = -1, const std::string &none_message = "" );
+
 
 /**
 * @name Customized inventory menus

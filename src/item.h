@@ -1444,6 +1444,7 @@ class item : public visitable
          * The rate at which an item should be processed, in number of turns between updates.
          */
         int processing_speed() const;
+        static constexpr int NO_PROCESSING = 10000;
         /**
          * Process and apply artifact effects. This should be called exactly once each turn, it may
          * modify character stats (like speed, strength, ...), so call it after those have been reset.
@@ -1550,6 +1551,7 @@ class item : public visitable
          * @param nested whether or not the current call is nested (used recursively).
          * @param ignore_pkt_settings whether to ignore pocket autoinsert settings
          * @param remaining_parent_volume the ammount of space in the parent pocket,
+         * @param allow_nested whether nested pockets should be checked
          * needed to make sure we dont try to nest items which can't fit in the nested pockets
          */
         /*@{*/
@@ -1557,9 +1559,11 @@ class item : public visitable
                                    bool ignore_rigidity = false,
                                    bool ignore_pkt_settings = true,
                                    const item_location &parent_it = item_location(),
-                                   units::volume remaining_parent_volume = 10000000_ml ) const;
+                                   units::volume remaining_parent_volume = 10000000_ml,
+                                   bool allow_nested = true ) const;
         bool can_contain( const itype &tp ) const;
         bool can_contain_partial( const item &it ) const;
+        ret_val<void> can_contain_directly( const item &it ) const;
         /*@}*/
         std::pair<item_location, item_pocket *> best_pocket( const item &it, item_location &this_loc,
                 const item *avoid = nullptr, bool allow_sealed = false, bool ignore_settings = false,

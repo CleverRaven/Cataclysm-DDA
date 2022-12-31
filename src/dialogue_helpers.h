@@ -131,7 +131,7 @@ struct var_info {
 };
 
 template<class T>
-static std::string read_var_value( var_info info, const T &d )
+static std::string read_var_value( const var_info &info, const T &d )
 {
     std::string ret_val;
     global_variables &globvars = get_globals();
@@ -205,7 +205,7 @@ struct int_or_var_part {
             if( default_val.has_value() ) {
                 return default_val.value();
             } else {
-                debugmsg( "No default provided for int_or_var_part" );
+                debugmsg( "No default value provided for int_or_var_part while encountering an unused variable." );
                 return 0;
             }
         } else if( arithmetic_val.has_value() ) {

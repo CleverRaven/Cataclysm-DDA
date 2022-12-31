@@ -59,6 +59,7 @@ static const itype_id itype_grapnel( "grapnel" );
 static const itype_id itype_grenade_act( "grenade_act" );
 static const itype_id itype_rope_30( "rope_30" );
 
+static const json_character_flag json_flag_INFECTION_IMMUNE( "INFECTION_IMMUNE" );
 static const json_character_flag json_flag_WALL_CLING( "WALL_CLING" );
 static const json_character_flag json_flag_WINGS_1( "WINGS_1" );
 static const json_character_flag json_flag_WINGS_2( "WINGS_2" );
@@ -76,7 +77,6 @@ static const skill_id skill_throw( "throw" );
 
 static const species_id species_ROBOT( "ROBOT" );
 
-static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
 static const trait_id trait_INFRESIST( "INFRESIST" );
 
 
@@ -185,7 +185,7 @@ bool trapfunc::beartrap( const tripoint &p, Creature *c, item * )
         dealt_damage_instance dealt_dmg = c->deal_damage( nullptr, hit, d );
 
         Character *you = dynamic_cast<Character *>( c );
-        if( you != nullptr && !you->has_trait( trait_INFIMMUNE ) &&
+        if( you != nullptr && !you->has_flag( json_flag_INFECTION_IMMUNE ) &&
             dealt_dmg.type_damage( damage_type::CUT ) > 0 ) {
             const int chance_in = you->has_trait( trait_INFRESIST ) ? 512 : 128;
             if( one_in( chance_in ) ) {
@@ -230,7 +230,7 @@ bool trapfunc::board( const tripoint &, Creature *c, item * )
                                             damage_instance( damage_type::CUT, rng( 6, 10 ) ) );
         int total_cut_dmg = dealt_dmg_l.type_damage( damage_type::CUT ) + dealt_dmg_l.type_damage(
                                 damage_type::CUT );
-        if( !you->has_trait( trait_INFIMMUNE ) && total_cut_dmg > 0 ) {
+        if( !you->has_flag( json_flag_INFECTION_IMMUNE ) && total_cut_dmg > 0 ) {
             const int chance_in = you->has_trait( trait_INFRESIST ) ? 256 : 35;
             if( one_in( chance_in ) ) {
                 you->add_effect( effect_tetanus, 1_turns, true );
@@ -260,15 +260,28 @@ bool trapfunc::caltrops( const tripoint &, Creature *c, item * )
         } else {
             z->moves -= 80;
         }
-        c->deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( damage_type::CUT, rng( 9,
+        z->deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( damage_type::CUT, rng( 9,
                         15 ) ) );
-        c->deal_damage( nullptr, bodypart_id( "foot_r" ), damage_instance( damage_type::CUT, rng( 9,
+        z->deal_damage( nullptr, bodypart_id( "foot_r" ), damage_instance( damage_type::CUT, rng( 9,
                         15 ) ) );
     } else {
-        c->deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( damage_type::CUT, rng( 9,
-                        30 ) ) );
-        c->deal_damage( nullptr, bodypart_id( "foot_r" ), damage_instance( damage_type::CUT, rng( 9,
-                        30 ) ) );
+        dealt_damage_instance dealt_dmg_l = c->deal_damage( nullptr, bodypart_id( "foot_l" ),
+                                            damage_instance( damage_type::CUT, rng( 9,
+                                                    30 ) ) );
+        dealt_damage_instance dealt_dmg_r = c->deal_damage( nullptr, bodypart_id( "foot_r" ),
+                                            damage_instance( damage_type::CUT, rng( 9,
+                                                    30 ) ) );
+
+        const int total_cut_dmg = dealt_dmg_l.type_damage( damage_type::CUT ) + dealt_dmg_l.type_damage(
+                                      damage_type::CUT );
+        Character *you = dynamic_cast<Character *>( c );
+        if( you != nullptr && !you->has_flag( json_flag_INFECTION_IMMUNE ) && total_cut_dmg > 0 ) {
+            const int chance_in = you->has_trait( trait_INFRESIST ) ? 256 : 35;
+            if( one_in( chance_in ) ) {
+                you->add_effect( effect_tetanus, 1_turns, true );
+            }
+        }
+
     }
     c->check_dead_state();
     return true;
@@ -288,9 +301,9 @@ bool trapfunc::caltrops_glass( const tripoint &p, Creature *c, item * )
     monster *z = dynamic_cast<monster *>( c );
     if( z != nullptr ) {
         z->moves -= 80;
-        c->deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( damage_type::CUT, rng( 9,
+        z->deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( damage_type::CUT, rng( 9,
                         15 ) ) );
-        c->deal_damage( nullptr, bodypart_id( "foot_r" ), damage_instance( damage_type::CUT, rng( 9,
+        z->deal_damage( nullptr, bodypart_id( "foot_r" ), damage_instance( damage_type::CUT, rng( 9,
                         15 ) ) );
     } else {
         c->deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( damage_type::CUT, rng( 9,
@@ -907,7 +920,8 @@ bool trapfunc::pit_spikes( const tripoint &p, Creature *c, item * )
                                     body_part_name_accusative( hit ) );
             dealt_damage_instance dealt_dmg = you->deal_damage( nullptr, hit, damage_instance( damage_type::CUT,
                                               damage ) );
-            if( !you->has_trait( trait_INFIMMUNE ) && dealt_dmg.type_damage( damage_type::CUT ) > 0 ) {
+            if( !you->has_flag( json_flag_INFECTION_IMMUNE ) &&
+                dealt_dmg.type_damage( damage_type::CUT ) > 0 ) {
                 const int chance_in = you->has_trait( trait_INFRESIST ) ? 256 : 35;
                 if( one_in( chance_in ) ) {
                     you->add_effect( effect_tetanus, 1_turns, true );
@@ -996,7 +1010,8 @@ bool trapfunc::pit_glass( const tripoint &p, Creature *c, item * )
                                     body_part_name_accusative( hit ) );
             dealt_damage_instance dealt_dmg = you->deal_damage( nullptr, hit, damage_instance( damage_type::CUT,
                                               damage ) );
-            if( !you->has_trait( trait_INFIMMUNE ) && dealt_dmg.type_damage( damage_type::CUT ) > 0 ) {
+            if( !you->has_flag( json_flag_INFECTION_IMMUNE ) &&
+                dealt_dmg.type_damage( damage_type::CUT ) > 0 ) {
                 const int chance_in = you->has_trait( trait_INFRESIST ) ? 256 : 35;
                 if( one_in( chance_in ) ) {
                     you->add_effect( effect_tetanus, 1_turns, true );

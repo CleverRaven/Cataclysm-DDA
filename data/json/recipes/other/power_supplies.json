@@ -145,7 +145,7 @@
       { "proficiency": "prof_elec_circuits" },
       { "proficiency": "prof_elec_semiconductors" }
     ],
-    "components": [ [ [ "power_supply", 4 ] ], [ [ "amplifier", 3 ] ], [ [ "scrap", 4 ] ], [ [ "cable", 10 ] ] ]
+    "components": [ [ [ "power_supply", 4 ] ], [ [ "amplifier", 3 ] ], [ [ "scrap_aluminum", 4 ] ], [ [ "cable", 10 ] ] ]
   },
   {
     "type": "recipe",

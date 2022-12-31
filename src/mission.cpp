@@ -40,6 +40,8 @@
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
+static const efftype_id effect_pet( "pet" );
+static const efftype_id effect_run( "run" );
 static const itype_id itype_null( "null" );
 
 static const mission_type_id mission_NULL( "NULL" );
@@ -416,6 +418,22 @@ void mission::wrap_up()
         case MGOAL_FIND_ANY_ITEM:
             player_character.remove_mission_items( uid );
             break;
+        case MGOAL_FIND_MONSTER: {
+            Creature *found_creature = g->get_creature_if( [&]( const Creature & critter ) {
+                const monster *const mon_ptr = dynamic_cast<const monster *>( &critter );
+                return mon_ptr && mon_ptr->mission_ids.count( uid );
+            } );
+            if( found_creature != nullptr ) {
+                monster *found_monster = found_creature->as_monster();
+                if( found_monster != nullptr ) {
+                    found_monster->mission_ids.erase( uid );
+                    found_monster->remove_effect( effect_pet );
+                    found_monster->remove_effect( effect_run );
+                    found_monster->friendly = 0;
+                    found_monster->morale = 100;
+                }
+            }
+        }
         default:
             //Suppress warnings
             break;

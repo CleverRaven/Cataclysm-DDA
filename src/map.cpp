@@ -145,6 +145,8 @@ static const ter_str_id ter_t_tree_willow_harvested( "t_tree_willow_harvested" )
 
 static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
 
+static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
+
 #define dbg(x) DebugLog((x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 
 static cata::colony<item> nulitems;          // Returned when &i_at() is asked for an OOB value
@@ -582,17 +584,21 @@ void map::vehmove()
         }
     }
     dirty_vehicle_list.clear();
-    // The bool tracks whether the vehicles is on the map or not.
-    std::map<vehicle *, bool> connected_vehicles;
+    std::set<vehicle *> origins;
     for( int zlev = minz; zlev <= maxz; ++zlev ) {
-        level_cache *cache = get_cache_lazy( zlev );
+        const level_cache *cache = get_cache_lazy( zlev );
         if( cache ) {
-            vehicle::enumerate_vehicles( connected_vehicles, cache->vehicle_list );
+            for( vehicle *veh : cache->vehicle_list ) {
+                origins.emplace( veh );
+            }
         }
     }
-    for( std::pair<vehicle *const, bool> &veh_pair : connected_vehicles ) {
+    for( const std::pair<vehicle *const, bool> &veh_pair : vehicle::enumerate_vehicles( origins ) ) {
         veh_pair.first->idle( veh_pair.second );
     }
+
+    // refresh vehicle zones for moved vehicles
+    zone_manager::get_manager().cache_vzones( this );
 }
 
 bool map::vehproceed( VehicleList &vehicle_list )
@@ -1456,9 +1462,7 @@ bool map::displace_vehicle( vehicle &veh, const tripoint &dp, const bool adjust_
         g->setremoteveh( &veh );
     }
 
-    //
-    //global positions of vehicle loot zones have changed.
-    veh.zones_dirty = true;
+    veh.zones_dirty = true; // invalidate zone positions
 
     for( int vsmz : smzs ) {
         on_vehicle_moved( dst.z() + vsmz );
@@ -4029,7 +4033,7 @@ void map::bash_items( const tripoint &p, bash_params &params )
 
     // Add a glass sound even when something else also breaks
     if( smashed_glass && !params.silent ) {
-        sounds::sound( p, 12, sounds::sound_t::combat, _( "glass shattering" ), false,
+        sounds::sound( p, 12, sounds::sound_t::combat, _( "glass shattering." ), false,
                        "smash_success", "smash_glass_contents" );
     }
 }
@@ -4652,6 +4656,24 @@ map_stack map::i_at( const tripoint_bub_ms &p )
     return i_at( p.raw() );
 }
 
+void map::remove_active_item( tripoint const &p, item *it )
+{
+    if( !inbounds( p ) ) {
+        return;
+    }
+    point l;
+    submap *const current_submap = get_submap_at( p, l );
+    if( current_submap == nullptr ) {
+        return;
+    }
+    current_submap->active_items.remove( it );
+    if( current_submap->active_items.empty() ) {
+        // TODO: fix point types
+        submaps_with_active_items.erase( tripoint_abs_sm( abs_sub.x() + p.x / SEEX,
+                                         abs_sub.y() + p.y / SEEY, p.z ) );
+    }
+}
+
 map_stack::iterator map::i_rem( const tripoint &p, const map_stack::const_iterator &it )
 {
     point l;
@@ -5239,36 +5261,6 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
     }
 }
 
-std::vector<tripoint_abs_sm> map::check_submap_active_item_consistency()
-{
-    std::vector<tripoint_abs_sm> result;
-    for( int z = -OVERMAP_DEPTH; z < OVERMAP_HEIGHT; ++z ) {
-        for( int x = 0; x < MAPSIZE; ++x ) {
-            for( int y = 0; y < MAPSIZE; ++y ) {
-                tripoint p( x, y, z );
-                submap *s = get_submap_at_grid( p );
-                if( s == nullptr ) {
-                    debugmsg( "Tried to access items at (%d,%d,%d) but the submap is not loaded", p.x, p.y, p.z );
-                    continue;
-                }
-                bool has_active_items = !s->active_items.get().empty();
-                bool map_has_active_items = submaps_with_active_items.count( p + abs_sub.xy() );
-                if( has_active_items != map_has_active_items ) {
-                    result.push_back( p + abs_sub.xy() );
-                }
-            }
-        }
-    }
-    for( const tripoint_abs_sm &p : submaps_with_active_items ) {
-        tripoint_rel_sm rel = p - abs_sub.xy();
-        half_open_rectangle<point_rel_sm> map( point_rel_sm(), point_rel_sm( MAPSIZE, MAPSIZE ) );
-        if( !map.contains( rel.xy() ) ) {
-            result.push_back( p );
-        }
-    }
-    return result;
-}
-
 void map::process_items()
 {
     const int minz = zlevels ? -OVERMAP_DEPTH : abs_sub.z();
@@ -5505,6 +5497,19 @@ bool map::has_items( const tripoint &p ) const
 bool map::has_items( const tripoint_bub_ms &p ) const
 {
     return has_items( p.raw() );
+}
+
+bool map::only_liquid_in_liquidcont( const tripoint &p )
+{
+    if( has_flag( ter_furn_flag::TFLAG_LIQUIDCONT, p ) ) {
+        for( const item &it : i_at( p ) ) {
+            if( it.made_of( phase_id::SOLID ) ) {
+                return false;
+            }
+        }
+        return true;
+    }
+    return false;
 }
 
 template <typename Stack>
@@ -6670,6 +6675,11 @@ bool map::draw_maptile( const catacurses::window &w, const tripoint &p,
         } else {
             memory_sym = sym = curr_trap.sym;
         }
+    }
+    // FIXME: fix point type
+    if( const_cast<map *>( this )->partial_con_at( tripoint_bub_ms( p ) ) != nullptr ) {
+        tercol = tr_unfinished_construction->color;
+        memory_sym = sym = tr_unfinished_construction->sym;
     }
     if( curr_field.field_count() > 0 ) {
         const field_type_id &fid = curr_field.displayed_field_type();

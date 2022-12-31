@@ -45,6 +45,11 @@
   },
   {
     "type": "monstergroup",
+    "name": "GROUP_TURRET_SPEAKER",
+    "monsters": [ { "monster": "mon_turret_speaker" } ]
+  },
+  {
+    "type": "monstergroup",
     "name": "GROUP_TURRET_RIOT",
     "monsters": [ { "monster": "mon_turret_riot", "cost_multiplier": 0 } ]
   }
