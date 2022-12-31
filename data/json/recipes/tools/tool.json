@@ -464,7 +464,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "NO_EXERCISE",
     "result": "fishing_rod_basic",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
