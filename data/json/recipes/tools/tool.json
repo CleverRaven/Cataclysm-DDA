@@ -489,10 +489,7 @@
     "book_learn": [ [ "mag_survival", 4 ], [ "manual_survival", 4 ], [ "textbook_survival", 4 ] ],
     "using": [ [ "cordage_fishing", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [
-      [ [ "stick", 1 ], [ "wood_block", 1 ] ],
-      [ [ "fishing_hook_bone", 1 ], [ "fishing_hook_basic", 1 ] ] 
-    ]
+    "components": [ [ [ "stick", 1 ], [ "wood_block", 1 ] ], [ [ "fishing_hook_bone", 1 ], [ "fishing_hook_basic", 1 ] ] ]
   },
   {
     "result": "churn",
