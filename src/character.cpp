@@ -3751,9 +3751,9 @@ int Character::get_int() const
 
 int Character::get_str_base() const
 {
+    //base strength decreases to zero as you starve
     if( get_bmi_fat() < character_weight_category::underweight ) {
-        const int str_penalty = std::floor( ( 1.0f - ( get_bmi_fat() /
-                                              character_weight_category::underweight ) ) * ( 1.0f - ( 2.0f / str_max ) ) * str_max );
+        const int str_penalty = std::floor( ( 1.0f - ( get_bmi_fat() / character_weight_category::underweight ) ) * str_max );
         return str_max - str_penalty;
     }
     return str_max;
@@ -5948,13 +5948,14 @@ float Character::get_bmi_fat() const
 units::mass Character::bodyweight() const
 {
     float kg_from_kcal = get_stored_kcal() / 7716.17f;
-    float lean_mass = ( 10.0f + get_str_base() ) * std::pow( height() / 100.0f, 2 );
+    float lean_mass = ( 12.0f + get_str_base() ) * std::pow( height() / 100.0f, 2 );
     return units::from_kilogram( kg_from_kcal + lean_mass );
 }
 
 units::mass Character::bodyweight_lean() const
 {
-    return units::from_kilogram( ( 10.0f + get_str_base() ) * std::pow( height() / 100.0f, 2 ) );
+    //12 plus base strength gives non fat bmi
+    return units::from_kilogram( ( 12.0f + get_str_base() ) * std::pow( height() / 100.0f, 2 ) );
 }
 
 units::mass Character::bodyweight_fat() const
