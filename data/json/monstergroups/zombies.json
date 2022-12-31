@@ -177,7 +177,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_VANILLA",
+    "name": "GROUP_VANILLA_NO_FERAL",
     "default": "mon_zombie",
     "monsters": [
       { "monster": "mon_zombie", "weight": 264, "cost_multiplier": 0 },
@@ -187,11 +187,20 @@
       { "monster": "mon_zombie_rot", "weight": 60, "cost_multiplier": 0 },
       { "monster": "mon_zombie_dog", "weight": 50, "cost_multiplier": 0 },
       { "monster": "mon_zombie_crawler", "weight": 30, "cost_multiplier": 0 },
+      { "monster": "mon_zombie_brainless", "weight": 30, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_VANILLA",
+    "default": "mon_zombie",
+    "//": "Normalized to 1000",
+    "monsters": [
+      { "group": "GROUP_VANILLA_NO_FERAL", "weight": 891, "cost_multiplier": 0 },
       { "monster": "mon_feral_human_pipe", "weight": 40, "cost_multiplier": 0 },
       { "monster": "mon_feral_human_crowbar", "weight": 40, "cost_multiplier": 0 },
       { "monster": "mon_feral_human_axe", "weight": 20, "cost_multiplier": 0 },
-      { "monster": "mon_feral_sapien_spear", "weight": 9, "cost_multiplier": 2 },
-      { "monster": "mon_zombie_brainless", "weight": 30, "cost_multiplier": 0 }
+      { "monster": "mon_feral_sapien_spear", "weight": 9, "cost_multiplier": 2 }
     ]
   },
   {
@@ -860,5 +869,10 @@
       { "monster": "mon_zombie_hazmat", "weight": 75, "cost_multiplier": 2 },
       { "monster": "mon_zombie_fireman", "weight": 25, "cost_multiplier": 2 }
     ]
+  },
+  {
+    "name": "GROUP_FAMOUS_SINGERS",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_zombie_jackson", "weight": 100 } ]
   }
 ]

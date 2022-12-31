@@ -897,6 +897,7 @@
       { "item": "butter", "prob": 35, "charges": 8, "container-item": "wrapper" },
       { "item": "buttermilk", "prob": 15 },
       { "item": "cheese", "prob": 60 },
+      { "item": "cottage_cheese", "prob": 30 },
       { "item": "yoghurt", "prob": 40 },
       { "item": "pudding", "prob": 30 },
       { "item": "icecream", "prob": 30 },

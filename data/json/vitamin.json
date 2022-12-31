@@ -404,7 +404,7 @@
     "min": 0,
     "max": 8000,
     "flags": [ "NO_DISPLAY" ],
-    "rate": "1 d",
+    "rate": "2 h",
     "disease_excess": [ [ 1, 899 ], [ 900, 2799 ], [ 2800, 8000 ] ]
   },
   {

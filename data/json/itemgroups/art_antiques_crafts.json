@@ -8,6 +8,7 @@
       { "item": "spiral_stone", "prob": 20 },
       { "item": "cane", "prob": 10 },
       { "item": "candlestick", "prob": 20 },
+      { "item": "chalice", "prob": 10 },
       { "group": "tinware", "prob": 5 },
       { "item": "heels", "prob": 50 },
       { "item": "coat_fur_sf", "prob": 1 },

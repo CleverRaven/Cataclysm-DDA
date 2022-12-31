@@ -286,6 +286,7 @@
       { "item": "candle", "prob": 3, "charges": 100 },
       { "item": "holybook_bible1", "prob": 3 },
       { "item": "candlestick", "prob": 2 },
+      { "item": "chalice", "prob": 1 },
       { "item": "book_ruined", "prob": 1 }
     ]
   }

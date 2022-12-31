@@ -600,7 +600,7 @@
     "id": "flask_resistance",
     "type": "effect_type",
     "name": [ "Resistentia" ],
-    "desc": [ "Thin layer of energy cover your body, and allow you to hold more physical damage than before." ],
+    "desc": [ "A thin layer of energy covers your body, and allows you to take more physical damage than before." ],
     "apply_message": "Your touch sense are blunted for a bit, but your skin feels more dense.",
     "remove_message": "The sturdy feeling is gone.",
     "rating": "good",

@@ -255,8 +255,8 @@
       "str_max": 6,
       "sound": "glass breaking!",
       "sound_fail": "whack!",
-      "ter_set": "t_hole",
-      "bash_below": true
+      "ter_set": "t_skylight_frame",
+      "items": [ { "item": "glass_shard", "count": [ 21, 29 ] } ]
     }
   },
   {

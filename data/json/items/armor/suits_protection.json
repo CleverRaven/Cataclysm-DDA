@@ -1377,12 +1377,12 @@
     "use_action": [ { "type": "attach_molle", "size": 6 }, { "type": "detach_molle" } ],
     "armor": [
       {
-        "encumbrance": 7,
-        "coverage": 95,
+        "encumbrance": 6,
+        "coverage": 75,
         "covers": [ "torso" ],
         "material": [
-          { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 8 },
-          { "type": "thermo_resin", "covered_by_mat": 85, "thickness": 2.5 }
+          { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 7 },
+          { "type": "thermo_resin", "covered_by_mat": 90, "thickness": 1.75 }
         ]
       },
       {
@@ -1390,17 +1390,17 @@
         "encumbrance": 4,
         "coverage": 90,
         "material": [
-          { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 6 },
-          { "type": "thermo_resin", "covered_by_mat": 90, "thickness": 2 }
+          { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 5 },
+          { "type": "thermo_resin", "covered_by_mat": 90, "thickness": 1.75 }
         ],
         "specifically_covers": [ "arm_lower_l", "arm_lower_r", "arm_elbow_l", "arm_elbow_r", "leg_knee_l", "leg_knee_r", "leg_lower_l", "leg_lower_r" ]
       },
       {
         "covers": [ "arm_l", "arm_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
-        "coverage": 85,
+        "coverage": 65,
         "material": [
-          { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 6 },
-          { "type": "thermo_resin", "covered_by_mat": 85, "thickness": 1.5 }
+          { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 5 },
+          { "type": "thermo_resin", "covered_by_mat": 90, "thickness": 1.5 }
         ],
         "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r", "arm_upper_l", "arm_upper_r", "leg_upper_l", "leg_upper_r" ]
       },
@@ -1413,11 +1413,8 @@
       },
       {
         "covers": [ "leg_l", "leg_r" ],
-        "coverage": 95,
-        "material": [
-          { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 6 },
-          { "type": "thermo_resin", "covered_by_mat": 20, "thickness": 1.5 }
-        ],
+        "coverage": 30,
+        "material": [ { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 7 } ],
         "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
       }
     ]
@@ -3097,7 +3094,7 @@
     "type": "TOOL_ARMOR",
     "name": { "str": "nomad plate armor (on)", "str_pl": "nomad plate armors (on)" },
     "revert_to": "armor_nomad_plate",
-    "power_draw": "100 J",
+    "power_draw": "100 W",
     "use_action": {
       "ammo_scale": 0,
       "type": "transform",
@@ -3173,7 +3170,7 @@
     "type": "TOOL_ARMOR",
     "name": { "str": "nomad light plate armor (on)", "str_pl": "nomad light plate armors (on)" },
     "revert_to": "armor_nomad_lightplate",
-    "power_draw": "100 J",
+    "power_draw": "100 W",
     "use_action": {
       "ammo_scale": 0,
       "type": "transform",
@@ -3249,7 +3246,7 @@
     "type": "TOOL_ARMOR",
     "name": { "str": "nomad heavy plate armor (on)", "str_pl": "nomad heavy plate armors (on)" },
     "revert_to": "armor_nomad_heavyplate",
-    "power_draw": "100 J",
+    "power_draw": "100 W",
     "use_action": {
       "ammo_scale": 0,
       "type": "transform",

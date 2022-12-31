@@ -353,7 +353,11 @@ void relic::load( const JsonObject &jo )
         for( JsonObject jobj : jo.get_array( "passive_effects" ) ) {
             enchant_cache ench;
             ench.load( jobj );
-            add_passive_effect( ench );
+            if( !ench.id.is_empty() ) {
+                add_passive_effect( ench.id.obj() );
+            } else {
+                add_passive_effect( ench );
+            }
         }
     }
     jo.read( "charge_info", charge );

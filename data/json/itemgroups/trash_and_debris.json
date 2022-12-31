@@ -30,7 +30,7 @@
       { "item": "heroin", "prob": 1, "charges": [ 1, 4 ] },
       [ "wrapper", 40 ],
       [ "wrapper_foil", 2 ],
-      [ "nail", 5 ],
+      { "item": "nail", "count": 5, "charges": [ 1, 100 ] },
       [ "splinter", 40 ],
       { "item": "lighter", "prob": 5, "charges-min": 0, "charges-max": 10 },
       { "item": "matches", "prob": 5, "charges-min": 0, "charges-max": 20 },
