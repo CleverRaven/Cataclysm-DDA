@@ -192,7 +192,8 @@
     "price_postapoc": 10,
     "material": [ "aluminum" ],
     "volume": "20 ml",
-    "weight": "50 g",
+    "//": "Density 2.70g/cm³ = 54g/20ml",
+    "weight": "54 g",
     "bashing": 1,
     "to_hit": -2
   },
@@ -207,9 +208,9 @@
     "price": 1000,
     "price_postapoc": 10,
     "material": [ "copper" ],
-    "//": "Density of 8.63g/cm³ = 431.5g/50ml ~ 432g",
+    "//": "Density of 8.96g/cm³ = 444.8g/50ml ~ 445g",
     "volume": "50 ml",
-    "weight": "432 g",
+    "weight": "445 g",
     "bashing": 1,
     "to_hit": -2
   },
@@ -226,7 +227,7 @@
     "material": [ "copper" ],
     "//": "9mm in diameter and 1.572m long.",
     "volume": "100 ml",
-    "weight": "863 g",
+    "weight": "896 g",
     "longest_side": "1572 mm",
     "ammo_type": "components",
     "count": 1
