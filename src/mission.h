@@ -100,12 +100,9 @@ struct mission_place {
  */
 struct mission_start {
     static void standard( mission * );           // Standard for its goal type
-    static void place_dog( mission * );          // Put a dog in a house!
     static void place_zombie_mom( mission * );   // Put a zombie mom in a house!
-    static void kill_horde_master( mission * );  // Kill the master zombie at the center of the horde
     static void kill_nemesis( mission * );       // Kill the nemesis spawned with the "hunted" trait
     static void place_npc_software( mission * ); // Put NPC-type-dependent software
-    static void place_priest_diary( mission * ); // Hides the priest's diary in a local house
     static void place_deposit_box( mission * );  // Place a safe deposit box in a nearby bank
     static void find_safety( mission * );        // Goal is set to non-spawn area
     static void place_book( mission * );         // Place a book to retrieve
@@ -113,7 +110,6 @@ struct mission_start {
     static void create_lab_console( mission * );  // Reveal lab with an unlocked workstation
     static void create_hidden_lab_console( mission * );  // Reveal hidden lab with workstation
     static void create_ice_lab_console( mission * );  // Reveal lab with an unlocked workstation
-    static void reveal_lab_train_depot( mission * );  // Find lab train depot
 };
 
 // These functions are run when a mission ends

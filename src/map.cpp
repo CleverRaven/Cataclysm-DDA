@@ -145,6 +145,8 @@ static const ter_str_id ter_t_tree_willow_harvested( "t_tree_willow_harvested" )
 
 static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
 
+static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
+
 #define dbg(x) DebugLog((x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 
 static cata::colony<item> nulitems;          // Returned when &i_at() is asked for an OOB value
@@ -4654,6 +4656,24 @@ map_stack map::i_at( const tripoint_bub_ms &p )
     return i_at( p.raw() );
 }
 
+void map::remove_active_item( tripoint const &p, item *it )
+{
+    if( !inbounds( p ) ) {
+        return;
+    }
+    point l;
+    submap *const current_submap = get_submap_at( p, l );
+    if( current_submap == nullptr ) {
+        return;
+    }
+    current_submap->active_items.remove( it );
+    if( current_submap->active_items.empty() ) {
+        // TODO: fix point types
+        submaps_with_active_items.erase( tripoint_abs_sm( abs_sub.x() + p.x / SEEX,
+                                         abs_sub.y() + p.y / SEEY, p.z ) );
+    }
+}
+
 map_stack::iterator map::i_rem( const tripoint &p, const map_stack::const_iterator &it )
 {
     point l;
@@ -5239,36 +5259,6 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
             }
         }
     }
-}
-
-std::vector<tripoint_abs_sm> map::check_submap_active_item_consistency()
-{
-    std::vector<tripoint_abs_sm> result;
-    for( int z = -OVERMAP_DEPTH; z < OVERMAP_HEIGHT; ++z ) {
-        for( int x = 0; x < MAPSIZE; ++x ) {
-            for( int y = 0; y < MAPSIZE; ++y ) {
-                tripoint p( x, y, z );
-                submap *s = get_submap_at_grid( p );
-                if( s == nullptr ) {
-                    debugmsg( "Tried to access items at (%d,%d,%d) but the submap is not loaded", p.x, p.y, p.z );
-                    continue;
-                }
-                bool has_active_items = !s->active_items.get().empty();
-                bool map_has_active_items = submaps_with_active_items.count( p + abs_sub.xy() );
-                if( has_active_items != map_has_active_items ) {
-                    result.push_back( p + abs_sub.xy() );
-                }
-            }
-        }
-    }
-    for( const tripoint_abs_sm &p : submaps_with_active_items ) {
-        tripoint_rel_sm rel = p - abs_sub.xy();
-        half_open_rectangle<point_rel_sm> map( point_rel_sm(), point_rel_sm( MAPSIZE, MAPSIZE ) );
-        if( !map.contains( rel.xy() ) ) {
-            result.push_back( p );
-        }
-    }
-    return result;
 }
 
 void map::process_items()
@@ -6685,6 +6675,11 @@ bool map::draw_maptile( const catacurses::window &w, const tripoint &p,
         } else {
             memory_sym = sym = curr_trap.sym;
         }
+    }
+    // FIXME: fix point type
+    if( const_cast<map *>( this )->partial_con_at( tripoint_bub_ms( p ) ) != nullptr ) {
+        tercol = tr_unfinished_construction->color;
+        memory_sym = sym = tr_unfinished_construction->sym;
     }
     if( curr_field.field_count() > 0 ) {
         const field_type_id &fid = curr_field.displayed_field_type();

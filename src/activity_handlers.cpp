@@ -359,7 +359,7 @@ static bool check_butcher_dissect( const int roll )
     // Roll is reduced by corpse damage level, but to no less then 0
     add_msg_debug( debugmode::DF_ACT_BUTCHER, "Roll = %i", roll );
     add_msg_debug( debugmode::DF_ACT_BUTCHER, "Failure chance = %f%%",
-                   ( 19.0f / ( 10.0f + roll * 5.0f ) ) * 100.0f );
+                   ( 10.0f / ( 10.0f + roll * 5.0f ) ) * 100.0f );
     const bool failed = x_in_y( 10, ( 10 + roll * 5 ) );
     return !failed;
 }
@@ -816,17 +816,19 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
         practice += ( 4 + butchery ) / entry_count;
         const float min_num = entry.base_num.first + butchery * entry.scale_num.first;
         const float max_num = entry.base_num.second + butchery * entry.scale_num.second;
+
         int roll = 0;
         // mass_ratio will override the use of base_num, scale_num, and max
         if( entry.mass_ratio != 0.00f ) {
             roll = static_cast<int>( std::round( entry.mass_ratio * monster_weight ) );
             roll = corpse_damage_effect( roll, entry.type, corpse_item->damage_level() );
-        } else if( action != butcher_type::DISSECT ) {
+        } else {
             roll = std::min<int>( entry.max, std::round( rng_float( min_num, max_num ) ) );
             // will not give less than min_num defined in the JSON
             roll = std::max<int>( corpse_damage_effect( roll, entry.type, corpse_item->damage_level() ),
                                   entry.base_num.first );
         }
+
         itype_id drop_id = itype_id::NULL_ID();
         const itype *drop = nullptr;
         if( entry.type->is_itype() ) {
@@ -1905,7 +1907,7 @@ void activity_handlers::vehicle_finish( player_activity *act, Character *you )
                 // Or not, because the vehicle coordinates are dropped anyway
                 if( !resume_for_multi_activities( *you ) ) {
                     point int_p( act->values[ 2 ], act->values[ 3 ] );
-                    if( vp->vehicle().has_tag( "APPLIANCE" ) ) {
+                    if( vp->vehicle().is_appliance() ) {
                         g->exam_appliance( vp->vehicle(), int_p );
                     } else {
                         g->exam_vehicle( vp->vehicle(), int_p );

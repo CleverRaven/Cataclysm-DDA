@@ -308,8 +308,6 @@ static const trait_id trait_VINES2( "VINES2" );
 static const trait_id trait_VINES3( "VINES3" );
 static const trait_id trait_WAYFARER( "WAYFARER" );
 
-static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
-
 static const zone_type_id zone_type_LOOT_CUSTOM( "LOOT_CUSTOM" );
 static const zone_type_id zone_type_NO_AUTO_PICKUP( "NO_AUTO_PICKUP" );
 
@@ -5630,7 +5628,7 @@ void game::examine( const tripoint &examp, bool with_pickup )
     const optional_vpart_position vp = m.veh_at( examp );
     if( vp ) {
         if( !u.is_mounted() || u.mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
-            if( !vp->vehicle().has_tag( "APPLIANCE" ) ) {
+            if( !vp->vehicle().is_appliance() ) {
                 vp->vehicle().interact_with( examp, with_pickup );
             } else {
                 g->exam_appliance( vp->vehicle(), vp->mount() );
@@ -5641,6 +5639,7 @@ void game::examine( const tripoint &examp, bool with_pickup )
         }
     }
 
+    iexamine::part_con( get_avatar(), examp );
     // trap::iexamine will handle the invisible traps.
     m.tr_at( examp ).examine( examp );
 
@@ -5888,6 +5887,7 @@ void game::print_all_tile_info( const tripoint &lp, const catacurses::window &w_
             print_terrain_info( lp, w_look, area_name, column, line );
             print_fields_info( lp, w_look, column, line );
             print_trap_info( lp, w_look, column, line );
+            print_part_con_info( lp, w_look, column, line );
             print_creature_info( creature, w_look, column, line, last_line );
             print_vehicle_info( veh_pointer_or_null( vp ), vp ? vp->part_index() : -1, w_look, column, line,
                                 last_line );
@@ -6131,21 +6131,30 @@ void game::print_trap_info( const tripoint &lp, const catacurses::window &w_look
 {
     const trap &tr = m.tr_at( lp );
     if( tr.can_see( lp, u ) ) {
-        // TODO: fix point types
-        partial_con *pc = m.partial_con_at( tripoint_bub_ms( lp ) );
-        std::string tr_name;
-        if( pc && tr == tr_unfinished_construction ) {
-            const construction &built = pc->id.obj();
-            tr_name = string_format( _( "Unfinished task: %s, %d%% complete" ), built.group->name(),
-                                     pc->counter / 100000 );
-        } else {
-            tr_name = tr.name();
-        }
-
+        std::string tr_name = tr.name();
         mvwprintz( w_look, point( column, ++line ), tr.color, tr_name );
     }
 
     ++line;
+}
+
+void game::print_part_con_info( const tripoint &lp, const catacurses::window &w_look,
+                                const int column,
+                                int &line )
+{
+    // TODO: fix point types
+    partial_con *pc = m.partial_con_at( tripoint_bub_ms( lp ) );
+    std::string tr_name;
+    if( pc != nullptr ) {
+        const construction &built = pc->id.obj();
+        tr_name = string_format( _( "Unfinished task: %s, %d%% complete" ), built.group->name(),
+                                 pc->counter / 100000 );
+
+        int const width = getmaxx( w_look ) - column - 2;
+        fold_and_print( w_look, point( column, ++line ), width, c_white, tr_name );
+
+        ++line;
+    }
 }
 
 void game::print_creature_info( const Creature *creature, const catacurses::window &w_look,
@@ -6430,6 +6439,12 @@ void game::zones_manager()
                 }
             }
         }
+        zones.erase( std::remove_if( zones.begin(), zones.end(),
+        []( zone_manager::ref_zone_data const & it ) {
+            zone_type_id const type = it.get().get_type();
+            return !debug_mode && type.is_valid() && type->hidden;
+        } ),
+        zones.end() );
         zone_cnt = static_cast<int>( zones.size() );
         return zones;
     };

@@ -291,7 +291,7 @@
     "id": "mon_fungaloid_breather",
     "type": "MONSTER",
     "name": { "str": "fungal dispersor" },
-    "description": "A strange fungal creature similar to a moving ballon.  It releases a cloud of spores in all directions.",
+    "description": "A strange fungal creature similar to a moving balloon.  It releases a cloud of spores in all directions.",
     "default_faction": "fungus",
     "species": [ "FUNGUS" ],
     "volume": "62500 ml",
