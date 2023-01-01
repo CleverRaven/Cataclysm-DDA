@@ -227,26 +227,14 @@
     "type": "material",
     "id": "blood",
     "name": "Blood",
-    "density": 1,
-    "specific_heat_liquid": 4.186,
-    "specific_heat_solid": 2.108,
-    "latent_heat": 333,
-    "edible": true,
-    "bash_resist": 0,
-    "cut_resist": 0,
-    "bullet_resist": 0,
-    "acid_resist": 0,
-    "fire_resist": 1,
-    "elec_resist": 0,
-    "chip_resist": 0,
-    "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
-    "bash_dmg_verb": "damaged",
-    "cut_dmg_verb": "damaged",
-    "burn_data": [
-      { "fuel": -100, "smoke": 1, "burn": 1 },
-      { "fuel": -50, "smoke": 2, "burn": 1 },
-      { "fuel": -10, "smoke": 2, "burn": 2 }
-    ],
+    "copy-from": "blood",
+    "fuel_data": { "energy": "1 kJ" }
+  },
+  {
+    "type": "material",
+    "id": "hblood",
+    "name": "Human blood",
+    "copy-from": "hblood",
     "fuel_data": { "energy": "1 kJ" }
   },
   {

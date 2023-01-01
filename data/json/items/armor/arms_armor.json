@@ -1704,8 +1704,8 @@
         "encumbrance": 3,
         "coverage": 90,
         "material": [
-          { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 6 },
-          { "type": "thermo_resin", "covered_by_mat": 90, "thickness": 2 }
+          { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 5 },
+          { "type": "thermo_resin", "covered_by_mat": 90, "thickness": 1.75 }
         ],
         "specifically_covers": [ "arm_lower_l", "arm_lower_r", "arm_elbow_l", "arm_elbow_r" ]
       }

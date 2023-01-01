@@ -58,7 +58,7 @@
   {
     "type": "MONSTER_FACTION",
     "name": "animal",
-    "neutral": [ "small_animal", "fish", "bot", "aquatic_predator", "robofac", "passive_machine" ],
+    "neutral": [ "small_animal", "fish", "bot", "aquatic_predator", "robofac", "passive_machine", "nether_player_hate" ],
     "by_mood": [ "animal" ]
   },
   {
@@ -164,6 +164,7 @@
     "//": "These creatures aren't necessarily sentient in and of themselves or are drawn to sentient life in and around dimensional breaches.",
     "base_faction": "nether",
     "friendly": [ "zombie" ],
+    "neutral": [ "animal" ],
     "hate": [ "player" ]
   },
   {

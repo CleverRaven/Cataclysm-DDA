@@ -388,6 +388,9 @@ struct mutation_branch {
         // Body parts that now need OVERSIZE gear
         std::set<bodypart_str_id> restricts_gear;
         std::set<sub_bodypart_str_id> restricts_gear_subparts;
+        // Body parts that will now already have rigid gear
+        std::set<bodypart_str_id> remove_rigid;
+        std::set<sub_bodypart_str_id> remove_rigid_subparts;
         // item flags that allow wearing gear even if its body part is restricted
         std::set<flag_id> allowed_items;
         // Mutation stat mods
@@ -428,6 +431,10 @@ struct mutation_branch {
          * Returns true if a character with this mutation shouldn't be able to wear given item.
          */
         bool conflicts_with_item( const item &it ) const;
+        /**
+         * Returns true if a character with this mutation has to take off rigid items at the location.
+         */
+        bool conflicts_with_item_rigid( const item &it ) const;
         /**
          * Returns damage resistance on a given body part granted by this mutation.
          */
