@@ -1,7 +1,7 @@
 [
   {
     "type": "COMESTIBLE",
-    "id": "r_paint",
+    "id": "paint_red",
     "category": "other",
     "price": 120,
     "price_postapoc": 0,
@@ -20,90 +20,90 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "b_paint",
+    "id": "paint_blue",
     "name": { "str_sp": "blue paint" },
     "description": "Some blue paint.",
-    "copy-from": "r_paint",
+    "copy-from": "paint_red",
     "color": "blue"
   },
   {
     "type": "COMESTIBLE",
-    "id": "w_paint",
+    "id": "paint_white",
     "name": { "str_sp": "white paint" },
     "description": "Some white paint.",
-    "copy-from": "r_paint",
+    "copy-from": "paint_red",
     "color": "white"
   },
   {
     "type": "COMESTIBLE",
-    "id": "g_paint",
+    "id": "paint_green",
     "name": { "str_sp": "green paint" },
     "description": "Some green paint.",
-    "copy-from": "r_paint",
+    "copy-from": "paint_red",
     "color": "green"
   },
   {
     "type": "COMESTIBLE",
-    "id": "p_paint",
+    "id": "paint_purple",
     "name": { "str_sp": "purple paint" },
     "description": "Some purple paint.",
-    "copy-from": "r_paint",
+    "copy-from": "paint_red",
     "color": "magenta"
   },
   {
     "type": "COMESTIBLE",
-    "id": "y_paint",
+    "id": "paint_yellow",
     "name": { "str_sp": "yellow paint" },
     "description": "Some yellow paint.",
-    "copy-from": "r_paint",
+    "copy-from": "paint_red",
     "color": "yellow"
   },
   {
     "type": "COMESTIBLE",
-    "id": "black_paint",
+    "id": "paint_black",
     "name": { "str_sp": "black paint" },
     "description": "Some black paint.",
-    "copy-from": "r_paint",
+    "copy-from": "paint_red",
     "color": "black"
   },
   {
     "type": "COMESTIBLE",
-    "id": "orange_paint",
+    "id": "paint_orange",
     "name": { "str_sp": "orange paint" },
     "description": "Some orange paint.",
-    "copy-from": "r_paint",
+    "copy-from": "paint_red",
     "color": "light_red"
   },
   {
     "type": "COMESTIBLE",
-    "id": "pink_paint",
+    "id": "paint_pink",
     "name": { "str_sp": "pink paint" },
     "description": "Some pink paint.",
-    "copy-from": "r_paint",
+    "copy-from": "paint_red",
     "color": "pink"
   },
   {
     "type": "COMESTIBLE",
-    "id": "gray_paint",
+    "id": "paint_gray",
     "name": { "str_sp": "gray paint" },
     "description": "Some gray paint.",
-    "copy-from": "r_paint",
+    "copy-from": "paint_red",
     "color": "light_gray"
   },
   {
     "type": "COMESTIBLE",
-    "id": "brown_paint",
+    "id": "paint_brown",
     "name": { "str_sp": "brown paint" },
     "description": "Some brown paint.",
-    "copy-from": "r_paint",
+    "copy-from": "paint_red",
     "color": "brown"
   },
   {
     "type": "COMESTIBLE",
-    "id": "cyan_paint",
+    "id": "paint_cyan",
     "name": { "str_sp": "cyan paint" },
     "description": "Some cyan paint.",
-    "copy-from": "r_paint",
+    "copy-from": "paint_red",
     "color": "cyan"
   },
   {
