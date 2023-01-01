@@ -1139,7 +1139,10 @@
     "autolearn": true,
     "using": [ [ "forging_standard", 1 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [ [ [ "scrap", 10 ] ] ],
+    "components": [ [ [ "scrap", 5 ] ] ],
+    "//": "FIXED: was ~500g input for ~250g output",
+    "//2": "TODO: identical to steel_chunk recipe in every way except for inferior output",
+    "//3": "      this ought to be offset by some other advantage such as lower skill or time requirement",
     "byproducts": [ [ "slag", 5 ] ]
   },
   {
@@ -1154,9 +1157,11 @@
     "time": "60 m",
     "batch_time_factors": [ 90, 4 ],
     "autolearn": true,
-    "using": [ [ "forging_standard", 4 ], [ "steel_tiny", 4 ] ],
+    "using": [ [ "forging_standard", 4 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [ [ [ "scrap", 40 ] ] ],
+    "components": [ [ [ "scrap", 20 ] ] ],
+    "//": "FIXED: was ~2kg scrap input plus ~1kg steel chunks (from 4×steel_tiny) for ~1kg output",
+    "//2": "TODO: again, strictly inferior recipe needs to be compensated by some other advantage",
     "byproducts": [ [ "slag", 20 ] ]
   },
   {
@@ -1171,9 +1176,11 @@
     "batch_time_factors": [ 90, 4 ],
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "forging_standard", 4 ], [ "steel_tiny", 4 ] ],
+    "using": [ [ "forging_standard", 4 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [ [ [ "budget_steel_chunk", 4 ] ] ]
+    "components": [ [ [ "budget_steel_chunk", 4 ] ] ],
+    "//": "FIXED: was ~1kg budget_steel_chunk input plus ~1kg steel chunks (from 4×steel_tiny) for ~1kg output",
+    "//2": "TODO: again, strictly inferior recipe needs to be compensated by some other advantage"
   },
   {
     "type": "recipe",
