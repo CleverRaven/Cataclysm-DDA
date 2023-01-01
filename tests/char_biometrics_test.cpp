@@ -183,7 +183,7 @@ TEST_CASE( "body mass index determines weight description", "[biometrics][bmi][w
     // for 8 str character true bmi is 39+
 }
 
-//for an 8 strength character. strength scales linearly to 2 below fat bmi of 2.0
+//for an 8 strength character. strength scales linearly to 0 str below fat bmi of 2.0
 TEST_CASE( "stored kcal ratio influences body mass index", "[biometrics][kcal][bmi]" )
 {
     avatar dummy;
@@ -330,11 +330,11 @@ TEST_CASE( "default character (175 cm) bodyweights at various BMIs", "[biometric
 
             THEN( "bodyweight varies from ~49-107kg" ) {
                 // BMI [16-35] is "Emaciated/Underweight" to "Obese/Very Obese"
-                // default strength of 8, at 1.0 fat bmis it is reduced to 5 producing a "true" bmi of 16.
-                CHECK( bodyweight_kg_at_bmi( dummy, 1.0 ) == Approx( 49.0 ).margin( 0.1f ) );
+                // default strength of 8, at 1.0 fat bmis it is reduced to 4 producing a "true" bmi of 16.
+                CHECK( bodyweight_kg_at_bmi( dummy, 1.0 ) == Approx( 52.1 ).margin( 0.1f ) );
                 // default strength of 8, +7 fat bmis = 25 true bmi, +17 = 37 true bmi
-                CHECK( bodyweight_kg_at_bmi( dummy, 7.0 ) == Approx( 76.6 ).margin( 0.1f ) );
-                CHECK( bodyweight_kg_at_bmi( dummy, 17.0 ) == Approx( 107.2 ).margin( 0.1f ) );
+                CHECK( bodyweight_kg_at_bmi( dummy, 7.0 ) == Approx( 82.7 ).margin( 0.1f ) );
+                CHECK( bodyweight_kg_at_bmi( dummy, 17.0 ) == Approx( 113.3 ).margin( 0.1f ) );
             }
         }
     }
@@ -540,27 +540,27 @@ TEST_CASE( "basal metabolic rate with various size and metabolism", "[biometrics
         REQUIRE( dummy.get_size() == creature_size::medium );
 
         SECTION( "normal metabolism" ) {
-            CHECK( 1677 == bmr_at_act_level( dummy, NO_EXERCISE ) );
-            CHECK( 6708 == bmr_at_act_level( dummy, MODERATE_EXERCISE ) );
-            CHECK( 16770 == bmr_at_act_level( dummy, EXTRA_EXERCISE ) );
+            CHECK( 1738 == bmr_at_act_level( dummy, NO_EXERCISE ) );
+            CHECK( 6952 == bmr_at_act_level( dummy, MODERATE_EXERCISE ) );
+            CHECK( 17380 == bmr_at_act_level( dummy, EXTRA_EXERCISE ) );
         }
 
         SECTION( "very fast metabolism" ) {
             set_single_trait( dummy, "HUNGER2" );
             REQUIRE( dummy.metabolic_rate_base() == 2.0f );
 
-            CHECK( 3354 == bmr_at_act_level( dummy, NO_EXERCISE ) );
-            CHECK( 13416 == bmr_at_act_level( dummy, MODERATE_EXERCISE ) );
-            CHECK( 33540 == bmr_at_act_level( dummy, EXTRA_EXERCISE ) );
+            CHECK( 3476 == bmr_at_act_level( dummy, NO_EXERCISE ) );
+            CHECK( 13904 == bmr_at_act_level( dummy, MODERATE_EXERCISE ) );
+            CHECK( 34760 == bmr_at_act_level( dummy, EXTRA_EXERCISE ) );
         }
 
         SECTION( "very slow (cold-blooded) metabolism" ) {
             set_single_trait( dummy, "COLDBLOOD3" );
             REQUIRE( dummy.metabolic_rate_base() == 0.5f );
 
-            CHECK( 838 == bmr_at_act_level( dummy, NO_EXERCISE ) );
-            CHECK( 3352 == bmr_at_act_level( dummy, MODERATE_EXERCISE ) );
-            CHECK( 8380 == bmr_at_act_level( dummy, EXTRA_EXERCISE ) );
+            CHECK( 869 == bmr_at_act_level( dummy, NO_EXERCISE ) );
+            CHECK( 3476 == bmr_at_act_level( dummy, MODERATE_EXERCISE ) );
+            CHECK( 8690 == bmr_at_act_level( dummy, EXTRA_EXERCISE ) );
         }
     }
 
