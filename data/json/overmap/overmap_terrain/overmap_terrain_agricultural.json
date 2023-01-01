@@ -139,7 +139,6 @@
       "2farm_10",
       "2farm_12",
       "2farm_15",
-      "2farm_roof_15",
       "2farm_16",
       "farm_1",
       "farm_4",
@@ -185,7 +184,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "farm_lot_M1", "farm_lot_wire_straight_h", "farm_lot_wire_turn_v_open" ],
+    "id": [ "2farm_roof_15", "farm_lot_M1", "farm_lot_wire_straight_h", "farm_lot_wire_turn_v_open" ],
     "copy-from": "generic_rural_building",
     "name": "farm field",
     "flags": [ "SHOULD_NOT_SPAWN" ]
