@@ -434,7 +434,16 @@
     "id": "paint",
     "type": "requirement",
     "//": "Materials used for painting something of any color",
-    "components": [ [ [ "paint_red", 1 ], [ "paint_blue", 1 ], [ "paint_white", 1 ], [ "paint_green", 1 ], [ "paint_purple", 1 ], [ "paint_yellow", 1 ] ] ]
+    "components": [
+      [
+        [ "paint_red", 1 ],
+        [ "paint_blue", 1 ],
+        [ "paint_white", 1 ],
+        [ "paint_green", 1 ],
+        [ "paint_purple", 1 ],
+        [ "paint_yellow", 1 ]
+      ]
+    ]
   },
   {
     "id": "shoe_rubber",
