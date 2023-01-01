@@ -441,7 +441,11 @@
         "........///ii///........"
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "palettes": [ "farm_lots" ]
+      "palettes": [ "farm_lots" ],
+      "place_nested": [
+        { "chunks": [ "dirtroad_to_farm_stills" ], "x": 0, "y": 0, "neighbors": { "north": "farm_stills_3" } },
+        { "chunks": [ "dirtroad_to_farm_2side" ], "x": 0, "y": 0, "neighbors": { "north": "2farm_11" } }
+      ]
     }
   },
   {
@@ -517,7 +521,8 @@
         "........///ii///........"
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "palettes": [ "farm_lots" ]
+      "palettes": [ "farm_lots" ],
+      "place_nested": [ { "chunks": [ "dirtroad_to_farm_twd" ], "x": 0, "y": 0, "neighbors": { "west": "farm_dairy_twd_11" } } ]
     }
   },
   {
