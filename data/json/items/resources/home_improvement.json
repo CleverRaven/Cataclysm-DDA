@@ -176,6 +176,25 @@
     "count": 5
   },
   {
+    "id": "hinge",
+    "type": "AMMO",
+    "category": "spare_parts",
+    "name": { "str": "door hinge" },
+    "description": "A small metal hinge with two metal plates with screw holes.  Useful for making doors.",
+    "weight": "300 g",
+    "volume": "250 ml",
+    "price": 3000,
+    "price_postapoc": 10,
+    "bashing": 5,
+    "to_hit": -3,
+    "stack_size": 6,
+    "//": "Roughly in the 8cm×8cm to 10cm×10cm range. Compact and stacks well",
+    "material": [ "steel" ],
+    "symbol": "%",
+    "color": "light_cyan",
+    "ammo_type": "components"
+  },
+  {
     "type": "GENERIC",
     "id": "peephole",
     "symbol": ".",

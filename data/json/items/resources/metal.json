@@ -456,25 +456,6 @@
     "ammo_type": "components"
   },
   {
-    "id": "hinge",
-    "type": "AMMO",
-    "category": "spare_parts",
-    "name": { "str": "door hinge" },
-    "description": "A small metal hinge with two metal plates with screw holes.  Useful for making doors.",
-    "weight": "300 g",
-    "volume": "250 ml",
-    "price": 3000,
-    "price_postapoc": 10,
-    "bashing": 5,
-    "to_hit": -3,
-    "stack_size": 6,
-    "//": "Roughly in the 8cm×8cm to 10cm×10cm range. Compact and stacks well",
-    "material": [ "steel" ],
-    "symbol": "%",
-    "color": "light_cyan",
-    "ammo_type": "components"
-  },
-  {
     "type": "AMMO",
     "id": "tin",
     "category": "spare_parts",
@@ -490,36 +471,6 @@
     "ammo_type": "components",
     "count": 100,
     "stack_size": 200
-  },
-  {
-    "id": "fanblade_metal",
-    "type": "GENERIC",
-    "category": "spare_parts",
-    "name": { "str": "metal fan blade assembly", "str_pl": "metal fan blade assemblies" },
-    "description": "A multi-bladed metal fan, like you'd find on a larger desk fan or inside a convection oven.",
-    "weight": "150 g",
-    "volume": "2 L",
-    "longest_side": "30 cm",
-    "price": 50,
-    "price_postapoc": 10,
-    "material": [ "budget_steel" ],
-    "symbol": "*",
-    "color": "light_gray"
-  },
-  {
-    "id": "heavy_wire_rack",
-    "type": "GENERIC",
-    "category": "spare_parts",
-    "name": { "str": "heavy wire rack" },
-    "description": "A durable steel rack, the sort you might find in an oven or on a barbecue.",
-    "weight": "600 g",
-    "volume": "5 L",
-    "longest_side": "60 cm",
-    "price": 50,
-    "price_postapoc": 10,
-    "material": [ "steel" ],
-    "symbol": "#",
-    "color": "light_gray"
   },
   {
     "id": "5l_aluminum",
