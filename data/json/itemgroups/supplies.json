@@ -53,16 +53,26 @@
     ]
   },
   {
+    "id": "paintcans",
+    "type": "item_group",
+    "items": [ { "item": "paint_can_steel" }, { "item": "paint_can_plastic" } ]
+  },
+  {
     "id": "paint",
     "type": "item_group",
     "items": [
-      [ "r_paint", 45 ],
-      [ "b_paint", 45 ],
-      [ "w_paint", 45 ],
-      [ "g_paint", 45 ],
-      [ "p_paint", 45 ],
-      [ "y_paint", 45 ],
-      [ "black_paint", 45 ],
+      { "item": "r_paint", "prob": 45, "container-group": "paintcans" },
+      { "item": "b_paint", "prob": 45, "container-group": "paintcans" },
+      { "item": "y_paint", "prob": 45, "container-group": "paintcans" },
+      { "item": "g_paint", "prob": 45, "container-group": "paintcans" },
+      { "item": "p_paint", "prob": 45, "container-group": "paintcans" },
+      { "item": "orange_paint", "prob": 45, "container-group": "paintcans" },
+      { "item": "pink_paint", "prob": 45, "container-group": "paintcans" },
+      { "item": "cyan_paint", "prob": 45, "container-group": "paintcans" },
+      { "item": "brown_paint", "prob": 45, "container-group": "paintcans" },
+      { "item": "w_paint", "prob": 45, "container-group": "paintcans" },
+      { "item": "black_paint", "prob": 45, "container-group": "paintcans" },
+      { "item": "gray_paint", "prob": 45, "container-group": "paintcans" },
       [ "chipper", 55 ],
       [ "paint_brush", 55 ],
       { "item": "chem_turpentine", "prob": 45, "charges-min": 20 }
