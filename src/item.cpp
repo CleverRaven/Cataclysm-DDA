@@ -12537,7 +12537,7 @@ int item::processing_speed() const
     // This item doesn't actually need processing.
     // Either it contains items that need processing. Use processing speed from those.
     // Or it is in same container with items that need processing.
-    int processing_speed = 10000;
+    int processing_speed = item::NO_PROCESSING;
     for( const item *it : contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
         processing_speed = std::min( processing_speed, it->processing_speed() );
     }
