@@ -78,7 +78,6 @@
     "color": "light_cyan",
     "ammo_type": "components"
   },
-
   {
     "id": "budget_steel_lump",
     "copy-from": "steel_lump",
@@ -163,7 +162,6 @@
     "description": "A misshapen chunk of tempered steel.  Makes a decent weapon in a pinch, and is also useful for some crafting recipes.",
     "material": [ "qt_steel" ]
   },
-
   {
     "id": "material_aluminium_ingot",
     "type": "GENERIC",
@@ -249,7 +247,6 @@
     "bashing": 1,
     "to_hit": -2
   },
-
   {
     "id": "bismuth",
     "type": "AMMO",
@@ -329,7 +326,7 @@
     "name": { "str_sp": "silver" },
     "description": "A soft shiny metal.  Before the Cataclysm it was worth quite a bit but its value is now greatly diminished.",
     "weight": "2623 mg",
-    "//": "Density 10.40g/cm³ ~ 524.5g/50ml @ stack 200 = 2623mg/unit",
+    "//": "Density 10.49g/cm³ ~ 524.5g/50ml @ stack 200 = 2623mg/unit",
     "volume": "50ml",
     "price": 100000,
     "price_postapoc": 10,
@@ -377,7 +374,6 @@
     "color": "blue",
     "ammo_type": "components"
   },
-
   {
     "type": "GENERIC",
     "id": "spike",
@@ -472,7 +468,6 @@
     "count": 100,
     "stack_size": 200
   },
-
   {
     "id": "5l_aluminum",
     "type": "AMMO",
