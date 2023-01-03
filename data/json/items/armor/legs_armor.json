@@ -153,7 +153,7 @@
         "max_contains_weight": "20 kg",
         "max_item_length": "65 cm",
         "moves": 1500,
-        "description": "You can wear some armor over chainmail with out penalty",
+        "description": "You can wear some armor over chainmail without penalty.",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
       },
       {
@@ -164,7 +164,7 @@
         "max_contains_weight": "20 kg",
         "max_item_length": "65 cm",
         "moves": 1000,
-        "description": "You can wear some armor over chainmail with out penalty",
+        "description": "You can wear some armor over chainmail without penalty.",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
       }
     ],
@@ -202,7 +202,7 @@
         "max_contains_weight": "20 kg",
         "max_item_length": "65 cm",
         "moves": 1500,
-        "description": "You can wear some armor over chainmail with out penalty",
+        "description": "You can wear some armor over chainmail without penalty.",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
       },
       {
@@ -213,7 +213,7 @@
         "max_contains_weight": "20 kg",
         "max_item_length": "65 cm",
         "moves": 1000,
-        "description": "You can wear some armor over chainmail with out penalty",
+        "description": "You can wear some armor over chainmail without penalty.",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
       }
     ],
@@ -242,7 +242,7 @@
         "max_contains_weight": "20 kg",
         "max_item_length": "65 cm",
         "moves": 1500,
-        "description": "You can wear some armor over chainmail with out penalty",
+        "description": "You can wear some armor over chainmail without penalty.",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
       },
       {
@@ -253,7 +253,7 @@
         "max_contains_weight": "20 kg",
         "max_item_length": "65 cm",
         "moves": 1000,
-        "description": "You can wear some armor over chainmail with out penalty",
+        "description": "You can wear some armor over chainmail without penalty.",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
       }
     ],
@@ -275,7 +275,7 @@
         "max_contains_weight": "20 kg",
         "max_item_length": "65 cm",
         "moves": 1500,
-        "description": "You can wear some armor over chainmail with out penalty",
+        "description": "You can wear some armor over chainmail without penalty.",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
       },
       {
@@ -286,7 +286,7 @@
         "max_contains_weight": "20 kg",
         "max_item_length": "65 cm",
         "moves": 1000,
-        "description": "You can wear some armor over chainmail with out penalty",
+        "description": "You can wear some armor over chainmail without penalty.",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
       }
     ],
@@ -324,7 +324,7 @@
         "max_contains_weight": "20 kg",
         "max_item_length": "65 cm",
         "moves": 1500,
-        "description": "You can wear some armor over chainmail with out penalty",
+        "description": "You can wear some armor over chainmail without penalty.",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
       },
       {
@@ -335,7 +335,7 @@
         "max_contains_weight": "20 kg",
         "max_item_length": "65 cm",
         "moves": 1000,
-        "description": "You can wear some armor over chainmail with out penalty",
+        "description": "You can wear some armor over chainmail without penalty.",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
       }
     ],
@@ -357,7 +357,7 @@
         "max_contains_weight": "20 kg",
         "max_item_length": "65 cm",
         "moves": 1500,
-        "description": "You can wear some armor over chainmail with out penalty",
+        "description": "You can wear some armor over chainmail without penalty.",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
       },
       {
@@ -368,7 +368,7 @@
         "max_contains_weight": "20 kg",
         "max_item_length": "65 cm",
         "moves": 1000,
-        "description": "You can wear some armor over chainmail with out penalty",
+        "description": "You can wear some armor over chainmail without penalty.",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
       }
     ],
@@ -406,7 +406,7 @@
         "max_contains_weight": "20 kg",
         "max_item_length": "65 cm",
         "moves": 1500,
-        "description": "You can wear some armor over chainmail with out penalty",
+        "description": "You can wear some armor over chainmail without penalty.",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
       },
       {
@@ -417,7 +417,7 @@
         "max_contains_weight": "20 kg",
         "max_item_length": "65 cm",
         "moves": 1000,
-        "description": "You can wear some armor over chainmail with out penalty",
+        "description": "You can wear some armor over chainmail without penalty.",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
       }
     ],
@@ -439,7 +439,7 @@
         "max_contains_weight": "20 kg",
         "max_item_length": "65 cm",
         "moves": 1500,
-        "description": "You can wear some armor over chainmail with out penalty",
+        "description": "You can wear some armor over chainmail without penalty.",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
       },
       {
@@ -450,7 +450,7 @@
         "max_contains_weight": "20 kg",
         "max_item_length": "65 cm",
         "moves": 1000,
-        "description": "You can wear some armor over chainmail with out penalty",
+        "description": "You can wear some armor over chainmail without penalty.",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
       }
     ],
@@ -488,7 +488,7 @@
         "max_contains_weight": "20 kg",
         "max_item_length": "65 cm",
         "moves": 1500,
-        "description": "You can wear some armor over chainmail with out penalty",
+        "description": "You can wear some armor over chainmail without penalty.",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
       },
       {
@@ -499,7 +499,7 @@
         "max_contains_weight": "20 kg",
         "max_item_length": "65 cm",
         "moves": 1000,
-        "description": "You can wear some armor over chainmail with out penalty",
+        "description": "You can wear some armor over chainmail without penalty.",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
       }
     ],
@@ -521,7 +521,7 @@
         "max_contains_weight": "20 kg",
         "max_item_length": "65 cm",
         "moves": 1500,
-        "description": "You can wear some armor over chainmail with out penalty",
+        "description": "You can wear some armor over chainmail without penalty.",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
       },
       {
@@ -532,7 +532,7 @@
         "max_contains_weight": "20 kg",
         "max_item_length": "65 cm",
         "moves": 1000,
-        "description": "You can wear some armor over chainmail with out penalty",
+        "description": "You can wear some armor over chainmail without penalty.",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
       }
     ],
@@ -570,7 +570,7 @@
         "max_contains_weight": "20 kg",
         "max_item_length": "65 cm",
         "moves": 1500,
-        "description": "You can wear some armor over chainmail with out penalty",
+        "description": "You can wear some armor over chainmail without penalty.",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
       },
       {
@@ -581,7 +581,7 @@
         "max_contains_weight": "20 kg",
         "max_item_length": "65 cm",
         "moves": 1000,
-        "description": "You can wear some armor over chainmail with out penalty",
+        "description": "You can wear some armor over chainmail without penalty.",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
       }
     ],
@@ -603,7 +603,7 @@
         "max_contains_weight": "20 kg",
         "max_item_length": "65 cm",
         "moves": 1500,
-        "description": "You can wear some armor over chainmail with out penalty",
+        "description": "You can wear some armor over chainmail without penalty.",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
       },
       {
@@ -614,7 +614,7 @@
         "max_contains_weight": "20 kg",
         "max_item_length": "65 cm",
         "moves": 1000,
-        "description": "You can wear some armor over chainmail with out penalty",
+        "description": "You can wear some armor over chainmail without penalty.",
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
       }
     ],
