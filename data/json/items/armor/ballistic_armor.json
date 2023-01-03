@@ -96,6 +96,96 @@
     ]
   },
   {
+    "id": "ballistic_vest_esapi",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "ESAPI ballistic vest with sling" },
+    "description": "A ballistic vest with specialized pockets on the front, back, and sides to hold armor plates.  While this plate carrier is still protective even without inserts, it's too soft to effectively stop high-energy projectiles on its own.  This one has a single point sling wrapped around the shoulders using a system to keep your weapon extra secure.",
+    "weight": "2911 g",
+    "volume": "6 L",
+    "variant_type": "generic",
+    "price": "1600 USD",
+    "price_postapoc": "10 USD",
+    "symbol": "[",
+    "material": [ "nylon", "kevlar_layered" ],
+    "color": "light_gray",
+    "warmth": 15,
+    "flags": [ "STURDY", "OUTER", "WATER_FRIENDLY" ],
+    "use_action": [ { "type": "attach_molle", "size": 10 }, { "type": "detach_molle" } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "2000 ml",
+        "max_contains_weight": "5 kg",
+        "max_item_length": "33 cm",
+        "moves": 800,
+        "description": "Pocket for a large armor plate.",
+        "//": "Should fit a medium ESAPI plate snugly",
+        "flag_restriction": [ "ABLATIVE_LARGE" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "2000 ml",
+        "max_contains_weight": "5 kg",
+        "max_item_length": "33 cm",
+        "moves": 800,
+        "description": "Pocket for a large armor plate.",
+        "flag_restriction": [ "ABLATIVE_LARGE" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "21 cm",
+        "moves": 800,
+        "description": "Pocket for a medium armor plate.",
+        "flag_restriction": [ "ABLATIVE_MEDIUM" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "21 cm",
+        "moves": 800,
+        "description": "Pocket for a medium armor plate.",
+        "flag_restriction": [ "ABLATIVE_MEDIUM" ]
+      },
+      {
+        "description": "Rifle sling.",
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "min_item_volume": "1000 ml",
+        "max_contains_volume": "8 L",
+        "max_contains_weight": "8200 g",
+        "max_item_length": "120 cm",
+        "//": "volume encumber set high since the whole vest is already scaled. This equals .4 overall",
+        "volume_encumber_modifier": 1.33,
+        "moves": 30
+      }
+    ],
+    "armor": [
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 4.4 }
+        ],
+        "encumbrance": 6,
+        "coverage": 100,
+        "cover_vitals": 90,
+        "covers": [ "torso" ],
+        "volume_encumber_modifier": 0.3
+      }
+    ]
+  },
+  {
     "id": "esapi_plate",
     "type": "ARMOR",
     "category": "armor",
@@ -415,172 +505,13 @@
     ]
   },
   {
-    "id": "ballistic_vest_heavier_legs",
-    "type": "ARMOR",
-    "copy-from": "ballistic_vest_esapi",
-    "name": { "str": "sleeveless Full Ballistic Protection" },
-    "description": "Heavy ballistic armor with specialized pockets on the front, back, and sides for armored plates.  This configuration adds shoulder protectors, as well as protection for the neck and groin.",
-    "weight": "8 kg",
-    "volume": "9 L",
-    "material": [ "nylon", "kevlar_layered" ],
-    "use_action": [ { "type": "attach_molle", "size": 10 }, { "type": "detach_molle" } ],
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "ablative": true,
-        "volume_encumber_modifier": 0,
-        "max_contains_volume": "2000 ml",
-        "max_contains_weight": "5 kg",
-        "max_item_length": "33 cm",
-        "moves": 800,
-        "description": "Pocket for a large armor plate.",
-        "flag_restriction": [ "ABLATIVE_LARGE" ]
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "ablative": true,
-        "volume_encumber_modifier": 0,
-        "max_contains_volume": "2000 ml",
-        "max_contains_weight": "5 kg",
-        "max_item_length": "33 cm",
-        "moves": 800,
-        "description": "Pocket for a large armor plate.",
-        "flag_restriction": [ "ABLATIVE_LARGE" ]
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "ablative": true,
-        "volume_encumber_modifier": 0,
-        "max_contains_volume": "800 ml",
-        "max_contains_weight": "2 kg",
-        "max_item_length": "21 cm",
-        "moves": 800,
-        "description": "Pocket for a medium armor plate.",
-        "flag_restriction": [ "ABLATIVE_MEDIUM" ]
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "ablative": true,
-        "volume_encumber_modifier": 0,
-        "max_contains_volume": "800 ml",
-        "max_contains_weight": "2 kg",
-        "max_item_length": "21 cm",
-        "moves": 800,
-        "description": "Pocket for a medium armor plate.",
-        "flag_restriction": [ "ABLATIVE_MEDIUM" ]
-      }
-    ],
-    "armor": [
-      {
-        "material": [
-          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 4.4 }
-        ],
-        "encumbrance": 6,
-        "coverage": 100,
-        "cover_vitals": 100,
-        "covers": [ "torso" ],
-        "volume_encumber_modifier": 0.3
-      },
-      {
-        "material": [
-          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 4.4 }
-        ],
-        "encumbrance": 3,
-        "//": "an enemy could get under the protection in melee but ranged shots should almost always be blocked",
-        "coverage": 80,
-        "cover_melee": 80,
-        "cover_ranged": 95,
-        "cover_vitals": 100,
-        "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r", "arm_upper_l", "arm_upper_r" ],
-        "volume_encumber_modifier": 0
-      },
-      {
-        "material": [
-          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 4.4 }
-        ],
-        "encumbrance": 2,
-        "coverage": 75,
-        "cover_vitals": 100,
-        "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
-        "volume_encumber_modifier": 0
-      },
-      {
-        "material": [
-          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 4.4 }
-        ],
-        "encumbrance": 2,
-        "coverage": 80,
-        "cover_melee": 80,
-        "cover_ranged": 95,
-        "cover_vitals": 100,
-        "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_upper_l", "leg_upper_r" ],
-        "volume_encumber_modifier": 0
-      }
-    ]
-  },
-  {
     "id": "ballistic_vest_heavier",
     "type": "ARMOR",
-    "copy-from": "ballistic_vest_esapi",
+    "copy-from": "ballistic_vest_heavy",
     "name": { "str": "Full Ballistic Protection" },
     "description": "Heavy ballistic armor with specialized pockets on the front, back, and sides for armored plates.  This configuration adds shoulder protectors, as well as protection for the neck and groin.",
     "weight": "10 kg",
     "volume": "10 L",
-    "material": [ "nylon", "kevlar_layered" ],
-    "use_action": [ { "type": "attach_molle", "size": 10 }, { "type": "detach_molle" } ],
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "ablative": true,
-        "volume_encumber_modifier": 0,
-        "max_contains_volume": "2000 ml",
-        "max_contains_weight": "5 kg",
-        "max_item_length": "33 cm",
-        "moves": 800,
-        "description": "Pocket for a large armor plate.",
-        "flag_restriction": [ "ABLATIVE_LARGE" ]
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "ablative": true,
-        "volume_encumber_modifier": 0,
-        "max_contains_volume": "2000 ml",
-        "max_contains_weight": "5 kg",
-        "max_item_length": "33 cm",
-        "moves": 800,
-        "description": "Pocket for a large armor plate.",
-        "flag_restriction": [ "ABLATIVE_LARGE" ]
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "ablative": true,
-        "volume_encumber_modifier": 0,
-        "max_contains_volume": "800 ml",
-        "max_contains_weight": "2 kg",
-        "max_item_length": "21 cm",
-        "moves": 800,
-        "description": "Pocket for a medium armor plate.",
-        "flag_restriction": [ "ABLATIVE_MEDIUM" ]
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "ablative": true,
-        "volume_encumber_modifier": 0,
-        "max_contains_volume": "800 ml",
-        "max_contains_weight": "2 kg",
-        "max_item_length": "21 cm",
-        "moves": 800,
-        "description": "Pocket for a medium armor plate.",
-        "flag_restriction": [ "ABLATIVE_MEDIUM" ]
-      }
-    ],
     "armor": [
       {
         "material": [
@@ -688,6 +619,69 @@
         "cover_vitals": 100,
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
+        "volume_encumber_modifier": 0
+      }
+    ]
+  },
+  {
+    "id": "ballistic_vest_heavier_legs",
+    "type": "ARMOR",
+    "copy-from": "ballistic_vest_heavy",
+    "name": { "str": "sleeveless Full Ballistic Protection" },
+    "description": "Heavy ballistic armor with specialized pockets on the front, back, and sides for armored plates.  This configuration adds shoulder protectors, as well as protection for the neck and groin.",
+    "weight": "8 kg",
+    "volume": "9 L",
+    "armor": [
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 4.4 }
+        ],
+        "encumbrance": 6,
+        "coverage": 100,
+        "cover_vitals": 100,
+        "covers": [ "torso" ],
+        "volume_encumber_modifier": 0.3
+      },
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 4.4 }
+        ],
+        "encumbrance": 3,
+        "//": "an enemy could get under the protection in melee but ranged shots should almost always be blocked",
+        "coverage": 80,
+        "cover_melee": 80,
+        "cover_ranged": 95,
+        "cover_vitals": 100,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r", "arm_upper_l", "arm_upper_r" ],
+        "volume_encumber_modifier": 0
+      },
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 4.4 }
+        ],
+        "encumbrance": 2,
+        "coverage": 75,
+        "cover_vitals": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
+        "volume_encumber_modifier": 0
+      },
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 4.4 }
+        ],
+        "encumbrance": 2,
+        "coverage": 80,
+        "cover_melee": 80,
+        "cover_ranged": 95,
+        "cover_vitals": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r" ],
         "volume_encumber_modifier": 0
       }
     ]
