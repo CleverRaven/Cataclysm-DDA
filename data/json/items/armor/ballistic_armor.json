@@ -96,7 +96,7 @@
     ]
   },
   {
-    "id": "ballistic_vest_esapi",
+    "id": "ballistic_vest_esapi_sling",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "ESAPI ballistic vest with sling" },
@@ -181,6 +181,8 @@
         "coverage": 100,
         "cover_vitals": 90,
         "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper", "torso_lower", "torso_hanging_front" ],
+        "layers": [ "OUTER", "BELTED" ],
         "volume_encumber_modifier": 0.3
       }
     ]
@@ -505,6 +507,57 @@
     ]
   },
   {
+    "id": "ballistic_vest_heavy_sling",
+    "type": "ARMOR",
+    "copy-from": "ballistic_vest_esapi_sling",
+    "name": { "str": "heavy ballistic vest with sling" },
+    "description": "Heavy ballistic armor with specialized pockets on the front, back, and sides for armored plates.  This configuration adds shoulder protectors, as well as protection for the neck and groin.",
+    "weight": "7 kg",
+    "volume": "8 L",
+    "armor": [
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 4.4 }
+        ],
+        "encumbrance": 6,
+        "coverage": 100,
+        "cover_vitals": 100,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper", "torso_lower", "torso_hanging_front" ],
+        "layers": [ "OUTER", "BELTED" ],
+        "volume_encumber_modifier": 0.3
+      },
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 4.4 }
+        ],
+        "encumbrance": 3,
+        "//": "an enemy could get under the protection in melee but ranged shots should almost always be blocked",
+        "coverage": 80,
+        "cover_melee": 80,
+        "cover_ranged": 95,
+        "cover_vitals": 100,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r", "arm_upper_l", "arm_upper_r" ],
+        "volume_encumber_modifier": 0
+      },
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 4.4 }
+        ],
+        "encumbrance": 2,
+        "coverage": 75,
+        "cover_vitals": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
+        "volume_encumber_modifier": 0
+      }
+    ]
+  },
+  {
     "id": "ballistic_vest_heavier",
     "type": "ARMOR",
     "copy-from": "ballistic_vest_heavy",
@@ -523,6 +576,86 @@
         "cover_vitals": 100,
         "covers": [ "torso" ],
         "volume_encumber_modifier": 0.3
+      },
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 4.4 }
+        ],
+        "encumbrance": 3,
+        "//": "an enemy could get under the protection in melee but ranged shots should almost always be blocked",
+        "coverage": 80,
+        "cover_melee": 80,
+        "cover_ranged": 95,
+        "cover_vitals": 100,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r", "arm_upper_l", "arm_upper_r" ],
+        "volume_encumber_modifier": 0
+      },
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 4.4 }
+        ],
+        "encumbrance": 2,
+        "coverage": 75,
+        "cover_vitals": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
+        "volume_encumber_modifier": 0
+      },
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 4.4 }
+        ],
+        "encumbrance": 2,
+        "coverage": 80,
+        "cover_melee": 80,
+        "cover_ranged": 95,
+        "cover_vitals": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r" ],
+        "volume_encumber_modifier": 0
+      }
+    ]
+  },
+  {
+    "id": "ballistic_vest_heavier_sling",
+    "type": "ARMOR",
+    "copy-from": "ballistic_vest_heavy_sling",
+    "name": { "str": "Full Ballistic Protection" },
+    "description": "Heavy ballistic armor with specialized pockets on the front, back, and sides for armored plates.  This configuration adds shoulder protectors, as well as protection for the neck and groin.",
+    "weight": "10 kg",
+    "volume": "10 L",
+    "armor": [
+       {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 4.4 }
+        ],
+        "encumbrance": 6,
+        "coverage": 100,
+        "cover_vitals": 100,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper", "torso_lower", "torso_hanging_front" ],
+        "layers": [ "OUTER", "BELTED" ],
+        "volume_encumber_modifier": 0.3
+      },
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 4.4 }
+        ],
+        "encumbrance": 3,
+        "//": "an enemy could get under the protection in melee but ranged shots should almost always be blocked",
+        "coverage": 80,
+        "cover_melee": 80,
+        "cover_ranged": 95,
+        "cover_vitals": 100,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r", "arm_upper_l", "arm_upper_r" ],
+        "volume_encumber_modifier": 0
       },
       {
         "material": [
@@ -590,6 +723,45 @@
     ]
   },
   {
+    "id": "ballistic_vest_heavy_arms_sling",
+    "type": "ARMOR",
+    "copy-from": "ballistic_vest_heavy_sling",
+    "name": { "str": "legless heavy ballistic vest with sling" },
+    "description": "Heavy ballistic armor with specialized pockets on the front, back, and sides for armored plates.  This configuration adds shoulder protectors as well as neck protection.",
+    "weight": "5 kg",
+    "volume": "7 L",
+    "armor": [
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 4.4 }
+        ],
+        "encumbrance": 6,
+        "coverage": 100,
+        "cover_vitals": 100,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper", "torso_lower", "torso_hanging_front" ],
+        "layers": [ "OUTER", "BELTED" ],
+        "volume_encumber_modifier": 0.3
+      },
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 4.4 }
+        ],
+        "encumbrance": 3,
+        "//": "an enemy could get under the protection in melee but ranged shots should almost always be blocked",
+        "coverage": 80,
+        "cover_melee": 80,
+        "cover_ranged": 95,
+        "cover_vitals": 100,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r", "arm_upper_l", "arm_upper_r" ],
+        "volume_encumber_modifier": 0
+      }
+    ]
+  },
+  {
     "id": "ballistic_vest_heavy_legs",
     "type": "ARMOR",
     "copy-from": "ballistic_vest_heavy",
@@ -607,6 +779,42 @@
         "coverage": 100,
         "cover_vitals": 100,
         "covers": [ "torso" ],
+        "volume_encumber_modifier": 0.3
+      },
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 4.4 }
+        ],
+        "encumbrance": 2,
+        "coverage": 75,
+        "cover_vitals": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
+        "volume_encumber_modifier": 0
+      }
+    ]
+  },
+  {
+    "id": "ballistic_vest_heavy_legs_sling",
+    "type": "ARMOR",
+    "copy-from": "ballistic_vest_heavy_sling",
+    "name": { "str": "sleeveless heavy ballistic vest with sling" },
+    "description": "Heavy ballistic armor with specialized pockets on the front, back, and sides for armored plates.  This configuration adds groin and neck protection.",
+    "weight": "5 kg",
+    "volume": "7 L",
+    "armor": [
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 4.4 }
+        ],
+        "encumbrance": 6,
+        "coverage": 100,
+        "cover_vitals": 100,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper", "torso_lower", "torso_hanging_front" ],
+        "layers": [ "OUTER", "BELTED" ],
         "volume_encumber_modifier": 0.3
       },
       {
@@ -648,15 +856,50 @@
           { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
           { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 4.4 }
         ],
-        "encumbrance": 3,
-        "//": "an enemy could get under the protection in melee but ranged shots should almost always be blocked",
+        "encumbrance": 2,
+        "coverage": 75,
+        "cover_vitals": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
+        "volume_encumber_modifier": 0
+      },
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 4.4 }
+        ],
+        "encumbrance": 2,
         "coverage": 80,
         "cover_melee": 80,
         "cover_ranged": 95,
         "cover_vitals": 100,
-        "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r", "arm_upper_l", "arm_upper_r" ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r" ],
         "volume_encumber_modifier": 0
+      }
+    ]
+  },
+  {
+    "id": "ballistic_vest_heavier_legs_sling",
+    "type": "ARMOR",
+    "copy-from": "ballistic_vest_heavy_sling",
+    "name": { "str": "sleeveless Full Ballistic Protection" },
+    "description": "Heavy ballistic armor with specialized pockets on the front, back, and sides for armored plates.  This configuration adds shoulder protectors, as well as protection for the neck and groin.",
+    "weight": "8 kg",
+    "volume": "9 L",
+    "armor": [
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 4.4 }
+        ],
+        "encumbrance": 6,
+        "coverage": 100,
+        "cover_vitals": 100,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper", "torso_lower", "torso_hanging_front" ],
+        "layers": [ "OUTER", "BELTED" ],
+        "volume_encumber_modifier": 0.3
       },
       {
         "material": [
