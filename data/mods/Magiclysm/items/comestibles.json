@@ -77,6 +77,14 @@
     "price": 1400
   },
   {
+    "type": "COMESTIBLE",
+    "id": "tea_green",
+    "name": { "str": "green tea" },
+    "copy-from": "tea_green",
+    "//": "Same reason as whiskey",
+    "price_postapoc": 1
+  },
+  {
     "id": "purified_meat",
     "type": "COMESTIBLE",
     "copy-from": "meat",
