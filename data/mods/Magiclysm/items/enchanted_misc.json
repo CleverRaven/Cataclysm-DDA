@@ -133,7 +133,7 @@
     "price_postapoc": "2500 USD",
     "use_action": {
       "target": "tea_green",
-      "msg": "You check the teapot and discover it full of sweet tea! Sadly, it's cold.",
+      "msg": "You check the teapot and discover it full of sweet tea!  Sadly, it's cold.",
       "container": "mteapot",
       "target_charges": 2,
       "moves": 50,
