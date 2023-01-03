@@ -74,6 +74,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "1 h",
     "tools": [ [ [ "angle_grinder", 50 ] ] ],
+    "//": "perfect = 100; subtracted 6% loss",
     "components": [ [ [ "scrap_tin", 94 ] ] ]
   },
   {
@@ -98,6 +99,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "1 h",
     "tools": [ [ [ "angle_grinder", 50 ] ] ],
+    "//": "perfect = 20000; subtracted 5.5% loss",
     "components": [ [ [ "lead", 18900 ] ] ]
   },
   {
@@ -122,7 +124,8 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "1 h",
     "tools": [ [ [ "angle_grinder", 50 ] ] ],
-    "components": [ [ [ "zinc_metal", 5071 ] ] ]
+    "//": "perfect = 20000; subtracted 5.5% loss",
+    "components": [ [ [ "zinc_metal", 18900 ] ] ]
   },
   {
     "result": "exodii_ingot_steel",
@@ -146,7 +149,8 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "1 h",
     "tools": [ [ [ "angle_grinder", 50 ] ] ],
-    "components": [ [ [ "steel_lump", 39 ] ] ]
+    "//": "perfect = 40; subtracted 5% loss, but most is recovered as smaller pieces",
+    "components": [ [ [ "steel_lump", 38 ] ], [ [ "steel_chunk", 6 ] ], [ [ "scrap", 9 ] ] ]
   },
   {
     "result": "exodii_ingot_copper",
@@ -170,7 +174,8 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "1 h",
     "tools": [ [ [ "angle_grinder", 50 ] ] ],
-    "components": [ [ [ "scrap_copper", 103 ] ] ]
+    "//": "perfect = 100; subtracted 6% loss",
+    "components": [ [ [ "scrap_copper", 94 ] ] ]
   },
   {
     "result": "exodii_ingot_aluminum",
@@ -194,7 +199,8 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "1 h",
     "tools": [ [ [ "angle_grinder", 50 ] ] ],
-    "components": [ [ [ "material_aluminium_ingot", 20 ] ] ]
+    "//": "perfect = 20; subtracted 5% loss, but most is recovered as smaller pieces",
+    "components": [ [ [ "material_aluminium_ingot", 19 ] ], [ [ "scrap_aluminum", 12 ] ] ]
   },
   {
     "result": "exodii_ingot_plastic",
@@ -218,7 +224,8 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "1 h",
     "tools": [ [ [ "reciprocating_saw", 50 ], [ "circsaw_off", 50 ] ] ],
-    "components": [ [ [ "plastic_chunk", 100 ] ] ]
+    "//": "perfect = 100; subtracted 6% loss",
+    "components": [ [ [ "plastic_chunk", 94 ] ] ]
   },
   {
     "result": "10l_lc_steel",
@@ -234,7 +241,8 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "1 h",
     "tools": [ [ [ "angle_grinder", 50 ] ] ],
-    "components": [ [ [ "lc_steel_lump", 39 ] ] ]
+    "//": "perfect = 40; subtracted 5% loss, but most is recovered as smaller pieces",
+    "components": [ [ [ "lc_steel_lump", 38 ] ], [ [ "lc_steel_chunk", 6 ] ], [ [ "scrap", 9 ] ] ]
   },
   {
     "result": "10l_mc_steel",
@@ -250,7 +258,8 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "1 h",
     "tools": [ [ [ "angle_grinder", 50 ] ] ],
-    "components": [ [ [ "mc_steel_lump", 39 ] ] ]
+    "//": "perfect = 40; subtracted 5% loss, but most is recovered as smaller pieces",
+    "components": [ [ [ "mc_steel_lump", 38 ] ], [ [ "mc_steel_chunk", 6 ] ], [ [ "scrap", 9 ] ] ]
   },
   {
     "result": "10l_hc_steel",
@@ -266,7 +275,8 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "1 h",
     "tools": [ [ [ "angle_grinder", 50 ] ] ],
-    "components": [ [ [ "hc_steel_lump", 39 ] ] ]
+    "//": "perfect = 40; subtracted 5% loss, but most is recovered as smaller pieces",
+    "components": [ [ [ "hc_steel_lump", 38 ] ], [ [ "hc_steel_chunk", 6 ] ], [ [ "scrap", 9 ] ] ]
   },
   {
     "result": "atgm_spent",
