@@ -99,6 +99,6 @@
   {
     "type": "mood_face",
     "id": "THRESH_URSINE_HORIZONTAL",
-    "copy-from": "THRESH_URSINE"
+    "copy-from": "THRESH_FELINE_HORIZONTAL"
   }
 ]
