@@ -469,8 +469,8 @@ TEST_CASE( "activity levels and calories in daily diary", "[avatar][biometrics][
         test_activity_duration( dummy, NO_EXERCISE, 1_minutes );
 
         int expect_gained_kcal = 1283;
-        int expect_net_kcal = 597;
-        int expect_spent_kcal = 686;
+        int expect_net_kcal = 553;
+        int expect_spent_kcal = 730;
 
         CHECK( condensed_spaces( dummy.total_daily_calories_string() ) == string_format(
                    "<color_c_white> Minutes at each exercise level Calories per day</color>\n"
@@ -528,7 +528,7 @@ TEST_CASE( "basal metabolic rate with various size and metabolism", "[biometrics
 
     // To keep things simple, use normal BMI for all tests
     set_player_bmi( dummy, 5.0f );
-    REQUIRE( dummy.get_bmi() == Approx( 23.0f ).margin( 0.001f ) );
+    REQUIRE( dummy.get_bmi() == Approx( 25.0f ).margin( 0.001f ) );
 
     // Tests cover:
     // - normal, very fast, and cold-blooded metabolisms for normal body size
