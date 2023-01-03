@@ -420,8 +420,8 @@
     "copy-from": "ballistic_vest_esapi",
     "name": { "str": "sleeveless Full Ballistic Protection" },
     "description": "Heavy ballistic armor with specialized pockets on the front, back, and sides for armored plates.  This configuration adds shoulder protectors, as well as protection for the neck and groin.",
-    "weight": "7 kg",
-    "volume": "8 L",
+    "weight": "8 kg",
+    "volume": "9 L",
     "material": [ "nylon", "kevlar_layered" ],
     "use_action": [ { "type": "attach_molle", "size": 10 }, { "type": "detach_molle" } ],
     "pocket_data": [
@@ -531,8 +531,8 @@
     "copy-from": "ballistic_vest_esapi",
     "name": { "str": "Full Ballistic Protection" },
     "description": "Heavy ballistic armor with specialized pockets on the front, back, and sides for armored plates.  This configuration adds shoulder protectors, as well as protection for the neck and groin.",
-    "weight": "7 kg",
-    "volume": "8 L",
+    "weight": "10 kg",
+    "volume": "10 L",
     "material": [ "nylon", "kevlar_layered" ],
     "use_action": [ { "type": "attach_molle", "size": 10 }, { "type": "detach_molle" } ],
     "pocket_data": [
