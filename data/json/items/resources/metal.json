@@ -206,9 +206,9 @@
     "price": 1000,
     "price_postapoc": 10,
     "material": [ "copper" ],
-    "//": "Density of 8.96g/cm³ = 444.8g/50ml ~ 445g",
+    "//": "Density of 8.96g/cm³ = 448g/50ml",
     "volume": "50 ml",
-    "weight": "445 g",
+    "weight": "448 g",
     "bashing": 1,
     "to_hit": -2
   },
