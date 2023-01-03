@@ -629,7 +629,7 @@
     "weight": "10 kg",
     "volume": "10 L",
     "armor": [
-       {
+      {
         "material": [
           { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
           { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 4.4 }
