@@ -1,0 +1,32 @@
+[
+  {
+    "type": "item_group",
+    "id": "alt_shirts",
+    "items": [
+      [ "alt_tshirt", 80 ],
+      [ "longshirt", 80 ],
+      [ "polo_shirt", 65 ],
+      [ "dress_shirt", 60 ],
+      [ "tank_top", 50 ],
+      [ "sweatshirt", 75 ],
+      [ "sweater", 75 ],
+      [ "turtleneck", 25 ],
+      [ "turtleneck_shirt", 25 ],
+      [ "hoodie", 65 ],
+      [ "under_armor", 20 ],
+      [ "jersey", 40 ],
+      [ "camisole", 60 ],
+      [ "tie_clipon", 10 ],
+      [ "tie_necktie", 10 ],
+      [ "tie_skinny", 10 ],
+      [ "tieclip", 5 ],
+      [ "collarpin", 5 ],
+      [ "postman_shirt", 5 ],
+      [ "halter_top", 50 ],
+      [ "linuxtshirt", 10 ],
+      [ "rashguard", 10 ],
+      [ "sleeveless_tunic", 5 ],
+      [ "poncho", 20 ]
+    ]
+  }
+]
