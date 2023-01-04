@@ -3443,8 +3443,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
                 current_opt.setPrev();
             } else if( action == "RIGHT" ) {
                 current_opt.setNext();
-            } else {
-                assert( action == "CONFIRM" );
+            } else if( action == "CONFIRM" ) {
                 if( current_opt.getType() == "bool" || current_opt.getType() == "string_select" ||
                     current_opt.getType() == "string_input" || current_opt.getType() == "int_map" ) {
                     current_opt.setNext();
