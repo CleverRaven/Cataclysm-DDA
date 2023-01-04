@@ -7218,6 +7218,19 @@
   },
   {
     "type": "construction",
+    "id": "constr_clear_rubble_radioactive_slag",
+    "group": "clear_rubble",
+    "category": "OTHER",
+    "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "1 m",
+    "pre_flags": "RUBBLE",
+    "pre_terrain": "f_reactor_meltdown",
+    "post_terrain": "f_null",
+    "activity_level": "EXTRA_EXERCISE"
+  },
+  {
+    "type": "construction",
     "id": "constr_bench_wooden",
     "group": "build_bench_wooden",
     "category": "FURN",
