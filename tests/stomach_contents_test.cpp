@@ -107,6 +107,7 @@ TEST_CASE( "starve_test", "[starve][slow]" )
     reset_time();
     clear_stomach( dummy );
     dummy.reset_activity_level();
+    dummy.set_stored_kcal( dummy.get_healthy_kcal() );
     calendar::turn += 1_seconds;
     dummy.update_body( calendar::turn, calendar::turn );
     dummy.set_activity_level( 1.0 );
@@ -291,6 +292,7 @@ TEST_CASE( "starve_test_hunger3", "[starve][slow]" )
     Character &dummy = get_player_character();
     reset_time();
     clear_stomach( dummy );
+    dummy.set_stored_kcal( dummy.get_healthy_kcal() );
     while( !dummy.has_trait( trait_HUNGER3 ) ) {
         dummy.mutate_towards( trait_HUNGER3 );
     }
