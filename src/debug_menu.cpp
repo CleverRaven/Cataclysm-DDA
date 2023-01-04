@@ -152,6 +152,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::LONG_TELEPORT: return "LONG_TELEPORT";
         case debug_menu::debug_menu_index::REVEAL_MAP: return "REVEAL_MAP";
         case debug_menu::debug_menu_index::SPAWN_NPC: return "SPAWN_NPC";
+        case debug_menu::debug_menu_index::SPAWN_OM_NPC: return "SPAWN_OM_NPC";
         case debug_menu::debug_menu_index::SPAWN_MON: return "SPAWN_MON";
         case debug_menu::debug_menu_index::GAME_STATE: return "GAME_STATE";
         case debug_menu::debug_menu_index::KILL_AREA: return "KILL_AREA";
@@ -383,6 +384,7 @@ static int spawning_uilist()
     const std::vector<uilist_entry> uilist_initializer = {
         { uilist_entry( debug_menu_index::WISH, true, 'w', _( "Spawn an item" ) ) },
         { uilist_entry( debug_menu_index::SPAWN_NPC, true, 'n', _( "Spawn NPC" ) ) },
+        { uilist_entry( debug_menu_index::SPAWN_OM_NPC, true, 'N', _( "Spawn random NPC on overmap" ) ) },
         { uilist_entry( debug_menu_index::SPAWN_MON, true, 'm', _( "Spawn monster" ) ) },
         { uilist_entry( debug_menu_index::SPAWN_VEHICLE, true, 'v', _( "Spawn a vehicle" ) ) },
         { uilist_entry( debug_menu_index::SPAWN_ARTIFACT, true, 'a', _( "Spawn artifact" ) ) },
@@ -2556,6 +2558,16 @@ void debug()
                                     faction_id( new_fac_id ), faction_no_faction );
             temp->set_fac( new_solo_fac ? new_solo_fac->id : faction_no_faction );
             g->load_npcs();
+        }
+        break;
+
+        case debug_menu_index::SPAWN_OM_NPC: {
+            int num_of_npcs = 1;
+            if( query_int( num_of_npcs, _( "How many npcs to try spawning?" ), num_of_npcs ) ) {
+                for( int i = 0; i < num_of_npcs; i++ ) {
+                    g->perhaps_add_random_npc( true );
+                }
+            }
         }
         break;
 
