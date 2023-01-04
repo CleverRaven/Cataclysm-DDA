@@ -288,7 +288,7 @@ class options_manager
                 /** Tooltip with description */
                 translation tooltip_;
 
-                Group() {};
+                Group() = default;
                 Group( const std::string &id, const translation &name, const translation &tooltip )
                     : id_( id ), name_( name ), tooltip_( tooltip ) { }
         };
@@ -339,9 +339,9 @@ class options_manager
                 Page( const std::string &id, const translation &name ) : id_( id ), name_( name ) { }
         };
 
-        std::vector<Page> pages_;
-        std::string adding_to_group_;
-        std::vector<Group> groups_;
+        std::vector<Page> pages_; // NOLINT(cata-serialize)
+        std::string adding_to_group_; // NOLINT(cata-serialize)
+        std::vector<Group> groups_; // NOLINT(cata-serialize)
 
         /**
         * Specify option group.
@@ -355,7 +355,7 @@ class options_manager
         *                Receives "page_id" as it's only argument.
         */
         void add_option_group( const std::string &page_id, const Group &group,
-                               std::function<void( const std::string & )> entries );
+                               const std::function<void( const std::string & )> &entries );
 
         /** Add empty line to page. */
         void add_empty_line( const std::string &sPageIn );
