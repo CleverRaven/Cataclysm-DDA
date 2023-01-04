@@ -2148,7 +2148,7 @@
       { "item": "chem_sulphur", "prob": 10, "charges-min": 100 },
       { "item": "chem_aluminium_powder", "prob": 5, "charges": [ 1, 100 ] },
       { "item": "chem_zinc_powder", "prob": 10, "charges-min": 100 },
-      { "item": "chem_zinc", "prob": 5, "charges-min": 100 },
+      { "item": "chem_zinc_oxide", "prob": 5, "charges-min": 100 },
       { "item": "chem_manganese_dioxide", "prob": 10, "charges-min": 100 },
       { "item": "chem_saltpetre", "prob": 10, "charges": [ 1, 50 ] },
       { "item": "chem_carbide", "prob": 10, "charges-min": 100 },

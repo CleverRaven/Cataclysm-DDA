@@ -1879,5 +1879,10 @@
     "id": "veh_tracker",
     "type": "MIGRATION",
     "replace": "vehicle_dashboard"
+  },
+  {
+    "id": "chem_zinc",
+    "type": "MIGRATION",
+    "replace": "chem_zinc_oxide"
   }
 ]

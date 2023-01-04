@@ -545,7 +545,7 @@
   },
   {
     "type": "AMMO",
-    "id": "chem_zinc",
+    "id": "chem_zinc_oxide",
     "category": "chems",
     "price": 200,
     "price_postapoc": 250,

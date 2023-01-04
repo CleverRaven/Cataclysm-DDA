@@ -219,7 +219,7 @@
       { "item": "chem_muriatic_acid", "prob": 20, "charges-min": 1 },
       { "item": "chem_potassium_chloride", "prob": 5, "charges-min": 100 },
       { "item": "chem_potassium_hydroxide", "prob": 10, "charges-min": 100 },
-      { "item": "chem_zinc", "prob": 10, "charges-min": 100 },
+      { "item": "chem_zinc_oxide", "prob": 10, "charges-min": 100 },
       { "item": "chem_chromium_oxide", "prob": 10, "charges-min": 100 },
       { "item": "chem_zinc_powder", "prob": 10, "charges-min": 100 },
       { "item": "chem_manganese_dioxide", "prob": 5, "charges-min": 100 },
