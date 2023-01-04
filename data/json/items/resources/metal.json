@@ -80,6 +80,7 @@
   },
   {
     "id": "budget_steel_lump",
+    "type": "AMMO",
     "copy-from": "steel_lump",
     "name": { "str": "lump of budget steel", "str_pl": "lumps of budget steel" },
     "description": "A heavy formed piece of budget steel.  Useful for some crafting recipes.",
@@ -87,6 +88,7 @@
   },
   {
     "id": "lc_steel_lump",
+    "type": "AMMO",
     "copy-from": "steel_lump",
     "name": { "str": "lump of mild steel", "str_pl": "lumps of mild steel" },
     "description": "A heavy formed piece of mild steel.  Useful for some crafting recipes.",
@@ -94,6 +96,7 @@
   },
   {
     "id": "mc_steel_lump",
+    "type": "AMMO",
     "copy-from": "steel_lump",
     "name": { "str": "lump of medium steel", "str_pl": "lumps of medium steel" },
     "description": "A heavy formed piece of medium steel.  Useful for some crafting recipes.",
@@ -101,6 +104,7 @@
   },
   {
     "id": "hc_steel_lump",
+    "type": "AMMO",
     "copy-from": "steel_lump",
     "name": { "str": "lump of high steel", "str_pl": "lumps of high steel" },
     "description": "A heavy formed piece of high steel.  Useful for some crafting recipes.",
@@ -108,6 +112,7 @@
   },
   {
     "id": "ch_steel_lump",
+    "type": "AMMO",
     "copy-from": "steel_lump",
     "name": { "str": "lump of hardened steel", "str_pl": "lumps of hardened steel" },
     "description": "A heavy formed piece of hardened steel.  Useful for some crafting recipes.",
@@ -115,6 +120,7 @@
   },
   {
     "id": "qt_steel_lump",
+    "type": "AMMO",
     "copy-from": "steel_lump",
     "name": { "str": "lump of tempered steel", "str_pl": "lumps of tempered steel" },
     "description": "A heavy formed piece of tempered steel.  Useful for some crafting recipes.",
@@ -122,6 +128,7 @@
   },
   {
     "id": "budget_steel_chunk",
+    "type": "AMMO",
     "copy-from": "steel_chunk",
     "name": { "str": "chunk of budget steel", "str_pl": "chunks of budget steel" },
     "description": "A misshapen chunk of budget steel.  Makes a decent weapon in a pinch, and is also useful for some crafting recipes.",
@@ -129,6 +136,7 @@
   },
   {
     "id": "lc_steel_chunk",
+    "type": "AMMO",
     "copy-from": "steel_chunk",
     "name": { "str": "chunk of low carbon steel", "str_pl": "chunks of low carbon steel" },
     "description": "A misshapen chunk of low carbon steel.  Makes a decent weapon in a pinch, and is also useful for some crafting recipes.",
@@ -136,6 +144,7 @@
   },
   {
     "id": "mc_steel_chunk",
+    "type": "AMMO",
     "copy-from": "steel_chunk",
     "name": { "str": "chunk of medium carbon steel", "str_pl": "chunks of medium carbon steel" },
     "description": "A misshapen chunk of medium carbon steel.  Makes a decent weapon in a pinch, and is also useful for some crafting recipes.",
@@ -143,6 +152,7 @@
   },
   {
     "id": "hc_steel_chunk",
+    "type": "AMMO",
     "copy-from": "steel_chunk",
     "name": { "str": "chunk of high carbon steel", "str_pl": "chunks of high carbon steel" },
     "description": "A misshapen chunk of high carbon steel.  Makes a decent weapon in a pinch, and is also useful for some crafting recipes.",
@@ -150,6 +160,7 @@
   },
   {
     "id": "ch_steel_chunk",
+    "type": "AMMO",
     "copy-from": "steel_chunk",
     "name": { "str": "chunk of hardened steel", "str_pl": "chunks of hardened steel" },
     "description": "A misshapen chunk of hardened steel.  Makes a decent weapon in a pinch, and is also useful for some crafting recipes.",
@@ -157,6 +168,7 @@
   },
   {
     "id": "qt_steel_chunk",
+    "type": "AMMO",
     "copy-from": "steel_chunk",
     "name": { "str": "chunk of tempered steel", "str_pl": "chunks of tempered steel" },
     "description": "A misshapen chunk of tempered steel.  Makes a decent weapon in a pinch, and is also useful for some crafting recipes.",
@@ -830,18 +842,21 @@
   },
   {
     "id": "5l_budget_steel",
+    "type": "AMMO",
     "copy-from": "5l_steel",
     "name": { "str": "5L budget steel ingot" },
     "material": [ "budget_steel" ]
   },
   {
     "id": "10l_budget_steel",
+    "type": "AMMO",
     "copy-from": "10l_steel",
     "name": { "str": "10L budget steel ingot" },
     "material": [ "budget_steel" ]
   },
   {
     "id": "5l_lc_steel",
+    "type": "AMMO",
     "copy-from": "5l_steel",
     "name": { "str": "5L mild steel ingot" },
     "price": 22000,
@@ -850,6 +865,7 @@
   },
   {
     "id": "10l_lc_steel",
+    "type": "AMMO",
     "copy-from": "10l_steel",
     "name": { "str": "10L mild steel ingot" },
     "price": 44000,
@@ -858,6 +874,7 @@
   },
   {
     "id": "5l_mc_steel",
+    "type": "AMMO",
     "copy-from": "5l_steel",
     "name": { "str": "5L medium steel ingot" },
     "price": 24000,
@@ -866,6 +883,7 @@
   },
   {
     "id": "10l_mc_steel",
+    "type": "AMMO",
     "copy-from": "10l_steel",
     "name": { "str": "10L medium steel ingot" },
     "price": 48000,
@@ -874,6 +892,7 @@
   },
   {
     "id": "5l_hc_steel",
+    "type": "AMMO",
     "copy-from": "5l_steel",
     "name": { "str": "5L high steel ingot" },
     "price": 26000,
@@ -882,6 +901,7 @@
   },
   {
     "id": "10l_hc_steel",
+    "type": "AMMO",
     "copy-from": "10l_steel",
     "name": { "str": "10L high steel ingot" },
     "price": 52000,
