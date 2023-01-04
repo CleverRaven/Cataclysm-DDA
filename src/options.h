@@ -277,6 +277,45 @@ class options_manager
         options_container options;
         cata::optional<options_container *> world_options; // NOLINT(cata-serialize)
 
+        /** Option group. */
+        class Group
+        {
+            public:
+                /** Group identifier. Should be unique across all pages. */
+                std::string id_;
+                /** Group name */
+                translation name_;
+                /** Tooltip with description */
+                translation tooltip_;
+
+                Group() {};
+                Group( const std::string &id, const translation &name, const translation &tooltip )
+                    : id_( id ), name_( name ), tooltip_( tooltip ) { }
+        };
+
+        /** Page item type. */
+        enum class ItemType {
+            BlankLine,
+            GroupHeader,
+            Option,
+        };
+
+        /** Single page item (entry). */
+        class PageItem
+        {
+            public:
+                ItemType type;
+                std::string data;
+                /** Empty if not assigned to any group. */
+                std::string group;
+
+                PageItem() : type( ItemType::BlankLine ) { }
+                PageItem( ItemType type, const std::string &data, const std::string &group )
+                    : type( type ), data( data ), group( group ) { }
+
+                std::string fmt_tooltip( const Group &group, const options_container &cont ) const;
+        };
+
         /**
          * A page (or tab) to be displayed in the options UI.
          * It contains a @ref id that is used to detect what options should go into this
@@ -288,10 +327,12 @@ class options_manager
         class Page
         {
             public:
+                /** Page identifier */
                 std::string id_;
+                /** Page name */
                 translation name_;
-
-                std::vector<cata::optional<std::string>> items_;
+                /** Page items (entries) */
+                std::vector<PageItem> items_;
 
                 void removeRepeatedEmptyLines();
 
@@ -299,9 +340,28 @@ class options_manager
         };
 
         std::vector<Page> pages_;
+        std::string adding_to_group_;
+        std::vector<Group> groups_;
+
+        /**
+        * Specify option group.
+        *
+        * Option groups are used for visual separation of options on pages,
+        * and allow some additional UI functionality (i.e. collapse/expand).
+        *
+        * @param page_id Page to create group at.
+        * @param group Group to create.
+        * @param entries Page entries added within this closure will be assigned to the group.
+        *                Receives "page_id" as it's only argument.
+        */
+        void add_option_group( const std::string &page_id, const Group &group,
+                               std::function<void( const std::string & )> entries );
 
         /** Add empty line to page. */
         void add_empty_line( const std::string &sPageIn );
+
+        /** Find group by id. */
+        const Group &find_group( const std::string &id ) const;
 };
 
 struct option_slider {
