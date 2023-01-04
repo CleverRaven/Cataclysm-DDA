@@ -1311,7 +1311,8 @@
         "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
         "volume_encumber_modifier": 0.7
       },
-      { "coverage": 50,
+      {
+        "coverage": 50,
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_upper_l", "leg_upper_r" ],
         "volume_encumber_modifier": 0.0
