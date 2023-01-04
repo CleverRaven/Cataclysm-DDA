@@ -618,7 +618,7 @@
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
       [ [ "chem_manganese_dioxide", 29 ] ],
-      [ [ "zinc_metal", 2 ] ],
+      [ [ "zinc_metal", 8 ] ],
       [ [ "chem_potassium_hydroxide", 7 ], [ "lye_powder", 2 ] ],
       [ [ "duct_tape", 1 ] ],
       [ [ "water_clean", 1 ] ],
@@ -640,7 +640,7 @@
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
       [ [ "chem_manganese_dioxide", 87 ] ],
-      [ [ "zinc_metal", 6 ] ],
+      [ [ "zinc_metal", 24 ] ],
       [ [ "chem_potassium_hydroxide", 20 ], [ "lye_powder", 4 ] ],
       [ [ "duct_tape", 5 ] ],
       [ [ "water_clean", 3 ] ],
@@ -662,7 +662,7 @@
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
       [ [ "cathod_mix", 166 ] ],
-      [ [ "zinc_metal", 6 ] ],
+      [ [ "zinc_metal", 24 ] ],
       [ [ "carbon_electrode", 1 ] ],
       [ [ "duct_tape", 5 ] ],
       [ [ "steel_chunk", 3 ], [ "scrap", 6 ] ]
@@ -683,7 +683,7 @@
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
       [ [ "chem_manganese_dioxide", 348 ] ],
-      [ [ "zinc_metal", 24 ] ],
+      [ [ "zinc_metal", 96 ] ],
       [ [ "chem_potassium_hydroxide", 82 ], [ "lye_powder", 22 ] ],
       [ [ "duct_tape", 20 ] ],
       [ [ "water_clean", 12 ] ],
@@ -705,7 +705,7 @@
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
       [ [ "cathod_mix", 664 ] ],
-      [ [ "zinc_metal", 24 ] ],
+      [ [ "zinc_metal", 96 ] ],
       [ [ "carbon_electrode", 4 ] ],
       [ [ "duct_tape", 20 ] ],
       [ [ "steel_chunk", 12 ], [ "scrap", 24 ] ]
@@ -726,7 +726,7 @@
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
       [ [ "chem_manganese_dioxide", 725 ] ],
-      [ [ "zinc_metal", 50 ] ],
+      [ [ "zinc_metal", 200 ] ],
       [ [ "chem_potassium_hydroxide", 170 ], [ "lye_powder", 34 ] ],
       [ [ "duct_tape", 40 ] ],
       [ [ "water_clean", 25 ] ],
@@ -748,7 +748,7 @@
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
       [ [ "cathod_mix", 1328 ] ],
-      [ [ "zinc_metal", 50 ] ],
+      [ [ "zinc_metal", 200 ] ],
       [ [ "carbon_electrode", 8 ] ],
       [ [ "duct_tape", 40 ] ],
       [ [ "steel_chunk", 25 ], [ "scrap", 50 ] ]
