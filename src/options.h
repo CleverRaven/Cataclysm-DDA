@@ -298,14 +298,10 @@ class options_manager
                 Page( const std::string &id, const translation &name ) : id_( id ), name_( name ) { }
         };
 
-        Page general_page_; // NOLINT(cata-serialize)
-        Page interface_page_; // NOLINT(cata-serialize)
-        Page graphics_page_; // NOLINT(cata-serialize)
-        Page world_default_page_; // NOLINT(cata-serialize)
-        Page debug_page_; // NOLINT(cata-serialize)
-        Page android_page_; // NOLINT(cata-serialize)
+        std::vector<Page> pages_;
 
-        std::vector<std::reference_wrapper<Page>> pages_; // NOLINT(cata-serialize)
+        /** Add empty line to page. */
+        void add_empty_line( const std::string &sPageIn );
 };
 
 struct option_slider {
