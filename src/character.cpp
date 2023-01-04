@@ -4065,10 +4065,7 @@ void Character::mod_stored_kcal( int nkcal, const bool ignore_weariness )
 
 void Character::mod_stored_calories( int ncal, const bool ignore_weariness )
 {
-    //if we are malnourished, we are now burning muscle to stay alive
-    const int adjust_factor = ( get_bmi_fat() < character_weight_category::underweight ) ? std::min(
-                                  1.0f, 4.0f / str_max ) : 1.0f;
-    int nkcal = ( ncal * adjust_factor ) / 1000;
+    int nkcal = ncal / 1000;
     if( nkcal > 0 ) {
         add_gained_calories( nkcal );
     } else {
