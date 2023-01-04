@@ -1411,12 +1411,15 @@
     "subcategory": "CSC_CHEM_CHEMICALS",
     "skill_used": "chemistry",
     "difficulty": 3,
-    "charges": 200,
+    "charges": 40,
     "time": "2 h",
     "autolearn": true,
-    "byproducts": [ [ "chem_zinc_oxide" ] ],
-    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "BOIL", "level": 2 } ],
-    "components": [ [ [ "material_zincite", 1 ] ], [ [ "coal_lump", 1 ] ] ]
+    "byproducts": [ [ "chem_zinc_oxide", 4 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 2 }, { "id": "HAMMER", "level": 2 }, { "id": "CONTAIN", "level": 1 }, { "id": "BOIL", "level": 2 } ],
+    "//": "1412g zincite ~ 15.8140 mol ZnO (1287.354g) + 1.7571 mol MnO (124.644g) | 3×37.5g anthracite coal @ ~90% carbon ~ 8.4297 mol C",
+    "//2": "CO2 + C -> 2CO; ZnO + CO -> Zn + CO2 and/or ZnO + C -> Zn + CO | input excess carbon to account for wastage e.g. CO lost to atmosphere",
+    "//3": "output 40×1.785g zinc metal = 10 mol Zn | byproduct 4 mol ZnO | remainder 1.814 mol Zn wasted e.g. zinc vapor lost to atmosphere",
+    "components": [ [ [ "material_zincite", 1 ] ], [ [ "coal_lump", 3 ] ] ]
   },
   {
     "result": "chem_zinc_powder",

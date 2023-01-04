@@ -1036,8 +1036,9 @@
     "material": [ "coal" ],
     "phase": "solid",
     "volume": "250 ml",
-    "weight": "1500 mg",
+    "weight": "37500 mg",
     "//": "Density somewhere around 1.5 g/cm3 (solid anthracite)",
+    "//2": "Density ~ 1.5g/cm³ ~ 375g/250ml @ stack 10 = 37.5g/unit",
     "ammo_type": "charcoal",
     "count": 250,
     "stack_size": 10
