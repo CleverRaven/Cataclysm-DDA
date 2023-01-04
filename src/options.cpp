@@ -2123,60 +2123,66 @@ void options_manager::add_options_graphics()
 
     add_empty_line();
 
-    add( "FONT_BLENDING", "graphics", to_translation( "Font blending" ),
-         to_translation( "If true, fonts will look better." ),
-         false, COPT_CURSES_HIDE
-       );
+#if defined(TILES)
+    add_option_group( "graphics", Group( "font_params", to_translation( "Font settings" ),
+                                         to_translation( "Font display settings.  To change font type or source file, edit fonts.json in config directory." ) ),
+    [&]( const std::string & page_id ) {
+        add( "FONT_BLENDING", "graphics", to_translation( "Font blending" ),
+             to_translation( "If true, fonts will look better." ),
+             false, COPT_CURSES_HIDE
+           );
 
-    add( "FONT_WIDTH", "graphics", to_translation( "Font width" ),
-         to_translation( "Set the font width.  Requires restart." ),
-         8, 100, 8, COPT_CURSES_HIDE
-       );
+        add( "FONT_WIDTH", "graphics", to_translation( "Font width" ),
+             to_translation( "Set the font width.  Requires restart." ),
+             8, 100, 8, COPT_CURSES_HIDE
+           );
 
-    add( "FONT_HEIGHT", "graphics", to_translation( "Font height" ),
-         to_translation( "Set the font height.  Requires restart." ),
-         8, 100, 16, COPT_CURSES_HIDE
-       );
+        add( "FONT_HEIGHT", "graphics", to_translation( "Font height" ),
+             to_translation( "Set the font height.  Requires restart." ),
+             8, 100, 16, COPT_CURSES_HIDE
+           );
 
-    add( "FONT_SIZE", "graphics", to_translation( "Font size" ),
-         to_translation( "Set the font size.  Requires restart." ),
-         8, 100, 16, COPT_CURSES_HIDE
-       );
+        add( "FONT_SIZE", "graphics", to_translation( "Font size" ),
+             to_translation( "Set the font size.  Requires restart." ),
+             8, 100, 16, COPT_CURSES_HIDE
+           );
 
-    add( "MAP_FONT_WIDTH", "graphics", to_translation( "Map font width" ),
-         to_translation( "Set the map font width.  Requires restart." ),
-         8, 100, 16, COPT_CURSES_HIDE
-       );
+        add( "MAP_FONT_WIDTH", "graphics", to_translation( "Map font width" ),
+             to_translation( "Set the map font width.  Requires restart." ),
+             8, 100, 16, COPT_CURSES_HIDE
+           );
 
-    add( "MAP_FONT_HEIGHT", "graphics", to_translation( "Map font height" ),
-         to_translation( "Set the map font height.  Requires restart." ),
-         8, 100, 16, COPT_CURSES_HIDE
-       );
+        add( "MAP_FONT_HEIGHT", "graphics", to_translation( "Map font height" ),
+             to_translation( "Set the map font height.  Requires restart." ),
+             8, 100, 16, COPT_CURSES_HIDE
+           );
 
-    add( "MAP_FONT_SIZE", "graphics", to_translation( "Map font size" ),
-         to_translation( "Set the map font size.  Requires restart." ),
-         8, 100, 16, COPT_CURSES_HIDE
-       );
+        add( "MAP_FONT_SIZE", "graphics", to_translation( "Map font size" ),
+             to_translation( "Set the map font size.  Requires restart." ),
+             8, 100, 16, COPT_CURSES_HIDE
+           );
 
-    add( "OVERMAP_FONT_WIDTH", "graphics", to_translation( "Overmap font width" ),
-         to_translation( "Set the overmap font width.  Requires restart." ),
-         8, 100, 16, COPT_CURSES_HIDE
-       );
+        add( "OVERMAP_FONT_WIDTH", "graphics", to_translation( "Overmap font width" ),
+             to_translation( "Set the overmap font width.  Requires restart." ),
+             8, 100, 16, COPT_CURSES_HIDE
+           );
 
-    add( "OVERMAP_FONT_HEIGHT", "graphics", to_translation( "Overmap font height" ),
-         to_translation( "Set the overmap font height.  Requires restart." ),
-         8, 100, 16, COPT_CURSES_HIDE
-       );
+        add( "OVERMAP_FONT_HEIGHT", "graphics", to_translation( "Overmap font height" ),
+             to_translation( "Set the overmap font height.  Requires restart." ),
+             8, 100, 16, COPT_CURSES_HIDE
+           );
 
-    add( "OVERMAP_FONT_SIZE", "graphics", to_translation( "Overmap font size" ),
-         to_translation( "Set the overmap font size.  Requires restart." ),
-         8, 100, 16, COPT_CURSES_HIDE
-       );
+        add( "OVERMAP_FONT_SIZE", "graphics", to_translation( "Overmap font size" ),
+             to_translation( "Set the overmap font size.  Requires restart." ),
+             8, 100, 16, COPT_CURSES_HIDE
+           );
 
-    add( "USE_DRAW_ASCII_LINES_ROUTINE", "graphics", to_translation( "SDL ASCII lines" ),
-         to_translation( "If true, use SDL ASCII line drawing routine instead of Unicode Line Drawing characters.  Use this option when your selected font doesn't contain necessary glyphs." ),
-         true, COPT_CURSES_HIDE
-       );
+        add( "USE_DRAW_ASCII_LINES_ROUTINE", "graphics", to_translation( "SDL ASCII lines" ),
+             to_translation( "If true, use SDL ASCII line drawing routine instead of Unicode Line Drawing characters.  Use this option when your selected font doesn't contain necessary glyphs." ),
+             true, COPT_CURSES_HIDE
+           );
+    } );
+#endif // TILES
 
     add_empty_line();
 
