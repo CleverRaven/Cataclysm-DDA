@@ -120,6 +120,7 @@ static void check_weary_mutation_nosleep( const std::string &trait_name, float f
     SECTION( section_name.str() ) {
         clear_avatar();
         set_single_trait( guy, trait_name );
+        guy.set_stored_kcal( guy.get_healthy_kcal() );
         // How do we make sure they don't sleep? Set fatigue to -1000?
         // Doesn't seem to be a problem, fortunately.
 
@@ -204,6 +205,7 @@ static void check_weary_mutation_sleep( const std::string &trait_name, float fat
     SECTION( section_name.str() ) {
         clear_avatar();
         set_single_trait( guy, trait_name );
+        guy.set_stored_kcal( guy.get_healthy_kcal() );
 
         soldier_8h.enschedule( task_dig, 8_hours );
         soldier_8h.enschedule( sched_sleep, 8_hours );
