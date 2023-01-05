@@ -117,13 +117,6 @@
       ],
       "palettes": [ "roof_palette" ],
       "terrain": { ">": "t_ladder_down" },
-      "nested": {
-        "5": { "chunks": [ [ "null", 90 ], [ "roof_1x1_birdnest", 10 ] ] },
-        "|": { "chunks": [ [ "null", 1000 ], [ "roof_1x1_birdnest", 5 ] ] },
-        "2": { "chunks": [ [ "null", 1000 ], [ "roof_1x1_birdnest", 5 ] ] },
-        "3": { "chunks": [ [ "null", 1000 ], [ "roof_1x1_birdnest", 5 ] ] },
-        "-": { "chunks": [ [ "null", 1000 ], [ "roof_1x1_birdnest", 5 ] ] }
-      },
       "place_items": [ { "item": "roof_trash", "x": [ 7, 15 ], "y": [ 7, 18 ], "chance": 20, "repeat": [ 1, 3 ] } ],
       "place_nested": [
         {
