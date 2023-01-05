@@ -102,6 +102,7 @@ static float metabolic_rate_with_mutation( Character &dummy, const std::string &
 static int bmr_at_act_level( Character &dummy, float activity_level )
 {
     dummy.reset_activity_level();
+    dummy.set_stored_kcal( dummy.get_healthy_kcal(); );
     dummy.update_body( calendar::turn, calendar::turn );
     dummy.set_activity_level( activity_level );
 
@@ -152,7 +153,7 @@ static void for_each_size_category( const std::function< void( creature_size ) >
 }
 
 //we are testing the character's "fat bmis" which are 3.5-5 for normal weight and 5-10 for overweight, 10+ obese
-//this model does mean we are potentially "skinnyfat" since 8 str is avg-ish but somewhat sedentary
+//this model does mean we are potentially "skinnyfat" if low str but higher fat bmis
 TEST_CASE( "body mass index determines weight description", "[biometrics][bmi][weight]" )
 {
     avatar dummy;
