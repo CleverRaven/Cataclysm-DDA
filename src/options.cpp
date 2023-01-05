@@ -604,7 +604,7 @@ const options_manager::Group &options_manager::find_group( const std::string &id
             return g;
         }
     }
-    debugmsg( "Option group with id '%d' does not exist.", id );
+    debugmsg( "Option group with id '%s' does not exist.", id );
     return null_group;
 }
 
