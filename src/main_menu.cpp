@@ -248,11 +248,11 @@ void main_menu::display_sub_menu( int sel, const point &bottom_left, int sel_lin
         top_left.y = 0;
 
         // Calculate an offset from which to draw the options
-        if (sel2 - 1 < sub_opt_off) {
+        if ( sel2 - 1 < sub_opt_off ) {
             // Trying to go below the showed options, decrease our offset
             sub_opt_off = sel2;
         }
-        else if (sel2 + 1 > sub_opt_off + height) {
+        else if ( sel2 + 1 > sub_opt_off + height ) {
             // We are going over the list the other way around - increase offset
             sub_opt_off = sel2 - height + 1;
         }
@@ -269,7 +269,7 @@ void main_menu::display_sub_menu( int sel, const point &bottom_left, int sel_lin
     for( int y = 0; y < height; y++ ) {
         size_t opt_index = sub_opt_off + y;
         bool is_selection = sel2 == opt_index;
-        std::string opt = (is_selection ? "» " : "  " ) + sub_opts[opt_index];
+        std::string opt = ( is_selection ? "» " : "  " ) + sub_opts[opt_index];
         int padding = ( xlen + 2 ) - utf8_width( opt, true );
         opt.append( padding, ' ' );
         nc_color clr = is_selection ? hilite( c_white ) : c_white;
