@@ -31,7 +31,7 @@
     "bleed_rate": 50,
     "vision_night": 3,
     "harvest": "mr_bones",
-    "special_attacks": [ { "type": "bite", "attack_upper": false, "cooldown": 5 } ],
+    "special_attacks": [ { "type": "bite", "attack_upper": false, "cooldown": 5 }, [ "GRAB", 21 ] ],
     "death_drops": "mon_dog_death_drops",
     "upgrades": { "half_life": 42, "into": "mon_dog_skeleton_brute" },
     "flags": [ "SEES", "HEARS", "NO_BREATHE", "HARDTOSHOOT", "REVIVES", "POISON", "FILTHY" ]
@@ -59,7 +59,8 @@
     "upgrades": { "half_life": 42, "into": "mon_dog_zombie_hulk" },
     "special_attacks": [
       { "id": "smash", "attack_upper": false, "throw_strength": 48, "cooldown": 30 },
-      { "type": "bite", "attack_upper": false, "move_cost": 150, "cooldown": 2, "accuracy": 4, "infection_chance": 8 }
+      { "type": "bite", "attack_upper": false, "move_cost": 150, "cooldown": 2, "accuracy": 4, "infection_chance": 8 },
+      [ "GRAB", 21 ]
     ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_VEH" ] }
   },
@@ -83,7 +84,8 @@
     "upgrades": {  },
     "special_attacks": [
       { "id": "smash", "throw_strength": 81 },
-      { "type": "bite", "move_cost": 188, "cooldown": 2, "accuracy": 4, "infection_chance": 8 }
+      { "type": "bite", "move_cost": 188, "cooldown": 2, "accuracy": 4, "infection_chance": 8 },
+      [ "GRAB", 21 ]
     ],
     "extend": { "flags": [ "DESTROYS" ] }
   },
@@ -185,7 +187,7 @@
     "bleed_rate": 50,
     "vision_night": 3,
     "harvest": "mr_bones",
-    "special_attacks": [ { "type": "bite", "cooldown": 5 } ],
+    "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "GRAB", 21 ] ],
     "upgrades": { "half_life": 42, "into": "mon_dog_skeleton_brute" },
     "flags": [ "SEES", "HEARS", "NO_BREATHE", "HARDTOSHOOT", "REVIVES", "POISON", "FILTHY" ]
   },
@@ -212,7 +214,8 @@
         "cooldown": 10,
         "move_cost": 190,
         "damage_max_instance": [ { "damage_type": "stab", "amount": 12, "armor_multiplier": 0.7 } ]
-      }
+      },
+      [ "GRAB", 21 ]
     ],
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "CLIMBS", "PUSH_MON", "FILTHY" ]
   },
@@ -240,7 +243,7 @@
     "bleed_rate": 0,
     "vision_day": 10,
     "harvest": "mr_bones",
-    "special_attacks": [ [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
+    "special_attacks": [ [ "scratch", 10 ], { "type": "bite", "cooldown": 5 }, [ "GRAB", 21 ] ],
     "flags": [ "SEES", "HEARS", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "POISON", "FILTHY" ]
   },
   {
