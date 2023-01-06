@@ -629,7 +629,7 @@ void profession::learn_spells( avatar &you ) const
         you.magic->learn_spell( spell_pair.first, you, true );
         spell &sp = you.magic->get_spell( spell_pair.first );
         while( sp.get_level() < spell_pair.second && !sp.is_max_level() ) {
-            sp.gain_level();
+            sp.gain_level( you );
         }
     }
 }

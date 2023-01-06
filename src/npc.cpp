@@ -882,7 +882,7 @@ void npc::randomize( const npc_class_id &type )
         this->magic->learn_spell( spell_pair.first, *this, true );
         spell &sp = this->magic->get_spell( spell_pair.first );
         while( sp.get_level() < spell_pair.second && !sp.is_max_level() ) {
-            sp.gain_level();
+            sp.gain_level( *this );
         }
     }
 
