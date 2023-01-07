@@ -6093,7 +6093,7 @@ int Character::get_bmr() const
     int base_bmr_calc = base_bmr();
     // cut BMR in half if body goes into starvation mode, muscle is also being burnt to survive
     if( get_bmi_fat() < character_weight_category::underweight ) {
-        base_bmr_calc /= 2;
+        base_bmr_calc = std::round( base_bmr_calc / 2 );
     }
     base_bmr_calc *= clamp( activity_history.average_activity(), NO_EXERCISE,
                             maximum_exertion_level() );
