@@ -75,7 +75,7 @@
         "id": "manual_dodge_1",
         "name": { "str": "The Complete Book about Dodgeball", "str_pl": "copies of The Complete Book about Dodgeball" },
         "description": "Small book from a Physical Education and Health teacher about simple game of dodgeball, the variety of rules it may have, tricks, and what it can train the students.  Sadly, the book contain surprisingly poor grammar, and the book's informal conversational tone makes it difficult to follow at times.",
-        "fun": 0,
+        "fun": -1,
         "//": "978-1420875485",
         "weight": 1
       },
