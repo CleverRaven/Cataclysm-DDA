@@ -9056,9 +9056,12 @@ ret_val<crush_tool_type> Character::can_crush_frozen_liquid( item_location loc )
         if( has_quality( qual_DRILL ) ) {
             enough_quality = true;
         } else if( has_quality( qual_HAMMER ) && has_quality( qual_SCREW ) ) {
-            int num_hammer_tools = 0, num_screw_tools = 0, num_both_tools = 0;
+            int num_hammer_tools = 0;
+            int num_screw_tools = 0;
+            int num_both_tools = 0;
             for( item_location &tool : const_cast<Character *>( this )->all_items_loc() ) {
-                bool can_hammer = false, can_screw = false;
+                bool can_hammer = false;
+                bool can_screw = false;
                 if( tool->has_quality_nonrecursive( qual_HAMMER ) ) {
                     can_hammer = true;
                     num_hammer_tools++;
