@@ -31,35 +31,12 @@
     "skills": [
       {
         "skill": "ALL",
-        "level": {
-          "mul": [
-            { "one_in": 3 },
-            {
-              "sum": [
-                { "dice": [ 2, 2 ] },
-                { "constant": -2 },
-                { "one_in": 4 }
-              ]
-            }
-          ]
-        }
+        "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -2 }, { "one_in": 4 } ] } ] }
       },
-      {
-        "skill": "unarmed",
-        "bonus": { "one_in": 2 }
-      },
-      {
-        "skill": "melee",
-        "bonus": { "one_in": 2 }
-      },
-      {
-        "skill": "gun",
-        "bonus": { "rng": [ 0, 2 ] }
-      },
-      {
-        "skill": "speech",
-        "bonus": { "rng": [ 1, 3 ] }
-      }
+      { "skill": "unarmed", "bonus": { "one_in": 2 } },
+      { "skill": "melee", "bonus": { "one_in": 2 } },
+      { "skill": "gun", "bonus": { "rng": [ 0, 2 ] } },
+      { "skill": "speech", "bonus": { "rng": [ 1, 3 ] } }
     ]
   },
   {
@@ -67,68 +44,30 @@
     "type": "talk_topic",
     "dynamic_line": "Are you looking for something in particular?",
     "responses": [
-      {
-        "text": "Can you help me find something?",
-        "topic": "TALK_FORGE_DIVINER_FIND_WHAT"
-      },
-      {
-        "text": "What are you doing here?",
-        "topic": "TALK_FORGE_DIVINER_DOING"
-      },
-      {
-        "text": "Well, bye.",
-        "topic": "TALK_DONE"
-      }
+      { "text": "Can you help me find something?", "topic": "TALK_FORGE_DIVINER_FIND_WHAT" },
+      { "text": "What are you doing here?", "topic": "TALK_FORGE_DIVINER_DOING" },
+      { "text": "Well, bye.", "topic": "TALK_DONE" }
     ]
   },
   {
     "id": "TALK_FORGE_DIVINER_DOING",
     "type": "talk_topic",
     "dynamic_line": "I specialize in scrying.  I can help you find any number of things.",
-    "responses": [
-      {
-        "text": "Let's talk business then.",
-        "topic": "TALK_FORGE_LORD_DIVINER"
-      }
-    ]
+    "responses": [ { "text": "Let's talk business then.", "topic": "TALK_FORGE_LORD_DIVINER" } ]
   },
   {
     "id": "TALK_FORGE_DIVINER_FIND_WHAT",
     "type": "talk_topic",
     "dynamic_line": "Perhaps.  What do you seek?",
     "responses": [
-      {
-        "text": "A dangerous location.",
-        "topic": "TALK_FORGE_LORD_DIVINER_DANGEROUS"
-      },
-      {
-        "text": "A man made structure.",
-        "topic": "TALK_FORGE_LORD_DIVINER_MAN_MADE"
-      },
-      {
-        "text": "A geological formation.",
-        "topic": "TALK_FORGE_LORD_DIVINER_GEOLOGY"
-      },
-      {
-        "text": "A plant.",
-        "topic": "TALK_FORGE_LORD_DIVINER_PLANT"
-      },
-      {
-        "text": "An animal.",
-        "topic": "TALK_FORGE_LORD_DIVINER_ANIMAL"
-      },
-      {
-        "text": "A god.",
-        "topic": "TALK_FORGE_LORD_DIVINER_GOD"
-      },
-      {
-        "text": "About something else…",
-        "topic": "TALK_NONE"
-      },
-      {
-        "text": "Nevermind.",
-        "topic": "TALK_DONE"
-      }
+      { "text": "A dangerous location.", "topic": "TALK_FORGE_LORD_DIVINER_DANGEROUS" },
+      { "text": "A man made structure.", "topic": "TALK_FORGE_LORD_DIVINER_MAN_MADE" },
+      { "text": "A geological formation.", "topic": "TALK_FORGE_LORD_DIVINER_GEOLOGY" },
+      { "text": "A plant.", "topic": "TALK_FORGE_LORD_DIVINER_PLANT" },
+      { "text": "An animal.", "topic": "TALK_FORGE_LORD_DIVINER_ANIMAL" },
+      { "text": "A god.", "topic": "TALK_FORGE_LORD_DIVINER_GOD" },
+      { "text": "About something else…", "topic": "TALK_NONE" },
+      { "text": "Nevermind.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -136,70 +75,22 @@
     "type": "talk_topic",
     "dynamic_line": "A thrill seeker, are you?  So what will it be?",
     "responses": [
-      {
-        "text": "An ant nest.",
-        "topic": "TALK_FORGE_LORD_DIVINER_ANT"
-      },
-      {
-        "text": "An acid ant nest.",
-        "topic": "TALK_FORGE_LORD_DIVINER_ACID_ANT"
-      },
-      {
-        "text": "A dermatik nest.",
-        "topic": "TALK_FORGE_LORD_DIVINER_DERMATIK"
-      },
-      {
-        "text": "Spiders.",
-        "topic": "TALK_FORGE_LORD_DIVINER_SPIDERS"
-      },
-      {
-        "text": "A fungal growth.",
-        "topic": "TALK_FORGE_LORD_DIVINER_FUNGAL"
-      },
-      {
-        "text": "A mi-go building.",
-        "topic": "TALK_FORGE_LORD_DIVINER_MI_GO"
-      },
-      {
-        "text": "A triffid grove.",
-        "topic": "TALK_FORGE_LORD_DIVINER_TRIFFID"
-      },
-      {
-        "text": "A kraken cave.",
-        "topic": "TALK_FORGE_LORD_DIVINER_KRAKEN"
-      },
-      {
-        "text": "A slime pit.",
-        "topic": "TALK_FORGE_LORD_DIVINER_SLIME"
-      },
-      {
-        "text": "A goblin encampment.",
-        "topic": "TALK_FORGE_LORD_DIVINER_GOBLIN"
-      },
-      {
-        "text": "An orc village.",
-        "topic": "TALK_FORGE_LORD_DIVINER_ORC"
-      },
-      {
-        "text": "A swamp dragon cave!",
-        "topic": "TALK_FORGE_LORD_DIVINER_SWAMP_DRAGON"
-      },
-      {
-        "text": "Demon spiders",
-        "topic": "TALK_FORGE_LORD_DIVINER_SPIDERS_DEMON"
-      },
-      {
-        "text": "A balrog mine",
-        "topic": "TALK_FORGE_LORD_DIVINER_BALROG"
-      },
-      {
-        "text": "About something else…",
-        "topic": "TALK_NONE"
-      },
-      {
-        "text": "Nevermind.",
-        "topic": "TALK_DONE"
-      }
+      { "text": "An ant nest.", "topic": "TALK_FORGE_LORD_DIVINER_ANT" },
+      { "text": "An acid ant nest.", "topic": "TALK_FORGE_LORD_DIVINER_ACID_ANT" },
+      { "text": "A dermatik nest.", "topic": "TALK_FORGE_LORD_DIVINER_DERMATIK" },
+      { "text": "Spiders.", "topic": "TALK_FORGE_LORD_DIVINER_SPIDERS" },
+      { "text": "A fungal growth.", "topic": "TALK_FORGE_LORD_DIVINER_FUNGAL" },
+      { "text": "A mi-go building.", "topic": "TALK_FORGE_LORD_DIVINER_MI_GO" },
+      { "text": "A triffid grove.", "topic": "TALK_FORGE_LORD_DIVINER_TRIFFID" },
+      { "text": "A kraken cave.", "topic": "TALK_FORGE_LORD_DIVINER_KRAKEN" },
+      { "text": "A slime pit.", "topic": "TALK_FORGE_LORD_DIVINER_SLIME" },
+      { "text": "A goblin encampment.", "topic": "TALK_FORGE_LORD_DIVINER_GOBLIN" },
+      { "text": "An orc village.", "topic": "TALK_FORGE_LORD_DIVINER_ORC" },
+      { "text": "A swamp dragon cave!", "topic": "TALK_FORGE_LORD_DIVINER_SWAMP_DRAGON" },
+      { "text": "Demon spiders", "topic": "TALK_FORGE_LORD_DIVINER_SPIDERS_DEMON" },
+      { "text": "A balrog mine", "topic": "TALK_FORGE_LORD_DIVINER_BALROG" },
+      { "text": "About something else…", "topic": "TALK_NONE" },
+      { "text": "Nevermind.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -207,46 +98,16 @@
     "type": "talk_topic",
     "dynamic_line": "Seeking to pick around your civilization's corpse?",
     "responses": [
-      {
-        "text": "A lab.",
-        "topic": "TALK_FORGE_LORD_DIVINER_LAB"
-      },
-      {
-        "text": "An exodii location.",
-        "topic": "TALK_FORGE_LORD_DIVINER_EXODII"
-      },
-      {
-        "text": "A strange temple.",
-        "topic": "TALK_FORGE_LORD_DIVINER_TEMPLE"
-      },
-      {
-        "text": "An attunement altar.",
-        "topic": "TALK_FORGE_LORD_DIVINER_ATTUNEMENT"
-      },
-      {
-        "text": "A magic academy.",
-        "topic": "TALK_FORGE_LORD_DIVINER_ACADEMY"
-      },
-      {
-        "text": "A wizard tower.",
-        "topic": "TALK_FORGE_LORD_DIVINER_TOWER"
-      },
-      {
-        "text": "A goblin encampment.",
-        "topic": "TALK_FORGE_LORD_DIVINER_GOBLIN"
-      },
-      {
-        "text": "An orc village.",
-        "topic": "TALK_FORGE_LORD_DIVINER_ORC"
-      },
-      {
-        "text": "About something else…",
-        "topic": "TALK_NONE"
-      },
-      {
-        "text": "Nevermind.",
-        "topic": "TALK_DONE"
-      }
+      { "text": "A lab.", "topic": "TALK_FORGE_LORD_DIVINER_LAB" },
+      { "text": "An exodii location.", "topic": "TALK_FORGE_LORD_DIVINER_EXODII" },
+      { "text": "A strange temple.", "topic": "TALK_FORGE_LORD_DIVINER_TEMPLE" },
+      { "text": "An attunement altar.", "topic": "TALK_FORGE_LORD_DIVINER_ATTUNEMENT" },
+      { "text": "A magic academy.", "topic": "TALK_FORGE_LORD_DIVINER_ACADEMY" },
+      { "text": "A wizard tower.", "topic": "TALK_FORGE_LORD_DIVINER_TOWER" },
+      { "text": "A goblin encampment.", "topic": "TALK_FORGE_LORD_DIVINER_GOBLIN" },
+      { "text": "An orc village.", "topic": "TALK_FORGE_LORD_DIVINER_ORC" },
+      { "text": "About something else…", "topic": "TALK_NONE" },
+      { "text": "Nevermind.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -254,34 +115,13 @@
     "type": "talk_topic",
     "dynamic_line": "Sure.  Looking for a pretty vista, perhaps?",
     "responses": [
-      {
-        "text": "A river.",
-        "topic": "TALK_FORGE_LORD_DIVINER_RIVER"
-      },
-      {
-        "text": "A clay deposit.",
-        "topic": "TALK_FORGE_LORD_DIVINER_CLAY"
-      },
-      {
-        "text": "A sand deposit.",
-        "topic": "TALK_FORGE_LORD_DIVINER_SAND"
-      },
-      {
-        "text": "A hot spring.",
-        "topic": "TALK_FORGE_LORD_DIVINER_SPRING"
-      },
-      {
-        "text": "A cave.",
-        "topic": "TALK_FORGE_LORD_DIVINER_CAVE"
-      },
-      {
-        "text": "About something else…",
-        "topic": "TALK_NONE"
-      },
-      {
-        "text": "Nevermind.",
-        "topic": "TALK_DONE"
-      }
+      { "text": "A river.", "topic": "TALK_FORGE_LORD_DIVINER_RIVER" },
+      { "text": "A clay deposit.", "topic": "TALK_FORGE_LORD_DIVINER_CLAY" },
+      { "text": "A sand deposit.", "topic": "TALK_FORGE_LORD_DIVINER_SAND" },
+      { "text": "A hot spring.", "topic": "TALK_FORGE_LORD_DIVINER_SPRING" },
+      { "text": "A cave.", "topic": "TALK_FORGE_LORD_DIVINER_CAVE" },
+      { "text": "About something else…", "topic": "TALK_NONE" },
+      { "text": "Nevermind.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -289,18 +129,9 @@
     "type": "talk_topic",
     "dynamic_line": "A plant you say?  Which one?",
     "responses": [
-      {
-        "text": "A magical plant.",
-        "topic": "TALK_FORGE_LORD_DIVINER_MAGIC_PLANT"
-      },
-      {
-        "text": "About something else…",
-        "topic": "TALK_NONE"
-      },
-      {
-        "text": "Nevermind.",
-        "topic": "TALK_DONE"
-      }
+      { "text": "A magical plant.", "topic": "TALK_FORGE_LORD_DIVINER_MAGIC_PLANT" },
+      { "text": "About something else…", "topic": "TALK_NONE" },
+      { "text": "Nevermind.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -308,54 +139,22 @@
     "type": "talk_topic",
     "dynamic_line": "Right.  What kind?",
     "responses": [
-      {
-        "text": "A cow.",
-        "topic": "TALK_FORGE_LORD_DIVINER_COW"
-      },
-      {
-        "text": "A horse.",
-        "topic": "TALK_FORGE_LORD_DIVINER_HORSE"
-      },
-      {
-        "text": "A sheep.",
-        "topic": "TALK_FORGE_LORD_DIVINER_SHEEP"
-      },
-      {
-        "text": "A cow.",
-        "topic": "TALK_FORGE_LORD_DIVINER_COW"
-      },
-      {
-        "text": "A dog.",
-        "topic": "TALK_FORGE_LORD_DIVINER_DOG"
-      },
-      {
-        "text": "A cat.",
-        "topic": "TALK_FORGE_LORD_DIVINER_CAT"
-      },
-      {
-        "text": "A hunllef ram.",
-        "topic": "TALK_FORGE_LORD_DIVINER_HULLEF"
-      },
-      {
-        "text": "About something else…",
-        "topic": "TALK_NONE"
-      },
-      {
-        "text": "Nevermind.",
-        "topic": "TALK_DONE"
-      }
+      { "text": "A cow.", "topic": "TALK_FORGE_LORD_DIVINER_COW" },
+      { "text": "A horse.", "topic": "TALK_FORGE_LORD_DIVINER_HORSE" },
+      { "text": "A sheep.", "topic": "TALK_FORGE_LORD_DIVINER_SHEEP" },
+      { "text": "A cow.", "topic": "TALK_FORGE_LORD_DIVINER_COW" },
+      { "text": "A dog.", "topic": "TALK_FORGE_LORD_DIVINER_DOG" },
+      { "text": "A cat.", "topic": "TALK_FORGE_LORD_DIVINER_CAT" },
+      { "text": "A hunllef ram.", "topic": "TALK_FORGE_LORD_DIVINER_HULLEF" },
+      { "text": "About something else…", "topic": "TALK_NONE" },
+      { "text": "Nevermind.", "topic": "TALK_DONE" }
     ]
   },
   {
     "id": "TALK_FORGE_LORD_DIVINER_GET_MONEY",
     "type": "talk_topic",
     "dynamic_line": "I see.  You could get some from trading with the merchants around here.  The librarian is crazy for beech nuts, for example.  I saw her trade away all her money and books for a literal truckload of the things in another reality earlier.  Not sure what she does with them.  You see, she've lined her private rooms with lead which blocks my scrying.  Almost like she doesn't trust me.  Not sure why.",
-    "responses": [
-      {
-        "text": "Fair enough.",
-        "topic": "TALK_DONE"
-      }
-    ]
+    "responses": [ { "text": "Fair enough.", "topic": "TALK_DONE" } ]
   },
   {
     "id": "TALK_FORGE_LORD_DIVINER_ANT",
@@ -366,24 +165,15 @@
         "text": "It's a deal.",
         "topic": "TALK_DONE",
         "condition": { "u_has_item": "denarius" },
-        "effect": [
-          { "assign_mission": "MISSION_FORGE_DIVINER_ANTS" },
-          { "u_consume_item": "denarius" }
-        ]
+        "effect": [ { "assign_mission": "MISSION_FORGE_DIVINER_ANTS" }, { "u_consume_item": "denarius" } ]
       },
       {
         "text": "I can't afford that right now.",
         "topic": "TALK_FORGE_LORD_DIVINER_GET_MONEY",
         "condition": { "not": { "u_has_item": "denarius" } }
       },
-      {
-        "text": "About something else…",
-        "topic": "TALK_NONE"
-      },
-      {
-        "text": "Nevermind.",
-        "topic": "TALK_DONE"
-      }
+      { "text": "About something else…", "topic": "TALK_NONE" },
+      { "text": "Nevermind.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -395,24 +185,15 @@
         "text": "It's a deal.",
         "topic": "TALK_DONE",
         "condition": { "u_has_item": "denarius" },
-        "effect": [
-          { "assign_mission": "MISSION_FORGE_DIVINER_ACID_ANTS" },
-          { "u_consume_item": "denarius" }
-        ]
+        "effect": [ { "assign_mission": "MISSION_FORGE_DIVINER_ACID_ANTS" }, { "u_consume_item": "denarius" } ]
       },
       {
         "text": "I can't afford that right now.",
         "topic": "TALK_FORGE_LORD_DIVINER_GET_MONEY",
         "condition": { "not": { "u_has_item": "denarius" } }
       },
-      {
-        "text": "About something else…",
-        "topic": "TALK_NONE"
-      },
-      {
-        "text": "Nevermind.",
-        "topic": "TALK_DONE"
-      }
+      { "text": "About something else…", "topic": "TALK_NONE" },
+      { "text": "Nevermind.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -424,24 +205,15 @@
         "text": "Sure why not.",
         "topic": "TALK_DONE",
         "condition": { "u_has_item": "denarius" },
-        "effect": [
-          { "assign_mission": "MISSION_FORGE_DIVINER_DERMATIK" },
-          { "u_consume_item": "denarius" }
-        ]
+        "effect": [ { "assign_mission": "MISSION_FORGE_DIVINER_DERMATIK" }, { "u_consume_item": "denarius" } ]
       },
       {
         "text": "I can't afford that right now.",
         "topic": "TALK_FORGE_LORD_DIVINER_GET_MONEY",
         "condition": { "not": { "u_has_item": "denarius" } }
       },
-      {
-        "text": "On second <swear> thought…",
-        "topic": "TALK_NONE"
-      },
-      {
-        "text": "Nope!  <swear> this.  I'm out.",
-        "topic": "TALK_DONE"
-      }
+      { "text": "On second <swear> thought…", "topic": "TALK_NONE" },
+      { "text": "Nope!  <swear> this.  I'm out.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -449,26 +221,11 @@
     "type": "talk_topic",
     "dynamic_line": "Spiders it is then.  But there are several different kinds of spiders out there.  Which type are you interested in?",
     "responses": [
-      {
-        "text": "Web spinners in a forest.",
-        "topic": "TALK_FORGE_LORD_DIVINER_SPIDERS_WEB"
-      },
-      {
-        "text": "A pit full of spiders.",
-        "topic": "TALK_FORGE_LORD_DIVINER_SPIDERS_PIT"
-      },
-      {
-        "text": "Demonic spiders.",
-        "topic": "TALK_FORGE_LORD_DIVINER_SPIDERS_DEMON"
-      },
-      {
-        "text": "About something else…",
-        "topic": "TALK_NONE"
-      },
-      {
-        "text": "Nevermind.",
-        "topic": "TALK_DONE"
-      }
+      { "text": "Web spinners in a forest.", "topic": "TALK_FORGE_LORD_DIVINER_SPIDERS_WEB" },
+      { "text": "A pit full of spiders.", "topic": "TALK_FORGE_LORD_DIVINER_SPIDERS_PIT" },
+      { "text": "Demonic spiders.", "topic": "TALK_FORGE_LORD_DIVINER_SPIDERS_DEMON" },
+      { "text": "About something else…", "topic": "TALK_NONE" },
+      { "text": "Nevermind.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -480,24 +237,15 @@
         "text": "It's a deal.",
         "topic": "TALK_DONE",
         "condition": { "u_has_item": "denarius" },
-        "effect": [
-          { "assign_mission": "MISSION_FORGE_DIVINER_SPIDER_WEB" },
-          { "u_consume_item": "denarius" }
-        ]
+        "effect": [ { "assign_mission": "MISSION_FORGE_DIVINER_SPIDER_WEB" }, { "u_consume_item": "denarius" } ]
       },
       {
         "text": "I can't afford that right now.",
         "topic": "TALK_FORGE_LORD_DIVINER_GET_MONEY",
         "condition": { "not": { "u_has_item": "denarius" } }
       },
-      {
-        "text": "About something else…",
-        "topic": "TALK_NONE"
-      },
-      {
-        "text": "Nevermind.",
-        "topic": "TALK_DONE"
-      }
+      { "text": "About something else…", "topic": "TALK_NONE" },
+      { "text": "Nevermind.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -509,24 +257,15 @@
         "text": "It's a deal.",
         "topic": "TALK_DONE",
         "condition": { "u_has_item": "denarius" },
-        "effect": [
-          { "assign_mission": "MISSION_FORGE_DIVINER_SPIDER_PIT" },
-          { "u_consume_item": "denarius" }
-        ]
+        "effect": [ { "assign_mission": "MISSION_FORGE_DIVINER_SPIDER_PIT" }, { "u_consume_item": "denarius" } ]
       },
       {
         "text": "I can't afford that right now.",
         "topic": "TALK_FORGE_LORD_DIVINER_GET_MONEY",
         "condition": { "not": { "u_has_item": "denarius" } }
       },
-      {
-        "text": "About something else…",
-        "topic": "TALK_NONE"
-      },
-      {
-        "text": "Nevermind.",
-        "topic": "TALK_DONE"
-      }
+      { "text": "About something else…", "topic": "TALK_NONE" },
+      { "text": "Nevermind.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -538,24 +277,15 @@
         "text": "It's a deal.",
         "topic": "TALK_DONE",
         "condition": { "u_has_item": "denarius" },
-        "effect": [
-          { "assign_mission": "MISSION_FORGE_DIVINER_SPIDER_DEMON" },
-          { "u_consume_item": "denarius" }
-        ]
+        "effect": [ { "assign_mission": "MISSION_FORGE_DIVINER_SPIDER_DEMON" }, { "u_consume_item": "denarius" } ]
       },
       {
         "text": "I can't afford that right now.",
         "topic": "TALK_FORGE_LORD_DIVINER_GET_MONEY",
         "condition": { "not": { "u_has_item": "denarius" } }
       },
-      {
-        "text": "No thanks.  Giant fire-breathing spiders are no joke.",
-        "topic": "TALK_NONE"
-      },
-      {
-        "text": "Nevermind.",
-        "topic": "TALK_DONE"
-      }
+      { "text": "No thanks.  Giant fire-breathing spiders are no joke.", "topic": "TALK_NONE" },
+      { "text": "Nevermind.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -563,26 +293,11 @@
     "type": "talk_topic",
     "dynamic_line": "Ah yes, the extradimensional fungal dispersed intelligence known as the Mycus.  Quite a menace to interdimensional travelers, I tell you.  Some see them as a god.  Some see them as an existential threat.  And yet others see them as a good source of plant fibers.  Their cellular structure makes them highly adaptive to a wide variety of levels of reality, much like other fungal lifeforms.  Should you find yourself infected and without antifungal medicine, you can try rubbing sulphur on your skin.  It might not work, and it might irritate your skin, but anything is preferable to letting it run its course.  Should medication fail, don't bother with a bullet through your head. It won't save you from your impending fate.  Instead, use fire, that's my advice.  Now then, the Mycus have a few different manifestations.  Which one are you interested in?",
     "responses": [
-      {
-        "text": "A bloom.",
-        "topic": "TALK_FORGE_LORD_DIVINER_FUNGAL_BLOOM"
-      },
-      {
-        "text": "A tower.",
-        "topic": "TALK_FORGE_LORD_DIVINER_FUNGAL_TOWER"
-      },
-      {
-        "text": "Some flowers.",
-        "topic": "TALK_FORGE_LORD_DIVINER_FUNGAL_FLOWERS"
-      },
-      {
-        "text": "On second thought, maybe I'll go for something else…",
-        "topic": "TALK_NONE"
-      },
-      {
-        "text": "You know what?  Nevermind.",
-        "topic": "TALK_DONE"
-      }
+      { "text": "A bloom.", "topic": "TALK_FORGE_LORD_DIVINER_FUNGAL_BLOOM" },
+      { "text": "A tower.", "topic": "TALK_FORGE_LORD_DIVINER_FUNGAL_TOWER" },
+      { "text": "Some flowers.", "topic": "TALK_FORGE_LORD_DIVINER_FUNGAL_FLOWERS" },
+      { "text": "On second thought, maybe I'll go for something else…", "topic": "TALK_NONE" },
+      { "text": "You know what?  Nevermind.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -594,24 +309,15 @@
         "text": "It's a deal.",
         "topic": "TALK_DONE",
         "condition": { "u_has_item": "denarius" },
-        "effect": [
-          { "assign_mission": "MISSION_FORGE_DIVINER_FUNGAL_BLOOM" },
-          { "u_consume_item": "denarius" }
-        ]
+        "effect": [ { "assign_mission": "MISSION_FORGE_DIVINER_FUNGAL_BLOOM" }, { "u_consume_item": "denarius" } ]
       },
       {
         "text": "I can't afford that right now.",
         "topic": "TALK_FORGE_LORD_DIVINER_GET_MONEY",
         "condition": { "not": { "u_has_item": "denarius" } }
       },
-      {
-        "text": "About something else…",
-        "topic": "TALK_NONE"
-      },
-      {
-        "text": "Nevermind.",
-        "topic": "TALK_DONE"
-      }
+      { "text": "About something else…", "topic": "TALK_NONE" },
+      { "text": "Nevermind.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -623,24 +329,15 @@
         "text": "It's a deal.",
         "topic": "TALK_DONE",
         "condition": { "u_has_item": "denarius" },
-        "effect": [
-          { "assign_mission": "MISSION_FORGE_DIVINER_FUNGAL_TOWER" },
-          { "u_consume_item": "denarius" }
-        ]
+        "effect": [ { "assign_mission": "MISSION_FORGE_DIVINER_FUNGAL_TOWER" }, { "u_consume_item": "denarius" } ]
       },
       {
         "text": "I can't afford that right now.",
         "topic": "TALK_FORGE_LORD_DIVINER_GET_MONEY",
         "condition": { "not": { "u_has_item": "denarius" } }
       },
-      {
-        "text": "About something else…",
-        "topic": "TALK_NONE"
-      },
-      {
-        "text": "Nevermind.",
-        "topic": "TALK_DONE"
-      }
+      { "text": "About something else…", "topic": "TALK_NONE" },
+      { "text": "Nevermind.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -652,24 +349,15 @@
         "text": "It's a deal.",
         "topic": "TALK_DONE",
         "condition": { "u_has_item": "denarius" },
-        "effect": [
-          { "assign_mission": "MISSION_FORGE_DIVINER_FUNGAL_FLOWERS" },
-          { "u_consume_item": "denarius" }
-        ]
+        "effect": [ { "assign_mission": "MISSION_FORGE_DIVINER_FUNGAL_FLOWERS" }, { "u_consume_item": "denarius" } ]
       },
       {
         "text": "I can't afford that right now.",
         "topic": "TALK_FORGE_LORD_DIVINER_GET_MONEY",
         "condition": { "not": { "u_has_item": "denarius" } }
       },
-      {
-        "text": "About something else…",
-        "topic": "TALK_NONE"
-      },
-      {
-        "text": "Nevermind.",
-        "topic": "TALK_DONE"
-      }
+      { "text": "About something else…", "topic": "TALK_NONE" },
+      { "text": "Nevermind.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -677,22 +365,10 @@
     "type": "talk_topic",
     "dynamic_line": "Right. Fungal crustaceans from space.  Mighty unpleasant fellas, if you ask me.  But, uh, don't tell them I said so.  The forge lord says they mean no offense, that cutting people up is just their way of saying 'hi'.  Personally I find it rude, but perhaps that's anthropocentric of me.  But I digress.  Are you interested in an encampment or a scout tower?",
     "responses": [
-      {
-        "text": "An encampment.",
-        "topic": "TALK_FORGE_LORD_DIVINER_MI_GO_ENCAMPMENT"
-      },
-      {
-        "text": "A scout tower.",
-        "topic": "TALK_FORGE_LORD_DIVINER_MI_GO_TOWER"
-      },
-      {
-        "text": "On second thought…",
-        "topic": "TALK_NONE"
-      },
-      {
-        "text": "Nevermind.",
-        "topic": "TALK_DONE"
-      }
+      { "text": "An encampment.", "topic": "TALK_FORGE_LORD_DIVINER_MI_GO_ENCAMPMENT" },
+      { "text": "A scout tower.", "topic": "TALK_FORGE_LORD_DIVINER_MI_GO_TOWER" },
+      { "text": "On second thought…", "topic": "TALK_NONE" },
+      { "text": "Nevermind.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -704,24 +380,15 @@
         "text": "Uh sure.  Thanks?  It's a deal.",
         "topic": "TALK_DONE",
         "condition": { "u_has_item": "denarius" },
-        "effect": [
-          { "assign_mission": "MISSION_FORGE_DIVINER_MI_GO_ENCAMPMENT" },
-          { "u_consume_item": "denarius" }
-        ]
+        "effect": [ { "assign_mission": "MISSION_FORGE_DIVINER_MI_GO_ENCAMPMENT" }, { "u_consume_item": "denarius" } ]
       },
       {
         "text": "I can't afford that right now.",
         "topic": "TALK_FORGE_LORD_DIVINER_GET_MONEY",
         "condition": { "not": { "u_has_item": "denarius" } }
       },
-      {
-        "text": "About something else…",
-        "topic": "TALK_NONE"
-      },
-      {
-        "text": "Nevermind.",
-        "topic": "TALK_DONE"
-      }
+      { "text": "About something else…", "topic": "TALK_NONE" },
+      { "text": "Nevermind.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -733,24 +400,15 @@
         "text": "It's a deal.",
         "topic": "TALK_DONE",
         "condition": { "u_has_item": "denarius" },
-        "effect": [
-          { "assign_mission": "MISSION_FORGE_DIVINER_MI_GO_TOWER" },
-          { "u_consume_item": "denarius" }
-        ]
+        "effect": [ { "assign_mission": "MISSION_FORGE_DIVINER_MI_GO_TOWER" }, { "u_consume_item": "denarius" } ]
       },
       {
         "text": "I can't afford that right now.",
         "topic": "TALK_FORGE_LORD_DIVINER_GET_MONEY",
         "condition": { "not": { "u_has_item": "denarius" } }
       },
-      {
-        "text": "About something else…",
-        "topic": "TALK_NONE"
-      },
-      {
-        "text": "Nevermind.",
-        "topic": "TALK_DONE"
-      }
+      { "text": "About something else…", "topic": "TALK_NONE" },
+      { "text": "Nevermind.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -762,24 +420,15 @@
         "text": "It's a deal.",
         "topic": "TALK_DONE",
         "condition": { "u_has_item": "denarius" },
-        "effect": [
-          { "assign_mission": "MISSION_FORGE_DIVINER_MI_GO_TOWER" },
-          { "u_consume_item": "denarius" }
-        ]
+        "effect": [ { "assign_mission": "MISSION_FORGE_DIVINER_MI_GO_TOWER" }, { "u_consume_item": "denarius" } ]
       },
       {
         "text": "I can't afford that right now.",
         "topic": "TALK_FORGE_LORD_DIVINER_GET_MONEY",
         "condition": { "not": { "u_has_item": "denarius" } }
       },
-      {
-        "text": "About something else…",
-        "topic": "TALK_NONE"
-      },
-      {
-        "text": "Nevermind.",
-        "topic": "TALK_DONE"
-      }
+      { "text": "About something else…", "topic": "TALK_NONE" },
+      { "text": "Nevermind.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -791,24 +440,15 @@
         "text": "It's a deal.",
         "topic": "TALK_DONE",
         "condition": { "u_has_item": "denarius" },
-        "effect": [
-          { "assign_mission": "MISSION_FORGE_DIVINER_KRAKEN" },
-          { "u_consume_item": "denarius" }
-        ]
+        "effect": [ { "assign_mission": "MISSION_FORGE_DIVINER_KRAKEN" }, { "u_consume_item": "denarius" } ]
       },
       {
         "text": "I can't afford that right now.",
         "topic": "TALK_FORGE_LORD_DIVINER_GET_MONEY",
         "condition": { "not": { "u_has_item": "denarius" } }
       },
-      {
-        "text": "About something else…",
-        "topic": "TALK_NONE"
-      },
-      {
-        "text": "Nevermind.",
-        "topic": "TALK_DONE"
-      }
+      { "text": "About something else…", "topic": "TALK_NONE" },
+      { "text": "Nevermind.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -820,24 +460,15 @@
         "text": "It's a deal.",
         "topic": "TALK_DONE",
         "condition": { "u_has_item": "denarius" },
-        "effect": [
-          { "assign_mission": "MISSION_FORGE_DIVINER_SLIME" },
-          { "u_consume_item": "denarius" }
-        ]
+        "effect": [ { "assign_mission": "MISSION_FORGE_DIVINER_SLIME" }, { "u_consume_item": "denarius" } ]
       },
       {
         "text": "I can't afford that right now.",
         "topic": "TALK_FORGE_LORD_DIVINER_GET_MONEY",
         "condition": { "not": { "u_has_item": "denarius" } }
       },
-      {
-        "text": "About something else…",
-        "topic": "TALK_NONE"
-      },
-      {
-        "text": "Nevermind.",
-        "topic": "TALK_DONE"
-      }
+      { "text": "About something else…", "topic": "TALK_NONE" },
+      { "text": "Nevermind.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -849,24 +480,15 @@
         "text": "It's a deal.",
         "topic": "TALK_DONE",
         "condition": { "u_has_item": "denarius" },
-        "effect": [
-          { "assign_mission": "MISSION_FORGE_DIVINER_GOBLIN" },
-          { "u_consume_item": "denarius" }
-        ]
+        "effect": [ { "assign_mission": "MISSION_FORGE_DIVINER_GOBLIN" }, { "u_consume_item": "denarius" } ]
       },
       {
         "text": "I can't afford that right now.",
         "topic": "TALK_FORGE_LORD_DIVINER_GET_MONEY",
         "condition": { "not": { "u_has_item": "denarius" } }
       },
-      {
-        "text": "About something else…",
-        "topic": "TALK_NONE"
-      },
-      {
-        "text": "Nevermind.",
-        "topic": "TALK_DONE"
-      }
+      { "text": "About something else…", "topic": "TALK_NONE" },
+      { "text": "Nevermind.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -878,24 +500,15 @@
         "text": "It's a deal.",
         "topic": "TALK_DONE",
         "condition": { "u_has_item": "denarius" },
-        "effect": [
-          { "assign_mission": "MISSION_FORGE_DIVINER_ORC" },
-          { "u_consume_item": "denarius" }
-        ]
+        "effect": [ { "assign_mission": "MISSION_FORGE_DIVINER_ORC" }, { "u_consume_item": "denarius" } ]
       },
       {
         "text": "I can't afford that right now.",
         "topic": "TALK_FORGE_LORD_DIVINER_GET_MONEY",
         "condition": { "not": { "u_has_item": "denarius" } }
       },
-      {
-        "text": "About something else…",
-        "topic": "TALK_NONE"
-      },
-      {
-        "text": "Nevermind.",
-        "topic": "TALK_DONE"
-      }
+      { "text": "About something else…", "topic": "TALK_NONE" },
+      { "text": "Nevermind.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -907,24 +520,15 @@
         "text": "It's a deal.",
         "topic": "TALK_DONE",
         "condition": { "u_has_item": "denarius" },
-        "effect": [
-          { "assign_mission": "MISSION_FORGE_SWAMP_DRAGON" },
-          { "u_consume_item": "denarius" }
-        ]
+        "effect": [ { "assign_mission": "MISSION_FORGE_SWAMP_DRAGON" }, { "u_consume_item": "denarius" } ]
       },
       {
         "text": "I can't afford that right now.",
         "topic": "TALK_FORGE_LORD_DIVINER_GET_MONEY",
         "condition": { "not": { "u_has_item": "denarius" } }
       },
-      {
-        "text": "About something else…",
-        "topic": "TALK_NONE"
-      },
-      {
-        "text": "Nevermind.",
-        "topic": "TALK_DONE"
-      }
+      { "text": "About something else…", "topic": "TALK_NONE" },
+      { "text": "Nevermind.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -936,24 +540,15 @@
         "text": "It's a deal.",
         "topic": "TALK_DONE",
         "condition": { "u_has_item": "denarius" },
-        "effect": [
-          { "assign_mission": "MISSION_FORGE_SWAMP_BALROG" },
-          { "u_consume_item": "denarius" }
-        ]
+        "effect": [ { "assign_mission": "MISSION_FORGE_SWAMP_BALROG" }, { "u_consume_item": "denarius" } ]
       },
       {
         "text": "I can't afford that right now.",
         "topic": "TALK_FORGE_LORD_DIVINER_GET_MONEY",
         "condition": { "not": { "u_has_item": "denarius" } }
       },
-      {
-        "text": "About something else…",
-        "topic": "TALK_NONE"
-      },
-      {
-        "text": "Nevermind.",
-        "topic": "TALK_DONE"
-      }
+      { "text": "About something else…", "topic": "TALK_NONE" },
+      { "text": "Nevermind.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -961,30 +556,12 @@
     "type": "talk_topic",
     "dynamic_line": "Deeply buried secret installations where shady government organizations conducted unethical experiments, free from moral constrains.  Did such places really exist before the cataclysm, or did humanity's collective mistrust, superstition and conspiracy theories cause the portal storms to dream these places into existence?  I honestly can't tell, but I suppose it doesn't matter now.  The places does exists, and are ripe with mysteries, dangers, and loot.  You'll have to specify which kind you're looking for.",
     "responses": [
-      {
-        "text": "Just a normal one.",
-        "topic": "TALK_FORGE_LORD_DIVINER_LAB_NORMAL"
-      },
-      {
-        "text": "A central lab.",
-        "topic": "TALK_FORGE_LORD_DIVINER_LAB_CENTRAL"
-      },
-      {
-        "text": "An ice lab.",
-        "topic": "TALK_FORGE_LORD_DIVINER_LAB_ICE"
-      },
-      {
-        "text": "A nether lab.",
-        "topic": "TALK_FORGE_LORD_DIVINER_LAB_NETHER"
-      },
-      {
-        "text": "On second thought, maybe I'll go for something else…",
-        "topic": "TALK_NONE"
-      },
-      {
-        "text": "You know what?  Nevermind.",
-        "topic": "TALK_DONE"
-      }
+      { "text": "Just a normal one.", "topic": "TALK_FORGE_LORD_DIVINER_LAB_NORMAL" },
+      { "text": "A central lab.", "topic": "TALK_FORGE_LORD_DIVINER_LAB_CENTRAL" },
+      { "text": "An ice lab.", "topic": "TALK_FORGE_LORD_DIVINER_LAB_ICE" },
+      { "text": "A nether lab.", "topic": "TALK_FORGE_LORD_DIVINER_LAB_NETHER" },
+      { "text": "On second thought, maybe I'll go for something else…", "topic": "TALK_NONE" },
+      { "text": "You know what?  Nevermind.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -996,24 +573,15 @@
         "text": "It's a deal.",
         "topic": "TALK_DONE",
         "condition": { "u_has_item": "denarius" },
-        "effect": [
-          { "assign_mission": "MISSION_FORGE_DIVINER_LAB" },
-          { "u_consume_item": "denarius" }
-        ]
+        "effect": [ { "assign_mission": "MISSION_FORGE_DIVINER_LAB" }, { "u_consume_item": "denarius" } ]
       },
       {
         "text": "I can't afford that right now.",
         "topic": "TALK_FORGE_LORD_DIVINER_GET_MONEY",
         "condition": { "not": { "u_has_item": "denarius" } }
       },
-      {
-        "text": "About something else…",
-        "topic": "TALK_NONE"
-      },
-      {
-        "text": "Nevermind.",
-        "topic": "TALK_DONE"
-      }
+      { "text": "About something else…", "topic": "TALK_NONE" },
+      { "text": "Nevermind.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -1025,24 +593,15 @@
         "text": "It's a deal.",
         "topic": "TALK_DONE",
         "condition": { "u_has_item": "denarius" },
-        "effect": [
-          { "assign_mission": "MISSION_FORGE_DIVINER_LAB_CENTRAL" },
-          { "u_consume_item": "denarius" }
-        ]
+        "effect": [ { "assign_mission": "MISSION_FORGE_DIVINER_LAB_CENTRAL" }, { "u_consume_item": "denarius" } ]
       },
       {
         "text": "I can't afford that right now.",
         "topic": "TALK_FORGE_LORD_DIVINER_GET_MONEY",
         "condition": { "not": { "u_has_item": "denarius" } }
       },
-      {
-        "text": "About something else…",
-        "topic": "TALK_NONE"
-      },
-      {
-        "text": "Nevermind.",
-        "topic": "TALK_DONE"
-      }
+      { "text": "About something else…", "topic": "TALK_NONE" },
+      { "text": "Nevermind.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -1054,24 +613,15 @@
         "text": "Cool.  It's a deal.",
         "topic": "TALK_DONE",
         "condition": { "u_has_item": "denarius" },
-        "effect": [
-          { "assign_mission": "MISSION_FORGE_DIVINER_LAB_ICE" },
-          { "u_consume_item": "denarius" }
-        ]
+        "effect": [ { "assign_mission": "MISSION_FORGE_DIVINER_LAB_ICE" }, { "u_consume_item": "denarius" } ]
       },
       {
         "text": "I can't afford that right now.",
         "topic": "TALK_FORGE_LORD_DIVINER_GET_MONEY",
         "condition": { "not": { "u_has_item": "denarius" } }
       },
-      {
-        "text": "About something else…",
-        "topic": "TALK_NONE"
-      },
-      {
-        "text": "Actually, I got cold feet.",
-        "topic": "TALK_DONE"
-      }
+      { "text": "About something else…", "topic": "TALK_NONE" },
+      { "text": "Actually, I got cold feet.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -1083,24 +633,15 @@
         "text": "It's a deal.",
         "topic": "TALK_DONE",
         "condition": { "u_has_item": "denarius" },
-        "effect": [
-          { "assign_mission": "MISSION_FORGE_DIVINER_LAB_NETHER" },
-          { "u_consume_item": "denarius" }
-        ]
+        "effect": [ { "assign_mission": "MISSION_FORGE_DIVINER_LAB_NETHER" }, { "u_consume_item": "denarius" } ]
       },
       {
         "text": "I can't afford that right now.",
         "topic": "TALK_FORGE_LORD_DIVINER_GET_MONEY",
         "condition": { "not": { "u_has_item": "denarius" } }
       },
-      {
-        "text": "About something else…",
-        "topic": "TALK_NONE"
-      },
-      {
-        "text": "Nevermind.",
-        "topic": "TALK_DONE"
-      }
+      { "text": "About something else…", "topic": "TALK_NONE" },
+      { "text": "Nevermind.", "topic": "TALK_DONE" }
     ]
   }
 ]
