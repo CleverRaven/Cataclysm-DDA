@@ -586,7 +586,7 @@
     "name": "Knifeshot",
     "description": "This spell generates a magnetic field around a knife, before launching it at high speed.",
     "valid_targets": [ "hostile", "ally" ],
-    "flags": [ "CONCENTRATE", "SILENT", "SOMATIC" ],
+    "flags": [ "CONCENTRATE", "SILENT", "SOMATIC", "NO_HANDS" ],
     "components": "spell_components_knifeshot",
     "effect": "attack",
     "shape": "blast",
