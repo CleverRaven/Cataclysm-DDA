@@ -156,7 +156,7 @@
       {
         "id": "book_nonf_hard_dodge_tlwd_1",
         "name": { "str": "A Guide To Making Yourself A Hard Target", "str_pl": "copies of A Guide To Making Yourself A Hard Target" },
-        "description": "Self defense fundaments, this book describe techniques and moveset you need to train to not be a victim.",
+        "description": "Self defense fundamentals, this book describe techniques and move set you need to train to not be a victim.",
         "//": "979-8620742561",
         "weight": 1
       },
@@ -194,7 +194,7 @@
       {
         "id": "book_nonf_hard_dodge_tlwd_6",
         "name": { "str": "Understanding the Human Foot", "str_pl": "copies of Understanding the Human Foot" },
-        "description": "Full color, updated overview of the structrue of the feet, with essential info about it structure and functions, same as demonstration how the foot relates to and interacts with the rest of the body during movement.",
+        "description": "Full color, updated overview of the structure of the feet, with essential info about it structure and functions, same as demonstration how the foot relates to and interacts with the rest of the body during movement.",
         "//": "978-1623176570",
         "weight": 1
       }

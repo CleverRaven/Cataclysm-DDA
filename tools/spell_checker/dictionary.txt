@@ -4,6 +4,7 @@ aboveground
 abso
 acausal
 accessorized
+accessorizing
 acclimatization
 accoustrement
 accurize
@@ -311,6 +312,7 @@ bodkin
 bodyglove
 bodymesh
 bodypart
+bodyweight 
 bokken
 bolas
 bolded
@@ -522,6 +524,7 @@ coifs
 coilgun
 coipo
 colorant
+combatives
 comestible
 comestibles
 commendably
@@ -1158,6 +1161,7 @@ gunblade
 gunfighting
 gunmod
 gunmods
+gunshop
 gunsmithing
 gunsmoke
 gushingly
@@ -2064,6 +2068,7 @@ posthuman
 potboiler
 potentiates
 pouncer
+powerlifting
 powerplants
 powertool
 prancer
