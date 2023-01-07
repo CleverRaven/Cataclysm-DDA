@@ -360,7 +360,7 @@
   {
     "id": "TALK_FORGE_LORD_DIVINER_ANT",
     "type": "talk_topic",
-    "dynamic_line": "I see a giant ant cutting down a tree with her mandables.  Did you know that worker ants are all female?  I see her friends around her as well.  I'll mark the location on your map for one denarius.",
+    "dynamic_line": "I see a giant ant cutting down a tree with her mandibles.  Did you know that worker ants are all female?  I see her friends around her as well.  I'll mark the location on your map for one denarius.",
     "responses": [
       {
         "text": "It's a deal.",
@@ -532,7 +532,7 @@
   {
     "id": "TALK_FORGE_LORD_DIVINER_SPIDERS_DEMON",
     "type": "talk_topic",
-    "dynamic_line": "Fasinating creatures, really.  They have evolved a way to channel their inate mana into potent fire spells.  Some demonic spider queens collect magical items as well.  Perhaps they have a way of absorbing the mana in them and use it for themselves?  I'll mark the lair of such a queen on your map for one denarius.  You might want to bring fire resistant clothing.",
+    "dynamic_line": "Fasinating creatures, really.  They have evolved a way to channel their innate mana into potent fire spells.  Some demonic spider queens collect magical items as well.  Perhaps they have a way of absorbing the mana in them and use it for themselves?  I'll mark the lair of such a queen on your map for one denarius.  You might want to bring fire resistant clothing.",
     "responses": [
       {
         "text": "It's a deal.",
@@ -549,7 +549,7 @@
         "condition": { "not": { "u_has_item": "denarius" } }
       },
       {
-        "text": "No thanks.  Giant firebreathing spiders are no joke.",
+        "text": "No thanks.  Giant fire-breathing spiders are no joke.",
         "topic": "TALK_NONE"
       },
       {
@@ -561,7 +561,7 @@
   {
     "id": "TALK_FORGE_LORD_DIVINER_FUNGAL",
     "type": "talk_topic",
-    "dynamic_line": "Ah yes, the extradimensional fungal dispersed intelligence known as the Mycus.  Quite a menace to interdimensional travelers, I tell you.  Some see them as a god.  Some see them as an existential threat.  And yet others see them as a good source of plant fibers.  Their celular structure makes them highly adaptive to a wide variety of levels of reality, much like other fungal lifeforms.  Should you find yourself infected and without antifungal medicine, you can try rubbing sulphur on your skin.  It might not work, and it might iritate your skin, but anything is preferable to letting it run its course.  Should medication fail, don't bother with a bullet through your head. It won't save you from your impending fate.  Instead, use fire, that's my advice.  Now then, the Mycus have a few different manifistations.  Which one are you interested in?",
+    "dynamic_line": "Ah yes, the extradimensional fungal dispersed intelligence known as the Mycus.  Quite a menace to interdimensional travelers, I tell you.  Some see them as a god.  Some see them as an existential threat.  And yet others see them as a good source of plant fibers.  Their cellular structure makes them highly adaptive to a wide variety of levels of reality, much like other fungal lifeforms.  Should you find yourself infected and without antifungal medicine, you can try rubbing sulphur on your skin.  It might not work, and it might irritate your skin, but anything is preferable to letting it run its course.  Should medication fail, don't bother with a bullet through your head. It won't save you from your impending fate.  Instead, use fire, that's my advice.  Now then, the Mycus have a few different manifestations.  Which one are you interested in?",
     "responses": [
       {
         "text": "A bloom.",
@@ -698,7 +698,7 @@
   {
     "id": "TALK_FORGE_LORD_DIVINER_MI_GO_ENCAMPMENT",
     "type": "talk_topic",
-    "dynamic_line": "Have you seen mi-go architecture?  They make these living, organic structures out of resin.  Kind of cool.  And disturbing, I guess.  Of course, they'll cut you to pieces if you gawk at it too long. I'll mark the location of one of these places on your map for one denarius.  I heard a story, not sure if it was true, but allegedly one guy tried to use the mi-go building resin as armor.  Apperently, it bore into the poor guy's flesh!  Like lichen!  His friends tried to tear it off, but it wouldn't bulge.  He was in so much pain they decided to put him out of his misery.  But they couldn't do it, because the armor was too good!  So I guess that in a sense it worked.  Heh.  The mental image still keeps me awake at night, occationally.  And now you have it too.  You're welcome.",
+    "dynamic_line": "Have you seen mi-go architecture?  They make these living, organic structures out of resin.  Kind of cool.  And disturbing, I guess.  Of course, they'll cut you to pieces if you gawk at it too long. I'll mark the location of one of these places on your map for one denarius.  I heard a story, not sure if it was true, but allegedly one guy tried to use the mi-go building resin as armor.  Apperently, it bore into the poor guy's flesh!  Like lichen!  His friends tried to tear it off, but it wouldn't bulge.  He was in so much pain they decided to put him out of his misery.  But they couldn't do it, because the armor was too good!  So I guess that in a sense it worked.  Heh.  The mental image still keeps me awake at night, occasionally.  And now you have it too.  You're welcome.",
     "responses": [
       {
         "text": "Uh sure.  Thanks?  It's a deal.",
@@ -814,7 +814,7 @@
   {
     "id": "TALK_FORGE_LORD_DIVINER_SLIME",
     "type": "talk_topic",
-    "dynamic_line": "Do you like slime?  Do you like living slime that tries to eat you?  Do you wish you were surounded by lots and lots and lots of it?  Then perhaps this place is the place for you.  I'll mark the place on your map for one denarius.",
+    "dynamic_line": "Do you like slime?  Do you like living slime that tries to eat you?  Do you wish you were surrounded by lots and lots and lots of it?  Then perhaps this place is the place for you.  I'll mark the place on your map for one denarius.",
     "responses": [
       {
         "text": "It's a deal.",
@@ -901,7 +901,7 @@
   {
     "id": "TALK_FORGE_LORD_DIVINER_SWAMP_DRAGON",
     "type": "talk_topic",
-    "dynamic_line": "Oh, fancy yourself a dragon slayer, eh?  It's my understanding they use a lot of acid, so be ready for that.  And remember that the body parts of dragons are quite valuable.  Even the blood, so you might wanna bring somehting to keep said blood in, and bleed the corpses before you butcher.  I'll mark it on your map for one denarius.",
+    "dynamic_line": "Oh, fancy yourself a dragon slayer, eh?  It's my understanding they use a lot of acid, so be ready for that.  And remember that the body parts of dragons are quite valuable.  Even the blood, so you might wanna bring something to keep said blood in, and bleed the corpses before you butcher.  I'll mark it on your map for one denarius.",
     "responses": [
       {
         "text": "It's a deal.",
@@ -930,7 +930,7 @@
   {
     "id": "TALK_FORGE_LORD_DIVINER_BALROG",
     "type": "talk_topic",
-    "dynamic_line": "Now there is not a lot I can tell you about this one.  There is some kind of demonic beast living in this cave.  But it only surfaces occationally, and the heavy metals in the cave wals interfer with my scrying.  There might be treasure down there, or there might not be.  But there is certain to be danger.  I'll mark it on your map for one denarius.",
+    "dynamic_line": "Now there is not a lot I can tell you about this one.  There is some kind of demonic beast living in this cave.  But it only surfaces occasionally, and the heavy metals in the cave walls interfere with my scrying.  There might be treasure down there, or there might not be.  But there is certain to be danger.  I'll mark it on your map for one denarius.",
     "responses": [
       {
         "text": "It's a deal.",
@@ -959,7 +959,7 @@
   {
     "id": "TALK_FORGE_LORD_DIVINER_LAB",
     "type": "talk_topic",
-    "dynamic_line": "Deeply burried secret instilations where shady goverment organizations conducted unethical experiments, free from moral constrains.  Did such places really exist before the cataclysm, or did humanity's collective mistrust, supersiticion and conspiracy theories cause the portal storms to dream these places into existance?  I honestly can't tell, but I suppose it doesn't matter now.  The places does exists, and are ripe with mysteries, damgers, and loot.  You'll have to specify which kind you're looking for.",
+    "dynamic_line": "Deeply buried secret installations where shady government organizations conducted unethical experiments, free from moral constrains.  Did such places really exist before the cataclysm, or did humanity's collective mistrust, superstition and conspiracy theories cause the portal storms to dream these places into existence?  I honestly can't tell, but I suppose it doesn't matter now.  The places does exists, and are ripe with mysteries, dangers, and loot.  You'll have to specify which kind you're looking for.",
     "responses": [
       {
         "text": "Just a normal one.",
@@ -1048,7 +1048,7 @@
   {
     "id": "TALK_FORGE_LORD_DIVINER_LAB_ICE",
     "type": "talk_topic",
-    "dynamic_line": "It's an increadibly cold place, that lab.  The deeper parts might even be below absolute zero.  Now this was of course not possible during the old laws of physics, but times change.  Times change.  I'll mark one on your map for one denarius.",
+    "dynamic_line": "It's an incredibly cold place, that lab.  The deeper parts might even be below absolute zero.  Now this was of course not possible during the old laws of physics, but times change.  Times change.  I'll mark one on your map for one denarius.",
     "responses": [
       {
         "text": "Cool.  It's a deal.",
@@ -1077,7 +1077,7 @@
   {
     "id": "TALK_FORGE_LORD_DIVINER_LAB_NETHER",
     "type": "talk_topic",
-    "dynamic_line": "Here' it seems like the scientists managed to break through the walls of reality to the nether.  Of course, they didn't bother to do it correclty, so the whole place is a mess.  Be ready for flaming eyes if you go there.  I'll mark it on your map for one denarius.",
+    "dynamic_line": "Here' it seems like the scientists managed to break through the walls of reality to the nether.  Of course, they didn't bother to do it correctly, so the whole place is a mess.  Be ready for flaming eyes if you go there.  I'll mark it on your map for one denarius.",
     "responses": [
       {
         "text": "It's a deal.",
