@@ -9,6 +9,7 @@ acclimatization
 accoustrement
 accurize
 accurized
+accurizing 
 achelousaurus
 acho
 acidball
@@ -208,6 +209,7 @@ bakelite
 baldric
 balefires
 balisong
+ballistae
 ballistoceras
 balogna
 bandolier
