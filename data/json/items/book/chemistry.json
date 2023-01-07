@@ -57,6 +57,7 @@
     "symbol": "?",
     "color": "blue",
     "skill": "chemistry",
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry", "time_factor": 0.6, "fail_factor": 0.25 } ],
     "required_level": 5,
     "max_level": 7,
     "intelligence": 12,
@@ -112,6 +113,7 @@
     "symbol": "?",
     "color": "brown",
     "skill": "chemistry",
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic", "time_factor": 0.6, "fail_factor": 0.25 } ],
     "required_level": 3,
     "max_level": 4,
     "intelligence": 4,
@@ -506,7 +508,7 @@
           "str": "Everything You Need to Ace Chemistry in One Big Fat Notebook",
           "str_pl": "copies of Everything You Need to Ace Chemistry in One Big Fat Notebook"
         },
-        "description": "The book provide plenty of info about school-level chemistry, with plenty of additional tables and formulas, but with lack of additional pictures.",
+        "description": "The book provide plenty of info about school-level chemistry, with lot of additional tables and formulas, but with lack of additional pictures.",
         "//": "978-1523504251",
         "fun": -1,
         "weight": 1
@@ -520,6 +522,7 @@
     "symbol": "?",
     "looks_like": "recipe_alpha",
     "color": "light_cyan",
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry", "time_factor": 0.6, "fail_factor": 0.25 } ],
     "skill": "chemistry",
     "max_level": 3,
     "intelligence": 6,
