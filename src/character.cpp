@@ -9302,8 +9302,8 @@ int Character::run_cost( int base_cost, bool diag ) const
         }
 
         if( ( has_trait( trait_ROOTS3 ) || has_trait( trait_CHLOROMORPH ) ) &&
-            here.has_flag( ter_furn_flag::TFLAG_DIGGABLE, pos() ) ) {
-            movecost += 10 * ( is_barefoot() ? 1 : 0 );
+            here.has_flag( ter_furn_flag::TFLAG_DIGGABLE, pos() ) && is_barefoot() ) {
+            movecost += 10;
         }
 
         movecost = calculate_by_enchantment( movecost, enchant_vals::mod::MOVE_COST );
