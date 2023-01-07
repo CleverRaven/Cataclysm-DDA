@@ -965,7 +965,7 @@ bool outfit::wearing_something_on( const bodypart_id &bp ) const
 bool outfit::wearing_fitting_on( const bodypart_id &bp ) const
 {
     for( const item &i : worn ) {
-        if( i.covers( bp ) && ( !i.has_flag( flag_INTEGRATED ) && !i.has_flag( flag_OVERSIZE ) ) ) {
+        if( i.covers( bp ) && !i.has_flag( flag_INTEGRATED ) && !i.has_flag( flag_OVERSIZE ) ) {
             return true;
         }
     }
