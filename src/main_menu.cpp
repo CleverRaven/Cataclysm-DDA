@@ -266,7 +266,7 @@ void main_menu::display_sub_menu( int sel, const point &bottom_left, int sel_lin
 
     // Print as many options as decided previously, starting from the index sub_opt_offset
     for( int y = 0; y < height; y++ ) {
-        size_t opt_index = sub_opt_off + y;
+        int opt_index = sub_opt_off + y;
         bool is_selection = sel2 == opt_index;
         std::string opt = ( is_selection ? "» " : "  " ) + sub_opts[opt_index];
         int padding = ( xlen + 2 ) - utf8_width( opt, true );
