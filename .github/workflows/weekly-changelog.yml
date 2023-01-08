@@ -3,6 +3,11 @@ name: "Weekly changelog update"
 on:
   schedule:
     - cron: "45 0 * * 1"
+  push:
+    branches:
+      - master
+    paths:
+      - '.github/workflows/weekly-changelog.yml'
 
 jobs:
   weekly-changelog:
