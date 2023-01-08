@@ -199,7 +199,7 @@
     "id": "novice_necromancer",
     "name": "Novice Necromancer",
     "description": "You always had to hide your magic, as it was generally not an acceptable type of magic in the wizarding world, but with the Cataclysm you need to pull every trick out of the book.",
-    "spells": [ { "id": "summon_zombie", "level": 5 }, { "id": "necrotic_gaze", "level": 1 } ],
+    "spells": [ { "id": "summon_undead", "level": 5 }, { "id": "necrotic_gaze", "level": 1 } ],
     "points": 2,
     "skills": [ { "level": 1, "name": "spellcraft" } ],
     "items": {
@@ -379,7 +379,7 @@
     "spells": [
       { "id": "recover_mana", "level": 2 },
       { "id": "necrotic_gaze", "level": 2 },
-      { "id": "summon_zombie", "level": 2 },
+      { "id": "summon_undead", "level": 2 },
       { "id": "dark_sight", "level": 3 }
     ],
     "CBMs": [ "bio_fuel_cell_blood", "bio_power_storage_mkII", "bio_nanobots" ],
