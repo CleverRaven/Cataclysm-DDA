@@ -353,6 +353,7 @@ void submap::revert_submap( submap_revert &sr )
             frn[x][y] = sr.get_furn( pt );
             ter[x][y] = sr.get_ter( pt );
             trp[x][y] = sr.get_trap( pt );
+            itm[x][y] = sr.get_items( pt );
         }
     }
 }
@@ -366,6 +367,7 @@ submap_revert submap::get_revert_submap() const
             ret.set_furn( pt, frn[x][y] );
             ret.set_ter( pt, ter[x][y] );
             ret.set_trap( pt, trp[x][y] );
+            ret.set_items( pt, itm[x][y] );
         }
     }
     return ret;
