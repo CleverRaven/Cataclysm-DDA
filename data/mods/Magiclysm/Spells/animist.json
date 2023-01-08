@@ -29,7 +29,7 @@
     "id": "recover_mana",
     "type": "SPELL",
     "name": "Life Conversion",
-    "description": "You channel the life force itself into your spiritual energy.  You spend rune to regain mana.",
+    "description": "You channel lifeforce itself into your spiritual energy.  You spend runes to regain mana.",
     "valid_targets": [ "self" ],
     "min_damage": 75,
     "damage_increment": 15.0,
