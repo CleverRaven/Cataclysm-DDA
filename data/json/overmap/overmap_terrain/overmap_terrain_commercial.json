@@ -79,17 +79,15 @@
     "type": "overmap_terrain",
     "id": [ "office_tower_ne" ],
     "copy-from": "generic_city_building",
-    "name": "office tower",
+    "name": "office building",
     "sym": "T",
     "color": "i_light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": [ "office_tower_nw", "office_tower_sw", "office_tower_se" ],
-    "copy-from": "generic_city_building",
-    "name": "office tower",
-    "sym": "t",
-    "color": "i_light_gray"
+    "copy-from": "office_tower_ne",
+    "sym": "t"
   },
   {
     "type": "overmap_terrain",
