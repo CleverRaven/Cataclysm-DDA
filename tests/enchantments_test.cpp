@@ -17,8 +17,8 @@ static const bionic_id test_bio_ench( "test_bio_ench" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_invisibility( "invisibility" );
 static const trait_id trait_TEST_ENCH_MUTATION( "TEST_ENCH_MUTATION" );
-static trait_id trait_CARNIVORE( "CARNIVORE" );
-static efftype_id effect_debug_clairvoyance( "debug_clairvoyance" );
+static const trait_id trait_CARNIVORE( "CARNIVORE" );
+static const efftype_id effect_debug_clairvoyance( "debug_clairvoyance" );
 
 static void test_generic_ench( avatar &p, int str_before )
 {
