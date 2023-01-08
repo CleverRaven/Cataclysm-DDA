@@ -226,6 +226,7 @@
     "type": "widget",
     "style": "layout",
     "arrange": "columns",
+    "padding": 0,
     "widgets": [ "mood_desc_no_label", "structured_safe_mode_desc" ]
   },
   {
