@@ -113,7 +113,7 @@
     "style": "layout",
     "arrange": "columns",
     "padding": 0,
-    "widgets": [ "safe_mode_classic_desc", "mood_desc_no_label" ]
+    "widgets": [ "mood_desc_no_label", "safe_mode_classic_desc_right" ]
   },
   {
     "id": "lcom_limbs_right_layout",
