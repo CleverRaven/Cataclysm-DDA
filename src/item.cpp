@@ -7374,7 +7374,12 @@ int64_t item::get_property_int64_t( const std::string &prop, int64_t def ) const
     return def;
 }
 
-int item::get_quality( const quality_id &id, const bool strict_boiling ) const
+bool item::has_quality_nonrecursive( const quality_id &qual, int level ) const
+{
+    return get_quality_nonrecursive( qual ) >= level;
+}
+
+int item::get_quality_nonrecursive( const quality_id &id, const bool strict_boiling ) const
 {
     /**
      * EXCEPTION: Items with quality BOIL only count as such if they are empty.
@@ -7402,6 +7407,21 @@ int item::get_quality( const quality_id &id, const bool strict_boiling ) const
             }
         }
     }
+
+    return return_quality;
+}
+
+int item::get_quality( const quality_id &id, const bool strict_boiling ) const
+{
+    /**
+     * EXCEPTION: Items with quality BOIL only count as such if they are empty.
+     */
+    if( strict_boiling && id == qual_BOIL && !contents.empty_container() ) {
+        return INT_MIN;
+    }
+
+    // First check the item itself
+    int return_quality = get_quality_nonrecursive( id, false );
 
     // If any contained item has a better quality, use that instead
     return_quality = std::max( return_quality, contents.best_quality( id ) );
@@ -9197,9 +9217,9 @@ nc_color item::damage_color() const
         case 1:
             return c_yellow;
         case 2:
-            return c_magenta;
-        case 3:
             return c_light_red;
+        case 3:
+            return c_magenta;
         case 4:
             if( damage() >= max_damage() ) {
                 return c_dark_gray;
@@ -11011,7 +11031,7 @@ const itype *item::ammo_data() const
         }
     }
 
-    if( is_gun() && ammo_remaining() != 0 ) {
+    if( is_gun() && ammo_remaining() > 0 ) {
         return contents.first_ammo().ammo_data();
     }
     return nullptr;
@@ -12537,7 +12557,7 @@ int item::processing_speed() const
     // This item doesn't actually need processing.
     // Either it contains items that need processing. Use processing speed from those.
     // Or it is in same container with items that need processing.
-    int processing_speed = 10000;
+    int processing_speed = item::NO_PROCESSING;
     for( const item *it : contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
         processing_speed = std::min( processing_speed, it->processing_speed() );
     }
