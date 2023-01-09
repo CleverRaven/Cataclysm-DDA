@@ -934,8 +934,23 @@ class item : public visitable
         /*@}*/
 
         /**
+         * Returns true if this item itself is of at least quality level
+         * This version is non-recursive and does not check the item contents.
+         */
+        bool has_quality_nonrecursive( const quality_id &qual, int level = 1 ) const;
+
+        /**
          * Return the level of a given quality the tool may have, or INT_MIN if it
          * does not have that quality, or lacks enough charges to have that quality.
+         * This version is non-recursive and does not check the item contents.
+         * @param strict_boiling True if containers must be empty to have BOIL quality
+         */
+        int get_quality_nonrecursive( const quality_id &id, bool strict_boiling = true ) const;
+
+        /**
+         * Return the level of a given quality the tool may have, or INT_MIN if it
+         * does not have that quality, or lacks enough charges to have that quality.
+         * This version is recursive and will check the item contents as well.
          * @param strict_boiling True if containers must be empty to have BOIL quality
          */
         int get_quality( const quality_id &id, bool strict_boiling = true ) const;
