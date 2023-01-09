@@ -7,6 +7,7 @@
 #include "map_helpers.h"
 #include "monster.h"
 #include "npc.h"
+#include "options.h"
 #include "player_helpers.h"
 #include "point.h"
 #include "type_id.h"
@@ -105,15 +106,15 @@ static void give_item( Character &guy, const std::string &item_id )
 
 static void clear_items( Character &guy )
 {
-    guy.inv.clear();
+    guy.inv->clear();
     guy.recalculate_enchantment_cache();
 }
 
-TEST_CASE( "Enchantments grant mutations", "[magic][enchantment][trait][mutation]" )
+TEST_CASE( "Enchantments grant mutations", "[magic][enchantments][trait][mutation]" )
 {
     clear_map();
     Character &guy = get_player_character();
-    clear_character( *guy.as_player(), true );
+    clear_character( *guy.as_avatar(), true );
 
     guy.recalculate_enchantment_cache();
     advance_turn( guy );
@@ -178,11 +179,11 @@ TEST_CASE( "Enchantments grant mutations", "[magic][enchantment][trait][mutation
     }
 }
 
-TEST_CASE( "Enchantments apply effects", "[magic][enchantment][effect]" )
+TEST_CASE( "Enchantments apply effects", "[magic][enchantments][effect]" )
 {
     clear_map();
     Character &guy = get_player_character();
-    clear_character( *guy.as_player(), true );
+    clear_character( *guy.as_avatar(), true );
 
     guy.recalculate_enchantment_cache();
     advance_turn( guy );
@@ -284,11 +285,11 @@ static void tests_stats( Character &guy, int s_base, int d_base, int p_base, int
     }
 }
 
-TEST_CASE( "Enchantments modify stats", "[magic][enchantment][character]" )
+TEST_CASE( "Enchantments modify stats", "[magic][enchantments][character]" )
 {
     clear_map();
     Character &guy = get_player_character();
-    clear_character( *guy.as_player(), true );
+    clear_character( *guy.as_avatar(), true );
 
     SECTION( "base stats 8" ) {
         tests_stats( guy, 8, 8, 8, 8, 20, 6, 5, 0 );
@@ -369,11 +370,11 @@ static void tests_speed( Character &guy, int sp_base, int sp_exp )
     }
 }
 
-TEST_CASE( "Enchantments modify speed", "[magic][enchantment][speed]" )
+TEST_CASE( "Enchantments modify speed", "[magic][enchantments][speed]" )
 {
     clear_map();
     Character &guy = get_player_character();
-    clear_character( *guy.as_player(), true );
+    clear_character( *guy.as_avatar(), true );
 
     SECTION( "base = 100" ) {
         tests_speed( guy, 100, 75 );
@@ -392,20 +393,20 @@ static void tests_attack_cost( Character &guy, const item &weap, int item_atk_co
     guy.recalculate_enchantment_cache();
     advance_turn( guy );
 
-    REQUIRE( weap.attack_cost() == item_atk_cost );
-    REQUIRE( guy.attack_cost( weap ) == guy_atk_cost );
+    REQUIRE( weap.attack_time( guy ) == item_atk_cost );
+    REQUIRE( guy.attack_speed( weap ) == guy_atk_cost );
 
     std::string s_relic = "test_relic_mods_atk_cost";
 
     WHEN( "Character receives relic" ) {
         give_item( guy, s_relic );
         THEN( "Attack cost changes" ) {
-            CHECK( guy.attack_cost( weap ) == exp_guy_atk_cost );
+            CHECK( guy.attack_speed( weap ) == exp_guy_atk_cost );
         }
         AND_WHEN( "Character loses relic" ) {
             clear_items( guy );
             THEN( "Attack cost returns to normal" ) {
-                CHECK( guy.attack_cost( weap ) == guy_atk_cost );
+                CHECK( guy.attack_speed( weap ) == guy_atk_cost );
             }
         }
     }
@@ -414,16 +415,16 @@ static void tests_attack_cost( Character &guy, const item &weap, int item_atk_co
             give_item( guy, s_relic );
         }
         THEN( "Attack cost does not drop below 25" ) {
-            CHECK( guy.attack_cost( weap ) == 25 );
+            CHECK( guy.attack_speed( weap ) == 25 );
         }
     }
 }
 
-TEST_CASE( "Enchantments modify attack cost", "[magic][enchantment][melee]" )
+TEST_CASE( "Enchantments modify attack cost", "[magic][enchantments][melee]" )
 {
     clear_map();
     Character &guy = get_player_character();
-    clear_character( *guy.as_player(), true );
+    clear_character( *guy.as_avatar(), true );
 
     SECTION( "normal sword" ) {
         tests_attack_cost( guy, item( "test_normal_sword" ), 101, 96, 77 );
@@ -464,11 +465,11 @@ static void tests_move_cost( Character &guy, int tile_move_cost, int move_cost, 
     }
 }
 
-TEST_CASE( "Enchantments modify move cost", "[magic][enchantment][move]" )
+TEST_CASE( "Enchantments modify move cost", "[magic][enchantments][move]" )
 {
     clear_map();
     Character &guy = get_player_character();
-    clear_character( *guy.as_player(), true );
+    clear_character( *guy.as_avatar(), true );
 
     SECTION( "Naked character" ) {
         SECTION( "tile move cost = 100" ) {
@@ -523,11 +524,11 @@ static void tests_metabolic_rate( Character &guy, float norm, float exp )
     }
 }
 
-TEST_CASE( "Enchantments modify metabolic rate", "[magic][enchantment][metabolism]" )
+TEST_CASE( "Enchantments modify metabolic rate", "[magic][enchantments][metabolism]" )
 {
     clear_map();
     Character &guy = get_player_character();
-    clear_character( *guy.as_player(), true );
+    clear_character( *guy.as_avatar(), true );
 
     guy.recalculate_enchantment_cache();
     advance_turn( guy );
@@ -568,6 +569,18 @@ static const std::vector<mana_test_case> mana_test_data = {{
     }
 };
 
+static double get_mana_regen_rate( const Character &guy, const known_magic &mgc )
+{
+    double full_replenish = to_turns<double>( 8_hours );
+    double capacity = mgc.max_mana( guy );
+    double mut_mul = guy.mutation_value( "mana_regen_multiplier" );
+    double natural_regen = std::max( 0.0, capacity * mut_mul / full_replenish );
+
+    double ench_bonus = guy.calculate_by_enchantment( natural_regen, enchant_vals::mod::REGEN_MANA );
+
+    return std::max( 0.0, natural_regen + ench_bonus );
+}
+
 static void tests_mana_pool( Character &guy, const mana_test_case &t )
 {
     double norm_regen_rate = t.norm_regen_amt_8h / to_turns<double>( time_duration::from_hours( 8 ) );
@@ -587,7 +600,7 @@ static void tests_mana_pool( Character &guy, const mana_test_case &t )
     REQUIRE( guy.get_int() == t.intellect );
 
     REQUIRE( guy.magic->max_mana( guy ) == t.norm_cap );
-    REQUIRE( guy.magic->mana_regen_rate( guy ) == Approx( norm_regen_rate ) );
+    REQUIRE( get_mana_regen_rate( guy, *guy.magic ) == Approx( norm_regen_rate ) );
 
     const std::string s_relic = "test_relic_mods_manapool";
 
@@ -595,12 +608,12 @@ static void tests_mana_pool( Character &guy, const mana_test_case &t )
         give_item( guy, s_relic );
         THEN( "Mana pool capacity and regen rate change" ) {
             CHECK( guy.magic->max_mana( guy ) == t.exp_cap );
-            CHECK( guy.magic->mana_regen_rate( guy ) == Approx( exp_regen_rate ) );
+            CHECK( get_mana_regen_rate( guy, *guy.magic ) == Approx( exp_regen_rate ) );
             AND_WHEN( "Character loses relic" ) {
                 clear_items( guy );
                 THEN( "Mana pool capacity and regen rate go back to normal" ) {
                     REQUIRE( guy.magic->max_mana( guy ) == t.norm_cap );
-                    REQUIRE( guy.magic->mana_regen_rate( guy ) == Approx( norm_regen_rate ) );
+                    REQUIRE( get_mana_regen_rate( guy, *guy.magic ) == Approx( norm_regen_rate ) );
                 }
             }
         }
@@ -611,7 +624,7 @@ static void tests_mana_pool( Character &guy, const mana_test_case &t )
         }
         THEN( "Mana pool capacity and regen rate don't drop below 0" ) {
             REQUIRE( guy.magic->max_mana( guy ) == 0 );
-            REQUIRE( guy.magic->mana_regen_rate( guy ) == Approx( 0.0 ) );
+            REQUIRE( get_mana_regen_rate( guy, *guy.magic ) == Approx( 0.0 ) );
         }
     }
 }
@@ -622,12 +635,12 @@ static void tests_mana_pool_section( const mana_test_case &t )
 
     clear_map();
     Character &guy = get_player_character();
-    clear_character( *guy.as_player(), true );
+    clear_character( *guy.as_avatar(), true );
 
     tests_mana_pool( guy, t );
 }
 
-TEST_CASE( "Mana pool", "[magic][enchantment][mana][bionic]" )
+TEST_CASE( "Mana pool", "[magic][enchantments][mana][bionic]" )
 {
     for( const mana_test_case &it : mana_test_data ) {
         tests_mana_pool_section( it );
