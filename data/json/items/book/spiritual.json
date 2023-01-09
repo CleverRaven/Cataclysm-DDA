@@ -144,7 +144,7 @@
     "volume": "1 L",
     "price": 550,
     "price_postapoc": 550,
-    "material": [ "paper" ],
+    "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "looks_like": "story_book",
     "color": "dark_gray",
