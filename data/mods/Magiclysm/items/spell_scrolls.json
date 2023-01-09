@@ -166,6 +166,15 @@
   {
     "type": "BOOK",
     "copy-from": "spell_scroll",
+    "id": "spell_scroll_life_detonation",
+    "//": "Animist spell",
+    "name": { "str": "Scroll of Life Detonation", "str_pl": "Scrolls of Life Detonation" },
+    "description": "Explode a living energy inside your undead, to release a tremendous force around.",
+    "use_action": { "type": "learn_spell", "spells": [ "life_detonation" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
     "id": "spell_scroll_light_healing",
     "//": "Biomancer spell",
     "name": { "str": "Scroll of Cure Light Wounds", "str_pl": "Scrolls of Cure Light Wounds" },
