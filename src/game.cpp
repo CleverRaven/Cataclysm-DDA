@@ -11859,15 +11859,15 @@ void game::shift_monsters( const tripoint &shift )
     }
 }
 
-void game::perhaps_add_random_npc()
+void game::perhaps_add_random_npc( bool ignore_spawn_timers_and_rates )
 {
-    if( !calendar::once_every( 1_hours ) ) {
+    if( !ignore_spawn_timers_and_rates && !calendar::once_every( 1_hours ) ) {
         return;
     }
     // Create a new NPC?
 
     double spawn_time = get_option<float>( "NPC_SPAWNTIME" );
-    if( spawn_time == 0.0 ) {
+    if( !ignore_spawn_timers_and_rates && spawn_time == 0.0 ) {
         return;
     }
 
@@ -11889,7 +11889,7 @@ void game::perhaps_add_random_npc()
         spawn_rate *= std::pow( 0.8f, npc_num );
     }
 
-    if( !x_in_y( spawn_rate, 100 ) ) {
+    if( !ignore_spawn_timers_and_rates && !x_in_y( spawn_rate, 100 ) ) {
         return;
     }
     bool spawn_allowed = false;
@@ -11930,6 +11930,17 @@ void game::perhaps_add_random_npc()
                           tmp->getID() ) );
     // This will make the new NPC active- if its nearby to the player
     load_npcs();
+}
+
+// Redraw window and show spinner, so cata window doesn't look frozen while pathfinding on overmap
+void game::display_om_pathfinding_progress( size_t /* open_set */, size_t /* known_size */ )
+{
+    ui_adaptor dummy( ui_adaptor::disable_uis_below {} );
+    static_popup pop;
+    pop.on_top( true ).wait_message( "%s", _( "Hang on a bit…" ) );
+    ui_manager::redraw();
+    refresh_display();
+    inp_mngr.pump_events();
 }
 
 bool game::display_overlay_state( const action_id action )
