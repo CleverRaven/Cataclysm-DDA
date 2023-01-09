@@ -227,13 +227,7 @@ message(STATUS "USE_HOME_DIR                  : ${USE_HOME_DIR}")
 message(STATUS "LANGUAGES                     : ${LANGUAGES}")
 message(STATUS "See doc/COMPILING/COMPILING-CMAKE.md for details and more info --")
 
-if (MSVC)
-    if ("${CMAKE_SIZEOF_VOID_P}" EQUAL "8")
-        add_definitions(-D_AMD64_)
-    else ()
-        add_definitions(-D_X86_)
-    endif ()
-else ()
+if (NOT MSVC)
     set(CATA_WARNINGS
             "-Werror -Wall -Wextra \
              -Wformat-signedness \

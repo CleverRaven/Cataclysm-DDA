@@ -35,7 +35,7 @@
       ],
       "palettes": [ "bandit_camp" ],
       "npcs": { "!": { "class": "pagan_cult_member" } },
-      "terrain": { " ": "t_region_groundcover", ".": "t_rock_floor" },
+      "terrain": { " ": "t_region_groundcover", ".": "t_rock_floor", "S": "t_rock_floor", "T": "t_rock_floor" },
       "furniture": { "0": "f_training_dummy_heavy", "$": "f_training_dummy_light", "S": "f_sink", "T": "f_toilet" }
     }
   },
@@ -75,7 +75,7 @@
       ],
       "palettes": [ "bandit_camp" ],
       "npcs": { "!": { "class": "pagan_cult_member" } },
-      "terrain": { " ": "t_region_groundcover", ".": "t_rock_floor" },
+      "terrain": { " ": "t_region_groundcover", ".": "t_rock_floor", "!": "t_region_groundcover", "n": "t_region_groundcover" },
       "furniture": { "1": "f_firefly_terrarium" }
     }
   },
@@ -412,7 +412,13 @@
       ],
       "palettes": [ "bandit_camp" ],
       "npcs": { "!": { "class": "pagan_cult_member" }, "2": { "class": "pagan_cult_gode" } },
-      "terrain": { " ": "t_region_groundcover", "s": "t_grass", ".": [ "t_region_soil", "t_region_groundcover" ] },
+      "terrain": {
+        " ": "t_region_groundcover",
+        "s": "t_grass",
+        ".": [ "t_region_soil", "t_region_groundcover" ],
+        "p": "t_grass",
+        "#": "t_grass"
+      },
       "furniture": { "2": "f_chair", "p": "f_boulder_large", "~": "f_boulder_small", "#": "f_brazier" }
     }
   }

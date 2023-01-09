@@ -459,7 +459,23 @@
     "difficulty": 5,
     "value": 250000,
     "urgent": true,
-    "start": "kill_horde_master",
+    "start": {
+      "update_mapgen": {
+        "place_monster": [
+          { "monster": "mon_zombie_master", "x": [ 12, 15 ], "y": [ 12, 15 ], "target": true, "name": "Demonic Soul" },
+          { "group": "GROUP_ZOMBIE", "x": [ 12, 15 ], "y": [ 12, 15 ], "repeat": [ 21, 29 ] }
+        ]
+      },
+      "effect": "follow_only",
+      "assign_mission_target": {
+        "om_terrain": "house",
+        "om_terrain_match_type": "CONTAINS",
+        "search_range": 80,
+        "min_distance": 10,
+        "random": true,
+        "z": 0
+      }
+    },
     "end": { "effect": "stop_following" },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_RECRUIT_TRACKER",
@@ -607,7 +623,17 @@
     "difficulty": 2,
     "value": 70000,
     "item": "priest_diary",
-    "start": "place_priest_diary",
+    "start": {
+      "update_mapgen": { "place_item": [ { "item": "priest_diary", "x": [ 3, 21 ], "y": [ 6, 21 ], "amount": 1 } ] },
+      "assign_mission_target": {
+        "om_terrain": "house",
+        "om_terrain_match_type": "PREFIX",
+        "search_range": 80,
+        "min_distance": 5,
+        "random": true,
+        "z": 0
+      }
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_INVESTIGATE_CULT",
     "dialogue": {
