@@ -653,7 +653,7 @@ static void create_byproducts_group( const item_group_id &bplist, std::vector<it
             if( !it.craft_has_charges() ) {
                 it.charges = 0;
             }
-            for( int i = 0; i < batch; ++i ) {
+            for( int i = 1; i < batch; ++i ) {
                 bps_out.push_back( it );
             }
         }
