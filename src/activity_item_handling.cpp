@@ -2003,12 +2003,12 @@ static bool butcher_corpse_activity( Character &you, const tripoint_bub_ms &src_
 
 static bool chop_plank_activity( Character &you, const tripoint_bub_ms &src_loc )
 {
-    item *best_qual = you.best_quality_item( qual_AXE );
-    if( !best_qual ) {
+    item &best_qual = you.best_item_with_quality( qual_AXE );
+    if( best_qual.is_null() ) {
         return false;
     }
-    if( best_qual->type->can_have_charges() ) {
-        you.consume_charges( *best_qual, best_qual->type->charges_to_use() );
+    if( best_qual.type->can_have_charges() ) {
+        you.consume_charges( best_qual, best_qual.type->charges_to_use() );
     }
     map &here = get_map();
     for( item &i : here.i_at( src_loc ) ) {
@@ -2393,13 +2393,13 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
     you.activity.set_to_null();
 }
 
-static int chop_moves( Character &you, item *it )
+static int chop_moves( Character &you, item &it )
 {
     // quality of tool
-    const int quality = it->get_quality( qual_AXE );
+    const int quality = it.get_quality( qual_AXE );
 
     // attribute; regular tools - based on STR, powered tools - based on DEX
-    const int attr = it->has_flag( flag_POWERED ) ? you.dex_cur : you.get_arm_str();
+    const int attr = it.has_flag( flag_POWERED ) ? you.dex_cur : you.get_arm_str();
 
     int moves = to_moves<int>( time_duration::from_minutes( 60 - attr ) / std::pow( 2, quality - 1 ) );
     const int helpersize = you.get_num_crafting_helpers( 3 );
@@ -2466,24 +2466,24 @@ static bool mop_activity( Character &you, const tripoint_bub_ms &src_loc )
 
 static bool chop_tree_activity( Character &you, const tripoint_bub_ms &src_loc )
 {
-    item *best_qual = you.best_quality_item( qual_AXE );
-    if( !best_qual ) {
+    item &best_qual = you.best_item_with_quality( qual_AXE );
+    if( best_qual.is_null() ) {
         return false;
     }
     int moves = chop_moves( you, best_qual );
-    if( best_qual->type->can_have_charges() ) {
-        you.consume_charges( *best_qual, best_qual->type->charges_to_use() );
+    if( best_qual.type->can_have_charges() ) {
+        you.consume_charges( best_qual, best_qual.type->charges_to_use() );
     }
     map &here = get_map();
     const ter_id ter = here.ter( src_loc );
     if( here.has_flag( ter_furn_flag::TFLAG_TREE, src_loc ) ) {
         you.assign_activity( player_activity( chop_tree_activity_actor( moves, item_location( you,
-                                              best_qual ) ) ) );
+                                              &best_qual ) ) ) );
         you.activity.placement = here.getglobal( src_loc );
         return true;
     } else if( ter == t_trunk || ter == t_stump ) {
         you.assign_activity( player_activity( chop_logs_activity_actor( moves, item_location( you,
-                                              best_qual ) ) ) );
+                                              &best_qual ) ) ) );
         you.activity.placement = here.getglobal( src_loc );
         return true;
     }
@@ -3004,10 +3004,10 @@ static bool generic_multi_activity_do(
         you.backlog.push_front( player_activity( act_id ) );
         // we don't want to keep repeating the fishing activity, just piggybacking on this functions structure to find requirements.
         you.activity = player_activity();
-        item *best_rod = you.best_quality_item( qual_FISHING );
+        item &best_rod = you.best_item_with_quality( qual_FISHING );
         you.assign_activity( ACT_FISH, to_moves<int>( 5_hours ), 0,
-                             0, best_rod->tname() );
-        you.activity.targets.emplace_back( you, best_rod );
+                             0, best_rod.tname() );
+        you.activity.targets.emplace_back( you, &best_rod );
         // TODO: fix point types
         you.activity.coord_set =
             g->get_fishable_locations( ACTIVITY_SEARCH_DISTANCE, src_loc.raw() );
