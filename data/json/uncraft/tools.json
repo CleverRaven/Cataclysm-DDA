@@ -191,6 +191,33 @@
     "components": [ [ [ "plastic_chunk", 4 ] ], [ [ "lens", 1 ] ], [ [ "lens", 1 ], [ "lens_small", 1 ] ], [ [ "spring", 1 ] ] ]
   },
   {
+    "result": "fishing_rod_professional",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "5 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "plastic_chunk", 3 ] ],
+      [ [ "string_36", 6 ] ],
+      [ [ "fishing_hook_basic", 1 ] ],
+      [ [ "wire", 1 ] ],
+      [ [ "scrap", 1 ] ],
+      [ [ "bismuth", 200 ] ]
+    ]
+  },
+  {
+    "result": "plastichoboreel",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "3 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "plastic_chunk", 1 ] ], [ [ "string_36", 6 ] ], [ [ "fishing_hook_basic", 1 ] ] ]
+  },
+  {
     "result": "clay_dutch_oven",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",

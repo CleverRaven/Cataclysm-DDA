@@ -28,10 +28,20 @@
     "id": "KELVINIST",
     "name": "Kelvinist",
     "points": 0,
-    "description": "Disciples of the great Archwizard Lord Kelvin.  Kelvinists focus their magic on manipulation and control of the temperature of their environment, leading to spectacularly powerful explosions or bone-chilling cold.",
+    "description": "Disciples of the great Archwizard Lord Kelvin.  Kelvinists focus their magic on manipulation and control of the temperature of their environment, leading to spectacularly powerful explosions or bone-chilling cold.  Your powers grant you some immunity from fire, that raises with your skills.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "ARMOR_HEAT",
+            "add": { "arithmetic": [ { "u_val": "spell_level", "school": "KELVINIST" }, "/", { "const": -6 } ] }
+          }
+        ]
+      }
+    ],
     "cancels": [ "STORMSHAPER" ],
     "spells_learned": [ [ "create_rune_kelvinist", 1 ] ]
   },
@@ -40,10 +50,20 @@
     "id": "STORMSHAPER",
     "name": "Stormshaper",
     "points": 0,
-    "description": "Stormshapers follow ancient arcane disciplines of meditation and harmony with the winds and tides that shape the planet.  Through their deep connection to these forces, they can request powerful changes.",
+    "description": "Stormshapers follow ancient arcane disciplines of meditation and harmony with the winds and tides that shape the planet.  Through their deep connection to these forces, they can request powerful changes.  Your powers grant you some immunity from electricity, that raises with your skills.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "ARMOR_ELEC",
+            "add": { "arithmetic": [ { "u_val": "spell_level", "school": "STORMSHAPER" }, "/", { "const": -6 } ] }
+          }
+        ]
+      }
+    ],
     "cancels": [ "KELVINIST" ],
     "spells_learned": [ [ "create_rune_stormshaper", 1 ] ]
   },

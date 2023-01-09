@@ -952,6 +952,7 @@ void avatar_action::eat( avatar &you, const item_location &loc,
     }
     you.assign_activity( player_activity( consume_activity_actor( loc, consume_menu_selections,
                                           consume_menu_selected_items, consume_menu_filter, type ) ) );
+    you.last_item = item( *loc ).typeId();
 }
 
 void avatar_action::plthrow( avatar &you, item_location loc,

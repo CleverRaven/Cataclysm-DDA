@@ -11,6 +11,7 @@
 #include "game_constants.h"
 #include "map_helpers.h"
 #include "point.h"
+#include "submap.h"
 #include "type_id.h"
 
 TEST_CASE( "map_coordinate_conversion_functions" )
@@ -136,11 +137,81 @@ TEST_CASE( "tinymap_bounds_checking" )
     }
 }
 
+void map::check_submap_active_item_consistency()
+{
+    for( int z = -OVERMAP_DEPTH; z < OVERMAP_HEIGHT; ++z ) {
+        for( int x = 0; x < MAPSIZE; ++x ) {
+            for( int y = 0; y < MAPSIZE; ++y ) {
+                tripoint p( x, y, z );
+                submap *s = get_submap_at_grid( p );
+                REQUIRE( s != nullptr );
+                bool submap_has_active_items = !s->active_items.get().empty();
+                bool cache_has_active_items = submaps_with_active_items.count( p + abs_sub.xy() ) != 0;
+                CAPTURE( abs_sub.xy(), p, p + abs_sub.xy() );
+                CHECK( submap_has_active_items == cache_has_active_items );
+            }
+        }
+    }
+    for( const tripoint_abs_sm &p : submaps_with_active_items ) {
+        tripoint_rel_sm rel = p - abs_sub.xy();
+        half_open_rectangle<point_rel_sm> map( point_rel_sm(), point_rel_sm( MAPSIZE, MAPSIZE ) );
+        CAPTURE( rel );
+        CHECK( map.contains( rel.xy() ) );
+    }
+}
+
 TEST_CASE( "place_player_can_safely_move_multiple_submaps" )
 {
     // Regression test for the situation where game::place_player would misuse
     // map::shift if the resulting shift exceeded a single submap, leading to a
     // broken active item cache.
     g->place_player( tripoint_zero );
-    CHECK( get_map().check_submap_active_item_consistency().empty() );
+    get_map().check_submap_active_item_consistency();
+}
+
+TEST_CASE( "inactive_container_with_active_contents" )
+{
+    map &here = get_map();
+    clear_map( -OVERMAP_DEPTH, OVERMAP_HEIGHT );
+    CAPTURE( here.get_abs_sub(), here.get_submaps_with_active_items() );
+    REQUIRE( here.get_submaps_with_active_items().empty() );
+    here.check_submap_active_item_consistency();
+    tripoint const test_loc;
+    tripoint_abs_sm const test_loc_sm = project_to<coords::sm>( here.getglobal( test_loc ) );
+
+    item bottle_plastic( "bottle_plastic" );
+    REQUIRE( !bottle_plastic.needs_processing() );
+    item disinfectant( "disinfectant" );
+    REQUIRE( disinfectant.needs_processing() );
+    int const bp_speed = bottle_plastic.processing_speed();
+    int const dis_speed = disinfectant.processing_speed();
+    REQUIRE( bp_speed != dis_speed );
+
+    ret_val<void> const ret =
+        bottle_plastic.put_in( disinfectant, item_pocket::pocket_type::CONTAINER );
+    REQUIRE( ret.success() );
+    REQUIRE( bottle_plastic.needs_processing() );
+    REQUIRE( bottle_plastic.processing_speed() == dis_speed );
+
+    item &bp = here.add_item( test_loc, bottle_plastic );
+    item_location bp_loc( map_cursor( test_loc ), &bp );
+    item_location dis_loc( bp_loc, &bp.only_item() );
+
+    REQUIRE( here.get_submaps_with_active_items().count( test_loc_sm ) != 0 );
+    here.check_submap_active_item_consistency();
+
+    bool from_container = GENERATE( true, false );
+
+    if( from_container ) {
+        dis_loc.remove_item();
+        CHECK( !bp.needs_processing() );
+        CHECK( bp.processing_speed() == bp_speed );
+    } else {
+        bp_loc->get_contents().clear_items();
+        CHECK( !bp.needs_processing() );
+        CHECK( bp.processing_speed() == bp_speed );
+        bp_loc.remove_item();
+    }
+    CHECK( here.get_submaps_with_active_items().count( test_loc_sm ) == 0 );
+    here.check_submap_active_item_consistency();
 }

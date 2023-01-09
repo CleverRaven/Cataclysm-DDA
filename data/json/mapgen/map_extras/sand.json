@@ -1,0 +1,52 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "sand_patch",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "   ",
+        "   ",
+        "   "
+      ],
+      "terrain": { " ": [ "t_sand", "t_null" ] },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_sand_patch",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "         - --           ",
+        "        -----           ",
+        "         ----           ",
+        "        ----            ",
+        "        -----           ",
+        "       ------           ",
+        "          -             ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "nested": { "-": { "chunks": [ [ "sand_patch", 75 ], [ "null", 25 ] ] } }
+    }
+  }
+]

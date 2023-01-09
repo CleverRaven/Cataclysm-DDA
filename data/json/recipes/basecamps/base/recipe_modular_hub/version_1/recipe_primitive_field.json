@@ -532,7 +532,7 @@
     "blueprint_resources": [ "fake_fireplace" ],
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [
-      [ [ "pot", 1 ], [ "rock_pot", 1 ], [ "pot_copper", 1 ], [ "clay_pot", 1 ] ],
+      [ [ "pot", 1 ], [ "pot_copper", 1 ], [ "clay_pot", 1 ] ],
       [ [ "log", 92 ] ],
       [ [ "stick", 48 ] ],
       [ [ "2x4", 252 ] ],
@@ -618,7 +618,7 @@
     "blueprint_requires": [ { "id": "faction_base_kitchen_3" } ],
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [
-      [ [ "pot", 1 ], [ "rock_pot", 1 ], [ "pot_copper", 1 ], [ "clay_pot", 1 ] ],
+      [ [ "pot", 1 ], [ "pot_copper", 1 ], [ "clay_pot", 1 ] ],
       [ [ "log", 122 ] ],
       [ [ "stick", 108 ] ],
       [ [ "2x4", 239 ] ],
@@ -670,7 +670,7 @@
     "blueprint_requires": [ { "id": "faction_base_kitchen_5" } ],
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "WRENCH", "level": 1 } ], [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [
-      [ [ "pot", 1 ], [ "rock_pot", 1 ], [ "pot_copper", 1 ], [ "clay_pot", 1 ] ],
+      [ [ "pot", 1 ], [ "pot_copper", 1 ], [ "clay_pot", 1 ] ],
       [ [ "rock", 40 ] ],
       [ [ "pipe", 42 ] ],
       [ [ "2x4", 4 ] ],

@@ -1322,7 +1322,11 @@ static bool search( const ui_adaptor &om_ui, tripoint_abs_omt &curs, const tripo
 {
     std::string term = string_input_popup()
                        .title( _( "Search term:" ) )
-                       .description( _( "Multiple entries separated with comma (,). Excludes starting with hyphen (-)." ) )
+                       .description( string_format( "%s\n%s",
+                                     _( "Multiple entries separated with comma (,). Excludes starting with hyphen (-)." ),
+                                     colorize( _( "UP: history, CTRL-U: clear line, ESC: abort, ENTER: save" ), c_green ) ) )
+                       .desc_color( c_white )
+                       .identifier( "overmap_search" )
                        .query_string();
     if( term.empty() ) {
         return false;

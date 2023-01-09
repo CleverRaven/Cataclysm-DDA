@@ -138,7 +138,6 @@ TEST_CASE( "monfactions_attitude", "[monster][monfactions]" )
 
         CHECK( attitude( "zombie_aquatic", "zombie" ) == MFA_FRIENDLY );
         CHECK( attitude( "zombie", "zombie_aquatic" ) == MFA_FRIENDLY );
-        CHECK( attitude( "zombie", "spider_web" ) == MFA_NEUTRAL );
         CHECK( attitude( "zombie", "small_animal" ) == MFA_NEUTRAL );
 
         CHECK( attitude( "plant", "triffid" ) == MFA_FRIENDLY );

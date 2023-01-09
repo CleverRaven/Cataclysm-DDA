@@ -72,7 +72,8 @@
     "type": "recipe",
     "copy-from": "boots_chitin",
     "time": "12 h",
-    "using": [ [ "armor_chitin", 13 ], [ "strap_small", 3 ], [ "clasps", 1 ] ]
+    "using": [ [ "armor_chitin", 13 ], [ "strap_small", 3 ], [ "clasps", 1 ] ],
+    "qualities": [ { "id": "CUT_FINE", "level": 1 } ]
   },
   {
     "result": "xl_boots_chitin",

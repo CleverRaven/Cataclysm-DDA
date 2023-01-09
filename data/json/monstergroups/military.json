@@ -37,6 +37,20 @@
     ]
   },
   {
+    "name": "GROUP_MIL_PILOT",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_zombie_military_pilot" } ]
+  },
+  {
+    "name": "GROUP_MIL_PASSENGER",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_zombie_soldier", "weight": 5 },
+      { "monster": "mon_zombie_bio_op" },
+      { "monster": "mon_zombie_scientist" }
+    ]
+  },
+  {
     "name": "GROUP_MIL_BASE",
     "type": "monstergroup",
     "monsters": [
@@ -172,11 +186,7 @@
   {
     "name": "GROUP_MIL_MASS_GRAVE",
     "type": "monstergroup",
-    "//": "Lots of hazmats and burners.",
-    "monsters": [
-      { "monster": "mon_zombie_soldier", "weight": 10 },
-      { "monster": "mon_zombie_flamer", "weight": 20, "starts": "5 days" },
-      { "monster": "mon_zombie_hazmat", "weight": 20 }
-    ]
+    "//": "Lots of hazmats.",
+    "monsters": [ { "monster": "mon_zombie_soldier", "weight": 10 }, { "monster": "mon_zombie_hazmat", "weight": 20 } ]
   }
 ]

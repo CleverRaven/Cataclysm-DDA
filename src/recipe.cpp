@@ -1216,14 +1216,13 @@ bool recipe::hot_result() const
 
 int recipe::makes_amount() const
 {
-    int makes = 0;
+    int makes_charges = 1;  // stays 1 if item isn't counted in charges
     if( charges.has_value() ) {
-        makes = charges.value();
+        makes_charges = charges.value();
     } else if( item::count_by_charges( result_ ) ) {
-        makes = item::find_type( result_ )->charges_default();
+        makes_charges = item::find_type( result_ )->charges_default();
     }
-    // return either charges * mult or 1
-    return makes ? makes * result_mult : 1 ;
+    return makes_charges * result_mult;
 }
 
 void recipe::incorporate_build_reqs()

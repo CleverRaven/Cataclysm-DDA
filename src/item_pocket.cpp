@@ -173,6 +173,7 @@ void pocket_data::load( const JsonObject &jo )
     optional( jo, was_loaded, "open_container", open_container, false );
     optional( jo, was_loaded, "transparent", transparent, false );
     optional( jo, was_loaded, "rigid", rigid, false );
+    optional( jo, was_loaded, "forbidden", forbidden, false );
     optional( jo, was_loaded, "holster", holster );
     optional( jo, was_loaded, "ablative", ablative );
     optional( jo, was_loaded, "inherits_flags", inherits_flags );
@@ -1125,6 +1126,9 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
 void item_pocket::contents_info( std::vector<iteminfo> &info, int pocket_number,
                                  bool disp_pocket_number ) const
 {
+    if( is_forbidden() ) {
+        return;
+    }
     const std::string space = "  ";
 
     insert_separation_line( info );
@@ -1583,8 +1587,8 @@ cata::optional<item> item_pocket::remove_item( const item_location &it )
 
 void item_pocket::overflow( const tripoint &pos )
 {
-    if( is_type( item_pocket::pocket_type::MOD ) || is_type( item_pocket::pocket_type::CORPSE ) ||
-        is_type( item_pocket::pocket_type::EBOOK ) ) {
+    if( is_type( pocket_type::MOD ) || is_type( pocket_type::CORPSE ) ||
+        is_type( pocket_type::EBOOK ) ) {
         return;
     }
     if( empty() ) {
@@ -1600,12 +1604,11 @@ void item_pocket::overflow( const tripoint &pos )
     map &here = get_map();
     // first remove items that shouldn't be in there anyway
     for( auto iter = contents.begin(); iter != contents.end(); ) {
-        ret_val<item_pocket::contain_code> ret_contain = can_contain( *iter );
-        if( is_type( item_pocket::pocket_type::MIGRATION ) ||
-            ( !ret_contain.success() &&
-              ret_contain.value() != contain_code::ERR_NO_SPACE &&
-              ret_contain.value() != contain_code::ERR_CANNOT_SUPPORT ) ) {
-            add_msg( m_bad, _( "Your %s falls to the ground." ), ( *iter ).tname() );
+        ret_val<contain_code> ret_contain = can_contain( *iter );
+        if( is_type( pocket_type::MIGRATION ) || ( !ret_contain.success() &&
+                ret_contain.value() != contain_code::ERR_NO_SPACE &&
+                ret_contain.value() != contain_code::ERR_CANNOT_SUPPORT ) ) {
+            add_msg( m_bad, _( "Your %s falls to the ground." ), iter->tname() );
             here.add_item_or_charges( pos, *iter );
             iter = contents.erase( iter );
         } else {
@@ -1635,6 +1638,7 @@ void item_pocket::overflow( const tripoint &pos )
             if( overflow_count > 0 ) {
                 ammo.charges -= overflow_count;
                 item dropped_ammo( ammo.typeId(), ammo.birthday(), overflow_count );
+                add_msg( m_bad, _( "Your %s falls to the ground." ), iter->tname() );
                 here.add_item_or_charges( pos, contents.front() );
                 total_qty -= overflow_count;
             }
@@ -1654,6 +1658,7 @@ void item_pocket::overflow( const tripoint &pos )
             return left.volume() > right.volume();
         } );
         while( remaining_volume() < 0_ml && !contents.empty() ) {
+            add_msg( m_bad, _( "Your %s falls to the ground." ), contents.front().tname() );
             here.add_item_or_charges( pos, contents.front() );
             contents.pop_front();
         }
@@ -1663,6 +1668,7 @@ void item_pocket::overflow( const tripoint &pos )
             return left.weight() > right.weight();
         } );
         while( remaining_weight() < 0_gram && !contents.empty() ) {
+            add_msg( m_bad, _( "Your %s falls to the ground." ), contents.front().tname() );
             here.add_item_or_charges( pos, contents.front() );
             contents.pop_front();
         }
@@ -1828,14 +1834,9 @@ bool item_pocket::is_standard_type() const
            data->type == pocket_type::MAGAZINE_WELL;
 }
 
-bool item_pocket::is_allowed() const
+bool item_pocket::is_forbidden() const
 {
-    return allowed;
-}
-
-void item_pocket::set_usability( bool show )
-{
-    allowed = show;
+    return data->forbidden;
 }
 
 bool item_pocket::airtight() const

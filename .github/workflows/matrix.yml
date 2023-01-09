@@ -68,9 +68,9 @@ jobs:
     steps:
       - id: matrix_vars
         run: |
-          echo "::set-output name=fail_fast::$([ "$GITHUB_REF_NAME" = "master" ] && echo false || echo true)"
-          echo "::set-output name=skip_tests::$([ "$GITHUB_REF_NAME" = "master" ] && echo true || echo false)"
-          echo "::set-output name=max_parallel::$([ "$GITHUB_REF_NAME" = "master" ] && echo 20 || echo 1)"
+          echo "fail_fast=$([ "$GITHUB_REF_NAME" = "master" ] && echo false || echo true)" >> $GITHUB_OUTPUT
+          echo "skip_tests=$([ "$GITHUB_REF_NAME" = "master" ] && echo true || echo false)" >> $GITHUB_OUTPUT
+          echo "max_parallel=$([ "$GITHUB_REF_NAME" = "master" ] && echo 20 || echo 1)" >> $GITHUB_OUTPUT
   varied_builds:
     needs: [ skip-duplicates-code, skip-duplicates-data, matrix-variables ]
     strategy:
@@ -113,7 +113,7 @@ jobs:
             ccache_limit: 3G
 
           - compiler: clang++-12
-            os: ubuntu-latest
+            os: ubuntu-22.04
             release: 0
             cmake: 0
             tiles: 1
@@ -121,6 +121,7 @@ jobs:
             localize: 1
             native: linux64
             sanitize: address
+            cxxflags: --gcc-toolchain=/opt/mock-gcc-11
             mods: --mods=magiclysm
             dont_skip_data_only_changes: 1
             title: Clang 12, Ubuntu, Tiles, ASan
@@ -211,6 +212,7 @@ jobs:
         MODS: ${{ matrix.mods }}
         SANITIZE: ${{ matrix.sanitize }}
         TEST_STAGE: ${{ matrix.test-stage }}
+        CXXFLAGS: ${{ matrix.cxxflags }}
         LDFLAGS: ${{ matrix.ldflags }}
         EXTRA_TEST_OPTS: --error-format=github-action
         NUM_TEST_JOBS: ${{ matrix.num_test_jobs }}
@@ -255,6 +257,14 @@ jobs:
       if: ${{ env.SKIP == 'false' && runner.os == 'Linux' && (matrix.compiler == 'clang++-6.0') }}
       run: |
           sudo apt-get install clang-6.0
+    - name: set up a mock GCC toolchain root for Clang (Ubuntu)
+      if: ${{ env.SKIP == 'false' && runner.os == 'Linux' && (matrix.compiler == 'clang++-12') }}
+      run: |
+        sudo mkdir /opt/mock-gcc-11
+        sudo ln -s /usr/include /opt/mock-gcc-11/include
+        sudo ln -s /usr/bin /opt/mock-gcc-11/bin
+        sudo mkdir -p /opt/mock-gcc-11/lib/gcc/x86_64-linux-gnu
+        sudo ln -s /usr/lib/gcc/x86_64-linux-gnu/11 /opt/mock-gcc-11/lib/gcc/x86_64-linux-gnu/11
     - name: install dependencies (mac)
       if: ${{ env.SKIP == 'false' && runner.os == 'macOS' }}
       run: |
@@ -266,8 +276,8 @@ jobs:
       id: get-vars
       if: ${{ env.SKIP == 'false' }}
       run: |
-        echo "::set-output name=datetime::$(/bin/date -u "+%Y%m%d%H%M")"
-        echo "::set-output name=ccache-path::$([ "$RUNNER_OS" = "macOS" ] && echo '/Users/runner/Library/Caches/ccache' || echo '~/.ccache')"
+        echo "datetime=$(/bin/date -u "+%Y%m%d%H%M")" >> $GITHUB_OUTPUT
+        echo "ccache-path=$([ "$RUNNER_OS" = "macOS" ] && echo '/Users/runner/Library/Caches/ccache' || echo '~/.ccache')" >> $GITHUB_OUTPUT
       shell: bash
     - name: ccache cache files
       if: ${{ env.SKIP == 'false' && ( runner.os == 'Linux' || runner.os == 'macOS' ) }}

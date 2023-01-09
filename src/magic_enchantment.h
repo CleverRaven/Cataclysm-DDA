@@ -202,6 +202,10 @@ class enchantment
         // multipliers add to each other instead of multiply against themselves
         std::map<enchant_vals::mod, int_or_var<dialogue>> values_multiply; // NOLINT(cata-serialize)
 
+        // the exact same as above, though specifically for skills
+        std::map<skill_id, int_or_var<dialogue>> skill_values_add; // NOLINT(cata-serialize)
+        std::map<skill_id, int_or_var<dialogue>> skill_values_multiply; // NOLINT(cata-serialize)
+
         std::vector<fake_spell> hit_me_effect;
         std::vector<fake_spell> hit_you_effect;
 
@@ -218,6 +222,7 @@ class enchant_cache : public enchantment
     public:
 
         double modify_value( enchant_vals::mod mod_val, double value ) const;
+        double modify_value( const skill_id &mod_val, double value ) const;
         units::energy modify_value( enchant_vals::mod mod_val, units::energy value ) const;
         units::mass modify_value( enchant_vals::mod mod_val, units::mass value ) const;
         // adds two enchantments together and ignores their conditions
@@ -229,6 +234,10 @@ class enchant_cache : public enchantment
         int get_value_add( enchant_vals::mod value ) const;
         double get_value_multiply( enchant_vals::mod value ) const;
         int mult_bonus( enchant_vals::mod value_type, int base_value ) const;
+
+        int get_skill_value_add( const skill_id &value ) const;
+        double get_skill_value_multiply( const skill_id &value ) const;
+        int skill_mult_bonus( const skill_id &value_type, int base_value ) const;
         // attempts to add two like enchantments together.
         // if their conditions don't match, return false. else true.
         bool add( const enchantment &rhs, Character &you );
@@ -259,6 +268,9 @@ class enchant_cache : public enchantment
         // multipliers add to each other instead of multiply against themselves
         std::map<enchant_vals::mod, double> values_multiply; // NOLINT(cata-serialize)
 
+        // the exact same as above, though specifically for skills
+        std::map<skill_id, int> skill_values_add; // NOLINT(cata-serialize)
+        std::map<skill_id, int> skill_values_multiply; // NOLINT(cata-serialize)
 };
 
 template <typename E> struct enum_traits;

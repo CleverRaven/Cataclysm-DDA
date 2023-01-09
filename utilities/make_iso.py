@@ -39,11 +39,9 @@ args = parser.parse_args()
 converted_tile_ids = dict()
 
 
-def iso_ize(tile_num, new_tile_num=-1, initial_rotation=0, override=False):
+def iso_ize(tile_num, initial_rotation=0, override=False):
     if override or (tile_num, initial_rotation) not in converted_tile_ids:
         print("  iso-izing " + str(tile_num))
-        if new_tile_num == -1:
-            new_tile_num = tile_num
         tile_png = "tile-{:0>6d}.png".format(tile_num)
         command = (
             'convert -background transparent ' +
@@ -133,7 +131,7 @@ def tile_convert(otile, main_id, new_tile_number):
                     print("  and rotating " + str(otile[g][0]))
                     # create 3 new iso-ized tiles, as well
                     for rot in (270, 180, 90):
-                        if iso_ize(otile[g][0], ntile['ntn'], rot):
+                        if iso_ize(otile[g][0], rot):
                             ntile[g].append(ntile['ntn'])
                             ntile['ntn'] += 1
                             print("next tile number now " + str(ntile['ntn']))

@@ -555,7 +555,13 @@ void recipe_result_info_cache::get_item_details( item &dummy_item,
     std::vector<iteminfo> temp_info;
     int total_quantity = quantity_per_batch * cached_batch_size;
     get_item_header( dummy_item, quantity_per_batch, details_info, classification, uses_charges );
-    dummy_item.info( true, temp_info, total_quantity );
+    if( uses_charges ) {
+        dummy_item.charges *= total_quantity;
+        dummy_item.info( true, temp_info );
+        dummy_item.charges /= total_quantity;
+    } else {
+        dummy_item.info( true, temp_info, total_quantity );
+    }
     details_info.insert( std::end( details_info ), std::begin( temp_info ), std::end( temp_info ) );
 }
 

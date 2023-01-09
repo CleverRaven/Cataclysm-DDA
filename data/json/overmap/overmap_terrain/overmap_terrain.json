@@ -633,6 +633,35 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "godco_1", "godco_2", "godco_3", "godco_4", "godco_5", "godco_6", "godco_7", "godco_8", "godco_9" ],
+    "name": "church retreat",
+    "sym": "+",
+    "color": "i_green",
+    "see_cost": 5,
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "godco_1_1",
+      "godco_2_1",
+      "godco_3_1",
+      "godco_4_1",
+      "godco_5_1",
+      "godco_6_1",
+      "godco_7_1",
+      "godco_8_1",
+      "godco_9_1",
+      "godco_1_2",
+      "godco_2_2"
+    ],
+    "name": "church retreat roof",
+    "sym": "+",
+    "color": "i_green",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
     "id": "desolatebarn",
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "desolate barn",
@@ -824,36 +853,6 @@
     "color": "dark_gray",
     "see_cost": 5,
     "flags": [ "NO_ROTATE", "RISK_HIGH" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [
-      "cground_1",
-      "cground_1_1",
-      "cground_1_2",
-      "cground_2",
-      "cground_2_1",
-      "cground_2_2",
-      "cground_3",
-      "cground_3_1",
-      "cground_4",
-      "cground_4_1",
-      "cground_5",
-      "cground_5_1",
-      "cground_6",
-      "cground_6_1",
-      "cground_7",
-      "cground_7_1",
-      "cground_8",
-      "cground_8_1",
-      "cground_9",
-      "cground_9_1"
-    ],
-    "name": "campground",
-    "sym": "┼",
-    "color": "green",
-    "see_cost": 5,
-    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD", "SHOULD_NOT_SPAWN" ]
   },
   {
     "type": "overmap_terrain",

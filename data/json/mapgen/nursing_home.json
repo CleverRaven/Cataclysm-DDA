@@ -292,6 +292,7 @@
         "syypppppypppppypppppypppppypppppys#!g#sypppppypppppypppppypppppypppppyyss#sspppppppyypppppppssgg",
         "IssssssssssssssssIssssssssssssssssggggssssssssssssssssIssssssssssssssssIs#sspppppppyypppppppIsgg"
       ],
+      "place_signs": [ { "signage": "Shady Hills of <city>, Nursing Home\n\n ~Make Life Better~", "x": 75, "y": 64 } ],
       "place_vehicles": [
         { "chance": 15, "rotation": 90, "vehicle": "parkinglotbasic", "x": 67, "y": 68 },
         { "chance": 15, "rotation": 90, "vehicle": "parkinglotbasic", "x": 61, "y": 68 },
