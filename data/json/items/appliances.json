@@ -15,6 +15,13 @@
   },
   {
     "type": "GENERIC",
+    "id": "glass_fridge",
+    "name": { "str": "glass door fridge" },
+    "description": "A modern refrigerator with a thick sheet of glass in the door, often specially treated to be more insulative.  Allows seeing the contents without letting out the cold air, which used to be a minor convenience, and now saves precious minutes until spoilage.",
+    "copy-from": "fridge"
+  },
+  {
+    "type": "GENERIC",
     "id": "freezer",
     "looks_like": "minifreezer",
     "symbol": "F",
