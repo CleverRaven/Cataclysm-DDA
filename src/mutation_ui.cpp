@@ -511,9 +511,9 @@ void avatar::power_mutations()
                 } else {
                     continue;
                 }
-                examine_id = GetTrait( active, passive, cursor, tab_mode );
                 scroll_position = 0;
                 cursor = 0;
+                examine_id = GetTrait( active, passive, cursor, tab_mode );
             } else if( action == "CONFIRM" ) {
                 trait_id mut_id;
                 if( tab_mode == mutation_tab_mode::active ) {

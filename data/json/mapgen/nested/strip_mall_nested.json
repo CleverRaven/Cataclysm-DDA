@@ -1272,7 +1272,7 @@
         "x": { "item": "homebooks", "chance": 75 }
       },
       "place_signs": [
-        { "signage": "Shady Hills Corporation, <city> Branch", "x": 10, "y": 21 },
+        { "signage": "Shady Hills Corporation, <city> Branch\n\n ~Make Life Better~", "x": 10, "y": 21 },
         { "signage": "<full_name>, Branch Manager", "x": 7, "y": 16 }
       ],
       "parameters": {

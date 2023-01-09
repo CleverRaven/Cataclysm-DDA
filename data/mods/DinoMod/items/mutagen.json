@@ -23,7 +23,11 @@
     "description": "An extremely rare mutagen cocktail, it smells like blood and is a green goop with blood-red streaks",
     "color": "light_green",
     "price": 500000,
-    "vitamins": [ [ "mutagen_tyrant", 175 ], [ "mutagen", 125 ] ]
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You drink the tyrant mutagen.",
+      "vitamins": [ [ "mutagen_tyrant", 175 ], [ "mutagen", 125 ] ]
+    }
   },
   {
     "id": "iv_mutagen_stego",
@@ -49,7 +53,11 @@
     "description": "An extremely rare mutagen cocktail, it seeks to cure what's deep inside.",
     "color": "light_green",
     "price": 500000,
-    "vitamins": [ [ "mutagen_stego", 175 ], [ "mutagen", 125 ] ]
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You drink the stego mutagen.",
+      "vitamins": [ [ "mutagen_stego", 175 ], [ "mutagen", 125 ] ]
+    }
   },
   {
     "id": "iv_mutagen_horns",
@@ -75,6 +83,10 @@
     "description": "An extremely rare mutagen cocktail containing a mix of biological samples, spiked with rum.",
     "color": "light_green",
     "price": 500000,
-    "vitamins": [ [ "mutagen_horns", 175 ], [ "mutagen", 125 ] ]
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You drink the horns mutagen.",
+      "vitamins": [ [ "mutagen_horns", 175 ], [ "mutagen", 125 ] ]
+    }
   }
 ]

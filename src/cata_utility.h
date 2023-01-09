@@ -8,6 +8,7 @@
 #include <functional>
 #include <iosfwd>
 #include <map>
+#include <memory>
 #include <string> // IWYU pragma: keep
 #include <type_traits>
 #include <unordered_set>
@@ -336,6 +337,36 @@ bool read_from_file_optional( const cata_path &path,
                               const std::function<void( std::istream & )> &reader );
 bool read_from_file_optional_json( const cata_path &path,
                                    const std::function<void( const JsonValue & )> &reader );
+/**@}*/
+
+/**
+ * Try to open and provide a std::istream for the given, possibly, gzipped, file.
+ *
+ * The file is opened for reading (binary mode) and tested to see if it is compressed.
+ * Compressed files are decompressed into a std::stringstream and returned.
+ * Uncompressed files are returned as normal lazy ifstreams.
+ * Any exceptions during reading, including failing to open the file, are reported as dbgmsg.
+ *
+ * @return A unique_ptr of the appropriate istream, or nullptr on failure.
+ */
+/**@{*/
+std::unique_ptr<std::istream> read_maybe_compressed_file( const std::string &path );
+std::unique_ptr<std::istream> read_maybe_compressed_file( const fs::path &path );
+std::unique_ptr<std::istream> read_maybe_compressed_file( const cata_path &path );
+/**@}*/
+
+/**
+ * Try to open and read the entire file to a string.
+ *
+ * The file is opened for reading (binary mode), read into a string, and then closed.
+ * Any exceptions during reading, including failing to open the file, are reported as dbgmsg.
+ *
+ * @return A nonempty optional with the contents of the file on success, or cata::nullopt on failure.
+ */
+/**@{*/
+cata::optional<std::string> read_whole_file( const std::string &path );
+cata::optional<std::string> read_whole_file( const fs::path &path );
+cata::optional<std::string> read_whole_file( const cata_path &path );
 /**@}*/
 
 std::istream &safe_getline( std::istream &ins, std::string &str );

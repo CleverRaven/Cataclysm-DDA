@@ -330,6 +330,12 @@ bool Creature::sees( const Creature &critter ) const
         return true;
     }
 
+    const int wanted_range = rl_dist( pos(), critter.pos() );
+    if( this->has_flag( MF_ALL_SEEING ) ) {
+        const monster *m = this->as_monster();
+        return wanted_range < std::max( m->type->vision_day, m->type->vision_night );
+    }
+
     // player can use mirrors, so `has_potential_los` cannot be used
     if( !is_avatar() && !here.has_potential_los( pos(), critter.pos() ) ) {
         return false;
@@ -350,12 +356,6 @@ bool Creature::sees( const Creature &critter ) const
     };
 
     const Character *ch = critter.as_character();
-    const int wanted_range = rl_dist( pos(), critter.pos() );
-
-    if( this->has_flag( MF_ALL_SEEING ) ) {
-        const monster *m = this->as_monster();
-        return wanted_range < std::max( m->type->vision_day, m->type->vision_night );
-    }
 
     // Can always see adjacent monsters on the same level.
     // We also bypass lighting for vertically adjacent monsters, but still check for floors.
@@ -2464,6 +2464,23 @@ body_part_set Creature::get_drenching_body_parts( bool upper, bool mid, bool low
     }
     return ret;
 }
+
+int Creature::get_num_body_parts_of_type( body_part_type::type part_type ) const
+{
+    return static_cast<int>( get_all_body_parts_of_type( part_type ).size() );
+}
+
+int Creature::get_num_broken_body_parts_of_type( body_part_type::type part_type ) const
+{
+    int ret = 0;
+    for( const bodypart_id &bp : get_all_body_parts_of_type( part_type ) ) {
+        if( get_part_hp_cur( bp ) == 0 ) {
+            ret++;
+        }
+    }
+    return ret;
+}
+
 int Creature::get_hp( const bodypart_id &bp ) const
 {
     if( bp != bodypart_str_id::NULL_ID() ) {

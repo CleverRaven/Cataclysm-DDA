@@ -56,7 +56,7 @@
         "L": "f_locker",
         "b": "f_bunkbed",
         "T": "f_trashcan",
-        "p": "f_compact_ASRG_containment"
+        "p": "f_active_backup_generator"
       },
       "items": {
         "b": { "item": "army_bed", "chance": 60 },
@@ -186,7 +186,7 @@
         "d": "f_desk",
         "f": "f_fridge",
         "T": "f_trashcan",
-        "p": "f_compact_ASRG_containment"
+        "p": "f_active_backup_generator"
       },
       "items": {
         "b": { "item": "army_bed", "chance": 60 },

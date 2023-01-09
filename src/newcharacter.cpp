@@ -441,7 +441,12 @@ void avatar::randomize( const bool random_scenario, bool play_now )
                 scenarios.emplace_back( &scen );
             }
         }
-        set_scenario( random_entry( scenarios ) );
+        const scenario *selected_scenario = random_entry( scenarios );
+        if( selected_scenario ) {
+            set_scenario( selected_scenario );
+        } else {
+            debugmsg( "Failed randomizing sceario - no entries matching requirements." );
+        }
     }
 
     prof = get_scenario()->weighted_random_profession();

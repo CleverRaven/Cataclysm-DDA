@@ -21,6 +21,8 @@
   - [A spell that casts a note on the target and an effect on the caster](#a-spell-that-casts-a-note-on-the-target-and-an-effect-on-the-caster)
   - [Monster spells](#monster-spells)
 - [Enchantments](#enchantments)
+  - [The `relic_data` field](#the-relic_data-field)
+  - [Variables](#variables)
   - [ID values](#id-values)
   - [Enchantment value examples](#enchantment-value-examples)
 
@@ -213,6 +215,29 @@ Another mandatory field is the spell shape. This dictates how the area of effect
 
 The following JSON fields are also used in spells and, while optional, greatly expand how spells can behave.
 
+| Field group | Description | Example
+| ---  | --- | ---
+| `min_X`, `max_X`, ``X_increment`` | Minimun value, maximum value, and the value, that add each level. Note: your spell don't take max_X on the max lvl, it will always add the correct amount of X_increment to your spell - in spell with `min_damage: 0, max_damage: 100, damage_increment: 5` and `max_level: 10`, on level 10 the spell will deal only 50 damage, as [ 0 + (5\*10) ]. Opposite is also true, in spell with `min_damage: 0, max_damage: 25, damage_increment: 5` on level 10 will deal only 25 damage, as the highest value, described in `max_X` | `min_damage`, `min_range`, `min_aoe`
+| `min_damage`, `max_damage`, `damage_increment` |  By default respond for the damage (or healing, if the damage is negative) of the spell, but, depending on `effect`, may respond for different things. For damage, that do not increase with level (like for a monster spell) you need to use both `min_damage` and `max_damage` of the same value (`"min_damage": 15, "max_damage": 15`), increment isn't nesessary | "min_damage": 0,  <br>"max_damage": 100,  <br>"damage_increment": 5,|
+| `min_duration`, `max_duration`, `duration_increment` | Respond for the duration of the effect. Writed in moves, so `100` means `1 second`, and `1 minute` described as `6000`.  Usually works with some `effects`, and with `effect_str` | "min_duration": 100, <br>"max_duration": 6000, <br>"duration_increment": 100,
+| `min_range`, `max_range`, `range_increment` | Respond for the distance caster can use the spell. Can be ignored, if the target is user (giving an buff/debuff, spawning an item). Note: the reality bubble diameter is ~60 | "min_range": 2, <br>"max_range": 10, <br>"range_increment": 0.5,
+| `min_aoe`, `max_aoe`, `aoe_increment` | Respond for area of effect. | "min_aoe": 0, <br>"max_aoe": 5, <br>"aoe_increment": 0.1, 
+| `min_accuracy`, `max_accuracy`, `accuracy_increment` | Respond for accuracy of the spell. -20 accuracy will make it always miss, 20 will make it always hit. Doesn't work currently | "min_accuracy" -20, <br>"max_accuracy": 20, <br>"accuracy_increment": 1.5
+| `min_dot`, `max_dot`, `dot_increment` | Respond for damage over time. Same as damage, may respond both for damage and for healing (except the healing would be too fast for default character) | "min_dot": 0, <br>"max_dot": 2, <br>"dot_increment": 0.1,
+| `min_pierce`, `max_pierce`, `pierce_increment` | Respond for armor piersing of the spell | "min_pierce": 0, <br>"max_pierce": 1, <br>"pierce_increment": 0.1,
+| `base_casting_time`, `final_casting_time`, `casting_time_increment` | Respond for amount of time user cast the spell. Same as duration, writed in moves, which allow to make spells, that can be casted for 0.5 or 0.25 seconds. Doesn't work for monsters and for items, that cast spells | "base_casting_time": 1000, <br>"final_casting_time": 100, <br>"casting_time_increment": -50,
+| `base_energy_cost`, `final_energy_cost`, `energy_increment` | Respond for amount of energy you spend for cast | "base_energy_cost": 30, <br>"final_energy_cost": 100, <br>"energy_increment": -6,
+| `field_id`, `field_chance`, `min_field_intensity`, `max_field_intensity`, `field_intensity_increment`, `field_intensity_variance` | Respond for field spawn. `field_id` describe what field will be spawned; `field_chance` describe the chance of spawning the field, as "one in `field_chance`" (1 means the probability is 100%, 2 is 50%, 3 is 33% etc.); `min_field_intensity`, `max_field_intensity` and `field_intensity_increment` are respond for the field intensity and it grow depend on level (for example, for fd_electricity intensity 1 represent spark, when intensity 10 is electric cloud); `field_intensity_variance` allow the spell randomly increase and decrease the intensity of the spell as a percent (intencity 10 and variance 0.1 means it can grow or shring at 10%, from 9 to 11)| "field_id": "fd_blood", <br>"field_chance": 100,    <br>"min_field_intensity": 10, <br>"max_field_intensity": 10, <br>"field_intensity_increment": 1, <br>"field_intensity_variance": 0.1
+| `effect_str` | By default respond for effect, the spell can deal (see EFFECTS_JSON.md), but can vary depend on effect | "effect_str": "zapped", 
+| `max_level` | How much you can train the spell. 0 by default | "max_level": 10,
+| `difficulty` | How hard to cast the spell. Higher difficulty make spell easier to fail, but also train your spell skill to the `difficulty` level (spell with difficulty 10 can train user to spellcasting lvl 10) | "difficulty": 7,
+| `affected_body_parts` | Respond on which body part `effect_str` will occur. Doesn't respond what body part the spell will target if you damage the target, it always aim a `torso` no matter what | "affected_body_parts": [ "head" ] 
+| `extra_effects` | Cast `id` spell right after the end of the main. Can cast multiple different spells at once | "extra_effects": [ <br> { <br> "id": "fireball", <br> "hit_self": false, <br> "max_level": 3 <br> }, <br> { "id": "storm_chain_1" } <br>]
+| `learn_spells` | Allow user to learn this spells, when it will reach the amount of levels ("create_atomic_light": 5 means user can learn create_atomic_light, when it will reach the 5 level of the spell) | "learn_spells": { "create_atomic_light": 5, "megablast": 10 }
+| `message` | The message, that will be send in log, when you cast a spell. "You cast %s!" by default | "message": "You feel refreshed."
+| `sound_type`, `sound_description`, `sound_ambient`, `sound_id`, `sound_variant` | Respond for the sound that play when you use the spell. `sound_type` is one of `background`, `weather`, `music`, `movement`, `speech`, `activity`, `destructive_activity`, `alarm`, `combat`, `alert`, `order`; `sound_description` respond for the message in log, as "You hear %s" ("an explosion" by default); `sound_ambient` whether or not this is treated as an ambient sound | "sound_type": "combat", <bp>"sound_description": "a whoosh", <bp>"sound_ambient": true, <bp>"sound_id": "misc", <bp>"sound_variant": "shockwave", 
+| `targeted_monster_ids` | You can target only `monster_id` | "targeted_monster_ids": [ "mon_hologram" ],
+| `targeted_monster_species` | You can target only picked species (for list see data/json/species.json) | "targeted_monster_species": [ "ROBOT", "CYBORG" ],
 
 ### Spell Flags
 
@@ -573,36 +598,12 @@ Explanation: Here we have one main spell with two subspells: one on the caster a
 
 ### Monster spells
 
-`MONSTER`s can also cast spells.  To do this, you need to declare the spells in `special_attacks`.  Spells with `target_self: true` will only target the casting monster, and will be casted only if the monster has a hostile target.
-
-```json 
-  { 
-    "type": "spell", 
-    "spell_data": { "id": "cone_cold", "min_level": 4 }, 
-    "monster_message": "%1$s casts %2$s at %3$s!", 
-    "cooldown": 25 
-  }
-```
-
-| Identifier              | Description
-|---                      |---
-| `spell_data`            | List of spell properties for the attack.
-| `min_level`             | The level at which the spell is cast.  Spells cast by monsters do not gain levels like player spells.
-| `cooldown `             | How often the monster can cast this spell
-| `monster_message`       | Message to print when the spell is cast, replacing the `message` in the spell definition.  Dynamic fields correspond to `<Monster Display Name> / <Spell Name> / <Target name>`.
-| `forbidden_effects_any` | Array of effect IDs, if the monster has any one the attack can't trigger.
-| `forbidden_effects_all` | Array of effect IDs, if the monster has every effect the attack can't trigger.
-| `required_effects_any`  | Array of effect IDs, the monster needs any one for the attack to trigger.
-| `required_effects_all`  | Array of effect IDs, the monster needs every effect for the attack to trigger.
-| `allow_no_target`       | Bool, default `false`.  If `true` the monster will cast it even without a hostile target.
+See [Monster special attacks - Spells](MONSTER_SPECIAL_ATTACKS.md#spell-monster-spells).
 
 
 ## Enchantments
 
-A subtype of spells are enchantments.  Enchantments can be considered physical spells, as these rely on item entities as "containers", and are automatically activated depending on the specified usage and `condition`, instead of being `a`ctivated directly or casted by someone.
-
-Depending on their effects on the user, enchantments can behave like blessings, by granting positive stats and subspells, curses if such effects are detrimental to the user (through a clever use of the `NO_TAKEOFF` flag), or a mix of both.
-
+Enchantments are another layer of enhancements, similar to `effect_type` and `mutation`.  Unlike these which are carried by the avatar and similar entities, enchantments are bound to "containers" such as items, mutations, bionics and effects.  This allows some flexibility in customizing effects and interactions according to the current state of the container, the spell being activated if any, what exactly is being granted, and more.
 
 | Identifier                  | Description
 |---                          |---
@@ -612,37 +613,28 @@ Depending on their effects on the user, enchantments can behave like blessings, 
 | `hit_you_effect`            | A spell that activates when you `melee_attack` a creature.  The spell is centered on the location of the creature unless `"hit_self": true`, then it is centered on your location.  Follows the template for defining `fake_spell`.
 | `hit_me_effect`             | A spell that activates when you are hit by a creature.  The spell is centered on your location.  Follows the template for defining `fake_spell`
 | `intermittent_activation`   | Spells that activate centered on you depending on the duration.  The spells follow the `fake_spell` template.
-| `values`                    | Anything that is a number that can be modified.  The ID field is required, `add` and `multiply` are optional.  A `multiply` value of -1 is -100% and 2.5 is +250%.  `add` is always applied before `multiply`.  Allowed ID values are shown below.  Either "add" or "multiply" can be a variable_object/arithmetic expression(see [NPCs](NPCs.md)).  If a "multiply" value is a variable_object/arithmetic it will be multiplied by .01 before use as decimals cannot be variable values.  So a variable with 100 would become 1, it is treated as a percent effectively.
-| `mutations`                 | Grants the mutation/trait id.  Note: enchantments effects added this way won't stack, due how mutations work.
+| `values`                    | Numbers that can be modified (see [list](#id-values)).  `add` is added to the base value, `multiply` is **also added** and treated as percentage: 2.5 is +250% and -1 is -100%.  `add` is always applied before `multiply`.  Either `add` or `multiply` can be a variable_object/arithmetic expression (see [below](#variables) for syntax and application, and [NPCs](NPCs.md) for the in depth explanation).
+| `emitter`                   | Grants the emit_id.
+| `modified_bodyparts`        | Modifies the body plan (standard is human).  `gain` adds body_part_id, `lose` removes body_part_id.  Note: changes done this way stay even after the item/effect/mutation carrying the enchantment is removed.
+| `mutations`                 | Grants the mutation/trait ID.  Note: enchantments effects added this way won't stack, due how mutations work.
+| `ench_effects`              | Grants the effect_id.  Requires the `intensity` for the effect.
 
-There are two syntaxes, the first is by defining the effect/spell within the enchantment, the second is by using ids:
 
-```json
-  {
-    "type": "enchantment",
-    "id": "MEP_INK_GLAND_SPRAY",
-    "hit_me_effect": [
-      {
-        "id": "generic_blinding_spray_1",
-        "hit_self": false,
-        "once_in": 15,
-        "message": "Your ink glands spray some ink into %2$s's eyes.",
-        "npc_message": "%1$s's ink glands spay some ink into %2$s's eyes."
-      }
-    ]
-  }
-```  
+There are two possible syntaxes.  The first is by defining an enchantment object and then referencing the ID, the second is by directly defining the effects as an inline enchantment of something (in this case, an item):
 
 ```json
   {
     "type": "enchantment",
     "id": "ENCH_INVISIBILITY",
     "condition": "ALWAYS",
-    "ench_effects": [ { "effect": "invisibility", "intensity": 1 } ],
     "has": "WIELD",
     "hit_you_effect": [ { "id": "AEA_FIREBALL" } ],
     "hit_me_effect": [ { "id": "AEA_HEAL" } ],
     "values": [ { "value": "STRENGTH", "multiply": 1.1, "add": -5 } ],
+    "emitter": "emit_AEP_SMOKE",
+    "modified_bodyparts": [ { "gain": "test_corvid_beak" }, { "lose": "torso" } ],
+    "mutations": [ "GILLS", "MEMBRANE", "AMPHIBIAN", "WAYFARER", "WILDSHAPE:FISH" ],
+    "ench_effects": [ { "effect": "invisibility", "intensity": 1 } ],
     "intermittent_activation": {
       "effects": [
         {
@@ -655,48 +647,128 @@ There are two syntaxes, the first is by defining the effect/spell within the enc
     }
   }
 ```
-
-To add the enchantment to the item, you need to declare the enchantment id as `relic_data`.  For example:
+Note: all fields except for `type` and `id` are optional.
 
 ```json
   {
-    "id": "wildshape_cloak_fish",
-    "type": "ARMOR",
-    "name": { "str": "Wildshape Cloak: Fish", "str_pl": "Wildshape Cloaks: Fish" },
-    "description": "A magical cloak that shimmers like fresh water under a warm sun.  It can be worn to morph your body to a form that is excellent for swimming, but ill-suited for combat.",
-    "relic_data": { "passive_effects": [ { "id": "ench_fishform" } ] },
-...
+    "copy-from": "mring_silver",
+    "type": "TOOL_ARMOR",
+    "id": "mring_wizardry_lesser",
+    "price_postapoc": "2000 USD",
+    "name": { "str": "lesser ring of wizardry", "str_pl": "lesser rings of wizardry" },
+    "description": "A thin silver band ring, engraved with two sealed scrolls.  Increases mana capacity somewhat.",
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 400 } ] } ] }
+  }
 ```
 
-Similarly as before, if the enchantment is relatively small, it can be written in the same JSON object, using the same common enchantment syntaxis.  For example:
+
+### The `relic_data` field
+
+As seen in the last example, enchantments are added to the item as `passive_effects` inside the `relic_data` field.  Items with this data are turned into a relic or artifact, being displayed as magenta inside the inventory view.
+
+Also supported is `charge_info`, which allows automatic charge regeneration.  This in turn enables active magical items that cast spells on use:
 
 ```json
 ...
-  "relic_data": {
-    "passive_effects": [
-      {
-        "has": "WORN",
-        "condition": "ALWAYS",
-        "values": [
-          { "value": "ARMOR_CUT", "add": -4 },
-          { "value": "ARMOR_BASH", "add": -4 },
-          { "value": "ARMOR_STAB", "add": -4 },
-          { "value": "ARMOR_BULLET", "add": -2 }
-        ]    
-      }
-    ]
-  },
+    "use_action": { "type": "cast_spell", "spell_id": "conj_throwing_blade3", "no_fail": true, "level": 1, "need_worn": true },
+    "extend": { "flags": [ "NO_UNLOAD", "NO_RELOAD" ] },
+    "charges_per_use": 1,
+    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "1 h", "regenerate_ammo": true } },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "crystallized_mana": 5 } } ]
 ...
 ```
+
+The item consumes 1 charge per spell cast.  It can't be recharged or unloaded, relying on ammo regeneration over time for use.
+
+Another example is a `GUN` type item (e.g. a firearm).  As this is a weapon that consumes ammo per use, `use_action` can be omitted:
+
+```json
+...
+    "clip_size": 5,
+    "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
+    "relic_data": {
+      "charge_info": { "regenerate_ammo": true, "recharge_type": "periodic", "time": "20 s" },
+      "passive_effects": [ { "id": "ENCH_INVISIBILITY" } ]
+    },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "ammo_magic_bullet": 5 } } ],
+...
+```
+
+This weapon consumes "magic bullet" ammo every time it's fired.  Note how `charge_info` and `passive_effects` can be used together.
+
+
+The field `charge_info` supports the following:
+
+| Identifier                  | Description
+|---                          |---
+| `regenerate_ammo`           | `true`.
+| `recharge_type`             | Can be one of: `lunar`, `periodic`, `solar_cloudy`, `solar_sunny`, or `none`.
+| `time`                      | Time required per charge.
+| `recharge_condition`        | (optional) Similar to `has` from enchantments: can be one of `held`, `worn`, `wield`.  If omitted, the item recharges regardless, even if dropped.
+
+
+### Variables
+
+From now, EOC variables can be used inside enchantments, including both predefined (see [NPCs.md](NPCs.md#dialogue-conditions) for examples), and custom variables.  The `values` field also supports arithmetic operations, having the same syntax as EOCs.  Here are some examples:
+
+```json
+  {
+    "type": "enchantment",
+    "id": "MON_NEARBY_STR",
+    "has": "WIELD",
+    "condition": "ALWAYS",
+    "values": [ { "value": "STRENGTH", "add": { "arithmetic": [ { "u_val": "dexterity" } ] } } ]
+  }
+```
+
+This enchantment adds the dexterity value to strength: a character with str 8 and dex 10 will result with str 18 and dex 10.
+
+
+```json
+  {
+    "type": "enchantment",
+    "id": "MON_NEARBY_LUMINATION",
+    "has": "WIELD",
+    "condition": "ALWAYS",
+    "values": [
+      {
+        "value": "LUMINATION",
+        "add": { "arithmetic": [ { "global_val": "monsters_nearby", "radius": 25 }, "*", { "const": 20 } ] }
+      }
+    ]
+  }
+```
+
+This enchantment checks the amount of monsters near the character (in a 25 tile range), then multiplies that number by 20, and adds the value as lumination: more monsters nearby = more light produced.
+
+
+```json
+  {
+    "type": "enchantment",
+    "id": "MOON_STR",
+    "has": "WORN",
+    "condition": "ALWAYS",
+    "values": [
+      {
+        "value": "STRENGTH",
+        "add": { "arithmetic": [ { "global_val": "var", "var_name": "IS_UNDER_THE_MOON" }, "*", { "const": 4 } ] }
+      }
+    ]
+  }
+```
+
+Here's an enchantment that relies on a custom variable check, the full power of EOCs in your hand.
+
+First, the custom variable IS_UNDER_THE_MOON is set behind the scenes, it checks if the character is under the moon's rays (by a combination of `{ "not": "is_day" }` and `"u_is_outside"`): if true value is 1, otherwise is 0.  Then, the custom variable is used inside an arithmetic operation that multiplies the truth value by 4: character is granted [ 1 * 4 ] = 4 additional strength if outside and during the night, or [ 0 * 4 ] = 0 additional strength otherwise.
 
 
 ### ID values
 
-The following is a list of possible `values`:
+The following is a list of possible enchantment `values`:
 
 | Character status value | Description
 |---                          |---
-| `ARMOR_ACID` | 
+| `ARMOR_ACID` | Negative values give armor against the damage, positive values make you accept more damage of this type
 | `ARMOR_BASH` | 
 | `ARMOR_BIO` | 
 | `ARMOR_BULLET` | 
@@ -707,7 +779,7 @@ The following is a list of possible `values`:
 | `ARMOR_STAB` | 
 | `ATTACK_COST` | 
 | `ATTACK_NOISE` | 
-| `ATTACK_SPEED` | affects attack speed of item even if it's not the one you're wielding
+| `ATTACK_SPEED` | Affects attack speed of item even if it's not the one you're wielding.
 | `BIONIC_POWER` |
 | `BONUS_BLOCK` | 
 | `BONUS_DODGE` | 
@@ -748,14 +820,14 @@ The following is a list of possible `values`:
 | `PAIN` | 
 | `SHOUT_NOISE` | 
 | `SIGHT_RANGE` | 
-| `SIGHT_RANGE_ELECTRIC` | How many tiles away is_electric() creatures are visible from
+| `SIGHT_RANGE_ELECTRIC` | How many tiles away is_electric() creatures are visible from.
 | `SKILL_RUST_RESIST` | Chance / 100 to resist skill rust.
 | `SLEEPY` | The higher this the easier you fall asleep.
 | `SOCIAL_INTIMIDATE` | 
 | `SOCIAL_LIE` | 
 | `SOCIAL_PERSUADE` | 
 | `READING_EXP` | Changes the minimum you learn from each reading increment.
-| `RECOIL_MODIFIER` | affects recoil when shooting a gun
+| `RECOIL_MODIFIER` | Affects recoil when shooting a gun.
 | `REGEN_HP` | 
 | `REGEN_MANA` | 
 | `REGEN_STAMINA` | 
@@ -791,7 +863,7 @@ The following is a list of possible `values`:
 | `ITEM_ARMOR_STAB` | 
 | `ITEM_ATTACK_SPEED` | 
 | `ITEM_COVERAGE` | 
-| `ITEM_DAMAGE_AP` | Armor Piercing. Doesn't work currently
+| `ITEM_DAMAGE_AP` | Armor Piercing.  Currently doesn't work.
 | `ITEM_ENCUMBRANCE` | 
 | `ITEM_VOLUME` | 
 | `ITEM_WEIGHT` | 
@@ -806,6 +878,6 @@ The following is a list of possible `values`:
   { "value": "ARMOR_COLD", "multiply": -0.4 } // subtracts 40% of incoming cold damage
   { "value": "ARMOR_HEAT", "multiply": 0.4 }  // increases damage taken from fire by 40%
   { "value": "ARMOR_CUT", "add": 2 }          // increases incoming cut damage by 2
-  { "value": "ARMOR_BIO", "multiply": -1.4 }  // subtracts 100 percent of incoming biological damage, heals for the remaining 40%  
+  { "value": "ARMOR_BIO", "multiply": -1.4 }  // subtracts 100 percent of incoming biological damage, heals for the remaining 40%
   { "value": "ARMOR_ACID", "multiply": 1.4 }  // increases incoming acid damage by 140%
 ```

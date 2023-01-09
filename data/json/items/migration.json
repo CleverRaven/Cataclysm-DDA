@@ -194,6 +194,11 @@
     "charges": 1930
   },
   {
+    "id": "gasfilter_l",
+    "type": "MIGRATION",
+    "replace": "gasfilter_m"
+  },
+  {
     "id": "jacqueshammer",
     "type": "MIGRATION",
     "replace": "jackhammer"
@@ -1155,6 +1160,12 @@
     "variant": "browning_a5"
   },
   {
+    "id": "90two",
+    "type": "MIGRATION",
+    "replace": "m9",
+    "variant": "90two"
+  },
+  {
     "id": "remington_1100",
     "type": "MIGRATION",
     "replace": "remington_870",
@@ -1823,6 +1834,11 @@
     "type": "MIGRATION",
     "replace": "folded_inflatable_boat",
     "reset_item_vars": true
+  },
+  {
+    "id": "ammunition_box_9mm",
+    "type": "MIGRATION",
+    "replace": "ammunition_box_308"
   },
   {
     "id": "egg_trout",

@@ -101,7 +101,7 @@
     "type": "item_group",
     "id": "robofac_gun_exodii",
     "subtype": "collection",
-    "items": [ { "item": "robofac_gun_exodii", "count": 1, "prob": 25 } ]
+    "items": [ { "item": "robofac_gun_exodii", "count": 1, "prob": 25 }, { "item": "robofac60_123ln", "count": 5, "prob": 100 } ]
   },
   {
     "type": "item_group",

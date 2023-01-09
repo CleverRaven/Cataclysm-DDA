@@ -93,7 +93,8 @@
       "terrain": {
         "|": [ [ "t_chainfence", 5 ], "t_chainfence_posts", [ "t_grass_dead", 4 ] ],
         "-": [ [ "t_chainfence", 5 ], "t_chainfence_posts", [ "t_grass_dead", 4 ] ]
-      }
+      },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
