@@ -23,6 +23,7 @@ enum advanced_inv_sortby {
     SORTBY_NAME,
     SORTBY_WEIGHT,
     SORTBY_VOLUME,
+    SORTBY_DENSITY,
     SORTBY_CHARGES,
     SORTBY_CATEGORY,
     SORTBY_DAMAGE,
