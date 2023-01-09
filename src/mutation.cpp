@@ -193,7 +193,9 @@ void Character::set_mutation_unsafe( const trait_id &trait, const mutation_varia
     }
     my_mutations.emplace( trait, trait_data{variant} );
     cached_mutations.push_back( &trait.obj() );
-    mutation_effect( trait, false );
+    if( !trait.obj().vanity ) {
+        mutation_effect( trait, false );
+    }
 }
 
 void Character::do_mutation_updates()
@@ -243,7 +245,9 @@ void Character::unset_mutation( const trait_id &trait_ )
     cached_mutations.erase( std::remove( cached_mutations.begin(), cached_mutations.end(), &mut ),
                             cached_mutations.end() );
     my_mutations.erase( iter );
-    mutation_loss_effect( trait );
+    if( !mut.vanity ) {
+        mutation_loss_effect( trait );
+    }
     do_mutation_updates();
 }
 

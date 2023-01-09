@@ -8,7 +8,7 @@
     "durability": 200,
     "epower": 0,
     "power": 242450,
-    "energy_consumption": 485000,
+    "energy_consumption": "485000 W",
     "breaks_into": [
       { "item": "steel_lump", "count": [ 30, 60 ] },
       { "item": "steel_chunk", "count": [ 30, 60 ] },
@@ -30,7 +30,7 @@
     "durability": 200,
     "epower": 0,
     "power": 447600,
-    "energy_consumption": 895250,
+    "energy_consumption": "895250 W",
     "breaks_into": [
       { "item": "steel_lump", "count": [ 30, 60 ] },
       { "item": "steel_chunk", "count": [ 30, 60 ] },
@@ -63,7 +63,7 @@
     "durability": 200,
     "epower": 0,
     "power": 93250,
-    "energy_consumption": 207250,
+    "energy_consumption": "207250 W",
     "breaks_into": [
       { "item": "steel_lump", "count": [ 30, 60 ] },
       { "item": "steel_chunk", "count": [ 30, 60 ] },
@@ -85,7 +85,7 @@
     "durability": 200,
     "epower": 0,
     "power": 149200,
-    "energy_consumption": 331750,
+    "energy_consumption": "331750 W",
     "breaks_into": [
       { "item": "steel_lump", "count": [ 30, 60 ] },
       { "item": "steel_chunk", "count": [ 30, 60 ] },
@@ -107,7 +107,7 @@
     "durability": 200,
     "epower": 0,
     "power": 242450,
-    "energy_consumption": 539000,
+    "energy_consumption": "539000 W",
     "breaks_into": [
       { "item": "steel_lump", "count": [ 30, 60 ] },
       { "item": "steel_chunk", "count": [ 30, 60 ] },
@@ -129,7 +129,7 @@
     "durability": 200,
     "epower": 0,
     "power": 447600,
-    "energy_consumption": 994750,
+    "energy_consumption": "994750 W",
     "breaks_into": [
       { "item": "steel_lump", "count": [ 30, 60 ] },
       { "item": "steel_chunk", "count": [ 30, 60 ] },

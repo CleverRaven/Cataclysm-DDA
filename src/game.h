@@ -903,6 +903,8 @@ class game
                                    int &line );
         void print_trap_info( const tripoint &lp, const catacurses::window &w_look, int column,
                               int &line );
+        void print_part_con_info( const tripoint &lp, const catacurses::window &w_look, int column,
+                                  int &line );
         void print_creature_info( const Creature *creature, const catacurses::window &w_look, int column,
                                   int &line, int last_line );
         void print_vehicle_info( const vehicle *veh, int veh_part, const catacurses::window &w_look,
