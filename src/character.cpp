@@ -4387,20 +4387,6 @@ void Character::update_health()
                    get_daily_health() );
 }
 
-item *Character::best_quality_item( const quality_id &qual )
-{
-    std::vector<item *> qual_inv = items_with( [qual]( const item & itm ) {
-        return itm.has_quality( qual );
-    } );
-    item *best_qual = random_entry( qual_inv );
-    for( item *elem : qual_inv ) {
-        if( elem->get_quality( qual ) > best_qual->get_quality( qual ) ) {
-            best_qual = elem;
-        }
-    }
-    return best_qual;
-}
-
 int Character::weariness() const
 {
     return activity_history.weariness();
@@ -9092,7 +9078,7 @@ bool Character::crush_frozen_liquid( item_location loc )
     if( can_crush.success() ) {
         done_crush = true;
         if( can_crush.value() == CRUSH_HAMMER ) {
-            item hammering_item = item_with_best_of_quality( qual_HAMMER, true );
+            item &hammering_item = best_item_with_quality( qual_HAMMER, true );
             //~ %1$s: item to be crushed, %2$s: hammer name
             if( query_yn( _( "Do you want to crush up %1$s with your %2$s?\n"
                              "<color_red>Be wary of fragile items nearby!</color>" ),
@@ -9185,22 +9171,26 @@ static item *get_matching_qual_recursive( const std::list<item *> &ilist, const 
     return nullptr;
 }
 
-item &Character::item_with_best_of_quality( const quality_id &qid, bool tool_not_container )
+item &Character::best_item_with_quality( const quality_id &qid, bool tool_not_container )
 {
-    int maxq = max_quality( qid );
-    auto items_with_quality = items_with( [qid]( const item & it ) {
-        return it.has_quality( qid );
-    } );
-    for( item *it : items_with_quality ) {
-        if( it->get_quality( qid ) == maxq ) {
-            if( tool_not_container && !it->empty_container() ) {
-                item *tmp = get_matching_qual_recursive( it->all_items_top(), qid, maxq );
-                if( tmp != nullptr ) {
-                    return *tmp;
-                }
-            }
-            return *it;
+    int max_lvl_found = INT_MIN;
+    std::vector<item *> items = items_with( [qid, &max_lvl_found]( const item & it ) {
+        int qlvl = it.get_quality( qid );
+        if( qlvl > max_lvl_found ) {
+            max_lvl_found = qlvl;
+            return true;
         }
+        return false;
+    } );
+    if( max_lvl_found > INT_MIN ) {
+        item *res = items.back();
+        if( tool_not_container && !res->empty_container() ) {
+            item *tmp = get_matching_qual_recursive( res->all_items_top(), qid, max_lvl_found );
+            if( tmp != nullptr ) {
+                return *tmp;
+            }
+        }
+        return *res;
     }
     return null_item_reference();
 }
