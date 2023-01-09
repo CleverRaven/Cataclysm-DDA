@@ -1697,20 +1697,6 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
-    "result": "fishing_rod_basic",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_TOOLS",
-    "skill_used": "survival",
-    "time": "5 m",
-    "reversible": true,
-    "autolearn": true,
-    "using": [ [ "cordage_fishing", 1 ] ],
-    "tools": [  ],
-    "components": [ [ [ "stick", 1 ] ], [ [ "fishing_hook_bone", 1 ], [ "fishing_hook_basic", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "wearable_rx12",
     "category": "CC_OTHER",
@@ -3226,17 +3212,5 @@
       { "id": "CHISEL_WOOD", "level": 1 }
     ],
     "components": [ [ [ "2x4", 2 ] ], [ [ "nail", 10 ] ], [ [ "stick", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "fake",
-    "result": "welding_kit",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_TOOLS",
-    "skill_used": "fabrication",
-    "reversible": true,
-    "time": "1 s",
-    "autolearn": true,
-    "components": [ [ [ "welder", 1 ] ], [ [ "welding_blanket", 1 ] ] ]
   }
 ]

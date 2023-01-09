@@ -330,20 +330,15 @@ void enchantment::load( const JsonObject &jo, const std::string &,
         for( const JsonObject value_obj : jo.get_array( "values" ) ) {
             const enchant_vals::mod value = io::string_to_enum<enchant_vals::mod>
                                             ( value_obj.get_string( "value" ) );
-            if( value_obj.has_member( "add" ) ) {
-                int_or_var<dialogue> add = get_int_or_var<dialogue>( value_obj, "add", false );
-                values_add.emplace( value, add );
-            }
+            int_or_var<dialogue> add = get_int_or_var<dialogue>( value_obj, "add", false );
+            values_add.emplace( value, add );
+            int_or_var<dialogue> mult = get_int_or_var<dialogue>( value_obj, "multiply", false );
             if( value_obj.has_member( "multiply" ) ) {
-                int_or_var<dialogue> mult;
                 if( value_obj.has_float( "multiply" ) ) {
                     mult.max.int_val = mult.min.int_val = value_obj.get_float( "multiply" ) * 100;
-                } else {
-                    mult = get_int_or_var<dialogue>( value_obj, "multiply", false );
-
                 }
-                values_multiply.emplace( value, mult );
             }
+            values_multiply.emplace( value, mult );
         }
     }
 
@@ -378,8 +373,9 @@ void enchant_cache::load( const JsonObject &jo, const std::string &,
         for( const JsonObject value_obj : jo.get_array( "values" ) ) {
             const enchant_vals::mod value = io::string_to_enum<enchant_vals::mod>
                                             ( value_obj.get_string( "value" ) );
-            const int add = value_obj.get_int( "add", 0 );
-            const double mult = value_obj.get_float( "multiply", 0.0 );
+            const int add = value_obj.has_int( "add" ) ? value_obj.get_int( "add", 0 ) : 0;
+            const double mult = value_obj.has_float( "multiply" ) ? value_obj.get_float( "multiply",
+                                0.0 ) : 0.0;
             if( add != 0 ) {
                 values_add.emplace( value, add );
             }

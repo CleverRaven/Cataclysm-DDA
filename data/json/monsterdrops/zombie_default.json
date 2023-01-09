@@ -266,25 +266,36 @@
   {
     "type": "item_group",
     "subtype": "collection",
-    "//": "contains cloth (always), a wallet (30% chance), and items in pockets or a bag (50% chance)",
+    "//": "contains clothing (always), a wallet (30% chance), and items in pockets or a bag (80~% chance)",
     "id": "default_zombie_death_drops",
     "entries": [
+      { "group": "wallets", "damage": [ 1, 4 ], "prob": 30 },
       {
         "distribution": [
-          { "group": "default_zombie_clothes", "prob": 90 },
-          { "group": "default_zombie_clothes_christmas", "event": "christmas", "prob": 10 },
-          { "group": "professional_zombie_gear", "prob": 1 }
+          {
+            "collection": [
+              {
+                "distribution": [
+                  { "group": "default_zombie_clothes", "prob": 90 },
+                  { "group": "default_zombie_clothes_christmas", "event": "christmas", "prob": 10 }
+                ]
+              },
+              {
+                "distribution": [ { "group": "default_zombie_items", "prob": 80 }, { "group": "default_zombie_items_pockets", "prob": 20 } ]
+              }
+            ],
+            "prob": 96
+          },
+          {
+            "collection": [ { "group": "postman_gear", "damage": [ 1, 4 ] }, { "group": "default_zombie_items_pockets", "prob": 10 } ],
+            "prob": 2
+          },
+          {
+            "collection": [ { "group": "prof-plumbing_gear", "damage": [ 1, 4 ] }, { "group": "default_zombie_items_pockets", "prob": 10 } ],
+            "prob": 2
+          }
         ]
-      },
-      { "group": "default_zombie_items", "prob": 50 },
-      { "group": "wallets", "damage": [ 1, 4 ], "prob": 30 }
+      }
     ]
-  },
-  {
-    "type": "item_group",
-    "subtype": "distribution",
-    "//": "Specific groups for clothing and items a zombie with a profession would have had",
-    "id": "professional_zombie_gear",
-    "entries": [ { "group": "postman_gear", "prob": 50 }, { "group": "hardware_plumbing", "prob": 50 } ]
   }
 ]

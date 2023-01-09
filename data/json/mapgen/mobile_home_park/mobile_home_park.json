@@ -81,11 +81,11 @@
     "terrain": {
       " ": "t_region_groundcover",
       "@": "t_region_groundcover",
+      "/": "t_region_groundcover",
       "T": "t_region_tree",
       "|": "t_privacy_fence",
       "~": "t_privacy_fencegate_c",
       "I": "t_chainfence",
-      "/": "t_pillar",
       "i": [ [ "t_chaingate_c", 1 ], [ "t_chaingate_l", 5 ] ],
       "#": "t_concrete",
       "_": "t_pavement",
@@ -104,7 +104,8 @@
       "@": "f_hedge_short",
       "D": "f_dumpster",
       "R": "f_recycle_bin",
-      "b": "f_metal_bench"
+      "b": "f_metal_bench",
+      "/": "f_flagpole"
     },
     "items": {
       "a": { "item": "trash", "chance": 50, "repeat": [ 1, 3 ] },
@@ -170,7 +171,7 @@
         "      ________########@                         "
       ],
       "palettes": [ "trailer_road" ],
-      "place_loot": [ { "item": "american_flag", "x": 16, "y": 28 } ],
+      "place_loot": [ { "item": "american_flag", "x": 17, "y": 28 } ],
       "place_vehicles": [
         { "vehicle": "parking_garage", "x": 17, "y": 2, "chance": 20, "rotation": 0 },
         { "vehicle": "parking_garage", "x": 17, "y": 7, "chance": 20, "rotation": 0 },
