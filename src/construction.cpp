@@ -130,10 +130,6 @@ static bool finalized = false;
 namespace construct
 {
 // Checks for whether terrain mod can proceed
-static bool check_nothing( const tripoint_bub_ms & )
-{
-    return true;
-}
 static bool check_channel( const tripoint_bub_ms & ); // tile has adjacent flowing water
 static bool check_empty_lite( const tripoint_bub_ms & );
 static bool check_empty( const tripoint_bub_ms & ); // tile is empty
@@ -956,7 +952,7 @@ bool can_construct( const construction &con, const tripoint_bub_ms &p )
     const furn_id f = here.furn( p );
     const ter_id t = here.ter( p );
 
-    if( !con.pre_special( p ) ||                 // pre-function
+    if( ( con.pre_special != nullptr && !con.pre_special( p ) ) || // pre-function
         !has_pre_terrain( con, p ) ||            // terrain type
         !can_construct_furn_ter( con, f, t ) ) { // flags
         return false;
@@ -1994,7 +1990,6 @@ void load_construction( const JsonObject &jo )
     }
 
     static const std::map<std::string, bool( * )( const tripoint_bub_ms & )> pre_special_map = {{
-            { "", construct::check_nothing },
             { "check_channel", construct::check_channel },
             { "check_empty", construct::check_empty },
             { "check_empty_lite", construct::check_empty_lite },
@@ -2052,8 +2047,9 @@ void load_construction( const JsonObject &jo )
 
     const std::string failure_fallback = jo.get_string( "pre_special", "" ) == "check_deconstruct"
                                          ? "deconstruct" : "standard";
-
-    assign_or_debugmsg( con.pre_special, jo.get_string( "pre_special", "" ), pre_special_map );
+    if( jo.has_string( "pre_special" ) ) {
+        assign_or_debugmsg( con.pre_special, jo.get_string( "pre_special" ), pre_special_map );
+    }
     assign_or_debugmsg( con.post_special, jo.get_string( "post_special", "" ), post_special_map );
     assign_or_debugmsg( con.do_turn_special, jo.get_string( "do_turn_special", "" ),
                         do_turn_special_map );

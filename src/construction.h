@@ -82,7 +82,7 @@ struct construction {
         bool vehicle_start = false;
 
         // Custom constructibility check
-        bool ( *pre_special )( const tripoint_bub_ms & );
+        bool ( *pre_special )( const tripoint_bub_ms & ) = nullptr;
         // Custom after-effects
         void ( *post_special )( const tripoint_bub_ms &, Character & );
         void ( *do_turn_special )( const tripoint_bub_ms &, Character & );

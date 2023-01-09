@@ -878,7 +878,7 @@ construction const *_find_prereq( tripoint_bub_ms const &loc, construction_id co
                                   cata::optional<construction_id> const &part_con_idx, checked_cache_t &checked_cache )
 {
     construction const *con = nullptr;
-    std::vector<construction *> cons = constructions_by_filter( [&idx, &top_idx](
+    std::vector<construction *> cons = constructions_by_filter( [&idx, &top_idx, &loc](
     construction const & it ) {
         furn_id const f = top_idx->post_is_furniture ? _get_id<furn_id>( top_idx ) : furn_id();
         ter_id const t = top_idx->post_is_furniture ? ter_id() : _get_id<ter_id>( top_idx );
@@ -886,7 +886,9 @@ construction const *_find_prereq( tripoint_bub_ms const &loc, construction_id co
                it.post_terrain == idx->pre_terrain &&
                // don't get stuck building and deconstructing the top level post_terrain
                it.pre_terrain != top_idx->post_terrain &&
-               ( it.pre_flags.empty() || !can_construct_furn_ter( it, f, t ) );
+               ( it.pre_flags.empty() || !can_construct_furn_ter( it, f, t ) ) &&
+               ( it.pre_special == nullptr || !it.pre_terrain.empty() || !it.pre_flags.empty() ||
+                 !it.pre_special( loc ) );
     } );
 
     for( construction const *gcon : cons ) {
