@@ -533,8 +533,8 @@ struct advanced_inv_sorter {
                 }
                 break;
             case SORTBY_DENSITY: {
-                const double density1 = d1.weight.value() / std::max( 1, d1.volume.value() );
-                const double density2 = d2.weight.value() / std::max( 1, d2.volume.value() );
+                const double density1 = static_cast<double>( d1.weight.value() ) / static_cast<double>( std::max( 1, d1.volume.value() ) );
+                const double density2 = static_cast<double>( d2.weight.value() ) / static_cast<double>( std::max( 1, d2.volume.value() ) );
                 if( density1 != density2 ) {
                     return density1 > density2;
                 }
