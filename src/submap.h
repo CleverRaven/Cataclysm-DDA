@@ -104,7 +104,7 @@ class submap_revert : maptile_revert
             return itm[p.x][p.y];
         }
 
-        void set_items( const point &p, cata::colony<item> revert_item ) {
+        void set_items( const point &p, cata::colony<item> &revert_item ) {
             itm[p.x][p.y] = revert_item;
         }
 };
