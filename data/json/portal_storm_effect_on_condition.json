@@ -698,7 +698,7 @@
     "type": "ter_furn_transform",
     "id": "portal_alien_grass_transform",
     "terrain": [ { "result": [ "t_grass" ], "valid_terrain": [ "t_grass_alien" ] } ]
-  },  
+  },
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_VOICES_1",
