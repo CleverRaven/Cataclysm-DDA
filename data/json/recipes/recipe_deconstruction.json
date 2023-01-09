@@ -6335,65 +6335,65 @@
     "result": "boots_combat",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
-    "time": "24 s",
-    "components": [ [ [ "sole_rubber", 1 ], [ "leather", 4 ], [ "scrap_kevlar", 4 ] ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ]
+    "time": "3 m",
+    "components": [ [ [ "sole_rubber", 1 ] ], [ [ "leather", 4 ] ], [ [ "scrap_kevlar", 4 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 2 } ]
   },
   {
     "result": "motorbike_boots",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
-    "time": "24 s",
-    "components": [ [ [ "sole_rubber", 1 ], [ "leather", 16 ], [ "scrap_kevlar", 16 ] ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ]
+    "time": "3 m",
+    "components": [ [ [ "sole_rubber", 1 ] ], [ [ "leather", 16 ] ], [ [ "scrap_kevlar", 16 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 2 } ]
   },
   {
     "result": "motor_police_boots",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
-    "time": "24 s",
-    "components": [ [ [ "sole_rubber", 1 ], [ "leather", 16 ] ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ]
+    "time": "3 m",
+    "components": [ [ [ "sole_rubber", 1 ] ], [ [ "leather", 16 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 2 } ]
   },
   {
     "result": "boots_bunker",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
-    "time": "24 s",
-    "components": [ [ [ "sole_rubber", 1 ], [ "nomex", 24 ] ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ]
+    "time": "3 m",
+    "components": [ [ [ "sole_rubber", 1 ] ], [ [ "nomex", 24 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 2 } ]
   },
   {
     "result": "boots_fur",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
-    "time": "24 s",
-    "components": [ [ [ "sole_rubber", 1 ], [ "fur", 8 ], [ "leather", 10 ] ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ]
+    "time": "3 m",
+    "components": [ [ [ "sole_rubber", 1 ] ], [ [ "fur", 8 ] ], [ [ "leather", 10 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 2 } ]
   },
   {
     "result": "xs_boots_fur",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
-    "time": "24 s",
-    "components": [ [ [ "sole_rubber", 1 ], [ "fur", 6 ], [ "leather", 8 ] ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ]
+    "time": "3 m",
+    "components": [ [ [ "sole_rubber", 1 ] ], [ [ "fur", 6 ] ], [ [ "leather", 8 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 2 } ]
   },
   {
     "result": "xl_boots_fur",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
-    "time": "24 s",
-    "components": [ [ [ "sole_rubber", 1 ], [ "fur", 10 ], [ "leather", 12 ] ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ]
+    "time": "3 m",
+    "components": [ [ [ "sole_rubber", 1 ] ], [ [ "fur", 10 ] ], [ [ "leather", 12 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 2 } ]
   },
   {
     "result": "sneakers",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
-    "time": "24 s",
-    "components": [ [ [ "sole_rubber", 1 ], [ "cotton_patchwork", 8 ] ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ]
+    "time": "3 m",
+    "components": [ [ [ "sole_rubber", 1 ] ], [ [ "cotton_patchwork", 8 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 2 } ]
   },
   {
     "result": "hat_boonie",

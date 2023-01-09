@@ -451,17 +451,17 @@ class spell
         // how much xp you have total
         int xp() const;
         // gain some exp
-        void gain_exp( int nxp );
+        void gain_exp( const Character &guy, int nxp );
         void set_exp( int nxp );
         // how much xp you get if you successfully cast the spell
         int casting_exp( const Character &guy ) const;
         // modifier for gaining exp
         float exp_modifier( const Character &guy ) const;
         // level up!
-        void gain_level();
+        void gain_level( const Character &guy );
         // gains a number of levels, or until max. 0 or less just returns early.
-        void gain_levels( int gains );
-        void set_level( int nlevel );
+        void gain_levels( const Character &guy, int gains );
+        void set_level( const Character &guy, int nlevel );
         // is the spell at max level?
         bool is_max_level() const;
         // what is the max level of the spell

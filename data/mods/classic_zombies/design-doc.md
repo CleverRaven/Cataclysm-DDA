@@ -1,20 +1,19 @@
 # The DDotDDD - Dark Days of the Dead Design Document
 
 ## Mission Statement
-Dark days of the dead is a cataclysm full conversion mod meant to turn the kitchen sink of cataclysm dda into a classic Romero-style zombie story.
+Dark days of the dead is a Cataclysm full conversion mod meant to turn the kitchen sink of Cataclysm: DDA into a classic Romero-style zombie story.
 
 ## Gameplay
 DDotD, like CDDA, aims for verisimilitude and the feeling of being a survivor in a Romero zombie movie. Like Dawn of the Dead, zombies should represent less of an individual deadly threat, and more of an unstoppable glacial force. Survivors should be poorly prepared and weak.
 
 ### Desired changes to monster stats
-Only classic zombies are allowed in ddotd. These zombies are slow moving shamblers. They have an enormous pool of hit points, but no armor. They are walking corpses, feeling no pain and continuing on in the face of incredible injuries. They can be destroyed with catastrophic damage, by completely destroying their bodies (represented by depleting their very large HP pool) or by a headshot. A deep bite from a zombie should have a very high (about 80%) chance of developing Conversion, an effect that kills you in about 3 days. (We should add an achievement for things accomplished in the time after getting Conversion). Scratches that pierce armor should have a low (about 10%) chance of causing Conversion, and gives an alternate form that takes longer, about 5 days, to kill you.
+Only classic zombies are allowed in DDotD. These zombies are slow moving shamblers. They have an enormous pool of hit points, but no armor. They are walking corpses, feeling no pain and continuing on in the face of incredible injuries. They can be destroyed with catastrophic damage, by completely destroying their bodies (represented by depleting their very large HP pool) or by a headshot. A deep bite from a zombie should have a very high (about 80%) chance of developing Conversion, an effect that kills you in about 3 days. (We should add an achievement for things accomplished in the time after getting Conversion). Scratches that pierce armor should have a low (about 10%) chance of causing Conversion, and gives an alternate form that takes longer, about 5 days, to kill you.
 
-Re-dead zombies do not revive. Some, but not all, human corpses should revive as zombies though. These zombies do not evolve. However it should be possible to destroy body parts and get things like crawling zombies as a result.
+Killed zombies do not revive. Some, but not all, human corpses should revive as zombies though. These zombies do not evolve. However it should be possible to destroy body parts and get things like crawling zombies as a result.
 
 DDotD zombies *are* capable of learning. At some point we may add our own late stage evolution to introduce zombies that can open doors or use simple tools.
 
-There are no aliens or interdimensional threats in ddotd.
-
+There are no aliens or interdimensional threats in DDotD.
 
 ## Setting
 The setting of DDotD should be vaguely "in the past", some time between 1980 and 2000. DDotD takes place in Alberta, Canada, in a fictionalized version of the Red Deer area. Why Alberta? Because the current CDDA mapgen of small clustered towns surrounded by fields and patches of forests on mostly flat land suits Alberta perfectly. This also allows us to have harsher winters to survive. Most buildings and loot in CDDA core will be appropriate, but guns and gun stores (with the exception of hunting rifles) are somewhat less common, and military presence substantially less so.
