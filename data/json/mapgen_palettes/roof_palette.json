@@ -51,6 +51,13 @@
       "y": [ "f_indoor_plant_y", "f_indoor_plant" ]
     },
     "liquids": { "Я": { "liquid": "water_clean", "amount": [ 0, 300 ] } },
+    "nested": {
+      "5": { "chunks": [ [ "null", 90 ], [ "roof_1x1_birdnest", 10 ] ] },
+      "|": { "chunks": [ [ "null", 1000 ], [ "roof_1x1_birdnest", 5 ] ] },
+      "2": { "chunks": [ [ "null", 1000 ], [ "roof_1x1_birdnest", 5 ] ] },
+      "3": { "chunks": [ [ "null", 1000 ], [ "roof_1x1_birdnest", 5 ] ] },
+      "-": { "chunks": [ [ "null", 1000 ], [ "roof_1x1_birdnest", 5 ] ] }
+    },
     "toilets": { "T": {  } }
   }
 ]
