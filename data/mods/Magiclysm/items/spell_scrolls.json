@@ -159,7 +159,7 @@
     "copy-from": "spell_scroll",
     "id": "spell_scroll_dominate",
     "//": "Animist spell",
-    "name": { "str": "Scroll of Dominate", "str_pl": "Scrolls of Dominate" },
+    "name": { "str": "Scroll of Domination", "str_pl": "Scrolls of Domination" },
     "description": "Force the undead creature you pick to obey your command, making it an ally for a short time.",
     "use_action": { "type": "learn_spell", "spells": [ "dominate" ] }
   },

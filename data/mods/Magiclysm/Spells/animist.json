@@ -431,7 +431,7 @@
   {
     "id": "dominate",
     "type": "SPELL",
-    "name": "Dominate",
+    "name": "Domination",
     "description": "Force the undead creature you pick to obey your command, making it ally for a short time.  It's an expensive spell, so use it wisely.",
     "valid_targets": [ "hostile" ],
     "flags": [ "CONCENTRATE", "SOMATIC", "SILENT" ],
