@@ -820,8 +820,8 @@
     "object": {
       "mapgensize": [ 5, 5 ],
       "rows": [
-        "??? =",
-        "nnhh ",
+        "h?? =",
+        "hnnh ",
         "     ",
         "     ",
         "     "
@@ -837,7 +837,7 @@
       "mapgensize": [ 5, 5 ],
       "rows": [
         "MMnn=",
-        "hMnn ",
+        "hMhh ",
         "     ",
         "     ",
         "     "
@@ -869,7 +869,7 @@
       "mapgensize": [ 5, 5 ],
       "rows": [
         "iiii=",
-        "Syyy ",
+        "yyyS ",
         "     ",
         "     ",
         "     "
@@ -885,7 +885,7 @@
       "mapgensize": [ 5, 5 ],
       "rows": [
         "iiii=",
-        "SCCy ",
+        "yCSC ",
         "     ",
         "     ",
         "     "
@@ -901,7 +901,7 @@
       "mapgensize": [ 5, 5 ],
       "rows": [
         "+iiii",
-        " SiTi",
+        " iSiT",
         "     ",
         "     ",
         "     "
@@ -948,8 +948,8 @@
     "object": {
       "mapgensize": [ 5, 5 ],
       "rows": [
-        "=** *",
-        "  **h",
+        "=hhh*",
+        "  hhh",
         "     ",
         "     ",
         "     "
@@ -981,7 +981,7 @@
       "mapgensize": [ 5, 5 ],
       "rows": [
         "=iiii",
-        " yCCS",
+        " CSCy",
         "     ",
         "     ",
         "     "
