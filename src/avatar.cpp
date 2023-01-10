@@ -1030,8 +1030,8 @@ void avatar::reset_stats()
     }
     // Starvation
     const float bmi = get_bmi_fat();
-    if( bmi < character_weight_category::underweight ) {
-        const int str_penalty = std::floor( ( character_weight_category::underweight - bmi ) * 6.0f );
+    if( bmi < character_weight_category::normal ) {
+        const int str_penalty = std::floor( ( character_weight_category::normal - bmi ) * 6.0f );
         add_miss_reason( _( "You're weak from hunger." ),
                          static_cast<unsigned>( ( get_starvation() + 300 ) / 1000 ) );
         //strength penalty applied to base stat in character.cpp
