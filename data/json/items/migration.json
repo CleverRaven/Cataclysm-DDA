@@ -1286,19 +1286,6 @@
     "variant": "m38dmr"
   },
   {
-    "id": "m4_cqbr",
-    "type": "MIGRATION",
-    "replace": "m4_carbine",
-    "variant": "m4_cqbr"
-  },
-  {
-    "id": "nato_assault_rifle",
-    "from_variant": "m4_cqbr",
-    "type": "MIGRATION",
-    "replace": "m4_carbine",
-    "variant": "m4_cqbr"
-  },
-  {
     "id": "sig552",
     "type": "MIGRATION",
     "replace": "sig_assault_rifle",
