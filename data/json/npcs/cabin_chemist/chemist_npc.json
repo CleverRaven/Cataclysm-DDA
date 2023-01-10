@@ -227,7 +227,14 @@
       },
       {
         "text": "[50$]  I'll buy some powder fungicide.",
-        "effect": { "u_buy_item": "fungicide", "container": "bottle_twoliter", "cost": 5000, "count": 1500, "true_eocs": "EOC_BUY_POWDERFUNG_TRUE_EFFECT", "false_eocs": "EOC_CHEMIST_BUY_FALSE_EFFECT" },
+        "effect": {
+          "u_buy_item": "fungicide",
+          "container": "bottle_twoliter",
+          "cost": 5000,
+          "count": 1500,
+          "true_eocs": "EOC_BUY_POWDERFUNG_TRUE_EFFECT",
+          "false_eocs": "EOC_CHEMIST_BUY_FALSE_EFFECT"
+        },
         "condition": { "not": { "npc_has_effect": "chemist_waiting_for_fungicide" } },
         "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
       },
