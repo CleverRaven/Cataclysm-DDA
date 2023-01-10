@@ -370,6 +370,11 @@ void game::item_action_menu( item_location loc )
         num++;
     }
 
+    // custom footer
+    std::string footer = string_format(_("< [<color_yellow>%s</color>] keybindings >"),
+        ctxt.get_desc("HELP_KEYBINDINGS"));
+    kmenu.footer_text = footer.substr(1, footer.length() - 3);
+
     kmenu.query();
     if( kmenu.ret < 0 || kmenu.ret >= static_cast<int>( iactions.size() ) ) {
         return;
