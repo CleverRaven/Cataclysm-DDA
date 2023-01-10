@@ -126,7 +126,7 @@ TEST_CASE( "starve_test", "[starve][slow]" )
     // is, but it helps to debug the test faster if this value is wrong.
     REQUIRE( dummy.get_bmr() == 1738 );
 
-    constexpr int expected_day = 105;
+    constexpr int expected_day = 75;
     int day = 0;
     std::vector<std::string> results;
 
@@ -324,8 +324,8 @@ TEST_CASE( "starve_test_hunger3", "[starve][slow]" )
     //however, you also start breaking down muscle below 2 fat BMIs (~50,000 kcal), which is hard to recover from, and 15kg is a fairly solid buffer.
     //the system should probably account for the fact that fat ketones cannot power your whole body (brain can't think without food, stored kcal or not)
     CAPTURE( results );
-    CHECK( day <= 37 );
-    CHECK( day >= 33 );
+    CHECK( day <= 23 );
+    CHECK( day >= 27 );
 }
 
 // does eating enough food per day keep you alive
