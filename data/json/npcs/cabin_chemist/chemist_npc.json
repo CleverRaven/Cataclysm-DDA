@@ -131,7 +131,14 @@
       },
       {
         "text": "[50$]  I'll buy some disinfectant.",
-        "effect": { "u_buy_item": "disinfectant", "container": "bottle_plastic", "cost": 5000, "count": 20, "true_eocs": "EOC_BUY_DISINFECT_TRUE_EFFECT", "false_eocs": "EOC_CHEMIST_BUY_FALSE_EFFECT" },
+        "effect": {
+          "u_buy_item": "disinfectant",
+          "container": "bottle_plastic",
+          "cost": 5000,
+          "count": 20,
+          "true_eocs": "EOC_BUY_DISINFECT_TRUE_EFFECT",
+          "false_eocs": "EOC_CHEMIST_BUY_FALSE_EFFECT"
+        },
         "condition": { "not": { "npc_has_effect": "chemist_waiting_for_disinfectant" } },
         "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
       },
