@@ -1532,24 +1532,6 @@ bool Character::check_mount_is_spooked()
     return false;
 }
 
-// function for combat mounts to attack monsters that are hostile to the player
-bool Character::mount_attacks_hostiles()
-{
-    if( !is_mounted() ) {
-        return false;
-    }
-    if( mounted_creature && mounted_creature->type->has_fear_trigger( mon_trigger::HOSTILE_CLOSE ) &&
-        mounted_creature->has_flag( MF_COMBAT_MOUNT ) ) {
-        for( monster &critter : g->all_monsters() ) {
-            Attitude att = critter.attitude_to( *this );
-            if( att == Attitude::HOSTILE && sees( critter ) && rl_dist( pos(), critter.pos() ) <= 15 ) {
-                mounted_creature->melee_attack( critter, true );
-                return true;
-            }
-        }
-    }
-    return false;
-}
 bool Character::is_mounted() const
 {
     return has_effect( effect_riding ) && mounted_creature;
