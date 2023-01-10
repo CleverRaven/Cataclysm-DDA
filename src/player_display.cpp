@@ -1363,10 +1363,10 @@ void Character::disp_info( bool customize_character )
                 _( "Your body is weakened by starvation.  Only time and regular meals will help you recover.\n\n" );
         }
 
-        if( bmi < character_weight_category::underweight ) {
+        if( bmi < character_weight_category::normal ) {
             const int str_penalty = std::floor( ( 1.0f - ( get_bmi_fat() /
-                                                  character_weight_category::underweight ) ) * str_max );
-            const int dexint_penalty = std::floor( ( character_weight_category::underweight - bmi ) * 3.0f );
+                                                  character_weight_category::normal ) ) * str_max );
+            const int dexint_penalty = std::floor( ( character_weight_category::normal - bmi ) * 3.0f );
             starvation_text += std::string( _( "Strength" ) ) + " -" + string_format( "%d\n",
                                str_penalty );
             starvation_text += std::string( _( "Dexterity" ) ) + " -" + string_format( "%d\n",
