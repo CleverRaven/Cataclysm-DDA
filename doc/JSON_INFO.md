@@ -2491,7 +2491,7 @@ Examples of various usages syntax:
 ```C++
 "usages": [ [ 1, [ "PICK_LOCK" ] ] ]
 "usages": [ [ 2, [ "LUMBER" ] ] ]
-"usages": [ [ 1, [ "salvage", "inscribe", "cauterize" ] ] ]
+"usages": [ [ 1, [ "salvage", "inscribe"] ] ]
 "usages": [ [ 2, [ "HACKSAW", "saw_barrel" ] ] ]
 "usages": [ [ 1, [ "CHOP_TREE", "CHOP_LOGS" ] ], [ 2, [ "LUMBER" ] ] ]
 ```
@@ -2696,7 +2696,7 @@ Unless specified as optional, the following fields are mandatory for parts with 
 #### The following optional fields are specific to ENGINEs.
 ```c++
 "power": 15000                // Engine motive power in watts.
-"energy_consumption": 17500   // Engine power consumption at maximum power in watts.  Defaults to
+"energy_consumption": "55 W"  // Engine power consumption at maximum power in watts.  Defaults to
                               // electrical power and the E_COMBUSTION flag turns it to thermal
                               // power produced from fuel_type.  Should always be larger than "power".
 "m2c": 50,                    // The ratio of safe power to maximum power.
@@ -3605,7 +3605,7 @@ Alternately, every item (book, tool, armor, even food) can be used as a gunmod i
 "initial_charges": 75,     // Charges when spawned
 "max_charges": 75,         // Maximum charges tool can hold
 "rand_charges": [10, 15, 25], // Randomize the charges when spawned. This example has a 50% chance of rng(10, 15) charges and a 50% chance of rng(15, 25). (The endpoints are included.)
-"power_draw": "50 mJ",          // Energy consumption per second
+"power_draw": "50 mW",          // Energy consumption per second
 "revert_to": "torch_done", // Transforms into item when charges are expended
 "sub": "hotplate",         // optional; this tool has the same functions as another tool
 ```
@@ -3849,17 +3849,15 @@ The contents of use_action fields can either be a string indicating a built-in f
 },
 "use_action": {
     "type": "firestarter", // Start a fire, like with a lighter.
-    "moves_cost": 15 // Number of moves it takes to start the fire.
+    "moves": 15 // Number of moves it takes to start the fire. This is reduced by survival skill.
+    "moves_slow": 1500 // Number of moves it takes to start a fire on something that is difficult to ignite. This is reduced by survival skill.
+    "need_sunlight": true // Whether the character needs to be in direct sunlight, e.g. to use magnifying glasses.
 },
 "use_action": {
     "type": "unpack", // unpack this item
     "group": "gobag_contents", // itemgroup this unpacks into
     "items_fit": true, // Do the armor items in this fit? Defaults to false.
     "filthy_volume_threshold": "10 L" // If the items unpacked from this item have volume, and this item is filthy, at what amount of held volume should they become filthy
-},
-"use_action": {
-    "type": "extended_firestarter", // Start a fire (like with magnifying glasses or a fire drill). This action can take many turns, not just some moves like firestarter, it can also be canceled (firestarter can't).
-    "need_sunlight": true // Whether the character needs to be in direct sunlight, e.g. to use magnifying glasses.
 },
 "use_action": {
     "type": "salvage", // Try to salvage base materials from an item, e.g. cutting up cloth to get rags or leather.
@@ -3889,10 +3887,6 @@ The contents of use_action fields can either be a string indicating a built-in f
         "steel",
         "silver"
     ]
-},
-"use_action": {
-    "type": "cauterize", // Cauterize the character.
-    "flame": true // If true, the character needs 4 charges of fire (e.g. from a lighter) to do this action, if false, the charges of the item itself are used.
 },
 "use_action": {
     "type": "fireweapon_off", // Activate a fire based weapon.

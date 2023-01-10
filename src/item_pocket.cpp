@@ -1587,8 +1587,8 @@ cata::optional<item> item_pocket::remove_item( const item_location &it )
 
 void item_pocket::overflow( const tripoint &pos )
 {
-    if( is_type( item_pocket::pocket_type::MOD ) || is_type( item_pocket::pocket_type::CORPSE ) ||
-        is_type( item_pocket::pocket_type::EBOOK ) ) {
+    if( is_type( pocket_type::MOD ) || is_type( pocket_type::CORPSE ) ||
+        is_type( pocket_type::EBOOK ) ) {
         return;
     }
     if( empty() ) {
@@ -1604,12 +1604,11 @@ void item_pocket::overflow( const tripoint &pos )
     map &here = get_map();
     // first remove items that shouldn't be in there anyway
     for( auto iter = contents.begin(); iter != contents.end(); ) {
-        ret_val<item_pocket::contain_code> ret_contain = can_contain( *iter );
-        if( is_type( item_pocket::pocket_type::MIGRATION ) ||
-            ( !ret_contain.success() &&
-              ret_contain.value() != contain_code::ERR_NO_SPACE &&
-              ret_contain.value() != contain_code::ERR_CANNOT_SUPPORT ) ) {
-            add_msg( m_bad, _( "Your %s falls to the ground." ), ( *iter ).tname() );
+        ret_val<contain_code> ret_contain = can_contain( *iter );
+        if( is_type( pocket_type::MIGRATION ) || ( !ret_contain.success() &&
+                ret_contain.value() != contain_code::ERR_NO_SPACE &&
+                ret_contain.value() != contain_code::ERR_CANNOT_SUPPORT ) ) {
+            add_msg( m_bad, _( "Your %s falls to the ground." ), iter->tname() );
             here.add_item_or_charges( pos, *iter );
             iter = contents.erase( iter );
         } else {
@@ -1639,6 +1638,7 @@ void item_pocket::overflow( const tripoint &pos )
             if( overflow_count > 0 ) {
                 ammo.charges -= overflow_count;
                 item dropped_ammo( ammo.typeId(), ammo.birthday(), overflow_count );
+                add_msg( m_bad, _( "Your %s falls to the ground." ), iter->tname() );
                 here.add_item_or_charges( pos, contents.front() );
                 total_qty -= overflow_count;
             }
@@ -1658,6 +1658,7 @@ void item_pocket::overflow( const tripoint &pos )
             return left.volume() > right.volume();
         } );
         while( remaining_volume() < 0_ml && !contents.empty() ) {
+            add_msg( m_bad, _( "Your %s falls to the ground." ), contents.front().tname() );
             here.add_item_or_charges( pos, contents.front() );
             contents.pop_front();
         }
@@ -1667,6 +1668,7 @@ void item_pocket::overflow( const tripoint &pos )
             return left.weight() > right.weight();
         } );
         while( remaining_weight() < 0_gram && !contents.empty() ) {
+            add_msg( m_bad, _( "Your %s falls to the ground." ), contents.front().tname() );
             here.add_item_or_charges( pos, contents.front() );
             contents.pop_front();
         }

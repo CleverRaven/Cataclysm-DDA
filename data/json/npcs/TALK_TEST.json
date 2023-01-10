@@ -1679,6 +1679,12 @@
     "attitude": 1,
     "mission": 0,
     "chat": "TALK_TEST_START",
-    "faction": "tacoma_commune"
+    "faction": "tacoma_commune",
+    "talk_friend_guard": "TALK_TEST_GUARD"
+  },
+  {
+    "id": [ "TALK_TEST_GUARD" ],
+    "type": "talk_topic",
+    "responses": [ { "text": "I have a custom response to a common topic", "topic": "TALK_TEST_FACTION_TRUST" } ]
   }
 ]
