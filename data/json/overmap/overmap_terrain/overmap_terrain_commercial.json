@@ -98,7 +98,7 @@
       "office_tower_underground_se"
     ],
     "copy-from": "generic_city_building_no_sidewalk",
-    "name": "tower parking",
+    "name": "office building parking",
     "sym": "p",
     "color": "i_light_gray"
   },
@@ -106,7 +106,7 @@
     "type": "overmap_terrain",
     "id": [ "office_tower_roof_nw", "office_tower_roof_ne", "office_tower_roof_sw", "office_tower_roof_se" ],
     "copy-from": "generic_city_building_no_sidewalk",
-    "name": "tower roof",
+    "name": "office building roof",
     "sym": "t",
     "color": "i_light_gray"
   },
@@ -1232,7 +1232,7 @@
   {
     "type": "overmap_terrain",
     "abstract": "generic_large_office_tower",
-    "name": "large office tower",
+    "name": "office tower",
     "copy-from": "generic_city_building",
     "sym": "T",
     "color": "white"
