@@ -170,7 +170,14 @@
       },
       {
         "text": "[200$]  I'll buy some black gunpowder.",
-        "effect": { "u_buy_item": "chem_black_powder", "container": "jar_3l_glass_sealed", "cost": 20000, "count": 10000, "true_eocs": "EOC_BUY_BLACKPOWDER_TRUE_EFFECT", "false_eocs": "EOC_CHEMIST_BUY_FALSE_EFFECT" },
+        "effect": {
+          "u_buy_item": "chem_black_powder",
+          "container": "jar_3l_glass_sealed",
+          "cost": 20000,
+          "count": 10000,
+          "true_eocs": "EOC_BUY_BLACKPOWDER_TRUE_EFFECT",
+          "false_eocs": "EOC_CHEMIST_BUY_FALSE_EFFECT"
+        },
         "condition": { "not": { "npc_has_effect": "chemist_waiting_for_chem_black_powder" } },
         "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
       },
