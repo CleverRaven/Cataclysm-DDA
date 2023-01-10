@@ -240,7 +240,7 @@ void weed_msg( Character &p )
     }
 }
 
-std::array<const char *, static_cast<size_t>( mod_type::MAX )> MOD_TYPE_STRINGS {
+static std::array<const char *, static_cast<size_t>( mod_type::MAX )> MOD_TYPE_STRINGS {
     "base_mods",
     "scaling_mods",
 };
@@ -271,11 +271,12 @@ void effect_type::extract_effect(
             }
 
             mod_action action = action_key.second;
-            for( uint8_t i = 0; i < jsarr.size(); i++ ) {
+            cata_assert( jsarr.size() < 0x100 );
+            for( size_t i = 0; i < jsarr.size(); i++ ) {
                 uint32_t key = get_effect_modifier_key( action, i );
 
                 // Create default entry if doesn't exist
-                const auto &it = modifiers.try_emplace( key, default_modifier_values );
+                const auto &it = modifiers.emplace( key, default_modifier_values );
 
                 // Update entry with the fetched value
                 it.first->second[cur_mod_type] = jsarr.get_float( i );
@@ -497,7 +498,7 @@ double effect_type::get_mod_value( const std::string &type, mod_action action,
 
 void effect_type::check_consistency()
 {
-    for( const std::pair<efftype_id, effect_type> &check : effect_types ) {
+    for( auto const &check : effect_types ) {
         check.second.verify();
     }
 }
