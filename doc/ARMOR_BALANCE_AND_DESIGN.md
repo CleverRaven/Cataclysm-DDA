@@ -202,8 +202,17 @@ Sided armor is armor that even though it describes covering, both legs, both arm
     }
   ],
   "use_action": { "type": "holster", "holster_prompt": "Sheath knife", "holster_msg": "You sheath your %s" },
-  "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "NOT_FOOTWEAR" ],
-  "armor": [ { "encumbrance": [ 2, 3 ], "coverage": 5, "covers": [ "foot_l", "foot_r" ] } ]
+  "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY" ],
+  "armor": [
+    {
+      "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 1 } ],
+      "covers": [ "foot_l", "foot_r" ],
+      "specifically_covers": [ "foot_ankle_l", "foot_ankle_r" ],
+      "coverage": 25,
+      "encumbrance": [ 2, 3 ],
+      "layers": [ "BELTED" ]
+    }
+  ]
 }
 ```
 #### Further Reading
