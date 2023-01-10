@@ -292,7 +292,14 @@
       },
       {
         "text": "[300$]  I'll buy some napalm.",
-        "effect": { "u_buy_item": "napalm", "container": "jerrycan", "cost": 30000, "count": 10000, "true_eocs": "EOC_BUY_NAPALM_TRUE_EFFECT", "false_eocs": "EOC_CHEMIST_BUY_FALSE_EFFECT" },
+        "effect": {
+          "u_buy_item": "napalm",
+          "container": "jerrycan",
+          "cost": 30000,
+          "count": 10000,
+          "true_eocs": "EOC_BUY_NAPALM_TRUE_EFFECT",
+          "false_eocs": "EOC_CHEMIST_BUY_FALSE_EFFECT"
+        },
         "condition": { "not": { "npc_has_effect": "chemist_waiting_for_napalm" } },
         "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
       }
