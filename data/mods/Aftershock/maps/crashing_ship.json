@@ -221,5 +221,24 @@
         }
       ]
     }
-  }
+  },
+  {"effect_on_conditions": [
+            {
+              "id": "EOC_ESCAPE_POD",
+              "effect": [
+                {
+                    "u_location_variable": { "global_val": "new_map" },
+                    "target_params": {
+                        "om_terrain": "afs_crashed_escape_pod",
+                        "z": 0,
+                        "random": true,
+                        "search_range": 40,
+                        "min_distance": 0
+                        }
+                  },
+                { "u_message": "You strap yourself into the escape pod seat and press the launch button.  With an incredibly loud roar, the escape pod drops from the ship, plummeting towards the planet below.", "popup": true },
+                { "u_teleport": { "global_val": "new_map" }, "force": true }
+              ]
+            }
+          ]
 ]
