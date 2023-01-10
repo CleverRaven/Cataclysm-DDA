@@ -1966,7 +1966,7 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
     Character &player_character = get_player_character();
     // Only print the message when near player or it can get spammy
     if( rl_dist( player_character.pos(), pos() ) < 4 ) {
-        add_msg_if_player_sees( *critter, m_warning, _( "The %1$s tramples %2$s" ),
+        add_msg_if_player_sees( *critter, m_warning, _( "The %1$s tramples %2$s." ),
                                 name(), critter->disp_name() );
     }
 

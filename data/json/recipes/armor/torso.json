@@ -2147,6 +2147,150 @@
     "using": [ [ "tailoring_felt_patchwork", 20 ] ]
   },
   {
+    "result": "armor_lamellar_lc",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "time": "8 h",
+    "book_learn": [ [ "textbook_armwest", 2 ], [ "textbook_armeast", 2 ], [ "textbook_armschina", 2 ] ],
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
+    "using": [ [ "cordage", 110 ], [ "fabric_leather_fur_hide", 1 ] ],
+    "components": [ [ [ "lamellae_lc", 864 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_closures" },
+      {
+        "proficiency": "prof_leatherworking_basic",
+        "time_multiplier": 1.15,
+        "fail_multiplier": 1.15,
+        "learning_time_multiplier": 0.5
+      }
+    ]
+  },
+  {
+    "result": "xs_armor_lamellar_lc",
+    "type": "recipe",
+    "copy-from": "armor_lamellar_lc",
+    "time": "6 h",
+    "using": [ [ "cordage", 90 ], [ "fabric_leather_fur_hide", 1 ] ],
+    "components": [ [ [ "lamellae_lc", 648 ] ] ]
+  },
+  {
+    "result": "xl_armor_lamellar_lc",
+    "type": "recipe",
+    "copy-from": "armor_lamellar_lc",
+    "time": "10 h",
+    "using": [ [ "cordage", 140 ], [ "fabric_leather_fur_hide", 2 ] ],
+    "components": [ [ [ "lamellae_lc", 1080 ] ] ]
+  },
+  {
+    "result": "armor_lamellar_lc",
+    "type": "recipe",
+    "id_suffix": "repair",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "time": "30 m",
+    "book_learn": [ [ "textbook_armwest", 2 ], [ "textbook_armeast", 2 ], [ "textbook_armschina", 2 ] ],
+    "using": [ [ "cordage", 6 ] ],
+    "components": [ [ [ "lamellae_lc", 18 ] ], [ [ "armor_lamellar_lc", 1 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_closures" } ]
+  },
+  {
+    "result": "xs_armor_lamellar_lc",
+    "type": "recipe",
+    "copy-from": "armor_lamellar_lc_repair",
+    "id_suffix": "repair",
+    "time": "30 m",
+    "using": [ [ "cordage", 4 ] ],
+    "components": [ [ [ "lamellae_lc", 12 ] ], [ [ "xs_armor_lamellar_lc", 1 ] ] ]
+  },
+  {
+    "result": "xl_armor_lamellar_lc",
+    "type": "recipe",
+    "copy-from": "armor_lamellar_lc_repair",
+    "id_suffix": "repair",
+    "time": "30 m",
+    "using": [ [ "cordage", 8 ] ],
+    "components": [ [ [ "lamellae_lc", 24 ] ], [ [ "xl_armor_lamellar_lc", 1 ] ] ]
+  },
+  {
+    "result": "armor_lamellar_ch",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "time": "8 h",
+    "book_learn": [ [ "textbook_armwest", 2 ], [ "textbook_armeast", 2 ], [ "textbook_armschina", 2 ] ],
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
+    "using": [ [ "cordage", 110 ], [ "fabric_leather_fur_hide", 1 ] ],
+    "components": [ [ [ "lamellae_ch", 864 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_closures" },
+      {
+        "proficiency": "prof_leatherworking_basic",
+        "time_multiplier": 1.15,
+        "fail_multiplier": 1.15,
+        "learning_time_multiplier": 0.5
+      }
+    ]
+  },
+  {
+    "result": "xs_armor_lamellar_ch",
+    "type": "recipe",
+    "copy-from": "armor_lamellar_ch",
+    "time": "6 h",
+    "using": [ [ "cordage", 90 ], [ "fabric_leather_fur_hide", 1 ] ],
+    "components": [ [ [ "lamellae_ch", 648 ] ] ]
+  },
+  {
+    "result": "xl_armor_lamellar_ch",
+    "type": "recipe",
+    "copy-from": "armor_lamellar_ch",
+    "time": "10 h",
+    "using": [ [ "cordage", 140 ], [ "fabric_leather_fur_hide", 2 ] ],
+    "components": [ [ [ "lamellae_ch", 1080 ] ] ]
+  },
+  {
+    "result": "armor_lamellar_ch",
+    "type": "recipe",
+    "id_suffix": "repair",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "time": "30 m",
+    "book_learn": [ [ "textbook_armwest", 2 ], [ "textbook_armeast", 2 ], [ "textbook_armschina", 2 ] ],
+    "using": [ [ "cordage", 6 ] ],
+    "components": [ [ [ "lamellae_ch", 18 ] ], [ [ "armor_lamellar_ch", 1 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_closures" } ]
+  },
+  {
+    "result": "xs_armor_lamellar_ch",
+    "type": "recipe",
+    "copy-from": "armor_lamellar_ch_repair",
+    "id_suffix": "repair",
+    "time": "30 m",
+    "using": [ [ "cordage", 4 ] ],
+    "components": [ [ [ "lamellae_ch", 12 ] ], [ [ "xs_armor_lamellar_ch", 1 ] ] ]
+  },
+  {
+    "result": "xl_armor_lamellar_ch",
+    "type": "recipe",
+    "copy-from": "armor_lamellar_ch_repair",
+    "id_suffix": "repair",
+    "time": "30 m",
+    "using": [ [ "cordage", 8 ] ],
+    "components": [ [ [ "lamellae_ch", 24 ] ], [ [ "xl_armor_lamellar_ch", 1 ] ] ]
+  },
+  {
     "result": "lc_chainmail_vest",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",

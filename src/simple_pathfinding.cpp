@@ -276,8 +276,9 @@ omt_score::omt_score( int node_cost, bool allow_z_change ) : node_cost( node_cos
 
 simple_path<tripoint_abs_omt> find_overmap_path( const tripoint_abs_omt &source,
         const tripoint_abs_omt &dest, const int radius, const omt_scoring_fn &scorer,
-        cata::optional<int> max_cost )
+        const std::function<void( size_t, size_t )> &progress_fn, const cata::optional<int> &max_cost )
 {
+    cata_assert( progress_fn != nullptr );
     simple_path<tripoint_abs_omt> ret;
     const omt_score start_score = scorer( source );
     const omt_score end_score = scorer( dest );
@@ -291,9 +292,21 @@ simple_path<tripoint_abs_omt> find_overmap_path( const tripoint_abs_omt &source,
     open_set.push( scored_address{ start, 0 } );
     const point_abs_omt source_point = source.xy();
     constexpr int max_search_count = 100000;
+
+    constexpr auto report_period = std::chrono::milliseconds( 100 );
+    auto report_next = std::chrono::steady_clock::now();
+    int progress = 0;
     while( !open_set.empty() ) {
         const node_address cur_addr = open_set.top().addr;
         open_set.pop();
+        if( progress++ >= 100 ) { // stagger progress checks to 1 in 100 nodes
+            progress = 0;
+            const auto now = std::chrono::steady_clock::now();
+            if( now > report_next ) { // report progress every `report_period`
+                progress_fn( open_set.size(), known_nodes.size() );
+                report_next = now + report_period;
+            }
+        }
         const tripoint_abs_omt cur_point = cur_addr.to_tripoint( source );
         if( cur_point == dest ) {
             node_address addr = cur_addr;

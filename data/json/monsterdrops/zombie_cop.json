@@ -35,8 +35,11 @@
     "type": "item_group",
     "id": "cop_armor",
     "items": [
-      [ "armor_riot", 20 ],
-      [ "kevlar", 35 ],
+      [ "armor_riot", 65 ],
+      [ "armor_riot_arm", 5 ],
+      [ "armor_riot_leg", 5 ],
+      [ "armor_riot_torso", 10 ],
+      [ "kevlar", 100 ],
       {
         "item": "level_3_vest",
         "variant": "police_armor_vest",
@@ -270,7 +273,14 @@
     "type": "item_group",
     "subtype": "collection",
     "entries": [
-      { "distribution": [ { "item": "armor_riot", "prob": 25 }, { "group": "swat_ballistic_vest", "prob": 75 } ], "prob": 65 },
+      {
+        "distribution": [
+          { "item": "armor_riot", "prob": 30 },
+          { "item": "armor_riot_torso", "prob": 15 },
+          { "group": "swat_ballistic_vest", "prob": 80 }
+        ],
+        "prob": 65
+      },
       {
         "distribution": [
           { "item": "tank_top", "prob": 30 },

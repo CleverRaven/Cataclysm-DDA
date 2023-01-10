@@ -1739,11 +1739,49 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "name": "lamellar cuirasses",
-    "description": "Recipes related to constructing lamellar cuirasses in various shapes and sizes.",
+    "name": "leather lamellar cuirasses",
+    "description": "Recipes related to constructing leather lamellar cuirasses in various shapes and sizes.",
     "skill_used": "tailor",
     "nested_category_data": [ "armor_lamellar", "xs_armor_lamellar", "xl_armor_lamellar" ],
     "difficulty": 3
+  },
+  {
+    "id": "nested_armor_lamellar_steel",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "name": "steel lamellar cuirasses",
+    "description": "Recipes related to constructing steel lamellar cuirasses in various shapes and sizes.",
+    "skill_used": "tailor",
+    "nested_category_data": [
+      "armor_lamellar_lc",
+      "armor_lamellar_ch",
+      "xs_armor_lamellar_lc",
+      "xs_armor_lamellar_ch",
+      "xl_armor_lamellar_lc",
+      "xl_armor_lamellar_ch"
+    ],
+    "difficulty": 4
+  },
+  {
+    "id": "nested_armor_lamellar_steel_repair",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "name": "steel lamellar repair",
+    "description": "Recipes related to repairing steel lamellar armor in various shapes and sizes.",
+    "skill_used": "tailor",
+    "nested_category_data": [
+      "armor_lamellar_lc_repair",
+      "armor_lamellar_ch_repair",
+      "xs_armor_lamellar_lc_repair",
+      "xs_armor_lamellar_ch_repair",
+      "xl_armor_lamellar_lc_repair",
+      "xl_armor_lamellar_ch_repair"
+    ],
+    "difficulty": 4
   },
   {
     "id": "nested_armor_cuirass",
@@ -2248,7 +2286,14 @@
     "name": "kevlar wetsuits",
     "description": "Recipes related to constructing custom-made jumpsuits meant to keep the wearer safe from harm and keep water out.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "h20survivor_jumpsuit", "xs_h20survivor_jumpsuit", "xl_h20survivor_jumpsuit" ],
+    "nested_category_data": [
+      "h20survivor_jumpsuit",
+      "xs_h20survivor_jumpsuit",
+      "xl_h20survivor_jumpsuit",
+      "thick_h20survivor_jumpsuit",
+      "xs_thick_h20survivor_jumpsuit",
+      "xl_thick_h20survivor_jumpsuit"
+    ],
     "difficulty": 7
   },
   {
@@ -3769,7 +3814,6 @@
     "description": "Recipes related to constructing long cordage ropes.",
     "skill_used": "tailor",
     "nested_category_data": [
-      "rope_makeshift_30",
       "rope_makeshift_30_spinwheel_cordages",
       "rope_makeshift_30_electric_spinwheel_cordages",
       "rope_makeshift_30_from_rope_makeshift_6",
@@ -3825,7 +3869,7 @@
     "activity_level": "fake",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "name": "auxillary weapons",
+    "name": "auxiliary weapons",
     "description": "Recipes related to modifying secondary weapons to attach to a wider variety of guns and crossbows.",
     "skill_used": "fabrication",
     "nested_category_data": [
@@ -4219,5 +4263,105 @@
     "description": "Recipes related to creating scrap aluminum.",
     "skill_used": "fabrication",
     "nested_category_data": [ "scrap_aluminum_melted_foil", "scrap_aluminum_assorted_scrap" ]
+  },
+  {
+    "id": "nested_chairs",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "name": "chairs",
+    "description": "Recipes related to constructing chairs.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "deck_chair", "chair_wood", "chair_wood_black", "chair_wood_white" ],
+    "difficulty": 3
+  },
+  {
+    "id": "nested_stools",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "name": "stools",
+    "description": "Recipes related to constructing stools.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "stool_wood", "stool_log" ],
+    "difficulty": 3
+  },
+  {
+    "id": "nested_planks_normal",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "planks",
+    "description": "Recipes related to constructing 4ft planks.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "2x4_from long planks by hand", "2x4_from long planks with powertools" ]
+  },
+  {
+    "id": "nested_planks_short",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "short planks",
+    "description": "Recipes related to constructing 2ft planks.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "plank_short_from long planks by hand",
+      "plank_short_from long planks with powertools",
+      "plank_short_from planks by hand",
+      "plank_short_from planks with powertools"
+    ]
+  },
+  {
+    "id": "nested_posts_normal",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "wooden posts",
+    "description": "Recipes related to constructing 4ft wooden posts.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "wooden_post_from long posts by hand", "wooden_post_from long posts with powertools" ]
+  },
+  {
+    "id": "nested_posts_short",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "short wooden posts",
+    "description": "Recipes related to constructing 2ft wooden posts.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "wooden_post_short_from long posts by hand",
+      "wooden_post_short_from long posts with powertools",
+      "wooden_post_short_from posts by hand",
+      "wooden_post_short_from posts with powertools"
+    ]
+  },
+  {
+    "id": "nested_posts_all",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "name": "wooden posts",
+    "description": "Recipes related to constructing all wooden posts.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "nested_posts_short", "nested_posts_normal", "wooden_post_long" ]
+  },
+  {
+    "id": "nested_planks_all",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "name": "planks",
+    "description": "Recipes related to constructing all planks.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "nested_planks_short", "nested_planks_normal", "plank_long" ]
   }
 ]

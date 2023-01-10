@@ -497,7 +497,7 @@
     "type": "MONSTER",
     "copy-from": "mon_dog_auscattle_pup",
     "name": { "str": "translucent puppy", "str_pl": "translucent puppies" },
-    "description": "This little rascal doesn't cast a shadow, and is near seethrough in the right light.  Its condition doesn't appear to cause it any harm, but it does have a hard time chasing its own tail.",
+    "description": "This little rascal doesn't cast a shadow, and is near see-through in the right light.  Its condition doesn't appear to cause it any harm, but it does have a hard time chasing its own tail.",
     "upgrades": { "age_grow": 42, "into": "mon_dog_incorporeal" }
   },
   {

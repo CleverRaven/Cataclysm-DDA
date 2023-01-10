@@ -169,13 +169,13 @@
   {
     "type": "item_group",
     "id": "ammo_box_9mm",
-    "container-item": "ammunition_box_9mm",
+    "container-item": "ammunition_box_308",
     "items": [ [ "9mm", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "ammo_box_9mmfmj",
-    "container-item": "ammunition_box_9mm",
+    "container-item": "ammunition_box_308",
     "items": [ [ "9mmfmj", 100 ] ]
   }
 ]

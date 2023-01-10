@@ -1236,9 +1236,14 @@ ret_val<void> outfit::check_rigid_conflicts( const item &clothing, side s ) cons
                 continue;
             }
 
-            // skip if either item cares only about it's layer and they don't match up
+            // skip if either item cares only about its layer and they don't match up
             if( ( i.is_bp_rigid_selective( sbp ) || clothing.is_bp_rigid_selective( sbp ) ) &&
                 !i.has_layer( clothing.get_layer( sbp ), sbp ) ) {
+                continue;
+            }
+
+            // allow wearing splints on integrated armor such as protective bark
+            if( i.has_flag( flag_INTEGRATED ) && clothing.has_flag( flag_SPLINT ) ) {
                 continue;
             }
 

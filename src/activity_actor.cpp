@@ -1517,7 +1517,7 @@ bool read_activity_actor::player_read( avatar &you )
                     learner->getID(), skill, skill_level.knowledgeLevel() );
 
                 if( learner->is_avatar() ) {
-                    add_msg( m_good, _( "You theoretical knowledge of %s increases to level %d." ), skill.obj().name(),
+                    add_msg( m_good, _( "Your theoretical knowledge of %s increases to level %d." ), skill.obj().name(),
                              originalSkillLevel + 1 );
                 } else {
                     add_msg( m_good, _( "%s increases their %s knowledge." ), learner->disp_name(),
@@ -1963,7 +1963,7 @@ void pickup_activity_actor::do_turn( player_activity &, Character &who )
     // Otherwise, we are done.
     if( !keep_going || target_items.empty() ) {
         if( !stash_successful && !autopickup ) {
-            add_msg( m_bad, _( "Some items were not picked up" ) );
+            add_msg( m_bad, _( "Some items were not picked up!" ) );
         }
 
         cancel_pickup( who );
@@ -3109,7 +3109,7 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
     // if item_counter has reached 100% or more
     if( craft.item_counter >= 10'000'000 ) {
         if( rec.is_practice() && !is_long && craft.get_making_batch_size() == 1 ) {
-            if( query_yn( _( "Keep practicing until proficiency increase?" ) ) ) {
+            if( query_yn( _( "Keep practicing until proficiency increases?" ) ) ) {
                 is_long = true;
                 *( crafter.last_craft ) = craft_command( &craft.get_making(), 1, is_long, &crafter, location );
             }
@@ -3588,7 +3588,7 @@ void harvest_activity_actor::start( player_activity &act, Character &who )
     if( harvest.is_null() || harvest->empty() ) {
         if( !auto_forage ) {
             who.add_msg_if_player( m_info,
-                                   _( "Nothing can be harvested from this plant in current season." ) );
+                                   _( "Nothing can be harvested from this plant in the current season." ) );
         }
 
         if( who.manual_examine ) {
@@ -3962,7 +3962,7 @@ void insert_item_activity_actor::finish( player_activity &act, Character &who )
     }
 
     items.pop_front();
-    if( items.empty() || !success ) {
+    if( items.empty() || !success || items.front().first == item_location::nowhere ) {
         handler.handle_by( who );
         act.set_to_null();
         return;
@@ -6430,8 +6430,18 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
                     for( item *contained : it->first->all_items_top( item_pocket::pocket_type::MAGAZINE ) ) {
                         // no liquids don't want to spill stuff
                         if( !contained->made_of( phase_id::LIQUID ) && !contained->made_of( phase_id::GAS ) ) {
+                            if( it->first->is_ammo_belt() ) {
+                                if( it->first->type->magazine->linkage ) {
+                                    item link( *it->first->type->magazine->linkage, calendar::turn, contained->count() );
+                                    here.add_item_or_charges( src_loc, link );
+                                }
+                            }
                             move_item( you, *contained, contained->count(), src_loc, src_loc, this_veh, this_part );
                             it->first->remove_item( *contained );
+
+                            if( it->first->has_flag( flag_MAG_DESTROY ) && it->first->ammo_remaining() == 0 ) {
+                                here.i_rem( src_loc, it->first );
+                            }
                         }
                         if( you.moves <= 0 ) {
                             return;

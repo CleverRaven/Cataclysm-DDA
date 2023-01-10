@@ -24,7 +24,7 @@
     "copy-from": "vehicle_alternator",
     "type": "GENERIC",
     "name": { "str": "motorbike alternator" },
-    "description": "A compact lightweight alternator used to power small vehicle electrical systems.",
+    "description": "A compact, lightweight alternator used to power small vehicle electrical systems.",
     "weight": "1100 g",
     "volume": "1 L",
     "price": 8000,

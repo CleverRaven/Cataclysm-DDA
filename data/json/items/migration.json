@@ -1836,6 +1836,11 @@
     "reset_item_vars": true
   },
   {
+    "id": "ammunition_box_9mm",
+    "type": "MIGRATION",
+    "replace": "ammunition_box_308"
+  },
+  {
     "id": "egg_trout",
     "type": "MIGRATION",
     "replace": "egg_fish"
