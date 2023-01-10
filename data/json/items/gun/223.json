@@ -66,7 +66,7 @@
     "ammo": [ "223" ],
     "skill": "pistol",
     "range": -6,
-    "ranged_damage": { "damage_type": "bullet", "amount": -9 },
+    "ranged_damage": { "damage_type": "bullet", "amount": -10 },
     "dispersion": 380,
     "durability": 6,
     "min_cycle_recoil": 1350,
@@ -128,7 +128,7 @@
     "symbol": "(",
     "color": "dark_gray",
     "ammo": [ "223" ],
-    "ranged_damage": { "damage_type": "bullet", "amount": -2 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 3 },
     "dispersion": 180,
     "durability": 8,
     "min_cycle_recoil": 1350,
@@ -167,7 +167,7 @@
     "symbol": "(",
     "color": "dark_gray",
     "ammo": [ "223" ],
-    "ranged_damage": { "damage_type": "stab", "amount": -2 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 2 },
     "dispersion": 150,
     "durability": 9,
     "min_cycle_recoil": 1350,
@@ -223,7 +223,7 @@
     "symbol": "(",
     "color": "dark_gray",
     "ammo": [ "223" ],
-    "ranged_damage": { "damage_type": "bullet", "amount": -1 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "dispersion": 180,
     "durability": 8,
     "min_cycle_recoil": 1350,
@@ -290,6 +290,7 @@
     "symbol": "(",
     "color": "dark_gray",
     "ammo": [ "223" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": 3 },
     "dispersion": 150,
     "durability": 8,
     "min_cycle_recoil": 1350,
@@ -315,6 +316,7 @@
     "symbol": "(",
     "color": "dark_gray",
     "ammo": [ "223" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": 4 },
     "dispersion": 200,
     "durability": 7,
     "min_cycle_recoil": 1350,
@@ -380,7 +382,7 @@
     "ascii_picture": "m4a1",
     "weight": "2880 g",
     "volume": "3310 ml",
-    "longest_side": "758 mm",
+    "longest_side": "838 mm",
     "price": 240000,
     "price_postapoc": 5000,
     "variant_type": "gun",
@@ -391,11 +393,6 @@
         "description": "A popular carbine, long used by the US military.  Though accurate, small, and lightweight, it is infamous for its unreliability when not properly maintained.",
         "ascii_picture": "m4a1",
         "weight": 1
-      },
-      {
-        "id": "m4_cqbr",
-        "name": { "str": "Mk 18 CQBR" },
-        "description": "This is a shorter M4 carbine with a 10.3 inch barrel, intended for confined spaces and close quarters battle situations."
       }
     ],
     "to_hit": -1,
@@ -404,11 +401,58 @@
     "symbol": "(",
     "color": "dark_gray",
     "ammo": [ "223" ],
-    "ranged_damage": { "damage_type": "bullet", "amount": -2 },
+    "ranged_damage": { "damage_type": "bullet", "amount": -1 },
     "dispersion": 180,
     "durability": 6,
     "min_cycle_recoil": 1350,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [
+          "stanag30",
+          "stanag5",
+          "stanag5ranger",
+          "stanag10",
+          "stanag10ranger",
+          "stanag20",
+          "stanag20ranger",
+          "stanag30ranger",
+          "stanag40",
+          "stanag40ranger",
+          "stanag50",
+          "stanag60",
+          "stanag60drum",
+          "stanag90",
+          "stanag100",
+          "stanag100drum",
+          "stanag150",
+          "survivor223mag"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "m4_cqbr",
+    "copy-from": "m4a1",
+    "looks_like": "ar15",
+    "type": "GUN",
+    "name": { "str": "special duty carbine" },
+    "description": "a rugged military carbine that has been outfitted with various accessories, such as an adjustable buttstock, suppressor, and shortened barrel, to improve its close-quarter battle effectiveness.  Most commonly deployed with special forces units and marines before the Cataclysm, its handy size lends itself well to room clearing and fighting within tight spaces.",
+    "weight": "2676 g",
+    "volume": "3200 ml",
+    "longest_side": "748 mm",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "m4_cqbr",
+        "name": { "str": "Mk 18 CQBR" },
+        "description": "This is a shorter M4 carbine with a 10.3 inch barrel, intended for confined spaces and close quarters battle situations.",
+        "weight": 1
+      }
+    ],
+    "ranged_damage": { "damage_type": "bullet", "amount": -5 },
+    "default_mods": [ "pistol_grip", "suppressor", "adjustable_stock" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -462,6 +506,7 @@
     "symbol": "(",
     "color": "dark_gray",
     "ammo": [ "223" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": 3 },
     "dispersion": 150,
     "durability": 7,
     "min_cycle_recoil": 1350,
@@ -513,6 +558,7 @@
         "description": "This carbine was developed for military use in the early 21st century.  It is damaging and accurate, though its rate of fire is a bit slower than competing carbines."
       }
     ],
+    "ranged_damage": { "damage_type": "bullet", "amount": 3 },
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ]
   },
   {
@@ -572,7 +618,7 @@
     "ammo": [ "223" ],
     "skill": "pistol",
     "range": -6,
-    "ranged_damage": { "damage_type": "bullet", "amount": -11 },
+    "ranged_damage": { "damage_type": "bullet", "amount": -12 },
     "dispersion": 380,
     "durability": 6,
     "min_cycle_recoil": 1350,
@@ -635,7 +681,6 @@
     "symbol": "(",
     "color": "brown",
     "ammo": [ "223" ],
-    "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "dispersion": 100,
     "durability": 8,
     "min_cycle_recoil": 1350,
@@ -687,6 +732,7 @@
     "bashing": 10,
     "material": [ "steel", "plastic" ],
     "ammo": [ "223" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": -2 },
     "dispersion": 180,
     "durability": 9,
     "min_cycle_recoil": 1350,
@@ -745,6 +791,7 @@
     "symbol": "(",
     "color": "light_gray",
     "ammo": [ "223" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": 3 },
     "dispersion": 140,
     "durability": 8,
     "min_cycle_recoil": 1350,
@@ -794,6 +841,7 @@
     "material": [ "steel", "wood" ],
     "color": "brown",
     "ammo": [ "223" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": 2 },
     "dispersion": 180,
     "durability": 8,
     "min_cycle_recoil": 1350,
@@ -840,6 +888,7 @@
     "material": [ "steel", "wood" ],
     "color": "brown",
     "ammo": [ "223" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": -6 },
     "dispersion": 240,
     "ranged_damage": { "damage_type": "bullet", "amount": -5 },
     "durability": 7,
