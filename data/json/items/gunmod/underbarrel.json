@@ -104,6 +104,7 @@
   },
   {
     "id": "combination_gun_shotgun",
+	"copy-from": "underbarrel_base",
     "type": "GUNMOD",
     "name": { "str": "combination gun shotgun" },
     "description": "The integrated underbarrel shotgun of a combination gun which holds two shots.  It's irremovable.",
@@ -237,6 +238,7 @@
   },
   {
     "id": "ksg_aux_shotgun",
+	"copy-from": "underbarrel_base",
     "type": "GUNMOD",
     "name": { "str": "KSG second magazine" },
     "description": "The integrated second tube magazine of the Kel-Tec KSG, which holds 7 shots.  It's irremovable.",
@@ -250,6 +252,7 @@
     "color": "light_red",
     "location": "underbarrel",
     "mod_targets": [ "shotgun" ],
+	"respect_muzzle_mods": "true",
     "gun_data": {
       "ammo": "shot",
       "skill": "shotgun",
@@ -264,6 +267,7 @@
   },
   {
     "id": "ksg25_aux_shotgun",
+	"copy-from": "underbarrel_base",
     "type": "GUNMOD",
     "name": { "str": "KSG-25 second magazine" },
     "description": "The integrated second tube magazine of the Kel-Tec KSG-25, which holds 12 shots.  It's irremovable.",
@@ -277,6 +281,7 @@
     "color": "light_red",
     "location": "underbarrel",
     "mod_targets": [ "shotgun" ],
+	"respect_muzzle_mods": "true",
     "gun_data": {
       "ammo": "shot",
       "skill": "shotgun",
@@ -291,6 +296,7 @@
   },
   {
     "id": "ts12_aux_shotgun",
+	"copy-from": "underbarrel_base",
     "type": "GUNMOD",
     "name": { "str": "TS12 second magazine" },
     "description": "The integrated second tube magazine of the Tavor TS12, which holds 5 shots.  It's irremovable.",
@@ -305,6 +311,7 @@
     "color": "light_red",
     "location": "underbarrel",
     "mod_targets": [ "shotgun" ],
+	"respect_muzzle_mods": "true",
     "gun_data": {
       "ammo": "shot",
       "skill": "shotgun",
@@ -320,6 +327,7 @@
   },
   {
     "id": "ts12_aux_shotgun2",
+	"copy-from": "underbarrel_base",
     "type": "GUNMOD",
     "name": { "str": "TS12 third magazine" },
     "description": "The integrated third tube magazine of the Tavor TS12, which holds 5 shots.  It's irremovable.",
@@ -334,6 +342,7 @@
     "color": "light_red",
     "location": "underbarrel",
     "mod_targets": [ "shotgun" ],
+	"respect_muzzle_mods": "true",
     "gun_data": {
       "ammo": "shot",
       "skill": "shotgun",
@@ -371,6 +380,7 @@
   },
   {
     "id": "lemat_revolver_shotgun",
+	"copy-from": "underbarrel_base",
     "type": "GUNMOD",
     "name": { "str": "LeMat revolver shotgun" },
     "description": "The LeMat revolver is unique in that its cylinder axis pin is also a fully functional 20 gauge percussion-primed smoothbore barrel.  It's irremovable.",
@@ -397,6 +407,7 @@
   },
   {
     "id": "m203",
+	"copy-from": "underbarrel_base",
     "type": "GUNMOD",
     "name": { "str_sp": "M203" },
     "description": "The M203 was originally designed for use with M16 variants but today can be attached to almost any rifle.  It allows a single 40mm grenade to be loaded and fired.",
@@ -425,6 +436,7 @@
   },
   {
     "id": "m203_mod",
+	"copy-from": "underbarrel_base",
     "copy-from": "m203",
     "type": "GUNMOD",
     "name": { "str": "modified M203" },
@@ -433,6 +445,7 @@
   },
   {
     "id": "m320_mod",
+	"copy-from": "underbarrel_base",
     "type": "GUNMOD",
     "name": { "str_sp": "M320 GLM" },
     "description": "The M320 Grenade Launcher Module offers the functionality of larger launchers in a very small package at the cost of decreased accuracy.  It can be either attached to a rifle or combined with a buttstock for standalone use.",
@@ -461,6 +474,7 @@
   },
   {
     "id": "m320_mod_mod",
+	"copy-from": "underbarrel_base",
     "copy-from": "m320_mod",
     "type": "GUNMOD",
     "name": { "str": "modified M320 GLM" },
@@ -469,6 +483,7 @@
   },
   {
     "id": "M6_shotgun",
+	"copy-from": "underbarrel_base",
     "type": "GUNMOD",
     "name": { "str": "M6 Survival Gun shotgun" },
     "description": "The integrated 12 gauge shotgun barrel of the Chiappa M6 Survival Gun.  It's irremovable.",
@@ -503,6 +518,7 @@
   },
   {
     "id": "masterkey",
+	"copy-from": "underbarrel_base",
     "type": "GUNMOD",
     "name": { "str": "masterkey shotgun" },
     "description": "A minimalist pump-action shotgun, which can be mounted under the barrel of many rifles.  It allows a total of four shotgun shells to be loaded and fired.",
@@ -523,6 +539,7 @@
   },
   {
     "id": "masterkey_mod",
+	"copy-from": "underbarrel_base",
     "copy-from": "masterkey",
     "type": "GUNMOD",
     "name": { "str": "modified masterkey shotgun" },
@@ -531,6 +548,7 @@
   },
   {
     "id": "m26_mass",
+	"copy-from": "underbarrel_base",
     "type": "GUNMOD",
     "name": { "str": "M26-MASS shotgun" },
     "description": "The Modular Accessory Shotgun System is an underbarrel bolt-action shotgun that was inspired by the \"Masterkey\" and fixed most of its predecessor's problems.  It can be mounted under the barrel of a rifle, or used as a standalone weapon by attaching a pistol grip or collapsible buttstock module.  It feeds from three- or five-shot detachable magazines.",
@@ -551,6 +569,7 @@
   },
   {
     "id": "m26_mass_mod",
+	"copy-from": "underbarrel_base",
     "copy-from": "m26_mass",
     "type": "GUNMOD",
     "name": { "str": "modified M26-MASS", "str_pl": "M26-MASSes" },
@@ -559,6 +578,7 @@
   },
   {
     "id": "pipe_launcher40mm",
+	"copy-from": "underbarrel_base",
     "type": "GUNMOD",
     "name": { "str": "40mm pipe launcher" },
     "description": "A home-built launcher tube that can be attached to almost any weapon except handguns.  It allows a single 40mm grenade to be loaded and fired.",
@@ -609,6 +629,7 @@
   },
   {
     "id": "rm121aux",
+	"copy-from": "underbarrel_base",
     "type": "GUNMOD",
     "name": { "str": "RM121 aux shotgun" },
     "description": "The Rivtech RM121 auxiliary weapon system is a magazine-fed semi-automatic caseless shotgun, which can be mounted under the barrel of many rifles.  Accepts RMSA10 box magazines.",
@@ -630,6 +651,7 @@
   },
   {
     "id": "rm121aux_mod",
+	"copy-from": "underbarrel_base",
     "copy-from": "rm121aux",
     "type": "GUNMOD",
     "name": { "str": "modified RM121 aux shotgun" },
@@ -638,6 +660,7 @@
   },
   {
     "id": "u_shotgun",
+	"copy-from": "underbarrel_base",
     "type": "GUNMOD",
     "name": { "str": "underslung shotgun" },
     "description": "A short shotgun with 2 barrels, which can be mounted under the barrel of many rifles.  It allows two shotgun shells to be loaded and fired.",
@@ -658,6 +681,7 @@
   },
   {
     "id": "u_shotgun_mod",
+	"copy-from": "underbarrel_base",
     "copy-from": "u_shotgun",
     "type": "GUNMOD",
     "name": { "str": "modified underslung shotgun" },

@@ -2169,6 +2169,8 @@ item::sound_data item::gun_noise( const bool burst ) const
 
     noise = std::max( noise, 0 );
 
+    std::string noise_string = std::to_string(noise);
+
     const std::set<ammotype> &at = ammo_types();
     if( at.count( ammo_40x46mm ) || at.count( ammo_40x53mm ) ) {
         // Grenade launchers
@@ -2218,13 +2220,13 @@ item::sound_data item::gun_noise( const bool burst ) const
 
     } else if( noise > 0 ) {
         if( noise < 10 ) {
-            return { noise, burst ? _( "Brrrip!" ) : _( "plink!" ) };
+            return { noise, burst ? _(noise_string) : _(noise_string) };
         } else if( noise < 150 ) {
-            return { noise, burst ? _( "Brrrap!" ) : _( "bang!" ) };
+            return { noise, burst ? _(noise_string) : _(noise_string) };
         } else if( noise < 175 ) {
-            return { noise, burst ? _( "P-p-p-pow!" ) : _( "blam!" ) };
+            return { noise, burst ? _(noise_string) : _(noise_string) };
         } else {
-            return { noise, burst ? _( "Kaboom!" ) : _( "kerblam!" ) };
+            return { noise, burst ? _(noise_string) : _(noise_string) };
         }
     }
 
