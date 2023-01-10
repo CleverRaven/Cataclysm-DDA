@@ -157,7 +157,14 @@
       },
       {
         "text": "[140$]  I'll buy some antifungal drugs.",
-        "effect":{ "u_buy_item": "antifungal", "container": "bottle_plastic_pill_prescription", "cost": 14000, "count": 20, "true_eocs": "EOC_BUY_ANTIFUNG_TRUE_EFFECT", "false_eocs": "EOC_CHEMIST_BUY_FALSE_EFFECT" },
+        "effect": {
+          "u_buy_item": "antifungal",
+          "container": "bottle_plastic_pill_prescription",
+          "cost": 14000,
+          "count": 20,
+          "true_eocs": "EOC_BUY_ANTIFUNG_TRUE_EFFECT",
+          "false_eocs": "EOC_CHEMIST_BUY_FALSE_EFFECT"
+        },
         "condition": { "not": { "npc_has_effect": "chemist_waiting_for_antifungal" } },
         "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
       },
