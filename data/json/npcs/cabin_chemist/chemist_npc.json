@@ -105,7 +105,14 @@
       },
       {
         "text": "[50$]  I'll buy some sprayable fungicide.",
-        "effect": { "u_buy_item": "gas_fungicidal", "container": "jug_plastic", "cost": 5000, "count": 1500, "true_eocs": "EOC_BUY_SPRAYFUNG_TRUE_EFFECT", "false_eocs": "EOC_CHEMIST_BUY_FALSE_EFFECT" },
+        "effect": {
+          "u_buy_item": "gas_fungicidal",
+          "container": "jug_plastic",
+          "cost": 5000,
+          "count": 1500,
+          "true_eocs": "EOC_BUY_SPRAYFUNG_TRUE_EFFECT",
+          "false_eocs": "EOC_CHEMIST_BUY_FALSE_EFFECT"
+        },
         "condition": { "not": { "npc_has_effect": "chemist_waiting_for_gas_fungicidal" } },
         "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
       },
