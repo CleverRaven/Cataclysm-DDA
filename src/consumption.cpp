@@ -1539,10 +1539,7 @@ bool Character::consume_effects( item &food )
     if( has_effect( effect_tapeworm ) ) {
         ingested.nutr /= 2;
     }
-    // divide by a further factor of 2 as calories must go to rebuilding muscle
-    if( get_bmi_fat() < character_weight_category::underweight ) {
-        ingested.nutr /= 2;
-    }
+    // divide by a further factor of 2 as calories must go to rebuilding muscle?
     activate_consume_eocs( *this, food );
 
     // GET IN MAH BELLY!
