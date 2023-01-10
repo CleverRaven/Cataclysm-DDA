@@ -117,7 +117,6 @@ struct mission_end {
     // Nothing special happens
     static void standard( mission * ) {}
     // random valuable reward
-    static void deposit_box( mission * );
 };
 
 struct mission_fail {

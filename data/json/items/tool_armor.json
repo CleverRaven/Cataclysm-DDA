@@ -1582,7 +1582,7 @@
     "color": "dark_gray",
     "name": { "str": "rebreather mask" },
     "description": "A mask worn over your mouth which, when loaded with the proper filters, recycles your exhaled breath for rebreathing while underwater.  Use it to turn it on.",
-    "flags": [ "WATER_FRIENDLY" ],
+    "flags": [ "WATER_FRIENDLY", "PADDED" ],
     "price": 25000,
     "price_postapoc": 500,
     "material": [ "plastic", "aluminum" ],
