@@ -7413,7 +7413,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "1 h",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "sheet_metal", 1 ], [ "steel_lump", 6 ] ] ]
+    "components": [ [ [ "sheet_metal_small", 30 ] ] ]
   },
   {
     "result": "55gal_drum",
@@ -7430,5 +7430,21 @@
     "time": "6 h",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
     "components": [ [ [ "steel_lump", 130 ] ] ]
+  },
+  {
+    "result": "30gal_drum_aluminum",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "1 h",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "scrap_aluminum", 51 ] ] ]
+  },
+  {
+    "result": "55gal_drum_aluminum",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "1 h",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "scrap_aluminum", 200 ] ] ]
   }
 ]
