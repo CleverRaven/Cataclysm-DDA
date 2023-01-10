@@ -239,7 +239,14 @@
       },
       {
         "text": "[120$]  I'll buy some antibiotics.",
-        "effect": { "u_buy_item": "antibiotics", "container": "bottle_plastic_pill_prescription", "cost": 12000, "count": 20, "true_eocs": "EOC_BUY_ANTIBIO_TRUE_EFFECT", "false_eocs": "EOC_CHEMIST_BUY_FALSE_EFFECT" },
+        "effect": {
+          "u_buy_item": "antibiotics",
+          "container": "bottle_plastic_pill_prescription",
+          "cost": 12000,
+          "count": 20,
+          "true_eocs": "EOC_BUY_ANTIBIO_TRUE_EFFECT",
+          "false_eocs": "EOC_CHEMIST_BUY_FALSE_EFFECT"
+        },
         "condition": { "not": { "npc_has_effect": "chemist_waiting_for_antibiotics" } },
         "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
       },
