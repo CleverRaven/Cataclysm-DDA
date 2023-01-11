@@ -321,7 +321,7 @@ TEST_CASE( "starve_test_hunger3", "[starve][slow]" )
 
     //you are burning through 5000 kcal a day out of a healthy base reserve of ~120000 kcal (15kg which is ~20% of your expected total weight of ~72kg)
     //as your metabolism slows as you starve this puts your expected lifespan at about 25 days, which is likely too high for a super hungry mutant.
-    //however, you also start breaking down muscle below 2 fat BMIs (~50,000 kcal), which is hard to recover from, and 15kg is a fairly solid buffer.
+    //however, you also start breaking down muscle below 3.5 fat BMIs (~50,000 kcal), which is hard to recover from, and 15kg is a fairly solid buffer.
     //the system should probably account for the fact that fat ketones cannot power your whole body (brain can't think without food, stored kcal or not)
     CAPTURE( results );
     CHECK( day <= 27 );
