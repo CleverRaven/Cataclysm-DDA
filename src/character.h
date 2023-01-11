@@ -869,7 +869,6 @@ class Character : public Creature, public visitable
         void make_footstep_noise() const;
         void make_clatter_sound() const;
 
-
         bool can_switch_to( const move_mode_id &mode ) const;
         steed_type get_steed_type() const;
         virtual void set_movement_mode( const move_mode_id &mode ) = 0;
@@ -1287,7 +1286,6 @@ class Character : public Creature, public visitable
                                  int normal_bonus, int head_bonus, int torso_bonus,
                                  int bleed, float bite, float infect, float bandage_power, float disinfectant_power ) const;
 
-
         static const std::vector<material_id> fleshy;
         bool made_of( const material_id &m ) const override;
         bool made_of_any( const std::set<material_id> &ms ) const override;
@@ -1627,7 +1625,7 @@ class Character : public Creature, public visitable
 
         /** Select ammo from the provided options */
         item::reload_option select_ammo( const item_location &base, std::vector<item::reload_option> opts,
-                                         std::string name_override = std::string() ) const;
+                                         const std::string &name_override = std::string() ) const;
 
         void process_items();
         void leak_items();
@@ -2698,7 +2696,7 @@ class Character : public Creature, public visitable
 
         /** How many moves does it take to aim gun to the target accuracy. */
         int gun_engagement_moves( const item &gun, int target = 0, int start = MAX_RECOIL,
-                                  Target_attributes attributes = Target_attributes() ) const;
+                                  const Target_attributes &attributes = Target_attributes() ) const;
 
         /**
          *  Fires a gun or auxiliary gunmod (ignoring any current mode)
@@ -2780,8 +2778,8 @@ class Character : public Creature, public visitable
 
         /** Monster cameras are mtype_ids with an integer range of transmission */
         void clear_moncams();
-        void remove_moncam( mtype_id moncam_id );
-        void add_moncam( std::pair<mtype_id, int> moncam );
+        void remove_moncam( const mtype_id &moncam_id );
+        void add_moncam( const std::pair<mtype_id, int> &moncam );
         void set_moncams( std::map<mtype_id, int> nmoncams );
         std::map<mtype_id, int> const &get_moncams() const;
         using cached_moncam = std::pair<monster const *, tripoint_abs_ms>;
@@ -3495,7 +3493,7 @@ class Character : public Creature, public visitable
         /** Current quantity for each vitamin today first value is expected second value is actual (digested) in vitamin units*/
         std::map<vitamin_id, std::pair<int, int>> daily_vitamins;
         /** Returns the % of your RDA that ammount of vitamin represents */
-        int vitamin_RDA( vitamin_id vitamin, int ammount ) const;
+        int vitamin_RDA( const vitamin_id &vitamin, int ammount ) const;
 
         pimpl<player_morale> morale;
         /** Processes human-specific effects of an effect. */

@@ -1000,8 +1000,6 @@ double Character::aim_factor_from_volume( const item &gun ) const
         factor *= std::pow( min_volume_without_debuff / wielded_volume, 0.333333 );
     }
 
-
-
     return std::max( factor, 0.2 ) ;
 }
 
@@ -2695,7 +2693,6 @@ std::vector<item_location> Character::nearby( const
     return res;
 }
 
-
 std::list<item> Character::remove_worn_items_with( const std::function<bool( item & )> &filter )
 {
     invalidate_inventory_validity_cache();
@@ -2958,7 +2955,6 @@ bool Character::can_use( const item &it, const item &context ) const
     return true;
 }
 
-
 ret_val<void> Character::can_unwield( const item &it ) const
 {
     if( it.has_flag( flag_NO_UNWIELD ) ) {
@@ -3093,7 +3089,6 @@ void Character::mod_knowledge_level( const skill_id &ident, const int delta )
 {
     _skills->mod_knowledge_level( ident, delta );
 }
-
 
 std::string Character::enumerate_unmet_requirements( const item &it, const item &context ) const
 {
@@ -4404,7 +4399,6 @@ int Character::weary_threshold() const
 
     return std::max( threshold, bmr / 10 );
 }
-
 
 std::pair<int, int> Character::weariness_transition_progress() const
 {
@@ -5946,7 +5940,6 @@ std::string Character::age_string( time_point when ) const
     return string_format( unformatted, age( when ) );
 }
 
-
 struct HeightLimits {
     int min_height = 0;
     int base_height = 0;
@@ -6560,7 +6553,6 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
         return false;
     }
 
-
     if( actually_used->is_comestible() ) {
         const bool ret = consume_effects( *used );
         const int consumed = used->activation_consume( charges_used.value(), pt, this );
@@ -7052,7 +7044,7 @@ weighted_int_list<mutation_category_id> Character::get_vitamin_weighted_categori
     return weighted_output;
 }
 
-int Character::vitamin_RDA( vitamin_id vitamin, int ammount ) const
+int Character::vitamin_RDA( const vitamin_id &vitamin, int ammount ) const
 {
     const double multiplier = vitamin_rate( vitamin ) / 1_days * 100;
     return std::lround( ammount * multiplier );
@@ -7065,7 +7057,6 @@ void Character::recalculate_bodyparts()
         body_set.set( bp.id() );
     }
     body_set = enchantment_cache->modify_bodyparts( body_set );
-    std::vector<bodypart_str_id> remove;
     // first come up with the bodyparts that need to be removed from body
     for( auto bp_iter = body.begin(); bp_iter != body.end(); ) {
         if( !body_set.test( bp_iter->first ) ) {
@@ -8292,8 +8283,7 @@ void Character::migrate_items_to_storage( bool disintegrate )
     inv->visit_items( [&]( const item * it, item * ) {
         if( disintegrate ) {
             if( try_add( *it, /*avoid=*/nullptr, it ) == item_location::nowhere ) {
-                std::string profession_id = "<none>";
-                profession_id = prof->ident().str();
+                std::string profession_id = prof->ident().str();
                 debugmsg( "ERROR: Could not put %s (%s) into inventory.  Check if the "
                           "profession (%s) has enough space.",
                           it->tname(), it->typeId().str(), profession_id );
@@ -8801,12 +8791,12 @@ void Character::clear_moncams()
     moncams.clear();
 }
 
-void Character::remove_moncam( mtype_id moncam_id )
+void Character::remove_moncam( const mtype_id &moncam_id )
 {
     moncams.erase( moncam_id );
 }
 
-void Character::add_moncam( std::pair<mtype_id, int> moncam )
+void Character::add_moncam( const std::pair<mtype_id, int> &moncam )
 {
     moncams.insert( moncam );
 }
@@ -10445,7 +10435,6 @@ book_mastery Character::get_book_mastery( const item &book ) const
     return book_mastery::LEARNING;
 }
 
-
 bool Character::fun_to_read( const item &book ) const
 {
     return book_fun_for( book, *this ) > 0;
@@ -11344,7 +11333,6 @@ void Character::process_items()
         }
     }
 }
-
 
 void Character::search_surroundings()
 {

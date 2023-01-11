@@ -213,7 +213,6 @@ int calc_proficiency_training_cost( const npc &p, const proficiency_id &proficie
     return calc_proficiency_training_cost( p, get_player_character(), proficiency );
 }
 
-
 time_duration calc_ma_style_training_time( const npc &p, const matype_id &id )
 {
     return calc_ma_style_training_time( p, get_player_character(), id );

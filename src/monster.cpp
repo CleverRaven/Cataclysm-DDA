@@ -699,7 +699,7 @@ static std::pair<std::string, nc_color> hp_description( int cur_hp, int max_hp )
 
 std::string monster::speed_description( float mon_speed_rating,
                                         bool immobile,
-                                        speed_description_id speed_desc )
+                                        const speed_description_id &speed_desc )
 {
     if( speed_desc.is_null() || !speed_desc.is_valid() ) {
         return std::string();
@@ -2414,7 +2414,6 @@ bool monster::has_special( const std::string &special_name ) const
     return iter != special_attacks.end() && iter->second.enabled;
 }
 
-
 void monster::explode()
 {
     // Handled in mondeath::normal
@@ -2849,7 +2848,6 @@ void monster::spawn_dissectables_on_death( item *corpse )
         return;
     }
 
-    std::vector<item> new_dissectables;
     for( const harvest_entry &entry : *type->dissect ) {
         std::vector<item> dissectables = item_group::items_from( item_group_id( entry.drop ),
                                          calendar::turn,
@@ -3510,7 +3508,6 @@ void monster::on_load()
             aggro_character = false;
         }
     }
-
 
     // TODO: regen_morale
     float regen = type->regenerates;

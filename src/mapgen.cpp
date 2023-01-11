@@ -1758,7 +1758,6 @@ class jmapgen_npc : public jmapgen_piece
             npc_class( jsi.get_member( "class" ) )
             , target( jsi.get_bool( "target", false ) ) {
             if( jsi.has_string( "add_trait" ) ) {
-                std::string new_trait = jsi.get_string( "add_trait" );
                 traits.emplace_back();
                 jsi.read( "add_trait", traits.back() );
             } else if( jsi.has_array( "add_trait" ) ) {
@@ -6766,8 +6765,6 @@ void map::mirror( bool mirror_horizontal, bool mirror_vertical )
     if( !mirror_horizontal && !mirror_vertical ) {
         return;
     }
-
-
 
     real_coords rc;
     const tripoint_abs_sm &abs_sub = get_abs_sub();

@@ -881,9 +881,7 @@ overmap_path_params overmap_path_params::for_land_vehicle( float offroad_coeff, 
     ret.road_cost = 10;
     ret.field_cost = can_offroad ? std::lround( 15 / std::min( 1.0f, offroad_coeff ) ) : -1;
     ret.dirt_road_cost = ret.field_cost;
-    ret.forest_cost = -1;
     ret.small_building_cost = ( can_offroad && tiny ) ? ret.field_cost + 30 : -1;
-    ret.swamp_cost = -1;
     ret.trail_cost = ( can_offroad && tiny ) ? ret.field_cost + 10 : -1;
     if( amphibious ) {
         const overmap_path_params boat_params = overmap_path_params::for_watercraft();

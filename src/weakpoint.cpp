@@ -21,7 +21,6 @@
 #include "rng.h"
 #include "translations.h"
 
-
 static const limb_score_id limb_score_reaction( "reaction" );
 static const limb_score_id limb_score_vision( "vision" );
 

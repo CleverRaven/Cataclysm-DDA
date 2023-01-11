@@ -818,7 +818,6 @@ std::string ma_requirements::get_description( bool buff ) const
     return dump;
 }
 
-
 ma_technique::ma_technique()
 {
     crit_tec = false;
@@ -1350,7 +1349,6 @@ ma_technique character_martial_arts::get_miss_recovery( const Character &owner )
     return get_valid_technique( owner, &ma_technique::miss_recovery );
 }
 
-
 std::string character_martial_arts::get_valid_attack_vector( const Character &user,
         const std::vector<std::string> &attack_vectors ) const
 {
@@ -1503,7 +1501,6 @@ void character_martial_arts::clear_all_effects( Character &owner )
 {
     style_selected->remove_all_buffs( owner );
 }
-
 
 // event handlers
 void character_martial_arts::ma_static_effects( Character &owner )

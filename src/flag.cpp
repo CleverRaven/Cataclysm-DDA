@@ -362,7 +362,6 @@ static const flag_id json_flag_null( "null" );
 
 const flag_id flag_NULL = json_flag_null; // intentionally invalid flag
 
-
 namespace
 {
 generic_factory<json_flag> json_flags_all( "json_flags" );
