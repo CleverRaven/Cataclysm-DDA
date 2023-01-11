@@ -382,8 +382,8 @@ void bodygraph_display::draw_graph()
                          selected_graph->sel_color : id->fill_color );
     };
     std::vector<std::string> rows = get_bodygraph_lines( *u, process_sym, id );
-    int vpad = (BPGRAPH_MAXROWS - rows.size()) / 2;
-    if( vpad < 0 ){
+    int vpad = ( BPGRAPH_MAXROWS - rows.size() ) / 2;
+    if( vpad < 0 ) {
         vpad = 0;
     }
     for( int y = 0; static_cast<size_t>( y ) < rows.size(); y++ ) {
