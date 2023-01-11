@@ -1193,7 +1193,7 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     player_character.add_morale( MORALE_HAIRCUT, 23 );
     player_character.set_hunger( 26 );
     player_character.set_thirst( 27 );
-    player_character.set_stored_kcal( 55000 );
+    player_character.set_stored_kcal( 100000 );
     player_character.worn.wear_item( player_character, item( "backpack" ), false, false );
     player_character.inv->add_item( item( itype_bottle_glass ) );
     player_character.inv->add_item( item( itype_bottle_glass ) );
@@ -1259,7 +1259,7 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     CHECK( d.responses[ 34 ].text == "Mana is at 2%." );
     CHECK( d.responses[ 35 ].text == "Hunger is 26." );
     CHECK( d.responses[ 36 ].text == "Thirst is 27." );
-    CHECK( d.responses[ 37 ].text == "Stored kcal is 55'000." );
+    CHECK( d.responses[ 37 ].text == "Stored kcal is 100'000." );
     CHECK( d.responses[ 38 ].text == "Stored kcal is at 100% of healthy." );
     CHECK( d.responses[ 39 ].text == "Has 3 glass bottles." );
     CHECK( d.responses[ 40 ].text == "Has more or equal to 35 experience." );
