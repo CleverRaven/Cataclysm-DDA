@@ -1136,7 +1136,7 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     get_weather().weather_precise->humidity = 20;
     get_weather().weather_precise->pressure = 20;
     get_weather().clear_temp_cache();
-    player_character.set_stored_kcal( 55000 );
+    player_character.set_stored_kcal( 45000 );
     player_character.remove_items_with( []( const item & it ) {
         return it.get_category_shallow().get_id() == item_category_manual ||
                it.get_category_shallow().get_id() == item_category_food ||
@@ -1219,7 +1219,7 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     player_character.per_cur = 8;
     player_character.magic->set_mana( 25 );
 
-    expected_answers = 52;
+    expected_answers = 51;
     gen_response_lines( d, expected_answers );
     CHECK( d.responses[ 0 ].text == "This is a u_adjust_var test response that increments by 1." );
     CHECK( d.responses[ 1 ].text == "This is an npc_adjust_var test response that increments by 2." );
