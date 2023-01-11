@@ -2746,7 +2746,7 @@ bionic_uid Character::add_bionic( const bionic_id &b, bionic_uid parent_uid )
         spell &known_spell = magic->get_spell( learned_spell );
         // spells you learn from installing a bionic upgrade spells you know if they are the same
         if( known_spell.get_level() < spell_pair.second ) {
-            known_spell.set_level( spell_pair.second );
+            known_spell.set_level( *this, spell_pair.second );
         }
     }
 

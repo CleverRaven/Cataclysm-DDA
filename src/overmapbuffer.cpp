@@ -964,7 +964,7 @@ static bool is_ramp( const tripoint_abs_omt &omt_pos )
 }
 
 std::vector<tripoint_abs_omt> overmapbuffer::get_travel_path(
-    const tripoint_abs_omt &src, const tripoint_abs_omt &dest, overmap_path_params params )
+    const tripoint_abs_omt &src, const tripoint_abs_omt &dest, const overmap_path_params &params )
 {
     if( src == overmap::invalid_tripoint || dest == overmap::invalid_tripoint ) {
         return {};
@@ -979,7 +979,8 @@ std::vector<tripoint_abs_omt> overmapbuffer::get_travel_path(
     };
 
     constexpr int radius = 4 * OMAPX; // radius of search in OMTs = 4 overmaps
-    const pf::simple_path<tripoint_abs_omt> path = pf::find_overmap_path( src, dest, radius, estimate );
+    const pf::simple_path<tripoint_abs_omt> path = pf::find_overmap_path( src, dest, radius, estimate,
+            g->display_om_pathfinding_progress );
     return path.points;
 }
 

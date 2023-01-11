@@ -97,8 +97,6 @@ static const vpart_id vpart_horn_bicycle( "horn_bicycle" );
 
 static const zone_type_id zone_type_VEHICLE_PATROL( "VEHICLE_PATROL" );
 
-static const std::string flag_APPLIANCE( "APPLIANCE" );
-
 void handbrake()
 {
     Character &player_character = get_player_character();
@@ -1710,7 +1708,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
     const bool controls_here = has_part_here( "CONTROLS" );
     const bool player_is_driving = get_player_character().controlling_vehicle;
 
-    if( !has_tag( flag_APPLIANCE ) ) {
+    if( !is_appliance() ) {
         menu.add( _( "Examine vehicle" ) )
         .skip_theft_check()
         .skip_locked_check()
@@ -1832,7 +1830,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
         .on_submit( [this] { toggle_autopilot(); } );
     }
 
-    if( has_tag( flag_APPLIANCE ) || vp.avail_part_with_feature( "CTRL_ELECTRONIC" ) ) {
+    if( is_appliance() || vp.avail_part_with_feature( "CTRL_ELECTRONIC" ) ) {
         build_electronics_menu( menu );
     }
 

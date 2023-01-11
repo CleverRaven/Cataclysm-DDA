@@ -390,7 +390,6 @@ static std::vector<std::string> recipe_info(
             const itype *t = item::find_type( bp.first );
             int amount = bp.second * batch_size;
             if( t->count_by_charges() ) {
-                amount *= t->charges_default();
                 oss << string_format( "> %s (%d)\n", t->nname( 1 ), amount );
             } else {
                 oss << string_format( "> %d %s\n", amount,
@@ -552,7 +551,13 @@ void recipe_result_info_cache::get_item_details( item &dummy_item,
     std::vector<iteminfo> temp_info;
     int total_quantity = quantity_per_batch * cached_batch_size;
     get_item_header( dummy_item, quantity_per_batch, details_info, classification, uses_charges );
-    dummy_item.info( true, temp_info, total_quantity );
+    if( uses_charges ) {
+        dummy_item.charges *= total_quantity;
+        dummy_item.info( true, temp_info );
+        dummy_item.charges /= total_quantity;
+    } else {
+        dummy_item.info( true, temp_info, total_quantity );
+    }
     details_info.insert( std::end( details_info ), std::begin( temp_info ), std::end( temp_info ) );
 }
 
@@ -562,7 +567,7 @@ void recipe_result_info_cache::get_item_header( item &dummy_item, const int quan
     int total_quantity = quantity_per_batch * cached_batch_size;
     //Handle multiple charges and multiple discrete items separately
     if( uses_charges ) {
-        dummy_item.charges *= total_quantity;
+        dummy_item.charges = total_quantity;
         info.emplace_back( "DESCRIPTION",
                            "<bold>" + classification + ": </bold>" + dummy_item.display_name() );
         //Reset charges so that multiple calls to this function don't produce unexpected results

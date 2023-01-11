@@ -524,23 +524,31 @@ static double occupied_tile_fraction( creature_size target_size )
 
 double Creature::ranged_target_size() const
 {
+    double stance_factor = 1.0;
+    if( const Character *character = this->as_character() ) {
+        if( character->is_crouching() ) {
+            stance_factor = 0.6;
+        } else if( character->is_prone() ) {
+            stance_factor = 0.25;
+        }
+    }
     if( has_flag( MF_HARDTOSHOOT ) ) {
         switch( get_size() ) {
             case creature_size::tiny:
             case creature_size::small:
-                return occupied_tile_fraction( creature_size::tiny );
+                return stance_factor * occupied_tile_fraction( creature_size::tiny );
             case creature_size::medium:
-                return occupied_tile_fraction( creature_size::small );
+                return stance_factor * occupied_tile_fraction( creature_size::small );
             case creature_size::large:
-                return occupied_tile_fraction( creature_size::medium );
+                return stance_factor * occupied_tile_fraction( creature_size::medium );
             case creature_size::huge:
-                return occupied_tile_fraction( creature_size::large );
+                return stance_factor * occupied_tile_fraction( creature_size::large );
             case creature_size::num_sizes:
                 debugmsg( "ERROR: Invalid Creature size class." );
                 break;
         }
     }
-    return occupied_tile_fraction( get_size() );
+    return stance_factor * occupied_tile_fraction( get_size() );
 }
 
 int range_with_even_chance_of_good_hit( int dispersion )

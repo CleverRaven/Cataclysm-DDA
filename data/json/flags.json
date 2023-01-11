@@ -1801,10 +1801,6 @@
     "info": "This gear <bad>prevents</bad> you from <info>speaking</info>."
   },
   {
-    "id": "NOT_FOOTWEAR",
-    "type": "json_flag"
-  },
-  {
     "id": "IRREPLACEABLE_CONSUMABLE",
     "type": "json_flag"
   },

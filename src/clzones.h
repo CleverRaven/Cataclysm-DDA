@@ -56,6 +56,7 @@ class zone_type
         std::string desc() const;
 
         bool can_be_personal = false;
+        bool hidden = false;
 
         static void load_zones( const JsonObject &jo, const std::string &src );
         static void reset();

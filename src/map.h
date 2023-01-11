@@ -1212,7 +1212,7 @@ class map
 
         // Returns points for all submaps with inconsistent state relative to
         // the list in map.  Used in tests.
-        std::vector<tripoint_abs_sm> check_submap_active_item_consistency();
+        void check_submap_active_item_consistency();
         // Accessor that returns a wrapped reference to an item stack for safe modification.
         // TODO: fix point types (remove the first overload)
         map_stack i_at( const tripoint &p );
@@ -1231,6 +1231,7 @@ class map
         map_stack::iterator i_rem( const point &location, const map_stack::const_iterator &it ) {
             return i_rem( tripoint( location, abs_sub.z() ), it );
         }
+        void remove_active_item( tripoint const &p, item *it );
         // TODO: fix point types (remove the first overload)
         void i_rem( const tripoint &p, item *it );
         void i_rem( const tripoint_bub_ms &p, item *it );

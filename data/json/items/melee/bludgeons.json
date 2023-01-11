@@ -394,7 +394,7 @@
     "type": "TOOL",
     "name": { "str": "cheap wizard cane (on)", "str_pl": "cheap wizard canes (on)" },
     "color": "blue",
-    "power_draw": "1 J",
+    "power_draw": "1 W",
     "revert_to": "wizard_cane_cheap",
     "use_action": {
       "menu_text": "Turn off",
@@ -446,7 +446,7 @@
     "type": "TOOL",
     "name": { "str": "wizard cane (on)", "str_pl": "wizard canes (on)" },
     "color": "blue",
-    "power_draw": "10 J",
+    "power_draw": "10 W",
     "revert_to": "wizard_cane",
     "use_action": {
       "menu_text": "Turn off",
@@ -817,7 +817,7 @@
     "description": "Produced by the Light corporation, this stylish staff functions not just as a light source, but also a lightweight weapon thanks to its superalloy construction.  Due to proprietary efficiency improvements over standard light sources, batteries last longer in the L-stick.  The staff is glowing brightly, which is slowly draining the batteries.",
     "material": [ "superalloy", "steel" ],
     "revert_to": "l-stick",
-    "power_draw": "5 J",
+    "power_draw": "5 W",
     "use_action": {
       "ammo_scale": 0,
       "target": "l-stick",
@@ -1420,7 +1420,7 @@
     "type": "TOOL",
     "name": { "str": "tactical tonfa (on)", "str_pl": "tactical tonfas (on)" },
     "description": "A reinforced plastic tonfa; the core is filled with capacitors and a high-yield rechargeable storage battery.  When a switch on the handle is pressed, a high-voltage current is transmitted to the two electrodes mounted in the end of the weapon, and by extension to anyone unfortunate enough to be in contact with them.  The integral flashlight is turned on, continually draining power and lighting the surrounding area.",
-    "power_draw": "15 J",
+    "power_draw": "15 W",
     "to_hit": { "grip": "weapon", "length": "short", "surface": "every", "balance": "good" },
     "revert_to": "shocktonfa_off",
     "use_action": [ "SHOCKTONFA_ON" ],
