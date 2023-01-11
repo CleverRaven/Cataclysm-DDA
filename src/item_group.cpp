@@ -420,12 +420,8 @@ void Item_modifier::modify( item &new_item, const std::string &context ) const
     item cont;
     if( container != nullptr ) {
         cont = container->create_single( new_item.birthday() );
-    }
-    if( cont.is_null() && new_item.type->default_container.has_value() ) {
-        const itype_id &cont_value = new_item.type->default_container.value_or( "null" );
-        if( !cont_value.is_null() ) {
-            cont = item( cont_value, new_item.birthday() );
-        }
+    } else if( new_item.type->default_container.has_value() ) {
+        cont = item( *new_item.type->default_container, new_item.birthday() );
     }
 
     int max_capacity = -1;

@@ -4478,8 +4478,7 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult )
                                  targ->get_name() );
                     }
                 } else if( u.posx() == traj_front.x && u.posy() == traj_front.y &&
-                           ( u.has_trait( trait_LEG_TENT_BRACE ) && ( !u.footwear_factor() ||
-                                   ( u.footwear_factor() == .5 && one_in( 2 ) ) ) ) ) {
+                           u.has_trait( trait_LEG_TENT_BRACE ) && u.is_barefoot() ) {
                     add_msg( _( "%s collided with you, and barely dislodges your tentacles!" ), targ->get_name() );
                 } else if( u.posx() == traj_front.x && u.posy() == traj_front.y ) {
                     add_msg( m_bad, _( "%s collided with you and sent you flying!" ), targ->get_name() );
@@ -5628,7 +5627,7 @@ void game::examine( const tripoint &examp, bool with_pickup )
     const optional_vpart_position vp = m.veh_at( examp );
     if( vp ) {
         if( !u.is_mounted() || u.mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
-            if( !vp->vehicle().has_tag( "APPLIANCE" ) ) {
+            if( !vp->vehicle().is_appliance() ) {
                 vp->vehicle().interact_with( examp, with_pickup );
             } else {
                 g->exam_appliance( vp->vehicle(), vp->mount() );
@@ -6439,6 +6438,12 @@ void game::zones_manager()
                 }
             }
         }
+        zones.erase( std::remove_if( zones.begin(), zones.end(),
+        []( zone_manager::ref_zone_data const & it ) {
+            zone_type_id const type = it.get().get_type();
+            return !debug_mode && type.is_valid() && type->hidden;
+        } ),
+        zones.end() );
         zone_cnt = static_cast<int>( zones.size() );
         return zones;
     };
@@ -10014,8 +10019,7 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
         }
     }
     if( !u.is_mounted() && u.has_trait( trait_LEG_TENT_BRACE ) &&
-        ( !u.footwear_factor() ||
-          ( u.footwear_factor() == .5 && one_in( 2 ) ) ) ) {
+        u.is_barefoot() ) {
         // DX and IN are long suits for Cephalopods,
         // so this shouldn't cause too much hardship
         // Presumed that if it's swimmable, they're
@@ -11853,15 +11857,15 @@ void game::shift_monsters( const tripoint &shift )
     }
 }
 
-void game::perhaps_add_random_npc()
+void game::perhaps_add_random_npc( bool ignore_spawn_timers_and_rates )
 {
-    if( !calendar::once_every( 1_hours ) ) {
+    if( !ignore_spawn_timers_and_rates && !calendar::once_every( 1_hours ) ) {
         return;
     }
     // Create a new NPC?
 
     double spawn_time = get_option<float>( "NPC_SPAWNTIME" );
-    if( spawn_time == 0.0 ) {
+    if( !ignore_spawn_timers_and_rates && spawn_time == 0.0 ) {
         return;
     }
 
@@ -11883,7 +11887,7 @@ void game::perhaps_add_random_npc()
         spawn_rate *= std::pow( 0.8f, npc_num );
     }
 
-    if( !x_in_y( spawn_rate, 100 ) ) {
+    if( !ignore_spawn_timers_and_rates && !x_in_y( spawn_rate, 100 ) ) {
         return;
     }
     bool spawn_allowed = false;
@@ -11924,6 +11928,17 @@ void game::perhaps_add_random_npc()
                           tmp->getID() ) );
     // This will make the new NPC active- if its nearby to the player
     load_npcs();
+}
+
+// Redraw window and show spinner, so cata window doesn't look frozen while pathfinding on overmap
+void game::display_om_pathfinding_progress( size_t /* open_set */, size_t /* known_size */ )
+{
+    ui_adaptor dummy( ui_adaptor::disable_uis_below {} );
+    static_popup pop;
+    pop.on_top( true ).wait_message( "%s", _( "Hang on a bit…" ) );
+    ui_manager::redraw();
+    refresh_display();
+    inp_mngr.pump_events();
 }
 
 bool game::display_overlay_state( const action_id action )

@@ -494,7 +494,7 @@ static void spell_description(
 
     const int spl_level = std::get<1>( spl_data );
     spell spl( std::get<0>( spl_data ).id );
-    spl.set_level( spl_level );
+    spl.set_level( npc(), spl_level );
 
     nc_color gray = c_light_gray;
     nc_color yellow = c_yellow;
