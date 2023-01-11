@@ -939,7 +939,7 @@ static activity_reason_info find_base_construction(
         con = _find_alt_construction( loc, idx, part_con_idx, [&idx]( construction const & it ) {
             return it.group == idx->group;
         } );
-        if( con == nullptr ) {
+        if( !idx->strict && con == nullptr ) {
             // try to build a pre-requisite from a different group, recursively
             checked_cache_t checked_cache;
             for( construction const *vcon : constructions_by_group( idx->group ) ) {
