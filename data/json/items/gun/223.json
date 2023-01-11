@@ -890,7 +890,6 @@
     "ammo": [ "223" ],
     "ranged_damage": { "damage_type": "bullet", "amount": -6 },
     "dispersion": 240,
-    "ranged_damage": { "damage_type": "bullet", "amount": -5 },
     "durability": 7,
     "min_cycle_recoil": 1350,
     "valid_mod_locations": [
