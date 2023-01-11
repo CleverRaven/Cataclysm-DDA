@@ -313,7 +313,7 @@
     "time": "30 m",
     "book_learn": [ [ "textbook_chemistry", 4 ], [ "adv_chemistry", 4 ], [ "recipe_labchem", 4 ] ],
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
-    "tools": [ [ [ "colander_steel", -1 ], [ "sieve_steel", -1 ], [ "sieve_primitive", -1 ], [ "rag", -1 ] ] ],
+    "tools": [ [ [ "colander_steel", -1 ], [ "sieve_steel", -1 ], [ "sieve_primitive", -1 ], [ "cotton_patchwork", -1 ] ] ],
     "components": [
       [
         [ "tobacco", 50 ],

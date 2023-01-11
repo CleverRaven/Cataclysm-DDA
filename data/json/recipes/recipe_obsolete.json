@@ -776,6 +776,24 @@
   },
   {
     "type": "recipe",
+    "result": "rag",
+    "id_suffix": "knitting",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "rag",
+    "id_suffix": "spinningwheel",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "cotton_patchwork",
+    "id_suffix": "from_rags",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "chem_black_powder",
     "id_suffix": "generic",
     "obsolete": true

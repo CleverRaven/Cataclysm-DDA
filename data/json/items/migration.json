@@ -1455,7 +1455,7 @@
   {
     "id": "rag_bloody",
     "type": "MIGRATION",
-    "replace": "rag",
+    "replace": "cotton_patchwork",
     "flags": [ "FILTHY" ]
   },
   {
