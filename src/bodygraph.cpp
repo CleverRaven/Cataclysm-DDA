@@ -210,7 +210,7 @@ void bodygraph::check() const
 
 */
 
-#define BPGRAPH_HEIGHT 24
+#define BPGRAPH_HEIGHT 32
 
 using part_tuple =
     std::tuple<bodypart_id, const sub_body_part_type *, const bodygraph_part *, bool>;
