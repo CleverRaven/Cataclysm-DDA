@@ -2534,7 +2534,7 @@
     "name": "Save and quit",
     "category": "DEFAULTMODE",
     "id": "save",
-    "bindings": [ { "input_method": "keyboard_char", "key": "S" }, { "input_method": "keyboard_code", "key": "s", "mod": [ "shift" ] } ]
+    "bindings": [ { "input_method": "keyboard_char", "key": "Q" }, { "input_method": "keyboard_code", "key": "q", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
@@ -2560,8 +2560,7 @@
     "type": "keybinding",
     "name": "Look at the sky",
     "category": "DEFAULTMODE",
-    "id": "sky",
-    "bindings": [ { "input_method": "keyboard_any", "key": "q" } ]
+    "id": "sky"
   },
   {
     "type": "keybinding",
@@ -2781,7 +2780,8 @@
     "type": "keybinding",
     "name": "Quicksave",
     "category": "DEFAULTMODE",
-    "id": "quicksave"
+    "id": "quicksave",
+    "bindings": [ { "input_method": "keyboard_char", "key": "S" }, { "input_method": "keyboard_code", "key": "s", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
