@@ -9,7 +9,7 @@
 #include "ui_manager.h"
 #include "weather.h"
 
-#define BPGRAPH_MAXROWS 20
+#define BPGRAPH_MAXROWS 28
 #define BPGRAPH_MAXCOLS 40
 
 static const bodygraph_id bodygraph_full_body( "full_body" );
@@ -382,8 +382,12 @@ void bodygraph_display::draw_graph()
                          selected_graph->sel_color : id->fill_color );
     };
     std::vector<std::string> rows = get_bodygraph_lines( *u, process_sym, id );
+    int vpad = (BPGRAPH_MAXROWS - rows.size()) / 2;
+    if( vpad < 0 ){
+        vpad = 0;
+    }
     for( int y = 0; static_cast<size_t>( y ) < rows.size(); y++ ) {
-        trim_and_print( w_graph, point( 0, y ), BPGRAPH_MAXCOLS, c_white, rows[y] );
+        trim_and_print( w_graph, point( 0, vpad + y ), BPGRAPH_MAXCOLS, c_white, rows[y] );
     }
 
     wnoutrefresh( w_graph );
