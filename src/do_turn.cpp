@@ -674,7 +674,7 @@ bool do_turn()
     weather.update_weather();
     g->reset_light_level();
 
-    g->perhaps_add_random_npc();
+    g->perhaps_add_random_npc( /* ignore_spawn_timers_and_rates = */ false );
     while( u.moves > 0 && u.activity ) {
         u.activity.do_turn( u );
     }

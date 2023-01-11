@@ -172,9 +172,12 @@ TEST_CASE( "place_player_can_safely_move_multiple_submaps" )
 TEST_CASE( "inactive_container_with_active_contents" )
 {
     map &here = get_map();
-    clear_map();
+    clear_map( -OVERMAP_DEPTH, OVERMAP_HEIGHT );
+    CAPTURE( here.get_abs_sub(), here.get_submaps_with_active_items() );
     REQUIRE( here.get_submaps_with_active_items().empty() );
     here.check_submap_active_item_consistency();
+    tripoint const test_loc;
+    tripoint_abs_sm const test_loc_sm = project_to<coords::sm>( here.getglobal( test_loc ) );
 
     item bottle_plastic( "bottle_plastic" );
     REQUIRE( !bottle_plastic.needs_processing() );
@@ -190,11 +193,11 @@ TEST_CASE( "inactive_container_with_active_contents" )
     REQUIRE( bottle_plastic.needs_processing() );
     REQUIRE( bottle_plastic.processing_speed() == dis_speed );
 
-    item &bp = here.add_item( tripoint_zero, bottle_plastic );
-    item_location bp_loc( map_cursor( tripoint_zero ), &bp );
+    item &bp = here.add_item( test_loc, bottle_plastic );
+    item_location bp_loc( map_cursor( test_loc ), &bp );
     item_location dis_loc( bp_loc, &bp.only_item() );
 
-    REQUIRE( here.get_submaps_with_active_items().count( here.get_abs_sub() ) != 0 );
+    REQUIRE( here.get_submaps_with_active_items().count( test_loc_sm ) != 0 );
     here.check_submap_active_item_consistency();
 
     bool from_container = GENERATE( true, false );
@@ -209,6 +212,6 @@ TEST_CASE( "inactive_container_with_active_contents" )
         CHECK( bp.processing_speed() == bp_speed );
         bp_loc.remove_item();
     }
-    CHECK( here.get_submaps_with_active_items().count( here.get_abs_sub() ) == 0 );
+    CHECK( here.get_submaps_with_active_items().count( test_loc_sm ) == 0 );
     here.check_submap_active_item_consistency();
 }

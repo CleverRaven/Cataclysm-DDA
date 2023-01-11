@@ -76,7 +76,7 @@ void mission_start::kill_nemesis( mission * )
 
     size_t attempt = 0;
     do {
-        if( ++attempt >= attempts_multipliers.size() ) {
+        if( attempt++ >= attempts_multipliers.size() ) {
             debugmsg( "Failed adding a nemesis mission" );
             return;
         }
