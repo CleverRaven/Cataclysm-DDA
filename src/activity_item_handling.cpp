@@ -909,6 +909,16 @@ construction const *_find_prereq( tripoint_bub_ms const &loc, construction_id co
     return nullptr;
 }
 
+bool already_done( construction const &build, tripoint_bub_ms const &loc )
+{
+    map &here = get_map();
+    const furn_id furn = here.furn( loc );
+    const ter_id ter = here.ter( loc );
+    return !build.post_terrain.empty() &&
+           ( ( !build.post_is_furniture && ter_id( build.post_terrain ) == ter ) ||
+             ( build.post_is_furniture && furn_id( build.post_terrain ) == furn ) );
+}
+
 } // namespace
 
 static activity_reason_info find_base_construction(
@@ -918,6 +928,9 @@ static activity_reason_info find_base_construction(
     const cata::optional<construction_id> &part_con_idx,
     const construction_id &idx )
 {
+    if( already_done( idx.obj(), loc ) ) {
+        return activity_reason_info::build( do_activity_reason::ALREADY_DONE, false, idx->id );
+    }
     bool cc = can_construct( idx.obj(), loc );
     construction const *con = nullptr;
 
@@ -926,7 +939,7 @@ static activity_reason_info find_base_construction(
         con = _find_alt_construction( loc, idx, part_con_idx, [&idx]( construction const & it ) {
             return it.group == idx->group;
         } );
-        if( con == nullptr ) {
+        if( !idx->strict && con == nullptr ) {
             // try to build a pre-requisite from a different group, recursively
             checked_cache_t checked_cache;
             for( construction const *vcon : constructions_by_group( idx->group ) ) {
@@ -942,12 +955,7 @@ static activity_reason_info find_base_construction(
     const construction &build = con == nullptr ? idx.obj() : *con;
     bool pcb = player_can_build( you, inv, build, true );
     //already done?
-    map &here = get_map();
-    const furn_id furn = here.furn( loc );
-    const ter_id ter = here.ter( loc );
-    if( !build.post_terrain.empty() &&
-        ( ( !build.post_is_furniture && ter_id( build.post_terrain ) == ter ) ||
-          ( build.post_is_furniture && furn_id( build.post_terrain ) == furn ) ) ) {
+    if( already_done( build, loc ) ) {
         return activity_reason_info::build( do_activity_reason::ALREADY_DONE, false, build.id );
     }
 
