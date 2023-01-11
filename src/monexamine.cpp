@@ -40,6 +40,7 @@
 #include "units.h"
 #include "value_ptr.h"
 
+static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_controlled( "controlled" );
 static const efftype_id effect_harnessed( "harnessed" );
 static const efftype_id effect_has_bag( "has_bag" );
