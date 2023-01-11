@@ -193,16 +193,16 @@ TEST_CASE( "stored kcal ratio influences body mass index", "[biometrics][kcal][b
     CHECK( true_bmi_at_kcal_ratio( dummy, 0.0f ) == Approx( 12.0f ).margin( 0.01f ) );
     CHECK( true_bmi_at_kcal_ratio( dummy, 0.05f ) == Approx( 13.25f ).margin( 0.01f ) );
     CHECK( true_bmi_at_kcal_ratio( dummy, 0.1f ) == Approx( 14.5f ).margin( 0.01f ) );
-    CHECK( true_bmi_at_kcal_ratio( dummy, 0.15f ) == Approx( 15.75f ).margin( 0.01f ) );
+    CHECK( true_bmi_at_kcal_ratio( dummy, 0.15f ) == Approx( 14.75f ).margin( 0.01f ) );
     // Emaciated (fat BMI 1.01-2)
-    CHECK( true_bmi_at_kcal_ratio( dummy, 0.2f ) == Approx( 17.0f ).margin( 0.01f ) );
-    CHECK( true_bmi_at_kcal_ratio( dummy, 0.25f ) == Approx( 18.25f ).margin( 0.01f ) );
-    CHECK( true_bmi_at_kcal_ratio( dummy, 0.3f ) == Approx( 19.5f ).margin( 0.01f ) );
-    CHECK( true_bmi_at_kcal_ratio( dummy, 0.35f ) == Approx( 20.75f ).margin( 0.01f ) );
+    CHECK( true_bmi_at_kcal_ratio( dummy, 0.2f ) == Approx( 16.0f ).margin( 0.01f ) );
+    CHECK( true_bmi_at_kcal_ratio( dummy, 0.25f ) == Approx( 16.25f ).margin( 0.01f ) );
+    CHECK( true_bmi_at_kcal_ratio( dummy, 0.3f ) == Approx( 17.5f ).margin( 0.01f ) );
+    CHECK( true_bmi_at_kcal_ratio( dummy, 0.35f ) == Approx( 17.75f ).margin( 0.01f ) );
     // Underweight (fat BMI 2.01-3.5)
-    CHECK( true_bmi_at_kcal_ratio( dummy, 0.4f ) == Approx( 22.0f ).margin( 0.01f ) );
-    CHECK( true_bmi_at_kcal_ratio( dummy, 0.5f ) == Approx( 22.5f ).margin( 0.01f ) );
-    CHECK( true_bmi_at_kcal_ratio( dummy, 0.6f ) == Approx( 23.0f ).margin( 0.01f ) );
+    CHECK( true_bmi_at_kcal_ratio( dummy, 0.4f ) == Approx( 19.0f ).margin( 0.01f ) );
+    CHECK( true_bmi_at_kcal_ratio( dummy, 0.5f ) == Approx( 20.5f ).margin( 0.01f ) );
+    CHECK( true_bmi_at_kcal_ratio( dummy, 0.6f ) == Approx( 22.0f ).margin( 0.01f ) );
     // Normal (fat bmi 3.6-5)
     CHECK( true_bmi_at_kcal_ratio( dummy, 0.7f ) == Approx( 23.5f ).margin( 0.01f ) );
     CHECK( true_bmi_at_kcal_ratio( dummy, 0.8f ) == Approx( 24.0f ).margin( 0.01f ) );
@@ -331,11 +331,11 @@ TEST_CASE( "default character (175 cm) bodyweights at various BMIs", "[biometric
 
             THEN( "bodyweight varies from ~49-107kg" ) {
                 // BMI [16-35] is "Emaciated/Underweight" to "Obese/Very Obese"
-                // default strength of 8, at 1.0 fat bmis it is reduced to 4 producing a "true" bmi of 16.
-                CHECK( bodyweight_kg_at_bmi( dummy, 1.0 ) == Approx( 52.1 ).margin( 0.1f ) );
-                // default strength of 8, +7 fat bmis = 25 true bmi, +17 = 37 true bmi
-                CHECK( bodyweight_kg_at_bmi( dummy, 7.0 ) == Approx( 82.7 ).margin( 0.1f ) );
-                CHECK( bodyweight_kg_at_bmi( dummy, 17.0 ) == Approx( 113.3 ).margin( 0.1f ) );
+                // default strength of 8, at 1.0 fat bmis it is reduced to 4 producing a "true" bmi of 17.
+                CHECK( bodyweight_kg_at_bmi( dummy, 1.0 ) == Approx( 49.0 ).margin( 0.1f ) );
+                // default strength of 8, +5 fat bmis = 25 true bmi, +15 = 35 true bmi
+                CHECK( bodyweight_kg_at_bmi( dummy, 5.0 ) == Approx( 76.6 ).margin( 0.1f ) );
+                CHECK( bodyweight_kg_at_bmi( dummy, 15.0 ) == Approx( 107.2 ).margin( 0.1f ) );
             }
         }
     }
