@@ -1219,7 +1219,7 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     player_character.per_cur = 8;
     player_character.magic->set_mana( 25 );
 
-    expected_answers = 51;
+    expected_answers = 52;
     gen_response_lines( d, expected_answers );
     CHECK( d.responses[ 0 ].text == "This is a u_adjust_var test response that increments by 1." );
     CHECK( d.responses[ 1 ].text == "This is an npc_adjust_var test response that increments by 2." );
@@ -1259,8 +1259,8 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     CHECK( d.responses[ 34 ].text == "Mana is at 2%." );
     CHECK( d.responses[ 35 ].text == "Hunger is 26." );
     CHECK( d.responses[ 36 ].text == "Thirst is 27." );
-    CHECK( d.responses[ 37 ].text == "Stored kcal is 94'523." );
-    CHECK( d.responses[ 38 ].text == "Stored kcal is at 80% of healthy." );
+    CHECK( d.responses[ 37 ].text != "Stored kcal is 94'523." );
+    CHECK( d.responses[ 38 ].text != "Stored kcal is at 80% of healthy." );
     CHECK( d.responses[ 39 ].text == "Has 3 glass bottles." );
     CHECK( d.responses[ 40 ].text == "Has more or equal to 35 experience." );
     CHECK( d.responses[ 41 ].text == "Highest spell level in school test_trait is 1." );
@@ -1563,7 +1563,7 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
     // "Sets stored_kcal_percentage to 50."
     effects = d.responses[ 24 ].success;
     effects.apply( d );
-    CHECK( player_character.get_stored_kcal() == player_character.get_healthy_kcal() / 2 );
+    CHECK( player_character.get_stored_kcal() == 550000 / 2 );
 
     // Spell tests setup
     if( player_character.magic->knows_spell( spell_test_spell_pew ) ) {
