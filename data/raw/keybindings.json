@@ -2761,6 +2761,12 @@
   },
   {
     "type": "keybinding",
+    "name": "Toggle prevent occlusion (off->on->auto->)",
+    "category": "DEFAULTMODE",
+    "id": "toggle_prevent_occlusion"
+  },
+  {
+    "type": "keybinding",
     "name": "Action menu",
     "category": "DEFAULTMODE",
     "id": "action_menu",
