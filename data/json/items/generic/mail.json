@@ -62,7 +62,7 @@
       {
         "id": "letter_love",
         "name": { "str": "love letter" },
-        "description": "A written message from a woman to her lover, it's sealed with a heart-shaped sticker and smells of perfume.  You start to read it but it quickly becomes embarassing.",
+        "description": "A written message from a woman to her lover, it's sealed with a heart-shaped sticker and smells of perfume.  You start to read it but it quickly becomes embarrassing.",
         "weight": 1
       },
       {
@@ -84,8 +84,8 @@
         "weight": 1
       },
       {
-        "id": "letter_pinkslip",
-        "name": { "str": "pinkslip" },
+        "id": "letter_pink_slip",
+        "name": { "str": "pink slip" },
         "description": "A folded pink sheet of paper declaring the homeowner fired! oh no.",
         "weight": 1
       },
