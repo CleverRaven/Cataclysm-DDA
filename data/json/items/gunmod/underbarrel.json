@@ -643,7 +643,6 @@
   },
   {
     "id": "rm121aux_mod",
-    "copy-from": "underbarrel_base",
     "copy-from": "rm121aux",
     "type": "GUNMOD",
     "name": { "str": "modified RM121 aux shotgun" },
@@ -673,7 +672,6 @@
   },
   {
     "id": "u_shotgun_mod",
-    "copy-from": "underbarrel_base",
     "copy-from": "u_shotgun",
     "type": "GUNMOD",
     "name": { "str": "modified underslung shotgun" },
