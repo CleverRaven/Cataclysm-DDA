@@ -1801,7 +1801,7 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
                                       bool apply_night_vision_goggles, int &height_3d, int intensity )
 {
     return cata_tiles::draw_from_id_string_internal( id, category, subcategory, pos, subtile, rota,
-                                            ll, -1, apply_night_vision_goggles, height_3d, intensity, "", point() );
+            ll, -1, apply_night_vision_goggles, height_3d, intensity, "", point() );
 }
 
 bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY category,
@@ -1810,7 +1810,7 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
                                       bool apply_night_vision_goggles, int &height_3d )
 {
     return cata_tiles::draw_from_id_string_internal( id, category, subcategory, pos, subtile, rota,
-                                            ll, -1, apply_night_vision_goggles, height_3d, 0, "", point() );
+            ll, -1, apply_night_vision_goggles, height_3d, 0, "", point() );
 }
 
 bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY category,
@@ -1820,8 +1820,8 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
                                       int intensity_level, const std::string &variant )
 {
     return cata_tiles::draw_from_id_string_internal( id, category, subcategory, pos, subtile, rota,
-                                            ll, -1, apply_night_vision_goggles, height_3d, intensity_level,
-                                            variant, point() );
+            ll, -1, apply_night_vision_goggles, height_3d, intensity_level,
+            variant, point() );
 }
 
 
@@ -1833,16 +1833,18 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
                                       const point &offset )
 {
     return cata_tiles::draw_from_id_string_internal( id, category, subcategory, pos, subtile, rota,
-                                            ll, -1, apply_night_vision_goggles, height_3d, intensity_level,
-                                            variant, offset );
+            ll, -1, apply_night_vision_goggles, height_3d, intensity_level,
+            variant, offset );
 }
-bool cata_tiles::draw_from_id_string_internal( const std::string &id, const tripoint &pos, int subtile,
-                                      int rota,
-                                      lit_level ll, int retract, bool apply_night_vision_goggles )
+bool cata_tiles::draw_from_id_string_internal( const std::string &id, const tripoint &pos,
+        int subtile,
+        int rota,
+        lit_level ll, int retract, bool apply_night_vision_goggles )
 {
     int nullint = 0;
-    return cata_tiles::draw_from_id_string_internal( id, TILE_CATEGORY::NONE, empty_string, pos, subtile,
-                                            rota, ll, retract, apply_night_vision_goggles, nullint, 0, "", point() );
+    return cata_tiles::draw_from_id_string_internal( id, TILE_CATEGORY::NONE, empty_string, pos,
+            subtile,
+            rota, ll, retract, apply_night_vision_goggles, nullint, 0, "", point() );
 }
 
 
@@ -2050,11 +2052,11 @@ bool cata_tiles::find_overlay_looks_like( const bool male, const std::string &ov
 }
 
 bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEGORY category,
-                                      const std::string &subcategory, const tripoint &pos,
-                                      int subtile, int rota, lit_level ll, int retract,
-                                      bool apply_night_vision_goggles, int &height_3d,
-                                      int intensity_level, const std::string &variant,
-                                      const point &offset )
+        const std::string &subcategory, const tripoint &pos,
+        int subtile, int rota, lit_level ll, int retract,
+        bool apply_night_vision_goggles, int &height_3d,
+        int intensity_level, const std::string &variant,
+        const point &offset )
 {
     bool nv_color_active = apply_night_vision_goggles && get_option<bool>( "NV_GREEN_TOGGLE" );
     // If the ID string does not produce a drawable tile
@@ -2076,7 +2078,7 @@ bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEG
     // translate from player-relative to screen relative tile position
     const point screen_pos = player_to_screen( pos.xy() );
 
-    if( retract < 0 && (prevent_occlusion_transp || prevent_occlusion_retract) ) {
+    if( retract < 0 && ( prevent_occlusion_transp || prevent_occlusion_retract ) ) {
         if( prevent_occlusion == 0 ) {
             retract = 0;
         } else if( prevent_occlusion == 1 ) {
@@ -2093,7 +2095,7 @@ bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEG
 
             retract = static_cast<int>( 100.0 * ( 1.0 - clamp( ( distance - d_min ) * d_slope, 0.0f, 1.0f ) ) );
         }
-        
+
         if( prevent_occlusion_transp && retract > 0 ) {
             res = find_tile_looks_like( id + "_transparent", category, variant );
             if( res ) {
@@ -2277,13 +2279,13 @@ bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEG
             }
             if( tileset_ptr->find_tile_type( generic_id ) ) {
                 return draw_from_id_string_internal( generic_id, pos, subtile, rota,
-                                            ll, retract, nv_color_active );
+                                                     ll, retract, nv_color_active );
             }
             // Try again without color this time (using default color).
             generic_id = get_ascii_tile_id( sym, -1, -1 );
             if( tileset_ptr->find_tile_type( generic_id ) ) {
                 return draw_from_id_string_internal( generic_id, pos, subtile, rota,
-                                            ll, retract, nv_color_active );
+                                                     ll, retract, nv_color_active );
             }
         }
     }

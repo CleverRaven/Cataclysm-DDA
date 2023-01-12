@@ -2642,12 +2642,14 @@ void options_manager::add_options_debug()
          true
        );
 
-    add( "PREVENT_OCCLUSION_MIN_DIST", "debug", to_translation( "Minimum distance for auto occlusion handling" ),
+    add( "PREVENT_OCCLUSION_MIN_DIST", "debug",
+         to_translation( "Minimum distance for auto occlusion handling" ),
          to_translation( "Minimum distance for auto occlusion handling.  Values above zero overwrite tileset settings." ),
          0.0, 60.0, 0.0, 0.1
        );
 
-    add( "PREVENT_OCCLUSION_MAX_DIST", "debug", to_translation( "Maximum distance for auto occlusion handling" ),
+    add( "PREVENT_OCCLUSION_MAX_DIST", "debug",
+         to_translation( "Maximum distance for auto occlusion handling" ),
          to_translation( "Maximum distance for auto .  Values above zero overwrite tileset settings." ),
          0.0, 60.0, 0.0, 0.1
        );
