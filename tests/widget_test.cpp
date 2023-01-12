@@ -619,10 +619,10 @@ TEST_CASE( "widgets showing avatar weight", "[widget][weight]" )
 
     set_avatar_bmi( ava, 2.1 );
     CHECK( weight_clause_w.layout( ava ) == "Weight: <color_c_yellow>Underweight</color>" );
-    set_avatar_bmi( ava, 3.5 );
+    set_avatar_bmi( ava, 2.9 );
     CHECK( weight_clause_w.layout( ava ) == "Weight: <color_c_yellow>Underweight</color>" );
 
-    set_avatar_bmi( ava, 3.6 );
+    set_avatar_bmi( ava, 3.1 );
     CHECK( weight_clause_w.layout( ava ) == "Weight: <color_c_light_gray>Normal</color>" );
     set_avatar_bmi( ava, 5.0 );
     CHECK( weight_clause_w.layout( ava ) == "Weight: <color_c_light_gray>Normal</color>" );
