@@ -3485,7 +3485,7 @@
     "points": 1,
     "description": "Your body is unusually inhospitable to parasitic lifeforms.  You will never become infested with internal parasites.",
     "prereqs": [ "DISRESISTANT", "DISIMMUNE" ],
-    "prereqs2": [ "INFRESIST" ],
+    "prereqs2": [ "INFRESIST", "INFIMMUNE" ],
     "flags": [ "PARAIMMUNE" ],
     "category": [ "CHIMERA", "MEDICAL", "SLIME" ]
   },
