@@ -30,7 +30,7 @@
         "condition": {
           "and": [
             { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 2000 } ] },
-            { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 3500 } ] }
+            { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 3000 } ] }
           ]
         }
       },
@@ -41,7 +41,7 @@
         "//": "Actually 18.5 - 25",
         "condition": {
           "and": [
-            { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 3500 } ] },
+            { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 3000 } ] },
             { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 5000 } ] }
           ]
         }
