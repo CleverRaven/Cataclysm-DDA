@@ -18,6 +18,7 @@ Things are a bit more stable now, but nobody is left alive to appreciate that.
 ### Timeline
 
 Note: Canon date of game start is in "YEAR", which equals the IRL year the game world was created +1.
+Additional information can also be found in the [newspaper snippets](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/data/json/snippets/newspapers.json). Related files in the directory may also be of use.
 
 #### YEAR -35 or so
 - An interdimensional traveler from an alternate earth crash lands a portal traveling vessel in the American Midwest. The traveler dies, the vessel is appropriated by the US government and starts a chain of research.  The technology is very similar to Earth tech of the 1990s, but the actual dimensional travelling technology is as-yet undeveloped, and there are examples of equivalent but divergent energy technologies: there is a simple but functional high-capacity fuel cell on board, using mostly Earth accessible designs but with a few exotic components that will take time to reverse engineer.
