@@ -727,8 +727,8 @@ bool monster::is_aquatic_danger( const tripoint &at_pos ) const
 bool monster::die_if_drowning( const tripoint &at_pos, const int chance )
 {
     if( is_aquatic_danger( at_pos ) && one_in( chance ) ) {
-        die( nullptr );
         add_msg_if_player_sees( at_pos, _( "The %s drowns!" ), name() );
+        die( nullptr );
         return true;
     }
     return false;
@@ -1790,8 +1790,6 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
             }
         }
     }
-
-
 
     // Acid trail monsters leave... a trail of acid
     if( has_flag( MF_ACIDTRAIL ) ) {

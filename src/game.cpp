@@ -326,24 +326,6 @@ static const zone_type_id zone_type_NO_AUTO_PICKUP( "NO_AUTO_PICKUP" );
 
 static constexpr int DANGEROUS_PROXIMITY = 5;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #if defined(__ANDROID__)
 extern bool add_key_to_quick_shortcuts( int key, const std::string &category, bool back ); // NOLINT
 #endif
@@ -7129,7 +7111,6 @@ look_around_result game::look_around(
 
             center_print( w_info, 0, c_white, string_format( _( "< <color_green>Look around</color> >" ) ) );
 
-
             creature_tracker &creatures = get_creature_tracker();
             monster *const mon = creatures.creature_at<monster>( lp, true );
             if( mon && u.sees( *mon ) ) {
@@ -7392,7 +7373,6 @@ look_around_result game::look_around( look_around_params looka_params )
                         looka_params.select_zone, looka_params.peeking );
 }
 
-
 static void add_item_recursive( std::vector<std::string> &item_order,
                                 std::map<std::string, map_item_stack> &temp_items, const item *it, const tripoint &relative_pos )
 {
@@ -7426,7 +7406,6 @@ std::vector<map_item_stack> game::find_nearby_items( int iRadius )
             m.sees_some_items( points_p_it, u ) ) {
 
             for( item &elem : m.i_at( points_p_it ) ) {
-                const std::string name = elem.tname();
                 const tripoint relative_pos = points_p_it - u.pos();
 
                 add_item_recursive( item_order, temp_items, &elem, relative_pos );
@@ -12379,7 +12358,6 @@ bool game::slip_down( bool check_for_traps )
         add_msg( m_info, _( "Your bad knees make it difficult to climb." ) );
     }
 
-
     add_msg_debug( debugmode::DF_GAME, "Slip chance after proficiency/trait modifiers %d%%", slip );
 
     // Climbing is difficult with wet hands and feet.
@@ -12447,7 +12425,6 @@ bool game::slip_down( bool check_for_traps )
     } else if( weight_ratio > .25 ) {
         add_msg( m_info, _( "Your carried weight makes it a little harder to climb." ) );
     }
-
 
     if( x_in_y( slip, 100 ) ) {
         add_msg( m_bad, _( "You slip while climbing and fall down." ) );

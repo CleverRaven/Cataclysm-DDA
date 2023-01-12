@@ -79,7 +79,6 @@ void translation::make_plural()
     cached_translation = nullptr;
 }
 
-
 // return { true, suggested plural } if no irregular form is detected,
 // { false, suggested plural } otherwise. do have false positive/negatives.
 static std::pair<bool, std::string> possible_plural_of( const std::string &raw )

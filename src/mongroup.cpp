@@ -127,7 +127,7 @@ const MonsterGroup &MonsterGroupManager::GetUpgradedMonsterGroup( const mongroup
 }
 
 static bool is_spawn_valid(
-    const MonsterGroupEntry &entry, const time_point sunset, const time_point sunrise,
+    const MonsterGroupEntry &entry, const time_point &sunset, const time_point &sunrise,
     const season_type season, const bool can_spawn_events )
 {
     // If an event was specified for this entry, check if it matches the current holiday

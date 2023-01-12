@@ -975,11 +975,10 @@ class item : public visitable
          */
         void mod_charges( int mod );
 
-
         /**
          * Returns rate of rot (rot/h) at the given temperature
          */
-        float calc_hourly_rotpoints_at_temp( units::temperature temp ) const;
+        float calc_hourly_rotpoints_at_temp( const units::temperature &temp ) const;
 
         /**
          * Accumulate rot of the item since last rot calculation.
@@ -1020,7 +1019,7 @@ class item : public visitable
         void set_item_temperature( units::temperature new_temperature );
 
         /** Sets the item to new temperature and energy based new specific energy (J/g) and resets last_temp_check*/
-        void set_item_specific_energy( units::specific_energy specific_energy );
+        void set_item_specific_energy( const units::specific_energy &specific_energy );
 
         /**
          * Get the thermal energy of the item in Joules.
@@ -1284,8 +1283,6 @@ class item : public visitable
         float damage_resist( damage_type dt, bool to_self,
                              const sub_bodypart_id &bp, int roll = 0 ) const;
 
-
-
         /**
          * Returns resistance to being damaged by attack against the item itself.
          * Calculated from item's materials.
@@ -1388,7 +1385,6 @@ class item : public visitable
          * @return the state of the armor
          */
         armor_status damage_armor_transforms( damage_unit &du ) const;
-
 
         /** Provide color for UI display dependent upon current item damage level */
         nc_color damage_color() const;
@@ -2003,7 +1999,7 @@ class item : public visitable
          */
         int get_warmth() const;
         /** Returns the warmth on the body part of the item on a specific bp. */
-        int get_warmth( bodypart_id bp ) const;
+        int get_warmth( const bodypart_id &bp ) const;
         /**
          * Returns the @ref islot_armor::thickness value, or 0 for non-armor. Thickness is are
          * relative value that affects the items resistance against bash / cutting / bullet damage.
@@ -2033,12 +2029,12 @@ class item : public visitable
          * Returns true if an item has a given layer level on a specific part.
          * matches to any layer within the vector input.
          */
-        bool has_layer( const std::vector<layer_level> &ll, bodypart_id bp ) const;
+        bool has_layer( const std::vector<layer_level> &ll, const bodypart_id &bp ) const;
 
         /**
          * Returns true if an item has a given layer level on a specific subpart.
          */
-        bool has_layer( const std::vector<layer_level> &ll, sub_bodypart_id sbp ) const;
+        bool has_layer( const std::vector<layer_level> &ll, const sub_bodypart_id &sbp ) const;
 
         /**
          * Returns true if an item has any of the given layer levels.
@@ -2048,7 +2044,7 @@ class item : public visitable
         /**
          * Returns highest layer of an item
          */
-        layer_level get_highest_layer( sub_bodypart_id sbp ) const;
+        layer_level get_highest_layer( const sub_bodypart_id &sbp ) const;
 
         enum class cover_type {
             COVER_DEFAULT,
@@ -2430,7 +2426,6 @@ class item : public visitable
         /** Switch to the next available firing mode */
         void gun_cycle_mode();
 
-
         /** Get lowest actual and effective dispersion of either integral or any attached sights for specific character */
         std::pair<int, int> sight_dispersion( const Character &character ) const;
 
@@ -2797,10 +2792,11 @@ class item : public visitable
          * @param insulation Amount of insulation item has
          * @param time_delta time duration from previous temperature calculation
          */
-        void calc_temp( units::temperature temp, float insulation, const time_duration &time_delta );
+        void calc_temp( const units::temperature &temp, float insulation, const time_duration &time_delta );
 
         /** Calculates item specific energy (J/g) from temperature*/
-        units::specific_energy get_specific_energy_from_temperature( units::temperature new_temperature )
+        units::specific_energy get_specific_energy_from_temperature( const units::temperature
+                &new_temperature )
         const;
 
         /** Update flags associated with temperature */

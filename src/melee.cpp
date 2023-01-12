@@ -1244,7 +1244,6 @@ void Character::roll_bash_damage( bool crit, damage_instance &di, bool average,
         bash_dam += average ? ( mindrunk + maxdrunk ) * 0.5f : rng( mindrunk, maxdrunk );
     }
 
-
     if( unarmed ) {
         bool bp_unrestricted;
 
@@ -1324,7 +1323,6 @@ void Character::roll_bash_damage( bool crit, damage_instance &di, bool average,
     if( is_melee_bash_damage_cap_bonus() ) {
         bash_cap += melee_bonus;
     }
-
 
     if( has_trait( trait_KI_STRIKE ) && unarmed ) {
         /** @EFFECT_UNARMED increases bashing damage with unarmed weapons when paired with the Ki Strike trait */

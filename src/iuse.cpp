@@ -1593,7 +1593,6 @@ cata::optional<int> iuse::petfood( Character *p, item *it, bool, const tripoint 
             return cata::nullopt;
         }
 
-
         bool can_feed = false;
         const pet_food_data &petfood = mon->type->petfood;
         const std::set<std::string> &itemfood = it->get_comestible()->petfood;

@@ -138,7 +138,6 @@ static void check_trait_cardio_stamina_run( Character &they, std::string trait_n
     }
 }
 
-
 // Baseline character with default attributes and no traits
 TEST_CASE( "base cardio", "[cardio][base]" )
 {

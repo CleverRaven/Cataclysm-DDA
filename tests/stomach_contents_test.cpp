@@ -157,7 +157,6 @@ TEST_CASE( "vitamin_process", "[vitamins]" )
     REQUIRE( subject.vitamin_get( vitamin_test_vit_fast ) == 0 );
     REQUIRE( subject.vitamin_get( vitamin_test_vit_slow ) == 0 );
 
-
     pass_time( subject, 1_days );
 
     // check
@@ -175,8 +174,6 @@ TEST_CASE( "vitamin_process", "[vitamins]" )
     // fast vitamin drains every 5 minutes or 288 units in a day
     CHECK( subject.vitamin_get( vitamin_test_vit_fast ) <= -287 );
     CHECK( subject.vitamin_get( vitamin_test_vit_fast ) >= -289 );
-
-
 
 }
 
@@ -197,7 +194,6 @@ TEST_CASE( "vitamin_equilibrium", "[vitamins]" )
     // check that 100% of daily vit C is by default 96 units
     CHECK( subject.compute_effective_nutrients( f ).get_vitamin( vitamin_vitC ) == 96 );
     subject.consume( f );
-
 
     pass_time( subject, 1_days );
 
