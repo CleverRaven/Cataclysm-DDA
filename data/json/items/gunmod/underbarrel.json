@@ -432,7 +432,6 @@
   },
   {
     "id": "m203_mod",
-    "copy-from": "underbarrel_base",
     "copy-from": "m203",
     "type": "GUNMOD",
     "name": { "str": "modified M203" },
@@ -470,7 +469,6 @@
   },
   {
     "id": "m320_mod_mod",
-    "copy-from": "underbarrel_base",
     "copy-from": "m320_mod",
     "type": "GUNMOD",
     "name": { "str": "modified M320 GLM" },
@@ -535,7 +533,6 @@
   },
   {
     "id": "masterkey_mod",
-    "copy-from": "underbarrel_base",
     "copy-from": "masterkey",
     "type": "GUNMOD",
     "name": { "str": "modified masterkey shotgun" },
@@ -565,7 +562,6 @@
   },
   {
     "id": "m26_mass_mod",
-    "copy-from": "underbarrel_base",
     "copy-from": "m26_mass",
     "type": "GUNMOD",
     "name": { "str": "modified M26-MASS", "str_pl": "M26-MASSes" },
