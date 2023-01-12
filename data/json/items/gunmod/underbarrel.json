@@ -252,7 +252,6 @@
     "color": "light_red",
     "location": "underbarrel",
     "mod_targets": [ "shotgun" ],
-	"respect_muzzle_mods": "true",
     "gun_data": {
       "ammo": "shot",
       "skill": "shotgun",
@@ -281,7 +280,6 @@
     "color": "light_red",
     "location": "underbarrel",
     "mod_targets": [ "shotgun" ],
-	"respect_muzzle_mods": "true",
     "gun_data": {
       "ammo": "shot",
       "skill": "shotgun",
@@ -311,7 +309,6 @@
     "color": "light_red",
     "location": "underbarrel",
     "mod_targets": [ "shotgun" ],
-	"respect_muzzle_mods": "true",
     "gun_data": {
       "ammo": "shot",
       "skill": "shotgun",
@@ -342,7 +339,6 @@
     "color": "light_red",
     "location": "underbarrel",
     "mod_targets": [ "shotgun" ],
-	"respect_muzzle_mods": "true",
     "gun_data": {
       "ammo": "shot",
       "skill": "shotgun",
