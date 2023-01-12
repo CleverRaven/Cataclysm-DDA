@@ -208,7 +208,7 @@ namespace character_weight_category
 {
 constexpr float emaciated = 1.0f;
 constexpr float underweight = 2.0f;
-constexpr float normal = 3.5f;
+constexpr float normal = 3.0f;
 constexpr float overweight = 5.0f;
 constexpr float obese = 10.0f;
 constexpr float very_obese = 15.0f;
