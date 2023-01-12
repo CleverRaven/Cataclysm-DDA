@@ -2071,15 +2071,13 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
 
         retract = static_cast<int>( 100.0 * ( 1.0 - clamp( ( distance - d_min ) * d_slope, 0.0f, 1.0f ) ) );
     }
-
-    if( retract > 50 ) {
+    
+    if( retract > 0 ) {
         res = find_tile_looks_like( id + "_transparent", category, variant );
         if( res ) {
             tt = &res -> tile();
         }
     }
-
-    retract = 0;
 
     // check if there is an available intensity tile and if there is use that instead of the basic tile
     // this is only relevant for fields
