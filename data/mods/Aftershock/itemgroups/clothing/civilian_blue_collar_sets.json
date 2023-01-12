@@ -1,0 +1,149 @@
+[
+  {
+    "type": "item_group",
+    "//": "Clothes for the future blue collar worker.  Just steal costumes from Alien.",
+    "id": "afs_colonist_outfit",
+    "subtype": "collection",
+    "entries": [
+      { "group": "afs_colonist_hazard_accessories", "prob": 10 },
+      { "group": "afs_colonist_outfit_underwear" },
+      { "group": "afs_hard_hat", "prob": 15 },
+      { "group": "afs_colonist_scarf", "prob": 50 },
+      { "group": "afs_colonist_gloves", "prob": 70 },
+      { "group": "afs_colonist_coats", "prob": 60 },
+      { "group": "afs_colonist_shirt" },
+      { "group": "afs_colonist_pants" },
+      { "group": "afs_colonist_shoes" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_colonist_outfit_underwear",
+    "subtype": "distribution",
+    "entries": [
+      { "distribution": [ { "group": "male_underwear", "prob": 10 }, { "item": "union_suit", "prob": 90 } ], "prob": 50 },
+      {
+        "distribution": [ { "group": "female_underwear" }, { "group": "accesories_personal_womens", "prob": 85 } ],
+        "prob": 50
+      }
+    ]
+  },
+  {
+    "id": "afs_colonist_scarf",
+    "type": "item_group",
+    "//": "unisex scarfs and fabric coverings",
+    "subtype": "distribution",
+    "items": [
+      { "item": "bandana", "prob": 20 },
+      { "item": "balclava", "prob": 50 },
+      { "item": "headscarf", "prob": 10 },
+      { "item": "afs_work_tie", "prob": 10 },
+      { "item": "scarf_fur", "prob": 1 },
+      { "item": "scarf", "prob": 80 },
+      { "item": "scarf_long", "prob": 40 },
+      { "item": "long_knit_scarf", "prob": 1 },
+      { "item": "knit_scarf", "prob": 10 },
+      { "item": "keffiyeh", "prob": 10 },
+      { "item": "mask_ski", "prob": 80 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_colonist_gloves",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "gloves_light", "prob": 15 },
+      { "item": "gloves_leather", "prob": 1 },
+      { "item": "gloves_wool", "prob": 1 },
+      { "item": "gloves_winter", "prob": 20 },
+      { "item": "gloves_liner", "prob": 15 },
+      { "item": "mittens", "prob": 2 },
+      { "item": "thermal_gloves", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_colonist_coats",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "trenchcoat", "prob": 5 },
+      { "item": "coat_winter", "prob": 20 },
+      { "item": "jacket_leather", "prob": 5 },
+      { "item": "afs_hi_vis_jacket", "prob": 80 },
+      { "item": "afs_hi_vis_vest", "prob": 50 },
+      { "item": "afs_company_jacket", "prob": 80 },
+      { "item": "afs_supervisor_jacket", "prob": 20 },
+      { "item": "coat_rain", "prob": 10 },
+      { "item": "afs_herc_rig", "prob": 10 },
+      { "item": "folding_poncho", "prob": 30 },
+      { "item": "vest", "prob": 30 },
+      { "item": "nanomesh_vest", "prob": 10 },
+      { "item": "jacket_windbreaker", "prob": 50 },
+      { "item": "ski_jacket", "prob": 15 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_colonist_shirt",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "longshirt", "prob": 70 },
+      { "item": "sweatshirt", "prob": 50 },
+      { "item": "tank_top", "prob": 80 },
+      { "item": "tshirt", "prob": 80 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_colonist_pants",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "technician_pants_gray", "prob": 90 },
+      { "item": "pants_cargo", "prob": 70 },
+      { "item": "pants_ski", "prob": 25 },
+      { "item": "jumpsuit", "prob": 45 }
+    ]
+  },
+  {
+    "id": "afs_colonist_shoes",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "item": "boots", "prob": 80 },
+      { "item": "boots_hiking", "prob": 50 },
+      { "item": "boots_steel", "prob": 50 },
+      { "item": "sneakers_steel", "prob": 35 },
+      { "item": "boots_combat", "prob": 45 },
+      { "item": "boots_winter", "prob": 30 },
+      { "item": "knee_high_boots", "prob": 3 },
+      { "item": "motorbike_boots", "prob": 3 }
+    ]
+  },
+  {
+    "id": "afs_colonist_hazard_accessories",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      { "item": "afs_wrist_computer" },
+      { "item": "mask_gas", "charges": [ 50, 100 ], "prob": 20 },
+      { "item": "rad_monitor", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_colonist_bags",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "backpack", "prob": 38 },
+      { "item": "backpack_hiking", "prob": 3 },
+      { "item": "petpack", "prob": 1 },
+      { "item": "backpack_tactical_large", "prob": 1 },
+      { "item": "travelpack", "prob": 5 },
+      { "item": "purse", "prob": 40 },
+      { "item": "mbag", "prob": 20 },
+      { "item": "slingpack", "prob": 8 },
+      { "item": "rucksack", "prob": 20 },
+      { "item": "leg_bag", "prob": 1 }
+    ]
+  }
+]

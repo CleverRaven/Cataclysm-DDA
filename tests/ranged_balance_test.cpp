@@ -1042,7 +1042,6 @@ TEST_CASE( "targeting_graph_complex_target", "[targeting_graph][random]" )
         CHECK( hits[5] == Approx( 3.0f /  8.0f ).margin( fudge_factor ) );
     }
 
-
     SECTION( "Non-equally weighted nodes" ) {
         std::vector<node> nodes = {
             {0, 12},
@@ -1221,7 +1220,6 @@ TEST_CASE( "Default_anatomy_body_part_hit_chances", "[targeting_graph][anatomy][
      * head :  0.71%
      * torso: 72.22%
      */
-
 
     CHECK( hits.at( body_part_eyes ) == Approx( 1.0f / 2268.0f ).margin( fudge_factor / 10 ) );
     CHECK( hits.at( body_part_head ) == Approx( 4.0f / 567.0f ).margin( fudge_factor / 10 ) );

@@ -494,7 +494,7 @@ static void spell_description(
 
     const int spl_level = std::get<1>( spl_data );
     spell spl( std::get<0>( spl_data ).id );
-    spl.set_level( spl_level );
+    spl.set_level( npc(), spl_level );
 
     nc_color gray = c_light_gray;
     nc_color yellow = c_yellow;
@@ -505,7 +505,6 @@ static void spell_description(
 
     // Name: spell name
     description << string_format( _( "Name: %1$s" ), colorize( spl.name(), c_white ) ) << '\n';
-
 
     // Class: Spell Class
     description << string_format( _( "Class: %1$s" ), colorize( spl.spell_class() == trait_NONE ?
@@ -531,7 +530,6 @@ static void spell_description(
                     //~ %1$d - difficulty, %2$s - failure chance
                     _( "Difficulty: %1$d (%2$s)" ),
                     spl.get_difficulty(), spl.colorized_fail_percent( chrc ) ) << '\n';
-
 
     const std::string impeded = _( "(impeded)" );
 
@@ -652,7 +650,6 @@ static void spell_description(
     // Range / AOE in two columns
     description << string_format( _( "Range: %1$s" ),
                                   spl.range() <= 0 ? _( "self" ) : std::to_string( spl.range() ) ) << '\n';
-
 
     description << aoe_string << '\n';
 
@@ -2800,7 +2797,7 @@ void debug()
             bodypart_id part;
             int dbg_damage;
             if( smenu.ret >= 0 && static_cast<std::size_t>( smenu.ret ) <= parts.size() ) {
-                part = parts.at( smenu.ret );
+                part = parts[smenu.ret];
             }
             if( query_int( dbg_damage, _( "Damage self for how much?  hp: %s" ), part.id().c_str() ) ) {
                 player_character.apply_damage( nullptr, part, dbg_damage );

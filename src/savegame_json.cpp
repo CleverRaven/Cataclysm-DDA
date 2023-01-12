@@ -227,7 +227,6 @@ void item_contents::serialize( JsonOut &json ) const
         json.member( "contents", contents );
         json.member( "additional_pockets", additional_pockets );
 
-
         json.end_object();
     }
 }
@@ -725,17 +724,6 @@ void Character::load( const JsonObject &data )
     data.read( "stashed_outbounds_activity", stashed_outbounds_activity );
     data.read( "stashed_outbounds_backlog", stashed_outbounds_backlog );
 
-    if( data.has_array( "backlog" ) ) {
-        data.read( "backlog", backlog );
-    }
-    if( !backlog.empty() && !backlog.front().str_values.empty() && ( ( activity &&
-            activity.id() == ACT_FETCH_REQUIRED ) || ( destination_activity &&
-                    destination_activity.id() == ACT_FETCH_REQUIRED ) ) ) {
-        requirement_data fetch_reqs;
-        data.read( "fetch_data", fetch_reqs );
-        const requirement_id req_id( backlog.front().str_values.back() );
-        requirement_data::save_requirement( fetch_reqs, req_id );
-    }
     // npc activity on vehicles.
     data.read( "activity_vehicle_part_index", activity_vehicle_part_index );
     // health
@@ -1104,6 +1092,18 @@ void Character::load( const JsonObject &data )
     }
 
     data.read( "activity", activity );
+    if( data.has_array( "backlog" ) ) {
+        data.read( "backlog", backlog );
+    }
+    if( !backlog.empty() && !backlog.front().str_values.empty() && ( ( activity &&
+            activity.id() == ACT_FETCH_REQUIRED ) || ( destination_activity &&
+                    destination_activity.id() == ACT_FETCH_REQUIRED ) ) ) {
+        requirement_data fetch_reqs;
+        data.read( "fetch_data", fetch_reqs );
+        const requirement_id req_id( backlog.front().str_values.back() );
+        requirement_data::save_requirement( fetch_reqs, req_id );
+    }
+
     data.read( "addictions", addictions );
 
     for( bionic &bio : *my_bionics ) {
@@ -1432,7 +1432,6 @@ void Character::store( JsonOut &json ) const
         json.end_object();
     }
     json.end_array();
-
 
     // energy
     json.member( "last_sleep_check", last_sleep_check );
@@ -3009,7 +3008,6 @@ void item::io( Archive &archive )
         temperature /= 100000;
         specific_energy /= 100000;
     }
-
 
     // erase all invalid flags (not defined in flags.json)
     // warning was generated earlier on load

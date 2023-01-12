@@ -83,7 +83,6 @@ struct ma_requirements {
     std::set<mabuff_id> forbid_buffs_all; // all listed buffs prevent triggering this bonus
     std::set<mabuff_id> forbid_buffs_any; // any listed buffs prevent triggering this bonus
 
-
     std::set<flag_id> req_flags; // any item flags required for this technique
     cata::flat_set<json_character_flag> req_char_flags; // any listed character flags required
     cata::flat_set<json_character_flag> req_char_flags_all; // all listed character flags required
@@ -159,7 +158,6 @@ class ma_technique
         // What way is the technique delivered to the target?
         std::vector<std::string> attack_vectors; // by priority
         std::vector<std::string> attack_vectors_random; // randomly
-
 
         int repeat_min = 1;    // Number of times the technique is repeated on a successful proc
         int repeat_max = 1;

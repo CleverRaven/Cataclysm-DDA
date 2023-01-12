@@ -69,7 +69,9 @@ struct maptile_revert {
     cata::mdarray<ter_id, point_sm_ms>             ter; // Terrain on each square
     cata::mdarray<furn_id, point_sm_ms>            frn; // Furniture on each square
     cata::mdarray<trap_id, point_sm_ms>            trp; // Trap on each square
+    cata::mdarray<cata::colony<item>, point_sm_ms> itm; // Items on each square
 };
+
 class submap_revert : maptile_revert
 {
 
@@ -96,6 +98,14 @@ class submap_revert : maptile_revert
 
         void set_trap( const point &p, trap_id trap ) {
             trp[p.x][p.y] = trap;
+        }
+
+        cata::colony<item> get_items( const point &p ) const {
+            return itm[p.x][p.y];
+        }
+
+        void set_items( const point &p, cata::colony<item> revert_item ) {
+            itm[p.x][p.y] = std::move( revert_item );
         }
 };
 

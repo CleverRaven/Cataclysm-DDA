@@ -1555,7 +1555,6 @@ bool Character::consume_effects( item &food )
     return true;
 }
 
-
 bool Character::can_estimate_rot() const
 {
     return get_skill_level( skill_cooking ) >= 3 || get_skill_level( skill_survival ) >= 4;
