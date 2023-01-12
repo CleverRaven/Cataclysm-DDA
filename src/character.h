@@ -3322,9 +3322,8 @@ class Character : public Creature, public visitable
 
         /** Look for items in the player's inventory that have the specified quality; return the one with highest level
          * @param qual_id The quality to search
-         * @param tool_not_container If true, then recurse into the container to find the base tool
         */
-        item &best_item_with_quality( const quality_id &qid, bool tool_not_container = false );
+        item &best_item_with_quality( const quality_id &qid );
 
         // inherited from visitable
         bool has_quality( const quality_id &qual, int level = 1, int qty = 1 ) const override;

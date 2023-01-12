@@ -9074,7 +9074,7 @@ bool Character::crush_frozen_liquid( item_location loc )
     if( can_crush.success() ) {
         done_crush = true;
         if( can_crush.value() == CRUSH_HAMMER ) {
-            item &hammering_item = best_item_with_quality( qual_HAMMER, true );
+            item &hammering_item = best_item_with_quality( qual_HAMMER );
             //~ %1$s: item to be crushed, %2$s: hammer name
             if( query_yn( _( "Do you want to crush up %1$s with your %2$s?\n"
                              "<color_red>Be wary of fragile items nearby!</color>" ),
@@ -9149,29 +9149,11 @@ float Character::speed_rating() const
     return ret;
 }
 
-static item *get_matching_qual_recursive( const std::list<item *> &ilist, const quality_id &qid,
-        int lvl )
-{
-    for( item *it : ilist ) {
-        if( it->get_quality( qid ) != lvl ) {
-            continue;
-        } else if( it->empty_container() ) {
-            return it;
-        } else {
-            item *tmp = get_matching_qual_recursive( it->all_items_top(), qid, lvl );
-            if( tmp == nullptr ) {
-                return it;
-            }
-        }
-    }
-    return nullptr;
-}
-
-item &Character::best_item_with_quality( const quality_id &qid, bool tool_not_container )
+item &Character::best_item_with_quality( const quality_id &qid )
 {
     int max_lvl_found = INT_MIN;
     std::vector<item *> items = items_with( [qid, &max_lvl_found]( const item & it ) {
-        int qlvl = it.get_quality( qid );
+        int qlvl = it.get_quality_nonrecursive( qid );
         if( qlvl > max_lvl_found ) {
             max_lvl_found = qlvl;
             return true;
@@ -9179,14 +9161,7 @@ item &Character::best_item_with_quality( const quality_id &qid, bool tool_not_co
         return false;
     } );
     if( max_lvl_found > INT_MIN ) {
-        item *res = items.back();
-        if( tool_not_container && !res->empty_container() ) {
-            item *tmp = get_matching_qual_recursive( res->all_items_top(), qid, max_lvl_found );
-            if( tmp != nullptr ) {
-                return *tmp;
-            }
-        }
-        return *res;
+        return *items.back();
     }
     return null_item_reference();
 }
