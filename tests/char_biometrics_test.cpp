@@ -236,18 +236,20 @@ TEST_CASE( "body mass index determines maximum healthiness", "[biometrics][bmi][
     avatar dummy;
 
     // Skeletal (0-1/5)
-    CHECK( max_healthy_at_bmi( dummy, 0.1f ) == -90 );
-    CHECK( max_healthy_at_bmi( dummy, 0.4f ) == -60 );
-    CHECK( max_healthy_at_bmi( dummy, 0.8f ) == -20 );
-    CHECK( max_healthy_at_bmi( dummy, 1.0f ) == -50 );
+    CHECK( max_healthy_at_bmi( dummy, 0.1f ) == -200 );
+    CHECK( max_healthy_at_bmi( dummy, 0.4f ) == -200 );
+    CHECK( max_healthy_at_bmi( dummy, 0.8f ) == -200 );
+    CHECK( max_healthy_at_bmi( dummy, 1.0f ) == -200 );
     // Emaciated (1.01-2/5)
-    CHECK( max_healthy_at_bmi( dummy, 1.3f ) == 0 );
-    CHECK( max_healthy_at_bmi( dummy, 1.6f ) == 10 );
-    CHECK( max_healthy_at_bmi( dummy, 1.9f ) == 40 );
+    CHECK( max_healthy_at_bmi( dummy, 1.3f ) == -140 );
+    CHECK( max_healthy_at_bmi( dummy, 1.6f ) == -80 );
+    CHECK( max_healthy_at_bmi( dummy, 1.9f ) == -20 );
     // Underweight (2.1-3.5/5)
-    CHECK( max_healthy_at_bmi( dummy, 2.1f ) == 60 );
+    CHECK( max_healthy_at_bmi( dummy, 2.1f ) == 20 );
+    CHECK( max_healthy_at_bmi( dummy, 2.3f ) == 60 );
     CHECK( max_healthy_at_bmi( dummy, 2.5f ) == 100 );
-    CHECK( max_healthy_at_bmi( dummy, 3.0f ) == 150 );
+    CHECK( max_healthy_at_bmi( dummy, 2.8f ) == 160 );
+    CHECK( max_healthy_at_bmi( dummy, 3.0f ) == 200 );
     CHECK( max_healthy_at_bmi( dummy, 3.5f ) == 200 );
     // Normal (3.6-5/5)
     CHECK( max_healthy_at_bmi( dummy, 3.6f ) == 200 );
