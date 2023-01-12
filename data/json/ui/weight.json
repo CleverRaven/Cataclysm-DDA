@@ -32,7 +32,7 @@
         "condition": {
           "and": [
             { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 2000 } ] },
-            { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 3500 } ] }
+            { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 3000 } ] }
           ]
         }
       },
@@ -43,7 +43,7 @@
         "//": "3.5-5 points of BMI from fat (14-20% of body weight is fat)",
         "condition": {
           "and": [
-            { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 3500 } ] },
+            { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 3000 } ] },
             { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 5000 } ] }
           ]
         }
