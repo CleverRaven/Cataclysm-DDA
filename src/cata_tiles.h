@@ -143,8 +143,8 @@ class tileset
         int tile_width = 0;
         int tile_height = 0;
 
-        float retract_dist_min = 0.0;
-        float retract_dist_max = 0.0;
+        float prevent_occlusion_min_dist = 0.0;
+        float prevent_occlusion_max_dist = 0.0;
 
         // multiplier for pixel-doubling tilesets
         float tile_pixelscale = 1.0f;
@@ -189,11 +189,11 @@ class tileset
         float get_tile_pixelscale() const {
             return tile_pixelscale;
         }
-        float get_retract_dist_min() const {
-            return retract_dist_min;
+        float get_prevent_occlusion_min_dist() const {
+            return prevent_occlusion_min_dist;
         }
-        float get_retract_dist_max() const {
-            return retract_dist_max;
+        float get_prevent_occlusion_max_dist() const {
+            return prevent_occlusion_max_dist;
         }
         const std::string &get_tileset_id() const {
             return tileset_id;

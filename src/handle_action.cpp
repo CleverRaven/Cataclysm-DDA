@@ -2764,8 +2764,8 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             handle_debug_mode();
             break;
 
-        case ACTION_DISPLAY_ISO_WALLS:
-            get_options().get_option( "RETRACT_ISO_WALLS" ).setNext();
+        case ACTION_TOGGLE_PREVENT_OCCLUSION:
+            get_options().get_option( "PREVENT_OCCLUSION" ).setNext();
             get_options().save();
             break;
 
