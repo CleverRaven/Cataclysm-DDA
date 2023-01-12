@@ -160,28 +160,28 @@ TEST_CASE( "body mass index determines weight description", "[biometrics][bmi][w
 
     CHECK( weight_string_at_bmi( dummy, 0.1f ) == "Skeletal" );
     CHECK( weight_string_at_bmi( dummy, 0.9f ) == "Skeletal" );
-    // for 8 str character true bmi is 13-15
+    // for 8 str character true bmi is 13-14
     CHECK( weight_string_at_bmi( dummy, 1.1f ) == "Emaciated" );
     CHECK( weight_string_at_bmi( dummy, 1.9f ) == "Emaciated" );
-    // for 8 str character true bmi is 15-17
+    // for 8 str character true bmi is 15-16
     CHECK( weight_string_at_bmi( dummy, 2.1f ) == "Underweight" );
-    CHECK( weight_string_at_bmi( dummy, 3.4f ) == "Underweight" );
-    // for 8 str character true bmi is 17-19
-    CHECK( weight_string_at_bmi( dummy, 3.6f ) == "Normal" );
+    CHECK( weight_string_at_bmi( dummy, 2.9f ) == "Underweight" );
+    // for 8 str character true bmi is 17-21
+    CHECK( weight_string_at_bmi( dummy, 3.1f ) == "Normal" );
     CHECK( weight_string_at_bmi( dummy, 4.9f ) == "Normal" );
-    // for 8 str character true bmi is 19-23
+    // for 8 str character true bmi is 22-25
     CHECK( weight_string_at_bmi( dummy, 5.1f ) == "Overweight" );
     CHECK( weight_string_at_bmi( dummy, 9.9f ) == "Overweight" );
-    // for 8 str character true bmi is 24-28
+    // for 8 str character true bmi is 26-30
     CHECK( weight_string_at_bmi( dummy, 10.1f ) == "Obese" );
     CHECK( weight_string_at_bmi( dummy, 14.9f ) == "Obese" );
-    // for 8 str character true bmi is 29-33
+    // for 8 str character true bmi is 31-35
     CHECK( weight_string_at_bmi( dummy, 15.1f ) == "Very Obese" );
     CHECK( weight_string_at_bmi( dummy, 19.9f ) == "Very Obese" );
-    // for 8 str character true bmi is 34-38
+    // for 8 str character true bmi is 36-40
     CHECK( weight_string_at_bmi( dummy, 20.1f ) == "Morbidly Obese" );
     CHECK( weight_string_at_bmi( dummy, 21.0f ) == "Morbidly Obese" );
-    // for 8 str character true bmi is 39+
+    // for 8 str character true bmi is 41+
 }
 
 //for an 8 strength character. strength scales linearly to 0 str below fat bmi of 2.0
@@ -196,32 +196,32 @@ TEST_CASE( "stored kcal ratio influences body mass index", "[biometrics][kcal][b
     CHECK( true_bmi_at_kcal_ratio( dummy, 0.15f ) == Approx( 14.75f ).margin( 0.01f ) );
     // Emaciated (fat BMI 1.01-2)
     CHECK( true_bmi_at_kcal_ratio( dummy, 0.2f ) == Approx( 16.0f ).margin( 0.01f ) );
-    CHECK( true_bmi_at_kcal_ratio( dummy, 0.25f ) == Approx( 16.25f ).margin( 0.01f ) );
+    CHECK( true_bmi_at_kcal_ratio( dummy, 0.25f ) == Approx( 17.25f ).margin( 0.01f ) );
     CHECK( true_bmi_at_kcal_ratio( dummy, 0.3f ) == Approx( 17.5f ).margin( 0.01f ) );
-    CHECK( true_bmi_at_kcal_ratio( dummy, 0.35f ) == Approx( 17.75f ).margin( 0.01f ) );
-    // Underweight (fat BMI 2.01-3.5)
-    CHECK( true_bmi_at_kcal_ratio( dummy, 0.4f ) == Approx( 19.0f ).margin( 0.01f ) );
-    CHECK( true_bmi_at_kcal_ratio( dummy, 0.5f ) == Approx( 20.5f ).margin( 0.01f ) );
-    CHECK( true_bmi_at_kcal_ratio( dummy, 0.6f ) == Approx( 22.0f ).margin( 0.01f ) );
-    // Normal (fat bmi 3.6-5)
+    CHECK( true_bmi_at_kcal_ratio( dummy, 0.35f ) == Approx( 18.75f ).margin( 0.01f ) );
+    // Underweight (fat BMI 2.01-3.0)
+    CHECK( true_bmi_at_kcal_ratio( dummy, 0.4f ) == Approx( 20.0f ).margin( 0.01f ) );
+    CHECK( true_bmi_at_kcal_ratio( dummy, 0.5f ) == Approx( 21.5f ).margin( 0.01f ) );
+    CHECK( true_bmi_at_kcal_ratio( dummy, 0.6f ) == Approx( 23.0f ).margin( 0.01f ) );
+    // Normal (fat bmi 3.01-5)
     CHECK( true_bmi_at_kcal_ratio( dummy, 0.7f ) == Approx( 23.5f ).margin( 0.01f ) );
     CHECK( true_bmi_at_kcal_ratio( dummy, 0.8f ) == Approx( 24.0f ).margin( 0.01f ) );
     CHECK( true_bmi_at_kcal_ratio( dummy, 0.9f ) == Approx( 24.5f ).margin( 0.01f ) );
-    // Overweight (fat bmi 5.1-10)
+    // Overweight (fat bmi 5.01-10)
     CHECK( true_bmi_at_kcal_ratio( dummy, 1.0f ) == Approx( 25.0f ).margin( 0.01f ) );
     CHECK( true_bmi_at_kcal_ratio( dummy, 1.25f ) == Approx( 26.25f ).margin( 0.01f ) );
     CHECK( true_bmi_at_kcal_ratio( dummy, 1.5f ) == Approx( 27.5f ).margin( 0.01f ) );
     CHECK( true_bmi_at_kcal_ratio( dummy, 1.75f ) == Approx( 28.75f ).margin( 0.01f ) );
     CHECK( true_bmi_at_kcal_ratio( dummy, 2.0f ) == Approx( 30.0f ).margin( 0.01f ) );
-    // Obese (fat bmi 10.1-15)
+    // Obese (fat bmi 10.01-15)
     CHECK( true_bmi_at_kcal_ratio( dummy, 2.25f ) == Approx( 31.25f ).margin( 0.01f ) );
     CHECK( true_bmi_at_kcal_ratio( dummy, 2.5f ) == Approx( 32.5f ).margin( 0.01f ) );
     CHECK( true_bmi_at_kcal_ratio( dummy, 2.75f ) == Approx( 33.75f ).margin( 0.01f ) );
     CHECK( true_bmi_at_kcal_ratio( dummy, 3.0f ) == Approx( 35.0f ).margin( 0.01f ) );
-    // Very obese (fat bmi 15.1-20)
+    // Very obese (fat bmi 15.01-20)
     CHECK( true_bmi_at_kcal_ratio( dummy, 3.5f ) == Approx( 37.5f ).margin( 0.01f ) );
     CHECK( true_bmi_at_kcal_ratio( dummy, 4.0f ) == Approx( 40.0f ).margin( 0.01f ) );
-    // Morbidly obese (fat bmi 20.1+)
+    // Morbidly obese (fat bmi 20.01+)
     CHECK( true_bmi_at_kcal_ratio( dummy, 4.5f ) == Approx( 42.5f ).margin( 0.01f ) );
     CHECK( true_bmi_at_kcal_ratio( dummy, 5.0f ) == Approx( 45.0f ).margin( 0.01f ) );
 }
@@ -236,12 +236,12 @@ TEST_CASE( "body mass index determines maximum healthiness", "[biometrics][bmi][
     avatar dummy;
 
     // Skeletal (0-1/5)
-    CHECK( max_healthy_at_bmi( dummy, 0.1f ) == -140 );
-    CHECK( max_healthy_at_bmi( dummy, 0.4f ) == -110 );
-    CHECK( max_healthy_at_bmi( dummy, 0.8f ) == -70 );
+    CHECK( max_healthy_at_bmi( dummy, 0.1f ) == -90 );
+    CHECK( max_healthy_at_bmi( dummy, 0.4f ) == -60 );
+    CHECK( max_healthy_at_bmi( dummy, 0.8f ) == -20 );
     CHECK( max_healthy_at_bmi( dummy, 1.0f ) == -50 );
     // Emaciated (1.01-2/5)
-    CHECK( max_healthy_at_bmi( dummy, 1.3f ) == -20 );
+    CHECK( max_healthy_at_bmi( dummy, 1.3f ) == 0 );
     CHECK( max_healthy_at_bmi( dummy, 1.6f ) == 10 );
     CHECK( max_healthy_at_bmi( dummy, 1.9f ) == 40 );
     // Underweight (2.1-3.5/5)
@@ -614,13 +614,13 @@ TEST_CASE( "body mass effect on speed", "[bmi][speed]" )
     CHECK( kcal_speed_penalty_at_bmi( dummy, 1.6f ) == -35 );
     CHECK( kcal_speed_penalty_at_bmi( dummy, 1.8f ) == -30 );
     CHECK( kcal_speed_penalty_at_bmi( dummy, 2.0f ) == -25 );
-    // Underweight (2-3.5)
-    CHECK( kcal_speed_penalty_at_bmi( dummy, 2.2f ) == -22 );
-    CHECK( kcal_speed_penalty_at_bmi( dummy, 2.5f ) == -17 );
-    CHECK( kcal_speed_penalty_at_bmi( dummy, 2.8f ) == -12 );
-    CHECK( kcal_speed_penalty_at_bmi( dummy, 3.1f ) == -7 );
-    CHECK( kcal_speed_penalty_at_bmi( dummy, 3.4f ) == -2 );
-    // Normal (3.5-5)
+    // Underweight (2-3.0)
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 2.2f ) == -20 );
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 2.5f ) == -13 );
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 2.8f ) == -5 );
+    // Normal (3.0-5)
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 3.1f ) == 0 );
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 3.4f ) == 0 );
     CHECK( kcal_speed_penalty_at_bmi( dummy, 3.5f ) == 0 );
     CHECK( kcal_speed_penalty_at_bmi( dummy, 3.7f ) == 0 );
     CHECK( kcal_speed_penalty_at_bmi( dummy, 3.9f ) == 0 );
