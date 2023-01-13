@@ -26,6 +26,8 @@
       "structured_mood_speed_weight_graph_layout",
       "structured_mana_layout",
       "separator",
+      "structured_wielding_layout",
+      "structured_style_wielding_layout",
       "structured_ma_buffs_style_layout",
       "structured_overmap_compass_9x9_layout",
       "structured_overmap_compass_7x7_layout",

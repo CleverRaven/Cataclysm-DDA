@@ -1,16 +1,40 @@
 [
   {
+    "id": "structured_style_wielding_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Style/Wielded",
+    "description": "Shows current <color_yellow>martial arts style</color> and <color_yellow>wielded weapon</color>.",
+    "arrange": "minimum_columns",
+    "widgets": [ "structured_style_layout", "wielding_desc_no_label" ]
+  },
+  {
     "id": "structured_wielding_layout",
     "type": "widget",
     "style": "layout",
-    "arrange": "columns",
-    "widgets": [ "wielding_simple_desc_no_label", "structured_wielding_mode_ammo_layout" ]
+    "label": "Wielded",
+    "description": "Shows current <color_yellow>wielded weapon</color>.",
+    "arrange": "minimum_columns",
+    "widgets": [ "wielding_simple_desc_no_label", "structured_mode_ammo_layout" ],
+    "flags": [ "W_DISABLED_BY_DEFAULT" ]
   },
   {
-    "id": "structured_wielding_mode_ammo_layout",
+    "id": "structured_mode_ammo_layout",
     "type": "widget",
     "style": "layout",
     "arrange": "columns",
-    "widgets": [ "wielding_mode_desc_no_label", "wielding_ammo_desc_no_label" ]
+    "widgets": [ "structured_wielding_mode", "structured_ammo" ]
+  },
+  {
+    "id": "structured_wielding_mode",
+    "type": "widget",
+    "copy-from": "wielding_mode_desc_no_label",
+    "text_align": "right"
+  },
+  {
+    "id": "structured_ammo",
+    "type": "widget",
+    "copy-from": "wielding_ammo_desc_no_label",
+    "text_align": "right"
   }
 ]
