@@ -110,7 +110,7 @@ static const itype_id itype_welder( "welder" );
 static const quality_id qual_AXE( "AXE" );
 static const quality_id qual_BUTCHER( "BUTCHER" );
 static const quality_id qual_DIG( "DIG" );
-static const quality_id qual_FISHING( "FISHING" );
+static const quality_id qual_FISHING_ROD( "FISHING_ROD" );
 static const quality_id qual_SAW_M( "SAW_M" );
 static const quality_id qual_SAW_W( "SAW_W" );
 static const quality_id qual_WELD( "WELD" );
@@ -1251,7 +1251,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
             return activity_reason_info::fail( do_activity_reason::NO_ZONE );
         }
         std::vector<item *> rod_inv = you.items_with( []( const item & itm ) {
-            return itm.has_quality( qual_FISHING );
+            return itm.has_quality( qual_FISHING_ROD );
         } );
         if( rod_inv.empty() ) {
             return activity_reason_info::fail( do_activity_reason::NEEDS_FISHING );
@@ -2845,7 +2845,7 @@ static requirement_check_result generic_multi_activity_check_requirement(
                 }
 
             } else if( reason == do_activity_reason::NEEDS_FISHING ) {
-                quality_comp_vector.push_back( std::vector<quality_requirement> {quality_requirement( qual_FISHING, 1, 1 )} );
+                quality_comp_vector.push_back( std::vector<quality_requirement> {quality_requirement( qual_FISHING_ROD, 1, 1 )} );
             } else if( reason == do_activity_reason::NEEDS_DISASSEMBLE ) {
                 quality_comp_vector = act_info.req.get_qualities();
                 tool_comp_vector = act_info.req.get_tools();
@@ -3006,11 +3006,11 @@ static bool generic_multi_activity_do(
             you.backlog.push_front( player_activity( act_id ) );
             return false;
         }
-    } else if( reason == do_activity_reason::NEEDS_FISHING && you.has_quality( qual_FISHING, 1 ) ) {
+    } else if( reason == do_activity_reason::NEEDS_FISHING && you.has_quality( qual_FISHING_ROD, 1 ) ) {
         you.backlog.push_front( player_activity( act_id ) );
         // we don't want to keep repeating the fishing activity, just piggybacking on this functions structure to find requirements.
         you.activity = player_activity();
-        item &best_rod = you.best_item_with_quality( qual_FISHING );
+        item &best_rod = you.best_item_with_quality( qual_FISHING_ROD );
         you.assign_activity( ACT_FISH, to_moves<int>( 5_hours ), 0,
                              0, best_rod.tname() );
         you.activity.targets.emplace_back( you, &best_rod );

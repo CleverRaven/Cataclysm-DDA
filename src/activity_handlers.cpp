@@ -198,7 +198,7 @@ static const mongroup_id GROUP_FISH( "GROUP_FISH" );
 
 static const quality_id qual_BUTCHER( "BUTCHER" );
 static const quality_id qual_CUT_FINE( "CUT_FINE" );
-static const quality_id qual_FISHING( "FISHING" );
+static const quality_id qual_FISHING_ROD( "FISHING_ROD" );
 
 static const skill_id skill_computer( "computer" );
 static const skill_id skill_firstaid( "firstaid" );
@@ -2671,7 +2671,7 @@ void activity_handlers::fish_do_turn( player_activity *act, Character *you )
     item &it = *act->targets.front();
     int fish_chance = 1;
     int survival_skill = you->get_skill_level( skill_survival );
-    switch( it.get_quality( qual_FISHING ) ) {
+    switch( it.get_quality( qual_FISHING_ROD ) ) {
         case 1:
             survival_skill += dice( 1, 6 );
             break;
@@ -2681,7 +2681,7 @@ void activity_handlers::fish_do_turn( player_activity *act, Character *you )
             survival_skill *= 2;
             break;
         default:
-            debugmsg( "ERROR: Invalid FISHING tool quality on %s", item::nname( it.typeId() ) );
+            debugmsg( "ERROR: Invalid FISHING_ROD tool quality on %s", item::nname( it.typeId() ) );
             break;
     }
     std::vector<monster *> fishables = g->get_fishable_monsters( act->coord_set );
