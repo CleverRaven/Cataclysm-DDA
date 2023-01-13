@@ -739,7 +739,7 @@
     "type": "GENERIC",
     "category": "tools",
     "name": { "str": "telescoping umbrella (extended)", "str_pl": "telescoping umbrellas (extended)" },
-    "description": "A telescoping umbrella which collapses down for easy storage, useful for keeping dry when wielded.  It is currently extended.",
+    "description": "A telescoping umbrella currently in its extended form, useful for keeping dry when wielded.  May be collapsed down for easy storage.",
     "weight": "411 g",
     "volume": "1500 ml",
     "longest_side": "101 cm",
