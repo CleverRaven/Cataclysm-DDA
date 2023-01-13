@@ -1133,21 +1133,6 @@ float Character::get_dodge() const
         ret /= 2;
     }
 
-    creature_tracker &creatures = get_creature_tracker();
-    if( has_effect( effect_grabbed ) ) {
-        int zed_number = 0;
-        for( const tripoint &dest : get_map().points_in_radius( pos(), 1, 0 ) ) {
-            const monster *const mon = creatures.creature_at<monster>( dest );
-            if( mon && mon->has_effect( effect_grabbing ) ) {
-                zed_number++;
-            }
-        }
-        if( zed_number > 0 ) {
-            ret /= zed_number + 1;
-            add_msg_debug( debugmode::DF_MELEE, "%d grabbing monsters found, modified dodge %.1f", ret );
-        }
-    }
-
     if( worn_with_flag( flag_ROLLER_INLINE ) ||
         worn_with_flag( flag_ROLLER_QUAD ) ||
         worn_with_flag( flag_ROLLER_ONE ) ) {

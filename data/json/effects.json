@@ -463,7 +463,7 @@
     "rating": "bad",
     "resist_traits": [ "PER_SLIME_OK" ],
     "limb_score_mods": [
-      { "limb_score": "vision", "modifier": 0.0, "resist_modifier": 1.0 },
+      { "limb_score": "vision", "modifier": 0.5, "resist_modifier": 1.0 },
       { "limb_score": "night_vis", "modifier": 0.1, "resist_modifier": 1.0 }
     ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
@@ -3066,7 +3066,7 @@
       { "limb_score": "block", "modifier": 0.7, "scaling": -0.1 },
       { "limb_score": "breathing", "modifier": 0.8, "scaling": -0.1 },
       { "limb_score": "reaction", "modifier": 0.9, "scaling": -0.1 },
-      { "limb_score": "balance", "modifier": 0.75, "scaling": -0.05 },
+      { "limb_score": "balance", "modifier": 0.655, "scaling": -0.07 },
       { "limb_score": "swim", "modifier": 0.8, "scaling": -0.2 }
     ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
