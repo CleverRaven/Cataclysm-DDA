@@ -7,7 +7,7 @@
       {
         "id": "rad_0",
         "text": " green ",
-        "sym": " - ",
+        "sym": "-",
         "color": "white_green",
         "condition": {
           "and": [
@@ -19,7 +19,7 @@
       {
         "id": "rad_30",
         "text": " blue ",
-        "sym": " ! ",
+        "sym": "+",
         "color": "h_white",
         "condition": {
           "and": [
@@ -32,7 +32,7 @@
       {
         "id": "rad_60",
         "text": " yellow ",
-        "sym": "!!!",
+        "sym": "!",
         "color": "i_yellow",
         "condition": {
           "and": [
@@ -45,7 +45,7 @@
       {
         "id": "rad_120",
         "text": " orange ",
-        "sym": "‼‼‼",
+        "sym": "‼",
         "color": "yellow_yellow",
         "condition": {
           "and": [
@@ -58,7 +58,7 @@
       {
         "id": "rad_240",
         "text": " red ",
-        "sym": "!X!",
+        "sym": "X",
         "color": "red_red",
         "condition": {
           "and": [
@@ -71,7 +71,7 @@
       {
         "id": "rad_500",
         "text": " black ",
-        "sym": "‼X‼",
+        "sym": "☼",
         "color": "pink",
         "condition": {
           "and": [
@@ -91,7 +91,7 @@
     "copy-from": "rad_badge_template"
   },
   {
-    "id": "rad_badge_compact",
+    "id": "rad_badge_letter",
     "type": "widget",
     "label": "Radiation",
     "style": "symbol",
