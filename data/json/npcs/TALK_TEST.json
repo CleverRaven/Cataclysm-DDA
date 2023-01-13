@@ -1216,7 +1216,7 @@
       {
         "text": "Stored kcal is 55'000.",
         "topic": "TALK_DONE",
-        "condition": { "compare_int": [ { "u_val": "stored_kcal" }, "=", { "const": 55000 } ] }
+        "condition": { "compare_int": [ { "u_val": "stored_kcal" }, "=", { "const": 118169 } ] }
       },
       {
         "text": "Stored kcal is at 100% of healthy.",
