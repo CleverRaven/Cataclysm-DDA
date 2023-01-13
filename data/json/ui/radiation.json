@@ -45,7 +45,7 @@
       {
         "id": "rad_120",
         "text": " orange ",
-        "sym": "!‼!",
+        "sym": "‼‼‼",
         "color": "yellow_yellow",
         "condition": {
           "and": [
@@ -58,7 +58,7 @@
       {
         "id": "rad_240",
         "text": " red ",
-        "sym": "‼‼‼",
+        "sym": "!X!",
         "color": "red_red",
         "condition": {
           "and": [
