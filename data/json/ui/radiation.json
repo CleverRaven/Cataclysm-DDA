@@ -72,7 +72,7 @@
         "id": "rad_500",
         "text": " black ",
         "sym": "☼",
-        "color": "pink",
+        "color": "i_pink",
         "condition": {
           "and": [
             { "compare_int": [ { "u_val": "rad" }, ">", { "const": 240 } ] },
