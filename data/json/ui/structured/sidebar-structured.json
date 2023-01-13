@@ -22,6 +22,8 @@
       "structured_health_sa_layout",
       "structured_all_body_graphs_layout",
       "separator",
+      "structured_mood_speed_weight_text_layout",
+      "structured_mood_speed_weight_graph_layout",
       "structured_all_weariness_text_layout",
       "structured_all_weariness_graph_layout",
       "structured_mana_layout",

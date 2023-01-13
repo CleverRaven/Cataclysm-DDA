@@ -42,5 +42,84 @@
     "type": "widget",
     "copy-from": "move_count_mode_desc",
     "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "structured_mood_speed_weight_text_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Mood/Speed/Weight",
+    "description": "Shows <color_yellow>mood</color> and <color_yellow>move/driving speed</color>, as well as relative <color_yellow>weight carried percentage</color> text.",
+    "arrange": "minimum_columns",
+    "widgets": [
+      "structured_mood",
+      "structured_speed_vehicle_layout_new",
+      "structured_carry_weight_text"
+    ]
+  },
+  {
+    "id": "structured_mood_speed_weight_graph_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Mood/Speed/Weight",
+    "description": "Shows <color_yellow>mood</color> and <color_yellow>move/driving speed</color>, as well as relative <color_yellow>weight carried graph</color>.",
+    "arrange": "minimum_columns",
+    "widgets": [
+      "structured_mood",
+      "structured_speed_vehicle_layout_new",
+      "structured_carry_weight_graph"
+    ],
+    "flags": [ "W_DISABLED_BY_DEFAULT" ]
+  },
+  {
+    "id": "structured_mood",
+    "type": "widget",
+    "width": 9,
+    "copy-from": "mood_desc_no_label"
+  },
+  {
+    "id": "structured_speed_vehicle_layout_new",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "width": 27,
+    "clauses": [
+      { "id": "driving", "widgets": [ "structured_vehicle_caf" ], "condition": "u_driving" },
+      { "id": "not_driving", "widgets": [ "structured_movespeed" ], "condition": { "not": "u_driving" } }
+    ]
+  },
+  {
+    "id": "structured_movespeed",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "width": 27,
+    "widgets": [ "structured_speed", "structured_move_count_mode_layout" ]
+  },
+  {
+    "id": "structured_speed",
+    "type": "widget",
+    "width": 11,
+    "separator": " ",
+    "copy-from": "speed_num"
+  },
+  {
+    "id": "structured_vehicle_caf",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "width": 27,
+    "widgets": [ "structured_cruise", "structured_azimuth", "vehicle_fuel_desc_no_label" ]
+  },
+  {
+    "id": "structured_cruise",
+    "type": "widget",
+    "width": 13,
+    "copy-from": "vehicle_cruise_desc_no_label"
+  },
+  {
+    "id": "structured_azimuth",
+    "type": "widget",
+    "width": 5,
+    "copy-from": "vehicle_azimuth_desc_no_label"
   }
 ]
