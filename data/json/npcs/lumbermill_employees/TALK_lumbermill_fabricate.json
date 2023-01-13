@@ -198,6 +198,6 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_LUMBER_BUY_FALSE_EFFECT",
-    "effect": []
+    "effect": [  ]
   }
 ]
