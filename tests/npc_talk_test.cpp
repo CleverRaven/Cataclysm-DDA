@@ -1145,7 +1145,7 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     player_character.remove_value( "npctalk_var_test_var_time_test_test" );
     calendar::turn = calendar::turn_zero;
 
-    int expected_answers = 6;
+    int expected_answers = 8;
     if( player_character.magic->max_mana( player_character ) == 900 ) {
         expected_answers++;
     }
