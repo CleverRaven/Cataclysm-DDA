@@ -433,4 +433,3 @@ std::string use_function::get_description() const
         return errstring;
     }
 }
-
