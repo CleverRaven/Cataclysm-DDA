@@ -108,15 +108,6 @@
     ]
   },
   {
-    "id": "structured_health_tiny_body_graphs_layout",
-    "type": "widget",
-    "style": "layout",
-    "arrange": "minimum_columns",
-    "width": 20,
-    "padding": 0,
-    "widgets": [ "structured_tiny_body_graph_layout", "structured_health_left_layout" ]
-  },
-  {
     "id": "structured_health_sa_layout",
     "type": "widget",
     "style": "layout",
@@ -228,13 +219,7 @@
     "type": "widget",
     "style": "layout",
     "width": 10,
-    "widgets": [ "structured_env_temp", "body_temp_delta_sym_no_label" ]
-  },
-  {
-    "id": "structured_env_temp",
-    "type": "widget",
-    "copy-from": "env_temp_desc_no_label",
-    "flags": [ "W_DISABLED_WHEN_EMPTY", "W_LABEL_NONE" ]
+    "widgets": [ "env_temp_desc_no_label", "body_temp_delta_sym_no_label" ]
   },
   {
     "id": "structured_stats_label",
