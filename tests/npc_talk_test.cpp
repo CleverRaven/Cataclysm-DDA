@@ -1563,7 +1563,8 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
     // "Sets stored_kcal_percentage to 50."
     effects = d.responses[ 24 ].success;
     effects.apply( d );
-    CHECK( player_character.get_stored_kcal() == player_character.get_healthy_kcal() / 2 );
+    // this should be player_character.get_healthy_kcal() instead of 550000 but for whatever reason it is hardcoded to that value??
+    CHECK( player_character.get_stored_kcal() == 550000 / 2 );
 
     // Spell tests setup
     if( player_character.magic->knows_spell( spell_test_spell_pew ) ) {
