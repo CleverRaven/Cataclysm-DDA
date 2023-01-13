@@ -93,9 +93,13 @@
   {
     "id": "rad_badge_letter",
     "type": "widget",
-    "label": "Radiation",
-    "style": "symbol",
-    "flags": [ "W_DISABLED_WHEN_EMPTY" ],
-    "copy-from": "rad_badge_template"
+    "copy-from": "rad_badge_desc",
+    "style": "symbol"
+  },
+  {
+    "id": "rad_badge_letter_no_label",
+    "type": "widget",
+    "copy-from": "rad_badge_letter",
+    "flags": [ "W_LABEL_NONE" ]
   }
 ]
