@@ -230,7 +230,7 @@
       { "collection": [ { "item": "ballistic_vest_light" }, { "group": "civilian_ballistic_inserts", "prob": 50 } ], "prob": 10 },
       { "collection": [ { "item": "ballistic_vest_light_pouches" }, { "group": "civilian_ballistic_inserts", "prob": 50 } ], "prob": 10 },
       { "collection": [ { "item": "ballistic_vest_light_operator" }, { "group": "civilian_ballistic_inserts", "prob": 50 } ], "prob": 10 },
-      { "collection": [ { "level_3_vest", "variant": "fema_armor_vest" }, { "group": "civilian_ballistic_inserts", "prob": 75 } ], "prob": 5 }
+      { "collection": [ { "item": "level_3_vest", "variant": "fema_armor_vest" }, { "group": "civilian_ballistic_inserts", "prob": 75 } ], "prob": 5 }
     ]
   },
   {
