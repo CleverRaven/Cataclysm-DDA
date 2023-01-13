@@ -221,7 +221,7 @@
     "id": "civilian_body_armor",
     "subtype": "distribution",
     "//": "armor that a civilian might have.",
-    "entries": [ 
+    "entries": [
       { "item": "kevlar", "prob": 20 },
       { "item": "soft_3a_vest", "prob": 15 },
       { "item": "stab_vest", "prob": 15 },
