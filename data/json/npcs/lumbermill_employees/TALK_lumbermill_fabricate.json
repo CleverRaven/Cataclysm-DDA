@@ -166,7 +166,6 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_BUY_LOGS_TRUE_EFFECT",
-    "global": false,
     "effect": [
       { "npc_add_effect": "lumbermill_waiting_for_log", "duration": "2 h" },
       { "npc_add_effect": "currently_busy", "duration": "2 h" }
@@ -175,7 +174,6 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_BUY_PANEL_TRUE_EFFECT",
-    "global": false,
     "effect": [
       { "npc_add_effect": "lumbermill_waiting_for_wood_panel", "duration": "3 h" },
       { "npc_add_effect": "currently_busy", "duration": "3 h" }
@@ -184,7 +182,6 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_BUY_LARGE_PANEL_TRUE_EFFECT",
-    "global": false,
     "effect": [
       { "npc_add_effect": "lumbermill_waiting_for_wood_sheet", "duration": "3 h" },
       { "npc_add_effect": "currently_busy", "duration": "3 h" }
@@ -193,7 +190,6 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_BUY_BEAM_TRUE_EFFECT",
-    "global": false,
     "effect": [
       { "npc_add_effect": "lumbermill_waiting_for_wood_beam", "duration": "4 h" },
       { "npc_add_effect": "currently_busy", "duration": "4 h" }
@@ -201,7 +197,6 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_LUMBER_BUY_FALSE_EFFECT",
-    "global": false
+    "id": "EOC_LUMBER_BUY_FALSE_EFFECT"
   }
 ]
