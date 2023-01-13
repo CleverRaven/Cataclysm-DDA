@@ -164,7 +164,7 @@
       "thirst_desc_no_label",
       "fatigue_desc_no_label",
       "body_temp_desc_no_label",
-      "structured_temp_extras_layout",
+      "structured_temp_radiation_layout",
       "focus_num"
     ]
   },
@@ -196,7 +196,7 @@
       "thirst_desc_no_label",
       "fatigue_desc_no_label",
       "body_temp_desc_no_label",
-      "structured_temp_extras_layout",
+      "structured_temp_radiation_layout",
       "focus_num"
     ]
   },
@@ -217,17 +217,24 @@
     ]
   },
   {
-    "id": "structured_temp_extras_layout",
+    "id": "structured_temp_radiation_layout",
     "type": "widget",
     "style": "layout",
-    "arrange": "columns",
-    "widgets": [ "body_temp_delta_sym_no_label", "structured_env_temp" ]
+    "arrange": "minimum_columns",
+    "widgets": [ "structured_temp_layout", "rad_badge_letter_no_label" ]
+  },
+  {
+    "id": "structured_temp_layout",
+    "type": "widget",
+    "style": "layout",
+    "width": 10,
+    "widgets": [ "structured_env_temp", "body_temp_delta_sym_no_label" ]
   },
   {
     "id": "structured_env_temp",
     "type": "widget",
-    "text_align": "right",
-    "copy-from": "env_temp_desc_no_label"
+    "copy-from": "env_temp_desc_no_label",
+    "flags": [ "W_DISABLED_WHEN_EMPTY", "W_LABEL_NONE" ]
   },
   {
     "id": "structured_stats_label",
