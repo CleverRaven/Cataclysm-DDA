@@ -110,12 +110,9 @@
   {
     "id": "structured_health_sa_layout",
     "type": "widget",
-    "style": "layout",
+    "copy-from": "structured_health_encumb_layout",
     "label": "Health (self-aware)",
     "description": "All sorts of <color_yellow>health stats (self-aware</color>, i.e. as numbers), and a bodygraph for <color_yellow>hitpoints</color>.\n\nSee the other Health widgets for alternatives.",
-    "arrange": "columns",
-    "separator": " ",
-    "height": 7,
     "widgets": [
       "structured_body_graph_layout",
       "structured_health_left_sa_layout",
@@ -162,9 +159,7 @@
   {
     "id": "structured_health_left_sa_layout",
     "type": "widget",
-    "style": "layout",
-    "arrange": "rows",
-    "width": 10,
+    "copy-from": "structured_health_left_layout",
     "widgets": [
       "status_hpn_layout_head",
       "status_hpn_layout_torso",
@@ -178,9 +173,7 @@
   {
     "id": "structured_health_mid_sa_layout",
     "type": "widget",
-    "style": "layout",
-    "arrange": "rows",
-    "width": 12,
+    "copy-from": "structured_health_mid_layout",
     "widgets": [
       "pain_num_label",
       "hunger_desc_no_label",
