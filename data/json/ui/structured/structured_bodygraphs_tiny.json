@@ -16,6 +16,13 @@
     "widgets": [ "tiny_body_graph_status", "structured_space", "tiny_body_graph_temp" ]
   },
   {
+    "id": "structured_space",
+    "type": "widget",
+    "style": "text",
+    "width": 1,
+    "string": " "
+  },
+  {
     "id": "structured_tiny_body_graph_hp_layout",
     "type": "widget",
     "style": "layout",
