@@ -46,7 +46,7 @@
         "id": "rad_120",
         "text": " orange ",
         "sym": "‼",
-        "color": "yellow_yellow",
+        "color": "red_yellow",
         "condition": {
           "and": [
             { "compare_int": [ { "u_val": "rad" }, "<=", { "const": 120 } ] },
@@ -72,7 +72,7 @@
         "id": "rad_500",
         "text": " black ",
         "sym": "☼",
-        "color": "i_pink",
+        "color": "pink",
         "condition": {
           "and": [
             { "compare_int": [ { "u_val": "rad" }, ">", { "const": 240 } ] },
