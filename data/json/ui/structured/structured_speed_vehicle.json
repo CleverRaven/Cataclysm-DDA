@@ -121,5 +121,20 @@
     "type": "widget",
     "width": 5,
     "copy-from": "vehicle_azimuth_desc_no_label"
+  },
+  {
+    "id": "structured_carry_weight_graph",
+    "type": "widget",
+    "copy-from": "carry_weight_graph_label",
+    "label": "Wt",
+    "separator": " "
+  },
+  {
+    "id": "structured_carry_weight_text",
+    "type": "widget",
+    "copy-from": "carry_weight_text_label",
+    "label": "Wt",
+    "text_align": "right",
+    "separator": " "
   }
 ]
