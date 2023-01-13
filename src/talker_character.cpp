@@ -538,6 +538,11 @@ int talker_character_const::get_stored_kcal() const
     return me_chr_const->get_stored_kcal();
 }
 
+int talker_character_const::get_healthy_kcal() const
+{
+    return me_chr_const->get_healthy_kcal();
+}
+
 void talker_character::set_stored_kcal( int value )
 {
     me_chr->set_stored_kcal( value );
