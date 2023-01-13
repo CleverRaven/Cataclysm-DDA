@@ -88,8 +88,7 @@
     "label": "Radiation",
     "style": "text",
     "flags": [ "W_DISABLED_WHEN_EMPTY" ],
-    "copy-from": "rad_badge_template",
-    "//": "Shows worn/wielded radiation badge color from display::rad_badge_text_color"
+    "copy-from": "rad_badge_template"
   },
   {
     "id": "rad_badge_compact",
@@ -97,7 +96,6 @@
     "label": "Radiation",
     "style": "symbol",
     "flags": [ "W_DISABLED_WHEN_EMPTY" ],
-    "copy-from": "rad_badge_template",
-    "//": "Shows worn/wielded radiation badge color from display::rad_badge_text_color"
+    "copy-from": "rad_badge_template"
   }
 ]
