@@ -722,7 +722,7 @@
     "warmth": 0,
     "material_thickness": 1,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "ALLOWS_NATURAL_ATTACKS", "BELT_CLIP", "BELTED", "FRAGILE", "OVERSIZE", "RAIN_PROTECT" ],
+    "flags": [ "ALLOWS_NATURAL_ATTACKS", "BELT_CLIP", "BELTED", "FRAGILE", "OVERSIZE" ],
     "armor": [
       {
         "encumbrance": 25,
