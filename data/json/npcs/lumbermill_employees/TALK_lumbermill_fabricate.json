@@ -75,8 +75,8 @@
     "responses": [
       { "text": "No, that's all.", "topic": "TALK_DONE" },
       {
-        "text": "[15$]  I'll buy some sticks.",
-        "effect": [ { "u_buy_item": "stick", "cost": 1500, "count": 10 } ],
+        "text": "[10$]  I'll buy some sticks.",
+        "effect": [ { "u_buy_item": "stick", "cost": 1000, "count": 10 } ],
         "topic": "TALK_LUMBERMILL_FABRICATE_END"
       },
       {
