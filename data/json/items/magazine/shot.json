@@ -118,7 +118,6 @@
     "flags": [ "SPEEDLOADER" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 8 } } ]
   },
-
   {
     "id": "m26_mass_mag_3",
     "type": "MAGAZINE",
