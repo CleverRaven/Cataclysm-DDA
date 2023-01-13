@@ -175,10 +175,8 @@
     "id": "limb_dodge_mod",
     "description": "Dodge chance modifier <color_dark_gray>(Balance, Move Speed, Footing)</color>",
     "mod_type": "x",
-    "//": "Dex/2 base dodge, subtract 0,1x encumbrance for torso and legs, Day1 4,0 Mid 4,8 Late 6,8 EOD 3,4 mid 6,8 EOD Day1 0,0 Mid 0,0 Late 0,0",
-    "//BalanceMoveFooting1.511Pow": "Mid 5,0 Late 4,7 EOD Day 1 0,3 Mid 0,5 Late 0,8",
     "value": {
-      "limb_score": [ ["balance", 1.5 ], "move_speed", "footing" ],
+      "limb_score": [ [ "balance", 1.5 ], "move_speed", "footing" ],
       "override_encumb": true,
       "limb_score_op": "x",
       "min": 0.0

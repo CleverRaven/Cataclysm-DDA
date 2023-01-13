@@ -993,7 +993,7 @@
     "morale": 50,
     "grab_strength": 3,
     "melee_dice": 3,
-    "melee_skill": 8,
+    "melee_skill": 7,
     "special_attacks": [
       [ "GRAB", 5 ],
       [ "GRAB_DRAG", 10 ],
@@ -1705,7 +1705,7 @@
     "description": "A wasp worker grown to the size of a person, buzzing around her home.  While her foraging sisters are relatively content to live and let live, this one won't hesitate to attack anything she considers a threat to the nest.  Don't linger.",
     "copy-from": "mon_wasp",
     "aggression": 4,
-    "melee_skill": 9,
+    "melee_skill": 8,
     "armor_elec": 2,
     "dissect": "dissect_insect_sample_small",
     "extend": { "anger_triggers": [ "HURT", "FIRE" ], "flags": [ "BASHES" ] },
@@ -1722,7 +1722,7 @@
     "proportional": { "hp": 4, "volume": 5, "weight": 5 },
     "speed": 100,
     "attack_cost": 100,
-    "melee_skill": 8,
+    "melee_skill": 7,
     "melee_dice": 4,
     "melee_dice_sides": 5,
     "special_attacks": [
@@ -3014,7 +3014,7 @@
     "color": "yellow",
     "aggression": 80,
     "morale": 100,
-    "melee_skill": 8,
+    "melee_skill": 4,
     "melee_dice": 1,
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
@@ -3064,7 +3064,7 @@
     "special_attacks": [
       [ "RANGED_PULL", 10 ],
       [ "GRAB", 3 ],
-      { "id": "impale", "attack_upper": false, "cooldown": 10 },
+      { "id": "impale", "accuracy": 6, "attack_upper": false, "cooldown": 10 },
       {
         "type": "bite",
         "attack_upper": false,

@@ -1128,7 +1128,7 @@ float Character::get_dodge() const
     //If we're asleep or busy we can't dodge
     if( in_sleep_state() || has_effect( effect_narcosis ) ||
         has_effect( effect_winded ) || is_driving() ) {
-    add_msg_debug( debugmode::DF_MELEE, "Unable to dodge (sleeping, winded, or driving)" );
+        add_msg_debug( debugmode::DF_MELEE, "Unable to dodge (sleeping, winded, or driving)" );
         return 0.0f;
     }
 
@@ -1151,7 +1151,7 @@ float Character::get_dodge() const
         }
         if( zed_number > 0 ) {
             ret /= zed_number + 1;
-    add_msg_debug( debugmode::DF_MELEE, "%d grabbing monsters found, modified dodge %.1f", ret );
+            add_msg_debug( debugmode::DF_MELEE, "%d grabbing monsters found, modified dodge %.1f", ret );
         }
     }
 
@@ -1167,7 +1167,7 @@ float Character::get_dodge() const
 
     // Ensure no attempt to dodge without sources of extra dodges, eg martial arts
     if( dodges_left <= 0 ) {
-    add_msg_debug( debugmode::DF_MELEE, "No remaining dodge attempts" );
+        add_msg_debug( debugmode::DF_MELEE, "No remaining dodge attempts" );
         return 0.0f;
     }
 
@@ -1175,14 +1175,14 @@ float Character::get_dodge() const
     int speed_stat = get_speed();
     if( speed_stat < 100 ) {
         ret *= speed_stat / 100.0f;
-    add_msg_debug( debugmode::DF_MELEE, "Dodge after speed penalty %.1f", ret );
+        add_msg_debug( debugmode::DF_MELEE, "Dodge after speed penalty %.1f", ret );
     }
 
     //Dodge decreases linearly to 0 when below 50% stamina.
     const float stamina_ratio = static_cast<float>( get_stamina() ) / get_stamina_max();
     if( stamina_ratio <= .5 ) {
         ret *= 2 * stamina_ratio;
-    add_msg_debug( debugmode::DF_MELEE, "Dodge after stamina penalty %.1f", ret );
+        add_msg_debug( debugmode::DF_MELEE, "Dodge after stamina penalty %.1f", ret );
     }
 
     // Reaction score of limbs influences dodge chances
@@ -1190,7 +1190,7 @@ float Character::get_dodge() const
     add_msg_debug( debugmode::DF_MELEE, "Dodge after reaction score %.1f", ret );
 
     // Somatic limb dodge multiplier is applied after reaction score
-    ret *= get_modifier(character_modifier_limb_dodge_mod);
+    ret *= get_modifier( character_modifier_limb_dodge_mod );
     add_msg_debug( debugmode::DF_MELEE, "Dodge after limb score modifier %.1f", ret );
 
     // Modify by how much bigger/smaller we got from our limbs
