@@ -3175,7 +3175,6 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
 
         }
 
-
         list_sb.offset_x( 0 )
         .offset_y( 5 )
         .content_size( scens_length )

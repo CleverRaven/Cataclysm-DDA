@@ -3099,7 +3099,6 @@ void bionic::deserialize( const JsonObject &jo )
         jo.read( "charge_timer", charge_timer );
     }
 
-
     if( jo.has_int( "incapacitated_time" ) ) {
         incapacitated_time = 1_turns * jo.get_int( "incapacitated_time" );
     }

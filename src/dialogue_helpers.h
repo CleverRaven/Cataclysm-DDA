@@ -15,7 +15,6 @@ using dialogue_fun_ptr = std::add_pointer<void( npc & )>::type;
 
 using trial_mod = std::pair<std::string, int>;
 
-
 template<class T>
 struct talk_effect_fun_t {
     private:

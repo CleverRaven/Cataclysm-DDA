@@ -3842,9 +3842,6 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             info.emplace_back( "ARMOR", space, "", iteminfo::no_newline | iteminfo::lower_is_better,
                                entry.first.encumb );
 
-
-
-
             // if it has a max value
             if( entry.first.encumb != entry.first.encumb_max ) {
                 std::string when_full_message = _( ", When full" ) + space;
@@ -5363,7 +5360,6 @@ void item::properties_info( std::vector<iteminfo> &info, const iteminfo_query *p
         }
     }
 
-
     if( parts->test( iteminfo_parts::DESCRIPTION_DIE ) && this->get_var( "die_num_sides", 0 ) != 0 ) {
         info.emplace_back( "DESCRIPTION",
                            string_format( _( "* This item can be used as a <info>die</info>, "
@@ -5502,7 +5498,6 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         }
         info.emplace_back( "DESCRIPTION", ntext );
     }
-
 
     // Price and barter value
     const int price_preapoc = price( false ) * batch;
@@ -5701,7 +5696,6 @@ void item::ascii_art_info( std::vector<iteminfo> &info, const iteminfo_query * /
     }
 }
 
-
 std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch ) const
 {
     const bool debug = g != nullptr && debug_mode;
@@ -5800,7 +5794,6 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
 
         } else if( blockname == "footer" ) {
 
-
             final_info( info, parts, batch, debug );
             ascii_art_info( info, parts, batch, debug );
 
@@ -5810,9 +5803,6 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
 
         }
     }
-
-
-
 
     if( !info.empty() && info.back().sName == "--" ) {
         info.pop_back();
@@ -7594,7 +7584,7 @@ int item::spoilage_sort_order() const
  * Rot maxes out at 105 F
  * Rot stops below 32 F (0C) and above 145 F (63 C)
  */
-float item::calc_hourly_rotpoints_at_temp( const units::temperature temp ) const
+float item::calc_hourly_rotpoints_at_temp( const units::temperature &temp ) const
 {
     const units::temperature dropoff = units::from_fahrenheit( 38 ); // F, ~3 C
     const float max_rot_temp = 105; // F, ~41 C, Maximum rotting rate is at this temperature
@@ -7903,36 +7893,36 @@ bool item::has_layer( const std::vector<layer_level> &ll ) const
         return false;
     }
     for( const layer_level &test_level : ll ) {
-        if( std::count( t->all_layers.begin(), t->all_layers.end(), test_level ) > 0 ) {
+        if( std::find( t->all_layers.begin(), t->all_layers.end(), test_level ) != t->all_layers.end() ) {
             return true;
         }
     }
     return false;
 }
 
-bool item::has_layer( const std::vector<layer_level> &ll, const bodypart_id bp ) const
+bool item::has_layer( const std::vector<layer_level> &ll, const bodypart_id &bp ) const
 {
     const std::vector<layer_level> layers = get_layer( bp );
     for( const layer_level &test_level : ll ) {
-        if( std::count( layers.begin(), layers.end(), test_level ) > 0 ) {
+        if( std::find( layers.begin(), layers.end(), test_level ) != layers.end() ) {
             return true;
         }
     }
     return false;
 }
 
-bool item::has_layer( const std::vector<layer_level> &ll, const sub_bodypart_id sbp ) const
+bool item::has_layer( const std::vector<layer_level> &ll, const sub_bodypart_id &sbp ) const
 {
     const std::vector<layer_level> layers = get_layer( sbp );
     for( const layer_level &test_level : ll ) {
-        if( std::count( layers.begin(), layers.end(), test_level ) > 0 ) {
+        if( std::find( layers.begin(), layers.end(), test_level ) != layers.end() ) {
             return true;
         }
     }
     return false;
 }
 
-layer_level item::get_highest_layer( const sub_bodypart_id sbp ) const
+layer_level item::get_highest_layer( const sub_bodypart_id &sbp ) const
 {
     layer_level highest_layer = layer_level::PERSONAL;
 
@@ -8105,7 +8095,7 @@ int item::get_warmth() const
     return result;
 }
 
-int item::get_warmth( const bodypart_id bp ) const
+int item::get_warmth( const bodypart_id &bp ) const
 {
     double warmth_val = 0.0;
     float limb_coverage = 0.0f;
@@ -10417,7 +10407,6 @@ bool item::spill_contents( const tripoint &pos )
     return contents.spill_contents( pos );
 }
 
-
 bool item::spill_open_pockets( Character &guy, const item *avoid )
 {
     return contents.spill_open_pockets( guy, avoid );
@@ -10630,7 +10619,6 @@ skill_id item::melee_skill() const
 
     return res;
 }
-
 
 int item::min_cycle_recoil() const
 {
@@ -11881,7 +11869,6 @@ units::mass item::get_remaining_weight_capacity( const bool unrestricted_pockets
     return contents.remaining_container_capacity_weight( unrestricted_pockets_only );
 }
 
-
 units::volume item::get_total_contained_volume( const bool unrestricted_pockets_only ) const
 {
     return contents.total_contained_volume( unrestricted_pockets_only );
@@ -12033,7 +12020,7 @@ bool item::allow_crafting_component() const
     return true;
 }
 
-void item::set_item_specific_energy( const units::specific_energy new_specific_energy )
+void item::set_item_specific_energy( const units::specific_energy &new_specific_energy )
 {
     const float float_new_specific_energy = units::to_joule_per_gram( new_specific_energy );
     const float specific_heat_liquid = get_specific_heat_liquid(); // J/g K
@@ -12070,7 +12057,7 @@ void item::set_item_specific_energy( const units::specific_energy new_specific_e
 }
 
 units::specific_energy item::get_specific_energy_from_temperature( const units::temperature
-        new_temperature ) const
+        &new_temperature ) const
 {
     const float specific_heat_liquid = get_specific_heat_liquid(); // J/g K
     const float specific_heat_solid = get_specific_heat_solid(); // J/g K
@@ -12718,7 +12705,7 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos, map &
     return false;
 }
 
-void item::calc_temp( const units::temperature temp, const float insulation,
+void item::calc_temp( const units::temperature &temp, const float insulation,
                       const time_duration &time_delta )
 {
     const float env_temperature = units::to_kelvin( temp ); // K
@@ -13695,7 +13682,6 @@ bool item::is_bp_rigid( const T &bp ) const
         return true;
     }
 
-
     const armor_portion_data *portion = portion_for_bodypart( bp );
 
     if( !portion ) {
@@ -13748,7 +13734,6 @@ bool item::is_bp_comfortable( const T &bp ) const
     } else if( has_flag( flag_HARD ) ) {
         return false;
     }
-
 
     const armor_portion_data *portion = portion_for_bodypart( bp );
 
