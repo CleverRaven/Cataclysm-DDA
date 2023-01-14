@@ -64,5 +64,5 @@
     "proficiencies": [ { "proficiency": "prof_elec_soldering" } ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "components": [ [ [ "cable", 20 ] ], [ [ "makeshift_transformer", 4 ] ] ]
-   }
+  }
 ]
