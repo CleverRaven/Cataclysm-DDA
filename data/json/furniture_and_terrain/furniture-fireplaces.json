@@ -102,7 +102,7 @@
     "looks_like": "f_woodstove",
     "symbol": "#",
     "bgcolor": "red",
-    "description": "",
+    "description": "A foldable metal stove for hosting wood-fueled fires.  Good for cooking or heating food, and safe to have indoors.",
     "move_cost_mod": 2,
     "coverage": 40,
     "required_str": 4,

@@ -44,7 +44,7 @@
     "symbol": "_",
     "colo": "light_gray",
     "name": { "str": "portable stove" },
-    "description": ".  Activate it to Deploy.",
+    "description": "A foldable wood stove to safely lit fires while camping in the wilderness.  Activate it to Deploy.",
     "weight": "26700 g",
     "volume": "3 L",
     "use_action": { "type": "deploy_furn", "furn_type": "f_portable_stove" }
