@@ -7,7 +7,7 @@
     "description": "All sorts of <color_yellow>health stats</color>, and four <color_yellow>tiny bodygraphs</color> for HP, status, encumbrance and temperature.\n\nSee the other Health widgets for alternatives.",
     "arrange": "columns",
     "height": 7,
-    "widgets": [ 
+    "widgets": [
       "structured_tiny_body_graphs_and_health_left_layout",
       "structured_health_mid_layout",
       "structured_health_right_layout"
@@ -20,7 +20,7 @@
     "arrange": "minimum_columns",
     "width": 21,
     "padding": 0,
-    "widgets": [ 
+    "widgets": [
       "structured_tiny_body_graphs_left_layout",
       "structured_tiny_body_graphs_right_layout",
       "structured_health_left_layout"
@@ -125,7 +125,7 @@
     "type": "widget",
     "copy-from": "structured_tiny_body_graphs_and_health_left_layout",
     "padding": 0,
-    "widgets": [ 
+    "widgets": [
       "structured_tiny_body_graphs_left_layout",
       "structured_tiny_body_graphs_right_layout",
       "structured_health_left_sa_layout"

@@ -6,11 +6,7 @@
     "label": "Mood/Speed/Weight %",
     "description": "Shows <color_yellow>mood</color> and <color_yellow>move/driving speed</color>, as well as relative <color_yellow>weight carried percentage</color> text.",
     "arrange": "minimum_columns",
-    "widgets": [
-      "structured_mood",
-      "structured_speed_vehicle_layout",
-      "structured_carry_weight_text"
-    ]
+    "widgets": [ "structured_mood", "structured_speed_vehicle_layout", "structured_carry_weight_text" ]
   },
   {
     "id": "structured_mood_speed_weight_graph_layout",
@@ -19,11 +15,7 @@
     "label": "Mood/Speed/Wt Graph",
     "description": "Shows <color_yellow>mood</color> and <color_yellow>move/driving speed</color>, as well as relative <color_yellow>weight carried graph</color>.",
     "arrange": "minimum_columns",
-    "widgets": [
-      "structured_mood",
-      "structured_speed_vehicle_layout",
-      "structured_carry_weight_graph"
-    ],
+    "widgets": [ "structured_mood", "structured_speed_vehicle_layout", "structured_carry_weight_graph" ],
     "flags": [ "W_DISABLED_BY_DEFAULT" ]
   },
   {
