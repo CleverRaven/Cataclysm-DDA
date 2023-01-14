@@ -371,6 +371,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_CHEMIST_BUY_FALSE_EFFECT",
-    "global": false
+    "global": false,
+    "effect": [ ]
   }
 ]
