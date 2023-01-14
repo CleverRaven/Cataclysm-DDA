@@ -21,37 +21,5 @@
     "style": "text",
     "width": 1,
     "string": " "
-  },
-  {
-    "id": "structured_tiny_body_graph_hp_layout",
-    "type": "widget",
-    "style": "layout",
-    "width": 9,
-    "arrange": "rows",
-    "widgets": [ "tiny_body_graph" ]
-  },
-  {
-    "id": "structured_tiny_body_graph_encumb_layout",
-    "type": "widget",
-    "style": "layout",
-    "width": 9,
-    "arrange": "rows",
-    "widgets": [ "tiny_body_graph_encumb" ]
-  },
-  {
-    "id": "structured_tiny_body_graph_temp_layout",
-    "type": "widget",
-    "style": "layout",
-    "width": 9,
-    "arrange": "rows",
-    "widgets": [ "tiny_body_graph_temp" ]
-  },
-  {
-    "id": "structured_tiny_body_graph_status_layout",
-    "type": "widget",
-    "style": "layout",
-    "width": 9,
-    "arrange": "rows",
-    "widgets": [ "tiny_body_graph_status" ]
   }
 ]
