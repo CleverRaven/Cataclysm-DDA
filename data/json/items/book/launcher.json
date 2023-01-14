@@ -38,6 +38,12 @@
         "max_level": 3,
         "intelligence": 8,
         "weight": 1
+      },
+      {
+        "id": "mag_launcher_4",
+        "name": { "str": "Field Artillery", "str_pl": "issues of Field Artillery" },
+        "description": "Professional magazine about artillery, published by US Field Artillery Corpse.  Lot of articles analyze using modern artillery in different wars, modern and future technologies, and the most fresh researches about ballistics and field engineering.",
+        "weight": 1
       }
     ],
     "weight": "90 g",
