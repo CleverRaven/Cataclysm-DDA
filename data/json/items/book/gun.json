@@ -78,22 +78,16 @@
       },
       {
         "id": "manual_gun_2",
-        "name": {
-          "str": "FM 3-22.9: Rifle Marksmanship M16-/M4- Series",
-          "str_pl": "copies of FM 3-22.9: Rifle Marksmanship M16-/M4- Series"
-        },
-        "description": "Official U.S. Army manual which provide guidance for planning and executing training on the 5.56-millimeter M16-series rifle and M4 carbine.",
-        "proficiencies": [ { "proficiency": "prof_gunsmithing_basic", "time_factor": 0.8, "fail_factor": 0.8 } ],
+        "name": { "str": "Surplus Military", "str_pl": "issues of Surplus Military" },
+        "description": "The journal about modern and old firearms, their style, manufacturing and usage.",
+        "//": "978-1736672723",
         "weight": 1
       },
       {
         "id": "manual_gun_3",
-        "name": {
-          "str": "FM 3-22.68: Crew-Served Machine Guns 5.56-mm And 7.62-mm",
-          "str_pl": "copies of FM 3-22.68: Crew-Served Machine Guns 5.56-mm And 7.62-mm"
-        },
-        "description": "Official U.S. Army manual, which contain comprehensive guide about using M240 and M249 crew-served machine guns, with excellent examples and a lot of theory.",
-        "proficiencies": [ { "proficiency": "prof_gunsmithing_basic", "time_factor": 0.8, "fail_factor": 0.8 } ],
+        "name": { "str": "Owning a Modern Firearm", "str_pl": "copies of Owning a Modern Firearm" },
+        "description": "Essential handbook on requirement to own, use and properly maintain a modernday firearm.",
+        "//": "979-8519992862",
         "weight": 1
       },
       {
@@ -105,9 +99,9 @@
       },
       {
         "id": "manual_gun_5",
-        "name": { "str": "Adaptive Rifle", "str_pl": "copies of Adaptive Rifle" },
-        "description": "Different trainings for carbine users, from world champion shooters, for civilians, law enforcement, and military shooters.",
-        "//": "979-8360280453",
+        "name": { "str": "The Illustrated History of Firearms", "str_pl": "copies of The Illustrated History of Firearms" },
+        "description": "Reference book, that contain hundreds of firearms images inside, with lot of professional's comments and information about each model.",
+        "//": "978-1951115142",
         "weight": 1
       },
       {
