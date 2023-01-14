@@ -69,7 +69,6 @@
     "id": "structured_speed",
     "type": "widget",
     "width": 11,
-    "separator": " ",
     "copy-from": "speed_num"
   },
   {
@@ -96,15 +95,13 @@
     "id": "structured_carry_weight_graph",
     "type": "widget",
     "copy-from": "carry_weight_graph_label",
-    "label": "Wt",
-    "separator": " "
+    "label": "Wt"
   },
   {
     "id": "structured_carry_weight_text",
     "type": "widget",
     "copy-from": "carry_weight_text_label",
     "label": "Wt",
-    "text_align": "right",
-    "separator": " "
+    "text_align": "right"
   }
 ]

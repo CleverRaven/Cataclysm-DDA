@@ -33,7 +33,6 @@
     "label": "Health + Encumb Graph",
     "description": "All sorts of <color_yellow>health stats</color>, and a bodygraph for <color_yellow>encumbrance</color>.\n\nSee the other Health widgets for alternatives.",
     "arrange": "columns",
-    "separator": " ",
     "height": 7,
     "widgets": [
       "structured_body_graph_encumb_layout",
@@ -138,7 +137,6 @@
     "style": "layout",
     "arrange": "rows",
     "width": 11,
-    "separator": " ",
     "widgets": [
       "status_hpg_layout_head",
       "status_hpg_layout_torso",
@@ -155,7 +153,6 @@
     "style": "layout",
     "arrange": "rows",
     "width": 12,
-    "separator": " ",
     "pad_labels": false,
     "widgets": [
       "pain_desc_no_label",
@@ -252,7 +249,6 @@
     "style": "graph",
     "width": 9,
     "label": { "str": "S", "ctxt": "Label for the stamina bar graph" },
-    "separator": " ",
     "symbols": ".\\|",
     "colors": [ "c_red", "c_light_red", "c_yellow", "c_light_green", "c_green" ]
   },
@@ -263,7 +259,6 @@
     "style": "graph",
     "width": 9,
     "label": { "str": "W", "ctxt": "Label for the weariness bar graph" },
-    "separator": " ",
     "symbols": ".\\|",
     "colors": [ "c_red", "c_light_red", "c_yellow", "c_light_green", "c_green" ]
   }
