@@ -1539,7 +1539,11 @@ bool Character::consume_effects( item &food )
     if( has_effect( effect_tapeworm ) ) {
         ingested.nutr /= 2;
     }
-    // divide by a further factor of 2 as calories must go to rebuilding muscle?
+    // it takes about 75% as much nutrition to rebuild a pound of muscle as it does a pound of fat (~2650 kcal)
+    // the avg 8 str character is burning roughly twice as much muscle 
+    if( get_bmi_fat() < character_weight_category::normal ) {
+        ingested.nutr /= 1;
+    }
     activate_consume_eocs( *this, food );
 
     // GET IN MAH BELLY!
