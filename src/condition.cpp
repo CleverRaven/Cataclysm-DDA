@@ -1670,8 +1670,12 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
             };
         } else if( checked_value == "stored_kcal_percentage" ) {
             // 100% is 5 BMI's worth of kcal, which is considered healthy (this varies with height).
+            int divisor = ( d.actor( is_npc )->get_healthy_kcal() / 100 );
+            if( divisor == 0 ) {
+                divisor = 118169 / 100;
+            }
             return [is_npc]( const T & d ) {
-                return d.actor( is_npc )->get_stored_kcal() / ( d.actor( is_npc )->get_healthy_kcal() / 100 );
+                return d.actor( is_npc )->get_stored_kcal() / divisor;
             };
         } else if( checked_value == "item_count" ) {
             const itype_id item_id( jo.get_string( "item" ) );
