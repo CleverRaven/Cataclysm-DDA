@@ -115,7 +115,12 @@
     "color": "blue",
     "looks_like": "PR24-extended",
     "flags": [ "SHEATH_SPEAR" ],
-    "use_action": { "menu_text": "Assemble", "type": "transform", "target": "fishing_rod_2pc", "msg": "You put together your two-piece fishing rod." }
+    "use_action": {
+      "menu_text": "Assemble",
+      "type": "transform",
+      "target": "fishing_rod_2pc",
+      "msg": "You put together your two-piece fishing rod."
+    }
   },
   {
     "id": "fishing_rod_2pc",
@@ -130,7 +135,12 @@
     "qualities": [ [ "FISHING_ROD", 2 ] ],
     "extend": { "flags": [ "FRAGILE_MELEE" ] },
     "looks_like": "fishing_rod_professional",
-    "use_action": { "menu_text": "Disassemble", "type": "transform", "target": "fishing_rod_2pc_packed", "msg": "You take apart your two-piece fishing rod." }
+    "use_action": {
+      "menu_text": "Disassemble",
+      "type": "transform",
+      "target": "fishing_rod_2pc_packed",
+      "msg": "You take apart your two-piece fishing rod."
+    }
   },
   {
     "id": "fishing_rod_tele_packed",
@@ -148,7 +158,12 @@
     "symbol": "/",
     "color": "dark_gray",
     "looks_like": "PR24-retracted",
-    "use_action": { "menu_text": "Extend", "type": "transform", "target": "fishing_rod_tele", "msg": "You extend your telescoping fishing rod." }
+    "use_action": {
+      "menu_text": "Extend",
+      "type": "transform",
+      "target": "fishing_rod_tele",
+      "msg": "You extend your telescoping fishing rod."
+    }
   },
   {
     "id": "fishing_rod_tele",
@@ -163,7 +178,12 @@
     "qualities": [ [ "FISHING_ROD", 2 ] ],
     "flags": [ "SHEATH_SPEAR", "FRAGILE_MELEE" ],
     "looks_like": "fishing_rod_professional",
-    "use_action": { "menu_text": "Retract", "type": "transform", "target": "fishing_rod_tele_packed", "msg": "You retract your telescoping fishing rod." }
+    "use_action": {
+      "menu_text": "Retract",
+      "type": "transform",
+      "target": "fishing_rod_tele_packed",
+      "msg": "You retract your telescoping fishing rod."
+    }
   },
   {
     "id": "plastichoboreel",
