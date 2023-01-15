@@ -76,7 +76,7 @@
     "//": "This is two step EoC to make incorporeal effect trigger properly - without it you do not drop your items properly. Also remove all mutagen from your body, empty your fat (because its a backup body, contain not much of calories.)",
     "condition": { "u_has_trait": "DUST_REBORN" },
     "effect": [
-      { "u_teleport": { "u_val": "dust_reborn_teleport" }, "success_message": "debug teleport." },
+      { "u_teleport": { "u_val": "dust_reborn_teleport" } },
       { "u_lose_trait": "DUST_REBORN" },
       { "arithmetic": [ { "u_val": "pain" }, "=", { "const": 0 } ] },
       { "arithmetic": [ { "u_val": "stored_kcal" }, "=", { "const": 15000 } ] },
