@@ -5929,7 +5929,7 @@ float Character::get_bmi_fat() const
 units::mass Character::bodyweight() const
 {
     float kg_from_kcal = get_stored_kcal() / 7716.17f;
-    float lean_mass = ( 12.0f + get_str_base() ) * std::pow( height() / 100.0f, 2 );
+    float lean_mass = get_bmi_lean() * std::pow( height() / 100.0f, 2 );
     return units::from_kilogram( kg_from_kcal + lean_mass );
 }
 
