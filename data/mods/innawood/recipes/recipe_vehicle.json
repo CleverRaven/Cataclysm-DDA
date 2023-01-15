@@ -44,7 +44,7 @@
     "using": [ [ "soldering_standard", 4 ], [ "steel_tiny", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_elec_soldering" } ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
-    "components": [ [ [ "cable", 5 ] ], [ [ "makeshift_transformer", 2 ] ] ]
+    "components": [ [ [ "cable", 4 ] ], [ [ "makeshift_transformer", 1 ] ] ]
   },
   {
     "type": "recipe",
