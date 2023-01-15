@@ -67,7 +67,7 @@
       {
         "id": "manual_throw_2",
         "name": { "str": "Guide to Knife & Ax Throwing", "str_pl": "copies of Guide to Knife & Ax Throwing" },
-        "description": "Small, simple guide how to throw a projectlie, with different techniques, guides and tricks.",
+        "description": "Small, simple guide how to throw a projectile, with different techniques, guides and tricks.",
         "//": "978-0764347795",
         "weight": 1
       },

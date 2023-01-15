@@ -122,7 +122,7 @@
       {
         "id": "manual_shotgun_5",
         "name": { "str": "Streetsweepers", "str_pl": "copies of Streetsweepers" },
-        "description": "Comprehensive book about combat shotguns, covering single- and double-barreled, slide-action, semiauto and rotary-cylinder shotguns, their usage, service and tactics.",
+        "description": "Comprehensive book about combat shotguns, covering single- and double-barreled, slide-action, semi-auto and rotary-cylinder shotguns, their usage, service and tactics.",
         "//": "978-1581604368",
         "weight": 1
       },
@@ -136,14 +136,14 @@
       {
         "id": "manual_shotgun_7",
         "name": { "str": "Shotguns - Their History and Development", "str_pl": "copies of Shotguns - Their History and Development" },
-        "description": "Old issue about shotguns: history, types, cartriges, ballistics, accessories and shooting, same with appendix on shotgun data and tables.",
+        "description": "Old issue about shotguns: history, types, cartridges, ballistics, accessories and shooting, same with appendix on shotgun data and tables.",
         "//": "978-1905124862",
         "weight": 1
       },
       {
         "id": "manual_shotgun_8",
         "name": { "str": "Vintage British Shotguns", "str_pl": "copies of Vintage British Shotguns" },
-        "description": "Good guide for both sportsmans and gun collector, the book has lot of information about classic shotguns and their usage.",
+        "description": "Good guide for both sportsmen and gun collector, the book has lot of information about classic shotguns and their usage.",
         "//": "978-0892727742",
         "weight": 1
       }

@@ -21,7 +21,7 @@
       {
         "id": "mag_rifle_2",
         "name": { "str": "Shooting Stars", "str_pl": "issues of Shooting Stars" },
-        "description": "Annual issue for marksmans, with lot of articles and researches, same as reviews of new rifles, optic and mods.",
+        "description": "Annual issue for marksmen, with lot of articles and researches, same as reviews of new rifles, optic and mods.",
         "weight": 1
       },
       {
@@ -61,7 +61,7 @@
       {
         "id": "manual_rifle_1",
         "name": { "str": "SAS and Elite Forces Guide Sniper", "str_pl": "copies of SAS and Elite Forces Guide Sniper" },
-        "description": "Unofissial guide about work and skills of British and NATO snipers.  There is a lot of photos of weapon and equipement, but it has huge lack of details - the most important information is just mentioned or just described without any value.",
+        "description": "Unofissial guide about work and skills of British and NATO snipers.  There is a lot of photos of weapon and equipment, but it has huge lack of details - the most important information is just mentioned or just described without any value.",
         "//": "978-1493036752",
         "weight": 1
       },
@@ -109,7 +109,7 @@
           "str": "Great Hunting Rifles: Victorian to the Present",
           "str_pl": "copies of Great Hunting Rifles: Victorian to the Present"
         },
-        "description": "History of some of the most exquisite rifles made in the twentieth century, with lot of love and detalis.",
+        "description": "History of some of the most exquisite rifles made in the twentieth century, with lot of love and details.",
         "//": "978-1510731691",
         "weight": 1
       },
@@ -157,7 +157,7 @@
       {
         "id": "manual_gun_13",
         "name": { "str": "The Gun", "str_pl": "copies of The Gun" },
-        "description": "Giant, 500 page history of the AK-47 - the most popular in the worls - and the information around it: the mechanic of the weapon, the usage, maintenace, modification, usage and its impact on global conflict.",
+        "description": "Giant, 500 page history of the AK-47 - the most popular in the worls - and the information around it: the mechanic of the weapon, the usage, maintenance, modification, usage and its impact on global conflict.",
         "//": "978-0743270762",
         "weight": 1
       }
