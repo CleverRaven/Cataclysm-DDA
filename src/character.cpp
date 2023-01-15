@@ -486,7 +486,7 @@ static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 static const vitamin_id vitamin_calcium( "calcium" );
 static const vitamin_id vitamin_iron( "iron" );
 
-static bool bool_mix_speedydex_bonus = false;
+static bool mixed_speedydex_bonus = false;
 static const std::set<material_id> ferric = { material_iron, material_steel, material_budget_steel, material_ch_steel, material_hc_steel, material_lc_steel, material_mc_steel, material_qt_steel };
 
 namespace io
