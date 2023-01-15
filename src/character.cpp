@@ -3788,6 +3788,10 @@ int Character::get_speed() const
         return get_speed_base() + std::max( 0, get_speed_bonus() ) + std::max( 0,
                 get_speedydex_bonus( get_dex() ) );
     }
+    // If the speed bonus has included the bonus from "SpeedyDex" mod, it will not add the bonus repeatedly.
+    if( get_speedydex_bonus( get_dex() ) != 0 & get_speed_bonus() - get_speedydex_bonus( get_dex() ) == 0) {
+        return Creature::get_speed();
+    }
     return Creature::get_speed() + get_speedydex_bonus( get_dex() );
 }
 
