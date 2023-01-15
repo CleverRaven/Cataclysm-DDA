@@ -486,7 +486,7 @@ static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 static const vitamin_id vitamin_calcium( "calcium" );
 static const vitamin_id vitamin_iron( "iron" );
 
-static bool bool_mix_speedydex_bonus=false;
+static bool bool_mix_speedydex_bonus = false;
 static const std::set<material_id> ferric = { material_iron, material_steel, material_budget_steel, material_ch_steel, material_hc_steel, material_lc_steel, material_mc_steel, material_qt_steel };
 
 namespace io
@@ -10790,12 +10790,12 @@ void Character::recalc_speed_bonus()
     
     int prev_speed_bonus = 0;
     
-    if( ( bool_mix_speedydex_bonus == false & get_speedydex_bonus( get_dex() ) == 0 ) | ( bool_mix_speedydex_bonus == true & get_speedydex_bonus( get_dex() ) == 0 ) ) {
+    if( ( bool_mix_speedydex_bonus == false && get_speedydex_bonus( get_dex() ) == 0 ) || ( bool_mix_speedydex_bonus == true && get_speedydex_bonus( get_dex() ) == 0 ) ) {
         prev_speed_bonus = get_speed_bonus();
         set_speed_bonus( std::round( enchantment_cache->modify_value( enchant_vals::mod::SPEED,
                                     get_speed() ) - get_speed_base() ) );
 
-    } else if(bool_mix_speedydex_bonus == false & get_speedydex_bonus( get_dex() ) != 0 ) {
+    } else if(bool_mix_speedydex_bonus == false && get_speedydex_bonus( get_dex() ) != 0 ) {
 
         prev_speed_bonus = get_speed_bonus();
         set_speed_bonus( std::round( enchantment_cache->modify_value( enchant_vals::mod::SPEED,
