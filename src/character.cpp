@@ -3746,12 +3746,6 @@ int Character::get_int() const
 
 int Character::get_str_base() const
 {
-    //base strength decreases to zero as you starve
-    if( get_bmi_fat() < character_weight_category::normal ) {
-        const int str_penalty = std::floor( ( 1.0f - ( get_bmi_fat() /
-                                              character_weight_category::normal ) ) * str_max );
-        return str_max - str_penalty;
-    }
     return str_max;
 }
 int Character::get_dex_base() const
@@ -5917,6 +5911,12 @@ float Character::get_bmi() const
 
 float Character::get_bmi_lean() const
 {
+    //strength BMIs decrease to zero as you starve (muscle atrophy)
+    if( get_bmi_fat() < character_weight_category::normal ) {
+        const int str_penalty = std::floor( ( 1.0f - ( get_bmi_fat() /
+                                              character_weight_category::normal ) ) * str_max );
+        return 12.0f + get_str_base() - str_penalty;
+    }
     return 12.0f + get_str_base();
 }
 
