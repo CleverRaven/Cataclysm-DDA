@@ -176,5 +176,20 @@
     "symbol": "0",
     "color": "black",
     "use_action": { "type": "learn_spell", "spells": [ "summon_ophanim" ] }
+  },
+  {
+    "id": "artifact_winch",
+    "type": "GENERIC",
+    "category": "artifacts",
+    "name": "action figurine",
+    "description": "Small action figurine, that shows a man, that hang near the old computer, in attempt to hack it.",
+    "weight": "90 g",
+    "volume": "190 ml",
+    "price": 2000,
+    "price_postapoc": 10,
+    "material": [ "forged_dreamstuff" ],
+    "symbol": "0",
+    "color": "black",
+    "use_action": { "type": "learn_spell", "spells": [ "summon_winch" ] }
   }
 ]

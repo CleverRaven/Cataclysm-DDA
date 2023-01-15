@@ -116,7 +116,8 @@
       { "item": "mirror_artifact", "prob": 50 },
       { "item": "artifact_sapient_light", "prob": 50 },
       { "item": "artifact_bubble", "prob": 50 },
-      { "item": "artifact_ophanim", "prob": 50 }
+      { "item": "artifact_ophanim", "prob": 50 },
+      { "item": "artifact_winch", "prob": 50 }
     ]
   },
   {
