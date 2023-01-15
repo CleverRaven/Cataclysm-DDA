@@ -1276,6 +1276,13 @@ shared_ptr_fast<npc> overmapbuffer::find_npc( character_id id )
     return nullptr;
 }
 
+void overmapbuffer::foreach_npc( const std::function<void( npc & )> &callback )
+{
+    for( auto &it : overmaps ) {
+        it.second->for_each_npc( callback );
+    }
+}
+
 shared_ptr_fast<npc> overmapbuffer::find_npc_by_unique_id( const std::string &unique_id )
 {
     point_abs_om loc = g->get_unique_npc_location( unique_id );

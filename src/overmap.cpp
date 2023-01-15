@@ -6591,13 +6591,6 @@ void overmap::for_each_npc( const std::function<void( npc & )> &callback )
     }
 }
 
-void overmap::for_each_npc( const std::function<void( const npc & )> &callback ) const
-{
-    for( const auto &guy : npcs ) {
-        callback( *guy );
-    }
-}
-
 shared_ptr_fast<npc> overmap::find_npc( const character_id &id ) const
 {
     for( const auto &guy : npcs ) {
