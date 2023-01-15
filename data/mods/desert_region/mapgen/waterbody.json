@@ -1,0 +1,44 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [
+      "lake_bed",
+      "lake_shore",
+      "river_center",
+      "river_nw",
+      "river_ne",
+      "river_sw",
+      "river_se",
+      "river",
+      "river_c_not_ne",
+      "river_c_not_nw",
+      "river_c_not_se",
+      "river_c_not_sw"
+    ],
+    "weight": 100000000000,
+    "object": { "fill_ter": "t_mudcrack" }
+  },
+  {
+    "type": "palette",
+    "id": "bridge_ground_palette",
+    "terrain": {
+      ",": "t_region_soil",
+      "s": "t_mudcrack",
+      "~": "t_mudcrack",
+      ".": "t_pavement",
+      ":": "t_pavement_y",
+      "_": "t_sidewalk",
+      "=": "t_guardrail",
+      "u": "t_ramp_up_low",
+      "U": "t_ramp_up_high",
+      "d": "t_ramp_down_high",
+      "D": "t_ramp_down_low",
+      "W": "t_sidewalk_ramp_down_high",
+      ">": "t_sidewalk_ramp_down_low",
+      "<": "t_sidewalk_ramp_up_high",
+      "w": "t_sidewalk_ramp_up_low",
+      "#": "t_concrete_wall"
+    }
+  }
+]
