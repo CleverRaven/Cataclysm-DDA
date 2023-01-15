@@ -222,6 +222,7 @@ struct mission_type {
         item_group_id group_id = item_group_id::NULL_ID();
         itype_id container_id = itype_id::NULL_ID();
         bool remove_container = false;
+        bool invisible_on_complete = false;
         itype_id empty_container = itype_id::NULL_ID();
         int item_count = 1;
         npc_class_id recruit_class = npc_class_id( "NC_NONE" );  // The type of NPC you are to recruit
@@ -231,7 +232,6 @@ struct mission_type {
         int monster_kill_goal = -1;
         string_id<oter_type_t> target_id;
         mission_type_id follow_up = mission_type_id( "MISSION_NULL" );
-        bool invisible_on_complete;
 
         std::function<bool( const tripoint_abs_omt & )> place = mission_place::always;
         std::function<void( mission * )> start = mission_start::standard;
