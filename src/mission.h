@@ -231,6 +231,7 @@ struct mission_type {
         int monster_kill_goal = -1;
         string_id<oter_type_t> target_id;
         mission_type_id follow_up = mission_type_id( "MISSION_NULL" );
+        bool invisible_on_complete;
 
         std::function<bool( const tripoint_abs_omt & )> place = mission_place::always;
         std::function<void( mission * )> start = mission_start::standard;
@@ -445,6 +446,7 @@ class mission
 
         // For save/load
         static std::vector<mission *> get_all_active();
+        void remove_active_world_mission( mission &cur_mission );
         static void add_existing( const mission &m );
 
         static mission_status status_from_string( const std::string &s );
