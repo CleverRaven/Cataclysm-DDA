@@ -101,7 +101,7 @@
   {
     "id": "fishing_rod_2pc_packed",
     "type": "TOOL",
-    "name": { "str": "two-piece fishing rod (packed)" },
+    "name": { "str": "two-piece fishing rod (packed)", "str_pl": "two-piece fishing rods (packed)" },
     "description": "A commercial two-piece fishing rod that has been disassembled for ease of transport and storage.",
     "weight": "1050 g",
     "volume": "1300 ml",
@@ -145,7 +145,7 @@
   {
     "id": "fishing_rod_tele_packed",
     "type": "TOOL",
-    "name": { "str": "telescoping fishing rod (packed)" },
+    "name": { "str": "telescoping fishing rod (packed)", "str_pl": "telescoping fishing rods (packed)" },
     "description": "A commercial telescoping fishing rod that has been retracted for ease of transport and storage.",
     "weight": "1200 g",
     "volume": "600 ml",
