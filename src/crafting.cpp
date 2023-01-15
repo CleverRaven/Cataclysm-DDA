@@ -2368,6 +2368,11 @@ bool Character::disassemble( item_location target, bool interactive, bool disass
         return false;
     }
 
+    if( obj.is_favorite &&
+        !query_yn( _( "You're going to disassemble favorited item.\nAre you sure?" ) ) ) {
+        return false;
+    }
+
     avatar &player_character = get_avatar();
     const recipe &r = ( obj.typeId() == itype_disassembly ) ? obj.get_making() :
                       recipe_dictionary::get_uncraft( obj.typeId() );
