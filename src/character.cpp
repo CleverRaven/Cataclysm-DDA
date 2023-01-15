@@ -10787,27 +10787,20 @@ void Character::recalc_speed_bonus()
             }
         }
     }
-    
     int prev_speed_bonus = 0;
-    
-    if( ( bool_mix_speedydex_bonus == false && get_speedydex_bonus( get_dex() ) == 0 ) || ( bool_mix_speedydex_bonus == true && get_speedydex_bonus( get_dex() ) == 0 ) ) {
+    if( ( mixed_speedydex_bonus == false && get_speedydex_bonus( get_dex() ) == 0 ) || ( mixed_speedydex_bonus == true && get_speedydex_bonus( get_dex() ) == 0 ) ) {
         prev_speed_bonus = get_speed_bonus();
         set_speed_bonus( std::round( enchantment_cache->modify_value( enchant_vals::mod::SPEED,
-                                    get_speed() ) - get_speed_base() ) );
-
-    } else if(bool_mix_speedydex_bonus == false && get_speedydex_bonus( get_dex() ) != 0 ) {
-
+                                  get_speed() ) - get_speed_base() ) );
+    } else if(mixed_speedydex_bonus == false && get_speedydex_bonus( get_dex() ) != 0 ) {
         prev_speed_bonus = get_speed_bonus();
         set_speed_bonus( std::round( enchantment_cache->modify_value( enchant_vals::mod::SPEED,
-                                    get_speed() ) - get_speed_base() ) );
-        bool_mix_speedydex_bonus = true;
-
-    } else if( bool_mix_speedydex_bonus == true ) {
-
+                                  get_speed() ) - get_speed_base() ) );
+        mixed_speedydex_bonus = true;
+    } else if( mixed_speedydex_bonus == true ) {
         prev_speed_bonus = get_speed_bonus() - get_speedydex_bonus( get_dex() );
         set_speed_bonus( std::round( enchantment_cache->modify_value( enchant_vals::mod::SPEED,
                                  get_speed() ) - get_speed_base() - get_speedydex_bonus( get_dex() ) ) );
-
     }
     
     enchantment_speed_bonus = get_speed_bonus() - prev_speed_bonus;
