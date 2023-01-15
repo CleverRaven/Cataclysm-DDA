@@ -486,6 +486,7 @@ static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 static const vitamin_id vitamin_calcium( "calcium" );
 static const vitamin_id vitamin_iron( "iron" );
 
+static bool bool_mix_speedydex_bonus=false;
 static const std::set<material_id> ferric = { material_iron, material_steel, material_budget_steel, material_ch_steel, material_hc_steel, material_lc_steel, material_mc_steel, material_qt_steel };
 
 namespace io
@@ -3787,10 +3788,6 @@ int Character::get_speed() const
     if( has_flag( json_flag_STEADY ) ) {
         return get_speed_base() + std::max( 0, get_speed_bonus() ) + std::max( 0,
                 get_speedydex_bonus( get_dex() ) );
-    }
-    // If the speed bonus has included the bonus from "SpeedyDex" mod, it will not add the bonus repeatedly.
-    if( get_speedydex_bonus( get_dex() ) != 0 & get_speed_bonus() - get_speedydex_bonus( get_dex() ) == 0) {
-        return Creature::get_speed();
     }
     return Creature::get_speed() + get_speedydex_bonus( get_dex() );
 }
@@ -10790,9 +10787,29 @@ void Character::recalc_speed_bonus()
             }
         }
     }
-    const int prev_speed_bonus = get_speed_bonus();
-    set_speed_bonus( std::round( enchantment_cache->modify_value( enchant_vals::mod::SPEED,
-                                 get_speed() ) - get_speed_base() ) );
+    
+    int prev_speed_bonus = 0;
+    
+    if( ( bool_mix_speedydex_bonus == false & get_speedydex_bonus( get_dex() ) == 0 ) | ( bool_mix_speedydex_bonus == true & get_speedydex_bonus( get_dex() ) == 0 ) ) {
+        prev_speed_bonus = get_speed_bonus();
+        set_speed_bonus( std::round( enchantment_cache->modify_value( enchant_vals::mod::SPEED,
+                                    get_speed() ) - get_speed_base() ) );
+
+    } else if(bool_mix_speedydex_bonus == false & get_speedydex_bonus( get_dex() ) != 0 ) {
+
+        prev_speed_bonus = get_speed_bonus();
+        set_speed_bonus( std::round( enchantment_cache->modify_value( enchant_vals::mod::SPEED,
+                                    get_speed() ) - get_speed_base() ) );
+        bool_mix_speedydex_bonus = true;
+
+    } else if( bool_mix_speedydex_bonus == true ) {
+
+        prev_speed_bonus = get_speed_bonus() - get_speedydex_bonus( get_dex() );
+        set_speed_bonus( std::round( enchantment_cache->modify_value( enchant_vals::mod::SPEED,
+                                 get_speed() ) - get_speed_base() - get_speedydex_bonus( get_dex() ) ) );
+
+    }
+    
     enchantment_speed_bonus = get_speed_bonus() - prev_speed_bonus;
     // Speed cannot be less than 25% of base speed, so minimal speed bonus is -75% base speed.
     const int min_speed_bonus = static_cast<int>( -0.75 * get_speed_base() );
