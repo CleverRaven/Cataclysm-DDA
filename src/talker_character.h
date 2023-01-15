@@ -115,7 +115,6 @@ class talker_character_const: public talker
         int get_stored_kcal() const override;
         bool is_in_control_of( const vehicle &veh ) const override;
 
-
         bool worn_with_flag( const flag_id &flag, const bodypart_id &bp ) const override;
         bool wielded_with_flag( const flag_id &flag ) const override;
         bool has_item_with_flag( const flag_id &flag ) const override;
@@ -202,6 +201,7 @@ class talker_character: public talker_character_const
         std::list<item> use_charges( const itype_id &item_name, int count, bool in_tools ) override;
         std::list<item> use_amount( const itype_id &item_name, int count ) override;
         void i_add( const item &new_item ) override;
+        void i_add_or_drop( item &new_item ) override;
         void remove_items_with( const std::function<bool( const item & )> &filter ) override;
 
         void set_stored_kcal( int value ) override;
@@ -209,7 +209,6 @@ class talker_character: public talker_character_const
 
         // speaking
         void shout( const std::string &speech = "", bool order = false ) override;
-
 
         void set_fatigue( int amount ) override;
         void mod_pain( int amount ) override;

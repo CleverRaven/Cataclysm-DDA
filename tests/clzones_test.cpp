@@ -1,27 +1,86 @@
 #include <iosfwd>
 #include <vector>
 
+#include "activity_actor_definitions.h"
 #include "cata_catch.h"
 #include "clzones.h"
 #include "item.h"
 #include "item_category.h"
 #include "item_pocket.h"
 #include "map_helpers.h"
+#include "player_helpers.h"
 #include "point.h"
 #include "ret_val.h"
 #include "type_id.h"
 
+static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
 static const faction_id faction_your_followers( "your_followers" );
+
+static const itype_id itype_556( "556" );
+static const itype_id itype_ammolink223( "ammolink223" );
+static const itype_id itype_belt223( "belt223" );
 
 static const zone_type_id zone_type_LOOT_DRINK( "LOOT_DRINK" );
 static const zone_type_id zone_type_LOOT_FOOD( "LOOT_FOOD" );
 static const zone_type_id zone_type_LOOT_PDRINK( "LOOT_PDRINK" );
 static const zone_type_id zone_type_LOOT_PFOOD( "LOOT_PFOOD" );
+static const zone_type_id zone_type_LOOT_UNSORTED( "LOOT_UNSORTED" );
+static const zone_type_id zone_type_zone_unload_all( "zone_unload_all" );
+
+static int count_items_or_charges( const tripoint src, const itype_id &id )
+{
+    int n = 0;
+    map_stack items = get_map().i_at( src );
+    for( const item &it : items ) {
+        if( it.typeId() == id ) {
+            n += it.count();
+        }
+    }
+    return n;
+}
 
 static void create_tile_zone( const std::string &name, const zone_type_id &zone_type, tripoint pos )
 {
     zone_manager &zm = zone_manager::get_manager();
     zm.add( name, zone_type, faction_your_followers, false, true, pos, pos );
+}
+
+TEST_CASE( "zone unloading ammo belts", "[zones][items][ammo_belt][activities][unload]" )
+{
+    avatar &dummy = get_avatar();
+    map &here = get_map();
+
+    clear_avatar();
+    clear_map();
+
+    tripoint_abs_ms const start = here.getglobal( tripoint_east );
+    bool const move_act = GENERATE( true, false );
+    dummy.set_location( start );
+    create_tile_zone( "Unsorted", zone_type_LOOT_UNSORTED, start.raw() );
+    create_tile_zone( "Unload All", zone_type_zone_unload_all, start.raw() );
+
+    item ammo_belt = item( itype_belt223, calendar::turn );
+    ammo_belt.ammo_set( ammo_belt.ammo_default() );
+    int belt_ammo_count_before_unload = ammo_belt.ammo_remaining();
+
+    REQUIRE( belt_ammo_count_before_unload > 0 );
+
+    WHEN( "unloading ammo belts using zone_unload_all " ) {
+        here.add_item_or_charges( tripoint_east, ammo_belt );
+        if( move_act ) {
+            dummy.assign_activity( player_activity( ACT_MOVE_LOOT ) );
+        } else {
+            dummy.assign_activity( player_activity( unload_loot_activity_actor() ) );
+        }
+        process_activity( dummy );
+
+        THEN( "check that the ammo and linkages are both unloaded and the ammo belt is removed" ) {
+            CHECK( count_items_or_charges( tripoint_east, itype_belt223 ) == 0 );
+            CHECK( count_items_or_charges( tripoint_east,
+                                           itype_ammolink223 ) == belt_ammo_count_before_unload );
+            CHECK( count_items_or_charges( tripoint_east, itype_556 ) == belt_ammo_count_before_unload );
+        }
+    }
 }
 
 // Comestibles sorting is a bit awkward. Unlike other loot, they're almost

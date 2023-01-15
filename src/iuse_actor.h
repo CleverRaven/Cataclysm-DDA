@@ -551,26 +551,6 @@ class inscribe_actor : public iuse_actor
 };
 
 /**
- * Cauterizes a wounded/masochistic survivor
- */
-class cauterize_actor : public iuse_actor
-{
-    public:
-        // Use flame. If false, uses item charges instead.
-        bool flame = true;
-
-        static bool cauterize_effect( Character &p, item &it, bool force );
-
-        explicit cauterize_actor( const std::string &type = "cauterize" ) : iuse_actor( type ) {}
-
-        ~cauterize_actor() override = default;
-        void load( const JsonObject &obj ) override;
-        cata::optional<int> use( Character &, item &, bool, const tripoint & ) const override;
-        ret_val<void> can_use( const Character &, const item &, bool, const tripoint & ) const override;
-        std::unique_ptr<iuse_actor> clone() const override;
-};
-
-/**
  * Try to turn on a burning melee weapon
  * Not iuse_transform, because they don't have that much in common
  */
@@ -1124,7 +1104,6 @@ class sew_advanced_actor : public iuse_actor
         cata::optional<int> use( Character &, item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
 };
-
 
 /**
  * Activate an array of effect_on_conditions

@@ -25,7 +25,7 @@
     "looks_like": "motor_small",
     "durability": 80,
     "power": 800,
-    "energy_consumption": "1 kJ",
+    "energy_consumption": "1 kW",
     "damage_modifier": 80,
     "folded_volume": "250 ml",
     "requirements": {
@@ -48,7 +48,7 @@
     "item": "motor_small",
     "durability": 120,
     "power": 7040,
-    "energy_consumption": "8 kJ",
+    "energy_consumption": "8 kW",
     "damage_modifier": 80,
     "folded_volume": "250 ml",
     "requirements": {
@@ -76,7 +76,7 @@
     "item": "motor",
     "durability": 200,
     "power": 36000,
-    "energy_consumption": "40 kJ",
+    "energy_consumption": "40 kW",
     "damage_modifier": 80,
     "folded_volume": "1500 ml",
     "requirements": {
@@ -113,7 +113,7 @@
     "item": "motor_large",
     "durability": 400,
     "power": 150000,
-    "energy_consumption": "163 kJ",
+    "energy_consumption": "163 kW",
     "damage_modifier": 80,
     "requirements": {
       "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
@@ -149,7 +149,7 @@
     "item": "motor_enhanced",
     "durability": 200,
     "power": 282000,
-    "energy_consumption": "300 kJ",
+    "energy_consumption": "300 kW",
     "damage_modifier": 80,
     "requirements": {
       "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
@@ -185,7 +185,7 @@
     "item": "motor_super",
     "durability": 400,
     "power": 475000,
-    "energy_consumption": "500 kJ",
+    "energy_consumption": "500 kW",
     "damage_modifier": 80,
     "requirements": {
       "install": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
@@ -221,7 +221,7 @@
     "item": "motor_train1300",
     "durability": 500,
     "power": 1000000,
-    "energy_consumption": "1050 kJ",
+    "energy_consumption": "1050 kW",
     "damage_modifier": 80,
     "requirements": {
       "install": { "skills": [ [ "mechanics", 8 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },

@@ -1758,7 +1758,6 @@ class jmapgen_npc : public jmapgen_piece
             npc_class( jsi.get_member( "class" ) )
             , target( jsi.get_bool( "target", false ) ) {
             if( jsi.has_string( "add_trait" ) ) {
-                std::string new_trait = jsi.get_string( "add_trait" );
                 traits.emplace_back();
                 jsi.read( "add_trait", traits.back() );
             } else if( jsi.has_array( "add_trait" ) ) {
@@ -3214,6 +3213,7 @@ class jmapgen_remove_npcs : public jmapgen_piece
                     }
                     if( get_map().inbounds( npc->get_location() ) ) {
                         g->remove_npc( npc->getID() );
+                        get_avatar().get_mon_visible().remove_npc( npc.get() );
                     }
                 }
             }
@@ -6766,8 +6766,6 @@ void map::mirror( bool mirror_horizontal, bool mirror_vertical )
         return;
     }
 
-
-
     real_coords rc;
     const tripoint_abs_sm &abs_sub = get_abs_sub();
     // TODO: fix point types
@@ -7493,7 +7491,7 @@ bool update_mapgen_function_json::update_map( const tripoint_abs_omt &omt_pos, c
         // trigger main map cleanup
         p_update_tmap.reset();
         // trigger new traps, etc
-        g->place_player( get_avatar().pos() );
+        g->place_player( get_avatar().pos(), true );
     }
 
     return u;

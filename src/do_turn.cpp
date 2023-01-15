@@ -674,9 +674,13 @@ bool do_turn()
     weather.update_weather();
     g->reset_light_level();
 
-    g->perhaps_add_random_npc();
+    g->perhaps_add_random_npc( /* ignore_spawn_timers_and_rates = */ false );
     while( u.moves > 0 && u.activity ) {
         u.activity.do_turn( u );
+    }
+    // FIXME: hack needed due to the legacy code in advanced_inventory::move_all_items()
+    if( !u.activity ) {
+        kill_advanced_inv();
     }
 
     // Process NPC sound events before they move or they hear themselves talking
@@ -818,7 +822,6 @@ bool do_turn()
     g->mon_info_update();
     u.process_turn();
     if( u.moves < 0 && get_option<bool>( "FORCE_REDRAW" ) ) {
-        g->mon_info_update();
         ui_manager::redraw();
         refresh_display();
     }

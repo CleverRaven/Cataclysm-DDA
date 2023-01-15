@@ -3462,7 +3462,7 @@
     "name": { "str": "Infection Immune" },
     "points": 3,
     "description": "Your bloodstream has developed antibiotic properties.  Your wounds will never become infected.",
-    "prereqs": [ "DISRESISTANT" ],
+    "prereqs": [ "DISRESISTANT", "DISIMMUNE" ],
     "prereqs2": [ "INFRESIST" ],
     "category": [ "MEDICAL" ],
     "flags": [ "INFECTION_IMMUNE" ]
@@ -3484,8 +3484,8 @@
     "name": { "str": "Parasite Immune" },
     "points": 1,
     "description": "Your body is unusually inhospitable to parasitic lifeforms.  You will never become infested with internal parasites.",
-    "prereqs": [ "DISRESISTANT" ],
-    "prereqs2": [ "INFRESIST" ],
+    "prereqs": [ "DISRESISTANT", "DISIMMUNE" ],
+    "prereqs2": [ "INFRESIST", "INFIMMUNE" ],
     "flags": [ "PARAIMMUNE" ],
     "category": [ "CHIMERA", "MEDICAL", "SLIME" ]
   },
@@ -7733,6 +7733,33 @@
     "description": "NPC trait that makes them be hallucination.  It is a bug if you have it.",
     "player_display": false,
     "threshold": true
+  },
+  {
+    "type": "mutation",
+    "id": "IGNORE_SOUND",
+    "name": { "str": "Ignores Sounds" },
+    "points": 99,
+    "valid": false,
+    "description": "NPC ignores sounds and does not investigate them.",
+    "purifiable": false
+  },
+  {
+    "type": "mutation",
+    "id": "NO_BASH",
+    "name": { "str": "Will Not Bash" },
+    "points": 99,
+    "valid": false,
+    "description": "NPC will not bash to reach things.",
+    "purifiable": false
+  },
+  {
+    "type": "mutation",
+    "id": "RETURN_TO_START_POS",
+    "name": { "str": "Returns to Start POS" },
+    "points": 99,
+    "valid": false,
+    "description": "NPC will return to its spawn position on idle.",
+    "purifiable": false
   },
   {
     "type": "mutation",

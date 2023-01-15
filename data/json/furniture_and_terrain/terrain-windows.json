@@ -3918,24 +3918,22 @@
     "looks_like": "t_window_empty",
     "symbol": "0",
     "color": "light_cyan",
-    "move_cost": 0,
+    "move_cost": 2,
     "trap": "tr_ledge",
-    "coverage": 60,
-    "deconstruct": {
-      "ter_set": "t_flat_roof",
-      "items": [ { "item": "2x4", "count": [ 3, 4 ] }, { "item": "nail", "charges": [ 12, 16 ] } ]
-    },
+    "coverage": 0,
+    "examine_action": "ledge",
+    "deconstruct": { "ter_set": "t_hole", "items": [ { "item": "2x4", "count": [ 3, 4 ] }, { "item": "nail", "charges": [ 12, 16 ] } ] },
     "bash": {
       "str_min": 1,
       "str_max": 1,
-      "sound": "glass crunching!",
+      "sound": "whump!",
       "sound_fail": "whack!",
       "sound_vol": 12,
       "sound_fail_vol": 8,
-      "ter_set": "t_open_air",
+      "ter_set": "t_hole",
       "items": [ { "item": "2x4", "count": [ 2, 4 ] } ]
     },
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM" ]
+    "flags": [ "TRANSPARENT", "NO_FLOOR", "FLAMMABLE" ]
   },
   {
     "type": "terrain",

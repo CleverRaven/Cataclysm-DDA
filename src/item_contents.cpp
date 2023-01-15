@@ -1011,7 +1011,8 @@ size_t item_contents::num_item_stacks() const
     size_t num = 0;
     for( const item_pocket &pocket : contents ) {
         if( pocket.is_type( item_pocket::pocket_type::MOD ) ||
-            pocket.is_type( item_pocket::pocket_type::MAGAZINE_WELL ) ) {
+            pocket.is_type( item_pocket::pocket_type::MAGAZINE_WELL ) ||
+            pocket.is_type( item_pocket::pocket_type::CORPSE ) ) {
             // mods and magazine wells aren't really a contained item, which this function gets
             continue;
         }
@@ -1816,7 +1817,6 @@ item item_contents::remove_pocket( int index )
     // start at the first pocket
     auto rit = contents.rbegin();
 
-
     // find the pockets to remove from the item
     for( int i = additional_pockets.size() - 1; i >= index; --i ) {
         // move the iterator past all the pockets we aren't removing
@@ -2237,7 +2237,6 @@ units::length item_contents::item_length_modifier() const
     }
     return total_length;
 }
-
 
 int item_contents::best_quality( const quality_id &id ) const
 {
