@@ -10787,21 +10787,36 @@ void Character::recalc_speed_bonus()
             }
         }
     }
-    int prev_speed_bonus = 0;
-    if( ( mixed_speedydex_bonus == false && get_speedydex_bonus( get_dex() ) == 0 ) || ( mixed_speedydex_bonus == true && get_speedydex_bonus( get_dex() ) == 0 ) ) {
+    
+    int prev_speed_bonus = get_speed_bonus();
+
+    if ((mixed_speedydex_bonus == false && get_speedydex_bonus(get_dex()) == 0) || (mixed_speedydex_bonus == true && get_speedydex_bonus(get_dex()) == 0))
+    {
         prev_speed_bonus = get_speed_bonus();
-        set_speed_bonus( std::round( enchantment_cache->modify_value( enchant_vals::mod::SPEED,
-                                  get_speed() ) - get_speed_base() ) );
-    } else if(mixed_speedydex_bonus == false && get_speedydex_bonus( get_dex() ) != 0 ) {
+        set_speed_bonus(std::round(enchantment_cache->modify_value(enchant_vals::mod::SPEED,
+                                                                   get_speed()) -
+                                   get_speed_base()));
+    }
+    else if (mixed_speedydex_bonus == false && get_speedydex_bonus(get_dex()) != 0)
+    {
+
         prev_speed_bonus = get_speed_bonus();
-        set_speed_bonus( std::round( enchantment_cache->modify_value( enchant_vals::mod::SPEED,
-                                  get_speed() ) - get_speed_base() ) );
+        set_speed_bonus(std::round(enchantment_cache->modify_value(enchant_vals::mod::SPEED,
+                                                                   get_speed()) -
+                                   get_speed_base()));
         mixed_speedydex_bonus = true;
-    } else if( mixed_speedydex_bonus == true ) {
-        prev_speed_bonus = get_speed_bonus() - get_speedydex_bonus( get_dex() );
-        set_speed_bonus( std::round( enchantment_cache->modify_value( enchant_vals::mod::SPEED,
-                                 get_speed() ) - get_speed_base() - get_speedydex_bonus( get_dex() ) ) );
-    }    
+    }
+    else if (mixed_speedydex_bonus == true)
+    {
+
+        prev_speed_bonus = get_speed_bonus() - get_speedydex_bonus(get_dex());
+        set_speed_bonus(std::round(enchantment_cache->modify_value(enchant_vals::mod::SPEED,
+                                                                   get_speed()) -
+                                   get_speed_base() - get_speedydex_bonus(get_dex())));
+    }
+
+    enchantment_speed_bonus = get_speed_bonus() - prev_speed_bonus;
+
     enchantment_speed_bonus = get_speed_bonus() - prev_speed_bonus;
     // Speed cannot be less than 25% of base speed, so minimal speed bonus is -75% base speed.
     const int min_speed_bonus = static_cast<int>( -0.75 * get_speed_base() );
