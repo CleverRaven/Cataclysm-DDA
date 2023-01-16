@@ -5937,6 +5937,13 @@ units::mass Character::bodyweight_fat() const
 {
     return units::from_kilogram( get_stored_kcal() / 7716.17 );
 }
+unit
+s::mass Character::bodyweight_lean() const
+{
+    //12 plus base strength gives non fat bmi, adjusted by starvation in get_bmi_lean()
+    return units::from_kilogram( get_bmi_lean() * std::pow( height() / 100.0f, 2 ) );
+}
+
 units::mass Character::bionics_weight() const
 {
     units::mass bio_weight = 0_gram;
