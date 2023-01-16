@@ -5942,6 +5942,11 @@ units::mass Character::bodyweight_lean() const
     return units::from_kilogram( get_bmi_lean() * std::pow( height() / 100.0f, 2 ) );
 }
 
+float Character::fat_ratio() const
+{
+    return bodyweight_fat() / bodyweight();
+}
+
 units::mass Character::bionics_weight() const
 {
     units::mass bio_weight = 0_gram;
