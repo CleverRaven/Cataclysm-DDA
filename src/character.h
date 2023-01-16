@@ -572,8 +572,6 @@ class Character : public Creature, public visitable
         void set_stored_calories( int cal );
 
     public:
-        
-        bool mixed_speedydex_bonus = false;
 
         void gravity_check();
 
