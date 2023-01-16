@@ -2627,7 +2627,7 @@ class Character : public Creature, public visitable
         // returns the weight of the character that is fatty tissue based on stored kcal
         units::mass bodyweight_fat() const;
         // returns ratio of fat mass to lean total mass (unused currently)
-        units::mass fat_ratio() const;
+        float fat_ratio() const;
         // returns total weight of installed bionics
         units::mass bionics_weight() const;
         // increases the activity level to the specified level
