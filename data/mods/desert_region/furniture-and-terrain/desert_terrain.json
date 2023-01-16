@@ -71,7 +71,7 @@
     "type": "terrain",
     "id": "t_mudcrack",
     "name": "mudcrack",
-    "description": "Large continous cracks mark what once was a bottom of a body of water.  With the proper tools, you could extract clay from here.",
+    "description": "Large continuous cracks mark what once was a bottom of a body of water.  With the proper tools, you could extract clay from here.",
     "symbol": ".",
     "looks_like": "t_dirt",
     "color": "brown",
