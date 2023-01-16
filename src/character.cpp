@@ -5928,17 +5928,15 @@ float Character::get_bmi_fat() const
 
 units::mass Character::bodyweight() const
 {
-    float kg_from_kcal = get_stored_kcal() / 7716.17f;
-    float lean_mass = get_bmi_lean() * std::pow( height() / 100.0f, 2 );
-    return units::from_kilogram( kg_from_kcal + lean_mass );
+    return bodyweight_fat() + bodyweight_lean();
 }
 
 units::mass Character::bodyweight_fat() const
 {
     return units::from_kilogram( get_stored_kcal() / 7716.17 );
 }
-unit
-s::mass Character::bodyweight_lean() const
+
+units::mass Character::bodyweight_lean() const
 {
     //12 plus base strength gives non fat bmi, adjusted by starvation in get_bmi_lean()
     return units::from_kilogram( get_bmi_lean() * std::pow( height() / 100.0f, 2 ) );
