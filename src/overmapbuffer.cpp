@@ -1279,7 +1279,9 @@ shared_ptr_fast<npc> overmapbuffer::find_npc( character_id id )
 void overmapbuffer::foreach_npc( const std::function<void( npc & )> &callback )
 {
     for( auto &it : overmaps ) {
-        it.second->for_each_npc( callback );
+        for( auto &guy : it.second->npcs ) {
+            callback( *guy );
+        }
     }
 }
 
