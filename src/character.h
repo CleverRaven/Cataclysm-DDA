@@ -573,10 +573,6 @@ class Character : public Creature, public visitable
 
     public:
         
-        bool got_initial_speed_base = false;
-        
-        int initial_speed_base = 0;
-        
         void gravity_check();
 
         void mod_stat( const std::string &stat, float modifier ) override;
