@@ -3788,7 +3788,7 @@ int Character::get_speed() const
         return get_speed_base() + std::max( 0, get_speed_bonus() ) + std::max( 0,
                 get_speedydex_bonus( get_dex() ) );
     }
-    return Creature::get_speed() + get_speedydex_bonus( get_dex() );
+    return Creature::get_speed();
 }
 
 int Character::get_arm_str() const
@@ -10787,32 +10787,10 @@ void Character::recalc_speed_bonus()
         }
     }
     
-    int prev_speed_bonus = get_speed_bonus();
-
-    if ((mixed_speedydex_bonus == false && get_speedydex_bonus(get_dex()) == 0) || (mixed_speedydex_bonus == true && get_speedydex_bonus(get_dex()) == 0))
-    {
-        prev_speed_bonus = get_speed_bonus();
-        set_speed_bonus(std::round(enchantment_cache->modify_value(enchant_vals::mod::SPEED,
-                                                                   get_speed()) -
-                                   get_speed_base()));
-    }
-    else if (mixed_speedydex_bonus == false && get_speedydex_bonus(get_dex()) != 0)
-    {
-
-        prev_speed_bonus = get_speed_bonus();
-        set_speed_bonus(std::round(enchantment_cache->modify_value(enchant_vals::mod::SPEED,
-                                                                   get_speed()) -
-                                   get_speed_base()));
-        mixed_speedydex_bonus = true;
-    }
-    else if (mixed_speedydex_bonus == true)
-    {
-
-        prev_speed_bonus = get_speed_bonus() - get_speedydex_bonus(get_dex());
-        set_speed_bonus(std::round(enchantment_cache->modify_value(enchant_vals::mod::SPEED,
-                                                                   get_speed()) -
-                                   get_speed_base() - get_speedydex_bonus(get_dex())));
-    }
+    const int prev_speed_bonus = get_speed_bonus();
+    
+    set_speed_bonus( std::round( enchantment_cache->modify_value( enchant_vals::mod::SPEED,
+                                    get_speed() ) - get_speed_base() + get_speedydex_bonus( get_dex() ) ) );
 
     enchantment_speed_bonus = get_speed_bonus() - prev_speed_bonus;
     
