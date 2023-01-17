@@ -29,7 +29,6 @@ class item_category;
 #   include <SDL_keyboard.h>
 #endif
 
-
 void advanced_inventory_pane::set_area( const advanced_inv_area &square, bool in_vehicle_cargo )
 {
     prev_area = area;

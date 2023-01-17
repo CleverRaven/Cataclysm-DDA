@@ -226,13 +226,8 @@
     "type": "widget",
     "style": "layout",
     "arrange": "columns",
-    "widgets": [ "mood_desc_no_label", "structured_safe_mode_desc" ]
-  },
-  {
-    "id": "structured_safe_mode_desc",
-    "type": "widget",
-    "text_align": "right",
-    "copy-from": "safe_mode_classic_desc"
+    "padding": 0,
+    "widgets": [ "mood_desc_no_label", "safe_mode_classic_desc_right" ]
   },
   {
     "id": "structured_stamina_graph",

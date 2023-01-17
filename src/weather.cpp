@@ -1001,7 +1001,6 @@ units::temperature weather_manager::get_temperature( const tripoint &location )
         return cached->second;
     }
 
-
     //underground temperature = average New England temperature = 43F/6C
     units::temperature temp = ( location.z < 0 ? AVERAGE_ANNUAL_TEMPERATURE : temperature ) +
                               ( g->new_game ? 0_K : get_map().get_temperature_mod( location ) );

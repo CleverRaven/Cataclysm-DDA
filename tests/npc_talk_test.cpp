@@ -1645,7 +1645,6 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
                        proficiencies_vector.end(),
                        proficiency_prof_test ) == 0 );
 
-
     // Teardown
     player_character.remove_value( var_name );
 }
