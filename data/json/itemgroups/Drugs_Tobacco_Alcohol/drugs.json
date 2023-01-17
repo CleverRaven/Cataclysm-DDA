@@ -100,6 +100,7 @@
       { "item": "antibiotics", "prob": 20, "charges": [ 1, 15 ] },
       { "item": "bandages", "prob": 100, "charges": [ 1, 3 ] },
       { "item": "morphine", "prob": 20, "charges": [ 1, 4 ] },
+      { "item": "fentanyl", "prob": 10, "charges": [ 1, 4 ] },
       { "item": "quikclot", "prob": 20, "charges": [ 1, 6 ] },
       { "item": "smoxygen_tank", "prob": 20, "charges": [ 0, 12 ] },
       { "item": "tramadol", "prob": 20, "charges": [ 1, 10 ] }
@@ -184,6 +185,7 @@
       { "item": "codeine", "prob": 15, "charges": [ 1, 10 ] },
       { "item": "oxycodone", "prob": 4, "charges": [ 1, 10 ] },
       { "item": "morphine", "prob": 4, "charges": [ 1, 4 ] },
+      { "item": "fentanyl", "prob": 2, "charges": [ 1, 4 ] },
       { "item": "tramadol", "prob": 11, "charges": [ 1, 10 ] },
       { "item": "xanax", "prob": 10, "charges": [ 1, 10 ] },
       { "item": "adderall", "prob": 10, "charges": [ 1, 10 ] },
