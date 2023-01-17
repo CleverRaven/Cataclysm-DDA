@@ -842,23 +842,7 @@ Effect | Description
 `u_roll_remainder, npc_roll_remainder : `array of strings and/or [variable objects](#variable-object), `type: `string or [variable object](#variable-object), (*optional* `true_eocs: eocs_array`), (*optional* `false_eocs: eocs_array`) | Type must be either `bionic`, `mutation`, `spell` or `recipe`.  If the u or npc does not have all of the listed bionics, mutations, spells, or recipes they will be given one randomly and and then all of the effect_on_conditions in `true_eocs` are run, otherwise all the effect_on_conditions in `false_eocs` are run.
 `switch : arithmetic_expression`, `cases: effect_array` | Will calculate value of `switch` and then run member of `cases` with the highest `case` that the `switch` is higher or equal to. `cases` is an array of objects with an int_or_var `case` and an `effect` field which is a dialog effect.
 `u_run_npc_eocs or npc_run_npc_eocs : effect_on_condition_array`, (*optional* `unique_ids: `array of strings and/or [variable objects](#variable-object)), (*optional* `npcs_must_see: npcs_must_see_bool`), (*optional* `npc_range: `int or [variable object](#variable-object)), (*optional* `local: local_bool`) | Will run all members of the `effect_on_condition_array` on npcs. Members should either be the id of an effect_on_condition or an inline effect_on_condition.  If `local`(default: false) is false, then regardless of location all npcs with unique ids in the array `unique_ids` will be affected.  If `local` is true, only unique_ids listed in `unique_ids` will be affected, if it is empty all npcs in range will be effected. If a value is given for `npc_range` the npc must be that close to the source and if `npcs_must_see`(defaults to false) is true the npc must be able to see the source. For `u_run_npc_eocs` u is the source for `npc_run_npc_eocs` it is the npc.
-`weighted_list_eocs: array_array` | Will choose one of a list of eocs to activate based on weight. Members should be an array of first the id of an effect_on_condition or an inline effect_on_condition and second an object that resolves to an integer weight.
-Example: This will cause "EOC_SLEEP" 1/10 as often as it makes a test message appear.
-``` json
-    "effect": [
-      {
-        "weighted_list_eocs": [
-          [ "EOC_SLEEP", { "const": 1 } ],
-          [ {
-              "id": "eoc_test2",
-              "effect": [ { "u_message": "A test message appears!", "type": "bad" } ]
-            },
-            { "const": 10 }
-          ]
-        ]
-      }
-    ]
-```
+`weighted_list_eocs: array_array` | Will choose one of a list of eocs to activate based on weight. Members should be an array of first the id of an effect_on_condition or an inline effect_on_condition and second an object that resolves to an integer weight.<br/><br/>Example: This will cause "EOC_SLEEP" 1/10 as often as it makes a test message appear.<pre>    "effect": [<br/>      {<br/>        "weighted_list_eocs": [<br/>          [ "EOC_SLEEP", { "const": 1 } ],<br/>          [ {<br/>              "id": "eoc_test2",<br/>              "effect": [ { "u_message": "A test message appears!", "type": "bad" } ]<br/>            },<br/>            { "const": 10 }<br/>          ]<br/>        ]<br/>      }<br/>    ]</pre>
 
 #### Deprecated
 Effect | Description
@@ -905,7 +889,7 @@ Condition | Type | Description
 `"u_has_any_trait"`<br/>`"npc_has_any_trait"` | array of strings and/or [variable objects](#variable-object) | `true` if the player character or NPC has any trait or mutation in the array. Used to check multiple specific traits.
 `"u_has_var"`, `"npc_has_var"` | string | `"type": type_str`, `"context": context_str`, and `"value": value_str` are required fields in the same dictionary as `"u_has_var"` or `"npc_has_var"`.<br/>`true` is the player character or NPC has a variable set by `"u_add_var"` or `"npc_add_var"` with the string, `type_str`, `context_str`, and `value_str`.
 `"u_compare_var"`, `"npc_compare_var"` | dictionary | `"type": type_str`, `"context": context_str`, `"op": op_str`, `"value": `int or [variable object](#variable-object) ` are required fields, referencing a var as in `"u_add_var"` or `"npc_add_var"`.<br/>`true` if the player character or NPC has a stored variable that is true for the provided operator `op_str` (one of `==`, `!=`, `<`, `>`, `<=`, `>=`) and value.
-`"u_compare_time_since_var"`, `"npc_compare_time_since_var_"` | dictionary | `"type": type_str`, `"context": context_str`, `"op": op_str`, `"time": time_string` are required fields, referencing a var as in `"u_add_var"` or `"npc_add_var"`.<br/>`true` if the player character or NPC has a stored variable and the current turn and that value (converted to a time point) plus the time_string is true for the provided operator `op_str` (one of `==`, `!=`, `<`, `>`, `<=`, `>=`).  *example*: `{ "u_compare_time_since_var": "test", "type": "test", "context": "var_time_test", "op": ">", "time": "3 days" }` returns true if the player character has a "test", "test", "var_time_test" variable and the current turn is greater than that value plus 3 days' worth of turns.
+`"u_compare_time_since_var"`, `"npc_compare_time_since_var_"` | dictionary | `"type": type_str`, `"context": context_str`, `"op": op_str`, `"time": time_string` are required fields, referencing a var as in `"u_add_var"` or `"npc_add_var"`.<br/>`true` if the player character or NPC has a stored variable and the current turn and that value (converted to a time point) plus the time_string is true for the provided operator `op_str` (one of `==`, `!=`, `<`, `>`, `<=`, `>=`).<br/><br/>Example: returns true if the player character has a "test", "test", "var_time_test" variable and the current turn is greater than that value plus 3 days' worth of turns.<pre>{<br/>  "u_compare_time_since_var": "test", "type": "test",<br/>  "context": "var_time_test", "op": ">", "time": "3 days"<br/>}</pre>
 `"compare_string"` | array | The array must contain exactly two entries.  They can be either strings and/or [variable objects](#variable-object).  Returns true if the strings are the same.
 `"u_has_strength"`<br/>`"npc_has_strength"` | int or [variable object](#variable-object) | `true` if the player character's or NPC's strength is at least the value of `u_has_strength` or `npc_has_strength`.
 `"u_has_dexterity"`<br/>`"npc_has_dexterity"` | int or [variable object](#variable-object) | `true` if the player character's or NPC's dexterity is at least the value of `u_has_dexterity` or `npc_has_dexterity`.
@@ -928,11 +912,8 @@ Condition | Type | Description
 `"u_is_deaf"`<br/>`"npc_is_deaf"` | simple string | `true` if the player character or NPC can't hear.
 `"u_is_on_terrain"`<br/>`"npc_is_on_terrain"` | string or [variable object](#variable-object) | `true` if the player character or NPC is on terrain named `"u_is_on_terrain"` or `"npc_is_on_terrain"`.
 `"u_is_in_field"`<br/>`"npc_is_in_field"` | string or [variable object](#variable-object) | `true` if the player character or NPC is in a field of type `"u_is_in_field"` or `"npc_is_in_field"`..
-`"u_query"`<br/>`"npc_query", default : bool` | string or [variable object](#variable-object) | if the player character or NPC is the avatar will popup a yes/no query with the provided message and users response is used as the return value.  If called for a non avatar will return `default`.
-example
-```
-"condition": { "u_query": "Should we test?", "default": true },
-```
+`"u_query"`<br/>`"npc_query", default : bool` | string or [variable object](#variable-object) | if the player character or NPC is the avatar will popup a yes/no query with the provided message and users response is used as the return value.  If called for a non avatar will return `default`.<br/><br/>Example:<pre>"condition": { "u_query": "Should we test?", "default": true },</pre>
+
 #### Player Only conditions
 
 Condition | Type | Description
@@ -1078,14 +1059,10 @@ Example | Description
 `"u_val": "spell_level"` | Level of a given spell. -1 means the spell is not known when read and that the spell should be forgotten if written. Optional params: `school` gives the highest level of spells known of that school (read only), `spell` reads or writes the level of the spell with matching spell id. If no parameter is provided, you will get the highest spell level of the spells you know (read only).
 `"u_val": "spell_exp"` | Experience for a given spell. -1 means the spell is not known when read and that the spell should be forgotten if written. Required param: `spell` is the id of the spell in question.
 `"u_val": "proficiency"` | Deals with a proficiency. Required params: `proficiency_id` is the id of the proficiency dealt with. `format` determines how the proficiency will be interacted with. `"format": <int>` will read or write how much you have trained a proficiency out of <int>. So for exaple, if you write a 5 to a proficiency using `"format": 10`, you will set the proficiency to be trained to 50%. `"format": "percent"` reads or writes how many percen done the learning is. `"format": "permille"` does likewise for permille. `"format": "total_time_required"` gives you total time required to train a given proficiency (read only). `"format": "time_spent"` deals with total time spent. `"format": "time_left"` sets the remaining time instead. For most formats possible, If the resulting time is set to equal or more than the time required to learn the proficiency, you learn it. If you read it and it gives back the total time required, it means it is learnt. Setting the total time practiced to a negative value completely removes the proficiency from your known and practiced proficiencies. If you try to read time spent on a proficiency that is not in your proficiency list, you will get back 0 seconds.
-`"distance": []` | Distance between two targets. Valid targets are: "u","npc" and an object with a variable name.
+`"distance": []` | Distance between two targets. Valid targets are: "u","npc" and an object with a variable name.<br/><br/>Example:<pre>"condition": { "compare_num": [<br/>  { "distance": [ "u",{ "u_val": "stuck", "type": "ps", "context": "teleport" }  ] },<br/>  ">", { "const": 5 }<br/>] }</pre>
 `"hour"` | Hours since midnight.
-`"moon"` | Phase of the moon. MOON_NEW =0, WAXING_CRESCENT =1, HALF_MOON_WAXING =2, WAXING_GIBBOUS =3, FULL =4, WANING_GIBBOUS =5, HALF_MOON_WANING =6, WANING_CRESCENT =7
-`"arithmetic"` | An arithmetic expression with no result.   
-```
-"condition": { "compare_num": [ { "distance": [ "u",{ "u_val": "stuck", "type": "ps", "context": "teleport" }  ] }, ">", { "const": 5 } ] }
-"real_count": { "arithmetic": [ { "arithmetic": [ { "const":1 }, "+", { "const": 1 } ] }, "+", { "const": 1 } ] },
-```
+`"moon"` | Phase of the moon.<pre>MOON_NEW =0,<br/>WAXING_CRESCENT =1,<br/>HALF_MOON_WAXING =2,<br/>WAXING_GIBBOUS =3,<br/>FULL =4,<br/>WANING_GIBBOUS =5,<br/>HALF_MOON_WANING =6,<br/>WANING_CRESCENT =7</pre>
+`"arithmetic"` | An arithmetic expression with no result.<br/><br/>Example:<pre>"real_count": { "arithmetic": [<br/>  { "arithmetic": [ { "const":1 }, "+", { "const": 1 } ] },<br/>  "+", { "const": 1 }<br/>] },</pre>
 
 #### Sample responses with conditions and effects
 ```json
