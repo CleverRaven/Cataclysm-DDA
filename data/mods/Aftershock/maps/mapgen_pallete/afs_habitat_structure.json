@@ -30,7 +30,7 @@
       ">": "t_stairs_down",
       "<": "t_stairs_up"
     },
-    "furniture": { "~": "f_habitat_bathroom", "^": "f_sink", "*": "f_sink", "%": "f_fireman_cabinet"}
+    "furniture": { "~": "f_habitat_bathroom", "^": "f_sink", "*": "f_sink", "%": "f_fireman_cabinet" }
   },
   {
     "type": "palette",
