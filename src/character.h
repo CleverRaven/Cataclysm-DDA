@@ -572,6 +572,8 @@ class Character : public Creature, public visitable
         void set_stored_calories( int cal );
 
     public:
+    
+    
         void gravity_check();
 
         void mod_stat( const std::string &stat, float modifier ) override;
