@@ -320,20 +320,20 @@ This example adds the "I'm going now!" response to all the listed topics.
 ```
 
 ### dynamic_line
-The `dynamic_line` is the line spoken by the NPC.  It is optional.  If it is not defined and the topic has the same id as a built-in topic, the `dynamic_line` from that built-in topic will be used.  Otherwise the NPC will say nothing.  See the chapter about `dynamic_line` below for more details.
+The `dynamic_line` is the line spoken by the NPC.  It is optional.  If it is not defined and the topic has the same id as a built-in topic, the `dynamic_line` from that built-in topic will be used.  Otherwise the NPC will say nothing.  [See the chapter about Dynamic Lines below](#dynamic-lines) for more details.
 
 ### speaker_effect
-The `speaker_effect` is an object or array of effects that will occur after the NPC speaks the `dynamic_line`, no matter which response the player chooses.  See the chapter about Speaker Effects below for more details.
+The `speaker_effect` is an object or array of effects that will occur after the NPC speaks the `dynamic_line`, no matter which response the player chooses.  [See the chapter about Speaker Effects below](#speaker-effects)) for more details.
 
 ### response
-The `responses` entry is an array with possible responses.  It must not be empty.  Each entry must be a response object. See the chapter about Responses below for more details.
+The `responses` entry is an array with possible responses.  It must not be empty.  Each entry must be a response object. [See the chapter about Responses below](#responses) for more details.
 
 ### replace_built_in_responses
 `replace_built_in_responses` is an optional boolean that defines whether to dismiss the built-in responses for that topic (default is `false`). If there are no built-in responses, this won't do anything. If `true`, the built-in responses are ignored and only those from this definition in the current json are used. If `false`, the responses from the current json are used along with the built-in responses (if any).
 
 ---
 
-## dynamic_line
+## Dynamic Lines
 A dynamic line can either be a simple string, or an complex object, or an array with `dynamic_line` entries.  If it's an array, an entry will be chosen randomly every time the NPC needs it.  Each entry has the same probability.
 
 Example:
