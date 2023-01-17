@@ -1511,8 +1511,6 @@ class item : public visitable
         /** Returns true if the item is broken or will be broken on activation */
         bool is_broken_on_active() const;
 
-        bool is_unarmed_weapon() const; //Returns true if the item should be considered unarmed
-
         bool has_temperature() const;
 
         /** Returns true if the item is A: is SOLID and if it B: is of type LIQUID */

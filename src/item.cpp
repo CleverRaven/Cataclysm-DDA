@@ -193,7 +193,6 @@ static const quality_id qual_LIFT( "LIFT" );
 static const skill_id skill_cooking( "cooking" );
 static const skill_id skill_melee( "melee" );
 static const skill_id skill_survival( "survival" );
-static const skill_id skill_unarmed( "unarmed" );
 static const skill_id skill_weapon( "weapon" );
 
 static const species_id species_ROBOT( "ROBOT" );
@@ -849,11 +848,6 @@ bool item::is_null() const
 {
     // Actually, type should never by null at all.
     return ( type == nullptr || type == nullitem() || typeId().is_null() );
-}
-
-bool item::is_unarmed_weapon() const
-{
-    return is_null() || has_flag( flag_UNARMED_WEAPON );
 }
 
 bool item::is_frozen_liquid() const
@@ -10596,10 +10590,6 @@ gun_type_type item::gun_type() const
 
 skill_id item::melee_skill() const
 {
-    if( is_unarmed_weapon() ) {
-        return skill_unarmed;
-    }
-
     if( !is_melee() ) {
         return skill_id::NULL_ID();
     }
