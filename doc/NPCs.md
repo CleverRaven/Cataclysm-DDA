@@ -90,20 +90,18 @@ Format:
 }
 ```
 This is the JSON that creates the NPC ID that is used to spawn an NPC in "mapgen" (map generation).
-Attitude is based on the enum in npc.h. The important ones are 0=NPCATT_NULL, 1=NPCATT_TALK", 3=NPCATT_FOLLOW, 7=NPCATT_DEFEND, 10=NPCATT_KILL, and 11=NPCATT_FLEE.
-Mission is based on the enum in npc.h.  The important ones are 0=NPC_MISSION_NUL, 3=NPC_MISSION_SHOPKEEP", and 7=NPC_MISSION_GUARD", 8 = NPC_MISSION_GUARD_PATROL will actively investigate noises".
+
+Attitude is based on the enum in `npc.h`. The important ones are `0=NPCATT_NULL`, `1=NPCATT_TALK`, `3=NPCATT_FOLLOW`, `7=NPCATT_DEFEND`, `10=NPCATT_KILL`, and `11=NPCATT_FLEE`.
+
+Mission is based on the enum in `npc.h`.  The important ones are `0=NPC_MISSION_NULL`, `3=NPC_MISSION_SHOPKEEP`, `7=NPC_MISSION_GUARD`, and `8=NPC_MISSION_GUARD_PATROL`.
+
 Chat is covered in the dialogue examples below.
+
 Faction determines what faction, if any, the NPC belongs to.  Some examples are the Free Traders, Old Guard, Marloss Evangelists, and Hell's raiders but could include a brand new faction you create!
-death_eocs are string effect_on_condition ids and or inline effect_on_conditions (see [EFFECT_ON_CONDITION.md](EFFECT_ON_CONDITION.md)).  When the npc dies all of these eocs are run with the victim as u and the killer as npc.
 
-# Age and Height
-You can define the age and height of the NPC in the `age` or `height` fields in `"type": "npc"`.
+`death_eocs` are string `effect_on_condition` ids and/or inline `effect_on_condition`s (see [EFFECT_ON_CONDITION.md](EFFECT_ON_CONDITION.md)).  When the npc dies all of these `eoc`s are run with the victim as u and the killer as npc.
 
-Field | Description
----|---
-`age` | NPC age
-`height` | NPC height (cm)
-
+`age` and `height` are optional fields that can be used to define the age and height (in cm) of the NPC respectively.
 
 # Writing dialogues
 Dialogues work like state machines. They start with a certain topic (the NPC says something), the player character can then respond (choosing one of several responses), and that response sets the new talk topic. This goes on until the dialogue is finished, or the NPC turns hostile.
