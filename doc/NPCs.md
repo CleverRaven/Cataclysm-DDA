@@ -575,18 +575,10 @@ Sample trials:
 ```
 
 ### success and failure
-Both objects have the same structure. `topic` defines which topic the dialogue will switch to. `opinion` is optional, if given it defines how the opinion of the NPC will change. The given values are *added* to the opinion of the NPC, they are all optional and default to 0. `effect` is a function that is executed after choosing the response, [see Dialogue Effects below](#dialogue-effects) for details.
+Both objects have the same structure. The `failure` object is used if the trial fails, the `success` object is used otherwise.
 
-The opinion of the NPC affects several aspects of the interaction with NPCs:
-- Higher trust makes it easier to lie and persuade, and it usually a good thing.
-- Higher fear makes it easier to intimidate, but the NPC may flee from you (and will not talk to you).
-- Higher value makes it easier to persuade them and to give them orders, it's a kind of a friendship indicator.
-- High anger value (about 20 points more than fear, but this also depends on the NPCs personality) makes the NPC hostile and is usually a bad thing.
-The combination of fear and trust decide together with the personality of the NPC the initial talk topic (`"TALK_MUG"`, `"TALK_STRANGER_AGGRESSIVE"`, `"TALK_STRANGER_SCARED"`, `"TALK_STRANGER_WARY"`, `"TALK_STRANGER_FRIENDLY"`, or `"TALK_STRANGER_NEUTRAL"`).
-
-For the actual usage of that data, search the source code for `"op_of_u"`.
-
-The `failure` object is used if the trial fails, the `success` object is used otherwise.
+#### `topic`
+`topic` defines which topic the dialogue will switch to, usually specified by giving its id.
 
 `topic` can also be a single topic object (the `type` member is not required here):
 
@@ -600,6 +592,20 @@ The `failure` object is used if the trial fails, the `success` object is used ot
     }
 }
 ```
+#### `effect`
+`effect` is a function that is executed after choosing the response, [see Dialogue Effects below](#dialogue-effects) for details.
+
+#### `opinion`
+`opinion` is optional, if given it defines how the opinion of the NPC will change. The given values are *added* to the opinion of the NPC, they are all optional and default to 0.
+
+The opinion of the NPC affects several aspects of the interaction with NPCs:
+- Higher trust makes it easier to lie and persuade, and it usually a good thing.
+- Higher fear makes it easier to intimidate, but the NPC may flee from you (and will not talk to you).
+- Higher value makes it easier to persuade them and to give them orders, it's a kind of a friendship indicator.
+- High anger value (about 20 points more than fear, but this also depends on the NPCs personality) makes the NPC hostile and is usually a bad thing.
+The combination of fear and trust decide together with the personality of the NPC the initial talk topic (`"TALK_MUG"`, `"TALK_STRANGER_AGGRESSIVE"`, `"TALK_STRANGER_SCARED"`, `"TALK_STRANGER_WARY"`, `"TALK_STRANGER_FRIENDLY"`, or `"TALK_STRANGER_NEUTRAL"`).
+
+For the actual usage of that data, search the source code for `"op_of_u"`.
 
 ### Response Availability
 
