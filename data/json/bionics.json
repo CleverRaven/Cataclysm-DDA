@@ -1229,7 +1229,7 @@
     "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
     "act_cost": "10 J",
     "react_cost": "10 J",
-    "trigger_cost": "250 J",
+    "trigger_cost": "400 J",
     "time": "1 s"
   },
   {
