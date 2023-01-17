@@ -10786,10 +10786,8 @@ void Character::recalc_speed_bonus()
             }
         }
     }
-    const int prev_speed_bonus = get_speed_bonus();   
-    if( get_speedydex_bonus( get_dex() ) != 0 ) {
-        set_speed_base( 100 + get_speedydex_bonus( get_dex() ) );
-    }
+    const int prev_speed_bonus = get_speed_bonus();
+    set_speed_base( 100 + get_speedydex_bonus( get_dex() ) );
     set_speed_bonus( std::round( enchantment_cache->modify_value( enchant_vals::mod::SPEED,
                                  get_speed() ) - get_speed_base() ) );
     enchantment_speed_bonus = get_speed_bonus() - prev_speed_bonus;
