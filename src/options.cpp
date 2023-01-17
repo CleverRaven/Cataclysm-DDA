@@ -2668,7 +2668,7 @@ void options_manager::add_options_android()
     add( "ANDROID_NATIVE_UI", "android", to_translation( "Use native Android UI menus" ),
          to_translation( "If true, native Android dialogs are used for some in-game menus, "
                          "such as popup messages and yes/no dialogs." ),
-         android_get_default_setting( "Native Android UI", true )
+         android_get_default_setting( "Native Android UI", false )
        );
 
     add( "ANDROID_AUTO_KEYBOARD", "android", to_translation( "Auto-manage virtual keyboard" ),
