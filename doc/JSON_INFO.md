@@ -55,8 +55,6 @@ Use the `Home` key to return to the top.
       - [`name`](#name)
       - [`points`](#points)
       - [`addictions`](#addictions)
-      - [`shopkeeper_consumption_rates`](#shopkeeper_consumption_rates)
-      - [`shopkeeper_blacklist`](#shopkeeper_blacklist)
       - [`skills`](#skills)
       - [`missions`](#missions)
       - [`proficiencies`](#proficiencies)
@@ -1509,44 +1507,6 @@ Example:
 "addictions": [
     { "type": "nicotine", "intensity": 10 }
 ]
-```
-
-#### `shopkeeper_consumption_rates`
-
-```JSON
-  "type": "shopkeeper_consumption_rates",
-  "id": "basic_shop_rates",
-  "default_rate": 5, // defined as units/day since last restock
-  "junk_threshold": "10 cent", // items below this price will be consumed completely regardless of matches below
-  "rates": [ // lower entries override higher ones
-      { "item": "hammer", "rate": 1 },
-      {
-        "item": "hammer",
-        "rate": 10,
-        "condition": { "npc_has_var": "hammer_eater", "type": "bool", "context": "dinner", "value": "yes" }
-      },
-      { "category": "ammo", "rate": 10 },
-      { "group": "EXODII_basic_trade", "rate": 100 }
-      { "group": "EXODII_basic_trade", "category": "ammo", "rate": 200 }
-  ]
-```
-`condition` is checked with avatar as alpha and npc as beta. See [Player or NPC conditions](NPCs.md#player-or-npc-conditions).
-
-#### `shopkeeper_blacklist`
-Similar to `shopkeeper_consumption_rates`
-
-```JSON
-  "type": "shopkeeper_blacklist",
-  "id": "basic_blacklist",
-  "entries": [
-      {
-        "item": "hammer",
-        "condition": { "npc_has_var": "hammer_hater", "type": "bool", "context": "test", "value": "yes" },
-        "message": "<npcname> hates this item"
-      },
-      { "category": "ammo" },
-      { "group": "EXODII_basic_trade" }
-  ]
 ```
 
 #### `skills`

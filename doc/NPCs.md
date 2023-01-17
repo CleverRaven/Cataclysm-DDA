@@ -63,6 +63,44 @@ There are a couple of items in the above template that may not be self explanato
 - `"rigid"` : (_optional_) By default, item groups will be continually iterated until they reach a certain value or size threshold for the NPC. Rigid groups are instead guaranteed to populate a single time if they can, and will not include duplicate reruns. (Defaults to false)
 - `"refusal"` : (_optional_) message to display in UIs (ex: trade UI) when conditions are not met. Defaults to `"<npcname> does not trust you enough"`
 
+##### `shopkeeper_consumption_rates`
+
+```JSON
+  "type": "shopkeeper_consumption_rates",
+  "id": "basic_shop_rates",
+  "default_rate": 5, // defined as units/day since last restock
+  "junk_threshold": "10 cent", // items below this price will be consumed completely regardless of matches below
+  "rates": [ // lower entries override higher ones
+      { "item": "hammer", "rate": 1 },
+      {
+        "item": "hammer",
+        "rate": 10,
+        "condition": { "npc_has_var": "hammer_eater", "type": "bool", "context": "dinner", "value": "yes" }
+      },
+      { "category": "ammo", "rate": 10 },
+      { "group": "EXODII_basic_trade", "rate": 100 }
+      { "group": "EXODII_basic_trade", "category": "ammo", "rate": 200 }
+  ]
+```
+`condition` is checked with avatar as alpha and npc as beta. See [Player or NPC conditions](#player-or-npc-conditions).
+
+##### `shopkeeper_blacklist`
+Similar to `shopkeeper_consumption_rates`
+
+```JSON
+  "type": "shopkeeper_blacklist",
+  "id": "basic_blacklist",
+  "entries": [
+      {
+        "item": "hammer",
+        "condition": { "npc_has_var": "hammer_hater", "type": "bool", "context": "test", "value": "yes" },
+        "message": "<npcname> hates this item"
+      },
+      { "category": "ammo" },
+      { "group": "EXODII_basic_trade" }
+  ]
+```
+
 ##### Shop restocking
 NPCs with at least one `shopkeeper_item_group` will (re)stock their shop in nearby loot zones (within `PICKUP_RANGE` = 6 tiles) owned by their faction and will ignore all other items. If there isn't at least one `LOOT_UNSORTED` zone nearby, fallback zones will be automatically placed on all nearby, reachable, unsealed furniture with either the `CONTAINER` flag or a max volume higher than the floor. If there is no suitable furniture around, a 3x3 zone centered on the NPC will be created instead.
 
