@@ -1764,12 +1764,12 @@ class map
         tripoint_bub_ms bub_from_abs( const tripoint &p ) const;
         tripoint_bub_ms bub_from_abs( const tripoint_abs_ms &p ) const;
         // TODO: fix point types (remove the first overload)
-        bool inbounds(const tripoint& p) const {
+        bool inbounds( const tripoint &p ) const {
             half_open_cuboid<tripoint> map_boundaries(
-                tripoint(0, 0, -OVERMAP_DEPTH),
-                tripoint(SEEY * my_MAPSIZE, SEEX * my_MAPSIZE, OVERMAP_HEIGHT + 1)
+                tripoint( 0, 0, -OVERMAP_DEPTH ),
+                tripoint( SEEY * my_MAPSIZE, SEEX * my_MAPSIZE, OVERMAP_HEIGHT + 1 )
             );
-            return map_boundaries.contains(p);
+            return map_boundaries.contains( p );
         }
         bool inbounds( const tripoint_bub_ms &p ) const;
         bool inbounds( const tripoint_abs_ms &p ) const;
