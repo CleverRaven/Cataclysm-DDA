@@ -1030,7 +1030,7 @@
     "symbol": "!",
     "color": "light_gray",
     "container": "bottle_plastic_pill_supplement",
-    "stim": -1,
+    "stim": -10,
     "healthy": -5,
     "fun": 20,
     "addiction_potential": 75,
