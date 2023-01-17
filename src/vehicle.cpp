@@ -4037,7 +4037,7 @@ double vehicle::coeff_air_drag() const
             d_check_max( drag[ col ].exposed, pa, d_exposed( pa ) );
             d_check_min( drag[ col ].last, pa, pa.info().has_flag( "LOW_FINAL_AIR_DRAG" ) ||
                          pa.info().has_flag( "HALF_BOARD" ) );
-            d_check_min( drag[ col ].lastpart, pa, TRUE );
+            d_check_min( drag[ col ].lastpart, pa, true );
         }
     }
     double height = 0;
