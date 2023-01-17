@@ -70,7 +70,7 @@ void print_list_scrollable( catacurses::window *win, const std::vector<std::stri
                             int *selection, bool active, bool border,
                             const report_color_error color_error )
 {
-    print_list_scrollable( win, std::move( list ), selection, getmaxy( *win ), 0, getmaxx( *win ),
+    print_list_scrollable( win, list, selection, getmaxy( *win ), 0, getmaxx( *win ),
                            active, border,
                            color_error );
 }
