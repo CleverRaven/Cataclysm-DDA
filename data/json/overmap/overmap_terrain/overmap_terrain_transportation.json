@@ -83,6 +83,13 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "godco_enter",
+    "name": "dirt road",
+    "sym": "│",
+    "copy-from": "generic_rural_road"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "bridgehead_ramp",
     "copy-from": "generic_bridge",
     "name": "bridgehead (ramp)",
