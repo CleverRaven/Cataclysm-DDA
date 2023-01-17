@@ -531,27 +531,6 @@ The short format is equivalent to (an unconditional switching of the topic, `eff
 }
 ```
 
-The optional boolean keys "switch" and "default" are false by default.  Only the first response with `"switch": true`, `"default": false`, and a valid condition will be displayed, and no other responses with `"switch": true` will be displayed.  If no responses with `"switch": true` and `"default":  false` are displayed, then any and all responses with `"switch": true` and `"default": true` will be displayed.  In either case, all responses that have `"switch": false` (whether or not they have `"default": true` is set) will be displayed as long their conditions are satisfied.
-
-#### switch and default Example
-```json
-"responses": [
-  { "text": "You know what, never mind.", "topic": "TALK_NONE" },
-  { "text": "How does 5 Ben Franklins sound?",
-    "topic": "TALK_BIG_BRIBE", "condition": { "u_has_cash": 500 }, "switch": true },
-   { "text": "I could give you a big Grant.",
-    "topic": "TALK_BRIBE", "condition": { "u_has_cash": 50 }, "switch": true },
-  { "text": "Lincoln liberated the slaves, what can he do for me?",
-    "topic": "TALK_TINY_BRIBE", "condition": { "u_has_cash": 5 }, "switch": true, "default": true },
-  { "text": "Maybe we can work something else out?", "topic": "TALK_BRIBE_OTHER",
-    "switch": true, "default": true },
-  { "text": "Gotta go!", "topic": "TALK_DONE" }
-]
-```
-The player will always have the option to return to a previous topic or end the conversation, and
-will otherwise have the option to give a $500, $50, or $5 bribe if they have the funds.  If they
-don't have at least $50, they will also have the option to provide some other bribe.
-
 ### truefalsetext
 The player will have one response text if a condition is true, and another if it is false, but the same trial for either line.  `condition`, `true`, and `false` are all mandatory.
 
@@ -622,8 +601,32 @@ The `failure` object is used if the trial fails, the `success` object is used ot
 }
 ```
 
-### condition
+### Response Availability
+
+#### condition
 This is an optional condition which can be used to prevent the response under certain circumstances. If not defined, it defaults to always `true`. If the condition is not met, the response is not included in the list of possible responses. For possible content, [see Dialogue Conditions below](#dialogue-conditions) for details.
+
+#### switch and default
+The optional boolean keys "switch" and "default" are false by default.  Only the first response with `"switch": true`, `"default": false`, and a valid condition will be displayed, and no other responses with `"switch": true` will be displayed.  If no responses with `"switch": true` and `"default":  false` are displayed, then any and all responses with `"switch": true` and `"default": true` will be displayed.  In either case, all responses that have `"switch": false` (whether or not they have `"default": true` is set) will be displayed as long their conditions are satisfied.
+
+Example:
+```json
+"responses": [
+  { "text": "You know what, never mind.", "topic": "TALK_NONE" },
+  { "text": "How does 5 Ben Franklins sound?",
+    "topic": "TALK_BIG_BRIBE", "condition": { "u_has_cash": 500 }, "switch": true },
+   { "text": "I could give you a big Grant.",
+    "topic": "TALK_BRIBE", "condition": { "u_has_cash": 50 }, "switch": true },
+  { "text": "Lincoln liberated the slaves, what can he do for me?",
+    "topic": "TALK_TINY_BRIBE", "condition": { "u_has_cash": 5 }, "switch": true, "default": true },
+  { "text": "Maybe we can work something else out?", "topic": "TALK_BRIBE_OTHER",
+    "switch": true, "default": true },
+  { "text": "Gotta go!", "topic": "TALK_DONE" }
+]
+```
+The player will always have the option to return to a previous topic or end the conversation, and
+will otherwise have the option to give a $500, $50, or $5 bribe if they have the funds.  If they
+don't have at least $50, they will also have the option to provide some other bribe.
 
 ---
 
