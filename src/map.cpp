@@ -8454,17 +8454,6 @@ bool map::inbounds( const tripoint_abs_ms &p ) const
     return inbounds( getlocal( p ) );
 }
 
-bool map::inbounds( const tripoint &p ) const
-{
-    static constexpr tripoint map_boundary_min( 0, 0, -OVERMAP_DEPTH );
-    static constexpr tripoint map_boundary_max( MAPSIZE_Y, MAPSIZE_X, OVERMAP_HEIGHT + 1 );
-
-    static constexpr half_open_cuboid<tripoint> map_boundaries(
-        map_boundary_min, map_boundary_max );
-
-    return map_boundaries.contains( p );
-}
-
 bool map::inbounds( const tripoint_bub_ms &p ) const
 {
     return inbounds( p.raw() );
@@ -8478,16 +8467,6 @@ bool map::inbounds( const tripoint_abs_omt &p ) const
            p.y() >= map_origin.y() &&
            p.x() <= map_origin.x() + my_HALF_MAPSIZE &&
            p.y() <= map_origin.y() + my_HALF_MAPSIZE;
-}
-
-bool tinymap::inbounds( const tripoint &p ) const
-{
-    constexpr tripoint map_boundary_min( 0, 0, -OVERMAP_DEPTH );
-    constexpr tripoint map_boundary_max( SEEY * 2, SEEX * 2, OVERMAP_HEIGHT + 1 );
-
-    constexpr half_open_cuboid<tripoint> map_boundaries( map_boundary_min, map_boundary_max );
-
-    return map_boundaries.contains( p );
 }
 
 // set up a map just long enough scribble on it
@@ -8641,6 +8620,7 @@ void map::build_outside_cache( const int zlev )
     if( zlev < 0 ) {
         std::uninitialized_fill_n(
             &outside_cache[0][0], MAPSIZE_X * MAPSIZE_Y, false );
+        ch.outside_cache_dirty = false;
         return;
     }
 
