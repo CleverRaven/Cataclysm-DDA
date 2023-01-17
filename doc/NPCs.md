@@ -480,7 +480,7 @@ Speaker effects are useful for setting status variables to indicate that player 
 
 ---
 ## Responses
-A response contains at least a text, which is display to the user and "spoken" by the player character (its content has no meaning for the game) and a topic to which the dialogue will switch to. It can also have a trial object which can be used to either lie, persuade or intimidate the NPC, see below for details. There can be different results, used either when the trial succeeds and when it fails.
+A response contains at least a text, which is display to the user and "spoken" by the player character (its content has no meaning for the game) and a topic to which the dialogue will switch to. It can also have a trial object which can be used to either lie, persuade or intimidate the NPC, [see below](#trial) for details. There can be different results, used either when the trial succeeds and when it fails.
 
 Format:
 ```json
@@ -588,7 +588,7 @@ An optional `mod` array takes any of the following modifiers and increases the d
 `"SKILL_CHECK"` trials check the user's level in a skill, whose ID is read from the string object `skill_required`. The `success` object is chosen if the skill level is equal to or greater than `difficulty`, and `failure` is chosen otherwise.
 
 ### success and failure
-Both objects have the same structure. `topic` defines which topic the dialogue will switch to. `opinion` is optional, if given it defines how the opinion of the NPC will change. The given values are *added* to the opinion of the NPC, they are all optional and default to 0. `effect` is a function that is executed after choosing the response, see below.
+Both objects have the same structure. `topic` defines which topic the dialogue will switch to. `opinion` is optional, if given it defines how the opinion of the NPC will change. The given values are *added* to the opinion of the NPC, they are all optional and default to 0. `effect` is a function that is executed after choosing the response, [see Dialogue Effects below](#dialogue-effects) for details.
 
 The opinion of the NPC affects several aspects of the interaction with NPCs:
 - Higher trust makes it easier to lie and persuade, and it usually a good thing.
@@ -623,7 +623,7 @@ The `failure` object is used if the trial fails, the `success` object is used ot
 ```
 
 ### condition
-This is an optional condition which can be used to prevent the response under certain circumstances. If not defined, it defaults to always `true`. If the condition is not met, the response is not included in the list of possible responses. For possible content see Dialogue Conditions below.
+This is an optional condition which can be used to prevent the response under certain circumstances. If not defined, it defaults to always `true`. If the condition is not met, the response is not included in the list of possible responses. For possible content, [see Dialogue Conditions below](#dialogue-conditions) for details.
 
 ---
 
