@@ -595,8 +595,12 @@ Both objects have the same structure. The `failure` object is used if the trial 
 #### `effect`
 `effect` is a function that is executed after choosing the response, [see Dialogue Effects below](#dialogue-effects) for details.
 
-#### `opinion`
-`opinion` is optional, if given it defines how the opinion of the NPC will change. The given values are *added* to the opinion of the NPC, they are all optional and default to 0.
+#### opinion changes
+
+##### `opinion`
+`opinion` is optional, if given it defines how the NPC's opinion of your character will change.
+
+trust, value, fear, and anger are optional fields inside the opinion object, each specifying a numeric value (defaults to 0). The given values are *added* to the opinion of the NPC.
 
 The opinion of the NPC affects several aspects of the interaction with NPCs:
 - Higher trust makes it easier to lie and persuade, and it usually a good thing.
@@ -606,6 +610,15 @@ The opinion of the NPC affects several aspects of the interaction with NPCs:
 The combination of fear and trust decide together with the personality of the NPC the initial talk topic (`"TALK_MUG"`, `"TALK_STRANGER_AGGRESSIVE"`, `"TALK_STRANGER_SCARED"`, `"TALK_STRANGER_WARY"`, `"TALK_STRANGER_FRIENDLY"`, or `"TALK_STRANGER_NEUTRAL"`).
 
 For the actual usage of that data, search the source code for `"op_of_u"`.
+
+Example opinions
+```json
+{ "effect": "follow", "opinion": { "trust": 1, "value": 1 }, "topic": "TALK_DONE" }
+{ "topic": "TALK_DENY_FOLLOW", "effect": "deny_follow", "opinion": { "fear": -1, "value": -1, "anger": 1 } }
+```
+
+##### `mission_opinion`
+Similar to `opinion`, but adjusts the NPC's opinion of your character according to the mission value. The NPC's opinion is modified by the value of the current mission divided by the value of the keyword.
 
 ### Response Availability
 
@@ -859,22 +872,6 @@ Effect | Description
 { "text": "What needs to be done?", "topic": "TALK_CAMP_OVERSEER", "effect": { "companion_mission": "FACTION_CAMP" } }
 { "text": "Do you like it?", "topic": "TALK_CAMP_OVERSEER", "effect": [ { "u_add_effect": "concerned", "duration": 600 }, { "npc_add_effect": "touched", "duration": 3600 }, { "u_add_effect": "empathetic", "duration": "PERMANENT" } ] }
 ```
-
----
-### opinion changes
-As a special effect, an NPC's opinion of your character can change. Use the following:
-
-#### opinion: { }
-trust, value, fear, and anger are optional keywords inside the opinion object. Each keyword must be followed by a numeric value. The NPC's opinion is modified by the value.
-
-#### Sample opinions
-```json
-{ "effect": "follow", "opinion": { "trust": 1, "value": 1 }, "topic": "TALK_DONE" }
-{ "topic": "TALK_DENY_FOLLOW", "effect": "deny_follow", "opinion": { "fear": -1, "value": -1, "anger": 1 } }
-```
-
-#### mission_opinion: { }
-trust, value, fear, and anger are optional keywords inside the `mission_opinion` object. Each keyword must be followed by a numeric value. The NPC's opinion is modified by the value.
 
 ---
 
