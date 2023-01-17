@@ -183,6 +183,7 @@ void avatar::control_npc( npc &np )
         guy.update_missions_target( get_avatar().getID(), new_character );
     };
     overmap_buffer.foreach_npc( update_npc );
+    mission().update_world_missions_character( get_avatar().getID(), new_character );
     npc tmp;
     // move avatar character data into shadow npc
     swap_character( *shadow_npc, tmp );
