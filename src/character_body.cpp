@@ -77,7 +77,6 @@ static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_SLIMY( "SLIMY" );
 static const trait_id trait_URSINE_FUR( "URSINE_FUR" );
 
-
 static const vitamin_id vitamin_blood( "blood" );
 
 void Character::update_body_wetness( const w_point &weather )
@@ -249,7 +248,6 @@ void Character::update_body( const time_point &from, const time_point &to )
         reset_daily_sleep();
     }
     set_value( "was_sleeping", in_sleep_state() ? "true" : "false" );
-
 
     activity_history.new_turn( in_sleep_state() );
     if( ticks_between( from, to, 24_hours ) > 0 && !has_flag( json_flag_NO_MINIMAL_HEALING ) ) {
@@ -1278,7 +1276,6 @@ bodypart_id Character::body_window( const std::string &menu_header,
     }
 }
 
-
 float Character::get_heartrate_index() const
 {
     return heart_rate_index;
@@ -1343,7 +1340,6 @@ void Character::update_heartrate_index()
     // blood vessels constrict, but at higher bp, a rise in x in heart rate index might cause less than x blood pressure
     // index change as blood vessels dilate. In other words, your blood pressure doesn't double when you're exercising.
     const float hr_bp_loss_mod = 0.0f;
-
 
     heart_rate_index = 1.0f + hr_temp_mod + hr_stamina_mod + hr_stim_mod + hr_nicotine_mod +
                        hr_health_mod + hr_pain_mod + hr_trait_mod + hr_bp_loss_mod;

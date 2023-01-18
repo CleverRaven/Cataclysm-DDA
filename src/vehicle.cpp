@@ -157,7 +157,6 @@ void DefaultRemovePartHandler::removed( vehicle &veh, const int part )
     here.dirty_vehicle_list.insert( &veh );
 }
 
-
 // Vehicle stack methods.
 vehicle_stack::iterator vehicle_stack::erase( vehicle_stack::const_iterator it )
 {
@@ -251,9 +250,9 @@ bool vehicle::remote_controlled( const Character &p ) const
 void vehicle::init_state( map &placed_on, int init_veh_fuel, int init_veh_status,
                           bool may_spawn_locked )
 {
-    // vehicle parts excluding engines are by default turned off
+    // vehicle parts excluding engines in non-owned vehicles are by default turned off
     for( vehicle_part &pt : parts ) {
-        pt.enabled = pt.is_engine();
+        pt.enabled = !has_owner() && pt.is_engine();
     }
 
     bool destroySeats = false;
@@ -4921,8 +4920,6 @@ int vehicle::net_battery_charge_rate_w( bool include_reactors, bool connected_ve
                ( include_reactors ? active_reactor_epower_w( false ) : 0 );
     }
 }
-
-
 
 int vehicle::active_reactor_epower_w( bool connected_vehicles ) const
 {

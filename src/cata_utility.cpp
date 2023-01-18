@@ -309,7 +309,6 @@ bool write_to_file( const cata_path &path, const std::function<void( std::ostrea
     }
 }
 
-
 ofstream_wrapper::ofstream_wrapper( const fs::path &path, const std::ios::openmode mode )
     : path( path )
 
@@ -474,7 +473,6 @@ std::unique_ptr<std::istream> read_maybe_compressed_file( const cata_path &path 
     return read_maybe_compressed_file( path.get_unrelative_path() );
 }
 
-
 cata::optional<std::string> read_whole_file( const std::string &path )
 {
     return read_whole_file( fs::u8path( path ) );
@@ -521,7 +519,6 @@ cata::optional<std::string> read_whole_file( const cata_path &path )
 {
     return read_whole_file( path.get_unrelative_path() );
 }
-
 
 bool read_from_file_json( const cata_path &path,
                           const std::function<void( const JsonValue & )> &reader )

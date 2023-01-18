@@ -2222,19 +2222,6 @@
   },
   {
     "type": "construction",
-    "id": "constr_workbench",
-    "group": "build_workbench",
-    "category": "FURN",
-    "required_skills": [ [ "fabrication", 3 ] ],
-    "time": "60 m",
-    "using": [ [ "welding_standard", 5 ] ],
-    "components": [ [ [ "pipe", 8 ] ], [ [ "sheet_metal", 2 ] ], [ [ "sheet_metal_small", 4 ] ] ],
-    "pre_note": "Can be deconstructed without tools.",
-    "pre_special": "check_empty",
-    "post_terrain": "f_workbench"
-  },
-  {
-    "type": "construction",
     "id": "constr_place_workbench",
     "group": "place_workbench",
     "category": "FURN",
@@ -6771,7 +6758,8 @@
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
     "byproducts": [ { "item": "material_gravel", "count": [ 7, 10 ] } ],
     "pre_terrain": "t_railroad_rubble",
-    "post_terrain": "t_dirt"
+    "post_terrain": "t_dirt",
+    "strict": true
   },
   {
     "type": "construction",
