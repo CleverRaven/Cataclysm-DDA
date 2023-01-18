@@ -101,7 +101,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "12 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "copper", 3 ] ] ]
+    "components": [ [ [ "copper", 4 ] ] ]
   },
   {
     "result": "copper_locket",
@@ -3309,9 +3309,8 @@
     "result": "makeshift_crowbar",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "skill_used": "mechanics",
-    "time": "1 m",
-    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "time": "15 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
     "components": [ [ [ "scrap", 3 ] ], [ [ "steel_chunk", 1 ] ] ]
   },
   {
@@ -4543,7 +4542,8 @@
     "activity_level": "NO_EXERCISE",
     "skill_used": "tailor",
     "time": "1 m",
-    "components": [ [ [ "cotton_patchwork", 5 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "sheet_cotton_patchwork", 3 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
@@ -4552,7 +4552,8 @@
     "activity_level": "LIGHT_EXERCISE",
     "skill_used": "tailor",
     "time": "1 m",
-    "components": [ [ [ "cotton_patchwork", 5 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "sheet_cotton_patchwork", 3 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
@@ -4561,7 +4562,8 @@
     "activity_level": "NO_EXERCISE",
     "skill_used": "tailor",
     "time": "1 m",
-    "components": [ [ [ "cotton_patchwork", 5 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "sheet_cotton_patchwork", 3 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
@@ -4570,7 +4572,8 @@
     "activity_level": "NO_EXERCISE",
     "skill_used": "tailor",
     "time": "1 m",
-    "components": [ [ [ "cotton_patchwork", 5 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "sheet_cotton_patchwork", 3 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
@@ -4579,7 +4582,88 @@
     "activity_level": "NO_EXERCISE",
     "skill_used": "tailor",
     "time": "1 m",
-    "components": [ [ [ "cotton_patchwork", 5 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "sheet_cotton_patchwork", 3 ] ] ],
+    "flags": [ "BLIND_HARD" ]
+  },
+  {
+    "result": "sweatshirt",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "skill_used": "tailor",
+    "time": "1 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "sheet_cotton_patchwork", 3 ] ] ],
+    "flags": [ "BLIND_HARD" ]
+  },
+  {
+    "result": "hoodie",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "skill_used": "tailor",
+    "time": "1 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "sheet_cotton_patchwork", 3 ] ] ],
+    "flags": [ "BLIND_HARD" ]
+  },
+  {
+    "result": "longshirt",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "skill_used": "tailor",
+    "time": "1 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "sheet_cotton_patchwork", 3 ] ] ],
+    "flags": [ "BLIND_HARD" ]
+  },
+  {
+    "result": "polo_shirt",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "skill_used": "tailor",
+    "time": "1 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "sheet_cotton_patchwork", 3 ] ] ],
+    "flags": [ "BLIND_HARD" ]
+  },
+  {
+    "result": "dress_shirt",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "skill_used": "tailor",
+    "time": "1 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "sheet_cotton_patchwork", 3 ] ] ],
+    "flags": [ "BLIND_HARD" ]
+  },
+  {
+    "result": "officer_uniform",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "skill_used": "tailor",
+    "time": "1 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "sheet_cotton_patchwork", 4 ] ] ],
+    "flags": [ "BLIND_HARD" ]
+  },
+  {
+    "result": "undershirt",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "skill_used": "tailor",
+    "time": "1 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "sheet_cotton_patchwork", 2 ] ] ],
+    "flags": [ "BLIND_HARD" ]
+  },
+  {
+    "result": "sheriffshirt",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "skill_used": "tailor",
+    "time": "1 m",
+    "qualities": [ { "id": "CUT", "level": 3 } ],
+    "components": [ [ [ "sheet_cotton_patchwork", 3 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
@@ -5310,10 +5394,10 @@
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "skill_used": "tailor",
-    "time": "30 m",
+    "time": "5 m",
     "difficulty": 1,
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "cotton_patchwork", 25 ] ], [ [ "element", 5 ] ], [ [ "cable", 5 ] ] ]
+    "components": [ [ [ "sheet_cotton_patchwork", 8 ] ], [ [ "element", 5 ] ], [ [ "cable", 5 ] ] ]
   },
   {
     "result": "wearable_light",
@@ -5973,7 +6057,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "12 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "scrap", 2 ] ] ]
+    "components": [ [ [ "scrap", 5 ] ] ]
   },
   {
     "result": "clamp",
@@ -6335,65 +6419,65 @@
     "result": "boots_combat",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
-    "time": "24 s",
-    "components": [ [ [ "sole_rubber", 1 ], [ "leather", 4 ], [ "scrap_kevlar", 4 ] ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ]
+    "time": "3 m",
+    "components": [ [ [ "sole_rubber", 1 ] ], [ [ "leather", 4 ] ], [ [ "scrap_kevlar", 4 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 2 } ]
   },
   {
     "result": "motorbike_boots",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
-    "time": "24 s",
-    "components": [ [ [ "sole_rubber", 1 ], [ "leather", 16 ], [ "scrap_kevlar", 16 ] ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ]
+    "time": "3 m",
+    "components": [ [ [ "sole_rubber", 1 ] ], [ [ "leather", 16 ] ], [ [ "scrap_kevlar", 16 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 2 } ]
   },
   {
     "result": "motor_police_boots",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
-    "time": "24 s",
-    "components": [ [ [ "sole_rubber", 1 ], [ "leather", 16 ] ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ]
+    "time": "3 m",
+    "components": [ [ [ "sole_rubber", 1 ] ], [ [ "leather", 16 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 2 } ]
   },
   {
     "result": "boots_bunker",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
-    "time": "24 s",
-    "components": [ [ [ "sole_rubber", 1 ], [ "nomex", 24 ] ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ]
+    "time": "3 m",
+    "components": [ [ [ "sole_rubber", 1 ] ], [ [ "nomex", 24 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 2 } ]
   },
   {
     "result": "boots_fur",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
-    "time": "24 s",
-    "components": [ [ [ "sole_rubber", 1 ], [ "fur", 8 ], [ "leather", 10 ] ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ]
+    "time": "3 m",
+    "components": [ [ [ "sole_rubber", 1 ] ], [ [ "fur", 8 ] ], [ [ "leather", 10 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 2 } ]
   },
   {
     "result": "xs_boots_fur",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
-    "time": "24 s",
-    "components": [ [ [ "sole_rubber", 1 ], [ "fur", 6 ], [ "leather", 8 ] ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ]
+    "time": "3 m",
+    "components": [ [ [ "sole_rubber", 1 ] ], [ [ "fur", 6 ] ], [ [ "leather", 8 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 2 } ]
   },
   {
     "result": "xl_boots_fur",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
-    "time": "24 s",
-    "components": [ [ [ "sole_rubber", 1 ], [ "fur", 10 ], [ "leather", 12 ] ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ]
+    "time": "3 m",
+    "components": [ [ [ "sole_rubber", 1 ] ], [ [ "fur", 10 ] ], [ [ "leather", 12 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 2 } ]
   },
   {
     "result": "sneakers",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
-    "time": "24 s",
-    "components": [ [ [ "sole_rubber", 1 ], [ "cotton_patchwork", 8 ] ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ]
+    "time": "3 m",
+    "components": [ [ [ "sole_rubber", 1 ] ], [ [ "cotton_patchwork", 8 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 2 } ]
   },
   {
     "result": "hat_boonie",
@@ -6440,16 +6524,36 @@
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "60 s",
-    "components": [ [ [ "cotton_patchwork", 32 ] ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ]
+    "components": [ [ [ "sheet_cotton_patchwork", 4 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 2 } ]
   },
   {
     "result": "pants_cargo",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
-    "time": "10 m",
-    "components": [ [ [ "cotton_patchwork", 80 ] ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ]
+    "time": "1 m",
+    "components": [ [ [ "sheet_cotton_patchwork", 4 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 2 } ]
+  },
+  {
+    "result": "pants",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "skill_used": "tailor",
+    "time": "1 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "sheet_cotton_patchwork", 4 ] ] ],
+    "flags": [ "BLIND_HARD" ]
+  },
+  {
+    "result": "jeans",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "skill_used": "tailor",
+    "time": "1 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "sheet_cotton_patchwork", 4 ] ] ],
+    "flags": [ "BLIND_HARD" ]
   },
   {
     "result": "pants_leather",
@@ -6471,9 +6575,9 @@
     "result": "sleeping_bag_fur_roll",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
-    "time": "20 m",
-    "components": [ [ [ "cotton_patchwork", 60 ], [ "fur", 8 ] ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ]
+    "time": "2 m",
+    "components": [ [ [ "sheet_cotton_patchwork", 8 ], [ "fur", 8 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 2 } ]
   },
   {
     "result": "backpack",
@@ -7165,6 +7269,13 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
+    "result": "armor_riot",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "1 m",
+    "components": [ [ [ "armor_riot_leg", 1 ] ], [ [ "armor_riot_arm", 1 ] ], [ [ "armor_riot_torso", 1 ] ] ]
+  },
+  {
     "result": "matches",
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",
@@ -7307,5 +7418,138 @@
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "components": [ [ [ "bone", 65 ] ] ],
     "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "deck_chair",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "30 m",
+    "qualities": [ { "id": "PRY", "level": 1 }, { "id": "SAW_W", "level": 2 }, { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "plank_short", 2 ] ], [ [ "nuts_bolts", 12 ] ], [ [ "cotton_patchwork", 30 ] ], [ [ "splinter", 22 ] ] ]
+  },
+  {
+    "result": "chair_wood",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "30 m",
+    "qualities": [ { "id": "PRY", "level": 1 }, { "id": "SAW_W", "level": 2 }, { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "wooden_post_short", 2 ] ], [ [ "wood_block", 24 ] ], [ [ "nuts_bolts", 30 ] ], [ [ "splinter", 10 ] ] ]
+  },
+  {
+    "result": "armchair",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "60 m",
+    "qualities": [ { "id": "CUT_FINE", "level": 1 }, { "id": "SAW_W", "level": 2 }, { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "cotton_patchwork", 110 ] ],
+      [ [ "wooden_post_short", 6 ] ],
+      [ [ "wood_block", 4 ] ],
+      [ [ "nuts_bolts", 16 ] ],
+      [ [ "splinter", 30 ] ]
+    ]
+  },
+  {
+    "result": "stool_wood",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "30 m",
+    "qualities": [ { "id": "PRY", "level": 1 }, { "id": "SAW_W", "level": 2 }, { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "wood_block", 12 ] ], [ [ "nuts_bolts", 10 ] ], [ [ "splinter", 4 ] ] ]
+  },
+  {
+    "result": "stool_log",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "10 m",
+    "qualities": [ { "id": "AXE", "level": 3 } ],
+    "components": [ [ [ "splinter", 80 ] ] ]
+  },
+  {
+    "result": "barstool",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "45 m",
+    "qualities": [ { "id": "CUT_FINE", "level": 1 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "leather", 6 ] ], [ [ "steel_chunk", 29 ] ], [ [ "scrap", 2 ] ] ]
+  },
+  {
+    "result": "chair_folding",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "30 m",
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "plastic_chunk", 20 ] ], [ [ "scrap", 38 ] ] ]
+  },
+  {
+    "result": "chair_plywood",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "30 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "splinter", 16 ] ], [ [ "scrap", 38 ] ] ]
+  },
+  {
+    "result": "chair_wood_black",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "30 m",
+    "qualities": [ { "id": "PRY", "level": 1 }, { "id": "SAW_W", "level": 2 }, { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "wooden_post_short", 2 ] ], [ [ "wood_block", 24 ] ], [ [ "nuts_bolts", 30 ] ], [ [ "splinter", 10 ] ] ]
+  },
+  {
+    "result": "chair_wood_white",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "30 m",
+    "qualities": [ { "id": "PRY", "level": 1 }, { "id": "SAW_W", "level": 2 }, { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "wooden_post_short", 2 ] ], [ [ "wood_block", 24 ] ], [ [ "nuts_bolts", 30 ] ], [ [ "splinter", 10 ] ] ]
+  },
+  {
+    "result": "fish_trap_basket",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "10 m",
+    "components": [ [ [ "withered", 40 ] ] ]
+  },
+  {
+    "result": "30gal_drum",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "1 h",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "sheet_metal_small", 30 ] ] ]
+  },
+  {
+    "result": "55gal_drum",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "2 h",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "sheet_metal", 3 ], [ "steel_lump", 2 ] ] ]
+  },
+  {
+    "result": "manhole_cover",
+    "type": "uncraft",
+    "activity_level": "BRISK_EXERCISE",
+    "time": "6 h",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "steel_lump", 130 ] ] ]
+  },
+  {
+    "result": "30gal_drum_aluminum",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "1 h",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "scrap_aluminum", 51 ] ] ]
+  },
+  {
+    "result": "55gal_drum_aluminum",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "1 h",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "scrap_aluminum", 200 ] ] ]
   }
 ]

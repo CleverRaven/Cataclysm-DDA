@@ -145,6 +145,36 @@
     "obsolete": true
   },
   {
+    "result": "box_small",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "box_large",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "box_oversize",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "bow_sight",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "steel_rail",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "rebar_rail",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
     "result": "aep_suit",
     "type": "recipe",
     "obsolete": true
@@ -895,6 +925,16 @@
   {
     "type": "recipe",
     "result": "jerrycan_big",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "2x4_from wooden beams",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "2x4_with_power_saw",
     "obsolete": true
   }
 ]

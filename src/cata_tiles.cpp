@@ -77,6 +77,7 @@ static const efftype_id effect_ridden( "ridden" );
 
 static const itype_id itype_corpse( "corpse" );
 static const trait_id trait_INATTENTIVE( "INATTENTIVE" );
+static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 
 static const std::string ITEM_HIGHLIGHT( "highlight_item" );
 static const std::string ZOMBIE_REVIVAL_INDICATOR( "zombie_revival_indicator" );
@@ -760,7 +761,6 @@ void tileset_cache::loader::load( const std::string &tileset_id, const bool prec
 
         load_layers( layer_config );
     }
-
 
 }
 
@@ -1578,8 +1578,8 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
 
             draw_points.emplace_back( pos, height_3d, ll, invisible );
         }
-        const std::array<decltype( &cata_tiles::draw_furniture ), 12> drawing_layers = {{
-                &cata_tiles::draw_furniture, &cata_tiles::draw_graffiti, &cata_tiles::draw_trap,
+        const std::array<decltype( &cata_tiles::draw_furniture ), 13> drawing_layers = {{
+                &cata_tiles::draw_furniture, &cata_tiles::draw_graffiti, &cata_tiles::draw_trap, &cata_tiles::draw_part_con,
                 &cata_tiles::draw_field_or_item, &cata_tiles::draw_vpart_below,
                 &cata_tiles::draw_critter_at_below, &cata_tiles::draw_terrain_below,
                 &cata_tiles::draw_vpart_no_roof, &cata_tiles::draw_vpart_roof,
@@ -1677,6 +1677,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
             if( here.check_seen_cache( p ) ) {
                 draw_furniture( p, lighting, height_3d, invisible );
                 draw_trap( p, lighting, height_3d, invisible );
+                draw_part_con( p, lighting, height_3d, invisible );
                 draw_vpart_no_roof( p, lighting, height_3d, invisible );
                 draw_vpart_roof( p, lighting, height_3d, invisible );
                 here.check_and_set_seen_cache( p );
@@ -2048,8 +2049,6 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
 
     const tile_type *tt = nullptr;
     cata::optional<tile_lookup_res> res;
-
-
 
     // check if there is an available intensity tile and if there is use that instead of the basic tile
     // this is only relevant for fields
@@ -3084,6 +3083,23 @@ bool cata_tiles::draw_trap( const tripoint &p, const lit_level ll, int &height_3
     return false;
 }
 
+bool cata_tiles::draw_part_con( const tripoint &p, const lit_level ll, int &height_3d,
+                                const std::array<bool, 5> &invisible )
+{
+    map &here = get_map();
+    // FIXME: fix tripoint type
+    if( here.partial_con_at( tripoint_bub_ms( p ) ) != nullptr && !invisible[0] ) {
+        avatar &you = get_avatar();
+        std::string const &trname = tr_unfinished_construction.str();;
+        if( here.check_seen_cache( p ) ) {
+            you.memorize_tile( here.getabs( p ), trname, 0, 0 );
+        }
+        return draw_from_id_string( trname, TILE_CATEGORY::TRAP, empty_string, p, 0,
+                                    0, ll, nv_goggles_activated, height_3d );
+    }
+    return false;
+}
+
 bool cata_tiles::draw_graffiti( const tripoint &p, const lit_level ll, int &height_3d,
                                 const std::array<bool, 5> &invisible )
 {
@@ -3143,7 +3159,6 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
                         static_cast<int>( has_field( fld, p + point_north, invisible[4] ) )
                     }
                 };
-
 
                 int subtile = 0;
                 int rotation = 0;
@@ -3302,7 +3317,6 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
                             draw_from_id_string( sprite_to_draw, TILE_CATEGORY::ITEM, layer_it_category, p, 0,
                                                  0, layer_lit, layer_nv, height_3d, 0, variant, layer_var.offset );
 
-
                             // if the top item is already being layered don't draw it later
                             if( i.typeId() == tile.get_uppermost_item().typeId() ) {
                                 drawtop = false;
@@ -3348,7 +3362,6 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
                                 draw_from_id_string( sprite_to_draw, TILE_CATEGORY::ITEM, layer_it_category, p, 0,
                                                      0, layer_lit, layer_nv, height_3d, 0, variant, layer_var.offset );
 
-
                                 // if the top item is already being layered don't draw it later
                                 if( i.typeId() == tile.get_uppermost_item().typeId() ) {
                                     drawtop = false;
@@ -3391,9 +3404,6 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
                 const std::string it_category = it_type->get_item_type_string();
                 const lit_level lit = it_overridden ? lit_level::LIT : ll;
                 const bool nv = it_overridden ? false : nv_goggles_activated;
-
-
-
 
                 ret_draw_items = draw_from_id_string( disp_id, TILE_CATEGORY::ITEM, it_category, p, 0,
                                                       0, lit, nv, height_3d, 0, variant );
@@ -4278,7 +4288,6 @@ void cata_tiles::draw_footsteps_frame( const tripoint &center )
     static const std::string id_footstep = "footstep";
     static const std::string id_footstep_above = "footstep_above";
     static const std::string id_footstep_below = "footstep_below";
-
 
     const tile_type *tl_above = tileset_ptr->find_tile_type( id_footstep_above );
     const tile_type *tl_below = tileset_ptr->find_tile_type( id_footstep_below );

@@ -599,7 +599,7 @@ bool do_turn()
         return turn_handler::cleanup_at_end();
     }
     // Actual stuff
-    if( g-> new_game ) {
+    if( g->new_game ) {
         g->new_game = false;
     } else {
         g->gamemode->per_turn();
@@ -609,6 +609,15 @@ bool do_turn()
     play_music( music::get_music_id_string() );
 
     weather_manager &weather = get_weather();
+    if( get_option<std::string>( "ETERNAL_WEATHER" ) != "normal" ) {
+        weather.weather_override = static_cast<weather_type_id>
+                                   ( get_option<std::string>( "ETERNAL_WEATHER" ) );
+        weather.set_nextweather( calendar::turn );
+    } else {
+        weather.weather_override = WEATHER_NULL;
+        weather.set_nextweather( calendar::turn );
+    }
+
     // starting a new turn, clear out temperature cache
     weather.temperature_cache.clear();
 
@@ -665,9 +674,13 @@ bool do_turn()
     weather.update_weather();
     g->reset_light_level();
 
-    g->perhaps_add_random_npc();
+    g->perhaps_add_random_npc( /* ignore_spawn_timers_and_rates = */ false );
     while( u.moves > 0 && u.activity ) {
         u.activity.do_turn( u );
+    }
+    // FIXME: hack needed due to the legacy code in advanced_inventory::move_all_items()
+    if( !u.activity ) {
+        kill_advanced_inv();
     }
 
     // Process NPC sound events before they move or they hear themselves talking

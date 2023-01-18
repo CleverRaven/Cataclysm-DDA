@@ -1030,6 +1030,16 @@
     "components": [ [ [ "2x4", 3 ], [ "stick", 6 ] ], [ [ "fur", 3 ], [ "leather", 3 ] ] ]
   },
   {
+    "id": "ammunition_box_9mm",
+    "type": "GENERIC",
+    "copy-from": "ammunition_box_308",
+    "name": { "str": "small ammo box", "str_pl": "small ammo boxes" },
+    "//": "100x9mm",
+    "flags": [ "COLLAPSE_CONTENTS", "OBSOLETE" ],
+    "volume": "175 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "170 ml", "max_contains_weight": "450 g" } ]
+  },
+  {
     "id": "bio_railgun",
     "type": "bionic",
     "name": { "str": "Railgun" },
@@ -1059,5 +1069,11 @@
     "copy-from": "AID_abstract",
     "name": { "str_sp": "Railgun CBM installation data" },
     "description": "Precise step-by-step instructions and other required data for installation of Railgun CBM, stored on a data card of proprietary form-factor, designed to be used extensively by an Autodoc, and allowing bionic installation with minimal failure chance.  Integrated security subroutine renders it unusable after installation."
+  },
+  {
+    "id": "UNARMED_WEAPON",
+    "type": "json_flag",
+    "//": "REMOVE After 0.G.",
+    "info": "This weapon <good>can be used with</good> <info>unarmed fighting styles</info>."
   }
 ]

@@ -134,6 +134,9 @@ static const npc_class_id NC_EVAC_SHOPKEEP( "NC_EVAC_SHOPKEEP" );
 
 static const skill_id skill_firstaid( "firstaid" );
 
+static const trait_id trait_IGNORE_SOUND( "IGNORE_SOUND" );
+static const trait_id trait_RETURN_TO_START_POS( "RETURN_TO_START_POS" );
+
 static const zone_type_id zone_type_NO_NPC_PICKUP( "NO_NPC_PICKUP" );
 static const zone_type_id zone_type_NPC_RETREAT( "NPC_RETREAT" );
 
@@ -721,6 +724,11 @@ void npc::regen_ai_cache()
     map &here = get_map();
     auto i = std::begin( ai_cache.sound_alerts );
     creature_tracker &creatures = get_creature_tracker();
+    if( has_trait( trait_RETURN_TO_START_POS ) ) {
+        if( !ai_cache.guard_pos ) {
+            ai_cache.guard_pos = here.getabs( pos() );
+        }
+    }
     while( i != std::end( ai_cache.sound_alerts ) ) {
         if( sees( here.getlocal( i->abs_pos ) ) ) {
             // if they were responding to a call for guards because of thievery
@@ -876,7 +884,12 @@ void npc::move()
                 ai_cache.sound_alerts.resize( 10 );
             }
         }
-        action = npc_investigate_sound;
+        if( has_trait( trait_IGNORE_SOUND ) ) { //Do not investigate sounds - clear sound alerts as below
+            ai_cache.sound_alerts.clear();
+            action = npc_return_to_guard_pos;
+        } else {
+            action = npc_investigate_sound;
+        }
         if( ai_cache.sound_alerts.front().abs_pos != cur_s_abs_pos ) {
             ai_cache.stuck = 0;
             ai_cache.s_abs_pos = ai_cache.sound_alerts.front().abs_pos;
@@ -2177,7 +2190,7 @@ bool npc::enough_time_to_reload( const item &gun ) const
     return turns_til_reloaded < turns_til_reached;
 }
 
-void npc::aim( Target_attributes target_attributes )
+void npc::aim( const Target_attributes &target_attributes )
 {
     const item_location weapon = get_wielded_item();
     double aim_amount = weapon ? aim_per_move( *weapon, recoil ) : 0.0;
@@ -3108,128 +3121,6 @@ std::list<item> npc::pick_up_item_vehicle( vehicle &veh, int part_index )
 {
     vehicle_stack stack = veh.get_items( part_index );
     return npc_pickup_from_stack( *this, stack );
-}
-
-// Used in npc::drop_items()
-struct ratio_index {
-    double ratio;
-    int index;
-    ratio_index( double R, int I ) : ratio( R ), index( I ) {}
-};
-
-/* As of October 2019, this is buggy, do not use!! */
-void npc::drop_items( const units::mass &drop_weight, const units::volume &drop_volume,
-                      int min_val )
-{
-    /* Remove this when someone debugs it back to functionality */
-    return;
-
-    add_msg_debug( debugmode::DF_NPC,
-                   "%s is dropping items-%3.2f kg, %3.2f L (%d items, wgt %3.2f/%3.2f kg, "
-                   "vol %3.2f/%3.2f L)",
-                   get_name(), units::to_kilogram( drop_weight ), units::to_liter( drop_volume ), inv->size(),
-                   units::to_kilogram( weight_carried() ), units::to_kilogram( weight_capacity() ),
-                   units::to_liter( volume_carried() ), units::to_liter( volume_capacity() ) );
-
-    units::mass weight_dropped = units::from_gram( 0 );
-    units::volume volume_dropped = units::from_liter( 0 );
-    // Weight/Volume to value ratios
-    std::vector<ratio_index> rWgt;
-    std::vector<ratio_index> rVol;
-
-    // First fill our ratio vectors, so we know which things to drop first
-    invslice slice = inv->slice();
-    for( size_t i = 0; i < slice.size(); i++ ) {
-        item &it = slice[i]->front();
-        double wgt_ratio = 0.0;
-        double vol_ratio = 0.0;
-        if( value( it ) == 0 || value( it ) <= min_val ) {
-            wgt_ratio = 99999;
-            vol_ratio = 99999;
-        } else {
-            wgt_ratio = units::to_gram<double>( it.weight() ) / value( it );
-            vol_ratio = units::to_liter( it.volume() / value( it ) );
-        }
-        bool added_wgt = false;
-        bool added_vol = false;
-        for( size_t j = 0; j < rWgt.size() && !added_wgt; j++ ) {
-            if( wgt_ratio > rWgt[j].ratio ) {
-                added_wgt = true;
-                rWgt.insert( rWgt.begin() + j, ratio_index( wgt_ratio, i ) );
-            }
-        }
-        if( !added_wgt ) {
-            rWgt.emplace_back( wgt_ratio, static_cast<int>( i ) );
-        }
-        for( size_t j = 0; j < rVol.size() && !added_vol; j++ ) {
-            if( vol_ratio > rVol[j].ratio ) {
-                added_vol = true;
-                rVol.insert( rVol.begin() + j, ratio_index( vol_ratio, i ) );
-            }
-        }
-        if( !added_vol ) {
-            rVol.emplace_back( vol_ratio, static_cast<int>( i ) );
-        }
-    }
-
-    map &here = get_map();
-    std::string item_name; // For description below
-    int num_items_dropped = 0; // For description below
-    // Now, drop items, starting from the top of each list
-    while( weight_dropped < drop_weight || volume_dropped < drop_volume ) {
-        // weight and volume may be passed as 0 or a negative value, to indicate that
-        // decreasing that variable is not important.
-        int dWeight = units::to_gram<int>( drop_weight ) <= 0 ? -1 :
-                      units::to_gram<int>( drop_weight - weight_dropped ) / 250;
-        int dVolume = units::to_milliliter<int>( drop_volume ) <= 0 ? -1 :
-                      units::to_milliliter<int>( drop_volume - volume_dropped ) / 250;
-        int index;
-        // Which is more important, weight or volume?
-        if( dWeight > dVolume ) {
-            index = rWgt[0].index;
-            rWgt.erase( rWgt.begin() );
-            // Fix the rest of those indices.
-            for( ratio_index &elem : rWgt ) {
-                if( elem.index > index ) {
-                    elem.index--;
-                }
-            }
-        } else {
-            index = rVol[0].index;
-            rVol.erase( rVol.begin() );
-            // Fix the rest of those indices.
-            for( size_t i = 0; i < rVol.size(); i++ ) {
-                if( i > rVol.size() ) {
-                    debugmsg( "npc::drop_items() - looping through rVol - Size is %d, i is %d",
-                              rVol.size(), i );
-                }
-                if( rVol[i].index > index ) {
-                    rVol[i].index--;
-                }
-            }
-        }
-        weight_dropped += slice[index]->front().weight();
-        volume_dropped += slice[index]->front().volume();
-        item dropped = i_rem( &i_at( index ) );
-        num_items_dropped++;
-        if( num_items_dropped == 1 ) {
-            item_name += dropped.tname();
-        } else if( num_items_dropped == 2 ) {
-            item_name += _( " and " ) + dropped.tname();
-        }
-        if( !is_hallucination() ) { // hallucinations can't drop real items
-            here.add_item_or_charges( pos(), dropped );
-        }
-    }
-    // Finally, describe the action if u can see it
-    if( num_items_dropped >= 3 ) {
-        add_msg_if_player_sees( *this, n_gettext( "%s drops %d item.", "%s drops %d items.",
-                                num_items_dropped ), get_name(),
-                                num_items_dropped );
-    } else {
-        add_msg_if_player_sees( *this, _( "%1$s drops a %2$s." ), get_name(), item_name );
-    }
-    update_worst_item_value();
 }
 
 bool npc::find_corpse_to_pulp()

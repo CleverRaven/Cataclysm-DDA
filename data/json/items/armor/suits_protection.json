@@ -1358,28 +1358,65 @@
   },
   {
     "id": "armor_riot",
-    "repairs_like": "survivor_suit",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "riot armor" },
-    "description": "Black plastic body armor plates used by riot police officers, back when they were just riots.  The word POLICE is emblazoned across the front.",
-    "weight": "1000 g",
-    "volume": "7500 ml",
-    "price": 35000,
-    "price_postapoc": 1500,
+    "name": { "str": "riot armor suit" },
+    "description": "A full suit of black plastic body armor plates used by riot police.  Cleverly placed velcro straps secure each piece, resulting in slightly less encumbrance then its constituent parts.  Molle webbing is attached to the thighs and the word POLICE is emblazoned across the front.",
+    "weight": "3 kg",
+    "volume": "12500 ml",
+    "price": 60000,
+    "price_postapoc": 4000,
     "to_hit": -3,
-    "material": [ "thermo_resin", "plastic" ],
+    "material": [ "thermo_resin", "plastic_pad" ],
     "symbol": "[",
     "looks_like": "kevlar",
-    "color": "light_gray",
-    "warmth": 10,
+    "color": "dark_gray",
+    "warmth": 20,
     "longest_side": "60 cm",
-    "material_thickness": 2.5,
-    "flags": [ "STURDY", "OUTER" ],
+    "flags": [ "STURDY", "OUTER", "WATER_FRIENDLY", "PADDED", "BLOCK_WHILE_WORN" ],
+    "use_action": [ { "type": "attach_molle", "size": 6 }, { "type": "detach_molle" } ],
     "armor": [
-      { "encumbrance": 7, "coverage": 60, "covers": [ "torso" ] },
-      { "encumbrance": 7, "coverage": 55, "covers": [ "leg_l", "leg_r" ] },
-      { "encumbrance": 7, "coverage": 60, "covers": [ "arm_l", "arm_r" ] }
+      {
+        "encumbrance": 6,
+        "coverage": 75,
+        "covers": [ "torso" ],
+        "material": [
+          { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 7 },
+          { "type": "thermo_resin", "covered_by_mat": 90, "thickness": 1.75 }
+        ]
+      },
+      {
+        "covers": [ "arm_l", "arm_r", "leg_l", "leg_r" ],
+        "encumbrance": 4,
+        "coverage": 90,
+        "material": [
+          { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 5 },
+          { "type": "thermo_resin", "covered_by_mat": 90, "thickness": 1.75 }
+        ],
+        "specifically_covers": [ "arm_lower_l", "arm_lower_r", "arm_elbow_l", "arm_elbow_r", "leg_knee_l", "leg_knee_r", "leg_lower_l", "leg_lower_r" ]
+      },
+      {
+        "covers": [ "arm_l", "arm_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
+        "coverage": 65,
+        "material": [
+          { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 5 },
+          { "type": "thermo_resin", "covered_by_mat": 90, "thickness": 1.5 }
+        ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r", "arm_upper_l", "arm_upper_r", "leg_upper_l", "leg_upper_r" ]
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "encumbrance": 2,
+        "coverage": 75,
+        "material": [ { "type": "thermo_resin", "covered_by_mat": 100, "thickness": 1.5 } ],
+        "specifically_covers": [ "foot_arch_l", "foot_arch_r", "foot_ankle_r", "foot_ankle_l" ]
+      },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 30,
+        "material": [ { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 7 } ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
+      }
     ]
   },
   {
@@ -3057,7 +3094,7 @@
     "type": "TOOL_ARMOR",
     "name": { "str": "nomad plate armor (on)", "str_pl": "nomad plate armors (on)" },
     "revert_to": "armor_nomad_plate",
-    "power_draw": "100 J",
+    "power_draw": "100 W",
     "use_action": {
       "ammo_scale": 0,
       "type": "transform",
@@ -3133,7 +3170,7 @@
     "type": "TOOL_ARMOR",
     "name": { "str": "nomad light plate armor (on)", "str_pl": "nomad light plate armors (on)" },
     "revert_to": "armor_nomad_lightplate",
-    "power_draw": "100 J",
+    "power_draw": "100 W",
     "use_action": {
       "ammo_scale": 0,
       "type": "transform",
@@ -3209,7 +3246,7 @@
     "type": "TOOL_ARMOR",
     "name": { "str": "nomad heavy plate armor (on)", "str_pl": "nomad heavy plate armors (on)" },
     "revert_to": "armor_nomad_heavyplate",
-    "power_draw": "100 J",
+    "power_draw": "100 W",
     "use_action": {
       "ammo_scale": 0,
       "type": "transform",

@@ -67,6 +67,13 @@ int OVERMAP_LEGEND_WIDTH;
 
 scrollingcombattext SCT;
 
+// Mouseover selection delays to keep different types of scrolling from fighting
+// Currently used by multiline_list
+static const std::chrono::duration<int, std::milli> base_mouse_delay =
+    std::chrono::milliseconds( 100 );
+static const std::chrono::duration<int, std::milli> scrollwheel_delay =
+    std::chrono::milliseconds( 500 );
+
 std::string string_from_int( const catacurses::chtype ch )
 {
     catacurses::chtype charcode = ch;
@@ -1554,7 +1561,7 @@ std::map<std::string, inclusive_rectangle<point>> draw_tabs( const catacurses::w
     std::map<std::string, inclusive_rectangle<point>> ret_map;
     for( size_t i = 0; i < tab_texts.size(); i++ ) {
         if( tab_map.count( i ) > 0 ) {
-            ret_map.emplace( tab_texts.at( i ), tab_map.at( i ) );
+            ret_map.emplace( tab_texts[i], tab_map[i] );
         }
     }
     return ret_map;
@@ -1821,10 +1828,295 @@ bool scrollbar::handle_dragging( const std::string &action, const cata::optional
     }
 }
 
-void scrolling_text_view::set_text( const std::string &text )
+void multiline_list::activate_entry( const size_t entry_pos, const bool exclusive )
+{
+    if( entry_pos >= entries.size() ) {
+        debugmsg( "Unable to activate entry %d of %d", entry_pos, entries.size() );
+        return;
+    }
+
+    const bool cur_value = entries[entry_pos].active;
+
+    if( exclusive ) {
+        for( multiline_list_entry &entry : entries ) {
+            entry.active = false;
+        }
+    }
+
+    entries[entry_pos].active = exclusive ? true : !cur_value;
+}
+
+void multiline_list::add_entry( const multiline_list_entry &entry )
+{
+    entries.emplace_back( entry );
+    if( !has_prefix || entry.prefix.empty() ) {
+        entries.back().prefix = "";
+        has_prefix = false;
+    }
+}
+
+void multiline_list::create_entry_prep()
+{
+    entries.clear();
+    has_prefix = true;
+}
+
+void multiline_list::fold_entries()
+{
+    int available_width = getmaxx( w ) - 2; // Border/scrollbar allowance
+    entry_sizes.clear();
+    total_length = 0;
+
+    std::vector<std::string> folded;
+    for( multiline_list_entry &entry : entries ) {
+        entry.folded_text.clear();
+        if( has_prefix ) {
+            // Do a prefixed list (e.g. starting with a hotkey )
+            const int prefix_width = utf8_width( entry.prefix, true );
+            const int fold_width = available_width - prefix_width;
+            folded = foldstring( entry.entry_text, fold_width );
+            for( size_t j = 0; j < folded.size(); ++j ) {
+                if( j == 0 ) {
+                    entry.folded_text.emplace_back( entry.prefix + folded[j] );
+                } else {
+                    entry.folded_text.emplace_back( std::string( prefix_width, ' ' ).append( folded[j] ) );
+                }
+            }
+        } else {
+            folded = foldstring( entry.entry_text, available_width );
+            for( const std::string &line : folded ) {
+                entry.folded_text.emplace_back( line );
+            }
+        }
+        entry_sizes.emplace_back( static_cast<int>( folded.size() ) );
+        total_length += folded.size();
+    }
+    if( !entries.empty() ) {
+        // Reset entry position at end, because the resulting offset depends on entry sizes
+        set_entry_pos( 0, false );
+    }
+}
+
+int multiline_list::get_entry_from_offset()
+{
+    return get_entry_from_offset( offset_position );
+}
+
+int multiline_list::get_entry_from_offset( const int offset )
+{
+    int offset_for_entry = 0;
+    for( int i = 0; i < static_cast<int>( entry_sizes.size() ); ++i ) {
+        /* If the last entry we scroll past before the end of the list is multiple lines,
+         * we need to be able to jump past it.  So, if it's a single-line entry, we can
+         * return it.  Otherwise, skip past it and return the next one
+         */
+        if( offset_for_entry + 1 > offset ) {
+            return i;
+        }
+        offset_for_entry += entry_sizes[i];
+        if( offset_for_entry > offset ) {
+            return i + 1;
+        }
+    }
+    return static_cast<int>( entry_sizes.size() ) - 1;
+}
+
+int multiline_list::get_offset_from_entry()
+{
+    return get_offset_from_entry( entry_position );
+}
+
+int multiline_list::get_offset_from_entry( const int entry )
+{
+    int target_entry = clamp( entry, 0, static_cast<int>( entry_sizes.size() ) );
+    int offset = 0;
+    for( int i = 0; i < target_entry; ++i ) {
+        offset += entry_sizes[i];
+    }
+    return offset;
+}
+
+bool multiline_list::handle_navigation( std::string &action, input_context &ctxt )
+{
+    cata::optional<point> coord = ctxt.get_coordinates_text( catacurses::stdscr );
+    inclusive_rectangle<point> mouseover_area( point( catacurses::getbegx( w ),
+            catacurses::getbegy( w ) ), point( getmaxx( w ) + catacurses::getbegx( w ),
+                    getmaxy( w ) + catacurses::getbegy( w ) ) );
+    bool mouse_in_window = coord.has_value() && mouseover_area.contains( coord.value() );
+
+    mouseover_position = -1;
+    cata::optional<point> local_coord = ctxt.get_coordinates_text( w );
+    if( local_coord.has_value() ) {
+        for( const auto &entry : entry_map ) {
+            if( entry.second.contains( local_coord.value() ) ) {
+                mouseover_position = entry.first;
+                break;
+            }
+        }
+    }
+
+    if( list_sb->handle_dragging( action, coord, offset_position ) ) {
+        // No action required
+    } else if( action == "HOME" ) {
+        set_entry_pos( 0, false );
+    } else if( action == "END" ) {
+        set_entry_pos( entries.size() - 1, false );
+    } else if( action == "PAGE_DOWN" ) {
+        set_offset_pos( offset_position + getmaxy( w ), true );
+    } else if( action == "PAGE_UP" ) {
+        set_offset_pos( offset_position - getmaxy( w ), true );
+    } else if( action == "UP" ) {
+        set_entry_pos( entry_position - 1, true );
+    } else if( action == "DOWN" ) {
+        set_entry_pos( entry_position + 1, true );
+    } else if( action == "SCROLL_UP" && mouse_in_window ) {
+        // Scroll selection, but only adjust view as if we're scrolling offset
+        set_entry_pos( entry_position - 1, false );
+        set_offset_pos( get_offset_from_entry( entry_position ), false );
+        mouseover_delay_end = std::chrono::steady_clock::now() + scrollwheel_delay;
+    } else if( action == "SCROLL_DOWN" && mouse_in_window ) {
+        set_entry_pos( entry_position + 1, false );
+        set_offset_pos( get_offset_from_entry( entry_position ), false );
+        mouseover_delay_end = std::chrono::steady_clock::now() + scrollwheel_delay;
+    } else if( action == "SELECT" && mouse_in_window ) {
+        if( mouseover_position >= 0 ) {
+            set_entry_pos( mouseover_position, false );
+            action = "CONFIRM";
+            mouseover_delay_end = std::chrono::steady_clock::now() + base_mouse_delay;
+        }
+    } else if( action == "MOUSE_MOVE" && mouse_in_window && local_coord.has_value() ) {
+        if( std::chrono::steady_clock::now() > mouseover_delay_end ) {
+            if( mouseover_position >= 0 ) {
+                entry_position = mouseover_position;
+            }
+            const int mouse_scroll_up_pos = 0;
+            const int mouse_scroll_down_pos = getmaxy( w ) - 1;
+            if( local_coord.value().y <= mouse_scroll_up_pos ) {
+                set_offset_pos( offset_position - 1, false );
+                ++mouseover_accel_counter;
+            } else if( local_coord.value().y >= mouse_scroll_down_pos ) {
+                set_offset_pos( offset_position + 1, false );
+                ++mouseover_accel_counter;
+            } else {
+                mouseover_accel_counter = 1;
+            }
+        }
+    } else {
+        return false;
+    }
+    return true;
+}
+
+void multiline_list::print_entries()
+{
+    werase( w );
+    entry_map.clear();
+
+    int ycurrent = 0;
+    int current_offset = 0;
+    int available_height = getmaxy( w );
+    for( size_t i = 0; i < entries.size(); ++i ) {
+        for( size_t j = 0; j < entries[i].folded_text.size(); ++j ) {
+            if( current_offset >= offset_position && current_offset < offset_position + available_height ) {
+                print_line( i, point( 2, ycurrent ), entries[i].folded_text[j] );
+                ++ycurrent;
+            }
+            ++current_offset;
+        }
+    }
+
+    list_sb->offset_x( 0 )
+    .offset_y( 0 )
+    .content_size( total_length )
+    .viewport_pos( offset_position )
+    .viewport_size( getmaxy( w ) )
+    .apply( w );
+
+    wnoutrefresh( w );
+}
+
+void multiline_list::print_line( int entry, const point &start, const std::string &text )
+{
+    nc_color cur_color = c_light_gray;
+    std::string output_text = text;
+    if( entries[entry].active ) {
+        cur_color = c_light_green;
+        output_text = colorize( remove_color_tags( output_text ), cur_color );
+    }
+    if( entry == entry_position ) {
+        output_text = hilite_string( output_text );
+    }
+    print_colored_text( w, start, cur_color, c_light_gray, output_text );
+    entry_map.emplace( entry, inclusive_rectangle<point>( start, point( start.x +
+                       utf8_width( text, true ), start.y + entry_sizes[entry] - 1 ) ) );
+}
+
+void multiline_list::set_entry_pos( const int entry_pos, const bool looping = false )
+{
+    if( looping && !entries.empty() ) {
+        int new_position = entry_pos;
+        const int list_size = static_cast<int>( entries.size() );
+        if( new_position < 0 ) {
+            // Ensure we have a positive position index by adding a multiple of the list_size to it
+            new_position += list_size * ( ( std::abs( new_position ) / list_size ) + 1 );
+        }
+        entry_position = new_position % static_cast<int>( entries.size() );
+    } else {
+        entry_position = clamp( entry_pos, 0, static_cast<int>( entries.size() ) - 1 );
+    }
+    int available_space = getmaxy( w ) - entry_sizes[entry_position];
+    set_offset_pos( get_offset_from_entry() - available_space / 2, false );
+    mouseover_delay_end = std::chrono::steady_clock::now() + base_mouse_delay / mouseover_accel_counter;
+}
+
+void multiline_list::set_offset_pos( const int offset_pos, const bool update_selection )
+{
+    // Ensure offset is above 0 and below the maximum
+    const int max_offset = total_length - getmaxy( w );
+    if( max_offset <= 0 ) {
+        // Can't scroll offset, so just scroll entry
+        offset_position = 0;
+        if( update_selection ) {
+            if( offset_pos > offset_position ) {
+                set_entry_pos( entry_position + 5, false );
+            } else {
+                set_entry_pos( entry_position - 5, false );
+            }
+        }
+    } else {
+        if( update_selection ) {
+            entry_position = get_entry_from_offset( clamp( offset_pos, 0, total_length ) );
+            // The offset position might be slightly offset from the actual offset from that entry, so adjust
+            set_offset_pos( get_offset_from_entry(), false );
+        } else {
+            offset_position = clamp( offset_pos, 0, max_offset );
+        }
+    }
+    mouseover_delay_end = std::chrono::steady_clock::now() + base_mouse_delay / mouseover_accel_counter;
+}
+
+void multiline_list::set_up_navigation( input_context &ctxt )
+{
+    list_sb->set_draggable( ctxt );
+    ctxt.register_updown();
+    ctxt.register_action( "END" );
+    ctxt.register_action( "HOME" );
+    ctxt.register_action( "MOUSE_MOVE" );
+    ctxt.register_action( "PAGE_DOWN" );
+    ctxt.register_action( "PAGE_UP" );
+    ctxt.register_action( "SCROLL_DOWN" );
+    ctxt.register_action( "SCROLL_UP" );
+    ctxt.register_action( "SELECT" );
+}
+
+void scrolling_text_view::set_text( const std::string &text, const bool scroll_to_top )
 {
     text_ = foldstring( text, text_width() );
-    offset_ = 0;
+    if( scroll_to_top ) {
+        offset_ = 0;
+    } else {
+        offset_ = max_offset();
+    }
 }
 
 void scrolling_text_view::scroll_up()
@@ -2407,6 +2699,11 @@ std::pair<std::string, nc_color> rad_badge_color( const int rad )
     return std::pair<std::string, nc_color>( _( values[i].second.first ), values[i].second.second );
 }
 
+std::string formatted_hotkey( const std::string &hotkey, const nc_color text_color )
+{
+    return colorize( hotkey, ACTIVE_HOTKEY_COLOR ).append( colorize( ": ", text_color ) );
+}
+
 std::string get_labeled_bar( const double val, const int width, const std::string &label,
                              char c )
 {
@@ -2513,7 +2810,6 @@ std::string healthy_bar( const int healthy )
         return "";
     }
 }
-
 
 scrollingcombattext::cSCT::cSCT( const point &p_pos, const direction p_oDir,
                                  const std::string &p_sText, const game_message_type p_gmt,

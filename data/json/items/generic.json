@@ -116,7 +116,7 @@
     "description": "seeing this is a bug",
     "price": 0,
     "volume": "0 ml",
-    "flags": [ "PSEUDO", "UNARMED_WEAPON" ],
+    "flags": [ "PSEUDO" ],
     "//": "Fist is internally represented as 'wielding a none as a weapon'"
   },
   {
@@ -474,9 +474,9 @@
     "name": { "str": "bundle of planks", "str_pl": "bundles of planks" },
     "description": "Ten construction planks securely tied together for easier transport.  Disassemble to untie them.",
     "//": "total volume is equal to 10 planks, assuming uniformity and tight stacking",
-    "volume": "44 L",
-    "weight": "26 kg",
-    "longest_side": "130 cm",
+    "volume": "41300 ml",
+    "weight": "24400 g",
+    "longest_side": "122 cm",
     "price": 10000,
     "price_postapoc": 100,
     "material": [ "wood" ],
@@ -752,6 +752,15 @@
     "volume": "250 ml",
     "to_hit": -2,
     "bashing": 9
+  },
+  {
+    "type": "GENERIC",
+    "id": "chalice",
+    "symbol": "/",
+    "color": "yellow",
+    "copy-from": "candlestick",
+    "name": { "str": "chalice" },
+    "description": "A gold chalice."
   },
   {
     "type": "GENERIC",
@@ -2059,8 +2068,8 @@
     "price": 100,
     "price_postapoc": 10,
     "material": [ "glass" ],
-    "weight": "7042 g",
-    "volume": "1 L",
+    "weight": "8 kg",
+    "volume": "8500 ml",
     "to_hit": -6
   },
   {
@@ -2203,10 +2212,10 @@
     "category": "other",
     "price": 20000,
     "price_postapoc": 10,
-    "material": [ "iron" ],
+    "material": [ "steel" ],
     "flags": [ "DURABLE_MELEE", "TRADER_AVOID" ],
-    "weight": "36287 g",
-    "volume": "3 L",
+    "weight": "115 kg",
+    "volume": "20 L",
     "bashing": 20,
     "to_hit": -5
   },
@@ -2678,6 +2687,14 @@
     "color": "green",
     "name": { "str": "alexandrite" },
     "description": "A sparkling alexandrite."
+  },
+  {
+    "type": "GENERIC",
+    "id": "malachite",
+    "copy-from": "garnet",
+    "color": "green",
+    "name": { "str": "malachite" },
+    "description": "A sparkling malachite."
   },
   {
     "type": "GENERIC",
@@ -3179,7 +3196,7 @@
     "price_postapoc": 0,
     "material": [ "plastic" ],
     "flags": [ "NO_UNLOAD", "NO_RELOAD", "TRADER_AVOID" ],
-    "weight": "6 g",
+    "weight": "3 g",
     "volume": "5 ml",
     "to_hit": -3,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "money": 200000000 } } ],
@@ -3984,7 +4001,7 @@
     "price": 10,
     "price_postapoc": 1,
     "material": [ "plastic" ],
-    "flags": [ "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS", "TARDIS", "POWERARMOR_COMPATIBLE" ],
+    "flags": [ "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS", "TARDIS", "POWERARMOR_COMPATIBLE", "PADDED" ],
     "weight": "250 g",
     "volume": "250 ml",
     "longest_side": "5 cm",

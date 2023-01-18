@@ -81,7 +81,6 @@ static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_SAPROPHAGE( "SAPROPHAGE" );
 static const trait_id trait_SAPROVORE( "SAPROVORE" );
 
-
 using item_filter = std::function<bool ( const item & )>;
 using item_location_filter = std::function<bool ( const item_location & )>;
 
@@ -199,7 +198,9 @@ void game_menus::inv::common( avatar &you )
     // Return to inventory menu on those inputs
     static const std::set<int> loop_options = { { '\0', '=', 'f', '<', '>'}};
 
-    inventory_pick_selector inv_s( you );
+    inventory_selector_preset inv_s_p = default_preset;
+    inv_s_p.save_state = &inventory_ui_default_state;
+    inventory_pick_selector inv_s( you, inv_s_p );
 
     inv_s.set_title( _( "Inventory" ) );
     inv_s.set_hint( string_format(
@@ -278,7 +279,6 @@ item_location game_menus::inv::titled_filter_menu( const item_location_filter &f
     return inv_internal( you, inventory_filter_preset( filter ),
                          title, radius, none_message );
 }
-
 
 item_location game_menus::inv::titled_menu( avatar &you, const std::string &title,
         const std::string &none_message )
@@ -477,6 +477,7 @@ class pickup_inventory_preset : public inventory_selector_preset
         explicit pickup_inventory_preset( const Character &you,
                                           bool skip_wield_check = false, bool ignore_liquidcont = false ) : you( you ),
             skip_wield_check( skip_wield_check ), ignore_liquidcont( ignore_liquidcont ) {
+            save_state = &pickup_sel_default_state;
             _pk_type = item_pocket::pocket_type::LAST;
         }
 
@@ -1093,7 +1094,6 @@ class activatable_inventory_preset : public pickup_inventory_preset
             if( it.is_broken() ) {
                 return string_format( _( "Your %s was broken and won't turn on." ), it.tname() );
             }
-
 
             if( uses.size() == 1 &&
                 !it.ammo_sufficient( &you, uses.begin()->first ) ) {
@@ -1945,7 +1945,8 @@ drop_locations game_menus::inv::multidrop( avatar &you )
 drop_locations game_menus::inv::pickup( avatar &you,
                                         const cata::optional<tripoint> &target, const std::vector<drop_location> &selection )
 {
-    const pickup_inventory_preset preset( you, /*skip_wield_check=*/true, /*ignore_liquidcont=*/true );
+    pickup_inventory_preset preset( you, /*skip_wield_check=*/true, /*ignore_liquidcont=*/true );
+    preset.save_state = &pickup_ui_default_state;
 
     pickup_selector pick_s( you, preset, _( "ITEMS TO PICK UP" ), target );
 
