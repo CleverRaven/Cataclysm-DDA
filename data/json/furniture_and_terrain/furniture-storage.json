@@ -799,13 +799,23 @@
     "required_str": 5,
     "max_volume": "20 L",
     "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "MOUNTABLE", "SHORT" ],
-    "deconstruct": { "items": [ { "item": "sheet_metal", "count": 2 } ] },
+    "deconstruct": {
+      "items": [
+        { "item": "sheet_metal_small", "count": [ 10, 14 ] },
+        { "item": "steel_chunk", "count": [ 1, 2 ] },
+        { "item": "scrap", "count": [ 6, 12 ] }
+      ]
+    },
     "bash": {
       "str_min": 9,
       "str_max": 30,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "items": [ { "item": "sheet_metal", "count": [ 1, 2 ] } ]
+      "items": [
+        { "item": "sheet_metal_small", "count": [ 3, 6 ] },
+        { "item": "steel_chunk", "count": [ 6, 8 ] },
+        { "item": "scrap", "count": [ 8, 16 ] }
+      ]
     }
   },
   {
