@@ -2039,6 +2039,8 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
         INIT = 0,
         //Think about what to do first: choose destination
         THINK,
+        //Go to a location
+        MOVE,
         //Do activity
         DO,
     };
@@ -2058,6 +2060,10 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
     if( here.check_vehicle_zones( here.get_abs_sub().z() ) ) {
         mgr.cache_vzones();
     }
+
+    auto loc_in_range = [&you] (tripoint_bub_ms loc) -> bool {
+        return square_dist( you.pos_bub(), loc ) <= 1;
+    };
 
     if( stage == INIT ) {
         // TODO: fix point types
@@ -2104,7 +2110,7 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                     // can't get there, can't do anything, skip it
                     continue;
                 }
-                stage = DO;
+                stage = MOVE;
                 you.set_destination( route, act );
                 you.activity.set_to_null();
                 return;
@@ -2127,10 +2133,8 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                 continue;
             }
 
-            bool is_adjacent_or_closer = square_dist( you.pos_bub(), src_loc ) <= 1;
-            // before we move any item, check if player is at or
-            // adjacent to the loot source tile
-            if( !is_adjacent_or_closer ) {
+            // before we move any item, check if player is in range of the loot source tile
+            if( !loc_in_range( src_loc ) ) {
                 std::vector<tripoint_bub_ms> route;
                 bool adjacent = false;
 
@@ -2162,7 +2166,7 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                 // we don't need to check for safe mode,
                 // activity will be restarted only if
                 // player arrives on destination tile
-                stage = DO;
+                stage = MOVE;
                 you.set_destination( route, act );
                 you.activity.set_to_null();
                 return;
@@ -2171,18 +2175,25 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
             break;
         }
     }
-    if( stage == DO ) {
+
+    if( stage == MOVE ) {
         // TODO: fix point types
         const tripoint_abs_ms src( act.placement );
         const tripoint_bub_ms src_loc = here.bub_from_abs( src );
 
-        bool is_adjacent_or_closer = square_dist( you.pos_bub(), src_loc ) <= 1;
-        // before we move any item, check if player is at or
-        // adjacent to the loot source tile
-        if( !is_adjacent_or_closer ) {
+        // before we move any item, check if player is in range of the loot source tile
+        if( !loc_in_range( src_loc ) ) {
             stage = THINK;
             return;
+        } else {
+            stage = DO;
         }
+    }
+
+    if( stage == DO ) {
+        // TODO: fix point types
+        const tripoint_abs_ms src( act.placement );
+        const tripoint_bub_ms src_loc = here.bub_from_abs( src );
 
         // the boolean in this pair being true indicates the item is from a vehicle storage space
         auto items = std::vector<std::pair<item *, bool>>();
