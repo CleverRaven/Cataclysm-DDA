@@ -455,6 +455,9 @@ static void shoot_monster( const std::string &gun_type, const std::vector<std::s
         arm_shooter( *shooter, gun_type, mods, ammo_type );
         shooter->recoil = 0;
         monster &mon = spawn_test_monster( monster_type, monster_pos );
+        // This is weapon damage test, no need to spawn loot on death (and
+        // trigger obscure loot-generation errors in this test):
+        mon.death_drops = false;
         const int prev_HP = mon.get_hp();
         shooter->fire_gun( monster_pos, 1, *shooter->get_wielded_item() );
         damage.add( prev_HP - mon.get_hp() );
