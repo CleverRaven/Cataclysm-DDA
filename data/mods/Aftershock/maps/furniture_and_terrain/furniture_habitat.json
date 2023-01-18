@@ -107,7 +107,7 @@
     "id": "f_screenmirror",
     "name": "screen mirror",
     "symbol": "{",
-    "description": "A wall mounted digital display. It would once have served as an entertainment and advertising system.",
+    "description": "A wall mounted digital display.  It would once have served as an entertainment and advertising system.",
     "color": "dark_gray",
     "move_cost_mod": 2,
     "coverage": 80,
