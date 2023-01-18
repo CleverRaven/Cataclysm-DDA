@@ -85,6 +85,14 @@
       },
       {
         "id": [
+          "SHELL",
+          "SHELL2",
+          "SHELL3"
+        ],
+        "order": 1520
+      },
+      {
+        "id": [
           "FACIAL_HAIR_NONE",
           "FACIAL_HAIR_GOATEE",
           "FACIAL_HAIR_CIRCLE",
