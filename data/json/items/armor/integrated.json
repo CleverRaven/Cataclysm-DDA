@@ -704,7 +704,7 @@
     "color": "magenta",
     "warmth": 5,
     "environmental_protection": 10,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "BELTED", "WATERPROOF", "PADDED" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "OUTER", "BELTED", "WATERPROOF", "PADDED" ],
     "armor": [
       {
         "material": [ { "type": "chitin_light", "covered_by_mat": 100, "thickness": 10 } ],
@@ -738,7 +738,7 @@
     ],
     "warmth": 7,
     "environmental_protection": 13,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "BELTED", "WATERPROOF", "PADDED" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "OUTER", "BELTED", "WATERPROOF", "PADDED" ],
     "armor": [
       {
         "material": [ { "type": "chitin_light", "covered_by_mat": 100, "thickness": 15 } ],
@@ -772,7 +772,7 @@
     ],
     "warmth": 7,
     "environmental_protection": 13,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "BELTED", "WATERPROOF", "PADDED" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "OUTER", "BELTED", "WATERPROOF", "PADDED" ],
     "armor": [
       {
         "material": [ { "type": "bone", "covered_by_mat": 100, "thickness": 20 } ],
