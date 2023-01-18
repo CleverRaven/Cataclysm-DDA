@@ -942,7 +942,6 @@ class drop_or_stash_item_info
         int _count = 0;
 };
 
-
 /**
  * Activity to drop items to the ground or into a vehicle cargo part.
  * @items is the list of items to drop

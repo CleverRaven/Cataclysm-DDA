@@ -199,7 +199,6 @@ const flag_id flag_NEVER_JAMS( "NEVER_JAMS" );
 const flag_id flag_NONCONDUCTIVE( "NONCONDUCTIVE" );
 const flag_id flag_NON_FOULING( "NON_FOULING" );
 const flag_id flag_NORMAL( "NORMAL" );
-const flag_id flag_NOT_FOOTWEAR( "NOT_FOOTWEAR" );
 const flag_id flag_NO_CLEAN( "NO_CLEAN" );
 const flag_id flag_NO_CVD( "NO_CVD" );
 const flag_id flag_NO_DROP( "NO_DROP" );
@@ -328,7 +327,6 @@ const flag_id flag_TRADER_AVOID( "TRADER_AVOID" );
 const flag_id flag_TRADER_KEEP( "TRADER_KEEP" );
 const flag_id flag_TRADER_KEEP_EQUIPPED( "TRADER_KEEP_EQUIPPED" );
 const flag_id flag_TWO_WAY_RADIO( "TWO_WAY_RADIO" );
-const flag_id flag_UNARMED_WEAPON( "UNARMED_WEAPON" );
 const flag_id flag_UNBREAKABLE( "UNBREAKABLE" );
 const flag_id flag_UNBREAKABLE_MELEE( "UNBREAKABLE_MELEE" );
 const flag_id flag_UNDERSIZE( "UNDERSIZE" );
@@ -362,7 +360,6 @@ const flag_id json_flag_HIDDEN_ITEM( "HIDDEN_ITEM" );
 static const flag_id json_flag_null( "null" );
 
 const flag_id flag_NULL = json_flag_null; // intentionally invalid flag
-
 
 namespace
 {

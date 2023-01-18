@@ -233,6 +233,8 @@ struct bodygraph_display {
     std::vector<part_tuple> partlist;
     bodygraph_info info;
     std::vector<std::string> info_txt;
+    int all_height = 0;
+    int all_width = 0;
     int partlist_width = 0;
     int info_width = 0;
     int sel_part = 0;
@@ -276,28 +278,33 @@ void bodygraph_display::init_ui_windows()
 {
     partlist_width = 18;
     info_width = 18;
-    int avail_w = clamp( TERMX - ( BPGRAPH_MAXCOLS + 40 ), 0, 20 );
-    for( int i = avail_w; i > 0; i-- ) {
+    all_height = clamp( BPGRAPH_HEIGHT + 20, 0, TERMY );
+
+    int base_width = BPGRAPH_MAXCOLS + partlist_width + info_width + 4;
+    all_width = clamp( base_width + 40, 0, TERMX );
+    // distribute extra horizontal space to the parts/info columns
+    for( int i = base_width; i < all_width; i++ ) {
         if( i % 4 == 0 ) {
             partlist_width++;
         } else {
             info_width++;
         }
     }
-    int total_w = partlist_width + info_width + BPGRAPH_MAXCOLS + 4;
-    point top_left( TERMX / 2 - total_w / 2, TERMY / 2 - BPGRAPH_HEIGHT / 2 );
 
-    w_border = catacurses::newwin( BPGRAPH_HEIGHT, total_w, top_left );
+    point top_left( TERMX / 2 - all_width / 2, TERMY / 2 - all_height / 2 );
+
+    w_border = catacurses::newwin( all_height, all_width, top_left );
     //NOLINTNEXTLINE(cata-use-named-point-constants)
-    w_partlist = catacurses::newwin( BPGRAPH_HEIGHT - 2, partlist_width, top_left + point( 1, 1 ) );
+    w_partlist = catacurses::newwin( all_height - 2, partlist_width, top_left + point( 1, 1 ) );
+    int graph_vpad = clamp<int>( ( ( all_height - 3 ) - BPGRAPH_MAXROWS ) / 2, 0, all_height );
     w_graph = catacurses::newwin( BPGRAPH_MAXROWS, BPGRAPH_MAXCOLS,
-                                  top_left + point( 2 + partlist_width, 2 ) );
-    w_info = catacurses::newwin( BPGRAPH_HEIGHT - 2, info_width,
+                                  top_left + point( 2 + partlist_width, graph_vpad + 2 ) );
+    w_info = catacurses::newwin( all_height - 2, info_width,
                                  top_left + point( 3 + partlist_width + BPGRAPH_MAXCOLS, 1 ) );
 
     bh_borders = border_helper();
-    bh_borders.add_border().set( top_left, { total_w, BPGRAPH_HEIGHT } );
-    bh_borders.add_border().set( top_left + point( partlist_width + 1, 0 ), { BPGRAPH_MAXCOLS + 2, BPGRAPH_HEIGHT } );
+    bh_borders.add_border().set( top_left, { all_width, all_height } );
+    bh_borders.add_border().set( top_left + point( partlist_width + 1, 0 ), { BPGRAPH_MAXCOLS + 2, all_height } );
 }
 
 void bodygraph_display::draw_borders()
@@ -328,16 +335,16 @@ void bodygraph_display::draw_borders()
     .offset_y( 1 )
     .content_size( partlist.size() )
     .viewport_pos( top_part )
-    .viewport_size( BPGRAPH_HEIGHT - 2 )
+    .viewport_size( all_height - 2 )
     .apply( w_border );
 
     scrollbar()
     .border_color( c_white )
-    .offset_x( 3 + partlist_width + BPGRAPH_MAXCOLS + info_width )
+    .offset_x( all_width - 1 )
     .offset_y( 1 )
     .content_size( info_txt.size() )
     .viewport_pos( top_info )
-    .viewport_size( BPGRAPH_HEIGHT - 2 )
+    .viewport_size( all_height - 2 )
     .apply( w_border );
 
     wnoutrefresh( w_border );
@@ -347,7 +354,7 @@ void bodygraph_display::draw_partlist()
 {
     werase( w_partlist );
     int y = 0;
-    for( int i = top_part; y < BPGRAPH_HEIGHT - 2 && i < static_cast<int>( partlist.size() ); i++ ) {
+    for( int i = top_part; y < all_height - 2 && i < static_cast<int>( partlist.size() ); i++ ) {
         const auto bgt = partlist[i];
         std::string txt = !std::get<1>( bgt ) ?
                           std::get<0>( bgt )->name.translated() :
@@ -621,15 +628,15 @@ void bodygraph_display::display()
         } else if( action == "SCROLL_INFOBOX_DOWN" || action == "PAGE_DOWN" ) {
             top_info++;
         }
-        if( info_txt.size() >= BPGRAPH_HEIGHT - 2 ) {
-            top_info = clamp( top_info, 0, static_cast<int>( info_txt.size() ) - ( BPGRAPH_HEIGHT - 2 ) );
+        if( static_cast<int>( info_txt.size() ) >= all_height - 2 ) {
+            top_info = clamp( top_info, 0, static_cast<int>( info_txt.size() ) - ( all_height - 2 ) );
         } else {
             top_info = 0;
         }
         if( sel_part < top_part ) {
             top_part = sel_part;
-        } else if( sel_part >= top_part + ( BPGRAPH_HEIGHT - 2 ) ) {
-            top_part = sel_part - ( BPGRAPH_HEIGHT - 3 );
+        } else if( sel_part >= top_part + ( all_height - 2 ) ) {
+            top_part = sel_part - ( all_height - 3 );
         }
     }
 }
