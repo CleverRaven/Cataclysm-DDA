@@ -1022,10 +1022,11 @@
     "name": { "str_sp": "fentanyl" },
     "description": "A potent synthetic opioid used as a pain medication and anesthetic.  It is notoriously addictive when used in illicit pursuits, and easy to overdose on when manufactured improperly or cut by dealers for more product.  Handle with extreme care.",
     "weight": "1 g",
-    "volume": "1 ml",
+    "volume": "250 ml",
     "price": 14000,
     "price_postapoc": 250000,
     "stack_size": 10,
+    "charges": 10,
     "symbol": "!",
     "color": "light_gray",
     "container": "bottle_plastic_pill_supplement",
@@ -1035,14 +1036,13 @@
     "addiction_potential": 75,
     "addiction_type": "opiate",
     "flags": [ "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
-    "//": "These values might not make sense, as fentanyl is 50-100 times stronger than morphine, but this is the highest they could go without dying after taking it.",
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You take some fentanyl.",
       "effects": [
-        { "id": "pkill3", "duration": 1000 },
-        { "id": "pkill2", "duration": 2000 },
-        { "id": "cough_suppress", "duration": 500 }
+        { "id": "pkill3", "duration": 150 },
+        { "id": "pkill2", "duration": 1400 },
+        { "id": "cough_suppress", "duration": 100 }
       ]
     }
   },
