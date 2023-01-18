@@ -39,8 +39,8 @@ jobs:
       - name: Generate environmental variables
         id: generate_env_vars
         run: |
-          echo "::set-output name=tag_name::cdda-experimental-${{ steps.get-timestamp.outputs.time }}"
-          echo "::set-output name=release_name::Cataclysm-DDA experimental build ${{ steps.get-timestamp.outputs.time }}"
+          echo "tag_name=cdda-experimental-${{ steps.get-timestamp.outputs.time }}" >> $GITHUB_OUTPUT
+          echo "release_name=Cataclysm-DDA experimental build ${{ steps.get-timestamp.outputs.time }}" >> $GITHUB_OUTPUT
       - name: Check if there is existing git tag
         id: tag_check
         uses: mukunku/tag-exists-action@v1.0.0

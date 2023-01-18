@@ -105,8 +105,8 @@ jobs:
     - name: Get ccache vars
       id: get-vars
       run: |
-        echo "::set-output name=datetime::$(/bin/date -u "+%Y%m%d%H%M")"
-        echo "::set-output name=ccache-path::$(echo "$APPDATA\\ccache")"
+        echo "datetime=$(/bin/date -u "+%Y%m%d%H%M")" >> $GITHUB_OUTPUT
+        echo "ccache-path=$(echo "$APPDATA\\ccache")" >> $GITHUB_OUTPUT
       shell: bash
 
     - name: ccache cache files
