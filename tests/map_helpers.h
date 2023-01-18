@@ -21,7 +21,7 @@ void clear_map( int zmin = -2, int zmax = 0 );
 void clear_radiation();
 void clear_map_and_put_player_underground();
 monster &spawn_test_monster( const std::string &monster_type, const tripoint &start,
-                             const bool death_drops = true );
+                             bool death_drops = true );
 void clear_vehicles( map *target = nullptr );
 void build_test_map( const ter_id &terrain );
 void player_add_headlamp();
