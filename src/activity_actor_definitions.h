@@ -1930,16 +1930,33 @@ class unload_loot_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 
     private:
-        enum activity_stage : int {
-        //Initial stage
-        INIT = 0,
-        //Think about what to do first: choose destination
-        THINK = 1,
-        //Do activity
-        DO = 2,
-    };
-        int moves;
-        int stage;
+        // The remaining tiles we haven't looked at yet. Processed ones are removed.
+        std::deque<tripoint_abs_ms> tiles_rem;
+        // The index of the item we got to within a tile. As we can't erase the items, we have to keep track of the index here.
+        int index_items;
+};
+
+class move_loot_activity_actor : public activity_actor
+{
+    public:
+        move_loot_activity_actor() = default;
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_MOVE_LOOT" );
+        }
+
+        void start( player_activity &, Character & ) override;
+        void do_turn( player_activity &, Character & ) override;
+        void finish( player_activity &, Character & ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<move_loot_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+
+    private:
         // The remaining tiles we haven't looked at yet. Processed ones are removed.
         std::deque<tripoint_abs_ms> tiles_rem;
         // The index of the item we got to within a tile. As we can't erase the items, we have to keep track of the index here.
