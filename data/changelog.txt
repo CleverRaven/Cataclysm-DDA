@@ -1,3 +1,260 @@
+# 0.G (Gernsback or Gaiman are my suggestions/guess)
+
+## Highlights
+Effect on condition brings a scripting pseudo language to Cataclysm.  Some of it's key uses in 0.G have been the introduction of portal storms, NPC faction development over time and random encounters in already explored maps.
+The introduction of background hobbies has added a new tab to character creation that allows the player to select one or more hobbies/backgrounds that flesh out what your character was doing prior to the Cataclysm in skills and traits.
+JSONized sidebar allows almost total control of what your sidebar looks like and what information it displays is up to you!
+Skill rust has been turned into a net gain for the player as any rusted xp now turns into an xp multiplier that helps your character learn faster.  As a result it now defaults to on.
+Passively boil water by putting dirty water into a fireproof container then placing the container on top of a fire.  Walk away and after an amount of time dependent on the amount of water to boil it will all be clean water!
+Monster weakpoints! Many monsters now have weakpoints that the player can hit to apply various effects and extra damage to the monster.  As the player dissects more corpses of monsters they can learn weakpoint proficiencies that increase the player's odds of hitting weakpoints.
+Characters now have cardio which will respond to your playstyle.  Go for a run every day and perform hard labor and your stamina will slowly go further and further.  Spend three months reading and performing low intensity crafts and your cardio will suffer.
+A half dozen new in repo mods: Innawoods for the survival, craft loop you crave. Backrooms which takes place in the neverending backrooms dimension, Massachusetts mod for people who desire geographic accuracy, Xedra Evolved a science fantasy mod with weird magic and vampirism, Tropicataclysm for your Cataclysm at a warmer latitude and Megafauna which like Dinoclysm targets an ancient epoch with creatures that outsize our modern equivalents.
+Take over a friendly NPC upon your death, if you've managed to recruit any NPCs to your faction you are given an option to take over one of them in the event of your character's death.
+Appliances and building based powergrids, allow you to set up various tools or even usable arcade machines in your home base.
+Two new Iso tilesets have been added to the game.
+Simple monster aggression differentation. Some monsters now know if another monster made them angry versus instead the PC.  If they get angry at other monsters they may not get angry at the PC.
+Vehicles now have solid walls even when angled which prevents monsters and fields from entering an angled vehicle.
+Dozens of updates and content additions to Dinomod, Aftershock and Magiclysm.
+Map memory is now unlimited, you will no longer forget places you have been before.
+There has been a distinct push to make many options and possibilities clearer to the player without having to search for them, UI that makes suggestions as to why the player might want to perform an action.
+
+## Statistics
+3974 files changed, 5440251 insertions(+), 3904330 deletions(-)
+10,463 commits
+~454 contributors
+
+New game entities (core): 4510
+Items: 987
+    228 misc items, 199 books, 196 articles of clothing, 161 guns and gun related items,
+    151 comestibles, 99 tools, 53 ammunition types
+Mapgen: 778
+    424 overmap terrains, 198 palettes, 62 start locations, 41 city buildings, 25 map extras,
+    20 overmap specials, 5 overmap locations, 3 region setting
+Crafting: 562
+    223 construction groups, 201 requirements, 60 proficiencies, 50 constructions,
+    17 recipe groups, 10 recipe categories, 1 construction category
+Achievements: 363
+    115 achievements, 107 event statistics, 100 event transformations, 26 score entries, 15 conducts
+Item Traits: 325
+    171 item groups, 97 materials, 20 ammunition types, 18 ammo effects, 13 tool qualities,
+    2 vitamins, 3 item actions, 1 fault
+Player Traits: 263
+    144 professions, 41 effect types, 28 skills, 17 mutations, 14 activity types,
+    4 skill display types, 3 behaviors, 3 movement modes, 3 scent types, 2 morale types,
+    1 butchery requirement, 1 disease type, 1 mutation types, 1 trait group
+NPCs and NPC interactions: 237
+    255 talk topics, 29 missions, 29 scenarios, 15 npcs, 6 npc classes, 3 factions
+Map Traits: 234
+    149 terrains, 12 weather types, 64 furnitures, 5 gates, 3 field types, 1 terrain transformation
+Monsters: 228
+    151 monster types, 72 harvest entries, 4 species, 1 anatomy entry
+Vehicles: 140
+    80 vehicle parts, 41 vehicles, 12 vehicle part categories, 7 vehicle groups
+Magic: 40
+    23 spells, 7 enchantments, 6 emit definitions, 4 relic definitions
+Misc: 363
+    258 json flags, 104 ascii art, 1 loot zone
+
+New game entities (mods): 3231
+Items: 773
+    179 misc items, 172 books, 161 comestibles, 85 tools, 83 articles of clothing,
+    65 guns and gun-related items, 21 ammunition types, 7 compact bionic modules
+Player traits: 749
+    273 mutations, 214 trait groups, 96 professions, 64 techniques, 47 scenarios, 21 effect types,
+    9 martial arts, 8 bionics, 8 start locations, 6 mutation categories, 2 proficiencies, 1 skill
+Mapgen: 430
+    154 item groups, 202 overmap terrains, 39 palettes, 30 overmap specials,
+    5 city buildings, 2 map extras
+Monsters: 406
+    360 monster types, 32 harvest entries, 11 species, 3 monster attacks
+NPCs and NPC interactions: xxx
+    xxx talk topics, xx npc classes, xx mission definitions, xx npcs, x factions
+Map traits: xxx
+    xxx terrains, xx furnitures, xx terrain transformations,
+    x gates, x field types, x traps, x emit definitions
+Vehicles: xxx
+    xxx vehicle parts, xx vehicle groups, xx vehicles
+Magic: xxx
+    xxx spells, xx enchantments
+Crafting: xx
+    x requirements, x tool qualities, x construction groups, x constructions,
+    x recipe category, x recipe group
+Item Traits: xxx
+    x materials, x ammunition types, x ammo effects
+Achievements: xxx
+    x achievements, x event statistics, x event transformations, x score entries
+
+## Features:
+Safe mode improvements
+Enchantments can now alter skills
+Eternal Weather options
+Electrical fields can produce EMP and fry unprotected electronics
+Vitamins system and diseases related to the over or under consumption.  Not just for normal vitamins like Calcium or Vit C.
+Integrated armors for armors that are part of you.
+Multiple tilesets based on Zoom.
+CBM fueling improvements
+Monster death effects now use spells
+Improved NPC attack logic including the ability to cast spells
+Add monster bleed resistance
+Recipes can be tracked as new
+Deep water can now destroy electronics
+A ton of prework for limbification
+Autodrive version 2
+Hunted scenario adds a nemesis zombie chasing the PC
+Practice recipes
+Player can nickname monsters
+All items can have cosmetic variants now
+Tons of work on zones, such as personal zones, dissasembly zones and automop zones
+Allow non-debug change of hair, facial hair, eye colour and skin colour
+Books can now be copied into a variety of condensing items, ebooks, book binders etc
+PC can track their adventure in their diary
+Zombies no longer revive naked
+Calories tracking for QOL
+Allow green night-vision overlay to be turned off
+Quality of life improvement : add capacity essential data next to the worn containers within the inventory interface, add universal formatter to easily format common units `unit_to_string`
+You can disable specific pockets on items and disable unloading specific pockets
+Eternal Night & Eternal Day options
+Enable grab movement of vehicles and furniture across ramps to a different z-level
+Grabs can cause you to suffocate, Portal Storm Effect to use this
+Allow reloading guns with mixed ammo
+Allow players to uncover electric wires in the walls to connect appliances
+Snippets you've read have a LORE tab you can look them over
+Allow Web Diver to rappel, add infrastructure for wall crawling
+Give a chance of another try if game is unable to find a valid starting location.
+Perspiration
+Reworks mutagen to take time and use fully customizable EOCs.
+Mutations now cause genetic damage
+Limiting rigid armor, testing for it and raw skin
+Aiming Down Sight Causes Sight To Focus
+Tons of additional mouse and menu scrolling options
+Move items along when riding the elevator
+You can now peek down a ledge to check if it's safe before climbing down
+Metaprogression through achievements
+Allow mounting any reasonable gun on turret mount
+EMP blast renders all electronic items in the radius of the blast non-functional
+
+## Content:
+Half a dozen new basecamp locations
+Dozens of new NPCs including several new NPC factions
+Additional modular lab rooms and finales
+Add ability to cause some foods to incur nausea
+Archery Proficiencies and proficiency bonus infrastructure
+Mines JSONified
+Add book binder to copy recipes
+add eBook Reader
+Aquariums
+Vandalized Library Variants
+Add Vehicles: Full-size, Mini, Cargo, and Camper Vans
+Many new monsters, weapons and recipes
+New mutation traits
+Tutorial jsonify and rework
+coins and banknotes overhauled
+Expanded bronze recipes
+Three new mutation categories: Rabbit, Frog, and Snail
+Add wind turbine map special
+Exodii trader and more ways to find the Exodii base
+Portal storms, portal storm monsters, portal storm dungeon
+The refugee center merchant has been remade into a new NPC named Smokes.
+Appliances for all kinds of furniture including lamps, washing machines, arcade machines, tool machines.
+Propane gas and tanks
+Isolated Artisans Faction
+Add new Bōjutsu Marital Art
+Blacksmithing rework
+New easter eggs, no I won't list them
+Civilian Bugout Bags Filled With What You Expect
+Hub01 expansion
+Tacoma Ranch rework and Expansion
+New starting missions for many professions both new and old
+Aircraft Carrier and Nuclear Power Plant Globally unique locations
+JSONized snippets for addictions and dreams
+Catalytic Cracking for Kerosene production
+And unfathomable amount of location updates
+Nursing home and associated scenario, monsters and profession
+Improved radio scanning
+Sheet metal armor
+Pride flags
+Skulls
+A plethora of mutable locations including farms and river caves
+Meat Cocoons and Zombie Amalgations
+Even more monsters, items, foods, locations, and recipes
+
+## Interface:
+Hide tiles overmap behind an option
+Support separate graphical tiles for sounds heard above/below visible Z level
+Jsonize and display CBM trigger costs
+Show which mods items, monsters, and furniture are from
+Allow changing shape of vehicle parts without reinstalling
+Move refueling CBM to its own menu
+Show monster count in sidebar compass
+Separate zoom level for overmap
+Added recipe activity level to crafting screen
+display gun loudness
+Display calorie value of ingredients while crafting food
+Parkour is now a proficiency
+Stay in container during 'E'at from container
+Add option to toggle display of trait/mutation on player sprite
+Add option to toggle display of piece of armor on player sprite
+Color relics in inventory in pink
+Add a new, 4th diagonal movement with modifier keys + arrow keys option: Diagonal Lock
+Unload container in tile keybind
+Modify crafting UI  to show details of byproducts and jar contents
+An incredible amount of UI work and improvements of menus and tabs
+Independent safe mode rules for walking & driving
+New Tileset: First release of HollowMoon by secretstamos
+Allow (z)ooming while (V)iewing items/monsters
+In inventory screens, colorize an item's remaining charges based on how full it is.
+Different layers on different body parts now visible in item UI
+Allow wielding and wearing items from the pickup menu
+Enhance safe mode messages with color and information about monster count/direction
+Bind HOME and END keys by default and implement them for most menus
+In butchery menu, make it clear when an item will be disassembled
+Containers holding a stack of a single item will display its quantity
+Added option to clear pocket settings
+The item display now show minimum encumbrance as well as maximum
+Add global auto-note settings
+Change gender with @ on all char creation tabs
+Show background traits on TRAITS window in character creation menu
+Remove NEW! recipe flag on current item when moving up or down
+Adds Medical Menu
+Allowing converting terrain/furniture to appliances through interaction
+add trait to hamper player's ability to judge creature's vision and intentions
+Interrupt crafting when starving/parched
+Allow customization of text input UI hotkeys using either ? or F1
+Show properly-fitted clothing in the crafting screen
+Progress update while heating food
+Hides the old sidebars and replaces them with fancy json sidebars
+Jsonified "Unexplored" OMT
+Support fuzzy search with accented latin letters
+Many new color themes
+Possibility to turn distractions on and off
+Show compatible guns in magazine descriptions
+Show proficiencies trained by dissecting
+Mark overmap location if player drops favorited item
+
+
+## Mods:
+Ipsem Lorem
+
+## Balance:
+Mutation System Overhaul
+
+## Bugfixes:
+Ipsem Lorem
+
+## Performance:
+Ipsem Lorem
+
+## Infrastructure:
+Ipsem Lorem
+
+## Build:
+Ipsem Lorem
+
+## I18N and A11Y:
+Ipsem Lorem
+
+
+
 # 0.F (Frank)
 
 ## Highlights
@@ -3808,7 +4065,7 @@ Added skill support into professions.
 * Numerous bugfixes.
 
 ## Full list:
- 
+
 Matches usable anywhere lighters could be used previously.
 Draw lit areas outside of LOS and normal sight radius the same as unlit areas
 Tell the player when their gear is damaged in combat
