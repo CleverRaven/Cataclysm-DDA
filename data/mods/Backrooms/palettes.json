@@ -69,7 +69,7 @@
       " ": {
         "item": {
           "subtype": "distribution",
-          "entries": [ { "item": "null", "prob": 20000 }, { "item": "backrooms_strange_object", "prob": 1 } ]
+          "entries": [ { "item": "null", "prob": 20000 }, { "group": "backrooms_artifacts", "prob": 1 } ]
         },
         "chance": 100
       },
