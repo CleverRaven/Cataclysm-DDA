@@ -4297,7 +4297,7 @@
     "name": "planks",
     "description": "Recipes related to constructing 4ft planks.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "2x4_from long planks by hand", "2x4_from long planks with powertools" ]
+    "nested_category_data": [ "2x4_from long planks by hand", "2x4_from long planks with powertools", "2x4_from logs with powertools" ]
   },
   {
     "id": "nested_planks_short",
