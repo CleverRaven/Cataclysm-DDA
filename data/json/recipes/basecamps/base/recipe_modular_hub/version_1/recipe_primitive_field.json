@@ -30,7 +30,7 @@
     "blueprint_name": "basic northeast tent",
     "blueprint_provides": [ { "id": "gathering" }, { "id": "primitive_camp_recipes_1" } ],
     "blueprint_requires": [ { "id": "faction_base_camp_0" } ],
-    "components": [ [ [ "large_tent_kit", 1 ], [ "broketent", 4 ], [ "tent_kit", 3 ], [ "shelter_kit", 4 ] ] ],
+    "components": [ [ [ "large_tent_equivalent", 1, "LIST" ] ] ],
     "check_blueprint_needs": false
   },
   {
@@ -117,7 +117,7 @@
     "blueprint_requires": [ { "id": "faction_base_camp_4" } ],
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [
-      [ [ "large_tent_kit", 1 ], [ "broketent", 4 ], [ "tent_kit", 3 ], [ "shelter_kit", 4 ] ],
+      [ [ "large_tent_equivalent", 1, "LIST" ] ],
       [ [ "2x4", 24 ] ],
       [ [ "straw_pile", 32 ], [ "pine_bough", 40 ] ],
       [ [ "nail", 48 ] ],
@@ -165,7 +165,7 @@
     "blueprint_requires": [ { "id": "faction_base_camp_4" } ],
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [
-      [ [ "large_tent_kit", 1 ], [ "broketent", 4 ], [ "tent_kit", 3 ], [ "shelter_kit", 4 ] ],
+      [ [ "large_tent_equivalent", 1, "LIST" ] ],
       [ [ "2x4", 24 ] ],
       [ [ "straw_pile", 32 ], [ "pine_bough", 40 ] ],
       [ [ "nail", 48 ] ],
@@ -221,7 +221,7 @@
     "blueprint_requires": [ { "id": "faction_base_camp_4" } ],
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [
-      [ [ "large_tent_kit", 1 ], [ "broketent", 4 ], [ "tent_kit", 3 ], [ "shelter_kit", 4 ] ],
+      [ [ "large_tent_equivalent", 1, "LIST" ] ],
       [ [ "2x4", 24 ] ],
       [ [ "straw_pile", 32 ], [ "pine_bough", 40 ] ],
       [ [ "nail", 48 ] ],
@@ -350,7 +350,7 @@
     "blueprint_requires": [ { "id": "faction_base_camp_4" } ],
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [
-      [ [ "large_tent_kit", 1 ], [ "broketent", 4 ], [ "tent_kit", 3 ], [ "shelter_kit", 4 ] ],
+      [ [ "large_tent_equivalent", 1, "LIST" ] ],
       [ [ "2x4", 24 ] ],
       [ [ "straw_pile", 32 ], [ "pine_bough", 40 ] ],
       [ [ "nail", 48 ] ],
@@ -417,7 +417,7 @@
     "blueprint_requires": [ { "id": "faction_base_camp_4" } ],
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [
-      [ [ "large_tent_kit", 1 ], [ "broketent", 4 ], [ "tent_kit", 3 ], [ "shelter_kit", 4 ] ],
+      [ [ "large_tent_equivalent", 1, "LIST" ] ],
       [ [ "2x4", 24 ] ],
       [ [ "straw_pile", 32 ], [ "pine_bough", 40 ] ],
       [ [ "nail", 48 ] ],
