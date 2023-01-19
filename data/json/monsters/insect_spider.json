@@ -133,8 +133,8 @@
     "description": "A disturbingly large mutated subterranean creature similar to a nightcrawler.  It possesses a fanged mouth and a long slender body that comes up to your knees, with even more surely hiding underground.",
     "copy-from": "mon_halfworm",
     "looks_like": "mon_worm",
-    "volume": "30 L",
-    "weight": "40750 g",
+    "volume": "62500 ml",
+    "weight": "81500 g",
     "dissect": "dissect_troglobite_sample_single",
     "upgrades": { "half_life": 42, "into": "mon_worm" }
   },
