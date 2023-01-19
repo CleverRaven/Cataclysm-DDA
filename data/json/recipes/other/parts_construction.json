@@ -660,11 +660,13 @@
     "result": "2x4",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "skill_used": "fabrication",
+    "skill_used": "fabrication" ,
+    "difficulty": 2,
     "time": "10 m",
     "autolearn": true,
+    "byproducts": [ [ "splinter", 10 ] ],
     "using": [ [ "power_saw_long", 5 ] ],
-    "result_mult": 10,
+    "result_mult": 8,
     "components": [ [ [ "log", 1 ] ] ]
   }
 ]
