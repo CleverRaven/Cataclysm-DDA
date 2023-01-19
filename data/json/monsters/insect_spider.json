@@ -2637,14 +2637,12 @@
     "reproduction": { "baby_egg": "egg_mole_cricket", "baby_count": 1, "baby_timer": 20 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "special_attacks": [
-      [
-        {
-          "type": "bite",
-          "cooldown": 5,
-          "damage_max_instance": [ { "damage_type": "stab", "amount": 20, "armor_penetration": 8 } ],
-          "effects": [ { "id": "tetanus", "chance": 5, "duration": 2, "permanent": true } ]
-        }
-      ],
+      {
+        "type": "bite",
+        "cooldown": 5,
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 20, "armor_penetration": 8 } ],
+        "effects": [ { "id": "tetanus", "chance": 5, "duration": 2, "permanent": true } ]
+      },
       [ "SHRIEK_ALERT", 10 ],
       [ "SHRIEK_STUN", 5 ],
       [ "impale", 15 ]
