@@ -304,8 +304,7 @@ public class SplashScreen extends Activity {
                 deleteRecursive(assetManager, externalFilesDir, new File(externalFilesDir + "/data"));
                 deleteRecursive(assetManager, externalFilesDir, new File(externalFilesDir + "/gfx"));
                 deleteRecursive(assetManager, externalFilesDir, new File(externalFilesDir + "/lang"));
-                deleteRecursive(assetManager, externalFilesDir, new File(externalFilesDir + "/config"));
-                
+        
                 // Install the new data over the top
                 copyAssetFolder(assetManager, "data", externalFilesDir + "/data");
                 copyAssetFolder(assetManager, "gfx", externalFilesDir + "/gfx");
