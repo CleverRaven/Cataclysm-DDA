@@ -2642,7 +2642,7 @@
           "type": "bite",
           "cooldown": 5,
           "damage_max_instance": [ { "damage_type": "stab", "amount": 20, "armor_penetration": 8 } ],
-          "effects": [ { "id": "tetanus", "chance": 5, "duration": 2, "permanent":true } ]
+          "effects": [ { "id": "tetanus", "chance": 5, "duration": 2, "permanent": true } ]
         }
       ],
       [ "SHRIEK_ALERT", 10 ],
