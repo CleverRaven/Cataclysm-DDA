@@ -3664,11 +3664,7 @@ void Character::apply_mut_encumbrance( std::map<bodypart_id, encumbrance_data> &
             total_enc[enc.first] += enc.second;
         }
         for( const std::pair<const bodypart_str_id, int> &enc : mut->encumbrance_covered ) {
-            if( !oversize ) {
-                // initialize on demand
-                oversize = exclusive_flag_coverage( flag_OVERSIZE );
-            }
-            if( !oversize->test( enc.first ) ) {
+            if( wearing_fitting_on(enc.first) ) {
                 total_enc[enc.first] += enc.second;
             }
         }
