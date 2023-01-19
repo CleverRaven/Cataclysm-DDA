@@ -25,7 +25,7 @@
       },
       {
         "id": "backrooms_strange_object_hybrid_fossil",
-        "description": "It's a brown, flaky rock just bigger than your fist.  Horrifically, what seem to be small animal bones stick out of it at weird angles.  Something that looks suspiciously like blood very slowly oozes out from between the layers in the rock - almost unnoticeably slow - almost as if something living were freshly crushed between the sedimentary layers.  But that would be impossible…",
+        "description": "It's a brown, flaky rock just bigger than your fist.  Horrifically, what seem to be small animal bones stick out of it at weird angles.  Something that looks suspiciously like blood very slowly oozes out from between the layers in the rock - almost imperceptibly slow - almost as if something living were freshly crushed between the sedimentary layers.  But that would be impossible…",
         "weight": 1,
         "color": "brown",
         "name": { "str": "strange object" },
