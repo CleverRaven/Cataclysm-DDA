@@ -6066,7 +6066,7 @@ void vehicle::refresh( const bool remove_fakes )
             add_fake_part( rp.first, "CAMERA" );
         }
         // add fake curtains so vision is correctly blocked
-        for (const std::pair <const point, std::vector<int>>& rp : relative_parts ) {
+        for( const std::pair <const point, std::vector<int>> &rp : relative_parts ) {
             add_fake_part( rp.first, "OPAQUE" );
         }
     } else {
