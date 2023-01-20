@@ -19,8 +19,8 @@ Map memory is now unlimited, you will no longer forget places you have been befo
 There has been a distinct push to make many options and possibilities clearer to the player without having to search for them, UI that makes suggestions as to why the player might want to perform an action.
 
 ## Statistics
-3974 files changed, 5440251 insertions(+), 3904330 deletions(-)
-10,463 commits
+7881 files changed, 11635744 insertions(+), 5019082 deletions(-)
+13,071 commits
 ~454 contributors
 
 New game entities (core): 4510
