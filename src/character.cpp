@@ -11577,11 +11577,9 @@ void Character::pause()
     if( !in_vehicle && !get_map().has_flag_furn( "BRIDGE", pos( ) ) ) {
         if( underwater ) {
             // TODO: gain "swimming" proficiency but not "athletics" skill
-            // practice( skill_swimming, 1 );
             drench( 100, get_drenching_body_parts(), false );
         } else if( here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, pos() ) ) {
             // TODO: gain "swimming" proficiency but not "athletics" skill
-            // practice( skill_swimming, 1 );
             // Same as above, except no head/eyes/mouth
             drench( 100, get_drenching_body_parts( false ), false );
         } else if( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos() ) ) {
