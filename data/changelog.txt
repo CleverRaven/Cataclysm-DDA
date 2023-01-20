@@ -358,7 +358,6 @@ Player can finally enjoy fire even with eyes closed
 Z level transparency flag for better skylights
 Componentless practice crafts no longer leave in-progress items
 Fix mechs missing their guns
-Players can no longer be dragged while in a vehicle with a seatbelt; dragged players will not be run over by their own vehicles while still inside of them
 Stop NPCs from throwing their guns
 Fixes for blind interaction with NPCs
 When tired, cancel current activity if `Maybe later` is chosen; finish current activity if `Finish it` is chosen
