@@ -117,7 +117,7 @@
     "color": "brown",
     "sided": true,
     "material_thickness": 1,
-    "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "NOT_FOOTWEAR" ],
+    "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ],
     "pocket_data": [
       {
         "magazine_well": "200 ml",
@@ -130,7 +130,16 @@
       }
     ],
     "use_action": { "type": "holster" },
-    "armor": [ { "encumbrance": [ 3, 4 ], "coverage": 5, "covers": [ "foot_l", "foot_r" ] } ]
+    "armor": [
+      {
+        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 1 } ],
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_ankle_l", "foot_ankle_r" ],
+        "coverage": 25,
+        "encumbrance": [ 3, 4 ],
+        "layers": [ "BELTED" ]
+      }
+    ]
   },
   {
     "id": "bow_sling",

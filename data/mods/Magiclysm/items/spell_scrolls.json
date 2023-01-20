@@ -135,7 +135,7 @@
     "//": "Animist spell",
     "name": { "str": "Scroll of Devour", "str_pl": "Scrolls of Devour" },
     "description": "Kill a summoned creature, consuming its life energy to regain some health.",
-    "use_action": { "type": "learn_spell", "spells": [ "rupture" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "devour" ] }
   },
   {
     "type": "BOOK",

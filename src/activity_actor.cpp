@@ -1510,7 +1510,6 @@ bool read_activity_actor::player_read( avatar &you )
             read_book( *learner, islotbook, skill_level, penalty );
             const int newSkillLevel = skill_level.knowledgeLevel();
 
-
             // levels up the skill
             if( newSkillLevel != originalSkillLevel ) {
                 get_event_bus().send<event_type::gains_skill_level>(
@@ -2124,7 +2123,6 @@ void boltcutting_activity_actor::finish( player_activity &act, Character &who )
                        true, "tool", "boltcutters" );
     }
 
-
     for( const activity_byproduct &byproduct : data->byproducts() ) {
         const int amount = byproduct.roll();
         if( byproduct.item->count_by_charges() ) {
@@ -2161,7 +2159,6 @@ std::unique_ptr<activity_actor> boltcutting_activity_actor::deserialize( JsonVal
     data.read( "tool", actor.tool );
     return actor.clone();
 }
-
 
 lockpick_activity_actor lockpick_activity_actor::use_item(
     int moves_total,
@@ -2698,7 +2695,6 @@ void try_sleep_activity_actor::finish( player_activity &act, Character &who )
     }
     who.set_movement_mode( move_mode_walk );
 }
-
 
 void try_sleep_activity_actor::canceled( player_activity &, Character &who )
 {
@@ -3962,7 +3958,7 @@ void insert_item_activity_actor::finish( player_activity &act, Character &who )
     }
 
     items.pop_front();
-    if( items.empty() || !success ) {
+    if( items.empty() || !success || items.front().first == item_location::nowhere ) {
         handler.handle_by( who );
         act.set_to_null();
         return;
@@ -6124,7 +6120,6 @@ std::unique_ptr<activity_actor> mop_activity_actor::deserialize( JsonValue &jsin
 
     return actor.clone();
 }
-
 
 void unload_loot_activity_actor::serialize( JsonOut &jsout ) const
 {

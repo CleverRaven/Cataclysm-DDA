@@ -44,12 +44,12 @@
     "symbol": ";",
     "qualities": [ [ "PRY", 1 ], [ "CUT", 2 ], [ "CUT_FINE", 1 ] ],
     "use_action": [ "CROWBAR" ],
-    "flags": [ "SHEATH_KNIFE", "UNARMED_WEAPON", "STAB", "UNBREAKABLE_MELEE" ],
+    "flags": [ "SHEATH_KNIFE", "STAB", "UNBREAKABLE_MELEE" ],
     "techniques": [ "WBLOCK_2", "UHAND", "PROD" ]
   },
   {
     "id": "crt_knuckledusters",
-    "type": "TOOL",
+    "type": "ARMOR",
     "category": "weapons",
     "name": { "str": "pair of C.R.I.T Knuckledusters", "str_pl": "pairs of C.R.I.T Knuckledusters" },
     "description": "C.R.I.T CQB knuckledusters.  Not too different from any normal pair other than weight.",
@@ -61,8 +61,16 @@
     "bashing": 10,
     "to_hit": 1,
     "symbol": "8",
-    "flags": [ "UNARMED_WEAPON", "UNBREAKABLE_MELEE" ],
-    "techniques": [ "WBLOCK_2", "HOOK" ]
+    "flags": [ "UNBREAKABLE_MELEE" ],
+    "techniques": [ "WBLOCK_2", "HOOK" ],
+    "armor": [
+      {
+        "encumbrance": 5,
+        "coverage": 20,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ]
+      }
+    ]
   },
   {
     "id": "sword_crt",

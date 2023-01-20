@@ -124,6 +124,9 @@ if ("${CMAKE_SYSTEM_NAME}" MATCHES "(Linux|FreeBSD|Darwin)")
     if (NOT DATA_PREFIX)
         set(DATA_PREFIX ${CMAKE_INSTALL_PREFIX}/share/cataclysm-dda)
     endif ()
+    if (NOT README_DIR)
+        set(README_DIR ${DATA_PREFIX})
+    endif ()
     if (NOT LOCALE_DIR)
         set(LOCALE_DIR ${CMAKE_INSTALL_PREFIX}/share/locale)
     endif ()
@@ -147,6 +150,9 @@ endif ()
 if ("${CMAKE_SYSTEM_NAME}" MATCHES "(Windows|MSYS)")
     if (NOT DATA_PREFIX)
         set(DATA_PREFIX ${CMAKE_INSTALL_PREFIX}/data)
+    endif ()
+    if (NOT README_DIR)
+        set(README_DIR ${CMAKE_INSTALL_PREFIX})
     endif ()
     if (NOT LOCALE_DIR)
         set(LOCALE_DIR ${CMAKE_INSTALL_PREFIX}/lang)
@@ -432,7 +438,7 @@ if (CATA_CLANG_TIDY_PLUGIN OR CATA_CLANG_TIDY_EXECUTABLE)
 endif()
 
 install(DIRECTORY doc gfx
-    DESTINATION .
+    DESTINATION ${DATA_PREFIX}
 )
 
 if (RELEASE)
@@ -441,9 +447,9 @@ if (RELEASE)
         ${CMAKE_SOURCE_DIR}/LICENSE.txt
         ${CMAKE_SOURCE_DIR}/LICENSE-OFL-Terminus-Font.txt
         ${CMAKE_SOURCE_DIR}/VERSION.txt
-        DESTINATION .)
+        DESTINATION ${README_DIR})
     if (TILES)
-        install(DIRECTORY ${CMAKE_SOURCE_DIR}/gfx DESTINATION .)
+        install(DIRECTORY ${CMAKE_SOURCE_DIR}/gfx DESTINATION ${DATA_PREFIX})
     endif()
 endif()
 

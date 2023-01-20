@@ -12,7 +12,7 @@
 <color_white>Agradecimentos especiais para:</color>
 <color_yellow>Aivean</color> - Por um desempenho excepcional.
 <color_yellow>anothersimulacrum </color> - Por me deixar cansado.
-<color_yellow>jbytheway</color> - For making me achieve things.
+<color_yellow>jbytheway</color> - Por me fazer conseguir atingir coisas.
 <color_yellow>BrettDong</color> - Por traduções e muito mais.
 <color_yellow>Qrox</color> - Por mostrar os locais das mensagens de erros.
 <color_yellow>LyleSY</color> - Por dinosaurooosss.
@@ -33,14 +33,14 @@
 <color_yellow>I-am-Erk</color> - Ultica, dialogos, NPCs e lixo nas cozinhas.
 <color_yellow>KorGgenT</color> - Magiclysm e dores de estômago.
 
-<color_white>Agradecimentos para (<color_cyan>0.E</color>):</color>
+<color_white>Agradecimentos especiais para (<color_cyan>0.E</color>):</color>
 <color_yellow>Narc</color> - Por manter o build-bot automático Jenkins.
 <color_yellow>Rivet-the-Zombie</color> - Por mesclar "a PR a day".
 <color_yellow>BevapDin</color> - Por reviews de código e esforços de refatoração.
 <color_yellow>BrettDong</color> - Por traduções.
 <color_yellow>curstwist</color> - Por telhados, geração de mapas, NPCs e changelogs.
 <color_yellow>davidpwbrown</color> - Por auto-viagem e auto-direção.  Também montaria a cavalo.
-<color_yellow>jbytheway</color> - For CI work and making his (tri)point.
+<color_yellow>jbytheway</color> - Pelo seu trabalho em CI e por fazer seu (tri)ponto.
 <color_yellow>Hymore246</color> - Por remodelação das artes marciais.
 <color_yellow>Qrox</color> - Pelos backtraces legíveis nas builds de Windows.
 <color_yellow>ZhilkinSerg</color> - Pelo teste de mesclagem.
@@ -53,7 +53,7 @@
 <color_white>Principais Desenvolvedores (<color_cyan>0.D</color>):</color>
 <color_yellow>KevinGranade</color>, <color_yellow>Rivet-the-Zombie</color>, <color_yellow>BevapDin</color>, <color_yellow>Coolthulu</color>, <color_yellow>i2amroy</color>
 
-<color_white>Agradecimentos para (<color_cyan>0.D</color>):</color>
+<color_white>Agradecimentos especiais para (<color_cyan>0.D</color>):</color>
 <color_yellow>Narc</color> - Por configurar o automatic Jenkins build-bot.
 <color_yellow>Acidia</color> - Pela maravilhosa contribuição com NPC's, Quests e locais.
 <color_yellow>Wuzzy</color> e <color_yellow>VlasovVitaly</color> - Pelos esforços herculanos nas traduções.
@@ -64,7 +64,7 @@
 <color_white>Principais Desenvolvedores (<color_cyan>0.C</color>):</color>
 <color_yellow>KevinGranade</color>, <color_yellow>Rivet-the-Zombie</color>, <color_yellow>KA101</color>, <color_yellow>BevapDin</color>, <color_yellow>Coolthulu</color>, <color_yellow>i2amroy</color>
 
-<color_white>Agradecimentos para (<color_cyan>0.C</color>):</color>
+<color_white>Agradecimentos especiais para (<color_cyan>0.C</color>):</color>
 <color_yellow>Narc</color> - Por configurar o automatic Jenkins build-bot.
 <color_yellow>Acidia</color> - Pela maravilhosa contribuição com NPC's, Quests e locais.
 <color_yellow>Wuzzy</color> e <color_yellow>VlasovVitaly</color> - Pelos esforços herculanos nas traduções.
@@ -72,45 +72,45 @@
 
 ******************************************************************************
 
-<color_white>Main Developers (<color_cyan>0.B</color>):</color>
+<color_white>Principais Desenvolvedores (<color_cyan>0.B</color>):</color>
 <color_yellow>KevinGranade</color>, <color_yellow>Rivet-the-Zombie</color>, <color_yellow>KA101</color>, <color_yellow>BevapDin</color>
 
-<color_white>Special thanks to (<color_cyan>0.B</color>):</color>
+<color_white>Agradecimentos especiais para (<color_cyan>0.B</color>):</color>
 <color_yellow>Narc</color> - Por configurar o automatic Jenkins build-bot.
 <color_yellow>Acidia</color> - Pela maravilhosa contribuição com NPC's, Quests e locais.
 <color_yellow>Wuzzy</color> e <color_yellow>VlasovVitaly</color> - Pelos esforços herculanos nas traduções.
-<color_yellow>i2amroy</color> - For several large infrastructural overhauls.
+<color_yellow>i2amroy</color> - Por várias grandes reformas de infraestrutura.
 <color_yellow>HuXTUS</color> - Por uma enorme quantidade de conteúdos incríveis.
 
 ******************************************************************************
 
-<color_white>Main Developers (<color_cyan>0.A</color>):</color>
+<color_white>Principais Desenvolvedores (<color_cyan>0.A</color>):</color>
 <color_yellow>KevinGranade</color>, <color_yellow>i2amroy</color>, <color_yellow>Rivet-the-Zombie</color>, <color_yellow>KA101</color>, <color_yellow>BevapDin</color>
 
-<color_white>Special thanks to (<color_cyan>0.A</color>):</color>
-<color_yellow>TheDarklingWolf</color> - For creating Cataclysm:DDA as we know it.
+<color_white>Agradecimentos especiais para (<color_cyan>0.A</color>):</color>
+<color_yellow>TheDarklingWolf</color> - Por criar Cataclysm:DDA como conhecemos.
 <color_yellow>Narc</color> - Por configurar o automatic Jenkins build-bot.
-<color_yellow>BevapDin</color> - For tireless bugfixing efforts.
-<color_yellow>dwarfkoala</color> - For a plethora of bug triage.
-<color_yellow>Ill-kun</color> - For countless UI cleanups.
+<color_yellow>BevapDin</color> - Por esforços incansáveis de correção de bugs.
+<color_yellow>dwarfkoala</color> - Por uma abundante triagem de bugs.
+<color_yellow>Ill-kun</color> - Por incontáveis reparos na UI.
 
 ******************************************************************************
 
-<color_white>Main Developers (<color_cyan>0.9</color>):</color>
+<color_white>Principais Desenvolvedores (<color_cyan>0.9</color>):</color>
 <color_yellow>KevinGranade</color>, <color_yellow>GalenEvil</color>, <color_yellow>i2amroy</color>, <color_yellow>AtomicDryad</color>, <color_yellow>Ianestrachan</color>
 
-<color_white>Special thanks to (<color_cyan>0.9</color>):</color>
-<color_yellow>TheDarklingWolf</color> - For creating Cataclysm:DDA as we know it.
+<color_white>Agradecimentos especiais para (<color_cyan>0.9</color>):</color>
+<color_yellow>TheDarklingWolf</color> - Por criar Cataclysm:DDA como conhecemos.
 <color_yellow>Narc</color> - Por configurar o automatic Jenkins build-bot.
-<color_yellow>yobbobanana</color> - For working as liason between translators and GitHub.
+<color_yellow>yobbobanana</color> - Por trabalhar como uma ligação entre os tradutores e o GitHub.
 <color_yellow>Angela 'Rivet' Graves</color>, Constant Creator of Cataclysmic Content.
 
 ******************************************************************************
 
-<color_white>Main Developers (<color_cyan>0.8</color>):</color>
+<color_white>Principais Desenvolvedores (<color_cyan>0.8</color>):</color>
 <color_yellow>Kevingranade</color>, <color_yellow>GalenEvil</color>, <color_yellow>i2amroy</color>, <color_yellow>AtomicDryad</color>, <color_yellow>Ozone</color>
 
-<color_white>Special thanks to (<color_cyan>0.8</color>):</color>
-<color_yellow>TheDarklingWolf</color> - For creating Cataclysm:DDA as we know it.
+<color_white>Agradecimentos especiais para (<color_cyan>0.8</color>):</color>
+<color_yellow>TheDarklingWolf</color> - Por criar Cataclysm:DDA como conhecemos.
 <color_yellow>Narc</color> - Por configurar o automatic Jenkins build-bot.
-<color_yellow>yobbobanana</color> - For working as liason between translators and GitHub.
+<color_yellow>yobbobanana</color> - Por trabalhar como uma ligação entre os tradutores e o GitHub.

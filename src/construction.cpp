@@ -1509,7 +1509,7 @@ void construct::done_wiring( const tripoint_bub_ms &p, Character &/*who*/ )
             continue;
         }
         const vehicle &veh_target = vp->vehicle();
-        if( veh_target.has_tag( flag_APPLIANCE ) || veh_target.has_tag( flag_WIRING ) ) {
+        if( veh_target.is_appliance() || veh_target.has_tag( flag_WIRING ) ) {
             if( connected_vehicles.find( &veh_target ) == connected_vehicles.end() ) {
                 // TODO: fix point types
                 veh->connect( p.raw(), trip.raw() );
@@ -2063,6 +2063,7 @@ void load_construction( const JsonObject &jo )
 
     con.on_display = jo.get_bool( "on_display", true );
     con.dark_craftable = jo.get_bool( "dark_craftable", false );
+    con.strict = jo.get_bool( "strict", false );
 
     constructions.push_back( con );
     construction_id_map.emplace( con.str_id, con.id );

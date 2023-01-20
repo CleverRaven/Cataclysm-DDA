@@ -97,8 +97,6 @@ static const vpart_id vpart_horn_bicycle( "horn_bicycle" );
 
 static const zone_type_id zone_type_VEHICLE_PATROL( "VEHICLE_PATROL" );
 
-static const std::string flag_APPLIANCE( "APPLIANCE" );
-
 void handbrake()
 {
     Character &player_character = get_player_character();
@@ -948,7 +946,7 @@ void vehicle::crash_terrain_around()
         const transform_terrain_data &ttd = vp.info().transform_terrain;
         for( size_t i = 0; i < eight_horizontal_neighbors.size() &&
              !here.inbounds_z( crush_target.z ); i++ ) {
-            tripoint cur_pos = start_pos + eight_horizontal_neighbors.at( i );
+            tripoint cur_pos = start_pos + eight_horizontal_neighbors[i];
             bool busy_pos = false;
             for( const vpart_reference &vp_tmp : get_all_parts() ) {
                 busy_pos |= vp_tmp.pos() == cur_pos;
@@ -1710,7 +1708,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
     const bool controls_here = has_part_here( "CONTROLS" );
     const bool player_is_driving = get_player_character().controlling_vehicle;
 
-    if( !has_tag( flag_APPLIANCE ) ) {
+    if( !is_appliance() ) {
         menu.add( _( "Examine vehicle" ) )
         .skip_theft_check()
         .skip_locked_check()
@@ -1832,7 +1830,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
         .on_submit( [this] { toggle_autopilot(); } );
     }
 
-    if( has_tag( flag_APPLIANCE ) || vp.avail_part_with_feature( "CTRL_ELECTRONIC" ) ) {
+    if( is_appliance() || vp.avail_part_with_feature( "CTRL_ELECTRONIC" ) ) {
         build_electronics_menu( menu );
     }
 

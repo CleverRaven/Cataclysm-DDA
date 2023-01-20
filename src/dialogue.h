@@ -80,7 +80,10 @@ struct talk_trial {
 };
 
 struct talk_topic {
-    explicit talk_topic( const std::string &i ) : id( i ) { }
+    explicit talk_topic( std::string i, itype_id const &it = itype_id::NULL_ID(),
+                         std::string r = {} )
+        : id( std::move( i ) ), item_type( it ), reason( std::move( r ) ) {
+    }
 
     std::string id;
     /** If we're talking about an item, this should be its type. */

@@ -179,7 +179,6 @@ struct navigation_step {
     int target_speed_tps;
 };
 
-
 /**
  * The address of a navigation node, i.e. a position and orientation on the nav map.
  */
@@ -356,7 +355,6 @@ class vehicle::autodrive_controller
                                  std::vector<std::pair<node_address, navigation_node>> &next_nodes ) const;
         cata::optional<std::vector<navigation_step>> compute_path( int speed_tps ) const;
 };
-
 
 static const std::array<orientation, NUM_ORIENTATIONS> &all_orientations()
 {
@@ -634,7 +632,6 @@ vehicle_profile vehicle::autodrive_controller::compute_profile( orientation faci
     return ret;
 }
 
-
 // Return true if the map tile at the given position (in map coordinates)
 // can be driven on (not an obstacle).
 // The logic should match what is in vehicle::part_collision().
@@ -880,7 +877,6 @@ scored_address vehicle::autodrive_controller::compute_node_score( const node_add
     }
     return ret;
 }
-
 
 void vehicle::autodrive_controller::compute_next_nodes( const node_address &addr,
         const navigation_node &node, int target_speed_tps,
@@ -1135,7 +1131,6 @@ cata::optional<navigation_step> vehicle::autodrive_controller::compute_next_step
     }
     return data.path.back();
 }
-
 
 std::vector<std::tuple<point, int, std::string>> vehicle::get_debug_overlay_data() const
 {

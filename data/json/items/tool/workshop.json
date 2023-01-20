@@ -625,8 +625,7 @@
         "skill": "fabrication",
         "cost_scaling": 0.1,
         "move_cost": 1500
-      },
-      { "flame": false, "type": "cauterize" }
+      }
     ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "pocket_data": [
@@ -1133,8 +1132,7 @@
         "skill": "fabrication",
         "cost_scaling": 0.1,
         "move_cost": 1500
-      },
-      { "flame": false, "type": "cauterize" }
+      }
     ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "pocket_data": [
@@ -1150,15 +1148,15 @@
     "id": "soldering_iron",
     "type": "TOOL",
     "name": { "str": "soldering iron" },
-    "description": "This is a device with a metal tip that can get very hot.  It is necessary for advanced electronics crafting.  You could also use it to cauterize wounds, if you had to.",
-    "weight": "181 g",
-    "volume": "100 ml",
-    "longest_side": "25 cm",
+    "description": "This is a device with a metal tip that can get very hot.  It is necessary for advanced electronics crafting.",
+    "weight": "90 g",
+    "volume": "120 ml",
+    "longest_side": "22 cm",
     "price": 1000,
     "price_postapoc": 100,
     "bashing": 2,
     "cutting": 6,
-    "material": [ "iron" ],
+    "material": [ { "type": "plastic", "portion": 75 }, { "type": "copper" } ],
     "symbol": ",",
     "color": "light_gray",
     "ammo": [ "battery" ],
@@ -1171,8 +1169,7 @@
         "skill": "fabrication",
         "cost_scaling": 0.1,
         "move_cost": 1500
-      },
-      { "flame": false, "type": "cauterize" }
+      }
     ],
     "flags": [ "SPEAR", "BELT_CLIP", "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
     "pocket_data": [
@@ -1283,8 +1280,7 @@
         "skill": "fabrication",
         "cost_scaling": 0.1,
         "move_cost": 1000
-      },
-      { "flame": false, "type": "cauterize" }
+      }
     ],
     "qualities": [
       [ "SAW_W", 1 ],
