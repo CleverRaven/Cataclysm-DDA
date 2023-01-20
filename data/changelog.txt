@@ -1,14 +1,14 @@
 # 0.G (Gernsback or Gaiman are my suggestions/guess)
 
 ## Highlights
-Effect on condition brings a scripting pseudo language to Cataclysm.  Some of it's key uses in 0.G have been the introduction of portal storms, NPC faction development over time and random encounters in already explored maps.
-The introduction of background hobbies has added a new tab to character creation that allows the player to select one or more hobbies/backgrounds that flesh out what your character was doing prior to the Cataclysm in skills and traits.
+Effect on condition brings a scripting pseudo language to Cataclysm.  Some of its key uses in 0.G have been the introduction of portal storms, NPC faction development over time and random encounters in already explored maps.
+The introduction of hobbies has added a new tab to character creation that allows the player to select one or more hobbies/backgrounds that flesh out what your character was doing prior to the Cataclysm in skills and traits.
 JSONized sidebar allows almost total control of what your sidebar looks like and what information it displays is up to you!
 Skill rust has been turned into a net gain for the player as any rusted xp now turns into an xp multiplier that helps your character learn faster.  As a result it now defaults to on.
 Passively boil water by putting dirty water into a fireproof container then placing the container on top of a fire.  Walk away and after an amount of time dependent on the amount of water to boil it will all be clean water!
 Monster weakpoints! Many monsters now have weakpoints that the player can hit to apply various effects and extra damage to the monster.  As the player dissects more corpses of monsters they can learn weakpoint proficiencies that increase the player's odds of hitting weakpoints.
 Characters now have cardio which will respond to your playstyle.  Go for a run every day and perform hard labor and your stamina will slowly go further and further.  Spend three months reading and performing low intensity crafts and your cardio will suffer.
-A half dozen new in repo mods: Innawoods for the survival, craft loop you crave. Backrooms which takes place in the neverending backrooms dimension, Massachusetts mod for people who desire geographic accuracy, Xedra Evolved a science fantasy mod with weird magic and vampirism, Tropicataclysm for your Cataclysm at a warmer latitude and Megafauna which like Dinoclysm targets an ancient epoch with creatures that outsize our modern equivalents.
+A half dozen new in repo mods: Innawoods for the survival from scratch you crave. Backrooms which takes place in the neverending backrooms dimension, Massachusetts mod for people who desire geographic accuracy, Xedra Evolved a science fantasy mod with weird magic and vampirism, Tropicataclysm for your Cataclysm at a warmer latitude and the Megafauna mod which targets an ancient epoch with creatures that outsize our modern equivalents, similar to Dinomod.
 Take over a friendly NPC upon your death, if you've managed to recruit any NPCs to your faction you are given an option to take over one of them in the event of your character's death.
 Appliances and building based powergrids, allow you to set up various tools or even usable arcade machines in your home base.
 Two new Iso tilesets have been added to the game.
@@ -21,7 +21,7 @@ There has been a distinct push to make many options and possibilities clearer to
 ## Statistics
 7881 files changed, 11635744 insertions(+), 5019082 deletions(-)
 13,071 commits
-~454 contributors
+~218 new contributors
 
 New game entities (core): 4510
 Items: 987
@@ -105,13 +105,13 @@ Practice recipes
 Player can nickname monsters
 All items can have cosmetic variants now
 Tons of work on zones, such as personal zones, dissasembly zones and automop zones
-Allow non-debug change of hair, facial hair, eye colour and skin colour
-Books can now be copied into a variety of condensing items, ebooks, book binders etc
+Allow non-debug change of gender, hair, facial hair, eye and skin color
+Books can now be copied into a variety of condensing items: ebooks, book binders etc
 PC can track their adventure in their diary
 Zombies no longer revive naked
 Calories tracking for QOL
 Allow green night-vision overlay to be turned off
-Quality of life improvement : add capacity essential data next to the worn containers within the inventory interface, add universal formatter to easily format common units `unit_to_string`
+Quality of life improvement: add capacity essential data next to the worn containers within the inventory interface, add universal formatter to easily format common units `unit_to_string`
 You can disable specific pockets on items and disable unloading specific pockets
 Eternal Night & Eternal Day options
 Enable grab movement of vehicles and furniture across ramps to a different z-level
@@ -141,7 +141,7 @@ Add ability to cause some foods to incur nausea
 Archery Proficiencies and proficiency bonus infrastructure
 Mines JSONified
 Add book binder to copy recipes
-add eBook Reader
+Add eBook Reader
 Aquariums
 Vandalized Library Variants
 Add Vehicles: Full-size, Mini, Cargo, and Camper Vans
@@ -188,7 +188,7 @@ Move refueling CBM to its own menu
 Show monster count in sidebar compass
 Separate zoom level for overmap
 Added recipe activity level to crafting screen
-display gun loudness
+Display gun loudness
 Display calorie value of ingredients while crafting food
 Parkour is now a proficiency
 Stay in container during 'E'at from container
@@ -299,7 +299,7 @@ Made windmills able to grind up dried rice, cooked acorn meal, and roasted catta
 Shocker zombies cannot be harvested for bionics in vanilla
 Reduce crafting proficiency penalties based on partial proficiency level
 Updated brewing recipes and fermentation times to be more realistic
-add stamina cost to archery
+Add stamina cost to archery
 Change Cut Cotton to Patchwork, add Patchwork to Rags
 monster HP scaling section in GAME_BALANCE
 Stop regenerating creatures from doing so while on fire
