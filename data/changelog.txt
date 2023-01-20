@@ -233,27 +233,336 @@ Mark overmap location if player drops favorited item
 
 
 ## Mods:
-Ipsem Lorem
+Use size flags for size changing mutations.
+Dinomod now has a rideable zombie T-Rex for all you Dresden fans
+New Dinomod evolutions
+Aftershock has some new robots and a new swarming monster AI behavior that can be used in all mods/mainline
+Magiclysm may have completed the attunement system or is significantly closer to completion
+Aftershock has new fauna monsters
+More atmospheric lore and details for Aftershock
+Dinomod has expanded it's dialogue options with mainline NPCs
+The DinoLab
+The Forge of Wonders now has three shops and stronger defenses on the vault
+The No Hope mod is available to greatly reduce the average player lifespan
+Dinomod specific achievements as well as Aftershock specific achievements
+Aftershock: Translocators for semi-convenient long range teleporting.
+Burned Zombie Dinos
+New gizmos and gadgets in Aftershock
+Aftershock: Stratoscomm Relay Station
+[Magiclysm] Adds new zombie animals
+Add mythos monsters to Mythos mod
+Dinomod Apex predators don't appear randomly day one
+Adds TropiCataclysm to the repository
+craftable holiday sweaters for dinos
+Hylian Adventurer Profession for Mythical Martial Arts
+Many south american animals added to Tropicataclysm
+Adds an innawood mod for wilderness survival.
+Aftershock Exoplanet: Glacial tunnels, a new low-risk area and the fauna that inhabits them
+TropiCataclysm Adds Termites and new content for Triffids
+Adds cast-bronze tools to Innawoods mod.
+[Innawood] Chemistry, electricity, and more!
+Many new dinosaurs added to Dinomod
+A mod to add subtitles to Rubik's dialogue in English.
+Tameable Wildlife MOD
+Dark Days of the Dead: Headshot requirements and deadly zombie bites are in!
+Dinomod NPC Missions
+New Mod Xedra Evolved with new magic classes, monsters, professions and CBMs plus Cyborg professions
+Desert region revival
+Add Megafauna Mod
+[DinoMod] tyrannosaurus bio-operator
+[DinoMod] Nanuqsaurus and burned rebuild
+Aftershock: Add functional jet packs
+Xedra Evolved: New NPCs to meet and rescue
+[DinoMod] player mutations change monster faction behavior
+[DinoMod] stegoceras
+Magiclysm Adding new magic plants
+[DinoMod] compsognathus, eoraptor, amargasaurus bio-operators
+Magiclysm Quest & Lore patch to item distribution
+[DinoMod] mi-go scout tower dino variant
+The Backrooms mod
+Vampire Virus in Xedra Evolved
+Crazy Cataclysm: Adds Powerthirst and Rocket Cans
+Xedra Evolved magic classes Eaters, Dreamers, Inventors and Dreamsmiths
+[Magiclysm] Make Summoning Great Again!
+Implementing more proper alchemy and some another stuff
+Aftershock Space items and smartguns
+Aftershock New CBM and class
+Aftershock: New Monofilament Whip CBM
+Butchering candy monsters gives candy flesh
+Add standard combat test mod
+Nested Crafting Categories
+Add cosmetic variants for mutations
 
 ## Balance:
 Mutation System Overhaul
+Made windmills able to grind up dried rice, cooked acorn meal, and roasted cattail rhizome into flour
+Shocker zombies cannot be harvested for bionics in vanilla
+Reduce crafting proficiency penalties based on partial proficiency level
+Updated brewing recipes and fermentation times to be more realistic
+add stamina cost to archery
+Change Cut Cotton to Patchwork, add Patchwork to Rags
+monster HP scaling section in GAME_BALANCE
+Stop regenerating creatures from doing so while on fire
+Adds weak points to the armour of most zombies
+Adjusted lockpick crafting
+You can now pry open metal doors with a halligan bar.
+Adjusted how the hoarder morale penalty is calculated with a focus on small pockets and holsters
+Weapon Categories now exist so martial arts can pull by weapon category instead of weapon id
+Massive Martial Arts rebalance
+Massive zombie spawn audits
+Striking techniques and martial arts buffs affect all types of physical damage
+Monster speed and attack speed audits
+Many weapons and armor rebalanced
+Stop letting players climb up via downspouts or ropes when all their arms are broken
+Turret spawns nerfed heavily
+Reduces wetness penalties (and bonuses), as wetness was previously one of the strongest factors affecting morale.
+Cars now more likely to contain tire changing equipment
+Tailoring Audit and rework
+Sublimb rework of armor
+Daily health vs lifestyle system
+Artifacts apply passives in inventory instead of when wielded
+Climate Control CBM (and equivalent effects) now works more consistently, doesn't completely shut down in extreme temperatures, and can stack
+minimum of two zombies to receive suffocation
+Banks deploy cop bots instead of TALON killbots when agitated
+gas masks no longer make you immune to getting sick
+Replace most ASRGs with conventional fuel-powered generators
 
 ## Bugfixes:
-Ipsem Lorem
+1404 Named bugfixes (a multiple of this number unnamed) including over 60+ fixes of crash to desktop bugs (I lost count)
+Monsters will now drop their special items (such as saddle, bags, armor etc) on death
+Prevent monsters from upgrading into blacklisted forms
+Made flying monsters immune to several ground-based field types. Flying monsters no longer get stuck to the ground by bubblegum.
+Corpses can't be used as bag of holding anymore
+Bloodless monsters do no bleed #62113
+Inadvertent levitation powers removed from survivors
+Zombie animals don't fear fire
+Threshold breaching should start when strength 3 dreams start and not after
+NPCs getting stuck trying to path in through a closed window.
+Make magiclysm auras compatible with power armor
+Fix NPCs spawning without weapons
+CVD can be used on new steel types
+Character aggro fixes
+Only fill items as much as parent containers allow
+Fix Uncanny Dodge description, this error was ancient
+Filename-independent widget load order (fixes #59202)
+Don't auto-note generated map extra if player hasn't already seen the OMT map extra was placed on
+Makes cows able to become aggressive
+Only the last killed amigara drops an artifact
+Improve item filter help of zone manager and surrounding items menu
+Make radioactive items radiate
+Carry over relative rot during item transformation and fix transformed comestible not rotting over time
+Players can no longer be dragged while in a vehicle with a seatbelt; dragged players will not be run over by their own vehicles while still inside of them
+Monsters retain original loot when changing type
+Firstaid QOL improvements
+Player can finally enjoy fire even with eyes closed
+Z level transparency flag for better skylights
+Componentless practice crafts no longer leave in-progress items
+Fix mechs missing their guns
+Players can no longer be dragged while in a vehicle with a seatbelt; dragged players will not be run over by their own vehicles while still inside of them
+Stop NPCs from throwing their guns
+Fixes for blind interaction with NPCs
+When tired, cancel current activity if `Maybe later` is chosen; finish current activity if `Finish it` is chosen
+Peeking now uses stairfinding
+Grudges beyond death have been lifted. Don't make NPC angry if he's already dead
+Fixes to UI and combined limb values
+Fix auto-mopping in the dark. PC can no longer automop what they can't see
+Try spawning mission destinations if you can't find them
+If floor has collapsed, trigger a ledge trap on former floor tile to make creature fall down.
+Personal zones now work consistently and are simpler in implementation
+Make active fire modes from attached gunmods appear in the sidebar.
+Fix activities not getting interrupted by dangerously close enemies
+Increases radio mod range, makes bombs detonate immediately, and adds more battery options to recipe
+Fixed character starting as overweight
+Improve pocket selection
+Fixed and improved guilt system
+Eliminate Self-Aware trait and replace it with sidebar widgets
+Takes the real guns away from angry imaginary NPCs
+Being blinded blinds you
+Stabilize monster emotions
+copy-from works with bodyparts
+Ensure monster faction relationship reciprocity
+Fixes NPCs getting stuck next to dangerous fields
+Fix vehicles infinitely falling
+Capping shakes duration to prevent month-long shakes after withdrawal is gone
+Butchering use best tool in radius
+NPCs are more likely to eat items from their inventory, rather than complain about being hungry
+Vehicle most-repairable-part interactions will no longer show parts the character is insufficiently skilled to repair
+Fix main UI resizing when exiting from overmap with the same zoom level
+Fix some of the NPC attack logic
+Prevent dodge and block while driving
+Remove additional spawns from Wander Hordes
+Monster special attack messages more consistent and clear
+Fix overmap ui cursor handling
+Fix an item duplication bug when trading stackable items, e.g aspirin
+Fix friendly hallu NPC were able to trade
+Fix recipes with multiple proficiencies granting less proficiency XP if some are already known.
+Standardizes time_factor and fail_factor for proficiency books
+Ransack vending machines only in public places.
+Mapgen road connections improved in the absence of overmap cities
+Fixed open wooden split rail gate of being non-transparent and unbreakable
+Faction camp crafting creates byproducts as appropriate
+Fixed eating containers with items inside
+Construction of roofs actually makes tile above the construction a roof
+Fix building ramps and stairs
+Replaced all ATTACKMON entire with PUSH_MON
+Workaround language from being unsettable in options menu
+Disallow placing stepladder if a vehicle in tile
 
 ## Performance:
-Ipsem Lorem
+Improve lighting performance
+Speed up rendering during autodrive
+Avoid calculating weight & volume of containers when not needed
+A few microoptimizations
+Worked around for translating undisplayed debug messages causing major slowdown
+Optimize TranslationManager performance and memory usage
+Share tileset instances between map and overmap
+Call `game::update_overmap_seen` only when it actually needs updating
+Loading of gzipped world/maps/x.y.z/x.y.z.map and data/json files
+Optimize shot_features and shot_features_with_choke test
+Optimize item spawn list creation
+Optimize null stream in DebugLog
+Optimize overmap special placement with zero-copy transformation
+Increase performance of item processing of contained items
+Improve reveal wire handling and performance
+Optimize map rendering
+Speed up crafting menu tab loading
+Improve appliance grid performance with many connections
+Performance Improvement for item::can_contain
+Binary json input for various performance wins
+Misc vehicle/appliance performance improvements
+Fix Repair menu shows slow
 
 ## Infrastructure:
-Ipsem Lorem
+Provide documentation and support for llama builds
+Allow events to modify vitamins, kill entities
+Allow using relative and proportional with generic_factory
+Automated tileset coverage report
+New mapgen feature: maps can now select a terrain from a distribution and use that throughout the map
+Jsonize Shearing of Monsters
+Jsonize terrain and furniture lockpicking result
+Add function to assign mission directly via dialog
+Adds definitions for cooking proficiencies in JSON
+Creates DDotDDD, the dark days of the dead design document and add some basic region settings to the mod
+Add looks_like support for overmap terrain
+tileset inclusion criteria and maintenance
+Add dialog conditions/effects for morale and focus.
+Create talker item, add consumption_eocs
+Extend mapgen parameters to overmap special scope and palettes
+Jsonize terrain and furniture bolt cutting result
+Move safe cracking to an activity_actor
+Create talker monster, add ability for spells to use dialog effects/conditions
+Add supporting infrastructure for first version of migo bio-tech
+Add dialog conditions for terrain type and field type
+Add PROFICIENCY_LIST.md
+Add weighted list functionality to dialog effects
+Support mapgen parameters in nests
+Add new dialog effects for portal storms.
+Add lifespan to dialog monster spawns
+Tool to spawn all items / furniture / terrain / traps
+Support mapgen parameters for most mapgen ids
+Support recursive palettes
+Jsonize terrain and furniture oxytorch result
+Allow palettes to be chosen from a weighted list
+weapon_category for martial arts cross-mod compatibility
+Allow flag limits for magazine well compatibility
+Update medium and heavy batteries to use flags for magazine compatibility
+I've made it to where all tools with the LOCKPICK quality will automatically have the PICK_LOCK use_action.
+NPCs keep track of total sales
+Jsonize Pet Food
+Support for mutable overmap specials
+Jsonize monster speed description
+Allow JSON-defined linear terrain and unhardcode anthills
+In-house translation library implementation to support loading multiple MO files
+Add dialog effects for taking control of npcs and conversations with monsters/items
+Use dialog conditions for mutation and enchantment triggers
+Dialog effect to affect nearby npcs
+Add support for dynamic predecessor mapgen
+Basic Appliance implementation
+Partial Jsonization of Mood Indicators
+So much work building the infrastructure for Effects on Condition thanks to Ramza13 for spearheading this project
+Tons of PRs on creating mutable overmap specials, which allows procedural map generation using only json thanks to Jbytheway for leading the way on this
+A bunch of terrain/furniture item interactions that were jsonized thanks in large part to Saicchi
+Add dialog effects for transforming terrain and furniture. Add portal storm effect to transform grass.
+Create talker_furniture, move refugee center computer into dialog system.
+Improve pocket performance by removing some unnecessary pockets
+Adds documentation for `place_monsters` JSON flag
+Adds ability to remove, fields, vehicles, items, and traps to update_mapgen
+overmap sprites generator
+Add infrastructure for swappable weapons in bionics
+Automatic spell check on pull requests
+Place monster corpses in json mapgen.
+Allow limiting map extras by zlevel
+Add sound support for clear, cloudy and sunny weather
+Enhance martial art techniques, allow limbs to define technique lists and unarmed damage boni
+Add mapgen ability to set variables or remove traps in lines/squares.
+Combine wheat-free and wheat-full flours into a single recipe requirement
+Allow gendered descriptions for professions outside of translations
+Report JSON entries with the same id from the same mod
+Change itemgroups to default to overwrite, instead of extension
+Vehicle parts can now use looks_like from furniture, items, etc
+Dissection tables separate from harvest tables, and relevant monsters dissect to samples
+Added external options to override status and fuel for spawned vehicles
+Include a Soundpack by default
+Trap-specific jsonified trigger messages
+Support transparency of pockets and show contents of transparent pockets from a distance
+Add the possibility to change color and symbol of an item with a variant
+Added external option with setting frequency of displaying music descriptions in sidebar
+added basic utilities for mouse drag-and-drop support to input _manager
+Support achievements based around overmap specials
+Allow setting terminal cursor for screen readers and IME preview using ui_adaptor
+Tons of documentation work
+Set age for monster corpses in json mapgen
+Move the Find Lost Dog mission to JSON
+
 
 ## Build:
-Ipsem Lorem
+Add Big Sur-style macOS icons
+Suppress spurious error from make when astyle isn't installed
+remove cata::optional wrapper from item::dropped_from
+Fix curses build with MSVC
+Fix typo in COMPILING.md LANGUAGE -> LANGUAGES
+CMake: Clean up if commands and fix compilation with MSYS ncurses
+Add option to build the clang-tidy checks as an executable with CMake
+Link to libncursesw in Makefile
+Add missing vector header to src/morale_types.h
+Link to libncursesw in CMake
+Removed small bashism (path expansion) from Makefile.
+Make use of gold linker optional for LTO builds
+Allow build and run in repo folder in CMake
+Add missing header (vector) to fix build error on Linux
+Fix compile errors on LLVM/Clang 13
+Updated documentation to be in line with moving MXE gcc to version 11 + libbacktrace
+More granular and parallelized translations compiling
+Upgrade MXE cross-compiler to GCC 11
+MXE instructions for gcc version 9.3.0
+Enable backtrace in MinGW release
+Windows Github CI for Cataclysm and ObjectCreator
+Instantiate non const variants of templated creature_tracker methods
+Add src/third-party to Android build header search path
+Set directories on macOS in CMake build script
+Set RELEASE variable in root CMake script based on CMAKE_BUILD_TYPE, to generate install targets
+Avoid use of reserved word PREFIX in CMake build script
+Install core and help directories in CMake build script
+Recursively search and bundle Mac dependencies
+Bundle library dependencies in macOS release workflow
+COMPILING.md update for FreeBSD
+freedesktop metadata files are updated and installed when appropriate
+Build linux releases on ubuntu-18.04
 
 ## I18N and A11Y:
-Ipsem Lorem
-
-
+Make stimulation effect string easier to translate
+Fix missing translating elements in 2 parsers
+JSONize connect groups
+Fix monster_attack.py missed elements
+Fix json extractor not extracting "concatenate" in dynamic_line
+fix:Parser(profession.py) missed out gendered description
+Automatically synchronize MOTD and Credits translations from Transifex
+Sidebar for languages with long words
+Detect measurement units in user locale settings on Windows
+Extract examine_action to translate
+Clarify plural check message
+Update manual of style with more rules
+Over 360 translation PRs that I didn't list
 
 # 0.F (Frank)
 
