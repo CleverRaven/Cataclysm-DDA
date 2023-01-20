@@ -17,6 +17,8 @@ Vehicles now have solid walls even when angled which prevents monsters and field
 Dozens of updates and content additions to Dinomod, Aftershock and Magiclysm.
 Map memory is now unlimited, you will no longer forget places you have been before.
 There has been a distinct push to make many options and possibilities clearer to the player without having to search for them, UI that makes suggestions as to why the player might want to perform an action.
+Electrical fields can now produce EMP that will destroy unprotected electronics
+Perspiration now exists so that your PC can wear heavy armor during summer without overheating, instead they'll sweat heavily and experience thirst faster.
 
 ## Statistics
 7881 files changed, 11635744 insertions(+), 5019082 deletions(-)
@@ -143,6 +145,7 @@ Mines JSONified
 Add book binder to copy recipes
 Add eBook Reader
 Aquariums
+Terrain feathering works to improve the edges of terrain such as forests to make them appear more realistic and natural
 Vandalized Library Variants
 Add Vehicles: Full-size, Mini, Cargo, and Camper Vans
 Many new monsters, weapons and recipes
