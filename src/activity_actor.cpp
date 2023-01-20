@@ -121,6 +121,7 @@ static const activity_id ACT_MIGRATION_CANCEL( "ACT_MIGRATION_CANCEL" );
 static const activity_id ACT_MILK( "ACT_MILK" );
 static const activity_id ACT_MOP( "ACT_MOP" );
 static const activity_id ACT_MOVE_ITEMS( "ACT_MOVE_ITEMS" );
+static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
 static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
 static const activity_id ACT_OPEN_GATE( "ACT_OPEN_GATE" );
 static const activity_id ACT_OXYTORCH( "ACT_OXYTORCH" );
@@ -214,8 +215,10 @@ static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
 
 static const vproto_id vehicle_prototype_none( "none" );
 
+static const zone_type_id zone_type_LOOT_CUSTOM( "LOOT_CUSTOM" );
 static const zone_type_id zone_type_LOOT_IGNORE( "LOOT_IGNORE" );
 static const zone_type_id zone_type_LOOT_IGNORE_FAVORITES( "LOOT_IGNORE_FAVORITES" );
+static const zone_type_id zone_type_LOOT_UNSORTED( "LOOT_UNSORTED" );
 static const zone_type_id zone_type_zone_strip( "zone_strip" );
 static const zone_type_id zone_type_zone_unload_all( "zone_unload_all" );
 
@@ -6143,8 +6146,38 @@ std::unique_ptr<activity_actor> unload_loot_activity_actor::deserialize( JsonVal
     return actor.clone();
 }
 
-static void move_item( Character &who, item &it, const int quantity, const tripoint_bub_ms &src,
-                       const tripoint_bub_ms &dest, vehicle *src_veh, int src_part )
+// Returns true if already adjacent
+static bool move_adjacent_to( player_activity &act, Character &who, const tripoint_bub_ms &to )
+{
+    std::vector<tripoint_bub_ms> route = route_adjacent( who, to );
+    if( route.empty() ) {
+        return true;
+    }
+    // set the destination and restart activity after player arrives there
+    // we don't need to check for safe mode,
+    // activity will be restarted only if
+    // player arrives on destination tile
+    who.set_destination( route, act );
+    who.activity.set_to_null();
+    return false;
+}
+
+struct loot_tile_info {
+    bool adjacent;
+    zone_manager &mgr;
+    faction_id fac_id;
+    tripoint_abs_ms pos;
+    tripoint_bub_ms pos_bub;
+    vehicle *veh;
+    int part;
+    bool unload_mods;
+    bool unload_molle;
+    bool unload_always;
+};
+
+// Returns true if we are done with the item
+static bool move_item( Character &who, item &it, int quantity, const loot_tile_info &src,
+                       const tripoint_bub_ms &dest )
 {
     item leftovers = it;
 
@@ -6159,38 +6192,33 @@ static void move_item( Character &who, item &it, const int quantity, const tripo
     }
 
     map &here = get_map();
-    // Check that we can pick it up.
-    if( it.made_of_from_type( phase_id::SOLID ) ) {
-        who.mod_moves( -activity_handlers::move_cost( it, src, dest ) );
+    who.mod_moves( -activity_handlers::move_cost( it, src.pos_bub, dest ) );
 
-        put_into_vehicle_or_drop( who, item_drop_reason::deliberate, { it }, dest );
-        // Remove from map or vehicle.
-        if( src_veh ) {
-            src_veh->remove_item( src_part, &it );
-        } else {
-            here.i_rem( src, &it );
-        }
+    put_into_vehicle_or_drop( who, item_drop_reason::deliberate, { it }, dest );
+    // Remove from map or vehicle.
+    if( src.veh ) {
+        src.veh->remove_item( src.part, &it );
+    } else {
+        here.i_rem( src.pos_bub, &it );
     }
 
     // If we didn't pick up a whole stack, put the remainder back where it came from.
     if( leftovers.charges > 0 ) {
-        if( src_veh ) {
-            if( !src_veh->add_item( src_part, leftovers ) ) {
+        if( src.veh ) {
+            if( !src.veh->add_item( src.part, leftovers ) ) {
                 debugmsg( "SortLoot: Source vehicle failed to receive leftover charges." );
             }
         } else {
-            here.add_item_or_charges( src, leftovers );
+            here.add_item_or_charges( src.pos_bub, leftovers );
         }
+        return false;
+    } else {
+        return true;
     }
 }
 
-static void move_adjacent_to( player_activity &act, Character &who, const tripoint_bub_ms &to ) {
-    std::vector<tripoint_bub_ms> route = route_adjacent( who, to );
-    who.set_destination( route, act );
-    who.activity.set_to_null();
-}
-
-static std::deque<tripoint_abs_ms> loot_start( player_activity &act, Character &who, std::vector<tripoint_abs_ms> tiles_unsorted)
+static std::deque<tripoint_abs_ms> loot_start( player_activity &act, Character &who,
+        std::vector<tripoint_abs_ms> tiles_unsorted )
 {
     faction const *fac = who.get_faction();
     faction_id fac_id = fac == nullptr ? faction_id() : fac->id;
@@ -6204,44 +6232,44 @@ static std::deque<tripoint_abs_ms> loot_start( player_activity &act, Character &
 
     std::vector<tripoint_abs_ms> tiles_sorted = get_sorted_tiles_by_distance( abspos, tiles_unsorted );
 
-    auto tile_is_ignored = [&](tripoint_abs_ms loc) {
+    auto tile_is_ignored = [&]( tripoint_abs_ms loc ) {
         return mgr.has( zone_type_LOOT_IGNORE, loc, fac_id );
     };
     // skip tiles on fire to prevent taking out wood off a lit brazier
-    auto tile_is_fire = [&](tripoint_bub_ms loc) {
+    auto tile_is_fire = [&]( tripoint_bub_ms loc ) {
         return here.get_field( loc, fd_fire ) != nullptr;
     };
-    // skip inaccessible furniture, like filled charcoal kiln
-    auto tile_is_full_furnace = [&](tripoint_bub_ms loc) {
+    auto tile_is_full_furnace = [&]( tripoint_bub_ms loc ) {
+        // skip inaccessible furniture (e.g. filled charcoal kiln)
         return !here.can_put_items_ter_furn( loc );
     };
     // skip empty tiles. Should be the majority
-    auto tile_is_empty = [&](tripoint_bub_ms loc) {
+    auto tile_is_empty = [&]( tripoint_bub_ms loc ) {
         const cata::optional<vpart_reference> vp = here.veh_at( loc ).part_with_feature( "CARGO", false );
-        if ( ( !vp || vp->vehicle().get_items( vp->part_index() ).empty() ) && here.i_at( loc ).empty() ) {
+        if( ( !vp || vp->vehicle().get_items( vp->part_index() ).empty() ) && here.i_at( loc ).empty() ) {
             return true;
         }
         return false;
     };
 
-    auto filter_tile_all = [&](tripoint_abs_ms loc) {
+    auto filter_tile_all = [&]( tripoint_abs_ms loc ) {
         const tripoint_bub_ms &loc_bub = here.bub_from_abs( loc );
         return false
-            || tile_is_empty(loc_bub)
-            || tile_is_ignored(loc)
-            || tile_is_fire(loc_bub)
-            || tile_is_full_furnace(loc_bub)
-            ;
+               || tile_is_empty( loc_bub )
+               || tile_is_ignored( loc )
+               || tile_is_fire( loc_bub )
+               || tile_is_full_furnace( loc_bub )
+               ;
     };
 
-    auto start_removed = std::remove_if(tiles_sorted.begin(), tiles_sorted.end(), filter_tile_all);
+    auto start_removed = std::remove_if( tiles_sorted.begin(), tiles_sorted.end(), filter_tile_all );
 
-    tiles_sorted.erase(start_removed, tiles_sorted.end());
+    tiles_sorted.erase( start_removed, tiles_sorted.end() );
 
     act.moves_total = tiles_sorted.size();
     act.moves_left = tiles_sorted.size();
 
-    return std::deque<tripoint_abs_ms>(tiles_sorted.begin(), tiles_sorted.end());
+    return std::deque<tripoint_abs_ms>( tiles_sorted.begin(), tiles_sorted.end() );
 }
 
 void unload_loot_activity_actor::start( player_activity &act, Character &who )
@@ -6258,12 +6286,12 @@ void unload_loot_activity_actor::start( player_activity &act, Character &who )
 
     std::vector<tripoint_abs_ms> tiles_unsorted;
     for( const tripoint_abs_ms &p :
-        mgr.get_near( zone_type_zone_unload_all, abspos, ACTIVITY_SEARCH_DISTANCE, nullptr, fac_id ) ) {
+         mgr.get_near( zone_type_zone_unload_all, abspos, ACTIVITY_SEARCH_DISTANCE, nullptr, fac_id ) ) {
         tiles_unsorted.emplace_back( p );
     }
 
     for( const tripoint_abs_ms &p :
-        mgr.get_near( zone_type_zone_strip, abspos, ACTIVITY_SEARCH_DISTANCE, nullptr, fac_id ) ) {
+         mgr.get_near( zone_type_zone_strip, abspos, ACTIVITY_SEARCH_DISTANCE, nullptr, fac_id ) ) {
         tiles_unsorted.emplace_back( p );
     }
 
@@ -6271,44 +6299,134 @@ void unload_loot_activity_actor::start( player_activity &act, Character &who )
     index_items = 0;
 }
 
-void unload_loot_activity_actor::do_turn( player_activity &act, Character &who )
+// Liquid
+bool item_is_non_solid( item it )
+{
+    return !it.made_of_from_type( phase_id::SOLID );
+}
+
+// Favorite in a ignore_favorites zone
+bool item_is_favorite( item it, loot_tile_info &tile )
+{
+    return it.is_favorite
+           && tile.mgr.has( zone_type_LOOT_IGNORE_FAVORITES, tile.pos, tile.fac_id );
+}
+
+// not in unload_all && not a corpse in strip
+bool item_is_no_unload( item it, loot_tile_info &tile, tripoint_abs_ms abspos )
+{
+    bool unload_this =
+        tile.mgr.has_near( zone_type_zone_unload_all, abspos, 1, tile.fac_id )
+        || ( it.is_corpse() && tile.mgr.has_near( zone_type_zone_strip, abspos, 1, tile.fac_id ) );
+    return !unload_this;
+}
+
+// Return true if the item has been successfully and completely handled
+static bool loot_unload_item( player_activity &act, Character &who, item &it, loot_tile_info &tile )
+{
+    map &here = get_map();
+
+    // if this item isn't going anywhere and its not sealed
+    // then we should unload it and see what is inside
+    if( who.rate_action_unload( it ) == hint_rating::good && !it.any_pockets_sealed() ) {
+        for( item *contained : it.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+            if( item_is_non_solid( *contained ) ) {
+                continue;
+            }
+            if( !tile.adjacent ) {
+                move_adjacent_to( act, who, tile.pos_bub );
+                return false;
+            }
+            move_item( who, *contained, contained->count(), tile, tile.pos_bub );
+            it.remove_item( *contained );
+            if( who.moves <= 0 ) {
+                return false;
+            }
+        }
+        for( item *contained : it.all_items_top( item_pocket::pocket_type::MAGAZINE ) ) {
+            if( item_is_non_solid( *contained ) ) {
+                continue;
+            }
+            if( it.is_ammo_belt() && it.type->magazine->linkage ) {
+                item link( *it.type->magazine->linkage, calendar::turn, contained->count() );
+                here.add_item_or_charges( tile.pos_bub, link );
+            }
+            if( !tile.adjacent ) {
+                move_adjacent_to( act, who, tile.pos_bub );
+                return false;
+            }
+            move_item( who, *contained, contained->count(), tile, tile.pos_bub );
+            it.remove_item( *contained );
+
+            if( it.has_flag( flag_MAG_DESTROY ) && it.ammo_remaining() == 0 ) {
+                here.i_rem( tile.pos_bub, &it );
+            }
+            if( who.moves <= 0 ) {
+                return false;
+            }
+        }
+        for( item *contained : it.all_items_top( item_pocket::pocket_type::MAGAZINE_WELL ) ) {
+            if( item_is_non_solid( *contained ) ) {
+                continue;
+            }
+            if( !tile.adjacent ) {
+                move_adjacent_to( act, who, tile.pos_bub );
+                return false;
+            }
+            move_item( who, *contained, contained->count(), tile, tile.pos_bub );
+            it.remove_item( *contained );
+            if( who.moves <= 0 ) {
+                return false;
+            }
+        }
+    }
+    if( tile.unload_mods ) {
+        // remove each mod, skip irremovable
+        for( item *mod : it.gunmods() ) {
+            if( mod->is_irremovable() ) {
+                continue;
+            }
+            if( !tile.adjacent ) {
+                move_adjacent_to( act, who, tile.pos_bub );
+                return false;
+            }
+            who.gunmod_remove( it, *mod );
+            move_item( who, *mod, 1, tile, tile.pos_bub );
+            if( who.moves <= 0 ) {
+                return false;
+            }
+        }
+    }
+
+    if( tile.unload_molle ) {
+        while( !it.get_contents().get_added_pockets().empty() ) {
+            if( !tile.adjacent ) {
+                move_adjacent_to( act, who, tile.pos_bub );
+                return false;
+            }
+            item removed = it.get_contents().remove_pocket( 0 );
+            move_item( who, removed, 1, tile, tile.pos_bub );
+            if( who.moves <= 0 ) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+void loot_iterate_tiles( player_activity &act, Character &who,
+                         std::deque<tripoint_abs_ms> &tiles_rem, int &index_items,
+                         std::function<bool( item &, loot_tile_info & )> process_item )
 {
     faction const *fac = who.get_faction();
     faction_id fac_id = fac == nullptr ? faction_id() : fac->id;
 
     map &here = get_map();
-    const tripoint_abs_ms abspos = who.get_location();
     zone_manager &mgr = zone_manager::get_manager();
 
     for( ; !tiles_rem.empty(); tiles_rem.pop_front(), index_items = 0 ) {
         const tripoint_abs_ms tile( tiles_rem[0] );
         const tripoint_bub_ms tile_loc = here.bub_from_abs( tile );
-
-        // Skip item if one of:
-        // Liquid
-        auto item_is_non_solid = [&](item it) {
-            return !it.made_of_from_type( phase_id::SOLID );
-        };
-        // Favorite in a ignore_favorites zone
-        auto item_is_favorite = [&](item it) {
-            return it.is_favorite && mgr.has( zone_type_LOOT_IGNORE_FAVORITES, tile, fac_id );
-        };
-        // not in unload_all && not a corpse in strip
-        auto item_is_no_unload = [&](item it) {
-            bool unload_this =
-                mgr.has_near( zone_type_zone_unload_all, abspos, 1, fac_id )
-                || ( it.is_corpse() && mgr.has_near( zone_type_zone_strip, abspos, 1, fac_id ) );
-            return !unload_this;
-        };
-
-        auto filter_item_all = [&](item it) {
-            return false
-                || item_is_non_solid(it)
-                || item_is_favorite(it)
-                || item_is_no_unload(it)
-                ;
-        };
-
 
         // Weird check for out-of-bounds character
         if( !here.inbounds( tile_loc ) && !here.inbounds( who.pos() ) ) {
@@ -6327,6 +6445,8 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &who )
         bool adjacent = square_dist( who.pos_bub(), tile_loc ) <= 1;
         // Not adjacent but also unreachable? Skip it
         if( !adjacent && route_adjacent( who, tile_loc ).empty() ) {
+            add_msg( m_info, _( "%s can't reach the source tile.  Try to sort out loot without a cart." ),
+                     who.disp_name() );
             continue;
         }
 
@@ -6338,7 +6458,7 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &who )
         //Check source for cargo part
         //map_stack and vehicle_stack are different types but inherit from item_stack
         if( const cata::optional<vpart_reference> vp = here.veh_at( tile_loc ).part_with_feature( "CARGO",
-                                                                                                 false ) ) {
+                false ) ) {
             tile_veh = &vp->vehicle();
             tile_part = vp->part_index();
             for( item &it : tile_veh->get_items( tile_part ) ) {
@@ -6354,6 +6474,7 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &who )
 
         bool unload_mods = false;
         bool unload_molle = false;
+        bool unload_always = false;
 
         std::vector<zone_data const *> const zones =
             mgr.get_zones_at( tile, zone_type_zone_unload_all, fac_id );
@@ -6363,6 +6484,7 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &who )
             unload_options const &options = dynamic_cast<const unload_options &>( zone->get_options() );
             unload_molle |= options.unload_molle();
             unload_mods |= options.unload_mods();
+            unload_always |= options.unload_always();
         }
 
         // Look at one specific tile, starting where we left off.
@@ -6370,105 +6492,51 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &who )
             auto &it = *it_pair->first;
             auto &in_veh = it_pair->second;
 
-            if( filter_item_all(it) ) {
-                ++index_items;
-                continue;
-            }
+            loot_tile_info tile_info = {
+                adjacent,
+                mgr,
+                fac_id,
+                tile,
+                tile_loc,
+                // Only if it's from a vehicle do we use the vehicle source location information.
+                in_veh ? tile_veh : nullptr,
+                in_veh ? tile_part : -1,
+                unload_mods,
+                unload_molle,
+                unload_always,
+            };
 
-            // Only if it's from a vehicle do we use the vehicle source location information.
-            vehicle *this_veh = in_veh ? tile_veh : nullptr;
-            const int this_part = in_veh ? tile_part : -1;
-
-            // if this item isn't going anywhere and its not sealed
-            // then we should unload it and see what is inside
-            if( who.rate_action_unload( it ) == hint_rating::good && !it.any_pockets_sealed() ) {
-                for( item *contained : it.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
-                    if( !filter_item_all( *contained ) ) {
-                        if( !adjacent ) {
-                            move_adjacent_to( act, who, tile_loc );
-                            return;
-                        }
-                        move_item( who, *contained, contained->count(), tile_loc, tile_loc, this_veh, this_part );
-                        it.remove_item( *contained );
-                    }
-                    if( who.moves <= 0 ) {
-                        return;
-                    }
-                }
-                for( item *contained : it.all_items_top( item_pocket::pocket_type::MAGAZINE ) ) {
-                    if( !filter_item_all( *contained ) ) {
-                        if( it.is_ammo_belt() && it.type->magazine->linkage ) {
-                            item link( *it.type->magazine->linkage, calendar::turn, contained->count() );
-                            here.add_item_or_charges( tile_loc, link );
-                        }
-                        if( !adjacent ) {
-                            move_adjacent_to( act, who, tile_loc );
-                            return;
-                        }
-                        move_item( who, *contained, contained->count(), tile_loc, tile_loc, this_veh, this_part );
-                        it.remove_item( *contained );
-
-                        if( it.has_flag( flag_MAG_DESTROY ) && it.ammo_remaining() == 0 ) {
-                            here.i_rem( tile_loc, &it );
-                        }
-                    }
-                    if( who.moves <= 0 ) {
-                        return;
-                    }
-                }
-                for( item *contained : it.all_items_top( item_pocket::pocket_type::MAGAZINE_WELL ) ) {
-                    if( !filter_item_all( *contained ) ) {
-                        if( !adjacent ) {
-                            move_adjacent_to( act, who, tile_loc );
-                            return;
-                        }
-                        move_item( who, *contained, contained->count(), tile_loc, tile_loc, this_veh, this_part );
-                        it.remove_item( *contained );
-                    }
-                    if( who.moves <= 0 ) {
-                        return;
-                    }
-                }
-            }
-            if( unload_mods ) {
-                // remove each mod, skip irremovable
-                for( item *mod : it.gunmods() ) {
-                    if( mod->is_irremovable() ) {
-                        continue;
-                    }
-                    if( !adjacent ) {
-                        move_adjacent_to( act, who, tile_loc );
-                        return;
-                    }
-                    who.gunmod_remove( it, *mod );
-                    move_item( who, *mod, 1, tile_loc, tile_loc, this_veh, this_part );
-                    if( who.moves <= 0 ) {
-                        return;
-                    }
-                }
-            }
-
-            if( unload_molle ) {
-                while( !it.get_contents().get_added_pockets().empty() ) {
-                    if( !adjacent ) {
-                        move_adjacent_to( act, who, tile_loc );
-                        return;
-                    }
-                    item removed = it.get_contents().remove_pocket( 0 );
-                   move_item( who, removed, 1, tile_loc, tile_loc, this_veh, this_part );
-                    if( who.moves <= 0 ) {
-                        return;
-                    }
-                }
-            }
-
-            // after dumping items go back to start of activity loop
-            // so that can re-assess the items in the tile
-            ++index_items;
+            // process_item returns a boolean that indicates if this item should be skipped next time around.
+            // This is primarily useful for unloading as moving items removes them, therefore no longer requiring us to skip them
+            index_items += process_item( it, tile_info );
             return;
         }
     }
     act.moves_left = 0;
+}
+
+void unload_loot_activity_actor::do_turn( player_activity &act, Character &who )
+{
+    auto filter_item_all = []( item it, loot_tile_info tile, tripoint_abs_ms abspos ) {
+        return false
+               || item_is_non_solid( it )
+               || item_is_favorite( it, tile )
+               || item_is_no_unload( it, tile, abspos )
+               ;
+    };
+    auto process_item = [&]
+    ( item & it, loot_tile_info & tile_info ) {
+
+        const tripoint_abs_ms who_pos = who.get_location();
+        if( filter_item_all( it, tile_info, who_pos ) ) {
+            return true;
+        }
+
+        // If we have successfully handled the item, do not process it again.
+        return loot_unload_item( act, who, it, tile_info );
+    };
+
+    loot_iterate_tiles( act, who, tiles_rem, index_items, process_item );
 }
 
 void unload_loot_activity_actor::finish( player_activity &act, Character &who )
@@ -6493,7 +6561,7 @@ void move_loot_activity_actor::serialize( JsonOut &jsout ) const
 
 std::unique_ptr<activity_actor> move_loot_activity_actor::deserialize( JsonValue &jsin )
 {
-    unload_loot_activity_actor actor( {} );
+    move_loot_activity_actor actor( {} );
 
     JsonObject data = jsin.get_object();
 
@@ -6517,7 +6585,7 @@ void move_loot_activity_actor::start( player_activity &act, Character &who )
 
     std::vector<tripoint_abs_ms> tiles_unsorted;
     for( const tripoint_abs_ms &p :
-        mgr.get_near( zone_type_LOOT_UNSORTED, abspos, ACTIVITY_SEARCH_DISTANCE, nullptr, fac_id ) ) {
+         mgr.get_near( zone_type_LOOT_UNSORTED, abspos, ACTIVITY_SEARCH_DISTANCE, nullptr, fac_id ) ) {
         tiles_unsorted.emplace_back( p );
     }
 
@@ -6525,254 +6593,115 @@ void move_loot_activity_actor::start( player_activity &act, Character &who )
     index_items = 0;
 }
 
-void activity_on_turn_move_loot( player_activity &act, Character &you )
+// checks whether the item is already on correct loot zone or not
+bool item_in_correct_zone( item it, loot_tile_info &tile, zone_type_id id )
 {
+    return ( id != zone_type_LOOT_CUSTOM
+             && tile.mgr.has( id, tile.pos, tile.fac_id ) )
+           || ( id == zone_type_LOOT_CUSTOM
+                && tile.mgr.custom_loot_has( tile.pos, &it, zone_type_LOOT_CUSTOM, tile.fac_id ) );
+}
 
+void move_loot_activity_actor::do_turn( player_activity &act, Character &who )
+{
+    auto filter_item_all = []( item it, loot_tile_info & tile, zone_type_id id ) {
+        return false
+               || item_is_non_solid( it )
+               || item_is_favorite( it, tile )
+               || item_in_correct_zone( it, tile, id )
+               ;
+    };
     map &here = get_map();
-    const tripoint_abs_ms abspos = you.get_location();
-    zone_manager &mgr = zone_manager::get_manager();
-    if( here.check_vehicle_zones( here.get_abs_sub().z() ) ) {
-        mgr.cache_vzones();
-    }
+    auto process_item = [&]
+    ( item & it, loot_tile_info & tile_info ) {
 
-        for( const tripoint_abs_ms &p :
-             mgr.get_near( zone_type_LOOT_UNSORTED, abspos, ACTIVITY_SEARCH_DISTANCE, nullptr,
-                           _fac_id( you ) ) ) {
-            act.coord_set.insert( p.raw() );
+        const tripoint_abs_ms who_pos = who.get_location();
+        const zone_type_id id =
+            tile_info.mgr.get_near_zone_type_for_item( it, who_pos, ACTIVITY_SEARCH_DISTANCE,
+                    tile_info.fac_id );
+        if( filter_item_all( it, tile_info, id ) ) {
+            return true;
         }
 
-    if( stage == MOVE ) {
-        // TODO: fix point types
-        const tripoint_abs_ms src( act.placement );
-        const tripoint_bub_ms src_loc = here.bub_from_abs( src );
+        const std::unordered_set<tripoint_abs_ms> dest_set =
+            tile_info.mgr.get_near( id, who_pos, ACTIVITY_SEARCH_DISTANCE, &it, tile_info.fac_id );
 
-        // before we move any item, check if player is in range of the loot source tile
-        if( !loc_in_range( src_loc ) ) {
-            stage = THINK;
-            return;
-        } else {
-            stage = DO;
-        }
-    }
-
-    if( stage == DO ) {
-        // TODO: fix point types
-        const tripoint_abs_ms src( act.placement );
-        const tripoint_bub_ms src_loc = here.bub_from_abs( src );
-
-        // the boolean in this pair being true indicates the item is from a vehicle storage space
-        auto items = std::vector<std::pair<item *, bool>>();
-        vehicle *src_veh;
-        int src_part;
-
-        //Check source for cargo part
-        //map_stack and vehicle_stack are different types but inherit from item_stack
-        // TODO: use one for loop
-        if( const cata::optional<vpart_reference> vp = here.veh_at( src_loc ).part_with_feature( "CARGO",
-                false ) ) {
-            src_veh = &vp->vehicle();
-            src_part = vp->part_index();
-            for( item &it : src_veh->get_items( src_part ) ) {
-                items.emplace_back( &it, true );
+        if( ( dest_set.empty() || tile_info.unload_always ) ) {
+            // We can't easily check in filter whether we want to unload the item or not.
+            // Therefore, we have a check here. If it belongs nowhere and should be unloaded but
+            // cannot be unloaded, we skip it.
+            if( item_is_no_unload( it, tile_info, who_pos ) ) {
+                return true;
             }
-        } else {
-            src_veh = nullptr;
-            src_part = -1;
-        }
-        for( item &it : here.i_at( src_loc ) ) {
-            items.emplace_back( &it, false );
+            // If we have successfully handled the item, do not process it again.
+            return loot_unload_item( act, who, it, tile_info );
         }
 
-        bool unload_mods = false;
-        bool unload_molle = false;
-        bool unload_always = false;
+        // Sort the item to the correct zone
+        for( const tripoint_abs_ms &dest : dest_set ) {
+            const tripoint_bub_ms dest_loc = here.bub_from_abs( dest );
+            vehicle *dest_veh;
+            int dest_part;
 
-        std::vector<zone_data const *> const zones = mgr.get_zones_at( src, zone_type_zone_unload_all,
-                _fac_id( you ) );
+            //Check destination for cargo part
+            if( const cata::optional<vpart_reference> vp =
+                    here.veh_at( dest_loc ).part_with_feature( "CARGO", false ) ) {
+                dest_veh = &vp->vehicle();
+                dest_part = vp->part_index();
+            } else {
+                dest_veh = nullptr;
+                dest_part = -1;
+            }
 
-        // get most open rules out of all stacked zones
-        for( zone_data const *zone : zones ) {
-            unload_options const &options = dynamic_cast<const unload_options &>( zone->get_options() );
-            unload_molle |= options.unload_molle();
-            unload_mods |= options.unload_mods();
-            unload_always |= options.unload_always();
-        }
-
-        //Skip items that have already been processed
-        for( auto it = items.begin() + num_processed; it < items.end(); ++it ) {
-            ++num_processed;
-            item &thisitem = *it->first;
-
-            // skip unpickable liquid
-            if( !thisitem.made_of_from_type( phase_id::SOLID ) ) {
+            // skip tiles with inaccessible furniture, like filled charcoal kiln
+            if( !here.can_put_items_ter_furn( dest_loc ) ||
+                static_cast<int>( here.i_at( dest_loc ).size() ) >= MAX_ITEM_IN_SQUARE ) {
                 continue;
             }
 
-            // skip favorite items in ignore favorite zones
-            if( thisitem.is_favorite && mgr.has( zone_type_LOOT_IGNORE_FAVORITES, src, _fac_id( you ) ) ) {
-                continue;
+            units::volume free_space;
+            // if there's a vehicle with space do not check the tile beneath
+            if( dest_veh ) {
+                free_space = dest_veh->free_volume( dest_part );
+            } else {
+                free_space = here.free_volume( dest_loc );
             }
-
-            // Only if it's from a vehicle do we use the vehicle source location information.
-            vehicle *this_veh = it->second ? src_veh : nullptr;
-            const int this_part = it->second ? src_part : -1;
-
-            const zone_type_id id = mgr.get_near_zone_type_for_item( thisitem, abspos,
-                                    ACTIVITY_SEARCH_DISTANCE, _fac_id( you ) );
-
-            // checks whether the item is already on correct loot zone or not
-            // if it is, we can skip such item, if not we move the item to correct pile
-            // think empty bag on food pile, after you ate the content
-            if( id != zone_type_LOOT_CUSTOM && mgr.has( id, src, _fac_id( you ) ) ) {
-                continue;
-            }
-
-            if( id == zone_type_LOOT_CUSTOM &&
-                mgr.custom_loot_has( src, &thisitem, zone_type_LOOT_CUSTOM, _fac_id( you ) ) ) {
-                continue;
-            }
-
-            const std::unordered_set<tripoint_abs_ms> dest_set =
-                mgr.get_near( id, abspos, ACTIVITY_SEARCH_DISTANCE, &thisitem, _fac_id( you ) );
-
-            // if this item isn't going anywhere and its not sealed
-            // check if it is in a unload zone or a strip corpse zone
-            // then we should unload it and see what is inside
-            bool move_and_reset = false;
-            bool moved_something = false;
-
-            if( mgr.has_near( zone_type_zone_unload_all, abspos, 1, _fac_id( you ) ) ||
-                ( mgr.has_near( zone_type_zone_strip, abspos, 1, _fac_id( you ) ) && it->first->is_corpse() ) ) {
-                if( dest_set.empty() || unload_always ) {
-                    if( you.rate_action_unload( *it->first ) == hint_rating::good &&
-                        !it->first->any_pockets_sealed() ) {
-                        for( item *contained : it->first->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
-                            // no liquids don't want to spill stuff
-                            if( !contained->made_of( phase_id::LIQUID ) && !contained->made_of( phase_id::GAS ) ) {
-                                move_item( you, *contained, contained->count(), src_loc, src_loc, this_veh, this_part );
-                                it->first->remove_item( *contained );
-                            }
-                        }
-                        for( item *contained : it->first->all_items_top( item_pocket::pocket_type::MAGAZINE ) ) {
-                            // no liquids don't want to spill stuff
-                            if( !contained->made_of( phase_id::LIQUID ) && !contained->made_of( phase_id::GAS ) ) {
-                                if( it->first->is_ammo_belt() ) {
-                                    if( it->first->type->magazine->linkage ) {
-                                        item link( *it->first->type->magazine->linkage, calendar::turn, contained->count() );
-                                        here.add_item_or_charges( src_loc, link );
-                                    }
-                                }
-                                move_item( you, *contained, contained->count(), src_loc, src_loc, this_veh, this_part );
-                                it->first->remove_item( *contained );
-                            }
-                        }
-                        for( item *contained : it->first->all_items_top( item_pocket::pocket_type::MAGAZINE_WELL ) ) {
-                            // no liquids don't want to spill stuff
-                            if( !contained->made_of( phase_id::LIQUID ) && !contained->made_of( phase_id::GAS ) ) {
-                                move_item( you, *contained, contained->count(), src_loc, src_loc, this_veh, this_part );
-                                it->first->remove_item( *contained );
-                            }
-                        }
-                        moved_something = true;
-
-                    }
-
-                    // if unloading mods
-                    if( unload_mods ) {
-                        // remove each mod, skip irremovable
-                        for( item *mod : it->first->gunmods() ) {
-                            if( mod->is_irremovable() ) {
-                                continue;
-                            }
-                            you.gunmod_remove( *it->first, *mod );
-                            // need to return so the activity starts
-                            return;
-                        }
-                    }
-
-                    // if unloading molle
-                    if( unload_molle ) {
-                        while( !it->first->get_contents().get_added_pockets().empty() ) {
-                            item removed = it->first->get_contents().remove_pocket( 0 );
-                            move_item( you, removed, 1, src_loc, src_loc, this_veh, this_part );
-                            moved_something = true;
-                        }
-                    }
-                    if( it->first->has_flag( flag_MAG_DESTROY ) && it->first->ammo_remaining() == 0 ) {
-                        here.i_rem( src_loc, it->first );
-                        num_processed = std::max( num_processed - 1, 0 );
-                        return;
-                    }
-
-                    // after dumping items go back to start of activity loop
-                    // so that can re-assess the items in the tile
-                    // perhaps move the last item first however
-                    if( unload_always && moved_something ) {
-                        move_and_reset = true;
-                    } else if( moved_something ) {
-                        return;
-                    }
-
+            // check free space at destination
+            if( free_space >= it.volume() ) {
+                // We move only towards the item, not to the location it will be stored at.
+                // TODO Move to both source and destination of item.
+                // Without some sort of queue for activities this is very tedious and error prone to code.
+                if( !tile_info.adjacent ) {
+                    move_adjacent_to( act, who, tile_info.pos_bub );
+                    return false;
                 }
-
+                // if( !tile_info.adjacent ) {
+                //     move_adjacent_to(act, who, dest_loc);
+                //     return false;
+                // }
+                move_item( who, it, it.count(), tile_info, dest_loc );
             }
-
-            for( const tripoint_abs_ms &dest : dest_set ) {
-                const tripoint_bub_ms dest_loc = here.bub_from_abs( dest );
-                vehicle *dest_veh;
-                int dest_part;
-
-                //Check destination for cargo part
-                if( const cata::optional<vpart_reference> vp =
-                        here.veh_at( dest_loc ).part_with_feature( "CARGO", false ) ) {
-                    dest_veh = &vp->vehicle();
-                    dest_part = vp->part_index();
-                } else {
-                    dest_veh = nullptr;
-                    dest_part = -1;
-                }
-
-                // skip tiles with inaccessible furniture, like filled charcoal kiln
-                if( !here.can_put_items_ter_furn( dest_loc ) ||
-                    static_cast<int>( here.i_at( dest_loc ).size() ) >= MAX_ITEM_IN_SQUARE ) {
-                    continue;
-                }
-
-                units::volume free_space;
-                // if there's a vehicle with space do not check the tile beneath
-                if( dest_veh ) {
-                    free_space = dest_veh->free_volume( dest_part );
-                } else {
-                    free_space = here.free_volume( dest_loc );
-                }
-                // check free space at destination
-                if( free_space >= thisitem.volume() ) {
-                    move_item( you, thisitem, thisitem.count(), src_loc, dest_loc, this_veh, this_part );
-
-                    // moved item away from source so decrement
-                    if( num_processed > 0 ) {
-                        --num_processed;
-                    }
-                    break;
-                }
-            }
-            if( you.moves <= 0 || move_and_reset ) {
-                return;
-            }
+            // We return false no matter what.
+            // If it is not moved, we don't skip anything
+            // If we have moved it, it disappeared from source, therefore we don't skip it either next time
+            return false;
         }
+        // It belongs somewhere but none of the tiles are valid, for example because they are full.
+        // We cannot sort this item now or later so it is no longer considered
+        return true;
+    };
 
-        //this location is sorted
-        stage = THINK;
-        return;
-    }
+    loot_iterate_tiles( act, who, tiles_rem, index_items, process_item );
+}
 
-    // If we got here without restarting the activity, it means we're done
-    add_msg( m_info, _( "%s sorted out every item possible." ), you.disp_name( false, true ) );
-    if( you.is_npc() ) {
-        npc *guy = dynamic_cast<npc *>( &you );
+void move_loot_activity_actor::finish( player_activity &act, Character &who )
+{
+    add_msg( m_info, _( "%s sorted out every item possible." ), who.disp_name( false, true ) );
+    if( who.is_npc() ) {
+        npc *guy = dynamic_cast<npc *>( &who );
         guy->revert_after_activity();
     }
-    you.activity.set_to_null();
+    act.set_to_null();
 }
 
 bool vehicle_folding_activity_actor::fold_vehicle( Character &p, bool check_only ) const
@@ -7051,6 +6980,7 @@ deserialize_functions = {
     { ACT_MILK, &milk_activity_actor::deserialize },
     { ACT_MOP, &mop_activity_actor::deserialize },
     { ACT_MOVE_ITEMS, &move_items_activity_actor::deserialize },
+    { ACT_MOVE_LOOT, &move_loot_activity_actor::deserialize },
     { ACT_OPEN_GATE, &open_gate_activity_actor::deserialize },
     { ACT_OXYTORCH, &oxytorch_activity_actor::deserialize },
     { ACT_PICKUP, &pickup_activity_actor::deserialize },

@@ -95,7 +95,6 @@
 #include "worldfactory.h"
 
 static const activity_id ACT_FERTILIZE_PLOT( "ACT_FERTILIZE_PLOT" );
-static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
 static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
 static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
 static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
@@ -1221,7 +1220,7 @@ static void loot()
     }
 
     // Manually update vehicle cache.
-    // In theory this would be handled by the related activity (activity_on_turn_move_loot())
+    // In theory this would be handled by the related activity (ACT_MOVE_LOOT)
     // but with a stale cache we never get that far.
     mgr.cache_vzones();
 
@@ -1338,7 +1337,8 @@ static void loot()
             add_msg( _( "Never mind." ) );
             break;
         case SortLoot:
-            player_character.assign_activity( ACT_MOVE_LOOT );
+            player_character.assign_activity(
+                player_activity( move_loot_activity_actor() ) );
             break;
         case SortLootStatic:
             //temporarily disable personal zones
@@ -1353,7 +1353,8 @@ static void loot()
             if( recache ) {
                 mgr.cache_data();
             }
-            player_character.assign_activity( ACT_MOVE_LOOT );
+            player_character.assign_activity(
+                player_activity( move_loot_activity_actor() ) );
             break;
         case SortLootPersonal:
             //temporarily disable non personal zones
@@ -1368,7 +1369,8 @@ static void loot()
             if( recache ) {
                 mgr.cache_data();
             }
-            player_character.assign_activity( ACT_MOVE_LOOT );
+            player_character.assign_activity(
+                player_activity( move_loot_activity_actor() ) );
             break;
         case UnloadLoot:
             player_character.assign_activity(

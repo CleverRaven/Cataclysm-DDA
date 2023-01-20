@@ -68,7 +68,7 @@ TEST_CASE( "zone unloading ammo belts", "[zones][items][ammo_belt][activities][u
     WHEN( "unloading ammo belts using zone_unload_all " ) {
         here.add_item_or_charges( tripoint_east, ammo_belt );
         if( move_act ) {
-            dummy.assign_activity( player_activity( ACT_MOVE_LOOT ) );
+            dummy.assign_activity( player_activity( move_loot_activity_actor() ) );
         } else {
             dummy.assign_activity( player_activity( unload_loot_activity_actor() ) );
         }
