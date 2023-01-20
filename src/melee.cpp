@@ -193,7 +193,7 @@ bool Character::is_armed() const
 bool Character::unarmed_attack() const
 {
     const item_location weap = used_weapon();
-    return !weap || weap->has_flag( flag_UNARMED_WEAPON );
+    return !weap;
 }
 
 bool Character::handle_melee_wear( item_location shield, float wear_multiplier )
@@ -451,7 +451,7 @@ static void melee_train( Character &you, int lo, int hi, const item &weap )
     float total = std::max( cut + stab + bash, 1 );
 
     // Unarmed may deal cut, stab, and bash damage depending on the weapon
-    if( weap.is_unarmed_weapon() ) {
+    if( weap.is_null() ) {
         you.practice( skill_unarmed, std::ceil( 1 * rng( lo, hi ) ), hi );
     } else {
         you.practice( skill_cutting,  std::ceil( cut  / total * rng( lo, hi ) ), hi );
@@ -978,8 +978,7 @@ void Character::reach_attack( const tripoint &p )
         } else if( here.impassable( path_point ) &&
                    // Fences etc. Spears can stab through those
                    !( weapon.has_flag( flag_SPEAR ) &&
-                      here.has_flag( ter_furn_flag::TFLAG_THIN_OBSTACLE, path_point ) &&
-                      x_in_y( skill, 10 ) ) ) {
+                      here.has_flag( ter_furn_flag::TFLAG_THIN_OBSTACLE, path_point ) ) ) {
             /** @ARM_STR increases bash effects when reach attacking past something */
             here.bash( path_point, get_arm_str() + weapon.damage_melee( damage_type::BASH ) );
             handle_melee_wear( get_wielded_item() );
@@ -1050,9 +1049,9 @@ double Character::crit_chance( float roll_hit, float target_dodge, const item &w
 
     // Weapon to-hit roll
     double weapon_crit_chance = 0.5;
-    if( weap.is_unarmed_weapon() ) {
+    if( weap.is_null() ) {
         // Unarmed attack: 1/2 of unarmed skill is to-hit
-        /** @EFFECT_UNARMED increases critical chance with UNARMED_WEAPON */
+        /** @EFFECT_UNARMED increases critical chance */
         weapon_crit_chance = 0.5 + 0.05 * get_skill_level( skill_unarmed );
     }
 
@@ -1245,7 +1244,6 @@ void Character::roll_bash_damage( bool crit, damage_instance &di, bool average,
         bash_dam += average ? ( mindrunk + maxdrunk ) * 0.5f : rng( mindrunk, maxdrunk );
     }
 
-
     if( unarmed ) {
         bool bp_unrestricted;
 
@@ -1325,7 +1323,6 @@ void Character::roll_bash_damage( bool crit, damage_instance &di, bool average,
     if( is_melee_bash_damage_cap_bonus() ) {
         bash_cap += melee_bonus;
     }
-
 
     if( has_trait( trait_KI_STRIKE ) && unarmed ) {
         /** @EFFECT_UNARMED increases bashing damage with unarmed weapons when paired with the Ki Strike trait */
@@ -2188,7 +2185,7 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
     bool worn_shield = has_shield && shield->has_flag( flag_BLOCK_WHILE_WORN );
 
     bool conductive_shield = false;
-    bool unarmed = !is_armed() || weapon.has_flag( flag_UNARMED_WEAPON );
+    bool unarmed = !is_armed();
     bool force_unarmed = martial_arts_data->is_force_unarmed();
     bool allow_weapon_blocking = martial_arts_data->can_weapon_block();
 

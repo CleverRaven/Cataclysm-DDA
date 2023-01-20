@@ -149,7 +149,6 @@ Creature &Creature::operator=( Creature && ) noexcept = default;
 
 Creature::~Creature() = default;
 
-
 std::queue<scheduled_effect> Creature::scheduled_effects = std::queue<scheduled_effect> {};
 std::queue<terminating_effect> Creature::terminating_effects = std::queue<terminating_effect> {};
 
@@ -2742,7 +2741,6 @@ std::unordered_map<std::string, std::string> &Creature::get_values()
 {
     return values;
 }
-
 
 bodypart_id Creature::select_body_part( int min_hit, int max_hit, bool can_attack_high,
                                         int hit_roll ) const

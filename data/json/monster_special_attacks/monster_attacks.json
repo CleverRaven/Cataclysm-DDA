@@ -423,9 +423,9 @@
     "hit_dmg_npc": "%1$s kicks <npcname> and slams them to the ground!",
     "no_dmg_msg_u": "%1$s tries to kick %2$s and knock you down, but your armor protects you!",
     "no_dmg_msg_npc": "%1$s tries to kick and knock <npcname> down, but their armor protects them!",
-    "miss_msg_u": "%s tries to kick your %2$s but you dodge!",
+    "miss_msg_u": "%1$s tries to kick your %2$s but you dodge!",
     "miss_msg_npc": "%s tries to kick and knock down <npcname>, but they dodge!",
-    "effects": [ { "id": "downed", "duration": 3 }, { "id": "stunned", "duration": 100 } ]
+    "effects": [ { "id": "downed", "duration": 3 }, { "id": "stunned", "duration": 2 } ]
   },
   {
     "type": "monster_attack",
@@ -435,7 +435,7 @@
     "move_cost": 150,
     "damage_max_instance": [ { "damage_type": "stab", "amount": 36, "armor_penetration": 8, "armor_multiplier": 0.5 } ],
     "hitsize_min": 4,
-    "effects": [ { "id": "bleed", "duration": 100, "affect_hit_bp": true } ],
+    "effects": [ { "id": "bleed", "duration": 5, "affect_hit_bp": true } ],
     "hit_dmg_u": "%1$s lunges and impales your %2$s!",
     "hit_dmg_npc": "%1$s lunges and impales <npcname>!",
     "miss_msg_u": "%1$s lunges and tries to impale your %2$s, but you dodge!",

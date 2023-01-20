@@ -1,7 +1,7 @@
 [
   {
     "id": "stonefist",
-    "type": "GENERIC",
+    "type": "ARMOR",
     "name": { "str": "pair of magical armored stone gauntlets", "str_pl": "pairs of magical armored stone gauntlets" },
     "description": "A magical flexible stonelike substance for protection and attack.",
     "weight": "1 g",
@@ -26,7 +26,7 @@
       ]
     },
     "qualities": [ [ "HAMMER", 1 ] ],
-    "flags": [ "VARSIZE", "STURDY", "UNARMED_WEAPON", "DURABLE_MELEE", "NONCONDUCTIVE", "MAGIC_FOCUS" ],
+    "flags": [ "STURDY", "DURABLE_MELEE", "NONCONDUCTIVE", "MAGIC_FOCUS" ],
     "techniques": [ "WBLOCK_3" ]
   },
   {
@@ -152,7 +152,7 @@
     "material_thickness": 3,
     "environmental_protection": 2,
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MOVE_COST", "add": -5 } ] } ] },
-    "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "ROLLER_QUAD", "BELTED" ],
+    "flags": [ "OVERSIZE", "WATERPROOF", "ROLLER_QUAD", "BELTED" ],
     "armor": [ { "encumbrance": 0, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ]
   },
   {
@@ -194,16 +194,7 @@
     "volume": "155 ml",
     "weight": "300 g",
     "bashing": 6,
-    "flags": [
-      "UNARMED_WEAPON",
-      "UNBREAKABLE_MELEE",
-      "NONCONDUCTIVE",
-      "LIGHT_5",
-      "TRADER_AVOID",
-      "NO_REPAIR",
-      "NO_SALVAGE",
-      "MAGIC_FOCUS"
-    ],
+    "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "LIGHT_5", "TRADER_AVOID", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS" ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "values": [ { "value": "ITEM_DAMAGE_ELEC", "add": 20 } ] } ] },
     "material_thickness": 1,
     "armor": [
@@ -247,7 +238,6 @@
       "WHIP",
       "STURDY",
       "TRADER_AVOID",
-      "UNARMED_WEAPON",
       "UNBREAKABLE_MELEE",
       "NO_REPAIR",
       "NO_SALVAGE",
@@ -273,7 +263,6 @@
       "WHIP",
       "STURDY",
       "TRADER_AVOID",
-      "UNARMED_WEAPON",
       "UNBREAKABLE_MELEE",
       "NO_REPAIR",
       "NO_SALVAGE",
@@ -840,7 +829,7 @@
   },
   {
     "id": "subzero_talons",
-    "type": "GENERIC",
+    "type": "ARMOR",
     "name": { "str_sp": "subzero talons" },
     "description": "Claws made from ice, able to freeze on contact while mauling foes.  You, however, feel only a slight chill on your hands.",
     "weight": "100 g",
@@ -853,20 +842,19 @@
     "color": "light_gray",
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 12 ] ],
     "weapon_category": [ "CLAWS" ],
-    "flags": [
-      "UNARMED_WEAPON",
-      "UNBREAKABLE_MELEE",
-      "NONCONDUCTIVE",
-      "NO_UNWIELD",
-      "MAGIC_FOCUS",
-      "TRADER_AVOID",
-      "NO_REPAIR",
-      "NO_SALVAGE"
-    ],
+    "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "NO_UNWIELD", "MAGIC_FOCUS", "TRADER_AVOID", "NO_REPAIR", "NO_SALVAGE" ],
     "techniques": [ "WBLOCK_2", "RAPID" ],
     "relic_data": {
-      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_COLD", "add": 6 } ] } ]
-    }
+      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_COLD", "add": 6 } ] } ]
+    },
+    "armor": [
+      {
+        "encumbrance": 5,
+        "coverage": 20,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_back_l", "hand_back_r" ]
+      }
+    ]
   },
   {
     "id": "armor_spirit",
@@ -878,18 +866,7 @@
     "material": [ "concentrated_mana" ],
     "warmth": 0,
     "material_thickness": 4,
-    "flags": [
-      "ONLY_ONE",
-      "OVERSIZE",
-      "PERSONAL",
-      "VARSIZE",
-      "STURDY",
-      "NO_REPAIR",
-      "NO_SALVAGE",
-      "LIGHT_2",
-      "TRADER_AVOID",
-      "PADDED"
-    ],
+    "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "STURDY", "NO_REPAIR", "NO_SALVAGE", "LIGHT_2", "TRADER_AVOID", "PADDED" ],
     "armor": [
       {
         "encumbrance": 5,

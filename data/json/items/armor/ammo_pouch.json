@@ -51,7 +51,6 @@
           "8x40mm": 60,
           "20x66mm": 60,
           "5x50": 60,
-          "metal_rail": 60,
           "stimpack_ammo": 60,
           "ampoule": 60,
           "300": 60,
@@ -293,8 +292,17 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
-    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "NOT_FOOTWEAR", "PALS_SMALL" ],
-    "armor": [ { "encumbrance": 1, "coverage": 5, "covers": [ "foot_l", "foot_r" ] } ]
+    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "PALS_SMALL" ],
+    "armor": [
+      {
+        "material": [ { "type": "nylon", "covered_by_mat": 100, "thickness": 2 } ],
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_ankle_l", "foot_ankle_r" ],
+        "coverage": 25,
+        "encumbrance": 1,
+        "layers": [ "OUTER" ]
+      }
+    ]
   },
   {
     "type": "ARMOR",

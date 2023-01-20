@@ -298,7 +298,7 @@ ifneq ($(CLANG), 0)
   endif
   ifdef USE_LIBCXX
     OTHERS += -stdlib=libc++
-    LDFLAGS += -stdlib=libc++
+    LDFLAGS += -stdlib=libc++ -Wno-unused-command-line-argument
   endif
   ifeq ($(CCACHE), 1)
     CXX = CCACHE_CPP2=1 $(CCACHEBIN) $(CROSS)$(CLANGCMD)
@@ -1216,7 +1216,7 @@ $(ODIR)/.astyle-check-stamp: $(ASTYLE_SOURCES)
 endif
 
 astyle-fast: $(ASTYLE_SOURCES)
-	$(ASTYLE_BINARY) --options=.astylerc -n $(ASTYLE_SOURCES)
+	echo $(ASTYLE_SOURCES) | xargs -P 0 -L 1 $(ASTYLE_BINARY) --quiet --options=.astylerc -n
 
 astyle-diff: $(ASTYLE_SOURCES)
 	$(ASTYLE_BINARY) --options=.astylerc -n $$(git diff --name-only src/*.h src/*.cpp tests/*.h tests/*.cpp)

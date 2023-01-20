@@ -72,6 +72,7 @@
     "id": "NC_VALHALLIST",
     "name": { "str": "Valhallist" },
     "job_description": "I worship the Norse gods.",
+    "common": false,
     "traits": [
       { "group": "BG_survival_story_RURAL" },
       { "group": "NPC_starting_traits" },
@@ -97,6 +98,7 @@
     "id": "NC_VALHALLIST_SHOPKEEP",
     "name": { "str": "Valhallist Shopkeeper" },
     "job_description": "I worship the Norse gods.",
+    "common": false,
     "traits": [
       { "group": "BG_survival_story_RURAL" },
       { "group": "NPC_starting_traits" },
