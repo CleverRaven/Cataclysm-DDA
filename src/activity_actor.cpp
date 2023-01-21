@@ -6300,25 +6300,34 @@ void unload_loot_activity_actor::start( player_activity &act, Character &who )
 }
 
 // Liquid
-bool item_is_non_solid( item it )
+static bool item_is_non_solid( item it )
 {
     return !it.made_of_from_type( phase_id::SOLID );
 }
 
 // Favorite in a ignore_favorites zone
-bool item_is_favorite( item it, loot_tile_info &tile )
+static bool item_is_favorite( item it, loot_tile_info &tile )
 {
     return it.is_favorite
            && tile.mgr.has( zone_type_LOOT_IGNORE_FAVORITES, tile.pos, tile.fac_id );
 }
 
 // not in unload_all && not a corpse in strip
-bool item_is_no_unload( item it, loot_tile_info &tile, tripoint_abs_ms abspos )
+static bool item_is_no_unload( item it, loot_tile_info &tile, tripoint_abs_ms abspos )
 {
     bool unload_this =
         tile.mgr.has_near( zone_type_zone_unload_all, abspos, 1, tile.fac_id )
         || ( it.is_corpse() && tile.mgr.has_near( zone_type_zone_strip, abspos, 1, tile.fac_id ) );
     return !unload_this;
+}
+
+// checks whether the item is already on correct loot zone or not
+static bool item_in_correct_zone( item it, loot_tile_info &tile, zone_type_id id )
+{
+    return ( id != zone_type_LOOT_CUSTOM
+             && tile.mgr.has( id, tile.pos, tile.fac_id ) )
+           || ( id == zone_type_LOOT_CUSTOM
+                && tile.mgr.custom_loot_has( tile.pos, &it, zone_type_LOOT_CUSTOM, tile.fac_id ) );
 }
 
 // Return true if the item has been successfully and completely handled
@@ -6414,9 +6423,9 @@ static bool loot_unload_item( player_activity &act, Character &who, item &it, lo
     return true;
 }
 
-void loot_iterate_tiles( player_activity &act, Character &who,
-                         std::deque<tripoint_abs_ms> &tiles_rem, int &index_items,
-                         std::function<bool( item &, loot_tile_info & )> process_item )
+static void loot_iterate_tiles( player_activity &act, Character &who,
+                                std::deque<tripoint_abs_ms> &tiles_rem, int &index_items,
+                                std::function<bool( item &, loot_tile_info & )> process_item )
 {
     faction const *fac = who.get_faction();
     faction_id fac_id = fac == nullptr ? faction_id() : fac->id;
@@ -6591,15 +6600,6 @@ void move_loot_activity_actor::start( player_activity &act, Character &who )
 
     tiles_rem = loot_start( act, who, tiles_unsorted );
     index_items = 0;
-}
-
-// checks whether the item is already on correct loot zone or not
-bool item_in_correct_zone( item it, loot_tile_info &tile, zone_type_id id )
-{
-    return ( id != zone_type_LOOT_CUSTOM
-             && tile.mgr.has( id, tile.pos, tile.fac_id ) )
-           || ( id == zone_type_LOOT_CUSTOM
-                && tile.mgr.custom_loot_has( tile.pos, &it, zone_type_LOOT_CUSTOM, tile.fac_id ) );
 }
 
 void move_loot_activity_actor::do_turn( player_activity &act, Character &who )
