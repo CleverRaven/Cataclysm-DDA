@@ -2792,6 +2792,7 @@ void talk_effect_fun_t<T>::set_revert_location( const JsonObject &jo, const std:
                 get_timed_events().add( timed_event_type::REVERT_SUBMAP, tif, -1,
                                         project_to<coords::ms>( revert_sm ), 0, "",
                                         sm->get_revert_submap(), key.evaluate( d ) );
+                get_map().invalidate_map_cache( omt_pos.z() );
             }
         }
     };
