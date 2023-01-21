@@ -788,8 +788,8 @@ void mission::update_world_missions_character( const character_id &old_char_id,
         const character_id &new_char_id )
 {
     for( auto iter = world_missions.begin(); iter != world_missions.end(); iter++ ) {
-        if( iter->second.in_progress() && iter->second.get_assigned_player_id() == old_char_id ||
-            iter->second.get_assigned_player_id() == character_id( - 1 ) ) {
+        if( iter->second.in_progress() && ( iter->second.get_assigned_player_id()  == old_char_id ||
+                                            iter->second.get_assigned_player_id() == character_id( - 1 ) ) ) {
             iter->second.set_assigned_player_id( new_char_id );
         }
     }
