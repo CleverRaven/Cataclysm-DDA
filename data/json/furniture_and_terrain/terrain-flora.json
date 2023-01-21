@@ -2265,6 +2265,7 @@
   {
     "type": "terrain",
     "id": "t_trunk",
+    "//": "slated for removal after all uses satisfactorily migrated to f_trunk",
     "name": "tree trunk",
     "description": "A section of trunk from a tree that has been cut down.  Can be sawn into logs with the right tool.",
     "symbol": "1",

@@ -1,6 +1,24 @@
 [
   {
     "type": "furniture",
+    "id": "f_trunk",
+    "name": "tree trunk",
+    "description": "A section of trunk from a tree that has been cut down.  Can be sawn into logs with the right tool.",
+    "symbol": "1",
+    "color": "brown",
+    "move_cost_mod": 4,
+    "coverage": 45,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "REDUCE_SCENT", "MOUNTABLE", "SHORT" ],
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "items": [ { "item": "splinter", "count": [ 5, 15 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_mutpoppy",
     "name": "mutated poppy flower",
     "description": "These strange flowers have appeared in the wake of the Cataclysm, and their buds can be used for medicinal purposes, like the seeds of the mundane poppy they're named after.  The dirt around them gently churns as their roots writhe beneath the soil, and it's surrounded by an overwhelming floral smell that makes you feel sleepy.",
