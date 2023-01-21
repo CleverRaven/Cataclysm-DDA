@@ -234,6 +234,8 @@ Show compatible guns in magazine descriptions
 Show proficiencies trained by dissecting
 Mark overmap location if player drops favorited item
 
+## Documentation:
+monster HP scaling section in GAME_BALANCE
 
 ## Mods:
 Use size flags for size changing mutations.
@@ -304,7 +306,6 @@ Reduce crafting proficiency penalties based on partial proficiency level
 Updated brewing recipes and fermentation times to be more realistic
 Add stamina cost to archery
 Change Cut Cotton to Patchwork, add Patchwork to Rags
-monster HP scaling section in GAME_BALANCE
 Stop regenerating creatures from doing so while on fire
 Adds weak points to the armour of most zombies
 Adjusted lockpick crafting
