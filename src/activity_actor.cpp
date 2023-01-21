@@ -5605,7 +5605,7 @@ void chop_tree_activity_actor::finish( player_activity &act, Character &who )
     std::vector<tripoint> tree = line_to( pos, to, rng( 1, 8 ) );
     for( const tripoint &elem : tree ) {
         here.batter( elem, 300, 5 );
-        here.ter_set( elem, t_trunk );
+        here.furn_set( elem, f_trunk );
     }
 
     here.ter_set( pos, t_stump );

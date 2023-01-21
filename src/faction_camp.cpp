@@ -4254,7 +4254,7 @@ int om_cutdown_trees( const tripoint_abs_omt &omt_tgt, int chance, bool estimate
             std::vector<tripoint> tree = line_to( p, to, rng( 1, 8 ) );
             for( tripoint &elem : tree ) {
                 target_bay.destroy( elem );
-                target_bay.ter_set( elem, t_trunk );
+                target_bay.furn_set( elem, f_trunk );
             }
             target_bay.ter_set( p, t_dirt );
             harvested++;
