@@ -53,6 +53,12 @@
   },
   {
     "type": "tool_quality",
+    "id": "FISH_TRAP",
+    "name": { "str": "fish trapping" },
+    "usages": [ [ 1, [ "FISH_TRAP" ] ] ]
+  },
+  {
+    "type": "tool_quality",
     "id": "SMOOTH",
     "name": { "str": "smoothing" }
   },
