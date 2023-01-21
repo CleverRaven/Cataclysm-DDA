@@ -6,7 +6,9 @@
     "description": "A section of trunk from a tree that has been cut down.  Can be sawn into logs with the right tool.",
     "symbol": "1",
     "color": "brown",
-    "move_cost_mod": 4,
+    "looks_like": "t_trunk",
+    "move_cost_mod": 2,
+    "required_str": -1,
     "coverage": 45,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "REDUCE_SCENT", "MOUNTABLE", "SHORT" ],
     "bash": {
