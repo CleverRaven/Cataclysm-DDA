@@ -156,7 +156,6 @@ static bool check_no_wiring( const tripoint_bub_ms & );
 
 // Special actions to be run post-terrain-mod
 static void done_nothing( const tripoint_bub_ms &, Character & ) {}
-static void done_trunk_plank( const tripoint_bub_ms &, Character & );
 static void done_grave( const tripoint_bub_ms &, Character & );
 static void done_vehicle( const tripoint_bub_ms &, Character & );
 static void done_appliance( const tripoint_bub_ms &, Character & );
@@ -1333,15 +1332,6 @@ bool construct::check_no_wiring( const tripoint_bub_ms &p )
     return !veh_target.has_tag( flag_WIRING );
 }
 
-void construct::done_trunk_plank( const tripoint_bub_ms &/*p*/, Character &/*who*/ )
-{
-    int num_logs = rng( 2, 3 );
-    Character &player_character = get_player_character();
-    for( int i = 0; i < num_logs; ++i ) {
-        iuse::cut_log_into_planks( player_character );
-    }
-}
-
 void construct::done_grave( const tripoint_bub_ms &p, Character &player_character )
 {
     map &here = get_map();
@@ -2016,7 +2006,6 @@ void load_construction( const JsonObject &jo )
     static const std::map<std::string, void( * )( const tripoint_bub_ms &, Character & )>
     post_special_map = {{
             { "", construct::done_nothing },
-            { "done_trunk_plank", construct::done_trunk_plank },
             { "done_grave", construct::done_grave },
             { "done_vehicle", construct::done_vehicle },
             { "done_appliance", construct::done_appliance },

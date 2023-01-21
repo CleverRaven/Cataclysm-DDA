@@ -911,11 +911,6 @@
   },
   {
     "type": "construction_group",
-    "id": "chop_tree_trunk_into_planks",
-    "name": "Chop Tree Trunk Into Planks"
-  },
-  {
-    "type": "construction_group",
     "id": "clean_broken_window",
     "name": "Clean Broken Window"
   },

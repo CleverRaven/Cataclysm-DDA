@@ -42,11 +42,6 @@
   },
   {
     "type": "construction_category",
-    "id": "FARM_WOOD",
-    "name": "Farming and Woodcutting"
-  },
-  {
-    "type": "construction_category",
     "id": "TOOL",
     "name": "Tools"
   },
