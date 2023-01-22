@@ -236,6 +236,16 @@ Mark overmap location if player drops favorited item
 
 ## Documentation:
 monster HP scaling section in GAME_BALANCE
+Documentation on loudness
+npctrade: merchant tweaks and documentation
+document monster difficulty scaling
+Artifact resonance documentation
+Update documentation for recipes
+Ammo effects documentation update
+Expanded NPC conditions; spell levels, loaded mods & proficiencies
+Document emitters
+Document fields
+Redoes Ammo stats in Game_Balance
 
 ## Mods:
 Use size flags for size changing mutations.
