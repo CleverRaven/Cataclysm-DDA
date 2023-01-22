@@ -159,7 +159,7 @@ struct vision_test_case {
         player_character.clear_bionics();
         player_character.clear_mutations(); // remove mutations that potentially affect vision
         player_character.clear_moncams();
-        clear_map();
+        clear_map( -2, OVERMAP_HEIGHT );
         g->reset_light_level();
 
         REQUIRE( !player_character.is_blind() );
@@ -221,7 +221,10 @@ struct vision_test_case {
             // they might, for example, have poor nightvision due to having just been
             // in daylight)
             here.update_visibility_cache( zlev );
-            here.invalidate_map_cache( zlev );
+            // make sure floor caches are valid on all zlevels above
+            for( int z = -2; z <= OVERMAP_HEIGHT; z++ ) {
+                here.invalidate_map_cache( z );
+            }
             here.build_map_cache( zlev );
             here.update_visibility_cache( zlev );
             here.invalidate_map_cache( zlev );
