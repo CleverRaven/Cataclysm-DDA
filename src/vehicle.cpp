@@ -5558,9 +5558,6 @@ vehicle_stack::iterator vehicle::remove_item( int part, const vehicle_stack::con
 {
     cata::colony<item> &veh_items = parts[part].items;
 
-    // remove from the active items cache (if it isn't there does nothing)
-    active_items.remove( &*it );
-
     invalidate_mass();
     return veh_items.erase( it );
 }

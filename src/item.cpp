@@ -12540,14 +12540,7 @@ int item::processing_speed() const
         return 1;
     }
 
-    // This item doesn't actually need processing.
-    // Either it contains items that need processing. Use processing speed from those.
-    // Or it is in same container with items that need processing.
-    int processing_speed = item::NO_PROCESSING;
-    for( const item *it : contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
-        processing_speed = std::min( processing_speed, it->processing_speed() );
-    }
-    return processing_speed;
+    return item::NO_PROCESSING;
 }
 
 void item::apply_freezerburn()
@@ -13396,11 +13389,13 @@ bool item::process_blackpowder_fouling( Character *carrier )
 }
 
 bool item::process( map &here, Character *carrier, const tripoint &pos, float insulation,
-                    temperature_flag flag, float spoil_multiplier_parent )
+                    temperature_flag flag, float spoil_multiplier_parent, bool recursive )
 {
     process_relic( carrier, pos );
-    contents.process( here, carrier, pos, type->insulation_factor * insulation, flag,
-                      spoil_multiplier_parent );
+    if( recursive ) {
+        contents.process( here, carrier, pos, type->insulation_factor * insulation, flag,
+                          spoil_multiplier_parent );
+    }
     return process_internal( here, carrier, pos, insulation, flag, spoil_multiplier_parent );
 }
 

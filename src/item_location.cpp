@@ -631,13 +631,6 @@ class item_location::impl::item_in_container : public item_location::impl
         void remove_item() override {
             on_contents_changed();
             container->remove_item( *target() );
-            item_location ancestor = parent_item();
-            while( ancestor.has_parent() ) {
-                ancestor = ancestor.parent_item();
-            }
-            if( !ancestor->needs_processing() ) {
-                get_map().remove_active_item( ancestor.position(), ancestor.get_item() );
-            }
         }
 
         void on_contents_changed() override {

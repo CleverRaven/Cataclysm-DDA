@@ -4654,24 +4654,6 @@ map_stack map::i_at( const tripoint_bub_ms &p )
     return i_at( p.raw() );
 }
 
-void map::remove_active_item( tripoint const &p, item *it )
-{
-    if( !inbounds( p ) ) {
-        return;
-    }
-    point l;
-    submap *const current_submap = get_submap_at( p, l );
-    if( current_submap == nullptr ) {
-        return;
-    }
-    current_submap->active_items.remove( it );
-    if( current_submap->active_items.empty() ) {
-        // TODO: fix point types
-        submaps_with_active_items.erase( tripoint_abs_sm( abs_sub.x() + p.x / SEEX,
-                                         abs_sub.y() + p.y / SEEY, p.z ) );
-    }
-}
-
 map_stack::iterator map::i_rem( const tripoint &p, const map_stack::const_iterator &it )
 {
     point l;
@@ -4680,14 +4662,6 @@ map_stack::iterator map::i_rem( const tripoint &p, const map_stack::const_iterat
         debugmsg( "Tried to remove items at (%d,%d) but the submap is not loaded", l.x, l.y );
         nulitems.clear();
         return map_stack{ &nulitems, p, this } .begin();
-    }
-
-    // remove from the active items cache (if it isn't there does nothing)
-    current_submap->active_items.remove( &*it );
-    if( current_submap->active_items.empty() ) {
-        // TODO: fix point types
-        submaps_with_active_items.erase( tripoint_abs_sm( abs_sub.x() + p.x / SEEX,
-                                         abs_sub.y() + p.y / SEEY, p.z ) );
     }
 
     current_submap->update_lum_rem( l, *it );
@@ -4716,16 +4690,6 @@ void map::i_clear( const tripoint &p )
     if( current_submap == nullptr ) {
         debugmsg( "Tried to clear items at (%d,%d) but the submap is not loaded", l.x, l.y );
         return;
-    }
-
-    for( item &it : current_submap->get_items( l ) ) {
-        // remove from the active items cache (if it isn't there does nothing)
-        current_submap->active_items.remove( &it );
-    }
-    if( current_submap->active_items.empty() ) {
-        // TODO: fix point types
-        submaps_with_active_items.erase( tripoint_abs_sm( abs_sub.x() + p.x / SEEX,
-                                         abs_sub.y() + p.y / SEEY, p.z ) );
     }
 
     current_submap->set_lum( l, 0 );
@@ -5010,11 +4974,9 @@ item &map::add_item( const tripoint &p, item new_item )
 
     const map_stack::iterator new_pos = current_submap->get_items( l ).insert( new_item );
     if( new_item.needs_processing() ) {
-        if( current_submap->active_items.empty() ) {
-            // TODO: fix point types
-            submaps_with_active_items.insert( tripoint_abs_sm( abs_sub.x() + p.x / SEEX,
-                                              abs_sub.y() + p.y / SEEY, p.z ) );
-        }
+        // TODO: fix point types
+        submaps_with_active_items_dirty.insert( tripoint_abs_sm( abs_sub.x() + p.x / SEEX,
+                                                abs_sub.y() + p.y / SEEY, p.z ) );
         current_submap->active_items.add( *new_pos, l );
     }
 
@@ -5119,11 +5081,9 @@ void map::make_active( item_location &loc )
     cata::colony<item> &item_stack = current_submap->get_items( l );
     cata::colony<item>::iterator iter = item_stack.get_iterator_from_pointer( target );
 
-    if( current_submap->active_items.empty() ) {
-        // TODO: fix point types
-        submaps_with_active_items.insert( tripoint_abs_sm( abs_sub.x() + loc.position().x / SEEX,
-                                          abs_sub.y() + loc.position().y / SEEY, loc.position().z ) );
-    }
+    // TODO: fix point types
+    submaps_with_active_items_dirty.insert( tripoint_abs_sm( abs_sub.x() + loc.position().x / SEEX,
+                                            abs_sub.y() + loc.position().y / SEEY, loc.position().z ) );
     current_submap->active_items.add( *iter, l );
 }
 
@@ -5151,15 +5111,19 @@ void map::update_lum( item_location &loc, bool add )
 }
 
 static bool process_map_items( map &here, item_stack &items, safe_reference<item> &item_ref,
-                               const tripoint &location, const float insulation, const temperature_flag flag,
-                               const float spoil_multiplier )
+                               item *parent, const tripoint &location, const float insulation,
+                               const temperature_flag flag, const float spoil_multiplier )
 {
-    if( item_ref->process( here, nullptr, location, insulation, flag, spoil_multiplier ) ) {
+    if( item_ref->process( here, nullptr, location, insulation, flag, spoil_multiplier, false ) ) {
         // Item is to be destroyed so erase it from the map stack
         // unless it was already destroyed by processing.
         if( item_ref ) {
-            items.get_iterator_from_pointer( item_ref.get() )->spill_contents( location );
-            items.erase( items.get_iterator_from_pointer( item_ref.get() ) );
+            item_ref->spill_contents( location );
+            if( parent != nullptr ) {
+                parent->remove_item( *item_ref );
+            } else {
+                items.erase( items.get_iterator_from_pointer( item_ref.get() ) );
+            }
         }
         return true;
     }
@@ -5281,9 +5245,13 @@ void map::process_items()
             process_items_in_vehicles( *current_submap );
         }
     }
-    // Making a copy, in case the original variable gets modified during `process_items_in_submap`
-    const std::set<tripoint_abs_sm> submaps_with_active_items_copy = submaps_with_active_items;
-    for( const tripoint_abs_sm &abs_pos : submaps_with_active_items_copy ) {
+    update_submaps_with_active_items();
+    for( auto iter = submaps_with_active_items.begin(); iter != submaps_with_active_items.end(); ) {
+        tripoint_abs_sm const abs_pos = *iter;
+        if( !inbounds( project_to<coords::ms>( abs_pos ) ) ) {
+            iter = submaps_with_active_items.erase( iter );
+            continue;
+        }
         const tripoint_rel_sm local_pos = abs_pos - abs_sub.xy();
         // TODO: fix point types
         submap *const current_submap = get_submap_at_grid( local_pos.raw() );
@@ -5292,9 +5260,12 @@ void map::process_items()
                       local_pos.to_string() );
             continue;
         }
-        if( !current_submap->active_items.empty() ) {
-            // TODO: fix point types
-            process_items_in_submap( *current_submap, local_pos.raw() );
+        // TODO: fix point types
+        process_items_in_submap( *current_submap, local_pos.raw() );
+        if( current_submap->active_items.empty() ) {
+            iter = submaps_with_active_items.erase( iter );
+        } else {
+            ++iter;
         }
     }
 }
@@ -5334,8 +5305,9 @@ void map::process_items_in_submap( submap &current_submap, const tripoint &gridp
 
         map_stack items = i_at( map_location );
 
-        process_map_items( *this, items, active_item_ref.item_ref, map_location, 1, flag,
-                           spoil_multiplier );
+        process_map_items( *this, items, active_item_ref.item_ref, active_item_ref.parent,
+                           map_location, 1, flag,
+                           spoil_multiplier * active_item_ref.spoil_multiplier() );
     }
 }
 
@@ -5413,8 +5385,9 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap )
                 flag = temperature_flag::HEATER;
             }
         }
-        if( !process_map_items( *this, items, active_item_ref.item_ref, item_loc, it_insulation, flag,
-                                1.0f ) ) {
+        if( !process_map_items( *this, items, active_item_ref.item_ref, active_item_ref.parent,
+                                item_loc, it_insulation, flag,
+                                active_item_ref.spoil_multiplier() ) ) {
             // If the item was NOT destroyed, we can skip the remainder,
             // which handles fallout from the vehicle being damaged.
             continue;
@@ -6328,19 +6301,11 @@ void map::add_camp( const tripoint_abs_omt &omt_pos, const std::string &name )
     g->validate_camps();
 }
 
-void map::update_submap_active_item_status( const tripoint &p )
+void map::update_submaps_with_active_items()
 {
-    point l;
-    submap *const current_submap = get_submap_at( p, l );
-    if( current_submap == nullptr ) {
-        debugmsg( "Tried to update active items at (%d,%d) but the submap is not loaded", l.x, l.y );
-        return;
-    }
-    if( current_submap->active_items.empty() ) {
-        // TODO: fix point types
-        submaps_with_active_items.erase(
-            tripoint_abs_sm( abs_sub.x() + p.x / SEEX, abs_sub.y() + p.y / SEEY, p.z ) );
-    }
+    std::move( submaps_with_active_items_dirty.begin(), submaps_with_active_items_dirty.end(),
+               std::inserter( submaps_with_active_items, submaps_with_active_items.begin() ) );
+    submaps_with_active_items_dirty.clear();
 }
 
 void map::update_visibility_cache( const int zlev )
@@ -7311,6 +7276,7 @@ void map::load( const tripoint_abs_sm &w, const bool update_vehicle,
     field_furn_locs.clear();
     field_ter_locs.clear();
     submaps_with_active_items.clear();
+    submaps_with_active_items_dirty.clear();
     set_abs_sub( w );
     clear_vehicle_level_caches();
     for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
@@ -7458,9 +7424,6 @@ void map::shift( const point &sp )
                 if( sp.y >= 0 ) {
                     for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
                         const tripoint grid( gridx, gridy, gridz );
-                        if( ( sp.x > 0 && gridx == 0 ) || ( sp.y > 0 && gridy == 0 ) ) {
-                            submaps_with_active_items.erase( abs.xy() + grid );
-                        }
                         if( gridx + sp.x < my_MAPSIZE && gridy + sp.y < my_MAPSIZE ) {
                             copy_grid( grid, grid + sp );
                             submap *const cur_submap = get_submap_at_grid( grid );
@@ -7476,9 +7439,6 @@ void map::shift( const point &sp )
                 } else { // sy < 0; work through it backwards
                     for( int gridy = my_MAPSIZE - 1; gridy >= 0; gridy-- ) {
                         const tripoint grid( gridx, gridy, gridz );
-                        if( ( sp.x > 0 && gridx == 0 ) || gridy == my_MAPSIZE - 1 ) {
-                            submaps_with_active_items.erase( abs.xy() + grid );
-                        }
                         if( gridx + sp.x < my_MAPSIZE && gridy + sp.y >= 0 ) {
                             copy_grid( grid, grid + sp );
                             submap *const cur_submap = get_submap_at_grid( grid );
@@ -7498,9 +7458,6 @@ void map::shift( const point &sp )
                 if( sp.y >= 0 ) {
                     for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
                         const tripoint grid( gridx, gridy, gridz );
-                        if( gridx == my_MAPSIZE - 1 || ( sp.y > 0 && gridy == 0 ) ) {
-                            submaps_with_active_items.erase( abs.xy() + grid );
-                        }
                         if( gridx + sp.x >= 0 && gridy + sp.y < my_MAPSIZE ) {
                             copy_grid( grid, grid + sp );
                             submap *const cur_submap = get_submap_at_grid( grid );
@@ -7516,9 +7473,6 @@ void map::shift( const point &sp )
                 } else { // sy < 0; work through it backwards
                     for( int gridy = my_MAPSIZE - 1; gridy >= 0; gridy-- ) {
                         const tripoint grid( gridx, gridy, gridz );
-                        if( gridx == my_MAPSIZE - 1 || gridy == my_MAPSIZE - 1 ) {
-                            submaps_with_active_items.erase( abs.xy() + grid );
-                        }
                         if( gridx + sp.x >= 0 && gridy + sp.y >= 0 ) {
                             copy_grid( grid, grid + sp );
                             submap *const cur_submap = get_submap_at_grid( grid );
@@ -7684,7 +7638,7 @@ void map::loadn( const tripoint &grid, const bool update_vehicles, bool _actuali
     set_pathfinding_cache_dirty( grid.z );
     setsubmap( gridn, tmpsub );
     if( !tmpsub->active_items.empty() ) {
-        submaps_with_active_items.emplace( grid_abs_sub );
+        submaps_with_active_items_dirty.emplace( grid_abs_sub );
     }
     if( tmpsub->field_count > 0 ) {
         get_cache( grid.z ).field_cache.set( grid.x + grid.y * MAPSIZE );
