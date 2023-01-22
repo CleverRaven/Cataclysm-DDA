@@ -9291,38 +9291,6 @@ cata::optional<int> iuse::capture_monster_act( Character *p, item *it, bool, con
     return 0;
 }
 
-cata::optional<int> iuse::ladder( Character *p, item *it, bool, const tripoint & )
-{
-    map &here = get_map();
-    if( p->is_mounted() ) {
-        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
-        return cata::nullopt;
-    }
-    const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Put the ladder where?" ) );
-    if( !pnt_ ) {
-        return cata::nullopt;
-    }
-    const tripoint pnt = *pnt_;
-
-    if( !g->is_empty( pnt ) || here.has_furn( pnt ) || here.veh_at( pnt ) ) {
-        p->add_msg_if_player( m_bad, _( "Can't place it there." ) );
-        return cata::nullopt;
-    }
-
-    p->add_msg_if_player( _( "You set down the ladder." ) );
-    p->moves -= to_moves<int>( 5_seconds );
-
-    if( it->typeId() == itype_stepladder ) {
-        here.furn_set( pnt, furn_f_ladder );
-    } else if( it->typeId() == itype_aluminum_stepladder ) {
-        here.furn_set( pnt, furn_f_aluminum_stepladder );
-    }
-
-    p->i_rem( it );
-
-    return 0;
-}
-
 washing_requirements washing_requirements_for_volume( const units::volume &vol )
 {
     int water = divide_round_up( vol, 125_ml );
