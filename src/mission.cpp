@@ -787,10 +787,11 @@ void mission::set_assigned_player_id( const character_id &char_id )
 void mission::update_world_missions_character( const character_id &old_char_id,
         const character_id &new_char_id )
 {
-    for( auto iter = world_missions.begin(); iter != world_missions.end(); iter++ ) {
-        if( iter->second.in_progress() && ( iter->second.get_assigned_player_id()  == old_char_id ||
-                                            iter->second.get_assigned_player_id() == character_id( - 1 ) ) ) {
-            iter->second.set_assigned_player_id( new_char_id );
+    for( auto &world_mission : world_missions ) {
+        if( world_mission.second.in_progress() &&
+            ( world_mission.second.get_assigned_player_id()  == old_char_id ||
+              world_mission.second.get_assigned_player_id() == character_id( - 1 ) ) ) {
+            world_mission.second.set_assigned_player_id( new_char_id );
         }
     }
 }
