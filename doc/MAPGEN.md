@@ -536,7 +536,7 @@ Value: `[ array of {objects} ]: [ { "monster": ... } ]`
 | name        | Extra name to display on the monster.
 | target      | Set to true to make this into mission target. Only works when the monster is spawned from a mission.
 | spawn_data  | An optional object that contains additional details for spawning the monster.
-
+| use_pack_size | An optional bool, defaults to false.  If it is true and `group` is used then pack_size values from the monster group will be used.
 Note that high spawn density game setting can cause extra monsters to spawn when `monster` is used. When `group` is used
 only one monster will spawn.
 

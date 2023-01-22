@@ -251,6 +251,7 @@ std::string enum_to_string<mission_goal>( mission_goal data )
         case MGOAL_FIND_NPC: return "MGOAL_FIND_NPC";
         case MGOAL_ASSASSINATE: return "MGOAL_ASSASSINATE";
         case MGOAL_KILL_MONSTER: return "MGOAL_KILL_MONSTER";
+        case MGOAL_KILL_MONSTERS: return "MGOAL_KILL_MONSTERS";
         case MGOAL_KILL_MONSTER_TYPE: return "MGOAL_KILL_MONSTER_TYPE";
         case MGOAL_KILL_MONSTER_SPEC: return "MGOAL_KILL_MONSTER_SPEC";
         case MGOAL_KILL_NEMESIS: return "MGOAL_KILL_NEMESIS";
