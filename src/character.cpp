@@ -10751,7 +10751,7 @@ void Character::recalc_speed_bonus()
         carry_penalty = 25 * ( weight_carried() - weight_cap ) / weight_cap;
     }
     mod_speed_bonus( -carry_penalty );
-	
+
     mod_speed_bonus( +get_speedydex_bonus( get_dex() ) );
 
     mod_speed_bonus( -get_pain_penalty().speed );
