@@ -12,6 +12,7 @@ enum class bodygraph_var : int {
     temp,        // temperature
     encumb,      // encumbrance
     status,      // limb status (bite, bleeding, ...)
+    wet,         // wetness
     last // END OF ENUMS
 };
 
