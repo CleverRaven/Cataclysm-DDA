@@ -502,6 +502,14 @@
       "parking_garage_down_1",
       "parking_garage_1_0",
       "parking_garage_1_1",
+      "parking_garage4x4_down_0",
+      "parking_garage4x4_down_1",
+      "parking_garage4x4_down_2",
+      "parking_garage4x4_down_3",
+      "parking_garage4x4_1_0",
+      "parking_garage4x4_1_1",
+      "parking_garage4x4_1_2",
+      "parking_garage4x4_1_3",
       "parking_garage_2_0",
       "parking_garage_2_1",
       "parking_garage_roof_0",
@@ -517,7 +525,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "parking_garage_0_0", "parking_garage_0_1" ],
+    "id": [ "parking_garage_0_0", "parking_garage_0_1", "parking_garage4x4_0_0", "parking_garage4x4_0_1", "parking_garage4x4_0_2", "parking_garage4x4_0_3" ],
     "copy-from": "parking_garage_1_0",
     "flags": [ "SIDEWALK" ]
   },
