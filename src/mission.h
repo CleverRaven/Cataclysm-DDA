@@ -222,6 +222,7 @@ struct mission_type {
         item_group_id group_id = item_group_id::NULL_ID();
         itype_id container_id = itype_id::NULL_ID();
         bool remove_container = false;
+        bool invisible_on_complete = false;
         itype_id empty_container = itype_id::NULL_ID();
         int item_count = 1;
         npc_class_id recruit_class = npc_class_id( "NC_NONE" );  // The type of NPC you are to recruit
@@ -445,6 +446,7 @@ class mission
 
         // For save/load
         static std::vector<mission *> get_all_active();
+        void remove_active_world_mission( mission &cur_mission );
         static void add_existing( const mission &m );
 
         static mission_status status_from_string( const std::string &s );
