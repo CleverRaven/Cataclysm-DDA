@@ -350,7 +350,7 @@
         "|                                       s/si|***",
         "||||||||||||====|====|====|====|====|====||||***"
       ],
-      "palettes": [ "parking_palette" ],
+      "palettes": [ "parking_garage4x4_palette" ],
       "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 3, 17 ], "y": [ 13, 15 ], "chance": 20 } ],
       "place_vehicles": [
         { "vehicle": "parking_garage", "x": 18, "y": 4, "chance": 25, "rotation": 270 },
@@ -397,7 +397,7 @@
         "|||||||||====================================***",
         "************************************************"
       ],
-      "palettes": [ "parking_palette" ],
+      "palettes": [ "parking_garage4x4_palette" ],
       "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 3, 17 ], "y": [ 13, 15 ], "chance": 20 } ],
       "place_vehicles": [
         { "vehicle": "parking_garage", "x": 18, "y": 4, "chance": 25, "rotation": 270 },
