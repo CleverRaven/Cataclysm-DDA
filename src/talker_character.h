@@ -230,7 +230,7 @@ class talker_character: public talker_character_const
         void remove_bionic( const bionic_id &old_bionic ) override;
         std::vector<skill_id> skills_teacheable() const override;
         std::string skill_seminar_text( const skill_id &s ) const override;
-        std::vector<bodypart_id> get_all_body_parts() const override;
+        std::vector<bodypart_id> get_all_body_parts( bool main_only ) const override;
         int get_part_hp_cur( const bodypart_id &id ) const override;
         void set_part_hp_cur( const bodypart_id &id, int set ) const override;
     protected:
