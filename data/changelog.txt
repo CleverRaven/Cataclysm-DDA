@@ -12,7 +12,7 @@ A half dozen new in repo mods: Innawoods for the survival from scratch you crave
 Take over a friendly NPC upon your death, if you've managed to recruit any NPCs to your faction you are given an option to take over one of them in the event of your character's death.
 Appliances and building based powergrids, allow you to set up various tools or even usable arcade machines in your home base.
 Two new Iso tilesets have been added to the game.
-Simple monster aggression differentation. Some monsters now know if another monster made them angry versus instead the PC.  If they get angry at other monsters they may not get angry at the PC.
+Simple monster aggression differentation. Some monsters now know if another monster made them angry instead of the PC.  If they get angry at other monsters they may not get angry at the PC.
 Vehicles now have solid walls even when angled which prevents monsters and fields from entering an angled vehicle.
 Dozens of updates and content additions to Dinomod, Aftershock and Magiclysm.
 Map memory is now unlimited, you will no longer forget places you have been before.
@@ -95,8 +95,8 @@ Eternal Weather options
 Electrical fields can produce EMP and fry unprotected electronics
 Vitamins system and diseases related to the over or under consumption.  Not just for normal vitamins like Calcium or Vit C.
 Integrated armors for armors that are part of you.
-Multiple tilesets based on Zoom.
-CBM fueling improvements
+Ability to use different tileset for different level of Zoom.
+CBM fueling improvements: CBMs have an actual tank accessible through the inventory menu. No more eating fuel.
 Monster death effects now use spells
 Improved NPC attack logic including the ability to cast spells
 Add monster bleed resistance
@@ -305,7 +305,7 @@ Implementing more proper alchemy and some another stuff
 Aftershock Space items and smartguns
 Aftershock New CBM and class
 Aftershock: New Monofilament Whip CBM
-Butchering candy monsters gives candy flesh
+My Sweet Cataclysm: Butchering candy monsters gives candy flesh
 Add standard combat test mod
 Nested Crafting Categories
 Add cosmetic variants for mutations
@@ -501,7 +501,7 @@ Add dialog effects for transforming terrain and furniture. Add portal storm effe
 Create talker_furniture, move refugee center computer into dialog system.
 Improve pocket performance by removing some unnecessary pockets
 Adds documentation for `place_monsters` JSON flag
-Adds ability to remove, fields, vehicles, items, and traps to update_mapgen
+Adds ability to remove fields, vehicles, items, and traps to update_mapgen
 overmap sprites generator
 Add infrastructure for swappable weapons in bionics
 Automatic spell check on pull requests
@@ -513,7 +513,7 @@ Add mapgen ability to set variables or remove traps in lines/squares.
 Combine wheat-free and wheat-full flours into a single recipe requirement
 Allow gendered descriptions for professions outside of translations
 Report JSON entries with the same id from the same mod
-Change itemgroups to default to overwrite, instead of extension
+Change itemgroups to default to overwrite, instead of extend.
 Vehicle parts can now use looks_like from furniture, items, etc
 Dissection tables separate from harvest tables, and relevant monsters dissect to samples
 Added external options to override status and fuel for spawned vehicles
