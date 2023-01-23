@@ -487,8 +487,8 @@ void bodygraph_display::prepare_infotext( bool reset_pos )
     info_txt.emplace_back( string_format( "%s: %s", colorize( _( "Health" ), c_magenta ),
                                           colorize( hpbar.first, hpbar.second ) ) );
     // part wetness
-    info_txt.emplace_back( string_format( "%s: %.2f%%", colorize( _( "Wetness" ), c_magenta ),
-                                          info.wetness ) );
+    info_txt.emplace_back( string_format( "%s: %d%%", colorize( _( "Wetness" ), c_magenta ),
+                                          static_cast<int>( info.wetness * 100.0f ) ) );
     // part temperature
     const bool temp_precise = u->has_item_with_flag( STATIC( flag_id( "THERMOMETER" ) ) ) ||
                               u->has_flag( STATIC( json_character_flag( "THERMOMETER" ) ) );
