@@ -1,0 +1,30 @@
+[
+  {
+    "id": "TALK_EXODII_MERCHANT_Talk",
+    "type": "talk_topic",
+    "responses": [ { "text": "What can you tell me about Xedra?", "topic": "TALK_EXODII_MERCHANT_XEDRA" } ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_XEDRA",
+    "type": "talk_topic",
+    "dynamic_line": "Ye scuffers 'ere dolly walk through the mirror and butcher hook us and ours.  Nevermind the enemy, do these pork loins as if'n the enemy'd nevermind them.  Oy, they got their rust shirt and more comin'.",
+    "//": "The police here travel to different dimensions and hunt Exodii and others.  They act like they don't need to worry about the dead rising.  They got their just desserts in the Cataclysm and we'll kill anymore we find.",
+    "responses": [
+      { "text": "Oh well yeah, damn the man then I guess.", "topic": "TALK_EXODII_MERCHANT_Talk" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Talk",
+    "type": "talk_topic",
+    "responses": [ { "text": "What can you tell me about these faeries?", "topic": "TALK_EXODII_MERCHANT_FAE" } ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_FAE",
+    "type": "talk_topic",
+    "dynamic_line": "The Good Folk of Aberystwyth?  Us 'ave no truck with them, the milk is spoilt, the flesh is hoofshod, the henge holds no peel.  Ye'd ken best not their seductions.  A trifle better than the enemy.",
+    "//": "The faeries announced themselves in Rubik's world near what we know as Wales.  Exodii mostly avoid them referencing several myths about bad luck and that for because they've traded their flesh for metal the fae aren't really interested in them anyway.  Not quite as bad as the undead but more tricksome.",
+    "responses": [
+      { "text": "I'll keep your warnings in mind.", "topic": "TALK_EXODII_MERCHANT_Talk" }
+    ]
+  }
+]
