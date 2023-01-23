@@ -76,7 +76,7 @@
       { "proficiency": "prof_welding" }
     ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "components": [ [ [ "sheet_metal_small", 3 ] ] ]
+    "components": [ [ [ "sheet_metal_small", 4 ] ] ]
   },
   {
     "type": "recipe",
@@ -279,7 +279,7 @@
     "difficulty": 8,
     "time": "7 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 64 ], [ "steel_standard", 16 ] ],
+    "using": [ [ "blacksmithing_standard", 64 ], [ "steel_standard", 20 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ]
   },
@@ -294,7 +294,7 @@
     "difficulty": 8,
     "time": "4 h 20 m",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 40 ], [ "steel_standard", 10 ] ],
+    "using": [ [ "blacksmithing_standard", 31 ], [ "steel_standard", 8 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ]
   },
@@ -315,7 +315,7 @@
       { "proficiency": "prof_welding_basic", "fail_multiplier": 1.5 },
       { "proficiency": "prof_welding" }
     ],
-    "components": [ [ [ "sheet_metal", 3 ], [ "sheet_metal_small", 72 ] ] ]
+    "components": [ [ [ "sheet_metal", 4 ], [ "sheet_metal_small", 80 ] ] ]
   },
   {
     "type": "recipe",
@@ -334,7 +334,7 @@
       { "proficiency": "prof_welding_basic", "fail_multiplier": 1.5 },
       { "proficiency": "prof_welding" }
     ],
-    "components": [ [ [ "sheet_metal", 2 ], [ "sheet_metal_small", 48 ] ] ]
+    "components": [ [ [ "sheet_metal", 2 ], [ "sheet_metal_small", 32 ] ] ]
   },
   {
     "type": "recipe",
@@ -1213,7 +1213,7 @@
     "using": [ [ "blacksmithing_standard", 40 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" } ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "components": [ [ [ "scrap_aluminum", 120 ], [ "material_aluminium_ingot", 10 ] ] ]
+    "components": [ [ [ "scrap_aluminum", 52 ], [ "material_aluminium_ingot", 4 ] ] ]
   },
   {
     "type": "recipe",

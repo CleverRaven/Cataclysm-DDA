@@ -157,7 +157,6 @@ void DefaultRemovePartHandler::removed( vehicle &veh, const int part )
     here.dirty_vehicle_list.insert( &veh );
 }
 
-
 // Vehicle stack methods.
 vehicle_stack::iterator vehicle_stack::erase( vehicle_stack::const_iterator it )
 {
@@ -892,7 +891,11 @@ void vehicle::smash( map &m, float hp_percent_loss_min, float hp_percent_loss_ma
                         handler_ptr = std::make_unique<MapgenRemovePartHandler>( m );
                     }
                 }
-                remove_part( other_p, *handler_ptr );
+                if( part.is_fake ) {
+                    remove_part( p, *handler_ptr );
+                } else {
+                    remove_part( other_p, *handler_ptr );
+                }
             }
         }
     }
@@ -4922,8 +4925,6 @@ int vehicle::net_battery_charge_rate_w( bool include_reactors, bool connected_ve
     }
 }
 
-
-
 int vehicle::active_reactor_epower_w( bool connected_vehicles ) const
 {
     int reactor_w = 0;
@@ -6067,6 +6068,10 @@ void vehicle::refresh( const bool remove_fakes )
         // add fake camera parts so vision isn't blocked by fake parts
         for( const std::pair <const point, std::vector<int>> &rp : relative_parts ) {
             add_fake_part( rp.first, "CAMERA" );
+        }
+        // add fake curtains so vision is correctly blocked
+        for( const std::pair <const point, std::vector<int>> &rp : relative_parts ) {
+            add_fake_part( rp.first, "OPAQUE" );
         }
     } else {
         // Always repopulate fake parts in relative_parts cache since we cleared it.

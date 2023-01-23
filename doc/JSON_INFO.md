@@ -2056,6 +2056,7 @@ request](https://github.com/CleverRaven/Cataclysm-DDA/pull/36657) and the
 "pre_terrain": "t_pit",                                             // Alternative to pre_special; Required terrain to build on
 "pre_flags": [ "WALL", { "flag": "DIGGABLE", "force_terrain": true } ], // Flags beginning furniture/terrain must have. force_ter forces the flag to apply to the underlying terrain
 "post_terrain": "t_pit_spiked"                                      // Terrain type after construction is complete
+"strict": false                                                     // if true, the build activity for this construction will only look for prerequisites in the same group
 ```
 
 | pre_special            | Description

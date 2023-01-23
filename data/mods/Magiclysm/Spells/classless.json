@@ -103,7 +103,7 @@
     "max_level": 20,
     "min_duration": 100000,
     "max_duration": 1000000,
-    "duration_increment": 2000
+    "duration_increment": 45000
   },
   {
     "id": "megablast",
