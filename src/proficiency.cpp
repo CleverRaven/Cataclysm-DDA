@@ -180,7 +180,7 @@ float proficiency::default_weakpoint_penalty() const
 time_duration proficiency::time_to_learn() const
 {
     const double scaling = get_option<float>( "SKILL_TRAINING_SPEED" );
-    if ( scaling != 1.0 && scaling != 0.0 ) {
+    if( scaling != 1.0 && scaling != 0.0 ) {
         return _time_to_learn / scaling;
     } else {
         return _time_to_learn;
