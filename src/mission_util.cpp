@@ -211,8 +211,8 @@ static cata::optional<tripoint_abs_omt> find_or_create_om_terrain(
             // If this terrain is part of an overmap special...
             if( params.overmap_special ) {
                 // ...then attempt to place the whole special.
-                const bool placed = overmap_buffer.place_special( ( overmap_special_id )(
-                                        *params.overmap_special ).evaluate( d ), origin_pos,
+                const bool placed = overmap_buffer.place_special( static_cast<overmap_special_id >(
+                                        ( *params.overmap_special ).evaluate( d ) ), origin_pos,
                                     params.search_range.evaluate( d ) );
                 // If we succeeded in placing the special, then try and find the particular location
                 // we're interested in.
