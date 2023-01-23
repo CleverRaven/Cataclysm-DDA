@@ -281,7 +281,7 @@
       [ "flip_flops_exp", 5 ],
       [ "wetsuit_spring", 10 ],
       [ "wetsuit_spring_sleeveless", 10 ],
-      [ "fishing_rod_professional", 30 ],
+      { "group": "tools_fishingrods_commercial", "prob": 30 },
       [ "straw_hat", 80 ],
       [ "straw_fedora", 80 ],
       [ "silver_ear", 20 ],
