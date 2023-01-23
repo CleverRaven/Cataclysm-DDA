@@ -206,7 +206,7 @@
     "type": "COMESTIBLE",
     "name": { "str": "wasteland sausage" },
     "description": "Lean sausage made from heavily salt-cured offal, with natural gut casing.  Waste not, want not.",
-    "spoils_in": 1176,
+    "spoils_in": "49 days",
     "quench": -7,
     "fun": -3,
     "flags": [ "SMOKED" ]
