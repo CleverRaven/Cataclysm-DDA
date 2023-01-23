@@ -873,25 +873,25 @@ time_duration spell::duration_turns() const
     return time_duration::from_moves( duration() );
 }
 
-void spell::gain_level()
+void spell::gain_level( const Character &guy )
 {
-    gain_exp( exp_to_next_level() );
+    gain_exp( guy, exp_to_next_level() );
 }
 
-void spell::gain_levels( int gains )
+void spell::gain_levels( const Character &guy, int gains )
 {
     if( gains < 1 ) {
         return;
     }
     for( int gained = 0; gained < gains && !is_max_level(); gained++ ) {
-        gain_level();
+        gain_level( guy );
     }
 }
 
-void spell::set_level( int nlevel )
+void spell::set_level( const Character &guy, int nlevel )
 {
     experience = 0;
-    gain_levels( nlevel );
+    gain_levels( guy, nlevel );
 }
 
 bool spell::is_max_level() const
@@ -1140,14 +1140,12 @@ int spell::xp() const
     return experience;
 }
 
-void spell::gain_exp( int nxp )
+void spell::gain_exp( const Character &guy, int nxp )
 {
     int oldLevel = get_level();
     experience += nxp;
-    if( oldLevel != get_level() ) {
-        character_id player_id = get_player_character().getID();
-        get_event_bus().send<event_type::player_levels_spell>( player_id,
-                id(), get_level() );
+    if( guy.is_avatar() && oldLevel != get_level() ) {
+        get_event_bus().send<event_type::player_levels_spell>( guy.getID(), id(), get_level() );
     }
 }
 
@@ -1793,14 +1791,14 @@ void known_magic::set_spell_level( const spell_id &sp, int new_level, const Char
     spell temp_spell( sp->id );
     if( !knows_spell( sp ) ) {
         if( new_level >= 0 ) {
-            temp_spell.set_level( new_level );
+            temp_spell.set_level( *guy, new_level );
             spellbook.emplace( sp->id, spell( temp_spell ) );
             get_event_bus().send<event_type::character_learns_spell>( guy->getID(), sp->id );
         }
     } else {
         if( new_level >= 0 ) {
             spell &temp_sp = get_spell( sp );
-            temp_sp.set_level( new_level );
+            temp_sp.set_level( *guy, new_level );
         } else {
             get_event_bus().send<event_type::character_forgets_spell>( guy->getID(), sp->id );
             spellbook.erase( sp );
@@ -2373,7 +2371,7 @@ void known_magic::on_mutation_gain( const trait_id &mid, Character &guy )
         learn_spell( sp.first, guy, true );
         spell &temp_sp = get_spell( sp.first );
         for( int level = 0; level < sp.second; level++ ) {
-            temp_sp.gain_level();
+            temp_sp.gain_level( guy );
         }
     }
 }

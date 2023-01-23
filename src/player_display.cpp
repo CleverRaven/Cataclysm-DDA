@@ -1392,7 +1392,6 @@ void Character::disp_info( bool customize_character )
                                                   "Strength - 1;    Dexterity - 1;    Intelligence - 1;    Perception - 1" ) );
         }
 
-
     } else if( has_trait( trait_TROGLO ) && g->is_in_sunlight( pos() ) &&
                incident_sun_irradiance( get_weather().weather_id, calendar::turn ) > irradiance::moderate ) {
         effect_name_and_text.emplace_back( _( "In Sunlight" ),
