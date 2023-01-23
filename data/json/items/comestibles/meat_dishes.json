@@ -37,7 +37,7 @@
     ],
     "copy-from": "sausage_raw",
     "parasites": 0,
-    "spoils_in": "24 days",
+    "spoils_in": "49 days",
     "price_postapoc": 300,
     "description": "A hefty sausage that has been cured and smoked for long term storage.",
     "flags": [ "EATEN_HOT", "SMOKED" ],
