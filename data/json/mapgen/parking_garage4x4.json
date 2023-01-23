@@ -68,7 +68,10 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ [ "parking_garage4x4_down_0", "parking_garage4x4_down_1" ], [ "parking_garage4x4_down_2", "parking_garage4x4_down_3" ] ],
+    "om_terrain": [
+      [ "parking_garage4x4_down_0", "parking_garage4x4_down_1" ],
+      [ "parking_garage4x4_down_2", "parking_garage4x4_down_3" ]
+    ],
     "weight": 250,
     "object": {
       "fill_ter": "t_thconc_floor",
