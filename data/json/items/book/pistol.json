@@ -29,7 +29,7 @@
     "volume": "500 ml",
     "price": 2200,
     "price_postapoc": 1250,
-    "material": [ "paper" ],
+    "material": [ "paper", "cardboard" ],
     "looks_like": "book_archery",
     "symbol": "?",
     "color": "green",

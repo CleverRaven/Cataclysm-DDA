@@ -612,11 +612,6 @@
   },
   {
     "type": "item_action",
-    "id": "LADDER",
-    "name": { "str": "Place" }
-  },
-  {
-    "type": "item_action",
     "id": "MAGIC_8_BALL",
     "name": { "str": "Ask" }
   },
