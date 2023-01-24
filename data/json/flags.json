@@ -1687,11 +1687,15 @@
   },
   {
     "id": "SPEEDLOADER",
-    "type": "json_flag"
+    "info": "This item can transfers rounds into <info>empty gun or magazine</info>.",
+    "type": "json_flag",
+    "conflicts": [ "SPEEDLOADER_CLIP" ]
   },
   {
     "id": "SPEEDLOADER_CLIP",
-    "type": "json_flag"
+    "info": "This item can transfers rounds into <info>both empty or non-empty gun or magazine</info>.",
+    "type": "json_flag",
+    "conflicts": [ "SPEEDLOADER" ]
   },
   {
     "id": "SPLINT",
