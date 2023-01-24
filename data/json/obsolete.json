@@ -1081,5 +1081,11 @@
     "bashing": 3,
     "cutting": 1,
     "flags": [ "NO_UNWIELD", "BIONIC_WEAPON", "UNBREAKABLE_MELEE", "TRADER_AVOID" ]
+  },
+  {
+    "id": "UNARMED_WEAPON",
+    "type": "json_flag",
+    "//": "REMOVE After 0.G.",
+    "info": "This weapon <good>can be used with</good> <info>unarmed fighting styles</info>."
   }
 ]

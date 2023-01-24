@@ -3982,5 +3982,114 @@
       { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": 10 },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": 10 }
     ]
+  },
+  {
+    "id": "test_food",
+    "type": "GENERIC",
+    "name": { "str_sp": "food" },
+    "description": "Item to test plural form, which is the same as singular - food.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "symbol": "?",
+    "color": "dark_gray"
+  },
+  {
+    "id": "test_oxygen",
+    "type": "GENERIC",
+    "name": { "str_sp": "oxygen" },
+    "description": "Item to test plural form, which is the same as singular - oxygen.",
+    "weight": "5 g",
+    "volume": "1 ml",
+    "symbol": "?",
+    "color": "dark_gray"
+  },
+  {
+    "id": "test_item",
+    "type": "GENERIC",
+    "name": { "str": "item" },
+    "description": "Item to test plural form - items.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "symbol": "?",
+    "color": "dark_gray"
+  },
+  {
+    "id": "test_test_item",
+    "type": "GENERIC",
+    "name": { "str": "test item" },
+    "description": "Item to test plural form - test items.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "symbol": "?",
+    "color": "dark_gray"
+  },
+  {
+    "id": "test_lorry",
+    "type": "GENERIC",
+    "name": { "str": "lorry", "str_pl": "lorries" },
+    "description": "Item to test plural form - lorries.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "symbol": "?",
+    "color": "dark_gray"
+  },
+  {
+    "id": "test_mass",
+    "type": "GENERIC",
+    "name": { "str": "mass", "str_pl": "masses" },
+    "description": "Item to test plural form - masses.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "symbol": "?",
+    "color": "dark_gray"
+  },
+  {
+    "id": "test_block_of_cheese",
+    "type": "GENERIC",
+    "name": { "str": "block of cheese", "str_pl": "blocks of cheese" },
+    "description": "Item to test plural form.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "symbol": "?",
+    "color": "dark_gray"
+  },
+  {
+    "id": "test_pile_of_dirt",
+    "type": "GENERIC",
+    "name": { "str": "pile of dirt", "str_pl": "piles of dirt" },
+    "description": "Item to test plural form.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "symbol": "?",
+    "color": "dark_gray"
+  },
+  {
+    "id": "test_book",
+    "type": "BOOK",
+    "name": { "str": "Unit Testing Principles", "str_pl": "copies of Unit Testing Principles" },
+    "description": "Book about testing to test plural form.",
+    "weight": "1587 g",
+    "volume": "1500 ml",
+    "symbol": "?",
+    "color": "blue",
+    "skill": "computer",
+    "required_level": 0,
+    "max_level": 5,
+    "fun": -1
+  },
+  {
+    "id": "test_mag",
+    "type": "BOOK",
+    "name": { "str": "Journal of Testing", "str_pl": "issues of Journal of Testing" },
+    "description": "Issue about testing to test plural form.",
+    "weight": "60 g",
+    "volume": "250 ml",
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "pink",
+    "skill": "computer",
+    "max_level": 1,
+    "intelligence": 2,
+    "time": "7 m"
   }
 ]

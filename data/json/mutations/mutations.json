@@ -3462,7 +3462,7 @@
     "name": { "str": "Infection Immune" },
     "points": 3,
     "description": "Your bloodstream has developed antibiotic properties.  Your wounds will never become infected.",
-    "prereqs": [ "DISRESISTANT" ],
+    "prereqs": [ "DISRESISTANT", "DISIMMUNE" ],
     "prereqs2": [ "INFRESIST" ],
     "category": [ "MEDICAL" ],
     "flags": [ "INFECTION_IMMUNE" ]
@@ -3484,8 +3484,8 @@
     "name": { "str": "Parasite Immune" },
     "points": 1,
     "description": "Your body is unusually inhospitable to parasitic lifeforms.  You will never become infested with internal parasites.",
-    "prereqs": [ "DISRESISTANT" ],
-    "prereqs2": [ "INFRESIST" ],
+    "prereqs": [ "DISRESISTANT", "DISIMMUNE" ],
+    "prereqs2": [ "INFRESIST", "INFIMMUNE" ],
     "flags": [ "PARAIMMUNE" ],
     "category": [ "CHIMERA", "MEDICAL", "SLIME" ]
   },
