@@ -32,7 +32,6 @@ static const vproto_id vehicle_prototype_none( "none" );
 static const std::string flag_APPLIANCE( "APPLIANCE" );
 static const std::string flag_WIRING( "WIRING" );
 
-
 // Width of the entire set of windows. 60 is sufficient for
 // all tested cases while remaining within the 80x24 limit.
 // TODO: make this dynamic in the future.
@@ -82,7 +81,7 @@ void place_appliance( const tripoint &p, const vpart_id &vpart, const cata::opti
             continue;
         }
         const vehicle &veh_target = vp->vehicle();
-        if( veh_target.has_tag( flag_APPLIANCE ) || veh_target.has_tag( flag_WIRING ) ) {
+        if( veh_target.is_appliance() || veh_target.has_tag( flag_WIRING ) ) {
             if( connected_vehicles.find( &veh_target ) == connected_vehicles.end() ) {
                 veh->connect( p, trip );
                 connected_vehicles.insert( &veh_target );
@@ -124,9 +123,23 @@ veh_app_interact::veh_app_interact( vehicle &veh, const point &p )
     ctxt.register_action( "UNPLUG" );
 }
 
+// @returns true if a battery part exists on any vehicle connected to veh
+static bool has_battery_in_grid( vehicle *veh )
+{
+    const std::map<vehicle *, bool> veh_map = vehicle::enumerate_vehicles( { veh } );
+    return std::any_of( veh_map.begin(), veh_map.end(),
+    []( const std::pair<vehicle *, bool> &p ) {
+        return !p.first->batteries.empty();
+    } );
+}
+
 void veh_app_interact::init_ui_windows()
 {
     int height_info = veh->get_printable_fuel_types().size() + 2;
+
+    if( !has_battery_in_grid( veh ) ) {
+        height_info++;
+    }
     if( !veh->batteries.empty() ) {
         height_info++;
     }
@@ -205,6 +218,11 @@ void veh_app_interact::draw_info()
         mvwprintz( w_info, point( 0, row ), c_white, lbl );
         wprintz( w_info, rcol, rstr );
     };
+
+    if( !has_battery_in_grid( veh ) ) {
+        mvwprintz( w_info, point( 0, row ), c_light_red, _( "Appliance has no connection to a battery." ) );
+        row++;
+    }
 
     // Battery power output
     int charge_rate = veh->net_battery_charge_rate_w( true, true );

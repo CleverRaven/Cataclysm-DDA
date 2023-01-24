@@ -30,7 +30,7 @@
       { "item": "heroin", "prob": 1, "charges": [ 1, 4 ] },
       [ "wrapper", 40 ],
       [ "wrapper_foil", 2 ],
-      [ "nail", 5 ],
+      { "item": "nail", "count": 5, "charges": [ 1, 100 ] },
       [ "splinter", 40 ],
       { "item": "lighter", "prob": 5, "charges-min": 0, "charges-max": 10 },
       { "item": "matches", "prob": 5, "charges-min": 0, "charges-max": 20 },
@@ -309,6 +309,17 @@
     "items": [
       { "item": "rebar", "prob": 2, "count": [ 5, 10 ], "damage-min": 0, "damage-max": 3 },
       { "item": "brick", "prob": 20, "count": [ 15, 30 ], "damage-min": 0, "damage-max": 3 }
+    ]
+  },
+  {
+    "id": "table_destruction",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      { "item": "2x4", "count": [ 2, 4 ] },
+      { "item": "wood_panel", "count": [ 0, 1 ] },
+      { "item": "nail", "charges": [ 4, 8 ] },
+      { "item": "splinter", "count": 1 }
     ]
   }
 ]

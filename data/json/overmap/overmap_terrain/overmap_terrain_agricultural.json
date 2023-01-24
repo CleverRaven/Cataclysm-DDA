@@ -4,7 +4,7 @@
     "abstract": "generic_rural_road",
     "name": "rural road",
     "color": "brown",
-    "see_cost": 5,
+    "see_cost": 2,
     "mondensity": 2
   },
   {
@@ -60,57 +60,32 @@
     "type": "overmap_terrain",
     "abstract": "generic_dirt_road",
     "copy-from": "generic_rural_road",
-    "name": "dirt road"
+    "name": "dirt road",
+    "extras": "agricultural"
   },
   {
     "type": "overmap_terrain",
-    "id": "dirt_road",
+    "id": [ "dirt_road", "dirt_road_forest" ],
     "copy-from": "generic_dirt_road",
     "sym": "│"
   },
   {
     "type": "overmap_terrain",
-    "id": "dirt_road_3way",
+    "id": [ "dirt_road_3way", "dirt_road_3way_forest" ],
     "copy-from": "generic_dirt_road",
     "sym": "┬"
   },
   {
     "type": "overmap_terrain",
-    "id": "dirt_road_turn",
-    "copy-from": "generic_dirt_road",
-    "sym": "┐",
-    "flags": [ "SHOULD_NOT_SPAWN" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "dirt_road_turn1",
-    "copy-from": "generic_dirt_road",
-    "sym": "┌",
-    "flags": [ "SHOULD_NOT_SPAWN" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "dirt_road_forest",
-    "copy-from": "generic_dirt_road",
-    "sym": "│"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "dirt_road_turn_forest",
+    "id": [ "dirt_road_turn", "dirt_road_turn_forest" ],
     "copy-from": "generic_dirt_road",
     "sym": "┐"
   },
   {
     "type": "overmap_terrain",
-    "id": "dirt_road_turn1_forest",
+    "id": "dirt_road_4way",
     "copy-from": "generic_dirt_road",
-    "sym": "┌"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "dirt_road_3way_forest",
-    "copy-from": "generic_dirt_road",
-    "sym": "┬"
+    "sym": "┼"
   },
   {
     "type": "overmap_terrain",
@@ -158,16 +133,13 @@
     "type": "overmap_terrain",
     "id": [
       "2farm_1",
-      "2farm_10",
-      "2farm_12",
-      "2farm_13",
-      "2farm_14",
-      "2farm_15",
-      "2farm_16",
       "2farm_2",
       "2farm_5",
       "2farm_9",
-      "2farm_roof_15",
+      "2farm_10",
+      "2farm_12",
+      "2farm_15",
+      "2farm_16",
       "farm_1",
       "farm_4",
       "farm_5",
@@ -182,19 +154,10 @@
       "farm_isherwood_7",
       "farm_isherwood_8",
       "farm_isherwood_9",
-      "farm_lot_M1",
-      "farm_lot_wire_straight_h",
       "farm_lot_wire_straight_v",
       "farm_lot_wire_straight_v_open",
       "farm_lot_wire_turn_h",
       "farm_lot_wire_turn_v",
-      "farm_lot_wire_turn_v_open",
-      "farm_stills_1",
-      "farm_stills_10",
-      "farm_stills_2",
-      "farm_stills_5",
-      "farm_stills_6",
-      "farm_stills_9",
       "horse_farm_1",
       "horse_farm_11",
       "horse_farm_12",
@@ -221,6 +184,49 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "2farm_roof_15", "farm_lot_M1", "farm_lot_wire_straight_h", "farm_lot_wire_turn_v_open" ],
+    "copy-from": "generic_rural_building",
+    "name": "farm field",
+    "flags": [ "SHOULD_NOT_SPAWN" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "2farm_13",
+      "2farm_14",
+      "2farm_17",
+      "2farm_18",
+      "2farm_19",
+      "2farm_20",
+      "2farm_21",
+      "2farm_22",
+      "2farm_23",
+      "2farm_24",
+      "farmland_straight",
+      "farmland_turn",
+      "farmland_turn_inside",
+      "farmland_U"
+    ],
+    "copy-from": "generic_rural_building",
+    "name": "farm field",
+    "see_cost": 2,
+    "extras": "agricultural",
+    "looks_like": "farm_5",
+    "spawns": { "group": "GROUP_FOREST", "population": [ 0, 2 ], "chance": 15 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "hayfield_straight", "hayfield_turnL", "hayfield_turnR", "hayfield_end" ],
+    "copy-from": "generic_rural_building",
+    "name": "hay field",
+    "color": "brown",
+    "see_cost": 2,
+    "extras": "agricultural",
+    "looks_like": "ranch_camp_76",
+    "spawns": { "group": "GROUP_FOREST", "population": [ 0, 2 ], "chance": 15 }
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "farm_2_roof", "farm_isherwood_2_roof", "horse_farm_13_roof", "horse_farm_isherwood_13_roof" ],
     "copy-from": "generic_rural_building",
     "name": "farm house roof",
@@ -240,7 +246,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "2farm_3", "2farm_roof_3", "2farm_loft_3", "2farm_4", "2farm_roof_4", "2farm_7", "2farm_8" ],
+    "id": [ "farm_stills_4", "2farm_3", "2farm_roof_3", "2farm_loft_3", "2farm_4", "2farm_roof_4", "2farm_7", "2farm_8" ],
     "copy-from": "generic_rural_building",
     "name": "farm"
   },
@@ -265,7 +271,16 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "farm_stills_4", "farm_stills_8", "farm_stills_12" ],
+    "id": [
+      "farm_stills_8",
+      "farm_stills_12",
+      "farm_stills_1",
+      "farm_stills_2",
+      "farm_stills_5",
+      "farm_stills_6",
+      "farm_stills_9",
+      "farm_stills_10"
+    ],
     "copy-from": "generic_rural_building",
     "spawns": { "group": "GROUP_WASP_FORAGER", "population": [ 1, 4 ], "chance": 10 },
     "name": "vineyard"
@@ -292,6 +307,7 @@
     "name": "apple orchard",
     "sym": "T",
     "color": "light_green",
+    "looks_like": "forest",
     "spawns": { "group": "GROUP_WASP_FORAGER", "population": [ 1, 4 ], "chance": 5 },
     "mondensity": 3
   },

@@ -818,6 +818,7 @@ class npc : public Character
         // Interaction with the player
         void form_opinion( const Character &you );
         std::string pick_talk_topic( const Character &u );
+        std::string const &get_specified_talk_topic( std::string const &topic_id );
         float character_danger( const Character &u ) const;
         float vehicle_danger( int radius ) const;
         void pretend_fire( npc *source, int shots, item &gun ); // fake ranged attack for hallucination
@@ -1114,7 +1115,7 @@ class npc : public Character
 
         void update_cardio_acc() override {};
 
-        void aim( Target_attributes target_attributes );
+        void aim( const Target_attributes &target_attributes );
         void do_reload( const item_location &it );
 
         // Physical movement from one tile to the next
@@ -1160,9 +1161,6 @@ class npc : public Character
         void find_item();
         // Move to, or grab, our targeted item
         void pick_up_item();
-        // Drop wgt and vol, including all items with less value than min_val
-        void drop_items( const units::mass &drop_weight, const units::volume &drop_volume,
-                         int min_val = 0 );
         /** Picks up items and returns a list of them. */
         std::list<item> pick_up_item_map( const tripoint &where );
         std::list<item> pick_up_item_vehicle( vehicle &veh, int part_index );

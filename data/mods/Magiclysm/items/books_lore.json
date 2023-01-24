@@ -20,7 +20,7 @@
     "type": "GENERIC",
     "category": "maps",
     "name": "lair map",
-    "description": "This is an well worn map.  It has pictures of fantastical beasts embellishing the carefully drawn map markers.",
+    "description": "This is a well worn map.  It has pictures of fantastical beasts embellishing the carefully drawn map markers.",
     "color": "white",
     "use_action": {
       "type": "reveal_map",

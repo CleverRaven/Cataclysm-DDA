@@ -179,6 +179,7 @@ class inventory_entry
 
 };
 
+struct inventory_selector_save_state;
 class inventory_selector_preset
 {
     public:
@@ -227,6 +228,8 @@ class inventory_selector_preset
         bool indent_entries() const {
             return _indent_entries;
         }
+
+        inventory_selector_save_state *save_state = nullptr;
 
     protected:
         /** Text of the first column (default: item name) */
@@ -328,6 +331,7 @@ class inventory_column
 
         bool has_available_choices() const;
         bool is_selected( const inventory_entry &entry ) const;
+        bool is_highlighted( const inventory_entry &entry ) const;
 
         /**
          * Does this entry belong to the selected category?
@@ -1048,5 +1052,16 @@ class inventory_examiner : public inventory_selector
 };
 
 bool is_worn_ablative( item_location const &container, item_location const &child );
+
+struct inventory_selector_save_state {
+    public:
+        inventory_selector::uimode uimode = inventory_selector::uimode::categories;
+
+        void serialize( JsonOut &json ) const;
+        void deserialize( JsonObject const &jo );
+};
+extern inventory_selector_save_state inventory_ui_default_state;
+extern inventory_selector_save_state pickup_sel_default_state;
+extern inventory_selector_save_state pickup_ui_default_state;
 
 #endif // CATA_SRC_INVENTORY_UI_H

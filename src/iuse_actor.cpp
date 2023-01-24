@@ -137,13 +137,9 @@ static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_survival( "survival" );
 static const skill_id skill_traps( "traps" );
 
-static const trait_id trait_CENOBITE( "CENOBITE" );
 static const trait_id trait_DEBUG_BIONICS( "DEBUG_BIONICS" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_LIGHTWEIGHT( "LIGHTWEIGHT" );
-static const trait_id trait_MASOCHIST( "MASOCHIST" );
-static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
-static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_TOLERANCE( "TOLERANCE" );
 
@@ -1461,7 +1457,7 @@ bool salvage_actor::valid_to_cut_up( const Character *const p, const item &it ) 
 
 // Find a recipe that can be used to craft item x. Searches craft and uncraft recipes
 // Used only by salvage_actor::cut_up
-static cata::optional<recipe> find_uncraft_recipe( item x )
+static cata::optional<recipe> find_uncraft_recipe( const item &x )
 {
     auto is_valid_uncraft = [&x]( const recipe & curr ) -> bool {
         return !( curr.obsolete || curr.result() != x.typeId()
@@ -1597,7 +1593,6 @@ void salvage_actor::cut_up( Character &p, item_location &cut ) const
 
     // Decompose the item into irreducible parts
     cut_up_component( *cut.get_item(), efficiency );
-
 
     // Not much practice, and you won't get very far ripping things up.
     p.practice( skill_fabrication, rng( 0, 5 ), 1 );
@@ -1798,127 +1793,6 @@ cata::optional<int> inscribe_actor::use( Character &p, item &it, bool t, const t
     }
 
     return cata::nullopt;
-}
-
-void cauterize_actor::load( const JsonObject &obj )
-{
-    assign( obj, "cost", cost );
-    assign( obj, "flame", flame );
-}
-
-std::unique_ptr<iuse_actor> cauterize_actor::clone() const
-{
-    return std::make_unique<cauterize_actor>( *this );
-}
-
-static heal_actor prepare_dummy()
-{
-    heal_actor dummy;
-    dummy.limb_power = -2;
-    dummy.head_power = -2;
-    dummy.torso_power = -2;
-    dummy.bleed = 25;
-    dummy.bite = 0.5f;
-    dummy.move_cost = 100;
-    return dummy;
-}
-
-bool cauterize_actor::cauterize_effect( Character &p, item &it, bool force )
-{
-    // TODO: Make this less hacky
-    static const heal_actor dummy = prepare_dummy();
-    bodypart_id hpart = dummy.use_healing_item( p, p, it, force );
-    if( hpart != bodypart_id( "bp_null" ) ) {
-        p.add_msg_if_player( m_neutral, _( "You cauterize yourself." ) );
-        if( !p.has_trait( trait_NOPAIN ) ) {
-            p.mod_pain( 15 );
-            p.add_msg_if_player( m_bad, _( "It hurts like hell!" ) );
-        } else {
-            p.add_msg_if_player( m_neutral, _( "It itches a little." ) );
-        }
-        if( p.has_effect( effect_bleed, hpart ) ) {
-            p.add_msg_if_player( m_bad, _( "Bleeding has not stopped completely!" ) );
-        }
-        if( p.has_effect( effect_bite, hpart ) ) {
-            p.add_effect( effect_bite, 260_minutes, hpart, true );
-        }
-
-        p.moves = 0;
-        return true;
-    }
-
-    return false;
-}
-
-cata::optional<int> cauterize_actor::use( Character &p, item &it, bool t, const tripoint & ) const
-{
-    if( t ) {
-        return cata::nullopt;
-    }
-    if( p.is_mounted() ) {
-        p.add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
-        return cata::nullopt;
-    }
-    bool has_disease = p.has_effect( effect_bite ) || p.has_effect( effect_bleed );
-    bool did_cauterize = false;
-
-    if( has_disease ) {
-        did_cauterize = cauterize_effect( p, it, false );
-    } else {
-        const bool can_have_fun = p.has_trait( trait_MASOCHIST ) || p.has_trait( trait_MASOCHIST_MED ) ||
-                                  p.has_trait( trait_CENOBITE );
-
-        if( can_have_fun && query_yn( _( "Cauterize yourself for fun?" ) ) ) {
-            did_cauterize = cauterize_effect( p, it, true );
-        }
-    }
-
-    if( !did_cauterize ) {
-        return cata::nullopt;
-    }
-
-    if( flame ) {
-        p.use_charges( itype_fire, 4 );
-        return 0;
-
-    } else {
-        return cost >= 0 ? cost : it.ammo_required();
-    }
-}
-
-ret_val<void> cauterize_actor::can_use( const Character &p, const item &it, bool,
-                                        const tripoint & ) const
-{
-    if( !p.has_effect( effect_bite ) &&
-        !p.has_effect( effect_bleed ) &&
-        !p.has_trait( trait_MASOCHIST ) &&
-        !p.has_trait( trait_MASOCHIST_MED ) &&
-        !p.has_trait( trait_CENOBITE ) ) {
-
-        return ret_val<void>::make_failure(
-                   _( "You are not bleeding or bitten, there is no need to cauterize yourself." ) );
-    }
-    if( p.is_mounted() ) {
-        return ret_val<void>::make_failure( _( "You cannot cauterize while mounted." ) );
-    }
-
-    if( flame ) {
-        if( !p.has_charges( itype_fire, 4 ) ) {
-            return ret_val<void>::make_failure(
-                       _( "You need a source of flame (4 charges worth) before you can cauterize yourself." ) );
-        }
-    } else {
-        if( !it.ammo_sufficient( &p ) ) {
-            return ret_val<void>::make_failure( _( "You need at least %d charges to cauterize wounds." ),
-                                                it.ammo_required() );
-        }
-    }
-
-    if( p.is_underwater() ) {
-        return ret_val<void>::make_failure( _( "You can't do that while underwater." ) );
-    }
-
-    return ret_val<void>::make_success();
 }
 
 void fireweapon_off_actor::load( const JsonObject &obj )
@@ -4204,13 +4078,11 @@ cata::optional<int> molle_detach_actor::use( Character &p, item &it, bool,
 
     prompt.query();
 
-
     if( prompt.ret >= 0 ) {
         p.i_add( it.get_contents().remove_pocket( prompt.ret ) );
         p.add_msg_if_player( _( "You remove the item from your %s." ), it.tname() );
         return 0;
     }
-
 
     p.add_msg_if_player( _( "Never mind." ) );
     return cata::nullopt;

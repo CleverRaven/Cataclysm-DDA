@@ -1256,7 +1256,7 @@
   {
     "id": "arachnid_dragonfly_mega",
     "type": "harvest",
-    "message": "As you hack away at the chitinous abomination you can't help but follow the tunnel the (male?) dragonfly's tail bore into the flesh of its mate, ending up at a formless amalgamation of eyes, jaws, eggs, and ganglia deep within.  Love truly knows no bounds.",
+    "message": "As you hack away at the chitinous amalgamation you can't help but follow the tunnel the (male?) dragonfly's tail bore into the flesh of its mate, ending up at a formless amalgamation of eyes, jaws, eggs, and ganglia deep within.  Love truly knows no bounds.",
     "entries": [
       { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.2 },
       { "drop": "mutant_fat", "type": "flesh", "mass_ratio": 0.04 },
@@ -1438,6 +1438,28 @@
       { "drop": "sheet_kevlar", "type": "skin", "mass_ratio": 0.04, "flags": [ "FILTHY" ] },
       { "drop": "raw_tainted_leather", "type": "skin", "mass_ratio": 0.04 }
     ]
+  },
+  {
+    "id": "zombie_amalgamation",
+    "//": "No internal organs or bones, filled with pure hatred",
+    "type": "harvest",
+    "message": "<zombie_amalgamation_harvest>",
+    "entries": [
+      { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.5 },
+      { "drop": "raw_tainted_leather", "type": "skin", "mass_ratio": 0.04 }
+    ]
+  },
+  {
+    "id": "zombie_amalgamation_acid",
+    "type": "harvest",
+    "copy-from": "zombie_amalgamation",
+    "message": "<zombie_amalgamation_harvest_acid>"
+  },
+  {
+    "id": "zombie_amalgamation_electric",
+    "type": "harvest",
+    "copy-from": "zombie_amalgamation",
+    "message": "<zombie_amalgamation_harvest_electric>"
   },
   {
     "id": "mr_bones",

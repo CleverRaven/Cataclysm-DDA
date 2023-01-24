@@ -2222,19 +2222,6 @@
   },
   {
     "type": "construction",
-    "id": "constr_workbench",
-    "group": "build_workbench",
-    "category": "FURN",
-    "required_skills": [ [ "fabrication", 3 ] ],
-    "time": "60 m",
-    "using": [ [ "welding_standard", 5 ] ],
-    "components": [ [ [ "pipe", 8 ] ], [ [ "sheet_metal", 2 ] ], [ [ "sheet_metal_small", 4 ] ] ],
-    "pre_note": "Can be deconstructed without tools.",
-    "pre_special": "check_empty",
-    "post_terrain": "f_workbench"
-  },
-  {
-    "type": "construction",
     "id": "constr_place_workbench",
     "group": "place_workbench",
     "category": "FURN",
@@ -2251,36 +2238,24 @@
     "id": "constr_chair",
     "group": "build_chair",
     "category": "FURN",
-    "required_skills": [ [ "fabrication", 2 ] ],
-    "time": "30 m",
-    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 8 ] ] ],
+    "time": "15 s",
+    "components": [ [ [ "chair_wood", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_chair"
+    "post_terrain": "f_chair",
+    "activity_level": "LIGHT_EXERCISE",
+    "required_skills": [ [ "fabrication", 0 ] ]
   },
   {
     "type": "construction",
     "id": "constr_stool",
     "group": "build_stool",
     "category": "FURN",
-    "required_skills": [ [ "fabrication", 2 ] ],
-    "time": "25 m",
-    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 8 ] ] ],
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "15 s",
+    "components": [ [ [ "stool_wood", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_stool"
-  },
-  {
-    "type": "construction",
-    "id": "constr_bench",
-    "group": "build_bench",
-    "category": "FURN",
-    "required_skills": [ [ "fabrication", 2 ] ],
-    "time": "30 m",
-    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 10 ] ] ],
-    "pre_special": "check_empty",
-    "post_terrain": "f_bench"
+    "post_terrain": "f_stool",
+    "activity_level": "LIGHT_EXERCISE"
   },
   {
     "type": "construction",
@@ -2415,24 +2390,12 @@
     "id": "constr_armchair",
     "group": "build_armchair",
     "category": "FURN",
-    "required_skills": [ [ "fabrication", 3 ], [ "tailor", 3 ] ],
-    "time": "45 m",
-    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
-    "components": [ [ [ "2x4", 10 ] ], [ [ "nail", 8 ] ], [ [ "blanket", 1 ], [ "down_blanket", 1 ], [ "fur_blanket", 1 ] ] ],
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "15 s",
+    "components": [ [ [ "armchair", 1 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_armchair"
-  },
-  {
-    "type": "construction",
-    "id": "constr_sofa",
-    "group": "build_sofa",
-    "category": "FURN",
-    "required_skills": [ [ "fabrication", 4 ], [ "tailor", 3 ] ],
-    "time": "60 m",
-    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
-    "components": [ [ [ "2x4", 12 ] ], [ [ "nail", 10 ] ], [ [ "blanket", 1 ], [ "down_blanket", 1 ], [ "fur_blanket", 1 ] ] ],
-    "pre_special": "check_empty",
-    "post_terrain": "f_sofa"
   },
   {
     "type": "construction",
@@ -2663,11 +2626,13 @@
     "type": "construction",
     "id": "constr_metal_trashcan",
     "group": "build_metal_trashcan",
-    "category": "CONSTRUCT",
+    "category": "FURN",
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 2 } ] ],
-    "components": [ [ [ "sheet_metal", 2 ] ] ],
+    "//": "wastebasket, no lid, 20 qt capacity, truncated rectangular pyramid base 10in×7.5in, top 11in×8.5in, height 13.5in",
+    "components": [ [ [ "sheet_metal", 1 ] ] ],
+    "byproducts": [ { "item": "sheet_metal_small", "count": 4 }, { "item": "scrap", "count": [ 4, 6 ] } ],
     "pre_special": "check_empty",
     "post_terrain": "f_metal_trashcan"
   },
@@ -5517,23 +5482,6 @@
   },
   {
     "type": "construction",
-    "id": "constr_metal_bench",
-    "group": "build_scrap_metal_bench",
-    "category": "CONSTRUCT",
-    "required_skills": [ [ "fabrication", 2 ] ],
-    "time": "90 m",
-    "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "WRENCH", "level": 2 } ], [ { "id": "DRILL", "level": 1 } ] ],
-    "components": [
-      [ [ "pipe_fittings", 1 ], [ "steel_chunk", 2 ] ],
-      [ [ "sheet_metal_small", 3 ], [ "scrap", 3 ] ],
-      [ [ "sheet_metal", 1 ] ],
-      [ [ "pipe", 1 ] ]
-    ],
-    "pre_special": "check_empty",
-    "post_terrain": "f_metal_bench"
-  },
-  {
-    "type": "construction",
     "id": "constr_metal_table",
     "group": "build_scrap_metal_table",
     "category": "CONSTRUCT",
@@ -6125,12 +6073,12 @@
     "id": "constr_logstool",
     "group": "build_log_stool",
     "category": "FURN",
-    "required_skills": [ [ "survival", 1 ] ],
-    "time": "10 m",
-    "qualities": [ [ { "id": "CUT", "level": 2 } ] ],
-    "components": [ [ [ "log", 1 ] ] ],
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "15 s",
+    "components": [ [ [ "stool_log", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_logstool"
+    "post_terrain": "f_logstool",
+    "activity_level": "LIGHT_EXERCISE"
   },
   {
     "type": "construction",
@@ -6812,7 +6760,8 @@
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
     "byproducts": [ { "item": "material_gravel", "count": [ 7, 10 ] } ],
     "pre_terrain": "t_railroad_rubble",
-    "post_terrain": "t_dirt"
+    "post_terrain": "t_dirt",
+    "strict": true
   },
   {
     "type": "construction",
@@ -7149,5 +7098,65 @@
     "byproducts": [ { "item": "material_sand", "charges": [ 300, 600 ] } ],
     "pre_terrain": "t_sand_underground",
     "post_special": "done_extract_maybe_revert_to_dirt"
+  },
+  {
+    "type": "construction",
+    "id": "constr_bench_wooden",
+    "group": "build_bench_wooden",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 1 ] ],
+    "time": "45 m",
+    "qualities": [ [ { "id": "SAW_W", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
+    "components": [ [ [ "log", 1 ], [ "wood_beam", 1 ] ], [ [ "nail", 4 ] ], [ [ "2x4", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_bench_wooden"
+  },
+  {
+    "type": "construction",
+    "id": "constr_place_barstool",
+    "group": "place_barstool",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "15 s",
+    "components": [ [ [ "barstool", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_barstool",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_place_chair_plywood",
+    "group": "place_chair_plywood",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "15 s",
+    "components": [ [ [ "chair_plywood", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_chair_plywood",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_place_chair_wood_black",
+    "group": "place_chair_wood_black",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "15 s",
+    "components": [ [ [ "chair_wood_black", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_chair_black",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_place_chair_wood_white",
+    "group": "place_chair_wood_white",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "15 s",
+    "components": [ [ [ "chair_wood_white", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_chair_white",
+    "activity_level": "LIGHT_EXERCISE"
   }
 ]

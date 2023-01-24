@@ -420,7 +420,7 @@
     "sight_dispersion": 3000,
     "durability": 4,
     "clip_size": 1,
-    "valid_mod_locations": [ [ "dampening", 1 ], [ "accessories", 1 ] ],
+    "valid_mod_locations": [ [ "dampening", 1 ], [ "accessories", 1 ], [ "arrow rest", 1 ] ],
     "reload": 50,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
@@ -473,7 +473,7 @@
     "sight_dispersion": 3000,
     "durability": 6,
     "clip_size": 1,
-    "valid_mod_locations": [ [ "dampening", 1 ], [ "accessories", 1 ] ],
+    "valid_mod_locations": [ [ "dampening", 1 ], [ "accessories", 1 ], [ "arrow rest", 1 ] ],
     "reload": 50,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
@@ -507,7 +507,14 @@
     "sight_dispersion": 3000,
     "durability": 6,
     "clip_size": 1,
-    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ],
+    "valid_mod_locations": [
+      [ "underbarrel", 1 ],
+      [ "sights", 1 ],
+      [ "accessories", 2 ],
+      [ "stabilizer", 1 ],
+      [ "dampening", 1 ],
+      [ "arrow rest", 1 ]
+    ],
     "use_action": {
       "menu_text": "Tighten Limbs",
       "type": "transform",
@@ -607,7 +614,7 @@
     "sight_dispersion": 3000,
     "durability": 6,
     "clip_size": 1,
-    "valid_mod_locations": [ [ "dampening", 1 ], [ "accessories", 1 ] ],
+    "valid_mod_locations": [ [ "dampening", 1 ], [ "accessories", 1 ], [ "arrow rest", 1 ] ],
     "reload": 50,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
@@ -660,7 +667,7 @@
     "sight_dispersion": 3000,
     "durability": 6,
     "clip_size": 1,
-    "valid_mod_locations": [ [ "dampening", 1 ], [ "accessories", 1 ] ],
+    "valid_mod_locations": [ [ "dampening", 1 ], [ "accessories", 1 ], [ "arrow rest", 1 ] ],
     "reload": 50,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
@@ -716,7 +723,14 @@
     "sight_dispersion": 3000,
     "durability": 6,
     "clip_size": 1,
-    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ],
+    "valid_mod_locations": [
+      [ "underbarrel", 1 ],
+      [ "sights", 1 ],
+      [ "accessories", 2 ],
+      [ "stabilizer", 1 ],
+      [ "dampening", 1 ],
+      [ "arrow rest", 1 ]
+    ],
     "reload": 50,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
@@ -773,7 +787,14 @@
     "sight_dispersion": 3000,
     "durability": 6,
     "clip_size": 1,
-    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ],
+    "valid_mod_locations": [
+      [ "underbarrel", 1 ],
+      [ "sights", 1 ],
+      [ "accessories", 2 ],
+      [ "stabilizer", 1 ],
+      [ "dampening", 1 ],
+      [ "arrow rest", 1 ]
+    ],
     "reload": 50,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ],
     "use_action": {
@@ -806,7 +827,14 @@
     "bashing": 12,
     "flags": [ "NO_TURRET" ],
     "modes": [ [ "DEFAULT", "disassembled", 0, [ "MELEE" ] ] ],
-    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ],
+    "valid_mod_locations": [
+      [ "underbarrel", 1 ],
+      [ "sights", 1 ],
+      [ "accessories", 2 ],
+      [ "stabilizer", 1 ],
+      [ "dampening", 1 ],
+      [ "arrow rest", 1 ]
+    ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ],
     "use_action": {
       "need_wielding": true,
@@ -865,7 +893,7 @@
     "sight_dispersion": 3000,
     "durability": 6,
     "clip_size": 1,
-    "valid_mod_locations": [ [ "dampening", 1 ], [ "accessories", 1 ] ],
+    "valid_mod_locations": [ [ "dampening", 1 ], [ "accessories", 1 ], [ "arrow rest", 1 ] ],
     "reload": 50,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
@@ -927,7 +955,14 @@
     "dispersion": 1000,
     "sight_dispersion": 3000,
     "clip_size": 1,
-    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ],
+    "valid_mod_locations": [
+      [ "underbarrel", 1 ],
+      [ "sights", 1 ],
+      [ "accessories", 2 ],
+      [ "stabilizer", 1 ],
+      [ "dampening", 1 ],
+      [ "arrow rest", 1 ]
+    ],
     "reload": 50,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
@@ -980,7 +1015,7 @@
     "sight_dispersion": 3000,
     "durability": 6,
     "clip_size": 1,
-    "valid_mod_locations": [ [ "sights", 1 ], [ "accessories", 2 ], [ "dampening", 1 ] ],
+    "valid_mod_locations": [ [ "sights", 1 ], [ "accessories", 2 ], [ "dampening", 1 ], [ "arrow rest", 1 ] ],
     "reload": 50,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   }

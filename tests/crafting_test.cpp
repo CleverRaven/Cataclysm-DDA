@@ -585,7 +585,6 @@ TEST_CASE( "tools use charge to craft", "[crafting][charge]" )
         tools.emplace_back( "screwdriver" );
         tools.emplace_back( "vac_mold" );
 
-
         // Materials needed
         tools.insert( tools.end(), 10, item( "solder_wire" ) );
         tools.insert( tools.end(), 6, item( "plastic_chunk" ) );
@@ -769,7 +768,6 @@ TEST_CASE( "broken component", "[crafting][component]" )
         }
     }
 }
-
 
 // Resume the first in progress craft found in the player's inventory
 static int resume_craft()
@@ -1005,13 +1003,13 @@ TEST_CASE( "crafting_skill_gain", "[skill],[crafting],[slow]" )
     }
     SECTION( "lvl 3 -> lvl 4" ) {
         GIVEN( "nominal morale" ) {
-            test_skill_progression( recipe_armguard_larmor, 12131, 0, true );
+            test_skill_progression( recipe_armguard_larmor, 12112, 0, true );
         }
         GIVEN( "high morale" ) {
-            test_skill_progression( recipe_armguard_larmor, 9997, 50, true );
+            test_skill_progression( recipe_armguard_larmor, 9982, 50, true );
         }
         GIVEN( "very high morale" ) {
-            test_skill_progression( recipe_armguard_larmor, 9197, 100, true );
+            test_skill_progression( recipe_armguard_larmor, 9184, 100, true );
         }
     }
     SECTION( "lvl 4 -> 5" ) {

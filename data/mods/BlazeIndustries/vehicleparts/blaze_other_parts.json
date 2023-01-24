@@ -10,7 +10,7 @@
     "broken_symbol": "#",
     "broken_color": "dark_gray",
     "durability": 250,
-    "size": 8000,
+    "size": "2000 L",
     "item": "vehicle_shelving",
     "location": "center",
     "requirements": {
@@ -39,7 +39,7 @@
     "durability": 400,
     "description": "A medium-sized household refrigerator, converted to utilize vehicle power.  When turned on, food inside will be cooled, extending the time it has before spoiling.",
     "epower": -100,
-    "size": 1200,
+    "size": "300 L",
     "item": "afs_fridge"
   },
   {
@@ -55,7 +55,7 @@
     "durability": 400,
     "description": "A household fridge, converted to run at a much lower temperature and on vehicle power.  When turned on, food inside will be frozen, completely stopping it from spoiling.",
     "epower": -120,
-    "size": 1200,
+    "size": "300 L",
     "item": "afs_freezer"
   },
   {
@@ -71,7 +71,7 @@
     "damage_modifier": 10,
     "durability": 200,
     "description": "A welding and metalworking station, powered by the vehicle's battery.  'e'xamine the forge rig to utilize its welder or soldering iron; you'll still need glare protection.",
-    "size": 200,
+    "size": "50 L",
     "item": "afs_metal_rig",
     "location": "center",
     "requirements": {
@@ -103,7 +103,7 @@
     "damage_modifier": 10,
     "durability": 125,
     "description": "An all-in-one kitchen unit and chemistry lab.  'e'xamine it to use its hotplate to heat up food or drinks.",
-    "size": 200,
+    "size": "50 L",
     "item": "afs_cooking_rig",
     "location": "center",
     "requirements": {
@@ -143,7 +143,7 @@
     "damage_modifier": 10,
     "durability": 200,
     "description": "An all-in-one kitchen unit, chemistry lab, and food preparation area.  'e'xamine it to use its hotplate to heat up food or drinks.",
-    "size": 200,
+    "size": "50 L",
     "item": "afs_kitchen_rig",
     "location": "center",
     "requirements": {

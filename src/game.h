@@ -585,6 +585,16 @@ class game
         bool is_zones_manager_open() const;
         void zones_manager();
 
+        /// @brief attempt to find a safe route (avoids tiles dangerous to '@ref who').
+        /// @param who character to use for evaluating danger tiles and pathfinding start position
+        /// @param target pathfinding destination tile
+        /// @param threshold distance in tiles from target that is considered "arrived" at destination
+        /// @param report when pathfinding fails triggers this function with a translated error string as parameter
+        /// @return safe route if one was found, or cata::nullopt
+        cata::optional<std::vector<tripoint_bub_ms>> safe_route_to( Character &who,
+                const tripoint_bub_ms &target, int threshold,
+                const std::function<void( const std::string &msg )> &report ) const;
+
         // Look at nearby terrain ';', or select zone points
         cata::optional<tripoint> look_around();
         /**
@@ -861,8 +871,10 @@ class game
         void reload_wielded( bool prompt = false );
         void reload_weapon( bool try_everything = true ); // Reload a wielded gun/tool  'r'
         // Places the player at the specified point; hurts feet, lists items etc.
-        point place_player( const tripoint &dest );
+        point place_player( const tripoint &dest, bool quick = false );
         void place_player_overmap( const tripoint_abs_omt &om_dest, bool move_player = true );
+        void perhaps_add_random_npc( bool ignore_spawn_timers_and_rates );
+        static void display_om_pathfinding_progress( size_t open_set, size_t known_size );
 
         unsigned int get_seed() const;
 
@@ -893,6 +905,8 @@ class game
                                    int &line );
         void print_trap_info( const tripoint &lp, const catacurses::window &w_look, int column,
                               int &line );
+        void print_part_con_info( const tripoint &lp, const catacurses::window &w_look, int column,
+                                  int &line );
         void print_creature_info( const Creature *creature, const catacurses::window &w_look, int column,
                                   int &line, int last_line );
         void print_vehicle_info( const vehicle *veh, int veh_part, const catacurses::window &w_look,
@@ -921,10 +935,7 @@ class game
          * point to a different monster after calling this (or to no monster at all).
          */
         void despawn_monster( monster &critter );
-
     private:
-        void perhaps_add_random_npc();
-
         // Routine loop functions, approximately in order of execution
         void open_consume_item_menu(); // Custom menu for consuming specific group of items
         bool do_regular_action( action_id &act, avatar &player_character,

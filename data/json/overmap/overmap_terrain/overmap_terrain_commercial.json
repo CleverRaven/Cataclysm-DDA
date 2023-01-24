@@ -1,8 +1,17 @@
 [
   {
     "type": "overmap_terrain",
-    "id": [ "s_gas", "s_gas_1", "s_gas_rural" ],
+    "id": [ "s_gas_1" ],
     "copy-from": "generic_city_building",
+    "name": "gas station",
+    "looks_like": "s_gas",
+    "color": "light_blue",
+    "extend": { "flags": [ "SOURCE_FUEL", "SOURCE_VEHICLES" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "s_gas", "s_gas_rural" ],
+    "copy-from": "generic_city_building_no_sidewalk",
     "name": "gas station",
     "looks_like": "s_gas",
     "color": "light_blue",

@@ -48,6 +48,8 @@
 #include "mtype.h"
 #include "npc.h"
 #include "optional.h"
+#include "options.h"
+#include "overmapbuffer.h"
 #include "pickup.h"
 #include "player_activity.h"
 #include "point.h"
@@ -116,7 +118,6 @@ static const quality_id qual_WELD( "WELD" );
 static const requirement_id requirement_data_mining_standard( "mining_standard" );
 
 static const trap_str_id tr_firewood_source( "tr_firewood_source" );
-static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 
 static const zone_type_id zone_type_( "" );
 static const zone_type_id zone_type_AUTO_DRINK( "AUTO_DRINK" );
@@ -378,6 +379,15 @@ void drop_on_map( Character &you, item_drop_reason reason, const std::list<item>
                     it_name, ter_name
                 );
                 break;
+        }
+
+        if( get_option<bool>( "AUTO_NOTES_DROPPED_FAVORITES" ) && it.is_favorite ) {
+            const tripoint_abs_omt your_pos = you.global_omt_location();
+            if( !overmap_buffer.has_note( your_pos ) ) {
+                overmap_buffer.add_note( your_pos, it.display_name() );
+            } else {
+                overmap_buffer.add_note( your_pos, overmap_buffer.note( your_pos ) + "; " + it.display_name() );
+            }
         }
     } else {
         switch( reason ) {
@@ -899,6 +909,16 @@ construction const *_find_prereq( tripoint_bub_ms const &loc, construction_id co
     return nullptr;
 }
 
+bool already_done( construction const &build, tripoint_bub_ms const &loc )
+{
+    map &here = get_map();
+    const furn_id furn = here.furn( loc );
+    const ter_id ter = here.ter( loc );
+    return !build.post_terrain.empty() &&
+           ( ( !build.post_is_furniture && ter_id( build.post_terrain ) == ter ) ||
+             ( build.post_is_furniture && furn_id( build.post_terrain ) == furn ) );
+}
+
 } // namespace
 
 static activity_reason_info find_base_construction(
@@ -908,6 +928,9 @@ static activity_reason_info find_base_construction(
     const cata::optional<construction_id> &part_con_idx,
     const construction_id &idx )
 {
+    if( already_done( idx.obj(), loc ) ) {
+        return activity_reason_info::build( do_activity_reason::ALREADY_DONE, false, idx->id );
+    }
     bool cc = can_construct( idx.obj(), loc );
     construction const *con = nullptr;
 
@@ -916,7 +939,7 @@ static activity_reason_info find_base_construction(
         con = _find_alt_construction( loc, idx, part_con_idx, [&idx]( construction const & it ) {
             return it.group == idx->group;
         } );
-        if( con == nullptr ) {
+        if( !idx->strict && con == nullptr ) {
             // try to build a pre-requisite from a different group, recursively
             checked_cache_t checked_cache;
             for( construction const *vcon : constructions_by_group( idx->group ) ) {
@@ -932,12 +955,7 @@ static activity_reason_info find_base_construction(
     const construction &build = con == nullptr ? idx.obj() : *con;
     bool pcb = player_can_build( you, inv, build, true );
     //already done?
-    map &here = get_map();
-    const furn_id furn = here.furn( loc );
-    const ter_id ter = here.ter( loc );
-    if( !build.post_terrain.empty() &&
-        ( ( !build.post_is_furniture && ter_id( build.post_terrain ) == ter ) ||
-          ( build.post_is_furniture && furn_id( build.post_terrain ) == furn ) ) ) {
+    if( already_done( build, loc ) ) {
         return activity_reason_info::build( do_activity_reason::ALREADY_DONE, false, build.id );
     }
 
@@ -1077,7 +1095,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
         act == ACT_VEHICLE_REPAIR ) {
         std::vector<int> already_working_indexes;
         vehicle *veh = veh_pointer_or_null( here.veh_at( src_loc ) );
-        if( !veh || veh->has_tag( "APPLIANCE" ) ) {
+        if( !veh || veh->is_appliance() ) {
             return activity_reason_info::fail( do_activity_reason::NO_ZONE );
         }
         // if the vehicle is moving or player is controlling it.
@@ -1461,8 +1479,8 @@ static void add_basecamp_storage_to_loot_zone_list(
     if( npc *const guy = dynamic_cast<npc *>( &you ) ) {
         map &here = get_map();
         if( guy->assigned_camp &&
-            mgr.has_near( zone_type_CAMP_STORAGE, here.getglobal( src_loc ), ACTIVITY_SEARCH_DISTANCE ),
-            _fac_id( you ) ) {
+            mgr.has_near( zone_type_CAMP_STORAGE, here.getglobal( src_loc ), ACTIVITY_SEARCH_DISTANCE,
+                          _fac_id( you ) ) ) {
             std::unordered_set<tripoint_abs_ms> bc_storage_set =
                 mgr.get_near( zone_type_CAMP_STORAGE, here.getglobal( src_loc ),
                               ACTIVITY_SEARCH_DISTANCE, nullptr, _fac_id( you ) );
@@ -1803,9 +1821,6 @@ static bool construction_activity( Character &you, const zone_data * /*zone*/,
     pc.id = built_chosen.id;
     map &here = get_map();
     // Set the trap that has the examine function
-    if( here.tr_at( src_loc ).is_null() ) {
-        here.trap_set( src_loc, tr_unfinished_construction );
-    }
     // Use up the components
     for( const std::vector<item_comp> &it : built_chosen.requirements->get_components() ) {
         std::list<item> tmp = you.consume_items( it, 1, is_crafting_component );
@@ -1996,12 +2011,12 @@ static bool butcher_corpse_activity( Character &you, const tripoint_bub_ms &src_
 
 static bool chop_plank_activity( Character &you, const tripoint_bub_ms &src_loc )
 {
-    item *best_qual = you.best_quality_item( qual_AXE );
-    if( !best_qual ) {
+    item &best_qual = you.best_item_with_quality( qual_AXE );
+    if( best_qual.is_null() ) {
         return false;
     }
-    if( best_qual->type->can_have_charges() ) {
-        you.consume_charges( *best_qual, best_qual->type->charges_to_use() );
+    if( best_qual.type->can_have_charges() ) {
+        you.consume_charges( best_qual, best_qual.type->charges_to_use() );
     }
     map &here = get_map();
     for( item &i : here.i_at( src_loc ) ) {
@@ -2265,6 +2280,12 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                         for( item *contained : it->first->all_items_top( item_pocket::pocket_type::MAGAZINE ) ) {
                             // no liquids don't want to spill stuff
                             if( !contained->made_of( phase_id::LIQUID ) && !contained->made_of( phase_id::GAS ) ) {
+                                if( it->first->is_ammo_belt() ) {
+                                    if( it->first->type->magazine->linkage ) {
+                                        item link( *it->first->type->magazine->linkage, calendar::turn, contained->count() );
+                                        here.add_item_or_charges( src_loc, link );
+                                    }
+                                }
                                 move_item( you, *contained, contained->count(), src_loc, src_loc, this_veh, this_part );
                                 it->first->remove_item( *contained );
                             }
@@ -2290,8 +2311,6 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                             you.gunmod_remove( *it->first, *mod );
                             // need to return so the activity starts
                             return;
-                            move_item( you, *mod, 1, src_loc, src_loc, this_veh, this_part );
-                            moved_something = true;
                         }
                     }
 
@@ -2302,6 +2321,11 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                             move_item( you, removed, 1, src_loc, src_loc, this_veh, this_part );
                             moved_something = true;
                         }
+                    }
+                    if( it->first->has_flag( flag_MAG_DESTROY ) && it->first->ammo_remaining() == 0 ) {
+                        here.i_rem( src_loc, it->first );
+                        num_processed = std::max( num_processed - 1, 0 );
+                        return;
                     }
 
                     // after dumping items go back to start of activity loop
@@ -2375,13 +2399,13 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
     you.activity.set_to_null();
 }
 
-static int chop_moves( Character &you, item *it )
+static int chop_moves( Character &you, item &it )
 {
     // quality of tool
-    const int quality = it->get_quality( qual_AXE );
+    const int quality = it.get_quality( qual_AXE );
 
     // attribute; regular tools - based on STR, powered tools - based on DEX
-    const int attr = it->has_flag( flag_POWERED ) ? you.dex_cur : you.get_arm_str();
+    const int attr = it.has_flag( flag_POWERED ) ? you.dex_cur : you.get_arm_str();
 
     int moves = to_moves<int>( time_duration::from_minutes( 60 - attr ) / std::pow( 2, quality - 1 ) );
     const int helpersize = you.get_num_crafting_helpers( 3 );
@@ -2448,24 +2472,24 @@ static bool mop_activity( Character &you, const tripoint_bub_ms &src_loc )
 
 static bool chop_tree_activity( Character &you, const tripoint_bub_ms &src_loc )
 {
-    item *best_qual = you.best_quality_item( qual_AXE );
-    if( !best_qual ) {
+    item &best_qual = you.best_item_with_quality( qual_AXE );
+    if( best_qual.is_null() ) {
         return false;
     }
     int moves = chop_moves( you, best_qual );
-    if( best_qual->type->can_have_charges() ) {
-        you.consume_charges( *best_qual, best_qual->type->charges_to_use() );
+    if( best_qual.type->can_have_charges() ) {
+        you.consume_charges( best_qual, best_qual.type->charges_to_use() );
     }
     map &here = get_map();
     const ter_id ter = here.ter( src_loc );
     if( here.has_flag( ter_furn_flag::TFLAG_TREE, src_loc ) ) {
         you.assign_activity( player_activity( chop_tree_activity_actor( moves, item_location( you,
-                                              best_qual ) ) ) );
+                                              &best_qual ) ) ) );
         you.activity.placement = here.getglobal( src_loc );
         return true;
     } else if( ter == t_trunk || ter == t_stump ) {
         you.assign_activity( player_activity( chop_logs_activity_actor( moves, item_location( you,
-                                              best_qual ) ) ) );
+                                              &best_qual ) ) ) );
         you.activity.placement = here.getglobal( src_loc );
         return true;
     }
@@ -2986,10 +3010,10 @@ static bool generic_multi_activity_do(
         you.backlog.push_front( player_activity( act_id ) );
         // we don't want to keep repeating the fishing activity, just piggybacking on this functions structure to find requirements.
         you.activity = player_activity();
-        item *best_rod = you.best_quality_item( qual_FISHING );
+        item &best_rod = you.best_item_with_quality( qual_FISHING );
         you.assign_activity( ACT_FISH, to_moves<int>( 5_hours ), 0,
-                             0, best_rod->tname() );
-        you.activity.targets.emplace_back( you, best_rod );
+                             0, best_rod.tname() );
+        you.activity.targets.emplace_back( you, &best_rod );
         // TODO: fix point types
         you.activity.coord_set =
             g->get_fishable_locations( ACTIVITY_SEARCH_DISTANCE, src_loc.raw() );

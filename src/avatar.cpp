@@ -218,7 +218,7 @@ void avatar::control_npc_menu()
     if( charmenu.ret < 0 || static_cast<size_t>( charmenu.ret ) >= followers.size() ) {
         return;
     }
-    get_avatar().control_npc( *followers.at( charmenu.ret ) );
+    get_avatar().control_npc( *followers[charmenu.ret] );
 }
 
 void avatar::longpull( const std::string &name )
@@ -343,10 +343,14 @@ void avatar::on_mission_assignment( mission &new_mission )
 void avatar::on_mission_finished( mission &cur_mission )
 {
     if( cur_mission.has_failed() ) {
-        failed_missions.push_back( &cur_mission );
+        if( !cur_mission.get_type().invisible_on_complete ) {
+            failed_missions.push_back( &cur_mission );
+        }
         add_msg_if_player( m_bad, _( "Mission \"%s\" is failed." ), cur_mission.name() );
     } else {
-        completed_missions.push_back( &cur_mission );
+        if( !cur_mission.get_type().invisible_on_complete ) {
+            completed_missions.push_back( &cur_mission );
+        }
         add_msg_if_player( m_good, _( "Mission \"%s\" is successfully completed." ),
                            cur_mission.name() );
     }
@@ -367,12 +371,14 @@ void avatar::on_mission_finished( mission &cur_mission )
 
 void avatar::remove_active_mission( mission &cur_mission )
 {
+    cur_mission.remove_active_world_mission( cur_mission );
     const auto iter = std::find( active_missions.begin(), active_missions.end(), &cur_mission );
     if( iter == active_missions.end() ) {
         debugmsg( "removed mission %d was not in the active_missions list", cur_mission.get_id() );
     } else {
         active_missions.erase( iter );
     }
+
     if( &cur_mission == active_mission ) {
         if( active_missions.empty() ) {
             active_mission = nullptr;
@@ -534,7 +540,6 @@ bool avatar::read( item_location &book, item_location ereader )
                      string_format( _( "Reading %1$s (can train %2$s from %3$d to %4$d)" ), book->type_name(),
                                     skill_name, type->req, type->level );
 
-
         menu.addentry( 0, true, '0', _( "Read once" ) );
 
         const int lvl = get_knowledge_level( skill );
@@ -672,7 +677,6 @@ bool avatar::read( item_location &book, item_location ereader )
 
     return true;
 }
-
 
 void avatar::grab( object_type grab_type, const tripoint &grab_point )
 {
@@ -893,12 +897,10 @@ int avatar::print_info( const catacurses::window &w, int vStart, int, int column
                                     get_name() ) - 1;
 }
 
-
 mfaction_id avatar::get_monster_faction() const
 {
     return monfaction_player.id();
 }
-
 
 void avatar::disp_morale()
 {
@@ -960,11 +962,9 @@ void avatar::reset_stats()
         add_miss_reason( _( "Your insect limbs get in the way." ), 2 );
     }
     if( has_trait( trait_INSECT_ARMS_OK ) ) {
-        if( !wearing_something_on( bodypart_id( "torso" ) ) ) {
+        if( !wearing_fitting_on( bodypart_id( "torso" ) ) ) {
             mod_dex_bonus( 1 );
-        } else if( !exclusive_flag_coverage( STATIC( flag_id( "INTEGRATED" ) ) )
-                   .test( body_part_torso ) ) {
-            mod_dex_bonus( -1 );
+        } else {
             add_miss_reason( _( "Your clothing restricts your insect arms." ), 1 );
         }
     }
@@ -975,12 +975,9 @@ void avatar::reset_stats()
         add_miss_reason( _( "Your arachnid limbs get in the way." ), 4 );
     }
     if( has_trait( trait_ARACHNID_ARMS_OK ) ) {
-        if( !wearing_something_on( bodypart_id( "torso" ) ) ) {
+        if( !wearing_fitting_on( bodypart_id( "torso" ) ) ) {
             mod_dex_bonus( 2 );
-        } else if( !exclusive_flag_coverage( STATIC( flag_id( "OVERSIZE" ) ) )
-                   .test( body_part_torso ) && !exclusive_flag_coverage( STATIC( flag_id( "INTEGRATED" ) ) )
-                   .test( body_part_torso ) ) {
-            mod_dex_bonus( -2 );
+        } else {
             add_miss_reason( _( "Your clothing constricts your arachnid limbs." ), 2 );
         }
     }
@@ -1249,12 +1246,10 @@ void avatar::rebuild_aim_cache()
 
             float current_angle = atan2f( smy - posy(), smx - posx() );
 
-
             // move from -pi to pi, to 0 to 2pi for angles
             if( current_angle < 0 ) {
                 current_angle = current_angle + 2 * pi;
             }
-
 
             // some basic angle inclusion math, but also everything with 15 is still seen
             if( rl_dist( tripoint( point( smx, smy ), pos().z ), pos() ) < 15 ) {
@@ -1584,6 +1579,38 @@ void avatar::add_gained_calories( int cal )
 void avatar::log_activity_level( float level )
 {
     calorie_diary.front().activity_levels[level]++;
+}
+
+avatar::daily_calories::daily_calories()
+{
+    activity_levels.emplace( NO_EXERCISE, 0 );
+    activity_levels.emplace( LIGHT_EXERCISE, 0 );
+    activity_levels.emplace( MODERATE_EXERCISE, 0 );
+    activity_levels.emplace( BRISK_EXERCISE, 0 );
+    activity_levels.emplace( ACTIVE_EXERCISE, 0 );
+    activity_levels.emplace( EXTRA_EXERCISE, 0 );
+}
+
+void avatar::daily_calories::serialize( JsonOut &json ) const
+{
+    json.start_object();
+
+    json.member( "spent", spent );
+    json.member( "gained", gained );
+    json.member( "ingested", ingested );
+    save_activity( json );
+
+    json.end_object();
+}
+
+void avatar::daily_calories::deserialize( const JsonObject &data )
+{
+    data.read( "spent", spent );
+    data.read( "gained", gained );
+    data.read( "ingested", ingested );
+    if( data.has_member( "activity" ) ) {
+        read_activity( data );
+    }
 }
 
 void avatar::daily_calories::save_activity( JsonOut &json ) const
@@ -2052,4 +2079,14 @@ bool avatar::query_yn( const std::string &mes ) const
 void avatar::set_location( const tripoint_abs_ms &loc )
 {
     Creature::set_location( loc );
+}
+
+void monster_visible_info::remove_npc( npc *n )
+{
+    for( auto &t : unique_types ) {
+        auto it = std::find( t.begin(), t.end(), n );
+        if( it != t.end() ) {
+            t.erase( it );
+        }
+    }
 }

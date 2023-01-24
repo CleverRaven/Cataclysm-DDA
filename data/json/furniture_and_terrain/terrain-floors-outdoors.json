@@ -542,11 +542,13 @@
   {
     "type": "terrain",
     "id": "t_elevator_no_roof",
-    "roof": "t_null",
+    "name": "elevator",
+    "description": "An elevator section of the flight deck.",
     "symbol": ".",
     "color": "dark_gray",
-    "flags": [ "TRANSPARENT", "FLAT" ],
-    "copy-from": "t_elevator"
+    "looks_like": "t_elevator",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT", "ELEVATOR" ]
   },
   {
     "type": "terrain",

@@ -449,6 +449,11 @@ void talker_character::i_add( const item &new_item )
     me_chr->i_add( new_item );
 }
 
+void talker_character::i_add_or_drop( item &new_item )
+{
+    me_chr->i_add_or_drop( new_item );
+}
+
 void talker_character::remove_items_with( const std::function<bool( const item & )> &filter )
 {
     me_chr->remove_items_with( filter );
