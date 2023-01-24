@@ -163,7 +163,11 @@ static item_location inv_internal( Character &u, const inventory_selector_preset
         // Set position after filter to keep cursor at the right position
         bool position_set = false;
         if( !u.activity.targets.empty() ) {
-            position_set = inv_s.highlight_one_of( u.activity.targets );
+            bool const hidden = u.activity.values.size() >= 3 && static_cast<bool>( u.activity.values[2] );
+            position_set = inv_s.highlight_one_of( u.activity.targets, hidden );
+            if( !position_set && hidden ) {
+                position_set = inv_s.highlight_one_of( u.activity.targets );
+            }
         }
         if( !position_set && u.activity.values.size() >= 2 ) {
             inv_s.highlight_position( std::make_pair( u.activity.values[0], u.activity.values[1] ) );
@@ -181,13 +185,18 @@ static item_location inv_internal( Character &u, const inventory_selector_preset
     item_location location = inv_s.execute();
 
     if( u.has_activity( consuming ) ) {
+        inventory_entry const &e = inv_s.get_highlighted();
+        bool const collated = e.is_collation_entry();
         u.activity.values.clear();
         const auto init_pair = inv_s.get_highlighted_position();
         u.activity.values.push_back( init_pair.first );
         u.activity.values.push_back( init_pair.second );
+        u.activity.values.push_back( collated );
         u.activity.str_values.clear();
         u.activity.str_values.emplace_back( inv_s.get_filter() );
-        u.activity.targets = inv_s.get_highlighted().locations;
+        u.activity.targets = collated ? std::vector<item_location> { location, inv_s.get_collation_next() }
+                             :
+                             inv_s.get_highlighted().locations;
     }
 
     return location;
@@ -612,6 +621,7 @@ class comestible_inventory_preset : public inventory_selector_preset
         explicit comestible_inventory_preset( const Character &you ) : you( you ) {
 
             _indent_entries = false;
+            _collate_entries = true;
 
             append_cell( [&you]( const item_location & loc ) {
                 const nutrients nutr = you.compute_effective_nutrients( *loc );
