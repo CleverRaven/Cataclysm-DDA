@@ -102,7 +102,7 @@ bool Character::list_ammo( const item_location &base, std::vector<item::reload_o
                        p->allows_speedloader( ammo->typeId() ) && ammo->ammo_remaining() > 1 && p->ammo_remaining() < 1 ) {
                 // Again, this is "are they compatible", later check handles "can we do it now".
                 ammo_match_found = p->can_reload_with( *ammo.get_item(), false );
-            } 
+            }
             if( can_reload( *p, ammo.get_item() ) ) {
                 ammo_list.emplace_back( this, p, std::move( ammo ) );
             }
