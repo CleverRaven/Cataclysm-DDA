@@ -1690,6 +1690,10 @@
     "type": "json_flag"
   },
   {
+    "id": "SPEEDLOADER_CLIP",
+    "type": "json_flag"
+  },
+  {
     "id": "SPLINT",
     "type": "json_flag"
   },

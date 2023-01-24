@@ -11507,7 +11507,8 @@ void item::reload_option::qty( int val )
     int remaining_capacity = target->is_watertight_container() ?
                              target->get_remaining_capacity_for_liquid( ammo_obj, true ) :
                              target->remaining_ammo_capacity();
-    if( target->has_flag( flag_RELOAD_ONE ) && !ammo->has_flag( flag_SPEEDLOADER ) ) {
+    if( target->has_flag( flag_RELOAD_ONE ) &&
+        !( ammo->has_flag( flag_SPEEDLOADER ) || ammo->has_flag( flag_SPEEDLOADER_CLIP )) ) {
         remaining_capacity = 1;
     }
     if( ammo_obj.type->ammo ) {
@@ -11519,7 +11520,7 @@ void item::reload_option::qty( int val )
 
     bool ammo_by_charges = ammo_obj.is_ammo() || ammo_in_liquid_container;
     int available_ammo;
-    if( ammo->has_flag( flag_SPEEDLOADER ) ) {
+    if( ammo->has_flag( flag_SPEEDLOADER ) || ammo->has_flag( flag_SPEEDLOADER_CLIP ) ) {
         available_ammo = ammo_obj.ammo_remaining();
     } else {
         available_ammo = ammo_by_charges ? ammo_obj.charges : ammo_obj.count();
@@ -11570,7 +11571,7 @@ bool item::reload( Character &u, item_location ammo, int qty )
     }
 
     bool ammo_from_map = !ammo.held_by( u );
-    if( ammo->has_flag( flag_SPEEDLOADER ) ) {
+    if( ammo->has_flag( flag_SPEEDLOADER ) || ammo->has_flag( flag_SPEEDLOADER_CLIP )  ) {
         // if the thing passed in is a speed loader, we want the ammo
         ammo = item_location( ammo, &ammo->first_ammo() );
     }
