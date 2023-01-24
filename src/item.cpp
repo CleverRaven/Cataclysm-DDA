@@ -10215,6 +10215,11 @@ bool item::is_relic() const
     return !!relic_data;
 }
 
+bool item::is_same_relic( item const &rhs ) const
+{
+    return ( !is_relic() && !rhs.is_relic() ) || *relic_data == *rhs.relic_data;
+}
+
 bool item::has_relic_recharge() const
 {
     return is_relic() && relic_data->has_recharge();

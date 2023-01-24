@@ -1495,6 +1495,7 @@ class item : public visitable
         bool is_tool() const;
         bool is_transformable() const;
         bool is_relic() const;
+        bool is_same_relic( item const &rhs ) const;
         bool is_bucket_nonempty() const;
 
         bool is_brewable() const;

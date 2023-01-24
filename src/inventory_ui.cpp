@@ -96,10 +96,10 @@ item_name_t &get_cached_name( item const *it )
 }
 
 // get topmost visible parent in an unbroken chain
-item *get_topmost_parent( item *topmost, item_location loc,
-                          inventory_selector_preset const &preset )
+item_location get_topmost_parent( item_location const &topmost, item_location const &loc,
+                                  inventory_selector_preset const &preset )
 {
-    return preset.is_shown( loc ) ? topmost != nullptr ? topmost : loc.get_item() : nullptr;
+    return preset.is_shown( loc ) ? topmost ? topmost : loc : item_location{};
 }
 
 using parent_path_t = std::vector<item_location>;
@@ -491,20 +491,26 @@ static const selection_column_preset selection_preset{};
 
 bool inventory_entry::is_hidden() const
 {
-    // non-items and entries not added recursively (from a container) can't be hidden
-    if( !is_item() || topmost_parent == nullptr ) {
+    if( !is_item() ) {
+        return false;
+    }
+
+    if( is_collation_entry() && collation_meta->collapsed ) {
+        return true;
+    }
+
+    if( !topmost_parent ) {
         return false;
     }
 
     item_location item = locations.front();
-    while( item.has_parent() && item.get_item() != topmost_parent ) {
+    while( item.has_parent() && item != topmost_parent ) {
         item_location parent = item.parent_item();
         if( parent.get_item()->contained_where( *item )->settings.is_collapsed() ) {
             return true;
         }
         item = parent;
     }
-    // no parent container was collapsed
     return false;
 }
 
@@ -663,10 +669,15 @@ std::function<bool( const inventory_entry & )> inventory_selector_preset::get_fi
 
 std::string inventory_selector_preset::get_caption( const inventory_entry &entry ) const
 {
-    const size_t count = entry.get_stack_size();
+    size_t count = entry.get_stack_size();
     std::string disp_name;
     if( entry.any_item()->is_money() ) {
         disp_name = entry.any_item()->display_money( count, entry.any_item()->ammo_remaining() );
+    } else if( entry.is_collation_header() && entry.any_item()->count_by_charges() ) {
+        item temp( *entry.any_item() );
+        temp.charges = entry.get_total_charges();
+        disp_name = temp.display_name();
+        count = 1;
     } else {
         disp_name = entry.any_item()->display_name( count );
     }
@@ -1141,25 +1152,24 @@ void inventory_column::set_stack_favorite( std::vector<item_location> &locations
 
 void inventory_column::set_collapsed( inventory_entry &entry, const bool collapse )
 {
-    std::vector<item_location> &locations = entry.locations;
-
     bool collapsed = false;
-    for( item_location &loc : locations ) {
-        for( item_pocket *pocket : loc->get_all_standard_pockets() ) {
-            pocket->settings.set_collapse( collapse );
-            collapsed = true;
+    if( entry.is_collation_header() ) {
+        entry.collation_meta->collapsed = collapse;
+        collapsed = true;
+    } else {
+        std::vector<item_location> &locations = entry.locations;
+
+        for( item_location &loc : locations ) {
+            for( item_pocket *pocket : loc->get_all_standard_pockets() ) {
+                pocket->settings.set_collapse( collapse );
+                collapsed = true;
+            }
         }
     }
 
     if( collapsed ) {
         entry.collapsed = collapse;
         paging_is_valid = false;
-
-        // recache cells in case the name changed
-        std::size_t const index =
-            std::distance( entries.begin(), std::find( entries.begin(), entries.end(), entry ) );
-        entries_cell_cache[index].assigned = false;
-        entries_cell_cache[index] = make_entry_cell_cache( entry );
     }
 }
 
@@ -1219,7 +1229,8 @@ inventory_entry *inventory_column::add_entry( const inventory_entry &entry )
                 return false;
             }
             item_location found_entry_item = e.locations.front();
-            return e.get_category_ptr() == entry.get_category_ptr() &&
+            return !e.is_collated() &&
+                   e.get_category_ptr() == entry.get_category_ptr() &&
                    entry_item.where() == found_entry_item.where() &&
                    entry_item.position() == found_entry_item.position() &&
                    entry_item.parent_item() == found_entry_item.parent_item() &&
@@ -1302,6 +1313,94 @@ bool inventory_column::indented_sort_compare( inventory_entry const &lhs,
     return sort_compare( ep_lhs, ep_rhs );
 }
 
+bool inventory_column::collated_sort_compare( inventory_entry const &lhs,
+        inventory_entry const &rhs )
+{
+    if( lhs.is_collated() && lhs.collation_meta == rhs.collation_meta ) {
+        if( lhs.is_collation_header() ) {
+            return true;
+        }
+        if( rhs.is_collation_header() ) {
+            return false;
+        }
+        return sort_compare( lhs, rhs );
+    }
+
+    item_location p_lhs = lhs.is_collated() ? lhs.collation_meta->tip : lhs.any_item();
+    item_location p_rhs = rhs.is_collated() ? rhs.collation_meta->tip : rhs.any_item();
+
+    inventory_entry ep_lhs(
+    { p_lhs }, nullptr, lhs.is_collated() ? lhs.collation_meta->enabled : lhs.is_selectable(),
+    0, lhs.generation );
+    inventory_entry ep_rhs(
+    { p_rhs }, nullptr, rhs.is_collated() ? rhs.collation_meta->enabled : rhs.is_selectable(),
+    0, rhs.generation );
+    ep_lhs.update_cache();
+    ep_rhs.update_cache();
+    if( indent_entries() ) {
+        return indented_sort_compare( ep_lhs, ep_rhs );
+    }
+    return sort_compare( ep_lhs, ep_rhs );
+}
+
+void inventory_column::collate()
+{
+    for( auto outer = entries.begin(); outer != entries.end(); ++outer ) {
+        if( !outer->is_item() || outer->is_collated() || outer->chevron ) {
+            continue;
+        }
+        for( auto e = std::next( outer ); e != entries.end(); ) {
+            if( e->is_item() && e->get_category_ptr() == outer->get_category_ptr() &&
+                e->any_item()->is_favorite == outer->any_item()->is_favorite &&
+                e->any_item()->typeId() == outer->any_item()->typeId() &&
+                ( !indent_entries() ||
+                  e->any_item().parent_item() == outer->any_item().parent_item() ) &&
+                ( e->is_collation_header() || !e->chevron ) &&
+                e->any_item()->is_same_relic( *outer->any_item() ) ) {
+
+                if( !outer->is_collated() ) {
+                    outer->collation_meta = std::make_shared<collation_meta_t>(
+                                                collation_meta_t{ outer->any_item(), true, outer->is_selectable() } );
+
+                    entries_hidden.emplace_back( *outer );
+
+                    outer->chevron = true;
+                    set_collapsed( *outer, true );
+                }
+                e->collation_meta = outer->collation_meta;
+                std::copy( e->locations.begin(), e->locations.end(),
+                           std::back_inserter( outer->locations ) );
+                entries_hidden.emplace_back( std::move( *e ) );
+                e = entries.erase( e );
+            } else {
+                ++e;
+            }
+        }
+    }
+    _collated = true;
+}
+
+void inventory_column::_reset_collation( entries_t &entries )
+{
+    for( auto iter = entries.begin(); iter != entries.end(); ) {
+        if( iter->is_collation_header() ) {
+            iter = entries.erase( iter );
+        } else {
+            iter->reset_collation();
+            ++iter;
+        }
+    }
+}
+
+void inventory_column::uncollate()
+{
+    if( _collated ) {
+        _reset_collation( entries );
+        _reset_collation( entries_hidden );
+        _collated = false;
+    }
+}
+
 void inventory_column::prepare_paging( const std::string &filter )
 {
     if( paging_is_valid ) {
@@ -1314,7 +1413,9 @@ void inventory_column::prepare_paging( const std::string &filter )
     } );
 
     const auto is_visible = [&filter_fn, &filter]( inventory_entry const & it ) {
-        return it.is_item() && ( filter_fn( it ) && ( !filter.empty() || !it.is_hidden() ) );
+        return it.is_item() &&
+               ( filter_fn( it ) &&
+                 ( ( !filter.empty() && !it.is_collation_entry() ) || !it.is_hidden() ) );
     };
     const auto is_not_visible = [&is_visible]( inventory_entry const & it ) {
         return !is_visible( it );
@@ -1336,6 +1437,9 @@ void inventory_column::prepare_paging( const std::string &filter )
     std::stable_sort( entries.begin(), entries.end(),
     [this]( const inventory_entry & lhs, const inventory_entry & rhs ) {
         if( *lhs.get_category_ptr() == *rhs.get_category_ptr() ) {
+            if( _collated ) {
+                return collated_sort_compare( lhs, rhs );
+            }
             if( indent_entries() ) {
                 return indented_sort_compare( lhs, rhs );
             }
@@ -1344,6 +1448,10 @@ void inventory_column::prepare_paging( const std::string &filter )
         }
         return preset.cat_sort_compare( lhs, rhs );
     } );
+
+    if( !_collated && collate_entries() ) {
+        collate();
+    }
 
     // Recover categories
     const item_category *current_category = nullptr;
@@ -1415,8 +1523,13 @@ size_t inventory_column::get_entry_indent( const inventory_entry &entry ) const
     if( allows_selecting() && activatable() && multiselect ) {
         res += 2;
     }
-    if( entry.is_item() && indent_entries() ) {
-        res += entry.indent;
+    if( entry.is_item() ) {
+        if( collate_entries() && entry.is_collation_entry() ) {
+            res += 2;
+        }
+        if( indent_entries() ) {
+            res += entry.indent;
+        }
     }
 
     return res;
@@ -1540,7 +1653,8 @@ void inventory_column::draw( const catacurses::window &win, const point &p,
 
                 const std::string &hl_option = get_option<std::string>( "INVENTORY_HIGHLIGHT" );
                 if( cell_index == 0 && entry.chevron ) {
-                    trim_and_print( win, point( text_x - 1, yy ), 1, c_dark_gray,
+                    nc_color const col = entry.is_collation_header() ? c_light_blue : c_dark_gray;
+                    trim_and_print( win, point( text_x - 1, yy ), 1, col,
                                     entry.collapsed ? "▶" : "▼" );
                 }
                 if( entry.is_item() && ( selected || !entry.is_selectable() ) ) {
@@ -1715,7 +1829,7 @@ const item_category *inventory_selector::naturalize_category( const item_categor
 inventory_entry *inventory_selector::add_entry( inventory_column &target_column,
         std::vector<item_location> &&locations,
         const item_category *custom_category,
-        const size_t chosen_count, item *topmost_parent,
+        const size_t chosen_count, item_location const &topmost_parent,
         bool chevron )
 {
     if( !preset.is_shown( locations.front() ) ) {
@@ -1742,7 +1856,7 @@ bool inventory_selector::add_entry_rec( inventory_column &entry_column,
                                         inventory_column &children_column, item_location &loc,
                                         item_category const *entry_category,
                                         item_category const *children_category,
-                                        item *topmost_parent, int indent )
+                                        item_location const &topmost_parent, int indent )
 {
     inventory_column temp_children( preset );
     bool vis_contents =
@@ -1767,7 +1881,7 @@ bool inventory_selector::add_contained_items( item_location &container )
 }
 
 bool inventory_selector::add_contained_items( item_location &container, inventory_column &column,
-        const item_category *const custom_category, item *topmost_parent, int indent )
+        const item_category *const custom_category, item_location const &topmost_parent, int indent )
 {
     if( container->has_flag( STATIC( flag_id( "NO_UNLOAD" ) ) ) ) {
         return false;
@@ -1928,6 +2042,27 @@ bool inventory_selector::highlight( const item_location &loc )
     }
 
     return res;
+}
+
+item_location inventory_selector::get_collation_next() const
+{
+    inventory_column &col = get_active_column();
+    inventory_entry &ent = col.get_highlighted();
+    if( !ent.is_collated() ) {
+        return {};
+    }
+    if( ent.is_collation_header() ) {
+        return ent.locations.front();
+    }
+
+    item_location const &loc_cur = ent.locations.front();
+    inventory_entry const &p_ent = *col.find_by_location( ent.collation_meta->tip );
+    auto iter = std::find( p_ent.locations.begin(), p_ent.locations.end(), loc_cur );
+    if( iter == --p_ent.locations.end() ) {
+        return *--iter;
+    }
+
+    return *++iter;
 }
 
 bool inventory_selector::highlight_one_of( const std::vector<item_location> &locations )
@@ -2723,6 +2858,7 @@ void inventory_selector::_categorize( inventory_column &col )
     }
     col.set_indent_entries_override( false );
     col.invalidate_paging();
+    col.uncollate();
 }
 
 void inventory_selector::_uncategorize( inventory_column &col )
@@ -2748,6 +2884,7 @@ void inventory_selector::_uncategorize( inventory_column &col )
     }
     col.clear_indent_entries_override();
     col.invalidate_paging();
+    col.uncollate();
 }
 
 void inventory_selector::toggle_categorize_contained()
