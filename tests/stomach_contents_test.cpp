@@ -37,6 +37,7 @@ static void pass_time( Character &p, time_duration amt )
     for( time_duration turns = 1_turns; turns < amt; turns += 1_turns ) {
         calendar::turn += 1_turns;
         p.update_body();
+        p.update_health();
     }
 }
 
@@ -266,9 +267,6 @@ TEST_CASE( "vitamin_daily", "[vitamins]" )
             subject.get_daily_vitamin( vitamin_iron ) == 0 ) {
             break;
         }
-        //otherwise clean up any other health changes that may have happened
-        subject.set_daily_health( 0 );
-
     }
 
     // check if after a day health is up and vitamins are reset
