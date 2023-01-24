@@ -709,6 +709,7 @@
       {
         "material": [ { "type": "chitin_light", "covered_by_mat": 100, "thickness": 10 } ],
         "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper", "torso_lower", "torso_hanging_back" ],
         "coverage": 100,
         "encumbrance": 5
       }
@@ -743,6 +744,7 @@
       {
         "material": [ { "type": "chitin_light", "covered_by_mat": 100, "thickness": 15 } ],
         "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper", "torso_lower", "torso_hanging_back" ],
         "coverage": 100,
         "encumbrance": 10
       }
@@ -777,6 +779,7 @@
       {
         "material": [ { "type": "bone", "covered_by_mat": 100, "thickness": 20 } ],
         "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper", "torso_lower", "torso_hanging_back" ],
         "coverage": 100,
         "encumbrance": 10
       }
