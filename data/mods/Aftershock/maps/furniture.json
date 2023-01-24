@@ -1138,5 +1138,42 @@
       "items": [ { "item": "pipe", "count": 10 }, { "item": "cotton_patchwork", "count": [ 30, 33 ] }, { "item": "rope_6" } ]
     },
     "required_str": 20
+  },
+  {
+    "type": "furniture",
+    "id": "f_afs_escape_pod_seat_launch",
+    "name": "escape pod seat",
+    "copy-from": "f_seat_airplane",
+    "description": "The cushioned and upright facing seat of a single-seater escape pod.  A storage space beneath it holds survival supplies.",
+    "symbol": "H",
+    "color": "light_red",
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "CAN_SIT" ],
+    "move_cost_mod": 1,
+    "coverage": 45,
+    "comfort": 3,
+    "floor_bedding_warmth": 500,
+    "bonus_fire_warmth_feet": 1000,
+    "deconstruct": {
+      "items": [ { "item": "pipe", "count": 10 }, { "item": "cotton_patchwork", "count": [ 30, 33 ] }, { "item": "rope_6" } ]
+    },
+    "required_str": 20,
+    "examine_action": {
+      "effect_on_conditions": [
+        {
+          "id": "EOC_ESCAPE_POD",
+          "effect": [
+            {
+              "u_location_variable": { "global_val": "new_map" },
+              "target_params": { "om_terrain": "afs_crashed_escape_pod", "z": 0, "random": true, "search_range": 40, "min_distance": 0 }
+            },
+            {
+              "u_message": "You strap yourself into the escape pod seat and press the launch button.  With an incredibly loud roar, the escape pod drops from the ship, plummeting towards the planet below.",
+              "popup": true
+            },
+            { "u_teleport": { "global_val": "new_map" }, "force": true }
+          ]
+        }
+      ]
+    }
   }
 ]
