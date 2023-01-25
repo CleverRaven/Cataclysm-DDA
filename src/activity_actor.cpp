@@ -6528,7 +6528,7 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &who )
                || item_is_favorite( it, tile )
                || item_is_no_unload( it, tile, abspos );
     };
-    auto process_item = [&]
+    std::function<bool ( item &, loot_tile_info & )> process_item = [&]
     ( item & it, loot_tile_info & tile_info ) {
 
         const tripoint_abs_ms who_pos = who.get_location();
@@ -6599,13 +6599,13 @@ void move_loot_activity_actor::start( player_activity &act, Character &who )
 
 void move_loot_activity_actor::do_turn( player_activity &act, Character &who )
 {
-    auto filter_item_all = []( item & it, loot_tile_info & tile, zone_type_id & id ) {
+    auto filter_item_all = []( item & it, loot_tile_info & tile, zone_type_id id ) {
         return item_is_non_solid( it )
                || item_is_favorite( it, tile )
                || item_in_correct_zone( it, tile, id );
     };
     map &here = get_map();
-    auto process_item = [&]
+    std::function<bool ( item &, loot_tile_info & )> process_item = [&]
     ( item & it, loot_tile_info & tile_info ) {
 
         const tripoint_abs_ms who_pos = who.get_location();
