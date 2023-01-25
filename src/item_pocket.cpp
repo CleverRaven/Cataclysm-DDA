@@ -1479,9 +1479,8 @@ bool item_pocket::can_reload_with( const item &ammo, const bool now ) const
         // The ammo in it needs to be compatible,
         // and the pocket needs to be empty (except casings)
         return allows_speedloader( ammo.typeId() ) &&
-               is_compatible( ammo.loaded_ammo() ).success() &&
-               ( remaining_ammo_capacity( ammo.loaded_ammo().ammo_type() ) == ammo_capacity(
-                     ammo.loaded_ammo().ammo_type() ) );
+            is_compatible( ammo.loaded_ammo() ).success() &&
+            ( remaining_ammo_capacity( ammo.loaded_ammo().ammo_type() ) >= ammo.ammo_remaining() );
     }
 
     if( ammo.has_flag( flag_SPEEDLOADER_CLIP ) ) {
