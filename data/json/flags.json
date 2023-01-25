@@ -1687,13 +1687,13 @@
   },
   {
     "id": "SPEEDLOADER",
-    "info": "This item can transfers rounds into <info>empty gun or magazine</info>.",
+    "info": "This item can transfers rounds into gun or magazine that <info>have enough space</info>.",
     "type": "json_flag",
     "conflicts": [ "SPEEDLOADER_CLIP" ]
   },
   {
     "id": "SPEEDLOADER_CLIP",
-    "info": "This item can transfers rounds into <info>both empty or non-empty gun or magazine</info>.",
+    "info": "This item can transfers rounds into gun or magazine that <info>don't have enough space</info>.",
     "type": "json_flag",
     "conflicts": [ "SPEEDLOADER" ]
   },
