@@ -6218,7 +6218,7 @@ static bool move_item( Character &who, item &it, int quantity, const loot_tile_i
 }
 
 static std::deque<tripoint_abs_ms> loot_start( player_activity &act, Character &who,
-        std::vector<tripoint_abs_ms> tiles_unsorted )
+        std::vector<tripoint_abs_ms> &tiles_unsorted )
 {
     faction const *fac = who.get_faction();
     faction_id fac_id = fac == nullptr ? faction_id() : fac->id;
@@ -6246,16 +6246,13 @@ static std::deque<tripoint_abs_ms> loot_start( player_activity &act, Character &
     // skip empty tiles. Should be the majority
     auto tile_is_empty = [&]( tripoint_bub_ms loc ) {
         const cata::optional<vpart_reference> vp = here.veh_at( loc ).part_with_feature( "CARGO", false );
-        if( ( !vp || vp->vehicle().get_items( vp->part_index() ).empty() ) && here.i_at( loc ).empty() ) {
-            return true;
-        }
-        return false;
+        return ( !vp || vp->vehicle().get_items( vp->part_index() ).empty() )
+            && here.i_at( loc ).empty();
     };
 
     auto filter_tile_all = [&]( tripoint_abs_ms loc ) {
         const tripoint_bub_ms &loc_bub = here.bub_from_abs( loc );
-        return false
-               || tile_is_empty( loc_bub )
+        return    tile_is_empty( loc_bub )
                || tile_is_ignored( loc )
                || tile_is_fire( loc_bub )
                || tile_is_full_furnace( loc_bub )
@@ -6300,20 +6297,20 @@ void unload_loot_activity_actor::start( player_activity &act, Character &who )
 }
 
 // Liquid
-static bool item_is_non_solid( item it )
+static bool item_is_non_solid( item &it )
 {
     return !it.made_of_from_type( phase_id::SOLID );
 }
 
 // Favorite in a ignore_favorites zone
-static bool item_is_favorite( item it, loot_tile_info &tile )
+static bool item_is_favorite( item &it, loot_tile_info &tile )
 {
     return it.is_favorite
            && tile.mgr.has( zone_type_LOOT_IGNORE_FAVORITES, tile.pos, tile.fac_id );
 }
 
 // not in unload_all && not a corpse in strip
-static bool item_is_no_unload( item it, loot_tile_info &tile, tripoint_abs_ms abspos )
+static bool item_is_no_unload( item &it, loot_tile_info &tile, tripoint_abs_ms abspos )
 {
     bool unload_this =
         tile.mgr.has_near( zone_type_zone_unload_all, abspos, 1, tile.fac_id )
@@ -6425,7 +6422,7 @@ static bool loot_unload_item( player_activity &act, Character &who, item &it, lo
 
 static void loot_iterate_tiles( player_activity &act, Character &who,
                                 std::deque<tripoint_abs_ms> &tiles_rem, int &index_items,
-                                std::function<bool( item &, loot_tile_info & )> process_item )
+                                std::function<bool( item &, loot_tile_info & )> &process_item )
 {
     faction const *fac = who.get_faction();
     faction_id fac_id = fac == nullptr ? faction_id() : fac->id;
@@ -6498,8 +6495,8 @@ static void loot_iterate_tiles( player_activity &act, Character &who,
 
         // Look at one specific tile, starting where we left off.
         for( auto it_pair = items.begin() + index_items; it_pair < items.end(); it_pair++ ) {
-            auto &it = *it_pair->first;
-            auto &in_veh = it_pair->second;
+            item &it = *it_pair->first;
+            bool &in_veh = it_pair->second;
 
             loot_tile_info tile_info = {
                 adjacent,
@@ -6526,12 +6523,10 @@ static void loot_iterate_tiles( player_activity &act, Character &who,
 
 void unload_loot_activity_actor::do_turn( player_activity &act, Character &who )
 {
-    auto filter_item_all = []( item it, loot_tile_info tile, tripoint_abs_ms abspos ) {
-        return false
-               || item_is_non_solid( it )
+    auto filter_item_all = []( item &it, loot_tile_info &tile, tripoint_abs_ms &abspos ) {
+        return    item_is_non_solid( it )
                || item_is_favorite( it, tile )
-               || item_is_no_unload( it, tile, abspos )
-               ;
+               || item_is_no_unload( it, tile, abspos );
     };
     auto process_item = [&]
     ( item & it, loot_tile_info & tile_info ) {
@@ -6604,12 +6599,10 @@ void move_loot_activity_actor::start( player_activity &act, Character &who )
 
 void move_loot_activity_actor::do_turn( player_activity &act, Character &who )
 {
-    auto filter_item_all = []( item it, loot_tile_info & tile, zone_type_id id ) {
-        return false
-               || item_is_non_solid( it )
+    auto filter_item_all = []( item &it, loot_tile_info &tile, zone_type_id &id ) {
+        return    item_is_non_solid( it )
                || item_is_favorite( it, tile )
-               || item_in_correct_zone( it, tile, id )
-               ;
+               || item_in_correct_zone( it, tile, id );
     };
     map &here = get_map();
     auto process_item = [&]
@@ -6626,7 +6619,7 @@ void move_loot_activity_actor::do_turn( player_activity &act, Character &who )
         const std::unordered_set<tripoint_abs_ms> dest_set =
             tile_info.mgr.get_near( id, who_pos, ACTIVITY_SEARCH_DISTANCE, &it, tile_info.fac_id );
 
-        if( ( dest_set.empty() || tile_info.unload_always ) ) {
+        if( dest_set.empty() || tile_info.unload_always ) {
             // We can't easily check in filter whether we want to unload the item or not.
             // Therefore, we have a check here. If it belongs nowhere and should be unloaded but
             // cannot be unloaded, we skip it.

@@ -13,7 +13,6 @@
 #include "ret_val.h"
 #include "type_id.h"
 
-static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
 static const faction_id faction_your_followers( "your_followers" );
 
 static const itype_id itype_556( "556" );
