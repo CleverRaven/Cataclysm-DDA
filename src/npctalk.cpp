@@ -2778,7 +2778,7 @@ void talk_effect_fun_t<T>::set_revert_location( const JsonObject &jo, const std:
         const tripoint_abs_ms abs_ms( get_tripoint_from_var<T>( target_var, d ) );
         tripoint_abs_omt omt_pos = project_to<coords::omt>( abs_ms );
         time_point tif = calendar::turn + dov_time_in_future.evaluate( d ) + 1_seconds;
-        //Timed events happen before the player turn and eocs are during so we add a second here to sync them up using the same variable
+        // Timed events happen before the player turn and eocs are during so we add a second here to sync them up using the same variable
         // maptile is 4 submaps so queue up 4 submap reverts
         for( int x = 0; x < 2; x++ ) {
             for( int y = 0; y < 2; y++ ) {
@@ -2786,12 +2786,14 @@ void talk_effect_fun_t<T>::set_revert_location( const JsonObject &jo, const std:
                 revert_sm += point( x, y );
                 submap *sm = MAPBUFFER.lookup_submap( revert_sm );
                 if( sm == nullptr ) {
-                    get_map().load( revert_sm, true );
+                    tinymap tm;
+                    tm.load( revert_sm, true );
                     sm = MAPBUFFER.lookup_submap( revert_sm );
                 }
                 get_timed_events().add( timed_event_type::REVERT_SUBMAP, tif, -1,
                                         project_to<coords::ms>( revert_sm ), 0, "",
                                         sm->get_revert_submap(), key.evaluate( d ) );
+                get_map().invalidate_map_cache( omt_pos.z() );
             }
         }
     };

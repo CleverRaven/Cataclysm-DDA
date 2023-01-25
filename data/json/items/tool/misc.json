@@ -626,7 +626,7 @@
     "material": [ "wood" ],
     "symbol": "H",
     "color": "brown",
-    "use_action": [ "LADDER" ]
+    "use_action": { "type": "deploy_furn", "furn_type": "f_ladder" }
   },
   {
     "id": "survival_marker",
@@ -872,7 +872,7 @@
     "material": [ "aluminum" ],
     "symbol": "H",
     "color": "light_gray",
-    "use_action": [ "LADDER" ]
+    "use_action": { "type": "deploy_furn", "furn_type": "f_aluminum_stepladder" }
   },
   {
     "id": "glass_cutter",

@@ -12,6 +12,7 @@ NPCs can assign missions to the player.  There is a fairly regular structure for
     "difficulty": 2,
     "value": 150000,
     "item": "black_box_transcript",
+    "invisible_on_complete": false,
     "start": {
        "effect": { "u_buy_item": "black_box" },
        "assign_mission_target": { "om_terrain": "lab", "reveal_radius": 3 }
@@ -98,6 +99,9 @@ the player's current kill count that must be killed to complete the mission.
 ### goal_condition
 For "MGOAL_CONDITION", defines the condition that must be satisfied for the mission to be considered complete.
 Conditions are explained in more detail in [NPCs.md](./NPCs.md), and are used here in exactly the same way.
+
+### invisible_on_complete
+Optional bool, defaults to false.  If true when this mission is finished it won't show up on the missions completed or missions failed lists.
 
 ### dialogue
 This is a dictionary of strings.  The NPC says these exact strings in response to the player
