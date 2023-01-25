@@ -6247,12 +6247,12 @@ static std::deque<tripoint_abs_ms> loot_start( player_activity &act, Character &
     auto tile_is_empty = [&]( tripoint_bub_ms loc ) {
         const cata::optional<vpart_reference> vp = here.veh_at( loc ).part_with_feature( "CARGO", false );
         return ( !vp || vp->vehicle().get_items( vp->part_index() ).empty() )
-            && here.i_at( loc ).empty();
+               && here.i_at( loc ).empty();
     };
 
     auto filter_tile_all = [&]( tripoint_abs_ms loc ) {
         const tripoint_bub_ms &loc_bub = here.bub_from_abs( loc );
-        return    tile_is_empty( loc_bub )
+        return tile_is_empty( loc_bub )
                || tile_is_ignored( loc )
                || tile_is_fire( loc_bub )
                || tile_is_full_furnace( loc_bub )
@@ -6523,8 +6523,8 @@ static void loot_iterate_tiles( player_activity &act, Character &who,
 
 void unload_loot_activity_actor::do_turn( player_activity &act, Character &who )
 {
-    auto filter_item_all = []( item &it, loot_tile_info &tile, tripoint_abs_ms &abspos ) {
-        return    item_is_non_solid( it )
+    auto filter_item_all = []( item & it, loot_tile_info & tile, tripoint_abs_ms & abspos ) {
+        return item_is_non_solid( it )
                || item_is_favorite( it, tile )
                || item_is_no_unload( it, tile, abspos );
     };
@@ -6599,8 +6599,8 @@ void move_loot_activity_actor::start( player_activity &act, Character &who )
 
 void move_loot_activity_actor::do_turn( player_activity &act, Character &who )
 {
-    auto filter_item_all = []( item &it, loot_tile_info &tile, zone_type_id &id ) {
-        return    item_is_non_solid( it )
+    auto filter_item_all = []( item & it, loot_tile_info & tile, zone_type_id & id ) {
+        return item_is_non_solid( it )
                || item_is_favorite( it, tile )
                || item_in_correct_zone( it, tile, id );
     };
