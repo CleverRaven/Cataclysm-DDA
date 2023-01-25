@@ -331,6 +331,7 @@
       "and": [
         { "u_has_bionics": "bio_itchy" },
         { "not": { "u_has_effect": "formication" } },
+        { "not": { "u_has_effect": "narcosis" } },
         { "not": { "and": [ { "u_has_effect": "sleep" }, { "u_has_bionics": "bio_sleep_shutdown" } ] } }
       ]
     },
