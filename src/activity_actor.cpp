@@ -6523,7 +6523,7 @@ static void loot_iterate_tiles( player_activity &act, Character &who,
 
 void unload_loot_activity_actor::do_turn( player_activity &act, Character &who )
 {
-    auto filter_item_all = []( item & it, loot_tile_info & tile, tripoint_abs_ms & abspos ) {
+    auto filter_item_all = []( item & it, loot_tile_info & tile, tripoint_abs_ms abspos ) {
         return item_is_non_solid( it )
                || item_is_favorite( it, tile )
                || item_is_no_unload( it, tile, abspos );
