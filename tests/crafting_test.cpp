@@ -585,7 +585,6 @@ TEST_CASE( "tools use charge to craft", "[crafting][charge]" )
         tools.emplace_back( "screwdriver" );
         tools.emplace_back( "vac_mold" );
 
-
         // Materials needed
         tools.insert( tools.end(), 10, item( "solder_wire" ) );
         tools.insert( tools.end(), 6, item( "plastic_chunk" ) );
@@ -769,7 +768,6 @@ TEST_CASE( "broken component", "[crafting][component]" )
         }
     }
 }
-
 
 // Resume the first in progress craft found in the player's inventory
 static int resume_craft()

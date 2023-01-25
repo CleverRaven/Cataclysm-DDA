@@ -886,11 +886,6 @@
   },
   {
     "type": "construction_group",
-    "id": "build_workbench",
-    "name": "Build Workbench"
-  },
-  {
-    "type": "construction_group",
     "id": "build_woven_wattle_fence",
     "name": "Build Woven Wattle Fence"
   },
