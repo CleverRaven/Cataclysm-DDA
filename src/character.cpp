@@ -11459,6 +11459,11 @@ void Character::use( int inventory_position )
 
 void Character::use( item_location loc, int pre_obtain_moves )
 {
+    if( has_effect( effect_incorporeal ) ) {
+        add_msg_if_player( m_bad, _( "You can't use anything while incorporeal." ) );
+        return;
+    }
+
     // if -1 is passed in we don't want to change moves at all
     if( pre_obtain_moves == -1 ) {
         pre_obtain_moves = moves;
