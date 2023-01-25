@@ -113,6 +113,8 @@ class iuse_transform : public iuse_actor
         std::string get_name() const override;
         void finalize( const itype_id &my_item_type ) override;
         void info( const item &, std::vector<iteminfo> & ) const override;
+    private:
+        void do_transform( Character &p, item &it ) const;
 };
 
 class unpack_actor : public iuse_actor
