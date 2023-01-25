@@ -384,7 +384,7 @@ class inventory_column
         void order_by_parent();
 
         inventory_entry *find_by_invlet( int invlet ) const;
-        inventory_entry *find_by_location( item_location &loc ) const;
+        inventory_entry *find_by_location( item_location const &loc, bool hidden = false ) const;
 
         void draw( const catacurses::window &win, const point &p,
                    std::vector< std::pair<inclusive_rectangle<point>, inventory_entry *>> &rect_entry_map );
@@ -397,7 +397,7 @@ class inventory_column
         void set_collapsed( inventory_entry &entry, bool collapse );
 
         /** Highlights the specified location. */
-        bool highlight( const item_location &loc );
+        bool highlight( const item_location &loc, bool front_only = false );
 
         /**
          * Change the highlight.
@@ -791,7 +791,7 @@ class inventory_selector
          * @param loc Location to highlight
          * @return true on success.
          */
-        bool highlight( const item_location &loc );
+        bool highlight( const item_location &loc, bool hidden = false, bool front_only = false );
 
         const inventory_entry &get_highlighted() const {
             return get_active_column().get_highlighted();
@@ -805,7 +805,7 @@ class inventory_selector
             get_active_column().highlight( position.second, scroll_direction::BACKWARD );
         }
 
-        bool highlight_one_of( const std::vector<item_location> &locations );
+        bool highlight_one_of( const std::vector<item_location> &locations, bool hidden = false );
 
         std::pair<size_t, size_t> get_highlighted_position() const {
             std::pair<size_t, size_t> position;

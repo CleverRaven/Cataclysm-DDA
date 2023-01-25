@@ -600,9 +600,10 @@ inventory_entry *inventory_column::find_by_invlet( int invlet ) const
     return nullptr;
 }
 
-inventory_entry *inventory_column::find_by_location( item_location &loc ) const
+inventory_entry *inventory_column::find_by_location( item_location const &loc, bool hidden ) const
 {
-    for( const inventory_entry &elem : entries ) {
+    std::vector<inventory_entry> const &ents = hidden ? entries_hidden : entries;
+    for( const inventory_entry &elem : ents ) {
         if( elem.is_item() ) {
             for( const item_location &it : elem.locations ) {
                 if( it == loc ) {
@@ -1496,13 +1497,14 @@ void inventory_column::clear()
     paging_is_valid = false;
 }
 
-bool inventory_column::highlight( const item_location &loc )
+bool inventory_column::highlight( const item_location &loc, bool front_only )
 {
     for( size_t index = 0; index < entries.size(); ++index ) {
-        if( entries[index].is_selectable()
-            && std::find( entries[index].locations.begin(),
-                          entries[index].locations.end(),
-                          loc ) != entries[index].locations.end() ) {
+        inventory_entry &ent = entries[index];
+        if( ent.is_item() &&
+            ( ( !front_only && std::find( ent.locations.begin(), ent.locations.end(), loc ) !=
+                ent.locations.end() ) ||
+              ( !ent.is_collation_header() && ent.locations.front() == loc ) ) ) {
             highlight( index, scroll_direction::FORWARD );
             return true;
         }
@@ -2027,17 +2029,36 @@ void inventory_selector::clear_items()
     map_column.clear();
 }
 
-bool inventory_selector::highlight( const item_location &loc )
+bool inventory_selector::highlight( const item_location &loc, bool hidden, bool front_only )
 {
     bool res = false;
 
     for( size_t i = 0; i < columns.size(); ++i ) {
         inventory_column *elem = columns[i];
-        if( elem->visible() && elem->highlight( loc ) ) {
-            if( !res && elem->activatable() ) {
-                set_active_column( i );
-                res = true;
+        if( !elem->visible() ) {
+            continue;
+        }
+        bool found = false;
+        if( hidden ) {
+            if( inventory_entry *ent = elem->find_by_location( loc, true ) ) {
+                item_location const &parent = ent->is_collation_entry() ? ent->collation_meta->tip :
+                                              ent->topmost_parent;
+                if( !parent ) {
+                    continue;
+                }
+                inventory_entry *pent = elem->find_by_location( parent );
+                if( elem != nullptr ) {
+                    elem->set_collapsed( *pent, false );
+                    prepare_layout();
+                    found = elem->highlight( loc, true );
+                }
             }
+        } else {
+            found = elem->highlight( loc, front_only );
+        }
+        if( found && !res && elem->activatable() ) {
+            set_active_column( i );
+            res = true;
         }
     }
 
@@ -2065,11 +2086,12 @@ item_location inventory_selector::get_collation_next() const
     return *++iter;
 }
 
-bool inventory_selector::highlight_one_of( const std::vector<item_location> &locations )
+bool inventory_selector::highlight_one_of( const std::vector<item_location> &locations,
+        bool hidden )
 {
     prepare_layout();
     for( const item_location &loc : locations ) {
-        if( highlight( loc ) ) {
+        if( loc && highlight( loc, hidden ) ) {
             return true;
         }
     }
@@ -2117,6 +2139,7 @@ void inventory_selector::rearrange_columns( size_t client_width )
     const inventory_entry &prev_entry = get_highlighted();
     const item_location prev_selection = prev_entry.is_item() ?
                                          prev_entry.any_item() : item_location::nowhere;
+    bool const front_only = prev_entry.is_collation_entry();
     if( is_overflown( client_width ) && !own_gear_column.empty() ) {
         if( own_inv_column.empty() ) {
             own_inv_column.set_indent_entries_override( own_gear_column.indent_entries() );
@@ -2131,7 +2154,7 @@ void inventory_selector::rearrange_columns( size_t client_width )
         map_column.move_entries_to( own_inv_column );
     }
     if( prev_selection ) {
-        highlight( prev_selection );
+        highlight( prev_selection, false, front_only );
     }
 }
 
