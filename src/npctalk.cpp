@@ -3250,7 +3250,7 @@ void talk_effect_fun_t<T>::set_hp( const JsonObject &jo, const std::string &memb
     bool only_increase = jo.get_bool( "only_increase", false );
     function = [only_increase, new_hp, target_part, is_npc]( const T & d ) {
         talker *target = d.actor( is_npc );
-        for( const bodypart_id &part : target->get_all_body_parts() ) {
+        for( const bodypart_id &part : target->get_all_body_parts( true ) ) {
             if( ( !target_part.has_value() || bodypart_id( target_part.value().evaluate( d ) ) == part ) &&
                 ( !only_increase ||
                   target->get_part_hp_cur( part ) <= new_hp.evaluate( d ) ) ) {
