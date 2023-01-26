@@ -327,7 +327,14 @@
     "type": "effect_on_condition",
     "id": "bio_itchy",
     "recurrence": [ "25 minutes", "1 hours 15 minutes" ],
-    "condition": { "and": [ { "u_has_bionics": "bio_itchy" }, { "not": { "u_has_effect": "formication" } } ] },
+    "condition": {
+      "and": [
+        { "u_has_bionics": "bio_itchy" },
+        { "not": { "u_has_effect": "formication" } },
+        { "not": { "u_has_effect": "narcosis" } },
+        { "not": { "and": [ { "u_has_effect": "sleep" }, { "u_has_bionics": "bio_sleep_shutdown" } ] } }
+      ]
+    },
     "deactivate_condition": { "not": { "u_has_bionics": "bio_itchy" } },
     "effect": [
       { "u_message": "Your malfunctioning bionic itches!", "type": "bad" },
