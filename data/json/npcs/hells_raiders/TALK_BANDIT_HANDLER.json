@@ -13,7 +13,7 @@
   {
     "id": "TALK_BANDIT_HANDLER_JOIN",
     "type": "talk_topic",
-    "dynamic_line": "Oh yeah, yeah.  Not a lot of people who don't want me dead come to see me like that, makes ya get a bit jumpy.  Well, I guess you're good material if they'd reccommend you to me, just need your name and a few other things about'ch ya, so I can let the others know to not kill ya when you meet 'em.",
+    "dynamic_line": "Oh yeah, yeah.  Not a lot of people who don't want me dead come to see me like that, makes ya get a bit jumpy.  Well, I guess you're good material if they'd recommend you to me, just need your name and a few other things about'ch ya, so I can let the others know to not kill ya when you meet 'em.",
     "speaker_effect": { "effect": { "npc_first_topic": "TALK_STRANGER_NEUTRAL" } },
     "responses": [
       {

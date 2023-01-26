@@ -90,7 +90,7 @@
   {
     "id": "TALK_HELLS_RAIDERS_BANDIT_TRADER_STUFF",
     "type": "talk_topic",
-    "dynamic_line": "Well, most of it came from the old cities, just waltzed on in, shot some <zombie>s, and walked out with it.  Some's been maufactured either here or elsewhere, a few people who run with us have useful skills for that sort of thing.  Some came from those we've raided, those <name_b>s work for us now, or they've been thrown to one of those <swear> hordes.",
+    "dynamic_line": "Well, most of it came from the old cities, just waltzed on in, shot some <zombie>s, and walked out with it.  Some's been manufactured either here or elsewhere, a few people who run with us have useful skills for that sort of thing.  Some came from those we've raided, those <name_b>s work for us now, or they've been thrown to one of those <swear> hordes.",
     "responses": [
       { "text": "Hmm.", "topic": "TALK_HELLS_RAIDERS_BANDIT_TRADER_2" },
       { "text": "Is that any way to live?", "topic": "TALK_HELLS_RAIDERS_BANDIT_TRADER_MORALITY" },
