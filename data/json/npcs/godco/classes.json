@@ -40,7 +40,12 @@
     "worn_override": "GODCO_guard_worn",
     "carry_override": "GODCO_guard_carried",
     "weapon_override": "GODCO_guard_wield",
-    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" }, { "trait": "NO_BASH" }, { "trait": "RETURN_TO_START_POS" } ],
+    "traits": [
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
     "skills": [
       { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 4, 2 ] }, { "rng": [ -4, -1 ] } ] } ] } }
     ]
