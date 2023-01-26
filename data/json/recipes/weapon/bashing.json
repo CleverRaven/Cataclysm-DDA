@@ -841,7 +841,7 @@
     "time": "30 m",
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_metalworking" } ],
-    "components": [ [ [ "sheet_metal_small", 2 ] ], [ [ "nuts_bolts", 4 ] ], [ [ "bo", 1 ] ] ],
+    "components": [ [ [ "sheet_metal_small", 6 ] ], [ [ "nuts_bolts", 4 ] ], [ [ "bo", 1 ] ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 }, { "id": "DRILL", "level": 2 } ]
   },
   {
