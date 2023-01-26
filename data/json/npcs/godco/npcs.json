@@ -10,8 +10,7 @@
     "mission": 7,
     "chat": "TALK_GODCO_Helena_1",
     "mission_offered": "MISSION_GODCO_HELENA_1",
-    "faction": "gods_community",
-    "traits": [ { "trait": "NO_BASH" }, { "trait": "RETURN_TO_START_POS" } ]
+    "faction": "gods_community"
   },
   {
     "type": "npc",
@@ -24,8 +23,7 @@
     "mission": 7,
     "chat": "TALK_GODCO_chef",
     "mission_offered": "MISSION_GODCO_COOK_FOOD_1",
-    "faction": "gods_community",
-    "traits": [ { "trait": "NO_BASH" }, { "trait": "RETURN_TO_START_POS" } ]
+    "faction": "gods_community"
   },
   {
     "type": "npc",
@@ -37,8 +35,7 @@
     "mission": 7,
     "chat": "TALK_GODCO_guard_food",
     "mission_offered": "MISSION_GODCO_FOOD_GUARD_BOOK",
-    "faction": "gods_community",
-    "traits": [ { "trait": "NO_BASH" }, { "trait": "RETURN_TO_START_POS" } ]
+    "faction": "gods_community"
   },
   {
     "type": "npc",
@@ -51,8 +48,7 @@
     "attitude": 0,
     "mission": 7,
     "chat": "TALK_GODCO_chloe",
-    "faction": "gods_community",
-    "traits": [ { "trait": "NO_BASH" }, { "trait": "RETURN_TO_START_POS" } ]
+    "faction": "gods_community"
   },
   {
     "type": "npc",
@@ -65,8 +61,7 @@
     "mission": 7,
     "chat": "TALK_GODCO_Sonia",
     "mission_offered": "MISSION_GODCO_GET_GUITAR_STRING",
-    "faction": "gods_community",
-    "traits": [ { "trait": "NO_BASH" }, { "trait": "RETURN_TO_START_POS" } ]
+    "faction": "gods_community"
   },
   {
     "type": "npc",
@@ -77,8 +72,7 @@
     "attitude": 0,
     "mission": 7,
     "chat": "TALK_GODCO_Zachary",
-    "faction": "gods_community",
-    "traits": [ { "trait": "NO_BASH" }, { "trait": "RETURN_TO_START_POS" } ]
+    "faction": "gods_community"
   },
   {
     "type": "npc",
@@ -91,8 +85,7 @@
     "mission": 7,
     "chat": "TALK_GODCO_Darryl_1",
     "mission_offered": "MISSION_GODCO_DARRYL_WELL1",
-    "faction": "gods_community",
-    "traits": [ { "trait": "NO_BASH" }, { "trait": "RETURN_TO_START_POS" } ]
+    "faction": "gods_community"
   },
   {
     "type": "npc",
@@ -105,8 +98,7 @@
     "mission": 7,
     "chat": "TALK_GODCO_Katherine_1",
     "mission_offered": "MISSION_GODCO_KATHERINE_1",
-    "faction": "gods_community",
-    "traits": [ { "trait": "NO_BASH" }, { "trait": "RETURN_TO_START_POS" } ]
+    "faction": "gods_community"
   },
   {
     "type": "npc",
@@ -119,8 +111,7 @@
     "mission": 7,
     "chat": "TALK_GODCO_Julian_1",
     "mission_offered": "MISSION_GODCO_JULIAN_PAPER",
-    "faction": "gods_community",
-    "traits": [ { "trait": "NO_BASH" }, { "trait": "RETURN_TO_START_POS" } ]
+    "faction": "gods_community"
   },
   {
     "type": "npc",
@@ -133,8 +124,7 @@
     "mission": 7,
     "chat": "TALK_GODCO_Gemma_1",
     "mission_offered": [ "MISSION_GODCO_GEMMA_SUPPLEMENTS", "MISSION_GODCO_GEMMA_SEEDS" ],
-    "faction": "gods_community",
-    "traits": [ { "trait": "NO_BASH" }, { "trait": "RETURN_TO_START_POS" } ]
+    "faction": "gods_community"
   },
   {
     "type": "npc",
@@ -147,8 +137,7 @@
     "mission": 7,
     "chat": "TALK_GODCO_Russell_1",
     "mission_offered": "MISSION_GODCO_RUSSELL_TROPHY1",
-    "faction": "gods_community",
-    "traits": [ { "trait": "NO_BASH" }, { "trait": "RETURN_TO_START_POS" } ]
+    "faction": "gods_community"
   },
   {
     "type": "npc",
@@ -161,8 +150,7 @@
     "mission": 7,
     "chat": "TALK_GODCO_Tom_1",
     "mission_offered": "MISSION_GODCO_TOM_1",
-    "faction": "gods_community",
-    "traits": [ { "trait": "NO_BASH" }, { "trait": "RETURN_TO_START_POS" } ]
+    "faction": "gods_community"
   },
   {
     "type": "npc",
@@ -175,8 +163,7 @@
     "mission": 7,
     "chat": "TALK_GODCO_Kostas_1",
     "mission_offered": "MISSION_GODCO_KOSTAS_1",
-    "faction": "gods_community",
-    "traits": [ { "trait": "NO_BASH" }, { "trait": "RETURN_TO_START_POS" } ]
+    "faction": "gods_community"
   },
   {
     "type": "npc",
@@ -189,8 +176,7 @@
     "mission": 7,
     "chat": "TALK_GODCO_Greenwood_1",
     "mission_offered": "MISSION_GODCO_GREENWOOD_1",
-    "faction": "gods_community",
-    "traits": [ { "trait": "NO_BASH" }, { "trait": "RETURN_TO_START_POS" } ]
+    "faction": "gods_community"
   },
   {
     "type": "npc",
@@ -203,8 +189,7 @@
     "mission": 7,
     "chat": "TALK_GODCO_Jane_1",
     "mission_offered": "MISSION_GODCO_JANE_PILLS",
-    "faction": "gods_community",
-    "traits": [ { "trait": "NO_BASH" }, { "trait": "RETURN_TO_START_POS" } ]
+    "faction": "gods_community"
   },
   {
     "type": "npc",
@@ -217,8 +202,7 @@
     "mission": 7,
     "chat": "TALK_GODCO_Corrie_1",
     "mission_offered": "MISSION_GODCO_CORRIE_MACHINE1",
-    "faction": "gods_community",
-    "traits": [ { "trait": "NO_BASH" }, { "trait": "RETURN_TO_START_POS" } ]
+    "faction": "gods_community"
   },
   {
     "type": "npc",
@@ -231,8 +215,7 @@
     "mission": 7,
     "chat": "TALK_GODCO_Felicity_1",
     "mission_offered": "MISSION_GODCO_FELICITY_1",
-    "faction": "gods_community",
-    "traits": [ { "trait": "NO_BASH" }, { "trait": "RETURN_TO_START_POS" } ]
+    "faction": "gods_community"
   },
   {
     "type": "npc",
@@ -246,8 +229,7 @@
     "mission": 7,
     "chat": "TALK_GODCO_Theresa_1",
     "mission_offered": "MISSION_GODCO_THERESA_1",
-    "faction": "gods_community",
-    "traits": [ { "trait": "NO_BASH" }, { "trait": "RETURN_TO_START_POS" } ]
+    "faction": "gods_community"
   },
   {
     "type": "npc",
@@ -261,8 +243,7 @@
     "mission": 7,
     "chat": "TALK_GODCO_Jeremiah_1",
     "mission_offered": "MISSION_GODCO_JEREMIAH_1",
-    "faction": "gods_community",
-    "traits": [ { "trait": "NO_BASH" }, { "trait": "RETURN_TO_START_POS" } ]
+    "faction": "gods_community"
   },
   {
     "type": "npc",
@@ -275,8 +256,7 @@
     "mission": 7,
     "chat": "TALK_GODCO_Olwen_1",
     "mission_offered": "MISSION_GODCO_OLWEN_1",
-    "faction": "gods_community",
-    "traits": [ { "trait": "NO_BASH" }, { "trait": "RETURN_TO_START_POS" } ]
+    "faction": "gods_community"
   },
   {
     "type": "npc",
@@ -289,8 +269,7 @@
     "mission": 7,
     "chat": "TALK_GODCO_Maria",
     "mission_offered": "MISSION_GODCO_MARIA_1",
-    "faction": "gods_community",
-    "traits": [ { "trait": "NO_BASH" }, { "trait": "RETURN_TO_START_POS" } ]
+    "faction": "gods_community"
   },
   {
     "type": "npc",
@@ -302,7 +281,6 @@
     "attitude": 0,
     "mission": 7,
     "chat": "TALK_GODCO_Arturo_1",
-    "faction": "gods_community",
-    "traits": [ { "trait": "NO_BASH" }, { "trait": "RETURN_TO_START_POS" } ]
+    "faction": "gods_community"
   }
 ]
