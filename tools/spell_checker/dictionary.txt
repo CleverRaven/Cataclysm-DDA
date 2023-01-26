@@ -2255,6 +2255,7 @@ reprises
 reptiloid
 requisites
 rerio
+resealable
 resinosa
 resinous
 resizing
