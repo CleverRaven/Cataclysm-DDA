@@ -88,13 +88,13 @@
     "worn_override": "GODCO_sonia_worn",
     "carry_override": "GODCO_sonia_carried",
     "weapon_override": "GODCO_sonia_wield",
-    "traits": [ 
-      { "trait": "PRETTY" }, 
-      { "trait": "PACIFIST" }, 
-      { "group": "NPC_starting_traits" }, 
-      { "trait": "hair_blond_long" }, 
-      { "trait": "NO_BASH" }, 
-      { "trait": "RETURN_TO_START_POS" } 
+    "traits": [
+      { "trait": "PRETTY" },
+      { "trait": "PACIFIST" },
+      { "group": "NPC_starting_traits" },
+      { "trait": "hair_blond_long" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
     ],
     "skills": [ { "skill": "speech", "bonus": { "rng": [ 3, 4 ] } }, { "bonus": 1, "skill": "bashing" } ]
   },
