@@ -258,16 +258,17 @@
     "color": "pink",
     "aggression": 100,
     "morale": 100,
-    "melee_skill": 4,
+    "melee_skill": 3,
     "armor_bash": 20,
     "armor_cut": 5,
-    "armor_bullet": 5,
-    "armor_elec": 2,
-    "vision_night": 5,
+    "armor_bullet": 4,
+    "armor_elec": 3,
+    "bleed_rate": 50,
+    "vision_night": 3,
     "harvest": "zombie_meatslug",
+    "fungalize_into": "mon_boomer_fungus",
     "emit_fields": [ { "emit_id": "emit_sludge_puddle", "delay": "1 s" } ],
     "special_attacks": [
-      [ "BOOMER", 21 ],
       {
         "type": "bite",
         "cooldown": 1,
@@ -278,12 +279,12 @@
       {
         "type": "spell",
         "spell_data": { "id": "spread_sludge", "min_level": 1 },
-        "cooldown": 28,
+        "cooldown": 20,
         "monster_message": "The glutton vomits sludge!"
       }
     ],
     "death_drops": "default_zombie_items",
-    "death_function": { "effect": { "id": "death_boomer", "hit_self": true }, "message": "A %s explodes!", "corpse_type": "NO_CORPSE" },
+    "death_function": { "effect": { "id": "death_boomer_glutton", "hit_self": true }, "message": "A %s explodes!", "corpse_type": "NO_CORPSE" },
     "flags": [
       "SEES",
       "HEARS",
