@@ -39,8 +39,8 @@ jobs:
       - name: Generate environmental variables
         id: generate_env_vars
         run: |
-          echo "::set-output name=tag_name::cdda-experimental-${{ steps.get-timestamp.outputs.time }}"
-          echo "::set-output name=release_name::Cataclysm-DDA experimental build ${{ steps.get-timestamp.outputs.time }}"
+          echo "tag_name=cdda-experimental-${{ steps.get-timestamp.outputs.time }}" >> $GITHUB_OUTPUT
+          echo "release_name=Cataclysm-DDA experimental build ${{ steps.get-timestamp.outputs.time }}" >> $GITHUB_OUTPUT
       - name: Check if there is existing git tag
         id: tag_check
         uses: mukunku/tag-exists-action@v1.0.0
@@ -234,7 +234,7 @@ jobs:
           # availability only as an x86 host tool. Keep it in sync with the builtin-baseline
           # field in vcpkg.json. Caching happens as a post-action which runs at the end of
           # the whole workflow, after vcpkg install happens during msbuild run.
-          vcpkgGitCommitId: '659b6b5eeacb50ffe25856413960d231ce1a4b58'
+          vcpkgGitCommitId: '12b7cfe6109a9d68319334b56a01c44a302a13b6'
       - name: Install dependencies (windows msvc) (3/3)
         if: runner.os == 'Windows'
         run: |

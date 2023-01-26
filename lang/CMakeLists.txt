@@ -13,12 +13,6 @@ foreach (LANG ${LANGUAGES})
     message(STATUS "Add translation for ${LANG}: ${LANG}.po")
 endforeach ()
 
-# Extract json strings
-add_custom_target(
-        extract_string
-        COMMAND python3 lang/extract_json_strings.py
-        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
-
 cmake_path(GET GETTEXT_MSGFMT_EXECUTABLE PARENT_PATH _path)
 find_program(XGETTEXT_MSGFMT_EXECUTABLE
     xgettext
@@ -32,19 +26,8 @@ endif()
 # Generate cataclysm-dda.pot
 add_custom_target(
         translations
-        COMMAND ${XGETTEXT_MSGFMT_EXECUTABLE} --default-domain="cataclysm-dda"
-                         --sort-by-file
-                         --add-comments="~"
-                         --output="${CMAKE_SOURCE_DIR}/lang/po/cataclysm-dda.pot"
-                         --keyword="_"
-                         --keyword="pgettext:1c,2"
-                         --keyword="ngettext:1,2"
-                         --from-code="UTF-8"
-                         ${CMAKE_SOURCE_DIR}/src/*.cpp
-                         ${CMAKE_SOURCE_DIR}/src/*.h
-                         ${CMAKE_SOURCE_DIR}/lang/json/*.py
-        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-        DEPENDS extract_string)
+        COMMAND ${CMAKE_SOURCE_DIR}/lang/update_pot.sh
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
 
 add_custom_target(
         translations_prepare
