@@ -1,5 +1,5 @@
-[ 
- {
+[
+  {
     "type": "npc",
     "id": "thug",
     "//": "Generic melee focused guard for the Hell's Raiders faction.",
@@ -31,7 +31,7 @@
     "mission": 7,
     "chat": "TALK_BANDIT_HANDLER_WHO",
     "faction": "no_faction"
-  },   
+  },
   {
     "type": "npc",
     "id": "hells_raiders_boss",
