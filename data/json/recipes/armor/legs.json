@@ -646,9 +646,11 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "fabrication",
-    "time": "40 m",
+    "time": "30 m",
     "autolearn": true,
-    "components": [ [ [ "rubber_tire_chunk", 8 ] ], [ [ "duct_tape", 8 ] ] ],
+    "reversible": true,
+    "using": [ [ "adhesive_cordage", 2 ] ],
+    "components": [ [ [ "rubber_tire_chunk", 4 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
