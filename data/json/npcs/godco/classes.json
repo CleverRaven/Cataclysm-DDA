@@ -145,8 +145,8 @@
       { "group": "Appearance_demographics" },
       { "trait": "ANIMALEMPATH" },
       { "trait": "OUTDOORSMAN" },
-      { "group": "Exp_Agriculture_Nofake" }, 
-      { "trait": "NO_BASH" }, 
+      { "group": "Exp_Agriculture_Nofake" },
+      { "trait": "NO_BASH" },
       { "trait": "RETURN_TO_START_POS" }
     ],
     "skills": [
@@ -175,8 +175,8 @@
       { "trait": "GLASSJAW" },
       { "trait": "SPIRITUAL" },
       { "group": "NPC_starting_traits" },
-      { "group": "Appearance_Caucasian" }, 
-      { "trait": "NO_BASH" }, 
+      { "group": "Appearance_Caucasian" },
+      { "trait": "NO_BASH" },
       { "trait": "RETURN_TO_START_POS" }
     ],
     "skills": [
@@ -202,7 +202,7 @@
       { "trait": "NIGHTVISION" },
       { "trait": "SPIRITUAL" },
       { "trait": "INSOMNIA" },
-      { "trait": "NO_BASH" }, 
+      { "trait": "NO_BASH" },
       { "trait": "RETURN_TO_START_POS" }
     ],
     "skills": [
@@ -224,12 +224,12 @@
     "worn_override": "GODCO_gemma_worn",
     "carry_override": "GODCO_gemma_carried",
     "weapon_override": "GODCO_gemma_wield",
-    "traits": [ 
-      { "trait": "SPIRITUAL" }, 
-      { "trait": "NIGHTVISION" }, 
-      { "group": "Appearance_demographics" }, 
-      { "trait": "NO_BASH" }, 
-      { "trait": "RETURN_TO_START_POS" } 
+    "traits": [
+      { "trait": "SPIRITUAL" },
+      { "trait": "NIGHTVISION" },
+      { "group": "Appearance_demographics" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
     ],
     "skills": [
       { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } },
@@ -265,8 +265,8 @@
       { "trait": "OUTDOORSMAN" },
       { "trait": "EAGLEEYED" },
       { "group": "Appearance_demographics" },
-      { "trait": "FACIAL_HAIR_BEARD" }, 
-      { "trait": "NO_BASH" }, 
+      { "trait": "FACIAL_HAIR_BEARD" },
+      { "trait": "NO_BASH" },
       { "trait": "RETURN_TO_START_POS" }
     ],
     "skills": [
@@ -296,7 +296,7 @@
       { "trait": "SLOWRUNNER" },
       { "group": "NPC_starting_traits" },
       { "group": "Appearance_demographics" },
-      { "trait": "NO_BASH" }, 
+      { "trait": "NO_BASH" },
       { "trait": "RETURN_TO_START_POS" }
     ],
     "skills": [ { "bonus": 2, "skill": "survival" }, { "bonus": 1, "skill": "fabrication" } ]
@@ -344,12 +344,12 @@
     "worn_override": "GODCO_greenwood_worn",
     "carry_override": "GODCO_greenwood_carried",
     "weapon_override": "GODCO_greenwood_wield",
-    "traits": [ 
-      { "trait": "SPIRITUAL" }, 
+    "traits": [
+      { "trait": "SPIRITUAL" },
       { "group": "NPC_starting_traits" },
-      { "group": "Appearance_demographics" }, 
-      { "trait": "NO_BASH" }, 
-      { "trait": "RETURN_TO_START_POS" } 
+      { "group": "Appearance_demographics" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
     ],
     "skills": [ { "bonus": 4, "skill": "speech" } ]
   },
@@ -366,7 +366,12 @@
     "worn_override": "GODCO_jane_worn",
     "carry_override": "GODCO_jane_carried",
     "weapon_override": "GODCO_jane_wield",
-    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" }, { "trait": "NO_BASH" }, { "trait": "RETURN_TO_START_POS" } ],
+    "traits": [
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
     "skills": [ { "bonus": { "rng": [ 4, 5 ] }, "skill": "firstaid" } ]
   },
   {
@@ -383,7 +388,12 @@
     "carry_override": "GODCO_corrie_carried",
     "weapon_override": "GODCO_corrie_wield",
     "proficiencies": [ "prof_plasticworking", "prof_elec_soldering", "prof_welding_basic" ],
-    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" }, { "trait": "NO_BASH" }, { "trait": "RETURN_TO_START_POS" } ],
+    "traits": [
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
     "skills": [ { "skill": "mechanics", "bonus": 4 }, { "skill": "fabrication", "bonus": 2 }, { "skill": "electronics", "bonus": 4 } ]
   },
   {
@@ -403,8 +413,8 @@
       { "group": "NPC_starting_traits" },
       { "trait": "STYLISH" },
       { "trait": "SPIRITUAL" },
-      { "group": "Appearance_Mixed" }, 
-      { "trait": "NO_BASH" }, 
+      { "group": "Appearance_Mixed" },
+      { "trait": "NO_BASH" },
       { "trait": "RETURN_TO_START_POS" }
     ],
     "skills": [
@@ -434,7 +444,7 @@
       { "trait": "ANIMALEMPATH" },
       { "trait": "HYPEROPIC" },
       { "trait": "hair_white_long" },
-      { "trait": "NO_BASH" }, 
+      { "trait": "NO_BASH" },
       { "trait": "RETURN_TO_START_POS" }
     ],
     "skills": [ { "skill": "tailor", "bonus": 6 }, { "skill": "cooking", "bonus": 6 } ]
@@ -452,13 +462,13 @@
     "worn_override": "GODCO_jeremiah_worn",
     "carry_override": "GODCO_jeremiah_carried",
     "weapon_override": "GODCO_jeremiah_wield",
-    "traits": [ 
-      { "trait": "MYOPIC" }, 
-      { "trait": "PROF_DICEMASTER" }, 
-      { "group": "NPC_starting_traits" }, 
-      { "group": "Hair_Brown" }, 
-      { "trait": "NO_BASH" }, 
-      { "trait": "RETURN_TO_START_POS" } 
+    "traits": [
+      { "trait": "MYOPIC" },
+      { "trait": "PROF_DICEMASTER" },
+      { "group": "NPC_starting_traits" },
+      { "group": "Hair_Brown" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
     ],
     "skills": [
       { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } },
@@ -505,7 +515,12 @@
     "worn_override": "GODCO_maria_worn",
     "carry_override": "GODCO_maria_carried",
     "weapon_override": "GODCO_maria_wield",
-    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" }, { "trait": "NO_BASH" }, { "trait": "RETURN_TO_START_POS" } ],
+    "traits": [
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
     "skills": [
       { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } },
       { "bonus": 5, "skill": "tailor" }
