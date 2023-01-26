@@ -1,5 +1,5 @@
 [
- {
+  {
     "id": "TALK_HELLS_RAIDERS_BANDIT",
     "type": "talk_topic",
     "dynamic_line": {
@@ -16,7 +16,7 @@
         "text": "<neutral_greet>",
         "topic": "TALK_HELLS_RAIDERS_BANDIT_2",
         "condition": { "npc_has_var": "first_meeting", "type": "dialogue", "context": "first_meeting", "value": "yes" }
-      },  
+      },
       {
         "text": "Nice to meet you.",
         "topic": "TALK_HELLS_RAIDERS_BANDIT_2",
@@ -39,8 +39,8 @@
     "type": "talk_topic",
     "dynamic_line": [ "What'cha want?", "Make it quick.", "I've got <name_b>s to beat up, not much time to talk." ],
     "responses": [
-      { "text": "Anything that you need done around here?", "topic": "TALK_MISSION_LIST" },  
-      { "text": "Who exactly are you guys anyway?", "topic": "TALK_HELLS_RAIDERS_BANDIT_WHO" }, 
+      { "text": "Anything that you need done around here?", "topic": "TALK_MISSION_LIST" },
+      { "text": "Who exactly are you guys anyway?", "topic": "TALK_HELLS_RAIDERS_BANDIT_WHO" },
       { "text": "What do you do these days?", "topic": "TALK_HELLS_RAIDERS_BANDIT_JOB" },
       { "text": "Could you loan a poor soul any supplies?", "topic": "TALK_HELLS_RAIDERS_BANDIT_NOBORROW" },
       { "text": "Would you like to buy anything?", "topic": "TALK_HELLS_RAIDERS_BANDIT_NOTRADE" },
@@ -52,8 +52,8 @@
     "type": "talk_topic",
     "dynamic_line": "Some people call us thieves, others scum, the <swear> government calls us the Hell's Raiders.  We're just some folks doin' what we need to survive is all.",
     "responses": [
-      { "text": "Hmm.", "topic": "TALK_HELLS_RAIDERS_BANDIT_2" },  
-      { "text": "How'd you get to be called the \"Hell's Raiders\"?", "topic": "TALK_HELLS_RAIDERS_BANDIT_NAME" },   
+      { "text": "Hmm.", "topic": "TALK_HELLS_RAIDERS_BANDIT_2" },
+      { "text": "How'd you get to be called the \"Hell's Raiders\"?", "topic": "TALK_HELLS_RAIDERS_BANDIT_NAME" },
       { "text": "What do you do these days?", "topic": "TALK_HELLS_RAIDERS_BANDIT_JOB" },
       { "text": "Goodbye.", "topic": "TALK_DONE" }
     ]
@@ -63,8 +63,8 @@
     "type": "talk_topic",
     "dynamic_line": "Surely you've heard of the old biker gang, the Hell's Angels?  A few of our head honchos used to run with 'em, so they named us based off that.",
     "responses": [
-      { "text": "Hmm.", "topic": "TALK_HELLS_RAIDERS_BANDIT_2" },  
-      { "text": "What do you do these days?", "topic": "TALK_HELLS_RAIDERS_BANDIT_JOB" }, 
+      { "text": "Hmm.", "topic": "TALK_HELLS_RAIDERS_BANDIT_2" },
+      { "text": "What do you do these days?", "topic": "TALK_HELLS_RAIDERS_BANDIT_JOB" },
       { "text": "Goodbye.", "topic": "TALK_DONE" }
     ]
   },
@@ -73,9 +73,9 @@
     "type": "talk_topic",
     "dynamic_line": "Ain't it in our name?  We raid!  Take stuff, loot the old <swear> cities, take down the <swear> government, get on top!",
     "responses": [
-      { "text": "Hmm.", "topic": "TALK_HELLS_RAIDERS_BANDIT_2" },  
-      { "text": "Who exactly are you guys anyway?", "topic": "TALK_HELLS_RAIDERS_BANDIT_WHO" },   
-      { "text": "Why live this way?", "topic": "TALK_HELLS_RAIDERS_BANDIT_MORALITY" },  
+      { "text": "Hmm.", "topic": "TALK_HELLS_RAIDERS_BANDIT_2" },
+      { "text": "Who exactly are you guys anyway?", "topic": "TALK_HELLS_RAIDERS_BANDIT_WHO" },
+      { "text": "Why live this way?", "topic": "TALK_HELLS_RAIDERS_BANDIT_MORALITY" },
       { "text": "Goodbye.", "topic": "TALK_DONE" }
     ]
   },
@@ -84,8 +84,12 @@
     "type": "talk_topic",
     "dynamic_line": "Cause it's the only way to live!  For too long before <the_cataclysm>, the <swear> government didn't realize how much it oppressed people like us.  The weak <name_b>s got all the good stuff, while the strong were kept back.  Now we're on top, as the natural order of things should be.  Way I see it, that's the only <swear> way to live, the way nature goes.",
     "responses": [
-      { "text": "I'll take your word for it.", "topic": "TALK_HELLS_RAIDERS_BANDIT_2" },  
-      { "text": "You're <swear> crazy <name_b>!  Let's see who's the strongest then!", "topic": "TALK_DONE", "effect": "insult_combat" },
+      { "text": "I'll take your word for it.", "topic": "TALK_HELLS_RAIDERS_BANDIT_2" },
+      {
+        "text": "You're <swear> crazy <name_b>!  Let's see who's the strongest then!",
+        "topic": "TALK_DONE",
+        "effect": "insult_combat"
+      },
       { "text": "Goodbye.", "topic": "TALK_DONE" }
     ]
   },
@@ -103,9 +107,6 @@
     "id": "TALK_HELLS_RAIDERS_BANDIT_NOTRADE",
     "type": "talk_topic",
     "dynamic_line": "No, I don't have the money to buy anything.  Go see someone else about it.",
-    "responses": [
-      { "text": "Okay.", "topic": "TALK_NONE" },
-      { "text": "See ya later, then.", "topic": "TALK_DONE" }
-    ]
+    "responses": [ { "text": "Okay.", "topic": "TALK_NONE" }, { "text": "See ya later, then.", "topic": "TALK_DONE" } ]
   }
 ]
