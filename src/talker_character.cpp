@@ -833,9 +833,10 @@ std::string talker_character::skill_seminar_text( const skill_id &s ) const
     return string_format( "%s (%d)", s.obj().name(), lvl );
 }
 
-std::vector<bodypart_id> talker_character::get_all_body_parts() const
+std::vector<bodypart_id> talker_character::get_all_body_parts( bool main_only ) const
 {
-    return me_chr->get_all_body_parts( get_body_part_flags::none );
+    return me_chr->get_all_body_parts( main_only ? get_body_part_flags::only_main :
+                                       get_body_part_flags::none );
 }
 
 int talker_character::get_part_hp_cur( const bodypart_id &id ) const
