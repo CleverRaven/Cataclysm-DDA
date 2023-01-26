@@ -112,12 +112,12 @@
     "carry_override": "GODCO_zachary_montes_carried",
     "weapon_override": "GODCO_zachary_montes_wield",
     "proficiencies": [ "prof_carpentry_basic", "prof_carving" ],
-    "traits": [ 
-      { "group": "NPC_starting_traits" }, 
-      { "group": "Appearance_demographics" }, 
-      { "trait": "FACIAL_HAIR_BEARD" }, 
-      { "trait": "NO_BASH" }, 
-      { "trait": "RETURN_TO_START_POS" } 
+    "traits": [
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" },
+      { "trait": "FACIAL_HAIR_BEARD" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
     ],
     "skills": [
       { "bonus": 1, "skill": "melee" },
