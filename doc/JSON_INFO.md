@@ -250,6 +250,7 @@ Use the `Home` key to return to the top.
 - [MOD tileset](#mod-tileset)
   - [`compatibility`](#compatibility)
   - [`tiles-new`](#tiles-new)
+- [Obsoletion and migration](#obsoletion-and-migration)
 - [Field types](#field-types)
 - [Option sliders](#option-sliders)
   - [Option sliders - Fields](#option-sliders---fields)
@@ -5159,6 +5160,67 @@ The internal ID of the compatible tilesets. MOD tileset is only applied when bas
 ## `tiles-new`
 
 Setting of sprite sheets. Same as `tiles-new` field in `tile_config`. Sprite files are loaded from the same folder json file exists.
+
+# Obsoletion and migration
+
+If you want to remove some item, never do it with straightforward "remove the item json and call it a day", you **never remove the id from the game**. Primarily because it will cause a harmless, but annoying error, and someone else should spend their time and energy, explaining it was an intended change. To not cause this, everything, that get saved in the game require obsoletion: items, monsters, maps, monster factions, but not, for example, loot groups. Basically there is two ways to remove some entity (except replacing old item with new, while left the old id - this one do not require any additional manipulations) from the game - obsoletion and migration.
+
+Migration is used, when we want to remove one item by replacing it with another item, that do exist in the game, and happen in `data/json/items/migration.json`
+
+```C++
+
+{
+  "id": "arrowhead",  // id of item, that you want to migrate, mandatory
+  "type": "MIGRATION", // type, mandatory
+  "replace": "steel_chunk", // item, that replace the removed item, mandatory
+  "variant": "m1014", // variant of an item, that would be used to replace the item. only for items, that do use variants
+  "flags": [ "DIAMOND" ], // additional flag, that item would have when replaced
+  "charges": 1930, // amount of charges, that replaced item would have
+  "contents": [ { "id": "dogfood", "count": 1 } ], // if `replace` is container, describes what would be inside of it
+  "sealed": false // if `replace` is container, will it be sealed or not
+}
+
+```
+
+// it seems MIGRATION accept any field actually, but i need someone to confirm it
+
+For vehicle parts, you should use `vehicle_part_migration` inside `data/json/vehicleparts/migration.json`
+
+```json
+
+  {
+    "type": "vehicle_part_migration",
+    "from": "old_vpart_id",
+    "to": "new_vpart_id"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "lit_aisle",
+    "to": "aisle"
+  }
+
+```
+
+Obsoletion is used, when we want to remove the item entirely from the game, without any migration. For this you, again, **do not remove item** from the game.
+
+For items, monsters, furniture, terrain, factions, loot groups and lot of similar stuff, you remove all places, where the entity can spawn (maps, palettes, NPCs etc), mark the item with "OBSOLETE" flag (optional), and move into `data/json/obsoletion/` or inside  - they will stay here till the next developement cycle, to make fluent transfer between one stable and another
+
+For maps, you also remove it from all the places it can occur, add the map into `data/json/obsoletion/`, and also add the location into `data/json/obsolete_terrains.json` list
+
+For recipes, you overwrite the existed recipe like the json below, and add it into `data/json/recipes/recipe_obsolete.json`
+
+```json
+
+{
+  "type": "recipe",
+  "result": "blindfold",
+  "id_suffix": "from_tape",
+  "obsolete": true
+},
+
+```
+
+For mods, you need to add an `"obsolete": true,` boolean into MOD_INFO, which prevent the mod from showing into the mod list.
 
 # Field types
 
