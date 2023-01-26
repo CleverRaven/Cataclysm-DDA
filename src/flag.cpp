@@ -304,7 +304,6 @@ const flag_id flag_SOLARPACK_ON( "SOLARPACK_ON" );
 const flag_id flag_SPAWN_ACTIVE( "SPAWN_ACTIVE" );
 const flag_id flag_SPEAR( "SPEAR" );
 const flag_id flag_SPEEDLOADER( "SPEEDLOADER" );
-const flag_id flag_SPEEDLOADER_CLIP( "SPEEDLOADER_CLIP" );
 const flag_id flag_SPLINT( "SPLINT" );
 const flag_id flag_STAB( "STAB" );
 const flag_id flag_STAB_IMMUNE( "STAB_IMMUNE" );
