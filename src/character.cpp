@@ -8194,8 +8194,8 @@ void Character::cancel_activity()
     for( auto backlog_item = backlog.begin(); backlog_item != backlog.end(); ) {
         if( backlog_item->auto_resume &&
             ( !has_adv_inv || backlog_item->id() != ACT_ADV_INVENTORY ) ) {
-            backlog_item++;
             has_adv_inv |= backlog_item->id() == ACT_ADV_INVENTORY;
+            backlog_item++;
         } else {
             backlog_item = backlog.erase( backlog_item );
         }
@@ -11459,6 +11459,11 @@ void Character::use( int inventory_position )
 
 void Character::use( item_location loc, int pre_obtain_moves )
 {
+    if( has_effect( effect_incorporeal ) ) {
+        add_msg_if_player( m_bad, _( "You can't use anything while incorporeal." ) );
+        return;
+    }
+
     // if -1 is passed in we don't want to change moves at all
     if( pre_obtain_moves == -1 ) {
         pre_obtain_moves = moves;
