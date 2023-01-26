@@ -40,7 +40,6 @@ Use the `Home` key to return to the top.
     - [Item Category](#item-category)
     - [Item Properties](#item-properties)
     - [Item Variables](#item-variables)
-    - [Item Migrations](#item-migrations)
     - [Materials](#materials)
       - [Fuel data](#fuel-data)
     - [Monster Groups](#monster-groups)
@@ -103,7 +102,6 @@ Use the `Home` key to return to the top.
     - [Vehicle Placement](#vehicle-placement)
     - [Vehicle Spawn](#vehicle-spawn)
     - [Vehicles](#vehicles)
-    - [Vehicle Part Migrations](#vehicle-part-migrations)
     - [Weakpoint Sets](#weakpoint-sets)
 - [`data/json/items/` JSONs](#datajsonitems-jsons)
     - [Generic Items](#generic-items)
@@ -1216,26 +1214,6 @@ This will make any item instantiated from that prototype get assigned this varia
 the item is spawned the variables set on the prototype no longer affect the item's variables,
 a migration can clear out the item's variables and reassign the prototype ones if reset_item_vars
 flag is set.
-
-### Item Migrations
-
-Migrations allow replacing items or modifying them in ways to keep up with code changes or
-maintain a consistent list of item type ids.
-
-The item migration code itself is at Item_factory::migrate_item and may provide more details.
-
-The following migration will migrate items with id 'arrow_heavy_field_point' to id
-'arrow_heavy_field_point_fletched', it will also reset the item's item_vars field to
-the item prototype ones (although in this case most likely both item_vars are empty)
-
-```json
-  {
-    "id": "arrow_heavy_field_point",
-    "type": "MIGRATION",
-    "replace": "arrow_heavy_field_point_fletched",
-    "reset_item_vars": "true"
-  }
-```
 
 ### Materials
 
@@ -2840,31 +2818,6 @@ See also [VEHICLE_JSON.md](VEHICLE_JSON.md)
                                             * them in the game (ie, frames and mount points first).
                                             * You also cannot break the normal rules of installation
                                             * (you can't stack non-stackable part flags). */
-```
-
-### Vehicle Part Migrations
-
-These migrations will (at runtime) replace one vehicle part id with another one.
-This is useful when vpart ids are changing or obsoleting one part for another.
-
-```json
-[
-  {
-    "type": "vehicle_part_migration",
-    "from": "old_vpart_id",
-    "to": "new_vpart_id"
-  },
-  {
-    "type": "vehicle_part_migration",
-    "from": "old_vpart_id",
-    "to": "new_vpart_id"
-  },
-  {
-    "type": "vehicle_part_migration",
-    "from": "old_vpart_id",
-    "to": "new_vpart_id"
-  }
-]
 ```
 
 ### Weakpoint Sets
@@ -5165,7 +5118,7 @@ Setting of sprite sheets. Same as `tiles-new` field in `tile_config`. Sprite fil
 
 If you want to remove some item, never do it with straightforward "remove the item json and call it a day", you **never remove the id from the game**. Primarily because it will cause a harmless, but annoying error, and someone else should spend their time and energy, explaining it was an intended change. To not cause this, everything, that get saved in the game require obsoletion: items, monsters, maps, monster factions, but not, for example, loot groups. Basically there is two ways to remove some entity (except replacing old item with new, while left the old id - this one do not require any additional manipulations) from the game - obsoletion and migration.
 
-Migration is used, when we want to remove one item by replacing it with another item, that do exist in the game, and happen in `data/json/items/migration.json`
+Migration is used, when we want to remove one item by replacing it with another item, that do exist in the game, or to maintain a consistent list of item type ids, and happen in `data/json/items/migration.json`
 
 ```C++
 
