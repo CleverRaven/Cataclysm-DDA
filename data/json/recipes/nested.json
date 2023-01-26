@@ -40,7 +40,7 @@
     "name": "staffs",
     "description": "Recipes related to constructing different types of staffs.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "shock_staff", "q_staff", "bo_from long stick", "bo_from quarterstaff", "i_staff" ],
+    "nested_category_data": [ "shock_staff", "q_staff", "bo_from long stick", "bo_from quarterstaff", "i_staff", "i_staff_with sheet metal" ],
     "difficulty": 1
   },
   {
