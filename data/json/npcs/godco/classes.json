@@ -12,12 +12,12 @@
     "worn_override": "GODCO_helena_worn",
     "carry_override": "GODCO_helena_carried",
     "weapon_override": "GODCO_helena_wield",
-    "traits": [ 
-      { "trait": "SPIRITUAL" }, 
-      { "trait": "EAGLEEYED" }, 
-      { "trait": "hair_brown_long" }, 
-      { "trait": "NO_BASH" }, 
-      { "trait": "RETURN_TO_START_POS" } 
+    "traits": [
+      { "trait": "SPIRITUAL" },
+      { "trait": "EAGLEEYED" },
+      { "trait": "hair_brown_long" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
     ],
     "skills": [
       { "bonus": 5, "skill": "gun" },
