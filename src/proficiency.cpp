@@ -129,7 +129,12 @@ const std::vector<proficiency_category> &proficiency_category::get_all()
 
 bool proficiency::can_learn() const
 {
-    return _can_learn;
+    if( _can_learn ) {
+        const double scaling = get_option<float>( "SKILL_TRAINING_SPEED" );
+        return scaling != 0.0;
+    } else {
+        return false;
+    }
 }
 
 bool proficiency::ignore_focus() const
