@@ -74,30 +74,30 @@
     "id": "TALK_EVAC_GUARD3_DEAD",
     "type": "talk_topic",
     "dynamic_line": "That's it, you're dead!",
-    "responses": [ 
+    "responses": [
       { "text": "I didn't mean it!", "topic": "TALK_DONE" },
       {
         "text": "Wait, I've got a proposition for you!",
         "trial": { "type": "PERSUADE", "difficulty": -20, "mod": [ [ "TRUST", 3 ] ] },
         "success": { "topic": "TALK_EVAC_GUARD3_PROPOSITION" },
         "failure": { "topic": "TALK_DONE" }
-      }, 
-      { "text": "…", "topic": "TALK_DONE" } 
+      },
+      { "text": "…", "topic": "TALK_DONE" }
     ]
   },
   {
     "id": "TALK_EVAC_GUARD3_HOSTILE",
     "type": "talk_topic",
     "dynamic_line": "You must really have a death wish!",
-    "responses": [ 
+    "responses": [
       { "text": "I didn't mean it!", "topic": "TALK_DONE" },
       {
         "text": "Wait, I've got a proposition for you!",
         "trial": { "type": "PERSUADE", "difficulty": -30, "mod": [ [ "TRUST", 3 ] ] },
         "success": { "topic": "TALK_EVAC_GUARD3_PROPOSITION" },
         "failure": { "topic": "TALK_DONE" }
-      }, 
-      { "text": "…", "topic": "TALK_DONE" } 
+      },
+      { "text": "…", "topic": "TALK_DONE" }
     ]
   },
   {
