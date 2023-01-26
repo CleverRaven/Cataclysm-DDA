@@ -469,12 +469,12 @@
     "worn_override": "GODCO_olwen_worn",
     "carry_override": "GODCO_olwen_carried",
     "weapon_override": "GODCO_olwen_wield",
-    "traits": [ 
-      { "trait": "WAKEFUL" }, 
-      { "group": "NPC_starting_traits" }, 
-      { "group": "Appearance_demographics" }, 
-      { "trait": "NO_BASH" }, 
-      { "trait": "RETURN_TO_START_POS" } 
+    "traits": [
+      { "trait": "WAKEFUL" },
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
     ],
     "skills": [
       { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } },
