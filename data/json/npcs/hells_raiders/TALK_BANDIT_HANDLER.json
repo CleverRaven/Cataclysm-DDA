@@ -1,0 +1,26 @@
+[
+  {
+    "id": "TALK_BANDIT_HANDLER_WHO",
+    "type": "talk_topic",
+    "dynamic_line": "Who <swear> are you?!  Hands up <name_b>!",
+    "speaker_effect": { "effect": { "npc_change_faction": "hells_raiders" } },
+    "responses": [
+      { "text": "Hold on a minute!  I'm the person your mole sent, to get in on it.", "topic": "TALK_BANDIT_HANDLER_JOIN" },
+      { "text": "No way in hell, <name_b>.  You're gonna <swear> die!", "topic": "TALK_DONE", "effect": "hostile" },
+      { "text": "Put hands up.", "topic": "TALK_DONE", "effect": "start_mugging" }
+    ]
+  },
+  {
+    "id": "TALK_BANDIT_HANDLER_JOIN",
+    "type": "talk_topic",
+    "dynamic_line": "Oh yeah, yeah.  Not a lot of people who don't want me dead come to see me like that, makes ya get a bit jumpy.  Well, I guess you're good material if they'd reccommend you to me, just need your name and a few other things about'ch ya, so I can let the others know to not kill ya when you meet 'em.",
+    "speaker_effect": { "effect": { "npc_first_topic": "TALK_STRANGER_NEUTRAL" } },
+    "responses": [
+      {
+        "text": "\"Tell about yourself.\"",
+        "effect": [ { "u_faction_rep": 25 }, { "finish_mission": "MISSION_JOIN_RAIDERS", "success": true } ],
+        "topic": "TALK_DONE"
+      }
+    ]
+  }
+]

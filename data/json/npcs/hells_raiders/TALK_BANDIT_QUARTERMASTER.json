@@ -1,0 +1,126 @@
+[
+ {
+    "id": "TALK_HELLS_RAIDERS_BANDIT_QUARTERMASTER",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "npc_has_var": "first_meeting",
+      "type": "dialogue",
+      "context": "first_meeting",
+      "value": "yes",
+      "no": "Nice to see a new face around here, you one of us?  Welcome to the club, try not to step on anyone's toes.",
+      "yes": "<neutral_greet>"
+    },
+    "speaker_effect": { "effect": { "npc_add_var": "first_meeting", "type": "dialogue", "context": "first_meeting", "value": "yes" } },
+    "responses": [
+      {
+        "text": "<neutral_greet>",
+        "topic": "TALK_HELLS_RAIDERS_BANDIT_QUARTERMASTER_2",
+        "condition": { "npc_has_var": "first_meeting", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+      }, 
+      {
+        "text": "I'm here for my stipend.",
+        "topic": "TALK_HELLS_RAIDERS_STIPEND",
+        "condition": {
+          "and": [
+            { "not": { "npc_has_effect": "u_got_meal" } },
+            { "u_has_var": "hells_raiders_stipendable", "type": "general", "context": "meeting" }
+          ]
+        }
+      },
+      {
+        "text": "Nice to meet you.",
+        "topic": "TALK_HELLS_RAIDERS_BANDIT_QUARTERMASTER_2",
+        "condition": { "not": { "npc_has_var": "first_meeting", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
+      },
+      {
+        "text": "Nice to meet you.  Can't stick around though.",
+        "topic": "TALK_DONE",
+        "condition": { "not": { "npc_has_var": "first_meeting", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
+      },
+      {
+        "text": "Hate to run, but I gotta go.  See ya.",
+        "topic": "TALK_DONE",
+        "condition": { "npc_has_var": "first_meeting", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+      }
+    ]
+  },
+  {
+    "id": "TALK_HELLS_RAIDERS_BANDIT_QUARTERMASTER_2",
+    "type": "talk_topic",
+    "dynamic_line": [ "What'cha want?", "Make it quick.", "I've got a shipment to handle, let's make it snappy." ],
+    "responses": [  
+      { "text": "Anything that you need done around here?", "topic": "TALK_MISSION_LIST" },  
+      { "text": "Who exactly are you guys anyway?", "topic": "TALK_HELLS_RAIDERS_BANDIT_QUARTERMASTER_WHO" }, 
+      { "text": "What do you do these days?", "topic": "TALK_HELLS_RAIDERS_BANDIT_QUARTERMASTER_JOB" },
+      { "text": "Could you loan a poor soul any supplies?", "topic": "TALK_HELLS_RAIDERS_BANDIT_NOBORROW" },
+      { "text": "What do you have for sale?", "topic": "TALK_HELLS_RAIDERS_BANDIT_QUARTERMASTER_2", "effect": "start_trade" },
+      { "text": "Where did you get all this stuff?", "topic": "TALK_HELLS_RAIDERS_BANDIT_QUARTERMASTER_STUFF" },
+      { "text": "Goodbye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_HELLS_RAIDERS_BANDIT_QUARTERMASTER_WHO",
+    "type": "talk_topic",
+    "dynamic_line": "Some people call us thieves, others scum, the <swear> government calls us the Hell's Raiders.  We're just some folks doin' what we need to survive is all.",
+    "responses": [
+      { "text": "Hmm.", "topic": "TALK_HELLS_RAIDERS_BANDIT_QUARTERMASTER_2" },  
+      { "text": "How'd you get to be called the \"Hell's Raiders\"?", "topic": "TALK_HELLS_RAIDERS_BANDIT_QUARTERMASTER_NAME" },   
+      { "text": "What do you do these days?", "topic": "TALK_HELLS_RAIDERS_BANDIT_QUARTERMASTER_JOB" },
+      { "text": "Goodbye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_HELLS_RAIDERS_BANDIT_QUARTERMASTER_NAME",
+    "type": "talk_topic",
+    "dynamic_line": "Surely you've heard of the old biker gang, the Hell's Angels?  A few of our head honchos used to run with 'em, so they named us based off that.  I know a guy who could hook you up with a bike, too.  For a price.",
+    "responses": [
+      { "text": "Hmm.", "topic": "TALK_HELLS_RAIDERS_BANDIT_QUARTERMASTER_2" },  
+      { "text": "What do you do these days?", "topic": "TALK_HELLS_RAIDERS_BANDIT_QUARTERMASTER_JOB" }, 
+      { "text": "Goodbye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_HELLS_RAIDERS_BANDIT_QUARTERMASTER_JOB",
+    "type": "talk_topic",
+    "dynamic_line": "I manage our supplies around here.  All the food, water, blankets, and such come through me, and I distrubite them as needed.  Of course, I can always give you a bit extra if you've got the stuff.",
+    "responses": [
+      { "text": "Hmm.", "topic": "TALK_HELLS_RAIDERS_BANDIT_QUARTERMASTER_2" },  
+      { "text": "Let's see what the price is.", "topic": "TALK_HELLS_RAIDERS_BANDIT_QUARTERMASTER_2", "effect": "start_trade" },
+      { "text": "Who exactly are you guys anyway?", "topic": "TALK_HELLS_RAIDERS_BANDIT_QUARTERMASTER_WHO" },  
+      { "text": "Goodbye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_HELLS_RAIDERS_BANDIT_QUARTERMASTER_STUFF",
+    "type": "talk_topic",
+    "dynamic_line": "Well, most of it came from the old cities, just waltzed on in, shot some <zombie>s, and walked out with it.  Some's been maufactured either here or elsewhere, a few people who run with us have useful skills for that sort of thing.  Some came from those we've raided, those <name_b>s work for us now, or they've been thrown to one of those <swear> hordes.",
+    "responses": [
+      { "text": "Hmm.", "topic": "TALK_HELLS_RAIDERS_BANDIT_QUARTERMASTER_2" },  
+      { "text": "Is that any way to live?", "topic": "TALK_HELLS_RAIDERS_BANDIT_QUARTERMASTER_MORALITY" },  
+      { "text": "Goodbye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_HELLS_RAIDERS_BANDIT_QUARTERMASTER_MORALITY",
+    "type": "talk_topic",
+    "dynamic_line": "Why the hell would you be with us if it wasn't?  For too long before <the_cataclysm>, the <swear> government didn't realize how much it oppressed people like us.  The weak <name_b>s got all the good stuff, while the strong were kept back.  Now we're on top, as the natural order of things should be.  Way I see it, that's the only <swear> way to live, the way nature goes.",
+    "responses": [
+      { "text": "I'll take your word for it.", "topic": "TALK_HELLS_RAIDERS_BANDIT_QUARTERMASTER_2" },  
+      { "text": "You're a <swear> crazy <name_b>!  Let's see who's the strongest then!", "topic": "TALK_DONE", "effect": "insult_combat" },
+      { "text": "Goodbye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_HELLS_RAIDERS_STIPEND",
+    "type": "talk_topic",
+    "dynamic_line": [ "Here it is, come back tomorrow." ],
+    "speaker_effect": {
+      "effect": [
+        { "u_spawn_item": "sandwich_deluxe", "count": 3 },
+        { "u_spawn_item": "water_clean", "container": "bottle_plastic", "count": 2 },
+        { "npc_add_effect": "u_got_meal", "duration": "12 h" }
+      ]
+    },
+    "responses": [ { "text": "Thanks.", "topic": "TALK_DONE" } ]
+  }
+]

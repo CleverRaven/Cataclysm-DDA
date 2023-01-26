@@ -1,0 +1,29 @@
+[
+  {
+    "id": "MISSION_JOIN_RAIDERS",
+    "type": "mission_definition",
+    "name": { "str": "Join the Raiders" },
+    "description": "Meet the handler to get in with the Hell's Raiders.",
+    "goal": "MGOAL_CONDITION",
+    "goal_condition": { "u_has_var": "joined_hellsraiders", "type": "mission", "context": "completed", "value": "done" },
+    "difficulty": 0,
+    "value": 0,
+    "start": {
+      "assign_mission_target": { "om_terrain": "cabin", "om_special": "Cabin", "reveal_radius": 1, "random": false, "search_range": 60 },
+      "update_mapgen": { "place_npcs": [ { "class": "hells_raiders_frontman", "x": 12, "y": 12 } ] }
+    },
+    "end": { "update_mapgen": { "remove_npcs": [ { "class": "hells_raiders_frontman", "x": [ 1, 23 ], "y": [ 1, 23 ] } ] } },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "If you see this, it's a bug.",
+      "offer": "If you see this, it's a bug.",
+      "accepted": "If you see this, it's a bug.",
+      "rejected": "If you see this, it's a bug.",
+      "advice": "If you see this, it's a bug.",
+      "inquire": "If you see this, it's a bug.",
+      "success": "If you see this, it's a bug.",
+      "success_lie": "If you see this, it's a bug.",
+      "failure": "If you see this, it's a bug."
+    }
+  }  
+]

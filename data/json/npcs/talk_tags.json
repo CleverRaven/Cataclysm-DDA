@@ -380,6 +380,22 @@
   },
   {
     "type": "snippet",
+    "category": "<neutral_greet>",
+    "//": "Neutral greetings for people you don't know well.",
+    "text": [
+      "Well hey there.",
+      "Well met!",
+      "Howdy.",
+      "Yo.",
+      "Hail!",
+      "Hey!",
+      "Hi there.",
+      "Hello.",
+      "Salutations."
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "<no>",
     "//": "Generally emphatic negative responses to a request or command",
     "text": [

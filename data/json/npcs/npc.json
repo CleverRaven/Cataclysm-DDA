@@ -1,28 +1,6 @@
 [
   {
     "type": "npc",
-    "id": "thug",
-    "//": "Generic melee focused guard for the Hell's Raiders faction.",
-    "name_suffix": "Thug",
-    "class": "NC_THUG",
-    "attitude": 0,
-    "mission": 8,
-    "chat": "TALK_DONE",
-    "faction": "hells_raiders"
-  },
-  {
-    "type": "npc",
-    "id": "bandit",
-    "//": "Generic pistol/rifle focused guard for the Hell's Raiders faction.",
-    "name_suffix": "Bandit",
-    "class": "NC_SCAVENGER",
-    "attitude": 0,
-    "mission": 8,
-    "chat": "TALK_DONE",
-    "faction": "hells_raiders"
-  },
-  {
-    "type": "npc",
     "id": "marloss_voice",
     "//": "Generic Marloss Priest who leads pilgrim bands.",
     "name_suffix": "Marloss Voice",

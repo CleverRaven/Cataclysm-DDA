@@ -74,13 +74,55 @@
     "id": "TALK_EVAC_GUARD3_DEAD",
     "type": "talk_topic",
     "dynamic_line": "That's it, you're dead!",
-    "responses": [ { "text": "I didn't mean it!", "topic": "TALK_DONE" }, { "text": "…", "topic": "TALK_DONE" } ]
+    "responses": [ 
+      { "text": "I didn't mean it!", "topic": "TALK_DONE" },
+      {
+        "text": "Wait, I've got a proposition for you!",
+        "trial": { "type": "PERSUADE", "difficulty": -20, "mod": [ [ "TRUST", 3 ] ] },
+        "success": { "topic": "TALK_EVAC_GUARD3_PROPOSITION" },
+        "failure": { "topic": "TALK_DONE" }
+      }, 
+      { "text": "…", "topic": "TALK_DONE" } 
+    ]
   },
   {
     "id": "TALK_EVAC_GUARD3_HOSTILE",
     "type": "talk_topic",
     "dynamic_line": "You must really have a death wish!",
-    "responses": [ { "text": "I didn't mean it!", "topic": "TALK_DONE" }, { "text": "…", "topic": "TALK_DONE" } ]
+    "responses": [ 
+      { "text": "I didn't mean it!", "topic": "TALK_DONE" },
+      {
+        "text": "Wait, I've got a proposition for you!",
+        "trial": { "type": "PERSUADE", "difficulty": -30, "mod": [ [ "TRUST", 3 ] ] },
+        "success": { "topic": "TALK_EVAC_GUARD3_PROPOSITION" },
+        "failure": { "topic": "TALK_DONE" }
+      }, 
+      { "text": "…", "topic": "TALK_DONE" } 
+    ]
+  },
+  {
+    "id": "TALK_EVAC_GUARD3_PROPOSITION",
+    "type": "talk_topic",
+    "dynamic_line": "Alright, what is it?",
+    "responses": [
+      {
+        "text": "If you get me in on your group, I won't tell the Marshal that you're the mole.  Deal?",
+        "topic": "TALK_EVAC_GUARD3_DEAL"
+      },
+      { "text": "Ya know what, I've changed my mind. Die, <name_b>!", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EVAC_GUARD3_DEAL",
+    "type": "talk_topic",
+    "dynamic_line": "Well, sure.  Meet my handler and they'll get you set up.  I'll let them know you're coming, but don't keep 'em waiting for long.  Here's where they should be in the next few days.  Roll on me with the <swear> <name_b> who put you up to this and I'll kill you myself.  Deal?",
+    "responses": [
+      {
+        "text": "Yeah, yeah.  I'll keep this secret for you.",
+        "topic": "TALK_DONE",
+        "effect": [ { "assign_mission": "MISSION_JOIN_RAIDERS" }, { "npc_change_faction": "free_merchants" } ]
+      }
+    ]
   },
   {
     "id": "TALK_EVAC_GUARD3_INSULT",

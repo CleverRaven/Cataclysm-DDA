@@ -1,0 +1,131 @@
+[
+  {
+    "id": "TALK_HELLS_RAIDERS_BANDIT_LEADER",
+    "type": "talk_topic",
+    "dynamic_line":  "I ain't seen you here before.  New?",
+    "responses": [
+      {
+        "text": "Yes, I'm new.  Nice to meet you.",
+        "topic": "TALK_HELLS_RAIDERS_BANDIT_LEADER_NEW"
+      },
+      {
+        "text": "Hate to run, but I gotta go.  See ya.",
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "TALK_HELLS_RAIDERS_BANDIT_LEADER_NEW",
+    "type": "talk_topic",
+    "dynamic_line": "Don't expect a flowery time, then.  Life can be hard, tough, and full of blood and shit.  If you can't handle that, then you're out on your ass.  Got it?",
+    "responses": [
+      { "text": "Got it.", "topic": "TALK_HELLS_RAIDERS_BANDIT_LEADER_2" },  
+      { "text": "What's with the tough introduction?", "topic": "TALK_HELLS_RAIDERS_BANDIT_LEADER_NEWRECRUIT" },  
+      { "text": "I'm not ready for this.", "topic": "TALK_HELLS_RAIDERS_BANDIT_LEADER_LEAVE" }
+    ]
+  },
+  {
+    "id": "TALK_HELLS_RAIDERS_BANDIT_LEADER_2",
+    "type": "talk_topic",
+    "dynamic_line": [ "What'cha want?", "Make it quick.", "I've got paperwork to do, let's make it snappy.", "Let's get going." ],
+    "speaker_effect": { "effect": { "npc_first_topic": "TALK_HELLS_RAIDERS_BANDIT_LEADER_2" } },
+    "responses": [  
+      { "text": "Anything that you need done around here?", "topic": "TALK_MISSION_LIST" },  
+      { "text": "Who exactly are you guys anyway?", "topic": "TALK_HELLS_RAIDERS_BANDIT_LEADER_WHO" }, 
+      { "text": "What do you do these days?", "topic": "TALK_HELLS_RAIDERS_BANDIT_LEADER_JOB" },
+      { "text": "Could you loan a poor soul any supplies?", "topic": "TALK_HELLS_RAIDERS_BANDIT_NOBORROW" },
+      { "text": "Would you like to buy anything?", "topic": "TALK_HELLS_RAIDERS_BANDIT_NOTRADE" },
+      { "text": "Goodbye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_HELLS_RAIDERS_BANDIT_LEADER_WHO",
+    "type": "talk_topic",
+    "dynamic_line": "Some people call us thieves, others scum, the <swear> government calls us the Hell's Raiders.  We're just some folks doin' what we need to survive is all.",
+    "responses": [
+      { "text": "Hmm.", "topic": "TALK_HELLS_RAIDERS_BANDIT_LEADER_2" },  
+      { "text": "How'd you get to be called the \"Hell's Raiders\"?", "topic": "TALK_HELLS_RAIDERS_BANDIT_LEADER_NAME" },   
+      { "text": "What do you do these days?", "topic": "TALK_HELLS_RAIDERS_BANDIT_LEADER_JOB" },
+      { "text": "Goodbye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_HELLS_RAIDERS_BANDIT_LEADER_NAME",
+    "type": "talk_topic",
+    "dynamic_line": "Surely you've heard of the old biker gang, the Hell's Angels?  A few of our head honchos used to run with 'em, so they named us based off that.  I know a guy who could hook you up with a bike, too.  For a price.",
+    "responses": [
+      { "text": "Hmm.", "topic": "TALK_HELLS_RAIDERS_BANDIT_LEADER_2" },  
+      { "text": "What do you do these days?", "topic": "TALK_HELLS_RAIDERS_BANDIT_LEADER_JOB" }, 
+      { "text": "Goodbye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_HELLS_RAIDERS_BANDIT_LEADER_JOB",
+    "type": "talk_topic",
+    "dynamic_line": "I'm the head honcho of this joint.  If anyone's got a problem, they answer to me.  Most days, I just make sure everything runs smoothly and that nobody dies.",
+    "responses": [
+      { "text": "Hmm.", "topic": "TALK_HELLS_RAIDERS_BANDIT_LEADER_2" },  
+      { "text": "Who exactly are you guys anyway?", "topic": "TALK_HELLS_RAIDERS_BANDIT_LEADER_WHO" },  
+      { "text": "How'd you come to lead this organization?", "topic": "TALK_HELLS_RAIDERS_BANDIT_LEADER_LEAD" },  
+      { "text": "Goodbye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_HELLS_RAIDERS_BANDIT_LEADER_LEAD",
+    "type": "talk_topic",
+    "dynamic_line": "I'm not the top of the organization, but I topped this joint when the old guy got smashed through a wall by one of those <swear> <zombie>s, had arms as big as trashcans.  He'd wrote me down in his will as the inheritor of the position, so I took it.",
+    "responses": [
+      { "text": "Sorry to hear about that.", "topic": "TALK_HELLS_RAIDERS_BANDIT_LEADER_2" },
+      { "text": "Who's above you?", "topic": "TALK_HELLS_RAIDERS_BANDIT_LEADER_ABOVE" },   
+      { "text": "Goodbye.", "topic": "TALK_DONE" } 
+    ]
+  },
+  {
+    "id": "TALK_HELLS_RAIDERS_BANDIT_LEADER_ABOVE",
+    "type": "talk_topic",
+    "dynamic_line": "I answer to the underboss, got somethin' like 20 capos under him; all of who run operations in a local district.  The underbosses go to the boss, who oversees all the territory and wealth in their region.  That boss is part of a delegate board who run our whole thing, the whole show.  The capos manage the soldiers who do most of the footwork, but I go out a bit too.  We then manage any slaves we got in our possession, sometimes sell 'em to other gangs.  They do all the menial labor like cleaning, farming, etc.",
+    "responses": [
+      { "text": "Hmm.", "topic": "TALK_HELLS_RAIDERS_BANDIT_LEADER_2" },
+      { "text": "You have slaves?", "topic": "TALK_HELLS_RAIDERS_BANDIT_LEADER_LEAD" },   
+      { "text": "Goodbye.", "topic": "TALK_DONE" } 
+    ]
+  },
+  {
+    "id": "TALK_HELLS_RAIDERS_BANDIT_LEADER_SLAVES",
+    "type": "talk_topic",
+    "dynamic_line": "Do you live under a <swear> rock?  Yeah, we keep slaves.  I'd be glad you didn't wind up one before you found us.",
+    "responses": [
+      { "text": "Hmm.", "topic": "TALK_HELLS_RAIDERS_BANDIT_LEADER_2" },
+      { "text": "Is that really a good thing to do?", "topic": "TALK_HELLS_RAIDERS_BANDIT_LEADER_MORALITY" },   
+      { "text": "Goodbye.", "topic": "TALK_DONE" } 
+    ]
+  },
+  {
+    "id": "TALK_HELLS_RAIDERS_BANDIT_LEADER_MORALITY",
+    "type": "talk_topic",
+    "dynamic_line": "Why the hell would you be with us if it wasn't?  For too long before <the_cataclysm>, the <swear> government didn't realize how much it oppressed people like us.  The weak <name_b>s got all the good stuff, while the strong were kept back.  Now we're on top, as the natural order of things should be.  Way I see it, that's the only <swear> way to live, the way nature goes.  We've got all we want out here, unlike those other <swear> <name_b>s; food, drink, good beds, sex, you name it!  Why give this up for some <swear> morality bullshit a pompous <name_b> made up 1000 years ago?",
+    "responses": [
+      { "text": "I'll take your word for it.", "topic": "TALK_HELLS_RAIDERS_BANDIT_LEADER_2" },  
+      { "text": "You're a <swear> crazy <name_b>!  Fight me!", "topic": "TALK_DONE", "effect": "hostile" },
+      { "text": "Goodbye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_HELLS_RAIDERS_BANDIT_LEADER_NEWRECRUIT",
+    "type": "talk_topic",
+    "dynamic_line": "Lots a' new people get into this <swear> profession and don't know which way's up.  So I get it out of the way quickly.",
+    "responses": [
+      { "text": "A solid strategy, I'd say I'm in.", "topic": "TALK_HELLS_RAIDERS_BANDIT_LEADER_2" },  
+      { "text": "I'm not ready for this.", "topic": "TALK_HELLS_RAIDERS_BANDIT_LEADER_LEAVE" }
+    ]
+  },
+  {
+    "id": "TALK_HELLS_RAIDERS_BANDIT_LEADER_LEAVE",
+    "type": "talk_topic",
+    "dynamic_line": "Not everyone's fit for this.  <get_lost>",
+    "speaker_effect": { "effect": { "npc_first_topic": "TALK_PRISONER_GENERIC" } },
+    "responses": [
+      { "text": "See ya.", "topic": "TALK_DONE" }
+    ]
+  }    
+]
