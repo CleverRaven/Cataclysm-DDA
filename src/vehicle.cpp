@@ -7585,7 +7585,10 @@ void vehicle::calc_mass_center( bool use_precalc ) const
             // Sometimes flag is wrongly set, don't crash!
             m_part += p != nullptr ? p->get_weight() : 0_gram;
         }
-
+        if( vp.has_feature( VPFLAG_BOARDABLE ) ) {
+            const monster* z = get_monster( i );
+            m_part += z != nullptr ? z->get_weight() : 0_gram;
+        }
         if( use_precalc ) {
             xf += vp.part().precalc[0].x * m_part;
             yf += vp.part().precalc[0].y * m_part;
