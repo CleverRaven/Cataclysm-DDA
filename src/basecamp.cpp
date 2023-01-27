@@ -293,9 +293,8 @@ bool basecamp::can_expand() const
 
 bool basecamp::has_water() const
 {
-    return has_provides( "water_well" ) || has_provides( "fbmh_well_north" ) ||
-           has_provides( "faction_base_camp_12" ) || has_provides( "faction_base_kitchen_6" ) ||
-           has_provides( "faction_base_blacksmith_11" );
+    // special case required for fbmh_well_north constructed between b9162 (Jun 16, 2019) and b9644 (Sep 20, 2019)
+    return has_provides( "water_well" ) || has_provides( "fbmh_well_north" );
 }
 
 std::vector<basecamp_upgrade> basecamp::available_upgrades( const point &dir )
