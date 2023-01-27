@@ -517,12 +517,6 @@
   },
   {
     "type": "ammunition_type",
-    "id": "metal_rail",
-    "name": "ferrous rail projectile",
-    "default": "steel_rail"
-  },
-  {
-    "type": "ammunition_type",
     "id": "thrown",
     "name": "throwing weapon",
     "default": "thrown"

@@ -83,6 +83,7 @@
         ],
         "order": 1500
       },
+      { "id": [ "SHELL", "SHELL2", "SHELL3" ], "order": 1520 },
       {
         "id": [
           "FACIAL_HAIR_NONE",

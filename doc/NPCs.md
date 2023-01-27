@@ -90,20 +90,18 @@ Format:
 }
 ```
 This is the JSON that creates the NPC ID that is used to spawn an NPC in "mapgen" (map generation).
-Attitude is based on the enum in npc.h. The important ones are 0=NPCATT_NULL, 1=NPCATT_TALK", 3=NPCATT_FOLLOW, 7=NPCATT_DEFEND, 10=NPCATT_KILL, and 11=NPCATT_FLEE.
-Mission is based on the enum in npc.h.  The important ones are 0=NPC_MISSION_NUL, 3=NPC_MISSION_SHOPKEEP", and 7=NPC_MISSION_GUARD", 8 = NPC_MISSION_GUARD_PATROL will actively investigate noises".
+
+Attitude is based on the enum in `npc.h`. The important ones are `0=NPCATT_NULL`, `1=NPCATT_TALK`, `3=NPCATT_FOLLOW`, `10=NPCATT_KILL`, and `11=NPCATT_FLEE`.
+
+Mission is based on the enum in `npc.h`.  The important ones are `0=NPC_MISSION_NULL`, `3=NPC_MISSION_SHOPKEEP`, `7=NPC_MISSION_GUARD`, and `8=NPC_MISSION_GUARD_PATROL`.
+
 Chat is covered in the dialogue examples below.
+
 Faction determines what faction, if any, the NPC belongs to.  Some examples are the Free Traders, Old Guard, Marloss Evangelists, and Hell's raiders but could include a brand new faction you create!
-death_eocs are string effect_on_condition ids and or inline effect_on_conditions (see [EFFECT_ON_CONDITION.md](EFFECT_ON_CONDITION.md)).  When the npc dies all of these eocs are run with the victim as u and the killer as npc.
 
-# Age and Height
-You can define the age and height of the NPC in the `age` or `height` fields in `"type": "npc"`.
+`death_eocs` are string `effect_on_condition` ids and/or inline `effect_on_condition`s (see [EFFECT_ON_CONDITION.md](EFFECT_ON_CONDITION.md)).  When the npc dies all of these `eoc`s are run with the victim as u and the killer as npc.
 
-Field | Description
----|---
-`age` | NPC age
-`height` | NPC height (cm)
-
+`age` and `height` are optional fields that can be used to define the age and height (in cm) of the NPC respectively.
 
 # Writing dialogues
 Dialogues work like state machines. They start with a certain topic (the NPC says something), the player character can then respond (choosing one of several responses), and that response sets the new talk topic. This goes on until the dialogue is finished, or the NPC turns hostile.
@@ -241,6 +239,9 @@ Field | Default messages/snippets | Used for...
 ### Special Custom Entries
 
 Certain entries like the snippets above are taken from the game state as opposed to JSON; they are found in the npctalk function parse_tags. They are as follows:
+
+Field | Used for...
+---|---
 `<yrwp>` | displays avatar's wielded item
 `<mywp>` | displays npc's wielded item
 `<u_name>` | displays avatar's name
@@ -256,7 +257,6 @@ Certain entries like the snippets above are taken from the game state as opposed
 `<u_val:VAR>` | The user variable VAR
 `<npc_val:VAR>` | The npc variable VAR
 `<global_val:VAR>` | The global variable VAR
-
 
 ### Validating Dialogues
 Keeping track of talk topics and making sure that all the topics referenced in responses are
@@ -320,20 +320,20 @@ This example adds the "I'm going now!" response to all the listed topics.
 ```
 
 ### dynamic_line
-The `dynamic_line` is the line spoken by the NPC.  It is optional.  If it is not defined and the topic has the same id as a built-in topic, the `dynamic_line` from that built-in topic will be used.  Otherwise the NPC will say nothing.  See the chapter about `dynamic_line` below for more details.
+The `dynamic_line` is the line spoken by the NPC.  It is optional.  If it is not defined and the topic has the same id as a built-in topic, the `dynamic_line` from that built-in topic will be used.  Otherwise the NPC will say nothing.  [See the chapter about Dynamic Lines below](#dynamic-lines) for more details.
 
 ### speaker_effect
-The `speaker_effect` is an object or array of effects that will occur after the NPC speaks the `dynamic_line`, no matter which response the player chooses.  See the chapter about Speaker Effects below for more details.
+The `speaker_effect` is an object or array of effects that will occur after the NPC speaks the `dynamic_line`, no matter which response the player chooses.  [See the chapter about Speaker Effects below](#speaker-effects)) for more details.
 
 ### response
-The `responses` entry is an array with possible responses.  It must not be empty.  Each entry must be a response object. See the chapter about Responses below for more details.
+The `responses` entry is an array with possible responses.  It must not be empty.  Each entry must be a response object. [See the chapter about Responses below](#responses) for more details.
 
 ### replace_built_in_responses
 `replace_built_in_responses` is an optional boolean that defines whether to dismiss the built-in responses for that topic (default is `false`). If there are no built-in responses, this won't do anything. If `true`, the built-in responses are ignored and only those from this definition in the current json are used. If `false`, the responses from the current json are used along with the built-in responses (if any).
 
 ---
 
-## dynamic_line
+## Dynamic Lines
 A dynamic line can either be a simple string, or an complex object, or an array with `dynamic_line` entries.  If it's an array, an entry will be chosen randomly every time the NPC needs it.  Each entry has the same probability.
 
 Example:
@@ -480,7 +480,7 @@ Speaker effects are useful for setting status variables to indicate that player 
 
 ---
 ## Responses
-A response contains at least a text, which is display to the user and "spoken" by the player character (its content has no meaning for the game) and a topic to which the dialogue will switch to. It can also have a trial object which can be used to either lie, persuade or intimidate the NPC, see below for details. There can be different results, used either when the trial succeeds and when it fails.
+A response contains at least a text, which is display to the user and "spoken" by the player character (its content has no meaning for the game) and a topic to which the dialogue will switch to. It can also have a trial object which can be used to either lie, persuade or intimidate the NPC, [see below](#trial) for details. There can be different results, used either when the trial succeeds and when it fails.
 
 Format:
 ```json
@@ -531,9 +531,104 @@ The short format is equivalent to (an unconditional switching of the topic, `eff
 }
 ```
 
+### text
+Will be shown to the user, no further meaning.
+
+Text boxes; dialogue in general is a convenient space to sprinkle in descriptive text, something that isn't necessarily being said by any interlocutor
+but something the player character, npc or speaking entity express, do or generally interact with given a context
+there are many ways to present this, ultimately is up to the writer, and their preferred style.
+
+Currently you may add a `&` as the first character in dialogue, this deletes quotation round the output text, denotes the descriptive nature of the displayed
+text, use `\"` escaped double quotes to indicate the start of actual dialogue.
+
+### truefalsetext
+May be used in place of text.  The player will have one response text if a condition is true, and another if it is false, but the same trial for either line.  `condition`, `true`, and `false` are all mandatory.
+
+```json
+{
+    "truefalsetext": {
+        "condition": { "u_has_cash": 800 },
+        "true": "I may have the money, I'm not giving you any.",
+        "false": "I don't have that money."
+    },
+    "topic": "TALK_WONT_PAY"
+}
+```
+
+### trial
+Optional, if not defined, `"NONE"` is used. Otherwise one of `"NONE"`, `"LIE"`, `"PERSUADE"`, `"INTIMIDATE"`, or `"CONDITION"`. If `"NONE"` is used, the `failure` object is not read, otherwise it's mandatory.
+
+The `difficulty` is only required if type is not `"NONE"` or `"CONDITION"` and, for most trials, specifies the success chance in percent (it is however modified by various things like mutations).  Higher difficulties are easier to pass. `"SKILL_CHECK"` trials are unique, and use the difficulty as a flat comparison.
+
+An optional `mod` array takes any of the following modifiers and increases the difficulty by the NPC's opinion of your character or personality trait for that modifier multiplied by the value: `"ANGER"`, `"FEAR"`, `"TRUST"`, `"VALUE"`, `"AGGRESSION"`, `"ALTRUISM"`, `"BRAVERY"`, `"COLLECTOR"`. The special `"POS_FEAR"` modifier treats NPC's fear of your character below 0 as though it were 0.  The special `"TOTAL"` modifier sums all previous modifiers and then multiplies the result by its value and is used when setting the owed value.
+
+`"CONDITION"` trials take a mandatory `condition` instead of `difficulty`.  The `success` object is chosen if the `condition` is true and the `failure` is chosen otherwise.
+
+`"SKILL_CHECK"` trials check the user's level in a skill, whose ID is read from the string object `skill_required`. The `success` object is chosen if the skill level is equal to or greater than `difficulty`, and `failure` is chosen otherwise.
+
+Sample trials:
+```json
+"trial": { "type": "PERSUADE", "difficulty": 0, "mod": [ [ "TRUST", 3 ], [ "VALUE", 3 ], [ "ANGER", -3 ] ] }
+"trial": { "type": "INTIMIDATE", "difficulty": 20, "mod": [ [ "FEAR", 8 ], [ "VALUE", 2 ], [ "TRUST", 2 ], [ "BRAVERY", -2 ] ] }
+"trial": { "type": "CONDITION", "condition": { "npc_has_trait": "FARMER" } }
+"trial": { "type": "SKILL_CHECK", "difficulty": 3, "skill_required": "swimming" }
+```
+
+### success and failure
+Both objects have the same structure. The `failure` object is used if the trial fails, the `success` object is used otherwise.
+
+#### `topic`
+`topic` defines which topic the dialogue will switch to, usually specified by giving its id.
+
+`topic` can also be a single topic object (the `type` member is not required here):
+
+```json
+"success": {
+    "topic": {
+        "id": "TALK_NEXT",
+        "dynamic_line": "...",
+        "responses": [
+        ]
+    }
+}
+```
+#### `effect`
+`effect` is a function that is executed after choosing the response, [see Dialogue Effects below](#dialogue-effects) for details.
+
+#### opinion changes
+
+##### `opinion`
+`opinion` is optional, if given it defines how the NPC's opinion of your character will change.
+
+trust, value, fear, and anger are optional fields inside the opinion object, each specifying a numeric value (defaults to 0). The given values are *added* to the opinion of the NPC.
+
+The opinion of the NPC affects several aspects of the interaction with NPCs:
+- Higher trust makes it easier to lie and persuade, and it usually a good thing.
+- Higher fear makes it easier to intimidate, but the NPC may flee from you (and will not talk to you).
+- Higher value makes it easier to persuade them and to give them orders, it's a kind of a friendship indicator.
+- High anger value (about 20 points more than fear, but this also depends on the NPCs personality) makes the NPC hostile and is usually a bad thing.
+The combination of fear and trust decide together with the personality of the NPC the initial talk topic (`"TALK_MUG"`, `"TALK_STRANGER_AGGRESSIVE"`, `"TALK_STRANGER_SCARED"`, `"TALK_STRANGER_WARY"`, `"TALK_STRANGER_FRIENDLY"`, or `"TALK_STRANGER_NEUTRAL"`).
+
+For the actual usage of that data, search the source code for `"op_of_u"`.
+
+Example opinions
+```json
+{ "effect": "follow", "opinion": { "trust": 1, "value": 1 }, "topic": "TALK_DONE" }
+{ "topic": "TALK_DENY_FOLLOW", "effect": "deny_follow", "opinion": { "fear": -1, "value": -1, "anger": 1 } }
+```
+
+##### `mission_opinion`
+Similar to `opinion`, but adjusts the NPC's opinion of your character according to the mission value. The NPC's opinion is modified by the value of the current mission divided by the value of the keyword.
+
+### Response Availability
+
+#### condition
+This is an optional condition which can be used to prevent the response under certain circumstances. If not defined, it defaults to always `true`. If the condition is not met, the response is not included in the list of possible responses. For possible content, [see Dialogue Conditions below](#dialogue-conditions) for details.
+
+#### switch and default
 The optional boolean keys "switch" and "default" are false by default.  Only the first response with `"switch": true`, `"default": false`, and a valid condition will be displayed, and no other responses with `"switch": true` will be displayed.  If no responses with `"switch": true` and `"default":  false` are displayed, then any and all responses with `"switch": true` and `"default": true` will be displayed.  In either case, all responses that have `"switch": false` (whether or not they have `"default": true` is set) will be displayed as long their conditions are satisfied.
 
-#### switch and default Example
+Example:
 ```json
 "responses": [
   { "text": "You know what, never mind.", "topic": "TALK_NONE" },
@@ -551,79 +646,6 @@ The optional boolean keys "switch" and "default" are false by default.  Only the
 The player will always have the option to return to a previous topic or end the conversation, and
 will otherwise have the option to give a $500, $50, or $5 bribe if they have the funds.  If they
 don't have at least $50, they will also have the option to provide some other bribe.
-
-### truefalsetext
-The player will have one response text if a condition is true, and another if it is false, but the same trial for either line.  `condition`, `true`, and `false` are all mandatory.
-
-```json
-{
-    "truefalsetext": {
-        "condition": { "u_has_cash": 800 },
-        "true": "I may have the money, I'm not giving you any.",
-        "false": "I don't have that money."
-    },
-    "topic": "TALK_WONT_PAY"
-}
-```
-
-### text
-Will be shown to the user, no further meaning.
-
-Text boxes; dialogue in general is a convenient space to sprinkle in descriptive text, something that isn't necessarily being said by any interlocutor
-but something the player character, npc or speaking entity express, do or generally interact with given a context
-there are many ways to present this, ultimately is up to the writer, and their preferred style.
-
-Currently you may add a `&` as the first character in dialogue, this deletes quotation round the output text, denotes the descriptive nature of the displayed
-text, use `\"` escaped double quotes to indicate the start of actual dialogue.
-
-### trial
-Optional, if not defined, `"NONE"` is used. Otherwise one of `"NONE"`, `"LIE"`, `"PERSUADE"`, `"INTIMIDATE"`, or `"CONDITION"`. If `"NONE"` is used, the `failure` object is not read, otherwise it's mandatory.
-
-The `difficulty` is only required if type is not `"NONE"` or `"CONDITION"` and, for most trials, specifies the success chance in percent (it is however modified by various things like mutations).  Higher difficulties are easier to pass. `"SKILL_CHECK"` trials are unique, and use the difficulty as a flat comparison.
-
-An optional `mod` array takes any of the following modifiers and increases the difficulty by the NPC's opinion of your character or personality trait for that modifier multiplied by the value: `"ANGER"`, `"FEAR"`, `"TRUST"`, `"VALUE"`, `"AGGRESSION"`, `"ALTRUISM"`, `"BRAVERY"`, `"COLLECTOR"`. The special `"POS_FEAR"` modifier treats NPC's fear of your character below 0 as though it were 0.  The special `"TOTAL"` modifier sums all previous modifiers and then multiplies the result by its value and is used when setting the owed value.
-
-`"CONDITION"` trials take a mandatory `condition` instead of `difficulty`.  The `success` object is chosen if the `condition` is true and the `failure` is chosen otherwise.
-
-`"SKILL_CHECK"` trials check the user's level in a skill, whose ID is read from the string object `skill_required`. The `success` object is chosen if the skill level is equal to or greater than `difficulty`, and `failure` is chosen otherwise.
-
-### success and failure
-Both objects have the same structure. `topic` defines which topic the dialogue will switch to. `opinion` is optional, if given it defines how the opinion of the NPC will change. The given values are *added* to the opinion of the NPC, they are all optional and default to 0. `effect` is a function that is executed after choosing the response, see below.
-
-The opinion of the NPC affects several aspects of the interaction with NPCs:
-- Higher trust makes it easier to lie and persuade, and it usually a good thing.
-- Higher fear makes it easier to intimidate, but the NPC may flee from you (and will not talk to you).
-- Higher value makes it easier to persuade them and to give them orders, it's a kind of a friendship indicator.
-- High anger value (about 20 points more than fear, but this also depends on the NPCs personality) makes the NPC hostile and is usually a bad thing.
-The combination of fear and trust decide together with the personality of the NPC the initial talk topic (`"TALK_MUG"`, `"TALK_STRANGER_AGGRESSIVE"`, `"TALK_STRANGER_SCARED"`, `"TALK_STRANGER_WARY"`, `"TALK_STRANGER_FRIENDLY"`, or `"TALK_STRANGER_NEUTRAL"`).
-
-For the actual usage of that data, search the source code for `"op_of_u"`.
-
-The `failure` object is used if the trial fails, the `success` object is used otherwise.
-
-### Sample trials
-```json
-"trial": { "type": "PERSUADE", "difficulty": 0, "mod": [ [ "TRUST", 3 ], [ "VALUE", 3 ], [ "ANGER", -3 ] ] }
-"trial": { "type": "INTIMIDATE", "difficulty": 20, "mod": [ [ "FEAR", 8 ], [ "VALUE", 2 ], [ "TRUST", 2 ], [ "BRAVERY", -2 ] ] }
-"trial": { "type": "CONDITION", "condition": { "npc_has_trait": "FARMER" } }
-"trial": { "type": "SKILL_CHECK", "difficulty": 3, "skill_required": "swimming" }
-```
-
-`topic` can also be a single topic object (the `type` member is not required here):
-
-```json
-"success": {
-    "topic": {
-        "id": "TALK_NEXT",
-        "dynamic_line": "...",
-        "responses": [
-        ]
-    }
-}
-```
-
-### condition
-This is an optional condition which can be used to prevent the response under certain circumstances. If not defined, it defaults to always `true`. If the condition is not met, the response is not included in the list of possible responses. For possible content see Dialogue Conditions below.
 
 ---
 
@@ -651,23 +673,24 @@ One of `"for_item"` or `"for_category"`, and each can either be a single string 
 
 ---
 
-## Dialogue Effects
-The `effect` field of `speaker_effect` or a `response` can be any of the following effects. Multiple effects should be arranged in a list and are processed in the order listed.
-
-`variable_object`: This is either an object, an `arithmetic` expression(see arithmetic below) or array describing a variable name. It can either describe an int or a time duration. If it is an array it must have 2 values the first of which will be a minimum and the second will be a maximum and the value will be randomly between the two. If it is an int `default` is a required int which will be the value returned if the variable is not defined. If is it a duration then `default` can be either an int or a string describing a time span. `u_val`, `npc_val`, or `global_val` can be the used for the variable name element.  If `u_val` is used it describes a variable on player u, if `npc_val` is used it describes a variable on player npc, if `global_val` is used it describes a global variable.  If this is a duration `infinite` will be accepted to be a virtually infinite value(it is actually more than a year, if longer is needed a code change to make this a flag or something will be needed).
+#### Variable Object
+`variable_object`: This is either an object, an `arithmetic` [expression](#compare-integers-and-arithmetics) or array describing a variable name. It can either describe an int, a time duration or a string. If it is an array it must have 2 values the first of which will be a minimum and the second will be a maximum, the value will be randomly between the two. If it is an int `default` is an int which will be the value returned if the variable is not defined. If is it a duration then `default` can be either an int or a string describing a time span. `u_val`, `npc_val`, or `global_val` can be the used for the variable name element.  If `u_val` is used it describes a variable on player u, if `npc_val` is used it describes a variable on player npc, if `global_val` is used it describes a global variable.  If this is a duration `infinite` will be accepted to be a virtually infinite value(it is actually more than a year, if longer is needed a code change to make this a flag or something will be needed).
 
 example json:
 ```
 "effect": [ { "u_mod_focus": { "u_val":"test", "default": 1 } },
   { "u_mod_focus": [ 0, { "u_val":"test", "default": 1 } ] }
   { "u_add_morale": "morale_honey","bonus": -20,"max_bonus": -60, "decay_start": 1,
-  "duration": { "global_val": "test2", "type": "debug", "context": "testing", "default": "2 minutes" },
+  "duration": { "global_val": "test2", "default": "2 minutes" },
   {
     "u_spawn_monster": "mon_absence",
     "real_count": { "arithmetic": [ { "arithmetic": [ { "const":1 }, "+", { "const": 1 } ] }, "+", { "const": 1 } ] }
   } ]
 
 ```
+
+## Dialogue Effects
+The `effect` field of `speaker_effect` or a `response` can be any of the following effects. Multiple effects should be arranged in a list and are processed in the order listed.
 
 #### Missions
 
@@ -697,34 +720,35 @@ Effect | Description
 
 Effect | Description
 ---|---
-`u_mutate`, `npc_mutate`: `chance_int`, *optional* `use_vitamins: vitamin_bool` | Your character or the NPC will attempt to mutate, with a one in `chance_int` chance of using the highest category, with 0 never using the highest category, requiring vitamins if `vitamin_bool` is true(defaults true)
-`u_mutate_category`, `npc_mutate_category`: `category_str`, *optional* `use_vitamins: vitamin_bool` | Your character or the NPC will attempt to mutate in the category `category_str`, requiring vitamins if `vitamin_bool` is true(defaults true)
-`u_add_effect: effect_string`, (*one of* `duration: duration_string`, `duration: duration_int`, `duration_variable_object`),(*optional* `target_part: target_part_string`, `intensity: intensity_int`)<br/>`npc_add_effect: effect_string`, (*one of* `duration: duration_string`, `duration: duration_int`, `duration_variable_object`), (*optional* `target_part: target_part_string`, `force: force_bool`, `intensity: intensity_int or intensity_variable_object`) | Your character or the NPC will gain the effect for `duration_string` or the value of the variable described by `duration_object` see `variable_object` above, turns at intensity `intensity_int` (or the value of the variable described by `intensity_variable_object` see `variable_object` above) or 0 if it was not supplied. If `force_bool` is true(defaults false) immunity will be ignored. If `target_part` is supplied that part will get the effect otherwise its a whole body effect. If `target_part` is `RANDOM` a random body part will be used. If `duration_string` is `"PERMANENT"`, the effect will be added permanently.
-`u_add_bionic: bionic_string`<br/>`npc_add_bionic: bionic_string` | Your character or the NPC will gain the bionic.
-`u_lose_bionic: bionic_string`<br/>`npc_lose_bionic: bionic_string` | Your character or the NPC will lose the bionic.
-`u_add_trait: trait_string`<br/>`npc_add_trait: trait_string` | Your character or the NPC will gain the trait.
-`u_lose_effect: effect_string`<br/>`npc_lose_effect: effect_string` | Your character or the NPC will lose the effect if they have it.
-`u_lose_trait: trait_string`<br/>`npc_lose_trait: trait_string` | Your character or the NPC will lose the trait.
+`u_mutate`, `npc_mutate`: int or [variable object](#variable-object), (*optional* `use_vitamins: vitamin_bool`) | Your character or the NPC will attempt to mutate, with a one in int chance of using the highest category, with 0 never using the highest category, requiring vitamins if `vitamin_bool` is true(defaults true)
+`u_mutate_category`, `npc_mutate_category`: string or [variable object](#variable-object), (*optional* `use_vitamins: vitamin_bool`) | Your character or the NPC will attempt to mutate in the category, requiring vitamins if `vitamin_bool` is true(defaults true)
+`u_add_effect, npc_add_effect: ` string or [variable object](#variable-object), (`duration: ` duration or [variable object](#variable-object)),(*optional* `target_part: ` [string or variable object](#variable-object) ) , (*optional* `intensity: ` int or [variable object](#variable-object) )<br/> | Your character or the NPC will gain the effect for `duration`, turns at intensity `intensity` or 0 if it was not supplied. If `force_bool` is true(defaults false) immunity will be ignored. If `target_part` is supplied that part will get the effect otherwise its a whole body effect. If `target_part` is `RANDOM` a random body part will be used. If `duration` is `"PERMANENT"`, the effect will be added permanently.
+`u_add_bionic, npc_add_bionic: ` string or [variable object](#variable-object) | Your character or the NPC will gain the bionic.
+`u_lose_bionic, npc_lose_bionic: ` string or [variable object](#variable-object) | Your character or the NPC will lose the bionic.
+`u_add_trait, npc_add_trait: `string or [variable object](#variable-object) | Your character or the NPC will gain the trait.
+`u_lose_effect, npc_lose_effect: `string or [variable object](#variable-object) | Your character or the NPC will lose the effect if they have it.
+`u_lose_trait, npc_lose_trait: `string or [variable object](#variable-object) | Your character or the NPC will lose the trait.
 `u_add_var, npc_add_var`: `var_name, type: type_str`, `context: context_str`, either `value: value_str` or `time: true` or `possible_values: string_array` | Your character or the NPC will store `value_str` as a variable that can be later retrieved by `u_has_var` or `npc_has_var`.  `npc_add_var` can be used to store arbitrary local variables, and `u_add_var` can be used to store arbitrary "global" variables, and should be used in preference to setting effects.  If `time` is used instead of `value_str`, then the current turn of the game is stored. If `possible_values` is used one of the values given at random will be used.
 `u_lose_var`, `npc_lose_var`: `var_name`, `type: type_str`, `context: context_str` | Your character or the NPC will clear any stored variable that has the same `var_name`, `type_str`, and `context_str`.
-`u_adjust_var, npc_adjust_var`: `var_name, type: type_str`, `context: context_str`, `adjustment: adjustment_num or adjustment_variable_object` | Your character or the NPC will adjust the stored variable by `adjustment_num` (or the value of the variable described by `adjustment_num` see `variable_object` above).
-`set_string_var`: `type: string or variable object or array of either`, `target_var: variable_object`| Store string (or the variable described) from `set_string_var` in the variable object `target_var`. If an array is provided a random element will be used.
-`u_location_variable, npc_location_variable`: `target_var`,*optional* `min_radius: min_radius_int or min_radius_variable_object`,*optional* `max_radius: max_radius_int or max_radius_variable_object`, *optional* `outdoor_only: outdoor_only_bool`, *optional* `target_params: assign_mission_target` parameters, *optional* `z_adjust: int or variable_object`, *optional* `x_adjust: int or variable_object`, *optional* `y_adjust: int or variable_object`, *optional* `z_override: bool` | If `target_params` is defined it will be used to find a tile. See [the missions docs](MISSIONS_JSON.md) for `assign_mission_target` parameters. Otherwise targets a point between `min_radius_int`( or `min_radius_variable_object`)(defaults to 0) and `max_radius_int`( or `max_radius_variable_object`)(defaults to 0) spaces of the target and if `outdoor_only_bool` is true(defaults to false) will only choose outdoor spaces. The chosen point will be saved to `target_var` which is a `variable_object`.  `z_adjust` will be used as the Z value if `z_override`(defaults false) is true or added to the current z value otherwise. x_adjust and y_adjust are added to the final position.
+`u_adjust_var, npc_adjust_var`: `var_name, type: type_str`, `context: context_str`, `adjustment: `int or [variable object](#variable-object) | Your character or the NPC will adjust the stored variable by `adjustment`.
+`set_string_var`: string or [variable object](#variable-object) or array of either, `target_var: ` [variable object](#variable-object) | Store string from `set_string_var` in the variable object `target_var`. If an array is provided a random element will be used.
+`u_location_variable, npc_location_variable`: `target_var`, (*optional* `min_radius: `int or [variable object](#variable-object)) , (*optional* `max_radius: ` int or [variable object](#variable-object)), (*optional* `outdoor_only: outdoor_only_bool`), (*optional* `target_params: assign_mission_target` parameters), (*optional* `z_adjust: ` int or [variable object](#variable-object)), (*optional* `x_adjust: `string or [variable object](#variable-object)), (*optional* `y_adjust: `int or [variable object](#variable-object)), (*optional* `z_override: bool`) | If `target_params` is defined it will be used to find a tile. See [the missions docs](MISSIONS_JSON.md) for `assign_mission_target` parameters. Otherwise targets a point between `min_radius_int`( or `min_radius_variable_object`)(defaults to 0) and `max_radius_int`( or `max_radius_variable_object`)(defaults to 0) spaces of the target and if `outdoor_only_bool` is true(defaults to false) will only choose outdoor spaces. The chosen point will be saved to `target_var` which is a `variable_object`.  `z_adjust` will be used as the Z value if `z_override`(defaults false) is true or added to the current z value otherwise. x_adjust and y_adjust are added to the final position.
 `barber_hair` | Opens a menu allowing the player to choose a new hair style.
 `barber_beard` | Opens a menu allowing the player to choose a new beard style.
-`u_learn_recipe: recipe_string`  | Your character will learn and memorize the recipe `recipe_string`.
-`npc_first_topic: talk_topic_string` | Changes the initial talk_topic of the NPC in all future dialogues.
-`u_add_wet: wet_int`<br/>`npc_add_wet: wet_int or wet_variable_object` | Your character or the NPC will be wet `wet_int` (or the value of the variable described by `wet_variable_object` see `variable_object` above) as if they were in the rain.
-`u_make_sound, npc_make_sound: message_string`, `volume: volume_int`, `type: type_string`,*optional* `target_var: target_var_object`, *optional* `snippet: snippet_bool`, *optional* `same_snippet: same_snippet_bool`  | A sound of description `message_string` will be made at your character or the NPC's location of volume `volume_int` and type `type_string`. Possible types are: background, weather, music, movement, speech, electronic_speech, activity, destructive_activity, alarm, combat, alert, or order. If `target_var` is set this effect will be centered on a location saved to a variable with its name.  `target_var` is an object with `value`,`type` and `context` as string values and a bool `global` which determines if the variable is global or not. If `snippet_bool` is true(defaults to false) it will instead display a random snippet from `message_string` category, if `same_snippet_bool` is true(defaults to false) it will always use the same snippet and will set a variable that can be used for custom item names(this requires the snippets to have id's set)
-`u_mod_healthy, npc_mod_healthy : amount_int or amount_variable_object, cap: cap_int or cap_variable_object` | Your character or the NPC will have `amount_int` ( or the value of the variable described by `amount_variable_object` see `variable_object` above) added or subtracted from its health value, but not beyond `cap_int` or `cap_variable_object`.
-`u_add_morale: morale_string`, (*optional* `bonus: bonus_int` ), (*optional* `max_bonus: max_bonus_int or max_bonus_variable_object` ), (*optional* `duration: duration_string or duration_variable_object`), (*optional* `decay_start` : `decay_string or decay_variable_object`), (*optional* `capped`: `capped_bool`)<br/> `npc_add_morale: morale_string`, (*optional* `bonus: bonus_int or bonus_variable_object` ), (*optional* `max_bonus: max_bonus_int` ), (*optional* `duration: duration_int`), (*optional*`decay_start` : `decay_int`), (*optional* `capped`: `capped_bool`)| Your character or the NPC will gain a morale bonus of type `morale_string`. Morale is changed by `bonus_int`( or the value of the variable described by `bonus_variable_object` see `variable_object` above) (default 1), with a maximum of up to `max_bonus_int`(or `max_bonus_variable_object`)  (default 1). It will last for `duration: duration_string` time (default 1 hour) or `duration_variable_object`. It will begin to decay after `decay_string` time (default 30 minutes) or `decay_variable_object`. `capped_bool` Whether this morale is capped or not, defaults to false.
-`u_lose_morale: morale_string`<br/>`npc_lose_morale: morale_string` | Your character or the NPC will lose any morale of type `morale_string`.
-`u_add_faction_trust: amount_int`<br/>`u_lose_faction_trust: amount_int` | Your character gains or loses trust with the speaking NPC's faction, which affects which items become available for trading from shopkeepers of that faction.
-`u_message, npc_message: message_string`, (*optional* `sound: sound_bool`),(*optional* `outdoor_only: outdoor_only_bool`),(*optional* `snippet: snippet_bool`),(*optional* `same_snippet: snippet_bool`,(*optional* `type: type_string`),(*optional* `popup: popup_bool`) | Displays a message to either the player or the npc of `message_string`.  Will not display unless the player or npc is the actual player.  If `snippet_bool` is true(defaults to false) it will instead display a random snippet from `message_string` category, if `same_snippet_bool` is true(defaults to false) it will always use the same snippet and will set a variable that can be used for custom item names(this requires the snippets to have id's set).  If `sound` is true (defaults to false) it will only display the message if the player is not deaf.  `outdoor_only`(defaults to false) only matters when `sound` is true and will make the message less likely to be heard if the player is underground. Message will display as type of `type_string`. Type affects the color of message and can be any of the following values: good, neutral, bad, mixed, warning, info, debug, headshot, critical, grazing.  enums.h has more info on each types use. If `popup_bool` is true the message will be in a modal popup the user has to dismiss to continue.  You can use any of the  Special Custom Entries(defined above).
-`u_cast_spell, npc_cast_spell : fake_spell_data`, *optional* `true_eocs: eocs_array`, *optional* `false_eocs: eocs_array` | The spell described by fake_spell_data will be cast with u or the npc as the caster and u or the npc's location as the target.  Fake spell data can have the following attributes: `id:string`: the id of the spell to cast, (*optional* `hit_self`: bool ( defaults to false ) if true can hit the caster, `trigger_message`: string to display on trigger, `npc_message`: string for message if npc uses, `max_level` int max level of the spell, `min_level` int min level of the spell ).  If the spell is cast, then all of the effect_on_conditions in `true_eocs` are run, otherwise all the effect_on_conditions in `false_eocs` are run.
-`u_assign_activity, npc_assign_activity: activity_id_string`, `duration: duration_string or duration_variable_object`) | Your character or the NPC will start activity `activity_id_string`. It will last for `duration: duration_string` time or `duration_variable_object`.
-`u_teleport, npc_teleport: target_var_object`, (*optional* `success_message: success_message_string`), (*optional* `fail_message: fail_message_string`), (*optional* `force: fprce_bool`) | u or npc are teleported to the destination stored in the variable named by `target_var`.  `target_var` is an object with `value`,`type` and `context` as string values and a bool `global` which determines if the variable is global or not. If the teleport succeeds and `success_message` is defined it will be displayed, if it fails and `fail_message` is defined it will be displayed.  If `force` is true any creatures at the destination will be killed and if blocked a nearby spot will be chosen to teleport to instead.
-`u_set_hp, npc_set_hp : amount_int or variable_object`, (*optional* `target_part: string or string_variable_object`),(*optional* `only_increase: bool`) | Your character or the NPC will have the hp of `target_part`(or all parts if it was not used) set to `amount_int` ( or the value of the variable described by `amount_variable_object` see `variable_object` above).  If `only_increase` is true (defaults to false) this will only happen if it increases the parts hp.
+`u_learn_recipe: `string or [variable object](#variable-object)  | Your character will learn and memorize the recipe.
+`npc_first_topic: `string or [variable object](#variable-object) | Changes the initial talk_topic of the NPC in all future dialogues.
+`u_add_wet, npc_add_wet: `int or [variable object](#variable-object) | Your character or the NPC will be wet as if they were in the rain.
+`u_make_sound, npc_make_sound:`string or [variable object](#variable-object), `volume: `int or [variable object](#variable-object), `type: `string or [variable object](#variable-object), (*optional* `target_var: `[variable object](#variable-object)), (*optional* `snippet: snippet_bool`), (*optional* `same_snippet: same_snippet_bool`)  | A sound of description `message_string` will be made at your character or the NPC's location of volume `volume` and type `type_`. Possible types are: background, weather, music, movement, speech, electronic_speech, activity, destructive_activity, alarm, combat, alert, or order. If `target_var` is set this effect will be centered on a location saved to a variable with its name.  If `snippet_bool` is true(defaults to false) it will instead display a random snippet from `message_string` category, if `same_snippet_bool` is true(defaults to false) it will always use the same snippet and will set a variable that can be used for custom item names(this requires the snippets to have id's set)
+`u_mod_healthy, npc_mod_healthy : `int or [variable object](#variable-object), `cap: ` int or [variable object](#variable-object) | Your character or the NPC will have `amount_int` added or subtracted from its health value, but not beyond `cap_int` or `cap_variable_object`.
+`u_add_morale, npc_add_morale: `string or [variable object](#variable-object), (*optional* `bonus: `int or [variable object](#variable-object)), (*optional* `max_bonus: `int or [variable object](#variable-object)), (*optional* `duration: `duration or [variable object](#variable-object)), (*optional* `decay_start: `duration or [variable object](#variable-object) ), (*optional* `capped`: `capped_bool`)| Your character or the NPC will gain a morale bonus of type `morale_string`. Morale is changed by `bonus`(default 1), with a maximum of up to `max_bonus_int`(default 1). It will last for `duration` time (default 1 hour). It will begin to decay after `decay_start` time (default 30 minutes). `capped_bool` Whether this morale is capped or not, defaults to false.
+`u_lose_morale, npc_lose_morale: `string or [variable object](#variable-object) | Your character or the NPC will lose any morale of type `morale_string`.
+`u_add_faction_trust: `int or [variable object](#variable-object) | Your character gains trust with the speaking NPC's faction, which affects which items become available for trading from shopkeepers of that faction.
+`u_lose_faction_trust: `int or [variable object](#variable-object) | Your character loses trust with the speaking NPC's faction, which affects which items become available for trading from shopkeepers of that faction.
+`u_message, npc_message: `string or [variable object](#variable-object), (*optional* `sound: sound_bool`), (*optional* `outdoor_only: outdoor_only_bool`), (*optional* `snippet: snippet_bool`), (*optional* `same_snippet: snippet_bool`, (*optional* `type: `string or [variable object](#variable-object)), (*optional* `popup: popup_bool`) | Displays a message to either the player or the npc of `message_string`.  Will not display unless the player or npc is the actual player.  If `snippet_bool` is true(defaults to false) it will instead display a random snippet from `message_string` category, if `same_snippet_bool` is true(defaults to false) it will always use the same snippet and will set a variable that can be used for custom item names(this requires the snippets to have id's set).  If `sound` is true (defaults to false) it will only display the message if the player is not deaf.  `outdoor_only`(defaults to false) only matters when `sound` is true and will make the message less likely to be heard if the player is underground. Message will display as type of `type`. Type affects the color of message and can be any of the following values: good, neutral, bad, mixed, warning, info, debug, headshot, critical, grazing.  enums.h has more info on each types use. If `popup_bool` is true the message will be in a modal popup the user has to dismiss to continue.  You can use any of the  Special Custom Entries(defined above).
+`u_cast_spell, npc_cast_spell : fake_spell_data`, (*optional* `true_eocs: eocs_array`), (*optional* `false_eocs: eocs_array`) | The spell described by fake_spell_data will be cast with u or the npc as the caster and u or the npc's location as the target.  Fake spell data can have the following attributes: `id:string`: the id of the spell to cast, (*optional* `hit_self`: bool ( defaults to false ) if true can hit the caster, `trigger_message`: string to display on trigger, `npc_message`: string for message if npc uses, `max_level` int max level of the spell, `min_level` int min level of the spell ).  If the spell is cast, then all of the effect_on_conditions in `true_eocs` are run, otherwise all the effect_on_conditions in `false_eocs` are run.
+`u_assign_activity, npc_assign_activity: `string or [variable object](#variable-object), `duration: `duration or [variable object](#variable-object) | Your character or the NPC will start activity `u_assign_activity`. It will last for `duration` time.
+`u_teleport, npc_teleport: `[variable object](#variable-object), (*optional* `success_message: `string or [variable object](#variable-object)), (*optional* `fail_message: `string or [variable object](#variable-object)), (*optional* `force: force_bool`) | u or npc are teleported to the destination stored in the variable named by `target_var`.  If the teleport succeeds and `success_message` is defined it will be displayed, if it fails and `fail_message` is defined it will be displayed.  If `force` is true any creatures at the destination will be killed and if blocked a nearby spot will be chosen to teleport to instead.
+`u_set_hp, npc_set_hp : `int or [variable object](#variable-object), (*optional* `target_part: `string or [variable object](#variable-object)), (*optional* `only_increase: bool`) | Your character or the NPC will have the hp of `target_part`(or all parts if it was not used) set to `amount`.  If `only_increase` is true (defaults to false) this will only happen if it increases the parts hp.
 
 #### Trade / Items
 
@@ -734,16 +758,16 @@ Effect | Description
 `give_equipment` | Allows your character to select items from the NPC's inventory and transfer them to your inventory.
 `npc_gets_item` | Allows your character to select an item from your character's inventory and transfer it to the NPC's inventory.  The NPC will not accept it if they do not have space or weight to carry it, and will set a reason that can be referenced in a future dynamic line with `"use_reason"`.
 `npc_gets_item_to_use` | Allow your character to select an item from your character's inventory and transfer it to the NPC's inventory.  The NPC will attempt to wield it and will not accept it if it is too heavy or is an inferior weapon to what they are currently using, and will set a reason that can be referenced in a future dynamic line with `"use_reason"`.
-`u_spawn_item: item_string or variable_object`, (*optional* `count: count_num`, *optional* `container: container_string`) | Your character gains the item or `count_num` copies of the item, contained in container if specified. If used in an NPC conversation the items are said to be given by the NPC.  If a variable item is passed for the name an item of the type contained in it will be used.
-`u_buy_item: item_string`, (`cost: cost_num`, *optional* `count: count_num`, *optional* `container: container_string`, *optional* `true_eocs: eocs_array`, *optional* `false_eocs: eocs_array`) | The NPC will sell your character the item or `count_num` copies of the item, contained in `container`, and will subtract `cost_num` from `op_of_u.owed`.  If the `op_o_u.owed` is less than `cost_num`, the trade window will open and the player will have to trade to make up the difference; the NPC will not give the player the item unless `cost_num` is satisfied.
-`u_sell_item: item_string`, (*optional* `cost: cost_num`, *optional* `count: count_num`, *optional* `true_eocs: eocs_array`, *optional* `false_eocs: eocs_array`) | Your character will give the NPC the item or `count_num` copies of the item, and will add `cost_num` to the NPC's `op_of_u.owed` if specified.<br/>If cost isn't present, the your character gives the NPC the item at no charge.<br/>This effect will fail if you do not have at least `count_num` copies of the item, so it should be checked with.  If the item is sold, then all of the effect_on_conditions in `true_eocs` are run, otherwise all the effect_on_conditions in `false_eocs` are run.
-`u_bulk_trade_accept`<br/>`npc_bulk_trade_accept` *or*  `u_bulk_trade_accept: quantity_int` <br/>`npc_bulk_trade_accept: quantity_int`  | Only valid after a `repeat_response`.  The player trades all instances of the item from the `repeat_response` with the NPC.  For `u_bulk_trade_accept`, the player loses the items from their inventory and gains the same value of the NPC's faction currency; for `npc_bulk_trade_accept`, the player gains the items from the NPC's inventory and loses the same value of the NPC's faction currency.  If there is remaining value, or the NPC doesn't have a faction currency, the remainder goes into the NPC's `op_of_u.owed`. If `quantity_int` is specified only that many items/charges will be moved.
-`u_bulk_donate`<br/>`npc_bulk_donate` *or*  `u_bulk_donate: quantity_int` <br/>`npc_bulk_donate: quantity_int`  | Only valid after a `repeat_response`.  The player or NPC transfers all instances of the item from the `repeat_response`.  For `u_bulk_donate`, the player loses the items from their inventory and the NPC gains them; for `npc_bulk_donate`, the player gains the items from the NPC's inventory and the NPC loses them. If `quantity_int` is specified only that many items/charges will be moved.
-`u_spend_cash: cost_num`, *optional* `true_eocs: eocs_array`, *optional* `false_eocs: eocs_array` | Remove `cost_num` from your character's cash.  Negative values means your character gains cash.  *deprecated* NPCs should not deal in e-cash anymore, only personal debts and items. If the cash is spent, then all of the effect_on_conditions in `true_eocs` are run, otherwise all the effect_on_conditions in `false_eocs` are run.
+`u_spawn_item: `string or [variable object](#variable-object), (*optional* `count: `int or [variable object](#variable-object)), (*optional* `container: `string or [variable object](#variable-object)) | Your character gains the item or `count` copies of the item, contained in container if specified. If used in an NPC conversation the items are said to be given by the NPC.  If a variable item is passed for the name an item of the type contained in it will be used.
+`u_buy_item: `string or [variable object](#variable-object), `cost: `int or [variable object](#variable-object), (*optional* `count: `int or [variable object](#variable-object)), (*optional* `container: `string or [variable object](#variable-object)), (*optional* `true_eocs: eocs_array`), (*optional* `false_eocs: eocs_array`) | The NPC will sell your character the item or `count` copies of the item, contained in `container`, and will subtract `cost` from `op_of_u.owed`.  If the `op_o_u.owed` is less than `cost`, the trade window will open and the player will have to trade to make up the difference; the NPC will not give the player the item unless `cost` is satisfied.
+`u_sell_item: `string or [variable object](#variable-object), (*optional* `cost: `int or [variable object](#variable-object)), (*optional* `count: `string or [variable object](#variable-object)), (*optional* `true_eocs: eocs_array`), (*optional* `false_eocs: eocs_array`) | Your character will give the NPC the item or `count` copies of the item, and will add `cost` to the NPC's `op_of_u.owed` if specified.<br/>If cost isn't present, the your character gives the NPC the item at no charge.<br/>This effect will fail if you do not have at least `count` copies of the item, so it should be checked with.  If the item is sold, then all of the effect_on_conditions in `true_eocs` are run, otherwise all the effect_on_conditions in `false_eocs` are run.
+`u_bulk_trade_accept, npc_bulk_trade_accept, u_bulk_trade_accept, npc_bulk_trade_accept: `int or [variable object](#variable-object)  | Only valid after a `repeat_response`.  The player trades all instances of the item from the `repeat_response` with the NPC.  For `u_bulk_trade_accept`, the player loses the items from their inventory and gains the same value of the NPC's faction currency; for `npc_bulk_trade_accept`, the player gains the items from the NPC's inventory and loses the same value of the NPC's faction currency.  If there is remaining value, or the NPC doesn't have a faction currency, the remainder goes into the NPC's `op_of_u.owed`. If `quantity` is specified only that many items/charges will be moved.
+`u_bulk_donate, npc_bulk_donate` or  `u_bulk_donate, npc_bulk_donate: `int or [variable object](#variable-object)  | Only valid after a `repeat_response`.  The player or NPC transfers all instances of the item from the `repeat_response`.  For `u_bulk_donate`, the player loses the items from their inventory and the NPC gains them; for `npc_bulk_donate`, the player gains the items from the NPC's inventory and the NPC loses them. If a value is specified only that many items/charges will be moved.
+`u_spend_cash: `int or [variable object](#variable-object), (*optional* `true_eocs: eocs_array`), (*optional* `false_eocs: eocs_array`) | Remove an amount from your character's cash.  Negative values means your character gains cash.  *deprecated* NPCs should not deal in e-cash anymore, only personal debts and items. If the cash is spent, then all of the effect_on_conditions in `true_eocs` are run, otherwise all the effect_on_conditions in `false_eocs` are run.
 `add_debt: mod_list` | Increases the NPC's debt to the player by the values in the `mod_list`.<br/>The following would increase the NPC's debt to the player by 1500x the NPC's altruism and 1000x the NPC's opinion of the player's value: `{ "effect": { "add_debt": [ [ "ALTRUISM", 3 ], [ "VALUE", 2 ], [ "TOTAL", 500 ] ] } }`
-`u_consume_item`, `npc_consume_item: item_string`, (*optional* `count: count_num`), (*optional* `charges: charges_num`), (*optional* `popup: popup_bool`) | You or the NPC will delete the item or `count_num` copies of the item or `charges_num` charges of the item from their inventory.<br/>This effect will fail if the you or NPC does not have at least `count_num` copies of the item or `charges_num` charges of the item, so it should be checked with `u_has_items` or `npc_has_items`.<br/>If `popup_bool` is `true`, `u_consume_item` will show a message displaying the character giving the items to the NPC. It defaults to `false` if not defined, and has no effect when used in `npc_consume_item`.
-`u_remove_item_with`, `npc_remove_item_with: item_string` | You or the NPC will delete any instances of item in inventory.<br/>This is an unconditional remove and will not fail if you or the NPC does not have the item.
-`u_buy_monster: monster_type_string`, (*optional* `cost: cost_num`, *optional* `count: count_num`, *optional* `name: name_string`, *optional* `pacified: pacified_bool`, *optional* `true_eocs: eocs_array`, *optional* `false_eocs: eocs_array`) | The NPC will give your character `count_num` (default 1) instances of the monster as pets and will subtract `cost_num` from `op_of_u.owed` if specified.  If the `op_o_u.owed` is less than `cost_num`, the trade window will open and the player will have to trade to make up the difference; the NPC will not give the player the item unless `cost_num` is satisfied.<br/>If cost isn't present, the NPC gives your character the item at no charge.<br/>If `name_string` is specified the monster(s) will have the specified name. If `pacified_bool` is set to true, the monster will have the pacified effect applied.  If the monster is sold, then all of the effect_on_conditions in `true_eocs` are run, otherwise all the effect_on_conditions in `false_eocs` are run.
+`u_consume_item`, `npc_consume_item: `string or [variable object](#variable-object), (*optional* `count: `int or [variable object](#variable-object)), (*optional* `charges: `int or [variable object](#variable-object)), (*optional* `popup: popup_bool`) | You or the NPC will delete the item or `count` copies of the item or `charges` charges of the item from their inventory.<br/>This effect will fail if the you or NPC does not have at least `count` copies of the item or `charges` charges of the item, so it should be checked with `u_has_items` or `npc_has_items`.<br/>If `popup_bool` is `true`, `u_consume_item` will show a message displaying the character giving the items to the NPC. It defaults to `false` if not defined, and has no effect when used in `npc_consume_item`.
+`u_remove_item_with`, `npc_remove_item_with: `string or [variable object](#variable-object) | You or the NPC will delete any instances of item in inventory.<br/>This is an unconditional remove and will not fail if you or the NPC does not have the item.
+`u_buy_monster: `string or [variable object](#variable-object), (*optional* `cost: `int or [variable object](#variable-object)), (*optional* `count: `int or [variable object](#variable-object)), (*optional* `name: `string or [variable object](#variable-object)), (*optional* `pacified: pacified_bool`), (*optional* `true_eocs: eocs_array`), (*optional* `false_eocs: eocs_array`) | The NPC will give your character `count` (default 1) instances of the monster as pets and will subtract `cost` from `op_of_u.owed` if specified.  If the `op_o_u.owed` is less than `cost`, the trade window will open and the player will have to trade to make up the difference; the NPC will not give the player the item unless `cost_num` is satisfied.<br/>If cost isn't present, the NPC gives your character the item at no charge.<br/>If `name` is specified the monster(s) will have the specified name. If `pacified_bool` is set to true, the monster will have the pacified effect applied.  If the monster is sold, then all of the effect_on_conditions in `true_eocs` are run, otherwise all the effect_on_conditions in `false_eocs` are run.
 
 #### Behavior / AI
 
@@ -776,48 +800,48 @@ Effect | Description
 `basecamp_mission` | The NPC will offer you a list of missions for your allied NPCs, depending on the local basecamp.
 `bionic_install` | The NPC installs a bionic from your character's inventory onto your character, using very high skill, and charging you according to the operation's difficulty.
 `bionic_remove` | The NPC removes a bionic from your character, using very high skill, and charging you according to the operation's difficulty.
-`npc_class_change: class_string` | Change the NPC's faction to `class_string`.
-`npc_faction_change: faction_string` | Change the NPC's faction membership to `faction_string`.
-`u_faction_rep: rep_num` | Increases your reputation with the NPC's current faction, or decreases it if `rep_num` is negative.
-`toggle_npc_rule: rule_string` | Toggles the value of a boolean NPC follower AI rule such as `"use_silent"` or `"allow_bash"`
-`set_npc_rule: rule_string` | Sets the value of a boolean NPC follower AI rule such as `"use_silent"` or `"allow_bash"`
-`clear_npc_rule: rule_string` | Clears the value of a boolean NPC follower AI rule such as `"use_silent"` or `"allow_bash"`
-`set_npc_engagement_rule: rule_string` | Sets the NPC follower AI rule for engagement distance to the value of `rule_string`.
-`set_npc_aim_rule: rule_string` | Sets the NPC follower AI rule for aiming speed to the value of `rule_string`.
+`npc_class_change: `string or [variable object](#variable-object) | Change the NPC's class to the new value.
+`npc_faction_change: `string or [variable object](#variable-object) | Change the NPC's faction membership to the new value.
+`u_faction_rep: `int or [variable object](#variable-object) | Increases your reputation with the NPC's current faction, or decreases it if the value is negative.
+`toggle_npc_rule: `string or [variable object](#variable-object) | Toggles the value of a boolean NPC follower AI rule such as `"use_silent"` or `"allow_bash"`
+`set_npc_rule: `string or [variable object](#variable-object) | Sets the value of a boolean NPC follower AI rule such as `"use_silent"` or `"allow_bash"`
+`clear_npc_rule: `string or [variable object](#variable-object) | Clears the value of a boolean NPC follower AI rule such as `"use_silent"` or `"allow_bash"`
+`set_npc_engagement_rule: `string or [variable object](#variable-object) | Sets the NPC follower AI rule for engagement distance to the value of `rule_string`.
+`set_npc_aim_rule: `string or [variable object](#variable-object) | Sets the NPC follower AI rule for aiming speed to the value of `rule_string`.
 `npc_die` | The NPC will die at the end of the conversation.
-`npc_set_goal:assign_mission_target_object`, *optional* `true_eocs: eocs_array`, *optional* `false_eocs: eocs_array` | The NPC will walk to `assign_mission_target_object`. See [the missions docs](MISSIONS_JSON.md) for `assign_mission_target` parameters.  If the goal is assigned, then all of the effect_on_conditions in `true_eocs` are run, otherwise all the effect_on_conditions in `false_eocs` are run.
+`npc_set_goal:assign_mission_target_object`, (*optional* `true_eocs: eocs_array`), (*optional* `false_eocs: eocs_array`) | The NPC will walk to `assign_mission_target_object`. See [the missions docs](MISSIONS_JSON.md) for `assign_mission_target` parameters.  If the goal is assigned, then all of the effect_on_conditions in `true_eocs` are run, otherwise all the effect_on_conditions in `false_eocs` are run.
 
 #### Map Updates
 Effect | Description
 ---|---
-`mapgen_update: mapgen_update_id_string`<br/>`mapgen_update:` *list of `mapgen_update_id_string`s*, (optional `assign_mission_target` parameters), (optional `target_var: variable_object`), (*optional* `time_in_future: duration_string or duration_variable_object`), (*optional* `key: string_variable_object`) | With no other parameters, updates the overmap tile at the player's current location with the changes described in `mapgen_update_id` (or for each `mapgen_update_id` in the list). If `time_in_future` is set the update will happen that far in the future, in this case however the target location will be determined now and not changed even if its variables update.  The `assign_mission_target` parameters can be used to change the location of the overmap tile that gets updated.  See [the missions docs](MISSIONS_JSON.md) for `assign_mission_target` parameters and [the mapgen docs](MAPGEN.md) for `mapgen_update`. If `target_var` ( see `variable_object` above) is set this effect will be centered on a location saved to a variable with its name instead.
-`revert_location: variable_object`, `time_in_future: duration_string or duration_variable_object` | `revert_location` is a variable object of the location.  The map tile at that location will be saved(terrain,furniture and traps) and restored at `time_in_future`.  If `key` is provided it can be used with `alter_timed_events` to force it to occur early. 
-`alter_timed_events: string_variable_object`, (*optional* `time_in_future: duration_string or duration_variable_object`) | Will cause all future events associated with the title string as a key to occur `time_in_future`(defaults to 0) in the future.  
+`mapgen_update: `string or [variable object](#variable-object)<br/>`mapgen_update:` *array of string or [variable objects](#variable-object)*, (optional `assign_mission_target` parameters), (optional `target_var: `[variable object](#variable-object)), (*optional* `time_in_future: `duration or [variable object](#variable-object)), (*optional* `key: `string or [variable object](#variable-object)) | With no other parameters, updates the overmap tile at the player's current location with the changes described in `mapgen_update` (or for each `mapgen_update` entry). If `time_in_future` is set the update will happen that far in the future, in this case however the target location will be determined now and not changed even if its variables update.  The `assign_mission_target` parameters can be used to change the location of the overmap tile that gets updated.  See [the missions docs](MISSIONS_JSON.md) for `assign_mission_target` parameters and [the mapgen docs](MAPGEN.md) for `mapgen_update`. If `target_var` is set this effect will be centered on a location saved to a variable with its name instead.
+`revert_location: `[variable object](#variable-object), `time_in_future: `duration or [variable object](#variable-object) | `revert_location` is a variable object of the location.  The map tile at that location will be saved(terrain,furniture and traps) and restored at `time_in_future`.  If `key` is provided it can be used with `alter_timed_events` to force it to occur early. 
+`alter_timed_events: `string or [variable object](#variable-object), (*optional* `time_in_future: `duration or [variable object](#variable-object)) | Will cause all future events associated with the title string as a key to occur `time_in_future`(defaults to 0) in the future.  
 `lightning` | Allows supercharging monster in electrical fields, legacy command for lightning weather.
 `next_weather` | Forces a check for what weather it should be.
-`custom_light_level: custom_light_level_int or custom_light_level_variable_object, length: duration_string or duration_variable_object`, (*optional* `key: string_variable_object`) | Sets the ambient light from the sun/moon to be `custom_light_level_int` ( or the value of the variable described by `custom_light_level_variable_object` see `variable_object` above).  This can vary naturally between 0 and 125 depending on the sun to give a scale. This lasts `length`.  If `key` is provided it can be used with `alter_timed_events` to force it to occur early.
-`u_transform_radius, npc_transform_radius: transform_radius_int or transform_radius_variable_object, ter_furn_transform: ter_furn_transform_string`, (*optional* `target_var: target_var_object`), (*optional* `time_in_future: duration_string or duration_variable_object`), (*optional* `key: key_string or duration_variable_object`) | Applies the ter_furn_transform of id `ter_furn_transform` (See [the transform docs](TER_FURN_TRANSFORM.md)) in radius `translate_radius`. If `target_var` is set this effect will be centered on a location saved to a variable with its name.  `target_var` is an object with `value`,`type` and `context` as string values and a bool `global` which determines if the variable is global or not. If `time_in_future` is set the transform will that far in the future, in this case however the target location and radius will be determined now and not changed even if their variables update.  If `key` is provided it can be used with `alter_timed_events` to force it to occur early.
-`transform_line: ter_furn_transform_string`, `first: target_var_object`, `second: target_var_object` | Applies the ter_furn_transform of id `ter_furn_transform` (See [the transform docs](TER_FURN_TRANSFORM.md)) on a line between points `first` and `second`.
-`place_override: string_variable_object, length: duration_variable_object`, (*optional* `key: key_string or duration_variable_object`) | Overrides the location name in the sidebar to instead be the title string.  Also disables map and map memory.  If `length` is set the effect will last that long.  If `key` is provided it can be used with `alter_timed_events` to force it to end early.
-`u_spawn_monster: mtype_id_string, npc_spawn_monster: mtype_id_string`,(*optional* `group: group_bool`, *optional* `hallucination_count: hallucination_count_int or hallucination_count_variable_object`, *optional* `real_count: real_count_int or real_count_variable_object`,*optional* `min_radius: min_radius_int or min_radius_variable_object`,*optional* `max_radius: max_radius_int or max_radius_variable_object`,*optional* `outdoor_only: outdoor_only_bool`,*optional* `open_air_allowed: open_air_allowed_bool`,*optional* `target_range : target_range_int or target_range_variable_object`), *optional* `lifespan: timespan_min_string or variable_object`, *optional* `target_var: target_var_object`,*optional* `spawn_message: spawn_message_string`,*optional* `spawn_message_plural: spawn_message_plural_spawn`, *optional* `true_eocs: eocs_array`, *optional* `false_eocs: eocs_array` | Spawns `real_count_int`( or the value of the variable described by `real_count_variable_object` see `variable_object` above)(defaults to 0) monsters and `hallucination_count_int`( or `hallucination_count_variable_object`) (defaults to 0) hallucinations near you or the npc. The spawn will be of type `mtype_id_string`, if `group_bool` is false(defaults to false, if it is true a random monster from monster_group `mtype_id_string` will be used), if this is an empty string it will instead be a random monster within `target_range_int`( or `target_range_variable_object`) spaces of you. The spawns will happen between `min_radius_int`( or `min_radius_variable_object`)(defaults to 1) and `max_radius_int`( or `max_radius_variable_object`)(defaults to 10) spaces of the target and if `outdoor_only_bool` is true(defaults to false) will only choose outdoor spaces. If `open_air_allowed` is true(defaults to false) monsters can be spawned on open air. If `lifespan` (or the `variable_object`) is provided the monster or hallucination will only that long. If `target_var` is set this effect will be centered on a location saved to a variable with its name.  `target_var` is a `variable_object`. If at least one spawned creature is visible `spawn_message` will be displayed.  If `spawn_message_plural` is defined and more than one spawned creature is visible it will be used instead.  If at least one monster is spawned, then all of the effect_on_conditions in `true_eocs` are run, otherwise all the effect_on_conditions in `false_eocs` are run.
-`u_set_field: field_id_string or npc_set_field: field_id_string`,(*optional* `intensity: intensity_int or intensity_variable_onject`, *optional* `age: age_int or variable_object`,*optional* `radius: radius_int or radius_variable_onject`,*optional* `outdoor_only: outdoor_only_bool`,*optional* `indoor_only: indoor_only_bool`,*optional* `hit_player : hit_player_bool`,*optional* `target_var: target_var_object` ) | Add a field centered on you or the npc of type `field_type_id_string`, of intensity `intensity_int`( or the value of the variable described by `real_count_variable_object` see `variable_object` above)( defaults to 1,) of radius `radius_int`( or `radius_variable_object`)(defaults to 10000000) and age `age_int` (defaults 1) or `age_variable_object`. It will only happen outdoors if `outdoor_only` is true, it defaults to false. `indoor_only` is the opposite. It will hit the player as if they entered it if `hit_player` is true, it defaults to true. If `target_var` is set this effect will be centered on a location saved to a variable with its name.  `target_var` is an object with `value`,`type` and `context` as string values and a bool `global` which determines if the variable is global or not.
+`custom_light_level: `int or [variable object](#variable-object), `length: `duration or [variable object](#variable-object), (*optional* `key: `string or [variable object](#variable-object)) | Sets the ambient light from the sun/moon to be `custom_light_level`.  This can vary naturally between 0 and 125 depending on the sun to give a scale. This lasts `length`.  If `key` is provided it can be used with `alter_timed_events` to force it to occur early.
+`u_transform_radius, npc_transform_radius: `int or [variable object](#variable-object), `ter_furn_transform: `string or [variable object](#variable-object), (*optional* `target_var: `[variable object](#variable-object)), (*optional* `time_in_future: `duration or [variable object](#variable-object)), (*optional* `key: `string or [variable object](#variable-object)) | Applies the ter_furn_transform of id `ter_furn_transform` (See [the transform docs](TER_FURN_TRANSFORM.md)) in radius `transform_radius`. If `target_var` is set this effect will be centered on a location saved to a variable with its name.  If `time_in_future` is set the transform will that far in the future, in this case however the target location and radius will be determined now and not changed even if their variables update.  If `key` is provided it can be used with `alter_timed_events` to force it to occur early.
+`transform_line: `string or [variable object](#variable-object), `first: `[variable object](#variable-object), `second: `[variable object](#variable-object) | Applies the ter_furn_transform of id `transform_line` (See [the transform docs](TER_FURN_TRANSFORM.md)) on a line between points `first` and `second`.
+`place_override: `string or [variable object](#variable-object), `length: `duration or [variable object](#variable-object), (*optional* `key: `string or [variable object](#variable-object)) | Overrides the location name in the sidebar to instead be the title string.  Also disables map and map memory.  If `length` is set the effect will last that long.  If `key` is provided it can be used with `alter_timed_events` to force it to end early.
+`u_spawn_monster, npc_spawn_monster: `string or [variable object](#variable-object),(*optional* `group: group_bool`), (*optional* `hallucination_count: `int or [variable object](#variable-object)), (*optional* `real_count: `int or [variable object](#variable-object)),(*optional* `min_radius: `int or [variable object](#variable-object)), (*optional* `max_radius: `int or [variable object](#variable-object)), (*optional* `outdoor_only: outdoor_only_bool`), (*optional* `open_air_allowed: open_air_allowed_bool`), (*optional* `target_range : `int or [variable object](#variable-object)), (*optional* `lifespan: `duration or [variable object](#variable-object)), (*optional* `target_var: `[variable object](#variable-object)), (*optional* `spawn_message: `string or [variable object](#variable-object)), (*optional* `spawn_message_plural: `string or [variable object](#variable-object)), (*optional* `true_eocs: eocs_array`), (*optional* `false_eocs: eocs_array`) | Spawns `real_count`(defaults to 0) monsters and `hallucination_count`(defaults to 0) hallucinations near you or the npc. The spawn will be of type `_spawn_monster`, if `group_bool` is false(defaults to false, if it is true a random monster from monster_group `_spawn_monster` will be used), if this is an empty string it will instead be a random monster within `target_range` spaces of you. The spawns will happen between `min_radius`(defaults to 1) and `max_radius`(defaults to 10) spaces of the target and if `outdoor_only_bool` is true(defaults to false) will only choose outdoor spaces. If `open_air_allowed` is true(defaults to false) monsters can be spawned on open air. If `lifespan` is provided the monster or hallucination will only that long. If `target_var` is set this effect will be centered on a location saved to a variable with its name.  If at least one spawned creature is visible `spawn_message` will be displayed.  If `spawn_message_plural` is defined and more than one spawned creature is visible it will be used instead.  If at least one monster is spawned, then all of the effect_on_conditions in `true_eocs` are run, otherwise all the effect_on_conditions in `false_eocs` are run.
+`u_set_field, npc_set_field: `string or [variable object](#variable-object),(*optional* `intensity: `int or [variable object](#variable-object)), (*optional* `age: `int or [variable object](#variable-object)), (*optional* `radius: `int or [variable object](#variable-object)), (*optional* `outdoor_only: outdoor_only_bool`), (*optional* `indoor_only: indoor_only_bool`), (*optional* `hit_player : hit_player_bool`), (*optional* `target_var: `[variable object](#variable-object)) | Add a field centered on you or the npc of type `_set_field`, of intensity `intensity`( defaults to 1,) of radius `radius`(defaults to 10000000) and age `age` (defaults 1). It will only happen outdoors if `outdoor_only` is true, it defaults to false. `indoor_only` is the opposite. It will hit the player as if they entered it if `hit_player` is true, it defaults to true. If `target_var` is set this effect will be centered on a location saved to a variable with its name.
 
 #### General
 Effect | Description
 ---|---
-`sound_effect: sound_effect_id_string`, *optional* `sound_effect_variant: variant_string`, *optional* `outdoor_event: outdoor_event`,*optional* `volume: volume_int`  | Will play a sound effect of id `sound_effect_id_string` and variant `variant_string`. If `volume_int` is defined it will be used otherwise 80 is the default. If `outdoor_event`(defaults to false) is true this will be less likely to play if the player is underground.
-`open_dialogue`, *optional* `topic: variable_str_object`, *optional* `true_eocs: eocs_array`, *optional* `false_eocs: eocs_array`. Opens up a dialog between the participants. This should only be used in effect_on_conditions. If the dialog is opened, then all of the effect_on_conditions in `true_eocs` are run, otherwise all the effect_on_conditions in `false_eocs` are run. If `topic` is supplied than a conversation with an empty talker starting with the topic `topic` will be opened.
-`take_control`, *optional* `true_eocs: eocs_array`, *optional* `false_eocs: eocs_array`. If the npc is a character then take control of them and then all of the effect_on_conditions in `true_eocs` are run, otherwise all the effect_on_conditions in `false_eocs` are run.
-`take_control_menu`. Opens up a menu to choose a follower to take control of.
-`assign_mission: mission_type_id string` | Will assign mission `mission_type_id` to the player.
-`remove_active_mission: mission_type_id string` | Will remove mission `mission_type_id` from the player's active mission list without failing it.
-`finish_mission: mission_type_id string`,(*optional* `success: success_bool` ), (*optional `step: step_int`)  | Will complete mission `mission_type_id` to the player as a success if `success` is true, as a failure otherwise. If a `step` is provided that step of the mission will be completed.
-`offer_mission" mission_type_id string or array`. Adds mission_type_id(s) to the npc's missions that they offer.
+`sound_effect: `string or [variable object](#variable-object), (*optional* `sound_effect_variant: `string or [variable object](#variable-object)), (*optional* `outdoor_event: outdoor_event`), (*optional* `volume: `int or [variable object](#variable-object))  | Will play a sound effect of id `sound_effect` and variant `sound_effect_variant`. If `volume` is defined it will be used otherwise 80 is the default. If `outdoor_event`(defaults to false) is true this will be less likely to play if the player is underground.
+`open_dialogue`, (*optional* `topic: `string or [variable object](#variable-object)), (*optional* `true_eocs: eocs_array`), (*optional* `false_eocs: eocs_array`). | Opens up a dialog between the participants. This should only be used in effect_on_conditions. If the dialog is opened, then all of the effect_on_conditions in `true_eocs` are run, otherwise all the effect_on_conditions in `false_eocs` are run. If `topic` is supplied than a conversation with an empty talker starting with the topic `topic` will be opened.
+`take_control`, (*optional* `true_eocs: eocs_array`), (*optional* `false_eocs: eocs_array`) | If the npc is a character then take control of them and then all of the effect_on_conditions in `true_eocs` are run, otherwise all the effect_on_conditions in `false_eocs` are run.
+`take_control_menu` | Opens up a menu to choose a follower to take control of.
+`assign_mission: `string or [variable object](#variable-object) | Will assign mission to the player.
+`remove_active_mission: `string or [variable object](#variable-object) | Will remove mission from the player's active mission list without failing it.
+`finish_mission: `string or [variable object](#variable-object), (*optional* `success: success_bool` ), (*optional* `step: step_int`)  | Will complete mission to the player as a success if `success` is true, as a failure otherwise. If a `step` is provided that step of the mission will be completed.
+`offer_mission: `string or [variable object](#variable-object) or array of them | Adds mission_type_id(s) to the npc's missions that they offer.
 `run_eocs : effect_on_condition_array or single effect_condition_object` | Will run up all members of the `effect_on_condition_array`. Members should either be the id of an effect_on_condition or an inline effect_on_condition.
-`queue_eocs : effect_on_condition_array or single effect_condition_object`, `time_in_future: time_in_future_int or string or variable_object` | Will queue up all members of the `effect_on_condition_array`. Members should either be the id of an effect_on_condition or an inline effect_on_condition. Members will be run `time_in_future` seconds or if it is a string the future values of them or if they are variable objects the variable they name.  If the eoc is global the avatar will be u and npc will be invalid. Otherwise it will be queued for the current alpha if they are a character and not be queued otherwise.
-`u_roll_remainder, npc_roll_remainder : string_array`, `type: string`, *optional* `true_eocs: eocs_array`, *optional* `false_eocs: eocs_array`. | Will queue up all members of the `effect_on_condition_array`. Type must be either `bionic`, or `mutation`.  If the u or npc does not have all of the listed bionics, or mutations they will be given one randomly and and then all of the effect_on_conditions in `true_eocs` are run, otherwise all the effect_on_conditions in `false_eocs` are run.
+`queue_eocs : effect_on_condition_array or single effect_condition_object`, `time_in_future: `duration or [variable object](#variable-object) | Will queue up all members of the `effect_on_condition_array`. Members should either be the id of an effect_on_condition or an inline effect_on_condition. Members will be run `time_in_future` in the future.  If the eoc is global the avatar will be u and npc will be invalid. Otherwise it will be queued for the current alpha if they are a character and not be queued otherwise.
+`u_roll_remainder, npc_roll_remainder : `array of strings and/or [variable objects](#variable-object), `type: `string or [variable object](#variable-object), (*optional* `true_eocs: eocs_array`), (*optional* `false_eocs: eocs_array`) | Type must be either `bionic`, or `mutation`.  If the u or npc does not have all of the listed bionics, or mutations they will be given one randomly and and then all of the effect_on_conditions in `true_eocs` are run, otherwise all the effect_on_conditions in `false_eocs` are run.
 `switch : arithmetic_expression`, `cases: effect_array` | Will calculate value of `switch` and then run member of `cases` with the highest `case` that the `switch` is higher or equal to. `cases` is an array of objects with an int_or_var `case` and an `effect` field which is a dialog effect.
-`u_run_npc_eocs or npc_run_npc_eocs : effect_on_condition_array`, (*optional* `unique_ids: unique_ids_string_array`), (*optional* `npcs_must_see: npcs_must_see_bool`), (*optional* `npc_range: npc_range_int`), (*optional* `local: local_bool`) | Will run all members of the `effect_on_condition_array` on npcs. Members should either be the id of an effect_on_condition or an inline effect_on_condition.  If `local`(default: false) is false, then regardless of location all npcs with unique ids in the array `unique_ids` will be affected.  If `local` is true, only unique_ids listed in `unique_ids` will be affected, if it is empty all npcs in range will be effected. If a value is given for `npc_range` the npc must be that close to the source and if `npcs_must_see`(defaults to false) is true the npc must be able to see the source. For `u_run_npc_eocs` u is the source for `npc_run_npc_eocs` it is the npc.
+`u_run_npc_eocs or npc_run_npc_eocs : effect_on_condition_array`, (*optional* `unique_ids: `array of strings and/or [variable objects](#variable-object)), (*optional* `npcs_must_see: npcs_must_see_bool`), (*optional* `npc_range: `int or [variable object](#variable-object)), (*optional* `local: local_bool`) | Will run all members of the `effect_on_condition_array` on npcs. Members should either be the id of an effect_on_condition or an inline effect_on_condition.  If `local`(default: false) is false, then regardless of location all npcs with unique ids in the array `unique_ids` will be affected.  If `local` is true, only unique_ids listed in `unique_ids` will be affected, if it is empty all npcs in range will be effected. If a value is given for `npc_range` the npc must be that close to the source and if `npcs_must_see`(defaults to false) is true the npc must be able to see the source. For `u_run_npc_eocs` u is the source for `npc_run_npc_eocs` it is the npc.
 `weighted_list_eocs: array_array` | Will choose one of a list of eocs to activate based on weight. Members should be an array of first the id of an effect_on_condition or an inline effect_on_condition and second an object that resolves to an integer weight.
 Example: This will cause "EOC_SLEEP" 1/10 as often as it makes a test message appear.
 ``` json
@@ -850,22 +874,6 @@ Effect | Description
 ```
 
 ---
-### opinion changes
-As a special effect, an NPC's opinion of your character can change. Use the following:
-
-#### opinion: { }
-trust, value, fear, and anger are optional keywords inside the opinion object. Each keyword must be followed by a numeric value. The NPC's opinion is modified by the value.
-
-#### Sample opinions
-```json
-{ "effect": "follow", "opinion": { "trust": 1, "value": 1 }, "topic": "TALK_DONE" }
-{ "topic": "TALK_DENY_FOLLOW", "effect": "deny_follow", "opinion": { "fear": -1, "value": -1, "anger": 1 } }
-```
-
-#### mission_opinion: { }
-trust, value, fear, and anger are optional keywords inside the `mission_opinion` object. Each keyword must be followed by a numeric value. The NPC's opinion is modified by the value.
-
----
 
 ## Dialogue conditions
 Conditions can be a simple string with no other values, a key and an int, a key and a string, a key and an array, or a key and an object. Arrays and objects can nest with each other and can contain any other condition.
@@ -883,8 +891,6 @@ Condition | Type | Description
 #### Player or NPC conditions
 These conditions can be tested for the player using the `"u_"` form, and for the NPC using the `"npc_"` form.
 
-`variable_object`: This is an object describing a variable name. `default` is a required int which will be the value returned if the variable is not defined.
-
 example json:
 ```
 "condition": { "u_has_strength": { "name" :"variable_name", "type":"test", "context":"documentation", "default":5 } }
@@ -893,37 +899,36 @@ Condition | Type | Description
 --- | --- | ---
 `"u_male"`<br/>`"npc_male"` | simple string | `true` if the player character or NPC is male.
 `"u_female"`<br/>`"npc_female"` | simple string | `true` if the player character or NPC is female.
-`"u_at_om_location"`<br/>`"npc_at_om_location"` | string | `true` if the player character or NPC is standing on an overmap tile with `u_at_om_location`'s id.  The special string `"FACTION_CAMP_ANY"` changes it to return true if the player or NPC is standing on a faction camp overmap tile.  The special string `"FACTION_CAMP_START"` changes it to return true if the overmap tile that the player or NPC is standing on can be turned into a faction camp overmap tile.
-`"u_has_trait"`<br/>`"npc_has_trait"` | string | `true` if the player character or NPC has a specific trait.  Simpler versions of `u_has_any_trait` and `npc_has_any_trait` that only checks for one trait.
-`"u_has_flag"`<br/>`"npc_has_flag"` | string | `true` if the player character or NPC has the specified character flag.  The special trait flag `"MUTATION_THRESHOLD"` checks to see if the player or NPC has crossed a mutation threshold.
-`"u_has_any_trait"`<br/>`"npc_has_any_trait"` | array | `true` if the player character or NPC has any trait or mutation in the array. Used to check multiple specific traits.
+`"u_at_om_location"`<br/>`"npc_at_om_location"` | string or [variable object](#variable-object) | `true` if the player character or NPC is standing on an overmap tile with `u_at_om_location`'s id.  The special string `"FACTION_CAMP_ANY"` changes it to return true if the player or NPC is standing on a faction camp overmap tile.  The special string `"FACTION_CAMP_START"` changes it to return true if the overmap tile that the player or NPC is standing on can be turned into a faction camp overmap tile.
+`"u_has_trait"`<br/>`"npc_has_trait"` | string or [variable object](#variable-object) | `true` if the player character or NPC has a specific trait.  Simpler versions of `u_has_any_trait` and `npc_has_any_trait` that only checks for one trait.
+`"u_has_flag"`<br/>`"npc_has_flag"` | string or [variable object](#variable-object) | `true` if the player character or NPC has the specified character flag.  The special trait flag `"MUTATION_THRESHOLD"` checks to see if the player or NPC has crossed a mutation threshold.
+`"u_has_any_trait"`<br/>`"npc_has_any_trait"` | array of strings and/or [variable objects](#variable-object) | `true` if the player character or NPC has any trait or mutation in the array. Used to check multiple specific traits.
 `"u_has_var"`, `"npc_has_var"` | string | `"type": type_str`, `"context": context_str`, and `"value": value_str` are required fields in the same dictionary as `"u_has_var"` or `"npc_has_var"`.<br/>`true` is the player character or NPC has a variable set by `"u_add_var"` or `"npc_add_var"` with the string, `type_str`, `context_str`, and `value_str`.
-`"u_compare_var"`, `"npc_compare_var"` | dictionary | `"type": type_str`, `"context": context_str`, `"op": op_str`, `"value": value_num or variable_object` are required fields, referencing a var as in `"u_add_var"` or `"npc_add_var"`.<br/>`true` if the player character or NPC has a stored variable that is true for the provided operator `op_str` (one of `==`, `!=`, `<`, `>`, `<=`, `>=`) and value (or the value of the variable described by `value` see `variable_object` above).
+`"u_compare_var"`, `"npc_compare_var"` | dictionary | `"type": type_str`, `"context": context_str`, `"op": op_str`, `"value": `int or [variable object](#variable-object) ` are required fields, referencing a var as in `"u_add_var"` or `"npc_add_var"`.<br/>`true` if the player character or NPC has a stored variable that is true for the provided operator `op_str` (one of `==`, `!=`, `<`, `>`, `<=`, `>=`) and value.
 `"u_compare_time_since_var"`, `"npc_compare_time_since_var_"` | dictionary | `"type": type_str`, `"context": context_str`, `"op": op_str`, `"time": time_string` are required fields, referencing a var as in `"u_add_var"` or `"npc_add_var"`.<br/>`true` if the player character or NPC has a stored variable and the current turn and that value (converted to a time point) plus the time_string is true for the provided operator `op_str` (one of `==`, `!=`, `<`, `>`, `<=`, `>=`).  *example*: `{ "u_compare_time_since_var": "test", "type": "test", "context": "var_time_test", "op": ">", "time": "3 days" }` returns true if the player character has a "test", "test", "var_time_test" variable and the current turn is greater than that value plus 3 days' worth of turns.
-`"compare_string"` | array | The array must contain exactly two entries.  They can be either strings or objects containing a variable object.  Returns true if the strings are the same.
-`"u_has_strength"`<br/>`"npc_has_strength"` | int or variable_object | `true` if the player character's or NPC's strength is at least the value of `u_has_strength` or `npc_has_strength` (or the value of the variable described see `variable_object` above).
-`"u_has_dexterity"`<br/>`"npc_has_dexterity"` | int or variable_object | `true` if the player character's or NPC's dexterity is at least the value of `u_has_dexterity` or `npc_has_dexterity` ( or the value of the variable described see `variable_object` above).
-`"u_has_intelligence"`<br/>`"npc_has_intelligence"` | int or variable_object| `true` if the player character's or NPC's intelligence is at least the value of `u_has_intelligence` or `npc_has_intelligence` ( or the value of the variable described see `variable_object` above).
-`"u_has_perception"`<br/>`"npc_has_perception"` | int or variable_object| `true` if the player character's or NPC's perception is at least the value of `u_has_perception` or `npc_has_perception` ( or the value of the variable described see `variable_object` above).
-`"u_has_item"`<br/>`"npc_has_item"` | string | `true` if the player character or NPC has something with `u_has_item`'s or `npc_has_item`'s `item_id` in their inventory.
-`"u_has_items"`<br/>`"npc_has_item"` | dictionary | `u_has_items` or `npc_has_items` must be a dictionary with an `item` string and a `count` int or `charges` int.<br/>`true` if the player character or NPC has at least `charges` charges or counts of `item` in their inventory.
-`"u_has_item_category"`<br/>`"npc_has_item_category"` | string | `"count": item_count` is an optional field that must be in the same dictionary and defaults to 1 if not specified.  `true` if the player or NPC has `item_count` items with the same category as `u_has_item_category` or `npc_has_item_category`.
-`"u_has_bionics"`<br/>`"npc_has_bionics"` | string | `true` if the player or NPC has an installed bionic with an `bionic_id` matching `"u_has_bionics"` or `"npc_has_bionics"`.  The special string "ANY" returns true if the player or NPC has any installed bionics.
-`"u_has_effect"`<br/>`"npc_has_effect"`, (*optional* `intensity : int`),(*optional* `bodypart : string`) | string | `true` if the player character or NPC is under the effect with `u_has_effect` or `npc_has_effect`'s `effect_id`. If `intensity` is specified it will need to be at least that strong.  If `bodypart` is specified it will check only that bodypart for the effect.
+`"compare_string"` | array | The array must contain exactly two entries.  They can be either strings and/or [variable objects](#variable-object).  Returns true if the strings are the same.
+`"u_has_strength"`<br/>`"npc_has_strength"` | int or [variable object](#variable-object) | `true` if the player character's or NPC's strength is at least the value of `u_has_strength` or `npc_has_strength`.
+`"u_has_dexterity"`<br/>`"npc_has_dexterity"` | int or [variable object](#variable-object) | `true` if the player character's or NPC's dexterity is at least the value of `u_has_dexterity` or `npc_has_dexterity`.
+`"u_has_intelligence"`<br/>`"npc_has_intelligence"` | int or [variable object](#variable-object) | `true` if the player character's or NPC's intelligence is at least the value of `u_has_intelligence` or `npc_has_intelligence`.
+`"u_has_perception"`<br/>`"npc_has_perception"` | int or [variable object](#variable-object) | `true` if the player character's or NPC's perception is at least the value of `u_has_perception` or `npc_has_perception`.
+`"u_has_item"`<br/>`"npc_has_item"` | string or [variable object](#variable-object) | `true` if the player character or NPC has something with `u_has_item`'s or `npc_has_item`'s `item_id` in their inventory.
+`"u_has_items"`<br/>`"npc_has_item"` | dictionary | `u_has_items` or `npc_has_items` must be a dictionary with an `item` string or [variable object](#variable-object) and a `count` int or [variable object](#variable-object) or `charges` int or [variable object](#variable-object).<br/>`true` if the player character or NPC has at least `charges` charges or counts of `item` in their inventory.
+`"u_has_item_category"`<br/>`"npc_has_item_category"` | string or [variable object](#variable-object) | `"count": `int or [variable object](#variable-object) is an optional field that must be in the same dictionary and defaults to 1 if not specified.  `true` if the player or NPC has `count` items with the same category as `u_has_item_category` or `npc_has_item_category`.
+`"u_has_bionics"`<br/>`"npc_has_bionics"` | string or [variable object](#variable-object) | `true` if the player or NPC has an installed bionic with an `bionic_id` matching `"u_has_bionics"` or `"npc_has_bionics"`.  The special string "ANY" returns true if the player or NPC has any installed bionics.
+`"u_has_effect"`<br/>`"npc_has_effect"`, (*optional* `intensity : int`),(*optional* `bodypart : string`) | string or [variable object](#variable-object) | `true` if the player character or NPC is under the effect with `u_has_effect` or `npc_has_effect`'s `effect_id`. If `intensity` is specified it will need to be at least that strong.  If `bodypart` is specified it will check only that bodypart for the effect.
 `"u_can_stow_weapon"`<br/>`"npc_can_stow_weapon"` | simple string | `true` if the player character or NPC is wielding a weapon and has enough space to put it away.
 `"u_can_drop_weapon"`<br/>`"npc_can_drop_weapon"` | simple string | `true` if the player character or NPC is wielding a weapon and can drop it on the ground, i.e. weapon isn't unwieldable like retracted bionic claws or monomolecular blade bionics.
 `"u_has_weapon"`<br/>`"npc_has_weapon"` | simple string | `true` if the player character or NPC is wielding a weapon.
 `"u_driving"`<br/>`"npc_driving"` | simple string | `true` if the player character or NPC is operating a vehicle.  <b>Note</b> NPCs cannot currently operate vehicles.
-`"u_has_skill"`<br/>`"npc_has_skill"` | dictionary | `u_has_skill` or `npc_has_skill` must be a dictionary with a `skill` string and a `level` int.<br/>`true` if the player character or NPC has at least the value of `level` in `skill`.
-`"u_know_recipe"` | string | `true` if the player character knows the recipe specified in `u_know_recipe`.  It only counts as known if it is actually memorized--holding a book with the recipe in it will not count.
-`"u_has_worn_with_flag"`<br/>`"npc_has_worn_with_flag"` | string | `true` if the player character or NPC is wearing something with the `u_has_worn_with_flag` or `npc_has_worn_with_flag` flag.
-`"u_has_wielded_with_flag"`<br/>`"npc_has_wielded_with_flag"` | string | `true` if the player character or NPC is wielding something with the `u_has_wielded_with_flag` or `npc_has_wielded_with_flag` flag.
+`"u_has_skill"`<br/>`"npc_has_skill"` | dictionary | `u_has_skill` or `npc_has_skill` must be a dictionary with a `skill` string or [variable object](#variable-object) and a `level` int or [variable object](#variable-object).<br/>`true` if the player character or NPC has at least the value of `level` in `skill`.
+`"u_know_recipe"` | string or [variable object](#variable-object) | `true` if the player character knows the recipe specified in `u_know_recipe`.  It only counts as known if it is actually memorized--holding a book with the recipe in it will not count.
+`"u_has_worn_with_flag"`<br/>`"npc_has_worn_with_flag"` | string or [variable object](#variable-object) | `true` if the player character or NPC is wearing something with the `u_has_worn_with_flag` or `npc_has_worn_with_flag` flag.
+`"u_has_wielded_with_flag"`<br/>`"npc_has_wielded_with_flag"` | string or [variable object](#variable-object) | `true` if the player character or NPC is wielding something with the `u_has_wielded_with_flag` or `npc_has_wielded_with_flag` flag.
 `"u_can_see"`<br/>`"npc_can_see"` | simple string | `true` if the player character or NPC is not blind and is either not sleeping or has the see_sleep trait.
-`"u_is_deaf"`<br/>`"npc_is_deaf"` | int | `true` if the player character or NPC can't hear.
-the value of `u_has_focus` or `npc_has_focus` ( or the value of the variable described see `variable_object` above).
-`"u_is_on_terrain"`<br/>`"npc_is_on_terrain"` | string | `true` if the player character or NPC is on terrain named `"u_is_on_terrain"` or `"npc_is_on_terrain"`.
-`"u_is_in_field"`<br/>`"npc_is_in_field"` | string | `true` if the player character or NPC is in a field of type `"u_is_in_field"` or `"npc_is_in_field"`..
-`"u_query"`<br/>`"npc_query", default : bool` | string | if the player character or NPC is the avatar will popup a yes/no query with the provided message and users response is used as the return value.  If called for a non avatar will return `default`.
+`"u_is_deaf"`<br/>`"npc_is_deaf"` | simple string | `true` if the player character or NPC can't hear.
+`"u_is_on_terrain"`<br/>`"npc_is_on_terrain"` | string or [variable object](#variable-object) | `true` if the player character or NPC is on terrain named `"u_is_on_terrain"` or `"npc_is_on_terrain"`.
+`"u_is_in_field"`<br/>`"npc_is_in_field"` | string or [variable object](#variable-object) | `true` if the player character or NPC is in a field of type `"u_is_in_field"` or `"npc_is_in_field"`..
+`"u_query"`<br/>`"npc_query", default : bool` | string or [variable object](#variable-object) | if the player character or NPC is the avatar will popup a yes/no query with the provided message and users response is used as the return value.  If called for a non avatar will return `default`.
 example
 ```
 "condition": { "u_query": "Should we test?", "default": true },
@@ -932,11 +937,11 @@ example
 
 Condition | Type | Description
 --- | --- | ---
-`"u_has_mission"` | string | `true` if the mission is assigned to the player character.
-`"u_has_cash"` | int or variable_object | `true` if the player character has at least `u_has_cash`( or the value of the variable described see `variable_object` above) cash available.  *Deprecated*  Previously used to check if the player could buy something, but NPCs shouldn't use e-cash for trades anymore.
-`"u_are_owed"` | int or variable_object | `true` if the NPC's op_of_u.owed is at least `u_are_owed`( or the value of the variable described see `variable_object` above).  Can be used to check if the player can buy something from the NPC without needing to barter anything.
+`"u_has_mission"` | string or [variable object](#variable-object) | `true` if the mission is assigned to the player character.
+`"u_has_cash"` | int  or [variable object](#variable-object) | `true` if the player character has at least `u_has_cash` cash available.  *Deprecated*  Previously used to check if the player could buy something, but NPCs shouldn't use e-cash for trades anymore.
+`"u_are_owed"` | int or [variable object](#variable-object) | `true` if the NPC's op_of_u.owed is at least `u_are_owed`.  Can be used to check if the player can buy something from the NPC without needing to barter anything.
 `"u_has_camp"` | simple string | `true` is the player has one or more active base camps.
-`"u_has_faction_trust"` | int | `true` if the player character has at least the given amount of trust with the speaker's faction.
+`"u_has_faction_trust"` | int or [variable object](#variable-object) | `true` if the player character has at least the given amount of trust with the speaker's faction.
 
 #### Player and NPC interaction conditions
 
@@ -948,14 +953,14 @@ Condition | Type | Description
 `"has_no_available_mission" or "npc_has_no_available_mission" or "u_has_no_available_mission"` | simple string | `true` if u or the NPC has no jobs available for the player character.
 `"has_available_mission" or "u_has_available_mission" or "npc_has_available_mission"` | simple string | `true` if u or the NPC has one job available for the player character.
 `"has_many_available_missions"` | simple string | `true` if the NPC has several jobs available for the player character.
-`"mission_goal" or "npc_mission_goal" or "u_mission_goal"` | string | `true` if u or the NPC's current mission has the same goal as `mission_goal`.
+`"mission_goal" or "npc_mission_goal" or "u_mission_goal"` | string or [variable object](#variable-object) | `true` if u or the NPC's current mission has the same goal as `mission_goal`.
 `"mission_complete" or "npc_mission_complete" or "u_mission_complete"` | simple string | `true` if u or the NPC has completed the other's current mission.
 `"mission_incomplete" or "npc_mission_incomplete" or "u_mission_incomplete"` | simple string | `true` if u or the NPC hasn't completed the other's current mission.
 `"mission_failed" or "npc_mission_failed" or "u_mission_failed"` | simple string | `true` if u or the NPC has failed the other's current mission.
 `"mission_has_generic_rewards"` | simple string | `true` if the NPC's current mission is flagged as having generic rewards.
 `"npc_service"` | int | `true` if the NPC does not have the `"currently_busy"` effect and the player character has at least `npc_service` cash available.  Useful to check if the player character can hire an NPC to perform a task that would take time to complete.  Functionally, this is identical to `"and": [ { "not": { "npc_has_effect": "currently_busy" } }, { "u_has_cash": service_cost } ]`
-`"npc_allies"` | int or variable_object | `true` if the player character has at least `npc_allies` (or the value of the variable described; see `variable_object` above) number of NPC allies _within the reality bubble_.
-`"npc_allies_global"` | int or variable_object | `true` if the player character has at least `npc_allies_global` (or the value of the variable as above) number of NPC allies _anywhere_.
+`"npc_allies"` | int or [variable object](#variable-object) | `true` if the player character has at least `npc_allies` number of NPC allies _within the reality bubble_.
+`"npc_allies_global"` | int or [variable object](#variable-object) | `true` if the player character has at least `npc_allies_global` number of NPC allies _anywhere_.
 `"is_by_radio"` | simple string | `true` if the player is talking to the NPC over a radio.
 `"u_available" or "npc_available"` | simple string | `true` if u or the NPC does not have effect `"currently_busy"`.
 `"u_following" or "npc_following"` | simple string | `true` if u or the NPC is following the player character.
@@ -963,44 +968,44 @@ Condition | Type | Description
 `"u_hostile" or "npc_hostile"` | simple string | `true` if u or the NPC is an enemy of the player character.
 `"u_train_skills" or "npc_train_skills"` | simple string | `true` if u or the NPC has one or more skills with more levels than the player.
 `"u_train_styles" or "npc_train_styles"` | simple string | `true` if u or the NPC knows one or more martial arts styles that the player does not know.
-`"u_has_class" or "npc_has_class"` | array | `true` if u or the NPC is a member of an NPC class.
-`"u_near_om_location" or "npc_near_om_location"`, (*optional* `range : int or variable_object`) | string | same as at_om_location except it checks in a square stretching from the character range OMT's. NOTE: can only check OMT's in the reality bubble.
-`"u_aim_rule" or "npc_aim_rule"` | string | `true` if u or the NPC follower AI rule for aiming matches the string.
-`"u_engagement_rule" or "npc_engagement_rule"` | string | `true` if u or the NPC follower AI rule for engagement matches the string.
-`"u_cbm_reserve_rule" or "npc_cbm_reserve_rule"` | string | `true` if u or the NPC follower AI rule for cbm, reserve matches the string.
-`"u_cbm_recharge_rule" or "npc_cbm_recharge_rule"` | string | `true` if u or the NPC follower AI rule for cbm recharge matches the string.
-`"u_rule" or "npc_rule"` | string | `true` if u or the NPC follower AI rule for that matches string is set.
-`"u_override" or "npc_override"` | string | `true` if u or the NPC has an override for the string.
-`"has_pickup_list" or "u_has_pickup_list" or "npc_has_pickup_list"` | string | `true` if u or the NPC has a pickup list.
+`"u_has_class" or "npc_has_class"` | string or [variable object](#variable-object) | `true` if u or the NPC is a member of an NPC class.
+`"u_near_om_location" or "npc_near_om_location"`, (*optional* `range : `int or [variable object](#variable-object) ) | string or [variable object](#variable-object) | same as at_om_location except it checks in a square stretching from the character range OMT's. NOTE: can only check OMT's in the reality bubble.
+`"u_aim_rule" or "npc_aim_rule"` | string or [variable object](#variable-object) | `true` if u or the NPC follower AI rule for aiming matches the string.
+`"u_engagement_rule" or "npc_engagement_rule"` | string or [variable object](#variable-object) | `true` if u or the NPC follower AI rule for engagement matches the string.
+`"u_cbm_reserve_rule" or "npc_cbm_reserve_rule"` | string or [variable object](#variable-object) | `true` if u or the NPC follower AI rule for cbm, reserve matches the string.
+`"u_cbm_recharge_rule" or "npc_cbm_recharge_rule"` | string or [variable object](#variable-object) | `true` if u or the NPC follower AI rule for cbm recharge matches the string.
+`"u_rule" or "npc_rule"` | string or [variable object](#variable-object) | `true` if u or the NPC follower AI rule for that matches string is set.
+`"u_override" or "npc_override"` | string or [variable object](#variable-object)| `true` if u or the NPC has an override for the string.
+`"has_pickup_list" or "u_has_pickup_list" or "npc_has_pickup_list"` | simple string | `true` if u or the NPC has a pickup list.
 
 #### NPC only conditions
 
 Condition | Type | Description
 --- | --- | ---
-`"npc_role_nearby"` | string | `true` if there is an NPC with the same companion mission role as `npc_role_nearby` within 100 tiles.
+`"npc_role_nearby"` | string or [variable object](#variable-object) | `true` if there is an NPC with the same companion mission role as `npc_role_nearby` within 100 tiles.
 `"has_reason"` | simple string | `true` if a previous effect set a reason for why an effect could not be completed.
 
 #### Environment
 
 Condition | Type | Description
 --- | --- | ---
-`"days_since_cataclysm"` | int or variable_object | `true` if at least `days_since_cataclysm`( or the value of the variable described see `variable_object` above) days have passed since the Cataclysm.
-`"is_season"` | string | `true` if the current season matches `is_season`, which must be one of "`spring"`, `"summer"`, `"autumn"`, or `"winter"`.
+`"days_since_cataclysm"` | int or [variable object](#variable-object) | `true` if at least `days_since_cataclysm` days have passed since the Cataclysm.
+`"is_season"` | string or [variable object](#variable-object) | `true` if the current season matches `is_season`, which must be one of "`spring"`, `"summer"`, `"autumn"`, or `"winter"`.
 `"is_day"` | simple string | `true` if it is currently daytime.
 `"u_is_outside"`</br>`"npc_is_outside"`  | simple string | `true` if you or the NPC is on a tile without a roof.
 `"u_is_underwater"`</br>`"npc_is_underwater"`  | simple string | `true` if you or the NPC is underwater.
-`"one_in_chance"` | int or variable_object | `true` if a one in `one_in_chance`( or the value of the variable described see `variable_object` above) random chance occurs.
-`"x_in_y_chance"` | object | `true` if a `x` in `y` random chance occurs. `x` and `y` are either ints or `variable_object`s ( see `variable_object` above).
-`"is_weather"` | int or variable_object | `true` if current weather is `"is_weather"`.
+`"one_in_chance"` | intor [variable object](#variable-object) | `true` if a one in `one_in_chance` random chance occurs.
+`"x_in_y_chance"` | object | `true` if a `x` in `y` random chance occurs. `x` and `y` are either ints  or [variable object](#variable-object).
+`"is_weather"` | string or [variable object](#variable-object)  | `true` if current weather is `"is_weather"`.
 
 #### Meta
 
 Condition | Type | Description
 --- | --- | ---
-`"mod_is_loaded"` | string | `true` if the mod with the given ID is loaded.
+`"mod_is_loaded"` | string or [variable object](#variable-object) | `true` if the mod with the given ID is loaded.
 
 
-#### Compare itergers & arithmetics
+#### Compare Integers and Arithmetics
 `"compare_int"` can be used to compare two values to each other, while `"arithmetic"` can be used to take up to two values, perform arithmetic on them, and then save them in a third value. The syntax is as follows.
 ```
 {

@@ -46,6 +46,16 @@
     ]
   },
   {
+    "name": "GROUP_MIL_MASS_GRAVE",
+    "type": "monstergroup",
+    "//": "Lots of hazmats and burners.",
+    "monsters": [
+      { "monster": "mon_zombie_soldier", "weight": 10 },
+      { "monster": "mon_zombie_flamer", "weight": 20, "starts": "5 days" },
+      { "monster": "mon_zombie_hazmat", "weight": 20 }
+    ]
+  },
+  {
     "type": "monstergroup",
     "name": "GROUP_NETHER_FATIGUE_FIELD",
     "monsters": [ { "monster": "mon_staring_eye", "weight": 100, "cost_multiplier": 0 } ]

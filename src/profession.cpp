@@ -249,7 +249,6 @@ void profession::load( const JsonObject &jo, const std::string & )
 
     optional( jo, was_loaded, "requirement", _requirement );
 
-
     optional( jo, was_loaded, "skills", _starting_skills, skilllevel_reader {} );
     optional( jo, was_loaded, "addictions", _starting_addictions, addiction_reader {} );
     // TODO: use string_id<bionic_type> or so
@@ -629,7 +628,7 @@ void profession::learn_spells( avatar &you ) const
         you.magic->learn_spell( spell_pair.first, you, true );
         spell &sp = you.magic->get_spell( spell_pair.first );
         while( sp.get_level() < spell_pair.second && !sp.is_max_level() ) {
-            sp.gain_level();
+            sp.gain_level( you );
         }
     }
 }

@@ -27,12 +27,16 @@ option(JSON_FORMAT "Build JSON formatter" "OFF")
 option(CATA_CCACHE "Try to find and build with ccache" "ON")
 option(CATA_CLANG_TIDY_PLUGIN "Build Cata's custom clang-tidy checks as a plugin" "OFF")
 option(CATA_CLANG_TIDY_EXECUTABLE "Build Cata's custom clang-tidy checks as an executable" "OFF")
+option(TESTS "Compile Cata's tests" "ON")
 set(CATA_CLANG_TIDY_INCLUDE_DIR "" CACHE STRING
         "Path to internal clang-tidy headers required for plugin (e.g. ClangTidy.h)")
 set(CATA_CHECK_CLANG_TIDY "" CACHE STRING "Path to check_clang_tidy.py for plugin tests")
 set(GIT_BINARY "" CACHE STRING "Git binary name or path.")
+set(GETTEXT_MSGFMT_BINARY "" CACHE FILEPATH "msgfmt binary name or path.")
 
+if (TESTS)
 include(CTest)
+endif()
 
 message(STATUS "${PROJECT} build environment --")
 message(STATUS "Build realm is: ${CMAKE_SYSTEM_NAME} ${CMAKE_HOST_SYSTEM_PROCESSOR}")
@@ -51,6 +55,19 @@ if (NOT "${GIT_VERSION}" MATCHES "GIT-NOTFOUND")
             "// NOLINT(cata-header-guard)\n\#define VERSION \"${GIT_VERSION}\"\n")
     message(STATUS "${PROJECT_NAME} build version is: ${GIT_VERSION}")
     add_definitions(-DGIT_VERSION)
+
+    # get_git_head_revision() does not work with worktrees in Windows
+    execute_process(COMMAND ${GIT_EXECUTABLE} rev-parse HEAD
+        WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
+        OUTPUT_VARIABLE _sha1
+        OUTPUT_STRIP_TRAILING_WHITESPACE)
+    string(TIMESTAMP _timestamp %Y-%m-%d-%H%M)
+    file(WRITE VERSION.txt "\
+build type: ${BUILD_PRESET_NAME}\n\
+build number: ${_timestamp}\n\
+commit sha: ${_sha1}\n\
+commit url: https://github.com/CleverRaven/Cataclysm-DDA/commit/${_sha1}"
+    )
 endif ()
 
 #OS Check Placeholders. Will be used for BINDIST
@@ -107,6 +124,9 @@ if ("${CMAKE_SYSTEM_NAME}" MATCHES "(Linux|FreeBSD|Darwin)")
     if (NOT DATA_PREFIX)
         set(DATA_PREFIX ${CMAKE_INSTALL_PREFIX}/share/cataclysm-dda)
     endif ()
+    if (NOT README_DIR)
+        set(README_DIR ${DATA_PREFIX})
+    endif ()
     if (NOT LOCALE_DIR)
         set(LOCALE_DIR ${CMAKE_INSTALL_PREFIX}/share/locale)
     endif ()
@@ -131,6 +151,9 @@ if ("${CMAKE_SYSTEM_NAME}" MATCHES "(Windows|MSYS)")
     if (NOT DATA_PREFIX)
         set(DATA_PREFIX ${CMAKE_INSTALL_PREFIX}/data)
     endif ()
+    if (NOT README_DIR)
+        set(README_DIR ${CMAKE_INSTALL_PREFIX})
+    endif ()
     if (NOT LOCALE_DIR)
         set(LOCALE_DIR ${CMAKE_INSTALL_PREFIX}/lang)
     endif ()
@@ -143,7 +166,8 @@ message(STATUS "${PROJECT_NAME} build options --")
 
 # Preset variables
 if (NOT LANGUAGES)
-    set(LANGUAGES de es_AR es_ES fr it_IT ja ko pt_BR ru zh_CN zh_TW)
+    set(LANGUAGES ar cs da de el es_AR es_ES fil_PH fr ga_IE hu id is it_IT ja ko nb nl pl pt_BR ro
+    ru sr tr uk_UA zh_CN zh_TW)
 endif ()
 
 if (GIT_BINARY)
@@ -209,13 +233,7 @@ message(STATUS "USE_HOME_DIR                  : ${USE_HOME_DIR}")
 message(STATUS "LANGUAGES                     : ${LANGUAGES}")
 message(STATUS "See doc/COMPILING/COMPILING-CMAKE.md for details and more info --")
 
-if (MSVC)
-    if ("${CMAKE_SIZEOF_VOID_P}" EQUAL "8")
-        add_definitions(-D_AMD64_)
-    else ()
-        add_definitions(-D_X86_)
-    endif ()
-else ()
+if (NOT MSVC)
     set(CATA_WARNINGS
             "-Werror -Wall -Wextra \
              -Wformat-signedness \
@@ -287,8 +305,12 @@ if (TILES)
     endif ()
 
     message(STATUS "Searching for SDL2_TTF library --")
-    find_package(SDL2_ttf)
-    if (NOT (SDL2_TTF_FOUND OR TARGET SDL2_ttf::SDL2_ttf OR TARGET SDL2_ttf::SDL2_ttf-static))
+    if (NOT VCPKG_MANIFEST_MODE)
+        find_package(SDL2_ttf)
+    else()
+        find_package(sdl2-ttf)
+    endif()
+    if (NOT (SDL2_TTF_FOUND OR TARGET SDL2::SDL2_ttf OR TARGET SDL2::SDL2_ttf-static))
         message(FATAL_ERROR
                 "This project requires SDL2_ttf to be installed to compile in graphical mode. \
                  Please install the SDL2_ttf development libraries, \
@@ -340,22 +362,25 @@ if (SOUND)
     endif ()
 
     # Sound requires SDL_mixer library
-    message(STATUS "Searching for SDL2_mixer library --")
-    find_package(SDL2_mixer)
     if(VCPKG_MANIFEST_MODE)
-        if (NOT TARGET SDL2_mixer::SDL2_mixer-static) # TODO x64-mingw-static
+        message(STATUS "Searching for sdl2-mixer library --")
+        find_package(sdl2-mixer)
+        if (NOT TARGET SDL2::SDL2_mixer)
             message(FATAL_ERROR
-                    "You need the SDL2_mixer development library \
+                    "You need the sdl2-mixer development library \
                      to be able to compile with sound enabled. \
                      See doc/COMPILING/COMPILING-CMAKE.md for details and more info.")
         endif()
     else()
+        message(STATUS "Searching for SDL2_mixer library --")
+        find_package(SDL2_mixer)
+        # if (NOT TARGET SDL2_mixer::SDL2_mixer-static) # TODO x64-mingw-static ?
         if (NOT SDL2_MIXER_FOUND)
             message(FATAL_ERROR
                     "You need the SDL2_mixer development library \
                      to be able to compile with sound enabled. \
                      See doc/COMPILING/COMPILING-CMAKE.md for details and more info.")
-        endif ()
+        endif()
     endif()
 endif ()
 
@@ -365,6 +390,17 @@ if (BACKTRACE)
         add_definitions(-DLIBBACKTRACE)
     endif ()
 endif ()
+
+if ((LOCALIZE OR BUILD_TESTING) AND "${GETTEXT_MSGFMT_BINARY}" STREQUAL "")
+    if(MSVC)
+        list(APPEND Gettext_ROOT C:\\msys64\\usr)
+        list(APPEND Gettext_ROOT C:\\Program\ Files\\Git\\usr)
+    endif(MSVC)
+    find_package(Gettext)
+endif ()
+if (NOT GETTEXT_MSGFMT_EXECUTABLE )
+    set(GETTEXT_MSGFMT_EXECUTABLE "${GETTEXT_MSGFMT_BINARY}")
+endif()
 
 # Ok. Now create build and install recipes
 if (LOCALIZE)
@@ -389,12 +425,32 @@ add_subdirectory(data)
 if (NOT MSVC)
     add_subdirectory(src/chkjson)
 endif()
-add_subdirectory(tests)
+
+if(TESTS)
+    add_subdirectory(tests)
+endif()
+
 if (JSON_FORMAT)
     add_subdirectory(tools/format)
 endif()
 if (CATA_CLANG_TIDY_PLUGIN OR CATA_CLANG_TIDY_EXECUTABLE)
     add_subdirectory(tools/clang-tidy-plugin)
+endif()
+
+install(DIRECTORY doc gfx
+    DESTINATION ${DATA_PREFIX}
+)
+
+if (RELEASE)
+    install(FILES
+        ${CMAKE_SOURCE_DIR}/README.md
+        ${CMAKE_SOURCE_DIR}/LICENSE.txt
+        ${CMAKE_SOURCE_DIR}/LICENSE-OFL-Terminus-Font.txt
+        ${CMAKE_SOURCE_DIR}/VERSION.txt
+        DESTINATION ${README_DIR})
+    if (TILES)
+        install(DIRECTORY ${CMAKE_SOURCE_DIR}/gfx DESTINATION ${DATA_PREFIX})
+    endif()
 endif()
 
 configure_file(

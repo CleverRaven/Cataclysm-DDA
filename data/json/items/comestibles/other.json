@@ -309,41 +309,33 @@
     "fun": -10
   },
   {
-    "type": "COMESTIBLE",
+    "type": "GENERIC",
     "id": "napkin",
     "name": { "str": "napkin" },
     "category": "spare_parts",
     "weight": "3 g",
     "color": "white",
-    "comestible_type": "FOOD",
     "symbol": "`",
     "description": "A napkin.  Can be used for fires.",
     "price": 0,
     "price_postapoc": 0,
     "material": [ "paper" ],
-    "volume": "250 ml",
-    "freezing_point": -274,
-    "charges": 50,
-    "fun": -20
+    "volume": "5 ml"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "GENERIC",
     "id": "cardboard",
     "name": { "str": "cardboard" },
     "looks_like": "paper",
     "category": "spare_parts",
     "weight": "10 g",
     "color": "brown",
-    "comestible_type": "FOOD",
     "symbol": "`",
     "description": "A piece of cardboard.",
     "price": 0,
     "price_postapoc": 0,
     "material": [ "cardboard" ],
-    "volume": "250 ml",
-    "freezing_point": -274,
-    "charges": 10,
-    "fun": -20
+    "volume": "25 ml"
   },
   {
     "type": "COMESTIBLE",

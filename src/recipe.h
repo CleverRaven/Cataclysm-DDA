@@ -280,7 +280,7 @@ class recipe
 
         bool removes_raw() const;
 
-        // Returns the amount or charges recipe will produce.
+        // Return the amount the recipe will produce (be it charges, or whole items).
         int makes_amount() const;
 
     private:
