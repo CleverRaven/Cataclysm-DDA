@@ -458,6 +458,22 @@
   },
   {
     "type": "item_group",
+    "id": "softdrinks_bottled",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "cola", "prob": 60, "container-item": "bottle_plastic" },
+      { "item": "colamdew", "prob": 55, "container-item": "bottle_plastic" },
+      { "item": "creamsoda", "prob": 50, "container-item": "bottle_plastic" },
+      { "item": "lemonlime", "prob": 50, "container-item": "bottle_plastic" },
+      { "item": "orangesoda", "prob": 45, "container-item": "bottle_plastic" },
+      { "item": "rootbeer", "prob": 40, "container-item": "bottle_plastic" },
+      { "item": "crispycran", "prob": 35, "container-item": "bottle_plastic" },
+      { "item": "purple_drink", "prob": 35, "container-item": "bottle_plastic" },
+      { "item": "choc_drink", "prob": 25, "container-item": "bottle_plastic" }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "candy_chocolate",
     "subtype": "distribution",
     "entries": [
@@ -496,6 +512,12 @@
       { "item": "cracklins", "prob": 25 },
       { "item": "fried_seeds", "prob": 25 }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "toastems",
+    "subtype": "distribution",
+    "entries": [ { "item": "toastem" }, { "item": "toastem2" }, { "item": "toastem3" } ]
   },
   {
     "type": "item_group",
