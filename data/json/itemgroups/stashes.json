@@ -331,7 +331,8 @@
       { "group": "bugout_toys", "prob": 50 },
       { "group": "bugout_child_snacks", "prob": 100 },
       { "group": "bugout_water", "prob": 75 },
-      { "item": "toothbrush_plain", "prob": 10 }
+      { "item": "toothbrush_plain", "prob": 10 },
+      { "item": "childnote", "prob": 10 }
     ]
   },
   {

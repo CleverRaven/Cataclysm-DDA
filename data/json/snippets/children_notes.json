@@ -2,20 +2,21 @@
   {
     "type": "snippet",
     "category": "note_child",
+    "//": "The grammar and punctuation mistakes are there on purpose 9/10 times. Keep in mind that those notes are supposed to be written by primary-school-level children.",
     "text": [
       {
         "id": "note_child_1",
-        "text": "\"Dad said he was going to get groceries two days ago. he didnt come home yet. he told me to stay inside the shelter but im getting scared. i think i remember where the grocery store is.\""
+        "text": "\"Dad said he was going to get groceries two days ago.  he didnt come home yet.  he told me to stay inside the shelter but im getting scared.  i think i remember where the grocery store is.\""
       },
       { "id": "note_child_2", "text": "\"i calld 911 but no one was there\"" },
       {
         "id": "note_child_3",
-        "text": "\"My window lit up at midnight. I tried seeing what it was but it broke. My ears hurt.\""
+        "text": "\"My window lit up at midnight.  I tried seeing what it was but it broke.  My ears hurt.\""
       },
       { "id": "note_child_4", "text": "\"I want mom’s pancakes\"" },
       {
         "id": "note_child_5",
-        "text": "\"Uncle buried ms Carmichael after she got sick but she's not in the backyard anymore. Uncle isn't home either.\""
+        "text": "\"Uncle buried ms Carmichael after she got sick but she's not in the backyard anymore.  Uncle isn't home either.\""
       }
     ]
   }
