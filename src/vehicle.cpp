@@ -7580,13 +7580,11 @@ void vehicle::calc_mass_center( bool use_precalc ) const
         }
         m_part += m_part_items;
 
-        if( vp.has_feature( VPFLAG_BOARDABLE ) && vp.part().has_flag( vehicle_part::passenger_flag ) ) {
+        if( vp.has_feature( VPFLAG_BOARDABLE ) ) {
             const Character *p = get_passenger( i );
+            const monster *z = get_monster( i );
             // Sometimes flag is wrongly set, don't crash!
             m_part += p != nullptr ? p->get_weight() : 0_gram;
-        }
-        if( vp.has_feature( VPFLAG_BOARDABLE ) ) {
-            const monster *z = get_monster( i );
             m_part += z != nullptr ? z->get_weight() : 0_gram;
         }
         if( use_precalc ) {
