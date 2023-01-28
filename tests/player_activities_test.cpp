@@ -333,7 +333,6 @@ TEST_CASE( "shearing", "[activity][shearing][animals]" )
         return *mon;
     };
 
-
     SECTION( "shearing testing time" ) {
 
         GIVEN( "player without shearing quality" ) {
@@ -779,7 +778,6 @@ TEST_CASE( "boltcut", "[activity][boltcut]" )
             }
         }
 
-
         GIVEN( "a tripoint with a valid furniture with byproducts" ) {
             clear_map();
             clear_avatar();
@@ -1045,7 +1043,6 @@ TEST_CASE( "hacksaw", "[activity][hacksaw]" )
             }
         }
 
-
         GIVEN( "a tripoint with a valid furniture with byproducts" ) {
             clear_map();
             clear_avatar();
@@ -1300,7 +1297,6 @@ TEST_CASE( "oxytorch", "[activity][oxytorch]" )
                 CHECK( mp.furn( tripoint_zero ) == furn_test_f_oxytorch1 );
             }
         }
-
 
         GIVEN( "a tripoint with a valid furniture with byproducts" ) {
             clear_map();

@@ -6,6 +6,7 @@
 #include "item_pocket.h"
 #include "itype.h"
 #include "map.h"
+#include "map_helpers.h"
 #include "point.h"
 #include "ret_val.h"
 #include "type_id.h"
@@ -86,6 +87,7 @@ TEST_CASE( "item_contents" )
 
 TEST_CASE( "overflow on combine", "[item]" )
 {
+    clear_map();
     tripoint origin{ 60, 60, 0 };
     item purse( itype_purse );
     item log( itype_log );

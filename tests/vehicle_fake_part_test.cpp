@@ -24,7 +24,6 @@ static const vproto_id vehicle_prototype_schoolbus( "schoolbus" );
 static const vproto_id vehicle_prototype_suv( "suv" );
 static const vproto_id vehicle_prototype_test_van( "test_van" );
 
-
 static void really_clear_map()
 {
     clear_map();
@@ -55,7 +54,6 @@ static void validate_part_count( const vehicle &veh, const int target_velocity,
         std::cout << veh.disp_name() << " at dir " << to_degrees( face_dir );
         std::cout <<  " active fakes " << veh.num_active_fake_parts() << std::endl;
     }
-
 
     if( target_velocity > 0 ) {
         REQUIRE( veh.velocity > 200 );
@@ -99,8 +97,6 @@ TEST_CASE( "ensure_fake_parts_enable_on_place", "[vehicle] [vehicle_fake]" )
         }
     }
 }
-
-
 
 TEST_CASE( "ensure_fake_parts_enable_on_turn", "[vehicle] [vehicle_fake]" )
 {

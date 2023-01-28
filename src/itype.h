@@ -107,7 +107,7 @@ struct islot_tool {
     int charge_factor = 1;
     int charges_per_use = 0;
     int turns_per_charge = 0;
-    units::energy power_draw = 0_J;
+    units::power power_draw = 0_W;
 
     std::vector<int> rand_charges;
 };
@@ -305,7 +305,6 @@ struct armor_portion_data {
     cata::optional<body_part_set> covers;
 
     std::set<sub_bodypart_str_id> sub_coverage;
-
 
     // What layer does it cover if any
     std::set<layer_level> layers;

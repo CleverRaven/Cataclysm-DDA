@@ -113,6 +113,8 @@ class iuse_transform : public iuse_actor
         std::string get_name() const override;
         void finalize( const itype_id &my_item_type ) override;
         void info( const item &, std::vector<iteminfo> & ) const override;
+    private:
+        void do_transform( Character &p, item &it ) const;
 };
 
 class unpack_actor : public iuse_actor
@@ -547,26 +549,6 @@ class inscribe_actor : public iuse_actor
         ~inscribe_actor() override = default;
         void load( const JsonObject &obj ) override;
         cata::optional<int> use( Character &, item &, bool, const tripoint & ) const override;
-        std::unique_ptr<iuse_actor> clone() const override;
-};
-
-/**
- * Cauterizes a wounded/masochistic survivor
- */
-class cauterize_actor : public iuse_actor
-{
-    public:
-        // Use flame. If false, uses item charges instead.
-        bool flame = true;
-
-        static bool cauterize_effect( Character &p, item &it, bool force );
-
-        explicit cauterize_actor( const std::string &type = "cauterize" ) : iuse_actor( type ) {}
-
-        ~cauterize_actor() override = default;
-        void load( const JsonObject &obj ) override;
-        cata::optional<int> use( Character &, item &, bool, const tripoint & ) const override;
-        ret_val<void> can_use( const Character &, const item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
 };
 
@@ -1124,7 +1106,6 @@ class sew_advanced_actor : public iuse_actor
         cata::optional<int> use( Character &, item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
 };
-
 
 /**
  * Activate an array of effect_on_conditions

@@ -258,7 +258,7 @@
     "id": "biomancer_visceral_projection",
     "type": "SPELL",
     "name": "Visceral Projection",
-    "description": "Projects a spray of acrid blood and gore all around you, growing to ensnare your prey in in a field of twitching poisonous tendrils.",
+    "description": "Projects a spray of acrid blood and gore all around you, growing to ensnare your prey in a field of twitching poisonous tendrils.",
     "valid_targets": [ "ally", "hostile", "ground" ],
     "effect": "attack",
     "effect_str": "badpoison",

@@ -11,7 +11,7 @@
       "TALK_GODCO_Sonia_Godco"
     ],
     "responses": [
-      { "text": "How did you get here?", "topic": "TALK_GODCO_Sonia_Story" },
+      { "text": "How did you get here?", "topic": "TALK_GODCO_Sonia_Chloe" },
       { "text": "How are things around here?", "topic": "TALK_GODCO_Sonia_Feeling" },
       { "text": "Is everyone treating you fairly?", "topic": "TALK_GODCO_Sonia_Godco" },
       { "text": "That's a nice guitar you have.", "topic": "TALK_GODCO_Sonia_Instrument" }

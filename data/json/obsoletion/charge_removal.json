@@ -31,7 +31,9 @@
       "sheet_nomex",
       "sheet_nomex_patchwork",
       "sheet_nylon",
-      "sheet_nylon_patchwork"
+      "sheet_nylon_patchwork",
+      "napkin",
+      "cardboard"
     ]
   },
   {
@@ -91,6 +93,7 @@
       "electric_lantern",
       "electric_lantern_on",
       "esbit_stove",
+      "escape_stone",
       "extinguisher",
       "faux_fur",
       "felt_patch",
@@ -259,6 +262,7 @@
       "survivor_light_on",
       "survivor_mess_kit",
       "survivor_shavingkit",
+      "syringe",
       "tailors_kit",
       "talking_doll",
       "thermal_gloves",
