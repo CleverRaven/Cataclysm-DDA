@@ -1,20 +1,8 @@
 [
   {
-    "id": "structured_style_wielding_layout",
-    "type": "widget",
-    "style": "layout",
-    "label": "Style/Wielded",
-    "description": "Shows current <color_yellow>martial arts style</color> and <color_yellow>wielded weapon</color>.",
-    "arrange": "minimum_columns",
-    "widgets": [ "structured_style_layout", "wielding_desc_no_label" ],
-    "flags": [ "W_DISABLED_BY_DEFAULT" ]
-  },
-  {
     "id": "structured_wielding_layout",
     "type": "widget",
     "style": "layout",
-    "label": "Wielded",
-    "description": "Shows current <color_yellow>wielded weapon</color>.",
     "arrange": "minimum_columns",
     "widgets": [ "wielding_simple_desc_no_label", "structured_mode_ammo_layout" ]
   },
