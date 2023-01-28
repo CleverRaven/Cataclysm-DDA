@@ -53,7 +53,7 @@
     "color": "white",
     "name": { "str": "child's note" },
     "snippet_category": "note_child",
-    "description": "A piece of paper.  Something's written on it, scrawled in child-like handwriting.",
+    "description": "A piece of paper.  Something's written on it, scrawled in simple, messy handwriting.",
     "price": 0,
     "price_postapoc": 0,
     "material": [ "paper" ],
