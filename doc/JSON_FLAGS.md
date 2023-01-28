@@ -716,6 +716,7 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 - ```TRADER_AVOID``` ... NPCs will not start with this item. Use this for active items (e.g. flashlight (on)), dangerous items (e.g. active bomb), fake items or unusual items (e.g. unique quest item).
 - ```TRADER_KEEP``` ... NPCs will not trade this item away under any circumstances.
 - ```TRADER_KEEP_EQUIPPED``` ... NPCs will only trade this item if they aren't currently wearing or wielding it.
+- ```UNBREAKABLE``` ... This item can not be damaged, be that directly, while worn as armor, or when used as a melee weapon.
 - ```UNBREAKABLE_MELEE``` ... Never gets damaged when used as melee weapon.
 - ```UNRECOVERABLE``` ... Cannot be recovered from a disassembly.
 - ```WATER_BREAK``` ... Item is broken in water.
