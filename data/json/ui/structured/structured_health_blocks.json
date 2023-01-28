@@ -25,7 +25,8 @@
       "structured_tiny_body_graphs_side_and_health_left_layout",
       "structured_health_mid_layout",
       "structured_health_right_layout"
-    ]
+    ],
+    "flags": [ "W_DISABLED_BY_DEFAULT" ]
   },
   {
     "id": "structured_tiny_body_graphs_and_health_left_layout",
