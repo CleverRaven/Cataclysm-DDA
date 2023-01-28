@@ -2368,11 +2368,12 @@ static void sort_body_parts( std::vector<bodypart_id> &bps )
 std::vector<bodypart_id> Creature::get_all_body_parts( get_body_part_flags flags ) const
 {
     bool only_main( flags & get_body_part_flags::only_main );
-
+    bool only_minor( flags & get_body_part_flags::only_minor );
     std::vector<bodypart_id> all_bps;
     all_bps.reserve( body.size() );
     for( const std::pair<const bodypart_str_id, bodypart> &elem : body ) {
-        if( only_main && elem.first->main_part != elem.first ) {
+        if( ( only_main && elem.first->main_part != elem.first ) || ( only_minor &&
+                elem.first->main_part == elem.first ) ) {
             continue;
         }
         all_bps.emplace_back( elem.first );

@@ -3248,13 +3248,24 @@ void talk_effect_fun_t<T>::set_hp( const JsonObject &jo, const std::string &memb
         target_part = get_str_or_var<T>( jo.get_member( "target_part" ), "target_part", true );
     }
     bool only_increase = jo.get_bool( "only_increase", false );
-    function = [only_increase, new_hp, target_part, is_npc]( const T & d ) {
+    bool max = jo.get_bool( "max", false );
+    bool main_only =  jo.get_bool( "main_only", false );
+    bool minor_only =  jo.get_bool( "minor_only", false );
+    if( main_only && minor_only ) {
+        jo.throw_error( "Can't be main_only and minor_only at the same time." );
+    }
+    function = [only_increase, new_hp, target_part, is_npc, main_only, minor_only, max]( const T & d ) {
         talker *target = d.actor( is_npc );
-        for( const bodypart_id &part : target->get_all_body_parts( true ) ) {
+        for( const bodypart_id &part : target->get_all_body_parts( ( !main_only &&
+                !minor_only ), main_only ) ) {
             if( ( !target_part.has_value() || bodypart_id( target_part.value().evaluate( d ) ) == part ) &&
                 ( !only_increase ||
                   target->get_part_hp_cur( part ) <= new_hp.evaluate( d ) ) ) {
-                target->set_part_hp_cur( part, new_hp.evaluate( d ) );
+                if( max ) {
+                    target->set_part_hp_cur( part, target->get_part_hp_max( part ) );
+                } else {
+                    target->set_part_hp_cur( part, new_hp.evaluate( d ) );
+                }
             }
         }
     };
