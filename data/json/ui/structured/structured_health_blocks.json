@@ -161,7 +161,7 @@
       "fatigue_desc_no_label",
       "body_temp_desc_no_label",
       "structured_temp_radiation_layout",
-      "focus_num"
+      "structured_focus_mood_layout"
     ]
   },
   {
@@ -222,6 +222,19 @@
     "style": "layout",
     "width": 10,
     "widgets": [ "env_temp_desc_no_label", "body_temp_delta_sym_no_label" ]
+  },
+  {
+    "id": "structured_focus_mood_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "widgets": [ "structured_focus", "mood_desc_no_label" ]
+  },
+  {
+    "id": "structured_focus",
+    "type": "widget",
+    "label": "F",
+    "copy-from": "focus_num"
   },
   {
     "id": "structured_stats_label",
