@@ -6093,6 +6093,7 @@ void vehicle::refresh( const bool remove_fakes )
     check_environmental_effects = true;
     insides_dirty = true;
     zones_dirty = true;
+    coeff_air_dirty = true;
     invalidate_mass();
     occupied_cache_pos = { -1, -1, -1 };
     refresh_active_item_cache();
