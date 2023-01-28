@@ -288,7 +288,7 @@
     "id": "BGSS_PREPPER_1_SHELTERSUCCESS",
     "type": "talk_topic",
     "dynamic_line": "I marked the spot for you.  When you get there, pry off the metal above the door and you'll see the special latch I made to keep thieves out.  I trust you to make the right decisions.",
-    "responses": [ { "text": "Thanks for the directions.  Let's check it out.", "topic": "TALK_NONE" } ]
+    "responses": [ { "text": "Thanks for the directions.  I'll check it out.", "topic": "TALK_NONE" } ]
   },
   {
     "id": "BGSS_PREPPER_1_SHELTERFAILURE",
