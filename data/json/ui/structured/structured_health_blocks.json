@@ -14,6 +14,20 @@
     ]
   },
   {
+    "id": "structured_health_all_side_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Health + All (side)",
+    "description": "All sorts of <color_yellow>health stats</color>, and four <color_yellow>tiny side-view bodygraphs</color> for HP, status, encumbrance and temperature.\n\nSee the other Health widgets for alternatives.",
+    "arrange": "columns",
+    "height": 7,
+    "widgets": [
+      "structured_tiny_body_graphs_side_and_health_left_layout",
+      "structured_health_mid_layout",
+      "structured_health_right_layout"
+    ]
+  },
+  {
     "id": "structured_tiny_body_graphs_and_health_left_layout",
     "type": "widget",
     "style": "layout",
@@ -23,6 +37,19 @@
     "widgets": [
       "structured_tiny_body_graphs_left_layout",
       "structured_tiny_body_graphs_right_layout",
+      "structured_health_left_layout"
+    ]
+  },
+  {
+    "id": "structured_tiny_body_graphs_side_and_health_left_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "width": 21,
+    "padding": 0,
+    "widgets": [
+      "structured_tiny_body_graphs_side_left_layout",
+      "structured_tiny_body_graphs_side_right_layout",
       "structured_health_left_layout"
     ]
   },
@@ -112,9 +139,22 @@
     "type": "widget",
     "copy-from": "structured_health_encumb_layout",
     "label": "Health (self-aware)",
-    "description": "All sorts of <color_yellow>health stats (self-aware</color>, i.e. as numbers), and a bodygraph for <color_yellow>hitpoints</color>.\n\nSee the other Health widgets for alternatives.",
+    "description": "All sorts of <color_yellow>health stats (self-aware</color>, i.e. as numbers), and four <color_yellow>tiny bodygraphs</color> for HP, status, encumbrance and temperature.\n\nSee the other Health widgets for alternatives.",
     "widgets": [
       "structured_tiny_body_graphs_and_health_left_sa_layout",
+      "structured_health_mid_sa_layout",
+      "structured_health_right_layout"
+    ],
+    "flags": [ "W_DISABLED_BY_DEFAULT" ]
+  },
+  {
+    "id": "structured_health_sa_side_layout",
+    "type": "widget",
+    "copy-from": "structured_health_encumb_layout",
+    "label": "Health (self-a side)",
+    "description": "All sorts of <color_yellow>health stats (self-aware</color>, i.e. as numbers), and four <color_yellow>tiny side-view bodygraphs</color> for HP, status, encumbrance and temperature.\n\nSee the other Health widgets for alternatives.",
+    "widgets": [
+      "structured_tiny_body_graphs_side_and_health_left_sa_layout",
       "structured_health_mid_sa_layout",
       "structured_health_right_layout"
     ],
@@ -128,6 +168,17 @@
     "widgets": [
       "structured_tiny_body_graphs_left_layout",
       "structured_tiny_body_graphs_right_layout",
+      "structured_health_left_sa_layout"
+    ]
+  },
+  {
+    "id": "structured_tiny_body_graphs_side_and_health_left_sa_layout",
+    "type": "widget",
+    "copy-from": "structured_tiny_body_graphs_side_and_health_left_layout",
+    "padding": 0,
+    "widgets": [
+      "structured_tiny_body_graphs_side_left_layout",
+      "structured_tiny_body_graphs_side_right_layout",
       "structured_health_left_sa_layout"
     ]
   },
