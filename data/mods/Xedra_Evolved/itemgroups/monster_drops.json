@@ -111,6 +111,7 @@
     "type": "item_group",
     "id": "default_zombie_items_pockets",
     "copy-from": "default_zombie_items_pockets",
+    "subtype": "collection",
     "extend": {
       "entries": [
         { "item": "faewild", "prob": 5, "container-item": "bag_zipper", "charges": [ 3, 12 ] },
