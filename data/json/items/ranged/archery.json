@@ -977,7 +977,15 @@
     "price": 160000,
     "//": "120 lb draw weight, very efficient, 0.5 slugs of momentum with a 30g arrow.",
     "material": [ "steel", "plastic" ],
-    "flags": [ "FIRE_TWOHAND", "RELOAD_AND_SHOOT", "PRIMITIVE_RANGED_WEAPON", "OVERSIZE" , "SHEATH_BOW", "WATERPROOF_GUN", "NEVER_JAMS" ],
+    "flags": [
+      "FIRE_TWOHAND",
+      "RELOAD_AND_SHOOT",
+      "PRIMITIVE_RANGED_WEAPON",
+      "OVERSIZE",
+      "SHEATH_BOW",
+      "WATERPROOF_GUN",
+      "NEVER_JAMS"
+    ],
     "ammo_effects": [ "NEVER_MISFIRES" ],
     "skill": "archery",
     "min_strength": 15,
