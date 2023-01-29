@@ -254,7 +254,7 @@ TEST_CASE( "vitamin_daily", "[vitamins]" )
     REQUIRE( subject.get_daily_vitamin( vitamin_iron ) == 0 );
     REQUIRE( subject.get_daily_health() == 0 );
     REQUIRE( subject.get_health_tally() == 0 );
-    
+
     item f( "debug_vitamins" );
 
     subject.consume( f );
