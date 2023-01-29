@@ -1044,6 +1044,7 @@ class activatable_inventory_preset : public pickup_inventory_preset
     public:
         explicit activatable_inventory_preset( const Character &you ) : pickup_inventory_preset( you ),
             you( you ) {
+            _collate_entries = true;
             if( get_option<bool>( "INV_USE_ACTION_NAMES" ) ) {
                 append_cell( [ this ]( const item_location & loc ) {
                     return string_format( "<color_light_green>%s</color>", get_action_name( *loc ) );
