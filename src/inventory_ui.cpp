@@ -1219,13 +1219,10 @@ inventory_entry *inventory_column::add_entry( const inventory_entry &entry )
                 return false;
             }
             item_location found_entry_item = e.locations.front();
-            // this would be much simpler if item::parent_item() didn't call debugmsg
             return e.get_category_ptr() == entry.get_category_ptr() &&
                    entry_item.where() == found_entry_item.where() &&
                    entry_item.position() == found_entry_item.position() &&
-                   ( ( !entry_item.has_parent() && !found_entry_item.has_parent() ) ||
-                     ( entry_item.has_parent() && found_entry_item.has_parent() &&
-                       entry_item.parent_item() == found_entry_item.parent_item() ) ) &&
+                   entry_item.parent_item() == found_entry_item.parent_item() &&
                    entry_item->is_collapsed() == found_entry_item->is_collapsed() &&
                    entry_item->display_stacked_with( *found_entry_item, preset.get_checking_components() );
         } );
