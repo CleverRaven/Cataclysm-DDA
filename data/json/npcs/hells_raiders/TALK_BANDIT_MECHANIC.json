@@ -408,9 +408,9 @@
         "condition": {
           "and": [
             { "npc_has_var": "u_want_scooter_electric", "type": "general", "context": "trade", "value": "yes" },
-            { "npc_near_om_location": "bandit_garage_1", "range": 0 } 
-            ] 
-          },
+            { "npc_near_om_location": "bandit_garage_1", "range": 0 }
+          ]
+        },
         "effect": [
           { "mapgen_update": "bandits_place_scooter_electric", "om_terrain": "bandit_garage_1" },
           { "npc_lose_var": "currently_busy", "type": "general", "context": "trade" },
