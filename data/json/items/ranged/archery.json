@@ -934,7 +934,15 @@
     "name": { "str": "wooden greatbow" },
     "description": "An extremely large, stiff longbow, made with enormous limbs and a thick string to take an immense amount of energy.  Takes incredible strength to draw.",
     "price": 150000,
-    "flags": [ "FIRE_TWOHAND", "RELOAD_AND_SHOOT", "PRIMITIVE_RANGED_WEAPON", "OVERSIZE" , "SHEATH_BOW", "WATERPROOF_GUN", "NEVER_JAMS" ],
+    "flags": [
+      "FIRE_TWOHAND",
+      "RELOAD_AND_SHOOT",
+      "PRIMITIVE_RANGED_WEAPON",
+      "OVERSIZE",
+      "SHEATH_BOW",
+      "WATERPROOF_GUN",
+      "NEVER_JAMS"
+    ],
     "ammo_effects": [ "NEVER_MISFIRES" ],
     "//": "78in Yew SZ at 30in draw with 31in, 145 lbs draw, 0.51 slugs with 30g arrow.",
     "min_strength": 17,
