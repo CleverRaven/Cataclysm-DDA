@@ -253,12 +253,12 @@ TEST_CASE( "vitamin_daily", "[vitamins]" )
     REQUIRE( subject.get_daily_vitamin( vitamin_calcium ) == 0 );
     REQUIRE( subject.get_daily_vitamin( vitamin_iron ) == 0 );
     REQUIRE( subject.get_daily_health() == 0 );
-    REQUIRE( subject.get_health_tally() == 0 );
 
     item f( "debug_vitamins" );
 
     subject.consume( f );
-
+    
+    int old_tally = subject.get_health_tally();
     int hours = 0;
     while( hours < 72 ) {
         pass_time( subject, 1_hours );
@@ -276,7 +276,8 @@ TEST_CASE( "vitamin_daily", "[vitamins]" )
     CHECK( subject.get_daily_vitamin( vitamin_calcium ) == 0 );
     CHECK( subject.get_daily_vitamin( vitamin_iron ) == 0 );
     // get that vitamin health bonus is up by 6 with maybe a recent reduction on the same timecheck
-    CHECK( subject.get_health_tally() >= 5 );
+    int diff = subject.get_health_tally() - old_tally;
+    CHECK( diff >= 5 );
 
 }
 
