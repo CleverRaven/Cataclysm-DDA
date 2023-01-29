@@ -776,7 +776,6 @@ Effect | Description
 `assign_guard` | Makes the NPC into a guard.  If allied and at a camp, they will be assigned to that camp.
 `stop_guard` | Releases the NPC from their guard duty (also see `assign_guard`).  Friendly NPCs will return to following.
 `start_camp` | The NPC will start a faction camp with the player.
-`remove_overseer` | Makes the NPC stop being an overseer, abandoning the faction camp.
 `wake_up` | Wakes up sleeping, but not sedated, NPCs.
 `reveal_stats` | Reveals the NPC's stats, based on the player's skill at assessing them.
 `end_conversation` | Ends the conversation and makes the NPC ignore you from now on.

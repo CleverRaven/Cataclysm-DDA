@@ -707,18 +707,6 @@ void talk_function::start_camp( npc &p )
     }
 }
 
-void talk_function::remove_overseer( npc &p )
-{
-    size_t suffix = p.get_name().find( _( ", Camp Manager" ) );
-    if( suffix != std::string::npos ) {
-        p.get_name() = p.get_name().substr( 0, suffix );
-    }
-
-    add_msg( _( "%s has abandoned the camp." ), p.get_name() );
-    p.companion_mission_role_id.clear();
-    stop_guard( p );
-}
-
 void talk_function::basecamp_mission( npc &p )
 {
     const std::string title = _( "Base Missions" );
