@@ -98,7 +98,7 @@ static const item_group_id
 Item_spawn_data_foraging_faction_camp_winter( "foraging_faction_camp_winter" );
 static const item_group_id Item_spawn_data_forest( "forest" );
 static const item_group_id
-Item_spawn_data_gathering_faction_base_camp_firewood( "gathering_faction_base_camp_firewood" );
+Item_spawn_data_gathering_faction_camp_firewood( "gathering_faction_camp_firewood" );
 
 static const itype_id itype_fungal_seeds( "fungal_seeds" );
 static const itype_id itype_log( "log" );
@@ -843,7 +843,7 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
                                   "%s\n"
                                   "Risk: Very Low\n"
                                   "Time: 3 Hours, Repeated\n"
-                                  "Positions: %d/3\n" ), gathering_description( gather_bldg ),
+                                  "Positions: %d/3\n" ), gathering_description(),
                                npc_list.size() );
         mission_key.add_start( miss_id, name_display_of( miss_id ),
                                entry, npc_list.size() < 3 );
@@ -3470,9 +3470,9 @@ bool basecamp::gathering_return( const mission_id &miss_id, time_duration min_ti
 
     item_group_id itemlist( "forest" );
     if( miss_id.id == Camp_Collect_Firewood ) {
-        itemlist = Item_spawn_data_gathering_faction_base_camp_firewood;
+        itemlist = Item_spawn_data_gathering_faction_camp_firewood;
     } else if( miss_id.id == Camp_Gather_Materials ) {
-        itemlist = get_gatherlist();
+        itemlist = Item_spawn_data_forest;
     } else if( miss_id.id == Camp_Foraging ) {
         switch( season_of_year( calendar::turn ) ) {
             case SPRING:
@@ -4901,14 +4901,9 @@ std::string basecamp::recruit_description( int npc_count ) const
     return desc;
 }
 
-std::string basecamp::gathering_description( const std::string &bldg )
+std::string basecamp::gathering_description()
 {
-    item_group_id itemlist;
-    if( item_group::group_is_defined( item_group_id( "gathering_" + bldg ) ) ) {
-        itemlist = item_group_id( "gathering_" + bldg );
-    } else {
-        itemlist = Item_spawn_data_forest;
-    }
+    item_group_id itemlist = Item_spawn_data_forest;
     std::string output;
 
     // Functions like the debug item group tester but only rolls 6 times so the player
