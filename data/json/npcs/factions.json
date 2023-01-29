@@ -431,6 +431,7 @@
     "power": 100,
     "food_supply": 230400,
     "wealth": 45000000,
+    "currency": "coin_dollar_raiders",
     "relations": {
       "hells_raiders": {
         "kill on sight": false,

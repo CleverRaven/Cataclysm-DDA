@@ -64,5 +64,16 @@
     "mission": 3,
     "chat": "TALK_HELLS_RAIDERS_BANDIT_QUARTERMASTER",
     "faction": "hells_raiders"
+  },
+  {
+    "type": "npc",
+    "id": "bandit_mechanic",
+    "//": "Automotive specialist for the Hells Raiders.",
+    "name_suffix": "Mechanic",
+    "class": "NC_SCAVENGER",
+    "attitude": 0,
+    "mission": 8,
+    "chat": "TALK_HELLS_RAIDERS_BANDIT_MECHANIC",
+    "faction": "hells_raiders"
   }
 ]

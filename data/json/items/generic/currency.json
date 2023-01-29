@@ -49,6 +49,21 @@
   {
     "type": "GENERIC",
     "category": "currency",
+    "id": "coin_dollar_raiders",
+    "name": { "str": "Raider's coin" },
+    "description": "A one-dollar coin, featuring a portrait of an unknown, rough-looking individual. Two rifles form a cross patterm behind them, while a mushroom cloud completes a halo in the background.  Beneath the portrait is stamped \"When in doubt, knock 'em out\".  You could flip it.",
+    "weight": "8 g",
+    "volume": "1 ml",
+    "price": 1000,
+    "price_postapoc": 100,
+    "material": [ "copper" ],
+    "symbol": "o",
+    "color": "light_gray",
+    "use_action": [ "COIN_FLIP" ]
+  },
+  {
+    "type": "GENERIC",
+    "category": "currency",
     "id": "signed_chit",
     "name": { "str": "chit" },
     "description": "A slip of paper signed by the issuer.",

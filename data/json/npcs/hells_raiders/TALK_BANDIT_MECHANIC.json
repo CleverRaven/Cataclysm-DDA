@@ -1,0 +1,430 @@
+[
+  {
+    "id": "TALK_HELLS_RAIDERS_BANDIT_MECHANIC",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "npc_has_var": "first_meeting",
+      "type": "dialogue",
+      "context": "first_meeting",
+      "value": "yes",
+      "no": "Nice to see a new face around here, you one of us?  Welcome to the club, try not to step on anyone's toes.",
+      "yes": "<neutral_greet>"
+    },
+    "speaker_effect": { "effect": { "npc_add_var": "first_meeting", "type": "dialogue", "context": "first_meeting", "value": "yes" } },
+    "responses": [
+      {
+        "text": "<neutral_greet>",
+        "topic": "TALK_HELLS_RAIDERS_BANDIT_MECHANIC_2",
+        "condition": { "npc_has_var": "first_meeting", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+      },
+      {
+        "text": "Nice to meet you.",
+        "topic": "TALK_HELLS_RAIDERS_BANDIT_MECHANIC_2",
+        "condition": { "not": { "npc_has_var": "first_meeting", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
+      },
+      {
+        "text": "Nice to meet you.  Can't stick around though.",
+        "topic": "TALK_DONE",
+        "condition": { "not": { "npc_has_var": "first_meeting", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
+      },
+      {
+        "text": "Hate to run, but I gotta go.  See ya.",
+        "topic": "TALK_DONE",
+        "condition": { "npc_has_var": "first_meeting", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+      }
+    ]
+  },
+  {
+    "id": "TALK_HELLS_RAIDERS_BANDIT_MECHANIC_2",
+    "type": "talk_topic",
+    "dynamic_line": [ "What'cha want?", "Make it quick.", "I've got bikes to fix, not much time to talk." ],
+    "responses": [
+      { "text": "Anything that you need done around here?", "topic": "TALK_MISSION_LIST" },
+      { "text": "Who exactly are you guys anyway?", "topic": "TALK_HELLS_RAIDERS_BANDIT_MECHANIC_WHO" },
+      { "text": "What do you do these days?", "topic": "TALK_HELLS_RAIDERS_BANDIT_MECHANIC_JOB" },
+      { "text": "Could you loan a poor soul any supplies?", "topic": "TALK_HELLS_RAIDERS_BANDIT_NOBORROW" },
+      { "text": "Would you like to buy anything?", "topic": "TALK_HELLS_RAIDERS_BANDIT_NOTRADE" },
+      {
+        "text": "Would you be willing to sell a car?",
+        "condition": {
+          "and": [
+            { "not": { "npc_has_var": "currently_busy", "type": "general", "context": "trade", "value": "yes" } },
+            { "npc_has_var": "told_u_about_job", "type": "dialogue", "context": "knowledge", "value": "yes" }
+          ]
+        },
+        "topic": "TALK_HELLS_RAIDERS_BANDIT_MECHANIC_Buy_Vehicles"
+      },
+      {
+        "text": "I'm here to pick up my order.",
+        "condition": { "npc_compare_time_since_var": "npc_making_car", "type": "timer", "context": "trade", "op": ">=", "time": "3 d" },
+        "topic": "TALK_HELLS_RAIDERS_BANDIT_MECHANIC_Pick_Up_Vehicles"
+      },
+      {
+        "text": "I'm here to pick up my order.",
+        "condition": { "npc_compare_time_since_var": "npc_making_car", "type": "timer", "context": "trade", "op": "<", "time": "3 d" },
+        "topic": "TALK_HELLS_RAIDERS_BANDIT_MECHANIC_Not_Ready"
+      },
+      { "text": "Goodbye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_HELLS_RAIDERS_BANDIT_MECHANIC_WHO",
+    "type": "talk_topic",
+    "dynamic_line": "Some people call us thieves, others scum, the <swear> government calls us the Hell's Raiders.  We're just some folks doin' what we need to survive is all.",
+    "responses": [
+      { "text": "Hmm.", "topic": "TALK_HELLS_RAIDERS_BANDIT_MECHANIC_2" },
+      {
+        "text": "How'd you get to be called the \"Hell's Raiders\"?",
+        "topic": "TALK_HELLS_RAIDERS_BANDIT_MECHANIC_NAME"
+      },
+      { "text": "What do you do these days?", "topic": "TALK_HELLS_RAIDERS_BANDIT_MECHANIC_JOB" },
+      { "text": "Goodbye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_HELLS_RAIDERS_BANDIT_MECHANIC_NAME",
+    "type": "talk_topic",
+    "dynamic_line": "Surely you've heard of the old biker gang, the Hell's Angels?  A few of our head honchos used to run with 'em, so they named us based off that.",
+    "responses": [
+      { "text": "Hmm.", "topic": "TALK_HELLS_RAIDERS_BANDIT_MECHANIC_2" },
+      { "text": "What do you do these days?", "topic": "TALK_HELLS_RAIDERS_BANDIT_MECHANIC_JOB" },
+      { "text": "Goodbye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_HELLS_RAIDERS_BANDIT_MECHANIC_JOB",
+    "dynamic_line": "I'm the guy that fixes our rides.  These <swear> dumbasses take out these very expensive bikes and go for a joyride, might try and run over some <swear> <zombie>s with 'em, fuck up the fenders, tires, all that.  It pisses me off to no end when these <name_b>s go out like that, but my job's better than wandering those <swear> wastes to get eaten by some horde.",
+    "speaker_effect": { "effect": { "npc_add_var": "told_u_about_job", "type": "dialogue", "context": "knowledge", "value": "yes" } },
+    "responses": [
+      {
+        "text": "Would you be willing to sell a car?",
+        "condition": { "not": { "npc_has_var": "currently_busy", "type": "general", "context": "trade", "value": "yes" } },
+        "topic": "TALK_HELLS_RAIDERS_BANDIT_MECHANIC_Buy_Vehicles"
+      },
+      { "text": "A pleasure chatting.  Gotta go!", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_HELLS_RAIDERS_BANDIT_MECHANIC_Buy_Vehicles",
+    "dynamic_line": "If you've got the money for it, I can get you something.  I sell bikes of any sort, should be ready sometime in the next three days.  I take all payment in coins.  What'cha want?",
+    "responses": [
+      {
+        "text": "[200$]  I'll take a bicycle.",
+        "condition": { "u_has_items": { "item": "coin_dollar_raiders", "count": 200 } },
+        "effect": [
+          { "npc_add_var": "npc_making_car", "type": "timer", "context": "trade", "time": true },
+          { "npc_add_var": "currently_busy", "type": "general", "context": "trade", "value": "yes" },
+          { "npc_add_var": "u_want_bicycle", "type": "general", "context": "trade", "value": "yes" },
+          { "u_sell_item": "coin_dollar_raiders", "count": 200 }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "[400$]  I'll take a mountain bike.",
+        "condition": { "u_has_items": { "item": "coin_dollar_raiders", "count": 400 } },
+        "effect": [
+          { "npc_add_var": "npc_making_car", "type": "timer", "context": "trade", "time": true },
+          { "npc_add_var": "u_want_bicycle_dirt", "type": "general", "context": "trade", "value": "yes" },
+          { "npc_add_var": "currently_busy", "type": "general", "context": "trade", "value": "yes" },
+          { "u_sell_item": "coin_dollar_raiders", "count": 400 }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "[550$]  I'll take an electric bike.",
+        "condition": { "u_has_items": { "item": "coin_dollar_raiders", "count": 550 } },
+        "effect": [
+          { "npc_add_var": "npc_making_car", "type": "timer", "context": "trade", "time": true },
+          { "npc_add_var": "u_want_bicycle_electric", "type": "general", "context": "trade", "value": "yes" },
+          { "npc_add_var": "currently_busy", "type": "general", "context": "trade", "value": "yes" },
+          { "u_sell_item": "coin_dollar_raiders", "count": 550 }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "[750$]  I'll take a dirt bike.",
+        "condition": { "u_has_items": { "item": "coin_dollar_raiders", "count": 750 } },
+        "effect": [
+          { "npc_add_var": "npc_making_car", "type": "timer", "context": "trade", "time": true },
+          { "npc_add_var": "u_want_motorcycle_enduro", "type": "general", "context": "trade", "value": "yes" },
+          { "npc_add_var": "currently_busy", "type": "general", "context": "trade", "value": "yes" },
+          { "u_sell_item": "coin_dollar_raiders", "count": 750 }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "[900$]  I'll take a motorcycle.",
+        "condition": { "u_has_items": { "item": "coin_dollar_raiders", "count": 900 } },
+        "effect": [
+          { "npc_add_var": "npc_making_car", "type": "timer", "context": "trade", "time": true },
+          { "npc_add_var": "u_want_motorcycle_sidecart", "type": "general", "context": "trade", "value": "yes" },
+          { "npc_add_var": "currently_busy", "type": "general", "context": "trade", "value": "yes" },
+          { "u_sell_item": "coin_dollar_raiders", "count": 900 }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "[1,200$]  I'll take a scooter.",
+        "condition": { "u_has_items": { "item": "coin_dollar_raiders", "count": 1200 } },
+        "effect": [
+          { "npc_add_var": "npc_making_car", "type": "timer", "context": "trade", "time": true },
+          { "npc_add_var": "u_want_scooter", "type": "general", "context": "trade", "value": "yes" },
+          { "npc_add_var": "currently_busy", "type": "general", "context": "trade", "value": "yes" },
+          { "u_sell_item": "coin_dollar_raiders", "count": 1200 }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "[2,000$]  I'll take a electric scooter.",
+        "condition": { "u_has_items": { "item": "coin_dollar_raiders", "count": 2000 } },
+        "effect": [
+          { "npc_add_var": "npc_making_car", "type": "timer", "context": "trade", "time": true },
+          { "npc_add_var": "u_want_scooter_electric", "type": "general", "context": "trade", "value": "yes" },
+          { "npc_add_var": "currently_busy", "type": "general", "context": "trade", "value": "yes" },
+          { "u_sell_item": "coin_dollar_raiders", "count": 2000 }
+        ],
+        "topic": "TALK_DONE"
+      },
+      { "text": "I've changed my mind, I don't want anything.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_HELLS_RAIDERS_BANDIT_MECHANIC_Pick_Up_Vehicles",
+    "dynamic_line": "Let me get it around here for ya.",
+    "responses": [
+      {
+        "text": "Thanks.",
+        "condition": { 
+          "and": [ 
+            { "npc_has_var": "u_want_bicycle", "type": "general", "context": "trade", "value": "yes" },
+            { "npc_near_om_location": "bandit_camp_4", "range": 0 } 
+            ] 
+          },
+        "effect": [
+          { "mapgen_update": "bandits_place_bicycle", "om_terrain": "bandit_camp_4" },
+          { "npc_lose_var": "currently_busy", "type": "general", "context": "trade" },
+          { "npc_lose_var": "npc_making_car", "type": "timer", "context": "trade" },
+          { "npc_lose_var": "u_want_bicycle", "type": "general", "context": "trade" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Thanks.",
+        "condition": { 
+          "and": [ 
+            { "npc_has_var": "u_want_bicycle", "type": "general", "context": "trade", "value": "yes" },
+            { "npc_near_om_location": "bandit_garage_1", "range": 0 } 
+            ] 
+          },
+        "effect": [
+          { "mapgen_update": "bandits_place_bicycle", "om_terrain": "bandit_garage_1" },
+          { "npc_lose_var": "currently_busy", "type": "general", "context": "trade" },
+          { "npc_lose_var": "npc_making_car", "type": "timer", "context": "trade" },
+          { "npc_lose_var": "u_want_bicycle", "type": "general", "context": "trade" }
+        ],
+        "topic": "TALK_DONE"
+      },  
+      {
+        "text": "Thanks.",
+        "condition": { 
+          "and": [ 
+            { "npc_has_var": "u_want_bicycle_dirt", "type": "general", "context": "trade", "value": "yes" },
+            { "npc_near_om_location": "bandit_camp_4", "range": 0 } 
+            ] 
+          },
+        "effect": [
+          { "mapgen_update": "bandits_place_bicycle_dirt", "om_terrain": "bandit_camp_4" },
+          { "npc_lose_var": "currently_busy", "type": "general", "context": "trade" },
+          { "npc_lose_var": "npc_making_car", "type": "timer", "context": "trade" },
+          { "npc_lose_var": "u_want_bicycle_dirt", "type": "general", "context": "trade" }
+        ],
+        "topic": "TALK_DONE"
+      }, 
+      {
+        "text": "Thanks.",
+        "condition": { 
+          "and": [ 
+            { "npc_has_var": "u_want_bicycle_dirt", "type": "general", "context": "trade", "value": "yes" },
+            { "npc_near_om_location": "bandit_garage_1", "range": 0 } 
+            ] 
+          },
+        "effect": [
+          { "mapgen_update": "bandits_place_bicycle_dirt", "om_terrain": "bandit_garage_1" },
+          { "npc_lose_var": "currently_busy", "type": "general", "context": "trade" },
+          { "npc_lose_var": "npc_making_car", "type": "timer", "context": "trade" },
+          { "npc_lose_var": "u_want_bicycle_dirt", "type": "general", "context": "trade" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Thanks.",
+        "condition": { 
+          "and": [ 
+            { "npc_has_var": "u_want_bicycle_electric", "type": "general", "context": "trade", "value": "yes" },
+            { "npc_near_om_location": "bandit_camp_4", "range": 0 } 
+            ] 
+          },
+        "effect": [
+          { "mapgen_update": "bandits_place_bicycle_electric", "om_terrain": "bandit_camp_4" },
+          { "npc_lose_var": "currently_busy", "type": "general", "context": "trade" },
+          { "npc_lose_var": "npc_making_car", "type": "timer", "context": "trade" },
+          { "npc_lose_var": "u_want_bicycle_electric", "type": "general", "context": "trade" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Thanks.",
+        "condition": { 
+          "and": [ 
+            { "npc_has_var": "u_want_bicycle_electric", "type": "general", "context": "trade", "value": "yes" },
+            { "npc_near_om_location": "bandit_garage_1", "range": 0 } 
+            ] 
+          },
+        "effect": [
+          { "mapgen_update": "bandits_place_bicycle_electric", "om_terrain": "bandit_garage_1" },
+          { "npc_lose_var": "currently_busy", "type": "general", "context": "trade" },
+          { "npc_lose_var": "npc_making_car", "type": "timer", "context": "trade" },
+          { "npc_lose_var": "u_want_bicycle_electric", "type": "general", "context": "trade" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Thanks.",
+        "condition": { 
+          "and": [ 
+            { "npc_has_var": "u_want_motorcycle_enduro", "type": "general", "context": "trade", "value": "yes" },
+            { "npc_near_om_location": "bandit_camp_4", "range": 0 } 
+            ] 
+          },
+        "effect": [
+          { "mapgen_update": "bandits_place_motorcycle_enduro", "om_terrain": "bandit_camp_4" },
+          { "npc_lose_var": "currently_busy", "type": "general", "context": "trade" },
+          { "npc_lose_var": "npc_making_car", "type": "timer", "context": "trade" },
+          { "npc_lose_var": "u_want_motorcycle_enduro", "type": "general", "context": "trade" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Thanks.",
+        "condition": { 
+          "and": [ 
+            { "npc_has_var": "u_want_motorcycle_enduro", "type": "general", "context": "trade", "value": "yes" },
+            { "npc_near_om_location": "bandit_garage_1", "range": 0 } 
+            ] 
+          },
+        "effect": [
+          { "mapgen_update": "bandits_place_motorcycle_enduro", "om_terrain": "bandit_garage_1" },
+          { "npc_lose_var": "currently_busy", "type": "general", "context": "trade" },
+          { "npc_lose_var": "npc_making_car", "type": "timer", "context": "trade" },
+          { "npc_lose_var": "u_want_motorcycle_enduro", "type": "general", "context": "trade" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Thanks.",
+        "condition": { 
+          "and": [ 
+            { "npc_has_var": "u_want_motorcycle_sidecart", "type": "general", "context": "trade", "value": "yes" },
+            { "npc_near_om_location": "bandit_camp_4", "range": 0 } 
+            ] 
+          },
+        "effect": [
+          { "mapgen_update": "bandits_place_motorcycle_sidecart", "om_terrain": "bandit_camp_4" },
+          { "npc_lose_var": "currently_busy", "type": "general", "context": "trade" },
+          { "npc_lose_var": "npc_making_car", "type": "timer", "context": "trade" },
+          { "npc_lose_var": "u_want_motorcycle_sidecart", "type": "general", "context": "trade" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Thanks.",
+        "condition": { 
+          "and": [ 
+            { "npc_has_var": "u_want_motorcycle_sidecart", "type": "general", "context": "trade", "value": "yes" },
+            { "npc_near_om_location": "bandit_garage_1", "range": 0 } 
+            ] 
+          },
+        "effect": [
+          { "mapgen_update": "bandits_place_motorcycle_sidecart", "om_terrain": "bandit_garage_1" },
+          { "npc_lose_var": "currently_busy", "type": "general", "context": "trade" },
+          { "npc_lose_var": "npc_making_car", "type": "timer", "context": "trade" },
+          { "npc_lose_var": "u_want_motorcycle_sidecart", "type": "general", "context": "trade" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Thanks.",
+        "condition": { 
+          "and": [ 
+            { "npc_has_var": "u_want_scooter", "type": "general", "context": "trade", "value": "yes" },
+            { "npc_near_om_location": "bandit_camp_4", "range": 0 } 
+            ] 
+          },
+        "effect": [
+          { "mapgen_update": "bandits_place_scooter", "om_terrain": "bandit_camp_4" },
+          { "npc_lose_var": "currently_busy", "type": "general", "context": "trade" },
+          { "npc_lose_var": "npc_making_car", "type": "timer", "context": "trade" },
+          { "npc_lose_var": "u_want_scooter", "type": "general", "context": "trade" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Thanks.",
+        "condition": { 
+          "and": [ 
+            { "npc_has_var": "u_want_scooter", "type": "general", "context": "trade", "value": "yes" },
+            { "npc_near_om_location": "bandit_garage_1", "range": 0 } 
+            ] 
+          },
+        "effect": [
+          { "mapgen_update": "bandits_place_scooter", "om_terrain": "bandit_garage_1" },
+          { "npc_lose_var": "currently_busy", "type": "general", "context": "trade" },
+          { "npc_lose_var": "npc_making_car", "type": "timer", "context": "trade" },
+          { "npc_lose_var": "u_want_scooter", "type": "general", "context": "trade" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Thanks.",
+        "condition": { 
+          "and": [ 
+            { "npc_has_var": "u_want_scooter_electric", "type": "general", "context": "trade", "value": "yes" },
+            { "npc_near_om_location": "bandit_camp_4", "range": 0 } 
+            ] 
+          },
+        "effect": [
+          { "mapgen_update": "bandits_place_scooter_electric", "om_terrain": "bandit_camp_4" },
+          { "npc_lose_var": "currently_busy", "type": "general", "context": "trade" },
+          { "npc_lose_var": "npc_making_car", "type": "timer", "context": "trade" },
+          { "npc_lose_var": "u_want_scooter_electric", "type": "general", "context": "trade" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Thanks.",
+        "condition": { 
+          "and": [ 
+            { "npc_has_var": "u_want_scooter_electric", "type": "general", "context": "trade", "value": "yes" },
+            { "npc_near_om_location": "bandit_garage_1", "range": 0 } 
+            ] 
+          },
+        "effect": [
+          { "mapgen_update": "bandits_place_scooter_electric", "om_terrain": "bandit_garage_1" },
+          { "npc_lose_var": "currently_busy", "type": "general", "context": "trade" },
+          { "npc_lose_var": "npc_making_car", "type": "timer", "context": "trade" },
+          { "npc_lose_var": "u_want_scooter_electric", "type": "general", "context": "trade" }
+        ],
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_HELLS_RAIDERS_BANDIT_MECHANIC_Not_Ready",
+    "dynamic_line": "It's not ready yet, come back later.",
+    "responses": [ { "text": "Okay.", "topic": "TALK_DONE" } ]
+  }
+]
