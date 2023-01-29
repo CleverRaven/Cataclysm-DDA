@@ -707,17 +707,6 @@ void talk_function::start_camp( npc &p )
     }
 }
 
-void talk_function::recover_camp( npc &p )
-{
-    const tripoint_abs_omt omt_pos = p.global_omt_location();
-    const std::string &omt_ref = overmap_buffer.ter( omt_pos ).id().c_str();
-    if( omt_ref.find( "faction_base_camp" ) == std::string::npos ) {
-        popup( _( "There is no faction camp here to recover!" ) );
-        return;
-    }
-    get_basecamp( p );
-}
-
 void talk_function::remove_overseer( npc &p )
 {
     size_t suffix = p.get_name().find( _( ", Camp Manager" ) );

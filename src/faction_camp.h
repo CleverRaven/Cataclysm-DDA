@@ -41,8 +41,6 @@ void basecamp_mission( npc & );
 void become_overseer( npc & );
 ///Changes an NPC follower to a camp manager, displays camp warnings, and sets the current OM tile to a camp survey
 void start_camp( npc & );
-///Changes an NPC follower to a camp manager of an existing camp.
-void recover_camp( npc & );
 ///Changes an NPC camp manager to a follower
 void remove_overseer( npc & );
 
