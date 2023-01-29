@@ -1841,7 +1841,7 @@ void basecamp::start_upgrade( const mission_id &miss_id )
     //Stop upgrade if you don't have materials
     if( making.deduped_requirements().can_make_with_inventory(
             _inv, making.get_component_filter() ) ) {
-        bool must_feed = miss_id.parameters != "faction_base_camp_1";
+        bool must_feed = !making.has_flag( "NO_FOOD_REQ" );
 
         basecamp_action_components components( making, 1, *this );
         if( !components.choose_components() ) {
