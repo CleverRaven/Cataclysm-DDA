@@ -395,7 +395,22 @@
     "rating": "bad",
     "resist_traits": [ "GASTROPOD_FOOT" ],
     "show_in_info": true,
-    "flags": [ "DISABLE_FLIGHT" ]
+    "flags": [ "DISABLE_FLIGHT", "EFFECT_LIMB_SCORE_MOD" ],
+    "limb_score_mods": [
+      {
+        "limb_score": "balance",
+        "modifier": 0.1,
+        "resist_modifier": 0.8
+      },
+      {
+        "limb_score": "reaction",
+        "modifier": 0.5
+      },
+      {
+        "limb_score": "blocking",
+        "modifier": 0.5
+      }
+    ]
   },
   {
     "type": "effect_type",
@@ -440,7 +455,30 @@
       "pain_min": [ 1 ],
       "pain_chance": [ 1 ],
       "pain_max_val": [ 20 ]
-    }
+    },
+    "limb_score_mods": [
+      {
+        "limb_score": "reaction",
+        "modifier": 0.5
+      },
+      {
+        "limb_score": "lift",
+        "modifier": 0.75
+      },
+      {
+        "limb_score": "blocking",
+        "modifier": 0.75
+      },
+      {
+        "limb_score": "manip",
+        "modifier": 0.5
+      },
+      {
+        "limb_score": "swim",
+        "modifier": 0.3
+      }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
@@ -2216,7 +2254,8 @@
       "pkill_max_val": [ 30 ],
       "stamina_chance": [ 2 ],
       "stamina_min": [ -2 ]
-    }
+    },
+    "flags": [ "EFFECT_LIMB_SCORE_MOD_LOCAL" ]
   },
   {
     "type": "effect_type",
@@ -2656,7 +2695,15 @@
       "sleep_chance": [ 501 ],
       "pkill_max_val": [ 10 ],
       "pkill_tick": [ -10 ]
-    }
+    },
+    "limb_score_mods": [
+      {
+        "limb_score": "night_vis",
+        "modifier": 3.0,
+        "scaling": 1.0
+      }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD"]
   },
   {
     "type": "effect_type",

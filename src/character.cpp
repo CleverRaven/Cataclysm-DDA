@@ -5397,6 +5397,7 @@ bool Character::is_elec_immune() const
 
 bool Character::is_immune_effect( const efftype_id &eff ) const
 {
+    bool ret = false;
     if( eff == effect_downed ) {
         return is_throw_immune() || ( has_trait( trait_LEG_TENT_BRACE ) && is_barefoot() );
     } else if( eff == effect_onfire ) {
