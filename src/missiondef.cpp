@@ -193,12 +193,9 @@ enum legacy_mission_type_id {
 static const std::map<std::string, std::function<void( mission * )>> mission_function_map = {{
         // Starts
         { "standard", { } },
-        { "place_dog", mission_start::place_dog },
         { "place_zombie_mom", mission_start::place_zombie_mom },
-        { "kill_horde_master", mission_start::kill_horde_master },
         { "kill_nemesis", mission_start::kill_nemesis },
         { "place_npc_software", mission_start::place_npc_software },
-        { "place_priest_diary", mission_start::place_priest_diary },
         { "place_deposit_box", mission_start::place_deposit_box },
         { "find_safety", mission_start::find_safety },
         { "place_book", mission_start::place_book },
@@ -206,9 +203,7 @@ static const std::map<std::string, std::function<void( mission * )>> mission_fun
         { "create_lab_console", mission_start::create_lab_console },
         { "create_hidden_lab_console", mission_start::create_hidden_lab_console },
         { "create_ice_lab_console", mission_start::create_ice_lab_console },
-        { "reveal_lab_train_depot", mission_start::reveal_lab_train_depot },
         // Endings
-        { "deposit_box", mission_end::deposit_box }
         // Failures
     }
 };
@@ -408,6 +403,8 @@ void mission_type::load( const JsonObject &jo, const std::string &src )
     if( jo.has_member( "goal_condition" ) ) {
         read_condition<mission_goal_condition_context>( jo, "goal_condition", goal_condition, true );
     }
+
+    optional( jo, was_loaded, "invisible_on_complete", invisible_on_complete, false );
 }
 
 bool mission_type::test_goal_condition( const mission_goal_condition_context &d ) const

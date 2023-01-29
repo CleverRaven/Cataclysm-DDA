@@ -11,7 +11,7 @@
     "damage_modifier": 60,
     "durability": 15,
     "folded_volume": "1 L",
-    "size": 60,
+    "size": "15 L",
     "item": "bag_canvas",
     "location": "center",
     "requirements": {
@@ -34,7 +34,7 @@
     "broken_color": "brown",
     "damage_modifier": 60,
     "durability": 75,
-    "size": 600,
+    "size": "150 L",
     "item": "basket",
     "location": "center",
     "requirements": {
@@ -75,7 +75,7 @@
     "broken_color": "brown",
     "durability": 75,
     "description": "Storage space, mounted outside your vehicle's armor and vulnerable to damage.",
-    "size": 200,
+    "size": "50 L",
     "damage_modifier": 60,
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
@@ -97,7 +97,7 @@
     "broken_color": "brown",
     "damage_modifier": 60,
     "durability": 75,
-    "size": 600,
+    "size": "150 L",
     "folded_volume": "6 L",
     "item": "folding_basket",
     "location": "center",
@@ -126,7 +126,7 @@
     "damage_modifier": 60,
     "durability": 75,
     "folded_volume": "1500 ml",
-    "size": 80,
+    "size": "20 L",
     "item": "bike_basket",
     "location": "center",
     "requirements": {
@@ -176,7 +176,7 @@
     "broken_color": "brown",
     "durability": 75,
     "description": "Storage space, mounted outside your vehicle's armor and vulnerable to damage.",
-    "size": 60,
+    "size": "15 L",
     "damage_modifier": 60,
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
@@ -198,7 +198,7 @@
     "broken_color": "brown",
     "damage_modifier": 60,
     "durability": 100,
-    "size": 275,
+    "size": "68750 ml",
     "item": "frame",
     "location": "center",
     "requirements": {
@@ -236,7 +236,7 @@
     "broken_color": "dark_gray",
     "durability": 250,
     "description": "Storage space, mounted outside your vehicle's armor and vulnerable to damage.",
-    "size": 1000,
+    "size": "250 L",
     "breaks_into": [  ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
@@ -285,7 +285,6 @@
     "broken_color": "dark_gray",
     "durability": 75,
     "description": "Spare tire stored on an external carrier rig.",
-    "size": 60,
     "damage_modifier": 60,
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },

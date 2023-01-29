@@ -106,6 +106,16 @@ std::vector<mission *> mission::get_all_active()
     return ret;
 }
 
+void mission::remove_active_world_mission( mission &cur_mission )
+{
+    for( auto iter = world_missions.begin(); iter != world_missions.end(); iter++ ) {
+        if( iter->second.get_id() == cur_mission.get_id() && iter->second.in_progress() ) {
+            world_missions.erase( iter );
+            break;
+        }
+    }
+}
+
 void mission::add_existing( const mission &m )
 {
     world_missions[ m.uid ] = m;

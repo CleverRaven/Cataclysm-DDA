@@ -159,7 +159,7 @@
   },
   {
     "id": "crt_fire_glove",
-    "type": "GUN",
+    "type": "ARMOR",
     "name": "C.R.I.T Fire Glove",
     "description": "Experimental CQB weapon system under development in C.R.I.T R&D.",
     "weight": "650 g",
@@ -189,7 +189,8 @@
       [ "underbarrel", 1 ]
     ],
     "ammo_effects": [ "STREAM", "INCENDIARY" ],
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "UNARMED_WEAPON", "DURABLE_MELEE", "NON_FOULING" ]
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "DURABLE_MELEE", "NON_FOULING" ],
+    "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "hand_r" ] } ]
   },
   {
     "id": "pelletgun",

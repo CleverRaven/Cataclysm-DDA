@@ -1510,14 +1510,13 @@ bool read_activity_actor::player_read( avatar &you )
             read_book( *learner, islotbook, skill_level, penalty );
             const int newSkillLevel = skill_level.knowledgeLevel();
 
-
             // levels up the skill
             if( newSkillLevel != originalSkillLevel ) {
                 get_event_bus().send<event_type::gains_skill_level>(
                     learner->getID(), skill, skill_level.knowledgeLevel() );
 
                 if( learner->is_avatar() ) {
-                    add_msg( m_good, _( "You theoretical knowledge of %s increases to level %d." ), skill.obj().name(),
+                    add_msg( m_good, _( "Your theoretical knowledge of %s increases to level %d." ), skill.obj().name(),
                              originalSkillLevel + 1 );
                 } else {
                     add_msg( m_good, _( "%s increases their %s knowledge." ), learner->disp_name(),
@@ -2124,7 +2123,6 @@ void boltcutting_activity_actor::finish( player_activity &act, Character &who )
                        true, "tool", "boltcutters" );
     }
 
-
     for( const activity_byproduct &byproduct : data->byproducts() ) {
         const int amount = byproduct.roll();
         if( byproduct.item->count_by_charges() ) {
@@ -2161,7 +2159,6 @@ std::unique_ptr<activity_actor> boltcutting_activity_actor::deserialize( JsonVal
     data.read( "tool", actor.tool );
     return actor.clone();
 }
-
 
 lockpick_activity_actor lockpick_activity_actor::use_item(
     int moves_total,
@@ -2698,7 +2695,6 @@ void try_sleep_activity_actor::finish( player_activity &act, Character &who )
     }
     who.set_movement_mode( move_mode_walk );
 }
-
 
 void try_sleep_activity_actor::canceled( player_activity &, Character &who )
 {
@@ -3962,7 +3958,7 @@ void insert_item_activity_actor::finish( player_activity &act, Character &who )
     }
 
     items.pop_front();
-    if( items.empty() || !success ) {
+    if( items.empty() || !success || items.front().first == item_location::nowhere ) {
         handler.handle_by( who );
         act.set_to_null();
         return;
@@ -6125,7 +6121,6 @@ std::unique_ptr<activity_actor> mop_activity_actor::deserialize( JsonValue &jsin
     return actor.clone();
 }
 
-
 void unload_loot_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
@@ -6430,8 +6425,18 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
                     for( item *contained : it->first->all_items_top( item_pocket::pocket_type::MAGAZINE ) ) {
                         // no liquids don't want to spill stuff
                         if( !contained->made_of( phase_id::LIQUID ) && !contained->made_of( phase_id::GAS ) ) {
+                            if( it->first->is_ammo_belt() ) {
+                                if( it->first->type->magazine->linkage ) {
+                                    item link( *it->first->type->magazine->linkage, calendar::turn, contained->count() );
+                                    here.add_item_or_charges( src_loc, link );
+                                }
+                            }
                             move_item( you, *contained, contained->count(), src_loc, src_loc, this_veh, this_part );
                             it->first->remove_item( *contained );
+
+                            if( it->first->has_flag( flag_MAG_DESTROY ) && it->first->ammo_remaining() == 0 ) {
+                                here.i_rem( src_loc, it->first );
+                            }
                         }
                         if( you.moves <= 0 ) {
                             return;

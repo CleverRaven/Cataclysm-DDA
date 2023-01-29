@@ -112,7 +112,7 @@ bool Character::list_ammo( const item_location &base, std::vector<item::reload_o
 }
 
 item::reload_option Character::select_ammo( const item_location &base,
-        std::vector<item::reload_option> opts, const std::string name_override ) const
+        std::vector<item::reload_option> opts, const std::string &name_override ) const
 {
     if( opts.empty() ) {
         add_msg_if_player( m_info, _( "Never mind." ) );
@@ -203,7 +203,6 @@ item::reload_option Character::select_ammo( const item_location &base,
     w = pad( destination, utf8_width( _( "| Destination " ) ) - 3, 6 );
     menu.text += _( "| Destination " );
     menu.text += std::string( w + 3 - utf8_width( _( "| Destination " ) ), ' ' );
-
 
     menu.text += _( "| Amount  " );
     menu.text += _( "| Moves   " );

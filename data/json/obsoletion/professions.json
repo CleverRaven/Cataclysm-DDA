@@ -1,0 +1,49 @@
+[
+  {
+    "type": "profession",
+    "id": "mili_burner",
+    "name": "Military Corpse Disposal",
+    "description": "In response to the outbreak, you were dispatched to contain the infection by burning the corpses.  With command consumed by the undead, your priorities have shifted to basic survival.",
+    "obsolete": true,
+    "points": 6,
+    "skills": [
+      { "level": 3, "name": "gun" },
+      { "level": 3, "name": "rifle" },
+      { "level": 3, "name": "launcher" },
+      { "level": 2, "name": "melee" },
+      { "level": 2, "name": "pistol" },
+      { "level": 2, "name": "survival" },
+      { "level": 2, "name": "firstaid" },
+      { "level": 2, "name": "stabbing" },
+      { "level": 2, "name": "swimming" }
+    ],
+    "items": {
+      "both": {
+        "items": [
+          "pants_army",
+          "socks",
+          "undershirt",
+          "boots_combat",
+          "wristwatch",
+          "gloves_tactical",
+          "helmet_army",
+          "jacket_army_modern",
+          "webbing_belt",
+          "chestpouch"
+        ],
+        "entries": [
+          { "group": "charged_two_way_radio" },
+          { "group": "full_gasmask" },
+          { "item": "water_clean", "container-item": "canteen" },
+          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "flamethrower", "ammo-item": "napalm", "charges": 3000, "custom-flags": [ "auto_wield" ] },
+          { "item": "m17", "ammo-item": "9mm", "container-item": "holster", "charges": 17 },
+          { "item": "p320mag_17rd_9x19mm", "ammo-item": "9mm", "charges": 17 },
+          { "item": "knife_combat", "container-item": "sheath" }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
+    }
+  }
+]

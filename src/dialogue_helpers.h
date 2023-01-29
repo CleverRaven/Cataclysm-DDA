@@ -15,7 +15,6 @@ using dialogue_fun_ptr = std::add_pointer<void( npc & )>::type;
 
 using trial_mod = std::pair<std::string, int>;
 
-
 template<class T>
 struct talk_effect_fun_t {
     private:
@@ -60,43 +59,38 @@ struct talk_effect_fun_t {
         void set_add_var( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_remove_var( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_adjust_var( const JsonObject &jo, const std::string &member, bool is_npc = false );
-        void set_u_spawn_item( const JsonObject &jo, const std::string &member, int count,
-                               const std::string &container_name );
-        void set_u_buy_item( const itype_id &item_name, int cost, int count,
-                             const std::string &container_name, const JsonObject &jo );
-        void set_u_spend_cash( int amount, const JsonObject &jo );
-        void set_u_sell_item( const itype_id &item_name, int cost, int count, const JsonObject &jo );
-        void set_consume_item( const JsonObject &jo, const std::string &member, int count, int charges,
-                               bool is_npc = false );
+        void set_u_spawn_item( const JsonObject &jo, const std::string &member );
+        void set_u_buy_item( const JsonObject &jo, const std::string &member );
+        void set_u_spend_cash( const JsonObject &jo, const std::string &member );
+        void set_u_sell_item( const JsonObject &jo, const std::string &member );
+        void set_consume_item( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_remove_item_with( const JsonObject &jo, const std::string &member, bool is_npc = false );
-        void set_npc_change_faction( const std::string &faction_name );
-        void set_npc_change_class( const std::string &class_name );
-        void set_change_faction_rep( int rep_change );
+        void set_npc_change_faction( const JsonObject &jo, const std::string &member );
+        void set_npc_change_class( const JsonObject &jo, const std::string &member );
+        void set_change_faction_rep( const JsonObject &jo, const std::string &member );
         void set_add_debt( const std::vector<trial_mod> &debt_modifiers );
-        void set_toggle_npc_rule( const std::string &rule );
-        void set_set_npc_rule( const std::string &rule );
-        void set_clear_npc_rule( const std::string &rule );
-        void set_npc_engagement_rule( const std::string &setting );
-        void set_npc_aim_rule( const std::string &setting );
-        void set_npc_cbm_reserve_rule( const std::string &setting );
-        void set_npc_cbm_recharge_rule( const std::string &setting );
+        void set_toggle_npc_rule( const JsonObject &jo, const std::string &member );
+        void set_set_npc_rule( const JsonObject &jo, const std::string &member );
+        void set_clear_npc_rule( const JsonObject &jo, const std::string &member );
+        void set_npc_engagement_rule( const JsonObject &jo, const std::string &member );
+        void set_npc_aim_rule( const JsonObject &jo, const std::string &member );
+        void set_npc_cbm_reserve_rule( const JsonObject &jo, const std::string &member );
+        void set_npc_cbm_recharge_rule( const JsonObject &jo, const std::string &member );
         void set_location_variable( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_transform_radius( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_transform_line( const JsonObject &jo, const std::string &member );
         void set_place_override( const JsonObject &jo, const std::string &member );
         void set_mapgen_update( const JsonObject &jo, const std::string &member );
-        void set_remove_npc( const JsonObject &jo, const std::string &member );
         void set_alter_timed_events( const JsonObject &jo, const std::string &member );
         void set_revert_location( const JsonObject &jo, const std::string &member );
         void set_npc_goal( const JsonObject &jo, const std::string &member );
-        void set_bulk_trade_accept( bool is_trade, int quantity, bool is_npc = false );
+        void set_bulk_trade_accept( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_npc_gets_item( bool to_use );
-        void set_add_mission( const std::string &mission_id );
+        void set_add_mission( const JsonObject &jo, const std::string &member );
         const std::vector<std::pair<int, itype_id>> &get_likely_rewards() const;
-        void set_u_buy_monster( const std::string &monster_type_id, int cost, int count, bool pacified,
-                                const translation &name, const JsonObject &jo );
-        void set_u_learn_recipe( const std::string &learned_recipe_id );
-        void set_npc_first_topic( const std::string &chat_topic );
+        void set_u_buy_monster( const JsonObject &jo, const std::string &member );
+        void set_u_learn_recipe( const JsonObject &jo, const std::string &member );
+        void set_npc_first_topic( const JsonObject &jo, const std::string &member );
         void set_add_morale( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_lose_morale( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_add_faction_trust( const JsonObject &jo, const std::string &member );
@@ -118,7 +112,6 @@ struct talk_effect_fun_t {
             return function( d );
         }
 };
-
 
 struct var_info {
     var_info( var_type in_type, std::string in_name ): type( in_type ),
@@ -161,7 +154,6 @@ static std::string read_var_value( const var_info &info, const T &d )
     return ret_val;
 }
 
-
 template<class T>
 struct str_or_var {
     cata::optional<std::string> str_val;
@@ -178,7 +170,12 @@ struct str_or_var {
             if( default_val.has_value() ) {
                 return default_val.value();
             } else {
-                debugmsg( "No default provided for str_or_var_part" );
+                std::string var_name = var_val.value().name;
+                if( var_name.find( "npctalk_var" ) != std::string::npos ) {
+                    var_name = var_name.substr( 12 );
+                }
+                debugmsg( "No default value provided for str_or_var_part while encountering unused variable %s.  Add a \"default_str\" member to prevent this.",
+                          var_name );
                 return "";
             }
         } else {
@@ -205,7 +202,12 @@ struct int_or_var_part {
             if( default_val.has_value() ) {
                 return default_val.value();
             } else {
-                debugmsg( "No default provided for int_or_var_part" );
+                std::string var_name = var_val.value().name;
+                if( var_name.find( "npctalk_var" ) != std::string::npos ) {
+                    var_name = var_name.substr( 12 );
+                }
+                debugmsg( "No default value provided for int_or_var_part while encountering unused variable %s.  Add a \"default\" member to prevent this.",
+                          var_name );
                 return 0;
             }
         } else if( arithmetic_val.has_value() ) {
@@ -258,7 +260,12 @@ struct duration_or_var_part {
             if( default_val.has_value() ) {
                 return default_val.value();
             } else {
-                debugmsg( "No default provided for duration_or_var_part" );
+                std::string var_name = var_val.value().name;
+                if( var_name.find( "npctalk_var" ) != std::string::npos ) {
+                    var_name = var_name.substr( 12 );
+                }
+                debugmsg( "No default value provided for duration_or_var_part while encountering unused variable %s.  Add a \"default\" member to prevent this.",
+                          var_name );
                 return 0_seconds;
             }
         } else if( arithmetic_val.has_value() ) {
