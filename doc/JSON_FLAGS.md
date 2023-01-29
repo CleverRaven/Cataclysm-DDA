@@ -1236,7 +1236,8 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 
 ## Recipes
 
-### Categories
+### Crafting recipes
+These flags apply to crafting recipes, i.e. those that fall within the following categories:
 
 - ```CC_AMMO```
 - ```CC_ARMOR```
@@ -1247,7 +1248,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```CC_MISC```
 - ```CC_WEAPON```
 
-### Flags
+#### Flags
 
 - ```ALLOW_ROTTEN``` Explicitly allow rotten components when crafting non-perishables.
 - ```BLIND_EASY``` Easy to craft with little to no light.
@@ -1257,16 +1258,14 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```NEED_FULL_MAGAZINE``` If this recipe requires magazines, it needs one that is full.
 - ```FULL_MAGAZINE``` Crafted or deconstructed items from this recipe will have fully-charged magazines.
 
-### Categories
+### Camp building recipes
+These flags apply only to camp building recipes (hubs and expansions), i.e. those that have category `CC_BUILDING`.
 
-- ```CC_BUILDING```
-
-### Flags
-
-These flags apply only to camp building recipes (hubs and expansions). The purpose is to allow reuse of blueprints to create the "same"
-facility oriented differently. Mirroring takes place before rotation, and it is an error to try to apply mirroring multiple times with the
-same orientation, as well as to try to apply multiple rotations. It is permitted to apply different versions of the flags if they apply to
-different directions (and it is indeed the primary intended usage).
+#### Flags
+The purpose of these flags is to allow reuse of blueprints to create the "same" facility oriented differently. Mirroring takes place before
+rotation, and it is an error to try to apply mirroring multiple times with the same orientation, as well as to try to apply multiple
+rotations. It is permitted to apply different versions of the flags if they apply to different directions (and it is indeed the primary
+intended usage).
 
 - ```MAP_MIRROR_HORIZONTAL``` Causes the building recipe to mirror both the location and contents of the blueprint(s) used by the recipe.
 - ```MAP_MIRROR_VERTICAL``` Causes the building recipe to mirror both the location and contents of the blueprint(s) used by the recipe.
