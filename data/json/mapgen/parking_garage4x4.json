@@ -128,9 +128,9 @@
       "palettes": [ "parking_garage4x4_palette" ],
       "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 3, 17 ], "y": [ 13, 15 ], "chance": 20 } ],
       "vehicles": {
-            "Á": { "vehicle": "parking_garage", "chance": 33, "rotation": 270 },
-            "É": { "vehicle": "motorcycle", "chance": 33, "rotation": 90 }
-          }
+        "Á": { "vehicle": "parking_garage", "chance": 33, "rotation": 270 },
+        "É": { "vehicle": "motorcycle", "chance": 33, "rotation": 90 }
+      }
     }
   },
   {
@@ -193,9 +193,9 @@
       "palettes": [ "parking_garage4x4_palette" ],
       "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 3, 17 ], "y": [ 13, 15 ], "chance": 20 } ],
       "vehicles": {
-            "Á": { "vehicle": "parking_garage", "chance": 33, "rotation": 270 },
-            "É": { "vehicle": "motorcycle", "chance": 33, "rotation": 90 }
-          },
+        "Á": { "vehicle": "parking_garage", "chance": 33, "rotation": 270 },
+        "É": { "vehicle": "motorcycle", "chance": 33, "rotation": 90 }
+      },
       "place_loot": [ { "group": "cash_register_random", "x": 44, "y": [ 1, 2 ] } ]
     }
   },
@@ -330,9 +330,9 @@
       "palettes": [ "parking_garage4x4_palette" ],
       "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 3, 17 ], "y": [ 13, 15 ], "chance": 20 } ],
       "vehicles": {
-            "Á": { "vehicle": "parking_garage", "chance": 33, "rotation": 270 },
-            "É": { "vehicle": "motorcycle", "chance": 33, "rotation": 90 }
-          }
+        "Á": { "vehicle": "parking_garage", "chance": 33, "rotation": 270 },
+        "É": { "vehicle": "motorcycle", "chance": 33, "rotation": 90 }
+      }
     }
   },
   {
@@ -371,9 +371,9 @@
       "palettes": [ "parking_garage4x4_palette" ],
       "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 3, 17 ], "y": [ 13, 15 ], "chance": 20 } ],
       "vehicles": {
-            "Á": { "vehicle": "parking_garage", "chance": 33, "rotation": 270 },
-            "É": { "vehicle": "motorcycle", "chance": 33, "rotation": 90 }
-          }
+        "Á": { "vehicle": "parking_garage", "chance": 33, "rotation": 270 },
+        "É": { "vehicle": "motorcycle", "chance": 33, "rotation": 90 }
+      }
     }
   },
   {
