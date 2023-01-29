@@ -197,12 +197,12 @@
     "responses": [
       {
         "text": "Thanks.",
-        "condition": { 
-          "and": [ 
+        "condition": {
+          "and": [
             { "npc_has_var": "u_want_bicycle", "type": "general", "context": "trade", "value": "yes" },
-            { "npc_near_om_location": "bandit_camp_4", "range": 0 } 
-            ] 
-          },
+            { "npc_near_om_location": "bandit_camp_4", "range": 0 }
+          ]
+        },
         "effect": [
           { "mapgen_update": "bandits_place_bicycle", "om_terrain": "bandit_camp_4" },
           { "npc_lose_var": "currently_busy", "type": "general", "context": "trade" },
@@ -213,12 +213,12 @@
       },
       {
         "text": "Thanks.",
-        "condition": { 
-          "and": [ 
+        "condition": {
+          "and": [
             { "npc_has_var": "u_want_bicycle", "type": "general", "context": "trade", "value": "yes" },
-            { "npc_near_om_location": "bandit_garage_1", "range": 0 } 
-            ] 
-          },
+            { "npc_near_om_location": "bandit_garage_1", "range": 0 }
+          ]
+        },
         "effect": [
           { "mapgen_update": "bandits_place_bicycle", "om_terrain": "bandit_garage_1" },
           { "npc_lose_var": "currently_busy", "type": "general", "context": "trade" },
@@ -226,15 +226,15 @@
           { "npc_lose_var": "u_want_bicycle", "type": "general", "context": "trade" }
         ],
         "topic": "TALK_DONE"
-      },  
+      },
       {
         "text": "Thanks.",
-        "condition": { 
-          "and": [ 
+        "condition": {
+          "and": [
             { "npc_has_var": "u_want_bicycle_dirt", "type": "general", "context": "trade", "value": "yes" },
-            { "npc_near_om_location": "bandit_camp_4", "range": 0 } 
-            ] 
-          },
+            { "npc_near_om_location": "bandit_camp_4", "range": 0 }
+          ]
+        },
         "effect": [
           { "mapgen_update": "bandits_place_bicycle_dirt", "om_terrain": "bandit_camp_4" },
           { "npc_lose_var": "currently_busy", "type": "general", "context": "trade" },
@@ -242,15 +242,15 @@
           { "npc_lose_var": "u_want_bicycle_dirt", "type": "general", "context": "trade" }
         ],
         "topic": "TALK_DONE"
-      }, 
+      },
       {
         "text": "Thanks.",
-        "condition": { 
-          "and": [ 
+        "condition": {
+          "and": [
             { "npc_has_var": "u_want_bicycle_dirt", "type": "general", "context": "trade", "value": "yes" },
-            { "npc_near_om_location": "bandit_garage_1", "range": 0 } 
-            ] 
-          },
+            { "npc_near_om_location": "bandit_garage_1", "range": 0 }
+          ]
+        },
         "effect": [
           { "mapgen_update": "bandits_place_bicycle_dirt", "om_terrain": "bandit_garage_1" },
           { "npc_lose_var": "currently_busy", "type": "general", "context": "trade" },
@@ -261,12 +261,12 @@
       },
       {
         "text": "Thanks.",
-        "condition": { 
-          "and": [ 
+        "condition": {
+          "and": [
             { "npc_has_var": "u_want_bicycle_electric", "type": "general", "context": "trade", "value": "yes" },
-            { "npc_near_om_location": "bandit_camp_4", "range": 0 } 
-            ] 
-          },
+            { "npc_near_om_location": "bandit_camp_4", "range": 0 }
+          ]
+        },
         "effect": [
           { "mapgen_update": "bandits_place_bicycle_electric", "om_terrain": "bandit_camp_4" },
           { "npc_lose_var": "currently_busy", "type": "general", "context": "trade" },
@@ -277,12 +277,12 @@
       },
       {
         "text": "Thanks.",
-        "condition": { 
-          "and": [ 
+        "condition": {
+          "and": [
             { "npc_has_var": "u_want_bicycle_electric", "type": "general", "context": "trade", "value": "yes" },
-            { "npc_near_om_location": "bandit_garage_1", "range": 0 } 
-            ] 
-          },
+            { "npc_near_om_location": "bandit_garage_1", "range": 0 }
+          ]
+        },
         "effect": [
           { "mapgen_update": "bandits_place_bicycle_electric", "om_terrain": "bandit_garage_1" },
           { "npc_lose_var": "currently_busy", "type": "general", "context": "trade" },
@@ -293,12 +293,12 @@
       },
       {
         "text": "Thanks.",
-        "condition": { 
-          "and": [ 
+        "condition": {
+          "and": [
             { "npc_has_var": "u_want_motorcycle_enduro", "type": "general", "context": "trade", "value": "yes" },
-            { "npc_near_om_location": "bandit_camp_4", "range": 0 } 
-            ] 
-          },
+            { "npc_near_om_location": "bandit_camp_4", "range": 0 }
+          ]
+        },
         "effect": [
           { "mapgen_update": "bandits_place_motorcycle_enduro", "om_terrain": "bandit_camp_4" },
           { "npc_lose_var": "currently_busy", "type": "general", "context": "trade" },
@@ -309,12 +309,12 @@
       },
       {
         "text": "Thanks.",
-        "condition": { 
-          "and": [ 
+        "condition": {
+          "and": [
             { "npc_has_var": "u_want_motorcycle_enduro", "type": "general", "context": "trade", "value": "yes" },
-            { "npc_near_om_location": "bandit_garage_1", "range": 0 } 
-            ] 
-          },
+            { "npc_near_om_location": "bandit_garage_1", "range": 0 }
+          ]
+        },
         "effect": [
           { "mapgen_update": "bandits_place_motorcycle_enduro", "om_terrain": "bandit_garage_1" },
           { "npc_lose_var": "currently_busy", "type": "general", "context": "trade" },
@@ -325,12 +325,12 @@
       },
       {
         "text": "Thanks.",
-        "condition": { 
-          "and": [ 
+        "condition": {
+          "and": [
             { "npc_has_var": "u_want_motorcycle_sidecart", "type": "general", "context": "trade", "value": "yes" },
-            { "npc_near_om_location": "bandit_camp_4", "range": 0 } 
-            ] 
-          },
+            { "npc_near_om_location": "bandit_camp_4", "range": 0 }
+          ]
+        },
         "effect": [
           { "mapgen_update": "bandits_place_motorcycle_sidecart", "om_terrain": "bandit_camp_4" },
           { "npc_lose_var": "currently_busy", "type": "general", "context": "trade" },
@@ -341,12 +341,12 @@
       },
       {
         "text": "Thanks.",
-        "condition": { 
-          "and": [ 
+        "condition": {
+          "and": [
             { "npc_has_var": "u_want_motorcycle_sidecart", "type": "general", "context": "trade", "value": "yes" },
-            { "npc_near_om_location": "bandit_garage_1", "range": 0 } 
-            ] 
-          },
+            { "npc_near_om_location": "bandit_garage_1", "range": 0 }
+          ]
+        },
         "effect": [
           { "mapgen_update": "bandits_place_motorcycle_sidecart", "om_terrain": "bandit_garage_1" },
           { "npc_lose_var": "currently_busy", "type": "general", "context": "trade" },
@@ -357,12 +357,12 @@
       },
       {
         "text": "Thanks.",
-        "condition": { 
-          "and": [ 
+        "condition": {
+          "and": [
             { "npc_has_var": "u_want_scooter", "type": "general", "context": "trade", "value": "yes" },
-            { "npc_near_om_location": "bandit_camp_4", "range": 0 } 
-            ] 
-          },
+            { "npc_near_om_location": "bandit_camp_4", "range": 0 }
+          ]
+        },
         "effect": [
           { "mapgen_update": "bandits_place_scooter", "om_terrain": "bandit_camp_4" },
           { "npc_lose_var": "currently_busy", "type": "general", "context": "trade" },
@@ -373,12 +373,12 @@
       },
       {
         "text": "Thanks.",
-        "condition": { 
-          "and": [ 
+        "condition": {
+          "and": [
             { "npc_has_var": "u_want_scooter", "type": "general", "context": "trade", "value": "yes" },
-            { "npc_near_om_location": "bandit_garage_1", "range": 0 } 
-            ] 
-          },
+            { "npc_near_om_location": "bandit_garage_1", "range": 0 }
+          ]
+        },
         "effect": [
           { "mapgen_update": "bandits_place_scooter", "om_terrain": "bandit_garage_1" },
           { "npc_lose_var": "currently_busy", "type": "general", "context": "trade" },
@@ -389,12 +389,12 @@
       },
       {
         "text": "Thanks.",
-        "condition": { 
-          "and": [ 
+        "condition": {
+          "and": [
             { "npc_has_var": "u_want_scooter_electric", "type": "general", "context": "trade", "value": "yes" },
-            { "npc_near_om_location": "bandit_camp_4", "range": 0 } 
-            ] 
-          },
+            { "npc_near_om_location": "bandit_camp_4", "range": 0 }
+          ]
+        },
         "effect": [
           { "mapgen_update": "bandits_place_scooter_electric", "om_terrain": "bandit_camp_4" },
           { "npc_lose_var": "currently_busy", "type": "general", "context": "trade" },
@@ -405,8 +405,8 @@
       },
       {
         "text": "Thanks.",
-        "condition": { 
-          "and": [ 
+        "condition": {
+          "and": [
             { "npc_has_var": "u_want_scooter_electric", "type": "general", "context": "trade", "value": "yes" },
             { "npc_near_om_location": "bandit_garage_1", "range": 0 } 
             ] 
