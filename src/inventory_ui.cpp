@@ -1200,14 +1200,9 @@ inventory_entry *inventory_column::add_entry( const inventory_entry &entry )
                    entry_item->display_stacked_with( *found_entry_item, preset.get_checking_components() );
         } );
         if( entry_with_loc != entries.end() ) {
-            std::vector<item_location> locations = entry_with_loc->locations;
-            locations.insert( locations.end(), entry.locations.begin(), entry.locations.end() );
-            inventory_entry nentry( locations, entry.get_category_ptr(), entry.is_selectable(), 0,
-                                    entry_with_loc->generation, entry_with_loc->topmost_parent,
-                                    entry_with_loc->chevron );
-            nentry.collapsed = entry_with_loc->collapsed;
-            entries.erase( entry_with_loc );
-            return add_entry( nentry );
+            std::vector<item_location> &locations = entry_with_loc->locations;
+            std::move( entry.locations.begin(), entry.locations.end(), std::back_inserter( locations ) );
+            return &*entry_with_loc;
         }
     }
 
