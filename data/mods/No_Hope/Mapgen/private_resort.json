@@ -3,6 +3,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "p_resort_1nw", "p_resort_1nn", "p_resort_1ne" ], [ "null", "p_resort_1mm", "p_resort_1ee" ] ],
+    "weight": 100000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -104,6 +105,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "p_resort_1ww" ],
+    "weight": 100000,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -140,6 +142,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "p_resort_1sw", "p_resort_1ss", "p_resort_1se" ], [ "p_resort_pw", "p_resort_pm", "p_resort_pe" ] ],
+    "weight": 100000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -193,7 +196,10 @@
         "                             xx__________xx                             "
       ],
       "palettes": [ "p_resort_palette_main_floor" ],
-      "place_vendingmachines": [ { "item_group": "vending_food", "x": 60, "y": 1 }, { "item_group": "vending_drink", "x": 60, "y": 2 } ],
+      "place_vendingmachines": [
+        { "item_group": "vending_food", "x": 60, "y": 1, "lootable": true },
+        { "item_group": "vending_drink", "x": 60, "y": 2, "lootable": true }
+      ],
       "items": {
         "L": [
           {
@@ -236,6 +242,7 @@
       [ "p_resort_2ww", "p_resort_2mm", "p_resort_2ee" ],
       [ "p_resort_2sw", "p_resort_2ss", "p_resort_2se" ]
     ],
+    "weight": 100000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -330,6 +337,7 @@
       [ "p_resort_rww", "p_resort_rmm", "p_resort_ree" ],
       [ "p_resort_rsw", "p_resort_rss", "p_resort_rse" ]
     ],
+    "weight": 100000,
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
@@ -414,6 +422,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "p_resort_0nw" ],
+    "weight": 100000,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -470,6 +479,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "p_resort_0se" ],
+    "weight": 100000,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
