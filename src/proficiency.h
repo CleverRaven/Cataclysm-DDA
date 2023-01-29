@@ -12,7 +12,6 @@
 #include "color.h"
 #include "flat_set.h"
 #include "optional.h"
-#include "options.h"
 #include "translations.h"
 #include "type_id.h"
 
