@@ -2,7 +2,7 @@
   {
     "type": "AMMO",
     "id": "arrow_fire_hardened_fletched",
-    "price": 100,
+    "price": 10,
     "name": { "str": "crude wooden arrow" },
     "symbol": "=",
     "color": "green",
