@@ -257,7 +257,7 @@ TEST_CASE( "vitamin_daily", "[vitamins]" )
     item f( "debug_vitamins" );
 
     subject.consume( f );
-    
+
     int old_tally = subject.get_health_tally();
     int hours = 0;
     while( hours < 72 ) {
