@@ -291,13 +291,26 @@ cata::optional<int> iuse_transform::use( Character &p, item &it, bool t, const t
         }
     }
 
+    if( it.count_by_charges() && it.count() > 1 ) {
+        item take_one = it.split( 1 );
+        do_transform( p, take_one );
+        p.i_add_or_drop( take_one );
+    } else {
+        do_transform( p, it );
+    }
+
+    if( it.is_tool() ) {
+        result = scale;
+    }
+    return result;
+}
+
+void iuse_transform::do_transform( Character &p, item &it ) const
+{
     item obj_copy( it );
     item *obj;
     // defined here to allow making a new item assigned to the pointer
     item obj_it;
-    if( it.is_tool() ) {
-        result = scale;
-    }
     if( container.is_empty() ) {
         obj = &it.convert( target );
         if( ammo_qty >= 0 || !random_ammo_qty.empty() ) {
@@ -343,8 +356,6 @@ cata::optional<int> iuse_transform::use( Character &p, item &it, bool t, const t
             p.on_worn_item_transform( obj_copy, *obj );
         }
     }
-
-    return result;
 }
 
 ret_val<void> iuse_transform::can_use( const Character &p, const item &, bool,

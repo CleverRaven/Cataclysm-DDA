@@ -12,5 +12,11 @@
     "copy-from": "generic_dirt_road",
     "sym": "┌",
     "flags": [ "SHOULD_NOT_SPAWN" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "apartments_con_tower_001", "apartments_con_tower_101" ],
+    "copy-from": "apartments_tower_any",
+    "flags": [ "SHOULD_NOT_SPAWN" ]
   }
 ]

@@ -269,6 +269,7 @@
     "base_energy_cost": 1300,
     "max_level": 30,
     "energy_source": "MANA",
+    "spell_class": "EATER",
     "extra_effects": [ { "id": "spell_stamina" } ]
   },
   {
@@ -386,6 +387,7 @@
     "flags": [ "IGNORE_WALLS", "NO_LEGS", "SILENT", "NO_EXPLOSION_SFX" ],
     "skill": "deduction",
     "energy_source": "MANA",
+    "spell_class": "EATER",
     "difficulty": 9,
     "max_level": 30,
     "effect": "attack",
@@ -454,6 +456,7 @@
     "final_energy_cost": 90,
     "energy_increment": -7,
     "energy_source": "MANA",
+    "spell_class": "EATER",
     "min_aoe": 3,
     "max_aoe": 3
   },

@@ -8194,8 +8194,8 @@ void Character::cancel_activity()
     for( auto backlog_item = backlog.begin(); backlog_item != backlog.end(); ) {
         if( backlog_item->auto_resume &&
             ( !has_adv_inv || backlog_item->id() != ACT_ADV_INVENTORY ) ) {
-            backlog_item++;
             has_adv_inv |= backlog_item->id() == ACT_ADV_INVENTORY;
+            backlog_item++;
         } else {
             backlog_item = backlog.erase( backlog_item );
         }
@@ -9675,16 +9675,16 @@ void Character::process_one_effect( effect &it, bool is_new )
         if( is_new || it.activated( calendar::turn, "HURT", val, reduced, mod ) ) {
             if( bp == bodypart_str_id::NULL_ID() ) {
                 if( val > 5 ) {
-                    add_msg_if_player( _( "Your %s HURTS!" ), body_part_name_accusative( body_part_torso ) );
+                    add_msg_if_player( m_bad, _( "Your %s HURTS!" ), body_part_name_accusative( body_part_torso ) );
                 } else {
-                    add_msg_if_player( _( "Your %s hurts!" ), body_part_name_accusative( body_part_torso ) );
+                    add_msg_if_player( m_bad, _( "Your %s hurts!" ), body_part_name_accusative( body_part_torso ) );
                 }
                 apply_damage( nullptr, body_part_torso, val, true );
             } else {
                 if( val > 5 ) {
-                    add_msg_if_player( _( "Your %s HURTS!" ), body_part_name_accusative( bp ) );
+                    add_msg_if_player( m_bad, _( "Your %s HURTS!" ), body_part_name_accusative( bp ) );
                 } else {
-                    add_msg_if_player( _( "Your %s hurts!" ), body_part_name_accusative( bp ) );
+                    add_msg_if_player( m_bad, _( "Your %s hurts!" ), body_part_name_accusative( bp ) );
                 }
                 apply_damage( nullptr, bp, val, true );
             }
@@ -11459,6 +11459,11 @@ void Character::use( int inventory_position )
 
 void Character::use( item_location loc, int pre_obtain_moves )
 {
+    if( has_effect( effect_incorporeal ) ) {
+        add_msg_if_player( m_bad, _( "You can't use anything while incorporeal." ) );
+        return;
+    }
+
     // if -1 is passed in we don't want to change moves at all
     if( pre_obtain_moves == -1 ) {
         pre_obtain_moves = moves;

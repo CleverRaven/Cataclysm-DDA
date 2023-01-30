@@ -4,11 +4,32 @@
     "id": "evac_teamster",
     "//": "Appears in the refugee center as a source of information and eventually missions.  Works with the free merchant caravans.",
     "name_suffix": "Teamster",
-    "class": "NC_SCAVENGER",
+    "class": "NC_TEAMSTER",
     "attitude": 0,
     "mission": 3,
     "chat": "TALK_FREE_MERCHANT_TEAMSTER",
     "faction": "free_merchants"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_TEAMSTER",
+    "name": { "str": "Scavenger" },
+    "job_description": "I'm just trying to survive.",
+    "traits": [
+      { "group": "BG_survival_story_EVACUEE" },
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" },
+      { "trait": "IGNORE_SOUND" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
+    "skills": [
+      { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 2 ] }, { "constant": -3 } ] } },
+      { "skill": "gun", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "pistol", "bonus": { "rng": [ 2, 5 ] } },
+      { "skill": "rifle", "bonus": { "rng": [ 0, 3 ] } },
+      { "skill": "archery", "bonus": { "rng": [ 0, 3 ] } }
+    ]
   },
   {
     "//": "table of contents - these options will appear in the listed dialogue topics",

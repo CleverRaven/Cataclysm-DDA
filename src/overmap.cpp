@@ -6584,20 +6584,6 @@ void overmap::add_mon_group( const mongroup &group, int radius )
     }
 }
 
-void overmap::for_each_npc( const std::function<void( npc & )> &callback )
-{
-    for( auto &guy : npcs ) {
-        callback( *guy );
-    }
-}
-
-void overmap::for_each_npc( const std::function<void( const npc & )> &callback ) const
-{
-    for( const auto &guy : npcs ) {
-        callback( *guy );
-    }
-}
-
 shared_ptr_fast<npc> overmap::find_npc( const character_id &id ) const
 {
     for( const auto &guy : npcs ) {
