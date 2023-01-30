@@ -714,7 +714,7 @@
     "end": {
       "effect": [
         {
-          "u_message": "You approach the LMOE and do as you were told: prying back a thin piece of metal atop the doorframe, revealing an opening.  You reach inside and grab a handle attached to a wire, pull hard on it, and hear a heavy metal *clunk*.  The door is open.",
+          "u_message": "You approach the LMOE and do as you were told, prying back a thin piece of metal atop the doorframe, revealing an opening.  You reach inside and grab a handle attached to a wire, pull hard on it, and hear a heavy metal *clunk*.  The door is open.",
           "type": "good",
           "popup": true
         },
