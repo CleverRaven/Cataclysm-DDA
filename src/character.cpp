@@ -11577,15 +11577,15 @@ void Character::pause()
 {
     moves = 0;
     recoil = MAX_RECOIL;
-
     map &here = get_map();
-    // Train swimming if underwater
+
+    // effects of being partially/fully underwater
     if( !in_vehicle && !get_map().has_flag_furn( "BRIDGE", pos( ) ) ) {
         if( underwater ) {
-            practice( skill_swimming, 1 );
+            // TODO: gain "swimming" proficiency but not "athletics" skill
             drench( 100, get_drenching_body_parts(), false );
         } else if( here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, pos() ) ) {
-            practice( skill_swimming, 1 );
+            // TODO: gain "swimming" proficiency but not "athletics" skill
             // Same as above, except no head/eyes/mouth
             drench( 100, get_drenching_body_parts( false ), false );
         } else if( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos() ) ) {
