@@ -3657,18 +3657,13 @@ void Character::apply_mut_encumbrance( std::map<bodypart_id, encumbrance_data> &
     // Lower penalty for bps covered only by XL armor
     // Initialized on demand for performance reasons:
     // (calculation is costly, most of players and npcs are don't have encumbering mutations)
-    cata::optional<body_part_set> oversize;
 
     for( const trait_id &mut : all_muts ) {
         for( const std::pair<const bodypart_str_id, int> &enc : mut->encumbrance_always ) {
             total_enc[enc.first] += enc.second;
         }
         for( const std::pair<const bodypart_str_id, int> &enc : mut->encumbrance_covered ) {
-            if( !oversize ) {
-                // initialize on demand
-                oversize = exclusive_flag_coverage( flag_OVERSIZE );
-            }
-            if( !oversize->test( enc.first ) ) {
+            if( wearing_fitting_on( enc.first ) ) {
                 total_enc[enc.first] += enc.second;
             }
         }
