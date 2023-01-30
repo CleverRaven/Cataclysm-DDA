@@ -73,7 +73,7 @@
         "//": "Checks to see if you have already finished this quest (by extension, it applies to any future NPC with this background), whether you have read their notes from TALK_PREPPER_1_COMPUTER, and whether you have already asked them about this quest. The conditional checks here look a little crazy but they simply gate you out of this conversation for various reasons.",
         "condition": {
           "and": [
-            { "not":  { "u_has_mission": "directions_prepper_1_SHELTER" } },
+            { "not": { "u_has_mission": "directions_prepper_1_SHELTER" } },
             {
               "not": { "u_has_var": "prepper_1_found_computer", "type": "mission", "context": "BGSS", "value": "yes" }
             },
@@ -690,7 +690,7 @@
         "topic": "TALK_DONE"
       }
     ]
-  },  
+  },
   {
     "type": "effect_on_condition",
     "id": "EOC_PREPPER_1_MAKE_MISSION",

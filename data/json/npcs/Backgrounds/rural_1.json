@@ -90,14 +90,12 @@
     "type": "talk_topic",
     "dynamic_line": "I don't know if I trust you quite like that, just giving away so many personal details all at once.  Maybe later…",
     "responses": [ { "text": "Sorry, didn't mean to intrude.", "topic": "TALK_NONE" } ]
-  },  
+  },
   {
     "type": "effect_on_condition",
     "id": "EOC_RURAL_1_MAKE_MISSION",
     "//": "Assigns the mission through an EOC to avoid having to bring the NPC along with the player.",
-    "effect": [
-      { "assign_mission": "directions_rural_1_FARM" }
-    ]
+    "effect": [ { "assign_mission": "directions_rural_1_FARM" } ]
   },
   {
     "id": "directions_rural_1_FARM",

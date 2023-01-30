@@ -159,14 +159,12 @@
     "type": "talk_topic",
     "dynamic_line": "Yeah, fat chance I'm giving up that kind of personal information to someone I barely know.  What are you trying to pull?",
     "responses": [ { "text": "…", "topic": "TALK_NONE" } ]
-  },  
+  },
   {
     "type": "effect_on_condition",
     "id": "EOC_HOSPITAL_2_MAKE_MISSION",
     "//": "Assigns the mission through an EOC to avoid having to bring the NPC along with the player.",
-    "effect": [
-      { "assign_mission": "directions_hospital_2_CABIN" }
-    ]
+    "effect": [ { "assign_mission": "directions_hospital_2_CABIN" } ]
   },
   {
     "id": "directions_hospital_2_CABIN",
