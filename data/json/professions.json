@@ -2743,7 +2743,7 @@
     "id": "svictim",
     "name": "Shower Victim",
     "description": "You just stepped out of a nice, hot shower to find the world had ended.  You've got some soap, along with the most massively useful thing ever… a towel.",
-    "points": -1,
+    "points": -2,
     "flags": [ "NO_BONUS_ITEMS" ],
     "items": { "both": { "items": [ "towel_wet" ], "entries": [ { "item": "soap", "custom-flags": [ "auto_wield" ] } ] } }
   },
