@@ -243,7 +243,8 @@
       { "monster": "mon_giant_cockroach_nymph", "weight": 5 },
       { "monster": "mon_tiger", "weight": 1, "cost_multiplier": 30 },
       { "monster": "mon_woodlouse", "weight": 10, "pack_size": [ 1, 5 ] },
-      { "monster": "mon_woodlouse_manca", "weight": 5 }
+      { "monster": "mon_woodlouse_manca", "weight": 5 },
+      { "monster": "mon_ferret", "weight": 10 }
     ]
   },
   {
