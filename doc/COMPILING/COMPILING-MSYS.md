@@ -7,7 +7,7 @@ These instructions were written using 64-bit Windows 7 and the 64-bit version of
 ## Prerequisites:
 
 * Windows 7, 8, 8.1, or 10
-* NTFS partition with ~10 Gb free space (~2 Gb for MSYS2 installation, ~3 Gb for repository and ~5 Gb for ccache)
+* NTFS partition with ~13 Gb free space (~2 Gb for MSYS2 installation, ~6 Gb for repository and ~5 Gb for ccache)
 * 64-bit version of MSYS2
 
 **Note:** Windows XP is unsupported!
