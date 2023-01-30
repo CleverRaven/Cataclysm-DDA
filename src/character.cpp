@@ -4369,14 +4369,8 @@ void Character::update_health()
         int mean_daily_health = get_health_tally() / 7;
         mod_livestyle( mean_daily_health );
         mod_health_tally( -mean_daily_health );
+        set_daily_health( 0 );
     }
-
-    if( calendar::once_every( 6_hours ) ) {
-        // And daily_health decays over time.
-        // Slowly near 0, but it's hard to overpower it near +/-100
-        set_daily_health( roll_remainder( get_daily_health() * 0.95f ) );
-    }
-
     add_msg_debug( debugmode::DF_CHAR_HEALTH, "Lifestyle: %d, Daily health: %d", get_lifestyle(),
                    get_daily_health() );
 }
