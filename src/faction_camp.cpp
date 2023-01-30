@@ -4737,6 +4737,7 @@ std::vector<std::pair<std::string, tripoint_abs_omt>> talk_function::om_building
         const oter_id &omt_rnear = overmap_buffer.ter( omt_near_pos );
         std::string om_rnear_id = omt_rnear.id().c_str();
         if( !purge || ( om_rnear_id.find( "faction_base_" ) != std::string::npos &&
+                        // TODO: this exclusion check can be removed once primitive field camp OMTs have been purged
                         om_rnear_id.find( "faction_base_camp" ) == std::string::npos ) ) {
             om_camp_region.emplace_back( om_rnear_id, omt_near_pos );
         }
