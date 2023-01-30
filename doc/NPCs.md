@@ -1,4 +1,3 @@
-TODO: document the "npc" structure, used to load NPC template
 # Creating new NPCs
 Often you will want to create new NPCs to either add quests, flavor, or to introduce little known activities to the larger player base. New NPCs are written entirely in JSON, so they are one of the easier places to begin your contributions.
 
