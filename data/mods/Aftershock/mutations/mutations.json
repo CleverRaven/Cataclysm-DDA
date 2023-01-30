@@ -423,9 +423,17 @@
   },
   {
     "type": "mutation",
-    "id": "URSINE_FUR",
-    "copy-from": "URSINE_FUR",
-    "extend": { "category": [ "MASTODON" ] }
+    "id": "MASTODON_FUR",
+    "name": { "str": "Wooly Fur" },
+    "points": 4,
+    "visibility": 10,
+    "ugliness": 3,
+    "bodytemp_sleep": 550,
+    "description": "Your fur has grown out and thickened, providing great protection from attacks as well as considerable insulation.",
+    "types": [ "SKIN" ],
+    "prereqs": [ "FUR" ],
+    "category": [ "MASTODON" ],
+    "integrated_armor": [ "integrated_mastodon_fur" ]
   },
   {
     "type": "mutation",
