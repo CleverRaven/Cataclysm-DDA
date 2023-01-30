@@ -458,7 +458,7 @@ TEST_CASE( "suffering from asphyxiation", "[char][suffer][oxygen]" )
         REQUIRE( !dummy.is_underwater() );
         REQUIRE( dummy.get_stamina() == dummy.get_stamina_max() );
         // spawn a monster beside the player to test suffocation
-        spawn_test_monster( "mon_debug_memory", dummy.pos() + tripoint( 1, 0, 0 ) );
+        spawn_test_monster( "mon_debug_memory", dummy.pos() + tripoint_east );
         WHEN( "grabbed intensity = 2" ) {
             dummy.add_effect( effect_grabbed, 20_turns, body_part_torso, false, 2, true );
             REQUIRE( dummy.has_effect( effect_grabbed, body_part_torso ) );
