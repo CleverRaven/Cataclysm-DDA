@@ -122,7 +122,7 @@
     "autolearn": false,
     "never_learn": true,
     "skills_required": [ [ "survival", 4 ] ],
-    "tools": [ [ [ "fish_trap", 1 ] ] ]
+    "qualities": [ { "id": "FISH_TRAP", "level": 1 } ]
   },
   {
     "type": "recipe",

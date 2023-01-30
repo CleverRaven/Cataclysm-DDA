@@ -3890,6 +3890,16 @@ std::string npc::get_current_activity() const
     }
 }
 
+void npc::update_missions_target( character_id old_character, character_id new_character )
+{
+    for( ::mission *&temp : chatbin.missions_assigned ) {
+        if( temp->get_assigned_player_id() == old_character ||
+            temp->get_assigned_player_id() == character_id( - 1 ) ) {
+            temp->set_assigned_player_id( new_character );
+        }
+    }
+}
+
 std::unique_ptr<talker> get_talker_for( npc &guy )
 {
     return std::make_unique<talker_npc>( &guy );

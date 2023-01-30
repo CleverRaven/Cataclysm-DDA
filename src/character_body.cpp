@@ -163,14 +163,14 @@ void Character::update_body_wetness( const w_point &weather )
         }
 
         // Add effects to track wetness
-        const int updatedWetness = get_part_wetness( bp );
-        const int wetnessCapacity = get_part_drench_capacity( bp );
-        if( updatedWetness < wetnessCapacity * .3 ) {
-            add_effect( effect_wet, 1_turns, bp, true, 1 );
-        } else if( updatedWetness < wetnessCapacity * .6 ) {
-            add_effect( effect_wet, 1_turns, bp, true, 2 );
-        } else if( updatedWetness < wetnessCapacity ) {
-            add_effect( effect_wet, 1_turns, bp, true, 3 );
+        if( get_part_wetness( bp ) > 0 ) {
+            const float wetness_pct = get_part_wetness_percentage( bp );
+            const int effect_level =
+                wetness_pct < BODYWET_PERCENT_WET ? 1 :
+                wetness_pct < BODYWET_PERCENT_SOAKED ? 2 :
+                3;
+
+            add_effect( effect_wet, 1_turns, bp, true, effect_level );
         }
     }
 }
