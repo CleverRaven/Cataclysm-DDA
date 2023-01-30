@@ -184,6 +184,32 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "bandit_farm_3",
+    "name": "barn",
+    "sym": "B",
+    "color": "brown",
+    "see_cost": 5,
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "bandit_farm_2",
+      "bandit_farm_1",
+      "bandit_farm_6",
+      "bandit_farm_5",
+      "bandit_farm_4",
+      "bandit_farm_9",
+      "bandit_farm_8",
+      "bandit_farm_7"
+    ],
+    "copy-from": "generic_rural_building",
+    "name": "farm field",
+    "see_cost": 2,
+    "extend": { "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD", "SOURCE_FARMING" ] }
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "2farm_roof_15", "farm_lot_M1", "farm_lot_wire_straight_h", "farm_lot_wire_turn_v_open" ],
     "copy-from": "generic_rural_building",
     "name": "farm field",

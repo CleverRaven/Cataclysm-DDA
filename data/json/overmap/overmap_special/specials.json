@@ -3452,6 +3452,26 @@
   },
   {
     "type": "overmap_special",
+    "id": "bandit_work_camp",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "bandit_farm_5_north" },
+      { "point": [ -1, 0, 0 ], "overmap": "bandit_farm_6_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "bandit_farm_4_north" },
+      { "point": [ 0, -1, 0 ], "overmap": "bandit_farm_2_north" },
+      { "point": [ -1, -1, 0 ], "overmap": "bandit_farm_3_north" },
+      { "point": [ 1, -1, 0 ], "overmap": "bandit_farm_1_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "bandit_farm_8_north" },
+      { "point": [ -1, 1, 0 ], "overmap": "bandit_farm_9_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "bandit_farm_7_north" }
+    ],
+    "locations": [ "field" ],
+    "city_distance": [ 10, -1 ],
+    "city_sizes": [ 1, -1 ],
+    "occurrences": [ 35, 100 ],
+    "flags": [ "CLASSIC", "WILDERNESS", "UNIQUE", "SAFE_AT_WORLDGEN", "MAN_MADE" ]
+  },
+  {
+    "type": "overmap_special",
     "id": "sai",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "sai_north" } ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road" } ],
