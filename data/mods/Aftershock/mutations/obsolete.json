@@ -128,8 +128,6 @@
     "description": "Thick brown fur has grown to cover your entire body, providing a slight protection against attacks, and some protection from cold.",
     "valid": false,
     "types": [ "SKIN" ],
-    "category": [ "MASTODON" ],
-    "changes_to": [ "MASTODON_FUR" ],
     "prereqs": [ "LIGHTFUR" ],
     "armor": [
       {
