@@ -6280,7 +6280,7 @@ std::string item::degradation_symbol() const
 }
 
 std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int truncate,
-                         bool with_contents ) const
+                         bool with_contents, bool with_collapsed ) const
 {
     // item damage and/or fouling level
     std::string damtext;
@@ -6388,7 +6388,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
                                                       " > %1$s (%2$zd)" ), contents_tname, contents_count );
             }
 
-            if( is_collapsed() ) {
+            if( is_collapsed() && with_collapsed ) {
                 contents_suffix_text += string_format( " %s", _( "hidden" ) );
             }
         }
@@ -6398,7 +6398,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
                        //~ [container item name] " > [count] item"
                        " > %1$zd%2$s item", " > %1$zd%2$s items", contents.num_item_stacks() );
         std::string const hidden =
-            is_collapsed() ? string_format( " %s", _( "hidden" ) ) : std::string();
+            is_collapsed() && with_collapsed ? string_format( " %s", _( "hidden" ) ) : std::string();
         contents_suffix_text = string_format( suffix, contents.num_item_stacks(), hidden );
     }
 
