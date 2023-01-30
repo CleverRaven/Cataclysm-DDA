@@ -407,7 +407,8 @@
     "eoc_type": "PREVENT_DEATH",
     "condition": { "u_has_trait": "PORTAL_RESURRECTION" },
     "effect": [
-      { "u_set_hp": 50, "only_increase": true },
+      { "u_set_hp": 50, "only_increase": true, "main_only": true },
+      { "u_set_hp": 0, "max": true, "minor_only": true },
       { "u_add_effect": "incorporeal", "duration": [ "5 minutes", "10 minutes" ] },
       { "u_lose_effect": "jetinjector" },
       { "u_lose_effect": "effect_adrenaline" },

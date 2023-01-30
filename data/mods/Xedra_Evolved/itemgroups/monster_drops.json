@@ -97,6 +97,30 @@
     }
   },
   {
+    "type": "item_group",
+    "id": "harddrugs",
+    "copy-from": "harddrugs",
+    "extend": {
+      "entries": [
+        { "item": "faewild", "prob": 15, "container-item": "bag_zipper", "charges": [ 3, 12 ] },
+        { "item": "lotus_blossom", "prob": 15, "container-item": "bag_zipper", "charges": [ 2, 16 ] }
+      ]
+    }
+  },
+  {
+    "type": "item_group",
+    "id": "default_zombie_items_pockets",
+    "copy-from": "default_zombie_items_pockets",
+    "subtype": "collection",
+    "extend": {
+      "entries": [
+        { "item": "faewild", "prob": 5, "container-item": "bag_zipper", "charges": [ 3, 12 ] },
+        { "item": "lotus_blossom", "prob": 5, "container-item": "bag_zipper", "charges": [ 2, 16 ] },
+        { "item": "scrap_dreamdross", "prob": 15, "count": [ 1, 4 ] }
+      ]
+    }
+  },
+  {
     "id": "default_moroi_death_drops",
     "type": "item_group",
     "subtype": "collection",
