@@ -209,7 +209,7 @@
     "points": 2,
     "description": "Fibrous tissue seems to be spreading through your body.  Strength + 2",
     "types": [ "STR" ],
-    "prereqs": [ "STR_UP" ],
+    "prereqs": [ "NEW_MUSCLES" ],
     "category": [ "MIGO" ],
     "social_modifiers": { "persuade": -3, "intimidate": 2 },
     "ugliness": 2,
@@ -300,6 +300,7 @@
     "description": "You have a pair of large, veiny wings.  They don't appear to be made for this atmosphere but they grant a powerful buffeting attack.",
     "types": [ "WINGS" ],
     "prereqs": [ "WINGS_STUB" ],
+    "flags": [ "WINGS_1" ],
     "category": [ "MIGO" ],
     "attacks": {
       "attack_text_u": "You buffet %s with your wings",
@@ -431,6 +432,7 @@
     "description": "Your fur has grown out and thickened, providing great protection from attacks as well as considerable insulation.",
     "types": [ "SKIN" ],
     "prereqs": [ "FUR" ],
+    "threshreq": [ "THRESH_MASTODON" ],
     "category": [ "MASTODON" ],
     "integrated_armor": [ "integrated_mastodon_fur" ]
   },
@@ -507,8 +509,8 @@
     "ugliness": 2,
     "mixed_effect": true,
     "description": "You have a pair of long, pointed tusks, like someone weaponized an elephant.  They allow you to make a strong piercing headbutt attack, but prevent wearing mouthgear that is not made of fabric.",
-    "types": [ "TUSK" ],
-    "prereqs": [ "HORNS" ],
+    "types": [ "TUSKS" ],
+    "prereqs": [ "TUSKS" ],
     "restricts_gear": [ "mouth" ],
     "allow_soft_gear": true,
     "category": [ "MASTODON" ],
@@ -716,6 +718,12 @@
     "type": "mutation",
     "id": "NIGHTVISION",
     "copy-from": "NIGHTVISION",
+    "extend": { "category": [ "MIGO" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "DISRESISTANT",
+    "copy-from": "DISRESISTANT",
     "extend": { "category": [ "MIGO" ] }
   },
   {
