@@ -273,7 +273,6 @@
     "valid": false,
     "purifiable": false,
     "types": [ "SCENT" ],
-    "types": [ "LEGS" ],
     "prereqs": [ "SMELLY", "SMELLY2" ],
     "threshreq": [ "THRESH_YUGGOTH" ],
     "category": [ "MIGO" ],
