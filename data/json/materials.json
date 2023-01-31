@@ -667,7 +667,8 @@
     "type": "material",
     "//": "duplicate material used to give gambesons an extra 95% coverage layer without causing weirdness",
     "id": "canvas_quilted_2",
-    "copy-from": "canvas_quilted"
+    "copy-from": "canvas_quilted",
+    "name": "Quilted Canvas"
   },
   {
     "type": "material",
@@ -2313,7 +2314,8 @@
     "type": "material",
     "//": "duplicate material used to give gambesons an extra 95% coverage layer without causing weirdness",
     "id": "nylon_quilted_2",
-    "copy-from": "nylon_quilted"
+    "copy-from": "nylon_quilted",
+    "name": "Quilted Nylon"
   },
   {
     "type": "material",
@@ -2672,7 +2674,8 @@
     "type": "material",
     "//": "duplicate material used to give gambesons an extra 95% coverage layer without causing weirdness",
     "id": "wool_quilted_2",
-    "copy-from": "wool_quilted"
+    "copy-from": "wool_quilted",
+    "name": "Quilted Wool"
   },
   {
     "type": "material",
