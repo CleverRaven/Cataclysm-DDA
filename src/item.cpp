@@ -864,7 +864,9 @@ bool item::covers( const sub_bodypart_id &bp ) const
     }
 
     bool has_sub_data = false;
-    // if the item has no sub location info then it should return that it does cover it
+
+    // If the item has no sub location info and covers the part's parent,
+    // then assume that the item covers that sub body part.
     for( const armor_portion_data &data : armor->sub_data ) {
         if( !data.sub_coverage.empty() ) {
             has_sub_data = true;
@@ -872,7 +874,7 @@ bool item::covers( const sub_bodypart_id &bp ) const
     }
 
     if( !has_sub_data ) {
-        return true;
+        return covers( bp->parent );
     }
 
     bool does_cover = false;
