@@ -66,11 +66,11 @@
         { "type": "LOOT_UNSORTED", "faction": "hells_raiders", "x": [ 37, 39 ], "y": 13 }
       ],
       "place_npcs": [
-        { "class": "bandit_hr", "x": 4, "y": 9 },
-        { "class": "bandit_hr", "x": 22, "y": 13 },
-        { "class": "thug_hr", "x": 34, "y": 11 },
-        { "class": "thug_hr", "x": 27, "y": 17 },
-        { "class": "thug_hr", "x": 30, "y": 7 },
+        { "class": "bandit", "x": 4, "y": 9 },
+        { "class": "bandit", "x": 22, "y": 13 },
+        { "class": "thug", "x": 34, "y": 11 },
+        { "class": "thug", "x": 27, "y": 17 },
+        { "class": "thug", "x": 30, "y": 7 },
         { "class": "bandit_mechanic", "x": 21, "y": 6 },
         { "class": "bandit_mechanic", "x": 22, "y": 18 },
         { "class": "bandit_trader", "x": 38, "y": 12 },

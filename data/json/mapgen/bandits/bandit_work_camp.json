@@ -114,11 +114,11 @@
         }
       },
       "place_npcs": [
-        { "class": "bandit_hr", "x": 5, "y": 3 },
-        { "class": "bandit_hr", "x": 17, "y": 3 },
-        { "class": "bandit_hr", "x": 17, "y": 8 },
-        { "class": "bandit_hr", "x": 18, "y": 14 },
-        { "class": "bandit_hr", "x": 3, "y": 16 },
+        { "class": "bandit", "x": 5, "y": 3 },
+        { "class": "bandit", "x": 17, "y": 3 },
+        { "class": "bandit", "x": 17, "y": 8 },
+        { "class": "bandit", "x": 18, "y": 14 },
+        { "class": "bandit", "x": 3, "y": 16 },
         { "class": "bandit_quartermaster", "x": 17, "y": 11 },
         { "class": "slave", "x": 26, "y": 4 },
         { "class": "slave", "x": 26, "y": 12 },
