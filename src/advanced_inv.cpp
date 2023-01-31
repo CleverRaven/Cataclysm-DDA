@@ -854,7 +854,8 @@ std::string advanced_inventory::fill_lists_with_pane_items( Character &player_ch
             if( filter_buckets && it->is_bucket_nonempty() ) {
                 if( buckets == 0 ) {
                     buckets = 1;
-                    skipped_items_message = string_format( _( " The %s would've spilled if moved there." ), it->tname() );
+                    skipped_items_message = string_format( _( " The %s would've spilled if moved there." ),
+                                                           it->tname() );
                 } else if( buckets == 1 ) {
                     buckets = 2;
                     skipped_items_message = _( " Some items would've spilled if moved there." );
@@ -974,8 +975,8 @@ bool advanced_inventory::move_all_items()
     bool filter_buckets = dpane.get_area() == AIM_INVENTORY || dpane.get_area() == AIM_WORN ||
                           dpane.get_area() == AIM_CONTAINER || dpane.in_vehicle();
 
-    std::string skipped_items_message = fill_lists_with_pane_items( player_character, spane, pane_items, pane_favs,
-                                filter_buckets );
+    std::string skipped_items_message = fill_lists_with_pane_items( player_character, spane, pane_items,
+                                        pane_favs, filter_buckets );
 
     // Move all the favorite items only if there are no other items
     if( pane_items.empty() ) {
