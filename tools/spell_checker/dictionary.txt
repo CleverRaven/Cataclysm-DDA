@@ -438,6 +438,8 @@ cere
 cerium
 cervine
 cestus
+ch
+cha
 chachalaca
 chainmail
 chambering
@@ -2807,6 +2809,8 @@ uncured
 undecipherable
 underbarrel
 underbody
+underboss
+underbosses
 undercovering
 underfongen
 undergrown

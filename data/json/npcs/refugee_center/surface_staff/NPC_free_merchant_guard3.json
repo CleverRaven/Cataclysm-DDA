@@ -109,7 +109,7 @@
         "text": "If you get me in on your group, I won't tell the Marshal that you're the mole.  Deal?",
         "topic": "TALK_EVAC_GUARD3_DEAL"
       },
-      { "text": "Ya know what, I've changed my mind. Die, <name_b>!", "topic": "TALK_DONE" }
+      { "text": "Ya know what, I've changed my mind.  Die, <name_b>!", "topic": "TALK_DONE" }
     ]
   },
   {
