@@ -998,11 +998,11 @@
     "color": "dark_gray",
     "description": "A chunk of slag, leftover from smelting ore.",
     "material": [ "slag" ],
-    "volume": "250 ml",
-    "weight": "6 g",
+    "volume": "25 ml",
+    "weight": "10 g",
     "bashing": 1,
     "ammo_type": "components",
-    "count": 50
+    "count": 10
   },
   {
     "type": "GENERIC",
