@@ -438,7 +438,8 @@ void Character::roll_all_damage( bool crit, damage_instance &di, bool average,
     roll_other_damage( crit, di, average, weap, attack_vector, crit_mod );
 }
 
-static void melee_train( Character &you, int lo, int hi, const item &weap )
+static void melee_train( Character &you, int lo, int hi, const item &weap,
+                         const std::string &attack_vector )
 {
     you.practice( skill_melee, std::ceil( rng( lo, hi ) / 2.0 ), hi );
 
@@ -451,7 +452,7 @@ static void melee_train( Character &you, int lo, int hi, const item &weap )
     float total = std::max( cut + stab + bash, 1 );
 
     // Unarmed may deal cut, stab, and bash damage depending on the weapon
-    if( weap.is_null() ) {
+    if( attack_vector != "WEAPON" ) {
         you.practice( skill_unarmed, std::ceil( 1 * rng( lo, hi ) ), hi );
     } else {
         you.practice( skill_cutting,  std::ceil( cut  / total * rng( lo, hi ) ), hi );
@@ -680,7 +681,8 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
 
         // Practice melee and relevant weapon skill (if any) except when using CQB bionic
         if( !has_active_bionic( bio_cqb ) && !t.is_hallucination() ) {
-            melee_train( *this, 2, std::min( 5, skill_training_cap ), cur_weap );
+            std::string attack_vector = cur_weapon ? "WEAPON" : "HAND";
+            melee_train( *this, 2, std::min( 5, skill_training_cap ), cur_weap, attack_vector );
         }
 
         // Cap stumble penalty, heavy weapons are quite weak already
@@ -857,12 +859,8 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
             melee::melee_stats.damage_amount += dam;
 
             // Practice melee and relevant weapon skill (if any) except when using CQB bionic
-            if( !has_active_bionic( bio_cqb ) && cur_weapon && !t.is_hallucination() ) {
-                if( technique.attack_override ) {
-                    melee_train( *this, 5, std::min( 10, skill_training_cap ), null_item_reference() );
-                } else {
-                    melee_train( *this, 5, std::min( 10, skill_training_cap ), cur_weap );
-                }
+            if( !has_active_bionic( bio_cqb ) && !t.is_hallucination() ) {
+                melee_train( *this, 5, std::min( 10, skill_training_cap ), cur_weap, attack_vector );
             }
 
             // Treat monster as seen if we see it before or after the attack
