@@ -1330,11 +1330,18 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
         return false;
     }
     cata_assert( !sitem->items.empty() );
+    avatar &player_character = get_avatar();
+    if( destarea == AIM_WORN ) {
+        ret_val<void> can_wear = player_character.can_wear( *sitem->items.front().get_item() );
+        if( !can_wear.success() ) {
+            popup( can_wear.str() );
+            return false;
+        }
+    }
     int amount_to_move = 0;
     if( !query_charges( destarea, *sitem, action, amount_to_move ) ) {
         return false;
     }
-    avatar &player_character = get_avatar();
     // This makes sure that all item references in the advanced_inventory_pane::items vector
     // are recalculated, even when they might not have changed, but they could (e.g. items
     // taken from inventory, but unable to put into the cargo trunk go back into the inventory,
