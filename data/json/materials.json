@@ -665,6 +665,12 @@
   },
   {
     "type": "material",
+    "//": "duplicate material used to give gambesons an extra 95% coverage layer without causing weirdness",
+    "id": "canvas_quilted_2",
+    "copy-from": "canvas_quilted"
+  },
+  {
+    "type": "material",
     "id": "diamond",
     "name": "Diamond",
     "density": 3.53,
@@ -2305,6 +2311,12 @@
   },
   {
     "type": "material",
+    "//": "duplicate material used to give gambesons an extra 95% coverage layer without causing weirdness",
+    "id": "nylon_quilted_2",
+    "copy-from": "nylon_quilted"
+  },
+  {
+    "type": "material",
     "id": "unobtanium",
     "//": "this isn't supposed to be a super impressive material, just impossible to repair",
     "name": "Strange Metal",
@@ -2655,6 +2667,12 @@
     "cut_resist": 2,
     "bullet_resist": 1.5,
     "wind_resist": 65
+  },
+  {
+    "type": "material",
+    "//": "duplicate material used to give gambesons an extra 95% coverage layer without causing weirdness",
+    "id": "wool_quilted_2",
+    "copy-from": "wool_quilted"
   },
   {
     "type": "material",
