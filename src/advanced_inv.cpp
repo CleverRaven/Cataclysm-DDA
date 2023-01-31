@@ -861,6 +861,9 @@ std::string advanced_inventory::fill_lists_with_pane_items( Character &player_ch
                 }
                 continue;
             }
+            if( it->is_corpse() && !it->is_container_empty() ) {
+                continue;
+            }
             if( it->is_favorite ) {
                 fav_list.emplace_back( it, it->count() );
             } else {
