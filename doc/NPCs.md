@@ -1,7 +1,25 @@
+# Contents
+
+- [Creating new NPCs](#creating-new-npcs)
+- [Writing dialogues](#writing-dialogues)
+  - [Validating Dialogues](#validating-dialogues)
+  - [Customizing NPC speech](#customizing-npc-speech)
+  - [Talk Topics](#talk-topics)
+  - [Dynamic Lines](#dynamic-lines)
+  - [Speaker Effects](#speaker-effects)
+  - [Responses](#responses)
+  - [Dialogue Effects](#dialogue-effects)
+  - [Dialogue Conditions](#dialogue-conditions)
+  - [Sample responses with conditions and effects](#sample-responses-with-conditions-and-effects)
+  - [Utility Structures](#utility-structures)
+
+---
+
 # Creating new NPCs
 Often you will want to create new NPCs to either add quests, flavor, or to introduce little known activities to the larger player base. New NPCs are written entirely in JSON, so they are one of the easier places to begin your contributions.
 
 There are two parts to creating a new NPC, apart from any dialogue you may want to add.
+
 #### NPC Class
 First there is the `npc_class` which follows the following template.
 Format:
@@ -102,6 +120,8 @@ Faction determines what faction, if any, the NPC belongs to.  Some examples are 
 
 `age` and `height` are optional fields that can be used to define the age and height (in cm) of the NPC respectively.
 
+---
+
 # Writing dialogues
 Dialogues work like state machines. They start with a certain topic (the NPC says something), the player character can then respond (choosing one of several responses), and that response sets the new talk topic. This goes on until the dialogue is finished, or the NPC turns hostile.
 
@@ -131,6 +151,8 @@ Field | Default topic ID  | Uses for...
 `talk_stranger_friendly` | `TALK_STRANGER_FRIENDLY` | see "success and failure" section
 `talk_stranger_neutral` | `TALK_STRANGER_NEUTRAL` | see "success and failure" section
 
+---
+
 ## Validating Dialogues
 Keeping track of talk topics and making sure that all the topics referenced in responses are
 defined, and all defined topics are referenced in a response or an NPC's chat, is very tricky.
@@ -142,7 +164,9 @@ python3 tools/dialogue_validator.py data/json/npcs/* data/json/npcs/Backgrounds/
 
 If you are writing a mod with dialogue, you can add the paths to the mod's dialogue files.
 
-### Customize NPC speech
+---
+
+## Customizing NPC speech
 NPCs have dialogue depending on the situation.
 This dialogue can be customized in `"type": "npc"` json entries.
 
@@ -173,6 +197,7 @@ Case use example:
 
 For further information on snippets, see [New Contributor Guide: Dialogue](https://github.com/CleverRaven/Cataclysm-DDA/wiki/New-Contributor-Guide-Dialogue)
 
+### Custom Entries
 Field | Default messages/snippets | Used for...
 ---|---|---
 `<acknowledged>` | `<acknowledged>` | see data/json/npcs/talk_tags.json
@@ -268,8 +293,9 @@ Field | Used for...
 `<npc_val:VAR>` | The npc variable VAR
 `<global_val:VAR>` | The global variable VAR
 
+---
 
-## Talk topics
+## Talk Topics
 
 Each topic consists of:
 1. a topic id (e.g. `TALK_ARSONIST`)
@@ -296,10 +322,10 @@ Format:
 }
 ```
 
-### type
+#### `type`
 Must always be there and must always be `"talk_topic"`.
 
-### id
+#### `id`
 The topic id can be one of the built-in topics or a new id. However, if several talk topics *in json* have the same id, the last topic definition will override the previous ones.
 
 The topic id can also be an array of strings. This is loaded as if several topics with the exact same content have been given in json, each associated with an id from the `id`, array. Note that loading from json will append responses and, if defined in json, override the `dynamic_line` and the `replace_built_in_responses` setting. This allows adding responses to several topics at once.
@@ -319,16 +345,16 @@ This example adds the "I'm going now!" response to all the listed topics.
 }
 ```
 
-### dynamic_line
+#### `dynamic_line`
 The `dynamic_line` is the line spoken by the NPC.  It is optional.  If it is not defined and the topic has the same id as a built-in topic, the `dynamic_line` from that built-in topic will be used.  Otherwise the NPC will say nothing.  [See the chapter about Dynamic Lines below](#dynamic-lines) for more details.
 
-### speaker_effect
+#### `speaker_effect`
 The `speaker_effect` is an object or array of effects that will occur after the NPC speaks the `dynamic_line`, no matter which response the player chooses.  [See the chapter about Speaker Effects below](#speaker-effects)) for more details.
 
-### response
+#### `response`
 The `responses` entry is an array with possible responses.  It must not be empty.  Each entry must be a response object. [See the chapter about Responses below](#responses) for more details.
 
-### replace_built_in_responses
+#### `replace_built_in_responses`
 `replace_built_in_responses` is an optional boolean that defines whether to dismiss the built-in responses for that topic (default is `false`). If there are no built-in responses, this won't do anything. If `true`, the built-in responses are ignored and only those from this definition in the current json are used. If `false`, the responses from the current json are used along with the built-in responses (if any).
 
 ---
@@ -413,7 +439,7 @@ The dynamic line will be chosen from a reason generated by an earlier effect.  T
 }
 ```
 
-#### Based on any Dialogue condition
+#### Based on any dialogue condition
 The dynamic line will be chosen based on whether a single dialogue condition is true or false.  Dialogue conditions cannot be chained via `"and"`, `"or"`, or `"not"`.  If the condition is true, the `"yes"` response will be chosen and otherwise the `"no"` response will be chosen.  Both the `'"yes"` and `"no"` responses are optional.  Simple string conditions may be followed by `"true"` to make them fields in the dynamic line dictionary, or they can be followed by the response that will be chosen if the condition is true and the `"yes"` response can be omitted.
 
 ```json
@@ -447,6 +473,7 @@ The dynamic line will be chosen based on whether a single dialogue condition is 
     }
 }
 ```
+
 ---
 
 ## Speaker Effects
@@ -538,7 +565,7 @@ The short format is equivalent to (an unconditional switching of the topic, `eff
 }
 ```
 
-### text
+#### `text`
 Will be shown to the user, no further meaning.
 
 Text boxes; dialogue in general is a convenient space to sprinkle in descriptive text, something that isn't necessarily being said by any interlocutor
@@ -548,7 +575,7 @@ there are many ways to present this, ultimately is up to the writer, and their p
 Currently you may add a `&` as the first character in dialogue, this deletes quotation round the output text, denotes the descriptive nature of the displayed
 text, use `\"` escaped double quotes to indicate the start of actual dialogue.
 
-### truefalsetext
+#### `truefalsetext`
 May be used in place of text.  The player will have one response text if a condition is true, and another if it is false, but the same trial for either line.  `condition`, `true`, and `false` are all mandatory.
 
 ```json
@@ -606,9 +633,9 @@ Sample trials:
 #### `success` and `failure`
 The `success` and `failure` objects define the outcome, depending on the result of the trial.  Both objects have the same structure; the `failure` object is used if the trial fails, the `success` object is used otherwise.
 
-#### opinion changes
+### Opinion Changes
 
-##### `opinion`
+#### `opinion`
 `opinion` is optional, if given it defines how the NPC's opinion of your character will change.
 
 trust, value, fear, and anger are optional fields inside the opinion object, each specifying a numeric value (defaults to 0). The given values are *added* to the opinion of the NPC.
@@ -628,7 +655,7 @@ Example opinions
 { "topic": "TALK_DENY_FOLLOW", "effect": "deny_follow", "opinion": { "fear": -1, "value": -1, "anger": 1 } }
 ```
 
-##### `mission_opinion`
+#### `mission_opinion`
 Similar to `opinion`, but adjusts the NPC's opinion of your character according to the mission value. The NPC's opinion is modified by the value of the current mission divided by the value of the keyword.
 
 ### Response Availability
@@ -658,9 +685,7 @@ The player will always have the option to return to a previous topic or end the 
 will otherwise have the option to give a $500, $50, or $5 bribe if they have the funds.  If they
 don't have at least $50, they will also have the option to provide some other bribe.
 
----
-
-## Repeat Responses
+### Repeat Responses
 Repeat responses are responses that should be added to the response list multiple times, once for each instance of an item.
 
 A repeat response has the following format:
@@ -854,7 +879,7 @@ Effect | Description
 
 ---
 
-## Dialogue conditions
+## Dialogue Conditions
 Conditions can be a simple string with no other values, a key and an int, a key and a string, a key and an array, or a key and an object. Arrays and objects can nest with each other and can contain any other condition.
 
 The following keys and simple strings are available:
