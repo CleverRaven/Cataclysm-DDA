@@ -3963,7 +3963,9 @@ void insert_item_activity_actor::finish( player_activity &act, Character &who )
 
     items.pop_front();
     if( items.empty() || !success || items.front().first == item_location::nowhere ) {
-        get_map().make_active( holster );
+        if( !holster->active ) {
+            get_map().make_active( holster );
+        }
         handler.handle_by( who );
         act.set_to_null();
         return;
