@@ -836,11 +836,12 @@ void advanced_inventory::redraw_pane( side p )
     wnoutrefresh( w );
 }
 
-void advanced_inventory::fill_lists_with_pane_items( Character &player_character,
+std::string advanced_inventory::fill_lists_with_pane_items( Character &player_character,
         advanced_inventory_pane &spane, std::vector<drop_or_stash_item_info> &item_list,
-        std::vector<drop_or_stash_item_info> &fav_list,
-        bool filter_buckets = false, bool *filtered_any_bucket = nullptr )
+        std::vector<drop_or_stash_item_info> &fav_list, bool filter_buckets = false )
 {
+    std::string skipped_items_message = "";
+    int buckets = 0;
     for( const advanced_inv_listitem &listit : spane.items ) {
         for( const item_location &it : listit.items ) {
             if( ( it->made_of_from_type( phase_id::LIQUID ) && !it->is_frozen_liquid() ) ||
@@ -851,7 +852,13 @@ void advanced_inventory::fill_lists_with_pane_items( Character &player_character
                 continue;
             }
             if( filter_buckets && it->is_bucket_nonempty() ) {
-                *filtered_any_bucket = true;
+                if( buckets == 0 ) {
+                    buckets = 1;
+                    skipped_items_message = string_format( _( " The %s would've spilled its contents if moved." ), it->tname() );
+                } else if( buckets == 1 ) {
+                    buckets = 2;
+                    skipped_items_message = _( " Some items would've spilled their contents if moved." );
+                }
                 continue;
             }
             if( it->is_favorite ) {
@@ -861,6 +868,7 @@ void advanced_inventory::fill_lists_with_pane_items( Character &player_character
             }
         }
     }
+    return skipped_items_message;
 }
 
 bool advanced_inventory::move_all_items()
@@ -962,20 +970,15 @@ bool advanced_inventory::move_all_items()
     std::vector<drop_or_stash_item_info> pane_favs;
     bool filter_buckets = dpane.get_area() == AIM_INVENTORY || dpane.get_area() == AIM_WORN ||
                           dpane.get_area() == AIM_CONTAINER || dpane.in_vehicle();
-    bool filtered_any_bucket = false;
 
-    fill_lists_with_pane_items( player_character, spane, pane_items, pane_favs,
-                                filter_buckets, &filtered_any_bucket );
-
-    if( filtered_any_bucket ) {
-        add_msg( m_info, _( "Skipping filled buckets to avoid spilling their contents." ) );
-    }
+    std::string skipped_items_message = fill_lists_with_pane_items( player_character, spane, pane_items, pane_favs,
+                                filter_buckets );
 
     // Move all the favorite items only if there are no other items
     if( pane_items.empty() ) {
         // Check if the list is still empty for when all that's in the aim_worn list is a wielded weapon.
         if( pane_favs.empty() ) {
-            popup( _( "No eligible items found to be moved." ) );
+            popup( string_format( _( "No eligible items found to be moved.%s" ), skipped_items_message ) );
             return false;
         }
         // Ask to move favorites if the player is holding them
@@ -985,6 +988,10 @@ bool advanced_inventory::move_all_items()
             }
         }
         pane_items = pane_favs;
+    }
+
+    if( skipped_items_message != "" ) {
+        add_msg( m_info, skipped_items_message );
     }
 
     if( dpane.get_area() == AIM_CONTAINER ) {

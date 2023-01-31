@@ -153,11 +153,11 @@ class advanced_inventory
         * @param item_list Reference to the list to fill with items.
         * @param fav_list Reference to the list to fill with favorited items.
         * @param filter_buckets Whether to skip over containers that would spill in certain locations.
-        * @param filtered_any_bucket Bool pointer to set true if any buckets were skipped over.
+        * @return a string description of why some items were skipped, if any.
         */
-        void fill_lists_with_pane_items( Character &player_character, advanced_inventory_pane &spane,
-                                         std::vector<drop_or_stash_item_info> &item_list, std::vector<drop_or_stash_item_info> &fav_list,
-                                         bool filter_buckets, bool *filtered_any_bucket );
+        std::string fill_lists_with_pane_items( Character &player_character, advanced_inventory_pane &spane,
+                                                std::vector<drop_or_stash_item_info> &item_list,std::vector<drop_or_stash_item_info> &fav_list,
+                                                bool filter_buckets );
         // Returns the x coordinate where the header started. The header is
         // displayed right of it, everything left of it is till free.
         int print_header( advanced_inventory_pane &pane, aim_location sel );
