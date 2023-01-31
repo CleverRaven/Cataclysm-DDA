@@ -485,8 +485,9 @@ The optional `condition` can be any legal condition, as described below.  If a `
 Speaker effects are useful for setting status variables to indicate that player has talked to the NPC without complicating the responses with multiple effect variables.  They can also be used, with a sentinel, to run a `mapgen_update` effect the first time the player hears some dialogue from the NPC.
 
 ---
+
 ## Responses
-A response contains at least a text, which is display to the user and "spoken" by the player character (its content has no meaning for the game) and a topic to which the dialogue will switch to. It can also have a trial object which can be used to either lie, persuade or intimidate the NPC, [see below](#trial) for details. There can be different results, used either when the trial succeeds and when it fails.
+A response contains at least a text, which is display to the user and "spoken" by the player character (its content has no meaning for the game) and a topic to which the dialogue will switch to. It can also have a trial object which can be used to either lie, persuade or intimidate the NPC, [see below](#trials) for details. There can be different results, used either when the trial succeeds and when it fails.
 
 Format:
 ```json
@@ -561,7 +562,29 @@ May be used in place of text.  The player will have one response text if a condi
 }
 ```
 
-### trial
+#### `topic`
+`topic` defines which topic the dialogue will switch to, usually specified by giving its id.
+
+`topic` can also be a single topic object (the `type` member is not required here):
+
+```json
+"success": {
+    "topic": {
+        "id": "TALK_NEXT",
+        "dynamic_line": "...",
+        "responses": [
+        ]
+    }
+}
+```
+#### `effect`
+`effect` is a function that is executed after choosing the response, [see Dialogue Effects below](#dialogue-effects) for details.
+
+### Trials
+A trial object can be used to attempt to lie to, persuade or intimidate the NPC. Different outcomes can be defined for use depending on whether the trial succeeds or fails.
+
+#### `trial`
+
 Optional, if not defined, `"NONE"` is used. Otherwise one of `"NONE"`, `"LIE"`, `"PERSUADE"`, `"INTIMIDATE"`, or `"CONDITION"`. If `"NONE"` is used, the `failure` object is not read, otherwise it's mandatory.
 
 The `difficulty` is only required if type is not `"NONE"` or `"CONDITION"` and, for most trials, specifies the success chance in percent (it is however modified by various things like mutations).  Higher difficulties are easier to pass. `"SKILL_CHECK"` trials are unique, and use the difficulty as a flat comparison.
@@ -580,26 +603,8 @@ Sample trials:
 "trial": { "type": "SKILL_CHECK", "difficulty": 3, "skill_required": "swimming" }
 ```
 
-### success and failure
-Both objects have the same structure. The `failure` object is used if the trial fails, the `success` object is used otherwise.
-
-#### `topic`
-`topic` defines which topic the dialogue will switch to, usually specified by giving its id.
-
-`topic` can also be a single topic object (the `type` member is not required here):
-
-```json
-"success": {
-    "topic": {
-        "id": "TALK_NEXT",
-        "dynamic_line": "...",
-        "responses": [
-        ]
-    }
-}
-```
-#### `effect`
-`effect` is a function that is executed after choosing the response, [see Dialogue Effects below](#dialogue-effects) for details.
+#### `success` and `failure`
+The `success` and `failure` objects define the outcome, depending on the result of the trial.  Both objects have the same structure; the `failure` object is used if the trial fails, the `success` object is used otherwise.
 
 #### opinion changes
 
