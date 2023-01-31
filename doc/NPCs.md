@@ -981,100 +981,9 @@ Condition | Type | Description
 --- | --- | ---
 `"mod_is_loaded"` | string or [variable object](#variable-object) | `true` if the mod with the given ID is loaded.
 
-#### Variable Object
-`variable_object`: This is either an object, an `arithmetic` [expression](#compare-numbers-and-arithmetics) or array describing a variable name. It can either describe a double, a time duration or a string. If it is an array it must have 2 values the first of which will be a minimum and the second will be a maximum, the value will be randomly between the two. If it is a double `default` is a double which will be the value returned if the variable is not defined. If is it a duration then `default` can be either an int or a string describing a time span. `u_val`, `npc_val`, or `global_val` can be the used for the variable name element.  If `u_val` is used it describes a variable on player u, if `npc_val` is used it describes a variable on player npc, if `global_val` is used it describes a global variable.  If this is a duration `infinite` will be accepted to be a virtually infinite value(it is actually more than a year, if longer is needed a code change to make this a flag or something will be needed).
+---
 
-example json:
-```
-"effect": [ { "u_mod_focus": { "u_val":"test", "default": 1 } },
-  { "u_mod_focus": [ 0, { "u_val":"test", "default": 1 } ] }
-  { "u_add_morale": "morale_honey","bonus": -20,"max_bonus": -60, "decay_start": 1,
-  "duration": { "global_val": "test2", "default": "2 minutes" },
-  {
-    "u_spawn_monster": "mon_absence",
-    "real_count": { "arithmetic": [ { "arithmetic": [ { "const":1 }, "+", { "const": 1 } ] }, "+", { "const": 1 } ] }
-  } ]
-
-```
-
-#### Compare Numbers and Arithmetics
-`"compare_num"` can be used to compare two values to each other, while `"arithmetic"` can be used to take up to two values, perform arithmetic on them, and then save them in a third value. The syntax is as follows.
-```
-{
-  "text": "If player strength is more than or equal to 5, sets time since cataclysm to the player's focus times the player's maximum mana with at maximum a value of 15.",
-  "topic": "TALK_DONE",
-  "condition": { "compare_num": [ { "u_val": "strength" }, ">=", { "const": 5 } ] }
-  "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "=", { "u_val": "focus" }, "*", { "u_val": "mana_max" } ], "max":15 }
-},
-```
-`min` and `max` are optional double or variable_object values.  If supplied they will limit the result, it will be no lower than `min` and no higher than `max`. `min_time` and `max_time` work the same way but will parse times written as a string i.e. "10 hours".
-`"compare_num"` supports the following operators: `"=="`, `"="` (Both are treated the same, as a compare), `"!="`, `"<="`, `">="`, `"<"`, and `">"`.
-
-`"arithmetic"` supports the following operators: `"*"`, `"/"`, `"+"`, `"-"`, `"%"`, `"&"`, `"|"`, `"<<"`, `">>"`, `"~"`, `"^"` and the following results `"="`, `"*="`, `"/="`, `"+="`, `"-="`, `"%="`, `"++"`, and `"--"`
-
-To get player character properties, use `"u_val"`. To get NPC properties, use same syntax but `"npc_val"` instead. For vars only `global_val` is also allowed. A list of values that can be read and/or written to follows.
-
-Example | Description
---- | ---
-`"const": 5` | A constant value, in this case 5. Can be read but not written to.
-`"time": "5 days"` | A constant time value. Will be converted to turns. Can be read but not written to.
-`"time_since_cataclysm": "turns"` | Time since the start of the cataclysm in turns. Can instead take other time units such as minutes, hours, days, weeks, seasons, and years.
-`"rand": 20` | A random value between 0 and a given value, in this case 20. Can be read but not written to.
-`"faction_trust": "free_merchants"` | The trust the faction has for the player.
-`"weather": "temperature"` | Current temperature.
-`"weather": "windpower"` | Current windpower.
-`"weather": "humidity"` | Current humidity.
-`"weather": "pressure"` | Current pressure.
-`"u_val": "strength"` | Player character's strength. Can be read but not written to. Replace `"strength"` with `"dexterity"`, `"intelligence"`, or `"perception"` to get such values.
-`"u_val": "strength_base"` | Player character's strength. Replace `"strength_base"` with `"dexterity_base"`, `"intelligence_base"`, or `"perception_base"` to get such values.
-`"u_val": "strength_bonus"` | Player character's current strength bonus. Replace `"strength_bonus"` with `"dexterity_bonus"`, `"intelligence_bonus"`, or `"perception_bonus"` to get such values.
-`"u_val": "var"` | Custom variable. `"var_name"`, `"type"`, and `"context"` must also be specified. If `global_val` is used then a global variable will be used. If `default` is given as either an int or a variable_object then that value will be used if the variable is empty. If `default_time` is the same thing will happen, but it will be parsed as a time string aka "10 hours". Otherwise 0 will be used if the variable is empty.
-`"u_val": "time_since_var"` | Time since a custom variable was set.  Unit used is turns. `"var_name"`, `"type"`, and `"context"` must also be specified.
-`"u_val": "allies"` | Number of allies the character has. Only supported for the player character. Can be read but not written to.
-`"u_val": "cash"` | Amount of money the character has. Only supported for the player character. Can be read but not written to.
-`"u_val": "owed"` | Owed money to the NPC you're talking to.
-`"u_val": "sold"` | Amount sold to the NPC you're talking to.
-`"u_val": "skill_level"` | Level in given skill. `"skill"` must also be specified.
-`"u_val": "pos_x"` | Player character x coordinate. "pos_y" and "pos_z" also works as expected.
-`"u_val": "pain"` | Pain level.
-`"u_val": "power"` | Bionic power in millijoule.
-`"u_val": "power_max"` | Max bionic power in millijoule. Can be read but not written to.
-`"u_val": "power_percentage"` | Percentage of max bionic power. Should be a number between 0 to 100.
-`"u_val": "morale"` | The current morale. Can be read but not written to for players and for monsters can be read and written to.
-`"u_val": "mana"` | Current mana.
-`"u_val": "mana_max"` | Max mana. Can be read but not written to.
-`"u_val": "hunger"` | Current perceived hunger. Can be read but not written to.
-`"u_val": "thirst"` | Current thirst.
-`"u_val": "stored_kcal"` | Stored kcal in the character's body. 55'000 is considered healthy.
-`"u_val": "stored_kcal_percentage"` | a value of 100 represents 55'000 kcal, which is considered healthy.
-`"u_val": "item_count"` | Number of a given item in the character's inventory. `"item"` must also be specified. Can be read but not written to.
-`"u_val": "exp"` | Total experience earned.
-`"u_val": "addiction_intensity", "addiction": "caffeine"` | Current intensity of the given addiction. Allows for an optional field `"mod"` which accepts an integer to multiply againt the current intensity.
-`"u_val": "addiction_turns", "addiction": "caffeine"` | Current duration left (in turns) for the given addiction.
-`"u_val": "stim"` | Current stim level.
-`"u_val": "pkill"` | Current painkiller level.
-`"u_val": "rad"` | Current radiation level.
-`"u_val": "focus"` | Current focus level.
-`"u_val": "activity_level"` | Current activity level index, from 0-5
-`"u_val": "fatigue"` | Current fatigue level.
-`"u_val": "stamina"` | Current stamina level.
-`"u_val": "sleep_deprivation"` | Current sleep deprivation level.
-`"u_val": "anger"` | Current anger level, only works for monsters.
-`"u_val": "friendly"` | Current friendly level, only works for monsters.
-`"u_val": "vitamin"` | Current vitamin level. `name` must also be specified which is the vitamins id.
-`"u_val": "age"` | Current age in years.
-`"u_val": "bmi_permil"` | Current BMI per mille (Body Mass Index x 1000)
-`"u_val": "height"` | Current height in cm. When setting there is a range for your character size category. Setting it too high or low will use the limit instead. For tiny its 58, and 87. For small its 88 and 144. For medium its 145 and 200. For large its 201 and 250. For huge its 251 and 320.
-`"u_val": "monsters_nearby"` | Number of monsters nearby. Optional params: `target_var` is a variable_object of a location variable to center the effect on, `id` is a variable_object, if its provided only monsters with this id will be counted, `radius` a variable_object of how far around the center to count from.
-`"u_val": "spell_level"` | Level of a given spell. -1 means the spell is not known when read and that the spell should be forgotten if written. Optional params: `school` gives the highest level of spells known of that school (read only), `spell` reads or writes the level of the spell with matching spell id. If no parameter is provided, you will get the highest spell level of the spells you know (read only).
-`"u_val": "spell_exp"` | Experience for a given spell. -1 means the spell is not known when read and that the spell should be forgotten if written. Required param: `spell` is the id of the spell in question.
-`"u_val": "proficiency"` | Deals with a proficiency. Required params: `proficiency_id` is the id of the proficiency dealt with. `format` determines how the proficiency will be interacted with. `"format": <int>` will read or write how much you have trained a proficiency out of <int>. So for exaple, if you write a 5 to a proficiency using `"format": 10`, you will set the proficiency to be trained to 50%. `"format": "percent"` reads or writes how many percen done the learning is. `"format": "permille"` does likewise for permille. `"format": "total_time_required"` gives you total time required to train a given proficiency (read only). `"format": "time_spent"` deals with total time spent. `"format": "time_left"` sets the remaining time instead. For most formats possible, If the resulting time is set to equal or more than the time required to learn the proficiency, you learn it. If you read it and it gives back the total time required, it means it is learnt. Setting the total time practiced to a negative value completely removes the proficiency from your known and practiced proficiencies. If you try to read time spent on a proficiency that is not in your proficiency list, you will get back 0 seconds.
-`"distance": []` | Distance between two targets. Valid targets are: "u","npc" and an object with a variable name.<br/><br/>Example:<pre>"condition": { "compare_num": [<br/>  { "distance": [ "u",{ "u_val": "stuck", "type": "ps", "context": "teleport" }  ] },<br/>  ">", { "const": 5 }<br/>] }</pre>
-`"hour"` | Hours since midnight.
-`"moon"` | Phase of the moon.<pre>MOON_NEW =0,<br/>WAXING_CRESCENT =1,<br/>HALF_MOON_WAXING =2,<br/>WAXING_GIBBOUS =3,<br/>FULL =4,<br/>WANING_GIBBOUS =5,<br/>HALF_MOON_WANING =6,<br/>WANING_CRESCENT =7</pre>
-`"arithmetic"` | An arithmetic expression with no result.<br/><br/>Example:<pre>"real_count": { "arithmetic": [<br/>  { "arithmetic": [ { "const":1 }, "+", { "const": 1 } ] },<br/>  "+", { "const": 1 }<br/>] },</pre>
-
-#### Sample responses with conditions and effects
+## Sample responses with conditions and effects
 ```json
 {
   "text": "Understood.  I'll get those antibiotics.",
@@ -1208,3 +1117,100 @@ Example | Description
   ]
 }
 ```
+
+---
+
+## Utility Structures
+
+### Variable Object
+`variable_object`: This is either an object, an `arithmetic` [expression](#compare-numbers-and-arithmetics) or array describing a variable name. It can either describe a double, a time duration or a string. If it is an array it must have 2 values the first of which will be a minimum and the second will be a maximum, the value will be randomly between the two. If it is a double `default` is a double which will be the value returned if the variable is not defined. If is it a duration then `default` can be either an int or a string describing a time span. `u_val`, `npc_val`, or `global_val` can be the used for the variable name element.  If `u_val` is used it describes a variable on player u, if `npc_val` is used it describes a variable on player npc, if `global_val` is used it describes a global variable.  If this is a duration `infinite` will be accepted to be a virtually infinite value(it is actually more than a year, if longer is needed a code change to make this a flag or something will be needed).
+
+example json:
+```
+"effect": [ { "u_mod_focus": { "u_val":"test", "default": 1 } },
+  { "u_mod_focus": [ 0, { "u_val":"test", "default": 1 } ] }
+  { "u_add_morale": "morale_honey","bonus": -20,"max_bonus": -60, "decay_start": 1,
+  "duration": { "global_val": "test2", "default": "2 minutes" },
+  {
+    "u_spawn_monster": "mon_absence",
+    "real_count": { "arithmetic": [ { "arithmetic": [ { "const":1 }, "+", { "const": 1 } ] }, "+", { "const": 1 } ] }
+  } ]
+
+```
+
+### Compare Numbers and Arithmetics
+`"compare_num"` can be used to compare two values to each other, while `"arithmetic"` can be used to take up to two values, perform arithmetic on them, and then save them in a third value. The syntax is as follows.
+```
+{
+  "text": "If player strength is more than or equal to 5, sets time since cataclysm to the player's focus times the player's maximum mana with at maximum a value of 15.",
+  "topic": "TALK_DONE",
+  "condition": { "compare_num": [ { "u_val": "strength" }, ">=", { "const": 5 } ] }
+  "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "=", { "u_val": "focus" }, "*", { "u_val": "mana_max" } ], "max":15 }
+},
+```
+`min` and `max` are optional double or variable_object values.  If supplied they will limit the result, it will be no lower than `min` and no higher than `max`. `min_time` and `max_time` work the same way but will parse times written as a string i.e. "10 hours".
+`"compare_num"` supports the following operators: `"=="`, `"="` (Both are treated the same, as a compare), `"!="`, `"<="`, `">="`, `"<"`, and `">"`.
+
+`"arithmetic"` supports the following operators: `"*"`, `"/"`, `"+"`, `"-"`, `"%"`, `"&"`, `"|"`, `"<<"`, `">>"`, `"~"`, `"^"` and the following results `"="`, `"*="`, `"/="`, `"+="`, `"-="`, `"%="`, `"++"`, and `"--"`
+
+To get player character properties, use `"u_val"`. To get NPC properties, use same syntax but `"npc_val"` instead. For vars only `global_val` is also allowed. A list of values that can be read and/or written to follows.
+
+Example | Description
+--- | ---
+`"const": 5` | A constant value, in this case 5. Can be read but not written to.
+`"time": "5 days"` | A constant time value. Will be converted to turns. Can be read but not written to.
+`"time_since_cataclysm": "turns"` | Time since the start of the cataclysm in turns. Can instead take other time units such as minutes, hours, days, weeks, seasons, and years.
+`"rand": 20` | A random value between 0 and a given value, in this case 20. Can be read but not written to.
+`"faction_trust": "free_merchants"` | The trust the faction has for the player.
+`"weather": "temperature"` | Current temperature.
+`"weather": "windpower"` | Current windpower.
+`"weather": "humidity"` | Current humidity.
+`"weather": "pressure"` | Current pressure.
+`"u_val": "strength"` | Player character's strength. Can be read but not written to. Replace `"strength"` with `"dexterity"`, `"intelligence"`, or `"perception"` to get such values.
+`"u_val": "strength_base"` | Player character's strength. Replace `"strength_base"` with `"dexterity_base"`, `"intelligence_base"`, or `"perception_base"` to get such values.
+`"u_val": "strength_bonus"` | Player character's current strength bonus. Replace `"strength_bonus"` with `"dexterity_bonus"`, `"intelligence_bonus"`, or `"perception_bonus"` to get such values.
+`"u_val": "var"` | Custom variable. `"var_name"`, `"type"`, and `"context"` must also be specified. If `global_val` is used then a global variable will be used. If `default` is given as either an int or a variable_object then that value will be used if the variable is empty. If `default_time` is the same thing will happen, but it will be parsed as a time string aka "10 hours". Otherwise 0 will be used if the variable is empty.
+`"u_val": "time_since_var"` | Time since a custom variable was set.  Unit used is turns. `"var_name"`, `"type"`, and `"context"` must also be specified.
+`"u_val": "allies"` | Number of allies the character has. Only supported for the player character. Can be read but not written to.
+`"u_val": "cash"` | Amount of money the character has. Only supported for the player character. Can be read but not written to.
+`"u_val": "owed"` | Owed money to the NPC you're talking to.
+`"u_val": "sold"` | Amount sold to the NPC you're talking to.
+`"u_val": "skill_level"` | Level in given skill. `"skill"` must also be specified.
+`"u_val": "pos_x"` | Player character x coordinate. "pos_y" and "pos_z" also works as expected.
+`"u_val": "pain"` | Pain level.
+`"u_val": "power"` | Bionic power in millijoule.
+`"u_val": "power_max"` | Max bionic power in millijoule. Can be read but not written to.
+`"u_val": "power_percentage"` | Percentage of max bionic power. Should be a number between 0 to 100.
+`"u_val": "morale"` | The current morale. Can be read but not written to for players and for monsters can be read and written to.
+`"u_val": "mana"` | Current mana.
+`"u_val": "mana_max"` | Max mana. Can be read but not written to.
+`"u_val": "hunger"` | Current perceived hunger. Can be read but not written to.
+`"u_val": "thirst"` | Current thirst.
+`"u_val": "stored_kcal"` | Stored kcal in the character's body. 55'000 is considered healthy.
+`"u_val": "stored_kcal_percentage"` | a value of 100 represents 55'000 kcal, which is considered healthy.
+`"u_val": "item_count"` | Number of a given item in the character's inventory. `"item"` must also be specified. Can be read but not written to.
+`"u_val": "exp"` | Total experience earned.
+`"u_val": "addiction_intensity", "addiction": "caffeine"` | Current intensity of the given addiction. Allows for an optional field `"mod"` which accepts an integer to multiply againt the current intensity.
+`"u_val": "addiction_turns", "addiction": "caffeine"` | Current duration left (in turns) for the given addiction.
+`"u_val": "stim"` | Current stim level.
+`"u_val": "pkill"` | Current painkiller level.
+`"u_val": "rad"` | Current radiation level.
+`"u_val": "focus"` | Current focus level.
+`"u_val": "activity_level"` | Current activity level index, from 0-5
+`"u_val": "fatigue"` | Current fatigue level.
+`"u_val": "stamina"` | Current stamina level.
+`"u_val": "sleep_deprivation"` | Current sleep deprivation level.
+`"u_val": "anger"` | Current anger level, only works for monsters.
+`"u_val": "friendly"` | Current friendly level, only works for monsters.
+`"u_val": "vitamin"` | Current vitamin level. `name` must also be specified which is the vitamins id.
+`"u_val": "age"` | Current age in years.
+`"u_val": "bmi_permil"` | Current BMI per mille (Body Mass Index x 1000)
+`"u_val": "height"` | Current height in cm. When setting there is a range for your character size category. Setting it too high or low will use the limit instead. For tiny its 58, and 87. For small its 88 and 144. For medium its 145 and 200. For large its 201 and 250. For huge its 251 and 320.
+`"u_val": "monsters_nearby"` | Number of monsters nearby. Optional params: `target_var` is a variable_object of a location variable to center the effect on, `id` is a variable_object, if its provided only monsters with this id will be counted, `radius` a variable_object of how far around the center to count from.
+`"u_val": "spell_level"` | Level of a given spell. -1 means the spell is not known when read and that the spell should be forgotten if written. Optional params: `school` gives the highest level of spells known of that school (read only), `spell` reads or writes the level of the spell with matching spell id. If no parameter is provided, you will get the highest spell level of the spells you know (read only).
+`"u_val": "spell_exp"` | Experience for a given spell. -1 means the spell is not known when read and that the spell should be forgotten if written. Required param: `spell` is the id of the spell in question.
+`"u_val": "proficiency"` | Deals with a proficiency. Required params: `proficiency_id` is the id of the proficiency dealt with. `format` determines how the proficiency will be interacted with. `"format": <int>` will read or write how much you have trained a proficiency out of <int>. So for exaple, if you write a 5 to a proficiency using `"format": 10`, you will set the proficiency to be trained to 50%. `"format": "percent"` reads or writes how many percen done the learning is. `"format": "permille"` does likewise for permille. `"format": "total_time_required"` gives you total time required to train a given proficiency (read only). `"format": "time_spent"` deals with total time spent. `"format": "time_left"` sets the remaining time instead. For most formats possible, If the resulting time is set to equal or more than the time required to learn the proficiency, you learn it. If you read it and it gives back the total time required, it means it is learnt. Setting the total time practiced to a negative value completely removes the proficiency from your known and practiced proficiencies. If you try to read time spent on a proficiency that is not in your proficiency list, you will get back 0 seconds.
+`"distance": []` | Distance between two targets. Valid targets are: "u","npc" and an object with a variable name.<br/><br/>Example:<pre>"condition": { "compare_num": [<br/>  { "distance": [ "u",{ "u_val": "stuck", "type": "ps", "context": "teleport" }  ] },<br/>  ">", { "const": 5 }<br/>] }</pre>
+`"hour"` | Hours since midnight.
+`"moon"` | Phase of the moon.<pre>MOON_NEW =0,<br/>WAXING_CRESCENT =1,<br/>HALF_MOON_WAXING =2,<br/>WAXING_GIBBOUS =3,<br/>FULL =4,<br/>WANING_GIBBOUS =5,<br/>HALF_MOON_WANING =6,<br/>WANING_CRESCENT =7</pre>
+`"arithmetic"` | An arithmetic expression with no result.<br/><br/>Example:<pre>"real_count": { "arithmetic": [<br/>  { "arithmetic": [ { "const":1 }, "+", { "const": 1 } ] },<br/>  "+", { "const": 1 }<br/>] },</pre>
