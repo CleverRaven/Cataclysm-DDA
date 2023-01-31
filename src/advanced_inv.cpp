@@ -1283,6 +1283,10 @@ void advanced_inventory::start_activity(
                    panes[dest].container->type_name() );
             return;
         }
+        if( sitem->items.front()->is_bucket_nonempty() ) {
+            popup( _( "The %s would spill if moved there." ), sitem->items.front()->tname() );
+            return;
+        }
         // Create drop locations out of target items and quantities
         drop_locations target_inserts;
         if( by_charges ) {
