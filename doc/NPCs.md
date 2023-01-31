@@ -131,6 +131,17 @@ Field | Default topic ID  | Uses for...
 `talk_stranger_friendly` | `TALK_STRANGER_FRIENDLY` | see "success and failure" section
 `talk_stranger_neutral` | `TALK_STRANGER_NEUTRAL` | see "success and failure" section
 
+## Validating Dialogues
+Keeping track of talk topics and making sure that all the topics referenced in responses are
+defined, and all defined topics are referenced in a response or an NPC's chat, is very tricky.
+There is a python script in `tools/dialogue_validator.py` that will map all topics to responses
+and vice versa.  Invoke it with
+```sh
+python3 tools/dialogue_validator.py data/json/npcs/* data/json/npcs/Backgrounds/* data/json/npcs/refugee_center/*
+```
+
+If you are writing a mod with dialogue, you can add the paths to the mod's dialogue files.
+
 ### Customize NPC speech
 NPCs have dialogue depending on the situation.
 This dialogue can be customized in `"type": "npc"` json entries.
@@ -257,16 +268,6 @@ Field | Used for...
 `<npc_val:VAR>` | The npc variable VAR
 `<global_val:VAR>` | The global variable VAR
 
-### Validating Dialogues
-Keeping track of talk topics and making sure that all the topics referenced in responses are
-defined, and all defined topics are referenced in a response or an NPC's chat, is very tricky.
-There is a python script in `tools/dialogue_validator.py` that will map all topics to responses
-and vice versa.  Invoke it with
-```sh
-python3 tools/dialogue_validator.py data/json/npcs/* data/json/npcs/Backgrounds/* data/json/npcs/refugee_center/*
-```
-
-If you are writing a mod with dialogue, you can add the paths to the mod's dialogue files.
 
 ## Talk topics
 
