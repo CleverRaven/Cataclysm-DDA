@@ -640,7 +640,7 @@
       "assign_mission_target": {
         "om_terrain": "helipad_nw",
         "reveal_radius": 10,
-        "om_special": "helipad",
+        "om_special": "military helipad",
         "search_range": 70,
         "min_distance": 25,
         "z": 0
