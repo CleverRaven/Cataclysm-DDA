@@ -738,6 +738,38 @@
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER_1" ]
   },
   {
+    "id": "mon_feral_soldier_flamer",
+    "type": "MONSTER",
+    "name": { "str": "feral burner" },
+    "description": "As the world ended, various rag-tag militias and the remaining military detachments tried to use fire to quell the apocalyse.  Their failure is manefest in this worn, lumbering volunteer; now beaten, bruised, and feral.  Tense, dirty hands grip a working flamethrower as they peers from its mask for threats.",
+    "copy-from": "mon_feral_soldier",
+    "color": "red",
+    "starting_ammo": { "napalm": 1200 },
+    "special_attacks": [
+      {
+        "type": "gun",
+        "cooldown": 5,
+        "move_cost": 150,
+        "gun_type": "flamethrower",
+        "ammo_type": "napalm",
+        "fake_skills": [ [ "gun", 2 ], [ "launcher", 2 ] ],
+        "fake_dex": 8,
+        "fake_per": 10,
+        "ranges": [ [ 0, 6, "DEFAULT" ] ],
+        "require_targeting_player": true,
+        "description": "Napalm spews from the flamethrower!"
+      }
+    ],
+    "luminance": 8,
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_open_helmet", "wps_humanoid_gasmask" ],
+    "zombify_into": "mon_zombie_soldier",
+    "death_drops": {
+      "subtype": "collection",
+      "groups": [ [ "mon_feral_soldier_death_drops", 100 ] ],
+      "items": [ { "item": "mask_gas", "prob": 100, "damage": [ 2, 3 ] }, { "item": "flamethrower", "prob": 100, "damage": [ 0, 1 ] } ]
+    }
+  },
+  {
     "id": "mon_feral_jackboot",
     "type": "MONSTER",
     "name": { "str": "feral biker" },
