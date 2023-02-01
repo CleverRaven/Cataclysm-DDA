@@ -351,7 +351,12 @@ std::pair<nutrients, nutrients> Character::compute_nutrient_range(
         tally_max -= byproduct_nutr;
     }
 
-    int charges = comest.count();
+    int charges = 0;
+    if( rec.makes_amount() == 0 ) {
+        charges = comest.charges;
+    } else {
+        charges = rec.makes_amount();
+    }
     return { tally_min / charges, tally_max / charges };
 }
 
