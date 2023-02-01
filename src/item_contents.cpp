@@ -384,6 +384,53 @@ bool pocket_favorite_callback::key( const input_context &ctxt, const input_event
             }
         }
         return true;
+    } else if( action == "FAV_SAVE_PRESET" ) {
+        string_input_popup custom_preset_popup;
+        custom_preset_popup
+        .title( _( "Enter a preset name:" ) )
+        .width( 25 )
+        .query_string();
+        if( !custom_preset_popup.canceled() ) {
+            std::string rval = custom_preset_popup.text();
+            // Check if already exists
+            selected_pocket->load_presets();
+            if( selected_pocket->has_preset( rval ) ) {
+                if( query_yn( _( "Preset already exists, overwrite?" ) ) ) {
+                    selected_pocket->delete_preset( selected_pocket->find_preset( rval ) );
+                    selected_pocket->settings.set_preset_name( rval );
+                    selected_pocket->add_preset( rval );
+                }
+            } else {
+                selected_pocket->settings.set_preset_name( rval );
+                selected_pocket->add_preset( rval );
+            }
+        }
+        return true;
+    } else if( action == "FAV_APPLY_PRESET" ) {
+        selected_pocket->load_presets();
+        for( auto preset : selected_pocket->pocket_presets ) {
+            selector_menu.addentry( preset.get_preset_name() );
+        }
+        selector_menu.query();
+
+        if( selector_menu.ret >= 0 ) {
+            selected_pocket->settings = selected_pocket->pocket_presets[selector_menu.ret];
+        }
+        return true;
+    } else if( action == "FAV_DEL_PRESET" ) {
+        selected_pocket->load_presets();
+        for( auto preset : selected_pocket->pocket_presets ) {
+            selector_menu.addentry( preset.get_preset_name() );
+        }
+        selector_menu.query();
+
+        if( selector_menu.ret >= 0 ) {
+            if( query_yn( _( "Are you sure wish to delete preset: %s" ),
+                          selected_pocket->pocket_presets[selector_menu.ret].get_preset_name() ) ) {
+                selected_pocket->delete_preset( selected_pocket->pocket_presets.begin() + selector_menu.ret );
+            }
+        }
+        return true;
     } else if( action == "FAV_CLEAR" ) {
         if( query_yn( _( "Are you sure you want to clear settings for pocket %d?" ), pocket_num ) ) {
             selected_pocket->settings.clear();
@@ -406,7 +453,13 @@ bool pocket_favorite_callback::key( const input_context &ctxt, const input_event
                         ctxt.get_action_name( "FAV_AUTO_PICKUP" ) );
         cmenu.addentry( 7, true, inp_mngr.get_first_char_for_action( "FAV_AUTO_UNLOAD", "INVENTORY" ),
                         ctxt.get_action_name( "FAV_AUTO_UNLOAD" ) );
-        cmenu.addentry( 8, true, inp_mngr.get_first_char_for_action( "FAV_CLEAR", "INVENTORY" ),
+        cmenu.addentry( 8, true, inp_mngr.get_first_char_for_action( "FAV_SAVE_PRESET", "INVENTORY" ),
+                        ctxt.get_action_name( "FAV_SAVE_PRESET" ) );
+        cmenu.addentry( 9, true, inp_mngr.get_first_char_for_action( "FAV_APPLY_PRESET", "INVENTORY" ),
+                        ctxt.get_action_name( "FAV_APPLY_PRESET" ) );
+        cmenu.addentry( 10, true, inp_mngr.get_first_char_for_action( "FAV_DEL_PRESET", "INVENTORY" ),
+                        ctxt.get_action_name( "FAV_DEL_PRESET" ) );
+        cmenu.addentry( 11, true, inp_mngr.get_first_char_for_action( "FAV_CLEAR", "INVENTORY" ),
                         ctxt.get_action_name( "FAV_CLEAR" ) );
         cmenu.query();
 
@@ -437,6 +490,15 @@ bool pocket_favorite_callback::key( const input_context &ctxt, const input_event
                 ev = "FAV_AUTO_UNLOAD";
                 break;
             case 8:
+                ev = "FAV_SAVE_PRESET";
+                break;
+            case 9:
+                ev = "FAV_APPLY_PRESET";
+                break;
+            case 10:
+                ev = "FAV_DEL_PRESET";
+                break;
+            case 11:
                 ev = "FAV_CLEAR";
                 break;
             default:
@@ -444,7 +506,7 @@ bool pocket_favorite_callback::key( const input_context &ctxt, const input_event
 
         }
         const std::vector<input_event> evlist = inp_mngr.get_input_for_action( ev, "INVENTORY" );
-        if( cmenu.ret >= 0 && cmenu.ret <= 8 && !evlist.empty() ) {
+        if( cmenu.ret >= 0 && cmenu.ret <= 11 && !evlist.empty() ) {
             return key( ctxt, evlist.front(), -1, menu );
         }
         return true;
@@ -2365,7 +2427,10 @@ void item_contents::favorite_settings_menu( item *i )
         { "FAV_BLACKLIST", translation() },
         { "FAV_CLEAR", translation() },
         { "FAV_MOVE_ITEM", translation() },
-        { "FAV_CONTEXT_MENU", translation() }
+        { "FAV_CONTEXT_MENU", translation() },
+        { "FAV_SAVE_PRESET", translation() },
+        { "FAV_APPLY_PRESET", translation() },
+        { "FAV_DEL_PRESET", translation() }
     };
     // we override confirm
     pocket_selector.allow_confirm = false;

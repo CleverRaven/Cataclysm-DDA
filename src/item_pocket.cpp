@@ -23,6 +23,7 @@
 #include "item_location.h"
 #include "itype.h"
 #include "json.h"
+#include "json_loader.h"
 #include "localized_comparator.h"
 #include "map.h"
 #include "math_defines.h"
@@ -2113,6 +2114,84 @@ void item_pocket::heat_up()
     }
 }
 
+void item_pocket::add_preset( std::string s )
+{
+    pocket_presets.emplace_back( settings );
+    save_presets();
+}
+
+void item_pocket::save_presets()
+{
+    cata::ifstream fin;
+    cata_path file = PATH_INFO::pocket_presets();
+
+    write_to_file( file, [&]( std::ostream & fout ) {
+        JsonOut jout( fout, true );
+        serialize_presets( jout );
+    }, _( "pocket preset configuration" ) );
+}
+
+bool item_pocket::has_preset( const std::string s )
+{
+    return find_preset( s ) != pocket_presets.end();
+}
+
+std::vector<item_pocket::favorite_settings>::iterator item_pocket::find_preset(
+    const std::string s )
+{
+    std::vector<item_pocket::favorite_settings>::iterator iter = std::find_if( pocket_presets.begin(),
+            pocket_presets.end(),
+    [&s]( const item_pocket::favorite_settings & preset ) {
+        return preset.get_preset_name() == s;
+    } );
+    return iter;
+}
+
+void item_pocket::delete_preset( const std::vector<item_pocket::favorite_settings>::iterator iter )
+{
+    pocket_presets.erase( iter );
+    save_presets();
+}
+
+void item_pocket::load_presets()
+{
+    cata::ifstream fin;
+    cata_path file = PATH_INFO::pocket_presets();
+
+    fs::path file_path = file.get_unrelative_path();
+    fin.open( file_path, std::ifstream::in | std::ifstream::binary );
+
+    if( fin.good() ) {
+        try {
+            JsonValue jsin = json_loader::from_path( file );
+            deserialize_presets( jsin.get_array() );
+        } catch( const JsonError &e ) {
+            debugmsg( "Error while loading pocket presets: %s", e.what() );
+        }
+    }
+
+    fin.close();
+}
+
+void item_pocket::serialize_presets( JsonOut &json ) const
+{
+    json.start_array();
+    for( auto preset : pocket_presets ) {
+        preset.serialize( json );
+    }
+    json.end_array();
+}
+
+void item_pocket::deserialize_presets( const JsonArray &ja )
+{
+    pocket_presets.clear();
+    for( JsonObject jo : ja ) {
+        item_pocket::favorite_settings preset;
+        preset.deserialize( jo );
+        pocket_presets.emplace_back( preset );
+    }
+}
+
 units::volume pocket_data::max_contains_volume() const
 {
     if( ammo_restriction.empty() ) {
@@ -2340,6 +2419,16 @@ void item_pocket::favorite_settings::set_unloadable( bool flag )
     unload = flag;
 }
 
+void item_pocket::favorite_settings::set_preset_name( const std::string s )
+{
+    preset_name = s;
+}
+
+std::string item_pocket::favorite_settings::get_preset_name() const
+{
+    return preset_name;
+}
+
 template<typename T>
 std::string enumerate( cata::flat_set<T> container )
 {
@@ -2360,6 +2449,7 @@ void item_pocket::favorite_settings::info( std::vector<iteminfo> &info ) const
         info.emplace_back( "BASE", string_format(
                                _( "Items in this pocket <bad>won't be unloaded</bad> unless you manually drop them." ) ) );
     }
+    info.emplace_back( "BASE", string_format( _( "Preset Name: %s" ), preset_name ) );
     info.emplace_back( "BASE", string_format( "%s %d", _( "Priority:" ), priority_rating ) );
     info.emplace_back( "BASE", string_format( _( "Item Whitelist: %s" ),
                        item_whitelist.empty() ? _( "(empty)" ) :

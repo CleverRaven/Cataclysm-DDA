@@ -113,11 +113,15 @@ class item_pocket
                 bool is_unloadable() const;
                 void set_unloadable( bool );
 
+                std::string get_preset_name() const;
+                void set_preset_name(const std::string);
+
                 void info( std::vector<iteminfo> &info ) const;
 
                 void serialize( JsonOut &json ) const;
                 void deserialize( const JsonObject &data );
             private:
+                std::string preset_name = "";
                 int priority_rating = 0;
                 cata::flat_set<itype_id> item_whitelist;
                 cata::flat_set<itype_id> item_blacklist;
@@ -380,6 +384,17 @@ class item_pocket
         bool operator==( const item_pocket &rhs ) const;
 
         favorite_settings settings;
+
+        // Pocket presets functions
+        void serialize_presets(JsonOut& json) const;
+        void deserialize_presets(const JsonArray& ja);
+        void load_presets();
+        void add_preset(std::string s);
+        void save_presets();
+        std::vector<item_pocket::favorite_settings>::iterator find_preset(const std::string s);
+        bool has_preset(const std::string s);
+        void delete_preset(const std::vector<item_pocket::favorite_settings>::iterator iter);
+        std::vector<item_pocket::favorite_settings> pocket_presets;
 
         // should the name of this pocket be used as a description
         bool name_as_description = false; // NOLINT(cata-serialize)
