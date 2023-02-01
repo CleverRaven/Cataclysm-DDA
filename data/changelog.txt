@@ -349,6 +349,12 @@ minimum of two zombies to receive suffocation
 Banks deploy cop bots instead of TALON killbots when agitated
 gas masks no longer make you immune to getting sick
 Replace most ASRGs with conventional fuel-powered generators
+Adds assorted costumes to the objective of the Cosplay mission.
+Use find_clear_path always for projectile trajectories, not just when it hits.
+Makes using a spear on enemies through fences/bars normally at low levels instead of defaulting to bashing on bars/fence instead.
+Add additional sources of patchwork cotton sheets from deconstruction
+Mole Crickets and Molerats can now give tetanus with bites
+
 
 ## Bugfixes:
 1404 Named bugfixes (a multiple of this number unnamed) including over 60+ fixes of crash to desktop bugs (I lost count)
