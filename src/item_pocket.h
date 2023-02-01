@@ -114,7 +114,7 @@ class item_pocket
                 void set_unloadable( bool );
 
                 std::string get_preset_name() const;
-                void set_preset_name(const std::string);
+                void set_preset_name( const std::string );
 
                 void info( std::vector<iteminfo> &info ) const;
 
@@ -386,14 +386,14 @@ class item_pocket
         favorite_settings settings;
 
         // Pocket presets functions
-        void serialize_presets(JsonOut& json) const;
-        void deserialize_presets(const JsonArray& ja);
+        void serialize_presets( JsonOut &json ) const;
+        void deserialize_presets( const JsonArray &ja );
         void load_presets();
-        void add_preset(std::string s);
+        void add_preset( const item_pocket::favorite_settings preset );
         void save_presets();
-        std::vector<item_pocket::favorite_settings>::iterator find_preset(const std::string s);
-        bool has_preset(const std::string s);
-        void delete_preset(const std::vector<item_pocket::favorite_settings>::iterator iter);
+        std::vector<item_pocket::favorite_settings>::iterator find_preset( const std::string s );
+        bool has_preset( const std::string s );
+        void delete_preset( const std::vector<item_pocket::favorite_settings>::iterator iter );
         std::vector<item_pocket::favorite_settings> pocket_presets;
 
         // should the name of this pocket be used as a description

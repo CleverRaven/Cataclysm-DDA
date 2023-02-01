@@ -4076,6 +4076,27 @@
   },
   {
     "type": "keybinding",
+    "id": "FAV_SAVE_PRESET",
+    "category": "INVENTORY",
+    "name": "Save preset",
+    "bindings": [ { "input_method": "keyboard_any", "key": "S" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "FAV_APPLY_PRESET",
+    "category": "INVENTORY",
+    "name": "Apply preset",
+    "bindings": [ { "input_method": "keyboard_any", "key": "A" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "FAV_DEL_PRESET",
+    "category": "INVENTORY",
+    "name": "Delete preset",
+    "bindings": [ { "input_method": "keyboard_any", "key": "D" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "FAV_CLEAR",
     "category": "INVENTORY",
     "name": "Clear entries",

@@ -2540,9 +2540,9 @@ void outfit::organize_items_menu()
         { "FAV_CLEAR", translation() },
         { "FAV_MOVE_ITEM", translation() },
         { "FAV_CONTEXT_MENU", translation() },
-        { "FAV_SAVE_PRESET", translation()},
-        { "FAV_APPLY_PRESET", translation()},
-        { "FAV_DEL_PRESET", translation()}
+        { "FAV_SAVE_PRESET", translation() },
+        { "FAV_APPLY_PRESET", translation() },
+        { "FAV_DEL_PRESET", translation() }
     };
     // we override confirm
     pocket_selector.allow_confirm = false;

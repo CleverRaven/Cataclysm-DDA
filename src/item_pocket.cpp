@@ -2114,9 +2114,9 @@ void item_pocket::heat_up()
     }
 }
 
-void item_pocket::add_preset( std::string s )
+void item_pocket::add_preset( const item_pocket::favorite_settings preset )
 {
-    pocket_presets.emplace_back( settings );
+    pocket_presets.emplace_back( preset );
     save_presets();
 }
 
@@ -2216,6 +2216,7 @@ units::volume pocket_data::max_contains_volume() const
 
 void item_pocket::favorite_settings::clear()
 {
+    preset_name = "";
     priority_rating = 0;
     item_whitelist.clear();
     item_blacklist.clear();
