@@ -711,7 +711,9 @@
       "EATPOISON",
       "EATDEAD",
       "ALCMET",
-      "SAPROVORE"
+      "SAPROVORE",
+      "LACTOSE",
+      "GRAZER"
     ]
   },
   {
