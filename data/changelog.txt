@@ -21,8 +21,8 @@ Electrical fields can now produce EMP that will destroy unprotected electronics
 Perspiration now exists so that your PC can wear heavy armor during summer without overheating, instead they'll sweat heavily and experience thirst faster.
 
 ## Statistics
-7881 files changed, 11635744 insertions(+), 5019082 deletions(-)
-13,071 commits
+7889 files changed, 11643312 insertions(+), 5022361 deletions(-)
+13,201 commits
 ~218 new contributors
 
 New game entities (core): 10293
@@ -136,6 +136,8 @@ You can now peek down a ledge to check if it's safe before climbing down
 Metaprogression through achievements
 Allow mounting any reasonable gun on turret mount
 EMP blast renders all electronic items in the radius of the blast non-functional
+Extended byproduct groups functionality
+Add bodygraph displaying wetness status
 
 ## Content:
 Half a dozen new basecamp locations
@@ -163,7 +165,7 @@ The refugee center merchant has been remade into a new NPC named Smokes.
 Appliances for all kinds of furniture including lamps, washing machines, arcade machines, tool machines.
 Propane gas and tanks
 Isolated Artisans Faction
-Add new Bōjutsu Marital Art
+Add new Bōjutsu Martial Art
 Blacksmithing rework
 New easter eggs, no I won't list them
 Civilian Bugout Bags Filled With What You Expect
@@ -182,6 +184,7 @@ Skulls
 A plethora of mutable locations including farms and river caves
 Meat Cocoons and Zombie Amalgations
 Even more monsters, items, foods, locations, and recipes
+Bird nests can be found on roofs
 
 ## Interface:
 Hide tiles overmap behind an option
@@ -235,6 +238,10 @@ Possibility to turn distractions on and off
 Show compatible guns in magazine descriptions
 Show proficiencies trained by dissecting
 Mark overmap location if player drops favorited item
+Ursine has its own faces now (no horizontal)
+[ASCIITileset] Change Unknow terrain to use the unseen sprite
+Sidebar vehicle stats are now hidden until relevant
+Makes all appearance mutations visible in menus
 
 ## Documentation:
 monster HP scaling section in GAME_BALANCE
@@ -422,6 +429,28 @@ Fix building ramps and stairs
 Replaced all ATTACKMON entire with PUSH_MON
 Workaround language from being unsettable in options menu
 Disallow placing stepladder if a vehicle in tile
+Don't trigger any effect when setting and unsetting cosmetic traits
+Drill press is now able to drill
+Attempted theft has consequences
+shorter bio-operator attack effect durations
+Napkins and Cardboard are no longer comestible
+Prevent huge mutants from thinking spots in cars are comfortable to sleep in when they aren't
+Using worn unarmed weapons raises unarmed skill
+Remove workbench construction vs crafting exploit
+Add `FISH_TRAP` tool quality so that NPCs can use either kind of fish trap
+Make open red & green glass doors look like open glass doors
+Fix bodystatus window wetness display
+fix for speed bonus from Speedydex applying twice
+Monsters add weight to vehicle when on boardable parts
+Flammable arrows bugfixes
+Make vehicle::coeff_air_drag() work as intended, in aspect of vehicle length and low-air-drag vehicle tail parts.
+Fix SPEEDLOADER Flag
+Include spell name in default msg for relic spells
+Make AUTO_PICKUP_SAFEMODE also consider ignored mobs
+Remove athletics training for waiting in water
+Reset daily health at the end of each day
+Fixed some xl/xs armor recipes to make tool requirements consistent across all sizes
+Integrated armors no longer cause encumbrance from some mutations
 
 ## Performance:
 Improve lighting performance
@@ -446,6 +475,8 @@ Performance Improvement for item::can_contain
 Binary json input for various performance wins
 Misc vehicle/appliance performance improvements
 Fix Repair menu shows slow
+Code optimizations reported by static code analysis
+Make `Character::best_item_with_quality` examine items non-recursively
 
 ## Infrastructure:
 Provide documentation and support for llama builds
@@ -528,6 +559,13 @@ Allow setting terminal cursor for screen readers and IME preview using ui_adapto
 Tons of documentation work
 Set age for monster corpses in json mapgen
 Move the Find Lost Dog mission to JSON
+Vehicle energy_consumption in units::power
+item power_draw in units::power
+Convert the 'Recover Priests Diary' mission to JSON
+Move the 'Kill Horde Master' mission to JSON formatting
+Fixed situation where 'overflow on combine' test could randomly fail
+Consolidate functions for character's best item with given quality
+Move the Retrieve Deposit Box mission to JSON format
 
 
 ## Build:
@@ -563,6 +601,8 @@ Bundle library dependencies in macOS release workflow
 COMPILING.md update for FreeBSD
 freedesktop metadata files are updated and installed when appropriate
 Build linux releases on ubuntu-18.04
+Update flatpak manifest
+Fix CMake mixed signature error and outdated localization code
 
 ## I18N and A11Y:
 Make stimulation effect string easier to translate
