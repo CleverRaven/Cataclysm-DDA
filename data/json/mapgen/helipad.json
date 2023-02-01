@@ -116,7 +116,13 @@
         "&": { "item": "SUS_toilet", "chance": 50 }
       },
       "vendingmachines": { "1": { "item_group": "vending_drink", "lootable": true }, "2": { "item_group": "vending_food", "lootable": true } },
-      "place_monsters": [ { "monster": "GROUP_MIL_STRONG", "x": 36, "y": 15 }, { "monster": "GROUP_MIL_WEAK", "x": 24, "y": 30, "density": 2 } ],
+      "place_monster": [
+        { "group": "GROUP_MIL_HELIPAD", "x": [ 3, 21 ], "y": [ 4, 23 ], "chance": 50, "repeat": [ 8, 15 ] },
+        { "group": "GROUP_MIL_HELIPAD", "x": [ 24, 40 ], "y": [ 10, 23 ], "chance": 40, "repeat": [ 5, 10 ] },
+        { "group": "GROUP_MIL_HELIPAD", "x": [ 24, 40 ], "y": [ 24, 42 ], "chance": 60, "repeat": [ 10, 20 ] },
+        { "group": "GROUP_MIL_PILOT", "x": [ 5, 20 ], "y": [ 24, 42 ], "chance": 80, "repeat": [ 0, 2 ] },
+        { "group": "GROUP_MIL_PASSENGER", "x": [ 5, 20 ], "y": [ 24, 42 ], "chance": 60, "repeat": [ 1, 8 ] }
+      ],
       "monster": { "T": { "monster": "mon_turret_searchlight" } },
       "place_vehicles": [
         { "vehicle": "forklift_vehicles", "x": 29, "y": 6, "chance": 95, "rotation": 180, "status": 1 },
@@ -195,7 +201,10 @@
         "=": { "item": "roof_trash", "chance": 2 },
         "&": { "item": "SUS_toilet", "chance": 50 }
       },
-      "place_monsters": [ { "monster": "GROUP_MIL_WEAK", "x": 10, "y": 20, "density": 0.5 } ],
+      "place_monster": [
+        { "group": "GROUP_MIL_HELIPAD", "x": [ 6, 19 ], "y": [ 18, 23 ], "chance": 50, "repeat": [ 4, 7 ] },
+        { "group": "GROUP_MIL_PASSENGER", "x": [ 6, 19 ], "y": [ 18, 23 ], "chance": 10, "repeat": [ 0, 2 ] }
+      ],
       "place_nested": [
         {
           "chunks": [ [ "roof_2x2_infrastructure", 40 ], [ "roof_2x2_infrastructure_2", 30 ], [ "roof_2x2_utilities", 30 ] ],
