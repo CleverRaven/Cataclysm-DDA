@@ -118,6 +118,7 @@ class talker_character_const: public talker
         bool worn_with_flag( const flag_id &flag, const bodypart_id &bp ) const override;
         bool wielded_with_flag( const flag_id &flag ) const override;
         bool has_item_with_flag( const flag_id &flag ) const override;
+        int item_rads( const flag_id &flag, aggregate_type agg_func ) const override;
 
         bool can_see() const override;
         int morale_cur() const override;
