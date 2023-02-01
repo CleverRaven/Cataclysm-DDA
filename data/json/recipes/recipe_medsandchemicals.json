@@ -1430,11 +1430,16 @@
     "subcategory": "CSC_CHEM_CHEMICALS",
     "skill_used": "chemistry",
     "difficulty": 3,
-    "charges": 785,
+    "charges": 500,
     "time": "2 h",
     "autolearn": true,
-    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "BOIL", "level": 2 } ],
-    "components": [ [ [ "chem_zinc_oxide", 785 ] ], [ [ "coal_lump", 25 ], [ "charcoal", 50 ] ] ]
+    "//1": "unlike smelting zinc_metal from material_zincite above, we want to guarantee complete reduction here",
+    "//2": "ZnO + C -> Zn + CO | being extremely conservative; basically doubled carbon input + allow excess for wastage",
+    "//3": "80×931mg anthracite coal @ ~90% carbon ~ 5.5809 mol C",
+    "using": [ [ "forging_standard", 2 ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "//": "carbon content of wood charcoal varies drastically (50~95%); picked ~80.56% so that 1040mg charcoal equiv. to 931mg coal",
+    "components": [ [ [ "chem_zinc_oxide", 500 ] ], [ [ "coal_lump", 80 ], [ "charcoal", 80 ] ] ]
   },
   {
     "result": "chem_manganese_dioxide",
