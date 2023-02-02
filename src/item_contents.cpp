@@ -391,7 +391,7 @@ bool pocket_favorite_callback::key( const input_context &ctxt, const input_event
         .width( 25 )
         .query_string();
         if( !custom_preset_popup.canceled() ) {
-            std::string rval = custom_preset_popup.text();
+            const std::string &rval = custom_preset_popup.text();
             // Check if already exists
             selected_pocket->load_presets();
             if( selected_pocket->has_preset( rval ) ) {
@@ -409,7 +409,7 @@ bool pocket_favorite_callback::key( const input_context &ctxt, const input_event
     } else if( action == "FAV_APPLY_PRESET" ) {
         selected_pocket->load_presets();
         selector_menu.title = _( "Select a Preset" );
-        for( auto preset : selected_pocket->pocket_presets ) {
+        for( const item_pocket::favorite_settings &preset : selected_pocket->pocket_presets ) {
             selector_menu.addentry( preset.get_preset_name() );
         }
         selector_menu.query();
@@ -420,7 +420,7 @@ bool pocket_favorite_callback::key( const input_context &ctxt, const input_event
         return true;
     } else if( action == "FAV_DEL_PRESET" ) {
         selected_pocket->load_presets();
-        for( auto preset : selected_pocket->pocket_presets ) {
+        for( const item_pocket::favorite_settings &preset : selected_pocket->pocket_presets ) {
             selector_menu.addentry( preset.get_preset_name() );
         }
         selector_menu.query();

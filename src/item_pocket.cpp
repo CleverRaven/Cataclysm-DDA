@@ -2114,13 +2114,13 @@ void item_pocket::heat_up()
     }
 }
 
-void item_pocket::add_preset( const item_pocket::favorite_settings preset )
+void item_pocket::add_preset( const item_pocket::favorite_settings &preset )
 {
     pocket_presets.emplace_back( preset );
     save_presets();
 }
 
-void item_pocket::save_presets()
+void item_pocket::save_presets() const
 {
     cata::ifstream fin;
     cata_path file = PATH_INFO::pocket_presets();
@@ -2176,7 +2176,7 @@ void item_pocket::load_presets()
 void item_pocket::serialize_presets( JsonOut &json ) const
 {
     json.start_array();
-    for( auto preset : pocket_presets ) {
+    for( const item_pocket::favorite_settings &preset : pocket_presets ) {
         preset.serialize( json );
     }
     json.end_array();
