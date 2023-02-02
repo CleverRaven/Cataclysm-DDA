@@ -328,7 +328,7 @@
     "id": "mon_flaming_eye",
     "type": "MONSTER",
     "name": { "str": "flaming eye" },
-    "description": "An enormous disembodied eyeball the size of a person, flying through the air through some unknown agency.  Wreathed in unnatural flickering blue flame, it possesses a blazing yellow iris with a slitted pupil like that of a cat, and trails a set of flailing black tendrils as it slowly drifts about.  You involuntarily get a heavy, sinking feeling deep in your gut as its gaze lazily centers itself onto you.",
+    "description": "An enormous disembodied eyeball the size of a person, flying through the air through some unknown agency.  Wreathed in unnatural flickering blue flame, it possesses a blazing yellow iris with a slitted pupil like that of a cat, and trails a set of flailing black tendrils as it slowly drifts about.  You involuntarily get a heavy, sinking feeling deep in your gut as you watch its gaze comb over the world around it.",
     "default_faction": "nether",
     "species": [ "NETHER" ],
     "diff": 20,
