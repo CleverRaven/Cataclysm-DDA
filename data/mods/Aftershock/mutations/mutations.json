@@ -104,6 +104,65 @@
   },
   {
     "type": "mutation",
+    "id": "THICKSKIN",
+    "copy-from": "THICKSKIN",
+    "extend": { "category": [ "MIGO", "MASTODON" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "THICK_HIDE",
+    "name": { "str": "Thick Hide" },
+    "points": 2,
+    "visibility": 10,
+    "ugliness": 2,
+    "description": "Your skin has thickened and toughened further, acting as natural armor.  Somewhat reduces wet effects.",
+    "types": [ "SKIN" ],
+    "category": [ "MIGO" ],
+    "prereqs": [ "THICKSKIN" ],
+    "changes_to": [ "DENTICLES" ],
+    "wet_protection": [
+      { "part": "head", "ignored": 2 },
+      { "part": "leg_l", "ignored": 5 },
+      { "part": "leg_r", "ignored": 5 },
+      { "part": "foot_l", "ignored": 2 },
+      { "part": "foot_r", "ignored": 2 },
+      { "part": "arm_l", "ignored": 4 },
+      { "part": "arm_r", "ignored": 4 },
+      { "part": "hand_l", "ignored": 1 },
+      { "part": "hand_r", "ignored": 1 },
+      { "part": "torso", "ignored": 10 }
+    ],
+    "integrated_armor": [ "integrated_hide" ]
+  },
+  {
+    "type": "mutation",
+    "id": "RHOMBOIDAL_DENTICLES",
+    "name": { "str": "Rhomboidal Denticles" },
+    "points": 3,
+    "visibility": 10,
+    "ugliness": 4,
+    "mixed_effect": true,
+    "description": "Your skin has thick diamond shaped enamel scutes that both armor your body and allow you to move more smoothly in water.  While difficult to penetrate, it also limits your flexibility.  Greatly reduces wet effects.",
+    "types": [ "SKIN" ],
+    "prereqs": [ "SCALES" ],
+    "threshreq": [ "THRESH_YUGGOTH" ],
+    "category": [ "MIGO" ],
+    "wet_protection": [
+      { "part": "head", "ignored": 15 },
+      { "part": "leg_l", "ignored": 26 },
+      { "part": "leg_r", "ignored": 26 },
+      { "part": "foot_l", "ignored": 15 },
+      { "part": "foot_r", "ignored": 15 },
+      { "part": "arm_l", "ignored": 24 },
+      { "part": "arm_r", "ignored": 24 },
+      { "part": "hand_l", "ignored": 14 },
+      { "part": "hand_r", "ignored": 14 },
+      { "part": "torso", "ignored": 50 }
+    ],
+    "integrated_armor": [ "integrated_rhomboidal_denticles" ]
+  },
+  {
+    "type": "mutation",
     "id": "NEURAL_IMPROVEMENT",
     "name": "Neural Improvement",
     "points": 1,
@@ -273,7 +332,7 @@
     "valid": false,
     "purifiable": false,
     "types": [ "SCENT" ],
-    "prereqs": [ "SMELLY", "SMELLY2" ],
+    "prereqs": [ "SMELLY2" ],
     "threshreq": [ "THRESH_YUGGOTH" ],
     "category": [ "MIGO" ],
     "ugliness": 1,
@@ -349,12 +408,6 @@
     "type": "mutation",
     "id": "TOUGH_FEET",
     "copy-from": "TOUGH_FEET",
-    "extend": { "category": [ "MASTODON" ] }
-  },
-  {
-    "type": "mutation",
-    "id": "THICKSKIN",
-    "copy-from": "THICKSKIN",
     "extend": { "category": [ "MASTODON" ] }
   },
   {
