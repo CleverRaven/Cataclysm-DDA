@@ -1070,13 +1070,16 @@
     "material": [ "stone" ],
     "symbol": "/",
     "color": "dark_gray",
-    "use_action": {
+    "use_action": [ 
+	{
       "type": "transform",
       "need_wielding": true,
       "target": "eshaper_ax",
       "menu_text": "Transform",
       "msg": "Your pickaxe transforms into an ax!"
-    },
+     },
+"PICKAXE"
+	],
     "extend": { "flags": [ "TRADER_AVOID", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS" ] }
   },
   {
@@ -1090,8 +1093,7 @@
     "symbol": "/",
     "cutting": 7,
     "color": "dark_gray",
-    "use_action": [ "PICKAXE" ]
-	{
+    "use_action": {
       "type": "transform",
       "need_wielding": true,
       "target": "eshaper_knife",
