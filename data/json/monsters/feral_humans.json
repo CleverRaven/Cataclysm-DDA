@@ -757,7 +757,7 @@
         "fake_per": 10,
         "ranges": [ [ 0, 6, "DEFAULT" ] ],
         "require_targeting_player": false,
-        "description": "The feral burner fires its' flamethrower."
+        "description": "The feral burner fires its flamethrower!"
       }
     ],
     "luminance": 8,
