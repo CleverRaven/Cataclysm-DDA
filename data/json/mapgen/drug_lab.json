@@ -3,7 +3,6 @@
     "method": "json",
     "om_terrain": "drug_lab",
     "type": "mapgen",
-    "weight": 100,
     "object": {
       "rows": [
         "                        ",
