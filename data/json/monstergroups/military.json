@@ -187,6 +187,10 @@
     "name": "GROUP_MIL_MASS_GRAVE",
     "type": "monstergroup",
     "//": "Lots of hazmats.",
-    "monsters": [ { "monster": "mon_zombie_soldier", "weight": 10 }, { "monster": "mon_zombie_hazmat", "weight": 20 }, { "monster": "mon_feral_soldier_flamer", "weight": 10, "starts": "10 days" } ]
+    "monsters": [
+      { "monster": "mon_zombie_soldier", "weight": 10 },
+      { "monster": "mon_zombie_hazmat", "weight": 20 },
+      { "monster": "mon_feral_soldier_flamer", "weight": 10, "starts": "10 days" }
+    ]
   }
 ]
