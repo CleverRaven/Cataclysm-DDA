@@ -2735,5 +2735,17 @@
     "speaker": [ "mon_feral_granny" ],
     "sound": "\"That's my purse!  I don't know you!\"",
     "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_zombie_brute_shocker", "mon_zombie_electric", "mon_zombie_nullfield", "mon_skeleton_electric" ],
+    "sound": "zapping noises.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_zombie_brute_shocker", "mon_zombie_electric", "mon_zombie_nullfield", "mon_skeleton_electric" ],
+    "sound": "electrical sparks.",
+    "volume": 20
   }
 ]
