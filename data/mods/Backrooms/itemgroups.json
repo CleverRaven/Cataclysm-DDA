@@ -648,8 +648,11 @@
     "type": "item_group",
     "//": "Any generic trashcan. For trash.",
     "subtype": "distribution",
-    "entries": [ { "group": "trash", "count": [ 1, 5 ], "prob": 1000 }, { "group": "trash_forest", "count": [ 1, 4 ], "prob": 100 },
-    { "group": "backrooms_artifacts", "prob": 1 } ]
+    "entries": [
+      { "group": "trash", "count": [ 1, 5 ], "prob": 1000 },
+      { "group": "trash_forest", "count": [ 1, 4 ], "prob": 100 },
+      { "group": "backrooms_artifacts", "prob": 1 }
+    ]
   },
   {
     "id": "backrooms_master_filing",
