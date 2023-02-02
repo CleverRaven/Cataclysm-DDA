@@ -741,7 +741,7 @@
     "id": "mon_feral_soldier_flamer",
     "type": "MONSTER",
     "name": { "str": "feral burner" },
-    "description": "As the world ended, various rag-tag militias and the remaining military detachments tried to use fire to quell the apocalyse.  Their failure is manefest in this worn, lumbering volunteer; now beaten, bruised, and feral.  Tense, dirty hands grip a working flamethrower as they peers from its mask for threats.",
+    "description": "As the world ended, various rag-tag militias and the remaining military detachments tried to use fire to quell the apocalyse.  Their failure is manifest in this worn, lumbering volunteer; now beaten, bruised, and feral.  Tense, dirty hands grip a working flamethrower as they peers from its mask for threats.",
     "copy-from": "mon_feral_soldier",
     "color": "red",
     "starting_ammo": { "napalm": 1200 },
@@ -757,7 +757,7 @@
         "fake_per": 10,
         "ranges": [ [ 0, 6, "DEFAULT" ] ],
         "require_targeting_player": false,
-        "description": "Napalm spews from the flamers' flamethrower!"
+        "description": "The feral burner fires its' flamethrower."
       }
     ],
     "luminance": 8,
