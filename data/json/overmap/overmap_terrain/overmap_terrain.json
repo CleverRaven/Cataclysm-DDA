@@ -605,6 +605,14 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "drug_lab",
+    "name": "drug lab",
+    "sym": "^",
+    "color": "brown",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
     "id": [
       "campground_1a",
       "campground_1b",
