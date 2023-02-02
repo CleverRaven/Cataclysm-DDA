@@ -260,7 +260,10 @@ bool pocket_favorite_callback::key( const input_context &ctxt, const input_event
         string_input_popup popup;
         popup.title( string_format( _( "Enter Priority (current priority %d)" ),
                                     selected_pocket->settings.priority() ) );
-        selected_pocket->settings.set_priority( popup.query_int() );
+        const int ret = popup.query_int();
+        if( popup.confirmed() ) {
+            selected_pocket->settings.set_priority( ret );
+        }
         return true;
     } else if( action == "FAV_AUTO_PICKUP" ) {
         selected_pocket->settings.set_disabled( !selected_pocket->settings.is_disabled() );

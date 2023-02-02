@@ -178,6 +178,12 @@ void avatar::control_npc( npc &np )
         shadow_npc->op_of_u.value = 10;
         shadow_npc->set_attitude( NPCATT_FOLLOW );
     }
+    character_id new_character = np.getID();
+    const std::function<void( npc & )> update_npc = [new_character]( npc & guy ) {
+        guy.update_missions_target( get_avatar().getID(), new_character );
+    };
+    overmap_buffer.foreach_npc( update_npc );
+    mission().update_world_missions_character( get_avatar().getID(), new_character );
     npc tmp;
     // move avatar character data into shadow npc
     swap_character( *shadow_npc, tmp );
@@ -343,10 +349,14 @@ void avatar::on_mission_assignment( mission &new_mission )
 void avatar::on_mission_finished( mission &cur_mission )
 {
     if( cur_mission.has_failed() ) {
-        failed_missions.push_back( &cur_mission );
+        if( !cur_mission.get_type().invisible_on_complete ) {
+            failed_missions.push_back( &cur_mission );
+        }
         add_msg_if_player( m_bad, _( "Mission \"%s\" is failed." ), cur_mission.name() );
     } else {
-        completed_missions.push_back( &cur_mission );
+        if( !cur_mission.get_type().invisible_on_complete ) {
+            completed_missions.push_back( &cur_mission );
+        }
         add_msg_if_player( m_good, _( "Mission \"%s\" is successfully completed." ),
                            cur_mission.name() );
     }
@@ -367,12 +377,14 @@ void avatar::on_mission_finished( mission &cur_mission )
 
 void avatar::remove_active_mission( mission &cur_mission )
 {
+    cur_mission.remove_active_world_mission( cur_mission );
     const auto iter = std::find( active_missions.begin(), active_missions.end(), &cur_mission );
     if( iter == active_missions.end() ) {
         debugmsg( "removed mission %d was not in the active_missions list", cur_mission.get_id() );
     } else {
         active_missions.erase( iter );
     }
+
     if( &cur_mission == active_mission ) {
         if( active_missions.empty() ) {
             active_mission = nullptr;
