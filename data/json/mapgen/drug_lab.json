@@ -4,6 +4,7 @@
     "om_terrain": "drug_lab",
     "type": "mapgen",
     "object": {
+      "fill_ter": "t_region_groundcover",
       "rows": [
         "                        ",
         "                        ",
