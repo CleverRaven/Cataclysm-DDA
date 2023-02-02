@@ -2131,13 +2131,13 @@ void item_pocket::save_presets()
     }, _( "pocket preset configuration" ) );
 }
 
-bool item_pocket::has_preset( const std::string s )
+bool item_pocket::has_preset( const std::string &s )
 {
     return find_preset( s ) != pocket_presets.end();
 }
 
 std::vector<item_pocket::favorite_settings>::iterator item_pocket::find_preset(
-    const std::string s )
+    const std::string &s )
 {
     std::vector<item_pocket::favorite_settings>::iterator iter = std::find_if( pocket_presets.begin(),
             pocket_presets.end(),
@@ -2216,7 +2216,7 @@ units::volume pocket_data::max_contains_volume() const
 
 void item_pocket::favorite_settings::clear()
 {
-    preset_name = "";
+    preset_name = std::string();
     priority_rating = 0;
     item_whitelist.clear();
     item_blacklist.clear();
@@ -2420,12 +2420,12 @@ void item_pocket::favorite_settings::set_unloadable( bool flag )
     unload = flag;
 }
 
-void item_pocket::favorite_settings::set_preset_name( const std::string s )
+void item_pocket::favorite_settings::set_preset_name( const std::string &s )
 {
     preset_name = s;
 }
 
-std::string item_pocket::favorite_settings::get_preset_name() const
+const std::string &item_pocket::favorite_settings::get_preset_name() const
 {
     return preset_name;
 }
