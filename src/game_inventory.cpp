@@ -697,7 +697,10 @@ class comestible_inventory_preset : public inventory_selector_preset
                 // check if at least one parent container is sealed
                 while ( temp.has_parent() ){
                     item_pocket *pocket = temp.parent_item()->contained_where(*temp.get_item());
-                    sealed = sealed == _("sealed") || pocket->sealed() ? _("sealed") : std::string();
+                    if (pocket->sealed()) {
+                        sealed = _("sealed");
+                        break;
+                    }
                     temp = temp.parent_item();
                 }
                 if( player_character.can_estimate_rot() ) {
