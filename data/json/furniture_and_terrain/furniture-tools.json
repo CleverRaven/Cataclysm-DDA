@@ -430,7 +430,6 @@
     "move_cost_mod": -1,
     "coverage": 40,
     "required_str": -1,
-    "examine_action": "arcfurnace_empty",
     "max_volume": "200 L",
     "crafting_pseudo_item": "fake_arcfurnace",
     "flags": [ "CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM" ],
