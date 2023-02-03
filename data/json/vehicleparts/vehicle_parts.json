@@ -2164,7 +2164,8 @@
       "NO_ROOF_NEEDED",
       "WINDOW",
       "SIMPLE_PART",
-      "DOOR"
+      "DOOR",
+      "LOCKABLE_DOOR"
     ],
     "breaks_into": "ig_vp_frame",
     "damage_reduction": { "all": 20 }
@@ -2189,7 +2190,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 4 ] ] }
     },
-    "flags": [ "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "LOW_FINAL_AIR_DRAG", "WINDOW", "SIMPLE_PART", "DOOR" ],
+    "flags": [ "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "LOW_FINAL_AIR_DRAG", "WINDOW", "SIMPLE_PART", "DOOR", "LOCKABLE_DOOR" ],
     "breaks_into": "ig_vp_hdframe",
     "damage_reduction": { "all": 30 }
   },
@@ -2213,7 +2214,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 2 ] ] }
     },
-    "flags": [ "OPAQUE", "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "SIMPLE_PART", "DOOR" ],
+    "flags": [ "OPAQUE", "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "SIMPLE_PART", "DOOR", "LOCKABLE_DOOR" ],
     "breaks_into": "ig_vp_sheet_metal",
     "damage_reduction": { "all": 7 }
   },
@@ -2237,7 +2238,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 2 ] ] }
     },
-    "flags": [ "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "SIMPLE_PART", "DOOR" ],
+    "flags": [ "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "SIMPLE_PART", "DOOR", "LOCKABLE_DOOR" ],
     "breaks_into": "ig_vp_frame",
     "damage_reduction": { "all": 20 }
   },
@@ -2622,7 +2623,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
     },
-    "flags": [ "OBSTACLE", "OPENABLE", "BOARDABLE", "WINDOW", "SIMPLE_PART", "DOOR" ],
+    "flags": [ "OBSTACLE", "OPENABLE", "BOARDABLE", "WINDOW", "SIMPLE_PART", "DOOR", "LOCKABLE_DOOR" ],
     "breaks_into": [ { "item": "splinter", "count": [ 7, 9 ] } ],
     "damage_reduction": { "all": 8 }
   },
@@ -2646,7 +2647,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
     },
-    "flags": [ "OBSTACLE", "OPENABLE", "BOARDABLE", "OPAQUE", "SIMPLE_PART", "DOOR" ],
+    "flags": [ "OBSTACLE", "OPENABLE", "BOARDABLE", "OPAQUE", "SIMPLE_PART", "DOOR", "LOCKABLE_DOOR" ],
     "breaks_into": [ { "item": "splinter", "count": [ 7, 9 ] } ],
     "damage_reduction": { "all": 12 }
   },
@@ -2722,7 +2723,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "adhesive", 1 ], [ "soldering_standard", 3 ] ] }
     },
-    "flags": [ "DOOR_MOTOR", "UNMOUNT_ON_DAMAGE" ],
+    "flags": [ "BOARD_INTERNAL", "DOOR_MOTOR", "UNMOUNT_ON_DAMAGE" ],
     "breaks_into": [ { "item": "scrap", "count": [ 4, 6 ] } ],
     "damage_reduction": { "all": 12 }
   },
@@ -3210,6 +3211,32 @@
     "flags": [ "TURRET_MOUNT" ],
     "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] } ],
     "damage_reduction": { "all": 54 }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "door_lock",
+    "name": { "str": "door lock" },
+    "symbol": "*",
+    "categories": [ "other" ],
+    "color": "light_blue",
+    "broken_symbol": "*",
+    "broken_color": "light_gray",
+    "durability": 25,
+    "description": "A lock and latching mechanism.  If installed on a door, this can be used to lock it.",
+    "folded_volume": "250 ml",
+    "item": "door_lock",
+    "requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 2 ], [ "traps", 1 ] ],
+        "time": "24 m",
+        "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "DRILL", "level": 2 } ]
+      },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "24 m", "qualities": [ { "id": "SCREW", "level": 1 } ] },
+      "repair": { "skills": [ [ "mechanics", 2 ], [ "traps", 1 ] ], "time": "12 m", "using": [ [ "soldering_standard", 3 ] ] }
+    },
+    "flags": [ "BOARD_INTERNAL", "DOOR_LOCKING", "UNMOUNT_ON_DAMAGE" ],
+    "breaks_into": [ { "item": "clockworks", "count": [ 0, 3 ] }, { "item": "scrap", "count": [ 2, 6 ] } ],
+    "damage_reduction": { "all": 60 }
   },
   {
     "type": "vehicle_part",

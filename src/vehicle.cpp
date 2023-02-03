@@ -2776,7 +2776,7 @@ int vehicle::next_part_to_close( int p, bool outside ) const
 {
     std::vector<int> parts_here = parts_at_relative( parts[p].mount, true, true );
 
-    // We want reverse, since we close the outermost thing first (curtains), and then the innermost thing (door)
+    // We want reverse, since we close the innermost thing first (door), and then the outermost thing (curtains)
     for( std::vector<int>::reverse_iterator part_it = parts_here.rbegin();
          part_it != parts_here.rend();
          ++part_it ) {
@@ -2793,12 +2793,60 @@ int vehicle::next_part_to_close( int p, bool outside ) const
 
 int vehicle::next_part_to_open( int p, bool outside ) const
 {
-    std::vector<int> parts_here = parts_at_relative( parts[p].mount, true, true );
 
-    // We want forwards, since we open the innermost thing first (curtains), and then the innermost thing (door)
+    const std::vector<int> parts_here = parts_at_relative( parts[p].mount, true, true );
+    const bool has_lock = part_has_lock( p );
+    // We want forwards, since we open the outermost thing first (curtains), and then the innermost thing (door)
+
     for( const int &elem : parts_here ) {
         if( part_flag( elem, VPFLAG_OPENABLE ) && parts[ elem ].is_available() && parts[elem].open == 0 &&
+            !( part( elem ).locked && has_lock ) &&
             ( !outside || !part_flag( elem, "OPENCLOSE_INSIDE" ) ) ) {
+            return elem;
+        }
+    }
+    return -1;
+}
+
+bool vehicle::part_has_lock( int p ) const
+{
+    const std::vector<int> parts_here = parts_at_relative( parts[p].mount, true, true );
+    for( const int &elem : parts_here ) {
+        if( part_flag( elem, "DOOR_LOCKING" ) && parts[elem].is_available() ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+int vehicle::next_part_to_lock( int p, bool outside ) const
+{
+    std::vector<int> parts_here = parts_at_relative( parts[p].mount, true, true );
+    if( !part_has_lock( p ) ) {
+        return -1;
+    }
+    // We want reverse, since we lock the innermost thing first (door), and then the outermost thing
+    for( std::vector<int>::reverse_iterator part_it = parts_here.rbegin();
+         part_it != parts_here.rend();
+         ++part_it ) {
+
+        if( part_flag( *part_it, "LOCKABLE_DOOR" ) && parts[*part_it].is_available() &&
+            parts[*part_it].open == 0 && !part( *part_it ).locked && !outside ) {
+            return *part_it;
+        }
+    }
+    return -1;
+}
+
+int vehicle::next_part_to_unlock( int p, bool outside ) const
+{
+    const std::vector<int> parts_here = parts_at_relative( parts[p].mount, true, true );
+    if( !part_has_lock( p ) ) {
+        return -1;
+    }
+    for( const int &elem : parts_here ) {
+        if( part_flag( elem, "LOCKABLE_DOOR" ) && parts[elem].is_available() &&
+            part( elem ).locked && !outside ) {
             return elem;
         }
     }
@@ -6764,24 +6812,25 @@ int vehicle::damage( map &here, int p, int dmg, damage_type type, bool aimed )
 
     int target_part = part_info( p ).rotor_diameter() ? p : random_entry( pl );
 
-    // door motor mechanism is protected by closed doors
-    if( part_flag( target_part, "DOOR_MOTOR" ) ) {
-        // find the most strong openable that is not open
-        int strongest_door_part = -1;
-        int strongest_door_durability = INT_MIN;
+    // Parts integrated inside a door or board are protected by boards and closed doors
+    if( part_flag( target_part, "BOARD_INTERNAL" ) ) {
+        int strongest_board_part = -1;
+        int strongest_board_durability = INT_MIN;
         for( int part : pl ) {
-            if( part_flag( part, "OPENABLE" ) && !parts[part].open ) {
-                int door_durability = part_info( part ).durability;
-                if( door_durability > strongest_door_durability ) {
-                    strongest_door_part = part;
-                    strongest_door_durability = door_durability;
+            if( part_flag( part, "FULL_BOARD" ) ||
+                part_flag( part, "HALF_BOARD" ) ||
+                ( part_flag( part, "OPENABLE" ) && !parts[part].open ) ) {
+                const int board_durability = part_info( part ).durability;
+                if( board_durability > strongest_board_durability ) {
+                    strongest_board_part = part;
+                    strongest_board_durability = board_durability;
                 }
             }
         }
 
-        // if we found a closed door, target it instead of the door_motor
-        if( strongest_door_part != -1 ) {
-            target_part = strongest_door_part;
+        // if we found a stronger part, target it instead
+        if( strongest_board_part != -1 ) {
+            target_part = strongest_board_part;
         }
     }
 

@@ -557,7 +557,7 @@ Character::Character() :
     name.clear();
     custom_profession.clear();
 
-    *path_settings = pathfinding_settings{ 0, 1000, 1000, 0, true, true, true, false, true };
+    *path_settings = pathfinding_settings{ 0, 1000, 1000, 0, true, true, true, true, false, true };
 
     move_mode = move_mode_walk;
     next_expected_position = cata::nullopt;
