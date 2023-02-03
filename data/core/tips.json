@@ -683,5 +683,10 @@
     "type": "snippet",
     "category": "tip",
     "text": [ "Nobody wants to buy filthy underwear.  Wash your clothes to get a better price for them." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Focus helps you learn new skills.  Being happy will build focus over time." ]
   }
 ]
