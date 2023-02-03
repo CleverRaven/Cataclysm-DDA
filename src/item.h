@@ -388,7 +388,7 @@ class item : public visitable
          * of this item (if with_contents = false and item is not empty, "n items" will be added)
          */
         std::string tname( unsigned int quantity = 1, bool with_prefix = true,
-                           unsigned int truncate = 0, bool with_contents = true ) const;
+                           unsigned int truncate = 0, bool with_contents = true, bool with_collapsed = true ) const;
         std::string display_money( unsigned int quantity, unsigned int total,
                                    const cata::optional<unsigned int> &selected = cata::nullopt ) const;
         /**
@@ -1510,8 +1510,6 @@ class item : public visitable
 
         /** Returns true if the item is broken or will be broken on activation */
         bool is_broken_on_active() const;
-
-        bool is_unarmed_weapon() const; //Returns true if the item should be considered unarmed
 
         bool has_temperature() const;
 

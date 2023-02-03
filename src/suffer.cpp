@@ -20,6 +20,7 @@
 #include "cata_utility.h"
 #include "character.h"
 #include "creature.h"
+#include "creature_tracker.h"
 #include "debug.h"
 #include "display.h"
 #include "effect.h"
@@ -313,9 +314,29 @@ void suffer::while_grabbed( Character &you )
     int grab_intensity = you.get_effect_int( effect_grabbed, body_part_torso );
 
     // you should have trouble breathing as you get swarmed by zombies grabbing you
+    // early exit if you aren't grabbed severely
     if( grab_intensity < 2 ) {
         return;
-    } else if( grab_intensity == 2 ) {
+    }
+
+    // make sure something grabbing you actually shoves against you, this is tested with the GROUP_BASH flag
+    map &here = get_map();
+    creature_tracker &creatures = get_creature_tracker();
+    bool getting_shoved = false;
+    for( auto&& dest : here.points_in_radius( you.pos(), 1, 0 ) ) { // *NOPAD*
+        const monster *const mon = creatures.creature_at<monster>( dest );
+        if( mon && mon->has_flag( MF_GROUP_BASH ) ) {
+            getting_shoved = true;
+            break;
+        }
+    }
+
+    // if we aren't near something with GROUP_BASH we won't suffocate
+    if( !getting_shoved ) {
+        return;
+    }
+
+    if( grab_intensity == 2 ) {
         // only a chance to lose breath at low grab chance, none with only a single zombie
         you.oxygen -= rng( 0, 1 );
     } else if( grab_intensity <= 4 ) {

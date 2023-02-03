@@ -23,22 +23,6 @@
   },
   {
     "type": "item_group",
-    "id": "MRE",
-    "subtype": "distribution",
-    "copy-from": "MRE",
-    "extend": {
-      "entries": [
-        { "item": "cookies", "prob": 300 },
-        { "item": "grahmcrackers", "prob": 200 },
-        { "item": "marshmallow", "prob": 100 },
-        { "item": "smores", "prob": 60 },
-        { "item": "gum", "prob": 150 },
-        { "item": "caff_gum", "prob": 250 }
-      ]
-    }
-  },
-  {
-    "type": "item_group",
     "id": "coffee_shop",
     "copy-from": "coffee_shop",
     "extend": {

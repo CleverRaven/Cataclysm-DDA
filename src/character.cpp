@@ -3658,18 +3658,13 @@ void Character::apply_mut_encumbrance( std::map<bodypart_id, encumbrance_data> &
     // Lower penalty for bps covered only by XL armor
     // Initialized on demand for performance reasons:
     // (calculation is costly, most of players and npcs are don't have encumbering mutations)
-    cata::optional<body_part_set> oversize;
 
     for( const trait_id &mut : all_muts ) {
         for( const std::pair<const bodypart_str_id, int> &enc : mut->encumbrance_always ) {
             total_enc[enc.first] += enc.second;
         }
         for( const std::pair<const bodypart_str_id, int> &enc : mut->encumbrance_covered ) {
-            if( !oversize ) {
-                // initialize on demand
-                oversize = exclusive_flag_coverage( flag_OVERSIZE );
-            }
-            if( !oversize->test( enc.first ) ) {
+            if( wearing_fitting_on( enc.first ) ) {
                 total_enc[enc.first] += enc.second;
             }
         }
@@ -3795,10 +3790,9 @@ int Character::get_enchantment_speed_bonus() const
 int Character::get_speed() const
 {
     if( has_flag( json_flag_STEADY ) ) {
-        return get_speed_base() + std::max( 0, get_speed_bonus() ) + std::max( 0,
-                get_speedydex_bonus( get_dex() ) );
+        return get_speed_base() + std::max( 0, get_speed_bonus() );
     }
-    return Creature::get_speed() + get_speedydex_bonus( get_dex() );
+    return Creature::get_speed();
 }
 
 int Character::get_arm_str() const
@@ -4389,14 +4383,8 @@ void Character::update_health()
         int mean_daily_health = get_health_tally() / 7;
         mod_livestyle( mean_daily_health );
         mod_health_tally( -mean_daily_health );
+        set_daily_health( 0 );
     }
-
-    if( calendar::once_every( 6_hours ) ) {
-        // And daily_health decays over time.
-        // Slowly near 0, but it's hard to overpower it near +/-100
-        set_daily_health( roll_remainder( get_daily_health() * 0.95f ) );
-    }
-
     add_msg_debug( debugmode::DF_CHAR_HEALTH, "Lifestyle: %d, Daily health: %d", get_lifestyle(),
                    get_daily_health() );
 }
@@ -8251,8 +8239,8 @@ void Character::cancel_activity()
     for( auto backlog_item = backlog.begin(); backlog_item != backlog.end(); ) {
         if( backlog_item->auto_resume &&
             ( !has_adv_inv || backlog_item->id() != ACT_ADV_INVENTORY ) ) {
-            backlog_item++;
             has_adv_inv |= backlog_item->id() == ACT_ADV_INVENTORY;
+            backlog_item++;
         } else {
             backlog_item = backlog.erase( backlog_item );
         }
@@ -9732,16 +9720,16 @@ void Character::process_one_effect( effect &it, bool is_new )
         if( is_new || it.activated( calendar::turn, "HURT", val, reduced, mod ) ) {
             if( bp == bodypart_str_id::NULL_ID() ) {
                 if( val > 5 ) {
-                    add_msg_if_player( _( "Your %s HURTS!" ), body_part_name_accusative( body_part_torso ) );
+                    add_msg_if_player( m_bad, _( "Your %s HURTS!" ), body_part_name_accusative( body_part_torso ) );
                 } else {
-                    add_msg_if_player( _( "Your %s hurts!" ), body_part_name_accusative( body_part_torso ) );
+                    add_msg_if_player( m_bad, _( "Your %s hurts!" ), body_part_name_accusative( body_part_torso ) );
                 }
                 apply_damage( nullptr, body_part_torso, val, true );
             } else {
                 if( val > 5 ) {
-                    add_msg_if_player( _( "Your %s HURTS!" ), body_part_name_accusative( bp ) );
+                    add_msg_if_player( m_bad, _( "Your %s HURTS!" ), body_part_name_accusative( bp ) );
                 } else {
-                    add_msg_if_player( _( "Your %s hurts!" ), body_part_name_accusative( bp ) );
+                    add_msg_if_player( m_bad, _( "Your %s hurts!" ), body_part_name_accusative( bp ) );
                 }
                 apply_damage( nullptr, bp, val, true );
             }
@@ -10809,6 +10797,8 @@ void Character::recalc_speed_bonus()
     }
     mod_speed_bonus( -carry_penalty );
 
+    mod_speed_bonus( +get_speedydex_bonus( get_dex() ) );
+
     mod_speed_bonus( -get_pain_penalty().speed );
 
     if( get_thirst() > 40 ) {
@@ -11514,6 +11504,11 @@ void Character::use( int inventory_position )
 
 void Character::use( item_location loc, int pre_obtain_moves )
 {
+    if( has_effect( effect_incorporeal ) ) {
+        add_msg_if_player( m_bad, _( "You can't use anything while incorporeal." ) );
+        return;
+    }
+
     // if -1 is passed in we don't want to change moves at all
     if( pre_obtain_moves == -1 ) {
         pre_obtain_moves = moves;
@@ -11627,15 +11622,15 @@ void Character::pause()
 {
     moves = 0;
     recoil = MAX_RECOIL;
-
     map &here = get_map();
-    // Train swimming if underwater
+
+    // effects of being partially/fully underwater
     if( !in_vehicle && !get_map().has_flag_furn( "BRIDGE", pos( ) ) ) {
         if( underwater ) {
-            practice( skill_swimming, 1 );
+            // TODO: gain "swimming" proficiency but not "athletics" skill
             drench( 100, get_drenching_body_parts(), false );
         } else if( here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, pos() ) ) {
-            practice( skill_swimming, 1 );
+            // TODO: gain "swimming" proficiency but not "athletics" skill
             // Same as above, except no head/eyes/mouth
             drench( 100, get_drenching_body_parts( false ), false );
         } else if( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos() ) ) {

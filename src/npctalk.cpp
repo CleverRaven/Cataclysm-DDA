@@ -2778,7 +2778,7 @@ void talk_effect_fun_t<T>::set_revert_location( const JsonObject &jo, const std:
         const tripoint_abs_ms abs_ms( get_tripoint_from_var<T>( target_var, d ) );
         tripoint_abs_omt omt_pos = project_to<coords::omt>( abs_ms );
         time_point tif = calendar::turn + dov_time_in_future.evaluate( d ) + 1_seconds;
-        //Timed events happen before the player turn and eocs are during so we add a second here to sync them up using the same variable
+        // Timed events happen before the player turn and eocs are during so we add a second here to sync them up using the same variable
         // maptile is 4 submaps so queue up 4 submap reverts
         for( int x = 0; x < 2; x++ ) {
             for( int y = 0; y < 2; y++ ) {
@@ -2786,12 +2786,14 @@ void talk_effect_fun_t<T>::set_revert_location( const JsonObject &jo, const std:
                 revert_sm += point( x, y );
                 submap *sm = MAPBUFFER.lookup_submap( revert_sm );
                 if( sm == nullptr ) {
-                    get_map().load( revert_sm, true );
+                    tinymap tm;
+                    tm.load( revert_sm, true );
                     sm = MAPBUFFER.lookup_submap( revert_sm );
                 }
                 get_timed_events().add( timed_event_type::REVERT_SUBMAP, tif, -1,
                                         project_to<coords::ms>( revert_sm ), 0, "",
                                         sm->get_revert_submap(), key.evaluate( d ) );
+                get_map().invalidate_map_cache( omt_pos.z() );
             }
         }
     };
@@ -3246,13 +3248,24 @@ void talk_effect_fun_t<T>::set_hp( const JsonObject &jo, const std::string &memb
         target_part = get_str_or_var<T>( jo.get_member( "target_part" ), "target_part", true );
     }
     bool only_increase = jo.get_bool( "only_increase", false );
-    function = [only_increase, new_hp, target_part, is_npc]( const T & d ) {
+    bool max = jo.get_bool( "max", false );
+    bool main_only =  jo.get_bool( "main_only", false );
+    bool minor_only =  jo.get_bool( "minor_only", false );
+    if( main_only && minor_only ) {
+        jo.throw_error( "Can't be main_only and minor_only at the same time." );
+    }
+    function = [only_increase, new_hp, target_part, is_npc, main_only, minor_only, max]( const T & d ) {
         talker *target = d.actor( is_npc );
-        for( const bodypart_id &part : target->get_all_body_parts() ) {
+        for( const bodypart_id &part : target->get_all_body_parts( ( !main_only &&
+                !minor_only ), main_only ) ) {
             if( ( !target_part.has_value() || bodypart_id( target_part.value().evaluate( d ) ) == part ) &&
                 ( !only_increase ||
                   target->get_part_hp_cur( part ) <= new_hp.evaluate( d ) ) ) {
-                target->set_part_hp_cur( part, new_hp.evaluate( d ) );
+                if( max ) {
+                    target->set_part_hp_cur( part, target->get_part_hp_max( part ) );
+                } else {
+                    target->set_part_hp_cur( part, new_hp.evaluate( d ) );
+                }
             }
         }
     };

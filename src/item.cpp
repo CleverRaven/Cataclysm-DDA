@@ -193,7 +193,6 @@ static const quality_id qual_LIFT( "LIFT" );
 static const skill_id skill_cooking( "cooking" );
 static const skill_id skill_melee( "melee" );
 static const skill_id skill_survival( "survival" );
-static const skill_id skill_unarmed( "unarmed" );
 static const skill_id skill_weapon( "weapon" );
 
 static const species_id species_ROBOT( "ROBOT" );
@@ -851,11 +850,6 @@ bool item::is_null() const
     return ( type == nullptr || type == nullitem() || typeId().is_null() );
 }
 
-bool item::is_unarmed_weapon() const
-{
-    return is_null() || has_flag( flag_UNARMED_WEAPON );
-}
-
 bool item::is_frozen_liquid() const
 {
     return made_of( phase_id::SOLID ) && made_of_from_type( phase_id::LIQUID );
@@ -870,7 +864,9 @@ bool item::covers( const sub_bodypart_id &bp ) const
     }
 
     bool has_sub_data = false;
-    // if the item has no sub location info then it should return that it does cover it
+
+    // If the item has no sub location info and covers the part's parent,
+    // then assume that the item covers that sub body part.
     for( const armor_portion_data &data : armor->sub_data ) {
         if( !data.sub_coverage.empty() ) {
             has_sub_data = true;
@@ -878,7 +874,7 @@ bool item::covers( const sub_bodypart_id &bp ) const
     }
 
     if( !has_sub_data ) {
-        return true;
+        return covers( bp->parent );
     }
 
     bool does_cover = false;
@@ -6286,7 +6282,7 @@ std::string item::degradation_symbol() const
 }
 
 std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int truncate,
-                         bool with_contents ) const
+                         bool with_contents, bool with_collapsed ) const
 {
     // item damage and/or fouling level
     std::string damtext;
@@ -6394,7 +6390,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
                                                       " > %1$s (%2$zd)" ), contents_tname, contents_count );
             }
 
-            if( is_collapsed() ) {
+            if( is_collapsed() && with_collapsed ) {
                 contents_suffix_text += string_format( " %s", _( "hidden" ) );
             }
         }
@@ -6404,7 +6400,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
                        //~ [container item name] " > [count] item"
                        " > %1$zd%2$s item", " > %1$zd%2$s items", contents.num_item_stacks() );
         std::string const hidden =
-            is_collapsed() ? string_format( " %s", _( "hidden" ) ) : std::string();
+            is_collapsed() && with_collapsed ? string_format( " %s", _( "hidden" ) ) : std::string();
         contents_suffix_text = string_format( suffix, contents.num_item_stacks(), hidden );
     }
 
@@ -10596,10 +10592,6 @@ gun_type_type item::gun_type() const
 
 skill_id item::melee_skill() const
 {
-    if( is_unarmed_weapon() ) {
-        return skill_unarmed;
-    }
-
     if( !is_melee() ) {
         return skill_id::NULL_ID();
     }
@@ -10965,6 +10957,13 @@ int item::ammo_consume( int qty, const tripoint &pos, Character *carrier )
     // Consume charges loaded in the item or its magazines
     if( is_magazine() || uses_magazine() ) {
         qty -= contents.ammo_consume( qty, pos );
+    }
+
+    // Dirty fix: activating a container of meds leads here, and used to use up all of the charges.
+    if( is_medication() && charges > 1 ) {
+        int charg_used = std::min( charges, qty );
+        charges -= charg_used;
+        qty -= charg_used;
     }
 
     // Some weird internal non-item charges (used by grenades)

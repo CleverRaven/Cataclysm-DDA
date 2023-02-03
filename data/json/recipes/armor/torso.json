@@ -525,6 +525,7 @@
     "copy-from": "cuirass_lightplate",
     "time": "9 h",
     "using": [ [ "tailoring_leather_patchwork", 1 ], [ "blacksmithing_standard", 24 ], [ "steel_standard", 6 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
   },
   {
@@ -560,6 +561,7 @@
     "type": "recipe",
     "copy-from": "cuirass_scrap",
     "time": "3 h",
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 } ],
     "using": [ [ "cordage", 1 ], [ "mixed_steel", 1 ] ],
     "components": [ [ [ "cotton_patchwork", 6 ] ] ]
   },
@@ -568,6 +570,7 @@
     "type": "recipe",
     "copy-from": "cuirass_scrap",
     "time": "3 h 20 m",
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 } ],
     "using": [ [ "cordage", 3 ], [ "mixed_steel", 1 ] ],
     "components": [ [ [ "cotton_patchwork", 10 ] ] ]
   },
@@ -594,6 +597,7 @@
     "copy-from": "cuirass_tire",
     "time": "45 m",
     "using": [ [ "cordage", 2 ] ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "LEATHER_AWL", "level": 1 }, { "id": "SEW_CURVED", "level": 1 } ],
     "components": [ [ [ "rubber_tire_chunk", 6 ] ] ]
   },
   {
@@ -2174,6 +2178,7 @@
     "type": "recipe",
     "copy-from": "armor_lamellar_lc",
     "time": "6 h",
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
     "using": [ [ "cordage", 90 ], [ "fabric_leather_fur_hide", 1 ] ],
     "components": [ [ [ "lamellae_lc", 648 ] ] ]
   },
@@ -2182,6 +2187,7 @@
     "type": "recipe",
     "copy-from": "armor_lamellar_lc",
     "time": "10 h",
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
     "using": [ [ "cordage", 140 ], [ "fabric_leather_fur_hide", 2 ] ],
     "components": [ [ [ "lamellae_lc", 1080 ] ] ]
   },
@@ -2246,6 +2252,7 @@
     "type": "recipe",
     "copy-from": "armor_lamellar_ch",
     "time": "6 h",
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
     "using": [ [ "cordage", 90 ], [ "fabric_leather_fur_hide", 1 ] ],
     "components": [ [ [ "lamellae_ch", 648 ] ] ]
   },
@@ -2254,6 +2261,7 @@
     "type": "recipe",
     "copy-from": "armor_lamellar_ch",
     "time": "10 h",
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
     "using": [ [ "cordage", 140 ], [ "fabric_leather_fur_hide", 2 ] ],
     "components": [ [ [ "lamellae_ch", 1080 ] ] ]
   },
