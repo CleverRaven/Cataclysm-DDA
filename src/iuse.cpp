@@ -1582,13 +1582,6 @@ cata::optional<int> iuse::petfood( Character *p, item *it, bool, const tripoint 
     } else if( monster *const mon = creatures.creature_at<monster>( *pnt, true ) ) {
         p->mod_moves( -to_moves<int>( 1_seconds ) );
 
-        if( mon->is_hallucination() ) {
-            p->add_msg_if_player( _( "You try to feed the %1$s some %2$s, but it vanishes!" ),
-                                  mon->type->nname(), it->tname() );
-            mon->die( nullptr );
-            return cata::nullopt;
-        }
-
         bool can_feed = false;
         const pet_food_data &petfood = mon->type->petfood;
         const std::set<std::string> &itemfood = it->get_comestible()->petfood;
@@ -1612,6 +1605,13 @@ cata::optional<int> iuse::petfood( Character *p, item *it, bool, const tripoint 
                     _( "Apparently, it's more interested in your flesh than the dog food in your hand!" ) );
                 p->consume_charges( *it, 1 );
             }
+            return cata::nullopt;
+        }
+
+        if( mon->is_hallucination() ) {
+            p->add_msg_if_player( _( "You try to feed the %1$s some %2$s, but it vanishes!" ),
+                                  mon->type->nname(), it->tname() );
+            mon->die( nullptr );
             return cata::nullopt;
         }
 
