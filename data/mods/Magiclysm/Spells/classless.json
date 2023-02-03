@@ -394,7 +394,7 @@
     "id": "thought_shield_plus",
     "type": "SPELL",
     "name": "Thought Suit",
-    "description": "Why protect just your mind from outside influences? More shields all over your body should also prevent you from being teleported forcefully",
+    "description": "Why protect just your mind from outside influences?  More shields all over your body should also prevent you from being teleported forcefully",
     "valid_targets": [ "self" ],
     "effect": "spawn_item",
     "effect_str": "thought_shield_plus_item",
