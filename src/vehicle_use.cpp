@@ -142,11 +142,11 @@ void vehicle::control_doors()
             }
         }
     };
-    const auto lock_or_unlock_all = [this]( bool new_lock, const std::string &require_flag ) {
+    const auto lock_or_unlock_all = [this]( bool new_lock, const std::string & require_flag ) {
         for( const vpart_reference &vpr_motor : get_avail_parts( "DOOR_MOTOR" ) ) {
             const int motorized_idx = new_lock
-                ? next_part_to_lock( vpr_motor.part_index() )
-                : next_part_to_unlock( vpr_motor.part_index() );
+                                      ? next_part_to_lock( vpr_motor.part_index() )
+                                      : next_part_to_unlock( vpr_motor.part_index() );
             if( motorized_idx == -1 ) {
                 continue;
             }
@@ -176,7 +176,7 @@ void vehicle::control_doors()
         } );
     };
 
-    const auto add_lockable = [this]( veh_menu &menu, int vp_idx ) {
+    const auto add_lockable = [this]( veh_menu & menu, int vp_idx ) {
         if( vp_idx == -1 ) {
             return;
         }
@@ -184,12 +184,12 @@ void vehicle::control_doors()
         const std::string actname = vp.locked ? _( "Unlock" ) : _( "Lock" );
         const bool lock = !vp.locked;
         menu.add( string_format( "%s %s", actname, vp.name() ) )
-            .hotkey_auto()
-            .location( global_part_pos3( vp ) )
-            .keep_menu_open()
-            .on_submit( [this, vp_idx, lock] {
+        .hotkey_auto()
+        .location( global_part_pos3( vp ) )
+        .keep_menu_open()
+        .on_submit( [this, vp_idx, lock] {
             lock_or_unlock( vp_idx, lock );
-                        } );
+        } );
     };
 
     veh_menu menu( this, _( "Select door to toggle" ) );
@@ -205,10 +205,10 @@ void vehicle::control_doors()
         menu.add( _( "Open all curtains and doors" ) )
         .hotkey_auto()
         .location( get_player_character().pos() )
-            .on_submit( [&open_or_close_all, &lock_or_unlock_all] {
+        .on_submit( [&open_or_close_all, &lock_or_unlock_all] {
             lock_or_unlock_all( false, "LOCKABLE_DOOR" );
-        open_or_close_all( true, "" );
-                        } );
+            open_or_close_all( true, "" );
+        } );
         menu.add( _( "Close all doors" ) )
         .hotkey_auto()
         .location( get_player_character().pos() )
@@ -1328,7 +1328,8 @@ void vehicle::open_or_close( const int part_index, const bool opening )
         // Open doors should never be locked.
         if( opening && prt.locked ) {
             unlock( parti );
-        }        prt.open = opening;
+        }
+        prt.open = opening;
         if( prt.is_fake ) {
             parts.at( prt.fake_part_to ).open = opening;
         } else if( prt.has_fake ) {
@@ -1805,8 +1806,8 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
     const bool controls_here = has_part_here( "CONTROLS" );
     const bool player_is_driving = get_player_character().controlling_vehicle;
     const bool player_inside = get_map().veh_at( get_player_character().pos() ) ?
-        &get_map().veh_at( get_player_character().pos() )->vehicle() == this :
-        false;
+                               &get_map().veh_at( get_player_character().pos() )->vehicle() == this :
+                               false;
 
     if( !is_appliance() ) {
         menu.add( _( "Examine vehicle" ) )
@@ -2220,22 +2221,22 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
     if( vp_lockable_door && vp_door_lock && !vp_lockable_door->part().open ) {
         if( player_inside && !vp_lockable_door->part().locked ) {
             menu.add( string_format( _( "Lock %s" ), vp_lockable_door->part().name() ) )
-                .hotkey( "LOCK_DOOR" )
-                .on_submit( [p] {
+            .hotkey( "LOCK_DOOR" )
+            .on_submit( [p] {
                 doors::lock_door( get_map(), get_player_character(), p );
-                            } );
+            } );
         } else if( player_inside && vp_lockable_door->part().locked ) {
             menu.add( string_format( _( "Unlock %s" ), vp_lockable_door->part().name() ) )
-                .hotkey( "UNLOCK_DOOR" )
-                .on_submit( [p] {
+            .hotkey( "UNLOCK_DOOR" )
+            .on_submit( [p] {
                 doors::unlock_door( get_map(), get_player_character(), p );
-                            } );
+            } );
         } else if( vp_lockable_door->part().locked ) {
             menu.add( string_format( _( "Check the lock on %s" ), vp_lockable_door->part().name() ) )
-                .hotkey( "LOCKPICK" )
-                .on_submit( [p] {
+            .hotkey( "LOCKPICK" )
+            .on_submit( [p] {
                 iexamine::locked_object( get_player_character(), p );
-                            } );
+            } );
         }
     }
 }

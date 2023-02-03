@@ -4387,9 +4387,10 @@ bool map::open_door( Creature const &u, const tripoint &p, const bool inside,
     } else if( const optional_vpart_position vp = veh_at( p ) ) {
         const optional_vpart_position creature_veh = veh_at( u.pos() );
         const bool creature_outside = !creature_veh.has_value() ||
-            &creature_veh->vehicle() != &veh_at( p )->vehicle();
+                                      &creature_veh->vehicle() != &veh_at( p )->vehicle();
 
-        const int openable = vp->vehicle().next_part_to_open( vp->part_index(), creature_outside );        if( openable >= 0 ) {
+        const int openable = vp->vehicle().next_part_to_open( vp->part_index(), creature_outside );
+        if( openable >= 0 ) {
             if( !check_only ) {
                 if( ( u.is_npc() || u.is_avatar() ) &&
                     !vp->vehicle().handle_potential_theft( *u.as_character() ) ) {

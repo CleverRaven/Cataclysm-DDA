@@ -2190,7 +2190,17 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 4 ] ] }
     },
-    "flags": [ "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "LOW_FINAL_AIR_DRAG", "WINDOW", "SIMPLE_PART", "DOOR", "LOCKABLE_DOOR" ],
+    "flags": [
+      "OBSTACLE",
+      "OPENABLE",
+      "MULTISQUARE",
+      "BOARDABLE",
+      "LOW_FINAL_AIR_DRAG",
+      "WINDOW",
+      "SIMPLE_PART",
+      "DOOR",
+      "LOCKABLE_DOOR"
+    ],
     "breaks_into": "ig_vp_hdframe",
     "damage_reduction": { "all": 30 }
   },

@@ -1815,16 +1815,16 @@ void iexamine::locked_object( Character &you, const tripoint &examp )
     // Check if the locked thing is a lockable door part.
     if( veh ) {
         std::vector<vehicle_part *> parts_at_target = veh->vehicle().get_parts_at(
-            examp, "LOCKABLE_DOOR", part_status_flag::available );
+                    examp, "LOCKABLE_DOOR", part_status_flag::available );
         if( !parts_at_target.empty() ) {
             locked_part = veh->vehicle().next_part_to_unlock(
-                veh->vehicle().index_of_part( parts_at_target.front() ) );
+                              veh->vehicle().index_of_part( parts_at_target.front() ) );
         }
     }
 
     const std::string target_name = here.has_furn( examp ) ? here.furnname( examp ) :
-        locked_part >= 0 ? veh->vehicle().part( locked_part ).name() :
-        here.tername( examp );
+                                    locked_part >= 0 ? veh->vehicle().part( locked_part ).name() :
+                                    here.tername( examp );
     const bool has_prying = !best_prying.is_null();
     const bool can_pick = ( here.has_flag( ter_furn_flag::TFLAG_PICKABLE, examp ) ||
                             locked_part >= 0 ) &&
@@ -1865,8 +1865,8 @@ void iexamine::locked_object( Character &you, const tripoint &examp )
         return;
     } else if( action == act::pry ) {
         //~ %1$s: terrain/furniture name, %2$s: prying tool name
-        you.add_msg_if_player( _( "You attempt to pry open the %1$s using your %2$s…" ),                                        target_name );
-        target_name, best_prying.tname() );
+        you.add_msg_if_player( _( "You attempt to pry open the %1$s using your %2$s…" ),
+                               target_name, best_prying.tname() );
         iuse::crowbar( &you, &best_prying, false, examp );
     } else if( action == act::pick ) {
         locked_object_pickable( you, examp );
@@ -1884,15 +1884,15 @@ void iexamine::locked_object_pickable( Character &you, const tripoint &examp )
 
     if( veh ) {
         const std::vector<vehicle_part *> parts_at_target = veh->vehicle().get_parts_at(
-            examp, "LOCKABLE_DOOR", part_status_flag::available );
+                    examp, "LOCKABLE_DOOR", part_status_flag::available );
         if( !parts_at_target.empty() ) {
             locked_part = veh->vehicle().next_part_to_unlock(
-                veh->vehicle().index_of_part( parts_at_target.front() ) );
+                              veh->vehicle().index_of_part( parts_at_target.front() ) );
         }
     }
 
     const std::string target_name = here.has_furn( examp ) ? here.furnname( examp ) :
-        locked_part >= 0 ? veh->vehicle().part( locked_part ).name() : here.tername( examp );
+                                    locked_part >= 0 ? veh->vehicle().part( locked_part ).name() : here.tername( examp );
 
     if( you.has_bionic( bio_lockpick ) ) {
         if( you.get_power_level() >= bio_lockpick->power_activate ) {
@@ -1934,13 +1934,13 @@ void iexamine::locked_object_pickable( Character &you, const tripoint &examp )
 
     for( item *it : picklocks ) {
         if( !query_yn( _( "Pick the lock of %1$s using your %2$s?" ),
-            target_name, it->tname() ) ) {
+                       target_name, it->tname() ) ) {
             return;
         }
         const use_function *iuse_fn = it->type->get_use( "PICK_LOCK" );
         you.add_msg_if_player( _( "You attempt to pick the lock of %1$s using your %2$s…" ),
-                               target_name, it->tname() ) ) {
-                                   const ret_val<void> can_use = iuse_fn->can_call( you, *it, false, examp );
+                               target_name, it->tname() );
+        const ret_val<void> can_use = iuse_fn->can_call( you, *it, false, examp );
         if( can_use.success() ) {
             iuse_fn->call( you, *it, false, examp );
             return;

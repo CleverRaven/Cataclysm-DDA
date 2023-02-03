@@ -2224,10 +2224,10 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
 
     if( veh ) {
         std::vector<vehicle_part *> parts_at_target = veh->vehicle().get_parts_at(
-            target, "LOCKABLE_DOOR", part_status_flag::available );
+                    target, "LOCKABLE_DOOR", part_status_flag::available );
         if( !parts_at_target.empty() ) {
             locked_part = veh->vehicle().next_part_to_unlock(
-                veh->vehicle().index_of_part( parts_at_target.front() ) );
+                              veh->vehicle().index_of_part( parts_at_target.front() ) );
         }
     }
 
@@ -2372,7 +2372,7 @@ cata::optional<tripoint> lockpick_activity_actor::select_location( avatar &you )
             return false;
         }
         return here.has_flag( ter_furn_flag::TFLAG_PICKABLE, p ) ||
-            ( here.veh_at( p ) && here.veh_at( p ).avail_part_with_feature( "LOCKABLE_DOOR" ) );
+               ( here.veh_at( p ) && here.veh_at( p ).avail_part_with_feature( "LOCKABLE_DOOR" ) );
     };
 
     cata::optional<tripoint> target = choose_adjacent_highlight(

@@ -365,7 +365,7 @@ bool doors::lock_door( map &m, Creature &who, const tripoint &lockp )
         vehicle *const veh = &vp->vehicle();
         const int vpart = vp->part_index();
         const bool inside_vehicle = m.veh_at( who.pos() ) &&
-            &vp->vehicle() == &m.veh_at( who.pos() )->vehicle();
+                                    &vp->vehicle() == &m.veh_at( who.pos() )->vehicle();
         const int lockable = veh->next_part_to_lock( vpart, !inside_vehicle );
         const int inside_lockable = veh->next_part_to_lock( vpart );
         const int already_locked_part = veh->next_part_to_unlock( vpart );
@@ -402,7 +402,7 @@ bool doors::can_lock_door( const map &m, const Creature &who, const tripoint &lo
     if( const optional_vpart_position vp = m.veh_at( lockp ) ) {
         const vehicle *const veh = &vp->vehicle();
         const bool inside_vehicle = m.veh_at( who.pos() ) &&
-            &vp->vehicle() == &m.veh_at( who.pos() )->vehicle();
+                                    &vp->vehicle() == &m.veh_at( who.pos() )->vehicle();
         const int vpart = vp->part_index();
         lockable = veh->next_part_to_lock( vpart, !inside_vehicle );
     }
@@ -418,7 +418,7 @@ bool doors::unlock_door( map &m, Creature &who, const tripoint &lockp )
         vehicle *const veh = &vp->vehicle();
         const int vpart = vp->part_index();
         const bool inside_vehicle = m.veh_at( who.pos() ) &&
-            &vp->vehicle() == &m.veh_at( who.pos() )->vehicle();
+                                    &vp->vehicle() == &m.veh_at( who.pos() )->vehicle();
         const int already_unlocked_part = veh->next_part_to_lock( vpart );
         const int inside_unlockable = veh->next_part_to_unlock( vpart );
         const int unlockable = veh->next_part_to_unlock( vpart, !inside_vehicle );
@@ -456,7 +456,7 @@ bool doors::can_unlock_door( const map &m, const Creature &who, const tripoint &
     if( const optional_vpart_position vp = m.veh_at( lockp ) ) {
         const vehicle *const veh = &vp->vehicle();
         const bool inside_vehicle = m.veh_at( who.pos() ) &&
-            &vp->vehicle() == &m.veh_at( who.pos() )->vehicle();
+                                    &vp->vehicle() == &m.veh_at( who.pos() )->vehicle();
         const int vpart = vp->part_index();
         unlockable = veh->next_part_to_unlock( vpart, !inside_vehicle );
     }
