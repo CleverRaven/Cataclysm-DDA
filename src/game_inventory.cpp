@@ -695,10 +695,10 @@ class comestible_inventory_preset : public inventory_selector_preset
                 std::string sealed;
                 item_location temp = loc;
                 // check if at least one parent container is sealed
-                while ( temp.has_parent() ){
-                    item_pocket *pocket = temp.parent_item()->contained_where(*temp.get_item());
-                    if (pocket->sealed()) {
-                        sealed = _("sealed");
+                while( temp.has_parent() ) {
+                    item_pocket *pocket = temp.parent_item()->contained_where( *temp.get_item() );
+                    if( pocket->sealed() ) {
+                        sealed = _( "sealed" );
                         break;
                     }
                     temp = temp.parent_item();
