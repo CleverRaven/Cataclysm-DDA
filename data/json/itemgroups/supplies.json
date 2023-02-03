@@ -89,7 +89,7 @@
       { "item": "wood_panel", "prob": 60, "count": [ 1, 8 ] },
       { "item": "wood_block", "prob": 100, "count": [ 5, 20 ] },
       { "item": "rock", "prob": 70, "count": [ 10, 20 ] },
-      { "item": "coal_lump", "prob": 20, "count": [ 1, 10 ] },
+      { "item": "coal_lump", "prob": 20, "count": [ 10, 200 ] },
       { "item": "material_cement", "prob": 100, "charges": 500, "container-item": "bag_canvas" },
       { "item": "material_sand", "prob": 100, "charges": 500, "container-item": "bag_canvas" },
       { "item": "material_gravel", "prob": 100, "charges": 500, "container-item": "bag_canvas" },
