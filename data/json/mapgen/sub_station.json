@@ -143,6 +143,10 @@
         "0^^-x---x-IIII-x---x-^^0",
         "0^^^X^^^X^^^^^^X^^^X^^^0"
       ],
+      "place_vehicles": [
+        { "vehicle": "train_car_passenger", "x": 6, "y": [ 8, 15 ], "chance": 20, "rotation": 90 },
+        { "vehicle": "train_car_passenger", "x": 17, "y": [ 8, 15 ], "chance": 20, "rotation": 90 }
+      ],
       "palettes": [ "subway_underground" ]
     }
   }

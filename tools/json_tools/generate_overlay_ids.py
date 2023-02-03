@@ -102,7 +102,7 @@ if __name__ == '__main__':
 
         if not game_id:
             continue
-        if datum.get('asbstract'):
+        if datum.get('abstract'):
             continue
         if 'PSEUDO' in flags or 'NO_DROP' in flags:
             continue

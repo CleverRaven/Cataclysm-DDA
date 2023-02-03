@@ -8,7 +8,7 @@
 #include "translation_cache.h"
 #include "value_ptr.h"
 
-class JsonIn;
+class JsonValue;
 
 /**
  * Class for storing translation context and raw string for deferred translation
@@ -61,7 +61,7 @@ class translation
          * of this class is constructed with `plural_tag` or `pl_translation()`,
          * or converted using `make_plural()`.
          **/
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonValue &jsin );
 
         /**
          * Returns raw string if no translation is needed, otherwise returns

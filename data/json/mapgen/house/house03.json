@@ -215,7 +215,7 @@
         "^": "f_rubble",
         "a": "f_dumpster",
         "f": "f_fireplace",
-        "o": "f_oven",
+        "o": [ "f_oven", "f_gas_oven_microwave_combo" ],
         "t": "f_toilet",
         "{": "f_dumpster"
       },

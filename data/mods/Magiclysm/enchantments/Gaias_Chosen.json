@@ -19,6 +19,13 @@
     "type": "enchantment",
     "id": "GAIAS_CHOSEN",
     "condition": "ALWAYS",
-    "hit_me_effect": [ { "id": "GAIAS_CHOSEN_THORNS" } ]
+    "values": [ { "value": "MAX_HP", "multiply": 0.3 } ],
+    "hit_me_effect": [
+      {
+        "id": "GAIAS_CHOSEN_THORNS",
+        "message": "Thorns tear at your opponent as they strike you.",
+        "npc_message": "%1$s's thorny brambles bite into their attacker."
+      }
+    ]
   }
 ]

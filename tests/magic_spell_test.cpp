@@ -75,6 +75,7 @@ TEST_CASE( "spell name", "[magic][spell][name]" )
 
 TEST_CASE( "spell level", "[magic][spell][level]" )
 {
+    npc guy;
     spell_id pew_id( "test_spell_pew" );
 
     const spell_type &pew_type = pew_id.obj();
@@ -85,21 +86,21 @@ TEST_CASE( "spell level", "[magic][spell][level]" )
         REQUIRE( pew_spell.get_level() == 0 );
 
         WHEN( "spell levels up once" ) {
-            pew_spell.gain_level();
+            pew_spell.gain_level( guy );
 
             THEN( "it is level 1" ) {
                 CHECK( pew_spell.get_level() == 1 );
             }
 
             AND_WHEN( "spell levels up to max_level" ) {
-                pew_spell.set_level( pew_type.max_level );
+                pew_spell.set_level( guy, pew_type.max_level );
 
                 THEN( "it is maximum level" ) {
                     CHECK( pew_spell.get_level() == pew_type.max_level );
                 }
 
                 AND_THEN( "it cannot level up beyond max_level" ) {
-                    pew_spell.set_level( pew_type.max_level + 1 );
+                    pew_spell.set_level( guy, pew_type.max_level + 1 );
                     CHECK( pew_spell.get_level() == pew_type.max_level );
                 }
             }
@@ -110,13 +111,15 @@ TEST_CASE( "spell level", "[magic][spell][level]" )
 // Return experience points needed to level up a spell, starting at from_level
 static int spell_xp_to_next_level( const spell_id &sp_id, const int from_level )
 {
+    npc guy;
     spell test_spell( sp_id );
-    test_spell.set_level( from_level );
+    test_spell.set_level( guy, from_level );
     return test_spell.exp_to_next_level();
 }
 
 TEST_CASE( "experience to gain spell levels", "[magic][spell][level][xp]" )
 {
+    npc guy;
     spell_id pew_id( "test_spell_pew" );
     spell_id lava_id( "test_spell_lava" );
     int level_1_xp = 0;
@@ -126,7 +129,7 @@ TEST_CASE( "experience to gain spell levels", "[magic][spell][level][xp]" )
     spell lava_spell( lava_id );
 
     GIVEN( "spell is level 0" ) {
-        lava_spell.set_level( 0 );
+        lava_spell.set_level( guy, 0 );
         REQUIRE( lava_spell.get_level() == 0 );
 
         THEN( "exp_to_next_level returns experience needed to reach level 1" ) {
@@ -234,8 +237,9 @@ TEST_CASE( "experience to gain spell levels", "[magic][spell][level][xp]" )
 // Return spell damage at a given level
 static int spell_damage( const spell_id &sp_id, const int spell_level )
 {
+    npc guy;
     spell test_spell( sp_id );
-    test_spell.set_level( spell_level );
+    test_spell.set_level( guy, spell_level );
     return test_spell.damage();
 }
 
@@ -286,8 +290,9 @@ TEST_CASE( "spell damage", "[magic][spell][damage]" )
 // Return spell duration at a given level
 static std::string spell_duration_string( const spell_id &sp_id, const int spell_level )
 {
+    npc guy;
     spell test_spell( sp_id );
-    test_spell.set_level( spell_level );
+    test_spell.set_level( guy, spell_level );
     return test_spell.duration_string();
 }
 
@@ -405,8 +410,9 @@ TEST_CASE( "permanent spell duration depends on effect and level", "[magic][spel
 // Return spell range at a given level
 static int spell_range( const spell_id &sp_id, const int spell_level )
 {
+    npc guy;
     spell test_spell( sp_id );
-    test_spell.set_level( spell_level );
+    test_spell.set_level( guy, spell_level );
     return test_spell.range();
 }
 
@@ -459,8 +465,9 @@ TEST_CASE( "spell range", "[magic][spell][range]" )
 // Return spell AOE at a given level
 static int spell_aoe( const spell_id &sp_id, const int spell_level )
 {
+    npc guy;
     spell test_spell( sp_id );
-    test_spell.set_level( spell_level );
+    test_spell.set_level( guy, spell_level );
     return test_spell.aoe();
 }
 
@@ -554,7 +561,7 @@ TEST_CASE( "spell effect - target_attack", "[magic][spell][effect][target_attack
 
     // The spell itself
     spell pew_spell( pew_id );
-    pew_spell.set_level( 5 );
+    pew_spell.set_level( dummy, 5 );
     REQUIRE( pew_spell.damage() > 0 );
     REQUIRE( pew_spell.range() >= 2 );
 

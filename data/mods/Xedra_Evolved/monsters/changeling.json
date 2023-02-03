@@ -28,7 +28,7 @@
     "armor_fire": 6,
     "armor_elec": 2,
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ],
-    "families": [ "prof_physiology_demihuman" ],
+    "families": [ "prof_wp_demihuman" ],
     "dodge": 2,
     "harvest": "demihuman",
     "vision_day": 30,
@@ -149,6 +149,7 @@
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ],
     "dodge": 5,
     "harvest": "demihuman",
+    "families": [ "prof_wp_demihuman" ],
     "vision_day": 50,
     "vision_night": 6,
     "path_settings": { "max_dist": 30, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
@@ -364,6 +365,8 @@
     "vision_day": 5,
     "vision_night": 5,
     "harvest": "demihuman",
+    "weakpoint_sets": [ "wps_humanoid_head_small", "wps_arthropod_spider" ],
+    "families": [ "prof_wp_demihuman" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "WEBWALK", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL", "NIGHT_INVISIBILITY" ]
   },
   {
@@ -476,6 +479,8 @@
     "dodge": 5,
     "luminance": 0,
     "harvest": "demihuman",
+    "weakpoint_sets": [ "wps_humanoid_body" ],
+    "families": [ "prof_wp_demihuman" ],
     "special_attacks": [ [ "RANGED_PULL", 10 ], [ "GRAB_DRAG", 3 ] ],
     "path_settings": { "max_dist": 50, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
     "flags": [ "SEES", "HEARS", "SMELLS", "SWIMS", "AQUATIC", "GRABS" ]

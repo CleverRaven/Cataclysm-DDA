@@ -198,7 +198,7 @@
     "quench": -15,
     "calories": 131,
     "description": "Dry flakes of flattened grain.  Tasty and nutritious when cooked, it also doubles as food for horses while dry.",
-    "price": 7500,
+    "price": 350,
     "price_postapoc": 50,
     "material": [ "wheat" ],
     "volume": "500 ml",

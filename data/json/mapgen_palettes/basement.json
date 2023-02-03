@@ -50,7 +50,7 @@
       "s": "f_chair",
       "F": "f_home_furnace",
       "W": "f_water_heater",
-      "o": "f_oven",
+      "o": [ "f_oven", "f_gas_oven_microwave_combo" ],
       "b": "f_cupboard",
       "T": "f_rack"
     },
@@ -123,7 +123,8 @@
       "w": "f_washer",
       "l": "f_floor_lamp",
       "M": "f_desk",
-      "T": "f_trashcan"
+      "T": "f_trashcan",
+      "é": "f_freezer"
     },
     "toilets": { "&": {  } }
   },
@@ -170,7 +171,8 @@
       "9": "f_shower",
       "g": "f_water_heater",
       "v": "f_safe_l",
-      "z": "f_cardboard_box"
+      "z": "f_cardboard_box",
+      "é": "f_freezer"
     },
     "toilets": { "t": {  } },
     "liquids": { "g": { "liquid": "water_clean", "amount": [ 0, 100 ] } },

@@ -13,15 +13,14 @@
     "proficiencies": [ { "proficiency": "prof_wound_care", "fail_multiplier": 1, "time_multiplier": 1 } ],
     "autolearn": [ [ "firstaid", 0 ] ],
     "flags": [ "BLIND_HARD" ],
-    "components": [
+    "tools": [
       [
-        [ "bandages", 1 ],
-        [ "bandages_makeshift", 1 ],
-        [ "bandages_makeshift_bleached", 1 ],
-        [ "bandages_makeshift_boiled", 1 ]
+        [ "bandages", -1 ],
+        [ "bandages_makeshift", -1 ],
+        [ "bandages_makeshift_bleached", -1 ],
+        [ "bandages_makeshift_boiled", -1 ]
       ]
-    ],
-    "byproducts": [ [ "cotton_patchwork", 1 ] ]
+    ]
   },
   {
     "id": "prac_health_care_int",
@@ -41,14 +40,13 @@
     "autolearn": [ [ "firstaid", 1 ] ],
     "flags": [ "BLIND_HARD" ],
     "book_learn": [ [ "booklet_firstaid", 0 ], [ "mag_firstaid", 0 ], [ "pocket_firstaid", 0 ], [ "manual_first_aid", 0 ] ],
-    "components": [
+    "tools": [
       [
-        [ "bandages", 2 ],
-        [ "bandages_makeshift", 2 ],
-        [ "bandages_makeshift_bleached", 2 ],
-        [ "bandages_makeshift_boiled", 2 ]
+        [ "bandages", -1 ],
+        [ "bandages_makeshift", -1 ],
+        [ "bandages_makeshift_bleached", -1 ],
+        [ "bandages_makeshift_boiled", -1 ]
       ]
-    ],
-    "byproducts": [ [ "cotton_patchwork", 2 ] ]
+    ]
   }
 ]

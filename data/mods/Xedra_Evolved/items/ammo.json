@@ -13,6 +13,9 @@
     "flags": [ "TRADER_AVOID", "NPC_THROWN" ],
     "volume": "100 ml",
     "weight": "460 g",
+    "to_hit": -2,
+    "bashing": 1,
+    "cutting": 10,
     "damage": { "damage_type": "stab", "amount": 7 },
     "range": 10,
     "dispersion": 14,
@@ -58,5 +61,24 @@
     "dispersion": 80,
     "recoil": 500,
     "effects": [ "COOKOFF" ]
+  },
+  {
+    "id": "aetheric_charge",
+    "type": "AMMO",
+    "name": { "str_sp": "aetheric charge" },
+    "description": "Charged ether pulled out of the void between all things.",
+    "weight": "1 g",
+    "volume": "12 ml",
+    "price": "10 USD",
+    "price_postapoc": "10 USD",
+    "material": [ "forged_dreamstuff" ],
+    "symbol": "=",
+    "color": "light_blue",
+    "phase": "gas",
+    "ammo_type": "aetheric_charge",
+    "range": 12,
+    "count": 1,
+    "recoil": 900,
+    "effects": [ "INCENDIARY" ]
   }
 ]

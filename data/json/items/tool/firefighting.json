@@ -6,7 +6,7 @@
     "color": "light_gray",
     "name": { "str": "crash axe" },
     "looks_like": "hatchet",
-    "//": "Same stats as a hatchet, except it has prying instead of hammering.",
+    "//": "Same stats as a hatchet (as a tool and weapon), except it has prying instead of hammering.",
     "description": "A short lightweight emergency tool with a quarter circular blade, a short pick opposite the blade, and an insulated handle.  Used on airplanes to chop down or pry walls, or cabinets to gain access in case of fire.",
     "price": 2500,
     "price_postapoc": 750,
@@ -15,9 +15,9 @@
     "weight": "907 g",
     "volume": "1 L",
     "longest_side": "40 cm",
-    "bashing": 17,
-    "cutting": 28,
-    "to_hit": -2,
+    "bashing": 10,
+    "cutting": 20,
+    "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "neutral" },
     "flags": [ "DURABLE_MELEE", "BELT_CLIP", "NONCONDUCTIVE", "SHEATH_AXE" ],
     "weapon_category": [ "HAND_AXES" ],
     "use_action": [ "CROWBAR" ],
@@ -78,6 +78,7 @@
         "max_item_length": "76 cm",
         "moves": 150,
         "item_restriction": [ "halligan" ],
+        "description": "Marrying strap for a Halligan bar.",
         "holster": true
       }
     ]

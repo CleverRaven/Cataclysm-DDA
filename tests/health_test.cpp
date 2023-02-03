@@ -13,6 +13,15 @@ static const vitamin_id vitamin_calcium( "calcium" );
 static const vitamin_id vitamin_iron( "iron" );
 static const vitamin_id vitamin_vitC( "vitC" );
 
+static void pass_time( Character &p, time_duration amt, time_duration tick )
+{
+    for( time_duration turns = 1_turns; turns < amt; turns += tick ) {
+        calendar::turn += tick;
+        p.update_body();
+        p.update_health();
+    }
+}
+
 static void daily_routine( npc &dude, int numb_stam_burn, int vitamin_amount,
                            bool sleep_deprivation )
 {
@@ -35,11 +44,8 @@ static void daily_routine( npc &dude, int numb_stam_burn, int vitamin_amount,
         dude.set_sleep_deprivation( static_cast<int>( SLEEP_DEPRIVATION_MASSIVE ) - 160 );
     }
 
-
-    // set to next day
-    calendar::turn = calendar::turn_zero + 24_hours;
-    dude.update_body();
-    dude.update_health();
+    // pass a day
+    pass_time( dude, 24_hours, 1_hours );
 }
 
 // Healthy lifetyle makes health go up
@@ -48,16 +54,13 @@ TEST_CASE( "healthy_lifestyle", "[health]" )
     standard_npc dude( "healthy lifestyle" );
 
     int init_lifestyle = dude.get_lifestyle();
-    int init_daily_health = dude.get_daily_health();
+
     for( int i = 0; i < 7; i++ ) {
         daily_routine( dude, 5, 2000, false );
     }
 
     INFO( "Lifestyle value: " << dude.get_lifestyle() );
     CHECK( dude.get_lifestyle() > init_lifestyle );
-
-    INFO( "Daily Health: " << dude.get_daily_health() );
-    CHECK( dude.get_daily_health() > init_daily_health );
 }
 
 // Unhealthy lifestyle makes health go down
@@ -66,7 +69,7 @@ TEST_CASE( "unhealthy_lifestyle", "[health]" )
     standard_npc dude( "unhealthy lifestyle" );
 
     int init_lifestyle = dude.get_lifestyle();
-    int init_daily_health = dude.get_daily_health();
+
     for( int i = 0; i < 7; i++ ) {
         daily_routine( dude, 0, 0, true );
     }
@@ -74,7 +77,5 @@ TEST_CASE( "unhealthy_lifestyle", "[health]" )
     INFO( "Lifestyle value: " << dude.get_lifestyle() );
     CHECK( dude.get_lifestyle() < init_lifestyle );
 
-    INFO( "Daily Health: " << dude.get_daily_health() );
-    CHECK( dude.get_daily_health() < init_daily_health );
 }
 

@@ -32,7 +32,7 @@
     "autolearn": true,
     "charges": 1,
     "flags": [ "BLIND_EASY" ],
-    "components": [ [ [ "cotton_patchwork", 1 ] ] ]
+    "components": [ [ [ "sheet_cotton", 1 ], [ "sheet_cotton_patchwork", 1 ] ] ]
   },
   {
     "result": "bandages_makeshift_bleached",
@@ -302,7 +302,7 @@
     "skill_used": "tailor",
     "time": "54 m",
     "autolearn": true,
-    "byproducts": [ [ "seed_cotton_boll", 2 ] ],
+    "byproduct_group": [ { "item": "seed_cotton_boll", "charges": 2 } ],
     "components": [ [ [ "cotton_boll", 1 ] ] ]
   },
   {

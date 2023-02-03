@@ -29,7 +29,7 @@
       "d": "f_shower",
       "g": "f_water_heater",
       "h": "f_fireplace",
-      "i": "f_oven",
+      "i": [ "f_oven", "f_gas_oven_microwave_combo" ],
       "j": "f_sink",
       "n": "f_sink",
       "k": "f_woodstove",

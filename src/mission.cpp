@@ -40,6 +40,8 @@
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
+static const efftype_id effect_pet( "pet" );
+static const efftype_id effect_run( "run" );
 static const itype_id itype_null( "null" );
 
 static const mission_type_id mission_NULL( "NULL" );
@@ -102,6 +104,16 @@ std::vector<mission *> mission::get_all_active()
     }
 
     return ret;
+}
+
+void mission::remove_active_world_mission( mission &cur_mission )
+{
+    for( auto iter = world_missions.begin(); iter != world_missions.end(); iter++ ) {
+        if( iter->second.get_id() == cur_mission.get_id() && iter->second.in_progress() ) {
+            world_missions.erase( iter );
+            break;
+        }
+    }
 }
 
 void mission::add_existing( const mission &m )
@@ -416,6 +428,22 @@ void mission::wrap_up()
         case MGOAL_FIND_ANY_ITEM:
             player_character.remove_mission_items( uid );
             break;
+        case MGOAL_FIND_MONSTER: {
+            Creature *found_creature = g->get_creature_if( [&]( const Creature & critter ) {
+                const monster *const mon_ptr = dynamic_cast<const monster *>( &critter );
+                return mon_ptr && mon_ptr->mission_ids.count( uid );
+            } );
+            if( found_creature != nullptr ) {
+                monster *found_monster = found_creature->as_monster();
+                if( found_monster != nullptr ) {
+                    found_monster->mission_ids.erase( uid );
+                    found_monster->remove_effect( effect_pet );
+                    found_monster->remove_effect( effect_run );
+                    found_monster->friendly = 0;
+                    found_monster->morale = 100;
+                }
+            }
+        }
         default:
             //Suppress warnings
             break;
@@ -754,6 +782,18 @@ void mission::set_target_npc_id( const character_id &npc_id )
 void mission::set_assigned_player_id( const character_id &char_id )
 {
     player_id = char_id;
+}
+
+void mission::update_world_missions_character( const character_id &old_char_id,
+        const character_id &new_char_id )
+{
+    for( auto &world_mission : world_missions ) {
+        if( world_mission.second.in_progress() &&
+            ( world_mission.second.get_assigned_player_id()  == old_char_id ||
+              world_mission.second.get_assigned_player_id() == character_id( - 1 ) ) ) {
+            world_mission.second.set_assigned_player_id( new_char_id );
+        }
+    }
 }
 
 bool mission::is_assigned() const

@@ -192,12 +192,18 @@ the message fields the "apply_memorial_log" will only be added to the log for ne
 
 ### Resistances
 ```C++
-    "resist_trait": "NOPAIN",
+    "resist_traits": "NOPAIN",
     "resist_effect": "flumed"
 ```
 These fields are used to determine if an effect is being resisted or not. If the player has the
 matching trait or effect then they are "resisting" the effect, which changes its effects and description.
 Effects can only have one "resist_trait" and one "resist_effect" at a time.
+
+### Immunity Flags
+````JSON
+"immunity_flags": [ "INFECTION_IMMUNE", "YOUR_FLAG" ]
+```
+Having any of the defined character flags (See JSON_FLAGS.md#Character flags) will make you immune to the effect. Note that these are completely JSON-driven, so you can add a custom flag for your effect without C++ changes.
 
 ### Removes effects
 ```C++

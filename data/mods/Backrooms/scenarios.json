@@ -1,0 +1,23 @@
+[
+  {
+    "type": "scenario",
+    "id": "backroom_dweller",
+    "name": "Backrooms",
+    "points": 0,
+    "description": "What is this place?  You can't seem to find your way back out.",
+    "allowed_locs": [ "sloc_backrooms" ],
+    "start_name": "The Backrooms",
+    "flags": [ "LONE_START" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_backrooms",
+    "name": "The Backrooms",
+    "terrain": [ "backfloorchamber" ]
+  },
+  {
+    "type": "SCENARIO_BLACKLIST",
+    "subtype": "whitelist",
+    "scenarios": [ "backroom_dweller" ]
+  }
+]

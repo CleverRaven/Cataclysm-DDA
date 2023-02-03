@@ -20,6 +20,7 @@
 #include "path_info.h"
 #include "filesystem.h"
 #include "debug.h"
+#include "cata_scope_helpers.h"
 #include "cata_utility.h"
 #include "string_formatter.h"
 #include "color_loader.h"
@@ -745,7 +746,8 @@ bool gamepad_available()
     return false;
 }
 
-cata::optional<tripoint> input_context::get_coordinates( const catacurses::window & )
+cata::optional<tripoint> input_context::get_coordinates( const catacurses::window &, const point &,
+        bool center_cursor ) const
 {
     // TODO: implement this properly
     return cata::nullopt;

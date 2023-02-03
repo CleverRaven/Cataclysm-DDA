@@ -28,6 +28,8 @@
     "bleed_rate": 75,
     "vision_day": 50,
     "vision_night": 20,
+    "families": [ "prof_wp_demihuman" ],
+    "weakpoint_sets": [ "wps_humanoid_body" ],
     "harvest": "zombie_meatslug",
     "path_settings": { "max_dist": 50, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
     "scents_ignored": [ "sc_fetid" ],
@@ -80,6 +82,8 @@
     "vision_day": 50,
     "vision_night": 20,
     "harvest": "zombie_meatslug",
+    "families": [ "prof_wp_demihuman" ],
+    "weakpoint_sets": [ "wps_humanoid_body" ],
     "path_settings": { "max_dist": 50, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
     "scents_ignored": [ "sc_fetid" ],
     "special_attacks": [
@@ -137,6 +141,8 @@
     "vision_day": 50,
     "vision_night": 20,
     "harvest": "zombie_meatslug",
+    "families": [ "prof_wp_demihuman" ],
+    "weakpoint_sets": [ "wps_humanoid_body" ],
     "path_settings": { "max_dist": 50, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
     "scents_ignored": [ "sc_fetid" ],
     "special_attacks": [
@@ -188,6 +194,8 @@
     "vision_day": 50,
     "vision_night": 20,
     "harvest": "zombie_meatslug",
+    "families": [ "prof_wp_demihuman" ],
+    "weakpoint_sets": [ "wps_humanoid_body" ],
     "path_settings": { "max_dist": 50, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
     "scents_ignored": [ "sc_fetid" ],
     "special_attacks": [
@@ -248,6 +256,8 @@
     "vision_day": 50,
     "vision_night": 25,
     "harvest": "zombie_meatslug",
+    "families": [ "prof_wp_demihuman" ],
+    "weakpoint_sets": [ "wps_humanoid_body" ],
     "path_settings": { "max_dist": 50, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
     "scents_ignored": [ "sc_fetid" ],
     "special_attacks": [
@@ -302,6 +312,8 @@
     "vision_day": 50,
     "vision_night": 25,
     "harvest": "zombie_meatslug",
+    "families": [ "prof_wp_demihuman" ],
+    "weakpoint_sets": [ "wps_humanoid_body" ],
     "scents_ignored": [ "sc_fetid" ],
     "special_attacks": [ [ "PARROT", 4 ] ],
     "flags": [
@@ -347,6 +359,8 @@
     "vision_day": 50,
     "vision_night": 25,
     "harvest": "zombie_meatslug",
+    "families": [ "prof_wp_demihuman" ],
+    "weakpoint_sets": [ "wps_humanoid_body" ],
     "path_settings": { "max_dist": 50, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
     "scents_ignored": [ "sc_fetid" ],
     "special_attacks": [

@@ -106,7 +106,7 @@ class item_location
         item_location parent_item() const;
 
         /** returns true if the item is in the inventory of the given character **/
-        bool held_by( Character &who ) const;
+        bool held_by( Character const &who ) const;
 
         /**
          * true if this item location can and does have a parent

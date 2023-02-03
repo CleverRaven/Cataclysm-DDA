@@ -225,8 +225,6 @@ static const species_id species_LEECH_PLANT( "LEECH_PLANT" );
 static const species_id species_SLIME( "SLIME" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
 
-static const ter_str_id ter_t_plut_generator( "t_plut_generator" );
-
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_MARLOSS( "MARLOSS" );
 static const trait_id trait_MARLOSS_BLUE( "MARLOSS_BLUE" );
@@ -2803,7 +2801,6 @@ bool mattack::ranged_pull( monster *z )
         return true;
     }
 
-
     if( target->has_grab_break_tec() ) {
         Character *pl = dynamic_cast<Character *>( target );
         ///\EFFECT_STR increases chance to avoid being grabbed
@@ -3825,7 +3822,7 @@ bool mattack::searchlight( monster *z )
         for( int x = zpos.x - 24; x < zpos.x + 24; x++ ) {
             for( int y = zpos.y - 24; y < zpos.y + 24; y++ ) {
                 tripoint dest( x, y, z->posz() );
-                if( here.ter( dest ) == ter_t_plut_generator ) {
+                if( here.has_flag( ter_furn_flag::TFLAG_ACTIVE_GENERATOR, dest ) ) {
                     generator_ok = true;
                 }
             }
@@ -3868,6 +3865,7 @@ bool mattack::searchlight( monster *z )
         }
 
         point p( zpos + point( settings.get_var( "SL_SPOT_X", 0 ), settings.get_var( "SL_SPOT_Y", 0 ) ) );
+        point preshift_p = p;
         int shift = 0;
 
         for( int i = 0; i < rng( 1, 2 ); i++ ) {
@@ -3940,10 +3938,24 @@ bool mattack::searchlight( monster *z )
             }
         }
 
-        settings.set_var( "SL_SPOT_X", p.x - zpos.x );
-        settings.set_var( "SL_SPOT_Y", p.y - zpos.y );
+        tripoint t = tripoint( p, z->posz() );
+        if( z->sees( t, false, 0 ) ) {
+            settings.set_var( "SL_SPOT_X", p.x - zpos.x );
+            settings.set_var( "SL_SPOT_Y", p.y - zpos.y );
+        } else {
+            // If the searchlight cannot see the location it was going to look at check if
+            // the searchlight can see the current location (a door could have closed or
+            // a window covered). If the searchlight cannot see the current location then
+            // reset the searchlight to search from itself
+            t = tripoint( preshift_p, z->posz() );
+            if( !z->sees( t, false, 0 ) ) {
+                settings.set_var( "SL_SPOT_X", 0 );
+                settings.set_var( "SL_SPOT_Y", 0 );
+                t = z->pos();
+            }
+        }
 
-        here.add_field( tripoint( p, z->posz() ), field_type_id( "fd_spotlight" ), 1 );
+        here.add_field( t, field_type_id( "fd_spotlight" ), 1 );
     }
 
     return true;
@@ -5317,7 +5329,8 @@ bool mattack::tindalos_teleport( monster *z )
                     if( z->sees( *target ) ) {
                         here.add_field( oldpos, fd_tindalos_rift, 2 );
                         here.add_field( dest, fd_tindalos_rift, 2 );
-                        add_msg_if_player_sees( *z, m_bad, _( "The %s dissipates and reforms close by." ), z->name() );
+                        add_msg_if_player_sees( *z, m_bad,
+                                                _( "The %s dissipates and reforms itself from the angles in the corner." ), z->name() );
                         return true;
                     }
                 }
@@ -5529,8 +5542,8 @@ bool mattack::bio_op_takedown( monster *z )
             }
             foe->add_effect( effect_downed, 3_turns );
         }
-    } else if( ( !foe->is_armed() ||
-                 foe->martial_arts_data->selected_has_weapon( foe->get_wielded_item()->typeId() ) ) ) {
+    } else if( !foe->is_armed() ||
+               foe->martial_arts_data->selected_has_weapon( foe->get_wielded_item()->typeId() ) ) {
         // Saved by the tentacle-bracing! :)
         hit = bodypart_id( "torso" );
         dam = rng( 3, 9 );
@@ -6153,8 +6166,7 @@ bool mattack::dsa_drone_scan( monster *z )
         return true;
     }
     if( !available.empty() ) {
-        if( !avatar_in_range ||
-            ( avatar_in_range && x_in_y( available.size(), available.size() + 1 ) ) ) {
+        if( !avatar_in_range || x_in_y( available.size(), available.size() + 1 ) ) {
             target = random_entry( available );
         }
     }

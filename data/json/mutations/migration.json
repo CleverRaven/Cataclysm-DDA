@@ -1,6 +1,16 @@
 [
   {
     "type": "TRAIT_MIGRATION",
+    "id": "SELFAWARE",
+    "remove": true
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "BIOLUM0_active",
+    "trait": "BIOLUM0"
+  },
+  {
+    "type": "TRAIT_MIGRATION",
     "id": "eye_blue",
     "trait": "eye_color",
     "variant": "blue"

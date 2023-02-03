@@ -56,7 +56,7 @@
       "C": "f_counter",
       "S": "f_sofa",
       "s": "f_sink",
-      "o": "f_oven",
+      "o": [ "f_oven", "f_gas_oven_microwave_combo" ],
       "4": "f_rack",
       "r": "f_rack",
       "R": "f_rack",

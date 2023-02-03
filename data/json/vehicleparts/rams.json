@@ -75,9 +75,10 @@
     ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 4 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] }
+      "removal": { "skills": [ [ "mechanics", 4 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": {  }
     },
-    "flags": [ "NO_REPAIR" ],
+    "extend": { "flags": [ "NO_REPAIR" ] },
     "damage_reduction": { "all": 75, "bullet": 131 }
   },
   {
@@ -172,7 +173,7 @@
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "5 m", "using": [  ] }
     },
     "damage_reduction": { "bash": 20 },
-    "flags": [ "PROTRUSION", "OBSTACLE", "OPAQUE" ]
+    "extend": { "flags": [ "OPAQUE" ] }
   },
   {
     "id": "tearer",

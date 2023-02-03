@@ -5,7 +5,9 @@
       { "id": [ "DRAGON_WINGS_BLACK" ], "order": 500 },
       { "id": [ "DRAGON_SCALES_BLACK", "DEMON_SKIN" ], "order": 1500 },
       { "id": [ "DRAGON_TAIL_STUB", "DRAGON_TAIL_SCALED", "DRAGON_TAIL" ], "order": 400 },
-      { "id": [ "MUZZLE_DRAGON", "DRAGON_MAW_BLACK" ], "order": 7000 }
+      { "id": [ "HORNS_DRAGON" ], "order": 6000 },
+      { "id": [ "MUZZLE_DRAGON", "DRAGON_MAW_BLACK" ], "order": 7000 },
+      { "id": [ "DRAGON_BREATH_BLACK" ], "order": 8500 }
     ]
   }
 ]

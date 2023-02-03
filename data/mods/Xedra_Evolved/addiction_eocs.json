@@ -1,0 +1,61 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BLOOD_ADDICTION",
+    "condition": {
+      "compare_int": [ { "rand": 2000 }, "<=", { "u_val": "addiction_intensity", "addiction": "blood", "mod": { "val": 2000, "step": 20 } } ]
+    },
+    "effect": [
+      { "u_message": "You want some blood.", "type": "warning" },
+      { "u_add_morale": "morale_craving_blood", "bonus": -5, "max_bonus": -30 },
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_BLOOD_ADDICTION_EFFECTS",
+            "condition": {
+              "and": [
+                {
+                  "compare_int": [
+                    { "u_val": "vitamin", "name": "human_blood_vitamin" },
+                    ">",
+                    { "u_val": "addiction_intensity", "addiction": "blood", "mod": -10 }
+                  ]
+                },
+                { "compare_int": [ { "rand": 10 }, "<", { "u_val": "addiction_intensity", "addiction": "blood" } ] }
+              ]
+            },
+            "effect": {
+              "weighted_list_eocs": [ [ "EOC_BLOOD_ADDICTION_SHAKES", { "const": 10 } ], [ "EOC_BLOOD_ADDICTION_BLIND", { "const": 10 } ] ]
+            }
+          },
+          {
+            "id": "EOC_BLOOD_ADDICTION_BLIND",
+            "condition": {
+              "and": [
+                { "compare_int": [ { "u_val": "addiction_intensity", "addiction": "blood" }, ">=", { "const": 8 } ] },
+                { "compare_int": [ { "rand": 392 }, "<", { "u_val": "addiction_intensity", "addiction": "blood" } ] }
+              ]
+            },
+            "effect": [
+              { "u_message": "Your vision goes black as blood fills your thoughts!", "type": "bad" },
+              { "u_add_effect": "blind", "duration": "2 minutes" }
+            ]
+          },
+          {
+            "id": "EOC_BLOOD_ADDICTION_SHAKES",
+            "condition": {
+              "and": [
+                { "compare_int": [ { "u_val": "addiction_intensity", "addiction": "blood" }, ">=", { "const": 8 } ] },
+                { "compare_int": [ { "rand": 392 }, "<", { "u_val": "addiction_intensity", "addiction": "blood" } ] }
+              ]
+            },
+            "effect": [
+              { "u_message": "Your hands clench uncontrollably as you think about how much you need blood now!", "type": "bad" },
+              { "u_add_effect": "shakes", "duration": "2 minutes" }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

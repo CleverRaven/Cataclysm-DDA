@@ -435,9 +435,9 @@ class mapgen_function_json_base
         void add_placement_coords_to( std::unordered_set<point> & ) const;
 
     private:
-        json_source_location jsrcloc;
+        JsonObject jsobj;
     protected:
-        mapgen_function_json_base( const json_source_location &jsrcloc, const std::string &context );
+        mapgen_function_json_base( const JsonObject &jsobj, const std::string &context );
         virtual ~mapgen_function_json_base();
 
         void setup_common();
@@ -476,7 +476,7 @@ class mapgen_function_json : public mapgen_function_json_base, public virtual ma
         bool expects_predecessor() const override;
         void generate( mapgendata & ) override;
         mapgen_parameters get_mapgen_params( mapgen_parameter_scope ) const override;
-        mapgen_function_json( const json_source_location &jsrcloc, int w, const std::string &context,
+        mapgen_function_json( const JsonObject &jsobj, int w, const std::string &context,
                               const point &grid_offset, const point &grid_total );
         ~mapgen_function_json() override = default;
 
@@ -494,7 +494,7 @@ class mapgen_function_json : public mapgen_function_json_base, public virtual ma
 class update_mapgen_function_json : public mapgen_function_json_base
 {
     public:
-        update_mapgen_function_json( const json_source_location &jsrcloc, const std::string &context );
+        update_mapgen_function_json( const JsonObject &jsobj, const std::string &context );
         ~update_mapgen_function_json() override = default;
 
         void setup();
@@ -518,7 +518,7 @@ class mapgen_function_json_nested : public mapgen_function_json_base
         void setup();
         void finalize_parameters();
         void check() const;
-        mapgen_function_json_nested( const json_source_location &jsrcloc, const std::string &context );
+        mapgen_function_json_nested( const JsonObject &jsobj, const std::string &context );
         ~mapgen_function_json_nested() override = default;
 
         void nest( const mapgendata &md, const point &offset,

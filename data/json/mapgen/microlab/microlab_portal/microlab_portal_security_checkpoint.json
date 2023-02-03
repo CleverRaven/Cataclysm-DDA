@@ -1,0 +1,108 @@
+{
+  "type": "mapgen",
+  "om_terrain": [
+    [
+      "microlab_portal_security1",
+      "microlab_portal_security2",
+      "microlab_portal_security_hallway1",
+      "microlab_portal_security3",
+      "microlab_portal_security4"
+    ],
+    [
+      "microlab_portal_security5",
+      "microlab_portal_security6",
+      "microlab_portal_security_hallway2",
+      "microlab_portal_security7",
+      "microlab_portal_security8"
+    ]
+  ],
+  "method": "json",
+  "object": {
+    "fill_ter": "t_strconc_floor",
+    "rows": [
+      "|||||||||||||||||||||||||||||||||||||||||||||||||||||| PP  PP  PP ||||||||||||||||||||||||||||||||||||||||||||||||||||||",
+      "|;|;|;|;|    |U  U|c hcz cc           |V V|   cz cc  | PP  PP  PP |||6  y   yRRRy         |  y            2  2    2    |",
+      "|+|+|+|+| |  |U  U|c hc        h      2  c|          | PPbb  bbPP N||6  y   y   y         5  y    RRR  RR |  |&  7|R  M|",
+      "|         |  |(22(|h     dd  |==|||||||  ?|6h     |||| PP      PP ||||  yyyyy   |(((|||(((|yyy            |  |&  7|R  M|",
+      "| iiii    |  |      YY   hd  |tt|^    =  ?|6     F|XX= PPbb  bbPP =XX|          |ddd666ddd|       &&&OOOOO|  |OOOO|R  M|",
+      "|||||||||||  |UUUUUU  |||||=[|||| hth =Y ?|||2|||||XX= PP      PP =XX|||2||55((||   h h   |2===||||||||||||  |||||||  M|",
+      "|FF|BPP   |22|||||||22|  c|  |##| hth =Y V|h  =  F|XX= PP dd6d PP =XX|Ó  Ó|    |    YYY  O| dh=   M M|h  ^|   ??? t|  M|",
+      "| c|BPP   [  2    F|  |  c|  |##| hth =  c|dd =  F|XX= PP dh d PP =XX|Ó  Ó|    y     RR  O| d =   M M|dd  |       V|  M|",
+      "| 6|BPP hd=  |c   F|  |  c|=[|##| hth =  a|   [  F|XX= PP d hd PP =XX|Ó  Ó|    y RR  RR  O|&  [     M|h   =       V|  M|",
+      "| 6|B  dd6=  |ccc  |  |   |  |##|^    [   |   =   |XX= PP d6dd PP =XX|Ó  Ó|    | RRh RR  O|BBB=     M|    =   ??? t|  M|",
+      "|5||=[=====  |||(((|  |||||  ||||||||||   |=[=|||5|||| PP      PP |||||||||22((||========||||||||5((||===[=        |=2||",
+      "|  2YY     YY      2YY       2                     2  YPP      PPY 2                                       YY          |",
+      "|  2YY     YY      2YY       2                     2  YPP      PPY 2                                       YY          |",
+      "|2||  |||||  |22(((|((2|||2||||N|======[[=|  ||||||||| PP      PP |||||||||22(((((|N|||22||||||||2||||             |((2|",
+      "| c|  ( h 2  (    6|        r||||^       ^|  |ÑÑÑ|  c= PP |||| PP |   y           |||^    rrr|      r|             |   |",
+      "| c|  (ccc(  (ccYh6|cc  cc  r|##| htth  hh|  |   | hc= PP      PP |   y RR  RR  RR| hd      r|   c  r|             |^  |",
+      "| c|  (ccc(  (ccY 6|cc  cc h6|||| htth  tt|  |   |  6= PP      PP |   y RR  RR  RR|  d    rrr|   c hc|==[==  ||2(((| h |",
+      "| c|  ( h 2  (   h6|        c|  2       tt|  2   2   | PP      PP |   y       YY  |W        W|      c|    =  |G   h|6tt|",
+      "|2||  |||||  |    6|((2|||||||;i|foee   hh|  ||||||||| PP |||| PP ||||||||   |6dOO||555||555||2||||||||=[||22||5(((|||||",
+      "| U|       YY|22(((|U        ||||||||||||||  |c   ch | PP  ^^  PP |          ||||||    |     |            |  |   yyyyyy|",
+      "| U|       YY|  cc6|U     c      6|          |c   cc | PP      PP |M M RR    RR66O|yyyy|yyyyy|6   hHHh    |  |M My -=- |",
+      "| U|2|||2||55|   h |U     iccc   6|         Y2    ch | PP  PP  PP |M M RR        O| yy | y y |6   hHHh    |  |M My =M= |",
+      "|  | c|U U|  |FFFFF|U     c      6|  |||||||||    cc | PP  PP  PP |M M RR         ||||||||||||6   hHHh   B|  |M My -=- |",
+      "|  |      |  |||||||      c c|c   |22|6hh6|cc        | PP  PP  PP |         c|c   |^^|6hh6|B             B|  |M My     |",
+      "|$|||||||||  (    |      cc c|c  c|  | cc |      cc  | PP  PP  PP |  ========|    |  | cc |B    |||||||||||  |   yyyyyy|",
+      "| ########|  5    2      ||||||||||  | cc | c c  cc  | PP      PP |=[=1111111811c |  |    |B    |OOOOOOOOO|  |MMMMMM   |",
+      "| #||||||||  |||||||||22||Y          2    | c c      | PP b  b PP |11=1111111811112             |O       O|  ||||||||((|",
+      "| #| hth        VVN|6   ^|           |ccrr| c c   |||| PP b  b PP |8881111111|1YY1|  | h h|hdhdh|O  RRR   5  |66666|6  |",
+      "| #|     ^         |dh  ^|  |||||||||||||||      F|XX= PP      PP =1881111111|FFFF|  |6666|ddddd|OOOOOOOOO|  2     2   |",
+      "|$|| hth ^     hth |d   ||  |OO           |||||||||XX= PP ==== PP 111888|||||||||||  ||||||||||||||||||||||  |(((((||| |",
+      "| O|     ^     hth ||    |  |N   RRRRRRRR | ccc  F|XX= PP =XX= PP111 811             |  5   |  5   |  5   |       ^|6  |",
+      "| O| hth       hth |d    2  |||           |      F|XX= PP =XX= P111  8c11            | 9| A | 9| A | 9| A |       V|6h |",
+      "| O||=====|  |====||dh  ^|  |th  RRRRRRRR |  ||||||XX= PP =XX=11P =XX8c=   ||||||||||| d|   | d|   | d|   |||||   ^|6  |",
+      "| O|^?? ^    ^ ?? ^|6   ^|  |tt           |FF|BBBB|XX= PP =XX=11P =XX8c=   i|#####||||  |   |  |   |  |   |:  |   V|6  |",
+      "|2||               |||2|||  |((| RRRRRRRR ||||^   ||||=[[======11=||||zz   |||||G||N||2||(((|2||(((|2||(((|   |   ^|||2|",
+      "|          YY      5        2  2        Y   6|Y dh  2YPPPPPPPP1111Y2             5        Y      Y    : Y y  A|        |",
+      "|          YY      5        2  2        Y   6|Yhd   2YPPPPPPPPP11PY2             5   :    Y      Y      Y y  A|        |",
+      "|2|||||||||  |||||||((2|||  |((| RRRRRR66   R|^   ||||=[[======11=||||||2|||||||||| d|2||(((|2||(((|2||(((|   |5||||||$|",
+      "|   r|D   |  |    D|     |  |O              O|BBBB|XX= PP =  =1111111|11 th6|^    5 h|  |   |  |   |  |   |   |     O| |",
+      "|c  r|@@  |  |   @@|     |  |O   RRRRRRRR  ||||||||XX= PP =  =1111111811 t c|hd   |||| d|   | d|   | d|   |$|||h  R O| |",
+      "|c hc|D   |  |    D|     |  |O             h6|O  O|XX= PP =  =111 =11811   c| d h    | 9| A | 9| A | 9| A | |N tt R O| |",
+      "|   c|@@  |  |   @@|     |  |O   RR6RRRRR    |O  O|XX= PP = 111PP =1181c th6|^       |  5   |  5   |  5   | |yyyyyyyy| |",
+      "||2|||D   |  |    D|((2|||  |||||||||||||||||||2|88XX= PP 11 = P11=118||2||||||||||  |||||||||5|||||||||||| |        |$|",
+      "|   6|@@  |  |   @@|    F|    5  c6h  rcc|FF|c  118111 P111  = 1111118c     |  Y  2 Y   |####|  yyy  |&&&&  |    6   | |",
+      "|   6|D   2  2    D|c   c|Y   5                1118888 PP1   =11118888c  ccc|ÑÑÑÑÑ|     |####|  yAy  |7     |        | |",
+      "|   c|@@  2  2   @@|c   ||2((||||||||| cci  icc 11111811P1   =1P1 811c111c6c||||||||||$||||||||||||||| |||| |||||||||| |",
+      "|   c|  ll|YY|ll   |c        $       $ ccc  ccc  111|811111  111118F1111 ccc$                                          |",
+      "|||||||||||||||||||||||||||||||||||||||||||||||||||||81PP1111 11P18|||||||||||||||||||||||||||||||||||||||||||||||||||||"
+    ],
+    "palettes": [ "microlab" ],
+    "terrain": {
+      "X": "t_region_shrub_decorative",
+      "G": "t_card_science",
+      "W": "t_gates_mech_control_lab",
+      "z": "t_strconc_floor",
+      "P": "t_carpet_concrete_red",
+      "1": "t_nether_glass_floor",
+      "8": "t_nether_glass_wall",
+      "$": "t_metal_ventilation_shutter"
+    },
+    "furniture": {
+      "A": "f_counter",
+      "M": "f_server",
+      ":": "f_xedra_antenna",
+      "Ñ": "f_locker",
+      "H": "f_table",
+      "D": "f_desk",
+      "Ó": "f_utility_shelf",
+      "7": "f_machinery_light",
+      "&": "f_machinery_electronic"
+    },
+    "items": {
+      "A": { "item": "altered_object_i", "chance": 100 },
+      "Ñ": [ { "item": "guns_milspec", "chance": 10 }, { "item": "ammo_milspec", "chance": 70 } ],
+      "Ó": { "item": "yrax_scrap", "chance": 100, "repeat": 3 }
+    },
+    "computers": {
+      "9": {
+        "name": "Unstable Matter Isolation Chamber",
+        "security": 0,
+        "options": [ { "name": "Unlock isolation chamber", "action": "unlock", "security": 3 } ],
+        "failures": [ { "action": "alarm" }, { "action": "damage" } ]
+      }
+    }
+  }
+}

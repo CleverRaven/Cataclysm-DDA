@@ -5,6 +5,7 @@
 #include <map>
 #include <vector>
 
+#include "coordinates.h"
 #include "optional.h"
 #include "type_id.h"
 #include "weighted_list.h"
@@ -77,8 +78,7 @@ class ter_furn_transform
         std::vector<std::pair<ter_furn_transform_id, mod_id>> src;
         bool was_loaded = false;
 
-        void transform( const tripoint &location, bool shifted = false ) const;
-        void transform( map &m, const tripoint &location, bool shifted = false ) const;
+        void transform( map &m, const tripoint_bub_ms &location ) const;
 
         static void reset();
         static void load_transform( const JsonObject &jo, const std::string &src );

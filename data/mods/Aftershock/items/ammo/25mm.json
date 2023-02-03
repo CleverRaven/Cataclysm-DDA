@@ -54,5 +54,27 @@
     "range": 110,
     "damage": { "damage_type": "bullet", "amount": 280, "armor_penetration": 70 },
     "dispersion": 15
+  },
+  {
+    "id": "afs_25mm_smart",
+    "type": "AMMO",
+    "name": { "str_sp": "25mm SDART" },
+    "description": "High precision 25mm microjet darts.  These low velocity rounds can adjust mid-flight to exploit weaknesses in the target's defenses.",
+    "//": "tiny guided rockets.",
+    "weight": "42 g",
+    "volume": "60 ml",
+    "price": "55000 USD",
+    "material": [ "superalloy", "powder", "plastic" ],
+    "symbol": "=",
+    "color": "pink",
+    "count": 5,
+    "ammo_type": "afs_25mm_smart",
+    "range": 110,
+    "stack_size": 1,
+    "recoil": 100,
+    "effects": [ "NEVER_MISFIRES", "CASELESS_ROUNDS" ],
+    "damage": { "damage_type": "bullet", "amount": 40, "armor_penetration": 5 },
+    "critical_multiplier": 10,
+    "dispersion": 0
   }
 ]

@@ -28,6 +28,8 @@
     "armor_bullet": 10,
     "armor_stab": 6,
     "harvest": "lizardfolk",
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ],
+    "families": [ "prof_wp_demihuman" ],
     "death_drops": [
       { "item": "lizardfolk_club", "prob": 30 },
       { "item": "loincloth", "prob": 40 },

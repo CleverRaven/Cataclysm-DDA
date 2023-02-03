@@ -150,7 +150,7 @@
   {
     "id": "TURRET",
     "type": "json_flag",
-    "info": "A heavy weapon mounted in a turret.  It can be fired from the vehicle controls.",
+    "info": "This weapon is mounted in a turret.  It can be fired from the vehicle controls.",
     "requires_flag": "TURRET_MOUNT"
   },
   {
@@ -355,10 +355,6 @@
     "type": "json_flag"
   },
   {
-    "id": "FOLDABLE",
-    "type": "json_flag"
-  },
-  {
     "id": "FREEZER",
     "type": "json_flag"
   },
@@ -372,7 +368,8 @@
   },
   {
     "id": "FUNNEL",
-    "type": "json_flag"
+    "type": "json_flag",
+    "//": "When set on vehicle part the, bonus field defines the funnel radius in mm^2 and part collects rain"
   },
   {
     "id": "HALF_BOARD",
@@ -561,6 +558,11 @@
   {
     "id": "UNMOUNT_ON_MOVE",
     "type": "json_flag"
+  },
+  {
+    "id": "USE_BATTERIES",
+    "type": "json_flag",
+    "//": "This is assigned automatically in vpart_info::finalize, means the gun uses magazine-like batteries for example afs_cartridge and turret should drain vehicle batteries"
   },
   {
     "id": "USE_TANKS",

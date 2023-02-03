@@ -73,6 +73,24 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "get_katana",
+    "global": true,
+    "effect": { "u_spawn_item": "katana" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "get_deagle_44",
+    "global": true,
+    "effect": { "u_spawn_item": "deagle_44" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "get_m4_carbine",
+    "global": true,
+    "effect": { "u_spawn_item": "m4_carbine" }
+  },
+  {
+    "type": "effect_on_condition",
     "id": "thunder",
     "recurrence": 1,
     "global": true,
@@ -309,7 +327,14 @@
     "type": "effect_on_condition",
     "id": "bio_itchy",
     "recurrence": [ "25 minutes", "1 hours 15 minutes" ],
-    "condition": { "and": [ { "u_has_bionics": "bio_itchy" }, { "not": { "u_has_effect": "formication" } } ] },
+    "condition": {
+      "and": [
+        { "u_has_bionics": "bio_itchy" },
+        { "not": { "u_has_effect": "formication" } },
+        { "not": { "u_has_effect": "narcosis" } },
+        { "not": { "and": [ { "u_has_effect": "sleep" }, { "u_has_bionics": "bio_sleep_shutdown" } ] } }
+      ]
+    },
     "deactivate_condition": { "not": { "u_has_bionics": "bio_itchy" } },
     "effect": [
       { "u_message": "Your malfunctioning bionic itches!", "type": "bad" },
@@ -377,11 +402,42 @@
     "effect": [ "take_control_menu" ]
   },
   {
+    "id": "EOC_PREVENT_DEATH",
+    "type": "effect_on_condition",
+    "eoc_type": "PREVENT_DEATH",
+    "condition": { "u_has_trait": "PORTAL_RESURRECTION" },
+    "effect": [
+      { "u_set_hp": 50, "only_increase": true, "main_only": true },
+      { "u_set_hp": 0, "max": true, "minor_only": true },
+      { "u_add_effect": "incorporeal", "duration": [ "5 minutes", "10 minutes" ] },
+      { "u_lose_effect": "jetinjector" },
+      { "u_lose_effect": "effect_adrenaline" },
+      { "u_lose_effect": "effect_drunk" },
+      { "u_lose_effect": "datura" },
+      { "u_lose_effect": "hypovolemia" },
+      { "u_lose_effect": "redcells_anemia" },
+      { "u_lose_trait": "PORTAL_RESURRECTION" },
+      { "arithmetic": [ { "u_val": "stored_kcal" }, "=", { "u_val": "stored_kcal" } ], "min": 5000 },
+      { "arithmetic": [ { "u_val": "pkill" }, "=", { "u_val": "pkill" } ], "max": 200 },
+      { "arithmetic": [ { "u_val": "stim" }, "=", { "u_val": "stim" } ], "max": 200, "min": -100 },
+      { "arithmetic": [ { "u_val": "pain" }, "=", { "const": 0 } ] },
+      { "arithmetic": [ { "u_val": "thirst" }, "=", { "const": 0 } ] },
+      { "arithmetic": [ { "u_val": "fatigue" }, "=", { "const": 0 } ] },
+      { "arithmetic": [ { "u_val": "sleep_deprivation" }, "=", { "const": 0 } ] },
+      {
+        "u_message": "For an instant that is also an eternity, you exist only in an empty void.  Then you feel something vast, alien, and merciless reach through a preexisting connection to give you just enough energy to exist.  Its motives for doing so are not likely to be benign.",
+        "popup": true
+      }
+    ]
+  },
+  {
     "type": "effect_on_condition",
     "id": "record_portal_storm_data",
     "recurrence": "5 minutes",
     "global": true,
-    "condition": { "and": [ { "is_weather": "portal_storm" }, { "u_has_item": "nre_recorder" }, "u_is_outside" ] },
+    "condition": {
+      "and": [ { "is_weather": "portal_storm" }, { "u_has_items": { "item": "nre_recorder", "charges": 1 } }, "u_is_outside" ]
+    },
     "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
     "effect": [
       { "u_adjust_var": "portal_storm_record", "type": "counter", "context": "nre_recorder", "adjustment": 1 },
@@ -443,16 +499,79 @@
     "type": "effect_on_condition",
     "id": "EOC_RANDOM_HALLUCINATIONS",
     "recurrence": [ "1 hours", "3 hours" ],
-    "condition": { "and": [ { "u_has_effect": "hallucination_attacks" }, { "x_in_y_chance": { "x": 3, "y": 5 } } ] },
-    "effect": {
-      "u_spawn_monster": "GROUP_YOUR_FEARS",
-      "group": true,
-      "real_count": 0,
-      "hallucination_count": { "arithmetic": [ { "const": 1 }, "+", { "rand": 2 } ] },
-      "outdoor_only": false,
-      "min_radius": 10,
-      "max_radius": 40,
-      "lifespan": [ "1 hours", "4 hours" ]
-    }
+    "condition": { "and": [ { "u_has_effect": "hallucination_attacks" }, { "x_in_y_chance": { "x": 1, "y": 6 } } ] },
+    "effect": [
+      {
+        "run_eocs": {
+          "id": "EOC_HALLUCINATION_ATTACKS",
+          "condition": { "compare_int": [ { "global_val": "monsters_nearby" }, ">", { "const": 1 } ] },
+          "effect": [
+            {
+              "u_spawn_monster": "GROUP_YOUR_FEARS",
+              "group": true,
+              "real_count": 0,
+              "hallucination_count": { "arithmetic": [ { "const": 1 }, "+", { "rand": 2 } ] },
+              "outdoor_only": false,
+              "min_radius": 10,
+              "max_radius": 40,
+              "lifespan": [ "1 hours", "4 hours" ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MISSION_GET_DRIVEBELTS_done",
+    "global": true,
+    "condition": { "u_has_items": { "item": "drivebelt", "count": 3 } },
+    "effect": [ { "u_sell_item": "drivebelt", "count": 3 } ],
+    "false_effect": [ { "u_sell_item": "drivebelt_makeshift", "count": 3 } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MISSION_LUMBERMILL_GET_6_BLANKETS_done",
+    "global": true,
+    "condition": {
+      "or": [
+        { "u_has_items": { "item": "blanket", "count": 6 } },
+        { "u_has_items": { "item": "fur_blanket", "count": 6 } },
+        { "u_has_items": { "item": "electric_blanket", "count": 6 } },
+        { "u_has_items": { "item": "quilt", "count": 6 } },
+        { "u_has_items": { "item": "quilt_patchwork", "count": 6 } }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "sell_blanket",
+            "condition": { "u_has_items": { "item": "blanket", "count": 6 } },
+            "effect": { "u_sell_item": "blanket", "count": 6 }
+          },
+          {
+            "id": "sell_fur_blanket",
+            "condition": { "u_has_items": { "item": "fur_blanket", "count": 6 } },
+            "effect": { "u_sell_item": "fur_blanket", "count": 6 }
+          },
+          {
+            "id": "sell_electric_blanket",
+            "condition": { "u_has_items": { "item": "electric_blanket", "count": 6 } },
+            "effect": { "u_sell_item": "electric_blanket", "count": 6 }
+          },
+          {
+            "id": "sell_quilt",
+            "condition": { "u_has_items": { "item": "quilt", "count": 6 } },
+            "effect": { "u_sell_item": "quilt", "count": 6 }
+          },
+          {
+            "id": "sell_quilt_patchwork",
+            "condition": { "u_has_items": { "item": "quilt_patchwork", "count": 6 } },
+            "effect": { "u_sell_item": "quilt_patchwork", "count": 6 }
+          }
+        ]
+      }
+    ]
   }
 ]

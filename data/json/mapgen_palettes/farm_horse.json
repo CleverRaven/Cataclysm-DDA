@@ -42,7 +42,7 @@
       "D": "f_trashcan",
       "L": "f_locker",
       "6": "f_hay",
-      "o": "f_oven",
+      "o": [ "f_oven", "f_gas_oven_microwave_combo" ],
       "S": "f_sink",
       "Y": "f_sofa",
       "c": "f_counter",

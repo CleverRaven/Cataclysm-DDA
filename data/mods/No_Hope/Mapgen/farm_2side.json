@@ -180,7 +180,7 @@
         "n": [ "f_table" ],
         "k": [ "f_desk" ],
         "l": [ "f_locker" ],
-        "o": [ "f_oven" ],
+        "o": [ "f_oven", "f_gas_oven_microwave_combo" ],
         "u": [ "f_cupboard" ],
         "y": [ "f_hay" ]
       },

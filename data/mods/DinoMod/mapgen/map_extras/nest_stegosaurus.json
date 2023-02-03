@@ -55,6 +55,14 @@
         { "item": "egg_stegosaurus", "x": 12, "y": 13, "amount": [ 3, 15 ] },
         { "item": "feather", "x": [ 0, 23 ], "y": [ 0, 23 ], "amount": [ 10, 20 ], "repeat": [ 1, 24 ], "chance": 20 },
         {
+          "item": "down_feather",
+          "x": [ 0, 23 ],
+          "y": [ 0, 23 ],
+          "amount": [ 5, 10 ],
+          "repeat": [ 1, 24 ],
+          "chance": 20
+        },
+        {
           "item": "straw_pile",
           "x": [ 0, 23 ],
           "y": [ 0, 23 ],

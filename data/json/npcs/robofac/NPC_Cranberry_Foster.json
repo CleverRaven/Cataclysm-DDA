@@ -70,7 +70,8 @@
       { "item": "robofac_kevlar_vambraces" },
       { "item": "robofac_kevlar_greaves" },
       { "item": "knife_combat", "container-item": "bootsheath" },
-      { "group": "robofac_mantle_merc" }
+      { "group": "robofac_mantle_merc" },
+      { "group": "robofac_helmet_merc" }
     ]
   },
   {

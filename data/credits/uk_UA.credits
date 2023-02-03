@@ -11,8 +11,8 @@
 
 <color_white>Спеціальна подяка:</color>
 <color_yellow>Aivean</color> - За видатну продуктивність.
-<color_yellow>anothersimulacrum</color> - For making me weary.
-<color_yellow>jbytheway</color> - For making me achieve things.
+<color_yellow>anothersimulacrum</color> - За те, що втомлював мене.
+<color_yellow>jbytheway</color> - За те, що змусив мене чогось досягати.
 <color_yellow>BrettDong</color>- За переклад та інше.
 <color_yellow>Qrox</color> - За показ місць, що викликають сповіщення про помилку.
 <color_yellow>LyleSY</color> - За динозаврррів.
@@ -28,89 +28,89 @@
 
 ******************************************************************************
 
-<color_white>Main Developers (<color_cyan>0.E</color>):</color>
+<color_white>Основні розробники (<color_cyan>0.E</color>):</color>
 <color_yellow>mlangsdorf</color> - Транспортні засоби, катери, базові табори та посібники для створення модифікацій.
-<color_yellow>I-am-Erk</color> - Ultica, dialogs, NPCs and clutter in the kitchens.
-<color_yellow>KorGgenT</color> - Magiclysm and stomach aches.
+<color_yellow>I-am-Erk</color> - Ultica, діалоги, НІПи та усіляких мотлох на кухнях.
+<color_yellow>KorGgenT</color> - Magiclysm та болі у животі.
 
-<color_white>Special thanks to (<color_cyan>0.E</color>):</color>
-<color_yellow>Narc</color> - For maintaining the automatic Jenkins build-bot.
-<color_yellow>Rivet-the-Zombie</color> - For merging a PR a day.
-<color_yellow>BevapDin</color> - For code reviews and refactoring efforts.
+<color_white>Спеціальна подяка (<color_cyan>0.E</color>):</color>
+<color_yellow>Narc</color> - За підтримку автоматичного Jenkins білд-бота.
+<color_yellow>Rivet-the-Zombie</color> - За мердж по PR-у в день.
+<color_yellow>BevapDin</color> - За код-рев'ю та зусилля по рефакторингу.
 <color_yellow>BrettDong</color> - За переклади.
-<color_yellow>curstwist</color> - For roofs, mapgens, NPCs and changelogs.
+<color_yellow>curstwist</color> - За дахи, генерацію мап, НІПів та опис змін в проекті.
 <color_yellow>davidpwbrown</color> - За авто подорожі й водіння авто.  А також їзду на коні.
-<color_yellow>jbytheway</color> - For CI work and making his (tri)point.
-<color_yellow>Hymore246</color> - For martial arts overhaul.
-<color_yellow>Qrox</color> - For readable backtraces in Windows builds.
-<color_yellow>ZhilkinSerg</color> - For mergetesting.
+<color_yellow>jbytheway</color> - За роботу неперервної інтеграції та точку зору щодо тривимірних координат точок.
+<color_yellow>Hymore246</color> - За ревізію бойових мистецтв.
+<color_yellow>Qrox</color> - За читабельні траси стеку викликів у Windows білдах.
+<color_yellow>ZhilkinSerg</color> - За тестування merge-ів.
 
-<color_white>For a full list of contributors please see the Git repo:</color>
+<color_white>Повний список учасників можна побачити у Git репозиторії:</color>
 <color_cyan>https://github.com/CleverRaven/Cataclysm-DDA</color>
 
 ******************************************************************************
 
-<color_white>Main Developers (<color_cyan>0.D</color>):</color>
+<color_white>Основні розробники (<color_cyan>0.D</color>):</color>
 <color_yellow>KevinGranade</color>, <color_yellow>Rivet-the-Zombie</color>, <color_yellow>BevapDin</color>, <color_yellow>Coolthulu</color>, <color_yellow>i2amroy</color>
 
-<color_white>Special thanks to (<color_cyan>0.D</color>):</color>
-<color_yellow>Narc</color> - For setting up the automatic Jenkins build-bot.
-<color_yellow>Acidia</color> - For wonderful NPC, Quest and Location contributions.
-<color_yellow>Wuzzy</color> and <color_yellow>VlasovVitaly</color> - For herculean translation efforts.
-<color_yellow>HuXTUS</color> - For a huge amount of amazing content.
+<color_white>Спеціальна подяка (<color_cyan>0.D</color>):</color>
+<color_yellow>Narc</color> - За впровадження автоматичного Jenkins білд-бота.
+<color_yellow>Acidia</color> - За чудові внески: НІП, квест та  локацію.
+<color_yellow>Wuzzy</color> та <color_yellow>VlasovVitaly</color> - За геркулесові зусилля у перекладі.
+<color_yellow>HuXTUS</color> - За величезну кількість чудового контенту.
 
 ******************************************************************************
 
-<color_white>Main Developers (<color_cyan>0.C</color>):</color>
+<color_white>Основні розробники (<color_cyan>0.C</color>):</color>
 <color_yellow>KevinGranade</color>, <color_yellow>Rivet-the-Zombie</color>, <color_yellow>KA101</color>, <color_yellow>BevapDin</color>, <color_yellow>Coolthulu</color>, <color_yellow>i2amroy</color>
 
-<color_white>Special thanks to (<color_cyan>0.C</color>):</color>
-<color_yellow>Narc</color> - For setting up the automatic Jenkins build-bot.
-<color_yellow>Acidia</color> - For wonderful NPC, Quest and Location contributions.
-<color_yellow>Wuzzy</color> and <color_yellow>VlasovVitaly</color> - For herculean translation efforts.
-<color_yellow>HuXTUS</color> - For a huge amount of amazing content.
+<color_white>Спеціальна подяка (<color_cyan>0.C</color>):</color>
+<color_yellow>Narc</color> - За впровадження автоматичного Jenkins білд-бота.
+<color_yellow>Acidia</color> - За чудові внески: НІП, квест та  локацію.
+<color_yellow>Wuzzy</color> та <color_yellow>VlasovVitaly</color> - За геркулесові зусилля у перекладі.
+<color_yellow>HuXTUS</color> - За величезну кількість чудового контенту.
 
 ******************************************************************************
 
-<color_white>Main Developers (<color_cyan>0.B</color>):</color>
+<color_white>Основні розробники (<color_cyan>0.B</color>):</color>
 <color_yellow>KevinGranade</color>, <color_yellow>Rivet-the-Zombie</color>, <color_yellow>KA101</color>, <color_yellow>BevapDin</color>
 
-<color_white>Special thanks to (<color_cyan>0.B</color>):</color>
-<color_yellow>Narc</color> - For setting up the automatic Jenkins build-bot.
-<color_yellow>Acidia</color> - For wonderful NPC, Quest and Location contributions.
-<color_yellow>Wuzzy</color> and <color_yellow>VlasovVitaly</color> - For herculean translation efforts.
-<color_yellow>i2amroy</color> - For several large infrastructural overhauls.
-<color_yellow>HuXTUS</color> - For a huge amount of amazing content.
+<color_white>Спеціальна подяка (<color_cyan>0.B</color>):</color>
+<color_yellow>Narc</color> - За впровадження автоматичного Jenkins білд-бота.
+<color_yellow>Acidia</color> - За чудові внески: НІП, квест та  локацію.
+<color_yellow>Wuzzy</color> та <color_yellow>VlasovVitaly</color> - За геркулесові зусилля у перекладі.
+<color_yellow>i2amroy</color> - За декілька серйозних великих інфраструктурних переробок.
+<color_yellow>HuXTUS</color> - За величезну кількість чудового контенту.
 
 ******************************************************************************
 
-<color_white>Main Developers (<color_cyan>0.A</color>):</color>
+<color_white>Основні розробники (<color_cyan>0.A</color>):</color>
 <color_yellow>KevinGranade</color>, <color_yellow>i2amroy</color>, <color_yellow>Rivet-the-Zombie</color>, <color_yellow>KA101</color>, <color_yellow>BevapDin</color>
 
-<color_white>Special thanks to (<color_cyan>0.A</color>):</color>
-<color_yellow>TheDarklingWolf</color> - For creating Cataclysm:DDA as we know it.
-<color_yellow>Narc</color> - For setting up the automatic Jenkins build-bot.
-<color_yellow>BevapDin</color> - For tireless bugfixing efforts.
-<color_yellow>dwarfkoala</color> - For a plethora of bug triage.
-<color_yellow>Ill-kun</color> - For countless UI cleanups.
+<color_white>Спеціальна подяка (<color_cyan>0.A</color>):</color>
+<color_yellow>TheDarklingWolf</color> - За створення Cataclysm:DDA таким як ми його знаємо.
+<color_yellow>Narc</color> - За впровадження автоматичного Jenkins білд-бота.
+<color_yellow>BevapDin</color> - За невтомні зусилля по виправленню багів.
+<color_yellow>dwarfkoala</color> - За перевірку числегих багів.
+<color_yellow>Ill-kun</color> - За безліч підчищань користувацького інтерфейсу.
 
 ******************************************************************************
 
-<color_white>Main Developers (<color_cyan>0.9</color>):</color>
+<color_white>Основні розробники (<color_cyan>0.9</color>):</color>
 <color_yellow>KevinGranade</color>, <color_yellow>GalenEvil</color>, <color_yellow>i2amroy</color>, <color_yellow>AtomicDryad</color>, <color_yellow>Ianestrachan</color>
 
-<color_white>Special thanks to (<color_cyan>0.9</color>):</color>
-<color_yellow>TheDarklingWolf</color> - For creating Cataclysm:DDA as we know it.
-<color_yellow>Narc</color> - For setting up the automatic Jenkins build-bot.
-<color_yellow>yobbobanana</color> - For working as liason between translators and GitHub.
-<color_yellow>Angela 'Rivet' Graves</color>, Constant Creator of Cataclysmic Content.
+<color_white>Спеціальна подяка (<color_cyan>0.9</color>):</color>
+<color_yellow>TheDarklingWolf</color> - За створення Cataclysm:DDA таким як ми його знаємо.
+<color_yellow>Narc</color> - За впровадження автоматичного Jenkins білд-бота.
+<color_yellow>yobbobanana</color> - За роботу зв'язківцем між перекладачами та GitHub.
+<color_yellow>Angela 'Rivet' Graves</color>, Карколомна Конструкторка Катаклізмічного Контенту.
 
 ******************************************************************************
 
-<color_white>Main Developers (<color_cyan>0.8</color>):</color>
+<color_white>Основні розробники (<color_cyan>0.8</color>):</color>
 <color_yellow>Kevingranade</color>, <color_yellow>GalenEvil</color>, <color_yellow>i2amroy</color>, <color_yellow>AtomicDryad</color>, <color_yellow>Ozone</color>
 
-<color_white>Special thanks to (<color_cyan>0.8</color>):</color>
-<color_yellow>TheDarklingWolf</color> - For creating Cataclysm:DDA as we know it.
-<color_yellow>Narc</color> - For setting up the automatic Jenkins build-bot.
-<color_yellow>yobbobanana</color> - For working as liason between translators and GitHub.
+<color_white>Спеціальна подяка (<color_cyan>0.8</color>):</color>
+<color_yellow>TheDarklingWolf</color> - За створення Cataclysm:DDA таким як ми його знаємо.
+<color_yellow>Narc</color> - За впровадження автоматичного Jenkins білд-бота.
+<color_yellow>yobbobanana</color> - За роботу зв'язківцем між перекладачами та GitHub.

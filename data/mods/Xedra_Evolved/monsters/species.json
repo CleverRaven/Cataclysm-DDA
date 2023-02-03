@@ -7,6 +7,12 @@
   },
   {
     "type": "SPECIES",
+    "id": "VAMPIRE",
+    "description": "a variety of creatures that subsist off the blood of living humans",
+    "fear_triggers": [ "FIRE" ]
+  },
+  {
+    "type": "SPECIES",
     "id": "NIGHTMARE",
     "description": "creatures made from dreams, technically not alive"
   }

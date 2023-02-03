@@ -178,7 +178,7 @@
         "c": "f_cupboard",
         "d": "f_dresser",
         "f": "f_fridge",
-        "g": "f_oven",
+        "g": [ "f_oven", "f_gas_oven_microwave_combo" ],
         "h": "f_chair",
         "k": "f_sink",
         "s": "f_sandbag_half",

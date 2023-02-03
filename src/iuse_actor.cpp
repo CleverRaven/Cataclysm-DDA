@@ -51,6 +51,7 @@
 #include "item_pocket.h"
 #include "itype.h"
 #include "json.h"
+#include "json_loader.h"
 #include "line.h"
 #include "magic.h"
 #include "map.h"
@@ -136,13 +137,9 @@ static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_survival( "survival" );
 static const skill_id skill_traps( "traps" );
 
-static const trait_id trait_CENOBITE( "CENOBITE" );
 static const trait_id trait_DEBUG_BIONICS( "DEBUG_BIONICS" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_LIGHTWEIGHT( "LIGHTWEIGHT" );
-static const trait_id trait_MASOCHIST( "MASOCHIST" );
-static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
-static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_TOLERANCE( "TOLERANCE" );
 
@@ -206,6 +203,8 @@ void iuse_transform::load( const JsonObject &obj )
     obj.read( "need_worn", need_worn );
     obj.read( "need_wielding", need_wielding );
 
+    obj.read( "need_empty", need_empty );
+
     obj.read( "qualities_needed", qualities_needed );
 
     obj.read( "menu_text", menu_text );
@@ -213,7 +212,7 @@ void iuse_transform::load( const JsonObject &obj )
 
 cata::optional<int> iuse_transform::use( Character &p, item &it, bool t, const tripoint &pos ) const
 {
-    float scale = 1;
+    int scale = 1;
     auto iter = it.type->ammo_scale.find( type );
     if( iter != it.type->ammo_scale.end() ) {
         scale = iter->second;
@@ -233,6 +232,10 @@ cata::optional<int> iuse_transform::use( Character &p, item &it, bool t, const t
     }
     if( possess && need_wielding && !p.is_wielding( it ) ) {
         p.add_msg_if_player( m_info, _( "You need to wield the %1$s before activating it." ), it.tname() );
+        return cata::nullopt;
+    }
+    if( need_empty && !it.empty() ) {
+        p.add_msg_if_player( m_info, _( "You need to empty the %1$s before activating it." ), it.tname() );
         return cata::nullopt;
     }
 
@@ -288,13 +291,26 @@ cata::optional<int> iuse_transform::use( Character &p, item &it, bool t, const t
         }
     }
 
+    if( it.count_by_charges() && it.count() > 1 ) {
+        item take_one = it.split( 1 );
+        do_transform( p, take_one );
+        p.i_add_or_drop( take_one );
+    } else {
+        do_transform( p, it );
+    }
+
+    if( it.is_tool() ) {
+        result = scale;
+    }
+    return result;
+}
+
+void iuse_transform::do_transform( Character &p, item &it ) const
+{
     item obj_copy( it );
     item *obj;
     // defined here to allow making a new item assigned to the pointer
     item obj_it;
-    if( it.is_tool() ) {
-        result = int( it.type->charges_to_use() * double( scale ) );
-    }
     if( container.is_empty() ) {
         obj = &it.convert( target );
         if( ammo_qty >= 0 || !random_ammo_qty.empty() ) {
@@ -340,8 +356,6 @@ cata::optional<int> iuse_transform::use( Character &p, item &it, bool t, const t
             p.on_worn_item_transform( obj_copy, *obj );
         }
     }
-
-    return result;
 }
 
 ret_val<void> iuse_transform::can_use( const Character &p, const item &, bool,
@@ -607,11 +621,11 @@ cata::optional<int> explosion_iuse::use( Character &p, item &it, bool t, const t
                 p.add_msg_if_player( m_info, no_deactivate_msg.translated(), it.tname() );
             }
         }
-        return 0;
+        return cata::nullopt;
     }
 
     if( explosion.power >= 0.0f ) {
-        explosion_handler::explosion( pos, explosion );
+        explosion_handler::explosion( &p, pos, explosion );
     }
 
     if( draw_explosion_radius >= 0 ) {
@@ -733,13 +747,12 @@ cata::optional<int> consume_drug_iuse::use( Character &p, item &it, bool, const 
 
     // Check prerequisites first.
     for( const auto &tool : need_these ) {
-        // Amount == -1 means need one, but don't consume it.
         if( !p.has_amount( tool.first, 1 ) ) {
             p.add_msg_player_or_say( _( "You need %1$s to consume %2$s!" ),
                                      _( "I need a %1$s to consume %2$s!" ),
                                      item::nname( tool.first ),
                                      it.type_name( 1 ) );
-            return -1;
+            return cata::nullopt;
         }
     }
     for( const auto &consumable : charges_needed ) {
@@ -750,7 +763,7 @@ cata::optional<int> consume_drug_iuse::use( Character &p, item &it, bool, const 
                                      _( "I need a %1$s to consume %2$s!" ),
                                      item::nname( consumable.first ),
                                      it.type_name( 1 ) );
-            return -1;
+            return cata::nullopt;
         }
     }
     // Apply the various effects.
@@ -804,7 +817,7 @@ cata::optional<int> consume_drug_iuse::use( Character &p, item &it, bool, const 
     }
 
     p.moves -= moves;
-    return it.type->charges_to_use();
+    return 1;
 }
 
 std::unique_ptr<iuse_actor> delayed_transform_iuse::clone() const
@@ -1079,7 +1092,7 @@ cata::optional<int> deploy_furn_actor::use( Character &p, item &it, bool,
     here.furn_set( pnt, furn_type );
     it.spill_contents( pnt );
     p.mod_moves( -to_moves<int>( 2_seconds ) );
-    return it.type->charges_to_use() != 0 ? it.type->charges_to_use() : 1;
+    return 1;
 }
 
 std::unique_ptr<iuse_actor> reveal_map_actor::clone() const
@@ -1244,11 +1257,12 @@ float firestarter_actor::light_mod( const tripoint &pos ) const
     if( !need_sunlight ) {
         return 1.0f;
     }
+    if( g->is_sheltered( pos ) ) {
+        return 0.0f;
+    }
 
-    const float light_level = g->natural_light_level( pos.z );
-    if( get_weather().weather_id->sun_intensity >= sun_intensity_type::normal &&
-        light_level >= 60.0f && !get_map().has_flag( ter_furn_flag::TFLAG_INDOORS, pos ) ) {
-        return std::pow( light_level / 80.0f, 8 );
+    if( incident_sun_irradiance( get_weather().weather_id, calendar::turn ) > irradiance::moderate ) {
+        return std::pow( g->natural_light_level( pos.z ) / 80.0f, 8 );
     }
 
     return 0.0f;
@@ -1303,7 +1317,7 @@ cata::optional<int> firestarter_actor::use( Character &p, item &it, bool t,
         // If less than 2 turns, don't start a long action
         resolve_firestarter_use( p, pos );
         p.mod_moves( -moves );
-        return it.type->charges_to_use();
+        return 1;
     }
 
     // skill gains are handled by the activity, but stored here in the index field
@@ -1364,7 +1378,7 @@ cata::optional<int> salvage_actor::try_to_cut_up
 
     salvage_actor::cut_up( p, cut );
     // Return used charges from cutter
-    return cost >= 0 ? cost : cutter.ammo_required();
+    return cost >= 0 ? cost : 1;
 }
 
 // Helper to visit instances of all the sub-materials of an item.
@@ -1454,7 +1468,7 @@ bool salvage_actor::valid_to_cut_up( const Character *const p, const item &it ) 
 
 // Find a recipe that can be used to craft item x. Searches craft and uncraft recipes
 // Used only by salvage_actor::cut_up
-static cata::optional<recipe> find_uncraft_recipe( item x )
+static cata::optional<recipe> find_uncraft_recipe( const item &x )
 {
     auto is_valid_uncraft = [&x]( const recipe & curr ) -> bool {
         return !( curr.obsolete || curr.result() != x.typeId()
@@ -1590,7 +1604,6 @@ void salvage_actor::cut_up( Character &p, item_location &cut ) const
 
     // Decompose the item into irreducible parts
     cut_up_component( *cut.get_item(), efficiency );
-
 
     // Not much practice, and you won't get very far ripping things up.
     p.practice( skill_fabrication, rng( 0, 5 ), 1 );
@@ -1787,131 +1800,10 @@ cata::optional<int> inscribe_actor::use( Character &p, item &it, bool t, const t
     // inscribe_item returns false if the action fails or is canceled somehow.
 
     if( item_inscription( it, cut ) ) {
-        return cost >= 0 ? cost : it.ammo_required();
+        return cost >= 0 ? cost : 1;
     }
 
     return cata::nullopt;
-}
-
-void cauterize_actor::load( const JsonObject &obj )
-{
-    assign( obj, "cost", cost );
-    assign( obj, "flame", flame );
-}
-
-std::unique_ptr<iuse_actor> cauterize_actor::clone() const
-{
-    return std::make_unique<cauterize_actor>( *this );
-}
-
-static heal_actor prepare_dummy()
-{
-    heal_actor dummy;
-    dummy.limb_power = -2;
-    dummy.head_power = -2;
-    dummy.torso_power = -2;
-    dummy.bleed = 25;
-    dummy.bite = 0.5f;
-    dummy.move_cost = 100;
-    return dummy;
-}
-
-bool cauterize_actor::cauterize_effect( Character &p, item &it, bool force )
-{
-    // TODO: Make this less hacky
-    static const heal_actor dummy = prepare_dummy();
-    bodypart_id hpart = dummy.use_healing_item( p, p, it, force );
-    if( hpart != bodypart_id( "bp_null" ) ) {
-        p.add_msg_if_player( m_neutral, _( "You cauterize yourself." ) );
-        if( !p.has_trait( trait_NOPAIN ) ) {
-            p.mod_pain( 15 );
-            p.add_msg_if_player( m_bad, _( "It hurts like hell!" ) );
-        } else {
-            p.add_msg_if_player( m_neutral, _( "It itches a little." ) );
-        }
-        if( p.has_effect( effect_bleed, hpart ) ) {
-            p.add_msg_if_player( m_bad, _( "Bleeding has not stopped completely!" ) );
-        }
-        if( p.has_effect( effect_bite, hpart ) ) {
-            p.add_effect( effect_bite, 260_minutes, hpart, true );
-        }
-
-        p.moves = 0;
-        return true;
-    }
-
-    return false;
-}
-
-cata::optional<int> cauterize_actor::use( Character &p, item &it, bool t, const tripoint & ) const
-{
-    if( t ) {
-        return cata::nullopt;
-    }
-    if( p.is_mounted() ) {
-        p.add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
-        return cata::nullopt;
-    }
-    bool has_disease = p.has_effect( effect_bite ) || p.has_effect( effect_bleed );
-    bool did_cauterize = false;
-
-    if( has_disease ) {
-        did_cauterize = cauterize_effect( p, it, false );
-    } else {
-        const bool can_have_fun = p.has_trait( trait_MASOCHIST ) || p.has_trait( trait_MASOCHIST_MED ) ||
-                                  p.has_trait( trait_CENOBITE );
-
-        if( can_have_fun && query_yn( _( "Cauterize yourself for fun?" ) ) ) {
-            did_cauterize = cauterize_effect( p, it, true );
-        }
-    }
-
-    if( !did_cauterize ) {
-        return cata::nullopt;
-    }
-
-    if( flame ) {
-        p.use_charges( itype_fire, 4 );
-        return 0;
-
-    } else {
-        return cost >= 0 ? cost : it.ammo_required();
-    }
-}
-
-ret_val<void> cauterize_actor::can_use( const Character &p, const item &it, bool,
-                                        const tripoint & ) const
-{
-    if( !p.has_effect( effect_bite ) &&
-        !p.has_effect( effect_bleed ) &&
-        !p.has_trait( trait_MASOCHIST ) &&
-        !p.has_trait( trait_MASOCHIST_MED ) &&
-        !p.has_trait( trait_CENOBITE ) ) {
-
-        return ret_val<void>::make_failure(
-                   _( "You are not bleeding or bitten, there is no need to cauterize yourself." ) );
-    }
-    if( p.is_mounted() ) {
-        return ret_val<void>::make_failure( _( "You cannot cauterize while mounted." ) );
-    }
-
-    if( flame ) {
-        if( !p.has_charges( itype_fire, 4 ) ) {
-            return ret_val<void>::make_failure(
-                       _( "You need a source of flame (4 charges worth) before you can cauterize yourself." ) );
-        }
-    } else {
-        if( !it.ammo_sufficient( &p ) ) {
-            return ret_val<void>::make_failure( _( "You need at least %d charges to cauterize wounds." ),
-                                                it.ammo_required() );
-        }
-    }
-
-    if( p.is_underwater() ) {
-        return ret_val<void>::make_failure( _( "You can't do that while underwater." ) );
-    }
-
-    return ret_val<void>::make_success();
 }
 
 void fireweapon_off_actor::load( const JsonObject &obj )
@@ -1956,13 +1848,13 @@ cata::optional<int> fireweapon_off_actor::use( Character &p, item &it, bool t,
         p.add_msg_if_player( m_bad, "%s", failure_message );
     }
 
-    return it.type->charges_to_use();
+    return 1;
 }
 
 ret_val<void> fireweapon_off_actor::can_use( const Character &p, const item &it, bool,
         const tripoint & ) const
 {
-    if( it.charges < it.type->charges_to_use() ) {
+    if( it.ammo_sufficient( &p ) ) {
         return ret_val<void>::make_failure( _( "This tool doesn't have enough charges." ) );
     }
 
@@ -2019,7 +1911,7 @@ cata::optional<int> fireweapon_on_actor::use( Character &p, item &it, bool t,
         }
     }
 
-    return it.type->charges_to_use();
+    return 1;
 }
 
 void manualnoise_actor::load( const JsonObject &obj )
@@ -2043,7 +1935,7 @@ cata::optional<int> manualnoise_actor::use( Character &p, item &it, bool t, cons
     if( t ) {
         return cata::nullopt;
     }
-    if( it.type->charges_to_use() != 0 && it.charges < it.type->charges_to_use() ) {
+    if( !it.ammo_sufficient( &p ) ) {
         p.add_msg_if_player( "%s", no_charges_message );
         return cata::nullopt;
     }
@@ -2055,13 +1947,13 @@ cata::optional<int> manualnoise_actor::use( Character &p, item &it, bool t, cons
         }
         p.add_msg_if_player( "%s", use_message );
     }
-    return it.type->charges_to_use();
+    return 1;
 }
 
-ret_val<void> manualnoise_actor::can_use( const Character &, const item &it, bool,
+ret_val<void> manualnoise_actor::can_use( const Character &p, const item &it, bool,
         const tripoint & ) const
 {
-    if( it.charges < it.type->charges_to_use() ) {
+    if( !it.ammo_sufficient( &p ) ) {
         return ret_val<void>::make_failure( _( "This tool doesn't have enough charges." ) );
     }
 
@@ -2416,7 +2308,7 @@ cata::optional<int> cast_spell_actor::use( Character &p, item &it, bool, const t
     }
 
     spell casting = spell( spell_id( item_spell ) );
-    int charges = it.type->charges_to_use();
+    int charges = 1;
 
     player_activity cast_spell( ACT_SPELLCASTING, casting.casting_time( p ) );
     // [0] this is used as a spell level override for items casting spells
@@ -2488,7 +2380,41 @@ bool holster_actor::store( Character &you, item &holster, item &obj ) const
     return true;
 }
 
-cata::optional<int> holster_actor::use( Character &you, item &it, bool, const tripoint & ) const
+template<typename T>
+static item_location form_loc_recursive( T &loc, item &it )
+{
+    item *parent = loc.find_parent( it );
+    if( parent != nullptr ) {
+        return item_location( form_loc_recursive( loc, *parent ), &it );
+    }
+
+    return item_location( loc, &it );
+}
+
+static item_location form_loc( Character &you, const tripoint &p, item &it )
+{
+    if( you.has_item( it ) ) {
+        return form_loc_recursive( you, it );
+    }
+    map_cursor mc( p );
+    if( mc.has_item( it ) ) {
+        return form_loc_recursive( mc, it );
+    }
+    map &here = get_map();
+    const optional_vpart_position vp = here.veh_at( p );
+    if( vp ) {
+        vehicle_cursor vc( vp->vehicle(), vp->part_index() );
+        if( vc.has_item( it ) ) {
+            return form_loc_recursive( vc, it );
+        }
+    }
+
+    debugmsg( "Couldn't find item %s to form item_location, forming dummy location to ensure minimum functionality",
+              it.display_name() );
+    return item_location( you, &it );
+}
+
+cata::optional<int> holster_actor::use( Character &you, item &it, bool, const tripoint &p ) const
 {
     if( you.is_wielding( it ) ) {
         you.add_msg_if_player( _( "You need to unwield your %s before using it." ), it.tname() );
@@ -2531,6 +2457,12 @@ cata::optional<int> holster_actor::use( Character &you, item &it, bool, const tr
     }
 
     if( pos >= 0 ) {
+        item_location weapon =  you.get_wielded_item();
+        if( weapon && weapon.get_item()->has_flag( flag_NO_UNWIELD ) ) {
+            you.add_msg_if_player( m_bad, _( "You can't unwield your %s." ), weapon.get_item()->tname() );
+            return cata::nullopt;
+        }
+
         // worn holsters ignore penalty effects (e.g. GRABBED) when determining number of moves to consume
         if( you.is_worn( it ) ) {
             you.wield_contents( it, internal_item, false, it.obtain_cost( *internal_item ) );
@@ -2542,8 +2474,9 @@ cata::optional<int> holster_actor::use( Character &you, item &it, bool, const tr
         if( you.as_avatar() == nullptr ) {
             return cata::nullopt;
         }
-        // may not strictly be the correct item_location, but plumbing item_location through all iuse_actor::use won't work
-        item_location item_loc( you, &it );
+
+        // iuse_actor really needs to work with item_location
+        item_location item_loc = form_loc( you, p, it );
         game_menus::inv::insert_items( *you.as_avatar(), item_loc );
     }
 
@@ -2584,12 +2517,8 @@ cata::optional<int> ammobelt_actor::use( Character &p, item &, bool, const tripo
 
     item_location loc = p.i_add( mag );
     item::reload_option opt = p.select_ammo( loc, true );
-    std::vector<item_location> targets;
     if( opt ) {
-        const int moves = opt.moves();
-        targets.push_back( loc );
-        targets.push_back( std::move( opt.ammo ) );
-        p.assign_activity( player_activity( reload_activity_actor( moves, opt.qty(), targets ) ) );
+        p.assign_activity( player_activity( reload_activity_actor( std::move( opt ) ) ) );
     } else {
         loc.remove_item();
     }
@@ -2802,37 +2731,70 @@ bool repair_item_actor::handle_components( Character &pl, const item &fix,
     return true;
 }
 
-// Find the difficulty of the recipes that result in id
+// Find the difficulty of the recipe for the item type.
 // If the recipe is not known by the player, +1 to difficulty
 // If player doesn't meet the requirements of the recipe, +1 to difficulty
 // Returns -1 if no recipe is found
-static int find_repair_difficulty( const Character &pl, const itype_id &id, bool training )
+static std::pair<int, bool> find_repair_difficulty( const Character &pl, const itype &it,
+        bool training )
 {
-    // If the recipe is not found, this will remain unchanged
     int min = -1;
-    for( const auto &e : recipe_dict ) {
-        const recipe r = e.second;
-        if( id != r.result() ) {
-            continue;
-        }
-        // If this is the first time we found a recipe
-        if( min == -1 ) {
-            min = 5;
-        }
+    const int def_diff = 5;
+    const itype_id iid = it.get_id();
+    bool found = false;
+    bool difficulty_defined = false;
 
-        int cur_difficulty = r.difficulty;
-        if( !training && !pl.knows_recipe( &r ) ) {
-            cur_difficulty++;
-        }
+    if( !it.recipes.empty() ) {
+        for( const recipe_id &rid : it.recipes ) {
+            const recipe &r = recipe_id( rid ).obj();
+            if( !r ) {
+                continue;
+            }
+            // If this is the first time we found a recipe
+            if( !found ) {
+                min = def_diff;
+                found = true;
+            }
 
-        if( !training && !pl.has_recipe_requirements( r ) ) {
-            cur_difficulty++;
-        }
+            int cur_difficulty = r.difficulty;
 
-        min = std::min( cur_difficulty, min );
+            // Recipes with difficulty 0 are not present. Difficulty is considered undefined.
+            difficulty_defined = cur_difficulty != 0 || difficulty_defined;
+
+            if( !training && !pl.knows_recipe( &r ) ) {
+                cur_difficulty++;
+            }
+
+            if( !training && !pl.has_recipe_requirements( r ) ) {
+                cur_difficulty++;
+            }
+            min = std::min( cur_difficulty, min );
+        }
     }
 
-    return min;
+    recipe uncraft_recipe = recipe_dictionary::get_uncraft( iid );
+    if( uncraft_recipe ) {
+        found = true;
+        int uncraft_difficulty = uncraft_recipe.difficulty;
+        if( difficulty_defined ) {
+            // Both craft recipe and uncraft recipe are defined, dividing by the sum
+            if( uncraft_difficulty > 0 ) {
+                min = std::max( 1, min + uncraft_difficulty ) / 2;
+            }
+        } else {
+            difficulty_defined = uncraft_difficulty != 0;
+            min = def_diff;
+        }
+    }
+
+    //Couldn't find recipe, try to find from obsolete recipes
+    if( !found ) {
+        auto obsoletes = recipe_dict.find_obsoletes( iid );
+        if( !obsoletes.empty() ) {
+            min = def_diff;
+        }
+    }
+    return { min, difficulty_defined };
 }
 
 // Returns the level of the lowest level recipe that results in item of `fix`'s type
@@ -2841,11 +2803,19 @@ static int find_repair_difficulty( const Character &pl, const itype_id &id, bool
 int repair_item_actor::repair_recipe_difficulty( const Character &pl,
         const item &fix, bool training ) const
 {
-    int diff = find_repair_difficulty( pl, fix.typeId(), training );
+    std::pair<int, bool> ret;
+    ret = find_repair_difficulty( pl, *fix.type, training );
+    int diff = ret.first;
+    bool defined = ret.second;
 
-    // If we don't find a recipe, see if there's a repairs_like that has a recipe
-    if( diff == -1 && !fix.type->repairs_like.is_empty() ) {
-        diff = find_repair_difficulty( pl, fix.type->repairs_like, training );
+    // See if there's a repairs_like that has a recipe
+    if( !defined && !fix.type->repairs_like.is_empty() ) {
+        ret = find_repair_difficulty( pl, fix.type->repairs_like.obj(), training );
+        if( ret.second ) {
+            diff = ret.first;
+        } else {
+            diff = std::min( std::max( 0, diff ), ret.first );
+        }
     }
 
     // If we still don't find a recipe, difficulty is 10
@@ -3118,7 +3088,13 @@ repair_item_actor::attempt_hint repair_item_actor::repair( Character &pl, item &
             const std::string startdurability = fix->durability_indicator( true );
             const int damage = fix->damage();
             handle_components( pl, *fix, false, false );
-            fix->mod_damage( -std::min( static_cast<int>( itype::damage_scale ), damage ) );
+
+            int dmg = fix->damage() + 1;
+            for( const int lvl = fix->damage_level(); lvl == fix->damage_level() && dmg != fix->damage(); ) {
+                dmg = fix->damage(); // break loop if clamped by degradation or no more repair needed
+                fix->mod_damage( -1 ); // scan for next damage indicator breakpoint, repairing that much damage
+            }
+
             const std::string resultdurability = fix->durability_indicator( true );
             if( damage > itype::damage_scale ) {
                 pl.add_msg_if_player( m_good, _( "You repair your %s!  ( %s-> %s)" ), fix->tname( 1, false ),
@@ -3530,7 +3506,7 @@ int heal_actor::finish_using( Character &healer, Character &patient, item &it,
                                  time_duration::from_turns( practice_amount ) );
     healer.practice_proficiency( proficiency_prof_wound_care_expert,
                                  time_duration::from_turns( practice_amount ) );
-    return it.type->charges_to_use();
+    return 1;
 }
 
 static bodypart_id pick_part_to_heal(
@@ -3862,7 +3838,7 @@ cata::optional<int> place_trap_actor::use( Character &p, item &it, bool, const t
     }
     const place_trap_actor::data &data = bury ? buried_data : unburied_data;
 
-    p.add_msg_if_player( m_info, data.done_message.translated(), distance_to_trap_center );
+    p.add_msg_if_player( m_info, data.done_message.translated(), here.tername( pos ) );
     p.practice( skill_traps, data.practice );
     p.practice_proficiency( proficiency_prof_traps, time_duration::from_seconds( data.practice * 30 ) );
     p.practice_proficiency( proficiency_prof_trapsetting,
@@ -4027,6 +4003,10 @@ ret_val<void> saw_stock_actor::can_use_on( const Character &, const item &,
         return ret_val<void>::make_failure( _( "The stock is already sawn-off." ) );
     }
 
+    if( target.gun_type() == gun_type_type( "pistol" ) ) {
+        return ret_val<void>::make_failure( _( "This gun doesn't have a stock." ) );
+    }
+
     const auto gunmods = target.gunmods();
     const bool modified_stock = std::any_of( gunmods.begin(), gunmods.end(),
     []( const item * mod ) {
@@ -4072,8 +4052,6 @@ cata::optional<int> molle_attach_actor::use( Character &p, item &it, bool t,
         return cata::nullopt;
     }
 
-
-
     item_location loc = game_menus::inv::molle_attach( p, it );
 
     if( !loc ) {
@@ -4088,8 +4066,6 @@ cata::optional<int> molle_attach_actor::use( Character &p, item &it, bool t,
 
     // the item has been added to the vest it should no longer exist in the world
     loc.remove_item();
-
-
 
     return 0;
 }
@@ -4113,13 +4089,11 @@ cata::optional<int> molle_detach_actor::use( Character &p, item &it, bool,
 
     prompt.query();
 
-
     if( prompt.ret >= 0 ) {
         p.i_add( it.get_contents().remove_pocket( prompt.ret ) );
         p.add_msg_if_player( _( "You remove the item from your %s." ), it.tname() );
         return 0;
     }
-
 
     p.add_msg_if_player( _( "Never mind." ) );
     return cata::nullopt;
@@ -4143,10 +4117,11 @@ cata::optional<int> install_bionic_actor::use( Character &p, item &it, bool,
             p.consume_installation_requirement( it.type->bionic->id );
             p.consume_anesth_requirement( *it.type, p );
         }
-        return p.install_bionics( *it.type, p, false ) ? it.type->charges_to_use() : 0;
-    } else {
-        return cata::nullopt;
+        if( p.install_bionics( *it.type, p, false ) ) {
+            return 1;
+        }
     }
+    return cata::nullopt;
 }
 
 ret_val<void> install_bionic_actor::can_use( const Character &p, const item &it, bool,
@@ -4424,8 +4399,8 @@ cata::optional<int> deploy_tent_actor::use( Character &p, item &it, bool, const 
     player_activity new_act = player_activity( tent_placement_activity_actor( to_moves<int>
                               ( 20_minutes ), direction, radius, it, wall, floor, floor_center, door_closed ) );
     get_player_character().assign_activity( new_act, false );
-
-    return 1;
+    p.i_rem( &it );
+    return 0;
 }
 
 bool deploy_tent_actor::check_intact( const tripoint &center ) const
@@ -4799,5 +4774,5 @@ cata::optional<int> effect_on_conditons_actor::use( Character &p, item &it, bool
             debugmsg( "Must use an activation eoc for activation.  If you don't want the effect_on_condition to happen on its own (without the item's involvement), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this item with its condition and effects, then have a recurring one queue it." );
         }
     }
-    return it.type->charges_to_use();
+    return 1;
 }

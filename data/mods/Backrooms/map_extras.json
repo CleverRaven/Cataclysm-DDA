@@ -1,0 +1,12 @@
+[
+  {
+    "id": "mx_teleporter_node",
+    "type": "map_extra",
+    "name": "Red room",
+    "description": "There's a red room here.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_teleporter_node" },
+    "sym": "X",
+    "color": "red",
+    "autonote": true
+  }
+]

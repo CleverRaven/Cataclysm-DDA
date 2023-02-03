@@ -199,7 +199,7 @@ static event::fields_type
 get_fields_helper( event_type type, std::integer_sequence<int, I...> )
 {
     event::fields_type result;
-    bool discard[] = {
+    std::array<bool, sizeof...( I )> discard = {
         ( get_fields_if_match<static_cast<event_type>( I )>( type, result ), true )...
     };
     ( void ) discard;

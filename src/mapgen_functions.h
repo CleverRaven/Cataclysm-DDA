@@ -27,7 +27,7 @@ class JsonObject;
  */
 tripoint rotate_point( const tripoint &p, int rotations );
 
-int terrain_type_to_nesw_array( oter_id terrain_type, bool array[4] );
+int terrain_type_to_nesw_array( oter_id terrain_type, std::array<bool, 4> &array );
 
 using building_gen_pointer = void ( * )( mapgendata & );
 building_gen_pointer get_mapgen_cfunction( const std::string &ident );

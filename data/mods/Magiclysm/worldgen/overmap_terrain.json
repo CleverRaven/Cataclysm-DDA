@@ -298,7 +298,7 @@
     "sym": "W",
     "color": "light_blue",
     "name": "wizard tower",
-    "flags": [ "SOURCE_LUXURY", "RISK_HIGH" ]
+    "flags": [ "SOURCE_LUXURY", "RISK_HIGH", "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",

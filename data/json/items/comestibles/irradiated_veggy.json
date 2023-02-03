@@ -147,7 +147,7 @@
     "id": "irradiated_rhubarb",
     "copy-from": "rhubarb",
     "name": { "str_sp": "irradiated rhubarb" },
-    "description": "An irradiated rhubarb.",
+    "description": "An irradiated bundle of rhubarb.",
     "proportional": { "price": 2.0 },
     "spoils_in": "0 hours",
     "container": "bag_plastic",

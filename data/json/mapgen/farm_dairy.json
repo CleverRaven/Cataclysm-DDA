@@ -198,7 +198,8 @@
         { "item": "cattlefodder", "x": 38, "y": 13, "amount": [ 0, 4 ] },
         { "item": "cattlefodder", "x": 39, "y": 5, "amount": [ 0, 4 ] },
         { "item": "cattlefodder", "x": 39, "y": 8, "amount": [ 0, 4 ] },
-        { "item": "cattlefodder", "x": 39, "y": 17, "amount": [ 0, 4 ] }
+        { "item": "cattlefodder", "x": 39, "y": 17, "amount": [ 0, 4 ] },
+        { "item": "livestock_scale", "x": 28, "y": 4 }
       ],
       "place_vehicles": [
         { "vehicle": "cube_van_cheap", "x": 7, "y": 4, "chance": 50, "fuel": 300, "status": -1, "rotation": 0 },

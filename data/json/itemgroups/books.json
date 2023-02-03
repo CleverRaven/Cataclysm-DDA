@@ -66,6 +66,7 @@
       { "item": "manual_silat", "prob": 100 },
       { "item": "manual_taekwondo", "prob": 100 },
       { "item": "manual_wingchun", "prob": 100 },
+      { "item": "manual_bojutsu", "prob": 13 },
       { "item": "manual_medievalpole", "prob": 10 },
       { "item": "manual_swordsmanship", "prob": 10 }
     ]
@@ -616,6 +617,7 @@
       { "item": "manual_taekwondo", "prob": 3 },
       { "item": "manual_judo", "prob": 3 },
       { "item": "manual_karate", "prob": 3 },
+      { "item": "manual_bojutsu", "prob": 2 },
       { "item": "manual_muay_thai", "prob": 3 },
       { "item": "manual_niten", "prob": 1 },
       { "item": "manual_sojutsu", "prob": 1 },
@@ -641,6 +643,7 @@
       { "item": "manual_aikido", "prob": 12 },
       { "item": "manual_taekwondo", "prob": 12 },
       { "item": "manual_tai_chi", "prob": 12 },
+      { "item": "manual_bojutsu", "prob": 7 },
       { "item": "manual_pankration", "prob": 5 },
       { "item": "manual_fencing", "prob": 4 },
       { "item": "manual_eskrima", "prob": 3 },

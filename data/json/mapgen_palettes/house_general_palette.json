@@ -20,16 +20,7 @@
       },
       "exterior_wall_type": {
         "type": "ter_str_id",
-        "default": {
-          "distribution": [
-            [ "t_brick_wall", 6 ],
-            [ "t_rock_wall", 3 ],
-            [ "t_wall_wood", 3 ],
-            [ "t_drystone_wall", 2 ],
-            [ "t_adobe_brick_wall", 4 ],
-            [ "t_concrete_wall", 4 ]
-          ]
-        }
+        "default": { "distribution": [ [ "t_brick_wall", 6 ], [ "t_rock_wall", 3 ], [ "t_wall_wood", 3 ], [ "t_concrete_wall", 4 ] ] }
       },
       "house_fence_type": {
         "type": "ter_str_id",
@@ -84,7 +75,7 @@
       "L": "f_rack_coat",
       "M": "f_displaycase",
       "N": "f_workbench",
-      "O": "f_oven",
+      "O": [ "f_oven", "f_gas_oven_microwave_combo" ],
       "P": "f_filing_cabinet",
       "Q": "f_rack_wood",
       "R": "f_bookcase",
@@ -106,12 +97,14 @@
       "8": "f_counter",
       "9": "f_shower",
       "@": "f_bed",
+      "¤": "f_table",
       "₸": "f_deckchair",
       "∞": "f_foot_locker",
       "≠": "f_chest",
       "Ø": "f_pinball_machine",
       "Æ": "f_arcade_machine",
-      "ʭ": "f_ladder"
+      "ʭ": "f_ladder",
+      "é": "f_freezer"
     },
     "terrain": {
       "Ŧ": { "param": "house_fence_type", "fallback": "t_fence" },
@@ -249,6 +242,7 @@
       ],
       "9": { "item": "shower", "chance": 30, "repeat": [ 1, 2 ] },
       "@": { "item": "bed", "chance": 50 },
+      "¤": { "item": "nightstand", "chance": 30 },
       "Z": { "item": "laundry", "chance": 100 },
       "W": { "item": "laundry", "chance": 50 },
       "z": [

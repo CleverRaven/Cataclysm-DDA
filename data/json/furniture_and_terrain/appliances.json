@@ -14,11 +14,10 @@
     "description": "A fridge.  When turned on, it will cool the food inside, extending the time until the food spoils.",
     "//": "Use average consumption, not the max on the appliance rating plate. 30W ~ 260kWh per annum",
     "epower": -30,
-    "size": 2000,
+    "size": "500 L",
     "item": "fridge",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "time": "2 m" },
       "repair": {
         "skills": [ [ "mechanics", 4 ] ],
         "time": "60 m",
@@ -46,6 +45,7 @@
     "id": "ap_freezer",
     "name": { "str": "freezer" },
     "symbol": "H",
+    "looks_like": "f_fridge",
     "categories": [ "cargo" ],
     "color": "blue",
     "broken_symbol": "#",
@@ -54,7 +54,7 @@
     "durability": 100,
     "description": "A chest freezer.  When turned on, it will freeze and preserve the food inside.",
     "epower": -35,
-    "size": 1800,
+    "size": "450 L",
     "item": "freezer",
     "requirements": {
       "repair": {
@@ -109,7 +109,7 @@
       { "item": "element", "count": [ 1, 3 ] },
       { "item": "cable", "charges": [ 1, 3 ] }
     ],
-    "size": 200,
+    "size": "50 L",
     "type": "vehicle_part"
   },
   {
@@ -123,7 +123,7 @@
     "damage_reduction": { "all": 30 },
     "durability": 60,
     "flags": [ "OBSTACLE", "APPLIANCE" ],
-    "pseudo_tools": [ { "id": "water_purifier_tool" } ],
+    "pseudo_tools": [ { "id": "pseudo_water_purifier", "hotkey": "p" } ],
     "epower": 0,
     "item": "stationary_water_purifier",
     "looks_like": "f_water_purifier",
@@ -165,7 +165,6 @@
       { "item": "power_supply", "prob": 50 },
       { "item": "RAM", "count": [ 0, 2 ] }
     ],
-    "size": 200,
     "type": "vehicle_part"
   },
   {
@@ -175,7 +174,8 @@
     "description": "An electric forge for metalworking.  When plugged in and powered you could use this for metalworking.  If you attempt to craft an item that needs a forge, you will be given the option of selecting it as a tool.",
     "item": "forge",
     "flags": [ "CARGO", "OBSTACLE", "APPLIANCE" ],
-    "copy-from": "veh_forge",
+    "copy-from": "veh_forge_abstract",
+    "looks_like": "veh_forge",
     "requirements": { "removal": { "time": "6 m" } },
     "pseudo_tools": [ { "id": "pseudo_app_forge" } ]
   },
@@ -186,7 +186,8 @@
     "description": "Assembled from a set of instructions you found in an old book of DIY projects, the *FOODCO kitchen buddy* claims to be *the perfect solution to all your home-cooking needs!*.  While it is surprisingly handy for vacuum-sealing as well as dehydrating food, the cheery sales pitch neglected to mention A - how awkward the damn thing is, B - That you still need a normal kitchen and C - how it doesn't take batteries.  You're going to have to weld it to a vehicle, or something else with a supply of electricity, if you want to use it.  In addition to the food preservation features, it also has a food processor, a water-purification system, a drawer for holding extra tools, and for some insane reason, a press and die set for hand-loading ammunition.",
     "item": "craftrig",
     "flags": [ "CARGO", "OBSTACLE", "APPLIANCE" ],
-    "copy-from": "craft_rig"
+    "looks_like": "craft_rig",
+    "copy-from": "craft_rig_abstract"
   },
   {
     "type": "vehicle_part",
@@ -212,6 +213,15 @@
     "name": { "str": "welding rig" },
     "description": "A welding rig mounted in the vehicle, that draws power from the vehicle's batteries.  You still need glare protection.  'e'xamine the tile with the rig to use it to repair items in your inventory.  If you attempt to craft an item or perform a repair that requires a welder, you will be given the option of using the welding rig.",
     "item": "weldrig",
+    "flags": [ "CARGO", "OBSTACLE", "APPLIANCE" ],
+    "copy-from": "welding_rig"
+  },
+  {
+    "type": "vehicle_part",
+    "id": "ap_weldkit",
+    "name": { "str": "welding kit rig" },
+    "description": "A welding rig combined with a fireproof insulating blanket allows for advanced welds and repairs to tempered steels that draws power from the vehicle's batteries.  You still need glare protection.  'e'xamine the tile with the rig to use it to repair items in your inventory.  If you attempt to craft an item or perform a repair that requires a welder, you will be given the option of using the welding rig.",
+    "item": "welding_kit",
     "flags": [ "CARGO", "OBSTACLE", "APPLIANCE" ],
     "copy-from": "welding_rig"
   },
@@ -468,7 +478,7 @@
     "id": "ap_heater_small",
     "name": { "str": "small heater" },
     "item": "small_space_heater",
-    "folded_volume": "0 L",
+    "folded_volume": null,
     "flags": [ "CTRL_ELECTRONIC", "ENABLED_DRAINS_EPOWER", "SPACE_HEATER", "APPLIANCE" ],
     "copy-from": "mountable_heater_small",
     "requirements": { "removal": { "time": "6 m" } }
@@ -477,7 +487,7 @@
     "id": "ap_electrolyzer_makeshift",
     "type": "vehicle_part",
     "name": { "str": "makeshift water electrolyzer" },
-    "item": "nitrogen_generator",
+    "item": "electrolyzer_makeshift",
     "description": "A makeshift appliance which decomposes water into oxygen and hydrogen via electrolysis of sodium hydroxide solution, with a power cord to connect it to an electric grid.",
     "categories": [ "utility" ],
     "symbol": "&",
@@ -502,7 +512,7 @@
     "id": "ap_ammonia_machine_reactor",
     "type": "vehicle_part",
     "name": { "str": "makeshift ammonia machine reactor" },
-    "item": "nitrogen_generator",
+    "item": "ammonia_machine_reactor",
     "description": "A huge appliance built from salvaged industrial equipment which produces ammonia via the Haber-Bosch process from hydrogen and nitrogen, with a power cord to connect it to an electric grid.",
     "categories": [ "utility" ],
     "symbol": "&",
@@ -530,7 +540,7 @@
     "id": "ap_ammonia_machine_pipework",
     "type": "vehicle_part",
     "name": { "str": "makeshift ammonia machine pipework" },
-    "item": "nitrogen_generator",
+    "item": "ammonia_machine_pipework",
     "description": "A rather complicated system of thick-walled pipes, powerful compressors and wiring meant to interface with a reactor producing ammonia from nitrogen and hydrogen via Haber-Bosch process, with a power cord to connect it to an electric grid.",
     "categories": [ "utility" ],
     "symbol": "&",
@@ -637,7 +647,7 @@
     "item": "standing_floodlight",
     "description": "A very bright, circular light that illuminates the area around it when switched on.",
     "flags": [ "CIRCLE_LIGHT", "ENABLED_DRAINS_EPOWER", "APPLIANCE", "CTRL_ELECTRONIC" ],
-    "folded_volume": "0 L",
+    "folded_volume": null,
     "copy-from": "floodlight",
     "requirements": { "removal": { "time": "6 m" } }
   },
@@ -797,9 +807,9 @@
     "symbol": "W",
     "looks_like": "f_washer",
     "color": "light_blue",
-    "flags": [ "OBSTACLE", "APPLIANCE", "WASHING_MACHINE", "CARGO", "COVERED", "FLUIDTANK", "ENABLED_DRAINS_EPOWER" ],
+    "flags": [ "OBSTACLE", "APPLIANCE", "WASHING_MACHINE", "CARGO", "COVERED", "ENABLED_DRAINS_EPOWER" ],
     "description": "An appliance used to do laundry, plugged into a power supply and using internal tanks.",
-    "size": 540,
+    "size": "135 L",
     "copy-from": "washing_machine",
     "item": "household_washing_machine",
     "requirements": { "removal": { "time": "6 m" } }
@@ -811,9 +821,9 @@
     "looks_like": "f_dishwasher",
     "symbol": "D",
     "color": "light_blue",
-    "flags": [ "OBSTACLE", "APPLIANCE", "DISHWASHER", "CARGO", "COVERED", "FLUIDTANK", "ENABLED_DRAINS_EPOWER" ],
+    "flags": [ "OBSTACLE", "APPLIANCE", "DISHWASHER", "CARGO", "COVERED", "ENABLED_DRAINS_EPOWER" ],
     "description": "An appliance used to clean dishes, plugged into a power supply and using internal tanks.",
-    "size": 480,
+    "size": "120 L",
     "copy-from": "dishwasher",
     "item": "household_dishwasher",
     "requirements": { "removal": { "time": "6 m" } }
@@ -825,9 +835,8 @@
     "looks_like": "f_autoclave",
     "symbol": "D",
     "color": "light_blue",
-    "flags": [ "OBSTACLE", "APPLIANCE", "AUTOCLAVE", "CARGO", "COVERED", "FLUIDTANK", "ENABLED_DRAINS_EPOWER" ],
+    "flags": [ "OBSTACLE", "APPLIANCE", "AUTOCLAVE", "CARGO", "COVERED", "ENABLED_DRAINS_EPOWER" ],
     "description": "An autoclave that can steam its contents at high enough temperatures to completely sterilize them, killing any possible contaminants.  This one is plugged into a power grid and running off internal water tanks",
-    "size": 200,
     "copy-from": "autoclave",
     "item": "autoclave",
     "requirements": { "removal": { "time": "6 m" } }
@@ -845,7 +854,7 @@
     "durability": 40,
     "description": "An appliance for recharging batteries.  When turned on, it steadily charges any rechargeable batteries (battery cells, lead-acid batteries, etc) placed directly in the attached storage space.",
     "bonus": 600,
-    "size": 800,
+    "size": "200 L",
     "item": "foot_locker_recharge_station",
     "flags": [ "CARGO", "OBSTACLE", "RECHARGE", "COVERED", "APPLIANCE", "CTRL_ELECTRONIC" ],
     "breaks_into": [
@@ -870,7 +879,7 @@
     "durability": 20,
     "description": "An appliance for recharging batteries.  When turned on, it slowly charges any rechargeable batteries (battery cells, lead-acid batteries, etc) placed directly in the attached storage space.",
     "bonus": 15,
-    "size": 200,
+    "size": "50 L",
     "item": "box_battery_charger",
     "flags": [ "CARGO", "OBSTACLE", "RECHARGE", "COVERED", "APPLIANCE", "CTRL_ELECTRONIC" ],
     "breaks_into": [
@@ -899,7 +908,7 @@
     "durability": 500,
     "description": "A military-grade ASRG covered in heavy plating.  Provides constant power when plugged in to your power grid.",
     "epower": 130,
-    "size": 1800,
+    "size": "450 L",
     "item": "compact_ASRG_containment",
     "requirements": {
       "repair": {

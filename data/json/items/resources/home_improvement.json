@@ -97,6 +97,22 @@
   },
   {
     "type": "AMMO",
+    "id": "black_paint",
+    "category": "other",
+    "price": 120,
+    "price_postapoc": 0,
+    "name": { "str_sp": "black paint" },
+    "symbol": "o",
+    "color": "light_gray",
+    "description": "A can of black paint.",
+    "material": [ "steel" ],
+    "volume": "1250 ml",
+    "weight": "10 g",
+    "ammo_type": "NULL",
+    "count": 100
+  },
+  {
+    "type": "AMMO",
     "id": "r_carpet",
     "category": "other",
     "price": 120,
@@ -169,7 +185,7 @@
     "description": "A metal cylinder with a small lens inside intended to be installed on a door.",
     "price": 12000,
     "price_postapoc": 50,
-    "material": [ "aluminum", "glass" ],
+    "material": [ "brass", "glass" ],
     "weight": "5 g",
     "volume": "250 ml",
     "to_hit": -3

@@ -561,10 +561,10 @@ TEST_CASE( "weapon attack ratings and moves", "[iteminfo][weapon]" )
         // Those calculations are outside the scope of these tests, but we can at least ensure
         // they have expected values before checking the item info string.
         // If one of these fails, it suggests attack_time() changed:
-        REQUIRE( rock.attack_time() == 79 );
-        REQUIRE( halligan.attack_time() == 145 );
-        REQUIRE( mr_pointy.attack_time() == 100 );
-        REQUIRE( arrow.attack_time() == 65 );
+        REQUIRE( rock.attack_time( player_character ) == 79 );
+        REQUIRE( halligan.attack_time( player_character ) == 145 );
+        REQUIRE( mr_pointy.attack_time( player_character ) == 100 );
+        REQUIRE( arrow.attack_time( player_character ) == 65 );
 
         std::vector<iteminfo_parts> moves = { iteminfo_parts::BASE_MOVES };
 
@@ -637,7 +637,7 @@ TEST_CASE( "weapon attack ratings and moves", "[iteminfo][weapon]" )
         CHECK( item_info_str( halligan, stam ) ==
                "--\n"
                "<color_c_white>Stamina use</color>:"
-               " Costs about <color_c_yellow>3.10</color>%"
+               " Costs about <color_c_yellow>3.20</color>%"
                " stamina to swing.\n" );
 
         CHECK( item_info_str( mr_pointy, stam ) ==
@@ -649,7 +649,7 @@ TEST_CASE( "weapon attack ratings and moves", "[iteminfo][weapon]" )
         CHECK( item_info_str( arrow, stam ) ==
                "--\n"
                "<color_c_white>Stamina use</color>:"
-               " Costs about <color_c_yellow>0.70</color>%"
+               " Costs about <color_c_yellow>0.80</color>%"
                " stamina to swing.\n" );
     }
 
@@ -856,7 +856,6 @@ TEST_CASE( "armor coverage, warmth, and encumbrance", "[iteminfo][armor][coverag
                " The <color_c_cyan>arms</color>."
                " The <color_c_cyan>legs</color>."
                " The <color_c_cyan>torso</color>.\n" );
-
 
         std::vector<iteminfo_parts> cov_warm_swat = { iteminfo_parts::ARMOR_COVERAGE, iteminfo_parts::ARMOR_WARMTH };
         REQUIRE( swat_armor.get_avg_coverage() == 95 );
@@ -2437,7 +2436,7 @@ TEST_CASE( "bionic info", "[iteminfo][bionic]" )
     CHECK( item_info_str( purifier, {} ) ==
            "--\n"
            "<color_c_white>Environmental Protection</color>: "
-           "mouth <color_c_yellow>9</color>" );
+           "mouth <color_c_yellow>15</color>" );
 }
 
 // Functions:

@@ -69,12 +69,12 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "temple_stairs",
+    "id": [ "temple_stairs", "temple_underground_1", "temple_underground_2", "temple_underground_3", "temple_underground_4" ],
     "name": "strange temple",
     "sym": "T",
     "color": "pink",
     "see_cost": 5,
-    "flags": [ "KNOWN_DOWN", "NO_ROTATE" ]
+    "flags": [ "KNOWN_DOWN" ]
   },
   {
     "type": "overmap_terrain",
@@ -83,7 +83,7 @@
     "sym": "T",
     "color": "yellow",
     "see_cost": 5,
-    "flags": [ "KNOWN_DOWN", "NO_ROTATE" ]
+    "flags": [ "KNOWN_DOWN" ]
   },
   {
     "type": "overmap_terrain",

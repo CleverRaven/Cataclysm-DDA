@@ -9,7 +9,7 @@
     "count": 1,
     "difficulty": 2,
     "value": 3000,
-    "origins": [ "ORIGIN_OPENER_NPC" ],
+    "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_CABIN_CHEMIST_GET_60_chem_muriatic_acid",
     "has_generic_rewards": true,
     "dialogue": {
@@ -35,7 +35,7 @@
     "count": 60,
     "difficulty": 7,
     "value": 10000,
-    "origins": [ "ORIGIN_OPENER_NPC" ],
+    "origins": [ "ORIGIN_SECONDARY" ],
     "end": { "effect": [ { "npc_add_var": "mass_chem_tradeable", "type": "dialogue", "context": "trade", "value": "yes" } ] },
     "followup": "MISSION_CABIN_CHEMIST_GET_500_GAS",
     "has_generic_rewards": true,
@@ -62,7 +62,7 @@
     "count": 500,
     "difficulty": 10,
     "value": 1600000,
-    "origins": [ "ORIGIN_OPENER_NPC" ],
+    "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_CABIN_CHEMIST_SET_TRADE_ROUTE",
     "has_generic_rewards": true,
     "dialogue": {
@@ -87,7 +87,7 @@
     "count": 1,
     "difficulty": 30,
     "value": 20000,
-    "origins": [ "ORIGIN_OPENER_NPC" ],
+    "origins": [ "ORIGIN_SECONDARY" ],
     "start": { "assign_mission_target": { "om_terrain": "evac_center_18", "om_special": "evac_center", "reveal_radius": 0 } },
     "has_generic_rewards": true,
     "dialogue": {

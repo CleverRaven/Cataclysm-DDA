@@ -11,7 +11,7 @@
     "symbol": "%",
     "quench": -1,
     "calories": 101,
-    "description": "A handful of tasty crunchy nuts from a pinecone.",
+    "description": "A handful of tasty, crunchy nuts from a pinecone.",
     "price": 68,
     "price_postapoc": 300,
     "material": [ "nut" ],
@@ -31,7 +31,7 @@
     "symbol": "%",
     "quench": -2,
     "calories": 22,
-    "description": "Junipers, for making gin and achieving earthy flavors.  Spicy, tastes similar to rosemary.",
+    "description": "A handful of female juniper cones, for making gin and adding earthy flavors to food.  Spicy, tastes similar to rosemary.",
     "price": 400,
     "price_postapoc": 25,
     "material": [ "fruit" ],
@@ -51,7 +51,7 @@
     "symbol": "%",
     "quench": -3,
     "calories": 168,
-    "description": "A handful of nuts from a pistachio tree, their shells have been removed.",
+    "description": "A handful of nuts from a pistachio tree, with the shells removed.",
     "price": 100,
     "price_postapoc": 600,
     "material": [ "nut" ],
@@ -60,7 +60,8 @@
     "charges": 4,
     "smoking_result": "pistachio_roasted",
     "vitamins": [ [ "vitC", 1 ], [ "calcium", 3 ], [ "iron", 7 ] ],
-    "fun": 1
+    "fun": 1,
+    "milling": { "into": "paste_nut", "conversion_rate": 0.1 }
   },
   {
     "type": "COMESTIBLE",
@@ -84,7 +85,7 @@
     "symbol": "%",
     "quench": -3,
     "calories": 167,
-    "description": "A handful of nuts from an almond tree, their shells have been removed.",
+    "description": "A handful of nuts from an almond tree, with the shells removed.",
     "price": 100,
     "price_postapoc": 600,
     "material": [ "nut" ],
@@ -93,7 +94,8 @@
     "smoking_result": "almond_roasted",
     "vitamins": [ [ "calcium", 6 ], [ "iron", 6 ] ],
     "charges": 4,
-    "fun": 1
+    "fun": 1,
+    "milling": { "into": "paste_nut", "conversion_rate": 0.1 }
   },
   {
     "type": "COMESTIBLE",
@@ -145,7 +147,8 @@
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ],
     "charges": 4,
     "vitamins": [ [ "calcium", 1 ], [ "iron", 12 ] ],
-    "fun": 3
+    "fun": 3,
+    "milling": { "into": "paste_nut", "conversion_rate": 0.1 }
   },
   {
     "type": "COMESTIBLE",
@@ -159,7 +162,7 @@
     "symbol": "%",
     "quench": -3,
     "calories": 196,
-    "description": "A handful of pecans which are a sub-species of hickory nuts, their shells have been removed.",
+    "description": "A handful of pecans, a sub-species of hickory nuts, with the shells removed.",
     "price": 100,
     "price_postapoc": 600,
     "material": [ "nut" ],
@@ -168,7 +171,8 @@
     "charges": 4,
     "smoking_result": "pecan_roasted",
     "vitamins": [ [ "calcium", 2 ], [ "iron", 4 ] ],
-    "fun": 1
+    "fun": 1,
+    "milling": { "into": "paste_nut", "conversion_rate": 0.1 }
   },
   {
     "type": "COMESTIBLE",
@@ -192,7 +196,7 @@
     "symbol": "%",
     "quench": -4,
     "calories": 174,
-    "description": "Salty peanuts, their shells have been removed.",
+    "description": "Salty peanuts with the shells removed.",
     "price": 100,
     "price_postapoc": 600,
     "material": [ "nut" ],
@@ -200,7 +204,8 @@
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE", "RAW" ],
     "charges": 4,
     "vitamins": [ [ "calcium", 1 ], [ "iron", 3 ] ],
-    "fun": 3
+    "fun": 3,
+    "milling": { "into": "paste_nut", "conversion_rate": 0.1 }
   },
   {
     "type": "COMESTIBLE",
@@ -213,14 +218,15 @@
     "symbol": "%",
     "quench": -4,
     "calories": 170,
-    "description": "A handful of hard pointy nuts from a beech tree.",
+    "description": "A handful of hard, pointy nuts from a beech tree.",
     "price": 0,
     "price_postapoc": 400,
     "material": [ "nut" ],
     "volume": "250 ml",
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE", "RAW" ],
     "vitamins": [ [ "vitC", 5 ], [ "iron", 9 ] ],
-    "charges": 4
+    "charges": 4,
+    "milling": { "into": "paste_nut", "conversion_rate": 0.1 }
   },
   {
     "type": "COMESTIBLE",
@@ -233,7 +239,7 @@
     "symbol": "%",
     "quench": -5,
     "calories": 192,
-    "description": "A handful of raw hard nuts from a walnut tree, their shells have been removed.",
+    "description": "A handful of raw, hard nuts from a walnut tree, with the shells removed.",
     "price": 0,
     "price_postapoc": 600,
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE", "RAW", "SMOKABLE" ],
@@ -242,7 +248,8 @@
     "charges": 4,
     "smoking_result": "walnut_roasted",
     "vitamins": [ [ "calcium", 2 ], [ "iron", 4 ] ],
-    "fun": -1
+    "fun": -1,
+    "milling": { "into": "paste_nut", "conversion_rate": 0.1 }
   },
   {
     "type": "COMESTIBLE",
@@ -265,7 +272,7 @@
     "symbol": "%",
     "quench": -5,
     "calories": 72,
-    "description": "A handful of raw hard nuts from a chestnut tree, their shells have been removed.",
+    "description": "A handful of raw, hard nuts from a chestnut tree, with the shells removed.",
     "price": 0,
     "price_postapoc": 100,
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE", "RAW", "SMOKABLE" ],
@@ -274,7 +281,8 @@
     "volume": "250 ml",
     "smoking_result": "chestnut_roasted",
     "vitamins": [ [ "vitC", 13 ], [ "iron", 1 ] ],
-    "fun": -10
+    "fun": -10,
+    "milling": { "into": "paste_nut", "conversion_rate": 0.1 }
   },
   {
     "type": "COMESTIBLE",
@@ -298,7 +306,7 @@
     "symbol": "%",
     "quench": -5,
     "calories": 193,
-    "description": "A handful of raw hard nuts from a hazelnut tree, their shells have been removed.",
+    "description": "A handful of raw, hard nuts from a hazelnut tree, with the shells removed.",
     "price": 0,
     "price_postapoc": 500,
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE", "RAW", "SMOKABLE" ],
@@ -307,7 +315,8 @@
     "charges": 4,
     "smoking_result": "hazelnut_roasted",
     "vitamins": [ [ "vitC", 2 ], [ "calcium", 3 ], [ "iron", 7 ] ],
-    "fun": -1
+    "fun": -1,
+    "milling": { "into": "paste_nut", "conversion_rate": 0.1 }
   },
   {
     "type": "COMESTIBLE",
@@ -372,7 +381,7 @@
     "symbol": "%",
     "quench": -5,
     "calories": 194,
-    "description": "A handful of raw hard nuts from a hickory tree, their shells have been removed.",
+    "description": "A handful of raw, hard nuts from a hickory tree, with the shells removed.",
     "price": 0,
     "price_postapoc": 200,
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE", "RAW", "SMOKABLE" ],
@@ -381,7 +390,8 @@
     "charges": 4,
     "smoking_result": "hickory_nut_roasted",
     "vitamins": [ [ "calcium", 2 ], [ "iron", 8 ] ],
-    "fun": -10
+    "fun": -10,
+    "milling": { "into": "paste_nut", "conversion_rate": 0.1 }
   },
   {
     "type": "COMESTIBLE",
@@ -446,7 +456,7 @@
     "id": "peanutbutter_imitation",
     "type": "COMESTIBLE",
     "name": { "str": "imitation peanutbutter" },
-    "description": "A thick, nutty brown paste.",
+    "description": "A thick, nutty brown paste so that the peanut-allergic can enjoy PB&Js too.",
     "copy-from": "peanutbutter",
     "calories": 400
   },
@@ -527,7 +537,8 @@
     "price_postapoc": 200,
     "flags": [ "EDIBLE_FROZEN", "SMOKABLE" ],
     "smoking_result": "acorns_cooked",
-    "fun": -1
+    "fun": -1,
+    "milling": { "into": "paste_nut", "conversion_rate": 0.1 }
   },
   {
     "type": "COMESTIBLE",

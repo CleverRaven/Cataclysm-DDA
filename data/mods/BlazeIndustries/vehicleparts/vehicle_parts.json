@@ -90,6 +90,8 @@
     "durability": 75,
     "symbol": "H",
     "folded_volume": "10 L",
+    "folding_time": "1 minute",
+    "unfolding_time": "1 minute",
     "description": "An ultralight titanium foldable framework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.",
     "breaks_into": [ { "item": "afs_scrap_titanium", "count": [ 1, 3 ] } ],
     "requirements": {
@@ -97,7 +99,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
-    "flags": [ "INITIAL_PART", "MOUNTABLE", "FOLDABLE" ]
+    "flags": [ "INITIAL_PART", "MOUNTABLE" ]
   },
   {
     "id": "afs_lightweight_foldable_frame_cover",

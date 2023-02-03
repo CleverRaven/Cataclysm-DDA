@@ -301,7 +301,6 @@ std::string map_test_case_common::printers::expected( map_test_case &t )
     } ) );
 }
 
-
 // common helpers, used together with map_test_case
 namespace map_test_case_common
 {

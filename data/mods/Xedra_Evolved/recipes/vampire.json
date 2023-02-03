@@ -1,0 +1,24 @@
+[
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "blood_treatment",
+    "qualities": [
+      { "id": "CONCENTRATE", "level": 1 },
+      { "id": "CONTAIN", "level": 1 },
+      { "id": "CHEM", "level": 1 },
+      { "id": "SAW_M", "level": 1 }
+    ],
+    "tools": [ [ [ "surface_heat", 30, "LIST" ] ] ],
+    "components": [ [ [ "mercury", 1 ] ], [ [ "garlic", 4 ] ], [ [ "blood", 3 ] ], [ [ "silver", 1 ] ] ],
+    "time": "30 m",
+    "charges": 4,
+    "skill_used": "cooking",
+    "batch_time_factors": [ 65, 4 ],
+    "difficulty": 2,
+    "skills_required": [ "cooking", 2 ],
+    "book_learn": [ [ "grimy_recipe", 1 ] ],
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_DRUGS"
+  }
+]

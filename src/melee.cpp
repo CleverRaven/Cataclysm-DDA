@@ -193,7 +193,7 @@ bool Character::is_armed() const
 bool Character::unarmed_attack() const
 {
     const item_location weap = used_weapon();
-    return !weap || weap->has_flag( flag_UNARMED_WEAPON );
+    return !weap;
 }
 
 bool Character::handle_melee_wear( item_location shield, float wear_multiplier )
@@ -345,9 +345,11 @@ float Character::get_hit_weapon( const item &weap ) const
 float Character::get_melee_hit_base() const
 {
     float hit_weapon = 0.0f;
-    if( used_weapon() ) {
-        hit_weapon = get_hit_weapon( *used_weapon() );
-    }
+
+    item_location cur_weapon = used_weapon();
+    item cur_weap = cur_weapon ? *cur_weapon : null_item_reference();
+
+    hit_weapon = get_hit_weapon( cur_weap );
 
     // Character::get_hit_base includes stat calculations already
     return Character::get_hit_base() + hit_weapon + mabuff_tohit_bonus();
@@ -436,7 +438,8 @@ void Character::roll_all_damage( bool crit, damage_instance &di, bool average,
     roll_other_damage( crit, di, average, weap, attack_vector, crit_mod );
 }
 
-static void melee_train( Character &you, int lo, int hi, const item &weap )
+static void melee_train( Character &you, int lo, int hi, const item &weap,
+                         const std::string &attack_vector )
 {
     you.practice( skill_melee, std::ceil( rng( lo, hi ) / 2.0 ), hi );
 
@@ -449,7 +452,7 @@ static void melee_train( Character &you, int lo, int hi, const item &weap )
     float total = std::max( cut + stab + bash, 1 );
 
     // Unarmed may deal cut, stab, and bash damage depending on the weapon
-    if( weap.is_unarmed_weapon() ) {
+    if( attack_vector != "WEAPON" ) {
         you.practice( skill_unarmed, std::ceil( 1 * rng( lo, hi ) ), hi );
     } else {
         you.practice( skill_cutting,  std::ceil( cut  / total * rng( lo, hi ) ), hi );
@@ -600,7 +603,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
 
     int move_cost = attack_speed( cur_weap );
 
-    if( cur_weap.attack_time() > move_cost * 20 ) {
+    if( cur_weap.attack_time( *this ) > move_cost * 20 ) {
         add_msg( m_bad, _( "This weapon is too unwieldy to attack with!" ) );
         return false;
     }
@@ -678,7 +681,8 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
 
         // Practice melee and relevant weapon skill (if any) except when using CQB bionic
         if( !has_active_bionic( bio_cqb ) && !t.is_hallucination() ) {
-            melee_train( *this, 2, std::min( 5, skill_training_cap ), cur_weap );
+            std::string attack_vector = cur_weapon ? "WEAPON" : "HAND";
+            melee_train( *this, 2, std::min( 5, skill_training_cap ), cur_weap, attack_vector );
         }
 
         // Cap stumble penalty, heavy weapons are quite weak already
@@ -855,12 +859,8 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
             melee::melee_stats.damage_amount += dam;
 
             // Practice melee and relevant weapon skill (if any) except when using CQB bionic
-            if( !has_active_bionic( bio_cqb ) && cur_weapon && !t.is_hallucination() ) {
-                if( technique.attack_override ) {
-                    melee_train( *this, 5, std::min( 10, skill_training_cap ), null_item_reference() );
-                } else {
-                    melee_train( *this, 5, std::min( 10, skill_training_cap ), cur_weap );
-                }
+            if( !has_active_bionic( bio_cqb ) && !t.is_hallucination() ) {
+                melee_train( *this, 5, std::min( 10, skill_training_cap ), cur_weap, attack_vector );
             }
 
             // Treat monster as seen if we see it before or after the attack
@@ -976,8 +976,7 @@ void Character::reach_attack( const tripoint &p )
         } else if( here.impassable( path_point ) &&
                    // Fences etc. Spears can stab through those
                    !( weapon.has_flag( flag_SPEAR ) &&
-                      here.has_flag( ter_furn_flag::TFLAG_THIN_OBSTACLE, path_point ) &&
-                      x_in_y( skill, 10 ) ) ) {
+                      here.has_flag( ter_furn_flag::TFLAG_THIN_OBSTACLE, path_point ) ) ) {
             /** @ARM_STR increases bash effects when reach attacking past something */
             here.bash( path_point, get_arm_str() + weapon.damage_melee( damage_type::BASH ) );
             handle_melee_wear( get_wielded_item() );
@@ -1048,9 +1047,9 @@ double Character::crit_chance( float roll_hit, float target_dodge, const item &w
 
     // Weapon to-hit roll
     double weapon_crit_chance = 0.5;
-    if( weap.is_unarmed_weapon() ) {
+    if( weap.is_null() ) {
         // Unarmed attack: 1/2 of unarmed skill is to-hit
-        /** @EFFECT_UNARMED increases critical chance with UNARMED_WEAPON */
+        /** @EFFECT_UNARMED increases critical chance */
         weapon_crit_chance = 0.5 + 0.05 * get_skill_level( skill_unarmed );
     }
 
@@ -1243,7 +1242,6 @@ void Character::roll_bash_damage( bool crit, damage_instance &di, bool average,
         bash_dam += average ? ( mindrunk + maxdrunk ) * 0.5f : rng( mindrunk, maxdrunk );
     }
 
-
     if( unarmed ) {
         bool bp_unrestricted;
 
@@ -1323,7 +1321,6 @@ void Character::roll_bash_damage( bool crit, damage_instance &di, bool average,
     if( is_melee_bash_damage_cap_bonus() ) {
         bash_cap += melee_bonus;
     }
-
 
     if( has_trait( trait_KI_STRIKE ) && unarmed ) {
         /** @EFFECT_UNARMED increases bashing damage with unarmed weapons when paired with the Ki Strike trait */
@@ -2058,7 +2055,8 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
 
     Character *you = dynamic_cast<Character *>( &t );
 
-    if( technique.take_weapon && !has_weapon() && you != nullptr && you->is_armed() ) {
+    if( technique.take_weapon && !has_weapon() && you != nullptr && you->is_armed() &&
+        !you->is_hallucination() ) {
         if( you->is_avatar() ) {
             add_msg_if_npc( _( "<npcname> disarms you and takes your weapon!" ) );
         } else {
@@ -2070,7 +2068,7 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
         wield( it );
     }
 
-    if( technique.disarms && you != nullptr && you->is_armed() ) {
+    if( technique.disarms && you != nullptr && you->is_armed() && !you->is_hallucination() ) {
         item weap = you->remove_weapon();
         here.add_item_or_charges( you->pos(), weap );
         if( you->is_avatar() ) {
@@ -2165,7 +2163,7 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
     // Melee skill and reaction score governs if you can react in time
     // Skill of 5 without relevant encumbrance guarantees a block attempt
     int melee_skill = has_active_bionic( bio_cqb ) ? 5 : get_skill_level( skill_melee );
-    if( !x_in_y( melee_skill * 20 * get_limb_score( limb_score_reaction ), 100 ) ) {
+    if( !x_in_y( melee_skill * 20.0 * get_limb_score( limb_score_reaction ), 100 ) ) {
         add_msg_debug( debugmode::DF_MELEE, "Block roll failed" );
         return false;
     }
@@ -2185,7 +2183,7 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
     bool worn_shield = has_shield && shield->has_flag( flag_BLOCK_WHILE_WORN );
 
     bool conductive_shield = false;
-    bool unarmed = !is_armed() || weapon.has_flag( flag_UNARMED_WEAPON );
+    bool unarmed = !is_armed();
     bool force_unarmed = martial_arts_data->is_force_unarmed();
     bool allow_weapon_blocking = martial_arts_data->can_weapon_block();
 
@@ -2207,7 +2205,7 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
 
     /** @ARM_STR increases attack blocking effectiveness with a limb or worn/wielded item */
     /** @EFFECT_UNARMED increases attack blocking effectiveness with a limb or worn item */
-    if( unarmed || force_unarmed || worn_shield ) {
+    if( unarmed || force_unarmed || worn_shield || ( has_shield && !allow_weapon_blocking ) ) {
         arm_block = martial_arts_data->can_arm_block( *this );
         leg_block = martial_arts_data->can_leg_block( *this );
         nonstandard_block = martial_arts_data->can_nonstandard_block( *this );
@@ -2242,10 +2240,7 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
         }
 
         handle_melee_wear( shield, wear_modifier );
-    } else if( !allow_weapon_blocking ) {
-        // Can't block with weapons
-        return false;
-    } else {
+    }  else {
         // Select part to block with, preferring worn blocking armor if applicable
         bp_hit = select_blocking_part( arm_block, leg_block, nonstandard_block );
         block_score *= get_part( bp_hit )->get_limb_score( limb_score_block );
@@ -2829,7 +2824,7 @@ void player_hit_message( Character *attacker, const std::string &message,
 
 int Character::attack_speed( const item &weap ) const
 {
-    const int base_move_cost = weap.attack_time() / 2;
+    const int base_move_cost = weap.attack_time( *this ) / 2;
     const int melee_skill = has_active_bionic( bionic_id( bio_cqb ) ) ? BIO_CQB_LEVEL : get_skill_level(
                                 skill_melee );
     /** @EFFECT_MELEE increases melee attack speed */

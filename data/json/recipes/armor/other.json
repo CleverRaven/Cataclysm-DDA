@@ -373,33 +373,6 @@
     "components": [ [ [ "charcoal", 10 ] ], [ [ "paper", 2 ] ], [ [ "plastic_sheet_small", 1 ], [ "bottle_plastic_small", 1 ] ] ]
   },
   {
-    "result": "gasfilter_l",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_OTHER",
-    "skill_used": "fabrication",
-    "difficulty": 5,
-    "skills_required": [ "chemistry", 1 ],
-    "time": "60 m",
-    "book_learn": [
-      [ "textbook_fireman", 4 ],
-      [ "atomic_survival", 4 ],
-      [ "adv_chemistry", 4 ],
-      [ "textbook_chemistry", 4 ],
-      [ "emergency_book", 3 ],
-      [ "textbook_gaswarfare", 4 ]
-    ],
-    "using": [ [ "soldering_standard", 10 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [
-      [ [ "oxy_powder", 50 ] ],
-      [ [ "charcoal", 5 ], [ "coal_lump", 5 ] ],
-      [ [ "superglue", 1 ] ],
-      [ [ "scrap", 2 ], [ "can_food", 1 ], [ "can_drink", 1 ], [ "canister_empty", 1 ] ]
-    ]
-  },
-  {
     "result": "sleeping_bag_roll",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -435,8 +408,8 @@
     "result": "survivor_belt_notools",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_OTHER",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 6,
     "skills_required": [ "fabrication", 3 ],

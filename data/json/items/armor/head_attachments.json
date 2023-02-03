@@ -5,7 +5,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str_sp": "attachable ear muffs" },
-    "description": "A pair of ear muffs attachable to a hard hat or helmet to reduce noise exposures to safe levels.",
+    "description": "A pair of ear muffs attachable to a hard hat or helmet to reduce noise exposures to safe levels.  Activate to put ear muffs into a working position, blocking most sounds.",
     "weight": "290 g",
     "volume": "250 ml",
     "price": 1000,
@@ -23,7 +23,29 @@
         "covers": [ "head" ],
         "specifically_covers": [ "head_ear_r", "head_ear_l" ]
       }
-    ]
+    ],
+    "use_action": {
+      "type": "transform",
+      "menu_text": "Press tightly to ears",
+      "target": "attachable_ear_muffs_on",
+      "msg": "You put the ear muffs tightly to your ears.",
+      "moves": 100
+    }
+  },
+  {
+    "id": "attachable_ear_muffs_on",
+    "type": "ARMOR",
+    "name": { "str_sp": "attachable ear muffs (on)" },
+    "description": "A pair of ear muffs attachable to a hard hat or helmet to reduce noise exposures to safe levels.  Activate to put ear muffs into a standby position, letting you clearly hear again.",
+    "copy-from": "attachable_ear_muffs",
+    "extend": { "flags": [ "DEAF" ] },
+    "use_action": {
+      "type": "transform",
+      "menu_text": "Put away from ears",
+      "target": "attachable_ear_muffs",
+      "msg": "You put the ear muffs away from your ears.",
+      "moves": 100
+    }
   },
   {
     "id": "ballistic_mandible_guard",
@@ -80,7 +102,7 @@
     "armor": [ { "coverage": 60, "covers": [ "mouth" ], "specifically_covers": [ "mouth_chin" ] } ]
   },
   {
-    "id": "counterweight pouch",
+    "id": "counterweight_pouch",
     "repairs_like": "ankle_wallet_pouch",
     "type": "ARMOR",
     "category": "armor",

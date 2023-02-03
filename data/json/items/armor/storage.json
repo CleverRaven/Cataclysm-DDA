@@ -118,7 +118,7 @@
         "max_contains_volume": "1 L",
         "max_contains_weight": "2 kg",
         "max_item_length": "70 cm",
-        "moves": 3,
+        "moves": 40,
         "flag_restriction": [ "SHEATH_KNIFE", "SHEATH_SWORD" ]
       },
       {
@@ -126,7 +126,7 @@
         "max_contains_volume": "1 L",
         "max_contains_weight": "2 kg",
         "max_item_length": "70 cm",
-        "moves": 3,
+        "moves": 40,
         "flag_restriction": [ "SHEATH_KNIFE", "SHEATH_SWORD" ]
       },
       {
@@ -804,7 +804,7 @@
     "volume": "6 L",
     "price": 12000,
     "price_postapoc": 500,
-    "material": [ "cotton" ],
+    "material": [ "canvas" ],
     "symbol": "[",
     "looks_like": "rucksack",
     "color": "green",
@@ -812,7 +812,7 @@
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "35 L",
-        "max_contains_weight": "50 kg",
+        "max_contains_weight": "60 kg",
         "max_item_length": "55 cm",
         "magazine_well": "5 L",
         "moves": 300
@@ -832,7 +832,7 @@
       }
     ],
     "warmth": 10,
-    "material_thickness": 2,
+    "material_thickness": 1,
     "flags": [ "BELTED", "WATER_FRIENDLY" ],
     "armor": [
       {
@@ -901,7 +901,7 @@
       }
     ],
     "material_thickness": 0.1,
-    "flags": [ "BELTED", "WATER_FRIENDLY" ],
+    "flags": [ "BELTED", "WATER_FRIENDLY", "OVERSIZE" ],
     "armor": [
       {
         "encumbrance": 1,
@@ -1124,22 +1124,22 @@
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "2250 ml",
-        "max_contains_weight": "2 kg",
+        "max_contains_weight": "4500 g",
         "max_item_length": "30 cm",
         "magazine_well": "500 ml",
-        "moves": 200
+        "moves": 80
       },
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "2250 ml",
-        "max_contains_weight": "2 kg",
+        "max_contains_weight": "4500 g",
         "max_item_length": "30 cm",
         "magazine_well": "500 ml",
-        "moves": 200
+        "moves": 80
       }
     ],
     "material_thickness": 0.2,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "BELTED" ],
+    "flags": [ "OVERSIZE", "WATER_FRIENDLY", "BELTED" ],
     "armor": [
       {
         "encumbrance": 2,
@@ -1161,7 +1161,7 @@
     "volume": "1550 ml",
     "price": 3000,
     "price_postapoc": 250,
-    "material": [ "cotton" ],
+    "material": [ "canvas" ],
     "symbol": "[",
     "looks_like": "legrig",
     "color": "dark_gray",
@@ -1280,7 +1280,7 @@
     "volume": "550 ml",
     "price": 3000,
     "price_postapoc": 250,
-    "material": [ "nylon", "plastic" ],
+    "material": [ "canvas", "plastic" ],
     "symbol": "[",
     "looks_like": "armguard_soft",
     "color": "dark_gray",
@@ -1295,7 +1295,7 @@
       }
     ],
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "BELTED" ],
+    "flags": [ "OVERSIZE", "WATER_FRIENDLY", "BELTED" ],
     "armor": [
       {
         "encumbrance": 1,
@@ -1337,7 +1337,7 @@
       }
     ],
     "material_thickness": 0.1,
-    "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "NOT_FOOTWEAR" ],
+    "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY" ],
     "armor": [
       {
         "encumbrance": 1,
@@ -2012,13 +2012,13 @@
     "type": "ARMOR",
     "name": { "str": "runner pack" },
     "description": "The obvious choice for outdoor athletes, this ergonomic backpack is light and easy to wear, ensuring comfort when carrying heavy and bulky items.",
-    "weight": "300 g",
+    "weight": "360 g",
     "volume": "1500 ml",
     "price": 24000,
     "price_postapoc": 500,
     "to_hit": 1,
     "bashing": 1,
-    "material": [ "cotton", "plastic" ],
+    "material": [ "canvas", "plastic" ],
     "symbol": "[",
     "looks_like": "backpack",
     "color": "green",
@@ -2033,7 +2033,7 @@
       }
     ],
     "warmth": 2,
-    "material_thickness": 0.1,
+    "material_thickness": 0.2,
     "flags": [ "BELTED", "WATER_FRIENDLY" ],
     "armor": [
       {
@@ -2182,7 +2182,7 @@
     "price": 0,
     "price_postapoc": 50,
     "to_hit": -5,
-    "material": [ "cotton" ],
+    "material": [ "canvas" ],
     "symbol": "[",
     "looks_like": "duffelbag",
     "color": "brown",
@@ -2299,11 +2299,11 @@
     "type": "ARMOR",
     "name": { "str": "utility vest" },
     "description": "A light vest covered in pockets and straps for storage.",
-    "weight": "516 g",
+    "weight": "536 g",
     "volume": "1 L",
     "price": 3900,
     "price_postapoc": 500,
-    "material": [ "cotton" ],
+    "material": [ "canvas" ],
     "symbol": "[",
     "looks_like": "tank_top",
     "color": "light_gray",
@@ -2339,7 +2339,7 @@
     ],
     "warmth": 5,
     "material_thickness": 0.4,
-    "flags": [ "VARSIZE", "BELTED" ],
+    "flags": [ "VARSIZE", "BELTED", "WATER_FRIENDLY" ],
     "armor": [
       {
         "encumbrance": 2,
@@ -2396,7 +2396,9 @@
         "max_contains_volume": "100000 L",
         "max_contains_weight": "100000 kg",
         "moves": 1,
-        "max_item_length": "1 km"
+        "max_item_length": "1 km",
+        "weight_multiplier": 0.01,
+        "volume_multiplier": 0.01
       }
     ],
     "warmth": 0,
@@ -2409,11 +2411,11 @@
     "type": "ARMOR",
     "name": { "str": "longarm bag" },
     "description": "A long duffel bag.  Provides storage for long arms and rifles.  Quite cumbersome.",
-    "weight": "1133 g",
+    "weight": "1203 g",
     "volume": "12 L",
     "price": 18000,
     "price_postapoc": 800,
-    "material": [ "cotton" ],
+    "material": [ "canvas" ],
     "symbol": "[",
     "looks_like": "rucksack",
     "color": "green",
@@ -2428,7 +2430,7 @@
       }
     ],
     "warmth": 8,
-    "material_thickness": 2,
+    "material_thickness": 1,
     "flags": [ "BELTED", "WATER_FRIENDLY" ],
     "armor": [
       { "encumbrance": [ 8, 42 ], "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] }
@@ -2439,11 +2441,11 @@
     "type": "ARMOR",
     "name": { "str": "rifle case" },
     "description": "A long soft rifle case.  Provides storage for long arms and rifles.  Includes a small pocket, strap and handle.",
-    "weight": "454 g",
+    "weight": "708 g",
     "volume": "2 L",
     "price": 18000,
     "price_postapoc": 800,
-    "material": [ "cotton" ],
+    "material": [ "canvas" ],
     "symbol": "[",
     "looks_like": "slingpack",
     "color": "green",
@@ -2465,8 +2467,8 @@
       }
     ],
     "warmth": 1,
-    "material_thickness": 2,
-    "flags": [ "BELTED", "OVERSIZE" ],
+    "material_thickness": 1,
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
     "armor": [ { "encumbrance": [ 2, 6 ], "coverage": 20, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   },
   {
@@ -2509,11 +2511,11 @@
     "type": "ARMOR",
     "name": { "str": "double rifle case" },
     "description": "A long soft rifle case.  Provides storage for 2 long arms and rifles.  Includes 3 accessory pockets and a strap.",
-    "weight": "454 g",
-    "volume": "2 L",
+    "weight": "1042 g",
+    "volume": "3 L",
     "price": 18000,
     "price_postapoc": 800,
-    "material": [ "cotton" ],
+    "material": [ "canvas" ],
     "symbol": "[",
     "looks_like": "slingpack",
     "color": "green",
@@ -2551,8 +2553,8 @@
       }
     ],
     "warmth": 1,
-    "material_thickness": 2,
-    "flags": [ "BELTED", "OVERSIZE" ],
+    "material_thickness": 1,
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
     "armor": [ { "encumbrance": [ 2, 14 ], "coverage": 30, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   },
   {
@@ -2753,7 +2755,7 @@
     "volume": "45 L",
     "price": 800,
     "price_postapoc": 750,
-    "material": [ "wood", "cotton" ],
+    "material": [ "wood", "canvas" ],
     "symbol": "[",
     "looks_like": "golf_bag",
     "color": "green",
@@ -2783,7 +2785,7 @@
     "volume": "10 L",
     "price": 800,
     "price_postapoc": 750,
-    "material": [ "wood", "cotton" ],
+    "material": [ "wood", "canvas" ],
     "symbol": "[",
     "looks_like": "backpack",
     "color": "green",

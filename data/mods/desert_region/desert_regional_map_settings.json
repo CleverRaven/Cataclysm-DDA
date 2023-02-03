@@ -34,7 +34,7 @@
     "default_groundcover": [ [ "t_region_groundcover", 1 ] ],
     "region_terrain_and_furniture": {
       "terrain": {
-        "t_region_groundcover": { "t_grass_dead": 3, "t_searth": 200 },
+        "t_region_groundcover": { "t_grass_dead": 3000, "t_searth": 200000 },
         "t_region_groundcover_urban": { "t_searth": 10 },
         "t_region_groundcover_forest": { "t_grass_dead": 3, "t_searth": 10 },
         "t_region_groundcover_swamp": { "t_region_groundcover": 33, "t_desertpavement": 5000 },
@@ -51,9 +51,9 @@
         "t_region_tree_evergreen": { "t_tree_dead": 1 }
       },
       "furniture": {
-        "f_region_flower": { "f_tumbleweed": 1 },
+        "f_region_flower": { "f_tumbleweed": 1000 },
         "f_region_flower_decorative": { "f_tumbleweed": 1 },
-        "f_region_weed": { "f_tumbleweed": 1 },
+        "f_region_weed": { "f_tumbleweed": 1000 },
         "f_region_water_plant": { "f_cattails": 15, "f_lilypad": 1, "f_lotus": 5 }
       }
     },

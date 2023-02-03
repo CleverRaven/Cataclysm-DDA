@@ -214,6 +214,31 @@
     "flags": [ "OUTER" ]
   },
   {
+    "id": "sharksuit",
+    "repairs_like": "trenchcoat",
+    "type": "ARMOR",
+    "name": { "str": "shark suit" },
+    "description": "A full-body costume in the form of an anthropomorphic bull shark.  It is quite encumbering and has little storage but is very warm.",
+    "weight": "6033 g",
+    "volume": "12 L",
+    "price": 250000,
+    "price_postapoc": 1000,
+    "to_hit": -3,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "wolfsuit",
+    "color": "light_blue",
+    "armor": [
+      { "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 26, 30 ] },
+      { "covers": [ "head" ], "coverage": 100, "encumbrance": [ 26, 26 ] }
+    ],
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 } ],
+    "warmth": 50,
+    "material_thickness": 3,
+    "environmental_protection": 2,
+    "flags": [ "OUTER" ]
+  },
+  {
     "id": "dragonsuit",
     "repairs_like": "trenchcoat",
     "type": "ARMOR",

@@ -11,8 +11,7 @@
     "skill_used": "throw",
     "time": "1 h",
     "practice_data": { "min_difficulty": 0, "max_difficulty": 2, "skill_limit": 3 },
-    "autolearn": [ [ "throw", 1 ] ],
-    "book_learn": [ [ "mag_throwing", 0 ], [ "manual_throw", 0 ] ],
+    "autolearn": [ [ "throw", 0 ] ],
     "tools": [
       [
         "basketball",
@@ -62,6 +61,24 @@
     "byproduct_group": [ { "item": "arrow_fire_hardened_fletched", "charges": [ 0, 2 ] } ]
   },
   {
+    "id": "prac_crossbow_beg",
+    "type": "practice",
+    "//": "shooting against a hard target should damage arrows",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_COMBAT",
+    "name": "crossbows (beginner)",
+    "description": "Practice firing unfletched bolts at a spot on the wall.",
+    "skill_used": "rifle",
+    "time": "1 h",
+    "practice_data": { "min_difficulty": 0, "max_difficulty": 1, "skill_limit": 2 },
+    "autolearn": [ [ "rifle", 1 ] ],
+    "book_learn": [ [ "recipe_bows", 0 ], [ "manual_archery", 0 ], [ "book_archery", 0 ] ],
+    "tools": [ [ [ "crossbows", 1, "LIST" ] ] ],
+    "components": [ [ [ "bolt_crude", 10 ] ] ],
+    "byproduct_group": [ { "item": "bolt_crude", "charges": [ 0, 2 ] } ]
+  },
+  {
     "id": "prac_archery_int",
     "type": "practice",
     "//": "Ideally, this would accept multiple arrow types and return a portion of the arrows used",
@@ -94,6 +111,24 @@
     ],
     "components": [ [ [ "arrow_wood_heavy", 20 ] ] ],
     "byproduct_group": [ { "item": "arrow_wood_heavy", "charges": [ 0, 4 ] } ]
+  },
+  {
+    "id": "prac_crossbow_int",
+    "type": "practice",
+    "//": "Ideally, this would accept multiple arrow types and return a portion of the arrows used",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_COMBAT",
+    "name": "crossbows (intermediate)",
+    "description": "Practice the best ways of firing fletched bolts into a target.  Requires a decent quality crossbow.",
+    "skill_used": "rifle",
+    "time": "30 m",
+    "practice_data": { "min_difficulty": 2, "max_difficulty": 4, "skill_limit": 5 },
+    "autolearn": [ [ "rifle", 3 ] ],
+    "book_learn": [ [ "recipe_bows", 2 ], [ "manual_archery", 2 ], [ "book_archery", 2 ] ],
+    "tools": [ [ [ "crossbows", 1, "LIST" ] ], [ "pseudo_archery_target_box", "pseudo_archery_target_bale" ] ],
+    "components": [ [ [ "bolt_wood", 20 ] ] ],
+    "byproduct_group": [ { "item": "bolt_wood", "charges": [ 0, 4 ] } ]
   },
   {
     "id": "prac_expert_archers_form",
@@ -193,5 +228,25 @@
     "autolearn": [ [ "smg", 0 ] ],
     "tools": [ [ [ "aim_game", 50 ] ] ],
     "qualities": [ { "id": "SMG", "level": 1 } ]
+  },
+  {
+    "id": "prac_launch_beg",
+    "type": "practice",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_COMBAT",
+    "name": "launchers (beginner)",
+    "description": "Use a compressed air launcher to safely practice aiming trajectories.",
+    "skill_used": "launcher",
+    "time": "1 h",
+    "practice_data": { "min_difficulty": 0, "max_difficulty": 1, "skill_limit": 2 },
+    "autolearn": [ [ "launcher", 0 ] ],
+    "tools": [
+      [ [ "air_launcher", -1 ] ],
+      [ [ "golf_ball", -1 ], [ "baseball", -1 ], [ "magic_8_ball", -1 ], [ "pool_ball", -1 ] ],
+      [ [ "hand_pump", -1 ] ],
+      [ [ "hose", -1 ] ],
+      [ [ "pseudo_archery_target_box", -1 ], [ "pseudo_archery_target_bale", -1 ] ]
+    ]
   }
 ]

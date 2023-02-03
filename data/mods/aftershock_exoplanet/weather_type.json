@@ -17,7 +17,7 @@
     "tiles_animation": "weather_snowflake",
     "weather_animation": { "factor": 0.01, "color": "white", "sym": "." },
     "sound_category": "flurries",
-    "sun_intensity": "light",
+    "sun_multiplier": 0.3,
     "required_weathers": [ "cloudy" ],
     "condition": {
       "or": [
@@ -44,7 +44,7 @@
     "tiles_animation": "weather_snowflake",
     "weather_animation": { "factor": 0.01, "color": "white", "sym": "*" },
     "sound_category": "snowstorm",
-    "sun_intensity": "light",
+    "sun_multiplier": 0.15,
     "required_weathers": [ "cloudy", "afs_flurries" ],
     "condition": { "and": [ "is_day", { "compare_int": [ { "weather": "windpower" }, ">=", { "const": 20 } ] } ] }
   },
@@ -66,7 +66,7 @@
     "tiles_animation": "weather_snowflake",
     "weather_animation": { "factor": 0.02, "color": "white", "sym": "*" },
     "sound_category": "snow",
-    "sun_intensity": "light",
+    "sun_multiplier": 0.2,
     "required_weathers": [ "afs_flurries", "afs_whiteout" ],
     "condition": {
       "or": [
@@ -93,7 +93,7 @@
     "tiles_animation": "weather_snowflake",
     "weather_animation": { "factor": 0.02, "color": "white", "sym": "*" },
     "sound_category": "snowstorm",
-    "sun_intensity": "none",
+    "sun_multiplier": 0.01,
     "required_weathers": [ "afs_snowing" ],
     "condition": { "compare_int": [ { "weather": "pressure" }, "<", { "const": 990 } ] }
   },
@@ -115,7 +115,7 @@
     "tiles_animation": "weather_snowflake",
     "weather_animation": { "factor": 0.04, "color": "white", "sym": "*" },
     "sound_category": "snowstorm",
-    "sun_intensity": "none",
+    "sun_multiplier": 0.01,
     "required_weathers": [ "afs_thunder" ],
     "condition": { "compare_int": [ { "weather": "pressure" }, "<", { "const": 980 } ] }
   }

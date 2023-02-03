@@ -23,8 +23,8 @@
 #include "translations.h"
 #include "type_id.h"
 
-class JsonOut;
 class JsonObject;
+class JsonOut;
 class character_id;
 class npc;
 class time_duration;
@@ -175,7 +175,7 @@ class basecamp
 
         //change name of camp
         void set_name( const std::string &new_name );
-        void query_new_name();
+        void query_new_name( bool force = false );
         void abandon_camp();
         void scan_pseudo_items();
         void add_expansion( const std::string &terrain, const tripoint_abs_omt &new_pos );
@@ -331,7 +331,7 @@ class basecamp
         drop_locations give_equipment( Character *pc, const inventory_filter_preset &preset,
                                        const std::string &msg, const std::string &title, units::volume &total_volume,
                                        units::mass &total_mass );
-        drop_locations get_equipment( tinymap *target_bay, tripoint target, Character *pc,
+        drop_locations get_equipment( tinymap *target_bay, const tripoint &target, Character *pc,
                                       const inventory_filter_preset &preset,
                                       const std::string &msg, const std::string &title, units::volume &total_volume,
                                       units::mass &total_mass );

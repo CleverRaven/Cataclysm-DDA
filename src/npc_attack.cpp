@@ -363,7 +363,7 @@ npc_attack_rating npc_attack_melee::evaluate_critter( const npc &source,
     // TODO: Give bashing weapons a better
     // rating against armored targets
     double damage{ weapon.base_damage_melee().total_damage() };
-    damage *= 100.0 / weapon.attack_time();
+    damage *= 100.0 / weapon.attack_time( source );
     const int reach_range{ weapon.reach_range( source ) };
     const int distance_to_me = clamp( rl_dist( source.pos(), critter->pos() ) - reach_range, 0, 10 );
     // Multiplier of 0.5f to 1.5f based on distance
@@ -657,8 +657,7 @@ bool npc_attack_throw::can_use( const npc &source ) const
     bool throwable = source.throw_range( single_item ) > 0 && !source.is_worn( thrown_item ) &&
                      !thrown_item.has_flag( flag_NPC_ACTIVATE );
     throwable = throwable && !thrown_item.is_gun() && !thrown_item.is_armor() &&
-                !thrown_item.is_comestible() && !thrown_item.is_magazine() && !thrown_item.is_tool() &&
-                !thrown_item.is_unarmed_weapon();
+                !thrown_item.is_comestible() && !thrown_item.is_magazine() && !thrown_item.is_tool();
     // TODO: Better choose what should be thrown
     return throwable;
 }

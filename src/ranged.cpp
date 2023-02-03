@@ -21,6 +21,7 @@
 #include "ballistics.h"
 #include "cached_options.h"
 #include "calendar.h"
+#include "cata_scope_helpers.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
@@ -131,6 +132,7 @@ static const skill_id skill_gun( "gun" );
 static const skill_id skill_launcher( "launcher" );
 static const skill_id skill_throw( "throw" );
 
+static const trait_id trait_BRAWLER( "BRAWLER" );
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
 
 static const trap_str_id tr_practice_target( "tr_practice_target" );
@@ -424,6 +426,7 @@ target_handler::trajectory target_handler::mode_throw( avatar &you, item &releva
     ui.relevant = &relevant;
     ui.range = you.throw_range( relevant );
 
+    restore_on_out_of_scope<tripoint> view_offset_prev( you.view_offset );
     return ui.run();
 }
 
@@ -435,6 +438,7 @@ target_handler::trajectory target_handler::mode_reach( avatar &you, item_locatio
     ui.relevant = weapon.get_item();
     ui.range = weapon ? weapon->current_reach_range( you ) : 1;
 
+    restore_on_out_of_scope<tripoint> view_offset_prev( you.view_offset );
     return ui.run();
 }
 
@@ -448,6 +452,7 @@ target_handler::trajectory target_handler::mode_turret_manual( avatar &you, turr
     ui.range = turret.range();
     ui.ammo = turret.ammo_data();
 
+    restore_on_out_of_scope<tripoint> view_offset_prev( you.view_offset );
     return ui.run();
 }
 
@@ -477,6 +482,7 @@ target_handler::trajectory target_handler::mode_turrets( avatar &you, vehicle &v
     ui.vturrets = &turrets;
     ui.range = range_total;
 
+    restore_on_out_of_scope<tripoint> view_offset_prev( you.view_offset );
     return ui.run();
 }
 
@@ -491,6 +497,7 @@ target_handler::trajectory target_handler::mode_spell( avatar &you, spell &casti
     ui.no_fail = no_fail;
     ui.no_mana = no_mana;
 
+    restore_on_out_of_scope<tripoint> view_offset_prev( you.view_offset );
     return ui.run();
 }
 
@@ -517,23 +524,31 @@ static double occupied_tile_fraction( creature_size target_size )
 
 double Creature::ranged_target_size() const
 {
+    double stance_factor = 1.0;
+    if( const Character *character = this->as_character() ) {
+        if( character->is_crouching() ) {
+            stance_factor = 0.6;
+        } else if( character->is_prone() ) {
+            stance_factor = 0.25;
+        }
+    }
     if( has_flag( MF_HARDTOSHOOT ) ) {
         switch( get_size() ) {
             case creature_size::tiny:
             case creature_size::small:
-                return occupied_tile_fraction( creature_size::tiny );
+                return stance_factor * occupied_tile_fraction( creature_size::tiny );
             case creature_size::medium:
-                return occupied_tile_fraction( creature_size::small );
+                return stance_factor * occupied_tile_fraction( creature_size::small );
             case creature_size::large:
-                return occupied_tile_fraction( creature_size::medium );
+                return stance_factor * occupied_tile_fraction( creature_size::medium );
             case creature_size::huge:
-                return occupied_tile_fraction( creature_size::large );
+                return stance_factor * occupied_tile_fraction( creature_size::large );
             case creature_size::num_sizes:
                 debugmsg( "ERROR: Invalid Creature size class." );
                 break;
         }
     }
-    return occupied_tile_fraction( get_size() );
+    return stance_factor * occupied_tile_fraction( get_size() );
 }
 
 int range_with_even_chance_of_good_hit( int dispersion )
@@ -548,14 +563,14 @@ int range_with_even_chance_of_good_hit( int dispersion )
 }
 
 int Character::gun_engagement_moves( const item &gun, int target, int start,
-                                     Target_attributes attributes ) const
+                                     const Target_attributes &attributes ) const
 {
     int mv = 0;
     double penalty = start;
 
     while( penalty > target ) {
         double adj = aim_per_move( gun, penalty, attributes );
-        if( adj <= 0 ) {
+        if( adj <= MIN_RECOIL_IMPROVEMENT ) {
             break;
         }
         penalty -= adj;
@@ -826,6 +841,10 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
         const vehicle *in_veh = has_effect( effect_on_roof ) ? veh_pointer_or_null( here.veh_at(
                                     pos() ) ) : nullptr;
 
+        // Add gunshot noise
+        make_gun_sound_effect( *this, shots > 1, &gun );
+        sfx::generate_gun_sound( *this, gun );
+
         weakpoint_attack wp_attack;
         wp_attack.weapon = &gun;
         projectile proj = make_gun_projectile( gun );
@@ -891,8 +910,6 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
         recoil += enchantment_cache->modify_value( enchant_vals::mod::RECOIL_MODIFIER, 5.0 ) *
                   ( qty * ( 1.0 - absorb ) );
 
-        make_gun_sound_effect( *this, shots > 1, &gun );
-        sfx::generate_gun_sound( *this, gun );
         const itype_id current_ammo = gun.ammo_current();
 
         if( has_trait( trait_PYROMANIA ) && !has_morale( MORALE_PYROMANIA_STARTFIRE ) ) {
@@ -933,7 +950,9 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
     moves -= time_to_attack( *this, *gun_id );
 
     // Practice the base gun skill proportionally to number of hits, but always by one.
-    practice( skill_gun, ( hits + 1 ) * 5 );
+    if( !gun.has_flag( flag_WONT_TRAIN_MARKSMANSHIP ) ) {
+        practice( skill_gun, ( hits + 1 ) * 5 );
+    }
     // launchers train weapon skill for both hits and misses.
     int practice_units = gun_skill == skill_launcher ? curshot : hits;
     practice( gun_skill, ( practice_units + 1 ) * 5 );
@@ -977,7 +996,7 @@ int throw_cost( const Character &c, const item &to_throw )
     // Differences:
     // Dex is more (2x) important for throwing speed
     // At 10 skill, the cost is down to 0.75%, not 0.66%
-    const int base_move_cost = to_throw.attack_time() / 2;
+    const int base_move_cost = to_throw.attack_time( c ) / 2;
     const int throw_skill = std::min( MAX_SKILL, c.get_skill_level( skill_throw ) );
     ///\EFFECT_THROW increases throwing speed
     const int skill_cost = static_cast<int>( ( base_move_cost * ( 20 - throw_skill ) / 20 ) );
@@ -1546,11 +1565,12 @@ static recoil_prediction predict_recoil( const Character &you, const item &weapo
 
     // next loop simulates aiming until either aim mode threshold or sight_dispersion is reached
     do {
-        double aim_amount = you.aim_per_move( weapon, predicted_recoil, target );
-        if( aim_amount > 0 ) {
-            predicted_delay++;
-            predicted_recoil = std::max( predicted_recoil - aim_amount, 0.0 );
+        const double aim_amount = you.aim_per_move( weapon, predicted_recoil, target );
+        if( aim_amount <= MIN_RECOIL_IMPROVEMENT ) {
+            break;
         }
+        predicted_delay++;
+        predicted_recoil = std::max( predicted_recoil - aim_amount, 0.0 );
     } while( predicted_recoil > aim_mode.threshold && predicted_recoil > sight_dispersion );
 
     return { predicted_recoil, predicted_delay };
@@ -1864,7 +1884,6 @@ static int print_ranged_chance( const catacurses::window &w, int line_number,
 
             print_colored_text( w, point( 1, line_number++ ), col, col, desc );
 
-
             if( display_numbers ) {
                 const std::string line = enumerate_as_string( out.chances.cbegin(), out.chances.cend(),
                 []( const aim_type_prediction::aim_confidence & conf ) {
@@ -2129,6 +2148,8 @@ void make_gun_sound_effect( const Character &p, bool burst, item *weapon )
         sounds::sound( p.pos(), data.volume, sounds::sound_t::combat,
                        data.sound.empty() ? _( "Bang!" ) : data.sound );
     }
+    p.add_msg_if_player( _( "You shoot your %1$s.  %2$s" ), weapon->tname( 1, false, false ),
+                         uppercase_first_letter( data.sound ) );
 }
 
 item::sound_data item::gun_noise( const bool burst ) const
@@ -2264,7 +2285,6 @@ dispersion_sources Character::get_weapon_dispersion( const item &obj ) const
         dispersion.add_range( dispersion_from_skill( avgSkill,
                               300 / get_option< float >( "GUN_DISPERSION_DIVIDER" ) ) );
     }
-
 
     float disperation_mod = enchantment_cache->modify_value( enchant_vals::mod::WEAPON_DISPERSION,
                             1.0f );
@@ -2429,7 +2449,6 @@ target_handler::trajectory target_ui::run()
     on_out_of_scope cleanup( [&here, &player_character]() {
         here.invalidate_map_cache( player_character.pos().z + player_character.view_offset.z );
     } );
-    restore_on_out_of_scope<tripoint> view_offset_prev( player_character.view_offset );
 
     shared_ptr_fast<game::draw_callback_t> target_ui_cb = make_shared_fast<game::draw_callback_t>(
     [&]() {
@@ -2475,6 +2494,14 @@ target_handler::trajectory target_ui::run()
     src = you->pos();
     update_target_list();
 
+    if( activity && activity->abort_if_no_targets && targets.empty() ) {
+        // this branch is taken when already shot once and re-entered
+        // aiming, if no targets are available we want to abort so
+        // players don't arrive at aiming ui with nothing to shoot at.
+        activity->aborted = true;
+        traj.clear();
+        return traj;
+    }
     tripoint initial_dst = src;
     if( reentered ) {
         if( !try_reacquire_target( resume_critter, initial_dst ) ) {
@@ -2512,7 +2539,6 @@ target_handler::trajectory target_ui::run()
             activity->aif_duration += 1;
         }
     }
-
 
     // Event loop!
     ExitCode loop_exit_code;
@@ -2868,8 +2894,7 @@ bool target_ui::set_cursor_pos( const tripoint &new_pos )
 
     // Make player's sprite flip to face the current target
     point d( dst.xy() - src.xy() );
-    if( !tile_iso ) {
-
+    if( !g->is_tileset_isometric() ) {
         if( d.x > 0 ) {
             you->facing = FacingDirection::RIGHT;
         } else if( d.x < 0 ) {
@@ -3906,6 +3931,11 @@ bool gunmode_checks_common( avatar &you, const map &m, std::vector<std::string> 
                             const gun_mode &gmode )
 {
     bool result = true;
+    if( you.has_trait( trait_BRAWLER ) ) {
+        messages.push_back( string_format( _( "Pfft.  You are a brawler; using this %s is beneath you." ),
+                                           gmode->tname() ) );
+        result = false;
+    }
 
     // Check that passed gun mode is valid and we are able to use it
     if( !( gmode && you.can_use( *gmode ) ) ) {
