@@ -833,6 +833,9 @@
           "true": "Open doors to get where you're going.",
           "false": "Don't walk through closed doors."
         },
+        "topic": "TALK_MISC_RULES",
+        "effect": { "toggle_npc_rule": "avoid_doors" }
+      },
       {
         "truefalsetext": {
           "condition": { "npc_rule": "avoid_locks" },
@@ -841,9 +844,6 @@
         },
         "topic": "TALK_MISC_RULES",
         "effect": { "toggle_npc_rule": "avoid_locks" }
-      },
-        "topic": "TALK_MISC_RULES",
-        "effect": { "toggle_npc_rule": "avoid_doors" }
       },
       {
         "truefalsetext": {

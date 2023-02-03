@@ -312,6 +312,7 @@
     "volume": "300 ml",
     "price": 3000,
     "price_postapoc": 72
+  },
   {
     "type": "vehicle_part",
     "id": "veh_binoculars",
