@@ -2318,7 +2318,16 @@
     "harvest": "mutant_mammal_leather",
     "dissect": "dissect_subterranean_rodent_large",
     "families": [ "prof_intro_biology" ],
-    "special_attacks": [ [ "SHRIEK_ALERT", 10 ], [ "SHRIEK_STUN", 1 ], { "type": "bite", "cooldown": 6 }, [ "impale", 10 ] ],
+    "special_attacks": [
+      [ "SHRIEK_ALERT", 10 ],
+      [ "SHRIEK_STUN", 1 ],
+      {
+        "type": "bite",
+        "cooldown": 6,
+        "effects": [ { "id": "tetanus", "chance": 5, "duration": 2, "permanent": true } ]
+      },
+      [ "impale", 10 ]
+    ],
     "anger_triggers": [ "HURT", "SOUND", "STALK" ],
     "fear_triggers": [ "FIRE" ],
     "regenerates": 10,

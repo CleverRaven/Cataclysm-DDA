@@ -535,7 +535,8 @@
     "type": "recipe",
     "copy-from": "gloves_survivor_fingerless",
     "time": "30 m",
-    "components": [ [ [ "gloves_survivor", 1 ] ] ]
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "xs_gloves_survivor", 1 ] ] ]
   },
   {
     "result": "xl_gloves_survivor_fingerless",
@@ -562,7 +563,8 @@
     "type": "recipe",
     "copy-from": "gloves_lsurvivor_fingerless",
     "time": "30 m",
-    "components": [ [ [ "gloves_lsurvivor", 1 ] ] ]
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "xs_gloves_lsurvivor", 1 ] ] ]
   },
   {
     "result": "xl_gloves_lsurvivor_fingerless",
@@ -605,6 +607,7 @@
     "copy-from": "gloves_plate",
     "time": "7 h",
     "using": [ [ "blacksmithing_standard", 18 ], [ "steel_standard", 4 ], [ "clasps", 1 ], [ "strap_small", 1 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
   },
   {

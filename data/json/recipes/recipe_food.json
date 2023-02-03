@@ -3289,6 +3289,11 @@
     ],
     "tools": [ [ [ "surface_heat", 12, "LIST" ] ], [ [ "cotton_patchwork", -1 ] ] ],
     "//": "most of the work here is the straining, not the cooking. basing on https://www.liveeatlearn.com/5-minute-microwave-ricotta/ to get 300kJ in a microwave",
+    "proficiencies": [
+      { "proficiency": "prof_food_prep" },
+      { "proficiency": "prof_cheesemaking_1" },
+      { "proficiency": "prof_cheesemaking_2" }
+    ],
     "components": [ [ [ "milk_curdled", 2 ] ], [ [ "salt_water", 1 ], [ "saline", 1 ], [ "salt", 1 ], [ "seasoning_salt", 1 ] ] ]
   },
   {

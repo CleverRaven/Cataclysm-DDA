@@ -12,7 +12,7 @@
 <color_white>特别感谢：</color>
 <color_yellow>Aivean</color> - 程序优化
 <color_yellow>anothersimulacrum</color> - 疲劳系统
-<color_yellow>jbytheway</color> - For making me achieve things.
+<color_yellow>jbytheway2</color> - 为了让我做完东西。
 <color_yellow>BrettDong</color> - 翻译管理以及其他程序修正。
 <color_yellow>Qrox</color> - 定位并显示游戏程序错误信息
 <color_yellow>LyleSY</color> - 恐龙
@@ -51,13 +51,13 @@
 ******************************************************************************
 
 <color_white>主要开发者 （<color_cyan>0.D</color>）：</color>
-<color_yellow>KevinGranade</color>, <color_yellow>Rivet-the-Zombie</color>, <color_yellow>BevapDin</color>, <color_yellow>Coolthulu</color>, <color_yellow>i2amroy</color>
+<color_yellow>KevinGranade</color>，<color_yellow>Rivet-the-Zombie</color>，<color_yellow>BevapDin</color>，<color_yellow>Coolthulu</color>，<color_yellow>i2amroy</color>
 
 <color_white>特别感谢（<color_cyan>0.D</color>）：</color>
-<color_yellow>Narc</color> - For setting up the automatic Jenkins build-bot.
-<color_yellow>Acidia</color> - For wonderful NPC, Quest and Location contributions.
-<color_yellow>Wuzzy</color> and <color_yellow>VlasovVitaly</color> - For herculean translation efforts.
-<color_yellow>HuXTUS</color> - For a huge amount of amazing content.
+<color_yellow>Narc</color> - 用于设置自动Jenkins构建机器人。
+<color_yellow>Acidia</color> - 对于绝妙的NPC、任务和位置贡献。
+<color_yellow>Wuzzy</color>和<color_yellow>VlasovVitaly</color> - 巨大的翻译努力。
+<color_yellow>HuXTUS</color> - 大量惊人的内容。
 
 ******************************************************************************
 
@@ -65,10 +65,10 @@
 <color_yellow>KevinGranade</color>, <color_yellow>Rivet-the-Zombie</color>, <color_yellow>KA101</color>, <color_yellow>BevapDin</color>, <color_yellow>Coolthulu</color>, <color_yellow>i2amroy</color>
 
 <color_white>特别感谢（<color_cyan>0.C</color>）：</color>
-<color_yellow>Narc</color> - For setting up the automatic Jenkins build-bot.
-<color_yellow>Acidia</color> - For wonderful NPC, Quest and Location contributions.
-<color_yellow>Wuzzy</color> and <color_yellow>VlasovVitaly</color> - For herculean translation efforts.
-<color_yellow>HuXTUS</color> - For a huge amount of amazing content.
+<color_yellow>Narc</color> - 用于设置自动Jenkins构建机器人。
+<color_yellow>Acidia</color> - 对于绝妙的NPC、任务和位置贡献。
+<color_yellow>Wuzzy</color>和<color_yellow>VlasovVitaly</color> - 巨大的翻译努力。
+<color_yellow>HuXTUS</color> - 大量惊人的内容。
 
 ******************************************************************************
 
@@ -76,11 +76,11 @@
 <color_yellow>KevinGranade</color>, <color_yellow>Rivet-the-Zombie</color>, <color_yellow>KA101</color>, <color_yellow>BevapDin</color>
 
 <color_white>特别感谢（<color_cyan>0.B</color>）：</color>
-<color_yellow>Narc</color> - For setting up the automatic Jenkins build-bot.
-<color_yellow>Acidia</color> - For wonderful NPC, Quest and Location contributions.
-<color_yellow>Wuzzy</color> and <color_yellow>VlasovVitaly</color> - For herculean translation efforts.
-<color_yellow>i2amroy</color> - For several large infrastructural overhauls.
-<color_yellow>HuXTUS</color> - For a huge amount of amazing content.
+<color_yellow>Narc</color> - 用于设置自动Jenkins构建机器人。
+<color_yellow>Acidia</color> - 对于绝妙的NPC、任务和位置贡献。
+<color_yellow>Wuzzy</color>和<color_yellow>VlasovVitaly</color> - 巨大的翻译努力。
+<color_yellow>i2amroy</color> - 几次大型基础系统大修。
+<color_yellow>HuXTUS</color> - 大量惊人的内容。
 
 ******************************************************************************
 
@@ -88,11 +88,11 @@
 <color_yellow>KevinGranade</color>, <color_yellow>i2amroy</color>, <color_yellow>Rivet-the-Zombie</color>, <color_yellow>KA101</color>, <color_yellow>BevapDin</color>
 
 <color_white>特别感谢（<color_cyan>0.A</color>）：</color>
-<color_yellow>TheDarklingWolf</color> - For creating Cataclysm:DDA as we know it.
-<color_yellow>Narc</color> - For setting up the automatic Jenkins build-bot.
-<color_yellow>BevapDin</color> - For tireless bugfixing efforts.
-<color_yellow>dwarfkoala</color> - For a plethora of bug triage.
-<color_yellow>Ill-kun</color> - For countless UI cleanups.
+<color_yellow>TheDarklingWolf</color> - 创造了 大灾变：黑暗之日 ，就像我们知道的那样。
+<color_yellow>Narc</color> - 用于设置自动Jenkins构建机器人。
+<color_yellow>BevapDin</color> - 不懈的代码调试，修bug。
+<color_yellow>dwarfkoala</color> - 繁多的bug分类。
+<color_yellow>Ill-kun</color> - 无数UI清理。
 
 ******************************************************************************
 
@@ -100,10 +100,10 @@
 <color_yellow>KevinGranade</color>, <color_yellow>GalenEvil</color>, <color_yellow>i2amroy</color>, <color_yellow>AtomicDryad</color>, <color_yellow>Ianestrachan</color>
 
 <color_white>特别感谢（<color_cyan>0.9</color>）：</color>
-<color_yellow>TheDarklingWolf</color> - For creating Cataclysm:DDA as we know it.
-<color_yellow>Narc</color> - For setting up the automatic Jenkins build-bot.
-<color_yellow>yobbobanana</color> - For working as liason between translators and GitHub.
-<color_yellow>Angela 'Rivet' Graves</color>, Constant Creator of Cataclysmic Content.
+<color_yellow>TheDarklingWolf</color> - 创造了 大灾变：黑暗之日 ，就像我们知道的那样。
+<color_yellow>Narc</color> - 用于设置自动Jenkins构建机器人。
+<color_yellow>yobbobanana</color> - 作为translators和GitHub之间的联络人。
+<color_yellow>Angela 'Rivet' Graves</color>，灾难性内容的持续创造者。
 
 ******************************************************************************
 
@@ -111,6 +111,6 @@
 <color_yellow>Kevingranade</color>, <color_yellow>GalenEvil</color>, <color_yellow>i2amroy</color>, <color_yellow>AtomicDryad</color>, <color_yellow>Ozone</color>
 
 <color_white>特别感谢（<color_cyan>0.8</color>）：</color>
-<color_yellow>TheDarklingWolf</color> - For creating Cataclysm:DDA as we know it.
-<color_yellow>Narc</color> - For setting up the automatic Jenkins build-bot.
-<color_yellow>yobbobanana</color> - For working as liason between translators and GitHub.
+<color_yellow>TheDarklingWolf</color> - 创造了 大灾变：黑暗之日 ，就像我们知道的那样。
+<color_yellow>Narc</color> - 用于设置自动Jenkins构建机器人。
+<color_yellow>yobbobanana</color> - 作为translators和GitHub之间的联络人。

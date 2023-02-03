@@ -9,11 +9,13 @@
 #include <chrono>
 #include <csignal>
 #include <cstdlib>
+#include <functional>
 #include <iomanip> // IWYU pragma: keep
 #include <iostream>
 #include <iterator>
 #include <limits>
 #include <list>
+#include <locale>
 #include <map>
 #include <memory>
 #include <new>
@@ -97,6 +99,7 @@
 #include "stomach.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
+#include "tgz_archiver.h"
 #include "trait_group.h"
 #include "translations.h"
 #include "try_parse_integer.h"
@@ -207,6 +210,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::WRITE_TIMED_EVENTS: return "WRITE_TIMED_EVENTS";
         case debug_menu::debug_menu_index::SAVE_SCREENSHOT: return "SAVE_SCREENSHOT";
         case debug_menu::debug_menu_index::GAME_REPORT: return "GAME_REPORT";
+        case debug_menu::debug_menu_index::GAME_MIN_ARCHIVE: return "GAME_MIN_ARCHIVE";
         case debug_menu::debug_menu_index::DISPLAY_SCENTS_LOCAL: return "DISPLAY_SCENTS_LOCAL";
         case debug_menu::debug_menu_index::DISPLAY_SCENTS_TYPE_LOCAL: return "DISPLAY_SCENTS_TYPE_LOCAL";
         case debug_menu::debug_menu_index::DISPLAY_TEMP: return "DISPLAY_TEMP";
@@ -233,6 +237,98 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
 }
 
 } // namespace io
+
+namespace
+{
+struct fake_tripoint { // NOLINT(cata-xy)
+    int x = 0, y = 0, z = 0;
+};
+
+std::istream &operator>>( std::istream &is, fake_tripoint &pos )
+{
+    char c = 0;
+    is >> pos.x &&is.get( c ) &&c == '.' &&is >> pos.y &&is.get( c ) &&c == '.' &&is >> pos.z;
+    return is;
+}
+
+tripoint _from_fs_string( const std::string &s )
+{
+    std::istringstream is( s );
+    is.imbue( std::locale::classic() );
+    fake_tripoint result;
+    is >> result;
+    if( !is ) {
+        return tripoint_zero;
+    }
+    return { result.x, result.y, result.z };
+}
+
+using rdi_t = fs::recursive_directory_iterator;
+using f_validate_t = std::function<bool( fs::path const &dep, rdi_t &iter )>;
+
+bool _add_dir( tgz_archiver &tgz, fs::path const &root, f_validate_t const &validate = {} )
+{
+    fs::path const cnc = root.has_root_path() ?  fs::canonical( root ) : root;
+    fs::path const parent_cnc = cnc.parent_path();
+
+    for( auto iter = rdi_t( cnc ); iter != rdi_t(); ++iter ) {
+        fs::path const dep = iter->path().lexically_relative( parent_cnc );
+
+        if( validate && !validate( dep, iter ) ) {
+            continue;
+        }
+
+        if( !tgz.add_file( *iter, dep ) ) {
+            popup( _( "Failed to create minimized archive" ) );
+            return false;
+        }
+    }
+
+    return true;
+}
+
+bool _trim_mapbuffer( fs::path const &dep, rdi_t &iter, tripoint_range<tripoint> const &segs,
+                      point const &reg )
+{
+    // discard map memory outside of current region
+    if( dep.parent_path().extension() == ".mm1" &&
+        _from_fs_string( dep.stem().string() ).xy() != reg ) {
+        return false;
+    }
+    // discard map buffer outside of current and adjacent segments
+    if( dep.parent_path().filename() == "maps" &&
+        !segs.is_point_inside(
+            tripoint{ _from_fs_string( dep.filename().string() ).xy(), 0 } ) ) {
+        iter.disable_recursion_pending();
+        return false;
+    }
+    return true;
+}
+
+void write_min_archive()
+{
+    tripoint_abs_seg const seg = project_to<coords::seg>( get_avatar().get_location() );
+    tripoint_range<tripoint> const segs = points_in_radius( seg.raw(), 1 );
+    point sm = project_to<coords::sm>( get_avatar().get_location() ).raw().xy();
+    point const reg = sm_to_mmr_remain( sm.x, sm.y );
+
+    fs::path const save_root( PATH_INFO::world_base_save_path_path() );
+    std::string const ofile = save_root.string() + "-trimmed.tar.gz";
+
+    tgz_archiver tgz( ofile );
+
+    f_validate_t const mb_validate = [&segs, &reg]( fs::path const & dep, rdi_t & iter ) {
+        return _trim_mapbuffer( dep, iter, segs, reg );
+    };
+
+    if( _add_dir( tgz, save_root, mb_validate ) &&
+        _add_dir( tgz, fs::path( PATH_INFO::config_dir_path() ) ) ) {
+        tgz.finalize();
+        popup( string_format( _( "Minimized archive saved to %s" ), ofile ) );
+    }
+}
+
+} // namespace
 
 namespace debug_menu
 {
@@ -296,6 +392,7 @@ static int info_uilist( bool display_all_entries = true )
     std::vector<uilist_entry> uilist_initializer = {
         { uilist_entry( debug_menu_index::SAVE_SCREENSHOT, true, 'H', _( "Take screenshot" ) ) },
         { uilist_entry( debug_menu_index::GAME_REPORT, true, 'r', _( "Generate game report" ) ) },
+        { uilist_entry( debug_menu_index::GAME_MIN_ARCHIVE, true, '!', _( "Generate minimized save archive" ) ) },
     };
 
     if( display_all_entries ) {
@@ -494,7 +591,7 @@ static void spell_description(
 
     const int spl_level = std::get<1>( spl_data );
     spell spl( std::get<0>( spl_data ).id );
-    spl.set_level( spl_level );
+    spl.set_level( npc(), spl_level );
 
     nc_color gray = c_light_gray;
     nc_color yellow = c_yellow;
@@ -505,7 +602,6 @@ static void spell_description(
 
     // Name: spell name
     description << string_format( _( "Name: %1$s" ), colorize( spl.name(), c_white ) ) << '\n';
-
 
     // Class: Spell Class
     description << string_format( _( "Class: %1$s" ), colorize( spl.spell_class() == trait_NONE ?
@@ -531,7 +627,6 @@ static void spell_description(
                     //~ %1$d - difficulty, %2$s - failure chance
                     _( "Difficulty: %1$d (%2$s)" ),
                     spl.get_difficulty(), spl.colorized_fail_percent( chrc ) ) << '\n';
-
 
     const std::string impeded = _( "(impeded)" );
 
@@ -652,7 +747,6 @@ static void spell_description(
     // Range / AOE in two columns
     description << string_format( _( "Range: %1$s" ),
                                   spl.range() <= 0 ? _( "self" ) : std::to_string( spl.range() ) ) << '\n';
-
 
     description << aoe_string << '\n';
 
@@ -2800,7 +2894,7 @@ void debug()
             bodypart_id part;
             int dbg_damage;
             if( smenu.ret >= 0 && static_cast<std::size_t>( smenu.ret ) <= parts.size() ) {
-                part = parts.at( smenu.ret );
+                part = parts[smenu.ret];
             }
             if( query_int( dbg_damage, _( "Damage self for how much?  hp: %s" ), part.id().c_str() ) ) {
                 player_character.apply_damage( nullptr, part, dbg_damage );
@@ -3157,6 +3251,17 @@ void debug()
             popup( popup_msg );
         }
         break;
+        case debug_menu_index::GAME_MIN_ARCHIVE: {
+            g->quicksave();
+
+            static_popup popup;
+            popup.message( "%s", _( "Writing archive, this may take a while." ) );
+            ui_manager::redraw();
+            refresh_display();
+
+            write_min_archive();
+            break;
+        }
         case debug_menu_index::CHANGE_SPELLS:
             change_spells( player_character );
             break;

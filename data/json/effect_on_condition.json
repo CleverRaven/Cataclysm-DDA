@@ -73,6 +73,24 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "get_katana",
+    "global": true,
+    "effect": { "u_spawn_item": "katana" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "get_deagle_44",
+    "global": true,
+    "effect": { "u_spawn_item": "deagle_44" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "get_m4_carbine",
+    "global": true,
+    "effect": { "u_spawn_item": "m4_carbine" }
+  },
+  {
+    "type": "effect_on_condition",
     "id": "thunder",
     "recurrence": 1,
     "global": true,
@@ -309,7 +327,14 @@
     "type": "effect_on_condition",
     "id": "bio_itchy",
     "recurrence": [ "25 minutes", "1 hours 15 minutes" ],
-    "condition": { "and": [ { "u_has_bionics": "bio_itchy" }, { "not": { "u_has_effect": "formication" } } ] },
+    "condition": {
+      "and": [
+        { "u_has_bionics": "bio_itchy" },
+        { "not": { "u_has_effect": "formication" } },
+        { "not": { "u_has_effect": "narcosis" } },
+        { "not": { "and": [ { "u_has_effect": "sleep" }, { "u_has_bionics": "bio_sleep_shutdown" } ] } }
+      ]
+    },
     "deactivate_condition": { "not": { "u_has_bionics": "bio_itchy" } },
     "effect": [
       { "u_message": "Your malfunctioning bionic itches!", "type": "bad" },
@@ -382,11 +407,23 @@
     "eoc_type": "PREVENT_DEATH",
     "condition": { "u_has_trait": "PORTAL_RESURRECTION" },
     "effect": [
-      { "u_set_hp": 50, "only_increase": true },
+      { "u_set_hp": 50, "only_increase": true, "main_only": true },
+      { "u_set_hp": 0, "max": true, "minor_only": true },
       { "u_add_effect": "incorporeal", "duration": [ "5 minutes", "10 minutes" ] },
+      { "u_lose_effect": "jetinjector" },
+      { "u_lose_effect": "effect_adrenaline" },
+      { "u_lose_effect": "effect_drunk" },
+      { "u_lose_effect": "datura" },
+      { "u_lose_effect": "hypovolemia" },
+      { "u_lose_effect": "redcells_anemia" },
       { "u_lose_trait": "PORTAL_RESURRECTION" },
+      { "arithmetic": [ { "u_val": "stored_kcal" }, "=", { "u_val": "stored_kcal" } ], "min": 5000 },
+      { "arithmetic": [ { "u_val": "pkill" }, "=", { "u_val": "pkill" } ], "max": 200 },
+      { "arithmetic": [ { "u_val": "stim" }, "=", { "u_val": "stim" } ], "max": 200, "min": -100 },
       { "arithmetic": [ { "u_val": "pain" }, "=", { "const": 0 } ] },
+      { "arithmetic": [ { "u_val": "thirst" }, "=", { "const": 0 } ] },
       { "arithmetic": [ { "u_val": "fatigue" }, "=", { "const": 0 } ] },
+      { "arithmetic": [ { "u_val": "sleep_deprivation" }, "=", { "const": 0 } ] },
       {
         "u_message": "For an instant that is also an eternity, you exist only in an empty void.  Then you feel something vast, alien, and merciless reach through a preexisting connection to give you just enough energy to exist.  Its motives for doing so are not likely to be benign.",
         "popup": true
