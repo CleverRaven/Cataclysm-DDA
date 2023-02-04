@@ -2373,7 +2373,7 @@ cata::optional<tripoint> lockpick_activity_actor::select_location( avatar &you )
             return false;
         }
         return here.has_flag( ter_furn_flag::TFLAG_PICKABLE, p ) ||
-               ( vpart && vpart->vehicle().next_part_to_unlock(vpart->part_index() ) >= 0 );
+               ( vpart && vpart->vehicle().next_part_to_unlock( vpart->part_index() ) >= 0 );
     };
 
     cata::optional<tripoint> target = choose_adjacent_highlight(
