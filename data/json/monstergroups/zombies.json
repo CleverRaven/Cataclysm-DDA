@@ -819,12 +819,12 @@
     "monsters": [
       { "monster": "mon_zombie", "weight": 12 },
       { "monster": "mon_zombie_fat", "weight": 5 },
-      { "monster": "mon_zeriatric", "weight": 40, "pack_size": [ 3, 4 ] },
+      { "monster": "mon_zombie_rot", "weight": 40, "pack_size": [ 3, 4 ] },
       { "monster": "mon_zombie_crawler", "weight": 5 },
       { "monster": "mon_zombie_brainless", "weight": 5 },
       { "monster": "mon_zombie_medical", "weight": 20 },
       { "monster": "mon_boomer", "weight": 3 },
-      { "monster": "mon_feral_granny", "weight": 10 }
+      { "monster": "mon_feral_human_pipe", "weight": 3 }
     ]
   },
   {
@@ -844,13 +844,13 @@
       { "monster": "mon_zombie", "weight": 34 },
       { "monster": "mon_zombie_fat", "weight": 14 },
       { "monster": "mon_zombie_runner", "weight": 6 },
-      { "monster": "mon_zeriatric", "weight": 10, "pack_size": [ 2, 2 ] },
+      { "monster": "mon_zombie_rot", "weight": 10, "pack_size": [ 2, 2 ] },
       { "monster": "mon_zombie_crawler", "weight": 5 },
       { "monster": "mon_zombie_brainless", "weight": 5 },
       { "monster": "mon_zombie_child", "weight": 3 },
       { "monster": "mon_boomer", "weight": 5 },
       { "monster": "mon_zombie_dog", "weight": 5 },
-      { "monster": "mon_feral_granny", "weight": 10 },
+      { "monster": "mon_feral_human_pipe", "weight": 5 },
       { "monster": "mon_feral_human_crowbar", "weight": 3 }
     ]
   },
