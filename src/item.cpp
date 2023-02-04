@@ -10959,6 +10959,13 @@ int item::ammo_consume( int qty, const tripoint &pos, Character *carrier )
         qty -= contents.ammo_consume( qty, pos );
     }
 
+    // Dirty fix: activating a container of meds leads here, and used to use up all of the charges.
+    if( is_medication() && charges > 1 ) {
+        int charg_used = std::min( charges, qty );
+        charges -= charg_used;
+        qty -= charg_used;
+    }
+
     // Some weird internal non-item charges (used by grenades)
     if( is_tool() && type->tool->ammo_id.empty() ) {
         int charg_used = std::min( charges, qty );
