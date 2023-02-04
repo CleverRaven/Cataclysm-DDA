@@ -2368,11 +2368,12 @@ cata::optional<tripoint> lockpick_activity_actor::select_location( avatar &you )
 
     const std::function<bool( const tripoint & )> is_pickable = [&you]( const tripoint & p ) {
         const map &here = get_map();
+        const optional_vpart_position vpart = here.veh_at( p );
         if( p == you.pos() ) {
             return false;
         }
         return here.has_flag( ter_furn_flag::TFLAG_PICKABLE, p ) ||
-               ( here.veh_at( p ) && here.veh_at( p ).avail_part_with_feature( "LOCKABLE_DOOR" ) );
+               ( vpart && vpart->vehicle().next_part_to_unlock(vpart->part_index() ) >= 0 );
     };
 
     cata::optional<tripoint> target = choose_adjacent_highlight(
