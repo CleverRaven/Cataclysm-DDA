@@ -59,6 +59,8 @@ std::string enum_to_string<item_pocket::pocket_type>( item_pocket::pocket_type d
 constexpr units::volume pocket_data::max_volume_for_container;
 constexpr units::mass pocket_data::max_weight_for_container;
 
+std::vector<item_pocket::favorite_settings> item_pocket::pocket_presets;
+
 std::string pocket_data::check_definition() const
 {
     if( type == item_pocket::pocket_type::MOD ||
@@ -2122,7 +2124,6 @@ void item_pocket::add_preset( const item_pocket::favorite_settings &preset )
 
 void item_pocket::save_presets() const
 {
-    cata::ifstream fin;
     cata_path file = PATH_INFO::pocket_presets();
 
     write_to_file( file, [&]( std::ostream & fout ) {
@@ -2142,7 +2143,7 @@ std::vector<item_pocket::favorite_settings>::iterator item_pocket::find_preset(
     std::vector<item_pocket::favorite_settings>::iterator iter = std::find_if( pocket_presets.begin(),
             pocket_presets.end(),
     [&s]( const item_pocket::favorite_settings & preset ) {
-        return preset.get_preset_name() == s;
+        return preset.get_preset_name().value() == s;
     } );
     return iter;
 }
@@ -2425,7 +2426,7 @@ void item_pocket::favorite_settings::set_preset_name( const std::string &s )
     preset_name = s;
 }
 
-const std::string &item_pocket::favorite_settings::get_preset_name() const
+const cata::optional<std::string> &item_pocket::favorite_settings::get_preset_name() const
 {
     return preset_name;
 }
@@ -2450,7 +2451,10 @@ void item_pocket::favorite_settings::info( std::vector<iteminfo> &info ) const
         info.emplace_back( "BASE", string_format(
                                _( "Items in this pocket <bad>won't be unloaded</bad> unless you manually drop them." ) ) );
     }
-    info.emplace_back( "BASE", string_format( _( "Preset Name: %s" ), preset_name ) );
+    if( preset_name.value() != "" ) {
+        info.emplace_back( "BASE", string_format( _( "Preset Name: %s" ), preset_name.value() ) );
+    }
+
     info.emplace_back( "BASE", string_format( "%s %d", _( "Priority:" ), priority_rating ) );
     info.emplace_back( "BASE", string_format( _( "Item Whitelist: %s" ),
                        item_whitelist.empty() ? _( "(empty)" ) :
