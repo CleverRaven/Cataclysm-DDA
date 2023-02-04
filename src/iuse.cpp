@@ -1608,7 +1608,9 @@ cata::optional<int> iuse::petfood( Character *p, item *it, bool, const tripoint 
             return cata::nullopt;
         }
 
-        if( mon->is_hallucination() ) {
+        bool halluc = mon->is_hallucination();
+
+        if( halluc && one_in( 4 ) ) {
             p->add_msg_if_player( _( "You try to feed the %1$s some %2$s, but it vanishes!" ),
                                   mon->type->nname(), it->tname() );
             mon->die( nullptr );
@@ -1625,7 +1627,12 @@ cata::optional<int> iuse::petfood( Character *p, item *it, bool, const tripoint 
 
         mon->friendly = -1;
         mon->add_effect( effect_pet, 1_turns, true );
-        p->consume_charges( *it, 1 );
+        if( halluc ) {
+            item drop_me = p->reduce_charges( it, 1 );
+            p->i_drop_at( drop_me );
+        } else {
+            p->consume_charges( *it, 1 );
+        }
         return cata::nullopt;
     }
     p->add_msg_if_player( _( "There is nothing to be fed here." ) );
