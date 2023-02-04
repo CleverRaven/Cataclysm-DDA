@@ -242,7 +242,8 @@
         "encumbrance": 0,
         "coverage": 0,
         "covers": [ "hand_l", "hand_r" ],
-        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ]
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "rigid_layer_only": true
       }
     ],
     "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
@@ -383,7 +384,8 @@
         "encumbrance": 0,
         "coverage": 0,
         "covers": [ "hand_l", "hand_r" ],
-        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ]
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "rigid_layer_only": true
       }
     ],
     "flags": [ "NO_WEAR_EFFECT", "SKINTIGHT" ]
@@ -1275,7 +1277,14 @@
     "symbol": "[",
     "color": "white",
     "sided": true,
-    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ],
+    "armor": [
+      {
+        "coverage": 0,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "rigid_layer_only": true
+      }
+    ],
     "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
   },
   {
@@ -1291,7 +1300,14 @@
     "symbol": "[",
     "color": "yellow",
     "sided": true,
-    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ],
+    "armor": [
+      {
+        "coverage": 0,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "rigid_layer_only": true
+      }
+    ],
     "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
   },
   {
@@ -1307,7 +1323,14 @@
     "symbol": "[",
     "color": "light_gray",
     "sided": true,
-    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ],
+    "armor": [
+      {
+        "coverage": 0,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "rigid_layer_only": true
+      }
+    ],
     "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
   },
   {
@@ -1323,7 +1346,14 @@
     "symbol": "[",
     "color": "yellow",
     "sided": true,
-    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ],
+    "armor": [
+      {
+        "coverage": 0,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "rigid_layer_only": true
+      }
+    ],
     "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
   },
   {
@@ -1339,7 +1369,14 @@
     "symbol": "[",
     "color": "yellow",
     "sided": true,
-    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ],
+    "armor": [
+      {
+        "coverage": 0,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "rigid_layer_only": true
+      }
+    ],
     "flags": [ "SUPER_FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
   },
   {
@@ -1410,7 +1447,14 @@
     "symbol": "[",
     "color": "light_gray",
     "sided": true,
-    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ],
+    "armor": [
+      {
+        "coverage": 0,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "rigid_layer_only": true
+      }
+    ],
     "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
   },
   {
@@ -2066,7 +2110,14 @@
     "symbol": "[",
     "color": "red",
     "sided": true,
-    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ],
+    "armor": [
+      {
+        "coverage": 0,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "rigid_layer_only": true
+      }
+    ],
     "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
   },
   {
@@ -2198,7 +2249,14 @@
     "color": "red",
     "sided": true,
     "flags": [ "FANCY", "NO_WEAR_EFFECT" ],
-    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ]
+    "armor": [
+      {
+        "coverage": 0,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "rigid_layer_only": true
+      }
+    ]
   },
   {
     "id": "amethyst_silver_ring",
@@ -2359,7 +2417,14 @@
     "color": "red",
     "sided": true,
     "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ],
-    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ]
+    "armor": [
+      {
+        "coverage": 0,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "rigid_layer_only": true
+      }
+    ]
   },
   {
     "id": "amethyst_platinum_ring",
