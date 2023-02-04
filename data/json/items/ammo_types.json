@@ -535,6 +535,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "liq_bandage",
+    "name": "liquid bandage",
+    "default": "liq_bandage"
+  },
+  {
+    "type": "ammunition_type",
     "id": "stimpack_ammo",
     "name": "stimulant module",
     "default": "stimpack_ammo"

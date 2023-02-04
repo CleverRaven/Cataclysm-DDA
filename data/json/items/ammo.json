@@ -1093,6 +1093,23 @@
   },
   {
     "type": "AMMO",
+    "id": "liq_bandage",
+    "category": "drugs",
+    "price": 200,
+    "price_postapoc": 40,
+    "name": { "str_sp": "liquid bandage" },
+    "symbol": "=",
+    "color": "white",
+    "description": "A polymer dissolved in solvent, with antiseptic added, for topical treatment of minor cuts and scrapes.",
+    "material": [ "water" ],
+    "volume": "10 ml",
+    "weight": "33 mg",
+    "count": 30,
+    "phase": "liquid",
+    "ammo_type": "liq_bandage"
+  },
+  {
+    "type": "AMMO",
     "id": "rebreather_filter",
     "category": "spare_parts",
     "price": 2500,
