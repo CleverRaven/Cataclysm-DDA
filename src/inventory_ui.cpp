@@ -77,6 +77,24 @@ void debug_print_timer( startup_timer const &tp, std::string const &msg = "inv_u
     add_msg_debug( debugmode::DF_GAME, "%s: %i ms", msg, ( tp_now - tp ).count() );
 }
 
+using item_name_t = std::pair<std::string, std::string>;
+using name_cache_t = std::unordered_map<item const *, item_name_t>;
+name_cache_t item_name_cache;
+int item_name_cache_users = 0;
+
+item_name_t &get_cached_name( item const *it )
+{
+    auto iter = item_name_cache.find( it );
+    if( iter == item_name_cache.end() ) {
+        return item_name_cache
+               .emplace( it, item_name_t{ remove_color_tags( it->tname( 1, false, 0, true, false ) ),
+                                          remove_color_tags( it->tname( 1, true, 0, true, false ) ) } )
+               .first->second;
+    }
+
+    return iter->second;
+}
+
 // get topmost visible parent in an unbroken chain
 item *get_topmost_parent( item *topmost, item_location loc,
                           inventory_selector_preset const &preset )
@@ -543,8 +561,9 @@ nc_color inventory_entry::get_invlet_color() const
 
 void inventory_entry::update_cache()
 {
-    cached_name = remove_color_tags( any_item()->tname( 1, false, 0, true, false ) );
-    cached_name_full = remove_color_tags( any_item()->tname( 1, true, 0, true, false ) );
+    item_name_t &names = get_cached_name( &*any_item() );
+    cached_name = &names.first;
+    cached_name_full = &names.second;
 }
 
 const item_category *inventory_entry::get_category_ptr() const
@@ -616,7 +635,7 @@ bool inventory_selector_preset::sort_compare( const inventory_entry &lhs,
         const inventory_entry &rhs ) const
 {
     auto const sort_key = []( inventory_entry const & e ) {
-        return std::make_tuple( e.cached_name, e.cached_name_full, e.generation );
+        return std::make_tuple( *e.cached_name, *e.cached_name_full, e.generation );
     };
     return localized_compare( sort_key( lhs ), sort_key( rhs ) );
 }
@@ -2463,6 +2482,7 @@ inventory_selector::inventory_selector( Character &u, const inventory_selector_p
     , _uimode( preset.save_state == nullptr ? inventory_sel_default_state.uimode :
                preset.save_state->uimode )
 {
+    item_name_cache_users++;
     tp_start =
         std::chrono::time_point_cast<std::chrono::milliseconds>( std::chrono::system_clock::now() );
     ctxt.register_action( "DOWN", to_translation( "Next item" ) );
@@ -2500,6 +2520,10 @@ inventory_selector::inventory_selector( Character &u, const inventory_selector_p
 
 inventory_selector::~inventory_selector()
 {
+    item_name_cache_users--;
+    if( item_name_cache_users <= 0 ) {
+        item_name_cache.clear();
+    }
     if( preset.save_state == nullptr ) {
         inventory_sel_default_state.uimode = _uimode;
     } else {

@@ -69,8 +69,8 @@ class inventory_entry
 
         size_t chosen_count = 0;
         int custom_invlet = INT_MIN;
-        std::string cached_name;
-        std::string cached_name_full;
+        std::string *cached_name = nullptr;
+        std::string *cached_name_full = nullptr;
 
         inventory_entry() = default;
 
