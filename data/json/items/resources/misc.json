@@ -282,5 +282,37 @@
     "material": [ "rubber", "steel" ],
     "symbol": "o",
     "color": "dark_gray"
+  },
+  {
+    "type": "GENERIC",
+    "id": "claw_raptor",
+    "name": { "str": "raptor talon" },
+    "description": "a fossilized example of a raptor’s large, sickle-shaped toe claw, likely salvaged from the skeletal resident of a pre-Cataclysm museum.  Smaller than your palm and viciously hooked, its utility in a world where humanity is nearly as extinct as the species this talon came from is questionable at best.",
+    "weight": "680 g",
+    "volume": "150 ml",
+    "longest_side": "13 cm",
+    "color": "dark_gray",
+    "symbol": ",",
+    "material": [ "stone" ],
+    "price": 1000,
+    "price_postapoc": 0
+  },
+  {
+    "type": "GENERIC",
+    "id": "tooth_tyrannosaur",
+    "name": { "str": "Tyrannosaur fang" },
+    "description": "a fossilized example of a raptor’s large, sickle-shaped toe claw, likely salvaged from the skeletal resident of a pre-Cataclysm museum.  Somewhat smaller than your palm and viciously hooked, its utility in a world where humanity is nearly as extinct as the species this claw came from is questionable at best.",
+    "weight": "929 g",
+    "volume": "250 ml",
+    "longest_side": "12 cm",
+    "to_hit": -1,
+    "color": "dark_gray",
+    "symbol": ",",
+    "material": [ "flesh" ],
+    "cutting": 8,
+    "flags": [ "SPEAR", "SHEATH_KNIFE" ],
+    "weapon_category": [ "SHIVS" ],
+    "price": 1000,
+    "price_postapoc": 0
   }
 ]

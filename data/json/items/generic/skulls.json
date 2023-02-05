@@ -225,7 +225,7 @@
   {
     "type": "GENERIC",
     "id": "skull_gorgosaurus_libratus",
-    "name": { "str": "Gorgosaurus skull" },
+   "name": { "str": "Gorgosaurus skull" },
     "description": "Similar in general shape to the characteristic skulls of fellow tyrannosaurs, this massive cranium once belonged to a Gorgosaurus.  Possessing a blunted muzzle and a small crest that rises above and in front of each of the circular eye sockets, the skull is both longer and lower than those found on most large therapods related to it.",
     "flags": [ "TRADER_AVOID" ],
     "category": "spare_parts",
@@ -238,7 +238,7 @@
     "color": "white",
     "price": 40,
     "price_postapoc": 40,
-    "material": [ "bone" ]
+    "material": [ "stone" ]
   },
   {
     "type": "GENERIC",
@@ -281,7 +281,7 @@
     "color": "white",
     "price": 40,
     "price_postapoc": 40,
-    "material": [ "bone" ]
+    "material": [ "stone" ]
   },
   {
     "type": "GENERIC",
@@ -307,7 +307,7 @@
     "color": "white",
     "price": 40,
     "price_postapoc": 40,
-    "material": [ "bone" ]
+    "material": [ "stone" ]
   },
   {
     "type": "GENERIC",
