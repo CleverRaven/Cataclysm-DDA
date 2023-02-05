@@ -1874,7 +1874,7 @@
   {
     "id": "mon_dog_gswiss_pup",
     "type": "MONSTER",
-    "name": { "str": "greater swiss puppy", "str_pl": "greater swiss puppies" },
+    "name": { "str": "Greater Swiss puppy", "str_pl": "Greater Swiss puppies" },
     "description": "An adorable, defenseless Greater Swiss puppy.  Much safer to tame than an adult dog.",
     "default_faction": "dog",
     "bodytype": "dog",
