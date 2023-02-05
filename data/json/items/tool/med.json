@@ -1,7 +1,7 @@
 [
   {
     "id": "adhesive_bandages",
-    "type": "TOOL",
+    "type": "GENERIC",
     "category": "drugs",
     "name": { "str": "adhesive bandage" },
     "description": "A small medical dressing made of a piece of sterile cloth and sticky tape, used for small injuries not serious enough to require a full-size bandage.",
@@ -17,7 +17,7 @@
   },
   {
     "id": "alcohol_wipes",
-    "type": "TOOL",
+    "type": "GENERIC",
     "category": "drugs",
     "name": { "str_sp": "alcohol wipe" },
     "description": "A wet wipe saturated with alcohol and stored in a sterile package.  Used for personal hygiene or disinfecting small wounds.",
@@ -51,7 +51,7 @@
   },
   {
     "id": "bandages",
-    "type": "TOOL",
+    "type": "GENERIC",
     "category": "drugs",
     "name": { "str": "bandage" },
     "description": "A sterile cloth bandage.  Used for stopping blood loss and protecting wounds from aggravation to help them heal faster.",
@@ -67,7 +67,7 @@
   },
   {
     "id": "bandages_makeshift",
-    "type": "TOOL",
+    "type": "GENERIC",
     "name": { "str": "makeshift bandage" },
     "copy-from": "bandages",
     "description": "A reasonably clean piece of cloth wrapped for use as a simple bandage.  Better than nothing.",
@@ -79,7 +79,7 @@
   },
   {
     "id": "bandages_makeshift_bleached",
-    "type": "TOOL",
+    "type": "GENERIC",
     "name": { "str": "bleached makeshift bandage" },
     "copy-from": "bandages_makeshift",
     "description": "A piece of cloth treated with a bleach solution to sterilize it for use as a bandage.",
@@ -89,7 +89,7 @@
   },
   {
     "id": "bandages_makeshift_boiled",
-    "type": "TOOL",
+    "type": "GENERIC",
     "name": { "str": "boiled makeshift bandage" },
     "copy-from": "bandages_makeshift",
     "description": "A piece of cloth boiled in water to sterilize it for use as a bandage.",
@@ -99,7 +99,7 @@
   },
   {
     "id": "cotton_ball",
-    "type": "TOOL",
+    "type": "GENERIC",
     "name": { "str_sp": "cotton balls" },
     "description": "Fluffy balls of clean, white cotton.  They can serve as makeshift bandages in an emergency.",
     "category": "spare_parts",
@@ -116,7 +116,7 @@
   },
   {
     "id": "disinrag",
-    "type": "TOOL",
+    "type": "GENERIC",
     "category": "drugs",
     "name": { "str": "antiseptic soaked rag" },
     "description": "A rag soaked in antiseptic.  Useful for light wounds, probably won't help with deep bites.",
@@ -139,7 +139,7 @@
   },
   {
     "id": "disincotton_ball",
-    "type": "TOOL",
+    "type": "GENERIC",
     "category": "drugs",
     "name": { "str_sp": "antiseptic soaked cotton balls" },
     "description": "Fluffy balls of clean white cotton.  Now that they've been soaked with antiseptic, they are somewhat useful to disinfect a wound.",
@@ -188,7 +188,7 @@
   },
   {
     "id": "medical_gauze",
-    "type": "TOOL",
+    "type": "GENERIC",
     "category": "drugs",
     "name": { "str": "medical gauze" },
     "description": "A decent-sized piece of cotton, sterilized and sealed.  It's designed for medical purposes.",

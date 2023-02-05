@@ -5756,15 +5756,15 @@ void firstaid_activity_actor::finish( player_activity &act, Character &who )
     int charges_consumed = actor->finish_using( who, *patient,
                            *used_tool, healed );
     std::list<item>used;
-    if( used_tool->is_medication() ) {
+    if( used_tool->has_flag( flag_SINGLE_USE ) ) {
+        it.remove_item();
+    } else if( used_tool->is_medication() ) {
         if( it->use_charges( it->typeId(), charges_consumed, used, it.position() ) ) {
             it.remove_item();
         }
     } else if( used_tool->is_tool() ) {
         if( used_tool->type->charges_to_use() ) {
             it->activation_consume( charges_consumed, it.position(), &who );
-        } else if( used_tool->has_flag( flag_SINGLE_USE ) ) {
-            it.remove_item();
         }
     }
 
