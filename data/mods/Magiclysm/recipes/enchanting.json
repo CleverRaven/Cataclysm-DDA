@@ -45,7 +45,7 @@
   },
    {
     "type": "recipe",
-	"copy-from": "cestus_plus_one",
+    "copy-from": "cestus_plus_one",
     "qualities": [ { "id": "MANA_INFUSE", "level": 1 } ],
     "result": "crowbar_plus_two",
     "components": [ [ [ "crowbar_plus_one", 1 ] ], [ [ "mana_dust", 20 ] ] ]
