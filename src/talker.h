@@ -486,6 +486,9 @@ class talker
         virtual bool has_item_with_flag( const flag_id & ) const {
             return false;
         }
+        virtual int item_rads( const flag_id &, aggregate_type ) const {
+            return 0;
+        }
         virtual units::energy power_cur() const {
             return 0_kJ;
         }
