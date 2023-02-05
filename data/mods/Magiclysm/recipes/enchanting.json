@@ -24,7 +24,7 @@
   },
    {
     "type": "recipe",
-	"copy-from": "cestus_plus_one",
+    "copy-from": "cestus_plus_one",
     "qualities": [ { "id": "MANA_INFUSE", "level": 1 } ],
     "result": "flaming_fist_plus_one",
     "components": [ [ [ "flaming_fist", 1 ] ], [ [ "mana_dust", 20 ] ] ]
