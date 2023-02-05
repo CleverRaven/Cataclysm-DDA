@@ -1749,8 +1749,8 @@
   {
     "id": "mon_bigdog_gottweiler",
     "type": "MONSTER",
-    "name": { "str": "gottweiler" },
-    "description": "This rottweiler has grown to the proportions of a cow.  Its short fur is riddled with scars and the hide underneath has grown thick and leathery.",
+    "name": { "str": "Gottweiler" },
+    "description": "This Rottweiler has grown to the proportions of a cow.  Its short fur is riddled with scars and the hide underneath has grown thick and leathery.",
     "//": "For mutated dogs, trying to exaggerate what they were good at",
     "default_faction": "dog",
     "bodytype": "dog",
@@ -1785,17 +1785,12 @@
     "//2": "Given the way bigger pups, decreased their number and increased gestation time",
     "biosignature": { "biosig_item": "feces_dog", "biosig_timer": 2 },
     "zombify_into": "mon_dog_zombie_brute",
-    "petfood": {
-      "food": [ "DOGFOOD" ],
-      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
-      "pet": "The %s happily wags its tail while you pat their head."
-    },
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PET_MOUNTABLE", "CANPLAY", "PATH_AVOID_DANGER_1", "WARM" ]
   },
   {
     "id": "mon_bigdog_gottweiler_pup",
     "type": "MONSTER",
-    "name": { "str": "gottweiler puppy", "str_pl": "gottweiler puppies" },
+    "name": { "str": "Gottweiler puppy", "str_pl": "Gottweiler puppies" },
     "description": "An adorable, defenseless Gottweiler puppy.  Much safer to tame than an adult dog, in spite of its already impressive size.",
     "default_faction": "dog",
     "bodytype": "dog",
@@ -1835,7 +1830,7 @@
     "id": "mon_dog_gswiss",
     "copy-from": "mon_dog",
     "type": "MONSTER",
-    "name": { "str": "greater swiss", "str_pl": "greater swiss" },
+    "name": { "str_sp": "Greater Swiss" },
     "description": "The biggest of four breeds of Swiss mountain dogs.  The Greater Swiss mountain dog was originally meant to pull carts, herd cattle and guard the homestead.  This one seems feral, but perhaps you could try taming it?",
     "volume": "55000 ml",
     "weight": "55 kg",
@@ -1874,7 +1869,7 @@
   {
     "id": "mon_dog_gswiss_pup",
     "type": "MONSTER",
-    "name": { "str": "greater swiss puppy", "str_pl": "greater swiss puppies" },
+    "name": { "str": "Greater Swiss puppy", "str_pl": "Greater Swiss puppies" },
     "description": "An adorable, defenseless Greater Swiss puppy.  Much safer to tame than an adult dog.",
     "default_faction": "dog",
     "bodytype": "dog",
@@ -1911,7 +1906,7 @@
   {
     "id": "mon_bigdog_greatestswiss",
     "type": "MONSTER",
-    "name": { "str": "greatest swiss", "str_pl": "greatest swiss" },
+    "name": { "str_sp": "Greatest Swiss" },
     "description": "This dog is absolutely massive.  It would be big enough to pull a full-sized car.  It might even be ridable.  However, it does appear to be fiercely protective of the other dogs around it.",
     "//": "For mutated dogs, trying to exaggerate what they were good at",
     "default_faction": "dog",
@@ -1935,7 +1930,7 @@
     "armor_elec": 1,
     "dodge": 2,
     "armor_bash": 2,
-    "anger_triggers": [ "HURT", "PLAYER_NEAR_BABY", "FRIEND_ATTACKED" ],
+    "anger_triggers": [ "HURT", "PLAYER_NEAR_BABY", "FRIEND_ATTACKED", "PLAYER_CLOSE" ],
     "harvest": "dog_with_skull_leather",
     "dissect": "dissect_lupine_sample_single",
     "families": [ "prof_intro_biology" ],
@@ -1943,17 +1938,12 @@
     "//2": "Given the way bigger pups, decreased their number and increased gestation time",
     "biosignature": { "biosig_item": "feces_dog", "biosig_timer": 2 },
     "zombify_into": "mon_dog_zombie_brute",
-    "petfood": {
-      "food": [ "DOGFOOD" ],
-      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
-      "pet": "The %s happily wags its tail while you pat their head."
-    },
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PET_MOUNTABLE", "CANPLAY", "PATH_AVOID_DANGER_1", "WARM" ]
   },
   {
     "id": "mon_bigdog_greatestswiss_pup",
     "type": "MONSTER",
-    "name": { "str": "greatest swiss puppy", "str_pl": "greatest swiss puppies" },
+    "name": { "str": "Greatest Swiss puppy", "str_pl": "Greatest Swiss puppies" },
     "description": "An adorable, defenseless Greatest Swiss puppy.  Much safer to tame than an adult dog, in spite of its already impressive size.",
     "default_faction": "dog",
     "bodytype": "dog",
