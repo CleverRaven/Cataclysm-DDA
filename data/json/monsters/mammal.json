@@ -1911,7 +1911,7 @@
   {
     "id": "mon_bigdog_greatestswiss",
     "type": "MONSTER",
-    "name": { "str": "greatest swiss", "str_pl": "greatest swiss" },
+    "name": { "str": "Greatest Swiss", "str_pl": "Greatest Swiss" },
     "description": "This dog is absolutely massive.  It would be big enough to pull a full-sized car.  It might even be ridable.  However, it does appear to be fiercely protective of the other dogs around it.",
     "//": "For mutated dogs, trying to exaggerate what they were good at",
     "default_faction": "dog",
