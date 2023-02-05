@@ -2217,7 +2217,7 @@ units::volume pocket_data::max_contains_volume() const
 
 void item_pocket::favorite_settings::clear()
 {
-    preset_name = std::string();
+    preset_name = cata::nullopt;
     priority_rating = 0;
     item_whitelist.clear();
     item_blacklist.clear();
@@ -2451,7 +2451,7 @@ void item_pocket::favorite_settings::info( std::vector<iteminfo> &info ) const
         info.emplace_back( "BASE", string_format(
                                _( "Items in this pocket <bad>won't be unloaded</bad> unless you manually drop them." ) ) );
     }
-    if( preset_name.value() != "" ) {
+    if( preset_name.has_value() ) {
         info.emplace_back( "BASE", string_format( _( "Preset Name: %s" ), preset_name.value() ) );
     }
 
