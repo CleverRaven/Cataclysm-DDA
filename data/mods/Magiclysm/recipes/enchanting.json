@@ -10,7 +10,7 @@
     "time": "3 h",
     "autolearn": false,
     "reversible": false,
-	"book_learn": [ [ "weapon_enchanting_guide", 4 ] ],
+    "book_learn": [ [ "weapon_enchanting_guide", 4 ] ],
     "qualities": [ { "id": "MANA_INFUSE", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_weapon_enchanting" } ],
     "components": [ [ [ "cestus", 1 ] ], [ [ "mana_dust", 20 ] ] ]
