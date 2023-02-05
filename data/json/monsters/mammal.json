@@ -1749,8 +1749,8 @@
   {
     "id": "mon_bigdog_gottweiler",
     "type": "MONSTER",
-    "name": { "str": "gottweiler" },
-    "description": "This rottweiler has grown to the proportions of a cow.  Its short fur is riddled with scars and the hide underneath has grown thick and leathery.",
+    "name": { "str": "Gottweiler" },
+    "description": "This Rottweiler has grown to the proportions of a cow.  Its short fur is riddled with scars and the hide underneath has grown thick and leathery.",
     "//": "For mutated dogs, trying to exaggerate what they were good at",
     "default_faction": "dog",
     "bodytype": "dog",
