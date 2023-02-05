@@ -500,7 +500,7 @@
     "id": "acorn_roasted",
     "name": { "str_sp": "roasted acorns" },
     "copy-from": "acorns",
-    "description": "A handful of roasted nuts from an oak tree.",
+    "description": "A handful of shelled and roasted acorns.  Soaked, boiled and roasted.  There's hardly any bitterness left.",
     "price": 90,
     "price_postapoc": 200,
     "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
