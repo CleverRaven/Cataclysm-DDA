@@ -1953,7 +1953,7 @@
   {
     "id": "mon_bigdog_greatestswiss_pup",
     "type": "MONSTER",
-    "name": { "str": "greatest swiss puppy", "str_pl": "greatest swiss puppies" },
+    "name": { "str": "Greatest Swiss puppy", "str_pl": "Greatest Swiss puppies" },
     "description": "An adorable, defenseless Greatest Swiss puppy.  Much safer to tame than an adult dog, in spite of its already impressive size.",
     "default_faction": "dog",
     "bodytype": "dog",
