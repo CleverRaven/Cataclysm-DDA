@@ -453,7 +453,7 @@
       { "item": "disinfectant" },
       { "item": "saline" },
       { "item": "adhesive_bandages", "count": 6 },
-      { "item": "bandages", "charges": 3 },
+      { "item": "bandages", "count": 3 },
       { "item": "medical_gauze", "count": 6 },
       { "item": "booklet_firstaid" },
       { "item": "scissors" }
@@ -465,8 +465,8 @@
     "subtype": "collection",
     "container-item": "ipok",
     "items": [
-      { "item": "medical_gauze", "charges": 3 },
-      { "item": "bandages", "charges": 1 },
+      { "item": "medical_gauze", "count": 3 },
+      { "item": "bandages", "count": 1 },
       { "item": "gloves_medical" },
       { "item": "tourniquet_upper" }
     ]
@@ -482,7 +482,7 @@
       { "item": "disinfectant", "charges": [ 0, 5 ] },
       { "item": "saline", "prob": 60 },
       { "item": "adhesive_bandages", "count": [ 0, 6 ] },
-      { "item": "bandages", "charges": [ 0, 3 ] },
+      { "item": "bandages", "count": [ 0, 3 ] },
       { "item": "medical_gauze", "count": [ 0, 6 ] },
       { "item": "booklet_firstaid", "prob": 50 },
       { "item": "scissors", "prob": 50 }
@@ -511,7 +511,7 @@
       { "item": "medical_tape", "charges": 20 },
       { "item": "tourniquet_upper" },
       { "item": "quikclot", "charges": 5 },
-      { "item": "bandages", "charges": 3, "count": 3 },
+      { "item": "bandages", "count": 9 },
       { "item": "medical_gauze", "count": 3 },
       { "item": "adhesive_bandages", "count": 3 },
       { "item": "pur_tablets", "container-item": "bottle_plastic_small", "charges": [ 0, 3 ] },
@@ -528,7 +528,7 @@
       { "item": "medical_tape", "charges": [ 0, 20 ] },
       { "item": "tourniquet_upper", "prob": 20 },
       { "item": "quikclot", "charges": [ 0, 5 ] },
-      { "item": "bandages", "charges": [ 0, 3 ], "count": [ 0, 3 ] },
+      { "item": "bandages", "count": [ 0, 9 ] },
       { "item": "medical_gauze", "count": [ 0, 3 ] },
       { "item": "adhesive_bandages", "count": [ 0, 3 ] },
       { "item": "pur_tablets", "container-item": "bottle_plastic_small", "charges": [ 0, 3 ] },
@@ -711,7 +711,7 @@
       [ "stand_ring_clamps", 5 ],
       [ "syringe", 4 ],
       [ "xacto", 4 ],
-      { "item": "cotton_ball", "prob": 4, "charges": [ 1, 10 ] },
+      { "item": "cotton_ball", "prob": 4, "count": [ 1, 10 ] },
       { "group": "ammo_any_batteries_full", "prob": 50 },
       [ "acetylene_machine", 1 ],
       { "group": "writing_utensils", "prob": 5 }

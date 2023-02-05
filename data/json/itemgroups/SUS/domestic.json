@@ -662,7 +662,7 @@
       { "item": "soap", "count": [ 1, 4 ], "prob": 75, "charges": [ 1, 10 ] },
       { "item": "soap_holder", "prob": 40 },
       { "item": "razor_shaving", "count": [ 1, 2 ], "prob": 20 },
-      { "item": "cotton_ball", "prob": 50 },
+      { "item": "cotton_ball", "prob": 50, "count": [ 1, 10 ] },
       { "item": "comb_lice", "prob": 2 },
       { "item": "bleach", "prob": 15, "charges-min": 1 },
       { "item": "ammonia_hydroxide", "prob": 20, "charges-min": 1 },
@@ -693,7 +693,7 @@
       { "item": "pepto", "prob": 70, "charges-min": 1, "container-item": "bottle_plastic_small" },
       { "item": "inhaler", "prob": 25, "charges-min": 10, "charges-max": 100 },
       { "item": "disinfectant", "prob": 40, "charges-min": 1 },
-      { "item": "alcohol_wipes", "prob": 60, "charges": [ 1, 40 ] },
+      { "item": "alcohol_wipes", "prob": 60, "count": [ 1, 40 ] },
       {
         "distribution": [
           { "item": "pills_sleep", "prob": 60, "charges": [ 1, 10 ] },
@@ -708,7 +708,7 @@
       {
         "distribution": [
           { "item": "adhesive_bandages", "prob": 30, "count": [ 1, 20 ] },
-          { "item": "bandages", "prob": 30, "charges": [ 1, 6 ] },
+          { "item": "bandages", "prob": 30, "count": [ 1, 6 ] },
           { "item": "medical_gauze", "prob": 20 },
           { "group": "full_1st_aid", "prob": 10 }
         ],

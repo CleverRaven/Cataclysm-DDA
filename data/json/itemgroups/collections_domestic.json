@@ -254,7 +254,7 @@
       [ "novel_romance", 40 ],
       [ "novel_mystery", 40 ],
       [ "glasses_bifocal", 20 ],
-      [ "cotton_ball", 20 ],
+      { "item": "cotton_ball", "prob": 20, "count": [ 1, 10 ] },
       [ "contacts", 20 ],
       { "item": "pride_flag", "prob": 5 },
       { "item": "vitamins", "prob": 20, "charges": [ 1, 20 ] },
