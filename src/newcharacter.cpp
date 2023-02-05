@@ -2185,6 +2185,7 @@ void set_profession( tab_manager &tabs, avatar &u, pool_type pool )
             if( !profession_sorter.sort_by_points ) {
                 std::sort( sorted_profs.begin(), sorted_profs.end(), profession_sorter );
             }
+            recalc_profs = true;
         } else if( action == "SORT" ) {
             profession_sorter.sort_by_points = !profession_sorter.sort_by_points;
             recalc_profs = true;

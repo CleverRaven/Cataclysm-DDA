@@ -729,7 +729,7 @@
     "components": [
       [ [ "2x4", 4 ] ],
       [ [ "plastic_chunk", 2 ] ],
-      [ [ "vac_pump", 1 ] ],
+      [ [ "motor_micro", 1 ] ],
       [ [ "nail", 16 ] ],
       [ [ "wood_panel", 1 ] ],
       [ [ "hose", 1 ] ],

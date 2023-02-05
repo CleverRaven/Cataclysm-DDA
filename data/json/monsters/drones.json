@@ -199,6 +199,7 @@
     "armor_cut": 2,
     "armor_bullet": 1,
     "revert_to_itype": "bot_tazer_hack",
+    "death_function": { "corpse_type": "BROKEN" },
     "special_attacks": [ [ "TAZER", 5 ] ]
   }
 ]

@@ -178,6 +178,12 @@ void avatar::control_npc( npc &np )
         shadow_npc->op_of_u.value = 10;
         shadow_npc->set_attitude( NPCATT_FOLLOW );
     }
+    character_id new_character = np.getID();
+    const std::function<void( npc & )> update_npc = [new_character]( npc & guy ) {
+        guy.update_missions_target( get_avatar().getID(), new_character );
+    };
+    overmap_buffer.foreach_npc( update_npc );
+    mission().update_world_missions_character( get_avatar().getID(), new_character );
     npc tmp;
     // move avatar character data into shadow npc
     swap_character( *shadow_npc, tmp );
