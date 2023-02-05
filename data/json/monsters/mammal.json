@@ -1796,7 +1796,7 @@
     "id": "mon_bigdog_gottweiler_pup",
     "type": "MONSTER",
     "name": { "str": "gottweiler puppy", "str_pl": "gottweiler puppies" },
-    "description": "An adorable, defenseless Gottweiler puppy.  Much safer to tame than an adult dog, in spite of its already impressive size.",
+    "description": "An adorable, defenseless gottweiler puppy.  Much safer to tame than an adult dog, in spite of its already impressive size.",
     "default_faction": "dog",
     "bodytype": "dog",
     "categories": [ "WILDLIFE" ],
