@@ -381,7 +381,6 @@ void debug_menu::wisheffect( Character &p )
         return descstr.str();
     };
 
-
     auto rebuild_menu = [&]( const bodypart_str_id & bp ) -> void {
         effects.clear();
         efmenu.entries.clear();
@@ -389,8 +388,6 @@ void debug_menu::wisheffect( Character &p )
         efmenu.addentry( 0, true, 'a', _( "Show only active" ) );
         efmenu.addentry( 1, true, 'b', _( "Change body part" ) );
         only_active = false;
-
-
 
         for( const std::pair<const efftype_id, effect_type> &eff : get_effect_types() )
         {

@@ -881,9 +881,7 @@ overmap_path_params overmap_path_params::for_land_vehicle( float offroad_coeff, 
     ret.road_cost = 10;
     ret.field_cost = can_offroad ? std::lround( 15 / std::min( 1.0f, offroad_coeff ) ) : -1;
     ret.dirt_road_cost = ret.field_cost;
-    ret.forest_cost = -1;
     ret.small_building_cost = ( can_offroad && tiny ) ? ret.field_cost + 30 : -1;
-    ret.swamp_cost = -1;
     ret.trail_cost = ( can_offroad && tiny ) ? ret.field_cost + 10 : -1;
     if( amphibious ) {
         const overmap_path_params boat_params = overmap_path_params::for_watercraft();
@@ -966,7 +964,7 @@ static bool is_ramp( const tripoint_abs_omt &omt_pos )
 }
 
 std::vector<tripoint_abs_omt> overmapbuffer::get_travel_path(
-    const tripoint_abs_omt &src, const tripoint_abs_omt &dest, overmap_path_params params )
+    const tripoint_abs_omt &src, const tripoint_abs_omt &dest, const overmap_path_params &params )
 {
     if( src == overmap::invalid_tripoint || dest == overmap::invalid_tripoint ) {
         return {};
@@ -981,7 +979,8 @@ std::vector<tripoint_abs_omt> overmapbuffer::get_travel_path(
     };
 
     constexpr int radius = 4 * OMAPX; // radius of search in OMTs = 4 overmaps
-    const pf::simple_path<tripoint_abs_omt> path = pf::find_overmap_path( src, dest, radius, estimate );
+    const pf::simple_path<tripoint_abs_omt> path = pf::find_overmap_path( src, dest, radius, estimate,
+            g->display_om_pathfinding_progress );
     return path.points;
 }
 
@@ -1275,6 +1274,15 @@ shared_ptr_fast<npc> overmapbuffer::find_npc( character_id id )
         }
     }
     return nullptr;
+}
+
+void overmapbuffer::foreach_npc( const std::function<void( npc & )> &callback )
+{
+    for( auto &it : overmaps ) {
+        for( auto &guy : it.second->npcs ) {
+            callback( *guy );
+        }
+    }
 }
 
 shared_ptr_fast<npc> overmapbuffer::find_npc_by_unique_id( const std::string &unique_id )
