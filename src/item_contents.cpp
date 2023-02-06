@@ -388,8 +388,11 @@ bool pocket_favorite_callback::key( const input_context &ctxt, const input_event
         string_input_popup custom_preset_popup;
         custom_preset_popup
         .title( _( "Enter a preset name:" ) )
-        .width( 25 )
-        .query_string();
+        .width( 25 );
+        if( selected_pocket->settings.get_preset_name().has_value() ) {
+            custom_preset_popup.text( selected_pocket->settings.get_preset_name().value() );
+        }
+        custom_preset_popup.query_string();
         if( !custom_preset_popup.canceled() ) {
             const std::string &rval = custom_preset_popup.text();
             // Check if already exists
