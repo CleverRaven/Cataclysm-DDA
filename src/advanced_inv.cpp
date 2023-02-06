@@ -840,7 +840,7 @@ std::string advanced_inventory::fill_lists_with_pane_items( Character &player_ch
         advanced_inventory_pane &spane, std::vector<drop_or_stash_item_info> &item_list,
         std::vector<drop_or_stash_item_info> &fav_list, bool filter_buckets = false )
 {
-    std::string skipped_items_message = "";
+    std::string skipped_items_message;
     int buckets = 0;
     for( const advanced_inv_listitem &listit : spane.items ) {
         for( const item_location &it : listit.items ) {
@@ -994,7 +994,7 @@ bool advanced_inventory::move_all_items()
         pane_items = pane_favs;
     }
 
-    if( skipped_items_message != "" ) {
+    if( !skipped_items_message.empty() ) {
         add_msg( m_info, skipped_items_message );
     }
 
