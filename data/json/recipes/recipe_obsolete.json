@@ -951,5 +951,50 @@
     "type": "recipe",
     "result": "2x4_with_power_saw",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "meth",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "fungicide",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "chem_nitric_acid",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "chem_hmtd",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "denat_alcohol",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "offal_canned",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "adv_UPS_off",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "fishing_rod_professional",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "plastic_shopping_bag",
+    "obsolete": true
   }
 ]
