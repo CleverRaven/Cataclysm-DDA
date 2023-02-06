@@ -5398,6 +5398,14 @@ void vehicle::on_move()
     if( has_part( "REAPER", true ) ) {
         operate_reaper();
     }
+
+    Character &pc = get_player_character();
+    get_event_bus().send<event_type::vehicle_moves>(
+        is_passenger( pc ), player_in_control( pc ), remote_controlled( pc ),
+        is_flying_in_air(), is_watercraft() && can_float(), can_use_rails(),
+        is_falling, is_in_water( true ) && !can_float(),
+        skidding, velocity, sm_pos.z
+    );
 }
 
 void vehicle::slow_leak()
