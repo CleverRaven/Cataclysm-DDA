@@ -2116,13 +2116,13 @@ void item_pocket::heat_up()
     }
 }
 
-void item_pocket::add_preset( const item_pocket::favorite_settings &preset ) const
+void item_pocket::add_preset( const item_pocket::favorite_settings &preset )
 {
     pocket_presets.emplace_back( preset );
     save_presets();
 }
 
-void item_pocket::save_presets() const
+void item_pocket::save_presets()
 {
     cata_path file = PATH_INFO::pocket_presets();
 
@@ -2149,7 +2149,6 @@ std::vector<item_pocket::favorite_settings>::iterator item_pocket::find_preset(
 }
 
 void item_pocket::delete_preset( const std::vector<item_pocket::favorite_settings>::iterator iter )
-const
 {
     pocket_presets.erase( iter );
     save_presets();
@@ -2175,7 +2174,7 @@ void item_pocket::load_presets()
     fin.close();
 }
 
-void item_pocket::serialize_presets( JsonOut &json ) const
+void item_pocket::serialize_presets( JsonOut &json )
 {
     json.start_array();
     for( const item_pocket::favorite_settings &preset : pocket_presets ) {

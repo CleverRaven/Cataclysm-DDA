@@ -386,14 +386,14 @@ class item_pocket
         favorite_settings settings;
 
         // Pocket presets functions
-        void serialize_presets( JsonOut &json ) const;
-        void deserialize_presets( const JsonArray &ja );
-        void load_presets();
-        void add_preset( const item_pocket::favorite_settings &preset ) const;
-        void save_presets() const;
-        std::vector<item_pocket::favorite_settings>::iterator find_preset( const std::string &s );
-        bool has_preset( const std::string &s );
-        void delete_preset( std::vector<item_pocket::favorite_settings>::iterator iter ) const;
+        static void serialize_presets( JsonOut &json );
+        static void deserialize_presets( const JsonArray &ja );
+        static void load_presets();
+        static void add_preset( const item_pocket::favorite_settings &preset );
+        static void save_presets();
+        static std::vector<item_pocket::favorite_settings>::iterator find_preset( const std::string &s );
+        static bool has_preset( const std::string &s );
+        static void delete_preset( std::vector<item_pocket::favorite_settings>::iterator iter );
         static std::vector<item_pocket::favorite_settings> pocket_presets;
 
         // should the name of this pocket be used as a description
