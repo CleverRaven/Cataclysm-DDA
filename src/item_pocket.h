@@ -389,11 +389,11 @@ class item_pocket
         void serialize_presets( JsonOut &json ) const;
         void deserialize_presets( const JsonArray &ja );
         void load_presets();
-        void add_preset( const item_pocket::favorite_settings &preset );
+        void add_preset( const item_pocket::favorite_settings &preset ) const;
         void save_presets() const;
         std::vector<item_pocket::favorite_settings>::iterator find_preset( const std::string &s );
         bool has_preset( const std::string &s );
-        void delete_preset( std::vector<item_pocket::favorite_settings>::iterator iter );
+        void delete_preset( std::vector<item_pocket::favorite_settings>::iterator iter ) const;
         static std::vector<item_pocket::favorite_settings> pocket_presets;
 
         // should the name of this pocket be used as a description

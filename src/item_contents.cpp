@@ -409,26 +409,26 @@ bool pocket_favorite_callback::key( const input_context &ctxt, const input_event
     } else if( action == "FAV_APPLY_PRESET" ) {
         selected_pocket->load_presets();
         selector_menu.title = _( "Select a preset" );
-        for( const item_pocket::favorite_settings &preset : selected_pocket->pocket_presets ) {
+        for( const item_pocket::favorite_settings &preset : item_pocket::pocket_presets ) {
             selector_menu.addentry( preset.get_preset_name().value() );
         }
         selector_menu.query();
 
         if( selector_menu.ret >= 0 ) {
-            selected_pocket->settings = selected_pocket->pocket_presets[selector_menu.ret];
+            selected_pocket->settings = item_pocket::pocket_presets[selector_menu.ret];
         }
         return true;
     } else if( action == "FAV_DEL_PRESET" ) {
         selected_pocket->load_presets();
-        for( const item_pocket::favorite_settings &preset : selected_pocket->pocket_presets ) {
+        for( const item_pocket::favorite_settings &preset : item_pocket::pocket_presets ) {
             selector_menu.addentry( preset.get_preset_name().value() );
         }
         selector_menu.query();
 
         if( selector_menu.ret >= 0 ) {
             if( query_yn( _( "Are you sure you wish to delete preset %s?" ),
-                          selected_pocket->pocket_presets[selector_menu.ret].get_preset_name().value() ) ) {
-                selected_pocket->delete_preset( selected_pocket->pocket_presets.begin() + selector_menu.ret );
+                          item_pocket::pocket_presets[selector_menu.ret].get_preset_name().value() ) ) {
+                selected_pocket->delete_preset( item_pocket::pocket_presets.begin() + selector_menu.ret );
             }
         }
         return true;

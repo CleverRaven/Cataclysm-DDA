@@ -2116,7 +2116,7 @@ void item_pocket::heat_up()
     }
 }
 
-void item_pocket::add_preset( const item_pocket::favorite_settings &preset )
+void item_pocket::add_preset( const item_pocket::favorite_settings &preset ) const
 {
     pocket_presets.emplace_back( preset );
     save_presets();
@@ -2149,6 +2149,7 @@ std::vector<item_pocket::favorite_settings>::iterator item_pocket::find_preset(
 }
 
 void item_pocket::delete_preset( const std::vector<item_pocket::favorite_settings>::iterator iter )
+const
 {
     pocket_presets.erase( iter );
     save_presets();
