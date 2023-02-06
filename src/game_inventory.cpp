@@ -682,12 +682,6 @@ class comestible_inventory_preset : public inventory_selector_preset
                 if( calories_per_effective_volume == 0 ) {
                     return std::string();
                 }
-                /* This is for screen readers. I will make a PR to discuss what these prerequisites could be -
-                bio_digestion, selfaware, high cooking skill etc*/
-                constexpr bool ARBITRARY_PREREQUISITES_TO_BE_DETERMINED_IN_THE_FUTURE = false;
-                if( ARBITRARY_PREREQUISITES_TO_BE_DETERMINED_IN_THE_FUTURE ) {
-                    return string_format( "%d", calories_per_effective_volume );
-                }
                 return satiety_bar( calories_per_effective_volume );
             }, _( "SATIETY" ) );
 
@@ -699,9 +693,15 @@ class comestible_inventory_preset : public inventory_selector_preset
 
             append_cell( [this, &player_character]( const item_location & loc ) {
                 std::string sealed;
-                if( loc.has_parent() ) {
-                    item_pocket *pocket = loc.parent_item()->contained_where( * loc.get_item() );
-                    sealed = pocket->sealed() ? _( "sealed" ) : std::string();
+                item_location temp = loc;
+                // check if at least one parent container is sealed
+                while( temp.has_parent() ) {
+                    item_pocket *pocket = temp.parent_item()->contained_where( *temp.get_item() );
+                    if( pocket->sealed() ) {
+                        sealed = _( "sealed" );
+                        break;
+                    }
+                    temp = temp.parent_item();
                 }
                 if( player_character.can_estimate_rot() ) {
                     if( loc->is_comestible() && loc->get_comestible()->spoils > 0_turns ) {
