@@ -609,8 +609,7 @@
     "name": "drug lab",
     "sym": "^",
     "color": "brown",
-    "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 5
   },
   {
     "type": "overmap_terrain",
