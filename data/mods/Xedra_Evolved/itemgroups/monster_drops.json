@@ -97,18 +97,60 @@
     }
   },
   {
+    "type": "item_group",
+    "id": "harddrugs",
+    "copy-from": "harddrugs",
+    "extend": {
+      "entries": [
+        { "item": "faewild", "prob": 15, "container-item": "bag_zipper", "charges": [ 3, 12 ] },
+        { "item": "lotus_blossom", "prob": 15, "container-item": "bag_zipper", "charges": [ 2, 16 ] }
+      ]
+    }
+  },
+  {
+    "type": "item_group",
+    "id": "default_zombie_items_pockets",
+    "copy-from": "default_zombie_items_pockets",
+    "subtype": "collection",
+    "extend": {
+      "entries": [
+        { "item": "faewild", "prob": 5, "container-item": "bag_zipper", "charges": [ 3, 12 ] },
+        { "item": "lotus_blossom", "prob": 5, "container-item": "bag_zipper", "charges": [ 2, 16 ] },
+        { "item": "scrap_dreamdross", "prob": 15, "count": [ 1, 4 ] }
+      ]
+    }
+  },
+  {
     "id": "default_moroi_death_drops",
     "type": "item_group",
     "subtype": "collection",
     "entries": [
       {
         "distribution": [
-          { "group": "default_zombie_clothes", "prob": 90 },
-          { "group": "default_zombie_clothes_christmas", "event": "christmas", "prob": 10 },
-          { "group": "professional_zombie_gear", "prob": 1 }
+          {
+            "collection": [
+              {
+                "distribution": [
+                  { "group": "default_zombie_clothes", "prob": 90 },
+                  { "group": "default_zombie_clothes_christmas", "event": "christmas", "prob": 10 }
+                ]
+              },
+              {
+                "distribution": [ { "group": "default_zombie_items", "prob": 80 }, { "group": "default_zombie_items_pockets", "prob": 20 } ]
+              }
+            ],
+            "prob": 96
+          },
+          {
+            "collection": [ { "group": "postman_gear", "damage": [ 1, 4 ] }, { "group": "default_zombie_items_pockets", "prob": 10 } ],
+            "prob": 2
+          },
+          {
+            "collection": [ { "group": "prof-plumbing_gear", "damage": [ 1, 4 ] }, { "group": "default_zombie_items_pockets", "prob": 10 } ],
+            "prob": 2
+          }
         ]
       },
-      { "group": "default_zombie_items", "prob": 50 },
       { "group": "wallets", "damage": [ 1, 4 ], "prob": 30 },
       { "item": "grimy_recipe", "prob": 55 },
       { "item": "scrap_dreamdross", "prob": 75, "count": [ 1, 4 ] }

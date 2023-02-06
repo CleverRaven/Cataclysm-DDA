@@ -310,5 +310,16 @@
       { "item": "rebar", "prob": 2, "count": [ 5, 10 ], "damage-min": 0, "damage-max": 3 },
       { "item": "brick", "prob": 20, "count": [ 15, 30 ], "damage-min": 0, "damage-max": 3 }
     ]
+  },
+  {
+    "id": "table_destruction",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      { "item": "2x4", "count": [ 2, 4 ] },
+      { "item": "wood_panel", "count": [ 0, 1 ] },
+      { "item": "nail", "charges": [ 4, 8 ] },
+      { "item": "splinter", "count": 1 }
+    ]
   }
 ]

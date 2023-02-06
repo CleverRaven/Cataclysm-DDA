@@ -905,7 +905,7 @@ E JsonObject::get_enum_value( const char *name ) const
     try {
         return io::string_to_enum<E>( static_cast<std::string>( value ) );
     } catch( const io::InvalidEnumString & ) {
-        value.throw_error( "invalud enumumeration value" );
+        value.throw_error( "invalid enumeration value" );
     }
 }
 
@@ -922,7 +922,7 @@ E JsonObject::get_enum_value( const char *name, E fallback ) const
         try {
             return io::string_to_enum<E>( static_cast<std::string>( *value ) );
         } catch( const io::InvalidEnumString & ) {
-            value->throw_error( "invalud enumumeration value" );
+            value->throw_error( "invalid enumeration value" );
         }
     } else {
         return fallback;

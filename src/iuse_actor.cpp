@@ -291,13 +291,26 @@ cata::optional<int> iuse_transform::use( Character &p, item &it, bool t, const t
         }
     }
 
+    if( it.count_by_charges() && it.count() > 1 ) {
+        item take_one = it.split( 1 );
+        do_transform( p, take_one );
+        p.i_add_or_drop( take_one );
+    } else {
+        do_transform( p, it );
+    }
+
+    if( it.is_tool() ) {
+        result = scale;
+    }
+    return result;
+}
+
+void iuse_transform::do_transform( Character &p, item &it ) const
+{
     item obj_copy( it );
     item *obj;
     // defined here to allow making a new item assigned to the pointer
     item obj_it;
-    if( it.is_tool() ) {
-        result = scale;
-    }
     if( container.is_empty() ) {
         obj = &it.convert( target );
         if( ammo_qty >= 0 || !random_ammo_qty.empty() ) {
@@ -343,8 +356,6 @@ cata::optional<int> iuse_transform::use( Character &p, item &it, bool t, const t
             p.on_worn_item_transform( obj_copy, *obj );
         }
     }
-
-    return result;
 }
 
 ret_val<void> iuse_transform::can_use( const Character &p, const item &, bool,
@@ -1457,7 +1468,7 @@ bool salvage_actor::valid_to_cut_up( const Character *const p, const item &it ) 
 
 // Find a recipe that can be used to craft item x. Searches craft and uncraft recipes
 // Used only by salvage_actor::cut_up
-static cata::optional<recipe> find_uncraft_recipe( item x )
+static cata::optional<recipe> find_uncraft_recipe( const item &x )
 {
     auto is_valid_uncraft = [&x]( const recipe & curr ) -> bool {
         return !( curr.obsolete || curr.result() != x.typeId()
@@ -1593,7 +1604,6 @@ void salvage_actor::cut_up( Character &p, item_location &cut ) const
 
     // Decompose the item into irreducible parts
     cut_up_component( *cut.get_item(), efficiency );
-
 
     // Not much practice, and you won't get very far ripping things up.
     p.practice( skill_fabrication, rng( 0, 5 ), 1 );
@@ -4079,13 +4089,11 @@ cata::optional<int> molle_detach_actor::use( Character &p, item &it, bool,
 
     prompt.query();
 
-
     if( prompt.ret >= 0 ) {
         p.i_add( it.get_contents().remove_pocket( prompt.ret ) );
         p.add_msg_if_player( _( "You remove the item from your %s." ), it.tname() );
         return 0;
     }
-
 
     p.add_msg_if_player( _( "Never mind." ) );
     return cata::nullopt;

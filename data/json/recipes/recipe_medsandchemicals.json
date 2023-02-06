@@ -1420,6 +1420,7 @@
   },
   {
     "result": "chem_zinc_powder",
+    "id_suffix": "with_carbon",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_CHEM",

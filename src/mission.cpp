@@ -106,6 +106,16 @@ std::vector<mission *> mission::get_all_active()
     return ret;
 }
 
+void mission::remove_active_world_mission( mission &cur_mission )
+{
+    for( auto iter = world_missions.begin(); iter != world_missions.end(); iter++ ) {
+        if( iter->second.get_id() == cur_mission.get_id() && iter->second.in_progress() ) {
+            world_missions.erase( iter );
+            break;
+        }
+    }
+}
+
 void mission::add_existing( const mission &m )
 {
     world_missions[ m.uid ] = m;
@@ -772,6 +782,18 @@ void mission::set_target_npc_id( const character_id &npc_id )
 void mission::set_assigned_player_id( const character_id &char_id )
 {
     player_id = char_id;
+}
+
+void mission::update_world_missions_character( const character_id &old_char_id,
+        const character_id &new_char_id )
+{
+    for( auto &world_mission : world_missions ) {
+        if( world_mission.second.in_progress() &&
+            ( world_mission.second.get_assigned_player_id()  == old_char_id ||
+              world_mission.second.get_assigned_player_id() == character_id( - 1 ) ) ) {
+            world_mission.second.set_assigned_player_id( new_char_id );
+        }
+    }
 }
 
 bool mission::is_assigned() const

@@ -204,7 +204,6 @@ static const std::map<std::string, std::function<void( mission * )>> mission_fun
         { "create_hidden_lab_console", mission_start::create_hidden_lab_console },
         { "create_ice_lab_console", mission_start::create_ice_lab_console },
         // Endings
-        { "deposit_box", mission_end::deposit_box }
         // Failures
     }
 };
@@ -404,6 +403,8 @@ void mission_type::load( const JsonObject &jo, const std::string &src )
     if( jo.has_member( "goal_condition" ) ) {
         read_condition<mission_goal_condition_context>( jo, "goal_condition", goal_condition, true );
     }
+
+    optional( jo, was_loaded, "invisible_on_complete", invisible_on_complete, false );
 }
 
 bool mission_type::test_goal_condition( const mission_goal_condition_context &d ) const

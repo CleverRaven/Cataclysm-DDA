@@ -306,7 +306,6 @@ struct armor_portion_data {
 
     std::set<sub_bodypart_str_id> sub_coverage;
 
-
     // What layer does it cover if any
     std::set<layer_level> layers;
 
