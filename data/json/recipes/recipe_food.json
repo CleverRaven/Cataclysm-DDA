@@ -3659,6 +3659,7 @@
     "book_learn": [ [ "cookbook_indian", 1 ], [ "cookbook", 1 ] ],
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 11, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_baking" } ],
     "//": "flour = 11u",
     "components": [ [ [ "flour", 11 ], [ "bread_flour", 11 ] ], [ [ "water_clean", 2 ] ] ]
   },
@@ -3677,6 +3678,7 @@
     "book_learn": [ [ "cookbook_indian", 1 ], [ "cookbook", 1 ] ],
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_baking" } ],
     "components": [ [ [ "flour_wheat_free", 11 ] ], [ [ "water_clean", 2 ] ] ]
   },
   {
@@ -3699,6 +3701,7 @@
     ],
     "qualities": [ { "id": "OVEN", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 22, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_baking" }, { "proficiency": "prof_baking_bread" } ],
     "//": "flour = 20u, the yeast should probably require sugar and needs to be activated with warm water (2u)",
     "components": [ [ [ "flour", 20 ], [ "bread_flour", 20 ] ], [ [ "yeast", 1 ] ], [ [ "water_clean", 2 ] ] ]
   },
@@ -3722,6 +3725,7 @@
     ],
     "qualities": [ { "id": "OVEN", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 22, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_baking" }, { "proficiency": "prof_baking_bread" } ],
     "//": "flour = 20u, the yeast should probably require sugar and needs to be activated with warm water (2u)",
     "components": [ [ [ "flour_wheat_free", 20 ] ], [ [ "yeast", 1 ] ], [ [ "water_clean", 2 ] ] ]
   },
@@ -3874,6 +3878,7 @@
     "book_learn": [ [ "cookbook_mexican", 1 ] ],
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_baking" } ],
     "components": [ [ [ "cornmeal", 1 ] ], [ [ "water_clean", 1 ] ] ]
   },
   {
@@ -3890,6 +3895,7 @@
     "autolearn": true,
     "qualities": [ [ { "id": "COOK", "level": 2 } ], [ { "id": "OVEN", "level": 1 } ] ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_baking" } ],
     "components": [ [ [ "cornmeal", 4 ] ], [ [ "water_clean", 2 ] ] ]
   },
   {
@@ -3907,6 +3913,7 @@
     "book_learn": [ [ "baking_book", 3 ] ],
     "qualities": [ [ { "id": "COOK", "level": 2 } ], [ { "id": "OVEN", "level": 1 } ] ],
     "tools": [ [ [ "surface_heat", 12, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_baking" } ],
     "//1": "double usual price of flour to dehydrate it more than usual.",
     "components": [
       [ [ "flour_any", 6, "LIST" ] ],
@@ -3928,6 +3935,7 @@
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 24, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_baking" } ],
     "//": "flour = 20u, milk = 2u, oil = 2u.",
     "components": [
       [ [ "flour_any", 20, "LIST" ] ],
@@ -3950,6 +3958,7 @@
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 76, "LIST" ] ] ],
     "//": "cornmeal = 75u, oil = 1u.",
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_frying" }, { "proficiency": "prof_frying_bread" } ],
     "components": [
       [ [ "cornmeal", 15 ] ],
       [ [ "water_clean", 1 ] ],
