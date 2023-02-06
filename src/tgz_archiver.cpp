@@ -67,7 +67,7 @@ bool tgz_archiver::add_file( fs::path const &real_path, fs::path const &archived
     while( !file.eof() && ret ) {
         tar_block_t buf{};
         file.read( buf.data(), buf.size() );
-        if( std::accumulate( buf.begin(), buf.end(), 0 ) != 0 ) {
+        if( file.gcount() > 0 ) {
             ret &= gzwrite( fd, buf.data(), buf.size() ) != 0;
         }
     }
