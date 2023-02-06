@@ -396,21 +396,21 @@ bool pocket_favorite_callback::key( const input_context &ctxt, const input_event
         if( !custom_preset_popup.canceled() ) {
             const std::string &rval = custom_preset_popup.text();
             // Check if already exists
-            selected_pocket->load_presets();
-            if( selected_pocket->has_preset( rval ) ) {
+            item_pocket::load_presets();
+            if( item_pocket::has_preset( rval ) ) {
                 if( query_yn( _( "Preset already exists, overwrite?" ) ) ) {
-                    selected_pocket->delete_preset( selected_pocket->find_preset( rval ) );
+                    item_pocket::delete_preset( item_pocket::find_preset( rval ) );
                     selected_pocket->settings.set_preset_name( rval );
-                    selected_pocket->add_preset( selected_pocket->settings );
+                    item_pocket::add_preset( selected_pocket->settings );
                 }
             } else {
                 selected_pocket->settings.set_preset_name( rval );
-                selected_pocket->add_preset( selected_pocket->settings );
+                item_pocket::add_preset( selected_pocket->settings );
             }
         }
         return true;
     } else if( action == "FAV_APPLY_PRESET" ) {
-        selected_pocket->load_presets();
+        item_pocket::load_presets();
         selector_menu.title = _( "Select a preset" );
         for( const item_pocket::favorite_settings &preset : item_pocket::pocket_presets ) {
             selector_menu.addentry( preset.get_preset_name().value() );
@@ -422,7 +422,7 @@ bool pocket_favorite_callback::key( const input_context &ctxt, const input_event
         }
         return true;
     } else if( action == "FAV_DEL_PRESET" ) {
-        selected_pocket->load_presets();
+        item_pocket::load_presets();
         for( const item_pocket::favorite_settings &preset : item_pocket::pocket_presets ) {
             selector_menu.addentry( preset.get_preset_name().value() );
         }
@@ -431,7 +431,7 @@ bool pocket_favorite_callback::key( const input_context &ctxt, const input_event
         if( selector_menu.ret >= 0 ) {
             if( query_yn( _( "Are you sure you wish to delete preset %s?" ),
                           item_pocket::pocket_presets[selector_menu.ret].get_preset_name().value() ) ) {
-                selected_pocket->delete_preset( item_pocket::pocket_presets.begin() + selector_menu.ret );
+                item_pocket::delete_preset( item_pocket::pocket_presets.begin() + selector_menu.ret );
             }
         }
         return true;
