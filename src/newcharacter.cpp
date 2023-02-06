@@ -3835,7 +3835,13 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
 
         werase( w_addictions );
         // Profession addictions description tab
-        const auto prof_addictions = you.prof->addictions();
+        std::vector<addiction> prof_addictions = you.prof->addictions();
+        for( const profession *profession : you.hobbies ) {
+            const std::vector<addiction> &hobby_addictions = profession->addictions();
+            for( const addiction &iter : hobby_addictions ) {
+                prof_addictions.push_back( iter );
+            }
+        }
         if( isWide ) {
             if( prof_addictions.empty() ) {
                 mvwprintz( w_addictions, point_zero, c_light_gray, _( "Starting addictions: " ) );
