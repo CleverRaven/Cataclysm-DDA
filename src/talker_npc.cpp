@@ -194,7 +194,8 @@ std::vector<std::string> talker_npc::get_topics( bool radio_contact )
             add_topics.back() == me_npc->chatbin.talk_stranger_aggressive ) {
             me_npc->make_angry();
             add_topics.emplace_back( "TALK_CHURL_ANGRY" );
-        } else if(( me_npc->op_of_u.trust >= 0 ) && ( me_npc->op_of_u.anger <= 0 ) && ( me_npc->int_cur >= 9 )) {
+        } else if( ( me_npc->op_of_u.trust >= 0 ) && ( me_npc->op_of_u.anger <= 0 ) &&
+        ( me_npc->int_cur >= 9 ) ) {
             add_topics.emplace_back( "TALK_CHURL_TRADE" );
         } else {
             add_topics.emplace_back( "TALK_CHURL" );
