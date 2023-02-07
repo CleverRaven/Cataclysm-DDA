@@ -573,5 +573,13 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_discover_zomborg",
+    "recurrence": 1,
+    "global": true,
+    "condition": { "compare_int": [ { "global_val": "monsters_nearby", "id": "mon_zomborg" }, ">", { "const": 0 } ] },
+    "effect": { "u_add_var": "seen_zomborg", "type": "dialogue", "context": "exodii", "value": "yes" }
   }
 ]

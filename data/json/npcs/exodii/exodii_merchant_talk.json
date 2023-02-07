@@ -49,6 +49,16 @@
         }
       },
       {
+        "text": "What's with those weird metal zombies I've been seeing?  They resemble some of the robots around here.",
+        "condition": { "u_has_var": "seen_zomborg", "type": "dialogue", "context": "exodii", "value": "yes" },
+        "topic": "TALK_EXODII_MERCHANT_Zomborgs"
+      },
+      {
+        "text": "Would you be willing to sell some of your robots?",
+        "condition": { "u_has_var": "rubik_offered_robosell", "type": "dialogue", "context": "exodii", "value": "yes" },
+        "topic": "TALK_EXODII_MERCHANT_Zomborgs"
+      },
+      {
         "text": "You wanted to ask me some questions earlier, and I think I was rude about it.  What did you want to ask?",
         "condition": {
           "and": [
@@ -635,6 +645,65 @@
     },
     "responses": [
       { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
+      { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Zomborgs",
+    "type": "talk_topic",
+    "dynamic_line": ".",
+    "//~": "Ah, those things.  They're some of our old robots, must've malfunctioned and such.  Real shame, too; they're not cheap to manufacture.  I'll send someone out to clean them up, we're still working on getting them all.",
+    "responses": [
+      { "text": "Why do they act like zombies when they \"malfunction\"?", "topic": "TALK_EXODII_MERCHANT_Robot_Make" },
+      { "text": "Alright.  Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Robot_Make",
+    "type": "talk_topic",
+    "dynamic_line": ".",
+    "//~": "Well, it has to do with how we make them.  Our technology isn't exactly like yours in the sense of robots.  Instead of a computer chip or something like that driving the whole thing, we use the brains of those infected that keep running around.  Not the ones that died, per say, just the ones that went crazy.  They're too damaged for advanced work, but they take orders very well.  We slap them onto whatever chassis we need at the time, start them up, and set them to work.",
+    "responses": [
+      { "text": "Wait, you're telling me that you make people into your robots?", "topic": "TALK_EXODII_MERCHANT_Robot_Make_People" },
+      { "text": "How long does it take you to make one of these robots?", "topic": "TALK_EXODII_MERCHANT_Robot_Make_People" },
+      { "text": "Can I buy one of your machines?", "topic": "TALK_EXODII_MERCHANT_Robot_Buy" },
+      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Robot_Make_People",
+    "type": "talk_topic",
+    "dynamic_line": ".",
+    "//~": "They're not people anymore, the brain's too damaged.  Trust me, we tried that a few times, it didn't turn out so well.  They're what you call, \"ferals\"?  You know, those zombies that act like they're still people, but aren't.",
+    "responses": [
+      { "text": "How long does it take you to make one of these robots?", "topic": "TALK_EXODII_MERCHANT_Robot_Make_Time" },
+      { "text": "Can I buy one of your machines?", "topic": "TALK_EXODII_MERCHANT_Robot_Buy" },
+      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Robot_Make_Time",
+    "type": "talk_topic",
+    "dynamic_line": ".",
+    "//~": "It can take a while, the hardest part is sourcing the brain for one.  If it's too damaged, we can't use it.  We've got printers that make the rest of the body, and others that make the tools and equipment the robot will use.  Some of the stuff we make has to be manufactured by hand, so we have a small team that does that.",
+    "responses": [
+      { "text": "Can I buy one of your machines?", "topic": "TALK_EXODII_MERCHANT_Robot_Buy" },
+      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Robot_Buy",
+    "type": "talk_topic",
+    "dynamic_line": ".",
+    "speaker_effect": { "effect": { "u_add_var": "rubik_offered_robosell", "type": "dialogue", "context": "exodii", "value": "yes" } },
+    "//~": "I don't know about that.  Each one we make is very important to our operations here, and they're extremely expensive.  I might be able to sell you one later, but not right now.",
+    "//2": "In the future, Rubik should be able to sell the player a robot.  This is a placeholder until that time arrives.",
+    "responses": [
+      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
       { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
     ]
   },
