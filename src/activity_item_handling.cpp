@@ -2323,7 +2323,11 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                         }
                     }
                     if( it->first->has_flag( flag_MAG_DESTROY ) && it->first->ammo_remaining() == 0 ) {
-                        here.i_rem( src_loc, it->first );
+                        if( this_veh ) {
+                            this_veh->remove_item( this_part, it->first );
+                        } else {
+                            here.i_rem( src_loc, it->first );
+                        }
                         num_processed = std::max( num_processed - 1, 0 );
                         return;
                     }
