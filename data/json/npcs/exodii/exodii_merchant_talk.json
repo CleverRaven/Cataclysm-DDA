@@ -665,8 +665,14 @@
     "dynamic_line": ".",
     "//~": "Well, it has to do with how we make them.  Our technology isn't exactly like yours in the sense of robots.  Instead of a computer chip or something like that driving the whole thing, we use the brains of those infected that keep running around.  Not the ones that died, per say, just the ones that went crazy.  They're too damaged for advanced work, but they take orders very well.  We slap them onto whatever chassis we need at the time, start them up, and set them to work.",
     "responses": [
-      { "text": "Wait, you're telling me that you make people into your robots?", "topic": "TALK_EXODII_MERCHANT_Robot_Make_People" },
-      { "text": "How long does it take you to make one of these robots?", "topic": "TALK_EXODII_MERCHANT_Robot_Make_People" },
+      {
+        "text": "Wait, you're telling me that you make people into your robots?",
+        "topic": "TALK_EXODII_MERCHANT_Robot_Make_People"
+      },
+      {
+        "text": "How long does it take you to make one of these robots?",
+        "topic": "TALK_EXODII_MERCHANT_Robot_Make_People"
+      },
       { "text": "Can I buy one of your machines?", "topic": "TALK_EXODII_MERCHANT_Robot_Buy" },
       { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
       { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
