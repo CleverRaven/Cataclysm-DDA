@@ -125,12 +125,12 @@
       ],
       "monster": { "T": { "monster": "mon_turret_searchlight" } },
       "place_vehicles": [
-        { "vehicle": "forklift_vehicles", "x": 29, "y": 6, "chance": 95, "rotation": 180, "status": 1 },
-        { "vehicle": "parkinglotbasic", "x": 4, "y": 9, "chance": 75, "rotation": 270, "status": -1 },
-        { "vehicle": "flatbed_truck", "x": 11, "y": 4, "chance": 25, "rotation": 270, "status": -1 },
-        { "vehicle": "Medevac1", "x": 9, "y": 38, "chance": 1, "rotation": 90, "status": -1 },
-        { "vehicle": "helicopter_apache_1a", "x": 29, "y": 33, "chance": 1, "rotation": 270, "status": 1 },
-        { "vehicle": "SmallFlier2_Wreck", "x": 39, "y": 38, "chance": 50, "rotation": 90, "status": -1 }
+        { "vehicle": "forklift_vehicles", "x": 29, "y": 6, "chance": 95, "rotation": 180, "status": -1 },
+        { "vehicle": "military_vehicles", "x": 8, "y": 9, "chance": 35, "rotation": 0, "status": -1 },
+        { "vehicle": "military_vehicles", "x": 16, "y": 8, "chance": 65, "rotation": 270, "status": -1 },
+        { "vehicle": "mil_helicopters_small", "x": 10, "y": 40, "chance": 5, "rotation": 90, "status": -1 },
+        { "vehicle": "mil_helicopters_small", "x": 31, "y": 40, "chance": 15, "rotation": 90, "status": 1 },
+        { "vehicle": "crashed_helicopters_small", "x": 39, "y": 40, "chance": 65, "rotation": 90, "status": 1 }
       ]
     }
   },
@@ -205,6 +205,7 @@
         { "group": "GROUP_MIL_HELIPAD", "x": [ 6, 19 ], "y": [ 18, 23 ], "chance": 50, "repeat": [ 4, 7 ] },
         { "group": "GROUP_MIL_PASSENGER", "x": [ 6, 19 ], "y": [ 18, 23 ], "chance": 10, "repeat": [ 0, 2 ] }
       ],
+      "place_vehicles": [ { "vehicle": "crashed_helicopters_small", "x": 32, "y": 19, "chance": 5, "rotation": 90, "status": 1 } ],
       "place_nested": [
         {
           "chunks": [ [ "roof_2x2_infrastructure", 40 ], [ "roof_2x2_infrastructure_2", 30 ], [ "roof_2x2_utilities", 30 ] ],
