@@ -189,9 +189,9 @@
       ],
       "palettes": [ "airport_palette" ],
       "place_monster": [
-        { "group": "GROUP_ZOMBIE", "x": [ 4, 23 ], "y": [ 5, 18 ], "chance": 65, "repeat": [ 4, 8 ] },
-        { "group": "GROUP_ZOMBIE", "x": [ 7, 16 ], "y": [ 29, 39 ], "chance": 50, "repeat": [ 1, 3 ] },
-        { "group": "GROUP_ZOMBIE", "x": [ 7, 16 ], "y": [ 52, 62 ], "chance": 50, "repeat": [ 1, 3 ] },
+        { "group": "GROUP_VANILLA", "x": [ 4, 23 ], "y": [ 5, 18 ], "chance": 65, "repeat": [ 4, 8 ] },
+        { "group": "GROUP_VANILLA", "x": [ 7, 16 ], "y": [ 29, 39 ], "chance": 50, "repeat": [ 1, 3 ] },
+        { "group": "GROUP_VANILLA", "x": [ 7, 16 ], "y": [ 52, 62 ], "chance": 50, "repeat": [ 1, 3 ] },
         { "group": "GROUP_ROOF_ZOMBIE", "x": [ 7, 16 ], "y": [ 75, 85 ], "chance": 50, "repeat": [ 1, 3 ] }
       ]
     }
