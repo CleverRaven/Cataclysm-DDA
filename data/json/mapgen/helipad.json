@@ -128,8 +128,8 @@
         { "vehicle": "forklift_vehicles", "x": 29, "y": 6, "chance": 95, "rotation": 180, "status": -1 },
         { "vehicle": "military_vehicles", "x": 8, "y": 9, "chance": 35, "rotation": 0, "status": -1 },
         { "vehicle": "military_vehicles", "x": 16, "y": 8, "chance": 65, "rotation": 270, "status": -1 },
-        { "vehicle": "mil_helicopters_small", "x": 10, "y": 40, "chance": 5, "rotation": 90, "status": -1 },
-        { "vehicle": "mil_helicopters_small", "x": 31, "y": 40, "chance": 15, "rotation": 90, "status": 1 },
+        { "vehicle": "mil_helicopters_small", "x": 10, "y": 40, "chance": 15, "rotation": 90 },
+        { "vehicle": "mil_helicopters_small", "x": 31, "y": 40, "chance": 15, "rotation": 90, "status": -1 },
         { "vehicle": "crashed_helicopters_small", "x": 39, "y": 40, "chance": 65, "rotation": 90, "status": 1 }
       ]
     }

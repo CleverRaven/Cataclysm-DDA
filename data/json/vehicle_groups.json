@@ -612,6 +612,18 @@
   },
   {
     "type": "vehicle_group",
+    "id": "helicopters_no_wreck",
+    "vehicles": [
+      [ "2seater2", 100 ],
+      [ "SmallFlier1", 400 ],
+      [ "SmallFlier2", 400 ],
+      [ "Medevac1", 100 ],
+      [ "SmallFlier3", 400 ],
+      [ "Medevac2", 200 ]
+    ]
+  },
+  {
+    "type": "vehicle_group",
     "id": "mil_helicopters",
     "vehicles": [
       [ "Medevac1", 200 ],
