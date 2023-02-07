@@ -84,7 +84,7 @@
     "color": "light_blue",
     "damage_modifier": 80,
     "damage_reduction": { "all": 16 },
-    "description": "A sheet of tempered glass that lets you see outside the vehicle.  Reinforced with wire to make it harder to break than normal tempered glass.",
+    "description": "A sheet of glass that lets you see outside the vehicle.  Reinforced with wire to make it harder to break than normal glass.",
     "durability": 250,
     "flags": [ "WINDSHIELD", "OBSTACLE", "WINDOW" ],
     "item": "reinforced_glass_sheet",
