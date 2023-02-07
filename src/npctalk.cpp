@@ -1038,11 +1038,11 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
                    _( "&You are mute and can't talk.  When you don't respond, %s becomes angry!" ),
                    actor( true )->disp_name() );
     } else if( topic == "TALK_CHURL" ) {
-        return _( "&You are just a simple churl and can't comprehend modern speech." );
+        return _( "&Thou art but a lowley churl and ye know not this newe tongue." );
 
     } else if( topic == "TALK_CHURL_ANGRY" ) {
         return string_format(
-                   _( "&You are just a simple churl and can't comprehend modern speech.  Unable to understand your dialect, %s becomes angry!" ),
+                   _( "&Thou art but a lowley churl and ye know not this newe tongue.  Unable to understand your dialect, %s becomes angry!" ),
                    actor( true )->disp_name() );
     }
     avatar &player_character = get_avatar();
