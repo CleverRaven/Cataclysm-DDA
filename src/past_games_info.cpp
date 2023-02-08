@@ -63,7 +63,7 @@ past_game_info::past_game_info( const JsonObject &jo )
     auto avatar_name_it = start_event_data.find( "avatar_name" );
     if( avatar_name_it != start_event_data.end() ) {
         avatar_name_ = avatar_name_it->second.get_string() +
-                       ( new_avatar_counts.size() > 0 ? " et. al." : "" );
+                       ( !new_avatar_counts.empty() ? " et. al." : "" );
     } else {
         const cata::event::data_type &new_avatar_event_data = new_avatar_counts.begin()->first;
         avatar_name_it = new_avatar_event_data.find( "avatar_name" );

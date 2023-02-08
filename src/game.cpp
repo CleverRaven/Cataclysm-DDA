@@ -2652,7 +2652,7 @@ bool game::is_game_over()
     return false;
 }
 
-void game::bury_screen()
+void game::bury_screen() const
 {
     avatar &u = get_avatar();
 

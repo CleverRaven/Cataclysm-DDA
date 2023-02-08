@@ -43,12 +43,12 @@ static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 
 static const bionic_id bio_alarm( "bio_alarm" );
 
-static const event_statistic_id event_statistic_last_words( "last_words" );
-
 static const efftype_id effect_controlled( "controlled" );
 static const efftype_id effect_npc_suspend( "npc_suspend" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_sleep( "sleep" );
+
+static const event_statistic_id event_statistic_last_words( "last_words" );
 
 static const trait_id trait_HAS_NEMESIS( "HAS_NEMESIS" );
 
