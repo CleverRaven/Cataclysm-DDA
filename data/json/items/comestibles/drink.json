@@ -920,7 +920,7 @@
     "fun": 10,
     "spoils_in": "1 day",
     "flags": [ "EATEN_HOT" ]
-    "vitamins": [ [ "calcium", 3 ], [ "iron", 3 ] ],
+    "vitamins": [ [ "calcium", 7 ], [ "iron", 3 ] ],
   },
   {
     "type": "COMESTIBLE",
