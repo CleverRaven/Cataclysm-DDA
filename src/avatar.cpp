@@ -202,6 +202,9 @@ void avatar::control_npc( npc &np )
     const bool z_level_changed = g->vertical_shift( posz() );
     g->update_map( *this, z_level_changed );
     character_mood_face( true );
+
+    get_event_bus().send<event_type::game_avatar_new>( false, getID(), name, male,
+            prof->ident(), custom_profession );
 }
 
 void avatar::control_npc_menu()
