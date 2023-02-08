@@ -1003,8 +1003,9 @@ bool game::start_game()
         }
     }
 
-    get_event_bus().send<event_type::game_start>( u.getID(), u.name, u.male, u.prof->ident(),
-            u.custom_profession, getVersionString() );
+    get_event_bus().send<event_type::game_start>( getVersionString() );
+    get_event_bus().send<event_type::game_avatar_new>( true, u.getID(), u.name, u.male,
+            u.prof->ident(), u.custom_profession );
     time_played_at_last_load = std::chrono::seconds( 0 );
     time_of_last_load = std::chrono::steady_clock::now();
     tripoint_abs_omt abs_omt = u.global_omt_location();
