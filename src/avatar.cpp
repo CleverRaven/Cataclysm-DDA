@@ -203,8 +203,9 @@ void avatar::control_npc( npc &np )
     g->update_map( *this, z_level_changed );
     character_mood_face( true );
 
+    profession_id prof_id = prof ? prof->ident() : profession::generic()->ident();
     get_event_bus().send<event_type::game_avatar_new>( false, getID(), name, male,
-            prof->ident(), custom_profession );
+            prof_id, custom_profession );
 }
 
 void avatar::control_npc_menu()
