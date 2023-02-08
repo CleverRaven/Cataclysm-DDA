@@ -2735,5 +2735,41 @@
     "speaker": [ "mon_feral_granny" ],
     "sound": "\"That's my purse!  I don't know you!\"",
     "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_remnant_survivor", "mon_remnant_soldier", "mon_remnant_child" ],
+    "sound": "viscus dripping.",
+    "volume": 6
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_remnant_survivor", "mon_remnant_soldier", "mon_remnant_child" ],
+    "sound": "a sickening crunch.",
+    "volume": 6
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_remnant_survivor", "mon_remnant_soldier", "mon_remnant_child" ],
+    "sound": "wet, heart-like throbbing.",
+    "volume": 6
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_remnant_survivor", "mon_remnant_soldier", "mon_remnant_child" ],
+    "sound": "a meaty, splitting sound.",
+    "volume": 6
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_remnant_survivor", "mon_remnant_soldier", "mon_remnant_child" ],
+    "sound": "the gurgle of flowing liquid.",
+    "volume": 6
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_remnant_survivor", "mon_remnant_soldier", "mon_remnant_child" ],
+    "sound": "a series of dry snaps.",
+    "volume": 6
   }
 ]

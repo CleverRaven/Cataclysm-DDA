@@ -22,6 +22,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "vision_day": 60,
     "vision_night": 60,
+    "special_attacks": [ [ "PARROT", 4 ] ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "it just disappeared." },
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "IMMOBILE", "WARM", "CAMOUFLAGE", "HARDTOSHOOT", "NIGHT_INVISIBILITY" ]
