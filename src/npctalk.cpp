@@ -1394,10 +1394,10 @@ void dialogue::gen_responses( const talk_topic &the_topic )
     }
 
     if( player_character.has_trait( trait_PROF_CHURL ) && ( actor( true )->get_npc_trust() >= 0 ) &&
-    ( actor( true )->get_npc_anger() <= 0 ) && ( actor( true )->int_cur() >= 9 ) &&
-    !( the_topic.id == "TALK_CHURL_FRIENDLY" ) ) {
+        ( actor( true )->get_npc_anger() <= 0 ) && ( actor( true )->int_cur() >= 9 ) &&
+        !( the_topic.id == "TALK_CHURL_FRIENDLY" ) ) {
         add_response( _( "Ho there, otherwyrldly devyl!  Have yow ware for to chaffare?" ),
-            "TALK_CHURL_FRIENDLY" );
+                "TALK_CHURL_FRIENDLY" );
         add_response_done( _( "Farewell!" ) );
     }
 
