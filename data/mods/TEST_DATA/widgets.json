@@ -167,7 +167,7 @@
         "color": "white_green",
         "condition": {
           "and": [
-            { "compare_int": [ { "u_val": "rad" }, "<=", { "const": 0 } ] },
+            { "compare_int": [ { "u_val": "item_rad", "flag": "RAD_DETECT", "aggregate": "min" }, "<=", { "const": 0 } ] },
             { "or": [ { "u_has_worn_with_flag": "RAD_DETECT" }, { "u_has_wielded_with_flag": "RAD_DETECT" } ] }
           ]
         }
@@ -178,8 +178,10 @@
         "color": "h_white",
         "condition": {
           "and": [
-            { "compare_int": [ { "u_val": "rad" }, "<=", { "const": 30 } ] },
-            { "compare_int": [ { "u_val": "rad" }, ">", { "const": 0 } ] },
+            { "compare_int": [ { "u_val": "item_rad", "flag": "RAD_DETECT", "aggregate": "min" }, "<=", { "const": 30 } ] },
+            {
+              "compare_int": [ { "u_val": "item_rad", "flag": "RAD_DETECT", "aggregate": "min" }, ">", { "const": 0 } ]
+            },
             { "or": [ { "u_has_worn_with_flag": "RAD_DETECT" }, { "u_has_wielded_with_flag": "RAD_DETECT" } ] }
           ]
         }
@@ -190,8 +192,10 @@
         "color": "i_yellow",
         "condition": {
           "and": [
-            { "compare_int": [ { "u_val": "rad" }, "<=", { "const": 60 } ] },
-            { "compare_int": [ { "u_val": "rad" }, ">", { "const": 30 } ] },
+            { "compare_int": [ { "u_val": "item_rad", "flag": "RAD_DETECT", "aggregate": "min" }, "<=", { "const": 60 } ] },
+            {
+              "compare_int": [ { "u_val": "item_rad", "flag": "RAD_DETECT", "aggregate": "min" }, ">", { "const": 30 } ]
+            },
             { "or": [ { "u_has_worn_with_flag": "RAD_DETECT" }, { "u_has_wielded_with_flag": "RAD_DETECT" } ] }
           ]
         }
@@ -202,8 +206,10 @@
         "color": "red_yellow",
         "condition": {
           "and": [
-            { "compare_int": [ { "u_val": "rad" }, "<=", { "const": 120 } ] },
-            { "compare_int": [ { "u_val": "rad" }, ">", { "const": 60 } ] },
+            { "compare_int": [ { "u_val": "item_rad", "flag": "RAD_DETECT", "aggregate": "min" }, "<=", { "const": 120 } ] },
+            {
+              "compare_int": [ { "u_val": "item_rad", "flag": "RAD_DETECT", "aggregate": "min" }, ">", { "const": 60 } ]
+            },
             { "or": [ { "u_has_worn_with_flag": "RAD_DETECT" }, { "u_has_wielded_with_flag": "RAD_DETECT" } ] }
           ]
         }
@@ -214,8 +220,10 @@
         "color": "red_red",
         "condition": {
           "and": [
-            { "compare_int": [ { "u_val": "rad" }, "<=", { "const": 240 } ] },
-            { "compare_int": [ { "u_val": "rad" }, ">", { "const": 120 } ] },
+            { "compare_int": [ { "u_val": "item_rad", "flag": "RAD_DETECT", "aggregate": "min" }, "<=", { "const": 240 } ] },
+            {
+              "compare_int": [ { "u_val": "item_rad", "flag": "RAD_DETECT", "aggregate": "min" }, ">", { "const": 120 } ]
+            },
             { "or": [ { "u_has_worn_with_flag": "RAD_DETECT" }, { "u_has_wielded_with_flag": "RAD_DETECT" } ] }
           ]
         }
@@ -226,8 +234,7 @@
         "color": "pink",
         "condition": {
           "and": [
-            { "compare_int": [ { "u_val": "rad" }, "<=", { "const": 500 } ] },
-            { "compare_int": [ { "u_val": "rad" }, ">", { "const": 240 } ] },
+            { "compare_int": [ { "u_val": "item_rad", "flag": "RAD_DETECT", "aggregate": "min" }, ">", { "const": 240 } ] },
             { "or": [ { "u_has_worn_with_flag": "RAD_DETECT" }, { "u_has_wielded_with_flag": "RAD_DETECT" } ] }
           ]
         }

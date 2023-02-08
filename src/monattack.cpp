@@ -3367,6 +3367,9 @@ bool mattack::check_money_left( monster *z )
 
             if( !z->inv.empty() ) {
                 for( const item &it : z->inv ) {
+                    if( it.has_var( "DESTROY_ITEM_ON_MON_DEATH" ) ) {
+                        continue;
+                    }
                     get_map().add_item_or_charges( z->pos(), it );
                 }
                 z->inv.clear();
@@ -3810,6 +3813,7 @@ bool mattack::searchlight( monster *z )
 
             settings.set_var( "SL_SPOT_X", 0 );
             settings.set_var( "SL_SPOT_Y", 0 );
+            settings.set_var( "DESTROY_ITEM_ON_MON_DEATH", "TRUE" );
 
             z->add_item( settings );
         }

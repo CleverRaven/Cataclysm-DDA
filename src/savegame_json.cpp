@@ -3058,9 +3058,16 @@ void item::io( Archive &archive )
         }
     }
 
-    // Remove stored translated gerund in favor of storing the inscription tool type
-    item_vars.erase( "item_label_type" );
-    item_vars.erase( "item_note_type" );
+    static const std::set<std::string> removed_item_vars = {
+        // Searchlight monster setting vars
+        "SL_PREFER_UP", "SL_PREFER_DOWN", "SL_PREFER_RIGHT", "SL_PREFER_LEFT", "SL_SPOT_X", "SL_SPOT_Y", "SL_POWER", "SL_DIR",
+        // Remove stored translated gerund in favor of storing the inscription tool type
+        "item_label_type", "item_note_type"
+    };
+
+    for( const std::string &var : removed_item_vars ) {
+        item_vars.erase( var );
+    }
 
     current_phase = static_cast<phase_id>( cur_phase );
     // override phase if frozen, needed for legacy save

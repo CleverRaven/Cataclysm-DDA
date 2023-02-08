@@ -1717,6 +1717,12 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
             return [is_npc]( const T & d ) {
                 return d.actor( is_npc )->get_rad();
             };
+        } else if( checked_value == "item_rad" ) {
+            const std::string flag = jo.get_string( "flag" );
+            const aggregate_type agg = jo.get_enum_value<aggregate_type>( "aggregate", aggregate_type::FIRST );
+            return [is_npc, flag, agg]( const T & d ) {
+                return d.actor( is_npc )->item_rads( flag_id( flag ), agg );
+            };
         } else if( checked_value == "focus" ) {
             return [is_npc]( const T & d ) {
                 return d.actor( is_npc )->focus_cur();
