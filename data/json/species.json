@@ -183,5 +183,10 @@
     "type": "SPECIES",
     "id": "UNKNOWN",
     "description": "a bug"
+  },
+  {
+    "type": "SPECIES",
+    "id": "ANOMALY",
+    "description": "an anomalous creature"
   }
 ]
