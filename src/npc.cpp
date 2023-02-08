@@ -2014,6 +2014,10 @@ bool npc::wants_to_buy( const item &it ) const
 
 ret_val<void> npc::wants_to_buy( const item &it, int at_price ) const
 {
+    if( it.has_flag( flag_DANGEROUS ) || ( it.has_flag( flag_BOMB ) && it.active ) ) {
+        return ret_val<void>::make_failure();
+    }
+
     if( will_exchange_items_freely() ) {
         return ret_val<void>::make_success();
     }
@@ -2205,16 +2209,16 @@ void npc::update_worst_item_value()
 
 double npc::value( const item &it ) const
 {
+    if( it.is_dangerous() || ( it.has_flag( flag_BOMB ) && it.active ) ) {
+        return -1000;
+    }
+
     int market_price = it.price( true );
     return value( it, market_price );
 }
 
 double npc::value( const item &it, double market_price ) const
 {
-    if( it.is_dangerous() || ( it.has_flag( flag_BOMB ) && it.active ) ) {
-        // NPCs won't be interested in buying active explosives
-        return -1000;
-    }
     if( is_shopkeeper() ||
         // faction currency trades at market price
         ( my_fac != nullptr && my_fac->currency == it.typeId() ) ) {
