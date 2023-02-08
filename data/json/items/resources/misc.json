@@ -316,5 +316,22 @@
     "flags": [ "TRADER_AVOID", "SINGLE_USE" ],
     "price": 30000,
     "price_postapoc": 0
+  },
+  {
+    "type": "GENERIC",
+    "id": "generic_fossil_bone",
+    "name": { "str": "fossilized bone" },
+    "description": "a section of porous, mineral-impregnated fossilized remains: the remnants of a bone segment from a long-dead creature.  The ancient bone sample itself has been largely replaced by mineral deposits, leaving behind only a small percentage of actual organic matter within what is, essentially, an interestingly shaped chunk of rock.",
+    "weight": "225 g",
+    "volume": "250 ml",
+    "longest_side": "10 cm",
+    "color": "dark_gray",
+    "symbol": ",",
+    "material": [ "stone" ],
+    "bashing": 5,
+    "to_hit": -4,
+    "flags": [ "TRADER_AVOID", "SINGLE_USE" ],
+    "price": 30000,
+    "price_postapoc": 0
   }
 ]

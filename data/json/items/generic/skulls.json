@@ -236,7 +236,7 @@
     "longest_side": "99 cm",
     "symbol": "@",
     "color": "white",
-    "price": 40,
+    "price": 50000000,
     "price_postapoc": 40,
     "material": [ "stone" ]
   },
@@ -279,7 +279,7 @@
     "longest_side": "33 cm",
     "symbol": "@",
     "color": "white",
-    "price": 40,
+    "price": 10000000,
     "price_postapoc": 40,
     "material": [ "stone" ]
   },
@@ -305,7 +305,7 @@
     "//": "Numbers for weight, length and volume calculations taken from a Gallimimus skull: the closest approximation I could find.",
     "symbol": "@",
     "color": "white",
-    "price": 40,
+    "price": 2000000,
     "price_postapoc": 40,
     "material": [ "stone" ]
   },
