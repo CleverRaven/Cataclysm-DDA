@@ -1976,12 +1976,10 @@ bool npc::wants_to_sell( const item_location &it ) const
     if( !it->is_owned_by( *this ) ) {
         return false;
     }
-    const int market_price = it->price( true );
-    return wants_to_sell( it, value( *it, market_price ), market_price ).success();
+    return wants_to_sell( it, value( *it ) ).success();
 }
 
-ret_val<void> npc::wants_to_sell( const item_location &it, int at_price,
-                                  int /*market_price*/ ) const
+ret_val<void> npc::wants_to_sell( const item_location &it, int at_price ) const
 {
     if( will_exchange_items_freely() ) {
         return ret_val<void>::make_success();
@@ -2011,11 +2009,10 @@ ret_val<void> npc::wants_to_sell( const item_location &it, int at_price,
 
 bool npc::wants_to_buy( const item &it ) const
 {
-    const int market_price = it.price( true );
-    return wants_to_buy( it, value( it, market_price ), market_price ).success();
+    return wants_to_buy( it, value( it ) ).success();
 }
 
-ret_val<void> npc::wants_to_buy( const item &it, int at_price, int /*market_price*/ ) const
+ret_val<void> npc::wants_to_buy( const item &it, int at_price ) const
 {
     if( will_exchange_items_freely() ) {
         return ret_val<void>::make_success();
