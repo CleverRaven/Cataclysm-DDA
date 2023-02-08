@@ -919,8 +919,8 @@
     "quench": 35,
     "fun": 10,
     "spoils_in": "1 day",
-    "flags": [ "EATEN_HOT" ]
     "vitamins": [ [ "calcium", 7 ], [ "iron", 3 ] ],
+    "flags": [ "EATEN_HOT" ]
   },
   {
     "type": "COMESTIBLE",
