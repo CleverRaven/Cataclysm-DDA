@@ -2580,6 +2580,7 @@ void debug()
     static const std::unordered_set<debug_menu_index> non_cheaty_options = {
         debug_menu_index::SAVE_SCREENSHOT,
         debug_menu_index::GAME_REPORT,
+        debug_menu_index::GAME_MIN_ARCHIVE,
         debug_menu_index::ENABLE_ACHIEVEMENTS,
         debug_menu_index::UNLOCK_ALL,
         debug_menu_index::BENCHMARK,
