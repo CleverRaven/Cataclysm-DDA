@@ -2240,6 +2240,16 @@
   },
   {
     "type": "snippet",
+    "category": "<ally_rule_avoid_locks_true_text>",
+    "text": "<mypronoun> will not try to unlock doors."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_avoid_locks_false_text>",
+    "text": "<mypronoun> will unlock doors to open them."
+  },
+  {
+    "type": "snippet",
     "category": "<ally_rule_hold_the_line_true_text>",
     "text": "<mypronoun> will hold the line by not moving into doorways or obstructions adjacent to you."
   },
