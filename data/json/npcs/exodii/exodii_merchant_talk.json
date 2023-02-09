@@ -663,12 +663,8 @@
     "id": "TALK_EXODII_MERCHANT_Robot_Make",
     "type": "talk_topic",
     "dynamic_line": ".",
-    "//~": "Well, it has to do with how we make them.  Our technology isn't exactly like yours in the sense of robots.  Instead of a computer chip or something like that driving the whole thing, we use the brains of those infected that keep running around.  Not the ones that died, per say, just the ones that went crazy.  They're too damaged for advanced work, but they take orders very well.  We slap them onto whatever chassis we need at the time, start them up, and set them to work.",
+    "//~": "It has to do with how we make them.  Our technology isn't exactly like yours in the sense of robots, as much of it is cobbled together.  Despite all the stuff we can do, it's very difficult to make the central processing units, and they're pretty basic compared to other robotics.  They're too basic for advanced work, but they take orders very well.  We slap them onto whatever chassis we need at the time, start them up, and set them to work.",
     "responses": [
-      {
-        "text": "Wait, you're telling me that you make people into your robots?",
-        "topic": "TALK_EXODII_MERCHANT_Robot_Make_People"
-      },
       {
         "text": "How long does it take you to make one of these robots?",
         "topic": "TALK_EXODII_MERCHANT_Robot_Make_People"
@@ -682,7 +678,8 @@
     "id": "TALK_EXODII_MERCHANT_Robot_Make_People",
     "type": "talk_topic",
     "dynamic_line": ".",
-    "//~": "They're not people anymore, the brain's too damaged.  Trust me, we tried that a few times, it didn't turn out so well.  They're what you call, \"ferals\"?  You know, those zombies that act like they're still people, but aren't.",
+    "//~": "The player shouldn't see this unless they fully join the Exodii, as that's when they could be on the inside of things.  For now, this should only link to special dialouge when you've built up enough trust with them.",
+    "//2": "They're not people anymore, the brain's too damaged.  Trust me, we tried that a few times, it didn't turn out so well.  They're what you call, \"ferals\"?  You know, those zombies that act like they're still people, but aren't.",
     "responses": [
       { "text": "How long does it take you to make one of these robots?", "topic": "TALK_EXODII_MERCHANT_Robot_Make_Time" },
       { "text": "Can I buy one of your machines?", "topic": "TALK_EXODII_MERCHANT_Robot_Buy" },
@@ -694,7 +691,7 @@
     "id": "TALK_EXODII_MERCHANT_Robot_Make_Time",
     "type": "talk_topic",
     "dynamic_line": ".",
-    "//~": "It can take a while, the hardest part is sourcing the brain for one.  If it's too damaged, we can't use it.  We've got printers that make the rest of the body, and others that make the tools and equipment the robot will use.  Some of the stuff we make has to be manufactured by hand, so we have a small team that does that.",
+    "//~": "It can take a while, the hardest part is sourcing the materials for one.  We've got printers that make the body, and others that make the tools and equipment the robot will use.  Some of the stuff we make, like the core processor, has to be manufactured by hand, so we have a small team that does that.",
     "responses": [
       { "text": "Can I buy one of your machines?", "topic": "TALK_EXODII_MERCHANT_Robot_Buy" },
       { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
