@@ -1533,7 +1533,7 @@ class Character : public Creature, public visitable
         /** Uses a tool */
         void use( int inventory_position );
         /** Uses a tool at location */
-        void use( item_location loc, int pre_obtain_moves = -1 );
+        void use( item_location loc, int pre_obtain_moves = -1, std::string const &method = {} );
         /** Uses the current wielded weapon */
         void use_wielded();
         /** Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion. */

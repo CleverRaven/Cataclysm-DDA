@@ -1708,7 +1708,7 @@ void game::open_consume_item_menu()
             avatar_action::eat( player_character, game_menus::inv::consume_drink( player_character ) );
             break;
         case 2:
-            avatar_action::eat( player_character, game_menus::inv::consume_meds( player_character ) );
+            avatar_action::eat_or_use( player_character, game_menus::inv::consume_meds( player_character ) );
             break;
         default:
             break;
@@ -2227,7 +2227,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 
         case ACTION_EAT:
             if( !avatar_action::eat_here( player_character ) ) {
-                avatar_action::eat( player_character, game_menus::inv::consume( player_character ) );
+                avatar_action::eat_or_use( player_character, game_menus::inv::consume( player_character ) );
             }
             break;
 
