@@ -46,30 +46,32 @@ past_game_info::past_game_info( const JsonObject &jo )
         throw JsonError( string_format( "unexpected memorial version %d", version ) );
     }
 
-    // Extract avatar name info from the game_avatar_new event (new) or the game_start event (old)
-    // This gives the starting character name; "et. al." is appended if there was character switching
-    event_multiset &start_events = stats_->get_events( event_type::game_start );
-    const event_multiset::summaries_type &start_counts = start_events.counts();
+    // Extract avatar name info from the game_avatar_new event
+    // gives the starting character name; "et. al." is appended if there was character switching
     event_multiset &new_avatar_events = stats_->get_events( event_type::game_avatar_new );
     const event_multiset::summaries_type &new_avatar_counts = new_avatar_events.counts();
-    if( start_counts.size() != 1 ) {
-        if( start_counts.empty() ) {
-            throw too_old_memorial_file_error( "memorial file lacks game_start event" );
-        }
-        debugmsg( "Unexpected number of game start events: %d\n", start_counts.size() );
-        return;
-    }
-    const cata::event::data_type &start_event_data = start_counts.begin()->first;
-    auto avatar_name_it = start_event_data.find( "avatar_name" );
-    if( avatar_name_it != start_event_data.end() ) {
-        avatar_name_ = avatar_name_it->second.get_string() +
-                       ( !new_avatar_counts.empty() ? " et. al." : "" );
-    } else {
+    if( !new_avatar_counts.empty() ) {
         const cata::event::data_type &new_avatar_event_data = new_avatar_counts.begin()->first;
-        avatar_name_it = new_avatar_event_data.find( "avatar_name" );
+        auto avatar_name_it = new_avatar_event_data.find( "avatar_name" );
         if( avatar_name_it != new_avatar_event_data.end() ) {
             avatar_name_ = avatar_name_it->second.get_string() +
                            ( new_avatar_counts.size() > 1 ? " et. al." : "" );
+        }
+    } else {
+        // Legacy approach using the game_start event
+        event_multiset &start_events = stats_->get_events( event_type::game_start );
+        const event_multiset::summaries_type &start_counts = start_events.counts();
+        if( start_counts.size() != 1 ) {
+            if( start_counts.empty() ) {
+                throw too_old_memorial_file_error( "memorial file lacks game_start event" );
+            }
+            debugmsg( "Unexpected number of game start events: %d\n", start_counts.size() );
+            return;
+        }
+        const cata::event::data_type &start_event_data = start_counts.begin()->first;
+        auto avatar_name_it = start_event_data.find( "avatar_name" );
+        if( avatar_name_it != start_event_data.end() ) {
+            avatar_name_ = avatar_name_it->second.get_string();
         }
     }
 }
