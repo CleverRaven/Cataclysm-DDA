@@ -189,6 +189,7 @@
       "assign_mission_target": {
         "om_terrain": "standing_stones",
         "om_terrain_match_type": "PREFIX",
+        "om_special": "Standing stones",
         "search_range": 80,
         "min_distance": 5,
         "random": true,
