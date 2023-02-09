@@ -104,7 +104,7 @@
     "copy-from": "summon_dreamforged_abstract_ench",
     "type": "SPELL",
     "name": "Forge Ballistic Plate",
-    "description": "Forge a balistic plate.",
+    "description": "Forge a ballistic plate.",
     "flags": [ "CONCENTRATE", "VERBAL", "PERMANENT", "NO_EXPLOSION_SFX" ],
     "effect_str": "dreamforged_ballistic_plate"
   },
@@ -113,7 +113,7 @@
     "copy-from": "summon_dreamforged_abstract_ench",
     "type": "SPELL",
     "name": "Forge Small Ballistic Plate",
-    "description": "Forge a small balistic plate.",
+    "description": "Forge a small ballistic plate.",
     "flags": [ "CONCENTRATE", "VERBAL", "PERMANENT", "NO_EXPLOSION_SFX" ],
     "effect_str": "dreamforged_ballistic_plate_small"
   },
@@ -226,7 +226,7 @@
     "copy-from": "summon_dreamforged_abstract_ench",
     "type": "SPELL",
     "name": "Forge Battle Axe",
-    "description": "Forge a ballte axe.",
+    "description": "Forge a battle axe.",
     "components": "spell_components_forging_ingot_3",
     "effect_str": "dreamforged_battleaxe_ench"
   },
@@ -299,8 +299,8 @@
     "id": "summon_dreamforged_zweihander_ench",
     "copy-from": "summon_dreamforged_abstract_ench",
     "type": "SPELL",
-    "name": "Forge Zweihander",
-    "description": "Forge a zweihander.",
+    "name": "Forge Zweihänder",
+    "description": "Forge a zweihänder.",
     "components": "spell_components_forging_ingot_2",
     "effect_str": "dreamforged_zweihander_ench"
   },
@@ -325,8 +325,8 @@
     "id": "summon_dreamforged_knuckle_ench",
     "copy-from": "summon_dreamforged_abstract_ench",
     "type": "SPELL",
-    "name": "Forge Knuckels",
-    "description": "Forge pair of knuckels.",
+    "name": "Forge Knuckles",
+    "description": "Forge pair of knuckles.",
     "effect_str": "dreamforged_knuckle_ench"
   }
 ]
