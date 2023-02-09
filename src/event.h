@@ -572,8 +572,9 @@ struct event_spec<event_type::game_avatar_death> {
 
 template<>
 struct event_spec<event_type::game_avatar_new> {
-    static constexpr std::array<std::pair<const char *, cata_variant_type>, 6> fields = {{
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 7> fields = {{
             { "is_new_game", cata_variant_type::bool_ },
+            { "is_debug", cata_variant_type::bool_ },
             { "avatar_id", cata_variant_type::character_id },
             { "avatar_name", cata_variant_type::string },
             { "avatar_is_male", cata_variant_type::bool_ },

@@ -4707,6 +4707,7 @@ void stats_tracker::deserialize( const JsonObject &jo )
             // retroactively insert starting avatar
             cata::event::data_type gan_data( gs_data );
             gan_data["is_new_game"] = cata_variant::make<cata_variant_type::bool_>( true );
+            gan_data["is_debug"] = cata_variant::make<cata_variant_type::bool_>( false );
             gan_data.erase( "game_version" );
             get_event_bus().send( cata::event( event_type::game_avatar_new, calendar::start_of_game,
                                                std::move( gan_data ) ) );
@@ -4716,17 +4717,17 @@ void stats_tracker::deserialize( const JsonObject &jo )
             avatar &u = get_avatar();
             if( u.getID() != gs_data["avatar_id"].get<cata_variant_type::character_id>() ) {
                 profession_id prof_id = u.prof ? u.prof->ident() : profession::generic()->ident();
-                get_event_bus().send( cata::event::make<event_type::game_avatar_new>(
-                                          false, u.getID(), u.name, u.male, prof_id, u.custom_profession ) );
+                get_event_bus().send( cata::event::make<event_type::game_avatar_new>( false, false,
+                                      u.getID(), u.name, u.male, prof_id, u.custom_profession ) );
             }
         } else {
             // last ditch effort for really old saves that don't even have event_type::game_start
-            // treat current avatar as the starting avatar
+            // treat current avatar as the starting avatar; abuse is_new_game=false to flag such cases
             avatar &u = get_avatar();
             profession_id prof_id = u.prof ? u.prof->ident() : profession::generic()->ident();
             std::swap( calendar::turn, calendar::start_of_game );
-            get_event_bus().send( cata::event::make<event_type::game_avatar_new>(
-                                      false, u.getID(), u.name, u.male, prof_id, u.custom_profession ) );
+            get_event_bus().send( cata::event::make<event_type::game_avatar_new>( false, false,
+                                  u.getID(), u.name, u.male, prof_id, u.custom_profession ) );
             std::swap( calendar::turn, calendar::start_of_game );
         }
     }

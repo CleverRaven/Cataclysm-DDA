@@ -126,11 +126,11 @@ class avatar : public Character
          * Makes the avatar "take over" the given NPC, while the current avatar character
          * becomes an NPC.
          */
-        void control_npc( npc & );
+        void control_npc( npc &, bool debug = false );
         /**
          * Open a menu to choose the NPC to take over.
          */
-        void control_npc_menu();
+        void control_npc_menu( bool debug = false );
         using Character::query_yn;
         bool query_yn( const std::string &mes ) const override;
 

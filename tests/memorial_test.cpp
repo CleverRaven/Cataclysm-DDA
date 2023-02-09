@@ -224,8 +224,8 @@ TEST_CASE( "memorials", "[memorial]" )
         "last_words" );
 
     check_memorial<event_type::game_avatar_new>(
-        m, b, u_name + " began their journey into the Cataclysm.", true, ch, u_name, player_character.male,
-        player_character.prof->ident(), player_character.custom_profession );
+        m, b, u_name + " began their journey into the Cataclysm.", true, false, ch, u_name,
+        player_character.male, player_character.prof->ident(), player_character.custom_profession );
 
     check_memorial<event_type::installs_cbm>(
         m, b, "Installed bionic: Alarm System.", ch, cbm );
