@@ -1320,6 +1320,11 @@ bool vehicle::can_unmount( const int p, std::string &reason ) const
         return false;
     }
 
+    if( vp_to_remove.info().has_flag( "DOOR_LOCKING" ) && next_part_to_unlock( p ) >= 0 ) {
+        reason = _( "Unlock this part first." );
+        return false;
+    }
+
     if( vp_to_remove.info().location != part_location_structure ) {
         return true; // non-structure parts don't have extra requirements
     }
