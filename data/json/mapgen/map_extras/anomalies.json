@@ -1,0 +1,125 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_time_anomaly",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "place_nested": [
+        {
+          "chunks": [ [ "mass_grave_abandoned", 30 ], [ "mass_grave_partial", 20 ], [ "mass_grave_finished", 10 ] ],
+          "x": 0,
+          "y": 0
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "survivor_camp",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "...p,ppp,p....p,ppp,p...",
+        "mmmmcbbbcbaaaabcbbbcmmmm",
+        "...#,###,#....#,###,#...",
+        "...#,###,#....#,###,#...",
+        "...~,~~~,~....~,~~~,~...",
+        "...#,###,#....#,###,#...",
+        "...#,###,#....#,###,#...",
+        "...~,~~~,~....~,~~~,~...",
+        "...#,###,#....#,###,#...",
+        "...#,###,#....#,###,#...",
+        "...~,~~~,~....~,~~~,~...",
+        "...#,###,#....#,###,#...",
+        "...#,###,#....#,###,#...",
+        "...~,~~~,~....~,~~~,~...",
+        "...#,###,#....#,###,#...",
+        "...#,###,#....#,###,#...",
+        "...~,~~~,~....~,~~~,~...",
+        "...#,###,#....#,###,#...",
+        "...#,###,#....#,###,#...",
+        "...~,~~~,~....~,~~~,~...",
+        "...#,###,#....#,###,#...",
+        "...#,###,#....#,###,#...",
+        "mmmmcbbbcbaaaabcbbbcmmmm",
+        "...p,ppp,p....p,ppp,p..."
+      ],
+      "terrain": {
+        ".": "t_rock_floor",
+        "a": "t_rock_floor",
+        "#": "t_railroad_rubble",
+        "~": "t_railroad_tie_d2",
+        "b": "t_railroad_tie_d2",
+        ",": "t_railroad_track_d2",
+        "c": "t_railroad_track_d2",
+        "p": "t_pit_shallow",
+        "m": "t_junk_wall"
+      },
+      "furniture": {
+        "a": "f_gravelbag_half",
+        "b": "f_gravelbag_half",
+        "c": "f_gravelbag_half",
+        "|": "f_large_canvas_wall",
+        "D": "f_large_canvas_door_o",
+        "n": "f_tourist_table",
+        "B": "f_makeshift_bed",
+        "c": "f_camp_chair",
+        "X": "f_plastic_groundsheet"
+      },
+      "place_loot": [
+        { "group": "corpse_in_body_bag", "x": 14, "y": [ 2, 18 ], "repeat": [ 5, 20 ] },
+        { "group": "corpse_in_body_bag", "x": 17, "y": [ 2, 18 ], "repeat": [ 5, 20 ] },
+        { "group": "everyday_corpse", "x": 14, "y": [ 2, 18 ], "repeat": [ 0, 4 ] },
+        { "group": "everyday_corpse", "x": 17, "y": [ 2, 18 ], "repeat": [ 0, 4 ] },
+        { "group": "mass_grave_casings", "repeat": [ 10, 15 ], "x": [ 2, 22 ], "y": [ 18, 23 ] },
+        { "group": "guns_launcher_flame", "chance": 40, "x": [ 2, 5 ], "y": 20 },
+        { "item": "stanag30", "repeat": [ 0, 2 ], "x": [ 2, 22 ], "y": [ 18, 23 ] },
+        { "item": "mask_gas", "repeat": [ 0, 3 ], "x": [ 2, 5 ], "y": 20 },
+        { "item": "oxygen_tank", "repeat": [ 1, 6 ], "x": 10, "y": [ 20, 22 ] },
+        { "item": "gasfilter_m", "repeat": [ 5, 8 ], "x": 10, "y": [ 20, 22 ] }
+      ],
+      "place_monsters": [
+        { "monster": "GROUP_MASS_GRAVE", "density": 1, "x": [ 1, 22 ], "y": [ 1, 22 ] },
+        { "monster": "GROUP_SCHOOL", "chance": 35, "density": 1, "x": [ 1, 22 ], "y": [ 1, 22 ] },
+        { "monster": "GROUP_MIL_MASS_GRAVE", "density": 0.25, "x": [ 1, 22 ], "y": [ 1, 22 ] }
+      ],
+      "place_fields": [
+        { "field": "fd_blood", "x": [ 2, 22 ], "y": [ 18, 23 ], "repeat": [ 8, 12 ] },
+        { "field": "fd_gibs_flesh", "x": [ 2, 22 ], "y": [ 18, 23 ], "repeat": [ 1, 5 ] },
+        { "field": "fd_blood", "x": [ 2, 22 ], "y": [ 18, 23 ], "repeat": [ 4, 8 ] }
+      ],
+      "place_vehicles": [
+        { "vehicle": "military_cargo_truck", "x": [ 16, 17 ], "y": [ 19, 20 ], "chance": 25 },
+        { "vehicle": "trencher", "x": [ 19, 22 ], "y": [ 3, 13 ], "chance": 40, "rotation": [ 90, 270 ] }
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  }
+]
