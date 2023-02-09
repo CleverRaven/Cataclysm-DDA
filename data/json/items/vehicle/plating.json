@@ -180,5 +180,22 @@
     "price_postapoc": 250,
     "category": "veh_parts",
     "qualities": [ [ "ANVIL", 1 ] ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "armored_shutters",
+    "name": { "str_sp": "armored shutters" },
+    "description": "A set of movable steel shutters that can be installed over a vehicle's window.",
+    "weight": "24 kg",
+    "longest_side": "130 cm",
+    "to_hit": -4,
+    "color": "light_cyan",
+    "symbol": "]",
+    "material": [ "lc_steel" ],
+    "volume": "20 L",
+    "bashing": 5,
+    "category": "veh_parts",
+    "price": 6000,
+    "price_postapoc": 100
   }
 ]

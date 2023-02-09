@@ -3281,5 +3281,29 @@
       "removal": { "time": "50 s", "skills": [ [ "mechanics", 2 ] ] }
     },
     "flags": [  ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "armored_shutters",
+    "name": { "str": "armored shutters" },
+    "symbol": "=",
+    "looks_like": "reinforced_windshield",
+    "categories": [ "other" ],
+    "color": "dark_gray",
+    "broken_symbol": "0",
+    "broken_color": "light_gray",
+    "damage_modifier": 1,
+    "durability": 300,
+    "damage_reduction": { "all": 20 },
+    "description": "A set of steel shutters that can be closed to protect your windows.",
+    "item": "armored_shutters",
+    "location": "on_windshield",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "10 m", "using": [ [ "vehicle_screw", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "10 m", "using": [ [ "vehicle_screw", 1 ] ] },
+      "repair": { "skills": [ [ "fabrication", 3 ] ], "time": "5 m", "using": [ [ "welding_standard", 2 ], [ "sheet_metal", 1 ] ] }
+    },
+    "flags": [ "OPENABLE", "OPENCLOSE_INSIDE", "OPAQUE", "CURTAIN", "MULTISQUARE", "NEEDS_WINDOW", "SIMPLE_PART" ],
+    "breaks_into": [ "ig_vp_sheet_metal", 4 ]
   }
 ]
