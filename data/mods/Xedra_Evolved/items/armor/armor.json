@@ -446,5 +446,47 @@
     "name": { "str": "XS moon tears chainmail vest" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "dreamforged_ballistic_plate",
+    "type": "ARMOR",
+    "name": { "str": "dreamforged ballistic plate" },
+    "copy-from": "steel_ballistic_plate",
+    "description": "Manually forged ballistic plate, made to fit the common ballistic plate.  Probably not as good as steel one, but lightweight, and additionally hardened with magic.",
+    "material": [ "forged_dreamstuff" ],
+    "weight": "1499 g",
+    "volume": "749 ml",
+    "longest_side": "30 cm",
+    "armor": [
+      {
+        "material": [ { "type": "forged_dreamstuff", "covered_by_mat": 100, "thickness": 1 } ],
+        "encumbrance": 1,
+        "coverage": 45,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper" ]
+      }
+    ]
+  },
+  {
+    "id": "dreamforged_ballistic_plate_small",
+    "type": "ARMOR",
+    "name": { "str": "small dreamforged ballistic plate" },
+    "copy-from": "steel_ballistic_plate",
+    "description": "Manually forged ballistic plate, made to fit the common ballistic plate.  Probably not as good as steel one, but lightweight, and additionally hardened with magic.  Smaller in size, and can fit a side pocket of plate carrier.",
+    "material": [ "forged_dreamstuff" ],
+    "weight": "618 g",
+    "volume": "309 ml",
+    "longest_side": "20 cm",
+    "armor": [
+      {
+        "material": [ { "type": "forged_dreamstuff", "covered_by_mat": 100, "thickness": 1 } ],
+        "encumbrance": 1,
+        "coverage": 35,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_lower" ]
+      }
+    ],
+    "delete": { "flags": [ "ABLATIVE_LARGE" ] },
+    "extend": { "flags": [ "ABLATIVE_MEDIUM" ] }
   }
 ]

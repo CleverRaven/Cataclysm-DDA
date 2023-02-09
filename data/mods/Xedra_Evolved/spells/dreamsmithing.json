@@ -3,9 +3,9 @@
     "id": "spell_oneiric_hammer",
     "type": "SPELL",
     "name": "Call Oneiric Hammer",
-    "description": "Creates a crystal blacksmith's hammer with which to build a new reality.",
+    "description": "Creates a crystal blacksmith's hammer with which to build a new reality.  You need all your magic force to hold it, and you unable to do any magic while using it.",
     "valid_targets": [ "self" ],
-    "flags": [ "CONCENTRATE", "LOUD", "VERBAL", "NO_LEGS" ],
+    "flags": [ "CONCENTRATE", "VERBAL", "NO_LEGS", "PERMANENT_ALL_LEVELS" ],
     "skill": "deduction",
     "difficulty": 2,
     "min_damage": 1,
@@ -13,14 +13,10 @@
     "effect": "spawn_item",
     "effect_str": "xe_oneiric_hammer",
     "shape": "blast",
-    "energy_source": "MANA",
     "spell_class": "DREAMSMITH",
-    "max_level": 20,
-    "base_casting_time": 150,
-    "base_energy_cost": 100,
-    "min_duration": 10000,
-    "max_duration": 50000,
-    "duration_increment": 2000
+    "energy_source": "MANA",
+    "base_energy_cost": 1000,
+    "base_casting_time": 500
   },
   {
     "id": "forge_dreamdross",
@@ -33,9 +29,9 @@
     "effect": "spawn_item",
     "effect_str": "forged_dreamstuff_ingot",
     "shape": "blast",
-    "base_casting_time": 60000,
-    "final_casting_time": 6000,
-    "casting_time_increment": -6000,
+    "base_casting_time": 180000,
+    "final_casting_time": 18000,
+    "casting_time_increment": -18000,
     "base_energy_cost": 1000,
     "final_energy_cost": 500,
     "energy_increment": -50,
@@ -43,7 +39,294 @@
     "skill": "deduction",
     "max_level": 10,
     "spell_class": "DREAMSMITH",
+    "energy_source": "STAMINA",
+    "flags": [ "PERMANENT_ALL_LEVELS", "NO_LEGS", "CONCENTRATE" ]
+  },
+  {
+    "id": "forge_dreamdross_knife",
+    "type": "SPELL",
+    "name": "Cover The Blade",
+    "description": "Cover some blade in thin layer of a dreamdross, using only your mana.  It won't enhance it with magic, but it will make a good weapon, and do not require tools.",
+    "valid_targets": [ "self" ],
+    "min_damage": 1,
+    "max_damage": 1,
+    "effect": "spawn_item",
+    "effect_str": "dreamdross_knife",
+    "shape": "blast",
+    "base_casting_time": 180000,
+    "final_casting_time": 18000,
+    "casting_time_increment": -18000,
+    "base_energy_cost": 500,
+    "components": "spell_components_dross_knife",
+    "skill": "deduction",
+    "max_level": 0,
+    "spell_class": "DREAMSMITH",
     "energy_source": "MANA",
     "flags": [ "PERMANENT_ALL_LEVELS", "NO_LEGS", "CONCENTRATE" ]
+  },
+  {
+    "id": "forge_dreamdross_club",
+    "copy-from": "forge_dreamdross_knife",
+    "type": "SPELL",
+    "name": "Cover The Bar",
+    "description": "Cover some metal bar in thin layer of a dreamdross, with some thickening on the edge, using only your mana.  It won't enhance it with magic, but it will make a good club, and do not require tools.",
+    "effect_str": "dreamdross_club"
+  },
+  {
+    "id": "forge_dreamdross_bo",
+    "copy-from": "forge_dreamdross_knife",
+    "type": "SPELL",
+    "name": "Cover The Stick",
+    "description": "Cover some long stick in thin layer of a dreamdross, using only your mana.  It won't enhance it with magic, but it will make a good weapon, and do not require tools.",
+    "effect_str": "dreamdross_bo"
+  },
+  {
+    "abstract": "summon_dreamforged_abstract_ench",
+    "type": "SPELL",
+    "name": "Forge Abstract Item",
+    "description": "Abstract for dreamsmith forging.",
+    "valid_targets": [ "self" ],
+    "flags": [ "CONCENTRATE", "VERBAL", "PERMANENT", "NO_EXPLOSION_SFX", "SPAWN_GROUP" ],
+    "skill": "deduction",
+    "difficulty": 2,
+    "min_damage": 1,
+    "max_damage": 1,
+    "effect": "spawn_item",
+    "shape": "blast",
+    "components": "spell_components_forging_ingot_1",
+    "energy_source": "STAMINA",
+    "spell_class": "DREAMSMITH",
+    "base_casting_time": 2520000,
+    "base_energy_cost": 5000
+  },
+  {
+    "id": "summon_dreamforged_ballistic_plate_ench",
+    "copy-from": "summon_dreamforged_abstract_ench",
+    "type": "SPELL",
+    "name": "Forge Ballistic Plate",
+    "description": "Forge a balistic plate.",
+    "flags": [ "CONCENTRATE", "VERBAL", "PERMANENT", "NO_EXPLOSION_SFX" ],
+    "effect_str": "dreamforged_ballistic_plate"
+  },
+  {
+    "id": "summon_dreamforged_ballistic_plate_small_ench",
+    "copy-from": "summon_dreamforged_abstract_ench",
+    "type": "SPELL",
+    "name": "Forge Small Ballistic Plate",
+    "description": "Forge a small balistic plate.",
+    "flags": [ "CONCENTRATE", "VERBAL", "PERMANENT", "NO_EXPLOSION_SFX" ],
+    "effect_str": "dreamforged_ballistic_plate_small"
+  },
+  {
+    "id": "summon_dreamforged_q_staff_ench",
+    "copy-from": "summon_dreamforged_abstract_ench",
+    "type": "SPELL",
+    "name": "Forge Quarterstaff",
+    "description": "Forge a quarterstaff.",
+    "components": "spell_components_forging_ingot_5",
+    "effect_str": "dreamforged_q_staff_ench"
+  },
+  {
+    "id": "summon_dreamforged_longsword_ench",
+    "copy-from": "summon_dreamforged_abstract_ench",
+    "type": "SPELL",
+    "name": "Forge Longsword",
+    "description": "Forge a longsword.",
+    "effect_str": "summon_dreamforged_longsword_ench"
+  },
+  {
+    "id": "summon_dreamforged_warhammer_ench",
+    "copy-from": "summon_dreamforged_abstract_ench",
+    "type": "SPELL",
+    "name": "Forge Warhammer",
+    "description": "Forge a warhammer.",
+    "components": "spell_components_forging_ingot_3",
+    "effect_str": "dreamforged_warhammer_ench"
+  },
+  {
+    "id": "summon_dreamforged_spear_ench",
+    "copy-from": "summon_dreamforged_abstract_ench",
+    "type": "SPELL",
+    "name": "Forge Spear",
+    "description": "Forge a spear.",
+    "components": "spell_components_forging_ingot_5",
+    "effect_str": "dreamforged_spear_ench"
+  },
+  {
+    "id": "summon_dreamforged_halberd_ench",
+    "copy-from": "summon_dreamforged_abstract_ench",
+    "type": "SPELL",
+    "name": "Forge Halberd",
+    "description": "Forge a halberd.",
+    "components": "spell_components_forging_ingot_5",
+    "effect_str": "dreamforged_halberd_ench"
+  },
+  {
+    "id": "summon_dreamforged_glaive_ench",
+    "copy-from": "summon_dreamforged_abstract_ench",
+    "type": "SPELL",
+    "name": "Forge Glaive",
+    "description": "Forge a glaive.",
+    "components": "spell_components_forging_ingot_5",
+    "effect_str": "dreamforged_glaive_ench"
+  },
+  {
+    "id": "summon_dreamforged_naginata_ench",
+    "copy-from": "summon_dreamforged_abstract_ench",
+    "type": "SPELL",
+    "name": "Forge Naginata",
+    "description": "Forge a naginata.",
+    "components": "spell_components_forging_ingot_5",
+    "effect_str": "dreamforged_naginata_ench"
+  },
+  {
+    "id": "summon_dreamforged_mace_ench",
+    "copy-from": "summon_dreamforged_abstract_ench",
+    "type": "SPELL",
+    "name": "Forge Mace",
+    "description": "Forge a mace.",
+    "components": "spell_components_forging_ingot_3",
+    "effect_str": "dreamforged_mace_ench"
+  },
+  {
+    "id": "summon_dreamforged_morningstar_ench",
+    "copy-from": "summon_dreamforged_abstract_ench",
+    "type": "SPELL",
+    "name": "Forge Morningstar",
+    "description": "Forge a morningstar.",
+    "components": "spell_components_forging_ingot_3",
+    "effect_str": "dreamforged_morningstar_ench"
+  },
+  {
+    "id": "summon_dreamforged_estoc_ench",
+    "copy-from": "summon_dreamforged_abstract_ench",
+    "type": "SPELL",
+    "name": "Forge Estoc",
+    "description": "Forge an estoc.",
+    "effect_str": "dreamforged_estoc_ench"
+  },
+  {
+    "id": "summon_dreamforged_arming_sword_ench",
+    "copy-from": "summon_dreamforged_abstract_ench",
+    "type": "SPELL",
+    "name": "Forge Arming Sword",
+    "description": "Forge an arming sword.",
+    "effect_str": "dreamforged_arming_sword_ench"
+  },
+  {
+    "id": "summon_dreamforged_broadsword_ench",
+    "copy-from": "summon_dreamforged_abstract_ench",
+    "type": "SPELL",
+    "name": "Forge Broadsword",
+    "description": "Forge a broadsword.",
+    "effect_str": "dreamforged_broadsword_ench"
+  },
+  {
+    "id": "summon_dreamforged_battleaxe_ench",
+    "copy-from": "summon_dreamforged_abstract_ench",
+    "type": "SPELL",
+    "name": "Forge Battle Axe",
+    "description": "Forge a ballte axe.",
+    "components": "spell_components_forging_ingot_3",
+    "effect_str": "dreamforged_battleaxe_ench"
+  },
+  {
+    "id": "summon_dreamforged_katana_ench",
+    "copy-from": "summon_dreamforged_abstract_ench",
+    "type": "SPELL",
+    "name": "Forge Katana",
+    "description": "Forge a katana.",
+    "effect_str": "dreamforged_katana_ench"
+  },
+  {
+    "id": "summon_dreamforged_knife_combat_ench",
+    "copy-from": "summon_dreamforged_abstract_ench",
+    "type": "SPELL",
+    "name": "Forge Combat Knife",
+    "description": "Forge a combat knife.",
+    "effect_str": "dreamforged_knife_combat_ench"
+  },
+  {
+    "id": "summon_dreamforged_kris_ench",
+    "copy-from": "summon_dreamforged_abstract_ench",
+    "type": "SPELL",
+    "name": "Forge Kris",
+    "description": "Forge a kris.",
+    "effect_str": "dreamforged_kris_ench"
+  },
+  {
+    "id": "summon_dreamforged_kukri_ench",
+    "copy-from": "summon_dreamforged_abstract_ench",
+    "type": "SPELL",
+    "name": "Forge Kukri",
+    "description": "Forge a kukri.",
+    "effect_str": "dreamforged_kukri_ench"
+  },
+  {
+    "id": "summon_dreamforged_nodachi_ench",
+    "copy-from": "summon_dreamforged_abstract_ench",
+    "type": "SPELL",
+    "name": "Forge Nodachi",
+    "description": "Forge a nodachi.",
+    "components": "spell_components_forging_ingot_2",
+    "effect_str": "dreamforged_nodachi_ench"
+  },
+  {
+    "id": "summon_dreamforged_rapier_ench",
+    "copy-from": "summon_dreamforged_abstract_ench",
+    "type": "SPELL",
+    "name": "Forge Rapier",
+    "description": "Forge a rapier.",
+    "effect_str": "dreamforged_rapier_ench"
+  },
+  {
+    "id": "summon_dreamforged_tanto_ench",
+    "copy-from": "summon_dreamforged_abstract_ench",
+    "type": "SPELL",
+    "name": "Forge Tanto",
+    "description": "Forge a tanto.",
+    "effect_str": "dreamforged_tanto_ench"
+  },
+  {
+    "id": "summon_dreamforged_wakizashi_ench",
+    "copy-from": "summon_dreamforged_abstract_ench",
+    "type": "SPELL",
+    "name": "Forge Wakizashi",
+    "description": "Forge a wakizashi.",
+    "effect_str": "dreamforged_wakizashi_ench"
+  },
+  {
+    "id": "summon_dreamforged_zweihander_ench",
+    "copy-from": "summon_dreamforged_abstract_ench",
+    "type": "SPELL",
+    "name": "Forge Zweihander",
+    "description": "Forge a zweihander.",
+    "components": "spell_components_forging_ingot_2",
+    "effect_str": "dreamforged_zweihander_ench"
+  },
+  {
+    "id": "summon_dreamforged_khopesh_ench",
+    "copy-from": "summon_dreamforged_abstract_ench",
+    "type": "SPELL",
+    "name": "Forge Khopesh",
+    "description": "Forge a khopesh.",
+    "effect_str": "dreamforged_khopesh_ench"
+  },
+  {
+    "id": "summon_dreamforged_lucerne_ench",
+    "copy-from": "summon_dreamforged_abstract_ench",
+    "type": "SPELL",
+    "name": "Forge Lucerne Hammer",
+    "description": "Forge a lucerne hammer.",
+    "components": "spell_components_forging_ingot_5",
+    "effect_str": "dreamforged_lucerne_ench"
+  },
+  {
+    "id": "summon_dreamforged_knuckle_ench",
+    "copy-from": "summon_dreamforged_abstract_ench",
+    "type": "SPELL",
+    "name": "Forge Knuckels",
+    "description": "Forge pair of knuckels.",
+    "effect_str": "dreamforged_knuckle_ench"
   }
 ]
