@@ -1397,7 +1397,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
         ( actor( true )->get_npc_anger() <= 0 ) && ( actor( true )->int_cur() >= 9 ) &&
         !( the_topic.id == "TALK_CHURL_FRIENDLY" ) ) {
         add_response( _( "Ho there, otherwyrldly devyl!  Have yow ware for to chaffare?" ),
-                "TALK_CHURL_FRIENDLY" );
+                      "TALK_CHURL_FRIENDLY" );
         add_response_done( _( "Farewell!" ) );
     }
 
