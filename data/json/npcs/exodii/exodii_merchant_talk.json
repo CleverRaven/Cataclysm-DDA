@@ -665,10 +665,7 @@
     "dynamic_line": ".",
     "//~": "It has to do with how we make them.  Our technology isn't exactly like yours in the sense of robots, as much of it is cobbled together.  Despite all the stuff we can do, it's very difficult to make the central processing units, and they're pretty basic compared to other robotics.  They're too basic for advanced work, but they take orders very well.  We slap them onto whatever chassis we need at the time, start them up, and set them to work.",
     "responses": [
-      {
-        "text": "How long does it take you to make one of these robots?",
-        "topic": "TALK_EXODII_MERCHANT_Robot_Make_People"
-      },
+      { "text": "How long does it take you to make one of these robots?", "topic": "TALK_EXODII_MERCHANT_Robot_Make_People" },
       { "text": "Can I buy one of your machines?", "topic": "TALK_EXODII_MERCHANT_Robot_Buy" },
       { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
       { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
