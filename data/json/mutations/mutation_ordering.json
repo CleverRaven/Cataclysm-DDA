@@ -48,6 +48,7 @@
         "order": 1000
       },
       { "id": [ "PALE", "SKIN_DARK", "SKIN_LIGHT", "SKIN_MEDIUM", "SKIN_PINK", "SKIN_TAN" ], "order": 1100 },
+      { "id": [ "eye_color" ], "order": 1200 },
       {
         "id": [
           "ALBINO",
