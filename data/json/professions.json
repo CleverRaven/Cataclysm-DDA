@@ -706,7 +706,8 @@
       { "level": 1, "name": "fabrication" },
       { "level": 1, "name": "tailor" }
     ],
-    "traits": [ "PROF_CHURL", "ILLITERATE" ]
+    "traits": [ "PROF_CHURL", "ILLITERATE" ],
+    "flags": [ "SCEN_ONLY" ]
   },
   {
     "type": "profession",
