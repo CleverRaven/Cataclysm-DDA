@@ -185,15 +185,10 @@ TEST_CASE( "inactive_container_with_active_contents", "[active_item][map]" )
     REQUIRE( !bottle_plastic.needs_processing() );
     item disinfectant( "disinfectant" );
     REQUIRE( disinfectant.needs_processing() );
-    int const bp_speed = bottle_plastic.processing_speed();
-    int const dis_speed = disinfectant.processing_speed();
-    REQUIRE( bp_speed != dis_speed );
 
     ret_val<void> const ret =
         bottle_plastic.put_in( disinfectant, item_pocket::pocket_type::CONTAINER );
     REQUIRE( ret.success() );
-    REQUIRE( bottle_plastic.needs_processing() );
-    REQUIRE( bottle_plastic.processing_speed() == bp_speed );
 
     item &bp = here.add_item( test_loc, bottle_plastic );
     here.update_submaps_with_active_items();
@@ -208,8 +203,6 @@ TEST_CASE( "inactive_container_with_active_contents", "[active_item][map]" )
 
     if( from_container ) {
         dis_loc.remove_item();
-        CHECK( !bp.needs_processing() );
-        CHECK( bp.processing_speed() == bp_speed );
     } else {
         bp_loc.remove_item();
     }

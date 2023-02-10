@@ -49,27 +49,21 @@ void active_item_cache::remove( const item *it )
     }
 }
 
-void active_item_cache::add( item &it, point location, item *parent,
+bool active_item_cache::add( item &it, point location, item *parent,
                              std::vector<item_pocket const *> const &pocket_chain )
 {
     std::vector<item_pocket const *> pockets = pocket_chain;
+    bool ret = false;
     for( item_pocket *pk : it.get_all_standard_pockets() ) {
         pockets.emplace_back( pk );
         for( item *pkit : pk->all_items_top() ) {
-            add( *pkit, location, &it, pockets );
+            ret |= add( *pkit, location, &it, pockets );
         }
     }
     if( it.processing_speed() == item::NO_PROCESSING ) {
-        return;
+        return ret;
     }
-    // If the item is already in the cache for some reason, don't add a second reference
     std::list<item_reference> &target_list = active_items[it.processing_speed()];
-    if( std::find_if( target_list.begin(),
-    target_list.end(), [&it]( const item_reference & active_item_ref ) {
-    return &it == active_item_ref.item_ref.get();
-    } ) != target_list.end() ) {
-        return;
-    }
     item_reference ref{ location, it.get_safe_reference(), parent, pocket_chain };
     if( it.can_revive() ) {
         special_items[special_item_type::corpse].emplace_back( ref );
@@ -78,6 +72,7 @@ void active_item_cache::add( item &it, point location, item *parent,
         special_items[special_item_type::explosive].emplace_back( ref );
     }
     target_list.emplace_back( std::move( ref ) );
+    return true;
 }
 
 bool active_item_cache::empty() const

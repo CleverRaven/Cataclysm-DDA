@@ -4973,11 +4973,10 @@ item &map::add_item( const tripoint &p, item new_item )
     current_submap->update_lum_add( l, new_item );
 
     const map_stack::iterator new_pos = current_submap->get_items( l ).insert( new_item );
-    if( new_item.needs_processing() ) {
+    if( current_submap->active_items.add( *new_pos, l ) ) {
         // TODO: fix point types
         submaps_with_active_items_dirty.insert( tripoint_abs_sm( abs_sub.x() + p.x / SEEX,
                                                 abs_sub.y() + p.y / SEEY, p.z ) );
-        current_submap->active_items.add( *new_pos, l );
     }
 
     return *new_pos;
@@ -5068,10 +5067,6 @@ void map::make_active( item_location &loc )
 {
     item *target = loc.get_item();
 
-    // Trust but verify, don't let stinking callers set items active when they shouldn't be.
-    if( !target->needs_processing() ) {
-        return;
-    }
     point l;
     submap *const current_submap = get_submap_at( loc.position(), l );
     if( current_submap == nullptr ) {
@@ -5081,10 +5076,11 @@ void map::make_active( item_location &loc )
     cata::colony<item> &item_stack = current_submap->get_items( l );
     cata::colony<item>::iterator iter = item_stack.get_iterator_from_pointer( target );
 
-    // TODO: fix point types
-    submaps_with_active_items_dirty.insert( tripoint_abs_sm( abs_sub.x() + loc.position().x / SEEX,
-                                            abs_sub.y() + loc.position().y / SEEY, loc.position().z ) );
-    current_submap->active_items.add( *iter, l );
+    if( current_submap->active_items.add( *iter, l ) ) {
+        // TODO: fix point types
+        submaps_with_active_items_dirty.insert( tripoint_abs_sm( abs_sub.x() + loc.position().x / SEEX,
+                                                abs_sub.y() + loc.position().y / SEEY, loc.position().z ) );
+    }
 }
 
 void map::update_lum( item_location &loc, bool add )
