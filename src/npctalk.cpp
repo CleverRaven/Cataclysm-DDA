@@ -2220,9 +2220,12 @@ void talk_effect_fun_t<T>::set_adjust_var( const JsonObject &jo, const std::stri
     };
 }
 
-static void receive_item( const itype_id &item_name, int count, const std::string &container_name,
-                          const dialogue &d )
+static void receive_item( itype_id &item_name, int count, const std::string &container_name,
+                          const dialogue &d, bool use_item_group )
 {
+    if( use_item_group ) {
+        item_name = item_group::item_from( item_group_id( item_name.c_str() ) ).typeId();
+    }
     if( container_name.empty() ) {
         item new_item = item( item_name, calendar::turn );
         if( new_item.count_by_charges() ) {
@@ -2268,6 +2271,7 @@ void talk_effect_fun_t<T>::set_u_spawn_item( const JsonObject &jo, const std::st
     } else {
         container_name.str_val = "";
     }
+    bool use_item_group = jo.get_bool( "use_item_group", false );
     int_or_var<T> cost = get_int_or_var<T>( jo, "cost", false, 0 );
     int_or_var<T> count;
     if( !jo.has_int( "charges" ) ) {
@@ -2275,9 +2279,10 @@ void talk_effect_fun_t<T>::set_u_spawn_item( const JsonObject &jo, const std::st
     } else {
         count = get_int_or_var<T>( jo, "count", false, 0 );
     }
-    function = [item_name, count, container_name]( const T & d ) {
-        receive_item( itype_id( item_name.evaluate( d ) ), count.evaluate( d ),
-                      container_name.evaluate( d ), d );
+    function = [item_name, count, container_name, use_item_group]( const T & d ) {
+        itype_id iname = itype_id( item_name.evaluate( d ) );
+        receive_item( iname, count.evaluate( d ),
+                      container_name.evaluate( d ), d, use_item_group );
     };
     dialogue d( get_talker_for( get_avatar() ), nullptr );
     likely_rewards.emplace_back( count.evaluate( d ), itype_id( item_name.evaluate( d ) ) );
@@ -2295,6 +2300,7 @@ void talk_effect_fun_t<T>::set_u_buy_item( const JsonObject &jo, const std::stri
     } else {
         count = get_int_or_var<T>( jo, "count", false, 0 );
     }
+    bool use_item_group = jo.get_bool( "use_item_group", false );
     str_or_var<T> container_name;
     if( jo.has_member( "container" ) ) {
         container_name = get_str_or_var<T>( jo.get_member( "container" ), "container", true );
@@ -2302,14 +2308,16 @@ void talk_effect_fun_t<T>::set_u_buy_item( const JsonObject &jo, const std::stri
         container_name.str_val = "";
     }
     str_or_var<T> item_name = get_str_or_var<T>( jo.get_member( member ), member, true );
-    function = [item_name, cost, count, container_name, true_eocs, false_eocs]( const T & d ) {
+    function = [item_name, cost, count, container_name, true_eocs, false_eocs,
+               use_item_group]( const T & d ) {
         if( !d.actor( true )->buy_from( cost.evaluate( d ) ) ) {
             popup( _( "You can't afford it!" ) );
             run_eoc_vector( false_eocs, d );
             return;
         }
-        receive_item( itype_id( item_name.evaluate( d ) ), count.evaluate( d ),
-                      container_name.evaluate( d ), d );
+        itype_id iname = itype_id( item_name.evaluate( d ) );
+        receive_item( iname, count.evaluate( d ),
+                      container_name.evaluate( d ), d, use_item_group );
         run_eoc_vector( true_eocs, d );
     };
 }
