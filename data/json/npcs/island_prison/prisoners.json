@@ -44,7 +44,7 @@
       { "group": "Appearance_demographics" },
       { "trait": "IGNORE_SOUND" },
       { "trait": "NO_BASH" },
-      { "trait": "RETURN_TO_START_POS" } 
+      { "trait": "RETURN_TO_START_POS" }
     ],
     "bonus_str": { "rng": [ 2, 4 ] },
     "bonus_dex": { "rng": [ 0, 2 ] },
