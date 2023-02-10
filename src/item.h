@@ -1489,6 +1489,7 @@ class item : public visitable
         bool is_salvageable() const;
         bool is_disassemblable() const;
         bool is_craft() const;
+        bool is_scannable() const;
 
         bool is_deployable() const;
         bool is_tool() const;

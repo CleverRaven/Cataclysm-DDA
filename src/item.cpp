@@ -8212,6 +8212,11 @@ bool item::is_ebook_storage() const
     return contents.has_pocket_type( item_pocket::pocket_type::EBOOK );
 }
 
+bool item::is_scannable() const
+{
+    return type->book->is_scannable;
+}
+
 bool item::is_maybe_melee_weapon() const
 {
     item_category_id my_cat_id = get_category_shallow().id;
