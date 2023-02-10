@@ -2210,7 +2210,7 @@
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "HURT", "MATING_SEASON", "PLAYER_CLOSE" ],
     "baby_flags": [ "SPRING" ],
-    "reproduction": { "baby_monster": "mon_moose_calf", "baby_count": 1, "baby_timer": 104 },
+    "reproduction": { "baby_monster": "mon_tusked_moose_calf", "baby_count": 1, "baby_timer": 104 },
     "//": "Baby mutant moose are born quicker that their natural counterparts since they are mutants and that way they can be seen a little more often.",
     "harvest": "tusked_moose_with_skull",
     "dissect": "dissect_cattle_sample_large",
