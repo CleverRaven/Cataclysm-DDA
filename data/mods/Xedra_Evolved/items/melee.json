@@ -266,7 +266,7 @@
     "type": "GENERIC",
     "id": "dreamforged_arming_sword",
     "copy-from": "arming_sword",
-    "name": { "str": "dreamforged arming sword", "str_pl": "dreamforged arming swords" },
+    "name": { "str": "dreamforged arming sword" },
     "description": "Arming sword, forged entirely from dreamdross.  So light, that you can't properly apply any force on it.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
     "material": [ "forged_dreamstuff" ],
     "proportional": { "cutting": 0.5, "weight": 0.25 }
@@ -275,7 +275,7 @@
     "type": "GENERIC",
     "id": "dreamforged_broadsword",
     "copy-from": "broadsword",
-    "name": { "str": "dreamforged broadsword", "str_pl": "dreamforged broadswords" },
+    "name": { "str": "dreamforged broadsword" },
     "description": "Arming sword, forged entirely from dreamdross.  So light, that you can't properly apply any force on it.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
     "material": [ "forged_dreamstuff" ],
     "proportional": { "cutting": 0.5, "weight": 0.25 }
@@ -284,7 +284,7 @@
     "type": "GENERIC",
     "id": "dreamforged_battleaxe",
     "copy-from": "battleaxe",
-    "name": { "str": "dreamforged battle axe", "str_pl": "dreamforged battle axes" },
+    "name": { "str": "dreamforged battle axe" },
     "description": "Arming sword, forged entirely from dreamdross.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
     "weight": "1216 g",
     "material": [ "forged_dreamstuff" ],
@@ -321,7 +321,7 @@
     "type": "GENERIC",
     "id": "dreamforged_kukri",
     "copy-from": "kukri",
-    "name": { "str": "dreamforged kukri", "str_pl": "dreamforged kukris" },
+    "name": { "str": "dreamforged kukri" },
     "description": "Small curved knife, forged entirely from dreamdross.  You barely feel any weight.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
     "material": [ "forged_dreamstuff" ],
     "proportional": { "cutting": 0.3, "weight": 0.25 }
@@ -339,7 +339,7 @@
     "type": "GENERIC",
     "id": "dreamforged_rapier",
     "copy-from": "rapier",
-    "name": { "str": "dreamforged rapier", "str_pl": "dreamforged rapiers" },
+    "name": { "str": "dreamforged rapier" },
     "description": "Long nodachi, forged entirely from dreamdross.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
     "material": [ "forged_dreamstuff" ],
     "proportional": { "cutting": 0.3, "weight": 0.25 }
@@ -366,7 +366,7 @@
     "type": "GENERIC",
     "id": "dreamforged_zweihander",
     "copy-from": "zweihander",
-    "name": { "str": "dreamforged zweihänder", "str_pl": "dreamforged zweihänders" },
+    "name": { "str": "dreamforged zweihänder" },
     "description": "Huge twohand sword, forged entirely from dreamdross.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
     "material": [ "forged_dreamstuff" ],
     "proportional": { "cutting": 0.3, "weight": 0.25 }
@@ -384,7 +384,7 @@
     "type": "GENERIC",
     "id": "dreamforged_lucerne",
     "copy-from": "lucern_hammer",
-    "name": { "str": "dreamforged lucerne hammer", "str_pl": "dreamforged lucerne hammers" },
+    "name": { "str": "dreamforged lucerne hammer" },
     "description": "lucerne hammer, forged entirely from dreamdross.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
     "weight": "2571 g",
     "material": [ "forged_dreamstuff" ],
