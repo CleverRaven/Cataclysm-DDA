@@ -55,6 +55,28 @@
   },
   {
     "type": "mutation",
+    "id": "MIGO_RAD_ADAPTION",
+    "name": { "str": "Radioactive Environment Adaptation" },
+    "points": 2,
+    "description": "You can spit a wad of bioluminescent goo several meters away.  There it will light up it's surroundings until it dissipates.",
+    "category": [ "MIGO" ],
+    "active": true,
+    "activated_eocs": [ "EOC_RAD_ADAP_activated" ]
+  },
+  {
+    "type": "mutation",
+    "id": "MIGO_THRESH_RAD_FLUSH",
+    "name": { "str": "Radiation Flush " },
+    "points": 5,
+    "description": "You can spit a wad of bioluminescent goo several meters away.  There it will light up it's surroundings until it dissipates.",
+    "prereqs": [ "MIGO_RAD_ADAPTION" ],
+    "category": [ "MIGO" ],
+    "threshreq": [ "THRESH_YUGGOTH" ],
+    "active": true,
+    "activated_eocs": [ "EOC_RAD_FLUSH_activated" ]
+  },
+  {
+    "type": "mutation",
     "id": "FACIAL_TENTACLES",
     "name": "Facial Tentacles",
     "points": 1,
