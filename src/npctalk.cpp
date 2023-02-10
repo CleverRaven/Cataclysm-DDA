@@ -2223,11 +2223,13 @@ void talk_effect_fun_t<T>::set_adjust_var( const JsonObject &jo, const std::stri
 static void receive_item( itype_id &item_name, int count, const std::string &container_name,
                           const dialogue &d, bool use_item_group )
 {
+    item new_item;
     if( use_item_group ) {
-        item_name = item_group::item_from( item_group_id( item_name.c_str() ) ).typeId();
+        new_item = item_group::item_from( item_group_id( item_name.c_str() ) );
+    } else {
+        new_item = item( item_name, calendar::turn );
     }
     if( container_name.empty() ) {
-        item new_item = item( item_name, calendar::turn );
         if( new_item.count_by_charges() ) {
             new_item.mod_charges( count - 1 );
             d.actor( false )->i_add_or_drop( new_item );
@@ -2251,7 +2253,8 @@ static void receive_item( itype_id &item_name, int count, const std::string &con
         }
     } else {
         item container( container_name, calendar::turn );
-        container.put_in( item( item_name, calendar::turn, count ),
+        new_item.mod_charges( count - 1 );
+        container.put_in( new_item,
                           item_pocket::pocket_type::CONTAINER );
         d.actor( false )->i_add_or_drop( container );
         if( d.has_beta && !d.actor( true )->disp_name().empty() ) {
