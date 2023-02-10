@@ -1438,7 +1438,7 @@
     "bleed_rate": 50,
     "vision_day": 50,
     "vision_night": 3,
-    "harvest": "exempt",
+    "harvest": "zombie",
     "emit_fields": [ { "emit_id": "emit_smoke_stream", "delay": "1 s" } ],
     "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "scratch", 15 ] ],
     "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explode!" },
@@ -1495,7 +1495,7 @@
     "armor_fire": 5,
     "vision_day": 30,
     "vision_night": 3,
-    "harvest": "exempt",
+    "harvest": "zombie",
     "emit_fields": [ { "emit_id": "emit_smoke_stream", "delay": "1 s" } ],
     "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explode!" },
     "special_attacks": [
