@@ -9,6 +9,8 @@
     "padding": 1,
     "widgets": [
       "spacebar_separator",
+      "enviroment_conditions_block",
+      "spacebar_separator",
       "player_health_and_stasistik_block",
       "player_health_and_stasistik_block_sa",
       "spacebar_separator",
@@ -17,8 +19,6 @@
       "player_movement_block",
       "spacebar_separator",
       "player_weapon_and_martial_arts_block",
-      "spacebar_separator",
-      "enviroment_conditions_block",
       "spacebar_separator",
       "places_compass_block_danger",
       "spacebar_separator"
