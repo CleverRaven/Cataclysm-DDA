@@ -141,7 +141,7 @@
     "types": [ "SKIN" ],
     "category": [ "MIGO" ],
     "prereqs": [ "THICKSKIN" ],
-    "changes_to": [ "DENTICLES" ],
+    "changes_to": [ "RHOMBOIDAL_DENTICLES" ],
     "wet_protection": [
       { "part": "head", "ignored": 2 },
       { "part": "leg_l", "ignored": 5 },
