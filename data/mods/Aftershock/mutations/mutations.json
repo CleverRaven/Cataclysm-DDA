@@ -58,7 +58,7 @@
     "id": "MIGO_RAD_ADAPTION",
     "name": { "str": "Radioactive Environment Adaptation" },
     "points": 2,
-    "description": "You can spit a wad of bioluminescent goo several meters away.  There it will light up it's surroundings until it dissipates.",
+    "description": "You think you know how to instruct your body to process radioactive particles out of itself faster than normal.",
     "category": [ "MIGO" ],
     "active": true,
     "activated_eocs": [ "EOC_RAD_ADAP_activated" ]
@@ -68,7 +68,7 @@
     "id": "MIGO_THRESH_RAD_FLUSH",
     "name": { "str": "Radiation Flush " },
     "points": 5,
-    "description": "You can spit a wad of bioluminescent goo several meters away.  There it will light up it's surroundings until it dissipates.",
+    "description": "You can instruct your immune system to flush out radioactive particles at an enviable speed.",
     "prereqs": [ "MIGO_RAD_ADAPTION" ],
     "category": [ "MIGO" ],
     "threshreq": [ "THRESH_YUGGOTH" ],
