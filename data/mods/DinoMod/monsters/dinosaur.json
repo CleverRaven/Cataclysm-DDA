@@ -256,7 +256,12 @@
     "speed": 75,
     "hp": 300,
     "zombify_into": "mon_ziats",
-    "special_attacks": [ [ "BIO_OP_TAKEDOWN", 20 ], [ "RANGED_PULL", 20 ], [ "GRAB_DRAG", 10 ], { "id": "teeth_rip", "cooldown": 10 } ],
+    "special_attacks": [
+      { "id": "bio_op_takedown", "cooldown": 20 },
+      [ "RANGED_PULL", 20 ],
+      [ "GRAB_DRAG", 10 ],
+      { "id": "teeth_rip", "cooldown": 10 }
+    ],
     "description": "Huge predatory bipedal dinosaur with long claws and strong arms for grappling.",
     "reproduction": { "baby_egg": "egg_siats", "baby_count": 3, "baby_timer": 24 },
     "harvest": "dino_large_pred"
@@ -397,7 +402,7 @@
       { "id": "teeth_puncture", "cooldown": 7 },
       { "id": "teeth_pull", "cooldown": 5 },
       [ "LUNGE", 10 ],
-      [ "BIO_OP_TAKEDOWN", 30 ]
+      { "id": "bio_op_takedown", "cooldown": 30 }
     ],
     "flags": [ "SEES", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "DESTROYS", "WARM", "PUSH_MON" ],
     "harvest": "dino_large_feather_pred",
@@ -423,7 +428,7 @@
       { "id": "teeth_puncture", "cooldown": 20 },
       { "id": "teeth_pull", "cooldown": 10 },
       [ "LUNGE", 10 ],
-      [ "BIO_OP_TAKEDOWN", 20 ]
+      { "id": "bio_op_takedown", "cooldown": 20 }
     ]
   },
   {
@@ -444,7 +449,7 @@
       { "id": "teeth_puncture", "cooldown": 10 },
       { "id": "teeth_pull", "cooldown": 10 },
       [ "LUNGE", 10 ],
-      [ "BIO_OP_TAKEDOWN", 15 ]
+      { "id": "bio_op_takedown", "cooldown": 15 }
     ],
     "harvest": "dino_large_feather_pred"
   },
@@ -486,7 +491,7 @@
       { "id": "teeth_puncture", "cooldown": 7 },
       { "id": "teeth_pull", "cooldown": 5 },
       [ "LUNGE", 10 ],
-      [ "BIO_OP_TAKEDOWN", 15 ]
+      { "id": "bio_op_takedown", "cooldown": 15 }
     ],
     "flags": [
       "SEES",

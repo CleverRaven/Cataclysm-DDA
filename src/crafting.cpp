@@ -1013,19 +1013,32 @@ double Character::crafting_success_roll( const recipe &making ) const
     if( has_trait( trait_DEBUG_CNF ) ) {
         return 1.0;
     }
+
+    // Adjust skill and difficulty such that the lowest level is 1 not 0
+    // This allows characters with 0 level skills to attempt higher level recipes
+    int primary_skill_level = get_skill_level( making.skill_used ) + 1;
+    int primary_difficulty = making.difficulty + 1;
+
     int secondary_dice = 0;
     int secondary_difficulty = 0;
     for( const auto &pr : making.required_skills ) {
-        secondary_dice += get_skill_level( pr.first );
-        secondary_difficulty += pr.second;
+        // Adjust skill and difficulty such that the lowest level is 1 not 0
+        // This allows characters with 0 level skills to attempt higher level recipes
+        secondary_dice += get_skill_level( pr.first ) + 1;
+        secondary_difficulty += pr.second + 1;
     }
 
     // # of dice is 75% primary skill, 25% secondary (unless secondary is null)
     int skill_dice;
     if( secondary_difficulty > 0 ) {
-        skill_dice = get_skill_level( making.skill_used ) * 3 + secondary_dice;
+        skill_dice = primary_skill_level * 3 + secondary_dice;
     } else {
-        skill_dice = get_skill_level( making.skill_used ) * 4;
+        skill_dice = primary_skill_level * 4;
+    }
+    // Even with no skill you should have "some" chance to complete a craft
+    // this is equilavant to a quarter of a level
+    if( skill_dice == 0 ) {
+        skill_dice = 1;
     }
 
     for( const npc *np : get_crafting_helpers() ) {
@@ -1067,10 +1080,10 @@ double Character::crafting_success_roll( const recipe &making ) const
 
     int diff_dice;
     if( secondary_difficulty > 0 ) {
-        diff_dice = making.difficulty * 3 + secondary_difficulty;
+        diff_dice = primary_difficulty * 3 + secondary_difficulty;
     } else {
         // Since skill level is * 4 also
-        diff_dice = making.difficulty * 4;
+        diff_dice = primary_difficulty * 4;
     }
 
     const int diff_sides = 24; // 16 + 8 (default intelligence)
@@ -1731,7 +1744,6 @@ comp_selection<item_comp> Character::select_item_component( const std::vector<it
             const item ingredient = item( ingredient_type );
             std::pair<int, int> kcal_values{ 0, 0 };
 
-
             switch( inv_source ) {
                 case inventory_source::MAP:
                     text = _( "%s (%d/%d nearby)" );
@@ -2328,7 +2340,6 @@ item_location Character::create_in_progress_disassembly( item_location target )
 
     item_location disassembly_in_world = place_craft_or_disassembly( *this, new_disassembly,
                                          cata::nullopt );
-
 
     if( !disassembly_in_world ) {
         return item_location::nowhere;

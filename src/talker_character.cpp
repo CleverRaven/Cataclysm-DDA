@@ -449,6 +449,11 @@ void talker_character::i_add( const item &new_item )
     me_chr->i_add( new_item );
 }
 
+void talker_character::i_add_or_drop( item &new_item )
+{
+    me_chr->i_add_or_drop( new_item );
+}
+
 void talker_character::remove_items_with( const std::function<bool( const item & )> &filter )
 {
     me_chr->remove_items_with( filter );
@@ -575,6 +580,17 @@ bool talker_character_const::wielded_with_flag( const flag_id &flag ) const
 bool talker_character_const::has_item_with_flag( const flag_id &flag ) const
 {
     return me_chr_const->has_item_with_flag( flag );
+}
+
+int talker_character_const::item_rads( const flag_id &flag, aggregate_type agg_func ) const
+{
+    std::vector<int> rad_vals;
+    for( const item *it : me_chr_const->all_items_with_flag( flag ) ) {
+        if( me_chr_const->is_worn( *it ) || me_chr_const->is_wielding( *it ) ) {
+            rad_vals.emplace_back( it->irradiation );
+        }
+    }
+    return aggregate( rad_vals, agg_func );
 }
 
 units::energy talker_character_const::power_cur() const
@@ -828,14 +844,20 @@ std::string talker_character::skill_seminar_text( const skill_id &s ) const
     return string_format( "%s (%d)", s.obj().name(), lvl );
 }
 
-std::vector<bodypart_id> talker_character::get_all_body_parts() const
+std::vector<bodypart_id> talker_character::get_all_body_parts( bool all, bool main_only ) const
 {
-    return me_chr->get_all_body_parts( get_body_part_flags::none );
+    return me_chr->get_all_body_parts( all ? get_body_part_flags::none : ( main_only ?
+                                       get_body_part_flags::only_main : get_body_part_flags::only_minor ) );
 }
 
 int talker_character::get_part_hp_cur( const bodypart_id &id ) const
 {
     return me_chr->get_part_hp_cur( id );
+}
+
+int talker_character::get_part_hp_max( const bodypart_id &id ) const
+{
+    return me_chr->get_part_hp_max( id );
 }
 
 void talker_character::set_part_hp_cur( const bodypart_id &id, int set ) const

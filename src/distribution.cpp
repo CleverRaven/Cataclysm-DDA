@@ -85,7 +85,10 @@ void int_distribution::deserialize( const JsonValue &jin )
     } else if( jin.test_object() ) {
         JsonObject jo = jin.get_object();
         if( jo.has_member( "poisson" ) ) {
-            double mean = jo.get_float( "poisson", true );
+            double mean = jo.get_float( "poisson", 1.0 );
+            if( mean <= 0.0 ) {
+                jin.throw_error( "poisson mean must be greater than 0.0" );
+            }
             impl_ = make_shared_fast<poisson_distribution>( mean );
         } else {
             jo.throw_error( R"(Expected "poisson" member)" );

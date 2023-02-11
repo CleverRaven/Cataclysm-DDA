@@ -43,5 +43,10 @@
     "type": "overmap_special_migration",
     "id": "Homeless Camp",
     "new_id": "Occupied Homeless Camp"
+  },
+  {
+    "type": "overmap_special_migration",
+    "id": "Movie Theater",
+    "new_id": "Drive-in Theater"
   }
 ]

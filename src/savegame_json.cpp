@@ -227,7 +227,6 @@ void item_contents::serialize( JsonOut &json ) const
         json.member( "contents", contents );
         json.member( "additional_pockets", additional_pockets );
 
-
         json.end_object();
     }
 }
@@ -725,17 +724,6 @@ void Character::load( const JsonObject &data )
     data.read( "stashed_outbounds_activity", stashed_outbounds_activity );
     data.read( "stashed_outbounds_backlog", stashed_outbounds_backlog );
 
-    if( data.has_array( "backlog" ) ) {
-        data.read( "backlog", backlog );
-    }
-    if( !backlog.empty() && !backlog.front().str_values.empty() && ( ( activity &&
-            activity.id() == ACT_FETCH_REQUIRED ) || ( destination_activity &&
-                    destination_activity.id() == ACT_FETCH_REQUIRED ) ) ) {
-        requirement_data fetch_reqs;
-        data.read( "fetch_data", fetch_reqs );
-        const requirement_id req_id( backlog.front().str_values.back() );
-        requirement_data::save_requirement( fetch_reqs, req_id );
-    }
     // npc activity on vehicles.
     data.read( "activity_vehicle_part_index", activity_vehicle_part_index );
     // health
@@ -1104,6 +1092,18 @@ void Character::load( const JsonObject &data )
     }
 
     data.read( "activity", activity );
+    if( data.has_array( "backlog" ) ) {
+        data.read( "backlog", backlog );
+    }
+    if( !backlog.empty() && !backlog.front().str_values.empty() && ( ( activity &&
+            activity.id() == ACT_FETCH_REQUIRED ) || ( destination_activity &&
+                    destination_activity.id() == ACT_FETCH_REQUIRED ) ) ) {
+        requirement_data fetch_reqs;
+        data.read( "fetch_data", fetch_reqs );
+        const requirement_id req_id( backlog.front().str_values.back() );
+        requirement_data::save_requirement( fetch_reqs, req_id );
+    }
+
     data.read( "addictions", addictions );
 
     for( bionic &bio : *my_bionics ) {
@@ -1432,7 +1432,6 @@ void Character::store( JsonOut &json ) const
         json.end_object();
     }
     json.end_array();
-
 
     // energy
     json.member( "last_sleep_check", last_sleep_check );
@@ -2672,7 +2671,7 @@ void monster::load( const JsonObject &data )
     data.read( "morale", morale );
     data.read( "hallucination", hallucination );
     data.read( "fish_population", fish_population );
-    data.read( "lifespan_end ", lifespan_end );
+    data.read( "lifespan_end", lifespan_end );
     //for older saves convert summon time limit to lifespan end
     cata::optional<time_duration> summon_time_limit;
     data.read( "summon_time_limit", summon_time_limit );
@@ -3010,7 +3009,6 @@ void item::io( Archive &archive )
         specific_energy /= 100000;
     }
 
-
     // erase all invalid flags (not defined in flags.json)
     // warning was generated earlier on load
     erase_if( item_tags, [&]( const flag_id & f ) {
@@ -3060,9 +3058,16 @@ void item::io( Archive &archive )
         }
     }
 
-    // Remove stored translated gerund in favor of storing the inscription tool type
-    item_vars.erase( "item_label_type" );
-    item_vars.erase( "item_note_type" );
+    static const std::set<std::string> removed_item_vars = {
+        // Searchlight monster setting vars
+        "SL_PREFER_UP", "SL_PREFER_DOWN", "SL_PREFER_RIGHT", "SL_PREFER_LEFT", "SL_SPOT_X", "SL_SPOT_Y", "SL_POWER", "SL_DIR",
+        // Remove stored translated gerund in favor of storing the inscription tool type
+        "item_label_type", "item_note_type"
+    };
+
+    for( const std::string &var : removed_item_vars ) {
+        item_vars.erase( var );
+    }
 
     current_phase = static_cast<phase_id>( cur_phase );
     // override phase if frozen, needed for legacy save

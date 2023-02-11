@@ -161,21 +161,21 @@
     "volume": "300 ml",
     "price": 0,
     "price_postapoc": 0,
-    "material": [ "fur" ],
+    "material": [ "mut_fur" ],
     "symbol": "x",
     "color": "white",
     "warmth": 10,
     "environmental_protection": 1,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "WATER_FRIENDLY" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY" ],
     "armor": [
       {
-        "material": [ { "type": "fur", "covered_by_mat": 100, "thickness": 2 } ],
+        "material": [ { "type": "mut_fur", "covered_by_mat": 100, "thickness": 2 } ],
         "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "leg_l", "leg_r", "arm_l", "arm_r", "torso", "head" ],
         "coverage": 100,
-        "encumbrance": 2
+        "encumbrance": 0
       },
       {
-        "material": [ { "type": "fur", "covered_by_mat": 100, "thickness": 1 } ],
+        "material": [ { "type": "mut_fur", "covered_by_mat": 100, "thickness": 1 } ],
         "covers": [ "mouth" ],
         "coverage": 85,
         "encumbrance": 0
@@ -192,7 +192,7 @@
     "volume": "700 ml",
     "price": 0,
     "price_postapoc": 0,
-    "material": [ "fur" ],
+    "material": [ "mut_fur" ],
     "symbol": "x",
     "color": "light_gray",
     "warmth": 20,
@@ -200,19 +200,19 @@
     "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "WATER_FRIENDLY" ],
     "armor": [
       {
-        "material": [ { "type": "fur", "covered_by_mat": 100, "thickness": 4 } ],
+        "material": [ { "type": "mut_fur", "covered_by_mat": 100, "thickness": 4 } ],
         "covers": [ "leg_l", "leg_r", "arm_l", "arm_r", "torso" ],
         "coverage": 100,
-        "encumbrance": 5
+        "encumbrance": 1
       },
       {
-        "material": [ { "type": "fur", "covered_by_mat": 100, "thickness": 2 } ],
+        "material": [ { "type": "mut_fur", "covered_by_mat": 100, "thickness": 2 } ],
         "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "head" ],
         "coverage": 100,
-        "encumbrance": 2
+        "encumbrance": 1
       },
       {
-        "material": [ { "type": "fur", "covered_by_mat": 100, "thickness": 1 } ],
+        "material": [ { "type": "mut_fur", "covered_by_mat": 100, "thickness": 1 } ],
         "covers": [ "mouth" ],
         "coverage": 85,
         "encumbrance": 0
@@ -229,7 +229,7 @@
     "volume": "2 L",
     "price": 0,
     "price_postapoc": 0,
-    "material": [ "fur" ],
+    "material": [ "mut_fur" ],
     "symbol": "x",
     "color": "black",
     "warmth": 45,
@@ -237,19 +237,19 @@
     "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "NORMAL", "WATER_FRIENDLY", "SOFT" ],
     "armor": [
       {
-        "material": [ { "type": "fur", "covered_by_mat": 100, "thickness": 14 } ],
+        "material": [ { "type": "mut_fur", "covered_by_mat": 100, "thickness": 14 } ],
         "covers": [ "leg_l", "leg_r", "arm_l", "arm_r", "torso" ],
         "coverage": 100,
-        "encumbrance": 14
+        "encumbrance": 5
       },
       {
-        "material": [ { "type": "fur", "covered_by_mat": 100, "thickness": 9 } ],
+        "material": [ { "type": "mut_fur", "covered_by_mat": 100, "thickness": 9 } ],
         "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "head" ],
         "coverage": 100,
-        "encumbrance": 7
+        "encumbrance": 6
       },
       {
-        "material": [ { "type": "fur", "covered_by_mat": 100, "thickness": 5 } ],
+        "material": [ { "type": "mut_fur", "covered_by_mat": 100, "thickness": 5 } ],
         "covers": [ "mouth" ],
         "coverage": 85,
         "encumbrance": 0
@@ -266,7 +266,7 @@
     "volume": "1 L",
     "price": 0,
     "price_postapoc": 0,
-    "material": [ "fur" ],
+    "material": [ "mut_fur" ],
     "symbol": "x",
     "color": "dark_gray",
     "warmth": 25,
@@ -274,19 +274,19 @@
     "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "RAINPROOF" ],
     "armor": [
       {
-        "material": [ { "type": "fur", "covered_by_mat": 100, "thickness": 8 } ],
+        "material": [ { "type": "mut_fur", "covered_by_mat": 100, "thickness": 8 } ],
         "covers": [ "leg_l", "leg_r", "arm_l", "arm_r", "torso" ],
         "coverage": 100,
-        "encumbrance": 6
+        "encumbrance": 2
       },
       {
-        "material": [ { "type": "fur", "covered_by_mat": 100, "thickness": 6 } ],
+        "material": [ { "type": "mut_fur", "covered_by_mat": 100, "thickness": 6 } ],
         "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "head" ],
         "coverage": 100,
-        "encumbrance": 3
+        "encumbrance": 1
       },
       {
-        "material": [ { "type": "fur", "covered_by_mat": 100, "thickness": 3 } ],
+        "material": [ { "type": "mut_fur", "covered_by_mat": 100, "thickness": 3 } ],
         "covers": [ "mouth" ],
         "coverage": 85,
         "encumbrance": 0
@@ -303,7 +303,7 @@
     "volume": "1 L",
     "price": 0,
     "price_postapoc": 0,
-    "material": [ "fur" ],
+    "material": [ "mut_fur" ],
     "symbol": "x",
     "color": "brown",
     "warmth": 13,
@@ -311,13 +311,13 @@
     "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT" ],
     "armor": [
       {
-        "material": [ { "type": "fur", "covered_by_mat": 100, "thickness": 4 } ],
+        "material": [ { "type": "mut_fur", "covered_by_mat": 100, "thickness": 4 } ],
         "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "leg_l", "leg_r", "arm_l", "arm_r", "torso", "head" ],
         "coverage": 100,
-        "encumbrance": 2
+        "encumbrance": 0
       },
       {
-        "material": [ { "type": "fur", "covered_by_mat": 100, "thickness": 2 } ],
+        "material": [ { "type": "mut_fur", "covered_by_mat": 100, "thickness": 2 } ],
         "covers": [ "mouth" ],
         "coverage": 85,
         "encumbrance": 0
@@ -334,7 +334,7 @@
     "volume": "200 ml",
     "price": 0,
     "price_postapoc": 0,
-    "material": [ "fur" ],
+    "material": [ "mut_fur" ],
     "symbol": "*",
     "color": "brown",
     "warmth": 7,
@@ -342,7 +342,7 @@
     "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "NORMAL", "COLLAR" ],
     "armor": [
       {
-        "material": [ { "type": "fur", "covered_by_mat": 100, "thickness": 4 } ],
+        "material": [ { "type": "mut_fur", "covered_by_mat": 100, "thickness": 4 } ],
         "covers": [ "head" ],
         "coverage": 100,
         "cover_vitals": 65,
@@ -358,7 +358,7 @@
     "name": { "str": "jumbled skin" },
     "description": "Skin like a spilled tub of paints, splattered in abstract shapes of scales, fur, and leather.",
     "weight": "1 kg",
-    "volume": "200 ml",
+    "volume": "1 L",
     "price": 0,
     "price_postapoc": 0,
     "material": [ "leather", "fur", "cured_meat", "wool" ],
@@ -679,7 +679,7 @@
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 4 ], [ "PRY", 1 ] ],
     "environmental_protection": 1,
     "techniques": [ "RAPID" ],
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNARMED_WEAPON", "UNBREAKABLE", "OUTER", "PADDED" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "OUTER", "PADDED" ],
     "armor": [
       {
         "material": [ { "type": "sclerotin", "covered_by_mat": 100, "thickness": 3.2 } ],
@@ -779,6 +779,121 @@
         "covers": [ "torso" ],
         "coverage": 100,
         "encumbrance": 10
+      }
+    ]
+  },
+  {
+    "id": "integrated_scales",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "sparse scales" },
+    "description": "Your dermis has toughened and started to grow scales in places.",
+    "weight": "1 kg",
+    "volume": "900 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "hflesh", "bone", "chitin" ],
+    "symbol": "x",
+    "color": "light_red",
+    "warmth": 1,
+    "environmental_protection": 1,
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY", "PADDED", "SOFT" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "hflesh", "covered_by_mat": 100, "thickness": 1 },
+          { "type": "bone", "covered_by_mat": 60, "thickness": 1 },
+          { "type": "chitin", "covered_by_mat": 60, "thickness": 1 }
+        ],
+        "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "leg_l", "leg_r", "arm_l", "arm_r", "torso", "head" ],
+        "coverage": 100,
+        "encumbrance": 0,
+        "breathability": "GOOD"
+      }
+    ]
+  },
+  {
+    "id": "integrated_fishscales",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "sleek scales" },
+    "description": "Your skin has become a smooth and elegant mesh of interlocking scales.",
+    "weight": "2 kg",
+    "volume": "1800 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "flesh", "bone", "chitin" ],
+    "symbol": "x",
+    "color": "light_red",
+    "warmth": 3,
+    "environmental_protection": 4,
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "WATER_FRIENDLY", "PADDED", "SOFT" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "flesh", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "bone", "covered_by_mat": 99, "thickness": 2.0 },
+          { "type": "chitin", "covered_by_mat": 99, "thickness": 2.0 }
+        ],
+        "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "leg_l", "leg_r", "arm_l", "arm_r", "torso", "head" ],
+        "coverage": 100,
+        "encumbrance": 3,
+        "breathability": "POOR"
+      },
+      {
+        "material": [
+          { "type": "flesh", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "bone", "covered_by_mat": 75, "thickness": 2.0 },
+          { "type": "chitin", "covered_by_mat": 75, "thickness": 2.0 }
+        ],
+        "covers": [ "mouth" ],
+        "coverage": 100,
+        "encumbrance": 0,
+        "breathability": "POOR"
+      }
+    ]
+  },
+  {
+    "id": "integrated_reptilescales",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "thick scales" },
+    "description": "Leathery and heavily armored, your lamellar skin has toughened for the fiercest battles ahead.",
+    "weight": "4 kg",
+    "volume": "3600 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "leather", "flesh", "bone", "chitin" ],
+    "symbol": "x",
+    "color": "light_red",
+    "warmth": 5,
+    "environmental_protection": 3,
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "NORMAL", "WATER_FRIENDLY", "PADDED", "SOFT" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 2.5 },
+          { "type": "flesh", "covered_by_mat": 100, "thickness": 0.5 },
+          { "type": "bone", "covered_by_mat": 95, "thickness": 4.0 },
+          { "type": "chitin", "covered_by_mat": 95, "thickness": 4.0 }
+        ],
+        "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "leg_l", "leg_r", "arm_l", "arm_r", "torso", "head" ],
+        "coverage": 100,
+        "encumbrance": 8,
+        "breathability": "POOR"
+      },
+      {
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "flesh", "covered_by_mat": 100, "thickness": 0.5 },
+          { "type": "bone", "covered_by_mat": 60, "thickness": 4.0 },
+          { "type": "chitin", "covered_by_mat": 60, "thickness": 4.0 }
+        ],
+        "covers": [ "mouth" ],
+        "coverage": 100,
+        "encumbrance": 0,
+        "breathability": "POOR",
+        "layers": [ "SKINTIGHT" ]
       }
     ]
   },

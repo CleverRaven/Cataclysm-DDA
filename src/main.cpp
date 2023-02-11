@@ -23,6 +23,9 @@
 #else
 #include <csignal>
 #endif
+
+#include <flatbuffers/util.h>
+
 #include "cached_options.h"
 #include "cata_path.h"
 #include "color.h"
@@ -207,7 +210,6 @@ void printHelpMessage( const FirstPassArgs &first_pass_arguments,
         }
     }
 }
-
 
 /**
  * Displays current application version and compile options values
@@ -605,6 +607,7 @@ int main( int argc, const char *argv[] )
     ordered_static_globals();
     init_crash_handlers();
     reset_floating_point_mode();
+    flatbuffers::ClassicLocale::Get();
 
 #if defined(_WIN32) and defined(TILES)
     const HANDLE std_output { GetStdHandle( STD_OUTPUT_HANDLE ) }, std_error { GetStdHandle( STD_ERROR_HANDLE ) };
@@ -731,6 +734,9 @@ int main( int argc, const char *argv[] )
             DebugLog( D_ERROR, DC_ALL ) << "Error while initializing the interface: " << err.what() << "\n";
             return 1;
         }
+    } else if( cli.check_mods ) {
+        get_options().init();
+        get_options().load();
     }
 
     set_language();

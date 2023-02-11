@@ -286,7 +286,6 @@ bool iexamine::harvestable_now( const tripoint &examp )
     return !hid->is_null() && !hid->empty();
 }
 
-
 /**
  * Pick an appropriate item and apply diamond coating if possible.
  */
@@ -1512,11 +1511,11 @@ void iexamine::chainfence( Character &you, const tripoint &examp )
             move_cost = 300; // Most common move cost for barricades pre-change.
         }
     } else if( you.has_trait( trait_ARACHNID_ARMS_OK ) &&
-               !you.wearing_something_on( bodypart_id( "torso" ) ) ) {
+               !you.wearing_fitting_on( bodypart_id( "torso" ) ) ) {
         add_msg( _( "Climbing this obstacle is trivial for one such as you." ) );
         move_cost = 75; // Yes, faster than walking.  6-8 limbs are impressive.
     } else if( you.has_trait( trait_INSECT_ARMS_OK ) &&
-               !you.wearing_something_on( bodypart_id( "torso" ) ) ) {
+               !you.wearing_fitting_on( bodypart_id( "torso" ) ) ) {
         add_msg( _( "You quickly scale the fence." ) );
         move_cost = 90;
     } else if( you.has_proficiency( proficiency_prof_parkour ) ) {
@@ -1808,8 +1807,8 @@ void iexamine::gunsafe_el( Character &you, const tripoint &examp )
 void iexamine::locked_object( Character &you, const tripoint &examp )
 {
     map &here = get_map();
-    item &best_prying = you.item_with_best_of_quality( qual_PRY, true );
-    item &best_lockpick = you.item_with_best_of_quality( qual_LOCKPICK, true );
+    item &best_prying = you.best_item_with_quality( qual_PRY );
+    item &best_lockpick = you.best_item_with_quality( qual_LOCKPICK );
     const bool has_prying = !best_prying.is_null();
     const bool can_pick = here.has_flag( ter_furn_flag::TFLAG_PICKABLE, examp ) &&
                           ( !best_lockpick.is_null() || you.has_bionic( bio_lockpick ) );
@@ -4096,30 +4095,6 @@ void trap::examine( const tripoint &examp ) const
         return;
     }
 
-    // TODO: fix point types
-    if( partial_con *const pc = here.partial_con_at( tripoint_bub_ms( examp ) ) ) {
-        if( player_character.fine_detail_vision_mod() > 4 &&
-            !player_character.has_trait( trait_DEBUG_HS ) ) {
-            add_msg( m_info, _( "It is too dark to construct right now." ) );
-            return;
-        }
-        const construction &built = pc->id.obj();
-        if( !query_yn( _( "Unfinished task: %s, %d%% complete here, continue construction?" ),
-                       built.group->name(), pc->counter / 100000 ) ) {
-            if( query_yn( _( "Cancel construction?" ) ) ) {
-                on_disarmed( here, examp );
-                for( const item &it : pc->components ) {
-                    here.add_item_or_charges( player_character.pos(), it );
-                }
-                // TODO: fix point types
-                here.partial_con_remove( tripoint_bub_ms( examp ) );
-            }
-        } else {
-            player_character.assign_activity( ACT_BUILD );
-            player_character.activity.placement = here.getglobal( examp );
-        }
-        return;
-    }
     if( can_not_be_disarmed() ) {
         add_msg( m_info, _( "That %s looks too dangerous to mess with.  Best leave it alone." ), name() );
         return;
@@ -4190,6 +4165,34 @@ void trap::examine( const tripoint &examp ) const
             player_character.practice_proficiency( proficiency_prof_disarming, 5_minutes );
         }
 
+        return;
+    }
+}
+
+void iexamine::part_con( Character &you, tripoint const &examp )
+{
+    map &here = get_map();
+    // TODO: fix point types
+    if( partial_con *const pc = here.partial_con_at( tripoint_bub_ms( examp ) ) ) {
+        if( you.fine_detail_vision_mod() > 4 &&
+            !you.has_trait( trait_DEBUG_HS ) ) {
+            add_msg( m_info, _( "It is too dark to construct right now." ) );
+            return;
+        }
+        const construction &built = pc->id.obj();
+        if( !query_yn( _( "Unfinished task: %s, %d%% complete here, continue construction?" ),
+                       built.group->name(), pc->counter / 100000 ) ) {
+            if( query_yn( _( "Cancel construction?" ) ) ) {
+                for( const item &it : pc->components ) {
+                    here.add_item_or_charges( you.pos(), it );
+                }
+                // TODO: fix point types
+                here.partial_con_remove( tripoint_bub_ms( examp ) );
+            }
+        } else {
+            you.assign_activity( ACT_BUILD );
+            you.activity.placement = here.getglobal( examp );
+        }
         return;
     }
 }
@@ -4287,11 +4290,24 @@ static void reload_furniture( Character &you, const tripoint &examp, bool allow_
         if( you.query_yn( _( "The %1$s contains %2$d %3$s.  Unload?" ), f.name(), amount_in_furn,
                           ammo_itypeID->nname( amount_in_furn ) ) ) {
             map_stack items = here.i_at( examp );
-            for( item &itm : items ) {
-                if( itm.typeId() == ammo_itypeID ) {
-                    you.assign_activity( player_activity( pickup_activity_actor(
-                    { item_location( map_cursor( examp ), &itm ) }, { 0 }, you.pos(), false ) ) );
-                    return;
+            for( map_stack::iterator itm = items.begin(); itm != items.end(); ) {
+                if( itm->typeId() == ammo_itypeID ) {
+                    if( you.can_stash( *itm ) ) {
+                        you.assign_activity( player_activity( pickup_activity_actor(
+                        { item_location( map_cursor( examp ), &*itm ) }, { 0 }, you.pos(), false ) ) );
+                        return;
+                    } else {
+                        // get handling cost before the item reference is invalidated
+                        const int handling_cost = -you.item_handling_cost( *itm );
+
+                        add_msg( _( "You remove %1$s from the %2$s." ), itm->tname(), f.name() );
+                        here.add_item_or_charges( you.pos(), *itm );
+                        itm = items.erase( itm );
+                        you.mod_moves( handling_cost );
+                        return;
+                    }
+                } else {
+                    itm++;
                 }
             }
         }

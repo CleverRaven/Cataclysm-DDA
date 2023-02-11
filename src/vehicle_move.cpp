@@ -2046,7 +2046,7 @@ float map::vehicle_wheel_traction( const vehicle &veh,
     if( veh.is_in_water( true ) ) {
         return veh.can_float() ? 1.0f : -1.0f;
     }
-    if( veh.is_in_water() && veh.is_watercraft() && veh.can_float() ) {
+    if( veh.is_watercraft() && veh.can_float() ) {
         return 1.0f;
     }
 

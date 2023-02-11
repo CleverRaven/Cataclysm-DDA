@@ -1108,7 +1108,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "special_attacks": [ [ "GRAB", 2 ], [ "PARROT", 4 ] ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s begins to cry as it disappears." },
-    "flags": [ "SEES", "HEARS", "NO_BREATHE", "PUSH_MON" ]
+    "flags": [ "SEES", "HEARS", "NO_BREATHE", "PUSH_MON", "GROUP_BASH" ]
   },
   {
     "id": "mon_swarm_structure",
@@ -1343,14 +1343,13 @@
     "morale": 100,
     "vision_day": 60,
     "vision_night": 60,
-    "path_settings": { "max_dist": 60, "allow_open_doors": true },
-    "death_function": { "corpse_type": "NO_CORPSE", "message": "it just dissapeared." },
+    "path_settings": { "max_dist": 60 },
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "it just disappeared." },
     "flags": [
       "NO_BREATHE",
       "SEES",
       "HEARS",
       "ACIDPROOF",
-      "CAN_OPEN_DOORS",
       "FIREPROOF",
       "LOUDMOVES",
       "SLUDGEPROOF",

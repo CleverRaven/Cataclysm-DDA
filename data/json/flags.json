@@ -202,7 +202,8 @@
   {
     "id": "CANT_WEAR",
     "type": "json_flag",
-    "info": "This armor can't be worn directly."
+    "info": "This armor can't be worn directly.",
+    "inherit": false
   },
   {
     "id": "DECAY_EXPOSED_ATMOSPHERE",
@@ -935,12 +936,6 @@
     "//": "This gun wont train marksmanship when fired.  Used in Aftershock smart guns."
   },
   {
-    "id": "UNARMED_WEAPON",
-    "type": "json_flag",
-    "//": "Allows wielding with unarmed fighting styles and trains unarmed when used.",
-    "info": "This weapon <good>can be used with</good> <info>unarmed fighting styles</info>."
-  },
-  {
     "id": "NANOFAB_REPAIR",
     "type": "json_flag",
     "info": "This item has a holographic patch that reflects the light oddly.  It was constructed in a nanofabricator and can be <info>repaired in one</info>."
@@ -1154,6 +1149,7 @@
   },
   {
     "id": "ALWAYS_TWOHAND",
+    "info": "<bad>You must</bad> have two free hands to wield this item.",
     "type": "json_flag"
   },
   {
@@ -1799,10 +1795,6 @@
     "info": "This gear <bad>prevents</bad> you from <info>speaking</info>."
   },
   {
-    "id": "NOT_FOOTWEAR",
-    "type": "json_flag"
-  },
-  {
     "id": "IRREPLACEABLE_CONSUMABLE",
     "type": "json_flag"
   },
@@ -1837,6 +1829,7 @@
   },
   {
     "id": "FIRE_TWOHAND",
+    "info": "<bad>You must</bad> have two free hands to fire this item.",
     "type": "json_flag"
   },
   {

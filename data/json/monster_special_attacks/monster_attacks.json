@@ -407,5 +407,42 @@
     "miss_msg_u": "%s goes for your legs!  You duck!",
     "miss_msg_npc": "%s goes <npcname>'s legs, but they duck!",
     "effects": [ { "id": "downed", "duration": 3 } ]
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "bio_op_takedown",
+    "cooldown": 10,
+    "move_cost": 100,
+    "attack_chance": 50,
+    "hitsize_min": 4,
+    "attack_upper": false,
+    "damage_max_instance": [ { "damage_type": "bash", "amount": 10 } ],
+    "effects_require_dmg": false,
+    "hit_dmg_u": "%1$s kicks your %2$s and slams you to the ground!",
+    "hit_dmg_npc": "%1$s kicks <npcname> and slams them to the ground!",
+    "no_dmg_msg_u": "%1$s tries to kick %2$s and knock you down, but your armor protects you!",
+    "no_dmg_msg_npc": "%1$s tries to kick and knock <npcname> down, but their armor protects them!",
+    "miss_msg_u": "%1$s tries to kick your %2$s but you dodge!",
+    "miss_msg_npc": "%s tries to kick and knock down <npcname>, but they dodge!",
+    "effects": [ { "id": "downed", "duration": 3 }, { "id": "stunned", "duration": 2 } ]
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "bio_op_impale",
+    "cooldown": 25,
+    "move_cost": 150,
+    "damage_max_instance": [ { "damage_type": "stab", "amount": 36, "armor_penetration": 8, "armor_multiplier": 0.5 } ],
+    "hitsize_min": 4,
+    "effects": [ { "id": "bleed", "duration": 5, "affect_hit_bp": true } ],
+    "hit_dmg_u": "%1$s lunges and impales your %2$s!",
+    "hit_dmg_npc": "%1$s lunges and impales <npcname>!",
+    "miss_msg_u": "%1$s lunges and tries to impale your %2$s, but you dodge!",
+    "miss_msg_npc": "%1$s lunges and tries to impale <npcname>, but they dodge!",
+    "no_dmg_msg_u": "%1$s lunges and tries to impale your %2$s, but fails to penetrate your armor!",
+    "no_dmg_msg_npc": "%1$s tries to impale <npcname>, but fails to penetrate their armor!",
+    "dodgeable": true,
+    "blockable": true
   }
 ]

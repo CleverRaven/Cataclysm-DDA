@@ -1558,12 +1558,23 @@ void timed_event_manager::unserialize_all( const JsonArray &ja )
         jo.read( "key", key );
         point pt;
         for( JsonObject jp : jo.get_array( "revert" ) ) {
+            if( jp.has_member( "point" ) ) {
+                jp.get_member( "point" ).read( pt, false );
+            }
             revert.set_furn( pt, furn_id( jp.get_string( "furn" ) ) );
             revert.set_ter( pt, ter_id( jp.get_string( "ter" ) ) );
             revert.set_trap( pt, trap_id( jp.get_string( "trap" ) ) );
-            if( pt.x++ < SEEX ) {
-                pt.x = 0;
-                pt.y++;
+            if( jp.has_member( "items" ) ) {
+                cata::colony<item> itm;
+                jp.get_member( "items" ).read( itm, false );
+                revert.set_items( pt, itm );
+            }
+            // We didn't always save the point, this is the original logic, it doesn't work right but for older saves at least they won't crash
+            if( !jp.has_member( "point" ) ) {
+                if( pt.x++ < SEEX ) {
+                    pt.x = 0;
+                    pt.y++;
+                }
             }
         }
         get_timed_events().add( static_cast<timed_event_type>( type ), when, faction_id, map_square,
@@ -1635,9 +1646,11 @@ void timed_event_manager::serialize_all( JsonOut &jsout )
             for( int x = 0; x < SEEX; x++ ) {
                 jsout.start_object();
                 point pt( x, y );
+                jsout.member( "point", pt );
                 jsout.member( "furn", elem.revert.get_furn( pt ) );
                 jsout.member( "ter", elem.revert.get_ter( pt ) );
                 jsout.member( "trap", elem.revert.get_trap( pt ) );
+                jsout.member( "items", elem.revert.get_items( pt ) );
                 jsout.end_object();
             }
         }

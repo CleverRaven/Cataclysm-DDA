@@ -12,7 +12,7 @@
         "$| -------         uuu|$",
         "$| -.avvL-        uu7u|$",
         "$| -Ha___+          uu|$",
-        "$| -~a__R-        D uu|$",
+        "$| -_a__R-        D uu|$",
         "$| -_____b        D uu|$",
         "$| -Faa_C-         uu |$",
         "$| ----_A-          u |$",
@@ -32,7 +32,7 @@
         "$$$$$$$$$$$$$$$$$$$$$$$$"
       ],
       "faction_owner": [ { "id": "wasteland_scavengers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
-      "npcs": { "~": { "class": "NPC_scrap_trader" } },
+      "place_npcs": [ { "class": "NPC_scrap_trader", "x": 4, "y": 5 } ],
       "terrain": {
         "+": "t_door_c",
         "-": "t_wall_w",
@@ -108,8 +108,6 @@
       },
       "place_items": [
         { "chance": 100, "item": "cash_register_random", "x": 5, "y": 5 },
-        { "chance": 25, "item": "vending_food", "x": 6, "y": 4 },
-        { "chance": 25, "item": "vending_drink", "x": 7, "y": 4 },
         { "chance": 100, "item": "SUS_fridge_survivor", "x": 4, "y": 8 },
         { "chance": 100, "item": "SUS_bathroom_sink", "x": 4, "y": 10 },
         { "chance": 100, "item": "SUS_silverware", "x": 6, "y": 8 },
