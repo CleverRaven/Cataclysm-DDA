@@ -11,7 +11,7 @@
       { "monster": "mon_nakedmolerat_giant", "weight": 100, "cost_multiplier": 3 },
       { "monster": "mon_mole_cricket", "weight": 60, "cost_multiplier": 3 },
       { "monster": "mon_woodlouse", "weight": 60, "cost_multiplier": 3, "pack_size": [ 2, 4 ] },
-      { "monster": "mon_stag_beetle_larva", "freq": 40, "cost_multiplier": 5 }
+      { "monster": "mon_stag_beetle_larva", "weight": 40, "cost_multiplier": 5 }
     ]
   },
   {
@@ -385,7 +385,7 @@
         "cost_multiplier": 2,
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
-      { "monster": "mon_frog", "freq": 30, "cost_multiplier": 2, "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] },
+      { "monster": "mon_frog", "weight": 30, "cost_multiplier": 2, "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] },
       { "monster": "mon_toad", "weight": 50, "cost_multiplier": 2, "pack_size": [ 1, 3 ] }
     ]
   },
