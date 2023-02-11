@@ -4,7 +4,7 @@
     "id": "EOC_RAD_ADAP_activated",
     "condition": { "compare_int": [ { "u_val": "sleep_deprivation" }, "<=", { "const": 14400 } ] },
     "effect": [
-      { "arithmetic": [ { "u_val": "sleep_deprivation" }, "+=", { "time": "15 minutes" } ] }
+      { "arithmetic": [ { "u_val": "sleep_deprivation" }, "+=", { "time": "15 minutes" } ] },
       { "u_message": "You think about activating your immune system and your body warms with exertion.", "type": "good" },
       { "u_add_effect": "migo_rad_away", "duration": "5 minutes" }
     ],
@@ -15,7 +15,7 @@
     "id": "EOC_RAD_FLUSH_activated",
     "condition": { "compare_int": [ { "u_val": "sleep_deprivation" }, "<=", { "const": 14400 } ] },
     "effect": [
-      { "arithmetic": [ { "u_val": "sleep_deprivation" }, "+=", { "time": "35 minutes" } ] }
+      { "arithmetic": [ { "u_val": "sleep_deprivation" }, "+=", { "time": "35 minutes" } ] },
       { "u_message": "You think quite pointedly about activating your immune system and your body hums with exertion.", "type": "good" },
       { "u_add_effect": "migo_rad_flush", "duration": "15 minutes" }
     ],
