@@ -217,7 +217,7 @@
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_WEAK" ],
     "special_attacks": [ [ "EAT_FOOD", 60 ] ],
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "POISON", "STUMBLES", "PATH_AVOID_FIRE" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "STUMBLES", "PATH_AVOID_FIRE" ]
   },
   {
     "id": "mon_plague_nymph",
@@ -234,8 +234,7 @@
     "dodge": 3,
     "harvest": "arachnid_tainted",
     "upgrades": { "age_grow": 144, "into": "mon_skittering_plague" },
-    "special_attacks": [ [ "EAT_FOOD", 120 ] ],
-    "extend": { "flags": [ "POISON", "FILTHY" ] }
+    "special_attacks": [ [ "EAT_FOOD", 120 ] ]
   },
   {
     "id": "mon_plague_vector",
@@ -274,7 +273,7 @@
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_WEAK" ],
     "special_attacks": [ [ "EAT_FOOD", 40 ] ],
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "POISON", "STUMBLES", "PATH_AVOID_FIRE" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "STUMBLES", "PATH_AVOID_FIRE" ]
   },
   {
     "id": "mon_giant_cockroach",
@@ -1767,7 +1766,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "dodge": 1,
     "upgrades": { "age_grow": 61, "into": "mon_dermatik" },
-    "extend": { "flags": [ "POISON", "CAN_DIG" ] }
+    "extend": { "flags": [ "CAN_DIG" ] }
   },
   {
     "id": "mon_dermatik",
