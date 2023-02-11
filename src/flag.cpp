@@ -327,7 +327,6 @@ const flag_id flag_TRADER_AVOID( "TRADER_AVOID" );
 const flag_id flag_TRADER_KEEP( "TRADER_KEEP" );
 const flag_id flag_TRADER_KEEP_EQUIPPED( "TRADER_KEEP_EQUIPPED" );
 const flag_id flag_TWO_WAY_RADIO( "TWO_WAY_RADIO" );
-const flag_id flag_UNARMED_WEAPON( "UNARMED_WEAPON" );
 const flag_id flag_UNBREAKABLE( "UNBREAKABLE" );
 const flag_id flag_UNBREAKABLE_MELEE( "UNBREAKABLE_MELEE" );
 const flag_id flag_UNDERSIZE( "UNDERSIZE" );
@@ -361,7 +360,6 @@ const flag_id json_flag_HIDDEN_ITEM( "HIDDEN_ITEM" );
 static const flag_id json_flag_null( "null" );
 
 const flag_id flag_NULL = json_flag_null; // intentionally invalid flag
-
 
 namespace
 {

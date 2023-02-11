@@ -15,7 +15,6 @@ using dialogue_fun_ptr = std::add_pointer<void( npc & )>::type;
 
 using trial_mod = std::pair<std::string, int>;
 
-
 template<class T>
 struct talk_effect_fun_t {
     private:
@@ -171,7 +170,12 @@ struct str_or_var {
             if( default_val.has_value() ) {
                 return default_val.value();
             } else {
-                debugmsg( "No default provided for str_or_var_part" );
+                std::string var_name = var_val.value().name;
+                if( var_name.find( "npctalk_var" ) != std::string::npos ) {
+                    var_name = var_name.substr( 12 );
+                }
+                debugmsg( "No default value provided for str_or_var_part while encountering unused variable %s.  Add a \"default_str\" member to prevent this.",
+                          var_name );
                 return "";
             }
         } else {
@@ -198,7 +202,12 @@ struct int_or_var_part {
             if( default_val.has_value() ) {
                 return default_val.value();
             } else {
-                debugmsg( "No default value provided for int_or_var_part while encountering an unused variable." );
+                std::string var_name = var_val.value().name;
+                if( var_name.find( "npctalk_var" ) != std::string::npos ) {
+                    var_name = var_name.substr( 12 );
+                }
+                debugmsg( "No default value provided for int_or_var_part while encountering unused variable %s.  Add a \"default\" member to prevent this.",
+                          var_name );
                 return 0;
             }
         } else if( arithmetic_val.has_value() ) {
@@ -251,7 +260,12 @@ struct duration_or_var_part {
             if( default_val.has_value() ) {
                 return default_val.value();
             } else {
-                debugmsg( "No default provided for duration_or_var_part" );
+                std::string var_name = var_val.value().name;
+                if( var_name.find( "npctalk_var" ) != std::string::npos ) {
+                    var_name = var_name.substr( 12 );
+                }
+                debugmsg( "No default value provided for duration_or_var_part while encountering unused variable %s.  Add a \"default\" member to prevent this.",
+                          var_name );
                 return 0_seconds;
             }
         } else if( arithmetic_val.has_value() ) {

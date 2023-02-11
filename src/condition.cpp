@@ -840,7 +840,6 @@ void conditional_t<T>::set_npc_allies( const JsonObject &jo, const std::string &
     };
 }
 
-
 template<class T>
 void conditional_t<T>::set_npc_allies_global( const JsonObject &jo, const std::string &member )
 {
@@ -855,7 +854,6 @@ void conditional_t<T>::set_npc_allies_global( const JsonObject &jo, const std::s
         return count >= static_cast<size_t>( iov.evaluate( d ) );
     };
 }
-
 
 template<class T>
 void conditional_t<T>::set_u_has_cash( const JsonObject &jo, const std::string &member )
@@ -1718,6 +1716,12 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
         } else if( checked_value == "rad" ) {
             return [is_npc]( const T & d ) {
                 return d.actor( is_npc )->get_rad();
+            };
+        } else if( checked_value == "item_rad" ) {
+            const std::string flag = jo.get_string( "flag" );
+            const aggregate_type agg = jo.get_enum_value<aggregate_type>( "aggregate", aggregate_type::FIRST );
+            return [is_npc, flag, agg]( const T & d ) {
+                return d.actor( is_npc )->item_rads( flag_id( flag ), agg );
             };
         } else if( checked_value == "focus" ) {
             return [is_npc]( const T & d ) {

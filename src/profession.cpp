@@ -249,7 +249,6 @@ void profession::load( const JsonObject &jo, const std::string & )
 
     optional( jo, was_loaded, "requirement", _requirement );
 
-
     optional( jo, was_loaded, "skills", _starting_skills, skilllevel_reader {} );
     optional( jo, was_loaded, "addictions", _starting_addictions, addiction_reader {} );
     // TODO: use string_id<bionic_type> or so

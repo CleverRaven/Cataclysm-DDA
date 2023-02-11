@@ -260,7 +260,10 @@ bool pocket_favorite_callback::key( const input_context &ctxt, const input_event
         string_input_popup popup;
         popup.title( string_format( _( "Enter Priority (current priority %d)" ),
                                     selected_pocket->settings.priority() ) );
-        selected_pocket->settings.set_priority( popup.query_int() );
+        const int ret = popup.query_int();
+        if( popup.confirmed() ) {
+            selected_pocket->settings.set_priority( ret );
+        }
         return true;
     } else if( action == "FAV_AUTO_PICKUP" ) {
         selected_pocket->settings.set_disabled( !selected_pocket->settings.is_disabled() );
@@ -1817,7 +1820,6 @@ item item_contents::remove_pocket( int index )
     // start at the first pocket
     auto rit = contents.rbegin();
 
-
     // find the pockets to remove from the item
     for( int i = additional_pockets.size() - 1; i >= index; --i ) {
         // move the iterator past all the pockets we aren't removing
@@ -2238,7 +2240,6 @@ units::length item_contents::item_length_modifier() const
     }
     return total_length;
 }
-
 
 int item_contents::best_quality( const quality_id &id ) const
 {

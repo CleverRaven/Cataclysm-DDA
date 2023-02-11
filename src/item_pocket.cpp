@@ -58,7 +58,6 @@ std::string enum_to_string<item_pocket::pocket_type>( item_pocket::pocket_type d
 constexpr units::volume pocket_data::max_volume_for_container;
 constexpr units::mass pocket_data::max_weight_for_container;
 
-
 std::string pocket_data::check_definition() const
 {
     if( type == item_pocket::pocket_type::MOD ||
@@ -1415,7 +1414,6 @@ ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it ) co
                    contain_code::ERR_GAS, _( "can't put non gas into pocket with gas" ) );
     }
 
-
     if( !data->ammo_restriction.empty() ) {
         const ammotype it_ammo = it.ammo_type();
         if( it.count() > remaining_ammo_capacity( it_ammo ) ) {
@@ -1482,8 +1480,7 @@ bool item_pocket::can_reload_with( const item &ammo, const bool now ) const
         // and the pocket needs to be empty (except casings)
         return allows_speedloader( ammo.typeId() ) &&
                is_compatible( ammo.loaded_ammo() ).success() &&
-               ( remaining_ammo_capacity( ammo.loaded_ammo().ammo_type() ) == ammo_capacity(
-                     ammo.loaded_ammo().ammo_type() ) );
+               ( remaining_ammo_capacity( ammo.loaded_ammo().ammo_type() ) >= ammo.ammo_remaining() );
     }
 
     if( !is_compatible( ammo ).success() ) {

@@ -326,24 +326,6 @@ static const zone_type_id zone_type_NO_AUTO_PICKUP( "NO_AUTO_PICKUP" );
 
 static constexpr int DANGEROUS_PROXIMITY = 5;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #if defined(__ANDROID__)
 extern bool add_key_to_quick_shortcuts( int key, const std::string &category, bool back ); // NOLINT
 #endif
@@ -4097,6 +4079,7 @@ void game::mon_info_update( )
     auto &unique_types = mon_visible.unique_types;
     auto &unique_mons = mon_visible.unique_mons;
     auto &dangerous = mon_visible.dangerous;
+    mon_visible.has_dangerous_creature_in_proximity = false;
 
     // 7 0 1    unique_types uses these indices;
     // 6 8 2    0-7 are provide by direction_from()
@@ -4201,6 +4184,7 @@ void game::mon_info_update( )
 
                 if( !safemode_empty || mon_dist <= iProxyDist ) {
                     bool passmon = false;
+                    mon_visible.has_dangerous_creature_in_proximity = true;
                     if( critter.ignoring > 0 ) {
                         if( safe_mode != SAFE_MODE_ON ) {
                             critter.ignoring = 0;
@@ -4245,6 +4229,7 @@ void game::mon_info_update( )
                                   p->get_attitude() == NPCATT_KILL;
             }
             if( need_processing ) {
+                mon_visible.has_dangerous_creature_in_proximity = true;
                 newseen++;
             }
             unique_types[index].push_back( p );
@@ -7129,7 +7114,6 @@ look_around_result game::look_around(
 
             center_print( w_info, 0, c_white, string_format( _( "< <color_green>Look around</color> >" ) ) );
 
-
             creature_tracker &creatures = get_creature_tracker();
             monster *const mon = creatures.creature_at<monster>( lp, true );
             if( mon && u.sees( *mon ) ) {
@@ -7392,7 +7376,6 @@ look_around_result game::look_around( look_around_params looka_params )
                         looka_params.select_zone, looka_params.peeking );
 }
 
-
 static void add_item_recursive( std::vector<std::string> &item_order,
                                 std::map<std::string, map_item_stack> &temp_items, const item *it, const tripoint &relative_pos )
 {
@@ -7426,7 +7409,6 @@ std::vector<map_item_stack> game::find_nearby_items( int iRadius )
             m.sees_some_items( points_p_it, u ) ) {
 
             for( item &elem : m.i_at( points_p_it ) ) {
-                const std::string name = elem.tname();
                 const tripoint relative_pos = points_p_it - u.pos();
 
                 add_item_recursive( item_order, temp_items, &elem, relative_pos );
@@ -10341,7 +10323,8 @@ point game::place_player( const tripoint &dest_loc, bool quick )
 
     // Auto pickup
     if( !quick && !u.is_mounted() && get_option<bool>( "AUTO_PICKUP" ) && !u.is_hauling() &&
-        ( !get_option<bool>( "AUTO_PICKUP_SAFEMODE" ) || mostseen == 0 ) &&
+        ( !get_option<bool>( "AUTO_PICKUP_SAFEMODE" ) ||
+          !u.get_mon_visible().has_dangerous_creature_in_proximity ) &&
         ( m.has_items( u.pos() ) || get_option<bool>( "AUTO_PICKUP_ADJACENT" ) ) ) {
         Pickup::autopickup( u.pos() );
     }
@@ -12379,7 +12362,6 @@ bool game::slip_down( bool check_for_traps )
         add_msg( m_info, _( "Your bad knees make it difficult to climb." ) );
     }
 
-
     add_msg_debug( debugmode::DF_GAME, "Slip chance after proficiency/trait modifiers %d%%", slip );
 
     // Climbing is difficult with wet hands and feet.
@@ -12447,7 +12429,6 @@ bool game::slip_down( bool check_for_traps )
     } else if( weight_ratio > .25 ) {
         add_msg( m_info, _( "Your carried weight makes it a little harder to climb." ) );
     }
-
 
     if( x_in_y( slip, 100 ) ) {
         add_msg( m_bad, _( "You slip while climbing and fall down." ) );

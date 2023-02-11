@@ -85,7 +85,6 @@
 #include "vpart_range.h"
 #include "name.h"
 
-
 static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_contacts( "contacts" );
 static const efftype_id effect_controlled( "controlled" );
@@ -298,8 +297,6 @@ void npc_template::load( const JsonObject &jsobj )
         } else {
             tem.gender_override = gender::female;
         }
-    } else {
-        tem.gender_override = gender::random;
     }
     if( jsobj.has_string( "faction" ) ) {
         guy.set_fac_id( jsobj.get_string( "faction" ) );
@@ -3890,6 +3887,16 @@ std::string npc::get_current_activity() const
         return current_activity_id.obj().verb().translated();
     } else {
         return _( "nothing" );
+    }
+}
+
+void npc::update_missions_target( character_id old_character, character_id new_character )
+{
+    for( ::mission *&temp : chatbin.missions_assigned ) {
+        if( temp->get_assigned_player_id() == old_character ||
+            temp->get_assigned_player_id() == character_id( - 1 ) ) {
+            temp->set_assigned_player_id( new_character );
+        }
     }
 }
 

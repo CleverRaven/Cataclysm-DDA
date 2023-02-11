@@ -677,7 +677,10 @@ std::map<itype_id, int> recipe::get_byproducts() const
 {
     std::map<itype_id, int> ret;
     if( !byproducts.empty() ) {
-        ret.insert( byproducts.begin(), byproducts.end() );
+        for( const std::pair<const itype_id, int> &byproduct : byproducts ) {
+            int count = byproduct.first->count_by_charges() ? byproduct.first->charges_default() : 1;
+            ret.emplace( byproduct.first, byproduct.second * count );
+        }
     }
     if( !!byproduct_group ) {
         std::vector<item> tmp = item_group::items_from( *byproduct_group );
@@ -828,7 +831,7 @@ std::vector<proficiency_id> recipe::used_proficiencies() const
     return ret;
 }
 
-static float get_aided_proficiency_level( const Character &crafter, proficiency_id prof )
+static float get_aided_proficiency_level( const Character &crafter, const proficiency_id &prof )
 {
     float max_prof = crafter.get_proficiency_practice( prof );
     for( const npc *helper : crafter.get_crafting_helpers() ) {

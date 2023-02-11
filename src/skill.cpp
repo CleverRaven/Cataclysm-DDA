@@ -319,7 +319,6 @@ void SkillLevel::train( int amount, float catchup_modifier, float knowledge_modi
     practice();
 }
 
-
 void SkillLevel::knowledge_train( int amount, int npc_knowledge )
 {
     float level_gap = 1.0f;

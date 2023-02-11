@@ -50,7 +50,6 @@
 static const std::string flag_BLIND_EASY( "BLIND_EASY" );
 static const std::string flag_BLIND_HARD( "BLIND_HARD" );
 
-
 class npc;
 
 class recipe_result_info_cache;
@@ -98,7 +97,6 @@ static std::string peek_related_recipe( const recipe *current, const recipe_subs
 static int related_menu_fill( uilist &rmenu,
                               const std::vector<std::pair<itype_id, std::string>> &related_recipes,
                               const recipe_subset &available );
-
 
 static std::string get_cat_unprefixed( const std::string &prefixed_name )
 {
@@ -292,7 +290,6 @@ static std::vector<std::string> recipe_info(
     std::ostringstream oss;
 
     oss << string_format( _( "Primary skill: %s\n" ), recp.primary_skill_string( guy ) );
-
 
     if( !recp.required_skills.empty() ) {
         oss << string_format( _( "Other skills: %s\n" ), recp.required_skills_string( guy ) );
@@ -1010,7 +1007,7 @@ static bool selection_ok( const std::vector<const recipe *> &list, const int cur
     return false;
 }
 
-const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_recipe )
+const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id &goto_recipe )
 {
     recipe_result_info_cache result_info;
     recipe_info_cache r_info_cache;
@@ -1451,8 +1448,6 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
                     num_hidden = picking.size() - current.size();
                     num_recipe = picking.size();
                 }
-
-
 
                 available.reserve( current.size() );
                 // cache recipe availability on first display
