@@ -399,7 +399,7 @@
   {
     "type": "COMESTIBLE",
     "id": "dry_wild_rice",
-    "name": { "str_sp": "dried wild rice" },
+    "name": { "str_sp": "dry wild rice" },
     "weight": "66 g",
     "color": "brown",
     "spoils_in": "360 days",
@@ -408,7 +408,7 @@
     "symbol": "%",
     "quench": -2,
     "calories": 240,
-    "description": "Dehydrated wild rice.  Tasty and nutritious when cooked, virtually inedible when dry.",
+    "description": "Raw, milled wild rice.  Tasty and nutritious when cooked, virtually inedible when dry.",
     "price": 500,
     "price_postapoc": 300,
     "material": [ "veggy" ],

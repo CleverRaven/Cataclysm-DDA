@@ -377,7 +377,6 @@
           "tunic",
           "mocassins",
           "cloak",
-          "loincloth",
           "chaps_leather",
           "bandana_head",
           "copper_knife",
@@ -392,7 +391,9 @@
           { "item": "water_clean", "charges": 8, "container-item": "bottle_gourd" },
           { "item": "arrow_heavy_fire_hardened_fletched", "charges": 10, "container-item": "quiver_birchbark" }
         ]
-      }
+      },
+      "male": [ "loincloth" ],
+      "female": [ "loincloth" ]
     }
   }
 ]

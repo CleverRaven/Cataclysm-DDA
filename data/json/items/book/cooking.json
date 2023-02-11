@@ -607,7 +607,8 @@
     "material": [ "paper" ],
     "bashing": 7,
     "color": "blue",
-    "required_level": 1,
+    "skill": "cooking",
+    "required_level": 2,
     "max_level": 3,
     "intelligence": 7,
     "proficiencies": [

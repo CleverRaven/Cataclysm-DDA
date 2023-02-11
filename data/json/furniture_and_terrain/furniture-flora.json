@@ -422,7 +422,7 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "FLAT", "THIN_OBSTACLE", "SHRUB" ],
     "examine_action": "harvest_furn_nectar",
-    "harvest_by_season": [ { "seasons": [ "fall" ], "id": "wild_rice_harv" } ],
+    "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "wild_rice_harv" } ],
     "bash": {
       "str_min": 2,
       "str_max": 6,
