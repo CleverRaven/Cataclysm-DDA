@@ -136,12 +136,12 @@
     "//": "All of the different spider eggs",
     "components": [
       [
-        [ "egg_spider_cellar" ],
-        [ "egg_spider_jumping" ],
-        [ "egg_spider_trapdoor" ],
-        [ "egg_spider_web" ],
-        [ "egg_spider_widow" ],
-        [ "egg_spider_wolf" ]
+        [ "egg_spider_cellar", 1 ],
+        [ "egg_spider_jumping", 1 ],
+        [ "egg_spider_trapdoor", 1 ],
+        [ "egg_spider_web", 1 ],
+        [ "egg_spider_widow", 1 ],
+        [ "egg_spider_wolf", 1 ]
       ]
     ]
   },
