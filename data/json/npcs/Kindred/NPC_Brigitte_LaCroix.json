@@ -14,8 +14,7 @@
       { "trait": "seer_mark" },
       { "trait": "hair_black_mohawk" },
       { "trait": "IGNORE_SOUND" },
-      { "trait": "NO_BASH" },
-      { "trait": "RETURN_TO_START_POS" }
+      { "trait": "NO_BASH" }
     ],
     "common": false,
     "bonus_per": { "rng": [ 0, 2 ] },
