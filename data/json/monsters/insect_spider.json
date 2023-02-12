@@ -1128,7 +1128,6 @@
     "morale": 10,
     "special_attacks": [ [ "GRAB", 25 ] ],
     "death_function": { "message": "The spiderlings fall to the ground!", "effect": { "id": "death_spider_cellar_mom", "hit_self": true } },
-    "reproduction": { "baby_monster": "mon_spider_cellar_small", "baby_count": 1, "baby_timer": 7 },
     "delete": { "flags": [ "HARDTOSHOOT" ], "anger_triggers": [ "PLAYER_WEAK" ] },
     "extend": { "flags": [ "STUMBLES" ] }
   },
