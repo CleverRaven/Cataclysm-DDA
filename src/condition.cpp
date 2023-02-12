@@ -2604,8 +2604,7 @@ void conditional_t<T>::set_has_skill( const JsonObject &jo, const std::string &m
 }
 
 template<class T>
-void conditional_t<T>::set_roll_contested( const JsonObject &jo, const std::string &member,
-        bool is_npc )
+void conditional_t<T>::set_roll_contested( const JsonObject &jo, const std::string &member )
 {
     std::function<int( const T & )> get_check = conditional_t< T >::get_get_int( jo.get_object(
                 member ) );
@@ -2945,10 +2944,8 @@ conditional_t<T>::conditional_t( const JsonObject &jo )
         set_has_skill( jo, "u_has_skill" );
     } else if( jo.has_member( "npc_has_skill" ) ) {
         set_has_skill( jo, "npc_has_skill", is_npc );
-    } else if( jo.has_member( "u_roll_contested" ) ) {
-        set_roll_contested( jo, "u_roll_contested" );
-    } else if( jo.has_member( "npc_roll_contested" ) ) {
-        set_roll_contested( jo, "npc_roll_contested", is_npc );
+    } else if( jo.has_member( "roll_contested" ) ) {
+        set_roll_contested( jo, "roll_contested" );
     } else if( jo.has_member( "u_know_recipe" ) ) {
         set_u_know_recipe( jo, "u_know_recipe" );
     } else if( jo.has_int( "one_in_chance" ) || jo.has_object( "one_in_chance" ) ) {
