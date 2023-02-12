@@ -355,6 +355,17 @@
         "need_charges": 1,
         "need_charges_msg": "The laptop's batteries need more charge.",
         "type": "transform"
+      },
+      {
+        "type": "effect_on_conditions",
+        "menu_text": "Dig into local files and logs",
+        "description": "You can take a loot at local files of this laptop.",
+        "effect_on_conditions": [
+          {
+            "id": "EOC_LOCAL_FILES_SIMPLE",
+            "effect": [ { "u_message": "local_files_simple", "snippet": true, "same_snippet": true, "popup": true } ]
+          }
+        ]
       }
     ],
     "flags": [ "WATCH", "WATER_BREAK", "ELECTRONIC" ],
