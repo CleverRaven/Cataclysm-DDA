@@ -7865,6 +7865,7 @@
     "points": 99,
     "valid": false,
     "description": "To cast bug killing spells.",
+    "casting_time_multiplier": 0.01,
     "debug": true,
     "enchantments": [
       {
