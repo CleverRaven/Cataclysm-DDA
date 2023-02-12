@@ -359,7 +359,7 @@
       {
         "type": "effect_on_conditions",
         "menu_text": "Dig into local files and logs",
-        "description": "You can take a loot at local files of this laptop.",
+        "description": "You can take a look at local files of this laptop.",
         "effect_on_conditions": [
           {
             "id": "EOC_LOCAL_FILES_SIMPLE",
