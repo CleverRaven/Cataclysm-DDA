@@ -170,7 +170,7 @@
   {
     "name": "GROUP_EGG_MANTIS",
     "type": "monstergroup",
-    "monsters": [ { "monster": "mon_mantis_nymph" } ]
+    "monsters": [ { "monster": "mon_mantis_nymph", "pack_size": [ 1, 3 ] } ]
   },
   {
     "name": "GROUP_EGG_WATER_BEETLE",
@@ -240,7 +240,7 @@
   {
     "name": "GROUP_EGG_WORM",
     "type": "monstergroup",
-    "monsters": [ { "monster": "mon_worm_larva" } ]
+    "monsters": [ { "monster": "mon_worm_larva", "pack_size": [ 1, 3 ] } ]
   },
   {
     "name": "GROUP_EGG_SLUG",

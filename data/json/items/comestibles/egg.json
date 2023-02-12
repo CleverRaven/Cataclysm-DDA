@@ -344,7 +344,9 @@
     "description": "Praying mantis eggs glued to each other inside a strange-looking case.  It resembles a trilobite or a woodlouse.",
     "copy-from": "egg_insect",
     "color": "green",
-    "spoils_in": "13 days",
+    "spoils_in": "10 days",
+    "proportional": { "weight": 5, "calories": 5, "volume": 5 },
+    "vitamins": [ [ "calcium", 35 ], [ "iron", 90 ], [ "mutant_toxin", 125 ] ],
     "rot_spawn": "GROUP_EGG_MANTIS",
     "rot_spawn_chance": 50
   },
@@ -471,6 +473,9 @@
     "name": "earthworm egg",
     "description": "The egg of an earthworm.",
     "copy-from": "egg_insect",
+    "spoils_in": "10 days",
+    "proportional": { "weight": 5, "calories": 5, "volume": 5 },
+    "vitamins": [ [ "calcium", 35 ], [ "iron", 90 ], [ "mutant_toxin", 125 ] ],
     "rot_spawn": "GROUP_EGG_WORM",
     "rot_spawn_chance": 50
   },

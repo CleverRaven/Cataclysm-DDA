@@ -87,7 +87,7 @@
     "bleed_rate": 60,
     "harvest": "meatslug",
     "dissect": "dissect_troglobite_sample_large",
-    "reproduction": { "baby_egg": "egg_worm", "baby_count": 3, "baby_timer": 15 },
+    "reproduction": { "baby_egg": "egg_worm", "baby_count": 1, "baby_timer": 30 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "death_function": {
       "message": "The %s splits in two!",
@@ -149,7 +149,7 @@
     "armor_bash": 2,
     "harvest": "mutant_meatslug",
     "dissect": "dissect_troglobite_sample_small",
-    "reproduction": { "baby_egg": "egg_worm", "baby_count": 3, "baby_timer": 15 },
+    "reproduction": { "baby_egg": "egg_worm", "baby_count": 1, "baby_timer": 30 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "death_function": {
       "message": "The %s splits in two!",
@@ -1031,7 +1031,6 @@
     "morale": 0,
     "volume": "20 L",
     "weight": "15 kg",
-    "delete": { "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK", "HOSTILE_SEEN" ], "special_attacks": [ "GRAB" ] },
     "extend": { "fear_triggers": [ "PLAYER_CLOSE" ] },
     "vision_day": 8,
     "vision_night": 8,
@@ -1039,6 +1038,8 @@
     "zombify_into": "mon_meat_cocoon_tiny",
     "upgrades": { "age_grow": 14, "into_group": "GROUP_SPIDER_CELLAR" },
     "delete": {
+      "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK", "HOSTILE_SEEN" ],
+      "special_attacks": [ "GRAB" ],
       "reproduction": { "baby_egg": "egg_spider_cellar", "baby_count": 3, "baby_timer": 15 },
       "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ]
     }
