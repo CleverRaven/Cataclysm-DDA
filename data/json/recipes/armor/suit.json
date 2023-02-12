@@ -3279,7 +3279,12 @@
       { "proficiency": "prof_articulation" },
       { "proficiency": "prof_quenching", "fail_multiplier": 2 }
     ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -240 ], [ "water_clean", -240 ], [ "water_clean", -240 ] ] ]
+    "tools": [
+      [ [ "tongs", -1 ] ],
+      [ [ "hotcut", -1 ] ],
+      [ [ "metal_tank", -1 ] ],
+      [ [ "water", -240 ], [ "water_clean", -240 ], [ "water_clean", -240 ] ]
+    ]
   },
   {
     "result": "xl_armor_qt_heavyplate",
