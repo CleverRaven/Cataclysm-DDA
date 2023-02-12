@@ -95,7 +95,9 @@
     "id": "eggs_invert",
     "type": "requirement",
     "//": "All of the different invertebrate eggs",
-    "components": [ [ [ "eggs_insect", 1, "LIST" ], [ "eggs_spider", 4, "LIST" ], [ "egg_worm", 1 ], [ "egg_snail", 4 ], [ "egg_slug", 4 ] ] ]
+    "components": [
+      [ [ "eggs_insect", 1, "LIST" ], [ "eggs_spider", 4, "LIST" ], [ "egg_worm", 1 ], [ "egg_snail", 4 ], [ "egg_slug", 4 ] ]
+    ]
   },
   {
     "id": "eggs_insect",
