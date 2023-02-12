@@ -49,7 +49,7 @@ const std::unordered_set<std::string> complex_conds = { {
         "u_has_worn_with_flag", "npc_has_worn_with_flag", "u_has_wielded_with_flag", "npc_has_wielded_with_flag",
         "u_has_pain", "npc_has_pain", "u_has_power", "npc_has_power", "u_has_focus", "npc_has_focus", "u_has_morale",
         "npc_has_morale", "u_is_on_terrain", "npc_is_on_terrain", "u_is_in_field", "npc_is_in_field", "compare_int",
-        "compare_string", "u_roll_contested", "npc_roll_contested"
+        "compare_string", "roll_contested"
     }
 };
 } // namespace dialogue_data
