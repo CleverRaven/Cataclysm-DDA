@@ -832,7 +832,7 @@
   },
   {
     "type": "GENERIC",
-    "id": "tree_spile",
+    "id": "makeshift_tree_spile",
     "symbol": ".",
     "color": "brown",
     "name": { "str": "makeshift tree spile" },
