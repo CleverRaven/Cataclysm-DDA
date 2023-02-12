@@ -198,7 +198,7 @@
     "proportional": { "weight": 4, "calories": 4, "volume": 4 },
     "vitamins": [ [ "calcium", 28 ], [ "iron", 72 ], [ "mutant_toxin", 100 ] ],
     "rot_spawn": "GROUP_EGG_ANT",
-    "rot_spawn_chance": 60
+    "rot_spawn_chance": 100
   },
   {
     "type": "COMESTIBLE",
@@ -207,7 +207,8 @@
     "description": "A fist-sized egg from a giant roach.  Incredibly gross.",
     "copy-from": "egg_insect",
     "color": "white",
-    "rot_spawn": "GROUP_EGG_ROACH"
+    "rot_spawn": "GROUP_EGG_ROACH",
+    "rot_spawn_chance": 50
   },
   {
     "type": "COMESTIBLE",
@@ -216,7 +217,8 @@
     "description": "A fist-sized egg from a plague vector.  Incredibly gross.",
     "copy-from": "egg_roach",
     "vitamins": [ [ "mutant_toxin", 50 ] ],
-    "rot_spawn": "GROUP_EGG_ROACH_PLAGUE"
+    "rot_spawn": "GROUP_EGG_ROACH_PLAGUE",
+    "rot_spawn_chance": 50
   },
   {
     "type": "COMESTIBLE",
@@ -225,7 +227,8 @@
     "description": "A fist-sized egg from a locust.",
     "copy-from": "egg_insect",
     "color": "green",
-    "rot_spawn": "GROUP_EGG_LOCUST"
+    "rot_spawn": "GROUP_EGG_LOCUST",
+    "rot_spawn_chance": 50
   },
   {
     "type": "COMESTIBLE",
@@ -245,7 +248,7 @@
     "copy-from": "egg_insect",
     "color": "yellow",
     "rot_spawn": "GROUP_EGG_FIREFLY",
-    "rot_spawn_chance": 100
+    "rot_spawn_chance": 50
   },
   {
     "type": "COMESTIBLE",
@@ -281,7 +284,7 @@
     "proportional": { "weight": 5, "calories": 5, "volume": 5 },
     "vitamins": [ [ "calcium", 35 ], [ "iron", 90 ], [ "mutant_toxin", 125 ] ],
     "rot_spawn": "GROUP_EGG_STAG_BEETLE",
-    "rot_spawn_chance": 100
+    "rot_spawn_chance": 50
   },
   {
     "type": "COMESTIBLE",
@@ -302,7 +305,7 @@
     "description": "A large, sticky, and wet water strider egg.  You should probably put it back in the water.",
     "copy-from": "egg_insect",
     "rot_spawn": "GROUP_EGG_STRIDER",
-    "rot_spawn_chance": 100
+    "rot_spawn_chance": 50
   },
   {
     "type": "COMESTIBLE",
@@ -312,7 +315,7 @@
     "copy-from": "egg_insect",
     "color": "light_green",
     "rot_spawn": "GROUP_EGG_GRASSHOPPER",
-    "rot_spawn_chance": 100
+    "rot_spawn_chance": 50
   },
   {
     "type": "COMESTIBLE",
@@ -351,7 +354,8 @@
     "name": "water beetle egg",
     "description": "The egg of a water beetle, usually found near aquatic grass.",
     "copy-from": "egg_insect",
-    "rot_spawn": "GROUP_EGG_WATER_BEETLE"
+    "rot_spawn": "GROUP_EGG_WATER_BEETLE",
+    "rot_spawn_chance": 50
   },
   {
     "type": "COMESTIBLE",
@@ -359,7 +363,8 @@
     "name": "water scorpion egg",
     "copy-from": "egg_insect",
     "description": "The egg of a water scorpion, usually found near aquatic grass.",
-    "rot_spawn": "GROUP_EGG_WATER_BUG"
+    "rot_spawn": "GROUP_EGG_WATER_BUG",
+    "rot_spawn_chance": 50
   },
   {
     "type": "COMESTIBLE",
@@ -367,7 +372,8 @@
     "name": "butterfly egg",
     "description": "The egg of a butterfly.  They are usually found clustered on leaves.",
     "copy-from": "egg_insect",
-    "rot_spawn": "GROUP_EGG_BUTTERFLY"
+    "rot_spawn": "GROUP_EGG_BUTTERFLY",
+    "rot_spawn_chance": 50
   },
   {
     "type": "COMESTIBLE",
@@ -375,7 +381,8 @@
     "name": "moth egg",
     "description": "The egg of a moth.  They are usually found clustered on leaves.",
     "copy-from": "egg_insect",
-    "rot_spawn": "GROUP_EGG_MOTH"
+    "rot_spawn": "GROUP_EGG_MOTH",
+    "rot_spawn_chance": 50
   },
   {
     "type": "COMESTIBLE",
@@ -383,7 +390,8 @@
     "name": "cicada egg",
     "description": "The egg of a cicada.  They are usually found near trees.",
     "copy-from": "egg_insect",
-    "rot_spawn": "GROUP_EGG_CICADA"
+    "rot_spawn": "GROUP_EGG_CICADA",
+    "rot_spawn_chance": 50
   },
   {
     "type": "COMESTIBLE",
@@ -391,7 +399,8 @@
     "name": "fly egg",
     "description": "The egg of a fly.",
     "copy-from": "egg_insect",
-    "rot_spawn": "GROUP_EGG_FLY"
+    "rot_spawn": "GROUP_EGG_FLY",
+    "rot_spawn_chance": 50
   },
   {
     "type": "COMESTIBLE",
@@ -399,7 +408,8 @@
     "name": "mosquito egg",
     "description": "The egg of a mosquito.",
     "copy-from": "egg_insect",
-    "rot_spawn": "GROUP_EGG_MOSQUITO"
+    "rot_spawn": "GROUP_EGG_MOSQUITO",
+    "rot_spawn_chance": 50
   },
   {
     "type": "COMESTIBLE",
@@ -407,7 +417,8 @@
     "name": "cellar spider egg",
     "description": "The egg of a cellar spider.",
     "copy-from": "egg_insect",
-    "rot_spawn": "GROUP_EGG_SPIDER_CELLAR"
+    "rot_spawn": "GROUP_EGG_SPIDER_CELLAR",
+    "rot_spawn_chance": 50
   },
   {
     "type": "COMESTIBLE",
@@ -415,7 +426,8 @@
     "name": "jumping spider egg",
     "description": "The egg of a jumping spider.",
     "copy-from": "egg_insect",
-    "rot_spawn": "GROUP_EGG_SPIDER_JUMPING"
+    "rot_spawn": "GROUP_EGG_SPIDER_JUMPING",
+    "rot_spawn_chance": 50
   },
   {
     "type": "COMESTIBLE",
@@ -423,7 +435,8 @@
     "name": "trapdoor spider egg",
     "description": "The egg of a trapdoor spider.",
     "copy-from": "egg_insect",
-    "rot_spawn": "GROUP_EGG_SPIDER_TRAPDOOR"
+    "rot_spawn": "GROUP_EGG_SPIDER_TRAPDOOR",
+    "rot_spawn_chance": 50
   },
   {
     "type": "COMESTIBLE",
@@ -431,7 +444,8 @@
     "name": "web spider egg",
     "description": "The egg of a web spider.",
     "copy-from": "egg_insect",
-    "rot_spawn": "GROUP_EGG_SPIDER_WEB"
+    "rot_spawn": "GROUP_EGG_SPIDER_WEB",
+    "rot_spawn_chance": 50
   },
   {
     "type": "COMESTIBLE",
@@ -439,7 +453,8 @@
     "name": "black widow egg",
     "description": "The egg of a black widow.",
     "copy-from": "egg_insect",
-    "rot_spawn": "GROUP_EGG_SPIDER_WIDOW"
+    "rot_spawn": "GROUP_EGG_SPIDER_WIDOW",
+    "rot_spawn_chance": 50
   },
   {
     "type": "COMESTIBLE",
@@ -447,7 +462,8 @@
     "name": "wolf spider egg",
     "description": "The egg of a wolf spider.",
     "copy-from": "egg_insect",
-    "rot_spawn": "GROUP_EGG_SPIDER_WOLF"
+    "rot_spawn": "GROUP_EGG_SPIDER_WOLF",
+    "rot_spawn_chance": 50
   },
   {
     "type": "COMESTIBLE",
@@ -455,7 +471,8 @@
     "name": "earthworm egg",
     "description": "The egg of an earthworm.",
     "copy-from": "egg_insect",
-    "rot_spawn": "GROUP_EGG_WORM"
+    "rot_spawn": "GROUP_EGG_WORM",
+    "rot_spawn_chance": 50
   },
   {
     "type": "COMESTIBLE",
@@ -463,7 +480,8 @@
     "name": "slug egg",
     "description": "The egg of a slug.",
     "copy-from": "egg_insect",
-    "rot_spawn": "GROUP_EGG_SLUG"
+    "rot_spawn": "GROUP_EGG_SLUG",
+    "rot_spawn_chance": 50
   },
   {
     "type": "COMESTIBLE",
@@ -471,7 +489,8 @@
     "name": "snail egg",
     "description": "The egg of a snail.",
     "copy-from": "egg_insect",
-    "rot_spawn": "GROUP_EGG_SNAIL"
+    "rot_spawn": "GROUP_EGG_SNAIL",
+    "rot_spawn_chance": 50
   },
   {
     "type": "COMESTIBLE",
