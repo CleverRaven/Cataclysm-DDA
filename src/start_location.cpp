@@ -300,20 +300,15 @@ static int rate_location( map &m, const tripoint &p,
                           const int bash_str, const int attempt,
                           cata::mdarray<int, point_bub_ms> &checked )
 {
-    if( ( must_be_inside && m.is_outside( p ) ) ||
-        m.impassable( p ) ||
-        m.is_divable( p ) ||
-        checked[p.x][p.y] > 0 ||
-        m.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, p ) ) {
+    const auto invalid_char_pos = [&]( const tripoint & tp ) -> bool {
+        return ( must_be_inside && m.is_outside( tp ) ) ||
+        m.impassable( tp ) || m.is_divable( tp ) ||
+        m.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, tp );
+    };
+
+    if( checked[p.x][p.y] > 0 || invalid_char_pos( p ) ||
+        ( accommodate_npc && invalid_char_pos( p + point_north_west ) ) ) {
         return 0;
-    }
-    if( accommodate_npc ) {
-        tripoint n = p + point_north_west;
-        if( ( must_be_inside && m.is_outside( n ) ) ||
-            m.impassable( n ) || m.is_divable( n ) ||
-            m.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, n ) ) {
-            return 0;
-        }
     }
 
     // Vector that will be used as a stack
