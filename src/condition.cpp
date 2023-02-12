@@ -2609,14 +2609,9 @@ void conditional_t<T>::set_roll_contested( const JsonObject &jo, const std::stri
     std::function<int( const T & )> get_check = conditional_t< T >::get_get_int( jo.get_object(
                 member ) );
     int_or_var<T> difficulty = get_int_or_var<T>( jo, "difficulty", true );
-    bool static_diff = jo.get_bool( "static_diff", false );
-    condition = [get_check, difficulty, static_diff]( const T & d ) {
-        int check = rng( 0, get_check( d ) );
-        if( static_diff ) {
-            return check > difficulty.evaluate( d );
-        } else {
-            return check > rng( 0, difficulty.evaluate( d ) );
-        }
+    int_or_var<T> die_size = get_int_or_var<T>( jo, "die_size", false, 10 );
+    condition = [get_check, difficulty, die_size]( const T & d ) {
+        return rng( 1, die_size.evaluate( d ) ) + get_check( d ) > difficulty.evaluate( d );
     };
 }
 
