@@ -2610,7 +2610,7 @@ void conditional_t<T>::set_roll_contested( const JsonObject &jo, const std::stri
                 member ) );
     int_or_var<T> difficulty = get_int_or_var<T>( jo, "difficulty", true );
     bool static_diff = jo.get_bool( "static_diff", false );
-    condition = [get_check, difficulty, static_diff, is_npc]( const T & d ) {
+    condition = [get_check, difficulty, static_diff]( const T & d ) {
         int check = rng( 0, get_check( d ) );
         if( static_diff ) {
             return check > difficulty.evaluate( d );
