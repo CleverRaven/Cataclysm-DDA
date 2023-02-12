@@ -1474,7 +1474,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": -5,
-    "calories": 200,
+    "calories": 102,
     "description": "Frybread topped with beans, meat, and lettuce.  Originally conceived by the Navajo in the 19th century, only having available basic foodstuffs provided by the US-government after forced expulsion from their homelands, this dish became popular with many Native Americans and is often served at Powwows or other festivities.",
     "price": 210,
     "price_postapoc": 150,
