@@ -372,16 +372,7 @@
     "proficiencies": [ "prof_basketweaving", "prof_pottery" ],
     "items": {
       "both": {
-        "items": [
-          "wicker_backpack",
-          "tunic",
-          "mocassins",
-          "cloak",
-          "chaps_leather",
-          "bandana_head",
-          "copper_knife",
-          "shortbow"
-        ],
+        "items": [ "wicker_backpack", "tunic", "mocassins", "cloak", "chaps_leather", "bandana_head", "copper_knife", "shortbow" ],
         "entries": [
           { "item": "seed_pumpkin", "count": 5 },
           { "item": "seed_beans", "count": 5 },
