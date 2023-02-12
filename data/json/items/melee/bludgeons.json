@@ -767,7 +767,7 @@
     "volume": "1550 ml",
     "longest_side": "180 cm",
     "bashing": 32,
-    "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "neutral" },
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "good" },
     "category": "weapons",
     "qualities": [ [ "HAMMER", 1 ] ]
   },
