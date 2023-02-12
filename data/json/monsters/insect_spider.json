@@ -168,6 +168,23 @@
     "upgrades": { "half_life": 42, "into": "mon_worm" }
   },
   {
+    "id": "mon_worm_larva",
+    "type": "MONSTER",
+    "name": { "str": "earthworm larva", "str_pl": "earthworm larvae" },
+    "description": "A white wriggling worm.",
+    "copy-from": "mon_larva_abstract",
+    "default_faction": "worm",
+    "bodytype": "snake",
+    "species": [ "WORM" ],
+    "symbol": "W",
+    "color": "white",
+    "harvest": "mutant_meatslug",
+    "dissect": "dissect_troglobite_sample_single",
+    "upgrades": { "age_grow": 30, "into": "mon_worm" },
+    "extend": { "flags": [ "DIGS", "GOODHEARING" ] },
+    "delete": { "flags": [ "SEES", "SMELLS", "CLIMBS" ] }
+  },
+  {
     "id": "mon_large_cockroach",
     "type": "MONSTER",
     "name": { "str": "cockroach", "str_pl": "cockroaches" },
@@ -233,7 +250,7 @@
     "color": "brown",
     "dodge": 3,
     "harvest": "arachnid_tainted",
-    "upgrades": { "age_grow": 144, "into": "mon_skittering_plague" },
+    "upgrades": { "age_grow": 30, "into": "mon_skittering_plague" },
     "special_attacks": [ [ "EAT_FOOD", 120 ] ]
   },
   {
@@ -322,7 +339,7 @@
     "copy-from": "mon_larva_abstract",
     "default_faction": "roach",
     "color": "brown",
-    "upgrades": { "age_grow": 144, "into": "mon_giant_cockroach" },
+    "upgrades": { "age_grow": 30, "into": "mon_giant_cockroach" },
     "special_attacks": [ [ "EAT_FOOD", 120 ] ]
   },
   {
@@ -504,6 +521,50 @@
     "upgrades": { "age_grow": 45, "into_group": "GROUP_CENTIPEDE_GIANT" },
     "zombify_into": "mon_meat_cocoon_med",
     "flags": [ "CLIMBS", "SEES", "SMELLS", "KEENNOSE", "HEARS", "GOODHEARING", "PATH_AVOID_FIRE" ]
+  },
+  {
+    "id": "mon_centipede_larva",
+    "type": "MONSTER",
+    "name": { "str": "centipede larva", "str_pl": "centipede larvae" },
+    "description": "A juvenile centipede.  Despite its young age it is still quite large and you reckon these mandibles could pack quite a bite.",
+    "copy-from": "mon_larva_abstract",
+    "default_faction": "centipede",
+    "species": [ "CENTIPEDE" ],
+    "volume": "8 L",
+    "weight": "6 kg",
+    "hp": 25,
+    "speed": 80,
+    "color": "light_green",
+    "aggression": -10,
+    "morale": 30,
+    "melee_skill": 1,
+    "melee_dice": 1,
+    "melee_dice_sides": 6,
+    "dodge": 3,
+    "armor_bash": 1,
+    "armor_cut": 2,
+    "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
+    "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_centipede" ],
+    "families": [ "prof_wp_basic_bug", "prof_wp_centipede" ],
+    "vision_day": 7,
+    "vision_night": 5,
+    "harvest": "arachnid_centipede",
+    "dissect": "dissect_insect_sample_single",
+    "upgrades": { "age_grow": 30, "into": "mon_centipede_giant" },
+    "special_attacks": [
+      {
+        "type": "bite",
+        "cooldown": 3,
+        "move_cost": 110,
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 2, "armor_penetration": 4 } ],
+        "min_mul": 1,
+        "max_mul": 2.1,
+        "infection_chance": 4,
+        "effects": [ { "id": "venom_dmg", "duration": 500, "affect_hit_bp": true } ],
+        "forbidden_effects_any": [ "maimed_mandible" ]
+      }
+    ],
+    "anger_triggers": [ "PLAYER_CLOSE" ]
   },
   {
     "id": "mon_centipede_mom",
@@ -3505,7 +3566,7 @@
   {
     "id": "mon_woodlouse_manca",
     "type": "MONSTER",
-    "name": { "str": "baby woodlouse", "str_pl": "baby woodlice" },
+    "name": { "str": "woodlouse manca", "str_pl": "woodlouse mancae" },
     "description": "Woodlice reproduce by carrying their eggs in a pouch and releasing them as juveniles.  Their mancae look like small adults except for their pale color.",
     "copy-from": "mon_larva_abstract",
     "symbol": "w",
