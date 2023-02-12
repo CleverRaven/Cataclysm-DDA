@@ -217,8 +217,7 @@
     "description": "A fist-sized egg from a plague vector.  Incredibly gross.",
     "copy-from": "egg_roach",
     "vitamins": [ [ "mutant_toxin", 50 ] ],
-    "rot_spawn": "GROUP_EGG_ROACH_PLAGUE",
-    "rot_spawn_chance": 50
+    "rot_spawn": "GROUP_EGG_ROACH_PLAGUE"
   },
   {
     "type": "COMESTIBLE",
