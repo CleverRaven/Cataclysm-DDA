@@ -165,7 +165,7 @@
     "ugliness": 4,
     "mixed_effect": true,
     "description": "Your skin has thick diamond shaped enamel scutes that both armor your body and allow you to move more smoothly in water.  While difficult to penetrate, it also limits your flexibility.  Greatly reduces wet effects.",
-    "types": [ "SKIN" ],
+    "types": [ "THICK_HIDE" ],
     "prereqs": [ "SCALES" ],
     "threshreq": [ "THRESH_YUGGOTH" ],
     "category": [ "MIGO" ],
