@@ -260,7 +260,7 @@
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 1,
     "value": 0,
-    "item": "egg_spider_cellar",
+    "item": [ "egg_spider_cellar", 1 ],
     "//": "It SHOULDN'T be just a cellar spider egg. The mission originally took a nondescript spider egg item that I obsoleted. If you have the time and energy to somehow make this mission accept the 'eggs_spider' requirement then please do.",
     "count": 1,
     "origins": [ "ORIGIN_SECONDARY" ],
