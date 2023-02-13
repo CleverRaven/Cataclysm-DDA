@@ -24,6 +24,7 @@
 #include "map.h"
 #include "map_selector.h"
 #include "memory_fast.h"
+#include "messages.h"
 #include "optional.h"
 #include "options.h"
 #include "output.h"
@@ -66,6 +67,15 @@ static const item_category_id item_category_WEAPON_HELD( "WEAPON_HELD" );
 
 namespace
 {
+using startup_timer = std::chrono::time_point<std::chrono::system_clock, std::chrono::milliseconds>;
+startup_timer tp_start;
+
+void debug_print_timer( startup_timer const &tp, std::string const &msg = "inv_ui setup took" )
+{
+    startup_timer const tp_now =
+        std::chrono::time_point_cast<std::chrono::milliseconds>( std::chrono::system_clock::now() );
+    add_msg_debug( debugmode::DF_GAME, "%s: %i ms", msg, ( tp_now - tp ).count() );
+}
 
 // get topmost visible parent in an unbroken chain
 item *get_topmost_parent( item *topmost, item_location loc,
@@ -2032,6 +2042,9 @@ void inventory_selector::reassign_custom_invlets()
 
 void inventory_selector::prepare_layout()
 {
+    startup_timer const tp_prep =
+        std::chrono::time_point_cast<std::chrono::milliseconds>( std::chrono::system_clock::now() );
+
     const auto snap = []( size_t cur_dim, size_t max_dim ) {
         return cur_dim + 2 * max_win_snap_distance >= max_dim ? max_dim : cur_dim;
     };
@@ -2051,6 +2064,8 @@ void inventory_selector::prepare_layout()
     prepare_layout( win_width - nc_width, win_height - nc_height );
 
     resize_window( win_width, win_height );
+
+    debug_print_timer( tp_prep, "prepare_layout took" );
 }
 
 shared_ptr_fast<ui_adaptor> inventory_selector::create_or_get_ui_adaptor()
@@ -2448,6 +2463,8 @@ inventory_selector::inventory_selector( Character &u, const inventory_selector_p
     , _uimode( preset.save_state == nullptr ? inventory_sel_default_state.uimode :
                preset.save_state->uimode )
 {
+    tp_start =
+        std::chrono::time_point_cast<std::chrono::milliseconds>( std::chrono::system_clock::now() );
     ctxt.register_action( "DOWN", to_translation( "Next item" ) );
     ctxt.register_action( "UP", to_translation( "Previous item" ) );
     ctxt.register_action( "PAGE_DOWN", to_translation( "Page down" ) );
@@ -2817,6 +2834,7 @@ std::string inventory_selector::action_bound_to_key( char key ) const
 item_location inventory_pick_selector::execute()
 {
     shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
+    debug_print_timer( tp_start );
     while( true ) {
         ui_manager::redraw();
         const inventory_input input = get_input();
@@ -3080,7 +3098,7 @@ void inventory_multiselector::toggle_entries( int &count, const toggle_mode mode
 drop_locations inventory_multiselector::execute()
 {
     shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
-
+    debug_print_timer( tp_start );
     while( true ) {
         ui_manager::redraw();
 
@@ -3115,6 +3133,7 @@ inventory_compare_selector::inventory_compare_selector( Character &p ) :
 std::pair<const item *, const item *> inventory_compare_selector::execute()
 {
     shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
+    debug_print_timer( tp_start );
     while( true ) {
         ui_manager::redraw();
 
@@ -3303,7 +3322,7 @@ void inventory_multiselector::on_input( const inventory_input &input )
 drop_locations inventory_drop_selector::execute()
 {
     shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
-
+    debug_print_timer( tp_start );
     while( true ) {
         ui_manager::redraw();
 
@@ -3396,6 +3415,7 @@ void pickup_selector::apply_selection( std::vector<drop_location> selection )
 drop_locations pickup_selector::execute()
 {
     shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
+    debug_print_timer( tp_start );
 
     while( true ) {
         ui_manager::redraw();
@@ -3572,8 +3592,8 @@ int inventory_examiner::execute()
     if( !check_parent_item() ) {
         return NO_CONTENTS_TO_EXAMINE;
     }
-
     shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
+    debug_print_timer( tp_start );
 
     ui_adaptor ui_examine;
 
@@ -3671,6 +3691,7 @@ trade_selector::select_t trade_selector::to_trade() const
 
 void trade_selector::execute()
 {
+    debug_print_timer( tp_start );
     bool exit = false;
 
     get_active_column().on_activate();
