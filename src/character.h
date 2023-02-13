@@ -1510,7 +1510,7 @@ class Character : public Creature, public visitable
         bool can_install_bionics( const itype &type, Character &installer, bool autodoc = false,
                                   int skill_level = -1 ) const;
         /** Is this bionic elligible to be installed in the player? */
-        ret_val<void> is_installable( const item_location &loc, bool by_autodoc ) const;
+        ret_val<void> is_installable( const item *it, bool by_autodoc ) const;
         std::map<bodypart_id, int> bionic_installation_issues( const bionic_id &bioid ) const;
         /** Initialize all the values needed to start the operation player_activity */
         bool install_bionics( const itype &type, Character &installer, bool autodoc = false,
