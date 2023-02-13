@@ -27,7 +27,7 @@
     "color": "i_green",
     "see_cost": 5,
     "mondensity": 2,
-    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD", "SHOULD_NOT_SPAWN" ]
   },
   {
     "type": "overmap_terrain",
@@ -36,6 +36,7 @@
     "sym": "+",
     "color": "i_green",
     "see_cost": 5,
-    "mondensity": 2
+    "mondensity": 2,
+    "flags": [ "SHOULD_NOT_SPAWN" ]
   }
 ]
