@@ -1117,7 +1117,7 @@
       {
         "id": "lutheran_necklace",
         "name": { "str": "Lutherian Seal necklace" },
-        "description": "A necklace made of a fine gold chain with the Luther Seal symbol as a pendant.  It is a symbol of the Lutheran Christian faith: The cross mean that humanity was saved from sin because Jesus died on the cross, the heart means that humanity live because Jesus shed his blood for it, and the flower means that humanity have peace from our faith, and the background means that we have hope that we will be with Jesus in heaven one day.",
+        "description": "A necklace made of a fine gold chain with the Luther Seal symbol as a pendant.  It is a symbol of the Lutheran Christian faith: The cross mean that humanity was saved from sin because Jesus died on the cross, the heart means that humanity lives because Jesus shed his blood for it, and the flower means that humanity has peace from its faith, and the background means that they have hope that they will be with Jesus in heaven one day.",
         "color": "yellow",
         "weight": 30
       },
@@ -1145,7 +1145,7 @@
       {
         "id": "catholic_necklace",
         "name": { "str": "Catholic Crucifix necklace" },
-        "description": "A necklace made of a fine gold chain with the Catholic Crucifix symbol as a pendant.  It is a symbol of the Roman Catholic Christian faith.  The main difference between the Catholic Crucifix and the Protestant Crosses is that the Catholic Crucifix have the central figure hanging on them, but Protestant crosses do not depict such images.",
+        "description": "A necklace made of a fine gold chain with the Catholic Crucifix symbol as a pendant.  It is a symbol of the Roman Catholic Christian faith.  The main difference between the Catholic Crucifix and a Protestant Cross is that the Catholic Crucifix has a central figure hanging on them, but Protestant crosses do not depict such images.",
         "color": "yellow",
         "weight": 25
       },
@@ -1173,7 +1173,7 @@
       {
         "id": "john_necklace",
         "name": { "str": "St. John necklace" },
-        "description": "A necklace made of a fine gold chain with the figurine of Saint John the Baptist as a pendant.  It is a symbol of the Roman Catholic Church and also of the Orthodox Church, displaying the figure of Saint John the Baptist performing a baptism, with the following text inscribed in the pendant: 'Saint John the Baptist, Pray for US'.",
+        "description": "A necklace made of a fine gold chain with the figurine of Saint John the Baptist as a pendant.  It is a symbol of the Roman Catholic Church and also of the Orthodox Church, displaying the figure of Saint John the Baptist performing a baptism, with the following text inscribed in the pendant: 'Saint John the Baptist, Pray for Us'.",
         "color": "yellow",
         "weight": 8
       },
@@ -1201,7 +1201,7 @@
       {
         "id": "justo_necklace",
         "name": { "str": "Justo Takayama necklace" },
-        "description": "A necklace made of a fine gold chain with the figurine of Blessed Justo Takayama dressed like a samurai as a pendant.  It is a symbol of the Roman Catholic Church, displaying the figure of Blessed Justo Takayama dressed as a samurai, with some text inscribed in Japanese and English at the back.  It reads: 'Blessed Justus Takayama Ukon, Holy Daimyo, Pray for Us'.",
+        "description": "A necklace made of a fine gold chain with the figurine of Blessed Justo Takayama dressed like a samurai as a pendant.  It is a symbol of the Roman Catholic Church, displaying the figure of the Blessed Justo Takayama dressed as a samurai, with some text inscribed in Japanese and English at the back.  It reads: 'Blessed Justus Takayama Ukon, Holy Daimyo, Pray for Us'.",
         "color": "yellow",
         "weight": 6
       },
@@ -1250,7 +1250,7 @@
       {
         "id": "episcopal_necklace",
         "name": { "str": "Episcopal Shield necklace" },
-        "description": "A necklace made of a fine gold chain with the Episcopalian Shield symbol as a pendant.  It is a symbol of the Episcopalian Christian faith.  The shield of the Episcopal Church was adopted by its General Convention in 1940 and depicts the red cross of St. George, patron saint of England, dividing the silver field of the English flag into four rectangles.  The colours red, white, and blue are also, coincidentally, the colours of the flags of both the United States and the United Kingdom of Great Britain and Northern Ireland.",
+        "description": "A necklace made of a fine gold chain with the Episcopalian Shield symbol as a pendant.  It is a symbol of the Episcopalian Christian faith.  The shield of the Episcopal Church was adopted by its General Convention in 1940 and depicts the red cross of St. George, patron saint of England, dividing the silver field of the English flag into four rectangles.  The colors red, white, and blue are also, coincidentally, the colors of the flags of both the United States and the United Kingdom of Great Britain and Northern Ireland.",
         "color": "yellow",
         "weight": 20
       },
@@ -1264,7 +1264,7 @@
       {
         "id": "moravian_necklace",
         "name": { "str": "Unity of the Brethren necklace" },
-        "description": "A necklace made of a fine gold chain with the Agnus Dai symbol of the Unity of the Brethren as a pendant.  It is a symbol of the Moravian Church Christian faith, where the round pendant displays the image of the 'Lamb of God', and reads: 'Our Lamb has Conquered, Let Us Follow Him'.",
+        "description": "A necklace made of a fine gold chain with the Agnus Dei symbol of the Unity of the Brethren as a pendant.  It is a symbol of the Moravian Church Christian faith, where the round pendant displays the image of the 'Lamb of God', and reads: 'Our Lamb has Conquered, Let Us Follow Him'.",
         "color": "yellow",
         "weight": 10
       },
@@ -1390,7 +1390,7 @@
       {
         "id": "taoist_necklace",
         "name": { "str": "Ying Yang necklace" },
-        "description": "A necklace made of a fine gold chain with the Ying Yang symbol as a pendant.  It is a symbol of both Confucian and Taoist faiths and philosophical systems.  Yin is a symbol of earth, femininity, darkness, passivity, and absorption.  It is present in even numbers, in valleys and streams, and is represented by the tiger, the colour orange, and a broken line.  Yang is conceived of as heaven, maleness, light, activity, and penetration, and together, they represent balance between opposites.",
+        "description": "A necklace made of a fine gold chain with the Ying Yang symbol as a pendant.  It is a symbol of both Confucian and Taoist faiths and philosophical systems.  Yin is a symbol of earth, femininity, darkness, passivity, and absorption.  It is present in even numbers, in valleys and streams, and is represented by the tiger, the color orange, and a broken line.  Yang is conceived of as heaven, maleness, light, activity, and penetration, and together, they represent balance between opposites.",
         "color": "yellow",
         "weight": 8
       },
@@ -1418,7 +1418,7 @@
       {
         "id": "satanist_necklace",
         "name": { "str": "Sigil of Baphomet necklace" },
-        "description": "A necklace made of a fine gold chain with the Sigil of Baphomet symbol as a pendant.  The Sigil of Baphomet is the official insignia of the Church of Satan.  It first appeared on the cover of The Satanic Mass L.P in 1968 and later on the cover of The Satanic Bible in 1969.  The sigil has been called a 'material pentagram', representational of carnality and earthy principles.  The Church described the symbol as the 'preeminent visual distillation of the iconoclastic philosophy of Satanism'.",
+        "description": "A necklace made of a fine gold chain with the Sigil of Baphomet symbol as a pendant.  The Sigil of Baphomet is the official insignia of the Church of Satan.  It first appeared on the cover of The Satanic Mass L.P in 1968 and later on the cover of The Satanic Bible in 1969.  The sigil has been called a 'material pentagram', representational of carnality and earthly principles.  The Church described the symbol as the 'preeminent visual distillation of the iconoclastic philosophy of Satanism'.",
         "color": "yellow",
         "weight": 10
       },
@@ -1466,7 +1466,7 @@
       },
       {
         "id": "pastafarian_necklace",
-        "name": { "str": "Flying Spaghetti Moster necklace" },
+        "name": { "str": "Flying Spaghetti Monster necklace" },
         "description": "A necklace made of a fine gold chain with the figure of the Giant Spaghetti Flying Monster as a pendant.  It is a symbol of the Pastafarian faith, a religion like any other.  It has the figure of the Giant Spaghetti Flying Monster in the center, with the following text: 'Pasta be Upon Us'.",
         "color": "yellow",
         "weight": 5
