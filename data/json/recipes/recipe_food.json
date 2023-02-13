@@ -3316,7 +3316,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "soup_three_sisters",
-    "charges": 1,
+    "charges": 4,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
@@ -3332,8 +3332,8 @@
       [ [ "dry_beans", 1 ], [ "can_beans", 1 ] ],
       [ [ "corn_kernels", 1 ], [ "can_corn", 1 ] ],
       [ [ "pumpkin", 1 ] ],
-      [ [ "cooking_oil", 1 ] ],
-      [ [ "broth", 2 ] ]
+      [ [ "any_butter_or_oil", 1 ] ],
+      [ [ "broth", 1 ] ]
     ]
   },
   {
