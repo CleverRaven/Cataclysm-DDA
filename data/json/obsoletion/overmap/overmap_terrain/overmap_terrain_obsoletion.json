@@ -21,12 +21,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [
-      "campground_1a_npc",
-      "campground_1b_npc",
-      "campground_2a_npc",
-      "campground_2b_npc"
-    ],
+    "id": [ "campground_1a_npc", "campground_1b_npc", "campground_2a_npc", "campground_2b_npc" ],
     "name": "campground",
     "sym": "+",
     "color": "i_green",
