@@ -2185,6 +2185,7 @@ void set_profession( tab_manager &tabs, avatar &u, pool_type pool )
             if( !profession_sorter.sort_by_points ) {
                 std::sort( sorted_profs.begin(), sorted_profs.end(), profession_sorter );
             }
+            recalc_profs = true;
         } else if( action == "SORT" ) {
             profession_sorter.sort_by_points = !profession_sorter.sort_by_points;
             recalc_profs = true;
@@ -3175,7 +3176,6 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
 
         }
 
-
         list_sb.offset_x( 0 )
         .offset_y( 5 )
         .content_size( scens_length )
@@ -3628,7 +3628,8 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
                     profession::StartingSkillList::iterator i = hobby_skills.begin();
                     while( i != hobby_skills.end() ) {
                         if( i->first == elem->ident() ) {
-                            int skill_exp_bonus = calculate_cumulative_experience( i->second );
+                            int skill_exp_bonus = leftover_exp + calculate_cumulative_experience( i->second );
+                            leftover_exp = 0;
 
                             // Calculate Level up to find final level and remaining exp
                             while( skill_exp_bonus >= exp_to_level ) {
@@ -3834,7 +3835,13 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
 
         werase( w_addictions );
         // Profession addictions description tab
-        const auto prof_addictions = you.prof->addictions();
+        std::vector<addiction> prof_addictions = you.prof->addictions();
+        for( const profession *profession : you.hobbies ) {
+            const std::vector<addiction> &hobby_addictions = profession->addictions();
+            for( const addiction &iter : hobby_addictions ) {
+                prof_addictions.push_back( iter );
+            }
+        }
         if( isWide ) {
             if( prof_addictions.empty() ) {
                 mvwprintz( w_addictions, point_zero, c_light_gray, _( "Starting addictions: " ) );

@@ -195,7 +195,7 @@
     "color": "yellow",
     "move_cost_mod": 0,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "ORGANIC" ],
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "ORGANIC" ],
     "examine_action": "harvest_furn_nectar",
     "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "id": "lotus_harv" } ],
     "//": "Add flower and bud spawns once useful.",
@@ -353,7 +353,7 @@
     "move_cost_mod": 1,
     "coverage": 20,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "FLAT", "THIN_OBSTACLE", "SHRUB" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "FLAT", "THIN_OBSTACLE", "ORGANIC" ],
     "examine_action": "harvest_furn_nectar",
     "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "wild_sarsaparilla_harv" } ],
     "bash": {
@@ -398,7 +398,7 @@
     "move_cost_mod": 3,
     "coverage": 70,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "FLAT", "THIN_OBSTACLE", "SHRUB" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "FLAT", "THIN_OBSTACLE", "ORGANIC" ],
     "examine_action": "harvest_furn_nectar",
     "harvest_by_season": [ { "seasons": [ "spring" ], "id": "japanese_knotweed_harv" } ],
     "bash": {
@@ -422,7 +422,7 @@
     "required_str": -1,
     "connect_groups": "WOODFENCE",
     "connects_to": "WOODFENCE",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "SHRUB", "PERMEABLE" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "PERMEABLE" ],
     "bash": {
       "str_min": 10,
       "str_max": 180,
@@ -448,7 +448,7 @@
     "required_str": 14,
     "connect_groups": "WOODFENCE",
     "connects_to": "WOODFENCE",
-    "flags": [ "FLAMMABLE_ASH", "SHRUB", "PERMEABLE", "BLOCK_WIND", "NOITEM" ],
+    "flags": [ "FLAMMABLE_ASH", "ORGANIC", "PERMEABLE", "BLOCK_WIND", "NOITEM" ],
     "bash": {
       "str_min": 16,
       "str_max": 180,
@@ -472,7 +472,7 @@
     "move_cost_mod": 4,
     "coverage": 60,
     "required_str": -1,
-    "flags": [ "FLAMMABLE_ASH", "SHRUB", "PERMEABLE" ],
+    "flags": [ "FLAMMABLE_ASH", "ORGANIC", "PERMEABLE" ],
     "bash": {
       "str_min": 10,
       "str_max": 180,
@@ -496,7 +496,7 @@
     "move_cost_mod": 4,
     "coverage": 60,
     "required_str": -1,
-    "flags": [ "FLAMMABLE_ASH", "SHRUB", "PERMEABLE" ],
+    "flags": [ "FLAMMABLE_ASH", "ORGANIC", "PERMEABLE" ],
     "bash": {
       "str_min": 10,
       "str_max": 180,
@@ -520,7 +520,7 @@
     "move_cost_mod": 4,
     "coverage": 60,
     "required_str": -1,
-    "flags": [ "FLAMMABLE_ASH", "SHRUB", "PERMEABLE" ],
+    "flags": [ "FLAMMABLE_ASH", "ORGANIC", "PERMEABLE" ],
     "bash": {
       "str_min": 10,
       "str_max": 180,

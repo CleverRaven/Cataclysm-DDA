@@ -185,7 +185,6 @@ static void load_forest_mapgen_settings( const JsonObject &jo,
                                    overlay );
             }
 
-
         }
     }
 }

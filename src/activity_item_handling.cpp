@@ -909,6 +909,16 @@ construction const *_find_prereq( tripoint_bub_ms const &loc, construction_id co
     return nullptr;
 }
 
+bool already_done( construction const &build, tripoint_bub_ms const &loc )
+{
+    map &here = get_map();
+    const furn_id furn = here.furn( loc );
+    const ter_id ter = here.ter( loc );
+    return !build.post_terrain.empty() &&
+           ( ( !build.post_is_furniture && ter_id( build.post_terrain ) == ter ) ||
+             ( build.post_is_furniture && furn_id( build.post_terrain ) == furn ) );
+}
+
 } // namespace
 
 static activity_reason_info find_base_construction(
@@ -918,6 +928,9 @@ static activity_reason_info find_base_construction(
     const cata::optional<construction_id> &part_con_idx,
     const construction_id &idx )
 {
+    if( already_done( idx.obj(), loc ) ) {
+        return activity_reason_info::build( do_activity_reason::ALREADY_DONE, false, idx->id );
+    }
     bool cc = can_construct( idx.obj(), loc );
     construction const *con = nullptr;
 
@@ -926,7 +939,7 @@ static activity_reason_info find_base_construction(
         con = _find_alt_construction( loc, idx, part_con_idx, [&idx]( construction const & it ) {
             return it.group == idx->group;
         } );
-        if( con == nullptr ) {
+        if( !idx->strict && con == nullptr ) {
             // try to build a pre-requisite from a different group, recursively
             checked_cache_t checked_cache;
             for( construction const *vcon : constructions_by_group( idx->group ) ) {
@@ -942,12 +955,7 @@ static activity_reason_info find_base_construction(
     const construction &build = con == nullptr ? idx.obj() : *con;
     bool pcb = player_can_build( you, inv, build, true );
     //already done?
-    map &here = get_map();
-    const furn_id furn = here.furn( loc );
-    const ter_id ter = here.ter( loc );
-    if( !build.post_terrain.empty() &&
-        ( ( !build.post_is_furniture && ter_id( build.post_terrain ) == ter ) ||
-          ( build.post_is_furniture && furn_id( build.post_terrain ) == furn ) ) ) {
+    if( already_done( build, loc ) ) {
         return activity_reason_info::build( do_activity_reason::ALREADY_DONE, false, build.id );
     }
 
@@ -1471,8 +1479,8 @@ static void add_basecamp_storage_to_loot_zone_list(
     if( npc *const guy = dynamic_cast<npc *>( &you ) ) {
         map &here = get_map();
         if( guy->assigned_camp &&
-            mgr.has_near( zone_type_CAMP_STORAGE, here.getglobal( src_loc ), ACTIVITY_SEARCH_DISTANCE ),
-            _fac_id( you ) ) {
+            mgr.has_near( zone_type_CAMP_STORAGE, here.getglobal( src_loc ), ACTIVITY_SEARCH_DISTANCE,
+                          _fac_id( you ) ) ) {
             std::unordered_set<tripoint_abs_ms> bc_storage_set =
                 mgr.get_near( zone_type_CAMP_STORAGE, here.getglobal( src_loc ),
                               ACTIVITY_SEARCH_DISTANCE, nullptr, _fac_id( you ) );
@@ -2275,7 +2283,11 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                                 if( it->first->is_ammo_belt() ) {
                                     if( it->first->type->magazine->linkage ) {
                                         item link( *it->first->type->magazine->linkage, calendar::turn, contained->count() );
-                                        here.add_item_or_charges( src_loc, link );
+                                        if( this_veh != nullptr ) {
+                                            this_veh->add_item( this_part, link );
+                                        } else {
+                                            here.add_item_or_charges( src_loc, link );
+                                        }
                                     }
                                 }
                                 move_item( you, *contained, contained->count(), src_loc, src_loc, this_veh, this_part );
@@ -2303,8 +2315,6 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                             you.gunmod_remove( *it->first, *mod );
                             // need to return so the activity starts
                             return;
-                            move_item( you, *mod, 1, src_loc, src_loc, this_veh, this_part );
-                            moved_something = true;
                         }
                     }
 
@@ -2317,7 +2327,11 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                         }
                     }
                     if( it->first->has_flag( flag_MAG_DESTROY ) && it->first->ammo_remaining() == 0 ) {
-                        here.i_rem( src_loc, it->first );
+                        if( this_veh != nullptr ) {
+                            this_veh->remove_item( this_part, it->first );
+                        } else {
+                            here.i_rem( src_loc, it->first );
+                        }
                         num_processed = std::max( num_processed - 1, 0 );
                         return;
                     }

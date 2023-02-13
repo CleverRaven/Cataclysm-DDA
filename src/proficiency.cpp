@@ -11,6 +11,7 @@
 #include "json.h"
 #include "localized_comparator.h"
 #include "enums.h"
+#include "options.h"
 
 const float book_proficiency_bonus::default_time_factor = 0.5f;
 const float book_proficiency_bonus::default_fail_factor = 0.5f;
@@ -129,7 +130,12 @@ const std::vector<proficiency_category> &proficiency_category::get_all()
 
 bool proficiency::can_learn() const
 {
-    return _can_learn;
+    if( _can_learn ) {
+        const double scaling = get_option<float>( "SKILL_TRAINING_SPEED" );
+        return scaling != 0.0;
+    } else {
+        return false;
+    }
 }
 
 bool proficiency::ignore_focus() const
@@ -177,10 +183,14 @@ float proficiency::default_weakpoint_penalty() const
     return _default_weakpoint_penalty;
 }
 
-
 time_duration proficiency::time_to_learn() const
 {
-    return _time_to_learn;
+    const double scaling = get_option<float>( "SKILL_TRAINING_SPEED" );
+    if( scaling != 1.0 && scaling != 0.0 ) {
+        return _time_to_learn / scaling;
+    } else {
+        return _time_to_learn;
+    }
 }
 
 std::set<proficiency_id> proficiency::required_proficiencies() const

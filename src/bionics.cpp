@@ -2275,9 +2275,8 @@ bool Character::uninstall_bionic( const bionic &bio, monster &installer, Charact
     return false;
 }
 
-ret_val<void> Character::is_installable( const item_location &loc, const bool by_autodoc ) const
+ret_val<void> Character::is_installable( const item *it, const bool by_autodoc ) const
 {
-    const item *it = loc.get_item();
     const itype *itemtype = it->type;
     const bionic_id &bid = itemtype->bionic->id;
 
@@ -3098,7 +3097,6 @@ void bionic::deserialize( const JsonObject &jo )
     } else {
         jo.read( "charge_timer", charge_timer );
     }
-
 
     if( jo.has_int( "incapacitated_time" ) ) {
         incapacitated_time = 1_turns * jo.get_int( "incapacitated_time" );

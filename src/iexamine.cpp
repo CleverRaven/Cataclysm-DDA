@@ -286,7 +286,6 @@ bool iexamine::harvestable_now( const tripoint &examp )
     return !hid->is_null() && !hid->empty();
 }
 
-
 /**
  * Pick an appropriate item and apply diamond coating if possible.
  */
@@ -1808,8 +1807,8 @@ void iexamine::gunsafe_el( Character &you, const tripoint &examp )
 void iexamine::locked_object( Character &you, const tripoint &examp )
 {
     map &here = get_map();
-    item &best_prying = you.best_item_with_quality( qual_PRY, true );
-    item &best_lockpick = you.best_item_with_quality( qual_LOCKPICK, true );
+    item &best_prying = you.best_item_with_quality( qual_PRY );
+    item &best_lockpick = you.best_item_with_quality( qual_LOCKPICK );
     const bool has_prying = !best_prying.is_null();
     const bool can_pick = here.has_flag( ter_furn_flag::TFLAG_PICKABLE, examp ) &&
                           ( !best_lockpick.is_null() || you.has_bionic( bio_lockpick ) );
