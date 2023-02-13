@@ -1813,7 +1813,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "result": "chem_muriatic_acid",
     "id_suffix": "with_blood",
-    "byproducts": [ [ "salt", 1 ] ],
+    "byproduct_group": [ { "item": "salt", "container-item": "null", "charges": [ 80, 100 ] } ],
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
     "skill_used": "chemistry",
@@ -1837,7 +1837,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "result": "chem_muriatic_acid",
     "id_suffix": "with_blood_distill",
-    "byproducts": [ [ "salt", 1 ], [ "water_clean", 1 ], [ "chem_ethanol", 1 ] ],
+    "byproduct_group": [
+      { "item": "salt", "container-item": "null", "charges": [ 80, 100 ] },
+      { "item": "water_clean", "container-item": "null", "charges": 1 },
+      { "item": "chem_ethanol", "container-item": "null", "charges": [ 200, 240 ] }
+    ],
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
     "skill_used": "chemistry",
@@ -1884,7 +1888,11 @@
     "result": "formic_acid",
     "id_suffix": "with_blood_distill",
     "charges": 40,
-    "byproducts": [ [ "water_clean", 1 ], [ "chem_ethanol", 1 ] ],
+    "byproduct_group": [
+      { "item": "water_clean", "container-item": "null", "charges": 1 },
+      { "item": "chem_ethanol", "container-item": "null", "charges": [ 200, 240 ] }
+    ],
+    "byproducts": [ [ "water_clean", 1 ] ],
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
     "skill_used": "chemistry",
@@ -1924,7 +1932,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "result": "chem_acetic_acid",
     "id_suffix": "with_blood_distill",
-    "byproducts": [ [ "water_clean", 1 ], [ "chem_ethanol", 1 ] ],
+    "byproduct_group": [
+      { "item": "water_clean", "container-item": "null", "charges": 1 },
+      { "item": "chem_ethanol", "container-item": "null", "charges": [ 200, 240 ] }
+    ],
+    "byproducts": [ [ "water_clean", 1 ] ],
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
     "skill_used": "chemistry",
