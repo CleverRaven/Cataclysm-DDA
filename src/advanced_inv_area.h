@@ -98,8 +98,8 @@ class advanced_inv_area
         bool is_same( const advanced_inv_area &other ) const;
         // does _not_ check vehicle storage, do that with `can_store_in_vehicle()' below
         bool canputitems( const item_location &container = item_location::nowhere ) const;
-        void set_container_position();// used in init
-        aim_location offset_to_location() const;// Unused?
+        void set_container_position();
+        aim_location offset_to_location() const;
         bool can_store_in_vehicle() const;
 };
 #endif // CATA_SRC_ADVANCED_INV_AREA_H
