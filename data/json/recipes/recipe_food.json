@@ -3332,7 +3332,7 @@
       [ [ "dry_beans", 1 ], [ "can_beans", 1 ] ],
       [ [ "corn_kernels", 1 ], [ "can_corn", 1 ] ],
       [ [ "pumpkin", 1 ] ],
-      [ [ "any_butter_or_oil", 1 ] ],
+      [ [ "any_butter_or_oil", 1, "LIST" ] ],
       [ [ "broth", 1 ] ]
     ]
   },
