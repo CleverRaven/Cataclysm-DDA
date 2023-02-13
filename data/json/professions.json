@@ -3371,7 +3371,11 @@
     "items": {
       "both": {
         "items": [ "dress_shirt", "pants", "socks", "dress_shoes", "wristwatch", "backpack", "flyer", "flyer", "flyer", "holy_symbol" ],
-        "entries": [ { "group": "charged_smart_phone" }, { "group": "charged_laptop" }, { "item": "holy_symbol", "variant": "general_necklace" } ]
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "group": "charged_laptop" },
+          { "item": "holy_symbol", "variant": "general_necklace" }
+        ]
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]

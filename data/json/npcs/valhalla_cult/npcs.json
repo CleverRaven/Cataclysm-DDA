@@ -199,7 +199,7 @@
       { "group": "tools_workshop", "count": [ 4, 5 ], "prob": 100 },
       { "group": "tools_home", "count": [ 4, 5 ], "prob": 100 },
       { "item": "hnefatafl", "count": [ 4, 5 ], "prob": 80 },
-      { "item": "odin_necklace1", "prob": 50 }, 
+      { "item": "odin_necklace1", "prob": 50 },
       { "item": "odin_necklace2", "prob": 50 }
     ]
   },
