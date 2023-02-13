@@ -1391,12 +1391,8 @@ bool item_contents::is_single_restricted_container() const
     return contained_pockets.size() == 1 && contained_pockets[0]->is_restricted();
 }
 
-item &item_contents::only_item()
+item &item_contents::first_item()
 {
-    if( num_item_stacks() != 1 ) {
-        debugmsg( "ERROR: item_contents::only_item called with %d items contained", num_item_stacks() );
-        return null_item_reference();
-    }
     for( item_pocket &pocket : contents ) {
         if( pocket.empty() || !pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
             continue;
@@ -1407,12 +1403,17 @@ item &item_contents::only_item()
     return null_item_reference();
 }
 
-const item &item_contents::only_item() const
+item &item_contents::only_item()
 {
     if( num_item_stacks() != 1 ) {
         debugmsg( "ERROR: item_contents::only_item called with %d items contained", num_item_stacks() );
         return null_item_reference();
     }
+    return first_item();
+}
+
+const item &item_contents::first_item() const
+{
     for( const item_pocket &pocket : contents ) {
         if( pocket.empty() || !( pocket.is_type( item_pocket::pocket_type::CONTAINER ) ||
                                  pocket.is_type( item_pocket::pocket_type::SOFTWARE ) ) ) {
@@ -1423,6 +1424,15 @@ const item &item_contents::only_item() const
     }
 
     return null_item_reference();
+}
+
+const item &item_contents::only_item() const
+{
+    if( num_item_stacks() != 1 ) {
+        debugmsg( "ERROR: item_contents::only_item called with %d items contained", num_item_stacks() );
+        return null_item_reference();
+    }
+    return first_item();
 }
 
 item *item_contents::get_item_with( const std::function<bool( const item &it )> &filter )
