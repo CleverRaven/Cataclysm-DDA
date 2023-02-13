@@ -1131,21 +1131,21 @@
       {
         "id": "baptist_necklace",
         "name": { "str": "Baptist necklace" },
-        "description": "A necklace made of a fine gold chain with the Baptist symbol as a pendant. It is a symbol of the Baptist Christian faith.  It doesn't display any idol or symbol, instead, in the oval pendant, it reads: 'All Scripture is God-breathed and is useful for teaching.  Timothy 3:16-17', in a water-like background, denoting the Waters of Baptism.",
+        "description": "A necklace made of a fine gold chain with the Baptist symbol as a pendant.  It is a symbol of the Baptist Christian faith.  It doesn't display any idol or symbol, instead, in the oval pendant, it reads: 'All Scripture is God-breathed and is useful for teaching.  Timothy 3:16-17', in a water-like background, denoting the Waters of Baptism.",
         "color": "yellow",
         "weight": 30
       },
       {
         "id": "methodist_necklace",
         "name": { "str": "Cross and Flame necklace" },
-        "description": "A necklace made of a fine gold chain with the Cross and Flame symbol as a pendant. It is a symbol of the Methodist Christian faith. The cross and flame is the official symbol of the Methodist Church since 1968.  The symbol relates the Methodist church to God through Christ (cross) and the Holy Spirit (flame). The flame is a reminder of Pentecost when witnesses were unified by the power of the Holy Spirit and saw 'tongues of fire'.",
+        "description": "A necklace made of a fine gold chain with the Cross and Flame symbol as a pendant.  It is a symbol of the Methodist Christian faith.  The cross and flame is the official symbol of the Methodist Church since 1968.  The symbol relates the Methodist church to God through Christ (cross) and the Holy Spirit (flame).  The flame is a reminder of Pentecost when witnesses were unified by the power of the Holy Spirit and saw 'tongues of fire'.",
         "color": "yellow",
         "weight": 20
       },
       {
         "id": "catholic_necklace",
         "name": { "str": "Catholic Crucifix necklace" },
-        "description": "A necklace made of a fine gold chain with the Catholic Crucifix symbol as a pendant. It is a symbol of the Roman Catholic Christian faith.  The main difference between the Catholic Crucifix and the Protestant Crosses is that the Catholic Crucifix have the central figure hanging on them, but Protestant crosses do not depict such images.",
+        "description": "A necklace made of a fine gold chain with the Catholic Crucifix symbol as a pendant.  It is a symbol of the Roman Catholic Christian faith.  The main difference between the Catholic Crucifix and the Protestant Crosses is that the Catholic Crucifix have the central figure hanging on them, but Protestant crosses do not depict such images.",
         "color": "yellow",
         "weight": 25
       },
@@ -1208,7 +1208,7 @@
       {
         "id": "quaker_necklace",
         "name": { "str": "Quaker Star necklace" },
-        "description": "A necklace made of a fine gold chain with the Quaker Star symbol as a pendant.  It is a symbol of the Quaker Christian faith, but also a symbolic neckwear of hard work and peace.  The star was first worn by British Quakers during the Franco-Prussian War in 1870. Quaker relief workers at the time wanted an identification to differentiate themselves and their supplies from other groups who were carrying out similar efforts.  This symbols carries the meaning of Quaker work for peace and the relief of suffering caused by war at the time.",
+        "description": "A necklace made of a fine gold chain with the Quaker Star symbol as a pendant.  It is a symbol of the Quaker Christian faith, but also a symbolic neckwear of hard work and peace.  The star was first worn by British Quakers during the Franco-Prussian War in 1870.  Quaker relief workers at the time wanted an identification to differentiate themselves and their supplies from other groups who were carrying out similar efforts.  This symbols carries the meaning of Quaker work for peace and the relief of suffering caused by war at the time.",
         "color": "yellow",
         "weight": 10
       },
@@ -1229,21 +1229,21 @@
       {
         "id": "presbyterian_necklace",
         "name": { "str": "Presbyterian Cross necklace" },
-        "description": "A necklace made of a fine gold chain with the Presbyterian Cross symbol as a pendant.  It is a symbol of the Presbyterian Christian faith. The Presbyterian Cross emphasize the resurrection and that Christ is not continually dying, but died once and is alive for all eternity, alongside the flames, which represent the Holy Spirit.",
+        "description": "A necklace made of a fine gold chain with the Presbyterian Cross symbol as a pendant.  It is a symbol of the Presbyterian Christian faith.  The Presbyterian Cross emphasize the resurrection and that Christ is not continually dying, but died once and is alive for all eternity, alongside the flames, which represent the Holy Spirit.",
         "color": "yellow",
         "weight": 10
       },
       {
         "id": "anglican_necklace",
         "name": { "str": "Compass Rose necklace" },
-        "description": "A necklace made of a fine gold chain with the Golden Compass Rose symbol as a pendant.  It is a symbol of the Anglican Christian faith. Anglicanism was the State Religion of the United Kingdom before the Cataclysm.  The compass symbolizes the worldwide spread of the Anglican Faith.  Surmounting the shield, at the North, is a mitre, the symbol of apostolic order essential to all Churches and Provinces constituting the Anglican Communion.",
+        "description": "A necklace made of a fine gold chain with the Golden Compass Rose symbol as a pendant.  It is a symbol of the Anglican Christian faith.  Anglicanism was the State Religion of the United Kingdom before the Cataclysm.  The compass symbolizes the worldwide spread of the Anglican Faith.  Surmounting the shield, at the North, is a mitre, the symbol of apostolic order essential to all Churches and Provinces constituting the Anglican Communion.",
         "color": "yellow",
         "weight": 10
       },
       {
         "id": "general_necklace",
         "name": { "str": "cross necklace" },
-        "description": "A necklace made of a fine gold chain with a plain cross symbol as a pendant. It is a symbol of Christian faith, no matter the denomination.",
+        "description": "A necklace made of a fine gold chain with a plain cross symbol as a pendant.  It is a symbol of Christian faith, no matter the denomination.",
         "color": "yellow",
         "weight": 35
       },
@@ -1271,7 +1271,7 @@
       {
         "id": "orthodox_necklace",
         "name": { "str": "Orthodox Cross necklace" },
-        "description": "A necklace made of a fine gold chain with the Orthodox Cross symbol as a pendant.  It is a symbol of the Eastern and Oriental Orthodox Christian faith.  The topmost of the three crossbeams represents Pilate's inscription which in the older Greek tradition is 'The King of Glory', based on John's Gospel. The middle crossbeam is the main bar to which the victim's hands are fixed, while the bottom crossbeam represents the footrest which prolongs the torture.",
+        "description": "A necklace made of a fine gold chain with the Orthodox Cross symbol as a pendant.  It is a symbol of the Eastern and Oriental Orthodox Christian faith.  The topmost of the three crossbeams represents Pilate's inscription which in the older Greek tradition is 'The King of Glory', based on John's Gospel.  The middle crossbeam is the main bar to which the victim's hands are fixed, while the bottom crossbeam represents the footrest which prolongs the torture.",
         "color": "yellow",
         "weight": 12
       },
@@ -1292,21 +1292,21 @@
       {
         "id": "tau_necklace",
         "name": { "str": "Tau Cross necklace" },
-        "description": "A necklace made of a fine gold chain with the Tau Cross symbol as a pendant.  It is a general symbol for Christian faith.  The Tau Cross is representative of salvation and of life, due in part to its association with the sparing of believers in the Bible.  As Tau is the last letter in the Hebrew alphabet, it symbolizes the revealed Word of God, its completion and perfection.  It also can be said to symbolize the Last Day...",
+        "description": "A necklace made of a fine gold chain with the Tau Cross symbol as a pendant.  It is a general symbol for Christian faith.  The Tau Cross is representative of salvation and of life, due in part to its association with the sparing of believers in the Bible.  As Tau is the last letter in the Hebrew alphabet, it symbolizes the revealed Word of God, its completion and perfection.  It also can be said to symbolize the Last Day…",
         "color": "yellow",
         "weight": 8
       },
       {
         "id": "jew_necklace1",
         "name": { "str": "Star of David necklace" },
-        "description": "A necklace made of a fine gold chain with the Star of David symbol as a pendant.  It is a symbol of the Jewish faith.  The Star of David became officially associated with Judaism when it was chosen as the symbol to appear on a flag at the First Zionist Congress in 1897. At that time, it became the symbol of the Jewish people, Zionism, and the Jewish communities throughout the world.",
+        "description": "A necklace made of a fine gold chain with the Star of David symbol as a pendant.  It is a symbol of the Jewish faith.  The Star of David became officially associated with Judaism when it was chosen as the symbol to appear on a flag at the First Zionist Congress in 1897.  At that time, it became the symbol of the Jewish people, Zionism, and the Jewish communities throughout the world.",
         "color": "yellow",
         "weight": 12
       },
       {
         "id": "jew_necklace2",
         "name": { "str": "Menorah necklace" },
-        "description": "A necklace made of a fine gold chain with the Menorah symbol as a pendant, where each branch is equivalent to each seven days of The Creation.  It is a symbol of the Jewish faith.  The symbol of the menorah dates to Jewish tradition: After the Maccabees' victory over the Greeks, there was only enough oil to burn a menorah (lamp) for one day in the Temple of Judea. Miraculously, the oil burned for eight days, and lighting the Hanukkah menorah commemorates this miracle and Jewish Holliday.",
+        "description": "A necklace made of a fine gold chain with the Menorah symbol as a pendant, where each branch is equivalent to each seven days of The Creation.  It is a symbol of the Jewish faith.  The symbol of the menorah dates to Jewish tradition: After the Maccabees' victory over the Greeks, there was only enough oil to burn a menorah (lamp) for one day in the Temple of Judea.  Miraculously, the oil burned for eight days, and lighting the Hanukkah menorah commemorates this miracle and Jewish Holliday.",
         "color": "yellow",
         "weight": 9
       },
@@ -1334,14 +1334,14 @@
       {
         "id": "dharma_necklace",
         "name": { "str": "Dharmachakra necklace" },
-        "description": "A necklace made of a fine gold chain with the Dharmachakra symbol as a pendant.  It is a symbol of the Hindu, Jain and Buddhist faiths. Also known as Dharma Wheel, the circle, the round shape of the wheel, represents the perfection of the Dharma, the Buddha's teaching. The rim of the wheel represents meditative concentration and mindfulness, which hold practice together. The hub represents moral discipline.",
+        "description": "A necklace made of a fine gold chain with the Dharmachakra symbol as a pendant.  It is a symbol of the Hindu, Jain and Buddhist faiths.  Also known as Dharma Wheel, the circle, the round shape of the wheel, represents the perfection of the Dharma, the Buddha's teaching.  The rim of the wheel represents meditative concentration and mindfulness, which hold practice together.  The hub represents moral discipline.",
         "color": "yellow",
         "weight": 8
       },
       {
         "id": "zoroastrianist_necklace",
         "name": { "str": "Faravahar necklace" },
-        "description": "A necklace made of a fine gold chain with the Faravahar symbol as a pendant. It is a symbol of the Zoroastrianism faith.  While there is no total understanding of the meanings of that ancient symbol, it depicts a bearded man with one hand reaching forward. He stands above a pair of wings that are outstretched from a circle which are believer to represent eternity.",
+        "description": "A necklace made of a fine gold chain with the Faravahar symbol as a pendant.  It is a symbol of the Zoroastrianism faith.  While there is no total understanding of the meanings of that ancient symbol, it depicts a bearded man with one hand reaching forward.  He stands above a pair of wings that are outstretched from a circle which are believer to represent eternity.",
         "color": "yellow",
         "weight": 5
       },
@@ -1369,7 +1369,7 @@
       {
         "id": "muslim_necklace",
         "name": { "str": "Crescent Moon and Star necklace" },
-        "description": "A necklace made of a fine gold chain with the Crescent Moon and Star symbol as a pendant. It is a symbol of both the Sunni and Shia Islam faith.  The crescent of the new moon signifies the beginning and end of fasting during Ramadan.",
+        "description": "A necklace made of a fine gold chain with the Crescent Moon and Star symbol as a pendant.  It is a symbol of both the Sunni and Shia Islam faith.  The crescent of the new moon signifies the beginning and end of fasting during Ramadan.",
         "color": "yellow",
         "weight": 15
       },
@@ -1383,7 +1383,7 @@
       {
         "id": "confucian_necklace",
         "name": { "str": "Confucius necklace" },
-        "description": "A necklace made of a fine gold chain with the Confucius symbol as a pendant. It is a symbol of the Confucianism faith and philosophical system.  The Confucius symbol represents the man who began the religion, as he is one of, if not the most important person to come from Confucianism. Popular among martial artists and young people because of anime.",
+        "description": "A necklace made of a fine gold chain with the Confucius symbol as a pendant.  It is a symbol of the Confucianism faith and philosophical system.  The Confucius symbol represents the man who began the religion, as he is one of, if not the most important person to come from Confucianism.  Popular among martial artists and young people because of anime.",
         "color": "yellow",
         "weight": 8
       },
@@ -1397,14 +1397,14 @@
       {
         "id": "illuminati_necklace",
         "name": { "str": "The All Seeing Eye necklace" },
-        "description": "A necklace made of a fine gold chain with the threatening Eye and Pyramid symbol as a pendant. It is apparently a symbol of the once famous New World Order, the Illuminati, but you can't tell if it is just a joke, or something real...",
+        "description": "A necklace made of a fine gold chain with the threatening Eye and Pyramid symbol as a pendant.  It is apparently a symbol of the once famous New World Order, the Illuminati, but you can't tell if it is just a joke, or something real…",
         "color": "yellow",
         "weight": 3
       },
       {
         "id": "pentagram_necklace",
         "name": { "str": "Pentagram necklace" },
-        "description": "A necklace made of a fine gold chain with the Pentagram symbol as a pendant. It is a symbol of mysticism and magic, often believed to be related to dark magic and Satanism.  Popular among temperamental teens, Wiccas, witches, modern wizards, cosplayers, goths and emos.",
+        "description": "A necklace made of a fine gold chain with the Pentagram symbol as a pendant.  It is a symbol of mysticism and magic, often believed to be related to dark magic and Satanism.  Popular among temperamental teens, Wiccas, witches, modern wizards, cosplayers, goths and emos.",
         "color": "yellow",
         "weight": 15
       },
@@ -1425,14 +1425,14 @@
       {
         "id": "greek_necklace",
         "name": { "str": "Dodecagram necklace" },
-        "description": "A necklace made of a fine gold chain with the Dodecagram symbol as a pendant. It is a symbol of the Greek Hellenist faith.  The Dodecagram, or twelve pointed star, is one of the more widespread symbols of Hellenism. The twelve points represent the twelve Olympic Gods and thus the symbol serves its purpose as a dedicational symbol well.",
+        "description": "A necklace made of a fine gold chain with the Dodecagram symbol as a pendant.  It is a symbol of the Greek Hellenist faith.  The Dodecagram, or twelve pointed star, is one of the more widespread symbols of Hellenism.  The twelve points represent the twelve Olympic Gods and thus the symbol serves its purpose as a dedicational symbol well.",
         "color": "yellow",
         "weight": 8
       },
       {
         "id": "jain_necklace",
         "name": { "str": "Hand of Ahimsa necklace" },
-        "description": "A necklace made of a fine gold chain with the Hand of Ahimsa symbol as a pendant. It is a symbol of the Jainist faith and philosophical system.  The hand with a wheel on the palm symbolizes Ahimsa in Jainism.  The word in the middle is 'ahimsa' (non-injury).  The wheel represents the dharmachakra, which stands for the resolve to halt the samsara through the relentless pursuit of Ahimsa.",
+        "description": "A necklace made of a fine gold chain with the Hand of Ahimsa symbol as a pendant.  It is a symbol of the Jainist faith and philosophical system.  The hand with a wheel on the palm symbolizes Ahimsa in Jainism.  The word in the middle is 'ahimsa' (non-injury).  The wheel represents the dharmachakra, which stands for the resolve to halt the samsara through the relentless pursuit of Ahimsa.",
         "color": "yellow",
         "weight": 5
       },
@@ -1460,14 +1460,14 @@
       {
         "id": "freemason_necklace",
         "name": { "str": "Square and Compass necklace" },
-        "description": "A necklace made of a fine gold chain with the Square and Compass symbol as a pendant. It is a symbol of the Freemasonry Orders of builders and merchants.  The Square and Compass is the single and most identifiable symbol of Freemasonry.  Both the square and compasses are architect's tools and are used in masonry as emblems to teach symbolic lessons.",
+        "description": "A necklace made of a fine gold chain with the Square and Compass symbol as a pendant.  It is a symbol of the Freemasonry Orders of builders and merchants.  The Square and Compass is the single and most identifiable symbol of Freemasonry.  Both the square and compasses are architect's tools and are used in masonry as emblems to teach symbolic lessons.",
         "color": "yellow",
         "weight": 5
       },
       {
         "id": "pastafarian_necklace",
         "name": { "str": "Flying Spaghetti Moster necklace" },
-        "description": "A necklace made of a fine gold chain with the figure of the Giant Spaghetti Flying Monster as a pendant. It is a symbol of the Pastafarian faith, a religion like any other.  It has the figure of the Giant Spaghetti Flying Monster in the center, with the following text: 'Pasta be Upon Us'.",
+        "description": "A necklace made of a fine gold chain with the figure of the Giant Spaghetti Flying Monster as a pendant.  It is a symbol of the Pastafarian faith, a religion like any other.  It has the figure of the Giant Spaghetti Flying Monster in the center, with the following text: 'Pasta be Upon Us'.",
         "color": "yellow",
         "weight": 5
       },
