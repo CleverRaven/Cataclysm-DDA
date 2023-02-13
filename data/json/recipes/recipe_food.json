@@ -6540,7 +6540,7 @@
     "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
     "difficulty": 3,
-    "charges": 1,
+    "charges": 4,
     "time": "8 m",
     "autolearn": true,
     "book_learn": [ [ "cookbook_native", 1 ] ],
@@ -6548,8 +6548,8 @@
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
       [ [ "meat_cooked", 1, "LIST" ] ],
-      [ [ "frybread", 1 ] ],
-      [ [ "can_beans", 2 ], [ "beans_cooked", 2 ] ],
+      [ [ "frybread", 3 ] ],
+      [ [ "can_beans", 1 ], [ "beans_cooked", 1 ] ],
       [ [ "lettuce", 1 ], [ "irradiated_lettuce", 1 ], [ "cabbage", 1 ] ]
     ]
   },
