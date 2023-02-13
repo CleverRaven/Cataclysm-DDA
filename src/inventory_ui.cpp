@@ -1174,7 +1174,8 @@ void inventory_column::on_change( const inventory_entry &/* entry */ )
 
 inventory_entry *inventory_column::add_entry( const inventory_entry &entry )
 {
-    if( std::find( entries.begin(), entries.end(), entry ) != entries.end() ) {
+    entries_t &dest = entry.is_hidden() ? entries_hidden : entries;
+    if( std::find( dest.begin(), dest.end(), entry ) != dest.end() ) {
         debugmsg( "Tried to add a duplicate entry." );
         return nullptr;
     }
@@ -1183,8 +1184,8 @@ inventory_entry *inventory_column::add_entry( const inventory_entry &entry )
     if( entry.is_item() ) {
         item_location entry_item = entry.locations.front();
 
-        auto entry_with_loc = std::find_if( entries.begin(),
-        entries.end(), [&entry, &entry_item, this]( const inventory_entry & e ) {
+        auto entry_with_loc = std::find_if( dest.begin(),
+        dest.end(), [&entry, &entry_item, this]( const inventory_entry & e ) {
             if( !e.is_item() ) {
                 return false;
             }
@@ -1199,16 +1200,16 @@ inventory_entry *inventory_column::add_entry( const inventory_entry &entry )
                    entry_item->is_collapsed() == found_entry_item->is_collapsed() &&
                    entry_item->display_stacked_with( *found_entry_item, preset.get_checking_components() );
         } );
-        if( entry_with_loc != entries.end() ) {
+        if( entry_with_loc != dest.end() ) {
             std::vector<item_location> &locations = entry_with_loc->locations;
             std::move( entry.locations.begin(), entry.locations.end(), std::back_inserter( locations ) );
             return &*entry_with_loc;
         }
     }
 
-    entries.emplace_back( entry );
-    entries.back().update_cache();
-    return &entries.back();
+    dest.emplace_back( entry );
+    dest.back().update_cache();
+    return &dest.back();
 }
 
 void inventory_column::move_entries_to( inventory_column &dest )
