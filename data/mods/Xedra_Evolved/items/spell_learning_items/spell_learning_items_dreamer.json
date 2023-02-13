@@ -66,6 +66,6 @@
     "bashing": 2,
     "to_hit": -3,
     "scannable": false,
-    "use_action": { "type": "learn_spell", "spells": [ "spell_speed_wonder" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "spell_summon_twin" ] }
   }
 ]
