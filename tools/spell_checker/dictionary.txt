@@ -12,6 +12,7 @@ achelousaurus
 acho
 acidball
 acrocanthosaurus
+acrostic
 acrylamide
 activatable
 actuated
@@ -41,6 +42,7 @@ agape
 agelessness
 agender
 aggregates
+ahimsa
 airgun
 airhorn
 airjack
@@ -429,6 +431,7 @@ cdda
 cegamente
 centric
 centrosaurus
+centrum
 cepa
 cephalopod
 cephalothorax
@@ -566,6 +569,7 @@ corporality
 corporeality
 corvid
 corythosaurus
+cosplayers
 countermine
 couters
 coverplate
@@ -581,6 +585,7 @@ creped
 criniere
 cripplingly
 crispier
+crossbeams
 crossbuck
 crossfit
 crossguard
@@ -651,6 +656,7 @@ debugged
 decap
 decelerates
 deceptived
+dedicational
 defatted
 deforming
 dehydrator
@@ -691,6 +697,7 @@ devilling
 devs
 dewlap
 dextrous
+dharmachakra
 dieselpunk
 diffract
 diffracting
@@ -702,6 +709,7 @@ dimestore
 diminute
 dimorphism
 dimorphodon
+dioceses
 diodes
 dioicus
 dionaea
@@ -842,6 +850,7 @@ envenomed
 eocs
 eolocanth
 eoraptor
+eou
 epicuticle
 epistemology
 eppies
@@ -856,6 +865,7 @@ erythrocytes
 erzeugen
 escalier
 eset
+esous
 espatier
 espatiers
 esque
@@ -869,6 +879,7 @@ euoplocephalus
 eusocial
 evacs
 evacuee
+evangelized
 everburning
 everfrost
 eviscerations
@@ -945,6 +956,7 @@ fightin
 filenames
 fileset
 filmstrip
+finial
 finned
 fireboots
 firebrick
@@ -1006,6 +1018,7 @@ foodborne
 foodburger
 foodcart
 footgear
+footrest
 forager
 foregrip
 foregrips
@@ -1289,6 +1302,7 @@ hypno
 hypochlorite
 hypogaea
 ichor
+ichthys
 idkont
 ifoundramsesthecat
 ignitable
@@ -1352,6 +1366,7 @@ intoxicative
 inulin
 inverts
 invlets
+ios
 ironshod
 irradiance
 irremovable
@@ -1614,6 +1629,7 @@ megalith
 megastore
 membranous
 mendacium
+menorah
 mesenterium
 meshwork
 messily
@@ -1774,6 +1790,7 @@ nearsightedness
 necco
 neckbeard
 neckin
+neckwear
 necro
 necrowolf
 nectivore
@@ -2047,6 +2064,7 @@ polymorph
 polymorphed
 polypous
 polysexual
+polytheistic
 pomelos
 pomes
 ponderously
@@ -2326,6 +2344,7 @@ saltworks
 salvager
 salved
 samghati
+samsara
 sandleather
 sapience
 saproling
@@ -2479,6 +2498,7 @@ sommat
 somniferum
 soother
 sorrowfully
+soteriological
 soundpack
 sourness
 sp
@@ -3086,23 +3106,3 @@ zweitimber
 zygomaticus
 zzz
 zzzzchzzzzchurzzz
-polytheistic
-evangelized
-centrum
-dedicational
-ahimsa
-dharmachakra
-samsara
-ichthys
-esous
-eou
-ios
-finial
-acrostic
-menorah
-soteriological
-crossbeams
-footrest
-cosplayers
-neckwear
-dioceses
