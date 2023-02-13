@@ -97,7 +97,6 @@ class inventory_entry
             chevron( chevron ),
             custom_category( custom_category ),
             enabled( enabled ) {
-            update_cache();
         }
 
         bool operator==( const inventory_entry &other ) const;

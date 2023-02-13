@@ -1207,6 +1207,7 @@ inventory_entry *inventory_column::add_entry( const inventory_entry &entry )
     }
 
     entries.emplace_back( entry );
+    entries.back().update_cache();
     return &entries.back();
 }
 
@@ -1263,8 +1264,10 @@ bool inventory_column::indented_sort_compare( inventory_entry const &lhs,
         p_rhs = path_rhs[ri++];
     }
 
-    inventory_entry const ep_lhs( { p_lhs }, nullptr, true, 0, lhs.generation );
-    inventory_entry const ep_rhs( { p_rhs }, nullptr, true, 0, rhs.generation );
+    inventory_entry ep_lhs( { p_lhs }, nullptr, true, 0, lhs.generation );
+    inventory_entry ep_rhs( { p_rhs }, nullptr, true, 0, rhs.generation );
+    ep_lhs.update_cache();
+    ep_rhs.update_cache();
     return sort_compare( ep_lhs, ep_rhs );
 }
 
