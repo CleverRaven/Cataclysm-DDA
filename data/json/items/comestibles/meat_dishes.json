@@ -1467,7 +1467,7 @@
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "talking %s" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "terrifying %s" } }
     ],
-    "weight": "303 g",
+    "weight": "300 g",
     "color": "yellow",
     "spoils_in": "1 day",
     "container": "wrapper",

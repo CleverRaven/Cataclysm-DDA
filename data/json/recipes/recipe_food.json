@@ -3641,7 +3641,7 @@
     "skill_used": "cooking",
     "difficulty": 1,
     "time": "15 m",
-    "charges": 2,
+    "charges": 5,
     "batch_time_factors": [ 50, 4 ],
     "autolearn": true,
     "book_learn": [ [ "cookbook_native", 1 ] ],
