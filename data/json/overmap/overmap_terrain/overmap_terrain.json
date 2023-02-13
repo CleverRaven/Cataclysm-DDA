@@ -401,7 +401,8 @@
     "name": "shipwreck",
     "sym": "w",
     "color": "red",
-    "see_cost": 4
+    "see_cost": 4,
+    "flags": [ "REQUIRES_PREDECESSOR" ]
   },
   {
     "type": "overmap_terrain",
