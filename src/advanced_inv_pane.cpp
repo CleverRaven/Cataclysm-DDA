@@ -224,7 +224,7 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square,
                 item_location container = square.get_container( in_vehicle() );
                 size_t item_index = 0;
                 for( const std::vector<item_location> &it_stack : item_list_to_stack( container,
-                    container->all_items_top( item_pocket::pocket_type::CONTAINER ) ) ) {
+                        container->all_items_top( item_pocket::pocket_type::CONTAINER ) ) ) {
                     advanced_inv_listitem ait( it_stack, item_index++, square.id, in_vehicle() );
                     square.volume += ait.volume;
                     square.weight += ait.weight;
