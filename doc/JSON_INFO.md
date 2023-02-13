@@ -3452,7 +3452,7 @@ Guns can be defined like this:
 // sight to use for each aim action, which is the fastest sight with a dispersion under the current
 // aim threshold.
 "sight_dispersion": 10,    // Inaccuracy of gun derived from the sight mechanism, measured in 100ths of Minutes Of Angle (MOA)
-"recoil": 0,               // Recoil caused when firing, measured in 100ths of Minutes Of Angle (MOA), also known as arcminute.
+"recoil": 0,               // Recoil caused when firing, measured in 100ths of Minutes Of Angle (MOA)
 "durability": 8,           // Resistance to damage/rusting, also determines misfire chance
 "blackpowder_tolerance": 8,// One in X chance to get clogged up (per shot) when firing blackpowder ammunition (higher is better). Optional, default is 8.
 "min_cycle_recoil": 0,     // Minimum ammo recoil for gun to be able to fire more than once per attack.
