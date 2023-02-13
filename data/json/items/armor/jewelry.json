@@ -1096,6 +1096,21 @@
     "symbol": "[",
     "color": "white",
     "use_action": [ "MEDITATE" ],
+    "flags": [ "NO_WEAR_EFFECT" ]
+  },
+  {
+    "id": "holy_symbol",
+    "type": "ARMOR",
+    "name": { "str": "holy symbol" },
+    "description": "A necklace made of fine gold chain, bearing the symbol of a forgotten faith.",
+    "weight": "50 g",
+    "volume": "25 ml",
+    "price": 5000,
+    "price_postapoc": 100,
+    "material": [ "gold" ],
+    "symbol": ",",
+    "color": "yellow",
+    "use_action": [ "MEDITATE" ],
     "flags": [ "NO_WEAR_EFFECT" ],
     "variants_type": "generic",
     "variants": [
@@ -1130,7 +1145,7 @@
       {
         "id": "catholic_necklace",
         "name": { "str": "Catholic Crucifix necklace" },
-        "description": "A necklace made of a fine gold chain with the Catholic Crucifix symbol as a pendant. It is a symbol of the Roman Catholic Christian faith.  The main difference between the Catholic Crucifix and the Protestant Crosses is that the Catholic Crucifix have the central figure hanging on them, but Protestant crosses do not despict such image.",
+        "description": "A necklace made of a fine gold chain with the Catholic Crucifix symbol as a pendant. It is a symbol of the Roman Catholic Christian faith.  The main difference between the Catholic Crucifix and the Protestant Crosses is that the Catholic Crucifix have the central figure hanging on them, but Protestant crosses do not depict such images.",
         "color": "yellow",
         "weight": 25
       },
@@ -1291,7 +1306,7 @@
       {
         "id": "jew_necklace2",
         "name": { "str": "Menorah necklace" },
-        "description": "A necklace made of a fine gold chain with the Menorah symbol as a pendant, where each branch is equivalent to each seven days of The Creation.  It is a symbol of the Jewish faith.  The symbol of the menirah dates to Jewish tradition: After the Maccabees' victory over the Greeks, there was only enough oil to burn a menorah (lamp) for one day in the Temple of Judea. Miraculously, the oil burned for eight days, and lighting the Hanukkah menorah commemorates this miracle and Jewish Holliday.",
+        "description": "A necklace made of a fine gold chain with the Menorah symbol as a pendant, where each branch is equivalent to each seven days of The Creation.  It is a symbol of the Jewish faith.  The symbol of the menorah dates to Jewish tradition: After the Maccabees' victory over the Greeks, there was only enough oil to burn a menorah (lamp) for one day in the Temple of Judea. Miraculously, the oil burned for eight days, and lighting the Hanukkah menorah commemorates this miracle and Jewish Holliday.",
         "color": "yellow",
         "weight": 9
       },
@@ -1340,14 +1355,14 @@
       {
         "id": "bahai_necklace",
         "name": { "str": "Baha'i Star necklace" },
-        "description": "A necklace made of a fine gold chain with the Baha'i Star symbol as a pendant.  It is a symbol of the Baha'i faith.  The Baha'i nine-pointed star reflects the importance of the number for the Faith.  The number nine is the highest single digit number, which symbolizes completement and the fulfillment of the expectations of all prior religions.",
+        "description": "A necklace made of a fine gold chain with the Baha'i Star symbol as a pendant.  It is a symbol of the Baha'i faith.  The Baha'i nine-pointed star reflects the importance of the number for the Faith.  The number nine is the highest single digit number, which symbolizes wholeness and the fulfillment of the expectations of all prior religions.",
         "color": "yellow",
         "weight": 5
       },
       {
         "id": "christian_necklace",
         "name": { "str": "Ichthys necklace" },
-        "description": "A necklace made of a fine gold chain with the Ichthys symbol as a pendant.  It is a symbol of many Christian faith, and also the symbol of adherents of the Primitivist Christianism, a denomination that believed that Christianism had been too separated from its original meaning and they should return to the initial, pure form of Christianism.  In general, it is a representation of a fish used in ancient times as a pagan fertility talisman or amulet or as a Christian symbol for the Greek word ichthys interpreted as an acrostic in which the Greek letters are the initials of the words 'I esous Ch ristos th eou hy ios s oter', meaning 'Jesus Christ Son of God Savior'.",
+        "description": "A necklace made of a fine gold chain with the Ichthys symbol as a pendant.  It is a symbol of many Christian faith, and also the symbol of adherents of the Primitivist Christianism, a denomination that believed that Christianism had been too separated from its original meaning and they should return to the initial, pure form of Christianism.  In general, it is a representation of a fish used in ancient times as a pagan fertility talisman or amulet or as a Christian symbol for the Greek word ichthys interpreted as an acrostic in which the Greek letters are the initials of the words 'I esous Christos th eou hy ios s oter', meaning 'Jesus Christ Son of God Savior'.",
         "color": "yellow",
         "weight": 15
       },
@@ -1375,7 +1390,7 @@
       {
         "id": "taoist_necklace",
         "name": { "str": "Ying Yang necklace" },
-        "description": "A necklace made of a fine gold chain with the Ying Yang symbol as a pendant.  It is a symbol of both Confucian and Taoist faiths and philosophical systems.  Yin is a symbol of earth, femaleness, darkness, passivity, and absorption.  It is present in even numbers, in valleys and streams, and is represented by the tiger, the colour orange, and a broken line.  Yang is conceived of as heaven, maleness, light, activity, and penetration, and together, they represent balance between opposites.",
+        "description": "A necklace made of a fine gold chain with the Ying Yang symbol as a pendant.  It is a symbol of both Confucian and Taoist faiths and philosophical systems.  Yin is a symbol of earth, femininity, darkness, passivity, and absorption.  It is present in even numbers, in valleys and streams, and is represented by the tiger, the colour orange, and a broken line.  Yang is conceived of as heaven, maleness, light, activity, and penetration, and together, they represent balance between opposites.",
         "color": "yellow",
         "weight": 8
       },
@@ -1471,21 +1486,6 @@
         "weight": 10
       }
     ]
-  },
-  {
-    "id": "holy_symbol",
-    "type": "ARMOR",
-    "name": { "str": "holy symbol" },
-    "description": "A necklace made of fine gold chain, bearing the symbol of a forgotten faith.",
-    "weight": "50 g",
-    "volume": "25 ml",
-    "price": 5000,
-    "price_postapoc": 100,
-    "material": [ "gold" ],
-    "symbol": ",",
-    "color": "yellow",
-    "use_action": [ "MEDITATE" ],
-    "flags": [ "NO_WEAR_EFFECT" ]
   },
   {
     "id": "holy_symbol_wood",
