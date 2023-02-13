@@ -1216,7 +1216,6 @@ void inventory_column::move_entries_to( inventory_column &dest )
     std::move( entries_hidden.begin(), entries_hidden.end(),
                std::back_inserter( dest.entries_hidden ) );
     dest.paging_is_valid = false;
-    dest.prepare_paging();
     clear();
 }
 
@@ -1709,8 +1708,9 @@ bool inventory_selector::add_entry_rec( inventory_column &entry_column,
                                         item_category const *children_category,
                                         item *topmost_parent, int indent )
 {
-    bool const vis_contents =
-        add_contained_items( loc, children_column, children_category,
+    inventory_column temp_children( preset );
+    bool vis_contents =
+        add_contained_items( loc, temp_children, children_category,
                              get_topmost_parent( topmost_parent, loc, preset ),
                              preset.is_shown( loc ) ? indent + 2 : indent );
     inventory_entry *const nentry = add_entry( entry_column, std::vector<item_location>( 1, loc ),
@@ -1718,8 +1718,10 @@ bool inventory_selector::add_entry_rec( inventory_column &entry_column,
     if( nentry != nullptr ) {
         nentry->chevron = vis_contents;
         nentry->indent = indent;
-        return true;
+        vis_contents = true;
     }
+    temp_children.move_entries_to( children_column );
+
     return vis_contents;
 }
 
@@ -1740,6 +1742,7 @@ bool inventory_selector::add_contained_items( item_location &container, inventor
                                     : container->all_items_top( preset.get_pocket_type() );
 
     bool vis_top = false;
+    inventory_column temp( preset );
     for( item *it : items ) {
         item_location child( container, it );
         item_category const *hacked_cat = custom_category;
@@ -1748,9 +1751,10 @@ bool inventory_selector::add_contained_items( item_location &container, inventor
             hacked_cat = &item_category_ITEMS_WORN.obj();
             hacked_col = &own_gear_column;
         }
-        vis_top |= add_entry_rec( *hacked_col, column, child, hacked_cat, custom_category,
+        vis_top |= add_entry_rec( *hacked_col, temp, child, hacked_cat, custom_category,
                                   topmost_parent, indent );
     }
+    temp.move_entries_to( column );
     return vis_top;
 }
 
@@ -1822,10 +1826,16 @@ void inventory_selector::_add_map_items( tripoint const &target, item_category c
     item_category const *const custom_cat = hierarchy ? naturalize_category( cat, target ) : nullptr;
     inventory_column *const col = _categorize_map_items ? &own_inv_column : &map_column;
 
+    inventory_column temp( preset );
+    inventory_column temp_cont( preset );
     for( item &it : items ) {
         item_location loc = floc( it );
-        add_entry_rec( *col, *col, loc, custom_cat, custom_cat );
+        add_entry_rec( temp, temp_cont, loc, custom_cat, custom_cat );
     }
+
+    temp.move_entries_to( *col );
+    temp_cont.move_entries_to( *col );
+
     if( !hierarchy ) {
         col->set_indent_entries_override( false );
     }
