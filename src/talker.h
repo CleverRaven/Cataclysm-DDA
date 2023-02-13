@@ -188,6 +188,10 @@ class talker
         virtual bool has_trait( const trait_id & ) const {
             return false;
         }
+        virtual bool has_recipe( const recipe_id & ) const {
+            return false;
+        }
+        virtual void learn_recipe( const recipe_id & ) {}
         virtual void mutate( const int &, const bool & ) {}
         virtual void mutate_category( const mutation_category_id &, const bool & ) {}
         virtual void set_mutation( const trait_id & ) {}

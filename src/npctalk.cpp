@@ -3670,6 +3670,14 @@ void talk_effect_fun_t<T>::set_roll_remainder( const JsonObject &jo,
                 if( !d.actor( is_npc )->has_trait( trait_id( cur_string.evaluate( d ) ) ) ) {
                     not_had.push_back( cur_string.evaluate( d ) );
                 }
+            } else if( type.evaluate( d ) == "spell" ) {
+                if( d.actor( is_npc )->get_spell_level( spell_id( cur_string.evaluate( d ) ) ) == - 1 ) {
+                    not_had.push_back( cur_string.evaluate( d ) );
+                }
+            } else if( type.evaluate( d ) == "recipe" ) {
+                if( !d.actor( is_npc )->has_recipe( recipe_id( cur_string.evaluate( d ) ) ) ) {
+                    not_had.push_back( cur_string.evaluate( d ) );
+                }
             } else {
                 debugmsg( "Invalid roll remainder type." );
             }
@@ -3681,6 +3689,10 @@ void talk_effect_fun_t<T>::set_roll_remainder( const JsonObject &jo,
                 d.actor( is_npc )->add_bionic( bionic_id( cur_choice ) );
             } else if( type.evaluate( d ) == "mutation" ) {
                 d.actor( is_npc )->set_mutation( trait_id( cur_choice ) );
+            } else if( type.evaluate( d ) == "spell" ) {
+                d.actor( is_npc )->set_spell_level( spell_id( cur_choice ), 1 );
+            } else if( type.evaluate( d ) == "recipe" ) {
+                d.actor( is_npc )->learn_recipe( recipe_id( cur_choice ) );
             } else {
                 debugmsg( "Invalid roll remainder type." );
             }
