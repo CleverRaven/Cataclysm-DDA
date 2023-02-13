@@ -977,6 +977,7 @@ Condition | Type | Description
 `"u_rule" or "npc_rule"` | string or [variable object](#variable-object) | `true` if u or the NPC follower AI rule for that matches string is set.
 `"u_override" or "npc_override"` | string or [variable object](#variable-object)| `true` if u or the NPC has an override for the string.
 `"has_pickup_list" or "u_has_pickup_list" or "npc_has_pickup_list"` | simple string | `true` if u or the NPC has a pickup list.
+`"roll_contested""`, `difficulty`: int or [variable object](#variable-object), (*optional* `die_size : `int or [variable object](#variable-object) ) | [int expression](#compare-integers-and-arithmetics) | Compares a roll against a difficulty. Returns true if a random number between 1 and `die_size` (defaults to 10) plus the integer expression is greater than `difficulty`. For example { "u_roll_contested": { "u_val": "strength" }, "difficulty": 6 } will return whether a random number between 1 and 10 plus strength is greater than 6.
 
 #### NPC only conditions
 
