@@ -894,7 +894,7 @@ inventory_column::entry_cell_cache_t inventory_column::make_entry_cell_cache(
 
     result.assigned = true;
     result.color = preset.get_color( entry );
-    result.denial = preset.get_denial( entry );
+    result.denial = &entry.denial;
     result.text.resize( preset.get_cells_count() );
 
     for( size_t i = 0, n = preset.get_cells_count(); i < n; ++i ) {
@@ -969,16 +969,16 @@ void inventory_column::set_height( size_t new_height )
     }
 }
 
-void inventory_column::expand_to_fit( const inventory_entry &entry )
+void inventory_column::expand_to_fit( const inventory_entry &entry, bool with_denial )
 {
     if( !entry ) {
         return;
     }
 
     // Don't use cell cache here since the entry may not yet be placed into the vector of entries.
-    const std::string denial = preset.get_denial( entry );
+    const std::string &denial = entry.denial;
 
-    for( size_t i = 0, num = denial.empty() ? cells.size() : 1; i < num; ++i ) {
+    for( size_t i = 0, num = with_denial && denial.empty() ? cells.size() : 1; i < num; ++i ) {
         auto &cell = cells[i];
 
         cell.real_width = std::max( cell.real_width, get_entry_cell_width( entry, i ) );
@@ -990,7 +990,7 @@ void inventory_column::expand_to_fit( const inventory_entry &entry )
         }
     }
 
-    if( !denial.empty() ) {
+    if( with_denial && !denial.empty() ) {
         reserved_width = std::max( get_entry_cell_width( entry, 0 ) + min_denial_gap + utf8_width( denial,
                                    true ),
                                    reserved_width );
@@ -1026,7 +1026,7 @@ bool inventory_column::has_available_choices() const
         return false;
     }
     for( size_t i = 0; i < entries.size(); ++i ) {
-        if( entries[i].is_item() && get_entry_cell_cache( i ).denial.empty() ) {
+        if( entries[i].is_item() && get_entry_cell_cache( i ).denial->empty() ) {
             return true;
         }
     }
@@ -1208,8 +1208,12 @@ inventory_entry *inventory_column::add_entry( const inventory_entry &entry )
     }
 
     dest.emplace_back( entry );
-    dest.back().update_cache();
-    return &dest.back();
+    inventory_entry &newent = dest.back();
+    newent.update_cache();
+    newent.denial = preset.get_denial( newent );
+    newent.enabled = newent.denial.empty();
+
+    return &newent;
 }
 
 void inventory_column::move_entries_to( inventory_column &dest )
@@ -1461,7 +1465,7 @@ void inventory_column::draw( const catacurses::window &win, const point &p,
             }
         }
 
-        const std::string &denial = entry_cell_cache.denial;
+        const std::string &denial = *entry_cell_cache.denial;
 
         if( !denial.empty() ) {
             const size_t max_denial_width = std::max( static_cast<int>( get_width() - ( min_denial_gap +
@@ -1469,9 +1473,11 @@ void inventory_column::draw( const catacurses::window &win, const point &p,
             const size_t denial_width = std::min( max_denial_width, static_cast<size_t>( utf8_width( denial,
                                                   true ) ) );
 
-            trim_and_print( win, point( p.x + get_width() - denial_width, yy ),
-                            denial_width,
-                            c_red, denial );
+            if( denial_width > 0 ) {
+                trim_and_print( win, point( p.x + get_width() - denial_width, yy ),
+                                denial_width,
+                                c_red, denial );
+            }
         }
 
         size_t count = denial.empty() ? cells.size() : 1;
@@ -1589,7 +1595,7 @@ void selection_column::reset_width( const std::vector<inventory_column *> &all_c
         if( col && !dynamic_cast<const selection_column *>( col ) ) {
             for( const inventory_entry *const ent : col->get_entries( always_yes ) ) {
                 if( ent ) {
-                    expand_to_fit( *ent );
+                    expand_to_fit( *ent, false );
                 }
             }
         }
@@ -1603,7 +1609,7 @@ void selection_column::prepare_paging( const std::string & )
 
     if( entries.empty() ) { // Category must always persist
         entries.emplace_back( &*selected_cat );
-        expand_to_fit( entries.back() );
+        expand_to_fit( entries.back(), false );
     }
 
     if( !last_changed.is_null() ) {
@@ -1692,7 +1698,7 @@ inventory_entry *inventory_selector::add_entry( inventory_column &target_column,
 
     is_empty = false;
     inventory_entry entry( locations, custom_category,
-                           preset.get_denial( locations.front() ).empty(), chosen_count,
+                           true, chosen_count,
                            entry_generation_number++, topmost_parent, chevron );
 
     entry.collapsed = locations.front()->is_collapsed();
