@@ -635,7 +635,7 @@
     "destination": "mansion_c3",
     "difficulty": 1,
     "value": 0,
-    "start": { "assign_mission_target": { "om_terrain": "mansion_c3", "om_special": "Mansion_Wild", "search_range": 200 } },
+    "start": { "assign_mission_target": { "om_terrain": "mansion_c3", "om_special": "Mansion_Road", "search_range": 200 } },
     "origins": [ "ORIGIN_GAME_START" ]
   },
   {
