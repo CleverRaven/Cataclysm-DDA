@@ -1245,7 +1245,7 @@
         "name": { "str": "cross necklace" },
         "description": "A necklace made of a fine gold chain with a plain cross symbol as a pendant.  It is a symbol of Christian faith, no matter the denomination.",
         "color": "yellow",
-        "weight": 35
+        "weight": 75
       },
       {
         "id": "episcopal_necklace",
