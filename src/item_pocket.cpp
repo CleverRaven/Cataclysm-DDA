@@ -1397,7 +1397,7 @@ ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it ) co
                        _( "can't mix frozen liquid with contained item in the watertight container" ) );
         }
     } else if( data->watertight ) {
-        if( size() == 1 && contents.front().is_frozen_liquid() ) {
+        if( size() == 1 && contents.front().is_frozen_liquid() && !contents.front().can_combine( it ) ) {
             return ret_val<item_pocket::contain_code>::make_failure(
                        contain_code::ERR_LIQUID,
                        _( "can't mix item with contained frozen liquid in the watertight container" ) );
