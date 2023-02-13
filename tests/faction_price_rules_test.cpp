@@ -1,5 +1,6 @@
 #include "avatar.h"
 #include "cata_catch.h"
+#include "dialogue.h"
 #include "itype.h"
 #include "map_selector.h"
 #include "npc.h"
@@ -63,6 +64,7 @@ TEST_CASE( "faction_price_rules", "[npc][factions][trade]" )
     clear_avatar();
     npc &guy = spawn_npc( { 50, 50 }, "test_npc_trader" );
     faction const &fac = *guy.my_fac;
+    dialogue d( get_talker_for( get_avatar() ), get_talker_for( guy ) );
 
     WHEN( "item has no rules (default adjustment)" ) {
         item const hammer( "hammer" );
@@ -77,25 +79,25 @@ TEST_CASE( "faction_price_rules", "[npc][factions][trade]" )
         guy.int_max = 1000;
         guy.set_skill_level( skill_speech, 10 );
         item const fmcnote( "FMCNote" );
-        REQUIRE( npc_trading::adjusted_price( &fmcnote, 1, get_avatar(), guy ) ==
-                 units::to_cent( fmcnote.type->price_post ) );
-        REQUIRE( npc_trading::adjusted_price( &fmcnote, 1, guy, get_avatar() ) ==
-                 units::to_cent( fmcnote.type->price_post ) );
+        CHECK( npc_trading::adjusted_price( &fmcnote, 1, get_avatar(), guy ) ==
+               units::to_cent( fmcnote.type->price_post ) );
+        CHECK( npc_trading::adjusted_price( &fmcnote, 1, guy, get_avatar() ) ==
+               units::to_cent( fmcnote.type->price_post ) );
     }
 
     item const pants_fur( "test_pants_fur" );
     WHEN( "item is secondary currency (fixed_adj=0)" ) {
         get_avatar().int_max = 1000;
         get_avatar().set_skill_level( skill_speech, 10 );
-        REQUIRE( npc_trading::adjusted_price( &pants_fur, 1, get_avatar(), guy ) ==
-                 units::to_cent( pants_fur.type->price_post ) );
-        REQUIRE( npc_trading::adjusted_price( &pants_fur, 1, guy, get_avatar() ) ==
-                 units::to_cent( pants_fur.type->price_post ) );
+        CHECK( npc_trading::adjusted_price( &pants_fur, 1, get_avatar(), guy ) ==
+               units::to_cent( pants_fur.type->price_post ) );
+        CHECK( npc_trading::adjusted_price( &pants_fur, 1, guy, get_avatar() ) ==
+               units::to_cent( pants_fur.type->price_post ) );
     }
     WHEN( "faction desperately needs this item (premium=25)" ) {
         item const multitool( "test_multitool" );
-        REQUIRE( fac.get_price_rules( multitool, guy )->premium == 25 );
-        REQUIRE( fac.get_price_rules( multitool, guy )->markup == 1.1 );
+        REQUIRE( fac.get_price_rules( multitool, guy )->premium.evaluate( d ) == 25 );
+        REQUIRE( fac.get_price_rules( multitool, guy )->markup.evaluate( d ) == 1.1 );
         THEN( "NPC selling to avatar includes premium and markup" ) {
             REQUIRE( npc_trading::adjusted_price( &multitool, 1, get_avatar(), guy ) ==
                      Approx( units::to_cent( multitool.type->price_post ) * 25 * 1.1 ).margin( 1 ) );
@@ -108,7 +110,7 @@ TEST_CASE( "faction_price_rules", "[npc][factions][trade]" )
     WHEN( "faction has a custom price for this item (price=10000000)" ) {
         item const log = GENERATE( item( "log" ), item( "scrap" ) );
         clear_character( guy );
-        double price = *fac.get_price_rules( log, guy )->price;
+        double price = fac.get_price_rules( log, guy )->price->evaluate( d );
         REQUIRE( price == 10000000 );
         if( log.count_by_charges() ) {
             price /= log.type->stack_size;
@@ -117,6 +119,14 @@ TEST_CASE( "faction_price_rules", "[npc][factions][trade]" )
                  Approx( price * 1.25 ).margin( 1 ) );
         REQUIRE( npc_trading::adjusted_price( &log, 1, guy, get_avatar() ) ==
                  Approx( price * 0.75 ).margin( 1 ) );
+    }
+    WHEN( "price evaluated from variable" ) {
+        item almond( "test_bitter_almond" );
+        get_globals().set_global_value( "almonds_price", "901901" );
+        double price =
+            fac.get_price_rules( almond, guy )
+            ->price->evaluate( d );
+        CHECK( price == 901901 );
     }
     item const carafe( "test_nuclear_carafe" );
     WHEN( "condition for price rules not satisfied" ) {
@@ -127,7 +137,7 @@ TEST_CASE( "faction_price_rules", "[npc][factions][trade]" )
     }
     WHEN( "condition for price rules satisfied" ) {
         guy.set_value( "bool_allnighter_thirsty", "yes" );
-        REQUIRE( fac.get_price_rules( carafe, guy )->markup == 2.0 );
+        REQUIRE( fac.get_price_rules( carafe, guy )->markup.evaluate( d ) == 2.0 );
         THEN( "NPC selling to avatar includes markup and positive fixed adjustment" ) {
             REQUIRE( npc_trading::adjusted_price( &carafe, 1, get_avatar(), guy ) ==
                      Approx( units::to_cent( carafe.type->price_post ) * 2.0 * 1.1 ).margin( 1 ) );
@@ -138,17 +148,17 @@ TEST_CASE( "faction_price_rules", "[npc][factions][trade]" )
         }
     }
     WHEN( "personal price rule overrides faction rule" ) {
-        double const fmarkup = fac.get_price_rules( pants_fur, guy )->markup;
-        REQUIRE( guy.get_price_rules( pants_fur )->markup == fmarkup );
+        double const fmarkup = fac.get_price_rules( pants_fur, guy )->markup.evaluate( d );
+        REQUIRE( guy.get_price_rules( pants_fur )->markup.evaluate( d ) == fmarkup );
         REQUIRE( fmarkup != - 100 );
         guy.set_value( "bool_preference_vegan", "yes" );
-        REQUIRE( guy.get_price_rules( pants_fur )->markup == -100 );
+        CHECK( guy.get_price_rules( pants_fur )->markup.evaluate( d ) == -100 );
     }
     WHEN( "price rule affects magazine contents" ) {
         clear_character( guy );
         item const battery( "battery" );
         item tbd( "test_battery_disposable" );
-        int const battery_price = *guy.get_price_rules( battery )->price;
+        int const battery_price = guy.get_price_rules( battery )->price->evaluate( d );
         REQUIRE( battery.price( true ) != battery_price );
         trade_selector::entry_t tbd_entry{
             item_location{ map_cursor( tripoint_bub_ms( tripoint_zero ) ), &tbd }, 1 };

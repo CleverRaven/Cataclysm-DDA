@@ -13,6 +13,7 @@
     "currency": "FMCNote",
     "price_rules": [
       { "item": "test_pants_fur", "fixed_adj": 0 },
+      { "item": "test_bitter_almond", "price": { "global_val": "almonds_price" } },
       {
         "item": "test_nuclear_carafe",
         "markup": 2.0,

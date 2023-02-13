@@ -15,6 +15,7 @@
 #include "character_id.h"
 #include "color.h"
 #include "generic_factory.h"
+#include "dialogue_helpers.h"
 #include "shop_cons_rate.h"
 #include "stomach.h"
 #include "translation.h"
@@ -73,17 +74,15 @@ const std::unordered_map<std::string, relationship> relation_strs = { {
 } // namespace npc_factions
 
 struct faction_price_rule: public icg_entry {
-    double markup = 1.0;
-    double premium = 1.0;
-    std::optional<double> fixed_adj = std::nullopt;
-    std::optional<int> price = std::nullopt;
+    dbl_or_var markup{ 1.0 };
+    dbl_or_var premium{ 1.0 };
+    std::optional<dbl_or_var> fixed_adj = std::nullopt;
+    std::optional<dbl_or_var> price = std::nullopt;
 
     faction_price_rule() = default;
     faction_price_rule( itype_id const &id, double m, double f )
         : icg_entry{ id, {}, {}, {}, {} }, markup( m ), fixed_adj( f ) {};
     explicit faction_price_rule( icg_entry const &rhs ) : icg_entry( rhs ) {}
-
-    void deserialize( JsonObject const &jo );
 };
 
 class faction_price_rules_reader : public generic_typed_reader<faction_price_rules_reader>

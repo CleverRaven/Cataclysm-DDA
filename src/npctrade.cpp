@@ -1,7 +1,6 @@
 #include "npctrade.h"
 
 #include <algorithm>
-#include <iosfwd>
 #include <iterator>
 #include <list>
 #include <ostream>
@@ -11,6 +10,7 @@
 #include "avatar.h"
 #include "character.h"
 #include "debug.h"
+#include "dialogue.h"
 #include "faction.h"
 #include "item.h"
 #include "item_category.h" // IWYU pragma: keep
@@ -164,12 +164,15 @@ int npc_trading::adjusted_price( item const *it, int amount, Character const &bu
 {
     npc const *faction_party = buyer.is_npc() ? buyer.as_npc() : seller.as_npc();
     faction_price_rule const *const fpr = faction_party->get_price_rules( *it );
+    const_dialogue d( get_const_talker_for( get_avatar() ), get_const_talker_for( *faction_party ) );
 
-    double price = it->price_no_contents( true, fpr != nullptr ? fpr->price : std::nullopt );
+    double price = it->price_no_contents(
+                       true, fpr != nullptr && fpr->price ? std::optional<int>( fpr->price->evaluate( d ) )
+                       : std::nullopt );
     if( fpr != nullptr ) {
-        price *= fpr->premium;
+        price *= fpr->premium.evaluate( d );
         if( seller.is_npc() ) {
-            price *= fpr->markup;
+            price *= fpr->markup.evaluate( d );
         }
     }
     if( it->count_by_charges() && amount >= 0 ) {
@@ -182,7 +185,7 @@ int npc_trading::adjusted_price( item const *it, int amount, Character const &bu
     }
 
     if( fpr != nullptr && fpr->fixed_adj.has_value() ) {
-        double const fixed_adj = fpr->fixed_adj.value();
+        double const fixed_adj = fpr->fixed_adj->evaluate( d );
         price *= 1 + ( seller.is_npc() ? fixed_adj : -fixed_adj );
     } else {
         double const adjust = npc_trading::net_price_adjustment( buyer, seller );
