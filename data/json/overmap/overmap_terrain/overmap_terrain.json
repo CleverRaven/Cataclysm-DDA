@@ -606,12 +606,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [
-      "campground_1a",
-      "campground_1b",
-      "campground_2a",
-      "campground_2b"
-    ],
+    "id": [ "campground_1a", "campground_1b", "campground_2a", "campground_2b" ],
     "name": "campground",
     "sym": "+",
     "color": "i_green",
