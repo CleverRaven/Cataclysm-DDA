@@ -1338,7 +1338,7 @@ bool item_contents::has_any_with( const std::function<bool( const item &it )> &f
     return false;
 }
 
-bool item_contents::stacks_with( const item_contents &rhs ) const
+bool item_contents::stacks_with( const item_contents &rhs, int depth, int maxdepth ) const
 {
     if( contents.size() != rhs.contents.size() ) {
         return false;
@@ -1346,8 +1346,8 @@ bool item_contents::stacks_with( const item_contents &rhs ) const
     return ( empty() && rhs.empty() ) ||
            std::equal( contents.begin(), contents.end(),
                        rhs.contents.begin(),
-    []( const item_pocket & a, const item_pocket & b ) {
-        return a.stacks_with( b );
+    [depth, maxdepth]( const item_pocket & a, const item_pocket & b ) {
+        return a.stacks_with( b, depth, maxdepth );
     } );
 }
 

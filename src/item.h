@@ -591,7 +591,7 @@ class item : public visitable
          */
         bool display_stacked_with( const item &rhs, bool check_components = false ) const;
         bool stacks_with( const item &rhs, bool check_components = false,
-                          bool combine_liquid = false ) const;
+                          bool combine_liquid = false, int depth = 0, int maxdepth = 2 ) const;
 
         /**
          * Whether the two items have same contents.

@@ -324,7 +324,7 @@ class item_contents
         void leak( map &here, Character *carrier, const tripoint &pos, item_pocket *pocke = nullptr );
 
         bool item_has_uses_recursive() const;
-        bool stacks_with( const item_contents &rhs ) const;
+        bool stacks_with( const item_contents &rhs, int depth = 0, int maxdepth = 2 ) const;
         bool same_contents( const item_contents &rhs ) const;
         // can this item be used as a funnel?
         bool is_funnel_container( units::volume &bigger_than ) const;

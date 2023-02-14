@@ -405,15 +405,16 @@ bool item_pocket::better_pocket( const item_pocket &rhs, const item &it, bool ne
     return rhs.obtain_cost( it ) < obtain_cost( it );
 }
 
-bool item_pocket::stacks_with( const item_pocket &rhs ) const
+bool item_pocket::stacks_with( const item_pocket &rhs, int depth, int maxdepth ) const
 {
     if( _sealed != rhs._sealed ) {
         return false;
     }
     return ( empty() && rhs.empty() ) || std::equal( contents.begin(), contents.end(),
             rhs.contents.begin(), rhs.contents.end(),
-    []( const item & a, const item & b ) {
-        return a.charges == b.charges && a.stacks_with( b );
+    [depth, maxdepth]( const item & a, const item & b ) {
+        return depth < maxdepth && a.charges == b.charges &&
+               a.stacks_with( b, false, false, depth + 1, maxdepth );
     } );
 }
 
