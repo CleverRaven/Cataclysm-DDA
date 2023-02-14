@@ -65,21 +65,21 @@
         "max_duration": 15
       },
       {
-        "id": "staggered",
+        "id": "staggered_character",
         "dmg_type": "bash",
         "dmg_threshold": 5,
         "dmg_scale_increment": 5,
-        "chance": 10,
+        "chance": 20,
         "chance_dmg_scaling": 10,
         "duration": 5,
         "duration_dmg_scaling": 2,
         "max_duration": 15
       },
       {
-        "id": "staggered",
+        "id": "staggered_character",
         "dmg_threshold": 15,
         "dmg_scale_increment": 5,
-        "chance": 10,
+        "chance": 20,
         "chance_dmg_scaling": 10,
         "duration": 5,
         "duration_dmg_scaling": 2,
@@ -323,6 +323,27 @@
         "duration": 60,
         "duration_dmg_scaling": 60,
         "max_duration": 1800
+      },
+      {
+        "id": "staggered_character",
+        "dmg_type": "bash",
+        "dmg_threshold": 5,
+        "dmg_scale_increment": 5,
+        "chance": 20,
+        "chance_dmg_scaling": 10,
+        "duration": 5,
+        "duration_dmg_scaling": 2,
+        "max_duration": 15
+      },
+      {
+        "id": "staggered_character",
+        "dmg_threshold": 10,
+        "dmg_scale_increment": 5,
+        "chance": 20,
+        "chance_dmg_scaling": 10,
+        "duration": 5,
+        "duration_dmg_scaling": 2,
+        "max_duration": 15
       }
     ],
     "sub_parts": [ "arm_shoulder_l", "arm_upper_l", "arm_elbow_l", "arm_lower_l" ]
@@ -384,6 +405,27 @@
         "duration": 60,
         "duration_dmg_scaling": 60,
         "max_duration": 1800
+      },
+      {
+        "id": "staggered_character",
+        "dmg_type": "bash",
+        "dmg_threshold": 5,
+        "dmg_scale_increment": 5,
+        "chance": 20,
+        "chance_dmg_scaling": 10,
+        "duration": 5,
+        "duration_dmg_scaling": 2,
+        "max_duration": 15
+      },
+      {
+        "id": "staggered_character",
+        "dmg_threshold": 10,
+        "dmg_scale_increment": 5,
+        "chance": 20,
+        "chance_dmg_scaling": 10,
+        "duration": 5,
+        "duration_dmg_scaling": 2,
+        "max_duration": 15
       }
     ],
     "sub_parts": [ "arm_shoulder_r", "arm_upper_r", "arm_elbow_r", "arm_lower_r" ]
