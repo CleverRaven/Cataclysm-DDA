@@ -1892,7 +1892,6 @@
       { "item": "water_clean", "container-item": "null", "charges": 1 },
       { "item": "chem_ethanol", "container-item": "null", "charges": [ 200, 240 ] }
     ],
-    "byproducts": [ [ "water_clean", 1 ] ],
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
     "skill_used": "chemistry",
@@ -1936,7 +1935,6 @@
       { "item": "water_clean", "container-item": "null", "charges": 1 },
       { "item": "chem_ethanol", "container-item": "null", "charges": [ 200, 240 ] }
     ],
-    "byproducts": [ [ "water_clean", 1 ] ],
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
     "skill_used": "chemistry",
