@@ -106,6 +106,7 @@
     "components": [
       [
         [ "ant_egg", 1 ],
+        [ "ant_egg_acid", 1 ],
         [ "egg_roach", 4 ],
         [ "egg_roach_plague", 4 ],
         [ "egg_locust", 4 ],

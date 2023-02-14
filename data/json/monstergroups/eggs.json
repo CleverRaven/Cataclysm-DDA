@@ -116,6 +116,11 @@
     "monsters": [ { "monster": "mon_ant_larva" } ]
   },
   {
+    "name": "GROUP_EGG_ANT_ACID",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_ant_acid_larva" } ]
+  },
+  {
     "name": "GROUP_EGG_CENTIPEDE",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_centipede_larva" } ]

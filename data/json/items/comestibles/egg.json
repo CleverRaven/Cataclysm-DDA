@@ -202,6 +202,14 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "ant_egg_acid",
+    "name": { "str": "acid ant egg" },
+    "copy-from": "ant_egg",
+    "description": "A large, heavy acid ant egg, the size of a softball.  Extremely nutritious, but incredibly gross.",
+    "rot_spawn": "GROUP_EGG_ANT_ACID"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_roach",
     "name": { "str": "roach egg" },
     "description": "A fist-sized egg from a giant roach.  Incredibly gross.",
