@@ -376,11 +376,6 @@ float Character::hit_roll() const
         hit -= 2.0f;
     }
 
-    //Unstable ground chance of failure
-    if( has_effect( effect_bouldering ) ) {
-        hit *= 0.75f;
-    }
-
     hit *= get_modifier( character_modifier_melee_attack_roll_mod );
 
     return melee::melee_hit_range( hit );
@@ -1157,10 +1152,6 @@ float Character::get_dodge() const
         worn_with_flag( flag_ROLLER_QUAD ) ||
         worn_with_flag( flag_ROLLER_ONE ) ) {
         ret /= has_trait( trait_PROF_SKATER ) ? 2 : 5;
-    }
-
-    if( has_effect( effect_bouldering ) ) {
-        ret /= 4;
     }
 
     // Ensure no attempt to dodge without sources of extra dodges, eg martial arts

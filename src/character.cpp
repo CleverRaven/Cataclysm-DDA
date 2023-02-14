@@ -3784,9 +3784,9 @@ int Character::get_arm_str() const
 
 int Character::get_eff_per() const
 {
-    return Character::get_per() * get_limb_score( limb_score_vision ) + int( Character::has_proficiency(
+    return ( Character::get_per() + int( Character::has_proficiency(
                 proficiency_prof_spotting ) ) *
-           Character::get_per_base();
+           Character::get_per_base() ) * get_limb_score( limb_score_vision ) ;
 }
 
 int Character::ranged_dex_mod() const

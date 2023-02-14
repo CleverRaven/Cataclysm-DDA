@@ -1366,6 +1366,12 @@ void Creature::add_effect( const effect_source &source, const efftype_id &eff_id
         bp = bp->main_part;
     }
 
+    // Filter out bodypart immunity
+    for( json_character_flag flag : eff_id->immune_bp_flags )
+        if( bp->has_flag( flag ) ) {
+            return;
+        }
+
     bool found = false;
     // Check if we already have it
     auto matching_map = effects->find( eff_id );
@@ -1634,8 +1640,8 @@ std::vector<effect> Creature::get_effects_from_bp( const bodypart_id &bp ) const
     std::vector<effect> effs;
     for( auto &elem : *effects ) {
         for( const std::pair<const bodypart_id, effect> &_it : elem.second ) {
-            if( _it.first == bp){
-            effs.push_back( _it.second );
+            if( _it.first == bp ) {
+                effs.push_back( _it.second );
             }
         }
     }

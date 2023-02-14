@@ -167,6 +167,7 @@ class effect_type
         }
         std::vector<enchantment_id> enchantments;
         cata::flat_set<json_character_flag> immune_flags;
+        cata::flat_set<json_character_flag> immune_bp_flags;
     protected:
         uint32_t get_effect_modifier_key( mod_action action, uint8_t reduction_level ) const {
             return static_cast<uint8_t>( action ) << 0 |

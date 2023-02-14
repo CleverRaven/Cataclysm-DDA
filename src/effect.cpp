@@ -1364,9 +1364,9 @@ float effect::get_limb_score_mod( const limb_score_id &score, bool reduced ) con
         float temp = 1.0f;
         if( score == effect.score_id ) {
             if( !reduced ) {
-                temp = effect.mod + effect.scaling * intensity;
+                temp = effect.mod + effect.scaling * ( intensity - 1 );
             } else {
-                temp = effect.red_mod + effect.red_scaling * intensity;
+                temp = effect.red_mod + effect.red_scaling * ( intensity - 1 );
             }
             ret *= std::max( 0.0f, temp );
         }
@@ -1467,6 +1467,7 @@ void load_effect_type( const JsonObject &jo )
         new_etype.resist_effects.emplace_back( f );
     }
     optional( jo, false, "immune_flags", new_etype.immune_flags );
+    optional( jo, false, "immune_bp_flags", new_etype.immune_bp_flags );
     for( auto &&f : jo.get_string_array( "removes_effects" ) ) { // *NOPAD*
         new_etype.removes_effects.emplace_back( f );
     }

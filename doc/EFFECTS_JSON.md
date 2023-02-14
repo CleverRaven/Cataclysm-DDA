@@ -205,6 +205,14 @@ Effects can only have one "resist_trait" and one "resist_effect" at a time.
 ```
 Having any of the defined character flags (See JSON_FLAGS.md#Character flags) will make you immune to the effect. Note that these are completely JSON-driven, so you can add a custom flag for your effect without C++ changes.
 
+### Bodypart Immunity Flags
+
+´´´JSON
+"immune_bp_flags": [ "LIMB_UPPER" ]
+````
+
+When applying the effect to a bodypart directly the part in question having this JSON character flag will prevent the effect from applying.
+
 ### Removes effects
 ```C++
     "removes_effects": ["bite", "flu"]
@@ -365,8 +373,8 @@ For `chance_kill` and `chance_kill_resist`, it accepts an array of arrays in the
 - "limb_score"        Mandatory, string id of the limb score in question
 - "modifier"          Optional float (default 1.0), the multiplier on the limb score at effect intensity 1
 - "resist_modifier"   Optional float (default 1.0), the multiplier on the limb score at effect intensity 1 when the character resists the effect
-- "scaling"           Optional float (default 0.0), amount added to the multiplier on every intensity level
-- "resist_scaling"    Optional float (default 0.0), amount added to the multiplier on every intensity level when the character resists the effect
+- "scaling"           Optional float (default 0.0), amount added to the multiplier on every intensity level above 1
+- "resist_scaling"    Optional float (default 0.0), amount added to the multiplier on every intensity level above 1 when the character resists the effect
 
 
 Limb score modifiers work as multipliers in the limb score calculations.  The example modifier will halve the non-resistant player's lift score at intensity 1 and decrease it by 10% of the start value for every successive intensity level (*0.4 at int 2, *0.3 at int 3 etc.), while decreasing a resistant character's lift score by 25% and intensifying in 5% steps (*0.70 at int 2, *0.65 at int 3).  Limb score modifiers are applied after health/encumbrance penalties multiplicatively (ex. 1.0 starting lift score reduced by two *0.5 modifiers equals 0.25, not 0), and separate instances of the same effect applied to separate bodyparts will be counted separately (ex. two instances of "staggered" on a character's arms will each apply their limb score modifiers).
