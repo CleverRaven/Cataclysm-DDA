@@ -10770,10 +10770,10 @@ void Character::recalc_speed_bonus()
         }
         const float temperature_speed_modifier = mutation_value( "temperature_speed_modifier" );
         if( temperature_speed_modifier != 0 ) {
-            const int climate_control = climate_control_strength(); 
+            const int climate_control = climate_control_strength().first; 
             const units::temperature player_local_temp = get_weather().get_temperature( pos() );
-            if( has_flag( json_flag_ECTOTHERM ) || player_local_temp + climate_control.first / 2 < units::from_fahrenheit( 65 ) ) {
-                mod_speed_bonus( ( units::to_fahrenheit( player_local_temp ) - 65 + climate_control.first / 2 ) * temperature_speed_modifier );
+            if( has_flag( json_flag_ECTOTHERM ) || player_local_temp + climate_control < units::from_fahrenheit( 65 ) ) {
+                mod_speed_bonus( ( units::to_fahrenheit( player_local_temp ) - 65 + climate_control ) * temperature_speed_modifier );
             }
         }
     }
