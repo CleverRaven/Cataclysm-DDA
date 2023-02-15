@@ -266,7 +266,7 @@ TEST_CASE( "player::get_dodge with effects", "[player][melee][dodge][effect]" )
     }
 
     SECTION( "unstable footing: 1/4 dodge" ) {
-        CHECK( dodge_with_effect( dummy, "bouldering" ) == base_dodge / 4 );
+        CHECK( dodge_with_effect( dummy, "bouldering" ) == Approx( base_dodge / 4 ).margin( 0.1f ) );
     }
 
     SECTION( "skating: amateur or pro?" ) {

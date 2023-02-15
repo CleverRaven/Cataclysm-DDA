@@ -539,7 +539,7 @@
     "apply_message": "You try to keep your balance.",
     "resist_traits": [ "GASTROPOD_BALANCE" ],
     "rating": "bad",
-    "limb_score_mods": [ { "limb_score": "balance", "modifier": 0.75 }, { "limb_score": "footing", "modifier": 0.2 } ],
+    "limb_score_mods": [ { "limb_score": "balance", "modifier": 0.75 }, { "limb_score": "footing", "modifier": 0.4 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
