@@ -3283,7 +3283,7 @@
       [ [ "tongs", -1 ] ],
       [ [ "hotcut", -1 ] ],
       [ [ "metal_tank", -1 ] ],
-      [ [ "water", -240 ], [ "water_clean", -240 ], [ "water_clean", -240 ] ]
+      [ [ "water", -240 ], [ "water_clean", -240 ] ]
     ]
   },
   {
