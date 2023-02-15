@@ -969,10 +969,11 @@ static void draw_speed_tab( const catacurses::window &w_speed,
     }
 
     const float temperature_speed_modifier = you.mutation_value( "temperature_speed_modifier" );
+    const int climate_control = you.climate_control_strength().first; 
     if( temperature_speed_modifier != 0 ) {
         nc_color pen_color;
         std::string pen_sign;
-        const units::temperature player_local_temp = get_weather().get_temperature( you.pos() );
+        const units::temperature player_local_temp = get_weather().get_temperature( you.pos() ) + units::from_fahrenheit( climate_control );
         if( you.has_flag( json_flag_ECTOTHERM ) && player_local_temp > units::from_fahrenheit( 65 ) ) {
             pen_color = c_green;
             pen_sign = "+";
@@ -981,7 +982,7 @@ static void draw_speed_tab( const catacurses::window &w_speed,
             pen_sign = "-";
         }
         if( !pen_sign.empty() ) {
-            pen = ( units::to_fahrenheit( player_local_temp ) - 65 ) * temperature_speed_modifier;
+            pen = ( units::to_fahrenheit( player_local_temp ) - 65 + climate_control ) * temperature_speed_modifier;
             mvwprintz( w_speed, point( 1, line ), pen_color,
                        //~ %s: sign of bonus/penalty, %2d: speed bonus/penalty
                        pgettext( "speed modifier", "Cold-Blooded        %s%2d%%" ), pen_sign, std::abs( pen ) );
