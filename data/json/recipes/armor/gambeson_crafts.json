@@ -1,6 +1,6 @@
 [
   {
-    "result": "aketon_canvas_layered",
+    "result": "aketon_canvas",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "//": "67 canvas sheets by weight, plus extra filament_canvas for quilting threads. Then add 20% more solely converted to byproducts.",
@@ -20,29 +20,29 @@
     "byproducts": [ [ "scrap_canvas", 312 ], [ "canvas_patch", 26 ] ]
   },
   {
-    "result": "xl_aketon_canvas_layered",
+    "result": "xl_aketon_canvas",
     "//": "100 canvas sheets by weight, plus extra filament_canvas for quilting threads. Then add 20% more solely converted to byproducts.",
     "//3": "byproducts are 25% patches and 75% scraps (32 scrap per sheet, 8 patch per sheet)",
     "type": "recipe",
-    "copy-from": "aketon_canvas_layered",
+    "copy-from": "aketon_canvas",
     "time": "57 h",
     "using": [ [ "filament_canvas", 150 ], [ "tailoring_canvas_patchwork", 120 ], [ "fastener_large", 2 ], [ "fastener_small", 14 ] ],
     "components": [ [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ] ],
     "byproducts": [ [ "scrap_canvas", 480 ], [ "canvas_patch", 40 ] ]
   },
   {
-    "result": "xs_aketon_canvas_layered",
+    "result": "xs_aketon_canvas",
     "//": "50 canvas sheets by weight, plus extra filament_canvas for quilting threads. Then add 20% more solely converted to byproducts.",
     "//3": "byproducts are 25% patches and 75% scraps (32 scrap per sheet, 8 patch per sheet)",
     "type": "recipe",
-    "copy-from": "aketon_canvas_layered",
+    "copy-from": "aketon_canvas",
     "time": "29 h",
     "using": [ [ "filament_canvas", 75 ], [ "tailoring_canvas_patchwork", 60 ], [ "fastener_large", 2 ], [ "fastener_small", 8 ] ],
     "components": [ [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ] ],
     "byproducts": [ [ "scrap_canvas", 240 ], [ "canvas_patch", 20 ] ]
   },
   {
-    "result": "aketon_canvas_layered_vest",
+    "result": "aketon_canvas_vest",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "//": "49 canvas sheets by weight, plus extra filament_canvas for quilting threads. Then add 20% more solely converted to byproducts.",
@@ -62,29 +62,29 @@
     "byproducts": [ [ "scrap_canvas", 240 ], [ "canvas_patch", 20 ] ]
   },
   {
-    "result": "xl_aketon_canvas_layered_vest",
+    "result": "xl_aketon_canvas_vest",
     "//": "75 canvas sheets by weight, plus extra filament_canvas for quilting threads. Then add 20% more solely converted to byproducts.",
     "//3": "byproducts are 25% patches and 75% scraps (32 scrap per sheet, 8 patch per sheet)",
     "type": "recipe",
-    "copy-from": "aketon_canvas_layered_vest",
+    "copy-from": "aketon_canvas_vest",
     "time": "30 h",
     "using": [ [ "filament_canvas", 105 ], [ "tailoring_canvas_patchwork", 90 ], [ "fastener_large", 2 ] ],
     "components": [ [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ] ],
     "byproducts": [ [ "scrap_canvas", 360 ], [ "canvas_patch", 30 ] ]
   },
   {
-    "result": "xs_aketon_canvas_layered_vest",
+    "result": "xs_aketon_canvas_vest",
     "//": "38 canvas sheets by weight, plus extra filament_canvas for quilting threads. Then add 20% more solely converted to byproducts.",
     "//3": "byproducts are 25% patches and 75% scraps (32 scrap per sheet, 8 patch per sheet)",
     "type": "recipe",
-    "copy-from": "aketon_canvas_layered_vest",
+    "copy-from": "aketon_canvas_vest",
     "time": "15 h",
     "using": [ [ "filament_canvas", 53 ], [ "tailoring_canvas_patchwork", 45 ], [ "fastener_large", 2 ] ],
     "components": [ [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ] ],
     "byproducts": [ [ "scrap_canvas", 180 ], [ "canvas_patch", 15 ] ]
   },
   {
-    "result": "aketon_pants_canvas_layered",
+    "result": "aketon_pants_canvas",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "//": "36 canvas sheets by weight, plus extra filament_canvas for quilting threads. Then add 20% more solely converted to byproducts.",
@@ -103,29 +103,29 @@
     "byproducts": [ [ "scrap_canvas", 144 ], [ "canvas_patch", 12 ] ]
   },
   {
-    "result": "xl_aketon_pants_canvas_layered",
+    "result": "xl_aketon_pants_canvas",
     "//": "54 canvas sheets by weight, plus extra filament_canvas for quilting threads. Then add 20% more solely converted to byproducts.",
     "//3": "byproducts are 25% patches and 75% scraps (32 scrap per sheet, 8 patch per sheet)",
     "type": "recipe",
-    "copy-from": "aketon_pants_canvas_layered",
+    "copy-from": "aketon_pants_canvas",
     "time": "36 h",
     "using": [ [ "filament_canvas", 60 ], [ "tailoring_canvas_patchwork", 63 ], [ "fastener_small", 7 ] ],
     "components": [ [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ] ],
     "byproducts": [ [ "scrap_canvas", 216 ], [ "canvas_patch", 18 ] ]
   },
   {
-    "result": "xs_aketon_pants_canvas_layered",
+    "result": "xs_aketon_pants_canvas",
     "//": "27 canvas sheets by weight, plus extra filament_canvas for quilting threads. Then add 20% more solely converted to byproducts.",
     "//3": "byproducts are 25% patches and 75% scraps (32 scrap per sheet, 8 patch per sheet)",
     "type": "recipe",
-    "copy-from": "aketon_pants_canvas_layered",
+    "copy-from": "aketon_pants_canvas",
     "time": "18 h",
     "using": [ [ "filament_canvas", 30 ], [ "tailoring_canvas_patchwork", 31 ], [ "fastener_small", 5 ] ],
     "components": [ [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ] ],
     "byproducts": [ [ "scrap_canvas", 108 ], [ "canvas_patch", 9 ] ]
   },
   {
-    "result": "aketon_hood_canvas_layered",
+    "result": "aketon_hood_canvas",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "//": "10 canvas sheets by weight, plus extra filament_canvas for quilting threads. Then add 20% more solely converted to byproducts.",
@@ -142,27 +142,27 @@
     "byproducts": [ [ "scrap_canvas", 48 ], [ "canvas_patch", 4 ] ]
   },
   {
-    "result": "xl_aketon_hood_canvas_layered",
+    "result": "xl_aketon_hood_canvas",
     "//": "15 canvas sheets by weight, plus extra filament_canvas for quilting threads. Then add 20% more solely converted to byproducts.",
     "//3": "byproducts are 25% patches and 75% scraps (32 scrap per sheet, 8 patch per sheet)",
     "type": "recipe",
-    "copy-from": "aketon_hood_canvas_layered",
+    "copy-from": "aketon_hood_canvas",
     "time": "9 h",
     "using": [ [ "filament_canvas", 15 ], [ "tailoring_canvas_patchwork", 18 ], [ "fastener_small", 4 ] ],
     "byproducts": [ [ "scrap_canvas", 72 ], [ "canvas_patch", 6 ] ]
   },
   {
-    "result": "xs_aketon_hood_canvas_layered",
+    "result": "xs_aketon_hood_canvas",
     "//": "8 canvas sheets by weight, plus extra filament_canvas for quilting threads. Then add 20% more solely converted to byproducts.",
     "//3": "byproducts are 25% patches and 75% scraps (32 scrap per sheet, 8 patch per sheet)",
     "type": "recipe",
-    "copy-from": "aketon_hood_canvas_layered",
+    "copy-from": "aketon_hood_canvas",
     "time": "5 h",
     "using": [ [ "filament_canvas", 8 ], [ "tailoring_canvas_patchwork", 9 ], [ "fastener_small", 2 ] ],
     "byproducts": [ [ "scrap_canvas", 36 ], [ "canvas_patch", 3 ] ]
   },
   {
-    "result": "aketon_gloves_canvas_layered",
+    "result": "aketon_gloves_canvas",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "//": "4 canvas sheets by weight, plus extra filament_canvas for quilting threads",
@@ -179,27 +179,27 @@
     "byproducts": [ [ "scrap_canvas", 24 ], [ "canvas_patch", 2 ] ]
   },
   {
-    "result": "xl_aketon_gloves_canvas_layered",
+    "result": "xl_aketon_gloves_canvas",
     "//": "6 canvas sheets by weight, plus extra filament_canvas for quilting threads. Then add 20% more solely converted to byproducts.",
     "//3": "byproducts are 25% patches and 75% scraps (32 scrap per sheet, 8 patch per sheet)",
     "type": "recipe",
-    "copy-from": "aketon_gloves_canvas_layered",
+    "copy-from": "aketon_gloves_canvas",
     "time": "9 h",
     "using": [ [ "filament_canvas", 15 ], [ "tailoring_canvas_patchwork", 6 ], [ "fastener_small", 2 ] ],
     "byproducts": [ [ "scrap_canvas", 36 ], [ "canvas_patch", 3 ] ]
   },
   {
-    "result": "xs_aketon_gloves_canvas_layered",
+    "result": "xs_aketon_gloves_canvas",
     "//": "3 canvas sheets by weight, plus extra filament_canvas for quilting threads. Then add 20% more solely converted to byproducts.",
     "//3": "byproducts are 25% patches and 75% scraps (32 scrap per sheet, 8 patch per sheet)",
     "type": "recipe",
-    "copy-from": "aketon_gloves_canvas_layered",
+    "copy-from": "aketon_gloves_canvas",
     "time": "5 h",
     "using": [ [ "filament_canvas", 8 ], [ "tailoring_canvas_patchwork", 4 ], [ "fastener_small", 2 ] ],
     "byproducts": [ [ "scrap_canvas", 18 ], [ "canvas_patch", 1 ] ]
   },
   {
-    "result": "gambeson_canvas_layered",
+    "result": "gambeson_canvas",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "//": "141 canvas sheets by weight, plus extra filament_canvas for quilting threads. Then add 20% more solely converted to byproducts.",
@@ -219,29 +219,29 @@
     "byproducts": [ [ "scrap_canvas", 672 ], [ "canvas_patch", 56 ] ]
   },
   {
-    "result": "xl_gambeson_canvas_layered",
+    "result": "xl_gambeson_canvas",
     "//": "211 canvas sheets by weight, plus extra filament_canvas for quilting threads. Then add 20% more solely converted to byproducts.",
     "//3": "byproducts are 25% patches and 75% scraps (32 scrap per sheet, 8 patch per sheet)",
     "type": "recipe",
-    "copy-from": "gambeson_canvas_layered",
+    "copy-from": "gambeson_canvas",
     "time": "120 h",
     "using": [ [ "filament_canvas", 225 ], [ "tailoring_canvas_patchwork", 253 ], [ "fastener_large", 2 ], [ "fastener_small", 14 ] ],
     "components": [ [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ] ],
     "byproducts": [ [ "scrap_canvas", 1008 ], [ "canvas_patch", 84 ] ]
   },
   {
-    "result": "xs_gambeson_canvas_layered",
+    "result": "xs_gambeson_canvas",
     "//": "106 canvas sheets by weight, plus extra filament_canvas for quilting threads. Then add 20% more solely converted to byproducts.",
     "//3": "byproducts are 25% patches and 75% scraps (32 scrap per sheet, 8 patch per sheet)",
     "type": "recipe",
-    "copy-from": "gambeson_canvas_layered",
+    "copy-from": "gambeson_canvas",
     "time": "60 h",
     "using": [ [ "filament_canvas", 114 ], [ "tailoring_canvas_patchwork", 127 ], [ "fastener_large", 2 ], [ "fastener_small", 8 ] ],
     "components": [ [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ] ],
     "byproducts": [ [ "scrap_canvas", 504 ], [ "canvas_patch", 42 ] ]
   },
   {
-    "result": "gambeson_canvas_layered_thinsleeved",
+    "result": "gambeson_canvas_thinsleeved",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "//": "123 canvas sheets by weight, plus extra filament_canvas for quilting threads. Then add 20% more solely converted to byproducts.",
@@ -261,29 +261,29 @@
     "byproducts": [ [ "scrap_canvas", 600 ], [ "canvas_patch", 50 ] ]
   },
   {
-    "result": "xl_gambeson_canvas_layered_thinsleeved",
+    "result": "xl_gambeson_canvas_thinsleeved",
     "//": "185 canvas sheets by weight, plus extra filament_canvas for quilting threads. Then add 20% more solely converted to byproducts.",
     "//3": "byproducts are 25% patches and 75% scraps (32 scrap per sheet, 8 patch per sheet)",
     "type": "recipe",
-    "copy-from": "gambeson_canvas_layered_thinsleeved",
+    "copy-from": "gambeson_canvas_thinsleeved",
     "time": "105 h",
     "using": [ [ "filament_canvas", 210 ], [ "tailoring_canvas_patchwork", 222 ], [ "fastener_large", 2 ], [ "fastener_small", 14 ] ],
     "components": [ [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ] ],
     "byproducts": [ [ "scrap_canvas", 888 ], [ "canvas_patch", 74 ] ]
   },
   {
-    "result": "xs_gambeson_canvas_layered_thinsleeved",
+    "result": "xs_gambeson_canvas_thinsleeved",
     "//": "92 canvas sheets by weight, plus extra filament_canvas for quilting threads. Then add 20% more solely converted to byproducts.",
     "//3": "byproducts are 25% patches and 75% scraps (32 scrap per sheet, 8 patch per sheet)",
     "type": "recipe",
-    "copy-from": "gambeson_canvas_layered_thinsleeved",
+    "copy-from": "gambeson_canvas_thinsleeved",
     "time": "54 h",
     "using": [ [ "filament_canvas", 105 ], [ "tailoring_canvas_patchwork", 110 ], [ "fastener_large", 2 ], [ "fastener_small", 8 ] ],
     "components": [ [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ] ],
     "byproducts": [ [ "scrap_canvas", 444 ], [ "canvas_patch", 37 ] ]
   },
   {
-    "result": "gambeson_canvas_layered_vest",
+    "result": "gambeson_canvas_vest",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "//": "105 canvas sheets by weight, plus extra filament_canvas for quilting threads. Then add 20% more solely converted to byproducts.",
@@ -303,29 +303,29 @@
     "byproducts": [ [ "scrap_canvas", 504 ], [ "canvas_patch", 42 ] ]
   },
   {
-    "result": "xl_gambeson_canvas_layered_vest",
+    "result": "xl_gambeson_canvas_vest",
     "//": "158 canvas sheets by weight, plus extra filament_canvas for quilting threads. Then add 20% more solely converted to byproducts.",
     "//3": "byproducts are 25% patches and 75% scraps (32 scrap per sheet, 8 patch per sheet)",
     "type": "recipe",
-    "copy-from": "gambeson_canvas_layered_vest",
+    "copy-from": "gambeson_canvas_vest",
     "time": "63 h",
     "using": [ [ "filament_canvas", 135 ], [ "tailoring_canvas_patchwork", 190 ], [ "fastener_large", 2 ] ],
     "components": [ [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ] ],
     "byproducts": [ [ "scrap_canvas", 768 ], [ "canvas_patch", 64 ] ]
   },
   {
-    "result": "xs_gambeson_canvas_layered_vest",
+    "result": "xs_gambeson_canvas_vest",
     "//": "77 canvas sheets by weight, plus extra filament_canvas for quilting threads. Then add 20% more solely converted to byproducts.",
     "//3": "byproducts are 25% patches and 75% scraps (32 scrap per sheet, 8 patch per sheet)",
     "type": "recipe",
-    "copy-from": "gambeson_canvas_layered_vest",
+    "copy-from": "gambeson_canvas_vest",
     "time": "31 h",
     "using": [ [ "filament_canvas", 74 ], [ "tailoring_canvas_patchwork", 94 ], [ "fastener_large", 2 ] ],
     "components": [ [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ] ],
     "byproducts": [ [ "scrap_canvas", 360 ], [ "canvas_patch", 30 ] ]
   },
   {
-    "result": "gambeson_pants_canvas_layered",
+    "result": "gambeson_pants_canvas",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "//": "72 canvas sheets by weight, plus extra filament_canvas for quilting threads. Then add 20% more solely converted to byproducts.",
@@ -344,25 +344,25 @@
     "byproducts": [ [ "scrap_canvas", 336 ], [ "canvas_patch", 28 ] ]
   },
   {
-    "result": "xl_gambeson_pants_canvas_layered",
+    "result": "xl_gambeson_pants_canvas",
     "//": "108 canvas sheets by weight, plus extra filament_canvas for quilting threads. Then add 20% more solely converted to byproducts.",
     "//3": "byproducts are 25% patches and 75% scraps (32 scrap per sheet, 8 patch per sheet)",
     "type": "recipe",
-    "copy-from": "gambeson_pants_canvas_layered",
+    "copy-from": "gambeson_pants_canvas",
     "time": "72 h",
     "using": [ [ "filament_canvas", 75 ], [ "tailoring_canvas_patchwork", 130 ], [ "fastener_small", 7 ] ],
     "byproducts": [ [ "scrap_canvas", 528 ], [ "canvas_patch", 44 ] ]
   },
   {
-    "result": "xs_gambeson_pants_canvas_layered",
+    "result": "xs_gambeson_pants_canvas",
     "type": "recipe",
-    "copy-from": "gambeson_pants_canvas_layered",
+    "copy-from": "gambeson_pants_canvas",
     "time": "36 h",
     "using": [ [ "filament_canvas", 38 ], [ "tailoring_canvas_patchwork", 65 ], [ "fastener_small", 5 ] ],
     "byproducts": [ [ "scrap_canvas", 264 ], [ "canvas_patch", 22 ] ]
   },
   {
-    "result": "gambeson_gloves_canvas_layered",
+    "result": "gambeson_gloves_canvas",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "//": "9 canvas sheets by weight, plus extra filament_canvas for quilting threads. Then add 20% more solely converted to byproducts.",
@@ -379,28 +379,28 @@
     "byproducts": [ [ "scrap_canvas", 48 ], [ "canvas_patch", 4 ] ]
   },
   {
-    "result": "xl_gambeson_gloves_canvas_layered",
+    "result": "xl_gambeson_gloves_canvas",
     "//": "14 canvas sheets by weight, plus extra filament_canvas for quilting threads. Then add 20% more solely converted to byproducts.",
     "//3": "byproducts are 25% patches and 75% scraps (32 scrap per sheet, 8 patch per sheet)",
     "type": "recipe",
-    "copy-from": "gambeson_gloves_canvas_layered",
+    "copy-from": "gambeson_gloves_canvas",
     "time": "15 h",
     "using": [ [ "filament_canvas", 33 ], [ "tailoring_canvas_patchwork", 17 ], [ "fastener_small", 4 ] ],
     "byproducts": [ [ "scrap_canvas", 72 ], [ "canvas_patch", 6 ] ]
   },
   {
-    "result": "xs_gambeson_gloves_canvas_layered",
+    "result": "xs_gambeson_gloves_canvas",
     "//": "7 canvas sheets by weight, plus extra filament_canvas for quilting threads. Then add 20% more solely converted to byproducts.",
     "//3": "byproducts are 25% patches and 75% scraps (32 scrap per sheet, 8 patch per sheet)",
     "type": "recipe",
-    "copy-from": "gambeson_gloves_canvas_layered",
+    "copy-from": "gambeson_gloves_canvas",
     "time": "8 h",
     "using": [ [ "filament_canvas", 17 ], [ "tailoring_canvas_patchwork", 8 ], [ "fastener_small", 4 ] ],
     "byproducts": [ [ "scrap_canvas", 24 ], [ "canvas_patch", 2 ] ]
   },
   {
     "-----------------------------------------------------": "-----------------------------------------------------------------------",
-    "result": "aketon_nylon_layered",
+    "result": "aketon_nylon",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "//": "67 nylon sheets by weight, plus extra filament_canvas for quilting threads. Then add 20% more solely converted to byproducts.",
@@ -420,29 +420,29 @@
     "byproducts": [ [ "scrap_nylon", 312 ], [ "nylon", 26 ] ]
   },
   {
-    "result": "xl_aketon_nylon_layered",
+    "result": "xl_aketon_nylon",
     "//": "100 nylon sheets by weight, plus extra filament_canvas for quilting threads. Then add 20% more solely converted to byproducts.",
     "//3": "byproducts are 25% patches and 75% scraps (32 scrap per sheet, 8 patch per sheet)",
     "type": "recipe",
-    "copy-from": "aketon_nylon_layered",
+    "copy-from": "aketon_nylon",
     "time": "57 h",
     "using": [ [ "filament_canvas", 150 ], [ "tailoring_nylon_patchwork", 120 ], [ "fastener_large", 2 ], [ "fastener_small", 14 ] ],
     "components": [ [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ] ],
     "byproducts": [ [ "scrap_nylon", 480 ], [ "nylon", 40 ] ]
   },
   {
-    "result": "xs_aketon_nylon_layered",
+    "result": "xs_aketon_nylon",
     "//": "50 canvas sheets by weight, plus extra filament_canvas for quilting threads. Then add 20% more solely converted to byproducts.",
     "//3": "byproducts are 25% patches and 75% scraps (32 scrap per sheet, 8 patch per sheet)",
     "type": "recipe",
-    "copy-from": "aketon_nylon_layered",
+    "copy-from": "aketon_nylon",
     "time": "29 h",
     "using": [ [ "filament_canvas", 75 ], [ "tailoring_nylon_patchwork", 60 ], [ "fastener_large", 2 ], [ "fastener_small", 8 ] ],
     "components": [ [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ] ],
     "byproducts": [ [ "scrap_nylon", 240 ], [ "nylon", 20 ] ]
   },
   {
-    "result": "aketon_nylon_layered_vest",
+    "result": "aketon_nylon_vest",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "//": "49 nylon sheets by weight, plus extra filament_canvas for quilting threads. Then add 20% more solely converted to byproducts.",
@@ -462,29 +462,29 @@
     "byproducts": [ [ "nylon_canvas", 240 ], [ "nylon", 20 ] ]
   },
   {
-    "result": "xl_aketon_nylon_layered_vest",
+    "result": "xl_aketon_nylon_vest",
     "//": "75 nylon sheets by weight, plus extra filament_canvas for quilting threads. Then add 20% more solely converted to byproducts.",
     "//3": "byproducts are 25% patches and 75% scraps (32 scrap per sheet, 8 patch per sheet)",
     "type": "recipe",
-    "copy-from": "aketon_nylon_layered_vest",
+    "copy-from": "aketon_nylon_vest",
     "time": "30 h",
     "using": [ [ "filament_canvas", 105 ], [ "tailoring_nylon_patchwork", 90 ], [ "fastener_large", 2 ] ],
     "components": [ [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ] ],
     "byproducts": [ [ "scrap_nylon", 360 ], [ "nylon", 30 ] ]
   },
   {
-    "result": "xs_aketon_nylon_layered_vest",
+    "result": "xs_aketon_nylon_vest",
     "//": "38 nylon sheets by weight, plus extra filament_canvas for quilting threads. Then add 20% more solely converted to byproducts.",
     "//3": "byproducts are 25% patches and 75% scraps (32 scrap per sheet, 8 patch per sheet)",
     "type": "recipe",
-    "copy-from": "aketon_nylon_layered_vest",
+    "copy-from": "aketon_nylon_vest",
     "time": "15 h",
     "using": [ [ "filament_canvas", 53 ], [ "tailoring_nylon_patchwork", 45 ], [ "fastener_large", 2 ] ],
     "components": [ [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ] ],
     "byproducts": [ [ "scrap_nylon", 180 ], [ "nylon", 15 ] ]
   },
   {
-    "result": "aketon_pants_nylon_layered",
+    "result": "aketon_pants_nylon",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "//": "36 nylon sheets by weight, plus extra filament_canvas for quilting threads. Then add 20% more solely converted to byproducts.",
@@ -503,29 +503,29 @@
     "byproducts": [ [ "scrap_nylon", 144 ], [ "nylon", 12 ] ]
   },
   {
-    "result": "xl_aketon_pants_nylon_layered",
+    "result": "xl_aketon_pants_nylon",
     "//": "54 nylon sheets by weight, plus extra filament_canvas for quilting threads. Then add 20% more solely converted to byproducts.",
     "//3": "byproducts are 25% patches and 75% scraps (32 scrap per sheet, 8 patch per sheet)",
     "type": "recipe",
-    "copy-from": "aketon_pants_nylon_layered",
+    "copy-from": "aketon_pants_nylon",
     "time": "36 h",
     "using": [ [ "filament_canvas", 60 ], [ "tailoring_nylon_patchwork", 63 ], [ "fastener_small", 7 ] ],
     "components": [ [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ] ],
     "byproducts": [ [ "scrap_nylon", 216 ], [ "nylon", 18 ] ]
   },
   {
-    "result": "xs_aketon_pants_nylon_layered",
+    "result": "xs_aketon_pants_nylon",
     "//": "27 nylon sheets by weight, plus extra filament_canvas for quilting threads. Then add 20% more solely converted to byproducts.",
     "//3": "byproducts are 25% patches and 75% scraps (32 scrap per sheet, 8 patch per sheet)",
     "type": "recipe",
-    "copy-from": "aketon_pants_nylon_layered",
+    "copy-from": "aketon_pants_nylon",
     "time": "18 h",
     "using": [ [ "filament_canvas", 30 ], [ "tailoring_nylon_patchwork", 31 ], [ "fastener_small", 5 ] ],
     "components": [ [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ] ],
     "byproducts": [ [ "scrap_nylon", 108 ], [ "nylon", 9 ] ]
   },
   {
-    "result": "aketon_hood_nylon_layered",
+    "result": "aketon_hood_nylon",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "//": "10 nylon sheets by weight, plus extra filament_canvas for quilting threads. Then add 20% more solely converted to byproducts.",
@@ -542,27 +542,27 @@
     "byproducts": [ [ "scrap_nylon", 48 ], [ "nylon", 4 ] ]
   },
   {
-    "result": "xl_aketon_hood_nylon_layered",
+    "result": "xl_aketon_hood_nylon",
     "//": "15 nylon sheets by weight, plus extra filament_canvas for quilting threads. Then add 20% more solely converted to byproducts.",
     "//3": "byproducts are 25% patches and 75% scraps (32 scrap per sheet, 8 patch per sheet)",
     "type": "recipe",
-    "copy-from": "aketon_hood_nylon_layered",
+    "copy-from": "aketon_hood_nylon",
     "time": "9 h",
     "using": [ [ "filament_canvas", 15 ], [ "tailoring_nylon_patchwork", 18 ], [ "fastener_small", 4 ] ],
     "byproducts": [ [ "scrap_nylon", 72 ], [ "nylon", 6 ] ]
   },
   {
-    "result": "xs_aketon_hood_nylon_layered",
+    "result": "xs_aketon_hood_nylon",
     "//": "8 nylon sheets by weight, plus extra filament_canvas for quilting threads. Then add 20% more solely converted to byproducts.",
     "//3": "byproducts are 25% patches and 75% scraps (32 scrap per sheet, 8 patch per sheet)",
     "type": "recipe",
-    "copy-from": "aketon_hood_nylon_layered",
+    "copy-from": "aketon_hood_nylon",
     "time": "5 h",
     "using": [ [ "filament_canvas", 8 ], [ "tailoring_nylon_patchwork", 9 ], [ "fastener_small", 2 ] ],
     "byproducts": [ [ "scrap_nylon", 36 ], [ "nylon", 3 ] ]
   },
   {
-    "result": "aketon_gloves_nylon_layered",
+    "result": "aketon_gloves_nylon",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "//": "4 nylon sheets by weight, plus extra filament_canvas for quilting threads",
@@ -579,27 +579,27 @@
     "byproducts": [ [ "scrap_nylon", 24 ], [ "nylon", 2 ] ]
   },
   {
-    "result": "xl_aketon_gloves_nylon_layered",
+    "result": "xl_aketon_gloves_nylon",
     "//": "6 nylon sheets by weight, plus extra filament_canvas for quilting threads. Then add 20% more solely converted to byproducts.",
     "//3": "byproducts are 25% patches and 75% scraps (32 scrap per sheet, 8 patch per sheet)",
     "type": "recipe",
-    "copy-from": "aketon_gloves_nylon_layered",
+    "copy-from": "aketon_gloves_nylon",
     "time": "9 h",
     "using": [ [ "filament_canvas", 15 ], [ "tailoring_nylon_patchwork", 6 ], [ "fastener_small", 2 ] ],
     "byproducts": [ [ "scrap_nylon", 36 ], [ "nylon", 3 ] ]
   },
   {
-    "result": "xs_aketon_gloves_nylon_layered",
+    "result": "xs_aketon_gloves_nylon",
     "//": "3 nylon sheets by weight, plus extra filament_canvas for quilting threads. Then add 20% more solely converted to byproducts.",
     "//3": "byproducts are 25% patches and 75% scraps (32 scrap per sheet, 8 patch per sheet)",
     "type": "recipe",
-    "copy-from": "aketon_gloves_nylon_layered",
+    "copy-from": "aketon_gloves_nylon",
     "time": "5 h",
     "using": [ [ "filament_canvas", 8 ], [ "tailoring_nylon_patchwork", 4 ], [ "fastener_small", 2 ] ],
     "byproducts": [ [ "scrap_nylon", 18 ], [ "nylon", 1 ] ]
   },
   {
-    "result": "gambeson_nylon_layered",
+    "result": "gambeson_nylon",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "//": "141 nylon sheets by weight, plus extra filament_canvas for quilting threads. Then add 20% more solely converted to byproducts.",
@@ -619,29 +619,29 @@
     "byproducts": [ [ "scrap_nylon", 672 ], [ "nylon_patch", 56 ] ]
   },
   {
-    "result": "xl_gambeson_nylon_layered",
+    "result": "xl_gambeson_nylon",
     "//": "211 nylon sheets by weight, plus extra filament_canvas for quilting threads. Then add 20% more solely converted to byproducts.",
     "//3": "byproducts are 25% patches and 75% scraps (32 scrap per sheet, 8 patch per sheet)",
     "type": "recipe",
-    "copy-from": "gambeson_nylon_layered",
+    "copy-from": "gambeson_nylon",
     "time": "120 h",
     "using": [ [ "filament_canvas", 225 ], [ "tailoring_nylon_patchwork", 253 ], [ "fastener_large", 2 ], [ "fastener_small", 14 ] ],
     "components": [ [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ] ],
     "byproducts": [ [ "scrap_nylon", 1008 ], [ "nylon", 84 ] ]
   },
   {
-    "result": "xs_gambeson_nylon_layered",
+    "result": "xs_gambeson_nylon",
     "//": "106 nylon sheets by weight, plus extra filament_canvas for quilting threads. Then add 20% more solely converted to byproducts.",
     "//3": "byproducts are 25% patches and 75% scraps (32 scrap per sheet, 8 patch per sheet)",
     "type": "recipe",
-    "copy-from": "gambeson_nylon_layered",
+    "copy-from": "gambeson_nylon",
     "time": "60 h",
     "using": [ [ "filament_canvas", 114 ], [ "tailoring_nylon_patchwork", 127 ], [ "fastener_large", 2 ], [ "fastener_small", 8 ] ],
     "components": [ [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ] ],
     "byproducts": [ [ "scrap_nylon", 504 ], [ "nylon", 42 ] ]
   },
   {
-    "result": "gambeson_nylon_layered_thinsleeved",
+    "result": "gambeson_nylon_thinsleeved",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "//": "123 nylon sheets by weight, plus extra filament_canvas for quilting threads. Then add 20% more solely converted to byproducts.",
@@ -661,29 +661,29 @@
     "byproducts": [ [ "scrap_nylon", 600 ], [ "nylon", 50 ] ]
   },
   {
-    "result": "xl_gambeson_nylon_layered_thinsleeved",
+    "result": "xl_gambeson_nylon_thinsleeved",
     "//": "185 nylon sheets by weight, plus extra filament_canvas for quilting threads. Then add 20% more solely converted to byproducts.",
     "//3": "byproducts are 25% patches and 75% scraps (32 scrap per sheet, 8 patch per sheet)",
     "type": "recipe",
-    "copy-from": "gambeson_nylon_layered_thinsleeved",
+    "copy-from": "gambeson_nylon_thinsleeved",
     "time": "105 h",
     "using": [ [ "filament_canvas", 210 ], [ "tailoring_nylon_patchwork", 222 ], [ "fastener_large", 2 ], [ "fastener_small", 14 ] ],
     "components": [ [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ] ],
     "byproducts": [ [ "scrap_nylon", 888 ], [ "nylon", 74 ] ]
   },
   {
-    "result": "xs_gambeson_nylon_layered_thinsleeved",
+    "result": "xs_gambeson_nylon_thinsleeved",
     "//": "92 canvas sheets by weight, plus extra filament_canvas for quilting threads. Then add 20% more solely converted to byproducts.",
     "//3": "byproducts are 25% patches and 75% scraps (32 scrap per sheet, 8 patch per sheet)",
     "type": "recipe",
-    "copy-from": "gambeson_nylon_layered_thinsleeved",
+    "copy-from": "gambeson_nylon_thinsleeved",
     "time": "54 h",
     "using": [ [ "filament_canvas", 105 ], [ "tailoring_canvas_patchwork", 110 ], [ "fastener_large", 2 ], [ "fastener_small", 8 ] ],
     "components": [ [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ] ],
     "byproducts": [ [ "scrap_nylon", 444 ], [ "nylon", 37 ] ]
   },
   {
-    "result": "gambeson_nylon_layered_vest",
+    "result": "gambeson_nylon_vest",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "//": "105 nylon sheets by weight, plus extra filament_canvas for quilting threads. Then add 20% more solely converted to byproducts.",
@@ -703,29 +703,29 @@
     "byproducts": [ [ "scrap_nylon", 504 ], [ "nylon", 42 ] ]
   },
   {
-    "result": "xl_gambeson_nylon_layered_vest",
+    "result": "xl_gambeson_nylon_vest",
     "//": "158 nylon sheets by weight, plus extra filament_canvas for quilting threads. Then add 20% more solely converted to byproducts.",
     "//3": "byproducts are 25% patches and 75% scraps (32 scrap per sheet, 8 patch per sheet)",
     "type": "recipe",
-    "copy-from": "gambeson_nylon_layered_vest",
+    "copy-from": "gambeson_nylon_vest",
     "time": "63 h",
     "using": [ [ "filament_canvas", 135 ], [ "tailoring_nylon_patchwork", 190 ], [ "fastener_large", 2 ] ],
     "components": [ [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ] ],
     "byproducts": [ [ "scrap_nylon", 768 ], [ "nylon", 64 ] ]
   },
   {
-    "result": "xs_gambeson_nylon_layered_vest",
+    "result": "xs_gambeson_nylon_vest",
     "//": "77 nylon sheets by weight, plus extra filament_canvas for quilting threads. Then add 20% more solely converted to byproducts.",
     "//3": "byproducts are 25% patches and 75% scraps (32 scrap per sheet, 8 patch per sheet)",
     "type": "recipe",
-    "copy-from": "gambeson_nylon_layered_vest",
+    "copy-from": "gambeson_nylon_vest",
     "time": "31 h",
     "using": [ [ "filament_canvas", 74 ], [ "tailoring_nylon_patchwork", 94 ], [ "fastener_large", 2 ] ],
     "components": [ [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ] ],
     "byproducts": [ [ "scrap_nylon", 360 ], [ "nylon", 30 ] ]
   },
   {
-    "result": "gambeson_pants_nylon_layered",
+    "result": "gambeson_pants_nylon",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "//": "72 nylon sheets by weight, plus extra filament_canvas for quilting threads. Then add 20% more solely converted to byproducts.",
@@ -744,27 +744,27 @@
     "byproducts": [ [ "scrap_nylon", 336 ], [ "nylon", 28 ] ]
   },
   {
-    "result": "xl_gambeson_pants_nylon_layered",
+    "result": "xl_gambeson_pants_nylon",
     "//": "108 nylon sheets by weight, plus extra filament_canvas for quilting threads. Then add 20% more solely converted to byproducts.",
     "//3": "byproducts are 25% patches and 75% scraps (32 scrap per sheet, 8 patch per sheet)",
     "type": "recipe",
-    "copy-from": "gambeson_pants_nylon_layered",
+    "copy-from": "gambeson_pants_nylon",
     "time": "72 h",
     "using": [ [ "filament_canvas", 75 ], [ "tailoring_nylon_patchwork", 130 ], [ "fastener_small", 7 ] ],
     "byproducts": [ [ "scrap_nylon", 528 ], [ "nylon", 44 ] ]
   },
   {
-    "result": "xs_gambeson_pants_nylon_layered",
+    "result": "xs_gambeson_pants_nylon",
     "//": "54 nylon sheets by weight, plus extra filament_canvas for quilting threads. Then add 20% more solely converted to byproducts.",
     "//3": "byproducts are 25% patches and 75% scraps (32 scrap per sheet, 8 patch per sheet)",
     "type": "recipe",
-    "copy-from": "gambeson_pants_nylon_layered",
+    "copy-from": "gambeson_pants_nylon",
     "time": "36 h",
     "using": [ [ "filament_canvas", 38 ], [ "tailoring_nylon_patchwork", 65 ], [ "fastener_small", 5 ] ],
     "byproducts": [ [ "scrap_nylon", 264 ], [ "nylon", 22 ] ]
   },
   {
-    "result": "gambeson_gloves_nylon_layered",
+    "result": "gambeson_gloves_nylon",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "//": "9 nylon sheets by weight, plus extra filament_canvas for quilting threads. Then add 20% more solely converted to byproducts.",
@@ -781,23 +781,44 @@
     "byproducts": [ [ "scrap_nylon", 48 ], [ "nylon", 4 ] ]
   },
   {
-    "result": "xl_gambeson_gloves_nylon_layered",
+    "result": "xl_gambeson_gloves_nylon",
     "//": "14 nylon sheets by weight, plus extra filament_canvas for quilting threads. Then add 20% more solely converted to byproducts.",
     "//3": "byproducts are 25% patches and 75% scraps (32 scrap per sheet, 8 patch per sheet)",
     "type": "recipe",
-    "copy-from": "gambeson_gloves_canvas_layered",
+    "copy-from": "gambeson_gloves_canvas",
     "time": "15 h",
     "using": [ [ "filament_canvas", 33 ], [ "tailoring_canvas_patchwork", 17 ], [ "fastener_small", 4 ] ],
     "byproducts": [ [ "scrap_nylon", 72 ], [ "nylon", 6 ] ]
   },
   {
-    "result": "xs_gambeson_gloves_nylon_layered",
+    "result": "xs_gambeson_gloves_nylon",
     "//": "7 nylon sheets by weight, plus extra filament_canvas for quilting threads. Then add 20% more solely converted to byproducts.",
     "//3": "byproducts are 25% patches and 75% scraps (32 scrap per sheet, 8 patch per sheet)",
     "type": "recipe",
-    "copy-from": "gambeson_gloves_canvas_layered",
+    "copy-from": "gambeson_gloves_canvas",
     "time": "8 h",
     "using": [ [ "filament_canvas", 17 ], [ "tailoring_nylon_patchwork", 8 ], [ "fastener_small", 4 ] ],
     "byproducts": [ [ "scrap_nylon", 24 ], [ "nylon", 2 ] ]
+  },
+  {
+    "result": "aketon_wool",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "//": "1814g per quilt, result is 4355g, so 3 quilts with 1087g of byproducts.",
+    "//1": "Garment zips up on the sides of the torso and along the underside of the arm.",
+    "//2": "roughly 20 hours total for the craft while skilled. articulation needed for the arms.  Lower time thanks to big premade sheets.",
+    "//3": "byproducts are 23% patches and 77% scraps (73 scraps and 9 patches per 100g of waste)",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "tailor",
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_articulation" }, { "proficiency": "prof_quilting" } ],
+    "difficulty": 5,
+    "time": "30 h",
+    "autolearn": true,
+    "book_learn": [ [ "textbook_armwest", 3 ] ],
+    "using": [ [ "filament_canvas", 180 ], [ "tailoring_canvas_patchwork", 80 ], [ "fastener_large", 2 ], [ "fastener_small", 10 ] ],
+    "qualities": [ { "id": "SEW", "level": 2 }, { "id": "FABRIC_CUT", "level": 1 } ],
+    "components": [ [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ], [ [ "quilt", 2 ], [ "quilt_patchwork", 2 ] ], [ [ "quilt", 1 ], [ "quilt_patchwork", 1 ] ] ]
+    "byproducts": [ [ "scrap_felt", 793 ], [ "felt_patch", 97 ] ]
   }
 ]
