@@ -392,7 +392,7 @@
     "volume": "500 ml",
     "price": 0,
     "price_postapoc": 0,
-    "material": [ "leather", "bone", "fur", "leather_arthropod", "cured_meat", "wool", "flesh"  ],
+    "material": [ "leather", "bone", "fur", "leather_arthropod", "cured_meat", "wool", "flesh" ],
     "symbol": "x",
     "color": "light_red",
     "warmth": 12,
