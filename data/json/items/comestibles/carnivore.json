@@ -322,7 +322,7 @@
     "name": { "str": "scrap of meat", "str_pl": "scraps of meat" },
     "description": "A tiny scrap of raw meat.  It's not much, but it'll do in a pinch.",
     "cooks_like": "meat_scrap_cooked",
-    "proportional": { "weight": 0.1, "volume": 0.1, "price": 0.1, "calories": 0.1 },
+    "proportional": { "weight": 0.1, "volume": 0.1, "price_postapoc": 0.1, "calories": 0.1 },
     "delete": { "flags": [ "SMOKABLE" ] },
     "vitamins": [ [ "calcium", 0 ], [ "iron", 1 ] ]
   },
@@ -379,7 +379,7 @@
     "description": "A tiny scrap of raw meat from a heavily mutated animal.  It smells unappealing, to say the least.",
     "looks_like": "meat_scrap",
     "cooks_like": "mutant_meat_scrap_cooked",
-    "proportional": { "price": 0.2, "calories": 0.5 },
+    "proportional": { "price_postapoc": 0.2, "calories": 0.5 },
     "vitamins": [ [ "mutant_toxin", 2 ] ],
     "delete": { "flags": [ "SMOKABLE" ] }
   },

@@ -244,7 +244,6 @@ void relic_charge_template::deserialize( const JsonObject &jo )
     load( jo );
 }
 
-
 void relic_charge_template::load( const JsonObject &jo )
 {
     int tmp_power = 0;
@@ -351,12 +350,13 @@ void relic::load( const JsonObject &jo )
     }
     if( jo.has_array( "passive_effects" ) ) {
         for( JsonObject jobj : jo.get_array( "passive_effects" ) ) {
-            enchantment ench;
+            enchant_cache ench;
             ench.load( jobj );
             if( !ench.id.is_empty() ) {
-                ench = ench.id.obj();
+                add_passive_effect( ench.id.obj() );
+            } else {
+                add_passive_effect( ench );
             }
-            add_passive_effect( ench );
         }
     }
     jo.read( "charge_info", charge );
@@ -413,7 +413,7 @@ int relic::activate( Creature &caster, const tripoint &target )
     for( const fake_spell &sp : active_effects ) {
         spell casting = sp.get_spell( sp.level );
         casting.cast_all_effects( caster, target );
-        caster.add_msg_if_player( casting.message() );
+        caster.add_msg_if_player( casting.message(), casting.name() );
     }
     charge.charges -= charge.charges_per_use;
     return charge.charges_per_use;
@@ -548,7 +548,6 @@ bool relic::can_recharge( item &parent, Character *carrier ) const
     }
 
     return true;
-
 
 }
 

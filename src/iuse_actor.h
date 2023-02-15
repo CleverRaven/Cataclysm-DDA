@@ -113,6 +113,8 @@ class iuse_transform : public iuse_actor
         std::string get_name() const override;
         void finalize( const itype_id &my_item_type ) override;
         void info( const item &, std::vector<iteminfo> & ) const override;
+    private:
+        void do_transform( Character &p, item &it ) const;
 };
 
 class unpack_actor : public iuse_actor
@@ -1104,7 +1106,6 @@ class sew_advanced_actor : public iuse_actor
         cata::optional<int> use( Character &, item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
 };
-
 
 /**
  * Activate an array of effect_on_conditions

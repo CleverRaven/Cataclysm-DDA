@@ -344,7 +344,7 @@ TEST_CASE( "item health or damage bar", "[item][tname][health][damage]" )
 
             // magenta `|.`
             THEN( "it appears moderately damaged" ) {
-                CHECK( shirt.tname() == "<color_c_magenta>|.</color>\u00A0long-sleeved shirt (poor fit)" );
+                CHECK( shirt.tname() == "<color_c_light_red>|.</color>\u00A0long-sleeved shirt (poor fit)" );
             }
         }
 
@@ -355,7 +355,7 @@ TEST_CASE( "item health or damage bar", "[item][tname][health][damage]" )
 
             // red `\.`
             THEN( "it appears heavily damaged" ) {
-                CHECK( shirt.tname() == "<color_c_light_red>\\.</color>\u00A0long-sleeved shirt (poor fit)" );
+                CHECK( shirt.tname() == "<color_c_magenta>\\.</color>\u00A0long-sleeved shirt (poor fit)" );
             }
         }
 
@@ -402,7 +402,7 @@ TEST_CASE( "item health or damage bar", "[item][tname][health][damage]" )
             // light red bar
             THEN( "it appears very degraded" ) {
                 CHECK( deg_test.tname() ==
-                       "<color_c_magenta>|.</color><color_c_light_red>\u2583</color>\u00A0baseball" );
+                       "<color_c_light_red>|.</color><color_c_light_red>\u2583</color>\u00A0baseball" );
             }
         }
 
@@ -414,7 +414,7 @@ TEST_CASE( "item health or damage bar", "[item][tname][health][damage]" )
             // short red bar
             THEN( "it appears extremely degraded" ) {
                 CHECK( deg_test.tname() ==
-                       "<color_c_magenta>|.</color><color_c_red>\u2581</color>\u00A0baseball" );
+                       "<color_c_light_red>|.</color><color_c_red>\u2581</color>\u00A0baseball" );
             }
         }
     }

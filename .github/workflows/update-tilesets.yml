@@ -31,7 +31,7 @@ jobs:
           CHANGELOG="${CHANGELOG//$'\n'/'%0A'}"
           CHANGELOG="${CHANGELOG//$'\r'/'%0D'}"
 
-          echo "::set-output name=pr-body::$CHANGELOG"
+          echo "pr-body=$CHANGELOG" >> $GITHUB_OUTPUT
           rm -f pr-body
 
       - uses: actions/checkout@v3

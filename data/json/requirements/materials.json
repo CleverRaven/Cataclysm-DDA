@@ -6,6 +6,12 @@
     "components": [ [ [ "duct_tape", 25 ], [ "superglue", 1 ], [ "bone_glue", 1 ] ] ]
   },
   {
+    "id": "adhesive_cordage",
+    "type": "requirement",
+    "//": "Materials used for joining or tying with strings (typically non-metallic) parts. For use with improvised or simple items.",
+    "components": [ [ [ "adhesive", 1, "LIST" ], [ "cordage", 1, "LIST" ] ] ]
+  },
+  {
     "id": "ammo_bullet",
     "type": "requirement",
     "//": "Materials used when forming bullets",
