@@ -2889,11 +2889,9 @@ class jmapgen_terrain : public jmapgen_piece
                 if( !error.empty() ) {
                     debugmsg( "In %s on %s, setting terrain to %s (from %s) at %s when %s.  "
                               "Resolve this either by removing the terrain from this mapgen, "
-                              "adding suitable removal commands to the mapgen, or "
-                              "by adding a suitable flag to the innermost mapgen: either "
-                              "ERASE_ALL_BEFORE_PLACING_TERRAIN if you wish terrain to replace "
-                              "everything previously on the tile or ALLOW_TERRAIN_UNDER_OTHER_DATA "
-                              "if you wish the other items to be preserved",
+                              "adding suitable removal commands to the mapgen, or by adding an"
+                              "appropriate clearing flag to the innermost layered mapgen.  "
+                              "Consult the \"mapgen flags\" section in MAPGEN.md for options.",
                               context, dat.terrain_type().id().str(), chosen_id.id().str(),
                               terrain_here.id().str(), p.to_string(), error );
                 }
