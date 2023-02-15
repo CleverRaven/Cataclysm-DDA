@@ -974,7 +974,8 @@ static void draw_speed_tab( const catacurses::window &w_speed,
         nc_color pen_color;
         std::string pen_sign;
         const units::temperature player_local_temp = get_weather().get_temperature( you.pos() );
-        if( you.has_flag( json_flag_ECTOTHERM ) && player_local_temp + units::from_fahrenheit( climate_control ) > units::from_fahrenheit( 65 ) ) {
+        if( you.has_flag( json_flag_ECTOTHERM ) &&
+            player_local_temp + units::from_fahrenheit( climate_control ) > units::from_fahrenheit( 65 ) ) {
             pen_color = c_green;
             pen_sign = "+";
         } else if( player_local_temp < units::from_fahrenheit( 65 ) ) {
