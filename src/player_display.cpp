@@ -970,12 +970,11 @@ static void draw_speed_tab( const catacurses::window &w_speed,
 
     const float temperature_speed_modifier = you.mutation_value( "temperature_speed_modifier" );
     if( temperature_speed_modifier != 0 ) {
-        const int climate_control = climate_control_strength().first;
+        const int climate_control = you.climate_control_strength().first;
         nc_color pen_color;
         std::string pen_sign;
-        const units::temperature player_local_temp = get_weather().get_temperature(
-                    you.pos() ) + units::from_fahrenheit( climate_control );
-        if( you.has_flag( json_flag_ECTOTHERM ) && player_local_temp > units::from_fahrenheit( 65 ) ) {
+        const units::temperature player_local_temp = get_weather().get_temperature( you.pos() );
+        if( you.has_flag( json_flag_ECTOTHERM ) && player_local_temp + units::from_fahrenheit( climate_control ) > units::from_fahrenheit( 65 ) ) {
             pen_color = c_green;
             pen_sign = "+";
         } else if( player_local_temp < units::from_fahrenheit( 65 ) ) {
