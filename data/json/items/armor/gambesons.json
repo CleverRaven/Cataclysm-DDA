@@ -1138,5 +1138,5 @@
     "copy-from": "aketon_wool",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
-  },
+  }
 ]
