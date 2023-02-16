@@ -10773,7 +10773,7 @@ void Character::recalc_speed_bonus()
             const int climate_control = climate_control_strength().first;
             const units::temperature player_local_temp = get_weather().get_temperature( pos() );
             if( has_flag( json_flag_ECTOTHERM ) ||
-                player_local_temp + units::from_fahrenheit( climate_control ) < units::from_fahrenheit( 65 ) ) {
+                player_local_temp < units::from_fahrenheit( 65 - climate_control ) ) {
                 mod_speed_bonus( ( units::to_fahrenheit( player_local_temp ) - 65 + climate_control ) *
                                  temperature_speed_modifier );
             }
