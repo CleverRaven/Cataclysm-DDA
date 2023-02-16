@@ -596,7 +596,10 @@
             { "const": 5 }
           ],
           [
-            { "id": "admire_4", "effect": { "u_message": "You focus on the lily and realize it truly is perfection *incarnate*.", "popup": true } },
+            {
+              "id": "admire_4",
+              "effect": { "u_message": "You focus on the lily and realize it truly is perfection *incarnate*.", "popup": true }
+            },
             { "const": 2 }
           ]
         ]
