@@ -3729,7 +3729,7 @@
     "id": "glowing_gas",
     "name": [ { "ctxt": "inhaled", "str": "Glowing Gas" } ],
     "desc": [
-      "You've inhaled a lungful of glowing nether parasite spores. Thankfully, they don't seem adapted to the human physiology."
+      "You've inhaled a lungful of glowing nether parasite spores.  Thankfully, they don't seem adapted to the human physiology."
     ],
     "apply_message": "You inhale a lungful of the glowing gas, and you have an urge to violently cough.",
     "rating": "bad",
