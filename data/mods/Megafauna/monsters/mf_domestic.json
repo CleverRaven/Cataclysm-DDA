@@ -152,7 +152,7 @@
     "default_faction": "mega_herbivore",
     "bodytype": "horse",
     "categories": [ "WILDLIFE" ],
-    "species": [ "MAMMAL" ],    
+    "species": [ "MAMMAL" ],
     "families": [ "prof_intro_biology" ],
     "volume": "200 L",
     "weight": "200 kg",
