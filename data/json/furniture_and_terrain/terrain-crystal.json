@@ -1,0 +1,53 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_crystal_floor",
+    "name": "crystalline floor",
+    "description": "A thick layer of opalescent, quartz-like material has enveloped this section of ground, its surface smooth and glassy.  Ridged segments of darker material break the even regularity, crisscrossing in a manner that brings to mind images of webbed veins and knotted arteries.  The material seems to shift, expanding, contracting, rising, and sloping in equal measure as the space around it warps.  Placidity returns in mere moments, but not before a large stain of crimson spurts just beneath the glassy surface, fading soon after.",
+    "symbol": ".",
+    "color": "light_blue",
+    "connect_groups": "ROCKFLOOR",
+    "connects_to": "ROCKFLOOR",
+    "move_cost": 2,
+    "roof": "t_rock_roof",
+    "flags": [ "TRANSPARENT", "INDOORS", "SUPPORTS_ROOF", "FLAT" ],
+    "bash": { "ter_set": "t_null", "str_min": 75, "str_max": 400, "str_min_supported": 100, "bash_below": true }
+  },
+  {
+    "type": "terrain",
+    "id": "t_crystal_railway",
+    "name": "crystalline rails",
+    "description": "This length of subway rail has been fully encapsulated within a thick crust of glistening crystal, the mineral coating it and forming a lumpy block that rises ankle high.  Ridged sections of darker, fang-like quartz spiral about its surface, with new constructs seeming to develop as the alien mineral shifts and pulses.  In the opalescent patches between the ridges, ghostly reflections of spraying viscera, collapsing bodies, and ejecting bullet casings flit just beneath the crystalline surface before quickly fading.",
+    "symbol": ".",
+    "color": "light_blue",
+    "connect_groups": "RAIL",
+    "connects_to": "RAIL",
+    "move_cost": 3,
+    "roof": "t_rock_roof",
+    "flags": [ "TRANSPARENT", "INDOORS", "SUPPORTS_ROOF", "FLAT" ],
+    "bash": { "ter_set": "t_null", "str_min": 75, "str_max": 400, "str_min_supported": 100, "bash_below": true }
+  },
+  {
+    "type": "terrain",
+    "id": "t_crystal_barrier",
+    "name": "crystalline barrier",
+    "looks_like": "t_scrap_wall_halfway",
+    "description": "Formerly a piecemeal construct of rusted metal and scavenged wood, this barrier has been overtaken by a thick growth of quartz.  A web-like network of crystalline spires connects the structure with the roof, with triangular outlines of blackened crystals ridging its glassy surface.  The latter’s outlines periodically shift as they form new polygonal patterns, the air around the structure bending in ways that mock the sanctity of reality as phantom reflections dart across its surfaces.  Rupturing eyeballs and splitting ribs form the least of the nightmares that flit across the crystal.",
+    "symbol": "LINE_OXOX",
+    "color": "light_blue",
+    "move_cost": 0,
+    "coverage": 60,
+    "flags": [ "NOITEM", "WALL", "PERMEABLE", "AUTO_WALL_SYMBOL", "MINEABLE" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_crystal_spire",
+    "name": "quartz spire",
+    "description": "Glistening like abyssal water, this area is dominated by a towering stalagmite and stalactite of conical quartz, which have joined to form a single spire of unearthly, hourglass-shaped crystal.  Banded with broad helixes of opalescent material, oblong crystal blocks emerge from the structure, tipped by a flower’s head of thorn-like spikes.  Air flows like gelatinous liquid about the spiral, with thin rifts yawning into being and revealing brief glimpses of a twisted, unclear crystalline landscape beyond.",
+    "symbol": "LINE_OXOX",
+    "color": "black",
+    "move_cost": 0,
+    "coverage": 95,
+    "flags": [ "NOITEM", "WALL", "PERMEABLE", "AUTO_WALL_SYMBOL", "MINEABLE" ]
+  }
+]

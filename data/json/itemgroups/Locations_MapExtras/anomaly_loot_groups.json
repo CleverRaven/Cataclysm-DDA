@@ -1,0 +1,117 @@
+[
+  {
+    "type": "item_group",
+    "id": "anomaly_mounted_guns",
+    "//": "Automatic, mounted weapons set to spawn at the subway camp’s barricades. All guns are 7.62x51mm in order to maintain consistency with spawned casings, ammo, and belt links.",
+    "subtype": "collection",
+    "magazine": 100,
+    "ammo": 60,
+    "entries": [
+      {
+        "distribution": [
+          {
+            "item": "m240",
+            "charges-min": 0,
+            "charges-max": 250,
+            "damage-min": 0,
+            "damage-max": 3,
+            "dirt": [ 0, 6000 ],
+            "prob": 30
+          },
+          {
+            "item": "m60",
+            "charges-min": 0,
+            "charges-max": 250,
+            "damage-min": 0,
+            "damage-max": 3,
+            "dirt": [ 0, 6000 ],
+            "prob": 20
+          }
+        ],
+        "prob": 100
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "anomaly_mounted_gun_ammo",
+    "//": "Packaged as well as Luce 7.62mm ammo belts, set to spawn near mounted guns.",
+    "subtype": "collection",
+    "items": [
+      { "group": "ammo_can_belt308_part", "prob": 45, "count": [ 1, 2 ] },
+      { "group": "ammo_can_belt308_full", "prob": 15, "count": [ 1, 2 ] },
+      { "item": "belt308", "prob": 50, "count": 1 },
+      { "item": "belt308", "prob": 25, "count": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "anomaly_guard_lighting",
+    "//": "a variety of possible light sources assigned to spawn at the subway camp's defensive points, as well as spare batteries and emergency flares as a last resort. Any light source that doesn’t either use conventional batteries or doesn’t have decent light emissions has been omitted. All light sources have been rendered without charge in order to simulate their having been left on after the camp’s downfall and having thus run out of charge prior to the player’s arrival.",
+    "subtype": "collection",
+    "magazine": 100,
+    "ammo": 60,
+    "entries": [
+      {
+        "distribution": [
+          { "item": "electric_lantern", "prob": 25, "charges-min": 0, "charges-max": 0 },
+          { "item": "smart_lamp", "prob": 25, "charges-min": 0, "charges-max": 0 },
+          { "item": "flashlight", "prob": 30, "charges-min": 0, "charges-max": 0 },
+          { "item": "heavy_flashlight", "prob": 25, "charges-min": 0, "charges-max": 0 },
+          { "item": "atomic_lamp", "prob": 1 }
+        ],
+        "prob": 100
+      },
+      { "item": "handflare", "prob": 35, "count": [ 1, 3 ] },
+      { "item": "handflare_dead", "prob": 15, "count": [ 1, 3 ] },
+      { "item": "light_plus_battery_cell", "prob": 75, "count": [ 1, 2 ] },
+      { "item": "light_plus_battery_cell", "prob": 25, "count": [ 1, 2 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "anomaly_sevillian_lighting",
+    "//": "Assorted low-end light sources slated to spawn throughout the camp. Most bright electric lights have lowered spawn chances or are completely non-existent, and candles, small lamps, and non battery powered lights are given preference.",
+    "subtype": "collection",
+    "magazine": 100,
+    "ammo": 60,
+    "entries": [
+      {
+        "distribution": [
+          {
+            "collection": [ { "item": "candle", "charges-min": 0, "charges-max": 100, "count": [ 1, 2 ] }, { "item": "matches" } ],
+            "prob": 50
+          },
+          {
+            "collection": [ { "item": "oil_lamp", "charges-min": 0, "charges-max": 0 }, { "item": "matches" } ],
+            "prob": 50
+          },
+          {
+            "collection": [ { "item": "flashlight", "charges-min": 0, "charges-max": 0 }, { "item": "light_battery_cell" } ],
+            "prob": 25
+          },
+          {
+            "collection": [ { "item": "electric_lantern", "charges-min": 0, "charges-max": 0 }, { "item": "light_battery_cell" } ],
+            "prob": 20
+          },
+          {
+            "collection": [ { "item": "reading_light", "charges-min": 0, "charges-max": 0 }, { "item": "light_battery_cell" } ],
+            "prob": 20
+          }
+        ],
+        "prob": 100
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "anomaly_Civilian_locker",
+    "//": "These are various supplies assigned to spawn in lockers inside civilian tents. Apart from a basic form of lighting, last-ditch bugout bags and subway/general maps are included, the latter provided as emergency supplies in case of a quick, necessary abandonment of the camp.",
+    "subtype": "collection",
+    "items": [
+      { "group": "anomaly_sevillian_lighting", "prob": 100 },
+      { "group": "bugout_bag", "prob": 45, "count": [ 1, 3 ] },
+      { "item": "subwaymap", "prob": 90 }
+    ]
+  }
+]

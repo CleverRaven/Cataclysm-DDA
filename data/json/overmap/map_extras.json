@@ -773,7 +773,7 @@
     "id": "mx_anomaly",
     "type": "map_extra",
     "name": { "str": "Anomalous Remnants" },
-    "description": "This region has been especially affected by the cataclysm's nightmares.  Tread carefully; nightmares stalk the shadows.",
+    "description": "An uneasy sensation of déjà vu intensifies as you near this region.",
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_time_anomaly" },
     "min_max_zlevel": [ -2, 0 ],
     "sym": "a",

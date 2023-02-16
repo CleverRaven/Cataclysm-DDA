@@ -3,123 +3,241 @@
     "type": "mapgen",
     "method": "json",
     "update_mapgen_id": "mx_time_anomaly",
+    "//": "This lays out the basic subway line model that the rest of the nested map pieces will build upon.",
     "object": {
       "rows": [
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        "
+        "...#,###,#....#,###,#...",
+        "...#,###,#....#,###,#...",
+        "...#,###,#....#,###,#...",
+        "...#,###,#....#,###,#...",
+        "...~,~~~,~....~,~~~,~...",
+        "...#,###,#...#,###,#...",
+        "...#,###,#....#,###,#...",
+        "...~,~~~,~....~,~~~,~...",
+        "...#,###r------r###,#...",
+        "...#,###rswwwwsr###,#...",
+        "...~,~~~rw----wr~~~,~...",
+        "...#,###rw----wr###,#...",
+        "...#,###rw----wr###,#...",
+        "...~,~~~rw----wr###,~...",
+        "...#,###rw----wr###,#...",
+        "...#,###rsw--wsr###,#...",
+        "...~,~~~r------r~~~,~...",
+        "...#,###,#....#,###,#...",
+        "...#,###,#....#,###,#...",
+        "...~,~~~,~....~,~~~,~...",
+        "...#,###,#....#,###,#...",
+        "...#,###,#....#,###,#...",
+        "...#,###,#....#,###,#...",
+        "...#,###,#....#,###,#..."
       ],
+      "terrain": {
+        ".": "t_rock_floor",
+        "~": "t_railroad_tie_d2",
+        "s": "t_crystal_spire",
+        "-": "t_crystal_floor",
+        "r": "t_crystal_railway",
+        "w": "t_crystal_wall",
+        ",": "t_railroad_track_d2",
+        "#": "t_railroad_rubble"
+      },
       "place_nested": [
         {
-          "chunks": [ [ "mass_grave_abandoned", 30 ], [ "mass_grave_partial", 20 ], [ "mass_grave_finished", 10 ] ],
+          "chunks": [ [ "camp_defences_good", 30 ], [ "camp_defences_good", 20 ], [ "camp_defences_good", 10 ] ],
           "x": 0,
           "y": 0
-        }
+        },
+        {
+          "chunks": [ [ "camp_tent_reguler", 30 ], [ "camp_tent_boardgame", 20 ], [ "camp_tent_reguler", 10 ] ],
+          "x": 0,
+          "y": 5
+        },
+        {
+          "chunks": [ [ "camp_tent_reguler", 30 ], [ "camp_tent_boardgame", 20 ], [ "camp_tent_reguler", 10 ] ],
+          "x": 0,
+          "y": 13
+        },
+        {
+          "chunks": [ [ "camp_tent_reguler", 30 ], [ "camp_tent_boardgame", 20 ], [ "camp_tent_reguler", 10 ] ],
+          "x": 0,
+          "y": 11
+        },
+        { "chunks": [ [ "camp_cooking_area_not_used", 50 ], [ "camp_cooking_area_used", 50 ] ], "x": 16, "y": 11 }
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "camp_defences_good",
+    "//": "The northern and southern segments of the camp, comprising good defenses with decent barricades, guard posts, and mounted automatic weapons.",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "||||||||cbaaaabcwww|||||",
+        "...#,###r??dde?r???,#...",
+        "...#,###,??ee??r??#,#...",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "      d    ????r d      ",
+        "|||||bb||||a?www|bb|||||"
+      ],
+      "terrain": {
+        ".": "t_rock_floor",
+        "a": "t_rock_floor",
+        "#": "t_railroad_rubble",
+        "b": "t_railroad_rubble",
+        ",": "t_railroad_track_d2",
+        "c": "t_railroad_track_d2",
+        "~": "t_railroad_tie_d2",
+        "?": "t_crystal_floor",
+        "r": "t_crystal_railway",
+        "w": "t_crystal_barrier",
+        "|": "t_junk_palisade"
+      },
+      "furniture": { "a": "f_sandbag_half", "b": "f_sandbag_half", "c": "f_sandbag_half", "d": "f_tourist_table", "e": "f_camp_chair" },
+      "place_monsters": [
+        { "monster": "GROUP_REMNANT_SOLDIERS", "density": 0.03, "x": [ 10, 12 ], "y": [ 2, 3 ] },
+        { "monster": "GROUP_REMNANT_SOLDIERS", "density": 0.02, "x": [ 13, 16 ], "y": [ 1, 3 ] },
+        { "monster": "GROUP_REMNANT_SOLDIERS", "density": 0.03, "x": [ 0, 22 ], "y": [ 21, 22 ] },
+        { "monster": "GROUP_REMNANT_SOLDIERS", "x": 12, "y": 23, "chance": 100 }
+      ],
+      "place_loot": [
+        { "group": "anomaly_mounted_guns", "x": 12, "y": 1 },
+        { "group": "anomaly_mounted_gun_ammo", "x": 11, "y": 1 },
+        { "group": "anomaly_guard_lighting", "x": 11, "y": 1 },
+        { "item": "ammolink308", "repeat": [ 1, 100 ], "x": [ 12, 13 ], "y": [ 1, 2 ] },
+        { "item": "308_casing", "repeat": [ 1, 100 ], "x": [ 12, 13 ], "y": [ 1, 2 ] },
+        { "group": "anomaly_guard_lighting", "x": 6, "y": 22 },
+        { "group": "anomaly_guard_lighting", "damage-min": 0, "damage-max": 3, "x": 12, "y": 22 },
+        { "item": "scrap", "count": [ 4, 8 ], "x": 12, "y": 22 },
+        { "item": "pipe", "count": [ 1, 3 ], "x": 12, "y": 22 },
+        { "item": "sheet_metal_small", "count": [ 4, 8 ], "x": 12, "y": 22 },
+        { "item": "bag_canvas", "count": [ 10, 16 ], "x": 12, "y": 23 },
+        { "item": "material_sand", "charges": [ 800, 960 ], "x": 12, "y": 23 },
+        { "group": "anomaly_guard_lighting", "x": 17, "y": 22 }
       ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "survivor_camp",
+    "//": "a small tent housing civilians, with accommodations for bedding and personal items. Last ditch survival equipment is also present and provided.",
+    "nested_mapgen_id": "camp_tent_reguler",
     "object": {
-      "mapgensize": [ 24, 24 ],
+      "mapgensize": [ 5, 5 ],
       "rows": [
-        "...p,ppp,p....p,ppp,p...",
-        "mmmmcbbbcbaaaabcbbbcmmmm",
-        "...#,###,#....#,###,#...",
-        "...#,###,#....#,###,#...",
-        "...~,~~~,~....~,~~~,~...",
-        "...#,###,#....#,###,#...",
-        "...#,###,#....#,###,#...",
-        "...~,~~~,~....~,~~~,~...",
-        "...#,###,#....#,###,#...",
-        "...#,###,#....#,###,#...",
-        "...~,~~~,~....~,~~~,~...",
-        "...#,###,#....#,###,#...",
-        "...#,###,#....#,###,#...",
-        "...~,~~~,~....~,~~~,~...",
-        "...#,###,#....#,###,#...",
-        "...#,###,#....#,###,#...",
-        "...~,~~~,~....~,~~~,~...",
-        "...#,###,#....#,###,#...",
-        "...#,###,#....#,###,#...",
-        "...~,~~~,~....~,~~~,~...",
-        "...#,###,#....#,###,#...",
-        "...#,###,#....#,###,#...",
-        "mmmmcbbbcbaaaabcbbbcmmmm",
-        "...p,ppp,p....p,ppp,p..."
+        "|||||",
+        "|ccc|",
+        "|l..o",
+        "|ccc|",
+        "|||||"
       ],
-      "terrain": {
-        ".": "t_rock_floor",
-        "a": "t_rock_floor",
-        "#": "t_railroad_rubble",
-        "~": "t_railroad_tie_d2",
-        "b": "t_railroad_tie_d2",
-        ",": "t_railroad_track_d2",
-        "c": "t_railroad_track_d2",
-        "p": "t_pit_shallow",
-        "m": "t_junk_wall"
-      },
       "furniture": {
-        "a": "f_gravelbag_half",
-        "b": "f_gravelbag_half",
-        "c": "f_gravelbag_half",
         "|": "f_large_canvas_wall",
-        "D": "f_large_canvas_door_o",
-        "n": "f_tourist_table",
-        "B": "f_makeshift_bed",
-        "c": "f_camp_chair",
-        "X": "f_plastic_groundsheet"
+        "o": "f_large_canvas_door_o",
+        ".": "f_plastic_groundsheet",
+        "c": "f_plastic_groundsheet",
+        "l": "f_foot_locker"
+      },
+      "traps": { "c": "tr_cot" },
+      "items": { "c": [ { "item": "bed", "chance": 90 }, { "item": "default_zombie_items_bags", "chance": 50 } ] },
+      "place_monsters": [ { "monster": "GROUP_REMNANT_CIVILIANS", "density": 0.03, "x": [ 1, 3 ], "y": [ 1, 3 ] } ],
+      "place_loot": [ { "group": "anomaly_Civilian_locker", "x": 1, "y": 2 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "a small tent housing civilians, containing the remains of a boardgame session interrupted by the camp’s downfall.",
+    "nested_mapgen_id": "camp_tent_boardgame",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "|||||",
+        "|ccc|",
+        "|lt.d",
+        "|ccc|",
+        "|||||"
+      ],
+      "furniture": {
+        "|": "f_large_canvas_wall",
+        "d": "f_large_canvas_door",
+        ".": "f_plastic_groundsheet",
+        "c": "f_plastic_groundsheet",
+        "t": "f_tourist_table",
+        "l": "f_foot_locker"
+      },
+      "traps": { "c": "tr_cot" },
+      "place_monsters": [
+        { "monster": "GROUP_REMNANT_CIVILIANS", "x": 2, "y": 3, "chance": 100 },
+        { "monster": "GROUP_REMNANT_CIVILIANS", "x": 2, "y": 1, "chance": 100 }
+      ],
+      "items": { "c": [ { "item": "bed", "chance": 90 }, { "item": "default_zombie_items_bags", "chance": 50 } ] },
+      "place_loot": [ { "group": "anomaly_Civilian_locker", "x": 1, "y": 2 }, { "group": "games", "repeat": [ 1, 3 ], "x": 2, "y": 2 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "the camp’s principle cooking area, which wasn’t in operation prior to the camp’s downfall.",
+    "nested_mapgen_id": "camp_cooking_area_not_used",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "s s",
+        "ttt",
+        "sts"
+      ],
+      "furniture": { "s": "f_stool", "t": "f_tourist_table" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "the camp’s principle cooking area, which was in use prior to the camp's downfall. It includes some miscellaneous food items as well as cooking utensils.",
+    "nested_mapgen_id": "camp_cooking_area_used",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "s s",
+        "tnt",
+        "sts"
+      ],
+      "furniture": { "s": "f_stool", "n": "f_tourist_table", "t": "f_tourist_table" },
+      "monster": { "s": { "monster": "mon_remnant_survivor", "chance": 50 } },
+      "items": {
+        "t": [
+          { "item": "dishes_utility", "chance": 90 },
+          { "item": "cannedfood", "chance": 50 },
+          { "item": "pasta", "chance": 50 },
+          { "item": "foodintincan", "chance": 50 },
+          { "item": "dry_goods", "chance": 50 }
+        ]
       },
       "place_loot": [
-        { "group": "corpse_in_body_bag", "x": 14, "y": [ 2, 18 ], "repeat": [ 5, 20 ] },
-        { "group": "corpse_in_body_bag", "x": 17, "y": [ 2, 18 ], "repeat": [ 5, 20 ] },
-        { "group": "everyday_corpse", "x": 14, "y": [ 2, 18 ], "repeat": [ 0, 4 ] },
-        { "group": "everyday_corpse", "x": 17, "y": [ 2, 18 ], "repeat": [ 0, 4 ] },
-        { "group": "mass_grave_casings", "repeat": [ 10, 15 ], "x": [ 2, 22 ], "y": [ 18, 23 ] },
-        { "group": "guns_launcher_flame", "chance": 40, "x": [ 2, 5 ], "y": 20 },
-        { "item": "stanag30", "repeat": [ 0, 2 ], "x": [ 2, 22 ], "y": [ 18, 23 ] },
-        { "item": "mask_gas", "repeat": [ 0, 3 ], "x": [ 2, 5 ], "y": 20 },
-        { "item": "oxygen_tank", "repeat": [ 1, 6 ], "x": 10, "y": [ 20, 22 ] },
-        { "item": "gasfilter_m", "repeat": [ 5, 8 ], "x": 10, "y": [ 20, 22 ] }
-      ],
-      "place_monsters": [
-        { "monster": "GROUP_MASS_GRAVE", "density": 1, "x": [ 1, 22 ], "y": [ 1, 22 ] },
-        { "monster": "GROUP_SCHOOL", "chance": 35, "density": 1, "x": [ 1, 22 ], "y": [ 1, 22 ] },
-        { "monster": "GROUP_MIL_MASS_GRAVE", "density": 0.25, "x": [ 1, 22 ], "y": [ 1, 22 ] }
-      ],
-      "place_fields": [
-        { "field": "fd_blood", "x": [ 2, 22 ], "y": [ 18, 23 ], "repeat": [ 8, 12 ] },
-        { "field": "fd_gibs_flesh", "x": [ 2, 22 ], "y": [ 18, 23 ], "repeat": [ 1, 5 ] },
-        { "field": "fd_blood", "x": [ 2, 22 ], "y": [ 18, 23 ], "repeat": [ 4, 8 ] }
-      ],
-      "place_vehicles": [
-        { "vehicle": "military_cargo_truck", "x": [ 16, 17 ], "y": [ 19, 20 ], "chance": 25 },
-        { "vehicle": "trencher", "x": [ 19, 22 ], "y": [ 3, 13 ], "chance": 40, "rotation": [ 90, 270 ] }
-      ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+        { "group": "anomaly_sevillian_lighting", "x": 1, "y": 1 },
+        { "item": "mess_kit", "x": 0, "y": 1 },
+        { "item": "mess_kit", "x": 2, "y": 1 }
+      ]
     }
   }
 ]

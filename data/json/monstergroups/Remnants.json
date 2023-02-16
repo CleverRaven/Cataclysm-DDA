@@ -1,0 +1,12 @@
+[
+  {
+    "type": "monstergroup",
+    "name": "GROUP_REMNANT_SOLDIERS",
+    "monsters": [ { "monster": "mon_remnant_soldier", "weight": 800 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_REMNANT_CIVILIANS",
+    "monsters": [ { "monster": "mon_remnant_survivor", "weight": 400 }, { "monster": "mon_remnant_child", "weight": 200 } ]
+  }
+]
