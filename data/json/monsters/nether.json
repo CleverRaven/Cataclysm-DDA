@@ -965,7 +965,7 @@
     "id": "mon_nether_fish",
     "type": "MONSTER",
     "name": { "str": "nether fish symbiote" },
-    "description": "A small fish symbiote that resembles a deformed, eyeless piranha. It swims blindly in the yellow ichor, wriggling incessantly with malicious intent.",
+    "description": "A small fish symbiote that resembles a deformed, eyeless piranha.  It swims blindly in the yellow ichor, wriggling incessantly with malicious intent.",
     "default_faction": "nether",
     "bodytype": "fish",
     "species": [ "NETHER" ],
