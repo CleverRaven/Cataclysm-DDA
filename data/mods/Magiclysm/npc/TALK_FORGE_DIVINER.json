@@ -61,10 +61,16 @@
     "dynamic_line": "Perhaps.  What do you seek?",
     "responses": [
       { "text": "A dangerous location.", "topic": "TALK_FORGE_LORD_DIVINER_DANGEROUS" },
-      { "text": "A man made structure.", "topic": "TALK_FORGE_LORD_DIVINER_MAN_MADE",
-        "condition": { "not": { "mod_is_loaded":  "innawood" } } },
-      { "text": "A man made structure.", "topic": "TALK_FORGE_LORD_DIVINER_MAN_MADE_INNAWOOD",
-        "condition": { "mod_is_loaded":  "innawood" } },
+      {
+        "text": "A man made structure.",
+        "topic": "TALK_FORGE_LORD_DIVINER_MAN_MADE",
+        "condition": { "not": { "mod_is_loaded": "innawood" } }
+      },
+      {
+        "text": "A man made structure.",
+        "topic": "TALK_FORGE_LORD_DIVINER_MAN_MADE_INNAWOOD",
+        "condition": { "mod_is_loaded": "innawood" }
+      },
       { "text": "A geological formation.", "topic": "TALK_FORGE_LORD_DIVINER_GEOLOGY" },
       { "text": "A plant.", "topic": "TALK_FORGE_LORD_DIVINER_PLANT" },
       { "text": "An animal.", "topic": "TALK_FORGE_LORD_DIVINER_ANIMAL" },
@@ -848,13 +854,13 @@
       {
         "text": "It's a deal.",
         "topic": "TALK_DONE",
-        "condition": { "and": [ { "u_has_item": "denarius" }, { "not": { "mod_is_loaded":  "innawood" } } ] },
+        "condition": { "and": [ { "u_has_item": "denarius" }, { "not": { "mod_is_loaded": "innawood" } } ] },
         "effect": [ { "assign_mission": "MISSION_FORGE_DIVINER_CAVE" }, { "u_consume_item": "denarius" } ]
       },
       {
         "text": "It's a deal.",
         "topic": "TALK_DONE",
-        "condition": { "and": [ { "u_has_item": "denarius" }, { "mod_is_loaded":  "innawood" } ] },
+        "condition": { "and": [ { "u_has_item": "denarius" }, { "mod_is_loaded": "innawood" } ] },
         "effect": [ { "assign_mission": "MISSION_FORGE_DIVINER_CAVE_INNAWOOD" }, { "u_consume_item": "denarius" } ]
       },
       {
