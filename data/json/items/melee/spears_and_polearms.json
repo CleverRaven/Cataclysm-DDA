@@ -243,7 +243,7 @@
     "flags": [ "DURABLE_MELEE", "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
     "weapon_category": [ "POLEARMS", "SPEARS" ],
     "price": 16000,
-    "qualities": [ [ "COOK", 1 ] ]
+    "qualities": [ [ "CUT", 1 ], [ "COOK", 1 ], [ "BUTCHER", -28 ] ]
   },
   {
     "id": "spear_homemade_halfpike",
@@ -392,7 +392,7 @@
     "bashing": 6,
     "cutting": 25,
     "to_hit": { "grip": "solid", "length": "long", "surface": "point", "balance": "neutral" },
-    "flags": [ "SPEAR", "REACH_ATTACK", "SHEATH_SPEAR", "DURABLE_MELEE" ],
+    "flags": [ "SPEAR", "REACH_ATTACK", "SHEATH_SPEAR" ],
     "weapon_category": [ "POLEARMS", "SPEARS" ],
     "price": 8000,
     "qualities": [ [ "COOK", 1 ] ]
@@ -413,7 +413,7 @@
     "bashing": 8,
     "cutting": 29,
     "to_hit": { "grip": "solid", "length": "long", "surface": "point", "balance": "neutral" },
-    "flags": [ "SPEAR", "REACH_ATTACK", "SHEATH_SPEAR", "DURABLE_MELEE" ],
+    "flags": [ "SPEAR", "REACH_ATTACK", "SHEATH_SPEAR" ],
     "weapon_category": [ "POLEARMS", "SPEARS" ],
     "price": 8000,
     "qualities": [ [ "COOK", 1 ] ]

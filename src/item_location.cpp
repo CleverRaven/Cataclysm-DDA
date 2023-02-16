@@ -564,6 +564,9 @@ class item_location::impl::item_in_container : public item_location::impl
         // figures out the index for the item, which is where it is in the total list of contents
         // note: could be a better way of handling this?
         int calc_index() const {
+            if( !container ) {
+                return -1;
+            }
             int idx = 0;
             for( const item *it : container->all_items_top() ) {
                 if( target() == it ) {
@@ -628,6 +631,13 @@ class item_location::impl::item_in_container : public item_location::impl
         void remove_item() override {
             on_contents_changed();
             container->remove_item( *target() );
+            item_location ancestor = parent_item();
+            while( ancestor.has_parent() ) {
+                ancestor = ancestor.parent_item();
+            }
+            if( !ancestor->needs_processing() ) {
+                get_map().remove_active_item( ancestor.position(), ancestor.get_item() );
+            }
         }
 
         void on_contents_changed() override {

@@ -309,7 +309,6 @@ bool write_to_file( const cata_path &path, const std::function<void( std::ostrea
     }
 }
 
-
 ofstream_wrapper::ofstream_wrapper( const fs::path &path, const std::ios::openmode mode )
     : path( path )
 
@@ -474,7 +473,6 @@ std::unique_ptr<std::istream> read_maybe_compressed_file( const cata_path &path 
     return read_maybe_compressed_file( path.get_unrelative_path() );
 }
 
-
 cata::optional<std::string> read_whole_file( const std::string &path )
 {
     return read_whole_file( fs::u8path( path ) );
@@ -521,7 +519,6 @@ cata::optional<std::string> read_whole_file( const cata_path &path )
 {
     return read_whole_file( path.get_unrelative_path() );
 }
-
 
 bool read_from_file_json( const cata_path &path,
                           const std::function<void( const JsonValue & )> &reader )
@@ -795,4 +792,22 @@ int bucket_index_from_weight_list( const std::vector<int> &weights )
         index++;
     }
     return index;
+}
+
+template<>
+std::string io::enum_to_string<aggregate_type>( aggregate_type agg )
+{
+    switch( agg ) {
+        // *INDENT-OFF*
+        case aggregate_type::FIRST:   return "first";
+        case aggregate_type::LAST:    return "last";
+        case aggregate_type::MIN:     return "min";
+        case aggregate_type::MAX:     return "max";
+        case aggregate_type::SUM:     return "sum";
+        case aggregate_type::AVERAGE: return "average";
+        // *INDENT-ON*
+        case aggregate_type::num_aggregate_types:
+            break;
+    }
+    cata_fatal( "Invalid aggregate type." );
 }

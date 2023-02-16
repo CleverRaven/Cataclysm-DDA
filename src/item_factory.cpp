@@ -792,7 +792,6 @@ void Item_factory::finalize_post_armor( itype &obj )
                         found = true;
                         // modify the values with additional info
 
-
                         it.encumber += sub_armor.encumber;
                         it.max_encumber += sub_armor.max_encumber;
 
@@ -823,7 +822,6 @@ void Item_factory::finalize_post_armor( itype &obj )
                         for( const layer_level &ll : sub_armor.layers ) {
                             it.layers.insert( ll );
                         }
-
 
                         // if you are trying to add a new data entry and either the original data
                         // or the new data has an empty sublocations list then say that you are
@@ -948,7 +946,6 @@ void Item_factory::finalize_post_armor( itype &obj )
             }
         }
     }
-
 
     // store a shorthand var for if the item has notable sub coverage data
     for( const armor_portion_data &armor_data : obj.armor->data ) {
@@ -1086,7 +1083,6 @@ void Item_factory::finalize_post_armor( itype &obj )
 
     // generate the vector of flags that the item will default to if not override
     std::vector<layer_level> default_layers = obj.armor->all_layers;
-
 
     for( armor_portion_data &armor_data : obj.armor->data ) {
         // if an item or location has no layer data then default to the flags for the item
@@ -1647,7 +1643,6 @@ void Item_factory::init()
     add_iuse( "INHALER", &iuse::inhaler );
     add_iuse( "JACKHAMMER", &iuse::jackhammer );
     add_iuse( "JET_INJECTOR", &iuse::jet_injector );
-    add_iuse( "LADDER", &iuse::ladder );
     add_iuse( "LUMBER", &iuse::lumber );
     add_iuse( "MAGIC_8_BALL", &iuse::magic_8_ball );
     add_iuse( "PLAY_GAME", &iuse::play_game );
@@ -1738,7 +1733,6 @@ void Item_factory::init()
     add_iuse( "VOLTMETER", &iuse::voltmeter );
 
     add_actor( std::make_unique<ammobelt_actor>() );
-    add_actor( std::make_unique<cauterize_actor>() );
     add_actor( std::make_unique<consume_drug_iuse>() );
     add_actor( std::make_unique<delayed_transform_iuse>() );
     add_actor( std::make_unique<explosion_iuse>() );
@@ -2725,7 +2719,6 @@ void armor_portion_data::deserialize( const JsonObject &jo )
     }
     optional( jo, false, "specifically_covers", sub_coverage );
 
-
     // if no sub locations are specified assume it covers everything
     if( covers.has_value() && sub_coverage.empty() ) {
         for( const bodypart_str_id &bp : covers.value() ) {
@@ -3201,7 +3194,6 @@ void islot_seed::deserialize( const JsonObject &jo )
 {
     load( jo );
 }
-
 
 void Item_factory::load( islot_gunmod &slot, const JsonObject &jo, const std::string &src )
 {

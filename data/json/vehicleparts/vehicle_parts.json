@@ -682,6 +682,7 @@
     "description": "A small washing machine.  With detergent, water, and some electrical power, you could clean a lot of clothes.  'e'xamine the tile with the washing machine to use it.",
     "epower": "-400 W",
     "item": "washing_machine",
+    "size": "40 L",
     "location": "center",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
@@ -715,6 +716,7 @@
     "description": "A small dishwasher.  With detergent, water, and some electrical power, you could clean your dishes… or something more useful like a CBM dripping with zombie gore.  'e'xamine the tile with the dishwasher to use it.",
     "epower": "-400 W",
     "item": "dishwasher",
+    "size": "40 L",
     "location": "center",
     "looks_like": "washing_machine",
     "requirements": {
@@ -749,6 +751,7 @@
     "description": "This is an autoclave.  It's useful for sterilizing things like CBMs.  'e'xamine the tile with the autoclave to use it.",
     "epower": "-1500 W",
     "item": "vh_autoclave",
+    "size": "76 L",
     "location": "center",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
@@ -967,7 +970,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "repair_welding_standard", 3 ] ] }
     },
-    "flags": [ "CARGO", "OBSTACLE", "FLAT_SURF", "WORKBENCH" ],
+    "flags": [ "CARGO", "BOARDABLE", "FLAT_SURF", "WORKBENCH" ],
     "breaks_into": [
       { "item": "pipe", "count": [ 4, 6 ] },
       { "item": "sheet_metal", "count": [ 0, 1 ] },
@@ -993,7 +996,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "15 m", "using": [ [ "repair_welding_standard", 3 ] ] }
     },
-    "flags": [ "CARGO", "OBSTACLE", "FLAT_SURF", "WORKBENCH", "ENABLED_DRAINS_EPOWER", "RECHARGE" ],
+    "flags": [ "CARGO", "MOUNTABLE", "FLAT_SURF", "WORKBENCH", "ENABLED_DRAINS_EPOWER", "RECHARGE" ],
     "breaks_into": [
       { "item": "pipe", "count": [ 4, 6 ] },
       { "item": "sheet_metal", "count": [ 0, 1 ] },

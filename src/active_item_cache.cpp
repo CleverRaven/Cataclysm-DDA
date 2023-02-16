@@ -6,12 +6,30 @@
 #include "item.h"
 #include "safe_reference.h"
 
-void active_item_cache::remove( const item *it )
+namespace
 {
-    active_items[it->processing_speed()].remove_if( [it]( const item_reference & active_item ) {
+
+void _remove_if( std::list<item_reference> &active_items, item const *it )
+{
+    active_items.remove_if( [it]( const item_reference & active_item ) {
         item *const target = active_item.item_ref.get();
         return !target || target == it;
     } );
+}
+
+} // namespace
+
+void active_item_cache::remove( const item *it )
+{
+    int const ps = it->processing_speed();
+    if( ps == item::NO_PROCESSING ) {
+        // this item might have contained an active item so remove it from all queues
+        for( decltype( active_items )::value_type &al : active_items ) {
+            _remove_if( al.second, it );
+        }
+    } else {
+        _remove_if( active_items[ps], it );
+    }
     if( it->can_revive() ) {
         special_items[ special_item_type::corpse ].remove_if( [it]( const item_reference & active_item ) {
             item *const target = active_item.item_ref.get();

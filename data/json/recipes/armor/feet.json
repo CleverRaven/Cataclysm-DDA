@@ -110,6 +110,7 @@
     "type": "recipe",
     "copy-from": "boots_acidchitin",
     "time": "16 h",
+    "qualities": [ { "id": "CUT_FINE", "level": 1 } ],
     "using": [ [ "armor_acidchitin", 13 ], [ "strap_small", 3 ], [ "clasps", 1 ] ]
   },
   {
@@ -445,6 +446,7 @@
     "type": "recipe",
     "copy-from": "boots_plate",
     "time": "8 h",
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "using": [ [ "blacksmithing_standard", 24 ], [ "steel_standard", 6 ], [ "tailoring_leather_small", 12 ] ],
     "tools": [ [ [ "swage", -1 ] ] ]
   },
@@ -481,7 +483,8 @@
     "copy-from": "boots_scrap",
     "time": "30 m",
     "using": [ [ "cordage", 1 ], [ "mixed_steel", 1 ] ],
-    "components": [ [ [ "cotton_patchwork", 2 ] ] ]
+    "components": [ [ [ "cotton_patchwork", 2 ] ] ],
+    "qualities": [ { "id": "HAMMER", "level": 1 } ]
   },
   {
     "result": "xl_boots_scrap",
@@ -490,7 +493,8 @@
     "copy-from": "boots_scrap",
     "time": "35 m",
     "using": [ [ "cordage", 2 ], [ "mixed_steel", 1 ] ],
-    "components": [ [ [ "cotton_patchwork", 6 ] ] ]
+    "components": [ [ [ "cotton_patchwork", 6 ] ] ],
+    "qualities": [ { "id": "HAMMER", "level": 1 } ]
   },
   {
     "result": "boots_survivor",

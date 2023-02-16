@@ -238,7 +238,7 @@
     "type": "profession",
     "id": "novice_earthshaper",
     "name": "Novice Earthshaper",
-    "description": "You always were tough in a fight.  Your coach managed to teach you a trick or two to make you a little tougher.",
+    "description": "You were always tough in a fight.  Your coach managed to teach you a trick or two to make you a little tougher.",
     "spells": [ { "id": "stonefist", "level": 1 }, { "id": "seismic_stomp", "level": 1 } ],
     "points": 0,
     "items": {
@@ -497,7 +497,7 @@
     "type": "profession",
     "id": "storm_police",
     "name": "Shock Officer",
-    "description": "You were enrolled in a experimental law enforcement program designed to decrease suspect casualties and equipment costs by substituting tasers and bullets for less-lethal Stormshaping.",
+    "description": "You were enrolled in an experimental law enforcement program designed to decrease suspect casualties and equipment costs by substituting tasers and bullets for less-lethal Stormshaping.",
     "points": 4,
     "spells": [
       { "id": "windstrike", "level": 3 },

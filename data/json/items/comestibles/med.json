@@ -51,7 +51,7 @@
     "description": "A small medical dressing made of a piece of sterile cloth and sticky tape, used for small injuries not serious enough to require a full-size bandage.",
     "weight": "2 g",
     "volume": "2 ml",
-    "price": 600,
+    "price": 5,
     "price_postapoc": 2,
     "material": "cotton",
     "symbol": "!",
