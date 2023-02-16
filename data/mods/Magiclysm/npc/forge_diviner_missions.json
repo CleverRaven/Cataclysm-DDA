@@ -349,9 +349,7 @@
     "value": 0,
     "description": "The diviner told you that there would be a river here.",
     "destination": "river_center",
-    "start": {
-      "assign_mission_target": { "om_terrain": "river_center", "reveal_radius": 3, "cant_see": true, "search_range": 180 }
-    }
+    "start": { "assign_mission_target": { "om_terrain": "river_center", "reveal_radius": 3, "cant_see": true, "search_range": 180 } }
   },
   {
     "id": "MISSION_FORGE_DIVINER_CLAY",
@@ -386,9 +384,7 @@
     "value": 0,
     "description": "The diviner told you that there would be a hot spring here.",
     "destination": "hot_springs",
-    "start": {
-      "assign_mission_target": { "om_terrain": "hot_springs", "reveal_radius": 3, "cant_see": true, "search_range": 180 }
-    }
+    "start": { "assign_mission_target": { "om_terrain": "hot_springs", "reveal_radius": 3, "cant_see": true, "search_range": 180 } }
   },
   {
     "id": "MISSION_FORGE_DIVINER_CAVE",
@@ -399,13 +395,11 @@
     "value": 0,
     "description": "The diviner told you that there would be a cave here.",
     "destination": "cave",
-    "start": {
-      "assign_mission_target": { "om_terrain": "cave", "reveal_radius": 3, "cant_see": true, "search_range": 180 }
-    }
+    "start": { "assign_mission_target": { "om_terrain": "cave", "reveal_radius": 3, "cant_see": true, "search_range": 180 } }
   },
   {
     "id": "MISSION_FORGE_DIVINER_CAVE_INNAWOOD",
-    "//":  "Innawood uses a different terrain ID for caves",
+    "//": "Innawood uses a different terrain ID for caves",
     "type": "mission_definition",
     "name": { "str": "Visit the cave" },
     "goal": "MGOAL_GO_TO_TYPE",
