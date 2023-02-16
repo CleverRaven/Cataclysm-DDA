@@ -7982,7 +7982,7 @@
     "points": -3,
     "valid": false,
     "starting_trait": true,
-    "description": "Whether due to personal choice, injury, or childhood truama, you're unable to speak.  This prevents you from interacting with NPCs."
+    "description": "Whether due to personal choice, injury, or childhood trauma, you're unable to speak.  This prevents you from interacting with NPCs."
   },
   {
     "type": "mutation",
