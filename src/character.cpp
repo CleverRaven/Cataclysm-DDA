@@ -2266,8 +2266,6 @@ void Character::recalc_sight_limits()
         sight_max = 10;
     }
 
-    sight_max = enchantment_cache->modify_value( enchant_vals::mod::SIGHT_RANGE, sight_max );
-
     // Debug-only NV, by vache's request
     if( has_trait( trait_DEBUG_NIGHTVISION ) ) {
         vision_mode_cache.set( DEBUG_NIGHTVISION );
@@ -10112,14 +10110,23 @@ action_id Character::get_next_auto_move_direction()
     return get_movement_action_from_delta( dp.raw(), iso_rotate::yes );
 }
 
-int Character::talk_skill() const
+int Character::persuade_skill() const
 {
     /** @EFFECT_INT slightly increases talking skill */
-
     /** @EFFECT_PER slightly increases talking skill */
-
     /** @EFFECT_SPEECH increases talking skill */
     int ret = get_int() + get_per() + get_skill_level( skill_speech ) * 3;
+    ret = enchantment_cache->modify_value( enchant_vals::mod::SOCIAL_PERSUADE, ret );
+    return ret;
+}
+
+int Character::lie_skill() const
+{
+    /** @EFFECT_INT slightly increases talking skill */
+    /** @EFFECT_PER slightly increases talking skill */
+    /** @EFFECT_SPEECH increases talking skill */
+    int ret = get_int() + get_per() + get_skill_level( skill_speech ) * 3;
+    ret = enchantment_cache->modify_value( enchant_vals::mod::SOCIAL_LIE, ret );
     return ret;
 }
 

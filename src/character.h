@@ -2165,8 +2165,10 @@ class Character : public Creature, public visitable
         // Mental skills and stats
         /** Returns the player's reading speed as a percentage*/
         int read_speed() const;
-        /** Returns a value used when attempting to convince NPC's of something */
-        int talk_skill() const;
+        /** Returns a value used when attempting to convince NPC's of something false*/
+        int lie_skill() const;
+        /** Returns a value used when attempting to convince NPC's of something true*/
+        int persuade_skill() const;
         /** Returns a value used when attempting to intimidate NPC's */
         int intimidation() const;
 

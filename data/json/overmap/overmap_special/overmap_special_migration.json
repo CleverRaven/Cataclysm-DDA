@@ -48,5 +48,15 @@
     "type": "overmap_special_migration",
     "id": "Movie Theater",
     "new_id": "Drive-in Theater"
+  },
+  {
+    "type": "overmap_special_migration",
+    "id": "Mansion_Wild",
+    "new_id": "Mansion_Road_1"
+  },
+  {
+    "type": "overmap_special_migration",
+    "id": "Mansion_WildAlt",
+    "new_id": "Mansion_Road_Alt_1"
   }
 ]

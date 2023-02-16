@@ -23,6 +23,7 @@
       { "trait": "NO_BASH" },
       { "trait": "RETURN_TO_START_POS" }
     ],
+    "common": false,
     "skills": [
       { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 2 ] }, { "constant": -3 } ] } },
       { "skill": "gun", "bonus": { "rng": [ 2, 4 ] } },
