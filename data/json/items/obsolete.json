@@ -1212,5 +1212,28 @@
     "category": "veh_parts",
     "price": 80000,
     "price_postapoc": 750
+  },
+  {
+    "id": "rebar_rail",
+    "type": "AMMO",
+    "name": { "str": "rebar rail" },
+    "description": "A short piece of ferromagnetic rebar which has been straightened and sharpened on one end.  Could be used as a projectile by a sufficiently powerful electromagnetic weapon.",
+    "weight": "236 g",
+    "longest_side": "16 cm",
+    "volume": "300 ml",
+    "price": 1000,
+    "price_postapoc": 250,
+    "to_hit": -1,
+    "bashing": 5,
+    "cutting": 1,
+    "material": [ "steel" ],
+    "symbol": "=",
+    "color": "light_gray",
+    "count": 10,
+    "ammo_type": "metal_rail",
+    "range": 40,
+    "damage": { "damage_type": "stab", "amount": 70, "armor_penetration": 25 },
+    "dispersion": 150,
+    "effects": [ "RECYCLED", "NON_FOULING" ]
   }
 ]
