@@ -46,8 +46,8 @@
       "sound_fail": "squish!",
       "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
     },
-    "examine_action": { 
-      "type": "effect_on_condition", 
+    "examine_action": {
+      "type": "effect_on_condition",
       "effect_on_conditions": [
         {
           "type": "effect_on_condition",
@@ -81,7 +81,7 @@
             }
           ]
         }
-      ] 
+      ]
     }
   },
   {
