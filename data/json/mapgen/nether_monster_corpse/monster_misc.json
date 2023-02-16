@@ -85,6 +85,7 @@
         "     -----------        ",
         "      ---------         "
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "nether_monster_palette" ],
       "terrain": { "<": "t_slope_down", "-": "t_region_groundcover_barren", "=": "t_nm_floor_flesh" }
     }
@@ -121,6 +122,7 @@
         "          ####          ",
         "           ##           "
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "nether_monster_palette" ],
       "terrain": {  }
     }
