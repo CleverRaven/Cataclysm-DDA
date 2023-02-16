@@ -61,7 +61,10 @@
     "dynamic_line": "Perhaps.  What do you seek?",
     "responses": [
       { "text": "A dangerous location.", "topic": "TALK_FORGE_LORD_DIVINER_DANGEROUS" },
-      { "text": "A man made structure.", "topic": "TALK_FORGE_LORD_DIVINER_MAN_MADE" },
+      { "text": "A man made structure.", "topic": "TALK_FORGE_LORD_DIVINER_MAN_MADE",
+        "condition": { "not": { "mod_is_loaded":  "innawood" } } },
+      { "text": "A man made structure.", "topic": "TALK_FORGE_LORD_DIVINER_MAN_MADE_INNAWOOD",
+        "condition": { "mod_is_loaded":  "innawood" } },
       { "text": "A geological formation.", "topic": "TALK_FORGE_LORD_DIVINER_GEOLOGY" },
       { "text": "A plant.", "topic": "TALK_FORGE_LORD_DIVINER_PLANT" },
       { "text": "An animal.", "topic": "TALK_FORGE_LORD_DIVINER_ANIMAL" },
@@ -111,6 +114,19 @@
     ]
   },
   {
+    "id": "TALK_FORGE_LORD_DIVINER_MAN_MADE_INNAWOOD",
+    "type": "talk_topic",
+    "dynamic_line": "This reality does not seem to have a history of being inhabited by humans.  Perhaps humanity never evolved?  Or perhaps they never discovered this continent?  Either way, due to the portal storms, humans are here now.  And so are orcs and goblins.  I should be able to help you find some artificial structures.  What are you looking for?",
+    "responses": [
+      { "text": "A strange temple.", "topic": "TALK_FORGE_LORD_DIVINER_TEMPLE" },
+      { "text": "An attunement altar.", "topic": "TALK_FORGE_LORD_DIVINER_ATTUNEMENT" },
+      { "text": "A goblin encampment.", "topic": "TALK_FORGE_LORD_DIVINER_GOBLIN" },
+      { "text": "An orc village.", "topic": "TALK_FORGE_LORD_DIVINER_ORC" },
+      { "text": "About something else…", "topic": "TALK_NONE" },
+      { "text": "Nevermind.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
     "id": "TALK_FORGE_LORD_DIVINER_GEOLOGY",
     "type": "talk_topic",
     "dynamic_line": "Sure.  Looking for a pretty vista, perhaps?",
@@ -142,7 +158,6 @@
       { "text": "A cow.", "topic": "TALK_FORGE_LORD_DIVINER_COW" },
       { "text": "A horse.", "topic": "TALK_FORGE_LORD_DIVINER_HORSE" },
       { "text": "A sheep.", "topic": "TALK_FORGE_LORD_DIVINER_SHEEP" },
-      { "text": "A cow.", "topic": "TALK_FORGE_LORD_DIVINER_COW" },
       { "text": "A dog.", "topic": "TALK_FORGE_LORD_DIVINER_DOG" },
       { "text": "A cat.", "topic": "TALK_FORGE_LORD_DIVINER_CAT" },
       { "text": "A hunllef ram.", "topic": "TALK_FORGE_LORD_DIVINER_HULLEF" },
@@ -627,13 +642,240 @@
   {
     "id": "TALK_FORGE_LORD_DIVINER_LAB_NETHER",
     "type": "talk_topic",
-    "dynamic_line": "Here' it seems like the scientists managed to break through the walls of reality to the nether.  Of course, they didn't bother to do it correctly, so the whole place is a mess.  Be ready for flaming eyes if you go there.  I'll mark it on your map for one denarius.",
+    "dynamic_line": "Here it seems like the scientists managed to break through the walls of reality to the nether.  Of course, they didn't bother to do it correctly, so the whole place is a mess.  Be ready for flaming eyes if you go there.  I'll mark it on your map for one denarius.",
     "responses": [
       {
         "text": "It's a deal.",
         "topic": "TALK_DONE",
         "condition": { "u_has_item": "denarius" },
         "effect": [ { "assign_mission": "MISSION_FORGE_DIVINER_LAB_NETHER" }, { "u_consume_item": "denarius" } ]
+      },
+      {
+        "text": "I can't afford that right now.",
+        "topic": "TALK_FORGE_LORD_DIVINER_GET_MONEY",
+        "condition": { "not": { "u_has_item": "denarius" } }
+      },
+      { "text": "About something else…", "topic": "TALK_NONE" },
+      { "text": "Nevermind.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_FORGE_LORD_DIVINER_EXODII",
+    "type": "talk_topic",
+    "dynamic_line": "Fellow travelers between realities, those ones.  At first I thought they would be competition, but they seem to have little interest in the thins we at the forge values.  Nowadays we barely interract with them, except in the rare occations when we find a group of them marooned in between the worlds.  Poor things are almost always driven completely insane by the time we can mount a rescue.  Nevertheless, it's the law of the sea out there, as far as Valzain is concerned.  They seem to have set up shop not too far from here.  I'll mark it on your map for one denarius.  You might wanna check the magic item store for an Amulet of Comprehend Languages before you go.  Then again, we might be out of that right now.",
+    "responses": [
+      {
+        "text": "It's a deal.",
+        "topic": "TALK_DONE",
+        "condition": { "u_has_item": "denarius" },
+        "effect": [ { "assign_mission": "MISSION_FORGE_DIVINER_EXODII" }, { "u_consume_item": "denarius" } ]
+      },
+      {
+        "text": "I can't afford that right now.",
+        "topic": "TALK_FORGE_LORD_DIVINER_GET_MONEY",
+        "condition": { "not": { "u_has_item": "denarius" } }
+      },
+      { "text": "About something else…", "topic": "TALK_NONE" },
+      { "text": "Nevermind.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_FORGE_LORD_DIVINER_TEMPLE",
+    "type": "talk_topic",
+    "dynamic_line": "Yes, a strange location indeed, burried mostly underground.  Was it really built by humans?  I find that rather unlikely.  I can't see very deep into the structure, but there is a strange power somewhere below the entrance.  I'll mark it on your map for one denarius.",
+    "responses": [
+      {
+        "text": "It's a deal.",
+        "topic": "TALK_DONE",
+        "condition": { "u_has_item": "denarius" },
+        "effect": [ { "assign_mission": "MISSION_FORGE_DIVINER_TEMPLE" }, { "u_consume_item": "denarius" } ]
+      },
+      {
+        "text": "I can't afford that right now.",
+        "topic": "TALK_FORGE_LORD_DIVINER_GET_MONEY",
+        "condition": { "not": { "u_has_item": "denarius" } }
+      },
+      { "text": "About something else…", "topic": "TALK_NONE" },
+      { "text": "Nevermind.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_FORGE_LORD_DIVINER_ATTUNEMENT",
+    "type": "talk_topic",
+    "dynamic_line": "You know, if you've got the aptitude, you should go visit an attunement altar.  I'll mark one on your map for one denarius.",
+    "responses": [
+      {
+        "text": "It's a deal.",
+        "topic": "TALK_DONE",
+        "condition": { "u_has_item": "denarius" },
+        "effect": [ { "assign_mission": "MISSION_FORGE_DIVINER_ATTUNEMENT" }, { "u_consume_item": "denarius" } ]
+      },
+      {
+        "text": "I can't afford that right now.",
+        "topic": "TALK_FORGE_LORD_DIVINER_GET_MONEY",
+        "condition": { "not": { "u_has_item": "denarius" } }
+      },
+      { "text": "About something else…", "topic": "TALK_NONE" },
+      { "text": "Nevermind.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_FORGE_LORD_DIVINER_ACADEMY",
+    "type": "talk_topic",
+    "dynamic_line": "This place used to teach magic before the whole Malignance bussnies.  There is probably still spell scrolls and magical items to find there.  And golems.  I'll mark one on your map for one denarius.",
+    "responses": [
+      {
+        "text": "It's a deal.",
+        "topic": "TALK_DONE",
+        "condition": { "u_has_item": "denarius" },
+        "effect": [ { "assign_mission": "MISSION_FORGE_DIVINER_ACADEMY" }, { "u_consume_item": "denarius" } ]
+      },
+      {
+        "text": "I can't afford that right now.",
+        "topic": "TALK_FORGE_LORD_DIVINER_GET_MONEY",
+        "condition": { "not": { "u_has_item": "denarius" } }
+      },
+      { "text": "About something else…", "topic": "TALK_NONE" },
+      { "text": "Nevermind.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_FORGE_LORD_DIVINER_TOWER",
+    "type": "talk_topic",
+    "dynamic_line": "Seems like an eccentric wizard once lived here.  Not that there is any other kind of wizards, am I right?  But, uh, don't tell Valzain I said so.  But you know it's true.  Anyways, I'll mark the building on your map for one denarius.",
+    "//": "TODO: randomize between MISSION_FORGE_DIVINER_TOWER1 and MISSION_FORGE_DIVINER_TOWER2",
+    "responses": [
+      {
+        "text": "It's a deal.",
+        "topic": "TALK_DONE",
+        "condition": { "u_has_item": "denarius" },
+        "effect": [ { "assign_mission": "MISSION_FORGE_DIVINER_TOWER1" }, { "u_consume_item": "denarius" } ]
+      },
+      {
+        "text": "I can't afford that right now.",
+        "topic": "TALK_FORGE_LORD_DIVINER_GET_MONEY",
+        "condition": { "not": { "u_has_item": "denarius" } }
+      },
+      { "text": "About something else…", "topic": "TALK_NONE" },
+      { "text": "Nevermind.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_FORGE_LORD_DIVINER_RIVER",
+    "type": "talk_topic",
+    "dynamic_line": "Rivers.  Water, sand, clay, fish, giant mutant bugs.  If you're having trouble finding one, I'll mark one on your map for one denarius.",
+    "responses": [
+      {
+        "text": "It's a deal.",
+        "topic": "TALK_DONE",
+        "condition": { "u_has_item": "denarius" },
+        "effect": [ { "assign_mission": "MISSION_FORGE_DIVINER_RIVER" }, { "u_consume_item": "denarius" } ]
+      },
+      {
+        "text": "I can't afford that right now.",
+        "topic": "TALK_FORGE_LORD_DIVINER_GET_MONEY",
+        "condition": { "not": { "u_has_item": "denarius" } }
+      },
+      { "text": "About something else…", "topic": "TALK_NONE" },
+      { "text": "Nevermind.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_FORGE_LORD_DIVINER_CLAY",
+    "type": "talk_topic",
+    "dynamic_line": "Digging clay is quintessential of the Earthshaper.  Forming it into useful tools is quintessential of the Technomancer.  I'll a large caly patch on your map for one denarius, if you want.",
+    "responses": [
+      {
+        "text": "It's a deal.",
+        "topic": "TALK_DONE",
+        "condition": { "u_has_item": "denarius" },
+        "effect": [ { "assign_mission": "MISSION_FORGE_DIVINER_CLAY" }, { "u_consume_item": "denarius" } ]
+      },
+      {
+        "text": "I can't afford that right now.",
+        "topic": "TALK_FORGE_LORD_DIVINER_GET_MONEY",
+        "condition": { "not": { "u_has_item": "denarius" } }
+      },
+      { "text": "About something else…", "topic": "TALK_NONE" },
+      { "text": "Nevermind.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_FORGE_LORD_DIVINER_SAND",
+    "type": "talk_topic",
+    "dynamic_line": "If you're looking for something rough and coarse that gets everywhere, I'll mark a large sand patch on your map for one denarius.",
+    "responses": [
+      {
+        "text": "It's a deal.",
+        "topic": "TALK_DONE",
+        "condition": { "u_has_item": "denarius" },
+        "effect": [ { "assign_mission": "MISSION_FORGE_DIVINER_SAND" }, { "u_consume_item": "denarius" } ]
+      },
+      {
+        "text": "I can't afford that right now.",
+        "topic": "TALK_FORGE_LORD_DIVINER_GET_MONEY",
+        "condition": { "not": { "u_has_item": "denarius" } }
+      },
+      { "text": "About something else…", "topic": "TALK_NONE" },
+      { "text": "Nevermind.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_FORGE_LORD_DIVINER_SPRING",
+    "type": "talk_topic",
+    "dynamic_line": "The water there is scolding hot.  Perhaps it could help you survive the cold winter months?  I'll mark one on your map for one denarius.",
+    "responses": [
+      {
+        "text": "It's a deal.",
+        "topic": "TALK_DONE",
+        "condition": { "u_has_item": "denarius" },
+        "effect": [ { "assign_mission": "MISSION_FORGE_DIVINER_SPRING" }, { "u_consume_item": "denarius" } ]
+      },
+      {
+        "text": "I can't afford that right now.",
+        "topic": "TALK_FORGE_LORD_DIVINER_GET_MONEY",
+        "condition": { "not": { "u_has_item": "denarius" } }
+      },
+      { "text": "About something else…", "topic": "TALK_NONE" },
+      { "text": "Nevermind.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_FORGE_LORD_DIVINER_CAVE",
+    "type": "talk_topic",
+    "dynamic_line": "If you're interested in the neolithic housing market,  I'll mark a cave on your map for one denarius.  Just be warned that the place might already be occupied.",
+    "responses": [
+      {
+        "text": "It's a deal.",
+        "topic": "TALK_DONE",
+        "condition": { "and": [ { "u_has_item": "denarius" }, { "not": { "mod_is_loaded":  "innawood" } } ] },
+        "effect": [ { "assign_mission": "MISSION_FORGE_DIVINER_CAVE" }, { "u_consume_item": "denarius" } ]
+      },
+      {
+        "text": "It's a deal.",
+        "topic": "TALK_DONE",
+        "condition": { "and": [ { "u_has_item": "denarius" }, { "mod_is_loaded":  "innawood" } ] },
+        "effect": [ { "assign_mission": "MISSION_FORGE_DIVINER_CAVE_INNAWOOD" }, { "u_consume_item": "denarius" } ]
+      },
+      {
+        "text": "I can't afford that right now.",
+        "topic": "TALK_FORGE_LORD_DIVINER_GET_MONEY",
+        "condition": { "not": { "u_has_item": "denarius" } }
+      },
+      { "text": "About something else…", "topic": "TALK_NONE" },
+      { "text": "Nevermind.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_FORGE_LORD_DIVINER_MAGIC_PLANT",
+    "type": "talk_topic",
+    "dynamic_line": "Looking for potion ingredients?  I know a place where the leylines converge and such plants grows plentiful.  I'll mark it on your map for one denarius.",
+    "responses": [
+      {
+        "text": "It's a deal.",
+        "topic": "TALK_DONE",
+        "condition": { "u_has_item": "denarius" },
+        "effect": [ { "assign_mission": "MISSION_FORGE_DIVINER_MAGIC_PLANT" }, { "u_consume_item": "denarius" } ]
       },
       {
         "text": "I can't afford that right now.",
