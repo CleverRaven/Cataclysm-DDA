@@ -979,7 +979,7 @@ static void draw_speed_tab( const catacurses::window &w_speed,
             player_local_temp + units::from_fahrenheit( climate_control ) > units::from_fahrenheit( 65 ) ) {
             pen_color = c_green;
             pen_sign = "+";
-        } else if( player_local_temp < units::from_fahrenheit( 65 ) ) {
+        } else if( player_local_temp + units::from_fahrenheit( climate_control ) < units::from_fahrenheit( 65 ) ) {
             pen_color = c_red;
             pen_sign = "-";
         }
