@@ -1,0 +1,11 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "globally_unique_npc_specials",
+    "name": "Globally Unique NPC Specials",
+    "authors": [ "Perset" ],
+    "description": "Restricts (some) NPC-driven mission hub locations to only spawn once.",
+    "category": "content",
+    "dependencies": [ "dda" ]
+  }
+]
