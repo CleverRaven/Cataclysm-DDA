@@ -588,7 +588,7 @@ int vehicle::engine_start_time( const int e ) const
     const double cold = 100 / tanh( 1 - std::min( engine_cold_factor( e ), 0.9 ) );
 
     // divided by magic 16 = watts / 6000
-    const int watts_per_time = 6000;
+    const double watts_per_time = 6000;
     return units::to_watt( part_vpower_w( engines[ e ], true ) ) / watts_per_time + 100 * dmg + cold;
 }
 
