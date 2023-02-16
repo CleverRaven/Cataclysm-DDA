@@ -22,6 +22,7 @@
         "              ",
         "              "
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "nether_monster_palette" ],
       "terrain": {  }
     }
@@ -49,6 +50,7 @@
         "              ",
         "              "
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "nether_monster_palette" ],
       "terrain": {  }
     }
@@ -76,6 +78,7 @@
         "              ",
         "              "
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "nether_monster_palette" ],
       "terrain": {  }
     }
@@ -103,6 +106,7 @@
         "#             ",
         "#             "
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "nether_monster_palette" ],
       "terrain": {  }
     }
@@ -130,6 +134,7 @@
         "              ",
         "              "
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "nether_monster_palette" ],
       "terrain": {  }
     }
@@ -157,6 +162,7 @@
         "#             ",
         "#             "
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "nether_monster_palette" ],
       "terrain": {  }
     }

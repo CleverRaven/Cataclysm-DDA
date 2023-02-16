@@ -14,6 +14,7 @@
         "aqraar ",
         "   ar  "
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "nether_monster_palette" ],
       "terrain": {  },
       "furniture": { "r": "f_rubble_rock", "a": "f_ash" },
@@ -35,6 +36,7 @@
         "rqaarrr",
         " r aa  "
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "nether_monster_palette" ],
       "terrain": {  },
       "furniture": { "r": "f_rubble_rock", "a": "f_ash" },
@@ -56,6 +58,7 @@
         " ll  l ",
         "  l   l"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "nether_monster_palette" ],
       "terrain": {  },
       "furniture": {  }
@@ -76,6 +79,7 @@
         "F l Fl ",
         " lll   "
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "nether_monster_palette" ],
       "terrain": {  },
       "furniture": {  }
@@ -96,6 +100,7 @@
         " lLlLl ",
         "  l LL "
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "nether_monster_palette" ],
       "terrain": {  },
       "furniture": {  }
@@ -129,6 +134,7 @@
         "    ",
         "    "
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "nether_monster_palette" ],
       "terrain": {  }
     }
@@ -145,6 +151,7 @@
         "    ",
         "    "
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "nether_monster_palette" ],
       "terrain": {  }
     }
@@ -161,6 +168,7 @@
         "    ",
         "    "
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "nether_monster_palette" ],
       "terrain": {  }
     }
@@ -183,6 +191,7 @@
         "          ",
         "          "
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "nether_monster_palette" ],
       "terrain": {  }
     }
