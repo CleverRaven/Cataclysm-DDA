@@ -7979,10 +7979,9 @@
     "type": "mutation",
     "id": "MUTE",
     "name": { "str": "Mute" },
-    "points": -3,
+    "points": 0,
     "valid": false,
-    "starting_trait": true,
-    "description": "Whether due to personal choice, injury, or childhood trauma, you're unable to speak.  This prevents you from interacting with NPCs."
+    "description": "Trait that makes it impossible to say anything."
   },
   {
     "type": "mutation",
@@ -8289,5 +8288,14 @@
     "starting_trait": true,
     "category": [ "FISH", "CEPHALOPOD", "GASTROPOD", "LIZARD", "BATRACHIAN", "PLANT" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 10 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "NONVERBAL",
+    "name": { "str": "Nonverbal" },
+    "points": -3,
+    "valid": false,
+    "starting_trait": true,
+    "description": "Whether due to personal choice, injury, or childhood trauma, you're unable to speak.  This prevents you from interacting with NPCs."
   }
 ]
