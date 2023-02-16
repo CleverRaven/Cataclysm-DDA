@@ -2491,7 +2491,7 @@ void options_manager::add_options_world_default()
 
     add( "INITIAL_TIME", "world_default", to_translation( "Initial time" ),
          to_translation( "Initial starting time of day on character generation." ),
-         0, 23, 8
+         -1, 23, 8
        );
 
     add( "INITIAL_DAY", "world_default", to_translation( "Initial day" ),

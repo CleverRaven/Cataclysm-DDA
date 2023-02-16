@@ -547,9 +547,15 @@ time_point scenario::start_of_game() const
 {
     time_point ret;
 
+    int options_start_hour = get_option<int>( "INITIAL_TIME" );
+    bool override_start_hour = options_start_hour == -1;
+    if( override_start_hour ) {
+        options_start_hour = rng( 0, 23 );
+    }
+
     if( custom_start_date() ) {
         ret = calendar::turn_zero
-              + 1_hours * start_hour()
+              + 1_hours * ( override_start_hour ? options_start_hour : start_hour() )
               + 1_days * start_day()
               + 1_days * get_option<int>( "SEASON_LENGTH" ) * start_season()
               + calendar::year_length() * ( start_year() - 1 );
@@ -560,7 +566,7 @@ time_point scenario::start_of_game() const
         }
     } else {
         ret = start_of_cataclysm()
-              + 1_hours * get_option<int>( "INITIAL_TIME" )
+              + 1_hours * options_start_hour
               + 1_days * get_option<int>( "SPAWN_DELAY" );
     }
     return ret;
