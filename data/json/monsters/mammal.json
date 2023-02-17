@@ -3015,5 +3015,5 @@
       "NO_BREED"
     ],
     "upgrades": { "age_grow": 90, "into": "mon_ferret" }
-  },
+  }
 ]
