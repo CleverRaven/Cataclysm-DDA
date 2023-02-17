@@ -284,7 +284,6 @@
     "melee_dice_sides": 2,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "armor_elec": 1,
-    "dodge": 0,
     "vision_day": 2,
     "vision_night": 2,
     "emit_fields": [ { "emit_id": "emit_fungal_leak", "delay": "1 s" } ],
