@@ -2975,9 +2975,7 @@
     "symbol": "f",
     "color": "light_gray",
     "morale": 40,
-    "melee_dice": 1,
-    "melee_dice_sides": 4,
-    "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
+    "melee_skill": 3,
     "dodge": 14,
     "vision_night": 5,
     "harvest": "mammal_tiny",
@@ -3004,18 +3002,7 @@
     "armor_cold": 0,
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "dodge": 9,
-    "flags": [
-      "SEES",
-      "HEARS",
-      "GOODHEARING",
-      "SMELLS",
-      "ANIMAL",
-      "CANPLAY",
-      "PATH_AVOID_DANGER_1",
-      "WARM",
-      "HIT_AND_RUN",
-      "NO_BREED"
-    ],
+    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "CANPLAY", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN", "NO_BREED" ],
     "upgrades": { "age_grow": 90, "into": "mon_ferret" }
   }
 ]
