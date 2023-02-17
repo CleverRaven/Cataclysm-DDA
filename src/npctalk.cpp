@@ -2220,11 +2220,16 @@ void talk_effect_fun_t<T>::set_adjust_var( const JsonObject &jo, const std::stri
     };
 }
 
-static void receive_item( const itype_id &item_name, int count, const std::string &container_name,
-                          const dialogue &d )
+static void receive_item( itype_id &item_name, int count, const std::string &container_name,
+                          const dialogue &d, bool use_item_group )
 {
+    item new_item;
+    if( use_item_group ) {
+        new_item = item_group::item_from( item_group_id( item_name.c_str() ) );
+    } else {
+        new_item = item( item_name, calendar::turn );
+    }
     if( container_name.empty() ) {
-        item new_item = item( item_name, calendar::turn );
         if( new_item.count_by_charges() ) {
             new_item.mod_charges( count - 1 );
             d.actor( false )->i_add_or_drop( new_item );
@@ -2248,7 +2253,8 @@ static void receive_item( const itype_id &item_name, int count, const std::strin
         }
     } else {
         item container( container_name, calendar::turn );
-        container.put_in( item( item_name, calendar::turn, count ),
+        new_item.mod_charges( count - 1 );
+        container.put_in( new_item,
                           item_pocket::pocket_type::CONTAINER );
         d.actor( false )->i_add_or_drop( container );
         if( d.has_beta && !d.actor( true )->disp_name().empty() ) {
@@ -2268,6 +2274,7 @@ void talk_effect_fun_t<T>::set_u_spawn_item( const JsonObject &jo, const std::st
     } else {
         container_name.str_val = "";
     }
+    bool use_item_group = jo.get_bool( "use_item_group", false );
     int_or_var<T> cost = get_int_or_var<T>( jo, "cost", false, 0 );
     int_or_var<T> count;
     if( !jo.has_int( "charges" ) ) {
@@ -2275,9 +2282,10 @@ void talk_effect_fun_t<T>::set_u_spawn_item( const JsonObject &jo, const std::st
     } else {
         count = get_int_or_var<T>( jo, "count", false, 0 );
     }
-    function = [item_name, count, container_name]( const T & d ) {
-        receive_item( itype_id( item_name.evaluate( d ) ), count.evaluate( d ),
-                      container_name.evaluate( d ), d );
+    function = [item_name, count, container_name, use_item_group]( const T & d ) {
+        itype_id iname = itype_id( item_name.evaluate( d ) );
+        receive_item( iname, count.evaluate( d ),
+                      container_name.evaluate( d ), d, use_item_group );
     };
     dialogue d( get_talker_for( get_avatar() ), nullptr );
     likely_rewards.emplace_back( count.evaluate( d ), itype_id( item_name.evaluate( d ) ) );
@@ -2295,6 +2303,7 @@ void talk_effect_fun_t<T>::set_u_buy_item( const JsonObject &jo, const std::stri
     } else {
         count = get_int_or_var<T>( jo, "count", false, 0 );
     }
+    bool use_item_group = jo.get_bool( "use_item_group", false );
     str_or_var<T> container_name;
     if( jo.has_member( "container" ) ) {
         container_name = get_str_or_var<T>( jo.get_member( "container" ), "container", true );
@@ -2302,14 +2311,16 @@ void talk_effect_fun_t<T>::set_u_buy_item( const JsonObject &jo, const std::stri
         container_name.str_val = "";
     }
     str_or_var<T> item_name = get_str_or_var<T>( jo.get_member( member ), member, true );
-    function = [item_name, cost, count, container_name, true_eocs, false_eocs]( const T & d ) {
+    function = [item_name, cost, count, container_name, true_eocs, false_eocs,
+               use_item_group]( const T & d ) {
         if( !d.actor( true )->buy_from( cost.evaluate( d ) ) ) {
             popup( _( "You can't afford it!" ) );
             run_eoc_vector( false_eocs, d );
             return;
         }
-        receive_item( itype_id( item_name.evaluate( d ) ), count.evaluate( d ),
-                      container_name.evaluate( d ), d );
+        itype_id iname = itype_id( item_name.evaluate( d ) );
+        receive_item( iname, count.evaluate( d ),
+                      container_name.evaluate( d ), d, use_item_group );
         run_eoc_vector( true_eocs, d );
     };
 }
@@ -3670,6 +3681,14 @@ void talk_effect_fun_t<T>::set_roll_remainder( const JsonObject &jo,
                 if( !d.actor( is_npc )->has_trait( trait_id( cur_string.evaluate( d ) ) ) ) {
                     not_had.push_back( cur_string.evaluate( d ) );
                 }
+            } else if( type.evaluate( d ) == "spell" ) {
+                if( d.actor( is_npc )->get_spell_level( spell_id( cur_string.evaluate( d ) ) ) == - 1 ) {
+                    not_had.push_back( cur_string.evaluate( d ) );
+                }
+            } else if( type.evaluate( d ) == "recipe" ) {
+                if( !d.actor( is_npc )->has_recipe( recipe_id( cur_string.evaluate( d ) ) ) ) {
+                    not_had.push_back( cur_string.evaluate( d ) );
+                }
             } else {
                 debugmsg( "Invalid roll remainder type." );
             }
@@ -3681,6 +3700,10 @@ void talk_effect_fun_t<T>::set_roll_remainder( const JsonObject &jo,
                 d.actor( is_npc )->add_bionic( bionic_id( cur_choice ) );
             } else if( type.evaluate( d ) == "mutation" ) {
                 d.actor( is_npc )->set_mutation( trait_id( cur_choice ) );
+            } else if( type.evaluate( d ) == "spell" ) {
+                d.actor( is_npc )->set_spell_level( spell_id( cur_choice ), 1 );
+            } else if( type.evaluate( d ) == "recipe" ) {
+                d.actor( is_npc )->learn_recipe( recipe_id( cur_choice ) );
             } else {
                 debugmsg( "Invalid roll remainder type." );
             }

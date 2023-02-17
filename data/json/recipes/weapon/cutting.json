@@ -981,7 +981,7 @@
       { "proficiency": "prof_bladesmith" }
     ],
     "using": [ [ "forging_standard", 2 ], [ "lc_steel_standard", 3 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 4 }, { "id": "GRIND", "level": 2 } ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ]
   },
   {
@@ -1082,7 +1082,7 @@
       { "proficiency": "prof_bladesmith" }
     ],
     "using": [ [ "forging_standard", 2 ], [ "lc_steel_standard", 3 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 4 }, { "id": "GRIND", "level": 2 } ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ]
   },
   {
@@ -1183,7 +1183,7 @@
       { "proficiency": "prof_bladesmith" }
     ],
     "using": [ [ "forging_standard", 2 ], [ "lc_steel_standard", 3 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 4 }, { "id": "GRIND", "level": 2 } ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ]
   },
   {
@@ -1284,7 +1284,7 @@
       { "proficiency": "prof_bladesmith" }
     ],
     "using": [ [ "forging_standard", 2 ], [ "lc_steel_standard", 3 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 4 }, { "id": "GRIND", "level": 2 } ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ]
   },
   {
@@ -1688,7 +1688,7 @@
       { "proficiency": "prof_bladesmith" }
     ],
     "using": [ [ "forging_standard", 2 ], [ "lc_steel_standard", 2 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 4 }, { "id": "GRIND", "level": 2 } ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ]
   },
   {

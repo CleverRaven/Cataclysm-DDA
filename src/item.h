@@ -1797,11 +1797,9 @@ class item : public visitable
          * item itself (@ref item_tags). The item has the flag if it appears in either set.
          *
          * Gun mods that are attached to guns also contribute their flags to the gun item.
-         *
-         * ignore_inherit means the item will skip checking items in pockets flags even if it has inherit
          */
         /*@{*/
-        bool has_flag( const flag_id &flag, bool ignore_inherit = false ) const;
+        bool has_flag( const flag_id &flag ) const;
 
         template<typename Container, typename T = std::decay_t<decltype( *std::declval<const Container &>().begin() )>>
         bool has_any_flag( const Container &flags ) const {
@@ -2806,6 +2804,8 @@ class item : public visitable
         /** Returns true if protection info was printed as well */
         bool armor_full_protection_info( std::vector<iteminfo> &info, const iteminfo_query *parts ) const;
 
+        void update_inherited_flags();
+
     public:
         enum class sizing : int {
             human_sized_human_char = 0,
@@ -2853,6 +2853,7 @@ class item : public visitable
          */
         bool requires_tags_processing = true;
         FlagsSetType item_tags; // generic item specific flags
+        FlagsSetType inherited_tags_cache;
         safe_reference_anchor anchor;
         std::map<std::string, std::string> item_vars;
         const mtype *corpse = nullptr;
