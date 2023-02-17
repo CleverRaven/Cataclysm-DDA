@@ -582,6 +582,17 @@ bool talker_character_const::has_item_with_flag( const flag_id &flag ) const
     return me_chr_const->has_item_with_flag( flag );
 }
 
+int talker_character_const::item_rads( const flag_id &flag, aggregate_type agg_func ) const
+{
+    std::vector<int> rad_vals;
+    for( const item *it : me_chr_const->all_items_with_flag( flag ) ) {
+        if( me_chr_const->is_worn( *it ) || me_chr_const->is_wielding( *it ) ) {
+            rad_vals.emplace_back( it->irradiation );
+        }
+    }
+    return aggregate( rad_vals, agg_func );
+}
+
 units::energy talker_character_const::power_cur() const
 {
     return me_chr_const->get_power_level();

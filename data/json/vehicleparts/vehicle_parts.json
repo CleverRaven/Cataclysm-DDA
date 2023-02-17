@@ -970,7 +970,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "repair_welding_standard", 3 ] ] }
     },
-    "flags": [ "CARGO", "MOUNTABLE", "FLAT_SURF", "WORKBENCH" ],
+    "flags": [ "CARGO", "BOARDABLE", "FLAT_SURF", "WORKBENCH" ],
     "breaks_into": [
       { "item": "pipe", "count": [ 4, 6 ] },
       { "item": "sheet_metal", "count": [ 0, 1 ] },
