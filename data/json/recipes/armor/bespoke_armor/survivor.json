@@ -86,7 +86,12 @@
     "difficulty": 7,
     "time": "12 h",
     "autolearn": true,
-    "using": [ [ "tailoring_kevlar_fabric", 400 ], [ "tailoring_neoprene_patchwork", 42 ], [ "fastener_large", 2 ], [ "clasps", 12 ] ],
+    "using": [
+      [ "tailoring_kevlar_fabric", 400 ],
+      [ "tailoring_neoprene_patchwork", 42 ],
+      [ "fastener_large", 2 ],
+      [ "clasps", 12 ]
+    ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
