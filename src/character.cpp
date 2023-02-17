@@ -5735,8 +5735,8 @@ static const std::map<std::string, std::function <float( std::vector<const mutat
 mutation_value_map = {
     { "healing_awake", calc_mutation_value<&mutation_branch::healing_awake> },
     { "healing_resting", calc_mutation_value<&mutation_branch::healing_resting> },
-	{ "pain_multiplier", calc_mutation_value_multiplicative<&mutation_branch::pain_multiplier> },
-	{ "pain_modifier", calc_mutation_value<&mutation_branch::pain_modifier> },
+    { "pain_multiplier", calc_mutation_value_multiplicative<&mutation_branch::pain_multiplier> },
+    { "pain_modifier", calc_mutation_value<&mutation_branch::pain_modifier> },
     { "mending_modifier", calc_mutation_value_multiplicative<&mutation_branch::mending_modifier> },
     { "hp_modifier", calc_mutation_value<&mutation_branch::hp_modifier> },
     { "hp_modifier_secondary", calc_mutation_value<&mutation_branch::hp_modifier_secondary> },
@@ -10924,20 +10924,20 @@ bool Character::immune_to( const bodypart_id &bp, damage_unit dam ) const
 void Character::mod_pain( int npain )
 {
     if( npain > 0 ) {
-        if( has_effect( effect_narcosis ) || mutation_value( "pain_multiplier" ) == 0  ) {
+        if( has_effect( effect_narcosis ) || mutation_value( "pain_multiplier" ) == 0 ) {
             return;
         }
         // always increase pain gained by one from these bad mutations
         if( mutation_value( "pain_multiplier" ) > 1 ) {
-            npain += std::max( 1, roll_remainder( npain *( mutation_value( "pain_multiplier" )-1 ) ) );
+            npain += std::max( 1, roll_remainder( npain * ( mutation_value( "pain_multiplier" ) - 1 ) ) );
         }
         if( npain > 1 && mutation_value( "pain_multiplier" ) < 1 ) {
             // if it's 1 it'll just become 0, which is bad
-			npain = roll_remainder( npain * mutation_value( "pain_multiplier" ) );	
+            npain = roll_remainder( npain * mutation_value( "pain_multiplier" ) );
         }
-		if ( mutation_value( "pain_modifier" ) != 0) {
-			npain += mutation_value( "pain_modifier" );
-		}
+        if( mutation_value( "pain_modifier" ) != 0 ) {
+            npain += mutation_value( "pain_modifier" );
+        }
     }
     Creature::mod_pain( npain );
 }
