@@ -1985,14 +1985,18 @@ void inventory_selector::rearrange_columns( size_t client_width )
     const inventory_entry &prev_entry = get_highlighted();
     const item_location prev_selection = prev_entry.is_item() ?
                                          prev_entry.any_item() : item_location::nowhere;
-    while( is_overflown( client_width ) ) {
-        if( !own_gear_column.empty() ) {
-            own_gear_column.move_entries_to( own_inv_column );
-        } else if( !map_column.empty() ) {
-            map_column.move_entries_to( own_inv_column );
-        } else {
-            break;  // There's nothing we can do about it.
+    if( is_overflown( client_width ) && !own_gear_column.empty() ) {
+        if( own_inv_column.empty() ) {
+            own_inv_column.set_indent_entries_override( own_gear_column.indent_entries() );
         }
+        own_gear_column.move_entries_to( own_inv_column );
+        own_inv_column.reset_width( {} );
+    }
+    if( is_overflown( client_width ) && !map_column.empty() ) {
+        if( own_inv_column.empty() ) {
+            own_inv_column.set_indent_entries_override( map_column.indent_entries() );
+        }
+        map_column.move_entries_to( own_inv_column );
     }
     if( prev_selection ) {
         highlight( prev_selection );
