@@ -1170,7 +1170,7 @@
     "id": "bio_memory",
     "type": "bionic",
     "name": { "str": "Enhanced Memory Banks" },
-    "description": "Your memory has been enhanced with small quantum storage drives.  While active, you learn - both through reading and practice - more quickly.  Additionally, you forget skills you've learned slower.",
+    "description": "Your memory has been enhanced with small quantum storage drives.  While active, you learn - both through reading and practice - more quickly.",
     "occupied_bodyparts": [ [ "head", 3 ] ],
     "flags": [ "BIONIC_TOGGLED", "BIONIC_SLEEP_FRIENDLY" ],
     "active_flags": [ "CBQ_LEARN_BONUS" ],
@@ -1179,14 +1179,7 @@
     "trigger_cost": "25 J",
     "time": "1 s",
     "enchantments": [
-      {
-        "condition": "ACTIVE",
-        "values": [
-          { "value": "READING_EXP", "add": 2 },
-          { "value": "SKILL_RUST_RESIST", "add": 20 },
-          { "value": "LEARNING_FOCUS", "add": 10 }
-        ]
-      }
+      { "condition": "ACTIVE", "values": [ { "value": "READING_EXP", "add": 2 }, { "value": "LEARNING_FOCUS", "add": 10 } ] }
     ]
   },
   {

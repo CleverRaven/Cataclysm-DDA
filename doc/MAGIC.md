@@ -777,13 +777,9 @@ The following is a list of possible enchantment `values`:
 | `ARMOR_ELEC` | 
 | `ARMOR_HEAT` | 
 | `ARMOR_STAB` | 
-| `ATTACK_COST` | 
-| `ATTACK_NOISE` | 
 | `ATTACK_SPEED` | Affects attack speed of item even if it's not the one you're wielding.
 | `BIONIC_POWER` |
-| `BONUS_BLOCK` | 
 | `BONUS_DODGE` | 
-| `BONUS_DAMAGE` | 
 | `CARRY_WEIGHT` |
 | `CLIMATE_CONTROL_HEAT` | Moves body temperature up towards comfortable by number of warmth units up to value.
 | `CLIMATE_CONTROL_CHILL` | Moves body temperature down towards comfortable by number of warmth units up to value.
@@ -820,7 +816,6 @@ The following is a list of possible enchantment `values`:
 | `SHOUT_NOISE` | 
 | `SIGHT_RANGE_ELECTRIC` | How many tiles away is_electric() creatures are visible from.
 | `MOTION_VISION_RANGE ` | Reveals all monsters as a red `?` within the specified radius.
-| `SKILL_RUST_RESIST` | Chance / 100 to resist skill rust.
 | `SLEEPY` | The higher this the easier you fall asleep.
 | `SOCIAL_INTIMIDATE` | 
 | `SOCIAL_LIE` | 
@@ -837,7 +832,6 @@ The following is a list of possible enchantment `values`:
 | Melee-only enchantment values | Description
 |---                          |---
 | `ITEM_DAMAGE_ACID` | 
-| `ITEM_DAMAGE_AP` | Armor piercing.
 | `ITEM_DAMAGE_BASH` | 
 | `ITEM_DAMAGE_BIO` | 
 | `ITEM_DAMAGE_BULLET` | 
@@ -861,12 +855,6 @@ The following is a list of possible enchantment `values`:
 | `ITEM_ARMOR_HEAT` | 
 | `ITEM_ARMOR_STAB` | 
 | `ITEM_ATTACK_SPEED` | 
-| `ITEM_COVERAGE` | 
-| `ITEM_DAMAGE_AP` | Armor Piercing.  Currently doesn't work.
-| `ITEM_ENCUMBRANCE` | 
-| `ITEM_VOLUME` | 
-| `ITEM_WEIGHT` | 
-| `ITEM_WET_PROTECTION` | 
 
 
 ### Enchantment value examples

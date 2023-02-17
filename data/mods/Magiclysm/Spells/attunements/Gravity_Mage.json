@@ -125,14 +125,6 @@
     "remove_message": "You stop to control the gravity.",
     "rating": "good",
     "show_intensity": false,
-    "enchantments": [
-      {
-        "values": [
-          { "value": "ATTACK_SPEED", "add": 30 },
-          { "value": "BONUS_BLOCK", "add": 2 },
-          { "value": "MELEE_DAMAGE", "multiply": 1 }
-        ]
-      }
-    ]
+    "enchantments": [ { "values": [ { "value": "ATTACK_SPEED", "add": 30 }, { "value": "MELEE_DAMAGE", "multiply": 1 } ] } ]
   }
 ]
