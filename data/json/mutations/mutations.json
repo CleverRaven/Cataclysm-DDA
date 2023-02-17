@@ -636,7 +636,7 @@
     "starting_trait": true,
     "types": [ "PAIN" ],
     "category": [ "MEDICAL", "TROGLOBITE" ],
-	"pain_multiplier": 0.67
+    "pain_multiplier": 0.67
   },
   {
     "type": "mutation",
@@ -3784,7 +3784,7 @@
     "prereqs2": [ "STOCKY_TROGLO" ],
     "threshreq": [ "THRESH_TROGLOBITE" ],
     "category": [ "TROGLOBITE" ],
-	"pain_multiplier": 0.50
+    "pain_multiplier": 0.5
   },
   {
     "type": "mutation",
@@ -4400,7 +4400,7 @@
     "threshreq": [ "THRESH_MEDICAL" ],
     "//": "MASOCHIST_MED, CENOBITE, and NOPAIN don't cancel each other.  By design.  Poor painless people...",
     "category": [ "MEDICAL" ],
-	"pain_multiplier": 0.0
+    "pain_multiplier": 0.0
   },
   {
     "type": "mutation",
@@ -4412,7 +4412,7 @@
     "types": [ "PAIN" ],
     "//": "The MORE_PAIN mutations will always increase the pain you receive by at least 1.",
     "changes_to": [ "MORE_PAIN2" ],
-	"pain_multiplier": 1.25
+    "pain_multiplier": 1.25
   },
   {
     "type": "mutation",
@@ -4423,7 +4423,7 @@
     "types": [ "PAIN" ],
     "prereqs": [ "MORE_PAIN" ],
     "changes_to": [ "MORE_PAIN3" ],
-	"pain_multiplier": 1.5
+    "pain_multiplier": 1.5
   },
   {
     "type": "mutation",
@@ -4433,7 +4433,7 @@
     "description": "Your body reacts cripplingly to any source of pain.  Pain dealt to you is doubled.",
     "types": [ "PAIN_RECOVERY" ],
     "prereqs": [ "MORE_PAIN2" ],
-	"pain_multiplier": 2.0
+    "pain_multiplier": 2.0
   },
   {
     "type": "mutation",
