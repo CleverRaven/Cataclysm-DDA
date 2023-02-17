@@ -1,0 +1,50 @@
+[
+  {
+    "type": "mutation_category",
+    "id": "IERDE",
+    "name": "Ierde",
+    "threshold_mut": "IERDE",
+    "mutagen_message": "Soil and stone.",
+    "memorial_message": "Returned to the earth."
+  },
+  {
+    "type": "mutation_category",
+    "id": "SYLPH",
+    "name": "Sylph",
+    "threshold_mut": "SYLPH",
+    "mutagen_message": "Wind and weather.",
+    "memorial_message": "Dissipated into the atmosphere."
+  },
+  {
+    "type": "mutation_category",
+    "id": "UNDINE",
+    "name": "Undine",
+    "threshold_mut": "UNDINE",
+    "mutagen_message": "Rain and wave.",
+    "memorial_message": "Dissolved into the sea."
+  },
+  {
+    "type": "mutation_category",
+    "id": "ARVORE",
+    "name": "Arvore",
+    "threshold_mut": "ARVORE",
+    "mutagen_message": "Growth in adversity.",
+    "memorial_message": "Fell with a great sound."
+  },
+  {
+    "type": "mutation_category",
+    "id": "SALAMANDER",
+    "name": "Salamander",
+    "threshold_mut": "SALAMANDER",
+    "mutagen_message": "Touched by fire.",
+    "memorial_message": "Snuffed out."
+  },
+  {
+    "type": "mutation_category",
+    "id": "HOMULLUS",
+    "name": "Homullus",
+    "threshold_mut": "HOMULLUS",
+    "mutagen_message": "Wish upon a star.",
+    "memorial_message": "Real enough for you?"
+  }
+]
