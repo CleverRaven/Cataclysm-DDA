@@ -1217,7 +1217,7 @@
     "type": "ammunition_type",
     "id": "metal_rail",
     "name": "ferrous rail projectile",
-    "default": "steel_rail"
+    "default": "rebar_rail"
   },
   {
     "id": "rebar_rail",
