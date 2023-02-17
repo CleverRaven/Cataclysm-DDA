@@ -635,7 +635,8 @@
     "description": "You have a high tolerance for pain.",
     "starting_trait": true,
     "types": [ "PAIN" ],
-    "category": [ "MEDICAL", "TROGLOBITE" ]
+    "category": [ "MEDICAL", "TROGLOBITE" ],
+	"pain_multiplier": 0.67
   },
   {
     "type": "mutation",
@@ -3782,7 +3783,8 @@
     "prereqs": [ "PAINRESIST" ],
     "prereqs2": [ "STOCKY_TROGLO" ],
     "threshreq": [ "THRESH_TROGLOBITE" ],
-    "category": [ "TROGLOBITE" ]
+    "category": [ "TROGLOBITE" ],
+	"pain_multiplier": 0.50
   },
   {
     "type": "mutation",
@@ -4397,7 +4399,8 @@
     "prereqs2": [ "PAINREC3" ],
     "threshreq": [ "THRESH_MEDICAL" ],
     "//": "MASOCHIST_MED, CENOBITE, and NOPAIN don't cancel each other.  By design.  Poor painless people...",
-    "category": [ "MEDICAL" ]
+    "category": [ "MEDICAL" ],
+	"pain_multiplier": 0.0
   },
   {
     "type": "mutation",
@@ -4408,7 +4411,8 @@
     "starting_trait": true,
     "types": [ "PAIN" ],
     "//": "The MORE_PAIN mutations will always increase the pain you receive by at least 1.",
-    "changes_to": [ "MORE_PAIN2" ]
+    "changes_to": [ "MORE_PAIN2" ],
+	"pain_multiplier": 1.25
   },
   {
     "type": "mutation",
@@ -4418,7 +4422,8 @@
     "description": "Your body experiences pain out of proportion to the physical causes.  Pain dealt to you is increased by 50%.",
     "types": [ "PAIN" ],
     "prereqs": [ "MORE_PAIN" ],
-    "changes_to": [ "MORE_PAIN3" ]
+    "changes_to": [ "MORE_PAIN3" ],
+	"pain_multiplier": 1.5
   },
   {
     "type": "mutation",
@@ -4427,7 +4432,8 @@
     "points": -5,
     "description": "Your body reacts cripplingly to any source of pain.  Pain dealt to you is doubled.",
     "types": [ "PAIN_RECOVERY" ],
-    "prereqs": [ "MORE_PAIN2" ]
+    "prereqs": [ "MORE_PAIN2" ],
+	"pain_multiplier": 2.0
   },
   {
     "type": "mutation",

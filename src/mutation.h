@@ -204,6 +204,8 @@ struct mutation_branch {
         cata::optional<float> healing_resting = cata::nullopt;
         // Limb mending bonus
         cata::optional<float> mending_modifier = cata::nullopt;
+		cata::optional<float> pain_multiplier = cata::nullopt;
+		cata::optional<float> pain_modifier = cata::nullopt;
         // Bonus HP multiplier. That is, 1.0 doubles hp, -0.5 halves it.
         cata::optional<float> hp_modifier = cata::nullopt;
         // Second HP modifier that stacks with first but is otherwise identical.
