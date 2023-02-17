@@ -205,14 +205,6 @@ struct container_data {
     }
 };
 
-static int contained_offset( const item_location &loc )
-{
-    if( !is_container( loc ) ) {
-        return 0;
-    }
-    return 2 + contained_offset( loc.parent_item() );
-}
-
 bool inventory_entry::operator==( const inventory_entry &other ) const
 {
     return get_category_ptr() == other.get_category_ptr() && locations == other.locations;
@@ -541,8 +533,8 @@ nc_color inventory_entry::get_invlet_color() const
 
 void inventory_entry::update_cache()
 {
-    cached_name = any_item()->tname( 1, false );
-    cached_name_full = any_item()->tname();
+    cached_name = any_item()->tname( 1, false, 0, true, false );
+    cached_name_full = any_item()->tname( 1, true, 0, true, false );
 }
 
 const item_category *inventory_entry::get_category_ptr() const
@@ -1223,21 +1215,12 @@ inventory_entry *inventory_column::add_entry( const inventory_entry &entry )
     return &entries.back();
 }
 
-void inventory_column::_move_entries_to( entries_t const &ent, inventory_column &dest )
-{
-    for( const inventory_entry &elem : ent ) {
-        if( elem.is_item() &&
-            // this column already has this entry, no need to try to add it again
-            std::find( dest.entries.begin(), dest.entries.end(), elem ) == dest.entries.end() ) {
-            dest.add_entry( elem );
-        }
-    }
-}
-
 void inventory_column::move_entries_to( inventory_column &dest )
 {
-    _move_entries_to( entries, dest );
-    _move_entries_to( entries_hidden, dest );
+    std::move( entries.begin(), entries.end(), std::back_inserter( dest.entries ) );
+    std::move( entries_hidden.begin(), entries_hidden.end(),
+               std::back_inserter( dest.entries_hidden ) );
+    dest.paging_is_valid = false;
     dest.prepare_paging();
     clear();
 }
@@ -1405,7 +1388,7 @@ size_t inventory_column::get_entry_indent( const inventory_entry &entry ) const
         res += 2;
     }
     if( entry.is_item() && indent_entries() ) {
-        res += contained_offset( entry.locations.front() ) - parent_indentation;
+        res += entry.indent;
     }
 
     return res;
@@ -1729,15 +1712,17 @@ bool inventory_selector::add_entry_rec( inventory_column &entry_column,
                                         inventory_column &children_column, item_location &loc,
                                         item_category const *entry_category,
                                         item_category const *children_category,
-                                        item *topmost_parent )
+                                        item *topmost_parent, int indent )
 {
     bool const vis_contents =
         add_contained_items( loc, children_column, children_category,
-                             get_topmost_parent( topmost_parent, loc, preset ) );
+                             get_topmost_parent( topmost_parent, loc, preset ),
+                             preset.is_shown( loc ) ? indent + 2 : indent );
     inventory_entry *const nentry = add_entry( entry_column, std::vector<item_location>( 1, loc ),
                                     entry_category, 0, topmost_parent );
     if( nentry != nullptr ) {
         nentry->chevron = vis_contents;
+        nentry->indent = indent;
         return true;
     }
     return vis_contents;
@@ -1749,7 +1734,7 @@ bool inventory_selector::add_contained_items( item_location &container )
 }
 
 bool inventory_selector::add_contained_items( item_location &container, inventory_column &column,
-        const item_category *const custom_category, item *topmost_parent )
+        const item_category *const custom_category, item *topmost_parent, int indent )
 {
     if( container->has_flag( STATIC( flag_id( "NO_UNLOAD" ) ) ) ) {
         return false;
@@ -1769,7 +1754,7 @@ bool inventory_selector::add_contained_items( item_location &container, inventor
             hacked_col = &own_gear_column;
         }
         vis_top |= add_entry_rec( *hacked_col, column, child, hacked_cat, custom_category,
-                                  topmost_parent );
+                                  topmost_parent, indent );
     }
     return vis_top;
 }
@@ -3572,9 +3557,6 @@ int inventory_examiner::execute()
     if( !check_parent_item() ) {
         return NO_CONTENTS_TO_EXAMINE;
     }
-
-    //Account for the indentation from the fact we're looking into a container
-    get_visible_columns().front()->set_parent_indentation( contained_offset( parent_item ) + 2 );
 
     shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
 

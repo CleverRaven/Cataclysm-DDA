@@ -2671,6 +2671,9 @@ void monster::die( Creature *nkiller )
     }
     if( death_drops && !is_hallucination() ) {
         for( const item &it : inv ) {
+            if( it.has_var( "DESTROY_ITEM_ON_MON_DEATH" ) ) {
+                continue;
+            }
             if( corpse ) {
                 corpse->force_insert_item( it, item_pocket::pocket_type::CONTAINER );
             } else {

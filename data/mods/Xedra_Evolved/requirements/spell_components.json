@@ -7,12 +7,12 @@
   {
     "id": "spell_components_dreamdross2",
     "type": "requirement",
-    "components": [ [ [ "dreamdross_lump", 1 ] ] ]
+    "components": [ [ [ "dreamdross_lump", 1 ], [ "scrap_dreamdross", 10 ] ] ]
   },
   {
     "id": "spell_components_dreamdross3",
     "type": "requirement",
-    "components": [ [ [ "forged_dreamstuff_ingot", 1 ] ] ]
+    "components": [ [ [ "forged_dreamstuff_ingot", 1 ], [ "scrap_dreamdross", 10 ], [ "scrap_dreamdross", 100 ] ] ]
   },
   {
     "id": "spell_components_battery_gun",

@@ -30,8 +30,7 @@
       {
         "text": "We need to abandon this camp.",
         "condition": { "npc_at_om_location": "FACTION_CAMP_ANY" },
-        "topic": "TALK_DONE",
-        "effect": "abandon_camp"
+        "topic": "TALK_ABANDON"
       },
       {
         "text": "Show me what needs to be done at the camp.",

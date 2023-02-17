@@ -130,7 +130,7 @@
     "min_duration": 3000,
     "max_duration": 60000,
     "duration_increment": 2850,
-    "learn_spells": { "spell_summon_twin_flood": 0 }
+    "learn_spells": { "spell_summon_twin_flood": 20 }
   },
   {
     "id": "spell_summon_twin_flood",

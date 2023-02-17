@@ -901,7 +901,7 @@
       }
     ],
     "material_thickness": 0.1,
-    "flags": [ "BELTED", "WATER_FRIENDLY" ],
+    "flags": [ "BELTED", "WATER_FRIENDLY", "OVERSIZE" ],
     "armor": [
       {
         "encumbrance": 1,
@@ -1139,7 +1139,7 @@
       }
     ],
     "material_thickness": 0.2,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "BELTED" ],
+    "flags": [ "OVERSIZE", "WATER_FRIENDLY", "BELTED" ],
     "armor": [
       {
         "encumbrance": 2,
@@ -1255,7 +1255,6 @@
         "//": "Less moves as the arm version since grabing things wrapped around your legs is easier."
       }
     ],
-    "extend": { "flags": [ "OVERSIZE" ] },
     "armor": [
       {
         "encumbrance": 1,
@@ -1296,7 +1295,7 @@
       }
     ],
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "BELTED" ],
+    "flags": [ "OVERSIZE", "WATER_FRIENDLY", "BELTED" ],
     "armor": [
       {
         "encumbrance": 1,

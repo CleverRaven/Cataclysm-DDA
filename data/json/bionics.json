@@ -710,7 +710,10 @@
       "VOMITOUS",
       "EATPOISON",
       "EATDEAD",
-      "ALCMET"
+      "ALCMET",
+      "SAPROVORE",
+      "LACTOSE",
+      "GRAZER"
     ]
   },
   {
