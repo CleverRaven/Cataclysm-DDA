@@ -140,6 +140,22 @@
   },
   {
     "type": "SPELL",
+    "id": "wretch_raptor_spawn",
+    "name": { "str": "Summon Raptor" },
+    "description": "Summons a flesh raptor while dealing some damage to the zombie.",
+    "flags": [ "HOSTILE_SUMMON", "RANDOM_DAMAGE", "PERMANENT", "NO_EXPLOSION_SFX" ],
+    "valid_targets": [ "ground", "self" ],
+    "min_damage": 5,
+    "max_damage": 10,
+    "min_aoe": 3,
+    "max_aoe": 3,
+    "base_casting_time": 100,
+    "shape": "blast",
+    "effect": "summon",
+    "effect_str": "mon_spawn_raptor"
+  },
+  {
+    "type": "SPELL",
     "id": "hive_raptor_spawn",
     "name": { "str": "Summon Raptor" },
     "description": "Summons a zombie-spawn raptor without killing the zombie.",
@@ -170,6 +186,22 @@
     "shape": "blast",
     "effect": "summon",
     "effect_str": "mon_spawn_raptor_shady"
+  },
+  {
+    "type": "SPELL",
+    "id": "wretch_fungal_raptor_spawn",
+    "name": { "str": "Summon Raptor" },
+    "description": "Summons a fungal flesh raptor while dealing some damage to the zombie.",
+    "flags": [ "HOSTILE_SUMMON", "RANDOM_DAMAGE", "PERMANENT", "NO_EXPLOSION_SFX" ],
+    "valid_targets": [ "ground", "self" ],
+    "min_damage": 5,
+    "max_damage": 10,
+    "min_aoe": 2,
+    "max_aoe": 2,
+    "base_casting_time": 500,
+    "shape": "blast",
+    "effect": "summon",
+    "effect_str": "mon_fungal_raptor"
   },
   {
     "type": "SPELL",
