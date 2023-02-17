@@ -1214,6 +1214,12 @@
     "price_postapoc": 750
   },
   {
+    "type": "ammunition_type",
+    "id": "metal_rail",
+    "name": "ferrous rail projectile",
+    "default": "steel_rail"
+  },
+  {
     "id": "rebar_rail",
     "type": "AMMO",
     "name": { "str": "rebar rail" },
