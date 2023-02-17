@@ -1,0 +1,294 @@
+[
+  {
+    "id": "MISSION_Warrener_ISHERWOOD",
+    "type": "mission_definition",
+    "name": { "str": "Visit the Isherwoods" },
+    "description": "There is a family that nearby that I'd like you to check in on. After you talk to all of them come back to me and tell me how they are doing.",
+    "goal": "MGOAL_CONDITION",
+    "difficulty": 3,
+    "start": {
+      "assign_mission_target": { "om_terrain": "farm_isherwood_2", "om_special": "Isherwood Farms", "reveal_radius": 3, "search_range": 540 }
+    },
+    "goal_condition": { "u_has_var": "u_met_carlos_isherwood", "type": "general", "context": "meeting", "value": "yes" },
+    "value": 5000,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "Have you checked on them?",
+      "success": "Good, that's one less thing to worry about.",
+      "success_lie": "I'm glad to hear they are fine.  Why haven't they been by then?",
+      "failure": "At least you came back with your life…"
+    }
+  },
+  {
+    "id": "MISSION_ISHERWOOD_BARRY_1",
+    "type": "mission_definition",
+    "name": { "str": "Return Barry to Eddie at the dairy." },
+    "goal": "MGOAL_GO_TO",
+    "difficulty": 3,
+    "value": 20000,
+    "destination": "dairy_farm_isherwood_W",
+    "start": {
+      "effect": [ { "u_add_var": "u_have_barry_escape", "type": "general", "context": "meeting", "value": "yes" } ],
+      "assign_mission_target": { "om_terrain": "dairy_farm_isherwood_W", "om_special": "Isherwood Farms", "reveal_radius": 3, "search_range": 540 }
+    },
+    "end": {
+      "opinion": { "trust": 5, "value": 5 },
+      "effect": [
+        "leave",
+        { "u_add_var": "u_saved_barry", "type": "general", "context": "meeting", "value": "yes" },
+        { "u_spawn_item": "hsurvivor_jumpsuit", "count": 1 }
+      ]
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "I just want to go home.",
+      "offer": "I can't believe you are here, please take me back to the ranch.",
+      "accepted": "Thank you, I thought I was dead.",
+      "rejected": "Please god no!",
+      "advice": "We shouldn't stay here too long, more might show up.",
+      "inquire": "How much further?",
+      "success": "Thanks, we'll never be able to repay you, Here's a token of my gratitude, I made these suits for my family and always keep a few extra around.",
+      "success_lie": "I don't feel saved…",
+      "failure": "Tell my family that I love them…"
+    }
+  },
+  {
+    "id": "MISSION_OLD_GUARD_REP_3",
+    "type": "mission_definition",
+    "name": { "str": "Find Source of Robots" },
+    "description": "I don't usually hear much from command, but we got a message by radio recently.  You might be the right choice to look into it for me.  There've been reports of weird robots and things wandering around since things went south.  Dunno how, but apparently command tracked down what they think is the source.  They want someone to go check out who is making these, and if we can get any tech or assistance from them.  This is strictly recon, you understand: could be a hostile entity, so do not engage directly.",
+    "goal": "MGOAL_GO_TO",
+    "difficulty": 2,
+    "value": 10000,
+    "start": {
+      "assign_mission_target": { "om_terrain": "exodii_base_x0y3z0", "om_special": "exodii_base", "reveal_radius": 5, "search_range": 540 }
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_OLD_GUARD_REP_4",
+    "dialogue": {
+      "describe": "Got a weird one for you this time…",
+      "offer": "I don't usually hear much from command, but we got a message by radio recently.  You might be the right choice to look into it for me.  There've been reports of weird robots and things wandering around since things went south.  Dunno how, but apparently command tracked down what they think is the source.  They want someone to go check out who is making these, and if we can get any tech or assistance from them.  This is strictly recon, you understand: could be a hostile entity, so do not engage directly.",
+      "accepted": "Thanks, once you know who it is, report back to me and I'll pass that on.",
+      "rejected": "Come back when you get a chance, if there's any chance these things are on our side, we need all the help we can get.",
+      "advice": "If you see any weird machines around, do not engage.  Sneak away, I'd say.  They seem to be hostile to zombies, but that doesn't mean they can tell you aren't one.",
+      "inquire": "How is the search going?",
+      "success": "Great work, wasn't sure what I was sending you after.",
+      "success_lie": "That's a shame, a damn shame.  Wish you could have learned more.  Thanks for trying.",
+      "failure": "Damn… let's hope we can try again sometime."
+    },
+    "end": {
+      "effect": [ { "u_add_var": "oldguard-exodii", "type": "factional_questline", "context": "mission", "value": "encountered_base" } ]
+    }
+  },
+  {
+    "id": "directions_artisans",
+    "type": "mission_definition",
+    "name": { "str": "Check out bullet bank" },
+    "description": "A few of my people have come back now talkin' about some yuppie trying to start a bank that uses bullets for money.  Silly idea, but the lad lives on a homestead with a woman who wouldn't let my guys leave without a full belly.",
+    "goal": "MGOAL_GO_TO",
+    "difficulty": 2,
+    "value": 0,
+    "start": {
+      "assign_mission_target": { "om_special": "isolated_road", "om_terrain": "isolated_house_farm_gunsmith", "reveal_radius": 2, "search_range": 540 },
+      "effect": { "u_add_var": "directions", "type": "teamster", "context": "mission", "value": "artisans" }
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "A few of my people have come back now talkin' about some yuppie trying to start a bank that uses bullets for money.  Silly idea, but the lad lives on a homestead with a woman who wouldn't let my guys leave without a full belly.",
+      "offer": "A few of my people have come back now talkin' about some yuppie trying to start a bank that uses bullets for money.  Silly idea, but the lad lives on a homestead with a woman who wouldn't let my guys leave without a full belly.",
+      "accepted": "Hopefully they are still around.",
+      "rejected": "Seems reasonable.",
+      "advice": "Don't worry about the turrets they seem friendly to people.",
+      "inquire": "How is the search going?",
+      "success": "Huh, go figure.",
+      "success_lie": "Huh, go figure.",
+      "failure": "Seems reasonable."
+    }
+  },
+  {
+    "id": "directions_exodii",
+    "type": "mission_definition",
+    "name": { "str": "Check out that scrap metal castle" },
+    "description": "A few of my caravans have come back now talkin' about this giant metal castle on top of a rock, in the middle of nowhere.  They ain't been crazy enough to check it out, but you could if you want.",
+    "goal": "MGOAL_GO_TO",
+    "difficulty": 2,
+    "value": 0,
+    "start": {
+      "assign_mission_target": { "om_terrain": "exodii_base_x0y3z0", "om_special": "exodii_base", "reveal_radius": 5, "search_range": 540 },
+      "effect": { "u_add_var": "directions", "type": "teamster", "context": "mission", "value": "exodii" }
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "A few of my caravans have come back now talkin' about this giant metal castle on top of a rock, in the middle of nowhere.  They ain't been crazy enough to check it out, but you could if you want.",
+      "offer": "A few of my caravans have come back now talkin' about this giant metal castle on top of a rock, in the middle of nowhere.  They ain't been crazy enough to check it out, but you could if you want.",
+      "accepted": "Your funeral.",
+      "rejected": "Seems reasonable.",
+      "advice": "Be careful.  Seems like a rough place to me.",
+      "inquire": "How is the search going?",
+      "success": "Huh, go figure.",
+      "success_lie": "Huh, go figure.",
+      "failure": "Seems reasonable."
+    }
+  },
+  {
+    "id": "directions_hub01",
+    "type": "mission_definition",
+    "name": { "str": "Check out that lab" },
+    "description": "There's been rumors.  Folks talkin' about some kind of secret lab, out in the wilds, with survivors in it.",
+    "goal": "MGOAL_GO_TO",
+    "difficulty": 2,
+    "value": 0,
+    "start": {
+      "assign_mission_target": { "om_special": "hub_01", "om_terrain": "robofachq_surface_entrance", "reveal_radius": 5, "search_range": 540 },
+      "effect": { "u_add_var": "directions", "type": "teamster", "context": "mission", "value": "hub01" }
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "There's been rumors.  Folks talkin' about some kind of secret lab, out in the wilds, with survivors in it.",
+      "offer": "There's been rumors.  Folks talkin' about some kind of secret lab, out in the wilds, with survivors in it.",
+      "accepted": "Nice.",
+      "rejected": "Seems reasonable.",
+      "advice": "Be careful.  It's rough out there.",
+      "inquire": "How is the search going?",
+      "success": "Huh, go figure.",
+      "success_lie": "Huh, go figure.",
+      "failure": "It is what it is."
+    }
+  },
+  {
+    "id": "directions_isherwood",
+    "type": "mission_definition",
+    "name": { "str": "Check out that farm" },
+    "description": "Ran into a bunch of farmers.  They don't want much to do with our caravans, but someone like you they might be OK with.",
+    "goal": "MGOAL_GO_TO",
+    "difficulty": 2,
+    "value": 0,
+    "start": {
+      "assign_mission_target": { "om_special": "Isherwood Farms", "om_terrain": "farm_isherwood_1", "reveal_radius": 5, "search_range": 540 },
+      "effect": { "u_add_var": "directions", "type": "teamster", "context": "mission", "value": "isherwood" }
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "Ran into a bunch of farmers.  They don't want much to do with our caravans, but someone like you they might be OK with.",
+      "offer": "Ran into a bunch of farmers.  They don't want much to do with our caravans, but someone like you they might be OK with.",
+      "accepted": "Nice.",
+      "rejected": "Seems reasonable.",
+      "advice": "Be careful.  It's rough out there.",
+      "inquire": "How is the search going?",
+      "success": "Huh, go figure.",
+      "success_lie": "Huh, go figure.",
+      "failure": "It is what it is."
+    }
+  },
+  {
+    "id": "MISSION_FREE_MERCHANTS_EVAC_3",
+    "type": "mission_definition",
+    "name": { "str": "Retrieve Prospectus" },
+    "description": "Visit the farming commune and bring the foreman's prospectus back to the refugee center, for <reward_count:FMCNote> certified notes.",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 5,
+    "value": 50000,
+    "item": "commune_prospectus",
+    "start": {
+      "assign_mission_target": { "om_terrain": "ranch_camp_67", "om_special": "ranch_camp", "reveal_radius": 1, "search_range": 540 },
+      "update_mapgen": {
+        "place_npcs": [
+          { "class": "ranch_foreman", "x": 16, "y": 15, "target": true, "add_trait": "NPC_MISSION_LEV_1" },
+          { "class": "ranch_construction_1", "x": 9, "y": 17 }
+        ]
+      },
+      "effect": [ { "u_add_var": "tacoma_started", "type": "knowledge", "context": "flag", "value": "yes" } ]
+    },
+    "end": {
+      "effect": [
+        { "u_spawn_item": "FMCNote", "count": 50 },
+        { "u_add_var": "FMShopkeep_Mission3", "type": "mission", "context": "flag", "value": "yes" }
+      ],
+      "update_mapgen": {
+        "om_terrain": "evac_center_8",
+        "set": [
+          { "point": "terrain", "id": "t_gates_mech_control_lab", "x": 17, "y": 1 },
+          { "point": "terrain", "id": "t_gates_mech_control_lab", "x": 17, "y": 3 }
+        ]
+      }
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_FREE_MERCHANTS_EVAC_4",
+    "dialogue": {
+      "describe": "We need help…",
+      "offer": "We recently set out some skilled people to start an outpost, to secure us some food supplies in a safer location.  The new outpost that we've started could use your assistance.  I need you to get the foreman's prospectus before we begin to send additional refugees to the farming commune.  Consult with the foreman to get more detailed tasks.  We've got 50 Certified Notes for you if you can do this for us.",
+      "accepted": "I'm sure the outpost will expand quickly with your assistance.",
+      "rejected": "Come back when you get a chance, we really need to start reclaiming the region.",
+      "advice": "Just follow your map.",
+      "inquire": "Do you have the prospectus?",
+      "success": "With this we'll be able to convince others to invest in the commune.  Thank you, here's your money.  We also managed to get a manual crank hooked up to the garage in the back, so feel free to make use of that - you've been a great help to us.",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways…"
+    }
+  },
+  {
+    "id": "MISSION_FREE_MERCHANTS_HUB_DELIVERY_1",
+    "//": "Breadcrumb quest from Free Merchants -> Hub 01.  Bring a hard drive to Hub 01 from the refugee center and then return.",
+    "type": "mission_definition",
+    "name": { "str": "Unknown Recipient" },
+    "description": "Deliver the FEMA hard drive to the strange group that Smokes mentioned.  Return to the evacuation center when the data's been delivered.",
+    "goal": "MGOAL_CONDITION",
+    "difficulty": 5,
+    "start": {
+      "effect": [ { "u_spawn_item": "fema_data", "count": 1 } ],
+      "assign_mission_target": {
+        "om_terrain": "robofachq_surface_entrance",
+        "om_special": "hub_01",
+        "reveal_radius": 1,
+        "random": true,
+        "search_range": 540
+      }
+    },
+    "end": {
+      "effect": { "arithmetic": [ { "global_val": "var", "var_name": "free_merchants_hub_trade_route" }, "=", { "const": 1 } ] }
+    },
+    "goal_condition": { "u_has_var": "completed_free_merchants_hub_delivery_1", "type": "dialogue", "context": "intercom", "value": "yes" },
+    "value": 5000,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "Got the hard drive delivered?",
+      "success": "Oh, good.  I'm glad you're alright; I had no idea what to make of them.  Well, one less thing to worry about.",
+      "success_lie": "What good does this do us?",
+      "failure": "At least you came back alive.  Don't sweat it too much - it's no skin off my back.  If they want it that bad, they can come get another copy themselves."
+    }
+  },
+  {
+    "id": "directions_exodii_signpost",
+    "type": "mission_definition",
+    "name": { "str": "Follow the directions on the pictographic sign" },
+    "description": "I found a weird pictographic sign that seemed to point towards someone willing to trade.",
+    "goal": "MGOAL_GO_TO",
+    "difficulty": 2,
+    "value": 0,
+    "start": {
+      "assign_mission_target": { "om_terrain": "exodii_base_x0y3z0", "om_special": "exodii_base", "reveal_radius": 5, "search_range": 540 }
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "I found a weird pictographic sign that seemed to point towards someone willing to trade.",
+      "offer": "This is a sign with a series of simple line-art pictograms showing what appears to be a basic trade transaction.  A pair of hands offers a piece of some kind of junk, and another pair of hands offers a small pouch in return.",
+      "accepted": ".",
+      "rejected": ".",
+      "advice": ".",
+      "inquire": ".",
+      "success": ".",
+      "success_lie": ".",
+      "failure": "."
+    }
+  }
+]
