@@ -1234,6 +1234,26 @@ void item_pocket::favorite_info( std::vector<iteminfo> &info ) const
     settings.info( info );
 }
 
+// for soft containers check all content items to see if they all would fit
+static int charges_per_volume_recursive( const units::volume &max_item_volume,
+        const item &it )
+{
+    int min_charges = item::INFINITE_CHARGES;
+
+    if( !it.is_soft() ) {
+        return it.charges_per_volume( max_item_volume );
+    }
+
+    for( const item *content : it.all_items_top() ) {
+        min_charges = std::min( min_charges, charges_per_volume_recursive( max_item_volume, *content ) );
+        if( min_charges == 0 ) {
+            return 0;
+        }
+    }
+
+    return min_charges;
+}
+
 ret_val<item_pocket::contain_code> item_pocket::is_compatible( const item &it ) const
 {
     if( it.has_flag( flag_NO_UNWIELD ) ) {
@@ -1309,9 +1329,8 @@ ret_val<item_pocket::contain_code> item_pocket::is_compatible( const item &it ) 
     // soft items also avoid the size limit
     // count_by_charges items check volume of single charge
     if( !it.made_of( phase_id::LIQUID ) && !it.made_of( phase_id::GAS ) &&
-        !it.is_frozen_liquid() &&
-        !it.is_soft() && data->max_item_volume &&
-        !it.charges_per_volume( *data->max_item_volume ) ) {
+        !it.is_frozen_liquid() && data->max_item_volume &&
+        !charges_per_volume_recursive( *data->max_item_volume, it ) ) {
         return ret_val<item_pocket::contain_code>::make_failure(
                    contain_code::ERR_TOO_BIG, _( "item too big" ) );
     }
@@ -1397,7 +1416,7 @@ ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it ) co
                        _( "can't mix frozen liquid with contained item in the watertight container" ) );
         }
     } else if( data->watertight ) {
-        if( size() == 1 && contents.front().is_frozen_liquid() ) {
+        if( size() == 1 && contents.front().is_frozen_liquid() && !contents.front().can_combine( it ) ) {
             return ret_val<item_pocket::contain_code>::make_failure(
                        contain_code::ERR_LIQUID,
                        _( "can't mix item with contained frozen liquid in the watertight container" ) );

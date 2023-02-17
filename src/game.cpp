@@ -1167,7 +1167,9 @@ void game::create_starting_npcs()
     shared_ptr_fast<npc> tmp = make_shared_fast<npc>();
     tmp->normalize();
     tmp->randomize( one_in( 2 ) ? NC_DOCTOR : NC_NONE );
-    tmp->spawn_at_precise( u.get_location() - point_south_east );
+    // hardcoded, consistent NPC position
+    // start_loc::place_player relies on this and must be updated if this is changed
+    tmp->spawn_at_precise( u.get_location() + point_north_west );
     overmap_buffer.insert_npc( tmp );
     tmp->form_opinion( u );
     tmp->set_attitude( NPCATT_NULL );

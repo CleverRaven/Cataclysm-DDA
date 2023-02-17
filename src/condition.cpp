@@ -2604,6 +2604,18 @@ void conditional_t<T>::set_has_skill( const JsonObject &jo, const std::string &m
 }
 
 template<class T>
+void conditional_t<T>::set_roll_contested( const JsonObject &jo, const std::string &member )
+{
+    std::function<int( const T & )> get_check = conditional_t< T >::get_get_int( jo.get_object(
+                member ) );
+    int_or_var<T> difficulty = get_int_or_var<T>( jo, "difficulty", true );
+    int_or_var<T> die_size = get_int_or_var<T>( jo, "die_size", false, 10 );
+    condition = [get_check, difficulty, die_size]( const T & d ) {
+        return rng( 1, die_size.evaluate( d ) ) + get_check( d ) > difficulty.evaluate( d );
+    };
+}
+
+template<class T>
 void conditional_t<T>::set_u_know_recipe( const JsonObject &jo, const std::string &member )
 {
     str_or_var<T> known_recipe_id = get_str_or_var<T>( jo.get_member( member ), member, true );
@@ -2927,6 +2939,8 @@ conditional_t<T>::conditional_t( const JsonObject &jo )
         set_has_skill( jo, "u_has_skill" );
     } else if( jo.has_member( "npc_has_skill" ) ) {
         set_has_skill( jo, "npc_has_skill", is_npc );
+    } else if( jo.has_member( "roll_contested" ) ) {
+        set_roll_contested( jo, "roll_contested" );
     } else if( jo.has_member( "u_know_recipe" ) ) {
         set_u_know_recipe( jo, "u_know_recipe" );
     } else if( jo.has_int( "one_in_chance" ) || jo.has_object( "one_in_chance" ) ) {
