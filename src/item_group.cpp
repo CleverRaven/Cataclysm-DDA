@@ -720,8 +720,8 @@ std::size_t Item_group::create( Item_spawn_data::ItemList &list,
 
     if( birthday == calendar::start_of_cataclysm ) {
         // randomize rot value for comestibles generated at the 'start of cataclysm'
-        for( item &e: list ) {
-            e.visit_items( []( item *visit_itm, item * ) {
+        for( item &e : list ) {
+            e.visit_items( []( item * visit_itm, item * ) {
                 if( visit_itm->is_comestible() && visit_itm->get_comestible()->spoils > 0_turns ) {
                     const double x_input = rng_float( 0.0, 1.0 );
                     const double k_rot = ( 1.0 - x_input ) / ( 1.0 + 2 * x_input );
