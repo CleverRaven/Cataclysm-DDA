@@ -3007,7 +3007,6 @@
     "flags": [
       "SEES",
       "HEARS",
-      "GOODHEARING",
       "SMELLS",
       "ANIMAL",
       "CANPLAY",
