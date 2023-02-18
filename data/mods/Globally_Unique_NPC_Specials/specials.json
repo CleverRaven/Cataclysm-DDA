@@ -2770,8 +2770,8 @@
     "connections": [ { "point": [ 4, 9, 0 ] } ],
     "locations": [ "wilderness" ],
     "city_distance": [ 3, -1 ],
-    "occurrences": [ 50, 100 ],
-    "flags": [ "GLOBALLY_UNIQUE", "SAFE_AT_WORLDGEN", "MAN_MADE" ]
+    "occurrences": [ 30, 100 ],
+    "flags": [ "UNIQUE", "SAFE_AT_WORLDGEN", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -2989,7 +2989,7 @@
     "locations": [ "wilderness" ],
     "city_distance": [ 5, 20 ],
     "city_sizes": [ 6, -1 ],
-    "occurrences": [ 30, 100 ],
+    "occurrences": [ 40, 100 ],
     "//": "Inflated chance, in effect 15%",
     "flags": [ "CLASSIC", "GLOBALLY_UNIQUE" ]
   }
