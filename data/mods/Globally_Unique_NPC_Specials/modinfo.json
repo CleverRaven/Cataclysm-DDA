@@ -5,7 +5,7 @@
     "name": "Globally Unique NPC Specials",
     "authors": [ "Perset" ],
     "description": "Restricts (some) NPC-driven mission hub locations to only spawn once.",
-    "category": "content",
+    "category": "buildings",
     "dependencies": [ "dda" ]
   }
 ]
