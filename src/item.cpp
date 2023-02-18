@@ -275,6 +275,20 @@ struct scoped_goes_bad_cache {
 
 const int item::INFINITE_CHARGES = INT_MAX;
 
+namespace
+{
+
+bool contents_only_one_type( item const *it )
+{
+    std::list<const item *> const contents = it->all_items_top();
+    return contents.size() == 1 ||
+    std::all_of( ++contents.begin(), contents.end(), [&contents]( item const * e ) {
+        return e->stacks_with( *contents.front() );
+    } );
+}
+
+} // namespace
+
 item::item() : bday( calendar::start_of_cataclysm )
 {
     type = nullitem();
@@ -6316,7 +6330,7 @@ std::string item::degradation_symbol() const
 }
 
 std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int truncate,
-                         bool with_contents, bool with_collapsed ) const
+                         bool with_contents_full, bool with_collapsed, bool with_contents_abbrev ) const
 {
     // item damage and/or fouling level
     std::string damtext;
@@ -6398,18 +6412,19 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     }
 
     /* only expand full contents name if with_contents == true */
-    if( with_contents && contents.num_item_stacks() == 1 ) {
-        const item &contents_item = contents.only_item();
+    if( with_contents_full && !contents.empty() && contents_only_one_type( this ) ) {
+        const item &contents_item = contents.first_item();
         const unsigned contents_count =
             ( ( contents_item.made_of( phase_id::LIQUID ) ||
                 contents_item.is_food() || contents_item.count_by_charges() ) &&
               contents_item.charges > 1 )
             ? contents_item.charges
-            : 1;
+            : contents.num_item_stacks();
 
         if( !contents_item.is_null() ) {
             // with_contents=false for nested items to prevent excessively long names
-            const std::string contents_tname = contents_item.tname( contents_count, true, 0, false );
+            const std::string contents_tname = contents_item.tname( contents_count, true, 0, false, false,
+                                               contents_count == 1 );
             std::string const ctnc = colorize( contents_tname, contents_item.color_in_inventory() );
             if( contents_count == 1 || !ammo_types().empty() ) {
                 // Don't append an item count for single items, or items that are ammo-exclusive
@@ -6428,7 +6443,8 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
                 contents_suffix_text += string_format( " %s", _( "hidden" ) );
             }
         }
-    } else if( !contents.empty_container() && contents.num_item_stacks() != 0 ) {
+    } else if( with_contents_abbrev && !contents.empty_container() &&
+               contents.num_item_stacks() != 0 ) {
         std::string const suffix =
             npgettext( "item name",
                        //~ [container item name] " > [count] item"

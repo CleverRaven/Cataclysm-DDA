@@ -304,7 +304,9 @@ class item_contents
 
         // gets the item contained IFF one item is contained (CONTAINER pocket), otherwise a null item reference
         item &only_item();
+        item &first_item();
         const item &only_item() const;
+        const item &first_item() const;
         item *get_item_with( const std::function<bool( const item & )> &filter );
         void remove_items_if( const std::function<bool( item & )> &filter );
 
