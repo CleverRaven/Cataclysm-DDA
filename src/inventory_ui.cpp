@@ -533,8 +533,8 @@ nc_color inventory_entry::get_invlet_color() const
 
 void inventory_entry::update_cache()
 {
-    cached_name = any_item()->tname( 1, false, 0, true, false );
-    cached_name_full = any_item()->tname( 1, true, 0, true, false );
+    cached_name = remove_color_tags( any_item()->tname( 1, false, 0, true, false ) );
+    cached_name_full = remove_color_tags( any_item()->tname( 1, true, 0, true, false ) );
 }
 
 const item_category *inventory_entry::get_category_ptr() const
