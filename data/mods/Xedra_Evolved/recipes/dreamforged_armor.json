@@ -1,0 +1,54 @@
+[
+  {
+    "type": "recipe",
+    "activity_level": "ACTIVE_EXERCISE",
+    "result": "dreamforged_helmet_berserker",
+    "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
+    "components": [ [ [ "forged_dreamstuff_ingot", 1 ] ] ],
+    "time": "2 d 19 h",
+    "skill_used": "deduction",
+    "difficulty": 5,
+    "skills_required": [ "deduction", 6 ],
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_ARMOR"
+  },
+  {
+    "type": "recipe",
+    "activity_level": "ACTIVE_EXERCISE",
+    "result": "dreamforged_armguard_plate_berserk",
+    "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
+    "components": [ [ [ "forged_dreamstuff_ingot", 1 ] ] ],
+    "time": "3 d 5 h",
+    "skill_used": "deduction",
+    "difficulty": 5,
+    "skills_required": [ "deduction", 6 ],
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_ARMOR"
+  },
+  {
+    "type": "recipe",
+    "activity_level": "ACTIVE_EXERCISE",
+    "result": "dreamforged_boots_berserk",
+    "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
+    "components": [ [ [ "forged_dreamstuff_ingot", 1 ] ] ],
+    "time": "2 d 1 h",
+    "skill_used": "deduction",
+    "difficulty": 5,
+    "skills_required": [ "deduction", 6 ],
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_ARMOR"
+  },
+  {
+    "type": "recipe",
+    "activity_level": "ACTIVE_EXERCISE",
+    "result": "dreamforged_fullhelmet_arcane",
+    "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
+    "components": [ [ [ "forged_dreamstuff_ingot", 1 ] ] ],
+    "time": "1 d 2 h",
+    "skill_used": "deduction",
+    "difficulty": 5,
+    "skills_required": [ "deduction", 5 ],
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_ARMOR"
+  }
+]

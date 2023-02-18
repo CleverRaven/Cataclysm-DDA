@@ -1,0 +1,54 @@
+[
+  {
+    "type": "recipe",
+    "activity_level": "ACTIVE_EXERCISE",
+    "result": "dreamforged_knuckle_berserk",
+    "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
+    "components": [ [ [ "forged_dreamstuff_ingot", 1 ] ] ],
+    "time": "1 d 2 h",
+    "skill_used": "deduction",
+    "difficulty": 5,
+    "skills_required": [ "deduction", 6 ],
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_WEAPONS"
+  },
+  {
+    "type": "recipe",
+    "activity_level": "ACTIVE_EXERCISE",
+    "result": "dreamforged_glaive_healing",
+    "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
+    "components": [ [ [ "forged_dreamstuff_ingot", 1 ] ] ],
+    "time": "3 d 3 h",
+    "skill_used": "deduction",
+    "difficulty": 5,
+    "skills_required": [ "deduction", 7 ],
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_WEAPONS"
+  },
+  {
+    "type": "recipe",
+    "activity_level": "ACTIVE_EXERCISE",
+    "result": "dreamforged_tsurugi_speed",
+    "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
+    "components": [ [ [ "forged_dreamstuff_ingot", 1 ] ] ],
+    "time": "3 d 13 h",
+    "skill_used": "deduction",
+    "difficulty": 5,
+    "skills_required": [ "deduction", 7 ],
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_WEAPONS"
+  },
+  {
+    "type": "recipe",
+    "activity_level": "ACTIVE_EXERCISE",
+    "result": "dreamforged_q_staff_exp",
+    "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
+    "components": [ [ [ "forged_dreamstuff_ingot", 1 ] ] ],
+    "time": "2 d 1 h",
+    "skill_used": "deduction",
+    "difficulty": 5,
+    "skills_required": [ "deduction", 5 ],
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_WEAPONS"
+  }
+]

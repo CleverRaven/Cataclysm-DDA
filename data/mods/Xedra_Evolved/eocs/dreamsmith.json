@@ -1,0 +1,301 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DREAMSMITHS_SCORE_TIMER",
+    "//": "Increase the dreamsmith recipe score for `deduction` amount.  Respond for passive score gain.",
+    "recurrence": [ "20 hours", "28 hours" ],
+    "condition": { "u_has_trait": "DREAMSMITH" },
+    "effect": [
+      {
+        "arithmetic": [
+          { "global_val": "var", "var_name": "DREAMSMITH_RECIPE_SCORE" },
+          "+=",
+          { "global_val": "skill_level", "skill": "deduction" }
+        ]
+      },
+      { "run_eocs": "EOC_DREAMSMITHS_RECIPES_ENCH" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DREAMSMITHS_SCORE_TRAIN",
+    "//": "Increase the dreamsmith recipe score and recipe superscore for each `training` spell cast.  Each cast increase the gain score for 1",
+    "condition": { "u_has_trait": "DREAMSMITH" },
+    "effect": [
+      { "u_message": "You increase your score and your super score for some number." },
+      {
+        "arithmetic": [
+          { "global_val": "var", "var_name": "DREAMSMITH_RECIPE_SCORE" },
+          "+=",
+          { "global_val": "var", "var_name": "DREAMSMITH_RECIPE_SCORE_TRAINS" }
+        ]
+      },
+      { "arithmetic": [ { "global_val": "var", "var_name": "DREAMSMITH_RECIPE_SCORE_TRAINS" }, "++" ] },
+      {
+        "arithmetic": [
+          { "global_val": "var", "var_name": "DREAMSMITH_RECIPE_SCORE_SUPER" },
+          "+=",
+          { "global_val": "var", "var_name": "DREAMSMITH_RECIPE_SCORE_TRAINS_SUPER" }
+        ]
+      },
+      { "arithmetic": [ { "global_val": "var", "var_name": "DREAMSMITH_RECIPE_SCORE_TRAINS_SUPER" }, "++" ] },
+      { "run_eocs": "EOC_DREAMSMITHS_RECIPES_ENCH" },
+      { "run_eocs": "EOC_DREAMSMITHS_RECIPES_SUPER" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DREAMSMITHS_RECIPES_ENCH",
+    "//": "If your DREAMSMITH_RECIPE_SCORE bigger than DREAMSMITH_RECIPE_SCORE_TARGET, you take a spell, DREAMSMITH_RECIPE_SCORE is zeroed, and DREAMSMITH_RECIPE_SCORE_TARGET is increased for 100. const 20 is respond for delay, after which player would be able to obtain super recipes, and const 100 is respond for gap between each recipe gain. Now it's 6 casts for first gain, 11 for second, 10 for third, 10 for fourth etc.",
+    "condition": {
+      "and": [
+        { "u_has_trait": "DREAMSMITH" },
+        {
+          "compare_int": [
+            { "global_val": "var", "var_name": "DREAMSMITH_RECIPE_SCORE" },
+            ">=",
+            {
+              "arithmetic": [ { "global_val": "var", "var_name": "DREAMSMITH_RECIPE_SCORE_TARGET" }, "+", { "const": 20 } ]
+            }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      {
+        "u_roll_remainder": [
+          "summon_dreamforged_ballistic_plate_ench",
+          "summon_dreamforged_ballistic_plate_small_ench",
+          "summon_dreamforged_q_staff_ench",
+          "summon_dreamforged_longsword_ench",
+          "summon_dreamforged_warhammer_ench",
+          "summon_dreamforged_spear_ench",
+          "summon_dreamforged_halberd_ench",
+          "summon_dreamforged_glaive_ench",
+          "summon_dreamforged_naginata_ench",
+          "summon_dreamforged_mace_ench",
+          "summon_dreamforged_morningstar_ench",
+          "summon_dreamforged_estoc_ench",
+          "summon_dreamforged_arming_sword_ench",
+          "summon_dreamforged_broadsword_ench",
+          "summon_dreamforged_battleaxe_ench",
+          "summon_dreamforged_katana_ench",
+          "summon_dreamforged_knife_combat_ench",
+          "summon_dreamforged_kris_ench",
+          "summon_dreamforged_kukri_ench",
+          "summon_dreamforged_nodachi_ench",
+          "summon_dreamforged_rapier_ench",
+          "summon_dreamforged_tanto_ench",
+          "summon_dreamforged_wakizashi_ench",
+          "summon_dreamforged_zweihander_ench",
+          "summon_dreamforged_khopesh_ench",
+          "summon_dreamforged_lucerne_ench",
+          "summon_dreamforged_knuckle_ench",
+          "summon_dreamforged_fullhelmet_ench",
+          "summon_dreamforged_helmet_ench",
+          "summon_dreamforged_plate_armor_ench",
+          "summon_dreamforged_armguard_plate_ench",
+          "summon_dreamforged_boots_ench"
+        ],
+        "type": "spell"
+      },
+      {
+        "u_message": "A brilliant idea about the dreamdross properties hit your head, and you think you know how to utilize one now.",
+        "type": "info"
+      },
+      { "arithmetic": [ { "global_val": "var", "var_name": "DREAMSMITH_RECIPE_SCORE" }, "=", { "const": 0 } ] },
+      {
+        "arithmetic": [ { "global_val": "var", "var_name": "DREAMSMITH_RECIPE_SCORE_TARGET" }, "+=", { "const": 100 } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DREAMSMITHS_RECIPES_SUPER",
+    "//": "If your DREAMSMITH_RECIPE_SCORE_SUPER bigger than DREAMSMITH_RECIPE_SCORE_TARGET, you take a spell, DREAMSMITH_RECIPE_SCORE_SUPER is zeroed, and DREAMSMITH_RECIPE_SCORE_TARGET is increased for 200.  const 1000 here is respond for delay, after which player would be able to obtain super recipes, and const 200 is for gap between them. Right now it would be 45th cast of training spell for first recipe, 22 for second, 18 for third, 17 for fouth.",
+    "condition": {
+      "and": [
+        { "u_has_trait": "DREAMSMITH" },
+        {
+          "compare_int": [
+            { "global_val": "var", "var_name": "DREAMSMITH_RECIPE_SCORE_SUPER" },
+            ">=",
+            {
+              "arithmetic": [ { "global_val": "var", "var_name": "DREAMSMITH_RECIPE_SCORE_SUPER_TARGET" }, "+", { "const": 1000 } ]
+            }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      {
+        "u_roll_remainder": [
+          "dreamforged_knuckle_berserk",
+          "dreamforged_helmet_berserker",
+          "dreamforged_armguard_plate_berserk",
+          "dreamforged_boots_berserk",
+          "dreamforged_fullhelmet_arcane",
+          "dreamforged_glaive_healing",
+          "dreamforged_tsurugi_speed",
+          "dreamforged_q_staff_exp"
+        ],
+        "type": "recipe"
+      },
+      { "u_message": "You found pretty smart way to utilize a dreamdross abilities, and you .", "type": "info" },
+      { "arithmetic": [ { "global_val": "var", "var_name": "DREAMSMITH_RECIPE_SCORE_SUPER" }, "=", { "const": 0 } ] },
+      {
+        "arithmetic": [ { "global_val": "var", "var_name": "DREAMSMITH_RECIPE_SCORE_SUPER_TARGET" }, "+=", { "const": 200 } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "dreamforged_q_staff_ench",
+    "effect": [ { "u_spawn_item": "dreamforged_q_staff_ench", "use_item_group": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "summon_dreamforged_longsword_ench",
+    "effect": [ { "u_spawn_item": "summon_dreamforged_longsword_ench", "use_item_group": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "dreamforged_warhammer_ench",
+    "effect": [ { "u_spawn_item": "dreamforged_warhammer_ench", "use_item_group": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "dreamforged_spear_ench",
+    "effect": [ { "u_spawn_item": "dreamforged_spear_ench", "use_item_group": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "dreamforged_halberd_ench",
+    "effect": [ { "u_spawn_item": "dreamforged_halberd_ench", "use_item_group": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "dreamforged_glaive_ench",
+    "effect": [ { "u_spawn_item": "dreamforged_glaive_ench", "use_item_group": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "dreamforged_naginata_ench",
+    "effect": [ { "u_spawn_item": "dreamforged_naginata_ench", "use_item_group": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "dreamforged_mace_ench",
+    "effect": [ { "u_spawn_item": "dreamforged_mace_ench", "use_item_group": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "dreamforged_morningstar_ench",
+    "effect": [ { "u_spawn_item": "dreamforged_morningstar_ench", "use_item_group": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "dreamforged_estoc_ench",
+    "effect": [ { "u_spawn_item": "dreamforged_estoc_ench", "use_item_group": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "dreamforged_arming_sword_ench",
+    "effect": [ { "u_spawn_item": "dreamforged_arming_sword_ench", "use_item_group": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "dreamforged_broadsword_ench",
+    "effect": [ { "u_spawn_item": "dreamforged_broadsword_ench", "use_item_group": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "dreamforged_battleaxe_ench",
+    "effect": [ { "u_spawn_item": "dreamforged_battleaxe_ench", "use_item_group": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "dreamforged_katana_ench",
+    "effect": [ { "u_spawn_item": "dreamforged_katana_ench", "use_item_group": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "dreamforged_knife_combat_ench",
+    "effect": [ { "u_spawn_item": "dreamforged_knife_combat_ench", "use_item_group": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "dreamforged_kris_ench",
+    "effect": [ { "u_spawn_item": "dreamforged_kris_ench", "use_item_group": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "dreamforged_kukri_ench",
+    "effect": [ { "u_spawn_item": "dreamforged_kukri_ench", "use_item_group": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "dreamforged_nodachi_ench",
+    "effect": [ { "u_spawn_item": "dreamforged_nodachi_ench", "use_item_group": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "dreamforged_rapier_ench",
+    "effect": [ { "u_spawn_item": "dreamforged_rapier_ench", "use_item_group": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "dreamforged_tanto_ench",
+    "effect": [ { "u_spawn_item": "dreamforged_tanto_ench", "use_item_group": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "dreamforged_wakizashi_ench",
+    "effect": [ { "u_spawn_item": "dreamforged_wakizashi_ench", "use_item_group": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "dreamforged_zweihander_ench",
+    "effect": [ { "u_spawn_item": "dreamforged_zweihander_ench", "use_item_group": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "dreamforged_khopesh_ench",
+    "effect": [ { "u_spawn_item": "dreamforged_khopesh_ench", "use_item_group": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "dreamforged_lucerne_ench",
+    "effect": [ { "u_spawn_item": "dreamforged_lucerne_ench", "use_item_group": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "dreamforged_knuckle_ench",
+    "effect": [ { "u_spawn_item": "dreamforged_knuckle_ench", "use_item_group": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "dreamforged_fullhelmet_ench",
+    "effect": [ { "u_spawn_item": "dreamforged_fullhelmet_ench", "use_item_group": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "dreamforged_helmet_ench",
+    "effect": [ { "u_spawn_item": "dreamforged_helmet_ench", "use_item_group": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "dreamforged_plate_armor_ench",
+    "effect": [ { "u_spawn_item": "dreamforged_plate_armor_ench", "use_item_group": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "dreamforged_armguard_plate_ench",
+    "effect": [ { "u_spawn_item": "dreamforged_armguard_plate_ench", "use_item_group": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "dreamforged_boots_ench",
+    "effect": [ { "u_spawn_item": "dreamforged_boots_ench", "use_item_group": true } ]
+  }
+]

@@ -3,18 +3,10 @@
     "type": "relic_procgen_data",
     "id": "dreamsmith_lottery_atk",
     "passive_add_procgen_values": [
-      { "weight": 100, "min_value": 0, "max_value": 20, "type": "ATTACK_SPEED", "increment": 1, "power_per_increment": 150 },
+      { "weight": 100, "min_value": 1, "max_value": 20, "type": "ATTACK_SPEED", "increment": 1, "power_per_increment": 150 },
       {
         "weight": 100,
-        "min_value": 0,
-        "max_value": 1,
-        "type": "BONUS_BLOCK",
-        "increment": 1,
-        "power_per_increment": 3000
-      },
-      {
-        "weight": 100,
-        "min_value": 0,
+        "min_value": 1,
         "max_value": 1,
         "type": "BONUS_DODGE",
         "increment": 1,
@@ -22,7 +14,7 @@
       },
       {
         "weight": 100,
-        "min_value": 0,
+        "min_value": 1,
         "max_value": 5,
         "type": "DEXTERITY",
         "increment": 1,
@@ -30,7 +22,7 @@
       },
       {
         "weight": 100,
-        "min_value": 0,
+        "min_value": 1,
         "max_value": 5,
         "type": "INTELLIGENCE",
         "increment": 1,
@@ -38,7 +30,7 @@
       },
       {
         "weight": 100,
-        "min_value": 0,
+        "min_value": 1,
         "max_value": 5,
         "type": "PERCEPTION",
         "increment": 1,
@@ -46,16 +38,16 @@
       },
       {
         "weight": 100,
-        "min_value": 0,
+        "min_value": 1,
         "max_value": 5,
         "type": "STRENGTH",
         "increment": 1,
         "power_per_increment": 600
       },
-      { "weight": 100, "min_value": 0, "max_value": 15, "type": "SPEED", "increment": 1, "power_per_increment": 600 },
+      { "weight": 100, "min_value": 1, "max_value": 15, "type": "SPEED", "increment": 1, "power_per_increment": 600 },
       {
         "weight": 100,
-        "min_value": 0,
+        "min_value": 1,
         "max_value": 500,
         "type": "MAX_MANA",
         "increment": 1,
@@ -63,7 +55,7 @@
       },
       {
         "weight": 100,
-        "min_value": 0,
+        "min_value": 1,
         "max_value": 3000,
         "type": "MAX_STAMINA",
         "increment": 1,
@@ -71,7 +63,7 @@
       },
       {
         "weight": 100,
-        "min_value": 0,
+        "min_value": 1,
         "max_value": 15,
         "type": "MELEE_DAMAGE",
         "increment": 1,
@@ -79,7 +71,7 @@
       },
       {
         "weight": 100,
-        "min_value": 0,
+        "min_value": 1,
         "max_value": 10,
         "type": "ITEM_DAMAGE_ACID",
         "increment": 1,
@@ -87,15 +79,7 @@
       },
       {
         "weight": 100,
-        "min_value": 0,
-        "max_value": 10,
-        "type": "ITEM_DAMAGE_AP",
-        "increment": 1,
-        "power_per_increment": 300
-      },
-      {
-        "weight": 100,
-        "min_value": 0,
+        "min_value": 1,
         "max_value": 10,
         "type": "ITEM_DAMAGE_BASH",
         "increment": 1,
@@ -103,7 +87,7 @@
       },
       {
         "weight": 100,
-        "min_value": 0,
+        "min_value": 1,
         "max_value": 10,
         "type": "ITEM_DAMAGE_BIO",
         "increment": 1,
@@ -111,7 +95,7 @@
       },
       {
         "weight": 100,
-        "min_value": 0,
+        "min_value": 1,
         "max_value": 10,
         "type": "ITEM_DAMAGE_BULLET",
         "increment": 1,
@@ -119,7 +103,7 @@
       },
       {
         "weight": 100,
-        "min_value": 0,
+        "min_value": 1,
         "max_value": 10,
         "type": "ITEM_DAMAGE_COLD",
         "increment": 1,
@@ -127,7 +111,7 @@
       },
       {
         "weight": 100,
-        "min_value": 0,
+        "min_value": 1,
         "max_value": 10,
         "type": "ITEM_DAMAGE_CUT",
         "increment": 1,
@@ -135,7 +119,7 @@
       },
       {
         "weight": 100,
-        "min_value": 0,
+        "min_value": 1,
         "max_value": 10,
         "type": "ITEM_DAMAGE_ELEC",
         "increment": 1,
@@ -143,7 +127,7 @@
       },
       {
         "weight": 100,
-        "min_value": 0,
+        "min_value": 1,
         "max_value": 10,
         "type": "ITEM_DAMAGE_HEAT",
         "increment": 1,
@@ -151,7 +135,7 @@
       },
       {
         "weight": 100,
-        "min_value": 0,
+        "min_value": 1,
         "max_value": 10,
         "type": "ITEM_DAMAGE_PURE",
         "increment": 1,
@@ -159,7 +143,7 @@
       },
       {
         "weight": 100,
-        "min_value": 0,
+        "min_value": 1,
         "max_value": 10,
         "type": "ITEM_DAMAGE_STAB",
         "increment": 1,
@@ -278,378 +262,194 @@
     ]
   },
   {
-    "type": "item_group",
-    "id": "dreamforged_q_staff_ench",
-    "subtype": "distribution",
-    "entries": [
+    "type": "relic_procgen_data",
+    "id": "dreamsmith_lottery_def",
+    "passive_add_procgen_values": [
+      { "weight": 100, "min_value": -1, "max_value": -20, "type": "ARMOR_ACID", "increment": -1, "power_per_increment": 75 },
       {
-        "item": "dreamforged_q_staff",
-        "artifact": {
-          "procgen_id": "dreamsmith_lottery_atk",
-          "rules": { "power_level": 3000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
-        },
-        "prob": 100
-      }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "dreamforged_longsword_ench",
-    "subtype": "distribution",
-    "entries": [
+        "weight": 100,
+        "min_value": -1,
+        "max_value": -20,
+        "type": "ARMOR_BASH",
+        "increment": -1,
+        "power_per_increment": 150
+      },
       {
-        "item": "dreamforged_longsword",
-        "artifact": {
-          "procgen_id": "dreamsmith_lottery_atk",
-          "rules": { "power_level": 3000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
-        },
-        "prob": 100
-      }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "dreamforged_warhammer_ench",
-    "subtype": "distribution",
-    "entries": [
+        "weight": 100,
+        "min_value": -1,
+        "max_value": -20,
+        "type": "ARMOR_BIO",
+        "increment": -1,
+        "power_per_increment": 75
+      },
       {
-        "item": "dreamforged_warhammer",
-        "artifact": {
-          "procgen_id": "dreamsmith_lottery_atk",
-          "rules": { "power_level": 3000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
-        },
-        "prob": 100
-      }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "dreamforged_spear_ench",
-    "subtype": "distribution",
-    "entries": [
+        "weight": 100,
+        "min_value": -1,
+        "max_value": -20,
+        "type": "ARMOR_BULLET",
+        "increment": -1,
+        "power_per_increment": 150
+      },
       {
-        "item": "dreamforged_spear",
-        "artifact": {
-          "procgen_id": "dreamsmith_lottery_atk",
-          "rules": { "power_level": 3000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
-        },
-        "prob": 100
-      }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "dreamforged_halberd_ench",
-    "subtype": "distribution",
-    "entries": [
+        "weight": 100,
+        "min_value": -1,
+        "max_value": -20,
+        "type": "ARMOR_COLD",
+        "increment": -1,
+        "power_per_increment": 75
+      },
       {
-        "item": "dreamforged_halberd",
-        "artifact": {
-          "procgen_id": "dreamsmith_lottery_atk",
-          "rules": { "power_level": 3000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
-        },
-        "prob": 100
-      }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "dreamforged_glaive_ench",
-    "subtype": "distribution",
-    "entries": [
+        "weight": 100,
+        "min_value": -1,
+        "max_value": -20,
+        "type": "ARMOR_CUT",
+        "increment": -1,
+        "power_per_increment": 150
+      },
       {
-        "item": "dreamforged_glaive",
-        "artifact": {
-          "procgen_id": "dreamsmith_lottery_atk",
-          "rules": { "power_level": 3000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
-        },
-        "prob": 100
-      }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "dreamforged_naginata_ench",
-    "subtype": "distribution",
-    "entries": [
+        "weight": 100,
+        "min_value": -1,
+        "max_value": -20,
+        "type": "ARMOR_ELEC",
+        "increment": -1,
+        "power_per_increment": 75
+      },
       {
-        "item": "dreamforged_naginata",
-        "artifact": {
-          "procgen_id": "dreamsmith_lottery_atk",
-          "rules": { "power_level": 3000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
-        },
-        "prob": 100
-      }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "dreamforged_mace_ench",
-    "subtype": "distribution",
-    "entries": [
+        "weight": 100,
+        "min_value": -1,
+        "max_value": -20,
+        "type": "ARMOR_HEAT",
+        "increment": -1,
+        "power_per_increment": 75
+      },
       {
-        "item": "dreamforged_mace",
-        "artifact": {
-          "procgen_id": "dreamsmith_lottery_atk",
-          "rules": { "power_level": 3000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
-        },
-        "prob": 100
-      }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "dreamforged_morningstar_ench",
-    "subtype": "distribution",
-    "entries": [
+        "weight": 100,
+        "min_value": -1,
+        "max_value": -20,
+        "type": "ARMOR_STAB",
+        "increment": -1,
+        "power_per_increment": 75
+      },
       {
-        "item": "dreamforged_morningstar",
-        "artifact": {
-          "procgen_id": "dreamsmith_lottery_atk",
-          "rules": { "power_level": 3000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
-        },
-        "prob": 100
-      }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "dreamforged_estoc_ench",
-    "subtype": "distribution",
-    "entries": [
+        "weight": 100,
+        "min_value": 1,
+        "max_value": 1,
+        "type": "BONUS_DODGE",
+        "increment": 1,
+        "power_per_increment": 1500
+      },
       {
-        "item": "dreamforged_estoc",
-        "artifact": {
-          "procgen_id": "dreamsmith_lottery_atk",
-          "rules": { "power_level": 3000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
-        },
-        "prob": 100
-      }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "dreamforged_arming_sword_ench",
-    "subtype": "distribution",
-    "entries": [
+        "weight": 100,
+        "min_value": 1,
+        "max_value": 30,
+        "type": "CLIMATE_CONTROL_HEAT",
+        "increment": 1,
+        "power_per_increment": 50
+      },
       {
-        "item": "dreamforged_arming_sword",
-        "artifact": {
-          "procgen_id": "dreamsmith_lottery_atk",
-          "rules": { "power_level": 3000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
-        },
-        "prob": 100
-      }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "dreamforged_broadsword_ench",
-    "subtype": "distribution",
-    "entries": [
+        "weight": 100,
+        "min_value": 1,
+        "max_value": 30,
+        "type": "CLIMATE_CONTROL_CHILL",
+        "increment": 1,
+        "power_per_increment": 50
+      },
       {
-        "item": "dreamforged_broadsword",
-        "artifact": {
-          "procgen_id": "dreamsmith_lottery_atk",
-          "rules": { "power_level": 3000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
-        },
-        "prob": 100
-      }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "dreamforged_battleaxe_ench",
-    "subtype": "distribution",
-    "entries": [
+        "weight": 100,
+        "min_value": 1,
+        "max_value": 2,
+        "type": "DEXTERITY",
+        "increment": 1,
+        "power_per_increment": 1500
+      },
       {
-        "item": "dreamforged_battleaxe",
-        "artifact": {
-          "procgen_id": "dreamsmith_lottery_atk",
-          "rules": { "power_level": 3000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
-        },
-        "prob": 100
-      }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "dreamforged_katana_ench",
-    "subtype": "distribution",
-    "entries": [
+        "weight": 100,
+        "min_value": 1,
+        "max_value": 2,
+        "type": "INTELLIGENCE",
+        "increment": 1,
+        "power_per_increment": 1500
+      },
       {
-        "item": "dreamforged_katana",
-        "artifact": {
-          "procgen_id": "dreamsmith_lottery_atk",
-          "rules": { "power_level": 3000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
-        },
-        "prob": 100
-      }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "dreamforged_knife_combat_ench",
-    "subtype": "distribution",
-    "entries": [
+        "weight": 100,
+        "min_value": 1,
+        "max_value": 2,
+        "type": "PERCEPTION",
+        "increment": 1,
+        "power_per_increment": 1500
+      },
       {
-        "item": "dreamforged_knife_combat",
-        "artifact": {
-          "procgen_id": "dreamsmith_lottery_atk",
-          "rules": { "power_level": 3000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
-        },
-        "prob": 100
-      }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "dreamforged_kris_ench",
-    "subtype": "distribution",
-    "entries": [
+        "weight": 100,
+        "min_value": 1,
+        "max_value": 2,
+        "type": "STRENGTH",
+        "increment": 1,
+        "power_per_increment": 1500
+      },
       {
-        "item": "dreamforged_kris",
-        "artifact": {
-          "procgen_id": "dreamsmith_lottery_atk",
-          "rules": { "power_level": 3000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
-        },
-        "prob": 100
-      }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "dreamforged_kukri_ench",
-    "subtype": "distribution",
-    "entries": [
+        "weight": 100,
+        "min_value": -1,
+        "max_value": -50,
+        "type": "FOOTSTEP_NOISE",
+        "increment": -1,
+        "power_per_increment": 30
+      },
       {
-        "item": "dreamforged_kukri",
-        "artifact": {
-          "procgen_id": "dreamsmith_lottery_atk",
-          "rules": { "power_level": 3000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
-        },
-        "prob": 100
-      }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "dreamforged_nodachi_ench",
-    "subtype": "distribution",
-    "entries": [
+        "weight": 100,
+        "min_value": 1,
+        "max_value": 50,
+        "type": "SIGHT_RANGE_ELECTRIC",
+        "increment": 25,
+        "power_per_increment": 750
+      },
       {
-        "item": "dreamforged_nodachi",
-        "artifact": {
-          "procgen_id": "dreamsmith_lottery_atk",
-          "rules": { "power_level": 3000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
-        },
-        "prob": 100
-      }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "dreamforged_rapier_ench",
-    "subtype": "distribution",
-    "entries": [
+        "weight": 100,
+        "min_value": 1,
+        "max_value": 500,
+        "type": "MAX_MANA",
+        "increment": 100,
+        "power_per_increment": 600
+      },
       {
-        "item": "dreamforged_rapier",
-        "artifact": {
-          "procgen_id": "dreamsmith_lottery_atk",
-          "rules": { "power_level": 3000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
-        },
-        "prob": 100
-      }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "dreamforged_tanto_ench",
-    "subtype": "distribution",
-    "entries": [
+        "weight": 100,
+        "min_value": 1,
+        "max_value": 3000,
+        "type": "MAX_STAMINA",
+        "increment": 500,
+        "power_per_increment": 500
+      },
       {
-        "item": "dreamforged_tanto",
-        "artifact": {
-          "procgen_id": "dreamsmith_lottery_atk",
-          "rules": { "power_level": 3000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
-        },
-        "prob": 100
-      }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "dreamforged_wakizashi_ench",
-    "subtype": "distribution",
-    "entries": [
+        "weight": 100,
+        "min_value": 1,
+        "max_value": 10,
+        "type": "REGEN_HP",
+        "increment": 1,
+        "power_per_increment": 300
+      },
       {
-        "item": "dreamforged_wakizashi",
-        "artifact": {
-          "procgen_id": "dreamsmith_lottery_atk",
-          "rules": { "power_level": 3000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
-        },
-        "prob": 100
-      }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "dreamforged_zweihander_ench",
-    "subtype": "distribution",
-    "entries": [
+        "weight": 100,
+        "min_value": 1,
+        "max_value": 100,
+        "type": "REGEN_MANA",
+        "increment": 10,
+        "power_per_increment": 300
+      },
       {
-        "item": "dreamforged_zweihander",
-        "artifact": {
-          "procgen_id": "dreamsmith_lottery_atk",
-          "rules": { "power_level": 3000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
-        },
-        "prob": 100
+        "weight": 100,
+        "min_value": 1,
+        "max_value": 20,
+        "type": "REGEN_STAMINA",
+        "increment": 1,
+        "power_per_increment": 150
       }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "dreamforged_khopesh_ench",
-    "subtype": "distribution",
-    "entries": [
-      {
-        "item": "dreamforged_khopesh",
-        "artifact": {
-          "procgen_id": "dreamsmith_lottery_atk",
-          "rules": { "power_level": 3000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
-        },
-        "prob": 100
-      }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "dreamforged_lucerne_ench",
-    "subtype": "distribution",
-    "entries": [
-      {
-        "item": "dreamforged_lucerne",
-        "artifact": {
-          "procgen_id": "dreamsmith_lottery_atk",
-          "rules": { "power_level": 3000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
-        },
-        "prob": 100
-      }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "dreamforged_knuckle_ench",
-    "subtype": "distribution",
-    "entries": [
-      {
-        "item": "dreamforged_knuckle",
-        "artifact": {
-          "procgen_id": "dreamsmith_lottery_atk",
-          "rules": { "power_level": 3000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
-        },
-        "prob": 100
-      }
+    ],
+    "type_weights": [ { "weight": 100, "value": "passive_enchantment_add" } ],
+    "items": [
+      { "weight": 100, "item": "dreamforged_fullhelmet" },
+      { "weight": 100, "item": "dreamforged_helmet" },
+      { "weight": 100, "item": "dreamforged_plate_armor" },
+      { "weight": 100, "item": "dreamforged_armguard_plate" },
+      { "weight": 100, "item": "dreamforged_boots" }
     ]
   }
 ]

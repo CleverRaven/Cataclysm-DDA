@@ -147,6 +147,12 @@
     "components": [ [ [ "dreamdross_lump", 10 ], [ "scrap_dreamdross", 100 ] ] ]
   },
   {
+    "id": "spell_components_research_dreamdross",
+    "type": "requirement",
+    "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
+    "components": [ [ [ "dreamdross_lump", 2 ], [ "scrap_dreamdross", 20 ] ] ]
+  },
+  {
     "id": "spell_components_dross_knife",
     "type": "requirement",
     "components": [
@@ -196,6 +202,24 @@
     "type": "requirement",
     "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
     "components": [ [ [ "forged_dreamstuff_ingot", 5 ] ] ]
+  },
+  {
+    "id": "spell_components_forging_ingot_6",
+    "type": "requirement",
+    "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
+    "components": [ [ [ "forged_dreamstuff_ingot", 6 ] ] ]
+  },
+  {
+    "id": "spell_components_forging_ingot_7",
+    "type": "requirement",
+    "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
+    "components": [ [ [ "forged_dreamstuff_ingot", 7 ] ] ]
+  },
+  {
+    "id": "spell_components_forging_ingot_8",
+    "type": "requirement",
+    "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
+    "components": [ [ [ "forged_dreamstuff_ingot", 8 ] ] ]
   },
   {
     "id": "spell_components_human_blood",
