@@ -711,7 +711,7 @@
       [ "stand_ring_clamps", 5 ],
       [ "syringe", 4 ],
       [ "xacto", 4 ],
-      { "item": "cotton_ball", "prob": 4, "count": [ 1, 10 ] },
+      { "group": "cotton_ball_bag_used", "prob": 4 },
       { "group": "ammo_any_batteries_full", "prob": 50 },
       [ "acetylene_machine", 1 ],
       { "group": "writing_utensils", "prob": 5 }

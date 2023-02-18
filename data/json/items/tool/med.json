@@ -28,7 +28,6 @@
     "price_postapoc": 6,
     "symbol": ",",
     "color": "white",
-    "container": "box_small",
     "flags": [ "SINGLE_USE", "IRREPLACEABLE_CONSUMABLE" ],
     "use_action": { "type": "heal", "disinfectant_power": 2, "bite": 0.3, "move_cost": 500 }
   },
@@ -110,7 +109,6 @@
     "material": [ "cotton" ],
     "symbol": "*",
     "color": "white",
-    "container": "bag_plastic",
     "flags": [ "SINGLE_USE" ],
     "use_action": { "type": "heal", "bandages_power": 2, "bleed": 3, "move_cost": 3000 }
   },
