@@ -2960,7 +2960,7 @@
     "locations": [ "forest" ],
     "city_distance": [ 30, -1 ],
     "city_sizes": [ 0, 12 ],
-    "occurrences": [ 100, 100 ],
+    "occurrences": [ 30, 100 ],
     "flags": [ "CLASSIC", "WILDERNESS", "GLOBALLY_UNIQUE" ]
   },
   {
@@ -2989,7 +2989,7 @@
     "locations": [ "wilderness" ],
     "city_distance": [ 5, 20 ],
     "city_sizes": [ 6, -1 ],
-    "occurrences": [ 100, 100 ],
+    "occurrences": [ 30, 100 ],
     "//": "Inflated chance, in effect 15%",
     "flags": [ "CLASSIC", "GLOBALLY_UNIQUE" ]
   }
