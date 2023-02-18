@@ -738,7 +738,8 @@
       { "fuel": 2, "smoke": 3, "burn": 2, "volume_per_turn": "10000 ml" },
       { "fuel": 3, "smoke": 10, "burn": 3 }
     ],
-    "burn_products": [ [ "corpse_ash", 0.035 ] ]
+    "burn_products": [ [ "corpse_ash", 0.035 ] ],
+    "soft": true
   },
   {
     "type": "material",
@@ -988,7 +989,8 @@
       { "fuel": 1, "smoke": 1, "burn": 1, "volume_per_turn": "2500 ml" },
       { "fuel": 2, "smoke": 3, "burn": 2, "volume_per_turn": "10000 ml" },
       { "fuel": 3, "smoke": 10, "burn": 3 }
-    ]
+    ],
+    "soft": true
   },
   {
     "type": "material",
