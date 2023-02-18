@@ -7840,6 +7840,26 @@
   },
   {
     "type": "mutation",
+    "id": "DEBUG_HP",
+    "name": { "str": "Debug 9000 HP" },
+    "points": 99,
+    "valid": false,
+    "description": "If you need to survive the deadliest bug attacks.",
+    "relic_data": { "passive_effects": [ { "values": [ { "value": "MAX_HP", "add": 9000 } ] } ] },
+    "debug": true
+  },
+  {
+    "type": "mutation",
+    "id": "DEBUG_HP_REGEN",
+    "name": { "str": "Debug Regeneration" },
+    "points": 99,
+    "valid": false,
+    "description": "Heal yourself from this stupid bug attacks.",
+    "relic_data": { "passive_effects": [ { "values": [ { "value": "REGEN_HP", "multiply": 100 } ] } ] },
+    "debug": true
+  },
+  {
+    "type": "mutation",
     "id": "DEBUG_NOSCENT",
     "name": { "str": "Debug Deodorizer" },
     "points": 99,
