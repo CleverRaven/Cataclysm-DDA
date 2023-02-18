@@ -34,7 +34,6 @@
     "type": "SPELL",
     "name": "Biotic Blast",
     "description": "Explode the enemy.  Literally.",
-    "components": "spell_components_fire_bio_warhead",
     "effect": "attack",
     "shape": "blast",
     "valid_targets": [ "hostile", "ally", "self" ],

@@ -16,7 +16,7 @@
     "id": "EOC_ARTIFACT_SPAWN",
     "condition": { "u_has_effect": "manic_fugue" },
     "effect": [
-      { "mapgen_update": "spawn_minor_spark_artifact" },
+      { "u_spawn_item": "minor_spark_artifact", "use_item_group": true },
       {
         "u_message": "As you leave the fugue state, you realize you have managed to create a thing.  Now to figure out what it does.",
         "type": "info"
