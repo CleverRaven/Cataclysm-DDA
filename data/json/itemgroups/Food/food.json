@@ -71,6 +71,33 @@
   },
   {
     "type": "item_group",
+    "id": "jam_fruit_sealed_rng",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "jam_fruit", "prob": 6, "charges-min": 1, "container-item": "jar_3l_glass_sealed" },
+      { "item": "jam_fruit", "prob": 1, "charges": 96, "container-item": "jar_3l_glass_sealed", "sealed": true }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "peanutbutter_sealed_rng",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "peanutbutter", "prob": 6, "charges-min": 1, "container-item": "jar_glass_sealed" },
+      { "item": "peanutbutter", "prob": 1, "charges": 16, "container-item": "jar_glass_sealed", "sealed": true }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "mayonnaise_sealed_rng",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "mayonnaise", "prob": 6, "charges-min": 1 },
+      { "item": "mayonnaise", "prob": 1, "charges": 32, "container-item": "condiment_bottle_sealed" }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "ketchup_sealed_rng",
     "subtype": "distribution",
     "entries": [
