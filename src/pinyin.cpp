@@ -441,24 +441,23 @@ bool pinyin_match( const std::u32string &str, const std::u32string &qry )
     static std::unordered_map<char32_t, std::vector<std::u32string>> indexed_pinyin_map;
 
     //Build the indexed map if not built yet
-    if (indexed_pinyin_map.empty()) {
-        for (auto const& entry : pinyin_data) {
+    if( indexed_pinyin_map.empty() ) {
+        for( auto const &entry : pinyin_data ) {
             //entry.first = a pinyin; entry.second = all characters that have this pronounciation
-            for (int index = 0; index < entry.second.length(); index++) {
+            for( int index = 0; index < entry.second.length(); index++ ) {
                 //for each character, use it as the index and add its pinyin to the indexed map
-                char32_t current_char = entry.second.at(index);
+                char32_t current_char = entry.second.at( index );
                 try {
                     //try to de-duplicate the entry
-                    if (std::find(indexed_pinyin_map.at(current_char).begin(),
-                        indexed_pinyin_map.at(current_char).end(),
-                        entry.first) == indexed_pinyin_map.at(current_char).end()) {
-                        indexed_pinyin_map.at(current_char).push_back(entry.first);
+                    if( std::find( indexed_pinyin_map.at( current_char ).begin(),
+                                   indexed_pinyin_map.at( current_char ).end(),
+                                   entry.first ) == indexed_pinyin_map.at( current_char ).end() ) {
+                        indexed_pinyin_map.at( current_char ).push_back( entry.first );
                     }
-                }
-                catch (const std::out_of_range& err) {
+                } catch( const std::out_of_range &err ) {
                     std::vector<std::u32string> pinyin_of_this_char;
-                    pinyin_of_this_char.push_back(entry.first);
-                    indexed_pinyin_map.insert(std::make_pair(current_char, pinyin_of_this_char));
+                    pinyin_of_this_char.push_back( entry.first );
+                    indexed_pinyin_map.insert( std::make_pair( current_char, pinyin_of_this_char ) );
                 }
             }
         }
@@ -466,50 +465,49 @@ bool pinyin_match( const std::u32string &str, const std::u32string &qry )
 
     int combination_index = 0;                  //how many combinations have we tried
     bool all_combinations_tested = false;
-    while (!all_combinations_tested) {
+    while( !all_combinations_tested ) {
         std::u32string current_combination;
         //longest pinyin is 6 letter for a character, so we pre-allocate here
-        current_combination.reserve(str.length() * 6); 
+        current_combination.reserve( str.length() * 6 );
 
         int combination = combination_index;    //a copy so the record will not be destoryed
         int total_combination = 0;              //the total possible amount of combinations
 
-        for (int index = 0; index < str.length(); index++) {
+        for( int index = 0; index < str.length(); index++ ) {
             std::vector<std::u32string> cur_char_pinyin_list;
             try {
                 //try to find the pinyins for the current character
-                cur_char_pinyin_list = indexed_pinyin_map.at(str.at(index));
-            }
-            catch (const std::out_of_range& err) {
+                cur_char_pinyin_list = indexed_pinyin_map.at( str.at( index ) );
+            } catch( const std::out_of_range &err ) {
                 //not a known character
-                current_combination += str.at(index);
+                current_combination += str.at( index );
                 continue;
             }
-            
+
             /*
             * This two lines iterate through all possible combinations.
             * combination % list.size() will give one of the index for this list
             * and then divide it by the list size ensure that for each of the next index,
             * we have tried all possible combinations for this index
             */
-            current_combination += cur_char_pinyin_list.at(combination % cur_char_pinyin_list.size());
+            current_combination += cur_char_pinyin_list.at( combination % cur_char_pinyin_list.size() );
             combination /= cur_char_pinyin_list.size();
-            
+
             //we count the amount of total combinations possible to determine when to stop
-            if (cur_char_pinyin_list.size() > 1) {
+            if( cur_char_pinyin_list.size() > 1 ) {
                 total_combination += cur_char_pinyin_list.size();
             }
         }
 
-        if (current_combination.find(qry) != std::u32string::npos) {
+        if( current_combination.find( qry ) != std::u32string::npos ) {
             return true;
         }
         //increase combination index by 1, if it had tried all total combinations we return
         combination_index++;
-        all_combinations_tested = (combination_index >= total_combination);
+        all_combinations_tested = ( combination_index >= total_combination );
     }
 
-   
+
     return false;
 }
 }
