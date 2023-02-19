@@ -641,7 +641,36 @@
     "id": "earthshaper_reveal_world_map",
     "type": "SPELL",
     "name": "Reading the Earthbones",
-    "description": "You extend your senses into the ground, becoming aware of every hill and valley within a large area.",
+    "description": "You extend your senses into the ground, becoming aware of every hill and valley within a large area.  It will only work when in contact with the earth.",
+    "valid_targets": [ "none" ],
+    "flags": [ "NO_HANDS", "CONCENTRATE", "SILENT" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_EARTHSHAPER_MAP",
+    "shape": "blast",
+    "max_level": 15,
+    "spell_class": "EARTHSHAPER",
+    "base_casting_time": 6000,
+    "energy_source": "MANA",
+    "base_energy_cost": 1000,
+    "difficulty": 8
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_EARTHSHAPER_MAP",
+    "condition": { "compare_int": [ { "u_val": "pos_z" }, "<=", { "const": 0 } ] },
+    "effect": [
+      { "u_message": "The secrets of the living earth are revealed to you." },
+      { "u_cast_spell": { "id": "earthshaper_map" } }
+      ],
+    "false_effect": [
+        { "u_message": "Without a direct connection to the living earth, the spell fails." }
+    ]
+  },
+  {
+    "id": "earthshaper_map",
+    "type": "SPELL",
+    "name": "Earthshape EOC cast",
+    "description": "This is the spell that actually fires when you cast Reading the Earthbones.  It's a bug if you have it.",
     "valid_targets": [ "none" ],
     "flags": [ "NO_HANDS", "CONCENTRATE", "SILENT" ],
     "effect": "map",
@@ -649,11 +678,6 @@
     "max_level": 15,
     "min_aoe": 10,
     "max_aoe": 40,
-    "aoe_increment": 2,
-    "spell_class": "EARTHSHAPER",
-    "base_casting_time": 6000,
-    "energy_source": "MANA",
-    "base_energy_cost": 1000,
-    "difficulty": 8
+    "aoe_increment": 2
   }
 ]
