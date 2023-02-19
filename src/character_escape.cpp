@@ -188,9 +188,9 @@ bool Character::try_remove_grab()
         int defender_check = rng( 0, std::max( get_arm_str(), get_dex() ) );
         int attacker_check = rng( get_effect_int( effect_grabbed, body_part_torso ), 8 );
 
-       // Defender check is modified by the relevant scores
-       defender_check *= get_limb_score(limb_score_balance);
-       // Monster check is modified by number
+        // Defender check is modified by the relevant scores
+        defender_check *= get_limb_score( limb_score_balance );
+        // Monster check is modified by number
         attacker_check *= zed_number;
 
         if( has_grab_break_tec() ) {
