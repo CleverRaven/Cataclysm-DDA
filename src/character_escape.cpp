@@ -27,7 +27,7 @@ static const limb_score_id limb_score_balance( "balance" );
 static const limb_score_id limb_score_grip( "grip" );
 static const limb_score_id limb_score_manip( "manip" );
 
-const bool Character::can_escape_trap( int difficulty, bool manip = false )
+bool Character::can_escape_trap( int difficulty, bool manip = false ) const
 {
     int chance = get_arm_str();
     chance *= manip ? get_limb_score( limb_score_manip ) : get_limb_score( limb_score_grip );
