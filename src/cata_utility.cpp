@@ -27,6 +27,7 @@
 #include "translations.h"
 #include "unicode.h"
 #include "zlib.h"
+#include "pinyin.h"
 
 static double pow10( unsigned int n )
 {
@@ -89,7 +90,14 @@ bool lcmatch( const std::string &str, const std::string &qry )
     }
     // Then try removing accents from str ONLY
     std::for_each( u32_str.begin(), u32_str.end(), remove_accent );
-    return u32_str.find( u32_qry ) != std::u32string::npos;
+    if( u32_str.find( u32_qry ) != std::u32string::npos ) {
+        return true;
+    }
+    if( get_option<bool>( "USE_PINYIN_SEARCH" ) ) {
+        // Finally, try to convert the string to pinyin and compare
+        return Pinyin::pinyin_match( u32_str, u32_qry );
+    }
+    return false;
 }
 
 bool lcmatch( const translation &str, const std::string &qry )

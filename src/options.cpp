@@ -1693,6 +1693,12 @@ void options_manager::add_options_interface()
     { { "keychar", to_translation( "Symbol" ) }, { "keycode", to_translation( "Key code" ) } },
     "keychar", COPT_CURSES_HIDE );
 
+    add( "USE_PINYIN_SEARCH", "interface", to_translation( "Use pinyin in search" ),
+         to_translation( "If true, pinyin (pronounciation of Chinese characters) can be used in searching/filtering "
+                         "(may cause major slowdown when searching through too many entries.)" ),
+         false
+       );
+
     add( "FORCE_CAPITAL_YN", "interface",
          to_translation( "Force capital/modified letters in prompts" ),
          to_translation( "If true, prompts such as Y/N queries only accepts capital or modified letters, while "
