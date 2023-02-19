@@ -191,7 +191,7 @@
         "T": "f_toilet",
         "t": "f_sink"
       },
-      "place_monsters": [ { "monster": "GROUP_MAPGEN_POOL", "x": [ 12, 19 ], "y": [ 18, 21 ] } ],
+      "place_monster": [ { "group": "GROUP_MAPGEN_POOL", "x": [ 12, 19 ], "y": [ 18, 21 ], "repeat": [ 1, 5 ] } ],
       "toilets": { "T": {  } },
       "items": { "O": { "item": "gym", "chance": 80 }, "H": { "item": "vending_drink", "chance": 75, "repeat": [ 4, 8 ] } },
       "place_loot": [ { "group": "cash_register_random", "x": [ 17, 19 ], "y": 2 } ]
