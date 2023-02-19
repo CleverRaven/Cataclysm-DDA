@@ -4,7 +4,7 @@
 
 #include <iostream>
 
-namespace Pinyin
+namespace pinyin
 {
 
 /**
@@ -24,6 +24,11 @@ void chinese_to_pinyin( const std::u32string &str, std::vector<std::u32string> &
  * @returns True if at least one possible pinyin combination of str contains qry
  */
 bool pinyin_match( const std::u32string &str, const std::u32string &qry );
+
+/**
+ * Reset the internal cache of known strings.
+ */
+void reset();
 
 }
 #endif //CATA_SRC_PINYIN_H

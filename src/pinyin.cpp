@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-namespace Pinyin
+namespace pinyin
 {
 
 /* data is referenced from https://github.com/rime/rime-terra-pinyin (which is an IME setup for chinese input) */
@@ -434,6 +434,8 @@ const std::map<std::u32string, std::u32string> pinyin_data = {
     {U"\"", U"“”"}
 };
 
+static std::unordered_map<std::u32string, std::vector<std::u32string>> known_strings;
+
 void append_one_char( char32_t character, std::vector<std::u32string> &dest )
 {
     std::vector<std::u32string> result; //result for this character
@@ -474,8 +476,14 @@ void append_one_char( char32_t character, std::vector<std::u32string> &dest )
 
 void chinese_to_pinyin( const std::u32string &str, std::vector<std::u32string> &dest )
 {
-    for( int index = 0; index < str.length(); index++ ) {
-        append_one_char( str.at( index ), dest );
+    try {
+        dest = known_strings.at(str);
+    }
+    catch (const std::out_of_range& err) {
+        for (int index = 0; index < str.length(); index++) {
+            append_one_char(str.at(index), dest);
+        }
+        known_strings.insert(std::make_pair(str, dest));
     }
 }
 
@@ -489,5 +497,9 @@ bool pinyin_match( const std::u32string &str, const std::u32string &qry )
         }
     }
     return false;
+}
+
+void reset() {
+    known_strings.clear();
 }
 }

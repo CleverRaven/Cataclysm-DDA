@@ -76,6 +76,7 @@
 #include "overmap_connection.h"
 #include "overmap_location.h"
 #include "path_info.h"
+#include "pinyin.h"
 #include "profession.h"
 #include "proficiency.h"
 #include "recipe_dictionary.h"
@@ -595,6 +596,7 @@ void DynamicDataLoader::unload_data()
     overmap_specials::reset();
     overmap_special_migration::reset();
     overmap_terrains::reset();
+    pinyin::reset();
     profession::reset();
     proficiency::reset();
     proficiency_category::reset();

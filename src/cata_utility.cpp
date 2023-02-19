@@ -12,6 +12,7 @@
 #include <stdexcept>
 #include <string>
 
+#include "cached_options.h"
 #include "catacharset.h"
 #include "cata_utility.h"
 #include "debug.h"
@@ -23,11 +24,11 @@
 #include "options.h"
 #include "output.h"
 #include "path_info.h"
+#include "pinyin.h"
 #include "rng.h"
 #include "translations.h"
 #include "unicode.h"
 #include "zlib.h"
-#include "pinyin.h"
 
 static double pow10( unsigned int n )
 {
@@ -93,9 +94,9 @@ bool lcmatch( const std::string &str, const std::string &qry )
     if( u32_str.find( u32_qry ) != std::u32string::npos ) {
         return true;
     }
-    if( get_option<bool>( "USE_PINYIN_SEARCH" ) ) {
+    if(use_pinyin_search) {
         // Finally, try to convert the string to pinyin and compare
-        return Pinyin::pinyin_match( u32_str, u32_qry );
+        return pinyin::pinyin_match( u32_str, u32_qry );
     }
     return false;
 }
