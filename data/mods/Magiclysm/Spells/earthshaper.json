@@ -661,10 +661,8 @@
     "effect": [
       { "u_message": "The secrets of the living earth are revealed to you." },
       { "u_cast_spell": { "id": "earthshaper_map" } }
-      ],
-    "false_effect": [
-        { "u_message": "Without a direct connection to the living earth, the spell fails." }
-    ]
+    ],
+    "false_effect": [ { "u_message": "Without a direct connection to the living earth, the spell fails." } ]
   },
   {
     "id": "earthshaper_map",
