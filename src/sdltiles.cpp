@@ -174,7 +174,15 @@ static void InitSDL()
     int ret;
 
 #if defined(SDL_HINT_WINDOWS_DISABLE_THREAD_NAMING)
+    // Requires SDL 2.0.5. Disables thread naming so that gdb works correctly
+    // with the game.
     SDL_SetHint( SDL_HINT_WINDOWS_DISABLE_THREAD_NAMING, "1" );
+#endif
+
+#if defined(_WIN32) && defined(SDL_HINT_IME_SHOW_UI)
+    // Requires SDL 2.0.20. Shows the native IME UI instead of using SDL's
+    // broken implementation on Windows which does not show.
+    SDL_SetHint( SDL_HINT_IME_SHOW_UI, "1" );
 #endif
 
 #if defined(__linux__)
