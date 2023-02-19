@@ -490,10 +490,7 @@ std::vector<const item *> Character::get_eligible_containers_for_crafting() cons
     map &here = get_map();
     // get all potential containers within PICKUP_RANGE tiles including vehicles
     for( const tripoint &loc : closest_points_first( pos(), PICKUP_RANGE ) ) {
-        // can not reach this -> can not access its contents
-        if( pos() != loc && !here.clear_path( pos(), loc, PICKUP_RANGE, 1, 100 ) ) {
-            continue;
-        }
+
         if( here.accessible_items( loc ) ) {
             for( const item &it : here.i_at( loc ) ) {
                 std::vector<const item *> eligible = get_eligible_containers_recursive( it, true );
@@ -564,7 +561,7 @@ const inventory &Character::crafting_inventory( const tripoint &src_pos, int rad
     }
     crafting_cache.crafting_inventory->clear();
     if( radius >= 0 ) {
-        crafting_cache.crafting_inventory->form_from_map( inv_pos, radius, this, false, clear_path );
+        crafting_cache.crafting_inventory->form_from_map( inv_pos, radius, this, false, false );
     }
 
     std::map<itype_id, int> tmp_liq_list;
