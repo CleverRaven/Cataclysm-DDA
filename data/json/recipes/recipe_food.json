@@ -9625,5 +9625,46 @@
       [ [ "butter", 1 ] ],
       [ [ "wild_herbs", 6 ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "salsa",
+    "charges": 4,
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "6 m",
+    "batch_time_factors": [ 20, 2 ],
+    "book_learn": [ [ "cookbook_mexican", 1 ] ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "CUT", "level": 2 } ],
+    "components": [
+      [ [ "tomato", 1 ], [ "irradiated_tomato", 1 ], [ "can_tomato", 1 ] ],
+      [
+        [ "veggy_any_uncooked", 1, "LIST" ],
+        [ "rehydrated_corn_kernels", 1 ],
+        [ "can_beans", 1 ]
+      ],
+      [ [ "salt", 1 ], [ "seasoning_mild", 1, "LIST" ] ]
+    ]
+  },  
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "chips_and_salsa",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": "10 s",
+    "autolearn": true,
+    "book_learn": [ [ "cookbook_mexican", 1 ] ],
+    "batch_time_factors": [ 95, 2 ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
+    "components": [
+      [ [ "nachos", 4 ] ],
+      [ [ "salsa", 1 ] ]
+    ]
   }
 ]
