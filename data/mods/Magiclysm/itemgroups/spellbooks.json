@@ -171,7 +171,7 @@
       [ "spell_scroll_focused_bolt", 4 ],
       [ "spell_scroll_rupture", 4 ],
       [ "spell_scroll_cause_rot", 4 ],
-      [ "spell_scroll_earthshaper_reveal_world_map", 15]
+      [ "spell_scroll_earthshaper_reveal_world_map", 15 ]
     ]
   },
   {
