@@ -25,10 +25,5 @@ void chinese_to_pinyin( const std::u32string &str, std::vector<std::u32string> &
  */
 bool pinyin_match( const std::u32string &str, const std::u32string &qry );
 
-/**
- * Reset the internal cache of known strings.
- */
-void reset();
-
 }
 #endif //CATA_SRC_PINYIN_H

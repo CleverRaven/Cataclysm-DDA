@@ -434,21 +434,42 @@ const std::map<std::u32string, std::u32string> pinyin_data = {
     {U"\"", U"“”"}
 };
 
-static std::unordered_map<std::u32string, std::vector<std::u32string>> known_strings;
-
 void append_one_char( char32_t character, std::vector<std::u32string> &dest )
 {
-    std::vector<std::u32string> result; //result for this character
-    for( auto const &entry : pinyin_data ) {
-        if( entry.second.find( character ) != std::u32string::npos ) {
-            result.push_back( entry.first );
+    // we convert the data to an unordered map to lower the cost of looking up entries. 
+    // O(1) instead of O(n)
+    static std::unordered_map<char32_t, std::vector<std::u32string>> indexed_pinyin_map;
+
+    //Build the indexed map if not built yet
+    if (indexed_pinyin_map.empty()) {
+        for (auto const& entry : pinyin_data) {
+            //entry.first = a pinyin; entry.second = all characters that have this pronounciation
+            for (int index = 0; index < entry.second.length(); index++) {
+                //for each character, use it as the index and add its pinyin to the indexed map
+                char32_t current_char = entry.second.at(index);
+                try {
+                    //try to de-duplicate the entry
+                    if (std::find(indexed_pinyin_map.at(current_char).begin(), indexed_pinyin_map.at(current_char).end(), entry.first) != indexed_pinyin_map.at(current_char).end())
+                    {
+                        indexed_pinyin_map.at(current_char).push_back(entry.first);
+                    }
+                }
+                catch (const std::out_of_range& err) {
+                    std::vector<std::u32string> pinyin_of_this_char;
+                    pinyin_of_this_char.push_back(entry.first);
+                    indexed_pinyin_map.insert(std::make_pair(current_char, pinyin_of_this_char));
+                }
+            }
         }
     }
 
-
-    // no match, this character is unknown, therefore we just append it to the destination
-    if( result.size() == 0 ) {
-        for( std::u32string &existing_dest_str : dest ) {
+    std::vector<std::u32string> result; //result for this character
+    try {
+        result = indexed_pinyin_map.at(character);
+    }
+    catch (const std::out_of_range& err) {
+        // no match, this character is unknown, therefore we just append it to the destination
+        for (std::u32string& existing_dest_str : dest) {
             existing_dest_str += character;
         }
         return;
@@ -476,30 +497,26 @@ void append_one_char( char32_t character, std::vector<std::u32string> &dest )
 
 void chinese_to_pinyin( const std::u32string &str, std::vector<std::u32string> &dest )
 {
-    try {
-        dest = known_strings.at( str );
-    } catch( const std::out_of_range &err ) {
-        for( int index = 0; index < str.length(); index++ ) {
-            append_one_char( str.at( index ), dest );
-        }
-        known_strings.insert( std::make_pair( str, dest ) );
+    for( int index = 0; index < str.length(); index++ ) {
+        append_one_char( str.at( index ), dest );
     }
 }
 
 bool pinyin_match( const std::u32string &str, const std::u32string &qry )
 {
     std::vector<std::u32string> str_pinyin;
-    chinese_to_pinyin( str, str_pinyin );
-    for( const std::u32string &result_entry : str_pinyin ) {
-        if( result_entry.find( qry ) != std::u32string::npos ) {
-            return true;
+
+    for (int index = 0; index < str.length(); index++) {
+        //each time add one character to the list
+        append_one_char(str.at(index), str_pinyin);
+
+        //if the existing entry match, directly return
+        for (const std::u32string& result_entry : str_pinyin) {
+            if (result_entry.find(qry) != std::u32string::npos) {
+                return true;
+            }
         }
     }
     return false;
-}
-
-void reset()
-{
-    known_strings.clear();
 }
 }
