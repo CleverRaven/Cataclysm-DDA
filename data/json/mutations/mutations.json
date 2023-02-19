@@ -4334,6 +4334,16 @@
     "category": [ "MEDICAL" ]
   },
   {
+    "type": "effect_on_condition",
+    "id": "PAINREC1_EOC",
+	"recurrence": "1s m" ,
+    "condition": {
+      "and": [ { "compare_int": [ { "u_val": "pain" }, ">", { "const": 0 } ] }, { "u_has_trait": "PAINREC1" } ]
+    },
+    "deactivate_condition": { "not": { "u_has_trait": "PAINREC1" } },
+    "effect": [ { "arithmetic": [ { "u_val": "pain" }, "-=", { "const": 3 } ] } ]
+  },
+  {
     "type": "mutation",
     "id": "PAINREC2",
     "name": { "str": "Quick Pain Recovery" },
@@ -4345,6 +4355,16 @@
     "category": [ "MEDICAL" ]
   },
   {
+    "type": "effect_on_condition",
+    "id": "PAINREC2_EOC",
+	"recurrence": "1 m" ,
+    "condition": {
+      "and": [ { "compare_int": [ { "u_val": "pain" }, ">", { "const": 0 } ] }, { "u_has_trait": "PAINREC2" } ]
+    },
+    "deactivate_condition": { "not": { "u_has_trait": "PAINREC2" } },
+    "effect": [ { "arithmetic": [ { "u_val": "pain" }, "-=", { "const": 4 } ] } ]
+  },
+  {
     "type": "mutation",
     "id": "PAINREC3",
     "name": { "str": "Very Quick Pain Recovery" },
@@ -4353,6 +4373,16 @@
     "description": "You recover from pain much faster than normal.",
     "prereqs": [ "PAINREC2" ],
     "category": [ "MEDICAL" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "PAINREC3_EOC",
+	"recurrence": "1 m" ,
+    "condition": {
+      "and": [ { "compare_int": [ { "u_val": "pain" }, ">", { "const": 0 } ] }, { "u_has_trait": "PAINREC3" } ]
+    },
+    "deactivate_condition": { "not": { "u_has_trait": "PAINREC3" } },
+    "effect": [ { "arithmetic": [ { "u_val": "pain" }, "-=", { "const": 5 } ] } ]
   },
   {
     "type": "mutation",
