@@ -32,6 +32,7 @@
 #include "units_fwd.h"
 
 class Character;
+class inventory_selector_preset;
 class item;
 class item_stack;
 class string_input_popup;
@@ -68,8 +69,8 @@ class inventory_entry
 
         size_t chosen_count = 0;
         int custom_invlet = INT_MIN;
-        std::string cached_name;
-        std::string cached_name_full;
+        std::string *cached_name = nullptr;
+        std::string *cached_name_full = nullptr;
 
         inventory_entry() = default;
 
@@ -95,9 +96,8 @@ class inventory_entry
             topmost_parent( topmost_parent ),
             generation( generation_number ),
             chevron( chevron ),
-            custom_category( custom_category ),
-            enabled( enabled ) {
-            update_cache();
+            enabled( enabled ),
+            custom_category( custom_category ) {
         }
 
         bool operator==( const inventory_entry &other ) const;
@@ -166,6 +166,8 @@ class inventory_entry
         size_t generation = 0;
         bool chevron = false;
         int indent = 0;
+        std::string denial;
+        bool enabled = true;
 
         void set_custom_category( const item_category *category ) {
             custom_category = category;
@@ -173,7 +175,6 @@ class inventory_entry
 
     private:
         const item_category *custom_category = nullptr;
-        bool enabled = true;
     protected:
         // indents the entry if it is contained in an item
         bool _indent = true;
@@ -391,7 +392,7 @@ class inventory_column
         size_t get_width() const;
         size_t get_height() const;
         /** Expands the column to fit the new entry. */
-        void expand_to_fit( const inventory_entry &entry );
+        void expand_to_fit( const inventory_entry &entry, bool with_denial = true );
         /** Resets width to original (unchanged). */
         virtual void reset_width( const std::vector<inventory_column *> &all_columns );
         /** Returns next custom inventory letter. */
@@ -448,7 +449,7 @@ class inventory_column
         struct entry_cell_cache_t {
             bool assigned = false;
             nc_color color = c_unset;
-            std::string denial;
+            std::string const *denial = nullptr;
             std::vector<std::string> text;
         };
 

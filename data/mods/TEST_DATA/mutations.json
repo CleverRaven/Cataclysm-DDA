@@ -31,7 +31,7 @@
     "points": 1,
     "visibility": 1,
     "ugliness": 1,
-    "description": "Several ink glands have grown onto your torso.  They can be used to spray defensive ink and blind an attacker in an emergency, as long as the torso isn't covered.",
+    "description": "A mutation to test enchantments.",
     "enchantments": [ "TEST_ENCH" ],
     "category": [ "CEPHALOPOD" ]
   },
