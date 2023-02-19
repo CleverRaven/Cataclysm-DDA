@@ -4336,7 +4336,7 @@
   {
     "type": "effect_on_condition",
     "id": "PAINREC1_EOC",
-	"recurrence": "1s m" ,
+	"recurrence": "1 m" ,
     "condition": {
       "and": [ { "compare_int": [ { "u_val": "pain" }, ">", { "const": 0 } ] }, { "u_has_trait": "PAINREC1" } ]
     },
