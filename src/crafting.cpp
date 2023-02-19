@@ -1421,6 +1421,14 @@ void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc
     recoil = MAX_RECOIL;
 
     inv->restack( *this );
+    for( const effect_on_condition_id &eoc : making.result_eocs ) {
+        dialogue d( get_talker_for( *this ), nullptr );
+        if( eoc->type == eoc_type::ACTIVATION ) {
+            eoc->activate( d );
+        } else {
+            debugmsg( "Must use an activation eoc for a recipe.  If you don't want the effect_on_condition to happen on its own, remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this recipe with its condition and effects, then have a recurring one queue it." );
+        }
+    }
 }
 
 bool Character::can_continue_craft( item &craft )

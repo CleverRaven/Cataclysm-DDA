@@ -15,6 +15,7 @@
 #include "color.h"
 #include "debug.h"
 #include "enum_traits.h"
+#include "effect_on_condition.h"
 #include "flag.h"
 #include "game_constants.h"
 #include "generic_factory.h"
@@ -429,7 +430,9 @@ void recipe::load( const JsonObject &jo, const std::string &src )
     } else {
         jo.throw_error_at( "type", "unknown recipe type" );
     }
-
+    for( JsonValue jv : jo.get_array( "result_eocs" ) ) {
+        result_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+    }
     const requirement_id req_id( "inline_" + type + "_" + ident_.str() );
     requirement_data::load_requirement( jo, req_id );
     reqs_internal.emplace_back( req_id, 1 );
