@@ -636,5 +636,24 @@
     "max_level": 10,
     "min_range": 1,
     "max_range": 1
+  },
+  {
+    "id": "earthshaper_reveal_world_map",
+    "type": "SPELL",
+    "name": "Reading the Earthbones",
+    "description": "You extend your senses into the ground, becoming aware of every hill and valley within a large area.",
+    "valid_targets": [ "none" ],
+    "flags": [ "NO_HANDS", "CONCENTRATE", "SILENT" ],
+    "effect": "map",
+    "shape": "blast",
+    "max_level": 15,
+    "min_aoe": 10,
+    "max_aoe": 40,
+    "aoe_increment": 2,
+    "spell_class": "EARTHSHAPER",
+    "base_casting_time": 6000,
+    "energy_source": "MANA",
+    "base_energy_cost": 1000,
+    "difficulty": 8
   }
 ]
