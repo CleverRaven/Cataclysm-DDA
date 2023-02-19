@@ -185,6 +185,11 @@ static void InitSDL()
     SDL_SetHint( SDL_HINT_IME_SHOW_UI, "1" );
 #endif
 
+#if defined(SDL_HINT_IME_SUPPORT_EXTENDED_TEXT)
+    // Support long IME composition text
+    SDL_SetHint( SDL_HINT_IME_SUPPORT_EXTENDED_TEXT, "1" );
+#endif
+
 #if defined(__linux__)
     // https://bugzilla.libsdl.org/show_bug.cgi?id=3472#c5
     if( SDL_COMPILEDVERSION == SDL_VERSIONNUM( 2, 0, 5 ) ) {
@@ -3215,8 +3220,30 @@ static void CheckMessages()
                 last_input.edit = ev.edit.text;
                 last_input.edit_refresh = true;
                 text_refresh = true;
+                break;
             }
-            break;
+#if defined(SDL_HINT_IME_SUPPORT_EXTENDED_TEXT)
+            case SDL_TEXTEDITING_EXT: {
+                if( !ev.editExt.text ) {
+                    break;
+                }
+                if( strlen( ev.editExt.text ) > 0 ) {
+                    const unsigned lc = UTF8_getch( ev.editExt.text );
+                    last_input = input_event( lc, input_event_t::keyboard_char );
+                } else {
+                    // no key pressed in this event
+                    last_input = input_event();
+                    last_input.type = input_event_t::keyboard_char;
+                }
+                // Convert to string explicitly to avoid accidentally using
+                // a pointer that will be freed
+                last_input.edit = std::string( ev.editExt.text );
+                last_input.edit_refresh = true;
+                text_refresh = true;
+                SDL_free( ev.editExt.text );
+                break;
+            }
+#endif
             case SDL_CONTROLLERBUTTONDOWN:
             case SDL_CONTROLLERBUTTONUP:
                 gamepad::handle_button_event( ev );
