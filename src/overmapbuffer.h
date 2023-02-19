@@ -137,6 +137,8 @@ struct omt_find_params {
     bool must_see = false;
     bool cant_see = false;
     bool existing_only = false;
+    int min_z = -OVERMAP_DEPTH;
+    int max_z = OVERMAP_HEIGHT;
     cata::optional<overmap_special_id> om_special = cata::nullopt;
 };
 
