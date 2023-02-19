@@ -2891,7 +2891,7 @@ bool mattack::ranged_pull( monster *z )
     const int prev_effect = target->get_effect_int( effect_grabbed, body_part_torso );
     //Duration needs to be at least 2, or grab will immediately be removed
     target->add_effect( effect_grabbed, 2_turns, body_part_torso, false, prev_effect + 4 );
-    z->add_effect( effect_grabbing, 2_turns );
+    z->add_effect( effect_grabbing, 2_turns, true );
     return true;
 }
 
@@ -2960,7 +2960,7 @@ bool mattack::grab( monster *z )
     }
 
     const int prev_effect = target->get_effect_int( effect_grabbed, body_part_torso );
-    z->add_effect( effect_grabbing, 2_turns );
+    z->add_effect( effect_grabbing, 2_turns, true );
     target->add_effect( effect_grabbed, 2_turns, body_part_torso, false,
                         prev_effect + z->get_grab_strength() );
 
@@ -3044,7 +3044,7 @@ bool mattack::grab_drag( monster *z )
     }
 
     const int prev_effect = target->get_effect_int( effect_grabbed, body_part_torso );
-    z->add_effect( effect_grabbing, 2_turns );
+    z->add_effect( effect_grabbing, 2_turns, true );
     target->add_effect( effect_grabbed, 2_turns, bodypart_id( "torso" ), false, prev_effect + 3 );
 
     // cooldown was not reset prior to refactor here
