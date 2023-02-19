@@ -204,7 +204,6 @@ static void from_stimulants( Character &you, int current_stim );
 static void from_exertion( Character &you );
 static void without_sleep( Character &you, int sleep_deprivation );
 static void from_tourniquet( Character &you );
-static void from_pain( Character &you );
 static void from_nyctophobia( Character &you );
 static void from_artifact_resonance( Character &you, int amt );
 } // namespace suffer
@@ -1875,9 +1874,6 @@ void Character::suffer()
 
     suffer::without_sleep( *this, sleep_deprivation );
     suffer::from_tourniquet( *this );
-    if( get_pain() > 0 ) {
-        suffer::from_pain( *this );
-    }
     //Suffer from enchantments
     enchantment_cache->activate_passive( *this );
     if( calendar::once_every( 30_minutes ) ) {
