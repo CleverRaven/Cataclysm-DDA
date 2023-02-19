@@ -94,7 +94,7 @@ bool lcmatch( const std::string &str, const std::string &qry )
     if( u32_str.find( u32_qry ) != std::u32string::npos ) {
         return true;
     }
-    if(use_pinyin_search) {
+    if( use_pinyin_search ) {
         // Finally, try to convert the string to pinyin and compare
         return pinyin::pinyin_match( u32_str, u32_qry );
     }

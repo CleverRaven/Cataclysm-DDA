@@ -477,13 +477,12 @@ void append_one_char( char32_t character, std::vector<std::u32string> &dest )
 void chinese_to_pinyin( const std::u32string &str, std::vector<std::u32string> &dest )
 {
     try {
-        dest = known_strings.at(str);
-    }
-    catch (const std::out_of_range& err) {
-        for (int index = 0; index < str.length(); index++) {
-            append_one_char(str.at(index), dest);
+        dest = known_strings.at( str );
+    } catch( const std::out_of_range &err ) {
+        for( int index = 0; index < str.length(); index++ ) {
+            append_one_char( str.at( index ), dest );
         }
-        known_strings.insert(std::make_pair(str, dest));
+        known_strings.insert( std::make_pair( str, dest ) );
     }
 }
 
@@ -499,7 +498,8 @@ bool pinyin_match( const std::u32string &str, const std::u32string &qry )
     return false;
 }
 
-void reset() {
+void reset()
+{
     known_strings.clear();
 }
 }

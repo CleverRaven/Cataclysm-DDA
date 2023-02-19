@@ -3651,7 +3651,7 @@ static void update_options_cache()
     fov_3d = ::get_option<bool>( "FOV_3D" );
     fov_3d_z_range = ::get_option<int>( "FOV_3D_Z_RANGE" );
     keycode_mode = ::get_option<std::string>( "SDL_KEYBOARD_MODE" ) == "keycode";
-    use_pinyin_search = ::get_option<bool>("USE_PINYIN_SEARCH");
+    use_pinyin_search = ::get_option<bool>( "USE_PINYIN_SEARCH" );
 }
 
 bool options_manager::save() const
