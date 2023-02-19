@@ -684,9 +684,9 @@ void Item_factory::finalize_post( itype &obj )
             if( !dtype.is_valid() ) {
                 debugmsg( "contamination in %s contains invalid diseasetype_id %s.",
                           obj.id.str(), dtype.str() );
-                        }
-                    }
-                }
+            }
+        }
+    }
     // go through any weapons and add their base category moves
     for( const weapon_category_id &cat : obj.weapon_category ) {
         for( const matec_id &ma : cat.obj().get_default_moves() ) {
