@@ -10936,7 +10936,10 @@ void Character::mod_pain( int npain )
             npain = roll_remainder( npain * mutation_value( "pain_multiplier" ) );
         }
         if( mutation_value( "pain_modifier" ) != 0 ) {
-            npain += mutation_value( "pain_modifier" );
+            npain = roll_remainder( npain + mutation_value( "pain_modifier" ) );
+			if (npain < 0) {
+				return;
+			}
         }
     }
     Creature::mod_pain( npain );
