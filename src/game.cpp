@@ -832,6 +832,8 @@ bool game::start_game()
                 MAPBUFFER.clear();
                 overmap_buffer.clear();
             } else {
+                MAPBUFFER.clear();
+                overmap_buffer.clear();
                 return false;
             }
         }
