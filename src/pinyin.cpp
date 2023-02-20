@@ -444,9 +444,8 @@ bool pinyin_match( const std::u32string &str, const std::u32string &qry )
     if( indexed_pinyin_map.empty() ) {
         for( auto const &entry : pinyin_data ) {
             //entry.first = a pinyin; entry.second = all characters that have this pronounciation
-            for( int index = 0; index < entry.second.length(); index++ ) {
+            for( const char32_t current_char : entry.second ) {
                 //for each character, use it as the index and add its pinyin to the indexed map
-                char32_t current_char = entry.second.at( index );
                 try {
                     //try to de-duplicate the entry
                     if( std::find( indexed_pinyin_map.at( current_char ).begin(),
