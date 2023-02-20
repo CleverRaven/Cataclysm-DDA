@@ -1694,7 +1694,7 @@ void options_manager::add_options_interface()
     "keychar", COPT_CURSES_HIDE );
 
     add( "USE_PINYIN_SEARCH", "interface", to_translation( "Use pinyin in search" ),
-         to_translation( "If true, pinyin (pronounciation of Chinese characters) can be used in searching/filtering "
+         to_translation( "If true, pinyin (pronunciation of Chinese characters) can be used in searching/filtering "
                          "(may cause major slowdown when searching through too many entries.)" ),
          false
        );
