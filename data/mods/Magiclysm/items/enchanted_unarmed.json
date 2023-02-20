@@ -33,7 +33,7 @@
     "qualities": [ [ "HAMMER", 1 ] ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "FLAMING" ],
     "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_HEAT", "add": 10 } ] } ]
+      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_HEAT", "add": 7 } ] } ]
     },
     "armor": [ { "encumbrance": 5, "coverage": 20, "covers": [ "hand_r" ] } ]
   },
@@ -44,6 +44,9 @@
     "looks_like": "flaming_fist",
     "name": { "str": "flaming fist +1", "str_pl": "flaming fists +1" },
     "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "relic_data": {
+      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_HEAT", "add": 11 } ] } ]
+    },
     "relative": { "to_hit": 1 }
   },
   {
@@ -53,6 +56,9 @@
     "looks_like": "flaming_fist",
     "name": { "str": "flaming fist +2", "str_pl": "flaming fists +2" },
     "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "relic_data": {
+      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_HEAT", "add": 15 } ] } ]
+    },
     "relative": { "to_hit": 2 }
   },
   {
