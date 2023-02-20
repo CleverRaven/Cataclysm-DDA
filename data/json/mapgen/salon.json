@@ -82,8 +82,7 @@
       "place_loot": [
         { "group": "SUS_janitors_closet", "chance": 100, "repeat": [ 0, 2 ], "x": [ 10, 12 ], "y": [ 3 ] },
         { "group": "beauty", "chance": 100, "repeat": [ 3, 6 ], "x": [ 9, 11 ], "y": [ 6 ] }
-      ],
-      "place_monster": [ { "monster": "mon_feral_granny", "x": 11, "y": 8, "chance": 100 } ]
+      ]
     }
   },
   {

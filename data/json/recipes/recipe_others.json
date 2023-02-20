@@ -849,7 +849,7 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_quenching", "fail_multiplier": 2 }
     ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ],
+    "tools": [ [ [ "swage", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ],
     "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ] ]
   },
   {
@@ -877,7 +877,7 @@
       [ [ "wire_draw_machine", 100 ] ],
       [ [ "swage", -1 ] ],
       [ [ "metal_tank", -1 ] ],
-      [ [ "water", -120 ] ]
+      [ [ "water", -120 ], [ "water_clean", -120 ] ]
     ],
     "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ], [ [ "coal_lump", 22 ], [ "charcoal", 19 ] ] ]
   },

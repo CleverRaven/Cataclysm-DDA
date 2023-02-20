@@ -682,12 +682,6 @@ class comestible_inventory_preset : public inventory_selector_preset
                 if( calories_per_effective_volume == 0 ) {
                     return std::string();
                 }
-                /* This is for screen readers. I will make a PR to discuss what these prerequisites could be -
-                bio_digestion, selfaware, high cooking skill etc*/
-                constexpr bool ARBITRARY_PREREQUISITES_TO_BE_DETERMINED_IN_THE_FUTURE = false;
-                if( ARBITRARY_PREREQUISITES_TO_BE_DETERMINED_IN_THE_FUTURE ) {
-                    return string_format( "%d", calories_per_effective_volume );
-                }
                 return satiety_bar( calories_per_effective_volume );
             }, _( "SATIETY" ) );
 
@@ -699,9 +693,15 @@ class comestible_inventory_preset : public inventory_selector_preset
 
             append_cell( [this, &player_character]( const item_location & loc ) {
                 std::string sealed;
-                if( loc.has_parent() ) {
-                    item_pocket *pocket = loc.parent_item()->contained_where( * loc.get_item() );
-                    sealed = pocket->sealed() ? _( "sealed" ) : std::string();
+                item_location temp = loc;
+                // check if at least one parent container is sealed
+                while( temp.has_parent() ) {
+                    item_pocket *pocket = temp.parent_item()->contained_where( *temp.get_item() );
+                    if( pocket->sealed() ) {
+                        sealed = _( "sealed" );
+                        break;
+                    }
+                    temp = temp.parent_item();
                 }
                 if( player_character.can_estimate_rot() ) {
                     if( loc->is_comestible() && loc->get_comestible()->spoils > 0_turns ) {
@@ -1764,16 +1764,14 @@ item_location game_menus::inv::salvage( Character &you, const salvage_actor *act
 class repair_inventory_preset: public inventory_selector_preset
 {
     public:
-        repair_inventory_preset( const repair_item_actor *actor, const item *main_tool,
-                                 const Character &you ) :
-            actor( actor ), main_tool( main_tool ) {
+        repair_inventory_preset( const repair_item_actor *actor, const item *main_tool, Character &you ) :
+            actor( actor ), main_tool( main_tool ), character( you ) {
 
             _indent_entries = false;
 
             append_cell( [actor, &you]( const item_location & loc ) {
                 const int comp_needed = std::max<int>( 1,
                                                        std::ceil( loc->base_volume() / 250_ml * actor->cost_scaling ) );
-                std::set<itype_id> valid_entries = actor->get_valid_repair_materials( *loc );
                 const inventory &crafting_inv = you.crafting_inventory();
                 std::function<bool( const item & )> filter;
                 if( loc->is_filthy() ) {
@@ -1784,7 +1782,7 @@ class repair_inventory_preset: public inventory_selector_preset
                     filter = is_crafting_component;
                 }
                 std::vector<std::string> material_list;
-                for( const auto &component_id : valid_entries ) {
+                for( const itype_id &component_id : actor->get_valid_repair_materials( *loc ) ) {
                     if( item::count_by_charges( component_id ) ) {
                         if( crafting_inv.has_charges( component_id, 1 ) ) {
                             const int num_comp = crafting_inv.charges_of( component_id );
@@ -1826,13 +1824,13 @@ class repair_inventory_preset: public inventory_selector_preset
         }
 
         bool is_shown( const item_location &loc ) const override {
-            return loc->made_of_any( actor->materials ) && !loc->count_by_charges() && !loc->is_firearm() &&
-                   &*loc != main_tool;
+            return actor->can_repair_target( character, *loc, false, false ) && ( &*loc != main_tool );
         }
 
     private:
         const repair_item_actor *actor;
         const item *main_tool;
+        Character &character;
 };
 
 static std::string get_repair_hint( const Character &you, const repair_item_actor *actor,
@@ -2293,7 +2291,7 @@ class bionic_install_preset: public inventory_selector_preset
 
         std::string get_denial( const item_location &loc ) const override {
 
-            const ret_val<void> installable = pa.is_installable( loc, true );
+            const ret_val<void> installable = pa.is_installable( loc.get_item(), true );
             if( installable.success() && !you.has_enough_anesth( *loc.get_item()->type, pa ) ) {
                 const int weight = units::to_kilogram( pa.bodyweight() ) / 10;
                 const int duration = loc.get_item()->type->bionic->difficulty * 2;
@@ -2383,12 +2381,12 @@ class bionic_install_surgeon_preset : public inventory_selector_preset
             if( you.is_npc() ) {
                 int const price = npc_trading::bionic_install_price( you, pa, loc );
                 ret_val<void> const refusal =
-                    you.as_npc()->wants_to_sell( loc, price, loc->price( true ) );
+                    you.as_npc()->wants_to_sell( loc, price );
                 if( !refusal.success() ) {
                     return you.replace_with_npc_name( refusal.str() );
                 }
             }
-            const ret_val<void> installable = pa.is_installable( loc, false );
+            const ret_val<void> installable = pa.is_installable( loc.get_item(), false );
             return installable.str();
         }
 

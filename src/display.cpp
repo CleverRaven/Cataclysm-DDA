@@ -39,11 +39,12 @@ static const itype_id fuel_type_muscle( "muscle" );
 // Cache for the overmap widget string
 static disp_overmap_cache disp_om_cache;
 // Cache for the bodygraph widget string
-static std::array<disp_bodygraph_cache, 4> disp_bg_cache = { {
+static std::array<disp_bodygraph_cache, 5> disp_bg_cache = { {
         disp_bodygraph_cache( bodygraph_var::hp ),
         disp_bodygraph_cache( bodygraph_var::temp ),
         disp_bodygraph_cache( bodygraph_var::encumb ),
-        disp_bodygraph_cache( bodygraph_var::status )
+        disp_bodygraph_cache( bodygraph_var::status ),
+        disp_bodygraph_cache( bodygraph_var::wet )
     }
 };
 
@@ -1599,6 +1600,21 @@ nc_color display::get_bodygraph_bp_color( const Character &u, const bodypart_id 
         }
         case bodygraph_var::status: {
             return display::limb_color( u, bid, true, true, true );
+        }
+        case bodygraph_var::wet: {
+            const int cur_wet = u.get_part_wetness( bid );
+            if( cur_wet == 0 ) {
+                return c_light_gray; // dry
+            } else {
+                const float cur_wet = u.get_part_wetness_percentage( bid );
+                if( cur_wet < BODYWET_PERCENT_WET ) {
+                    return c_light_cyan;
+                } else if( cur_wet < BODYWET_PERCENT_SOAKED ) {
+                    return c_light_blue;
+                } else {
+                    return c_blue; // maximum wetness
+                }
+            }
         }
         // Fall-through - invalid
         case bodygraph_var::last:

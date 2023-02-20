@@ -950,9 +950,15 @@ void weather_manager::update_weather()
         w = weather_gen.get_weather( player_character.get_location().raw(), calendar::turn,
                                      g->get_seed() );
         weather_type_id old_weather = weather_id;
-        weather_id = weather_override == WEATHER_NULL ?
-                     weather_gen.get_weather_conditions( w )
-                     : weather_override;
+        std::string eternal_weather_option = get_option<std::string>( "ETERNAL_WEATHER" );
+        if( eternal_weather_option != "normal" ) {
+            weather_id = static_cast<weather_type_id>( eternal_weather_option );
+        } else if( weather_override == WEATHER_NULL ) {
+            weather_id = weather_gen.get_weather_conditions( w );
+        } else {
+            weather_id = weather_override;
+        }
+
         sfx::do_ambient();
         temperature = w.temperature;
         winddirection = wind_direction_override ? *wind_direction_override : w.winddirection;

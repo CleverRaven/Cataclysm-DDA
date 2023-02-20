@@ -62,6 +62,6 @@
     "volume": "750 ml",
     "bashing": 2,
     "to_hit": -3,
-    "use_action": { "type": "learn_spell", "spells": [ "spell_speed_wonder" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "spell_summon_twin" ] }
   }
 ]
