@@ -993,13 +993,13 @@
         "encumbrance": 30,
         "coverage": 100,
         "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r" ],
-        "material": [ { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ]
+        "material": [ { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1 } ]
       },
       {
         "coverage": 100,
         "covers": [ "foot_l", "foot_r", "head" ],
         "encumbrance": 25,
-        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 1.2 } ]
+        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 1 } ]
       }
     ]
   },
@@ -1026,13 +1026,13 @@
         "encumbrance": 30,
         "coverage": 100,
         "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r" ],
-        "material": [ { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ]
+        "material": [ { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1 } ]
       },
       {
         "coverage": 100,
         "covers": [ "foot_l", "foot_r", "head" ],
         "encumbrance": 25,
-        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 1.2 } ]
+        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 1 } ]
       }
     ]
   },
