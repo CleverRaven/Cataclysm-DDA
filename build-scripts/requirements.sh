@@ -67,7 +67,7 @@ if [ -n "${MXE_TARGET}" ]; then
   set +e
   retry=0
   until [[ "$retry" -ge 5 ]]; do
-    curl -L -o mxe-x86_64.tar.xz https://github.com/BrettDong/MXE-GCC/releases/download/mxe-gcc-11.2/mxe-x86_64.tar.xz && curl -L -o mxe-x86_64.tar.xz.sha256 https://github.com/BrettDong/MXE-GCC/releases/download/mxe-gcc-11.2/mxe-x86_64.tar.xz.sha256 && shasum -a 256 -c ./mxe-x86_64.tar.xz.sha256 && break
+    curl -L -o mxe-x86_64.tar.xz https://github.com/BrettDong/MXE-GCC/releases/download/mxe-sdl-2-0-20/mxe-x86_64.tar.xz && curl -L -o mxe-x86_64.tar.xz.sha256 https://github.com/BrettDong/MXE-GCC/releases/download/mxe-sdl-2-0-20/mxe-x86_64.tar.xz.sha256 && shasum -a 256 -c ./mxe-x86_64.tar.xz.sha256 && break
     retry=$((retry+1))
     rm -f mxe-x86_64.tar.xz mxe-x86_64.tar.xz.sha256
     sleep 10
