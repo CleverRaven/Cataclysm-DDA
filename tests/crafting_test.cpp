@@ -41,6 +41,7 @@
 static const activity_id ACT_CRAFT( "ACT_CRAFT" );
 
 static const flag_id json_flag_ITEM_BROKEN( "ITEM_BROKEN" );
+static const flag_id json_flag_USE_UPS( "USE_UPS" );
 
 static const itype_id itype_anvil( "anvil" );
 static const itype_id itype_awl_bone( "awl_bone" );
@@ -602,7 +603,7 @@ TEST_CASE( "UPS modded tools", "[crafting][ups]" )
     item battery_ups( "battery_ups" );
     ret_val<void> ret_solder = soldering_iron->put_in( battery_ups, item_pocket::pocket_type::MOD );
     REQUIRE( ret_solder.success() );
-
+    REQUIRE( soldering_iron->has_flag( json_flag_USE_UPS ) );
 
     REQUIRE( ups_loc->ammo_remaining() == ammo_count );
     if( !ups_on_ground ) {

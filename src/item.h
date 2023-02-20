@@ -388,7 +388,8 @@ class item : public visitable
          * of this item (if with_contents = false and item is not empty, "n items" will be added)
          */
         std::string tname( unsigned int quantity = 1, bool with_prefix = true,
-                           unsigned int truncate = 0, bool with_contents = true, bool with_collapsed = true ) const;
+                           unsigned int truncate = 0, bool with_contents_full = true,
+                           bool with_collapsed = true, bool with_contents_abbrev = true ) const;
         std::string display_money( unsigned int quantity, unsigned int total,
                                    const cata::optional<unsigned int> &selected = cata::nullopt ) const;
         /**
@@ -591,7 +592,7 @@ class item : public visitable
          */
         bool display_stacked_with( const item &rhs, bool check_components = false ) const;
         bool stacks_with( const item &rhs, bool check_components = false,
-                          bool combine_liquid = false ) const;
+                          bool combine_liquid = false, int depth = 0, int maxdepth = 2 ) const;
 
         /**
          * Whether the two items have same contents.
@@ -1798,11 +1799,9 @@ class item : public visitable
          * item itself (@ref item_tags). The item has the flag if it appears in either set.
          *
          * Gun mods that are attached to guns also contribute their flags to the gun item.
-         *
-         * ignore_inherit means the item will skip checking items in pockets flags even if it has inherit
          */
         /*@{*/
-        bool has_flag( const flag_id &flag, bool ignore_inherit = false ) const;
+        bool has_flag( const flag_id &flag ) const;
 
         template<typename Container, typename T = std::decay_t<decltype( *std::declval<const Container &>().begin() )>>
         bool has_any_flag( const Container &flags ) const {
@@ -2807,6 +2806,8 @@ class item : public visitable
         /** Returns true if protection info was printed as well */
         bool armor_full_protection_info( std::vector<iteminfo> &info, const iteminfo_query *parts ) const;
 
+        void update_inherited_flags();
+
     public:
         enum class sizing : int {
             human_sized_human_char = 0,
@@ -2854,6 +2855,7 @@ class item : public visitable
          */
         bool requires_tags_processing = true;
         FlagsSetType item_tags; // generic item specific flags
+        FlagsSetType inherited_tags_cache;
         safe_reference_anchor anchor;
         std::map<std::string, std::string> item_vars;
         const mtype *corpse = nullptr;

@@ -131,7 +131,7 @@ class item_pocket
         item_pocket() = default;
         explicit item_pocket( const pocket_data *data ) : data( data ) {}
 
-        bool stacks_with( const item_pocket &rhs ) const;
+        bool stacks_with( const item_pocket &rhs, int depth = 0, int maxdepth = 2 ) const;
         bool is_funnel_container( units::volume &bigger_than ) const;
         bool is_restricted() const;
         bool has_any_with( const std::function<bool( const item & )> &filter ) const;

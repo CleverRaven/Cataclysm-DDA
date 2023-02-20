@@ -139,29 +139,34 @@
     "to_hit": -3,
     "symbol": "[",
     "color": "black",
-    "use_action": { "type": "countdown", "name": "Charge", "message": "The mortar makes a quiet, deep sound." },
-    "countdown_destroy": true,
-    "countdown_action": { "type": "cast_spell", "spell_id": "bio_explosion", "no_fail": true, "level": 0, "need_wielding": true },
-    "max_charges": 1,
     "charges_per_use": 1,
-    "initial_charges": 1,
-    "flags": [ "NO_RELOAD", "NO_UNLOAD", "TRADER_AVOID" ]
+    "use_action": { "type": "cast_spell", "spell_id": "bio_explosion", "no_fail": true, "level": 0, "need_wielding": true },
+    "ammo": [ "bio_warhead" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "bio_warhead": 1 } } ],
+    "flags": [ "TRADER_AVOID" ]
   },
   {
     "id": "bio_warhead",
-    "type": "TOOL",
+    "type": "AMMO",
     "category": "artifacts",
     "name": { "str": "bio-warhead" },
     "description": "So you decided to become an inventor and instead of inventing something good for mankind, you invented this?  You should be ashamed.",
-    "weight": "23000 g",
-    "volume": "16 L",
+    "weight": "1340 g",
+    "volume": "2 L",
     "price": 180000,
     "price_postapoc": 10000,
     "to_hit": -2,
     "bashing": 8,
+    "ammo_type": "bio_warhead",
     "material": [ "steel", "plastic" ],
     "symbol": "*",
     "color": "light_green"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "bio_warhead",
+    "name": "biological warhead",
+    "default": "bio_warhead"
   },
   {
     "id": "rip_ticket",

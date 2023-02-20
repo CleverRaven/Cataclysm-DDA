@@ -117,6 +117,7 @@
           "                        ",
           "                        "
         ],
+        "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
         "terrain": {
           "g": "t_region_groundcover",
           ".": "t_region_groundcover_barren",
