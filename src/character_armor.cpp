@@ -80,6 +80,7 @@ int Character::get_armor_type( damage_type dt, bodypart_id bp ) const
         }
         case damage_type::NONE:
         case damage_type::NUM:
+        case damage_type::RAW:
             // Let it error below
             break;
     }
@@ -131,6 +132,7 @@ std::map<bodypart_id, int> Character::get_all_armor_type( damage_type dt,
             }
             case damage_type::NONE:
             case damage_type::NUM:
+            case damage_type::RAW:
                 debugmsg( "Invalid damage type: %d", dt );
                 return ret;
         }
