@@ -76,7 +76,7 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": ".",
     "color": "red",
-    "use_action": { "type": "learn_spell", "spells": [ "summon_bio_launcher" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "summon_bio_launcher", "summon_bio_warhead" ] }
   },
   {
     "id": "money_strap_magic",
