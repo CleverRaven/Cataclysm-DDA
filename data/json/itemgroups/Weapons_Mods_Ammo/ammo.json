@@ -712,7 +712,7 @@
     "subtype": "distribution",
     "entries": [
       { "item": "10mm_casing", "prob": 60 },
-      { "item": "22_casing_new", "prob": 80 },
+      { "item": "22_casing", "prob": 80 },
       { "item": "223_casing", "prob": 100 },
       { "item": "270win_casing", "prob": 60 },
       { "item": "300_casing", "prob": 80 },
@@ -765,6 +765,13 @@
       { "item": "50_casing", "prob": 25, "count": [ 1, 3 ] },
       { "item": "shot_hull", "prob": 50, "count": [ 1, 3 ] }
     ]
+  },
+  {
+    "id": "ammo_casings_gunsmith",
+    "//": "Casings found in prepper/gunsmith locations, including primed casings",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "group": "ammo_casings", "prob": 98 }, { "item": "22_casing_new", "prob": 2 } ]
   },
   {
     "id": "casings",
