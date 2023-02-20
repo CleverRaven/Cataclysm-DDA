@@ -5814,7 +5814,7 @@ float Character::healing_rate( float at_rest_quality ) const
     float const awake_rate = ( 1.0f - rest ) * heal_rate * mutation_value( "healing_awake" );
     float const asleep_rate = rest * heal_rate * ( 1.0f + get_lifestyle() / 200.0f );
     float final_rate = awake_rate + asleep_rate;
-
+    final_rate = enchantment_cache->modify_value(enchant_vals::mod::REGEN_HP, final_rate);
     // Most common case: awake player with no regenerative abilities
     // ~7e-5 is 1 hp per day, anything less than that is totally negligible
     static constexpr float eps = 0.000007f;
@@ -5823,8 +5823,13 @@ float Character::healing_rate( float at_rest_quality ) const
         return 0.0f;
     }
 
-    return enchantment_cache->modify_value( enchant_vals::mod::REGEN_HP,
-                                            _hp_modified_rate( *this, final_rate ) );
+    float primary_hp_mod = mutation_value( "hp_modifier" );
+    if( primary_hp_mod < 0.0f ) {
+        // HP mod can't get below -1.0
+        final_rate *= 1.0f + primary_hp_mod;
+    }
+
+    return final_rate;
 }
 
 float Character::healing_rate_medicine( float at_rest_quality, const bodypart_id &bp ) const
