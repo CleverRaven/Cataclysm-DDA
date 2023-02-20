@@ -55,7 +55,7 @@
     "ascii_picture": "scissors",
     "weight": "90 g",
     "volume": "150 ml",
-	"longest_side": "22 cm"
+    "longest_side": "22 cm",
     "price": 400,
     "price_postapoc": 10,
     "to_hit": -1,
@@ -75,7 +75,7 @@
     "description": "This is a fine pen, of much better quality than a disposable model.",
     "weight": "9 g",
     "volume": "40 ml",
-	"longest_side": "13 cm"
+    "longest_side": "13 cm",
     "price": 100,
     "price_postapoc": 15,
     "material": [ "steel" ],
@@ -100,7 +100,7 @@
     "description": "Sharpened HB #2 graphite pencil, equipped with an eraser.",
     "weight": "9 g",
     "volume": "40 ml",
-	"longest_side": "13 cm"
+    "longest_side": "13 cm",
     "price": 15,
     "price_postapoc": 10,
     "material": [ "wood" ],
@@ -119,7 +119,7 @@
     "description": "Disposable ballpoint pen, offers a smooth writing experience on paper.  Shares the same logo as those disposable lighters.  This pen is black.",
     "weight": "9 g",
     "volume": "40 ml",
-	"longest_side": "13 cm"
+    "longest_side": "13 cm",
     "price": 20,
     "price_postapoc": 10,
     "material": [ "plastic" ],
@@ -138,7 +138,7 @@
     "description": "Disposable ballpoint pen, offers a smooth writing experience on paper.  Shares the same logo as those disposable lighters.  This pen is blue.",
     "weight": "9 g",
     "volume": "40 ml",
-	"longest_side": "13 cm"
+    "longest_side": "13 cm",
     "price": 20,
     "price_postapoc": 10,
     "material": [ "plastic" ],
@@ -157,7 +157,7 @@
     "description": "Disposable ballpoint pen, offers a smooth writing experience on paper.  Shares the same logo as those disposable lighters.  This pen is red.",
     "weight": "9 g",
     "volume": "40 ml",
-	"longest_side": "13 cm"
+    "longest_side": "13 cm",
     "price": 20,
     "price_postapoc": 10,
     "material": [ "plastic" ],
@@ -176,7 +176,7 @@
     "description": "Disposable ballpoint pen, offers a smooth writing experience on paper.  Shares the same logo as those disposable lighters.  This pen is green.",
     "weight": "9 g",
     "volume": "40 ml",
-	"longest_side": "13 cm"
+    "longest_side": "13 cm",
     "price": 20,
     "price_postapoc": 10,
     "material": [ "plastic" ],

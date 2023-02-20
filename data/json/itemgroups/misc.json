@@ -289,5 +289,19 @@
       { "item": "chalice", "prob": 1 },
       { "item": "book_ruined", "prob": 1 }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "pencil_case_contents",
+    "subtype": "collection",
+    "entries": [
+      { "group": "pens", "prob": 90 },
+      { "group": "pens", "prob": 30 },
+      { "item": "pencil", "prob": 30, "count": [ 10, 125 ], "charges": [ 0, 100 ] },
+      { "item": "scissors", "prob": 50 },
+      { "item": "eraser", "prob": 50 },
+      { "item": "sharpener", "prob": 50 },
+      { "item": "ruler", "prob": 50 }
+    ]
   }
 ]
