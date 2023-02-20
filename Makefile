@@ -676,12 +676,12 @@ ifeq ($(TILES), 1)
 		-I$(FRAMEWORKSDIR)/SDL2.framework/Headers \
 		-I$(FRAMEWORKSDIR)/SDL2_image.framework/Headers \
 		-I$(FRAMEWORKSDIR)/SDL2_ttf.framework/Headers
-			ifdef SOUND
+			ifeq ($(SOUND), 1)
 				OSX_INC += -I$(FRAMEWORKSDIR)/SDL2_mixer.framework/Headers
 			endif
       LDFLAGS += -F$(FRAMEWORKSDIR) \
 		 -framework SDL2 -framework SDL2_image -framework SDL2_ttf -framework Cocoa
-		 ifdef SOUND
+		 ifeq ($(SOUND), 1)
 		 	LDFLAGS += -framework SDL2_mixer
 		 endif
       CXXFLAGS += $(OSX_INC)
@@ -692,7 +692,7 @@ ifeq ($(TILES), 1)
 		  -I$(shell dirname $(shell sdl2-config --cflags | sed 's/-I\(.[^ ]*\) .*/\1/'))
       LDFLAGS += -framework Cocoa $(shell sdl2-config --libs) -lSDL2_ttf
       LDFLAGS += -lSDL2_image
-      ifdef SOUND
+      ifeq ($(SOUND), 1)
         LDFLAGS += -lSDL2_mixer
       endif
     endif
