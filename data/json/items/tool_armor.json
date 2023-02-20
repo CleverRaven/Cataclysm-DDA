@@ -2672,6 +2672,7 @@
     "color": "white",
     "warmth": 30,
     "material_thickness": 0.5,
+    "environmental_protection": 2,
     "use_action": {
       "target": "turtleneck",
       "menu_text": "Unroll neck",
