@@ -438,6 +438,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
     } else {
         jo.throw_error_at( "type", "unknown recipe type" );
     }
+
     const requirement_id req_id( "inline_" + type + "_" + ident_.str() );
     requirement_data::load_requirement( jo, req_id );
     reqs_internal.emplace_back( req_id, 1 );
