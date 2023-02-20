@@ -222,6 +222,29 @@ void Item_factory::finalize_pre( itype &obj )
                    obj.melee[static_cast<int>( damage_type::STAB )] );
     }
 
+    // if the item has a cutting or bashing or pierce entry then combine for PURE damage which will be scaled later
+    int bash = obj.melee[static_cast<int>( damage_type::BASH )];
+    int cut = obj.melee[static_cast<int>( damage_type::CUT )];
+    int stab = obj.melee[static_cast<int>( damage_type::STAB )];
+    obj.melee[static_cast<int>( damage_type::RAW )] = cut + bash + stab;
+
+    // if no default damage is defined then infer it from old style damage input
+    if( obj.default_damage == damage_type::NONE && bash + cut + stab > 0 ) {
+        // only stab or cut are gonna be a value at any time
+        if( bash >= stab + cut ) {
+            obj.default_damage = damage_type::BASH;
+        } else if( stab > cut ) {
+            obj.default_damage = damage_type::STAB;
+        } else {
+            obj.default_damage = damage_type::CUT;
+        }
+    }
+
+    // remove split damage from the weapon it should all be RAW until getting to moves later
+    obj.melee[static_cast<int>( damage_type::BASH )] = 0;
+    obj.melee[static_cast<int>( damage_type::CUT )] = 0;
+    obj.melee[static_cast<int>( damage_type::STAB )] = 0;
+
     // add usage methods (with default values) based upon qualities
     // if a method was already set the specific values remain unchanged
     for( const auto &q : obj.qualities ) {

@@ -92,6 +92,33 @@
   },
   {
     "type": "technique",
+    "id": "SLASH",
+    "name": "Slashing",
+    "melee_allowed": true,
+    "used_damage": ["cut"],
+    "messages": [ "You slash at the %s", "<npcname> slashes at the %s" ],
+    "attack_vectors": [ "WEAPON" ]
+  },
+  {
+    "type": "technique",
+    "id": "STAB",
+    "name": "Stabbing",
+    "melee_allowed": true,
+    "used_damage": ["stab"],
+    "messages": [ "You stab at the %s", "<npcname> stabs at the %s" ],
+    "attack_vectors": [ "WEAPON" ]
+  },
+  {
+    "type": "technique",
+    "id": "BASH",
+    "name": "Bashing",
+    "melee_allowed": true,
+    "used_damage": ["bash"],
+    "messages": [ "You hilt bash the %s", "<npcname> hilt bashes the %s" ],
+    "attack_vectors": [ "WEAPON" ]
+  },
+  {
+    "type": "technique",
     "id": "IMPALE",
     "name": "Impaling Strike",
     "melee_allowed": true,

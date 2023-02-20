@@ -1926,6 +1926,50 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
         di.clear();
     }
 
+    // if using a weapon
+    if( cur_weapon ) {
+        // if the technique doesn't have damage types described default to the damage from the weapon
+        bool use_cut = false;
+        bool use_bash = false;
+        bool use_stab = false;
+        if( technique.used_damage.empty() ) {
+            damage_type used_damage_type = cur_weapon.get_item()->type->default_damage;
+            if( used_damage_type == damage_type::BASH ) {
+                use_bash = true;
+            }
+            if( used_damage_type == damage_type::CUT ) {
+                use_cut = true;
+            }
+            if( used_damage_type == damage_type::STAB ) {
+                use_stab = true;
+            }
+
+        } else {
+            // populate the damage array with the base damage
+            for( const damage_type &used_damage_type : technique.used_damage ) {
+                if( used_damage_type == damage_type::BASH ) {
+                    use_bash = true;
+                }
+                if( used_damage_type == damage_type::CUT ) {
+                    use_cut = true;
+                }
+                if( used_damage_type == damage_type::STAB ) {
+                    use_stab = true;
+                }
+            }
+        }
+
+        if( !use_bash ) {
+            di.mult_type_damage( 0, damage_type::BASH );
+        }
+        if( !use_cut ) {
+            di.mult_type_damage( 0, damage_type::CUT );
+        }
+        if( !use_stab ) {
+            di.mult_type_damage( 0, damage_type::STAB );
+        }
+    }
+
     std::map<std::string, damage_type> dt_map = get_dt_map();
     for( const std::pair<const std::string, damage_type> &dt : dt_map ) {
         damage_type type = dt.second;

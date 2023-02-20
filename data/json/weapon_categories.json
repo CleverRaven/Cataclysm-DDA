@@ -37,7 +37,8 @@
   {
     "type": "weapon_category",
     "id": "LONG_SWORDS",
-    "name": "LONG SWORDS"
+    "name": "LONG SWORDS",
+    "default_techniques": [ "BASH", "POKE", "SLASH" ]
   },
   {
     "type": "weapon_category",

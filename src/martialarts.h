@@ -200,6 +200,9 @@ class ma_technique
 
         std::vector<tech_effect_data> tech_effects;
 
+        // the damage types the technique uses, converts PURE to them for further scaling (with melee weapons)
+        std::vector<damage_type> used_damage;
+
         float damage_bonus( const Character &u, damage_type type ) const;
         float damage_multiplier( const Character &u, damage_type type ) const;
         float move_cost_multiplier( const Character &u ) const;

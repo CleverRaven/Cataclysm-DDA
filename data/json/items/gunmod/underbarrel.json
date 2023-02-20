@@ -223,7 +223,6 @@
     "copy-from": "inter_bayonet",
     "description": "The weapon's integrated bayonet has been folded for storage.",
     "longest_side": "22 cm",
-    "cutting": 0,
     "integral_longest_side": "0 cm",
     "use_action": {
       "type": "transform",

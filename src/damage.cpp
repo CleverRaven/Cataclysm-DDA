@@ -37,6 +37,7 @@ std::string enum_to_string<damage_type>( damage_type data )
         case damage_type::COLD: return "cold";
         case damage_type::ELECTRIC: return "electric";
         case damage_type::BULLET: return "bullet";
+        case damage_type::RAW: return "raw";
             // *INDENT-ON*
         case damage_type::NUM:
             break;

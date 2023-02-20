@@ -1315,6 +1315,9 @@ struct itype {
         /** Damage output in melee for zero or more damage types */
         std::array<int, static_cast<int>( damage_type::NUM )> melee;
 
+        // default damage type if a move doesn't specify it
+        damage_type default_damage = damage_type::NONE;
+
         bool default_container_sealed = true;
 
         // Should the item explode when lit on fire

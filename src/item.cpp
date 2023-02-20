@@ -5032,32 +5032,19 @@ void item::melee_combat_info( std::vector<iteminfo> &info, const iteminfo_query 
 {
     const std::string space = "  ";
 
-    int dmg_bash = damage_melee( damage_type::BASH );
-    int dmg_cut  = damage_melee( damage_type::CUT );
-    int dmg_stab = damage_melee( damage_type::STAB );
+    int dmg_raw = damage_melee( damage_type::RAW );
 
     Character &player_character = get_player_character();
 
     if( parts->test( iteminfo_parts::BASE_DAMAGE ) ) {
         insert_separation_line( info );
         std::string sep;
-        if( dmg_bash || dmg_cut || dmg_stab ) {
-            info.emplace_back( "BASE", _( "<bold>Melee damage</bold>: " ), "", iteminfo::no_newline );
-        }
-        if( dmg_bash ) {
-            info.emplace_back( "BASE", _( "Bash: " ), "", iteminfo::no_newline, dmg_bash );
-            sep = space;
-        }
-        if( dmg_cut ) {
-            info.emplace_back( "BASE", sep + _( "Cut: " ), "", iteminfo::no_newline, dmg_cut );
-            sep = space;
-        }
-        if( dmg_stab ) {
-            info.emplace_back( "BASE", sep + _( "Pierce: " ), "", iteminfo::no_newline, dmg_stab );
+        if( dmg_raw ) {
+            info.emplace_back( "BASE", _( "<bold>Melee damage</bold>: " ), "", iteminfo::no_newline, dmg_raw );
         }
     }
 
-    if( dmg_bash || dmg_cut || dmg_stab ) {
+    if( dmg_raw ) {
         int stam = 0;
         float stam_pct = 0.0f;
         std::map<std::string, double> dps_data;
@@ -5163,7 +5150,7 @@ void item::melee_combat_info( std::vector<iteminfo> &info, const iteminfo_query 
 
     ///\EFFECT_MELEE >2 allows seeing melee damage stats on weapons
     if( ( player_character.get_skill_level( skill_melee ) > 2 &&
-          ( dmg_bash || dmg_cut || dmg_stab || type->m_to_hit > 0 ) ) || debug_mode ) {
+          ( dmg_raw || type->m_to_hit > 0 ) ) || debug_mode ) {
         bodypart_id bp = bodypart_id( "torso" );
         damage_instance non_crit;
         player_character.roll_all_damage( false, non_crit, true, *this, "WEAPON", nullptr, bp );
@@ -7180,8 +7167,27 @@ int item::damage_melee( damage_type dt ) const
         return 0;
     }
 
+    int res = 0;
+
+    //for bash cut and stab the value should be the RAW and will later be handled by techniques
+    switch( dt ) {
+        case damage_type::BASH:
+        case damage_type::CUT:
+        case damage_type::STAB:
+            res = type->melee[static_cast<int>( damage_type::RAW )];
+            break;
+
+        case damage_type::RAW:
+            // raw damage is handled above it should never be added to damage
+            res = 0;
+            break;
+
+        default:
+            res = type->melee[static_cast<int>( dt )];
+            break;
+    }
+
     // effectiveness is reduced by 10% per damage level
-    int res = type->melee[ static_cast<int>( dt )];
     res -= res * damage_level() * 0.1;
 
     // apply type specific flags
@@ -9401,6 +9407,9 @@ float item::damage_resist( damage_type dt, bool to_self, const sub_bodypart_id &
             return fire_resist( bp, to_self );
         case damage_type::BULLET:
             return bullet_resist( bp, to_self, roll );
+        case damage_type::RAW:
+            // Nothing is damaged by RAW directly it will be converted to other weapons
+            return std::numeric_limits<float>::max();
         default:
             debugmsg( "Invalid damage type: %d", dt );
     }

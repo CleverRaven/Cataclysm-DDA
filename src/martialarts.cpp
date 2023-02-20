@@ -269,6 +269,8 @@ void ma_technique::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "attack_vectors", attack_vectors, {} );
     optional( jo, was_loaded, "attack_vectors_random", attack_vectors_random, {} );
 
+    optional( jo, was_loaded, "used_damage", used_damage );
+
     for( JsonValue jv : jo.get_array( "eocs" ) ) {
         eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
     }

@@ -30,6 +30,7 @@ enum class damage_type : int {
     COLD, // e.g. heatdrain, cryogrenades
     ELECTRIC, // e.g. electrical discharge
     BULLET, // bullets and other fast moving projectiles
+    RAW, // fake damage value for scaling other damage types
     NUM
 };
 
