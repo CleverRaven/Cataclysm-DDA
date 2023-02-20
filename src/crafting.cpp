@@ -1244,7 +1244,7 @@ void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc
     if( making.is_practice() ) {
         add_msg( _( "You finish practicing %s." ), making.result_name() );
         // practice recipes don't produce a result item
-    } else {
+    } else if( !making.result().is_null() ) {
         // Set up the new item, and assign an inventory letter if available
         newits = making.create_results( batch_size );
     }
