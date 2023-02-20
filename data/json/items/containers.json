@@ -1097,7 +1097,7 @@
     "weight": "48 kg",
     "volume": "330000 ml",
     "longest_side": "91 cm",
-    "//": "(60x60x90)",
+    "//": "(60x60x90) but you could easily fit taller objects in it",
     "price": 16000,
     "price_postapoc": 80,
     "pocket_data": [
@@ -1106,7 +1106,7 @@
         "rigid": true,
         "max_contains_volume": "324000 ml",
         "max_contains_weight": "500 kg",
-        "max_item_length": "90 cm"
+        "max_item_length": "180 cm"
       }
     ],
     "material": [ "steel" ],
