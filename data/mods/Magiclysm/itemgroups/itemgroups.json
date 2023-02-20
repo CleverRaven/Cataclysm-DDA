@@ -770,6 +770,8 @@
       { "item": "sword_xiphos_plus_one", "prob": 5 },
       { "item": "dao_plus_one", "prob": 5 },
       { "item": "lucerne_plus_one", "prob": 5 },
+      { "item": "cestus_plus_one", "prob": 5 },
+      { "item": "flaming_fist_plus_one", "prob": 5 },
       { "item": "gunblade", "prob": 5 }
     ]
   },
@@ -819,6 +821,8 @@
       { "item": "khopesh_plus_two", "prob": 5 },
       { "item": "sword_xiphos_plus_two", "prob": 5 },
       { "item": "lucerne_plus_two", "prob": 5 },
+      { "item": "cestus_plus_two", "prob": 5 },
+      { "item": "flaming_fist_plus_two", "prob": 5 },
       { "item": "dao_plus_two", "prob": 5 }
     ]
   },
