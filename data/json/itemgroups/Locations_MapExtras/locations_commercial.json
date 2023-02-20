@@ -1896,7 +1896,7 @@
       [ "mask_dust", 65 ],
       [ "glasses_safety", 10 ],
       [ "towel", 50 ],
-      [ "scissors", 50 ],
+      [ "scissors_medical", 50 ],
       [ "fungicide", 10 ],
       [ "insecticide", 10 ],
       { "item": "soap", "prob": 20, "charges": [ 1, 10 ] },

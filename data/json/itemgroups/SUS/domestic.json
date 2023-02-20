@@ -244,6 +244,7 @@
       { "item": "pen", "count": [ 1, 20 ], "charges-min": 70 },
       { "item": "paper", "charges": [ 10, 30 ] },
       { "item": "scissors" },
+      { "item": "scissors_wavy", "prob": 10 },
       { "item": "string_36", "count": [ 1, 4 ], "prob": 80 },
       { "item": "string_36", "count": [ 1, 4 ], "prob": 70 },
       { "item": "string_6", "count": [ 1, 20 ], "prob": 70 },

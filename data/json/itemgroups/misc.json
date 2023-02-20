@@ -298,7 +298,7 @@
       { "group": "pens", "prob": 90 },
       { "group": "pens", "prob": 30 },
       { "item": "pencil", "prob": 30, "count": [ 10, 125 ], "charges": [ 0, 100 ] },
-      { "item": "scissors", "prob": 50 },
+      { "item": "scissors_child", "prob": 50 },
       { "item": "eraser", "prob": 50 },
       { "item": "sharpener", "prob": 50 },
       { "item": "ruler", "prob": 50 }
