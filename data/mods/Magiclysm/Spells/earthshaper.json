@@ -643,7 +643,6 @@
     "name": "Reading the Earthbones",
     "description": "You extend your senses into the ground, becoming aware of every hill and valley within a large area.  It will only work when in contact with the earth.",
     "valid_targets": [ "self" ],
-    "message": "",
     "flags": [ "NO_HANDS", "CONCENTRATE", "SILENT" ],
     "effect": "effect_on_condition",
     "effect_str": "EOC_EARTHSHAPER_MAP",
