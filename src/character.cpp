@@ -4272,7 +4272,8 @@ int Character::get_max_healthy() const
 
 void Character::regen( int rate_multiplier )
 {
-    int pain_ticks = rate_multiplier;
+    int pain_ticks = std::max( 1, roll_remainder( enchantment_cache->modify_value(
+                                   enchant_vals::mod::PAIN_REMOVE, rate_multiplier ) ) );
     while( get_pain() > 0 && pain_ticks-- > 0 ) {
         mod_pain( -roll_remainder( 0.2f + get_pain() / 50.0f ) );
     }
@@ -10921,26 +10922,21 @@ bool Character::immune_to( const bodypart_id &bp, damage_unit dam ) const
 void Character::mod_pain( int npain )
 {
     if( npain > 0 ) {
+        double mult = enchantment_cache->get_value_multiply( enchant_vals::mod::PAIN );
         if( has_trait( trait_NOPAIN ) || has_effect( effect_narcosis ) ) {
             return;
         }
-        // always increase pain gained by one from these bad mutations
-        if( has_trait( trait_MORE_PAIN ) ) {
-            npain += std::max( 1, roll_remainder( npain * 0.25 ) );
-        } else if( has_trait( trait_MORE_PAIN2 ) ) {
-            npain += std::max( 1, roll_remainder( npain * 0.5 ) );
-        } else if( has_trait( trait_MORE_PAIN3 ) ) {
-            npain += std::max( 1, roll_remainder( npain * 1.0 ) );
+        // if there is a positive multiplier we always want to add at least 1 pain
+        if( mult > 0 ) {
+            npain += std::max( 1, roll_remainder( npain * ( mult ) ) );
         }
+        if( mult < 0 ) {
+            npain = roll_remainder( npain * ( 1 + mult ) );
+        }
+        npain += enchantment_cache->get_value_add( enchant_vals::mod::PAIN );
 
-        if( npain > 1 ) {
-            // if it's 1 it'll just become 0, which is bad
-            if( has_trait( trait_PAINRESIST_TROGLO ) ) {
-                npain = roll_remainder( npain * 0.5 );
-            } else if( has_trait( trait_PAINRESIST ) ) {
-                npain = roll_remainder( npain * 0.67 );
-            }
-        }
+        // no matter how powerful the enchantment if we are gaining pain we always gain at least a little/don't lose any
+        npain = std::max( 1, npain );
     }
     Creature::mod_pain( npain );
 }

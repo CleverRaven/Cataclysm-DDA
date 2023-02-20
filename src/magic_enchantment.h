@@ -50,6 +50,8 @@ enum class mod : int {
     HUNGER,        // hunger rate
     THIRST,        // thirst rate
     FATIGUE,       // fatigue rate
+    PAIN,
+    PAIN_REMOVE,
     BONUS_DODGE,
     BONUS_BLOCK,
     MELEE_DAMAGE,

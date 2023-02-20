@@ -73,6 +73,8 @@ namespace io
             case enchant_vals::mod::HUNGER: return "HUNGER";
             case enchant_vals::mod::THIRST: return "THIRST";
             case enchant_vals::mod::FATIGUE: return "FATIGUE";
+            case enchant_vals::mod::PAIN: return "PAIN";
+            case enchant_vals::mod::PAIN_REMOVE: return "PAIN_REMOVE";
             case enchant_vals::mod::MELEE_DAMAGE: return "MELEE_DAMAGE";
             case enchant_vals::mod::BONUS_BLOCK: return "BONUS_BLOCK";
             case enchant_vals::mod::BONUS_DODGE: return "BONUS_DODGE";
