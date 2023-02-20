@@ -936,5 +936,10 @@
     "type": "recipe",
     "result": "2x4_with_power_saw",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "steel_scissors",
+    "obsolete": true
   }
 ]

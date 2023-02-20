@@ -3362,7 +3362,7 @@
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "pencil case" },
-    "description": "A plastic box, commonly used to store lunch and utensils to eat it with.",
+    "description": "A small fabric container with a zipper.  Commonly used by children to store school supplies.",
     "weight": "200 g",
     "volume": "1730 ml",
     "price": 900,
