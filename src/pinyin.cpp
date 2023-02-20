@@ -491,9 +491,7 @@ bool pinyin_match( const std::u32string &str, const std::u32string &qry )
             combination /= cur_char_pinyin_list.size();
 
             //we count the amount of total combinations possible to determine when to stop
-            if( cur_char_pinyin_list.size() > 1 ) {
-                total_combination *= cur_char_pinyin_list.size();
-            }
+            total_combination *= cur_char_pinyin_list.size();
         }
 
         if( current_combination.find( qry ) != std::u32string::npos ) {
