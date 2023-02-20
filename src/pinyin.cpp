@@ -1,6 +1,11 @@
 #include "pinyin.h"
 
-#include <iostream>
+#include <algorithm>
+#include <map>
+#include <string>
+#include <uchar.h>
+#include <unordered_map>
+#include <vector>
 
 namespace pinyin
 {
