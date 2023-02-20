@@ -21,8 +21,7 @@
 static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_grabbing( "grabbing" );
 
-static const mtype_id debug_mon( "debug_mon" );
-static const mtype_id debug_mon_grab( "mon_debug_grab" );
+static const mtype_id mon_debug_grab( "mon_debug_grab" );
 static const mtype_id mon_zombie( "mon_zombie" );
 static const mtype_id mon_zombie_smoker( "mon_zombie_smoker" );
 
@@ -317,10 +316,10 @@ TEST_CASE( "player::get_dodge while grabbed", "[player][melee][dodge][grab]" )
     tripoint mon4_pos = dummy.pos() + tripoint_west;
 
     // Surrounded by zombies!
-    monster *zed1 = g->place_critter_at( debug_mon_grab, mon1_pos );
-    monster *zed2 = g->place_critter_at( debug_mon_grab, mon2_pos );
-    monster *zed3 = g->place_critter_at( debug_mon_grab, mon3_pos );
-    monster *zed4 = g->place_critter_at( debug_mon_grab, mon4_pos );
+    monster *zed1 = g->place_critter_at( mon_debug_grab, mon1_pos );
+    monster *zed2 = g->place_critter_at( mon_debug_grab, mon2_pos );
+    monster *zed3 = g->place_critter_at( mon_debug_grab, mon3_pos );
+    monster *zed4 = g->place_critter_at( mon_debug_grab, mon4_pos );
 
     // Make sure zombies are in their places
     REQUIRE( creatures.creature_at<monster>( mon1_pos ) );
@@ -335,7 +334,7 @@ TEST_CASE( "player::get_dodge while grabbed", "[player][melee][dodge][grab]" )
 
     // Use actual grabbing attacks
 
-    SECTION( "1 grab: approx. 1/2 dodge" ) {
+    SECTION( "1 grab: approx.  1/2 dodge" ) {
         mattack::grab( zed1 );
         REQUIRE( zed1->has_effect( effect_grabbing ) );
 
@@ -355,7 +354,7 @@ TEST_CASE( "player::get_dodge while grabbed", "[player][melee][dodge][grab]" )
         CHECK( dummy.get_dodge() == Approx( base_dodge / 3 ).margin( 0.1f ) );
     }
 
-    SECTION( "3 grabs: approx. 1/4 dodge" ) {
+    SECTION( "3 grabs: approx.  1/4 dodge" ) {
         mattack::grab( zed1 );
         mattack::grab( zed2 );
         mattack::grab( zed3 );
@@ -368,7 +367,7 @@ TEST_CASE( "player::get_dodge while grabbed", "[player][melee][dodge][grab]" )
         CHECK( dummy.get_dodge() == Approx( base_dodge / 4 ).margin( 0.1f ) );
     }
 
-    SECTION( "4 grabs: approx. 1/5 dodge" ) {
+    SECTION( "4 grabs: approx.  1/5 dodge" ) {
         mattack::grab( zed1 );
         mattack::grab( zed2 );
         mattack::grab( zed3 );
