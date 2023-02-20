@@ -813,6 +813,17 @@
     ]
   },
   {
+    "id": "ammo_casings_gunsmith_bulk",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "ammo_casings_gunsmith", "prob": 25, "charges-min": 50, "charges-max": 50 },
+      { "group": "ammo_casings_gunsmith", "prob": 10, "charges-min": 100, "charges-max": 100 },
+      { "group": "ammo_casings_gunsmith", "prob": 2, "charges-min": 250, "charges-max": 250 },
+      { "group": "ammo_casings_gunsmith", "prob": 1, "charges-min": 500, "charges-max": 500 }
+    ]
+  },
+  {
     "type": "item_group",
     "id": "ammo_light_batteries",
     "subtype": "distribution",
