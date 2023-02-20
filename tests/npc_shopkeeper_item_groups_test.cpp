@@ -113,11 +113,16 @@ TEST_CASE( "npc_shopkeeper_item_groups", "[npc][trade]" )
         }
     }
 
-    GIVEN( "containter with single item and conditions only for contents" ) {
+    GIVEN( "containter with single item type and conditions only for contents" ) {
         item multitool( "test_multitool" );
         item bag( "bag_plastic" );
-        ret_val<void> const ret = bag.put_in( multitool, item_pocket::pocket_type::CONTAINER );
-        REQUIRE( ret.success() );
+        int const num = GENERATE( 1, 2 );
+        bool ret = true;
+        for( int i = 0; i < num; i++ ) {
+            ret &= bag.put_in( multitool, item_pocket::pocket_type::CONTAINER ).success();
+        }
+        CAPTURE( num, bag.display_name() );
+        REQUIRE( ret );
         bag.set_owner( guy );
         item_location const loc( map_cursor{ tripoint_zero}, &bag );
         WHEN( "condition for contents not met" ) {
