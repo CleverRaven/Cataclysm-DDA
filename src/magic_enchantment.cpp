@@ -382,7 +382,8 @@ void enchant_cache::load( const JsonObject &jo, const std::string &,
                     values_multiply.emplace( value, mult );
                 }
             } catch( ... ) {
-                debugmsg( "A relic attempted to load an invalid enchantment.  If you updated versions this may be a removed enchantment and will fix itself." );
+                debugmsg( "A relic attempted to load invalid enchantment %s.  If you updated versions this may be a removed enchantment and will fix itself.",
+                          value_obj.get_string( "value", "" ) );
             }
         }
     }
