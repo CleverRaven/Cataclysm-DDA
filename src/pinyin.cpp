@@ -473,16 +473,14 @@ bool pinyin_match( const std::u32string &str, const std::u32string &qry )
         int combination = combination_index;    //a copy so the record will not be destoryed
         int total_combination = 0;              //the total possible amount of combinations
 
-        for( int index = 0; index < str.length(); index++ ) {
-            std::vector<std::u32string> cur_char_pinyin_list;
-            try {
-                //try to find the pinyins for the current character
-                cur_char_pinyin_list = indexed_pinyin_map.at( str.at( index ) );
-            } catch( const std::out_of_range &err ) {
+        for( const uint32_t ch : str ) {
+            //try to find the pinyins for the current character
+            if( indexed_pinyin_map.find( ch ) == indexed_pinyin_map.end() ) {
                 //not a known character
-                current_combination += str.at( index );
+                current_combination += ch;
                 continue;
             }
+            const std::vector<std::u32string> &cur_char_pinyin_list = indexed_pinyin_map.at( ch );
 
             /*
             * This two lines iterate through all possible combinations.
