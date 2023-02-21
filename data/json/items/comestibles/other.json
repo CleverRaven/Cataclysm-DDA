@@ -1085,5 +1085,22 @@
     "fun": -15,
     "freezing_point": -274,
     "flags": [ "NUTRIENT_OVERRIDE" ]
+  },
+  {
+    "id": "queen_bee",
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
+    "name": { "str": "queen bee", "str_pl": "queen bees" },
+    "description": "A queen honey bee, displaced from the hive.  Without support and nutrients, it will die in a few days.",
+    "//": "While bees have mass and volume, it is easier to round to zero for the purposes of the game.",
+    "weight": "0 g",
+    "volume": "0 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "spoils_in": "1 day",
+    "flags": [ "ZERO_WEIGHT" ],
+    "symbol": "B",
+    "color": "yellow",
+    "calories": 0
   }
 ]

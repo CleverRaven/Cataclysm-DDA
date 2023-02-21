@@ -1566,6 +1566,83 @@
   },
   {
     "type": "terrain",
+    "id": "t_beehive_natural",
+    "name": "bee hive",
+    "description": "A round hive full of bees, swarming in and out at a feverish pace.  There's probably honey inside.",
+    "symbol": "h",
+    "color": [ "yellow" ],
+    "move_cost": 0,
+    "coverage": 10,
+    "flags": [ "FLAMMABLE_ASH", "NOITEM" ],
+    "examine_action": "harvest_ter",
+    "harvest_by_season": [ { "seasons": [ "spring", "summer" ], "id": "beehive_harv" } ],
+    "transforms_into": "t_tree",
+    "emissions": [ "emit_bees" ],
+    "bash": {
+      "str_min": 2,
+      "str_max": 5,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_tree",
+      "items": [
+        { "item": "wax", "count": [ 10, 25 ] },
+        { "item": "honeycomb", "count": [ 3, 10 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_apiary",
+    "name": "apiary",
+    "description": "A man-made box designed to hold bees and facilitate the development of a hive for easy harvesting.  Used for millenia, this could provide a reliable source of food for an enterprising individual.  This one is leaking slightly, and is ready to harvest.",
+    "symbol": "h",
+    "color": [ "yellow" ],
+    "move_cost": 1,
+    "coverage": 50,
+    "flags": [ "FLAMMABLE_ASH", "NOITEM" ],
+    "examine_action": "harvest_ter",
+    "//": "While this does give a queen bee, handwave it as an exrta to facilitate the development of new hives.",
+    "harvest_by_season": [ { "seasons": [ "spring", "summer" ], "id": "beehive_harv" } ],
+    "transforms_into": "t_apiary_empty",
+    "emissions": [ "emit_bees" ],
+    "bash": {
+      "str_min": 10,
+      "str_max": 15,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "wax", "count": [ 10, 25 ] },
+        { "item": "honeycomb", "count": [ 3, 10 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_apiary_empty",
+    "name": "apiary",
+    "description": "A man-made box designed to hold bees and facilitate the development of a hive for easy harvesting.  Used for millenia, this could provide a reliable source of food for an enterprising individual.  It will be some time before this one is ready to harvest.",
+    "symbol": "h",
+    "color": [ "light_gray" ],
+    "move_cost": 1,
+    "coverage": 50,
+    "flags": [ "FLAMMABLE_ASH", "NOITEM" ],
+    "transforms_into": "t_apiary",
+    "emissions": [ "emit_bees" ],
+    "bash": {
+      "str_min": 10,
+      "str_max": 15,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "wax", "count": [ 10, 25 ] },
+        { "item": "honeycomb", "count": [ 3, 10 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_underbrush",
     "name": "underbrush",
     "looks_like": "t_shrub",

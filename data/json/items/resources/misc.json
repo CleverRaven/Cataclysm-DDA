@@ -282,5 +282,50 @@
     "material": [ "rubber", "steel" ],
     "symbol": "o",
     "color": "dark_gray"
+  },
+  {
+    "id": "hive_starter_immature",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": "immature hive starter",
+    "description": "A developing collection of extremely important things to start a beehive contained inside of a jar, left adjar for bees to travel through.  Includes a queen and a store of honey.  A new hive is not yet ready to form, it should be about a week until then.",
+    "weight": "368 g",
+    "volume": "3852 ml",
+    "longest_side": "298 mm",
+    "to_hit": -1,
+    "bashing": 5,
+    "price": 10,
+    "price_postapoc": 10,
+    "material": [ "glass" ],
+    "symbol": ")",
+    "color": "yellow",
+    "use_action": {
+        "target": "hive_starter",
+        "msg": "The developing hive seems ready to plant somewhere.",
+        "moves": 150,
+        "type": "delayed_transform",
+        "transform_age": 72000,
+        "not_ready_msg": "The hive is still immature, and needs more time to develop.",
+        "//": "5 days"
+      },
+    "flags": [ "NO_SALVAGE" ]
+  },
+  {
+    "id": "hive_starter",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": "hive starter",
+    "description": "A collection of extremely important things to start a beehive contained inside of a jar, left adjar for bees to travel through.  Includes a queen, several workers, some eggs, and a store of honey.  You could re-home them in an artificial hive.",
+    "weight": "368 g",
+    "volume": "3852 ml",
+    "longest_side": "298 mm",
+    "to_hit": -1,
+    "bashing": 5,
+    "price": 10,
+    "price_postapoc": 10,
+    "material": [ "glass" ],
+    "symbol": ")",
+    "color": "yellow",
+    "flags": [ "NO_SALVAGE" ]
   }
 ]
