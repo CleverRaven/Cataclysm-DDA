@@ -2736,7 +2736,7 @@
       { "group": "jewelry_accessories", "prob": 35 },
       [ "story_book", 5 ],
       [ "syringe", 3 ],
-      [ "teddy", 15 ],
+      { "item": "teddy_bear", "custom-flags": [ "FILTHY" ], "damage": [ 0, 3 ], "prob": 15 },
       [ "arm", 5 ],
       [ "leg", 5 ],
       [ "fetus", 5 ],
