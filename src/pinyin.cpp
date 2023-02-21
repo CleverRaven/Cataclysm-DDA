@@ -510,4 +510,4 @@ bool pinyin_match( const std::u32string &str, const std::u32string &qry )
 
     return false;
 }
-}// namespace pinyin
+} // namespace pinyin
