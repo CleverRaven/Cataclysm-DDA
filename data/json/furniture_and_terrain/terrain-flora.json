@@ -1584,10 +1584,7 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_tree",
-      "items": [
-        { "item": "wax", "count": [ 10, 25 ] },
-        { "item": "honeycomb", "count": [ 3, 10 ] }
-      ]
+      "items": [ { "item": "wax", "count": [ 10, 25 ] }, { "item": "honeycomb", "count": [ 3, 10 ] } ]
     }
   },
   {
@@ -1611,10 +1608,7 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [
-        { "item": "wax", "count": [ 10, 25 ] },
-        { "item": "honeycomb", "count": [ 3, 10 ] }
-      ]
+      "items": [ { "item": "wax", "count": [ 10, 25 ] }, { "item": "honeycomb", "count": [ 3, 10 ] } ]
     }
   },
   {
@@ -1635,10 +1629,7 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [
-        { "item": "wax", "count": [ 10, 25 ] },
-        { "item": "honeycomb", "count": [ 3, 10 ] }
-      ]
+      "items": [ { "item": "wax", "count": [ 10, 25 ] }, { "item": "honeycomb", "count": [ 3, 10 ] } ]
     }
   },
   {

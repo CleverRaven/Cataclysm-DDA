@@ -300,14 +300,14 @@
     "symbol": ")",
     "color": "yellow",
     "use_action": {
-        "target": "hive_starter",
-        "msg": "The developing hive seems ready to plant somewhere.",
-        "moves": 150,
-        "type": "delayed_transform",
-        "transform_age": 72000,
-        "not_ready_msg": "The hive is still immature, and needs more time to develop.",
-        "//": "5 days"
-      },
+      "target": "hive_starter",
+      "msg": "The developing hive seems ready to plant somewhere.",
+      "moves": 150,
+      "type": "delayed_transform",
+      "transform_age": 72000,
+      "not_ready_msg": "The hive is still immature, and needs more time to develop.",
+      "//": "5 days"
+    },
     "flags": [ "NO_SALVAGE" ]
   },
   {
