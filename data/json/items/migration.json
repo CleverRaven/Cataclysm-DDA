@@ -1963,13 +1963,9 @@
   {
     "id": "teddy",
     "type": "MIGRATION",
-    "replace": "toy_plush_teddy",
+    "replace": "teddy_bear",
+    "variant": "toy_plush_teddy",
     "flags": [ "FILTHY" ]
-  },
-  {
-    "id": "teddy_bear",
-    "type": "MIGRATION",
-    "replace": "toy_plush_teddy"
   },
   {
     "id": "toothbrush_dirty",

@@ -1,7 +1,7 @@
 [
   {
     "type": "GENERIC",
-    "id": "toy_plush",
+    "id": "teddy_bear",
     "name": { "str": "plush toy" },
     "description": "A manufactured plush toy.  This is the default variant, if you see it something went wrong.",
     "category": "other",
