@@ -1294,6 +1294,20 @@
     "flags": [ "SLEEP_AID" ]
   },
   {
+    "type": "GENERIC",
+    "id": "teddy_bear",
+    "symbol": "o",
+    "color": "brown",
+    "name": { "str": "teddy bear" },
+    "description": "A mass-produced plush teddy bear.  It is wearing a little red t-shirt but no pants.",
+    "price": 200,
+    "price_postapoc": 10,
+    "material": [ "cotton" ],
+    "weight": "444 g",
+    "volume": "850 ml",
+    "flags": [ "SLEEP_AID" ]
+  },
+  {
     "id": "toothbrush_dirty",
     "name": { "str": "dirty toothbrush", "str_pl": "dirty toothbrushes" },
     "type": "GENERIC",

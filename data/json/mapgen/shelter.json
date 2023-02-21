@@ -20,7 +20,7 @@
       [ "mask_dust", 9 ],
       [ "handflare_dead", 9 ],
       [ "whistle", 7 ],
-      [ "teddy_bear", 7 ],
+      [ "toy_plush", 7 ],
       { "item": "vinegar", "prob": 6, "charges-min": 1 },
       [ "candle", 5 ],
       [ "pliers", 4 ],

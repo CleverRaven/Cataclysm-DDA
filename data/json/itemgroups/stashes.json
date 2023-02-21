@@ -342,7 +342,7 @@
     "//": "this list is for toys that children may have wanted to take with themselves while preparing to run away for whatever reason.",
     "items": [
       { "item": "talking_doll", "prob": 50 },
-      { "item": "teddy_bear", "prob": 50 },
+      { "item": "toy_plush", "prob": 50 },
       { "item": "bath_toy", "prob": 30 },
       { "item": "portable_game", "prob": 30, "charges": [ 0, 100 ] },
       { "group": "toy_radio_car", "prob": 10 },

@@ -271,7 +271,7 @@
       { "item": "candle", "prob": 100, "count": [ 1, 3 ], "charges-max": 50 },
       { "item": "candle", "prob": 33, "count": [ 1, 2 ], "charges-min": 50 },
       { "item": "family_photo", "prob": 20, "count": [ 1, 2 ] },
-      { "item": "teddy_bear", "prob": 5 }
+      { "item": "toy_plush", "prob": 5 }
     ]
   },
   {

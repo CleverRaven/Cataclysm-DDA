@@ -1,0 +1,77 @@
+[
+  {
+    "type": "GENERIC",
+    "id": "toy_plush",
+    "name": { "str": "plush toy" },
+    "description": "A manufactured plush toy.  This is the default variant, if you see it something went wrong.",
+    "category": "other",
+    "material": [ "cotton" ],
+    "weight": "900 g",
+    "volume": "3 L",
+    "price": 2000,
+    "price_postapoc": 100,
+    "symbol": "i",
+    "color": "cyan",
+    "flags": [ "SLEEP_AID" ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "toy_plush_teddy",
+        "name": { "str": "teddy bear" },
+        "description": "A mass-produced plush teddy bear.  It is wearing a little red t-shirt but no pants.",
+        "weight": 1
+      },
+      {
+        "id": "toy_plush_teddy_zombie",
+        "name": { "str": "zombie teddy bear" },
+        "description": "A dark green teddy bear with stylized stitches all over and X's for eyes.  The perfect size for a small child to hug the unlife out of.  Looks like the zombie apocalypse hit the toy store shelves first.",
+        "weight": 1
+      },
+      {
+        "id": "toy_plush_ferret",
+        "name": { "str": "ferret plushie" },
+        "description": "A large plush ferret with cute beady eyes.",
+        "weight": 1
+      },
+      {
+        "id": "toy_plush_trex",
+        "name": { "str": "T-rex plushie" },
+        "description": "A large plush t-rex.",
+        "weight": 1
+      },
+      {
+        "id": "toy_plush_penguin",
+        "name": { "str": "penguin plushie" },
+        "description": "A velvety-soft plush penguin.  It makes a funny noise when you hug it.",
+        "weight": 1
+      },
+      {
+        "id": "toy_plush_rabbit",
+        "name": { "str": "rabbit plushie" },
+        "description": "A large plush rabbit.",
+        "weight": 1
+      },
+      {
+        "id": "toy_plush_remora",
+        "name": { "str": "remora plushie" },
+        "description": "A large plush remora, a fish commonly seen alongside sharks.  Wait, wasn't there a shark plushie somewhere there…",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "shark_plushie",
+    "symbol": "s",
+    "color": "cyan",
+    "name": { "str": "shark plushie" },
+    "description": "A somewhat large, mass produced shark plushie.  Meant to provide comfort to people of all ages.",
+    "price": 600,
+    "price_postapoc": 20,
+    "material": [ "cotton" ],
+    "weight": "1945 g",
+    "volume": "30000 ml",
+    "longest_side": "103 cm",
+    "flags": [ "SLEEP_AID" ]
+  }
+]
