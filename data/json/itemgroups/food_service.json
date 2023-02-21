@@ -1402,7 +1402,7 @@
       {
         "collection": [
           { "item": "nachos", "prob": 100, "container-item": "ceramic_bowl" },
-          { "item": "salsa", "prob": 100 }
+          { "item": "salsa", "prob": 90, "container-item": "ceramic_bowl" }
         ],
         "prob": 60
       },

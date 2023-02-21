@@ -35,7 +35,7 @@
       { "item": "mayonnaise", "charges-min": 1, "prob": 75 },
       { "item": "soysauce", "charges-min": 1, "prob": 65 },
       { "item": "horseradish", "charges-min": 1, "prob": 25 },
-      { "item": "salsa", "charges-min": 1, "prob": 10 },
+      { "item": "salsa", "charges-min": 1, "prob": 25 },
       { "item": "jam_fruit", "charges-min": 1, "prob": 60 },
       { "item": "cheese", "prob": 60 },
       { "item": "cheese_hard", "prob": 55 },
