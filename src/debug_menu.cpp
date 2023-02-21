@@ -312,11 +312,11 @@ bool _add_dir( tgz_archiver &tgz, fs::path const &root, f_validate_t const &vali
 }
 
 bool _trim_mapbuffer( fs::path const &dep, rdi_t &iter, tripoint_range<tripoint> const &segs,
-                      point const &reg )
+                      tripoint_range<tripoint> const &regs )
 {
-    // discard map memory outside of current region
+    // discard map memory outside of current region and adjacent regions
     if( dep.parent_path().extension() == ".mm1" &&
-        _from_map_string( dep.stem().string() ).xy() != reg ) {
+        !regs.is_point_inside( tripoint{ _from_map_string( dep.stem().string() ).xy(), 0 } ) ) {
         return false;
     }
     // discard map buffer outside of current and adjacent segments
@@ -353,6 +353,7 @@ void write_min_archive()
     tripoint_range<tripoint> const segs = points_in_radius( seg.raw(), 1 );
     point sm = project_to<coords::sm>( get_avatar().get_location() ).raw().xy();
     point const reg = sm_to_mmr_remain( sm.x, sm.y );
+    tripoint_range<tripoint> const regs = points_in_radius( tripoint{ reg, 0 }, 1 );
     tripoint_abs_om const om = project_to<coords::om>( get_avatar().get_location() );
     tripoint_range<tripoint> const oms = points_in_radius( tripoint{ om.raw().xy(), 0 }, 1 );
 
@@ -361,8 +362,8 @@ void write_min_archive()
 
     tgz_archiver tgz( ofile );
 
-    f_validate_t const mb_validate = [&segs, &reg, &oms]( fs::path const & dep, rdi_t & iter ) {
-        return _discard_temporary( dep ) && _trim_mapbuffer( dep, iter, segs, reg ) &&
+    f_validate_t const mb_validate = [&segs, &regs, &oms]( fs::path const & dep, rdi_t & iter ) {
+        return _discard_temporary( dep ) && _trim_mapbuffer( dep, iter, segs, regs ) &&
                _trim_overmapbuffer( dep, oms );
     };
 
