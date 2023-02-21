@@ -88,6 +88,21 @@ if [ -n "${MXE_TARGET}" ]; then
   set +e
   retry=0
   until [[ "$retry" -ge 5 ]]; do
+    curl -L -o SDL2-devel-2.26.2-mingw.tar.gz https://github.com/libsdl-org/SDL/releases/download/release-2.26.2/SDL2-devel-2.26.2-mingw.tar.gz && shasum -a 256 -c ./build-scripts/SDL2-devel-2.26.2-mingw.tar.gz.sha256 && break
+    retry=$((retry+1))
+    rm -f SDL2-devel-2.26.2-mingw.tar.gz
+    sleep 10
+  done
+  if [[ "$retry" -ge 5 ]]; then
+    echo "Error downloading or checksum failed for SDL2-devel-2.26.2-mingw.tar.gz"
+    exit 1
+  fi
+  set -e
+  sudo tar -xzf SDL2-devel-2.26.2-mingw.tar.gz -C ${MXE_DIR}/usr/${MXE_TARGET} --strip-components=2 SDL2-2.26.2/x86_64-w64-mingw32
+
+  set +e
+  retry=0
+  until [[ "$retry" -ge 5 ]]; do
     curl -L -o libbacktrace-x86_64-w64-mingw32.tar.gz https://github.com/Qrox/libbacktrace/releases/download/2020-01-03/libbacktrace-x86_64-w64-mingw32.tar.gz && shasum -a 256 -c ./build-scripts/libbacktrace-x86_64-w64-mingw32-sha256 && break
     retry=$((retry+1))
     rm -f libbacktrace-x86_64-w64-mingw32.tar.gz
