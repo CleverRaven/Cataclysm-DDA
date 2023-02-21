@@ -369,16 +369,21 @@ void enchant_cache::load( const JsonObject &jo, const std::string &,
     enchantment::load( jo, "", inline_id, true );
     if( jo.has_array( "values" ) ) {
         for( const JsonObject value_obj : jo.get_array( "values" ) ) {
-            const enchant_vals::mod value = io::string_to_enum<enchant_vals::mod>
-                                            ( value_obj.get_string( "value" ) );
-            const int add = value_obj.has_int( "add" ) ? value_obj.get_int( "add", 0 ) : 0;
-            const double mult = value_obj.has_float( "multiply" ) ? value_obj.get_float( "multiply",
-                                0.0 ) : 0.0;
-            if( add != 0 ) {
-                values_add.emplace( value, add );
-            }
-            if( mult != 0.0 ) {
-                values_multiply.emplace( value, mult );
+            try {
+                const enchant_vals::mod value = io::string_to_enum<enchant_vals::mod>
+                                                ( value_obj.get_string( "value" ) );
+                const int add = value_obj.has_int( "add" ) ? value_obj.get_int( "add", 0 ) : 0;
+                const double mult = value_obj.has_float( "multiply" ) ? value_obj.get_float( "multiply",
+                                    0.0 ) : 0.0;
+                if( add != 0 ) {
+                    values_add.emplace( value, add );
+                }
+                if( mult != 0.0 ) {
+                    values_multiply.emplace( value, mult );
+                }
+            } catch( ... ) {
+                debugmsg( "A relic attempted to load invalid enchantment %s.  If you updated versions this may be a removed enchantment and will fix itself.",
+                          value_obj.get_string( "value", "" ) );
             }
         }
     }

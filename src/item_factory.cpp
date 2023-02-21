@@ -3003,6 +3003,7 @@ void islot_book::load( const JsonObject &jo )
     optional( jo, was_loaded, "martial_art", martial_art, matype_id::NULL_ID() );
     optional( jo, was_loaded, "chapters", chapters, 0 );
     optional( jo, was_loaded, "proficiencies", proficiencies );
+    optional( jo, was_loaded, "scannable", is_scannable, true );
 }
 
 void islot_book::deserialize( const JsonObject &jo )

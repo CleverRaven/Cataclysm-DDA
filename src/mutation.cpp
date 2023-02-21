@@ -1374,6 +1374,11 @@ bool Character::mutate_towards( const trait_id &mut, const mutation_category_id 
         if( bid->mutation_conflicts.count( mut ) != 0 ) {
             return false;
         }
+        for( const trait_id &mid : bid->canceled_mutations ) {
+            if( mid == mut ) {
+                return false;
+            }
+        }
     }
 
     for( size_t i = 0; !c_has_threshreq && i < threshreq.size(); i++ ) {

@@ -2442,6 +2442,9 @@ void ebooksave_activity_actor::finish( player_activity &act, Character &who )
     item book_copy = *book;
     ereader->put_in( book_copy, item_pocket::pocket_type::EBOOK );
     if( who.is_avatar() ) {
+        if( !who.has_identified( book->typeId() ) ) {
+            who.identify( *book );
+        }
         add_msg( m_info, _( "You scan the book into your device." ) );
     } else { // who.is_npc()
         add_msg_if_player_sees( who, _( "%s scans the book into their device." ),
