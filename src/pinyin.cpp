@@ -477,7 +477,7 @@ bool pinyin_match( const std::u32string &str, const std::u32string &qry )
         int combination = combination_index;    //a copy so the record will not be destoryed
         int total_combination = 1;              //the total possible amount of combinations
 
-        for(const char32_t ch : str) {
+        for( const char32_t ch : str ) {
             //try to find the pinyins for the current character
             if( indexed_pinyin_map.find( ch ) == indexed_pinyin_map.end() ) {
                 //not a known character
