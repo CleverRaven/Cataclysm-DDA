@@ -7551,5 +7551,13 @@
     "time": "1 h",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
     "components": [ [ [ "scrap_aluminum", 200 ] ] ]
+  },
+  {
+    "result": "bottle_metal",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "1 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
+    "components": [ [ [ "scrap", 3 ] ] ]
   }
 ]
