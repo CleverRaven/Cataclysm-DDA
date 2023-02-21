@@ -9656,7 +9656,7 @@
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
-    "difficulty": 1,
+    "difficulty": 0,
     "time": "10 s",
     "autolearn": true,
     "book_learn": [ [ "cookbook_mexican", 1 ] ],
