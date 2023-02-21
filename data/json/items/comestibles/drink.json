@@ -601,9 +601,10 @@
   {
     "type": "COMESTIBLE",
     "id": "horchata",
+    "looks_like": "milk",
     "category": "food",
     "name": { "str_sp": "horchata" },
-    "description": "A sugary drink made with rice, milk, and cinnamon.  ",
+    "description": "A sugary drink from Central America infused with rice, milk, and cinnamon.",
     "weight": "257 g",
     "volume": "250 ml",
     "price": 250,
@@ -619,7 +620,6 @@
     "calories": 200,
     "quench": 35,
     "fun": 8,
-    "charges": 2,
     "spoils_in": "1 day",
     "vitamins": [ [ "calcium", 4 ], [ "iron", 2 ] ],
     "flags": [ "EATEN_COLD" ]
