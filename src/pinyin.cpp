@@ -3,7 +3,7 @@
 #include <algorithm>
 #include <map>
 #include <string>
-#include <uchar.h>
+#include <cuchar>
 #include <unordered_map>
 #include <vector>
 
@@ -11,7 +11,7 @@ namespace pinyin
 {
 
 /* data is referenced from https://github.com/rime/rime-terra-pinyin (which is an IME setup for chinese input) */
-const std::map<std::u32string, std::u32string> pinyin_data = {
+static const std::map<std::u32string, std::u32string> pinyin_data = {
     {U"a", U"吁吖呵啊啊啊啊啊嗄腌錒锕阿𠼞𥥩𨉚"},
     {U"ai", U"㕌㗒㗨㘷㝶㢊㤅㱯㶼㾢㾨㿄䀳䅬䑂䔇䔽䝽䠹䨠䬵䶣伌佁僾叆哀哎唉唉啀嗌嗳嘊噯噯埃塧壒娭娾娾嫒嬡嵦愛懓懝挨捱敱敳昹暧曖欸毐溰濭烠焥爱瑷璦癌皑皚皧瞹矮砹硋碍磑礙絠艾蔼薆藹諰譪譺賹躷醷銰鎄鑀锿阸隑隘霭靄靉馤騃鯦鱫鴱𠊎𠳳𡁍𡉓𡟓𡰽𡶃𢟪𢟰𢣏𢣕𢰇𣋞𣎴𣜬𣝅𣤃𣩄𣩱𤢵𤸖𤸳𤻢𥡽𥤦𥴨𦗍𦗐𦤦𦥂𦥈𦩴𧏹𧓁𧡋𧪚𧰿𧵨𨶂𩂒𩂢𩈋𩪂𩫇𩮖𪇈𪕭𫘤"},
     {U"an", U"㛺㜝㞄㟁㡋㫨㭺㱘㸩㽢䀂䅁䅖䅖䎨䜙䢿䤃䤶䬓䮗䯥侒侒俺儑儑匼厈咹唵啽垵垾埯堓婩媕安屽岸峖广庵按揞晻晻暗案桉氨洝犴玵痷盦盫罯胺腤荌菴萻葊蓭裺誝諳谙豻遃銨錌铵闇隌雸鞌鞍韽鮟鮟鵪鶕鹌黯𠉬𠪚𠰑𠽪𠿑𡎑𡪁𡪙𡯏𡹼𡽜𢰍𣆛𣚖𣣚𣵱𣽥𤃷𤜁𤞿𤟉𥏮𥦍𥳬𦺽𧖮𧩸𧫥𧫧𧫧𧮍𨲊𩅝𩈴𩓤𩭢𩹎𩽾𪁟𪒠𪒠𪘒"},
@@ -477,7 +477,7 @@ bool pinyin_match( const std::u32string &str, const std::u32string &qry )
         int combination = combination_index;    //a copy so the record will not be destoryed
         int total_combination = 1;              //the total possible amount of combinations
 
-        for( const uint32_t ch : str ) {
+        for(const char32_t ch : str) {
             //try to find the pinyins for the current character
             if( indexed_pinyin_map.find( ch ) == indexed_pinyin_map.end() ) {
                 //not a known character
@@ -510,4 +510,4 @@ bool pinyin_match( const std::u32string &str, const std::u32string &qry )
 
     return false;
 }
-}
+}// namespace pinyin

@@ -17,5 +17,5 @@ namespace pinyin
  */
 bool pinyin_match( const std::u32string &str, const std::u32string &qry );
 
-}
-#endif //CATA_SRC_PINYIN_H
+} // namespace pinyin
+#endif // CATA_SRC_PINYIN_H
