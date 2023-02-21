@@ -2028,6 +2028,7 @@ plink
 plinker
 plinking
 plushie
+plushies
 pm
 podling
 podlings
@@ -2838,6 +2839,7 @@ unipolar
 universalism
 unjacketed
 unkept
+unlife
 unlivable
 unlively
 unlives
