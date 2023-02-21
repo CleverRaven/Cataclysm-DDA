@@ -1249,42 +1249,39 @@ void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc
         newits = making.create_results( batch_size );
     }
 
-    bool first = true;
+    // messages, learning of recipe
+    if( !making.is_practice() && ( !newits.empty() || !making.result_eocs.empty() ) ) {
+        // TODO: reconsider recipe memorization
+        if( knows_recipe( &making ) ) {
+            add_msg( _( "You craft %s from memory." ), making.result_name() );
+        } else {
+            add_msg( _( "You craft %s using a reference." ), making.result_name() );
+            // If we made it, but we don't know it, we're using a book, device or NPC
+            // as a reference and have a chance to learn it.
+            // Base expected time to learn is 1000*(difficulty^4)/skill/int moves.
+            // This means time to learn is greatly decreased with higher skill level,
+            // but also keeps going up as difficulty goes up.
+            // Worst case is lvl 10, which will typically take
+            // 10^4/10 (1,000) minutes, or about 16 hours of crafting it to learn.
+            int difficulty = making.difficulty;
+            ///\EFFECT_INT increases chance to learn recipe when crafting from a book
+            const double learning_speed =
+                std::max( get_skill_level( making.skill_used ), 1 ) *
+                std::max( get_int(), 1 );
+            const double time_to_learn = 1000 * 8 * std::pow( difficulty, 4 ) / learning_speed;
+            if( x_in_y( making.time_to_craft_moves( *this ),  time_to_learn ) ) {
+                learn_recipe( &making );
+                add_msg( m_good, _( "You memorized the recipe for %s!" ), making.result_name() );
+            }
+        }
+    }
+
     size_t newit_counter = 0;
     for( item &newit : newits ) {
 
         // Points to newit unless newit is a non-empty container, then it points to newit's contents.
         // Necessary for things like canning soup; sometimes we want to operate on the soup, not the can.
         item &food_contained = !newit.empty() ? newit.only_item() : newit;
-
-        // messages, learning of recipe, food spoilage calculation only once
-        if( first ) {
-            first = false;
-            // TODO: reconsider recipe memorization
-            if( knows_recipe( &making ) ) {
-                add_msg( _( "You craft %s from memory." ), making.result_name() );
-            } else {
-                add_msg( _( "You craft %s using a reference." ), making.result_name() );
-                // If we made it, but we don't know it, we're using a book, device or NPC
-                // as a reference and have a chance to learn it.
-                // Base expected time to learn is 1000*(difficulty^4)/skill/int moves.
-                // This means time to learn is greatly decreased with higher skill level,
-                // but also keeps going up as difficulty goes up.
-                // Worst case is lvl 10, which will typically take
-                // 10^4/10 (1,000) minutes, or about 16 hours of crafting it to learn.
-                int difficulty = making.difficulty;
-                ///\EFFECT_INT increases chance to learn recipe when crafting from a book
-                const double learning_speed =
-                    std::max( get_skill_level( making.skill_used ), 1 ) *
-                    std::max( get_int(), 1 );
-                const double time_to_learn = 1000 * 8 * std::pow( difficulty, 4 ) / learning_speed;
-                if( x_in_y( making.time_to_craft_moves( *this ),  time_to_learn ) ) {
-                    learn_recipe( &making );
-                    add_msg( m_good, _( "You memorized the recipe for %s!" ),
-                             making.result_name() );
-                }
-            }
-        }
 
         // Newly-crafted items are perfect by default. Inspect their materials to see if they shouldn't be
         food_contained.inherit_flags( used, making );
