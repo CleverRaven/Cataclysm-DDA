@@ -92,6 +92,7 @@ jobs:
             mxe: none
             ext: zip
             content: application/zip
+            tiles: 1
             sound: 0
           - name: Windows Tiles Sounds x64 MSVC
             artifact: windows-tiles-sounds-x64-msvc
@@ -100,6 +101,7 @@ jobs:
             mxe: none
             ext: zip
             content: application/zip
+            tiles: 1
             sound: 1
           - name: Windows Tiles x32 MSVC
             artifact: windows-tiles-x32-msvc
@@ -108,6 +110,7 @@ jobs:
             mxe: none
             ext: zip
             content: application/zip
+            tiles: 1
             sound: 0
           - name: Windows Tiles Sounds x32 MSVC
             artifact: windows-tiles-sounds-x32-msvc
@@ -116,6 +119,7 @@ jobs:
             mxe: none
             ext: zip
             content: application/zip
+            tiles: 1
             sound: 1
           - name: Windows Tiles x64
             mxe: x86_64
@@ -123,6 +127,7 @@ jobs:
             os: ubuntu-latest
             ext: zip
             content: application/zip
+            tiles: 1
             sound: 0
           - name: Windows Tiles Sounds x64
             mxe: x86_64
@@ -130,6 +135,7 @@ jobs:
             os: ubuntu-latest
             ext: zip
             content: application/zip
+            tiles: 1
             sound: 1
           - name: Windows Tiles x32
             mxe: i686
@@ -137,6 +143,7 @@ jobs:
             os: ubuntu-latest
             ext: zip
             content: application/zip
+            tiles: 1
             sound: 0
           - name: Windows Tiles Sounds x32
             mxe: i686
@@ -144,6 +151,7 @@ jobs:
             os: ubuntu-latest
             ext: zip
             content: application/zip
+            tiles: 1
             sound: 1
           - name: Linux Tiles x64
             os: ubuntu-18.04
