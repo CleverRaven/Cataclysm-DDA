@@ -6375,7 +6375,7 @@
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
       [ [ "meat_red", 1, "LIST" ], [ "dry_meat", 1 ], [ "can_chicken", 1 ] ],
-      [ [ "tortilla_corn", 3 ] ],
+      [ [ "tortilla_any", 3, "LIST" ] ],
       [ [ "salt", 1 ], [ "seasoning_salt", 1 ] ]
     ]
   },
@@ -6391,7 +6391,7 @@
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 1, "LIST" ] ] ],
     "charges": 1,
-    "components": [ [ [ "cheese_standard", 1, "LIST" ] ], [ [ "tortilla_corn", 1 ] ] ]
+    "components": [ [ [ "cheese_standard", 1, "LIST" ] ], [ [ "tortilla_any", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -9059,7 +9059,7 @@
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
       [ [ "meat_red", 1, "LIST" ], [ "dry_meat", 1 ], [ "can_chicken", 1 ], [ "meat_smoked", 1 ] ],
-      [ [ "tortilla_corn", 3 ] ],
+      [ [ "tortilla_any", 3, "LIST" ] ],
       [
         [ "dry_beans", 1 ],
         [ "raw_beans", 1 ],
