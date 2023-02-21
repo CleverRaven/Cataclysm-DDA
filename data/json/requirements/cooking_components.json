@@ -1254,7 +1254,6 @@
   {
     "id": "tortilla_any",
     "type": "requirement",
-    "//": "  Only powdered sugar",
     "components": [ [ [ "tortilla_corn", 1 ], [ "tortilla_flour", 1 ] ] ]
   }
 ]
