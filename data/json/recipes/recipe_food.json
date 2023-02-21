@@ -9658,7 +9658,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "result": "chips_and_salsa",
     "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_VEGGI",
+    "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
     "time": "10 s",
     "autolearn": true,
