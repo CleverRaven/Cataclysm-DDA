@@ -413,7 +413,7 @@ int relic::activate( Creature &caster, const tripoint &target )
     for( const fake_spell &sp : active_effects ) {
         spell casting = sp.get_spell( sp.level );
         casting.cast_all_effects( caster, target );
-        caster.add_msg_if_player( casting.message() );
+        caster.add_msg_if_player( casting.message(), casting.name() );
     }
     charge.charges -= charge.charges_per_use;
     return charge.charges_per_use;

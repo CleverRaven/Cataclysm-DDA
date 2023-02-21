@@ -890,6 +890,7 @@
     "description": "You could find this place upside down, dizzy and blindfolded.  Its presence is too altered to allow the mercy of ignorance.",
     "difficulty": 0,
     "value": 0,
+    "invisible_on_complete": true,
     "start": { "assign_mission_target": { "var": { "global_val": "portal_dungeon" } } }
   }
 ]

@@ -1599,24 +1599,24 @@ TEST_CASE( "radiation badge widget", "[widget][radiation]" )
     CHECK( rads_w.layout( ava ) == "RADIATION: <color_c_light_gray>Unknown</color>" );
 
     // Acquire and wear a radiation badge
-    item_location rad_badge = ava.i_add( item( itype_rad_badge ) );
-    ava.worn.wear_item( ava, *rad_badge, false, false );
+    item rad_badge( itype_rad_badge );
+    item *rad_badge_worn = & **ava.worn.wear_item( ava, rad_badge, false, false );
 
     // Color indicator is shown when character has radiation badge
-    ava.set_rad( 0 );
+    rad_badge_worn->irradiation = 0;
     CHECK( rads_w.layout( ava ) == "RADIATION: <color_c_white_green> green </color>" );
     // Any positive value turns it blue
-    ava.set_rad( 1 );
+    rad_badge_worn->irradiation = 1;
     CHECK( rads_w.layout( ava ) == "RADIATION: <color_h_white> blue </color>" );
-    ava.set_rad( 29 );
+    rad_badge_worn->irradiation = 29;
     CHECK( rads_w.layout( ava ) == "RADIATION: <color_h_white> blue </color>" );
-    ava.set_rad( 31 );
+    rad_badge_worn->irradiation = 31;
     CHECK( rads_w.layout( ava ) == "RADIATION: <color_i_yellow> yellow </color>" );
-    ava.set_rad( 61 );
+    rad_badge_worn->irradiation = 61;
     CHECK( rads_w.layout( ava ) == "RADIATION: <color_c_red_yellow> orange </color>" );
-    ava.set_rad( 121 );
+    rad_badge_worn->irradiation = 121;
     CHECK( rads_w.layout( ava ) == "RADIATION: <color_c_red_red> red </color>" );
-    ava.set_rad( 241 );
+    rad_badge_worn->irradiation = 241;
     CHECK( rads_w.layout( ava ) == "RADIATION: <color_c_pink> black </color>" );
 }
 

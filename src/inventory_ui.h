@@ -32,6 +32,7 @@
 #include "units_fwd.h"
 
 class Character;
+class inventory_selector_preset;
 class item;
 class item_stack;
 class string_input_popup;
@@ -68,8 +69,8 @@ class inventory_entry
 
         size_t chosen_count = 0;
         int custom_invlet = INT_MIN;
-        std::string cached_name;
-        std::string cached_name_full;
+        std::string *cached_name = nullptr;
+        std::string *cached_name_full = nullptr;
 
         inventory_entry() = default;
 
@@ -95,9 +96,8 @@ class inventory_entry
             topmost_parent( topmost_parent ),
             generation( generation_number ),
             chevron( chevron ),
-            custom_category( custom_category ),
-            enabled( enabled ) {
-            update_cache();
+            enabled( enabled ),
+            custom_category( custom_category ) {
         }
 
         bool operator==( const inventory_entry &other ) const;
@@ -165,6 +165,9 @@ class inventory_entry
         item *topmost_parent = nullptr;
         size_t generation = 0;
         bool chevron = false;
+        int indent = 0;
+        std::string denial;
+        bool enabled = true;
 
         void set_custom_category( const item_category *category ) {
             custom_category = category;
@@ -172,7 +175,6 @@ class inventory_entry
 
     private:
         const item_category *custom_category = nullptr;
-        bool enabled = true;
     protected:
         // indents the entry if it is contained in an item
         bool _indent = true;
@@ -390,7 +392,7 @@ class inventory_column
         size_t get_width() const;
         size_t get_height() const;
         /** Expands the column to fit the new entry. */
-        void expand_to_fit( const inventory_entry &entry );
+        void expand_to_fit( const inventory_entry &entry, bool with_denial = true );
         /** Resets width to original (unchanged). */
         virtual void reset_width( const std::vector<inventory_column *> &all_columns );
         /** Returns next custom inventory letter. */
@@ -440,17 +442,6 @@ class inventory_column
             paging_is_valid = false;
         }
 
-        /**
-         * Prevents redundant indentation when the inventory_column is looking at
-         * items in nested containers.  Added for inventory_examiner, which is
-         * is always looking inside a container, and previously had everything
-         * indented at least 2 spaces
-         * @param new_indentation The indentation of the parent container
-         */
-        void set_parent_indentation( size_t new_indentation ) {
-            parent_indentation = new_indentation;
-        }
-
         /** Toggle being able to highlight unselectable entries*/
         void toggle_skip_unselectable( bool skip );
 
@@ -458,7 +449,7 @@ class inventory_column
         struct entry_cell_cache_t {
             bool assigned = false;
             nc_color color = c_unset;
-            std::string denial;
+            std::string const *denial = nullptr;
             std::vector<std::string> text;
         };
 
@@ -530,7 +521,6 @@ class inventory_column
         mutable std::vector<entry_cell_cache_t> entries_cell_cache;
 
         cata::optional<bool> indent_entries_override = cata::nullopt;
-        size_t parent_indentation = 0;
         /** @return Number of visible cells */
         size_t visible_cells() const;
         void _get_entries( get_entries_t *res, entries_t const &ent,
@@ -579,7 +569,8 @@ class inventory_selector
         /** These functions add items from map / vehicles. */
         bool add_contained_items( item_location &container );
         bool add_contained_items( item_location &container, inventory_column &column,
-                                  const item_category *custom_category = nullptr, item *topmost_parent = nullptr );
+                                  const item_category *custom_category = nullptr, item *topmost_parent = nullptr,
+                                  int indent = 0 );
         void add_contained_ebooks( item_location &container );
         void add_character_items( Character &character );
         void add_map_items( const tripoint &target );
@@ -658,7 +649,7 @@ class inventory_selector
         bool add_entry_rec( inventory_column &entry_column, inventory_column &children_column,
                             item_location &loc, item_category const *entry_category = nullptr,
                             item_category const *children_category = nullptr,
-                            item *topmost_parent = nullptr );
+                            item *topmost_parent = nullptr, int indent = 0 );
 
         inventory_input get_input();
         inventory_input process_input( const std::string &action, int ch );

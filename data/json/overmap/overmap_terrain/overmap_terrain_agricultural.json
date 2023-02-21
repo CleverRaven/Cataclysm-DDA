@@ -425,8 +425,8 @@
     "color": "light_gray"
   },
   {
-    "id": "orchard",
     "type": "overmap_terrain",
+    "id": [ "orchard", "orchard_roof", "orchard_1", "orchard_roof_1" ],
     "copy-from": "generic_city_building",
     "name": "orchard",
     "sym": "#",

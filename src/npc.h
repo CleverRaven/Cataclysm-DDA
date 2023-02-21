@@ -795,6 +795,7 @@ class npc : public Character
          * See @ref dialogue_chatbin::add_new_mission
          */
         void add_new_mission( mission *miss );
+        void update_missions_target( character_id old_character, character_id new_character );
         std::pair<skill_id, int> best_combat_skill( combat_skills subset ) const;
         void starting_weapon( const npc_class_id &type );
 
@@ -949,9 +950,9 @@ class npc : public Character
         bool will_accept_from_player( const item &it ) const;
 
         bool wants_to_sell( const item_location &it ) const;
-        ret_val<void> wants_to_sell( const item_location &it, int at_price, int market_price ) const;
+        ret_val<void> wants_to_sell( const item_location &it, int at_price ) const;
         bool wants_to_buy( const item &it ) const;
-        ret_val<void> wants_to_buy( const item &/*it*/, int at_price, int /*market_price*/ ) const;
+        ret_val<void> wants_to_buy( const item &/*it*/, int at_price ) const;
 
         bool will_exchange_items_freely() const;
         int max_credit_extended() const;
