@@ -68,6 +68,7 @@
         "r": { "item": "snacks", "chance": 20, "repeat": [ 2, 4 ] }
       },
       "nested": { "U": { "chunks": [ [ "roof_6x6_garden_1", 50 ], [ "roof_6x6_garden_2", 50 ] ] } },
+      "place_monster": [ { "group": "GROUP_SEARCH_FITNESS", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 75, "repeat": [ 3, 8 ] } ],
       "place_loot": [ { "group": "cash_register_random", "x": 10, "y": [ 4, 6 ] } ]
     }
   },
@@ -191,7 +192,10 @@
         "T": "f_toilet",
         "t": "f_sink"
       },
-      "place_monster": [ { "group": "GROUP_MAPGEN_POOL", "x": [ 12, 19 ], "y": [ 18, 21 ], "repeat": [ 1, 5 ] } ],
+      "place_monster": [
+        { "group": "GROUP_SEARCH_FITNESS", "x": [ 0, 23 ], "y": [ 0, 15 ], "chance": 75, "repeat": [ 3, 8 ] },
+        { "group": "GROUP_MAPGEN_POOL", "x": [ 12, 19 ], "y": [ 18, 21 ], "chance": 75, "repeat": [ 2, 5 ] }
+      ],
       "toilets": { "T": {  } },
       "items": { "O": { "item": "gym", "chance": 80 }, "H": { "item": "vending_drink", "chance": 75, "repeat": [ 4, 8 ] } },
       "place_loot": [ { "group": "cash_register_random", "x": [ 17, 19 ], "y": 2 } ]
@@ -263,6 +267,7 @@
         { "item": "gym", "x": [ 4, 7 ], "y": [ 16, 18 ], "chance": 30, "repeat": [ 1, 5 ] },
         { "item": "gym", "x": [ 16, 20 ], "y": [ 10, 13 ], "chance": 30, "repeat": [ 1, 5 ] }
       ],
+      "place_monster": [ { "group": "GROUP_SEARCH_FITNESS", "x": [ 4, 20 ], "y": [ 4, 14 ], "chance": 75, "repeat": [ 3, 8 ] } ],
       "items": { "F": { "item": "office_paper", "chance": 30 }, "I": { "item": "softdrugs", "chance": 20, "repeat": [ 2, 4 ] } }
     }
   },
