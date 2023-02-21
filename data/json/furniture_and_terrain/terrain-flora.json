@@ -1613,7 +1613,9 @@
       "ter_set": "t_dirt",
       "items": [
         { "item": "wax", "count": [ 10, 25 ] },
-        { "item": "honeycomb", "count": [ 3, 10 ] }
+        { "item": "honeycomb", "count": [ 3, 10 ] },
+        { "item": "2x4", "count": [ 8, 10 ] },
+        { "item": "nail", "count": [ 12, 20 ] }
       ]
     }
   },
@@ -1636,8 +1638,8 @@
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
       "items": [
-        { "item": "wax", "count": [ 10, 25 ] },
-        { "item": "honeycomb", "count": [ 3, 10 ] }
+        { "item": "2x4", "count": [ 8, 10 ] },
+        { "item": "nail", "count": [ 12, 20 ] }
       ]
     }
   },
