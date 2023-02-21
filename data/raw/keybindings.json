@@ -265,6 +265,34 @@
   },
   {
     "type": "keybinding",
+    "id": "CHOOSE_INVLET",
+    "category": "SPELL_MENU",
+    "name": "Choose a hotkey for a spell",
+    "bindings": [ { "input_method": "keyboard_any", "key": "=" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "CAST_IGNORE",
+    "category": "SPELL_MENU",
+    "name": "Toggle ignore distractions",
+    "bindings": [ { "input_method": "keyboard_char", "key": "I" }, { "input_method": "keyboard_code", "key": "i", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "SCROLL_UP_SPELL_MENU",
+    "category": "SPELL_MENU",
+    "name": "Scroll up spell info",
+    "bindings": [ { "input_method": "keyboard_char", "key": "<" }, { "input_method": "keyboard_code", "key": ",", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "SCROLL_DOWN_SPELL_MENU",
+    "category": "SPELL_MENU",
+    "name": "Scroll down spell info",
+    "bindings": [ { "input_method": "keyboard_char", "key": ">" }, { "input_method": "keyboard_code", "key": ".", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
     "id": "ADD_RULE",
     "category": "AUTO_PICKUP",
     "name": "Add rule",

@@ -1983,13 +1983,13 @@ class spellcasting_callback : public uilist_callback
         spellcasting_callback( std::vector<spell *> &spells,
                                bool casting_ignore ) : known_spells( spells ),
             casting_ignore( casting_ignore ) {}
-        bool key( const input_context &, const input_event &event, int entnum,
+        bool key( const input_context &ctxt, const input_event &event, int entnum,
                   uilist * /*menu*/ ) override {
-            int in_chr = event.get_first_input();
-            if( in_chr == 'I' ) {
+            const std::string &action = ctxt.input_to_action( event );
+            if( action == "CAST_IGNORE" ) {
                 casting_ignore = !casting_ignore;
                 return true;
-            } else if( in_chr == '=' ) {
+            } else if( action == "CHOOSE_INVLET" ) {
                 int invlet = 0;
                 invlet = popup_getkey( _( "Choose a new hotkey for this spell." ) );
                 if( inv_chars.valid( invlet ) ) {
@@ -2006,8 +2006,8 @@ class spellcasting_callback : public uilist_callback
                     get_player_character().magic->rem_invlet( known_spells[entnum]->id() );
                 }
                 return true;
-            } else if( in_chr == '<' || in_chr == '>' ) {
-                scroll_pos += in_chr == '>' ? 1 : -1;
+            } else if( action == "SCROLL_UP_SPELL_MENU" || action == "SCROLL_DOWN_SPELL_MENU" ) {
+                scroll_pos += action == "SCROLL_DOWN_SPELL_MENU" ? 1 : -1;
             }
             return false;
         }
@@ -2364,6 +2364,11 @@ int known_magic::select_spell( Character &guy )
         return calc_width() - max_spell_name_length - 5;
     };
     spell_menu.title = _( "Choose a Spell" );
+    spell_menu.input_category = "SPELL_MENU";
+    spell_menu.additional_actions.emplace_back( "CHOOSE_INVLET", translation() );
+    spell_menu.additional_actions.emplace_back( "CAST_IGNORE", translation() );
+    spell_menu.additional_actions.emplace_back( "SCROLL_UP_SPELL_MENU", translation() );
+    spell_menu.additional_actions.emplace_back( "SCROLL_DOWN_SPELL_MENU", translation() );
     spell_menu.hilight_disabled = true;
     spellcasting_callback cb( known_spells, casting_ignore );
     spell_menu.callback = &cb;
