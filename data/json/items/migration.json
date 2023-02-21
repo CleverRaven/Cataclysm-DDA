@@ -1959,5 +1959,17 @@
     "id": "steel_scissors",
     "type": "MIGRATION",
     "replace": "scissors"
+  },
+  {
+    "id": "teddy",
+    "type": "MIGRATION",
+    "replace": "teddy_bear",
+    "flags": [ "FILTHY" ]
+  },
+  {
+    "id": "toothbrush_dirty",
+    "type": "MIGRATION",
+    "replace": "toothbrush_plain",
+    "flags": [ "FILTHY" ]
   }
 ]

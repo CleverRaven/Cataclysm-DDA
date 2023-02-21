@@ -1278,5 +1278,28 @@
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 3 ], [ "FABRIC_CUT", 1 ] ],
     "flags": [ "STAB", "BELT_CLIP", "SHEATH_KNIFE" ],
     "weapon_category": [ "SHIVS" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "teddy",
+    "symbol": "o",
+    "color": "brown",
+    "name": { "str": "teddy bear" },
+    "description": "An old and half rotten teddy bear.  Looks like this one commemorates the grave of the child who once owned it.",
+    "price": 200,
+    "price_postapoc": 0,
+    "material": [ "cotton" ],
+    "weight": "514 g",
+    "volume": "750 ml",
+    "flags": [ "SLEEP_AID" ]
+  },
+  {
+    "id": "toothbrush_dirty",
+    "name": { "str": "dirty toothbrush", "str_pl": "dirty toothbrushes" },
+    "type": "GENERIC",
+    "description": "Someone has been using this plastic toothbrush to clean grease or muck.  It is now irrevocably dirty.",
+    "symbol": "/",
+    "flags": [ "FILTHY" ],
+    "copy-from": "base_toiletries"
   }
 ]

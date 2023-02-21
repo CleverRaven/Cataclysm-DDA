@@ -2956,20 +2956,6 @@
   },
   {
     "type": "GENERIC",
-    "id": "teddy",
-    "symbol": "o",
-    "color": "brown",
-    "name": { "str": "teddy bear" },
-    "description": "An old and half rotten teddy bear.  Looks like this one commemorates the grave of the child who once owned it.",
-    "price": 200,
-    "price_postapoc": 0,
-    "material": [ "cotton" ],
-    "weight": "514 g",
-    "volume": "750 ml",
-    "flags": [ "SLEEP_AID" ]
-  },
-  {
-    "type": "GENERIC",
     "id": "teddy_bear",
     "symbol": "o",
     "color": "brown",

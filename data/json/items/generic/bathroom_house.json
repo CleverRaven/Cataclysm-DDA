@@ -67,15 +67,6 @@
     ]
   },
   {
-    "id": "toothbrush_dirty",
-    "name": { "str": "dirty toothbrush", "str_pl": "dirty toothbrushes" },
-    "type": "GENERIC",
-    "description": "Someone has been using this plastic toothbrush to clean grease or muck.  It is now irrevocably dirty.",
-    "symbol": "/",
-    "flags": [ "FILTHY" ],
-    "copy-from": "base_toiletries"
-  },
-  {
     "id": "hairbrush",
     "name": { "str": "hairbrush", "str_pl": "hairbrushes" },
     "type": "GENERIC",
