@@ -11,6 +11,7 @@
 #include "cuboid_rectangle.h"
 #include "debug.h"
 #include "enums.h"
+#include "flag.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_category.h"
@@ -23,6 +24,7 @@
 #include "map.h"
 #include "map_selector.h"
 #include "memory_fast.h"
+#include "messages.h"
 #include "optional.h"
 #include "options.h"
 #include "output.h"
@@ -58,11 +60,40 @@
 #include <unordered_map>
 #include <vector>
 
+static const item_category_id item_category_BIONIC_FUEL_SOURCE( "BIONIC_FUEL_SOURCE" );
+static const item_category_id item_category_INTEGRATED( "INTEGRATED" );
 static const item_category_id item_category_ITEMS_WORN( "ITEMS_WORN" );
 static const item_category_id item_category_WEAPON_HELD( "WEAPON_HELD" );
 
 namespace
 {
+using startup_timer = std::chrono::time_point<std::chrono::system_clock, std::chrono::milliseconds>;
+startup_timer tp_start;
+
+void debug_print_timer( startup_timer const &tp, std::string const &msg = "inv_ui setup took" )
+{
+    startup_timer const tp_now =
+        std::chrono::time_point_cast<std::chrono::milliseconds>( std::chrono::system_clock::now() );
+    add_msg_debug( debugmode::DF_GAME, "%s: %i ms", msg, ( tp_now - tp ).count() );
+}
+
+using item_name_t = std::pair<std::string, std::string>;
+using name_cache_t = std::unordered_map<item const *, item_name_t>;
+name_cache_t item_name_cache;
+int item_name_cache_users = 0;
+
+item_name_t &get_cached_name( item const *it )
+{
+    auto iter = item_name_cache.find( it );
+    if( iter == item_name_cache.end() ) {
+        return item_name_cache
+               .emplace( it, item_name_t{ remove_color_tags( it->tname( 1, false, 0, true, false ) ),
+                                          remove_color_tags( it->tname( 1, true, 0, true, false ) ) } )
+               .first->second;
+    }
+
+    return iter->second;
+}
 
 // get topmost visible parent in an unbroken chain
 item *get_topmost_parent( item *topmost, item_location loc,
@@ -114,6 +145,29 @@ bool return_item( const inventory_entry &entry )
 bool is_container( const item_location &loc )
 {
     return loc.where() == item_location::type::container;
+}
+
+bool is_worn_id( item_category_id const &id )
+{
+    return id == item_category_ITEMS_WORN || id == item_category_INTEGRATED ||
+           id == item_category_BIONIC_FUEL_SOURCE;
+}
+
+item_category const *wielded_worn_category( item_location const &loc, Character const &u )
+{
+    if( loc == u.get_wielded_item() ) {
+        return &item_category_WEAPON_HELD.obj();
+    }
+    if( u.is_worn( *loc ) || ( loc.has_parent() && is_worn_ablative( loc.parent_item(), loc ) ) ) {
+        if( loc->has_flag( flag_BIONIC_FUEL_SOURCE ) ) {
+            return &item_category_BIONIC_FUEL_SOURCE.obj();
+        }
+        if( loc->has_flag( flag_INTEGRATED ) ) {
+            return &item_category_INTEGRATED.obj();
+        }
+        return &item_category_ITEMS_WORN.obj();
+    }
+    return nullptr;
 }
 
 } // namespace
@@ -179,14 +233,6 @@ struct container_data {
     }
 };
 
-static int contained_offset( const item_location &loc )
-{
-    if( !is_container( loc ) ) {
-        return 0;
-    }
-    return 2 + contained_offset( loc.parent_item() );
-}
-
 bool inventory_entry::operator==( const inventory_entry &other ) const
 {
     return get_category_ptr() == other.get_category_ptr() && locations == other.locations;
@@ -235,19 +281,16 @@ class selection_column_preset : public inventory_selector_preset
         }
 };
 
-struct inventory_selector_save_state {
-    public:
-        inventory_selector::uimode uimode = inventory_selector::uimode::categories;
-
-        void serialize( JsonOut &json ) const {
-            json.start_object();
-            json.member( "uimode", uimode );
-            json.end_object();
-        }
-        void deserialize( JsonObject const &jo ) {
-            jo.read( "uimode", uimode );
-        }
-};
+void inventory_selector_save_state::serialize( JsonOut &json ) const
+{
+    json.start_object();
+    json.member( "uimode", uimode );
+    json.end_object();
+}
+void inventory_selector_save_state::deserialize( JsonObject const &jo )
+{
+    jo.read( "uimode", uimode );
+}
 
 namespace io
 {
@@ -265,16 +308,25 @@ std::string enum_to_string<inventory_selector::uimode>( inventory_selector::uimo
 }
 } // namespace io
 
-static inventory_selector_save_state inventory_ui_default_state;
+static inventory_selector_save_state inventory_sel_default_state{ inventory_selector::uimode::categories };
+inventory_selector_save_state inventory_ui_default_state{ inventory_selector::uimode::categories };
+inventory_selector_save_state pickup_sel_default_state{ inventory_selector::uimode::categories };
+inventory_selector_save_state pickup_ui_default_state{ inventory_selector::uimode::hierarchy };
 
 void save_inv_state( JsonOut &json )
 {
+    json.member( "inventory_sel_default_state", inventory_sel_default_state );
     json.member( "inventory_ui_state", inventory_ui_default_state );
+    json.member( "pickup_sel_state", pickup_sel_default_state );
+    json.member( "pickup_ui_state", pickup_ui_default_state );
 }
 
 void load_inv_state( const JsonObject &jo )
 {
+    jo.read( "inventory_sel_default_state", inventory_sel_default_state );
     jo.read( "inventory_ui_state", inventory_ui_default_state );
+    jo.read( "pickup_sel_state", pickup_sel_default_state );
+    jo.read( "pickup_ui_state", pickup_ui_default_state );
 }
 
 void uistatedata::serialize( JsonOut &json ) const
@@ -509,8 +561,9 @@ nc_color inventory_entry::get_invlet_color() const
 
 void inventory_entry::update_cache()
 {
-    cached_name = any_item()->tname( 1, false );
-    cached_name_full = any_item()->tname();
+    item_name_t &names = get_cached_name( &*any_item() );
+    cached_name = &names.first;
+    cached_name_full = &names.second;
 }
 
 const item_category *inventory_entry::get_category_ptr() const
@@ -582,7 +635,7 @@ bool inventory_selector_preset::sort_compare( const inventory_entry &lhs,
         const inventory_entry &rhs ) const
 {
     auto const sort_key = []( inventory_entry const & e ) {
-        return std::make_tuple( e.cached_name, e.cached_name_full, e.generation );
+        return std::make_tuple( *e.cached_name, *e.cached_name_full, e.generation );
     };
     return localized_compare( sort_key( lhs ), sort_key( rhs ) );
 }
@@ -643,7 +696,7 @@ std::string inventory_selector_preset::get_cell_text( const inventory_entry &ent
         if( info_display != "NONE" ) {
             // if we want additional info for all items or it is worn then add the additional info
             if( info_display == "ALL" || ( info_display == "WORN" &&
-                                           entry.get_category_ptr()->get_id() == item_category_ITEMS_WORN &&
+                                           is_worn_id( entry.get_category_ptr()->get_id() ) &&
                                            actual_item.is_worn_by_player() ) ) {
                 if( cell_index == 0 && !text.empty() &&
                     actual_item.is_container() && actual_item.has_unrestricted_pockets() ) {
@@ -870,7 +923,7 @@ inventory_column::entry_cell_cache_t inventory_column::make_entry_cell_cache(
 
     result.assigned = true;
     result.color = preset.get_color( entry );
-    result.denial = preset.get_denial( entry );
+    result.denial = &entry.denial;
     result.text.resize( preset.get_cells_count() );
 
     for( size_t i = 0, n = preset.get_cells_count(); i < n; ++i ) {
@@ -945,16 +998,16 @@ void inventory_column::set_height( size_t new_height )
     }
 }
 
-void inventory_column::expand_to_fit( const inventory_entry &entry )
+void inventory_column::expand_to_fit( const inventory_entry &entry, bool with_denial )
 {
     if( !entry ) {
         return;
     }
 
     // Don't use cell cache here since the entry may not yet be placed into the vector of entries.
-    const std::string denial = preset.get_denial( entry );
+    const std::string &denial = entry.denial;
 
-    for( size_t i = 0, num = denial.empty() ? cells.size() : 1; i < num; ++i ) {
+    for( size_t i = 0, num = with_denial && denial.empty() ? cells.size() : 1; i < num; ++i ) {
         auto &cell = cells[i];
 
         cell.real_width = std::max( cell.real_width, get_entry_cell_width( entry, i ) );
@@ -966,7 +1019,7 @@ void inventory_column::expand_to_fit( const inventory_entry &entry )
         }
     }
 
-    if( !denial.empty() ) {
+    if( with_denial && !denial.empty() ) {
         reserved_width = std::max( get_entry_cell_width( entry, 0 ) + min_denial_gap + utf8_width( denial,
                                    true ),
                                    reserved_width );
@@ -1002,7 +1055,7 @@ bool inventory_column::has_available_choices() const
         return false;
     }
     for( size_t i = 0; i < entries.size(); ++i ) {
-        if( entries[i].is_item() && get_entry_cell_cache( i ).denial.empty() ) {
+        if( entries[i].is_item() && get_entry_cell_cache( i ).denial->empty() ) {
             return true;
         }
     }
@@ -1011,12 +1064,18 @@ bool inventory_column::has_available_choices() const
 
 bool inventory_column::is_selected( const inventory_entry &entry ) const
 {
+    return ( entry.is_selectable() && entry == get_highlighted() ) || ( multiselect &&
+            is_selected_by_category( entry ) );
+}
+
+bool inventory_column::is_highlighted( const inventory_entry &entry ) const
+{
     return entry == get_highlighted() || ( multiselect && is_selected_by_category( entry ) );
 }
 
 bool inventory_column::is_selected_by_category( const inventory_entry &entry ) const
 {
-    return entry.is_item() && mode == navigation_mode::CATEGORY
+    return entry.is_selectable() && mode == navigation_mode::CATEGORY
            && entry.get_category_ptr() == get_highlighted().get_category_ptr()
            && page_of( entry ) == page_index();
 }
@@ -1144,7 +1203,8 @@ void inventory_column::on_change( const inventory_entry &/* entry */ )
 
 inventory_entry *inventory_column::add_entry( const inventory_entry &entry )
 {
-    if( std::find( entries.begin(), entries.end(), entry ) != entries.end() ) {
+    entries_t &dest = entry.is_hidden() ? entries_hidden : entries;
+    if( std::find( dest.begin(), dest.end(), entry ) != dest.end() ) {
         debugmsg( "Tried to add a duplicate entry." );
         return nullptr;
     }
@@ -1153,14 +1213,15 @@ inventory_entry *inventory_column::add_entry( const inventory_entry &entry )
     if( entry.is_item() ) {
         item_location entry_item = entry.locations.front();
 
-        auto entry_with_loc = std::find_if( entries.begin(),
-        entries.end(), [&entry_item, this]( const inventory_entry & entry ) {
-            if( !entry.is_item() ) {
+        auto entry_with_loc = std::find_if( dest.begin(),
+        dest.end(), [&entry, &entry_item, this]( const inventory_entry & e ) {
+            if( !e.is_item() ) {
                 return false;
             }
-            item_location found_entry_item = entry.locations.front();
+            item_location found_entry_item = e.locations.front();
             // this would be much simpler if item::parent_item() didn't call debugmsg
-            return entry_item.where() == found_entry_item.where() &&
+            return e.get_category_ptr() == entry.get_category_ptr() &&
+                   entry_item.where() == found_entry_item.where() &&
                    entry_item.position() == found_entry_item.position() &&
                    ( ( !entry_item.has_parent() && !found_entry_item.has_parent() ) ||
                      ( entry_item.has_parent() && found_entry_item.has_parent() &&
@@ -1168,38 +1229,28 @@ inventory_entry *inventory_column::add_entry( const inventory_entry &entry )
                    entry_item->is_collapsed() == found_entry_item->is_collapsed() &&
                    entry_item->display_stacked_with( *found_entry_item, preset.get_checking_components() );
         } );
-        if( entry_with_loc != entries.end() ) {
-            std::vector<item_location> locations = entry_with_loc->locations;
-            locations.insert( locations.end(), entry.locations.begin(), entry.locations.end() );
-            inventory_entry nentry( locations, entry.get_category_ptr(), entry.is_selectable(), 0,
-                                    entry_with_loc->generation, entry_with_loc->topmost_parent,
-                                    entry_with_loc->chevron );
-            nentry.collapsed = entry_with_loc->collapsed;
-            entries.erase( entry_with_loc );
-            return add_entry( nentry );
+        if( entry_with_loc != dest.end() ) {
+            std::vector<item_location> &locations = entry_with_loc->locations;
+            std::move( entry.locations.begin(), entry.locations.end(), std::back_inserter( locations ) );
+            return &*entry_with_loc;
         }
     }
 
-    entries.emplace_back( entry );
-    return &entries.back();
-}
+    dest.emplace_back( entry );
+    inventory_entry &newent = dest.back();
+    newent.update_cache();
+    newent.denial = preset.get_denial( newent );
+    newent.enabled = newent.denial.empty();
 
-void inventory_column::_move_entries_to( entries_t const &ent, inventory_column &dest )
-{
-    for( const inventory_entry &elem : ent ) {
-        if( elem.is_item() &&
-            // this column already has this entry, no need to try to add it again
-            std::find( dest.entries.begin(), dest.entries.end(), elem ) == dest.entries.end() ) {
-            dest.add_entry( elem );
-        }
-    }
+    return &newent;
 }
 
 void inventory_column::move_entries_to( inventory_column &dest )
 {
-    _move_entries_to( entries, dest );
-    _move_entries_to( entries_hidden, dest );
-    dest.prepare_paging();
+    std::move( entries.begin(), entries.end(), std::back_inserter( dest.entries ) );
+    std::move( entries_hidden.begin(), entries_hidden.end(),
+               std::back_inserter( dest.entries_hidden ) );
+    dest.paging_is_valid = false;
     clear();
 }
 
@@ -1247,8 +1298,10 @@ bool inventory_column::indented_sort_compare( inventory_entry const &lhs,
         p_rhs = path_rhs[ri++];
     }
 
-    inventory_entry const ep_lhs( { p_lhs }, nullptr, true, 0, lhs.generation );
-    inventory_entry const ep_rhs( { p_rhs }, nullptr, true, 0, rhs.generation );
+    inventory_entry ep_lhs( { p_lhs }, nullptr, true, 0, lhs.generation );
+    inventory_entry ep_rhs( { p_rhs }, nullptr, true, 0, rhs.generation );
+    ep_lhs.update_cache();
+    ep_rhs.update_cache();
     return sort_compare( ep_lhs, ep_rhs );
 }
 
@@ -1366,7 +1419,7 @@ size_t inventory_column::get_entry_indent( const inventory_entry &entry ) const
         res += 2;
     }
     if( entry.is_item() && indent_entries() ) {
-        res += contained_offset( entry.locations.front() ) - parent_indentation;
+        res += entry.indent;
     }
 
     return res;
@@ -1427,7 +1480,7 @@ void inventory_column::draw( const catacurses::window &win, const point &p,
         int x2 = p.x + std::max( static_cast<int>( reserved_width - get_cells_width() ), 0 );
         int yy = p.y + line;
 
-        const bool selected = active && is_selected( entry );
+        const bool selected = active && is_highlighted( entry );
 
         const int hx_max = p.x + get_width();
         inclusive_rectangle<point> rect = inclusive_rectangle<point>( point( x1, yy ),
@@ -1441,7 +1494,7 @@ void inventory_column::draw( const catacurses::window &win, const point &p,
             }
         }
 
-        const std::string &denial = entry_cell_cache.denial;
+        const std::string &denial = *entry_cell_cache.denial;
 
         if( !denial.empty() ) {
             const size_t max_denial_width = std::max( static_cast<int>( get_width() - ( min_denial_gap +
@@ -1449,9 +1502,11 @@ void inventory_column::draw( const catacurses::window &win, const point &p,
             const size_t denial_width = std::min( max_denial_width, static_cast<size_t>( utf8_width( denial,
                                                   true ) ) );
 
-            trim_and_print( win, point( p.x + get_width() - denial_width, yy ),
-                            denial_width,
-                            c_red, denial );
+            if( denial_width > 0 ) {
+                trim_and_print( win, point( p.x + get_width() - denial_width, yy ),
+                                denial_width,
+                                c_red, denial );
+            }
         }
 
         size_t count = denial.empty() ? cells.size() : 1;
@@ -1569,7 +1624,7 @@ void selection_column::reset_width( const std::vector<inventory_column *> &all_c
         if( col && !dynamic_cast<const selection_column *>( col ) ) {
             for( const inventory_entry *const ent : col->get_entries( always_yes ) ) {
                 if( ent ) {
-                    expand_to_fit( *ent );
+                    expand_to_fit( *ent, false );
                 }
             }
         }
@@ -1583,7 +1638,7 @@ void selection_column::prepare_paging( const std::string & )
 
     if( entries.empty() ) { // Category must always persist
         entries.emplace_back( &*selected_cat );
-        expand_to_fit( entries.back() );
+        expand_to_fit( entries.back(), false );
     }
 
     if( !last_changed.is_null() ) {
@@ -1672,7 +1727,7 @@ inventory_entry *inventory_selector::add_entry( inventory_column &target_column,
 
     is_empty = false;
     inventory_entry entry( locations, custom_category,
-                           preset.get_denial( locations.front() ).empty(), chosen_count,
+                           true, chosen_count,
                            entry_generation_number++, topmost_parent, chevron );
 
     entry.collapsed = locations.front()->is_collapsed();
@@ -1690,17 +1745,22 @@ bool inventory_selector::add_entry_rec( inventory_column &entry_column,
                                         inventory_column &children_column, item_location &loc,
                                         item_category const *entry_category,
                                         item_category const *children_category,
-                                        item *topmost_parent )
+                                        item *topmost_parent, int indent )
 {
-    bool const vis_contents =
-        add_contained_items( loc, children_column, children_category,
-                             get_topmost_parent( topmost_parent, loc, preset ) );
+    inventory_column temp_children( preset );
+    bool vis_contents =
+        add_contained_items( loc, temp_children, children_category,
+                             get_topmost_parent( topmost_parent, loc, preset ),
+                             preset.is_shown( loc ) ? indent + 2 : indent );
     inventory_entry *const nentry = add_entry( entry_column, std::vector<item_location>( 1, loc ),
                                     entry_category, 0, topmost_parent );
     if( nentry != nullptr ) {
         nentry->chevron = vis_contents;
-        return true;
+        nentry->indent = indent;
+        vis_contents = true;
     }
+    temp_children.move_entries_to( children_column );
+
     return vis_contents;
 }
 
@@ -1710,7 +1770,7 @@ bool inventory_selector::add_contained_items( item_location &container )
 }
 
 bool inventory_selector::add_contained_items( item_location &container, inventory_column &column,
-        const item_category *const custom_category, item *topmost_parent )
+        const item_category *const custom_category, item *topmost_parent, int indent )
 {
     if( container->has_flag( STATIC( flag_id( "NO_UNLOAD" ) ) ) ) {
         return false;
@@ -1721,6 +1781,7 @@ bool inventory_selector::add_contained_items( item_location &container, inventor
                                     : container->all_items_top( preset.get_pocket_type() );
 
     bool vis_top = false;
+    inventory_column temp( preset );
     for( item *it : items ) {
         item_location child( container, it );
         item_category const *hacked_cat = custom_category;
@@ -1729,9 +1790,10 @@ bool inventory_selector::add_contained_items( item_location &container, inventor
             hacked_cat = &item_category_ITEMS_WORN.obj();
             hacked_col = &own_gear_column;
         }
-        vis_top |= add_entry_rec( *hacked_col, column, child, hacked_cat, custom_category,
-                                  topmost_parent );
+        vis_top |= add_entry_rec( *hacked_col, temp, child, hacked_cat, custom_category,
+                                  topmost_parent, indent );
     }
+    temp.move_entries_to( column );
     return vis_top;
 }
 
@@ -1757,11 +1819,13 @@ void inventory_selector::add_character_items( Character &character )
                        hierarchy ? &item_category_WEAPON_HELD.obj() : nullptr );
     }
     for( item_location &worn_item : character.top_items_loc() ) {
+        item_category const *const custom_cat = wielded_worn_category( worn_item, u );
         add_entry_rec( own_gear_column, hierarchy ? own_gear_column : own_inv_column, worn_item,
-                       &item_category_ITEMS_WORN.obj(),
-                       hierarchy ? &item_category_ITEMS_WORN.obj() : nullptr );
+                       custom_cat, hierarchy ? custom_cat : nullptr );
     }
-    own_inv_column.set_indent_entries_override( false );
+    if( !hierarchy ) {
+        own_inv_column.set_indent_entries_override( false );
+    }
 }
 
 void inventory_selector::add_map_items( const tripoint &target )
@@ -1797,13 +1861,22 @@ void inventory_selector::add_vehicle_items( const tripoint &target )
 void inventory_selector::_add_map_items( tripoint const &target, item_category const &cat,
         item_stack &items, std::function<item_location( item & )> const &floc )
 {
-    item_category const *const custom_cat =
-        _categorize_map_items ? nullptr : naturalize_category( cat, target );
+    bool const hierarchy = _uimode == uimode::hierarchy;
+    item_category const *const custom_cat = hierarchy ? naturalize_category( cat, target ) : nullptr;
     inventory_column *const col = _categorize_map_items ? &own_inv_column : &map_column;
 
+    inventory_column temp( preset );
+    inventory_column temp_cont( preset );
     for( item &it : items ) {
         item_location loc = floc( it );
-        add_entry_rec( *col, *col, loc, custom_cat, custom_cat );
+        add_entry_rec( temp, temp_cont, loc, custom_cat, custom_cat );
+    }
+
+    temp.move_entries_to( *col );
+    temp_cont.move_entries_to( *col );
+
+    if( !hierarchy ) {
+        col->set_indent_entries_override( false );
     }
 }
 
@@ -1912,14 +1985,18 @@ void inventory_selector::rearrange_columns( size_t client_width )
     const inventory_entry &prev_entry = get_highlighted();
     const item_location prev_selection = prev_entry.is_item() ?
                                          prev_entry.any_item() : item_location::nowhere;
-    while( is_overflown( client_width ) ) {
-        if( !own_gear_column.empty() ) {
-            own_gear_column.move_entries_to( own_inv_column );
-        } else if( !map_column.empty() ) {
-            map_column.move_entries_to( own_inv_column );
-        } else {
-            break;  // There's nothing we can do about it.
+    if( is_overflown( client_width ) && !own_gear_column.empty() ) {
+        if( own_inv_column.empty() ) {
+            own_inv_column.set_indent_entries_override( own_gear_column.indent_entries() );
         }
+        own_gear_column.move_entries_to( own_inv_column );
+        own_inv_column.reset_width( {} );
+    }
+    if( is_overflown( client_width ) && !map_column.empty() ) {
+        if( own_inv_column.empty() ) {
+            own_inv_column.set_indent_entries_override( map_column.indent_entries() );
+        }
+        map_column.move_entries_to( own_inv_column );
     }
     if( prev_selection ) {
         highlight( prev_selection );
@@ -1988,6 +2065,9 @@ void inventory_selector::reassign_custom_invlets()
 
 void inventory_selector::prepare_layout()
 {
+    startup_timer const tp_prep =
+        std::chrono::time_point_cast<std::chrono::milliseconds>( std::chrono::system_clock::now() );
+
     const auto snap = []( size_t cur_dim, size_t max_dim ) {
         return cur_dim + 2 * max_win_snap_distance >= max_dim ? max_dim : cur_dim;
     };
@@ -2007,6 +2087,8 @@ void inventory_selector::prepare_layout()
     prepare_layout( win_width - nc_width, win_height - nc_height );
 
     resize_window( win_width, win_height );
+
+    debug_print_timer( tp_prep, "prepare_layout took" );
 }
 
 shared_ptr_fast<ui_adaptor> inventory_selector::create_or_get_ui_adaptor()
@@ -2373,6 +2455,9 @@ void inventory_selector::draw_footer( const catacurses::window &w ) const
             wprintz( w, c_light_gray, " >" );
         }
 
+        right_print( w, getmaxy( w ) - border, border + 1, c_light_gray,
+                     string_format( "< [%s] %s >", ctxt.get_desc( "VIEW_CATEGORY_MODE" ),
+                                    io::enum_to_string( _uimode ) ) );
         const auto footer = get_footer( mode );
         if( !footer.first.empty() ) {
             const int string_width = utf8_width( footer.first );
@@ -2398,8 +2483,12 @@ inventory_selector::inventory_selector( Character &u, const inventory_selector_p
     , own_inv_column( preset )
     , own_gear_column( preset )
     , map_column( preset )
-    , _uimode( inventory_ui_default_state.uimode )
+    , _uimode( preset.save_state == nullptr ? inventory_sel_default_state.uimode :
+               preset.save_state->uimode )
 {
+    item_name_cache_users++;
+    tp_start =
+        std::chrono::time_point_cast<std::chrono::milliseconds>( std::chrono::system_clock::now() );
     ctxt.register_action( "DOWN", to_translation( "Next item" ) );
     ctxt.register_action( "UP", to_translation( "Previous item" ) );
     ctxt.register_action( "PAGE_DOWN", to_translation( "Page down" ) );
@@ -2435,7 +2524,15 @@ inventory_selector::inventory_selector( Character &u, const inventory_selector_p
 
 inventory_selector::~inventory_selector()
 {
-    inventory_ui_default_state.uimode = _uimode;
+    item_name_cache_users--;
+    if( item_name_cache_users <= 0 ) {
+        item_name_cache.clear();
+    }
+    if( preset.save_state == nullptr ) {
+        inventory_sel_default_state.uimode = _uimode;
+    } else {
+        preset.save_state->uimode = _uimode;
+    }
 }
 
 bool inventory_selector::empty() const
@@ -2622,14 +2719,8 @@ void inventory_selector::_categorize( inventory_column &col )
     // Remove custom category and allow entries to categorize by their item's category
     for( inventory_entry *entry : col.get_entries( return_item, true ) ) {
         const item_location loc = entry->any_item();
-        const item_category *custom_category = nullptr;
-
         // ensure top-level equipped entries don't lose their special categories
-        if( loc == u.get_wielded_item() ) {
-            custom_category = &item_category_WEAPON_HELD.obj();
-        } else if( u.is_worn( *loc ) ) {
-            custom_category = &item_category_ITEMS_WORN.obj();
-        }
+        const item_category *custom_category = wielded_worn_category( loc, u );
 
         entry->set_custom_category( custom_category );
     }
@@ -2652,10 +2743,8 @@ void inventory_selector::_uncategorize( inventory_column &col )
             const std::string name = to_upper_case( remove_color_tags( ancestor.describe() ) );
             const item_category map_cat( name, no_translation( name ), 100 );
             custom_category = naturalize_category( map_cat, ancestor.position() );
-        } else if( ancestor == u.get_wielded_item() ) {
-            custom_category = &item_category_WEAPON_HELD.obj();
-        } else if( u.is_worn( *ancestor ) ) {
-            custom_category = &item_category_ITEMS_WORN.obj();
+        } else {
+            custom_category = wielded_worn_category( ancestor, u );
         }
 
         entry->set_custom_category( custom_category );
@@ -2773,6 +2862,7 @@ std::string inventory_selector::action_bound_to_key( char key ) const
 item_location inventory_pick_selector::execute()
 {
     shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
+    debug_print_timer( tp_start );
     while( true ) {
         ui_manager::redraw();
         const inventory_input input = get_input();
@@ -2796,6 +2886,16 @@ item_location inventory_pick_selector::execute()
             on_input( input );
         }
     }
+}
+
+inventory_selector::stats container_inventory_selector::get_raw_stats() const
+{
+    return get_weight_and_volume_stats( loc->get_total_contained_weight(),
+                                        loc->get_total_weight_capacity(),
+                                        loc->get_total_contained_volume(), loc->get_total_capacity(),
+                                        loc->max_containable_length(), loc->max_containable_volume(),
+                                        loc->get_total_holster_volume() - loc->get_used_holster_volume(),
+                                        loc->get_used_holsters(), loc->get_total_holsters() );
 }
 
 void inventory_selector::action_examine( const item_location &sitem )
@@ -3026,7 +3126,7 @@ void inventory_multiselector::toggle_entries( int &count, const toggle_mode mode
 drop_locations inventory_multiselector::execute()
 {
     shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
-
+    debug_print_timer( tp_start );
     while( true ) {
         ui_manager::redraw();
 
@@ -3061,6 +3161,7 @@ inventory_compare_selector::inventory_compare_selector( Character &p ) :
 std::pair<const item *, const item *> inventory_compare_selector::execute()
 {
     shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
+    debug_print_timer( tp_start );
     while( true ) {
         ui_manager::redraw();
 
@@ -3249,7 +3350,7 @@ void inventory_multiselector::on_input( const inventory_input &input )
 drop_locations inventory_drop_selector::execute()
 {
     shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
-
+    debug_print_timer( tp_start );
     while( true ) {
         ui_manager::redraw();
 
@@ -3342,6 +3443,7 @@ void pickup_selector::apply_selection( std::vector<drop_location> selection )
 drop_locations pickup_selector::execute()
 {
     shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
+    debug_print_timer( tp_start );
 
     while( true ) {
         ui_manager::redraw();
@@ -3379,9 +3481,12 @@ drop_locations pickup_selector::execute()
 
 bool pickup_selector::wield( int &count )
 {
-    std::vector<inventory_entry *> selected = get_active_column().get_all_selected();
+    inventory_entry &selected = get_active_column().get_highlighted();
+    if( !selected.is_item() ) {
+        return false;
+    }
 
-    item_location it = selected.front()->any_item();
+    item_location it = selected.any_item();
     if( count == 0 ) {
         count = INT_MAX;
     }
@@ -3401,9 +3506,12 @@ bool pickup_selector::wield( int &count )
 
 bool pickup_selector::wear()
 {
-    std::vector<inventory_entry *> selected = get_active_column().get_all_selected();
+    inventory_entry &selected = get_active_column().get_highlighted();
+    if( !selected.is_item() ) {
+        return false;
+    }
 
-    std::vector<item_location> items{ selected.front()->any_item() };
+    std::vector<item_location> items{ selected.any_item() };
     std::vector<int> quantities{ 0 };
 
     if( u.can_wear( *items.front() ).success() ) {
@@ -3512,11 +3620,8 @@ int inventory_examiner::execute()
     if( !check_parent_item() ) {
         return NO_CONTENTS_TO_EXAMINE;
     }
-
-    //Account for the indentation from the fact we're looking into a container
-    get_visible_columns().front()->set_parent_indentation( contained_offset( parent_item ) + 2 );
-
     shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
+    debug_print_timer( tp_start );
 
     ui_adaptor ui_examine;
 
@@ -3591,7 +3696,7 @@ trade_selector::trade_selector( trade_ui *parent, Character &u,
                                 std::string const &selection_column_title,
                                 point const &size, point const &origin )
     : inventory_drop_selector( u, preset, selection_column_title ), _parent( parent ),
-      _ctxt_trade( "INVENTORY" )
+      _ctxt_trade( "INVENTORY", keyboard_mode::keychar )
 {
     _ctxt_trade.register_action( ACTION_SWITCH_PANES );
     _ctxt_trade.register_action( ACTION_TRADE_CANCEL );
@@ -3614,6 +3719,7 @@ trade_selector::select_t trade_selector::to_trade() const
 
 void trade_selector::execute()
 {
+    debug_print_timer( tp_start );
     bool exit = false;
 
     get_active_column().on_activate();

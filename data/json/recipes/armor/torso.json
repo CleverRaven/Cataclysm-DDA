@@ -525,6 +525,7 @@
     "copy-from": "cuirass_lightplate",
     "time": "9 h",
     "using": [ [ "tailoring_leather_patchwork", 1 ], [ "blacksmithing_standard", 24 ], [ "steel_standard", 6 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
   },
   {
@@ -560,6 +561,7 @@
     "type": "recipe",
     "copy-from": "cuirass_scrap",
     "time": "3 h",
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 } ],
     "using": [ [ "cordage", 1 ], [ "mixed_steel", 1 ] ],
     "components": [ [ [ "cotton_patchwork", 6 ] ] ]
   },
@@ -568,6 +570,7 @@
     "type": "recipe",
     "copy-from": "cuirass_scrap",
     "time": "3 h 20 m",
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 } ],
     "using": [ [ "cordage", 3 ], [ "mixed_steel", 1 ] ],
     "components": [ [ [ "cotton_patchwork", 10 ] ] ]
   },
@@ -594,6 +597,7 @@
     "copy-from": "cuirass_tire",
     "time": "45 m",
     "using": [ [ "cordage", 2 ] ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "LEATHER_AWL", "level": 1 }, { "id": "SEW_CURVED", "level": 1 } ],
     "components": [ [ [ "rubber_tire_chunk", 6 ] ] ]
   },
   {
@@ -747,16 +751,12 @@
     "skills_required": [ "fabrication", 5 ],
     "time": "12 h 10 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 135 ], [ "fabric_standard_nostretch", 19 ] ],
+    "using": [ [ "sewing_standard", 135 ], [ "tailoring_canvas_patchwork", 19 ] ],
     "components": [
       [ [ "coat_rain", 1 ] ],
-      [ [ "duster", 1 ], [ "jacket_army", 1 ], [ "jacket_army_modern", 1 ] ],
-      [
-        [ "kevlar", 1 ],
-        [ "ballistic_vest_light", 1 ],
-        [ "ballistic_vest_esapi", 1 ],
-        [ "sheet_kevlar_layered", 16 ]
-      ],
+      [ [ "duster", 1 ] ],
+      [ [ "kevlar", 1 ], [ "sheet_kevlar", 100 ] ],
+      [ [ "sheet_kevlar", 25 ] ],
       [
         [ "tacvest", 1 ],
         [ "legrig", 1 ],
@@ -781,16 +781,12 @@
     "type": "recipe",
     "copy-from": "duster_survivor",
     "time": "12 h 10 m",
-    "using": [ [ "sewing_standard", 101 ], [ "fabric_standard_nostretch", 14 ] ],
+    "using": [ [ "sewing_standard", 101 ], [ "tailoring_canvas_patchwork", 14 ] ],
     "components": [
       [ [ "coat_rain", 1 ] ],
-      [ [ "duster", 1 ], [ "jacket_army", 1 ], [ "jacket_army_modern", 1 ] ],
-      [
-        [ "kevlar", 1 ],
-        [ "ballistic_vest_light", 1 ],
-        [ "ballistic_vest_esapi", 1 ],
-        [ "sheet_kevlar_layered", 16 ]
-      ],
+      [ [ "duster", 1 ], [ "xs_duster", 1 ] ],
+      [ [ "kevlar", 1 ], [ "sheet_kevlar", 90 ] ],
+      [ [ "sheet_kevlar", 20 ] ],
       [
         [ "tacvest", 1 ],
         [ "legrig", 1 ],
@@ -810,11 +806,12 @@
     "type": "recipe",
     "copy-from": "duster_survivor",
     "time": "13 h 40 m",
-    "using": [ [ "sewing_standard", 175 ], [ "fabric_standard_nostretch", 26 ] ],
+    "using": [ [ "sewing_standard", 175 ], [ "tailoring_canvas_patchwork", 26 ] ],
     "components": [
       [ [ "coat_rain", 2 ] ],
-      [ [ "jacket_army", 2 ], [ "jacket_army_modern", 2 ], [ "xl_duster", 1 ] ],
-      [ [ "kevlar", 2 ], [ "ballistic_vest_esapi", 2 ], [ "sheet_kevlar_layered", 32 ] ],
+      [ [ "xl_duster", 1 ] ],
+      [ [ "kevlar", 1 ], [ "sheet_kevlar", 140 ] ],
+      [ [ "sheet_kevlar", 35 ] ],
       [
         [ "tacvest", 1 ],
         [ "legrig", 1 ],
@@ -1468,13 +1465,9 @@
     "using": [ [ "tailoring_cotton_patchwork", 12 ] ],
     "components": [
       [ [ "coat_rain", 1 ] ],
-      [ [ "duster", 1 ], [ "jacket_army", 1 ], [ "jacket_army_modern", 1 ], [ "sleeveless_duster", 1 ] ],
-      [
-        [ "kevlar", 1 ],
-        [ "ballistic_vest_light", 1 ],
-        [ "ballistic_vest_esapi", 1 ],
-        [ "sheet_kevlar_layered", 13 ]
-      ],
+      [ [ "duster", 1 ], [ "sleeveless_duster", 1 ] ],
+      [ [ "kevlar", 1 ], [ "sheet_kevlar", 90 ] ],
+      [ [ "sheet_kevlar", 20 ] ],
       [
         [ "tacvest", 1 ],
         [ "legrig", 1 ],
@@ -1647,16 +1640,12 @@
     "skills_required": [ "fabrication", 5 ],
     "time": "11 h 45 m",
     "autolearn": true,
-    "using": [ [ "tailoring_cotton_patchwork", 12 ] ],
+    "using": [ [ "tailoring_canvas_patchwork", 12 ] ],
     "components": [
       [ [ "coat_rain", 1 ] ],
-      [ [ "trenchcoat", 1 ], [ "jacket_army", 1 ], [ "jacket_army_modern", 1 ], [ "sleeveless_trenchcoat", 1 ] ],
-      [
-        [ "kevlar", 1 ],
-        [ "ballistic_vest_light", 1 ],
-        [ "ballistic_vest_esapi", 1 ],
-        [ "sheet_kevlar_layered", 10 ]
-      ],
+      [ [ "trenchcoat", 1 ], [ "sleeveless_trenchcoat", 1 ] ],
+      [ [ "kevlar", 1 ], [ "sheet_kevlar", 100 ] ],
+      [ [ "sheet_kevlar", 20 ] ],
       [
         [ "tacvest", 1 ],
         [ "legrig", 1 ],
@@ -1960,16 +1949,12 @@
     "skills_required": [ "fabrication", 5 ],
     "time": "10 h 30 m",
     "autolearn": true,
-    "using": [ [ "tailoring_cotton_patchwork", 16 ] ],
+    "using": [ [ "tailoring_canvas_patchwork", 16 ] ],
     "components": [
       [ [ "coat_rain", 1 ] ],
-      [ [ "trenchcoat", 1 ], [ "jacket_army_modern", 1 ], [ "jacket_army", 1 ], [ "jacket_army_modern", 1 ] ],
-      [
-        [ "kevlar", 1 ],
-        [ "ballistic_vest_light", 1 ],
-        [ "ballistic_vest_esapi", 1 ],
-        [ "sheet_kevlar_layered", 12 ]
-      ],
+      [ [ "trenchcoat", 1 ] ],
+      [ [ "kevlar", 1 ], [ "sheet_kevlar", 110 ] ],
+      [ [ "sheet_kevlar", 25 ] ],
       [
         [ "tacvest", 1 ],
         [ "legrig", 1 ],
@@ -2164,6 +2149,154 @@
     "autolearn": true,
     "reversible": true,
     "using": [ [ "tailoring_felt_patchwork", 20 ] ]
+  },
+  {
+    "result": "armor_lamellar_lc",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "time": "8 h",
+    "book_learn": [ [ "textbook_armwest", 2 ], [ "textbook_armeast", 2 ], [ "textbook_armschina", 2 ] ],
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
+    "using": [ [ "cordage", 110 ], [ "fabric_leather_fur_hide", 1 ] ],
+    "components": [ [ [ "lamellae_lc", 864 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_closures" },
+      {
+        "proficiency": "prof_leatherworking_basic",
+        "time_multiplier": 1.15,
+        "fail_multiplier": 1.15,
+        "learning_time_multiplier": 0.5
+      }
+    ]
+  },
+  {
+    "result": "xs_armor_lamellar_lc",
+    "type": "recipe",
+    "copy-from": "armor_lamellar_lc",
+    "time": "6 h",
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
+    "using": [ [ "cordage", 90 ], [ "fabric_leather_fur_hide", 1 ] ],
+    "components": [ [ [ "lamellae_lc", 648 ] ] ]
+  },
+  {
+    "result": "xl_armor_lamellar_lc",
+    "type": "recipe",
+    "copy-from": "armor_lamellar_lc",
+    "time": "10 h",
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
+    "using": [ [ "cordage", 140 ], [ "fabric_leather_fur_hide", 2 ] ],
+    "components": [ [ [ "lamellae_lc", 1080 ] ] ]
+  },
+  {
+    "result": "armor_lamellar_lc",
+    "type": "recipe",
+    "id_suffix": "repair",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "time": "30 m",
+    "book_learn": [ [ "textbook_armwest", 2 ], [ "textbook_armeast", 2 ], [ "textbook_armschina", 2 ] ],
+    "using": [ [ "cordage", 6 ] ],
+    "components": [ [ [ "lamellae_lc", 18 ] ], [ [ "armor_lamellar_lc", 1 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_closures" } ]
+  },
+  {
+    "result": "xs_armor_lamellar_lc",
+    "type": "recipe",
+    "copy-from": "armor_lamellar_lc_repair",
+    "id_suffix": "repair",
+    "time": "30 m",
+    "using": [ [ "cordage", 4 ] ],
+    "components": [ [ [ "lamellae_lc", 12 ] ], [ [ "xs_armor_lamellar_lc", 1 ] ] ]
+  },
+  {
+    "result": "xl_armor_lamellar_lc",
+    "type": "recipe",
+    "copy-from": "armor_lamellar_lc_repair",
+    "id_suffix": "repair",
+    "time": "30 m",
+    "using": [ [ "cordage", 8 ] ],
+    "components": [ [ [ "lamellae_lc", 24 ] ], [ [ "xl_armor_lamellar_lc", 1 ] ] ]
+  },
+  {
+    "result": "armor_lamellar_ch",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "time": "8 h",
+    "book_learn": [ [ "textbook_armwest", 2 ], [ "textbook_armeast", 2 ], [ "textbook_armschina", 2 ] ],
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
+    "using": [ [ "cordage", 110 ], [ "fabric_leather_fur_hide", 1 ] ],
+    "components": [ [ [ "lamellae_ch", 864 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_closures" },
+      {
+        "proficiency": "prof_leatherworking_basic",
+        "time_multiplier": 1.15,
+        "fail_multiplier": 1.15,
+        "learning_time_multiplier": 0.5
+      }
+    ]
+  },
+  {
+    "result": "xs_armor_lamellar_ch",
+    "type": "recipe",
+    "copy-from": "armor_lamellar_ch",
+    "time": "6 h",
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
+    "using": [ [ "cordage", 90 ], [ "fabric_leather_fur_hide", 1 ] ],
+    "components": [ [ [ "lamellae_ch", 648 ] ] ]
+  },
+  {
+    "result": "xl_armor_lamellar_ch",
+    "type": "recipe",
+    "copy-from": "armor_lamellar_ch",
+    "time": "10 h",
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
+    "using": [ [ "cordage", 140 ], [ "fabric_leather_fur_hide", 2 ] ],
+    "components": [ [ [ "lamellae_ch", 1080 ] ] ]
+  },
+  {
+    "result": "armor_lamellar_ch",
+    "type": "recipe",
+    "id_suffix": "repair",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "time": "30 m",
+    "book_learn": [ [ "textbook_armwest", 2 ], [ "textbook_armeast", 2 ], [ "textbook_armschina", 2 ] ],
+    "using": [ [ "cordage", 6 ] ],
+    "components": [ [ [ "lamellae_ch", 18 ] ], [ [ "armor_lamellar_ch", 1 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_closures" } ]
+  },
+  {
+    "result": "xs_armor_lamellar_ch",
+    "type": "recipe",
+    "copy-from": "armor_lamellar_ch_repair",
+    "id_suffix": "repair",
+    "time": "30 m",
+    "using": [ [ "cordage", 4 ] ],
+    "components": [ [ [ "lamellae_ch", 12 ] ], [ [ "xs_armor_lamellar_ch", 1 ] ] ]
+  },
+  {
+    "result": "xl_armor_lamellar_ch",
+    "type": "recipe",
+    "copy-from": "armor_lamellar_ch_repair",
+    "id_suffix": "repair",
+    "time": "30 m",
+    "using": [ [ "cordage", 8 ] ],
+    "components": [ [ [ "lamellae_ch", 24 ] ], [ [ "xl_armor_lamellar_ch", 1 ] ] ]
   },
   {
     "result": "lc_chainmail_vest",
@@ -2908,5 +3041,35 @@
     "reversible": true,
     "using": [ [ "tailoring_leather_patchwork", 2 ], [ "clasps", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking_basic" } ]
+  },
+  {
+    "result": "armor_larmor_chest",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "time": "12 h",
+    "autolearn": true,
+    "byproducts": [ [ "leather", 2 ], [ "scrap_leather", 5 ] ],
+    "using": [ [ "tailoring_leather_patchwork", 7 ] ],
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ]
+  },
+  {
+    "result": "armor_larmor_chest_xs",
+    "type": "recipe",
+    "copy-from": "armor_larmor_chest",
+    "time": "12 h",
+    "byproducts": [ [ "leather", 6 ], [ "scrap_leather", 1 ] ],
+    "using": [ [ "tailoring_leather_patchwork", 5 ] ]
+  },
+  {
+    "result": "xl_armor_larmor_chest",
+    "type": "recipe",
+    "copy-from": "armor_larmor_chest",
+    "time": "14 h",
+    "byproducts": [ [ "leather", 2 ], [ "scrap_leather", 1 ] ],
+    "using": [ [ "tailoring_leather_patchwork", 9 ] ]
   }
 ]

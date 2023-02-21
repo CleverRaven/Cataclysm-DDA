@@ -645,6 +645,7 @@
       "style_aikido",
       "style_barbaran",
       "style_biojutsu",
+      "style_bojutsu",
       "style_boxing",
       "style_capoeira",
       "style_crane",
@@ -653,8 +654,10 @@
       "style_fencing",
       "style_judo",
       "style_karate",
+      "style_kickboxing",
       "style_krav_maga",
       "style_leopard",
+      "style_medievalpole",
       "style_muay_thai",
       "style_ninjutsu",
       "style_niten",
@@ -662,6 +665,7 @@
       "style_silat",
       "style_snake",
       "style_sojutsu",
+      "style_swordsmanship",
       "style_taekwondo",
       "style_tai_chi",
       "style_tiger",
@@ -710,7 +714,10 @@
       "VOMITOUS",
       "EATPOISON",
       "EATDEAD",
-      "ALCMET"
+      "ALCMET",
+      "SAPROVORE",
+      "LACTOSE",
+      "GRAZER"
     ]
   },
   {
@@ -1327,18 +1334,6 @@
     "act_cost": "4500 J"
   },
   {
-    "id": "bio_railgun",
-    "type": "bionic",
-    "name": { "str": "Railgun" },
-    "description": "EM field generators in your arms double the range and damage of thrown iron and steel objects at a cost of 10 power per throw, causing them to leave a trail of electricity that can cause additional damage.",
-    "occupied_bodyparts": [ [ "arm_l", 5 ], [ "arm_r", 5 ], [ "hand_l", 1 ], [ "hand_r", 1 ] ],
-    "flags": [ "BIONIC_TOGGLED" ],
-    "act_cost": "1 kJ",
-    "react_cost": "100 J",
-    "trigger_cost": "10 kJ",
-    "time": "1 s"
-  },
-  {
     "id": "bio_razors",
     "type": "bionic",
     "name": { "str": "Fingertip Razors" },
@@ -1790,5 +1785,14 @@
     "dupes_allowed": true,
     "power_trickle": "2 J",
     "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
+  },
+  {
+    "id": "bio_pitch_perfect",
+    "type": "bionic",
+    "name": { "str": "Throwing Assist" },
+    "description": "Taken from a world that embraced cybernetics in their sports, this CBM links the eyes to a series of nerve stimulators along the arms and hands.  The result is a significant increase to throwing accuracy, and it turns out it works great with fragmentation grenades.",
+    "occupied_bodyparts": [ [ "eyes", 1 ], [ "arm_l", 2 ], [ "arm_r", 2 ], [ "hand_l", 2 ], [ "hand_r", 2 ] ],
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
+    "enchantments": [ { "condition": "ALWAYS", "skills": [ { "value": "throw", "add": 5 } ] } ]
   }
 ]

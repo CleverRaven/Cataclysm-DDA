@@ -13,6 +13,7 @@
     "symbol": "=",
     "color": "yellow",
     "looks_like": "tailor_portfolio",
+    "scannable": false,
     "use_action": { "type": "learn_spell", "spells": [ "summon_battery_gun" ] }
   },
   {
@@ -29,6 +30,7 @@
     "symbol": "=",
     "color": "light_cyan",
     "looks_like": "tailor_portfolio",
+    "scannable": false,
     "use_action": { "type": "learn_spell", "spells": [ "summon_ray_gun" ] }
   },
   {
@@ -46,6 +48,7 @@
     "symbol": "[",
     "looks_like": "mask_gas",
     "color": "dark_gray",
+    "scannable": false,
     "use_action": { "type": "learn_spell", "spells": [ "summon_mace_magic" ] }
   },
   {
@@ -61,6 +64,7 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "*",
     "color": "black",
+    "scannable": false,
     "use_action": { "type": "learn_spell", "spells": [ "firmament_driver" ] }
   },
   {
@@ -76,7 +80,8 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": ".",
     "color": "red",
-    "use_action": { "type": "learn_spell", "spells": [ "summon_bio_launcher" ] }
+    "scannable": false,
+    "use_action": { "type": "learn_spell", "spells": [ "summon_bio_launcher", "summon_bio_warhead" ] }
   },
   {
     "id": "money_strap_magic",
@@ -90,6 +95,7 @@
     "material": [ "forged_dreamstuff" ],
     "color": "green",
     "symbol": "$",
+    "scannable": false,
     "use_action": { "type": "learn_spell", "spells": [ "summon_rip_ticket" ] }
   },
   {
@@ -106,6 +112,7 @@
     "symbol": "[",
     "looks_like": "scarf",
     "color": "white",
+    "scannable": false,
     "use_action": { "type": "learn_spell", "spells": [ "summon_helmet_inventor" ] }
   },
   {
@@ -120,6 +127,7 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "?",
     "looks_like": "textbook_anarch",
+    "scannable": false,
     "use_action": { "type": "learn_spell", "spells": [ "summon_ion_gun" ] }
   }
 ]

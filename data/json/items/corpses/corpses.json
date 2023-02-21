@@ -25,6 +25,7 @@
         "max_item_volume": "150 L",
         "max_item_length": "60 meter",
         "rigid": false,
+        "forbidden": true,
         "transparent": true
       }
     ]

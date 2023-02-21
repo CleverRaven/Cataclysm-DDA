@@ -215,6 +215,7 @@ enum class get_body_part_flags : int {
     only_main = 1 << 0,
     sorted = 1 << 1,
     primary_type = 1 << 2,
+    only_minor = 1 << 3
 };
 
 template<>
@@ -753,6 +754,12 @@ class Creature : public viewer
         body_part_set get_drenching_body_parts( bool upper = true, bool mid = true,
                                                 bool lower = true ) const;
 
+        /* Returns the number of bodyparts of a given type*/
+        int get_num_body_parts_of_type( body_part_type::type part_type ) const;
+
+        /* Returns the number of broken bodyparts of a given type */
+        int get_num_broken_body_parts_of_type( body_part_type::type part_type ) const;
+
         const std::map<bodypart_str_id, bodypart> &get_body() const;
         void set_body();
         void calc_all_parts_hp( float hp_mod = 0.0,  float hp_adjust = 0.0, int str_max = 0,
@@ -1223,7 +1230,6 @@ class Creature : public viewer
         int bash_bonus = 0;
         int cut_bonus = 0;
         int size_bonus = 0;
-
 
         float bash_mult = 0.0f;
         float cut_mult = 0.0f;

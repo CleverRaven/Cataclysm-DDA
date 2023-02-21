@@ -13,6 +13,12 @@
     "description": "Corpses in this zone you don't otherwise sort will have everything taken off them and dropped on the same tile."
   },
   {
+    "id": "ZONE_START_POINT",
+    "type": "LOOT_ZONE",
+    "name": "Start Point",
+    "description": "A prioritized spawn point."
+  },
+  {
     "id": "zone_unload_all",
     "type": "LOOT_ZONE",
     "name": "Loot: Unload Everything",

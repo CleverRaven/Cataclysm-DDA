@@ -140,6 +140,7 @@ Note that **all new traits that can be obtained through mutation must be purifia
   ],
   "craft_skill_bonus": [ [ "electronics", -2 ], [ "tailor", -2 ], [ "mechanics", -2 ] ], // Skill affected by the mutation and their bonuses.  Bonuses can be negative, a bonus of 4 is worth 1 full skill level.
   "restricts_gear": [ "torso" ],              // List of bodyparts that get restricted by this mutation.
+  "remove_rigid": [ "torso" ],                // List of bodyparts that any rigid armor will be removed from on mutation. Any integrated armor items are considered directly
   "allow_soft_gear": true,                    // If there is a list of 'restricts_gear', this sets if the location still allows items made out of soft materials (only one of the types need to be soft for it to be considered soft) (default: false).
   "destroys_gear": true,                      // If true, destroys the gear in the 'restricts_gear' location when mutated into (default: false).
   "encumbrance_always": [                     // Adds this much encumbrance to selected body parts.
@@ -179,7 +180,6 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "scent_mask": -200,                         // int added to your target scent value (default: 0).
   "scent_type": "sc_flower",                  // The scent_types you emit, as defined in scent_types.json (default: empty).
   "consume_time_modifier": 1.0,               // time to eat or drink is multiplied by this.
-  "bleed_resist": 1000,                       // int quantifying your resistance to `bleed` effect.  If > than incoming effect effect the avatar isn't affected (default: 0).
   "fat_to_max_hp": 1.0,                       // Amount of hp_max gained for each unit of bmi above character_weight_category::normal (default: 0.0).
   "healthy_rate": 0.0,                        // How fast your health can change.  If set to 0 it never changes (default: 1.0).
   "weakness_to_water": 5,                     // How much damage water does to you, negative values heal instead (default: 0).
@@ -203,6 +203,7 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "attackcost_modifier": 0.9,                 // Attack cost modifier (0.9 is 10% faster, 1.1 is 10% slower).
   "movecost_modifier": 0.9,                   // Overall movement speed cost modifier (0.9 is 10% faster, 1.1 is 10% slower).
   "movecost_flatground_modifier": 0.9,        // Movement speed cost modifier on flat terrain, free from obstacles (0.9 is 10% faster, 1.1 is 10% slower).
+  "movecost_obstacle_modifier": 0.9,          // Movement speed cost modifier on rough, uneven terrain (0.9 is 10% faster, 1.1 is 10% slower).
   "movecost_swim_modifier": 0.9,              // Swimming speed cost modifier (0.9 is 10% faster, 1.1 is 10% slower).
   "weight_capacity_modifier": 0.9             // Carrying capacity modifier (0.9 is 10% less, 1.1 is 10% more).
   "social_modifiers": { "persuade": -10 },    // Social modifiers.  Can be: intimidate, lie, persuade.

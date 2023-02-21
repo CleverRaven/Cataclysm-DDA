@@ -211,7 +211,7 @@
       [ "knife_trench", 7 ],
       [ "switchblade", 20 ],
       [ "knife_hunting", 20 ],
-      [ "knife_rambo", 5 ]
+      { "group": "knife_rambo_full", "prob": 5 }
     ]
   },
   {

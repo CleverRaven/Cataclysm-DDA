@@ -12,6 +12,7 @@ NPCs can assign missions to the player.  There is a fairly regular structure for
     "difficulty": 2,
     "value": 150000,
     "item": "black_box_transcript",
+    "invisible_on_complete": false,
     "start": {
        "effect": { "u_buy_item": "black_box" },
        "assign_mission_target": { "om_terrain": "lab", "reveal_radius": 3 }
@@ -99,6 +100,9 @@ the player's current kill count that must be killed to complete the mission.
 For "MGOAL_CONDITION", defines the condition that must be satisfied for the mission to be considered complete.
 Conditions are explained in more detail in [NPCs.md](./NPCs.md), and are used here in exactly the same way.
 
+### invisible_on_complete
+Optional bool, defaults to false.  If true when this mission is finished it won't show up on the missions completed or missions failed lists.
+
 ### dialogue
 This is a dictionary of strings.  The NPC says these exact strings in response to the player
 inquiring about the mission or reporting its completion.  All these strings are required, even if they may not be used in the mission.
@@ -168,7 +172,7 @@ are applied afterwards. The `om_terrain` is the only required field.
 `min_distance`         | Range in overmap terrain coordinates.  Instances of `om_terrain` in this range will be ignored.
 `origin_npc`           | Start the search at the NPC's, rather than the player's, current position.
 `z`                    | If specified, will be used rather than the player or NPC's z when searching.
-`var`                  | A variable_object ( see `variable_object` in [doc](NPC.md) ), if set this variable's value will be used.
+`var`                  | A variable_object ( see `variable_object` in [doc](NPCs.md#variable-object) ), if set this variable's value will be used.
 `offset_x`,<br\>`offset_y`,<br\>`offset_z` | After finding or creating `om_terrain`, offset the mission target terrain by the offsets in overmap terrain coordinates.
 
 **example**
