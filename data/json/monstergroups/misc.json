@@ -505,11 +505,6 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_CANNIBAL",
-    "monsters": [ { "monster": "mon_shia" } ]
-  },
-  {
-    "type": "monstergroup",
     "name": "GROUP_JABBERWOCK",
     "monsters": [ { "monster": "mon_jabberwock" } ]
   }
