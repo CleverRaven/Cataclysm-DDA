@@ -350,16 +350,12 @@ void relic::load( const JsonObject &jo )
     }
     if( jo.has_array( "passive_effects" ) ) {
         for( JsonObject jobj : jo.get_array( "passive_effects" ) ) {
-            try {
-                enchant_cache ench;
-                ench.load( jobj );
-                if( !ench.id.is_empty() ) {
-                    add_passive_effect( ench.id.obj() );
-                } else {
-                    add_passive_effect( ench );
-                }
-            } catch( ... ) {
-                debugmsg( "A relic attempted to load an invalid enchantment.  If you updated versions this may be a removed enchantment and will fix itself." );
+            enchant_cache ench;
+            ench.load( jobj );
+            if( !ench.id.is_empty() ) {
+                add_passive_effect( ench.id.obj() );
+            } else {
+                add_passive_effect( ench );
             }
         }
     }
