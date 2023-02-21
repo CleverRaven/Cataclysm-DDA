@@ -766,7 +766,7 @@
     "weight": "1750 g",
     "volume": "1550 ml",
     "longest_side": "180 cm",
-    "bashing": 37,
+    "bashing": 31,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "good" },
     "category": "weapons",
     "qualities": [ [ "HAMMER", 1 ] ]
@@ -1228,7 +1228,7 @@
     "weight": "1099 g",
     "volume": "1293 ml",
     "longest_side": "183 cm",
-    "bashing": 20,
+    "bashing": 15,
     "category": "weapons",
     "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "good" },
     "price_postapoc": 1000
@@ -1249,7 +1249,7 @@
     "weight": "1110 g",
     "volume": "1272 ml",
     "longest_side": "180 cm",
-    "bashing": 23,
+    "bashing": 18,
     "category": "weapons",
     "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "good" },
     "price_postapoc": 1000
