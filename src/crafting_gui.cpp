@@ -50,7 +50,6 @@
 static const std::string flag_BLIND_EASY( "BLIND_EASY" );
 static const std::string flag_BLIND_HARD( "BLIND_HARD" );
 
-
 class npc;
 
 class recipe_result_info_cache;
@@ -98,7 +97,6 @@ static std::string peek_related_recipe( const recipe *current, const recipe_subs
 static int related_menu_fill( uilist &rmenu,
                               const std::vector<std::pair<itype_id, std::string>> &related_recipes,
                               const recipe_subset &available );
-
 
 static std::string get_cat_unprefixed( const std::string &prefixed_name )
 {
@@ -293,7 +291,6 @@ static std::vector<std::string> recipe_info(
 
     oss << string_format( _( "Primary skill: %s\n" ), recp.primary_skill_string( guy ) );
 
-
     if( !recp.required_skills.empty() ) {
         oss << string_format( _( "Other skills: %s\n" ), recp.required_skills_string( guy ) );
     }
@@ -393,7 +390,6 @@ static std::vector<std::string> recipe_info(
             const itype *t = item::find_type( bp.first );
             int amount = bp.second * batch_size;
             if( t->count_by_charges() ) {
-                amount *= t->charges_default();
                 oss << string_format( "> %s (%d)\n", t->nname( 1 ), amount );
             } else {
                 oss << string_format( "> %d %s\n", amount,
@@ -555,7 +551,13 @@ void recipe_result_info_cache::get_item_details( item &dummy_item,
     std::vector<iteminfo> temp_info;
     int total_quantity = quantity_per_batch * cached_batch_size;
     get_item_header( dummy_item, quantity_per_batch, details_info, classification, uses_charges );
-    dummy_item.info( true, temp_info, total_quantity );
+    if( uses_charges ) {
+        dummy_item.charges *= total_quantity;
+        dummy_item.info( true, temp_info );
+        dummy_item.charges /= total_quantity;
+    } else {
+        dummy_item.info( true, temp_info, total_quantity );
+    }
     details_info.insert( std::end( details_info ), std::begin( temp_info ), std::end( temp_info ) );
 }
 
@@ -565,7 +567,7 @@ void recipe_result_info_cache::get_item_header( item &dummy_item, const int quan
     int total_quantity = quantity_per_batch * cached_batch_size;
     //Handle multiple charges and multiple discrete items separately
     if( uses_charges ) {
-        dummy_item.charges *= total_quantity;
+        dummy_item.charges = total_quantity;
         info.emplace_back( "DESCRIPTION",
                            "<bold>" + classification + ": </bold>" + dummy_item.display_name() );
         //Reset charges so that multiple calls to this function don't produce unexpected results
@@ -1005,7 +1007,7 @@ static bool selection_ok( const std::vector<const recipe *> &list, const int cur
     return false;
 }
 
-const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_recipe )
+const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id &goto_recipe )
 {
     recipe_result_info_cache result_info;
     recipe_info_cache r_info_cache;
@@ -1446,8 +1448,6 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
                     num_hidden = picking.size() - current.size();
                     num_recipe = picking.size();
                 }
-
-
 
                 available.reserve( current.size() );
                 // cache recipe availability on first display

@@ -29,7 +29,7 @@
     "volume": "250 ml",
     "price": 2000,
     "price_postapoc": 2000,
-    "material": [ "paper" ],
+    "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "color": "green",
     "skill": "launcher",

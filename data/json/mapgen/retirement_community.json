@@ -337,7 +337,7 @@
         "Q                                                                                                                                                                      Q"
       ],
       "palettes": [ "retirement_community_palette" ],
-      "place_monster": [ { "monster": "mon_feral_granny", "x": [ 68 ], "y": [ 12 ], "chance": 100 } ],
+      "place_monster": [ { "monster": "mon_feral_human_pipe", "x": [ 68 ], "y": [ 12 ], "chance": 100 } ],
       "items": {
         "A": { "item": "SUS_bathroom_cabinet", "chance": 100 },
         "b": { "item": "homebooks", "chance": 100, "repeat": [ 0, 2 ] },

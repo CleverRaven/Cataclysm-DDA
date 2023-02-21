@@ -23,7 +23,6 @@ template<typename T>
 class optional;
 } // namespace cata
 
-
 /** Real world seasons */
 enum season_type {
     SPRING = 0,
