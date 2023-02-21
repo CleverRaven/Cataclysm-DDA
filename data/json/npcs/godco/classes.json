@@ -12,7 +12,13 @@
     "worn_override": "GODCO_helena_worn",
     "carry_override": "GODCO_helena_carried",
     "weapon_override": "GODCO_helena_wield",
-    "traits": [ { "trait": "SPIRITUAL" }, { "trait": "EAGLEEYED" }, { "trait": "hair_brown_long" } ],
+    "traits": [
+      { "trait": "SPIRITUAL" },
+      { "trait": "EAGLEEYED" },
+      { "trait": "hair_brown_long" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
     "skills": [
       { "bonus": 5, "skill": "gun" },
       { "bonus": 3, "skill": "speech" },
@@ -34,7 +40,12 @@
     "worn_override": "GODCO_guard_worn",
     "carry_override": "GODCO_guard_carried",
     "weapon_override": "GODCO_guard_wield",
-    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "traits": [
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
     "skills": [
       { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 4, 2 ] }, { "rng": [ -4, -1 ] } ] } ] } }
     ]
@@ -52,7 +63,12 @@
     "worn_override": "GODCO_chloe_taylor_worn",
     "carry_override": "GODCO_chloe_taylor_carried",
     "weapon_override": "GODCO_chloe_taylor_wield",
-    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Skin_Any" } ],
+    "traits": [
+      { "group": "NPC_starting_traits" },
+      { "group": "Skin_Any" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
     "skills": [
       { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } },
       { "skill": "melee", "bonus": 1 },
@@ -72,7 +88,14 @@
     "worn_override": "GODCO_sonia_worn",
     "carry_override": "GODCO_sonia_carried",
     "weapon_override": "GODCO_sonia_wield",
-    "traits": [ { "trait": "PRETTY" }, { "trait": "PACIFIST" }, { "group": "NPC_starting_traits" }, { "trait": "hair_blond_long" } ],
+    "traits": [
+      { "trait": "PRETTY" },
+      { "trait": "PACIFIST" },
+      { "group": "NPC_starting_traits" },
+      { "trait": "hair_blond_long" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
     "skills": [ { "skill": "speech", "bonus": { "rng": [ 3, 4 ] } }, { "bonus": 1, "skill": "bashing" } ]
   },
   {
@@ -89,7 +112,13 @@
     "carry_override": "GODCO_zachary_montes_carried",
     "weapon_override": "GODCO_zachary_montes_wield",
     "proficiencies": [ "prof_carpentry_basic", "prof_carving" ],
-    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" }, { "trait": "FACIAL_HAIR_BEARD" } ],
+    "traits": [
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" },
+      { "trait": "FACIAL_HAIR_BEARD" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
     "skills": [
       { "bonus": 1, "skill": "melee" },
       { "bonus": 2, "skill": "cutting" },
@@ -116,7 +145,9 @@
       { "group": "Appearance_demographics" },
       { "trait": "ANIMALEMPATH" },
       { "trait": "OUTDOORSMAN" },
-      { "group": "Exp_Agriculture_Nofake" }
+      { "group": "Exp_Agriculture_Nofake" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
     ],
     "skills": [
       { "bonus": 3, "skill": "survival" },
@@ -144,7 +175,9 @@
       { "trait": "GLASSJAW" },
       { "trait": "SPIRITUAL" },
       { "group": "NPC_starting_traits" },
-      { "group": "Appearance_Caucasian" }
+      { "group": "Appearance_Caucasian" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
     ],
     "skills": [
       { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } },
@@ -168,7 +201,9 @@
       { "group": "Appearance_demographics" },
       { "trait": "NIGHTVISION" },
       { "trait": "SPIRITUAL" },
-      { "trait": "INSOMNIA" }
+      { "trait": "INSOMNIA" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
     ],
     "skills": [
       { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } },
@@ -189,7 +224,13 @@
     "worn_override": "GODCO_gemma_worn",
     "carry_override": "GODCO_gemma_carried",
     "weapon_override": "GODCO_gemma_wield",
-    "traits": [ { "trait": "SPIRITUAL" }, { "trait": "NIGHTVISION" }, { "group": "Appearance_demographics" } ],
+    "traits": [
+      { "trait": "SPIRITUAL" },
+      { "trait": "NIGHTVISION" },
+      { "group": "Appearance_demographics" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
     "skills": [
       { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } },
       { "skill": "survival", "bonus": { "rng": [ 2, 3 ] } },
@@ -224,7 +265,9 @@
       { "trait": "OUTDOORSMAN" },
       { "trait": "EAGLEEYED" },
       { "group": "Appearance_demographics" },
-      { "trait": "FACIAL_HAIR_BEARD" }
+      { "trait": "FACIAL_HAIR_BEARD" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
     ],
     "skills": [
       { "bonus": 3, "skill": "survival" },
@@ -252,7 +295,9 @@
       { "trait": "FASTREADER" },
       { "trait": "SLOWRUNNER" },
       { "group": "NPC_starting_traits" },
-      { "group": "Appearance_demographics" }
+      { "group": "Appearance_demographics" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
     ],
     "skills": [ { "bonus": 2, "skill": "survival" }, { "bonus": 1, "skill": "fabrication" } ]
   },
@@ -275,7 +320,9 @@
       { "trait": "ANIMALEMPATH" },
       { "trait": "SPIRITUAL" },
       { "trait": "OUTDOORSMAN" },
-      { "group": "Appearance_demographics" }
+      { "group": "Appearance_demographics" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
     ],
     "skills": [
       { "bonus": 7, "skill": "survival" },
@@ -297,7 +344,13 @@
     "worn_override": "GODCO_greenwood_worn",
     "carry_override": "GODCO_greenwood_carried",
     "weapon_override": "GODCO_greenwood_wield",
-    "traits": [ { "trait": "SPIRITUAL" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "traits": [
+      { "trait": "SPIRITUAL" },
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
     "skills": [ { "bonus": 4, "skill": "speech" } ]
   },
   {
@@ -313,7 +366,12 @@
     "worn_override": "GODCO_jane_worn",
     "carry_override": "GODCO_jane_carried",
     "weapon_override": "GODCO_jane_wield",
-    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "traits": [
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
     "skills": [ { "bonus": { "rng": [ 4, 5 ] }, "skill": "firstaid" } ]
   },
   {
@@ -330,7 +388,12 @@
     "carry_override": "GODCO_corrie_carried",
     "weapon_override": "GODCO_corrie_wield",
     "proficiencies": [ "prof_plasticworking", "prof_elec_soldering", "prof_welding_basic" ],
-    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "traits": [
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
     "skills": [ { "skill": "mechanics", "bonus": 4 }, { "skill": "fabrication", "bonus": 2 }, { "skill": "electronics", "bonus": 4 } ]
   },
   {
@@ -350,7 +413,9 @@
       { "group": "NPC_starting_traits" },
       { "trait": "STYLISH" },
       { "trait": "SPIRITUAL" },
-      { "group": "Appearance_Mixed" }
+      { "group": "Appearance_Mixed" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
     ],
     "skills": [
       { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } },
@@ -378,7 +443,9 @@
       { "trait": "FLIMSY" },
       { "trait": "ANIMALEMPATH" },
       { "trait": "HYPEROPIC" },
-      { "trait": "hair_white_long" }
+      { "trait": "hair_white_long" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
     ],
     "skills": [ { "skill": "tailor", "bonus": 6 }, { "skill": "cooking", "bonus": 6 } ]
   },
@@ -395,7 +462,14 @@
     "worn_override": "GODCO_jeremiah_worn",
     "carry_override": "GODCO_jeremiah_carried",
     "weapon_override": "GODCO_jeremiah_wield",
-    "traits": [ { "trait": "MYOPIC" }, { "trait": "PROF_DICEMASTER" }, { "group": "NPC_starting_traits" }, { "group": "Hair_Brown" } ],
+    "traits": [
+      { "trait": "MYOPIC" },
+      { "trait": "PROF_DICEMASTER" },
+      { "group": "NPC_starting_traits" },
+      { "group": "Hair_Brown" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
     "skills": [
       { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } },
       { "bonus": 2, "skill": "speech" },
@@ -415,7 +489,13 @@
     "worn_override": "GODCO_olwen_worn",
     "carry_override": "GODCO_olwen_carried",
     "weapon_override": "GODCO_olwen_wield",
-    "traits": [ { "trait": "WAKEFUL" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "traits": [
+      { "trait": "WAKEFUL" },
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
     "skills": [
       { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } },
       { "bonus": 6, "skill": "computer" },
@@ -435,7 +515,12 @@
     "worn_override": "GODCO_maria_worn",
     "carry_override": "GODCO_maria_carried",
     "weapon_override": "GODCO_maria_wield",
-    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "traits": [
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
     "skills": [
       { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } },
       { "bonus": 5, "skill": "tailor" }
@@ -454,7 +539,12 @@
     "worn_override": "GODCO_arturo_worn",
     "carry_override": "naked_prisoner",
     "weapon_override": "naked_prisoner",
-    "traits": [ { "trait": "SCHIZOPHRENIC" }, { "group": "Appearance_demographics" } ],
+    "traits": [
+      { "trait": "SCHIZOPHRENIC" },
+      { "group": "Appearance_demographics" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
     "skills": [
       { "skill": "ALL", "level": { "mul": [ { "one_in": 5 }, { "sum": [ { "dice": [ 1, 3 ] }, { "rng": [ 0, -5 ] } ] } ] } }
     ]

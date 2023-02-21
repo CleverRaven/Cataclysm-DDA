@@ -79,7 +79,6 @@ static const ammotype ammo_battery( "battery" );
 
 static const faction_id faction_no_faction( "no_faction" );
 
-
 static const itype_id fuel_type_battery( "battery" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_plut_cell( "plut_cell" );
@@ -1258,7 +1257,6 @@ void veh_interact::do_repair( bool force_replace )
                 nmsg += res.second;
             }
 
-
         } else {
             if( !pt.is_repairable() ) {
                 nmsg += colorize( _( "This part cannot be repaired.\n" ), c_light_red );
@@ -2209,7 +2207,6 @@ void veh_interact::do_relabel()
         vp.set_label( text );
     }
 }
-
 
 std::pair<bool, std::string> veh_interact::calc_lift_requirements( const vpart_info
         &sel_vpart_info )

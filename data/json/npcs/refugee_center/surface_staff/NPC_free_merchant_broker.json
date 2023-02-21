@@ -4,13 +4,12 @@
     "id": "evac_broker",
     "//": "Appears in the refugee center as a bulk trader.  Promotes production of nonperishable food.",
     "name_suffix": "Broker",
-    "class": "NC_SCAVENGER",
+    "class": "NC_TEAMSTER",
     "attitude": 0,
     "mission": 3,
     "chat": "TALK_FREE_MERCHANT_STOCKS",
     "faction": "free_merchants",
-    "mission_offered": "MISSION_BROKER_1",
-    "traits": [ { "trait": "IGNORE_SOUND" }, { "trait": "NO_BASH" }, { "trait": "RETURN_TO_START_POS" } ]
+    "mission_offered": "MISSION_BROKER_1"
   },
   {
     "//": "table of contents - these options will appear in the listed dialogue topics",
@@ -92,6 +91,7 @@
         "jerky",
         "meat_smoked",
         "fish_smoked",
+        "dry_meat",
         "dry_veggy",
         "dry_fruit",
         "cooking_oil",

@@ -29,9 +29,9 @@ jobs:
       - name: "Compute base commit and test merge commit"
         id: get-commit-hash
         run: |
-          echo "::set-output name=test_merge_commit::$(git rev-parse HEAD)"
-          echo "::set-output name=head_commit::$(git log -1 --format='%B' | grep -o -E -e 'Merge\s([0-9a-f]{40})\sinto' | grep -o -E -e '[0-9a-f]{40}')"
-          echo "::set-output name=base_commit::$(git log -1 --format='%B' | grep -o -E -e 'into\s([0-9a-f]{40})$' | grep -o -E -e '[0-9a-f]{40}')"
+          echo "test_merge_commit=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+          echo "head_commit=$(git log -1 --format='%B' | grep -o -E -e 'Merge\s([0-9a-f]{40})\sinto' | grep -o -E -e '[0-9a-f]{40}')" >> $GITHUB_OUTPUT
+          echo "base_commit=$(git log -1 --format='%B' | grep -o -E -e 'into\s([0-9a-f]{40})$' | grep -o -E -e '[0-9a-f]{40}')" >> $GITHUB_OUTPUT
       - name: "Generate translation template on test merge commit"
         run: |
           rm -f lang/po/cataclysm-dda.pot
@@ -63,7 +63,7 @@ jobs:
         id: get_length
         run: |
           wc -c spell_check_output | grep -o '[0-9]*' > spell_check_retcode
-          echo "::set-output name=length::$(cat spell_check_retcode)"
+          echo "length=$(cat spell_check_retcode)" >> $GITHUB_OUTPUT
       - run: echo ${{ github.event.number }} > pull_request_id
       - uses: actions/upload-artifact@v2
         with:

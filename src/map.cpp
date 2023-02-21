@@ -125,7 +125,6 @@ static const item_group_id Item_spawn_data_default_zombie_items( "default_zombie
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_nail( "nail" );
 
-
 static const material_id material_glass( "glass" );
 
 static const mtype_id mon_zombie( "mon_zombie" );
@@ -2725,7 +2724,6 @@ void map::drop_fields( const tripoint &p )
         return;
     }
 
-    std::list<field_type_id> dropped;
     const tripoint below = p + tripoint_below;
     for( const auto &iter : fld ) {
         const field_entry &entry = iter.second;
@@ -4448,7 +4446,7 @@ void map::translate_radius( const ter_id &from, const ter_id &to, float radi, co
 }
 
 // NOLINTNEXTLINE(readability-make-member-function-const)
-void map::transform_radius( ter_furn_transform_id transform, int radi,
+void map::transform_radius( const ter_furn_transform_id &transform, int radi,
                             const tripoint_abs_ms &p )
 {
     if( !inbounds( p - point( radi, radi ) ) || !inbounds( p + point( radi, radi ) ) ) {
@@ -4462,7 +4460,7 @@ void map::transform_radius( ter_furn_transform_id transform, int radi,
     }
 }
 
-void map::transform_line( ter_furn_transform_id transform, const tripoint_abs_ms &first,
+void map::transform_line( const ter_furn_transform_id &transform, const tripoint_abs_ms &first,
                           const tripoint_abs_ms &second )
 {
     if( !inbounds( first ) || !inbounds( second ) ) {
@@ -6797,7 +6795,6 @@ bool map::draw_maptile( const catacurses::window &w, const tripoint &p,
     if( item_sym.empty() && sym == ' ' ) {
         if( !zlevels || p.z <= -OVERMAP_DEPTH || !curr_ter.has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) ) {
             // Print filler symbol
-            sym = ' ';
             tercol = c_black;
         } else {
             // Draw tile underneath this one instead

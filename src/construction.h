@@ -106,6 +106,9 @@ struct construction {
         //can be build in the dark
         bool dark_craftable = false;
 
+        // if true, this construction will only look for prerequisites in the same group
+        bool strict = false;
+
         float activity_level = MODERATE_EXERCISE;
     private:
         std::string get_time_string() const;

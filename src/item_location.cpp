@@ -564,6 +564,9 @@ class item_location::impl::item_in_container : public item_location::impl
         // figures out the index for the item, which is where it is in the total list of contents
         // note: could be a better way of handling this?
         int calc_index() const {
+            if( !container ) {
+                return -1;
+            }
             int idx = 0;
             for( const item *it : container->all_items_top() ) {
                 if( target() == it ) {
