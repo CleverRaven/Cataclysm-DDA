@@ -511,7 +511,6 @@ void init_colors()
     init_pair( 86, yellow,     dark_gray );
     init_pair( 87, white,      dark_gray );
 
-
     all_colors.load_default();
     all_colors.load_custom( {} );
 
