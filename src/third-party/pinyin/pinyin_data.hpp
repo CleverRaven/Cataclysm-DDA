@@ -448,7 +448,9 @@ static const std::map<std::u32string, std::u32string> pinyin_data = {
     {U"?", U"？"},
     {U"!", U"！"},
     {U"-", U"—"},
-    {U"\"", U"“”"}
+    {U"\"", U"“”"},
+    {U"(", U"（"},
+    {U")", U"）"}
 };
 
 #endif // PINYIN_DATA_H
