@@ -1388,7 +1388,7 @@
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
-    "id": "xs_gambeson_canvas",
+    "id": "xs_gambeson_wool",
     "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
     "type": "ARMOR",
     "name": { "str": "XS wool gambeson" },
