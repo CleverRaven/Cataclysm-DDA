@@ -80,7 +80,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
     //vehicle movement: strength check
     int mc = 0;
     int str_req = grabbed_vehicle->total_mass() / 75_kilogram; //strength required to move vehicle.
-    
+
     // ARM_STR governs dragging heavy things
     int str = u.get_arm_str();
 
@@ -112,7 +112,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
         }
     } else {
         //massive penalty if it doesn't have wheels
-        str_req*=4;
+        str_req *= 4;
         //if vehicle has no wheels str_req make a noise.
         if( str_req <= str ) {
             sounds::sound( grabbed_vehicle->global_pos3(), str_req * 2, sounds::sound_t::movement,
