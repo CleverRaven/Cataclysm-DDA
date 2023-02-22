@@ -5893,7 +5893,7 @@
     "movecost_swim_modifier": 1.2,
     "attackcost_modifier": 1.05,
     "weight_capacity_modifier": 1.15,
-    "hp_modifier": 0.05
+    "hp_modifier": 0.05,
     "armor": [ { "part_types": [ "torso", "head", "arm", "hand", "leg", "foot", "mouth", "tail" ], "bash": 2 } ]
   },
   {
