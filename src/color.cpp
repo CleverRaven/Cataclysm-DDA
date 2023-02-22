@@ -384,8 +384,7 @@ void color_manager::load_default()
                def_c_light_cyan_cyan );
 
     // Allow real dark gray for terminals that support it
-    // TODO add settings toggle
-    if (true) {
+    if (enable_256_colors) {
         add_color( def_c256_dark_gray_red, "c_dark_gray_red", color_pair( 73 ), def_c256_red_dark_gray );
         add_color( def_c256_dark_gray_blue, "h_dark_gray", color_pair( 75 ), def_c256_blue_dark_gray );
         add_color( def_c256_dark_gray_black, "c_dark_gray", color_pair( 72 ), def_c256_dark_gray_black );

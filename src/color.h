@@ -472,6 +472,8 @@ class color_manager
     public:
         color_manager() = default;
 
+        bool enable_256_colors = false;
+
         nc_color get( color_id id ) const;
 
         nc_color get_invert( const nc_color &color ) const;

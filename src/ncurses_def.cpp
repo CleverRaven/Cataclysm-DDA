@@ -263,6 +263,10 @@ void catacurses::init_interface()
     // TODO: error checking
     start_color();
     init_colors();
+
+    if (COLORS >= 256) {
+        get_all_colors().enable_256_colors = true;
+    }
 }
 
 void input_manager::pump_events()
