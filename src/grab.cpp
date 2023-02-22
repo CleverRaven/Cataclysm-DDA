@@ -79,18 +79,19 @@ bool game::grabbed_veh_move( const tripoint &dp )
 
     //vehicle movement: strength check
     int mc = 0;
-    int str_req = grabbed_vehicle->total_mass() / 25_kilogram; //strength required to move vehicle.
+    int str_req = grabbed_vehicle->total_mass() / 75_kilogram; //strength required to move vehicle.
+    
     // ARM_STR governs dragging heavy things
     int str = u.get_arm_str();
 
     //if vehicle is rollable we modify str_req based on a function of movecost per wheel.
 
-    // Vehicle just too big to grab & move; 41-45 lets folks have a bit of a window
-    // (Roughly 1.1K kg = danger zone; cube vans are about the max)
-    if( str_req > 45 ) {
+    // Very strong humans can even drag multiple fire trucks around, but orientation would be difficult.
+    // hard limit of 5000 kg here since mutants, hydraulic muscles, artifacts etc can get str quite high
+    if( str_req > 66 ) {
         add_msg( m_info, _( "The %s is too bulky for you to move by hand." ),
                  grabbed_vehicle->name );
-        return true; // No shoving around an RV.
+        return true; // No shoving around an APC.
     }
 
     const auto &wheel_indices = grabbed_vehicle->wheelcache;
@@ -110,7 +111,8 @@ bool game::grabbed_veh_move( const tripoint &dp )
             str_req = mc / wheel_indices.size() + 1;
         }
     } else {
-        str_req++;
+        //massive penalty if it doesn't have wheels
+        str_req*=4;
         //if vehicle has no wheels str_req make a noise.
         if( str_req <= str ) {
             sounds::sound( grabbed_vehicle->global_pos3(), str_req * 2, sounds::sound_t::movement,
@@ -125,7 +127,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
         ///\EFFECT_STR increases speed of dragging vehicles
         u.moves -= 100 * str_req / std::max( 1, str );
         const int ex = dice( 1, 3 ) - 1 + str_req;
-        if( ex > str + 1 ) {
+        if( ex > str + 3 ) {
             // Pain and movement penalty if exertion exceeds character strength
             add_msg( m_bad, _( "You strain yourself to move the %s!" ), grabbed_vehicle->name );
             u.moves -= 200;
