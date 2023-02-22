@@ -1321,7 +1321,7 @@
     "material": [ "veggy" ],
     "primary_material": "veggy",
     "volume": "250 ml",
-    "flags": [ "RAW" ],
+    "flags": [ "FREEZERBURN" ],
     "charges": 4,
     "vitamins": [ [ "iron", 2 ] ],
     "fun": -1
