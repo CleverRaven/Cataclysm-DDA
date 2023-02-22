@@ -904,6 +904,14 @@
     "flags": [ "BIONIC_TOGGLED", "USES_BIONIC_POWER" ]
   },
   {
+    "id": "bio_fitnessband",
+    "type": "bionic",
+    "name": { "str": "Calorie Tracker" },
+    "description": "A module implanted in your body measures your calorie intake and expenditure at all times.  Activate to check your current heartrate.",
+    "occupied_bodyparts": [ [ "torso", 1 ] ],
+    "act_cost": "0 mJ"
+  },
+  {
     "id": "bio_flashbang",
     "type": "bionic",
     "name": { "str": "Flashbang Generator" },
