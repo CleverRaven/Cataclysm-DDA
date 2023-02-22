@@ -84,6 +84,9 @@ enum base_color : short {
     magenta = 0x05,  // RGB{196, 0, 180}
     cyan = 0x06,     // RGB{0, 170, 200}
     white = 0x07,    // RGB{196, 196, 196}
+
+    // 256 Color Support
+    dark_gray = 235,
 };
 
 using chtype = int;

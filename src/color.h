@@ -166,6 +166,24 @@
 #define c_cyan_cyan all_colors.get(def_c_cyan_cyan)
 #define c_light_cyan_cyan all_colors.get(def_c_light_cyan_cyan)
 
+#define c256_dark_gray_black allcolors.get(def_c256_dark_gray_black)
+#define c256_dark_gray_red allcolors.get(def_c256_dark_gray_red)
+#define c256_dark_gray_green allcolors.get(def_c256_dark_gray_green)
+#define c256_dark_gray_blue allcolors.get(def_c256_dark_gray_blue)
+#define c256_dark_gray_cyan allcolors.get(def_c256_dark_gray_cyan)
+#define c256_dark_gray_magenta allcolors.get(def_c256_dark_gray_magenta)
+#define c256_dark_gray_yellow allcolors.get(def_c256_dark_gray_yellow)
+#define c256_dark_gray_white allcolors.get(def_c256_dark_gray_white)
+
+#define c256_black_dark_gray allcolors.get(def_c256_black_dark_gray)
+#define c256_red_dark_gray allcolors.get(def_c256_red_dark_gray)
+#define c256_green_dark_gray allcolors.get(def_c256_green_dark_gray)
+#define c256_blue_dark_gray allcolors.get(def_c256_blue_dark_gray)
+#define c256_cyan_dark_gray allcolors.get(def_c256_cyan_dark_gray)
+#define c256_magenta_dark_gray allcolors.get(def_c256_magenta_dark_gray)
+#define c256_yellow_dark_gray allcolors.get(def_c256_yellow_dark_gray)
+#define c256_white_dark_gray allcolors.get(def_c256_white_dark_gray)
+
 // def_x is a color that maps to x with default settings
 enum color_id {
     def_c_black = 0,
@@ -322,6 +340,24 @@ enum color_id {
     def_c_pink_cyan,
     def_c_cyan_cyan,
     def_c_light_cyan_cyan,
+
+    def_c256_dark_gray_black,
+    def_c256_dark_gray_red,
+    def_c256_dark_gray_green,
+    def_c256_dark_gray_blue,
+    def_c256_dark_gray_cyan,
+    def_c256_dark_gray_magenta,
+    def_c256_dark_gray_yellow,
+    def_c256_dark_gray_white,
+
+    def_c256_black_dark_gray,
+    def_c256_red_dark_gray,
+    def_c256_green_dark_gray,
+    def_c256_blue_dark_gray,
+    def_c256_cyan_dark_gray,
+    def_c256_magenta_dark_gray,
+    def_c256_yellow_dark_gray,
+    def_c256_white_dark_gray,
 
     num_colors
 };
