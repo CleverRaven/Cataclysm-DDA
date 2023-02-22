@@ -955,13 +955,13 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         msg.append( "\n" );
         msg.append( "-> " );
         msg.append( string_format( _( "You consumed %d kcal today and %d kcal yesterday." ),
-                                   you.get_daily_ingested_kcal( false ),
-                                   you.get_daily_ingested_kcal( true ) ) );
+                                   as_avatar()->get_daily_ingested_kcal( false ),
+                                   as_avatar()->get_daily_ingested_kcal( true ) ) );
         msg.append( "\n" );
         msg.append( "-> " );
         msg.append( string_format( _( "You burned %d kcal today and %d kcal yesterday." ),
-                                   you.get_daily_spent_kcal( false ),
-                                   you.get_daily_spent_kcal( true ) ) );
+                                   as_avatar()->get_daily_spent_kcal( false ),
+                                   as_avatar()->get_daily_spent_kcal( true ) ) );
         //TODO add whatever else makes sense (steps, sleep quality, health level approximation?)
         add_msg_if_player( m_neutral, msg );
         popup( msg );
