@@ -1156,6 +1156,10 @@
     "type": "json_flag"
   },
   {
+    "id": "AUTO_CABLE",
+    "type": "json_flag"
+  },
+  {
     "id": "CAMERA_PRO",
     "type": "json_flag"
   },
@@ -1550,10 +1554,6 @@
   },
   {
     "id": "POWERED",
-    "type": "json_flag"
-  },
-  {
-    "id": "POWER_CORD",
     "type": "json_flag"
   },
   {

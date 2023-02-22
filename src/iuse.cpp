@@ -237,8 +237,10 @@ static const efftype_id effect_weak_antibiotic_visible( "weak_antibiotic_visible
 static const efftype_id effect_webbed( "webbed" );
 static const efftype_id effect_weed_high( "weed_high" );
 
-static const flag_id json_flag_POWER_CORD( "POWER_CORD" );
+static const flag_id json_flag_HIDDEN_CABLE( "HIDDEN_CABLE" );
 
+static const furn_str_id furn_f_aluminum_stepladder( "f_aluminum_stepladder" );
+static const furn_str_id furn_f_ladder( "f_ladder" );
 static const furn_str_id furn_f_translocator_buoy( "f_translocator_buoy" );
 
 static const harvest_drop_type_id harvest_drop_blood( "blood" );
@@ -8248,16 +8250,16 @@ std::optional<int> iuse::cable_attach( Character *p, item *it, bool, const tripo
         const bool solar_pack = initial_state == "solar_pack";
         const bool UPS = initial_state == "UPS";
         bool loose_ends = paying_out || cable_cbm || solar_pack || UPS;
-        bool is_power_cord = it->has_flag( json_flag_POWER_CORD );
+        bool is_auto_cable = it->has_flag( flag_AUTO_CABLE );
         uilist kmenu;
         kmenu.text = _( "Using cable:" );
-        if( !is_power_cord ) {
+        if( !is_auto_cable ) {
             kmenu.addentry( 0, true, -1, _( "Detach and re-spool the cable" ) );
         }
         kmenu.addentry( 1, ( paying_out || cable_cbm ) && !solar_pack &&
                         !UPS, -1, _( "Attach loose end to vehicle" ) );
 
-        if( has_bio_cable && loose_ends && !is_power_cord ) {
+        if( has_bio_cable && loose_ends && !is_auto_cable ) {
             kmenu.addentry( 2, !cable_cbm, -1, _( "Attach loose end to self" ) );
             if( wearing_solar_pack ) {
                 kmenu.addentry( 3, !solar_pack && !paying_out && !UPS, -1, _( "Attach loose end to solar pack" ) );
@@ -8443,10 +8445,10 @@ std::optional<int> iuse::cord_attach( Character *p, item *it, bool, const tripoi
         };
 
         const bool paying_out = initial_state == "pay_out_cable";
-        bool is_power_cord = it->has_flag( json_flag_POWER_CORD );
+        bool is_auto_cable = it->has_flag( flag_AUTO_CABLE );
         uilist kmenu;
         kmenu.text = _( "Using cable:" );
-        if( !is_power_cord ) {
+        if( !is_auto_cable ) {
             kmenu.addentry( 0, true, -1, _( "Detach and re-spool the cable" ) );
         }
         kmenu.addentry( 1, true, -1, _( "Attach loose end to appliance" ) );

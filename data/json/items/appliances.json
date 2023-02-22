@@ -235,7 +235,7 @@
     "type": "TOOL",
     "id": "power_cord",
     "name": { "str": "power cord" },
-    "description": "A short, multi-stranded copper cord with a power outlet at the end.",
+    "description": "TODOkama check this A short, multi-stranded copper cord with a power outlet at the end.",
     "to_hit": 1,
     "color": "dark_gray",
     "symbol": "&",
@@ -248,7 +248,7 @@
     "max_charges": 3,
     "initial_charges": 3,
     "use_action": [ "CABLE_ATTACH" ],
-    "flags": [ "CABLE_SPOOL", "POWER_CORD", "SINGLE_USE" ],
+    "flags": [ "CABLE_SPOOL", "HIDDEN_CABLE", "SINGLE_USE" ],
     "melee_damage": { "bash": 2 }
   },
   {

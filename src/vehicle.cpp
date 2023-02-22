@@ -100,8 +100,6 @@ static const efftype_id effect_winded( "winded" );
 
 static const fault_id fault_engine_immobiliser( "fault_engine_immobiliser" );
 
-static const flag_id json_flag_POWER_CORD( "POWER_CORD" );
-
 static const itype_id fuel_type_animal( "animal" );
 static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_mana( "mana" );
@@ -6568,7 +6566,7 @@ void vehicle::shed_loose_parts( const tripoint_bub_ms *src, const tripoint_bub_m
             tow_data.clear_towing();
         }
         const vehicle_part *part = &parts[elem];
-        if( !magic && !part->properties_to_item().has_flag( json_flag_POWER_CORD ) ) {
+        if( !magic && !part->properties_to_item().has_flag( flag_AUTO_CABLE ) ) {
             item drop = part->properties_to_item();
             here.add_item_or_charges( global_part_pos3( *part ), drop );
         }
