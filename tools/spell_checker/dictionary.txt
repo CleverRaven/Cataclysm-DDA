@@ -47,6 +47,7 @@ airjack
 airsoft
 airworthy
 aketon
+aketons
 alamosaurus
 alate
 alates
