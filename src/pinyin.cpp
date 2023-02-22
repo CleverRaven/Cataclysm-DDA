@@ -15,6 +15,29 @@ bool pinyin_match( const std::u32string &str, const std::u32string &qry )
     // O(1) instead of O(n)
     static std::unordered_map<char32_t, std::vector<std::u32string>> indexed_pinyin_map;
 
+    //Build the indexed map if not built yet
+    if (indexed_pinyin_map.empty()) {
+        for (auto const& entry : pinyin_data) {
+            //entry.first = a pinyin; entry.second = all characters that have this pronounciation
+            for (const char32_t current_char : entry.second) {
+                //for each character, use it as the index and add its pinyin to the indexed map
+                if (indexed_pinyin_map.find(current_char) == indexed_pinyin_map.end()) {
+                    std::vector<std::u32string> pinyin_of_this_char;
+                    pinyin_of_this_char.push_back(entry.first);
+                    indexed_pinyin_map.insert(std::make_pair(current_char, pinyin_of_this_char));
+                }
+                else {
+                    //try to de-duplicate the entry
+                    if (std::find(indexed_pinyin_map.at(current_char).begin(),
+                        indexed_pinyin_map.at(current_char).end(),
+                        entry.first) == indexed_pinyin_map.at(current_char).end()) {
+                        indexed_pinyin_map.at(current_char).push_back(entry.first);
+                    }
+                }
+            }
+        }
+    }
+
     int combination_index = 0;                  //how many combinations have we tried
     bool all_combinations_tested = false;
     while( !all_combinations_tested ) {
