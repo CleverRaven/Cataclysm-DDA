@@ -91,6 +91,7 @@ static const bionic_id bio_blood_filter( "bio_blood_filter" );
 static const bionic_id bio_cqb( "bio_cqb" );
 static const bionic_id bio_emp( "bio_emp" );
 static const bionic_id bio_evap( "bio_evap" );
+static const bionic_id bio_fitnessband( "bio_fitnessband" );
 static const bionic_id bio_flashbang( "bio_flashbang" );
 static const bionic_id bio_geiger( "bio_geiger" );
 static const bionic_id bio_gills( "bio_gills" );
@@ -931,11 +932,17 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
     } else if( bio.id == bio_geiger ) {
         add_msg_activate();
         add_msg_if_player( m_info, _( "Your radiation level: %d" ), get_rad() );
+    } else if( bio.id == bio_radscrubber ) {
+        add_msg_activate();
+        if( get_rad() > 4 ) {
+            mod_rad( -5 );
+        } else {
+            set_rad( 0 );
+        }
     } else if( bio.id == bio_fitnessband ) {
         std::string msg;
         msg.append( "***  " );
-        msg.append( string_format( _( "You check your health metrics with your bionic." ), it->tname( 1,
-                                   false ) ) );
+        msg.append( _( "You check your health metrics with your bionic." ) );
         msg.append( "  ***\n\n" );
         const int bpm = heartrate_bpm();
         msg.append( "-> " );
@@ -948,13 +955,13 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         msg.append( "\n" );
         msg.append( "-> " );
         msg.append( string_format( _( "You consumed %d kcal today and %d kcal yesterday." ),
-                                   get_daily_ingested_kcal( false ),
-                                   get_daily_ingested_kcal( true ) ) );
+                                   you.get_daily_ingested_kcal( false ),
+                                   you.get_daily_ingested_kcal( true ) ) );
         msg.append( "\n" );
         msg.append( "-> " );
         msg.append( string_format( _( "You burned %d kcal today and %d kcal yesterday." ),
-                                   get_daily_spent_kcal( false ),
-                                   get_daily_spent_kcal( true ) ) );
+                                   you.get_daily_spent_kcal( false ),
+                                   you.get_daily_spent_kcal( true ) ) );
         //TODO add whatever else makes sense (steps, sleep quality, health level approximation?)
         add_msg_if_player( m_neutral, msg );
         popup( msg );
