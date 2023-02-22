@@ -5919,6 +5919,8 @@ nc_color item::color_in_inventory( const Character *const ch ) const
     } else if( ( active && !has_temperature() &&  !is_corpse() ) || ( is_corpse() && can_revive() ) ) {
         // Active items show up as yellow (corpses only if reviving)
         ret = c_yellow;
+    } else if( is_medication() || is_medical_tool() ) {
+        ret = c_light_blue;
     } else if( is_food() ) {
         // Give color priority to allergy (allergy > inedible by freeze or other conditions)
         // TODO: refactor u.will_eat to let this section handle coloring priority without duplicating code.
@@ -9763,6 +9765,11 @@ bool item::is_medication() const
         return false;
     }
     return get_comestible()->comesttype == "MED";
+}
+
+bool item::is_medical_tool() const
+{
+    return type->get_use( "heal" ) != nullptr;
 }
 
 bool item::is_brewable() const
