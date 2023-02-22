@@ -49,5 +49,16 @@
     "move_cost": 0,
     "coverage": 95,
     "flags": [ "NOITEM", "WALL", "PERMEABLE", "AUTO_WALL_SYMBOL", "MINEABLE" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_crystal_wall",
+    "name": "quartz spire",
+    "description": "Crafted from interwoven spirals of opalescent crystal, this glistening barrier is lined with concentric trenches that bore deep into the crystalline rock.  Bands of red gleam within the conical grooves, interspersed by large, oblong crystals that extend from the recess’s sides.  Much like the surface of a roiling ocean, the air before the structure warps gelatinously, distorting the fragmented reflections that flit briefly across the barrier’s myriad angles.  Images of towering crystal spires and cities encased in a sheet of quartz dart across the mineral, unfocused; they are not of this world.",
+    "symbol": "LINE_OXOX",
+    "color": "black",
+    "move_cost": 0,
+    "coverage": 95,
+    "flags": [ "NOITEM", "WALL", "PERMEABLE", "AUTO_WALL_SYMBOL", "MINEABLE" ]
   }
 ]
