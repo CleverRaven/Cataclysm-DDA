@@ -4973,7 +4973,7 @@
     "description": "You have grown even more massive, to the point where you cannot usefully fit into human-sized clothing or vehicles.  Much of it is powerful muscle mass (Strength +4), but it's a real pain to haul around.",
     "types": [ "SIZE" ],
     "prereqs": [ "LARGE", "LARGE_OK" ],
-    "prereqs2": [ "STR_UP_3", "STR_UP_4" ],
+    "prereqs2": [ "DENSE_BONES" ],
     "changes_to": [ "HUGE_OK" ],
     "category": [ "URSINE", "CATTLE" ],
     "passive_mods": { "str_mod": 4 },
@@ -5879,6 +5879,22 @@
     "attackcost_modifier": 0.8,
     "weight_capacity_modifier": 0.6,
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "EXTRA_BASH", "multiply": 0.8 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "DENSE_BONES",
+    "name": { "str": "Dense Bones" },
+    "points": 1,
+    "mixed_effect": true,
+    "description": "Your bones are particularly dense and durable.  Your tougher frame grants 5% more HP and 15% more carry capacity plus bashing attacks injure you less, but your higher inertia makes attacking and moving 5% slower and swimming much harder.",
+    "types": [ "BONES" ],
+    "category": [ "URSINE", "CATTLE", "CHIMERA", "BEAST", "ALPHA" ],
+    "movecost_modifier": 1.05,
+    "movecost_swim_modifier": 1.2,
+    "attackcost_modifier": 1.05,
+    "weight_capacity_modifier": 1.15,
+    "hp_modifier": 0.05
+    "armor": [ { "part_types": [ "torso", "head", "arm", "hand", "leg", "foot", "mouth", "tail" ], "bash": 2 } ]
   },
   {
     "type": "mutation",
