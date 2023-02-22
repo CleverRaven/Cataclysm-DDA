@@ -9838,8 +9838,8 @@ cata::optional<int> iuse::ebooksave( Character *p, item *it, bool t, const tripo
     }
 
     const item_location book = game_menus::inv::titled_filter_menu(
-    [&p, &ebooks]( const item & itm ) {
-        return itm.is_book() && p->has_identified( itm.typeId() ) && !ebooks.count( itm.typeId() );
+    [&ebooks]( const item & itm ) {
+        return itm.is_book() && itm.is_scannable() && !ebooks.count( itm.typeId() );
     },
     *p->as_avatar(), _( "Scan which book?" ), PICKUP_RANGE );
 
