@@ -170,6 +170,9 @@ static const itype_id itype_water_clean( "water_clean" );
 static const itype_id itype_waterproof_gunmod( "waterproof_gunmod" );
 
 static const json_character_flag json_flag_CANNIBAL( "CANNIBAL" );
+static const json_character_flag json_flag_PSYCHOPATH("PSYCHOPATH");
+static const json_character_flag json_flag_SAPIOVORE("SAPIOVORE");
+static const json_character_flag json_flag_NUMB("NUMB");
 static const json_character_flag json_flag_IMMUNE_SPOIL( "IMMUNE_SPOIL" );
 
 static const matec_id RAPID( "RAPID" );
@@ -2479,7 +2482,7 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
 
     if( food_item->has_flag( flag_CANNIBALISM ) &&
         parts->test( iteminfo_parts::FOOD_CANNIBALISM ) ) {
-        if( !player_character.has_flag( json_flag_CANNIBAL ) ) {
+         if( !player_character.has_flag( json_flag_CANNIBAL )  || !player_character.has_flag(json_flag_PSYCHOPATH) || !player_character.has_flag(json_flag_SAPIOVORE) || !player_character.has_flag(json_flag_NUMB)) {
             info.emplace_back( "DESCRIPTION",
                                _( "* This food contains <bad>human flesh</bad>." ) );
         } else {
