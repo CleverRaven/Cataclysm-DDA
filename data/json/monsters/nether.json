@@ -1345,6 +1345,7 @@
     "vision_night": 60,
     "path_settings": { "max_dist": 60 },
     "death_function": { "corpse_type": "NO_CORPSE", "message": "it just disappeared." },
+    "melee_training_cap": 0,
     "flags": [
       "NO_BREATHE",
       "SEES",
