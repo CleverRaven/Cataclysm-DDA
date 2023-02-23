@@ -4662,7 +4662,7 @@
     "activity_level": "NO_EXERCISE",
     "skill_used": "tailor",
     "time": "1 m",
-    "qualities": [ { "id": "CUT", "level": 3 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "sheet_cotton_patchwork", 3 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
@@ -7615,5 +7615,13 @@
     "time": "10 m",
     "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ],
     "components": [ [ [ "yarn", 40 ] ] ]
+  },
+  {
+    "result": "bottle_metal",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "1 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
+    "components": [ [ [ "scrap", 3 ] ] ]
   }
 ]

@@ -37,6 +37,7 @@ static void pass_time( Character &p, time_duration amt )
     for( time_duration turns = 1_turns; turns < amt; turns += 1_turns ) {
         calendar::turn += 1_turns;
         p.update_body();
+        p.update_health();
     }
 }
 
@@ -241,7 +242,8 @@ TEST_CASE( "vitamin_daily", "[vitamins]" )
     clear_avatar();
     reset_time();
     clear_stomach( subject );
-    subject.set_daily_health( 0 );
+    //  there isn't yet a set_health_tally function, so reset it to 0 like this
+    subject.mod_health_tally( -subject.get_health_tally() );
 
     set_all_vitamins( -100, subject );
     reset_daily_vitamins( subject );
@@ -251,7 +253,8 @@ TEST_CASE( "vitamin_daily", "[vitamins]" )
     REQUIRE( subject.get_daily_vitamin( vitamin_vitC ) == 0 );
     REQUIRE( subject.get_daily_vitamin( vitamin_calcium ) == 0 );
     REQUIRE( subject.get_daily_vitamin( vitamin_iron ) == 0 );
-    REQUIRE( subject.get_daily_health() == 0 );
+    REQUIRE( subject.get_health_tally() == 0 );
+
     item f( "debug_vitamins" );
 
     subject.consume( f );
@@ -266,9 +269,6 @@ TEST_CASE( "vitamin_daily", "[vitamins]" )
             subject.get_daily_vitamin( vitamin_iron ) == 0 ) {
             break;
         }
-        //otherwise clean up any other health changes that may have happened
-        subject.set_daily_health( 0 );
-
     }
 
     // check if after a day health is up and vitamins are reset
@@ -276,7 +276,7 @@ TEST_CASE( "vitamin_daily", "[vitamins]" )
     CHECK( subject.get_daily_vitamin( vitamin_calcium ) == 0 );
     CHECK( subject.get_daily_vitamin( vitamin_iron ) == 0 );
     // get that vitamin health bonus is up by 6 with maybe a recent reduction on the same timecheck
-    CHECK( subject.get_daily_health() >= 5 );
+    CHECK( subject.get_health_tally() >= 5 );
 
 }
 

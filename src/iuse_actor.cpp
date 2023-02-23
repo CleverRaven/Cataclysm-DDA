@@ -2652,7 +2652,7 @@ std::set<itype_id> repair_item_actor::get_valid_repair_materials( const item &fi
 }
 
 bool repair_item_actor::handle_components( Character &pl, const item &fix,
-        bool print_msg, bool just_check ) const
+        bool print_msg, bool just_check, bool check_consumed_available ) const
 {
     // Entries valid for repaired items
     std::set<itype_id> valid_entries = get_valid_repair_materials( fix );
@@ -2692,7 +2692,7 @@ bool repair_item_actor::handle_components( Character &pl, const item &fix,
 
     // Go through all discovered repair items and see if we have any of them available
     std::vector<item_comp> comps;
-    for( const auto &component_id : valid_entries ) {
+    for( const itype_id &component_id : valid_entries ) {
         if( item::count_by_charges( component_id ) ) {
             if( crafting_inv.has_charges( component_id, items_needed ) ) {
                 comps.emplace_back( component_id, items_needed );
@@ -2702,9 +2702,9 @@ bool repair_item_actor::handle_components( Character &pl, const item &fix,
         }
     }
 
-    if( comps.empty() ) {
+    if( check_consumed_available && comps.empty() ) {
         if( print_msg ) {
-            for( const auto &mat_comp : valid_entries ) {
+            for( const itype_id &mat_comp : valid_entries ) {
                 pl.add_msg_if_player( m_info,
                                       _( "You don't have enough %s to do that.  Have: %d, need: %d" ),
                                       item::nname( mat_comp, 2 ),
@@ -2826,8 +2826,8 @@ int repair_item_actor::repair_recipe_difficulty( const Character &pl,
     return diff;
 }
 
-bool repair_item_actor::can_repair_target( Character &pl, const item &fix,
-        bool print_msg ) const
+bool repair_item_actor::can_repair_target( Character &pl, const item &fix, bool print_msg,
+        bool check_consumed_available ) const
 {
     // In some rare cases (indices getting scrambled after inventory overflow)
     //  our `fix` can be a different item.
@@ -2860,7 +2860,7 @@ bool repair_item_actor::can_repair_target( Character &pl, const item &fix,
         return false;
     }
 
-    if( !handle_components( pl, fix, print_msg, true ) ) {
+    if( !handle_components( pl, fix, print_msg, true, check_consumed_available ) ) {
         return false;
     }
 
@@ -3023,7 +3023,7 @@ repair_item_actor::attempt_hint repair_item_actor::repair( Character &pl, item &
     if( !can_use_tool( pl, tool, true ) ) {
         return AS_CANT_USE_TOOL;
     }
-    if( !can_repair_target( pl, *fix, true ) ) {
+    if( !can_repair_target( pl, *fix, true, true ) ) {
         return AS_CANT;
     }
 
@@ -3087,7 +3087,7 @@ repair_item_actor::attempt_hint repair_item_actor::repair( Character &pl, item &
         if( roll == SUCCESS ) {
             const std::string startdurability = fix->durability_indicator( true );
             const int damage = fix->damage();
-            handle_components( pl, *fix, false, false );
+            handle_components( pl, *fix, false, false, true );
 
             int dmg = fix->damage() + 1;
             for( const int lvl = fix->damage_level(); lvl == fix->damage_level() && dmg != fix->damage(); ) {
@@ -3118,7 +3118,7 @@ repair_item_actor::attempt_hint repair_item_actor::repair( Character &pl, item &
 
                 pl.calc_encumbrance();
             }
-            handle_components( pl, *fix, false, false );
+            handle_components( pl, *fix, false, false, true );
             return AS_SUCCESS;
         }
 
@@ -3132,7 +3132,7 @@ repair_item_actor::attempt_hint repair_item_actor::repair( Character &pl, item &
                                   fix->tname().c_str() );
             fix->set_flag( flag_UNDERSIZE );
             pl.calc_encumbrance();
-            handle_components( pl, *fix, false, false );
+            handle_components( pl, *fix, false, false, true );
             return AS_SUCCESS;
         }
         return AS_RETRY;
@@ -3145,7 +3145,7 @@ repair_item_actor::attempt_hint repair_item_actor::repair( Character &pl, item &
                                   fix->tname().c_str() );
             fix->unset_flag( flag_UNDERSIZE );
             pl.calc_encumbrance();
-            handle_components( pl, *fix, false, false );
+            handle_components( pl, *fix, false, false, true );
             return AS_SUCCESS;
         }
         return AS_RETRY;
@@ -3161,7 +3161,7 @@ repair_item_actor::attempt_hint repair_item_actor::repair( Character &pl, item &
         if( roll == SUCCESS ) {
             pl.add_msg_if_player( m_good, _( "You make your %s extra sturdy." ), fix->tname() );
             fix->mod_damage( -itype::damage_scale );
-            handle_components( pl, *fix, false, false );
+            handle_components( pl, *fix, false, false, true );
             return AS_SUCCESS;
         }
 

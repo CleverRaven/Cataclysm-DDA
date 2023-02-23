@@ -793,3 +793,21 @@ int bucket_index_from_weight_list( const std::vector<int> &weights )
     }
     return index;
 }
+
+template<>
+std::string io::enum_to_string<aggregate_type>( aggregate_type agg )
+{
+    switch( agg ) {
+        // *INDENT-OFF*
+        case aggregate_type::FIRST:   return "first";
+        case aggregate_type::LAST:    return "last";
+        case aggregate_type::MIN:     return "min";
+        case aggregate_type::MAX:     return "max";
+        case aggregate_type::SUM:     return "sum";
+        case aggregate_type::AVERAGE: return "average";
+        // *INDENT-ON*
+        case aggregate_type::num_aggregate_types:
+            break;
+    }
+    cata_fatal( "Invalid aggregate type." );
+}

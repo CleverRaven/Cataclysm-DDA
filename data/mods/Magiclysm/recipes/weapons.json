@@ -285,7 +285,7 @@
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_WEAPONS",
     "skill_used": "fabrication",
-    "skills_required": [ [ "spellcraft", 2 ], [ "bashing", 2 ] ],
+    "skills_required": [ [ "spellcraft", 2 ], [ "unarmed", 2 ] ],
     "difficulty": 4,
     "time": "360 m",
     "autolearn": true,

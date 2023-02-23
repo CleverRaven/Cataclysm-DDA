@@ -1167,7 +1167,9 @@ void game::create_starting_npcs()
     shared_ptr_fast<npc> tmp = make_shared_fast<npc>();
     tmp->normalize();
     tmp->randomize( one_in( 2 ) ? NC_DOCTOR : NC_NONE );
-    tmp->spawn_at_precise( u.get_location() - point_south_east );
+    // hardcoded, consistent NPC position
+    // start_loc::place_player relies on this and must be updated if this is changed
+    tmp->spawn_at_precise( u.get_location() + point_north_west );
     overmap_buffer.insert_npc( tmp );
     tmp->form_opinion( u );
     tmp->set_attitude( NPCATT_NULL );
@@ -4079,6 +4081,7 @@ void game::mon_info_update( )
     auto &unique_types = mon_visible.unique_types;
     auto &unique_mons = mon_visible.unique_mons;
     auto &dangerous = mon_visible.dangerous;
+    mon_visible.has_dangerous_creature_in_proximity = false;
 
     // 7 0 1    unique_types uses these indices;
     // 6 8 2    0-7 are provide by direction_from()
@@ -4183,6 +4186,7 @@ void game::mon_info_update( )
 
                 if( !safemode_empty || mon_dist <= iProxyDist ) {
                     bool passmon = false;
+                    mon_visible.has_dangerous_creature_in_proximity = true;
                     if( critter.ignoring > 0 ) {
                         if( safe_mode != SAFE_MODE_ON ) {
                             critter.ignoring = 0;
@@ -4227,6 +4231,7 @@ void game::mon_info_update( )
                                   p->get_attitude() == NPCATT_KILL;
             }
             if( need_processing ) {
+                mon_visible.has_dangerous_creature_in_proximity = true;
                 newseen++;
             }
             unique_types[index].push_back( p );
@@ -9984,7 +9989,11 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
                 sfx::do_obstacle( displayed_part->part().info().get_id().str() );
             } else {
                 add_msg( m_warning, _( "Moving onto this %s is slow!" ), m.name( dest_loc ) );
-                sfx::do_obstacle( m.ter( dest_loc ).id().str() );
+                if( m.has_furn( dest_loc ) ) {
+                    sfx::do_obstacle( m.furn( dest_loc ).id().str() );
+                } else {
+                    sfx::do_obstacle( m.ter( dest_loc ).id().str() );
+                }
             }
         } else {
             if( auto displayed_part = vp_here.part_displayed() ) {
@@ -9993,7 +10002,11 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
                 sfx::do_obstacle( displayed_part->part().info().get_id().str() );
             } else {
                 add_msg( m_warning, _( "Moving off of this %s is slow!" ), m.name( u.pos() ) );
-                sfx::do_obstacle( m.ter( u.pos() ).id().str() );
+                if( m.has_furn( u.pos() ) ) {
+                    sfx::do_obstacle( m.furn( u.pos() ).id().str() );
+                } else {
+                    sfx::do_obstacle( m.ter( u.pos() ).id().str() );
+                }
             }
         }
     }
@@ -10320,7 +10333,8 @@ point game::place_player( const tripoint &dest_loc, bool quick )
 
     // Auto pickup
     if( !quick && !u.is_mounted() && get_option<bool>( "AUTO_PICKUP" ) && !u.is_hauling() &&
-        ( !get_option<bool>( "AUTO_PICKUP_SAFEMODE" ) || mostseen == 0 ) &&
+        ( !get_option<bool>( "AUTO_PICKUP_SAFEMODE" ) ||
+          !u.get_mon_visible().has_dangerous_creature_in_proximity ) &&
         ( m.has_items( u.pos() ) || get_option<bool>( "AUTO_PICKUP_ADJACENT" ) ) ) {
         Pickup::autopickup( u.pos() );
     }

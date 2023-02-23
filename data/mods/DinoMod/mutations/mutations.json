@@ -563,13 +563,13 @@
     "type": "mutation",
     "id": "STR_UP_3",
     "copy-from": "STR_UP_3",
-    "extend": { "category": [ "STEGO", "TYRANT", "HORNS" ] }
+    "extend": { "category": [ "STEGO", "TYRANT", "HORNS" ], "threshreq": [ "THRESH_STEGO", "THRESH_TYRANT", "THRESH_HORNS" ] }
   },
   {
     "type": "mutation",
     "id": "STR_UP_4",
     "copy-from": "STR_UP_4",
-    "extend": { "category": [ "STEGO", "TYRANT", "HORNS" ] }
+    "extend": { "category": [ "STEGO", "TYRANT", "HORNS" ], "threshreq": [ "THRESH_STEGO", "THRESH_TYRANT", "THRESH_HORNS" ] }
   },
   {
     "type": "mutation",
