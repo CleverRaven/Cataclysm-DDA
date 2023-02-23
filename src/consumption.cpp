@@ -97,6 +97,11 @@ static const json_character_flag json_flag_PRED2( "PRED2" );
 static const json_character_flag json_flag_PRED3( "PRED3" );
 static const json_character_flag json_flag_PRED4( "PRED4" );
 static const json_character_flag json_flag_STRICT_HUMANITARIAN( "STRICT_HUMANITARIAN" );
+static const json_character_flag json_flag_CANNIBAL("CANNIBAL");
+static const json_character_flag json_flag_PSYCHOPATH("PSYCHOPATH");
+static const json_character_flag json_flag_SAPIOVORE("SAPIOVORE");
+static const json_character_flag json_flag_SPIRITUAL("SPIRITUAL");
+static const json_character_flag json_flag_NUMB("NUMB");
 
 static const material_id material_all( "all" );
 
@@ -1223,11 +1228,11 @@ void Character::modify_morale( item &food, const int nutr )
         // Sapiovores don't recognize humans as the same species.
         // But let them possibly feel cool about eating sapient stuff - treat like psycho
         // However, spiritual sapiovores should still recognize humans as having a soul or special for religious reasons
-        const bool cannibal = has_trait( trait_CANNIBAL );
-        const bool psycho = has_trait( trait_PSYCHOPATH );
-        const bool sapiovore = has_trait( trait_SAPIOVORE );
-        const bool spiritual = has_trait( trait_SPIRITUAL );
-        const bool numb = has_trait( trait_NUMB );
+        const bool cannibal = has_flag(json_flag_CANNIBAL);
+        const bool psycho = has_flag(json_flag_PSYCHOPATH);
+        const bool sapiovore = has_flag(json_flag_SAPIOVORE);
+        const bool spiritual = has_flag(json_flag_SPIRITUAL);
+        const bool numb = has_flag( json_flag_NUMB );
         if( cannibal && psycho && spiritual ) {
             add_msg_if_player( m_good,
                                _( "You feast upon the human flesh, and in doing so, devour their spirit." ) );
