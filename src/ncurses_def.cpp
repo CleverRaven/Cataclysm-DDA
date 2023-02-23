@@ -263,7 +263,7 @@ void catacurses::init_interface()
     // TODO: error checking
     start_color();
     // creates the color_manager and sets 256 color mode if available
-    if ( COLORS >= 256 ) {
+    if( COLORS >= 256 ) {
         get_all_colors().enable_256_colors = true;
     }
     init_colors();

@@ -384,17 +384,20 @@ void color_manager::load_default()
                def_c_light_cyan_cyan );
 
     // Allow real dark gray for terminals that support it
-    if (enable_256_colors) {
+    if( enable_256_colors ) {
         add_color( def_c256_dark_gray_red, "c_dark_gray_red", color_pair( 73 ), def_c256_red_dark_gray );
         add_color( def_c256_dark_gray_blue, "h_dark_gray", color_pair( 75 ), def_c256_blue_dark_gray );
         add_color( def_c256_dark_gray_black, "c_dark_gray", color_pair( 72 ), def_c256_dark_gray_black );
-        add_color( def_c256_dark_gray_white, "c_dark_gray_white", color_pair( 79 ), def_c256_white_dark_gray );
-        add_color( def_c256_dark_gray_green, "c_dark_gray_green", color_pair( 74 ), def_c256_green_dark_gray );
-        add_color( def_c256_dark_gray_yellow, "c_dark_gray_yellow", color_pair( 78 ), def_c256_yellow_dark_gray );
-        add_color( def_c256_dark_gray_magenta, "c_dark_gray_magenta", color_pair( 77 ), def_c256_magenta_dark_gray );
+        add_color( def_c256_dark_gray_white, "c_dark_gray_white", color_pair( 79 ),
+                   def_c256_white_dark_gray );
+        add_color( def_c256_dark_gray_green, "c_dark_gray_green", color_pair( 74 ),
+                   def_c256_green_dark_gray );
+        add_color( def_c256_dark_gray_yellow, "c_dark_gray_yellow", color_pair( 78 ),
+                   def_c256_yellow_dark_gray );
+        add_color( def_c256_dark_gray_magenta, "c_dark_gray_magenta", color_pair( 77 ),
+                   def_c256_magenta_dark_gray );
         add_color( def_c256_dark_gray_cyan, "c_dark_gray_cyan", color_pair( 76 ), def_c256_cyan_dark_gray );
-    }
-    else {
+    } else {
         add_color( def_c_dark_gray_red, "c_dark_gray_red", color_pair( 9 ).bold(), def_c_dark_gray_red );
         add_color( def_h_dark_gray, "h_dark_gray", color_pair( 20 ).bold(), def_c_light_blue );
         add_color( def_c_dark_gray, "c_dark_gray", color_pair( 30 ).bold(), def_i_dark_gray );
@@ -493,14 +496,14 @@ void init_colors()
     init_pair( 70, magenta,    cyan );
     init_pair( 71, cyan,       cyan );
 
-    init_pair( 72, dark_gray,  black   );
-    init_pair( 73, dark_gray,  red     );
-    init_pair( 74, dark_gray,  green   );
-    init_pair( 75, dark_gray,  blue    );
-    init_pair( 76, dark_gray,  cyan    );
+    init_pair( 72, dark_gray,  black );
+    init_pair( 73, dark_gray,  red );
+    init_pair( 74, dark_gray,  green );
+    init_pair( 75, dark_gray,  blue );
+    init_pair( 76, dark_gray,  cyan );
     init_pair( 77, dark_gray,  magenta );
-    init_pair( 78, dark_gray,  yellow  );
-    init_pair( 79, dark_gray,  white   );
+    init_pair( 78, dark_gray,  yellow );
+    init_pair( 79, dark_gray,  white );
     init_pair( 80, black,      dark_gray );
     init_pair( 81, red,        dark_gray );
     init_pair( 82, green,      dark_gray );
