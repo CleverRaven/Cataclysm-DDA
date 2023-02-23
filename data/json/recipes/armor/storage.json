@@ -1802,13 +1802,13 @@
     "time": "4 h",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "tailoring_leather_small", 6 ], [ "clasps", 3 ] ],
+    "using": [ [ "tailoring_leather_small", 12 ], [ "clasps", 5 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_leatherworking" }
     ],
-    "components": [ [ [ "leather_pouch", 6 ] ] ]
+    "components": [ [ [ "leather_pouch", 2 ] ], [ [ "leather_belt", 1 ] ] ]
   },
   {
     "result": "javelin_bag",

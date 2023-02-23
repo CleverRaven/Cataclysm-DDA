@@ -504,7 +504,7 @@
       "outdoor_only": true,
       "min_radius": 40,
       "max_radius": 50,
-      "lifespan": [ "40 minutes", "60 minutes" ]
+      "lifespan": [ "12 minutes", "15 minutes" ]
     }
   },
   {

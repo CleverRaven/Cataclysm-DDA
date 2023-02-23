@@ -3189,6 +3189,7 @@ void item::deserialize( const JsonObject &data )
         }
     }
 
+    update_inherited_flags();
     on_damage_changed();
 }
 

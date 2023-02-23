@@ -1893,7 +1893,7 @@
       [ [ "welder", 64 ], [ "welder_crude", 97 ], [ "soldering_iron", 97 ], [ "toolset", 97 ] ],
       [ [ "swage", -1 ] ],
       [ [ "metal_tank", -1 ] ],
-      [ [ "water", -240 ] ]
+      [ [ "water", -240 ], [ "water_clean", -240 ] ]
     ],
     "components": [
       [ [ "coat_rain", 1 ], [ "jacket_windbreaker", 1 ], [ "jacket_evac", 1 ], [ "coat_gut", 1 ] ],
@@ -1912,7 +1912,7 @@
       [ [ "welder", 48 ], [ "welder_crude", 72 ], [ "soldering_iron", 72 ], [ "toolset", 72 ] ],
       [ [ "swage", -1 ] ],
       [ [ "metal_tank", -1 ] ],
-      [ [ "water", -240 ] ]
+      [ [ "water", -240 ], [ "water_clean", -240 ] ]
     ],
     "components": [
       [ [ "coat_rain", 1 ], [ "jacket_windbreaker", 1 ], [ "jacket_evac", 1 ], [ "coat_gut", 1 ] ],
@@ -1932,7 +1932,7 @@
       [ [ "welder", 72 ], [ "welder_crude", 109 ], [ "soldering_iron", 109 ], [ "toolset", 109 ] ],
       [ [ "swage", -1 ] ],
       [ [ "metal_tank", -1 ] ],
-      [ [ "water", -240 ] ]
+      [ [ "water", -240 ], [ "water_clean", -240 ] ]
     ],
     "components": [
       [ [ "coat_rain", 1 ], [ "jacket_windbreaker", 1 ], [ "jacket_evac", 1 ], [ "coat_gut", 1 ] ],
@@ -2535,7 +2535,7 @@
       { "proficiency": "prof_articulation" },
       { "proficiency": "prof_quenching", "fail_multiplier": 2 }
     ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -240 ] ] ]
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -240 ], [ "water_clean", -240 ] ] ]
   },
   {
     "result": "xl_armor_qt_lightplate",
@@ -2544,7 +2544,7 @@
     "time": "46 d 18 h 46 m",
     "using": [ [ "blacksmithing_standard", 110 ], [ "mc_steel_standard", 32 ], [ "tailoring_leather_patchwork", 5 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -240 ] ] ]
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -240 ], [ "water_clean", -240 ] ] ]
   },
   {
     "result": "armor_qt_lightplate",
@@ -2901,7 +2901,7 @@
       { "proficiency": "prof_articulation" },
       { "proficiency": "prof_quenching", "fail_multiplier": 2 }
     ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -240 ] ] ]
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -240 ], [ "water_clean", -240 ] ] ]
   },
   {
     "result": "xl_armor_qt_plate",
@@ -2910,7 +2910,7 @@
     "time": "51 d 11 h 2 m",
     "using": [ [ "blacksmithing_standard", 110 ], [ "mc_steel_standard", 39 ], [ "tailoring_leather_patchwork", 5 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -240 ] ] ]
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -240 ], [ "water_clean", -240 ] ] ]
   },
   {
     "result": "armor_qt_plate",
@@ -3279,7 +3279,7 @@
       { "proficiency": "prof_articulation" },
       { "proficiency": "prof_quenching", "fail_multiplier": 2 }
     ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -240 ] ] ]
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -240 ], [ "water_clean", -240 ] ] ]
   },
   {
     "result": "xl_armor_qt_heavyplate",
@@ -3288,7 +3288,7 @@
     "time": "56 d 3 h 19 m",
     "using": [ [ "blacksmithing_standard", 110 ], [ "mc_steel_standard", 39 ], [ "tailoring_leather_patchwork", 5 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ]
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ]
   },
   {
     "result": "armor_qt_heavyplate",
