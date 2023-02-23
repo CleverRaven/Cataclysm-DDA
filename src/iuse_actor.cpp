@@ -3769,8 +3769,11 @@ bool place_trap_actor::is_allowed( Character &p, const tripoint &pos,
     const trap &existing_trap = here.tr_at( pos );
     if( !existing_trap.is_null() ) {
         if( existing_trap.can_see( pos, p ) ) {
-            p.add_msg_if_player( m_info, _( "You can't place a %s there.  It contains %s already." ),
-                                 name, existing_trap.is_benign() ? _( "a deployed object" ) : _( "a trap" ) );
+            p.add_msg_if_player( m_info,
+                                 existing_trap.is_benign()
+                                     ? _( "You can't place a %s there.  It contains a deployed object already." )
+                                     : _( "You can't place a %s there.  It contains a trap already." ),
+                                 name );
         } else {
             p.add_msg_if_player( m_bad, _( "You trigger a %s!" ), existing_trap.name() );
             existing_trap.trigger( pos, p );
