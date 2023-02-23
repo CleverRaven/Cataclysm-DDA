@@ -447,7 +447,7 @@
     "subcategory": "CSC_ENCHANTED_WEAPONS",
     "skill_used": "spellcraft",
     "difficulty": 6,
-    "skills_required": [ [ "spellcraft", 6 ], [ "bashing", 3 ] ],
+    "skills_required": [ [ "spellcraft", 6 ], [ "unarmed", 3 ] ],
     "time": "4 h 30 m",
     "book_learn": [ [ "book_mythological", 6 ] ],
     "qualities": [
@@ -466,7 +466,7 @@
     "subcategory": "CSC_ENCHANTED_WEAPONS",
     "skill_used": "spellcraft",
     "difficulty": 6,
-    "skills_required": [ [ "spellcraft", 6 ], [ "bashing", 3 ] ],
+    "skills_required": [ [ "spellcraft", 6 ], [ "unarmed", 3 ] ],
     "time": "4 h 30 m",
     "book_learn": [ [ "book_mythological", 6 ] ],
     "qualities": [
