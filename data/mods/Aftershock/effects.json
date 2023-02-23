@@ -212,7 +212,7 @@
     "rating": "bad",
     "int_dur_factor": "8 h",
     "max_duration": "24 h",
-    "base_mods": { "stim_amount": [ -5 ], "stim_max": [ -60 ], "perspiration_amount": [ 2 ], "stamina_amount": [ -10 ] },
+    "base_mods": { "stim_amount": [ -5 ], "stim_max_val": [ -60 ], "perspiration_amount": [ 2 ], "stamina_amount": [ -10 ] },
     "blood_analysis_description": "Post overdose quantities of multiple drugs in analyzed blood.",
     "show_in_info": true
   },

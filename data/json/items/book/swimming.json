@@ -29,7 +29,7 @@
     "volume": "500 ml",
     "price": 2200,
     "price_postapoc": 750,
-    "material": [ "paper" ],
+    "material": [ "paper", "plastic" ],
     "symbol": "?",
     "looks_like": "manual_smg",
     "color": "green",

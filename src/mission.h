@@ -117,7 +117,6 @@ struct mission_end {
     // Nothing special happens
     static void standard( mission * ) {}
     // random valuable reward
-    static void deposit_box( mission * );
 };
 
 struct mission_fail {
@@ -223,6 +222,7 @@ struct mission_type {
         item_group_id group_id = item_group_id::NULL_ID();
         itype_id container_id = itype_id::NULL_ID();
         bool remove_container = false;
+        bool invisible_on_complete = false;
         itype_id empty_container = itype_id::NULL_ID();
         int item_count = 1;
         npc_class_id recruit_class = npc_class_id( "NC_NONE" );  // The type of NPC you are to recruit
@@ -382,6 +382,8 @@ class mission
         void set_target( const tripoint_abs_omt &p );
         void set_target_npc_id( const character_id &npc_id );
         void set_assigned_player_id( const character_id &char_id );
+        void update_world_missions_character( const character_id &old_char_id,
+                                              const character_id &new_char_id );
         /*@}*/
 
         /** Assigns the mission to the player. */
@@ -446,6 +448,7 @@ class mission
 
         // For save/load
         static std::vector<mission *> get_all_active();
+        void remove_active_world_mission( mission &cur_mission );
         static void add_existing( const mission &m );
 
         static mission_status status_from_string( const std::string &s );

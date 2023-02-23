@@ -12,6 +12,7 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "0",
     "color": "green",
+    "scannable": false,
     "use_action": { "type": "learn_spell", "spells": [ "damage_transfer" ] }
   },
   {
@@ -27,6 +28,7 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "o",
     "color": "red",
+    "scannable": false,
     "use_action": { "type": "learn_spell", "spells": [ "fire_teleport" ] }
   }
 ]

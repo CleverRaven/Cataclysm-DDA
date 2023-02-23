@@ -34,7 +34,6 @@ class temperature_in_kelvin_tag
 
 using temperature = quantity<float, temperature_in_kelvin_tag>;
 
-
 class energy_in_millijoule_tag
 {
 };
