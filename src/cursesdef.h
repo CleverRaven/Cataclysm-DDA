@@ -86,7 +86,7 @@ enum base_color : short {
     white = 0x07,    // RGB{196, 196, 196}
 
     // 256 Color Support
-    dark_gray = 235,
+    dark_gray = 237,
 };
 
 using chtype = int;

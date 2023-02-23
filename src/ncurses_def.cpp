@@ -262,11 +262,11 @@ void catacurses::init_interface()
     set_escdelay( 10 ); // Make Escape actually responsive
     // TODO: error checking
     start_color();
-    init_colors();
-
+    // creates the color_manager and sets 256 color mode if available
     if (COLORS >= 256) {
         get_all_colors().enable_256_colors = true;
     }
+    init_colors();
 }
 
 void input_manager::pump_events()
