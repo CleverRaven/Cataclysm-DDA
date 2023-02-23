@@ -1034,6 +1034,30 @@
     "flags": [ "TRADER_AVOID" ]
   },
   {
+    "id": "alchemist_pocket",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "ethereal pocket" },
+    "description": "Small ethereal pocket, that expanded under your left arm.  You can store your potions here, but it seems it has no real limitations.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "material": [ "concentrated_mana" ],
+    "symbol": "x",
+    "color": "magenta",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "10 L",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "50 cm",
+        "moves": 60,
+        "weight_multiplier": 0
+      }
+    ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "BELTED", "WATERPROOF", "PADDED", "TARDIS" ],
+    "armor": [ { "covers": [ "arm_l" ], "coverage": 0, "encumbrance": 0 } ]
+  },
+  {
     "type": "GENERIC",
     "id": "magical_throwing_knife",
     "copy-from": "throwing_knife",
