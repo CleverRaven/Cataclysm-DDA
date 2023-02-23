@@ -425,23 +425,6 @@ int nc_color::to_color_pair_index() const
 
 nc_color nc_color::bold() const
 {
-    // TODO check toggleable setting
-    // if (COLORS >= 256)
-    // {   
-    //     short fg, bg;
-    //     int color_pair_index = to_color_pair_index();
-    //     pair_content(color_pair_index, &fg, &bg);
-    //     if (fg == black)
-    //     {
-    //         switch (bg)
-    //         {
-    //         case:
-                
-
-    //         }
-    //     }
-    // }
-
     return nc_color( attribute_value | A_BOLD );
 }
 
