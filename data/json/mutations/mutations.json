@@ -5430,9 +5430,9 @@
     "visibility": 3,
     "ugliness": 3,
     "description": "You have a pair of bumps on your skull.",
-    "types": [ "HORNS", "ELFA" ],
+    "types": [ "HORNS" ],
     "changes_to": [ "HORNS", "ANTENNAE" ],
-    "category": [ "CATTLE", "CHIMERA", "INSECT" ]
+    "category": [ "CATTLE", "CHIMERA", "INSECT", "ELFA" ]
   },
   {
     "type": "mutation",
