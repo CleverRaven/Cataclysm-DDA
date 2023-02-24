@@ -8424,6 +8424,7 @@ std::optional<int> iuse::cord_attach( Character *p, item *it, bool, const tripoi
             it->set_var( "source_x", abspos.x );
             it->set_var( "source_y", abspos.y );
             it->set_var( "source_z", here.get_abs_sub().z() );
+            p->add_msg_if_player( _( "You attach the %1$s to the %2$s." ), it->tname(), vp->vehicle().name );
             set_cable_active( p, it, "pay_out_cable" );
         }
     } else {
