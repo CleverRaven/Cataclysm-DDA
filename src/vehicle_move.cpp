@@ -510,8 +510,7 @@ void vehicle::thrust( int thd, int z )
         const double mass_lbs = mass_kg * 2.20462;
         const double mass_scalar = std::pow( mass_lbs / 16000, 0.3 );
         double velocity_mph = velocity * 0.01;
-        const double power_scalar = ( ( to_kilogram( total_mass() ) * 9.8 ) / lift_thrust_of_rotorcraft(
-                                          true ) ) * 2.0;
+        const double power_scalar = mass_kg * 9.8 * 2.0 / lift_thrust_of_rotorcraft( true );
         double d = coeff_air_drag();
         double drag_scalar = 1.0;
         // Higher drag than 2.2 can cause the maximum speed for a vehicle to fall into the cubic part of the power curve
@@ -523,21 +522,18 @@ void vehicle::thrust( int thd, int z )
         // Scale the velocity by mass and drag effects (inverse scaling of what we do to scale max speed in vehicle.cpp)
         velocity_mph /= mass_scalar;
         velocity_mph /= drag_scalar;
-        double value;
         if( velocity_mph < 90 ) {
-            value = 31.0 / 72900 * std::pow( velocity_mph, 3 ) +
-                    ( ( - 7.0 / 135 ) + ( ( d - 1.0 ) / 50.0 ) ) * std::pow( velocity_mph, 2 ) +
-                    -1 * velocity_mph +
-                    500;
+            load = power_scalar * ( 31.0 / 72900 * std::pow( velocity_mph, 3 ) +
+                                    ( ( - 7.0 / 135 ) + ( ( d - 1.0 ) / 50.0 ) ) * std::pow( velocity_mph, 2 ) +
+                                    -1 * velocity_mph +
+                                    500 );
         } else {
             // The inverse of this quadratic is solved for in vehicle.cpp to determine the max safe airspeed
             // If you modify this equation, you must update the inverse equation
-            value = ( ( 1.0 / 18 ) + ( ( d - 1.0 )  / 50.0 ) ) * std::pow( velocity_mph, 2 ) +
-                    -10 * velocity_mph +
-                    750;
+            load = power_scalar * ( ( ( 1.0 / 18 ) + ( ( d - 1.0 )  / 50.0 ) ) * std::pow( velocity_mph, 2 ) +
+                                    -10 * velocity_mph +
+                                    750 );
         }
-        value *= power_scalar;
-        load = value;
     }
 
     // only consume resources if engine accelerating

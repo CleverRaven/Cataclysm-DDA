@@ -2721,9 +2721,11 @@ void veh_interact::display_stats() const
     i += 1;
 
     if( veh->has_rotors() ) {
+        const double lift_ratio = veh->lift_thrust_of_rotorcraft( true ) / ( to_kilogram(
+                                      veh->total_mass() ) * 9.8 );
         fold_and_print( w_stats, point( x[i], y[i] ), w[i], c_light_gray,
-                        _( "Max Lift:     <color_light_blue>%7.0f</color> lbs" ),
-                        veh->lift_thrust_of_rotorcraft( true ) * 0.2248 );
+                        _( "Max Lift:     <color_light_blue>%7.0f</color> %s" ),
+                        lift_ratio * convert_weight( veh->total_mass() ), weight_units() );
     }
     i += 1;
 

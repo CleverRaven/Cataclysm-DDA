@@ -310,12 +310,25 @@
     "price_postapoc": 100
   },
   {
+    "id": "tank_turbine_engine",
+    "copy-from": "engine_gasoline",
+    "type": "ENGINE",
+    "name": { "str": "1,500 HP gas turbine engine" },
+    "description": "A gas turbine engine, usually used for military vehicles.  Known for its high rate of fuel consumption.",
+    "//": "Based on AGT1500 engine.",
+    "weight": "1134 kg",
+    "volume": "900 L",
+    "price": 96000,
+    "price_postapoc": 2500,
+    "displacement": 2700
+  },
+  {
     "id": "small_turbine_engine",
     "copy-from": "engine_gasoline",
     "type": "ENGINE",
     "name": { "str": "400 HP gas turbine engine" },
     "description": "A gas turbine engine, usually used for civilian helicopters.  Known for its high rate of fuel consumption.",
-    "//": "Based on Allison 250-C20J engine used by Bell 206. Doubled the published weight to account for a transmission",
+    "//": "Based on Allison 250-C20J engine used by Bell 206. Doubled the published weight to account for a transmission.",
     "weight": "120 kg",
     "volume": "120 L",
     "price": 24000,

@@ -522,6 +522,33 @@
     "damage_reduction": { "all": 50 }
   },
   {
+    "id": "engine_turbine_tank",
+    "copy-from": "gas_turbine_engine",
+    "type": "vehicle_part",
+    "item": "tank_turbine_engine",
+    "description": "A heavy-duty gas turbine engine, developed for and used exclusively by the M1 Abrams tank.",
+    "durability": 400,
+    "epower": -10,
+    "power": 1006695,
+    "energy_consumption": "4026780 W",
+    "breaks_into": [
+      { "item": "alloy_plate", "count": [ 1, 2 ] },
+      { "item": "steel_lump", "count": [ 45, 58 ] },
+      { "item": "steel_chunk", "count": [ 45, 58 ] },
+      { "item": "scrap", "count": [ 45, 58 ] }
+    ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 7 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 5 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": {
+        "skills": [ [ "mechanics", 8 ] ],
+        "time": "60 m",
+        "using": [ [ "repair_welding_standard", 3 ], [ "repair_welding_alloys", 2 ], [ "vehicle_wrench_2", 1 ], [ "vehicle_screw", 1 ] ]
+      }
+    },
+    "damage_reduction": { "all": 60 }
+  },
+  {
     "id": "engine_turbine_small",
     "copy-from": "gas_turbine_engine",
     "type": "vehicle_part",
