@@ -2485,7 +2485,7 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
         if( !player_character.has_flag( json_flag_CANNIBAL ) &&
             !player_character.has_flag( json_flag_PSYCHOPATH ) &&
             !player_character.has_flag( json_flag_SAPIOVORE ) ) && 
-            !player_character.has_flag( json_flag_NUMB ) ) && {
+            !player_character.has_flag( json_flag_NUMB ) ) {
             info.emplace_back( "DESCRIPTION",
                                _( "* This food contains <bad>human flesh</bad>." ) );
         } else {
