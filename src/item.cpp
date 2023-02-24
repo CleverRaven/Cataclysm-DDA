@@ -172,7 +172,6 @@ static const itype_id itype_waterproof_gunmod( "waterproof_gunmod" );
 static const json_character_flag json_flag_CANNIBAL( "CANNIBAL" );
 static const json_character_flag json_flag_PSYCHOPATH( "PSYCHOPATH" );
 static const json_character_flag json_flag_SAPIOVORE( "SAPIOVORE" );
-static const json_character_flag json_flag_NUMB( "NUMB" );
 static const json_character_flag json_flag_IMMUNE_SPOIL( "IMMUNE_SPOIL" );
 
 static const matec_id RAPID( "RAPID" );
