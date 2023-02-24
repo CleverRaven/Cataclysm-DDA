@@ -894,10 +894,7 @@
     "book_learn": [ [ "textbook_armwest", 3 ] ],
     "using": [ [ "filament_canvas", 82 ], [ "fastener_small", 5 ] ],
     "qualities": [ { "id": "SEW", "level": 2 }, { "id": "FABRIC_CUT", "level": 1 } ],
-    "components": [
-      [ [ "quilt", 1 ], [ "quilt_patchwork", 1 ] ],
-      [ [ "quilt", 1 ], [ "quilt_patchwork", 1 ] ]
-    ],
+    "components": [ [ [ "quilt", 1 ], [ "quilt_patchwork", 1 ] ], [ [ "quilt", 1 ], [ "quilt_patchwork", 1 ] ] ],
     "byproducts": [ [ "scrap_felt", 967 ], [ "felt_patch", 107 ] ]
   }
 ]
