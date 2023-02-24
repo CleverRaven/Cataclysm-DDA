@@ -1422,11 +1422,11 @@ bool map::displace_vehicle( vehicle &veh, const tripoint &dp, const bool adjust_
     veh.update_active_fakes();
 
     if( src_submap != dst_submap ) {
+        dst_submap->ensure_nonuniform();
         veh.set_submap_moved( tripoint( dst.x() / SEEX, dst.y() / SEEY, dst.z() ) );
         auto src_submap_veh_it = src_submap->vehicles.begin() + our_i;
         dst_submap->vehicles.push_back( std::move( *src_submap_veh_it ) );
         src_submap->vehicles.erase( src_submap_veh_it );
-        dst_submap->is_uniform = false;
         invalidate_max_populated_zlev( dst.z() );
     }
     if( need_update ) {
@@ -5003,7 +5003,7 @@ item &map::add_item( const tripoint &p, item new_item )
         new_item.activate();
     }
 
-    current_submap->is_uniform = false;
+    current_submap->ensure_nonuniform();
     invalidate_max_populated_zlev( p.z );
 
     current_submap->update_lum_add( l, new_item );
@@ -6144,7 +6144,7 @@ bool map::add_field( const tripoint &p, const field_type_id &type_id, int intens
         debugmsg( "Tried to add field at (%d,%d) but the submap is not loaded", l.x, l.y );
         return false;
     }
-    current_submap->is_uniform = false;
+    current_submap->ensure_nonuniform();
     invalidate_max_populated_zlev( p.z );
 
     if( current_submap->get_field( l ).add_field( converted_type_id, intensity, age ) ) {
@@ -7608,20 +7608,34 @@ void map::saven( const tripoint &grid )
 
 // Optimized mapgen function that only works properly for very simple overmap types
 // Does not create or require a temporary map and does its own saving
-static void generate_uniform( const tripoint_abs_sm &p, const ter_id &terrain_type )
+bool generate_uniform( const tripoint_abs_sm &p, const oter_id &oter )
+{
+    std::unique_ptr<submap> sm = std::make_unique<submap>();
+    if( oter == oter_open_air ) {
+        sm->set_all_ter( t_open_air, true );
+    } else if( oter == oter_empty_rock || oter == oter_deep_rock ) {
+        sm->set_all_ter( t_rock, true );
+    } else if( oter == oter_solid_earth ) {
+        sm->set_all_ter( ter_t_soil, true );
+    } else {
+        return false;
+    }
+    sm->last_touched = calendar::turn;
+    return MAPBUFFER.add_submap( p, sm );
+}
+
+bool generate_uniform_omt( const tripoint_abs_sm &p, const oter_id &terrain_type )
 {
     dbg( D_INFO ) << "generate_uniform p: " << p
                   << "  terrain_type: " << terrain_type.id().str();
 
+    bool ret = true;
     for( int xd = 0; xd <= 1; xd++ ) {
         for( int yd = 0; yd <= 1; yd++ ) {
-            submap *sm = new submap();
-            sm->is_uniform = true;
-            sm->set_all_ter( terrain_type );
-            sm->last_touched = calendar::turn;
-            MAPBUFFER.add_submap( p + point( xd, yd ), sm );
+            ret &= generate_uniform( p + point( xd, yd ), terrain_type );
         }
     }
+    return ret;
 }
 
 void map::loadn( const tripoint &grid, const bool update_vehicles, bool _actualize )
@@ -7654,13 +7668,7 @@ void map::loadn( const tripoint &grid, const bool update_vehicles, bool _actuali
 
         // Short-circuit if the map tile is uniform
         // TODO: Replace with json mapgen functions.
-        if( terrain_type == oter_open_air ) {
-            generate_uniform( grid_abs_sub_rounded, t_open_air );
-        } else if( terrain_type == oter_empty_rock || terrain_type == oter_deep_rock ) {
-            generate_uniform( grid_abs_sub_rounded, t_rock );
-        } else if( terrain_type == oter_solid_earth ) {
-            generate_uniform( grid_abs_sub_rounded, ter_t_soil );
-        } else {
+        if( !generate_uniform_omt( grid_abs_sub_rounded, terrain_type ) ) {
             tinymap tmp_map;
             tmp_map.main_cleanup_override( false );
             tmp_map.generate( grid_abs_sub_rounded, calendar::turn );
@@ -8214,7 +8222,7 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
     }
     bool ignore_terrain_checks = false;
     bool ignore_inside_checks = gp.z < 0;
-    if( current_submap->is_uniform ) {
+    if( current_submap->is_uniform() ) {
         const tripoint upper_left{ SEEX * gp.x, SEEY * gp.y, gp.z };
         if( !allow_on_terrain( upper_left ) ||
             ( !ignore_inside_checks && has_flag_ter_or_furn( ter_furn_flag::TFLAG_INDOORS, upper_left ) ) ) {
@@ -9135,8 +9143,7 @@ void map::draw_fill_background( const ter_id &type )
                 debugmsg( "Tried to fill background at (%d,%d) but the submap is not loaded", gridx, gridy );
                 continue;
             }
-            sm->is_uniform = true;
-            sm->set_all_ter( type );
+            sm->set_all_ter( type, true );
         }
     }
 }
@@ -9779,7 +9786,7 @@ int map::calc_max_populated_zlev()
                               sz );
                     continue;
                 }
-                if( !sm->is_uniform ) {
+                if( !sm->is_uniform() ) {
                     max_z = sz;
                     level_done = true;
                     break;
