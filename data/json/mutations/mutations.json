@@ -3996,7 +3996,7 @@
     "types": [ "HORNS" ],
     "prereqs": [ "HEADBUMPS" ],
     "changes_to": [ "HORNS_CURLED", "HORNS_POINTED", "ANTLERS" ],
-    "category": [ "CATTLE", "CHIMERA" ],
+    "category": [ "CATTLE", "CHIMERA", "ELFA" ],
     "attacks": {
       "attack_text_u": "You headbutt %s with your horns",
       "attack_text_npc": "%1$s headbutts %2$s with their horns",
@@ -4048,7 +4048,7 @@
     "type": "mutation",
     "id": "ANTLERS",
     "name": { "str": "Antlers" },
-    "points": -2,
+    "points": 0,
     "visibility": 10,
     "ugliness": 3,
     "mixed_effect": true,
@@ -4056,6 +4056,7 @@
     "types": [ "HORNS" ],
     "prereqs": [ "HORNS" ],
     "restricts_gear": [ "head_crown" ],
+    "category": [ "ELFA" ],
     "allow_soft_gear": true,
     "attacks": {
       "attack_text_u": "You butt %s with your antlers",
@@ -5429,7 +5430,7 @@
     "visibility": 3,
     "ugliness": 3,
     "description": "You have a pair of bumps on your skull.",
-    "types": [ "HORNS" ],
+    "types": [ "HORNS", "ELFA" ],
     "changes_to": [ "HORNS", "ANTENNAE" ],
     "category": [ "CATTLE", "CHIMERA", "INSECT" ]
   },
