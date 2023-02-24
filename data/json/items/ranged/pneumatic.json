@@ -15,9 +15,8 @@
     "flags": [ "NEVER_JAMS", "NON_FOULING" ],
     "skill": "rifle",
     "ammo": [ "BB" ],
-    "weight": "1000 g",
+    "weight": "1723 g",
     "volume": "1500 ml",
-    "longest_side": "90 cm",
     "bashing": 9,
     "to_hit": -1,
     "range": 12,
@@ -36,5 +35,42 @@
       [ "underbarrel mount", 1 ]
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "BB": 150 } } ]
+  },
+  {
+    "id": "varmint_airgun",
+    "type": "GUN",
+    "looks_like": "ar15",
+    "reload_noise_volume": 10,
+    "symbol": "(",
+    "color": "brown",
+    "name": { "str": "varmint air rifle" },
+    "description": "A cheap varmint air rifle chambered in .177, suitable for hunting small game.",
+    "price": 25000,
+    "price_postapoc": 550,
+    "//": "Based on the Ruger Targis High Velocity",
+    "material": [ "plastic", "steel" ],
+    "flags": [ "NEVER_JAMS", "NON_FOULING" ],
+    "skill": "rifle",
+    "ammo": [ "airgun_pellet" ],
+    "weight": "3674 g",
+    "volume": "1500 ml",
+    "bashing": 9,
+    "to_hit": -1,
+    "range": 14,
+    "ranged_damage": { "damage_type": "stab", "amount": 2 },
+    "dispersion": 150,
+    "durability": 7,
+    "clip_size": 150,
+    "reload": 500,
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "airgun_pellet": 1 } } ]
   }
 ]
