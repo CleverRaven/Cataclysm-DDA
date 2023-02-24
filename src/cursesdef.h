@@ -139,6 +139,7 @@ int getbegx( const window &win );
 int getbegy( const window &win );
 int getcurx( const window &win );
 int getcury( const window &win );
+bool supports_256_colors();
 } // namespace catacurses
 
 #endif // CATA_SRC_CURSESDEF_H
