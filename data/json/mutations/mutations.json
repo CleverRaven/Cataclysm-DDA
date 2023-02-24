@@ -1120,7 +1120,7 @@
     "social_modifiers": { "intimidate": 10 },
     "types": [ "HUMAN_EMPATHY" ],
     "prereqs": [ "PSYCHOPATH" ],
-    "flags": [ "CANNIBAL" ]
+    "flags": [ "PSYCHOPATH" ]
   },
   {
     "type": "mutation",
