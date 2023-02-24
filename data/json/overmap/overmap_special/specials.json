@@ -6152,8 +6152,8 @@
     "type": "overmap_special",
     "id": "marina",
     "overmaps": [
-      { "point": [ -1, 1, 0 ], "overmap": "lake_surface", "locations": [ "lake_surface" ] },
-      { "point": [ 5, 1, 0 ], "overmap": "lake_surface", "locations": [ "lake_surface" ] },
+      { "point": [ -1, 0, 0 ], "overmap": "lake_surface", "locations": [ "lake_surface" ] },
+      { "point": [ 5, 0, 0 ], "overmap": "lake_surface", "locations": [ "lake_surface" ] },
       { "point": [ -1, 2, 0 ], "overmap": "lake_shore", "locations": [ "lake_surface", "lake_shore", "land" ] },
       { "point": [ 5, 2, 0 ], "overmap": "lake_shore", "locations": [ "lake_surface", "lake_shore", "land" ] },
       { "point": [ -1, 3, 0 ], "overmap": "lake_shore", "locations": [ "lake_shore", "land" ] },
@@ -6178,7 +6178,6 @@
       { "point": [ 2, 3, 0 ], "overmap": "marina_18_north" },
       { "point": [ 1, 3, 0 ], "overmap": "marina_19_north" },
       { "point": [ 0, 3, 0 ], "overmap": "marina_20_north" },
-      { "point": [ 2, 4, 0 ], "overmap": "road_ns" },
       { "point": [ 0, 2, 1 ], "overmap": "marina_15_roof_north" },
       { "point": [ 4, 2, 1 ], "overmap": "marina_11_roof_north" },
       { "point": [ 3, 2, 1 ], "overmap": "marina_12_roof_north" }
@@ -6187,7 +6186,7 @@
     "city_distance": [ 5, -1 ],
     "city_sizes": [ 4, 20 ],
     "occurrences": [ 0, 1 ],
-    "connections": [ { "point": [ 2, 5, 0 ], "terrain": "road", "connection": "local_road", "from": [ 2, 4, 0 ] } ],
+    "connections": [ { "point": [ 2, 4, 0 ], "terrain": "road", "connection": "local_road", "from": [ 2, 3, 0 ] } ],
     "flags": [ "CLASSIC", "LAKE" ]
   },
   {
