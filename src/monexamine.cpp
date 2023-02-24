@@ -196,6 +196,9 @@ void dump_items( monster &z )
     Character &player_character = get_player_character();
     map &here = get_map();
     for( item &it : z.inv ) {
+        if( it.has_var( "DESTROY_ITEM_ON_MON_DEATH" ) ) {
+            continue;
+        }
         here.add_item_or_charges( player_character.pos(), it );
     }
     z.inv.clear();

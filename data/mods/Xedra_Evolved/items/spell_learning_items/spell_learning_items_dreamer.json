@@ -12,6 +12,7 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "o",
     "color": "white",
+    "scannable": false,
     "use_action": { "type": "learn_spell", "spells": [ "dream_armor" ] }
   },
   {
@@ -28,6 +29,7 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "t",
     "color": "white",
+    "scannable": false,
     "use_action": { "type": "learn_spell", "spells": [ "dream_dagger" ] }
   },
   {
@@ -44,6 +46,7 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "C",
     "color": "red_white",
+    "scannable": false,
     "use_action": { "type": "learn_spell", "spells": [ "dream_blade" ] }
   },
   {
@@ -62,6 +65,7 @@
     "volume": "750 ml",
     "bashing": 2,
     "to_hit": -3,
+    "scannable": false,
     "use_action": { "type": "learn_spell", "spells": [ "spell_summon_twin" ] }
   },
   {
@@ -81,6 +85,7 @@
     "material_thickness": 1,
     "environmental_protection": 1,
     "armor": [ { "coverage": 75, "covers": [ "eyes" ], "rigid_layer_only": true } ],
+    "scannable": false,
     "use_action": { "type": "learn_spell", "spells": [ "spell_dreamer_clairvoyance" ] }
   },
   {
@@ -97,6 +102,7 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "0",
     "color": "black",
+    "scannable": false,
     "use_action": { "type": "learn_spell", "spells": [ "summon_shifter" ] }
   },
   {
@@ -113,6 +119,7 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "0",
     "color": "black",
+    "scannable": false,
     "use_action": { "type": "learn_spell", "spells": [ "summon_sapient_light" ] }
   },
   {
@@ -129,6 +136,7 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "0",
     "color": "black",
+    "scannable": false,
     "use_action": { "type": "learn_spell", "spells": [ "make_hammer" ] }
   },
   {
@@ -144,6 +152,7 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "0",
     "color": "white",
+    "scannable": false,
     "use_action": { "type": "learn_spell", "spells": [ "summon_duplicator" ] }
   },
   {
@@ -160,6 +169,7 @@
     "price_postapoc": 10,
     "material": [ "plastic" ],
     "symbol": ")",
+    "scannable": false,
     "color": "dark_gray"
   },
   {
@@ -175,6 +185,7 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "0",
     "color": "black",
+    "scannable": false,
     "use_action": { "type": "learn_spell", "spells": [ "summon_ophanim" ] }
   },
   {
@@ -190,6 +201,7 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "0",
     "color": "black",
+    "scannable": false,
     "use_action": { "type": "learn_spell", "spells": [ "summon_winch" ] }
   }
 ]

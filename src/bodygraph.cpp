@@ -210,8 +210,6 @@ void bodygraph::check() const
 
 */
 
-#define BPGRAPH_HEIGHT 24
-
 using part_tuple =
     std::tuple<bodypart_id, const sub_body_part_type *, const bodygraph_part *, bool>;
 
@@ -278,7 +276,7 @@ void bodygraph_display::init_ui_windows()
 {
     partlist_width = 18;
     info_width = 18;
-    all_height = clamp( BPGRAPH_HEIGHT + 20, 0, TERMY );
+    all_height = clamp( BPGRAPH_MAXROWS + 24, 0, TERMY );
 
     int base_width = BPGRAPH_MAXCOLS + partlist_width + info_width + 4;
     all_width = clamp( base_width + 40, 0, TERMX );
@@ -401,7 +399,7 @@ void bodygraph_display::draw_info()
     werase( w_info );
     if( std::get<3>( partlist[sel_part] ) ) {
         int y = 0;
-        for( unsigned i = top_info; i < info_txt.size() && y < BPGRAPH_HEIGHT - 2; i++, y++ ) {
+        for( unsigned i = top_info; i < info_txt.size() && y < all_height - 2; i++, y++ ) {
             if( info_txt[i] == "--" ) {
                 for( int x = 1; x < info_width - 2; x++ ) {
                     mvwputch( w_info, point( x, y ), c_dark_gray, LINE_OXOX );
@@ -489,8 +487,8 @@ void bodygraph_display::prepare_infotext( bool reset_pos )
     info_txt.emplace_back( string_format( "%s: %s", colorize( _( "Health" ), c_magenta ),
                                           colorize( hpbar.first, hpbar.second ) ) );
     // part wetness
-    info_txt.emplace_back( string_format( "%s: %.2f%%", colorize( _( "Wetness" ), c_magenta ),
-                                          info.wetness ) );
+    info_txt.emplace_back( string_format( "%s: %d%%", colorize( _( "Wetness" ), c_magenta ),
+                                          static_cast<int>( info.wetness * 100.0f ) ) );
     // part temperature
     const bool temp_precise = u->has_item_with_flag( STATIC( flag_id( "THERMOMETER" ) ) ) ||
                               u->has_flag( STATIC( json_character_flag( "THERMOMETER" ) ) );

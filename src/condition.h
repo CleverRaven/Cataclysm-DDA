@@ -48,7 +48,8 @@ const std::unordered_set<std::string> complex_conds = { {
         "is_temperature", "is_windpower", "is_humidity", "is_pressure", "u_is_height", "npc_is_height",
         "u_has_worn_with_flag", "npc_has_worn_with_flag", "u_has_wielded_with_flag", "npc_has_wielded_with_flag",
         "u_has_pain", "npc_has_pain", "u_has_power", "npc_has_power", "u_has_focus", "npc_has_focus", "u_has_morale",
-        "npc_has_morale", "u_is_on_terrain", "npc_is_on_terrain", "u_is_in_field", "npc_is_in_field", "compare_int", "compare_string"
+        "npc_has_morale", "u_is_on_terrain", "npc_is_on_terrain", "u_is_in_field", "npc_is_in_field", "compare_int",
+        "compare_string", "roll_contested"
     }
 };
 } // namespace dialogue_data
@@ -205,6 +206,7 @@ struct conditional_t {
         void set_has_reason();
         void set_is_gender( bool is_male, bool is_npc = false );
         void set_has_skill( const JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_roll_contested( const JsonObject &jo, const std::string &member );
         void set_u_know_recipe( const JsonObject &jo, const std::string &member );
         void set_mission_has_generic_rewards();
         void set_can_see( bool is_npc = false );
