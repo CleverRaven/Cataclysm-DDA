@@ -2046,6 +2046,10 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                 if( vp->vehicle().is_rotorcraft() ) {
                     pldrive( tripoint_above );
                 }
+                else if( vp->vehicle().has_rotors() && !vp->vehicle().has_sufficient_rotorlift() )
+                {
+                    player_character.add_msg_if_player( m_info, _( "This vehicle is too heavy to ascend." ) );
+                }
             }
             break;
 

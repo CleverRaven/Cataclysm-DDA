@@ -412,7 +412,7 @@ void vehicle::thrust( int thd, int z )
             add_msg( _( "The %s is too leaky!" ), name );
         }
         return;
-    } else if( !valid_wheel_config()  && z == 0 ) {
+    } else if( !valid_wheel_config() && z == 0 && !is_rotorcraft() ) {
         stop();
         if( pl_ctrl ) {
             add_msg( _( "The %s doesn't have enough wheels to move!" ), name );
@@ -484,10 +484,59 @@ void vehicle::thrust( int thd, int z )
     } else {
         load = ( thrusting ? 1000 : 0 );
     }
-    // rotorcraft need to spend 15% of load to hover, 30% to change z
+    
     if( is_rotorcraft() && ( z > 0 || is_flying_in_air() ) ) {
-        load = std::max( load, z > 0 ? 300 : 150 );
+        // Helicopters improve in efficiency the closer they get to 50-80 knots, due to the effect of translational lift
+        // See https://i.stack.imgur.com/0zIO7.jpg
+        //
+        // The UH-60 Blackhawk and Sikorsky S-70 were chosen as the reference vehicles to construct the power curve used here
+        // A baseline mass of 16,000lbs, max rated lift of 23,500lbs, and air drag of 1.0 were used to tune the curve to match the rated speeds of these vehicles
+        // 
+        // The load vs velocity curve is scaled quadratically in the vertical scale by the air drag coefficient. The reference air drag coefficient is 1.0
+        // The load vs velocity curve is scaled linearly in the vertical scale by the lift:weight ratio. The reference lift:weight ratio is 2.0
+        // The load vs velocity curve is scaled horizontally by mass to the power of 0.3, to approximate the effects of the square-cube law. The reference mass is 16,000lbs
+        // 
+        // The load vs velocity curve has the following properties for mass = 16000lbs, lift = 32000lbs, air_drag = 1.0
+        //   load at 0 mph  = 500
+        //   load at 150mph = 500
+        //   load at 202mph = 1000
+        //   v_max_endurance = 90 mph (approx 78 knots), load_max_endurance = 300
+        //     This means that a vehicle weighing 16,000 with an air_drag coefficient of 1.0 can reach 150mph with a lift:weight ratio of 1
+        //     With a lift:weight ratio of 2, a speed of 202mph can be reached
+        // This curve allows a Blackhawk weighing 16,000lbs with 23,500lbs of lift and an air_drag of 1.0 to fly at a approx 180mph safely, vs a rated top speed of 183mph
+        // 
         thrusting = true;
+        const double mass_kg = to_kilogram( total_mass() );
+        const double mass_lbs = mass_kg * 2.20462;
+        const double mass_scalar = std::pow( mass_lbs / 16000 , 0.3);
+        double velocity_mph = velocity * 0.01;
+        const double power_scalar = ( ( to_kilogram( total_mass() ) * 9.8 ) / lift_thrust_of_rotorcraft( true ) ) * 2.0;
+        double d = coeff_air_drag();
+        double drag_scalar = 1.0;
+        // Higher drag than 2.2 can cause the maximum speed for a vehicle to fall into the cubic part of the power curve
+        // To prevent having to solve for a cubic when solving for max speed in vehicle.cpp, drag above 2.2 will be accounted for with a scalar
+        if ( d > 2.2 ) {
+            drag_scalar = ( 2.2 / ( d * power_scalar ) );
+            d = 2.2;
+        }
+        // Scale the velocity by mass and drag effects (inverse scaling of what we do to scale max speed in vehicle.cpp)
+        velocity_mph /= mass_scalar;
+        velocity_mph /= drag_scalar;
+        double value;
+        if( velocity_mph < 90 ) {
+            value = 31.0 / 72900 * std::pow( velocity_mph, 3 ) +
+                ( ( - 7.0 / 135 ) + ( ( d - 1.0 ) / 50.0 ) ) * std::pow( velocity_mph, 2 ) +
+                -1 * velocity_mph + 
+                500;
+        } else {
+            // The inverse of this quadratic is solved for in vehicle.cpp to determine the max safe airspeed
+            // If you modify this equation, you must update the inverse equation
+            value = ( ( 1.0 / 18 ) + ( ( d - 1.0 )  / 50.0 ) ) * std::pow( velocity_mph, 2 ) + 
+                -10 * velocity_mph + 
+                750;
+        }
+        value *= power_scalar;
+        load = value;
     }
 
     // only consume resources if engine accelerating
@@ -510,21 +559,7 @@ void vehicle::thrust( int thd, int z )
             cruise_velocity = 0;
             return;
         }
-        // helicopters improve efficiency the closer they get to 50-70 knots
-        // then it drops off as they go over that.
-        // see https://i.stack.imgur.com/0zIO7.jpg
-        if( is_rotorcraft() && is_flying_in_air() ) {
-            const int velocity_kt = velocity * 0.01;
-            int value;
-            if( velocity_kt < 70 ) {
-                value = 49 * std::pow( velocity_kt, 3 ) -
-                        4118 * std::pow( velocity_kt, 2 ) - 76512 * velocity_kt + 18458000;
-            } else {
-                value = 1864 * std::pow( velocity_kt, 2 ) - 272190 * velocity_kt + 19473000;
-            }
-            value *= 0.0001;
-            load = std::max( 200, std::min( 1000, ( ( value / 2 ) + 100 ) ) );
-        }
+
         //make noise and consume fuel
         noise_and_smoke( load + alternator_load );
         consume_fuel( load + alternator_load, false );

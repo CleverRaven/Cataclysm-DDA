@@ -20,11 +20,26 @@
     "//": "rotor diameter is in meters",
     "rotor_diameter": 15,
     "durability": 450,
-    "description": "A set of four military-grade helicopter rotor blades, used to provide lift by rotation.",
+    "description": "An assembly of four military-grade helicopter rotor blades, used to provide lift by rotation.",
     "damage_modifier": 80,
     "requirements": { "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "1 h", "using": "vehicle_weld_removal" } },
-    "breaks_into": [ { "item": "scrap", "count": [ 15, 30 ] }, { "item": "steel_chunk", "count": [ 8, 16 ] } ],
+    "breaks_into": [ { "item": "scrap", "count": [ 45, 90 ] }, { "item": "steel_chunk", "count": [ 24, 48 ] } ],
     "damage_reduction": { "all": 66 }
+  },
+  {
+    "id": "medium_civilian_rotors",
+    "copy-from": "helicopter_rotors",
+    "type": "vehicle_part",
+    "name": { "str": "medium helicopter rotors" },
+    "item": "medium_helicopter_rotor",
+    "//": "rotor diameter is in meters",
+    "rotor_diameter": 10,
+    "durability": 100,
+    "description": "An assembly of four helicopter rotor blades, used to provide lift by rotation.",
+    "damage_modifier": 80,
+    "requirements": { "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "1 h", "using": "vehicle_weld_removal" } },
+    "breaks_into": [ { "item": "scrap", "count": [ 24, 45 ] }, { "item": "steel_chunk", "count": [ 6, 24 ] } ],
+    "damage_reduction": { "all": 22 }
   },
   {
     "id": "small_civilian_rotors",
@@ -33,12 +48,12 @@
     "name": { "str": "small helicopter rotors" },
     "item": "small_helicopter_rotor",
     "//": "rotor diameter is in meters",
-    "rotor_diameter": 8,
+    "rotor_diameter": 7,
     "durability": 100,
-    "description": "A set of four military-grade helicopter rotor blades, used to provide lift by rotation.",
+    "description": "An assembly of four helicopter rotor blades, used to provide lift by rotation.",
     "damage_modifier": 80,
     "requirements": { "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "1 h", "using": "vehicle_weld_removal" } },
-    "breaks_into": [ { "item": "scrap", "count": [ 8, 15 ] }, { "item": "steel_chunk", "count": [ 2, 8 ] } ],
+    "breaks_into": [ { "item": "scrap", "count": [ 12, 24 ] }, { "item": "steel_chunk", "count": [ 3, 12 ] } ],
     "damage_reduction": { "all": 22 }
   },
   {
@@ -48,7 +63,7 @@
     "name": { "str": "heavy-duty military Blackhawk rotors" },
     "item": "heavy_duty_military_rotor",
     "//": "rotor diameter is in meters",
-    "description": "A set of four military-grade helicopter rotor blades, used to provide lift by rotation.",
+    "description": "An assembly of four military-grade helicopter rotor blades, used to provide lift by rotation.",
     "rotor_diameter": 16
   },
   {

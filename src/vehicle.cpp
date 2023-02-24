@@ -3725,10 +3725,10 @@ int vehicle::max_water_velocity( const bool fueled ) const
 int vehicle::max_rotor_velocity( const bool fueled ) const
 {
     const double max_air_mps = std::sqrt( lift_thrust_of_rotorcraft( fueled ) / coeff_air_drag() );
-    // helicopters just cannot go over 250mph at very maximum
-    // weird things start happening to their rotors if they do.
-    // due to the rotor tips going supersonic.
-    return std::min( 25501, mps_to_vmiph( max_air_mps ) );
+    // Just going to add 10% to the safe speed to get the max speed, the real physics is too complex
+    // In reality, helicopter engines can be damaged at any airspeed due to overspeed
+    // Blade damage also occurs after about 225mph due to retreating blade stall
+    return std::min( static_cast<int>( safe_rotor_velocity(fueled) * 1.1 ) , mps_to_vmiph( max_air_mps ) );
 }
 
 int vehicle::max_velocity( const bool fueled ) const
@@ -3767,9 +3767,32 @@ int vehicle::safe_ground_velocity( const bool fueled ) const
 
 int vehicle::safe_rotor_velocity( const bool fueled ) const
 {
-    const double max_air_mps = std::sqrt( lift_thrust_of_rotorcraft( fueled,
-                                          true ) / coeff_air_drag() );
-    return std::min( 22501, mps_to_vmiph( max_air_mps ) );
+    // Solve the quaadratic defined in vehicle::thrust to determine max speed based on max lift, vehicle weight, and drag coefficient
+    // 225mph is the max safe airspeed before retreating blade stall typically occurs
+    const double mass_kg = to_kilogram( total_mass() );
+    const double mass_lbs = mass_kg * 2.20462;
+    const double mass_scalar = std::pow( mass_lbs / 16000 , 0.3);
+    const double power_scalar = ( mass_kg * 9.8 / lift_thrust_of_rotorcraft( fueled ) ) * 2.0; // Power curve assumes 2.0 lift:weight ratio by default
+    if( power_scalar >= 2.0 ) {
+        return 0; // Can't fly if there isn't enough lift to take off
+    }
+    else {
+        double d = coeff_air_drag();
+        double drag_scalar = 1.0;
+        // Math can get messy when drag surpasses 2.2 and I don't feel like adding logic to solve cubics
+        // Instead an approximation of further drag will be accounted for by a simple scalar
+        if ( d > 2.2 ) {
+            drag_scalar = ( 2.2 / ( d * power_scalar ) );
+            d = 2.2;
+        }
+        const double a = ( ( 1.0 / 18.0 ) + ( ( d - 1.0 )  / 50.0 ) ) * power_scalar;
+        const double b = -10 * power_scalar;
+        const int c = ( 750 * power_scalar) - 1000;
+        int max_air_mph = ( - b + std::sqrt( b * b - 4 * a * c ) ) / ( 2 * a );
+        max_air_mph *= mass_scalar;
+        max_air_mph *= drag_scalar;
+        return std::min( 22501, 100 * max_air_mph );
+    }
 }
 
 // the same physics as max_water_velocity, but with a smaller engine power
@@ -4183,7 +4206,6 @@ double vehicle::lift_thrust_of_rotorcraft( const bool fuelled, const bool safe )
         rotor_area_in_feet += ( M_PI / 4 ) * std::pow( rotor_diameter_in_feet, 2 );
     }
     int total_engine_w = total_power_w( fuelled, safe );
-    // take off 15 % due to the imaginary tail rotor power.
     double engine_power_in_hp = total_engine_w * 0.00134102;
     // lift_thrust in lbthrust
     double lift_thrust = ( 8.8658 * std::pow( engine_power_in_hp / rotor_area_in_feet,
@@ -4205,6 +4227,11 @@ bool vehicle::is_rotorcraft() const
 {
     return !rotors.empty() && player_in_control( get_player_character() ) &&
            has_sufficient_rotorlift();
+}
+
+bool vehicle::has_rotors() const
+{
+    return !rotors.empty();
 }
 
 bool vehicle::is_flyable() const

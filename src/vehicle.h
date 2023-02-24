@@ -1507,6 +1507,7 @@ class vehicle
         bool is_flying_in_air() const;
         void set_flying( bool new_flying_value );
         bool is_rotorcraft() const;
+        bool has_rotors() const;
         // Can the vehicle safely fly? E.g. there haven't been any player modifications
         // of non-simple parts
         bool is_flyable() const;
