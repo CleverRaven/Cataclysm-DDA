@@ -57,10 +57,10 @@
     "bashing": 9,
     "to_hit": -1,
     "range": 14,
-    "ranged_damage": { "damage_type": "stab", "amount": 2 },
+    "ranged_damage": { "damage_type": "stab", "amount": 0 },
     "dispersion": 150,
     "durability": 7,
-    "reload": 500,
+    "reload": 200,
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "sights", 1 ],
