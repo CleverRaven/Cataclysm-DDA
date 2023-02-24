@@ -9648,6 +9648,7 @@
     "charges": 4,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
+    "id_suffix": "with_knife",
     "skill_used": "cooking",
     "difficulty": 2,
     "autolearn": true,
@@ -9655,6 +9656,28 @@
     "batch_time_factors": [ 20, 2 ],
     "book_learn": [ [ "cookbook_mexican", 1 ] ],
     "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "CUT", "level": 2 } ],
+    "components": [
+      [ [ "tomato", 1 ], [ "irradiated_tomato", 1 ], [ "can_tomato", 1 ] ],
+      [ [ "veggy_any_uncooked", 1, "LIST" ], [ "rehydrated_corn_kernels", 1 ], [ "can_beans", 1 ] ],
+      [ [ "salt", 1 ], [ "seasoning_mild", 1, "LIST" ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "salsa",
+    "charges": 4,
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "id_suffix": "with_food_processor",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "autolearn": true,
+    "time": "45 s",
+    "batch_time_factors": [ 50, 2 ],
+    "book_learn": [ [ "cookbook_mexican", 1 ] ],
+    "tools": [ [ [ "food_processor", 20 ] ] ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
     "components": [
       [ [ "tomato", 1 ], [ "irradiated_tomato", 1 ], [ "can_tomato", 1 ] ],
       [ [ "veggy_any_uncooked", 1, "LIST" ], [ "rehydrated_corn_kernels", 1 ], [ "can_beans", 1 ] ],
