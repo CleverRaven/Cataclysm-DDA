@@ -340,8 +340,14 @@ void submap::mirror( bool horizontally )
     }
 }
 
-void submap::revert_submap( submap_revert &sr )
+void submap::revert_submap( submap &sr )
 {
+    if( sr.is_uniform() ) {
+        m.reset();
+        set_all_ter( sr.get_ter( point_zero ), true );
+        return;
+    }
+
     ensure_nonuniform();
     for( int x = 0; x < SEEX; x++ ) {
         for( int y = 0; y < SEEY; y++ ) {
@@ -362,21 +368,14 @@ void submap::revert_submap( submap_revert &sr )
     }
 }
 
-submap_revert submap::get_revert_submap() const
+submap submap::get_revert_submap() const
 {
-    if( is_uniform() ) {
-        return {};
+    submap ret;
+    ret.uniform_ter = uniform_ter;
+    if( !is_uniform() ) {
+        ret.m = std::make_unique<maptile_soa>( *m );
     }
-    submap_revert ret;
-    for( int x = 0; x < SEEX; x++ ) {
-        for( int y = 0; y < SEEY; y++ ) {
-            point pt( x, y );
-            ret.set_furn( pt, m->frn[x][y] );
-            ret.set_ter( pt, m->ter[x][y] );
-            ret.set_trap( pt, m->trp[x][y] );
-            ret.set_items( pt, m->itm[x][y] );
-        }
-    }
+
     return ret;
 }
 

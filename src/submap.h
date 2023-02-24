@@ -66,50 +66,6 @@ struct maptile_soa {
     void swap_soa_tile( const point &p1, const point &p2 );
 };
 
-struct maptile_revert {
-    cata::mdarray<ter_id, point_sm_ms>             ter; // Terrain on each square
-    cata::mdarray<furn_id, point_sm_ms>            frn; // Furniture on each square
-    cata::mdarray<trap_id, point_sm_ms>            trp; // Trap on each square
-    cata::mdarray<cata::colony<item>, point_sm_ms> itm; // Items on each square
-};
-
-class submap_revert : maptile_revert
-{
-
-    public:
-        furn_id get_furn( const point &p ) const {
-            return frn[p.x][p.y];
-        }
-
-        void set_furn( const point &p, furn_id furn ) {
-            frn[p.x][p.y] = furn;
-        }
-
-        ter_id get_ter( const point &p ) const {
-            return ter[p.x][p.y];
-        }
-
-        void set_ter( const point &p, ter_id terr ) {
-            ter[p.x][p.y] = terr;
-        }
-
-        trap_id get_trap( const point &p ) const {
-            return trp[p.x][p.y];
-        }
-
-        void set_trap( const point &p, trap_id trap ) {
-            trp[p.x][p.y] = trap;
-        }
-
-        cata::colony<item> get_items( const point &p ) const {
-            return itm[p.x][p.y];
-        }
-
-        void set_items( const point &p, cata::colony<item> revert_item ) {
-            itm[p.x][p.y] = std::move( revert_item );
-        }
-};
-
 class submap
 {
     public:
@@ -130,9 +86,9 @@ class submap
             }
         }
 
-        void revert_submap( submap_revert &sr );
+        void revert_submap( submap &sr );
 
-        submap_revert get_revert_submap() const;
+        submap get_revert_submap() const;
 
         trap_id get_trap( const point &p ) const {
             if( is_uniform() ) {
