@@ -3728,7 +3728,8 @@ int vehicle::max_rotor_velocity( const bool fueled ) const
     // Just going to add 10% to the safe speed to get the max speed, the real physics is too complex
     // In reality, helicopter engines can be damaged at any airspeed due to overspeed
     // Blade damage also occurs after about 225mph due to retreating blade stall
-    return std::min( static_cast<int>( safe_rotor_velocity(fueled) * 1.1 ) , mps_to_vmiph( max_air_mps ) );
+    return std::min( static_cast<int>( safe_rotor_velocity( fueled ) * 1.1 ),
+                     mps_to_vmiph( max_air_mps ) );
 }
 
 int vehicle::max_velocity( const bool fueled ) const
@@ -3771,23 +3772,23 @@ int vehicle::safe_rotor_velocity( const bool fueled ) const
     // 225mph is the max safe airspeed before retreating blade stall typically occurs
     const double mass_kg = to_kilogram( total_mass() );
     const double mass_lbs = mass_kg * 2.20462;
-    const double mass_scalar = std::pow( mass_lbs / 16000 , 0.3);
-    const double power_scalar = ( mass_kg * 9.8 / lift_thrust_of_rotorcraft( fueled ) ) * 2.0; // Power curve assumes 2.0 lift:weight ratio by default
+    const double mass_scalar = std::pow( mass_lbs / 16000, 0.3 );
+    const double power_scalar = ( mass_kg * 9.8 / lift_thrust_of_rotorcraft(
+                                      fueled ) ) * 2.0; // Power curve assumes 2.0 lift:weight ratio by default
     if( power_scalar >= 2.0 ) {
         return 0; // Can't fly if there isn't enough lift to take off
-    }
-    else {
+    } else {
         double d = coeff_air_drag();
         double drag_scalar = 1.0;
         // Math can get messy when drag surpasses 2.2 and I don't feel like adding logic to solve cubics
         // Instead an approximation of further drag will be accounted for by a simple scalar
-        if ( d > 2.2 ) {
+        if( d > 2.2 ) {
             drag_scalar = ( 2.2 / ( d * power_scalar ) );
             d = 2.2;
         }
         const double a = ( ( 1.0 / 18.0 ) + ( ( d - 1.0 )  / 50.0 ) ) * power_scalar;
         const double b = -10 * power_scalar;
-        const int c = ( 750 * power_scalar) - 1000;
+        const int c = ( 750 * power_scalar ) - 1000;
         int max_air_mph = ( - b + std::sqrt( b * b - 4 * a * c ) ) / ( 2 * a );
         max_air_mph *= mass_scalar;
         max_air_mph *= drag_scalar;
@@ -7754,9 +7755,9 @@ int vehicle::part_count( bool no_fake ) const
     return no_fake ? std::count_if( parts.begin(), parts.end(), []( const vehicle_part & vp ) {
         return !vp.is_fake;
     } ) : static_cast<int>( parts.size() );
-}
+    }
 
-std::vector<vehicle_part> vehicle::real_parts() const
+    std::vector<vehicle_part> vehicle::real_parts() const
 {
     std::vector<vehicle_part> ret;
     for( const vehicle_part &vp : parts ) {

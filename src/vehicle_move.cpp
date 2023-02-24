@@ -484,18 +484,18 @@ void vehicle::thrust( int thd, int z )
     } else {
         load = ( thrusting ? 1000 : 0 );
     }
-    
+
     if( is_rotorcraft() && ( z > 0 || is_flying_in_air() ) ) {
         // Helicopters improve in efficiency the closer they get to 50-80 knots, due to the effect of translational lift
         // See https://i.stack.imgur.com/0zIO7.jpg
         //
         // The UH-60 Blackhawk and Sikorsky S-70 were chosen as the reference vehicles to construct the power curve used here
         // A baseline mass of 16,000lbs, max rated lift of 23,500lbs, and air drag of 1.0 were used to tune the curve to match the rated speeds of these vehicles
-        // 
+        //
         // The load vs velocity curve is scaled quadratically in the vertical scale by the air drag coefficient. The reference air drag coefficient is 1.0
         // The load vs velocity curve is scaled linearly in the vertical scale by the lift:weight ratio. The reference lift:weight ratio is 2.0
         // The load vs velocity curve is scaled horizontally by mass to the power of 0.3, to approximate the effects of the square-cube law. The reference mass is 16,000lbs
-        // 
+        //
         // The load vs velocity curve has the following properties for mass = 16000lbs, lift = 32000lbs, air_drag = 1.0
         //   load at 0 mph  = 500
         //   load at 150mph = 500
@@ -504,18 +504,19 @@ void vehicle::thrust( int thd, int z )
         //     This means that a vehicle weighing 16,000 with an air_drag coefficient of 1.0 can reach 150mph with a lift:weight ratio of 1
         //     With a lift:weight ratio of 2, a speed of 202mph can be reached
         // This curve allows a Blackhawk weighing 16,000lbs with 23,500lbs of lift and an air_drag of 1.0 to fly at a approx 180mph safely, vs a rated top speed of 183mph
-        // 
+        //
         thrusting = true;
         const double mass_kg = to_kilogram( total_mass() );
         const double mass_lbs = mass_kg * 2.20462;
-        const double mass_scalar = std::pow( mass_lbs / 16000 , 0.3);
+        const double mass_scalar = std::pow( mass_lbs / 16000, 0.3 );
         double velocity_mph = velocity * 0.01;
-        const double power_scalar = ( ( to_kilogram( total_mass() ) * 9.8 ) / lift_thrust_of_rotorcraft( true ) ) * 2.0;
+        const double power_scalar = ( ( to_kilogram( total_mass() ) * 9.8 ) / lift_thrust_of_rotorcraft(
+                                          true ) ) * 2.0;
         double d = coeff_air_drag();
         double drag_scalar = 1.0;
         // Higher drag than 2.2 can cause the maximum speed for a vehicle to fall into the cubic part of the power curve
         // To prevent having to solve for a cubic when solving for max speed in vehicle.cpp, drag above 2.2 will be accounted for with a scalar
-        if ( d > 2.2 ) {
+        if( d > 2.2 ) {
             drag_scalar = ( 2.2 / ( d * power_scalar ) );
             d = 2.2;
         }
@@ -525,15 +526,15 @@ void vehicle::thrust( int thd, int z )
         double value;
         if( velocity_mph < 90 ) {
             value = 31.0 / 72900 * std::pow( velocity_mph, 3 ) +
-                ( ( - 7.0 / 135 ) + ( ( d - 1.0 ) / 50.0 ) ) * std::pow( velocity_mph, 2 ) +
-                -1 * velocity_mph + 
-                500;
+                    ( ( - 7.0 / 135 ) + ( ( d - 1.0 ) / 50.0 ) ) * std::pow( velocity_mph, 2 ) +
+                    -1 * velocity_mph +
+                    500;
         } else {
             // The inverse of this quadratic is solved for in vehicle.cpp to determine the max safe airspeed
             // If you modify this equation, you must update the inverse equation
-            value = ( ( 1.0 / 18 ) + ( ( d - 1.0 )  / 50.0 ) ) * std::pow( velocity_mph, 2 ) + 
-                -10 * velocity_mph + 
-                750;
+            value = ( ( 1.0 / 18 ) + ( ( d - 1.0 )  / 50.0 ) ) * std::pow( velocity_mph, 2 ) +
+                    -10 * velocity_mph +
+                    750;
         }
         value *= power_scalar;
         load = value;

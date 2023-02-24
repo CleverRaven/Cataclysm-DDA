@@ -2720,10 +2720,10 @@ void veh_interact::display_stats() const
                     veh->coeff_air_drag() );
     i += 1;
 
-    if ( veh->has_rotors() ) {
+    if( veh->has_rotors() ) {
         fold_and_print( w_stats, point( x[i], y[i] ), w[i], c_light_gray,
-                    _( "Max Lift:     <color_light_blue>%7.0f</color> lbs" ),
-                    veh->lift_thrust_of_rotorcraft( true ) * 0.2248 );
+                        _( "Max Lift:     <color_light_blue>%7.0f</color> lbs" ),
+                        veh->lift_thrust_of_rotorcraft( true ) * 0.2248 );
     }
     i += 1;
 
