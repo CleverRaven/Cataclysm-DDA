@@ -1265,7 +1265,6 @@ void Character::modify_morale( item &food, const int nutr )
             add_morale( MORALE_CANNIBAL, -60, -400, 60_minutes, 30_minutes );
         } else if( numb ) {
             add_msg_if_player( m_bad, _( "You find this meal distasteful, but necessary." ) );
-            add_morale( MORALE_CANNIBAL, -60, -400, 60_minutes, 30_minutes );
         } else {
             add_msg_if_player( m_bad, _( "You feel horrible for eating a person." ) );
             add_morale( MORALE_CANNIBAL, -60, -400, 60_minutes, 30_minutes );
