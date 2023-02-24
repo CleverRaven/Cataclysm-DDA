@@ -170,9 +170,9 @@ static const itype_id itype_water_clean( "water_clean" );
 static const itype_id itype_waterproof_gunmod( "waterproof_gunmod" );
 
 static const json_character_flag json_flag_CANNIBAL( "CANNIBAL" );
-static const json_character_flag json_flag_PSYCHOPATH( "PSYCHOPATH" );
-static const json_character_flag json_flag_SAPIOVORE( "SAPIOVORE" );
-static const json_character_flag json_flag_NUMB( "NUMB" );
+static const json_character_flag json_flag_PSYCHOPATH("PSYCHOPATH");
+static const json_character_flag json_flag_SAPIOVORE("SAPIOVORE");
+static const json_character_flag json_flag_NUMB("NUMB");
 static const json_character_flag json_flag_IMMUNE_SPOIL( "IMMUNE_SPOIL" );
 
 static const matec_id RAPID( "RAPID" );
@@ -277,6 +277,20 @@ struct scoped_goes_bad_cache {
 } // namespace item_internal
 
 const int item::INFINITE_CHARGES = INT_MAX;
+
+namespace
+{
+
+bool contents_only_one_type( item const *it )
+{
+    std::list<const item *> const contents = it->all_items_top();
+    return contents.size() == 1 ||
+    std::all_of( ++contents.begin(), contents.end(), [&contents]( item const * e ) {
+        return e->stacks_with( *contents.front() );
+    } );
+}
+
+} // namespace
 
 item::item() : bday( calendar::start_of_cataclysm )
 {
@@ -1299,10 +1313,11 @@ bool item::same_for_rle( const item &rhs ) const
           itype_variant().id != rhs.itype_variant().id ) ) {
         return false;
     }
-    return stacks_with( rhs, true, false );
+    return stacks_with( rhs, true, false, 0, 9 );
 }
 
-bool item::stacks_with( const item &rhs, bool check_components, bool combine_liquid ) const
+bool item::stacks_with( const item &rhs, bool check_components, bool combine_liquid, int depth,
+                        int maxdepth ) const
 {
     if( type != rhs.type ) {
         return false;
@@ -1454,7 +1469,7 @@ bool item::stacks_with( const item &rhs, bool check_components, bool combine_liq
             return false;
         }
     }
-    return contents.stacks_with( rhs.contents );
+    return contents.stacks_with( rhs.contents, depth, maxdepth );
 }
 
 bool item::same_contents( const item &rhs ) const
@@ -1599,7 +1614,7 @@ tripoint item::get_var( const std::string &name, const tripoint &default_value )
     }
     std::vector<std::string> values = string_split( it->second, ',' );
     cata_assert( values.size() == 3 );
-    auto convert_or_error = []( const std::string &s ) {
+    auto convert_or_error = []( const std::string & s ) {
         ret_val<int> result = try_parse_integer<int>( s, false );
         if( result.success() ) {
             return result.value();
@@ -2467,10 +2482,7 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
 
     if( food_item->has_flag( flag_CANNIBALISM ) &&
         parts->test( iteminfo_parts::FOOD_CANNIBALISM ) ) {
-        if( !player_character.has_flag( json_flag_CANNIBAL )  ||
-            !player_character.has_flag( json_flag_PSYCHOPATH ) ||
-            !player_character.has_flag( json_flag_SAPIOVORE ) ||
-            !player_character.has_flag( json_flag_NUMB ) ) {
+         if( !player_character.has_flag( json_flag_CANNIBAL )  || !player_character.has_flag(json_flag_PSYCHOPATH) || !player_character.has_flag(json_flag_SAPIOVORE) || !player_character.has_flag(json_flag_NUMB)) {
             info.emplace_back( "DESCRIPTION",
                                _( "* This food contains <bad>human flesh</bad>." ) );
         } else {
@@ -3982,7 +3994,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     if( show_bodygraph ) {
         insert_separation_line( info );
 
-        auto bg_cb = [this]( const bodygraph_part * bgp, const std::string &sym ) {
+        auto bg_cb = [this]( const bodygraph_part * bgp, const std::string & sym ) {
             if( !bgp ) {
                 return colorize( sym, bodygraph_full_body_iteminfo->fill_color );
             }
@@ -5602,8 +5614,8 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
         const auto print_parts = [&info, &player_character](
                                      const std::vector<vpart_info> &vparts,
-                                     const std::string &install_where_full,
-                                     const std::string &install_where_abbreviated,
+                                     const std::string & install_where_full,
+                                     const std::string & install_where_abbreviated,
                                      const std::function<bool( const vpart_info & )> &predicate
         ) {
             // Maximum number of parts to display
@@ -5910,6 +5922,8 @@ nc_color item::color_in_inventory( const Character *const ch ) const
     } else if( ( active && !has_temperature() &&  !is_corpse() ) || ( is_corpse() && can_revive() ) ) {
         // Active items show up as yellow (corpses only if reviving)
         ret = c_yellow;
+    } else if( is_medication() || is_medical_tool() ) {
+        ret = c_light_blue;
     } else if( is_food() ) {
         // Give color priority to allergy (allergy > inedible by freeze or other conditions)
         // TODO: refactor u.will_eat to let this section handle coloring priority without duplicating code.
@@ -6321,7 +6335,7 @@ std::string item::degradation_symbol() const
 }
 
 std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int truncate,
-                         bool with_contents, bool with_collapsed ) const
+                         bool with_contents_full, bool with_collapsed, bool with_contents_abbrev ) const
 {
     // item damage and/or fouling level
     std::string damtext;
@@ -6403,37 +6417,39 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     }
 
     /* only expand full contents name if with_contents == true */
-    if( with_contents && contents.num_item_stacks() == 1 ) {
-        const item &contents_item = contents.only_item();
+    if( with_contents_full && !contents.empty() && contents_only_one_type( this ) ) {
+        const item &contents_item = contents.first_item();
         const unsigned contents_count =
             ( ( contents_item.made_of( phase_id::LIQUID ) ||
                 contents_item.is_food() || contents_item.count_by_charges() ) &&
               contents_item.charges > 1 )
             ? contents_item.charges
-            : 1;
+            : contents.num_item_stacks();
 
-        // with_contents=false for nested items to prevent excessively long names
-        const std::string contents_tname = contents_item.tname( contents_count, true, 0, false );
-
-        if( contents_tname != "none" ) {
+        if( !contents_item.is_null() ) {
+            // with_contents=false for nested items to prevent excessively long names
+            const std::string contents_tname = contents_item.tname( contents_count, true, 0, false, false,
+                                               contents_count == 1 );
+            std::string const ctnc = colorize( contents_tname, contents_item.color_in_inventory() );
             if( contents_count == 1 || !ammo_types().empty() ) {
                 // Don't append an item count for single items, or items that are ammo-exclusive
                 // (eg: quivers), as they format their own counts.
                 contents_suffix_text = string_format( pgettext( "item name",
                                                       //~ [container item name] " > [inner item name]
-                                                      " > %1$s" ), contents_tname );
+                                                      " > %1$s" ), ctnc );
             } else if( contents_count != 0 ) {
                 // Otherwise, add a contents count!
                 contents_suffix_text = string_format( pgettext( "item name",
                                                       //~ [container item name] " > [inner item name] (qty)
-                                                      " > %1$s (%2$zd)" ), contents_tname, contents_count );
+                                                      " > %1$s (%2$zd)" ), ctnc, contents_count );
             }
 
             if( is_collapsed() && with_collapsed ) {
                 contents_suffix_text += string_format( " %s", _( "hidden" ) );
             }
         }
-    } else if( !contents.empty_container() && contents.num_item_stacks() != 0 ) {
+    } else if( with_contents_abbrev && !contents.empty_container() &&
+               contents.num_item_stacks() != 0 ) {
         std::string const suffix =
             npgettext( "item name",
                        //~ [container item name] " > [count] item"
@@ -8231,6 +8247,11 @@ bool item::is_ebook_storage() const
     return contents.has_pocket_type( item_pocket::pocket_type::EBOOK );
 }
 
+bool item::is_scannable() const
+{
+    return type->book->is_scannable;
+}
+
 bool item::is_maybe_melee_weapon() const
 {
     item_category_id my_cat_id = get_category_shallow().id;
@@ -9747,6 +9768,11 @@ bool item::is_medication() const
         return false;
     }
     return get_comestible()->comesttype == "MED";
+}
+
+bool item::is_medical_tool() const
+{
+    return type->get_use( "heal" ) != nullptr;
 }
 
 bool item::is_brewable() const
@@ -11916,7 +11942,7 @@ units::volume item::get_used_holster_volume() const
 int item::get_remaining_capacity_for_liquid( const item &liquid, bool allow_bucket,
         std::string *err ) const
 {
-    const auto error = [ &err ]( const std::string &message ) {
+    const auto error = [ &err ]( const std::string & message ) {
         if( err != nullptr ) {
             *err = message;
         }
