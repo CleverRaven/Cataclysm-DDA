@@ -4022,8 +4022,8 @@ bool is_draw_tiles_mode()
 
 bool catacurses::supports_256_colors()
 {
-    // a terminal running tiles should always support 256 colors.. right?
-    return( true );
+    // trust SDL to do the right thing instead
+    return( false );
 }
 
 /** Saves a screenshot of the current viewport, as a PNG file, to the given location.
