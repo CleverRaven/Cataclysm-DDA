@@ -12723,35 +12723,42 @@ std::optional<tripoint> item::get_cable_target( Character *p, const tripoint &po
 
 bool item::process_cable( map &here, Character *carrier, const tripoint &pos )
 {
-    if( carrier == nullptr ) {
+    bool carrying_item = false;
+
+    if( carrier != nullptr ) {
+        for( item_location &loc : carrier->all_items_loc() ) {
+            if( loc.get_item() == this ) {
+                carrying_item = true;
+            }
+        }
+
+        std::string state = get_var( "state" );
+
+        if( state == "solar_pack_link" || state == "solar_pack" ) {
+            if( !carrying_item || !carrier->worn_with_flag( flag_SOLARPACK_ON ) ) {
+                carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
+                reset_cable( carrier );
+                return false;
+            }
+        }
+
+        static const item_filter used_ups = [&]( const item & itm ) {
+            return itm.get_var( "cable" ) == "plugged_in";
+        };
+
+        if( state == "UPS" ) {
+            if( !carrying_item || !carrier->has_item_with( used_ups ) ) {
+                carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
+                for( item *used : carrier->items_with( used_ups ) ) {
+                    used->erase_var( "cable" );
+                }
+                reset_cable( carrier );
+                return false;
+            }
+        }
+    } else {
         reset_cable( carrier );
         return false;
-    }
-
-    bool carrying_item = carrier->has_item( *this );
-    std::string state = get_var( "state" );
-
-    if( state == "solar_pack_link" || state == "solar_pack" ) {
-        if( !carrying_item || !carrier->worn_with_flag( flag_SOLARPACK_ON ) ) {
-            carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
-            reset_cable( carrier );
-            return false;
-        }
-    }
-
-    static const item_filter used_ups = [&]( const item & itm ) {
-        return itm.get_var( "cable" ) == "plugged_in";
-    };
-
-    if( state == "UPS" ) {
-        if( !carrying_item || !carrier->has_item_with( used_ups ) ) {
-            carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
-            for( item *used : carrier->items_with( used_ups ) ) {
-                used->erase_var( "cable" );
-            }
-            reset_cable( carrier );
-            return false;
-        }
     }
     const std::optional<tripoint> source = get_cable_target( carrier, pos );
     if( !source ) {
