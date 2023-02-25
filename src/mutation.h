@@ -114,7 +114,6 @@ struct trait_and_var {
     trait_and_var() = default;
     trait_and_var( const trait_id &t, const std::string &v ) : trait( t ), variant( v ) {}
 
-
     void deserialize( const JsonValue &jv );
     void serialize( JsonOut &jsout ) const;
 

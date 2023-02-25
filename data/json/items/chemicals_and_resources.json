@@ -53,7 +53,6 @@
     "volume": "16 ml",
     "weight": "320 mg",
     "//": "Density: 2g/cm3.  NOTE: Weights for chemical powders are 1/100 mol.  Weights are given for ONE UNIT.  Volume is for all units.",
-    "bashing": 1,
     "container": "bottle_plastic_small",
     "charges": 100
   },
@@ -67,7 +66,7 @@
     "symbol": "*",
     "color": "yellow",
     "description": "A chunk of pure sulfur.  Break it up to use it.",
-    "material": [ "powder" ],
+    "material": [ "stone" ],
     "volume": "250 ml",
     "weight": "500 g",
     "//": "density is around 2g/cm3",
@@ -87,7 +86,6 @@
     "material": [ "powder_nonflam" ],
     "volume": "250 ml",
     "weight": "20 g",
-    "bashing": 1,
     "ammo_type": "components",
     "count": 50
   },
@@ -121,7 +119,6 @@
     "material": [ "rubber" ],
     "volume": "250 ml",
     "weight": "6 g",
-    "bashing": 1,
     "ammo_type": "components",
     "count": 50
   },
@@ -155,7 +152,6 @@
     "material": [ "powder_nonflam" ],
     "volume": "250 ml",
     "weight": "15 g",
-    "bashing": 1,
     "ammo_type": "components",
     "count": 50
   },
@@ -188,7 +184,6 @@
     "material": [ "powder_nonflam" ],
     "volume": "250 ml",
     "weight": "8 g",
-    "bashing": 1,
     "ammo_type": "components",
     "count": 50
   },
@@ -205,7 +200,6 @@
     "material": [ "soil" ],
     "volume": "5L",
     "weight": "6500 g",
-    "bashing": 1,
     "ammo_type": "components",
     "stack_size": 1
   },
@@ -502,7 +496,6 @@
     "material": [ "powder" ],
     "volume": "250 ml",
     "weight": "1760 mg",
-    "bashing": 1,
     "ammo_type": "components",
     "container": "bag_plastic",
     "count": 100
@@ -538,7 +531,6 @@
     "volume": "9 ml",
     "weight": "654 mg",
     "//": "density: 7.14 g/cm3",
-    "bashing": 1,
     "ammo_type": "components",
     "container": "bottle_plastic_small",
     "count": 100
@@ -557,7 +549,6 @@
     "volume": "16 ml",
     "weight": "814 mg",
     "//": "density: 5.1 g/cm3",
-    "bashing": 1,
     "ammo_type": "components",
     "container": "bottle_plastic_small",
     "count": 100
@@ -576,7 +567,6 @@
     "volume": "17 ml",
     "weight": "869 mg",
     "//": "density: 5.026 g/cm3",
-    "bashing": 1,
     "ammo_type": "components",
     "container": "bottle_plastic_small",
     "count": 100
@@ -593,7 +583,6 @@
     "material": [ "powder_nonflam" ],
     "volume": "151 ml",
     "weight": "500 mg",
-    "bashing": 1,
     "ammo_type": "components",
     "count": 1000
   },
@@ -645,7 +634,6 @@
     "volume": "38 ml",
     "weight": "746 mg",
     "//": "density: 1.984 g/cm3",
-    "bashing": 1,
     "ammo_type": "components",
     "container": "bottle_plastic_small",
     "count": 100
@@ -664,7 +652,6 @@
     "volume": "26 ml",
     "weight": "561 mg",
     "//": "density: 2.12 g/cm3 (25 °C)",
-    "bashing": 1,
     "ammo_type": "components",
     "container": "bottle_plastic_small",
     "count": 100
@@ -683,7 +670,6 @@
     "comestible_type": "INVALID",
     "volume": "250 ml",
     "weight": "460 g",
-    "bashing": 1,
     "phase": "liquid",
     "container": "bottle_glass",
     "freezing_point": -36,
@@ -703,7 +689,6 @@
     "comestible_type": "INVALID",
     "volume": "250 ml",
     "weight": "460 g",
-    "bashing": 1,
     "phase": "liquid",
     "container": "bottle_glass",
     "freezing_point": -50,
@@ -721,7 +706,6 @@
     "description": "Acetone, best known as the primary constituent of most nail polish removers.  Flammable, and can be easily used for potent home-made explosives, as demonstrated by the terrorist attacks of 2016.",
     "volume": "250 ml",
     "weight": "200 g",
-    "bashing": 1,
     "ammo_type": "components",
     "phase": "liquid",
     "container": "bottle_glass"
@@ -740,7 +724,6 @@
     "comestible_type": "INVALID",
     "volume": "250 ml",
     "weight": "375 g",
-    "bashing": 1,
     "phase": "liquid",
     "container": "bottle_glass",
     "freezing_point": -42,
@@ -760,7 +743,6 @@
     "volume": "29 ml",
     "weight": "1520 mg",
     "//": "density: 5.22 g/cm3",
-    "bashing": 1,
     "ammo_type": "components",
     "container": "bottle_plastic_small",
     "count": 100
@@ -779,7 +761,6 @@
     "volume": "29 ml",
     "weight": "641 mg",
     "//": "density: 2.22 g/cm3",
-    "bashing": 1,
     "ammo_type": "components",
     "container": "bottle_plastic_small",
     "count": 100
@@ -797,7 +778,6 @@
     "material": [ "powder" ],
     "volume": "250 ml",
     "weight": "16625 mg",
-    "bashing": 1,
     "ammo_type": "esbit",
     "container": "box_small",
     "count": 20
@@ -814,7 +794,6 @@
     "description": "Concentrated hydrogen peroxide is a powerful oxidant, violently decomposing in contact with most reducing agents.  Can be used as rocket fuel or to make high explosives.  Causes severe burns to any organic matter and may ignite it on contact.",
     "volume": "250 ml",
     "weight": "325 g",
-    "bashing": 1,
     "ammo_type": "components",
     "phase": "liquid",
     "container": "bottle_glass"
@@ -864,7 +843,6 @@
     "material": [ "powder_nonflam" ],
     "volume": "290 ml",
     "weight": "1 g",
-    "bashing": 1,
     "ammo_type": "components",
     "container": "bag_canvas",
     "count": 500
@@ -883,7 +861,6 @@
     "material": [ "powder_nonflam" ],
     "volume": "625 ml",
     "weight": "1 g",
-    "bashing": 1,
     "ammo_type": "components",
     "container": "bag_canvas",
     "count": 500
@@ -901,7 +878,6 @@
     "material": [ "powder_nonflam" ],
     "volume": "250 ml",
     "weight": "5275 mg",
-    "bashing": 1,
     "ammo_type": "components",
     "container": "bag_canvas",
     "count": 50
@@ -936,7 +912,6 @@
     "material": [ "powder_nonflam" ],
     "volume": "250 ml",
     "weight": "13350 mg",
-    "bashing": 1,
     "ammo_type": "components",
     "container": "bag_canvas",
     "count": 50
@@ -953,7 +928,6 @@
     "description": "Concentrated acetic acid, typically used as a chemical reagent and antifungal agent.  Despite its horrid smell, it was used to prepare several types of perfumes, but would making perfume not be too fancy for post-apocalyptic New England?",
     "volume": "250 ml",
     "weight": "300 g",
-    "bashing": 1,
     "ammo_type": "components",
     "phase": "liquid",
     "container": "bottle_glass"
@@ -970,7 +944,6 @@
     "description": "Formaldehyde, here dissolved in water, was widely used before the Cataclysm as a precursor to production of many chemicals and materials and as an embalming agent.  Easily identifiable by its pungent odor.  Terribly toxic, carcinogenic, and volatile.",
     "volume": "250 ml",
     "weight": "300 g",
-    "bashing": 1,
     "ammo_type": "components",
     "phase": "liquid",
     "container": "bottle_glass"
@@ -989,7 +962,6 @@
     "volume": "250 ml",
     "weight": "10 g",
     "//": "Weight might not be accurate.",
-    "bashing": 1,
     "ammo_type": "components",
     "container": "bag_canvas",
     "count": 50
@@ -1007,7 +979,6 @@
     "material": [ "powder" ],
     "volume": "294 ml",
     "weight": "1 g",
-    "bashing": 1,
     "ammo_type": "components",
     "container": "bag_canvas",
     "count": 500
@@ -1043,7 +1014,6 @@
     "//": "Density of RDX is 1.858 g/cm3",
     "volume": "270 ml",
     "weight": "1 g",
-    "bashing": 1,
     "ammo_type": "components",
     "count": 500
   },
@@ -1061,7 +1031,6 @@
     "//": "Density of composition B is 1.65 g/cm3. Slightly rounded the volume from 303 to 300",
     "volume": "300 ml",
     "weight": "1 g",
-    "bashing": 1,
     "ammo_type": "components",
     "count": 500
   },
@@ -1079,7 +1048,6 @@
     "//": "Density of RDX is 1.57 g/cm3",
     "volume": "140 ml",
     "weight": "1 g",
-    "bashing": 1,
     "ammo_type": "components",
     "container": "bag_plastic",
     "count": 200
@@ -1098,7 +1066,6 @@
     "//": "Detonation velocity about 2500–3000 m/s near 0.5 g/cm3",
     "volume": "140 ml",
     "weight": "1 g",
-    "bashing": 1,
     "ammo_type": "components",
     "container": "bag_plastic",
     "count": 200

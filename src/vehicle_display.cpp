@@ -182,7 +182,6 @@ int vehicle::print_part_list( const catacurses::window &win, int y1, const int m
             break;
         }
 
-
         std::string partname = vp.name();
 
         if( vp.is_fuel_store() && !vp.ammo_current().is_null() ) {

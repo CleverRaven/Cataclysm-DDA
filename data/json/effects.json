@@ -1115,7 +1115,7 @@
       "hurt_min": [ 1 ],
       "hurt_max": [ 2 ],
       "hurt_chance": [ -22 ],
-      "hurt_tick": [ 20 ],
+      "hurt_tick": [ 200 ],
       "pain_min": [ 1 ],
       "pain_max": [ 2 ],
       "pain_chance": [ 50 ],

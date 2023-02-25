@@ -183,7 +183,6 @@ TEST_CASE( "comestible_health_bounds", "[comestible]" )
     }
 }
 
-
 TEST_CASE( "recipe_permutations", "[recipe]" )
 {
     // Are these tests failing? Here's how to fix that:

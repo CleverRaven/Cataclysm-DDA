@@ -1335,9 +1335,9 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
             case liquid_target_type::VEHICLE: {
                 const optional_vpart_position vp = here.veh_at( act_ref.coords.at( 1 ) );
                 if( act_ref.values.size() > 4 && vp ) {
-                    const vpart_reference vpr( vp->vehicle(), act_ref.values.at( 4 ) );
+                    const vpart_reference vpr( vp->vehicle(), act_ref.values[4] );
                     veh = &vp->vehicle();
-                    part = act_ref.values.at( 4 );
+                    part = act_ref.values[4];
                     if( source_veh &&
                         source_veh->fuel_left( liquid.typeId(), false, ( veh ? std::function<bool( const vehicle_part & )> { [&]( const vehicle_part & pa )
                 {
@@ -1399,7 +1399,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
                         if( act_ref.str_values.empty() ) {
                             act_ref.str_values.emplace_back( );
                         }
-                        act_ref.str_values.at( 0 ) = serialize( liquid );
+                        act_ref.str_values[0] = serialize( liquid );
                     }
                 } else {
                     source_veh->drain( liquid.typeId(), removed_charges, ( veh ? std::function<bool( vehicle_part & )> { [&]( vehicle_part & pa )
@@ -1761,7 +1761,7 @@ static bool magic_train( player_activity *act, Character *you )
             spell &studying = you->magic->get_spell( sp_id );
             const int expert_multiplier = act->values.empty() ? 0 : act->values[0];
             const int xp = roll_remainder( studying.exp_modifier( *you ) * expert_multiplier );
-            studying.gain_exp( xp );
+            studying.gain_exp( *you, xp );
             you->add_msg_if_player( m_good, _( "You learn a little about the spell: %s" ),
                                     sp_id->name );
         } else {
@@ -2239,8 +2239,8 @@ void repair_item_finish( player_activity *act, Character *you, bool no_menu )
         // Print message explaining why we stopped
         // But only if we didn't destroy the item (because then it's obvious)
         const bool destroyed = attempt == repair_item_actor::AS_DESTROYED;
-        const bool cannot_continue_repair = attempt == repair_item_actor::AS_CANT ||
-                                            destroyed || !actor->can_repair_target( *you, *fix_location, !destroyed );
+        const bool cannot_continue_repair = attempt == repair_item_actor::AS_CANT || destroyed ||
+                                            !actor->can_repair_target( *you, *fix_location, !destroyed, true );
         if( cannot_continue_repair ) {
             // Cannot continue to repair target, select another target.
             // **Warning**: as soon as the item is popped back, it is destroyed and can't be used anymore!
@@ -2284,7 +2284,7 @@ void repair_item_finish( player_activity *act, Character *you, bool no_menu )
             act->set_to_null();
             return;
         }
-        if( actor->can_repair_target( *you, *item_loc, true ) ) {
+        if( actor->can_repair_target( *you, *item_loc, true, true ) ) {
             act->targets.emplace_back( item_loc );
             repeat = repeat_type::INIT;
         }
@@ -3093,10 +3093,10 @@ void activity_handlers::build_do_turn( player_activity *act, Character *you )
     const int old_counter = pc->counter;
 
     // Base moves for construction with no speed modifier or assistants
-    // Must ensure >= 1 so we don't divide by 0;
-    const double base_total_moves = std::max( 1, built.time );
+    // Clamp to >= 100 to prevent division by 0 or int overflow on characters with high speed;
+    const double base_total_moves = std::max( 100, built.time );
     // Current expected total moves, includes construction speed modifiers and assistants
-    const double cur_total_moves = std::max( 1, built.adjusted_time() );
+    const double cur_total_moves = std::max( 100, built.adjusted_time() );
     // Delta progress in moves adjusted for current crafting speed
     const double delta_progress = you->get_moves() * base_total_moves / cur_total_moves;
     // Current progress in moves
@@ -3154,7 +3154,6 @@ void activity_handlers::multiple_dis_do_turn( player_activity *act, Character *y
 {
     generic_multi_activity_handler( *act, *you );
 }
-
 
 void activity_handlers::vehicle_deconstruction_do_turn( player_activity *act, Character *you )
 {
@@ -3537,7 +3536,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, Character *yo
 
     // if level != 1 then we need to set the spell's level
     if( level_override != -1 ) {
-        spell_being_cast.set_level( level_override );
+        spell_being_cast.set_level( *you, level_override );
     }
 
     // choose target for spell before continuing
@@ -3555,7 +3554,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, Character *yo
                                         _( "You lose your concentration!" ) );
                 if( !spell_being_cast.is_max_level() && level_override == -1 ) {
                     // still get some experience for trying
-                    spell_being_cast.gain_exp( exp_gained / 5 );
+                    spell_being_cast.gain_exp( *you, exp_gained / 5 );
                     you->add_msg_if_player( m_good, _( "You gain %i experience.  New total %i." ), exp_gained / 5,
                                             spell_being_cast.xp() );
                 }
@@ -3603,11 +3602,11 @@ void activity_handlers::spellcasting_finish( player_activity *act, Character *yo
                     // reap the reward
                     int old_level = spell_being_cast.get_level();
                     if( old_level == 0 ) {
-                        spell_being_cast.gain_level();
+                        spell_being_cast.gain_level( *you );
                         you->add_msg_if_player( m_good,
                                                 _( "Something about how this spell works just clicked!  You gained a level!" ) );
                     } else {
-                        spell_being_cast.gain_exp( exp_gained );
+                        spell_being_cast.gain_exp( *you, exp_gained );
                         you->add_msg_if_player( m_good, _( "You gain %i experience.  New total %i." ), exp_gained,
                                                 spell_being_cast.xp() );
                     }
@@ -3646,7 +3645,7 @@ void activity_handlers::study_spell_do_turn( player_activity *act, Character *yo
         // Gain some experience from studying
         const int xp = roll_remainder( studying.exp_modifier( *you ) / to_turns<float>( 6_seconds ) );
         act->values[0] += xp;
-        studying.gain_exp( xp );
+        studying.gain_exp( *you, xp );
         bool leveled_up = you->practice( studying.skill(), xp, studying.get_difficulty(), true );
         if( leveled_up && studying.get_difficulty() < you->get_skill_level( studying.skill() ) ) {
             you->handle_skill_warning( studying.skill(),

@@ -32,7 +32,6 @@ static const vproto_id vehicle_prototype_none( "none" );
 static const std::string flag_APPLIANCE( "APPLIANCE" );
 static const std::string flag_WIRING( "WIRING" );
 
-
 // Width of the entire set of windows. 60 is sufficient for
 // all tested cases while remaining within the 80x24 limit.
 // TODO: make this dynamic in the future.

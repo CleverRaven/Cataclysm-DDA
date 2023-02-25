@@ -1599,6 +1599,7 @@
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
     "time": "4 m",
+    "batch_time_factors": [ 80, 4 ],
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
@@ -3204,6 +3205,11 @@
       { "id": "CONTAIN", "level": 1 }
     ],
     "tools": [ [ [ "surface_heat", 4, "LIST" ] ], [ [ "cotton_patchwork", -1 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_food_prep" },
+      { "proficiency": "prof_cheesemaking_1" },
+      { "proficiency": "prof_cheesemaking_2" }
+    ],
     "components": [ [ [ "milk_curdled", 2 ] ], [ [ "salt_water", 1 ], [ "saline", 1 ], [ "salt", 1 ], [ "seasoning_salt", 1 ] ] ]
   },
   {

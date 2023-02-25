@@ -681,6 +681,7 @@
       "style_aikido",
       "style_barbaran",
       "style_biojutsu",
+      "style_bojutsu",
       "style_boxing",
       "style_capoeira",
       "style_crane",
@@ -689,8 +690,10 @@
       "style_fencing",
       "style_judo",
       "style_karate",
+      "style_kickboxing",
       "style_krav_maga",
       "style_leopard",
+      "style_medievalpole",
       "style_muay_thai",
       "style_ninjutsu",
       "style_niten",
@@ -698,6 +701,7 @@
       "style_silat",
       "style_snake",
       "style_sojutsu",
+      "style_swordsmanship",
       "style_taekwondo",
       "style_tai_chi",
       "style_tiger",
@@ -746,7 +750,10 @@
       "VOMITOUS",
       "EATPOISON",
       "EATDEAD",
-      "ALCMET"
+      "ALCMET",
+      "SAPROVORE",
+      "LACTOSE",
+      "GRAZER"
     ]
   },
   {
