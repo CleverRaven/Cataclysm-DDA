@@ -350,7 +350,7 @@ bool _discard_temporary( fs::path const &dep )
 void write_min_archive()
 {
     tripoint_abs_seg const seg = project_to<coords::seg>( get_avatar().get_location() );
-    tripoint_range<tripoint> const segs = points_in_radius( seg.raw(), 1 );
+    tripoint_range<tripoint> const segs = points_in_radius( tripoint{ seg.xy().raw(), 0 }, 1 );
     point sm = project_to<coords::sm>( get_avatar().get_location() ).raw().xy();
     point const reg = sm_to_mmr_remain( sm.x, sm.y );
     tripoint_range<tripoint> const regs = points_in_radius( tripoint{ reg, 0 }, 1 );
