@@ -52,10 +52,10 @@ The mutation system works in several steps. All time references are in game time
 The odds of a mutation being good or bad is directly determined by Instability, which is a stat tracked using a vitamin. It represents long-term genetic damage; a character will begin the game with 0 Instability and obtain only positive or neutral mutations, but with enough Instability, they will become almost exclusively negative ones.
 
 These chances are determined on a curve, ranging from 0 Instability (default) to 8000 Instability (the maximum):
-* There is always a flat 10% chance to obtain a neutral mutation that is neither positive or negative.
-* From roughly 0 to 800 Instability, there is a 90% chance for a positive mutation and a 0% chance for a negative one.
-* Positive and negative chances then quickly slope to meet each other at roughly 2800 Instability. At this point, there is a 45% chance for a positive mutation and a 45% chance for a negative mutation. As before, the remaining 10% is taken up by neutral mutations.
-* Chances then gradually continue their current trends until reaching the limit. At the maximum of 8000 Instability, there is roughly a 65% chance for a negative mutation and a 25% chance for a positive one.
+* Neutral mutations (those which are neither negative nor positive) are always eligible.
+* From roughly 0 to 800 Instability, there is a 100% chance for a positive or neutral mutation and a 0% chance for a negative one.
+* Positive and negative chances then quickly slope to meet each other at roughly 2800 Instability. At this point, there are equal chances for positive and negative mutations.
+* Chances then gradually continue their current trends until reaching the limit. At the maximum of 8000 Instability, there is roughly a 70% chance for a negative mutation to be selected and a 30% chance for a positive one. As before, regardless of whether a positive or negative mutation is selected, a neutral mutation is also possible.
 
 Instability very slowly decreases on its own, at a rate of 1 per day. Traits can influence this; for instance, the Robust Genetics trait vastly speeds this up by removing a further 1 Instability per hour, for a total of 25 per day. The Genetic Downward Spiral trait does the opposite, *increasing* Instability at the extremely fast rate of 1 per minute.
 
