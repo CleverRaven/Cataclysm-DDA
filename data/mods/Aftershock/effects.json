@@ -57,6 +57,24 @@
   },
   {
     "type": "effect_type",
+    "id": "migo_rad_away",
+    "base_mods": { "rad_chance": [ 600 ], "rad_min": [ -1 ] },
+    "max_duration": 10800,
+    "dur_add_perc": 35,
+    "blood_analysis_description": "Strange proteins are ingesting radioactive particles and flushing themselves from the host.",
+    "rating": "good"
+  },
+  {
+    "type": "effect_type",
+    "id": "migo_rad_flush",
+    "base_mods": { "rad_chance": [ 600 ], "rad_min": [ -5 ] },
+    "max_duration": 10800,
+    "dur_add_perc": 35,
+    "blood_analysis_description": "Strange proteins are ingesting radioactive particles and containing all emmissions.",
+    "rating": "good"
+  },
+  {
+    "type": "effect_type",
     "id": "mutagen_mastodon",
     "name": [ "Mastodon Mutation", "Mastodon Transformation", "Mastodon Metamorphosis" ],
     "desc": [
