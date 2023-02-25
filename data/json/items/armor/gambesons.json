@@ -1414,7 +1414,7 @@
     "to_hit": -5,
     "material": [ "wool" ],
     "symbol": "[",
-    "looks_like": "gambeson",
+    "looks_like": "gambeson_wool",
     "color": "light_gray",
     "warmth": 66,
     "material_thickness": 7.5,
@@ -1457,7 +1457,7 @@
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
-    "id": "xs_gambeson_canvas_thinsleeved",
+    "id": "xs_gambeson_wool_thinsleeved",
     "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
     "type": "ARMOR",
     "name": { "str": "XS thin-sleeved wool gambeson" },
