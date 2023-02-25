@@ -388,10 +388,14 @@ void color_manager::load_default()
         add_color( def_c256_dark_gray_red, "c_dark_gray_red", color_pair( 73 ), def_c256_red_dark_gray );
         add_color( def_c256_dark_gray_blue, "h_dark_gray", color_pair( 75 ), def_c256_blue_dark_gray );
         add_color( def_c256_dark_gray_black, "c_dark_gray", color_pair( 72 ), def_c256_dark_gray_black );
-        add_color( def_c256_dark_gray_white, "c_dark_gray_white", color_pair( 79 ), def_c256_white_dark_gray );
-        add_color( def_c256_dark_gray_green, "c_dark_gray_green", color_pair( 74 ), def_c256_green_dark_gray );
-        add_color( def_c256_dark_gray_yellow, "c_dark_gray_yellow", color_pair( 78 ), def_c256_yellow_dark_gray );
-        add_color( def_c256_dark_gray_magenta, "c_dark_gray_magenta", color_pair( 77 ), def_c256_magenta_dark_gray );
+        add_color( def_c256_dark_gray_white, "c_dark_gray_white", color_pair( 79 ),
+                   def_c256_white_dark_gray );
+        add_color( def_c256_dark_gray_green, "c_dark_gray_green", color_pair( 74 ),
+                   def_c256_green_dark_gray );
+        add_color( def_c256_dark_gray_yellow, "c_dark_gray_yellow", color_pair( 78 ),
+                   def_c256_yellow_dark_gray );
+        add_color( def_c256_dark_gray_magenta, "c_dark_gray_magenta", color_pair( 77 ),
+                   def_c256_magenta_dark_gray );
         add_color( def_c256_dark_gray_cyan, "c_dark_gray_cyan", color_pair( 76 ), def_c256_cyan_dark_gray );
     } else {
         add_color( def_c_dark_gray_red, "c_dark_gray_red", color_pair( 9 ).bold(), def_c_dark_gray_red );
