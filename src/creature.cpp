@@ -499,11 +499,11 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
     boo_hoo = 0;         // how many targets were passed due to IFF. Tragically.
     bool self_area_iff = false; // Need to check if the target is near the vehicle we're a part of
     bool area_iff = false;      // Need to check distance from target to player
-    bool angle_iff = true;      // Need to check if player is in a cone between us and target
+    bool angle_iff = sees( player_character ); // Need to check if player is in cone to target
     int pldist = rl_dist( pos(), player_pos );
     map &here = get_map();
     vehicle *in_veh = is_fake() ? veh_pointer_or_null( here.veh_at( pos() ) ) : nullptr;
-    if( pldist < iff_dist && sees( player_character ) ) {
+    if( pldist < iff_dist && angle_iff ) {
         area_iff = area > 0;
         // Player inside vehicle won't be hit by shots from the roof,
         // so we can fire "through" them just fine.
