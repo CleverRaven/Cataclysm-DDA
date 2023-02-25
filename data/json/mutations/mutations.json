@@ -5763,7 +5763,21 @@
       "MUZZLE_RAT",
       "RABBIT_NOSE"
     ],
-    "category": [ "BIRD", "CEPHALOPOD", "FELINE", "RAPTOR", "INSECT", "CATTLE", "BEAST", "LUPINE", "URSINE", "LIZARD", "RAT", "RABBIT", "MOUSE" ]
+    "category": [
+      "BIRD",
+      "CEPHALOPOD",
+      "FELINE",
+      "RAPTOR",
+      "INSECT",
+      "CATTLE",
+      "BEAST",
+      "LUPINE",
+      "URSINE",
+      "LIZARD",
+      "RAT",
+      "RABBIT",
+      "MOUSE"
+    ]
   },
   {
     "type": "mutation",
