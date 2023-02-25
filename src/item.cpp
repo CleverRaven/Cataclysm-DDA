@@ -12716,8 +12716,7 @@ std::optional<tripoint> item::get_cable_target( Character *p, const tripoint &po
         }
     }
 
-    tripoint source2( get_var( "source_x", 0 ), get_var( "source_y", 0 ), get_var( "source_z", 0 ) );
-    tripoint source( source2 );
+    tripoint source( get_var( "source_x", 0 ), get_var( "source_y", 0 ), get_var( "source_z", 0 ) );
 
     return here.getlocal( source );
 }
