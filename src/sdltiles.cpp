@@ -4020,6 +4020,12 @@ bool is_draw_tiles_mode()
     return use_tiles;
 }
 
+bool catacurses::supports_256_colors()
+{
+    // a terminal running tiles should always support 256 colors.. right?
+    return( true );
+}
+
 /** Saves a screenshot of the current viewport, as a PNG file, to the given location.
 * @param file_path: A full path to the file where the screenshot should be saved.
 * @returns `true` if the screenshot generation was successful, `false` otherwise.
