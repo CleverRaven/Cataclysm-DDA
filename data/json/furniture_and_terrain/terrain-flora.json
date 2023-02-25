@@ -1591,7 +1591,7 @@
     "type": "terrain",
     "id": "t_apiary",
     "name": "apiary",
-    "description": "A man-made box designed to hold bees and facilitate the development of a hive for easy harvesting.  Used for millennia in various forms, the modern Langsroth hive dates back to 1852.  This could provide a reliable source of food for an enterprising individual.  This one is leaking slightly, and is ready to harvest.",
+    "description": "A man-made wooden box designed to hold honeybees and facilitate the care for a hive.  The modular construction allows for inspecting the bees and harvesting their bounty without destroying the hive completely.  This year's harvest should be ready by now.",
     "symbol": "h",
     "color": [ "yellow" ],
     "move_cost": 1,
