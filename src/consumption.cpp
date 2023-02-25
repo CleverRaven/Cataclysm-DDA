@@ -1545,7 +1545,9 @@ bool Character::consume_effects( item &food )
     stomach.ingest( ingested );
 
     // update speculative values
-    get_avatar().add_ingested_kcal( ingested.nutr.calories / 1000 );
+    if( is_avatar() ) {
+        get_avatar().add_ingested_kcal( ingested.nutr.calories / 1000 );
+    }
     for( const auto &v : ingested.nutr.vitamins ) {
         // update the estimated values for daily vitamins
         // actual vitamins happen during digestion
