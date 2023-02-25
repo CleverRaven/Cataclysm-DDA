@@ -2780,8 +2780,7 @@
     "type": "keybinding",
     "name": "Quicksave",
     "category": "DEFAULTMODE",
-    "id": "quicksave",
-    "bindings": [ { "input_method": "keyboard_char", "key": "Q" }, { "input_method": "keyboard_code", "key": "q", "mod": [ "shift" ] } ]
+    "id": "quicksave"
   },
   {
     "type": "keybinding",
