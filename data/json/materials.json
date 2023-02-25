@@ -2596,9 +2596,10 @@
     "name": "Coal",
     "copy-from": "wood",
     "//": "mostly pure anthracite coal, 100% purity anthracite has 33.5MJ/kilogram.",
-    "//1": "33.5MJx1.5 g/cm^3 physical density gives energy per liter, or 50kJ in a single 1ml/1.5g unit of coal.",
-    "fuel_data": { "energy": "50000 kJ" },
-    "density": 1.5
+    "//1": "Raw density of anthracite is ~1.5g/cm^3 but bulk density is lower at slightly less than 1.0.",
+    "//2": "Roughly 5x the energy content of charcoal per liter.",
+    "fuel_data": { "energy": "31200 kJ" },
+    "density": 0.931
   },
   {
     "type": "material",
