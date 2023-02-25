@@ -90,18 +90,18 @@ static const itype_id itype_apparatus( "apparatus" );
 static const itype_id itype_dab_pen_on( "dab_pen_on" );
 static const itype_id itype_syringe( "syringe" );
 
+static const json_character_flag json_flag_CANNIBAL( "CANNIBAL" );
 static const json_character_flag json_flag_IMMUNE_SPOIL( "IMMUNE_SPOIL" );
+static const json_character_flag json_flag_NUMB( "NUMB" );
 static const json_character_flag json_flag_PARAIMMUNE( "PARAIMMUNE" );
 static const json_character_flag json_flag_PRED1( "PRED1" );
 static const json_character_flag json_flag_PRED2( "PRED2" );
 static const json_character_flag json_flag_PRED3( "PRED3" );
 static const json_character_flag json_flag_PRED4( "PRED4" );
-static const json_character_flag json_flag_STRICT_HUMANITARIAN( "STRICT_HUMANITARIAN" );
-static const json_character_flag json_flag_CANNIBAL( "CANNIBAL" );
 static const json_character_flag json_flag_PSYCHOPATH( "PSYCHOPATH" );
 static const json_character_flag json_flag_SAPIOVORE( "SAPIOVORE" );
 static const json_character_flag json_flag_SPIRITUAL( "SPIRITUAL" );
-static const json_character_flag json_flag_NUMB( "NUMB" );
+static const json_character_flag json_flag_STRICT_HUMANITARIAN( "STRICT_HUMANITARIAN" );
 
 static const material_id material_all( "all" );
 
