@@ -1208,14 +1208,20 @@ void monster::nursebot_operate( Character *dragged_foe )
         if( dragged_foe->has_effect( effect_grabbed ) ) {
 
             const bionic_collection &collec = *dragged_foe->my_bionics;
+            cata_assert( !collec.empty() );
             const int index = rng( 0, collec.size() - 1 );
-            const bionic &target_cbm = collec[index];
+            const bionic *const target_cbm = &collec[index];
+            const bionic &real_target =
+                target_cbm->is_included()
+                ? **dragged_foe->find_bionic_by_uid( target_cbm->get_parent_uid() )
+                : *target_cbm;
 
             //8 intelligence*4 + 8 first aid*4 + 3 computer *3 + 4 electronic*1 = 77
             const float adjusted_skill = static_cast<float>( 77 ) - std::min( static_cast<float>( 40 ),
                                          static_cast<float>( 77 ) - static_cast<float>( 77 ) / static_cast<float>( 10.0 ) );
 
-            get_player_character().uninstall_bionic( target_cbm, *this, *dragged_foe, adjusted_skill );
+            dragged_foe->cancel_activity();
+            get_player_character().uninstall_bionic( real_target, *this, *dragged_foe, adjusted_skill );
 
             dragged_foe->remove_effect( effect_grabbed );
             remove_effect( effect_dragging );

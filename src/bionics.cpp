@@ -2191,8 +2191,6 @@ void Character::perform_uninstall( const bionic &bio, int difficulty, int succes
         cbm.set_flag( flag_NO_PACKED );
         cbm.faults.emplace( fault_bionic_salvaged );
         here.add_item( pos(), cbm );
-
-        invalidate_pseudo_items();
     } else {
         get_event_bus().send<event_type::fails_to_remove_cbm>( getID(), bio.id );
         // for chance_of_success calculation, shift skill down to a float between ~0.4 - 30
@@ -2258,11 +2256,11 @@ bool Character::uninstall_bionic( const bionic &bio, monster &installer, Charact
             add_msg( m_mixed, _( "Successfully removed %s." ), bio.info().name );
         }
 
-        patient.remove_bionic( bio );
         item cbm( "burnt_out_bionic" );
         if( item::type_is_defined( bio.info().itype() ) ) {
             cbm = bionic_to_uninstall;
         }
+        patient.remove_bionic( bio );
         cbm.set_flag( flag_FILTHY );
         cbm.set_flag( flag_NO_STERILE );
         cbm.set_flag( flag_NO_PACKED );
@@ -2846,6 +2844,7 @@ void Character::remove_bionic( const bionic &bio )
 
     const bool has_enchantments = !bio.id->enchantments.empty();
     *my_bionics = new_my_bionics;
+    invalidate_pseudo_items();
     update_bionic_power_capacity();
     calc_encumbrance();
     recalc_sight_limits();
