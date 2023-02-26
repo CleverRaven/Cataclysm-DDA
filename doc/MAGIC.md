@@ -813,7 +813,7 @@ The following is a list of possible enchantment `values`:
 | `MOD_HEALTH_CAP` | If this is anything other than zero (which it defaults to) you will cap your `MOD_HEALTH` gain/loss at this every half hour.
 | `MOVE_COST` | 
 | `PAIN` | When gaining pain the amount gained will be modified by this much.  You will still always gain at least 1 pain.
-| `PAIN_REMOVE` | When pain naturally decreases the chance of pain removal will be modified by this much.  You will still always have at least a chance to reduce pain.
+| `PAIN_REMOVE` | When pain naturally decreases every five minutes the chance of pain removal will be modified by this much.  You will still always have at least a chance to reduce pain.
 | `SHOUT_NOISE` | 
 | `SIGHT_RANGE_ELECTRIC` | How many tiles away is_electric() creatures are visible from.
 | `MOTION_VISION_RANGE ` | Reveals all monsters as a red `?` within the specified radius.
