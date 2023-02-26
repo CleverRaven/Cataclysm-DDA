@@ -2441,5 +2441,13 @@
       { "item": "papm77mag_10rd", "prob": 50 },
       { "group": "on_hand_308" }
     ]
+  },
+  {
+    "id": "nested_ruger_m77",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [ { "item": "ruger_m77", "charges-min": 0, "charges-max": 4 }, { "group": "on_hand_3006" } ]
   }
 ]
