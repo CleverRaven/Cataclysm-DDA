@@ -937,7 +937,7 @@ inventory_column::entry_cell_cache_t inventory_column::make_entry_cell_cache(
 
     result.assigned = true;
     result.color = preset.get_color( entry );
-    result.denial = &entry.denial;
+    result.denial = &*entry.denial;
     result.text.resize( preset.get_cells_count() );
 
     for( size_t i = 0, n = preset.get_cells_count(); i < n; ++i ) {
@@ -1012,14 +1012,19 @@ void inventory_column::set_height( size_t new_height )
     }
 }
 
-void inventory_column::expand_to_fit( const inventory_entry &entry, bool with_denial )
+void inventory_column::expand_to_fit( inventory_entry &entry, bool with_denial )
 {
     if( !entry ) {
         return;
     }
 
+    if( !entry.denial ) {
+        entry.denial = { preset.get_denial( entry ) };
+        entry.enabled = entry.denial->empty();
+    }
+
     // Don't use cell cache here since the entry may not yet be placed into the vector of entries.
-    const std::string &denial = entry.denial;
+    const std::string &denial = *entry.denial;
 
     for( size_t i = 0, num = with_denial && denial.empty() ? cells.size() : 1; i < num; ++i ) {
         auto &cell = cells[i];
@@ -1253,8 +1258,6 @@ inventory_entry *inventory_column::add_entry( const inventory_entry &entry )
     dest.emplace_back( entry );
     inventory_entry &newent = dest.back();
     newent.update_cache();
-    newent.denial = preset.get_denial( newent );
-    newent.enabled = newent.denial.empty();
 
     return &newent;
 }
@@ -1636,7 +1639,7 @@ void selection_column::reset_width( const std::vector<inventory_column *> &all_c
 
     for( const inventory_column *const col : all_columns ) {
         if( col && !dynamic_cast<const selection_column *>( col ) ) {
-            for( const inventory_entry *const ent : col->get_entries( always_yes ) ) {
+            for( inventory_entry *const ent : col->get_entries( always_yes ) ) {
                 if( ent ) {
                     expand_to_fit( *ent, false );
                 }

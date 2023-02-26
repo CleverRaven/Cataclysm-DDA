@@ -166,7 +166,7 @@ class inventory_entry
         size_t generation = 0;
         bool chevron = false;
         int indent = 0;
-        std::string denial;
+        cata::optional<std::string> denial;
         bool enabled = true;
 
         void set_custom_category( const item_category *category ) {
@@ -396,7 +396,7 @@ class inventory_column
         size_t get_width() const;
         size_t get_height() const;
         /** Expands the column to fit the new entry. */
-        void expand_to_fit( const inventory_entry &entry, bool with_denial = true );
+        void expand_to_fit( inventory_entry &entry, bool with_denial = true );
         /** Resets width to original (unchanged). */
         virtual void reset_width( const std::vector<inventory_column *> &all_columns );
         /** Returns next custom inventory letter. */
