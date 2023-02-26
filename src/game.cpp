@@ -7027,7 +7027,7 @@ look_around_result game::look_around(
     int &lz = lp.z();
 
     int soffset = get_option<int>( "FAST_SCROLL_OFFSET" );
-    bool fast_scroll = false;
+    static bool fast_scroll = false;
 
     std::unique_ptr<ui_adaptor> ui;
     catacurses::window w_info;
