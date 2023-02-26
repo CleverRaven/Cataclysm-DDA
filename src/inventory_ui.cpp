@@ -770,6 +770,9 @@ std::string inventory_selector_preset::cell_t::get_text( const inventory_entry &
 
 bool inventory_holster_preset::is_shown( const item_location &contained ) const
 {
+    if( contained == holster ) {
+        return false;
+    }
     if( contained.eventually_contains( holster ) || holster.eventually_contains( contained ) ) {
         return false;
     }
@@ -803,6 +806,17 @@ bool inventory_holster_preset::is_shown( const item_location &contained ) const
         return false;
     }
     return true;
+}
+
+std::string inventory_holster_preset::get_denial( const item_location &it ) const
+{
+    if( who->is_worn( *it ) ) {
+        ret_val<void> const ret = who->can_takeoff( *it );
+        if( !ret.success() ) {
+            return ret.str();
+        }
+    }
+    return {};
 }
 
 void inventory_column::highlight( size_t new_index, scroll_direction dir )
