@@ -1778,23 +1778,23 @@ void item_pocket::leak( map &here, Character *carrier, const tripoint &pos, item
             }
             item *it = &*iter;
 
-            if( pocke ) {
+            if( pocke != nullptr ) {
                 if( pocke->watertight() ) {
                     ++iter;
                     continue;
                 }
                 pocke->add( *it );
-                contents.erase( iter );
             } else {
                 iter->unset_flag( flag_FROM_FROZEN_LIQUID );
                 iter->on_drop( pos );
                 here.add_item_or_charges( pos, *iter );
-                contents.erase( iter );
                 carrier->add_msg_if_player( _( "Liquid leaked out from the %s and dripped onto the ground!" ),
                                             this->get_name() );
             }
+            iter = contents.erase( iter );
+        } else {
+            ++iter;
         }
-        ++iter;
     }
 }
 
