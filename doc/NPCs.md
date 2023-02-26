@@ -1029,6 +1029,7 @@ Example | Description
 `"time": "5 days"` | A constant time value. Will be converted to turns. Can be read but not written to.
 `"time_since_cataclysm": "turns"` | Time since the start of the cataclysm in turns. Can instead take other time units such as minutes, hours, days, weeks, seasons, and years.
 `"rand": 20` | A random value between 0 and a given value, in this case 20. Can be read but not written to.
+`"faction_trust": "free_merchants"` | The trust the faction has for the player.
 `"weather": "temperature"` | Current temperature.
 `"weather": "windpower"` | Current windpower.
 `"weather": "humidity"` | Current humidity.
