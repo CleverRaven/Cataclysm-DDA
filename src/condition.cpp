@@ -2606,10 +2606,10 @@ void conditional_t<T>::set_has_skill( const JsonObject &jo, const std::string &m
 template<class T>
 void conditional_t<T>::set_roll_contested( const JsonObject &jo, const std::string &member )
 {
-    std::function<int( const T & )> get_check = conditional_t< T >::get_get_int( jo.get_object(
+    std::function<int( const T & )> get_check = conditional_t< T >::get_get_dbl( jo.get_object(
                 member ) );
-    int_or_var<T> difficulty = get_int_or_var<T>( jo, "difficulty", true );
-    int_or_var<T> die_size = get_int_or_var<T>( jo, "die_size", false, 10 );
+    dbl_or_var<T> difficulty = get_dbl_or_var<T>( jo, "difficulty", true );
+    dbl_or_var<T> die_size = get_dbl_or_var<T>( jo, "die_size", false, 10 );
     condition = [get_check, difficulty, die_size]( const T & d ) {
         return rng( 1, die_size.evaluate( d ) ) + get_check( d ) > difficulty.evaluate( d );
     };
