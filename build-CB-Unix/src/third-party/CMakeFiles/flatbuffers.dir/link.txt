@@ -1,0 +1,2 @@
+/usr/bin/ar qc libflatbuffers.a CMakeFiles/flatbuffers.dir/flatbuffers/idl_parser.cpp.o CMakeFiles/flatbuffers.dir/flatbuffers/util.cpp.o
+/usr/bin/ranlib libflatbuffers.a
