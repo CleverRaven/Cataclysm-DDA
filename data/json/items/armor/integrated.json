@@ -396,7 +396,7 @@
     "volume": "500 ml",
     "price": 0,
     "price_postapoc": 0,
-    "material": [ "leather", "bone", "fur", "leather_arthropod", "cured_meat", "wool", "flesh" ],
+    "material": [ "leather", "bone", "fur", "acidchitin", "leather_arthropod", "wool", "flesh" ],
     "symbol": "x",
     "color": "light_red",
     "warmth": 12,
@@ -429,7 +429,7 @@
     "volume": "800 ml",
     "price": 0,
     "price_postapoc": 0,
-    "material": [ "leather", "alien_carapace", "bone", "fur", "kevlar", "acidchitin", "cured_meat", "wool", "flesh" ],
+    "material": [ "leather", "alien_carapace", "bone", "fur", "kevlar", "acidchitin", "leather_arthropod", "wool", "flesh" ],
     "symbol": "x",
     "color": "light_red",
     "warmth": 15,
@@ -444,7 +444,7 @@
           { "type": "fur", "covered_by_mat": 41, "thickness": 3 },
           { "type": "kevlar", "covered_by_mat": 41, "thickness": 3 },
           { "type": "acidchitin", "covered_by_mat": 41, "thickness": 3 },
-          { "type": "cured_meat", "covered_by_mat": 41, "thickness": 3 },
+          { "type": "leather_arthropod", "covered_by_mat": 41, "thickness": 3 },
           { "type": "wool", "covered_by_mat": 41, "thickness": 3 },
           { "type": "flesh", "covered_by_mat": 100, "thickness": 3 }
         ],
@@ -708,11 +708,12 @@
     "color": "magenta",
     "warmth": 5,
     "environmental_protection": 10,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "BELTED", "WATERPROOF", "PADDED" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "OUTER", "BELTED", "WATERPROOF", "PADDED" ],
     "armor": [
       {
         "material": [ { "type": "chitin_light", "covered_by_mat": 100, "thickness": 10 } ],
         "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper", "torso_lower", "torso_hanging_back" ],
         "coverage": 100,
         "encumbrance": 5
       }
@@ -742,11 +743,12 @@
     ],
     "warmth": 7,
     "environmental_protection": 13,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "BELTED", "WATERPROOF", "PADDED" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "OUTER", "BELTED", "WATERPROOF", "PADDED" ],
     "armor": [
       {
         "material": [ { "type": "chitin_light", "covered_by_mat": 100, "thickness": 15 } ],
         "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper", "torso_lower", "torso_hanging_back" ],
         "coverage": 100,
         "encumbrance": 10
       }
@@ -776,11 +778,12 @@
     ],
     "warmth": 7,
     "environmental_protection": 13,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "BELTED", "WATERPROOF", "PADDED" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "OUTER", "BELTED", "WATERPROOF", "PADDED" ],
     "armor": [
       {
         "material": [ { "type": "bone", "covered_by_mat": 100, "thickness": 20 } ],
         "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper", "torso_lower", "torso_hanging_back" ],
         "coverage": 100,
         "encumbrance": 10
       }

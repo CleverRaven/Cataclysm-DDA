@@ -5280,12 +5280,12 @@ int vehicle::discharge_battery( int amount, bool recurse )
     while( amount > 0 && !dischargeable_parts.empty() ) {
         // Grab first part, discharge until it reaches the next %, then re-insert with new % key.
         auto iter = std::prev( dischargeable_parts.end() );
-        int charge_level = iter->first;
+        const int prev_charge_level = iter->first - 1;
         vehicle_part *p = iter->second;
         dischargeable_parts.erase( iter );
         // Calculate number of charges to reach the previous %.
-        int prev_charge_level = ( ( charge_level - 1 ) * p->ammo_capacity( ammo_battery ) ) / 100;
-        int amount_to_discharge = std::min( p->ammo_remaining() - prev_charge_level, amount );
+        int prev_charge_amount = std::max( 0, prev_charge_level * p->ammo_capacity( ammo_battery ) ) / 100;
+        int amount_to_discharge = std::min( p->ammo_remaining() - prev_charge_amount, amount );
         p->ammo_consume( amount_to_discharge, global_part_pos3( *p ) );
         amount -= amount_to_discharge;
         if( p->ammo_remaining() > 0 ) {
