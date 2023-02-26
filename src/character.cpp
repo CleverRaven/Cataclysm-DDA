@@ -2212,16 +2212,10 @@ void Character::recalc_hp()
         str_boost_val = str_boost->calc_bonus( skill_total );
     }
     // Mutated toughness stacks with starting, by design.
-    float hp_mod = 1.0f + mutation_value( "hp_modifier" ) + mutation_value( "hp_modifier_secondary" );
-    float hp_adjustment = mutation_value( "hp_adjustment" ) + ( str_boost_val * 3 );
+    float hp_mod = 1.0f + mutation_value( "hp_modifier" ) + mutation_value( "hp_modifier_secondary" ) + enchantment_cache->get_value_multiply( enchant_vals::mod::MAX_HP);
+    float hp_adjustment = mutation_value( "hp_adjustment" ) + ( str_boost_val * 3 ) + enchantment_cache->get_value_add( enchant_vals::mod::MAX_HP);
     calc_all_parts_hp( hp_mod, hp_adjustment, get_str_base(), get_dex_base(), get_per_base(),
                        get_int_base(), get_lifestyle(), get_fat_to_hp() );
-}
-
-int Character::get_part_hp_max( const bodypart_id &id ) const
-{
-    return enchantment_cache->modify_value( enchant_vals::mod::MAX_HP,
-                                            Creature::get_part_hp_max( id ) );
 }
 
 // This must be called when any of the following change:
@@ -5814,7 +5808,7 @@ float Character::healing_rate( float at_rest_quality ) const
     float const awake_rate = ( 1.0f - rest ) * heal_rate * mutation_value( "healing_awake" );
     float const asleep_rate = rest * heal_rate * ( 1.0f + get_lifestyle() / 200.0f );
     float final_rate = awake_rate + asleep_rate;
-    final_rate = enchantment_cache->modify_value(enchant_vals::mod::REGEN_HP, final_rate);
+    final_rate = enchantment_cache->modify_value( enchant_vals::mod::REGEN_HP, final_rate );
     // Most common case: awake player with no regenerative abilities
     // ~7e-5 is 1 hp per day, anything less than that is totally negligible
     static constexpr float eps = 0.000007f;
@@ -7120,6 +7114,7 @@ void Character::recalculate_enchantment_cache()
     if( enchantment_cache->modifies_bodyparts() ) {
         recalculate_bodyparts();
     }
+    recalc_hp();
 }
 
 double Character::calculate_by_enchantment( double modify, enchant_vals::mod value,
