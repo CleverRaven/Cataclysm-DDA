@@ -1569,7 +1569,7 @@ drop_locations game_menus::inv::holster( avatar &you, const item_location &holst
     const std::string hint = string_format( _( "Choose an item to put into your %s" ),
                                             holster_name );
 
-    inventory_holster_preset holster_preset( holster );
+    inventory_holster_preset holster_preset( holster, &get_avatar() );
 
     inventory_drop_selector insert_menu( you, holster_preset, _( "ITEMS TO INSERT" ),
                                          /*warn_liquid=*/false );

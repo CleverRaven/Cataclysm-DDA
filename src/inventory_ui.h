@@ -280,13 +280,17 @@ class inventory_selector_preset
 class inventory_holster_preset : public inventory_selector_preset
 {
     public:
-        explicit inventory_holster_preset( const item_location &holster ) : holster( holster ) {}
+        explicit inventory_holster_preset( item_location holster, Character *c )
+            : holster( std::move( holster ) ), who( c ) {
+        }
 
         /** Does this entry satisfy the basic preset conditions? */
         bool is_shown( const item_location &contained ) const override;
+        std::string get_denial( const item_location &it ) const override;
     private:
         // this is the item that we are putting something into
         item_location holster;
+        Character *who = nullptr;
 };
 
 const inventory_selector_preset default_preset;
