@@ -4023,7 +4023,7 @@ bool is_draw_tiles_mode()
 bool catacurses::supports_256_colors()
 {
     // trust SDL to do the right thing instead
-    return( false );
+    return false;
 }
 
 /** Saves a screenshot of the current viewport, as a PNG file, to the given location.
