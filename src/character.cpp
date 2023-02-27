@@ -5835,6 +5835,9 @@ float Character::healing_rate_medicine( float at_rest_quality, const bodypart_id
 
     for( const auto &elem : *effects ) {
         for( const std::pair<const bodypart_id, effect> &i : elem.second ) {
+            if( i.first != bp ) {
+                continue;
+            }
             const effect &eff = i.second;
             float tmp_rate = static_cast<float>( eff.get_amount( "HEAL_RATE" ) ) / to_turns<int>
                              ( 24_hours );
