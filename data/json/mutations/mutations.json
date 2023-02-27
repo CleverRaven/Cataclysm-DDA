@@ -5889,7 +5889,7 @@
     "mixed_effect": true,
     "description": "Your bones are particularly dense and durable.  Your tougher frame grants 5% more HP and 15% more carry capacity plus bashing attacks injure you less, but your higher weight makes attacking and moving 5% slower.  Also, dodging and swimming are harder.",
     "types": [ "BONES" ],
-    "category": [ "URSINE", "CATTLE", "CHIMERA", "BEAST", "ALPHA", "LIZARD" ],
+    "category": [ "URSINE", "CATTLE", "CHIMERA", "BEAST", "LIZARD" ],
     "movecost_modifier": 1.05,
     "movecost_swim_modifier": 1.2,
     "attackcost_modifier": 1.05,
