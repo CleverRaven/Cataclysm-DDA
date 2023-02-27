@@ -115,7 +115,7 @@
       {
         "id": "manual_shotgun_4",
         "name": { "str": "Ordnance Maintenance Shotguns, All Types", "str_pl": "copies of Ordnance Maintenance Shotguns, All Types" },
-        "description": "Part of 1942 army manual, this book contain lot of information about proper usage and maintenance of all shotgun, that were adopted by the U.S. military, including Winchester M97 and M12,Stevens M620, M620A and M520, the Ithaca M37, the Remington M31, M11 and Browning Automatic 5.",
+        "description": "Part of 1942 army manual, this book contain lot of information about proper usage and maintenance of all shotgun, that were adopted by the U.S. military, including Winchester M97 and M12, Stevens M620, M620A and M520, the Ithaca M37, the Remington M31, M11 and Browning Automatic 5.",
         "//": "978-1940453712",
         "weight": 1
       },
