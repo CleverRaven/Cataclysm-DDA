@@ -566,6 +566,14 @@ void inventory_entry::update_cache()
     cached_name_full = &names.second;
 }
 
+void inventory_entry::cache_denial( inventory_selector_preset const &preset ) const
+{
+    if( !denial ) {
+        denial = { preset.get_denial( *this ) };
+        enabled = denial->empty();
+    }
+}
+
 const item_category *inventory_entry::get_category_ptr() const
 {
     if( custom_category != nullptr ) {
@@ -937,6 +945,7 @@ inventory_column::entry_cell_cache_t inventory_column::make_entry_cell_cache(
 
     result.assigned = true;
     result.color = preset.get_color( entry );
+    entry.cache_denial( preset );
     result.denial = &*entry.denial;
     result.text.resize( preset.get_cells_count() );
 
@@ -1018,10 +1027,7 @@ void inventory_column::expand_to_fit( inventory_entry &entry, bool with_denial )
         return;
     }
 
-    if( !entry.denial ) {
-        entry.denial = { preset.get_denial( entry ) };
-        entry.enabled = entry.denial->empty();
-    }
+    entry.cache_denial( preset );
 
     // Don't use cell cache here since the entry may not yet be placed into the vector of entries.
     const std::string &denial = *entry.denial;
