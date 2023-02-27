@@ -326,6 +326,7 @@
     "//": "Factory specification rifle magazines commonly owned by citizens.",
     "items": [
       { "item": "blrmag", "prob": 5, "charges": [ 0, 4 ] },
+      { "item": "ruger_pr_mag", "prob": 5, "charges": [ 0, 5 ] },
       { "item": "m14mag", "prob": 40, "charges": [ 0, 20 ] },
       { "item": "m14smallmag", "prob": 40, "charges": [ 0, 5 ] },
       [ "marlin_tubeloader", 5 ],
@@ -354,6 +355,7 @@
     "//": "Factory specification rifle magazines commonly owned by citizens.",
     "items": [
       { "item": "blrmag", "prob": 5 },
+      { "item": "ruger_pr_mag", "prob": 5 },
       { "item": "m14mag", "prob": 40 },
       { "item": "m14smallmag", "prob": 40 },
       [ "marlin_tubeloader", 5 ],
@@ -430,6 +432,7 @@
       { "item": "ruger1022mag", "prob": 40, "charges": [ 0, 0 ] },
       { "item": "ruger1022bigmag", "prob": 30, "charges": [ 0, 0 ] },
       { "item": "blrmag", "prob": 20, "charges": [ 0, 0 ] },
+      { "item": "ruger_pr_mag", "prob": 20, "charges": [ 0, 0 ] },
       { "item": "ar10mag_20rd", "prob": 30, "charges": [ 0, 0 ] }
     ]
   },

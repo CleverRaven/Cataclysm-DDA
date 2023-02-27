@@ -223,10 +223,12 @@
     "dispersion": 75,
     "durability": 8,
     "clip_size": 4,
+    "default_mods": [ "muzzle_brake" ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
+      [ "brass catcher", 1 ],
       [ "grip", 1 ],
       [ "mechanism", 4 ],
       [ "muzzle", 1 ],

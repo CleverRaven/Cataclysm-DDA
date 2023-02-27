@@ -2449,5 +2449,18 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [ { "item": "ruger_m77", "charges-min": 0, "charges-max": 4 }, { "group": "on_hand_3006" } ]
+  },
+  {
+    "id": "nested_ruger_pr",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "ruger_pr", "charges-min": 0, "charges-max": 5 },
+      { "item": "ruger_pr_mag" },
+      { "item": "ruger_pr_mag", "prob": 50 },
+      { "group": "on_hand_300" }
+    ]
   }
 ]
