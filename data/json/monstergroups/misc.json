@@ -103,15 +103,6 @@
         "pack_size": [ 1, 2 ],
         "starts": "180 hours"
       },
-      { "monster": "mon_spider_cellar_small", "weight": 300, "pack_size": [ 1, 3 ], "ends": "14 days" },
-      { "group": "GROUP_SPIDER_CELLAR", "weight": 300, "pack_size": [ 2, 5 ], "starts": "14 days", "ends": "28 days" },
-      {
-        "group": "GROUP_SPIDER_CELLAR_GIANT",
-        "weight": 300,
-        "cost_multiplier": 0,
-        "pack_size": [ 2, 4 ],
-        "starts": "28 days"
-      },
       {
         "monster": "mon_mutant_experimental",
         "weight": 50,
