@@ -272,7 +272,7 @@ jobs:
         if: runner.os == 'macOS'
         run: |
           brew install gettext ccache parallel
-          ~/build-script/get-mac-sdl2-framework.sh
+          ~/build-scripts/get-mac-sdl2-framework.sh
           pip3 install mac_alias==2.2.0 dmgbuild==1.4.2 biplist
         env:
           HOMEBREW_NO_AUTO_UPDATE: 1
