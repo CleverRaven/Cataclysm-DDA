@@ -290,6 +290,22 @@ static float together_rate( const std::string &bp_name, const float rest_quality
     return dummy.healing_rate_medicine( rest_quality, bp );
 }
 
+// Treatment to other parts should not affect healing rate of this part
+static float together_rate_with_extras( const std::string &bp_name,
+                                        const std::vector<std::string> &extra_bps, const float rest_quality )
+{
+    avatar dummy;
+    const bodypart_id &bp = bodypart_id( bp_name );
+    dummy.add_effect( effect_bandaged, 1_turns, bp );
+    dummy.add_effect( effect_disinfected, 1_turns, bp );
+    for( std::string const &sid : extra_bps ) {
+        const bodypart_id &bp = bodypart_id( sid );
+        dummy.add_effect( effect_bandaged, 1_turns, bp );
+        dummy.add_effect( effect_disinfected, 1_turns, bp );
+    }
+    return dummy.healing_rate_medicine( rest_quality, bp );
+}
+
 // Healing effects of bandages and disinfectant are calculated by Character::healing_rate_medicine.
 //
 // Without either treatment, healing_rate_medicine gives no healing for any body part, awake or asleep.
@@ -372,6 +388,11 @@ TEST_CASE( "healing_rate_medicine with bandages and/or disinfectant", "[heal][ba
             CHECK( together_rate( "leg_l", awake_rest ) == Approx( 5.0f * hp_per_day ) );
             CHECK( together_rate( "leg_r", awake_rest ) == Approx( 5.0f * hp_per_day ) );
             CHECK( together_rate( "torso", awake_rest ) == Approx( 7.5f * hp_per_day ) );
+
+            SECTION( "other bodyparts are also treated" ) {
+                CHECK( together_rate_with_extras( "head", { "arm_l", "arm_r", "leg_l", "leg_r", "torso" },
+                                                  awake_rest ) == Approx( 2.5f * hp_per_day ) );
+            }
         }
 
         SECTION( "asleep" ) {
@@ -381,6 +402,11 @@ TEST_CASE( "healing_rate_medicine with bandages and/or disinfectant", "[heal][ba
             CHECK( together_rate( "leg_l", sleep_rest ) == Approx( 10.0f * hp_per_day ) );
             CHECK( together_rate( "leg_r", sleep_rest ) == Approx( 10.0f * hp_per_day ) );
             CHECK( together_rate( "torso", sleep_rest ) == Approx( 15.0f * hp_per_day ) );
+
+            SECTION( "other bodyparts are also treated" ) {
+                CHECK( together_rate_with_extras( "head", { "arm_l", "arm_r", "leg_l", "leg_r", "torso" },
+                                                  sleep_rest ) == Approx( 5.0f * hp_per_day ) );
+            }
         }
     }
 }
