@@ -82,7 +82,6 @@ namespace io
             case enchant_vals::mod::ATTACK_NOISE: return "ATTACK_NOISE";
             case enchant_vals::mod::SHOUT_NOISE: return "SHOUT_NOISE";
             case enchant_vals::mod::FOOTSTEP_NOISE: return "FOOTSTEP_NOISE";
-            case enchant_vals::mod::SIGHT_RANGE: return "SIGHT_RANGE";
             case enchant_vals::mod::SIGHT_RANGE_ELECTRIC: return "SIGHT_RANGE_ELECTRIC";
             case enchant_vals::mod::CARRY_WEIGHT: return "CARRY_WEIGHT";
             case enchant_vals::mod::WEAPON_DISPERSION: return "WEAPON_DISPERSION";
@@ -94,7 +93,6 @@ namespace io
             case enchant_vals::mod::EFFECTIVE_HEALTH_MOD: return "EFFECTIVE_HEALTH_MOD";
             case enchant_vals::mod::MOD_HEALTH: return "MOD_HEALTH";
             case enchant_vals::mod::MOD_HEALTH_CAP: return "MOD_HEALTH_CAP";
-            case enchant_vals::mod::MAP_MEMORY: return "MAP_MEMORY";
             case enchant_vals::mod::READING_EXP: return "READING_EXP";
             case enchant_vals::mod::SKILL_RUST_RESIST: return "SKILL_RUST_RESIST";
             case enchant_vals::mod::LEARNING_FOCUS: return "LEARNING_FOCUS";
@@ -371,16 +369,21 @@ void enchant_cache::load( const JsonObject &jo, const std::string &,
     enchantment::load( jo, "", inline_id, true );
     if( jo.has_array( "values" ) ) {
         for( const JsonObject value_obj : jo.get_array( "values" ) ) {
-            const enchant_vals::mod value = io::string_to_enum<enchant_vals::mod>
-                                            ( value_obj.get_string( "value" ) );
-            const int add = value_obj.has_int( "add" ) ? value_obj.get_int( "add", 0 ) : 0;
-            const double mult = value_obj.has_float( "multiply" ) ? value_obj.get_float( "multiply",
-                                0.0 ) : 0.0;
-            if( add != 0 ) {
-                values_add.emplace( value, add );
-            }
-            if( mult != 0.0 ) {
-                values_multiply.emplace( value, mult );
+            try {
+                const enchant_vals::mod value = io::string_to_enum<enchant_vals::mod>
+                                                ( value_obj.get_string( "value" ) );
+                const int add = value_obj.has_int( "add" ) ? value_obj.get_int( "add", 0 ) : 0;
+                const double mult = value_obj.has_float( "multiply" ) ? value_obj.get_float( "multiply",
+                                    0.0 ) : 0.0;
+                if( add != 0 ) {
+                    values_add.emplace( value, add );
+                }
+                if( mult != 0.0 ) {
+                    values_multiply.emplace( value, mult );
+                }
+            } catch( ... ) {
+                debugmsg( "A relic attempted to load invalid enchantment %s.  If you updated versions this may be a removed enchantment and will fix itself.",
+                          value_obj.get_string( "value", "" ) );
             }
         }
     }

@@ -3603,7 +3603,7 @@ bool basecamp::salt_water_pipe_swamp_return( const mission_id &miss_id,
 {
     const point dir = miss_id.dir.value();  //  Will always have a value
 
-    expansion_salt_water_pipe *pipe;
+    expansion_salt_water_pipe *pipe = nullptr;
 
     bool found = false;
     for( expansion_salt_water_pipe *element : salt_water_pipes ) {
@@ -3689,7 +3689,7 @@ bool basecamp::salt_water_pipe_return( const mission_id &miss_id,
     const recipe &making = recipe_id( miss_id.parameters ).obj();
     const point dir = miss_id.dir.value();  //  Will always have a value
 
-    expansion_salt_water_pipe *pipe;
+    expansion_salt_water_pipe *pipe = nullptr;
 
     bool found = false;
     for( expansion_salt_water_pipe *element : salt_water_pipes ) {

@@ -14,7 +14,7 @@
     "color": "green",
     "ammo": [ "fish_bait" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "fish_bait": 5 } } ],
-    "use_action": [ "FISH_TRAP" ]
+    "qualities": [ [ "FISH_TRAP", 1 ] ]
   },
   {
     "id": "fish_trap_basket",
@@ -32,7 +32,7 @@
     "color": "brown",
     "ammo": [ "fish_bait" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "fish_bait": 10 } } ],
-    "use_action": [ "FISH_TRAP" ]
+    "qualities": [ [ "FISH_TRAP", 1 ] ]
   },
   {
     "id": "fishing_hook_basic",

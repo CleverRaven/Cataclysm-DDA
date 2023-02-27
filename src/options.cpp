@@ -2175,9 +2175,12 @@ void options_manager::add_options_graphics()
     get_option( "USE_TILES_OVERMAP" ).setPrerequisite( "USE_TILES" );
 
     std::vector<options_manager::id_and_option> om_tilesets = build_tilesets_list();
-    // filter out SmashButton_iso from overmap tilesets
+    // filter out iso tilesets from overmap tilesets
     om_tilesets.erase( std::remove_if( om_tilesets.begin(), om_tilesets.end(), []( const auto & it ) {
-        return it.first == "SmashButton_iso";
+        static const std::string iso_suffix = "_iso";
+        const std::string &id = it.first;
+        return id.size() >= iso_suffix.size() &&
+               id.compare( id.size() - iso_suffix.size(), iso_suffix.size(), iso_suffix ) == 0;
     } ), om_tilesets.end() );
 
     add( "OVERMAP_TILES", "graphics", to_translation( "Choose overmap tileset" ),
