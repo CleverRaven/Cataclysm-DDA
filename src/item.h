@@ -1474,6 +1474,7 @@ class item : public visitable
         bool is_food_container() const;      // Ignoring the ability to eat batteries, etc.
         bool is_ammo_container() const; // does this item contain ammo? (excludes magazines)
         bool is_medication() const;            // Is it a medication that only pretends to be food?
+        bool is_medical_tool() const;
         bool is_bionic() const;
         bool is_magazine() const;
         bool is_battery() const;
@@ -1490,6 +1491,7 @@ class item : public visitable
         bool is_salvageable() const;
         bool is_disassemblable() const;
         bool is_craft() const;
+        bool is_scannable() const;
 
         bool is_deployable() const;
         bool is_tool() const;
