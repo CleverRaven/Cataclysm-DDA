@@ -166,8 +166,9 @@ class inventory_entry
         size_t generation = 0;
         bool chevron = false;
         int indent = 0;
-        cata::optional<std::string> denial;
-        bool enabled = true;
+        void cache_denial( inventory_selector_preset const &preset ) const;
+        mutable cata::optional<std::string> denial;
+        mutable bool enabled = true;
 
         void set_custom_category( const item_category *category ) {
             custom_category = category;
