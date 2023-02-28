@@ -863,6 +863,7 @@ homebrewing
 homovorus
 honeygold
 hooved
+horchata
 hosomaki
 hotcut
 hotkey
