@@ -365,11 +365,7 @@
     "worn_override": "GODCO_jane_worn",
     "carry_override": "GODCO_jane_carried",
     "weapon_override": "GODCO_jane_wield",
-    "traits": [
-      { "group": "NPC_starting_traits" },
-      { "group": "Appearance_demographics" },
-      { "trait": "NO_BASH" }
-    ],
+    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" }, { "trait": "NO_BASH" } ],
     "skills": [ { "bonus": { "rng": [ 4, 5 ] }, "skill": "firstaid" } ]
   },
   {
