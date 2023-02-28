@@ -2889,7 +2889,7 @@ void iexamine::kiln_empty( Character &you, const tripoint &examp )
     // https://energypedia.info/wiki/Charcoal_Production
     // charcoal has about 25% of the density of wood, and wood pyrolysis produces about 10-15% charcoal by weight for a stone kiln.
     // listed efficiency is for primitive or DIY production, industrial process in a metal kiln is more efficient at 20-25%
-    // 100% efficient conversion would be 1kg wood = 0.25kg firewood, 1:1 volume conversion
+    // 100% efficient conversion would be 1kg wood = 0.25kg charcoal, 1:1 volume conversion
     // fabrication should help here as kiln design and how you stack the wood matter to a degree, though the impact is low overall
     // For a cruddy kiln (a pit with a rock chimney) assume 10-15% efficiency, depending on fabrication (40-60% wastage)
     // For a well made kiln (industrial-style metal kiln) assume 20-25% efficiency, depending on fabrication (0-20% wastage)
