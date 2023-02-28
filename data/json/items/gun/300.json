@@ -19,7 +19,6 @@
     "dispersion": 90,
     "durability": 8,
     "barrel_volume": "500 ml",
-    "flags": [ "NEVER_JAMS" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "m2010mag" ] } ]
   },
   {
@@ -122,6 +121,7 @@
     "ammo": [ "300" ],
     "skill": "rifle",
     "dispersion": 70,
+    "ranged_damage": { "damage_type": "bullet", "amount": 12 },
     "durability": 8,
     "default_mods": [ "match_trigger", "high_end_folding_stock", "muzzle_brake" ],
     "barrel_volume": "456 ml",

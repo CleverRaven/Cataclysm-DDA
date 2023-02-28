@@ -189,7 +189,7 @@
     "blackpowder_tolerance": 24,
     "clip_size": 4,
     "barrel_volume": "750 ml",
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS" ],
+    "flags": [ "RELOAD_ONE" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "3006": 4 } } ]
   },
   {

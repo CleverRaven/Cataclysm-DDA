@@ -136,5 +136,39 @@
     "ammo_type": [ "762" ],
     "flags": [ "MAG_COMPACT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "762": 30 } } ]
+  },
+  {
+    "id": "bren2_762mag30",
+    "looks_like": "stanag30",
+    "type": "MAGAZINE",
+    "name": { "str": "Bren 2 30-round magazine" },
+    "description": "a proprietary polymer box magazine, capable of containing 30 7.62x39mm rounds and compatible with the Check Bren 2 carbine.  Unlike conventional 7.62mm magazines, this one is inserted straight up into the magazine well rather than rocked in, in order to facilitate a bolt-hold open mechanism.",
+    "weight": "190 g",
+    "volume": "370 ml",
+    "price": 3199,
+    "price_postapoc": 250,
+    "material": [ "plastic", "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "762" ],
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "762": 30 } } ]
+  },
+  {
+    "id": "bren2_762mag10",
+    "looks_like": "stanag30",
+    "type": "MAGAZINE",
+    "name": { "str": "Bren 2 10-round magazine" },
+    "description": "a proprietary polymer box magazine, capable of containing 10 7.62x39mm rounds and compatible with the Check Bren 2 carbine.  Unlike conventional 7.62mm magazines, this one is inserted straight up into the magazine well rather than rocked in, in order to facilitate a bolt-hold open mechanism.",
+    "weight": "130 g",
+    "volume": "151 ml",
+    "price": 2250,
+    "price_postapoc": 100,
+    "material": [ "plastic", "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "762" ],
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "762": 10 } } ]
   }
 ]

@@ -346,7 +346,9 @@
       { "item": "ar10mag_20rd", "prob": 30, "charges": [ 0, 20 ] },
       { "item": "akmag30", "prob": 25, "charges": [ 0, 30 ] },
       { "item": "zpap85mag", "prob": 25, "charges": [ 0, 30 ] },
-      { "item": "papm77mag_10rd", "prob": 25, "charges": [ 0, 10 ] }
+      { "item": "papm77mag_10rd", "prob": 25, "charges": [ 0, 10 ] },
+      { "item": "bren2_762mag30", "prob": 10, "charges": [ 0, 30 ] },
+      { "item": "bren2_762mag10", "prob": 10, "charges": [ 0, 10 ] }
     ]
   },
   {
@@ -381,7 +383,9 @@
       { "item": "m1carbinemag", "prob": 15 },
       { "item": "zpap85mag", "prob": 5 },
       { "item": "papm77mag_10rd", "prob": 5 },
-      { "item": "papm77mag", "prob": 5 }
+      { "item": "papm77mag", "prob": 5 },
+      { "item": "bren2_762mag30", "prob": 5 },
+      { "item": "bren2_762mag10", "prob": 5 }
     ]
   },
   {

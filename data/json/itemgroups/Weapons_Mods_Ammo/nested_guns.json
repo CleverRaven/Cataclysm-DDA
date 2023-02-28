@@ -2462,5 +2462,29 @@
       { "item": "ruger_pr_mag", "prob": 50 },
       { "group": "on_hand_300" }
     ]
+  },
+  {
+    "id": "nested_bren2_762",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "bren2_762", "variant": "bren2_762", "charges-min": 0, "charges-max": 30 },
+      { "item": "bren2_762mag30" },
+      { "item": "bren2_762mag30", "prob": 50 },
+      { "group": "on_hand_762" }
+    ]
+  },
+  {
+    "id": "nested_805_bren",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "bren2_762", "variant": "805_bren", "charges-min": 0, "charges-max": 30 },
+      { "item": "bren2_762mag30" },
+      { "item": "bren2_762mag30", "prob": 50 },
+      { "group": "on_hand_762" }
+    ]
   }
 ]
