@@ -819,7 +819,6 @@
     "replace": "reloaded_10mm_fmj"
   },
   {
-
     "id": "armor_bio_carbon_filament",
     "type": "MIGRATION",
     "replace": "tinfoil_hat"
