@@ -9230,7 +9230,6 @@
     "difficulty": 5,
     "time": "30 m",
     "book_learn": [ [ "cookbook_mexican", 4 ] ],
-    "autolearn": true,
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
