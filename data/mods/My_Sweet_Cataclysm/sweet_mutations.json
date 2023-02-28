@@ -43,7 +43,7 @@
     "vitamin_rates": [ [ "vitC", -900 ], [ "iron", -900 ], [ "calcium", -900 ] ],
     "starting_trait": true,
     "healing_awake": 0.0,
-    "healing_resting": -1.0,
+    "healing_multiplier": 0.0,
     "healthy_rate": 0.0,
     "fat_to_max_hp": 0.1,
     "sweat_multiplier": 0.0,

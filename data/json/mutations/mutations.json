@@ -554,13 +554,13 @@
     "id": "FASTHEALER",
     "name": { "str": "Fast Healer" },
     "points": 2,
-    "description": "Your wounds heal themselves quicker than usual.  You heal 50% faster whilst asleep, and 20% faster whilst awake.  Your broken limbs also heal twice as fast.",
+    "description": "Your wounds and broken limbs heal quicker than usual.",
     "starting_trait": true,
     "types": [ "HEALING" ],
     "changes_to": [ "FASTHEALER2", "REGEN_LIZ" ],
     "category": [ "MEDICAL", "PLANT", "BATRACHIAN", "LIZARD", "SLIME", "TROGLOBITE" ],
-    "healing_awake": 0.2,
-    "healing_resting": 0.5,
+    "healing_awake": 0.133,
+    "healing_multiplier": 1.5,
     "mending_modifier": 2.0
   },
   {
@@ -1305,7 +1305,7 @@
     "description": "Your wounds heal a little slower than most.  Your HP whilst asleep, as well as your broken limbs, heal at 75% of the regular rate.",
     "starting_trait": true,
     "types": [ "HEALING" ],
-    "healing_resting": -0.25,
+    "healing_multiplier": 0.75,
     "mending_modifier": 0.75
   },
   {
@@ -1318,7 +1318,7 @@
     "valid": false,
     "purifiable": false,
     "types": [ "HEALING" ],
-    "healing_resting": -0.66,
+    "healing_multiplier": 0.33,
     "mending_modifier": 0.33
   },
   {
@@ -1331,7 +1331,7 @@
     "valid": false,
     "purifiable": false,
     "types": [ "HEALING" ],
-    "healing_resting": -0.9,
+    "healing_multiplier": 0.1,
     "mending_modifier": 0.1
   },
   {
@@ -1344,7 +1344,7 @@
     "valid": false,
     "purifiable": false,
     "types": [ "HEALING" ],
-    "healing_resting": -1.0,
+    "healing_multiplier": 0,
     "mending_modifier": 0,
     "flags": [ "NO_MINIMAL_HEALING" ]
   },
@@ -2121,13 +2121,13 @@
     "id": "FASTHEALER2",
     "name": { "str": "Very Fast Healer" },
     "points": 4,
-    "description": "Your wounds heal very quickly.  You heal 50% faster whilst asleep and 66% faster whilst awake.  Your broken limbs also heal 4 times faster than usual.",
+    "description": "Your wounds and broken limbs heal very quickly.",
     "types": [ "HEALING" ],
     "prereqs": [ "FASTHEALER" ],
     "changes_to": [ "REGEN" ],
     "category": [ "PLANT", "BATRACHIAN", "SLIME", "TROGLOBITE" ],
-    "healing_awake": 0.66,
-    "healing_resting": 0.5,
+    "healing_awake": 0.44,
+    "healing_multiplier": 1.5,
     "mending_modifier": 4.0
   },
   {
@@ -2135,13 +2135,13 @@
     "id": "REGEN",
     "name": { "str": "Regeneration" },
     "points": 6,
-    "description": "Your flesh regenerates from wounds incredibly quickly.  You heal 150% faster whilst asleep and 200% faster whilst awake.  Your broken limbs also heal 16 times faster than usual.",
+    "description": "Your flesh regenerates and your limbs mend incredibly quickly.",
     "types": [ "HEALING" ],
     "prereqs": [ "FASTHEALER2" ],
     "threshreq": [ "THRESH_SLIME", "THRESH_TROGLOBITE" ],
     "category": [ "SLIME", "TROGLOBITE" ],
-    "healing_awake": 2.0,
-    "healing_resting": 1.5,
+    "healing_awake": 0.8,
+    "healing_multiplier": 2.5,
     "mending_modifier": 16.0
   },
   {
@@ -2150,13 +2150,13 @@
     "name": { "str": "Reptilian Healing" },
     "points": 5,
     "purifiable": false,
-    "description": "Your broken limbs mend themselves without significant difficulty in addition to your already-quick healing.  You do not require splints and broken limbs heal 20 times faster than usual.",
+    "description": "Your broken limbs mend themselves without significant difficulty in addition to your already-quick healing.  You do not require splints for broken limbs.",
     "cancels": [ "ROT1", "ROT2", "ROT3" ],
     "prereqs": [ "FASTHEALER" ],
     "threshreq": [ "THRESH_LIZARD" ],
     "category": [ "LIZARD" ],
     "healing_awake": 0.2,
-    "healing_resting": 0.5,
+    "healing_multiplier": 1.5,
     "mending_modifier": 20.0,
     "flags": [ "MEND_ALL" ]
   },
@@ -3981,8 +3981,8 @@
     "cost": 9,
     "time": "1 s",
     "kcal": true,
-    "healing_awake": 300.0,
-    "healing_resting": 350.0,
+    "healing_awake": 0.85,
+    "healing_multiplier": 350.0,
     "transform": { "target": "EATHEALTH", "msg_transform": "Your hyper-metabolism slows down.", "active": false, "moves": 0 }
   },
   {
@@ -5955,8 +5955,8 @@
     "prereqs": [ "HUNGER" ],
     "prereqs2": [ "SLEEPY" ],
     "category": [ "RAT", "MOUSE", "RABBIT" ],
-    "healing_awake": 0.2,
-    "healing_resting": 0.5,
+    "healing_awake": 0.133,
+    "healing_multiplier": 1.5,
     "fatigue_modifier": 0.5,
     "fatigue_regen_modifier": 0.333,
     "metabolism_modifier": 0.333
@@ -6065,8 +6065,8 @@
     "types": [ "HEALING" ],
     "changes_to": [ "ROT2" ],
     "category": [ "ELFA", "CHIMERA", "ALPHA" ],
-    "healing_awake": -0.002,
-    "healing_resting": -0.25
+    "healing_awake": -0.166,
+    "healing_multiplier": 0.75
   },
   {
     "type": "mutation",
@@ -6079,7 +6079,8 @@
     "prereqs": [ "ROT1" ],
     "changes_to": [ "ROT3" ],
     "category": [ "CHIMERA", "ALPHA" ],
-    "healing_awake": -0.02
+    "healing_awake": -0.266,
+    "healing_multiplier": 0.75
   },
   {
     "type": "mutation",
@@ -6091,7 +6092,8 @@
     "types": [ "HEALING" ],
     "prereqs": [ "ROT2" ],
     "category": [ "ALPHA" ],
-    "healing_awake": -0.08
+    "healing_awake": -0.88,
+    "healing_multiplier": 0.75
   },
   {
     "type": "mutation",
