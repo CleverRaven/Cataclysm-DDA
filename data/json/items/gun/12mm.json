@@ -19,7 +19,7 @@
     "range": 60,
     "dispersion": 45,
     "durability": 8,
-    "ups_charges": 5,
+    "energy_drain": "5 kJ",
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "grip", 1 ],

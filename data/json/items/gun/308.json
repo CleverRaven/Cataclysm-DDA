@@ -73,7 +73,7 @@
     "dispersion": 200,
     "durability": 9,
     "blackpowder_tolerance": 96,
-    "ups_charges": 1,
+    "energy_drain": "1 kJ",
     "reload": 400,
     "valid_mod_locations": [ [ "brass catcher", 1 ], [ "sling", 1 ], [ "rail mount", 1 ], [ "sights mount", 1 ] ],
     "modes": [ [ "DEFAULT", "low auto", 50 ], [ "AUTO", "high auto", 100 ] ],

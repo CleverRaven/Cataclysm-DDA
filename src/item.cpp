@@ -13946,17 +13946,17 @@ const itype *item::find_type( const itype_id &type )
 
 units::energy item::get_gun_ups_drain() const
 {
-    int draincount = 0;
+    units::energy draincount = 0_kJ;
     if( type->gun ) {
-        int modifier = 0;
+        units::energy modifier = 0_kJ;
         float multiplier = 1.0f;
         for( const item *mod : gunmods() ) {
-            modifier += mod->type->gunmod->ups_charges_modifier;
-            multiplier *= mod->type->gunmod->ups_charges_multiplier;
+            modifier += mod->type->gunmod->energy_drain_modifier;
+            multiplier *= mod->type->gunmod->energy_drain_multiplier;
         }
-        draincount = ( type->gun->ups_charges * multiplier ) + modifier;
+        draincount = ( type->gun->energy_drain * multiplier ) + modifier;
     }
-    return units::from_kilojoule( draincount );
+    return draincount;
 }
 
 bool item::has_label() const

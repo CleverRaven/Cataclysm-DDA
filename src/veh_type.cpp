@@ -622,8 +622,8 @@ static int gun_battery_mags_drain( const itype &guntype )
             }
         }
     }
-    if( guntype.gun->ups_charges > 0 && charges_used > 0 ) {
-        debugmsg( "%s uses both UPS charges and battery magazines", guntype.nname( 1 ) );
+    if( guntype.gun->energy_drain > 0_kJ && charges_used > 0 ) {
+        debugmsg( "%s uses both energy and battery magazines", guntype.nname( 1 ) );
     }
     return charges_used;
 }
@@ -643,9 +643,9 @@ static std::string get_looks_like( const vpart_info &vpi, const itype &it )
         return false;
     };
 
-    if( it.gun->ups_charges > 0 && has_light_ammo( it.gun->ammo ) ) {
+    if( it.gun->energy_drain > 0_kJ && has_light_ammo( it.gun->ammo ) ) {
         return "mounted_hk_g80"; // railguns
-    } else if( vpi.has_flag( "USE_BATTERIES" ) || it.gun->ups_charges > 0 ) {
+    } else if( vpi.has_flag( "USE_BATTERIES" ) || it.gun->energy_drain > 0_kJ ) {
         return "laser_rifle"; // generic energy weapons
     } else if( vpi.has_flag( "USE_TANKS" ) ) {
         return "watercannon"; // liquid sprayers (flamethrower, foam gun etc)
