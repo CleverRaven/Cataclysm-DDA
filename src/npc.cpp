@@ -738,8 +738,6 @@ void npc::load_npc_template( const string_id<npc_template> &ident )
     chatbin.snip_give_carry_too_heavy = tguy.chatbin.snip_give_carry_too_heavy;
     chatbin.snip_wear = tguy.chatbin.snip_wear;
 
-    set_base_age( tguy.base_age() );
-    set_base_height( tguy.base_height() );
     for( const mission_type_id &miss_id : tguy.miss_ids ) {
         add_new_mission( mission::reserve_new( miss_id, getID() ) );
     }
@@ -882,6 +880,9 @@ void npc::randomize( const npc_class_id &type )
             sp.gain_level( *this );
         }
     }
+
+    set_base_age( rng( 18, 55 ) );
+    randomize_height();
 
     // Add eocs
     effect_on_conditions::load_new_character( *this );
