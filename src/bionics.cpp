@@ -939,32 +939,6 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         } else {
             set_rad( 0 );
         }
-    } else if( bio.id == bio_fitnessband ) {
-        std::string msg;
-        msg.append( "***  " );
-        msg.append( _( "You check your health metrics with your bionic." ) );
-        msg.append( "  ***\n\n" );
-        const int bpm = heartrate_bpm();
-        msg.append( "-> " );
-        msg.append( string_format( _( "Heart rate is %i bpm." ), bpm ) );
-        if( bpm > 179 ) {
-            msg.append( "\n" );
-            msg.append( "-> " );
-            msg.append( _( "WARNING!  Heart rate is dangerously high!" ) );
-        }
-        msg.append( "\n" );
-        msg.append( "-> " );
-        msg.append( string_format( _( "You consumed %d kcal today and %d kcal yesterday." ),
-                                   as_avatar()->get_daily_ingested_kcal( false ),
-                                   as_avatar()->get_daily_ingested_kcal( true ) ) );
-        msg.append( "\n" );
-        msg.append( "-> " );
-        msg.append( string_format( _( "You burned %d kcal today and %d kcal yesterday." ),
-                                   as_avatar()->get_daily_spent_kcal( false ),
-                                   as_avatar()->get_daily_spent_kcal( true ) ) );
-        //TODO add whatever else makes sense (steps, sleep quality, health level approximation?)
-        add_msg_if_player( m_neutral, msg );
-        popup( msg );
     } else if( bio.id == bio_adrenaline ) {
         add_msg_activate();
         if( has_effect( effect_adrenaline ) ) {
