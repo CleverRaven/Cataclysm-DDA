@@ -2249,6 +2249,10 @@ std::pair<bool, std::string> veh_interact::calc_lift_requirements( const vpart_i
         str_suffix = string_format( _( "(Bad Back reduced usable strength by %d)" ),
                                     lift_strength - player_character.get_str() );
     }
+    if( player_character.get_str() > lift_strength ) {
+        str_suffix += str_suffix.empty() ? "" : "  ";
+        str_suffix += string_format( _( "(Effective lifting strength is %d)" ), lift_strength );
+    }
 
     nc_color aid_color = use_aid ? c_green : ( use_str ? c_dark_gray : c_red );
     nc_color str_color = use_str ? c_green : ( use_aid ? c_dark_gray : c_red );
