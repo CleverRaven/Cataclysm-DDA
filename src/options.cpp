@@ -2640,20 +2640,32 @@ void options_manager::add_options_debug()
 
     add_empty_line();
 
-    add( "RETRACT_ISO_WALLS", "debug", to_translation( "Draw walls retracted in ISO tile-sets" ),
-    to_translation( "Draw walls normal, retracted, or automatically retracting near player." ), {
-        { 0, to_translation( "Normal" ) }, { 1, to_translation( "Retracted" ) },
+    add( "PREVENT_OCCLUSION", "debug", to_translation( "Handle occlusion by high sprites" ),
+    to_translation( "Draw walls normal (Off), retracted/transparent (On), or automatically retracting/transparent near player (Auto)." ), {
+        { 0, to_translation( "Off" ) }, { 1, to_translation( "On" ) },
         { 2, to_translation( "Auto" ) }
-    }, 0, 0
+    }, 2, 2
        );
 
-    add( "RETRACT_DIST_MIN", "debug", to_translation( "Minimum distance for auto-retracting walls" ),
-         to_translation( "Minimum distance for auto-retracting walls.  Values above zero overwrite tileset settings." ),
+    add( "PREVENT_OCCLUSION_TRANSP", "debug", to_translation( "Prevent occlusion via transparency" ),
+         to_translation( "Prevent occlusion by using semi-transparent sprites." ),
+         true
+       );
+
+    add( "PREVENT_OCCLUSION_RETRACT", "debug", to_translation( "Prevent occlusion via retraction" ),
+         to_translation( "Prevent occlusion by retracting high sprites." ),
+         true
+       );
+
+    add( "PREVENT_OCCLUSION_MIN_DIST", "debug",
+         to_translation( "Minimum distance for auto occlusion handling" ),
+         to_translation( "Minimum distance for auto occlusion handling.  Values above zero overwrite tileset settings." ),
          0.0, 60.0, 0.0, 0.1
        );
 
-    add( "RETRACT_DIST_MAX", "debug", to_translation( "Maximum distance for auto-retracting walls" ),
-         to_translation( "Maximum distance for auto-retracting walls.  Values above zero overwrite tileset settings." ),
+    add( "PREVENT_OCCLUSION_MAX_DIST", "debug",
+         to_translation( "Maximum distance for auto occlusion handling" ),
+         to_translation( "Maximum distance for auto .  Values above zero overwrite tileset settings." ),
          0.0, 60.0, 0.0, 0.1
        );
 
@@ -3643,9 +3655,11 @@ static void update_options_cache()
     trigdist = ::get_option<bool>( "CIRCLEDIST" );
     use_tiles = ::get_option<bool>( "USE_TILES" );
 
-    tile_retracted = ::get_option<int>( "RETRACT_ISO_WALLS" );
-    tile_retract_dist_min = ::get_option<float>( "RETRACT_DIST_MIN" );
-    tile_retract_dist_max = ::get_option<float>( "RETRACT_DIST_MAX" );
+    prevent_occlusion = ::get_option<int>( "PREVENT_OCCLUSION" );
+    prevent_occlusion_retract = ::get_option<bool>( "PREVENT_OCCLUSION_RETRACT" );
+    prevent_occlusion_transp = ::get_option<bool>( "PREVENT_OCCLUSION_TRANSP" );
+    prevent_occlusion_min_dist = ::get_option<float>( "PREVENT_OCCLUSION_MIN_DIST" );
+    prevent_occlusion_max_dist = ::get_option<float>( "PREVENT_OCCLUSION_MAX_DIST" );
 
     // if the tilesets are identical don't duplicate
     use_far_tiles = ::get_option<bool>( "USE_DISTANT_TILES" ) ||
