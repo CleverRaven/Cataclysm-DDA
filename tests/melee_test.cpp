@@ -18,7 +18,6 @@
 static const efftype_id effect_sleep( "sleep" );
 
 static const mtype_id debug_mon( "debug_mon" );
-static const mtype_id debug_mon_trainer( "debug_mon_trainer" );
 static const mtype_id mon_manhack( "mon_manhack" );
 static const mtype_id mon_zombie( "mon_zombie" );
 static const mtype_id mon_zombie_hulk( "mon_zombie_hulk" );
