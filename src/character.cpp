@@ -4046,7 +4046,7 @@ void Character::mod_stored_calories( int ncal, const bool ignore_weariness )
     if( !ignore_weariness ) {
         activity_history.calorie_adjust( ncal );
     }
-    set_stored_calories( stored_calories + ncal );
+    set_stored_calories( std::min( 2147483645, stored_calories + ncal ) );
 }
 
 void Character::set_stored_kcal( int kcal )
