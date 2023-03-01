@@ -437,22 +437,18 @@ void vehicle_part::process_contents( map &here, const tripoint &pos, const bool 
 {
     // for now we only care about processing food containers since things like
     // fuel don't care about temperature yet
-    if( base.has_item_with( []( const item & it ) {
-    return it.needs_processing();
-    } ) ) {
-        temperature_flag flag = temperature_flag::NORMAL;
-        if( e_heater ) {
-            flag = temperature_flag::HEATER;
-        }
-        if( enabled && info().has_flag( VPFLAG_FRIDGE ) ) {
-            flag = temperature_flag::FRIDGE;
-        } else if( enabled && info().has_flag( VPFLAG_FREEZER ) ) {
-            flag = temperature_flag::FREEZER;
-        } else if( enabled && info().has_flag( VPFLAG_HEATED_TANK ) ) {
-            flag = temperature_flag::HEATER;
-        }
-        base.process( here, nullptr, pos, 1, flag );
+    temperature_flag flag = temperature_flag::NORMAL;
+    if( e_heater ) {
+        flag = temperature_flag::HEATER;
     }
+    if( enabled && info().has_flag( VPFLAG_FRIDGE ) ) {
+        flag = temperature_flag::FRIDGE;
+    } else if( enabled && info().has_flag( VPFLAG_FREEZER ) ) {
+        flag = temperature_flag::FREEZER;
+    } else if( enabled && info().has_flag( VPFLAG_HEATED_TANK ) ) {
+        flag = temperature_flag::HEATER;
+    }
+    base.process( here, nullptr, pos, 1, flag );
 }
 
 bool vehicle_part::fill_with( item &liquid, int qty )
