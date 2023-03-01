@@ -113,10 +113,10 @@ int vehicle::slowdown( int at_velocity ) const
     }
     add_msg_debug( debugmode::DF_VEHICLE_MOVE,
                    "%s at %d vimph, f_drag %3.2f, drag accel %d vmiph - extra drag %d",
-                   name, at_velocity, f_total_drag, slowdown, static_drag() );
+                   name, at_velocity, f_total_drag, slowdown, units::to_watt( static_drag() ) );
     // plows slow rolling vehicles, but not falling or floating vehicles
     if( !( is_falling || is_floating || is_flying ) ) {
-        slowdown -= static_drag();
+        slowdown -= units::to_watt( static_drag() );
     }
 
     return std::max( 1, slowdown );
@@ -187,11 +187,11 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
     // otherwise trying to charge battery to 90% within 30 minutes
     bool discharge_forbidden_soft = battery_level_percent <= cfg.battery_hi;
     bool discharge_forbidden_hard = battery_level_percent <= cfg.battery_lo;
-    units::energy target_charging_rate;
+    units::power target_charging_rate;
     if( max_battery_level == 0 || !discharge_forbidden_soft ) {
-        target_charging_rate = 0_J;
+        target_charging_rate = 0_W;
     } else {
-        target_charging_rate = units::from_joule( ( max_battery_level * cfg.battery_hi / 100 -
+        target_charging_rate = units::from_watt( ( max_battery_level * cfg.battery_hi / 100 -
                                cur_battery_level ) * 10 / ( 6 * 3 ) );
     }
     //      ( max_battery_level * battery_hi / 100 - cur_battery_level )  * (1000 / (60 * 30))   // originally
@@ -221,9 +221,9 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
 
     int prev_mask = 0;
     // opt_ prefix denotes values for currently found "optimal" engine configuration
-    units::energy opt_net_echarge_rate = units::from_joule( net_battery_charge_rate_w() );
+    units::power opt_net_echarge_rate = net_battery_charge_rate();
     // total engine fuel energy usage (J)
-    units::energy opt_fuel_usage = 0_J;
+    units::power opt_fuel_usage = 0_W;
 
     int opt_accel = is_stationary ? 1 : current_acceleration() * traction;
     int opt_safe_vel = is_stationary ? 1 : safe_ground_velocity( true );
@@ -235,8 +235,8 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
         if( is_engine_on( c_engines[i] ) ) {
             prev_mask |= 1 << i;
             bool is_electric = is_engine_type( c_engines[i], fuel_type_battery );
-            units::energy fu = engine_fuel_usage( c_engines[i] ) * ( cur_load_approx + ( is_electric ? 0 :
-                               cur_load_alternator ) );
+            units::power fu = engine_fuel_usage( c_engines[i] ) * ( cur_load_approx + ( is_electric ? 0 :
+                              cur_load_alternator ) );
             opt_fuel_usage += fu;
             if( is_electric ) {
                 opt_net_echarge_rate -= fu;
@@ -292,16 +292,16 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
 
         int safe_vel =  is_stationary ? 1 : safe_ground_velocity( true );
         int accel = is_stationary ? 1 : current_acceleration() * traction;
-        units::energy fuel_usage = 0_J;
-        units::energy net_echarge_rate = units::from_joule( net_battery_charge_rate_w() );
+        units::power fuel_usage = 0_W;
+        units::power net_echarge_rate = net_battery_charge_rate();
         float load_approx = static_cast<float>( std::min( accel_demand, accel ) ) / std::max( accel, 1 );
         update_alternator_load();
         float load_approx_alternator  = std::min( 0.01f, static_cast<float>( alternator_load ) / 1000 );
 
         for( int e : c_engines ) {
             bool is_electric = is_engine_type( e, fuel_type_battery );
-            units::energy fu = engine_fuel_usage( e ) * ( load_approx + ( is_electric ? 0 :
-                               load_approx_alternator ) );
+            units::power fu = engine_fuel_usage( e ) * ( load_approx + ( is_electric ? 0 :
+                              load_approx_alternator ) );
             fuel_usage += fu;
             if( is_electric ) {
                 net_echarge_rate -= fu;
@@ -309,7 +309,7 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
         }
 
         if( std::forward_as_tuple(
-                !discharge_forbidden_hard || ( net_echarge_rate > 0_J ),
+                !discharge_forbidden_hard || ( net_echarge_rate > 0_W ),
                 accel >= accel_demand,
                 opt_accel < accel_demand ? accel : 0, // opt_accel usage here is intentional
                 safe_vel >= velocity_demand,
@@ -318,7 +318,7 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
                 -fuel_usage,
                 net_echarge_rate
             ) >= std::forward_as_tuple(
-                !discharge_forbidden_hard || ( opt_net_echarge_rate > 0_J ),
+                !discharge_forbidden_hard || ( opt_net_echarge_rate > 0_W ),
                 opt_accel >= accel_demand,
                 opt_accel < accel_demand ? opt_accel : 0,
                 opt_safe_vel >= velocity_demand,
@@ -493,9 +493,9 @@ void vehicle::thrust( int thd, int z )
     // only consume resources if engine accelerating
     if( load >= 1 && thrusting ) {
         //abort if engines not operational
-        if( total_power_w() <= 0 || !engine_on || ( z == 0 && accel == 0 ) ) {
+        if( total_power() <= 0_W || !engine_on || ( z == 0 && accel == 0 ) ) {
             if( pl_ctrl ) {
-                if( total_power_w( false ) <= 0 ) {
+                if( total_power( false ) <= 0_W ) {
                     add_msg( m_info, _( "The %s doesn't have an engine!" ), name );
                 } else if( has_engine_type( fuel_type_muscle, true ) ) {
                     add_msg( m_info, _( "The %s's mechanism is out of reach!" ), name );

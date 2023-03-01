@@ -52,7 +52,7 @@
     "description": "A large and complex dashboard mounted with steering controls and several LCD touch screens for controlling vehicle systems.",
     "bonus": 10,
     "item": "afs_control_station",
-    "epower": -125,
+    "epower": "-125 W",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
