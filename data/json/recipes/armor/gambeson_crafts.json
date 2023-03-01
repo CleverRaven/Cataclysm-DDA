@@ -459,7 +459,7 @@
     "book_learn": [ [ "textbook_armwest", 4 ] ],
     "using": [ [ "filament_canvas", 70 ], [ "tailoring_nylon_patchwork", 59 ], [ "fastener_large", 2 ] ],
     "components": [ [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ] ],
-    "byproducts": [ [ "nylon_canvas", 240 ], [ "nylon", 20 ] ]
+    "byproducts": [ [ "scrap_nylon", 240 ], [ "nylon", 20 ] ]
   },
   {
     "result": "xl_aketon_nylon_vest",
@@ -616,7 +616,7 @@
     "book_learn": [ [ "textbook_armwest", 3 ] ],
     "using": [ [ "filament_canvas", 150 ], [ "tailoring_nylon_patchwork", 169 ], [ "fastener_large", 2 ], [ "fastener_small", 10 ] ],
     "components": [ [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ] ],
-    "byproducts": [ [ "scrap_nylon", 672 ], [ "nylon_patch", 56 ] ]
+    "byproducts": [ [ "scrap_nylon", 672 ], [ "nylon", 56 ] ]
   },
   {
     "result": "xl_gambeson_nylon",
