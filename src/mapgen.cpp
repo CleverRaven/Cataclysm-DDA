@@ -6446,8 +6446,8 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const units
                       placed_vehicle->sm_pos.x, placed_vehicle->sm_pos.y, placed_vehicle->sm_pos.z );
             return placed_vehicle;
         }
+        place_on_submap->ensure_nonuniform();
         place_on_submap->vehicles.push_back( std::move( placed_vehicle_up ) );
-        place_on_submap->is_uniform = false;
         invalidate_max_populated_zlev( p.z );
 
         level_cache &ch = get_cache( placed_vehicle->sm_pos.z );
