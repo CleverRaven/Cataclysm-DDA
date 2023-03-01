@@ -174,11 +174,27 @@
   {
     "id": "holybook_talmud",
     "type": "BOOK",
-    "name": { "str": "Talmud", "str_pl": "copies of the Talmud" },
+    "name": { "str": "Talmud", "str_pl": "volumes of the Talmud" },
     "description": "One of the central texts of Rabbinic Judaism, the Talmud expounds upon the Hebrew Bible with teachings and opinions of thousands of rabbis.",
-    "weight": "149685 g",
-    "volume": "192 L",
-    "copy-from": "holybook_abstract"
+    "weight": "2930 g",
+    "volume": "1.5 L",
+    "copy-from": "holybook_abstract",
+    "variant_type": "generic",
+    "variants": [
+      { 
+        "id": "holybook_talmud_01",
+        "name": { "str": "Talmud, Vol. 1, Tractate Berakhot (Part 1)" },
+        "description": "This is volume 1 of 51, containing the first part of Tractate Berakhot. It is concerned with rules relating to the Shema and the Amidah.",
+        "append": true
+      },
+      { 
+        "id": "holybook_talmud_02",
+        "name": { "str": "Talmud, Vol. 2, Tractate Berakhot (Part 2)" },
+        "description": "This is volume 2 of 51, containing the second part of Tractate Berakhot. It is concerned with rules relating to prayers, primarily those before or after eating but it also touches on prayers that occur on special occasions such as hearing thunder or being unexpectedly delivered from danger.",
+        "append": true
+      }
+    ]
+  }
   },
   {
     "id": "holybook_tanakh",
