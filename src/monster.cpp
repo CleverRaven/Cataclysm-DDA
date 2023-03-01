@@ -2217,6 +2217,7 @@ int monster::get_armor_type( damage_type dt, bodypart_id bp ) const
             return worn_armor + static_cast<int>( type->armor_elec );
         case damage_type::NONE:
         case damage_type::NUM:
+        case damage_type::RAW:
             // Let it error below
             break;
     }

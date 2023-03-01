@@ -12,7 +12,8 @@
   {
     "type": "weapon_category",
     "id": "KNIVES",
-    "name": "KNIVES"
+    "name": "KNIVES",
+    "default_techniques": [ "STAB", "SLASH" ]
   },
   {
     "type": "weapon_category",
@@ -38,7 +39,7 @@
     "type": "weapon_category",
     "id": "LONG_SWORDS",
     "name": "LONG SWORDS",
-    "default_techniques": [ "BASH", "POKE", "SLASH" ]
+    "default_techniques": [ "BASH", "STAB", "SLASH" ]
   },
   {
     "type": "weapon_category",

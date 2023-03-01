@@ -5032,7 +5032,8 @@ void item::melee_combat_info( std::vector<iteminfo> &info, const iteminfo_query 
 {
     const std::string space = "  ";
 
-    int dmg_raw = damage_melee( damage_type::RAW );
+    // BASH PIERCE and CUT are all inferred from RAW
+    int dmg_raw = damage_melee( damage_type::BASH );
 
     Character &player_character = get_player_character();
 
@@ -9373,6 +9374,9 @@ float item::damage_resist( damage_type dt, bool to_self, const bodypart_id &bp, 
             return fire_resist( to_self, 0, bp );
         case damage_type::BULLET:
             return bullet_resist( to_self, bp, roll );
+        case damage_type::RAW:
+            // Nothing is damaged by RAW directly it will be converted to other weapons
+            return std::numeric_limits<float>::max();
         default:
             debugmsg( "Invalid damage type: %d", dt );
     }

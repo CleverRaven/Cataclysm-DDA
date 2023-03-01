@@ -713,7 +713,16 @@ void Item_factory::finalize_post( itype &obj )
     // go through any weapons and add their base category moves
     for( const weapon_category_id &cat : obj.weapon_category ) {
         for( const matec_id &ma : cat.obj().get_default_moves() ) {
-            obj.techniques.insert( ma );
+            //if the move isn't in the blacklist
+            if( obj.techniques_blacklist.find( ma ) == obj.techniques_blacklist.end() ) {
+                // check that none of the damage values that are blocked are found in the move
+                if( std::none_of( ma->used_damage.begin(), ma->used_damage.end(), [obj]( damage_type dt ) {
+                return std::find( obj.damage_blacklist.begin(), obj.damage_blacklist.end(),
+                                  dt ) != obj.damage_blacklist.end();
+                } ) ) {
+                    obj.techniques.insert( ma );
+                }
+            }
         }
     }
 
@@ -4019,6 +4028,12 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     for( const std::string &s : jo.get_tags( "techniques" ) ) {
         def.techniques.insert( matec_id( s ) );
     }
+
+    for( const std::string &s : jo.get_tags( "techniques_blacklist" ) ) {
+        def.techniques_blacklist.insert( matec_id( s ) );
+    }
+
+    assign( jo, "damage_blacklist", def.damage_blacklist );
 
     set_use_methods_from_json( jo, "use_action", def.use_methods, def.ammo_scale );
 

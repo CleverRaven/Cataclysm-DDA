@@ -119,7 +119,6 @@ static const limb_score_id limb_score_block( "block" );
 static const limb_score_id limb_score_grip( "grip" );
 static const limb_score_id limb_score_reaction( "reaction" );
 
-static const matec_id no_technique_id( "" );
 static const matec_id WBLOCK_1( "WBLOCK_1" );
 static const matec_id WBLOCK_2( "WBLOCK_2" );
 static const matec_id WBLOCK_3( "WBLOCK_3" );
@@ -464,6 +463,7 @@ static void melee_train( Character &you, int lo, int hi, const item &weap,
 
 bool Character::melee_attack( Creature &t, bool allow_special )
 {
+    static const matec_id no_technique_id( "" );
     return melee_attack( t, allow_special, no_technique_id );
 }
 
@@ -936,7 +936,7 @@ int Character::get_total_melee_stamina_cost( const item *weap ) const
 void Character::reach_attack( const tripoint &p )
 {
     //reach attacks can have special attacks now
-    matec_id force_technique = no_technique_id;
+    matec_id force_technique = matec_id( "" );
     /** @EFFECT_MELEE >5 allows WHIP_DISARM technique */
     if( weapon.has_flag( flag_WHIP ) && ( get_skill_level( skill_melee ) > 5 ) && one_in( 3 ) ) {
         force_technique = WHIP_DISARM;

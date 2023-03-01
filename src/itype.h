@@ -1202,6 +1202,8 @@ struct itype {
         std::set<emit_id> emits;
 
         std::set<matec_id> techniques;
+        std::set<matec_id> techniques_blacklist;
+        std::vector<damage_type> damage_blacklist;
 
         // Minimum stat(s) or skill(s) to use the item
         std::map<skill_id, int> min_skills;
