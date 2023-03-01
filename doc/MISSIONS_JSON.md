@@ -78,6 +78,7 @@ goal string               | Goal conditions
 `MGOAL_RECRUIT_NPC_CLASS` | Recruit an NPC of a specific class
 `MGOAL_ASSASSINATE`       | Kill a specific NPC
 `MGOAL_KILL_MONSTER`      | Kill a specific hostile monster
+`MGOAL_KILL_MONSTERS`     | Kill a number of specific hostile monsters
 `MGOAL_KILL_MONSTER_TYPE` | Kill some number of a specific monster type
 `MGOAL_KILL_MONSTER_SPEC` | Kill some number of monsters from a specific species
 `MGOAL_CONDITION`         | Satisfy the dynamically created condition and talk to the mission giver

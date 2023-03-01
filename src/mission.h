@@ -68,12 +68,13 @@ enum mission_goal {
     MGOAL_FIND_NPC,          // Find a given NPC
     MGOAL_ASSASSINATE,       // Kill a given NPC
     MGOAL_KILL_MONSTER,      // Kill a particular hostile monster
+    MGOAL_KILL_MONSTERS,     // Kill a number of particular hostile monsters
     MGOAL_KILL_MONSTER_TYPE, // Kill a number of a given monster type
     MGOAL_KILL_NEMESIS,      // Kill the nemesis monster from the "hunted" trait
     MGOAL_RECRUIT_NPC,       // Recruit a given NPC
     MGOAL_RECRUIT_NPC_CLASS, // Recruit an NPC class
     MGOAL_COMPUTER_TOGGLE,   // Activating the correct terminal will complete the mission
-    MGOAL_KILL_MONSTER_SPEC,  // Kill a number of monsters from a given species
+    MGOAL_KILL_MONSTER_SPEC, // Kill a number of monsters from a given species
     MGOAL_TALK_TO_NPC,       // Talk to a given NPC
     MGOAL_CONDITION,         // Satisfy the dynamically created condition and talk to the mission giver
     NUM_MGOAL
@@ -364,6 +365,9 @@ class mission
         character_id get_npc_id() const;
         const std::vector<std::pair<int, itype_id>> &get_likely_rewards() const;
         bool has_generic_rewards() const;
+        void register_kill_needed() {
+            monster_kill_goal++;
+        };
         /**
          * Whether the mission is assigned to a player character. If not, the mission is free and
          * can be assigned.

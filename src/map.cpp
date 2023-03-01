@@ -68,6 +68,7 @@
 #include "mapdata.h"
 #include "mapgen.h"
 #include "math_defines.h"
+#include "mission.h"
 #include "memory_fast.h"
 #include "messages.h"
 #include "mongroup.h"
@@ -8352,6 +8353,10 @@ void map::spawn_monsters_submap( const tripoint &gp, bool ignore_sight )
             monster tmp( i.type );
             if( i.mission_id > 0 ) {
                 tmp.mission_ids = { i.mission_id };
+                mission *found_mission = mission::find( i.mission_id );
+                if( found_mission->get_type().goal == MGOAL_KILL_MONSTERS ) {
+                    found_mission->register_kill_needed();
+                }
             }
             if( i.name != "NONE" ) {
                 tmp.unique_name = i.name;
