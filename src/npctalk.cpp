@@ -2574,7 +2574,7 @@ void talk_effect_fun_t<T>::set_location_variable( const JsonObject &jo, const st
     int_or_var<T> iov_y_adjust = get_int_or_var<T>( jo, "y_adjust", false, 0 );
     bool z_override = jo.get_bool( "z_override", false );
     const bool outdoor_only = jo.get_bool( "outdoor_only", false );
-    cata::optional<mission_target_params> target_params;
+    cata::optional<mission_target_params<dialogue>> target_params;
     if( jo.has_object( "target_params" ) ) {
         JsonObject target_obj = jo.get_object( "target_params" );
         target_params = mission_util::parse_mission_om_target( target_obj );
@@ -2711,7 +2711,7 @@ void talk_effect_fun_t<T>::set_place_override( const JsonObject &jo, const std::
 template<class T>
 void talk_effect_fun_t<T>::set_mapgen_update( const JsonObject &jo, const std::string &member )
 {
-    mission_target_params target_params = mission_util::parse_mission_om_target( jo );
+    mission_target_params<dialogue> target_params = mission_util::parse_mission_om_target( jo );
     std::vector<str_or_var<T>> update_ids;
     duration_or_var<T> dov_time_in_future = get_duration_or_var<T>( jo, "time_in_future", false,
                                             0_seconds );
@@ -2738,7 +2738,7 @@ void talk_effect_fun_t<T>::set_mapgen_update( const JsonObject &jo, const std::s
             const tripoint_abs_ms abs_ms( get_tripoint_from_var<T>( target_var, d ) );
             omt_pos = project_to<coords::omt>( abs_ms );
         } else {
-            mission_target_params update_params = target_params;
+            mission_target_params<dialogue> update_params = target_params;
             if( d.has_beta ) {
                 update_params.guy = d.actor( true )->get_npc();
             }
@@ -2813,8 +2813,8 @@ void talk_effect_fun_t<T>::set_revert_location( const JsonObject &jo, const std:
 template<class T>
 void talk_effect_fun_t<T>::set_npc_goal( const JsonObject &jo, const std::string &member )
 {
-    mission_target_params dest_params = mission_util::parse_mission_om_target( jo.get_object(
-                                            member ) );
+    mission_target_params<dialogue> dest_params = mission_util::parse_mission_om_target( jo.get_object(
+                member ) );
     std::vector<effect_on_condition_id> true_eocs = load_eoc_vector( jo, "true_eocs" );
     std::vector<effect_on_condition_id> false_eocs = load_eoc_vector( jo, "false_eocs" );
     function = [dest_params, true_eocs, false_eocs]( const T & d ) {
