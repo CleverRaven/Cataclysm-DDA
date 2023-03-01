@@ -1453,6 +1453,12 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
                 return static_cast<int>( get_weather().weather_precise->pressure );
             };
         }
+    } else if( jo.has_member( "faction_trust" ) ) {
+        str_or_var<T> name = get_str_or_var<T>( jo.get_member( "faction_trust" ), "faction_trust" );
+        return [name]( const T & d ) {
+            faction *fac = g->faction_manager_ptr->get( faction_id( name.evaluate( d ) ) );
+            return fac->trusts_u;
+        };
     } else if( jo.has_member( "u_val" ) || jo.has_member( "npc_val" ) ||
                jo.has_member( "global_val" ) ) {
         const bool is_npc = jo.has_member( "npc_val" );
@@ -2060,6 +2066,12 @@ static std::function<void( const T &, int )> get_set_int( const JsonObject &jo,
                 get_weather().clear_temp_cache();
             };
         }
+    } else if( jo.has_member( "faction_trust" ) ) {
+        str_or_var<T> name = get_str_or_var<T>( jo.get_member( "faction_trust" ), "faction_trust" );
+        return [name, min, max]( const T & d, int input ) {
+            faction *fac = g->faction_manager_ptr->get( faction_id( name.evaluate( d ) ) );
+            fac->trusts_u += handle_min_max<T>( d, input, min, max );
+        };
     } else if( jo.has_member( "u_val" ) || jo.has_member( "npc_val" ) ||
                jo.has_member( "global_val" ) || jo.has_member( "faction_val" ) || jo.has_member( "party_val" ) ) {
         var_type type = var_type::u;
