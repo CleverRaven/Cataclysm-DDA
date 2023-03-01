@@ -69,10 +69,10 @@
         { "overmap": "below_entrance", "max": { "poisson": 0.7 } }
       ],
       [ { "overmap": "queen", "max": 1 } ],
-      [ 
-        { "overmap": "food", "max": { "poisson": 5 } }, 
+      [
+        { "overmap": "food", "max": { "poisson": 5 } },
         { "overmap": "larvae", "max": { "poisson": 5 } },
-        { "overmap": "farm", "max": { "poisson": 10 } } 
+        { "overmap": "farm", "max": { "poisson": 10 } }
       ],
       [
         { "overmap": "dead_end", "weight": 2000 },
@@ -143,9 +143,9 @@
       ],
       [ { "overmap": "queen", "max": 1 } ],
       [
-        { "overmap": "food", "max": { "poisson": 5 } }, 
+        { "overmap": "food", "max": { "poisson": 5 } },
         { "overmap": "larvae", "max": { "poisson": 5 } },
-        { "overmap": "farm", "max": { "poisson": 10 } } 
+        { "overmap": "farm", "max": { "poisson": 10 } }
       ],
       [
         { "overmap": "dead_end", "weight": 2000 },
