@@ -4455,14 +4455,7 @@
     "name": "wool aketons",
     "description": "Recipes related to wool armor meant to be worn under other armor.",
     "skill_used": "tailor",
-    "nested_category_data": [
-      "aketon_wool",
-      "xl_aketon_wool",
-      "xs_aketon_wool",
-      "aketon_wool_vest",
-      "xl_aketon_wool_vest",
-      "xs_aketon_wool_vest"
-    ],
+    "nested_category_data": [ "aketon_wool", "xl_aketon_wool", "xs_aketon_wool", "aketon_wool_vest", "xl_aketon_wool_vest", "xs_aketon_wool_vest" ],
     "difficulty": 3
   },
   {
