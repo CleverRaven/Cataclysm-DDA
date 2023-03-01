@@ -907,9 +907,8 @@
     "id": "bio_fitnessband",
     "type": "bionic",
     "name": { "str": "Calorie Tracker" },
-    "description": "A module implanted in your body measures your calorie intake and expenditure at all times.  Activate to check your current heartrate.",
-    "occupied_bodyparts": [ [ "torso", 1 ] ],
-    "act_cost": "1 mJ"
+    "description": "A module implanted in your body measures your calorie intake and expenditure at all times.",
+    "occupied_bodyparts": [ [ "torso", 1 ] ]
   },
   {
     "id": "bio_flashbang",
