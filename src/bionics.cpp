@@ -520,11 +520,14 @@ void bionic_data::check_bionic_consistency()
                           bio.id.c_str(), pseudo.c_str() );
             }
         }
-
+        for( const trait_id &mid : bio.mutation_conflicts ) {
+            if( !mid.is_valid() ) {
+                debugmsg( "Bionic %s conflicts with undefined mutation %s", bio.id.c_str(), mid.c_str() );
+            }
+        }
         for( const trait_id &mid : bio.canceled_mutations ) {
             if( !mid.is_valid() ) {
-                debugmsg( "Bionic %s cancels undefined mutation %s",
-                          bio.id.c_str(), mid.c_str() );
+                debugmsg( "Bionic %s cancels undefined mutation %s", bio.id.c_str(), mid.c_str() );
             }
         }
         for( const enchantment_id &eid : bio.id->enchantments ) {
