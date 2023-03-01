@@ -840,7 +840,7 @@
         "target_params": { "om_terrain": "field", "search_range": 200, "min_distance": 3, "z": 0 }
       },
       {
-        "u_message": "You can feel the presence of something nearby, cracked in a way you can't put into words(check mission log for details)."
+        "u_message": "You can feel the presence of something nearby, cracked in a way you can't put into words (check mission log for details)."
       },
       { "assign_mission": "MISSION_INVESTIGATE_PORTAL_DUNGEON" },
       {
