@@ -306,6 +306,7 @@ extern const flag_id flag_SOLARPACK_ON;
 extern const flag_id flag_SPAWN_ACTIVE;
 extern const flag_id flag_SPEAR;
 extern const flag_id flag_SPEEDLOADER;
+extern const flag_id flag_SPEEDLOADER_CLIP;
 extern const flag_id flag_SPLINT;
 extern const flag_id flag_STAB;
 extern const flag_id flag_STAB_IMMUNE;

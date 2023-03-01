@@ -1679,7 +1679,15 @@
   },
   {
     "id": "SPEEDLOADER",
-    "type": "json_flag"
+    "info": "This item can quickly reload rounds into gun or magazine that <info>have enough space</info>.",
+    "type": "json_flag",
+    "conflicts": [ "SPEEDLOADER_CLIP" ]
+  },
+  {
+    "id": "SPEEDLOADER_CLIP",
+    "info": "This item can quickly reload rounds into gun or magazine that <info>don't have enough space</info>.",
+    "type": "json_flag",
+    "conflicts": [ "SPEEDLOADER" ]
   },
   {
     "id": "SPLINT",
