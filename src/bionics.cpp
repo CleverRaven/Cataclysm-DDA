@@ -814,6 +814,13 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         get_wielded_item()->invlet = '#';
         weapon_bionic_uid = bio.get_uid();
     } else if( bio.id == bio_evap ) {
+        if( player_character.is_underwater() ) {
+            add_msg_if_player( m_info,
+                               _( "There's a lot of water around you already, no need to use your %s." ), bio.info().name );
+            bio.powered = false;
+            return false;
+        }
+
         add_msg_activate();
         const w_point weatherPoint = *get_weather().weather_precise;
         int humidity = get_local_humidity( weatherPoint.humidity, get_weather().weather_id,
@@ -1709,6 +1716,12 @@ void Character::process_bionic( bionic &bio )
             remove_effect( effect_asthma );
         }
     } else if( bio.id == bio_evap ) {
+        if( is_underwater() ) {
+            add_msg_if_player( m_info,
+                               _( "Your %s deactivates after it finds itself completely submerged in water." ), bio.info().name );
+            deactivate_bionic( bio );
+        }
+
         // Aero-Evaporator provides water at 60 watts with 2 L / kWh efficiency
         // which is 10 mL per 5 minutes.  Humidity can modify the amount gained.
         if( calendar::once_every( 5_minutes ) ) {
