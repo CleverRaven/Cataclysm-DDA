@@ -416,7 +416,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Calorie Tracker CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "A small medical implant that passively tracks your calorie expenditure and consumption as well as your present heart rate.",
+    "description": "A small medical implant that passively tracks your calorie expenditure and consumption.",
     "price": 35000,
     "price_postapoc": 500,
     "weight": "1000 g",
