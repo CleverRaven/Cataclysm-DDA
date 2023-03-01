@@ -1605,6 +1605,6 @@
     "book_learn": [ [ "welding_book", 1 ] ],
     "using": [ [ "sewing_aramids", 50 ], [ "adhesive", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_polymerworking", "required": false, "time_multiplier": 1.5 } ],
-    "components": [ [ [ "rock_wool_bat", 15 ] ] ]
+    "components": [ [ [ "rock_wool_bat", 22 ] ] ]
   }
 ]
