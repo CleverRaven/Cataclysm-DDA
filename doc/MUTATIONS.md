@@ -216,7 +216,7 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "triggers": [                               // List of sublist of triggers, all sublists must be True for the mutation to activate.
     [                                         // Sublist of trigger: at least one trigger must be true for the sublist to be true.
         {
-          "condition": { "compare_int": [ { "u_val": "morale" }, "<", { "const": -50 } ] },               // Dialog condition (see NPCs.md).
+          "condition": { "compare_num": [ { "u_val": "morale" }, "<", { "const": -50 } ] },               // Dialog condition (see NPCs.md).
           "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" }  // Message displayed when the trigger activates.
         }
     ],
@@ -224,8 +224,8 @@ Note that **all new traits that can be obtained through mutation must be purifia
       {
         "condition": {                        // Dialog condition (see NPCs.md).
           "or": [
-            { "compare_int": [ { "hour", "<", { "const": 2 } } ] },
-            { "compare_int": [ { "hour", ">", { "const": 20 } } ] }
+            { "compare_num": [ { "hour", "<", { "const": 2 } } ] },
+            { "compare_num": [ { "hour", ">", { "const": 20 } } ] }
           ]
         },
         "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" } // Message displayed when the trigger activates.

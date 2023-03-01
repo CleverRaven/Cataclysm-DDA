@@ -3683,7 +3683,7 @@
     "remove_message": "Reality reasserts itself and your perspective returns to normal.",
     "rating": "bad",
     "show_intensity": false,
-    "base_mods": { "per_mod": [ 6, 0 ] }
+    "base_mods": { "per_mod": [ -6, 0 ] }
   },
   {
     "id": "weakened_gravity",
@@ -3707,7 +3707,7 @@
     "show_intensity": false,
     "enchantments": [
       {
-        "values": [ { "value": "CARRY_WEIGHT", "multiply": { "global_val": "var", "var_name": "portal_dungeon_carry_strength" } } ]
+        "values": [ { "value": "CARRY_WEIGHT", "add": { "global_val": "var", "var_name": "portal_dungeon_carry_strength" } } ]
       }
     ]
   },
@@ -3720,8 +3720,6 @@
     "remove_message": "Reality reasserts itself and your time returns to normal.",
     "rating": "bad",
     "show_intensity": false,
-    "enchantments": [
-      { "values": [ { "value": "SPEED", "multiply": { "global_val": "var", "var_name": "portal_dungeon_slow_strength" } } ] }
-    ]
+    "enchantments": [ { "values": [ { "value": "SPEED", "add": { "global_val": "var", "var_name": "portal_dungeon_slow_strength" } } ] } ]
   }
 ]

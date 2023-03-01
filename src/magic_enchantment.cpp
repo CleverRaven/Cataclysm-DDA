@@ -328,12 +328,12 @@ void enchantment::load( const JsonObject &jo, const std::string &,
         for( const JsonObject value_obj : jo.get_array( "values" ) ) {
             const enchant_vals::mod value = io::string_to_enum<enchant_vals::mod>
                                             ( value_obj.get_string( "value" ) );
-            int_or_var<dialogue> add = get_int_or_var<dialogue>( value_obj, "add", false );
+            dbl_or_var<dialogue> add = get_dbl_or_var<dialogue>( value_obj, "add", false );
             values_add.emplace( value, add );
-            int_or_var<dialogue> mult = get_int_or_var<dialogue>( value_obj, "multiply", false );
+            dbl_or_var<dialogue> mult = get_dbl_or_var<dialogue>( value_obj, "multiply", false );
             if( value_obj.has_member( "multiply" ) ) {
                 if( value_obj.has_float( "multiply" ) ) {
-                    mult.max.int_val = mult.min.int_val = value_obj.get_float( "multiply" ) * 100;
+                    mult.max.dbl_val = mult.min.dbl_val = value_obj.get_float( "multiply" );
                 }
             }
             values_multiply.emplace( value, mult );
@@ -346,15 +346,15 @@ void enchantment::load( const JsonObject &jo, const std::string &,
         for( const JsonObject value_obj : jo.get_array( "skills" ) ) {
             const skill_id value = skill_id( value_obj.get_string( "value" ) );
             if( value_obj.has_member( "add" ) ) {
-                int_or_var<dialogue> add = get_int_or_var<dialogue>( value_obj, "add", false );
+                dbl_or_var<dialogue> add = get_dbl_or_var<dialogue>( value_obj, "add", false );
                 skill_values_add.emplace( value, add );
             }
             if( value_obj.has_member( "multiply" ) ) {
-                int_or_var<dialogue> mult;
+                dbl_or_var<dialogue> mult;
                 if( value_obj.has_float( "multiply" ) ) {
-                    mult.max.int_val = mult.min.int_val = value_obj.get_float( "multiply" ) * 100;
+                    mult.max.dbl_val = mult.min.dbl_val = value_obj.get_float( "multiply" );
                 } else {
-                    mult = get_int_or_var<dialogue>( value_obj, "multiply", false );
+                    mult = get_dbl_or_var<dialogue>( value_obj, "multiply", false );
 
                 }
                 skill_values_multiply.emplace( value, mult );
@@ -532,7 +532,7 @@ void enchant_cache::force_add( const enchant_cache &rhs )
          rhs.skill_values_multiply ) {
         // values do not multiply against each other, they add.
         // so +10% and -10% will add to 0%
-        skill_values_multiply[pair_values.first] += 0.01 * pair_values.second;
+        skill_values_multiply[pair_values.first] += pair_values.second;
     }
 
     hit_me_effect.insert( hit_me_effect.end(), rhs.hit_me_effect.begin(), rhs.hit_me_effect.end() );
@@ -564,26 +564,26 @@ void enchant_cache::force_add( const enchant_cache &rhs )
 void enchant_cache::force_add( const enchantment &rhs, const Character &guy )
 {
     dialogue d( get_talker_for( guy ), nullptr );
-    for( const std::pair<const enchant_vals::mod, int_or_var<dialogue>> &pair_values :
+    for( const std::pair<const enchant_vals::mod, dbl_or_var<dialogue>> &pair_values :
          rhs.values_add ) {
         values_add[pair_values.first] += pair_values.second.evaluate( d );
     }
-    for( const std::pair<const enchant_vals::mod, int_or_var<dialogue>> &pair_values :
+    for( const std::pair<const enchant_vals::mod, dbl_or_var<dialogue>> &pair_values :
          rhs.values_multiply ) {
         // values do not multiply against each other, they add.
         // so +10% and -10% will add to 0%
-        values_multiply[pair_values.first] += 0.01 * pair_values.second.evaluate( d );
+        values_multiply[pair_values.first] += pair_values.second.evaluate( d );
     }
 
-    for( const std::pair<const skill_id, int_or_var<dialogue>> &pair_values :
+    for( const std::pair<const skill_id, dbl_or_var<dialogue>> &pair_values :
          rhs.skill_values_add ) {
         skill_values_add[pair_values.first] += pair_values.second.evaluate( d );
     }
-    for( const std::pair<const skill_id, int_or_var<dialogue>> &pair_values :
+    for( const std::pair<const skill_id, dbl_or_var<dialogue>> &pair_values :
          rhs.skill_values_multiply ) {
         // values do not multiply against each other, they add.
         // so +10% and -10% will add to 0%
-        skill_values_multiply[pair_values.first] += 0.01 * pair_values.second.evaluate( d );
+        skill_values_multiply[pair_values.first] += pair_values.second.evaluate( d );
     }
 
     hit_me_effect.insert( hit_me_effect.end(), rhs.hit_me_effect.begin(), rhs.hit_me_effect.end() );
@@ -654,7 +654,7 @@ double enchantment::get_value_multiply( const enchant_vals::mod value, const Cha
         return 0;
     }
     dialogue d( get_talker_for( guy ), nullptr );
-    return found->second.evaluate( d ) * 0.01;
+    return found->second.evaluate( d );
 }
 
 int enchant_cache::get_value_add( const enchant_vals::mod value ) const
