@@ -1,11 +1,11 @@
 [
   {
     "type": "MOD_INFO",
-    "id": "Mythos",
-    "name": "[WIP] Mythos Mod - No Zombies",
+    "id": "Mythos-Creatures",
+    "name": "Mythos Mod - Mythos Creatures Only",
     "authors": [ "mythosmod" ],
-    "description": "Removes all the zombies (including fungus zombies), cyborgs and robots from the game - a very work-in-progress start to a more Lovecraftian-focused version of Cataclysm set in the 1920s, with 99.9% of the population mysteriously disappearing at midnight of day 0.  Players will take on the roles of investigators in a variety of professions battling the denizens of the shadows to recover and rebuild society.",
-    "category": "content",
+    "description": "Removes all the zombies (including fungus zombies), cyborgs and robots from the game and replaces them with a variety of Lovecraftian monsters - intended to be part of a total conversion mod but can be used as a standalone if wanted.",
+    "category": "creatures",
     "dependencies": [ "dda" ],
     "version": "0.1"
   },
