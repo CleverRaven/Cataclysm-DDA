@@ -2129,6 +2129,7 @@ units::angle map::shake_vehicle( vehicle &veh, const int velocity_before,
         monster *pet = dynamic_cast<monster *>( rider );
 
         bool throw_from_seat = false;
+        int dmg = d_vel * rng_float( 1.0f, 2.0f );
         int move_resist = 1;
         if( psg ) {
             ///\EFFECT_STR reduces chance of being thrown from your seat when not wearing a seatbelt
@@ -2143,17 +2144,19 @@ units::angle map::shake_vehicle( vehicle &veh, const int velocity_before,
         if( veh.part_with_feature( ps, VPFLAG_SEATBELT, true ) == -1 ) {
             ///\EFFECT_STR reduces chance of being thrown from your seat when not wearing a seatbelt
             throw_from_seat = d_vel * rng( 80, 120 ) > move_resist;
+        } else {
+            // Reduce potential damage based on quality of seatbelt
+            dmg -= veh.part_info( veh.part_with_feature( ps, VPFLAG_SEATBELT, true ) ).bonus;
         }
 
         // Damage passengers if d_vel is too high
-        if( !throw_from_seat && ( 10 * d_vel ) > 6 * rng( 50, 100 ) ) {
-            const int dmg = d_vel * rng( 70, 100 ) / 400;
+        if( !throw_from_seat && ( 10 * d_vel ) > 6 * rng( 25, 50 ) ) {
             if( psg ) {
-                psg->hurtall( dmg, nullptr );
+                psg->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_type::BASH, dmg ) );
                 psg->add_msg_player_or_npc( m_bad,
                                             _( "You take %d damage by the power of the impact!" ),
                                             _( "<npcname> takes %d damage by the power of the "
-                                               "impact!" ),  dmg );
+                                               "impact!" ), dmg );
             } else {
                 pet->apply_damage( nullptr, bodypart_id( "torso" ), dmg );
             }
