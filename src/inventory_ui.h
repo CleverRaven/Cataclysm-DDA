@@ -166,8 +166,9 @@ class inventory_entry
         size_t generation = 0;
         bool chevron = false;
         int indent = 0;
-        std::string denial;
-        bool enabled = true;
+        void cache_denial( inventory_selector_preset const &preset ) const;
+        mutable cata::optional<std::string> denial;
+        mutable bool enabled = true;
 
         void set_custom_category( const item_category *category ) {
             custom_category = category;
@@ -280,13 +281,17 @@ class inventory_selector_preset
 class inventory_holster_preset : public inventory_selector_preset
 {
     public:
-        explicit inventory_holster_preset( const item_location &holster ) : holster( holster ) {}
+        explicit inventory_holster_preset( item_location holster, Character *c )
+            : holster( std::move( holster ) ), who( c ) {
+        }
 
         /** Does this entry satisfy the basic preset conditions? */
         bool is_shown( const item_location &contained ) const override;
+        std::string get_denial( const item_location &it ) const override;
     private:
         // this is the item that we are putting something into
         item_location holster;
+        Character *who = nullptr;
 };
 
 const inventory_selector_preset default_preset;
@@ -392,7 +397,7 @@ class inventory_column
         size_t get_width() const;
         size_t get_height() const;
         /** Expands the column to fit the new entry. */
-        void expand_to_fit( const inventory_entry &entry, bool with_denial = true );
+        void expand_to_fit( inventory_entry &entry, bool with_denial = true );
         /** Resets width to original (unchanged). */
         virtual void reset_width( const std::vector<inventory_column *> &all_columns );
         /** Returns next custom inventory letter. */
