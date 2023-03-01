@@ -302,13 +302,13 @@ void mission_start::reveal_refugee_center( mission *miss )
     overmap_special.str_val = "evac_center";
     t.overmap_special = overmap_special;
     t.mission_pointer = miss;
-    int_or_var<dialogue> search_range;
+    dbl_or_var<dialogue> search_range;
     search_range.min.int_val = 0;
     t.search_range = search_range;
-    int_or_var<dialogue> reveal_radius;
+    dbl_or_var<dialogue> reveal_radius;
     reveal_radius.min.int_val = 1;
     t.reveal_radius = reveal_radius;
-    int_or_var<dialogue> min_distance;
+    dbl_or_var<dialogue> min_distance;
     min_distance.min.int_val = 0;
     t.min_distance = min_distance;
 
@@ -329,7 +329,7 @@ void mission_start::reveal_refugee_center( mission *miss )
         str_or_var<dialogue> overmap_terrain;
         overmap_terrain.str_val = "refctr_S3e";
         t.overmap_terrain = overmap_terrain;
-        int_or_var<dialogue> reveal_radius;
+        dbl_or_var<dialogue> reveal_radius;
         reveal_radius.min.int_val = 3;
         t.reveal_radius = reveal_radius;
         target_pos = mission_util::assign_mission_target( t );
