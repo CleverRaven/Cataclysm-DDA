@@ -1345,8 +1345,7 @@
     "purifiable": false,
     "types": [ "HEALING" ],
     "healing_multiplier": 0,
-    "mending_modifier": 0,
-    "flags": [ "NO_MINIMAL_HEALING" ]
+    "mending_modifier": 0
   },
   {
     "type": "mutation",

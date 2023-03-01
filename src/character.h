@@ -723,9 +723,6 @@ class Character : public Creature, public visitable
 
         /** @return Odds for success (pair.first) and gunmod damage (pair.second) */
         std::pair<int, int> gunmod_installation_odds( const item_location &gun, const item &mod ) const;
-        /// called once per 24 hours to enforce the minimum of 1 hp healed per day
-        /// @todo Move to Character once heal() is moved
-        void enforce_minimum_healing();
         /** Calculates the various speed bonuses we will get from mutations, etc. */
         void recalc_speed_bonus();
         void set_underwater( bool );

@@ -4330,16 +4330,6 @@ void Character::regen( int rate_multiplier )
     }
 }
 
-void Character::enforce_minimum_healing()
-{
-    for( const bodypart_id &bp : get_all_body_parts() ) {
-        if( get_part_healed_total( bp ) <= 0 ) {
-            heal( bp, 1 );
-        }
-        set_part_healed_total( bp, 0 );
-    }
-}
-
 void Character::update_health()
 {
     // Limit daily_health to [-200, 200].

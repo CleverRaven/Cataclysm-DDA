@@ -57,6 +57,6 @@
         "bash": 5
       }
     ],
-    "flags": [ "NO_THIRST", "NO_DISEASE", "NO_RADIATION", "NO_MINIMAL_HEALING", "BLEED_IMMUNE", "INFECTION_IMMUNE" ]
+    "flags": [ "NO_THIRST", "NO_DISEASE", "NO_RADIATION", "BLEED_IMMUNE", "INFECTION_IMMUNE" ]
   }
 ]

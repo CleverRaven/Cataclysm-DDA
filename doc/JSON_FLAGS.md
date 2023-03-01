@@ -432,7 +432,6 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```NO_DISEASE``` This mutation grants immunity to diseases.
 - ```NO_THIRST``` Your thirst is not modified by food or drinks.
 - ```NO_RADIATION``` This mutation grants immunity to radiations.
-- ```NO_MINIMAL_HEALING``` This mutation disables the minimal healing of 1 hp a day.
 - ```INFECTION_IMMUNE``` This mutation grants immunity to infections, including infection from bites and tetanus.
 - ```SUPER_HEARING``` You can hear much better than a normal person.
 - ```IMMUNE_HEARING_DAMAGE``` Immune to hearing damage from loud sounds.
