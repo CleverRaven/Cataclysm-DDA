@@ -470,8 +470,8 @@ void Character::update_bodytemp()
 
     // Correction of body temperature due to traits and mutations
     // Lower heat is applied always
-    const int mutation_heat_low = bodytemp_modifier_traits( false );
-    const int mutation_heat_high = bodytemp_modifier_traits( true );
+    const int mutation_heat_low = bodytemp_modifier_traits( true );
+    const int mutation_heat_high = bodytemp_modifier_traits( false );
     // Difference between high and low is the "safe" heat - one we only apply if it's beneficial
     const int mutation_heat_bonus = mutation_heat_high - mutation_heat_low;
 

@@ -2266,8 +2266,6 @@ void Character::recalc_sight_limits()
         sight_max = 10;
     }
 
-    sight_max = enchantment_cache->modify_value( enchant_vals::mod::SIGHT_RANGE, sight_max );
-
     // Debug-only NV, by vache's request
     if( has_trait( trait_DEBUG_NIGHTVISION ) ) {
         vision_mode_cache.set( DEBUG_NIGHTVISION );
@@ -3528,7 +3526,7 @@ std::pair<int, int> Character::climate_control_strength()
                                  // Also check for a working alternator. Muscle or animal could be powering it.
                                  (
                                      vp->is_inside() &&
-                                     vp->vehicle().total_alternator_epower_w() > 0
+                                     vp->vehicle().total_alternator_epower() > 0_W
                                  )
                              );
         }
@@ -4985,7 +4983,7 @@ void Character::get_sick()
     // Health is in the range [-200,200].
     // Diseases are half as common for every 50 health you gain.
     float health_factor = std::pow( 2.0f, get_lifestyle() / 50.0f );
-    float env_factor = 1.0f + std::pow( 0.3f, get_env_resist( body_part_mouth ) / 2 );
+    float env_factor = 1.0f + std::pow( get_env_resist( body_part_mouth ), 0.3f ) / 2.0;
 
     int disease_rarity = static_cast<int>( checks_per_year * health_factor * env_factor /
                                            base_diseases_per_year );
@@ -10168,14 +10166,23 @@ action_id Character::get_next_auto_move_direction()
     return get_movement_action_from_delta( dp.raw(), iso_rotate::yes );
 }
 
-int Character::talk_skill() const
+int Character::persuade_skill() const
 {
     /** @EFFECT_INT slightly increases talking skill */
-
     /** @EFFECT_PER slightly increases talking skill */
-
     /** @EFFECT_SPEECH increases talking skill */
     int ret = get_int() + get_per() + get_skill_level( skill_speech ) * 3;
+    ret = enchantment_cache->modify_value( enchant_vals::mod::SOCIAL_PERSUADE, ret );
+    return ret;
+}
+
+int Character::lie_skill() const
+{
+    /** @EFFECT_INT slightly increases talking skill */
+    /** @EFFECT_PER slightly increases talking skill */
+    /** @EFFECT_SPEECH increases talking skill */
+    int ret = get_int() + get_per() + get_skill_level( skill_speech ) * 3;
+    ret = enchantment_cache->modify_value( enchant_vals::mod::SOCIAL_LIE, ret );
     return ret;
 }
 
@@ -11300,7 +11307,7 @@ void Character::leak_items()
 
 void Character::process_items()
 {
-    if( weapon.needs_processing() && weapon.process( get_map(), this, pos() ) ) {
+    if( weapon.process( get_map(), this, pos() ) ) {
         weapon.spill_contents( pos() );
         remove_weapon();
     }
@@ -11310,11 +11317,9 @@ void Character::process_items()
         if( !it ) {
             continue;
         }
-        if( it->needs_processing() ) {
-            if( it->process( get_map(), this, pos() ) ) {
-                it->spill_contents( pos() );
-                removed_items.push_back( it );
-            }
+        if( it->process( get_map(), this, pos() ) ) {
+            it->spill_contents( pos() );
+            removed_items.push_back( it );
         }
     }
     for( item_location removed : removed_items ) {

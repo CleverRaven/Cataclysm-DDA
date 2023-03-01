@@ -1,4 +1,36 @@
-# 0.G (Gernsback or Gaiman are my suggestions/guess)
+# 0.H
+
+## Features:
+
+
+## Content:
+
+
+## Interface:
+
+
+## Mods:
+
+
+## Balance:
+
+
+## Bugfixes:
+
+
+## Performance:
+
+
+## Infrastructure:
+
+
+## Build:
+
+
+## I18N and A11Y:
+
+
+# 0.G (Gaiman)
 
 ## Highlights
 Effect on condition brings a scripting pseudo language to Cataclysm.  Some of its key uses in 0.G have been the introduction of portal storms, NPC faction development over time and random encounters in already explored maps.

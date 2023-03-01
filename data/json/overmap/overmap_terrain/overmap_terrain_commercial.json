@@ -1714,6 +1714,7 @@
   {
     "type": "overmap_terrain",
     "id": [ "urban_14_1", "urban_14_2", "urban_25_1", "urban_25_2" ],
+    "spawns": { "group": "GROUP_BASEMENT_HOUSE", "population": [ 1, 1 ], "chance": 80 },
     "copy-from": "generic_city_house_basement"
   },
   {

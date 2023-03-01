@@ -9,6 +9,10 @@
 #include "enums.h"
 #include "npc.h"
 
+static const efftype_id effect_lying_down( "lying_down" );
+static const efftype_id effect_npc_suspend( "npc_suspend" );
+static const efftype_id effect_sleep( "sleep" );
+
 static const vitamin_id vitamin_calcium( "calcium" );
 static const vitamin_id vitamin_iron( "iron" );
 static const vitamin_id vitamin_vitC( "vitC" );
@@ -27,6 +31,10 @@ static void daily_routine( npc &dude, int numb_stam_burn, int vitamin_amount,
 {
     // set to midnight
     calendar::turn = calendar::turn_zero;
+    dude.remove_effect( effect_sleep );
+    dude.remove_effect( effect_lying_down );
+    dude.remove_effect( effect_npc_suspend );
+    dude.cancel_activity();
     dude.update_body();
 
     for( int i = 0; i < numb_stam_burn; i++ ) {

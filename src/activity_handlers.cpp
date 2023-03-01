@@ -198,6 +198,7 @@ static const mongroup_id GROUP_FISH( "GROUP_FISH" );
 
 static const quality_id qual_BUTCHER( "BUTCHER" );
 static const quality_id qual_CUT_FINE( "CUT_FINE" );
+static const quality_id qual_FISHING_ROD( "FISHING_ROD" );
 
 static const skill_id skill_computer( "computer" );
 static const skill_id skill_firstaid( "firstaid" );
@@ -2239,8 +2240,8 @@ void repair_item_finish( player_activity *act, Character *you, bool no_menu )
         // Print message explaining why we stopped
         // But only if we didn't destroy the item (because then it's obvious)
         const bool destroyed = attempt == repair_item_actor::AS_DESTROYED;
-        const bool cannot_continue_repair = attempt == repair_item_actor::AS_CANT ||
-                                            destroyed || !actor->can_repair_target( *you, *fix_location, !destroyed );
+        const bool cannot_continue_repair = attempt == repair_item_actor::AS_CANT || destroyed ||
+                                            !actor->can_repair_target( *you, *fix_location, !destroyed, true );
         if( cannot_continue_repair ) {
             // Cannot continue to repair target, select another target.
             // **Warning**: as soon as the item is popped back, it is destroyed and can't be used anymore!
@@ -2284,7 +2285,7 @@ void repair_item_finish( player_activity *act, Character *you, bool no_menu )
             act->set_to_null();
             return;
         }
-        if( actor->can_repair_target( *you, *item_loc, true ) ) {
+        if( actor->can_repair_target( *you, *item_loc, true, true ) ) {
             act->targets.emplace_back( item_loc );
             repeat = repeat_type::INIT;
         }
@@ -2670,12 +2671,18 @@ void activity_handlers::fish_do_turn( player_activity *act, Character *you )
     item &it = *act->targets.front();
     int fish_chance = 1;
     int survival_skill = you->get_skill_level( skill_survival );
-    if( it.has_flag( flag_FISH_POOR ) ) {
-        survival_skill += dice( 1, 6 );
-    } else if( it.has_flag( flag_FISH_GOOD ) ) {
-        // Much better chances with a good fishing implement.
-        survival_skill += dice( 4, 9 );
-        survival_skill *= 2;
+    switch( it.get_quality( qual_FISHING_ROD ) ) {
+        case 1:
+            survival_skill += dice( 1, 6 );
+            break;
+        case 2:
+            // Much better chances with a good fishing implement.
+            survival_skill += dice( 4, 9 );
+            survival_skill *= 2;
+            break;
+        default:
+            debugmsg( "ERROR: Invalid FISHING_ROD tool quality on %s", item::nname( it.typeId() ) );
+            break;
     }
     std::vector<monster *> fishables = g->get_fishable_monsters( act->coord_set );
     // Fish are always there, even if it doesn't seem like they are visible!

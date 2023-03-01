@@ -2442,6 +2442,9 @@ void ebooksave_activity_actor::finish( player_activity &act, Character &who )
     item book_copy = *book;
     ereader->put_in( book_copy, item_pocket::pocket_type::EBOOK );
     if( who.is_avatar() ) {
+        if( !who.has_identified( book->typeId() ) ) {
+            who.identify( *book );
+        }
         add_msg( m_info, _( "You scan the book into your device." ) );
     } else { // who.is_npc()
         add_msg_if_player_sees( who, _( "%s scans the book into their device." ),
@@ -6428,14 +6431,22 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
                             if( it->first->is_ammo_belt() ) {
                                 if( it->first->type->magazine->linkage ) {
                                     item link( *it->first->type->magazine->linkage, calendar::turn, contained->count() );
-                                    here.add_item_or_charges( src_loc, link );
+                                    if( this_veh != nullptr ) {
+                                        this_veh->add_item( this_part, link );
+                                    } else {
+                                        here.add_item_or_charges( src_loc, link );
+                                    }
                                 }
                             }
                             move_item( you, *contained, contained->count(), src_loc, src_loc, this_veh, this_part );
                             it->first->remove_item( *contained );
 
                             if( it->first->has_flag( flag_MAG_DESTROY ) && it->first->ammo_remaining() == 0 ) {
-                                here.i_rem( src_loc, it->first );
+                                if( this_veh != nullptr ) {
+                                    this_veh->remove_item( this_part, it->first );
+                                } else {
+                                    here.i_rem( src_loc, it->first );
+                                }
                             }
                         }
                         if( you.moves <= 0 ) {

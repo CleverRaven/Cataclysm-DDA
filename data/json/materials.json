@@ -186,9 +186,9 @@
     "specific_heat_liquid": 1.18,
     "specific_heat_solid": 0.91,
     "latent_heat": 398,
-    "bash_resist": 0,
-    "cut_resist": 4,
-    "bullet_resist": 2,
+    "bash_resist": 1,
+    "cut_resist": 2,
+    "bullet_resist": 1,
     "acid_resist": 4,
     "fire_resist": 2,
     "conductive": true,
@@ -738,7 +738,8 @@
       { "fuel": 2, "smoke": 3, "burn": 2, "volume_per_turn": "10000 ml" },
       { "fuel": 3, "smoke": 10, "burn": 3 }
     ],
-    "burn_products": [ [ "corpse_ash", 0.035 ] ]
+    "burn_products": [ [ "corpse_ash", 0.035 ] ],
+    "soft": true
   },
   {
     "type": "material",
@@ -988,7 +989,8 @@
       { "fuel": 1, "smoke": 1, "burn": 1, "volume_per_turn": "2500 ml" },
       { "fuel": 2, "smoke": 3, "burn": 2, "volume_per_turn": "10000 ml" },
       { "fuel": 3, "smoke": 10, "burn": 3 }
-    ]
+    ],
+    "soft": true
   },
   {
     "type": "material",

@@ -405,15 +405,16 @@ bool item_pocket::better_pocket( const item_pocket &rhs, const item &it, bool ne
     return rhs.obtain_cost( it ) < obtain_cost( it );
 }
 
-bool item_pocket::stacks_with( const item_pocket &rhs ) const
+bool item_pocket::stacks_with( const item_pocket &rhs, int depth, int maxdepth ) const
 {
     if( _sealed != rhs._sealed ) {
         return false;
     }
     return ( empty() && rhs.empty() ) || std::equal( contents.begin(), contents.end(),
             rhs.contents.begin(), rhs.contents.end(),
-    []( const item & a, const item & b ) {
-        return a.charges == b.charges && a.stacks_with( b );
+    [depth, maxdepth]( const item & a, const item & b ) {
+        return depth < maxdepth && a.charges == b.charges &&
+               a.stacks_with( b, false, false, depth + 1, maxdepth );
     } );
 }
 
@@ -1234,6 +1235,26 @@ void item_pocket::favorite_info( std::vector<iteminfo> &info ) const
     settings.info( info );
 }
 
+// for soft containers check all content items to see if they all would fit
+static int charges_per_volume_recursive( const units::volume &max_item_volume,
+        const item &it )
+{
+    int min_charges = item::INFINITE_CHARGES;
+
+    if( !it.is_soft() ) {
+        return it.charges_per_volume( max_item_volume );
+    }
+
+    for( const item *content : it.all_items_top() ) {
+        min_charges = std::min( min_charges, charges_per_volume_recursive( max_item_volume, *content ) );
+        if( min_charges == 0 ) {
+            return 0;
+        }
+    }
+
+    return min_charges;
+}
+
 ret_val<item_pocket::contain_code> item_pocket::is_compatible( const item &it ) const
 {
     if( it.has_flag( flag_NO_UNWIELD ) ) {
@@ -1309,9 +1330,8 @@ ret_val<item_pocket::contain_code> item_pocket::is_compatible( const item &it ) 
     // soft items also avoid the size limit
     // count_by_charges items check volume of single charge
     if( !it.made_of( phase_id::LIQUID ) && !it.made_of( phase_id::GAS ) &&
-        !it.is_frozen_liquid() &&
-        !it.is_soft() && data->max_item_volume &&
-        !it.charges_per_volume( *data->max_item_volume ) ) {
+        !it.is_frozen_liquid() && data->max_item_volume &&
+        !charges_per_volume_recursive( *data->max_item_volume, it ) ) {
         return ret_val<item_pocket::contain_code>::make_failure(
                    contain_code::ERR_TOO_BIG, _( "item too big" ) );
     }
@@ -1397,7 +1417,7 @@ ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it ) co
                        _( "can't mix frozen liquid with contained item in the watertight container" ) );
         }
     } else if( data->watertight ) {
-        if( size() == 1 && contents.front().is_frozen_liquid() ) {
+        if( size() == 1 && contents.front().is_frozen_liquid() && !contents.front().can_combine( it ) ) {
             return ret_val<item_pocket::contain_code>::make_failure(
                        contain_code::ERR_LIQUID,
                        _( "can't mix item with contained frozen liquid in the watertight container" ) );
@@ -1477,10 +1497,20 @@ bool item_pocket::can_reload_with( const item &ammo, const bool now ) const
     if( ammo.has_flag( flag_SPEEDLOADER ) ) {
         // The speedloader needs to be compatible,
         // The ammo in it needs to be compatible,
-        // and the pocket needs to be empty (except casings)
+        // and the opcket needs to have enough space (except casings)
         return allows_speedloader( ammo.typeId() ) &&
                is_compatible( ammo.loaded_ammo() ).success() &&
                ( remaining_ammo_capacity( ammo.loaded_ammo().ammo_type() ) >= ammo.ammo_remaining() );
+    }
+
+    if( ammo.has_flag( flag_SPEEDLOADER_CLIP ) ) {
+        // The speedloader clip needs to be compatible,
+        // The ammo in it needs to be compatible,
+        // and the pocket don't needs have enough space (except casings(if any))
+        return allows_speedloader( ammo.typeId() ) &&
+               is_compatible( ammo.loaded_ammo() ).success() &&
+               ( remaining_ammo_capacity( ammo.loaded_ammo().ammo_type() ) + ammo_capacity(
+                     ammo.loaded_ammo().ammo_type() ) > ammo_capacity( ammo.loaded_ammo().ammo_type() ) );
     }
 
     if( !is_compatible( ammo ).success() ) {
@@ -1758,23 +1788,23 @@ void item_pocket::leak( map &here, Character *carrier, const tripoint &pos, item
             }
             item *it = &*iter;
 
-            if( pocke ) {
+            if( pocke != nullptr ) {
                 if( pocke->watertight() ) {
                     ++iter;
                     continue;
                 }
                 pocke->add( *it );
-                contents.erase( iter );
             } else {
                 iter->unset_flag( flag_FROM_FROZEN_LIQUID );
                 iter->on_drop( pos );
                 here.add_item_or_charges( pos, *iter );
-                contents.erase( iter );
                 carrier->add_msg_if_player( _( "Liquid leaked out from the %s and dripped onto the ground!" ),
                                             this->get_name() );
             }
+            iter = contents.erase( iter );
+        } else {
+            ++iter;
         }
-        ++iter;
     }
 }
 
