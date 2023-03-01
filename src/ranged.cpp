@@ -939,7 +939,7 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
         }
 
         if( !gun.has_flag( flag_VEHICLE ) ) {
-            consume_ups( gun.get_gun_ups_drain() );
+            consume_ups( gun.get_gun_ups_drain() ); //TODO check what this does
         }
 
         if( gun_skill == skill_launcher ) {
@@ -3986,6 +3986,7 @@ bool gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::string> 
                 is_mech_weapon = true;
             }
         }
+        // TODO different messages for UPS/bionic
         if( !is_mech_weapon ) {
             if( you.available_ups() < ups_drain ) {
                 messages.push_back( string_format(
