@@ -293,25 +293,25 @@ TEST_CASE( "Melee skill training caps", "[melee], [melee_training_cap], [skill]"
     REQUIRE( level.knowledgeExperience( true ) == 0 );
 
     SECTION( "Monster's melee training cap is calculated correctly" ) {
-        REQUIRE( dummy_1.get_melee() == 0 );
-        REQUIRE( dummy_1.type->melee_training_cap == 2 );
-        REQUIRE( zed.get_melee() == 4 );
-        REQUIRE( zed.type->melee_training_cap == 6 );
+        CHECK( dummy_1.get_melee() == 0 );
+        CHECK( dummy_1.type->melee_training_cap == 2 );
+        CHECK( zed.get_melee() == 4 );
+        CHECK( zed.type->melee_training_cap == 6 );
     }
 
     SECTION( "Attacking a monster when above its traing cap will not cause further skill gain" ) {
         dude.melee_attack_abstract( dummy_1, false, matec_id( "" ) );
-        REQUIRE( level.knowledgeLevel() == 4 );
-        REQUIRE( level.knowledgeExperience( true ) == 0 );
+        CHECK( level.knowledgeLevel() == 4 );
+        CHECK( level.knowledgeExperience( true ) == 0 );
     }
     SECTION( "Attacking a monster when below the traing cap will train the skill up to the cap" ) {
         dude.melee_attack_abstract( zed, false, matec_id( "" ) );
-        REQUIRE( level.knowledgeLevel() == 4 );
-        REQUIRE( level.knowledgeExperience( true ) > 0 );
+        CHECK( level.knowledgeLevel() == 4 );
+        CHECK( level.knowledgeExperience( true ) > 0 );
         // Training stops if we get above the cap
         dude.set_skill_level( skill_melee, 7 );
         int prev_xp = level.knowledgeExperience( true );
         dude.melee_attack_abstract( zed, false, matec_id( "" ) );
-        REQUIRE( level.knowledgeExperience( true ) == prev_xp );
+        CHECK( level.knowledgeExperience( true ) == prev_xp );
     }
 }
