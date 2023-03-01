@@ -1316,14 +1316,6 @@
     "type": "json_flag"
   },
   {
-    "id": "FISH_GOOD",
-    "type": "json_flag"
-  },
-  {
-    "id": "FISH_POOR",
-    "type": "json_flag"
-  },
-  {
     "id": "FIT",
     "type": "json_flag"
   },
