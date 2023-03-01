@@ -1857,7 +1857,7 @@
     "name": { "str": "thin-sleeved wool gambeson" },
     "description": "A thick cloth greatcoat intended to be worn as standalone armor, as it's a little too thick to comfortably add chainmail or a cuirass on top.  Made of thickly layered wool quilting, this will protect you from almost everything, but it's very heavy and warm.  The sleeves are a lot thinner for flexiblity and it drapes below your legs, providing additional protection there.",
     "weight": "10488 g",
-    "volume": "7000 ml",
+    "volume": "7500 ml",
     "price_postapoc": 7500,
     "to_hit": -5,
     "material": [ "wool" ],
