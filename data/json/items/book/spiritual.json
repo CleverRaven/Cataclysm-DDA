@@ -187,7 +187,7 @@
         "description": "This is volume 1 of 51, containing the first part of Tractate Berakhot. It is concerned with rules relating to the Shema and the Amidah.",
         "append": true
       },
-      { 
+      {
         "id": "holybook_talmud_02",
         "name": { "str": "Talmud, Vol. 2, Tractate Berakhot (Part 2)" },
         "description": "This is volume 2 of 51, containing the second part of Tractate Berakhot. It is concerned with rules relating to prayers, primarily those before or after eating but it also touches on prayers that occur on special occasions such as hearing thunder or being unexpectedly delivered from danger.",
