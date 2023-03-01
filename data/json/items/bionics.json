@@ -54,7 +54,7 @@
     "description": "This bionic projects a thin forcefield around the user's body.  Everything loses velocity when penetrating this field, which results in reduced amount of dealt damage at the cost of user's bionic energy.  Bullets and stabbing attacks will lose more velocity than cutting attacks and those in turn more than bashing attacks.",
     "price": 950000,
     "price_postapoc": 15000,
-    "weight": "1000 g",
+    "weight": "10 g",
     "difficulty": 7
   },
   {
