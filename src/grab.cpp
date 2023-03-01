@@ -102,7 +102,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
             str_req = mc / wheel_indices.size() + 1;
         }
         //finally, adjust by the off-road coefficient (always 1.0 on a road, as low as 0.1 off road.)
-        str_req /= grabbed_vehicle->k_traction();
+        str_req /= grabbed_vehicle->k_traction( get_map().vehicle_wheel_traction( grabbed_vehicle ) );
     } else {
         str_req*=10;
         //if vehicle has no wheels str_req make a noise. since it has no wheels assume it has the worst off roading possible (0.1)
