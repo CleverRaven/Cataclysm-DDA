@@ -625,6 +625,17 @@
   },
   {
     "type": "material",
+    "//": "similar to layered kevlar, cotton sewn in a way to extend its protectiveness. stopgap material for gambesons until material protection is more thoroughly reworked.",
+    "id": "cotton_quilted",
+    "name": "Quilted Cotton",
+    "copy-from": "cotton",
+    "bash_resist": 2,
+    "cut_resist": 2,
+    "bullet_resist": 1.5,
+    "wind_resist": 75
+  },
+  {
+    "type": "material",
     "id": "canvas",
     "name": "Canvas",
     "density": 1.6,
