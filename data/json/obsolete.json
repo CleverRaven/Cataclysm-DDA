@@ -1071,6 +1071,18 @@
     "description": "Precise step-by-step instructions and other required data for installation of Railgun CBM, stored on a data card of proprietary form-factor, designed to be used extensively by an Autodoc, and allowing bionic installation with minimal failure chance.  Integrated security subroutine renders it unusable after installation."
   },
   {
+    "id": "toolset_extended",
+    "type": "TOOL",
+    "name": { "str": "extended multitool" },
+    "description": "Your multitool, extended.  Ready to do repair work.",
+    "symbol": "#",
+    "color": "white",
+    "weight": "226 g",
+    "bashing": 3,
+    "cutting": 1,
+    "flags": [ "NO_UNWIELD", "BIONIC_WEAPON", "UNBREAKABLE_MELEE", "TRADER_AVOID" ]
+  },
+  {
     "id": "UNARMED_WEAPON",
     "type": "json_flag",
     "//": "REMOVE After 0.G.",

@@ -5037,9 +5037,7 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
                 if( it.is_emissive() ) {
                     update_lum_add( p, it );
                 }
-                if( it.needs_processing() ) {
-                    active_items.add( it, p );
-                }
+                active_items.add( it, p );
                 if( savegame_loading_version < 33 ) {
                     // remove after 0.F
                     migrate_item_charges( it );

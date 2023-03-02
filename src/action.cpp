@@ -371,8 +371,8 @@ std::string action_ident( action_id act )
             return "toggle_auto_foraging";
         case ACTION_TOGGLE_AUTO_PICKUP:
             return "toggle_auto_pickup";
-        case ACTION_DISPLAY_ISO_WALLS:
-            return "toggle_iso_walls";
+        case ACTION_TOGGLE_PREVENT_OCCLUSION:
+            return "toggle_prevent_occlusion";
         case ACTION_ACTIONMENU:
             return "action_menu";
         case ACTION_ITEMACTION:
@@ -905,7 +905,7 @@ action_id handle_action_menu()
 #if defined(TILES)
             REGISTER_ACTION( ACTION_TOGGLE_PIXEL_MINIMAP );
             REGISTER_ACTION( ACTION_RELOAD_TILESET );
-            REGISTER_ACTION( ACTION_DISPLAY_ISO_WALLS );
+            REGISTER_ACTION( ACTION_TOGGLE_PREVENT_OCCLUSION );
 #endif // TILES
             REGISTER_ACTION( ACTION_TOGGLE_PANEL_ADM );
             REGISTER_ACTION( ACTION_DISPLAY_SCENT );

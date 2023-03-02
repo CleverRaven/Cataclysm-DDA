@@ -315,7 +315,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             r.push_back( std::to_string( veh_fueled.acceleration() / 100 ) );
             r.push_back( std::to_string( veh_fueled.coeff_air_drag() ) );
             r.push_back( std::to_string( veh_fueled.coeff_rolling_drag() ) );
-            r.push_back( std::to_string( veh_fueled.static_drag( false ) ) );
+            r.push_back( std::to_string( units::to_watt( veh_fueled.static_drag( false ) ) ) );
             r.push_back( std::to_string( static_cast<int>( 50 *
                                          veh_fueled.k_traction( veh_fueled.wheel_area() ) ) ) );
             rows.push_back( r );

@@ -210,10 +210,6 @@ class inventory : public visitable
         void dump( std::vector<item *> &dest );
         void dump( std::vector<const item *> &dest ) const;
 
-        // vector rather than list because it's NOT an item stack
-        // returns all items that need processing
-        std::vector<item *> active_items();
-
         void json_load_invcache( const JsonValue &jsin );
         void json_load_items( const JsonArray &ja );
 

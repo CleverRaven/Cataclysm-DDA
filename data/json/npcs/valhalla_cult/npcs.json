@@ -77,6 +77,7 @@
       { "group": "BG_survival_story_RURAL" },
       { "group": "NPC_starting_traits" },
       { "group": "Appearance_demographics" },
+      { "trait": "NO_BASH" },
       { "trait": "RETURN_TO_START_POS" }
     ],
     "bonus_str": { "rng": [ 2, 5 ] },

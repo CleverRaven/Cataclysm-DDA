@@ -10,7 +10,7 @@
 #include "optional.h"
 #include "player_helpers.h"
 
-TEST_CASE( "active_items_processed_regularly", "[item]" )
+TEST_CASE( "active_items_processed_regularly", "[active_item]" )
 {
     clear_avatar();
     clear_map();

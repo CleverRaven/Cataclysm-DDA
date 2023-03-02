@@ -1467,8 +1467,23 @@ std::string enum_to_string<jmapgen_flags>( jmapgen_flags v )
     switch( v ) {
         // *INDENT-OFF*
         case jmapgen_flags::allow_terrain_under_other_data: return "ALLOW_TERRAIN_UNDER_OTHER_DATA";
+        case jmapgen_flags::dismantle_all_before_placing_terrain:
+            return "DISMANTLE_ALL_BEFORE_PLACING_TERRAIN";
         case jmapgen_flags::erase_all_before_placing_terrain:
             return "ERASE_ALL_BEFORE_PLACING_TERRAIN";
+        case jmapgen_flags::allow_terrain_under_furniture: return "ALLOW_TERRAIN_UNDER_FURNITURE";
+        case jmapgen_flags::dismantle_furniture_before_placing_terrain:
+            return "DISMANTLE_FURNITURE_BEFORE_PLACING_TERRAIN";
+        case jmapgen_flags::erase_furniture_before_placing_terrain:
+            return "ERASE_FURNITURE_BEFORE_PLACING_TERRAIN";
+        case jmapgen_flags::allow_terrain_under_trap: return "ALLOW_TERRAIN_UNDER_TRAP";
+        case jmapgen_flags::dismantle_trap_before_placing_terrain:
+            return "DISMANTLE_TRAP_BEFORE_PLACING_TERRAIN";
+        case jmapgen_flags::erase_trap_before_placing_terrain:
+            return "ERASE_TRAP_BEFORE_PLACING_TERRAIN";
+        case jmapgen_flags::allow_terrain_under_items: return "ALLOW_TERRAIN_UNDER_ITEMS";
+        case jmapgen_flags::erase_items_before_placing_terrain:
+            return "ERASE_ITEMS_BEFORE_PLACING_TERRAIN";
         case jmapgen_flags::no_underlying_rotate: return "NO_UNDERLYING_ROTATE";
         case jmapgen_flags::avoid_creatures: return "AVOID_CREATURES";
         // *INDENT-ON*
@@ -2276,6 +2291,7 @@ class jmapgen_monster : public jmapgen_piece
         bool friendly;
         std::string name;
         bool target;
+        bool use_pack_size;
         struct spawn_data data;
         jmapgen_monster( const JsonObject &jsi, const std::string &/*context*/ ) :
             chance( jsi, "chance", 100, 100 )
@@ -2285,7 +2301,8 @@ class jmapgen_monster : public jmapgen_piece
                                             jsi.has_member( "pack_size" ) ) ) )
             , friendly( jsi.get_bool( "friendly", false ) )
             , name( jsi.get_string( "name", "NONE" ) )
-            , target( jsi.get_bool( "target", false ) ) {
+            , target( jsi.get_bool( "target", false ) )
+            , use_pack_size( jsi.get_bool( "use_pack_size", false ) ) {
             if( jsi.has_member( "group" ) ) {
                 jsi.read( "group", m_id );
             } else if( jsi.has_array( "monster" ) ) {
@@ -2364,7 +2381,8 @@ class jmapgen_monster : public jmapgen_piece
             mongroup_id chosen_group = m_id.get( dat );
             if( !chosen_group.is_null() ) {
                 std::vector<MonsterGroupResult> spawn_details =
-                    MonsterGroupManager::GetResultFromGroup( chosen_group );
+                    MonsterGroupManager::GetResultFromGroup( chosen_group, nullptr, nullptr, false, nullptr,
+                            use_pack_size );
                 for( const MonsterGroupResult &mgr : spawn_details ) {
                     dat.m.add_spawn( mgr.name, spawn_count * pack_size.get(),
                     { x.get(), y.get(), dat.m.get_abs_sub().z() },
@@ -2731,6 +2749,10 @@ class jmapgen_furniture : public jmapgen_piece
  */
 class jmapgen_terrain : public jmapgen_piece
 {
+    private:
+        enum apply_action {
+            act_unknown, act_ignore, act_dismantle, act_erase
+        };
     public:
         mapgen_value<ter_id> id;
         jmapgen_terrain( const JsonObject &jsi, const std::string &/*context*/ ) :
@@ -2759,34 +2781,120 @@ class jmapgen_terrain : public jmapgen_piece
             const bool place_item = chosen_ter.has_flag( ter_furn_flag::TFLAG_PLACE_ITEM );
             const bool is_boring_wall = is_wall && !place_item;
 
-            if( is_boring_wall
-                || dat.has_flag( jmapgen_flags::erase_all_before_placing_terrain ) ) {
+            apply_action act_furn = apply_action::act_unknown;
+            apply_action act_trap = apply_action::act_unknown;
+            apply_action act_item = apply_action::act_unknown;
+
+            // shorthand flags
+            if( dat.has_flag( jmapgen_flags::allow_terrain_under_other_data ) ) {
+                act_furn = apply_action::act_ignore;
+                act_trap = apply_action::act_ignore;
+                act_item = apply_action::act_ignore;
+            } else if( dat.has_flag( jmapgen_flags::dismantle_all_before_placing_terrain ) ) {
+                act_furn = apply_action::act_dismantle;
+                act_trap = apply_action::act_dismantle;
+                act_item = apply_action::act_ignore;
+            } else if( dat.has_flag( jmapgen_flags::erase_all_before_placing_terrain ) ) {
+                act_furn = apply_action::act_erase;
+                act_trap = apply_action::act_erase;
+                act_item = apply_action::act_erase;
+            }
+
+            // specific flags override shorthand flags
+            if( dat.has_flag( jmapgen_flags::allow_terrain_under_furniture ) ) {
+                act_furn = apply_action::act_ignore;
+            } else if( dat.has_flag( jmapgen_flags::dismantle_furniture_before_placing_terrain ) ) {
+                act_furn = apply_action::act_dismantle;
+            } else if( dat.has_flag( jmapgen_flags::erase_furniture_before_placing_terrain ) ) {
+                act_furn = apply_action::act_erase;
+            }
+            if( dat.has_flag( jmapgen_flags::allow_terrain_under_trap ) ) {
+                act_trap = apply_action::act_ignore;
+            } else if( dat.has_flag( jmapgen_flags::dismantle_trap_before_placing_terrain ) ) {
+                act_trap = apply_action::act_dismantle;
+            } else if( dat.has_flag( jmapgen_flags::erase_trap_before_placing_terrain ) ) {
+                act_trap = apply_action::act_erase;
+            }
+            if( dat.has_flag( jmapgen_flags::allow_terrain_under_items ) ) {
+                act_item = apply_action::act_ignore;
+            } else if( dat.has_flag( jmapgen_flags::erase_items_before_placing_terrain ) ) {
+                act_item = apply_action::act_erase;
+            }
+
+            if( act_item == apply_action::act_erase &&
+                ( act_furn == apply_action::act_dismantle || act_trap == apply_action::act_dismantle ) ) {
+                debugmsg( "In %s on %s, the mapgen is configured to dismantle preexisting furniture "
+                          "and/or traps, but will also erase preexisting items.  This is probably a "
+                          "mistake, as any dismantle outputs will not be preserved.",
+                          context, dat.terrain_type().id().str() );
+            }
+
+            if( is_boring_wall || act_furn == apply_action::act_erase ) {
                 dat.m.furn_clear( p );
-                dat.m.i_clear( tp );
+                // remove sign writing data from the submap
+                dat.m.delete_signage( tp );
+            } else if( act_furn == apply_action::act_dismantle ) {
+                int max_recurse = 10; // insurance against infinite looping
+                std::string initial_furn = dat.m.furn( p ) != f_null ? dat.m.furn( p ).id().str() : "";
+                while( dat.m.has_furn( p ) && max_recurse-- > 0 ) {
+                    const furn_t &f = dat.m.furn( p ).obj();
+                    if( f.deconstruct.can_do ) {
+                        if( f.deconstruct.furn_set.str().empty() ) {
+                            dat.m.furn_clear( p );
+                        } else {
+                            dat.m.furn_set( p, f.deconstruct.furn_set );
+                        }
+                        dat.m.spawn_items( p, item_group::items_from( f.deconstruct.drop_group, calendar::turn ) );
+                    } else {
+                        if( f.bash.furn_set.str().empty() ) {
+                            dat.m.furn_clear( p );
+                        } else {
+                            dat.m.furn_set( p, f.bash.furn_set );
+                        }
+                        dat.m.spawn_items( p, item_group::items_from( f.bash.drop_group, calendar::turn ) );
+                    }
+                }
+                if( !max_recurse ) {
+                    dat.m.furn_clear( p );
+                    debugmsg( "In %s on %s, the mapgen failed to arrive at an empty tile after "
+                              "dismantling preexisting furniture %s at %s 10 times in succession.",
+                              context, dat.terrain_type().id().str(), initial_furn, p.to_string() );
+                }
+                // remove sign writing data from the submap
+                dat.m.delete_signage( tp );
+            }
+
+            if( is_boring_wall || act_trap == apply_action::act_erase ) {
                 dat.m.remove_trap( tp );
-            } else if( !dat.has_flag( jmapgen_flags::allow_terrain_under_other_data )
-                       && chosen_id != terrain_here ) {
+            } else if( act_trap == apply_action::act_dismantle ) {
+                dat.m.tr_at( tp ).on_disarmed( dat.m, tp );
+            }
+
+            if( is_boring_wall || act_item == apply_action::act_erase ) {
+                dat.m.i_clear( tp );
+            }
+
+            if( chosen_id != terrain_here ) {
                 std::string error;
                 trap_str_id trap_here = dat.m.tr_at( tp ).id;
-                if( dat.m.furn( p ) != f_null ) {
+                if( act_furn != apply_action::act_ignore && dat.m.furn( p ) != f_null ) {
                     // NOLINTNEXTLINE(cata-translate-string-literal)
                     error = string_format( "furniture was %s", dat.m.furn( p ).id().str() );
-                } else if( !dat.m.i_at( p ).empty() ) {
+                } else if( act_trap != apply_action::act_ignore && !trap_here.is_null() &&
+                           trap_here.id() != terrain_here->trap ) {
+                    // NOLINTNEXTLINE(cata-translate-string-literal)
+                    error = string_format( "trap %s existed", trap_here.str() );
+                } else if( act_item != apply_action::act_ignore && !dat.m.i_at( p ).empty() ) {
                     // NOLINTNEXTLINE(cata-translate-string-literal)
                     error = string_format( "item %s existed",
                                            dat.m.i_at( p ).begin()->typeId().str() );
-                } else if( !trap_here.is_null() && trap_here.id() != terrain_here->trap ) {
-                    // NOLINTNEXTLINE(cata-translate-string-literal)
-                    error = string_format( "trap %s existed", trap_here.str() );
                 }
                 if( !error.empty() ) {
                     debugmsg( "In %s on %s, setting terrain to %s (from %s) at %s when %s.  "
                               "Resolve this either by removing the terrain from this mapgen, "
-                              "adding suitable removal commands to the mapgen, or "
-                              "by adding a suitable flag to the innermost mapgen: either "
-                              "ERASE_ALL_BEFORE_PLACING_TERRAIN if you wish terrain to replace "
-                              "everything previously on the tile or ALLOW_TERRAIN_UNDER_OTHER_DATA "
-                              "if you wish the other items to be preserved",
+                              "adding suitable removal commands to the mapgen, or by adding an"
+                              "appropriate clearing flag to the innermost layered mapgen.  "
+                              "Consult the \"mapgen flags\" section in MAPGEN.md for options.",
                               context, dat.terrain_type().id().str(), chosen_id.id().str(),
                               terrain_here.id().str(), p.to_string(), error );
                 }
@@ -4309,10 +4417,32 @@ static bool check_furn( const furn_id &id, const std::string &context )
 
 void mapgen_function_json_base::check_common() const
 {
-    if( flags_.test( jmapgen_flags::allow_terrain_under_other_data ) &&
-        flags_.test( jmapgen_flags::erase_all_before_placing_terrain ) ) {
-        debugmsg( "In %s, flags ERASE_ALL_BEFORE_PLACING_TERRAIN and "
-                  "ALLOW_TERRAIN_UNDER_OTHER_DATA cannot be used together", context_ );
+    if( static_cast <int>( flags_.test( jmapgen_flags::allow_terrain_under_other_data ) ) +
+        flags_.test( jmapgen_flags::dismantle_all_before_placing_terrain ) +
+        flags_.test( jmapgen_flags::erase_all_before_placing_terrain ) > 1 ) {
+        debugmsg( "In %s, the mutually exclusive flags ERASE_ALL_BEFORE_PLACING_TERRAIN, "
+                  "DISMANTLE_ALL_BEFORE_PLACING_TERRAIN and ALLOW_TERRAIN_UNDER_OTHER_DATA "
+                  "cannot be used together", context_ );
+    }
+    if( static_cast <int>( flags_.test( jmapgen_flags::allow_terrain_under_furniture ) ) +
+        flags_.test( jmapgen_flags::dismantle_furniture_before_placing_terrain ) +
+        flags_.test( jmapgen_flags::erase_furniture_before_placing_terrain ) > 1 ) {
+        debugmsg( "In %s, the mutually exclusive flags ALLOW_TERRAIN_UNDER_FURNITURE, "
+                  "DISMANTLE_FURNITURE_BEFORE_PLACING_TERRAIN and ERASE_FURNITURE_BEFORE_PLACING_TERRAIN "
+                  "cannot be used together", context_ );
+    }
+    if( static_cast <int>( flags_.test( jmapgen_flags::allow_terrain_under_trap ) ) +
+        flags_.test( jmapgen_flags::dismantle_trap_before_placing_terrain ) +
+        flags_.test( jmapgen_flags::erase_trap_before_placing_terrain ) > 1 ) {
+        debugmsg( "In %s, the mutually exclusive flags ALLOW_TERRAIN_UNDER_TRAP, "
+                  "DISMANTLE_TRAP_BEFORE_PLACING_TERRAIN and ERASE_TRAP_BEFORE_PLACING_TERRAIN "
+                  "cannot be used together", context_ );
+    }
+    if( static_cast <int>( flags_.test( jmapgen_flags::allow_terrain_under_items ) ) +
+        flags_.test( jmapgen_flags::erase_items_before_placing_terrain ) > 1 ) {
+        debugmsg( "In %s, the mutually exclusive flags "
+                  "ALLOW_TERRAIN_UNDER_ITEMS and ERASE_ITEMS_BEFORE_PLACING_TERRAIN "
+                  "cannot be used together", context_ );
     }
     for( const jmapgen_setmap &setmap : setmap_points ) {
         if( setmap.op != JMAPGEN_SETMAP_FURN &&

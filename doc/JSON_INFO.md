@@ -672,7 +672,7 @@ Each turn, the player's addictions are processed using either the given `effect_
 {
   "type": "effect_on_condition",
   "id": "EOC_MARLOSS_R_ADDICTION",
-  "condition": { "compare_int": [ { "rand": 800 }, "<", { "u_val": "addiction_intensity", "addiction": "marloss_r", "mod": 20 } ] },
+  "condition": { "compare_num": [ { "rand": 800 }, "<", { "u_val": "addiction_intensity", "addiction": "marloss_r", "mod": 20 } ] },
   "effect": [
     { "u_add_morale": "morale_craving_marloss", "bonus": -5, "max_bonus": -30 },
     { "u_message": "You daydream about luscious pink berries as big as your fist.", "type": "info" },
@@ -680,7 +680,7 @@ Each turn, the player's addictions are processed using either the given `effect_
       "run_eocs": [
         {
           "id": "EOC_MARLOSS_R_ADDICTION_MODFOCUS",
-          "condition": { "compare_int": [ { "u_val": "focus" }, ">", { "const": 40 } ] },
+          "condition": { "compare_num": [ { "u_val": "focus" }, ">", { "const": 40 } ] },
           "effect": { "arithmetic": [ { "u_val": "focus" }, "-=", { "const": 1 } ] }
         }
       ]
@@ -1715,6 +1715,8 @@ Crafting recipes are defined as a JSON object with the following fields:
   "BLIND_EASY",
   "ANOTHERFLAG"
 ],
+"result_eocs": [ {"id": "TEST", "effect": { "u_message": "You feel Test" } } // List of inline effect_on_conditions or effect_on_condition ids that attempt to activate when this recipe is successfully finished.  If a value is provided a result becomes optional, though a name and id will be needed it it is missing.
+], 
 "construction_blueprint": "camp", // an optional string containing an update_mapgen_id.  Used by faction camps to upgrade their buildings
 "on_display": false,         // this is a hidden construction item, used by faction camps to calculate construction times but not available to the player
 "qualities": [               // Generic qualities of tools needed to craft
@@ -2675,7 +2677,7 @@ Unless specified as optional, the following fields are mandatory for parts with 
 
 #### The following optional fields are specific to ENGINEs.
 ```c++
-"power": 15000                // Engine motive power in watts.
+"power": "15000 W"            // Engine motive power in watts.
 "energy_consumption": "55 W"  // Engine power consumption at maximum power in watts.  Defaults to
                               // electrical power and the E_COMBUSTION flag turns it to thermal
                               // power produced from fuel_type.  Should always be larger than "power".

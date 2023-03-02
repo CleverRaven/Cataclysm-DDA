@@ -194,6 +194,31 @@
     "color": "black"
   },
   {
+    "id": "nylon_bag",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "nylon bag" },
+    "looks_like": "bag_canvas",
+    "description": "A square nylon bag designed to carry a folded portable stove.",
+    "weight": "280 g",
+    "volume": "2 L",
+    "price": 400,
+    "price_postapoc": 100,
+    "to_hit": -1,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "22 cm",
+        "moves": 200
+      }
+    ],
+    "material": [ "nylon" ],
+    "symbol": "u",
+    "color": "black"
+  },
+  {
     "id": "bag_garbage_reinforced",
     "type": "GENERIC",
     "name": { "str": "reinforced garbage bag" },

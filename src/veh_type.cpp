@@ -959,7 +959,7 @@ void vpart_info::check()
                 debugmsg( "vehicle part %s has undefined tool quality %s", part.id.c_str(), q.first.c_str() );
             }
         }
-        if( part.has_flag( VPFLAG_ENABLED_DRAINS_EPOWER ) && part.epower == 0 ) {
+        if( part.has_flag( VPFLAG_ENABLED_DRAINS_EPOWER ) && part.epower == 0_W ) {
             debugmsg( "%s is set to drain epower, but has epower == 0", part.id.c_str() );
         }
         // Parts with non-zero epower must have a flag that affects epower usage
@@ -969,7 +969,7 @@ void vpart_info::check()
                 "REACTOR", "WIND_TURBINE", "WATER_WHEEL"
             }
         };
-        if( part.epower != 0 &&
+        if( part.epower != 0_W &&
         std::none_of( handled.begin(), handled.end(), [&part]( const std::string & flag ) {
         return part.has_flag( flag );
         } ) ) {
@@ -1032,14 +1032,15 @@ int vpart_info::format_description( std::string &msg, const nc_color &format_col
             continue;
         } else if( flagid == "ENABLED_DRAINS_EPOWER" ||
                    flagid == "ENGINE" ) { // ENGINEs get the same description
-            if( epower < 0 ) {
-                append_desc( string_format( json_flag::get( "ENABLED_DRAINS_EPOWER" ).info(), -epower ) );
+            if( epower < 0_W ) {
+                append_desc( string_format( json_flag::get( "ENABLED_DRAINS_EPOWER" ).info(),
+                                            -units::to_watt( epower ) ) );
             }
         } else if( flagid == "ALTERNATOR" ||
                    flagid == "SOLAR_PANEL" ||
                    flagid == "WATER_WHEEL" ||
                    flagid == "WIND_TURBINE" ) {
-            append_desc( string_format( json_flag::get( flagid ).info(), epower ) );
+            append_desc( string_format( json_flag::get( flagid ).info(), units::to_watt( epower ) ) );
         } else {
             append_desc( json_flag::get( flagid ).info() );
         }
