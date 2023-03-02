@@ -3525,7 +3525,7 @@ std::pair<int, int> Character::climate_control_strength()
                                  // Also check for a working alternator. Muscle or animal could be powering it.
                                  (
                                      vp->is_inside() &&
-                                     vp->vehicle().total_alternator_epower_w() > 0
+                                     vp->vehicle().total_alternator_epower() > 0_W
                                  )
                              );
         }
@@ -5580,6 +5580,12 @@ bool Character::pour_into( item_location &container, item &liquid, bool ignore_s
         return false;
     }
 
+    if( amount == 0 ) {
+        add_msg_if_player( _( "%1$s can't to expand to add any more %2$s." ), container->tname(),
+                           liquid.tname() );
+        return false;
+    }
+
     // get_remaining_capacity_for_liquid doesn't consider the current amount of liquid
     if( liquid.count_by_charges() ) {
         amount = std::min( amount, liquid.charges );
@@ -6487,6 +6493,10 @@ bool Character::invoke_item( item *used, const std::string &method )
 bool Character::invoke_item( item *used, const std::string &method, const tripoint &pt,
                              int pre_obtain_moves )
 {
+    if( method.empty() ) {
+        return invoke_item( used, pt, pre_obtain_moves );
+    }
+
     if( used->is_broken() ) {
         add_msg_if_player( m_bad, _( "Your %s was broken and won't turn on." ), used->tname() );
         return false;
@@ -11251,7 +11261,7 @@ void Character::leak_items()
 
 void Character::process_items()
 {
-    if( weapon.needs_processing() && weapon.process( get_map(), this, pos() ) ) {
+    if( weapon.process( get_map(), this, pos() ) ) {
         weapon.spill_contents( pos() );
         remove_weapon();
     }
@@ -11261,11 +11271,9 @@ void Character::process_items()
         if( !it ) {
             continue;
         }
-        if( it->needs_processing() ) {
-            if( it->process( get_map(), this, pos() ) ) {
-                it->spill_contents( pos() );
-                removed_items.push_back( it );
-            }
+        if( it->process( get_map(), this, pos() ) ) {
+            it->spill_contents( pos() );
+            removed_items.push_back( it );
         }
     }
     for( item_location removed : removed_items ) {
@@ -11453,7 +11461,7 @@ void Character::use( int inventory_position )
     use( loc );
 }
 
-void Character::use( item_location loc, int pre_obtain_moves )
+void Character::use( item_location loc, int pre_obtain_moves, std::string const &method )
 {
     if( has_effect( effect_incorporeal ) ) {
         add_msg_if_player( m_bad, _( "You can't use anything while incorporeal." ) );
@@ -11479,10 +11487,10 @@ void Character::use( item_location loc, int pre_obtain_moves )
             moves = pre_obtain_moves;
             return;
         }
-        invoke_item( &used, loc.position(), pre_obtain_moves );
+        invoke_item( &used, method, loc.position(), pre_obtain_moves );
 
     } else if( used.type->can_use( "PETFOOD" ) ) { // NOLINT(bugprone-branch-clone)
-        invoke_item( &used, loc.position(), pre_obtain_moves );
+        invoke_item( &used, method, loc.position(), pre_obtain_moves );
 
     } else if( !used.is_craft() && ( used.is_medication() || ( !used.type->has_use() &&
                                      used.is_food() ) ) ) {
@@ -11511,7 +11519,7 @@ void Character::use( item_location loc, int pre_obtain_moves )
             u->read( loc );
         }
     } else if( used.type->has_use() ) {
-        invoke_item( &used, loc.position(), pre_obtain_moves );
+        invoke_item( &used, method, loc.position(), pre_obtain_moves );
     } else if( used.has_flag( flag_SPLINT ) ) {
         ret_val<void> need_splint = can_wear( *loc );
         if( need_splint.success() ) {
@@ -11521,7 +11529,7 @@ void Character::use( item_location loc, int pre_obtain_moves )
             add_msg( m_info, need_splint.str() );
         }
     } else if( used.is_relic() ) {
-        invoke_item( &used, loc.position(), pre_obtain_moves );
+        invoke_item( &used, method, loc.position(), pre_obtain_moves );
     } else {
         if( !is_armed() ) {
             add_msg( m_info, _( "You are not wielding anything you could use." ) );

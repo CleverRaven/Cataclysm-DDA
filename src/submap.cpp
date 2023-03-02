@@ -360,9 +360,7 @@ void submap::revert_submap( submap &sr )
                 if( itm.is_emissive() ) {
                     this->update_lum_add( pt, itm );
                 }
-                if( itm.needs_processing() ) {
-                    active_items.add( itm, pt );
-                }
+                active_items.add( itm, pt );
             }
         }
     }

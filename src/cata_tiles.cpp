@@ -661,8 +661,8 @@ void tileset_cache::loader::load( const std::string &tileset_id, const bool prec
         ts.tile_width = curr_info.get_int( "width" );
         ts.tile_isometric = curr_info.get_bool( "iso", false );
         ts.tile_pixelscale = curr_info.get_float( "pixelscale", 1.0f );
-        ts.retract_dist_min = curr_info.get_float( "retract_dist_min", -1.0f );
-        ts.retract_dist_max = curr_info.get_float( "retract_dist_max", 0.0f );
+        ts.prevent_occlusion_min_dist = curr_info.get_float( "retract_dist_min", -1.0f );
+        ts.prevent_occlusion_max_dist = curr_info.get_float( "retract_dist_max", 0.0f );
     }
 
     if( precheck ) {
@@ -1800,8 +1800,8 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
                                       int subtile, int rota, lit_level ll,
                                       bool apply_night_vision_goggles, int &height_3d, int intensity )
 {
-    return cata_tiles::draw_from_id_string( id, category, subcategory, pos, subtile, rota,
-                                            ll, apply_night_vision_goggles, height_3d, intensity, "", point() );
+    return cata_tiles::draw_from_id_string_internal( id, category, subcategory, pos, subtile, rota,
+            ll, -1, apply_night_vision_goggles, height_3d, intensity, "", point() );
 }
 
 bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY category,
@@ -1809,8 +1809,8 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
                                       int subtile, int rota, lit_level ll,
                                       bool apply_night_vision_goggles, int &height_3d )
 {
-    return cata_tiles::draw_from_id_string( id, category, subcategory, pos, subtile, rota,
-                                            ll, apply_night_vision_goggles, height_3d, 0, "", point() );
+    return cata_tiles::draw_from_id_string_internal( id, category, subcategory, pos, subtile, rota,
+            ll, -1, apply_night_vision_goggles, height_3d, 0, "", point() );
 }
 
 bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY category,
@@ -1819,10 +1819,34 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
                                       bool apply_night_vision_goggles, int &height_3d,
                                       int intensity_level, const std::string &variant )
 {
-    return cata_tiles::draw_from_id_string( id, category, subcategory, pos, subtile, rota,
-                                            ll, apply_night_vision_goggles, height_3d, intensity_level,
-                                            variant, point() );
+    return cata_tiles::draw_from_id_string_internal( id, category, subcategory, pos, subtile, rota,
+            ll, -1, apply_night_vision_goggles, height_3d, intensity_level,
+            variant, point() );
 }
+
+
+bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY category,
+                                      const std::string &subcategory, const tripoint &pos,
+                                      int subtile, int rota, lit_level ll,
+                                      bool apply_night_vision_goggles, int &height_3d,
+                                      int intensity_level, const std::string &variant,
+                                      const point &offset )
+{
+    return cata_tiles::draw_from_id_string_internal( id, category, subcategory, pos, subtile, rota,
+            ll, -1, apply_night_vision_goggles, height_3d, intensity_level,
+            variant, offset );
+}
+bool cata_tiles::draw_from_id_string_internal( const std::string &id, const tripoint &pos,
+        int subtile,
+        int rota,
+        lit_level ll, int retract, bool apply_night_vision_goggles )
+{
+    int nullint = 0;
+    return cata_tiles::draw_from_id_string_internal( id, TILE_CATEGORY::NONE, empty_string, pos,
+            subtile,
+            rota, ll, retract, apply_night_vision_goggles, nullint, 0, "", point() );
+}
+
 
 cata::optional<tile_lookup_res>
 cata_tiles::find_tile_with_season( const std::string &id ) const
@@ -2027,12 +2051,12 @@ bool cata_tiles::find_overlay_looks_like( const bool male, const std::string &ov
     return exists;
 }
 
-bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY category,
-                                      const std::string &subcategory, const tripoint &pos,
-                                      int subtile, int rota, lit_level ll,
-                                      bool apply_night_vision_goggles, int &height_3d,
-                                      int intensity_level, const std::string &variant,
-                                      const point &offset )
+bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEGORY category,
+        const std::string &subcategory, const tripoint &pos,
+        int subtile, int rota, lit_level ll, int retract,
+        bool apply_night_vision_goggles, int &height_3d,
+        int intensity_level, const std::string &variant,
+        const point &offset )
 {
     bool nv_color_active = apply_night_vision_goggles && get_option<bool>( "NV_GREEN_TOGGLE" );
     // If the ID string does not produce a drawable tile
@@ -2049,6 +2073,36 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
 
     const tile_type *tt = nullptr;
     cata::optional<tile_lookup_res> res;
+
+
+    // translate from player-relative to screen relative tile position
+    const point screen_pos = player_to_screen( pos.xy() );
+
+    if( retract < 0 && ( prevent_occlusion_transp || prevent_occlusion_retract ) ) {
+        if( prevent_occlusion == 0 ) {
+            retract = 0;
+        } else if( prevent_occlusion == 1 ) {
+            retract = 100;
+        } else {
+            const float distance = o.distance( pos.xy() );
+            const float d_min = prevent_occlusion_min_dist > 0.0 ? prevent_occlusion_min_dist :
+                                tileset_ptr->get_prevent_occlusion_min_dist();
+            const float d_max = prevent_occlusion_max_dist > 0.0 ? prevent_occlusion_max_dist :
+                                tileset_ptr->get_prevent_occlusion_max_dist();
+
+            const float d_range = d_max - d_min;
+            const float d_slope = d_range <= 0.0f ? 100.0 : 1.0 / d_range;
+
+            retract = static_cast<int>( 100.0 * ( 1.0 - clamp( ( distance - d_min ) * d_slope, 0.0f, 1.0f ) ) );
+        }
+
+        if( prevent_occlusion_transp && retract > 0 ) {
+            res = find_tile_looks_like( id + "_transparent", category, variant );
+            if( res ) {
+                tt = &res -> tile();
+            }
+        }
+    }
 
     // check if there is an available intensity tile and if there is use that instead of the basic tile
     // this is only relevant for fields
@@ -2224,14 +2278,14 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
                 rota = 0;
             }
             if( tileset_ptr->find_tile_type( generic_id ) ) {
-                return draw_from_id_string( generic_id, pos, subtile, rota,
-                                            ll, nv_color_active );
+                return draw_from_id_string_internal( generic_id, pos, subtile, rota,
+                                                     ll, retract, nv_color_active );
             }
             // Try again without color this time (using default color).
             generic_id = get_ascii_tile_id( sym, -1, -1 );
             if( tileset_ptr->find_tile_type( generic_id ) ) {
-                return draw_from_id_string( generic_id, pos, subtile, rota,
-                                            ll, nv_color_active );
+                return draw_from_id_string_internal( generic_id, pos, subtile, rota,
+                                                     ll, retract, nv_color_active );
             }
         }
     }
@@ -2270,31 +2324,10 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
         const auto end = std::end( display_subtiles );
         if( std::find( begin( display_subtiles ), end, multitile_keys[subtile] ) != end ) {
             // append subtile name to tile and re-find display_tile
-            return draw_from_id_string(
+            return draw_from_id_string_internal(
                        found_id + "_" + multitile_keys[subtile], category, subcategory, pos, -1, rota, ll,
-                       nv_color_active, height_3d );
+                       retract, nv_color_active, height_3d, 0, "", point() );
         }
-    }
-
-    // translate from player-relative to screen relative tile position
-    const point screen_pos = player_to_screen( pos.xy() );
-
-    int retract;
-    if( tile_retracted == 0 ) {
-        retract = 0;
-    } else if( tile_retracted == 1 ) {
-        retract = 100;
-    } else {
-        const float distance = o.distance( pos.xy() );
-        const float d_min = tile_retract_dist_min > 0.0 ? tile_retract_dist_min :
-                            tileset_ptr->get_retract_dist_min();
-        const float d_max = tile_retract_dist_max > 0.0 ? tile_retract_dist_max :
-                            tileset_ptr->get_retract_dist_max();
-
-        const float d_range = d_max - d_min;
-        const float d_slope = d_range <= 0.0f ? 100.0 : 1.0 / d_range;
-
-        retract = static_cast<int>( 100.0 * ( 1.0 - clamp( ( distance - d_min ) * d_slope, 0.0f, 1.0f ) ) );
     }
 
     auto simple_point_hash = []( const auto & p ) {
@@ -2448,6 +2481,10 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
             // for animations the "weight" is the number of frames to show the tile for:
             loc_rand = animation_frame % frames_in_loop;
         }
+    }
+
+    if( ! prevent_occlusion_retract ) {
+        retract = 0;
     }
 
     //draw it!

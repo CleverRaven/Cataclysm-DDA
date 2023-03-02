@@ -3360,7 +3360,7 @@
       { "point": [ -4, 2, 0 ], "overmap": "forest" },
       { "point": [ -3, 2, 0 ], "overmap": "forest_thick" },
       { "point": [ -2, 2, 0 ], "overmap": "forest_thick" },
-      { "point": [ -1, 2, 0 ], "overmap": "dirt_road_forest_north" },
+      { "point": [ -1, 2, 0 ], "overmap": "godco_enter_north" },
       { "point": [ 0, 2, 0 ], "overmap": "forest_thick" },
       { "point": [ 1, 2, 0 ], "overmap": "forest_thick" },
       { "point": [ 2, 2, 0 ], "overmap": "forest" },
