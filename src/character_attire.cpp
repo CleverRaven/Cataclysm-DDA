@@ -585,22 +585,6 @@ std::list<item> Character::get_visible_worn_items() const
     return worn.get_visible_worn_items( *this );
 }
 
-bool outfit::is_wearing_helmet() const
-{
-    for( const item &i : worn ) {
-        if( i.covers( body_part_head ) && !i.has_flag( flag_SKINTIGHT ) && !i.has_flag( flag_PERSONAL ) &&
-            !i.has_flag( flag_AURA ) && !i.has_flag( flag_SEMITANGIBLE ) && !i.has_flag( flag_OVERSIZE ) ) {
-            return true;
-        }
-    }
-    return false;
-}
-
-bool Character::is_wearing_helmet() const
-{
-    return worn.is_wearing_helmet();
-}
-
 double Character::armwear_factor() const
 {
     double ret = 0;
