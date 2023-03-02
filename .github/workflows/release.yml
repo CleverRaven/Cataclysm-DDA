@@ -328,7 +328,7 @@ jobs:
           if [ ${{ matrix.android }} = arm64 ]
           then
                ./gradlew -Pj=$((`nproc`+0)) -Pabi_arm_32=false assembleRelease
-               mv ./app/build/outputs/apk/stable/rel：ease/*.apk ../cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.apk
+               mv ./app/build/outputs/apk/stable/release/*.apk ../cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.apk
           elif [ ${{ matrix.android }} = arm32 ]
           then
                ./gradlew -Pj=$((`nproc`+0)) -Pabi_arm_64=false assembleRelease
