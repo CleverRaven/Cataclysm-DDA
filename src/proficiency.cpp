@@ -113,6 +113,8 @@ void proficiency::load( const JsonObject &jo, const std::string & )
 
     // TODO: Remove at some point
     if( jo.has_float( "default_fail_multiplier" ) ) {
+        debugmsg( "Proficiency %s uses 'default_fail_multiplier' instead of 'default_skill_penalty'!",
+                  id.c_str() );
         _default_skill_penalty = jo.get_float( "default_fail_multiplier" ) - 1.f;
     }
 }

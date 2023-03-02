@@ -1274,7 +1274,10 @@ void recipe_proficiency::load( const JsonObject &jo )
     jo.read( "learning_time_multiplier", learning_time_mult );
     jo.read( "max_experience", max_experience );
 
+    // TODO: Remove at some point
     if( jo.has_number( "fail_multiplier" ) ) {
+        debugmsg( "Proficiency %s in a recipe uses 'fail_multiplier' instead of 'skill_penalty'",
+                  id.c_str() );
         jo.read( "fail_multiplier", skill_penalty );
         skill_penalty -= 1;
     }
