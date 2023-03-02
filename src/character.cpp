@@ -5545,7 +5545,12 @@ bool Character::sees_with_specials( const Creature &critter ) const
 {
     const double sight_range_electric = calculate_by_enchantment( 0.0,
                                         enchant_vals::mod::SIGHT_RANGE_ELECTRIC );
+    const double motion_vision_range = calculate_by_enchantment( 0.0,
+                                       enchant_vals::mod::MOTION_VISION_RANGE );
     if( critter.is_electrical() && rl_dist_exact( pos(), critter.pos() ) <= sight_range_electric ) {
+        return true;
+    }
+    if( rl_dist_exact( pos(), critter.pos() ) <= motion_vision_range ) {
         return true;
     }
 
