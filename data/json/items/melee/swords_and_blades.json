@@ -238,7 +238,7 @@
     "color": "dark_gray",
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 14 ] ],
     "techniques": [ "RAPID" ],
-    "flags": [ "STAB" ],
+    "flags": [ "STAB", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "KNIVES" ],
     "variant_type": "generic",
     "variants": [
@@ -273,7 +273,7 @@
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 12 ] ],
-    "flags": [ "STAB", "BELT_CLIP" ],
+    "flags": [ "STAB", "BELT_CLIP", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "KNIVES" ]
   },
   {
@@ -303,7 +303,7 @@
     "techniques": [ "RAPID" ],
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 19 ] ],
     "thrown_damage": [ { "damage_type": "stab", "amount": 14 } ],
-    "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_KNIFE", "NPC_THROWN" ],
+    "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_KNIFE", "NPC_THROWN", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "KNIVES" ]
   },
   {
@@ -339,7 +339,7 @@
     "symbol": "/",
     "color": "dark_gray",
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 30 ] ],
-    "flags": [ "SHEATH_KNIFE" ],
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "KNIVES" ]
   },
   {
@@ -423,7 +423,7 @@
     "symbol": ";",
     "color": "red",
     "qualities": [ [ "CUT", 2 ], [ "SAW_W", 1 ], [ "SAW_M", 1 ], [ "SCREW", 1 ], [ "BUTCHER", 8 ] ],
-    "flags": [ "STAB" ]
+    "flags": [ "STAB", "ALLOWS_BODY_BLOCK" ]
   },
   {
     "id": "knife_trench",
@@ -464,7 +464,7 @@
     "symbol": ";",
     "color": "dark_gray",
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 11 ] ],
-    "flags": [ "STAB", "SHEATH_KNIFE" ],
+    "flags": [ "STAB", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "KNIVES" ]
   },
   {
@@ -485,7 +485,7 @@
     "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
     "material": [ "bone" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 12 ] ],
-    "flags": [ "STAB", "SHEATH_KNIFE", "FRAGILE_MELEE" ],
+    "flags": [ "STAB", "SHEATH_KNIFE", "FRAGILE_MELEE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "KNIVES" ]
   },
   {
@@ -504,7 +504,7 @@
     "symbol": ";",
     "color": "dark_gray",
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 15 ] ],
-    "flags": [ "STAB", "SHEATH_KNIFE" ],
+    "flags": [ "STAB", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "KNIVES" ]
   },
   {
@@ -1647,7 +1647,7 @@
     "color": "dark_gray",
     "techniques": [ "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 18 ] ],
-    "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_KNIFE" ],
+    "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "KNIVES" ],
     "category": "weapons"
   },
@@ -1897,7 +1897,7 @@
     "color": "dark_gray",
     "techniques": [ "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
-    "flags": [ "STAB", "SHEATH_KNIFE" ],
+    "flags": [ "STAB", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "KNIVES" ]
   },
   {
@@ -1919,7 +1919,7 @@
     "color": "dark_gray",
     "techniques": [ "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
-    "flags": [ "STAB", "SHEATH_KNIFE" ],
+    "flags": [ "STAB", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "KNIVES" ]
   },
   {
@@ -3343,7 +3343,7 @@
     "bashing": 2,
     "cutting": 14,
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "good" },
-    "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_KNIFE" ],
+    "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "KNIVES" ],
     "price": 10000,
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 14 ] ]
@@ -3379,7 +3379,7 @@
     "bashing": 2,
     "cutting": 15,
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "any", "balance": "neutral" },
-    "flags": [ "DURABLE_MELEE" ],
+    "flags": [ "DURABLE_MELEE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "CLAWS" ],
     "price": 20000,
     "price_postapoc": 250,
