@@ -1630,5 +1630,17 @@
     "material": [ "asbestos" ],
     "symbol": "#",
     "color": "light_gray"
+  },
+  {
+    "id": "makeshift_welding_blanket",
+    "type": "TOOL",
+    "name": { "str": "makeshift welding blanket" },
+    "description": "A makeshift mostly-non-flammable mat used to protect surfaces from welding splatter or to insulate a weld when repairing tempered metal.  This one is stitched together from oven insulation batts.",
+    "weight": "3 kg",
+    "volume": "11500 ml",
+    "price": 3000,
+    "material": [ "epoxy", "kevlar" ],
+    "symbol": "#",
+    "color": "light_gray"
   }
 ]
