@@ -520,7 +520,12 @@
     "id": "felinesuit_set",
     "//": "feline fursuit",
     "subtype": "collection",
-    "entries": [ { "item": "felinesuit", "prob": 100 }, { "item": "felinesuit_head", "prob": 100 }, { "item": "felinesuit_gloves", "prob": 100 }, { "item": "felinesuit_boots", "prob": 100 } ]
+    "entries": [
+      { "item": "felinesuit", "prob": 100 },
+      { "item": "felinesuit_head", "prob": 100 },
+      { "item": "felinesuit_gloves", "prob": 100 },
+      { "item": "felinesuit_boots", "prob": 100 }
+    ]
   },
   {
     "type": "item_group",
