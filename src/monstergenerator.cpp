@@ -649,7 +649,6 @@ void MonsterGenerator::load_monster( const JsonObject &jo, const std::string &sr
     mon_templates->load( jo, src );
 }
 
-
 mon_effect_data::mon_effect_data() :
     chance( 100.0f ),
     permanent( false ),
@@ -683,10 +682,11 @@ void mon_effect_data::load( const JsonObject &jo )
     }
 
     if( chance > 100.f || chance < 0.f ) {
+        float chance_wrong = chance;
+        chance = clamp<float>( chance, 0.f, 100.f );
         jo.throw_error_at( "chance",
                            string_format( "\"chance\" is defined as %f, "
-                                          "but must be a decimal number between 0.0 and 100.0", chance ) );
-        chance = clamp<float>( chance, 0.f, 100.f );
+                                          "but must be a decimal number between 0.0 and 100.0", chance_wrong ) );
     }
 }
 

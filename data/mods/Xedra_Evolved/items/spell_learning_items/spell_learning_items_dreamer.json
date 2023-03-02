@@ -12,6 +12,7 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "o",
     "color": "white",
+    "scannable": false,
     "use_action": { "type": "learn_spell", "spells": [ "dream_armor" ] }
   },
   {
@@ -28,6 +29,7 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "t",
     "color": "white",
+    "scannable": false,
     "use_action": { "type": "learn_spell", "spells": [ "dream_dagger" ] }
   },
   {
@@ -44,6 +46,7 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "C",
     "color": "red_white",
+    "scannable": false,
     "use_action": { "type": "learn_spell", "spells": [ "dream_blade" ] }
   },
   {
@@ -62,6 +65,7 @@
     "volume": "750 ml",
     "bashing": 2,
     "to_hit": -3,
-    "use_action": { "type": "learn_spell", "spells": [ "spell_speed_wonder" ] }
+    "scannable": false,
+    "use_action": { "type": "learn_spell", "spells": [ "spell_summon_twin" ] }
   }
 ]

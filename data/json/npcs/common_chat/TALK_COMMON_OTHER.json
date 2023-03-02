@@ -455,6 +455,7 @@
       {
         "text": "Okay, okay, this is all a misunderstanding.  Sorry, I'll drop it now.",
         "topic": "TALK_DONE",
+        "opinion": { "anger": 5 },
         "effect": "drop_stolen_item",
         "condition": "u_has_stolen_item"
       },

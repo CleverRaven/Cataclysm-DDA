@@ -112,7 +112,6 @@ static const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );
 
 static const trap_str_id tr_firewood_source( "tr_firewood_source" );
 static const trap_str_id tr_practice_target( "tr_practice_target" );
-static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 
 static const vpart_id vpart_frame_vertical_2( "frame_vertical_2" );
 
@@ -855,7 +854,7 @@ construction_id construction_menu( const bool blueprint )
                         add_msg( m_info, _( "It is too dark to construct right now." ) );
                     } else {
                         ui.reset();
-                        place_construction( constructs[select] );
+                        place_construction( { constructs[select] } );
                         uistate.last_construction = constructs[select];
                     }
                     exit = true;
@@ -985,22 +984,26 @@ bool can_construct( const construction &con )
     return false;
 }
 
-void place_construction( const construction_group_str_id &group )
+void place_construction( std::vector<construction_group_str_id> const &groups )
 {
     avatar &player_character = get_avatar();
     const inventory &total_inv = player_character.crafting_inventory();
 
-    std::vector<construction *> cons = constructions_by_group( group );
     std::map<tripoint_bub_ms, const construction *> valid;
+    std::vector<construction *> cons;
     map &here = get_map();
-    // TODO: fix point types
-    for( const tripoint_bub_ms &p : here.points_in_radius( player_character.pos_bub(), 1 ) ) {
-        for( const auto *con : cons ) {
-            if( p != player_character.pos_bub() && can_construct( *con, p ) &&
-                player_can_build( player_character, total_inv, *con, true ) ) {
-                valid[ p ] = con;
+    for( construction_group_str_id const &group : groups ) {
+        std::vector<construction *> const temp = constructions_by_group( group );
+        // TODO: fix point types
+        for( const tripoint_bub_ms &p : here.points_in_radius( player_character.pos_bub(), 1 ) ) {
+            for( const auto *con : temp ) {
+                if( p != player_character.pos_bub() && can_construct( *con, p ) &&
+                    player_can_build( player_character, total_inv, *con, true ) ) {
+                    valid[ p ] = con;
+                }
             }
         }
+        std::move( temp.begin(), temp.end(), std::back_inserter( cons ) );
     }
 
     shared_ptr_fast<game::draw_callback_t> draw_valid = make_shared_fast<game::draw_callback_t>( [&]() {
@@ -1038,13 +1041,6 @@ void place_construction( const construction_group_str_id &group )
     // create the partial construction struct
     partial_con pc;
     pc.id = con.id;
-    // Set the trap that has the examine function
-    // Special handling for constructions that take place on existing traps.
-    // Basically just don't add the unfinished construction trap.
-    // TODO: handle this cleaner, instead of adding a special case to pit iexamine.
-    if( here.tr_at( pnt ).is_null() ) {
-        here.trap_set( pnt, tr_unfinished_construction );
-    }
     if( player_character.has_trait( trait_DEBUG_HS ) ) {
         // Gift components
         for( const auto &it : con.requirements->get_components() ) {
@@ -1077,9 +1073,6 @@ void complete_construction( Character *you )
     partial_con *pc = here.partial_con_at( terp );
     if( !pc ) {
         debugmsg( "No partial construction found at activity placement in complete_construction()" );
-        if( here.tr_at( terp ) == tr_unfinished_construction ) {
-            here.remove_trap( terp );
-        }
         if( you->is_npc() ) {
             npc *guy = dynamic_cast<npc *>( you );
             guy->current_activity_id = activity_id::NULL_ID();
@@ -1112,9 +1105,6 @@ void complete_construction( Character *you )
 
             award_xp( *elem );
         }
-    }
-    if( here.tr_at( terp ) == tr_unfinished_construction ) {
-        here.remove_trap( terp );
     }
 
     // partial_con contains components for vehicle and appliance construction
@@ -1523,7 +1513,7 @@ void construct::done_wiring( const tripoint_bub_ms &p, Character &/*who*/ )
             continue;
         }
         const vehicle &veh_target = vp->vehicle();
-        if( veh_target.has_tag( flag_APPLIANCE ) || veh_target.has_tag( flag_WIRING ) ) {
+        if( veh_target.is_appliance() || veh_target.has_tag( flag_WIRING ) ) {
             if( connected_vehicles.find( &veh_target ) == connected_vehicles.end() ) {
                 // TODO: fix point types
                 veh->connect( p.raw(), trip.raw() );
@@ -2077,6 +2067,7 @@ void load_construction( const JsonObject &jo )
 
     con.on_display = jo.get_bool( "on_display", true );
     con.dark_craftable = jo.get_bool( "dark_craftable", false );
+    con.strict = jo.get_bool( "strict", false );
 
     constructions.push_back( con );
     construction_id_map.emplace( con.str_id, con.id );

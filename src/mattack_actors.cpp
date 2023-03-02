@@ -95,7 +95,6 @@ bool leap_actor::call( monster &z ) const
         return false;
     }
 
-
     for( const efftype_id &effect : forbidden_effects_any ) {
         if( z.has_effect( effect ) ) {
             add_msg_debug( debugmode::DF_MATTACK, "Forbidden(any) effect %s found", effect.c_str() );
@@ -561,7 +560,6 @@ bool melee_actor::call( monster &z ) const
     if( z.has_flag( MF_HIT_AND_RUN ) ) {
         z.add_effect( effect_run, 4_turns );
     }
-
 
     if( uncanny_dodgeable && target->uncanny_dodge() ) {
         game_message_type msg_type = target->is_avatar() ? m_warning : m_info;
