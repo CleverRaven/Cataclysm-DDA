@@ -602,7 +602,7 @@
     "longest_side": "20 cm",
     "cutting": 6,
     "to_hit": { "grip": "none", "length": "hand", "surface": "line", "balance": "good" },
-    "flags": [ "SHEATH_KNIFE", "CONDUCTIVE", "FRAGILE_MELEE" ],
+    "flags": [ "SHEATH_KNIFE", "CONDUCTIVE", "FRAGILE_MELEE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "SHIVS" ],
     "qualities": [ [ "BUTCHER", -18 ] ]
   },
@@ -1284,7 +1284,7 @@
     "bashing": 1,
     "cutting": 3,
     "to_hit": { "grip": "none", "length": "hand", "surface": "point", "balance": "good" },
-    "flags": [ "STAB", "SHEATH_KNIFE", "CONDUCTIVE" ],
+    "flags": [ "STAB", "SHEATH_KNIFE", "CONDUCTIVE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "SHIVS" ]
   },
   {
@@ -1460,6 +1460,34 @@
     "bashing": 14,
     "to_hit": { "grip": "weapon", "length": "short", "surface": "any", "balance": "good" },
     "price": 19500
+  },
+  {
+    "type": "GENERIC",
+    "id": "ax_sheets_welded",
+    "name": { "str": "welded battle axe" },
+    "description": "A savage-looking battle axe made out of layered sheet metal welded into two pipes held together with fittings, vaguely forming a upside-down L shape.  This should be structurally stable.  Hopefully.",
+    "looks_like": "ax",
+    "weight": "2212 g",
+    "volume": "2500 ml",
+    "longest_side": "105 cm",
+    "price_postapoc": 500,
+    "bashing": 18,
+    "cutting": 24,
+    "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "uneven" },
+    "material": [ "lc_steel" ],
+    "symbol": "/",
+    "color": "light_gray",
+    "qualities": [ [ "AXE", 1 ], [ "BUTCHER", -39 ] ],
+    "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
+    "flags": [ "SHEATH_AXE", "ALWAYS_TWOHAND" ],
+    "weapon_category": [ "HOOKING_WEAPONRY", "GREAT_AXES" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "ax_sheets_bolted",
+    "copy-from": "ax_sheets_welded",
+    "name": { "str": "bolted battle axe" },
+    "description": "A savage-looking battle axe made out of layered sheet metal bolted to two pipes held together with fittings, vaguely forming a upside-down L shape.  Swing it with all your might."
   },
   {
     "type": "GENERIC",

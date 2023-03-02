@@ -169,7 +169,7 @@
     "entries": [
       {
         "distribution": [
-          { "item": "renfield_glock", "prob": 100, "damage": [ 1, 3 ] },
+          { "item": "glock17_17", "prob": 100, "damage": [ 1, 3 ] },
           { "group": "renfield_glock_mags", "prob": 40 },
           { "item": "scrap_dreamdross", "prob": 75, "count": [ 1, 4 ] }
         ]
@@ -184,7 +184,7 @@
     "entries": [
       {
         "distribution": [
-          { "item": "renfield_remington", "prob": 100, "damage": [ 1, 3 ] },
+          { "item": "mossberg_500", "prob": 100, "damage": [ 1, 3 ] },
           { "item": "shot_00", "prob": 40, "count": [ 1, 6 ] },
           { "item": "scrap_dreamdross", "prob": 75, "count": [ 1, 4 ] }
         ]

@@ -174,7 +174,20 @@ static void InitSDL()
     int ret;
 
 #if defined(SDL_HINT_WINDOWS_DISABLE_THREAD_NAMING)
+    // Requires SDL 2.0.5. Disables thread naming so that gdb works correctly
+    // with the game.
     SDL_SetHint( SDL_HINT_WINDOWS_DISABLE_THREAD_NAMING, "1" );
+#endif
+
+#if defined(_WIN32) && defined(SDL_HINT_IME_SHOW_UI)
+    // Requires SDL 2.0.20. Shows the native IME UI instead of using SDL's
+    // broken implementation on Windows which does not show.
+    SDL_SetHint( SDL_HINT_IME_SHOW_UI, "1" );
+#endif
+
+#if defined(SDL_HINT_IME_SUPPORT_EXTENDED_TEXT)
+    // Requires SDL 2.0.22. Support long IME composition text.
+    SDL_SetHint( SDL_HINT_IME_SUPPORT_EXTENDED_TEXT, "1" );
 #endif
 
 #if defined(__linux__)
@@ -2519,9 +2532,8 @@ bool is_string_input( input_context &ctx )
 {
     std::string &category = ctx.get_category();
     return category == "STRING_INPUT"
-           || category == "HELP_KEYBINDINGS"
-           || category == "NEW_CHAR_DESCRIPTION"
-           || category == "WORLDGEN_CONFIRM_DIALOG";
+           || category == "STRING_EDITOR"
+           || category == "HELP_KEYBINDINGS";
 }
 
 int get_key_event_from_string( const std::string &str )
@@ -3204,11 +3216,35 @@ static void CheckMessages()
                     last_input = input_event();
                     last_input.type = input_event_t::keyboard_char;
                 }
-                last_input.edit = ev.edit.text;
+                // Convert to string explicitly to avoid accidentally using
+                // the array out of scope.
+                last_input.edit = std::string( ev.edit.text );
                 last_input.edit_refresh = true;
                 text_refresh = true;
+                break;
             }
-            break;
+#if defined(SDL_HINT_IME_SUPPORT_EXTENDED_TEXT)
+            case SDL_TEXTEDITING_EXT: {
+                if( !ev.editExt.text ) {
+                    break;
+                }
+                if( strlen( ev.editExt.text ) > 0 ) {
+                    const unsigned lc = UTF8_getch( ev.editExt.text );
+                    last_input = input_event( lc, input_event_t::keyboard_char );
+                } else {
+                    // no key pressed in this event
+                    last_input = input_event();
+                    last_input.type = input_event_t::keyboard_char;
+                }
+                // Convert to string explicitly to avoid accidentally using
+                // a pointer that will be freed
+                last_input.edit = std::string( ev.editExt.text );
+                last_input.edit_refresh = true;
+                text_refresh = true;
+                SDL_free( ev.editExt.text );
+                break;
+            }
+#endif
             case SDL_CONTROLLERBUTTONDOWN:
             case SDL_CONTROLLERBUTTONUP:
                 gamepad::handle_button_event( ev );
@@ -4018,6 +4054,12 @@ void to_overmap_font_dimension( int &w, int &h )
 bool is_draw_tiles_mode()
 {
     return use_tiles;
+}
+
+bool catacurses::supports_256_colors()
+{
+    // trust SDL to do the right thing instead
+    return false;
 }
 
 /** Saves a screenshot of the current viewport, as a PNG file, to the given location.

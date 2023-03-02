@@ -193,6 +193,11 @@ void mission::on_creature_death( Creature &poor_dead_dude )
             if( type->goal == MGOAL_KILL_MONSTER ) {
                 found_mission->step_complete( 1 );
             }
+            if( type->goal == MGOAL_KILL_MONSTERS ) {
+                if( found_mission->monster_kill_goal-- == 0 ) {
+                    found_mission->step_complete( 1 );
+                }
+            }
         }
         return;
     }
@@ -252,7 +257,7 @@ bool mission::on_creature_fusion( Creature &fuser, Creature &fused )
             continue;
         }
         const mission_type *const type = found_mission->type;
-        if( type->goal == MGOAL_KILL_MONSTER ) {
+        if( type->goal == MGOAL_KILL_MONSTER || type->goal == MGOAL_KILL_MONSTERS ) {
             // the fuser has to be killed now!
             mon_fuser->mission_ids.emplace( mission_id );
             mon_fused->mission_ids.erase( mission_id );
@@ -347,6 +352,7 @@ void mission::step_complete( const int _step )
         case MGOAL_FIND_MONSTER:
         case MGOAL_ASSASSINATE:
         case MGOAL_KILL_MONSTER:
+        case MGOAL_KILL_MONSTERS:
         case MGOAL_COMPUTER_TOGGLE:
         case MGOAL_TALK_TO_NPC:
             // Go back and report.
@@ -582,6 +588,7 @@ bool mission::is_complete( const character_id &_npc_id ) const
         case MGOAL_TALK_TO_NPC:
         case MGOAL_ASSASSINATE:
         case MGOAL_KILL_MONSTER:
+        case MGOAL_KILL_MONSTERS:
         case MGOAL_KILL_NEMESIS:
         case MGOAL_COMPUTER_TOGGLE:
             return step >= 1;

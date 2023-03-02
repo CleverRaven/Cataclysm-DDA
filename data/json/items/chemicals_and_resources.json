@@ -901,7 +901,6 @@
   {
     "type": "AMMO",
     "id": "chem_aluminium_sulphate",
-    "//0": "It might be good to standardize the use of sulfate vs sulphate --Tox",
     "category": "chems",
     "price": 300,
     "price_postapoc": 100,
