@@ -392,14 +392,14 @@
         },
         {
           "chunks": [
-            [ "office_glass_al", 20 ],
-            [ "office_private_al", 20 ],
-            [ "office_al", 20 ],
-            [ "office_slide_al", 20 ],
-            [ "office_crowded_al", 20 ]
+            [ "14x14_office_glass_nw", 1 ],
+            [ "14x14_office_cubicle_nw", 1 ],
+            [ "14x14_office_generic_nw", 1 ],
+            [ "14x14_office_slide_nw", 1 ],
+            [ "14x14_office_crowded_nw", 1 ]
           ],
-          "x": [ 2, 2 ],
-          "y": [ 1, 1 ]
+          "x": [ 4, 4 ],
+          "y": [ 5, 5 ]
         },
         {
           "chunks": [

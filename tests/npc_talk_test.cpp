@@ -370,6 +370,11 @@ TEST_CASE( "npc_talk_class", "[npc_talk]" )
     gen_response_lines( d, 2 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a class test response." );
+
+    d.add_topic( "TALK_FRIEND_GUARD" );
+    gen_response_lines( d, 1 );
+    CHECK( d.responses[0].text == "I have a custom response to a common topic" );
+    CHECK( d.responses[0].success.next_topic.id == "TALK_TEST_FACTION_TRUST" );
 }
 
 TEST_CASE( "npc_talk_allies", "[npc_talk]" )
@@ -741,6 +746,9 @@ TEST_CASE( "npc_talk_items", "[npc_talk]" )
     CHECK( d.responses[6].text == "This is a u_has_item_category manuals count 2 test response." );
     CHECK( d.responses[0].text == "This is a repeated item manual_speech test response" );
     CHECK( d.responses[0].success.next_topic.item_type == itype_manual_speech );
+    d.add_topic( d.responses[0].success.next_topic );
+    gen_dynamic_line( d );
+    CHECK( d.cur_item == itype_manual_speech );
 
     d.add_topic( "TALK_TEST_ITEM_REPEAT" );
     gen_response_lines( d, 8 );
@@ -1636,7 +1644,6 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
     CHECK( std::count( proficiencies_vector.begin(),
                        proficiencies_vector.end(),
                        proficiency_prof_test ) == 0 );
-
 
     // Teardown
     player_character.remove_value( var_name );

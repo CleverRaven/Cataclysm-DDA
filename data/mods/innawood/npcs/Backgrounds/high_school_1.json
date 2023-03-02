@@ -12,7 +12,7 @@
   {
     "id": "BGSS_HIGH_SCHOOL_1_STORY2",
     "type": "talk_topic",
-    "dynamic_line": "I guess it got worse, because the teachers decided to tie us up and drink.  For hours.  And then a bunch of sweaty men with spears came to take us to the camps.  They tooks us away in batches and I was in on the of the last batches and they didn't come back for us.  The men with spears weren't much older than me… they didn't look like they knew what was going on.  I lived nearby.  I snuck off.",
+    "dynamic_line": "I guess it got worse, because the teachers decided to tie us up and drink.  For hours.  And then a bunch of sweaty men with spears came to take us to the camps.  They took us away in batches and I was in on the of the last batches and they didn't come back for us.  The men with spears weren't much older than me… they didn't look like they knew what was going on.  I lived nearby.  I snuck off.",
     "responses": [
       { "text": "Did you get home?", "topic": "BGSS_HIGH_SCHOOL_1_STORY3" },
       { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },

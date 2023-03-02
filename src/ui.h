@@ -533,4 +533,6 @@ class pointmenu_cb : public uilist_callback
         void select( uilist *menu ) override;
 };
 
+void kill_advanced_inv();
+
 #endif // CATA_SRC_UI_H

@@ -24,7 +24,7 @@
       "x": [ "t_door_metal_pickable", "t_door_metal_c" ],
       "=": "t_wall_glass",
       ".": "t_thconc_floor",
-      "r": "t_carpet_red",
+      "r": "t_carpet_concrete_red",
       "W": "t_window",
       "X": "t_window_bars",
       "|": "t_concrete_wall",

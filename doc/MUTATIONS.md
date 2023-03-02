@@ -52,10 +52,10 @@ The mutation system works in several steps. All time references are in game time
 The odds of a mutation being good or bad is directly determined by Instability, which is a stat tracked using a vitamin. It represents long-term genetic damage; a character will begin the game with 0 Instability and obtain only positive or neutral mutations, but with enough Instability, they will become almost exclusively negative ones.
 
 These chances are determined on a curve, ranging from 0 Instability (default) to 8000 Instability (the maximum):
-* There is always a flat 10% chance to obtain a neutral mutation that is neither positive or negative.
-* From roughly 0 to 800 Instability, there is a 90% chance for a positive mutation and a 0% chance for a negative one.
-* Positive and negative chances then quickly slope to meet each other at roughly 2800 Instability. At this point, there is a 45% chance for a positive mutation and a 45% chance for a negative mutation. As before, the remaining 10% is taken up by neutral mutations.
-* Chances then gradually continue their current trends until reaching the limit. At the maximum of 8000 Instability, there is roughly a 65% chance for a negative mutation and a 25% chance for a positive one.
+* Neutral mutations (those which are neither negative nor positive) are always eligible.
+* From roughly 0 to 800 Instability, there is a 100% chance for a positive or neutral mutation and a 0% chance for a negative one.
+* Positive and negative chances then quickly slope to meet each other at roughly 2800 Instability. At this point, there are equal chances for positive and negative mutations.
+* Chances then gradually continue their current trends until reaching the limit. At the maximum of 8000 Instability, there is roughly a 70% chance for a negative mutation to be selected and a 30% chance for a positive one. As before, regardless of whether a positive or negative mutation is selected, a neutral mutation is also possible.
 
 Instability very slowly decreases on its own, at a rate of 1 per day. Traits can influence this; for instance, the Robust Genetics trait vastly speeds this up by removing a further 1 Instability per hour, for a total of 25 per day. The Genetic Downward Spiral trait does the opposite, *increasing* Instability at the extremely fast rate of 1 per minute.
 
@@ -140,6 +140,7 @@ Note that **all new traits that can be obtained through mutation must be purifia
   ],
   "craft_skill_bonus": [ [ "electronics", -2 ], [ "tailor", -2 ], [ "mechanics", -2 ] ], // Skill affected by the mutation and their bonuses.  Bonuses can be negative, a bonus of 4 is worth 1 full skill level.
   "restricts_gear": [ "torso" ],              // List of bodyparts that get restricted by this mutation.
+  "remove_rigid": [ "torso" ],                // List of bodyparts that any rigid armor will be removed from on mutation. Any integrated armor items are considered directly
   "allow_soft_gear": true,                    // If there is a list of 'restricts_gear', this sets if the location still allows items made out of soft materials (only one of the types need to be soft for it to be considered soft) (default: false).
   "destroys_gear": true,                      // If true, destroys the gear in the 'restricts_gear' location when mutated into (default: false).
   "encumbrance_always": [                     // Adds this much encumbrance to selected body parts.
@@ -179,7 +180,6 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "scent_mask": -200,                         // int added to your target scent value (default: 0).
   "scent_type": "sc_flower",                  // The scent_types you emit, as defined in scent_types.json (default: empty).
   "consume_time_modifier": 1.0,               // time to eat or drink is multiplied by this.
-  "bleed_resist": 1000,                       // int quantifying your resistance to `bleed` effect.  If > than incoming effect effect the avatar isn't affected (default: 0).
   "fat_to_max_hp": 1.0,                       // Amount of hp_max gained for each unit of bmi above character_weight_category::normal (default: 0.0).
   "healthy_rate": 0.0,                        // How fast your health can change.  If set to 0 it never changes (default: 1.0).
   "weakness_to_water": 5,                     // How much damage water does to you, negative values heal instead (default: 0).
@@ -203,6 +203,7 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "attackcost_modifier": 0.9,                 // Attack cost modifier (0.9 is 10% faster, 1.1 is 10% slower).
   "movecost_modifier": 0.9,                   // Overall movement speed cost modifier (0.9 is 10% faster, 1.1 is 10% slower).
   "movecost_flatground_modifier": 0.9,        // Movement speed cost modifier on flat terrain, free from obstacles (0.9 is 10% faster, 1.1 is 10% slower).
+  "movecost_obstacle_modifier": 0.9,          // Movement speed cost modifier on rough, uneven terrain (0.9 is 10% faster, 1.1 is 10% slower).
   "movecost_swim_modifier": 0.9,              // Swimming speed cost modifier (0.9 is 10% faster, 1.1 is 10% slower).
   "weight_capacity_modifier": 0.9             // Carrying capacity modifier (0.9 is 10% less, 1.1 is 10% more).
   "social_modifiers": { "persuade": -10 },    // Social modifiers.  Can be: intimidate, lie, persuade.
@@ -215,7 +216,7 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "triggers": [                               // List of sublist of triggers, all sublists must be True for the mutation to activate.
     [                                         // Sublist of trigger: at least one trigger must be true for the sublist to be true.
         {
-          "condition": { "compare_int": [ { "u_val": "morale" }, "<", { "const": -50 } ] },               // Dialog condition (see NPCs.md).
+          "condition": { "compare_num": [ { "u_val": "morale" }, "<", { "const": -50 } ] },               // Dialog condition (see NPCs.md).
           "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" }  // Message displayed when the trigger activates.
         }
     ],
@@ -223,8 +224,8 @@ Note that **all new traits that can be obtained through mutation must be purifia
       {
         "condition": {                        // Dialog condition (see NPCs.md).
           "or": [
-            { "compare_int": [ { "hour", "<", { "const": 2 } } ] },
-            { "compare_int": [ { "hour", ">", { "const": 20 } } ] }
+            { "compare_num": [ { "hour", "<", { "const": 2 } } ] },
+            { "compare_num": [ { "hour", ">", { "const": 20 } } ] }
           ]
         },
         "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" } // Message displayed when the trigger activates.

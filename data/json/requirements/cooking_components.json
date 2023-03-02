@@ -184,7 +184,7 @@
     "id": "cheese_standard",
     "type": "requirement",
     "//": "Any cheese you could use as is",
-    "components": [ [ [ "cheese", 1 ], [ "cheese_hard", 1 ], [ "can_cheese", 1 ], [ "cheese_rehydrated", 1 ] ] ]
+    "components": [ [ [ "cheese", 1 ], [ "cheese_hard", 1 ], [ "can_cheese", 1 ], [ "cheese_rehydrated", 1 ], [ "cottage_cheese", 1 ] ] ]
   },
   {
     "id": "lf_milk_standard",
