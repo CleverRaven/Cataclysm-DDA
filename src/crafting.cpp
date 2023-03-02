@@ -147,15 +147,24 @@ float Character::lighting_craft_speed_multiplier( const recipe &rec ) const
         // 100% speed in well lit area at skill+0
         // 25% speed in pitch black at skill+0
         // skill+2 removes speed penalty
-        return 1.0f - ( darkness / ( 7.0f / 0.75f ) ) * std::max( 0,
-                2 - exceeds_recipe_requirements( rec ) ) / 2.0f;
+        if( rec.skill_used ) {
+            return 1.0f - ( darkness / ( 7.0f / 0.75f ) ) * std::max( 0,
+                    2 - exceeds_recipe_requirements( rec ) ) / 2.0f;
+        } else { // If there's no skill involved there shouldn't be any speed reduction due to not having levels in a non existent skill.
+            return 1.0f;
+        }
     }
-    if( rec.has_flag( flag_BLIND_HARD ) && exceeds_recipe_requirements( rec ) >= 2 ) {
+    if( rec.has_flag( flag_BLIND_HARD ) && ( !rec.skill_used ||
+            exceeds_recipe_requirements( rec ) >= 2 ) ) {
         // 100% speed in well lit area at skill+2
         // 25% speed in pitch black at skill+2
         // skill+8 removes speed penalty
-        return 1.0f - ( darkness / ( 7.0f / 0.75f ) ) * std::max( 0,
-                8 - exceeds_recipe_requirements( rec ) ) / 6.0f;
+        if( rec.skill_used ) {
+            return 1.0f - ( darkness / ( 7.0f / 0.75f ) ) * std::max( 0,
+                    8 - exceeds_recipe_requirements( rec ) ) / 6.0f;
+        } else { // No skill involved, so apply arbitrary penalty.
+            return 0.5f;
+        }
     }
     return 0.0f; // it's dark and you could craft this if you had more skill
 }
@@ -1004,19 +1013,32 @@ double Character::crafting_success_roll( const recipe &making ) const
     if( has_trait( trait_DEBUG_CNF ) ) {
         return 1.0;
     }
+
+    // Adjust skill and difficulty such that the lowest level is 1 not 0
+    // This allows characters with 0 level skills to attempt higher level recipes
+    int primary_skill_level = get_skill_level( making.skill_used ) + 1;
+    int primary_difficulty = making.difficulty + 1;
+
     int secondary_dice = 0;
     int secondary_difficulty = 0;
     for( const auto &pr : making.required_skills ) {
-        secondary_dice += get_skill_level( pr.first );
-        secondary_difficulty += pr.second;
+        // Adjust skill and difficulty such that the lowest level is 1 not 0
+        // This allows characters with 0 level skills to attempt higher level recipes
+        secondary_dice += get_skill_level( pr.first ) + 1;
+        secondary_difficulty += pr.second + 1;
     }
 
     // # of dice is 75% primary skill, 25% secondary (unless secondary is null)
     int skill_dice;
     if( secondary_difficulty > 0 ) {
-        skill_dice = get_skill_level( making.skill_used ) * 3 + secondary_dice;
+        skill_dice = primary_skill_level * 3 + secondary_dice;
     } else {
-        skill_dice = get_skill_level( making.skill_used ) * 4;
+        skill_dice = primary_skill_level * 4;
+    }
+    // Even with no skill you should have "some" chance to complete a craft
+    // this is equilavant to a quarter of a level
+    if( skill_dice == 0 ) {
+        skill_dice = 1;
     }
 
     for( const npc *np : get_crafting_helpers() ) {
@@ -1058,10 +1080,10 @@ double Character::crafting_success_roll( const recipe &making ) const
 
     int diff_dice;
     if( secondary_difficulty > 0 ) {
-        diff_dice = making.difficulty * 3 + secondary_difficulty;
+        diff_dice = primary_difficulty * 3 + secondary_difficulty;
     } else {
         // Since skill level is * 4 also
-        diff_dice = making.difficulty * 4;
+        diff_dice = primary_difficulty * 4;
     }
 
     const int diff_sides = 24; // 16 + 8 (default intelligence)
@@ -1222,47 +1244,44 @@ void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc
     if( making.is_practice() ) {
         add_msg( _( "You finish practicing %s." ), making.result_name() );
         // practice recipes don't produce a result item
-    } else {
+    } else if( !making.result().is_null() ) {
         // Set up the new item, and assign an inventory letter if available
         newits = making.create_results( batch_size );
     }
 
-    bool first = true;
+    // messages, learning of recipe
+    if( !making.is_practice() && ( !newits.empty() || !making.result_eocs.empty() ) ) {
+        // TODO: reconsider recipe memorization
+        if( knows_recipe( &making ) ) {
+            add_msg( _( "You craft %s from memory." ), making.result_name() );
+        } else {
+            add_msg( _( "You craft %s using a reference." ), making.result_name() );
+            // If we made it, but we don't know it, we're using a book, device or NPC
+            // as a reference and have a chance to learn it.
+            // Base expected time to learn is 1000*(difficulty^4)/skill/int moves.
+            // This means time to learn is greatly decreased with higher skill level,
+            // but also keeps going up as difficulty goes up.
+            // Worst case is lvl 10, which will typically take
+            // 10^4/10 (1,000) minutes, or about 16 hours of crafting it to learn.
+            int difficulty = making.difficulty;
+            ///\EFFECT_INT increases chance to learn recipe when crafting from a book
+            const double learning_speed =
+                std::max( get_skill_level( making.skill_used ), 1 ) *
+                std::max( get_int(), 1 );
+            const double time_to_learn = 1000 * 8 * std::pow( difficulty, 4 ) / learning_speed;
+            if( x_in_y( making.time_to_craft_moves( *this ),  time_to_learn ) ) {
+                learn_recipe( &making );
+                add_msg( m_good, _( "You memorized the recipe for %s!" ), making.result_name() );
+            }
+        }
+    }
+
     size_t newit_counter = 0;
     for( item &newit : newits ) {
 
         // Points to newit unless newit is a non-empty container, then it points to newit's contents.
         // Necessary for things like canning soup; sometimes we want to operate on the soup, not the can.
         item &food_contained = !newit.empty() ? newit.only_item() : newit;
-
-        // messages, learning of recipe, food spoilage calculation only once
-        if( first ) {
-            first = false;
-            // TODO: reconsider recipe memorization
-            if( knows_recipe( &making ) ) {
-                add_msg( _( "You craft %s from memory." ), making.result_name() );
-            } else {
-                add_msg( _( "You craft %s using a reference." ), making.result_name() );
-                // If we made it, but we don't know it, we're using a book, device or NPC
-                // as a reference and have a chance to learn it.
-                // Base expected time to learn is 1000*(difficulty^4)/skill/int moves.
-                // This means time to learn is greatly decreased with higher skill level,
-                // but also keeps going up as difficulty goes up.
-                // Worst case is lvl 10, which will typically take
-                // 10^4/10 (1,000) minutes, or about 16 hours of crafting it to learn.
-                int difficulty = making.difficulty;
-                ///\EFFECT_INT increases chance to learn recipe when crafting from a book
-                const double learning_speed =
-                    std::max( get_skill_level( making.skill_used ), 1 ) *
-                    std::max( get_int(), 1 );
-                const double time_to_learn = 1000 * 8 * std::pow( difficulty, 4 ) / learning_speed;
-                if( x_in_y( making.time_to_craft_moves( *this ),  time_to_learn ) ) {
-                    learn_recipe( &making );
-                    add_msg( m_good, _( "You memorized the recipe for %s!" ),
-                             making.result_name() );
-                }
-            }
-        }
 
         // Newly-crafted items are perfect by default. Inspect their materials to see if they shouldn't be
         food_contained.inherit_flags( used, making );
@@ -1346,7 +1365,7 @@ void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc
                 // forget byproducts below either when you fix this.
                 //
                 // Temperature is not functional for non-foods
-                food_contained.set_item_temperature( units::from_celcius( 20 ) );
+                food_contained.set_item_temperature( units::from_celsius( 20 ) );
             }
         }
 
@@ -1382,7 +1401,7 @@ void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc
                 if( should_heat ) {
                     bp.heat_up();
                 } else {
-                    bp.set_item_temperature( units::from_celcius( 20 ) );
+                    bp.set_item_temperature( units::from_celsius( 20 ) );
                 }
             }
             bp.set_owner( get_faction()->id );
@@ -1399,6 +1418,14 @@ void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc
     recoil = MAX_RECOIL;
 
     inv->restack( *this );
+    for( const effect_on_condition_id &eoc : making.result_eocs ) {
+        dialogue d( get_talker_for( *this ), nullptr );
+        if( eoc->type == eoc_type::ACTIVATION ) {
+            eoc->activate( d );
+        } else {
+            debugmsg( "Must use an activation eoc for a recipe.  If you don't want the effect_on_condition to happen on its own, remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this recipe with its condition and effects, then have a recurring one queue it." );
+        }
+    }
 }
 
 bool Character::can_continue_craft( item &craft )
@@ -1722,7 +1749,6 @@ comp_selection<item_comp> Character::select_item_component( const std::vector<it
             const item ingredient = item( ingredient_type );
             std::pair<int, int> kcal_values{ 0, 0 };
 
-
             switch( inv_source ) {
                 case inventory_source::MAP:
                     text = _( "%s (%d/%d nearby)" );
@@ -1914,7 +1940,6 @@ std::list<item> Character::consume_items( map &m, const comp_selection<item_comp
             }
         }
     }
-    lastconsumed = selected_comp.type;
     empty_buckets( *this );
     return ret;
 }
@@ -2321,7 +2346,6 @@ item_location Character::create_in_progress_disassembly( item_location target )
     item_location disassembly_in_world = place_craft_or_disassembly( *this, new_disassembly,
                                          cata::nullopt );
 
-
     if( !disassembly_in_world ) {
         return item_location::nowhere;
     }
@@ -2346,6 +2370,16 @@ bool Character::disassemble( item_location target, bool interactive, bool disass
 
     if( !ret.success() ) {
         add_msg_if_player( m_info, "%s", ret.c_str() );
+        return false;
+    }
+
+    if( obj.is_favorite &&
+        !query_yn( _( "You're going to disassemble favorited item.\nAre you sure?" ) ) ) {
+        return false;
+    }
+
+    if( obj.is_worn_by_player() &&
+        !query_yn( _( "You're going to disassemble worn item.\nAre you sure?" ) ) ) {
         return false;
     }
 

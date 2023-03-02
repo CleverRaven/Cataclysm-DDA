@@ -5,7 +5,7 @@
     "type": "GUN",
     "name": { "str": "AR-15" },
     "//": "This is assumed to be the standard model matching the (currently not in-game) M16. Tileset whitelist for rifles",
-    "description": "This ubiquitous rifle is the forefather of M16 rifle series.  It is lightweight and accurate, but will malfunction if not properly maintained.  This one is a semi-automatic civilian version.",
+    "description": "This ubiquitous rifle is the forefather of the M16 rifle series.  It is lightweight and accurate, but will malfunction if not properly maintained.  This one is a semi-automatic civilian version.",
     "weight": "3170 g",
     "volume": "3100 ml",
     "longest_side": "930 mm",
@@ -277,7 +277,7 @@
       {
         "id": "hk_g36",
         "name": { "str": "H&K G36" },
-        "description": "Designed as a replacement for the early H&K G3 battle rifle, the G36 is more accurate, and uses the much-lighter .223 round, allowing for a higher ammo capacity.",
+        "description": "Designed as a replacement for the early H&K G3 battle rifle, the G36 is more accurate, and uses the much lighter .223 round, allowing for a higher ammo capacity.",
         "weight": 1
       }
     ],

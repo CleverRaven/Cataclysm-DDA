@@ -24,7 +24,6 @@ static const vproto_id vehicle_prototype_schoolbus( "schoolbus" );
 static const vproto_id vehicle_prototype_suv( "suv" );
 static const vproto_id vehicle_prototype_test_van( "test_van" );
 
-
 static void really_clear_map()
 {
     clear_map();
@@ -55,7 +54,6 @@ static void validate_part_count( const vehicle &veh, const int target_velocity,
         std::cout << veh.disp_name() << " at dir " << to_degrees( face_dir );
         std::cout <<  " active fakes " << veh.num_active_fake_parts() << std::endl;
     }
-
 
     if( target_velocity > 0 ) {
         REQUIRE( veh.velocity > 200 );
@@ -100,8 +98,6 @@ TEST_CASE( "ensure_fake_parts_enable_on_place", "[vehicle] [vehicle_fake]" )
     }
 }
 
-
-
 TEST_CASE( "ensure_fake_parts_enable_on_turn", "[vehicle] [vehicle_fake]" )
 {
     const int original_parts = 120;
@@ -127,7 +123,7 @@ TEST_CASE( "ensure_fake_parts_enable_on_turn", "[vehicle] [vehicle_fake]" )
         for( const vpart_reference &vp : veh->get_all_parts_with_fakes( true ) ) {
             if( vp.info().has_flag( "OPENABLE" ) ) {
                 tested_a_fake |= vp.part().is_fake;
-                CHECK( veh->is_open( vp.part_index() ) );
+                CHECK( vp.part().open );
             }
         }
         REQUIRE( tested_a_fake );
@@ -136,7 +132,7 @@ TEST_CASE( "ensure_fake_parts_enable_on_turn", "[vehicle] [vehicle_fake]" )
         }
         for( const vpart_reference &vp : veh->get_all_parts_with_fakes( true ) ) {
             if( vp.info().has_flag( "OPENABLE" ) ) {
-                CHECK( !veh->is_open( vp.part_index() ) );
+                CHECK( !vp.part().open );
             }
         }
 
@@ -322,7 +318,7 @@ TEST_CASE( "ensure_vehicle_with_no_obstacles_has_no_fake_parts", "[vehicle] [veh
     }
 }
 
-TEST_CASE( "fake_parts_are_opaque", "[vehicle],[vehicle_fake]" )
+TEST_CASE( "fake_parts_are_opaque", "[vehicle][vehicle_fake]" )
 {
     really_clear_map();
     Character &you = get_player_character();
@@ -339,7 +335,7 @@ TEST_CASE( "fake_parts_are_opaque", "[vehicle],[vehicle_fake]" )
     CHECK( !you.sees( you.pos() + point( 10, 10 ) ) );
 }
 
-TEST_CASE( "open_and_close_fake_doors", "[vehicle],[vehicle_fake]" )
+TEST_CASE( "open_and_close_fake_doors", "[vehicle][vehicle_fake]" )
 {
     really_clear_map();
     Character &you = get_player_character();
@@ -361,15 +357,15 @@ TEST_CASE( "open_and_close_fake_doors", "[vehicle],[vehicle_fake]" )
     for( const vpart_reference &vp : veh->get_all_parts_with_fakes() ) {
         if( vp.info().has_flag( "OPENABLE" ) && vp.part().is_fake ) {
             fakes_tested++;
-            REQUIRE( !veh->is_open( vp.part_index() ) );
+            REQUIRE( !vp.part().open );
             CHECK( can_interact_at( ACTION_OPEN, vp.pos() ) );
             int part_to_open = veh->next_part_to_open( vp.part_index() );
             // This should be the same part for this use case since there are no curtains etc.
             REQUIRE( part_to_open == static_cast<int>( vp.part_index() ) );
             // Using open_all_at because it will usually be from outside the vehicle.
             veh->open_all_at( part_to_open );
-            CHECK( veh->is_open( vp.part_index() ) );
-            CHECK( veh->is_open( vp.part().fake_part_to ) );
+            CHECK( vp.part().open );
+            CHECK( veh->part( vp.part().fake_part_to ).open );
         }
     }
     REQUIRE( fakes_tested == 4 );
@@ -379,7 +375,7 @@ TEST_CASE( "open_and_close_fake_doors", "[vehicle],[vehicle_fake]" )
     for( const vpart_reference &vp : veh->get_avail_parts( "OPENABLE" ) ) {
         REQUIRE( !vp.part().is_fake );
         veh->open( vp.part_index() );
-        REQUIRE( veh->is_open( vp.part_index() ) );
+        REQUIRE( vp.part().open );
         if( !vp.part().has_fake ) {
             continue;
         }
@@ -406,15 +402,15 @@ TEST_CASE( "open_and_close_fake_doors", "[vehicle],[vehicle_fake]" )
     for( const vpart_reference &vp : veh->get_all_parts_with_fakes() ) {
         if( vp.info().has_flag( "OPENABLE" ) && vp.part().is_fake ) {
             fakes_tested++;
-            CHECK( veh->is_open( vp.part_index() ) );
+            CHECK( vp.part().open );
             CHECK( can_interact_at( ACTION_CLOSE, vp.pos() ) );
             int part_to_close = veh->next_part_to_close( vp.part_index() );
             // This should be the same part for this use case since there are no curtains etc.
             REQUIRE( part_to_close == static_cast<int>( vp.part_index() ) );
             // Using open_all_at because it will usually be from outside the vehicle.
             veh->close( part_to_close );
-            CHECK( !veh->is_open( vp.part_index() ) );
-            CHECK( !veh->is_open( vp.part().fake_part_to ) );
+            CHECK( !vp.part().open );
+            CHECK( !veh->part( vp.part().fake_part_to ).open );
         }
     }
     REQUIRE( fakes_tested == 4 );

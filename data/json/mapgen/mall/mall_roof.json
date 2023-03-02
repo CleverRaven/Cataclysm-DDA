@@ -51,8 +51,8 @@
         ]
       },
       "vehicles": {
-        "*": { "vehicle": "forklift", "chance": 100, "rotation": 90 },
-        ")": { "vehicle": "forklift", "chance": 100, "rotation": 90 }
+        "*": { "vehicle": "forklift_vehicles", "chance": 100, "rotation": 90 },
+        ")": { "vehicle": "forklift_vehicles", "chance": 100, "rotation": 90 }
       },
       "place_monster": [ { "group": "GROUP_MALL", "x": [ 37, 47 ], "y": [ 14, 23 ], "repeat": [ 2, 4 ] } ]
     }
@@ -347,7 +347,7 @@
       "vehicles": {
         ")": { "vehicle": "golf_cart", "chance": 30, "rotation": 90 },
         "*": { "vehicle": "golf_cart_4seat", "chance": 30, "rotation": 180 },
-        "]": { "vehicle": "forklift", "chance": 30, "rotation": 90 }
+        "]": { "vehicle": "forklift_vehicles", "chance": 30, "rotation": 90 }
       }
     }
   },

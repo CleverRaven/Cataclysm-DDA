@@ -13,6 +13,7 @@
   {
     "id": "human_blood_vitamin",
     "type": "vitamin",
+    "//": "Only Vampires have the ability to process this vitamin so if other characters gain any amount of this it will stick around forever and potentially give them the excess disease.",
     "vit_type": "counter",
     "name": { "str": "Stolen Blood" },
     "excess": "blood_quenched",
@@ -22,5 +23,17 @@
     "rate": "0 m",
     "disease": [ [ -4800, -5600 ], [ -5601, -6400 ], [ -6401, -11998 ], [ -11999, -12000 ] ],
     "disease_excess": [ [ 1800, 2400 ], [ 2401, 4400 ], [ 4401, 5600 ] ]
+  },
+  {
+    "id": "creative_spark",
+    "type": "vitamin",
+    "//": "This vitamin powers any Spark type abilities for the Inventor/Mad Genius spellcasting class.",
+    "vit_type": "counter",
+    "name": { "str": "Creative Spark" },
+    "min": 0,
+    "max": 6,
+    "rate": "0 m",
+    "excess": "creativity",
+    "disease_excess": [ [ 1, 2 ], [ 3, 4 ], [ 5, 6 ] ]
   }
 ]

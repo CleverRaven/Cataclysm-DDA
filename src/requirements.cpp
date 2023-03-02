@@ -55,13 +55,11 @@ static const quality_id qual_SEW( "SEW" );
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
-
 static std::map<requirement_id, requirement_data> requirements_all;
 
 static bool a_satisfies_b( const quality_requirement &a, const quality_requirement &b );
 static bool a_satisfies_b( const std::vector<quality_requirement> &a,
                            const std::vector<quality_requirement> &b );
-
 
 /** @relates string_id */
 template<>
@@ -1649,13 +1647,14 @@ deduped_requirement_data::deduped_requirement_data( const requirement_data &in,
 
         // Because this algorithm is super-exponential in the worst case, add a
         // sanity check to prevent things getting too far out of control.
-        // The worst case in the core game currently is chainmail_suit_faraday
-        // with 63 alternatives.
-        static constexpr size_t max_alternatives = 100;
+        // The worst case in the core game currently is boots_fur
+        // with 104 alternatives.
+        static constexpr size_t max_alternatives = 105;
         if( alternatives_.size() + pending.size() > max_alternatives ) {
             debugmsg( "Construction of deduped_requirement_data generated too many alternatives.  "
-                      "The recipe %s should be simplified.  See the Recipe section in "
-                      "doc/JSON_INFO.md for more details.", context.str() );
+                      "The recipe %1s should be simplified.  See the Recipe section in "
+                      "doc/JSON_INFO.md for more details.  It has %2s alternatives.", context.str(),
+                      alternatives_.size() + pending.size() );
             is_too_complex_ = true;
             alternatives_ = { in };
             return;

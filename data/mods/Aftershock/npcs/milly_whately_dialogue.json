@@ -94,7 +94,7 @@
   {
     "id": "MISSION_migo_biology_1",
     "type": "mission_definition",
-    "name": "Migo biology",
+    "name": "Mi-go biology",
     "description": "Find fetid goop.",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
@@ -119,8 +119,8 @@
   {
     "id": "MISSION_migo_biology_2",
     "type": "mission_definition",
-    "name": "Migo Resin",
-    "description": "Find 56 chunks of mi-go resin.",
+    "name": "Mi-go Resin",
+    "description": "Find 50 chunks of mi-go resin.",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 6,
     "value": 0,

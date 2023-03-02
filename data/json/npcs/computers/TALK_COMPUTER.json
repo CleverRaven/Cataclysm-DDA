@@ -1,0 +1,61 @@
+[
+  {
+    "id": "EOC_REFUGEE_CENTER_COMPUTER",
+    "type": "effect_on_condition",
+    "effect": [ "open_dialogue" ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_REFUGEE_CENTER_MAIN",
+    "dynamic_line": "The computer awaits input…",
+    "responses": [
+      { "text": "Emergency Message.", "topic": "COMP_EMERGENCY_MESSAGE" },
+      {
+        "condition": { "u_has_mission": "MISSION_OLD_GUARD_NEC_COMMO_2" },
+        "text": "Disable External Power",
+        "topic": "COMP_DISABLE_EXTERNAL_POWER"
+      },
+      { "text": "Contact Us", "topic": "COMP_FIND_REFUGEE_CENTER" },
+      { "text": "Log off.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_EMERGENCY_MESSAGE",
+    "dynamic_line": "GREETINGS CITIZEN.  A BIOLOGICAL ATTACK HAS TAKEN PLACE AND A STATE OF EMERGENCY HAS BEEN DECLARED.  EMERGENCY PERSONNEL WILL BE AIDING YOU SHORTLY.  TO ENSURE YOUR SAFETY PLEASE FOLLOW THE STEPS BELOW.\n 1. DO NOT PANIC.\n 2. REMAIN INSIDE THE BUILDING.\n 3. SEEK SHELTER IN THE BASEMENT.\n 4. USE PROVIDED GAS MASKS.\n 5. AWAIT FURTHER INSTRUCTIONS.",
+    "responses": [ { "text": "Press any key.", "topic": "COMP_REFUGEE_CENTER_MAIN" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_DISABLE_EXTERNAL_POWER",
+    "dynamic_line": "--ACCESS GRANTED--\nMission Complete!",
+    "responses": [
+      {
+        "text": "Press any key.",
+        "topic": "COMP_REFUGEE_CENTER_MAIN",
+        "effect": { "finish_mission": "MISSION_OLD_GUARD_NEC_COMMO_2", "step": 1 }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_FIND_REFUGEE_CENTER",
+    "dynamic_line": "REFUGEE CENTER FOUND!  IF YOU HAVE ANY FEEDBACK CONCERNING YOUR VISIT PLEASE CONTACT\n THE DEPARTMENT OF EMERGENCY MANAGEMENT PUBLIC AFFAIRS OFFICE.\n THE LOCAL OFFICE CAN BE REACHED BETWEEN THE HOURS OF 9AM AND\n 4PM AT 555-0164.\n\nIF YOU WOULD LIKE TO SPEAK WITH SOMEONE IN PERSON OR WOULD LIKE\nTO WRITE US A LETTER PLEASE SEND IT TO…",
+    "responses": [
+      {
+        "condition": { "not": { "compare_num": [ { "global_val": "var", "var_name": "find_refugee_center" }, "=", { "const": 1 } ] } },
+        "text": "Make a note of the location.",
+        "topic": "COMP_REFUGEE_CENTER_MAIN",
+        "effect": [
+          { "assign_mission": "MISSION_REACH_REFUGEE_CENTER" },
+          { "arithmetic": [ { "global_val": "var", "var_name": "find_refugee_center" }, "=", { "const": 1 } ] }
+        ]
+      },
+      {
+        "condition": { "compare_num": [ { "global_val": "var", "var_name": "find_refugee_center" }, "=", { "const": 1 } ] },
+        "text": "Press any key.",
+        "topic": "COMP_REFUGEE_CENTER_MAIN"
+      }
+    ]
+  }
+]

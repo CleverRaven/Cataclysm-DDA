@@ -159,7 +159,7 @@
     "id": "mon_triffid",
     "type": "MONSTER",
     "name": { "str": "triffid" },
-    "description": "A creeping mobile plant, as tall as a moose.  It has a single bark-covered stalk supporting a flowery head with a paralyzing sting concealed within.",
+    "description": "A creeping mobile plant, as tall as a moose.  It has a single bark-covered stalk supporting a flowery head with a paralyzing sting concealed within.  Nature is healing.",
     "default_faction": "triffid",
     "species": [ "PLANT" ],
     "volume": "62500 ml",

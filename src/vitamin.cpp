@@ -75,6 +75,10 @@ void vitamin::load_vitamin( const JsonObject &jo )
         vit.disease_excess_.emplace_back( e.get_int( 0 ), e.get_int( 1 ) );
     }
 
+    for( JsonArray e : jo.get_array( "decays_into" ) ) {
+        vit.decays_into_.emplace_back( vitamin_id( e.get_string( 0 ) ), e.get_int( 1 ) );
+    }
+
     for( std::string e : jo.get_array( "flags" ) ) {
         vit.flags_.insert( e );
     }

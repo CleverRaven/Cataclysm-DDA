@@ -281,9 +281,6 @@ class veh_interact
          * Updated whenever the cursor moves. */
         std::vector<int> parts_here;
 
-        /* Refers to the wheel (if any) in the currently selected square. */
-        struct vehicle_part *wheel;
-
         /* called by exec() */
         void cache_tool_availability();
         void allocate_windows();

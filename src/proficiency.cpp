@@ -11,6 +11,7 @@
 #include "json.h"
 #include "localized_comparator.h"
 #include "enums.h"
+#include "options.h"
 
 const float book_proficiency_bonus::default_time_factor = 0.5f;
 const float book_proficiency_bonus::default_fail_factor = 0.5f;
@@ -129,7 +130,12 @@ const std::vector<proficiency_category> &proficiency_category::get_all()
 
 bool proficiency::can_learn() const
 {
-    return _can_learn;
+    if( _can_learn ) {
+        const double scaling = get_option<float>( "SKILL_TRAINING_SPEED" );
+        return scaling != 0.0;
+    } else {
+        return false;
+    }
 }
 
 bool proficiency::ignore_focus() const
@@ -177,10 +183,14 @@ float proficiency::default_weakpoint_penalty() const
     return _default_weakpoint_penalty;
 }
 
-
 time_duration proficiency::time_to_learn() const
 {
-    return _time_to_learn;
+    const double scaling = get_option<float>( "SKILL_TRAINING_SPEED" );
+    if( scaling != 1.0 && scaling != 0.0 ) {
+        return _time_to_learn / scaling;
+    } else {
+        return _time_to_learn;
+    }
 }
 
 std::set<proficiency_id> proficiency::required_proficiencies() const
@@ -296,6 +306,29 @@ bool proficiency_set::practice( const proficiency_id &practicing, const time_dur
     return false;
 }
 
+void proficiency_set::set_time_practiced( const proficiency_id &practicing,
+        const time_duration &amount )
+{
+    if( amount >= practicing->time_to_learn() ) {
+        for( std::vector<learning_proficiency>::iterator it = learning.begin(); it != learning.end(); ) {
+            if( it->id == practicing ) {
+                it = learning.erase( it );
+            } else {
+                ++it;
+            }
+        }
+        learn( practicing );
+        return;
+    } else if( known.count( practicing ) ) {
+        remove( practicing );
+    }
+    if( !has_practiced( practicing ) ) {
+        learning.emplace_back( practicing, 0_seconds );
+    }
+    learning_proficiency &current = fetch_learning( practicing );
+    current.practiced = amount;
+}
+
 void proficiency_set::learn( const proficiency_id &learned )
 {
     for( const proficiency_id &req : learned->required_proficiencies() ) {
@@ -325,6 +358,15 @@ static std::set<proficiency_id> proficiencies_requiring(
 
 void proficiency_set::remove( const proficiency_id &lost )
 {
+    // Removes from proficiencies you are learning
+    for( std::vector<learning_proficiency>::iterator it = learning.begin(); it != learning.end(); ) {
+        if( it->id == lost ) {
+            it = learning.erase( it );
+        } else {
+            ++it;
+        }
+    }
+
     // No unintended side effects
     if( !known.count( lost ) ) {
         return;
@@ -401,6 +443,19 @@ float proficiency_set::pct_practiced( const proficiency_id &query ) const
         return 1.0f;
     }
     return 0.0f;
+}
+
+time_duration proficiency_set::pct_practiced_time( const proficiency_id &query ) const
+{
+    for( const learning_proficiency &prof : learning ) {
+        if( prof.id == query ) {
+            return prof.practiced;
+        }
+    }
+    if( has_learned( query ) ) {
+        return query->time_to_learn();
+    }
+    return 0_seconds;
 }
 
 time_duration proficiency_set::training_time_needed( const proficiency_id &query ) const

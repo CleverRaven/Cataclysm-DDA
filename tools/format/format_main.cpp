@@ -65,7 +65,7 @@ int main( int argc, char *argv[] )
         exit( EXIT_FAILURE );
     }
     JsonOut jsout( out, true );
-    JsonIn jsin( in );
+    TextJsonIn jsin( in );
 
     try {
         formatter::format( jsin, jsout );

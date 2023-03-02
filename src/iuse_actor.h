@@ -80,6 +80,9 @@ class iuse_transform : public iuse_actor
         /**does the item requires to be wielded to be activable*/
         bool need_wielding = false;
 
+        /** does the item require being empty to be activable */
+        bool need_empty = false;
+
         /** subtracted from @ref Creature::moves when transformation is successful */
         int moves = 0;
 
@@ -110,6 +113,8 @@ class iuse_transform : public iuse_actor
         std::string get_name() const override;
         void finalize( const itype_id &my_item_type ) override;
         void info( const item &, std::vector<iteminfo> & ) const override;
+    private:
+        void do_transform( Character &p, item &it ) const;
 };
 
 class unpack_actor : public iuse_actor
@@ -472,6 +477,7 @@ class salvage_actor : public iuse_actor
             material_id( "acidchitin" ),
             material_id( "alien_resin" ),
             material_id( "bone" ),
+            material_id( "canvas" ),
             material_id( "chitin" ),
             material_id( "cotton" ),
             material_id( "faux_fur" ),
@@ -486,6 +492,7 @@ class salvage_actor : public iuse_actor
             material_id( "nylon" ),
             material_id( "plastic" ),
             material_id( "rubber" ),
+            material_id( "thermo_resin" ),
             material_id( "wood" ),
             material_id( "wool" )
         };
@@ -542,26 +549,6 @@ class inscribe_actor : public iuse_actor
         ~inscribe_actor() override = default;
         void load( const JsonObject &obj ) override;
         cata::optional<int> use( Character &, item &, bool, const tripoint & ) const override;
-        std::unique_ptr<iuse_actor> clone() const override;
-};
-
-/**
- * Cauterizes a wounded/masochistic survivor
- */
-class cauterize_actor : public iuse_actor
-{
-    public:
-        // Use flame. If false, uses item charges instead.
-        bool flame = true;
-
-        static bool cauterize_effect( Character &p, item &it, bool force );
-
-        explicit cauterize_actor( const std::string &type = "cauterize" ) : iuse_actor( type ) {}
-
-        ~cauterize_actor() override = default;
-        void load( const JsonObject &obj ) override;
-        cata::optional<int> use( Character &, item &, bool, const tripoint & ) const override;
-        ret_val<void> can_use( const Character &, const item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
 };
 
@@ -812,16 +799,29 @@ class repair_item_actor : public iuse_actor
 
         /** Attempts to repair target item with selected tool */
         attempt_hint repair( Character &pl, item &tool, item_location &fix, bool refit_only = false ) const;
-        /** Checks if repairs on target item are possible. Excludes checks on tool.
-          * Doesn't just estimate - should not return true if repairs are not possible or false if they are. */
-        bool can_repair_target( Character &pl, const item &fix, bool print_msg ) const;
+        /// Checks if repairs on target item are possible. Excludes checks on tool.
+        /// Doesn't just estimate - should not return true if repairs are not possible or false if they are.
+        /// @param pl character performing the fix
+        /// @param fix item to repair
+        /// @param print_msg prints message to player if check fails
+        /// @param check_consumed_available if true check materials consumed by repair are available for `pl`
+        /// @return true if check succeeds
+        bool can_repair_target( Character &pl, const item &fix, bool print_msg,
+                                bool check_consumed_available ) const;
         /** Checks if we are allowed to use the tool. */
         bool can_use_tool( const Character &p, const item &tool, bool print_msg ) const;
 
         /** Returns a list of items that can be used to repair this item. */
         std::set<itype_id> get_valid_repair_materials( const item &fix ) const;
-        /** Returns if components are available. Consumes them if `just_check` is false. */
-        bool handle_components( Character &pl, const item &fix, bool print_msg, bool just_check ) const;
+        /// Returns if components are available. Consumes them if `just_check` is false.
+        /// @param pl character performing the fix
+        /// @param fix item to repair
+        /// @param print_msg prints message to player if check fails
+        /// @param just_check only checks, doesn't consume
+        /// @param check_consumed_available if false skips checking if materials consumed by repair are available for `pl`
+        /// @return true if check succeeds
+        bool handle_components( Character &pl, const item &fix, bool print_msg, bool just_check,
+                                bool check_consumed_available ) const;
         /** Returns the chance to repair and to damage an item. */
         std::pair<float, float> repair_chance(
             const Character &pl, const item &fix, repair_type action_type ) const;
@@ -1119,7 +1119,6 @@ class sew_advanced_actor : public iuse_actor
         cata::optional<int> use( Character &, item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
 };
-
 
 /**
  * Activate an array of effect_on_conditions

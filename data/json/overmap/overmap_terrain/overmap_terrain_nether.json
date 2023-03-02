@@ -1,0 +1,15 @@
+{
+  "type": "overmap_terrain",
+  "id": [
+    "nether_glass",
+    "nether_glass_deep",
+    "nether_glass_impassable"
+  ],
+  "name": "abyss",
+  "sym": " ",
+  "color": "black",
+  "see_cost": 10,
+  "flags": [
+    "RISK_HIGH"
+  ]
+}

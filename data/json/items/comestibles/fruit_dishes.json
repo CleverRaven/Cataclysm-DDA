@@ -530,6 +530,27 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "jerusalem_artichoke_fruitmash",
+    "looks_like": "veggy_salad",
+    "name": { "str": "Jerusalem artichoke fruit dessert" },
+    "weight": "80 g",
+    "color": "yellow",
+    "spoils_in": "3 days",
+    "comestible_type": "FOOD",
+    "symbol": "o",
+    "quench": 2,
+    "calories": 200,
+    "description": "Chopped Jerusalem artichoke combined with any fruit that is in season or at hand.  Surprisingly tasty.",
+    "price": 50,
+    "price_postapoc": 100,
+    "material": [ "fruit", "veggy" ],
+    "volume": "320 ml",
+    "charges": 4,
+    "flags": [ "USE_EAT_VERB", "NUTRIENT_OVERRIDE" ],
+    "vitamins": [ [ "vitC", 2 ], [ "iron", 15 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "brandied_fruit",
     "name": { "str": "brandied fruit" },
     "conditional_names": [

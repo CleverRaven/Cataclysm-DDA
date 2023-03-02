@@ -6,6 +6,7 @@
 #include "cata_catch.h"
 #include "field.h"
 #include "json.h"
+#include "json_loader.h"
 #include "magic.h"
 #include "magic_spell_effect_helpers.h"
 #include "map.h"
@@ -36,24 +37,22 @@ static std::set<tripoint_abs_ms> count_fields_near(
 TEST_CASE( "line_attack", "[magic]" )
 {
     // manually construct a testable spell
-    std::istringstream str(
-        "  {\n"
-        "    \"id\": \"test_line_spell\",\n"
-        "    \"name\": { \"str\": \"Test Line Spell\" },\n"
-        "    \"description\": \"Spews a line of magic\",\n"
-        "    \"valid_targets\": [ \"ground\" ],\n"
-        "    \"damage_type\": \"none\",\n"
-        "    \"min_range\": 5,\n"
-        "    \"max_range\": 5,\n"
-        "    \"effect\": \"attack\",\n"
-        "    \"shape\": \"line\","
-        "    \"min_aoe\": 0,\n"
-        "    \"max_aoe\": 0,\n"
-        "    \"flags\": [ \"VERBAL\", \"NO_HANDS\", \"NO_LEGS\" ]\n"
-        "  }\n" );
+    JsonObject obj = json_loader::from_string(
+                         "  {\n"
+                         "    \"id\": \"test_line_spell\",\n"
+                         "    \"name\": { \"str\": \"Test Line Spell\" },\n"
+                         "    \"description\": \"Spews a line of magic\",\n"
+                         "    \"valid_targets\": [ \"ground\" ],\n"
+                         "    \"damage_type\": \"none\",\n"
+                         "    \"min_range\": 5,\n"
+                         "    \"max_range\": 5,\n"
+                         "    \"effect\": \"attack\",\n"
+                         "    \"shape\": \"line\","
+                         "    \"min_aoe\": 0,\n"
+                         "    \"max_aoe\": 0,\n"
+                         "    \"flags\": [ \"VERBAL\", \"NO_HANDS\", \"NO_LEGS\" ]\n"
+                         "  }\n" );
 
-    JsonIn in( str );
-    JsonObject obj( in );
     spell_type::load_spell( obj, "" );
 
     spell sp( spell_test_line_spell );

@@ -86,6 +86,9 @@ bool monster::is_immune_field( const field_type_id &fid ) const
     if( fid == fd_web ) {
         return has_flag( MF_WEBWALK );
     }
+    if( fid == fd_sludge || fid == fd_sap ) {
+        return flies();
+    }
     const field_type &ft = fid.obj();
     if( ft.has_fume ) {
         return has_flag( MF_NO_BREATHE );
@@ -219,10 +222,11 @@ bool monster::will_move_to( const tripoint &p ) const
         }
 
         // Without avoid_complex, only fire and electricity are checked for field avoidance.
-        if( avoid_fire && target_field.find_field( fd_fire ) ) {
+        if( avoid_fire && target_field.find_field( fd_fire ) && !is_immune_field( fd_fire ) ) {
             return false;
         }
-        if( avoid_simple && target_field.find_field( fd_electricity ) ) {
+        if( avoid_simple && target_field.find_field( fd_electricity ) &&
+            !is_immune_field( fd_electricity ) ) {
             return false;
         }
     }
@@ -723,8 +727,8 @@ bool monster::is_aquatic_danger( const tripoint &at_pos ) const
 bool monster::die_if_drowning( const tripoint &at_pos, const int chance )
 {
     if( is_aquatic_danger( at_pos ) && one_in( chance ) ) {
-        die( nullptr );
         add_msg_if_player_sees( at_pos, _( "The %s drowns!" ), name() );
+        die( nullptr );
         return true;
     }
     return false;
@@ -1204,14 +1208,20 @@ void monster::nursebot_operate( Character *dragged_foe )
         if( dragged_foe->has_effect( effect_grabbed ) ) {
 
             const bionic_collection &collec = *dragged_foe->my_bionics;
+            cata_assert( !collec.empty() );
             const int index = rng( 0, collec.size() - 1 );
-            const bionic &target_cbm = collec[index];
+            const bionic *const target_cbm = &collec[index];
+            const bionic &real_target =
+                target_cbm->is_included()
+                ? **dragged_foe->find_bionic_by_uid( target_cbm->get_parent_uid() )
+                : *target_cbm;
 
             //8 intelligence*4 + 8 first aid*4 + 3 computer *3 + 4 electronic*1 = 77
             const float adjusted_skill = static_cast<float>( 77 ) - std::min( static_cast<float>( 40 ),
                                          static_cast<float>( 77 ) - static_cast<float>( 77 ) / static_cast<float>( 10.0 ) );
 
-            get_player_character().uninstall_bionic( target_cbm, *this, *dragged_foe, adjusted_skill );
+            dragged_foe->cancel_activity();
+            get_player_character().uninstall_bionic( real_target, *this, *dragged_foe, adjusted_skill );
 
             dragged_foe->remove_effect( effect_grabbed );
             remove_effect( effect_dragging );
@@ -1729,11 +1739,11 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
         const int sharp_damage = rng( 1, 10 );
         const int rough_damage = rng( 1, 2 );
         if( here.has_flag( ter_furn_flag::TFLAG_SHARP, pos() ) && !one_in( 4 ) &&
-            get_armor_cut( bodypart_id( "torso" ) ) < sharp_damage ) {
+            get_armor_cut( bodypart_id( "torso" ) ) < sharp_damage && get_hp() > sharp_damage ) {
             apply_damage( nullptr, bodypart_id( "torso" ), sharp_damage );
         }
         if( here.has_flag( ter_furn_flag::TFLAG_ROUGH, pos() ) && one_in( 6 ) &&
-            get_armor_cut( bodypart_id( "torso" ) ) < rough_damage ) {
+            get_armor_cut( bodypart_id( "torso" ) ) < rough_damage && get_hp() > rough_damage ) {
             apply_damage( nullptr, bodypart_id( "torso" ), rough_damage );
         }
     }
@@ -1757,34 +1767,36 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
     if( !will_be_water && ( digs() || can_dig() ) ) {
         underwater = here.has_flag( ter_furn_flag::TFLAG_DIGGABLE, pos() );
     }
-    // Diggers turn the dirt into dirtmound
+
+    // Digging creatures leave a trail of churned earth
+    // They always leave some on their tile, and larger creatures emit some around themselves as well
     if( digging() && here.has_flag( ter_furn_flag::TFLAG_DIGGABLE, pos() ) ) {
         int factor = 0;
         switch( type->size ) {
-            case creature_size::tiny:
-                factor = 100;
-                break;
-            case creature_size::small:
-                factor = 30;
-                break;
             case creature_size::medium:
-                factor = 6;
+                factor = 4;
                 break;
             case creature_size::large:
                 factor = 3;
                 break;
             case creature_size::huge:
-                factor = 1;
+                factor = 2;
                 break;
             case creature_size::num_sizes:
                 debugmsg( "ERROR: Invalid Creature size class." );
                 break;
+            default:
+                factor = 4;
+                break;
         }
-        // TODO: make this take terrain type into account so diggers traveling under sand will create mounds of sand etc.
-        if( one_in( factor ) ) {
-            here.ter_set( pos(), t_dirtmound );
+        here.add_field( pos(), fd_churned_earth, 2 );
+        for( const tripoint &dest : here.points_in_radius( pos(), 1, 0 ) ) {
+            if( here.has_flag( ter_furn_flag::TFLAG_DIGGABLE, dest ) && one_in( factor ) ) {
+                here.add_field( dest, fd_churned_earth, 2 );
+            }
         }
     }
+
     // Acid trail monsters leave... a trail of acid
     if( has_flag( MF_ACIDTRAIL ) ) {
         here.add_field( pos(), fd_acid, 3 );
@@ -1812,22 +1824,25 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
         }
     }
 
-    if( has_flag( MF_DRIPS_NAPALM ) ) {
-        if( one_in( 10 ) ) {
-            // if it has more napalm, drop some and reduce ammo in tank
-            if( ammo[itype_pressurized_tank] > 0 ) {
-                here.add_item_or_charges( pos(), item( "napalm", calendar::turn, 50 ) );
-                ammo[itype_pressurized_tank] -= 50;
-            } else {
-                // TODO: remove MF_DRIPS_NAPALM flag since no more napalm in tank
-                // Not possible for now since flag check is done on type, not individual monster
+    // Don't leave any kind of liquids on water tiles
+    if( !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, destination ) ) {
+        if( has_flag( MF_DRIPS_NAPALM ) ) {
+            if( one_in( 10 ) ) {
+                // if it has more napalm, drop some and reduce ammo in tank
+                if( ammo[itype_pressurized_tank] > 0 ) {
+                    here.add_item_or_charges( pos(), item( "napalm", calendar::turn, 50 ) );
+                    ammo[itype_pressurized_tank] -= 50;
+                } else {
+                    // TODO: remove MF_DRIPS_NAPALM flag since no more napalm in tank
+                    // Not possible for now since flag check is done on type, not individual monster
+                }
             }
         }
-    }
-    if( has_flag( MF_DRIPS_GASOLINE ) ) {
-        if( one_in( 5 ) ) {
-            // TODO: use same idea that limits napalm dripping
-            here.add_item_or_charges( pos(), item( "gasoline" ) );
+        if( has_flag( MF_DRIPS_GASOLINE ) ) {
+            if( one_in( 5 ) ) {
+                // TODO: use same idea that limits napalm dripping
+                here.add_item_or_charges( pos(), item( "gasoline" ) );
+            }
         }
     }
     return true;
@@ -1955,7 +1970,7 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
     Character &player_character = get_player_character();
     // Only print the message when near player or it can get spammy
     if( rl_dist( player_character.pos(), pos() ) < 4 ) {
-        add_msg_if_player_sees( *critter, m_warning, _( "The %1$s tramples %2$s" ),
+        add_msg_if_player_sees( *critter, m_warning, _( "The %1$s tramples %2$s." ),
                                 name(), critter->disp_name() );
     }
 

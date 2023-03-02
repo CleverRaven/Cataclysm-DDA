@@ -822,11 +822,7 @@
     "looks_like": "cola",
     "name": { "str_sp": "rum & cola" },
     "conditional_names": [
-      { "type": "COMPONENT_ID", "condition": "whiskey", "name": { "str_sp": "whiskey and cola" } },
-      { "type": "COMPONENT_ID", "condition": "single_malt_whiskey", "name": { "str_sp": "whiskey and cola" } },
-      { "type": "COMPONENT_ID", "condition": "single_pot_whiskey", "name": { "str_sp": "whiskey and cola" } },
-      { "type": "COMPONENT_ID", "condition": "cheap_whiskey", "name": { "str_sp": "whiskey and cola" } },
-      { "type": "COMPONENT_ID", "condition": "canadian_whiskey", "name": { "str_sp": "whiskey and cola" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "whiskey", "name": { "str_sp": "whiskey and cola" } },
       { "type": "COMPONENT_ID", "condition": "sake_filtered", "name": { "str_sp": "sake and cola" } }
     ],
     "weight": "252 g",
@@ -887,11 +883,7 @@
     "looks_like": "rum",
     "name": { "str_sp": "pina colada" },
     "conditional_names": [
-      { "type": "COMPONENT_ID", "condition": "whiskey", "name": { "str_sp": "Scotsman colada" } },
-      { "type": "COMPONENT_ID", "condition": "single_malt_whiskey", "name": { "str_sp": "Scotsman colada" } },
-      { "type": "COMPONENT_ID", "condition": "single_pot_whiskey", "name": { "str_sp": "Scotsman colada" } },
-      { "type": "COMPONENT_ID", "condition": "cheap_whiskey", "name": { "str_sp": "Scotsman colada" } },
-      { "type": "COMPONENT_ID", "condition": "canadian_whiskey", "name": { "str_sp": "Scotsman colada" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "whiskey", "name": { "str_sp": "Scotsman colada" } },
       { "type": "COMPONENT_ID", "condition": "vodka", "name": { "str_sp": "chi chi" } },
       { "type": "COMPONENT_ID", "condition": "tequila", "name": { "str_sp": "tequila colada" } }
     ],

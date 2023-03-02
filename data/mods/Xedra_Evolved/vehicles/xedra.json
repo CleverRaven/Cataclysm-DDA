@@ -1,6 +1,7 @@
 {
   "id": "bearcub",
   "type": "vehicle",
+  "//": "A humvee like vehicle with an extended trunk.  Used heavily by Xedra cover agencies.",
   "name": "Border Enforcement Bearcub",
   "blueprint": [
     [ "O----++-OH" ],
@@ -56,7 +57,7 @@
     {
       "x": -1,
       "y": 1,
-      "part": "mounted_hammer_turret_system",
+      "part": "turret_hammer_turret_system",
       "ammo_types": [ "shot_00", "shot_slug" ],
       "ammo": 64,
       "ammo_qty": [ 0, 64 ]

@@ -1,0 +1,39 @@
+[
+  {
+    "id": "EOC_TRAIN_DATA_COMPUTER",
+    "type": "effect_on_condition",
+    "effect": [ "open_dialogue" ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_TRAIN_DATA_MAIN",
+    "dynamic_line": "The computer awaits input…",
+    "responses": [
+      { "text": "Request Monorail", "topic": "COMP_TRAIN_DATA_MONRAIL_REQUEST" },
+      {
+        "text": "Download Train Data",
+        "topic": "COMP_TRAIN_DATA_DOWNLOAD",
+        "condition": { "u_has_item": "data_card" }
+      },
+      { "text": "Power off.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_TRAIN_DATA_MONRAIL_REQUEST",
+    "dynamic_line": "UNABLE TO CONTACT MONORAIL LINE.  PLEASE SEE YOUR ADMINISTRATOR FOR ASSISTANCE.",
+    "responses": [ { "text": "Go back.", "topic": "TALK_NONE" }, { "text": "Power off.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_TRAIN_DATA_DOWNLOAD",
+    "dynamic_line": "TRANSFER COMPLETE.",
+    "responses": [
+      {
+        "text": "Power off.",
+        "topic": "TALK_DONE",
+        "effect": [ { "u_sell_item": "data_card" }, { "u_spawn_item": "train_data_card" } ]
+      }
+    ]
+  }
+]

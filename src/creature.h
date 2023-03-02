@@ -215,6 +215,7 @@ enum class get_body_part_flags : int {
     only_main = 1 << 0,
     sorted = 1 << 1,
     primary_type = 1 << 2,
+    only_minor = 1 << 3
 };
 
 template<>
@@ -635,6 +636,7 @@ class Creature : public viewer
         void set_value( const std::string &key, const std::string &value );
         void remove_value( const std::string &key );
         std::string get_value( const std::string &key ) const;
+        void clear_values();
 
         virtual units::mass get_weight() const = 0;
 
@@ -751,6 +753,12 @@ class Creature : public viewer
         /* Returns the bodyparts to drench : upper/mid/lower correspond to the appropriate limb flag */
         body_part_set get_drenching_body_parts( bool upper = true, bool mid = true,
                                                 bool lower = true ) const;
+
+        /* Returns the number of bodyparts of a given type*/
+        int get_num_body_parts_of_type( body_part_type::type part_type ) const;
+
+        /* Returns the number of broken bodyparts of a given type */
+        int get_num_broken_body_parts_of_type( body_part_type::type part_type ) const;
 
         const std::map<bodypart_str_id, bodypart> &get_body() const;
         void set_body();
@@ -1194,8 +1202,8 @@ class Creature : public viewer
         virtual void process_one_effect( effect &e, bool is_new ) = 0;
 
         pimpl<effects_map> effects;
-        static std::queue<scheduled_effect> scheduled_effects;
-        static std::queue<terminating_effect> terminating_effects;
+        std::queue<scheduled_effect, std::list<scheduled_effect>> scheduled_effects;
+        std::queue<terminating_effect, std::list<terminating_effect>> terminating_effects;
 
         std::vector<damage_over_time_data> damage_over_time_map;
 
@@ -1222,7 +1230,6 @@ class Creature : public viewer
         int bash_bonus = 0;
         int cut_bonus = 0;
         int size_bonus = 0;
-
 
         float bash_mult = 0.0f;
         float cut_mult = 0.0f;

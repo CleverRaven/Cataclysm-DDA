@@ -27,6 +27,7 @@ enum class debug_menu_index : int {
     LONG_TELEPORT,
     REVEAL_MAP,
     SPAWN_NPC,
+    SPAWN_OM_NPC,
     SPAWN_MON,
     GAME_STATE,
     KILL_AREA,
@@ -56,6 +57,7 @@ enum class debug_menu_index : int {
     DISPLAY_WEATHER,
     DISPLAY_SCENTS,
     CHANGE_TIME,
+    FORCE_TEMP,
     SET_AUTOMOVE,
     SHOW_MUT_CAT,
     OM_EDITOR,
@@ -76,6 +78,7 @@ enum class debug_menu_index : int {
     TEST_WEATHER,
     SAVE_SCREENSHOT,
     GAME_REPORT,
+    GAME_MIN_ARCHIVE,
     DISPLAY_SCENTS_LOCAL,
     DISPLAY_SCENTS_TYPE_LOCAL,
     DISPLAY_TEMP,
@@ -97,6 +100,7 @@ enum class debug_menu_index : int {
     EDIT_GLOBAL_VARS,
     ACTIVATE_EOC,
     WRITE_TIMED_EVENTS,
+    QUICKLOAD,
     last
 };
 

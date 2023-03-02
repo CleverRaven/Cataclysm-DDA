@@ -53,8 +53,8 @@
 #include <sstream>
 #include <string>
 
-std::map<std::string, std::string> TILESETS; // All found tilesets: <name, tileset_dir>
-std::map<std::string, std::string> SOUNDPACKS; // All found soundpacks: <name, soundpack_dir>
+std::map<std::string, cata_path> TILESETS; // All found tilesets: <name, tileset_dir>
+std::map<std::string, cata_path> SOUNDPACKS; // All found soundpacks: <name, soundpack_dir>
 
 namespace
 {
@@ -893,7 +893,7 @@ void options_manager::cOpt::setNext()
         int iMenuTextLength = utf8_width( sMenuText.translated() );
         string_input_popup()
         .width( iMaxLength > 80 ? 80 : iMaxLength < iMenuTextLength ? iMenuTextLength : iMaxLength + 1 )
-        .description( sMenuText.translated() )
+        .title( sMenuText.translated() )
         .max_length( iMaxLength )
         .edit( sSet );
 
@@ -1100,6 +1100,53 @@ static std::vector<options_manager::id_and_option> build_resource_list(
     return resource_names;
 }
 
+static std::vector<options_manager::id_and_option> build_resource_list(
+    std::map<std::string, cata_path> &resource_option, const std::string &operation_name,
+    const cata_path &dirname, const std::string &filename )
+{
+    std::vector<options_manager::id_and_option> resource_names;
+
+    resource_option.clear();
+    const auto resource_dirs = get_directories_with( filename, dirname, true );
+
+    for( const cata_path &resource_dir : resource_dirs ) {
+        read_from_file( resource_dir / filename, [&]( std::istream & fin ) {
+            std::string resource_name;
+            std::string view_name;
+            // should only have 2 values inside it, otherwise is going to only load the last 2 values
+            while( !fin.eof() ) {
+                std::string sOption;
+                fin >> sOption;
+
+                if( sOption.empty() || sOption[0] == '#' ) {
+                    getline( fin, sOption );  // Empty line or comment, chomp it
+                } else {
+                    if( sOption.find( "NAME" ) != std::string::npos ) {
+                        resource_name.clear();
+                        getline( fin, resource_name );
+                        resource_name = trim( resource_name );
+                    } else if( sOption.find( "VIEW" ) != std::string::npos ) {
+                        view_name.clear();
+                        getline( fin, view_name );
+                        view_name = trim( view_name );
+                        break;
+                    }
+                }
+            }
+            resource_names.emplace_back( resource_name,
+                                         view_name.empty() ? no_translation( resource_name ) : to_translation( view_name ) );
+            if( resource_option.count( resource_name ) != 0 ) {
+                debugmsg( "Found \"%s\" duplicate with name \"%s\" (new definition will be ignored)",
+                          operation_name, resource_name );
+            } else {
+                resource_option.insert( std::pair<std::string, cata_path>( resource_name, resource_dir ) );
+            }
+        } );
+    }
+
+    return resource_names;
+}
+
 void options_manager::search_resource(
     std::map<std::string, std::string> &storage, std::vector<id_and_option> &option_list,
     const std::vector<std::string> &search_paths, const std::string &resource_name,
@@ -1129,11 +1176,41 @@ void options_manager::search_resource(
     }
 }
 
+void options_manager::search_resource(
+    std::map<std::string, cata_path> &storage, std::vector<id_and_option> &option_list,
+    const std::vector<cata_path> &search_paths, const std::string &resource_name,
+    const std::string &resource_filename )
+{
+    // Clear the result containers.
+    storage.clear();
+    option_list.clear();
+
+    // Loop through each search path and add its resources.
+    for( const cata_path &search_path : search_paths ) {
+        // Get the resource list from the search path.
+        std::map<std::string, cata_path> resources;
+        std::vector<id_and_option> resource_names = build_resource_list( resources, resource_name,
+                search_path, resource_filename );
+
+        // Add any new resources from this path to the result containers.
+        // First, add to the resource mapping.
+        storage.insert( resources.begin(), resources.end() );
+        // Next, add to the option list.
+        for( const id_and_option &name : resource_names ) {
+            // Only add if not a duplicate.
+            if( std::find( option_list.begin(), option_list.end(), name ) == option_list.end() ) {
+                option_list.emplace_back( name );
+            }
+        }
+    }
+}
+
 std::vector<options_manager::id_and_option> options_manager::build_tilesets_list()
 {
     std::vector<id_and_option> result;
 
-    search_resource( TILESETS, result, { PATH_INFO::user_gfx(), PATH_INFO::gfxdir() }, "tileset",
+    search_resource( TILESETS, result, { PATH_INFO::user_gfx(), PATH_INFO::gfxdir() },
+                     "tileset",
                      PATH_INFO::tileset_conf() );
 
     // Default values
@@ -1471,6 +1548,13 @@ void options_manager::add_options_general()
 
     get_option( "AUTO_NOTES_MAP_EXTRAS" ).setPrerequisite( "AUTO_NOTES" );
 
+    add( "AUTO_NOTES_DROPPED_FAVORITES", "general", to_translation( "Auto notes (dropped favorites)" ),
+         to_translation( "If true, automatically sets notes when player drops favorited items." ),
+         false
+       );
+
+    get_option( "AUTO_NOTES_DROPPED_FAVORITES" ).setPrerequisite( "AUTO_NOTES" );
+
     add_empty_line();
 
     add( "CIRCLEDIST", "general", to_translation( "Circular distances" ),
@@ -1609,6 +1693,12 @@ void options_manager::add_options_interface()
     { { "keychar", to_translation( "Symbol" ) }, { "keycode", to_translation( "Key code" ) } },
     "keychar", COPT_CURSES_HIDE );
 
+    add( "USE_PINYIN_SEARCH", "interface", to_translation( "Use pinyin in search" ),
+         to_translation( "If true, pinyin (pronunciation of Chinese characters) can be used in searching/filtering "
+                         "(may cause major slowdown when searching through too many entries.)" ),
+         false
+       );
+
     add( "FORCE_CAPITAL_YN", "interface",
          to_translation( "Force capital/modified letters in prompts" ),
          to_translation( "If true, prompts such as Y/N queries only accepts capital or modified letters, while "
@@ -1619,6 +1709,11 @@ void options_manager::add_options_interface()
     add( "SNAP_TO_TARGET", "interface", to_translation( "Snap to target" ),
          to_translation( "If true, automatically follow the crosshair when firing/throwing." ),
          false
+       );
+
+    add( "AIM_AFTER_FIRING", "interface", to_translation( "Reaim after firing" ),
+         to_translation( "If true, after firing automatically aim again if targets are available." ),
+         true
        );
 
     add( "QUERY_DISASSEMBLE", "interface", to_translation( "Query on disassembly while butchering" ),
@@ -1868,6 +1963,12 @@ void options_manager::add_options_interface()
          true
        );
 
+    add( "ASTERISK_POSITION", "interface", to_translation( "Favorited item's mark position" ),
+         to_translation( "Where to place mark of the favorited item (asterisk): before item's name (prefix) or after item's name (suffix)." ),
+    { { "prefix", to_translation( "Prefix" ) }, { "suffix", to_translation( "Suffix" ) } },
+    "right"
+       );
+
     add_empty_line();
 
     add( "ENABLE_JOYSTICK", "interface", to_translation( "Enable joystick" ),
@@ -2086,9 +2187,12 @@ void options_manager::add_options_graphics()
     get_option( "USE_TILES_OVERMAP" ).setPrerequisite( "USE_TILES" );
 
     std::vector<options_manager::id_and_option> om_tilesets = build_tilesets_list();
-    // filter out SmashButton_iso from overmap tilesets
+    // filter out iso tilesets from overmap tilesets
     om_tilesets.erase( std::remove_if( om_tilesets.begin(), om_tilesets.end(), []( const auto & it ) {
-        return it.first == "SmashButton_iso";
+        static const std::string iso_suffix = "_iso";
+        const std::string &id = it.first;
+        return id.size() >= iso_suffix.size() &&
+               id.compare( id.size() - iso_suffix.size(), iso_suffix.size(), iso_suffix ) == 0;
     } ), om_tilesets.end() );
 
     add( "OVERMAP_TILES", "graphics", to_translation( "Choose overmap tileset" ),
@@ -2534,6 +2638,37 @@ void options_manager::add_options_debug()
          0, OVERMAP_LAYERS, 4
        );
 
+    add_empty_line();
+
+    add( "PREVENT_OCCLUSION", "debug", to_translation( "Handle occlusion by high sprites" ),
+    to_translation( "Draw walls normal (Off), retracted/transparent (On), or automatically retracting/transparent near player (Auto)." ), {
+        { 0, to_translation( "Off" ) }, { 1, to_translation( "On" ) },
+        { 2, to_translation( "Auto" ) }
+    }, 2, 2
+       );
+
+    add( "PREVENT_OCCLUSION_TRANSP", "debug", to_translation( "Prevent occlusion via transparency" ),
+         to_translation( "Prevent occlusion by using semi-transparent sprites." ),
+         true
+       );
+
+    add( "PREVENT_OCCLUSION_RETRACT", "debug", to_translation( "Prevent occlusion via retraction" ),
+         to_translation( "Prevent occlusion by retracting high sprites." ),
+         true
+       );
+
+    add( "PREVENT_OCCLUSION_MIN_DIST", "debug",
+         to_translation( "Minimum distance for auto occlusion handling" ),
+         to_translation( "Minimum distance for auto occlusion handling.  Values above zero overwrite tileset settings." ),
+         0.0, 60.0, 0.0, 0.1
+       );
+
+    add( "PREVENT_OCCLUSION_MAX_DIST", "debug",
+         to_translation( "Maximum distance for auto occlusion handling" ),
+         to_translation( "Maximum distance for auto .  Values above zero overwrite tileset settings." ),
+         0.0, 60.0, 0.0, 0.1
+       );
+
     get_option( "FOV_3D_Z_RANGE" ).setPrerequisite( "FOV_3D" );
 }
 
@@ -2556,7 +2691,6 @@ void options_manager::add_options_android()
          // take default setting from pre-game settings screen - important as there are issues with Back button on Android 9 with specific devices
          android_get_default_setting( "Trap Back button", true )
        );
-
 
     add( "ANDROID_NATIVE_UI", "android", to_translation( "Use native Android UI menus" ),
          to_translation( "If true, native Android dialogs are used for some in-game menus, "
@@ -3483,11 +3617,9 @@ void options_manager::serialize( JsonOut &json ) const
     json.end_array();
 }
 
-void options_manager::deserialize( JsonIn &jsin )
+void options_manager::deserialize( const JsonArray &ja )
 {
-    jsin.start_array();
-    while( !jsin.end_array() ) {
-        JsonObject joOptions = jsin.get_object();
+    for( JsonObject joOptions : ja ) {
         joOptions.allow_omitted_members();
 
         const std::string name = migrateOptionName( joOptions.get_string( "name" ) );
@@ -3522,6 +3654,13 @@ static void update_options_cache()
     // cache to global due to heavy usage.
     trigdist = ::get_option<bool>( "CIRCLEDIST" );
     use_tiles = ::get_option<bool>( "USE_TILES" );
+
+    prevent_occlusion = ::get_option<int>( "PREVENT_OCCLUSION" );
+    prevent_occlusion_retract = ::get_option<bool>( "PREVENT_OCCLUSION_RETRACT" );
+    prevent_occlusion_transp = ::get_option<bool>( "PREVENT_OCCLUSION_TRANSP" );
+    prevent_occlusion_min_dist = ::get_option<float>( "PREVENT_OCCLUSION_MIN_DIST" );
+    prevent_occlusion_max_dist = ::get_option<float>( "PREVENT_OCCLUSION_MAX_DIST" );
+
     // if the tilesets are identical don't duplicate
     use_far_tiles = ::get_option<bool>( "USE_DISTANT_TILES" ) ||
                     get_option<std::string>( "TILES" ) == get_option<std::string>( "DISTANT_TILES" );
@@ -3532,11 +3671,12 @@ static void update_options_cache()
     fov_3d = ::get_option<bool>( "FOV_3D" );
     fov_3d_z_range = ::get_option<int>( "FOV_3D_Z_RANGE" );
     keycode_mode = ::get_option<std::string>( "SDL_KEYBOARD_MODE" ) == "keycode";
+    use_pinyin_search = ::get_option<bool>( "USE_PINYIN_SEARCH" );
 }
 
 bool options_manager::save() const
 {
-    const auto savefile = PATH_INFO::options();
+    const cata_path savefile = PATH_INFO::options();
 
     update_options_cache();
 
@@ -3550,8 +3690,8 @@ bool options_manager::save() const
 
 void options_manager::load()
 {
-    const auto file = PATH_INFO::options();
-    read_from_file_optional_json( file, [&]( JsonIn & jsin ) {
+    const cata_path file = PATH_INFO::options();
+    read_from_file_optional_json( file, [&]( const JsonArray & jsin ) {
         deserialize( jsin );
     } );
 

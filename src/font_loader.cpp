@@ -1,5 +1,7 @@
 #include "font_loader.h"
 
+#include "json_loader.h"
+
 // Ensure that unifont is always loaded as a fallback font to prevent users from shooting themselves in the foot
 void ensure_unifont_loaded( std::vector<std::string> &font_list )
 {
@@ -9,11 +11,10 @@ void ensure_unifont_loaded( std::vector<std::string> &font_list )
     }
 }
 
-void font_loader::load_throws( const std::string &path )
+void font_loader::load_throws( const cata_path &path )
 {
     try {
-        cata::ifstream stream( fs::u8path( path ), std::ifstream::binary );
-        JsonIn json( stream );
+        JsonValue json = json_loader::from_path( path );
         JsonObject config = json.get_object();
         if( config.has_string( "typeface" ) ) {
             typeface.emplace_back( config.get_string( "typeface" ) );
@@ -36,12 +37,13 @@ void font_loader::load_throws( const std::string &path )
         ensure_unifont_loaded( overmap_typeface );
 
     } catch( const std::exception &err ) {
-        throw std::runtime_error( std::string( "loading font settings from " ) + path + " failed: " +
+        throw std::runtime_error( std::string( "loading font settings from " ) + path.generic_u8string() +
+                                  " failed: " +
                                   err.what() );
     }
 }
 
-void font_loader::save( const std::string &path ) const
+void font_loader::save( const cata_path &path ) const
 {
     try {
         write_to_file( path, [&]( std::ostream & stream ) {
@@ -60,11 +62,11 @@ void font_loader::save( const std::string &path ) const
 
 void font_loader::load()
 {
-    const std::string fontdata = PATH_INFO::fontdata();
+    const cata_path fontdata = PATH_INFO::fontdata();
     if( file_exist( fontdata ) ) {
         load_throws( fontdata );
     } else {
-        const std::string legacy_fontdata = PATH_INFO::legacy_fontdata();
+        const cata_path legacy_fontdata = PATH_INFO::legacy_fontdata();
         load_throws( legacy_fontdata );
         assure_dir_exist( PATH_INFO::config_dir() );
         save( fontdata );

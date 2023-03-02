@@ -137,6 +137,8 @@ struct omt_find_params {
     bool must_see = false;
     bool cant_see = false;
     bool existing_only = false;
+    int min_z = -OVERMAP_DEPTH;
+    int max_z = OVERMAP_HEIGHT;
     cata::optional<overmap_special_id> om_special = cata::nullopt;
 };
 
@@ -145,8 +147,8 @@ class overmapbuffer
     public:
         overmapbuffer();
 
-        static std::string terrain_filename( const point_abs_om & );
-        static std::string player_filename( const point_abs_om & );
+        static cata_path terrain_filename( const point_abs_om & );
+        static cata_path player_filename( const point_abs_om & );
 
         /**
          * Uses overmap coordinates, that means x and y are directly
@@ -285,6 +287,7 @@ class overmapbuffer
          * Searches all loaded overmaps.
          */
         shared_ptr_fast<npc> find_npc( character_id id );
+        void foreach_npc( const std::function<void( npc & )> &callback );
         shared_ptr_fast<npc> find_npc_by_unique_id( const std::string &unique_id );
         /**
          * Get all NPCs active on the overmap
@@ -346,7 +349,7 @@ class overmapbuffer
         bool reveal( const tripoint_abs_omt &center, int radius,
                      const std::function<bool( const oter_id & )> &filter );
         std::vector<tripoint_abs_omt> get_travel_path(
-            const tripoint_abs_omt &src, const tripoint_abs_omt &dest, overmap_path_params params );
+            const tripoint_abs_omt &src, const tripoint_abs_omt &dest, const overmap_path_params &params );
         bool reveal_route( const tripoint_abs_omt &source, const tripoint_abs_omt &dest,
                            int radius = 0, bool road_only = false );
         /**
@@ -589,7 +592,7 @@ class overmapbuffer
         /**
          * Reads placed unique specials from JSON and overwrites the global value.
          */
-        void deserialize_placed_unique_specials( JsonIn &jsin );
+        void deserialize_placed_unique_specials( const JsonValue &jsin );
     private:
         /**
          * Go thorough the monster groups of the overmap and move out-of-bounds

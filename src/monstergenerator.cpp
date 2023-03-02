@@ -649,7 +649,6 @@ void MonsterGenerator::load_monster( const JsonObject &jo, const std::string &sr
     mon_templates->load( jo, src );
 }
 
-
 mon_effect_data::mon_effect_data() :
     chance( 100.0f ),
     permanent( false ),
@@ -683,10 +682,11 @@ void mon_effect_data::load( const JsonObject &jo )
     }
 
     if( chance > 100.f || chance < 0.f ) {
+        float chance_wrong = chance;
+        chance = clamp<float>( chance, 0.f, 100.f );
         jo.throw_error_at( "chance",
                            string_format( "\"chance\" is defined as %f, "
-                                          "but must be a decimal number between 0.0 and 100.0", chance ) );
-        chance = clamp<float>( chance, 0.f, 100.f );
+                                          "but must be a decimal number between 0.0 and 100.0", chance_wrong ) );
     }
 }
 
@@ -1058,6 +1058,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         upgrade_group = mongroup_id::NULL_ID();
         upgrade_into = mtype_id::NULL_ID();
         upgrades = false;
+        upgrade_null_despawn = false;
     } else if( jo.has_member( "upgrades" ) ) {
         JsonObject up = jo.get_object( "upgrades" );
         optional( up, was_loaded, "half_life", half_life, -1 );
@@ -1074,6 +1075,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         } else {
             jo.get_int( "spawn_range", 0 ); // ignore if defined
         }
+        optional( up, was_loaded, "despawn_when_null", upgrade_null_despawn, false );
         upgrades = true;
     }
 
@@ -1588,8 +1590,7 @@ void pet_food_data::load( const JsonObject &jo )
     optional( jo, was_loaded, "pet", pet );
 }
 
-void pet_food_data::deserialize( JsonIn &jsin )
+void pet_food_data::deserialize( const JsonObject &data )
 {
-    JsonObject data = jsin.get_object();
     load( data );
 }

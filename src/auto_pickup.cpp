@@ -250,7 +250,6 @@ drop_locations auto_pickup::select_items(
             item_entry->is_owned_by( get_player_character() ) ) {
             continue;
         }
-        std::string sItemName = item_entry->tname( 1, false );
         rule_state pickup_state = get_autopickup_rule( item_entry );
         bool is_container = item_entry->is_container() && !item_entry->empty_container();
 
@@ -442,14 +441,11 @@ void user_interface::show()
     ctxt.register_action( "MOVE_RULE_DOWN" );
     ctxt.register_action( "TEST_RULE" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
+    ctxt.register_action( "SWITCH_AUTO_PICKUP_OPTION" );
 
     const bool allow_swapping = tabs.size() == 2;
     if( allow_swapping ) {
         ctxt.register_action( "SWAP_RULE_GLOBAL_CHAR" );
-    }
-
-    if( is_autopickup ) {
-        ctxt.register_action( "SWITCH_AUTO_PICKUP_OPTION" );
     }
 
     while( true ) {
@@ -626,7 +622,6 @@ void user_interface::show()
         } else if( action == "TEST_RULE" && currentPageNonEmpty && !player_character.name.empty() ) {
             cur_rules[iLine].test_pattern();
         } else if( action == "SWITCH_AUTO_PICKUP_OPTION" ) {
-            // TODO: Now that NPCs use this function, it could be used for them too
             get_options().get_option( "AUTO_PICKUP" ).setNext();
             get_options().save();
         }
@@ -655,7 +650,6 @@ void player_settings::show()
     if( !player_character.name.empty() ) {
         ui.tabs.emplace_back( _( "[<Character>]" ), character_rules );
     }
-    ui.is_autopickup = true;
 
     ui.show();
 
@@ -997,10 +991,10 @@ bool player_settings::save_global()
 
 bool player_settings::save( const bool bCharacter )
 {
-    auto savefile = PATH_INFO::autopickup();
+    cata_path savefile = PATH_INFO::autopickup();
 
     if( bCharacter ) {
-        savefile = PATH_INFO::player_base_save_path() + ".apu.json";
+        savefile = PATH_INFO::player_base_save_path_path() + ".apu.json";
 
         const std::string player_save = PATH_INFO::player_base_save_path() + ".sav";
         //Character not saved yet.
@@ -1027,13 +1021,13 @@ void player_settings::load_global()
 
 void player_settings::load( const bool bCharacter )
 {
-    std::string sFile = PATH_INFO::autopickup();
+    cata_path sFile = PATH_INFO::autopickup();
     if( bCharacter ) {
-        sFile = PATH_INFO::player_base_save_path() + ".apu.json";
+        sFile = PATH_INFO::player_base_save_path_path() + ".apu.json";
     }
 
-    read_from_file_optional_json( sFile, [&]( JsonIn & jsin ) {
-        ( bCharacter ? character_rules : global_rules ).deserialize( jsin );
+    read_from_file_optional_json( sFile, [&]( const JsonValue & jv ) {
+        ( bCharacter ? character_rules : global_rules ).deserialize( jv );
     } ) ;
 
     invalidate();
@@ -1064,14 +1058,13 @@ void rule::deserialize( const JsonObject &jo )
     bExclude = jo.get_bool( "exclude" );
 }
 
-void rule_list::deserialize( JsonIn &jsin )
+void rule_list::deserialize( const JsonArray &ja )
 {
     clear();
 
-    jsin.start_array();
-    while( !jsin.end_array() ) {
+    for( JsonObject jo : ja ) {
         rule tmp;
-        tmp.deserialize( jsin.get_object() );
+        tmp.deserialize( jo );
         push_back( tmp );
     }
 }
@@ -1094,9 +1087,9 @@ void npc_settings::serialize( JsonOut &jsout ) const
     rules.serialize( jsout );
 }
 
-void npc_settings::deserialize( JsonIn &jsin )
+void npc_settings::deserialize( const JsonArray &ja )
 {
-    rules.deserialize( jsin );
+    rules.deserialize( ja );
 }
 
 void npc_settings::refresh_map_items( cache &map_items ) const

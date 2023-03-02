@@ -108,6 +108,7 @@ void material_type::load( const JsonObject &jsobj, const std::string & )
     optional( jsobj, was_loaded, "edible", _edible, false );
     optional( jsobj, was_loaded, "rotting", _rotting, false );
     optional( jsobj, was_loaded, "soft", _soft, false );
+    optional( jsobj, was_loaded, "uncomfortable", _uncomfortable, false );
     optional( jsobj, was_loaded, "reinforces", _reinforces, false );
 
     for( JsonArray pair : jsobj.get_array( "vitamins" ) ) {
@@ -334,6 +335,11 @@ bool material_type::rotting() const
 bool material_type::soft() const
 {
     return _soft;
+}
+
+bool material_type::uncomfortable() const
+{
+    return _uncomfortable;
 }
 
 bool material_type::reinforces() const

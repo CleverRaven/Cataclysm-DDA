@@ -1,0 +1,44 @@
+[
+  {
+    "id": "BGSS_RURAL_1_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": [
+      {
+        "npc_female": true,
+        "yes": "I lived alone, on the old family property way out in the middle of nowhere.  My husband passed away a bit over a month before this started… cancer.  If anything good has come out of all this, it's that I finally see a positive to losing him so young.  I'd been shut in for a while anyway.  When I heard about foreign weapons and sleeper agents, and rioting and such, I curled up with my woods soup and tried not to worry.",
+        "no": "I lived alone, on the old family property way out in the middle of nowhere.  My wife passed away a bit over a month before this started… cancer.  If anything good has come out of all this, it's that I finally see a positive to losing her so young.  I'd been shut in for a while anyway.  When I heard about foreign weapons and sleeper agents, and rioting and such, I curled up with my woods soup and tried not to worry."
+      }
+    ],
+    "responses": [
+      { "text": "What happened next?", "topic": "BGSS_RURAL_1_STORY2" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_RURAL_1_STORY2",
+    "type": "talk_topic",
+    "dynamic_line": "Well, it built up a bit.  There was that acid rain, it burnt up my crops.  Not that I'd been working the fields since… well, it'd been a <shitty> year and I hadn't done much worth doing.  There were explosions and things, and some strange sounds.  I was scared, kept to my shelter, practicing on my flute.  Then, one day, it was quiet.",
+    "responses": [
+      { "text": "What happened next?", "topic": "BGSS_RURAL_1_STORY3" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_RURAL_1_STORY3",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "u_has_var": "rural_1_started_quest",
+      "type": "mission",
+      "context": "BGSS",
+      "value": "yes",
+      "no": "That was the first thing to really shake me out of it.  I didn't really have any very close friends, but there were people I cared about a bit.  I started to worry about them.  I headed out, but everything seemed different to me.  Didn't get far before I bumped into a giant fly buzzing, and that's when I started to put it all together.  Never did see my friends again.  My place was trashed anyway, so I've just been wandering since.",
+      "yes": "That was the first thing to really shake me out of it.  I didn't really have any very close friends, but there were people I cared about a bit.  I started to worry about them.  I headed out, but everything seemed different to me.  Didn't get far before I bumped into a giant fly buzzing, and that's when I started to put it all together.  Never did see my friends again.  My place was trashed anyway, so I wandered on.  And now I'm here with you."
+    },
+    "responses": [
+      { "text": "Thanks for telling me that.  <done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  }
+]

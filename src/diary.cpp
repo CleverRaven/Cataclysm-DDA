@@ -54,7 +54,6 @@ int diary::get_opened_page_num() const
     return opened_page;
 }
 
-
 diary_page *diary::get_page_ptr( int offset )
 {
     if( !pages.empty() && opened_page + offset >= 0 ) {
@@ -71,8 +70,6 @@ void diary::add_to_change_list( const std::string &entry, const std::string &des
     }
     change_list.push_back( entry );
 }
-
-
 
 void diary::spell_changes()
 {
@@ -122,8 +119,6 @@ void diary::spell_changes()
 
     }
 }
-
-
 
 void diary::mission_changes()
 {
@@ -301,7 +296,6 @@ void diary::kill_changes()
                                         color ) + " " + colorize( nname, c_light_gray ), m.get_description() );
                 }
 
-
             }
             if( !flag ) {
                 add_to_change_list( " " );
@@ -331,7 +325,6 @@ void diary::kill_changes()
         }
     }
 }
-
 
 void diary::skill_changes()
 {
@@ -566,7 +559,6 @@ std::map<int, std::string> diary::get_desc_map()
     }
 }
 
-
 std::string diary::get_page_text()
 {
 
@@ -737,26 +729,18 @@ void diary::serialize( JsonOut &jsout )
     jsout.end_array();
 }
 
-
-
 void diary::load()
 {
     std::string name = base64_encode( get_avatar().get_save_id() + "_diary" );
-    std::string path = PATH_INFO::world_base_save_path() + "/" + name + ".json";
+    cata_path path = PATH_INFO::world_base_save_path_path() / ( name + ".json" );
     if( file_exist( path ) ) {
-        read_from_file( path, [&]( std::istream & fin ) {
-            deserialize( fin );
+        read_from_file_json( path, [&]( const JsonValue & jv ) {
+            deserialize( jv );
         } );
     }
 }
 
-void diary::deserialize( std::istream &fin )
-{
-    JsonIn jsin( fin );
-    deserialize( jsin );
-}
-
-void diary::deserialize( JsonIn &jsin )
+void diary::deserialize( const JsonValue &jsin )
 {
     try {
         JsonObject data = jsin.get_object();

@@ -35,17 +35,14 @@ help &get_help()
 
 void help::load()
 {
-    read_from_file_optional_json( PATH_INFO::help(), [&]( JsonIn & jsin ) {
+    read_from_file_optional_json( PATH_INFO::help(), [&]( const JsonValue & jsin ) {
         deserialize( jsin );
     } );
 }
 
-void help::deserialize( JsonIn &jsin )
+void help::deserialize( const JsonArray &ja )
 {
-    jsin.start_array();
-    while( !jsin.end_array() ) {
-        JsonObject jo = jsin.get_object();
-
+    for( JsonObject jo : ja ) {
         if( jo.get_string( "type" ) != "help" ) {
             debugmsg( "object with type other than \"type\" found in help text file" );
             continue;
@@ -57,7 +54,7 @@ void help::deserialize( JsonIn &jsin )
         translation name;
         jo.read( "name", name );
 
-        help_texts[jo.get_int( "order" )] = std::make_pair( name, messages );
+        help_texts[ jo.get_int( "order" ) ] = std::make_pair( name, messages );
     }
 }
 

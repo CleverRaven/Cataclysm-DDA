@@ -1,0 +1,339 @@
+[
+  {
+    "type": "weakpoint_set",
+    "id": "wps_amalgamation_base",
+    "weakpoints": [
+      {
+        "id": "leg",
+        "name": "a leg",
+        "difficulty": { "melee": 3, "ranged": 3 },
+        "damage_mult": { "all": 0.66 },
+        "crit_mult": { "all": 0.66 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [
+          { "effect": "staggered", "chance": 5, "message": "The %s is knocked off-balance!", "damage_required": [ 10, 30 ] },
+          {
+            "effect": "staggered",
+            "chance": 15,
+            "message": "The %s is knocked off-balance!",
+            "damage_required": [ 30, 100 ]
+          }
+        ],
+        "coverage": 10
+      },
+      {
+        "id": "leg_joint",
+        "name": "a joint",
+        "damage_mult": { "all": 0.66 },
+        "crit_mult": { "all": 0.66 },
+        "armor_mult": { "all": 0.5 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [
+          { "effect": "staggered", "chance": 25, "message": "The %s is knocked off-balance!", "damage_required": [ 5, 20 ] },
+          {
+            "effect": "staggered",
+            "chance": 40,
+            "message": "The %s is knocked off-balance!",
+            "damage_required": [ 21, 100 ]
+          },
+          {
+            "effect": "maimed_leg",
+            "chance": 10,
+            "duration": [ 5, 25 ],
+            "message": "The %s's leg falls limp!",
+            "damage_required": [ 1, 10 ]
+          },
+          {
+            "effect": "maimed_leg",
+            "chance": 25,
+            "duration": [ 15, 50 ],
+            "message": "The %s's leg falls limp!",
+            "damage_required": [ 11, 30 ]
+          },
+          {
+            "effect": "maimed_leg",
+            "chance": 25,
+            "duration": 86400,
+            "message": "The %s's leg is disabled!",
+            "damage_required": [ 31, 100 ]
+          }
+        ],
+        "coverage": 2
+      },
+      {
+        "id": "head",
+        "name": "the head",
+        "damage_mult": { "all": 1.1 },
+        "crit_mult": { "all": 1.1 },
+        "armor_mult": { "physical": 0.75 },
+        "difficulty": { "melee": 3, "ranged": 5 },
+        "coverage": 3
+      },
+      {
+        "id": "eye",
+        "name": "the eye",
+        "armor_mult": { "physical": 0.4 },
+        "crit_mult": { "all": 1.25 },
+        "difficulty": { "ranged": 8, "melee": 6 },
+        "effects": [
+          {
+            "effect": "blind",
+            "duration": 86400,
+            "chance": 20,
+            "message": "The %s's eyes are obliterated!",
+            "damage_required": [ 35, 100 ]
+          }
+        ],
+        "coverage": 2
+      }
+    ]
+  },
+  {
+    "type": "weakpoint_set",
+    "id": "wps_amalgamation_acid",
+    "weakpoints": [
+      {
+        "id": "acid_gland",
+        "name": "the acid gland",
+        "armor_mult": { "physical": 0.5 },
+        "crit_mult": { "all": 1.25 },
+        "difficulty": { "ranged": 5, "melee": 5 },
+        "effects": [
+          {
+            "effect": "maimed_acid_gland",
+            "chance": 15,
+            "duration": [ 1, 10 ],
+            "message": "The %s's acid glands are maimed!",
+            "damage_required": [ 1, 15 ]
+          },
+          {
+            "effect": "maimed_acid_gland",
+            "chance": 33,
+            "duration": [ 5, 25 ],
+            "message": "The %s's acid glands are maimed!",
+            "damage_required": [ 16, 30 ]
+          },
+          {
+            "effect": "maimed_acid_gland",
+            "chance": 50,
+            "duration": 86400,
+            "message": "The %s's acid glands are destroyed!",
+            "damage_required": [ 31, 100 ]
+          }
+        ],
+        "coverage": 7
+      },
+      {
+        "id": "proboscis",
+        "name": "the proboscis",
+        "damage_mult": { "all": 0.5 },
+        "crit_mult": { "all": 0.5 },
+        "difficulty": { "ranged": 5, "melee": 3 },
+        "effects": [
+          {
+            "effect": "maimed_mandible",
+            "chance": 25,
+            "duration": [ 1, 10 ],
+            "message": "The %s's proboscis is maimed!",
+            "damage_required": [ 1, 15 ]
+          },
+          {
+            "effect": "maimed_mandible",
+            "chance": 50,
+            "duration": [ 5, 25 ],
+            "message": "The %s's proboscis is maimed!",
+            "damage_required": [ 16, 30 ]
+          },
+          {
+            "effect": "maimed_mandible",
+            "chance": 50,
+            "duration": 86400,
+            "message": "The %s's proboscis is destroyed!",
+            "damage_required": [ 31, 100 ]
+          }
+        ],
+        "coverage": 5
+      }
+    ]
+  },
+  {
+    "type": "weakpoint_set",
+    "id": "wps_amalgamation_armor",
+    "weakpoints": [
+      {
+        "id": "armor_thin",
+        "name": "a thin part of its armor",
+        "armor_mult": { "all": 0.5 },
+        "crit_mult": { "all": 1.25 },
+        "coverage_mult": { "point": 1.5 },
+        "difficulty": { "ranged": 6, "melee": 6 },
+        "coverage": 15
+      },
+      {
+        "id": "armor_thick",
+        "name": "a thick part of its armor",
+        "armor_mult": { "all": 2.0 },
+        "crit_mult": { "all": 0.75 },
+        "coverage_mult": { "cut": 1.5 },
+        "coverage": 20,
+        "effects": [
+          {
+            "effect": "maimed_armor",
+            "chance": 15,
+            "duration": 86400,
+            "message": "The %s's armor cracks!",
+            "damage_required": [ 10, 30 ]
+          },
+          {
+            "effect": "maimed_armor",
+            "chance": 50,
+            "duration": 86400,
+            "message": "The %s's armor cracks!",
+            "damage_required": [ 31, 100 ]
+          }
+        ]
+      },
+      {
+        "id": "armor_cracked",
+        "name": "a crack in the armor",
+        "armor_mult": { "all": 0.33 },
+        "crit_mult": { "all": 1.2 },
+        "coverage": 15,
+        "coverage_mult": { "cut": 1.5 },
+        "required_effects": [ "maimed_armor" ]
+      }
+    ]
+  },
+  {
+    "type": "weakpoint_set",
+    "id": "wps_amalgamation_electric",
+    "weakpoints": [
+      {
+        "id": "capacitor",
+        "name": "the glowing organ",
+        "armor_mult": { "physical": 0.5 },
+        "crit_mult": { "all": 1.25 },
+        "difficulty": { "ranged": 3, "melee": 3 },
+        "effects": [
+          {
+            "effect": "maimed_capacitor",
+            "chance": 25,
+            "duration": [ 1, 10 ],
+            "message": "Sparks fly from the %s!",
+            "damage_required": [ 1, 15 ]
+          },
+          {
+            "effect": "maimed_acid_gland",
+            "chance": 50,
+            "duration": [ 5, 25 ],
+            "message": "Sparks fly from the %s!",
+            "damage_required": [ 16, 30 ]
+          },
+          {
+            "effect": "maimed_acid_gland",
+            "chance": 50,
+            "duration": 86400,
+            "message": "The %s's glowing organ sputters out!",
+            "damage_required": [ 31, 100 ]
+          }
+        ],
+        "coverage": 10
+      }
+    ]
+  },
+  {
+    "type": "weakpoint_set",
+    "id": "wps_amalgamation_mandible",
+    "weakpoints": [
+      {
+        "id": "mandible",
+        "name": "the mandibles",
+        "difficulty": { "ranged": 5, "melee": 3 },
+        "effects": [
+          {
+            "effect": "maimed_mandible",
+            "chance": 25,
+            "duration": [ 1, 10 ],
+            "message": "The %s's mandibles are maimed!",
+            "damage_required": [ 1, 15 ]
+          },
+          {
+            "effect": "maimed_mandible",
+            "chance": 50,
+            "duration": [ 5, 25 ],
+            "message": "The %s's mandibles are maimed!",
+            "damage_required": [ 16, 30 ]
+          },
+          {
+            "effect": "maimed_mandible",
+            "chance": 50,
+            "duration": 86400,
+            "message": "The %s's mandibles are destroyed!",
+            "damage_required": [ 31, 100 ]
+          }
+        ],
+        "coverage": 5
+      }
+    ]
+  },
+  {
+    "type": "weakpoint_set",
+    "id": "wps_amalgamation_tail",
+    "weakpoints": [
+      {
+        "id": "tail",
+        "name": "the tail",
+        "armor_mult": { "physical": 0.7 },
+        "damage_mult": { "all": 0.7 },
+        "crit_mult": { "all": 0.7 },
+        "effects": [
+          {
+            "effect": "maimed_tail",
+            "chance": 25,
+            "duration": [ 15, 30 ],
+            "message": "The %s's tail is maimed!",
+            "damage_required": [ 0, 24 ]
+          },
+          {
+            "effect": "maimed_tail",
+            "chance": 50,
+            "duration": 86400,
+            "message": "The %s's tail is disabled!",
+            "damage_required": [ 25, 100 ]
+          }
+        ],
+        "coverage": 15
+      }
+    ]
+  },
+  {
+    "type": "weakpoint_set",
+    "id": "wps_amalgamation_wing",
+    "weakpoints": [
+      {
+        "id": "wing",
+        "name": "the wings",
+        "armor_mult": { "physical": 0.2 },
+        "damage_mult": { "all": 0.5 },
+        "crit_mult": { "all": 0.5 },
+        "effects": [
+          {
+            "effect": "maimed_wings",
+            "chance": 25,
+            "duration": [ 15, 30 ],
+            "message": "The %s's wings are maimed!",
+            "damage_required": [ 0, 24 ]
+          },
+          {
+            "effect": "maimed_wings",
+            "chance": 50,
+            "duration": 86400,
+            "message": "The %s's wings are disabled!",
+            "damage_required": [ 25, 100 ]
+          }
+        ],
+        "coverage": 8
+      }
+    ]
+  }
+]

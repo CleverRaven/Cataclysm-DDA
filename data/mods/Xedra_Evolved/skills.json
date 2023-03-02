@@ -2,7 +2,7 @@
   {
     "type": "skill",
     "ident": "deduction",
-    "name": { "str": "Investigation" },
+    "name": { "str": "deduction" },
     "description": "Your ability to see the pattern behind a series of data points.  Allows you to ask questions that you otherwise couldn't ask and find things you might have missed otherwise.",
     "companion_industry_rank_factor": 1,
     "tags": [ "combat_skill" ],

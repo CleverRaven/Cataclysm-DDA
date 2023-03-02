@@ -8,6 +8,8 @@
 #include "advanced_inv_area.h"
 #include "advanced_inv_pane.h"
 #include "cursesdef.h"
+#include "string_input_popup.h"
+#include "ui_manager.h"
 
 class advanced_inv_listitem;
 class input_context;
@@ -50,6 +52,9 @@ class advanced_inventory
             NUM_PANES = 2
         };
         static constexpr int head_height = 5;
+
+        std::unique_ptr<ui_adaptor> ui;
+        std::unique_ptr<string_input_popup> spopup;
 
         // swap the panes and windows via std::swap()
         void swap_panes();

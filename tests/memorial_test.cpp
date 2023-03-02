@@ -304,7 +304,7 @@ TEST_CASE( "convert_legacy_memorial_log", "[memorial]" )
     memorial_logger logger;
     {
         std::istringstream is( input );
-        logger.load( is, "<test data>" );
+        logger.load( is );
         std::ostringstream os;
         logger.save( os );
         CHECK( os.str() == json_value );
@@ -313,7 +313,7 @@ TEST_CASE( "convert_legacy_memorial_log", "[memorial]" )
     // Then verify that the new format is unchanged
     {
         std::istringstream is( json_value );
-        logger.load( is, "<test data>" );
+        logger.load( is );
         std::ostringstream os;
         logger.save( os );
         CHECK( os.str() == json_value );
@@ -338,6 +338,6 @@ TEST_CASE( "memorial_log_dumping", "[memorial]" )
 
     memorial_logger logger;
     std::istringstream is( json_value );
-    logger.load( is, "<test data>" );
+    logger.load( is );
     CHECK( logger.dump() == expected_output );
 }

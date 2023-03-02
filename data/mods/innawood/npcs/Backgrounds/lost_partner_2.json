@@ -1,0 +1,25 @@
+[
+  {
+    "id": "BGSS_LOST_PARTNER_2_STORY3",
+    "type": "talk_topic",
+    "dynamic_line": [
+      {
+        "npc_female": true,
+        "yes": "He was alone when the fires started and the world went to hell.  I was working on something.  I tried to make it to him, but the whole area was a war zone.  Things I can't describe lurching along, crushing people and worse.  Some people were trying to stop them, but hitting other people trying to get away as much as anything.  And then the collateral damage would get right back up and join the enemy.  If it hadn't been for my husband, I would have just left, but I did what I could and I slipped through.  I actually <swear> made it alive.",
+        "no": "She was alone when the fires started and the world went to hell.  I was working on something.  I tried to make it to her, but the whole area was a war zone.  Things I can't describe lurching along, crushing people and worse.  Some people were trying to stop them, but hitting other people trying to get away as much as anything.  And then the collateral damage would get right back up and join the enemy.  If it hadn't been for my wife, I would have just left, but I did what I could and I slipped through.  I actually <swear> made it alive."
+      }
+    ],
+    "responses": [
+      { "text": "You must have seen some shit.", "topic": "BGSS_LOST_PARTNER_2_SOMESHIT" },
+      { "text": "I take it home was bad.", "topic": "BGSS_LOST_PARTNER_2_HOME1" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_LOST_PARTNER_2_SOMESHIT",
+    "type": "talk_topic",
+    "dynamic_line": "Yeah.  I really did.  And I got scared.  I ran out into the woods to get away from all of the violence and death to try and make a plan to figure out how to get home and get safe.  But then when I was finally ready to face off against the monsters everything was still and the woods stretched on and on.  I don't know what happened.",
+    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
+  }
+]

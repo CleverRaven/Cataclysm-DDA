@@ -180,7 +180,7 @@ void basecamp::add_expansion( const std::string &bldg, const tripoint_abs_omt &n
 
 void basecamp::define_camp( const tripoint_abs_omt &p, const std::string &camp_type )
 {
-    query_new_name();
+    query_new_name( true );
     omt_pos = p;
     const oter_id &omt_ref = overmap_buffer.ter( omt_pos );
     // purging the regions guarantees all entries will start with faction_base_
@@ -596,18 +596,29 @@ comp_list basecamp::get_mission_workers( const mission_id &miss_id, bool contain
     return available;
 }
 
-void basecamp::query_new_name()
+void basecamp::query_new_name( bool force )
 {
-    string_input_popup popup;
+    string_input_popup input_popup;
+    bool done = false;
+    bool need_input = true;
     do {
-        popup.title( _( "Name this camp" ) )
+        input_popup.title( _( "Name this camp" ) )
         .width( 40 )
-        .text( "" )
         .max_length( 25 )
         .query();
-    } while( popup.canceled() || popup.text().empty() );
-
-    name = popup.text();
+        if( input_popup.canceled() || input_popup.text().empty() ) {
+            if( name.empty() || force ) {
+                popup( _( "You need to input the base camp name." ) );
+            } else {
+                need_input = false;
+            }
+        } else {
+            done = true;
+        }
+    } while( !done && need_input );
+    if( done ) {
+        name = input_popup.text();
+    }
 }
 
 void basecamp::set_name( const std::string &new_name )

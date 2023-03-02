@@ -212,7 +212,7 @@ struct pet_food_data {
 
     bool was_loaded = false;
     void load( const JsonObject &jo );
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &data );
 };
 
 enum class mdeath_type {
@@ -410,6 +410,7 @@ struct mtype {
         mongroup_id upgrade_group;
         mtype_id burn_into;
         cata::optional<int> upgrade_multi_range;
+        bool upgrade_null_despawn;
 
         mtype_id zombify_into; // mtype_id this monster zombifies into
         mtype_id fungalize_into; // mtype_id this monster fungalize into

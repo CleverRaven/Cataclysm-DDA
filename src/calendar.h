@@ -9,7 +9,6 @@
 
 #include "units_fwd.h"
 
-class JsonIn;
 class JsonOut;
 class JsonValue;
 struct lat_long;
@@ -23,7 +22,6 @@ namespace cata
 template<typename T>
 class optional;
 } // namespace cata
-
 
 /** Real world seasons */
 enum season_type {

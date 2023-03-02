@@ -2,6 +2,8 @@
 #ifndef CATA_SRC_PATH_INFO_H
 #define CATA_SRC_PATH_INFO_H
 
+#include "cata_path.h"
+
 #include <string>
 
 enum class holiday : int;
@@ -16,67 +18,81 @@ static const std::string SAVE_EXTENSION_SHORTCUTS( ".shortcuts" );
 
 namespace PATH_INFO
 {
+
 void init_base_path( std::string path );
 void init_user_dir( std::string dir );
 void set_standard_filenames();
 
-std::string autopickup();
-std::string autonote();
-std::string base_colors();
 std::string base_path();
-std::string colors();
-std::string color_templates();
-std::string color_themes();
+std::string cache_dir();
 std::string config_dir();
-std::string custom_colors();
 std::string datadir();
 std::string debug();
-std::string defaultsounddir();
 std::string defaulttilejson();
 std::string defaultlayeringjson();
 std::string defaulttilepng();
-std::string fontdata();
 std::string fontdir();
 std::string user_font();
 std::string graveyarddir();
-std::string help();
-std::string keybindings();
-std::string keybindings_vehicle();
 std::string keymap();
-std::string lastworld();
-std::string legacy_fontdata();
 std::string memorialdir();
-std::string jsondir();
-std::string moddir();
-std::string options();
-std::string panel_options();
 std::string player_base_save_path();
-std::string safemode();
 std::string savedir();
 std::string sokoban();
 std::string templatedir();
 std::string user_dir();
-std::string user_keybindings();
 std::string user_moddir();
 std::string world_base_save_path();
 std::string worldoptions();
 std::string crash();
 std::string tileset_conf();
-std::string gfxdir();
 std::string langdir();
 std::string lang_file();
-std::string user_gfx();
-std::string data_sound();
-std::string user_sound();
-std::string mods_replacements();
-std::string mods_dev_default();
-std::string mods_user_default();
 std::string soundpack_conf();
 
 std::string credits();
 std::string motd();
 std::string title( holiday current_holiday );
-std::string names();
+
+cata_path autopickup();
+cata_path autonote();
+cata_path base_colors();
+cata_path base_path_path();
+cata_path color_templates();
+cata_path color_themes();
+cata_path colors();
+cata_path config_dir_path();
+cata_path custom_colors();
+cata_path data_sound();
+cata_path datadir_path();
+cata_path defaultsounddir();
+cata_path fontdata();
+cata_path gfxdir();
+cata_path help();
+cata_path jsondir();
+cata_path keybindings();
+cata_path keybindings_vehicle();
+cata_path langdir_path();
+cata_path lastworld();
+cata_path legacy_fontdata();
+cata_path memorialdir_path();
+cata_path moddir();
+cata_path mods_dev_default();
+cata_path mods_user_default();
+cata_path mods_replacements();
+cata_path names();
+cata_path options();
+cata_path panel_options();
+cata_path player_base_save_path_path();
+cata_path safemode();
+cata_path savedir_path();
+cata_path templatedir_path();
+cata_path user_dir_path();
+cata_path user_gfx();
+cata_path user_keybindings();
+cata_path user_moddir_path();
+cata_path user_sound();
+cata_path world_base_save_path_path();
 
 void set_datadir( const std::string &datadir );
 void set_config_dir( const std::string &config_dir );

@@ -35,6 +35,7 @@
 #include "avatar.h"
 #include "cached_options.h"
 #include "cata_assert.h"
+#include "cata_scope_helpers.h"
 #include "cata_tiles.h"
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -173,7 +174,20 @@ static void InitSDL()
     int ret;
 
 #if defined(SDL_HINT_WINDOWS_DISABLE_THREAD_NAMING)
+    // Requires SDL 2.0.5. Disables thread naming so that gdb works correctly
+    // with the game.
     SDL_SetHint( SDL_HINT_WINDOWS_DISABLE_THREAD_NAMING, "1" );
+#endif
+
+#if defined(_WIN32) && defined(SDL_HINT_IME_SHOW_UI)
+    // Requires SDL 2.0.20. Shows the native IME UI instead of using SDL's
+    // broken implementation on Windows which does not show.
+    SDL_SetHint( SDL_HINT_IME_SHOW_UI, "1" );
+#endif
+
+#if defined(SDL_HINT_IME_SUPPORT_EXTENDED_TEXT)
+    // Requires SDL 2.0.22. Support long IME composition text.
+    SDL_SetHint( SDL_HINT_IME_SUPPORT_EXTENDED_TEXT, "1" );
 #endif
 
 #if defined(__linux__)
@@ -698,7 +712,6 @@ static cata::optional<std::pair<tripoint_abs_omt, std::string>> get_mission_arro
         return cata::nullopt;
     }
 
-
     tripoint arr_pos = traj[0];
     for( auto it = traj.rbegin(); it != traj.rend(); it++ ) {
         if( overmap_area.contains( *it ) ) {
@@ -764,7 +777,7 @@ std::string cata_tiles::get_omt_id_rotation_and_subtile(
         // This would be for connected terrain
 
         // get terrain neighborhood
-        const oter_type_id neighborhood[4] = {
+        const std::array<oter_type_id, 4> neighborhood = {
             oter_at( omp + point_south )->get_type_id(),
             oter_at( omp + point_east )->get_type_id(),
             oter_at( omp + point_west )->get_type_id(),
@@ -780,7 +793,7 @@ std::string cata_tiles::get_omt_id_rotation_and_subtile(
             }
         }
 
-        get_rotation_and_subtile( val, rota, subtile );
+        get_rotation_and_subtile( val, -1, rota, subtile );
     } else {
         // 'Regular', nonlinear terrain only needs to worry about rotation, not
         // subtile
@@ -2519,9 +2532,8 @@ bool is_string_input( input_context &ctx )
 {
     std::string &category = ctx.get_category();
     return category == "STRING_INPUT"
-           || category == "HELP_KEYBINDINGS"
-           || category == "NEW_CHAR_DESCRIPTION"
-           || category == "WORLDGEN_CONFIRM_DIALOG";
+           || category == "STRING_EDITOR"
+           || category == "HELP_KEYBINDINGS";
 }
 
 int get_key_event_from_string( const std::string &str )
@@ -2807,12 +2819,12 @@ static void CheckMessages()
                                     actions.insert( ACTION_CONTROL_VEHICLE );
                                 }
                                 const int openablepart = veh->part_with_feature( veh_part, "OPENABLE", true );
-                                if( openablepart >= 0 && veh->is_open( openablepart ) && ( dx != 0 ||
+                                if( openablepart >= 0 && veh->part( openablepart ).open && ( dx != 0 ||
                                         dy != 0 ) ) { // an open door adjacent to us
                                     actions.insert( ACTION_CLOSE );
                                 }
                                 const int curtainpart = veh->part_with_feature( veh_part, "CURTAIN", true );
-                                if( curtainpart >= 0 && veh->is_open( curtainpart ) && ( dx != 0 || dy != 0 ) ) {
+                                if( curtainpart >= 0 && veh->part( curtainpart ).open && ( dx != 0 || dy != 0 ) ) {
                                     actions.insert( ACTION_CLOSE );
                                 }
                                 const int cargopart = veh->part_with_feature( veh_part, "CARGO", true );
@@ -3086,7 +3098,7 @@ static void CheckMessages()
                     SDL_ShowCursor( SDL_DISABLE );
                 }
                 keyboard_mode mode = keyboard_mode::keychar;
-#if !defined(__ANDROID__) && !defined(TARGET_OS_IPHONE)
+#if !defined(__ANDROID__) && !(defined(TARGET_OS_IPHONE) && TARGET_OS_IPHONE == 1)
                 if( !SDL_IsTextInputActive() ) {
                     mode = keyboard_mode::keycode;
                 }
@@ -3143,7 +3155,7 @@ static void CheckMessages()
                 }
 #endif
                 keyboard_mode mode = keyboard_mode::keychar;
-#if !defined(__ANDROID__) && !defined(TARGET_OS_IPHONE)
+#if !defined(__ANDROID__) && !(defined(TARGET_OS_IPHONE) && TARGET_OS_IPHONE == 1)
                 if( !SDL_IsTextInputActive() ) {
                     mode = keyboard_mode::keycode;
                 }
@@ -3204,11 +3216,35 @@ static void CheckMessages()
                     last_input = input_event();
                     last_input.type = input_event_t::keyboard_char;
                 }
-                last_input.edit = ev.edit.text;
+                // Convert to string explicitly to avoid accidentally using
+                // the array out of scope.
+                last_input.edit = std::string( ev.edit.text );
                 last_input.edit_refresh = true;
                 text_refresh = true;
+                break;
             }
-            break;
+#if defined(SDL_HINT_IME_SUPPORT_EXTENDED_TEXT)
+            case SDL_TEXTEDITING_EXT: {
+                if( !ev.editExt.text ) {
+                    break;
+                }
+                if( strlen( ev.editExt.text ) > 0 ) {
+                    const unsigned lc = UTF8_getch( ev.editExt.text );
+                    last_input = input_event( lc, input_event_t::keyboard_char );
+                } else {
+                    // no key pressed in this event
+                    last_input = input_event();
+                    last_input.type = input_event_t::keyboard_char;
+                }
+                // Convert to string explicitly to avoid accidentally using
+                // a pointer that will be freed
+                last_input.edit = std::string( ev.editExt.text );
+                last_input.edit_refresh = true;
+                text_refresh = true;
+                SDL_free( ev.editExt.text );
+                break;
+            }
+#endif
             case SDL_CONTROLLERBUTTONDOWN:
             case SDL_CONTROLLERBUTTONUP:
                 gamepad::handle_button_event( ev );
@@ -3752,7 +3788,7 @@ input_event input_manager::get_input_event( const keyboard_mode preferred_keyboa
         throw std::runtime_error( "input_manager::get_input_event called in test mode" );
     }
 
-#if !defined(__ANDROID__) && !defined(TARGET_OS_IPHONE)
+#if !defined(__ANDROID__) && !(defined(TARGET_OS_IPHONE) && TARGET_OS_IPHONE == 1)
     if( actual_keyboard_mode( preferred_keyboard_mode ) == keyboard_mode::keychar ) {
         StartTextInput();
     } else {
@@ -4018,6 +4054,12 @@ void to_overmap_font_dimension( int &w, int &h )
 bool is_draw_tiles_mode()
 {
     return use_tiles;
+}
+
+bool catacurses::supports_256_colors()
+{
+    // trust SDL to do the right thing instead
+    return false;
 }
 
 /** Saves a screenshot of the current viewport, as a PNG file, to the given location.
