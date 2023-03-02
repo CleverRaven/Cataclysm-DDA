@@ -163,31 +163,6 @@
     "color": "white"
   },
   {
-    "id": "flamable_arrow",
-    "type": "TOOL",
-    "category": "ammo",
-    "name": { "str": "flammable arrow" },
-    "description": "This arrow has a rag soaked in a flammable liquid wrapped around the shaft near the head.  You need to light it before shooting.",
-    "weight": "30 g",
-    "volume": "100 ml",
-    "longest_side": "78 cm",
-    "price": 3500,
-    "price_postapoc": 10,
-    "bashing": 2,
-    "material": [ "wood" ],
-    "symbol": "=",
-    "color": "brown",
-    "use_action": {
-      "target": "arrow_flamming",
-      "target_charges": 1,
-      "msg": "You light the arrow.",
-      "active": true,
-      "need_fire": 1,
-      "menu_text": "Light arrow",
-      "type": "transform"
-    }
-  },
-  {
     "id": "fur_rollmat",
     "type": "TOOL",
     "name": { "str": "fur rollmat" },
@@ -626,7 +601,7 @@
     "material": [ "wood" ],
     "symbol": "H",
     "color": "brown",
-    "use_action": [ "LADDER" ]
+    "use_action": { "type": "deploy_furn", "furn_type": "f_ladder" }
   },
   {
     "id": "survival_marker",
@@ -872,7 +847,7 @@
     "material": [ "aluminum" ],
     "symbol": "H",
     "color": "light_gray",
-    "use_action": [ "LADDER" ]
+    "use_action": { "type": "deploy_furn", "furn_type": "f_aluminum_stepladder" }
   },
   {
     "id": "glass_cutter",

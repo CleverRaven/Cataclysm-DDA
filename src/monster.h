@@ -134,7 +134,7 @@ class monster : public Creature
 
         static std::string speed_description( float mon_speed_rating,
                                               bool immobile = false,
-                                              speed_description_id speed_desc = speed_description_id::NULL_ID() );
+                                              const speed_description_id &speed_desc = speed_description_id::NULL_ID() );
 
         // Access
         std::string get_name() const override;

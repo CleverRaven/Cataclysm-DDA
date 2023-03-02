@@ -291,13 +291,26 @@ cata::optional<int> iuse_transform::use( Character &p, item &it, bool t, const t
         }
     }
 
+    if( it.count_by_charges() && it.count() > 1 ) {
+        item take_one = it.split( 1 );
+        do_transform( p, take_one );
+        p.i_add_or_drop( take_one );
+    } else {
+        do_transform( p, it );
+    }
+
+    if( it.is_tool() ) {
+        result = scale;
+    }
+    return result;
+}
+
+void iuse_transform::do_transform( Character &p, item &it ) const
+{
     item obj_copy( it );
     item *obj;
     // defined here to allow making a new item assigned to the pointer
     item obj_it;
-    if( it.is_tool() ) {
-        result = scale;
-    }
     if( container.is_empty() ) {
         obj = &it.convert( target );
         if( ammo_qty >= 0 || !random_ammo_qty.empty() ) {
@@ -343,8 +356,6 @@ cata::optional<int> iuse_transform::use( Character &p, item &it, bool t, const t
             p.on_worn_item_transform( obj_copy, *obj );
         }
     }
-
-    return result;
 }
 
 ret_val<void> iuse_transform::can_use( const Character &p, const item &, bool,
@@ -1193,6 +1204,27 @@ bool firestarter_actor::prep_firestarter_use( const Character &p, tripoint_bub_m
             return false;
         }
     }
+    // Check for an adjacent fire container
+    for( const tripoint_bub_ms &query : here.points_in_radius( pos, 1 ) ) {
+        // Don't ask if we're setting a fire on top of a fireplace
+        // TODO: fix point types
+        if( here.has_flag_furn( "FIRE_CONTAINER", pos.raw() ) ) {
+            break;
+        }
+        // Skip the position we're trying to light on fire
+        if( query == pos ) {
+            continue;
+        }
+        // TODO: fix point types
+        if( here.has_flag_furn( "FIRE_CONTAINER", query.raw() ) ) {
+            if( !query_yn( _( "Are you sure you want to start fire here?  There's a fireplace adjacent." ) ) ) {
+                return false;
+            } else {
+                // Don't ask multiple times if they say no and there are multiple fireplaces
+                break;
+            }
+        }
+    }
     // Check for a brazier.
     bool has_unactivated_brazier = false;
     for( const item &i : here.i_at( pos ) ) {
@@ -1457,7 +1489,7 @@ bool salvage_actor::valid_to_cut_up( const Character *const p, const item &it ) 
 
 // Find a recipe that can be used to craft item x. Searches craft and uncraft recipes
 // Used only by salvage_actor::cut_up
-static cata::optional<recipe> find_uncraft_recipe( item x )
+static cata::optional<recipe> find_uncraft_recipe( const item &x )
 {
     auto is_valid_uncraft = [&x]( const recipe & curr ) -> bool {
         return !( curr.obsolete || curr.result() != x.typeId()
@@ -1593,7 +1625,6 @@ void salvage_actor::cut_up( Character &p, item_location &cut ) const
 
     // Decompose the item into irreducible parts
     cut_up_component( *cut.get_item(), efficiency );
-
 
     // Not much practice, and you won't get very far ripping things up.
     p.practice( skill_fabrication, rng( 0, 5 ), 1 );
@@ -2642,7 +2673,7 @@ std::set<itype_id> repair_item_actor::get_valid_repair_materials( const item &fi
 }
 
 bool repair_item_actor::handle_components( Character &pl, const item &fix,
-        bool print_msg, bool just_check ) const
+        bool print_msg, bool just_check, bool check_consumed_available ) const
 {
     // Entries valid for repaired items
     std::set<itype_id> valid_entries = get_valid_repair_materials( fix );
@@ -2682,7 +2713,7 @@ bool repair_item_actor::handle_components( Character &pl, const item &fix,
 
     // Go through all discovered repair items and see if we have any of them available
     std::vector<item_comp> comps;
-    for( const auto &component_id : valid_entries ) {
+    for( const itype_id &component_id : valid_entries ) {
         if( item::count_by_charges( component_id ) ) {
             if( crafting_inv.has_charges( component_id, items_needed ) ) {
                 comps.emplace_back( component_id, items_needed );
@@ -2692,9 +2723,9 @@ bool repair_item_actor::handle_components( Character &pl, const item &fix,
         }
     }
 
-    if( comps.empty() ) {
+    if( check_consumed_available && comps.empty() ) {
         if( print_msg ) {
-            for( const auto &mat_comp : valid_entries ) {
+            for( const itype_id &mat_comp : valid_entries ) {
                 pl.add_msg_if_player( m_info,
                                       _( "You don't have enough %s to do that.  Have: %d, need: %d" ),
                                       item::nname( mat_comp, 2 ),
@@ -2816,8 +2847,8 @@ int repair_item_actor::repair_recipe_difficulty( const Character &pl,
     return diff;
 }
 
-bool repair_item_actor::can_repair_target( Character &pl, const item &fix,
-        bool print_msg ) const
+bool repair_item_actor::can_repair_target( Character &pl, const item &fix, bool print_msg,
+        bool check_consumed_available ) const
 {
     // In some rare cases (indices getting scrambled after inventory overflow)
     //  our `fix` can be a different item.
@@ -2850,7 +2881,7 @@ bool repair_item_actor::can_repair_target( Character &pl, const item &fix,
         return false;
     }
 
-    if( !handle_components( pl, fix, print_msg, true ) ) {
+    if( !handle_components( pl, fix, print_msg, true, check_consumed_available ) ) {
         return false;
     }
 
@@ -3013,7 +3044,7 @@ repair_item_actor::attempt_hint repair_item_actor::repair( Character &pl, item &
     if( !can_use_tool( pl, tool, true ) ) {
         return AS_CANT_USE_TOOL;
     }
-    if( !can_repair_target( pl, *fix, true ) ) {
+    if( !can_repair_target( pl, *fix, true, true ) ) {
         return AS_CANT;
     }
 
@@ -3077,7 +3108,7 @@ repair_item_actor::attempt_hint repair_item_actor::repair( Character &pl, item &
         if( roll == SUCCESS ) {
             const std::string startdurability = fix->durability_indicator( true );
             const int damage = fix->damage();
-            handle_components( pl, *fix, false, false );
+            handle_components( pl, *fix, false, false, true );
 
             int dmg = fix->damage() + 1;
             for( const int lvl = fix->damage_level(); lvl == fix->damage_level() && dmg != fix->damage(); ) {
@@ -3108,7 +3139,7 @@ repair_item_actor::attempt_hint repair_item_actor::repair( Character &pl, item &
 
                 pl.calc_encumbrance();
             }
-            handle_components( pl, *fix, false, false );
+            handle_components( pl, *fix, false, false, true );
             return AS_SUCCESS;
         }
 
@@ -3122,7 +3153,7 @@ repair_item_actor::attempt_hint repair_item_actor::repair( Character &pl, item &
                                   fix->tname().c_str() );
             fix->set_flag( flag_UNDERSIZE );
             pl.calc_encumbrance();
-            handle_components( pl, *fix, false, false );
+            handle_components( pl, *fix, false, false, true );
             return AS_SUCCESS;
         }
         return AS_RETRY;
@@ -3135,7 +3166,7 @@ repair_item_actor::attempt_hint repair_item_actor::repair( Character &pl, item &
                                   fix->tname().c_str() );
             fix->unset_flag( flag_UNDERSIZE );
             pl.calc_encumbrance();
-            handle_components( pl, *fix, false, false );
+            handle_components( pl, *fix, false, false, true );
             return AS_SUCCESS;
         }
         return AS_RETRY;
@@ -3151,7 +3182,7 @@ repair_item_actor::attempt_hint repair_item_actor::repair( Character &pl, item &
         if( roll == SUCCESS ) {
             pl.add_msg_if_player( m_good, _( "You make your %s extra sturdy." ), fix->tname() );
             fix->mod_damage( -itype::damage_scale );
-            handle_components( pl, *fix, false, false );
+            handle_components( pl, *fix, false, false, true );
             return AS_SUCCESS;
         }
 
@@ -3759,7 +3790,10 @@ bool place_trap_actor::is_allowed( Character &p, const tripoint &pos,
     const trap &existing_trap = here.tr_at( pos );
     if( !existing_trap.is_null() ) {
         if( existing_trap.can_see( pos, p ) ) {
-            p.add_msg_if_player( m_info, _( "You can't place a %s there.  It contains a trap already." ),
+            p.add_msg_if_player( m_info,
+                                 existing_trap.is_benign()
+                                 ? _( "You can't place a %s there.  It contains a deployed object already." )
+                                 : _( "You can't place a %s there.  It contains a trap already." ),
                                  name );
         } else {
             p.add_msg_if_player( m_bad, _( "You trigger a %s!" ), existing_trap.name() );
@@ -4079,13 +4113,11 @@ cata::optional<int> molle_detach_actor::use( Character &p, item &it, bool,
 
     prompt.query();
 
-
     if( prompt.ret >= 0 ) {
         p.i_add( it.get_contents().remove_pocket( prompt.ret ) );
         p.add_msg_if_player( _( "You remove the item from your %s." ), it.tname() );
         return 0;
     }
-
 
     p.add_msg_if_player( _( "Never mind." ) );
     return cata::nullopt;

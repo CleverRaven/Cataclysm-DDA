@@ -933,5 +933,25 @@
         "charges-max": 1
       }
     ]
+  },
+  {
+    "id": "any_wild_egg",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "egg_crow", "prob": 20 },
+      { "item": "egg_sparrow", "prob": 20 },
+      { "item": "egg_bluejay", "prob": 10 },
+      { "item": "egg_cardinal", "prob": 5 },
+      { "item": "egg_raven", "prob": 5 },
+      { "item": "egg_robin", "prob": 5 },
+      { "item": "egg_duck", "prob": 2 },
+      { "item": "egg_goose_canadian", "prob": 1 },
+      { "item": "egg_coot", "prob": 1 },
+      { "item": "egg_grebe", "prob": 1 },
+      { "item": "egg_hummingbird", "prob": 1 },
+      { "item": "egg_turkey", "prob": 1 },
+      { "item": "egg_grouse", "prob": 1 }
+    ]
   }
 ]

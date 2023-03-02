@@ -215,6 +215,7 @@ enum class get_body_part_flags : int {
     only_main = 1 << 0,
     sorted = 1 << 1,
     primary_type = 1 << 2,
+    only_minor = 1 << 3
 };
 
 template<>
@@ -1201,8 +1202,8 @@ class Creature : public viewer
         virtual void process_one_effect( effect &e, bool is_new ) = 0;
 
         pimpl<effects_map> effects;
-        static std::queue<scheduled_effect> scheduled_effects;
-        static std::queue<terminating_effect> terminating_effects;
+        std::queue<scheduled_effect, std::list<scheduled_effect>> scheduled_effects;
+        std::queue<terminating_effect, std::list<terminating_effect>> terminating_effects;
 
         std::vector<damage_over_time_data> damage_over_time_map;
 
@@ -1229,7 +1230,6 @@ class Creature : public viewer
         int bash_bonus = 0;
         int cut_bonus = 0;
         int size_bonus = 0;
-
 
         float bash_mult = 0.0f;
         float cut_mult = 0.0f;

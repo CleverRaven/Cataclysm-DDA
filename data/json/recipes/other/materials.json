@@ -363,6 +363,21 @@
   },
   {
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "thread",
+    "id_suffix": "with_electric_spinwheel_from_felt",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "batch_time_factors": [ 70, 1 ],
+    "time": "15 s",
+    "charges": 50,
+    "autolearn": true,
+    "tools": [ [ [ "electric_spinwheel", 1 ] ] ],
+    "components": [ [ [ "felt_patch", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "sheet_neoprene",
     "category": "CC_OTHER",
@@ -392,7 +407,7 @@
     "skill_used": "tailor",
     "time": "9 m",
     "autolearn": true,
-    "byproducts": [ [ "seed_cotton_boll", 2 ] ],
+    "byproduct_group": [ { "item": "seed_cotton_boll", "charges": 2 } ],
     "tools": [ [ [ "carding_paddles", -1 ] ] ],
     "components": [ [ [ "cotton_boll", 1 ] ] ]
   },
@@ -407,8 +422,23 @@
     "id_suffix": "spinningwheel",
     "time": "27 s",
     "autolearn": true,
-    "byproducts": [ [ "seed_cotton_boll", 2 ] ],
+    "byproduct_group": [ { "item": "seed_cotton_boll", "charges": 2 } ],
     "tools": [ [ [ "spinwheelitem", -1 ] ] ],
+    "components": [ [ [ "cotton_boll", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "cotton_ball",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "tailor",
+    "batch_time_factors": [ 70, 1 ],
+    "id_suffix": "electric_spinwheel",
+    "time": "27 s",
+    "autolearn": true,
+    "byproduct_group": [ { "item": "seed_cotton_boll", "charges": 2 } ],
+    "tools": [ [ [ "electric_spinwheel", 1 ] ] ],
     "components": [ [ [ "cotton_boll", 1 ] ] ]
   },
   {
@@ -443,6 +473,21 @@
   },
   {
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "thread",
+    "id_suffix": "with_electric_spinwheel_from_cotton_ball",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "batch_time_factors": [ 70, 1 ],
+    "skill_used": "tailor",
+    "time": "30 s",
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_spinning", "fail_multiplier": 1.5 } ],
+    "tools": [ [ [ "electric_spinwheel", 2 ] ] ],
+    "components": [ [ [ "cotton_ball", 3 ] ] ]
+  },
+  {
+    "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "thread_canvas",
     "id_suffix": "from_thread",
@@ -467,6 +512,21 @@
     "time": "5 m",
     "autolearn": true,
     "tools": [ [ [ "spinwheelitem", -1 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_spinning", "required": false, "time_multiplier": 1.5 } ],
+    "components": [ [ [ "thread", 150 ], [ "sinew", 150 ], [ "yarn", 150 ], [ "plant_fibre", 150 ], [ "cotton_ball", 9 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "thread_canvas",
+    "id_suffix": "with_electric_spinwheel",
+    "batch_time_factors": [ 70, 1 ],
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "tailor",
+    "time": "5 m",
+    "autolearn": true,
+    "tools": [ [ [ "electric_spinwheel", 11 ] ] ],
     "proficiencies": [ { "proficiency": "prof_spinning", "required": false, "time_multiplier": 1.5 } ],
     "components": [ [ [ "thread", 150 ], [ "sinew", 150 ], [ "yarn", 150 ], [ "plant_fibre", 150 ], [ "cotton_ball", 9 ] ] ]
   },
@@ -502,6 +562,22 @@
     "components": [ [ [ "straw_pile", 5 ], [ "withered", 5 ] ] ]
   },
   {
+    "result": "grass_yarn",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "tailor",
+    "id_suffix": "electric_spinwheel",
+    "batch_time_factors": [ 70, 1 ],
+    "time": "90 s",
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_spinning" }, { "proficiency": "prof_fibers" } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "tools": [ [ [ "electric_spinwheel", 4 ] ] ],
+    "components": [ [ [ "straw_pile", 5 ], [ "withered", 5 ] ] ]
+  },
+  {
     "result": "yarn",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -530,6 +606,22 @@
     "proficiencies": [ { "proficiency": "prof_spinning" }, { "proficiency": "prof_fibers" } ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "spinwheelitem", -1 ] ] ],
+    "components": [ [ [ "wool_staple", 1 ] ] ]
+  },
+  {
+    "result": "yarn",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "id_suffix": "electric_spinwheel",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "tailor",
+    "batch_time_factors": [ 70, 1 ],
+    "time": "90 s",
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_spinning" }, { "proficiency": "prof_fibers" } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "tools": [ [ [ "electric_spinwheel", 4 ] ] ],
     "components": [ [ [ "wool_staple", 1 ] ] ]
   },
   {
@@ -647,6 +739,22 @@
     "components": [ [ [ "thread", 50 ] ] ]
   },
   {
+    "result": "sheet_cotton",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_OTHER",
+    "id_suffix": "electric_spinwheel",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "tailor",
+    "batch_time_factors": [ 70, 1 ],
+    "time": "50 m",
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_weaving" } ],
+    "tools": [ [ [ "electric_spinwheel", 101 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "thread", 50 ] ] ]
+  },
+  {
     "result": "sheet_cotton_patchwork",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -698,6 +806,22 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_weaving" }, { "proficiency": "prof_closures_waterproofing" } ],
     "tools": [ [ [ "spinwheelitem", -1 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "thread_canvas", 80 ] ], [ [ "wax", 1 ] ] ]
+  },
+  {
+    "result": "sheet_canvas",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_OTHER",
+    "id_suffix": "electric_spinwheel",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "tailor",
+    "batch_time_factors": [ 50, 1 ],
+    "time": "1 h 30 m",
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_weaving" }, { "proficiency": "prof_closures_waterproofing" } ],
+    "tools": [ [ [ "electric_spinwheel", 181 ] ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "thread_canvas", 80 ] ], [ [ "wax", 1 ] ] ]
   },
@@ -1140,7 +1264,7 @@
     "using": [ [ "forging_standard", 1 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "scrap", 10 ] ] ],
-    "byproducts": [ [ "slag", 5 ] ]
+    "byproduct_group": [ { "item": "slag", "charges": 5 } ]
   },
   {
     "result": "budget_steel_lump",
@@ -1157,7 +1281,7 @@
     "using": [ [ "forging_standard", 4 ], [ "steel_tiny", 4 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "scrap", 40 ] ] ],
-    "byproducts": [ [ "slag", 20 ] ]
+    "byproduct_group": [ { "item": "slag", "charges": 20 } ]
   },
   {
     "result": "budget_steel_lump",

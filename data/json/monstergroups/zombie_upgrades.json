@@ -184,10 +184,11 @@
     "name": "GROUP_FERROUS_UPGRADE",
     "type": "monstergroup",
     "monsters": [
-      { "monster": "mon_zombie_rust", "weight": 700 },
-      { "monster": "mon_zombie_plated", "weight": 100, "cost_multiplier": 2 },
-      { "monster": "mon_zombie_urchin", "weight": 100, "cost_multiplier": 2 },
-      { "monster": "mon_zombie_hammer_hands", "weight": 100, "cost_multiplier": 2 }
+      { "monster": "mon_zombie_rust", "weight": 600 },
+      { "monster": "mon_zombie_shell", "weight": 175 },
+      { "monster": "mon_zombie_plated", "weight": 75, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_urchin", "weight": 75, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_hammer_hands", "weight": 75, "cost_multiplier": 2 }
     ]
   },
   {
