@@ -1061,11 +1061,9 @@ float Character::get_recipe_weighted_skill_average( const recipe &making ) const
                    total_skill_modifiers, int_cur / 4.f );
 
     // Missing proficiencies penalize skill level
-    // At the time of writing this is currently called a fail multiplier.
-    // TK: change the name of this feature to "skill penalty".
     for( const recipe_proficiency &recip : making.proficiencies ) {
         if( !recip.required && !has_proficiency( recip.id ) ) {
-            total_skill_modifiers -= ( recip.fail_multiplier - 1.0f );
+            total_skill_modifiers -= recip.skill_penalty;
         }
     }
 
