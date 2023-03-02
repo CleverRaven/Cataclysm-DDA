@@ -95,7 +95,7 @@
     "color": "light_gray",
     "ammo_type": [ "shot" ],
     "capacity": 6,
-    "flags": [ "SPEEDLOADER" ],
+    "flags": [ "SPEEDLOADER_CLIP" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 6 } } ]
   },
   {
@@ -113,7 +113,7 @@
     "color": "light_gray",
     "ammo_type": [ "shot" ],
     "capacity": 8,
-    "flags": [ "SPEEDLOADER" ],
+    "flags": [ "SPEEDLOADER_CLIP" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 8 } } ]
   },
   {

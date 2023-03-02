@@ -208,12 +208,14 @@ std::string advanced_inventory::get_sortname( advanced_inv_sortby sortby )
             return _( "weight" );
         case SORTBY_VOLUME:
             return _( "volume" );
+        case SORTBY_DENSITY:
+            return _( "density" );
         case SORTBY_CHARGES:
             return _( "charges" );
         case SORTBY_CATEGORY:
             return _( "category" );
         case SORTBY_DAMAGE:
-            return _( "damage" );
+            return _( "offensive power" );
         case SORTBY_AMMO:
             return _( "ammo/charge type" );
         case SORTBY_SPOILAGE:
@@ -530,6 +532,16 @@ struct advanced_inv_sorter {
                     return d1.volume > d2.volume;
                 }
                 break;
+            case SORTBY_DENSITY: {
+                const double density1 = static_cast<double>( d1.weight.value() ) /
+                                        static_cast<double>( std::max( 1, d1.volume.value() ) );
+                const double density2 = static_cast<double>( d2.weight.value() ) /
+                                        static_cast<double>( std::max( 1, d2.volume.value() ) );
+                if( density1 != density2 ) {
+                    return density1 > density2;
+                }
+                break;
+            }
             case SORTBY_CHARGES:
                 if( d1.items.front()->charges != d2.items.front()->charges ) {
                     return d1.items.front()->charges > d2.items.front()->charges;
@@ -1184,12 +1196,13 @@ bool advanced_inventory::show_sort_menu( advanced_inventory_pane &pane )
     sm.addentry( SORTBY_NAME,     true, 'n', get_sortname( SORTBY_NAME ) );
     sm.addentry( SORTBY_WEIGHT,   true, 'w', get_sortname( SORTBY_WEIGHT ) );
     sm.addentry( SORTBY_VOLUME,   true, 'v', get_sortname( SORTBY_VOLUME ) );
+    sm.addentry( SORTBY_DENSITY,  true, 'd', get_sortname( SORTBY_DENSITY ) );
     sm.addentry( SORTBY_CHARGES,  true, 'x', get_sortname( SORTBY_CHARGES ) );
     sm.addentry( SORTBY_CATEGORY, true, 'c', get_sortname( SORTBY_CATEGORY ) );
-    sm.addentry( SORTBY_DAMAGE,   true, 'd', get_sortname( SORTBY_DAMAGE ) );
+    sm.addentry( SORTBY_DAMAGE,   true, 'o', get_sortname( SORTBY_DAMAGE ) );
     sm.addentry( SORTBY_AMMO,     true, 'a', get_sortname( SORTBY_AMMO ) );
-    sm.addentry( SORTBY_SPOILAGE,   true, 's', get_sortname( SORTBY_SPOILAGE ) );
-    sm.addentry( SORTBY_PRICE, true, 'b', get_sortname( SORTBY_PRICE ) );
+    sm.addentry( SORTBY_SPOILAGE, true, 's', get_sortname( SORTBY_SPOILAGE ) );
+    sm.addentry( SORTBY_PRICE,    true, 'b', get_sortname( SORTBY_PRICE ) );
     // Pre-select current sort.
     sm.selected = pane.sortby - SORTBY_NONE;
     // Calculate key and window variables, generate window,
@@ -1635,6 +1648,7 @@ void advanced_inventory::display()
 
         if( ui ) {
             ui->invalidate_ui();
+            g->invalidate_main_ui_adaptor();
             ui_manager::redraw_invalidated();
         }
 

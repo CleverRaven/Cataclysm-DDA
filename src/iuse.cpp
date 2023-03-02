@@ -239,8 +239,6 @@ static const efftype_id effect_weed_high( "weed_high" );
 
 static const flag_id json_flag_POWER_CORD( "POWER_CORD" );
 
-static const furn_str_id furn_f_aluminum_stepladder( "f_aluminum_stepladder" );
-static const furn_str_id furn_f_ladder( "f_ladder" );
 static const furn_str_id furn_f_translocator_buoy( "f_translocator_buoy" );
 
 static const harvest_drop_type_id harvest_drop_blood( "blood" );
@@ -250,7 +248,6 @@ static const itype_id itype_afs_atomic_smartphone( "afs_atomic_smartphone" );
 static const itype_id itype_afs_atomic_smartphone_music( "afs_atomic_smartphone_music" );
 static const itype_id itype_afs_atomic_wraitheon_music( "afs_atomic_wraitheon_music" );
 static const itype_id itype_afs_wraitheon_smartphone( "afs_wraitheon_smartphone" );
-static const itype_id itype_aluminum_stepladder( "aluminum_stepladder" );
 static const itype_id itype_apparatus( "apparatus" );
 static const itype_id itype_arcade_machine( "arcade_machine" );
 static const itype_id itype_atomic_coffeepot( "atomic_coffeepot" );
@@ -306,7 +303,6 @@ static const itype_id itype_smartphone_music( "smartphone_music" );
 static const itype_id itype_soap( "soap" );
 static const itype_id itype_soldering_iron( "soldering_iron" );
 static const itype_id itype_spiral_stone( "spiral_stone" );
-static const itype_id itype_stepladder( "stepladder" );
 static const itype_id itype_towel( "towel" );
 static const itype_id itype_towel_wet( "towel_wet" );
 static const itype_id itype_water( "water" );
@@ -1586,14 +1582,6 @@ cata::optional<int> iuse::petfood( Character *p, item *it, bool, const tripoint 
     } else if( monster *const mon = creatures.creature_at<monster>( *pnt, true ) ) {
         p->mod_moves( -to_moves<int>( 1_seconds ) );
 
-        if( mon->is_hallucination() ) {
-            p->add_msg_if_player( _( "You try to feed the %1$s some %2$s, but it vanishes!" ),
-                                  mon->type->nname(), it->tname() );
-            mon->die( nullptr );
-            return cata::nullopt;
-        }
-
-
         bool can_feed = false;
         const pet_food_data &petfood = mon->type->petfood;
         const std::set<std::string> &itemfood = it->get_comestible()->petfood;
@@ -1617,6 +1605,13 @@ cata::optional<int> iuse::petfood( Character *p, item *it, bool, const tripoint 
                     _( "Apparently, it's more interested in your flesh than the dog food in your hand!" ) );
                 p->consume_charges( *it, 1 );
             }
+            return cata::nullopt;
+        }
+
+        if( mon->is_hallucination() ) {
+            p->add_msg_if_player( _( "You try to feed the %1$s some %2$s, but it vanishes!" ),
+                                  mon->type->nname(), it->tname() );
+            mon->die( nullptr );
             return cata::nullopt;
         }
 
@@ -2900,20 +2895,14 @@ cata::optional<int> iuse::dig( Character *p, item * /* it */, bool t, const trip
     }
 
     std::vector<construction> const &cnstr = get_constructions();
-    auto build = std::find_if( cnstr.begin(), cnstr.end(), []( const construction & it ) {
+    auto const build = std::find_if( cnstr.begin(), cnstr.end(), []( const construction & it ) {
         return it.str_id == construction_constr_pit;
     } );
-    bool const can_dig_pit = !points_in_radius_where( p->pos_bub(),
-    1, [&build]( tripoint_bub_ms const & pt ) {
-        return can_construct( *build, pt );
-    } ).empty();
-    if( !can_dig_pit ) {
-        build = std::find_if( cnstr.begin(), cnstr.end(), []( const construction & it ) {
-            return it.str_id == construction_constr_pit_shallow;
-        } );
-    }
+    auto const build_shallow = std::find_if( cnstr.begin(), cnstr.end(), []( const construction & it ) {
+        return it.str_id == construction_constr_pit_shallow;
+    } );
 
-    place_construction( build->group );
+    place_construction( { build->group, build_shallow->group } );
 
     return 0;
 }
@@ -2933,7 +2922,7 @@ cata::optional<int> iuse::dig_channel( Character *p, item */* it */, bool t, con
         return it.str_id == construction_constr_water_channel;
     } );
 
-    place_construction( build->group );
+    place_construction( { build->group } );
     return 0;
 }
 
@@ -2952,7 +2941,7 @@ cata::optional<int> iuse::fill_pit( Character *p, item */* it */, bool t, const 
         return it.str_id == construction_constr_fill_pit;
     } );
 
-    place_construction( build->group );
+    place_construction( { build->group } );
     return 0;
 }
 
@@ -9292,38 +9281,6 @@ cata::optional<int> iuse::capture_monster_act( Character *p, item *it, bool, con
     return 0;
 }
 
-cata::optional<int> iuse::ladder( Character *p, item *it, bool, const tripoint & )
-{
-    map &here = get_map();
-    if( p->is_mounted() ) {
-        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
-        return cata::nullopt;
-    }
-    const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Put the ladder where?" ) );
-    if( !pnt_ ) {
-        return cata::nullopt;
-    }
-    const tripoint pnt = *pnt_;
-
-    if( !g->is_empty( pnt ) || here.has_furn( pnt ) || here.veh_at( pnt ) ) {
-        p->add_msg_if_player( m_bad, _( "Can't place it there." ) );
-        return cata::nullopt;
-    }
-
-    p->add_msg_if_player( _( "You set down the ladder." ) );
-    p->moves -= to_moves<int>( 5_seconds );
-
-    if( it->typeId() == itype_stepladder ) {
-        here.furn_set( pnt, furn_f_ladder );
-    } else if( it->typeId() == itype_aluminum_stepladder ) {
-        here.furn_set( pnt, furn_f_aluminum_stepladder );
-    }
-
-    p->i_rem( it );
-
-    return 0;
-}
-
 washing_requirements washing_requirements_for_volume( const units::volume &vol )
 {
     int water = divide_round_up( vol, 125_ml );
@@ -9875,8 +9832,8 @@ cata::optional<int> iuse::ebooksave( Character *p, item *it, bool t, const tripo
     }
 
     const item_location book = game_menus::inv::titled_filter_menu(
-    [&p, &ebooks]( const item & itm ) {
-        return itm.is_book() && p->has_identified( itm.typeId() ) && !ebooks.count( itm.typeId() );
+    [&ebooks]( const item & itm ) {
+        return itm.is_book() && itm.is_scannable() && !ebooks.count( itm.typeId() );
     },
     *p->as_avatar(), _( "Scan which book?" ), PICKUP_RANGE );
 

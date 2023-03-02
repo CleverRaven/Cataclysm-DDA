@@ -1671,8 +1671,8 @@ void map::player_in_field( Character &you )
             }
         }
         if( ft == fd_electricity ) {
-            // Small universal damage based on intensity, only if not electroproofed.
-            if( cur.get_field_intensity() > 0 && !you.is_elec_immune() ) {
+            // Small universal damage based on intensity, only if not electroproofed and not in vehicle.
+            if( cur.get_field_intensity() > 0 && !you.is_elec_immune() && !you.in_vehicle ) {
                 const bodypart_id &main_part = bodypart_id( "torso" );
                 const int dmg = std::max( 1, rng( cur.get_field_intensity() / 2, cur.get_field_intensity() ) );
                 const int main_part_damage = you.deal_damage( nullptr, main_part,

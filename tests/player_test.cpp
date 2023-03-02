@@ -48,7 +48,6 @@ static void temperature_and_sweat_check( Character *p, const int ambient_temp,
 
     weather.temperature = units::from_fahrenheit( ambient_temp );
 
-
     for( int i = 0; i < 1000; i++ ) {
         p->process_effects();
         p->update_bodytemp();
@@ -180,8 +179,6 @@ TEST_CASE( "sweating", "[char][suffer][.bodytemp]" )
 
             temperature_and_sweat_check( &dummy, 100, 7000 );
         }
-
-
 
     }
 }
