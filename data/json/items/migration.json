@@ -1958,5 +1958,47 @@
     "id": "bag_paper_powder_small",
     "type": "MIGRATION",
     "replace": "bag_paper_powder"
+  },
+  {
+    "id": "r_paint",
+    "type": "MIGRATION",
+    "replace": "paint_can_steel",
+    "contents": [ { "id": "paint_red", "count": 15 } ]
+  },
+  {
+    "id": "b_paint",
+    "type": "MIGRATION",
+    "replace": "paint_can_steel",
+    "contents": [ { "id": "paint_blue", "count": 15 } ]
+  },
+  {
+    "id": "g_paint",
+    "type": "MIGRATION",
+    "replace": "paint_can_steel",
+    "contents": [ { "id": "paint_green", "count": 15 } ]
+  },
+  {
+    "id": "y_paint",
+    "type": "MIGRATION",
+    "replace": "paint_can_steel",
+    "contents": [ { "id": "paint_yellow", "count": 15 } ]
+  },
+  {
+    "id": "p_paint",
+    "type": "MIGRATION",
+    "replace": "paint_can_steel",
+    "contents": [ { "id": "paint_purple", "count": 15 } ]
+  },
+  {
+    "id": "w_paint",
+    "type": "MIGRATION",
+    "replace": "paint_can_steel",
+    "contents": [ { "id": "paint_white", "count": 15 } ]
+  },
+  {
+    "id": "black_paint",
+    "type": "MIGRATION",
+    "replace": "paint_can_steel",
+    "contents": [ { "id": "paint_black", "count": 15 } ]
   }
 ]
