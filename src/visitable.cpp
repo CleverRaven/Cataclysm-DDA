@@ -15,6 +15,7 @@
 #include "character.h"
 #include "colony.h"
 #include "debug.h"
+#include "flag.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_contents.h"
@@ -39,7 +40,6 @@
 static const bionic_id bio_ups( "bio_ups" );
 
 static const itype_id itype_UPS( "UPS" );
-static const itype_id itype_UPS_off( "UPS_off" );
 static const itype_id itype_apparatus( "apparatus" );
 
 static const quality_id qual_BUTCHER( "BUTCHER" );
@@ -694,9 +694,6 @@ std::list<item> map_cursor::remove_items_with( const
 
     for( auto iter = stack.begin(); iter != stack.end(); ) {
         if( filter( *iter ) ) {
-            // remove from the active items cache (if it isn't there does nothing)
-            sub->active_items.remove( &*iter );
-
             // if necessary remove item from the luminosity map
             sub->update_lum_rem( offset, *iter );
 
@@ -715,7 +712,6 @@ std::list<item> map_cursor::remove_items_with( const
             ++iter;
         }
     }
-    here.update_submap_active_item_status( pos() );
     return res;
 }
 
@@ -753,9 +749,6 @@ std::list<item> vehicle_cursor::remove_items_with( const
     vehicle_part &p = veh.part( idx );
     for( auto iter = p.items.begin(); iter != p.items.end(); ) {
         if( filter( *iter ) ) {
-            // remove from the active items cache (if it isn't there does nothing)
-            veh.active_items.remove( &*iter );
-
             res.push_back( *iter );
             iter = p.items.erase( iter );
 
@@ -804,9 +797,11 @@ static int charges_of_internal( const T &self, const M &main, const itype_id &id
     bool found_tool_with_UPS = false;
     bool found_bionic_tool = false;
     self.visit_items( [&]( const item * e, item * ) {
-        if( filter( *e ) && ( id == e->typeId() || ( in_tools && id == e->ammo_current() ) ) &&
+        if( filter( *e ) &&
+            ( id == e->typeId() || ( in_tools && id == e->ammo_current() ) ||
+              ( id == itype_UPS && e->has_flag( flag_IS_UPS ) ) ) &&
             !e->is_broken() ) {
-            if( id != itype_UPS_off ) {
+            if( id != itype_UPS ) {
                 if( e->count_by_charges() ) {
                     qty = sum_no_wrap( qty, e->charges );
                 } else {
@@ -817,7 +812,7 @@ static int charges_of_internal( const T &self, const M &main, const itype_id &id
                 } else if( e->has_flag( STATIC( flag_id( "USES_BIONIC_POWER" ) ) ) ) {
                     found_bionic_tool = true;
                 }
-            } else if( id == itype_UPS_off && e->has_flag( STATIC( flag_id( "IS_UPS" ) ) ) ) {
+            } else if( id == itype_UPS && e->has_flag( flag_IS_UPS ) ) {
                 qty = sum_no_wrap( qty, e->ammo_remaining() );
             }
         }
@@ -892,12 +887,6 @@ int read_only_visitable::charges_of( const itype_id &what, int limit,
                                      const std::function<bool( const item & )> &filter,
                                      const std::function<void( int )> &visitor, bool in_tools ) const
 {
-    if( what == itype_UPS ) {
-        int qty = 0;
-        qty = sum_no_wrap( qty, charges_of( itype_UPS_off ) );
-        return std::min( qty, limit );
-    }
-
     return charges_of_internal( *this, *this, what, limit, filter, visitor, in_tools );
 }
 
@@ -906,14 +895,11 @@ int inventory::charges_of( const itype_id &what, int limit,
                            const std::function<bool( const item & )> &filter,
                            const std::function<void( int )> &visitor, bool in_tools ) const
 {
-    if( what == itype_UPS ) {
-        int qty = 0;
-        qty = sum_no_wrap( qty, charges_of( itype_UPS_off ) );
-        return std::min( qty, limit );
-    }
-
     const itype_bin &binned = get_binned_items();
-    const auto iter = binned.find( what );
+    const auto iter = std::find_if( binned.begin(),
+    binned.end(), [&what]( itype_bin::value_type const & it ) {
+        return it.first == what || ( what == itype_UPS && it.first->has_flag( flag_IS_UPS ) );
+    } );
     if( iter == binned.end() ) {
         return 0;
     }

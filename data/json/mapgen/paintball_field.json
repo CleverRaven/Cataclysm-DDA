@@ -33,6 +33,7 @@
         { "chance": 75, "item": "trash", "x": [ 17, 18 ], "y": 2 },
         { "item": "cash_register_random", "x": 8, "y": 1, "chance": 100 }
       ],
+      "place_monster": [ { "group": "GROUP_SEARCH_FITNESS", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 25, "repeat": [ 3, 8 ] } ],
       "rows": [
         "|bbbbbbbbbccccccccccccc|",
         "|bCCCClFCbccccccccccccc|",
@@ -159,6 +160,7 @@
         { "chance": 70, "item": "paintball_items", "x": 20, "y": 9 },
         { "item": "cash_register_random", "x": 16, "y": 2, "chance": 100 }
       ],
+      "place_monster": [ { "group": "GROUP_SEARCH_FITNESS", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 25, "repeat": [ 3, 8 ] } ],
       "rows": [
         "ssssssssssssssssssssssss",
         "&sbbsssssssssss||||||||s",

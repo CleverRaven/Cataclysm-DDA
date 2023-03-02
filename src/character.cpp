@@ -2266,8 +2266,6 @@ void Character::recalc_sight_limits()
         sight_max = 10;
     }
 
-    sight_max = enchantment_cache->modify_value( enchant_vals::mod::SIGHT_RANGE, sight_max );
-
     // Debug-only NV, by vache's request
     if( has_trait( trait_DEBUG_NIGHTVISION ) ) {
         vision_mode_cache.set( DEBUG_NIGHTVISION );
@@ -3527,7 +3525,7 @@ std::pair<int, int> Character::climate_control_strength()
                                  // Also check for a working alternator. Muscle or animal could be powering it.
                                  (
                                      vp->is_inside() &&
-                                     vp->vehicle().total_alternator_epower_w() > 0
+                                     vp->vehicle().total_alternator_epower() > 0_W
                                  )
                              );
         }
@@ -3657,18 +3655,13 @@ void Character::apply_mut_encumbrance( std::map<bodypart_id, encumbrance_data> &
     // Lower penalty for bps covered only by XL armor
     // Initialized on demand for performance reasons:
     // (calculation is costly, most of players and npcs are don't have encumbering mutations)
-    cata::optional<body_part_set> oversize;
 
     for( const trait_id &mut : all_muts ) {
         for( const std::pair<const bodypart_str_id, int> &enc : mut->encumbrance_always ) {
             total_enc[enc.first] += enc.second;
         }
         for( const std::pair<const bodypart_str_id, int> &enc : mut->encumbrance_covered ) {
-            if( !oversize ) {
-                // initialize on demand
-                oversize = exclusive_flag_coverage( flag_OVERSIZE );
-            }
-            if( !oversize->test( enc.first ) ) {
+            if( wearing_fitting_on( enc.first ) ) {
                 total_enc[enc.first] += enc.second;
             }
         }
@@ -3785,10 +3778,9 @@ int Character::get_enchantment_speed_bonus() const
 int Character::get_speed() const
 {
     if( has_flag( json_flag_STEADY ) ) {
-        return get_speed_base() + std::max( 0, get_speed_bonus() ) + std::max( 0,
-                get_speedydex_bonus( get_dex() ) );
+        return get_speed_base() + std::max( 0, get_speed_bonus() );
     }
-    return Creature::get_speed() + get_speedydex_bonus( get_dex() );
+    return Creature::get_speed();
 }
 
 int Character::get_arm_str() const
@@ -4370,14 +4362,8 @@ void Character::update_health()
         int mean_daily_health = get_health_tally() / 7;
         mod_livestyle( mean_daily_health );
         mod_health_tally( -mean_daily_health );
+        set_daily_health( 0 );
     }
-
-    if( calendar::once_every( 6_hours ) ) {
-        // And daily_health decays over time.
-        // Slowly near 0, but it's hard to overpower it near +/-100
-        set_daily_health( roll_remainder( get_daily_health() * 0.95f ) );
-    }
-
     add_msg_debug( debugmode::DF_CHAR_HEALTH, "Lifestyle: %d, Daily health: %d", get_lifestyle(),
                    get_daily_health() );
 }
@@ -4978,7 +4964,7 @@ void Character::get_sick()
     // Health is in the range [-200,200].
     // Diseases are half as common for every 50 health you gain.
     float health_factor = std::pow( 2.0f, get_lifestyle() / 50.0f );
-    float env_factor = 1.0f + std::pow( 0.3f, get_env_resist( body_part_mouth ) / 2 );
+    float env_factor = 1.0f + std::pow( get_env_resist( body_part_mouth ), 0.3f ) / 2.0;
 
     int disease_rarity = static_cast<int>( checks_per_year * health_factor * env_factor /
                                            base_diseases_per_year );
@@ -5559,7 +5545,12 @@ bool Character::sees_with_specials( const Creature &critter ) const
 {
     const double sight_range_electric = calculate_by_enchantment( 0.0,
                                         enchant_vals::mod::SIGHT_RANGE_ELECTRIC );
+    const double motion_vision_range = calculate_by_enchantment( 0.0,
+                                       enchant_vals::mod::MOTION_VISION_RANGE );
     if( critter.is_electrical() && rl_dist_exact( pos(), critter.pos() ) <= sight_range_electric ) {
+        return true;
+    }
+    if( rl_dist_exact( pos(), critter.pos() ) <= motion_vision_range ) {
         return true;
     }
 
@@ -5591,6 +5582,12 @@ bool Character::pour_into( item_location &container, item &liquid, bool ignore_s
             add_msg_if_player( _( "You filled %1$s to the brim with %2$s." ), container->tname(),
                                liquid.tname() );
         }
+        return false;
+    }
+
+    if( amount == 0 ) {
+        add_msg_if_player( _( "%1$s can't to expand to add any more %2$s." ), container->tname(),
+                           liquid.tname() );
         return false;
     }
 
@@ -6501,6 +6498,10 @@ bool Character::invoke_item( item *used, const std::string &method )
 bool Character::invoke_item( item *used, const std::string &method, const tripoint &pt,
                              int pre_obtain_moves )
 {
+    if( method.empty() ) {
+        return invoke_item( used, pt, pre_obtain_moves );
+    }
+
     if( used->is_broken() ) {
         add_msg_if_player( m_bad, _( "Your %s was broken and won't turn on." ), used->tname() );
         return false;
@@ -8195,8 +8196,8 @@ void Character::cancel_activity()
     for( auto backlog_item = backlog.begin(); backlog_item != backlog.end(); ) {
         if( backlog_item->auto_resume &&
             ( !has_adv_inv || backlog_item->id() != ACT_ADV_INVENTORY ) ) {
-            backlog_item++;
             has_adv_inv |= backlog_item->id() == ACT_ADV_INVENTORY;
+            backlog_item++;
         } else {
             backlog_item = backlog.erase( backlog_item );
         }
@@ -9676,16 +9677,16 @@ void Character::process_one_effect( effect &it, bool is_new )
         if( is_new || it.activated( calendar::turn, "HURT", val, reduced, mod ) ) {
             if( bp == bodypart_str_id::NULL_ID() ) {
                 if( val > 5 ) {
-                    add_msg_if_player( _( "Your %s HURTS!" ), body_part_name_accusative( body_part_torso ) );
+                    add_msg_if_player( m_bad, _( "Your %s HURTS!" ), body_part_name_accusative( body_part_torso ) );
                 } else {
-                    add_msg_if_player( _( "Your %s hurts!" ), body_part_name_accusative( body_part_torso ) );
+                    add_msg_if_player( m_bad, _( "Your %s hurts!" ), body_part_name_accusative( body_part_torso ) );
                 }
                 apply_damage( nullptr, body_part_torso, val, true );
             } else {
                 if( val > 5 ) {
-                    add_msg_if_player( _( "Your %s HURTS!" ), body_part_name_accusative( bp ) );
+                    add_msg_if_player( m_bad, _( "Your %s HURTS!" ), body_part_name_accusative( bp ) );
                 } else {
-                    add_msg_if_player( _( "Your %s hurts!" ), body_part_name_accusative( bp ) );
+                    add_msg_if_player( m_bad, _( "Your %s hurts!" ), body_part_name_accusative( bp ) );
                 }
                 apply_damage( nullptr, bp, val, true );
             }
@@ -10124,14 +10125,23 @@ action_id Character::get_next_auto_move_direction()
     return get_movement_action_from_delta( dp.raw(), iso_rotate::yes );
 }
 
-int Character::talk_skill() const
+int Character::persuade_skill() const
 {
     /** @EFFECT_INT slightly increases talking skill */
-
     /** @EFFECT_PER slightly increases talking skill */
-
     /** @EFFECT_SPEECH increases talking skill */
     int ret = get_int() + get_per() + get_skill_level( skill_speech ) * 3;
+    ret = enchantment_cache->modify_value( enchant_vals::mod::SOCIAL_PERSUADE, ret );
+    return ret;
+}
+
+int Character::lie_skill() const
+{
+    /** @EFFECT_INT slightly increases talking skill */
+    /** @EFFECT_PER slightly increases talking skill */
+    /** @EFFECT_SPEECH increases talking skill */
+    int ret = get_int() + get_per() + get_skill_level( skill_speech ) * 3;
+    ret = enchantment_cache->modify_value( enchant_vals::mod::SOCIAL_LIE, ret );
     return ret;
 }
 
@@ -10753,6 +10763,8 @@ void Character::recalc_speed_bonus()
     }
     mod_speed_bonus( -carry_penalty );
 
+    mod_speed_bonus( +get_speedydex_bonus( get_dex() ) );
+
     mod_speed_bonus( -get_pain_penalty().speed );
 
     if( get_thirst() > 40 ) {
@@ -11254,7 +11266,7 @@ void Character::leak_items()
 
 void Character::process_items()
 {
-    if( weapon.needs_processing() && weapon.process( get_map(), this, pos() ) ) {
+    if( weapon.process( get_map(), this, pos() ) ) {
         weapon.spill_contents( pos() );
         remove_weapon();
     }
@@ -11264,11 +11276,9 @@ void Character::process_items()
         if( !it ) {
             continue;
         }
-        if( it->needs_processing() ) {
-            if( it->process( get_map(), this, pos() ) ) {
-                it->spill_contents( pos() );
-                removed_items.push_back( it );
-            }
+        if( it->process( get_map(), this, pos() ) ) {
+            it->spill_contents( pos() );
+            removed_items.push_back( it );
         }
     }
     for( item_location removed : removed_items ) {
@@ -11456,8 +11466,13 @@ void Character::use( int inventory_position )
     use( loc );
 }
 
-void Character::use( item_location loc, int pre_obtain_moves )
+void Character::use( item_location loc, int pre_obtain_moves, std::string const &method )
 {
+    if( has_effect( effect_incorporeal ) ) {
+        add_msg_if_player( m_bad, _( "You can't use anything while incorporeal." ) );
+        return;
+    }
+
     // if -1 is passed in we don't want to change moves at all
     if( pre_obtain_moves == -1 ) {
         pre_obtain_moves = moves;
@@ -11477,10 +11492,10 @@ void Character::use( item_location loc, int pre_obtain_moves )
             moves = pre_obtain_moves;
             return;
         }
-        invoke_item( &used, loc.position(), pre_obtain_moves );
+        invoke_item( &used, method, loc.position(), pre_obtain_moves );
 
     } else if( used.type->can_use( "PETFOOD" ) ) { // NOLINT(bugprone-branch-clone)
-        invoke_item( &used, loc.position(), pre_obtain_moves );
+        invoke_item( &used, method, loc.position(), pre_obtain_moves );
 
     } else if( !used.is_craft() && ( used.is_medication() || ( !used.type->has_use() &&
                                      used.is_food() ) ) ) {
@@ -11509,7 +11524,7 @@ void Character::use( item_location loc, int pre_obtain_moves )
             u->read( loc );
         }
     } else if( used.type->has_use() ) {
-        invoke_item( &used, loc.position(), pre_obtain_moves );
+        invoke_item( &used, method, loc.position(), pre_obtain_moves );
     } else if( used.has_flag( flag_SPLINT ) ) {
         ret_val<void> need_splint = can_wear( *loc );
         if( need_splint.success() ) {
@@ -11519,7 +11534,7 @@ void Character::use( item_location loc, int pre_obtain_moves )
             add_msg( m_info, need_splint.str() );
         }
     } else if( used.is_relic() ) {
-        invoke_item( &used, loc.position(), pre_obtain_moves );
+        invoke_item( &used, method, loc.position(), pre_obtain_moves );
     } else {
         if( !is_armed() ) {
             add_msg( m_info, _( "You are not wielding anything you could use." ) );
@@ -11571,15 +11586,15 @@ void Character::pause()
 {
     moves = 0;
     recoil = MAX_RECOIL;
-
     map &here = get_map();
-    // Train swimming if underwater
+
+    // effects of being partially/fully underwater
     if( !in_vehicle && !get_map().has_flag_furn( "BRIDGE", pos( ) ) ) {
         if( underwater ) {
-            practice( skill_swimming, 1 );
+            // TODO: gain "swimming" proficiency but not "athletics" skill
             drench( 100, get_drenching_body_parts(), false );
         } else if( here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, pos() ) ) {
-            practice( skill_swimming, 1 );
+            // TODO: gain "swimming" proficiency but not "athletics" skill
             // Same as above, except no head/eyes/mouth
             drench( 100, get_drenching_body_parts( false ), false );
         } else if( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos() ) ) {

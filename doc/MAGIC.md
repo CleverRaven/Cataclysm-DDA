@@ -813,14 +813,13 @@ The following is a list of possible enchantment `values`:
 | `MAX_STAMINA` | 
 | `MELEE_DAMAGE` | 
 | `METABOLISM` | 
-| `MAP_MEMORY` | How many map tiles you can remember.
 | `MOD_HEALTH` | If this is anything other than zero (which it defaults to) you will to mod your health to a max/min of `MOD_HEALTH_CAP` every half hour.
 | `MOD_HEALTH_CAP` | If this is anything other than zero (which it defaults to) you will cap your `MOD_HEALTH` gain/loss at this every half hour.
 | `MOVE_COST` | 
 | `PAIN` | 
 | `SHOUT_NOISE` | 
-| `SIGHT_RANGE` | 
 | `SIGHT_RANGE_ELECTRIC` | How many tiles away is_electric() creatures are visible from.
+| `MOTION_VISION_RANGE ` | Reveals all monsters as a red `?` within the specified radius.
 | `SKILL_RUST_RESIST` | Chance / 100 to resist skill rust.
 | `SLEEPY` | The higher this the easier you fall asleep.
 | `SOCIAL_INTIMIDATE` | 

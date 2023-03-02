@@ -520,11 +520,14 @@ void bionic_data::check_bionic_consistency()
                           bio.id.c_str(), pseudo.c_str() );
             }
         }
-
+        for( const trait_id &mid : bio.mutation_conflicts ) {
+            if( !mid.is_valid() ) {
+                debugmsg( "Bionic %s conflicts with undefined mutation %s", bio.id.c_str(), mid.c_str() );
+            }
+        }
         for( const trait_id &mid : bio.canceled_mutations ) {
             if( !mid.is_valid() ) {
-                debugmsg( "Bionic %s cancels undefined mutation %s",
-                          bio.id.c_str(), mid.c_str() );
+                debugmsg( "Bionic %s cancels undefined mutation %s", bio.id.c_str(), mid.c_str() );
             }
         }
         for( const enchantment_id &eid : bio.id->enchantments ) {
@@ -811,6 +814,13 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         get_wielded_item()->invlet = '#';
         weapon_bionic_uid = bio.get_uid();
     } else if( bio.id == bio_evap ) {
+        if( player_character.is_underwater() ) {
+            add_msg_if_player( m_info,
+                               _( "There's a lot of water around you already, no need to use your %s." ), bio.info().name );
+            bio.powered = false;
+            return false;
+        }
+
         add_msg_activate();
         const w_point weatherPoint = *get_weather().weather_precise;
         int humidity = get_local_humidity( weatherPoint.humidity, get_weather().weather_id,
@@ -1706,6 +1716,12 @@ void Character::process_bionic( bionic &bio )
             remove_effect( effect_asthma );
         }
     } else if( bio.id == bio_evap ) {
+        if( is_underwater() ) {
+            add_msg_if_player( m_info,
+                               _( "Your %s deactivates after it finds itself completely submerged in water." ), bio.info().name );
+            deactivate_bionic( bio );
+        }
+
         // Aero-Evaporator provides water at 60 watts with 2 L / kWh efficiency
         // which is 10 mL per 5 minutes.  Humidity can modify the amount gained.
         if( calendar::once_every( 5_minutes ) ) {
@@ -2191,8 +2207,6 @@ void Character::perform_uninstall( const bionic &bio, int difficulty, int succes
         cbm.set_flag( flag_NO_PACKED );
         cbm.faults.emplace( fault_bionic_salvaged );
         here.add_item( pos(), cbm );
-
-        invalidate_pseudo_items();
     } else {
         get_event_bus().send<event_type::fails_to_remove_cbm>( getID(), bio.id );
         // for chance_of_success calculation, shift skill down to a float between ~0.4 - 30
@@ -2258,11 +2272,11 @@ bool Character::uninstall_bionic( const bionic &bio, monster &installer, Charact
             add_msg( m_mixed, _( "Successfully removed %s." ), bio.info().name );
         }
 
-        patient.remove_bionic( bio );
         item cbm( "burnt_out_bionic" );
         if( item::type_is_defined( bio.info().itype() ) ) {
             cbm = bionic_to_uninstall;
         }
+        patient.remove_bionic( bio );
         cbm.set_flag( flag_FILTHY );
         cbm.set_flag( flag_NO_STERILE );
         cbm.set_flag( flag_NO_PACKED );
@@ -2275,9 +2289,8 @@ bool Character::uninstall_bionic( const bionic &bio, monster &installer, Charact
     return false;
 }
 
-ret_val<void> Character::is_installable( const item_location &loc, const bool by_autodoc ) const
+ret_val<void> Character::is_installable( const item *it, const bool by_autodoc ) const
 {
-    const item *it = loc.get_item();
     const itype *itemtype = it->type;
     const bionic_id &bid = itemtype->bionic->id;
 
@@ -2847,6 +2860,7 @@ void Character::remove_bionic( const bionic &bio )
 
     const bool has_enchantments = !bio.id->enchantments.empty();
     *my_bionics = new_my_bionics;
+    invalidate_pseudo_items();
     update_bionic_power_capacity();
     calc_encumbrance();
     recalc_sight_limits();

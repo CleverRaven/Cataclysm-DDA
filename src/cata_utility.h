@@ -9,6 +9,7 @@
 #include <iosfwd>
 #include <map>
 #include <memory>
+#include <numeric>
 #include <string> // IWYU pragma: keep
 #include <type_traits>
 #include <unordered_set>
@@ -628,5 +629,33 @@ int bucket_index_from_weight_list( const std::vector<int> &weights );
  * Implemented in `stdtiles.cpp`, `wincurse.cpp`, and `ncurses_def.cpp`.
  */
 void set_title( const std::string &title );
+
+/**
+ * Convenience function to get the aggregate value for a list of values.
+ */
+template<typename T, typename std::enable_if<std::is_integral<T>::value, int>::type = 0>
+T aggregate( const std::vector<T> &values, aggregate_type agg_func )
+{
+    if( values.empty() ) {
+        return T();
+    }
+    switch( agg_func ) {
+        case aggregate_type::FIRST:
+            return values.front();
+        case aggregate_type::LAST:
+            return *values.rbegin();
+        case aggregate_type::MIN:
+            return *std::min_element( values.begin(), values.end() );
+        case aggregate_type::MAX:
+            return *std::max_element( values.begin(), values.end() );
+        case aggregate_type::AVERAGE:
+        case aggregate_type::SUM: {
+            T agg_sum = std::accumulate( values.begin(), values.end(), 0 );
+            return agg_func == aggregate_type::SUM ? agg_sum : agg_sum / values.size();
+        }
+        default:
+            return T();
+    }
+}
 
 #endif // CATA_SRC_CATA_UTILITY_H
