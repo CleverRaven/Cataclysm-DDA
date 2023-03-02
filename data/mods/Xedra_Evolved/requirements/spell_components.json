@@ -150,5 +150,12 @@
     "id": "spell_components_human_blood",
     "type": "requirement",
     "components": [ [ [ "demihuman_blood", 1 ], [ "mutant_human_blood", 1 ], [ "blood", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_dreamer_coin",
+    "type": "requirement",
+    "components": [
+      [ [ "coin_penny", 1 ], [ "coin_nickel", 1 ], [ "coin_quarter", 1 ], [ "coin_half_dollar", 1 ], [ "coin_dollar", 1 ] ]
+    ]
   }
 ]

@@ -174,7 +174,6 @@ jobs:
             content: application/gzip
           - name: OSX Curses x64
             os: macos-10.15
-            arch: x64
             mxe: none
             tiles: 0
             sound: 0
@@ -183,20 +182,10 @@ jobs:
             content: application/x-apple-diskimage
           - name: OSX Tiles x64
             os: macos-10.15
-            arch: x64
             mxe: none
             tiles: 1
             sound: 0
             artifact: osx-tiles-x64
-            ext: dmg
-            content: application/x-apple-diskimage
-          - name: OSX Tiles arm64
-            os: macos-11
-            arch: arm64
-            mxe: none
-            tiles: 1
-            sound: 0
-            artifact: osx-tiles-arm64
             ext: dmg
             content: application/x-apple-diskimage
           - name: Android x64
@@ -257,13 +246,16 @@ jobs:
       - name: Install MXE
         if: matrix.mxe != 'none'
         run: |
-          curl -L -o mxe-${{ matrix.mxe }}.tar.xz https://github.com/BrettDong/MXE-GCC/releases/download/mxe-gcc-11.2/mxe-${{ matrix.mxe }}.tar.xz
-          curl -L -o mxe-${{ matrix.mxe }}.tar.xz.sha256 https://github.com/BrettDong/MXE-GCC/releases/download/mxe-gcc-11.2/mxe-${{ matrix.mxe }}.tar.xz.sha256
+          curl -L -o mxe-${{ matrix.mxe }}.tar.xz https://github.com/BrettDong/MXE-GCC/releases/download/mxe-sdl-2-0-20/mxe-${{ matrix.mxe }}.tar.xz
+          curl -L -o mxe-${{ matrix.mxe }}.tar.xz.sha256 https://github.com/BrettDong/MXE-GCC/releases/download/mxe-sdl-2-0-20/mxe-${{ matrix.mxe }}.tar.xz.sha256
           shasum -a 256 -c ./mxe-${{ matrix.mxe }}.tar.xz.sha256
           sudo tar xJf mxe-${{ matrix.mxe }}.tar.xz -C /opt
+          curl -L -o SDL2-devel-2.26.2-mingw.tar.gz https://github.com/libsdl-org/SDL/releases/download/release-2.26.2/SDL2-devel-2.26.2-mingw.tar.gz
+          shasum -a 256 -c ./build-scripts/SDL2-devel-2.26.2-mingw.tar.gz.sha256
+          sudo tar -xzf SDL2-devel-2.26.2-mingw.tar.gz -C /opt/mxe/usr/${{ matrix.mxe }}-w64-mingw32.static.gcc12 --strip-components=2 SDL2-2.26.2/${{ matrix.mxe }}-w64-mingw32
           curl -L -o libbacktrace-${{ matrix.mxe }}-w64-mingw32.tar.gz https://github.com/Qrox/libbacktrace/releases/download/2020-01-03/libbacktrace-${{ matrix.mxe }}-w64-mingw32.tar.gz
           shasum -a 256 -c ./build-scripts/libbacktrace-${{ matrix.mxe }}-w64-mingw32-sha256
-          sudo tar -xzf libbacktrace-${{ matrix.mxe }}-w64-mingw32.tar.gz --exclude=LICENSE -C /opt/mxe/usr/${{ matrix.mxe }}-w64-mingw32.static.gcc11
+          sudo tar -xzf libbacktrace-${{ matrix.mxe }}-w64-mingw32.tar.gz --exclude=LICENSE -C /opt/mxe/usr/${{ matrix.mxe }}-w64-mingw32.static.gcc12
       - name: Install dependencies (Linux)
         if: runner.os == 'Linux' && matrix.mxe == 'none' && matrix.android == 'none' 
         run: |
@@ -273,12 +265,8 @@ jobs:
       - name: Install dependencies (mac)
         if: runner.os == 'macOS'
         run: |
-          brew install gettext ccache parallel
-          ${{ github.workspace }}/build-scripts/get-mac-sdl2-framework.sh
+          HOMEBREW_NO_AUTO_UPDATE=yes HOMEBREW_NO_INSTALL_CLEANUP=yes brew install sdl2 sdl2_image sdl2_ttf sdl2_mixer gettext ccache parallel
           pip3 install mac_alias==2.2.0 dmgbuild==1.4.2 biplist
-        env:
-          HOMEBREW_NO_AUTO_UPDATE: 1
-          HOMEBREW_NO_INSTALL_CLEANUP: 1
       - name: Create VERSION.TXT
         shell: bash
         run: |
@@ -301,7 +289,7 @@ jobs:
       - name: Build CDDA (windows mxe)
         if: matrix.mxe != 'none'
         env:
-          PLATFORM: /opt/mxe/usr/bin/${{ matrix.mxe }}-w64-mingw32.static.gcc11-
+          PLATFORM: /opt/mxe/usr/bin/${{ matrix.mxe }}-w64-mingw32.static.gcc12-
         run: |
           make -j$((`nproc`+0)) CROSS="${PLATFORM}" TILES=1 SOUND=1 RELEASE=1 LOCALIZE=1 LANGUAGES=all BACKTRACE=1 PCH=0 bindist
           mv cataclysmdda-0.F.zip cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.zip
@@ -316,12 +304,7 @@ jobs:
       - name: Build CDDA (osx)
         if: runner.os == 'macOS'
         run: |
-          if [[ '${{ matrix.arch }}' == 'arm64' ]]; then
-            OSX_MIN=11.0
-          else
-            OSX_MIN=10.12
-          fi
-          make -j3 TILES=${{ matrix.tiles }} SOUND=${{ matrix.tiles }} RELEASE=1 LOCALIZE=1 LANGUAGES=all BACKTRACE=0 PCH=0 USE_HOME_DIR=1 OSX_MIN=$OSX_MIN FRAMEWORK=1 ARCH=${{ matrix.arch }} dmgdist
+          make -j3 TILES=${{ matrix.tiles }} SOUND=${{ matrix.tiles }} RELEASE=1 LOCALIZE=1 LANGUAGES=all BACKTRACE=0 PCH=0 USE_HOME_DIR=1 OSX_MIN=10.12 dmgdist
           mv Cataclysm.dmg cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.dmg
       - name: Set up JDK 8 (android)
         if: runner.os == 'Linux' && matrix.android != 'none' && matrix.mxe == 'none'

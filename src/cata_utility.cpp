@@ -12,6 +12,7 @@
 #include <stdexcept>
 #include <string>
 
+#include "cached_options.h"
 #include "catacharset.h"
 #include "cata_utility.h"
 #include "debug.h"
@@ -23,6 +24,7 @@
 #include "options.h"
 #include "output.h"
 #include "path_info.h"
+#include "pinyin.h"
 #include "rng.h"
 #include "translations.h"
 #include "unicode.h"
@@ -89,7 +91,14 @@ bool lcmatch( const std::string &str, const std::string &qry )
     }
     // Then try removing accents from str ONLY
     std::for_each( u32_str.begin(), u32_str.end(), remove_accent );
-    return u32_str.find( u32_qry ) != std::u32string::npos;
+    if( u32_str.find( u32_qry ) != std::u32string::npos ) {
+        return true;
+    }
+    if( use_pinyin_search ) {
+        // Finally, try to convert the string to pinyin and compare
+        return pinyin::pinyin_match( u32_str, u32_qry );
+    }
+    return false;
 }
 
 bool lcmatch( const translation &str, const std::string &qry )

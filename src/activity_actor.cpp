@@ -3907,7 +3907,7 @@ void insert_item_activity_actor::finish( player_activity &act, Character &who )
     if( holstered_item.first ) {
         item &it = *holstered_item.first;
         if( !it.count_by_charges() ) {
-            if( holster->can_contain( it ).success() && ( all_pockets_rigid ||
+            if( holster->can_contain_directly( it ).success() && ( all_pockets_rigid ||
                     holster.parents_can_contain_recursive( &it ) ) ) {
 
                 success = holster->put_in( it, item_pocket::pocket_type::CONTAINER,
@@ -3926,7 +3926,7 @@ void insert_item_activity_actor::finish( player_activity &act, Character &who )
             int charges = all_pockets_rigid ? holstered_item.second : std::min( holstered_item.second,
                           holster.max_charges_by_parent_recursive( it ) );
 
-            if( charges > 0 && holster->can_contain_partial( it ) ) {
+            if( charges > 0 && holster->can_contain_partial_directly( it ) ) {
                 int result = holster->fill_with( it, charges,
                                                  /*unseal_pockets=*/true,
                                                  /*allow_sealed=*/true,
@@ -3962,6 +3962,9 @@ void insert_item_activity_actor::finish( player_activity &act, Character &who )
 
     items.pop_front();
     if( items.empty() || !success || items.front().first == item_location::nowhere ) {
+        if( !holster->active ) {
+            get_map().make_active( holster );
+        }
         handler.handle_by( who );
         act.set_to_null();
         return;
