@@ -11067,6 +11067,8 @@ units::energy item::energy_consume( units::energy qty, const tripoint &pos, Char
     }
 
     const units::energy wanted_energy = qty;
+	
+	// TODO do something about rounding
 
     // Consume energy from battery charge
     if( is_battery() ) {
@@ -11136,8 +11138,6 @@ itype_id item::ammo_current() const
     const itype *ammo = ammo_data();
     if( ammo ) {
         return ammo->get_id();
-    } else if( has_flag( flag_USE_UPS ) ) {
-        return itype_battery;
     }
 
     return itype_id::NULL_ID();
