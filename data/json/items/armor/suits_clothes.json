@@ -534,7 +534,7 @@
     "symbol": "[",
     "color": "light_green",
     "armor": [
-      { "covers": [ "foot_l", "foor_r" ], "coverage": 100, "encumbrance": [ 26, 26 ] }
+      { "covers": [ "foot_l", "foot_r" ], "coverage": 100, "encumbrance": [ 26, 26 ] }
     ],
     "warmth": 50,
     "material_thickness": 2,
@@ -555,7 +555,7 @@
     "material": [ "cotton", "faux_fur" ],
     "symbol": "[",
     "looks_like": "wolfsuit",
-    "color": "orange",
+    "color": "brown",
     "armor": [
       { "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 26, 30 ] }
     ],
@@ -577,7 +577,7 @@
     "to_hit": -3,
     "material": [ "cotton", "faux_fur" ],
     "symbol": "[",
-    "color": "orange",
+    "color": "brown",
     "armor": [
       { "covers": [ "mouth", "eyes" ], "coverage": 95, "encumbrance": [ 26, 26 ] },
       { "covers": [ "head" ], "coverage": 100, "encumbrance": [ 26, 26 ] }
@@ -599,7 +599,28 @@
     "to_hit": -3,
     "material": [ "cotton", "faux_fur" ],
     "symbol": "[",
-    "color": "orange",
+    "color": "brown",
+    "armor": [
+      { "covers": [ "hand_l", "hand_r" ], "coverage": 100, "encumbrance": [ 26, 26 ] }
+    ],
+    "warmth": 50,
+    "material_thickness": 2,
+    "environmental_protection": 2,
+    "flags": [ "OUTER" ]
+  },
+  {
+    "id": "foxsuit_boots",
+    "type": "ARMOR",
+    "name": { "str": "fox suit boots" },
+    "description": "A pair of paw-shaped boots that create the illusion of digitigrade feet as part of a full-body fursuit made to resemble an anthropomorphic fox with orange fur and white markings.  They are quite encumbering but are very warm.",
+    "weight": "750 g",
+    "volume": "1 L",
+    "price": 17500,
+    "price_postapoc": 100,
+    "to_hit": -3,
+    "material": [ "cotton", "faux_fur" ],
+    "symbol": "[",
+    "color": "brown",
     "armor": [
       { "covers": [ "hand_l", "hand_r" ], "coverage": 100, "encumbrance": [ 26, 26 ] }
     ],
@@ -622,7 +643,7 @@
     "symbol": "[",
     "color": "orange",
     "armor": [
-      { "covers": [ "foot_l", "foor_r" ], "coverage": 100, "encumbrance": [ 26, 26 ] }
+      { "covers": [ "foot_l", "foot_r" ], "coverage": 100, "encumbrance": [ 26, 26 ] }
     ],
     "warmth": 50,
     "material_thickness": 2,
