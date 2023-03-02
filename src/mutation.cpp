@@ -57,7 +57,6 @@ static const json_character_flag json_flag_ROOTS3( "ROOTS3" );
 static const json_character_flag json_flag_SMALL( "SMALL" );
 static const json_character_flag json_flag_TINY( "TINY" );
 
-
 static const mtype_id mon_player_blob( "mon_player_blob" );
 
 static const mutation_category_id mutation_category_ANY( "ANY" );
@@ -193,7 +192,9 @@ void Character::set_mutation_unsafe( const trait_id &trait, const mutation_varia
     }
     my_mutations.emplace( trait, trait_data{variant} );
     cached_mutations.push_back( &trait.obj() );
-    mutation_effect( trait, false );
+    if( !trait.obj().vanity ) {
+        mutation_effect( trait, false );
+    }
 }
 
 void Character::do_mutation_updates()
@@ -243,7 +244,9 @@ void Character::unset_mutation( const trait_id &trait_ )
     cached_mutations.erase( std::remove( cached_mutations.begin(), cached_mutations.end(), &mut ),
                             cached_mutations.end() );
     my_mutations.erase( iter );
-    mutation_loss_effect( trait );
+    if( !mut.vanity ) {
+        mutation_loss_effect( trait );
+    }
     do_mutation_updates();
 }
 
@@ -1259,7 +1262,6 @@ bool Character::mutate_towards( const trait_id &mut, const mutation_category_id 
     bool mut_has_prereq1 = !mdata.prereqs.empty();
     bool mut_has_prereq2 = !mdata.prereqs2.empty();
 
-
     // Check mutations of the same type - except for the ones we might need for pre-reqs
     for( const auto &consider : same_type ) {
         if( std::find( all_prereqs.begin(), all_prereqs.end(), consider ) == all_prereqs.end() ) {
@@ -1371,6 +1373,11 @@ bool Character::mutate_towards( const trait_id &mut, const mutation_category_id 
     for( const bionic_id &bid : get_bionics() ) {
         if( bid->mutation_conflicts.count( mut ) != 0 ) {
             return false;
+        }
+        for( const trait_id &mid : bid->canceled_mutations ) {
+            if( mid == mut ) {
+                return false;
+            }
         }
     }
 
@@ -1568,7 +1575,6 @@ bool Character::mutate_towards( const trait_id &mut, const mutation_category_id 
         }
         get_event_bus().send<event_type::gains_mutation>( getID(), mdata.id );
     }
-
 
     // If the mutation is a dummy mutation, back out at the last minute
     if( !mdata.dummy ) {
@@ -2053,7 +2059,6 @@ std::string Character::mutation_desc( const trait_id &mut ) const
 
     return mut->desc();
 }
-
 
 void Character::customize_appearance( customize_appearance_choice choice )
 {

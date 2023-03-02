@@ -12,6 +12,15 @@ files:
 
 Details on how to use `ui_adaptor` can be found within `ui_manager.h`.
 
+## SDL version requirement of the tiles build 
+
+In theory, any version of SDL2 is supported. However, newer versions of SDL adds
+several hints that are used to fix some incorrect behaviors of older SDL versions.
+These hints and the minimum SDL version requirements can be found within `InitSDL`
+in `sdltiles.cpp`. For example, SDL 2.0.20 is required for IME candidate list
+to show correctly on Windows, and SDL 2.0.22 is required for long IME composition
+text to show correctly.
+
 ## Compatibility with screen readers
 
 There are people who use screen readers to play Cataclysm DDA. In order for screen

@@ -939,6 +939,10 @@ bool advanced_inventory::move_all_items()
     if( spane.items.empty() || liquid_items == spane.items.size() ) {
         if( !is_processing() ) {
             popup( _( "No eligible items found to be moved." ) );
+        } else if( spane.get_area() != AIM_ALL ) {
+            // ensure we don't get stuck if the recursive calls in the switch above were interrupted
+            // by a save-load cycle before the shadowed pane was restored
+            spane.set_area( AIM_ALL );
         }
         return false;
     }
@@ -1631,6 +1635,7 @@ void advanced_inventory::display()
 
         if( ui ) {
             ui->invalidate_ui();
+            g->invalidate_main_ui_adaptor();
             ui_manager::redraw_invalidated();
         }
 

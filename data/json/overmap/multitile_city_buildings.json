@@ -1802,19 +1802,6 @@
   },
   {
     "type": "city_building",
-    "id": "trailerpark_city",
-    "locations": [ "land" ],
-    "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "trailerparksmall0_north" },
-      { "point": [ 0, 0, 1 ], "overmap": "trailerparksmall0_roof_north" },
-      { "point": [ 1, 0, 0 ], "overmap": "trailerparksmall1_north" },
-      { "point": [ 1, 0, 1 ], "overmap": "trailerparksmall1_roof_north" },
-      { "point": [ 2, 0, 0 ], "overmap": "trailerparksmall2_north" },
-      { "point": [ 2, 0, 1 ], "overmap": "trailerparksmall2_roof_north" }
-    ]
-  },
-  {
-    "type": "city_building",
     "id": "small_office",
     "locations": [ "land" ],
     "overmaps": [
@@ -2158,8 +2145,8 @@
       { "point": [ 0, 0, 0 ], "overmap": "apartments_con_tower_000_south" },
       { "point": [ 1, 1, 1 ], "overmap": "apartments_con_tower_111_south" },
       { "point": [ 0, 1, 1 ], "overmap": "apartments_con_tower_011_south" },
-      { "point": [ 1, 0, 1 ], "overmap": "apartments_con_tower_101_south" },
-      { "point": [ 0, 0, 1 ], "overmap": "apartments_con_tower_001_south" },
+      { "point": [ 1, 0, 1 ], "overmap": "apartments_con_tower_102_south" },
+      { "point": [ 0, 0, 1 ], "overmap": "apartments_con_tower_002_south" },
       { "point": [ 1, 1, 2 ], "overmap": "apartments_con_tower_113_south" },
       { "point": [ 0, 1, 2 ], "overmap": "apartments_con_tower_013_south" },
       { "point": [ 1, 0, 2 ], "overmap": "apartments_con_tower_102_south" },
@@ -4473,5 +4460,17 @@
       { "point": [ 1, 0, 1 ], "overmap": "strip_mall_roof_4_south" },
       { "point": [ 0, 0, 1 ], "overmap": "strip_mall_roof_5_south" }
     ]
+  },
+  {
+    "type": "city_building",
+    "id": "orchard",
+    "locations": [ "land" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "orchard_north" }, { "point": [ 0, 0, 1 ], "overmap": "orchard_roof_north" } ]
+  },
+  {
+    "type": "city_building",
+    "id": "orchard_1",
+    "locations": [ "land" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "orchard_1_north" }, { "point": [ 0, 0, 1 ], "overmap": "orchard_roof_1_north" } ]
   }
 ]

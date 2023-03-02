@@ -81,7 +81,7 @@ jobs:
         # availability only as an x86 host tool. Keep it in sync with the builtin-baseline
         # field in vcpkg.json. Caching happens as a post-action which runs at the end of
         # the whole workflow, after vcpkg install happens during msbuild run.
-        vcpkgGitCommitId: '659b6b5eeacb50ffe25856413960d231ce1a4b58'
+        vcpkgGitCommitId: '12b7cfe6109a9d68319334b56a01c44a302a13b6'
 
     - name: Integrate vcpkg
       run: |
@@ -105,8 +105,8 @@ jobs:
     - name: Get ccache vars
       id: get-vars
       run: |
-        echo "::set-output name=datetime::$(/bin/date -u "+%Y%m%d%H%M")"
-        echo "::set-output name=ccache-path::$(echo "$APPDATA\\ccache")"
+        echo "datetime=$(/bin/date -u "+%Y%m%d%H%M")" >> $GITHUB_OUTPUT
+        echo "ccache-path=$(echo "$APPDATA\\ccache")" >> $GITHUB_OUTPUT
       shell: bash
 
     - name: ccache cache files

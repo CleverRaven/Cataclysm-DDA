@@ -936,12 +936,6 @@
     "//": "This gun wont train marksmanship when fired.  Used in Aftershock smart guns."
   },
   {
-    "id": "UNARMED_WEAPON",
-    "type": "json_flag",
-    "//": "Allows wielding with unarmed fighting styles and trains unarmed when used.",
-    "info": "This weapon <good>can be used with</good> <info>unarmed fighting styles</info>."
-  },
-  {
     "id": "NANOFAB_REPAIR",
     "type": "json_flag",
     "info": "This item has a holographic patch that reflects the light oddly.  It was constructed in a nanofabricator and can be <info>repaired in one</info>."
@@ -1322,14 +1316,6 @@
     "type": "json_flag"
   },
   {
-    "id": "FISH_GOOD",
-    "type": "json_flag"
-  },
-  {
-    "id": "FISH_POOR",
-    "type": "json_flag"
-  },
-  {
     "id": "FIT",
     "type": "json_flag"
   },
@@ -1693,7 +1679,15 @@
   },
   {
     "id": "SPEEDLOADER",
-    "type": "json_flag"
+    "info": "This item can quickly reload rounds into gun or magazine that <info>have enough space</info>.",
+    "type": "json_flag",
+    "conflicts": [ "SPEEDLOADER_CLIP" ]
+  },
+  {
+    "id": "SPEEDLOADER_CLIP",
+    "info": "This item can quickly reload rounds into gun or magazine that <info>don't have enough space</info>.",
+    "type": "json_flag",
+    "conflicts": [ "SPEEDLOADER" ]
   },
   {
     "id": "SPLINT",
@@ -1799,10 +1793,6 @@
     "id": "MUTE",
     "type": "json_flag",
     "info": "This gear <bad>prevents</bad> you from <info>speaking</info>."
-  },
-  {
-    "id": "NOT_FOOTWEAR",
-    "type": "json_flag"
   },
   {
     "id": "IRREPLACEABLE_CONSUMABLE",
