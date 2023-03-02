@@ -564,6 +564,9 @@ class item_location::impl::item_in_container : public item_location::impl
         // figures out the index for the item, which is where it is in the total list of contents
         // note: could be a better way of handling this?
         int calc_index() const {
+            if( !container ) {
+                return -1;
+            }
             int idx = 0;
             for( const item *it : container->all_items_top() ) {
                 if( target() == it ) {
@@ -820,7 +823,6 @@ item_location item_location::parent_item() const
     if( where() == type::container ) {
         return ptr->parent_item();
     }
-    debugmsg( "this item location type has no parent" );
     return item_location::nowhere;
 }
 
@@ -947,7 +949,7 @@ void item_location::set_should_stack( bool should_stack ) const
     ptr->should_stack = should_stack;
 }
 
-bool item_location::held_by( Character &who ) const
+bool item_location::held_by( Character const &who ) const
 {
     if( where() == type::character &&
         get_creature_tracker().creature_at<Character>( position() ) == &who ) {

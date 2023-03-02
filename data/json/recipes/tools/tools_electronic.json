@@ -698,7 +698,7 @@
       { "proficiency": "prof_elec_circuits" }
     ],
     "components": [
-      [ [ "scrap", 4 ] ],
+      [ [ "scrap_aluminum", 4 ] ],
       [ [ "plastic_chunk", 2 ] ],
       [ [ "motor_micro", 1 ] ],
       [ [ "superglue", 2 ] ],
@@ -729,7 +729,7 @@
     "components": [
       [ [ "2x4", 4 ] ],
       [ [ "plastic_chunk", 2 ] ],
-      [ [ "vac_pump", 1 ] ],
+      [ [ "motor_micro", 1 ] ],
       [ [ "nail", 16 ] ],
       [ [ "wood_panel", 1 ] ],
       [ [ "hose", 1 ] ],
@@ -827,7 +827,7 @@
       [ [ "amplifier", 2 ] ],
       [ [ "receiver", 1 ] ],
       [ [ "plastic_chunk", 12 ] ],
-      [ [ "scrap", 4 ] ],
+      [ [ "scrap_aluminum", 4 ] ],
       [ [ "e_scrap", 2 ] ],
       [ [ "cable", 8 ] ],
       [ [ "spring", 2 ] ],

@@ -43,7 +43,6 @@ static std::string options_value;
 static std::string memorialdir_value;
 static std::string langdir_value;
 
-
 static cata_path autonote_path_value;
 static cata_path autopickup_path_value;
 static cata_path base_path_path_value;
@@ -104,6 +103,10 @@ void PATH_INFO::set_standard_filenames()
     // Special: data_dir and gfx_dir
     std::string prefix;
     cata_path prefix_path;
+
+    // Data is always relative to itself. Also, the base path might not be writeable.
+    datadir_path_value = cata_path{ cata_path::root_path::data, fs::path{} };
+
     if( !base_path_value.empty() ) {
 #if defined(DATA_DIR_PREFIX)
         datadir_value = base_path_value + "share/cataclysm-dda/";
@@ -119,9 +122,6 @@ void PATH_INFO::set_standard_filenames()
         // Base path is empty here but everything else is still relative to base, which is empty.
         prefix_path = base_path_path_value;
     }
-
-    // Data is always relative to itself. Also, the base path might not be writeable.
-    datadir_path_value = cata_path{ cata_path::root_path::data, fs::path{} };
 
     gfxdir_value = prefix + "gfx/";
     gfxdir_path_value = prefix_path / "gfx";
@@ -191,7 +191,7 @@ cata_path find_translated_file( const cata_path &base_path, const std::string &e
     const std::string loc_name = language_option.empty() ? SystemLocale::Language().value_or( "" ) :
                                  language_option;
     if( !loc_name.empty() ) {
-        cata_path local_path = base_path / loc_name / extension;
+        cata_path local_path = base_path / ( loc_name + extension );
         if( file_exist( local_path ) ) {
             return local_path;
         }

@@ -654,7 +654,7 @@ void editmap::draw_main_ui_overlay()
                         const int veh_part = vp->part_index();
                         char part_mod = 0;
                         const vpart_id &vp_id = vpart_id( veh.part_id_string( veh_part,
-                                                          part_mod ) );
+                                                          part_mod, true, true ) );
                         const cata::optional<vpart_reference> cargopart = vp.part_with_feature( "CARGO", true );
                         bool draw_highlight = cargopart && !veh.get_items( cargopart->part_index() ).empty();
                         units::angle veh_dir = veh.face.dir();
@@ -1541,10 +1541,12 @@ void editmap::edit_itm()
                                 for( const auto &t : tags ) {
                                     it.set_flag( flag_id( t ) );
                                 }
-                                imenu.entries[imenu_tags].txt = debug_menu::iterable_to_string(
-                                it.get_flags(), " ", []( const flag_id & f ) {
+                                // NOLINTNEXTLINE(cata-translate-string-literal)
+                                imenu.entries[imenu_tags].txt = string_format( "tags: %s",
+                                                                debug_menu::iterable_to_string( it.get_flags(), " ",
+                                []( const flag_id & f ) {
                                     return f.str();
-                                } );
+                                } ) );
                                 break;
                         }
                     }

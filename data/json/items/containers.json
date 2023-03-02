@@ -36,7 +36,7 @@
         }
       ]
     },
-    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "COLLAPSE_CONTENTS" ]
   },
   {
     "id": "30gal_barrel",
@@ -63,7 +63,8 @@
         "max_contains_weight": "255 kg"
       }
     ],
-    "qualities": [ [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "CONTAIN", 1 ] ],
+    "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
     "id": "30gal_drum",
@@ -72,7 +73,7 @@
     "looks_like": "30gal_barrel",
     "name": { "str": "steel drum (100L)", "str_pl": "steel drums (100L)" },
     "description": "A huge steel barrel with a watertight lid.",
-    "weight": "12000 g",
+    "weight": "7600 g",
     "volume": "105 L",
     "price": 8000,
     "price_postapoc": 250,
@@ -90,7 +91,8 @@
         "max_contains_weight": "250 kg"
       }
     ],
-    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
+    "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
     "id": "55gal_drum",
@@ -99,7 +101,7 @@
     "looks_like": "30gal_drum",
     "name": { "str": "steel drum (200L)", "str_pl": "steel drums (200L)" },
     "description": "A massive steel barrel with a watertight lid.",
-    "weight": "20000 g",
+    "weight": "20 kg",
     "volume": "210 L",
     "price": 10000,
     "price_postapoc": 250,
@@ -117,7 +119,8 @@
         "max_contains_weight": "500 kg"
       }
     ],
-    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
+    "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
     "id": "bag_canvas",
@@ -131,10 +134,11 @@
     "price": 0,
     "price_postapoc": 10,
     "to_hit": -5,
-    "material": [ "cotton" ],
+    "material": [ "canvas" ],
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "15 L", "max_contains_weight": "15 kg", "moves": 400 } ],
     "symbol": ")",
-    "color": "brown"
+    "color": "brown",
+    "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
     "id": "bag_canvas_small",
@@ -148,10 +152,11 @@
     "price": 0,
     "price_postapoc": 10,
     "to_hit": -5,
-    "material": [ "cotton" ],
+    "material": [ "canvas" ],
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 400 } ],
     "symbol": ")",
-    "color": "brown"
+    "color": "brown",
+    "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
     "id": "bag_plastic",
@@ -168,7 +173,8 @@
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "6 L", "max_contains_weight": "10 kg", "moves": 400 } ],
     "material": [ "plastic" ],
     "symbol": ")",
-    "color": "light_gray"
+    "color": "light_gray",
+    "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
     "id": "bag_garbage",
@@ -186,6 +192,16 @@
     "material": [ "plastic" ],
     "symbol": ")",
     "color": "black"
+  },
+  {
+    "id": "bag_garbage_reinforced",
+    "type": "GENERIC",
+    "name": { "str": "reinforced garbage bag" },
+    "copy-from": "bag_garbage",
+    "description": "Garbage bags layered within each other, made to carry a heavier load.",
+    "weight": "400 g",
+    "volume": "500 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "98 L", "max_contains_weight": "46 kg", "moves": 400 } ]
   },
   {
     "id": "bag_paper_powder",
@@ -210,7 +226,8 @@
     ],
     "material": [ "paper" ],
     "symbol": ")",
-    "color": "white"
+    "color": "white",
+    "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
     "id": "bag_zipper",
@@ -235,7 +252,8 @@
       }
     ],
     "symbol": ")",
-    "color": "light_gray"
+    "color": "light_gray",
+    "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
     "id": "bag_zipper_gallon",
@@ -285,6 +303,32 @@
     "color": "dark_gray"
   },
   {
+    "id": "heavy_punching_bag_sack",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "heavy punching bag sack" },
+    "looks_like": "bag_canvas",
+    "description": "A nigh five foot long cylindrical leather sack, a foot in diameter, with attachment points at the top.  With some bags of sand, some chains and a bunch of blankets you could hang it from the ceiling as a heavy punching bag.",
+    "weight": "2400g",
+    "volume": "2260 ml",
+    "longest_side": "150 cm",
+    "price": 0,
+    "price_postapoc": 10,
+    "to_hit": -5,
+    "material": [ "leather" ],
+    "symbol": ")",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "110 L",
+        "max_contains_weight": "100 kg",
+        "max_item_length": "150 cm",
+        "moves": 400
+      }
+    ],
+    "color": "dark_gray"
+  },
+  {
     "id": "bag_iv",
     "type": "GENERIC",
     "category": "container",
@@ -307,7 +351,8 @@
         "max_contains_weight": "3 kg",
         "moves": 400
       }
-    ]
+    ],
+    "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
     "id": "bottle_glass",
@@ -338,7 +383,8 @@
         "moves": 400
       }
     ],
-    "qualities": [ [ "BOIL", 1 ] ]
+    "qualities": [ [ "BOIL", 1 ] ],
+    "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
     "id": "bottle_plastic",
@@ -367,7 +413,8 @@
     "material": [ "plastic" ],
     "ascii_picture": "plastic_bottle",
     "symbol": ")",
-    "color": "light_cyan"
+    "color": "light_cyan",
+    "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
     "id": "condiment_bottle_sealed",
@@ -396,7 +443,8 @@
     "to_hit": 1,
     "material": [ "plastic" ],
     "symbol": ")",
-    "color": "brown"
+    "color": "brown",
+    "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
     "id": "bottle_plastic_small",
@@ -423,7 +471,8 @@
     "to_hit": 1,
     "material": [ "plastic" ],
     "symbol": ")",
-    "color": "white"
+    "color": "white",
+    "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
     "id": "bottle_plastic_pill_prescription",
@@ -450,7 +499,8 @@
     "to_hit": 1,
     "material": [ "plastic" ],
     "symbol": ")",
-    "color": "brown"
+    "color": "brown",
+    "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
     "id": "bottle_plastic_pill_painkiller",
@@ -494,7 +544,8 @@
         "max_contains_weight": "3 kg",
         "moves": 400
       }
-    ]
+    ],
+    "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
     "id": "bowl_clay",
@@ -589,7 +640,8 @@
     "ascii_picture": "box_cigarette",
     "symbol": ")",
     "color": "white",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "90 ml", "max_contains_weight": "3 kg" } ]
+    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "90 ml", "max_contains_weight": "3 kg" } ],
+    "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
     "id": "case_cigar",
@@ -605,7 +657,15 @@
     "material": [ "wood", "leather" ],
     "symbol": "u",
     "color": "brown",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "145 ml", "max_contains_weight": "1 kg" } ]
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "145 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "16 cm"
+      }
+    ]
   },
   {
     "id": "box_snack",
@@ -629,14 +689,15 @@
     "price_postapoc": 0,
     "material": [ "cardboard" ],
     "symbol": ")",
-    "color": "brown"
+    "color": "brown",
+    "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
     "id": "box_small",
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "small cardboard box", "str_pl": "small cardboard boxes" },
-    "description": "A small cardboard box.  No bigger than a foot in dimension.",
+    "description": "A small cardboard box.  No bigger than a foot in dimension.  Can be folded.",
     "weight": "50 g",
     "volume": "2250 ml",
     "longest_side": "21 cm",
@@ -654,6 +715,31 @@
     "price_postapoc": 0,
     "material": [ "cardboard" ],
     "symbol": ")",
+    "color": "brown",
+    "use_action": {
+      "target": "box_small_folded",
+      "msg": "You fold the box.",
+      "menu_text": "Fold",
+      "type": "transform",
+      "moves": 500,
+      "need_empty": true
+    },
+    "flags": [ "COLLAPSE_CONTENTS" ]
+  },
+  {
+    "id": "box_small_folded",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "small folded cardboard box", "str_pl": "small folded cardboard boxes" },
+    "description": "A small folded cardboard box.  No bigger than a foot in dimension.  Can be assembled.",
+    "weight": "50 g",
+    "volume": "900 ml",
+    "longest_side": "30 cm",
+    "//": "~1x27x30 or ~1x26x44",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "cardboard" ],
+    "symbol": ")",
     "color": "brown"
   },
   {
@@ -662,7 +748,7 @@
     "category": "container",
     "name": { "str": "cardboard box", "str_pl": "cardboard boxes" },
     "looks_like": "box_small",
-    "description": "A sturdy cardboard box, about the size of a banana box.  Great for packing.",
+    "description": "A sturdy cardboard box, about the size of a banana box.  Great for packing.  Can be folded.",
     "weight": "400 g",
     "volume": "51000 ml",
     "longest_side": "51 cm",
@@ -680,6 +766,30 @@
     ],
     "material": [ "cardboard" ],
     "symbol": ")",
+    "color": "brown",
+    "use_action": {
+      "target": "box_medium_folded",
+      "msg": "You fold the box.",
+      "menu_text": "Fold",
+      "type": "transform",
+      "moves": 1000,
+      "need_empty": true
+    }
+  },
+  {
+    "id": "box_medium_folded",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "folded cardboard box", "str_pl": "folded cardboard boxes" },
+    "description": "A sturdy folded cardboard box.  Great for packing.  Can be assembled.",
+    "weight": "400 g",
+    "volume": "6000 ml",
+    "longest_side": "80 cm",
+    "//": "(1x80x75)",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "cardboard" ],
+    "symbol": ")",
     "color": "brown"
   },
   {
@@ -688,7 +798,7 @@
     "category": "container",
     "name": { "str": "large cardboard box", "str_pl": "large cardboard boxes" },
     "looks_like": "box_medium",
-    "description": "A very large cardboard box, the sort children would have loved to hide in, when there were still children.",
+    "description": "A very large cardboard box, the sort children would have loved to hide in, when there were still children.  Can be folded.",
     "weight": "2 kg",
     "volume": "329000 ml",
     "longest_side": "91 cm",
@@ -707,7 +817,33 @@
         "max_item_length": "90 cm"
       }
     ],
-    "use_action": { "type": "deploy_furn", "furn_type": "f_cardboard_box" }
+    "use_action": [
+      { "type": "deploy_furn", "furn_type": "f_cardboard_box" },
+      {
+        "target": "box_large_folded",
+        "msg": "You fold the box.",
+        "menu_text": "Fold",
+        "type": "transform",
+        "moves": 1500,
+        "need_empty": true
+      }
+    ]
+  },
+  {
+    "id": "box_large_folded",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "large folded cardboard box", "str_pl": "large folded cardboard boxes" },
+    "description": "A very large folded cardboard box, the sort children would have loved to hide in, when there were still children.  Can be assembled.",
+    "weight": "2 kg",
+    "volume": "18000 ml",
+    "longest_side": "150 cm",
+    "//": "(1x150x120)",
+    "price": 0,
+    "price_postapoc": 10,
+    "material": [ "cardboard" ],
+    "symbol": ")",
+    "color": "brown"
   },
   {
     "id": "box_large_reinforced",
@@ -715,7 +851,7 @@
     "category": "container",
     "name": { "str": "reinforced large cardboard box", "str_pl": "reinforced large cardboard boxes" },
     "looks_like": "box_large",
-    "description": "A very large cardboard box, doubled up with a second layer of cardboard and lots of duct tape.",
+    "description": "A very large cardboard box, doubled up with a second layer of cardboard and lots of duct tape.  It can't be folded anymore.",
     "weight": "4 kg",
     "volume": "334000 ml",
     "longest_side": "91 cm",
@@ -742,7 +878,7 @@
     "category": "container",
     "name": { "str": "oversize cardboard box", "str_pl": "oversize cardboard boxes" },
     "looks_like": "box_small",
-    "description": "An oversize cardboard box, big enough to fit some longer items.  Great for storage.",
+    "description": "An oversize cardboard box, big enough to fit some longer items.  Great for storage.  Can be folded.",
     "weight": "2000 g",
     "volume": "205000 ml",
     "longest_side": "201 cm",
@@ -758,6 +894,30 @@
         "max_item_length": "200 cm"
       }
     ],
+    "material": [ "cardboard" ],
+    "symbol": ")",
+    "color": "brown",
+    "use_action": {
+      "target": "box_oversize_folded",
+      "msg": "You fold the box.",
+      "menu_text": "Fold",
+      "type": "transform",
+      "moves": 1500,
+      "need_empty": true
+    }
+  },
+  {
+    "id": "box_oversize_folded",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "oversize folded cardboard box", "str_pl": "oversize folded cardboard boxes" },
+    "description": "An oversize cardboard box, big enough to fit some longer items.  Great for storage.  Can be assembled.",
+    "weight": "2000 g",
+    "volume": "22000 ml",
+    "longest_side": "220 cm",
+    "//": "(220x100x1)",
+    "price": 0,
+    "price_postapoc": 10,
     "material": [ "cardboard" ],
     "symbol": ")",
     "color": "brown"
@@ -1070,7 +1230,7 @@
         }
       ]
     },
-    "flags": [ "BELTED" ]
+    "flags": [ "BELTED", "COLLAPSE_CONTENTS" ]
   },
   {
     "id": "can_drink",
@@ -1099,7 +1259,8 @@
         "sealed_data": { "spoil_multiplier": 0.0 }
       }
     ],
-    "qualities": [ [ "BOIL", 1 ] ]
+    "qualities": [ [ "BOIL", 1 ] ],
+    "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
     "id": "carton_sealed",
@@ -1126,7 +1287,8 @@
         "//": "Calculated to keep shelf stable milk fresh for 304 days when sealed",
         "sealed_data": { "spoil_multiplier": 0.023 }
       }
-    ]
+    ],
+    "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
     "id": "carton_milk",
@@ -1152,7 +1314,8 @@
         "max_contains_weight": "5 kg",
         "sealed_data": { "spoil_multiplier": 0.5 }
       }
-    ]
+    ],
+    "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
     "id": "carton_egg",
@@ -1178,7 +1341,8 @@
         "max_contains_weight": "1 kg",
         "max_item_length": "45 mm"
       }
-    ]
+    ],
+    "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
     "id": "plastic_bag_vac",
@@ -1198,11 +1362,13 @@
       {
         "pocket_type": "CONTAINER",
         "open_container": true,
+        "watertight": true,
         "max_contains_volume": "500 ml",
         "max_contains_weight": "1 kg",
         "sealed_data": { "spoil_multiplier": 0.0 }
       }
-    ]
+    ],
+    "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
     "id": "can_food",
@@ -1230,7 +1396,8 @@
         "sealed_data": { "spoil_multiplier": 0.0 }
       }
     ],
-    "qualities": [ [ "BOIL", 1 ] ]
+    "qualities": [ [ "BOIL", 1 ] ],
+    "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
     "id": "can_medium",
@@ -1253,7 +1420,8 @@
       }
     ],
     "qualities": [ [ "BOIL", 1 ] ],
-    "volume": "525 ml"
+    "volume": "525 ml",
+    "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
     "id": "canteen",
@@ -1292,7 +1460,7 @@
         }
       ]
     },
-    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "COLLAPSE_CONTENTS" ]
   },
   {
     "id": "thermos",
@@ -1317,7 +1485,8 @@
         "max_contains_weight": "4 kg"
       }
     ],
-    "insulation": 10
+    "insulation": 10,
+    "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
     "id": "clay_canister",
@@ -1422,7 +1591,8 @@
         "max_contains_volume": "250 ml",
         "max_contains_weight": "1 kg"
       }
-    ]
+    ],
+    "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
     "id": "cup_foil",
@@ -1447,7 +1617,7 @@
       }
     ],
     "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
-    "flags": [ "SOFT" ]
+    "flags": [ "SOFT", "NO_REPAIR", "COLLAPSE_CONTENTS" ]
   },
   {
     "id": "flask_glass",
@@ -1475,7 +1645,8 @@
         "max_contains_weight": "1250 g"
       }
     ],
-    "qualities": [ [ "BOIL", 1 ] ]
+    "qualities": [ [ "BOIL", 1 ] ],
+    "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
     "id": "test_tube",
@@ -1503,7 +1674,8 @@
         "max_contains_weight": "50 g"
       }
     ],
-    "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
+    "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
     "id": "beaker",
@@ -1531,7 +1703,8 @@
         "max_contains_weight": "1 kg"
       }
     ],
-    "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
+    "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
     "id": "gradcylinder",
@@ -1561,7 +1734,8 @@
         "max_contains_weight": "500 g"
       }
     ],
-    "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
+    "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
     "id": "test_tube_micro",
@@ -1587,7 +1761,8 @@
         "max_contains_weight": "5 g"
       }
     ],
-    "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
+    "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
     "id": "flask_hip",
@@ -1596,13 +1771,14 @@
     "name": { "str": "hip flask" },
     "looks_like": "2lcanteen",
     "description": "A 250 ml metal flask with a hinged screw-on lid, commonly used to discreetly transport alcohol.",
-    "weight": "120 g",
-    "volume": "262 ml",
-    "price": 1000,
+    "weight": "270 g",
+    "volume": "650 ml",
+    "longest_side": "13 cm",
+    "price": 4000,
     "price_postapoc": 10,
     "to_hit": 1,
     "bashing": 3,
-    "material": [ "iron" ],
+    "material": [ "steel" ],
     "symbol": ")",
     "color": "light_gray",
     "pocket_data": [
@@ -1627,7 +1803,7 @@
       ]
     },
     "qualities": [ [ "BOIL", 1 ] ],
-    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "COLLAPSE_CONTENTS" ]
   },
   {
     "id": "jar_3l_glass_sealed",
@@ -1656,7 +1832,8 @@
         "sealed_data": { "spoil_multiplier": 0.0 }
       }
     ],
-    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 1 ] ]
+    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 1 ] ],
+    "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
     "id": "jar_glass_sealed",
@@ -1682,7 +1859,8 @@
         "sealed_data": { "spoil_multiplier": 0.0 }
       }
     ],
-    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 1 ] ]
+    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 1 ] ],
+    "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
     "id": "jerrycan",
@@ -1707,7 +1885,8 @@
         "max_item_volume": "32 ml",
         "max_contains_weight": "15 kg"
       }
-    ]
+    ],
+    "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
     "id": "jerrycan_big",
@@ -1716,8 +1895,9 @@
     "name": { "str": "steel jerrycan" },
     "looks_like": "jerrycan",
     "description": "A steel jerrycan, meant to carry fuel, but can carry other liquids in a pinch.",
-    "weight": "4815 g",
-    "volume": "21000 ml",
+    "weight": "4300 g",
+    "volume": "26750 ml",
+    "longest_side": "47 cm",
     "price": 5000,
     "price_postapoc": 100,
     "to_hit": -3,
@@ -1735,7 +1915,8 @@
         "max_contains_weight": "25 kg"
       }
     ],
-    "qualities": [ [ "BOIL", 1 ] ]
+    "qualities": [ [ "BOIL", 1 ] ],
+    "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
     "id": "jug_clay",
@@ -1788,7 +1969,8 @@
         "max_contains_weight": "8 kg",
         "sealed_data": { "spoil_multiplier": 0.5 }
       }
-    ]
+    ],
+    "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
     "id": "keg",
@@ -1816,7 +1998,8 @@
         "max_contains_weight": "100 kg"
       }
     ],
-    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
+    "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
     "id": "keg_steel",
@@ -1844,7 +2027,8 @@
         "max_contains_weight": "120 kg"
       }
     ],
-    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
+    "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
     "id": "large_stomach_sealed",
@@ -1896,7 +2080,8 @@
         "max_contains_weight": "120 kg"
       }
     ],
-    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
+    "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
     "id": "metal_tank_little",
@@ -1905,8 +2090,9 @@
     "looks_like": "keg",
     "name": { "str": "metal tank (2L)", "str_pl": "metal tanks (2L)" },
     "description": "A small metal tank for gas or liquids.  Useful for crafting.",
-    "weight": "800 g",
-    "volume": "2010 ml",
+    "weight": "950 g",
+    "volume": "3500 ml",
+    "longest_side": "25 cm",
     "price": 1000,
     "price_postapoc": 50,
     "to_hit": -4,
@@ -1923,7 +2109,8 @@
         "max_contains_weight": "4 kg"
       }
     ],
-    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
+    "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
     "id": "canteen_wood",
@@ -2196,7 +2383,8 @@
         "max_contains_weight": "200 kg"
       }
     ],
-    "qualities": [ [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "CONTAIN", 1 ] ],
+    "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
     "id": "wrapper",
@@ -2212,7 +2400,8 @@
     "material": [ "paper" ],
     "symbol": ",",
     "color": "light_gray",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "2500 ml", "max_contains_weight": "6 kg" } ]
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "2500 ml", "max_contains_weight": "6 kg" } ],
+    "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
     "id": "wrapper_foil",
@@ -2229,7 +2418,7 @@
     "color": "light_gray",
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "2500 ml", "max_contains_weight": "6 kg" } ],
     "qualities": [ [ "COOK", 1 ] ],
-    "flags": [ "SOFT" ]
+    "flags": [ "SOFT", "NO_REPAIR", "COLLAPSE_CONTENTS" ]
   },
   {
     "id": "wrapper_pr",
@@ -2240,7 +2429,8 @@
       "str": "\"DaiZoom Protein Bar, brought to you by SoyPelusa\" is emblazoned proudly upon this greaseproof wrapper."
     },
     "copy-from": "wrapper",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "225 ml", "max_contains_weight": "1 kg" } ]
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "225 ml", "max_contains_weight": "1 kg" } ],
+    "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
     "id": "styrofoam_cup",
@@ -2264,7 +2454,8 @@
         "max_contains_volume": "500 ml",
         "max_contains_weight": "1 kg"
       }
-    ]
+    ],
+    "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
     "id": "plastic_bucket",
@@ -2288,7 +2479,8 @@
         "max_contains_volume": "4250 ml",
         "max_contains_weight": "9 kg"
       }
-    ]
+    ],
+    "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
     "id": "condom",
@@ -2348,7 +2540,8 @@
         "sealed_data": { "spoil_multiplier": 0.0 }
       }
     ],
-    "qualities": [ [ "BOIL", 1 ] ]
+    "qualities": [ [ "BOIL", 1 ] ],
+    "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
     "id": "survival_kit_box",
@@ -2624,7 +2817,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "2749 ml",
+        "max_contains_volume": "2777 ml",
         "max_contains_weight": "4 kg",
         "airtight": true,
         "moves": 50,
@@ -2911,7 +3104,7 @@
       }
     ],
     "charges_per_use": 1,
-    "flags": [ "GAS_TANK" ]
+    "flags": [ "GAS_TANK", "COLLAPSE_CONTENTS" ]
   },
   {
     "id": "medium_propane_tank",
@@ -2939,7 +3132,7 @@
       }
     ],
     "charges_per_use": 1,
-    "flags": [ "GAS_TANK" ]
+    "flags": [ "GAS_TANK", "COLLAPSE_CONTENTS" ]
   },
   {
     "id": "large_propane_tank",
@@ -2967,7 +3160,7 @@
       }
     ],
     "charges_per_use": 1,
-    "flags": [ "GAS_TANK" ]
+    "flags": [ "GAS_TANK", "COLLAPSE_CONTENTS" ]
   },
   {
     "id": "xl_propane_tank",
@@ -2995,7 +3188,7 @@
       }
     ],
     "charges_per_use": 1,
-    "flags": [ "GAS_TANK" ]
+    "flags": [ "GAS_TANK", "COLLAPSE_CONTENTS" ]
   },
   {
     "id": "shot_glass",
@@ -3021,7 +3214,8 @@
         "max_contains_volume": "44 ml",
         "max_contains_weight": "500 g"
       }
-    ]
+    ],
+    "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
     "id": "30gal_drum_aluminum",
@@ -3030,7 +3224,7 @@
     "looks_like": "30gal_barrel",
     "name": { "str": "aluminum tank (100L)", "str_pl": "aluminum tanks (100L)" },
     "description": "A large aluminum tank, traditionally used to store fuel.",
-    "weight": "6000 g",
+    "weight": "2565 g",
     "volume": "130 L",
     "price": 8000,
     "price_postapoc": 250,
@@ -3048,7 +3242,8 @@
         "max_contains_weight": "250 kg"
       }
     ],
-    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
+    "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
     "id": "55gal_drum_aluminum",
@@ -3057,7 +3252,7 @@
     "looks_like": "30gal_drum",
     "name": { "str": "aluminum tank (200L)", "str_pl": "aluminum tanks (200L)" },
     "description": "A massive aluminum tank, traditionally used to store fuel.",
-    "weight": "10000 g",
+    "weight": "10 kg",
     "volume": "230 L",
     "price": 10000,
     "price_postapoc": 250,
@@ -3075,7 +3270,8 @@
         "max_contains_weight": "500 kg"
       }
     ],
-    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
+    "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
     "id": "squeeze_tube",
@@ -3102,7 +3298,8 @@
         "max_contains_weight": "2500 g"
       }
     ],
-    "qualities": [ [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "CONTAIN", 1 ] ],
+    "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
     "id": "squeeze_tube_small",
@@ -3130,6 +3327,7 @@
         "max_contains_weight": "500 g"
       }
     ],
-    "qualities": [ [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "CONTAIN", 1 ] ],
+    "flags": [ "COLLAPSE_CONTENTS" ]
   }
 ]

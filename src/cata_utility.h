@@ -8,6 +8,8 @@
 #include <functional>
 #include <iosfwd>
 #include <map>
+#include <memory>
+#include <numeric>
 #include <string> // IWYU pragma: keep
 #include <type_traits>
 #include <unordered_set>
@@ -194,7 +196,6 @@ const char *velocity_units( units_type vel_units );
  */
 double convert_velocity( int velocity, units_type vel_units );
 
-
 /**
  * Convert a temperature from Kelvin to degrees Fahrenheit.
  *
@@ -336,6 +337,36 @@ bool read_from_file_optional( const cata_path &path,
                               const std::function<void( std::istream & )> &reader );
 bool read_from_file_optional_json( const cata_path &path,
                                    const std::function<void( const JsonValue & )> &reader );
+/**@}*/
+
+/**
+ * Try to open and provide a std::istream for the given, possibly, gzipped, file.
+ *
+ * The file is opened for reading (binary mode) and tested to see if it is compressed.
+ * Compressed files are decompressed into a std::stringstream and returned.
+ * Uncompressed files are returned as normal lazy ifstreams.
+ * Any exceptions during reading, including failing to open the file, are reported as dbgmsg.
+ *
+ * @return A unique_ptr of the appropriate istream, or nullptr on failure.
+ */
+/**@{*/
+std::unique_ptr<std::istream> read_maybe_compressed_file( const std::string &path );
+std::unique_ptr<std::istream> read_maybe_compressed_file( const fs::path &path );
+std::unique_ptr<std::istream> read_maybe_compressed_file( const cata_path &path );
+/**@}*/
+
+/**
+ * Try to open and read the entire file to a string.
+ *
+ * The file is opened for reading (binary mode), read into a string, and then closed.
+ * Any exceptions during reading, including failing to open the file, are reported as dbgmsg.
+ *
+ * @return A nonempty optional with the contents of the file on success, or cata::nullopt on failure.
+ */
+/**@{*/
+cata::optional<std::string> read_whole_file( const std::string &path );
+cata::optional<std::string> read_whole_file( const fs::path &path );
+cata::optional<std::string> read_whole_file( const cata_path &path );
 /**@}*/
 
 std::istream &safe_getline( std::istream &ins, std::string &str );
@@ -598,5 +629,33 @@ int bucket_index_from_weight_list( const std::vector<int> &weights );
  * Implemented in `stdtiles.cpp`, `wincurse.cpp`, and `ncurses_def.cpp`.
  */
 void set_title( const std::string &title );
+
+/**
+ * Convenience function to get the aggregate value for a list of values.
+ */
+template<typename T, typename std::enable_if<std::is_integral<T>::value, int>::type = 0>
+T aggregate( const std::vector<T> &values, aggregate_type agg_func )
+{
+    if( values.empty() ) {
+        return T();
+    }
+    switch( agg_func ) {
+        case aggregate_type::FIRST:
+            return values.front();
+        case aggregate_type::LAST:
+            return *values.rbegin();
+        case aggregate_type::MIN:
+            return *std::min_element( values.begin(), values.end() );
+        case aggregate_type::MAX:
+            return *std::max_element( values.begin(), values.end() );
+        case aggregate_type::AVERAGE:
+        case aggregate_type::SUM: {
+            T agg_sum = std::accumulate( values.begin(), values.end(), 0 );
+            return agg_func == aggregate_type::SUM ? agg_sum : agg_sum / values.size();
+        }
+        default:
+            return T();
+    }
+}
 
 #endif // CATA_SRC_CATA_UTILITY_H

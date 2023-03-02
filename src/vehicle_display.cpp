@@ -70,14 +70,14 @@ char vehicle::part_sym( const int p, const bool exact, const bool include_fake )
 // similar to part_sym(int p) but for use when drawing SDL tiles. Called only by cata_tiles
 // during draw_vpart vector returns at least 1 element, max of 2 elements. If 2 elements the
 // second denotes if it is open or damaged
-std::string vehicle::part_id_string( const int p, char &part_mod ) const
+std::string vehicle::part_id_string( const int p, char &part_mod, bool below_roof, bool roof ) const
 {
     part_mod = 0;
     if( p < 0 || p >= static_cast<int>( parts.size() ) || parts[p].removed ) {
         return "";
     }
 
-    int displayed_part = part_displayed_at( parts[p].mount, true );
+    int displayed_part = part_displayed_at( parts[p].mount, true, below_roof, roof );
     if( displayed_part < 0 || displayed_part >= static_cast<int>( parts.size() ) ||
         parts[ displayed_part ].removed ) {
         return "";
@@ -181,7 +181,6 @@ int vehicle::print_part_list( const catacurses::window &win, int y1, const int m
             ++y;
             break;
         }
-
 
         std::string partname = vp.name();
 
@@ -452,7 +451,7 @@ void vehicle::print_fuel_indicator( const catacurses::window &win, const point &
             units = _( "mL" );
         }
         if( fuel_type == itype_battery ) {
-            rate += power_to_energy_bat( net_battery_charge_rate_w(), 1_hours );
+            rate += power_to_energy_bat( net_battery_charge_rate(), 1_hours );
             units = _( "kJ" );
         }
         if( rate != 0 ) {

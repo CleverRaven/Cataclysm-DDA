@@ -21,7 +21,6 @@
 #include "rng.h"
 #include "translations.h"
 
-
 static const limb_score_id limb_score_reaction( "reaction" );
 static const limb_score_id limb_score_vision( "vision" );
 
@@ -256,6 +255,11 @@ weakpoint_effect::weakpoint_effect()  :
     intensity( 0, 0 ),
     damage_required( 0.0f, 100.0f ) {}
 
+std::string weakpoint_effect::get_message() const
+{
+    return message.translated();
+}
+
 void weakpoint_effect::apply_to( Creature &target, int total_damage,
                                  const weakpoint_attack &attack ) const
 {
@@ -273,8 +277,8 @@ void weakpoint_effect::apply_to( Creature &target, int total_damage,
                        time_duration::from_turns( rng( duration.first, duration.second ) ),
                        permanent, rng( intensity.first, intensity.second ) );
 
-    if( !message.empty() && attack.source != nullptr && attack.source->is_avatar() ) {
-        add_msg_if_player_sees( target, m_good, message, target.get_name() );
+    if( !get_message().empty() && attack.source != nullptr && attack.source->is_avatar() ) {
+        add_msg_if_player_sees( target, m_good, get_message(), target.get_name() );
     }
 }
 
@@ -433,8 +437,13 @@ void weakpoint::load( const JsonObject &jo )
 
     // Set the ID to the name, if not provided.
     if( !jo.has_string( "id" ) ) {
-        id = name;
+        assign( jo, "name", id );
     }
+}
+
+std::string weakpoint::get_name() const
+{
+    return name.translated();
 }
 
 void weakpoint::apply_to( resistances &resistances ) const
@@ -512,7 +521,7 @@ const weakpoint *weakpoints::select_weakpoint( const weakpoint_attack &attack ) 
         float hit_chance = new_reweighed - reweighed;
         add_msg_debug( debugmode::DF_MONSTER,
                        "Weakpoint Selection: weakpoint %s, hit_chance %.4f",
-                       weakpoint.name, hit_chance );
+                       weakpoint.id, hit_chance );
         if( idx < hit_chance ) {
             return &weakpoint;
         }

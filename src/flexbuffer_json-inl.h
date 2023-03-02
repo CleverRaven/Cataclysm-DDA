@@ -905,7 +905,7 @@ E JsonObject::get_enum_value( const char *name ) const
     try {
         return io::string_to_enum<E>( static_cast<std::string>( value ) );
     } catch( const io::InvalidEnumString & ) {
-        value.throw_error( "invalud enumumeration value" );
+        value.throw_error( "invalid enumeration value" );
     }
 }
 
@@ -922,7 +922,7 @@ E JsonObject::get_enum_value( const char *name, E fallback ) const
         try {
             return io::string_to_enum<E>( static_cast<std::string>( *value ) );
         } catch( const io::InvalidEnumString & ) {
-            value->throw_error( "invalud enumumeration value" );
+            value->throw_error( "invalid enumeration value" );
         }
     } else {
         return fallback;
@@ -946,6 +946,20 @@ inline std::vector<std::string> JsonObject::get_string_array( const std::string 
     ret.reserve( ja.size() );
     for( JsonValue jv : get_array( name ) ) {
         ret.emplace_back( jv );
+    }
+    return ret;
+}
+inline std::vector<std::string> JsonObject::get_as_string_array( const std::string &name ) const
+{
+    std::vector<std::string> ret;
+    if( has_array( name ) ) {
+        JsonArray ja = get_array( name );
+        ret.reserve( ja.size() );
+        for( JsonValue jv : get_array( name ) ) {
+            ret.emplace_back( jv );
+        }
+    } else {
+        ret.emplace_back( get_string( name ) );
     }
     return ret;
 }

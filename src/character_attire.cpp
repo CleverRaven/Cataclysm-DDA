@@ -25,10 +25,10 @@ static const flag_id json_flag_ONE_PER_LAYER( "ONE_PER_LAYER" );
 
 static const itype_id itype_shoulder_strap( "shoulder_strap" );
 
-static const material_id material_cotton( "cotton" );
-static const material_id material_leather( "leather" );
-static const material_id material_nomex( "nomex" );
 static const material_id material_wool( "wool" );
+
+static const sub_bodypart_str_id sub_body_part_foot_sole_l( "foot_sole_l" );
+static const sub_bodypart_str_id sub_body_part_foot_sole_r( "foot_sole_r" );
 
 static const trait_id trait_ANTENNAE( "ANTENNAE" );
 static const trait_id trait_ANTLERS( "ANTLERS" );
@@ -68,8 +68,7 @@ ret_val<void> Character::can_wear( const item &it, bool with_equip_change ) cons
     if( it.has_flag( flag_INTEGRATED ) ) {
         return ret_val<void>::make_success();
     }
-    // need to ignore inherited flags for this because items in pockets likely have CANT_WEAR
-    if( it.has_flag( flag_CANT_WEAR, true ) ) {
+    if( it.has_flag( flag_CANT_WEAR ) ) {
         return ret_val<void>::make_failure( _( "Can't be worn directly." ) );
     }
     if( has_effect( effect_incorporeal ) ) {
@@ -99,8 +98,7 @@ ret_val<void> Character::can_wear( const item &it, bool with_equip_change ) cons
             }
         }
         if( it.covers( body_part_head ) && !it.has_flag( flag_SEMITANGIBLE ) &&
-            !it.made_of( material_wool ) && !it.made_of( material_cotton ) &&
-            !it.made_of( material_nomex ) && !it.made_of( material_leather ) &&
+            it.is_rigid() &&
             ( has_trait( trait_HORNS_POINTED ) || has_trait( trait_ANTENNAE ) ||
               has_trait( trait_ANTLERS ) ) ) {
             return ret_val<void>::make_failure( _( "Cannot wear a helmet over %s." ),
@@ -279,7 +277,6 @@ cata::optional<std::list<item>::iterator> outfit::wear_item( Character &guy, con
         worn.push_back( to_wear );
     }
 
-
     get_event_bus().send<event_type::character_wears_item>( guy.getID(), guy.last_item );
 
     if( interactive ) {
@@ -422,7 +419,6 @@ bool Character::takeoff( item_location loc, std::list<item> *res )
                                _( "<npcname> takes off their %s." ),
                                name );
 
-
         recalc_sight_limits();
         calc_encumbrance();
         calc_discomfort();
@@ -472,6 +468,16 @@ item Character::item_worn_with_flag( const flag_id &f ) const
 bool Character::wearing_something_on( const bodypart_id &bp ) const
 {
     return worn.wearing_something_on( bp );
+}
+
+bool Character::wearing_fitting_on( const bodypart_id &bp ) const
+{
+    return worn.wearing_fitting_on( bp );
+}
+
+bool Character::is_barefoot() const
+{
+    return worn.is_barefoot();
 }
 
 cata::optional<const item *> outfit::item_worn_with_inv_let( const char invlet ) const
@@ -605,11 +611,6 @@ double Character::armwear_factor() const
         ret += .5;
     }
     return ret;
-}
-
-double Character::footwear_factor() const
-{
-    return worn.footwear_factor();
 }
 
 int Character::shoe_type_count( const itype_id &it ) const
@@ -747,12 +748,15 @@ static void layer_item( std::map<bodypart_id, encumbrance_data> &vals, const ite
          * Setting layering_encumbrance to 0 at this point makes the item cease to exist
          * for the purposes of the layer penalty system. (normally an item has a minimum
          * layering_encumbrance of 2 )
+         * Personal layer items and semitangible items do not conflict.
          */
         if( it.has_flag( flag_SEMITANGIBLE ) ) {
             encumber_val = 0;
             layering_encumbrance = 0;
         }
-
+        if( it.has_flag( flag_PERSONAL ) ) {
+            layering_encumbrance = 0;
+        }
         for( layer_level item_layer : item_layers ) {
             // do the sublayers of this armor conflict
             bool conflicts = false;
@@ -948,11 +952,32 @@ std::list<item> outfit::get_visible_worn_items( const Character &guy ) const
 bool outfit::wearing_something_on( const bodypart_id &bp ) const
 {
     for( const item &i : worn ) {
-        if( i.covers( bp ) ) {
+        if( i.covers( bp ) && !i.has_flag( flag_INTEGRATED ) ) {
             return true;
         }
     }
     return false;
+}
+
+bool outfit::wearing_fitting_on( const bodypart_id &bp ) const
+{
+    for( const item &i : worn ) {
+        if( i.covers( bp ) && !i.has_flag( flag_INTEGRATED ) && !i.has_flag( flag_OVERSIZE ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool outfit::is_barefoot() const
+{
+    for( const item &i : worn ) {
+        if( ( i.covers( sub_body_part_foot_sole_l ) && !i.has_flag( flag_INTEGRATED ) ) ||
+            ( i.covers( sub_body_part_foot_sole_r ) && !i.has_flag( flag_INTEGRATED ) ) ) {
+            return false;
+        }
+    }
+    return true;
 }
 
 int outfit::swim_modifier( const int swim_skill ) const
@@ -1226,8 +1251,6 @@ ret_val<void> outfit::check_rigid_conflicts( const item &clothing, side s ) cons
         }
     }
 
-
-
     // go through all worn and see if already wearing something rigid
     for( const item &i : worn ) {
         // check each sublimb individually
@@ -1237,9 +1260,14 @@ ret_val<void> outfit::check_rigid_conflicts( const item &clothing, side s ) cons
                 continue;
             }
 
-            // skip if either item cares only about it's layer and they don't match up
+            // skip if either item cares only about its layer and they don't match up
             if( ( i.is_bp_rigid_selective( sbp ) || clothing.is_bp_rigid_selective( sbp ) ) &&
                 !i.has_layer( clothing.get_layer( sbp ), sbp ) ) {
+                continue;
+            }
+
+            // allow wearing splints on integrated armor such as protective bark
+            if( i.has_flag( flag_INTEGRATED ) && clothing.has_flag( flag_SPLINT ) ) {
                 continue;
             }
 
@@ -1261,15 +1289,12 @@ ret_val<void> outfit::check_rigid_conflicts( const item &clothing ) const
     ret_val<void> ls = check_rigid_conflicts( clothing, side::LEFT );
     ret_val<void> rs = check_rigid_conflicts( clothing, side::RIGHT );
 
-
     if( !ls.success() && !rs.success() ) {
         return ls;
     }
 
     return ret_val<void>::make_success();
 }
-
-
 
 void outfit::one_per_layer_sidedness( item &clothing ) const
 {
@@ -1340,24 +1365,6 @@ bool outfit::takeoff( item_location loc, std::list<item> *res, Character &guy )
         res->push_back( takeoff_copy );
     }
     return true;
-}
-
-double outfit::footwear_factor() const
-{
-    double ret = 0;
-    for( const item &i : worn ) {
-        if( i.covers( body_part_foot_l ) && !i.has_flag( flag_NOT_FOOTWEAR ) ) {
-            ret += 0.5f;
-            break;
-        }
-    }
-    for( const item &i : worn ) {
-        if( i.covers( body_part_foot_r ) && !i.has_flag( flag_NOT_FOOTWEAR ) ) {
-            ret += 0.5f;
-            break;
-        }
-    }
-    return ret;
 }
 
 void outfit::damage_mitigate( const bodypart_id &bp, damage_unit &dam ) const
@@ -1664,19 +1671,6 @@ void outfit::get_overlay_ids( std::vector<std::pair<std::string, std::string>> &
     }
 }
 
-bool outfit::in_climate_control() const
-{
-    for( const item &w : worn ) {
-        if( w.active && w.is_power_armor() ) {
-            return true;
-        }
-        if( w.has_flag( flag_CLIMATE_CONTROL ) ) {
-            return true;
-        }
-    }
-    return false;
-}
-
 std::list<item>::iterator outfit::position_to_wear_new_item( const item &new_item )
 {
     // By default we put this item on after the last item on the same or any
@@ -1874,7 +1868,7 @@ std::map<bodypart_id, int> outfit::warmth( const Character &guy ) const
     return total_warmth;
 }
 
-std::unordered_set<bodypart_id> outfit::where_discomfort() const
+std::unordered_set<bodypart_id> outfit::where_discomfort( const Character &guy ) const
 {
     // get all rigid body parts to begin with
     std::unordered_set<sub_bodypart_id> covered_sbps;
@@ -1890,8 +1884,17 @@ std::unordered_set<bodypart_id> outfit::where_discomfort() const
             // note anything selectively rigid reasonably can be assumed to support itself so we don't need to worry about this
             // items must also be somewhat heavy in order to cause discomfort
             if( !i.is_bp_rigid_selective( sbp ) && !i.is_bp_comfortable( sbp ) &&
-                covered_sbps.count( sbp ) != 1 && i.weight() > units::from_gram( 250 ) ) {
-                uncomfortable_bps.insert( sbp->parent );
+                i.weight() > units::from_gram( 250 ) ) {
+
+                // need to go through each locations under location to check if its covered, since secondary locations can cover multiple underlying locations
+                for( const sub_bodypart_str_id &under_sbp : sbp->locations_under ) {
+                    if( covered_sbps.count( under_sbp ) != 1 ) {
+                        guy.add_msg_if_player(
+                            string_format( _( "<color_c_red> the %s rubs uncomfortably against your unpadded %s </color>" ),
+                                           i.display_name(), under_sbp->name ) );
+                        uncomfortable_bps.insert( sbp->parent );
+                    }
+                }
             }
         }
     }
@@ -2160,7 +2163,6 @@ void outfit::prepare_bodymap_info( bodygraph_info &info, const bodypart_id &bp,
         }
         info.avg_coverage += temp_coverage;
 
-
         // need to do each sub part seperately and then average them if need be
         for( const sub_bodypart_id &sbp : sub_parts ) {
             int coverage = armor.get_coverage( sbp );
@@ -2235,6 +2237,71 @@ void outfit::pickup_stash( const item &newit, int &remaining_charges, bool ignor
     }
 }
 
+static std::vector<pocket_data_with_parent> get_child_pocket_with_parent(
+    const item_pocket *pocket, const item_location &parent, item_location it, const int nested_level,
+    const std::function<bool( const item_pocket * )> &filter = return_true<const item_pocket *> )
+{
+    std::vector<pocket_data_with_parent> ret;
+    if( pocket != nullptr ) {
+        pocket_data_with_parent pocket_data = { pocket, item_location::nowhere, nested_level };
+        const item_location new_parent = item_location( it );
+
+        if( parent != item_location::nowhere ) {
+            pocket_data.parent = item_location( parent, it.get_item() );
+        }
+        if( filter( pocket_data.pocket_ptr ) ) {
+            ret.emplace_back( pocket_data );
+        }
+
+        for( const item *contained : pocket->all_items_top() ) {
+            const item_location poc_loc = item_location( it, const_cast<item *>( contained ) );
+            for( const item_pocket *pocket_nest : contained->get_all_contained_pockets() ) {
+                std::vector<pocket_data_with_parent> child =
+                    get_child_pocket_with_parent( pocket_nest, new_parent,
+                                                  poc_loc, nested_level + 1, filter );
+                ret.insert( ret.end(), child.begin(), child.end() );
+            }
+        }
+    }
+    return ret;
+}
+
+std::vector<pocket_data_with_parent> Character::get_all_pocket_with_parent(
+    const std::function<bool( const item_pocket * )> &filter,
+    const std::function<bool( const pocket_data_with_parent &a, const pocket_data_with_parent &b )>
+    *sort_func )
+{
+    std::vector<pocket_data_with_parent> ret;
+    const auto sort_pockets_func = [ sort_func ]
+    ( const pocket_data_with_parent & l, const pocket_data_with_parent & r ) {
+        const auto sort_pockets = *sort_func;
+        return sort_pockets( l, r );
+    };
+
+    std::list<item_location> locs;
+    item_location carried_item = get_wielded_item();
+    if( carried_item != item_location::nowhere ) {
+        locs.emplace_back( carried_item );
+    }
+    for( item_location &worn_loc : top_items_loc( ) ) {
+        if( worn_loc != item_location::nowhere ) {
+            locs.emplace_back( worn_loc );
+        }
+    }
+
+    for( item_location &loc : locs ) {
+        for( const item_pocket *pocket : loc->get_all_contained_pockets() ) {
+            std::vector<pocket_data_with_parent> child =
+                get_child_pocket_with_parent( pocket, item_location::nowhere, loc, 0, filter );
+            ret.insert( ret.end(), child.begin(), child.end() );
+        }
+    }
+    if( sort_func ) {
+        std::sort( ret.begin(), ret.end(), sort_pockets_func );
+    }
+    return ret;
+}
+
 void outfit::add_stash( Character &guy, const item &newit, int &remaining_charges,
                         bool ignore_pkt_settings )
 {
@@ -2250,52 +2317,50 @@ void outfit::add_stash( Character &guy, const item &newit, int &remaining_charge
         // Crawl Next : worn items
         pickup_stash( newit, remaining_charges, ignore_pkt_settings );
     } else {
-        item_pocket *found_pocket;
-        std::vector<item_pocket *> pockets;
+        //item copy for test can contain
         item temp_it = item( newit );
         temp_it.charges = 1;
 
         // Collect all pockets
-        std::list<item *> items;
-        item_location carried_item = guy.get_wielded_item();
-        if( carried_item != item_location::nowhere ) {
-            items.emplace_back( &*carried_item );
-        }
-        for( item &i : worn ) {
-            items.emplace_back( &i );
-        }
-        for( item *i : items ) {
-            for( const item_pocket *pocket : i->get_all_contained_pockets() ) {
-                if( pocket->can_contain( temp_it ).success() ) {
-                    // Top-level( wielded, worn ) pockets may be stored
-                    found_pocket = const_cast<item_pocket *>( pocket );
-                    pockets.emplace_back( found_pocket );
-                }
-                for( const item *contained : pocket->all_items_ptr( item_pocket::pocket_type::CONTAINER ) ) {
-                    for( const item_pocket *pocket_nest : contained->get_all_contained_pockets() ) {
-                        if( pocket_nest->can_contain( temp_it ).success() && pocket_nest->rigid() ) {
-                            // Nested pocket with rigid() can only be stored
-                            found_pocket = const_cast<item_pocket *>( pocket_nest );
-                            pockets.emplace_back( found_pocket );
-                        }
-                    }
-                }
-            }
-        }
+        std::vector<pocket_data_with_parent> pockets_with_parent;
+        auto const pocket_filter = [&temp_it]( item_pocket const * pck ) {
+            return pck->can_contain( temp_it ).success();
+        };
+        const std::function<bool( const pocket_data_with_parent &a, const pocket_data_with_parent &b )>
+        &sort_f = [&temp_it]( const pocket_data_with_parent & a, const pocket_data_with_parent & b ) {
+            return b.pocket_ptr->better_pocket( *a.pocket_ptr, temp_it, false );
+        };
+        pockets_with_parent = guy.get_all_pocket_with_parent( pocket_filter, &sort_f );
 
-        // Sort by item_pocket::better_pocket
-        std::sort( pockets.begin(), pockets.end(), [newit, temp_it]( item_pocket * lhs,
-        item_pocket * rhs ) {
-            return rhs->better_pocket( *lhs, newit, false );
-        } );
-
-        int amount = remaining_charges;
+        const int amount = remaining_charges;
         int num_contained = 0;
-        for( item_pocket *&pocket : pockets ) {
+        for( const pocket_data_with_parent &pocket_data_ptr : pockets_with_parent ) {
             if( amount <= num_contained || remaining_charges <= 0 ) {
                 break;
             }
-            const int filled_count = pocket->fill_with( newit, remaining_charges, false, false );
+            int filled_count = 0;
+            item_pocket *pocke = const_cast<item_pocket *>( pocket_data_ptr.pocket_ptr );
+            if( pocke == nullptr ) {
+                continue;
+            }
+            if( pocke->rigid() ) {
+                // Rigid container allow to fill unconditionally till volume limit
+                // because do not depend on the capacity of the parent's pocket.
+                filled_count = pocke->fill_with( newit, guy, remaining_charges, false, false );
+            } else {
+                int max_contain_value = pocke->remaining_capacity_for_item( newit );
+                const item_location parent_data = pocket_data_ptr.parent;
+
+                if( parent_data.has_parent() ) {
+                    if( parent_data.parents_can_contain_recursive( &temp_it ) ) {
+                        max_contain_value = parent_data.max_charges_by_parent_recursive( temp_it );
+                    } else {
+                        max_contain_value = 0;
+                    }
+                }
+                const int charges = std::min( max_contain_value, remaining_charges ) ;
+                filled_count = pocke->fill_with( newit, guy, charges, false, false );
+            }
             num_contained += filled_count;
             remaining_charges -= filled_count;
         }

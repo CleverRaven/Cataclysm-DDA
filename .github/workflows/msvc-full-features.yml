@@ -12,8 +12,6 @@ on:
     - 'gfx/**'
     - 'lang/**'
     - 'lgtm/**'
-    - 'msvc-object_creator/**'
-    - 'object_creator/**'
     - 'tools/**'
     - '!tools/format/**'
     - 'utilities/**'
@@ -28,8 +26,6 @@ on:
     - 'gfx/**'
     - 'lang/**'
     - 'lgtm/**'
-    - 'msvc-object_creator/**'
-    - 'object_creator/**'
     - 'tools/**'
     - '!tools/format/**'
     - 'utilities/**'
@@ -85,11 +81,11 @@ jobs:
         # availability only as an x86 host tool. Keep it in sync with the builtin-baseline
         # field in vcpkg.json. Caching happens as a post-action which runs at the end of
         # the whole workflow, after vcpkg install happens during msbuild run.
-        vcpkgGitCommitId: 'bd1ef2df46303989eeb048eb7aa9b816aa46365e'
+        vcpkgGitCommitId: '12b7cfe6109a9d68319334b56a01c44a302a13b6'
 
     - name: Integrate vcpkg
       run: |
-        vcpkg integrate install
+        vcpkg integrate install --vcpkg-root '${{ runner.workspace }}\b\vcpkg'
 
     - name: Download ccache
       uses: robinraju/release-downloader@v1.4
@@ -109,8 +105,8 @@ jobs:
     - name: Get ccache vars
       id: get-vars
       run: |
-        echo "::set-output name=datetime::$(/bin/date -u "+%Y%m%d%H%M")"
-        echo "::set-output name=ccache-path::$(echo "$APPDATA\\ccache")"
+        echo "datetime=$(/bin/date -u "+%Y%m%d%H%M")" >> $GITHUB_OUTPUT
+        echo "ccache-path=$(echo "$APPDATA\\ccache")" >> $GITHUB_OUTPUT
       shell: bash
 
     - name: ccache cache files
@@ -135,8 +131,8 @@ jobs:
 
     - name: Build
       run: |
-          cd msvc-full-features
-          msbuild -m -p:Configuration=Release -p:Platform=x64 "-target:Cataclysm-vcpkg-static;Cataclysm-test-vcpkg-static;JsonFormatter-vcpkg-static;ObjectCreator-vcpkg-static" Cataclysm-vcpkg-static.sln
+          msbuild -m -p:Configuration=Release -p:Platform=x64 "-target:Cataclysm-vcpkg-static;Cataclysm-test-vcpkg-static;JsonFormatter-vcpkg-static" msvc-full-features/Cataclysm-vcpkg-static.sln
+          msbuild -m -p:Configuration=Release -p:Platform=x64 "-target:ObjectCreator-vcpkg-static" msvc-object_creator/ObjectCreator-vcpkg-static.sln
 
     - name: Post-build ccache manipulation
       if: ${{ !failure() }}

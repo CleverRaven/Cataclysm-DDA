@@ -114,7 +114,7 @@ struct smart_controller_cache {
     bool gas_engine_shutdown_forbidden = false;
     int velocity = 0;
     int battery_percent = 0;
-    units::energy battery_net_charge_rate = 0_J;
+    units::power battery_net_charge_rate = 0_W;
     float load = 0.0f;
 };
 
@@ -766,16 +766,13 @@ class vehicle
         //damages vehicle controls and security system
         void smash_security_system();
         // get vpart powerinfo for part number, accounting for variable-sized parts and hps.
-        int part_vpower_w( int index, bool at_full_hp = false ) const;
+        units::power part_vpower_w( int index, bool at_full_hp = false ) const;
 
-        // get vpart epowerinfo for part number.
-        int part_epower_w( int index ) const;
+        // Get part power consumption/production for part number.
+        units::power part_epower( int index ) const;
 
         // convert watts over time to battery energy (kJ)
-        int power_to_energy_bat( int power_w, const time_duration &d ) const;
-
-        // convert vhp to watts.
-        static int vhp_to_watts( int power );
+        int power_to_energy_bat( units::power power, const time_duration &d ) const;
 
         // Do stuff like clean up blood and produce smoke from broken parts. Returns false if nothing needs doing.
         bool do_environmental_effects() const;
@@ -894,6 +891,8 @@ class vehicle
         bool is_external_part( const tripoint &part_pt ) const;
         bool is_towed() const;
         void set_tow_directions();
+        /// @return true if vehicle is an appliance
+        bool is_appliance() const;
         // owner functions
         bool is_owned_by( const Character &c, bool available_to_take = false ) const;
         bool is_old_owner( const Character &c, bool available_to_take = false ) const;
@@ -1019,17 +1018,24 @@ class vehicle
         bool remove_carried_vehicle( const std::vector<int> &carried_parts, const std::vector<int> &racks );
         // split the current vehicle into up to four vehicles if they have no connection other
         // than the structure part at exclude
-        bool find_and_split_vehicles( map &here, int exclude );
         bool find_and_split_vehicles( map &here, std::set<int> exclude );
         // relocate passengers to the same part on a new vehicle
         void relocate_passengers( const std::vector<Character *> &passengers ) const;
-        // remove a bunch of parts, specified by a vector indices, and move them to a new vehicle at
-        // the same global position
-        // optionally specify the new vehicle position and the mount points on the new vehicle
+        // Split a vehicle into an old vehicle and one or more new vehicles by moving vehicle_parts
+        // from one the old vehicle to the new vehicles. Some of the logic borrowed from remove_part
+        // skipped the grab, curtain, player activity, and engine checks because they deal with pos,
+        // not a vehicle pointer
+        // @param new_vehs vector of vectors of part indexes to move to new vehicles
+        // @param new_vehicles vector of vehicle pointers containing the new vehicles; if empty, new
+        // vehicles will be created
+        // @param new_mounts vector of vector of mount points. must have one vector for every vehicle*
+        // in new_vehicles, and forces the part indices in new_vehs to be mounted on the new vehicle
+        // at those mount points
+        // @param added_vehicles if not nullptr any newly added vehicles will be appended to the vector
         bool split_vehicles( map &here, const std::vector<std::vector <int>> &new_vehs,
                              const std::vector<vehicle *> &new_vehicles,
-                             const std::vector<std::vector <point>> &new_mounts );
-        bool split_vehicles( map &here, const std::vector<std::vector <int>> &new_vehs );
+                             const std::vector<std::vector<point>> &new_mounts,
+                             std::vector<vehicle *> *added_vehicles = nullptr );
 
         /** Get handle for base item of part */
         item_location part_base( int p );
@@ -1183,7 +1189,8 @@ class vehicle
 
         // Seek a vehicle part which obstructs tile with given coordinates relative to vehicle position
         int part_at( const point &dp ) const;
-        int part_displayed_at( const point &dp, bool include_fake = false ) const;
+        int part_displayed_at( const point &dp, bool include_fake = false,
+                               bool below_roof = true, bool roof = true ) const;
         int roof_at_part( int p ) const;
 
         // Given a part, finds its index in the vehicle
@@ -1191,7 +1198,7 @@ class vehicle
 
         // get symbol for map
         char part_sym( int p, bool exact = false, bool include_fake = true ) const;
-        std::string part_id_string( int p, char &part_mod ) const;
+        std::string part_id_string( int p, char &part_mod, bool below_roof = true, bool roof = true ) const;
 
         // get color for map
         nc_color part_color( int p, bool exact = false, bool include_fake = true ) const;
@@ -1216,8 +1223,7 @@ class vehicle
 
         // Pre-calculate mount points for (idir=0) - current direction or
         // (idir=1) - next turn direction
-        // return the set of all z-levels that the vehicle is on
-        std::set<int> precalc_mounts( int idir, const units::angle &dir, const point &pivot );
+        void precalc_mounts( int idir, const units::angle &dir, const point &pivot );
 
         // get a list of part indices where is a passenger inside
         std::vector<int> boarded_parts() const;
@@ -1272,9 +1278,6 @@ class vehicle
         // Returns total vehicle fuel capacity for the given fuel type
         int fuel_capacity( const itype_id &ftype ) const;
 
-        // Returns the total specific energy (J/g) of this fuel type. Frozen is ignored.
-        units::specific_energy fuel_specific_energy( const itype_id &ftype ) const;
-
         // drains a fuel type (e.g. for the kitchen unit)
         // returns amount actually drained, does not engage reactor
         int drain( const itype_id &ftype, int amount,
@@ -1289,7 +1292,7 @@ class vehicle
         units::energy drain_energy( const itype_id &ftype, units::energy wanted_energy );
 
         // fuel consumption of vehicle engines of given type
-        int basic_consumption( const itype_id &ftype ) const;
+        units::power basic_consumption( const itype_id &ftype ) const;
         // Fuel consumption mL/hour
         int consumption_per_hour( const itype_id &ftype, units::energy fuel_per_s ) const;
 
@@ -1298,13 +1301,13 @@ class vehicle
         /**
          * Maps used fuel to its basic (unscaled by load/strain) consumption.
          */
-        std::map<itype_id, units::energy> fuel_usage() const;
+        std::map<itype_id, units::power> fuel_usage() const;
 
         /**
         * Fuel usage for specific engine
         * @param e is the index of the engine in the engines array
         */
-        units::energy engine_fuel_usage( int e ) const;
+        units::power engine_fuel_usage( int e ) const;
         /**
          * Get all vehicle lights (excluding any that are destroyed)
          * @param active if true return only lights which are enabled
@@ -1314,42 +1317,47 @@ class vehicle
         void update_alternator_load();
 
         // Total drain or production of electrical power from engines.
-        int total_engine_epower_w() const;
+        units::power total_engine_epower() const;
         // Total production of electrical power from alternators.
-        int total_alternator_epower_w() const;
+        units::power total_alternator_epower() const;
         // Total power (W) currently being produced by all solar panels.
-        int total_solar_epower_w() const;
+        units::power total_solar_epower() const;
         // Total power currently being produced by all wind turbines.
-        int total_wind_epower_w() const;
+        units::power total_wind_epower() const;
         // Total power currently being produced by all water wheels.
-        int total_water_wheel_epower_w() const;
+        units::power total_water_wheel_epower() const;
         // Total power drain across all vehicle accessories.
-        int total_accessory_epower_w() const;
+        units::power total_accessory_epower() const;
         // Net power draw or drain on batteries.
-        int net_battery_charge_rate_w( bool include_reactors = true ) const;
+        units::power net_battery_charge_rate( bool include_reactors = true,
+                                              bool connected_vehicles = false ) const;
         // Maximum available power available from all reactors. Power from
         // reactors is only drawn when batteries are empty.
-        int max_reactor_epower_w() const;
+        units::power max_reactor_epower() const;
         // Active power from reactors that is actually being drained by batteries.
-        int active_reactor_epower_w( bool connected_vehicles ) const;
+        units::power active_reactor_epower( bool connected_vehicles ) const;
         // Produce and consume electrical power, with excess power stored or
         // taken from batteries.
         void power_parts();
 
-        // Current and total battery power level as a pair
+        // Current and total battery power (kJ) level as a pair
         std::pair<int, int> battery_power_level() const;
 
-        // Current and total battery power level of all connected vehicles as a pair
+        // Current and total battery power (kJ) level of all connected vehicles as a pair
         std::pair<int, int> connected_battery_power_level() const;
 
         /**
          * Try to charge our (and, optionally, connected vehicles') batteries by the given amount.
+         * @param amount to discharge in kJ
+         * @param include_other_vehicles if true charge also to cable connected vehicles.
          * @return amount of charge left over.
          */
         int charge_battery( int amount, bool include_other_vehicles = true );
 
         /**
          * Try to discharge our (and, optionally, connected vehicles') batteries by the given amount.
+         * @param amount to discharge in kJ
+         * @param recurse if true draws also from cable connected vehicles.
          * @return amount of request unfulfilled (0 if totally successful).
          */
         int discharge_battery( int amount, bool recurse = true );
@@ -1379,7 +1387,7 @@ class vehicle
         // Get combined power of all engines. If fueled == true, then only engines which
         // vehicle have fuel for are accounted.  If safe == true, then limit engine power to
         // their safe power.
-        int total_power_w( bool fueled = true, bool safe = false ) const;
+        units::power total_power( bool fueled = true, bool safe = false ) const;
 
         // Get ground acceleration gained by combined power of all engines. If fueled == true,
         // then only engines which the vehicle has fuel for are included
@@ -1520,7 +1528,7 @@ class vehicle
 
         // Extra drag on the vehicle from components other than wheels.
         // @param actual is current drag if true or nominal drag otherwise
-        int static_drag( bool actual = true ) const;
+        units::power static_drag( bool actual = true ) const;
 
         // strain of engine(s) if it works higher that safe speed (0-1.0)
         float strain() const;
@@ -1538,13 +1546,13 @@ class vehicle
         float handling_difficulty() const;
 
         /**
-         * Use grid traversal to enumerate all connected vehicles.
-         * @param connected_vehicles is an output map from vehicle pointers to
-         * a bool that is true if the vehicle is in the reality bubble.
-         * @param vehicle_list is a set of pointers to vehicles present in the reality bubble.
-         */
-        static void enumerate_vehicles( std::map<vehicle *, bool> &connected_vehicles,
-                                        std::set<vehicle *> &vehicle_list );
+        * Use vehicle::traverse_vehicle_graph (breadth-first search) to enumerate all vehicles
+        * connected to @ref origins by parts with POWER_TRANSFER flag.
+        * @param origins set of pointers to vehicles to start searching from
+        * @return a map of vehicle pointers to a bool that is true if the
+        * vehicle is in the @ref origins set.
+        */
+        static std::map<vehicle *, bool> enumerate_vehicles( const std::set<vehicle *> &origins );
         // idle fuel consumption
         void idle( bool on_map = true );
         // continuous processing for running vehicle alarms
@@ -2106,7 +2114,7 @@ class vehicle
         float of_turn = 0.0f; // NOLINT(cata-serialize)
         // leftover from previous turn
         float of_turn_carry = 0.0f;
-        int extra_drag = 0; // NOLINT(cata-serialize)
+        units::power extra_drag = 0_W; // NOLINT(cata-serialize)
         // the time point when it was successfully stolen
         cata::optional<time_point> theft_time;
         // rotation used for mount precalc values

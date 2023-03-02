@@ -71,8 +71,6 @@ struct enum_traits<body_part> {
 
 enum class side : int;
 
-
-
 // Drench cache
 enum water_tolerance {
     WT_IGNORED = 0,
@@ -329,7 +327,6 @@ struct body_part_type {
         float damage_resistance( const damage_type &dt ) const;
         float damage_resistance( const damage_unit &du ) const;
 
-
         // combine matching body part and subbodypart strings together for printing
         static std::set<translation, localized_comparator> consolidate( std::vector<sub_bodypart_id>
                 &covered );
@@ -338,8 +335,6 @@ struct body_part_type {
         static std::set<translation, localized_comparator> consolidate( std::vector<bodypart_id>
                 &covered );
 };
-
-
 
 template<>
 struct enum_traits<body_part_type::type> {

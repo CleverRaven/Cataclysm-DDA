@@ -795,6 +795,7 @@ class npc : public Character
          * See @ref dialogue_chatbin::add_new_mission
          */
         void add_new_mission( mission *miss );
+        void update_missions_target( character_id old_character, character_id new_character );
         std::pair<skill_id, int> best_combat_skill( combat_skills subset ) const;
         void starting_weapon( const npc_class_id &type );
 
@@ -818,6 +819,7 @@ class npc : public Character
         // Interaction with the player
         void form_opinion( const Character &you );
         std::string pick_talk_topic( const Character &u );
+        std::string const &get_specified_talk_topic( std::string const &topic_id );
         float character_danger( const Character &u ) const;
         float vehicle_danger( int radius ) const;
         void pretend_fire( npc *source, int shots, item &gun ); // fake ranged attack for hallucination
@@ -907,6 +909,7 @@ class npc : public Character
 
         // Re-roll the inventory of a shopkeeper
         void shop_restock();
+        bool is_shopkeeper() const;
         // Use and assessment of items
         // The minimum value to want to pick up an item
         int minimum_item_value() const;
@@ -946,10 +949,10 @@ class npc : public Character
          */
         bool will_accept_from_player( const item &it ) const;
 
-        bool wants_to_sell( const item &it ) const;
-        ret_val<void> wants_to_sell( const item &/*it*/, int at_price, int market_price ) const;
+        bool wants_to_sell( const item_location &it ) const;
+        ret_val<void> wants_to_sell( const item_location &it, int at_price ) const;
         bool wants_to_buy( const item &it ) const;
-        ret_val<void> wants_to_buy( const item &/*it*/, int at_price, int /*market_price*/ ) const;
+        ret_val<void> wants_to_buy( const item &/*it*/, int at_price ) const;
 
         bool will_exchange_items_freely() const;
         int max_credit_extended() const;
@@ -988,9 +991,6 @@ class npc : public Character
          */
         void activate_combat_cbms();
         void deactivate_combat_cbms();
-        // find items that can be used to fuel CBM rechargers
-        // can't use can_feed_*_with because they're private to player and too general
-        bool consume_cbm_items( const std::function<bool( const item & )> &filter );
         // returns true if fuel resources are consumed
         bool recharge_cbm();
         // power is below the requested levels
@@ -1116,7 +1116,7 @@ class npc : public Character
 
         void update_cardio_acc() override {};
 
-        void aim( Target_attributes target_attributes );
+        void aim( const Target_attributes &target_attributes );
         void do_reload( const item_location &it );
 
         // Physical movement from one tile to the next
@@ -1162,9 +1162,6 @@ class npc : public Character
         void find_item();
         // Move to, or grab, our targeted item
         void pick_up_item();
-        // Drop wgt and vol, including all items with less value than min_val
-        void drop_items( const units::mass &drop_weight, const units::volume &drop_volume,
-                         int min_val = 0 );
         /** Picks up items and returns a list of them. */
         std::list<item> pick_up_item_map( const tripoint &where );
         std::list<item> pick_up_item_vehicle( vehicle &veh, int part_index );

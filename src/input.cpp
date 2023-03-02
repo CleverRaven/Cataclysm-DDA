@@ -88,7 +88,7 @@ bool is_mouse_enabled()
 
 bool is_keycode_mode_supported()
 {
-#if defined(TILES) && !defined(__ANDROID__) && !defined(TARGET_OS_IPHONE)
+#if defined(TILES) && !defined(__ANDROID__) && !(defined(TARGET_OS_IPHONE) && TARGET_OS_IPHONE == 1)
     return keycode_mode;
 #else
     return false;
@@ -1563,7 +1563,7 @@ action_id input_context::display_menu( const bool permit_execute_action )
         } else if( action == "PAGE_UP" ) {
             if( filtered_registered_actions.empty() ) {
                 // do nothing
-            } if( scroll_offset >= display_height ) {
+            } else if( scroll_offset >= display_height ) {
                 scroll_offset -= display_height;
             } else if( scroll_offset > 0 ) {
                 scroll_offset = 0;

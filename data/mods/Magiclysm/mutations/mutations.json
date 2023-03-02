@@ -220,12 +220,14 @@
     "mixed_effect": true,
     "encumbrance_always": [ [ "torso", 10 ], [ "arm_l", 10 ], [ "arm_r", 10 ] ],
     "description": "You have grown noticeably taller, broader, and menacing.  Much of it is useful muscle mass (Strength +2), but you find it throws off your balance and you get in your own way (+10 torso and arm encumbrance), and you notice people are starting to treat you differently.",
+    "types": [ "SIZE" ],
     "prereqs": [ "DRAGON_STR", "DRAGON_STR2", "DRAGON_STR3", "DRAGON_STR4" ],
     "cancels": [ "SMALL", "SMALL2", "LARGE", "LARGE_OK", "HUGE", "HUGE_OK" ],
     "changes_to": [ "LARGE_OK_DRAGON", "HUGE_DRAGON" ],
     "category": [ "DRAGON_BLACK" ],
     "passive_mods": { "str_mod": 2 },
     "weight_capacity_modifier": 1.05,
+    "stomach_size_multiplier": 1.5,
     "anger_relations": [ [ "HUMAN", 10 ] ]
   },
   {
@@ -236,6 +238,7 @@
     "points": 2,
     "visibility": 1,
     "description": "You carry your rugged body with the dignity you deserve, but are all the more menacing for it.  Strength +2.",
+    "types": [ "SIZE" ],
     "prereqs": [ "LARGE_DRAGON" ],
     "prereqs2": [ "DRAGON_STR", "DRAGON_STR2", "DRAGON_STR3", "DRAGON_STR4" ],
     "cancels": [ "SMALL", "SMALL2", "LARGE", "LARGE_OK", "HUGE", "HUGE_OK" ],
@@ -244,6 +247,7 @@
     "category": [ "DRAGON_BLACK" ],
     "passive_mods": { "str_mod": 2 },
     "weight_capacity_modifier": 1.05,
+    "stomach_size_multiplier": 1.5,
     "anger_relations": [ [ "HUMAN", 20 ] ]
   },
   {
@@ -256,6 +260,7 @@
     "ugliness": 4,
     "mixed_effect": true,
     "description": "You have grown even more massive, to the point where you cannot usefully fit into human-sized clothing or vehicles.  Much of it is powerful muscle mass (Strength +4), but it's a real pain to haul around.",
+    "types": [ "SIZE" ],
     "prereqs": [ "LARGE_DRAGON", "LARGE_OK_DRAGON" ],
     "prereqs2": [ "DRAGON_STR3", "DRAGON_STR4" ],
     "cancels": [ "SMALL", "SMALL2", "LARGE", "LARGE_OK", "HUGE", "HUGE_OK" ],
@@ -267,6 +272,7 @@
     "restricts_gear": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r" ],
     "destroys_gear": true,
     "weight_capacity_modifier": 1.1,
+    "stomach_size_multiplier": 2.0,
     "anger_relations": [ [ "HUMAN", 30 ] ]
   },
   {
@@ -276,6 +282,7 @@
     "points": 4,
     "visibility": 1,
     "description": "Your muscles are enhanced by some growing innate magic.  You are slightly stronger.  Strength + 1",
+    "types": [ "STR" ],
     "changes_to": [ "DRAGON_STR2" ],
     "category": [ "DRAGON_BLACK" ],
     "passive_mods": { "str_mod": 1 }
@@ -287,6 +294,7 @@
     "points": 4,
     "visibility": 1,
     "description": "The connection to your inner magic is growing and your muscles are stronger, but you're a little more clumsy.  Strength + 3, Dexterity - 1",
+    "types": [ "STR" ],
     "prereqs": [ "DRAGON_STR" ],
     "changes_to": [ "DRAGON_STR3" ],
     "category": [ "DRAGON_BLACK" ],
@@ -299,6 +307,7 @@
     "points": 4,
     "visibility": 1,
     "description": "The magic within you courses through your muscles, greatly empowering them.  This costs you valuable flexibility and coordination, however.  Strength + 5, Dexterity - 2",
+    "types": [ "STR" ],
     "prereqs": [ "DRAGON_STR2" ],
     "changes_to": [ "DRAGON_STR4" ],
     "category": [ "DRAGON_BLACK" ],
@@ -312,6 +321,7 @@
     "visibility": 2,
     "ugliness": 2,
     "description": "Your internal magic has filled you with unimaginable strength, but you can't move as freely as your form once could.  This is no problem.  Strength + 8, Dexterity - 3",
+    "types": [ "STR" ],
     "prereqs": [ "DRAGON_STR3" ],
     "category": [ "DRAGON_BLACK" ],
     "threshreq": [ "THRESH_DRAGON_BLACK" ],
@@ -327,6 +337,7 @@
     "ugliness": 3,
     "mixed_effect": true,
     "description": "Your cardiovascular system has caught up with your muscular physique, so who needs pathetic human cars?  Strength +4.",
+    "types": [ "SIZE" ],
     "prereqs": [ "HUGE_DRAGON" ],
     "prereqs2": [ "DRAGON_STR3", "DRAGON_STR4" ],
     "cancels": [ "SMALL", "SMALL2", "LARGE", "LARGE_OK", "HUGE", "HUGE_OK" ],
@@ -336,13 +347,18 @@
     "restricts_gear": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r" ],
     "destroys_gear": true,
     "weight_capacity_modifier": 1.1,
+    "stomach_size_multiplier": 2.0,
     "anger_relations": [ [ "HUMAN", 40 ] ]
   },
   {
     "type": "mutation",
     "id": "MUT_TOUGH",
     "copy-from": "MUT_TOUGH",
-    "extend": { "category": [ "DRAGON_BLACK" ], "prereqs": [ "LARGE_OK_DRAGON", "HUGE_OK_DRAGON" ] }
+    "extend": {
+      "category": [ "DRAGON_BLACK" ],
+      "prereqs": [ "LARGE_OK_DRAGON", "HUGE_OK_DRAGON" ],
+      "threshreq": [ "THRESH_DRAGON_BLACK" ]
+    }
   },
   {
     "type": "mutation",
@@ -427,7 +443,7 @@
     "points": 1,
     "visibility": 9,
     "ugliness": 4,
-    "description": "You have a pair of large, black scaled dragon wings.  While you have control of them and can make attacks with them, they are not large enough nor strong enough to allow you to fly and they throw your off balance, greatly reducing your ability to dodge.  They can be used to cast a protective spell on yourself however.",
+    "description": "You have a pair of large, black scaled dragon wings.  While you have control of them and can make attacks with them, they are not large enough nor strong enough to allow you to fly and they throw you off balance, greatly reducing your ability to dodge.  They can be used to cast a protective spell on yourself however.",
     "types": [ "WINGS" ],
     "prereqs": [ "WINGS_STUB" ],
     "category": [ "DRAGON_BLACK" ],

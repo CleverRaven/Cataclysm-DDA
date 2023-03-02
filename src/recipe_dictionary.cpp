@@ -167,7 +167,6 @@ std::vector<const recipe *> recipe_subset::recent() const
     return res;
 }
 
-
 std::vector<const recipe *> recipe_subset::search(
     const std::string &txt, const search_type key,
     const std::function<void( size_t, size_t )> &progress_callback ) const
@@ -459,6 +458,18 @@ std::map<recipe_id, recipe>::const_iterator recipe_dictionary::end() const
     return recipes.end();
 }
 
+std::map<recipe_id, const recipe *> recipe_dictionary::find_obsoletes(
+    const itype_id &item_id ) const
+{
+    std::map<recipe_id, const recipe *> ret;
+    auto p = obsoletes.equal_range( item_id );
+    for( auto it = p.first; it != p.second; ++it ) {
+        const recipe *r = it->second;
+        ret.emplace( r->ident(), r );
+    }
+    return ret;
+}
+
 bool recipe_dictionary::is_item_on_loop( const itype_id &i ) const
 {
     return items_on_loops.count( i );
@@ -614,6 +625,9 @@ void recipe_dictionary::finalize()
 
     // Cache auto-learn recipes and blueprints
     for( const auto &e : recipe_dict.recipes ) {
+        if( e.second.obsolete ) {
+            recipe_dict.obsoletes.emplace( e.second.result(), &e.second );
+        }
         if( e.second.autolearn ) {
             recipe_dict.autolearn.insert( &e.second );
         }
@@ -672,6 +686,7 @@ void recipe_dictionary::reset()
     recipe_dict.blueprints.clear();
     recipe_dict.autolearn.clear();
     recipe_dict.nested.clear();
+    recipe_dict.obsoletes.clear();
     recipe_dict.recipes.clear();
     recipe_dict.uncraft.clear();
     recipe_dict.items_on_loops.clear();

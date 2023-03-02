@@ -60,7 +60,6 @@
         "topic": "TALK_ANCILLA_HQ_GUARD_AskJoin",
         "condition": { "not": { "or": [ { "u_has_any_trait": [ "PROF_FED" ] }, { "u_has_faction_trust": 15 } ] } }
       },
-      { "text": "Is there any way I can join your group?", "topic": "TALK_FREE_MERCHANTS_MERCHANT_AskJoin" },
       {
         "truefalsetext": { "condition": { "u_has_faction_trust": 15 }, "true": "See you around.", "false": "Don't mind me…" },
         "topic": "TALK_DONE"

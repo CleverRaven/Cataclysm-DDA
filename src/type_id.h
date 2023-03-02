@@ -298,4 +298,7 @@ using widget_id = string_id<widget>;
 struct weakpoints;
 using weakpoints_id = string_id<weakpoints>;
 
+struct connect_group;
+using connect_group_id = string_id<connect_group>;
+
 #endif // CATA_SRC_TYPE_ID_H

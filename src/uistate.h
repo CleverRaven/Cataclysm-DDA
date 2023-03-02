@@ -144,6 +144,7 @@ class uistatedata
         bool distraction_hunger = true;
         bool distraction_thirst = true;
         bool distraction_temperature = true;
+        bool distraction_mutation = true;
 
         // V Menu Stuff
         int list_item_sort = 0;

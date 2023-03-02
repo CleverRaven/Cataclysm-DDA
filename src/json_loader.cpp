@@ -43,9 +43,9 @@ flexbuffer_cache &user_cache()
 }
 
 std::unordered_map<std::string, std::unique_ptr<flexbuffer_cache>> save_caches;
-std::unordered_map<std::string, std::unordered_map<std::string, std::unique_ptr<flexbuffer_cache>>>
-world_to_character_caches;
 
+// There's no measurable need to persist flatbuffers for save data, so just create a per-world 'cache' which parses
+// but doesn't disk-cache the parsed flatbuffer.
 flexbuffer_cache &cache_for_save( const cata_path &path )
 {
     // Assume lexically normal path
@@ -60,28 +60,10 @@ flexbuffer_cache &cache_for_save( const cata_path &path )
     auto it = save_caches.find( worldname );
     if( it == save_caches.end() ) {
         it = save_caches.emplace( worldname,
-                                  std::make_unique<flexbuffer_cache>( fs::u8path( PATH_INFO::savedir() ) / worldname / "cache",
+                                  std::make_unique<flexbuffer_cache>( fs::path(),
                                           fs::u8path( PATH_INFO::savedir() ) / worldname ) ).first;
     }
 
-    if( folder_or_file == "maps" ) {
-        // Generic per-save cache is fine.
-        return *it->second;
-    }
-
-    // Either a global save file or a per-character file.
-    fs::path test_path = fs::u8path( PATH_INFO::savedir() ) / worldname / folder_or_file;
-    if( fs::is_directory( test_path ) ) {
-        // Character file.
-        const std::string &character_name = folder_or_file;
-        std::unordered_map<std::string, std::unique_ptr<flexbuffer_cache>> &character_caches_for_world =
-                    world_to_character_caches[worldname];
-        it = character_caches_for_world.find( character_name );
-        if( it == character_caches_for_world.end() ) {
-            it = character_caches_for_world.emplace( character_name,
-                    std::make_unique<flexbuffer_cache>( test_path / "cache", test_path ) ).first;
-        }
-    }
     return *it->second;
 }
 

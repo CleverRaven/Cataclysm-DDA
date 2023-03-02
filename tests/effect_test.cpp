@@ -23,7 +23,6 @@
 
 class Creature;
 
-
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_debugged( "debugged" );
 static const efftype_id effect_grabbed( "grabbed" );
@@ -399,7 +398,6 @@ TEST_CASE( "effect decay", "[effect][decay]" )
         CHECK( rem_ids.front() == eff_test_int_remove.get_id() );
         REQUIRE( !rem_ids.empty() );
         CHECK( rem_bps.front() == bodypart_id( "bp_null" ) );
-
 
     }
 }

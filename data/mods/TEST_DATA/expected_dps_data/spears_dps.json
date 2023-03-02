@@ -1,0 +1,26 @@
+[
+  {
+    "type": "test_data",
+    "//": "typical value around 30",
+    "expected_dps": {
+      "spear_steel": 30.58,
+      "pike": 23.0,
+      "qiang": 30.68,
+      "spear_dory": 28.0,
+      "spear_homemade_halfpike": 15.41,
+      "spear_steel_crude": 22,
+      "spear_copper": 26.7,
+      "spear_pipe": 17.37,
+      "spear_knife_superior": 16.98,
+      "spear_knife": 16.98,
+      "spear_knife_proper": 24.59,
+      "pike_inferior": 16.0,
+      "spear_shaft_sharpened": 18.0,
+      "spear_wood": 10.95,
+      "pitchfork": 12.48,
+      "spear_stone": 20.8,
+      "spear_forked": 13.8,
+      "pike_fake": 7.55
+    }
+  }
+]
