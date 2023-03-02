@@ -7,10 +7,12 @@
 #include "avatar.h"
 #include "coordinates.h"
 #include "enums.h"
+#include "itype.h"
 #include "game.h"
 #include "game_constants.h"
 #include "map_helpers.h"
 #include "point.h"
+#include "submap.h"
 #include "type_id.h"
 
 TEST_CASE( "map_coordinate_conversion_functions" )
@@ -136,11 +138,130 @@ TEST_CASE( "tinymap_bounds_checking" )
     }
 }
 
+void map::check_submap_active_item_consistency()
+{
+    process_items();
+    for( int z = -OVERMAP_DEPTH; z < OVERMAP_HEIGHT; ++z ) {
+        for( int x = 0; x < MAPSIZE; ++x ) {
+            for( int y = 0; y < MAPSIZE; ++y ) {
+                tripoint p( x, y, z );
+                submap *s = get_submap_at_grid( p );
+                REQUIRE( s != nullptr );
+                bool submap_has_active_items = !s->active_items.get().empty();
+                bool cache_has_active_items = submaps_with_active_items.count( p + abs_sub.xy() ) != 0;
+                CAPTURE( abs_sub.xy(), p, p + abs_sub.xy() );
+                CHECK( submap_has_active_items == cache_has_active_items );
+            }
+        }
+    }
+    for( const tripoint_abs_sm &p : submaps_with_active_items ) {
+        tripoint_rel_sm rel = p - abs_sub.xy();
+        half_open_rectangle<point_rel_sm> map( point_rel_sm(), point_rel_sm( MAPSIZE, MAPSIZE ) );
+        CAPTURE( rel );
+        CHECK( map.contains( rel.xy() ) );
+    }
+}
+
 TEST_CASE( "place_player_can_safely_move_multiple_submaps" )
 {
     // Regression test for the situation where game::place_player would misuse
     // map::shift if the resulting shift exceeded a single submap, leading to a
     // broken active item cache.
     g->place_player( tripoint_zero );
-    CHECK( get_map().check_submap_active_item_consistency().empty() );
+    get_map().check_submap_active_item_consistency();
+}
+
+TEST_CASE( "inactive_container_with_active_contents", "[active_item][map]" )
+{
+    map &here = get_map();
+    clear_map( -OVERMAP_DEPTH, OVERMAP_HEIGHT );
+    CAPTURE( here.get_abs_sub(), here.get_submaps_with_active_items() );
+    REQUIRE( here.get_submaps_with_active_items().empty() );
+    here.check_submap_active_item_consistency();
+    tripoint const test_loc;
+    tripoint_abs_sm const test_loc_sm = project_to<coords::sm>( here.getglobal( test_loc ) );
+
+    item bottle_plastic( "bottle_plastic" );
+    REQUIRE( !bottle_plastic.needs_processing() );
+    item disinfectant( "disinfectant" );
+    REQUIRE( disinfectant.needs_processing() );
+
+    ret_val<void> const ret =
+        bottle_plastic.put_in( disinfectant, item_pocket::pocket_type::CONTAINER );
+    REQUIRE( ret.success() );
+
+    item &bp = here.add_item( test_loc, bottle_plastic );
+    here.update_submaps_with_active_items();
+    item_location bp_loc( map_cursor( test_loc ), &bp );
+    item_location dis_loc( bp_loc, &bp.only_item() );
+
+    REQUIRE( here.get_submaps_with_active_items().count( test_loc_sm ) != 0 );
+    here.check_submap_active_item_consistency();
+
+    bool from_container = GENERATE( true, false );
+    CAPTURE( from_container );
+
+    if( from_container ) {
+        dis_loc.remove_item();
+    } else {
+        bp_loc.remove_item();
+    }
+    here.process_items();
+    CHECK( here.get_submaps_with_active_items().count( test_loc_sm ) == 0 );
+    here.check_submap_active_item_consistency();
+}
+
+TEST_CASE( "milk_rotting", "[active_item][map]" )
+{
+    map &here = get_map();
+    clear_map( -OVERMAP_DEPTH, OVERMAP_HEIGHT );
+    CAPTURE( here.get_abs_sub(), here.get_submaps_with_active_items() );
+    here.check_submap_active_item_consistency();
+    REQUIRE( here.get_submaps_with_active_items().empty() );
+    tripoint const test_loc;
+    tripoint_abs_sm const test_loc_sm = project_to<coords::sm>( here.getglobal( test_loc ) );
+
+    restore_on_out_of_scope<cata::optional<units::temperature>> restore_temp(
+                get_weather().forced_temperature );
+    get_weather().forced_temperature = units::from_celsius( 21 );
+    REQUIRE( units::to_celsius( get_weather().get_temperature( test_loc ) ) == 21 );
+
+    item almond_milk( "almond_milk" );
+    item *bp = nullptr;
+
+    bool const in_container = GENERATE( true, false );
+    CAPTURE( in_container );
+    bool sealed = false;
+
+    if( in_container ) {
+        sealed = GENERATE( true, false );
+        item bottle_plastic( "bottle_plastic" );
+        ret_val<void> const ret = bottle_plastic.put_in( almond_milk, item_pocket::pocket_type::CONTAINER );
+        REQUIRE( ret.success() );
+
+        bp = &here.add_item( test_loc, bottle_plastic );
+        REQUIRE( bp->num_item_stacks() == 1 );
+        if( sealed ) {
+            bp->get_contents().seal_all_pockets();
+        }
+        REQUIRE( bp->any_pockets_sealed() == sealed );
+    } else {
+        here.add_item( test_loc, almond_milk );
+    }
+    CAPTURE( sealed );
+    here.check_submap_active_item_consistency();
+    REQUIRE( here.get_submaps_with_active_items().count( test_loc_sm ) != 0 );
+
+    time_point const dest = calendar::turn + almond_milk.get_comestible()->spoils * 2;
+    while( calendar::turn < dest ) {
+        calendar::turn += time_duration::from_seconds( almond_milk.processing_speed() ) + 1_seconds;
+        here.process_items();
+    }
+    if( in_container ) {
+        CHECK( bp->num_item_stacks() == static_cast<size_t>( sealed ) );
+    } else {
+        CHECK( here.i_at( test_loc ).empty() == !sealed );
+    }
+    here.check_submap_active_item_consistency();
+    CHECK( here.get_submaps_with_active_items().count( test_loc_sm ) == static_cast<size_t>( sealed ) );
 }

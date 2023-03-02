@@ -39,6 +39,18 @@
     "use_action": { "type": "deploy_furn", "furn_type": "f_hobo_stove" }
   },
   {
+    "id": "portable_stove",
+    "type": "TOOL",
+    "symbol": "_",
+    "colo": "light_gray",
+    "container": "nylon_bag",
+    "name": { "str": "portable stove" },
+    "description": "A foldable wood stove to safely lit fires while camping in the wilderness.  Activate it to Deploy.",
+    "weight": "2670 g",
+    "volume": "3 L",
+    "use_action": { "type": "deploy_furn", "furn_type": "f_portable_stove" }
+  },
+  {
     "id": "55gal_firebarrel",
     "type": "TOOL",
     "name": { "str": "fire barrel (200L)", "str_pl": "fire barrels (200L)" },
