@@ -1,5 +1,22 @@
 [
   {
+    "id": "test_bomba",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": { "str": "bomba" },
+    "description": "boom",
+    "weight": "397 g",
+    "volume": "270 ml",
+    "price": 1000000,
+    "price_postapoc": 1000000,
+    "symbol": "*",
+    "color": "green",
+    "initial_charges": 5,
+    "max_charges": 5,
+    "turns_per_charge": 1,
+    "flags": [ "BOMB", "DANGEROUS" ]
+  },
+  {
     "type": "GENERIC",
     "id": "fridge_test",
     "looks_like": "minifridge",
@@ -4091,5 +4108,29 @@
     "max_level": 1,
     "intelligence": 2,
     "time": "7 m"
+  },
+  {
+    "id": "test_ups",
+    "type": "TOOL",
+    "name": { "str": "UPS3000", "str_pl": "UPS3000es" },
+    "description": "This UPS is better",
+    "weight": "680 g",
+    "volume": "2500 ml",
+    "price": 280000,
+    "price_postapoc": 1500,
+    "to_hit": -1,
+    "bashing": 8,
+    "material": [ "aluminum", "plastic" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "ammo": [ "battery" ],
+    "flags": [ "IS_UPS" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "flag_restriction": [ "BATTERY_HEAVY" ],
+        "default_magazine": "heavy_plus_battery_cell"
+      }
+    ]
   }
 ]

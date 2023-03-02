@@ -1105,6 +1105,11 @@ void avatar_action::use_item( avatar &you )
 
 void avatar_action::use_item( avatar &you, item_location &loc )
 {
+    if( you.has_effect( effect_incorporeal ) ) {
+        you.add_msg_if_player( m_bad, _( "You can't use anything while incorporeal." ) );
+        return;
+    }
+
     // Some items may be used without being picked up first
     bool use_in_place = false;
 
