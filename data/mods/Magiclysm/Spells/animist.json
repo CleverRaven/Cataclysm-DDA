@@ -134,8 +134,8 @@
     "effect": "summon",
     "effect_str": "mon_zombie",
     "max_level": 35,
-    "min_duration": 36000,
-    "max_duration": 1080000,
+    "min_duration": 216000,
+    "max_duration": 216000,
     "duration_increment": 36000
   },
   {
@@ -148,8 +148,8 @@
     "effect": "summon",
     "effect_str": "mon_zombie_tough",
     "max_level": 35,
-    "min_duration": 36000,
-    "max_duration": 1080000,
+    "min_duration": 468000,
+    "max_duration": 468000,
     "duration_increment": 36000
   },
   {
@@ -162,8 +162,8 @@
     "effect": "summon",
     "effect_str": "mon_zombie_brute",
     "max_level": 35,
-    "min_duration": 36000,
-    "max_duration": 1080000,
+    "min_duration": 720000,
+    "max_duration": 720000,
     "duration_increment": 36000
   },
   {
@@ -176,8 +176,8 @@
     "effect": "summon",
     "effect_str": "mon_skeleton",
     "max_level": 35,
-    "min_duration": 36000,
-    "max_duration": 1080000,
+    "min_duration": 972000,
+    "max_duration": 972000,
     "duration_increment": 36000
   },
   {
@@ -190,8 +190,8 @@
     "effect": "summon",
     "effect_str": "mon_skeleton_brute",
     "max_level": 35,
-    "min_duration": 36000,
-    "max_duration": 1080000,
+    "min_duration": 1260000,
+    "max_duration": 1260000,
     "duration_increment": 36000
   },
   {
@@ -204,8 +204,8 @@
     "effect": "summon",
     "effect_str": "mon_skeleton_hulk",
     "max_level": 35,
-    "min_duration": 36000,
-    "max_duration": 1080000,
+    "min_duration": 1260000,
+    "max_duration": 1260000,
     "duration_increment": 36000
   },
   {
@@ -278,8 +278,8 @@
     "effect": "summon",
     "effect_str": "mon_zombie_dog",
     "max_level": 35,
-    "min_duration": 36000,
-    "max_duration": 1080000,
+    "min_duration": 144000,
+    "max_duration": 144000,
     "duration_increment": 36000
   },
   {
@@ -292,8 +292,8 @@
     "effect": "summon",
     "effect_str": "mon_dog_skeleton",
     "max_level": 35,
-    "min_duration": 36000,
-    "max_duration": 1080000,
+    "min_duration": 324000,
+    "max_duration": 324000,
     "duration_increment": 36000
   },
   {
@@ -306,8 +306,8 @@
     "effect": "summon",
     "effect_str": "mon_zougar",
     "max_level": 35,
-    "min_duration": 36000,
-    "max_duration": 1080000,
+    "min_duration": 504000,
+    "max_duration": 504000,
     "duration_increment": 36000
   },
   {
@@ -320,8 +320,8 @@
     "effect": "summon",
     "effect_str": "mon_wolf_skeleton",
     "max_level": 35,
-    "min_duration": 36000,
-    "max_duration": 1080000,
+    "min_duration": 684000,
+    "max_duration": 684000,
     "duration_increment": 36000
   },
   {
@@ -334,8 +334,8 @@
     "effect": "summon",
     "effect_str": "mon_dog_zombie_brute",
     "max_level": 35,
-    "min_duration": 36000,
-    "max_duration": 1080000,
+    "min_duration": 864000,
+    "max_duration": 864000,
     "duration_increment": 36000
   },
   {
@@ -348,8 +348,8 @@
     "effect": "summon",
     "effect_str": "mon_dog_skeleton_brute",
     "max_level": 35,
-    "min_duration": 36000,
-    "max_duration": 1080000,
+    "min_duration": 1044000,
+    "max_duration": 1044000,
     "duration_increment": 36000
   },
   {
@@ -362,8 +362,8 @@
     "effect": "summon",
     "effect_str": "mon_dog_zombie_hulk",
     "max_level": 35,
-    "min_duration": 36000,
-    "max_duration": 1080000,
+    "min_duration": 1260000,
+    "max_duration": 1260000,
     "duration_increment": 36000
   },
   {
@@ -376,8 +376,8 @@
     "effect": "summon",
     "effect_str": "mon_zougar_hunter",
     "max_level": 35,
-    "min_duration": 36000,
-    "max_duration": 1080000,
+    "min_duration": 1260000,
+    "max_duration": 1260000,
     "duration_increment": 36000
   },
   {
