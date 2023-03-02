@@ -327,16 +327,16 @@ jobs:
           chmod +x gradlew
           if [ ${{ matrix.android }} = arm64 ]
           then
-               ./gradlew -Pj=$((`nproc`+0)) -Pabi_arm_32=false assembleExperimentalRelease
-               mv ./app/build/outputs/apk/experimental/release/*.apk ../cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.apk
+               ./gradlew -Pj=$((`nproc`+0)) -Pabi_arm_32=false assembleRelease
+               mv ./app/build/outputs/apk/stable/rel：ease/*.apk ../cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.apk
           elif [ ${{ matrix.android }} = arm32 ]
           then
-               ./gradlew -Pj=$((`nproc`+0)) -Pabi_arm_64=false assembleExperimentalRelease
-               mv ./app/build/outputs/apk/experimental/release/*.apk ../cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.apk 
+               ./gradlew -Pj=$((`nproc`+0)) -Pabi_arm_64=false assembleRelease
+               mv ./app/build/outputs/apk/stable/release/*.apk ../cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.apk 
           elif [ ${{ matrix.android }} = bundle ]
           then
-               ./gradlew -Pj=$((`nproc`+0)) bundleExperimentalRelease
-               mv ./app/build/outputs/bundle/experimentalRelease/*.aab ../cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.aab     
+               ./gradlew -Pj=$((`nproc`+0)) bundleRelease
+               mv ./app/build/outputs/bundle/stableRelease/*.aab ../cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.aab     
           fi
       - name: Upload release asset
         id: upload-release-asset 
