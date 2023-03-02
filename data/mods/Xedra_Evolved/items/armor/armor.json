@@ -707,5 +707,22 @@
     "material_thickness": 0.7,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "PADDED" ]
+  },
+  {
+    "id": "dreamforged_armguard_plate_gunslinger",
+    "copy-from": "dreamforged_armguard_plate",
+    "type": "ARMOR",
+    "name": { "str_sp": "\"Gunslinger\"" },
+    "description": "Pair of flat armguards, fully carved with numbers and crosses.  Inside the left guard there is a text, cut with something sharp, that starts from \"Sent onto those that escaped limbo's clutches, and unleash the rage of all hell…\".",
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ALWAYS",
+          "values": [ { "value": "WEAPON_DISPERSION", "multiply": -0.4 }, { "value": "RECOIL_MODIFIER", "multiply": -0.4 } ]
+        }
+      ]
+    },
+    "material_thickness": 0.1
   }
 ]

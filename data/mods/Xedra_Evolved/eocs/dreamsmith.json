@@ -64,40 +64,40 @@
     "effect": [
       {
         "u_roll_remainder": [
-          "summon_dreamforged_ballistic_plate_ench",
-          "summon_dreamforged_ballistic_plate_small_ench",
-          "summon_dreamforged_q_staff_ench",
-          "summon_dreamforged_longsword_ench",
-          "summon_dreamforged_warhammer_ench",
-          "summon_dreamforged_spear_ench",
-          "summon_dreamforged_halberd_ench",
-          "summon_dreamforged_glaive_ench",
-          "summon_dreamforged_naginata_ench",
-          "summon_dreamforged_mace_ench",
-          "summon_dreamforged_morningstar_ench",
-          "summon_dreamforged_estoc_ench",
-          "summon_dreamforged_arming_sword_ench",
-          "summon_dreamforged_broadsword_ench",
-          "summon_dreamforged_battleaxe_ench",
-          "summon_dreamforged_katana_ench",
-          "summon_dreamforged_knife_combat_ench",
-          "summon_dreamforged_kris_ench",
-          "summon_dreamforged_kukri_ench",
-          "summon_dreamforged_nodachi_ench",
-          "summon_dreamforged_rapier_ench",
-          "summon_dreamforged_tanto_ench",
-          "summon_dreamforged_wakizashi_ench",
-          "summon_dreamforged_zweihander_ench",
-          "summon_dreamforged_khopesh_ench",
-          "summon_dreamforged_lucerne_ench",
-          "summon_dreamforged_knuckle_ench",
-          "summon_dreamforged_fullhelmet_ench",
-          "summon_dreamforged_helmet_ench",
-          "summon_dreamforged_plate_armor_ench",
-          "summon_dreamforged_armguard_plate_ench",
-          "summon_dreamforged_boots_ench"
+          "dreamforged_ballistic_plate_ench",
+          "dreamforged_ballistic_plate_small_ench",
+          "dreamforged_q_staff_ench",
+          "dreamforged_longsword_ench",
+          "dreamforged_warhammer_ench",
+          "dreamforged_spear_ench",
+          "dreamforged_halberd_ench",
+          "dreamforged_glaive_ench",
+          "dreamforged_naginata_ench",
+          "dreamforged_mace_ench",
+          "dreamforged_morningstar_ench",
+          "dreamforged_estoc_ench",
+          "dreamforged_arming_sword_ench",
+          "dreamforged_broadsword_ench",
+          "dreamforged_battleaxe_ench",
+          "dreamforged_katana_ench",
+          "dreamforged_knife_combat_ench",
+          "dreamforged_kris_ench",
+          "dreamforged_kukri_ench",
+          "dreamforged_nodachi_ench",
+          "dreamforged_rapier_ench",
+          "dreamforged_tanto_ench",
+          "dreamforged_wakizashi_ench",
+          "dreamforged_zweihander_ench",
+          "dreamforged_khopesh_ench",
+          "dreamforged_lucerne_ench",
+          "dreamforged_knuckle_ench",
+          "dreamforged_fullhelmet_ench",
+          "dreamforged_helmet_ench",
+          "dreamforged_plate_armor_ench",
+          "dreamforged_armguard_plate_ench",
+          "dreamforged_boots_ench"
         ],
-        "type": "spell"
+        "type": "recipe"
       },
       {
         "u_message": "A brilliant idea about the dreamdross properties hit your head, and you think you know how to utilize one now.",
@@ -137,7 +137,8 @@
           "dreamforged_fullhelmet_arcane",
           "dreamforged_glaive_healing",
           "dreamforged_tsurugi_speed",
-          "dreamforged_q_staff_exp"
+          "dreamforged_q_staff_exp",
+          "dreamforged_armguard_plate_gunslinger"
         ],
         "type": "recipe"
       },
@@ -147,155 +148,5 @@
         "arithmetic": [ { "global_val": "var", "var_name": "DREAMSMITH_RECIPE_SCORE_SUPER_TARGET" }, "+=", { "const": 200 } ]
       }
     ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "dreamforged_q_staff_ench",
-    "effect": [ { "u_spawn_item": "dreamforged_q_staff_ench", "use_item_group": true } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "summon_dreamforged_longsword_ench",
-    "effect": [ { "u_spawn_item": "summon_dreamforged_longsword_ench", "use_item_group": true } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "dreamforged_warhammer_ench",
-    "effect": [ { "u_spawn_item": "dreamforged_warhammer_ench", "use_item_group": true } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "dreamforged_spear_ench",
-    "effect": [ { "u_spawn_item": "dreamforged_spear_ench", "use_item_group": true } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "dreamforged_halberd_ench",
-    "effect": [ { "u_spawn_item": "dreamforged_halberd_ench", "use_item_group": true } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "dreamforged_glaive_ench",
-    "effect": [ { "u_spawn_item": "dreamforged_glaive_ench", "use_item_group": true } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "dreamforged_naginata_ench",
-    "effect": [ { "u_spawn_item": "dreamforged_naginata_ench", "use_item_group": true } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "dreamforged_mace_ench",
-    "effect": [ { "u_spawn_item": "dreamforged_mace_ench", "use_item_group": true } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "dreamforged_morningstar_ench",
-    "effect": [ { "u_spawn_item": "dreamforged_morningstar_ench", "use_item_group": true } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "dreamforged_estoc_ench",
-    "effect": [ { "u_spawn_item": "dreamforged_estoc_ench", "use_item_group": true } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "dreamforged_arming_sword_ench",
-    "effect": [ { "u_spawn_item": "dreamforged_arming_sword_ench", "use_item_group": true } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "dreamforged_broadsword_ench",
-    "effect": [ { "u_spawn_item": "dreamforged_broadsword_ench", "use_item_group": true } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "dreamforged_battleaxe_ench",
-    "effect": [ { "u_spawn_item": "dreamforged_battleaxe_ench", "use_item_group": true } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "dreamforged_katana_ench",
-    "effect": [ { "u_spawn_item": "dreamforged_katana_ench", "use_item_group": true } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "dreamforged_knife_combat_ench",
-    "effect": [ { "u_spawn_item": "dreamforged_knife_combat_ench", "use_item_group": true } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "dreamforged_kris_ench",
-    "effect": [ { "u_spawn_item": "dreamforged_kris_ench", "use_item_group": true } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "dreamforged_kukri_ench",
-    "effect": [ { "u_spawn_item": "dreamforged_kukri_ench", "use_item_group": true } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "dreamforged_nodachi_ench",
-    "effect": [ { "u_spawn_item": "dreamforged_nodachi_ench", "use_item_group": true } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "dreamforged_rapier_ench",
-    "effect": [ { "u_spawn_item": "dreamforged_rapier_ench", "use_item_group": true } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "dreamforged_tanto_ench",
-    "effect": [ { "u_spawn_item": "dreamforged_tanto_ench", "use_item_group": true } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "dreamforged_wakizashi_ench",
-    "effect": [ { "u_spawn_item": "dreamforged_wakizashi_ench", "use_item_group": true } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "dreamforged_zweihander_ench",
-    "effect": [ { "u_spawn_item": "dreamforged_zweihander_ench", "use_item_group": true } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "dreamforged_khopesh_ench",
-    "effect": [ { "u_spawn_item": "dreamforged_khopesh_ench", "use_item_group": true } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "dreamforged_lucerne_ench",
-    "effect": [ { "u_spawn_item": "dreamforged_lucerne_ench", "use_item_group": true } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "dreamforged_knuckle_ench",
-    "effect": [ { "u_spawn_item": "dreamforged_knuckle_ench", "use_item_group": true } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "dreamforged_fullhelmet_ench",
-    "effect": [ { "u_spawn_item": "dreamforged_fullhelmet_ench", "use_item_group": true } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "dreamforged_helmet_ench",
-    "effect": [ { "u_spawn_item": "dreamforged_helmet_ench", "use_item_group": true } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "dreamforged_plate_armor_ench",
-    "effect": [ { "u_spawn_item": "dreamforged_plate_armor_ench", "use_item_group": true } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "dreamforged_armguard_plate_ench",
-    "effect": [ { "u_spawn_item": "dreamforged_armguard_plate_ench", "use_item_group": true } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "dreamforged_boots_ench",
-    "effect": [ { "u_spawn_item": "dreamforged_boots_ench", "use_item_group": true } ]
   }
 ]
