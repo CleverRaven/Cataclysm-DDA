@@ -1349,36 +1349,38 @@
     "skill_used": "fabrication",
     "difficulty": 7,
     "skills_required": [ "electronics", 3 ],
-    "time": "180 m",
+    "time": "720 m",
     "book_learn": [ [ "textbook_fabrication", 6 ], [ "advanced_electronics", 6 ], [ "textbook_electronics", 6 ] ],
     "using": [ [ "chainmail_standard", 20 ], [ "fabric_standard_nostretch", 26 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" }, { "proficiency": "prof_shock_weapons" } ],
     "components": [
-      [ [ "link_sheet", 2 ], [ "chainmail_hood", 1 ] ],
-      [ [ "link_sheet", 7 ], [ "chainmail_vest", 1 ] ],
-      [ [ "link_sheet", 3 ], [ "chainmail_arms", 1 ] ],
-      [ [ "link_sheet", 4 ], [ "chainmail_legs", 1 ] ],
-      [ [ "link_sheet", 2 ], [ "chainmail_hands", 1 ] ],
-      [ [ "boots_rubber", 1 ] ],
-      [ [ "chain_link", 500 ] ],
-      [ [ "wire", 5 ] ]
+      [ [ "qt_chainmail_hood", 1 ] ],
+      [ [ "qt_chainmail_vest", 1 ] ],
+      [ [ "qt_chainmail_arms", 1 ] ],
+      [ [ "qt_chainmail_legs", 1 ] ],
+      [ [ "qt_chainmail_hands", 1 ] ],
+      [ [ "qt_link_sheet", 2 ], [ "qt_chainmail_feet", 1 ] ],
+      [ [ "qt_chain_link", 500 ] ],
+      [ [ "cable", 250 ] ],
+      [ [ "qt_wire", 5 ] ]
     ]
   },
   {
     "result": "chainmail_suit_faraday_xs",
     "type": "recipe",
     "copy-from": "chainmail_suit_faraday",
-    "time": "180 m",
+    "time": "720 m",
     "using": [ [ "chainmail_standard", 15 ], [ "fabric_standard_nostretch", 19 ] ],
     "components": [
-      [ [ "link_sheet", 2 ], [ "chainmail_hood", 1 ] ],
-      [ [ "link_sheet", 5 ], [ "chainmail_vest", 1 ] ],
-      [ [ "link_sheet", 2 ], [ "chainmail_arms", 1 ] ],
-      [ [ "link_sheet", 3 ], [ "chainmail_legs", 1 ] ],
-      [ [ "link_sheet", 2 ], [ "chainmail_hands", 1 ] ],
-      [ [ "boots_rubber", 1 ] ],
-      [ [ "chain_link", 375 ] ],
-      [ [ "wire", 3 ] ]
+      [ [ "xs_qt_chainmail_hood", 1 ] ],
+      [ [ "xs_qt_chainmail_vest", 1 ] ],
+      [ [ "xs_qt_chainmail_arms", 1 ] ],
+      [ [ "xs_qt_chainmail_legs", 1 ] ],
+      [ [ "xs_qt_chainmail_hands", 1 ] ],
+      [ [ "qt_link_sheet", 2 ], [ "xs_qt_chainmail_feet", 1 ] ],
+      [ [ "qt_chain_link", 375 ] ],
+      [ [ "cable", 200 ] ],
+      [ [ "qt_wire", 3 ] ]
     ]
   },
   {
@@ -1387,14 +1389,15 @@
     "copy-from": "chainmail_suit_faraday",
     "using": [ [ "chainmail_standard", 20 ], [ "fabric_standard_nostretch", 30 ] ],
     "components": [
-      [ [ "link_sheet", 3 ], [ "xl_chainmail_hood", 1 ] ],
-      [ [ "link_sheet", 10 ], [ "xl_chainmail_vest", 1 ] ],
-      [ [ "link_sheet", 4 ], [ "xl_chainmail_arms", 1 ] ],
-      [ [ "link_sheet", 5 ], [ "xl_chainmail_legs", 1 ] ],
-      [ [ "link_sheet", 3 ], [ "xl_chainmail_hands", 1 ] ],
-      [ [ "boots_rubber", 1 ] ],
-      [ [ "chain_link", 750 ] ],
-      [ [ "wire", 5 ] ]
+      [ [ "xl_qt_chainmail_hood", 1 ] ],
+      [ [ "xl_qt_chainmail_vest", 1 ] ],
+      [ [ "xl_qt_chainmail_arms", 1 ] ],
+      [ [ "xl_qt_chainmail_legs", 1 ] ],
+      [ [ "xl_qt_chainmail_hands", 1 ] ],
+      [ [ "qt_link_sheet", 4 ], [ "xl_qt_chainmail_feet", 1 ] ],
+      [ [ "qt_chain_link", 750 ] ],
+      [ [ "cable", 300 ] ],
+      [ [ "qt_wire", 5 ] ]
     ]
   },
   {
@@ -1893,7 +1896,7 @@
       [ [ "welder", 64 ], [ "welder_crude", 97 ], [ "soldering_iron", 97 ], [ "toolset", 97 ] ],
       [ [ "swage", -1 ] ],
       [ [ "metal_tank", -1 ] ],
-      [ [ "water", -240 ] ]
+      [ [ "water", -240 ], [ "water_clean", -240 ] ]
     ],
     "components": [
       [ [ "coat_rain", 1 ], [ "jacket_windbreaker", 1 ], [ "jacket_evac", 1 ], [ "coat_gut", 1 ] ],
@@ -1912,7 +1915,7 @@
       [ [ "welder", 48 ], [ "welder_crude", 72 ], [ "soldering_iron", 72 ], [ "toolset", 72 ] ],
       [ [ "swage", -1 ] ],
       [ [ "metal_tank", -1 ] ],
-      [ [ "water", -240 ] ]
+      [ [ "water", -240 ], [ "water_clean", -240 ] ]
     ],
     "components": [
       [ [ "coat_rain", 1 ], [ "jacket_windbreaker", 1 ], [ "jacket_evac", 1 ], [ "coat_gut", 1 ] ],
@@ -1932,7 +1935,7 @@
       [ [ "welder", 72 ], [ "welder_crude", 109 ], [ "soldering_iron", 109 ], [ "toolset", 109 ] ],
       [ [ "swage", -1 ] ],
       [ [ "metal_tank", -1 ] ],
-      [ [ "water", -240 ] ]
+      [ [ "water", -240 ], [ "water_clean", -240 ] ]
     ],
     "components": [
       [ [ "coat_rain", 1 ], [ "jacket_windbreaker", 1 ], [ "jacket_evac", 1 ], [ "coat_gut", 1 ] ],
@@ -2535,7 +2538,7 @@
       { "proficiency": "prof_articulation" },
       { "proficiency": "prof_quenching", "fail_multiplier": 2 }
     ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -240 ] ] ]
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -240 ], [ "water_clean", -240 ] ] ]
   },
   {
     "result": "xl_armor_qt_lightplate",
@@ -2544,7 +2547,7 @@
     "time": "46 d 18 h 46 m",
     "using": [ [ "blacksmithing_standard", 110 ], [ "mc_steel_standard", 32 ], [ "tailoring_leather_patchwork", 5 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -240 ] ] ]
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -240 ], [ "water_clean", -240 ] ] ]
   },
   {
     "result": "armor_qt_lightplate",
@@ -2901,7 +2904,7 @@
       { "proficiency": "prof_articulation" },
       { "proficiency": "prof_quenching", "fail_multiplier": 2 }
     ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -240 ] ] ]
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -240 ], [ "water_clean", -240 ] ] ]
   },
   {
     "result": "xl_armor_qt_plate",
@@ -2910,7 +2913,7 @@
     "time": "51 d 11 h 2 m",
     "using": [ [ "blacksmithing_standard", 110 ], [ "mc_steel_standard", 39 ], [ "tailoring_leather_patchwork", 5 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -240 ] ] ]
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -240 ], [ "water_clean", -240 ] ] ]
   },
   {
     "result": "armor_qt_plate",
@@ -3279,7 +3282,7 @@
       { "proficiency": "prof_articulation" },
       { "proficiency": "prof_quenching", "fail_multiplier": 2 }
     ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -240 ] ] ]
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -240 ], [ "water_clean", -240 ] ] ]
   },
   {
     "result": "xl_armor_qt_heavyplate",
@@ -3288,7 +3291,7 @@
     "time": "56 d 3 h 19 m",
     "using": [ [ "blacksmithing_standard", 110 ], [ "mc_steel_standard", 39 ], [ "tailoring_leather_patchwork", 5 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ]
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ]
   },
   {
     "result": "armor_qt_heavyplate",

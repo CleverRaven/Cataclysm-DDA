@@ -1029,7 +1029,7 @@
   {
     "type": "COMESTIBLE",
     "id": "snail_garden",
-    "category": "other",
+    "category": "food",
     "name": { "str": "snail" },
     "weight": "15 g",
     "color": "brown",

@@ -30,6 +30,7 @@
       { "group": "BG_survival_story_RURAL" },
       { "group": "NPC_starting_traits" },
       { "group": "Appearance_demographics" },
+      { "trait": "NO_BASH" },
       { "trait": "RETURN_TO_START_POS" }
     ],
     "weapon_override": "NC_LUMBERJACK_tools",
@@ -64,7 +65,7 @@
       {
         "group": "NC_LUMBERJACK_tools",
         "rigid": true,
-        "condition": { "compare_int": [ { "npc_val": "var", "var_name": "NEVER" }, "==", { "const": 1 } ] },
+        "condition": { "compare_num": [ { "npc_val": "var", "var_name": "NEVER" }, "==", { "const": 1 } ] },
         "refusal": "<npcname> will never sell this"
       }
     ],

@@ -133,6 +133,7 @@ void clear_map( int zmin, int zmax )
     for( int z = zmin; z <= zmax; ++z ) {
         clear_items( z );
     }
+    here.process_items();
 }
 
 void clear_map_and_put_player_underground()

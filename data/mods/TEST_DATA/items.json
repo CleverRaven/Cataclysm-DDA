@@ -1,5 +1,22 @@
 [
   {
+    "id": "test_bomba",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": { "str": "bomba" },
+    "description": "boom",
+    "weight": "397 g",
+    "volume": "270 ml",
+    "price": 1000000,
+    "price_postapoc": 1000000,
+    "symbol": "*",
+    "color": "green",
+    "initial_charges": 5,
+    "max_charges": 5,
+    "turns_per_charge": 1,
+    "flags": [ "BOMB", "DANGEROUS" ]
+  },
+  {
     "type": "GENERIC",
     "id": "fridge_test",
     "looks_like": "minifridge",
