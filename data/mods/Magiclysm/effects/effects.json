@@ -165,7 +165,7 @@
     "apply_message": "Your speed is boosted to superhuman levels!",
     "remove_message": "You return to your normal speed.",
     "rating": "good",
-    "base_mods": { "dex_mod": [ 4 ], "speed_mod": [ 250 ] }
+    "enchantments": [ { "values": [ { "value": "SPEED", "multiply": 2.5 }, { "value": "ATTACK_SPEED", "multiply": -0.7 } ] } ]
   },
   {
     "type": "effect_type",
@@ -458,7 +458,7 @@
     "remove_message": "You no longer feel encumbered.",
     "rating": "good",
     "show_intensity": false,
-    "enchantments": [ { "values": [ { "value": "ATTACK_SPEED", "multiply": -0.25 }, { "value": "MELEE_DAMAGE", "multiply": 1.2 } ] } ]
+    "enchantments": [ { "values": [ { "value": "ATTACK_SPEED", "multiply": -0.25 }, { "value": "MELEE_DAMAGE", "multiply": 0.6 } ] } ]
   },
   {
     "id": "eshaper_crystal_wrap",

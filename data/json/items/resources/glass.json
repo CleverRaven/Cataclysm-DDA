@@ -57,8 +57,8 @@
     "price": 10000,
     "price_postapoc": 250,
     "material": [ "glass", "steel" ],
-    "weight": "137710 g",
-    "volume": "63713 ml",
+    "weight": "45900 g",
+    "volume": "21200 ml",
     "longest_side": "122 cm",
     "bashing": 6,
     "to_hit": -6

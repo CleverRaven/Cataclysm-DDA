@@ -3854,8 +3854,7 @@ tripoint_om_omt overmap::find_random_omt( const std::pair<std::string, ot_match_
             for( int k = -OVERMAP_DEPTH; k <= OVERMAP_HEIGHT; k++ ) {
                 tripoint_om_omt p( i, j, k );
                 if( is_ot_match( target.first, ter( p ), target.second ) ) {
-                    if( !check_nearest_city ||
-                        ( check_nearest_city && get_nearest_city( p ) == target_city.value() ) ) {
+                    if( !check_nearest_city || get_nearest_city( p ) == target_city.value() ) {
                         valid.push_back( p );
                     }
                 }
@@ -6582,20 +6581,6 @@ void overmap::add_mon_group( const mongroup &group, int radius )
             // an overmap and moves groups with out-of-bounds position to another overmap.
             add_mon_group( tmp );
         }
-    }
-}
-
-void overmap::for_each_npc( const std::function<void( npc & )> &callback )
-{
-    for( auto &guy : npcs ) {
-        callback( *guy );
-    }
-}
-
-void overmap::for_each_npc( const std::function<void( const npc & )> &callback ) const
-{
-    for( const auto &guy : npcs ) {
-        callback( *guy );
     }
 }
 

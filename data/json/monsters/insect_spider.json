@@ -74,8 +74,8 @@
     "default_faction": "worm",
     "bodytype": "snake",
     "species": [ "WORM" ],
-    "volume": "62500 ml",
-    "weight": "81500 g",
+    "volume": "45 L",
+    "weight": "60 kg",
     "hp": 20,
     "speed": 80,
     "material": [ "flesh" ],
@@ -133,6 +133,8 @@
     "description": "A disturbingly large mutated subterranean creature similar to a nightcrawler.  It possesses a fanged mouth and a long slender body that comes up to your knees, with even more surely hiding underground.",
     "copy-from": "mon_halfworm",
     "looks_like": "mon_worm",
+    "volume": "62500 ml",
+    "weight": "81500 g",
     "dissect": "dissect_troglobite_sample_single",
     "upgrades": { "half_life": 42, "into": "mon_worm" }
   },
@@ -2623,7 +2625,7 @@
     "melee_skill": 6,
     "melee_dice": 4,
     "melee_dice_sides": 6,
-    "melee_damage": [ { "damage_type": "cut", "amount": 10 } ],
+    "melee_damage": [ { "damage_type": "cut", "amount": 7 } ],
     "armor_bash": 15,
     "armor_cut": 18,
     "armor_bullet": 20,
@@ -2636,7 +2638,17 @@
     "dissect": "dissect_subterranean_insect_large",
     "reproduction": { "baby_egg": "egg_mole_cricket", "baby_count": 1, "baby_timer": 20 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
-    "special_attacks": [ [ "SHRIEK_ALERT", 10 ], [ "SHRIEK_STUN", 5 ], [ "impale", 15 ] ],
+    "special_attacks": [
+      {
+        "type": "bite",
+        "cooldown": 3,
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 20, "armor_penetration": 8 } ],
+        "effects": [ { "id": "tetanus", "chance": 5, "duration": 2, "permanent": true } ]
+      },
+      [ "SHRIEK_ALERT", 10 ],
+      [ "SHRIEK_STUN", 5 ],
+      [ "impale", 15 ]
+    ],
     "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
     "fear_triggers": [ "FIRE" ],
     "zombify_into": "mon_meat_cocoon_med",

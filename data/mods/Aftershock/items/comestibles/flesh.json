@@ -1,0 +1,17 @@
+[
+  {
+    "type": "COMESTIBLE",
+    "id": "afs_synthetic_meat",
+    "copy-from": "meat",
+    "name": { "str_sp": "synthetic meat" },
+    "description": "A cut of vat grown lean meat, genetically similar to beef.  Conspicuously uniform in both looks and texture.",
+    "parasites": 0
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "afs_jerky",
+    "copy-from": "jerky",
+    "name": { "str_sp": "meat flakes" },
+    "description": "Transparent thin hexagonal cuts of dried meat.  Conspicuously uniform in both looks and texture."
+  }
+]

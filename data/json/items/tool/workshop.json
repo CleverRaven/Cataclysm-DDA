@@ -445,7 +445,7 @@
     "color": "brown",
     "qualities": [ [ "HAMMER", 3 ], [ "PRY", 1 ], [ "HAMMER_FINE", 1 ], [ "PRYING_NAIL", 1 ] ],
     "use_action": [ "CROWBAR" ],
-    "flags": [ "BELT_CLIP", "NONCONDUCTIVE" ],
+    "flags": [ "BELT_CLIP", "NONCONDUCTIVE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "BATONS" ]
   },
   {
@@ -625,8 +625,7 @@
         "skill": "fabrication",
         "cost_scaling": 0.1,
         "move_cost": 1500
-      },
-      { "flame": false, "type": "cauterize" }
+      }
     ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "pocket_data": [
@@ -757,7 +756,7 @@
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "CUT", 2 ], [ "SAW_W", 1 ], [ "SAW_M", 1 ], [ "WRENCH", 1 ], [ "SCREW", 1 ], [ "SCREW_FINE", 1 ], [ "BUTCHER", 7 ] ],
-    "flags": [ "STAB", "SHEATH_KNIFE" ]
+    "flags": [ "STAB", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ]
   },
   {
     "id": "oxy_torch",
@@ -1027,7 +1026,7 @@
     "symbol": ";",
     "color": "yellow",
     "qualities": [ [ "SCREW", 1 ] ],
-    "flags": [ "SPEAR", "BELT_CLIP" ],
+    "flags": [ "SPEAR", "BELT_CLIP", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "SHIVS" ]
   },
   {
@@ -1133,8 +1132,7 @@
         "skill": "fabrication",
         "cost_scaling": 0.1,
         "move_cost": 1500
-      },
-      { "flame": false, "type": "cauterize" }
+      }
     ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "pocket_data": [
@@ -1150,15 +1148,15 @@
     "id": "soldering_iron",
     "type": "TOOL",
     "name": { "str": "soldering iron" },
-    "description": "This is a device with a metal tip that can get very hot.  It is necessary for advanced electronics crafting.  You could also use it to cauterize wounds, if you had to.",
-    "weight": "181 g",
-    "volume": "100 ml",
-    "longest_side": "25 cm",
+    "description": "This is a device with a metal tip that can get very hot.  It is necessary for advanced electronics crafting.",
+    "weight": "90 g",
+    "volume": "120 ml",
+    "longest_side": "22 cm",
     "price": 1000,
     "price_postapoc": 100,
     "bashing": 2,
     "cutting": 6,
-    "material": [ "iron" ],
+    "material": [ { "type": "plastic", "portion": 75 }, { "type": "copper" } ],
     "symbol": ",",
     "color": "light_gray",
     "ammo": [ "battery" ],
@@ -1171,8 +1169,7 @@
         "skill": "fabrication",
         "cost_scaling": 0.1,
         "move_cost": 1500
-      },
-      { "flame": false, "type": "cauterize" }
+      }
     ],
     "flags": [ "SPEAR", "BELT_CLIP", "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
     "pocket_data": [
@@ -1237,68 +1234,6 @@
     "symbol": ";",
     "color": "red",
     "pocket_data": [ { "max_contains_volume": "34000 ml", "max_contains_weight": "34 kg", "max_item_length": "65 cm", "rigid": true } ]
-  },
-  {
-    "id": "toolset_extended",
-    "type": "TOOL",
-    "name": { "str": "extended multitool" },
-    "description": "Your multitool, extended.  Ready to do repair work.",
-    "symbol": "#",
-    "color": "white",
-    "weight": "226 g",
-    "bashing": 3,
-    "cutting": 1,
-    "flags": [ "NO_UNWIELD", "BIONIC_WEAPON", "UNBREAKABLE_MELEE", "TRADER_AVOID" ],
-    "//": "Charges will exceed max charges since they're always equal to the player's bionic power, but this has no adverse effects.",
-    "charges_per_use": 1,
-    "use_action": [
-      "CROWBAR",
-      {
-        "type": "repair_item",
-        "item_action_type": "repair_metal",
-        "materials": [
-          "iron",
-          "steel",
-          "lc_steel",
-          "mc_steel",
-          "hc_steel",
-          "ch_steel",
-          "lc_steel_chain",
-          "mc_steel_chain",
-          "hc_steel_chain",
-          "ch_steel_chain",
-          "aluminum",
-          "copper",
-          "bronze",
-          "fancy_bronze",
-          "silver",
-          "gold",
-          "platinum",
-          "superalloy",
-          "plastic",
-          "lead",
-          "tin",
-          "zinc"
-        ],
-        "skill": "fabrication",
-        "cost_scaling": 0.1,
-        "move_cost": 1000
-      },
-      { "flame": false, "type": "cauterize" }
-    ],
-    "qualities": [
-      [ "SAW_W", 1 ],
-      [ "SAW_M", 1 ],
-      [ "SAW_M_FINE", 1 ],
-      [ "WRENCH", 1 ],
-      [ "WRENCH_FINE", 1 ],
-      [ "SCREW", 1 ],
-      [ "SCREW_FINE", 1 ],
-      [ "CUT", 2 ],
-      [ "PRY", 1 ],
-      [ "PRYING_NAIL", 1 ],
-      [ "BUTCHER", -55 ]
-    ]
   },
   {
     "id": "welder",
