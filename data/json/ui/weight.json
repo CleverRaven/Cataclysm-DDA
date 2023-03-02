@@ -10,7 +10,7 @@
         "text": "Skeletal",
         "color": "red",
         "//": "BMR slows down here as strength stat starts compensating for lack of fat",
-        "condition": { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 1000 } ] }
+        "condition": { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 1000 } ] }
       },
       {
         "id": "emaciated",
@@ -19,8 +19,8 @@
         "//": "BMR slows down here as strength stat starts compensating for lack of fat",
         "condition": {
           "and": [
-            { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 1000 } ] },
-            { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 2000 } ] }
+            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 1000 } ] },
+            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 2000 } ] }
           ]
         }
       },
@@ -31,8 +31,8 @@
         "//": "between 2 and 3.5 points of BMI from bodyfat (8-14% of normal healthy weight is fat)",
         "condition": {
           "and": [
-            { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 2000 } ] },
-            { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 3000 } ] }
+            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 2000 } ] },
+            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 3000 } ] }
           ]
         }
       },
@@ -43,8 +43,8 @@
         "//": "3.5-5 points of BMI from fat (14-20% of body weight is fat)",
         "condition": {
           "and": [
-            { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 3000 } ] },
-            { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 5000 } ] }
+            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 3000 } ] },
+            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 5000 } ] }
           ]
         }
       },
@@ -55,8 +55,8 @@
         "//": "5-10 points of BMI from fat (20-33% of body weight is fat)",
         "condition": {
           "and": [
-            { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 5000 } ] },
-            { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 10000 } ] }
+            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 5000 } ] },
+            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 10000 } ] }
           ]
         }
       },
@@ -67,8 +67,8 @@
         "//": "10-15 points of BMI from fat (33-43% of body weight is fat)",
         "condition": {
           "and": [
-            { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 10000 } ] },
-            { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 15000 } ] }
+            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 10000 } ] },
+            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 15000 } ] }
           ]
         }
       },
@@ -79,8 +79,8 @@
         "//": "15-20 points of BMI from fat (43-50% of normal healthy body weight is fat)",
         "condition": {
           "and": [
-            { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 15000 } ] },
-            { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 20000 } ] }
+            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 15000 } ] },
+            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 20000 } ] }
           ]
         }
       },
@@ -89,7 +89,7 @@
         "text": "Morbidly Obese",
         "color": "red",
         "//": "20+ points of BMI from fat (more than half your bodyweight is fat)",
-        "condition": { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 20000 } ] }
+        "condition": { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 20000 } ] }
       }
     ]
   },
