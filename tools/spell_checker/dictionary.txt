@@ -1438,6 +1438,7 @@ km
 knacks
 knapping
 knifehand
+knifemaker
 knockback
 knotweed
 knowium
@@ -2211,6 +2212,7 @@ realtime
 reamer
 reamers
 rearwards
+reassembly
 reasserts
 rebalanced
 rebars
