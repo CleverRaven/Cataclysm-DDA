@@ -776,6 +776,9 @@ dubiously
 ductile
 dulcis
 dumpsite
+dunderfuck
+duplicator
+duplicators
 dynamically
 dyoplosaurus
 dysfunctions
@@ -1108,6 +1111,8 @@ glassblowing
 glassteel
 glassworking
 glazes
+glitched
+glitchiness
 gliters
 gloppy
 glowstick
@@ -1864,6 +1869,8 @@ openable
 openair
 opengl
 openingly
+ophanim
+ophanims
 optimality
 opy
 orgs

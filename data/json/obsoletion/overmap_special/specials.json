@@ -682,5 +682,61 @@
     "city_sizes": [ 1, -1 ],
     "occurrences": [ 0, 0 ],
     "flags": [ "UNIQUE", "FARM" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "nature trail",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "NatureTrail_1a_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "NatureTrail_1b_north" }
+    ],
+    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road" } ],
+    "locations": [ "forest" ],
+    "city_distance": [ 3, 8 ],
+    "city_sizes": [ 4, -1 ],
+    "occurrences": [ 0, 0 ],
+    "flags": [ "CLASSIC" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "public pond",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "PublicPond_1a_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "PublicPond_1b_north" }
+    ],
+    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road" } ],
+    "locations": [ "land" ],
+    "city_distance": [ 1, 6 ],
+    "city_sizes": [ 4, -1 ],
+    "occurrences": [ 0, 0 ],
+    "flags": [ "CLASSIC" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "warehouse",
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "warehouse_north" }, { "point": [ 0, 0, 1 ], "overmap": "warehouse_roof_north" } ],
+    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road" } ],
+    "locations": [ "land" ],
+    "city_distance": [ 6, 15 ],
+    "city_sizes": [ 4, -1 ],
+    "occurrences": [ 0, 0 ],
+    "flags": [ "CLASSIC", "URBAN" ]
+  },
+  {
+    "id": "Fishing Pond",
+    "type": "overmap_special",
+    "overmaps": [
+      { "point": [ 1, -1, 0 ], "overmap": "road_end_north" },
+      { "point": [ 0, 0, 0 ], "overmap": "fishing_pond_0_0_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "fishing_pond_1_0_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "fishing_pond_0_1_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "fishing_pond_1_1_north" }
+    ],
+    "connections": [ { "point": [ 1, -1, 0 ], "terrain": "road" } ],
+    "locations": [ "field" ],
+    "city_distance": [ 3, 10 ],
+    "city_sizes": [ 4, -1 ],
+    "occurrences": [ 0, 0 ],
+    "flags": [ "CLASSIC", "WILDERNESS" ]
   }
 ]
