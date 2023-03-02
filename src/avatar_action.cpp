@@ -952,6 +952,7 @@ void avatar_action::eat( avatar &you, const item_location &loc,
     }
     you.assign_activity( player_activity( consume_activity_actor( loc, consume_menu_selections,
                                           consume_menu_selected_items, consume_menu_filter, type ) ) );
+    you.last_item = item( *loc ).typeId();
 }
 
 void avatar_action::plthrow( avatar &you, item_location loc,
@@ -1104,6 +1105,11 @@ void avatar_action::use_item( avatar &you )
 
 void avatar_action::use_item( avatar &you, item_location &loc )
 {
+    if( you.has_effect( effect_incorporeal ) ) {
+        you.add_msg_if_player( m_bad, _( "You can't use anything while incorporeal." ) );
+        return;
+    }
+
     // Some items may be used without being picked up first
     bool use_in_place = false;
 

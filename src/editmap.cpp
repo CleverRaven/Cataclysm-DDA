@@ -1541,10 +1541,12 @@ void editmap::edit_itm()
                                 for( const auto &t : tags ) {
                                     it.set_flag( flag_id( t ) );
                                 }
-                                imenu.entries[imenu_tags].txt = debug_menu::iterable_to_string(
-                                it.get_flags(), " ", []( const flag_id & f ) {
+                                // NOLINTNEXTLINE(cata-translate-string-literal)
+                                imenu.entries[imenu_tags].txt = string_format( "tags: %s",
+                                                                debug_menu::iterable_to_string( it.get_flags(), " ",
+                                []( const flag_id & f ) {
                                     return f.str();
-                                } );
+                                } ) );
                                 break;
                         }
                     }

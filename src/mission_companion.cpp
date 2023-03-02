@@ -2692,7 +2692,7 @@ npc_ptr talk_function::companion_choose_return( comp_list &npc_list )
 
 //Smash stuff, steal valuables, and change map marker
 std::set<item> talk_function::loot_building( const tripoint_abs_omt &site,
-        oter_str_id looted_replacement )
+        const oter_str_id &looted_replacement )
 {
     tinymap bay;
     bay.load( project_to<coords::sm>( site ), false );

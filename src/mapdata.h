@@ -305,6 +305,7 @@ enum class ter_furn_flag : int {
     TFLAG_TRANSPARENT_FLOOR,
     TFLAG_TOILET_WATER,
     TFLAG_ELEVATOR,
+    TFLAG_ACTIVE_GENERATOR,
 
     NUM_TFLAG_FLAGS
 };
@@ -313,7 +314,6 @@ template<>
 struct enum_traits<ter_furn_flag> {
     static constexpr ter_furn_flag last = ter_furn_flag::NUM_TFLAG_FLAGS;
 };
-
 
 struct connect_group {
     public:

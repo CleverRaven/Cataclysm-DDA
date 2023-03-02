@@ -64,7 +64,7 @@
 
 static const flag_id json_flag_FILTHY( "FILTHY" );
 
-static const furn_str_id furn_f_compact_ASRG_containment( "f_compact_ASRG_containment" );
+static const furn_str_id furn_f_active_backup_generator( "f_active_backup_generator" );
 static const furn_str_id furn_f_sign_warning( "f_sign_warning" );
 
 static const item_group_id Item_spawn_data_ammo_casings( "ammo_casings" );
@@ -141,23 +141,23 @@ static const map_extra_id map_extra_mx_shia( "mx_shia" );
 static const map_extra_id map_extra_mx_shrubbery( "mx_shrubbery" );
 static const map_extra_id map_extra_mx_supplydrop( "mx_supplydrop" );
 
+static const mongroup_id GROUP_CANNIBAL( "GROUP_CANNIBAL" );
+static const mongroup_id GROUP_DERMATIK( "GROUP_DERMATIK" );
 static const mongroup_id GROUP_FISH( "GROUP_FISH" );
 static const mongroup_id GROUP_FUNGI_FUNGALOID( "GROUP_FUNGI_FUNGALOID" );
+static const mongroup_id GROUP_JABBERWOCK( "GROUP_JABBERWOCK" );
+static const mongroup_id GROUP_MIL_PASSENGER( "GROUP_MIL_PASSENGER" );
+static const mongroup_id GROUP_MIL_PILOT( "GROUP_MIL_PILOT" );
+static const mongroup_id GROUP_MIL_WEAK( "GROUP_MIL_WEAK" );
 static const mongroup_id GROUP_NETHER_PORTAL( "GROUP_NETHER_PORTAL" );
 static const mongroup_id GROUP_STRAY_DOGS( "GROUP_STRAY_DOGS" );
+static const mongroup_id GROUP_TURRET_SPEAKER( "GROUP_TURRET_SPEAKER" );
 static const mongroup_id GROUP_WASP_GUARD( "GROUP_WASP_GUARD" );
 static const mongroup_id GROUP_WASP_QUEEN( "GROUP_WASP_QUEEN" );
 
-static const mtype_id mon_dermatik( "mon_dermatik" );
-static const mtype_id mon_jabberwock( "mon_jabberwock" );
-static const mtype_id mon_shia( "mon_shia" );
 static const mtype_id mon_turret_riot( "mon_turret_riot" );
 static const mtype_id mon_turret_searchlight( "mon_turret_searchlight" );
-static const mtype_id mon_turret_speaker( "mon_turret_speaker" );
 static const mtype_id mon_wolf( "mon_wolf" );
-static const mtype_id mon_zombie_bio_op( "mon_zombie_bio_op" );
-static const mtype_id mon_zombie_military_pilot( "mon_zombie_military_pilot" );
-static const mtype_id mon_zombie_scientist( "mon_zombie_scientist" );
 static const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
 
 static const oter_type_str_id oter_type_bridge( "bridge" );
@@ -310,7 +310,7 @@ static void dead_vegetation_parser( map &m, const tripoint &loc )
     }
 }
 
-static bool mx_house_wasp( map &m, const tripoint &loc )
+static bool mx_house_wasp( map &m, const tripoint &/*loc*/ )
 {
     for( int i = 0; i < SEEX * 2; i++ ) {
         for( int j = 0; j < SEEY * 2; j++ ) {
@@ -343,9 +343,8 @@ static bool mx_house_wasp( map &m, const tripoint &loc )
         m.place_spawns( GROUP_WASP_GUARD, 1, pod, pod, 1, true );
     }
     m.place_spawns( GROUP_WASP_QUEEN, 1, point_zero, point( SEEX, SEEY ), 1, true );
-    if( one_in( 5 ) ) {
-        m.add_spawn( mon_dermatik, rng( 1, 3 ), tripoint( point( SEEX * 2 - 1, SEEY * 2 - 1 ), loc.z ) );
-    }
+    m.place_spawns( GROUP_DERMATIK, 5, { SEEX * 2 - 1, SEEY * 2 - 1 }, { SEEX * 2 - 1, SEEY * 2 - 1 },
+                    0.1f );
 
     return true;
 }
@@ -439,15 +438,9 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
                     const tripoint pos = vp.pos();
                     // Spawn pilots in seats with controls.CTRL_ELECTRONIC
                     if( controls_at( wreckage, pos ) ) {
-                        m.add_spawn( mon_zombie_military_pilot, 1, pos );
+                        m.place_spawns( GROUP_MIL_PILOT, 1, pos.xy(), pos.xy(), 1, true );
                     } else {
-                        if( one_in( 5 ) ) {
-                            m.add_spawn( mon_zombie_bio_op, 1, pos );
-                        } else if( one_in( 5 ) ) {
-                            m.add_spawn( mon_zombie_scientist, 1, pos );
-                        } else {
-                            m.add_spawn( mon_zombie_soldier, 1, pos );
-                        }
+                        m.place_spawns( GROUP_MIL_PASSENGER, 1, pos.xy(), pos.xy(), 1, true );
                     }
 
                     // Delete the items that would have spawned here from a "corpse"
@@ -467,11 +460,9 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
                     const tripoint pos = vp.pos();
                     // Spawn pilots in seats with controls.
                     if( controls_at( wreckage, pos ) ) {
-                        m.add_spawn( mon_zombie_military_pilot, 1, pos );
+                        m.place_spawns( GROUP_MIL_PILOT, 1, pos.xy(), pos.xy(), 1, true );
                     } else {
-                        if( !one_in( 3 ) ) {
-                            m.add_spawn( mon_zombie_soldier, 1, pos );
-                        }
+                        m.place_spawns( GROUP_MIL_WEAK, 2, pos.xy(), pos.xy(), 1, true );
                     }
 
                     // Delete the items that would have spawned here from a "corpse"
@@ -488,7 +479,7 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
                 // Just pilots
                 for( const vpart_reference &vp : wreckage->get_any_parts( VPFLAG_CONTROLS ) ) {
                     const tripoint pos = vp.pos();
-                    m.add_spawn( mon_zombie_military_pilot, 1, pos );
+                    m.place_spawns( GROUP_MIL_PILOT, 1, pos.xy(), pos.xy(), 1, true );
 
                     // Delete the items that would have spawned here from a "corpse"
                     for( int sp : wreckage->parts_at_relative( vp.mount(), true ) ) {
@@ -609,7 +600,7 @@ static bool mx_roadblock( map &m, const tripoint &abs_sub )
 
         line_furn( &m, f_sandbag_half, point( 12, 7 ), point( 15, 7 ) );
         m.add_spawn( mon_turret_searchlight, 1, { 13, 8, abs_sub.z } );
-        m.furn_set( point( 14, 8 ), furn_f_compact_ASRG_containment );
+        m.furn_set( point( 14, 8 ), furn_f_active_backup_generator );
         line_furn( &m, f_sandbag_half, point( 12, 9 ), point( 15, 9 ) );
 
         int num_bodies = dice( 2, 5 );
@@ -668,7 +659,7 @@ static bool mx_roadblock( map &m, const tripoint &abs_sub )
 
         line_furn( &m, f_sandbag_half, point( 6, 10 ), point( 9, 10 ) );
         m.add_spawn( mon_turret_searchlight, 1, { 7, 11, abs_sub.z } );
-        m.furn_set( point( 8, 11 ), furn_f_compact_ASRG_containment );
+        m.furn_set( point( 8, 11 ), furn_f_active_backup_generator );
         line_furn( &m, f_sandbag_half, point( 6, 12 ), point( 9, 12 ) );
 
         int num_bodies = dice( 1, 6 );
@@ -1520,21 +1511,21 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
     return true;
 }
 
-static bool mx_shia( map &m, const tripoint &loc )
+static bool mx_shia( map &m, const tripoint &/*loc*/ )
 {
     // A rare chance to spawn Shia. This was extracted from the hardcoded forest mapgen
     // and moved into a map extra, but it still has a one_in chance of spawning because
     // otherwise the extreme rarity of this event wildly skewed the values for all of the
     // other extras.
     if( one_in( 5000 ) ) {
-        m.add_spawn( mon_shia, 1, { SEEX, SEEY, loc.z } );
+        m.place_spawns( GROUP_CANNIBAL, 1, point_zero, { SEEX * 2, SEEY * 2 }, 1, true );
         return true;
     }
 
     return false;
 }
 
-static bool mx_jabberwock( map &m, const tripoint &loc )
+static bool mx_jabberwock( map &m, const tripoint &/*loc*/ )
 {
     // A rare chance to spawn a jabberwock. This was extracted from the hardcoded forest mapgen
     // and moved into a map extra. It still has a one_in chance of spawning because otherwise
@@ -1542,7 +1533,7 @@ static bool mx_jabberwock( map &m, const tripoint &loc )
     // into the monster group, but again the hardcoded rarity it had in the forest mapgen was
     // not easily replicated there.
     if( one_in( 50 ) ) {
-        m.add_spawn( mon_jabberwock, 1, { SEEX, SEEY, loc.z } );
+        m.place_spawns( GROUP_JABBERWOCK, 1, point_zero, { SEEX * 2, SEEY * 2 }, 1, true );
         return true;
     }
 
@@ -1794,7 +1785,6 @@ static void burned_ground_parser( map &m, const tripoint &loc )
     std::vector<tripoint> points;
     for( wrapped_vehicle vehicle : vehs ) {
         vehicles.push_back( vehicle.v );
-        std::set<tripoint> occupied = vehicle.v->get_points();
         // Important that this loop excludes fake parts, because those can be
         // outside map bounds
         for( const vpart_reference &vp : vehicle.v->get_all_parts() ) {
@@ -2672,7 +2662,7 @@ static bool mx_city_trap( map &/*m*/, const tripoint &abs_sub )
         }
         compmap.trap_set( trap_center, tr_engine );
         //... and a loudspeaker to attract zombies
-        compmap.add_spawn( mon_turret_speaker, 1, trap_center );
+        compmap.place_spawns( GROUP_TURRET_SPEAKER, 1, trap_center.xy(), trap_center.xy(), 1, true );
     }
 
     compmap.save();

@@ -5,6 +5,7 @@
     "om_terrain": [ "pagan_cult_enter" ],
     "weight": 100,
     "object": {
+      "faction_owner": [ { "id": "valhallists", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_dirt",
       "rows": [
         "                        ",
@@ -34,7 +35,7 @@
       ],
       "palettes": [ "bandit_camp" ],
       "npcs": { "!": { "class": "pagan_cult_member" } },
-      "terrain": { " ": "t_region_groundcover", ".": "t_rock_floor" },
+      "terrain": { " ": "t_region_groundcover", ".": "t_rock_floor", "S": "t_rock_floor", "T": "t_rock_floor" },
       "furniture": { "0": "f_training_dummy_heavy", "$": "f_training_dummy_light", "S": "f_sink", "T": "f_toilet" }
     }
   },
@@ -44,6 +45,7 @@
     "om_terrain": [ "pagan_cult_right_corner" ],
     "weight": 100,
     "object": {
+      "faction_owner": [ { "id": "valhallists", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_rock_floor",
       "rows": [
         "                       #",
@@ -73,7 +75,7 @@
       ],
       "palettes": [ "bandit_camp" ],
       "npcs": { "!": { "class": "pagan_cult_member" } },
-      "terrain": { " ": "t_region_groundcover", ".": "t_rock_floor" },
+      "terrain": { " ": "t_region_groundcover", ".": "t_rock_floor", "!": "t_region_groundcover", "n": "t_region_groundcover" },
       "furniture": { "1": "f_firefly_terrarium" }
     }
   },
@@ -83,6 +85,7 @@
     "om_terrain": [ "pagan_cult_left_corner" ],
     "weight": 100,
     "object": {
+      "faction_owner": [ { "id": "valhallists", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_rock_floor",
       "rows": [
         "#                       ",
@@ -122,6 +125,7 @@
     "om_terrain": [ "pagan_cult_right_corner_up" ],
     "weight": 100,
     "object": {
+      "faction_owner": [ { "id": "valhallists", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_rock_floor",
       "rows": [
         "########################",
@@ -194,8 +198,28 @@
       "terrain": { " ": "t_region_groundcover", ".": "t_rock_floor", "]": "t_bars" },
       "furniture": { "1": "f_firefly_terrarium", "3": "f_rack_wood", "L": "f_rack_wood", "r": "f_rack_wood" },
       "place_zones": [
-        { "type": "LOOT_UNSORTED", "faction": "valhallists", "x": [ 18, 18 ], "y": [ 13, 13 ] },
-        { "type": "LOOT_CURRENCY", "faction": "valhallists", "x": [ 20, 20 ], "y": [ 13, 13 ] }
+        {
+          "type": "LOOT_ITEM_GROUP",
+          "filter": "valhallist_shopkeep_0",
+          "faction": "valhallists",
+          "x": [ 16, 20 ],
+          "y": [ 11, 11 ]
+        },
+        {
+          "type": "LOOT_ITEM_GROUP",
+          "filter": "valhallist_shopkeep_1",
+          "faction": "valhallists",
+          "x": [ 16, 20 ],
+          "y": [ 11, 11 ]
+        },
+        {
+          "type": "LOOT_ITEM_GROUP",
+          "filter": "valhallist_weapons",
+          "faction": "valhallists",
+          "x": [ 16, 20 ],
+          "y": [ 11, 11 ]
+        },
+        { "type": "LOOT_UNSORTED", "faction": "valhallists", "x": [ 20, 20 ], "y": [ 12, 12 ] }
       ],
       "items": {
         "L": [
@@ -219,11 +243,6 @@
           { "item": "supplies_farming", "chance": 80, "repeat": [ 2, 4 ] },
           { "item": "supplies_fuel", "chance": 80, "repeat": [ 2, 4 ] },
           { "item": "supplies_metal", "chance": 80, "repeat": [ 2, 4 ] }
-        ],
-        "3": [
-          { "item": "valhallist_shopkeep_0", "chance": 80, "repeat": [ 2, 4 ] },
-          { "item": "valhallist_shopkeep_1", "chance": 80, "repeat": [ 2, 4 ] },
-          { "item": "valhallist_weapons", "chance": 80, "repeat": [ 2, 4 ] }
         ]
       }
     }
@@ -235,6 +254,7 @@
     "//": "Garage",
     "weight": 100,
     "object": {
+      "faction_owner": [ { "id": "valhallists", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_dirt",
       "rows": [
         "#                       ",
@@ -282,6 +302,7 @@
     "//": "garden",
     "weight": 70,
     "object": {
+      "faction_owner": [ { "id": "valhallists", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_dirt",
       "rows": [
         "#                       ",
@@ -321,6 +342,7 @@
     "om_terrain": [ "pagan_cult_longhouse" ],
     "weight": 100,
     "object": {
+      "faction_owner": [ { "id": "valhallists", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_rock_floor",
       "rows": [
         "########################",
@@ -360,6 +382,7 @@
     "om_terrain": [ "pagan_cult_henge" ],
     "weight": 100,
     "object": {
+      "faction_owner": [ { "id": "valhallists", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_dirt",
       "rows": [
         "                        ",
@@ -389,7 +412,13 @@
       ],
       "palettes": [ "bandit_camp" ],
       "npcs": { "!": { "class": "pagan_cult_member" }, "2": { "class": "pagan_cult_gode" } },
-      "terrain": { " ": "t_region_groundcover", "s": "t_grass", ".": [ "t_region_soil", "t_region_groundcover" ] },
+      "terrain": {
+        " ": "t_region_groundcover",
+        "s": "t_grass",
+        ".": [ "t_region_soil", "t_region_groundcover" ],
+        "p": "t_grass",
+        "#": "t_grass"
+      },
       "furniture": { "2": "f_chair", "p": "f_boulder_large", "~": "f_boulder_small", "#": "f_brazier" }
     }
   }

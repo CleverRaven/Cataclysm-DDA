@@ -52,6 +52,7 @@
 #include "game_constants.h"
 #include "game_inventory.h"
 #include "handle_liquid.h"
+#include "harvest.h"
 #include "iexamine.h"
 #include "inventory.h"
 #include "inventory_ui.h"
@@ -154,7 +155,6 @@ static const efftype_id effect_antibiotic_visible( "antibiotic_visible" );
 static const efftype_id effect_antifungal( "antifungal" );
 static const efftype_id effect_asthma( "asthma" );
 static const efftype_id effect_beartrap( "beartrap" );
-static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_blood_spiders( "blood_spiders" );
@@ -239,22 +239,20 @@ static const efftype_id effect_weed_high( "weed_high" );
 
 static const flag_id json_flag_POWER_CORD( "POWER_CORD" );
 
-static const furn_str_id furn_f_aluminum_stepladder( "f_aluminum_stepladder" );
-static const furn_str_id furn_f_ladder( "f_ladder" );
 static const furn_str_id furn_f_translocator_buoy( "f_translocator_buoy" );
+
+static const harvest_drop_type_id harvest_drop_blood( "blood" );
 
 static const itype_id itype_advanced_ecig( "advanced_ecig" );
 static const itype_id itype_afs_atomic_smartphone( "afs_atomic_smartphone" );
 static const itype_id itype_afs_atomic_smartphone_music( "afs_atomic_smartphone_music" );
 static const itype_id itype_afs_atomic_wraitheon_music( "afs_atomic_wraitheon_music" );
 static const itype_id itype_afs_wraitheon_smartphone( "afs_wraitheon_smartphone" );
-static const itype_id itype_aluminum_stepladder( "aluminum_stepladder" );
 static const itype_id itype_apparatus( "apparatus" );
 static const itype_id itype_arcade_machine( "arcade_machine" );
 static const itype_id itype_atomic_coffeepot( "atomic_coffeepot" );
 static const itype_id itype_barometer( "barometer" );
 static const itype_id itype_battery( "battery" );
-static const itype_id itype_blood_tainted( "blood_tainted" );
 static const itype_id itype_c4armed( "c4armed" );
 static const itype_id itype_canister_empty( "canister_empty" );
 static const itype_id itype_chainsaw_off( "chainsaw_off" );
@@ -305,7 +303,6 @@ static const itype_id itype_smartphone_music( "smartphone_music" );
 static const itype_id itype_soap( "soap" );
 static const itype_id itype_soldering_iron( "soldering_iron" );
 static const itype_id itype_spiral_stone( "spiral_stone" );
-static const itype_id itype_stepladder( "stepladder" );
 static const itype_id itype_towel( "towel" );
 static const itype_id itype_towel_wet( "towel_wet" );
 static const itype_id itype_water( "water" );
@@ -354,7 +351,6 @@ static const species_id species_FUNGUS( "FUNGUS" );
 static const species_id species_HALLUCINATION( "HALLUCINATION" );
 static const species_id species_INSECT( "INSECT" );
 static const species_id species_ROBOT( "ROBOT" );
-static const species_id species_ZOMBIE( "ZOMBIE" );
 
 static const ter_str_id ter_t_grave( "t_grave" );
 static const ter_str_id ter_t_grave_new( "t_grave_new" );
@@ -370,7 +366,6 @@ static const ter_str_id ter_t_utility_light( "t_utility_light" );
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_ACIDPROOF( "ACIDPROOF" );
 static const trait_id trait_ALCMET( "ALCMET" );
-static const trait_id trait_CENOBITE( "CENOBITE" );
 static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
 static const trait_id trait_EATDEAD( "EATDEAD" );
 static const trait_id trait_EATPOISON( "EATPOISON" );
@@ -381,8 +376,6 @@ static const trait_id trait_MARLOSS( "MARLOSS" );
 static const trait_id trait_MARLOSS_AVOID( "MARLOSS_AVOID" );
 static const trait_id trait_MARLOSS_BLUE( "MARLOSS_BLUE" );
 static const trait_id trait_MARLOSS_YELLOW( "MARLOSS_YELLOW" );
-static const trait_id trait_MASOCHIST( "MASOCHIST" );
-static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
 static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
@@ -1558,8 +1551,9 @@ cata::optional<int> iuse::petfood( Character *p, item *it, bool, const tripoint 
         return cata::nullopt;
     }
 
-    const cata::optional<tripoint> pnt = choose_adjacent( string_format( _( "Put the %s where?" ),
-                                         it->tname() ) );
+    const cata::optional<tripoint> pnt = choose_adjacent( string_format(
+            _( "Tame which animal with %s?" ),
+            it->tname() ) );
     if( !pnt ) {
         return cata::nullopt;
     }
@@ -1588,14 +1582,6 @@ cata::optional<int> iuse::petfood( Character *p, item *it, bool, const tripoint 
     } else if( monster *const mon = creatures.creature_at<monster>( *pnt, true ) ) {
         p->mod_moves( -to_moves<int>( 1_seconds ) );
 
-        if( mon->is_hallucination() ) {
-            p->add_msg_if_player( _( "You try to feed the %1$s some %2$s, but it vanishes!" ),
-                                  mon->type->nname(), it->tname() );
-            mon->die( nullptr );
-            return cata::nullopt;
-        }
-
-
         bool can_feed = false;
         const pet_food_data &petfood = mon->type->petfood;
         const std::set<std::string> &itemfood = it->get_comestible()->petfood;
@@ -1619,6 +1605,13 @@ cata::optional<int> iuse::petfood( Character *p, item *it, bool, const tripoint 
                     _( "Apparently, it's more interested in your flesh than the dog food in your hand!" ) );
                 p->consume_charges( *it, 1 );
             }
+            return cata::nullopt;
+        }
+
+        if( mon->is_hallucination() ) {
+            p->add_msg_if_player( _( "You try to feed the %1$s some %2$s, but it vanishes!" ),
+                                  mon->type->nname(), it->tname() );
+            mon->die( nullptr );
             return cata::nullopt;
         }
 
@@ -2429,27 +2422,6 @@ cata::optional<int> iuse::pack_item( Character *p, item *it, bool t, const tripo
     return 0;
 }
 
-static cata::optional<int> cauterize_elec( Character &p, item &it )
-{
-    if( it.ammo_remaining() == 0 ) {
-        p.add_msg_if_player( m_info, _( "You need batteries to cauterize wounds." ) );
-        return cata::nullopt;
-    } else if( !p.has_effect( effect_bite ) && !p.has_effect( effect_bleed ) && !p.is_underwater() ) {
-        if( ( p.has_trait( trait_MASOCHIST ) || p.has_trait( trait_MASOCHIST_MED ) ||
-              p.has_trait( trait_CENOBITE ) ) &&
-            p.query_yn( _( "Cauterize yourself for fun?" ) ) ) {
-            return cauterize_actor::cauterize_effect( p, it, true ) ? 1 : 0;
-        } else {
-            p.add_msg_if_player( m_info,
-                                 _( "You aren't bleeding or bitten; there is no need to cauterize yourself." ) );
-            return cata::nullopt;
-        }
-    } else if( p.is_npc() || query_yn( _( "Cauterize any open wounds?" ) ) ) {
-        return cauterize_actor::cauterize_effect( p, it, true ) ? 1 : 0;
-    }
-    return cata::nullopt;
-}
-
 cata::optional<int> iuse::water_purifier( Character *p, item *it, bool, const tripoint & )
 {
     if( p->is_mounted() ) {
@@ -2923,20 +2895,14 @@ cata::optional<int> iuse::dig( Character *p, item * /* it */, bool t, const trip
     }
 
     std::vector<construction> const &cnstr = get_constructions();
-    auto build = std::find_if( cnstr.begin(), cnstr.end(), []( const construction & it ) {
+    auto const build = std::find_if( cnstr.begin(), cnstr.end(), []( const construction & it ) {
         return it.str_id == construction_constr_pit;
     } );
-    bool const can_dig_pit = !points_in_radius_where( p->pos_bub(),
-    1, [&build]( tripoint_bub_ms const & pt ) {
-        return can_construct( *build, pt );
-    } ).empty();
-    if( !can_dig_pit ) {
-        build = std::find_if( cnstr.begin(), cnstr.end(), []( const construction & it ) {
-            return it.str_id == construction_constr_pit_shallow;
-        } );
-    }
+    auto const build_shallow = std::find_if( cnstr.begin(), cnstr.end(), []( const construction & it ) {
+        return it.str_id == construction_constr_pit_shallow;
+    } );
 
-    place_construction( build->group );
+    place_construction( { build->group, build_shallow->group } );
 
     return 0;
 }
@@ -2956,7 +2922,7 @@ cata::optional<int> iuse::dig_channel( Character *p, item */* it */, bool t, con
         return it.str_id == construction_constr_water_channel;
     } );
 
-    place_construction( build->group );
+    place_construction( { build->group } );
     return 0;
 }
 
@@ -2975,7 +2941,7 @@ cata::optional<int> iuse::fill_pit( Character *p, item */* it */, bool t, const 
         return it.str_id == construction_constr_fill_pit;
     } );
 
-    place_construction( build->group );
+    place_construction( { build->group } );
     return 0;
 }
 
@@ -4760,17 +4726,20 @@ cata::optional<int> iuse::blood_draw( Character *p, item *it, bool, const tripoi
                       colorize( map_it.tname(), map_it.color_in_inventory() ) ) ) {
             p->add_msg_if_player( m_info, _( "You drew blood from the %s…" ), map_it.tname() );
             drew_blood = true;
-            blood_temp = map_it.temperature ;
-
-            if( map_it.get_mtype()->in_species( species_ZOMBIE ) ) {
-                blood.convert( itype_blood_tainted );
-            }
+            blood_temp = map_it.temperature;
 
             auto bloodtype( map_it.get_mtype()->bloodType() );
             if( bloodtype.obj().has_acid ) {
                 acid_blood = true;
             } else {
                 blood.set_mtype( map_it.get_mtype() );
+
+                for( const harvest_entry &entry : map_it.get_mtype()->harvest.obj() ) {
+                    if( entry.type == harvest_drop_blood ) {
+                        blood.convert( itype_id( entry.drop ) );
+                        break;
+                    }
+                }
             }
         }
     }
@@ -5268,22 +5237,8 @@ cata::optional<int> iuse::hotplate( Character *p, item *it, bool, const tripoint
         return cata::nullopt;
     }
 
-    int choice = 0;
-    if( ( p->has_effect( effect_bite ) || p->has_effect( effect_bleed ) ||
-          p->has_trait( trait_MASOCHIST ) ||
-          p->has_trait( trait_MASOCHIST_MED ) || p->has_trait( trait_CENOBITE ) ) && !p->is_underwater() ) {
-        //Might want to cauterize
-        choice = uilist( _( "Using hotplate:" ), {
-            _( "Heat food" ), _( "Cauterize wound" )
-        } );
-    }
-
-    if( choice == 0 ) {
-        if( heat_item( *p ) ) {
-            return 1;
-        }
-    } else if( choice == 1 ) {
-        return cauterize_elec( *p, *it );
+    if( heat_item( *p ) ) {
+        return 1;
     }
     return cata::nullopt;
 }
@@ -8315,9 +8270,9 @@ cata::optional<int> iuse::multicooker( Character *p, item *it, bool t, const tri
             return 0;
         }
 
-        // Empty the cooker before it can be activated.
+        // Do nothing if there's non-dish contained in the cooker
         if( mc_empty == choice ) {
-            it->handle_liquid_or_spill( *p );
+            return cata::nullopt;
         }
 
         if( mc_start == choice ) {
@@ -8360,12 +8315,12 @@ cata::optional<int> iuse::multicooker( Character *p, item *it, bool t, const tri
                 const recipe *meal = dishes[choice];
                 int mealtime;
                 if( it->get_var( "MULTI_COOK_UPGRADE" ) == "UPGRADE" ) {
-                    mealtime = meal->time_to_craft_moves( *p );
+                    mealtime = meal->time_to_craft_moves( *p, recipe_time_flag::ignore_proficiencies );
                 } else {
-                    mealtime = meal->time_to_craft_moves( *p ) * 2;
+                    mealtime = meal->time_to_craft_moves( *p, recipe_time_flag::ignore_proficiencies ) * 2;
                 }
 
-                const int all_charges = charges_to_start + mealtime / 100 * units::to_joule(
+                const int all_charges = charges_to_start + mealtime / 1000 * units::to_watt(
                                             it->type->tool->power_draw ) / 1000;
 
                 if( it->ammo_remaining( p ) < all_charges ) {
@@ -8660,7 +8615,7 @@ cata::optional<int> iuse::cable_attach( Character *p, item *it, bool, const trip
                     return itm.has_flag( flag_SOLARPACK_ON );
                 };
                 if( you != nullptr )                     {
-                    loc = game_menus::inv::titled_filter_menu( solar_filter, *you, choose_solar, dont_have_solar );
+                    loc = game_menus::inv::titled_filter_menu( solar_filter, *you, choose_solar, -1, dont_have_solar );
                 }
                 if( !loc ) {
                     add_msg( _( "Never mind" ) );
@@ -8673,7 +8628,7 @@ cata::optional<int> iuse::cable_attach( Character *p, item *it, bool, const trip
                 return 0;
             } else if( choice == 3 ) {
                 if( you != nullptr )                     {
-                    loc = game_menus::inv::titled_filter_menu( filter, *you, choose_ups, dont_have_ups );
+                    loc = game_menus::inv::titled_filter_menu( filter, *you, choose_ups, -1, dont_have_ups );
                 }
                 if( !loc ) {
                     add_msg( _( "Never mind" ) );
@@ -8781,7 +8736,7 @@ cata::optional<int> iuse::cable_attach( Character *p, item *it, bool, const trip
                 return itm.has_flag( flag_SOLARPACK_ON );
             };
             if( you != nullptr )                     {
-                loc = game_menus::inv::titled_filter_menu( solar_filter, *you, choose_solar, dont_have_solar );
+                loc = game_menus::inv::titled_filter_menu( solar_filter, *you, choose_solar, -1, dont_have_solar );
             }
             if( !loc ) {
                 add_msg( _( "Never mind" ) );
@@ -8793,7 +8748,7 @@ cata::optional<int> iuse::cable_attach( Character *p, item *it, bool, const trip
             p->add_msg_if_player( m_good, _( "You are now plugged to the solar backpack." ) );
             return 0;
         } else if( choice == 4 ) {
-            loc = game_menus::inv::titled_filter_menu( filter, *you, choose_ups, dont_have_ups );
+            loc = game_menus::inv::titled_filter_menu( filter, *you, choose_ups, -1, dont_have_ups );
             // connecting self to UPS
             if( !loc ) {
                 add_msg( _( "Never mind" ) );
@@ -8894,7 +8849,7 @@ cata::optional<int> iuse::cord_attach( Character *p, item *it, bool, const tripo
         }
         const tripoint posp = *posp_;
         const optional_vpart_position vp = here.veh_at( posp );
-        if( !vp || !vp->vehicle().has_tag( "APPLIANCE" ) ) {
+        if( !vp ) {
             p->add_msg_if_player( _( "There's no appliance here." ) );
             return cata::nullopt;
         } else {
@@ -8954,7 +8909,7 @@ cata::optional<int> iuse::cord_attach( Character *p, item *it, bool, const tripo
         const tripoint vpos = *vpos_;
 
         const optional_vpart_position target_vp = here.veh_at( vpos );
-        if( !target_vp || !target_vp->vehicle().has_tag( "APPLIANCE" ) ) {
+        if( !target_vp ) {
             p->add_msg_if_player( _( "There's no appliance there." ) );
             return cata::nullopt;
         } else {
@@ -9323,38 +9278,6 @@ cata::optional<int> iuse::capture_monster_act( Character *p, item *it, bool, con
             return cata::nullopt;
         }
     }
-    return 0;
-}
-
-cata::optional<int> iuse::ladder( Character *p, item *it, bool, const tripoint & )
-{
-    map &here = get_map();
-    if( p->is_mounted() ) {
-        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
-        return cata::nullopt;
-    }
-    const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Put the ladder where?" ) );
-    if( !pnt_ ) {
-        return cata::nullopt;
-    }
-    const tripoint pnt = *pnt_;
-
-    if( !g->is_empty( pnt ) || here.has_furn( pnt ) || here.veh_at( pnt ) ) {
-        p->add_msg_if_player( m_bad, _( "Can't place it there." ) );
-        return cata::nullopt;
-    }
-
-    p->add_msg_if_player( _( "You set down the ladder." ) );
-    p->moves -= to_moves<int>( 5_seconds );
-
-    if( it->typeId() == itype_stepladder ) {
-        here.furn_set( pnt, furn_f_ladder );
-    } else if( it->typeId() == itype_aluminum_stepladder ) {
-        here.furn_set( pnt, furn_f_aluminum_stepladder );
-    }
-
-    p->i_rem( it );
-
     return 0;
 }
 
@@ -9783,7 +9706,7 @@ cata::optional<int> iuse::electricstorage( Character *p, item *it, bool t, const
 
     item_location storage_card = game_menus::inv::titled_filter_menu(
                                      filter, *p->as_avatar(), _( "Use what storage device?" ),
-                                     _( "You don't have any empty book storage devices." ) );
+                                     -1, _( "You don't have any empty book storage devices." ) );
 
     if( !storage_card ) {
         return cata::nullopt;
@@ -9909,10 +9832,10 @@ cata::optional<int> iuse::ebooksave( Character *p, item *it, bool t, const tripo
     }
 
     const item_location book = game_menus::inv::titled_filter_menu(
-    [&p, &ebooks]( const item & itm ) {
-        return itm.is_book() && p->has_identified( itm.typeId() ) && !ebooks.count( itm.typeId() );
+    [&ebooks]( const item & itm ) {
+        return itm.is_book() && itm.is_scannable() && !ebooks.count( itm.typeId() );
     },
-    *p->as_avatar(), _( "Scan which book?" ) );
+    *p->as_avatar(), _( "Scan which book?" ), PICKUP_RANGE );
 
     if( !book ) {
         p->add_msg_if_player( m_info, _( "Nevermind." ) );

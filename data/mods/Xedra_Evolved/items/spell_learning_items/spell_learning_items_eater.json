@@ -12,6 +12,7 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": ",",
     "color": "brown",
+    "scannable": false,
     "use_action": { "type": "learn_spell", "spells": [ "spring_heeled_leap" ] }
   },
   {
@@ -27,6 +28,7 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "%",
     "color": "dark_gray",
+    "scannable": false,
     "use_action": { "type": "learn_spell", "spells": [ "banish_nether_monsters" ] }
   },
   {
@@ -42,6 +44,7 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "a",
     "color": "green",
+    "scannable": false,
     "use_action": { "type": "learn_spell", "spells": [ "banish_dark_monsters" ] }
   },
   {
@@ -57,6 +60,7 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "o",
     "color": "light_cyan",
+    "scannable": false,
     "use_action": { "type": "learn_spell", "spells": [ "blood_boil" ] }
   },
   {
@@ -64,7 +68,7 @@
     "type": "GENERIC",
     "category": "artifacts",
     "name": { "str": "polaroid of a missing person", "str_pl": "polaroids of a missing person" },
-    "description": "A polaroid of someone you remember that went missing before the Cataclysm.  It caught a ton of media attention because that were seen near what was shortly after identified as a thin place between dimensions.  The more you stare at the picture you begin to see wounds appear and dissapear on the person.  Sometimes they match your wounds that have healed.",
+    "description": "A polaroid of someone you remember that went missing before the Cataclysm.  It caught a ton of media attention because that were seen near what was shortly after identified as a thin place between dimensions.  The more you stare at the picture you begin to see wounds appear and disappear on the person.  Sometimes they match your wounds that have healed.",
     "weight": "50 g",
     "volume": "10 ml",
     "price": 2000,
@@ -72,6 +76,7 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "O",
     "color": "white_magenta",
+    "scannable": false,
     "use_action": { "type": "learn_spell", "spells": [ "self_healing" ] }
   },
   {
@@ -87,6 +92,7 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "C",
     "color": "white_magenta",
+    "scannable": false,
     "use_action": { "type": "learn_spell", "spells": [ "supercoffee" ] }
   },
   {
@@ -96,6 +102,7 @@
     "looks_like": "blindfold",
     "name": { "str": "red devil blindfold" },
     "description": "A red fabric blindfold with a cartoonish devil over the eyes.  You feel some anger when you put it on.  Did that devil just wink at you?",
+    "scannable": false,
     "use_action": { "type": "learn_spell", "spells": [ "spell_rage" ] }
   },
   {
@@ -112,6 +119,7 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "o",
     "color": "red",
+    "scannable": false,
     "use_action": { "type": "learn_spell", "spells": [ "spell_stamina_wonder" ] }
   },
   {
@@ -127,6 +135,7 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "o",
     "color": "green",
+    "scannable": false,
     "use_action": { "type": "learn_spell", "spells": [ "spell_night_vision" ] }
   },
   {
@@ -142,6 +151,7 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "o",
     "color": "red",
+    "scannable": false,
     "use_action": { "type": "learn_spell", "spells": [ "spell_dodge" ] }
   },
   {
@@ -157,6 +167,7 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "@",
     "color": "red",
+    "scannable": false,
     "use_action": { "type": "learn_spell", "spells": [ "spell_endurance" ] }
   },
   {
@@ -172,6 +183,7 @@
     "symbol": "[",
     "looks_like": "ring_purity",
     "color": "brown",
+    "scannable": false,
     "sided": true,
     "armor": [
       {
@@ -197,6 +209,7 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "o",
     "color": "white",
+    "scannable": false,
     "use_action": { "type": "learn_spell", "spells": [ "spell_clairvoyance" ] }
   },
   {
@@ -211,6 +224,7 @@
     "color": "brown",
     "material": [ "forged_dreamstuff" ],
     "looks_like": "book_newage_generic",
+    "scannable": false,
     "use_action": { "type": "learn_spell", "spells": [ "spell_melee_damage" ] }
   },
   {
@@ -232,6 +246,7 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "l",
     "color": "red",
+    "scannable": false,
     "use_action": { "type": "learn_spell", "spells": [ "spell_spear" ] }
   },
   {
@@ -247,6 +262,7 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "0",
     "color": "red",
+    "scannable": false,
     "use_action": { "type": "learn_spell", "spells": [ "spell_speed_wonder" ] }
   },
   {
@@ -262,6 +278,7 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "0",
     "color": "red",
+    "scannable": false,
     "use_action": { "type": "learn_spell", "spells": [ "spell_weak" ] }
   }
 ]

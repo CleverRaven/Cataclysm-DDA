@@ -1548,6 +1548,13 @@ void options_manager::add_options_general()
 
     get_option( "AUTO_NOTES_MAP_EXTRAS" ).setPrerequisite( "AUTO_NOTES" );
 
+    add( "AUTO_NOTES_DROPPED_FAVORITES", "general", to_translation( "Auto notes (dropped favorites)" ),
+         to_translation( "If true, automatically sets notes when player drops favorited items." ),
+         false
+       );
+
+    get_option( "AUTO_NOTES_DROPPED_FAVORITES" ).setPrerequisite( "AUTO_NOTES" );
+
     add_empty_line();
 
     add( "CIRCLEDIST", "general", to_translation( "Circular distances" ),
@@ -1685,6 +1692,12 @@ void options_manager::add_options_interface()
                          "Key code is currently WIP and bypasses IMEs, caps lock, and num lock." ),
     { { "keychar", to_translation( "Symbol" ) }, { "keycode", to_translation( "Key code" ) } },
     "keychar", COPT_CURSES_HIDE );
+
+    add( "USE_PINYIN_SEARCH", "interface", to_translation( "Use pinyin in search" ),
+         to_translation( "If true, pinyin (pronunciation of Chinese characters) can be used in searching/filtering "
+                         "(may cause major slowdown when searching through too many entries.)" ),
+         false
+       );
 
     add( "FORCE_CAPITAL_YN", "interface",
          to_translation( "Force capital/modified letters in prompts" ),
@@ -1950,6 +1963,12 @@ void options_manager::add_options_interface()
          true
        );
 
+    add( "ASTERISK_POSITION", "interface", to_translation( "Favorited item's mark position" ),
+         to_translation( "Where to place mark of the favorited item (asterisk): before item's name (prefix) or after item's name (suffix)." ),
+    { { "prefix", to_translation( "Prefix" ) }, { "suffix", to_translation( "Suffix" ) } },
+    "right"
+       );
+
     add_empty_line();
 
     add( "ENABLE_JOYSTICK", "interface", to_translation( "Enable joystick" ),
@@ -2168,9 +2187,12 @@ void options_manager::add_options_graphics()
     get_option( "USE_TILES_OVERMAP" ).setPrerequisite( "USE_TILES" );
 
     std::vector<options_manager::id_and_option> om_tilesets = build_tilesets_list();
-    // filter out SmashButton_iso from overmap tilesets
+    // filter out iso tilesets from overmap tilesets
     om_tilesets.erase( std::remove_if( om_tilesets.begin(), om_tilesets.end(), []( const auto & it ) {
-        return it.first == "SmashButton_iso";
+        static const std::string iso_suffix = "_iso";
+        const std::string &id = it.first;
+        return id.size() >= iso_suffix.size() &&
+               id.compare( id.size() - iso_suffix.size(), iso_suffix.size(), iso_suffix ) == 0;
     } ), om_tilesets.end() );
 
     add( "OVERMAP_TILES", "graphics", to_translation( "Choose overmap tileset" ),
@@ -2618,23 +2640,34 @@ void options_manager::add_options_debug()
 
     add_empty_line();
 
-    add( "RETRACT_ISO_WALLS", "debug", to_translation( "Draw walls retracted in ISO tile-sets" ),
-    to_translation( "Draw walls normal, retracted, or automatically retracting near player." ), {
-        { 0, to_translation( "Normal" ) }, { 1, to_translation( "Retracted" ) },
+    add( "PREVENT_OCCLUSION", "debug", to_translation( "Handle occlusion by high sprites" ),
+    to_translation( "Draw walls normal (Off), retracted/transparent (On), or automatically retracting/transparent near player (Auto)." ), {
+        { 0, to_translation( "Off" ) }, { 1, to_translation( "On" ) },
         { 2, to_translation( "Auto" ) }
-    }, 0, 0
+    }, 2, 2
        );
 
-    add( "RETRACT_DIST_MIN", "debug", to_translation( "Minimum distance for auto-retracting walls" ),
-         to_translation( "Minimum distance for auto-retracting walls.  Values above zero overwrite tileset settings." ),
+    add( "PREVENT_OCCLUSION_TRANSP", "debug", to_translation( "Prevent occlusion via transparency" ),
+         to_translation( "Prevent occlusion by using semi-transparent sprites." ),
+         true
+       );
+
+    add( "PREVENT_OCCLUSION_RETRACT", "debug", to_translation( "Prevent occlusion via retraction" ),
+         to_translation( "Prevent occlusion by retracting high sprites." ),
+         true
+       );
+
+    add( "PREVENT_OCCLUSION_MIN_DIST", "debug",
+         to_translation( "Minimum distance for auto occlusion handling" ),
+         to_translation( "Minimum distance for auto occlusion handling.  Values above zero overwrite tileset settings." ),
          0.0, 60.0, 0.0, 0.1
        );
 
-    add( "RETRACT_DIST_MAX", "debug", to_translation( "Maximum distance for auto-retracting walls" ),
-         to_translation( "Maximum distance for auto-retracting walls.  Values above zero overwrite tileset settings." ),
+    add( "PREVENT_OCCLUSION_MAX_DIST", "debug",
+         to_translation( "Maximum distance for auto occlusion handling" ),
+         to_translation( "Maximum distance for auto .  Values above zero overwrite tileset settings." ),
          0.0, 60.0, 0.0, 0.1
        );
-
 
     get_option( "FOV_3D_Z_RANGE" ).setPrerequisite( "FOV_3D" );
 }
@@ -2658,7 +2691,6 @@ void options_manager::add_options_android()
          // take default setting from pre-game settings screen - important as there are issues with Back button on Android 9 with specific devices
          android_get_default_setting( "Trap Back button", true )
        );
-
 
     add( "ANDROID_NATIVE_UI", "android", to_translation( "Use native Android UI menus" ),
          to_translation( "If true, native Android dialogs are used for some in-game menus, "
@@ -3623,9 +3655,11 @@ static void update_options_cache()
     trigdist = ::get_option<bool>( "CIRCLEDIST" );
     use_tiles = ::get_option<bool>( "USE_TILES" );
 
-    tile_retracted = ::get_option<int>( "RETRACT_ISO_WALLS" );
-    tile_retract_dist_min = ::get_option<float>( "RETRACT_DIST_MIN" );
-    tile_retract_dist_max = ::get_option<float>( "RETRACT_DIST_MAX" );
+    prevent_occlusion = ::get_option<int>( "PREVENT_OCCLUSION" );
+    prevent_occlusion_retract = ::get_option<bool>( "PREVENT_OCCLUSION_RETRACT" );
+    prevent_occlusion_transp = ::get_option<bool>( "PREVENT_OCCLUSION_TRANSP" );
+    prevent_occlusion_min_dist = ::get_option<float>( "PREVENT_OCCLUSION_MIN_DIST" );
+    prevent_occlusion_max_dist = ::get_option<float>( "PREVENT_OCCLUSION_MAX_DIST" );
 
     // if the tilesets are identical don't duplicate
     use_far_tiles = ::get_option<bool>( "USE_DISTANT_TILES" ) ||
@@ -3637,6 +3671,7 @@ static void update_options_cache()
     fov_3d = ::get_option<bool>( "FOV_3D" );
     fov_3d_z_range = ::get_option<int>( "FOV_3D_Z_RANGE" );
     keycode_mode = ::get_option<std::string>( "SDL_KEYBOARD_MODE" ) == "keycode";
+    use_pinyin_search = ::get_option<bool>( "USE_PINYIN_SEARCH" );
 }
 
 bool options_manager::save() const

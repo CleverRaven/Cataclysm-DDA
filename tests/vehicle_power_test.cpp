@@ -24,7 +24,6 @@ static const vproto_id vehicle_prototype_scooter_electric_test( "scooter_electri
 static const vproto_id vehicle_prototype_scooter_test( "scooter_test" );
 static const vproto_id vehicle_prototype_solar_panel_test( "solar_panel_test" );
 
-
 // TODO: Move this into player_helpers to avoid character include.
 static void reset_player()
 {
@@ -120,7 +119,7 @@ TEST_CASE( "Solar power", "[vehicle][power]" )
         WHEN( "30 minutes elapse" ) {
             veh_ptr->update_time( calendar::turn + 30_minutes );
             int power = veh_ptr->fuel_left( fuel_type_battery );
-            CHECK( power == Approx( 182 ).margin( 1 ) );
+            CHECK( power == Approx( 184 ).margin( 1 ) );
         }
     }
 
@@ -131,7 +130,6 @@ TEST_CASE( "Solar power", "[vehicle][power]" )
                                                0 );
         REQUIRE( veh_ptr != nullptr );
         REQUIRE( veh_2_ptr != nullptr );
-
 
         calendar::turn = calendar::turn_zero + 1_days;
         veh_ptr->update_time( calendar::turn );
@@ -174,7 +172,7 @@ TEST_CASE( "Daily solar power", "[vehicle][power]" )
         WHEN( "24 hours pass" ) {
             veh_ptr->update_time( calendar::turn + 24_hours );
             int power = veh_ptr->fuel_left( fuel_type_battery );
-            CHECK( power == Approx( 5184 ).margin( 1 ) );
+            CHECK( power == Approx( 5259 ).margin( 1 ) );
         }
     }
 
@@ -186,7 +184,7 @@ TEST_CASE( "Daily solar power", "[vehicle][power]" )
         WHEN( "24 hours pass" ) {
             veh_ptr->update_time( calendar::turn + 24_hours );
             int power = veh_ptr->fuel_left( fuel_type_battery );
-            CHECK( power == Approx( 7863 ).margin( 1 ) );
+            CHECK( power == Approx( 7925 ).margin( 1 ) );
         }
     }
 
@@ -198,7 +196,7 @@ TEST_CASE( "Daily solar power", "[vehicle][power]" )
         WHEN( "24 hours pass" ) {
             veh_ptr->update_time( calendar::turn + 24_hours );
             int power = veh_ptr->fuel_left( fuel_type_battery );
-            CHECK( power == Approx( 5098 ).margin( 1 ) );
+            CHECK( power == Approx( 5138 ).margin( 1 ) );
         }
     }
 
@@ -210,11 +208,10 @@ TEST_CASE( "Daily solar power", "[vehicle][power]" )
         WHEN( "24 hours pass" ) {
             veh_ptr->update_time( calendar::turn + 24_hours );
             int power = veh_ptr->fuel_left( fuel_type_battery );
-            CHECK( power == Approx( 2074 ).margin( 1 ) );
+            CHECK( power == Approx( 2137 ).margin( 1 ) );
         }
     }
 }
-
 
 TEST_CASE( "maximum reverse velocity", "[vehicle][power][reverse]" )
 {

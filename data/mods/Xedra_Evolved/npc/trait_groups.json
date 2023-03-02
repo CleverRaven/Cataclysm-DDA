@@ -43,7 +43,7 @@
       { "trait": "GOODMEMORY", "prob": 50 },
       { "trait": "SPIRITUAL", "prob": 50 },
       { "trait": "LOVES_BOOKS", "prob": 50 },
-      { "distribution": [ { "trait": "BADCARDIO" }, { "trait": "CARDIO" } ] },
+      { "distribution": [ { "trait": "BADCARDIO" }, { "trait": "GOODCARDIO" } ] },
       { "trait": "SLOWHEALER", "prob": 50 },
       { "trait": "NIGHTMARE_CHIMERAS", "prob": 100 }
     ]
@@ -60,7 +60,7 @@
       { "trait": "GOODMEMORY", "prob": 50 },
       { "trait": "SPIRITUAL", "prob": 50 },
       { "trait": "LOVES_BOOKS" },
-      { "distribution": [ { "trait": "BADCARDIO" }, { "trait": "CARDIO" } ] },
+      { "distribution": [ { "trait": "BADCARDIO" }, { "trait": "GOODCARDIO" } ] },
       { "trait": "FRIENDLY_CHIMERAS", "prob": 100 }
     ]
   }
