@@ -12760,7 +12760,13 @@ bool item::process_cable( map &here, Character *carrier, const tripoint &pos )
         reset_cable( carrier );
         return false;
     }
-    const std::optional<tripoint> source = get_cable_target( carrier, pos );
+
+    if( state == "needs_reeling" && carrying_item ) {
+        carrier->add_msg_if_player( m_info, _( "You reel in the cable." ) );
+        carrier->moves -= charges * 10;
+        active = false;
+        return has_flag( flag_AUTO_CABLE ) ? true : false;
+    }
     if( !source ) {
         return false;
     }
@@ -12795,12 +12801,14 @@ void item::reset_cable( Character *p )
     erase_var( "source_x" );
     erase_var( "source_y" );
     erase_var( "source_z" );
-    active = false;
     charges = max_charges;
 
     if( p != nullptr ) {
         p->add_msg_if_player( m_info, _( "You reel in the cable." ) );
         p->moves -= charges * 10;
+        active = false;
+    } else {
+        set_var( "state", "needs_reeling" );
     }
 }
 
