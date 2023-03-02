@@ -2725,6 +2725,7 @@ class item : public visitable
         std::list<item *> all_items_top( item_pocket::pocket_type pk_type, bool unloading = false );
 
         item const *this_or_single_content() const;
+        bool contents_only_one_type() const;
 
         /**
          * returns a list of pointers to all items inside recursively
