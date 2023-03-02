@@ -270,6 +270,7 @@ void item_pocket::deserialize( const JsonObject &data )
 void item_pocket::favorite_settings::serialize( JsonOut &json ) const
 {
     json.start_object();
+    json.member( "name", preset_name );
     json.member( "priority", priority_rating );
     json.member( "item_whitelist", item_whitelist );
     json.member( "item_blacklist", item_blacklist );
@@ -284,6 +285,9 @@ void item_pocket::favorite_settings::serialize( JsonOut &json ) const
 void item_pocket::favorite_settings::deserialize( const JsonObject &data )
 {
     data.allow_omitted_members();
+    if( data.has_member( "name" ) ) {
+        data.read( "name", preset_name );
+    }
     data.read( "priority", priority_rating );
     data.read( "item_whitelist", item_whitelist );
     data.read( "item_blacklist", item_blacklist );
