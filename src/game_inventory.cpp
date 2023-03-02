@@ -737,7 +737,8 @@ class comestible_inventory_preset : public inventory_selector_preset
         }
 
         bool is_shown( const item_location &loc ) const override {
-            return loc->is_comestible() && you.can_consume_as_is( *loc );
+            return ( loc->is_comestible() && you.can_consume_as_is( *loc ) ) ||
+                   loc->is_medical_tool();
         }
 
         std::string get_denial( const item_location &loc ) const override {
@@ -760,7 +761,8 @@ class comestible_inventory_preset : public inventory_selector_preset
             }
 
             const item &it = *loc;
-            const ret_val<edible_rating> res = you.can_eat( it );
+            const ret_val<edible_rating> res =
+                it.is_medical_tool() ? ret_val<edible_rating>::make_success() : you.can_eat( it );
 
             if( !res.success() ) {
                 return res.str();
@@ -1032,7 +1034,7 @@ item_location game_menus::inv::consume_meds( avatar &you )
     std::string none_message = you.activity.str_values.size() == 2 ?
                                _( "You have no more medication to consume." ) : _( "You have no medication to consume." );
     return inv_internal( you, comestible_filtered_inventory_preset( you, []( const item & it ) {
-        return it.is_medication();
+        return it.is_medication() || it.is_medical_tool();
     } ),
     _( "Consume medication" ), 1,
     none_message,

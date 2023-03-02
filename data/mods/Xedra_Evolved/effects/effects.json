@@ -334,6 +334,19 @@
     }
   },
   {
+    "id": "eater_lump_pool",
+    "type": "effect_type",
+    "name": [ "Dream Gorging" ],
+    "desc": [
+      "You ate a whole dreamdross ingot.  It is too much for your body, but temporarily you have a +6 to your strength and better regeneration."
+    ],
+    "apply_message": "A huge warm wave moves from your stomach through your body.",
+    "remove_message": "The warm feeling fades away.",
+    "rating": "good",
+    "show_intensity": false,
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 6 }, { "value": "REGEN_HP", "multiply": 1 } ] } ]
+  },
+  {
     "type": "effect_type",
     "id": "blind_rage",
     "name": [ "Blind Rage" ],
