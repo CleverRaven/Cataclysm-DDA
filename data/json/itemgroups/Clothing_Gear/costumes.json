@@ -508,7 +508,12 @@
     "id": "dragonsuit_set",
     "//": "dragon fursuit",
     "subtype": "collection",
-    "entries": [ { "item": "dragonsuit", "prob": 100 }, { "item": "dragonsuit_head", "prob": 100 }, { "item": "dragonsuit_gloves", "prob": 100 }, { "item": "dragonsuit_boots", "prob": 100 } ]
+    "entries": [
+      { "item": "dragonsuit", "prob": 100 },
+      { "item": "dragonsuit_head", "prob": 100 },
+      { "item": "dragonsuit_gloves", "prob": 100 },
+      { "item": "dragonsuit_boots", "prob": 100 }
+    ]
   },
   {
     "type": "item_group",
