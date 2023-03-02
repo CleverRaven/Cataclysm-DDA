@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - 0.G-branch
     paths:
       - '.github/workflows/release.yml'
       - 'android/**'
