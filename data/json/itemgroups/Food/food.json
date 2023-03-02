@@ -219,7 +219,7 @@
       { "item": "can_chowder", "prob": 35 },
       { "item": "can_herring", "prob": 30 },
       { "item": "can_chicken", "prob": 40 },
-      { "item": "brown_bread", "charges": 104, "prob": 20 },
+      { "item": "brown_bread", "charges": 14, "prob": 20 },
       { "item": "broth", "prob": 15 },
       { "item": "crackers", "prob": 10 },
       { "item": "oyster_crackers", "prob": 10 },
