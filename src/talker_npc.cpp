@@ -261,9 +261,9 @@ int talker_npc::trial_chance_mod( const std::string &trial_type ) const
 {
     int chance = 0;
     if( trial_type == "lie" ) {
-        chance += - me_npc->talk_skill() + me_npc->op_of_u.trust * 3;
+        chance += - me_npc->lie_skill() + me_npc->op_of_u.trust * 3;
     } else if( trial_type == "persuade" ) {
-        chance += - static_cast<int>( me_npc->talk_skill() * 0.5 ) +
+        chance += - static_cast<int>( me_npc->persuade_skill() * 0.5 ) +
                   me_npc->op_of_u.trust * 2 + me_npc->op_of_u.value;
     } else if( trial_type == "intimidate" ) {
         chance += - me_npc->intimidation() + me_npc->op_of_u.fear * 2 -

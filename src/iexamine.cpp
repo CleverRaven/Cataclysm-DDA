@@ -286,7 +286,6 @@ bool iexamine::harvestable_now( const tripoint &examp )
     return !hid->is_null() && !hid->empty();
 }
 
-
 /**
  * Pick an appropriate item and apply diamond coating if possible.
  */
@@ -1512,11 +1511,11 @@ void iexamine::chainfence( Character &you, const tripoint &examp )
             move_cost = 300; // Most common move cost for barricades pre-change.
         }
     } else if( you.has_trait( trait_ARACHNID_ARMS_OK ) &&
-               !you.wearing_something_on( bodypart_id( "torso" ) ) ) {
+               !you.wearing_fitting_on( bodypart_id( "torso" ) ) ) {
         add_msg( _( "Climbing this obstacle is trivial for one such as you." ) );
         move_cost = 75; // Yes, faster than walking.  6-8 limbs are impressive.
     } else if( you.has_trait( trait_INSECT_ARMS_OK ) &&
-               !you.wearing_something_on( bodypart_id( "torso" ) ) ) {
+               !you.wearing_fitting_on( bodypart_id( "torso" ) ) ) {
         add_msg( _( "You quickly scale the fence." ) );
         move_cost = 90;
     } else if( you.has_proficiency( proficiency_prof_parkour ) ) {
@@ -1808,8 +1807,8 @@ void iexamine::gunsafe_el( Character &you, const tripoint &examp )
 void iexamine::locked_object( Character &you, const tripoint &examp )
 {
     map &here = get_map();
-    item &best_prying = you.item_with_best_of_quality( qual_PRY, true );
-    item &best_lockpick = you.item_with_best_of_quality( qual_LOCKPICK, true );
+    item &best_prying = you.best_item_with_quality( qual_PRY );
+    item &best_lockpick = you.best_item_with_quality( qual_LOCKPICK );
     const bool has_prying = !best_prying.is_null();
     const bool can_pick = here.has_flag( ter_furn_flag::TFLAG_PICKABLE, examp ) &&
                           ( !best_lockpick.is_null() || you.has_bionic( bio_lockpick ) );
@@ -3642,12 +3641,14 @@ void iexamine::keg( Character &you, const tripoint &examp )
         std::vector<itype_id> drink_types;
         std::vector<std::string> drink_names;
         std::vector<double> drink_rot;
+        std::vector<time_point> drink_bday;
         for( item *&drink : drinks_inv ) {
             auto found_drink = std::find( drink_types.begin(), drink_types.end(), drink->typeId() );
             if( found_drink == drink_types.end() ) {
                 drink_types.push_back( drink->typeId() );
                 drink_names.push_back( item::nname( drink->typeId() ) );
                 drink_rot.push_back( drink->get_relative_rot() );
+                drink_bday.push_back( drink->birthday() );
             } else {
                 auto rot_iter = std::next( drink_rot.begin(), std::distance( drink_types.begin(), found_drink ) );
                 // Yep, worst rot wins.
@@ -3677,7 +3678,7 @@ void iexamine::keg( Character &you, const tripoint &examp )
         //Store liquid chosen in the keg
         itype_id drink_type = drink_types[ drink_index ];
         int charges_held = you.charges_of( drink_type );
-        item drink( drink_type, calendar::turn_zero );
+        item drink( drink_type, drink_bday[ drink_index ] );
         drink.set_relative_rot( drink_rot[ drink_index ] );
         drink.charges = 0;
         bool keg_full = false;

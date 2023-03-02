@@ -30,8 +30,7 @@
       {
         "text": "We need to abandon this camp.",
         "condition": { "npc_at_om_location": "FACTION_CAMP_ANY" },
-        "topic": "TALK_DONE",
-        "effect": "abandon_camp"
+        "topic": "TALK_ABANDON"
       },
       {
         "text": "Show me what needs to be done at the camp.",
@@ -63,10 +62,6 @@
       { "text": "Tell me more about faction camps and food.", "topic": "TALK_CAMP_TUTORIAL_FOOD" },
       { "text": "Tell me more about camp missions.", "topic": "TALK_CAMP_TUTORIAL_MISSIONS" },
       { "text": "Tell me about building a camp.", "topic": "TALK_CAMP_TUTORIAL_BUILDING" },
-      {
-        "text": "Give me a list the locations where faction camps can be built.",
-        "topic": "TALK_ALLY_TUTORIAL_CAMP_LOCATION"
-      },
       { "text": "Give me some advice on building a camp.", "topic": "TALK_CAMP_TUTORIAL_ADVICE" },
       { "text": "I know the basics.  Just tell me what changed.", "topic": "TALK_CAMP_TUTORIAL_CHANGES" },
       { "text": "Never mind, let's go back to talking about camps.", "topic": "TALK_CAMP_GENERAL" },

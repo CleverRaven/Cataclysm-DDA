@@ -351,7 +351,7 @@ std::pair<nutrients, nutrients> Character::compute_nutrient_range(
         tally_max -= byproduct_nutr;
     }
 
-    int charges = comest.count();
+    int charges = rec.makes_amount();
     return { tally_min / charges, tally_max / charges };
 }
 
@@ -1545,7 +1545,9 @@ bool Character::consume_effects( item &food )
     stomach.ingest( ingested );
 
     // update speculative values
-    get_avatar().add_ingested_kcal( ingested.nutr.calories / 1000 );
+    if( is_avatar() ) {
+        get_avatar().add_ingested_kcal( ingested.nutr.calories / 1000 );
+    }
     for( const auto &v : ingested.nutr.vitamins ) {
         // update the estimated values for daily vitamins
         // actual vitamins happen during digestion
@@ -1554,7 +1556,6 @@ bool Character::consume_effects( item &food )
 
     return true;
 }
-
 
 bool Character::can_estimate_rot() const
 {
@@ -1716,12 +1717,13 @@ static bool consume_med( item &target, Character &you )
         you.modify_radiation( comest );
         you.modify_addiction( comest );
         you.modify_morale( target );
+        activate_consume_eocs( you, target );
     } else {
         // Take by mouth
-        you.consume_effects( target );
+        if( !you.consume_effects( target ) ) {
+            activate_consume_eocs( you, target );
+        }
     }
-
-    activate_consume_eocs( you, target );
 
     target.mod_charges( -amount_used );
     return true;

@@ -633,7 +633,8 @@
       "combat-engineer"
     ],
     "map_extra": "mx_helicopter",
-    "flags": [ "HELI_CRASH", "LONE_START" ]
+    "flags": [ "HELI_CRASH", "LONE_START" ],
+    "missions": [ "MISSION_HELICOPTER_CRASH" ]
   },
   {
     "type": "scenario",
