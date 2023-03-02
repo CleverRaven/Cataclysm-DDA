@@ -2004,6 +2004,7 @@ pileus
 pinita
 pinnata
 pinout
+pinyin
 pipebomb
 pipettes
 pipework

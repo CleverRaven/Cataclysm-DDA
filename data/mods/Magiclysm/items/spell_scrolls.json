@@ -526,6 +526,15 @@
   {
     "type": "BOOK",
     "copy-from": "spell_scroll",
+    "id": "spell_scroll_earthshaper_reveal_world_map",
+    "//": "Earthshaper spell",
+    "name": { "str": "Scroll of Reading the Earthbones", "str_pl": "Scrolls of Reading the Earthbone" },
+    "description": "Use magic to reveal nearby terrain .",
+    "use_action": { "type": "learn_spell", "spells": [ "earthshaper_reveal_world_map" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
     "id": "spell_scroll_point_flare",
     "//": "Kelvinist spell",
     "name": { "str": "Scroll of Point Flare", "str_pl": "Scrolls of Point Flare" },

@@ -166,7 +166,7 @@
       {
         "type": "spell",
         "spell_data": { "id": "exodii_weapon_pod", "min_level": 1 },
-        "cooldown": 200,
+        "cooldown": 2,
         "monster_message": "The Exodii quadruped fires its weapon pod!"
       },
       {

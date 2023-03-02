@@ -4766,7 +4766,8 @@
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boy_shorts" ]
     },
-    "flags": [ "SCEN_ONLY" ]
+    "flags": [ "SCEN_ONLY" ],
+    "missions": [ "MISSION_HELICOPTER_PILOT" ]
   },
   {
     "type": "profession",

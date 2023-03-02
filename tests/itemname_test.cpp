@@ -151,8 +151,9 @@ TEST_CASE( "display name includes item contents", "[item][display_name][contents
     quiver.put_in( arrow, item_pocket::pocket_type::CONTAINER );
     // Expect 1 arrow remaining and displayed
     CHECK( quiver.ammo_remaining() == 10 );
+    std::string const arrow_color = get_tag_from_color( arrow.color_in_inventory() );
+    std::string const color_end_tag = "</color>";
     CHECK( quiver.display_name() ==
            "<color_c_light_green>||</color>\u00A0"
-           "test quiver > test wooden broadhead arrows (10)" );
+           "test quiver > " + arrow_color + "test wooden broadhead arrows" + color_end_tag + " (10)" );
 }
-

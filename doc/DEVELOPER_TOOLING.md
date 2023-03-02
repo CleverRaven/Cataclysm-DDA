@@ -37,7 +37,7 @@ On Windows, there is an [AStyle extension for Visual Studio](https://github.com/
 
 2. Go to `Tools` - `Options` - `AStyle Formatter` - `General`.
 
-3. Import `https://github.com/CleverRaven/Cataclysm-DDA/blob/master/msvc-full-features/AStyleExtension-Cataclysm-DDA.cfg` on `Export/Import` tab using `Import` button:
+3. Import `https://raw.githubusercontent.com/CleverRaven/Cataclysm-DDA/master/msvc-full-features/AStyleExtension-Cataclysm-DDA.cfg` on `Export/Import` tab using `Import` button:
 
 ![image](https://user-images.githubusercontent.com/16213433/54817923-1d85c200-4ca9-11e9-95ac-e1f84394429b.png)
 

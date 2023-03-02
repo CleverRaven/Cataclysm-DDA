@@ -672,7 +672,7 @@ Each turn, the player's addictions are processed using either the given `effect_
 {
   "type": "effect_on_condition",
   "id": "EOC_MARLOSS_R_ADDICTION",
-  "condition": { "compare_int": [ { "rand": 800 }, "<", { "u_val": "addiction_intensity", "addiction": "marloss_r", "mod": 20 } ] },
+  "condition": { "compare_num": [ { "rand": 800 }, "<", { "u_val": "addiction_intensity", "addiction": "marloss_r", "mod": 20 } ] },
   "effect": [
     { "u_add_morale": "morale_craving_marloss", "bonus": -5, "max_bonus": -30 },
     { "u_message": "You daydream about luscious pink berries as big as your fist.", "type": "info" },
@@ -680,7 +680,7 @@ Each turn, the player's addictions are processed using either the given `effect_
       "run_eocs": [
         {
           "id": "EOC_MARLOSS_R_ADDICTION_MODFOCUS",
-          "condition": { "compare_int": [ { "u_val": "focus" }, ">", { "const": 40 } ] },
+          "condition": { "compare_num": [ { "u_val": "focus" }, ">", { "const": 40 } ] },
           "effect": { "arithmetic": [ { "u_val": "focus" }, "-=", { "const": 1 } ] }
         }
       ]
@@ -1715,6 +1715,8 @@ Crafting recipes are defined as a JSON object with the following fields:
   "BLIND_EASY",
   "ANOTHERFLAG"
 ],
+"result_eocs": [ {"id": "TEST", "effect": { "u_message": "You feel Test" } } // List of inline effect_on_conditions or effect_on_condition ids that attempt to activate when this recipe is successfully finished.  If a value is provided a result becomes optional, though a name and id will be needed it it is missing.
+], 
 "construction_blueprint": "camp", // an optional string containing an update_mapgen_id.  Used by faction camps to upgrade their buildings
 "on_display": false,         // this is a hidden construction item, used by faction camps to calculate construction times but not available to the player
 "qualities": [               // Generic qualities of tools needed to craft
@@ -2675,7 +2677,7 @@ Unless specified as optional, the following fields are mandatory for parts with 
 
 #### The following optional fields are specific to ENGINEs.
 ```c++
-"power": 15000                // Engine motive power in watts.
+"power": "15000 W"            // Engine motive power in watts.
 "energy_consumption": "55 W"  // Engine power consumption at maximum power in watts.  Defaults to
                               // electrical power and the E_COMBUSTION flag turns it to thermal
                               // power produced from fuel_type.  Should always be larger than "power".
@@ -2980,7 +2982,7 @@ See [GAME_BALANCE.md](GAME_BALANCE.md)'s `MELEE_WEAPONS` section for the criteri
 "pierce" : 0,         // Armor piercing ability when fired
 "range" : 5,          // Range when fired
 "range_multiplier": 2,// Optional field multiplying base gun range
-"dispersion" : 0,     // Inaccuracy of ammo, measured in quarter-degrees
+"dispersion" : 0,     // Inaccuracy of ammo, measured in 100ths of Minutes Of Angle (MOA)
 "shot_count": 5,      // Optional field specifying that this ammo fires multiple projectiles per round, e.g. shot. If present shot_damage must also be specified.
 "shot_damage": { "damage_type": "bullet", "amount": 15 } // Optional field specifying the damage caused by a single projectile fired from this round. If present shot_count must also be specified.
 "shot_spread":        // Optional field specifying the additional dispersion of single projectiles. Only meaningful if shot_count is present.
@@ -3447,12 +3449,12 @@ Guns can be defined like this:
 "ammo": [ "357", "38" ],   // Ammo types accepted for reloading
 "ranged_damage": 0,        // Ranged damage when fired
 "range": 0,                // Range when fired
-"dispersion": 32,          // Inaccuracy of gun, measured in quarter-degrees
+"dispersion": 32,          // Inaccuracy of gun, measured in 100ths of Minutes Of Angle (MOA)
 // When sight_dispersion and aim_speed are present in a gun mod, the aiming system picks the "best"
 // sight to use for each aim action, which is the fastest sight with a dispersion under the current
 // aim threshold.
-"sight_dispersion": 10,    // Inaccuracy of gun derived from the sight mechanism, also in quarter-degrees
-"recoil": 0,               // Recoil caused when firing, in quarter-degrees of dispersion.
+"sight_dispersion": 10,    // Inaccuracy of gun derived from the sight mechanism, measured in 100ths of Minutes Of Angle (MOA)
+"recoil": 0,               // Recoil caused when firing, measured in 100ths of Minutes Of Angle (MOA)
 "durability": 8,           // Resistance to damage/rusting, also determines misfire chance
 "blackpowder_tolerance": 8,// One in X chance to get clogged up (per shot) when firing blackpowder ammunition (higher is better). Optional, default is 8.
 "min_cycle_recoil": 0,     // Minimum ammo recoil for gun to be able to fire more than once per attack.

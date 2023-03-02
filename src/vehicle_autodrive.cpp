@@ -807,7 +807,7 @@ void vehicle::autodrive_controller::precompute_data()
         // initialize car and driver properties
         data.land_ok = driven_veh.valid_wheel_config();
         data.water_ok = driven_veh.can_float();
-        data.air_ok = driven_veh.is_flyable();
+        data.air_ok = driven_veh.has_sufficient_rotorlift();
         data.max_speed_tps = std::min( MAX_SPEED_TPS, driven_veh.safe_velocity() / VMIPH_PER_TPS );
         data.acceleration.resize( data.max_speed_tps );
         for( int speed_tps = 0; speed_tps < data.max_speed_tps; speed_tps++ ) {

@@ -23,7 +23,7 @@
     "item": "foot_crank",
     "durability": 50,
     "description": "A set of bicycle style foot pedals.  If mounted on the same tile as seat, they allow you to move the vehicle at the cost of your stamina.",
-    "power": 360,
+    "power": "360 W",
     "muscle_power_factor": 60,
     "folded_volume": "500 ml",
     "requirements": {
@@ -43,7 +43,7 @@
     "item": "hand_rims",
     "durability": 50,
     "description": "A set of wheelchair style wheels.  If mounted on the same tile as seat, they allow you to move the vehicle at the cost of your stamina.",
-    "power": 180,
+    "power": "180 W",
     "muscle_power_factor": 30,
     "damage_modifier": 50,
     "folded_volume": "500 ml",

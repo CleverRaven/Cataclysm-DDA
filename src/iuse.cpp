@@ -1582,13 +1582,6 @@ cata::optional<int> iuse::petfood( Character *p, item *it, bool, const tripoint 
     } else if( monster *const mon = creatures.creature_at<monster>( *pnt, true ) ) {
         p->mod_moves( -to_moves<int>( 1_seconds ) );
 
-        if( mon->is_hallucination() ) {
-            p->add_msg_if_player( _( "You try to feed the %1$s some %2$s, but it vanishes!" ),
-                                  mon->type->nname(), it->tname() );
-            mon->die( nullptr );
-            return cata::nullopt;
-        }
-
         bool can_feed = false;
         const pet_food_data &petfood = mon->type->petfood;
         const std::set<std::string> &itemfood = it->get_comestible()->petfood;
@@ -1612,6 +1605,13 @@ cata::optional<int> iuse::petfood( Character *p, item *it, bool, const tripoint 
                     _( "Apparently, it's more interested in your flesh than the dog food in your hand!" ) );
                 p->consume_charges( *it, 1 );
             }
+            return cata::nullopt;
+        }
+
+        if( mon->is_hallucination() ) {
+            p->add_msg_if_player( _( "You try to feed the %1$s some %2$s, but it vanishes!" ),
+                                  mon->type->nname(), it->tname() );
+            mon->die( nullptr );
             return cata::nullopt;
         }
 
@@ -2895,20 +2895,14 @@ cata::optional<int> iuse::dig( Character *p, item * /* it */, bool t, const trip
     }
 
     std::vector<construction> const &cnstr = get_constructions();
-    auto build = std::find_if( cnstr.begin(), cnstr.end(), []( const construction & it ) {
+    auto const build = std::find_if( cnstr.begin(), cnstr.end(), []( const construction & it ) {
         return it.str_id == construction_constr_pit;
     } );
-    bool const can_dig_pit = !points_in_radius_where( p->pos_bub(),
-    1, [&build]( tripoint_bub_ms const & pt ) {
-        return can_construct( *build, pt );
-    } ).empty();
-    if( !can_dig_pit ) {
-        build = std::find_if( cnstr.begin(), cnstr.end(), []( const construction & it ) {
-            return it.str_id == construction_constr_pit_shallow;
-        } );
-    }
+    auto const build_shallow = std::find_if( cnstr.begin(), cnstr.end(), []( const construction & it ) {
+        return it.str_id == construction_constr_pit_shallow;
+    } );
 
-    place_construction( build->group );
+    place_construction( { build->group, build_shallow->group } );
 
     return 0;
 }
@@ -2928,7 +2922,7 @@ cata::optional<int> iuse::dig_channel( Character *p, item */* it */, bool t, con
         return it.str_id == construction_constr_water_channel;
     } );
 
-    place_construction( build->group );
+    place_construction( { build->group } );
     return 0;
 }
 
@@ -2947,7 +2941,7 @@ cata::optional<int> iuse::fill_pit( Character *p, item */* it */, bool t, const 
         return it.str_id == construction_constr_fill_pit;
     } );
 
-    place_construction( build->group );
+    place_construction( { build->group } );
     return 0;
 }
 
@@ -9838,8 +9832,8 @@ cata::optional<int> iuse::ebooksave( Character *p, item *it, bool t, const tripo
     }
 
     const item_location book = game_menus::inv::titled_filter_menu(
-    [&p, &ebooks]( const item & itm ) {
-        return itm.is_book() && p->has_identified( itm.typeId() ) && !ebooks.count( itm.typeId() );
+    [&ebooks]( const item & itm ) {
+        return itm.is_book() && itm.is_scannable() && !ebooks.count( itm.typeId() );
     },
     *p->as_avatar(), _( "Scan which book?" ), PICKUP_RANGE );
 

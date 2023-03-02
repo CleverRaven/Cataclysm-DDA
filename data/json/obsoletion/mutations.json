@@ -10,11 +10,11 @@
     "triggers": [
       [
         {
-          "condition": { "compare_int": [ { "u_val": "morale" }, ">", { "const": 20 } ] },
+          "condition": { "compare_num": [ { "u_val": "morale" }, ">", { "const": 20 } ] },
           "msg_off": { "text": "Your glow fades.", "rating": "mixed" }
         },
         {
-          "condition": { "compare_int": [ { "u_val": "hunger" }, ">", { "const": 110 } ] },
+          "condition": { "compare_num": [ { "u_val": "hunger" }, ">", { "const": 110 } ] },
           "msg_off": { "text": "Your glow fades.", "rating": "mixed" }
         }
       ]
