@@ -11200,8 +11200,6 @@ itype_id item::ammo_default( bool conversion ) const
         if( !res.is_empty() ) {
             return res;
         }
-    } else if( has_flag( flag_USE_UPS ) ) {
-        return itype_battery;
     }
 
     return itype_id::NULL_ID();
