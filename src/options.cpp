@@ -2490,7 +2490,7 @@ void options_manager::add_options_world_default()
     add_empty_line();
 
     add( "INITIAL_TIME", "world_default", to_translation( "Initial time" ),
-         to_translation( "Initial starting time of day on character generation." ),
+         to_translation( "Initial starting time of day on character generation. Value -1 randomizes the starting time and overrides scenario setting." ),
          -1, 23, 8
        );
 
