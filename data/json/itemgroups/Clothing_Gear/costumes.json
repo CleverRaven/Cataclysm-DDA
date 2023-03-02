@@ -532,6 +532,11 @@
     "id": "foxsuit_set",
     "//": "fox fursuit",
     "subtype": "collection",
-    "entries": [ { "item": "foxsuit", "prob": 100 }, { "item": "foxsuit_head", "prob": 100 }, { "item": "foxsuit_gloves", "prob": 100 }, { "item": "foxsuit_boots", "prob": 100 } ]
+    "entries": [
+      { "item": "foxsuit", "prob": 100 },
+      { "item": "foxsuit_head", "prob": 100 },
+      { "item": "foxsuit_gloves", "prob": 100 },
+      { "item": "foxsuit_boots", "prob": 100 }
+    ]
   }
 ]
