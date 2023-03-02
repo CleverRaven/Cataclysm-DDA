@@ -1434,7 +1434,8 @@ class item : public visitable
          * Returns false if the item is not destroyed.
          */
         bool process( map &here, Character *carrier, const tripoint &pos, float insulation = 1,
-                      temperature_flag flag = temperature_flag::NORMAL, float spoil_multiplier_parent = 1.0f );
+                      temperature_flag flag = temperature_flag::NORMAL, float spoil_multiplier_parent = 1.0f,
+                      bool recursive = true );
 
         bool leak( map &here, Character *carrier, const tripoint &pos, item_pocket *pocke = nullptr );
 
@@ -1474,6 +1475,7 @@ class item : public visitable
         bool is_food_container() const;      // Ignoring the ability to eat batteries, etc.
         bool is_ammo_container() const; // does this item contain ammo? (excludes magazines)
         bool is_medication() const;            // Is it a medication that only pretends to be food?
+        bool is_medical_tool() const;
         bool is_bionic() const;
         bool is_magazine() const;
         bool is_battery() const;
@@ -1496,6 +1498,7 @@ class item : public visitable
         bool is_tool() const;
         bool is_transformable() const;
         bool is_relic() const;
+        bool is_same_relic( item const &rhs ) const;
         bool is_bucket_nonempty() const;
 
         bool is_brewable() const;

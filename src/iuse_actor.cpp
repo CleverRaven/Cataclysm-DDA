@@ -1204,6 +1204,27 @@ bool firestarter_actor::prep_firestarter_use( const Character &p, tripoint_bub_m
             return false;
         }
     }
+    // Check for an adjacent fire container
+    for( const tripoint_bub_ms &query : here.points_in_radius( pos, 1 ) ) {
+        // Don't ask if we're setting a fire on top of a fireplace
+        // TODO: fix point types
+        if( here.has_flag_furn( "FIRE_CONTAINER", pos.raw() ) ) {
+            break;
+        }
+        // Skip the position we're trying to light on fire
+        if( query == pos ) {
+            continue;
+        }
+        // TODO: fix point types
+        if( here.has_flag_furn( "FIRE_CONTAINER", query.raw() ) ) {
+            if( !query_yn( _( "Are you sure you want to start fire here?  There's a fireplace adjacent." ) ) ) {
+                return false;
+            } else {
+                // Don't ask multiple times if they say no and there are multiple fireplaces
+                break;
+            }
+        }
+    }
     // Check for a brazier.
     bool has_unactivated_brazier = false;
     for( const item &i : here.i_at( pos ) ) {
@@ -3769,7 +3790,10 @@ bool place_trap_actor::is_allowed( Character &p, const tripoint &pos,
     const trap &existing_trap = here.tr_at( pos );
     if( !existing_trap.is_null() ) {
         if( existing_trap.can_see( pos, p ) ) {
-            p.add_msg_if_player( m_info, _( "You can't place a %s there.  It contains a trap already." ),
+            p.add_msg_if_player( m_info,
+                                 existing_trap.is_benign()
+                                 ? _( "You can't place a %s there.  It contains a deployed object already." )
+                                 : _( "You can't place a %s there.  It contains a trap already." ),
                                  name );
         } else {
             p.add_msg_if_player( m_bad, _( "You trigger a %s!" ), existing_trap.name() );

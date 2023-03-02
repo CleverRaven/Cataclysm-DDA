@@ -18,7 +18,7 @@
     "player_display": false,
     "dummy": true,
     "category": [ "HUMAN" ],
-    "types": [ "BIOLUM", "HAIR", "HORNS", "TAIL", "WHISKERS", "WINGS" ],
+    "types": [ "BIOLUM", "HAIR", "HORNS", "TAIL", "WHISKERS", "WINGS", "TUSKS" ],
     "cancels": [ "ARM_FEATHERS", "CF_HAIR", "HAIRROOTS", "INK_GLANDS", "THORNS", "TRANSPIRATION", "WEB_RAPPEL", "WEB_ROPE" ],
     "description": "You don't have any tails, whiskers, horns, or miscellaneous extra bits."
   },
@@ -366,13 +366,13 @@
     "triggers": [
       [
         {
-          "condition": { "compare_int": [ { "u_val": "morale" }, "<", { "const": -50 } ] },
+          "condition": { "compare_num": [ { "u_val": "morale" }, "<", { "const": -50 } ] },
           "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" }
         }
       ],
       [
         {
-          "condition": { "or": [ { "compare_int": [ "hour", "<", { "const": 6 } ] }, { "compare_int": [ "hour", ">", { "const": 21 } ] } ] },
+          "condition": { "or": [ { "compare_num": [ "hour", "<", { "const": 6 } ] }, { "compare_num": [ "hour", ">", { "const": 21 } ] } ] },
           "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" }
         }
       ]
@@ -391,7 +391,7 @@
     "triggers": [
       [
         {
-          "condition": { "and": [ { "compare_int": [ "hour", ">", { "const": 6 } ] }, { "compare_int": [ "hour", "<", { "const": 21 } ] } ] },
+          "condition": { "and": [ { "compare_num": [ "hour", ">", { "const": 6 } ] }, { "compare_num": [ "hour", "<", { "const": 21 } ] } ] },
           "msg_on": { "text": "As the morning comes, you return back to normal.", "rating": "good" }
         }
       ]
@@ -500,7 +500,7 @@
     "category": [ "INSECT", "TROGLOBITE", "RAT" ],
     "enchantments": [
       {
-        "condition": { "compare_int": [ { "u_val": "pos_z" }, "<", { "const": 0 } ] },
+        "condition": { "compare_num": [ { "u_val": "pos_z" }, "<", { "const": 0 } ] },
         "values": [ { "value": "BONUS_BLOCK", "add": 1 }, { "value": "BONUS_DODGE", "add": 1 } ]
       }
     ]
@@ -612,7 +612,7 @@
     "threshreq": [ "THRESH_BATRACHIAN" ],
     "enchantments": [
       {
-        "condition": { "compare_int": [ { "u_val": "pos_z" }, "<", { "const": 0 } ] },
+        "condition": { "compare_num": [ { "u_val": "pos_z" }, "<", { "const": 0 } ] },
         "values": [ { "value": "SLEEPY", "add": 20 } ]
       }
     ]
@@ -4131,7 +4131,7 @@
     "types": [ "TAIL" ],
     "prereqs": [ "TAIL_STUB" ],
     "changes_to": [ "TAIL_FLUFFY", "TAIL_STING", "TAIL_CATTLE", "TAIL_RAT" ],
-    "category": [ "FELINE", "LUPINE", "INSECT", "CHIMERA", "CATTLE", "RAT", "MOUSE" ],
+    "category": [ "FELINE", "LUPINE", "INSECT", "CATTLE", "RAT", "MOUSE" ],
     "restricts_gear": [ "leg_hip_l", "leg_hip_r" ],
     "allowed_items": [ "ALLOWS_TAIL" ],
     "allow_soft_gear": true,
@@ -4236,8 +4236,8 @@
     "prereqs": [ "TAIL_LONG" ],
     "restricts_gear": [ "leg_hip_l", "leg_hip_r" ],
     "allowed_items": [ "ALLOWS_TAIL" ],
-    "category": [ "INSECT", "CHIMERA" ],
-    "threshreq": [ "THRESH_INSECT", "THRESH_CHIMERA" ],
+    "category": [ "INSECT" ],
+    "threshreq": [ "THRESH_INSECT" ],
     "allow_soft_gear": true,
     "attacks": {
       "attack_text_u": "You sting %s with your tail",
@@ -8259,15 +8259,6 @@
     "purifiable": false,
     "starting_trait": true,
     "flags": [ "NYCTOPHOBIA" ]
-  },
-  {
-    "type": "mutation",
-    "id": "PORTAL_RESURRECTION",
-    "name": { "str": "Marked" },
-    "description": "Sometimes when your mind wanders you can feel something inside yourself, deeper than any mere physical sensation.  Your mind wants to call it a lifeline or a tendril or a leash.  Whatever it is, something much bigger than you has an interest in your success.",
-    "points": 0,
-    "valid": false,
-    "purifiable": false
   },
   {
     "type": "mutation",

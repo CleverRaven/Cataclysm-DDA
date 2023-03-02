@@ -2895,20 +2895,14 @@ cata::optional<int> iuse::dig( Character *p, item * /* it */, bool t, const trip
     }
 
     std::vector<construction> const &cnstr = get_constructions();
-    auto build = std::find_if( cnstr.begin(), cnstr.end(), []( const construction & it ) {
+    auto const build = std::find_if( cnstr.begin(), cnstr.end(), []( const construction & it ) {
         return it.str_id == construction_constr_pit;
     } );
-    bool const can_dig_pit = !points_in_radius_where( p->pos_bub(),
-    1, [&build]( tripoint_bub_ms const & pt ) {
-        return can_construct( *build, pt );
-    } ).empty();
-    if( !can_dig_pit ) {
-        build = std::find_if( cnstr.begin(), cnstr.end(), []( const construction & it ) {
-            return it.str_id == construction_constr_pit_shallow;
-        } );
-    }
+    auto const build_shallow = std::find_if( cnstr.begin(), cnstr.end(), []( const construction & it ) {
+        return it.str_id == construction_constr_pit_shallow;
+    } );
 
-    place_construction( build->group );
+    place_construction( { build->group, build_shallow->group } );
 
     return 0;
 }
@@ -2928,7 +2922,7 @@ cata::optional<int> iuse::dig_channel( Character *p, item */* it */, bool t, con
         return it.str_id == construction_constr_water_channel;
     } );
 
-    place_construction( build->group );
+    place_construction( { build->group } );
     return 0;
 }
 
@@ -2947,7 +2941,7 @@ cata::optional<int> iuse::fill_pit( Character *p, item */* it */, bool t, const 
         return it.str_id == construction_constr_fill_pit;
     } );
 
-    place_construction( build->group );
+    place_construction( { build->group } );
     return 0;
 }
 

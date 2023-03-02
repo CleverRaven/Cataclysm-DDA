@@ -155,7 +155,7 @@ bool map::build_transparency_cache( const int zlev )
                 return std::make_pair( value, value_wo_fields );
             };
 
-            if( cur_submap->is_uniform ) {
+            if( cur_submap->is_uniform() ) {
                 float value;
                 float dummy;
                 std::tie( value, dummy ) = calc_transp( sm_offset );

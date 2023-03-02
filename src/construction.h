@@ -119,7 +119,7 @@ const std::vector<construction> &get_constructions();
 //! Set all constructions to take the specified time.
 void standardize_construction_times( int time );
 
-void place_construction( const construction_group_str_id &group );
+void place_construction( std::vector<construction_group_str_id> const &groups );
 void load_construction( const JsonObject &jo );
 void reset_constructions();
 construction_id construction_menu( bool blueprint );
