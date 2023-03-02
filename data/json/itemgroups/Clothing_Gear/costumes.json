@@ -472,7 +472,12 @@
     "id": "wolfsuit_set",
     "//": "wolf fursuit",
     "subtype": "collection",
-    "entries": [ { "item": "wolfsuit", "prob": 100 }, { "item": "wolfsuit_head", "prob": 100 }, { "item": "wolfsuit_gloves", "prob": 100 }, { "item": "wolfsuit_boots", "prob": 100 } ]
+    "entries": [
+      { "item": "wolfsuit", "prob": 100 },
+      { "item": "wolfsuit_head", "prob": 100 },
+      { "item": "wolfsuit_gloves", "prob": 100 },
+      { "item": "wolfsuit_boots", "prob": 100 }
+    ]
   },
   {
     "type": "item_group",
