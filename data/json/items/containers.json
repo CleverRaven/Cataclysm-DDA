@@ -3329,5 +3329,63 @@
     ],
     "qualities": [ [ "CONTAIN", 1 ] ],
     "flags": [ "COLLAPSE_CONTENTS" ]
+  },
+  {
+    "id": "box_retool",
+    "copy-from": "box_medium",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "caliber retool kit" },
+    "description": "a sturdy and long cardboard box, neatly stamped with branded manufacturer’s markings, lines of printed information, and contact details for a service that likely stopped existing along with its customers.",
+    "volume": "11700 ml",
+    "longest_side": "52 cm",
+    "//": "(15x15x52)",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "11500 ml",
+        "max_contains_weight": "50 kg",
+        "max_item_length": "50 cm"
+      }
+    ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "kit_300aac_ar",
+        "name": { "str": "caliber retool kit" },
+        "description": "The stylized image of a rifle’s upper receiver adorns the box’s front, with large text promising the inclusion of all the necessary parts required to convert AR-pattern weapons to fire the.300 AAC Blackout cartridge.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "kit_9mm_ar",
+        "name": { "str": "caliber retool kit" },
+        "description": "The stylized image of a carbine's upper receiver adorns the box’s front, with large text promising the inclusion of all the necessary parts required to convert AR-pattern weapons to fire the 9x19mm pistol cartridge.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "kit_22lr_ar",
+        "name": { "str": "caliber retool kit" },
+        "description": "The stylized image of a carbine's upper receiver adorns the box’s front, with large text promising the inclusion of all the necessary parts required to convert AR-pattern weapons to fire the .22 LR cartridge.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "kit_cmmg57_ar",
+        "name": { "str": "caliber retool kit" },
+        "description": "The stylized image of a rifle’s upper receiver adorns the box’s front, with large text promising the inclusion of all the necessary parts required to convert AR-pattern weapons to fire the 5.7x28mm PDW cartridge.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "kit_fn57_ar",
+        "name": { "str": "caliber retool kit" },
+        "description": "The stylized image of a rifle’s upper receiver adorns the box’s front, with large text promising the inclusion of all the necessary parts required to convert AR-pattern weapons to fire the 5.7x28mm PDW cartridge.",
+        "weight": 10,
+        "append": true
+      }
+    ]
   }
 ]
