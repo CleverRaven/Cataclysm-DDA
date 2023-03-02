@@ -484,7 +484,12 @@
     "id": "dinosuit_set",
     "//": "dino fursuit",
     "subtype": "collection",
-    "entries": [ { "item": "dinosuit", "prob": 100 }, { "item": "dinosuit_head", "prob": 100 }, { "item": "dinosuit_gloves", "prob": 100 }, { "item": "dinosuit_boots", "prob": 100 } ]
+    "entries": [
+      { "item": "dinosuit", "prob": 100 },
+      { "item": "dinosuit_head", "prob": 100 },
+      { "item": "dinosuit_gloves", "prob": 100 },
+      { "item": "dinosuit_boots", "prob": 100 }
+    ]
   },
   {
     "type": "item_group",
