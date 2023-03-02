@@ -2,7 +2,7 @@
   {
     "type": "effect_on_condition",
     "id": "eoc_artifact_spawn",
-    "condition": { "compare_int": [ { "u_val": "vitamin", "name": "creative_spark" }, ">=", { "const": 1 } ] },
+    "condition": { "compare_num": [ { "u_val": "vitamin", "name": "creative_spark" }, ">=", { "const": 1 } ] },
     "effect": [
       { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "1 seconds" },
       { "arithmetic": [ { "u_val": "vitamin", "name": "creative_spark" }, "-=", { "const": 1 } ] },

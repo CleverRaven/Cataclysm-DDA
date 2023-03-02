@@ -755,8 +755,7 @@
       [ "motorcycle_enduro", 50 ],
       [ "superbike", 50 ],
       [ "motorcycle_sidecart", 50 ],
-      [ "car_sports", 30 ],
-      [ "underlift_tow_truck", 10 ]
+      [ "car_sports", 30 ]
     ]
   },
   {

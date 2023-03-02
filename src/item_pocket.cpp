@@ -1497,10 +1497,20 @@ bool item_pocket::can_reload_with( const item &ammo, const bool now ) const
     if( ammo.has_flag( flag_SPEEDLOADER ) ) {
         // The speedloader needs to be compatible,
         // The ammo in it needs to be compatible,
-        // and the pocket needs to be empty (except casings)
+        // and the opcket needs to have enough space (except casings)
         return allows_speedloader( ammo.typeId() ) &&
                is_compatible( ammo.loaded_ammo() ).success() &&
                ( remaining_ammo_capacity( ammo.loaded_ammo().ammo_type() ) >= ammo.ammo_remaining() );
+    }
+
+    if( ammo.has_flag( flag_SPEEDLOADER_CLIP ) ) {
+        // The speedloader clip needs to be compatible,
+        // The ammo in it needs to be compatible,
+        // and the pocket don't needs have enough space (except casings(if any))
+        return allows_speedloader( ammo.typeId() ) &&
+               is_compatible( ammo.loaded_ammo() ).success() &&
+               ( remaining_ammo_capacity( ammo.loaded_ammo().ammo_type() ) + ammo_capacity(
+                     ammo.loaded_ammo().ammo_type() ) > ammo_capacity( ammo.loaded_ammo().ammo_type() ) );
     }
 
     if( !is_compatible( ammo ).success() ) {
@@ -1778,23 +1788,23 @@ void item_pocket::leak( map &here, Character *carrier, const tripoint &pos, item
             }
             item *it = &*iter;
 
-            if( pocke ) {
+            if( pocke != nullptr ) {
                 if( pocke->watertight() ) {
                     ++iter;
                     continue;
                 }
                 pocke->add( *it );
-                contents.erase( iter );
             } else {
                 iter->unset_flag( flag_FROM_FROZEN_LIQUID );
                 iter->on_drop( pos );
                 here.add_item_or_charges( pos, *iter );
-                contents.erase( iter );
                 carrier->add_msg_if_player( _( "Liquid leaked out from the %s and dripped onto the ground!" ),
                                             this->get_name() );
             }
+            iter = contents.erase( iter );
+        } else {
+            ++iter;
         }
-        ++iter;
     }
 }
 

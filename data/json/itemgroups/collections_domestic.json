@@ -159,6 +159,7 @@
       { "item": "jar_3l_glass_sealed", "prob": 40 },
       { "item": "flotation_vest", "prob": 1 },
       { "item": "fishing_rod_professional", "prob": 2 },
+      { "item": "portable_stove", "prob": 1, "container-item": "nylon_bag", "sealed": false },
       { "item": "bearing", "prob": 1, "charges": [ 1, 50 ] },
       { "item": "atomic_light", "prob": 1 },
       { "item": "atomic_lamp", "prob": 1 },

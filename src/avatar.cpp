@@ -217,6 +217,7 @@ void avatar::control_npc_menu()
         }
     }
     if( followers.empty() ) {
+        popup( _( "There's no one to take control of!" ) );
         return;
     }
     charmenu.w_y_setup = 0;

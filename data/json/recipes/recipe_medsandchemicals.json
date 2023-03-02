@@ -1089,7 +1089,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "chem_black_powder",
-    "id_suffix": "sulpherless",
+    "id_suffix": "sulfurless",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_COMPONENTS",
     "skill_used": "chemistry",

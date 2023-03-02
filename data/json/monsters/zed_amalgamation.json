@@ -175,7 +175,8 @@
       {
         "type": "spell",
         "spell_data": { "id": "create_noise", "hit_self": true },
-        "monster_message": "The amalgamation screams!"
+        "monster_message": "The amalgamation screams!",
+        "cooldown": 12
       }
     ],
     "vision_day": 60,
