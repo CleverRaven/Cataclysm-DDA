@@ -14,8 +14,8 @@
     "copy-from": "mon_cat",
     "name": { "str": "liquid cat" },
     "description": "It is universally known that cats are liquid, but this cat's body is actually quivering while it walks around.  It also enjoys resting while twisting its body in ways that would break a normal cat's bones.",
-	"phase": "LIQUID",
-	"harvest": "exempt",
+    "phase": "LIQUID",
+    "harvest": "exempt",
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s's body splashes one last time." }
   },
   {
