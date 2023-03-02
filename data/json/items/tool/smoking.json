@@ -16,7 +16,7 @@
     "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
     "charges_per_use": 1,
-    "power_draw": "7500 mJ",
+    "power_draw": "7500 mW",
     "use_action": [ "ECIG" ],
     "pocket_data": [
       {

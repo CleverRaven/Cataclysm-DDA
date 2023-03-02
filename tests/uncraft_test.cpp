@@ -90,7 +90,6 @@ static int uncraft_yield( Character &they, const itype_id whole_itype, const ity
     return yield[part_itype];
 }
 
-
 // When a "recipe" or "uncraft" has a "difficulty" and "skill_used", recovery of components when
 // disassembling from that recipe/uncraft may fail, depending on the skill level of the character
 // doing disassembly.
@@ -169,7 +168,6 @@ TEST_CASE( "uncraft difficulty and character skill", "[uncraft][difficulty][skil
         CHECK( uncraft_yield( they, decon_it, part_it, 10, 4 ) == Approx( 1000 ).margin( margin ) );
     }
 }
-
 
 // Item damage_level (0-4) affects chance of successfully recovering components from disassembly.
 // The rate of successful component recovery for each damage level is:

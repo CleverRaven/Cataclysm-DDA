@@ -398,7 +398,6 @@ class JsonArray : JsonWithPath
             return size() == 0;
         }
 
-
         JsonValue operator[]( size_t idx ) const;
 
         std::string get_string( size_t idx ) const;
