@@ -7288,8 +7288,8 @@
       { "point": [ 2, 2, 2 ], "overmap": "p_resort_rse_north" }
     ],
     "connections": [
-      { "point": [ 1, 4, 0 ], "terrain": "road", "connection": "local_road" },
-      { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road" }
+      { "point": [ 1, 4, 0 ], "terrain": "road", "connection": "local_road", "from": [ 1, 3, 0 ] },
+      { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] }
     ],
     "locations": [ "wilderness" ],
     "city_distance": [ 8, 40 ],
