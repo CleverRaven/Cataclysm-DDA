@@ -50,7 +50,9 @@
       { "item": "boxer_shorts" },
       { "item": "socks_wool" },
       { "item": "dinosuit" },
-      { "item": "boots_winter" },
+      { "item": "dinosuit_head" },
+      { "item": "dinosuit_gloves" },
+      { "item": "dinosuit_boots" },
       { "item": "coat_winter" }
     ]
   },
