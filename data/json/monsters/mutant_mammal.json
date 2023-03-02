@@ -39,7 +39,7 @@
     ],
     "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
     "fear_triggers": [ "SOUND" ],
-    "harvest": "mutant_mammal_large_fur",
+    "harvest": "cerbearus_with_skulls",
     "families": [ "prof_intro_biology" ],
     "zombify_into": "mon_meat_cocoon_med",
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "BASHES", "PUSH_MON", "STUMBLES", "KEENNOSE" ]
@@ -334,7 +334,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 4,
     "vision_night": 15,
-    "harvest": "mutant_mammal_large_leather",
+    "harvest": "spideer_with_skull",
     "families": [ "prof_intro_biology" ],
     "path_settings": { "max_dist": 10 },
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
@@ -591,7 +591,7 @@
     "species": [ "MAMMAL" ],
     "volume": "30000 ml",
     "weight": "30 kg",
-    "harvest": "mutant_mammal_small_fur",
+    "harvest": "dog_triclopean_with_skull",
     "families": [ "prof_intro_biology" ],
     "hp": 30,
     "speed": 150,
@@ -642,6 +642,7 @@
     "copy-from": "mon_dog_auscattle_pup",
     "name": { "str": "triclopean puppy", "str_pl": "triclopean puppies" },
     "description": "A rather cuddly looking pup despite the third eye on its forehead, which has yet to actually open.  Particles of dust from the floor occasionally shift towards it when its excited.",
+    "harvest": "mammal_tiny",
     "upgrades": { "age_grow": 42, "into": "mon_dog_telekenetic" }
   },
   {

@@ -1635,6 +1635,7 @@ void advanced_inventory::display()
 
         if( ui ) {
             ui->invalidate_ui();
+            g->invalidate_main_ui_adaptor();
             ui_manager::redraw_invalidated();
         }
 
