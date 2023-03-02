@@ -105,6 +105,7 @@ static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_speech( "speech" );
 
 static const trait_id trait_DEBUG_MIND_CONTROL( "DEBUG_MIND_CONTROL" );
+static const trait_id trait_PROF_CHURL( "PROF_CHURL" );
 static const trait_id trait_PROF_FOODP( "PROF_FOODP" );
 
 static const zone_type_id zone_type_NPC_INVESTIGATE_ONLY( "NPC_INVESTIGATE_ONLY" );
@@ -1056,6 +1057,19 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         return string_format(
                    _( "&You are mute and can't talk.  When you don't respond, %s becomes angry!" ),
                    actor( true )->disp_name() );
+    } else if( topic == "TALK_CHURL" ) {
+        return string_format(
+                   _( "&Thou art but a lowley churl and ye know not this newe tongue.  %s seems unable to understand what you're saying." ),
+                   actor( true )->disp_name() );
+
+    } else if( topic == "TALK_CHURL_ANGRY" ) {
+        return string_format(
+                   _( "&Thou art but a lowley churl and ye know not this newe tongue.  Unable to understand your dialect, %s becomes angry!" ),
+                   actor( true )->disp_name() );
+    } else if( topic == "TALK_CHURL_TRADE" ) {
+        return string_format(
+                   _( "&Thou art but a lowley churl wyth litel understonding of this newe langage, yet %s can understand you and seems willing to trade!" ),
+                   actor( true )->disp_name() );
     }
     avatar &player_character = get_avatar();
     if( topic == "TALK_SEDATED" ) {
@@ -1396,6 +1410,14 @@ void dialogue::gen_responses( const talk_topic &the_topic )
     if( actor( false )->has_trait( trait_DEBUG_MIND_CONTROL ) && !actor( true )->is_player_ally() ) {
         add_response( _( "OBEY ME!" ), "TALK_MIND_CONTROL" );
         add_response_done( _( "Bye." ) );
+    }
+
+    if( player_character.has_trait( trait_PROF_CHURL ) && ( actor( true )->get_npc_trust() >= 0 ) &&
+        ( actor( true )->get_npc_anger() <= 0 ) && ( actor( true )->int_cur() >= 9 ) &&
+        !( the_topic.id == "TALK_CHURL_FRIENDLY" ) ) {
+        add_response( _( "Ho there, otherwyrldly devyl!  Have yow ware for to chaffare?" ),
+                      "TALK_CHURL_FRIENDLY" );
+        add_response_done( _( "Farewell!" ) );
     }
 
     if( responses.empty() ) {

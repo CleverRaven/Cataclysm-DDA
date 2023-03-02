@@ -1267,5 +1267,98 @@
     "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
     "flags": [ "WATER_FRIENDLY", "OVERSIZE", "BELTED", "PALS_SMALL" ],
     "armor": [ { "coverage": 25, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
+  },
+  {
+    "id": "belt_loop_small",
+    "type": "ARMOR",
+    "repairs_like": "legrig",
+    "name": { "str": "small belt loop" },
+    "description": "A MOLLE-compatible loop for attaching small tools to a load-bearing vest.",
+    "weight": "25 g",
+    "volume": "25 ml",
+    "price": 1000,
+    "price_postapoc": 100,
+    "to_hit": 1,
+    "bashing": 1,
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "looks_like": "leather_pouch",
+    "color": "brown",
+    "material_thickness": 1,
+    "pocket_data": [
+      {
+        "holster": true,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "500 g",
+        "max_item_length": "30 cm",
+        "moves": 50,
+        "flag_restriction": [ "BELT_CLIP" ],
+        "volume_encumber_modifier": 0.3
+      }
+    ],
+    "flags": [ "CANT_WEAR", "WATER_FRIENDLY", "PALS_SMALL" ],
+    "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "torso" ] } ]
+  },
+  {
+    "id": "belt_loop_medium",
+    "type": "ARMOR",
+    "repairs_like": "legrig",
+    "name": { "str": "medium belt loop" },
+    "description": "A MOLLE-compatible loop for attaching tools and some weapons to a load-bearing vest.",
+    "weight": "50 g",
+    "volume": "50 ml",
+    "price": 1000,
+    "price_postapoc": 100,
+    "to_hit": 1,
+    "bashing": 1,
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "looks_like": "leather_pouch",
+    "color": "brown",
+    "material_thickness": 1,
+    "pocket_data": [
+      {
+        "holster": true,
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "1500 g",
+        "max_item_length": "60 cm",
+        "moves": 50,
+        "flag_restriction": [ "BELT_CLIP" ],
+        "volume_encumber_modifier": 0.3
+      }
+    ],
+    "flags": [ "CANT_WEAR", "WATER_FRIENDLY", "PALS_MEDIUM" ],
+    "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "torso" ] } ]
+  },
+  {
+    "id": "belt_loop_large",
+    "type": "ARMOR",
+    "repairs_like": "legrig",
+    "name": { "str": "large belt loop" },
+    "description": "A MOLLE-compatible loop for attaching large tools and weapons to a load-bearing vest.",
+    "weight": "100 g",
+    "volume": "100 ml",
+    "price": 1000,
+    "price_postapoc": 100,
+    "to_hit": 1,
+    "bashing": 1,
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "looks_like": "leather_pouch",
+    "color": "brown",
+    "material_thickness": 1,
+    "pocket_data": [
+      {
+        "holster": true,
+        "max_contains_volume": "2000 ml",
+        "max_contains_weight": "6000 g",
+        "max_item_length": "100 cm",
+        "moves": 50,
+        "flag_restriction": [ "BELT_CLIP" ],
+        "volume_encumber_modifier": 0.3
+      }
+    ],
+    "flags": [ "CANT_WEAR", "WATER_FRIENDLY", "PALS_LARGE" ],
+    "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "torso" ] } ]
   }
 ]

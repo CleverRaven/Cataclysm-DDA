@@ -376,7 +376,7 @@
     "id": "paperback_romance_cloven",
     "type": "BOOK",
     "name": { "str": "Cloven Kisses", "str_pl": "copies of Cloven Kisses" },
-    "description": "When the devil falls in love with a warlock, his proposal must be infernally wicked.  Will hooves, horns, and the scent of sulphur condemn love's flames to hellfire?",
+    "description": "When the devil falls in love with a warlock, his proposal must be infernally wicked.  Will hooves, horns, and the scent of sulfur condemn love's flames to hellfire?",
     "copy-from": "paperback_romance_lnl",
     "relative": { "chapters": -2 }
   },
