@@ -322,13 +322,8 @@
       { "item": "bodysuit_lycra", "prob": 25 },
       { "item": "suit", "prob": 10 },
       { "item": "tux", "prob": 10 },
-      { "item": "wolfsuit", "prob": 10 },
-      { "item": "clown_suit", "prob": 10 },
-      { "item": "dragonsuit", "prob": 10 },
-      { "item": "felinesuit", "prob": 10 },
+      { "group": "fursuit_set_any", "prob": 25 },
       { "item": "bondage_suit", "prob": 15 },
-      { "item": "dinosuit", "prob": 10 },
-      { "item": "sharksuit", "prob": 10 },
       { "item": "beekeeping_suit", "prob": 5 },
       { "item": "zentai", "prob": 5 }
     ]
@@ -457,5 +452,61 @@
       [ "wakizashi_inferior", 8 ],
       [ "kris_fake", 8 ]
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "fursuit_set_any",
+    "//": "clothing sets for any fursuit",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "wolfsuit_set", "prob": 16 },
+      { "group": "dinosuit_set", "prob": 16 },
+      { "group": "sharksuit_set", "prob": 16 },
+      { "group": "dragonsuit_set", "prob": 16 },
+      { "group": "felinesuit_set", "prob": 16 },
+      { "group": "foxsuit_set", "prob": 16 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "wolfsuit_set",
+    "//": "wolf fursuit",
+    "subtype": "collection",
+    "entries": [ { "item": "wolfsuit", "prob": 100 }, { "item": "wolfsuit_head", "prob": 100 }, { "item": "wolfsuit_gloves", "prob": 100 }, { "item": "wolfsuit_boots", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "dinosuit_set",
+    "//": "dino fursuit",
+    "subtype": "collection",
+    "entries": [ { "item": "dinosuit", "prob": 100 }, { "item": "dinosuit_head", "prob": 100 }, { "item": "dinosuit_gloves", "prob": 100 }, { "item": "dinosuit_boots", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "sharksuit_set",
+    "//": "shark fursuit",
+    "subtype": "collection",
+    "entries": [ { "item": "sharksuit", "prob": 100 }, { "item": "sharksuit_head", "prob": 100 }, { "item": "sharksuit_gloves", "prob": 100 }, { "item": "sharksuit_boots", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "dragonsuit_set",
+    "//": "dragon fursuit",
+    "subtype": "collection",
+    "entries": [ { "item": "dragonsuit", "prob": 100 }, { "item": "dragonsuit_head", "prob": 100 }, { "item": "dragonsuit_gloves", "prob": 100 }, { "item": "dragonsuit_boots", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "felinesuit_set",
+    "//": "feline fursuit",
+    "subtype": "collection",
+    "entries": [ { "item": "felinesuit", "prob": 100 }, { "item": "felinesuit_head", "prob": 100 }, { "item": "felinesuit_gloves", "prob": 100 }, { "item": "felinesuit_boots", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "foxsuit_set",
+    "//": "fox fursuit",
+    "subtype": "collection",
+    "entries": [ { "item": "foxsuit", "prob": 100 }, { "item": "foxsuit_head", "prob": 100 }, { "item": "foxsuit_gloves", "prob": 100 }, { "item": "foxsuit_boots", "prob": 100 } ]
   }
 ]
