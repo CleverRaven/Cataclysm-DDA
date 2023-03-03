@@ -430,7 +430,7 @@
     "dispersion": 180,
     "durability": 6,
     "min_cycle_recoil": 1350,
-    "default_mods": [ "retool_m4_223rem" ],
+    "default_mods": [ "retool_ar15_223rem_medium" ],
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "valid_mod_locations": [
       [ "accessories", 4 ],

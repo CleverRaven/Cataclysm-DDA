@@ -19,8 +19,7 @@
     "dispersion_modifier": 15,
     "handling_modifier": 4,
     "loudness_modifier": 8,
-    "min_skills": [ [ "weapon", 5 ] ],
-    "flags": [ "IRREMOVABLE" ]
+    "min_skills": [ [ "weapon", 5 ] ]
   },
   {
     "id": "barrel_small",
