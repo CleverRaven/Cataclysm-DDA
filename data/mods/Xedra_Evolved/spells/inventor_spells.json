@@ -195,7 +195,7 @@
   {
     "id": "summon_bio_warhead",
     "type": "SPELL",
-    "name": "Make The Bio Detonator",
+    "name": "Make The Bio Warhead",
     "description": "You know how to make a warhead for your humming mortar to fire.",
     "valid_targets": [ "self" ],
     "components": "spell_components_bio_launcher_warhead",

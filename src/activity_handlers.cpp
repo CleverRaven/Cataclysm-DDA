@@ -2515,7 +2515,7 @@ void activity_handlers::toolmod_add_finish( player_activity *act, Character *you
 void activity_handlers::eat_menu_do_turn( player_activity *, Character * )
 {
     avatar &player_character = get_avatar();
-    avatar_action::eat( player_character, game_menus::inv::consume( player_character ) );
+    avatar_action::eat_or_use( player_character, game_menus::inv::consume( player_character ) );
 }
 
 void activity_handlers::consume_food_menu_do_turn( player_activity *, Character * )
@@ -2533,7 +2533,7 @@ void activity_handlers::consume_drink_menu_do_turn( player_activity *, Character
 void activity_handlers::consume_meds_menu_do_turn( player_activity *, Character * )
 {
     avatar &player_character = get_avatar();
-    avatar_action::eat( player_character, game_menus::inv::consume_meds( player_character ) );
+    avatar_action::eat_or_use( player_character, game_menus::inv::consume_meds( player_character ) );
 }
 
 void activity_handlers::view_recipe_do_turn( player_activity *act, Character *you )

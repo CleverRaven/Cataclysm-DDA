@@ -135,16 +135,16 @@ struct mission_target_params {
     cata::optional<tripoint_rel_omt> offset;
     cata::optional<str_or_var<T>> replaceable_overmap_terrain;
     cata::optional<str_or_var<T>> overmap_special;
-    cata::optional<int_or_var<T>> reveal_radius;
+    cata::optional<dbl_or_var<T>> reveal_radius;
     cata::optional<var_info> target_var;
-    int_or_var<T> min_distance;
+    dbl_or_var<T> min_distance;
 
     bool must_see = false;
     bool cant_see = false;
     bool random = false;
     bool create_if_necessary = true;
-    int_or_var<T> search_range;
-    cata::optional<int_or_var<T>> z;
+    dbl_or_var<T> search_range;
+    cata::optional<dbl_or_var<T>> z;
     npc *guy = nullptr;
 };
 

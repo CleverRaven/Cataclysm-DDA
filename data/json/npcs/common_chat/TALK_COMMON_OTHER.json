@@ -532,5 +532,11 @@
     "type": "talk_topic",
     "dynamic_line": "Pleasure doing business!",
     "responses": [ { "text": "You might be seeing more of me…", "topic": "TALK_DONE", "effect": "u_bulk_trade_accept" } ]
+  },
+  {
+    "id": "TALK_CHURL_FRIENDLY",
+    "type": "talk_topic",
+    "dynamic_line": "Excuse me?  Um… you mean you want to trade?",
+    "responses": [ { "text": "Ye!", "topic": "TALK_DONE", "effect": "start_trade" } ]
   }
 ]

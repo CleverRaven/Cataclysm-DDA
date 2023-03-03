@@ -194,6 +194,31 @@
     "color": "black"
   },
   {
+    "id": "nylon_bag",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "nylon bag" },
+    "looks_like": "bag_canvas",
+    "description": "A square nylon bag designed to carry a folded portable stove.",
+    "weight": "280 g",
+    "volume": "2 L",
+    "price": 400,
+    "price_postapoc": 100,
+    "to_hit": -1,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "22 cm",
+        "moves": 200
+      }
+    ],
+    "material": [ "nylon" ],
+    "symbol": "u",
+    "color": "black"
+  },
+  {
     "id": "bag_garbage_reinforced",
     "type": "GENERIC",
     "name": { "str": "reinforced garbage bag" },
@@ -235,7 +260,7 @@
     "category": "container",
     "name": { "str": "zipper bag" },
     "looks_like": "bag_plastic",
-    "description": "An inexpensive flexible rectangular storage bag on its typical small size.  Transparent and made of plastic, it can be sealed and opened by a slider which works in a similar way to a zip fastener.",
+    "description": "A resealable, watertight transparent plastic bag roomy enough to hold a sandwich.  Known generically as a Ziploc bag, it can be sealed and opened with a press-together mechanism similar to a zipper.",
     "weight": "2 g",
     "volume": "10 ml",
     "price": 0,
@@ -3325,6 +3350,56 @@
         "open_container": false,
         "max_contains_volume": "82 ml",
         "max_contains_weight": "500 g"
+      }
+    ],
+    "qualities": [ [ "CONTAIN", 1 ] ],
+    "flags": [ "COLLAPSE_CONTENTS" ]
+  },
+  {
+    "id": "paint_can_steel",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "metal paint can" },
+    "description": "A metal paint can, able to hold a gallon of liquid.",
+    "weight": "400 g",
+    "volume": "4325 ml",
+    "price": 10,
+    "price_postapoc": 3,
+    "material": [ "steel" ],
+    "symbol": "o",
+    "color": "light_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "max_contains_volume": "3785 ml",
+        "max_contains_weight": "10 kg"
+      }
+    ],
+    "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
+    "flags": [ "COLLAPSE_CONTENTS" ]
+  },
+  {
+    "id": "paint_can_plastic",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "plastic paint can" },
+    "description": "A plastic paint can, able to hold a gallon of liquid.",
+    "weight": "50 g",
+    "volume": "4325 ml",
+    "price": 10,
+    "price_postapoc": 3,
+    "material": [ "plastic" ],
+    "symbol": "o",
+    "color": "green",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "max_contains_volume": "3785 ml",
+        "max_contains_weight": "10 kg"
       }
     ],
     "qualities": [ [ "CONTAIN", 1 ] ],
