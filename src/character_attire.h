@@ -78,7 +78,6 @@ class outfit
         bool hands_conductive() const;
         bool can_pickVolume( const item &it, bool ignore_pkt_settings = true ) const;
         side is_wearing_shoes( const bodypart_id &bp ) const;
-        bool is_wearing_helmet() const;
         bool is_barefoot() const;
         item item_worn_with_flag( const flag_id &f, const bodypart_id &bp ) const;
         item item_worn_with_flag( const flag_id &f ) const;

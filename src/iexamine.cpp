@@ -3617,8 +3617,8 @@ void iexamine::keg( Character &you, const tripoint &examp )
 {
     none( you, examp );
     map &here = get_map();
-    const auto keg_name = here.name( examp );
-    units::volume keg_cap = get_keg_capacity( examp );
+    const std::string keg_name = here.name( examp );
+    const units::volume keg_cap = get_keg_capacity( examp );
 
     const bool has_container_with_liquid = map_cursor( examp ).has_item_with( []( const item & it ) {
         return !it.is_container_empty() && it.can_unload_liquid();
@@ -3711,17 +3711,17 @@ void iexamine::keg( Character &you, const tripoint &examp )
             DISPENSE,
             HAVE_A_DRINK,
             REFILL,
-            EXAMINE,
         };
         uilist selectmenu;
+        //~ $1 - furniture name, $2 - liquid name, $3 - liquid charges, $4 - liquid volume, $5 - liquid capacity
+        selectmenu.text = string_format( _( "%1$s with %2$s (%3$d)    %4$s / %5$s" ),
+                                         uppercase_first_letter( keg_name ), drink_tname, drink.charges,
+                                         vol_to_string( drink.volume(), true, true ), vol_to_string( keg_cap, true, true ) );
         selectmenu.addentry( DISPENSE, drink.made_of( phase_id::LIQUID ), MENU_AUTOASSIGN,
                              _( "Dispense or dump %s" ), drink_tname );
         selectmenu.addentry( HAVE_A_DRINK, drink.is_food() && drink.made_of( phase_id::LIQUID ),
                              MENU_AUTOASSIGN, _( "Have a drink" ) );
         selectmenu.addentry( REFILL, true, MENU_AUTOASSIGN, _( "Refill" ) );
-        selectmenu.addentry( EXAMINE, true, MENU_AUTOASSIGN, _( "Examine" ) );
-
-        selectmenu.text = _( "Select an action" );
         selectmenu.query();
 
         switch( selectmenu.ret ) {
@@ -3761,12 +3761,6 @@ void iexamine::keg( Character &you, const tripoint &examp )
                 you.use_charges( drink.typeId(), charges_held - tmp.charges );
                 add_msg( _( "You fill the %1$s with %2$s." ), keg_name, drink_nname );
                 you.moves -= to_moves<int>( 10_seconds );
-                return;
-            }
-
-            case EXAMINE: {
-                add_msg( m_info, _( "It contains %s (%d), %0.f%% full." ),
-                         drink_tname, drink.charges, drink.volume() * 100.0 / keg_cap );
                 return;
             }
 
