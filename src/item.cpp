@@ -275,20 +275,6 @@ struct scoped_goes_bad_cache {
 
 const int item::INFINITE_CHARGES = INT_MAX;
 
-namespace
-{
-
-bool contents_only_one_type( item const *it )
-{
-    std::list<const item *> const contents = it->all_items_top();
-    return contents.size() == 1 ||
-    std::all_of( ++contents.begin(), contents.end(), [&contents]( item const * e ) {
-        return e->stacks_with( *contents.front() );
-    } );
-}
-
-} // namespace
-
 item::item() : bday( calendar::start_of_cataclysm )
 {
     type = nullitem();
@@ -6421,7 +6407,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     }
 
     /* only expand full contents name if with_contents == true */
-    if( with_contents_full && !contents.empty() && contents_only_one_type( this ) ) {
+    if( with_contents_full && !contents.empty() && contents_only_one_type() ) {
         const item &contents_item = contents.first_item();
         const unsigned contents_count =
             ( ( contents_item.made_of( phase_id::LIQUID ) ||
@@ -7670,15 +7656,6 @@ void item::calc_rot( units::temperature temp, const float spoil_modifier,
 
     if( has_own_flag( flag_COLD ) ) {
         temp = std::min( temperatures::fridge, temp );
-    }
-
-    // simulation of different age of food at the start of the game and good/bad storage
-    // conditions by applying starting variation bonus/penalty of +/- 20% of base shelf-life
-    // positive = food was produced some time before calendar::start and/or bad storage
-    // negative = food was stored in good conditions before calendar::start
-    if( last_temp_check <= calendar::start_of_cataclysm ) {
-        time_duration spoil_variation = get_shelf_life() * 0.2f;
-        rot += rng( -spoil_variation, spoil_variation );
     }
 
     rot += factor * time_delta / 1_hours * calc_hourly_rotpoints_at_temp( temp ) * 1_turns;
@@ -10427,6 +10404,15 @@ bool item::can_contain_partial( const item &it ) const
     return can_contain( i_copy ).success();
 }
 
+bool item::can_contain_partial_directly( const item &it ) const
+{
+    item i_copy = it;
+    if( i_copy.count_by_charges() ) {
+        i_copy.charges = 1;
+    }
+    return can_contain( i_copy, false, false, true, item_location(), 10000000_ml, false ).success();
+}
+
 std::pair<item_location, item_pocket *> item::best_pocket( const item &it, item_location &this_loc,
         const item *avoid, const bool allow_sealed, const bool ignore_settings,
         const bool nested, bool ignore_rigidity )
@@ -12339,8 +12325,8 @@ const item_category &item::get_category_shallow() const
 
 const item_category &item::get_category_of_contents() const
 {
-    if( type->category_force == item_category_container && contents.num_item_stacks() == 1 ) {
-        return contents.only_item().get_category_of_contents();
+    if( type->category_force == item_category_container && contents_only_one_type() ) {
+        return contents.first_item().get_category_of_contents();
     } else {
         return this->get_category_shallow();
     }
@@ -14310,8 +14296,19 @@ std::list<item *> item::all_items_top( item_pocket::pocket_type pk_type, bool un
 
 item const *item::this_or_single_content() const
 {
-    return type->category_force == item_category_container && num_item_stacks() == 1 ? &only_item()
+    return type->category_force == item_category_container && contents_only_one_type()
+           ? &contents.first_item()
            : this;
+}
+
+bool item::contents_only_one_type() const
+{
+    std::list<const item *> const items = all_items_top();
+    return items.size() == 1 ||
+           ( items.size() > 1 &&
+    std::all_of( ++items.begin(), items.end(), [&items]( item const * e ) {
+        return e->stacks_with( *items.front() );
+    } ) );
 }
 
 std::list<const item *> item::all_items_ptr() const

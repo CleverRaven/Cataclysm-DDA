@@ -432,7 +432,6 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```NO_DISEASE``` This mutation grants immunity to diseases.
 - ```NO_THIRST``` Your thirst is not modified by food or drinks.
 - ```NO_RADIATION``` This mutation grants immunity to radiations.
-- ```NO_MINIMAL_HEALING``` This mutation disables the minimal healing of 1 hp a day.
 - ```INFECTION_IMMUNE``` This mutation grants immunity to infections, including infection from bites and tetanus.
 - ```SUPER_HEARING``` You can hear much better than a normal person.
 - ```IMMUNE_HEARING_DAMAGE``` Immune to hearing damage from loud sounds.
@@ -931,6 +930,7 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 
 ### Flags
 
+- ```ALLOWS_BODY_BLOCK``` Allows body blocks (arms and legs blocks) to trigger even while wielding the item with the flag. Used with small items like knives and pistols that do not interfere with the ability to block with your body. Only works if your current martial art allows body blocks too.
 - ```ALWAYS_TWOHAND``` Item is always wielded with two hands. Without this, the items volume and weight are used to calculate this.
 - ```BIONIC_WEAPON``` Cannot wield this item normally. It has to be attached to a bionic and equipped through activation of the bionic.
 - ```DIAMOND``` Diamond coating adds 30% bonus to cutting and piercing damage.

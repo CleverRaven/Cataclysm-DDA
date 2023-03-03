@@ -2068,7 +2068,7 @@ static std::function<void( const T &, double )> get_set_dbl( const JsonObject &j
         }
     } else if( jo.has_member( "faction_trust" ) ) {
         str_or_var<T> name = get_str_or_var<T>( jo.get_member( "faction_trust" ), "faction_trust" );
-        return [name, min, max]( const T & d, int input ) {
+        return [name, min, max]( const T & d, double input ) {
             faction *fac = g->faction_manager_ptr->get( faction_id( name.evaluate( d ) ) );
             fac->trusts_u += handle_min_max<T>( d, input, min, max );
         };
@@ -2618,7 +2618,7 @@ void conditional_t<T>::set_has_skill( const JsonObject &jo, const std::string &m
 template<class T>
 void conditional_t<T>::set_roll_contested( const JsonObject &jo, const std::string &member )
 {
-    std::function<int( const T & )> get_check = conditional_t< T >::get_get_dbl( jo.get_object(
+    std::function<double( const T & )> get_check = conditional_t< T >::get_get_dbl( jo.get_object(
                 member ) );
     dbl_or_var<T> difficulty = get_dbl_or_var<T>( jo, "difficulty", true );
     dbl_or_var<T> die_size = get_dbl_or_var<T>( jo, "die_size", false, 10 );

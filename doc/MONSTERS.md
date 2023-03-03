@@ -56,6 +56,7 @@ Monsters may also have any of these optional properties:
 | `melee_dice`             | (integer) Number of dice rolled on monster melee attack to determine bash damage
 | `melee_dice_sides`       | (integer) Number of sides on each die rolled by `melee_dice`
 | `grab_strength`          | (integer) Intensity of grab effect, from `1` to `n`, simulating `n` regular zombie grabs
+| `melee_training_cap`     | (integer) The maximum melee skill levels learnable by fighting this monster. If not defined defaults to `melee_skill + 2`.
 | `armor_bash`             | (integer) Monster's protection from bash damage
 | `armor_bullet`           | (integer) Monster's protection from bullet damage
 | `armor_cut`              | (integer) Monster's protection from cut damage

@@ -489,7 +489,7 @@ void uistatedata::deserialize( const JsonObject &jo )
 
 static const selection_column_preset selection_preset{};
 
-bool inventory_entry::is_hidden() const
+bool inventory_entry::is_hidden( cata::optional<bool> const &hide_entries_override ) const
 {
     if( !is_item() ) {
         return false;
@@ -504,6 +504,9 @@ bool inventory_entry::is_hidden() const
     }
 
     item_location item = locations.front();
+    if( hide_entries_override && topmost_parent && topmost_parent->is_container() ) {
+        return *hide_entries_override;
+    }
     while( item.has_parent() && item != topmost_parent ) {
         item_location parent = item.parent_item();
         if( parent.get_item()->contained_where( *item )->settings.is_collapsed() ) {
@@ -1239,7 +1242,7 @@ void inventory_column::on_change( const inventory_entry &/* entry */ )
 
 inventory_entry *inventory_column::add_entry( const inventory_entry &entry )
 {
-    entries_t &dest = entry.is_hidden() ? entries_hidden : entries;
+    entries_t &dest = entry.is_hidden( hide_entries_override ) ? entries_hidden : entries;
     if( std::find( dest.begin(), dest.end(), entry ) != dest.end() ) {
         debugmsg( "Tried to add a duplicate entry." );
         return nullptr;
@@ -1436,10 +1439,10 @@ void inventory_column::prepare_paging( const std::string &filter )
         return preset.get_filter( filter );
     } );
 
-    const auto is_visible = [&filter_fn, &filter]( inventory_entry const & it ) {
+    const auto is_visible = [&filter_fn, &filter, this]( inventory_entry const & it ) {
         return it.is_item() &&
                ( filter_fn( it ) &&
-                 ( ( !filter.empty() && !it.is_collation_entry() ) || !it.is_hidden() ) );
+                 ( ( !filter.empty() && !it.is_collation_entry() ) || !it.is_hidden( hide_entries_override ) ) );
     };
     const auto is_not_visible = [&is_visible]( inventory_entry const & it ) {
         return !is_visible( it );
@@ -1678,9 +1681,13 @@ void inventory_column::draw( const catacurses::window &win, const point &p,
 
                 const std::string &hl_option = get_option<std::string>( "INVENTORY_HIGHLIGHT" );
                 if( cell_index == 0 && entry.chevron ) {
-                    nc_color const col = entry.is_collation_header() ? c_light_blue : c_dark_gray;
+                    bool const hide_override = hide_entries_override && entry.any_item()->is_container();
+                    nc_color const col = entry.is_collation_header() ? c_light_blue : hide_override ?
+                                         *hide_entries_override ? c_red : c_green : c_dark_gray;
+                    bool const stat = entry.is_collation_entry() ||
+                                      !hide_override ? entry.collapsed : *hide_entries_override;
                     trim_and_print( win, point( text_x - 1, yy ), 1, col,
-                                    entry.collapsed ? "▶" : "▼" );
+                                    stat ? "▶" : "▼" );
                 }
                 if( entry.is_item() && ( selected || !entry.is_selectable() ) ) {
                     trim_and_print( win, point( text_x, yy ), text_width, selected ? h_white : c_dark_gray,
@@ -2687,6 +2694,7 @@ inventory_selector::inventory_selector( Character &u, const inventory_selector_p
     ctxt.register_action( "RESET_FILTER" );
     ctxt.register_action( "EXAMINE" );
     ctxt.register_action( "SHOW_HIDE_CONTENTS", to_translation( "Show/hide contents" ) );
+    ctxt.register_action( "SHOW_HIDE_CONTENTS_ALL" );
     ctxt.register_action( "EXAMINE_CONTENTS" );
     ctxt.register_action( "TOGGLE_SKIP_UNSELECTABLE" );
     ctxt.register_action( "ORGANIZE_MENU" );
@@ -2756,6 +2764,19 @@ inventory_input inventory_selector::process_input( const std::string &action, in
     return res;
 }
 
+void inventory_column::cycle_hide_override()
+{
+    if( hide_entries_override ) {
+        if( *hide_entries_override ) {
+            hide_entries_override = cata::nullopt;
+        } else {
+            hide_entries_override = true;
+        }
+    } else {
+        hide_entries_override = false;
+    }
+}
+
 void inventory_selector::on_input( const inventory_input &input )
 {
     if( input.action == "CATEGORY_SELECTION" ) {
@@ -2807,7 +2828,12 @@ void inventory_selector::on_input( const inventory_input &input )
                 current_ui->mark_resize();
             }
         }
-        if( input.action == "SHOW_HIDE_CONTENTS" ) {
+        if( input.action == "SHOW_HIDE_CONTENTS_ALL" ) {
+            for( inventory_column *col : columns ) {
+                col->cycle_hide_override();
+            }
+        }
+        if( input.action == "SHOW_HIDE_CONTENTS" || input.action == "SHOW_HIDE_CONTENTS_ALL" ) {
             shared_ptr_fast<ui_adaptor> current_ui = ui.lock();
             for( inventory_column * const &col : columns ) {
                 col->invalidate_paging();

@@ -3073,19 +3073,7 @@ int vehicle::part_displayed_at( const point &dp, bool include_fake, bool below_r
     bool in_vehicle = !roof;
 
     if( roof ) {
-        Character &player_character = get_player_character();
-        in_vehicle = player_character.in_vehicle;
-        if( in_vehicle ) {
-            // They're in a vehicle, but are they in /this/ vehicle?
-            std::vector<int> psg_parts = boarded_parts();
-            in_vehicle = false;
-            for( const int &psg_part : psg_parts ) {
-                if( get_passenger( psg_part ) == &player_character ) {
-                    in_vehicle = true;
-                    break;
-                }
-            }
-        }
+        in_vehicle = is_passenger( get_player_character() );
     }
 
     int hide_z_at_or_above = in_vehicle ? ON_ROOF_Z : INT_MAX;
@@ -3208,6 +3196,20 @@ std::vector<rider_data> vehicle::get_riders() const
         }
     }
     return res;
+}
+
+bool vehicle::is_passenger( Character &c ) const
+{
+    if( !c.in_vehicle ) {
+        return false;
+    }
+    std::vector<int> psg_parts = boarded_parts();
+    for( const int &psg_part : psg_parts ) {
+        if( get_passenger( psg_part ) == &c ) {
+            return true;
+        }
+    }
+    return false;
 }
 
 Character *vehicle::get_passenger( int you ) const
@@ -5383,6 +5385,14 @@ void vehicle::on_move()
     if( has_part( "REAPER", true ) ) {
         operate_reaper();
     }
+
+    Character &pc = get_player_character();
+    get_event_bus().send<event_type::vehicle_moves>(
+        is_passenger( pc ), player_in_control( pc ), remote_controlled( pc ),
+        is_flying_in_air(), is_watercraft() && can_float(), can_use_rails(),
+        is_falling, is_in_water( true ) && !can_float(),
+        skidding, velocity, sm_pos.z
+    );
 }
 
 void vehicle::slow_leak()

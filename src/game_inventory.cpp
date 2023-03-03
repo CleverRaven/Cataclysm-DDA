@@ -66,6 +66,7 @@ static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
 static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
 static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
 
+static const bionic_id bio_fitnessband( "bio_fitnessband" );
 static const bionic_id bio_painkiller( "bio_painkiller" );
 
 static const flag_id json_flag_CALORIES_INTAKE( "CALORIES_INTAKE" );
@@ -886,7 +887,7 @@ static std::string get_consume_needs_hint( Character &you )
     int kcal_ingested_yesterday = you.as_avatar()->get_daily_ingested_kcal( true );
     int kcal_spent_today = you.as_avatar()->get_daily_spent_kcal( false );
     int kcal_spent_yesterday = you.as_avatar()->get_daily_spent_kcal( true );
-    bool has_fitness_band =  you.is_wearing( itype_fitness_band );
+    bool has_fitness_band =  you.is_wearing( itype_fitness_band ) || you.has_bionic( bio_fitnessband );
     bool has_tracker = has_fitness_band || you.has_item_with_flag( json_flag_CALORIES_INTAKE );
 
     std::string kcal_estimated_intake;

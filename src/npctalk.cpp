@@ -105,6 +105,7 @@ static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_speech( "speech" );
 
 static const trait_id trait_DEBUG_MIND_CONTROL( "DEBUG_MIND_CONTROL" );
+static const trait_id trait_PROF_CHURL( "PROF_CHURL" );
 static const trait_id trait_PROF_FOODP( "PROF_FOODP" );
 
 static const zone_type_id zone_type_NPC_INVESTIGATE_ONLY( "NPC_INVESTIGATE_ONLY" );
@@ -1056,6 +1057,19 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         return string_format(
                    _( "&You are mute and can't talk.  When you don't respond, %s becomes angry!" ),
                    actor( true )->disp_name() );
+    } else if( topic == "TALK_CHURL" ) {
+        return string_format(
+                   _( "&Thou art but a lowley churl and ye know not this newe tongue.  %s seems unable to understand what you're saying." ),
+                   actor( true )->disp_name() );
+
+    } else if( topic == "TALK_CHURL_ANGRY" ) {
+        return string_format(
+                   _( "&Thou art but a lowley churl and ye know not this newe tongue.  Unable to understand your dialect, %s becomes angry!" ),
+                   actor( true )->disp_name() );
+    } else if( topic == "TALK_CHURL_TRADE" ) {
+        return string_format(
+                   _( "&Thou art but a lowley churl wyth litel understonding of this newe langage, yet %s can understand you and seems willing to trade!" ),
+                   actor( true )->disp_name() );
     }
     avatar &player_character = get_avatar();
     if( topic == "TALK_SEDATED" ) {
@@ -1396,6 +1410,14 @@ void dialogue::gen_responses( const talk_topic &the_topic )
     if( actor( false )->has_trait( trait_DEBUG_MIND_CONTROL ) && !actor( true )->is_player_ally() ) {
         add_response( _( "OBEY ME!" ), "TALK_MIND_CONTROL" );
         add_response_done( _( "Bye." ) );
+    }
+
+    if( player_character.has_trait( trait_PROF_CHURL ) && ( actor( true )->get_npc_trust() >= 0 ) &&
+        ( actor( true )->get_npc_anger() <= 0 ) && ( actor( true )->int_cur() >= 9 ) &&
+        !( the_topic.id == "TALK_CHURL_FRIENDLY" ) ) {
+        add_response( _( "Ho there, otherwyrldly devyl!  Have yow ware for to chaffare?" ),
+                      "TALK_CHURL_FRIENDLY" );
+        add_response_done( _( "Farewell!" ) );
     }
 
     if( responses.empty() ) {
@@ -2294,7 +2316,6 @@ void talk_effect_fun_t<T>::set_u_spawn_item( const JsonObject &jo, const std::st
         container_name.str_val = "";
     }
     bool use_item_group = jo.get_bool( "use_item_group", false );
-    dbl_or_var<T> cost = get_dbl_or_var<T>( jo, "cost", false, 0 );
     dbl_or_var<T> count;
     if( !jo.has_int( "charges" ) ) {
         count = get_dbl_or_var<T>( jo, "count", false, 1 );
@@ -2307,7 +2328,8 @@ void talk_effect_fun_t<T>::set_u_spawn_item( const JsonObject &jo, const std::st
                       container_name.evaluate( d ), d, use_item_group );
     };
     dialogue d( get_talker_for( get_avatar() ), nullptr );
-    likely_rewards.emplace_back( count.evaluate( d ), itype_id( item_name.evaluate( d ) ) );
+    likely_rewards.emplace_back( static_cast<int>( count.evaluate( d ) ),
+                                 itype_id( item_name.evaluate( d ) ) );
 }
 
 template<class T>
@@ -3632,7 +3654,7 @@ template<class T>
 void talk_effect_fun_t<T>::set_weighted_list_eocs( const JsonObject &jo,
         const std::string &member )
 {
-    std::vector<std::pair<effect_on_condition_id, std::function<int( const dialogue & )>>> eoc_pairs;
+    std::vector<std::pair<effect_on_condition_id, std::function<double( const dialogue & )>>> eoc_pairs;
     for( JsonArray ja : jo.get_array( member ) ) {
         JsonValue eoc = ja.next_value();
         JsonObject weight = ja.next_object();
@@ -3641,7 +3663,7 @@ void talk_effect_fun_t<T>::set_weighted_list_eocs( const JsonObject &jo,
     }
     function = [eoc_pairs]( const T & d ) {
         weighted_int_list<effect_on_condition_id> eocs;
-        for( const std::pair<effect_on_condition_id, std::function<int( const dialogue & )>> &eoc_pair :
+        for( const std::pair<effect_on_condition_id, std::function<double( const dialogue & )>> &eoc_pair :
              eoc_pairs ) {
             eocs.add( eoc_pair.first, eoc_pair.second( d ) );
         }
@@ -3655,7 +3677,7 @@ template<class T>
 void talk_effect_fun_t<T>::set_switch( const JsonObject &jo,
                                        const std::string &member )
 {
-    std::function<int( const T & )> eoc_switch = conditional_t< T >::get_get_dbl(
+    std::function<double( const T & )> eoc_switch = conditional_t< T >::get_get_dbl(
                 jo.get_object( member ) );
     std::vector<std::pair<dbl_or_var<T>, talk_effect_t<T>>> case_pairs;
     for( const JsonValue jv : jo.get_array( "cases" ) ) {
@@ -3665,7 +3687,7 @@ void talk_effect_fun_t<T>::set_switch( const JsonObject &jo,
         case_pairs.emplace_back( get_dbl_or_var<T>( array_case, "case" ), case_effect );
     }
     function = [eoc_switch, case_pairs]( const T & d ) {
-        int switch_int = eoc_switch( d );
+        const double switch_int = eoc_switch( d );
         talk_effect_t<T> case_effect;
         for( const std::pair<dbl_or_var<T>, talk_effect_t<T>> &case_pair :
              case_pairs ) {

@@ -384,7 +384,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     }
 
     optional( jo, was_loaded, "healing_awake", healing_awake, cata::nullopt );
-    optional( jo, was_loaded, "healing_resting", healing_resting, cata::nullopt );
+    optional( jo, was_loaded, "healing_multiplier", healing_multiplier, cata::nullopt );
     optional( jo, was_loaded, "mending_modifier", mending_modifier, cata::nullopt );
     optional( jo, was_loaded, "hp_modifier", hp_modifier, cata::nullopt );
     optional( jo, was_loaded, "hp_modifier_secondary", hp_modifier_secondary, cata::nullopt );
