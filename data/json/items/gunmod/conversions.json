@@ -19,7 +19,8 @@
     "mod_targets": [ "ar15", "m4_carbine", "m16a4", "m16_auto_rifle", "m27_assault_rifle" ],
     "install_time": "5 m",
     "ammo_modifier": [ "223" ],
-    "min_skills": [ [ "weapon", 1 ] ]
+    "min_skills": [ [ "weapon", 3 ] ],
+    "add_mod": [ [ "barrel", 1 ], [ "brass catcher", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "underbarrel", 1 ], [ "muzzle", 1 ] ]
   },
   {
     "id": "retool_m4_223rem",
