@@ -170,7 +170,7 @@
       { "item": "jar_glass_sealed", "prob": 50 },
       { "item": "jar_3l_glass_sealed", "prob": 40 },
       { "item": "flotation_vest", "prob": 1 },
-      { "item": "fishing_rod_professional", "prob": 2 },
+      { "group": "tools_fishingrods_commercial", "prob": 2 },
       { "item": "atomic_light", "prob": 1 },
       { "item": "atomic_lamp", "prob": 1 },
       { "item": "alarmclock", "prob": 10 },
