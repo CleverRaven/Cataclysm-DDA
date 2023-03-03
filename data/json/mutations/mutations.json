@@ -4193,12 +4193,35 @@
   },
   {
     "type": "mutation",
+    "id": "MUZZLE_RAPTOR",
+    "name": { "str": "Dromeosaur Muzzle" },
+    "points": -3,
+    "visibility": 8,
+    "ugliness": 8,
+    "mixed_effect": true,
+    "description": "Your face has drastically mutated, with the bones of your jaws having extended forth into a long, tapered snout.  The palate of your mouth is considerably vaulted, with curved, serrated teeth lining your saurian maw and reptilian scales covering your muzzle’s exterior.  While paleobiology has evidently not evolved with mouth gear in mind (making such items unwearable), the bite wounds you can now inflict promise the ferocity of long-dead beasts.",
+    "types": [ "MUZZLE" ],
+    "prereqs": [ "SNOUT" ],
+    "category": [ "RAPTOR" ],
+    "restricts_gear": [ "mouth" ],
+    "social_modifiers": { "intimidate": 20 },
+    "attacks": {
+      "attack_text_u": "You dart your head and snap at %s",
+      "attack_text_npc": "%1$s darts their head and snaps at %2$s",
+      "blocker_mutations": [ "FANGS" ],
+      "body_part": "mouth",
+      "chance": 18,
+      "base_damage": { "damage_type": "stab", "amount": 18 }
+    }
+  },
+  {
+    "type": "mutation",
     "id": "TAIL_RAPTOR",
     "name": { "str": "Raptor Tail" },
     "points": 1,
     "visibility": 8,
     "ugliness": 2,
-    "description": "You have a long and semi-stiff lizardlike tail.  You can't effectively strike with it in combat, but it significantly improves your balance.  Prevents wearing non-fabric pants.",
+    "description": "Formed from a network of interlocking bones, a long tail has mutated from the base of your spine, with ossified tendons assisting in keeping the limb stiff and rigid.  A plume of lengthy feathers sprouts from the reptilian flesh along your new tail, drawing the eye.  While it is useless in combat and prevents you from wearing non-fabric pants, you find it’s pretty handy for maintaining your balance.",
     "types": [ "TAIL" ],
     "prereqs": [ "TAIL_STUB" ],
     "category": [ "RAPTOR" ],
@@ -5732,13 +5755,28 @@
       "BEAK_PECK",
       "PROBOSCIS",
       "MINOTAUR",
+      "MUZZLE_RAPTOR",
       "MUZZLE",
       "MUZZLE_BEAR",
       "MUZZLE_LONG",
       "MUZZLE_RAT",
       "RABBIT_NOSE"
     ],
-    "category": [ "BIRD", "CEPHALOPOD", "FELINE", "INSECT", "CATTLE", "BEAST", "LUPINE", "URSINE", "LIZARD", "RAT", "RABBIT", "MOUSE" ]
+    "category": [
+      "BIRD",
+      "CEPHALOPOD",
+      "FELINE",
+      "RAPTOR",
+      "INSECT",
+      "CATTLE",
+      "BEAST",
+      "LUPINE",
+      "URSINE",
+      "LIZARD",
+      "RAT",
+      "RABBIT",
+      "MOUSE"
+    ]
   },
   {
     "type": "mutation",
