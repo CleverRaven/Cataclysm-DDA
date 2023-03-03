@@ -3500,6 +3500,7 @@
     "skill_used": "fabrication",
     "nested_category_data": [
       "sling-ready_molotov",
+      "sling-ready_acidbomb",
       "sling-ready_grenade",
       "sling-ready_homemade_grenade",
       "sling-ready_homemade_grenade_2",
