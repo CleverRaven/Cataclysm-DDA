@@ -1323,7 +1323,7 @@ TEST_CASE( "npc_arithmetic_op", "[npc_talk]" )
     CHECK( calendar::turn == time_point( 5 ) );
 
     calendar::turn = calendar::turn_zero;
-    // "Sets time since cataclysm to 2 ^ 5 turns.  (7)"
+    // "Sets time since cataclysm to 2 ^ 5 turns.  (32)"
     effects = d.responses[ 10 ].success;
     effects.apply( d );
     CHECK( calendar::turn == time_point( 32 ) );
