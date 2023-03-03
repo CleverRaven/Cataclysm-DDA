@@ -188,6 +188,9 @@ struct bionic_data {
     static void load_bionic( const JsonObject &jo, const std::string &src );
     static const std::vector<bionic_data> &get_all();
     static void check_bionic_consistency();
+
+    static std::map<bionic_id, bionic_id> migrations;
+    static void load_bionic_migration( const JsonObject &jo, const std::string & );
 };
 
 struct bionic {
