@@ -70,9 +70,8 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "firstaid",
     "difficulty": 1,
-    "time": "1 m",
+    "time": "20 m",
     "charges": 30,
-    "batch_time_factors": [ 50, 2 ],
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "medical_gauze", 1 ] ], [ [ "duct_tape", 8 ], [ "medical_tape", 10 ] ] ]
