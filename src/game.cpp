@@ -11109,10 +11109,11 @@ cata::optional<tripoint> game::point_selection_menu( const std::vector<tripoint>
         // TODO: Sort the menu so that it can be used with numpad directions
         const std::string &dir_arrow = direction_arrow( direction_from( upos.xy(), pt.xy() ) );
         const std::string &dir_name = direction_name( direction_from( upos.xy(), pt.xy() ) );
-        const std::string &up_or_down = up ? _( "Climb up %s (%s)" ) : _( "Climb down %s (%s)" );
+        const std::string &up_or_down = up ? _( "Climb up %s (%s)" ), dir_name, dir_arrow :
+                                        _( "Climb down %s (%s)" ), dir_name, dir_arrow;
         // TODO: Inform player what is on said tile
         // But don't just print terrain name (in many cases it will be "open air")
-        pmenu.addentry( num++, true, MENU_AUTOASSIGN, up_or_down, dir_name, dir_arrow );
+        pmenu.addentry( num++, true, MENU_AUTOASSIGN, up_or_down );
     }
 
     pmenu.query();
