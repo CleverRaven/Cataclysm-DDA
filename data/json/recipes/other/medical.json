@@ -71,7 +71,7 @@
     "skill_used": "firstaid",
     "difficulty": 1,
     "time": "20 m",
-    "charges": 30,
+    "result_mult": 30,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "medical_gauze", 1 ] ], [ [ "duct_tape", 8 ], [ "medical_tape", 10 ] ] ]
