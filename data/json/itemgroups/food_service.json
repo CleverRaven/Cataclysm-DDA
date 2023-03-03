@@ -950,7 +950,7 @@
       [ "lobster_platter", 10 ],
       [ "fish_fried", 10 ],
       [ "fish_sandwich", 10 ],
-      { "item": "cornbread", "charges": 6, "prob": 10 },
+      { "item": "cornbread", "charges": 6, "prob": 10 }
     ]
   },
   {
