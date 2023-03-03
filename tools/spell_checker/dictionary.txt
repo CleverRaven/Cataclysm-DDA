@@ -759,7 +759,9 @@ dragonscale
 draugr
 drawknife
 dreamdross
+dreamdrossed
 dreamforged
+dreamsmith
 dreamstuff
 driers
 drivetrain
@@ -2773,6 +2775,7 @@ trudges
 tryphillum
 tsumi
 tsundere
+tsurugi
 tuber
 tucunare
 tumescences

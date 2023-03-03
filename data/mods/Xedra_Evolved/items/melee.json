@@ -433,7 +433,7 @@
     "copy-from": "dreamforged_glaive",
     "id": "dreamforged_glaive_healing",
     "name": { "str": "qiang of life", "str_pl": "spears of life" },
-    "description": "Long, dense spear, maded out of people's fears and dangers.  It can steal a life from creature it attacks, healing you for a bit.",
+    "description": "Long, dense spear.  It can steal a life from creature it attacks, healing you for a bit.",
     "relic_data": { "passive_effects": [ { "id": "ENCHANTMENT_VAMPIRISM" } ] }
   },
   {
@@ -441,7 +441,7 @@
     "id": "dreamforged_tsurugi_speed",
     "copy-from": "dreamforged_broadsword",
     "name": { "str": "tsurugi of speed", "str_pl": "tsurugi of speed" },
-    "description": "Classic japanese tsurugi sword with razor sharp blade, forged from people's haste and hurry.  You start to think you need to move faster, and effect intensifies when you are surrounded.",
+    "description": "Classic japanese tsurugi sword with razor sharp blade.  You start to think you need to move faster, and effect intensifies when you are surrounded.",
     "relic_data": { "passive_effects": [ { "id": "MON_NEARBY_SPEED" } ] }
   },
   {
@@ -449,7 +449,7 @@
     "id": "dreamforged_q_staff_exp",
     "copy-from": "dreamforged_q_staff",
     "name": { "str": "bo of practice", "str_pl": "bo of practices" },
-    "description": "Lorem ipsum.  Boost your bash damage with how big your experience is.",
+    "description": "Long, straight stick.  Simple weapon, it is powered by your own experience of fighting dreadful creatures",
     "relic_data": { "passive_effects": [ { "id": "EXP_BASH" } ] }
   }
 ]
