@@ -105,6 +105,7 @@ static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_speech( "speech" );
 
 static const trait_id trait_DEBUG_MIND_CONTROL( "DEBUG_MIND_CONTROL" );
+static const trait_id trait_PROF_CHURL( "PROF_CHURL" );
 static const trait_id trait_PROF_FOODP( "PROF_FOODP" );
 
 static const zone_type_id zone_type_NPC_INVESTIGATE_ONLY( "NPC_INVESTIGATE_ONLY" );
@@ -301,6 +302,7 @@ enum npc_chat_menu {
     NPC_CHAT_DONE,
     NPC_CHAT_TALK,
     NPC_CHAT_YELL,
+    NPC_CHAT_THINK,
     NPC_CHAT_START_SEMINAR,
     NPC_CHAT_SENTENCE,
     NPC_CHAT_GUARD,
@@ -635,6 +637,7 @@ void game::chat()
     }
     nmenu.addentry( NPC_CHAT_YELL, true, 'a', _( "Yell" ) );
     nmenu.addentry( NPC_CHAT_SENTENCE, true, 'b', _( "Yell a sentence" ) );
+    nmenu.addentry( NPC_CHAT_THINK, true, 'T', _( "Think something" ) );
     if( !animal_vehicles.empty() ) {
         nmenu.addentry( NPC_CHAT_ANIMAL_VEHICLE_FOLLOW, true, 'F',
                         _( "Whistle at your animals pulling vehicles to follow you." ) );
@@ -677,6 +680,7 @@ void game::chat()
     }
     std::string message;
     std::string yell_msg;
+    std::string think_msg;
     bool is_order = true;
     nmenu.query();
 
@@ -707,6 +711,19 @@ void game::chat()
             .max_length( 128 )
             .query();
             yell_msg = popup.text();
+            is_order = false;
+            break;
+        }
+        case NPC_CHAT_THINK: {
+            std::string popupdesc = _( "What are you thinking about?" );
+            string_input_popup popup;
+            popup.title( _( "You think" ) )
+            .width( 64 )
+            .description( popupdesc )
+            .identifier( "sentence" )
+            .max_length( 128 )
+            .query();
+            think_msg = popup.text();
             is_order = false;
             break;
         }
@@ -832,6 +849,9 @@ void game::chat()
     if( !message.empty() ) {
         add_msg( _( "You yell %s" ), message );
         u.shout( string_format( _( "%s yelling %s" ), u.disp_name(), message ), is_order );
+    }
+    if( !think_msg.empty() ) {
+        add_msg( _( "You think %s" ), think_msg );
     }
 
     u.moves -= 100;
@@ -1036,6 +1056,19 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
     } else if( topic == "TALK_MUTE_ANGRY" ) {
         return string_format(
                    _( "&You are mute and can't talk.  When you don't respond, %s becomes angry!" ),
+                   actor( true )->disp_name() );
+    } else if( topic == "TALK_CHURL" ) {
+        return string_format(
+                   _( "&Thou art but a lowley churl and ye know not this newe tongue.  %s seems unable to understand what you're saying." ),
+                   actor( true )->disp_name() );
+
+    } else if( topic == "TALK_CHURL_ANGRY" ) {
+        return string_format(
+                   _( "&Thou art but a lowley churl and ye know not this newe tongue.  Unable to understand your dialect, %s becomes angry!" ),
+                   actor( true )->disp_name() );
+    } else if( topic == "TALK_CHURL_TRADE" ) {
+        return string_format(
+                   _( "&Thou art but a lowley churl wyth litel understonding of this newe langage, yet %s can understand you and seems willing to trade!" ),
                    actor( true )->disp_name() );
     }
     avatar &player_character = get_avatar();
@@ -1377,6 +1410,14 @@ void dialogue::gen_responses( const talk_topic &the_topic )
     if( actor( false )->has_trait( trait_DEBUG_MIND_CONTROL ) && !actor( true )->is_player_ally() ) {
         add_response( _( "OBEY ME!" ), "TALK_MIND_CONTROL" );
         add_response_done( _( "Bye." ) );
+    }
+
+    if( player_character.has_trait( trait_PROF_CHURL ) && ( actor( true )->get_npc_trust() >= 0 ) &&
+        ( actor( true )->get_npc_anger() <= 0 ) && ( actor( true )->int_cur() >= 9 ) &&
+        !( the_topic.id == "TALK_CHURL_FRIENDLY" ) ) {
+        add_response( _( "Ho there, otherwyrldly devyl!  Have yow ware for to chaffare?" ),
+                      "TALK_CHURL_FRIENDLY" );
+        add_response_done( _( "Farewell!" ) );
     }
 
     if( responses.empty() ) {
@@ -2060,7 +2101,7 @@ void talk_effect_fun_t<T>::set_add_effect( const JsonObject &jo, const std::stri
     bool permanent = false;
     bool force = false;
     duration_or_var<T> dov_duration;
-    int_or_var<T> iov_intensity;
+    dbl_or_var<T> dov_intensity;
     if( jo.has_string( "duration" ) ) {
         const std::string dur_string = jo.get_string( "duration" );
         if( dur_string == "PERMANENT" ) {
@@ -2072,7 +2113,7 @@ void talk_effect_fun_t<T>::set_add_effect( const JsonObject &jo, const std::stri
     } else {
         dov_duration = get_duration_or_var<T>( jo, "duration", true );
     }
-    iov_intensity = get_int_or_var<T>( jo, "intensity", false, 0 );
+    dov_intensity = get_dbl_or_var<T>( jo, "intensity", false, 0 );
     if( jo.has_bool( "force" ) ) {
         force = jo.get_bool( "force" );
     }
@@ -2083,11 +2124,11 @@ void talk_effect_fun_t<T>::set_add_effect( const JsonObject &jo, const std::stri
         target.str_val = "bp_null";
     }
     function = [is_npc, new_effect, dov_duration, target, permanent, force,
-            iov_intensity]( const T & d ) {
+            dov_intensity]( const T & d ) {
         d.actor( is_npc )->add_effect( efftype_id( new_effect.evaluate( d ) ),
                                        dov_duration.evaluate( d ),
                                        target.evaluate( d ), permanent, force,
-                                       iov_intensity.evaluate( d ) );
+                                       dov_intensity.evaluate( d ) );
     };
 }
 
@@ -2125,7 +2166,7 @@ template<class T>
 void talk_effect_fun_t<T>::set_mutate( const JsonObject &jo, const std::string &member,
                                        bool is_npc )
 {
-    int_or_var<T> highest_cat = get_int_or_var<T>( jo, member, true, 0 );
+    dbl_or_var<T> highest_cat = get_dbl_or_var<T>( jo, member, true, 0 );
     const bool use_vitamins = jo.get_bool( "use_vitamins", true );
     function = [is_npc, highest_cat, use_vitamins]( const T & d ) {
         d.actor( is_npc )->mutate( highest_cat.evaluate( d ), use_vitamins );
@@ -2167,7 +2208,7 @@ template<class T>
 void talk_effect_fun_t<T>::set_add_var( const JsonObject &jo, const std::string &member,
                                         bool is_npc )
 {
-    int_or_var<dialogue> empty;
+    dbl_or_var<dialogue> empty;
     const std::string var_name = get_talk_varname<dialogue>( jo, member, false, empty );
     const std::string var_base_name = get_talk_var_basename( jo, member, false );
     const bool time_check = jo.has_member( "time" ) && jo.get_bool( "time" );
@@ -2192,7 +2233,7 @@ template<class T>
 void talk_effect_fun_t<T>::set_remove_var( const JsonObject &jo, const std::string &member,
         bool is_npc )
 {
-    int_or_var<dialogue> empty;
+    dbl_or_var<dialogue> empty;
     const std::string var_name = get_talk_varname<dialogue>( jo, member, false, empty );
     function = [is_npc, var_name]( const T & d ) {
         d.actor( is_npc )->remove_value( var_name );
@@ -2203,12 +2244,12 @@ template<class T>
 void talk_effect_fun_t<T>::set_adjust_var( const JsonObject &jo, const std::string &member,
         bool is_npc )
 {
-    int_or_var<dialogue> empty;
+    dbl_or_var<dialogue> empty;
     const std::string var_name = get_talk_varname<dialogue>( jo, member, false, empty );
     const std::string var_base_name = get_talk_var_basename( jo, member, false );
-    int_or_var<T> iov = get_int_or_var<T>( jo, "adjustment" );
-    function = [is_npc, var_base_name, var_name, iov]( const T & d ) {
-        int adjusted_value = iov.evaluate( d );
+    dbl_or_var<T> dov = get_dbl_or_var<T>( jo, "adjustment" );
+    function = [is_npc, var_base_name, var_name, dov]( const T & d ) {
+        int adjusted_value = dov.evaluate( d );
 
         const std::string &var = d.actor( is_npc )->get_value( var_name );
         if( !var.empty() ) {
@@ -2220,11 +2261,16 @@ void talk_effect_fun_t<T>::set_adjust_var( const JsonObject &jo, const std::stri
     };
 }
 
-static void receive_item( const itype_id &item_name, int count, const std::string &container_name,
-                          const dialogue &d )
+static void receive_item( itype_id &item_name, int count, const std::string &container_name,
+                          const dialogue &d, bool use_item_group )
 {
+    item new_item;
+    if( use_item_group ) {
+        new_item = item_group::item_from( item_group_id( item_name.c_str() ) );
+    } else {
+        new_item = item( item_name, calendar::turn );
+    }
     if( container_name.empty() ) {
-        item new_item = item( item_name, calendar::turn );
         if( new_item.count_by_charges() ) {
             new_item.mod_charges( count - 1 );
             d.actor( false )->i_add_or_drop( new_item );
@@ -2248,7 +2294,8 @@ static void receive_item( const itype_id &item_name, int count, const std::strin
         }
     } else {
         item container( container_name, calendar::turn );
-        container.put_in( item( item_name, calendar::turn, count ),
+        new_item.mod_charges( count - 1 );
+        container.put_in( new_item,
                           item_pocket::pocket_type::CONTAINER );
         d.actor( false )->i_add_or_drop( container );
         if( d.has_beta && !d.actor( true )->disp_name().empty() ) {
@@ -2268,19 +2315,21 @@ void talk_effect_fun_t<T>::set_u_spawn_item( const JsonObject &jo, const std::st
     } else {
         container_name.str_val = "";
     }
-    int_or_var<T> cost = get_int_or_var<T>( jo, "cost", false, 0 );
-    int_or_var<T> count;
+    bool use_item_group = jo.get_bool( "use_item_group", false );
+    dbl_or_var<T> count;
     if( !jo.has_int( "charges" ) ) {
-        count = get_int_or_var<T>( jo, "count", false, 1 );
+        count = get_dbl_or_var<T>( jo, "count", false, 1 );
     } else {
-        count = get_int_or_var<T>( jo, "count", false, 0 );
+        count = get_dbl_or_var<T>( jo, "count", false, 0 );
     }
-    function = [item_name, count, container_name]( const T & d ) {
-        receive_item( itype_id( item_name.evaluate( d ) ), count.evaluate( d ),
-                      container_name.evaluate( d ), d );
+    function = [item_name, count, container_name, use_item_group]( const T & d ) {
+        itype_id iname = itype_id( item_name.evaluate( d ) );
+        receive_item( iname, count.evaluate( d ),
+                      container_name.evaluate( d ), d, use_item_group );
     };
     dialogue d( get_talker_for( get_avatar() ), nullptr );
-    likely_rewards.emplace_back( count.evaluate( d ), itype_id( item_name.evaluate( d ) ) );
+    likely_rewards.emplace_back( static_cast<int>( count.evaluate( d ) ),
+                                 itype_id( item_name.evaluate( d ) ) );
 }
 
 template<class T>
@@ -2288,13 +2337,14 @@ void talk_effect_fun_t<T>::set_u_buy_item( const JsonObject &jo, const std::stri
 {
     std::vector<effect_on_condition_id> true_eocs = load_eoc_vector( jo, "true_eocs" );
     std::vector<effect_on_condition_id> false_eocs = load_eoc_vector( jo, "false_eocs" );
-    int_or_var<T> cost = get_int_or_var<T>( jo, "cost", false, 0 );
-    int_or_var<T> count;
+    dbl_or_var<T> cost = get_dbl_or_var<T>( jo, "cost", false, 0 );
+    dbl_or_var<T> count;
     if( !jo.has_int( "charges" ) ) {
-        count = get_int_or_var<T>( jo, "count", false, 1 );
+        count = get_dbl_or_var<T>( jo, "count", false, 1 );
     } else {
-        count = get_int_or_var<T>( jo, "count", false, 0 );
+        count = get_dbl_or_var<T>( jo, "count", false, 0 );
     }
+    bool use_item_group = jo.get_bool( "use_item_group", false );
     str_or_var<T> container_name;
     if( jo.has_member( "container" ) ) {
         container_name = get_str_or_var<T>( jo.get_member( "container" ), "container", true );
@@ -2302,14 +2352,16 @@ void talk_effect_fun_t<T>::set_u_buy_item( const JsonObject &jo, const std::stri
         container_name.str_val = "";
     }
     str_or_var<T> item_name = get_str_or_var<T>( jo.get_member( member ), member, true );
-    function = [item_name, cost, count, container_name, true_eocs, false_eocs]( const T & d ) {
+    function = [item_name, cost, count, container_name, true_eocs, false_eocs,
+               use_item_group]( const T & d ) {
         if( !d.actor( true )->buy_from( cost.evaluate( d ) ) ) {
             popup( _( "You can't afford it!" ) );
             run_eoc_vector( false_eocs, d );
             return;
         }
-        receive_item( itype_id( item_name.evaluate( d ) ), count.evaluate( d ),
-                      container_name.evaluate( d ), d );
+        itype_id iname = itype_id( item_name.evaluate( d ) );
+        receive_item( iname, count.evaluate( d ),
+                      container_name.evaluate( d ), d, use_item_group );
         run_eoc_vector( true_eocs, d );
     };
 }
@@ -2319,12 +2371,12 @@ void talk_effect_fun_t<T>::set_u_sell_item( const JsonObject &jo, const std::str
 {
     std::vector<effect_on_condition_id> true_eocs = load_eoc_vector( jo, "true_eocs" );
     std::vector<effect_on_condition_id> false_eocs = load_eoc_vector( jo, "false_eocs" );
-    int_or_var<T> cost = get_int_or_var<T>( jo, "cost", false, 0 );
-    int_or_var<T> count;
+    dbl_or_var<T> cost = get_dbl_or_var<T>( jo, "cost", false, 0 );
+    dbl_or_var<T> count;
     if( !jo.has_int( "charges" ) ) {
-        count = get_int_or_var<T>( jo, "count", false, 1 );
+        count = get_dbl_or_var<T>( jo, "count", false, 1 );
     } else {
-        count = get_int_or_var<T>( jo, "count", false, 0 );
+        count = get_dbl_or_var<T>( jo, "count", false, 0 );
     }
     str_or_var<T> item_name = get_str_or_var<T>( jo.get_member( member ), member, true );
     function = [item_name, cost, count, true_eocs, false_eocs]( const T & d ) {
@@ -2364,12 +2416,12 @@ void talk_effect_fun_t<T>::set_consume_item( const JsonObject &jo, const std::st
         bool is_npc )
 {
     str_or_var<T> item_name = get_str_or_var<T>( jo.get_member( member ), member, true );
-    int_or_var<T> charges = get_int_or_var<T>( jo, "charges", false, 0 );
-    int_or_var<T> count;
+    dbl_or_var<T> charges = get_dbl_or_var<T>( jo, "charges", false, 0 );
+    dbl_or_var<T> count;
     if( !jo.has_int( "charges" ) ) {
-        count = get_int_or_var<T>( jo, "count", false, 1 );
+        count = get_dbl_or_var<T>( jo, "count", false, 1 );
     } else {
-        count = get_int_or_var<T>( jo, "count", false, 0 );
+        count = get_dbl_or_var<T>( jo, "count", false, 0 );
     }
     const bool do_popup = jo.get_bool( "popup", false );
     function = [do_popup, is_npc, item_name, count, charges]( const T & d ) {
@@ -2431,7 +2483,7 @@ void talk_effect_fun_t<T>::set_remove_item_with( const JsonObject &jo, const std
 template<class T>
 void talk_effect_fun_t<T>::set_u_spend_cash( const JsonObject &jo, const std::string &member )
 {
-    int_or_var<T> amount = get_int_or_var<T>( jo, member );
+    dbl_or_var<T> amount = get_dbl_or_var<T>( jo, member );
     std::vector<effect_on_condition_id> true_eocs = load_eoc_vector( jo, "true_eocs" );
     std::vector<effect_on_condition_id> false_eocs = load_eoc_vector( jo, "false_eocs" );
     function = [amount, true_eocs, false_eocs]( const T & d ) {
@@ -2464,7 +2516,7 @@ void talk_effect_fun_t<T>::set_npc_change_class( const JsonObject &jo, const std
 template<class T>
 void talk_effect_fun_t<T>::set_change_faction_rep( const JsonObject &jo, const std::string &member )
 {
-    int_or_var<T> rep_change = get_int_or_var<T>( jo, member );
+    dbl_or_var<T> rep_change = get_dbl_or_var<T>( jo, member );
     function = [rep_change]( const T & d ) {
         d.actor( true )->add_faction_rep( rep_change.evaluate( d ) );
     };
@@ -2556,14 +2608,14 @@ template<class T>
 void talk_effect_fun_t<T>::set_location_variable( const JsonObject &jo, const std::string &member,
         bool is_npc )
 {
-    int_or_var<T> iov_min_radius = get_int_or_var<T>( jo, "min_radius", false, 0 );
-    int_or_var<T> iov_max_radius = get_int_or_var<T>( jo, "max_radius", false, 0 );
-    int_or_var<T> iov_z_adjust = get_int_or_var<T>( jo, "z_adjust", false, 0 );
-    int_or_var<T> iov_x_adjust = get_int_or_var<T>( jo, "x_adjust", false, 0 );
-    int_or_var<T> iov_y_adjust = get_int_or_var<T>( jo, "y_adjust", false, 0 );
+    dbl_or_var<T> dov_min_radius = get_dbl_or_var<T>( jo, "min_radius", false, 0 );
+    dbl_or_var<T> dov_max_radius = get_dbl_or_var<T>( jo, "max_radius", false, 0 );
+    dbl_or_var<T> dov_z_adjust = get_dbl_or_var<T>( jo, "z_adjust", false, 0 );
+    dbl_or_var<T> dov_x_adjust = get_dbl_or_var<T>( jo, "x_adjust", false, 0 );
+    dbl_or_var<T> dov_y_adjust = get_dbl_or_var<T>( jo, "y_adjust", false, 0 );
     bool z_override = jo.get_bool( "z_override", false );
     const bool outdoor_only = jo.get_bool( "outdoor_only", false );
-    cata::optional<mission_target_params> target_params;
+    cata::optional<mission_target_params<dialogue>> target_params;
     if( jo.has_object( "target_params" ) ) {
         JsonObject target_obj = jo.get_object( "target_params" );
         target_params = mission_util::parse_mission_om_target( target_obj );
@@ -2576,21 +2628,21 @@ void talk_effect_fun_t<T>::set_location_variable( const JsonObject &jo, const st
     std::vector<effect_on_condition_id> true_eocs = load_eoc_vector( jo, "true_eocs" );
     std::vector<effect_on_condition_id> false_eocs = load_eoc_vector( jo, "false_eocs" );
 
-    function = [iov_min_radius, iov_max_radius, var_name, outdoor_only, target_params,
-                                is_npc, type, iov_x_adjust, iov_y_adjust, iov_z_adjust, z_override, true_eocs,
+    function = [dov_min_radius, dov_max_radius, var_name, outdoor_only, target_params,
+                                is_npc, type, dov_x_adjust, dov_y_adjust, dov_z_adjust, z_override, true_eocs,
                     false_eocs]( const T & d ) {
         talker *target = d.actor( is_npc );
         tripoint talker_pos = get_map().getabs( target->pos() );
         tripoint target_pos = talker_pos;
 
-        int max_radius = iov_max_radius.evaluate( d );
+        int max_radius = dov_max_radius.evaluate( d );
         if( target_params.has_value() ) {
             const tripoint_abs_omt omt_pos = mission_util::get_om_terrain_pos( target_params.value() );
             target_pos = tripoint( project_to<coords::ms>( omt_pos ).x(), project_to<coords::ms>( omt_pos ).y(),
                                    project_to<coords::ms>( omt_pos ).z() );
         } else if( max_radius > 0 ) {
             bool found = false;
-            int min_radius = iov_min_radius.evaluate( d );
+            int min_radius = dov_min_radius.evaluate( d );
             for( int attempts = 0; attempts < 25; attempts++ ) {
                 target_pos = talker_pos + tripoint( rng( -max_radius, max_radius ), rng( -max_radius, max_radius ),
                                                     0 );
@@ -2607,14 +2659,14 @@ void talk_effect_fun_t<T>::set_location_variable( const JsonObject &jo, const st
         }
 
         // move the found value by the adjusts
-        target_pos = target_pos + tripoint( iov_x_adjust.evaluate( d ), iov_y_adjust.evaluate( d ), 0 );
+        target_pos = target_pos + tripoint( dov_x_adjust.evaluate( d ), dov_y_adjust.evaluate( d ), 0 );
 
         if( z_override ) {
             target_pos = tripoint( target_pos.xy(),
-                                   iov_z_adjust.evaluate( d ) );
+                                   dov_z_adjust.evaluate( d ) );
         } else {
             target_pos = target_pos + tripoint( 0, 0,
-                                                iov_z_adjust.evaluate( d ) );
+                                                dov_z_adjust.evaluate( d ) );
         }
         write_var_value( type, var_name, d.actor( type == var_type::npc ), target_pos.to_string() );
         run_eoc_vector( true_eocs, d );
@@ -2627,7 +2679,7 @@ void talk_effect_fun_t<T>::set_transform_radius( const JsonObject &jo, const std
 {
     str_or_var<T> transform = get_str_or_var<T>( jo.get_member( "ter_furn_transform" ),
                               "ter_furn_transform", true );
-    int_or_var<T> iov = get_int_or_var<T>( jo, member );
+    dbl_or_var<T> dov = get_dbl_or_var<T>( jo, member );
     duration_or_var<T> dov_time_in_future = get_duration_or_var<T>( jo, "time_in_future", false,
                                             0_seconds );
     cata::optional<var_info> target_var;
@@ -2640,13 +2692,13 @@ void talk_effect_fun_t<T>::set_transform_radius( const JsonObject &jo, const std
     } else {
         key.str_val = "";
     }
-    function = [iov, transform, target_var, dov_time_in_future, key, is_npc]( const T & d ) {
+    function = [dov, transform, target_var, dov_time_in_future, key, is_npc]( const T & d ) {
         tripoint_abs_ms target_pos = d.actor( is_npc )->global_pos();
         if( target_var.has_value() ) {
             target_pos = get_tripoint_from_var<T>( target_var, d );
         }
 
-        int radius = iov.evaluate( d );
+        int radius = dov.evaluate( d );
         time_duration future = dov_time_in_future.evaluate( d );
         if( future > 0_seconds ) {
             get_timed_events().add( timed_event_type::TRANSFORM_RADIUS,
@@ -2700,7 +2752,7 @@ void talk_effect_fun_t<T>::set_place_override( const JsonObject &jo, const std::
 template<class T>
 void talk_effect_fun_t<T>::set_mapgen_update( const JsonObject &jo, const std::string &member )
 {
-    mission_target_params target_params = mission_util::parse_mission_om_target( jo );
+    mission_target_params<dialogue> target_params = mission_util::parse_mission_om_target( jo );
     std::vector<str_or_var<T>> update_ids;
     duration_or_var<T> dov_time_in_future = get_duration_or_var<T>( jo, "time_in_future", false,
                                             0_seconds );
@@ -2727,7 +2779,7 @@ void talk_effect_fun_t<T>::set_mapgen_update( const JsonObject &jo, const std::s
             const tripoint_abs_ms abs_ms( get_tripoint_from_var<T>( target_var, d ) );
             omt_pos = project_to<coords::omt>( abs_ms );
         } else {
-            mission_target_params update_params = target_params;
+            mission_target_params<dialogue> update_params = target_params;
             if( d.has_beta ) {
                 update_params.guy = d.actor( true )->get_npc();
             }
@@ -2802,8 +2854,8 @@ void talk_effect_fun_t<T>::set_revert_location( const JsonObject &jo, const std:
 template<class T>
 void talk_effect_fun_t<T>::set_npc_goal( const JsonObject &jo, const std::string &member )
 {
-    mission_target_params dest_params = mission_util::parse_mission_om_target( jo.get_object(
-                                            member ) );
+    mission_target_params<dialogue> dest_params = mission_util::parse_mission_om_target( jo.get_object(
+                member ) );
     std::vector<effect_on_condition_id> true_eocs = load_eoc_vector( jo, "true_eocs" );
     std::vector<effect_on_condition_id> false_eocs = load_eoc_vector( jo, "false_eocs" );
     function = [dest_params, true_eocs, false_eocs]( const T & d ) {
@@ -2834,18 +2886,18 @@ template<class T>
 void talk_effect_fun_t<T>::set_bulk_trade_accept( const JsonObject &jo, const std::string &member,
         bool is_npc )
 {
-    int_or_var<T> iov_quantity;
+    dbl_or_var<T> dov_quantity;
     if( jo.has_member( member ) ) {
-        iov_quantity = get_int_or_var<T>( jo, member, false, -1 );
+        dov_quantity = get_dbl_or_var<T>( jo, member, false, -1 );
     } else {
-        iov_quantity.min.int_val = -1;
+        dov_quantity.min.dbl_val = -1;
     }
     bool is_trade = member == "u_bulk_trade_accept" || member == "npc_bulk_trade_accept";
-    function = [is_trade, is_npc, iov_quantity]( const T & d ) {
+    function = [is_trade, is_npc, dov_quantity]( const T & d ) {
         talker *seller = d.actor( is_npc );
         talker *buyer = d.actor( !is_npc );
         item tmp( d.cur_item );
-        int quantity = iov_quantity.evaluate( d );
+        int quantity = dov_quantity.evaluate( d );
         int seller_has = 0;
         if( tmp.count_by_charges() ) {
             seller_has = seller->charges_of( d.cur_item );
@@ -2931,8 +2983,8 @@ template<class T>
 void talk_effect_fun_t<T>::set_u_buy_monster( const JsonObject &jo, const std::string &member )
 {
     str_or_var<T> monster_type_id = get_str_or_var<T>( jo.get_member( member ), member, true );
-    int_or_var<T> cost = get_int_or_var<T>( jo, "cost", false, 0 );
-    int_or_var<T> count = get_int_or_var<T>( jo, "count", false, 1 );
+    dbl_or_var<T> cost = get_dbl_or_var<T>( jo, "cost", false, 0 );
+    dbl_or_var<T> count = get_dbl_or_var<T>( jo, "count", false, 1 );
     const bool pacified = jo.get_bool( "pacified", false );
     str_or_var<T> name;
     if( jo.has_member( "name" ) ) {
@@ -3117,11 +3169,11 @@ template<class T>
 void talk_effect_fun_t<T>::set_add_wet( const JsonObject &jo, const std::string &member,
                                         bool is_npc )
 {
-    int_or_var<T> iov = get_int_or_var<T>( jo, member );
-    function = [is_npc, iov]( const T & d ) {
+    dbl_or_var<T> dov = get_dbl_or_var<T>( jo, member );
+    function = [is_npc, dov]( const T & d ) {
         Character *target = d.actor( is_npc )->get_character();
         if( target ) {
-            wet_character( *target, iov.evaluate( d ) );
+            wet_character( *target, dov.evaluate( d ) );
         }
     };
 }
@@ -3196,11 +3248,11 @@ void talk_effect_fun_t<T>::set_sound_effect( const JsonObject &jo, const std::st
     str_or_var<T> variant = get_str_or_var<T>( jo.get_member( member ), member, true );
     str_or_var<T> id = get_str_or_var<T>( jo.get_member( "id" ), "id", true );
     const bool outdoor_event = jo.get_bool( "outdoor_event", false );
-    int_or_var<T> volume;
+    dbl_or_var<T> volume;
     if( jo.has_member( "volume" ) ) {
-        volume = get_int_or_var<T>( jo, "volume", false, -1 );
+        volume = get_dbl_or_var<T>( jo, "volume", false, -1 );
     } else {
-        volume.min.int_val = -1;
+        volume.min.dbl_val = -1;
     }
     function = [variant, id, outdoor_event, volume]( const T & d ) {
         map &here = get_map();
@@ -3229,12 +3281,12 @@ template<class T>
 void talk_effect_fun_t<T>::set_mod_healthy( const JsonObject &jo, const std::string &member,
         bool is_npc )
 {
-    int_or_var<T> iov_amount = get_int_or_var<T>( jo, member );
-    int_or_var<T> iov_cap = get_int_or_var<T>( jo, "cap" );
+    dbl_or_var<T> dov_amount = get_dbl_or_var<T>( jo, member );
+    dbl_or_var<T> dov_cap = get_dbl_or_var<T>( jo, "cap" );
 
-    function = [is_npc, iov_amount, iov_cap]( const T & d ) {
-        d.actor( is_npc )->mod_daily_health( iov_amount.evaluate( d ),
-                                             iov_cap.evaluate( d ) );
+    function = [is_npc, dov_amount, dov_cap]( const T & d ) {
+        d.actor( is_npc )->mod_daily_health( dov_amount.evaluate( d ),
+                                             dov_cap.evaluate( d ) );
     };
 }
 
@@ -3242,7 +3294,7 @@ template<class T>
 void talk_effect_fun_t<T>::set_hp( const JsonObject &jo, const std::string &member,
                                    bool is_npc )
 {
-    int_or_var<T> new_hp = get_int_or_var<T>( jo, member, true );
+    dbl_or_var<T> new_hp = get_dbl_or_var<T>( jo, member, true );
     cata::optional<str_or_var<T>> target_part;
     if( jo.has_string( "target_part" ) ) {
         target_part = get_str_or_var<T>( jo.get_member( "target_part" ), "target_part", true );
@@ -3602,16 +3654,16 @@ template<class T>
 void talk_effect_fun_t<T>::set_weighted_list_eocs( const JsonObject &jo,
         const std::string &member )
 {
-    std::vector<std::pair<effect_on_condition_id, std::function<int( const dialogue & )>>> eoc_pairs;
+    std::vector<std::pair<effect_on_condition_id, std::function<double( const dialogue & )>>> eoc_pairs;
     for( JsonArray ja : jo.get_array( member ) ) {
         JsonValue eoc = ja.next_value();
         JsonObject weight = ja.next_object();
         eoc_pairs.emplace_back( effect_on_conditions::load_inline_eoc( eoc, "" ),
-                                conditional_t< dialogue >::get_get_int( weight ) );
+                                conditional_t< dialogue >::get_get_dbl( weight ) );
     }
     function = [eoc_pairs]( const T & d ) {
         weighted_int_list<effect_on_condition_id> eocs;
-        for( const std::pair<effect_on_condition_id, std::function<int( const dialogue & )>> &eoc_pair :
+        for( const std::pair<effect_on_condition_id, std::function<double( const dialogue & )>> &eoc_pair :
              eoc_pairs ) {
             eocs.add( eoc_pair.first, eoc_pair.second( d ) );
         }
@@ -3625,19 +3677,19 @@ template<class T>
 void talk_effect_fun_t<T>::set_switch( const JsonObject &jo,
                                        const std::string &member )
 {
-    std::function<int( const T & )> eoc_switch = conditional_t< T >::get_get_int(
+    std::function<double( const T & )> eoc_switch = conditional_t< T >::get_get_dbl(
                 jo.get_object( member ) );
-    std::vector<std::pair<int_or_var<T>, talk_effect_t<T>>> case_pairs;
+    std::vector<std::pair<dbl_or_var<T>, talk_effect_t<T>>> case_pairs;
     for( const JsonValue jv : jo.get_array( "cases" ) ) {
         JsonObject array_case = jv.get_object();
         talk_effect_t<T> case_effect;
         case_effect.load_effect( array_case, "effect" );
-        case_pairs.emplace_back( get_int_or_var<T>( array_case, "case" ), case_effect );
+        case_pairs.emplace_back( get_dbl_or_var<T>( array_case, "case" ), case_effect );
     }
     function = [eoc_switch, case_pairs]( const T & d ) {
-        int switch_int = eoc_switch( d );
+        const double switch_int = eoc_switch( d );
         talk_effect_t<T> case_effect;
-        for( const std::pair<int_or_var<T>, talk_effect_t<T>> &case_pair :
+        for( const std::pair<dbl_or_var<T>, talk_effect_t<T>> &case_pair :
              case_pairs ) {
             if( switch_int >= case_pair.first.evaluate( d ) ) {
                 case_effect = case_pair.second;
@@ -3670,6 +3722,14 @@ void talk_effect_fun_t<T>::set_roll_remainder( const JsonObject &jo,
                 if( !d.actor( is_npc )->has_trait( trait_id( cur_string.evaluate( d ) ) ) ) {
                     not_had.push_back( cur_string.evaluate( d ) );
                 }
+            } else if( type.evaluate( d ) == "spell" ) {
+                if( d.actor( is_npc )->get_spell_level( spell_id( cur_string.evaluate( d ) ) ) == - 1 ) {
+                    not_had.push_back( cur_string.evaluate( d ) );
+                }
+            } else if( type.evaluate( d ) == "recipe" ) {
+                if( !d.actor( is_npc )->has_recipe( recipe_id( cur_string.evaluate( d ) ) ) ) {
+                    not_had.push_back( cur_string.evaluate( d ) );
+                }
             } else {
                 debugmsg( "Invalid roll remainder type." );
             }
@@ -3681,6 +3741,10 @@ void talk_effect_fun_t<T>::set_roll_remainder( const JsonObject &jo,
                 d.actor( is_npc )->add_bionic( bionic_id( cur_choice ) );
             } else if( type.evaluate( d ) == "mutation" ) {
                 d.actor( is_npc )->set_mutation( trait_id( cur_choice ) );
+            } else if( type.evaluate( d ) == "spell" ) {
+                d.actor( is_npc )->set_spell_level( spell_id( cur_choice ), 1 );
+            } else if( type.evaluate( d ) == "recipe" ) {
+                d.actor( is_npc )->learn_recipe( recipe_id( cur_choice ) );
             } else {
                 debugmsg( "Invalid roll remainder type." );
             }
@@ -3696,16 +3760,16 @@ void talk_effect_fun_t<T>::set_add_morale( const JsonObject &jo, const std::stri
         bool is_npc )
 {
     str_or_var<T> new_type = get_str_or_var<T>( jo.get_member( member ), member, true );
-    int_or_var<T> iov_bonus = get_int_or_var<T>( jo, "bonus" );
-    int_or_var<T> iov_max_bonus = get_int_or_var<T>( jo, "max_bonus" );
+    dbl_or_var<T> dov_bonus = get_dbl_or_var<T>( jo, "bonus" );
+    dbl_or_var<T> dov_max_bonus = get_dbl_or_var<T>( jo, "max_bonus" );
     duration_or_var<T> dov_duration = get_duration_or_var<T>( jo, "duration", false, 1_hours );
     duration_or_var<T> dov_decay_start = get_duration_or_var<T>( jo, "decay_start", false, 30_minutes );
     const bool capped = jo.get_bool( "capped", false );
-    function = [is_npc, new_type, iov_bonus, iov_max_bonus, dov_duration, dov_decay_start,
+    function = [is_npc, new_type, dov_bonus, dov_max_bonus, dov_duration, dov_decay_start,
             capped]( const T & d ) {
         d.actor( is_npc )->add_morale( morale_type( new_type.evaluate( d ) ),
-                                       iov_bonus.evaluate( d ),
-                                       iov_max_bonus.evaluate( d ),
+                                       dov_bonus.evaluate( d ),
+                                       dov_max_bonus.evaluate( d ),
                                        dov_duration.evaluate( d ),
                                        dov_decay_start.evaluate( d ),
                                        capped );
@@ -3725,9 +3789,9 @@ void talk_effect_fun_t<T>::set_lose_morale( const JsonObject &jo, const std::str
 template<class T>
 void talk_effect_fun_t<T>::set_add_faction_trust( const JsonObject &jo, const std::string &member )
 {
-    int_or_var<T> iov = get_int_or_var<T>( jo, member );
-    function = [iov]( const T & d ) {
-        d.actor( true )->get_faction()->trusts_u += iov.evaluate( d );
+    dbl_or_var<T> dov = get_dbl_or_var<T>( jo, member );
+    function = [dov]( const T & d ) {
+        d.actor( true )->get_faction()->trusts_u += dov.evaluate( d );
     };
 }
 
@@ -3735,9 +3799,9 @@ template<class T>
 void talk_effect_fun_t<T>::set_lose_faction_trust( const JsonObject &jo,
         const std::string &member )
 {
-    int_or_var<T> iov = get_int_or_var<T>( jo, member );
-    function = [iov]( const T & d ) {
-        d.actor( true )->get_faction()->trusts_u -= iov.evaluate( d );
+    dbl_or_var<T> dov = get_dbl_or_var<T>( jo, member );
+    function = [dov]( const T & d ) {
+        d.actor( true )->get_faction()->trusts_u -= dov.evaluate( d );
     };
 }
 
@@ -3745,7 +3809,7 @@ template<class T>
 void talk_effect_fun_t<T>::set_custom_light_level( const JsonObject &jo,
         const std::string &member )
 {
-    int_or_var<T> iov = get_int_or_var<T>( jo, member, true );
+    dbl_or_var<T> dov = get_dbl_or_var<T>( jo, member, true );
     duration_or_var<T> dov_length = get_duration_or_var<T>( jo, "length", false, 0_seconds );
     str_or_var<T> key;
     if( jo.has_member( "key" ) ) {
@@ -3753,11 +3817,11 @@ void talk_effect_fun_t<T>::set_custom_light_level( const JsonObject &jo,
     } else {
         key.str_val = "";
     }
-    function = [dov_length, iov, key]( const T & d ) {
+    function = [dov_length, dov, key]( const T & d ) {
         get_timed_events().add( timed_event_type::CUSTOM_LIGHT_LEVEL,
                                 calendar::turn + dov_length.evaluate( d ) +
                                 1_seconds/*We add a second here because this will get ticked on the turn its applied before it has an effect*/,
-                                -1, iov.evaluate( d ), key.evaluate( d ) );
+                                -1, dov.evaluate( d ), key.evaluate( d ) );
     };
 }
 
@@ -3804,11 +3868,11 @@ void talk_effect_fun_t<T>::set_spawn_monster( const JsonObject &jo, const std::s
     } else {
         new_monster = mtype_id( jo.get_string( member ) );
     }
-    int_or_var<T> iov_target_range = get_int_or_var<T>( jo, "target_range", false, 0 );
-    int_or_var<T> iov_hallucination_count = get_int_or_var<T>( jo, "hallucination_count", false, 0 );
-    int_or_var<T> iov_real_count = get_int_or_var<T>( jo, "real_count", false, 0 );
-    int_or_var<T> iov_min_radius = get_int_or_var<T>( jo, "min_radius", false, 1 );
-    int_or_var<T> iov_max_radius = get_int_or_var<T>( jo, "max_radius", false, 10 );
+    dbl_or_var<T> dov_target_range = get_dbl_or_var<T>( jo, "target_range", false, 0 );
+    dbl_or_var<T> dov_hallucination_count = get_dbl_or_var<T>( jo, "hallucination_count", false, 0 );
+    dbl_or_var<T> dov_real_count = get_dbl_or_var<T>( jo, "real_count", false, 0 );
+    dbl_or_var<T> dov_min_radius = get_dbl_or_var<T>( jo, "min_radius", false, 1 );
+    dbl_or_var<T> dov_max_radius = get_dbl_or_var<T>( jo, "max_radius", false, 10 );
 
     const bool outdoor_only = jo.get_bool( "outdoor_only", false );
     const bool open_air_allowed = jo.get_bool( "open_air_allowed", false );
@@ -3823,8 +3887,8 @@ void talk_effect_fun_t<T>::set_spawn_monster( const JsonObject &jo, const std::s
     std::string spawn_message_plural = jo.get_string( "spawn_message_plural", "" );
     std::vector<effect_on_condition_id> true_eocs = load_eoc_vector( jo, "true_eocs" );
     std::vector<effect_on_condition_id> false_eocs = load_eoc_vector( jo, "false_eocs" );
-    function = [new_monster, iov_target_range, iov_hallucination_count, iov_real_count,
-                             iov_min_radius, iov_max_radius, outdoor_only, group_id, dov_lifespan, target_var,
+    function = [new_monster, dov_target_range, dov_hallucination_count, dov_real_count,
+                             dov_min_radius, dov_max_radius, outdoor_only, group_id, dov_lifespan, target_var,
                              spawn_message, spawn_message_plural, true_eocs, false_eocs, open_air_allowed,
                  friendly, is_npc]( const T & d ) {
         monster target_monster;
@@ -3832,7 +3896,7 @@ void talk_effect_fun_t<T>::set_spawn_monster( const JsonObject &jo, const std::s
         if( group_id.is_valid() ) {
             target_monster = monster( MonsterGroupManager::GetRandomMonsterFromGroup( group_id ) );
         } else if( new_monster.is_empty() ) {
-            int target_range = iov_target_range.evaluate( d );
+            int target_range = dov_target_range.evaluate( d );
             //grab a random nearby hostile creature to create a hallucination or copy of
             Creature *copy = g->get_creature_if( [target_range]( const Creature & critter ) -> bool {
                 bool not_self = get_player_character().pos() != critter.pos();
@@ -3848,10 +3912,10 @@ void talk_effect_fun_t<T>::set_spawn_monster( const JsonObject &jo, const std::s
         } else {
             target_monster = monster( new_monster );
         }
-        int min_radius = iov_min_radius.evaluate( d );
-        int max_radius = iov_max_radius.evaluate( d );
-        int real_count = iov_real_count.evaluate( d );
-        int hallucination_count = iov_hallucination_count.evaluate( d );
+        int min_radius = dov_min_radius.evaluate( d );
+        int max_radius = dov_max_radius.evaluate( d );
+        int real_count = dov_real_count.evaluate( d );
+        int hallucination_count = dov_hallucination_count.evaluate( d );
         cata::optional<time_duration> lifespan;
         tripoint target_pos = d.actor( is_npc )->pos();
         if( target_var.has_value() ) {
@@ -3916,9 +3980,9 @@ void talk_effect_fun_t<T>::set_field( const JsonObject &jo, const std::string &m
                                       bool is_npc )
 {
     str_or_var<T> new_field = get_str_or_var<T>( jo.get_member( member ), member, true );
-    int_or_var<T> iov_intensity = get_int_or_var<T>( jo, "intensity", false, 1 );
+    dbl_or_var<T> dov_intensity = get_dbl_or_var<T>( jo, "intensity", false, 1 );
     duration_or_var<T> dov_age = get_duration_or_var<T>( jo, "age", false, 1_turns );
-    int_or_var<T> iov_radius = get_int_or_var<T>( jo, "radius", false, 10000000 );
+    dbl_or_var<T> dov_radius = get_dbl_or_var<T>( jo, "radius", false, 10000000 );
 
     const bool outdoor_only = jo.get_bool( "outdoor_only", false );
     const bool indoor_only = jo.get_bool( "indoor_only", false );
@@ -3928,10 +3992,10 @@ void talk_effect_fun_t<T>::set_field( const JsonObject &jo, const std::string &m
     if( jo.has_member( "target_var" ) ) {
         target_var = read_var_info( jo.get_object( "target_var" ) );
     }
-    function = [new_field, iov_intensity, dov_age, iov_radius, outdoor_only,
+    function = [new_field, dov_intensity, dov_age, dov_radius, outdoor_only,
                hit_player, target_var, is_npc, indoor_only]( const T & d ) {
-        int radius = iov_radius.evaluate( d );
-        int intensity = iov_intensity.evaluate( d );
+        int radius = dov_radius.evaluate( d );
+        int intensity = dov_intensity.evaluate( d );
 
         tripoint_abs_ms target_pos = d.actor( is_npc )->global_pos();
         if( target_var.has_value() ) {

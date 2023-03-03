@@ -58,7 +58,6 @@ static const json_character_flag json_flag_HEATSINK( "HEATSINK" );
 static const json_character_flag json_flag_HEAT_IMMUNE( "HEAT_IMMUNE" );
 static const json_character_flag json_flag_IGNORE_TEMP( "IGNORE_TEMP" );
 static const json_character_flag json_flag_LIMB_LOWER( "LIMB_LOWER" );
-static const json_character_flag json_flag_NO_MINIMAL_HEALING( "NO_MINIMAL_HEALING" );
 static const json_character_flag json_flag_NO_THIRST( "NO_THIRST" );
 
 static const trait_id trait_BARK( "BARK" );
@@ -250,9 +249,6 @@ void Character::update_body( const time_point &from, const time_point &to )
     set_value( "was_sleeping", in_sleep_state() ? "true" : "false" );
 
     activity_history.new_turn( in_sleep_state() );
-    if( ticks_between( from, to, 24_hours ) > 0 && !has_flag( json_flag_NO_MINIMAL_HEALING ) ) {
-        enforce_minimum_healing();
-    }
 
     // Cardio related health stuff
     if( calendar::once_every( 1_days ) ) {
@@ -470,8 +466,8 @@ void Character::update_bodytemp()
 
     // Correction of body temperature due to traits and mutations
     // Lower heat is applied always
-    const int mutation_heat_low = bodytemp_modifier_traits( false );
-    const int mutation_heat_high = bodytemp_modifier_traits( true );
+    const int mutation_heat_low = bodytemp_modifier_traits( true );
+    const int mutation_heat_high = bodytemp_modifier_traits( false );
     // Difference between high and low is the "safe" heat - one we only apply if it's beneficial
     const int mutation_heat_bonus = mutation_heat_high - mutation_heat_low;
 

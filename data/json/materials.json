@@ -136,6 +136,34 @@
   },
   {
     "type": "material",
+    "id": "paint",
+    "name": "Paint",
+    "//": "almost everything in here is copied from alcohol, if someone has anything more appropriate then feel free to correct it",
+    "density": 1.3,
+    "specific_heat_liquid": 4,
+    "specific_heat_solid": 2,
+    "latent_heat": 310,
+    "bash_resist": 0,
+    "cut_resist": 0,
+    "bullet_resist": 0,
+    "acid_resist": 0,
+    "fire_resist": 0,
+    "chip_resist": 0,
+    "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
+    "bash_dmg_verb": "damaged",
+    "cut_dmg_verb": "damaged",
+    "fuel_data": {
+      "energy": "15600 kJ",
+      "explosion_data": { "chance_hot": 5, "chance_cold": 10, "factor": 0.2, "fiery": true, "size_factor": 0.1 }
+    },
+    "burn_data": [
+      { "fuel": 150, "smoke": 0, "burn": 1 },
+      { "fuel": 300, "smoke": 0, "burn": 2 },
+      { "fuel": 450, "smoke": 0, "burn": 3 }
+    ]
+  },
+  {
+    "type": "material",
     "id": "alien_liquid",
     "name": "Non-Newtonian Fluid",
     "//": "science values for this are probably all wrong taken partially from water",
@@ -186,9 +214,9 @@
     "specific_heat_liquid": 1.18,
     "specific_heat_solid": 0.91,
     "latent_heat": 398,
-    "bash_resist": 0,
-    "cut_resist": 4,
-    "bullet_resist": 2,
+    "bash_resist": 1,
+    "cut_resist": 2,
+    "bullet_resist": 1,
     "acid_resist": 4,
     "fire_resist": 2,
     "conductive": true,
@@ -738,7 +766,8 @@
       { "fuel": 2, "smoke": 3, "burn": 2, "volume_per_turn": "10000 ml" },
       { "fuel": 3, "smoke": 10, "burn": 3 }
     ],
-    "burn_products": [ [ "corpse_ash", 0.035 ] ]
+    "burn_products": [ [ "corpse_ash", 0.035 ] ],
+    "soft": true
   },
   {
     "type": "material",
@@ -988,7 +1017,8 @@
       { "fuel": 1, "smoke": 1, "burn": 1, "volume_per_turn": "2500 ml" },
       { "fuel": 2, "smoke": 3, "burn": 2, "volume_per_turn": "10000 ml" },
       { "fuel": 3, "smoke": 10, "burn": 3 }
-    ]
+    ],
+    "soft": true
   },
   {
     "type": "material",

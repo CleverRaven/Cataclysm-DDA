@@ -1,3 +1,35 @@
+# 0.H
+
+## Features:
+
+
+## Content:
+
+
+## Interface:
+
+
+## Mods:
+
+
+## Balance:
+
+
+## Bugfixes:
+
+
+## Performance:
+
+
+## Infrastructure:
+
+
+## Build:
+
+
+## I18N and A11Y:
+
+
 # 0.G (Gaiman)
 
 ## Highlights

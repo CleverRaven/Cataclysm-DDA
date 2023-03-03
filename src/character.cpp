@@ -2266,8 +2266,6 @@ void Character::recalc_sight_limits()
         sight_max = 10;
     }
 
-    sight_max = enchantment_cache->modify_value( enchant_vals::mod::SIGHT_RANGE, sight_max );
-
     // Debug-only NV, by vache's request
     if( has_trait( trait_DEBUG_NIGHTVISION ) ) {
         vision_mode_cache.set( DEBUG_NIGHTVISION );
@@ -3527,7 +3525,7 @@ std::pair<int, int> Character::climate_control_strength()
                                  // Also check for a working alternator. Muscle or animal could be powering it.
                                  (
                                      vp->is_inside() &&
-                                     vp->vehicle().total_alternator_epower_w() > 0
+                                     vp->vehicle().total_alternator_epower() > 0_W
                                  )
                              );
         }
@@ -4332,16 +4330,6 @@ void Character::regen( int rate_multiplier )
     }
 }
 
-void Character::enforce_minimum_healing()
-{
-    for( const bodypart_id &bp : get_all_body_parts() ) {
-        if( get_part_healed_total( bp ) <= 0 ) {
-            heal( bp, 1 );
-        }
-        set_part_healed_total( bp, 0 );
-    }
-}
-
 void Character::update_health()
 {
     // Limit daily_health to [-200, 200].
@@ -4966,7 +4954,7 @@ void Character::get_sick()
     // Health is in the range [-200,200].
     // Diseases are half as common for every 50 health you gain.
     float health_factor = std::pow( 2.0f, get_lifestyle() / 50.0f );
-    float env_factor = 1.0f + std::pow( 0.3f, get_env_resist( body_part_mouth ) / 2 );
+    float env_factor = 1.0f + std::pow( get_env_resist( body_part_mouth ), 0.3f ) / 2.0;
 
     int disease_rarity = static_cast<int>( checks_per_year * health_factor * env_factor /
                                            base_diseases_per_year );
@@ -5547,7 +5535,12 @@ bool Character::sees_with_specials( const Creature &critter ) const
 {
     const double sight_range_electric = calculate_by_enchantment( 0.0,
                                         enchant_vals::mod::SIGHT_RANGE_ELECTRIC );
+    const double motion_vision_range = calculate_by_enchantment( 0.0,
+                                       enchant_vals::mod::MOTION_VISION_RANGE );
     if( critter.is_electrical() && rl_dist_exact( pos(), critter.pos() ) <= sight_range_electric ) {
+        return true;
+    }
+    if( rl_dist_exact( pos(), critter.pos() ) <= motion_vision_range ) {
         return true;
     }
 
@@ -5579,6 +5572,12 @@ bool Character::pour_into( item_location &container, item &liquid, bool ignore_s
             add_msg_if_player( _( "You filled %1$s to the brim with %2$s." ), container->tname(),
                                liquid.tname() );
         }
+        return false;
+    }
+
+    if( amount == 0 ) {
+        add_msg_if_player( _( "%1$s can't to expand to add any more %2$s." ), container->tname(),
+                           liquid.tname() );
         return false;
     }
 
@@ -5736,7 +5735,7 @@ float calc_mutation_value_multiplicative( const std::vector<const mutation_branc
 static const std::map<std::string, std::function <float( std::vector<const mutation_branch *> )>>
 mutation_value_map = {
     { "healing_awake", calc_mutation_value<&mutation_branch::healing_awake> },
-    { "healing_resting", calc_mutation_value<&mutation_branch::healing_resting> },
+    { "healing_multiplier", calc_mutation_value_multiplicative<&mutation_branch::healing_multiplier> },
     { "mending_modifier", calc_mutation_value_multiplicative<&mutation_branch::mending_modifier> },
     { "hp_modifier", calc_mutation_value<&mutation_branch::hp_modifier> },
     { "hp_modifier_secondary", calc_mutation_value<&mutation_branch::hp_modifier_secondary> },
@@ -5789,30 +5788,31 @@ float Character::mutation_value( const std::string &val ) const
     }
 }
 
+namespace
+{
+float _hp_modified_rate( Character const &who, float rate )
+{
+    float const primary_hp_mod = who.mutation_value( "hp_modifier" );
+    if( primary_hp_mod < 0.0f ) {
+        cata_assert( primary_hp_mod >= -1.0f );
+        return rate * ( 1.0f + primary_hp_mod );
+    }
+
+    return rate;
+}
+} // namespace
+
 float Character::healing_rate( float at_rest_quality ) const
 {
+    float const rest = clamp( at_rest_quality, 0.0f, 1.0f );
     // TODO: Cache
-    float heal_rate;
-    if( !is_npc() ) {
-        heal_rate = get_option< float >( "PLAYER_HEALING_RATE" );
-    } else {
-        heal_rate = get_option< float >( "NPC_HEALING_RATE" );
-    }
-    float awake_rate = heal_rate * mutation_value( "healing_awake" );
-    float final_rate = 0.0f;
-    if( awake_rate > 0.0f ) {
-        final_rate += awake_rate;
-    } else if( at_rest_quality < 1.0f ) {
-        // Resting protects from rot
-        final_rate += ( 1.0f - at_rest_quality ) * awake_rate;
-    }
-    float asleep_rate = 0.0f;
-    if( at_rest_quality > 0.0f ) {
-        asleep_rate = at_rest_quality * heal_rate * ( 1.0f + mutation_value( "healing_resting" ) );
-    }
-    if( asleep_rate > 0.0f ) {
-        final_rate += asleep_rate * ( 1.0f + get_lifestyle() / 200.0f );
-    }
+    float const base_heal_rate = is_avatar() ? get_option<float>( "PLAYER_HEALING_RATE" )
+                                 : get_option<float>( "NPC_HEALING_RATE" );
+    float const heal_rate =
+        base_heal_rate * mutation_value( "healing_multiplier" );
+    float const awake_rate = ( 1.0f - rest ) * heal_rate * mutation_value( "healing_awake" );
+    float const asleep_rate = rest * heal_rate * ( 1.0f + get_lifestyle() / 200.0f );
+    float final_rate = awake_rate + asleep_rate;
 
     // Most common case: awake player with no regenerative abilities
     // ~7e-5 is 1 hp per day, anything less than that is totally negligible
@@ -5822,13 +5822,8 @@ float Character::healing_rate( float at_rest_quality ) const
         return 0.0f;
     }
 
-    float primary_hp_mod = mutation_value( "hp_modifier" );
-    if( primary_hp_mod < 0.0f ) {
-        // HP mod can't get below -1.0
-        final_rate *= 1.0f + primary_hp_mod;
-    }
-
-    return enchantment_cache->modify_value( enchant_vals::mod::REGEN_HP, final_rate );
+    return enchantment_cache->modify_value( enchant_vals::mod::REGEN_HP,
+                                            _hp_modified_rate( *this, final_rate ) );
 }
 
 float Character::healing_rate_medicine( float at_rest_quality, const bodypart_id &bp ) const
@@ -5837,6 +5832,9 @@ float Character::healing_rate_medicine( float at_rest_quality, const bodypart_id
 
     for( const auto &elem : *effects ) {
         for( const std::pair<const bodypart_id, effect> &i : elem.second ) {
+            if( i.first != bp ) {
+                continue;
+            }
             const effect &eff = i.second;
             float tmp_rate = static_cast<float>( eff.get_amount( "HEAL_RATE" ) ) / to_turns<int>
                              ( 24_hours );
@@ -5851,8 +5849,8 @@ float Character::healing_rate_medicine( float at_rest_quality, const bodypart_id
         }
     }
 
-    rate_medicine *= 1.0f + mutation_value( "healing_resting" );
-    rate_medicine *= 1.0f + at_rest_quality;
+    rate_medicine *= mutation_value( "healing_multiplier" );
+    rate_medicine *= 1.0f + clamp( at_rest_quality, 0.0f, 1.0f );
 
     // increase healing if character has both effects
     if( has_effect( effect_bandaged ) && has_effect( effect_disinfected ) ) {
@@ -5864,12 +5862,7 @@ float Character::healing_rate_medicine( float at_rest_quality, const bodypart_id
     } else {
         rate_medicine *= 1.0f + get_lifestyle() / 400.0f;
     }
-    float primary_hp_mod = mutation_value( "hp_modifier" );
-    if( primary_hp_mod < 0.0f ) {
-        // HP mod can't get below -1.0
-        rate_medicine *= 1.0f + primary_hp_mod;
-    }
-    return rate_medicine;
+    return _hp_modified_rate( *this, rate_medicine );
 }
 
 float Character::get_bmi() const
@@ -6489,6 +6482,10 @@ bool Character::invoke_item( item *used, const std::string &method )
 bool Character::invoke_item( item *used, const std::string &method, const tripoint &pt,
                              int pre_obtain_moves )
 {
+    if( method.empty() ) {
+        return invoke_item( used, pt, pre_obtain_moves );
+    }
+
     if( used->is_broken() ) {
         add_msg_if_player( m_bad, _( "Your %s was broken and won't turn on." ), used->tname() );
         return false;
@@ -10112,14 +10109,23 @@ action_id Character::get_next_auto_move_direction()
     return get_movement_action_from_delta( dp.raw(), iso_rotate::yes );
 }
 
-int Character::talk_skill() const
+int Character::persuade_skill() const
 {
     /** @EFFECT_INT slightly increases talking skill */
-
     /** @EFFECT_PER slightly increases talking skill */
-
     /** @EFFECT_SPEECH increases talking skill */
     int ret = get_int() + get_per() + get_skill_level( skill_speech ) * 3;
+    ret = enchantment_cache->modify_value( enchant_vals::mod::SOCIAL_PERSUADE, ret );
+    return ret;
+}
+
+int Character::lie_skill() const
+{
+    /** @EFFECT_INT slightly increases talking skill */
+    /** @EFFECT_PER slightly increases talking skill */
+    /** @EFFECT_SPEECH increases talking skill */
+    int ret = get_int() + get_per() + get_skill_level( skill_speech ) * 3;
+    ret = enchantment_cache->modify_value( enchant_vals::mod::SOCIAL_LIE, ret );
     return ret;
 }
 
@@ -11244,7 +11250,7 @@ void Character::leak_items()
 
 void Character::process_items()
 {
-    if( weapon.needs_processing() && weapon.process( get_map(), this, pos() ) ) {
+    if( weapon.process( get_map(), this, pos() ) ) {
         weapon.spill_contents( pos() );
         remove_weapon();
     }
@@ -11254,11 +11260,9 @@ void Character::process_items()
         if( !it ) {
             continue;
         }
-        if( it->needs_processing() ) {
-            if( it->process( get_map(), this, pos() ) ) {
-                it->spill_contents( pos() );
-                removed_items.push_back( it );
-            }
+        if( it->process( get_map(), this, pos() ) ) {
+            it->spill_contents( pos() );
+            removed_items.push_back( it );
         }
     }
     for( item_location removed : removed_items ) {
@@ -11446,7 +11450,7 @@ void Character::use( int inventory_position )
     use( loc );
 }
 
-void Character::use( item_location loc, int pre_obtain_moves )
+void Character::use( item_location loc, int pre_obtain_moves, std::string const &method )
 {
     if( has_effect( effect_incorporeal ) ) {
         add_msg_if_player( m_bad, _( "You can't use anything while incorporeal." ) );
@@ -11472,10 +11476,10 @@ void Character::use( item_location loc, int pre_obtain_moves )
             moves = pre_obtain_moves;
             return;
         }
-        invoke_item( &used, loc.position(), pre_obtain_moves );
+        invoke_item( &used, method, loc.position(), pre_obtain_moves );
 
     } else if( used.type->can_use( "PETFOOD" ) ) { // NOLINT(bugprone-branch-clone)
-        invoke_item( &used, loc.position(), pre_obtain_moves );
+        invoke_item( &used, method, loc.position(), pre_obtain_moves );
 
     } else if( !used.is_craft() && ( used.is_medication() || ( !used.type->has_use() &&
                                      used.is_food() ) ) ) {
@@ -11504,7 +11508,7 @@ void Character::use( item_location loc, int pre_obtain_moves )
             u->read( loc );
         }
     } else if( used.type->has_use() ) {
-        invoke_item( &used, loc.position(), pre_obtain_moves );
+        invoke_item( &used, method, loc.position(), pre_obtain_moves );
     } else if( used.has_flag( flag_SPLINT ) ) {
         ret_val<void> need_splint = can_wear( *loc );
         if( need_splint.success() ) {
@@ -11514,7 +11518,7 @@ void Character::use( item_location loc, int pre_obtain_moves )
             add_msg( m_info, need_splint.str() );
         }
     } else if( used.is_relic() ) {
-        invoke_item( &used, loc.position(), pre_obtain_moves );
+        invoke_item( &used, method, loc.position(), pre_obtain_moves );
     } else {
         if( !is_armed() ) {
             add_msg( m_info, _( "You are not wielding anything you could use." ) );

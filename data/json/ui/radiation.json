@@ -7,10 +7,11 @@
       {
         "id": "rad_0",
         "text": " green ",
+        "sym": "-",
         "color": "white_green",
         "condition": {
           "and": [
-            { "compare_int": [ { "u_val": "item_rad", "flag": "RAD_DETECT", "aggregate": "min" }, "<=", { "const": 0 } ] },
+            { "compare_num": [ { "u_val": "item_rad", "flag": "RAD_DETECT", "aggregate": "min" }, "<=", { "const": 0 } ] },
             { "or": [ { "u_has_worn_with_flag": "RAD_DETECT" }, { "u_has_wielded_with_flag": "RAD_DETECT" } ] }
           ]
         }
@@ -18,12 +19,13 @@
       {
         "id": "rad_30",
         "text": " blue ",
+        "sym": "+",
         "color": "h_white",
         "condition": {
           "and": [
-            { "compare_int": [ { "u_val": "item_rad", "flag": "RAD_DETECT", "aggregate": "min" }, "<=", { "const": 30 } ] },
+            { "compare_num": [ { "u_val": "item_rad", "flag": "RAD_DETECT", "aggregate": "min" }, "<=", { "const": 30 } ] },
             {
-              "compare_int": [ { "u_val": "item_rad", "flag": "RAD_DETECT", "aggregate": "min" }, ">", { "const": 0 } ]
+              "compare_num": [ { "u_val": "item_rad", "flag": "RAD_DETECT", "aggregate": "min" }, ">", { "const": 0 } ]
             },
             { "or": [ { "u_has_worn_with_flag": "RAD_DETECT" }, { "u_has_wielded_with_flag": "RAD_DETECT" } ] }
           ]
@@ -32,12 +34,13 @@
       {
         "id": "rad_60",
         "text": " yellow ",
+        "sym": "!",
         "color": "i_yellow",
         "condition": {
           "and": [
-            { "compare_int": [ { "u_val": "item_rad", "flag": "RAD_DETECT", "aggregate": "min" }, "<=", { "const": 60 } ] },
+            { "compare_num": [ { "u_val": "item_rad", "flag": "RAD_DETECT", "aggregate": "min" }, "<=", { "const": 60 } ] },
             {
-              "compare_int": [ { "u_val": "item_rad", "flag": "RAD_DETECT", "aggregate": "min" }, ">", { "const": 30 } ]
+              "compare_num": [ { "u_val": "item_rad", "flag": "RAD_DETECT", "aggregate": "min" }, ">", { "const": 30 } ]
             },
             { "or": [ { "u_has_worn_with_flag": "RAD_DETECT" }, { "u_has_wielded_with_flag": "RAD_DETECT" } ] }
           ]
@@ -46,12 +49,13 @@
       {
         "id": "rad_120",
         "text": " orange ",
+        "sym": "‼",
         "color": "red_yellow",
         "condition": {
           "and": [
-            { "compare_int": [ { "u_val": "item_rad", "flag": "RAD_DETECT", "aggregate": "min" }, "<=", { "const": 120 } ] },
+            { "compare_num": [ { "u_val": "item_rad", "flag": "RAD_DETECT", "aggregate": "min" }, "<=", { "const": 120 } ] },
             {
-              "compare_int": [ { "u_val": "item_rad", "flag": "RAD_DETECT", "aggregate": "min" }, ">", { "const": 60 } ]
+              "compare_num": [ { "u_val": "item_rad", "flag": "RAD_DETECT", "aggregate": "min" }, ">", { "const": 60 } ]
             },
             { "or": [ { "u_has_worn_with_flag": "RAD_DETECT" }, { "u_has_wielded_with_flag": "RAD_DETECT" } ] }
           ]
@@ -60,12 +64,13 @@
       {
         "id": "rad_240",
         "text": " red ",
+        "sym": "X",
         "color": "red_red",
         "condition": {
           "and": [
-            { "compare_int": [ { "u_val": "item_rad", "flag": "RAD_DETECT", "aggregate": "min" }, "<=", { "const": 240 } ] },
+            { "compare_num": [ { "u_val": "item_rad", "flag": "RAD_DETECT", "aggregate": "min" }, "<=", { "const": 240 } ] },
             {
-              "compare_int": [ { "u_val": "item_rad", "flag": "RAD_DETECT", "aggregate": "min" }, ">", { "const": 120 } ]
+              "compare_num": [ { "u_val": "item_rad", "flag": "RAD_DETECT", "aggregate": "min" }, ">", { "const": 120 } ]
             },
             { "or": [ { "u_has_worn_with_flag": "RAD_DETECT" }, { "u_has_wielded_with_flag": "RAD_DETECT" } ] }
           ]
@@ -74,10 +79,11 @@
       {
         "id": "rad_500",
         "text": " black ",
+        "sym": "☼",
         "color": "pink",
         "condition": {
           "and": [
-            { "compare_int": [ { "u_val": "item_rad", "flag": "RAD_DETECT", "aggregate": "min" }, ">", { "const": 240 } ] },
+            { "compare_num": [ { "u_val": "item_rad", "flag": "RAD_DETECT", "aggregate": "min" }, ">", { "const": 240 } ] },
             { "or": [ { "u_has_worn_with_flag": "RAD_DETECT" }, { "u_has_wielded_with_flag": "RAD_DETECT" } ] }
           ]
         }
@@ -90,7 +96,18 @@
     "label": "Radiation",
     "style": "text",
     "flags": [ "W_DISABLED_WHEN_EMPTY" ],
-    "copy-from": "rad_badge_template",
-    "//": "Shows worn/wielded radiation badge color from display::rad_badge_text_color"
+    "copy-from": "rad_badge_template"
+  },
+  {
+    "id": "rad_badge_letter",
+    "type": "widget",
+    "copy-from": "rad_badge_desc",
+    "style": "symbol"
+  },
+  {
+    "id": "rad_badge_letter_no_label",
+    "type": "widget",
+    "copy-from": "rad_badge_letter",
+    "flags": [ "W_LABEL_NONE" ]
   }
 ]

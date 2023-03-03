@@ -1599,6 +1599,7 @@
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
     "time": "4 m",
+    "batch_time_factors": [ 80, 4 ],
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
@@ -1907,6 +1908,7 @@
     "skills_required": [ "survival", 2 ],
     "time": "19 m",
     "autolearn": true,
+    "charges": 1,
     "batch_time_factors": [ 40, 1 ],
     "qualities": [
       { "id": "HAMMER", "level": 1 },
@@ -3096,8 +3098,8 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "pemmican",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_MEAT",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "cooking",
     "difficulty": 5,
     "charges": 4,
@@ -3118,10 +3120,7 @@
         [ "lobster_smoked", 2 ]
       ],
       [
-        [ "dry_veggy", 2 ],
-        [ "dry_corn", 2 ],
         [ "dry_fruit", 2 ],
-        [ "dry_mushroom", 2 ],
         [ "juice_pulp", 4 ],
         [ "irradiated_strawberries", 1 ],
         [ "strawberries", 1 ],
@@ -3143,9 +3142,37 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "pemmican_veggy",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "cooking",
+    "difficulty": 5,
+    "charges": 4,
+    "time": "45 m",
+    "batch_time_factors": [ 80, 1 ],
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
+    "components": [
+      [ [ "edible_tallow_lard", 2, "LIST" ], [ "ghee", 2 ] ],
+      [
+        [ "jerky", 2 ],
+        [ "dry_meat", 2 ],
+        [ "meat_smoked", 2 ],
+        [ "dry_fish", 2 ],
+        [ "fish_smoked", 2 ],
+        [ "dry_lobster", 2 ],
+        [ "lobster_smoked", 2 ]
+      ],
+      [ [ "dry_veggy", 2 ], [ "dry_corn", 2 ], [ "dry_mushroom", 2 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "pemmican_meat",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_MEAT",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "cooking",
     "difficulty": 5,
     "charges": 4,

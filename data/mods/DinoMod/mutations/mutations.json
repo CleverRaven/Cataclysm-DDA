@@ -453,6 +453,12 @@
   },
   {
     "type": "mutation",
+    "id": "DENSE_BONES",
+    "copy-from": "DENSE_BONES",
+    "extend": { "category": [ "STEGO", "TYRANT", "HORNS" ] }
+  },
+  {
+    "type": "mutation",
     "id": "LARGE_OK",
     "copy-from": "LARGE_OK",
     "extend": { "category": [ "STEGO", "TYRANT", "HORNS" ], "threshreq": [ "THRESH_STEGO", "THRESH_TYRANT", "THRESH_HORNS" ] }
@@ -563,13 +569,13 @@
     "type": "mutation",
     "id": "STR_UP_3",
     "copy-from": "STR_UP_3",
-    "extend": { "category": [ "STEGO", "TYRANT", "HORNS" ] }
+    "extend": { "category": [ "STEGO", "TYRANT", "HORNS" ], "threshreq": [ "THRESH_STEGO", "THRESH_TYRANT", "THRESH_HORNS" ] }
   },
   {
     "type": "mutation",
     "id": "STR_UP_4",
     "copy-from": "STR_UP_4",
-    "extend": { "category": [ "STEGO", "TYRANT", "HORNS" ] }
+    "extend": { "category": [ "STEGO", "TYRANT", "HORNS" ], "threshreq": [ "THRESH_STEGO", "THRESH_TYRANT", "THRESH_HORNS" ] }
   },
   {
     "type": "mutation",
