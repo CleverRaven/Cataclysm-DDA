@@ -1323,40 +1323,10 @@ TEST_CASE( "npc_arithmetic_op", "[npc_talk]" )
     CHECK( calendar::turn == time_point( 5 ) );
 
     calendar::turn = calendar::turn_zero;
-    // "Sets time since cataclysm to 3 & 6 turns.  (2)"
-    effects = d.responses[ 5 ].success;
-    effects.apply( d );
-    CHECK( calendar::turn == time_point( 2 ) );
-
-    calendar::turn = calendar::turn_zero;
-    // "Sets time since cataclysm to 2 | 4 turns.  (6)"
-    effects = d.responses[ 6 ].success;
-    effects.apply( d );
-    CHECK( calendar::turn == time_point( 6 ) );
-
-    calendar::turn = calendar::turn_zero;
-    // "Sets time since cataclysm to 3 << 2 turns.  (12)"
-    effects = d.responses[ 7 ].success;
-    effects.apply( d );
-    CHECK( calendar::turn == time_point( 12 ) );
-
-    calendar::turn = calendar::turn_zero;
-    // "Sets time since cataclysm to 12 >> 2 turns.  (3)"
-    effects = d.responses[ 8 ].success;
-    effects.apply( d );
-    CHECK( calendar::turn == time_point( 3 ) );
-
-    calendar::turn = calendar::turn_zero;
-    // "Sets time since cataclysm to  ~5 turns.  (?)"
-    effects = d.responses[ 9 ].success;
-    effects.apply( d );
-    CHECK( calendar::turn == time_point( ~5 ) );
-
-    calendar::turn = calendar::turn_zero;
     // "Sets time since cataclysm to 2 ^ 5 turns.  (7)"
     effects = d.responses[ 10 ].success;
     effects.apply( d );
-    CHECK( calendar::turn == time_point( 7 ) );
+    CHECK( calendar::turn == time_point( 32 ) );
 
     calendar::turn = calendar::turn_zero;
     // "Sets time since cataclysm to 5 turns.  (5)"

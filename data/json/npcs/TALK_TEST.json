@@ -1331,32 +1331,7 @@
         "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "=", { "const": 15 }, "%", { "const": 10 } ] }
       },
       {
-        "text": "Sets time since cataclysm to 3 & 6 turns.  (2)",
-        "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "=", { "const": 3 }, "&", { "const": 6 } ] }
-      },
-      {
-        "text": "Sets time since cataclysm to 2 | 4 turns.  (6)",
-        "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "=", { "const": 2 }, "|", { "const": 6 } ] }
-      },
-      {
-        "text": "Sets time since cataclysm to 3 << 2 turns.  (12)",
-        "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "=", { "const": 3 }, "<<", { "const": 2 } ] }
-      },
-      {
-        "text": "Sets time since cataclysm to 12 >> 2 turns.  (3)",
-        "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "=", { "const": 12 }, ">>", { "const": 2 } ] }
-      },
-      {
-        "text": "Sets time since cataclysm to  ~5 turns.  (?)",
-        "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "=", { "const": 5 }, "~" ] }
-      },
-      {
-        "text": "Sets time since cataclysm to 2 ^ 5 turns.  (7)",
+        "text": "Sets time since cataclysm to 2 ^ 5 turns.  (32)",
         "topic": "TALK_DONE",
         "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "=", { "const": 2 }, "^", { "const": 5 } ] }
       },
