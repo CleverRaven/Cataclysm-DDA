@@ -1151,7 +1151,8 @@ void sfx::do_ambient()
             channel::outdoor_blizzard,
             channel::outdoors_clear_env,
             channel::outdoors_sunny_env,
-            channel::outdoors_cloudy_env
+            channel::outdoors_cloudy_env,
+            channel::outdoors_portal_storm_env
         };
         std::set<channel> active_channels;
         for( const channel &ch : outdoor_channels ) {

@@ -4,11 +4,13 @@ aboveground
 abso
 acausal
 accessorized
+accessorizing
 acclimatization
 accoustrement
 accuracies
 accurize
 accurized
+accurizing 
 achelousaurus
 acho
 acidball
@@ -208,12 +210,14 @@ bakelite
 baldric
 balefires
 balisong
+ballistae
 ballistoceras
 balogna
 bandolier
 bandoliers
 bangin
 barbute
+bardiche
 barding
 barebones
 barghest
@@ -314,6 +318,7 @@ bodkin
 bodyglove
 bodymesh
 bodypart
+bodyweight 
 bokken
 bolas
 bolded
@@ -525,6 +530,7 @@ coifs
 coilgun
 coipo
 colorant
+combatives
 comestible
 comestibles
 commendably
@@ -570,6 +576,7 @@ corporeality
 corvid
 corythosaurus
 countermine
+countertime
 couters
 coverplate
 crablike
@@ -1170,6 +1177,7 @@ gunblade
 gunfighting
 gunmod
 gunmods
+gunshop
 gunsmithing
 gunsmoke
 gushingly
@@ -1187,6 +1195,8 @@ hahahaha
 hahahahahaha
 hakama
 halazone
+halberd
+halberds
 halfpike
 halite
 halligan
@@ -1699,6 +1709,7 @@ moas
 mobbings
 modding
 moder
+modernday
 modifier
 modifiers
 modularity
@@ -1727,6 +1738,7 @@ mountable
 mouthgear
 mouthpart
 mouthparts
+movesets
 movestr
 mph
 mr
@@ -2054,6 +2066,8 @@ pokeball
 polearm
 polearms
 poleaxe
+poleaxe
+poleaxes
 poleyns
 pollinator
 polyaramid
@@ -2083,6 +2097,7 @@ posthuman
 potboiler
 potentiates
 pouncer
+powerlifting
 powerplants
 powertool
 prancer
@@ -2308,12 +2323,14 @@ robustly
 rockfeeder
 rockwheel
 rocuronium
+rodding
 roguelike
 roguelikes
 roleplay
 roleplaying
 rollerskates
 rollmat
+roncone
 roofless
 rootlike
 ropy
@@ -3061,6 +3078,7 @@ xiph
 xiphos
 xp
 yandere
+yari
 yark
 yarker
 yarkin
@@ -3072,6 +3090,7 @@ ynn
 yoroi
 youre
 yourselves
+youthful 
 yowl
 yugg
 yukata

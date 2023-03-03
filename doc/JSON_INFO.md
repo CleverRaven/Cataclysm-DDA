@@ -788,7 +788,6 @@ reference at least one body part or sub body part.
 | `encumbrance_text`     | (_mandatory_) Message printed when the limb reaches 40 encumbrance.
 | `encumbrance_threshold`| (_optional_) Encumbrance value where the limb's scores start scaling based on encumbrance. Default 0, meaning scaling from the first point of encumbrance.
 | `encumbrance_limit`    | (_optional_) When encumbrance reaches or surpasses this value the limb stops contributing its scores. Default 100.
-| `encumb_impacts_dodge` | (_optional_) If true, this body part's encumbrance impacts dodge ability. Defaults to false.
 | `hp_bar_ui_text`       | (_mandatory_) How it's displayed next to the hp bar in the panel.
 | `main_part`            | (_mandatory_) What is the main part this one is attached to. (If this is a main part it's attached to itself)
 | `connected_to`         | (_mandatory_ if main_part is itself) What is the next part this one is attached to towards the "root" bodypart (the root bodypart should be connected to itself).  Each anatomy should have a unique root bodypart, usually the head.
@@ -944,7 +943,7 @@ Character modifiers define how effective different behaviours are for actions th
 
 | Field        | Description
 |------        |------------
-| `limb_score` | Refers to a `limb_score` id, or an array of `limb_score` id's (can be a weighted list). These are the limb scores from which this modifier is derived.
+| `limb_score` | Refers to a `limb_score` id, or an array of `limb_score` id's (can be a weighted list). These are the limb scores from which this modifier is derived.  For additive calculations ( `limb_score_op: "+"`) the score is multiplied by the weight, for multiplicative calculation (`limb_score_op: "x"`) it is raised to the weight's power.
 | `limb_score_op` | (_optional_) Operation (add `+` or multiply `x`) to apply when multiple limb scores are defined. Ex: `x` => `score1 x score2 x score3 ...`. (Defaults to `x`)
 | `limb_type`  | (_optional_) Refers to a `limb_type` as defined in [`body_part`](#body_parts). If present, only limb scores from body parts with that `limb_type` are used.
 | `override_encumb` | (_optional_) Boolean (true/false). If specified, this forces the limb score to be affected/unaffected by limb encumbrance if true/false. (Overrides `affected_by_encumb` in `limb_score`)
@@ -1167,14 +1166,16 @@ When you sort your inventory by category, these are the categories that are disp
 | zone            | The corresponding loot_zone (see loot_zones.json)
 | sort_rank       | Used to sort categories when displaying.  Lower values are shown first
 | priority_zones  | When set, items in this category will be sorted to the priority zone if the conditions are met. If the user does not have the priority zone in the zone manager, the items get sorted into zone set in the 'zone' property. It is a list of objects. Each object has 3 properties: ID: The id of a LOOT_ZONE (see LOOT_ZONES.json), filthy: boolean. setting this means filthy items of this category will be sorted to the priority zone, flags: array of flags
+|spawn_rate       | Sets amount of items from item category that might spawn.  Checks for `spawn_rate` value for item category.  If `spawn_chance` is less than 1.0, it will make a random roll (0.1-1.0) to check if the item will have a chance to spawn.  If `spawn_chance` is more than or equal to 1.0, it will add a chance to spawn additional items from the same category.  Items will be taken from item group which original item was located in.  Therefore this parameter won't affect chance to spawn additional items for items set to spawn solitary in mapgen (e.g. through use of `item` or `place_item`).
 
 ```C++
 {
-    "id":"armor",
+    "id": "armor",
     "name": "ARMOR",
     "zone": "LOOT_ARMOR",
     "sort_rank": -21,
     "priority_zones": [ { "id": "LOOT_FARMOR", "filthy": true, "flags": [ "RAINPROOF" ] } ],
+    "spawn_rate": 0.5
 }
 ```
 

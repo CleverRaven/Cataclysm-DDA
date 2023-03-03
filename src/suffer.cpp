@@ -153,9 +153,6 @@ static const trait_id trait_M_SPORES( "M_SPORES" );
 static const trait_id trait_NARCOLEPTIC( "NARCOLEPTIC" );
 static const trait_id trait_NONADDICTIVE( "NONADDICTIVE" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
-static const trait_id trait_PAINREC1( "PAINREC1" );
-static const trait_id trait_PAINREC2( "PAINREC2" );
-static const trait_id trait_PAINREC3( "PAINREC3" );
 static const trait_id trait_PER_SLIME( "PER_SLIME" );
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_RADIOACTIVE1( "RADIOACTIVE1" );
@@ -204,7 +201,6 @@ static void from_stimulants( Character &you, int current_stim );
 static void from_exertion( Character &you );
 static void without_sleep( Character &you, int sleep_deprivation );
 static void from_tourniquet( Character &you );
-static void from_pain( Character &you );
 static void from_nyctophobia( Character &you );
 static void from_artifact_resonance( Character &you, int amt );
 } // namespace suffer
@@ -1677,19 +1673,6 @@ void suffer::from_tourniquet( Character &you )
     }
 }
 
-void suffer::from_pain( Character &you )
-{
-    if( one_turn_in( 10_minutes ) ) {
-        if( you.has_trait( trait_PAINREC1 ) ) {
-            you.mod_pain( -30 );
-        } else if( you.has_trait( trait_PAINREC2 ) ) {
-            you.mod_pain( -40 );
-        } else if( you.has_trait( trait_PAINREC3 ) ) {
-            you.mod_pain( -50 );
-        }
-    }
-}
-
 void suffer::from_nyctophobia( Character &you )
 {
     std::vector<tripoint> dark_places;
@@ -1888,9 +1871,6 @@ void Character::suffer()
 
     suffer::without_sleep( *this, sleep_deprivation );
     suffer::from_tourniquet( *this );
-    if( get_pain() > 0 ) {
-        suffer::from_pain( *this );
-    }
     //Suffer from enchantments
     enchantment_cache->activate_passive( *this );
     if( calendar::once_every( 30_minutes ) ) {
