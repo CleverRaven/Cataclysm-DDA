@@ -11112,8 +11112,7 @@ cata::optional<tripoint> game::point_selection_menu( const std::vector<tripoint>
         const std::string &up_or_down = up ? _( "Climb up %s (%s)" ) : _( "Climb down %s (%s)" );
         // TODO: Inform player what is on said tile
         // But don't just print terrain name (in many cases it will be "open air")
-        pmenu.addentry( num++, true, MENU_AUTOASSIGN, _( "Climb %s %s (%s)" ), up_or_down, dir_name,
-                        dir_arrow );
+        pmenu.addentry( num++, true, MENU_AUTOASSIGN, up_or_down, dir_name, dir_arrow );
     }
 
     pmenu.query();
