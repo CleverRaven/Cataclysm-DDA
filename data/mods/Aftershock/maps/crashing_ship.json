@@ -157,6 +157,7 @@
           "point": "trap",
           "id": "tr_escape_pod",
           "mapping": {
+		    "e": { "items": [ { "item": "afs_ballistic_armory", "chance": 20 } ] },
             "z": { "items": [ { "item": "afs_escape_pod_suppliesII", "chance": 100 } ] },
             "L": {
               "items": [
