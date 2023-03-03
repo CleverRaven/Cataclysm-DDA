@@ -224,8 +224,6 @@ class avatar : public Character
         bool has_seen_snippet( const snippet_id &snippet ) const;
         const std::set<snippet_id> &get_snippets();
 
-        // the encumbrance on your limbs reducing your dodging ability
-        int limb_dodge_encumbrance() const;
 
         /**
          * Opens the targeting menu to pull a nearby creature towards the character.

@@ -74,7 +74,7 @@
     "color": "black_green",
     "aggression": 100,
     "morale": 100,
-    "melee_skill": 10,
+    "melee_skill": 7,
     "melee_dice": 1,
     "melee_dice_sides": 2,
     "dodge": 4,

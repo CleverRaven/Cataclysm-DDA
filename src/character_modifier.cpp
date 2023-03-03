@@ -273,7 +273,7 @@ float character_modifier::modifier( const Character &c, const skill_id &skill ) 
     bool sc_assigned = false;
     for( const auto &sc : limbscores ) {
         float mod_sc = c.get_limb_score( sc.first, limbtype, override_encumb, override_wounds );
-        mod_sc *= sc.second;
+        mod_sc = limbscore_modop == MULT ? pow( mod_sc, sc.second ) : mod_sc * sc.second;
         if( !sc_assigned ) {
             score = mod_sc;
             sc_assigned = true;
