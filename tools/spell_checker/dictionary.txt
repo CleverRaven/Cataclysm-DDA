@@ -1105,6 +1105,7 @@ gibbous
 github
 gladius
 glaive
+glaives
 glasknife
 glassblower
 glassblowing
@@ -1178,6 +1179,7 @@ hahahaha
 hahahahahaha
 hakama
 halazone
+halberds
 halfpike
 halite
 halligan
@@ -1410,6 +1412,7 @@ keypress
 keyring
 kg
 khopesh
+khopeshes
 khru
 kickboard
 kickin
@@ -1447,6 +1450,7 @@ kreck
 krick
 kriegsmesser
 kriegsmessers
+krises
 kshhhsk
 kshhssk
 kshssssssk
@@ -1456,6 +1460,7 @@ ksssh
 kufi
 kuji
 kukri
+kukris
 kunoichi
 kunst
 kzzz
@@ -1703,6 +1708,7 @@ moorhen
 mordant
 moriatur
 morningstar
+morningstars
 moroi
 mortems
 mosaicus
@@ -2155,6 +2161,7 @@ quadrupedal
 quams
 quantification
 quarterpanel
+quarterstaves
 queenright
 quells
 quern
@@ -2955,6 +2962,7 @@ wantin
 warframe
 wargame
 warhammer
+warhammers
 warmouth
 wasnt
 wastebread
