@@ -162,6 +162,7 @@ static const trait_id trait_RADIOACTIVE1( "RADIOACTIVE1" );
 static const trait_id trait_RADIOACTIVE2( "RADIOACTIVE2" );
 static const trait_id trait_RADIOACTIVE3( "RADIOACTIVE3" );
 static const trait_id trait_RADIOGENIC( "RADIOGENIC" );
+static const trait_id trait_RADSENSE( "RADSENSE" );
 static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
 static const trait_id trait_SHARKTEETH( "SHARKTEETH" );
 static const trait_id trait_SHELL2( "SHELL2" );
@@ -1315,6 +1316,11 @@ void suffer::from_radiation( Character &you )
         you.add_msg_if_player( m_warning,
                                _( "You feel an anomalous sensation coming from "
                                   "your radiation sensors." ) );
+    }
+    else if ( radiation_increasing && calendar::once_every( 3_minutes ) && you.has_active_mutation( trait_RADSENSE ) ) {
+        you.add_msg_if_player( m_warning,
+            _( "You feel a peculiar sensation from within.  " 
+                "Perhaps you should get out of here." ) );
     }
 
     if( calendar::once_every( 15_minutes ) ) {
