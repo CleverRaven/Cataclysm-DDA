@@ -217,6 +217,7 @@ bandolier
 bandoliers
 bangin
 barbute
+bardiche
 barding
 barebones
 barghest
@@ -575,6 +576,7 @@ corporeality
 corvid
 corythosaurus
 countermine
+countertime
 couters
 coverplate
 crablike
@@ -1192,6 +1194,8 @@ hahahaha
 hahahahahaha
 hakama
 halazone
+halberd
+halberds
 halfpike
 halite
 halligan
@@ -2061,6 +2065,8 @@ pokeball
 polearm
 polearms
 poleaxe
+poleaxe
+poleaxes
 poleyns
 pollinator
 polyaramid
@@ -2316,12 +2322,14 @@ robustly
 rockfeeder
 rockwheel
 rocuronium
+rodding
 roguelike
 roguelikes
 roleplay
 roleplaying
 rollerskates
 rollmat
+roncone
 roofless
 rootlike
 ropy
@@ -3069,6 +3077,7 @@ xiph
 xiphos
 xp
 yandere
+yari
 yark
 yarker
 yarkin
@@ -3080,6 +3089,7 @@ ynn
 yoroi
 youre
 yourselves
+youthful 
 yowl
 yugg
 yukata
