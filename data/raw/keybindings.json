@@ -4116,6 +4116,27 @@
   },
   {
     "type": "keybinding",
+    "id": "FAV_SAVE_PRESET",
+    "category": "INVENTORY",
+    "name": "Save preset",
+    "bindings": [ { "input_method": "keyboard_char", "key": "S" }, { "input_method": "keyboard_code", "key": "s", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "FAV_APPLY_PRESET",
+    "category": "INVENTORY",
+    "name": "Apply preset",
+    "bindings": [ { "input_method": "keyboard_char", "key": "A" }, { "input_method": "keyboard_code", "key": "a", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "FAV_DEL_PRESET",
+    "category": "INVENTORY",
+    "name": "Delete preset",
+    "bindings": [ { "input_method": "keyboard_char", "key": "D" }, { "input_method": "keyboard_code", "key": "d", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
     "id": "FAV_CLEAR",
     "category": "INVENTORY",
     "name": "Clear entries",

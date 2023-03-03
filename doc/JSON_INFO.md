@@ -55,8 +55,6 @@ Use the `Home` key to return to the top.
       - [`name`](#name)
       - [`points`](#points)
       - [`addictions`](#addictions)
-      - [`shopkeeper_consumption_rates`](#shopkeeper_consumption_rates)
-      - [`shopkeeper_blacklist`](#shopkeeper_blacklist)
       - [`skills`](#skills)
       - [`missions`](#missions)
       - [`proficiencies`](#proficiencies)
@@ -145,8 +143,8 @@ Use the `Home` key to return to the top.
       - [`type`](#type)
       - [`message`](#message)
       - [`entries`](#entries)
+      - [`leftovers`](#leftovers)
     - [Harvest Drop Type](#harvest-drop-type)
-    - [leftovers](#leftovers)
     - [Weapon Category](#weapon-category)
     - [Connect group definitions](#connect-group-definitions)
     - [Furniture](#furniture)
@@ -158,7 +156,7 @@ Use the `Home` key to return to the top.
       - [`boltcut`](#boltcut)
       - [`hacksaw`](#hacksaw)
       - [`oxytorch`](#oxytorch)
-    - [`prying`](#prying)
+      - [`prying`](#prying)
       - [`required_str`](#required_str)
       - [`crafting_pseudo_item`](#crafting_pseudo_item)
       - [`workbench`](#workbench)
@@ -175,7 +173,7 @@ Use the `Home` key to return to the top.
       - [`boltcut`](#boltcut-1)
       - [`hacksaw`](#hacksaw-1)
       - [`oxytorch`](#oxytorch-1)
-    - [`prying`](#prying-1)
+      - [`prying`](#prying-1)
       - [`transforms_into`](#transforms_into)
       - [`harvest_by_season`](#harvest_by_season)
       - [`roof`](#roof)
@@ -185,7 +183,7 @@ Use the `Home` key to return to the top.
       - [`flags`](#flags-1)
       - [`connect_groups`](#connect_groups)
         - [Connection groups](#connection-groups)
-      - [`connects_to` and](#connects_to-and)
+      - [`connects_to`](#connects_to)
       - [`rotates_to`](#rotates_to)
       - [`symbol`](#symbol)
       - [`comfort`](#comfort)
@@ -195,29 +193,29 @@ Use the `Home` key to return to the top.
       - [`color` or `bgcolor`](#color-or-bgcolor)
       - [`max_volume`](#max_volume)
       - [`examine_action`](#examine_action)
-      - [`close" And "open`](#close-and-open)
+      - [`close` and `open`](#close-and-open)
       - [`bash`](#bash)
       - [`deconstruct`](#deconstruct)
       - [`map_bash_info`](#map_bash_info)
-      - [`str_min`, `str_max`](#str_min-str_max)
-      - [`str_min_blocked`, `str_max_blocked`](#str_min_blocked-str_max_blocked)
-      - [`str_min_supported`, `str_max_supported`](#str_min_supported-str_max_supported)
-      - [`sound`, `sound_fail`, `sound_vol`, `sound_fail_vol`](#sound-sound_fail-sound_vol-sound_fail_vol)
-      - [`furn_set`, `ter_set`](#furn_set-ter_set)
-      - [`explosive`](#explosive)
-      - [`destroy_only`](#destroy_only)
-      - [`bash_below`](#bash_below)
-      - [`tent_centers`, `collapse_radius`](#tent_centers-collapse_radius)
-      - [`items`](#items-1)
+        - [`str_min`, `str_max`](#str_min-str_max)
+        - [`str_min_blocked`, `str_max_blocked`](#str_min_blocked-str_max_blocked)
+        - [`str_min_supported`, `str_max_supported`](#str_min_supported-str_max_supported)
+        - [`sound`, `sound_fail`, `sound_vol`, `sound_fail_vol`](#sound-sound_fail-sound_vol-sound_fail_vol)
+        - [`furn_set`, `ter_set`](#furn_set-ter_set)
+        - [`explosive`](#explosive)
+        - [`destroy_only`](#destroy_only)
+        - [`bash_below`](#bash_below)
+        - [`tent_centers`, `collapse_radius`](#tent_centers-collapse_radius)
+        - [`items`](#items-1)
       - [`map_deconstruct_info`](#map_deconstruct_info)
-      - [`furn_set`, `ter_set`](#furn_set-ter_set-1)
-    - [`items`](#items-2)
-    - [`plant_data`](#plant_data-1)
-      - [`transform`](#transform)
-      - [`emissions`](#emissions)
-      - [`base`](#base)
-      - [`growth_multiplier`](#growth_multiplier)
-      - [`harvest_multiplier`](#harvest_multiplier)
+        - [`furn_set`, `ter_set`](#furn_set-ter_set-1)
+        - [`items`](#items-2)
+      - [`plant_data`](#plant_data-1)
+        - [`transform`](#transform)
+        - [`emissions`](#emissions)
+        - [`base`](#base)
+        - [`growth_multiplier`](#growth_multiplier)
+        - [`harvest_multiplier`](#harvest_multiplier)
     - [clothing_mod](#clothing_mod)
 - [Scenarios](#scenarios)
   - [`description`](#description-1)
@@ -226,12 +224,12 @@ Use the `Home` key to return to the top.
   - [`items`](#items-3)
   - [`flags`](#flags-2)
   - [`cbms`](#cbms-1)
-  - [`traits", "forced_traits", "forbidden_traits`](#traits-forced_traits-forbidden_traits)
+  - [`traits`, `forced_traits`, `forbidden_traits`](#traits-forced_traits-forbidden_traits)
   - [`allowed_locs`](#allowed_locs)
   - [`start_name`](#start_name)
   - [`professions`](#professions)
   - [`map_special`](#map_special)
-      - [`requirement`](#requirement-1)
+  - [`requirement`](#requirement-1)
   - [`eocs`](#eocs)
   - [`missions`](#missions-1)
   - [`custom_initial_date`](#custom_initial_date)
@@ -1511,44 +1509,6 @@ Example:
 ]
 ```
 
-#### `shopkeeper_consumption_rates`
-
-```JSON
-  "type": "shopkeeper_consumption_rates",
-  "id": "basic_shop_rates",
-  "default_rate": 5, // defined as units/day since last restock
-  "junk_threshold": "10 cent", // items below this price will be consumed completely regardless of matches below
-  "rates": [ // lower entries override higher ones
-      { "item": "hammer", "rate": 1 },
-      {
-        "item": "hammer",
-        "rate": 10,
-        "condition": { "npc_has_var": "hammer_eater", "type": "bool", "context": "dinner", "value": "yes" }
-      },
-      { "category": "ammo", "rate": 10 },
-      { "group": "EXODII_basic_trade", "rate": 100 }
-      { "group": "EXODII_basic_trade", "category": "ammo", "rate": 200 }
-  ]
-```
-`condition` is checked with avatar as alpha and npc as beta. See [Player or NPC conditions](NPCs.md#player-or-npc-conditions).
-
-#### `shopkeeper_blacklist`
-Similar to `shopkeeper_consumption_rates`
-
-```JSON
-  "type": "shopkeeper_blacklist",
-  "id": "basic_blacklist",
-  "entries": [
-      {
-        "item": "hammer",
-        "condition": { "npc_has_var": "hammer_hater", "type": "bool", "context": "test", "value": "yes" },
-        "message": "<npcname> hates this item"
-      },
-      { "category": "ammo" },
-      { "group": "EXODII_basic_trade" }
-  ]
-```
-
 #### `skills`
 
 (optional, array of skill levels)
@@ -2628,7 +2588,7 @@ Vehicle components when installed on a vehicle.
 "folding_time": "100 seconds", // time to fold this part
 "unfolding_tools": [ "hand_pump" ], // tool itype_ids required for unfolding
 "unfolding_time": "150 seconds", // time to unfold this part
-"damage_reduction" : {        // Flat reduction of damage, as described below. If not specified, set to zero
+"damage_reduction" : {        // Flat reduction of damage; see "Part Resistance". If not specified, set to zero
     "all" : 10,
     "physical" : 5
 },
@@ -2758,6 +2718,9 @@ It also has a hotplate that can be activated by examining it with `e` then `h` o
 ```
 
 ### Part Resistance
+Damage resistance values, used by:
+- `armor` of [`"type": "body_part"`](#body_parts)
+- `damage_reduction` of [`"type": "vehicle_part"`](#vehicle-parts)
 
 ```C++
 "all" : 0.0f,        // Initial value of all resistances, overridden by more specific types
@@ -4085,6 +4048,10 @@ For every `type` other then those with "dissect_only" (see below) the following 
 For `type`s with "dissect_only" (see below), the following entries can scale the results:
     `max` this value (in contrary to `max` for other `type`s) corresponds to maximum butchery roll that will be passed to check_butcher_cbm() in activity_handlers.cpp; view check_butcher_cbm() to see corresponding distribution chances for roll values passed to that function
 
+#### `leftovers`
+
+itype_id of the item dropped as leftovers after butchery or when the monster is gibbed.  Default as "ruined_chunks".
+
 ### Harvest Drop Type
 ```json
 {
@@ -4113,10 +4080,6 @@ Harvest drop types are used in harvest drop entries to control how the drop is p
 - `"msg_butcher_success"`
 - `"msg_dissect_fail"`
 - `"msg_dissect_success"`
-
-### leftovers
-
-itype_id of the item dropped as leftovers after butchery or when the monster is gibbed.  Default as "ruined_chunks".
 
 ### Weapon Category
 
@@ -4308,7 +4271,7 @@ oxytorch: {
 }
 ```
 
-### `prying`
+#### `prying`
 (Optional) Data for using with pyring tools
 ```cpp
 "prying": {
@@ -4515,7 +4478,7 @@ oxytorch: {
 }
 ```
 
-### `prying`
+#### `prying`
 (Optional) Data for using with prying tools
 ```cpp
 "prying": {
@@ -4587,11 +4550,9 @@ Displayed name of the object. This will be translated.
 Does not make the type connect or rotate itself, but serves as the passive side.
 For the active, connecting or rotating side, see [`connects_to`](#connects_to) and [`rotates_to`](#rotates_to).
 
-Available groups are:
-
 ##### Connection groups
 
-Connect groups are defined by JSON types `connect_group`.
+Connect groups are defined by JSON types [`connect_group`](#connect-group-definitions).  
 Current connect groups are:
 
 ```
@@ -4613,7 +4574,7 @@ CANVAS_WALL          INDOORFLOOR
 `INDOORFLOOR` is implied by the flag `INDOORS`.
 Implicit groups can be removed be using tilde `~` as prefix of the group name.
 
-#### `connects_to` and 
+#### `connects_to`
 
 (Optional) Makes the type connect to terrain types in the given groups (see [`connect_groups`](#connect_groups)). This affects tile rotation and connections, and the ASCII symbol drawn by terrain with the flag "AUTO_WALL_SYMBOL".
 
@@ -4677,7 +4638,7 @@ Color of the object as it appears in the game. "color" defines the foreground co
 
 (Optional) The json function that is called when the object is examined. See [EXAMINE.md](EXAMINE.md).
 
-#### `close" And "open`
+#### `close` and `open`
 
 (Optional) The value should be a terrain id (inside a terrain entry) or a furniture id (in a furniture entry). If either is defined, the player can open / close the object. Opening / closing will change the object at the affected tile to the given one. For example one could have object "safe_c", which "open"s to "safe_o" and "safe_o" in turn "close"s to "safe_c". Here "safe_c" and "safe_o" are two different terrain (or furniture) types that have different properties.
 
@@ -4716,36 +4677,36 @@ Defines the various things that happen when the player or something else bashes 
 }
 ```
 
-#### `str_min`, `str_max`
+##### `str_min`, `str_max`
 
 The bash succeeds if str >= random # between str_min & str_max
 
-#### `str_min_blocked`, `str_max_blocked`
+##### `str_min_blocked`, `str_max_blocked`
 (Optional) Will be used instead of str_min & str_max if the furniture is blocked, for example a washing machine behind a door
 
-#### `str_min_supported`, `str_max_supported`
+##### `str_min_supported`, `str_max_supported`
 (Optional) Will be used instead of str_min & str_max if beneath this is something that can support a roof.
 
-#### `sound`, `sound_fail`, `sound_vol`, `sound_fail_vol`
+##### `sound`, `sound_fail`, `sound_vol`, `sound_fail_vol`
 (Optional) Sound and volume of the sound that appears upon destroying the bashed object or upon unsuccessfully bashing it (failing). The sound strings are translated (and displayed to the player).
 
-#### `furn_set`, `ter_set`
+##### `furn_set`, `ter_set`
 
 The terrain / furniture that will be set when the original is destroyed. This is mandatory for bash entries in terrain, but optional for entries in furniture (it defaults to no furniture).
 
-#### `explosive`
+##### `explosive`
 (Optional) If greater than 0, destroying the object causes an explosion with this strength (see `game::explosion`).
 
-#### `destroy_only`
+##### `destroy_only`
 TODO
 
-#### `bash_below`
+##### `bash_below`
 TODO
 
-#### `tent_centers`, `collapse_radius`
+##### `tent_centers`, `collapse_radius`
 (Optional) For furniture that is part of tents, this defines the id of the center part, which will be destroyed as well when other parts of the tent get bashed. The center is searched for in the given "collapse_radius" radius, it should match the size of the tent.
 
-#### `items`
+##### `items`
 
 (Optional) An item group (inline) or an id of an item group, see [ITEM_SPAWN.md](ITEM_SPAWN.md). The default subtype is "collection". Upon successful bashing, items from that group will be spawned.
 
@@ -4759,15 +4720,15 @@ TODO
 }
 ```
 
-#### `furn_set`, `ter_set`
+##### `furn_set`, `ter_set`
 
 The terrain / furniture that will be set after the original has been deconstructed. "furn_set" is optional (it defaults to no furniture), "ter_set" is only used upon "deconstruct" entries in terrain and is mandatory there.
 
-### `items`
+##### `items`
 
 (Optional) An item group (inline) or an id of an item group, see [ITEM_SPAWN.md](ITEM_SPAWN.md). The default subtype is "collection". Upon deconstruction the object, items from that group will be spawned.
 
-### `plant_data`
+#### `plant_data`
 
 ```JSON
 {
@@ -4778,23 +4739,23 @@ The terrain / furniture that will be set after the original has been deconstruct
 }
 ```
 
-#### `transform`
+##### `transform`
 
 What the `PLANT` furniture turn into when it grows a stage, or what a `PLANTABLE` furniture turns into when it is planted on.
 
-#### `emissions`
+##### `emissions`
 
 (Optional) An array listing the `emit_id` of the fields the terrain/furniture will produce every 10 seconds.
 
-#### `base`
+##### `base`
 
 What the 'base' furniture of the `PLANT` furniture is - what it would be if there was not a plant growing there. Used when monsters 'eat' the plant to preserve what furniture it is.
 
-#### `growth_multiplier`
+##### `growth_multiplier`
 
 A flat multiplier on the growth speed on the plant. For numbers greater than one, it will take longer to grow, and for numbers less than one it will take less time to grow.
 
-#### `harvest_multiplier`
+##### `harvest_multiplier`
 
 A flat multiplier on the harvest count of the plant. For numbers greater than one, the plant will give more produce from harvest, for numbers less than one it will give less produce from harvest.
 
@@ -4888,7 +4849,7 @@ A list of flags. TODO: document those flags here.
 
 A list of CBM ids that are implanted in the character.
 
-## `traits", "forced_traits", "forbidden_traits`
+## `traits`, `forced_traits`, `forbidden_traits`
 (optional, array of strings)
 
 Lists of trait/mutation ids. Traits in "forbidden_traits" are forbidden and can't be selected during the character creation. Traits in "forced_traits" are automatically added to character. Traits in "traits" enables them to be chosen, even if they are not starting traits.
@@ -4915,7 +4876,7 @@ A list of allowed professions that can be chosen when using this scenario. The f
 
 Add a map special to the starting location, see JSON_FLAGS for the possible specials.
 
-#### `requirement`
+## `requirement`
 
 (optional, an achievement ID)
 

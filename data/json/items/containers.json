@@ -260,7 +260,7 @@
     "category": "container",
     "name": { "str": "zipper bag" },
     "looks_like": "bag_plastic",
-    "description": "An inexpensive flexible rectangular storage bag on its typical small size.  Transparent and made of plastic, it can be sealed and opened by a slider which works in a similar way to a zip fastener.",
+    "description": "A resealable, watertight transparent plastic bag roomy enough to hold a sandwich.  Known generically as a Ziploc bag, it can be sealed and opened with a press-together mechanism similar to a zipper.",
     "weight": "2 g",
     "volume": "10 ml",
     "price": 0,
