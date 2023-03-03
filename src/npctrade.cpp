@@ -343,7 +343,7 @@ bool npc_trading::npc_can_fit_items( npc const &np, trade_selector::select_t con
 {
     std::vector<item> avail_pockets = np.worn.available_pockets();
 
-    if( avail_pockets.empty() ) {
+    if( !to_trade.empty() && avail_pockets.empty() ) {
         return false;
     }
     for( trade_selector::entry_t const &it : to_trade ) {

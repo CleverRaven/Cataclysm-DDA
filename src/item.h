@@ -388,7 +388,8 @@ class item : public visitable
          * of this item (if with_contents = false and item is not empty, "n items" will be added)
          */
         std::string tname( unsigned int quantity = 1, bool with_prefix = true,
-                           unsigned int truncate = 0, bool with_contents = true, bool with_collapsed = true ) const;
+                           unsigned int truncate = 0, bool with_contents_full = true,
+                           bool with_collapsed = true, bool with_contents_abbrev = true ) const;
         std::string display_money( unsigned int quantity, unsigned int total,
                                    const cata::optional<unsigned int> &selected = cata::nullopt ) const;
         /**
@@ -591,7 +592,7 @@ class item : public visitable
          */
         bool display_stacked_with( const item &rhs, bool check_components = false ) const;
         bool stacks_with( const item &rhs, bool check_components = false,
-                          bool combine_liquid = false ) const;
+                          bool combine_liquid = false, int depth = 0, int maxdepth = 2 ) const;
 
         /**
          * Whether the two items have same contents.
@@ -1433,7 +1434,8 @@ class item : public visitable
          * Returns false if the item is not destroyed.
          */
         bool process( map &here, Character *carrier, const tripoint &pos, float insulation = 1,
-                      temperature_flag flag = temperature_flag::NORMAL, float spoil_multiplier_parent = 1.0f );
+                      temperature_flag flag = temperature_flag::NORMAL, float spoil_multiplier_parent = 1.0f,
+                      bool recursive = true );
 
         bool leak( map &here, Character *carrier, const tripoint &pos, item_pocket *pocke = nullptr );
 
@@ -1473,6 +1475,7 @@ class item : public visitable
         bool is_food_container() const;      // Ignoring the ability to eat batteries, etc.
         bool is_ammo_container() const; // does this item contain ammo? (excludes magazines)
         bool is_medication() const;            // Is it a medication that only pretends to be food?
+        bool is_medical_tool() const;
         bool is_bionic() const;
         bool is_magazine() const;
         bool is_battery() const;
@@ -1489,11 +1492,13 @@ class item : public visitable
         bool is_salvageable() const;
         bool is_disassemblable() const;
         bool is_craft() const;
+        bool is_scannable() const;
 
         bool is_deployable() const;
         bool is_tool() const;
         bool is_transformable() const;
         bool is_relic() const;
+        bool is_same_relic( item const &rhs ) const;
         bool is_bucket_nonempty() const;
 
         bool is_brewable() const;
@@ -1573,6 +1578,7 @@ class item : public visitable
         bool can_contain( const itype &tp ) const;
         bool can_contain_partial( const item &it ) const;
         ret_val<void> can_contain_directly( const item &it ) const;
+        bool can_contain_partial_directly( const item &it ) const;
         /*@}*/
         std::pair<item_location, item_pocket *> best_pocket( const item &it, item_location &this_loc,
                 const item *avoid = nullptr, bool allow_sealed = false, bool ignore_settings = false,
@@ -2719,6 +2725,7 @@ class item : public visitable
         std::list<item *> all_items_top( item_pocket::pocket_type pk_type, bool unloading = false );
 
         item const *this_or_single_content() const;
+        bool contents_only_one_type() const;
 
         /**
          * returns a list of pointers to all items inside recursively

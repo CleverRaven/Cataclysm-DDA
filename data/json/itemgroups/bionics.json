@@ -92,7 +92,8 @@
       [ "bio_shotgun", 10 ],
       [ "bio_taste_blocker", 10 ],
       [ "bio_soporific", 10 ],
-      [ "bio_recoil", 10 ]
+      [ "bio_recoil", 10 ],
+      [ "bio_fitnessband", 10 ]
     ]
   },
   {
@@ -115,7 +116,8 @@
       [ "bio_ethanol", 10 ],
       [ "bio_watch", 10 ],
       [ "bio_torsionratchet", 10 ],
-      [ "bio_cable", 10 ]
+      [ "bio_cable", 10 ],
+      [ "bio_fitnessband", 10 ]
     ]
   },
   {

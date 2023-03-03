@@ -472,31 +472,6 @@ class salvage_actor : public iuse_actor
         /** Moves used per unit of volume of cut item */
         int moves_per_part = 25;
 
-        /** Materials it can cut */
-        std::set<material_id> material_whitelist = {
-            material_id( "acidchitin" ),
-            material_id( "alien_resin" ),
-            material_id( "bone" ),
-            material_id( "canvas" ),
-            material_id( "chitin" ),
-            material_id( "cotton" ),
-            material_id( "faux_fur" ),
-            material_id( "fur" ),
-            material_id( "kevlar" ),
-            material_id( "kevlar_layered" ),
-            material_id( "kevlar_rigid" ),
-            material_id( "leather" ),
-            material_id( "lycra" ),
-            material_id( "neoprene" ),
-            material_id( "nomex" ),
-            material_id( "nylon" ),
-            material_id( "plastic" ),
-            material_id( "rubber" ),
-            material_id( "thermo_resin" ),
-            material_id( "wood" ),
-            material_id( "wool" )
-        };
-
         cata::optional<int> try_to_cut_up( Character &p, item &cutter, item_location &cut ) const;
         int time_to_cut_up( const item &it ) const;
         bool valid_to_cut_up( const Character *p, const item &it ) const;
@@ -799,16 +774,29 @@ class repair_item_actor : public iuse_actor
 
         /** Attempts to repair target item with selected tool */
         attempt_hint repair( Character &pl, item &tool, item_location &fix, bool refit_only = false ) const;
-        /** Checks if repairs on target item are possible. Excludes checks on tool.
-          * Doesn't just estimate - should not return true if repairs are not possible or false if they are. */
-        bool can_repair_target( Character &pl, const item &fix, bool print_msg ) const;
+        /// Checks if repairs on target item are possible. Excludes checks on tool.
+        /// Doesn't just estimate - should not return true if repairs are not possible or false if they are.
+        /// @param pl character performing the fix
+        /// @param fix item to repair
+        /// @param print_msg prints message to player if check fails
+        /// @param check_consumed_available if true check materials consumed by repair are available for `pl`
+        /// @return true if check succeeds
+        bool can_repair_target( Character &pl, const item &fix, bool print_msg,
+                                bool check_consumed_available ) const;
         /** Checks if we are allowed to use the tool. */
         bool can_use_tool( const Character &p, const item &tool, bool print_msg ) const;
 
         /** Returns a list of items that can be used to repair this item. */
         std::set<itype_id> get_valid_repair_materials( const item &fix ) const;
-        /** Returns if components are available. Consumes them if `just_check` is false. */
-        bool handle_components( Character &pl, const item &fix, bool print_msg, bool just_check ) const;
+        /// Returns if components are available. Consumes them if `just_check` is false.
+        /// @param pl character performing the fix
+        /// @param fix item to repair
+        /// @param print_msg prints message to player if check fails
+        /// @param just_check only checks, doesn't consume
+        /// @param check_consumed_available if false skips checking if materials consumed by repair are available for `pl`
+        /// @return true if check succeeds
+        bool handle_components( Character &pl, const item &fix, bool print_msg, bool just_check,
+                                bool check_consumed_available ) const;
         /** Returns the chance to repair and to damage an item. */
         std::pair<float, float> repair_chance(
             const Character &pl, const item &fix, repair_type action_type ) const;

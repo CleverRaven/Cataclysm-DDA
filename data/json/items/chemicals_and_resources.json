@@ -901,7 +901,6 @@
   {
     "type": "AMMO",
     "id": "chem_aluminium_sulphate",
-    "//0": "It might be good to standardize the use of sulfate vs sulphate --Tox",
     "category": "chems",
     "price": 300,
     "price_postapoc": 100,
@@ -1977,5 +1976,18 @@
     "symbol": "s",
     "color": "light_gray",
     "flags": [ "UNRECOVERABLE" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "blood_acid",
+    "//": "depending on the lore as what acid these enemies use this could change, muriatic acid is stomach acid",
+    "copy-from": "chem_muriatic_acid",
+    "price": 0,
+    "price_postapoc": 0,
+    "name": { "str_sp": "acidic blood" },
+    "symbol": "~",
+    "color": "red",
+    "description": "Blood mixed with acidic compounds, extremely corrosive.",
+    "weight": "262 g"
   }
 ]

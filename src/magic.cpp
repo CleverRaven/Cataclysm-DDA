@@ -1969,8 +1969,12 @@ std::vector<spell> Character::spells_known_of_class( const trait_id &spell_class
 class spellcasting_callback : public uilist_callback
 {
     private:
+        int selected_sp = 0;
+        int scroll_pos = 0;
+        std::vector<std::string> info_txt;
         std::vector<spell *> known_spells;
-        void draw_spell_info( const spell &sp, const uilist *menu );
+        void spell_info_text( const spell &sp, int width );
+        void draw_spell_info( const uilist *menu );
     public:
         // invlets reserved for special functions
         const std::set<int> reserved_invlets{ 'I', '=' };
@@ -1979,13 +1983,13 @@ class spellcasting_callback : public uilist_callback
         spellcasting_callback( std::vector<spell *> &spells,
                                bool casting_ignore ) : known_spells( spells ),
             casting_ignore( casting_ignore ) {}
-        bool key( const input_context &, const input_event &event, int entnum,
+        bool key( const input_context &ctxt, const input_event &event, int entnum,
                   uilist * /*menu*/ ) override {
-            if( event.get_first_input() == 'I' ) {
+            const std::string &action = ctxt.input_to_action( event );
+            if( action == "CAST_IGNORE" ) {
                 casting_ignore = !casting_ignore;
                 return true;
-            }
-            if( event.get_first_input() == '=' ) {
+            } else if( action == "CHOOSE_INVLET" ) {
                 int invlet = 0;
                 invlet = popup_getkey( _( "Choose a new hotkey for this spell." ) );
                 if( inv_chars.valid( invlet ) ) {
@@ -2002,6 +2006,8 @@ class spellcasting_callback : public uilist_callback
                     get_player_character().magic->rem_invlet( known_spells[entnum]->id() );
                 }
                 return true;
+            } else if( action == "SCROLL_UP_SPELL_MENU" || action == "SCROLL_DOWN_SPELL_MENU" ) {
+                scroll_pos += action == "SCROLL_DOWN_SPELL_MENU" ? 1 : -1;
             }
             return false;
         }
@@ -2021,7 +2027,26 @@ class spellcasting_callback : public uilist_callback
             mvwprintz( menu->window, point( menu->w_width - assign_letter.length() - 1, 0 ), c_yellow,
                        assign_letter );
             if( menu->selected >= 0 && static_cast<size_t>( menu->selected ) < known_spells.size() ) {
-                draw_spell_info( *known_spells[menu->selected], menu );
+                if( info_txt.empty() || selected_sp != menu->selected ) {
+                    info_txt.clear();
+                    spell_info_text( *known_spells[menu->selected], menu->pad_right - 4 );
+                    selected_sp = menu->selected;
+                    scroll_pos = 0;
+                }
+                if( scroll_pos > static_cast<int>( info_txt.size() ) - ( menu->w_height - 2 ) ) {
+                    scroll_pos = info_txt.size() - ( menu->w_height - 2 );
+                }
+                if( scroll_pos < 0 ) {
+                    scroll_pos = 0;
+                }
+                scrollbar()
+                .offset_x( menu->w_width - 1 )
+                .offset_y( 1 )
+                .content_size( info_txt.size() )
+                .viewport_pos( scroll_pos )
+                .viewport_size( menu->w_height - 2 )
+                .apply( menu->window );
+                draw_spell_info( menu );
             }
             wnoutrefresh( menu->window );
         }
@@ -2078,77 +2103,62 @@ std::string spell_desc::enumerate_spell_data( const spell &sp )
     return enumerate_as_string( spell_data );
 }
 
-void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu )
+void spellcasting_callback::spell_info_text( const spell &sp, int width )
 {
-    Character &player_character = get_player_character();
-    const int h_offset = menu->w_width - menu->pad_right + 1;
-    // includes spaces on either side for readability
-    const int info_width = menu->pad_right - 4;
-    const int win_height = menu->w_height;
-    const int h_col1 = h_offset + 1;
-    const int h_col2 = h_offset + ( info_width / 2 );
-    const catacurses::window w_menu = menu->window;
-    // various pieces of spell data mean different things depending on the effect of the spell
-    const std::string fx = sp.effect();
-    int line = 1;
-    nc_color gray = c_light_gray;
-    nc_color light_green = c_light_green;
-    nc_color yellow = c_yellow;
+    Character &pc = get_player_character();
 
-    print_colored_text( w_menu, point( h_col1, line++ ), yellow, yellow,
-                        sp.spell_class() == trait_NONE ? _( "Classless" ) : sp.spell_class()->name() );
-
-    line += fold_and_print( w_menu, point( h_col1, line ), info_width, gray, sp.description() );
-
-    line++;
-
-    line += fold_and_print( w_menu, point( h_col1, line ), info_width, gray,
-                            spell_desc::enumerate_spell_data( sp ) );
-    if( line <= win_height / 3 ) {
-        line++;
+    info_txt.emplace_back( colorize( sp.spell_class() == trait_NONE ? _( "Classless" ) :
+                                     sp.spell_class()->name(), c_yellow ) );
+    for( const std::string &line : foldstring( sp.description(), width ) ) {
+        info_txt.emplace_back( colorize( line, c_light_gray ) );
     }
-
-    print_colored_text( w_menu, point( h_col1, line ), gray, gray,
-                        string_format( "%s: %d %s", _( "Spell Level" ), sp.get_level(),
-                                       sp.is_max_level() ? _( "(MAX)" ) : "" ) );
-    print_colored_text( w_menu, point( h_col2, line++ ), gray, gray,
-                        string_format( "%s: %d", _( "Max Level" ), sp.get_max_level() ) );
-
-    print_colored_text( w_menu, point( h_col1, line ), gray, gray,
-                        sp.colorized_fail_percent( player_character ) );
-    print_colored_text( w_menu, point( h_col2, line++ ), gray, gray,
-                        string_format( "%s: %d", _( "Difficulty" ), sp.get_difficulty() ) );
-
-    print_colored_text( w_menu, point( h_col1, line ), gray, gray,
-                        string_format( "%s: %s", _( "Current Exp" ), colorize( std::to_string( sp.xp() ), light_green ) ) );
-    print_colored_text( w_menu, point( h_col2, line++ ), gray, gray,
-                        string_format( "%s: %s", _( "to Next Level" ), colorize( std::to_string( sp.exp_to_next_level() ),
-                                       light_green ) ) );
-
-    if( line <= win_height / 2 ) {
-        line++;
+    info_txt.emplace_back( std::string() );
+    for( const std::string &line : foldstring( spell_desc::enumerate_spell_data( sp ), width ) ) {
+        info_txt.emplace_back( colorize( line, c_light_gray ) );
     }
+    info_txt.emplace_back( std::string() );
 
-    const bool cost_encumb = spell_desc::energy_cost_encumbered( sp, player_character );
+    auto columnize = [&width]( const std::string & col1, const std::string & col2 ) {
+        std::string line = col1;
+        int pad = clamp<int>( width / 2 - utf8_width( line, true ), 1, width / 2 );
+        line.append( pad, ' ' );
+        line.append( col2 );
+        return line;
+    };
+
+    info_txt.emplace_back(
+        colorize( columnize( string_format( "%s: %d %s", _( "Spell Level" ), sp.get_level(),
+                                            sp.is_max_level() ? _( "(MAX)" ) : "" ),
+                             string_format( "%s: %d", _( "Max Level" ), sp.get_max_level() ) ), c_light_gray ) );
+    info_txt.emplace_back(
+        colorize( columnize( sp.colorized_fail_percent( pc ),
+                             string_format( "%s: %d", _( "Difficulty" ), sp.get_difficulty() ) ), c_light_gray ) );
+    info_txt.emplace_back(
+        colorize( columnize( string_format( "%s: %s", _( "Current Exp" ),
+                                            colorize( std::to_string( sp.xp() ), c_light_green ) ),
+                             string_format( "%s: %s", _( "to Next Level" ),
+                                            colorize( std::to_string( sp.exp_to_next_level() ), c_light_green ) ) ), c_light_gray ) );
+
+    info_txt.emplace_back( std::string() );
+
+    const bool cost_encumb = spell_desc::energy_cost_encumbered( sp, pc );
     std::string cost_string = cost_encumb ? _( "Casting Cost (impeded)" ) : _( "Casting Cost" );
     std::string energy_cur = sp.energy_source() == magic_energy_type::hp ? "" :
-                             string_format( _( " (%s current)" ), sp.energy_cur_string( player_character ) );
-    if( !player_character.magic->has_enough_energy( player_character, sp ) ) {
+                             string_format( _( " (%s current)" ), sp.energy_cur_string( pc ) );
+    if( !pc.magic->has_enough_energy( pc, sp ) ) {
         cost_string = colorize( _( "Not Enough Energy" ), c_red );
         energy_cur.clear();
     }
-    print_colored_text( w_menu, point( h_col1, line++ ), gray, gray,
-                        string_format( "%s: %s %s%s", cost_string,
-                                       sp.energy_cost_string( player_character ), sp.energy_string(), energy_cur ) );
-    const bool c_t_encumb = spell_desc::casting_time_encumbered( sp, player_character );
-    print_colored_text( w_menu, point( h_col1, line++ ), gray, gray, colorize(
-                            string_format( "%s: %s", c_t_encumb ? _( "Casting Time (impeded)" ) : _( "Casting Time" ),
-                                           moves_to_string( sp.casting_time( player_character ) ) ),
-                            c_t_encumb  ? c_red : c_light_gray ) );
+    info_txt.emplace_back(
+        colorize( string_format( "%s: %s %s%s", cost_string, sp.energy_cost_string( pc ),
+                                 sp.energy_string(), energy_cur ), c_light_gray ) );
 
-    if( line <= win_height * 3 / 4 ) {
-        line++;
-    }
+    const bool c_t_encumb = spell_desc::casting_time_encumbered( sp, pc );
+    info_txt.emplace_back(
+        colorize( string_format( "%s: %s", c_t_encumb ? _( "Casting Time (impeded)" ) : _( "Casting Time" ),
+                                 moves_to_string( sp.casting_time( pc ) ) ), c_t_encumb  ? c_red : c_light_gray ) );
+
+    info_txt.emplace_back( std::string() );
 
     std::string targets;
     if( sp.is_valid_target( spell_target::none ) ) {
@@ -2156,26 +2166,26 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
     } else {
         targets = sp.enumerate_targets();
     }
-    print_colored_text( w_menu, point( h_col1, line++ ), gray, gray,
-                        string_format( "%s: %s", _( "Valid Targets" ), targets ) );
+    info_txt.emplace_back(
+        colorize( string_format( "%s: %s", _( "Valid Targets" ), targets ), c_light_gray ) );
+
+    info_txt.emplace_back( std::string() );
 
     std::string target_ids;
     target_ids = sp.list_targeted_monster_names();
     if( !target_ids.empty() ) {
-        fold_and_print( w_menu, point( h_col1, line++ ), info_width, gray,
-                        _( "Only affects the monsters: %s" ), target_ids );
-    }
-
-    if( line <= win_height * 3 / 4 ) {
-        line++;
+        for( const std::string &line :
+             foldstring( string_format( _( "Only affects the monsters: %s" ), target_ids ), width ) ) {
+            info_txt.emplace_back( colorize( line, c_light_gray ) );
+        }
+        info_txt.emplace_back( std::string() );
     }
 
     const int damage = sp.damage();
     std::string damage_string;
-    std::string range_string;
     std::string aoe_string;
     // if it's any type of attack spell, the stats are normal.
-    if( fx == "attack" ) {
+    if( sp.effect() == "attack" ) {
         if( damage > 0 ) {
             std::string dot_string;
             if( sp.damage_dot() != 0 ) {
@@ -2187,7 +2197,7 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
             damage_string = colorize( damage_string, sp.damage_type_color() );
         } else if( damage < 0 ) {
             damage_string = string_format( "%s: %s", _( "Healing" ), colorize( sp.damage_string(),
-                                           light_green ) );
+                                           c_light_green ) );
         }
         if( sp.aoe() > 0 ) {
             std::string aoe_string_temp = _( "Spell Radius" );
@@ -2200,14 +2210,14 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
             }
             aoe_string = string_format( "%s: %d %s", aoe_string_temp, sp.aoe(), degree_string );
         }
-    } else if( fx == "short_range_teleport" ) {
+    } else if( sp.effect() == "short_range_teleport" ) {
         if( sp.aoe() > 0 ) {
             aoe_string = string_format( "%s: %d", _( "Variance" ), sp.aoe() );
         }
-    } else if( fx == "spawn_item" ) {
+    } else if( sp.effect() == "spawn_item" ) {
         damage_string = string_format( "%s %d %s", _( "Spawn" ), sp.damage(),
                                        item::nname( itype_id( sp.effect_data() ), sp.damage() ) );
-    } else if( fx == "summon" ) {
+    } else if( sp.effect() == "summon" ) {
         std::string monster_name = "FIXME";
         if( sp.has_flag( spell_flag::SPAWN_GROUP ) ) {
             // TODO: Get a more user-friendly group name
@@ -2221,7 +2231,7 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
         }
         damage_string = string_format( "%s %d %s", _( "Summon" ), sp.damage(), monster_name );
         aoe_string = string_format( "%s: %d", _( "Spell Radius" ), sp.aoe() );
-    } else if( fx == "targeted_polymorph" ) {
+    } else if( sp.effect() == "targeted_polymorph" ) {
         std::string monster_name = sp.effect_data();
         if( sp.has_flag( spell_flag::POLYMORPH_GROUP ) ) {
             // TODO: Get a more user-friendly group name
@@ -2237,9 +2247,9 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
         }
         damage_string = string_format( _( "Targets under: %dhp become a %s" ), sp.damage(),
                                        monster_name );
-    } else if( fx == "ter_transform" ) {
+    } else if( sp.effect() == "ter_transform" ) {
         aoe_string = string_format( "%s: %s", _( "Spell Radius" ), sp.aoe_string() );
-    } else if( fx == "banishment" ) {
+    } else if( sp.effect() == "banishment" ) {
         damage_string = string_format( "%s: %s %s", _( "Damage" ), sp.damage_string(),
                                        sp.damage_type_string() );
         if( sp.aoe() > 0 ) {
@@ -2247,41 +2257,48 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
         }
     }
 
-    range_string = string_format( "%s: %s", _( "Range" ),
-                                  sp.range() <= 0 ? _( "self" ) : std::to_string( sp.range() ) );
-
     // Range / AOE in two columns
-    print_colored_text( w_menu, point( h_col1, line ), gray, gray, range_string );
-    print_colored_text( w_menu, point( h_col2, line++ ), gray, gray, aoe_string );
+    info_txt.emplace_back( colorize( string_format( "%s: %s", _( "Range" ),
+                                     sp.range() <= 0 ? _( "self" ) : std::to_string( sp.range() ) ), c_light_gray ) );
+    info_txt.emplace_back( colorize( aoe_string, c_light_gray ) );
 
     // One line for damage / healing / spawn / summon effect
-    print_colored_text( w_menu, point( h_col1, line++ ), gray, gray, damage_string );
+    info_txt.emplace_back( colorize( damage_string, c_light_gray ) );
 
     // todo: damage over time here, when it gets implemented
 
     // Show duration for spells that endure
     if( sp.duration() > 0 || sp.has_flag( spell_flag::PERMANENT ) ||
         sp.has_flag( spell_flag::PERMANENT_ALL_LEVELS ) ) {
-        print_colored_text( w_menu, point( h_col1, line++ ), gray, gray,
-                            string_format( "%s: %s", _( "Duration" ), sp.duration_string() ) );
+        info_txt.emplace_back(
+            colorize( string_format( "%s: %s", _( "Duration" ), sp.duration_string() ), c_light_gray ) );
     }
-
-    // helper function for printing tool and item component requirement lists
-    const auto print_vec_string = [&]( const std::vector<std::string> &vec ) {
-        for( const std::string &line_str : vec ) {
-            print_colored_text( w_menu, point( h_col1, line++ ), gray, gray, line_str );
-        }
-    };
 
     if( sp.has_components() ) {
         if( !sp.components().get_components().empty() ) {
-            print_vec_string( sp.components().get_folded_components_list( info_width - 2, gray,
-                              player_character.crafting_inventory(), return_true<item> ) );
+            for( const std::string &line : sp.components().get_folded_components_list(
+                     width - 2, c_light_gray, pc.crafting_inventory(), return_true<item> ) ) {
+                info_txt.emplace_back( line );
+            }
         }
         if( !( sp.components().get_tools().empty() && sp.components().get_qualities().empty() ) ) {
-            print_vec_string( sp.components().get_folded_tools_list( info_width - 2, gray,
-                              player_character.crafting_inventory() ) );
+            for( const std::string &line : sp.components().get_folded_tools_list(
+                     width - 2, c_light_gray, pc.crafting_inventory() ) ) {
+                info_txt.emplace_back( line );
+            }
         }
+    }
+}
+
+void spellcasting_callback::draw_spell_info( const uilist *menu )
+{
+    const int h_offset = menu->w_width - menu->pad_right + 1;
+    int row = 1;
+    nc_color clr = c_light_gray;
+
+    for( int line = scroll_pos; row < menu->w_height - 1 &&
+         line < static_cast<int>( info_txt.size() ); row++, line++ ) {
+        print_colored_text( menu->window, point( h_offset + 1, row ), clr, c_light_gray, info_txt[line] );
     }
 }
 
@@ -2347,6 +2364,11 @@ int known_magic::select_spell( Character &guy )
         return calc_width() - max_spell_name_length - 5;
     };
     spell_menu.title = _( "Choose a Spell" );
+    spell_menu.input_category = "SPELL_MENU";
+    spell_menu.additional_actions.emplace_back( "CHOOSE_INVLET", translation() );
+    spell_menu.additional_actions.emplace_back( "CAST_IGNORE", translation() );
+    spell_menu.additional_actions.emplace_back( "SCROLL_UP_SPELL_MENU", translation() );
+    spell_menu.additional_actions.emplace_back( "SCROLL_DOWN_SPELL_MENU", translation() );
     spell_menu.hilight_disabled = true;
     spellcasting_callback cb( known_spells, casting_ignore );
     spell_menu.callback = &cb;

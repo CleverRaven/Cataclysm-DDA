@@ -411,6 +411,18 @@
     "difficulty": 2
   },
   {
+    "id": "bio_fitnessband",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Calorie Tracker CBM" },
+    "looks_like": "bio_int_enhancer",
+    "description": "A small medical implant that passively tracks your calorie expenditure and consumption.",
+    "price": 35000,
+    "price_postapoc": 500,
+    "weight": "10 g",
+    "difficulty": 3
+  },
+  {
     "id": "bio_flashbang",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
