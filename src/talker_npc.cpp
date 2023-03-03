@@ -52,6 +52,7 @@ static const itype_id itype_foodperson_mask( "foodperson_mask" );
 static const itype_id itype_foodperson_mask_on( "foodperson_mask_on" );
 
 static const trait_id trait_DEBUG_MIND_CONTROL( "DEBUG_MIND_CONTROL" );
+static const trait_id trait_PROF_CHURL( "PROF_CHURL" );
 static const trait_id trait_PROF_FOODP( "PROF_FOODP" );
 static const trait_id trait_SAPROVORE( "SAPROVORE" );
 
@@ -188,6 +189,18 @@ std::vector<std::string> talker_npc::get_topics( bool radio_contact )
             add_topics.emplace_back( "TALK_MUTE" );
         }
     }
+    if( player_character.has_trait( trait_PROF_CHURL ) ) {
+        if( add_topics.back() == me_npc->chatbin.talk_mug ||
+            add_topics.back() == me_npc->chatbin.talk_stranger_aggressive ) {
+            me_npc->make_angry();
+            add_topics.emplace_back( "TALK_CHURL_ANGRY" );
+        } else if( ( me_npc->op_of_u.trust >= 0 ) && ( me_npc->op_of_u.anger <= 0 ) &&
+                   ( me_npc->int_cur >= 9 ) ) {
+            add_topics.emplace_back( "TALK_CHURL_TRADE" );
+        } else {
+            add_topics.emplace_back( "TALK_CHURL" );
+        }
+    }
 
     if( me_npc->has_trait( trait_PROF_FOODP ) &&
         !( me_npc->is_wearing( itype_foodperson_mask_on ) ||
@@ -261,9 +274,9 @@ int talker_npc::trial_chance_mod( const std::string &trial_type ) const
 {
     int chance = 0;
     if( trial_type == "lie" ) {
-        chance += - me_npc->talk_skill() + me_npc->op_of_u.trust * 3;
+        chance += - me_npc->lie_skill() + me_npc->op_of_u.trust * 3;
     } else if( trial_type == "persuade" ) {
-        chance += - static_cast<int>( me_npc->talk_skill() * 0.5 ) +
+        chance += - static_cast<int>( me_npc->persuade_skill() * 0.5 ) +
                   me_npc->op_of_u.trust * 2 + me_npc->op_of_u.value;
     } else if( trial_type == "intimidate" ) {
         chance += - me_npc->intimidation() + me_npc->op_of_u.fear * 2 -

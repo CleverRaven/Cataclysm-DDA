@@ -175,7 +175,7 @@ class recipe
         /// @returns The name (@ref item::nname) of the resulting item (@ref result).
         /// @param decorated whether the result includes decoration (favorite mark, etc).
         std::string result_name( bool decorated = false ) const;
-
+        std::vector<effect_on_condition_id> result_eocs;
         skill_id skill_used;
         std::map<skill_id, int> required_skills;
         std::vector<recipe_proficiency> proficiencies;

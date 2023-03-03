@@ -343,6 +343,10 @@ cata_path PATH_INFO::panel_options()
 {
     return config_dir_path_value / "panel_options.json";
 }
+cata_path PATH_INFO::pocket_presets()
+{
+    return config_dir_path_value / "pocket_presets.json";
+}
 cata_path PATH_INFO::safemode()
 {
     return config_dir_path_value / "safemode.json";

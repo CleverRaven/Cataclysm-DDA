@@ -12,6 +12,7 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "U",
     "color": "magenta_yellow",
+    "scannable": false,
     "use_action": { "type": "learn_spell", "spells": [ "spell_oneiric_hammer" ] }
   }
 ]

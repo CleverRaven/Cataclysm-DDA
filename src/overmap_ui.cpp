@@ -1775,7 +1775,7 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
     ictxt.register_action( "QUIT" );
     std::string action;
     bool show_explored = true;
-    bool fast_scroll = false; /* fast scroll state should reset every time overmap UI is opened */
+    static bool fast_scroll = false;
     int fast_scroll_offset = get_option<int>( "FAST_SCROLL_OFFSET" );
     cata::optional<tripoint> mouse_pos;
     std::chrono::time_point<std::chrono::steady_clock> last_blink = std::chrono::steady_clock::now();

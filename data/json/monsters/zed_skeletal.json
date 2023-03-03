@@ -115,7 +115,7 @@
     "vision_day": 30,
     "vision_night": 3,
     "harvest": "mr_bones",
-    "special_attacks": [ [ "scratch", 10 ], { "type": "bite", "cooldown": 5 }, [ "GRAB", 21 ], [ "SHOCKSTORM", 25 ] ],
+    "special_attacks": [ [ "scratch", 10 ], { "type": "bite", "cooldown": 5 }, [ "PARROT", 8 ], [ "GRAB", 21 ], [ "SHOCKSTORM", 25 ] ],
     "death_drops": "default_zombie_clothes",
     "fungalize_into": "mon_skeleton_fungus",
     "flags": [ "SEES", "HEARS", "BASHES", "GROUP_BASH", "ELECTRIC", "REVIVES", "NO_BREATHE", "POISON", "FILTHY" ]
