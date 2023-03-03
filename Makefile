@@ -298,7 +298,7 @@ ifneq ($(CLANG), 0)
   endif
   ifdef USE_LIBCXX
     OTHERS += -stdlib=libc++
-    LDFLAGS += -stdlib=libc++
+    LDFLAGS += -stdlib=libc++ -Wno-unused-command-line-argument
   endif
   ifeq ($(CCACHE), 1)
     CXX = CCACHE_CPP2=1 $(CCACHEBIN) $(CROSS)$(CLANGCMD)
@@ -543,6 +543,10 @@ ifeq ($(NATIVE), osx)
   DEFINES += -DMACOSX
   CXXFLAGS += -mmacosx-version-min=$(OSX_MIN)
   LDFLAGS += -mmacosx-version-min=$(OSX_MIN) -framework CoreFoundation -Wl,-headerpad_max_install_names
+  ifeq ($(ARCH),arm64)
+    CXXFLAGS += -arch arm64
+    LDFLAGS += -arch arm64
+  endif
   ifdef FRAMEWORK
     ifeq ($(FRAMEWORKSDIR),)
       FRAMEWORKSDIR := $(strip $(if $(shell [ -d $(HOME)/Library/Frameworks ] && echo 1), \
@@ -1216,7 +1220,7 @@ $(ODIR)/.astyle-check-stamp: $(ASTYLE_SOURCES)
 endif
 
 astyle-fast: $(ASTYLE_SOURCES)
-	$(ASTYLE_BINARY) --options=.astylerc -n $(ASTYLE_SOURCES)
+	echo $(ASTYLE_SOURCES) | xargs -P 0 -L 1 $(ASTYLE_BINARY) --quiet --options=.astylerc -n
 
 astyle-diff: $(ASTYLE_SOURCES)
 	$(ASTYLE_BINARY) --options=.astylerc -n $$(git diff --name-only src/*.h src/*.cpp tests/*.h tests/*.cpp)

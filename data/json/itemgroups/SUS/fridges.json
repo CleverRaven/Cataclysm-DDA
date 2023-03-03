@@ -43,7 +43,6 @@
       { "item": "butter", "prob": 80 },
       { "item": "pudding", "prob": 30 },
       { "item": "gelatin_dessert_processed", "prob": 20 },
-      { "item": "egg_bird_unfert", "prob": 85, "count-min": 1, "count-max": 12 },
       { "item": "egg_bird_unfert", "prob": 85, "charges-min": 1, "charges-max": 12, "container-item": "carton_egg" },
       { "item": "bacon", "prob": 25 },
       {

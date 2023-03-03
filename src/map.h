@@ -1110,9 +1110,9 @@ class map
         // Optionally toggles instances $from->$to & $to->$from
         void translate_radius( const ter_id &from, const ter_id &to, float radi, const tripoint &p,
                                bool same_submap = false, bool toggle_between = false );
-        void transform_radius( ter_furn_transform_id transform, int radi,
+        void transform_radius( const ter_furn_transform_id &transform, int radi,
                                const tripoint_abs_ms &p );
-        void transform_line( ter_furn_transform_id transform, const tripoint_abs_ms &first,
+        void transform_line( const ter_furn_transform_id &transform, const tripoint_abs_ms &first,
                              const tripoint_abs_ms &second );
         // TODO: fix point types (remove the first overload)
         bool close_door( const tripoint &p, bool inside, bool check_only );
@@ -1212,7 +1212,7 @@ class map
 
         // Returns points for all submaps with inconsistent state relative to
         // the list in map.  Used in tests.
-        std::vector<tripoint_abs_sm> check_submap_active_item_consistency();
+        void check_submap_active_item_consistency();
         // Accessor that returns a wrapped reference to an item stack for safe modification.
         // TODO: fix point types (remove the first overload)
         map_stack i_at( const tripoint &p );
@@ -1904,7 +1904,6 @@ class map
         // We want this visible in `game`, because we want it built earlier in the turn than the rest
         void build_floor_caches();
 
-
     protected:
         void generate_lightmap( int zlev );
         void build_seen_cache( const tripoint &origin, int target_z, int extension_range = 60,
@@ -2156,6 +2155,7 @@ class map
          * Set of submaps that contain active items in absolute coordinates.
          */
         std::set<tripoint_abs_sm> submaps_with_active_items;
+        std::set<tripoint_abs_sm> submaps_with_active_items_dirty;
 
         /**
          * Cache of coordinate pairs recently checked for visibility.
@@ -2202,7 +2202,7 @@ class map
         void update_visibility_cache( int zlev );
         const visibility_variables &get_visibility_variables_cache() const;
 
-        void update_submap_active_item_status( const tripoint &p );
+        void update_submaps_with_active_items();
 
         // Just exposed for unit test introspection.
         const std::set<tripoint_abs_sm> &get_submaps_with_active_items() const {
@@ -2256,6 +2256,8 @@ template<int SIZE, int MULTIPLIER>
 void shift_bitset_cache( std::bitset<SIZE *SIZE> &cache, const point &s );
 
 bool ter_furn_has_flag( const ter_t &ter, const furn_t &furn, ter_furn_flag flag );
+bool generate_uniform( const tripoint_abs_sm &p, const oter_id &oter );
+bool generate_uniform_omt( const tripoint_abs_sm &p, const oter_id &terrain_type );
 class tinymap : public map
 {
         friend class editmap;

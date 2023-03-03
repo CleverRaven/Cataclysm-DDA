@@ -734,7 +734,7 @@
     "color": "dark_gray",
     "material_thickness": 3,
     "flags": [ "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance_modifiers": [ "IMBALANCED" ], "coverage": 85, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "IMBALANCED" ], "coverage": 35, "covers": [ "head" ] } ]
   },
   {
     "id": "helmet_liner",

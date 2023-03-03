@@ -339,7 +339,7 @@
     "symbol": ",",
     "color": "light_gray",
     "ammo": [ "tinder" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "tinder": 100 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "tinder": 50 } } ],
     "turns_per_charge": 600,
     "revert_to": "tinderbox",
     "use_action": [

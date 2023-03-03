@@ -94,7 +94,7 @@
     "speed": 110,
     "symbol": "Z",
     "color": "blue",
-    "melee_skill": 9,
+    "melee_skill": 8,
     "melee_dice": 9,
     "melee_dice_sides": 5,
     "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],

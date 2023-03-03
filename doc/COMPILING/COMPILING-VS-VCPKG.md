@@ -23,7 +23,7 @@ Steps from current guide were tested on Windows 10 (64 bit), Visual Studio 2019 
 
 2. Install `Git for Windows` (installer can be downloaded from [Git homepage](https://git-scm.com/)).
 
-3. Install and configure `vcpkg`. If you already have `vcpkg` installed, you should update it to at least commit `659b6b5eeacb50ffe25856413960d231ce1a4b58` (the most recent tested good revision) and rerun `.\bootstrap-vcpkg.bat` as described:
+3. Install and configure `vcpkg`. If you already have `vcpkg` installed, you should update it to at least commit `12b7cfe6109a9d68319334b56a01c44a302a13b6` (the most recent tested good revision) and rerun `.\bootstrap-vcpkg.bat` as described:
 
 ***WARNING: It is important that, wherever you decide to clone this repo, the path does not include whitespace. That is, `C:/dev/vcpkg` is acceptable, but `C:/dev test/vcpkg` is not.***
 
