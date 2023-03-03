@@ -4761,7 +4761,7 @@ cata::optional<int> iuse::blood_draw( Character *p, item *it, bool, const tripoi
     }
 
     if( acid_blood ) {
-        item acid( "chem_sulphuric_acid", calendar::turn );
+        item acid( "blood_acid", calendar::turn );
         acid.set_item_temperature( blood_temp );
         it->put_in( acid, item_pocket::pocket_type::CONTAINER );
         if( one_in( 3 ) ) {
