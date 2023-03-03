@@ -448,7 +448,7 @@
     "symbol": "(",
     "color": "dark_gray",
     "ammo": [ "308" ],
-    "ranged_damage": { "damage_type": "bullet", "amount": 5 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 2 },
     "dispersion": 150,
     "durability": 7,
     "min_cycle_recoil": 2700,
