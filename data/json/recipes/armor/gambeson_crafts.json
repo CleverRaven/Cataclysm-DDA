@@ -1245,10 +1245,7 @@
     "copy-from": "gambeson_pants_wool",
     "time": "30 h",
     "using": [ [ "filament_canvas", 105 ], [ "fastener_small", 5 ] ],
-    "components": [
-      [ [ "quilt", 1 ], [ "quilt_patchwork", 1 ] ],
-      [ [ "quilt", 1 ], [ "quilt_patchwork", 1 ] ]
-    ],
+    "components": [ [ [ "quilt", 1 ], [ "quilt_patchwork", 1 ] ], [ [ "quilt", 1 ], [ "quilt_patchwork", 1 ] ] ],
     "byproducts": [ [ "scrap_felt", 58 ], [ "felt_patch", 10 ] ]
   },
   {
