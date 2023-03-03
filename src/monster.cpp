@@ -699,7 +699,7 @@ static std::pair<std::string, nc_color> hp_description( int cur_hp, int max_hp )
 
 std::string monster::speed_description( float mon_speed_rating,
                                         bool immobile,
-                                        speed_description_id speed_desc )
+                                        const speed_description_id &speed_desc )
 {
     if( speed_desc.is_null() || !speed_desc.is_valid() ) {
         return std::string();
@@ -1591,7 +1591,7 @@ bool monster::is_immune_effect( const efftype_id &effect ) const
     }
 
     if( effect == effect_downed ) {
-        if( type->bodytype == "insect" || type->bodytype == "insect_flying" || type->bodytype == "spider" ||
+        if( type->bodytype == "insect" || type->bodytype == "flying insect" || type->bodytype == "spider" ||
             type->bodytype == "crab" ) {
             return x_in_y( 3, 4 );
         } else return type->bodytype == "snake" || type->bodytype == "blob" || type->bodytype == "fish" ||
@@ -2414,7 +2414,6 @@ bool monster::has_special( const std::string &special_name ) const
     return iter != special_attacks.end() && iter->second.enabled;
 }
 
-
 void monster::explode()
 {
     // Handled in mondeath::normal
@@ -2664,9 +2663,6 @@ void monster::die( Creature *nkiller )
             add_item( item( "rope_6", calendar::turn_zero ) );
             add_item( item( "snare_trigger", calendar::turn_zero ) );
         }
-        if( has_effect( effect_beartrap ) ) {
-            add_item( item( "beartrap", calendar::turn_zero ) );
-        }
     }
 
     if( death_drops && !no_extra_death_drops ) {
@@ -2675,6 +2671,9 @@ void monster::die( Creature *nkiller )
     }
     if( death_drops && !is_hallucination() ) {
         for( const item &it : inv ) {
+            if( it.has_var( "DESTROY_ITEM_ON_MON_DEATH" ) ) {
+                continue;
+            }
             if( corpse ) {
                 corpse->force_insert_item( it, item_pocket::pocket_type::CONTAINER );
             } else {
@@ -2852,7 +2851,6 @@ void monster::spawn_dissectables_on_death( item *corpse )
         return;
     }
 
-    std::vector<item> new_dissectables;
     for( const harvest_entry &entry : *type->dissect ) {
         std::vector<item> dissectables = item_group::items_from( item_group_id( entry.drop ),
                                          calendar::turn,
@@ -3513,7 +3511,6 @@ void monster::on_load()
             aggro_character = false;
         }
     }
-
 
     // TODO: regen_morale
     float regen = type->regenerates;

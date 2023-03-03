@@ -112,6 +112,21 @@
   },
   {
     "type": "item_group",
+    "id": "ammo_pistol_hunting",
+    "//": "Ammo for high-caliber pistols found within hunting supply stores and related locations.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "357mag_fmj", "prob": 35, "charges": [ 1, 50 ] },
+      { "item": "357mag_jhp", "prob": 35, "charges": [ 1, 50 ] },
+      { "item": "44fmj", "prob": 30 },
+      { "item": "44magnum", "prob": 30 },
+      { "item": "10mm_fmj", "prob": 30 },
+      { "item": "454_Casull", "prob": 20 },
+      { "item": "500_Magnum", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "ammo_pistol_milspec",
     "//": "Military specification pistol ammo found at military sites.",
     "subtype": "distribution",
@@ -327,6 +342,25 @@
       { "item": "762_54R", "prob": 35 },
       { "item": "762_m43", "prob": 20 },
       { "item": "300blk_ss", "prob": 15 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_rifle_hunting",
+    "//": "Ammo for hunting rifles found within hunting supply stores and related locations.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "22_fmj", "prob": 50, "charges": [ 1, 80 ] },
+      { "item": "22_lr", "prob": 50, "charges": [ 1, 80 ] },
+      { "item": "22_ratshot", "prob": 30, "charges": [ 1, 100 ] },
+      { "item": "270win_jsp", "prob": 30, "charges": [ 1, 20 ] },
+      { "item": "3006", "prob": 30, "charges": [ 1, 20 ] },
+      { "item": "308", "prob": 30, "charges": [ 1, 20 ] },
+      { "item": "762_51", "prob": 25 },
+      { "item": "300_winmag", "prob": 25 },
+      { "item": "4570_sp", "prob": 25 },
+      { "item": "4570_pen", "prob": 25 },
+      { "item": "4570_low", "prob": 25 }
     ]
   },
   {
@@ -869,5 +903,15 @@
     "id": "ammo_cannon",
     "subtype": "distribution",
     "entries": [ { "item": "cannon_shot", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_hunting",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "ammo_pistol_hunting", "prob": 100 },
+      { "group": "ammo_rifle_hunting", "prob": 100 },
+      { "group": "ammo_shotgun_common", "prob": 100 }
+    ]
   }
 ]

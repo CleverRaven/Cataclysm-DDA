@@ -7,12 +7,12 @@
   {
     "id": "spell_components_dreamdross2",
     "type": "requirement",
-    "components": [ [ [ "dreamdross_lump", 1 ] ] ]
+    "components": [ [ [ "dreamdross_lump", 1 ], [ "scrap_dreamdross", 10 ] ] ]
   },
   {
     "id": "spell_components_dreamdross3",
     "type": "requirement",
-    "components": [ [ [ "forged_dreamstuff_ingot", 1 ] ] ]
+    "components": [ [ [ "forged_dreamstuff_ingot", 1 ], [ "scrap_dreamdross", 10 ], [ "scrap_dreamdross", 100 ] ] ]
   },
   {
     "id": "spell_components_battery_gun",
@@ -68,18 +68,18 @@
     "id": "spell_components_build_bio_launcher",
     "type": "requirement",
     "qualities": [ { "id": "GRIND", "level": 1 } ],
-    "components": [ [ [ "55gal_drum", 1 ] ], [ [ "brain", 1 ] ], [ [ "pipe", 1 ] ], [ [ "e_scrap", 6 ] ], [ [ "scrap", 10 ] ] ]
+    "components": [ [ [ "55gal_drum", 1 ] ], [ [ "pipe", 1 ] ], [ [ "e_scrap", 6 ] ], [ [ "scrap", 10 ] ] ]
   },
   {
     "id": "spell_components_bio_launcher_warhead",
     "type": "requirement",
     "qualities": [ { "id": "SAW_W", "level": 1 } ],
-    "components": [ [ [ "RPG", 1 ] ], [ [ "c4", 1 ] ], [ [ "flu_shot", 1 ] ], [ [ "fuse", 1 ] ], [ [ "scrap", 2 ] ] ]
-  },
-  {
-    "id": "spell_components_fire_bio_warhead",
-    "type": "requirement",
-    "components": [ [ [ "bio_warhead", 1 ] ] ]
+    "components": [
+      [ [ "chem_compositionb", 300 ] ],
+      [ [ "blood", 1 ], [ "animal_blood", 1 ], [ "mutant_blood", 1 ], [ "blood_tainted", 1 ] ],
+      [ [ "fuse", 1 ] ],
+      [ [ "scrap", 2 ] ]
+    ]
   },
   {
     "id": "spell_components_rip_ticket",
@@ -150,5 +150,12 @@
     "id": "spell_components_human_blood",
     "type": "requirement",
     "components": [ [ [ "demihuman_blood", 1 ], [ "mutant_human_blood", 1 ], [ "blood", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_dreamer_coin",
+    "type": "requirement",
+    "components": [
+      [ [ "coin_penny", 1 ], [ "coin_nickel", 1 ], [ "coin_quarter", 1 ], [ "coin_half_dollar", 1 ], [ "coin_dollar", 1 ] ]
+    ]
   }
 ]

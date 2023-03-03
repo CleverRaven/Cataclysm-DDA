@@ -102,9 +102,9 @@
       },
       "furniture": { "$": [ "f_indoor_plant", "f_indoor_plant_y" ], ")": "f_TV_antenna" },
       "place_loot": [
-        { "item": "television", "x": 9, "y": 2 },
+        { "item": "television", "x": 9, "y": 3 },
         { "item": "television", "x": 16, "y": 7 },
-        { "item": "stereo", "x": 10, "y": 2, "chance": 100 }
+        { "item": "stereo", "x": 10, "y": 3 }
       ]
     }
   },

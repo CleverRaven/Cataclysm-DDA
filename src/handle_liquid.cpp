@@ -374,21 +374,7 @@ bool perform_liquid_transfer( item &liquid, const tripoint *const source_pos,
             if( target.item_loc && create_activity() ) {
                 serialize_liquid_target( player_character.activity, target.item_loc );
             } else if( player_character.pour_into( target.item_loc, liquid, true ) ) {
-                if( target.item_loc->needs_processing() ) {
-                    // Polymorphism fail, have to introspect into the type to set the target container as active.
-                    switch( target.item_loc.where() ) {
-                        case item_location::type::map:
-                            here.make_active( target.item_loc );
-                            break;
-                        case item_location::type::vehicle:
-                            here.veh_at( target.item_loc.position() )->vehicle().make_active( target.item_loc );
-                            break;
-                        case item_location::type::container:
-                        case item_location::type::character:
-                        case item_location::type::invalid:
-                            break;
-                    }
-                }
+                target.item_loc.make_active();
                 player_character.mod_moves( -100 );
             }
             return true;

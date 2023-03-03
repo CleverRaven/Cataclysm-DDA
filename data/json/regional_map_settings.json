@@ -865,6 +865,10 @@
         "bungalow06": 50,
         "bungalow07": 50,
         "bungalow08": 50,
+        "bungalow09": 50,
+        "bungalow10": 50,
+        "bungalow11": 50,
+        "bungalow12": 50,
         "house_w_1": 50,
         "house_two_story_basement": 50,
         "multi_unit_two_story_basement": 40,
@@ -997,7 +1001,6 @@
         "school": 15,
         "motel_city": 10,
         "fishing_pond_city": 10,
-        "trailerpark_city": 15,
         "railroad_city": 5
       },
       "parks": {
@@ -1030,7 +1033,6 @@
         "pavilion": 100,
         "pavilion_1": 100,
         "cemetery_small": 200,
-        "Pond": 200,
         "communitygarden": 75,
         "communitygarden_2": 75,
         "communitygarden_3": 75,
@@ -1045,12 +1047,13 @@
         "stadium_football": 25,
         "cemetery_city": 50,
         "public_pond_city": 50,
+        "nature_trail_city": 50,
         "cemetery_religious_city": 25,
         "cs_private_park": 100,
         "cs_public_art_piece": 100,
         "cs_public_space": 100,
         "cs_city_dump_small": 100,
-        "cs_open_sewer": 100
+        "cs_open_sewer": 33
       },
       "shops": {
         "bus_station": 200,
@@ -1183,7 +1186,8 @@
         "stripclub": 100,
         "stripclub_1": 100,
         "stripclub_2": 100,
-        "orchard": 200,
+        "orchard": 100,
+        "orchard_1": 100,
         "dispensary": 100,
         "dispensary_1": 100,
         "dispensary_2": 100,

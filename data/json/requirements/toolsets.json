@@ -64,7 +64,7 @@
     "id": "gun_repair",
     "type": "requirement",
     "//": "Gun repair",
-    "tools": [ [ [ "soldering_iron", 25 ], [ "toolset", 25 ] ] ],
+    "tools": [ [ [ "soldering_iron", 25 ], [ "toolset", 25 ], [ "small_repairkit", 25 ], [ "large_repairkit", 25 ] ] ],
     "components": [ [ [ "solder_wire", 25 ] ], [ [ "scrap", 1 ] ] ],
     "qualities": [
       { "id": "HAMMER_FINE", "level": 1 },
@@ -190,7 +190,7 @@
     "id": "soldering_standard",
     "type": "requirement",
     "//": "Soldering metal items",
-    "tools": [ [ [ "soldering_iron", 1 ], [ "toolset", 1 ] ] ],
+    "tools": [ [ [ "soldering_iron", 1 ], [ "toolset", 1 ], [ "small_repairkit", 1 ], [ "large_repairkit", 1 ] ] ],
     "components": [ [ [ "solder_wire", 1 ] ] ]
   },
   {
@@ -330,12 +330,18 @@
         [ "duct_tape", 1 ],
         [ "permanent_marker", 1 ],
         [ "survival_marker", -1 ],
-        [ "r_paint", 1 ],
-        [ "b_paint", 1 ],
-        [ "w_paint", 1 ],
-        [ "g_paint", 1 ],
-        [ "p_paint", 1 ],
-        [ "y_paint", 1 ]
+        [ "paint_red", 1 ],
+        [ "paint_blue", 1 ],
+        [ "paint_white", 1 ],
+        [ "paint_green", 1 ],
+        [ "paint_purple", 1 ],
+        [ "paint_yellow", 1 ],
+        [ "paint_black", 1 ],
+        [ "paint_gray", 1 ],
+        [ "paint_brown", 1 ],
+        [ "paint_cyan", 1 ],
+        [ "paint_pink", 1 ],
+        [ "paint_orange", 1 ]
       ]
     ]
   },
@@ -347,12 +353,18 @@
       [
         [ "duct_tape", 1 ],
         [ "survival_marker", -1 ],
-        [ "r_paint", 1 ],
-        [ "b_paint", 1 ],
-        [ "w_paint", 1 ],
-        [ "g_paint", 1 ],
-        [ "p_paint", 1 ],
-        [ "y_paint", 1 ]
+        [ "paint_red", 1 ],
+        [ "paint_blue", 1 ],
+        [ "paint_white", 1 ],
+        [ "paint_green", 1 ],
+        [ "paint_purple", 1 ],
+        [ "paint_yellow", 1 ],
+        [ "paint_black", 1 ],
+        [ "paint_gray", 1 ],
+        [ "paint_brown", 1 ],
+        [ "paint_cyan", 1 ],
+        [ "paint_pink", 1 ],
+        [ "paint_orange", 1 ]
       ]
     ]
   },
