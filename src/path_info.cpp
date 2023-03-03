@@ -43,7 +43,6 @@ static std::string options_value;
 static std::string memorialdir_value;
 static std::string langdir_value;
 
-
 static cata_path autonote_path_value;
 static cata_path autopickup_path_value;
 static cata_path base_path_path_value;
@@ -343,6 +342,10 @@ cata_path PATH_INFO::options()
 cata_path PATH_INFO::panel_options()
 {
     return config_dir_path_value / "panel_options.json";
+}
+cata_path PATH_INFO::pocket_presets()
+{
+    return config_dir_path_value / "pocket_presets.json";
 }
 cata_path PATH_INFO::safemode()
 {

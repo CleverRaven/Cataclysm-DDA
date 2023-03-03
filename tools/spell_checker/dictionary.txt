@@ -6,6 +6,7 @@ acausal
 accessorized
 acclimatization
 accoustrement
+accuracies
 accurize
 accurized
 achelousaurus
@@ -262,6 +263,8 @@ bioblaster
 biocompatibility
 bioelectricity
 bioforms
+biofuel
+biofuels
 biographic
 biohacker
 biollante
@@ -776,6 +779,9 @@ dubiously
 ductile
 dulcis
 dumpsite
+dunderfuck
+duplicator
+duplicators
 dynamically
 dyoplosaurus
 dysfunctions
@@ -991,6 +997,8 @@ flippin
 floppies
 flours
 floury
+flowchart
+flowcharts
 fluffies
 fluidly
 flummox
@@ -1094,6 +1102,7 @@ genecraft
 genemod
 genemoded
 generalist
+generically
 geometries
 gesticulates
 getups
@@ -1108,6 +1117,8 @@ glassblowing
 glassteel
 glassworking
 glazes
+glitched
+glitchiness
 gliters
 gloppy
 glowstick
@@ -1283,6 +1294,7 @@ hypacrosaurus
 hyperaggressive
 hyperdimensional
 hypergeometric
+hypermedia
 hypervelocity
 hypervitaminosis
 hypno
@@ -1427,6 +1439,7 @@ km
 knacks
 knapping
 knifehand
+knifemaker
 knockback
 knotweed
 knowium
@@ -1481,6 +1494,7 @@ lbs
 leache
 leatherbacked
 leatherbound
+leathercrafters 
 leatherworking
 leavening
 lectern
@@ -1627,6 +1641,7 @@ metalworking
 metamaterial
 metatopography
 methacola
+methodologies
 methothexazole
 metrology
 miasaura
@@ -1864,6 +1879,8 @@ openable
 openair
 opengl
 openingly
+ophanim
+ophanims
 optimality
 opy
 orgs
@@ -2003,6 +2020,7 @@ pileus
 pinita
 pinnata
 pinout
+pinyin
 pipebomb
 pipettes
 pipework
@@ -2106,6 +2124,7 @@ proten
 prototyping
 protuberances
 prybar
+pseudocode
 pseudopod
 pseudopods
 pshht
@@ -2194,6 +2213,7 @@ realtime
 reamer
 reamers
 rearwards
+reassembly
 reasserts
 rebalanced
 rebars
@@ -2247,6 +2267,7 @@ reprises
 reptiloid
 requisites
 rerio
+resealable
 resinosa
 resinous
 resizing
@@ -2635,6 +2656,7 @@ swappable
 swashbucklers
 sweetish
 switchgear
+swordmanship
 syde
 sylvatica
 sylvite
@@ -2794,6 +2816,7 @@ uggo
 uistate
 ultracapacitor
 ultralight
+ultras 
 ultratech
 unarmored
 unawareness
