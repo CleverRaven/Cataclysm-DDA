@@ -45,9 +45,7 @@
     "id": "BERSERKER_SPEED",
     "has": "WORN",
     "condition": "ALWAYS",
-    "values": [
-      { "value": "SPEED", "add": { "arithmetic": [ { "global_val": "var", "var_name": "BERSERKER" } ] } }
-    ]
+    "values": [ { "value": "SPEED", "add": { "arithmetic": [ { "global_val": "var", "var_name": "BERSERKER" } ] } } ]
   },
   {
     "type": "enchantment",
