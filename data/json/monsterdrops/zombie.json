@@ -77,10 +77,7 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "mon_zombie_nomex_death_drops",
-    "entries": [
-      { "distribution": [ { "group": "fireman_gear", "prob": 1 } ] },
-      { "group": "wallets", "damage": [ 1, 4 ] }
-    ]
+    "entries": [ { "distribution": [ { "group": "fireman_gear", "prob": 1 } ] }, { "group": "wallets", "damage": [ 1, 4 ] } ]
   },
   {
     "type": "item_group",
