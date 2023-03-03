@@ -3627,7 +3627,12 @@
     ],
     "qualities": [ { "id": "OVEN", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
-    "components": [ [ [ "flour", 20 ], [ "bread_flour", 20 ] ], [ [ "yeast", 1 ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ] ]
+    "components": [
+      [ [ "flour", 22 ], [ "bread_flour", 5 ] ],
+      [ [ "yeast", 1 ] ],
+      [ [ "water", 2 ], [ "water_clean", 2 ] ],
+      [ [ "sugar", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
